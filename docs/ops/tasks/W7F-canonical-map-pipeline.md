@@ -1,6 +1,6 @@
 # W7F - 单一新版地图管线（无损迁移、地图库、图层与高度导航）
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / W1 / W3 / MG2
 Coding Owner: Codex
@@ -195,12 +195,12 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
 
 - Codex: **accept（2026-07-14）**。已完成实现自审、全仓门禁、迁移双跑、三档浏览器与
   demo/e2e-own 工程加载验证；实现符合单一 ProjectMapV2、实例高度、懒加载/copy-through 和
-  地图编辑闭环设计。等待 Opus/GLM 独立复验。
+  地图编辑闭环设计；后续 Opus/GLM 已独立复验并签 accept。
 - Opus: **accept**（2026-07-14,基线 c2589fb2;五点复核全过——①静态边界独立 grep:content/reforge/editor 零 Tilemap/reuseOriginalMap/lower-upper/word 解码;②M2 落地实锤:save/ops.ts:65-72 对数字 mapOverride 显式抛"旧存档…无法安全转换",fail-loud;③M3 按"undo 引用禁淘汰"落地且双测试钉住(edit-session.test:151 干净图可淘汰/撤销链触及图保存后仍 pin/切图后可 undo;project-io.test:195 未加载图 copy-through 不 parse),定向 96+22 测试独立复跑绿;④0x99 双站点产物 s230/s243 setSceneMapOverride mapId,renderer/collision 测试绿,**6051 前台运行时实测**:开场 16s 可控(dither 零帧锚 true)→s001→s003 跨场景渲染正常(中心亮度 147)、console 零 error;⑤6010 实测:223 图地图库(共享计数正确,map-104/164 在库)、＋⧉✎− 四操作、图层列表+吸管带实例高度+聚焦开关、高度输入接受超当前最大值(M5a 数值输入方案落地)。M1/M4 抽验实锤:project-map-audit 语义位往返失败即抛(3,653,632 实例差异 0 即其产物);formatProjectMapV2 单一来源于 content+字节幂等测试+editor 共享断言。**审查方法学注记**:复验初期测得 6051 "1fps",追查为 Chrome 后台标签 rAF 节流伪装的假回归(置前台即 119.5fps 满帧)——M3 审查期同症疑云同因,CLI 浏览器验证必须 bringToFront,已记入工作方法。无返工项）
 - GLM: **accept（2026-07-14;见下）**
 - counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），用户已确认验收，任务完成。**
 
 ### GLM done 前覆盖复验（2026-07-14）
 
@@ -233,7 +233,7 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
 - **体积门禁**：sizeRatio 0.487759 < 1.25，远低于上限。源 102.7MiB → V2 50.1MiB。✅
 
 **(5) M2/M3/M4 落地确认** ✅
-- **M2**（旧数字 mapOverride 拒载）：`reforge/src/save/ops.ts:70-73` 对数字 mapOverride throw（"旧存档…数字地图编号 N，无法安全转换"）。ops.test.ts:75-93 回归测试。**注：卡内路径锚点 `editor/src/core/save/ops.ts:65-72` 有误，实际在 `reforge/src/save/ops.ts:64-79`——editor 无 save/ 目录。非阻塞，建议修正锚点。**
+- **M2**（旧数字 mapOverride 拒载）：`reforge/src/save/ops.ts:70-73` 对数字 mapOverride throw（"旧存档…数字地图编号 N，无法安全转换"）。ops.test.ts:75-93 回归测试。**复验时发现历史锚点曾误写为 `editor/src/core/save/ops.ts:65-72`，当前卡已统一修正为 `reforge/src/save/ops.ts:64-79`。**
 - **M3**（undo pin）：edit-session.test.ts:151 "干净地图可淘汰；撤销链触及图保存后仍 pin，切图后可 undo"；project-io.test.ts:195 "未加载图 copy-through 不 parse"。✅
 - **M4**（格式化器单一来源）：`formatProjectMapV2` 定义在 content/project-map.ts:166-189，migrate + editor 均从 `@type-pal/content` import。copy-through 字节相同测试 project-io.test.ts:195。✅
 
@@ -245,7 +245,7 @@ editor 此后只认识这一种地图模型。所有迁移地图与作者地图�
 - O1：s294 stub 排除分支无独立单测（integration 覆盖）。
 - O2：共享 mapNum→同 mapId dedup 无独立单测（输出验证）。
 - O3：交叉引用 guard（tilesetId/mapId）无独立单测（integration 覆盖）。
-- O4：卡内 M2 锚点路径有误（editor→reforge），建议修正。
+- O4：卡内 M2 历史锚点曾误写为 editor 路径，收口时已修正为 reforge 路径。
 - 以上四项均属"行为已验证、独立单测缺失"，不改变 accept 结论。
 
 **总结**：M1 审计可复现且 ad-hoc 数字已替换；静态门禁三模式零命中；迁移覆盖矩阵零漏项（223/294/s294/共享/0x99/MG2/幂等全验证）；S1/S2/M2/M3/M4 全落地；体积门禁 0.488 远低于 1.25。**accept**。
@@ -492,18 +492,18 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
   - 迁移地图的复制/改名/删除按钮和笔刷可用；新建→改名→复制→二次确认删除通过。
     s000 地图选择器列出 223 图，可从 map-020 换绑 map-104 并跳转地图模块。
   - demo 的 map-056 与 e2e-own 的 start 均以 ProjectMapV2 打开、画布非空、控制台零错误。
-- 未完成项: 引擎长流程跨场景与两个 0x99 站点由 Opus review 复验；当前单测、迁移审计和接口门禁已覆盖。
+- 未完成项: 无。Opus 已完成开场到 s003 的前台运行时复验及两个 0x99 站点检查。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审 accept；等待 Opus 主审实现/视觉/运行时，随后 GLM 复核迁移覆盖与测试矩阵。
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex、Opus、GLM 均签 accept；实现、运行时、视觉、迁移覆盖与测试矩阵复验通过。
+- 必须返工项: 无。O1-O4 为非阻塞观察，其中 O4 已在本次收口修正。
+- Accept / rework: accept
 
 ## 用户验收
 
-- 用户结论: 已拍板单格式、高度实例化与双导航尺；实现验收 pending。
+- 用户结论: 2026-07-14 用户确认三方审查签字齐，采纳三贤人审查结论，验收通过。
 - 后续任务: 清理事件 `unmigrated` 兼容解释器；统一精灵/音乐/音效资产身份；工程资源自包含。
 
 ## 交接日志
@@ -526,25 +526,11 @@ F1-F6 由同一 Coding Owner 连续推进；任一期不得以兼容分支把半
 
 - 2026-07-14 Opus: 实现主审签 **accept**(c2589fb2)。五点:静态边界零命中/M2 数字 override fail-loud(save/ops.ts:72)/M3 undo-pin+copy-through 双测试/0x99 双站点+6051 前台运行时(开场→s003,console 零错)/6010 地图库+双尺+超范围高度输入(M5a 落地)。M1 往返审计失败即抛、M4 格式化器单一来源+字节幂等均实锤。方法学:后台标签 rAF 节流伪装 1fps 假回归(前台 119.5fps),CLI 验证必须 bringToFront——M3 期同症同因,已归档。Evidence: done 签字行。Next: GLM 迁移覆盖/测试矩阵复核;三签齐+用户验收方可 done。未改实现文件。
 - 2026-07-14 GLM: done 前覆盖复验签 **accept**(c2589fb2 + 8add57a5)。六项独立实测+全包复跑(content 172/reforge 329/editor 163/migrate 156+1skip = 820 pass)：(1)M1 审计独立实跑 223/3,653,632/0diff/0.488 逐位匹配，ad-hoc 数字已由 F1 替换（多高度 14,148）；(2)静态门禁 Tilemap/reuseOriginalMap/cell.lower-upper 三模式 grep 零命中；(3)迁移覆盖零漏项——223图+index/294场景无s294/59图共享/0x99→mapId/SceneDef只mapId/MG2双表/dry-run幂等writes=0；(4)S1(baseline hash 化，_state.json 223×2 hash 条目，零正文)+S2(flat层heights可省)+体积0.488<1.25；(5)M2(reforge/save/ops.ts:70 throw)/M3(undo pin edit-session.test:151)/M4(formatProjectMapV2单一来源)全落地；(6)ProjectMapV2 guard 自洽全覆盖。O1-O4 非阻塞(s294 stub/共享dedup/交叉引用guard无独立单测+卡内M2锚点editor→reforge路径有误)。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
+- 2026-07-14 User: 确认 Codex、Opus、GLM 三方 done 前签字齐。Evidence: 当前会话。Next: Codex 收口任务卡与看板。
+- 2026-07-14 Codex: 按三方 accept 与用户确认将 W7F 转 done，修正历史 M2 锚点说明并移出进行中看板。Evidence: done 签字表、Review、用户验收。Next: 无，任务完成。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 W7F 实现主审（Opus）。
-任务卡: docs/ops/tasks/W7F-canonical-map-pipeline.md
-当前状态: review。三方设计签字已齐；Codex 已完成 F1-F6 并自审 accept；done 门禁仍缺 Opus/GLM。
-你的角色: Opus，主审 schema/架构边界、懒加载×undo/save、运行时与视觉交互；只审查，不直接改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡上下文锚点、Draft、Build、视觉验证记录；
-重点代码: packages/content/src/project-map.ts、packages/migrate/src/project-map-{converter,audit}.ts、
-packages/reforge/src/project-map.ts、packages/editor/src/core/{edit-session,project-io,commands}.ts、
-packages/reforge/src/save/ops.ts、packages/editor/src/ui/MapMode.tsx。
-已完成证据: 223 图/3,653,632 实例语义往返差异 0，V2/source=0.487759；迁移第二跑
-writes/deletes/conflicts=0；根 check/lint/editor build 全绿；1280/900/720 无溢出或手柄重叠；
-map-104/map-164、组合聚焦、实例高度、吸管、CRUD、s000 换绑、demo/e2e-own 均真实浏览器通过。
-请复验: (1)下游只有 ProjectMapV2、SceneDef.mapId 与稳定 tileset id；(2)旧存档数字 override
-fail-loud；(3)地图 A 编辑→保存→切图/淘汰压力→undo 不丢文档，未加载地图保存 copy-through；
-(4)renderer/collision 与两个 0x99 站点；(5)地图尺/高度尺、窄屏布局与迁移地图可编辑性。
-输出要求: 无阻塞问题则在“进入 done 前:审查签字”Opus 行签 accept，并更新 Review/交接日志；
-发现问题则签 counter，列出 file:line、复现命令和返工验收条件，任务转 rework。提交文档审查记录。
-禁止: 不复用旧 W7D/W7E 结论；不直接修改实现文件；Opus accept 后也不得标 done，仍需交 GLM 复核。
+无下一位 Agent 提示词。W7F 已三方 accept 并经用户验收，任务完成；后续工作另开任务。
 ```
