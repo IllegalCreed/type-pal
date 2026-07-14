@@ -47,7 +47,35 @@ Capability: W3 / W7 / E1
 - Opus: **agree**（2026-07-14）。完整联合传递是唯一不猜类型的修法；防御性复制防命令间引用共享；范围外条款挡住 map index 提前混入。
 - GLM: **agree**（2026-07-14）。测试矩阵四支覆盖 P0-1 复现路径：(1) own 地图新建场景保留 `{ownMap:path}` 不退回 `reuseOriginalMap:0` ✅；(2) reuse+room 完整保留地图号与 room ✅；(3) undo/redo 删除/恢复地图引用一致 ✅；(4) save/reload loader 重开解析 ✅。P0-1 复现路径（App.tsx:580 `reuseMapNum??0` + commands.ts:1734 固定 `reuseOriginalMap`）与修复方案（完整 SceneMap 联合传递+防御性复制）对应。四支测试覆盖了"类型保留+参数保留+撤销一致+持久化一致"四维，无漏环。
 - build 准入: **三签齐（Codex + Opus + GLM agree），build allowed。**
-- done 准入: Codex **accept**（2026-07-14）| Opus **accept（2026-07-14;四项复验全过——①AddSceneCommand 收完整 SceneMap+structuredClone(测试断言含嵌套 room 深复制 not.toBe);②全 editor 扫描零残留 `?? 0` 回退;③79 项测试绿(ownMap 经 dispatch/undo/redo/防御复制、reuse+room、正式 loader 重开);④6012 实测:新建 opus-w7e0-check 场景→属性面板显示 content/maps/start.json、画布中心亮度 101 非黑→撤销消失→重做恢复(仍 101/仍 start.json)→验证后撤销还原未保存。无返工项）** | GLM pending | 用户豁免 N/A | 结论 blocked
+- done 准入: Codex **accept**（2026-07-14）| Opus **accept（2026-07-14;四项复验全过——①AddSceneCommand 收完整 SceneMap+structuredClone(测试断言含嵌套 room 深复制 not.toBe);②全 editor 扫描零残留 `?? 0` 回退;③79 项测试绿(ownMap 经 dispatch/undo/redo/防御复制、reuse+room、正式 loader 重开);④6012 实测:新建 opus-w7e0-check 场景→属性面板显示 content/maps/start.json、画布中心亮度 101 非黑→撤销消失→重做恢复(仍 101/仍 start.json)→验证后撤销还原未保存。无返工项）** | GLM **accept（2026-07-14;见下）** | 用户豁免 N/A | **结论：三方 done 前审查签字齐（Codex + Opus + GLM accept），交用户验收。**
+
+### GLM done 前覆盖复验（2026-07-14）
+
+增量范围：fb86b23a（实现）+ 1f677d19（Opus 复验签 accept，仅改任务卡）。未改实现文件，只做文档/测试复验。
+
+**(1) ownMap 新场景引用不退回原版地图 0** ✅
+- `commands.ts:1739` 构造签名 `AddSceneCommand(id, map: SceneMap, entry)` — 直接收完整 SceneMap 判别联合。
+- `commands.ts:1742` `map: structuredClone(map)` — 防御性深复制，不与源场景共享引用。
+- `App.tsx:580` `new AddSceneCommand(id, scene.map, scene.entry)` — 新建入口直接传 `scene.map`，`reuseMapNum(scene.map) ?? 0` 回退已彻底移除。
+- AddScene 路径全 editor 扫描零残留 `?? 0` 回退：App.tsx 仅存的两处 `?? 0` 都是 `entry.pos.height` 默认值（:751/:1345），与地图引用无关；MapMode.tsx:384 的 `?? 1` 是"创建新 OwnMap 时借用原版 tileset 作底图"，不在新建场景路径上，属正常复用语义。
+
+**(2) reuseOriginalMap + room 完整保留** ✅
+- `structuredClone(map)` 对 `{ reuseOriginalMap, room }` 嵌套结构深复制；commands.test.ts:267-276 断言 `added.map.toEqual(sourceMap)` + `added.map.not.toBe(sourceMap)` + `added.map.room.not.toBe(sourceMap.room)` 三重钉死。
+
+**(3) undo/redo 引用一致** ✅
+- `AddSceneCommand.invert`（:1754）按 id filter 删回，不碰其他场景；commands.test.ts:245-258 经真实 `EditSession` dispatch → undo（仅 `['start']` 且 `scenes[0].map` 仍 `ownMap`）→ redo（`s001.map` 仍 `ownMap`）。源场景 `source.map` 未被 mutate（`:250 not.toBe + toEqual` 双断言）。
+
+**(4) serializeProject → loadProjectFrom → loadSceneDef 重开一致** ✅
+- project-io.test.ts:177-203 构造 `{ ownMap }` 场景 → `AddSceneCommand.apply` → `serializeProject` 产出文件 → mock source → `loadProjectFrom` → `loadSceneDef(reopened, 'new-room')` 断言 `map: { ownMap: 'content/maps/guijie-minju.json' }`。正式 loader 链全覆盖。
+
+**(5) 未引入 schema/map index 变化** ✅
+- fb86b23a `--name-only` 不含 content/schema/index 任何文件；commands.ts 只改 `AddSceneCommand` 消费方式（收 `SceneMap` 联合 + `structuredClone`），不改 `SceneMap` 类型定义（`packages/content/src/index.ts:121` 未触碰）。
+
+**(6) 测试覆盖有效** ✅
+- editor 全包 17 文件 144 tests pass（含新增 W7E-0 四支：own dispatch/undo/redo + reuse+room 深复制 + 正式 loader 重开）。
+- 四支测试覆盖"类型保留 + 参数保留 + 撤销一致 + 持久化一致"四维，无漏环。
+
+**总结**：四支验证全过，无 schema/map index 变化，测试覆盖有效。**accept**。
 
 ## Build：实现与自测
 
@@ -68,6 +96,7 @@ Capability: W3 / W7 / E1
 - 2026-07-14 Codex: 实现与自动门禁完成，状态转 `review`。Evidence: editor 144 tests、根 `pnpm check`、`6012` 自有地图像素验证；原生 prompt 自动化限制已明确。Next: Opus 实现复验并补浏览器新建/撤销/重做动作；不得标 done。
 
 - 2026-07-14 Opus: 实现复验签 **accept**(fb86b23a)。structuredClone 防御复制+嵌套 room 深复制断言;回退零残留;79 测试绿;6012 全流程实测(新建→start.json 非黑屏 101→undo/redo→还原)。Evidence: done 准入行。Next: GLM 复验;三签齐后可 done。未改实现文件。
+- 2026-07-14 GLM: done 前覆盖复验签 **accept**(fb86b23a + 1f677d19)。四支逐条：①AddSceneCommand 收完整 SceneMap + structuredClone，App.tsx:580 直传 scene.map，AddScene 路径零 `??0` 残留(两处 height 默认值无关)；②reuse+room 嵌套深复制三重 not.toBe 断言；③undo/redo 经真实 EditSession + 源场景 not.toBe+toEqual 双断言防 mutate；④serializeProject→loadProjectFrom→loadSceneDef 正式 loader 链重开 ownMap 一致；⑤fb86b23a --name-only 不含 content/schema/index，SceneMap 类型定义未触碰；⑥editor 17 文件 144 tests pass。Evidence: done 准入 GLM 复验段。Next: 交用户验收，用户点头方 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
