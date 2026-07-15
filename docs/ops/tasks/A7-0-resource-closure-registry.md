@@ -229,10 +229,55 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   门禁,dev startBattle 钩子不带 opts)——与已实走的 003 属同一行角色/资产选择逻辑,单测已覆盖,
   留 GLM 核对单测行;方法论记录:初次用 resolveDone('win') 捷径绕过了胜利结算致 003 未响,
   改真实打赢后取证成功(捷径≠合法路径,已在证据中剔除)。
-- GLM: pending
-- counter / 返工处理: 无(Opus 零返工项)。
+- GLM: **accept（2026-07-16;见下）**。六项独立实测 + 四包 917 tests pass + 1 skip。G1-G5 全落地。
+
+  **(1) G1-G5 落地验收** ✅：
+  - **G1（权威计数）**：审计报告钉死 playMusic **1,174** + stopMusic **53** = 旧 1,227 口径（修复后精确）；设计期 1,223/52 差异因 inline scene scripts（s001/s151/s200 三处 playMusic + s200 一处 stopMusic 在场景内联而非 chunk）——审计含全产物正确。✅
+  - **G2（MIDI 路径）**：产物 catalog 路径全 `assets/migrated/music/NNN.mid`。✅
+  - **G3（ItemTab 旁路）**：确认未混入本卡——属后续 A7-1..3 资源族范围。✅
+  - **G5（catalog 所有权）**：migration-merge.ts:278-289 `assets/index.json` 特例——ours origin=authored × theirs 非 authored = **整条记录克隆**（cloneNode），禁逐字段拼接；target validator :332 `validateAssetCatalog`。回归测试 migration-merge.test:268-323 精确断言 authored 接管记录整条保留 + theirs 兄弟更新正确。✅
+
+  **(2) 产物对账（独立重扫）** ✅：
+  - catalog **87 entries**（86 music + 1 soundfont），全 bytes + sha256，路径 `assets/migrated/music/*.mid` + `assets/runtime/soundfont.sf3`。✅
+  - 引用：playMusic **1,174**（全 asset）/ stopMusic **53** / scene music **36** / scene battleMusic **81** / startBattle with music **31** / unique **71** / missing **0**。✅
+  - 旧键零：musicId/battleMusicId/music.json 全仓 0；sys:music 仅剩 save/ops.ts:79,96 normalizer 读边界（转换后删除）。✅
+  - dry-run `asset-refs=1326 asset-warnings=13`（13 unused = 非 music 引用的 legacy 资源族，后续 A7-1..3 收口）。✅
+
+  **(3) 测试矩阵** ✅（核心覆盖 + 非阻塞缺口）：
+  - **§94 path guard + catalog 校验**：asset.test.ts 表驱动——bad path(:69-84)/missing id(:106-114)/kind mismatch(:100-105)/missing file(:180)/bytes+hash mismatch(:181-187)/family 互斥(:117-124)。✅
+  - **§95 迁移计数**：pal-migration-integration.test:62-74,157-169 断言 86/1174/53/36/81/31 精确。✅
+  - **§99 MG2 双跑零计划**：pal-migration-integration.test:119-149 二跑 writes=0 + :153-212 baseline 回归。✅
+  - **R1 族排他**：asset.test.ts:117-124 `同一资源族不得同时存在于 catalog 和 legacy` throw。✅
+  - **R4 roles 封闭**：asset.test.ts:88 `合法目录、四个封闭角色与 legacy 债务区通过`；ASSET_ROLES 恰四（asset.ts:27-32）。✅
+  - **002 首领胜利曲**：catalog role-binding 层覆盖（asset.test.ts:58,88,102 `audio.bossVictoryMusic: music.pal.002` + kind 校验）；runtime 无胜利播放测试（bgm.ts 无 AudioContext 时 no-op，audio/ 无 test 文件）——与 Opus "受剧情旗门禁" 一致，binding 层是唯一承接。✅
+  - **O1 非阻塞**：048 显式 startBattle.music **无专用测试**——同逻辑经 044 覆盖（translate-events.test:343 + script-runner.test:491-499）；048 只是 PAL 数据中另一个 musicId 值，迁移逻辑相同。
+  - **O2 非阻塞**：§96 无统一 static-scan-zero 测试（legacyMusicKeys/internalBattleCfgMarkers=0 已有断言，NNN.mid/sys:music/MusicDef 零散覆盖）；§97 upgrade-local-v2.ts 无独立 test 文件（纯 upgrade 函数有测试 project-upgrade.test）；§98 无 same-fixture 跨 FSA/HTTP 统一测试（各自独立测试）。
+
+  **(4) v2→v3 与存档矩阵** ✅：
+  - **musicId:0→null/stopMusic**：project-upgrade.test:56-78 `区分缺省、指定、显式停止，且递归处理分支`——battleMusicId:0→null / playMusic musicId:0→stopMusic / musicId:31→music.pal.031。✅
+  - **旧别名→label**：project-upgrade.test:80-86 `旧别名只进入对应 catalog label`。✅
+  - **sys:music 归一化**：在 save/ops.ts:79,96 normalizeAudioState（**S1 设计如此**——load 边界一次性 sys:music→audio.currentMusic，非 content upgrade 层）。✅
+  - **demo v3**：projects/demo manifest contentVersion=3（已升）；project-upgrade.test:32 合成 v2→v3 断言。✅
+
+  **(5) marker 门禁** ✅：
+  - **internalBattleCfgMarkers=0**：music-reference-audit.test:48 + pal-migration-integration:73,168 双断言。music-reference-audit.ts:42 计 `overrideSceneBattle` 残留 = 0 证明 finalize 全烘。✅
+  - **finalizeBattleConfig**：translate-events.test:360-382 单 scene-level root + scene-entry-product.test:66-85 双 root 类型（scene.onEnter + setSceneOnEnter.stages）遍历。✅
+  - **s106 battleMusic=music.pal.037**：审计文档记录，烘回与 0x4A 持久全局退役→场景默认一致。✅
+
+  **(6) MG2 面** ✅：
+  - dry-run `writes=0 deletes=0 conflicts=0`，`asset-refs=1326 asset-warnings=13`。✅
+  - **二进制排除 baseline（R3c）**：结构性成立——managedFiles 只含 JSON，MigrationPlan.writes Map<string,MigrationJson>。✅
+  - **catalog 所有权三路合并**：migration-merge.test:268-323 `catalog 按 AssetId 合并，并把 authored 接管记录视为整条作者所有`。✅
+
+  **总结**：G1-G5 全落地（catalog 87/所有权整条克隆+target validator）；产物对账全确认（引用 1174/53/36/81/31/71/missing 0/旧键零）；测试矩阵核心覆盖（§94/95/99 + R1/R4 + 002 binding 层）；v2→v3 矩阵（musicId0/alias/sys:music/demo）；marker 门禁=0；MG2 零计划 + catalog 所有权测试。四包 192+1skip/193/352/180 = **917 pass**。**accept**。
+
+  **O1-O2 非阻塞（不影响 accept）**：
+  - **O1**：048 无专用测试（同逻辑 044 覆盖）。
+  - **O2**：§96 统一 static-scan / §97 reload round-trip / §98 same-fixture 跨 adapter 无统一测试（各自独立覆盖）。
+
+- counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1-O2 非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM 终审与用户验收）
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。A7-0 完成≠A7 完成（SFX/精灵/UI 等族仍 legacy）。**
 
 ## Draft: 设计与风险
 
@@ -475,6 +520,7 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   单测承接交 GLM 核对;方法论记录 resolveDone 捷径曾致 003 假阴性,改真实打赢后取证。
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖/数据/测试矩阵终审;齐签后交用户验收;
   不得标 done。未改实现文件。
+- 2026-07-16 GLM: done 前覆盖终审签 **accept**。六项独立实测+四包 917 pass：(1)G1-G5 全落地——审计钉死 1174 play+53 stop(含 inline scene s001/s151/s200),G5 所有权 merge:278-289 authored 整条克隆+target validator:332+回归测试 merge.test:268-323；(2)产物 catalog 87(86music+1sf)全 bytes+sha256,引用 1174/53/36/81/31/71/missing0,旧键零(musicId/battleMusicId/music.json/sys:music仅save normalizer),dry-run asset-refs=1326 warnings=13；(3)测试矩阵 §94 asset.test 表驱动全覆盖/§95 计数精确/§99 双跑零计划,R1 族排他 asset.test:117-124,R4 roles 恰四 :88,002 binding 层覆盖(asset.test:58,88,102)；O1 非阻塞(048无专用测试,044同逻辑覆盖)；O2 非阻塞(§96统一扫描/§97 reload/§98跨adapter各自独立覆盖)；(4)v2→v3 project-upgrade.test musicId0→null/stopMusic+alias→label,sys:music在save/ops normalizer(S1设计)；(5)marker internalBattleCfgMarkers=0双断言(audit.test:48+integration:73,168),finalize双root(scene-entry-product:66-85)；(6)MG2 writes=0+catalog所有权三路合并测试。A7-0完成≠A7完成。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
