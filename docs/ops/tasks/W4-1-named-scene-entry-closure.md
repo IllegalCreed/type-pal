@@ -1,6 +1,6 @@
 # W4-1 - 命名落点闭环与迁移去重
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W4 / MG2 / ED-3
 Coding Owner: Codex
@@ -265,7 +265,7 @@ Branch: current
 
 - counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1-O3 均非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。**
+- done 准入结论: **三方审查签字齐，用户于 2026-07-15 指示“继续”，验收通过；任务 done。**
 
 ## Draft: 设计与风险
 
@@ -437,8 +437,8 @@ loadScene(scene, { pos })              // 一次性显式坐标
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **通过（2026-07-15）**。用户在三方签字齐后指示“继续”，批准收口并推进下一项。
+- 后续任务: A7-0 工程资源闭包地基与音乐注册表首切片。
 
 ## 交接日志
 
@@ -465,7 +465,8 @@ loadScene(scene, { pos })              // 一次性显式坐标
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 迁移覆盖/基线/测试矩阵复核;齐签后交用户验收;
   不得标 done。未改实现文件。
 - 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 889 pass：(1)W1-W3 全落地——重生成后 0 from-shared/0 start/0 dup/0 facing,701 pal-entry-*,dry-run `[落点归一化] 863/762/61/701/缺目标0` 精确吻合;W2 walker 六类反例 script-references.test:201-251 length=6;W3 966=797entryId+169default+0pos+0bare 精确。(2)迁移测试 scene-entry-normalize.test 四用例(默认收敛+跨分支去重/id纯函数/碰撞fail-loud/strict缺场景)。(3)dangling 门禁 plan.target 上跑,漂移模拟 ours from-shared-1×theirs删→conflicts=[]→闭包 throw(ED-4A同构)。(4)runtime scene-transition.test 三态+XOR双保险(type never+validator)+facing四级链+script-runner entryId原样传。(5)编辑器 commands.test CRUD/undo-redo/改label引用不断/禁删+project-io保存重开+script-references阻止保存四错误。(6)MG2 writes=0,entries Record走generic object merge。O1-O3 非阻塞(三来源未labeled/default间接覆盖/entries merge无专用测)。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
+- 2026-07-15 User/Codex: 三方审查签字齐后，用户指示“继续”；记录为最终验收通过，W4-1 收口 `done`。Next: Codex 接手 A7-0 build。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词。三方审查签字已齐，当前等待用户最终验收；用户确认“验收通过”后由 Codex 收口 `done`、同步看板并提交。
+无下一位 Agent 提示词。W4-1 已完成并通过用户验收；Codex 继续执行已三签准入的 A7-0 build。
