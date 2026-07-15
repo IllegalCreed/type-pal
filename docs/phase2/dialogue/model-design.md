@@ -1,6 +1,6 @@
 # 对话系统结构化数据模型 · 设计
 
-> 状态:已实现、三方复验中(2026-07-15,N1-1)。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md);内容总 schema 见 [content-schema.md](../foundation/content-schema.md);本次决策记录见 [decisions.md](../decisions.md) D11。
+> 状态:done(2026-07-15,N1-1 三方复验与用户验收完成)。第二阶段铁律见 [READ-FIRST.md](../READ-FIRST.md);内容总 schema 见 [content-schema.md](../foundation/content-schema.md);本次决策记录见 [decisions.md](../decisions.md) D11。
 > **承接** [visual-spec.md](visual-spec.md)(GLM 写的对话框**外观**继承清单)——本文定**数据格式**,那份定**外观真值**;两件正交的事,本文把它们在架构里安顿到一起。
 
 ## 0. 这份文档解决什么(大白话)
