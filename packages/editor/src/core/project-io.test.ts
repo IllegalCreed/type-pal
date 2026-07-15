@@ -2,6 +2,7 @@ import { type LoadedManifest, normalizeScriptLibrary, type SceneDef } from '@typ
 import { assembleProject, buildBlankProjectMap, loadProjectMap } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { DeleteMapAssetCommand } from './commands.js'
+import { createPlacedEntity } from './entity-placement.js'
 import {
   diffFiles,
   serializeProject,
@@ -179,6 +180,68 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
 
   // manifest.json 整体还原(startWorld 含 seedStats)
   expect(out['manifest.json']).toEqual(manifest)
+})
+
+test('ED-4A actor/sprite/touch zone/interact zone 保存重开保持引用与空脚本源', () => {
+  const project = assembleProject(manifest, JSONS)
+  const state = toEditorState(project, SCENES)
+  const placements = [
+    createPlacedEntity(
+      'actor-placed',
+      { col: 1, row: 2, height: 0 },
+      {
+        mode: 'actor',
+        actorId: 'li-xiaoyao',
+      },
+    ),
+    createPlacedEntity(
+      'sprite-placed',
+      { col: 3, row: 4, height: 0 },
+      {
+        mode: 'sprite',
+        spriteId: 'ghost',
+      },
+    ),
+    createPlacedEntity(
+      'touch-placed',
+      { col: 5, row: 6, height: 0 },
+      {
+        mode: 'touch-zone',
+        range: 0,
+      },
+    ),
+    createPlacedEntity(
+      'interact-placed',
+      { col: 7, row: 8, height: 0 },
+      {
+        mode: 'interact-zone',
+        range: 2,
+      },
+    ),
+  ]
+  const edited = {
+    ...state,
+    scenes: state.scenes.map((scene) =>
+      scene.id === 'guijie-minju' ? { ...scene, entities: placements } : scene,
+    ),
+  }
+  const saved = serializeProject(edited)
+  const savedScene = saved['content/scenes/guijie-minju.json'] as SceneDef
+  const reopened = toEditorState(assembleProject(manifest, { ...JSONS, entryScene: savedScene }), [
+    savedScene,
+  ])
+
+  expect(reopened.scenes[0]!.entities).toEqual(placements)
+  expect(reopened.scenes[0]!.entities[2]!.pages?.[0]?.trigger).toEqual({
+    on: 'touch',
+    range: 0,
+    stages: [{ body: [] }],
+  })
+  expect(reopened.scenes[0]!.entities[3]!.pages?.[0]?.trigger).toEqual({
+    on: 'interact',
+    range: 2,
+    stages: [{ body: [] }],
+  })
 })
 
 test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {

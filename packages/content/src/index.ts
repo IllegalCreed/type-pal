@@ -69,9 +69,8 @@ export interface Dialogue {
 }
 
 /**
- * 实体引用(C0/M3a):角色实例(actor → actors 表)⊕ 纯静物 prop(sprite → sprites 表)
- * ⊕ 隐形触发区(zone:true,门/脚本锚 —— 有位置有触发无视觉),三选一。
- * 花瓶/装饰直接引精灵,不逼着建假角色;NPC/角色经 ActorDef 共享 名字/精灵/battler 定义。
+ * 实体引用(C0/M3a):可见实体的外观来源是 actor 或 sprite；zone 是无外观触发区，三选一。
+ * NPC、敌人、物件、宝箱等是独立玩法职责，不能从 SpriteDef id 或外观来源反推。
  */
 export type EntityRef = { actor: string } | { sprite: string } | { zone: true }
 
@@ -114,7 +113,7 @@ export interface HostileBehavior {
   onLose?: 'gameOver' | import('./script.js').Command[]
 }
 
-/** 场景实体 = 公共字段 & (actor ⊕ sprite)。判别用 isActorEntity / resolveEntitySpriteId(actor.ts)。 */
+/** 场景实体 = 公共字段 & (actor ⊕ sprite ⊕ zone)。判别与外观解析见 actor.ts。 */
 export type EntityDef = EntityBase & EntityRef
 
 export interface SceneDef {
@@ -137,7 +136,7 @@ export interface SceneDef {
   // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
   /** 玩家（李逍遥）进场点 */
   entry: { pos: GridPos; facing: Facing }
-  /** 场上 NPC / 物件（不含玩家） */
+  /** 场内可见实体与无外观触发区（不含玩家） */
   entities: EntityDef[]
   /** 进场脚本(M3;stages:原版首访 cutscene 演完 advance,之后只跑纯 setup 段)。 */
   onEnter?: ScriptStage[]

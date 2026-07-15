@@ -144,7 +144,7 @@
         "row": 55,
         "height": 0
       },
-      "sprite": "npc-30",
+      "sprite": "sprite-30",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -192,7 +192,7 @@
         "row": 55,
         "height": 0
       },
-      "sprite": "npc-30",
+      "sprite": "sprite-30",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -240,7 +240,7 @@
         "row": 31,
         "height": 0
       },
-      "sprite": "npc-30",
+      "sprite": "sprite-30",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -318,7 +318,7 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-565",
+      "sprite": "sprite-565",
       "collide": true
     },
     {
@@ -328,7 +328,7 @@
         "row": 23,
         "height": 0
       },
-      "sprite": "npc-562",
+      "sprite": "sprite-562",
       "facing": "up",
       "collide": true
     },
@@ -339,7 +339,7 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-30",
+      "sprite": "sprite-30",
       "collide": true
     },
     {
@@ -349,7 +349,7 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-30",
+      "sprite": "sprite-30",
       "collide": true
     },
     {
@@ -359,7 +359,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "right",
       "collide": true
     },
@@ -370,7 +370,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "left",
       "collide": true
     },
@@ -381,7 +381,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "up",
       "collide": true
     },
@@ -392,7 +392,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-545",
+      "sprite": "sprite-545",
       "facing": "left",
       "collide": true
     },
@@ -403,7 +403,7 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "up",
       "collide": true
     },
@@ -414,7 +414,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "up",
       "collide": true
     },
@@ -425,7 +425,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-545",
+      "sprite": "sprite-545",
       "facing": "up",
       "collide": true
     },
@@ -436,7 +436,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-545",
+      "sprite": "sprite-545",
       "facing": "right",
       "collide": true
     },
@@ -447,7 +447,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-545",
+      "sprite": "sprite-545",
       "facing": "up",
       "collide": true
     },
@@ -458,7 +458,7 @@
         "row": 31,
         "height": 0
       },
-      "sprite": "npc-544",
+      "sprite": "sprite-544",
       "facing": "up",
       "collide": true
     }

@@ -56,16 +56,16 @@ describe('0x15 队员方向+姿势(script.c: wFrame = dir*3 + gesture)', () => {
 
 describe('0x65 换角色大世界精灵(script.c: rgwSpriteNum[role]=sprite)', () => {
   test('role 0 + 精灵 627 → setActorSprite(li-xiaoyao, 由注册回调定 id)', () => {
-    const ids: Record<number, string> = { 627: 'npc-627', 2: 'li-xiaoyao' }
+    const ids: Record<number, string> = { 627: 'sprite-627', 2: 'li-xiaoyao' }
     const body = bodyOf(
-      ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }], (n) => ids[n] ?? `npc-${n}`),
+      ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }], (n) => ids[n] ?? `sprite-${n}`),
     )
-    expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'npc-627' }])
+    expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'sprite-627' }])
   })
   test('切回本体精灵 2 → 映射到 actor 自己的精灵 id', () => {
     const ids: Record<number, string> = { 2: 'li-xiaoyao' }
     const body = bodyOf(
-      ctxOf([{ opcode: 0x65, operands: [0, 2, 0xffff] }], (n) => ids[n] ?? `npc-${n}`),
+      ctxOf([{ opcode: 0x65, operands: [0, 2, 0xffff] }], (n) => ids[n] ?? `sprite-${n}`),
     )
     expect(body).toEqual([{ kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'li-xiaoyao' }])
   })
@@ -445,7 +445,7 @@ describe('R2 残余 opcode clean 收口', () => {
 })
 
 describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
-  const spriteIdForNum = (n: number) => `npc-${n}`
+  const spriteIdForNum = (n: number) => `sprite-${n}`
   const body1a = (ops: number[]) => bodyOf(ctxOf([{ opcode: 0x1a, operands: ops }], spriteIdForNum))
   test('字段0=头像 → portrait(灵儿 role1)', () => {
     expect(body1a([0, 88, 2])).toEqual([
@@ -459,7 +459,7 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
   })
   test('字段2=大世界精灵 → spriteId(经 spriteIdForNum)', () => {
     expect(body1a([2, 38, 2])).toEqual([
-      { kind: 'setActorAppearance', actor: 'zhao-linger', spriteId: 'npc-38' },
+      { kind: 'setActorAppearance', actor: 'zhao-linger', spriteId: 'sprite-38' },
     ])
   })
   test('字段64=走路帧 → 丢弃(新精灵 layout 自带)', () => {

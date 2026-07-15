@@ -56,7 +56,7 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-523"
+      "sprite": "sprite-523"
     },
     {
       "id": "e2856",
@@ -65,7 +65,7 @@
         "row": 13,
         "height": 0
       },
-      "sprite": "npc-523"
+      "sprite": "sprite-523"
     },
     {
       "id": "e2857",
@@ -74,7 +74,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-364",
+      "sprite": "sprite-364",
       "pages": [
         {
           "trigger": {
@@ -116,7 +116,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-2",
+      "sprite": "sprite-2",
       "pages": [
         {
           "auto": {
@@ -157,7 +157,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-608"
+      "sprite": "sprite-608"
     },
     {
       "id": "e2860",
@@ -166,7 +166,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-5",
+      "sprite": "sprite-5",
       "hidden": true,
       "pages": [
         {
@@ -195,7 +195,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-552",
+      "sprite": "sprite-552",
       "facing": "right",
       "hidden": true,
       "pages": [
@@ -266,7 +266,7 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-609",
+      "sprite": "sprite-609",
       "facing": "right",
       "hidden": true,
       "pages": [
@@ -355,7 +355,7 @@
         "row": 1,
         "height": 0
       },
-      "sprite": "npc-515",
+      "sprite": "sprite-515",
       "pages": [
         {
           "trigger": {
@@ -385,7 +385,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-551",
+      "sprite": "sprite-551",
       "hidden": true,
       "zBias": 3,
       "pages": [

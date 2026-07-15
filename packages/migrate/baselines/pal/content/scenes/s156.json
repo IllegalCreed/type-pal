@@ -71,7 +71,7 @@
         "row": 28,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -81,7 +81,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -91,7 +91,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-271",
+      "sprite": "sprite-271",
       "pages": [
         {
           "trigger": {
@@ -121,7 +121,7 @@
         "row": 50,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -131,7 +131,7 @@
         "row": 49,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -141,7 +141,7 @@
         "row": 48,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -151,7 +151,7 @@
         "row": 47,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -161,7 +161,7 @@
         "row": 54,
         "height": 0
       },
-      "sprite": "npc-271",
+      "sprite": "sprite-271",
       "pages": [
         {
           "trigger": {
@@ -191,7 +191,7 @@
         "row": -16,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -201,7 +201,7 @@
         "row": -17,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -211,7 +211,7 @@
         "row": -18,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -221,7 +221,7 @@
         "row": -19,
         "height": 0
       },
-      "sprite": "npc-298",
+      "sprite": "sprite-298",
       "zBias": -9
     },
     {
@@ -231,7 +231,7 @@
         "row": -30,
         "height": 0
       },
-      "sprite": "npc-271",
+      "sprite": "sprite-271",
       "pages": [
         {
           "trigger": {
@@ -261,7 +261,7 @@
         "row": 79,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -458,7 +458,7 @@
         "row": 85,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -655,7 +655,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -852,7 +852,7 @@
         "row": 65,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -1049,7 +1049,7 @@
         "row": 52,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -1246,7 +1246,7 @@
         "row": 79,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -1443,7 +1443,7 @@
         "row": 23,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -1640,7 +1640,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -1837,7 +1837,7 @@
         "row": -16,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -2034,7 +2034,7 @@
         "row": -25,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -2231,7 +2231,7 @@
         "row": 42,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -2428,7 +2428,7 @@
         "row": 81,
         "height": 0
       },
-      "sprite": "npc-490",
+      "sprite": "sprite-490",
       "pages": [
         {
           "auto": {
@@ -2625,7 +2625,7 @@
         "row": 90,
         "height": 0
       },
-      "sprite": "npc-495",
+      "sprite": "sprite-495",
       "collide": true,
       "hostile": {
         "team": 181,
@@ -2643,7 +2643,7 @@
         "row": 58,
         "height": 0
       },
-      "sprite": "npc-59",
+      "sprite": "sprite-59",
       "collide": true,
       "hostile": {
         "team": 295,
@@ -2661,7 +2661,7 @@
         "row": 77,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "hostile": {
         "team": 187,
@@ -2679,7 +2679,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-59",
+      "sprite": "sprite-59",
       "collide": true,
       "hostile": {
         "team": 295,
@@ -2697,7 +2697,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "pages": [
         {
@@ -2743,7 +2743,7 @@
         "row": 1,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "zBias": 10,
       "hostile": {
@@ -2762,7 +2762,7 @@
         "row": 73,
         "height": 0
       },
-      "sprite": "npc-495",
+      "sprite": "sprite-495",
       "collide": true,
       "hostile": {
         "team": 181,
@@ -2780,7 +2780,7 @@
         "row": 65,
         "height": 0
       },
-      "sprite": "npc-470",
+      "sprite": "sprite-470",
       "collide": true,
       "hostile": {
         "team": 182,
@@ -2794,7 +2794,7 @@
         "row": 74,
         "height": 0
       },
-      "sprite": "npc-460",
+      "sprite": "sprite-460",
       "collide": true,
       "zBias": 10,
       "hostile": {
@@ -2814,7 +2814,7 @@
         "row": 55,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "hostile": {
         "team": 187,
@@ -2832,7 +2832,7 @@
         "row": 28,
         "height": 0
       },
-      "sprite": "npc-59",
+      "sprite": "sprite-59",
       "collide": true,
       "zBias": 10,
       "hostile": {
@@ -2851,7 +2851,7 @@
         "row": 39,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "hostile": {
         "team": 294,
@@ -2869,7 +2869,7 @@
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "hostile": {
         "team": 187,
@@ -2887,7 +2887,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-495",
+      "sprite": "sprite-495",
       "collide": true,
       "hostile": {
         "team": 178,
@@ -2905,7 +2905,7 @@
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "hostile": {
         "team": 294,
@@ -2923,7 +2923,7 @@
         "row": 4,
         "height": 0
       },
-      "sprite": "npc-470",
+      "sprite": "sprite-470",
       "collide": true,
       "hostile": {
         "team": 176,
@@ -2941,7 +2941,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-59",
+      "sprite": "sprite-59",
       "collide": true,
       "hostile": {
         "team": 295,
@@ -2955,7 +2955,7 @@
         "row": -15,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "pages": [
         {
@@ -3001,7 +3001,7 @@
         "row": -21,
         "height": 0
       },
-      "sprite": "npc-495",
+      "sprite": "sprite-495",
       "collide": true,
       "hostile": {
         "team": 181,
@@ -3019,7 +3019,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "collide": true,
       "zBias": 10,
       "hostile": {
@@ -3038,7 +3038,7 @@
         "row": 41,
         "height": 0
       },
-      "sprite": "npc-460",
+      "sprite": "sprite-460",
       "collide": true,
       "zBias": 10,
       "pages": [
@@ -3086,7 +3086,7 @@
         "row": -30,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3129,7 +3129,7 @@
         "row": -7,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3172,7 +3172,7 @@
         "row": 4,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3215,7 +3215,7 @@
         "row": 13,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3258,7 +3258,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3301,7 +3301,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3344,7 +3344,7 @@
         "row": 53,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3387,7 +3387,7 @@
         "row": 74,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3430,7 +3430,7 @@
         "row": 44,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3473,7 +3473,7 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3516,7 +3516,7 @@
         "row": 79,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -3559,7 +3559,7 @@
         "row": 92,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3588,7 +3588,7 @@
         "row": 96,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3617,7 +3617,7 @@
         "row": 99,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3646,7 +3646,7 @@
         "row": 98,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3675,7 +3675,7 @@
         "row": 47,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3704,7 +3704,7 @@
         "row": -24,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3733,7 +3733,7 @@
         "row": -24,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3762,7 +3762,7 @@
         "row": 46,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3791,7 +3791,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3820,7 +3820,7 @@
         "row": 46,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3849,7 +3849,7 @@
         "row": -5,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3878,7 +3878,7 @@
         "row": 82,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3907,7 +3907,7 @@
         "row": 75,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3936,7 +3936,7 @@
         "row": -33,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3965,7 +3965,7 @@
         "row": -39,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -3994,7 +3994,7 @@
         "row": -32,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4023,7 +4023,7 @@
         "row": -23,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4052,7 +4052,7 @@
         "row": -24,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4081,7 +4081,7 @@
         "row": -6,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4110,7 +4110,7 @@
         "row": -10,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4139,7 +4139,7 @@
         "row": 0,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4168,7 +4168,7 @@
         "row": -5,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4197,7 +4197,7 @@
         "row": 0,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4226,7 +4226,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4255,7 +4255,7 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4284,7 +4284,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4313,7 +4313,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4342,7 +4342,7 @@
         "row": 1,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4371,7 +4371,7 @@
         "row": -10,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4400,7 +4400,7 @@
         "row": -13,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4429,7 +4429,7 @@
         "row": -20,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4458,7 +4458,7 @@
         "row": -2,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4487,7 +4487,7 @@
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4516,7 +4516,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4545,7 +4545,7 @@
         "row": 19,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4574,7 +4574,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4603,7 +4603,7 @@
         "row": 37,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4632,7 +4632,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4661,7 +4661,7 @@
         "row": 21,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4690,7 +4690,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4719,7 +4719,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4748,7 +4748,7 @@
         "row": 32,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4777,7 +4777,7 @@
         "row": 41,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4806,7 +4806,7 @@
         "row": 57,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4835,7 +4835,7 @@
         "row": 61,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4864,7 +4864,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4893,7 +4893,7 @@
         "row": 69,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4922,7 +4922,7 @@
         "row": 75,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4951,7 +4951,7 @@
         "row": 70,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -4980,7 +4980,7 @@
         "row": 83,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -5009,7 +5009,7 @@
         "row": 50,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -5038,7 +5038,7 @@
         "row": 51,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -5067,7 +5067,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -5096,7 +5096,7 @@
         "row": 68,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {
@@ -5125,7 +5125,7 @@
         "row": 65,
         "height": 0
       },
-      "sprite": "npc-272",
+      "sprite": "sprite-272",
       "zBias": -5,
       "pages": [
         {

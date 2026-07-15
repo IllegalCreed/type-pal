@@ -111,7 +111,7 @@
         "row": 68,
         "height": 0
       },
-      "sprite": "npc-32",
+      "sprite": "sprite-32",
       "collide": true,
       "pages": [
         {
@@ -170,7 +170,7 @@
         "row": 74,
         "height": 0
       },
-      "sprite": "npc-50",
+      "sprite": "sprite-50",
       "collide": true,
       "pages": [
         {
@@ -277,7 +277,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-35",
+      "sprite": "sprite-35",
       "collide": true,
       "pages": [
         {
@@ -360,7 +360,7 @@
         "row": 50,
         "height": 0
       },
-      "sprite": "npc-20",
+      "sprite": "sprite-20",
       "collide": true,
       "pages": [
         {
@@ -431,7 +431,7 @@
         "row": 30,
         "height": 0
       },
-      "sprite": "npc-4",
+      "sprite": "sprite-4",
       "collide": true,
       "pages": [
         {
@@ -502,7 +502,7 @@
         "row": 30,
         "height": 0
       },
-      "sprite": "npc-48",
+      "sprite": "sprite-48",
       "collide": true,
       "pages": [
         {
@@ -633,7 +633,7 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-49",
+      "sprite": "sprite-49",
       "collide": true,
       "pages": [
         {
@@ -764,7 +764,7 @@
         "row": 28,
         "height": 0
       },
-      "sprite": "npc-42",
+      "sprite": "sprite-42",
       "collide": true,
       "pages": [
         {
@@ -847,7 +847,7 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-43"
+      "sprite": "sprite-43"
     },
     {
       "id": "e89",
@@ -856,7 +856,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-44",
+      "sprite": "sprite-44",
       "collide": true,
       "pages": [
         {
@@ -922,7 +922,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-45",
+      "sprite": "sprite-45",
       "collide": true,
       "pages": [
         {
@@ -952,7 +952,7 @@
         "row": 28,
         "height": 0
       },
-      "sprite": "npc-46",
+      "sprite": "sprite-46",
       "collide": true,
       "pages": [
         {
@@ -1018,7 +1018,7 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-47",
+      "sprite": "sprite-47",
       "pages": [
         {
           "auto": {
@@ -1167,7 +1167,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-47",
+      "sprite": "sprite-47",
       "facing": "right",
       "pages": [
         {
@@ -1503,7 +1503,7 @@
         "row": 38,
         "height": 0
       },
-      "sprite": "npc-62",
+      "sprite": "sprite-62",
       "collide": true,
       "pages": [
         {
@@ -1550,7 +1550,7 @@
         "row": 38,
         "height": 0
       },
-      "sprite": "npc-63",
+      "sprite": "sprite-63",
       "collide": true,
       "pages": [
         {
@@ -1597,7 +1597,7 @@
         "row": 60,
         "height": 0
       },
-      "sprite": "npc-64",
+      "sprite": "sprite-64",
       "collide": true,
       "pages": [
         {
@@ -1644,7 +1644,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-65",
+      "sprite": "sprite-65",
       "collide": true,
       "pages": [
         {
@@ -1721,7 +1721,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-34",
+      "sprite": "sprite-34",
       "hidden": true
     },
     {
@@ -1731,7 +1731,7 @@
         "row": -16,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "collide": true,
       "pages": [
         {
@@ -1762,7 +1762,7 @@
         "row": -17,
         "height": 0
       },
-      "sprite": "npc-69",
+      "sprite": "sprite-69",
       "collide": true,
       "pages": [
         {
@@ -1883,7 +1883,7 @@
         "row": 79,
         "height": 0
       },
-      "sprite": "npc-163",
+      "sprite": "sprite-163",
       "collide": true,
       "pages": [
         {
@@ -1978,7 +1978,7 @@
         "row": 60,
         "height": 0
       },
-      "sprite": "npc-164",
+      "sprite": "sprite-164",
       "zBias": 10
     },
     {

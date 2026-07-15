@@ -236,12 +236,12 @@ test('0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setA
   await r.run([
     { kind: 'setPartyFacing', facing: 'down', gesture: 9 },
     { kind: 'setPartyFacing', facing: 'right' }, // 无 gesture = 清姿势(host 侧语义)
-    { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'npc-627' },
+    { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'sprite-627' },
   ])
   expect(calls).toEqual([
     'setPartyFacing("down",9,)',
     'setPartyFacing("right",,)',
-    'setActorSprite("li-xiaoyao","npc-627")',
+    'setActorSprite("li-xiaoyao","sprite-627")',
   ])
 })
 

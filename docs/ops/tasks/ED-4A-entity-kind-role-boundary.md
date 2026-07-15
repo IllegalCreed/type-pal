@@ -1,6 +1,6 @@
 # ED-4A - 实体类型边界与精灵/触发区创建闭环
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: E1 / MG2
 Coding Owner: Codex
@@ -18,9 +18,10 @@ Branch: main
 
 - 2026-07-15：编辑器中的对象认知应分为场景、sprite、zone；当前把 sprite 泛称为 NPC 不正确，因为门板、火炬、流水等也都是可见精灵实体。
 - 2026-07-15：sprite 后续还要继续区分 NPC、敌人、物件、宝箱等职责。
+- 2026-07-15：`door` 不作为与 `object` 平级的职责；门是物件的一种，开关、传送、阻挡等机制由物件模板、结构化组件或脚本表达。
 - 本卡据此把两个维度拆开：
   - **表现形态**：`scene` 是容器；可见实体由 actor 或 sprite 资源提供外观；`zone` 是无外观触发区。
-  - **玩法职责**：NPC、敌人、物件、宝箱、门、装饰、特效等；不得由 SpriteDef 的 ID、文件名或图片内容隐式推断。
+  - **玩法职责**：NPC、敌人、物件、宝箱、装饰、特效等；不得由 SpriteDef 的 ID、文件名或图片内容隐式推断。门属于物件的模板/子类，不单列一级职责。
 
 ## 范围
 
@@ -33,7 +34,7 @@ Branch: main
   - 为后续 NPC、敌人、物件、宝箱等职责分类留下明确扩展边界。
 - 范围外:
   - 场景复制、重命名、删除与引用处置；仍归 ED-4 后续分片。
-  - 本卡不一次性实现 NPC、敌人、物件、宝箱、门、装饰、特效的完整分类系统。
+  - 本卡不一次性实现 NPC、敌人、物件、宝箱、装饰、特效的完整分类系统。
   - 本卡不改变现有敌对行为、拾取模板、宝箱脚本或 ActorDef 的运行时语义。
   - 本卡不处理通用删除守卫和全工程反向引用图；仍归 ED-3。
 - 明确不做:
@@ -95,7 +96,7 @@ Branch: main
 ### 职责扩展边界
 
 - 本卡文档和代码命名必须明确：`sprite` 是表现资源/可见形态，不等于 NPC。
-- NPC、敌人、物件、宝箱、门、装饰、特效属于独立职责轴；后续可由实体模板或显式 authoring 字段承载。
+- NPC、敌人、物件、宝箱、装饰、特效属于独立职责轴；后续可由实体模板或显式 authoring 字段承载。门归入物件，不得另造平级 `door` 职责。
 - 后续职责字段不得复制既有运行时权威：例如敌人仍以 `hostile` 为行为真值，宝箱/拾取仍以结构化模板或脚本为真值。职责分类首先服务创建模板、筛选和检查器组织；若要改变运行时，必须另开 schema 卡三签。
 - 本卡 build 不新增未经三方确认的 `role: string` schema，也不通过 ID 前缀临时模拟职责。
 
@@ -204,12 +205,12 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept**（2026-07-15；实现、自测、MG2 写盘与 6010/6051 视觉回归均完成；用户新增裁决“门归入物件”已同步，未新增 role schema）
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（等待 Opus / GLM 独立复核与用户验收）
 
 ## Draft: 设计与风险
 
@@ -225,7 +226,7 @@ Branch: main
 └── 触发区 Zone（无外观）
 
 玩法职责（后续独立轴）
-NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
+NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 ```
 
 - `actor` 和 `sprite` 是可见实体的两种外观/身份来源；`zone` 是无外观实体。
@@ -257,7 +258,7 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
 ### D. 后续职责分类
 
 - ED-4 后续单独决定职责载体是实体模板、显式 authoring 字段，还是二者组合。
-- 建议职责枚举至少预留：`npc`、`enemy`、`object`、`chest`、`door`、`decoration`、`effect`，并允许项目自定义标签；最终集合必须由真实创作流程和现有行为字段审计后定案。
+- 建议职责枚举至少预留：`npc`、`enemy`、`object`、`chest`、`decoration`、`effect`，并允许项目自定义标签；门、火炬、机关等作为 `object` 的模板/子类，不占一级职责。最终集合必须由真实创作流程和现有行为字段审计后定案。
 - “职责”应驱动创建模板、默认字段、palette 筛选和检查器分组，而不是替代 `hostile`、脚本或资源注册表。
 - 树、搜索和筛选未来可显示职责，但渲染器永远只读取明确外观和行为字段，不解析职责名字猜机制。
 
@@ -323,32 +324,51 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字齐后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- build 开始: 2026-07-15（三方设计签字齐，用户确认推进）
+- 修改文件:
+  - 上游与门禁：`packages/migrate/src/migrate-content.ts`、`migration-validate.ts`、`scripts/migrate-content.mts` 及对应测试/夹具。
+  - 编辑器：新增 `packages/editor/src/core/entity-placement.ts`，更新 `App.tsx`、`editor.css`、命令与工程保存重开测试。
+  - 契约说明/夹具：`packages/content/src/{index,actor}.ts`、`packages/reforge/src/script-runner.test.ts`。
+  - 生成结果：`projects/pal` 与 `packages/migrate/baselines/pal` 中受影响的 sprites、场景、脚本索引/分片和 MG2 state。
+  - 文档：本卡与 `docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md`。
+- 实现摘要:
+  - 集中 `migratedSpriteId()`，PAL 通用资源统一生成 `sprite-<num>` / `sprite-<num>-f<n>`；六个语义角色资源保持不变。
+  - 在 MG2 三方合并后的最终目标上新增 fail-loud 引用闭包门禁，扫描 SpriteDef、ActorDef、EntityDef、`setActorSprite`、`setActorAppearance` 五个通道；补 ours 旧引用 × theirs 改名漂移模拟与语义 `npc-*` 反向保护。
+  - 编辑器新增 actor 来源精灵、SpriteDef 来源精灵、touch zone、interact zone 四种放置形状；zone 创建即带合法空脚本段，统一走 `AddEntityCommand`、撤销/重做和工程序列化。
+  - 实体树只显示“精灵/触发区”；检查器明确 zone 无外观。用户裁决同步为：门属于 `object` 的模板/子类，传送、阻挡、开关由组件/脚本表达，不新增平级 `door` 职责。
+- 运行命令:
+  - 定向测试：migrate 87、editor 91、reforge 33 项通过；四个相关包 typecheck 通过；受影响文件 Biome check 通过。
+  - MG2 首次 dry-run：`writes=315 deletes=0 conflicts=0`；写前门禁 `580/574`、实体 `3695/3695`、actor `6/0`、setActorSprite `116/69`、setActorAppearance `3/2`。
+  - `migrate:content -- --write`：事务提交 631 项操作，命令内二跑 `0/0/0`；独立 dry-run 再次 `0/0/0`；两套生成目录精确旧数字型 `npc-*` 扫描为零。
+  - 包门禁：migrate 183（1 skipped）、content 170、editor 172、reforge 343 项通过。
+  - 全仓 `pnpm check`：3,524 tests passed、1 skipped；Biome 676 files clean。
+- 浏览器 / 手工检查:
+  - 6010：真实 PAL `s001` 依次创建普通 SpriteDef、ActorDef、touch zone、interact zone；默认范围分别 0/1，树标签、检查器、黄色单格/3×3 范围和合法脚本段正确；undo/redo 实体数 `36→35→36`，最后重载恢复 32 个原实体。
+  - 6051：默认开场进入 `s001` 后李大娘/李逍遥资源正常；`?scene=s001&battle=0` 敌我资源可载；`s074` 宝箱打开并显示横向“获得赤蝎粉”卷轴；真实 touch 出口触发切场景过渡。两页 warn/error 均为 0。
+- 跳过的检查及原因:
+  - 未把四个测试实体保存进用户真实 PAL 目录，避免污染工程；四形状的目录保存/重开由 `project-io.test.ts` 的 FileSource roundtrip 自动测试覆盖，交 Opus 用临时工程独立手验。
+  - 浏览器控制面不提供原生 canvas pointer drag；新 zone 的黄色选中/范围已实测，拖动继续复用未改动的 `SceneCanvas` + `MoveEntityCommand` 通路（既有移动/invert 单测通过），交 Opus 补一次手势复验。
 
 ## 视觉验证记录(如适用)
 
-- Visual Verification Owner: Codex + Opus
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- Visual Verification Owner: Codex（已完成）+ Opus（待独立复验）
+- 验证方式: 6010/6051 in-app browser 实操、整页截图、DOM 状态与 console warn/error 检查。
+- 截图 / 像素检查路径: 会话内截图（未写入仓库，避免生成视觉证据噪音）；关键帧为 touch 单格、interact 3×3、四模式 palette、s001 开场、战斗揭场、s074 宝箱前后。
+- 结论: Codex 视觉自验通过；资源重命名后未见空白/错图/悬空引用，四模式 UI 无溢出或遮挡。
+- 未完成项: Opus 在临时工程补验 zone 原生拖动与保存重开。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex self-review accept；Opus / GLM pending。
+- 必须返工项: Codex 自审未发现。
+- Accept / rework: pending（签字不齐不得 done）
 
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: ED-4 职责分类与实体模板；ED-3 引用删除守卫。
+- 后续任务: ED-4 职责分类与实体模板（门归 `object`）；ED-3 引用删除守卫。
 
 ## 交接日志
 
@@ -362,22 +382,24 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
   同步清单;R3=四处引用字段与对账基线钉进卡。Evidence: 主审立场 + 本人核验脚本输出。
   Next: GLM 覆盖复核(扫描口径/测试矩阵/反向保护),三签齐后 build;不得抢跑实现。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)R3 对账——574 npc-*(16-f)/6 semantic/3695 EntityDef.sprite/69 setActorSprite npc/2 setActorAppearance npc 全确认；**G1**:setActorSprite 总 116(69npc+47semantic)/setActorAppearance 总 3(2npc+1semantic),semantic 指向不改名六主角故不在改名面；**G2**:actors.json.spriteId 第六主角 semantic 是第五 id 通道但不改名。(2)反证——locale/music/demo 零 npc-,资产按 spriteNum 键控,源码 content/reforge/editor 零硬编码。(3)测试矩阵逐条可落,**G3 关键**:validate-refs.ts 不校验脚本命令 sprite 引用(仅 EntityDef.sprite+actors.spriteId),R1 闭包门禁必须显式扫四处含 setActorSprite/setActorAppearance 不能依赖 validate-refs.ts。(4)夹具全量 5 文件(present.test 11/scene-system 1 误报/translate-events 4/migrate-content 3/script-runner 2),R2 同步清单=migrate+reforge,game 一阶段冻结。(5)MG2 sprites.json id-mode 结构化合并,改名=del+add 零冲突,dry-run writes=0。(6)AddEntityCommand 已 EntityRef-agnostic,仅 addAt/UI 需扩展四模式。G1-G3 build 必落。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,交 Codex build。未改实现文件。
+- 2026-07-15 User: 补充产品裁决：`door` 不单列职责，归入 `object`；Codex 已同步本卡与检查器文案，未新增 schema。
+- 2026-07-15 Codex: build 完成并自审签 **accept**。中性 sprite ID、合并后五通道闭包门禁、四形态创建/roundtrip、MG2 事务写盘与独立零计划均落地；全仓 3,524 tests passed、Biome clean；6010/6051 实操无浏览器错误。Evidence: Build/视觉记录。Next: Opus 实现+视觉主审；不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,迁移覆盖/测试矩阵复核(GLM)
+接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,实现与视觉主审(Opus)
 任务卡: docs/ops/tasks/ED-4A-entity-kind-role-boundary.md
-当前状态: draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
-你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现或生成产物
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/migrate/src/migrate-content.ts:1518-1560、packages/content/src/validate-refs.ts
-请重点复核(数据/测试面,与 Opus 的架构/MG2 面互补):
-1. R3 对账:用独立脚本重扫 projects/pal 全产物,核对 Opus 基线——sprites.json 通用定义 574(含 16 个 -f 变体,语义 ID 恰六主角)、EntityDef.sprite 3,695、setActorSprite.sprite 69、setActorAppearance.spriteId 2;确认引用字段恰四处,无第五处(重点排查:敌人/战斗/立绘/物品是否有独立 sprite 引用通道);
-2. 不在改名面的反证:actors.json 六角色 sprite 字段全空、locale/music 零 npc- 引用、资产路径按 spriteNum 键控、projects/demo 零命中——逐项独立确认;
-3. 测试矩阵完备性:验收§104-110 逐条可落(普通/directional/同号布局冲突/0x65 换装/语义 ID 优先/结构化扫描断言 ^npc-\d+(-f\d+)?$ 为零/反向保护 作者含 npc- 的 id 不误改);R1 的"ours 引用旧 id × theirs 改名 → 事务阻断"模拟测试形态是否可落;
-4. 夹具面:R2 所列 reforge/script-runner.test 之外,再全仓扫一遍 *.test.* 含 npc- 的文件(migrate 两个已知),确认同步清单无漏;packages/game 两处属一阶段语境仅确认不受影响;
-5. MG2 语义:改名在 sprites.json = 574 删 + 574 增(theirs 权威纯生成文件),scenes 按实体 id 锚定不扰动——确认 migration-plan/pal-migration-integration 测试能表达这次变更形状;写盘门禁(二次零计划+独立 dry-run)口径与 MG2 卡一致;
-6. 编辑器测试面:actor 来源/sprite 来源/touch zone/interact zone 四类创建 × 撤销重做 × 保存重开的用例矩阵是否齐。
-不要做: 不得开始实现;不得修改 projects/pal 或 baseline;三签未齐不得标 build allowed
-输出要求: 在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed,交 Codex build(R1-R3 纳入 build 范围)
+当前状态: review;Codex review accept,Opus/GLM pending;done 准入 blocked
+你的角色: Opus,实现/架构/视觉主审;原则上只改任务卡,发现问题签 counter 并列返工项,不得直接抢 Coding Owner
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 R1-R3/G1-G3、Build、视觉记录)、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/migrate/src/migration-validate.ts、packages/editor/src/core/entity-placement.ts、packages/editor/src/ui/App.tsx
+已完成: 通用 npc-*→sprite-* 上游迁移;最终合并目标五通道闭包门禁;actor/sprite/touch/interact 四形态创建与保存 roundtrip;MG2 写盘+两次 0/0/0;pnpm check 3,524 passed;6010/6051 Codex 视觉自验。用户裁决: door 归 object,不得单列一级职责。
+请重点复核:
+1. R1 fail-loud 是否确实作用于三方合并后的最终目标,漂移模拟是否覆盖 ours 旧引用×theirs 改名,语义 npc-* 是否不会误杀;
+2. App 四形态创建是否都走 AddEntityCommand,zone 是否自带现有 ScriptRef/空 stage 而非第二套内联模型,undo/redo/dirty/选择是否无幽灵态;
+3. 在 6010 临时工程手验四类创建,重点补 Codex 自动化未覆盖的 zone 原生拖动与保存→重开;检查黄色单格/范围框、脚本跳转和 UI 溢出;
+4. 在 6051 抽验 s001 开场、任一跨场景入口、敌人和 s074 宝箱;确认重命名没有空图/错图;
+5. 用户新增职责边界:door 只能作为 object 模板/子类,不能在后续建议或代码里成为平级 role。
+已验证证据: migrate 183/content 170/editor 172/reforge 343;全仓 3,524 passed+1 skipped;MG2 首 plan 315/0/0,写后内外二跑均 0/0/0;浏览器 warn/error=0。
+输出要求: 在本卡 Opus review 签字行写 accept 或 counter+理由,补 Review/视觉记录和交接日志并提交;accept 后给 GLM 覆盖复核提示词。不得标 done,不得改 capability-map。
 ```

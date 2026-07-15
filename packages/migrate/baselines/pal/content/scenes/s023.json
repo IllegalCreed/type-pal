@@ -91,7 +91,7 @@
         "row": 33,
         "height": 0
       },
-      "sprite": "npc-164",
+      "sprite": "sprite-164",
       "zBias": 11
     },
     {
@@ -101,7 +101,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-122",
+      "sprite": "sprite-122",
       "collide": true,
       "pages": [
         {
@@ -508,7 +508,7 @@
         "row": 22,
         "height": 0
       },
-      "sprite": "npc-129",
+      "sprite": "sprite-129",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -556,7 +556,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-159",
+      "sprite": "sprite-159",
       "facing": "up",
       "collide": true,
       "pages": [
@@ -664,7 +664,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-159",
+      "sprite": "sprite-159",
       "facing": "up",
       "hidden": true,
       "pages": [
@@ -696,7 +696,7 @@
         "row": -10,
         "height": 0
       },
-      "sprite": "npc-149",
+      "sprite": "sprite-149",
       "collide": true,
       "pages": [
         {
@@ -779,7 +779,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-149",
+      "sprite": "sprite-149",
       "facing": "left",
       "hidden": true,
       "pages": [
@@ -827,7 +827,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-144",
+      "sprite": "sprite-144",
       "facing": "up",
       "collide": true,
       "pages": [
@@ -871,7 +871,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-142",
+      "sprite": "sprite-142",
       "collide": true,
       "pages": [
         {
@@ -931,7 +931,7 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-129",
+      "sprite": "sprite-129",
       "facing": "up",
       "collide": true,
       "pages": [
@@ -979,7 +979,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-321",
+      "sprite": "sprite-321",
       "collide": true,
       "pages": [
         {
@@ -1050,7 +1050,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-140",
+      "sprite": "sprite-140",
       "collide": true,
       "pages": [
         {
@@ -1097,7 +1097,7 @@
         "row": 27,
         "height": 0
       },
-      "sprite": "npc-111",
+      "sprite": "sprite-111",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -1145,7 +1145,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-442",
+      "sprite": "sprite-442",
       "collide": true,
       "pages": [
         {
@@ -1177,7 +1177,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-129",
+      "sprite": "sprite-129",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -1209,7 +1209,7 @@
         "row": 6,
         "height": 0
       },
-      "sprite": "npc-111",
+      "sprite": "sprite-111",
       "facing": "up",
       "collide": true,
       "pages": [
@@ -1257,7 +1257,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-102",
+      "sprite": "sprite-102",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -1318,7 +1318,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-100",
+      "sprite": "sprite-100",
       "facing": "left",
       "collide": true
     },
@@ -1329,7 +1329,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-102",
+      "sprite": "sprite-102",
       "collide": true
     },
     {
@@ -1339,7 +1339,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-100",
+      "sprite": "sprite-100",
       "collide": true
     },
     {
@@ -1349,7 +1349,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-129",
+      "sprite": "sprite-129",
       "collide": true
     },
     {
@@ -1359,7 +1359,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-100",
+      "sprite": "sprite-100",
       "facing": "left",
       "collide": true
     },
@@ -1370,7 +1370,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-111",
+      "sprite": "sprite-111",
       "facing": "up",
       "collide": true
     },
@@ -1381,7 +1381,7 @@
         "row": 4,
         "height": 0
       },
-      "sprite": "npc-100",
+      "sprite": "sprite-100",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -1425,7 +1425,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-104",
+      "sprite": "sprite-104",
       "facing": "up",
       "collide": true,
       "pages": [
@@ -1469,7 +1469,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-102",
+      "sprite": "sprite-102",
       "facing": "left",
       "collide": true
     },
@@ -1480,7 +1480,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-111",
+      "sprite": "sprite-111",
       "facing": "left",
       "collide": true
     },
@@ -1491,7 +1491,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-100",
+      "sprite": "sprite-100",
       "facing": "left",
       "collide": true
     },
@@ -1712,7 +1712,7 @@
         "row": 36,
         "height": 0
       },
-      "sprite": "npc-374",
+      "sprite": "sprite-374",
       "facing": "right",
       "collide": true,
       "pages": [

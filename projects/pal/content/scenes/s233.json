@@ -17,7 +17,7 @@
         "row": 6,
         "height": 0
       },
-      "sprite": "npc-590",
+      "sprite": "sprite-590",
       "hidden": true
     },
     {
@@ -27,7 +27,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-222"
+      "sprite": "sprite-222"
     },
     {
       "id": "e4195",
@@ -36,7 +36,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-38",
+      "sprite": "sprite-38",
       "facing": "right",
       "hidden": true,
       "pages": [
@@ -78,7 +78,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-5",
+      "sprite": "sprite-5",
       "facing": "up"
     },
     {
@@ -88,7 +88,7 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "npc-2",
+      "sprite": "sprite-2",
       "facing": "right"
     }
   ],

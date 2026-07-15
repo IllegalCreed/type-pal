@@ -49,6 +49,7 @@ import {
   UpsertAuthoredScriptCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
+import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
 import { buildBlankProject } from './seed.js'
 
 const ent = (id: string): EntityDef => ({
@@ -120,6 +121,28 @@ describe('布置命令集 · 不可变 + invert', () => {
 
     // invert 移除
     expect(ids(cmd.invert(s1))).toEqual(['a', 'b'])
+  })
+
+  test.each([
+    ['actor', { mode: 'actor', actorId: 'li' }],
+    ['sprite', { mode: 'sprite', spriteId: 'ghost' }],
+    ['touch zone', { mode: 'touch-zone', range: 0 }],
+    ['interact zone', { mode: 'interact-zone', range: 2 }],
+  ] as const)('AddEntity 四种放置模式:%s 一次撤销/重做保持完整形状', (_name, placement) => {
+    const s0 = st()
+    const entity = createPlacedEntity(
+      'placed',
+      { col: 7, row: 8, height: 0 },
+      placement as EntityPlacement,
+    )
+    const cmd = new AddEntityCommand('s', entity)
+    const s1 = cmd.apply(s0)
+    const added = s1.scenes[0]!.entities.at(-1)
+    expect(added).toEqual(entity)
+
+    const undone = cmd.invert(s1)
+    expect(undone.scenes[0]!.entities.some((candidate) => candidate.id === 'placed')).toBe(false)
+    expect(cmd.apply(undone).scenes[0]!.entities.at(-1)).toEqual(entity)
   })
 
   // ── DeleteEntityCommand ────────────────────────────────────

@@ -252,7 +252,7 @@
       {
         "kind": "setActorSprite",
         "actor": "li-xiaoyao",
-        "sprite": "npc-511"
+        "sprite": "sprite-511"
       },
       {
         "kind": "teleportParty",
@@ -667,7 +667,7 @@
       {
         "kind": "setActorAppearance",
         "actor": "zhao-linger",
-        "spriteId": "npc-512"
+        "spriteId": "sprite-512"
       },
       {
         "kind": "learnSkill",

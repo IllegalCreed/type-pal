@@ -1216,11 +1216,16 @@ export interface SourceScene {
   eventObjects: SourceEventObject[]
 }
 
+/** PAL 迁移器保留的中性 SpriteDef id；玩法职责不得编码进资源身份。 */
+export function migratedSpriteId(spriteNum: number, layoutVariantFrames?: number): string {
+  return `sprite-${spriteNum}${layoutVariantFrames === undefined ? '' : `-f${layoutVariantFrames}`}`
+}
+
 export interface SceneMigrationResult {
   scenes: SceneDef[]
   scriptIndex: ScriptIndexV1
   scriptChunks: Record<string, ScriptChunkV1>
-  /** 实体引用到的原版精灵批量登记(npc-<num>;布局按 nSpriteFrames)。 */
+  /** 实体引用到的原版精灵批量登记(sprite-<num>;布局按 nSpriteFrames)。 */
   sprites: SpriteDef[]
   /** M3a 脚本翻译产出的文本(dlg./spk.;IO 壳并入工程 locale)。 */
   scriptLocale: Record<string, string>
@@ -1247,7 +1252,7 @@ export interface SceneMigrationResult {
     scenesWithMusic: number
     /** entry 落图中心兜底的场景(无 start 无扫描入口)。 */
     entryFallback: string[]
-    /** 同 spriteNum 不同 nSpriteFrames 的布局冲突(拆成 npc-<num>-f<n>)。 */
+    /** 同 spriteNum 不同 nSpriteFrames 的布局冲突(拆成 sprite-<num>-f<n>)。 */
     layoutConflicts: string[]
     /** nSpriteFramesAuto>0 的环境自循环候选(布局先保守,C1 标注工具人工修)。 */
     autoLoopCandidates: number
@@ -1521,11 +1526,11 @@ export function mapScenesStatic(
   const spriteRef = (eo: SourceEventObject): string => {
     const n = eo.nSpriteFrames ?? 0
     const first = primaryLayout.get(eo.spriteNum)
-    let defId = `npc-${eo.spriteNum}`
+    let defId = migratedSpriteId(eo.spriteNum)
     if (first === undefined) {
       primaryLayout.set(eo.spriteNum, n)
     } else if (first !== n) {
-      defId = `npc-${eo.spriteNum}-f${n}` // 同图不同布局:逃生口(设计 §2)
+      defId = migratedSpriteId(eo.spriteNum, n) // 同图不同布局:逃生口(设计 §2)
       if (!spriteDefs.has(defId)) report.layoutConflicts.push(defId)
     }
     if (!spriteDefs.has(defId)) {
@@ -1541,13 +1546,13 @@ export function mapScenesStatic(
 
   /**
    * 0x65(换角色精灵)的 spriteNum → 精灵 id:角色本体精灵优先(切回本体 = 角色 id),
-   * 其余复用/补登记 npc-<num>。补登记按玩家精灵定式 directional 3 帧/向
+   * 其余复用/补登记 sprite-<num>。补登记按玩家精灵定式 directional 3 帧/向
    * (原版 rgwSpriteNum 全是 3 帧/向大世界精灵;0x15 的 wFrame=dir*3+gesture 同源)。
    */
   const spriteIdForNum = (num: number): string => {
     const role = roleSprites.find((s) => s.spriteNum === num)
     if (role) return role.id
-    const defId = `npc-${num}`
+    const defId = migratedSpriteId(num)
     if (!spriteDefs.has(defId)) {
       primaryLayout.set(num, 3)
       spriteDefs.set(defId, {

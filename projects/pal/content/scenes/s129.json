@@ -63,7 +63,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-330",
+      "sprite": "sprite-330",
       "zBias": 3,
       "pages": [
         {
@@ -94,7 +94,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-331",
+      "sprite": "sprite-331",
       "pages": [
         {
           "trigger": {
@@ -124,7 +124,7 @@
         "row": 8,
         "height": 0
       },
-      "sprite": "npc-334",
+      "sprite": "sprite-334",
       "pages": [
         {
           "trigger": {
@@ -154,7 +154,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-333",
+      "sprite": "sprite-333",
       "zBias": 3,
       "pages": [
         {
@@ -185,7 +185,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-332",
+      "sprite": "sprite-332",
       "pages": [
         {
           "trigger": {
@@ -215,7 +215,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-335",
+      "sprite": "sprite-335",
       "zBias": 3,
       "pages": [
         {
@@ -246,7 +246,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-336",
+      "sprite": "sprite-336",
       "pages": [
         {
           "trigger": {
@@ -276,7 +276,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-337",
+      "sprite": "sprite-337",
       "zBias": 3,
       "pages": [
         {
@@ -307,7 +307,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-51",
+      "sprite": "sprite-51",
       "collide": true,
       "pages": [
         {
@@ -368,7 +368,7 @@
         "row": 9,
         "height": 0
       },
-      "sprite": "npc-397",
+      "sprite": "sprite-397",
       "facing": "right",
       "hidden": true,
       "pages": [
@@ -400,7 +400,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-140",
+      "sprite": "sprite-140",
       "collide": true,
       "pages": [
         {
@@ -459,7 +459,7 @@
         "row": 12,
         "height": 0
       },
-      "sprite": "npc-307",
+      "sprite": "sprite-307",
       "facing": "up",
       "collide": true,
       "pages": [

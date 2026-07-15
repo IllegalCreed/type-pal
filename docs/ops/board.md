@@ -10,12 +10,12 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| ED-4A | 实体类型边界与精灵/触发区创建闭环 | review | Opus 实现/视觉主审 | Codex build + MG2 写盘完成并 accept；待 Opus、GLM review 签字 |
 
 ## 阻塞
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| ED-4A | 实体类型边界与精灵/触发区创建闭环 | draft | Opus / GLM 设计签字 | Codex agree；migration + E1 跨包任务，三签齐前不得 build |
 
 ## 看板规则
 

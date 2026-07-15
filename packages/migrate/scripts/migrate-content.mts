@@ -118,6 +118,18 @@ function reportPlan(
     )
 }
 
+function reportValidation(validation: ReturnType<typeof validatePalMigrationTarget>): void {
+  const refs = validation.spriteReferences.channels
+  console.log(
+    `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0 ` +
+      `sprite-defs=${refs.definitions.total}/${refs.definitions.migrated} ` +
+      `sprite-refs=entities:${refs.entities.total}/${refs.entities.migrated},` +
+      `actors:${refs.actors.total}/${refs.actors.migrated},` +
+      `setActorSprite:${refs.setActorSprite.total}/${refs.setActorSprite.migrated},` +
+      `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated}`,
+  )
+}
+
 function writeConflictReport(plan: MigrationPlan): void {
   writeJson(CONFLICT_REL, {
     version: 1,
@@ -229,9 +241,7 @@ async function main(): Promise<void> {
       sources,
       startWorld: manifest.startWorld,
     })
-    console.log(
-      `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0`,
-    )
+    reportValidation(validation)
     const plan = createInitialMigrationPlan(ours, target)
     reportPlan({ ...plan, conflicts: [] })
     await commitAndVerify({
@@ -260,9 +270,7 @@ async function main(): Promise<void> {
     sources,
     startWorld: manifest.startWorld,
   })
-  console.log(
-    `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0`,
-  )
+  reportValidation(validation)
   if (!write) {
     console.log('[dry-run] 未写盘；确认 plan 后加 --write')
     return

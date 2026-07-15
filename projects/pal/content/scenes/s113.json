@@ -100,7 +100,7 @@
         "row": 61,
         "height": 0
       },
-      "sprite": "npc-301",
+      "sprite": "sprite-301",
       "facing": "right",
       "pages": [
         {
@@ -166,7 +166,7 @@
         "row": 60,
         "height": 0
       },
-      "sprite": "npc-301",
+      "sprite": "sprite-301",
       "facing": "left",
       "pages": [
         {
@@ -232,7 +232,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-301",
+      "sprite": "sprite-301",
       "facing": "up",
       "pages": [
         {
@@ -298,7 +298,7 @@
         "row": 103,
         "height": 0
       },
-      "sprite": "npc-591",
+      "sprite": "sprite-591",
       "collide": true,
       "hostile": {
         "team": 120,
@@ -316,7 +316,7 @@
         "row": 83,
         "height": 0
       },
-      "sprite": "npc-591",
+      "sprite": "sprite-591",
       "collide": true,
       "hostile": {
         "team": 120,
@@ -334,7 +334,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-626",
+      "sprite": "sprite-626",
       "collide": true,
       "hostile": {
         "team": 135,
@@ -352,7 +352,7 @@
         "row": 54,
         "height": 0
       },
-      "sprite": "npc-591",
+      "sprite": "sprite-591",
       "collide": true,
       "hostile": {
         "team": 120,
@@ -370,7 +370,7 @@
         "row": 52,
         "height": 0
       },
-      "sprite": "npc-591",
+      "sprite": "sprite-591",
       "collide": true,
       "hostile": {
         "team": 120,
@@ -388,7 +388,7 @@
         "row": 76,
         "height": 0
       },
-      "sprite": "npc-626",
+      "sprite": "sprite-626",
       "collide": true,
       "hostile": {
         "team": 136,

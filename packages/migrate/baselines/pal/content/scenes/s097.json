@@ -151,7 +151,7 @@
         "row": -20,
         "height": 0
       },
-      "sprite": "npc-105",
+      "sprite": "sprite-105",
       "collide": true,
       "pages": [
         {
@@ -194,7 +194,7 @@
         "row": -19,
         "height": 0
       },
-      "sprite": "npc-380",
+      "sprite": "sprite-380",
       "zBias": 3
     },
     {
@@ -204,7 +204,7 @@
         "row": 56,
         "height": 0
       },
-      "sprite": "npc-19",
+      "sprite": "sprite-19",
       "facing": "up",
       "hidden": true,
       "pages": [
@@ -295,7 +295,7 @@
         "row": 14,
         "height": 0
       },
-      "sprite": "npc-7",
+      "sprite": "sprite-7",
       "facing": "right",
       "hidden": true
     },
@@ -306,7 +306,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-7",
+      "sprite": "sprite-7",
       "facing": "left",
       "hidden": true
     }

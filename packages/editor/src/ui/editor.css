@@ -2417,6 +2417,60 @@ html[data-panel-resize="horizontal"] * {
 }
 
 /* ── 放置 palette(断点 #1) ── */
+.place-segments {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0 0 8px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+}
+.place-segments.secondary {
+  margin-top: 8px;
+  background: transparent;
+}
+.place-segments button {
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+}
+.place-segments button:hover,
+.place-segments button:focus-visible {
+  color: var(--fg);
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+.place-segments button.active {
+  background: color-mix(in srgb, var(--accent) 22%, var(--panel2));
+  color: var(--fg);
+}
+.place-control-legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.place-range-field {
+  display: grid;
+  grid-template-columns: auto minmax(72px, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  color: var(--dim);
+}
+.place-range-field .in {
+  width: 100%;
+  text-align: right;
+}
 .palette-list {
   display: flex;
   flex-direction: column;
@@ -2460,6 +2514,14 @@ html[data-panel-resize="horizontal"] * {
   flex: none;
   image-rendering: pixelated;
   background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+.sprite-thumb-placeholder {
+  display: block;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 1px dashed var(--line);
   border-radius: 4px;
 }
 

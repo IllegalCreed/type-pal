@@ -33,7 +33,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-16",
+      "sprite": "sprite-16",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -75,7 +75,7 @@
         "row": 35,
         "height": 0
       },
-      "sprite": "npc-16",
+      "sprite": "sprite-16",
       "collide": true,
       "pages": [
         {
@@ -106,7 +106,7 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-400",
+      "sprite": "sprite-400",
       "facing": "up",
       "collide": true
     },

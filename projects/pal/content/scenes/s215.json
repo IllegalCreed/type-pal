@@ -181,7 +181,7 @@
         "row": -16,
         "height": 0
       },
-      "sprite": "npc-26",
+      "sprite": "sprite-26",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -213,7 +213,7 @@
         "row": -14,
         "height": 0
       },
-      "sprite": "npc-633"
+      "sprite": "sprite-633"
     },
     {
       "id": "e3659",
@@ -222,7 +222,7 @@
         "row": -21,
         "height": 0
       },
-      "sprite": "npc-633"
+      "sprite": "sprite-633"
     },
     {
       "id": "e3660",
@@ -231,7 +231,7 @@
         "row": -16,
         "height": 0
       },
-      "sprite": "npc-633"
+      "sprite": "sprite-633"
     },
     {
       "id": "e3661",
@@ -240,7 +240,7 @@
         "row": -18,
         "height": 0
       },
-      "sprite": "npc-443"
+      "sprite": "sprite-443"
     },
     {
       "id": "e3662",
@@ -249,7 +249,7 @@
         "row": -15,
         "height": 0
       },
-      "sprite": "npc-443",
+      "sprite": "sprite-443",
       "facing": "right"
     },
     {
@@ -259,7 +259,7 @@
         "row": -12,
         "height": 0
       },
-      "sprite": "npc-443",
+      "sprite": "sprite-443",
       "facing": "up"
     },
     {
@@ -269,7 +269,7 @@
         "row": -14,
         "height": 0
       },
-      "sprite": "npc-5",
+      "sprite": "sprite-5",
       "facing": "left",
       "hidden": true,
       "pages": [
@@ -299,7 +299,7 @@
         "row": 54,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -345,7 +345,7 @@
         "row": 54,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "hostile": {
         "team": 10,
         "chase": {
@@ -363,7 +363,7 @@
         "row": 37,
         "height": 0
       },
-      "sprite": "npc-625",
+      "sprite": "sprite-625",
       "pages": [
         {
           "trigger": {
@@ -409,7 +409,7 @@
         "row": 4,
         "height": 0
       },
-      "sprite": "npc-626",
+      "sprite": "sprite-626",
       "hostile": {
         "team": 135,
         "chase": {
@@ -426,7 +426,7 @@
         "row": 5,
         "height": 0
       },
-      "sprite": "npc-625",
+      "sprite": "sprite-625",
       "hostile": {
         "team": 137,
         "chase": {
@@ -443,7 +443,7 @@
         "row": 39,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "hostile": {
         "team": 123,
         "chase": {

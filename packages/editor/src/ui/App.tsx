@@ -56,6 +56,13 @@ import {
   UpdateSceneCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import {
+  createPlacedEntity,
+  DEFAULT_ZONE_RANGE,
+  type EntityPlacement,
+  type EntityPlacementMode,
+  entityShapeLabel,
+} from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
@@ -284,8 +291,14 @@ export function App(props: {
       ? target
       : state.manifest.entryScene
   })
-  // 放置 palette:add 工具态右栏选「要放的精灵」(审计断点 #1)
+  // 放置 palette:add 工具态右栏选择可见实体来源或触发区参数。
+  const [placeMode, setPlaceMode] = useState<EntityPlacementMode>('sprite')
+  const [placeActorId, setPlaceActorId] = useState<string>(state.actors[0]?.id ?? '')
   const [placeSpriteId, setPlaceSpriteId] = useState<string>(state.sprites[0]?.id ?? '')
+  const [placeZoneRanges, setPlaceZoneRanges] = useState({
+    touch: DEFAULT_ZONE_RANGE.touch,
+    interact: DEFAULT_ZONE_RANGE.interact,
+  })
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
@@ -524,14 +537,24 @@ export function App(props: {
   }
   const addAt = (cell: { col: number; row: number }): void => {
     const id = newEntityId(scene.entities)
-    // 放置 palette(审计断点 #1):放当前选中的精灵,不再固定 sprites[0]
-    const sprite = placeSpriteId || (state.sprites[0]?.id ?? '')
+    let placement: EntityPlacement | undefined
+    if (placeMode === 'actor') {
+      const actorId = placeActorId || state.actors[0]?.id
+      if (actorId) placement = { mode: 'actor', actorId }
+    } else if (placeMode === 'sprite') {
+      const spriteId = placeSpriteId || state.sprites[0]?.id
+      if (spriteId) placement = { mode: 'sprite', spriteId }
+    } else if (placeMode === 'touch-zone') {
+      placement = { mode: placeMode, range: placeZoneRanges.touch }
+    } else {
+      placement = { mode: placeMode, range: placeZoneRanges.interact }
+    }
+    if (!placement) return
     session.dispatch(
-      new AddEntityCommand(scene.id, {
-        id,
-        pos: { col: cell.col, row: cell.row, height: 0 },
-        sprite,
-      }),
+      new AddEntityCommand(
+        scene.id,
+        createPlacedEntity(id, { col: cell.col, row: cell.row, height: 0 }, placement),
+      ),
     )
     setSelected(id)
     setTool('select')
@@ -866,14 +889,17 @@ export function App(props: {
                       {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
                     </span>
                     <span>{e.id}</span>
-                    <span className="k">
-                      {isActorEntity(e)
-                        ? actorsById[e.actor]
-                          ? lookupText(actorsById[e.actor]!.name, state.locale)
-                          : e.actor
-                        : 'sprite' in e
-                          ? e.sprite
-                          : 'zone'}
+                    <span
+                      className="k"
+                      title={
+                        isActorEntity(e)
+                          ? `角色来源：${actorsById[e.actor] ? lookupText(actorsById[e.actor]!.name, state.locale) : e.actor}`
+                          : 'sprite' in e
+                            ? `资源来源：${state.sprites.find((sprite) => sprite.id === e.sprite)?.label || e.sprite}`
+                            : '无外观触发区'
+                      }
+                    >
+                      {entityShapeLabel(e)}
                     </span>
                   </button>
                 ))}
@@ -1045,11 +1071,21 @@ export function App(props: {
             <div className="inspector">
               {tool === 'add' ? (
                 <PlacePalette
+                  actors={state.actors}
                   sprites={state.sprites}
-                  selectedId={placeSpriteId}
+                  locale={state.locale}
+                  mode={placeMode}
+                  selectedActorId={placeActorId}
+                  selectedSpriteId={placeSpriteId}
+                  zoneRanges={placeZoneRanges}
                   assetBase={project.assetBase}
                   blobs={state.tilesetBlobs}
-                  onPick={setPlaceSpriteId}
+                  onModeChange={setPlaceMode}
+                  onActorPick={setPlaceActorId}
+                  onSpritePick={setPlaceSpriteId}
+                  onZoneRangeChange={(on, range) =>
+                    setPlaceZoneRanges((current) => ({ ...current, [on]: range }))
+                  }
                 />
               ) : selEntity ? (
                 <EntityInspector
@@ -1186,61 +1222,215 @@ function parseTeamNum(id: string | undefined): number | undefined {
 
 const KIND_ICON: Record<string, string> = { directional: '🚶', static: '🪑', loop: '🔥' }
 
-/** 放置 palette(审计断点 #1):add 工具态右栏选「要放的精灵」,点画布放它。 */
+/** 放置 palette:表现形态与外观来源分开，四种模式都落回现有 EntityRef。 */
 function PlacePalette(props: {
+  actors: ActorDef[]
   sprites: SpriteDef[]
-  selectedId: string
+  locale: Locale
+  mode: EntityPlacementMode
+  selectedActorId: string
+  selectedSpriteId: string
+  zoneRanges: { touch: number; interact: number }
   assetBase: AssetBase
   /** 上传未保存的精灵字节(A4;键 = def.path,缩略图内存解码)。 */
   blobs?: Record<string, ArrayBuffer>
-  onPick: (id: string) => void
+  onModeChange: (mode: EntityPlacementMode) => void
+  onActorPick: (id: string) => void
+  onSpritePick: (id: string) => void
+  onZoneRangeChange: (on: 'touch' | 'interact', range: number) => void
 }) {
-  const { sprites, selectedId, assetBase, blobs, onPick } = props
+  const {
+    actors,
+    sprites,
+    locale,
+    mode,
+    selectedActorId,
+    selectedSpriteId,
+    zoneRanges,
+    assetBase,
+    blobs,
+    onModeChange,
+    onActorPick,
+    onSpritePick,
+    onZoneRangeChange,
+  } = props
   const [filter, setFilter] = useState('')
-  const shown = sprites.filter(
+  const spriteById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
+  const visibleMode = mode === 'actor' || mode === 'sprite'
+  const triggerOn = mode === 'interact-zone' ? 'interact' : 'touch'
+  const selectedActor = actors.find((actor) => actor.id === selectedActorId)
+  const selectedSprite = sprites.find((sprite) => sprite.id === selectedSpriteId)
+  const shownSprites = sprites.filter(
     (s) =>
       !filter ||
       s.id.includes(filter) ||
       s.label.includes(filter) ||
       String(s.spriteNum).includes(filter),
   )
+  const shownActors = actors.filter((actor) => {
+    if (!filter) return true
+    const name = lookupText(actor.name, locale)
+    return actor.id.includes(filter) || actor.spriteId.includes(filter) || name.includes(filter)
+  })
+  const summary =
+    mode === 'actor'
+      ? `角色 · ${selectedActor ? lookupText(selectedActor.name, locale) : '未选择'}`
+      : mode === 'sprite'
+        ? `资源 · ${selectedSprite?.label || selectedSprite?.id || '未选择'}`
+        : `${triggerOn === 'touch' ? '触碰' : '交互'} · ${zoneRanges[triggerOn]} 格`
   return (
     <>
       <div className="insp-head">
-        <div className="what">放置精灵</div>
-        <div className="who">点画布放选中的精灵</div>
+        <div className="what">添加实体</div>
+        <div className="who">{summary}</div>
       </div>
       <div className="section">
-        <input
-          className="in"
-          placeholder="过滤 id/名/精灵号…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        />
-        <div className="palette-list">
-          {shown.map((s) => (
-            <button
-              type="button"
-              key={s.id}
-              className={`palette-row${s.id === selectedId ? ' sel' : ''}`}
-              onClick={() => onPick(s.id)}
-            >
-              <SpriteThumb
-                assetBase={assetBase}
-                spriteNum={s.spriteNum}
-                path={s.path}
-                blob={s.path ? blobs?.[s.path] : undefined}
+        <fieldset className="place-segments">
+          <legend className="place-control-legend">实体形态</legend>
+          <button
+            type="button"
+            className={visibleMode ? 'active' : ''}
+            aria-pressed={visibleMode}
+            onClick={() => onModeChange(mode === 'actor' ? 'actor' : 'sprite')}
+          >
+            精灵
+          </button>
+          <button
+            type="button"
+            className={!visibleMode ? 'active' : ''}
+            aria-pressed={!visibleMode}
+            onClick={() => onModeChange(mode === 'interact-zone' ? 'interact-zone' : 'touch-zone')}
+          >
+            触发区
+          </button>
+        </fieldset>
+
+        {visibleMode ? (
+          <>
+            <fieldset className="place-segments secondary">
+              <legend className="place-control-legend">精灵来源</legend>
+              <button
+                type="button"
+                className={mode === 'actor' ? 'active' : ''}
+                aria-pressed={mode === 'actor'}
+                onClick={() => onModeChange('actor')}
+              >
+                角色
+              </button>
+              <button
+                type="button"
+                className={mode === 'sprite' ? 'active' : ''}
+                aria-pressed={mode === 'sprite'}
+                onClick={() => onModeChange('sprite')}
+              >
+                精灵资源
+              </button>
+            </fieldset>
+            <input
+              className="in"
+              aria-label="过滤可见实体来源"
+              placeholder="过滤名称、ID 或精灵号"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
+            />
+          </>
+        ) : (
+          <>
+            <fieldset className="place-segments secondary">
+              <legend className="place-control-legend">触发方式</legend>
+              <button
+                type="button"
+                className={triggerOn === 'touch' ? 'active' : ''}
+                aria-pressed={triggerOn === 'touch'}
+                onClick={() => onModeChange('touch-zone')}
+              >
+                触碰
+              </button>
+              <button
+                type="button"
+                className={triggerOn === 'interact' ? 'active' : ''}
+                aria-pressed={triggerOn === 'interact'}
+                onClick={() => onModeChange('interact-zone')}
+              >
+                交互
+              </button>
+            </fieldset>
+            <label className="place-range-field">
+              <span>范围</span>
+              <input
+                className="in mono"
+                type="number"
+                min={0}
+                max={99}
+                value={zoneRanges[triggerOn]}
+                onChange={(event) => {
+                  if (Number.isFinite(event.target.valueAsNumber))
+                    onZoneRangeChange(triggerOn, Math.max(0, event.target.valueAsNumber))
+                }}
               />
-              <span className="nm">
-                {s.label || s.id}
-                <span className="sub">
-                  {KIND_ICON[s.layout.kind] ?? ''} #{s.spriteNum}
+              <span>格</span>
+            </label>
+          </>
+        )}
+
+        {mode === 'actor' && (
+          <div className="palette-list">
+            {shownActors.map((actor) => {
+              const sprite = spriteById.get(actor.spriteId)
+              return (
+                <button
+                  type="button"
+                  key={actor.id}
+                  className={`palette-row${actor.id === selectedActorId ? ' sel' : ''}`}
+                  onClick={() => onActorPick(actor.id)}
+                >
+                  {sprite ? (
+                    <SpriteThumb
+                      assetBase={assetBase}
+                      spriteNum={sprite.spriteNum}
+                      path={sprite.path}
+                      blob={sprite.path ? blobs?.[sprite.path] : undefined}
+                    />
+                  ) : (
+                    <span className="sprite-thumb-placeholder" aria-hidden="true" />
+                  )}
+                  <span className="nm">
+                    {lookupText(actor.name, locale)}
+                    <span className="sub">角色 · {actor.id}</span>
+                  </span>
+                </button>
+              )
+            })}
+            {shownActors.length === 0 && <div className="insp-empty">(无匹配)</div>}
+          </div>
+        )}
+
+        {mode === 'sprite' && (
+          <div className="palette-list">
+            {shownSprites.map((s) => (
+              <button
+                type="button"
+                key={s.id}
+                className={`palette-row${s.id === selectedSpriteId ? ' sel' : ''}`}
+                onClick={() => onSpritePick(s.id)}
+              >
+                <SpriteThumb
+                  assetBase={assetBase}
+                  spriteNum={s.spriteNum}
+                  path={s.path}
+                  blob={s.path ? blobs?.[s.path] : undefined}
+                />
+                <span className="nm">
+                  {s.label || s.id}
+                  <span className="sub">
+                    资源 · {KIND_ICON[s.layout.kind] ?? ''} #{s.spriteNum}
+                  </span>
                 </span>
-              </span>
-            </button>
-          ))}
-          {shown.length === 0 && <div className="insp-empty">(无匹配)</div>}
-        </div>
+              </button>
+            ))}
+            {shownSprites.length === 0 && <div className="insp-empty">(无匹配)</div>}
+          </div>
+        )}
       </div>
     </>
   )
@@ -1254,7 +1444,7 @@ function EntityInspector(props: {
   actorsById: Record<string, ActorDef>
   /** 敌队清单(B9 敌对行为 team 下拉;id 约定 team-<N>,引擎按 N 查)。 */
   enemyTeams: EnemyTeamDef[]
-  /** 精灵注册表(prop 实体换精灵下拉)。 */
+  /** 精灵注册表(sprite 来源实体换外观下拉)。 */
   sprites: SpriteDef[]
   assetBase: AssetBase
   /** 上传但尚未保存的精灵字节,供预览即时解码。 */
@@ -1369,8 +1559,8 @@ function EntityInspector(props: {
           <div className="field">
             <span className="field-label">触发区</span>
             <div className="in pick">
-              <span>zone</span>
-              <span className="meta">隐形(门/脚本锚)</span>
+              <span>无外观</span>
+              <span className="meta">触发器 / 脚本锚</span>
             </div>
           </div>
         )}

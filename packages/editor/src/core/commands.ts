@@ -60,6 +60,7 @@ import {
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { createEmptyScriptStages } from './entity-placement.js'
 import { findScriptReferences } from './script-references.js'
 
 /**
@@ -1760,7 +1761,7 @@ export class CreateScriptSourceCommand implements Command {
     if (!scene) return state
     if (getScriptStages(scene, this.ref)) return state // 已存在 → no-op
     this.created = true
-    const empty: ScriptStage[] = [{ body: [] }]
+    const empty: ScriptStage[] = createEmptyScriptStages()
     if (this.ref.kind === 'onEnter')
       return withScene(state, this.sceneId, { ...scene, onEnter: empty })
     if (this.ref.kind === 'onTeleport')

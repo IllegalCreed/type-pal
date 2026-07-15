@@ -116,7 +116,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-481",
+      "sprite": "sprite-481",
       "hidden": true,
       "pages": [
         {
@@ -145,7 +145,7 @@
         "row": 71,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 139,
@@ -163,7 +163,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-60",
+      "sprite": "sprite-60",
       "collide": true,
       "hostile": {
         "team": 143,
@@ -181,7 +181,7 @@
         "row": 56,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 145,
@@ -199,7 +199,7 @@
         "row": 50,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 148,
@@ -217,7 +217,7 @@
         "row": 42,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 146,
@@ -235,7 +235,7 @@
         "row": 39,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 147,
@@ -253,7 +253,7 @@
         "row": 18,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 141,
@@ -271,7 +271,7 @@
         "row": 3,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 145,
@@ -289,7 +289,7 @@
         "row": -15,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 142,
@@ -307,7 +307,7 @@
         "row": 2,
         "height": 0
       },
-      "sprite": "npc-488",
+      "sprite": "sprite-488",
       "collide": true,
       "hostile": {
         "team": 144,
@@ -325,7 +325,7 @@
         "row": 57,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {
@@ -355,7 +355,7 @@
         "row": 66,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {
@@ -385,7 +385,7 @@
         "row": 41,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {
@@ -415,7 +415,7 @@
         "row": -25,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -458,7 +458,7 @@
         "row": -4,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -501,7 +501,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -544,7 +544,7 @@
         "row": 25,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -587,7 +587,7 @@
         "row": -14,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -630,7 +630,7 @@
         "row": -9,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -673,7 +673,7 @@
         "row": 38,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {
@@ -703,7 +703,7 @@
         "row": 51,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {
@@ -733,7 +733,7 @@
         "row": 14,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -776,7 +776,7 @@
         "row": 40,
         "height": 0
       },
-      "sprite": "npc-68",
+      "sprite": "sprite-68",
       "pages": [
         {
           "trigger": {

@@ -81,6 +81,13 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
+    expect(validation.spriteReferences.channels).toEqual({
+      definitions: { total: 580, migrated: 574 },
+      actors: { total: 6, migrated: 0 },
+      entities: { total: 3_695, migrated: 3_695 },
+      setActorSprite: { total: 116, migrated: 69 },
+      setActorAppearance: { total: 3, migrated: 2 },
+    })
 
     const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-mg2-real-'))
     tempRoots.push(temp)
@@ -142,5 +149,12 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
+    expect(validation.spriteReferences.channels).toEqual({
+      definitions: { total: 580, migrated: 574 },
+      actors: { total: 6, migrated: 0 },
+      entities: { total: 3_695, migrated: 3_695 },
+      setActorSprite: { total: 116, migrated: 69 },
+      setActorAppearance: { total: 3, migrated: 2 },
+    })
   }, 60_000)
 })

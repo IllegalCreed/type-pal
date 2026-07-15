@@ -151,7 +151,7 @@
         "row": 78,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 50,
         "chase": {
@@ -168,7 +168,7 @@
         "row": 66,
         "height": 0
       },
-      "sprite": "npc-473",
+      "sprite": "sprite-473",
       "hostile": {
         "team": 7,
         "chase": {
@@ -186,7 +186,7 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -232,7 +232,7 @@
         "row": 67,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -278,7 +278,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -324,7 +324,7 @@
         "row": 48,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 55,
         "chase": {
@@ -341,7 +341,7 @@
         "row": 44,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 302,
         "chase": {
@@ -358,7 +358,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -404,7 +404,7 @@
         "row": 29,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -450,7 +450,7 @@
         "row": 14,
         "height": 0
       },
-      "sprite": "npc-473",
+      "sprite": "sprite-473",
       "hostile": {
         "team": 7,
         "chase": {
@@ -468,7 +468,7 @@
         "row": 7,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 123,
         "chase": {
@@ -485,7 +485,7 @@
         "row": 26,
         "height": 0
       },
-      "sprite": "npc-11",
+      "sprite": "sprite-11",
       "hostile": {
         "team": 14,
         "chase": {
@@ -503,7 +503,7 @@
         "row": 36,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 119,
         "chase": {
@@ -520,7 +520,7 @@
         "row": 24,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "hostile": {
         "team": 52,
         "chase": {
@@ -537,7 +537,7 @@
         "row": -15,
         "height": 0
       },
-      "sprite": "npc-472",
+      "sprite": "sprite-472",
       "pages": [
         {
           "trigger": {
@@ -583,7 +583,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -626,7 +626,7 @@
         "row": 63,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -669,7 +669,7 @@
         "row": 39,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {
@@ -712,7 +712,7 @@
         "row": 10,
         "height": 0
       },
-      "sprite": "npc-10",
+      "sprite": "sprite-10",
       "collide": true,
       "pages": [
         {

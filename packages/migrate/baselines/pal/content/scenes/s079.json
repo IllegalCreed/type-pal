@@ -64,7 +64,7 @@
         "row": 75,
         "height": 0
       },
-      "sprite": "npc-231"
+      "sprite": "sprite-231"
     },
     {
       "id": "e1499",
@@ -73,7 +73,7 @@
         "row": 75,
         "height": 0
       },
-      "sprite": "npc-231"
+      "sprite": "sprite-231"
     },
     {
       "id": "e1500",
@@ -82,7 +82,7 @@
         "row": 61,
         "height": 0
       },
-      "sprite": "npc-97",
+      "sprite": "sprite-97",
       "collide": true,
       "pages": [
         {
@@ -113,7 +113,7 @@
         "row": 62,
         "height": 0
       },
-      "sprite": "npc-414",
+      "sprite": "sprite-414",
       "facing": "right",
       "collide": true,
       "pages": [
@@ -161,7 +161,7 @@
         "row": 62,
         "height": 0
       },
-      "sprite": "npc-414",
+      "sprite": "sprite-414",
       "facing": "left",
       "collide": true,
       "pages": [
@@ -239,7 +239,7 @@
         "row": 59,
         "height": 0
       },
-      "sprite": "npc-342",
+      "sprite": "sprite-342",
       "facing": "up",
       "collide": true,
       "pages": [

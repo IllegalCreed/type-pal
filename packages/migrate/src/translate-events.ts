@@ -124,7 +124,7 @@ export interface TranslateCtx {
   report: TranslateReport
   /**
    * 0x65(换角色精灵)的 spriteNum → 精灵 id 解析(mapScenesStatic 注入:
-   * 角色本体精灵优先,未注册的补登记 npc-<num>)。缺省会记阻塞 gap。
+   * 角色本体精灵优先,未注册的补登记 sprite-<num>)。缺省会记阻塞 gap。
    */
   spriteIdForNum?: (num: number) => string
   /** 迁移边界内把旧 mapNum 解析为工程稳定 map id。 */

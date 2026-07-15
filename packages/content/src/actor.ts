@@ -87,12 +87,12 @@ export interface ActorDef {
   battler?: BattlerSpec
 }
 
-/** 实体是否为角色实例(actor 引用);false = 纯静物 prop(直接 sprite 引用)。 */
+/** 实体是否使用 ActorDef 作为可见外观/身份来源。 */
 export function isActorEntity(e: EntityDef): e is EntityDef & { actor: string } {
   return 'actor' in e
 }
 
-/** 实体 → 精灵表 id(actor 实体经 actorsById 解析;prop 实体直取)。解析不到 undefined。 */
+/** 实体 → 精灵表 id(actor 来源经 actorsById 解析;sprite 来源直取;zone 无外观)。 */
 export function resolveEntitySpriteId(
   e: EntityDef,
   actorsById: Record<string, ActorDef>,

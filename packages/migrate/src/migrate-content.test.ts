@@ -613,17 +613,18 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       )
     expect(literal).toBe(false)
   })
-  test('精灵批量登记:npc-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
+  test('精灵批量登记:sprite-<num>,布局 directional×n(n>0)/ static(n=0)', () => {
     const src1 = readScene(1)
     const visible = src1.eventObjects.filter((o) => o.spriteNum > 0)
     for (const eo of visible) {
       const def = out2.sprites.find(
-        (d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`npc-${eo.spriteNum}`),
+        (d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`sprite-${eo.spriteNum}`),
       )!
-      expect(def, `npc-${eo.spriteNum}`).toBeDefined()
+      expect(def, `sprite-${eo.spriteNum}`).toBeDefined()
       if ((eo.nSpriteFrames ?? 0) > 0)
         expect(def.layout.kind === 'directional' || def.id.includes('-f'), def.id).toBe(true)
     }
+    expect(out2.sprites.some((def) => /^npc-\d+(?:-f\d+)?$/.test(def.id))).toBe(false)
     expect(sceneSlug(4)).toBe('s004')
   })
 })
