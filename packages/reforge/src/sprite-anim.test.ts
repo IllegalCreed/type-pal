@@ -1,6 +1,12 @@
 import type { SpriteLayout } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { deriveStepCycle, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
+import {
+  deriveStepCycle,
+  idleFrameIndex,
+  loopFrameIndex,
+  settleWalkAnimation,
+  walkFrameIndex,
+} from './sprite-anim.js'
 
 const d3: SpriteLayout = { kind: 'directional', framesPerDir: 3 }
 const d4: SpriteLayout = { kind: 'directional', framesPerDir: 4 }
@@ -9,6 +15,16 @@ describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+
   test('deriveStepCycle:3→[0,1,0,2](站/迈左/站/迈右);4→[0,1,2,3]', () => {
     expect(deriveStepCycle(3)).toEqual([0, 1, 0, 2])
     expect(deriveStepCycle(4)).toEqual([0, 1, 2, 3])
+  })
+  test('settleWalkAnimation:剧情接管后切站立并按原版归整相位', () => {
+    expect(
+      [0, 1, 2, 3].map((stepFrame) => settleWalkAnimation({ walking: true, stepFrame })),
+    ).toEqual([
+      { walking: false, stepFrame: 2 },
+      { walking: false, stepFrame: 2 },
+      { walking: false, stepFrame: 0 },
+      { walking: false, stepFrame: 0 },
+    ])
   })
   test('idleFrameIndex:directional 按 dir*framesPerDir;static/loop 恒 0', () => {
     expect(idleFrameIndex(d3, 'down')).toBe(0)

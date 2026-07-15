@@ -123,7 +123,13 @@ import { loadSceneMap } from './scene-map.js'
 import { resolveSceneSpawn } from './scene-transition.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
-import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
+import {
+  animFrameIndex,
+  idleFrameIndex,
+  loopFrameIndex,
+  settleWalkAnimation,
+  walkFrameIndex,
+} from './sprite-anim.js'
 import {
   closeSystemMenu,
   openSystemMenu,
@@ -2175,6 +2181,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
   function startScript(key: string, binding: RuntimeScriptBinding, selfId?: string): void {
     if (runner) return
+    // 一阶段 DLc / sdlpal play.c:120-148:剧情接管即走非行走姿势更新。
+    // touch 触发发生在本次落步之后；若不在这里归位，runner/dialog 会吞掉后续
+    // 探索 tick，walking=true 将让队长整段剧情冻结在迈步帧。
+    const settledWalk = settleWalkAnimation({ walking, stepFrame })
+    walking = settledWalk.walking
+    stepFrame = settledWalk.stepFrame
     scriptAbort = new AbortController()
     const r = new ScriptRunner(
       scriptHost,

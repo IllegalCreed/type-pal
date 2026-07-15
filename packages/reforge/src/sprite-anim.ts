@@ -21,6 +21,16 @@ export function deriveStepCycle(framesPerDir: number): number[] {
   return Array.from({ length: Math.max(1, framesPerDir) }, (_, i) => i)
 }
 
+export interface WalkAnimationState {
+  walking: boolean
+  stepFrame: number
+}
+
+/** 剧情接管/停步：切回站立，并按 sdlpal scene.c:773-774 归整起步相位。 */
+export function settleWalkAnimation(state: WalkAnimationState): WalkAnimationState {
+  return { walking: false, stepFrame: (state.stepFrame & 2) ^ 2 }
+}
+
 /** 站立帧下标:directional → dir*framesPerDir;static/loop → 0。 */
 export function idleFrameIndex(layout: SpriteLayout, facing: Facing): number {
   if (layout.kind !== 'directional') return 0
