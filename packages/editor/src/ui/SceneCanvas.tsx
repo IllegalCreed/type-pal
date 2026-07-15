@@ -14,6 +14,7 @@ import { idleFrameIndex, renderSceneFrame, spriteBlitRect } from '@type-pal/refo
 import { useEffect, useRef, useState } from 'react'
 import {
   drawGridBlocked,
+  drawTriggerHighlight,
   mapBoxOf,
   type StageAssets,
   useSceneAssets,
@@ -292,6 +293,17 @@ export function SceneCanvas(props: {
         blocked: layers.blocked,
       },
     )
+    const selectedZone = scene.entities.find((e) => e.id === selectedId && 'zone' in e)
+    if (layers.entities && selectedZone && (!selectedZone.hidden || layers.ghosts)) {
+      drawTriggerHighlight(
+        ctx,
+        selectedZone,
+        camera,
+        zoom,
+        performance.now(),
+        selectedZone.hidden === true,
+      )
+    }
     // 进场点标记环:金菱形 + 朝向短箭头 —— 它是数据标记不是实体(半透明人形只是身高参照)
     {
       const sx = (ep.x - panX) * zoom
