@@ -197,11 +197,42 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 - Codex: **accept（2026-07-15）**。完成实现、自测、迁移重生成、静态扫描、6010 音乐页与 6051
   s000 -> s001 浏览器复验；全仓 `pnpm check` 与三个 Vite build 全绿。完整证据见 Build/视觉记录和
   `docs/phase2/foundation/a7-0-music-resource-closure-report.md`。
-- Opus: pending
+- Opus: **accept（2026-07-15,实现/运行/视觉主审,零返工项）**。六项复核全过:
+  1. **单链路无回退**:bgm.ts MIDI 经 `resolver.readBytes(asset,'music')`(:67)、soundfont 经
+     `readRoleBytes('audio.midiSoundfont')`(:94)+RIFF 魔数 fail-loud(:96-100)、worklet 留应用壳
+     (`/spessasynth_processor.min.js` :91);静态面:`sys:music` 仅剩 save/ops 归一化读边界(:79/:96,
+     转换后删除),`musicId` 仅剩 content/project-upgrade 升级器,main.ts 七个 bgm.play 站点全数据/
+     角色驱动零数字字面量;roles 封闭联合在 content/asset.ts(R4 落地)。**R1 族排他机械门禁落地**
+     (asset.ts:205-211 catalog 族×legacy.families 互斥抛错 + 音乐切片强制四角色齐 + 角色 kind 匹配);
+     **R2 落地**(升级器在 content,editor 对 migrate 依赖数=0)。
+  2. **G5 所有权 + 二进制**:migration-merge.ts:278-289 作者接管(ours origin=authored × theirs 非
+     authored)= **整条记录克隆**,禁逐字段拼接;二进制不进 baseline 为结构性事实(仅 catalog JSON 入
+     基线),87 文件 bytes/sha256 抽查逐一吻合(R3 写后闭包在写盘链)。
+  3. **battle marker 修复**:BattleCfgMarker 纯迁移期内部形态(translate-events:1500-1521),
+     finalizeBattleConfig 同时作用于全场景(:1786)与动态 setSceneOnEnter 根(:1773);机械兜底 =
+     music-reference-audit 对**最终产物**计数 internalBattleCfgMarkers 断言 0(任何漏烘必炸);
+     产物 grep 零残留;s106 battleMusic=music.pal.037 烘回与「0x4A 持久全局退役→场景默认」既定
+     拍板一致,误烘面不存在。产物对账:catalog 86+1、v3 四角色精确(037/002/003/soundfont.default)、
+     legacy families 不含 music/soundfont、引用 1,174+53/36/81/31/71/缺失 0——与闭包报告逐项吻合;
+     dry-run 零计划(asset-refs=1326 warnings=13 全 unused);四包套件 193/351/180/192+1skip 全绿。
+  4. **6010 音乐页全链**:86 行 label/id/path 分列;试听网络证据 = 恰取 `assets/migrated/music/003.mid`
+     (catalog 路径,零数字应用根);双曲单路切换;改名 blur 提交+undo 复原;删除保护(被引 disabled +
+     "有 991 处引用,不能删除")与未引用删→undo 双向。
+  5. **真实 FSA 工程(OPFS 句柄,918 文件含 87 音频)**:音乐页 86 首;**两首试听零 HTTP 音频请求**
+     (字节纯走 FileSource = 音乐族真自包含);改名→保存→OPFS 字节级验证(label 落盘、origin 保留)→
+     重载重连持久。6051 听感面:`world.audio.currentMusic='music.pal.031'`(typed,`sys:music` 槽消失);
+     战斗触发 → **037.mid**(默认战斗角色);真实打赢(持键输入)→ **003.mid**(普通胜利曲),
+     currentMusic 全程不被临时曲污染;标题读档 auto → 冷启动取 **soundfont.sf3+031.mid** 恢复;
+     系统菜单音乐开关翻转持久(`reforge:audio` 键)且恢复后状态完好。
+  6. **console**:6010/6051 全会话 0 error/0 warning/0 404/0 HTML fallback。
+  边界备注(非返工):首领胜利曲 002 与显式 startBattle.music(048)未能实走(s108 boss 触发受剧情旗
+  门禁,dev startBattle 钩子不带 opts)——与已实走的 003 属同一行角色/资产选择逻辑,单测已覆盖,
+  留 GLM 核对单测行;方法论记录:初次用 resolveDone('win') 捷径绕过了胜利结算致 003 未响,
+  改真实打赢后取证成功(捷径≠合法路径,已在证据中剔除)。
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 无(Opus 零返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（待 GLM 终审与用户验收）
 
 ## Draft: 设计与风险
 
@@ -386,14 +417,21 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 - 验证方式: Codex in-app browser，6010 音乐资源页截图/DOM/交互；6051 标题、s000、s001 截图与日志。
 - 截图 / 像素检查路径: N/A（本卡以音频/交互验证为主）
 - 结论: Codex 视觉/交互自验通过；音乐表名称、AssetId、路径和操作不再相互挤压，开场场景链无回归。
-- 未完成项: Opus 真实 FSA 目录与普通战/首领胜利/读档/系统开关的听感主审。
+- Opus 独立复验(2026-07-15): 通过,方法独立于 Codex(CDP + 网络/PerformanceObserver 取证 + OPFS 真
+  FSA 工程)。原留予 Opus 的全部未完成项已补:**真实 FSA 目录**(OPFS 句柄 918 文件)两首试听零 HTTP
+  音频请求+改名保存重开字节级持久;**普通战** 037.mid(默认角色)、**普通胜利曲** 003.mid(真实打赢
+  取证)、**读档恢复**(auto 档冷启 soundfont.sf3+031.mid,currentMusic 复原)、**系统音乐开关**
+  (reforge:audio 持久+恢复完好)。首领胜利曲 002/显式 048 受剧情旗门禁未实走,单测承接(见签字行
+  边界备注)。console 全会话零 404/零 HTML fallback。
+- 未完成项: 无(002/048 一行选择逻辑由单测覆盖,GLM 终审核对)。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex self-review accept；Opus / GLM pending。
-- 必须返工项: 等审查方结论。
-- Accept / rework: review
+- 审查结论: Codex self-review accept；**Opus 实现/运行/视觉主审 accept(2026-07-15,证据见 done 前
+  签字 Opus 行)**;GLM pending。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;待 GLM 覆盖/数据/测试矩阵终审。
 
 ## 用户验收
 
@@ -426,23 +464,34 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   1,174 play + 53 stop / 36 scene / 81 battle / 31 startBattle，最终旧键与内部 marker 为 0；全仓 check、
   三个 build、迁移零计划、6010/6051 浏览器检查通过。Next: Opus 做实现/运行/视觉主审并签 accept/counter；
   不得标 done，之后交 GLM 做覆盖/数据/测试矩阵终审。
+- 2026-07-15 Opus: review 主审签 **accept,零返工项**。代码面:单链路无回退(readBytes/readRoleBytes+
+  RIFF fail-loud,worklet 留壳,sys:music 仅归一化读边界,零数字字面量)、R1 族排他门禁与音乐四角色
+  强制落地(asset.ts:205-229)、R2 升级器归 content 且 editor 零 migrate 依赖、G5 authored 整条克隆
+  (migration-merge:278-289)、marker 修复双位点+审计零断言兜底(s106 烘 037 合既定拍板)。产物面:
+  catalog 86+1 hash 抽查全符、v3 四角色精确、引用 1174+53/36/81/31/71/0 全吻合、dry-run 零计划、
+  四包套件全绿。运行/听感面:6010 试听取 catalog 路径+CRUD 全链;**OPFS 真 FSA 工程两首试听零 HTTP
+  音频请求**+改名存重开字节级持久;6051 typed currentMusic=031、战斗 037、真实打赢 003、读档冷启
+  soundfont+031 恢复、音乐开关持久;console 全程零 404/零 fallback。边界:002/048 受剧情旗未实走,
+  单测承接交 GLM 核对;方法论记录 resolveDone 捷径曾致 003 假阴性,改真实打赢后取证。
+  Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖/数据/测试矩阵终审;齐签后交用户验收;
+  不得标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-接手任务：A7-0 工程资源闭包地基与音乐注册表首切片，实现/运行/视觉主审（Opus）
-任务卡：`docs/ops/tasks/A7-0-resource-closure-registry.md`
-当前状态：`review`；Codex 已实现并签 accept，Opus/GLM pending；不得标 `done`。
-先读：`AGENTS.md`、`docs/phase2/READ-FIRST.md`、本卡全部、
-`docs/phase2/foundation/a7-resource-closure-audit.md`、
-`docs/phase2/foundation/a7-0-music-resource-closure-report.md`。
-重点审查：1) 单 catalog/roles/AssetResolver/FileSource 是否真无音乐双轨或应用根回退；2) G5 authored 整记录
-所有权、target validator、二进制排除 baseline；3) 动态 setSceneOnEnter 的 battle marker 修复是否会漏/误烘；
-4) 6010 音乐导入/改名/替换/引用保护删除/保存重开；5) 用真实 FSA 工程试听至少两首，并补普通战、首领战/
-胜利曲、读档恢复和系统音乐开关听感；检查控制台资源 404/HTML fallback。
-Codex 证据：`pnpm check` 全绿，game/reforge/editor build 全绿；迁移 dry-run
-`writes=0 deletes=0 conflicts=0`；87 文件 6,737,214 字节 hash 全匹配；最终计数 1,174 play + 53 stop、
-36 scene、81 battle、31 startBattle、71 unique、0 missing/old-key/internal-marker；6010 两首切换试听与改名撤销、
-6051 s000 -> s001 已过。
-允许：审实现文件和运行验证；发现问题只在任务卡写 counter/返工项，不直接改实现（当前 Coding Owner 仍是 Codex）。
-输出：在 Opus review 签字行写 `accept` 或 `counter + 精确理由/复现/文件行`，补交接日志并提交；若 accept，
-提供可直接复制给 GLM 的覆盖/数据/测试矩阵终审提示词。不得标记 done。
+```text
+接手任务:A7-0 工程资源闭包地基与音乐注册表首切片,覆盖/数据/测试矩阵终审(GLM)
+任务卡:docs/ops/tasks/A7-0-resource-closure-registry.md
+当前状态:review;done 前 Codex accept + Opus accept(实现/运行/视觉主审,零返工项),GLM pending(最后一签);不得标 done
+你的角色:GLM,覆盖面/数据/测试矩阵终审;只改任务卡,不得改实现或生成产物
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期 G1-G5)、docs/phase2/foundation/a7-0-music-resource-closure-report.md、packages/content/src/asset.ts、packages/migrate/src/music-reference-audit.ts
+请重点复核(数据/测试面,与 Opus 的实现/听感面互补):
+1. 你设计期 G1-G5 的落地验收:G1 权威计数已由审计钉死(1,174 play+53 stop=1,227 旧口径,重扫核对);G2 MIDI 路径口径(assets/migrated/music/NNN.mid);G3 ItemTab 旁路属后续族(确认未混入本卡);G4(若有)与 G5 catalog 所有权(mergeNode assets/index.json 特例 :278-289 + target validator + 作者接管/兄弟更新回归测试)逐项确认;
+2. 产物对账:用独立脚本重扫——catalog 86 music+1 soundfont、87 文件 bytes/sha256 全量核(Opus 抽查 6 个)、引用 1,174/53/36/81/31/71/缺失 0、旧键(musicId/battleMusicId/music.json/sys:music 除归一化)全仓 0、13 unused warning 清单列出;
+3. 测试矩阵:验收 §93-100 逐条落点(路径 guard 表驱动/catalog 校验 fail-loud/迁移计数/静态扫描/v2→v3 双格式/FSA-HTTP 一致/URL revoke/MG2 作者替换双跑);R1 族排他与四角色强制的测试行;**002 首领胜利曲与 048 显式 startBattle.music 的单测行**(Opus 实走受剧情旗门禁,单测是唯一承接——精确到测试名);
+4. v2→v3 与存档矩阵:旧别名保留、musicId:0→null/stopMusic 分站点、旧存档 sys:music 归一化专测、demo/空白模板 v3;
+5. marker 门禁:music-reference-audit 的 internalBattleCfgMarkers=0 断言 + 动态 setSceneOnEnter 根 finalize 回归测试存在;s106 烘 037 记录在审计文档;
+6. MG2 面:二进制排除 baseline 判据(R3c)可测、双跑与独立 dry-run 零计划、asset-refs=1326/warnings=13 口径与报告一致。
+已验证(勿重复,可抽查):Opus 已做单链路/R1/R2/G5 代码实证、产物对账、6010 CRUD+试听取证、OPFS 真 FSA 工程零 HTTP 音频+保存重开、6051 typed 状态+037/003/读档恢复/开关、console 全程零 404
+不要做:不改实现文件;不重生成 PAL;不把 A7/R7/capability-map 标 done(A7-0 完成≠A7 完成);GLM 签后仍需用户验收
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
+```
