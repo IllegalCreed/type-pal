@@ -222,10 +222,50 @@ Branch: current
      facing 均为 down = inheritFacing 门穿行延续(R2 链活体验证);console 0 error/warning。
   备注(诚实记录):改 label 曾三次"失败"系我探针缺陷(未 focus 即 blur/合成指针不转移真实焦点),
   修正探针后一次通过——产品行为正确(onBlur 提交 + Enter→blur,App.tsx:2284-2290)。
-- GLM: pending
-- counter / 返工处理: 无(Opus 零返工项)。
+- GLM: **accept（2026-07-15;见下）**。六项独立实测 + 四包 889 tests pass + 1 skip。W1-W3 全落地。
+
+  **(1) W1-W3 落地验收** ✅：
+  - **W1（shared 口径）**：重生成后产物 **0 from-shared*** / 0 start——旧 239/240 争议已被上游修复清零。dry-run 报告 `[落点归一化] 静态坐标 863 · 唯一组 762 · 默认 61 · 命名 701 · 缺目标 0` 与设计期预测精确吻合。✅
+  - **W2（walker 六类反例）**：script-references.test.ts:201-251 断言 `findSceneEntryReferences` length=6——六站点（共享 chunk branch.then / scene onEnter / scene onTeleport / entity trigger / entity hostile.onLose / enemy choreography）全覆盖。✅
+  - **W3（产物对账）**：独立重扫——701 pal-entry-* / 0 from-shared / 0 start / 0 dup coords / **0 facing**；966 loadScene = **797 entryId + 169 default + 0 pos + 0 bare entry**。精确匹配。✅
+
+  **(2) 迁移测试矩阵** ✅：
+  - **scene-entry-normalize.test.ts** 四用例：默认坐标收敛+跨分支去重（:19-55 双 root 同 pos→一锚+默认坐标→默认模式）/ id 纯函数（:57-64 同 target+pos 跨来源同 id/height 变更换 id/跨场景换 id）/ 碰撞 fail-loud（:66-80 throw `/散列碰撞/`）/ strict 缺场景（:82-91）。✅
+  - **id 域** = hash([sceneId, col, row, height]) + `pal-entry-` 前缀（scene-entry-normalize.ts:15-19），源无关、顺序无关。✅
+  - **labels 确定性**：`原版落点 (col, row, height)` 坐标派生（:128-130），无需排序。✅
+  - **O1 非阻塞**：三来源（scene slice / -1 shared / -2 all.json 排除）未作三个独立 labeled 用例——normalize 函数源无关设计，过滤在上游 pipeline，非缺口。
+
+  **(3) dangling 门禁与漂移模拟** ✅：
+  - **plan.target 闭包门禁**：migration-validate.test.ts:109-119 `createMigrationPlan`→`assertSceneEntryReferenceClosure(plan.target)` 在**合并后最终结果**上跑。✅
+  - **漂移模拟**：:85-120 ours 引 `from-shared-1` × theirs 删除该 entry → `plan.conflicts=[]`（结构化合并成功）→ `auditSceneEntryReferenceClosure(plan.target).issues` 含"命名落点 s001/from-shared-1 不存在" → `assertSceneEntryReferenceClosure` throw `/命名落点引用闭包门禁失败/`。与 ED-4A sprite 漂移门禁同构。✅
+  - **额外门禁**：:122-135 dup GridPos + 未引用 pal-entry-* 均 fail-loud。✅
+
+  **(4) runtime 测试矩阵** ✅：
+  - **scene-transition.test.ts**：resolveSceneFacing 四级链（:4-21 显式>锚点>inherit>默认逐行）/ resolveSceneSpawn 三态（:32-41 命名 / :43-55 显式+默认 / :57-67 缺 entryId throw + entryId XOR pos throw）。✅
+  - **script-runner.test.ts:152-163**：loadScene entryId 原样传 host 不降级。✅
+  - **schema XOR 双保险**：script.ts:51-56 SceneSpawn `never` 域 type-level XOR + validator :421-431 runtime XOR throw。✅
+  - **O2 非阻塞**：default-mode-first-boot 经 resolveSceneFacing:18-20 间接覆盖（非 spawn 级独立用例）。
+
+  **(5) 编辑器测试** ✅：
+  - **commands.test.ts**：:872-886 UpdateScene entries 增改删+invert / :888-914 命名落点创建→选中→改名/移动→undo×2→redo 稳定 id 不变 / :916-947 改 label 引用不断(2处)+引用落点禁删(throw `/正被 2 处脚本引用/`)+未引用可删。✅
+  - **project-io.test.ts:192-208**：保存重开保持稳定 id/label/GridPos/facing。✅
+  - **script-references.test.ts:253-279**：缺场景/缺落点/裸 entry/entryId+pos 全阻止保存。✅
+
+  **(6) MG2 面** ✅：
+  - dry-run `writes=0 deletes=0 conflicts=0`，`[落点归一化] 命名 701 · 缺目标 0`。✅
+  - entries Record 走 migration-merge generic object merge（mergeObject 按 entryId 键并集+逐字段冲突）。pal-entry- 前缀与作者 id 分域。✅
+  - **O3 非阻塞**：migration-merge.test.ts 无专用 entries Record merge 用例——generic object merge 隐式正确，非缺口。
+
+  **总结**：W1-W3 全落地（shared 清零/walker 六类/701 命名锚点/0 from-shared/0 facing）；迁移测试四用例覆盖去重+id 纯函数+碰撞；dangling 门禁在 plan.target 上跑+漂移模拟与 ED-4A 同构；runtime 三态 XOR 双保险+facing 四级链；编辑器 CRUD/undo-redo/保存重开/引用保护全有测试；MG2 零计划。四包 190+1skip/171/180/348 = **889 pass**。**accept**。
+
+  **O1-O3 非阻塞（不影响 accept）**：
+  - **O1**：三来源未作独立 labeled 用例（normalize 源无关设计）。
+  - **O2**：default-mode-first-boot 经 facing 链间接覆盖。
+  - **O3**：entries Record merge 无专用测试（generic object merge 隐式正确）。
+
+- counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1-O3 均非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM 覆盖复核与用户验收）
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
@@ -425,6 +465,7 @@ loadScene(scene, { pos })              // 一次性显式坐标
   scene 侧留抽屉两次实证。诚实记录:改名三次假失败为本人探针缺陷(未 focus 即 blur),修正后一次过。
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 迁移覆盖/基线/测试矩阵复核;齐签后交用户验收;
   不得标 done。未改实现文件。
+- 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 889 pass：(1)W1-W3 全落地——重生成后 0 from-shared/0 start/0 dup/0 facing,701 pal-entry-*,dry-run `[落点归一化] 863/762/61/701/缺目标0` 精确吻合;W2 walker 六类反例 script-references.test:201-251 length=6;W3 966=797entryId+169default+0pos+0bare 精确。(2)迁移测试 scene-entry-normalize.test 四用例(默认收敛+跨分支去重/id纯函数/碰撞fail-loud/strict缺场景)。(3)dangling 门禁 plan.target 上跑,漂移模拟 ours from-shared-1×theirs删→conflicts=[]→闭包 throw(ED-4A同构)。(4)runtime scene-transition.test 三态+XOR双保险(type never+validator)+facing四级链+script-runner entryId原样传。(5)编辑器 commands.test CRUD/undo-redo/改label引用不断/禁删+project-io保存重开+script-references阻止保存四错误。(6)MG2 writes=0,entries Record走generic object merge。O1-O3 非阻塞(三来源未labeled/default间接覆盖/entries merge无专用测)。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
