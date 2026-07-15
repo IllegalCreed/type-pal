@@ -319,6 +319,7 @@ function diamondPath(
  * 选中事件的触发点/面高亮:owner 格金色描边(呼吸)+ 触发范围淡金面
  * (range = max(trigger.range, interact?1:0),切比雪夫盒 —— 与引擎 findTrigger 同源)。
  * zone/隐藏实体无精灵,此标记是它们在预览里唯一的可见形态;ghost = 隐藏实体淡显。
+ * 布置模式可用 ownerDashed 将中心格改成虚线,范围语义保持一致。
  */
 export function drawTriggerHighlight(
   ctx: CanvasRenderingContext2D,
@@ -326,10 +327,12 @@ export function drawTriggerHighlight(
   camera: { x: number; y: number },
   zoom: number,
   now: number,
-  ghost = false,
+  options: { ghost?: boolean; ownerDashed?: boolean } = {},
 ): void {
+  const { ghost = false, ownerDashed = false } = options
   const t = e.pages?.[0]?.trigger
   const range = t ? Math.max(t.range ?? 0, t.on === 'interact' ? 1 : 0) : 0
+  const height = e.pos.height ?? 0
   const breath = 0.55 + 0.35 * Math.sin(now / 280)
   const alpha = ghost ? 0.35 : 1
   ctx.save()
@@ -340,20 +343,22 @@ export function drawTriggerHighlight(
     for (let dc = -range; dc <= range; dc++) {
       for (let dr = -range; dr <= range; dr++) {
         if (dc === 0 && dr === 0) continue
-        const p = gridToPixel({ col: e.pos.col + dc, row: e.pos.row + dr, height: 0 })
+        const p = gridToPixel({ col: e.pos.col + dc, row: e.pos.row + dr, height })
         diamondPath(ctx, p.x, p.y, camera, zoom)
         ctx.fill()
         ctx.stroke()
       }
     }
   }
-  const c = gridToPixel({ col: e.pos.col, row: e.pos.row, height: 0 })
+  const c = gridToPixel(e.pos)
   diamondPath(ctx, c.x, c.y, camera, zoom)
   ctx.fillStyle = `rgba(255, 203, 113, ${0.28 * alpha})`
   ctx.fill()
   ctx.lineWidth = 2
   ctx.strokeStyle = `rgba(255, 214, 90, ${breath * alpha})`
+  if (ownerDashed) ctx.setLineDash([6, 4])
   ctx.stroke()
+  ctx.setLineDash([])
   const sx = (c.x - camera.x) * zoom
   const sy = (c.y - camera.y) * zoom
   ctx.strokeStyle = `rgba(255, 235, 170, ${0.9 * alpha})`

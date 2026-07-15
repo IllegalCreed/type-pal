@@ -209,6 +209,7 @@ export function SceneCanvas(props: {
 
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []
+    let selectedZoneHit: HitRect | null = null
     // 进场点预览 = scene.entry 的可视化(默认出生位置+朝向),**是标记不是实体**:
     // 半透明玩家形(身高/朝向参照)+ 下方金菱形环(见 renderSceneFrame 后叠加)。
     // 曾画成不透明真人 → 像放错的 NPC(作者问"每场景放个李逍遥干嘛"),还被误认成幽灵。
@@ -242,15 +243,26 @@ export function SceneCanvas(props: {
     for (const e of layers.entities ? scene.entities : []) {
       const ghost = e.hidden === true
       if (ghost && !layers.ghosts) continue // 透视关:同引擎不渲染
+      const pos = drag && drag.id === e.id ? { ...e.pos, col: drag.col, row: drag.row } : e.pos
+      if ('zone' in e) {
+        if (e.id === selectedId) {
+          const p = gridToPixel(pos)
+          selectedZoneHit = {
+            id: e.id,
+            x: (p.x - panX - 16) * zoom,
+            y: (p.y - panY - 8) * zoom,
+            w: 32 * zoom,
+            h: 16 * zoom,
+          }
+        }
+        continue
+      }
       const def = entitySpriteDef(e)
       const sp = def ? spritesByNum.get(def.spriteNum) : undefined
       const f = def
         ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0])
         : undefined
       if (!sp || !f) continue
-      // 拖动中的实体用预览格
-      const pos =
-        drag && drag.id === e.id ? { col: drag.col, row: drag.row, height: e.pos.height } : e.pos
       const p = gridToPixel(pos)
       const wy = spriteScreenY(pos)
       const ax = Math.floor(f.width / 2) // 每帧自锚(同引擎;命中盒同款防错位)
@@ -266,6 +278,7 @@ export function SceneCanvas(props: {
       })
       hits.push({ id: e.id, ...physRect(p.x, wy, ax, ay, f.width, f.height) })
     }
+    if (selectedZoneHit) hits.push(selectedZoneHit)
     hitsRef.current = hits
 
     renderSceneFrame(ctx, renderer, {
@@ -293,16 +306,19 @@ export function SceneCanvas(props: {
         blocked: layers.blocked,
       },
     )
-    const selectedZone = scene.entities.find((e) => e.id === selectedId && 'zone' in e)
+    const selectedZoneBase = scene.entities.find((e) => e.id === selectedId && 'zone' in e)
+    const selectedZone =
+      selectedZoneBase && drag?.id === selectedZoneBase.id
+        ? {
+            ...selectedZoneBase,
+            pos: { ...selectedZoneBase.pos, col: drag.col, row: drag.row },
+          }
+        : selectedZoneBase
     if (layers.entities && selectedZone && (!selectedZone.hidden || layers.ghosts)) {
-      drawTriggerHighlight(
-        ctx,
-        selectedZone,
-        camera,
-        zoom,
-        performance.now(),
-        selectedZone.hidden === true,
-      )
+      drawTriggerHighlight(ctx, selectedZone, camera, zoom, performance.now(), {
+        ghost: selectedZone.hidden === true,
+        ownerDashed: true,
+      })
     }
     // 进场点标记环:金菱形 + 朝向短箭头 —— 它是数据标记不是实体(半透明人形只是身高参照)
     {
@@ -334,7 +350,7 @@ export function SceneCanvas(props: {
       ctx.restore()
     }
 
-    const sel = hits.find((h) => h.id === selectedId)
+    const sel = selectedZone ? undefined : hits.find((h) => h.id === selectedId)
     if (sel) {
       ctx.save()
       ctx.strokeStyle = '#4c9aff'

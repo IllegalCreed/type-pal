@@ -294,7 +294,7 @@ export function PreviewCanvas(props: {
         if (e && !(v.entity.get(e.id)?.hidden ?? e.hidden)) {
           drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now)
         } else if (e) {
-          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, /* ghost= */ true) // 隐藏实体:淡显位置仍可寻
+          drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, { ghost: true }) // 隐藏实体:淡显位置仍可寻
         }
       }
       // 淡幕
