@@ -128,11 +128,57 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   3,232 文件四包一卡,均否);战斗临时曲不落持久态 + WorldState.audio 典型化 = X3/RNG 呈现态与持久态
   分离先例的音频版。范围裁定:地基+音乐纵向切片不再切(地基无切片验证 = 未证抽象;音乐族 86 文件
   最小完整,半族分卡必留旧回退,违铁律)。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补(族排他机械门禁/v2→v3 变换归包/二进制门禁
-  三条明示/roles 封闭集钉死),纳入 build 范围。
+- GLM: **agree（2026-07-15;附 G1-G5 build 必落范围澄清,见下）**。六项独立实测逐条：
+
+  **(1) 音乐引用普查独立对账** ✅（核心结论全确认，精确口径 build 钉死）：
+  - 场景 musicId **36** / battleMusicId **80** / startBattle.musicId **31**（携 musicId 字段的 31 个，其中 12 正数 19 零停）/ music.json **86** 条全 `{id}` 数字壳——全精确匹配。✅
+  - 正数去重 **71**（playMusic 60 + startBattle 12 + scene musicId 28 + scene battleMusicId 8 的并集）= 86 MIDI 子集。✅
+  - **86 MIDI（1..87 缺 29）与正数引用零缺源**——71 正数全在 86 MIDI 集合内。✅
+  - **⚠️ G1（build 必落精确口径）**：playMusic 总数实测 **1,223**（泛型递归遍历全 list field）vs 卡内 **1,227**；停曲 musicId=0 实测 **52** vs 卡内 **53**。差异 4+1 可能是递归策略不同（branch/confirm/setSceneOnEnter.stages 等嵌套臂）。**build 时必须用审计脚本产出权威数字替换卡内 1,227/53，定性结论不变。**
+  - **⚠️ G2（build 必落勘误）**：MIDI 实际路径是 `data/extracted/music/NNN.mid`（零填充三位），非卡内验证命令的 `data/extracted/audio/midi/*.mid`。bgm.ts:60 `padStart(3,'0')` 确认零填充约定。
+
+  **(2) 旁路清单完备性** ✅：
+  - 审计 §3.5 **十四处**全量逐一核对存在——assets.ts/bgm.ts(3 处)/sfx.ts/rng-player/glyph/dialog-assets/menu-box/main.ts(4 处)/editor main.tsx/CutsceneTab/BattleFieldPicker。✅
+  - 反向扫 reforge/editor 音频/音乐 fetch：全部映射到已有 §3.5 行。✅
+  - **G3（非阻塞，记录后续范围）**：发现 1 处 §3.5 漏列——`packages/editor/src/ui/ItemTab.tsx:273` `/baked/ui/items` fallback（物品图标预览）。属后续 A7-1..3 资源族范围，不阻塞音乐切片，但应补入审计清单。
+
+  **(3) roles 封闭集反证** ✅：
+  - bgm.play 全站点（main.ts 707/1160/1373/1629/1703/2374/3313）+ bgm.stop（无独立调用——stop 走 `bgm.play(0)`→`stopPlayback` bgm.ts:117-119）+ bgm.setEnabled/resume（数据驱动 pref/菜单）全扫描。
+  - **硬编码音乐字面量恰三个**：main.ts:1372 `?? 37`（defaultBattleMusic）+ :1629 `boss?2:3`（bossVictory/normalVictory）+ bgm.ts:88 `fetch('/soundfont.sf3')`（midiSoundfont）。✅
+  - **无第五个音乐硬编码**——bgm.ts 无其他音乐常量，sfx.ts 零音乐耦合，音量/静音路径全数据驱动。✅ roles 封闭集 = 恰四个。
+  - R4 字面量归零断言目标集 = main.ts `{37,2,3}` + bgm.ts `{baseUrl='/extracted/music', padStart NNN.mid, '/soundfont.sf3'}`。
+
+  **(4) 验收测试矩阵逐条可落** ✅：
+  - §94 path guard + catalog 表驱动 / §95 迁移计数 / §96 静态扫描零 / §97 v2→v3 serialize/reload / §98 FSA+HTTP + URL revoke / §99 MG2 二跑零计划 / §100 pnpm check——每条有明确测试落点。✅
+  - **R1 族排他断言**：catalog 含 kind:'music' + legacy.families 含 'music' → validator fail-loud throw（表驱动）。✅
+  - **R2 归包 + editor 零 migrate 依赖**：v2→v3 纯变换归 content（先例 dialogue-upgrade.ts，loader.ts:33 已用）；editor 零 migrate 依赖**已为真**（package.json 仅依赖 content+reforge）——测试形态 = 依赖规则 lint 断言。✅
+  - **R3 二进制三条门禁**：(a) 物化幂等（二次重建字节相同）；(b) 写后闭包（bytes+sha256）；(c) MG2 判据排除二进制（**已结构性成立**：MigrationPlan.writes 是 Map<string,MigrationJson>，二进制从不入 managedFiles）。✅
+  - **R4 字面量归零**：grep/AST 扫 main.ts+bgm.ts 音乐字面量+应用根音乐字符串为零。✅
+  - **⚠️ G4（build 必落措辞精确化）**：§95 "31 startBattle"应写明"31 个 startBattle 携 musicId 字段"（总 startBattle 173 个，142 个继承默认）。
+
+  **(5) v2→v3 迁移矩阵** ✅（每条可落专测）：
+  - **旧 music.json 别名保留为 label**：实测 music.json 只有 `{id}` 无别名/name——label 将 post-migration 新建（MusicDef.name? 存在但 PAL 未用）。专测 = 迁移后 catalog label 字段可填、不丢 id 映射。✅
+  - **musicId:0→null/stopMusic**：bgm.ts:117-119 `track<=0→stopPlayback()`。三站点（playMusic/scene/startBattle）的 0 映射到 null/显式 stop。✅
+  - **旧存档 sys:music 归一化**：实测 sys:music 5 处文本出现（main.ts 1159 write + 1702/2373/3312 read），全在 main.ts。S1 normalizer = load 边界一次性 sys:music→audio.currentMusic。✅
+  - **demo/空白模板直接产 v3（S2）**：实测 demo/e2e-own 无 music.json（manifest content.music=None），三工程均 contentVersion 2。demo 产 v3 = 空 music catalog，trivially satisfied。✅
+
+  **(6) MG2 面** ✅ + **⚠️ G5（build 必落关键）**：
+  - **二进制不进 baseline（R3c）**：已结构性成立——migration-baseline.ts managedFiles 只含 JSON，MigrationPlan.writes 是 Map<string,MigrationJson>。✅
+  - **作者替换双跑零计划**：pal-migration-integration.test.ts:119-122 已有二跑零计划骨架，需扩展音乐替换+label 保留。✅
+  - **⚠️ G5（build 必落关键）**：实测 `migration-merge.ts:41-57` arrayMode **没有 `assets/index.json` 条目**——catalog（Record<AssetId,AssetRecordV1>，object 非 array）当前会 fall through 到 `'atomic'` 整文件替换，**违作者替换保护设计**。**build 必须新增 `assets/index.json` → AssetId-keyed mergeObject 路由 + 所有权 validator（migrator 只可更新 origin=legacy-migrated 且 path 在 migrated/** 的记录）。** 这是隐含在设计中的实现细节，但未显式列为 build 任务——不补则作者替换音乐会被 atomic 覆盖。
+
+  **总结**：核心普查全确认（36/80/31/71/86 + MIDI 零缺源 + roles 恰四 + 旁路十四处全存在）；playMusic 精确数字 build 时审计脚本钉死（G1）；MG2 catalog 合并路由缺失是 build 必落关键项（G5）；测试矩阵+R1-R4+迁移矩阵全可落。**agree**。
+
+  **G1-G5 build 必落范围澄清（非阻塞，纳入 build 范围）**：
+  - **G1**：playMusic 精确数字（1,223 vs 1,227 / 52 vs 53）用审计脚本钉死，替换卡内数字。
+  - **G2**：MIDI 路径勘误 `data/extracted/music/NNN.mid`。
+  - **G3**：§3.5 补 ItemTab.tsx:273 漏列（非音乐族，后续范围记录）。
+  - **G4**：§95 "31 startBattle"→"31 携 musicId 字段"。
+  - **G5（关键）**：migration-merge.ts 新增 `assets/index.json` → AssetId-keyed mergeObject 路由 + 所有权 validator。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补,GLM 无 counter(标 G1-G5 build 必落)。MG2 catalog 合并路由缺失(G5)是 build 必落关键实现项,非设计 counter——单 catalog/所有权/二进制排除方向全正确,只是 arrayMode 路由表缺一行。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（待 GLM 覆盖复核）**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4 必改 + S1-S2 + G1(精确数字钉死)/G2(MIDI路径勘误)/G3(ItemTab漏列记录)/G4(31措辞)/G5(**catalog合并路由+所有权validator**)纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -251,7 +297,7 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 - Opus: **agree**。单 catalog/v3 债务区/音乐首切片三判全立(替代方案 v2 平铺=双真值、直跳 v4=不可审,
   均否);普查数字独立坐实、roles 封闭集=恰四个;附 R1(族排他机械门禁)/R2(v2→v3 归 content 防包倒置)/
   R3(二进制门禁三条)/R4(roles 钉死+字面量归零断言)+S1-S2。
-- GLM: pending
+- GLM: **agree**。核心普查全确认(36/80/31/71/86+MIDI零缺源+roles恰四+旁路十四处全存在)；playMusic精确数字build审计钉死(G1:1223 vs 1227/52 vs 53)；**G5关键: migration-merge.ts arrayMode 无 assets/index.json 条目→catalog 当前 fall through atomic 违作者替换保护,build 必落 AssetId-keyed mergeObject 路由+所有权 validator**；测试矩阵+R1-R4+迁移矩阵全可落。G1-G5 build 必落非阻塞。
 - 用户拍板: 用户于 2026-07-15 同意按推荐顺序开始；三签齐前只允许设计审查。
 
 ## 额度 / 代班记录(如适用)
@@ -317,6 +363,7 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   R3=二进制物化"幂等/写后闭包/MG2 判据排除二进制"三条明示;R4=roles 四角色钉死+音乐字面量归零断言。
   Evidence: 主审立场+普查脚本输出。Next: GLM 覆盖/迁移/测试矩阵复核;三签齐后 Codex build;
   不得抢跑实现。未改实现文件。
+- 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)普查 36/80/31/71/86+MIDI零缺源全确认,playMusic精确数字build审计钉死(G1:1223 vs 1227/52 vs 53),MIDI路径勘误(G2:extracted/music/NNN.mid非audio/midi/)；(2)旁路§3.5十四处全存在,G3发现ItemTab.tsx:273漏列(非音乐族后续范围)；(3)roles恰四——硬编码音乐字面量仅main.ts{37,2,3}+bgm.ts{/soundfont.sf3},无第五,bgm.stop走play(0),音量静音全数据驱动；(4)测试矩阵§93-100+R1-R4全可落,R2 editor零migrate依赖已为真；(5)v2→v3矩阵全可落——music.json仅{id}无别名label post-migration新建/musicId0→null三站点/sys:music 5文本处main.ts/demo无music.json产v3 trivially；(6)**G5关键: migration-merge.ts:41-57 arrayMode无assets/index.json条目→catalog fall through atomic违作者替换保护,build必落AssetId-keyed mergeObject路由+所有权validator**；二进制不进baseline已结构性成立。G1-G5 build必落非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
