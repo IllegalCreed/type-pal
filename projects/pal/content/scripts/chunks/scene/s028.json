@@ -8,7 +8,7 @@
     "scene/s028/L-41075/e524/d-f82ac346": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -53,8 +53,7 @@
     ],
     "scene/s028/root/entity-e524/page-0/trigger/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "wait",
@@ -197,7 +196,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 71
+        "asset": "music.pal.071"
       }
     ],
     "scene/s028/root/entity-e524/page-0/auto/stage-0": [

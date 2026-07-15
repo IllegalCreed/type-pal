@@ -5,7 +5,7 @@
     "scene/s221/L-41075/e3825/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -61,7 +61,7 @@
     "scene/s221/L-41075/e3826/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",

@@ -1,18 +1,18 @@
 /** 八模块导航下的数据型业务页挂载器。页面归属由 editor-navigation 单一注册表决定。 */
 
 import type {
+  AssetCatalogV1,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
   Locale,
-  MusicDef,
   SceneDef,
   SkillDataMap,
   SpriteDef,
   SpriteLayout,
 } from '@type-pal/content'
-import type { AssetBase } from '@type-pal/reforge'
+import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -67,8 +67,8 @@ export function DataMode(props: {
   session: EditSession
   enemies: EnemyDef[]
   enemyTeams: EnemyTeamDef[]
-  /** 音乐库(音乐页;工程没带 = 空)。 */
-  music: MusicDef[]
+  assetCatalog: AssetCatalogV1
+  audioResolver: AudioAssetReader
   /** tileset 注册表 + 上传字节暂存(瓦片集页,W7B)。 */
   tilesets: import('@type-pal/reforge').TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>
@@ -108,7 +108,8 @@ export function DataMode(props: {
     skills,
     locale,
     itemList,
-    music,
+    assetCatalog,
+    audioResolver,
     tilesets,
     tilesetBlobs,
     battleFields,
@@ -220,7 +221,9 @@ export function DataMode(props: {
     )
   }
   if (tab === 'music') {
-    return <MusicTab music={music} musicBase={assetBase.music} session={session} tabBar={tabBar} />
+    return (
+      <MusicTab catalog={assetCatalog} resolver={audioResolver} session={session} tabBar={tabBar} />
+    )
   }
 
   if (tab === 'cutscene') {
@@ -274,6 +277,8 @@ export function DataMode(props: {
         sprites={sprites}
         actors={actors}
         assetBase={assetBase}
+        assetCatalog={assetCatalog}
+        audioResolver={audioResolver}
         projectMaps={state.maps}
         mapIndex={state.mapIndex}
         tilesets={tilesets}

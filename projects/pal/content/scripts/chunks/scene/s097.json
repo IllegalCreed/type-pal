@@ -557,8 +557,7 @@
         "ms": 600
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "fade",
@@ -567,7 +566,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 35
+        "asset": "music.pal.035"
       },
       {
         "kind": "increaseHpMp",
@@ -684,8 +683,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "wait",
@@ -710,7 +708,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 36
+        "asset": "music.pal.036"
       },
       {
         "kind": "setPartyFacing",

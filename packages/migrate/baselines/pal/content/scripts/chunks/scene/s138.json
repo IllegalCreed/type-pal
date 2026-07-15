@@ -75,7 +75,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "cameraPan",
@@ -641,7 +641,7 @@
         "team": 42,
         "boss": true,
         "fieldId": 42,
-        "musicId": 38,
+        "music": "music.pal.038",
         "choreography": [
           {
             "at": "turnStart",
@@ -758,8 +758,7 @@
         ]
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -775,7 +774,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 21
+        "asset": "music.pal.021"
       },
       {
         "kind": "setEntityState",
@@ -901,8 +900,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "clearDialog"

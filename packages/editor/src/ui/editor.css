@@ -2227,6 +2227,43 @@ html[data-panel-resize="horizontal"] * {
   font-family: ui-monospace, monospace;
   opacity: 0.8;
 }
+.asset-music-table {
+  width: calc(100% - 20px);
+  max-width: 980px;
+  table-layout: fixed;
+}
+.asset-music-table .music-name-column {
+  width: 24%;
+}
+.asset-music-table .music-id-column {
+  width: 25%;
+}
+.asset-music-table .music-action-column {
+  width: 108px;
+}
+.asset-music-table td > .in {
+  width: 100%;
+  min-width: 0;
+}
+.asset-music-table td.mono {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.asset-music-table .music-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.asset-music-table .music-actions > .btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
 
 /* ── N5 变量总览 + 引用反向索引 ── */
 .var-group {

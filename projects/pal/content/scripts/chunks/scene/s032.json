@@ -231,7 +231,7 @@
     "scene/s032/L-41075/e550/d-2bad595b": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -328,7 +328,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 14
+        "asset": "music.pal.014"
       }
     ],
     "scene/s032/root/on-enter/stage-1": [],
@@ -2183,11 +2183,10 @@
         ],
         "boss": true,
         "fieldId": 52,
-        "musicId": 14
+        "music": "music.pal.014"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setEntityState",

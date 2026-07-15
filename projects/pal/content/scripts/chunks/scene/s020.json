@@ -1692,7 +1692,7 @@
     "scene/s020/root/entity-e348/page-0/trigger/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 11
+        "asset": "music.pal.011"
       },
       {
         "kind": "setEntityTriggerMode",
@@ -2375,8 +2375,7 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -2834,8 +2833,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "fade",
@@ -2844,7 +2842,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       },
       {
         "kind": "setEntityState",
@@ -3772,7 +3770,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 75
+        "asset": "music.pal.075"
       },
       {
         "kind": "dialog",
@@ -4519,7 +4517,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 33
+        "asset": "music.pal.033"
       },
       {
         "kind": "setEntityState",

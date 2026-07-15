@@ -22,7 +22,6 @@ import type {
   LoadedManifest,
   Locale,
   MapIndexV1,
-  MusicDef,
   PoisonDef,
   SceneDef,
   ShopDef,
@@ -53,8 +52,6 @@ export interface ContentBundle {
   /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
   enemies?: EnemyDef[]
   enemyTeams?: EnemyTeamDef[]
-  /** 音乐库(W5 编辑器:BGM 别名/试听;可缺省 = 空,引擎不消费)。 */
-  music?: MusicDef[]
   /** tileset 注册表(W7B;可缺省 = 空)。 */
   tilesets?: TilesetDef[]
   /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */

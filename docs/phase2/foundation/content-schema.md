@@ -214,6 +214,30 @@ interface DialogueCue {
 - `packages/migrate/src/legacy-dialog.ts` 是唯一旧控制码解码入口。PAL 产物必须重迁；旧作者工程只可在 loader
   边界把旧 `line` 结构单向搬成 cue，内存、保存产物、运行时和编辑器均不得保留双格式。
 
+### 6.4 工程资产注册表与音乐引用(A7-0,2026-07-15)
+
+`contentVersion: 3` 的新资源统一由 `manifest.assets.catalog` 指向 `assets/index.json`。catalog 是
+`Record<AssetId, AssetRecordV1>`，每条记录显式保存 `kind/path/mediaType/bytes/sha256/label/origin`；
+`AssetId` 是不透明稳定身份，任何消费者都不得从 id 猜文件名或目录。
+
+- `AssetRecord.path` 只允许规范的工程相对路径；绝对路径、URL、盘符、反斜杠、query/fragment、`.` 和 `..`
+  全部在 content 公共 guard 中拒绝。
+- `manifest.assets.roles` 是封闭的运行角色映射。A7-0 固定四个音频角色：MIDI soundfont、默认战斗曲、
+  首领胜利曲和普通胜利曲；角色值仍是 AssetId，不是路径。
+- 未迁移的资源族只能集中在 `manifest.assets.legacy` 债务区。同一资源族不能同时出现在 catalog 与 legacy；
+  A7-0 后音乐和 soundfont 已完全退出 legacy。
+- `SceneDef.music?: AssetId | null`：缺省延续、字符串切曲、`null` 停曲。`battleMusic` 与
+  `startBattle.music` 同样使用 AssetId/null；脚本停曲必须是显式 `stopMusic`，不再用数字 0。
+- 持久音乐状态为 `WorldState.audio.currentMusic`。运行时内部不认识 `musicId/battleMusicId`、
+  `content/music.json` 或 `sys:music`；v2 数据只允许在一次性升级边界转换为 v3。
+- `collectAssetReferences` 与闭包校验负责检查引用存在、kind、文件 bytes 和 SHA-256。未引用资源是 warning，
+  缺引用、类型错、缺文件或哈希不符均 fail-loud。
+
+目录所有权固定为：`assets/migrated/**` 由迁移器维护，`assets/authored/**` 由作者维护，
+`assets/runtime/**` 保存明确授权的工程运行资源。作者替换时保留 AssetId，只改记录和二进制；MG2 不得把
+authored 记录拼回 migrated 字段。完整证据见
+[`a7-0-music-resource-closure-report.md`](a7-0-music-resource-closure-report.md)。
+
 ## 7. 内容工程目录结构
 
 独立、版本化（文本 + 稳定排序 + git 友好），初始化 = 迁移器从 `data/extracted/` 灌入：

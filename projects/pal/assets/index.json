@@ -1,0 +1,1049 @@
+{
+  "version": 1,
+  "assets": {
+    "music.pal.001": {
+      "kind": "music",
+      "path": "assets/migrated/music/001.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/001.mid"
+      },
+      "bytes": 947,
+      "sha256": "555ba9d3a82b4ec9200e2a724f37e17ddfdcf59b72c06cc6d0aba8e795162a3e"
+    },
+    "music.pal.002": {
+      "kind": "music",
+      "path": "assets/migrated/music/002.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/002.mid"
+      },
+      "bytes": 1577,
+      "sha256": "0a0ebe8aa2fbea7e93cccb72235f4a0ec05c4e4efe23f712e7735fab1ed99601"
+    },
+    "music.pal.003": {
+      "kind": "music",
+      "path": "assets/migrated/music/003.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/003.mid"
+      },
+      "bytes": 1224,
+      "sha256": "325b2f23175f4491ff9a11f37495f5b3086a823ef75658e2688c5609ec0b3ce5"
+    },
+    "music.pal.004": {
+      "kind": "music",
+      "path": "assets/migrated/music/004.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/004.mid"
+      },
+      "bytes": 7090,
+      "sha256": "180517783d25c7fd3d06f01da0ce71d21bd59662948535acb25e331992c96041"
+    },
+    "music.pal.005": {
+      "kind": "music",
+      "path": "assets/migrated/music/005.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/005.mid"
+      },
+      "bytes": 20896,
+      "sha256": "de8cc4dfba782b475b49e8e456ea902237097df22349ce2af642b7c698f19696"
+    },
+    "music.pal.006": {
+      "kind": "music",
+      "path": "assets/migrated/music/006.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/006.mid"
+      },
+      "bytes": 3339,
+      "sha256": "b3acc8f8b2868f4b9093b08623669d86e0ccb6581c8874063fbaa5f85049540d"
+    },
+    "music.pal.007": {
+      "kind": "music",
+      "path": "assets/migrated/music/007.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/007.mid"
+      },
+      "bytes": 3339,
+      "sha256": "b3acc8f8b2868f4b9093b08623669d86e0ccb6581c8874063fbaa5f85049540d"
+    },
+    "music.pal.008": {
+      "kind": "music",
+      "path": "assets/migrated/music/008.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/008.mid"
+      },
+      "bytes": 2154,
+      "sha256": "7545c725155a5c1d763726ec7100591c79ae41cd5c9293a0c93882991aedb575"
+    },
+    "music.pal.009": {
+      "kind": "music",
+      "path": "assets/migrated/music/009.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/009.mid"
+      },
+      "bytes": 9532,
+      "sha256": "cc25f713919a514df7e5c772eccc9daba935134dfc5a8bec778a3cbb13bf8bc6"
+    },
+    "music.pal.010": {
+      "kind": "music",
+      "path": "assets/migrated/music/010.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/010.mid"
+      },
+      "bytes": 2524,
+      "sha256": "d108c0a94ff06b5830c488ed8900f11b4bb48689014b6daad11f069d74bcb056"
+    },
+    "music.pal.011": {
+      "kind": "music",
+      "path": "assets/migrated/music/011.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/011.mid"
+      },
+      "bytes": 3975,
+      "sha256": "ea148bc61b9bb643ef4411bdf84506ba7031d76175d1690d79eeb36c49351e98"
+    },
+    "music.pal.012": {
+      "kind": "music",
+      "path": "assets/migrated/music/012.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/012.mid"
+      },
+      "bytes": 3680,
+      "sha256": "f362680e4cd4d30d4666cf2c63ca5d4ed22d397f2382d9673fefe6157ec0387f"
+    },
+    "music.pal.013": {
+      "kind": "music",
+      "path": "assets/migrated/music/013.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/013.mid"
+      },
+      "bytes": 9993,
+      "sha256": "45265bb8b44a9dcf1750890a0225d39ec4606268c2ca8e1fd03677e77332b463"
+    },
+    "music.pal.014": {
+      "kind": "music",
+      "path": "assets/migrated/music/014.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/014.mid"
+      },
+      "bytes": 12465,
+      "sha256": "fb3f61a748439383fac1653ec1caefd2ccecb1a3be93110d68107a18f323b001"
+    },
+    "music.pal.015": {
+      "kind": "music",
+      "path": "assets/migrated/music/015.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/015.mid"
+      },
+      "bytes": 4388,
+      "sha256": "c2b2b7e98efc9a23d63befaacc500260d792041dfde2a1468d0828d2ee780ea4"
+    },
+    "music.pal.016": {
+      "kind": "music",
+      "path": "assets/migrated/music/016.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/016.mid"
+      },
+      "bytes": 10440,
+      "sha256": "e3d3e09721594946f289f2352ced09c34fb52cda5aceafd99f87075d317d706d"
+    },
+    "music.pal.017": {
+      "kind": "music",
+      "path": "assets/migrated/music/017.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/017.mid"
+      },
+      "bytes": 10143,
+      "sha256": "771774bbc74321ff11d71362537427e68647680a7838db14b1b11786779fed93"
+    },
+    "music.pal.018": {
+      "kind": "music",
+      "path": "assets/migrated/music/018.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/018.mid"
+      },
+      "bytes": 20395,
+      "sha256": "fe7292710613b1be430260b990e1c483a7c03c85991658d21d0216801ff5c21a"
+    },
+    "music.pal.019": {
+      "kind": "music",
+      "path": "assets/migrated/music/019.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/019.mid"
+      },
+      "bytes": 6764,
+      "sha256": "8592d39a0294181b21b38e49adfb16d260c476daf680dbff3b926441266cb0c5"
+    },
+    "music.pal.020": {
+      "kind": "music",
+      "path": "assets/migrated/music/020.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/020.mid"
+      },
+      "bytes": 30913,
+      "sha256": "e218cce84c8a79cc6bb22f52bc9779fe6d85d444d984ce2750837435bea0d185"
+    },
+    "music.pal.021": {
+      "kind": "music",
+      "path": "assets/migrated/music/021.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/021.mid"
+      },
+      "bytes": 10032,
+      "sha256": "cec7dcdf60d0fec42262e032880f85af72eeb3ab62f4c492befb44766ce83c01"
+    },
+    "music.pal.022": {
+      "kind": "music",
+      "path": "assets/migrated/music/022.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/022.mid"
+      },
+      "bytes": 8890,
+      "sha256": "692f2ad77e3cba2f1423b67f40a9c17aaa9590e6927eb9f0eac65fcc92fe7a96"
+    },
+    "music.pal.023": {
+      "kind": "music",
+      "path": "assets/migrated/music/023.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/023.mid"
+      },
+      "bytes": 11306,
+      "sha256": "37e92cd98b2221c80df80c671214a583c4ea4d0ba07c5a43f97e31ec2592826e"
+    },
+    "music.pal.024": {
+      "kind": "music",
+      "path": "assets/migrated/music/024.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/024.mid"
+      },
+      "bytes": 7839,
+      "sha256": "be170b2cd3060484133c12821efabd7acbe26de68852fcf75e10e71810672e9f"
+    },
+    "music.pal.025": {
+      "kind": "music",
+      "path": "assets/migrated/music/025.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/025.mid"
+      },
+      "bytes": 11633,
+      "sha256": "8158b227e84b83d9c4ba44e7d32a88efc0bc5ac5c2054c84d8da4ad16e63aaa2"
+    },
+    "music.pal.026": {
+      "kind": "music",
+      "path": "assets/migrated/music/026.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/026.mid"
+      },
+      "bytes": 6858,
+      "sha256": "29625ce42f9aaffd7cc4de5b9140a68c893b1c55add7bf3b8f4ea1d53579ffee"
+    },
+    "music.pal.027": {
+      "kind": "music",
+      "path": "assets/migrated/music/027.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/027.mid"
+      },
+      "bytes": 7929,
+      "sha256": "c14770233e7b30413bacd3bf2ab45ec0911812ea2be8d91885f81e88c77d51f1"
+    },
+    "music.pal.028": {
+      "kind": "music",
+      "path": "assets/migrated/music/028.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/028.mid"
+      },
+      "bytes": 1199,
+      "sha256": "7f1abaeaac9dcf2ed793d7fc9fe57264aa0ff8d63f9549e186099d4ed39ad491"
+    },
+    "music.pal.030": {
+      "kind": "music",
+      "path": "assets/migrated/music/030.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/030.mid"
+      },
+      "bytes": 1046,
+      "sha256": "9caaba791c6390b61d80ae1756f3a52b1c3b8d43a7726ca963d8c11c81973bc2"
+    },
+    "music.pal.031": {
+      "kind": "music",
+      "path": "assets/migrated/music/031.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/031.mid"
+      },
+      "bytes": 6217,
+      "sha256": "d086ed97e75c49a4231d03929dd8e1ec72027959d1a471fdf187fb799168a1bc"
+    },
+    "music.pal.032": {
+      "kind": "music",
+      "path": "assets/migrated/music/032.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/032.mid"
+      },
+      "bytes": 8114,
+      "sha256": "ea4fc24a040cc387f587a5119a90caffd8f0695c4459cba55a79dc3530470488"
+    },
+    "music.pal.033": {
+      "kind": "music",
+      "path": "assets/migrated/music/033.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/033.mid"
+      },
+      "bytes": 970,
+      "sha256": "21621f187e3e0a5a7a66176f6d6554d43cd174d3a5b512ac3652ae7e0fd2757f"
+    },
+    "music.pal.034": {
+      "kind": "music",
+      "path": "assets/migrated/music/034.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/034.mid"
+      },
+      "bytes": 6123,
+      "sha256": "e8d846cc7add857908672e60800775df2dc1f44310a88a6464c6502ac500a4c8"
+    },
+    "music.pal.035": {
+      "kind": "music",
+      "path": "assets/migrated/music/035.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/035.mid"
+      },
+      "bytes": 6240,
+      "sha256": "459f8288ec96035656ccd0cb460b7a8391d6be903c058220072c62103d0f9186"
+    },
+    "music.pal.036": {
+      "kind": "music",
+      "path": "assets/migrated/music/036.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/036.mid"
+      },
+      "bytes": 2541,
+      "sha256": "ef1da7d74798b16c4a5034aaf2dca06d969d30031e975f98f037c1917cc61750"
+    },
+    "music.pal.037": {
+      "kind": "music",
+      "path": "assets/migrated/music/037.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/037.mid"
+      },
+      "bytes": 24617,
+      "sha256": "a263e590d90ecbf046f0eaa81331eaceeb50b6485062a9f51b0d3d6d59f811a7"
+    },
+    "music.pal.038": {
+      "kind": "music",
+      "path": "assets/migrated/music/038.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/038.mid"
+      },
+      "bytes": 24617,
+      "sha256": "a263e590d90ecbf046f0eaa81331eaceeb50b6485062a9f51b0d3d6d59f811a7"
+    },
+    "music.pal.039": {
+      "kind": "music",
+      "path": "assets/migrated/music/039.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/039.mid"
+      },
+      "bytes": 27318,
+      "sha256": "5d479038367a5486ed04a56048aca479a6425e49df3a414c0cf26c795ffd1347"
+    },
+    "music.pal.040": {
+      "kind": "music",
+      "path": "assets/migrated/music/040.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/040.mid"
+      },
+      "bytes": 8141,
+      "sha256": "3ba0017353a9eb6991efbe3e6e7eb9085b879f92e4868fc6d882fc332d1133b8"
+    },
+    "music.pal.041": {
+      "kind": "music",
+      "path": "assets/migrated/music/041.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/041.mid"
+      },
+      "bytes": 8141,
+      "sha256": "3ba0017353a9eb6991efbe3e6e7eb9085b879f92e4868fc6d882fc332d1133b8"
+    },
+    "music.pal.042": {
+      "kind": "music",
+      "path": "assets/migrated/music/042.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/042.mid"
+      },
+      "bytes": 6396,
+      "sha256": "cfeec640375fc4e380ba45492e3c4382a9aa66a0f84487a3d3e8671f186196a2"
+    },
+    "music.pal.043": {
+      "kind": "music",
+      "path": "assets/migrated/music/043.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/043.mid"
+      },
+      "bytes": 12449,
+      "sha256": "c3b5aa79e1c2aa351352f243d0f01bd9dd65efce974aea28a2d437324a9bfc79"
+    },
+    "music.pal.044": {
+      "kind": "music",
+      "path": "assets/migrated/music/044.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/044.mid"
+      },
+      "bytes": 9413,
+      "sha256": "7dff8209554147dc84617770c2474ec7858508e21292ae4e2ba3c27d3ebe59a7"
+    },
+    "music.pal.045": {
+      "kind": "music",
+      "path": "assets/migrated/music/045.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/045.mid"
+      },
+      "bytes": 31083,
+      "sha256": "0a8ba0081ac565818823a0805027feb1be253329153c3904f65d2dd5c8d2558c"
+    },
+    "music.pal.046": {
+      "kind": "music",
+      "path": "assets/migrated/music/046.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/046.mid"
+      },
+      "bytes": 31083,
+      "sha256": "1043149e1f5dd72c58b4e38b2261f05eaa12d66a90c02e189643a98b0d42649e"
+    },
+    "music.pal.047": {
+      "kind": "music",
+      "path": "assets/migrated/music/047.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/047.mid"
+      },
+      "bytes": 6305,
+      "sha256": "6b83df7b79b9364fbdd05c0789f08e3662963a540995b2510ac928a402ea11c1"
+    },
+    "music.pal.048": {
+      "kind": "music",
+      "path": "assets/migrated/music/048.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/048.mid"
+      },
+      "bytes": 6385,
+      "sha256": "6a87140b2b5de2ed0903739aaa5ee8901a93885d49a1d93dfb70c13e18097694"
+    },
+    "music.pal.049": {
+      "kind": "music",
+      "path": "assets/migrated/music/049.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/049.mid"
+      },
+      "bytes": 8218,
+      "sha256": "cc691366211d31b40732eb5469d3207078bb8cddaf4438da2a53f118d3509626"
+    },
+    "music.pal.050": {
+      "kind": "music",
+      "path": "assets/migrated/music/050.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/050.mid"
+      },
+      "bytes": 12590,
+      "sha256": "efaf88f391b62e7507a18684bb4b790fa372cbd2b57684b37865c0c7a76a1a62"
+    },
+    "music.pal.051": {
+      "kind": "music",
+      "path": "assets/migrated/music/051.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/051.mid"
+      },
+      "bytes": 3399,
+      "sha256": "41c0235b451a3db544a12d32dd568e543b470730039bea24cb0385877ec455fe"
+    },
+    "music.pal.052": {
+      "kind": "music",
+      "path": "assets/migrated/music/052.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/052.mid"
+      },
+      "bytes": 15700,
+      "sha256": "d96147739323e5a738281deda234c5ef3428ea3de6a0f2c15bb71b1f147ffe6b"
+    },
+    "music.pal.053": {
+      "kind": "music",
+      "path": "assets/migrated/music/053.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/053.mid"
+      },
+      "bytes": 18137,
+      "sha256": "a78ed835831c1f8be4125aad6ab83ecb82de0aa090535d7851618efd4bf5bee3"
+    },
+    "music.pal.054": {
+      "kind": "music",
+      "path": "assets/migrated/music/054.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/054.mid"
+      },
+      "bytes": 13595,
+      "sha256": "68b0b31c73a5f485dee52d6a84dd7e428df73ce85694ed95e17d7e8a2c3d73a3"
+    },
+    "music.pal.055": {
+      "kind": "music",
+      "path": "assets/migrated/music/055.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/055.mid"
+      },
+      "bytes": 7753,
+      "sha256": "968739b504eab9577f2f6046d0fd6e452d79dc2c69162149b2837b3c2035e7cd"
+    },
+    "music.pal.056": {
+      "kind": "music",
+      "path": "assets/migrated/music/056.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/056.mid"
+      },
+      "bytes": 13221,
+      "sha256": "ec3dc85c72e629ea727264e8fb3ccf976de5433c4e0709a535e2e07e90a61447"
+    },
+    "music.pal.057": {
+      "kind": "music",
+      "path": "assets/migrated/music/057.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/057.mid"
+      },
+      "bytes": 6384,
+      "sha256": "d8902898c36e961ac4f183b2873097a292b09f39a9c3d15750a3b7219f0d379e"
+    },
+    "music.pal.058": {
+      "kind": "music",
+      "path": "assets/migrated/music/058.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/058.mid"
+      },
+      "bytes": 7530,
+      "sha256": "3c0392e4f56c6d1e889cdecf362493d095ece2e059d1416ee774ecaad2f2c1de"
+    },
+    "music.pal.059": {
+      "kind": "music",
+      "path": "assets/migrated/music/059.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/059.mid"
+      },
+      "bytes": 9392,
+      "sha256": "f80d4cb5e4301015aa826b8533614972a31fa4985ef0aefcf9b0d568028e4639"
+    },
+    "music.pal.060": {
+      "kind": "music",
+      "path": "assets/migrated/music/060.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/060.mid"
+      },
+      "bytes": 6228,
+      "sha256": "e0ffa8b646a778304ad3069a41d0f2ddfd2a579cde8a182b1ecd2478f79467df"
+    },
+    "music.pal.061": {
+      "kind": "music",
+      "path": "assets/migrated/music/061.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/061.mid"
+      },
+      "bytes": 387,
+      "sha256": "d6c60a181e25d58841c93cb5cc268fb640950a13e9dbaa6ee59740f52ab6dfa4"
+    },
+    "music.pal.062": {
+      "kind": "music",
+      "path": "assets/migrated/music/062.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/062.mid"
+      },
+      "bytes": 3761,
+      "sha256": "856c8b402f59d0a21e39b7b95b4583d8cfbc08201cf8197aef666a2a52cee5c6"
+    },
+    "music.pal.063": {
+      "kind": "music",
+      "path": "assets/migrated/music/063.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/063.mid"
+      },
+      "bytes": 1873,
+      "sha256": "45924257bd0c2042f6936aec2a2090ca08f8447cc44db8bc4da6dbbaebe75ea1"
+    },
+    "music.pal.064": {
+      "kind": "music",
+      "path": "assets/migrated/music/064.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/064.mid"
+      },
+      "bytes": 4819,
+      "sha256": "4add0524b61afd5666e1369d6b80d61bfa80164db334b4d3eb5256975aa32e4c"
+    },
+    "music.pal.065": {
+      "kind": "music",
+      "path": "assets/migrated/music/065.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/065.mid"
+      },
+      "bytes": 5587,
+      "sha256": "d2c7138f4a0aa0f6874d449916ec1d3ec5dec6ffc5625d873e2443161ce26c11"
+    },
+    "music.pal.066": {
+      "kind": "music",
+      "path": "assets/migrated/music/066.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/066.mid"
+      },
+      "bytes": 15713,
+      "sha256": "05fc5ff2fa253e1cf111e6de4c2dc15ce4fb017defb5896cbe83324fcb60dde4"
+    },
+    "music.pal.067": {
+      "kind": "music",
+      "path": "assets/migrated/music/067.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/067.mid"
+      },
+      "bytes": 3835,
+      "sha256": "51289135e6490876b1628b512f9658ead537c9831ff40a8351845a4a4740283d"
+    },
+    "music.pal.068": {
+      "kind": "music",
+      "path": "assets/migrated/music/068.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/068.mid"
+      },
+      "bytes": 16542,
+      "sha256": "4a1f98446374b8546894b35c2203e45fc201682dcb21b00e015211fd97e07d62"
+    },
+    "music.pal.069": {
+      "kind": "music",
+      "path": "assets/migrated/music/069.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/069.mid"
+      },
+      "bytes": 3324,
+      "sha256": "6021c73245511fe0e7c8341baccae96572a30a656bd4e254b38d3fa42e1b5ab9"
+    },
+    "music.pal.070": {
+      "kind": "music",
+      "path": "assets/migrated/music/070.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/070.mid"
+      },
+      "bytes": 4097,
+      "sha256": "61753eb1ce1a108405180a94c64071aad47da75d14f86f3986914b255e7281fe"
+    },
+    "music.pal.071": {
+      "kind": "music",
+      "path": "assets/migrated/music/071.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/071.mid"
+      },
+      "bytes": 7279,
+      "sha256": "aad7f6b2cf4d574a7dafef8f58ff43cb86d5ddb343e7802026cda53a5757c931"
+    },
+    "music.pal.072": {
+      "kind": "music",
+      "path": "assets/migrated/music/072.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/072.mid"
+      },
+      "bytes": 2731,
+      "sha256": "aa0f14acc3ef4d657e3164f023d3ed9d204654e1db3ecbb3eec158af1b3c5343"
+    },
+    "music.pal.073": {
+      "kind": "music",
+      "path": "assets/migrated/music/073.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/073.mid"
+      },
+      "bytes": 12890,
+      "sha256": "b8552617dc37915c6d04e104f2ca69502f405a3cd843713c3995b6b9dafee5b5"
+    },
+    "music.pal.074": {
+      "kind": "music",
+      "path": "assets/migrated/music/074.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/074.mid"
+      },
+      "bytes": 1840,
+      "sha256": "922929409381c2ed74f77d2c7708448ac529bf1e618d9e21b0457856efb77c8b"
+    },
+    "music.pal.075": {
+      "kind": "music",
+      "path": "assets/migrated/music/075.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/075.mid"
+      },
+      "bytes": 10331,
+      "sha256": "41f7edb895b80a592d2a841e4cd3dbbf9ffca679f2b4c276ce2a3d22bbc1049f"
+    },
+    "music.pal.076": {
+      "kind": "music",
+      "path": "assets/migrated/music/076.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/076.mid"
+      },
+      "bytes": 9620,
+      "sha256": "4f831e55b682cb9818e6d52628b240ddd76d3d5b63f3f77ed77dc3cca5d4fe78"
+    },
+    "music.pal.077": {
+      "kind": "music",
+      "path": "assets/migrated/music/077.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 077",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/077.mid"
+      },
+      "bytes": 5236,
+      "sha256": "1a916988a4e422e7581fa9fe6739ea8fbc227b5aa3807360ac6cffe543240ebf"
+    },
+    "music.pal.078": {
+      "kind": "music",
+      "path": "assets/migrated/music/078.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 078",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/078.mid"
+      },
+      "bytes": 6729,
+      "sha256": "22dec5740ac76416fcb0ce41c0f0b5f1c9515f94e5a4013f8238536b595386c5"
+    },
+    "music.pal.079": {
+      "kind": "music",
+      "path": "assets/migrated/music/079.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 079",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/079.mid"
+      },
+      "bytes": 5788,
+      "sha256": "6de394479995dc8a89e6e02faae46703696049b690d213a12b7e46e4676a5dbb"
+    },
+    "music.pal.080": {
+      "kind": "music",
+      "path": "assets/migrated/music/080.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/080.mid"
+      },
+      "bytes": 14060,
+      "sha256": "e763cad9f904498ebc924d984ccc9e2562a657895411ebb3b2fd2d0912816ec2"
+    },
+    "music.pal.081": {
+      "kind": "music",
+      "path": "assets/migrated/music/081.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/081.mid"
+      },
+      "bytes": 8102,
+      "sha256": "8b844985aa8b203c5afdf47b7311eb67d75fa82a98957865212edf4a22ee8310"
+    },
+    "music.pal.082": {
+      "kind": "music",
+      "path": "assets/migrated/music/082.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/082.mid"
+      },
+      "bytes": 7783,
+      "sha256": "ac2d7146f673a0d42fb2362a25f24c28bc7729a054fa455f52a2879eeb80bd3b"
+    },
+    "music.pal.083": {
+      "kind": "music",
+      "path": "assets/migrated/music/083.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/083.mid"
+      },
+      "bytes": 2630,
+      "sha256": "87fea2b92f3f5a3d9b696f7e3d223499dfed38271396821569895cca478924fd"
+    },
+    "music.pal.084": {
+      "kind": "music",
+      "path": "assets/migrated/music/084.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/084.mid"
+      },
+      "bytes": 10389,
+      "sha256": "795ffb39918abaacf87f8e21ce96c6aa312a8d656745af956e84db312363ed71"
+    },
+    "music.pal.085": {
+      "kind": "music",
+      "path": "assets/migrated/music/085.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/085.mid"
+      },
+      "bytes": 3762,
+      "sha256": "6e6a824b796935b7961ba87393ff7cc99af2e8c3833c030279e14b0f510573c0"
+    },
+    "music.pal.086": {
+      "kind": "music",
+      "path": "assets/migrated/music/086.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/086.mid"
+      },
+      "bytes": 13980,
+      "sha256": "81c008415364ea700561bd1bfebf386157ed886b3edb17bc3b886e289d04bb82"
+    },
+    "music.pal.087": {
+      "kind": "music",
+      "path": "assets/migrated/music/087.mid",
+      "mediaType": "audio/midi",
+      "label": "PAL 音乐 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "music/087.mid"
+      },
+      "bytes": 3528,
+      "sha256": "39501e3aa2c8d32d2db597769055a07a71f1c00a64d9d08a18ba4056704f1901"
+    },
+    "soundfont.default": {
+      "kind": "soundfont",
+      "path": "assets/runtime/soundfont.sf3",
+      "mediaType": "audio/sf3",
+      "label": "TimGM6mb",
+      "origin": {
+        "kind": "licensed",
+        "ref": "packages/reforge/public/soundfont.sf3"
+      },
+      "bytes": 5969788,
+      "sha256": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854"
+    }
+  }
+}

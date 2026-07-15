@@ -16,10 +16,15 @@ const base: AssetBase = {
   sprites: 'sprite',
   palettes: 'palette',
   sounds: 'sound',
-  music: 'music',
   portraits: 'portrait',
   faces: 'face',
   itemIcons: 'item-icon',
+  io: {
+    readText: async () => '',
+    readJson: async <T>() => ({}) as T,
+    readBytes: async () => new ArrayBuffer(0),
+    urlFor: async (path) => path,
+  },
 }
 const fakeMap: ProjectMapV2 = {
   version: 2,

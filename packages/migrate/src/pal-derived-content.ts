@@ -1,4 +1,4 @@
-import type { MusicDef, PoisonDef, ShopDef } from '@type-pal/content'
+import type { PoisonDef, ShopDef } from '@type-pal/content'
 
 export interface SourceObjectPoison {
   id: number
@@ -165,10 +165,6 @@ export function migratePalPoisons(source: readonly SourceObjectPoison[]): Poison
       ],
     },
   ]
-}
-
-export function migratePalMusic(midi: readonly number[]): MusicDef[] {
-  return midi.map((id) => ({ id }))
 }
 
 export function migratePalShops(stores: readonly SourceStore[]): ShopDef[] {

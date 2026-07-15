@@ -340,7 +340,7 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
     const out = foldBattleConfig(body)
     expect(out).toEqual([
       { kind: 'setEntityFacing', entity: 'e1', facing: 'down' },
-      { kind: 'startBattle', team: 27, fieldId: 22, musicId: 44 },
+      { kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' },
     ])
   })
 
@@ -348,7 +348,7 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
     const body: Command[] = [
       battleCfgMarker({ fieldId: 53 }),
       battleCfgMarker({ musicId: 39 }),
-      { kind: 'playMusic', musicId: 30 },
+      { kind: 'playMusic', asset: 'music.pal.030' },
       { kind: 'dialog', cue: { rows: [{ text: 'x' }] } },
       { kind: 'startBattle', team: 1 },
     ]
@@ -367,7 +367,7 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
       onEnter: [
         {
           body: [
-            { kind: 'playMusic', musicId: 31 },
+            { kind: 'playMusic', asset: 'music.pal.031' },
             battleCfgMarker({ fieldId: 24 }),
             battleCfgMarker({ musicId: 37 }),
             battleCfgMarker({ musicId: 39 }), // 后设的赢 → 39(赤鬼王类打完设回区域曲)
@@ -377,8 +377,8 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
     } as unknown as SceneDef
     const r = finalizeBattleConfig(scene)
     expect(r.battleFieldId).toBe(24)
-    expect(r.battleMusicId).toBe(39)
-    expect(r.onEnter?.[0]?.body).toEqual([{ kind: 'playMusic', musicId: 31 }])
+    expect(r.battleMusic).toBe('music.pal.039')
+    expect(r.onEnter?.[0]?.body).toEqual([{ kind: 'playMusic', asset: 'music.pal.031' }])
   })
 })
 

@@ -161,7 +161,7 @@
     "scene/s266/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 59
+        "asset": "music.pal.059"
       },
       {
         "kind": "teleportParty",

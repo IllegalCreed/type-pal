@@ -23,6 +23,7 @@ import {
 import { commitMigrationTransaction } from './migration-transaction.js'
 import { validatePalMigrationTarget } from './migration-validate.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
+import { auditMusicReferences } from './music-reference-audit.js'
 import { buildPalMigration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
@@ -58,6 +59,19 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
   test('闭合 bootstrap -> 同事务工程+baseline -> 二次严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    expect(auditMusicReferences(theirs.files)).toEqual({
+      musicAssets: 86,
+      playMusic: 1_174,
+      stopMusic: 53,
+      legacyPlayMusicTotal: 1_227,
+      sceneMusic: 36,
+      sceneBattleMusic: 81,
+      startBattleWithMusic: 31,
+      uniqueMusicRefs: 71,
+      missingMusicRefs: [],
+      legacyMusicKeys: 0,
+      internalBattleCfgMarkers: 0,
+    })
     expect(theirs.report.scenes.entryNormalization).toEqual({
       staticCommands: 863,
       uniqueTargets: 762,
@@ -84,6 +98,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       managedFiles: target.managedFiles,
       sources,
       startWorld: manifest.startWorld,
+      assets: manifest.assets,
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
@@ -139,6 +154,19 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
   test('当前工程 + baseline + 纯生成必须是严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    expect(auditMusicReferences(theirs.files)).toEqual({
+      musicAssets: 86,
+      playMusic: 1_174,
+      stopMusic: 53,
+      legacyPlayMusicTotal: 1_227,
+      sceneMusic: 36,
+      sceneBattleMusic: 81,
+      startBattleWithMusic: 31,
+      uniqueMusicRefs: 71,
+      missingMusicRefs: [],
+      legacyMusicKeys: 0,
+      internalBattleCfgMarkers: 0,
+    })
     expect(theirs.report.scenes.entryNormalization).toEqual({
       staticCommands: 863,
       uniqueTargets: 762,
@@ -164,6 +192,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       managedFiles: ours.managedFiles,
       sources,
       startWorld: manifest.startWorld,
+      assets: manifest.assets,
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)

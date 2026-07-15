@@ -285,7 +285,7 @@
     "scene/s023/override/on-enter/L-6866/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 50
+        "asset": "music.pal.050"
       },
       {
         "kind": "clearDialog"

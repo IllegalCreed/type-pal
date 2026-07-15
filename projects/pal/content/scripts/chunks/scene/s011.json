@@ -14,8 +14,7 @@
     ],
     "scene/s011/root/entity-e195/page-0/trigger/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "clearDialog"
@@ -147,7 +146,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 86
+        "asset": "music.pal.086"
       },
       {
         "kind": "playRng",

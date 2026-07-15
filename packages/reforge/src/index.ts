@@ -73,6 +73,7 @@ export {
 export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
 export { encodeSpriteChunk, parseSpriteChunk } from '@type-pal/shared'
+export { AssetResolver } from './asset-resolver.js'
 export { tilesFromChunkBytes } from './assets.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
@@ -150,11 +151,11 @@ export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
 export type { ScriptHost, StepEvent }
 export { evalCondition, ScriptRunner }
 
-import type { BgmPlayer } from './audio/bgm.js'
+import type { AudioAssetReader, BgmPlayer } from './audio/bgm.js'
 // BGM 播放器(W5:编辑器试听复用;引擎 main.ts 自用同款)
 import { createBgmPlayer } from './audio/bgm.js'
 
-export type { BgmPlayer }
+export type { AudioAssetReader, BgmPlayer }
 export { createBgmPlayer }
 
 import type { PlayRngOptions } from './rng-player.js'

@@ -264,4 +264,61 @@ describe('mergeManagedFile', () => {
       { path: expect.stringContaining('/desc'), type: 'value' },
     ])
   })
+
+  test('catalog 按 AssetId 合并，并把 authored 接管记录视为整条作者所有', () => {
+    const migrated = (path: string, hash: string) => ({
+      kind: 'music',
+      path,
+      mediaType: 'audio/midi',
+      bytes: 1,
+      sha256: hash.repeat(64),
+      label: path,
+      origin: { kind: 'legacy-migrated' },
+    })
+    const base = {
+      version: 1,
+      assets: {
+        a: migrated('assets/migrated/music/a.mid', 'a'),
+        b: migrated('assets/migrated/music/b.mid', 'b'),
+      },
+    }
+    const ours = {
+      version: 1,
+      assets: {
+        a: {
+          kind: 'music',
+          path: 'assets/authored/replacement.mid',
+          mediaType: 'audio/midi',
+          bytes: 2,
+          sha256: 'c'.repeat(64),
+          label: '作者替换曲',
+          origin: { kind: 'authored' },
+        },
+        b: base.assets.b,
+      },
+    }
+    const theirs = {
+      version: 1,
+      assets: {
+        a: migrated('assets/migrated/music/a-v2.mid', 'd'),
+        b: { ...migrated('assets/migrated/music/b.mid', 'e'), label: '迁移更新' },
+        c: migrated('assets/migrated/music/c.mid', 'f'),
+      },
+    }
+    const result = mergeManagedFile(
+      'assets/index.json',
+      jsonPresent(base),
+      jsonPresent(ours),
+      jsonPresent(theirs),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual({
+      version: 1,
+      assets: {
+        a: ours.assets.a,
+        b: theirs.assets.b,
+        c: theirs.assets.c,
+      },
+    })
+  })
 })

@@ -262,8 +262,7 @@
         "scene": "s119"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "fade",
@@ -272,7 +271,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s128/L-19309/e2245/d-d52ded5d": [],

@@ -7,7 +7,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import type { LoadedManifest } from '@type-pal/content'
+import type { AssetCatalogV1, LoadedManifest } from '@type-pal/content'
+import { validateAssetCatalog } from '@type-pal/content'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
@@ -41,6 +42,7 @@ import {
 } from '../src/migration-transaction.js'
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
+import { materializePalAudioAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
 import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
@@ -133,7 +135,8 @@ function reportValidation(validation: ReturnType<typeof validatePalMigrationTarg
       `sprite-refs=entities:${refs.entities.total}/${refs.entities.migrated},` +
       `actors:${refs.actors.total}/${refs.actors.migrated},` +
       `setActorSprite:${refs.setActorSprite.total}/${refs.setActorSprite.migrated},` +
-      `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated}`,
+      `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated} ` +
+      `asset-refs=${validation.assetReferences} asset-warnings=${validation.assetWarnings}`,
   )
 }
 
@@ -154,6 +157,7 @@ async function commitAndVerify(args: {
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
   previousBaseline?: MigrationSnapshot
   theirs: MigrationFileSet
+  binaryAssets: readonly PalBinaryAssetSource[]
 }): Promise<void> {
   const { ours, target, plan, previousBaseline, theirs } = args
   const nextBaseline = snapshotOf(theirs)
@@ -178,6 +182,20 @@ async function commitAndVerify(args: {
   const postManaged = discoverProjectManagedFiles(repo, target.managedFiles)
   const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
   sameSnapshot(target, projectAfter, '写盘工程与合并 target')
+
+  const catalog = validateAssetCatalog(
+    target.files.get('assets/index.json') as AssetCatalogV1,
+    'PAL 迁移 target assets/index.json',
+  )
+  const materialized = materializePalAudioAssets({
+    repo,
+    catalog,
+    binaries: args.binaryAssets,
+  })
+  console.log(
+    `[音频物化] files=${materialized.files} bytes=${materialized.bytes} ` +
+      `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
+  )
 
   // 真正重读提取源并重跑纯生成，不用上一轮内存结果冒充幂等。
   const sources2 = loadPalMigrationSources(repo)
@@ -247,6 +265,7 @@ async function main(): Promise<void> {
       managedFiles: target.managedFiles,
       sources,
       startWorld: manifest.startWorld,
+      assets: manifest.assets,
     })
     reportValidation(validation)
     const plan = createInitialMigrationPlan(ours, target)
@@ -256,6 +275,7 @@ async function main(): Promise<void> {
       target,
       plan,
       theirs,
+      binaryAssets: sources.binaryAssets,
     })
     return
   }
@@ -276,6 +296,7 @@ async function main(): Promise<void> {
     managedFiles: target.managedFiles,
     sources,
     startWorld: manifest.startWorld,
+    assets: manifest.assets,
   })
   reportValidation(validation)
   if (!write) {
@@ -288,6 +309,7 @@ async function main(): Promise<void> {
     plan,
     previousBaseline: baseline,
     theirs,
+    binaryAssets: sources.binaryAssets,
   })
 }
 

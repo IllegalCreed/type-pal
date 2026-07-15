@@ -2416,8 +2416,7 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -2461,7 +2460,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 87
+        "asset": "music.pal.087"
       },
       {
         "kind": "setEntityAuto",
@@ -2551,14 +2550,14 @@
     "scene/s004/override/on-enter/L-1/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 49
+        "asset": "music.pal.049"
       }
     ],
     "scene/s004/override/on-enter/L-1/stage-1": [],
     "scene/s004/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 49
+        "asset": "music.pal.049"
       }
     ],
     "scene/s004/root/on-enter/stage-1": [],

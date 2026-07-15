@@ -12,13 +12,13 @@
     "scene/s214/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       }
     ],
     "scene/s214/root/on-teleport/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       }
     ],
     "scene/s214/root/entity-e3645/page-0/trigger/stage-0": [

@@ -2,16 +2,21 @@ import type {
   Command,
   EnemyDef,
   EnemyTeamDef,
+  ManifestAssetConfigV3,
   ScriptChunkV1,
   ScriptIndexV1,
   StartWorld,
 } from '@type-pal/content'
 import {
   checkScriptIndex,
+  collectAssetReferences,
   stableScriptHash,
   validateActors,
+  validateAssetCatalog,
+  validateAssetReferenceClosure,
   validateItems,
   validateLocale,
+  validateManifestAssetConfigV3,
   validateMapIndex,
   validateProjectMapV2,
   validateReferences,
@@ -29,6 +34,8 @@ export interface MigrationValidationReport {
   maps: number
   managedFiles: number
   referenceWarnings: number
+  assetReferences: number
+  assetWarnings: number
   spriteReferences: SpriteReferenceClosureReport
   sceneEntryReferences: SceneEntryReferenceClosureReport
   scriptAudit: ReturnType<typeof auditScriptLibrary>
@@ -335,8 +342,11 @@ export function validatePalMigrationTarget(args: {
   managedFiles: ReadonlySet<string>
   sources: PalMigrationSources
   startWorld: StartWorld
+  assets: ManifestAssetConfigV3
 }): MigrationValidationReport {
   const { files, managedFiles, sources, startWorld } = args
+  const assetCatalog = validateAssetCatalog(required(files, 'assets/index.json'))
+  validateManifestAssetConfigV3(args.assets, assetCatalog)
   const actors = validateActors(required(files, 'content/actors.json'))
   const skillData = validateSkills(required(files, 'content/skills.json'))
   const items = validateItems(required(files, 'content/items.json'))
@@ -367,7 +377,6 @@ export function validatePalMigrationTarget(args: {
   for (const path of [
     'content/enemies.json',
     'content/enemy-teams.json',
-    'content/music.json',
     'content/battle-fields.json',
     'content/poisons.json',
     'content/shops.json',
@@ -404,7 +413,6 @@ export function validatePalMigrationTarget(args: {
     startWorld,
     enemies,
     enemyTeams,
-    music: required(files, 'content/music.json') as never,
     battleFields: required(files, 'content/battle-fields.json') as never,
     poisons: required(files, 'content/poisons.json') as never,
     shops: required(files, 'content/shops.json') as never,
@@ -451,6 +459,21 @@ export function validatePalMigrationTarget(args: {
   )
   if (orphanChunk) throw new Error(`合并结果有孤儿脚本 chunk ${orphanChunk}`)
 
+  const assetReferences = collectAssetReferences({
+    assets: args.assets,
+    scenes,
+    scriptChunks: chunks,
+    enemies,
+  })
+  const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
+  const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')
+  if (assetErrors.length)
+    throw new Error(
+      `资源引用闭包门禁失败:\n${assetErrors
+        .map((issue) => `${issue.where}: ${issue.message}`)
+        .join('\n')}`,
+    )
+
   const scriptAudit = auditScriptLibrary({
     sourceJson: sources.allJson,
     sourcePrettyBytes: sources.allJsonPrettyBytes,
@@ -466,6 +489,8 @@ export function validatePalMigrationTarget(args: {
     maps: mapIndex.maps.length,
     managedFiles: managedFiles.size,
     referenceWarnings: issues.length - referenceErrors.length,
+    assetReferences: assetReferences.length,
+    assetWarnings: assetIssues.length - assetErrors.length,
     spriteReferences,
     sceneEntryReferences,
     scriptAudit,

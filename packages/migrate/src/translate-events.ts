@@ -14,9 +14,11 @@
  *    不得生成可执行占位命令。
  */
 import {
+  type AssetId,
   type Command,
   type DialogueCue,
   deriveScriptChunk,
+  palMusicAssetId,
   pixelDeltaToGridDelta,
   pixelToGrid,
   type ScriptChunkV1,
@@ -152,6 +154,10 @@ interface RegisteredScript {
 export interface ScriptRegistryOutput {
   index: ScriptIndexV1
   chunks: Record<string, ScriptChunkV1>
+}
+
+function palMusicCommand(track: number): Command {
+  return track <= 0 ? { kind: 'stopMusic' } : { kind: 'playMusic', asset: palMusicAssetId(track) }
 }
 
 /** 翻译期图注册表：同一 label+owner+入口对话态只翻译一次，环只留下 O(1) ref。 */
@@ -864,9 +870,9 @@ function walkBody(
       } else if (oc === 0x08) {
         push(undefined) // 0x08 触发入口推进(script.c:3335;stage 推进体系已承担),NOP
       } else if (oc === 0x77) {
-        push({ kind: 'playMusic', musicId: 0 }) // 0x77 停当前音乐(script.c:2215)
+        push({ kind: 'stopMusic' }) // 0x77 停当前音乐(script.c:2215)
       } else if (oc === 0xa3) {
-        push({ kind: 'playMusic', musicId: o[1] ?? 0 }) // 0xA3 CD 音轨 → 回退 RIX 曲 op1(script.c:3023)
+        push(palMusicCommand(o[1] ?? 0)) // 0xA3 CD 音轨 → 回退 RIX 曲 op1(script.c:3023)
       } else if (oc === 0x85) {
         push({ kind: 'wait', ms: (o[0] ?? 0) * 80 }) // 0x85 延时 op0×80ms(script.c:2511)
       } else if (oc === 0x8c) {
@@ -1004,7 +1010,7 @@ function walkBody(
           body.push({ kind: 'setEntityFrame', entity: ent16, frame: o[2] ?? 0 })
         }
       } else if (oc === 0x47) push({ kind: 'playSound', soundId: o[0] ?? 0 })
-      else if (oc === 0x43) push({ kind: 'playMusic', musicId: o[0] ?? 0 })
+      else if (oc === 0x43) push(palMusicCommand(o[0] ?? 0))
       // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 迁移期内部标记 BattleCfgMarker
       // (schema overrideSceneBattle 已退役,不复活):邻战 → fold 进 startBattle 一次性参数;
       // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
@@ -1517,7 +1523,7 @@ export function asBattleCfg(c: Command): BattleCfgMarker | undefined {
 /**
  * 战斗配置 peephole:BattleCfgMarker(0x45/0x4A 翻译产物)——
  * ① 相邻同类合并(field+music 常成对出现);② 其后 ≤3 距离内出现 startBattle →
- * fold 成该 startBattle 的一次性 fieldId/musicId(原版剧情战「战前现场设」的 28+28 处);
+ * fold 成该 startBattle 的一次性 fieldId/music(原版剧情战「战前现场设」的 28+28 处);
  * 剩余标记保留(bakeAndStripBattleCfg 烘成 SceneDef 默认;赤鬼王/水魔兽类打完回落场景默认)。
  */
 export function foldBattleConfig(body: Command[]): Command[] {
@@ -1547,7 +1553,9 @@ export function foldBattleConfig(body: Command[]): Command[] {
         body[k] = {
           ...n,
           ...(fieldId !== undefined ? { fieldId } : {}),
-          ...(musicId !== undefined ? { musicId } : {}),
+          ...(musicId !== undefined
+            ? { music: musicId <= 0 ? null : palMusicAssetId(musicId) }
+            : {}),
         }
         folded = true
         break
@@ -1569,7 +1577,7 @@ export function foldBattleConfig(body: Command[]): Command[] {
  */
 export function bakeAndStripBattleCfg(
   stages: ScriptStage[],
-  acc: { battleFieldId?: number; battleMusicId?: number },
+  acc: { battleFieldId?: number; battleMusic?: AssetId | null },
 ): ScriptStage[] {
   return stages.map((s) => ({
     ...s,
@@ -1577,7 +1585,8 @@ export function bakeAndStripBattleCfg(
       const m = asBattleCfg(c)
       if (!m) return true
       if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
-      if (m.musicId !== undefined) acc.battleMusicId = m.musicId
+      if (m.musicId !== undefined)
+        acc.battleMusic = m.musicId <= 0 ? null : palMusicAssetId(m.musicId)
       return false
     }),
   }))

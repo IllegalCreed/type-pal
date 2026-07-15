@@ -131,7 +131,7 @@
     "scene/s067/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 19
+        "asset": "music.pal.019"
       }
     ],
     "scene/s067/root/on-teleport/stage-0": [
@@ -180,8 +180,7 @@
         "entity": "e1342"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -276,11 +275,11 @@
         "team": 34,
         "boss": true,
         "fieldId": 57,
-        "musicId": 40
+        "music": "music.pal.040"
       },
       {
         "kind": "playMusic",
-        "musicId": 33
+        "asset": "music.pal.033"
       },
       {
         "kind": "setActorSprite",

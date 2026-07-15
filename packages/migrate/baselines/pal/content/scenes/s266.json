@@ -1,7 +1,7 @@
 {
   "id": "s266",
   "mapId": "map-005",
-  "musicId": 59,
+  "music": "music.pal.059",
   "entry": {
     "pos": {
       "col": 103,
@@ -317,7 +317,7 @@
     }
   ],
   "battleFieldId": 12,
-  "battleMusicId": 37,
+  "battleMusic": "music.pal.037",
   "entries": {
     "pal-entry-f98a4d28": {
       "label": "原版落点 (76, 12, 0)",

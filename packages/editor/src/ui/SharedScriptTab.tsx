@@ -1,5 +1,6 @@
 import {
   type ActorDef,
+  type AssetCatalogV1,
   type Command,
   getScriptBody,
   type Locale,
@@ -13,6 +14,7 @@ import {
 } from '@type-pal/content'
 import {
   type AssetBase,
+  type AudioAssetReader,
   MemoryScriptResolver,
   type ProjectMapV2,
   type TilesetDef,
@@ -91,6 +93,8 @@ export function SharedScriptTab(props: {
   sprites: SpriteDef[]
   actors: ActorDef[]
   assetBase: AssetBase
+  assetCatalog: AssetCatalogV1
+  audioResolver: AudioAssetReader
   projectMaps: Record<string, ProjectMapV2>
   mapIndex: MapIndexV1
   tilesets: readonly TilesetDef[]
@@ -111,6 +115,8 @@ export function SharedScriptTab(props: {
     sprites,
     actors,
     assetBase,
+    assetCatalog,
+    audioResolver,
     projectMaps,
     mapIndex,
     tilesets,
@@ -424,8 +430,8 @@ export function SharedScriptTab(props: {
                       cmd={selectedCommand}
                       scene={testScene}
                       locale={locale}
-                      music={session.getState().music ?? []}
-                      musicBase={assetBase.music}
+                      assetCatalog={assetCatalog}
+                      audioResolver={audioResolver}
                       scenes={scenes}
                       assetBase={assetBase}
                       actors={actorsById}

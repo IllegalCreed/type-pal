@@ -98,10 +98,10 @@ export function validateScenes(json: unknown): SceneDef[] {
   return validateSceneArray(json)
 }
 
-/** 运行时/编辑器只接受 contentVersion 2；旧工程必须先在迁移边界升级。 */
+/** 运行时/编辑器只接受 contentVersion 3；v2 只能在项目升级边界读取。 */
 export function validateScenesForContentVersion(json: unknown, contentVersion: number): SceneDef[] {
-  if (contentVersion !== 2)
-    throw new Error(`scenes: 仅支持 contentVersion 2，收到 ${contentVersion}；请先迁移工程`)
+  if (contentVersion !== 3)
+    throw new Error(`scenes: 仅支持 contentVersion 3，收到 ${contentVersion}；请先迁移工程`)
   return validateSceneArray(json)
 }
 

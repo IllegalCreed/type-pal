@@ -8,13 +8,13 @@
 
 import type {
   ActorDef,
+  AssetCatalogV1,
   EnemyTeamDef,
   EntityDef,
   GridPos,
   HostileBehavior,
   Locale,
   MapAssetDefV1,
-  MusicDef,
   SceneDef,
   SceneEntryPoint,
   SpriteDef,
@@ -59,6 +59,7 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { createEditorAudioReader } from '../core/editor-asset-reader.js'
 import {
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
@@ -199,6 +200,10 @@ export function App(props: {
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const state = session.getState()
+  const audioResolver = useMemo(
+    () => createEditorAudioReader(project.source, state),
+    [project.source, state],
+  )
   const bodyRef = useRef<HTMLDivElement>(null)
   const storedNavigationRef = useRef(readStoredEditorNavigation(state.manifest.id))
   const [location, setLocation] = useState<EditorLocation>(() =>
@@ -654,7 +659,7 @@ export function App(props: {
       const files = await serializeProjectWithMapCopies(session.getState(), project.source)
       snapshotRef.current = await writeProject(dir, files, {
         ...(snapshotRef.current ? { prevSnapshot: snapshotRef.current } : {}),
-        removePaths: session.getDeletedMapPaths(),
+        removePaths: [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()],
       })
       session.markSaved()
       setSaveErr('')
@@ -729,7 +734,7 @@ export function App(props: {
                       saveProjectAs(
                         await serializeProjectWithMapCopies(session.getState(), project.source),
                         dirHandleRef.current ?? undefined,
-                        session.getDeletedMapPaths(),
+                        [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()],
                       ),
                     )
                   }
@@ -872,7 +877,8 @@ export function App(props: {
             session={session}
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
-            music={state.music ?? []}
+            assetCatalog={state.assetCatalog}
+            audioResolver={audioResolver}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
             battleFields={state.battleFields ?? []}
@@ -1202,7 +1208,8 @@ export function App(props: {
                   tilesets={state.tilesets ?? []}
                   tilesetBlobs={state.tilesetBlobs}
                   session={session}
-                  music={state.music ?? []}
+                  assetCatalog={state.assetCatalog}
+                  audioResolver={audioResolver}
                   projectId={state.manifest.id}
                   ambiences={state.ambiences ?? []}
                   shops={state.shops ?? []}
@@ -1275,8 +1282,8 @@ export function App(props: {
                 <SceneInspector
                   scene={scene}
                   session={session}
-                  music={state.music ?? []}
-                  musicBase={project.assetBase.music}
+                  assetCatalog={state.assetCatalog}
+                  audioResolver={audioResolver}
                   maps={state.mapIndex.maps}
                   projectMaps={state.maps}
                   tilesets={state.tilesets ?? []}
@@ -2114,15 +2121,15 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
 function SceneInspector(props: {
   scene: SceneDef
   session: EditSession
-  /** 音乐库 + 试听前缀(场景 BGM 选择器)。 */
-  music: MusicDef[]
-  musicBase: string
+  assetCatalog: AssetCatalogV1
+  audioResolver: import('@type-pal/reforge').AudioAssetReader
   maps: MapAssetDefV1[]
   projectMaps: Record<string, ProjectMapV2>
   tilesets: readonly TilesetDef[]
   onOpenMap: (mapId: string) => void
 }) {
-  const { scene, session, music, musicBase, maps, projectMaps, tilesets, onOpenMap } = props
+  const { scene, session, assetCatalog, audioResolver, maps, projectMaps, tilesets, onOpenMap } =
+    props
   const mapId = scene.mapId
   const currentAsset = maps.find((asset) => asset.id === mapId)
   const mapSelectId = `scene-map-${scene.id}`
@@ -2223,11 +2230,12 @@ function SceneInspector(props: {
           </label>
           <MusicPicker
             id={musicSelectId}
-            value={scene.musicId}
-            onChange={(v) => session.dispatch(new UpdateSceneCommand(scene.id, { musicId: v }))}
-            music={music}
-            baseUrl={musicBase}
+            value={scene.music}
+            onChange={(music) => session.dispatch(new UpdateSceneCommand(scene.id, { music }))}
+            catalog={assetCatalog}
+            resolver={audioResolver}
             allowUnset
+            allowStop
           />
         </div>
       </div>

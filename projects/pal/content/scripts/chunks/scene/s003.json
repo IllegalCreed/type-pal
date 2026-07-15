@@ -1379,7 +1379,7 @@
         ],
         "boss": true,
         "fieldId": 24,
-        "musicId": 38,
+        "music": "music.pal.038",
         "choreography": [
           {
             "at": "turnStart",
@@ -1875,7 +1875,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 30
+        "asset": "music.pal.030"
       },
       {
         "kind": "setParty",
@@ -2692,13 +2692,13 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       }
     ],
     "scene/s003/L-41075/e59/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -2914,7 +2914,7 @@
         ],
         "boss": true,
         "fieldId": 24,
-        "musicId": 38,
+        "music": "music.pal.038",
         "choreography": [
           {
             "at": "turnStart",
@@ -3410,7 +3410,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 30
+        "asset": "music.pal.030"
       },
       {
         "kind": "setParty",
@@ -4227,13 +4227,13 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       }
     ],
     "scene/s003/L-41075/e60/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -4285,7 +4285,7 @@
         ],
         "boss": true,
         "fieldId": 24,
-        "musicId": 38,
+        "music": "music.pal.038",
         "choreography": [
           {
             "at": "turnStart",
@@ -4781,7 +4781,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 30
+        "asset": "music.pal.030"
       },
       {
         "kind": "setParty",
@@ -5598,13 +5598,13 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       }
     ],
     "scene/s003/L-41075/e61/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -6263,7 +6263,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 8
+        "asset": "music.pal.008"
       }
     ],
     "scene/s003/L-3064/e56/d-0a386828": [

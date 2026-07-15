@@ -500,7 +500,7 @@
     "scene/s001/L-41075/e27/d-f90d6925": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -3266,7 +3266,7 @@
     "scene/s001/root/entity-e27/page-0/trigger/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "setEntityTrigger",
@@ -3576,7 +3576,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       },
       {
         "kind": "setParty",

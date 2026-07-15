@@ -18,7 +18,7 @@ import {
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 2,
+  contentVersion: 3,
   entryScene: 'guijie-minju',
   content: {
     scenes: 'content/scenes/',
@@ -32,10 +32,15 @@ const manifest: LoadedManifest = {
     tilesets: 'content/tilesets.json',
   },
   assets: {
-    root: 'assets',
-    tilesets: 'tilesets',
-    sprites: 'sprites',
-    palettes: 'palettes',
+    catalog: 'assets/index.json',
+    roles: {},
+    legacy: {
+      families: ['tileset', 'sprite', 'color-table'],
+      root: 'assets',
+      tilesets: 'tilesets',
+      sprites: 'sprites',
+      palettes: 'palettes',
+    },
   },
   startWorld: {
     party: ['li-xiaoyao'],
@@ -151,6 +156,7 @@ const tilesetsJson = [
     path: 'tileset/56.rle',
   },
 ]
+const assetCatalogJson = { version: 1 as const, assets: {} }
 const JSONS = {
   actors: actorsJson,
   sceneIds: scenesJson.map((s) => s.id),
@@ -162,6 +168,7 @@ const JSONS = {
   battleFields: battleFieldsJson,
   maps: mapsJson,
   tilesets: tilesetsJson,
+  assetCatalog: assetCatalogJson,
 }
 const SCENES = scenesJson as never[]
 
@@ -272,7 +279,7 @@ test('ED-4A actor/sprite/touch zone/interact zone 保存重开保持引用与空
 test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {
   const map = buildBlankProjectMap(2, 2, 'tileset-056')
   const project = assembleProject(manifest, JSONS)
-  const state = toEditorState(project, SCENES, [], { 'map-056': map })
+  const state = toEditorState(project, SCENES, { 'map-056': map })
   const out = serializeProject(state)
 
   expect(out['content/maps/index.json']).toEqual(mapsJson)
@@ -334,7 +341,7 @@ test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', (
   })
   const chunk = chunks['scene/guijie-minju']!
   const project = assembleProject(withScripts, { ...JSONS, scripts: scriptIndex })
-  const state = toEditorState(project, SCENES, [], {}, chunks)
+  const state = toEditorState(project, SCENES, {}, chunks)
   const out = serializeProject(state)
   expect(out['content/scripts/index.json']).toEqual(scriptIndex)
   expect((out['content/scripts/index.json'] as typeof scriptIndex).library).toEqual(
@@ -369,7 +376,6 @@ test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
   const state = toEditorState(
     assembleProject(withScripts, { ...JSONS, scripts: index }),
     SCENES,
-    [],
     {},
     chunks,
   )
@@ -377,9 +383,9 @@ test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
 })
 
 test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
-  const ownManifest = {
+  const ownManifest: LoadedManifest = {
     ...manifest,
-    contentVersion: 2,
+    contentVersion: 3,
     content: { ...manifest.content, maps: 'content/maps/index.json' },
   }
   const rel = 'content/maps/guijie-minju.json'
@@ -394,9 +400,7 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
     maps: mapIndex,
   })
   const projectMap = buildBlankProjectMap(2, 2, 'tileset-056')
-  const files = serializeProject(
-    toEditorState(project, [ownScene], [], { 'guijie-minju': projectMap }),
-  )
+  const files = serializeProject(toEditorState(project, [ownScene], { 'guijie-minju': projectMap }))
   const source = {
     readText: async (path: string) =>
       typeof files[path] === 'string' ? (files[path] as string) : JSON.stringify(files[path]),
@@ -405,7 +409,7 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
     readBytes: async () => new ArrayBuffer(0),
     urlFor: async (path: string) => path,
   }
-  expect(await loadProjectMap({ ...project.assetBase, source }, rel)).toEqual(projectMap)
+  expect(await loadProjectMap({ ...project.assetBase, io: source }, rel)).toEqual(projectMap)
 })
 
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {
@@ -465,27 +469,38 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
       'content/skills.json',
       'content/sprites.json',
       'content/tilesets.json',
+      'assets/index.json',
       'manifest.json',
     ].sort(),
   )
 })
 
-test('W5 音乐库:manifest 声明 music → 注入/序列化 round-trip;未声明不产出', () => {
-  const withMusic = {
-    ...manifest,
-    content: { ...manifest.content, music: 'content/music.json' },
+test('A7 资源注册表与待写二进制 round-trip，不再产出 content/music.json', () => {
+  const project = assembleProject(manifest, JSONS)
+  const state = toEditorState(project, SCENES)
+  const bytes = new Uint8Array([0x4d, 0x54, 0x68, 0x64]).buffer
+  const assetCatalog = {
+    version: 1 as const,
+    assets: {
+      'music.demo.theme': {
+        kind: 'music' as const,
+        path: 'assets/authored/theme.mid',
+        mediaType: 'audio/midi',
+        bytes: 4,
+        sha256: 'a'.repeat(64),
+        label: '主题曲',
+        origin: { kind: 'authored' as const },
+      },
+    },
   }
-  const project = assembleProject(withMusic, JSONS)
-  const lib = [{ id: 1, name: '蝶恋' }, { id: 31 }]
-  const state = toEditorState(project, SCENES, lib)
-  expect(state.music).toBe(lib)
-  const out = serializeProject(state)
-  expect(out['content/music.json']).toEqual(lib)
-
-  // 未声明(原 manifest):不产出 music 文件;toEditorState 缺省空数组
-  const plain = toEditorState(assembleProject(manifest, JSONS), SCENES)
-  expect(plain.music).toEqual([])
-  expect(serializeProject(plain)['content/music.json']).toBeUndefined()
+  const out = serializeProject({
+    ...state,
+    assetCatalog,
+    assetBlobs: { 'assets/authored/theme.mid': bytes },
+  })
+  expect(out['assets/index.json']).toEqual(assetCatalog)
+  expect(out['assets/authored/theme.mid']).toBe(bytes)
+  expect(out['content/music.json']).toBeUndefined()
 })
 
 test('B10 毒表:manifest 声明 poisons → round-trip 保原文件序(非升序);未声明不产出', () => {
@@ -560,7 +575,7 @@ describe('diffFiles(增量-diff)', () => {
   test('删除未引用地图会改写 index，并把地图 JSON 列入 remove', () => {
     const ownManifest: LoadedManifest = {
       ...manifest,
-      contentVersion: 2,
+      contentVersion: 3,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'used' }
@@ -576,7 +591,7 @@ describe('diffFiles(增量-diff)', () => {
       entryScene: scene,
       maps: mapIndex,
     })
-    const state = toEditorState(project, [scene], [], {
+    const state = toEditorState(project, [scene], {
       used: buildBlankProjectMap(2, 2, 'used'),
       unused: buildBlankProjectMap(2, 2, 'unused'),
     })
@@ -597,7 +612,7 @@ describe('diffFiles(增量-diff)', () => {
   test('地图路径与其他工程输出碰撞时 fail-loud，不静默覆盖', () => {
     const ownManifest: LoadedManifest = {
       ...manifest,
-      contentVersion: 2,
+      contentVersion: 3,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'bad' }
@@ -615,7 +630,7 @@ describe('diffFiles(增量-diff)', () => {
         ],
       },
     })
-    const state = toEditorState(project, [scene], [], {
+    const state = toEditorState(project, [scene], {
       bad: buildBlankProjectMap(2, 2, 'starter'),
     })
     expect(() => serializeProject(state)).toThrow('输出路径冲突')

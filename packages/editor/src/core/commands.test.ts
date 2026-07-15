@@ -15,6 +15,7 @@ import {
   CreateMapAssetCommand,
   CreateProjectMapCommand,
   CreateScriptSourceCommand,
+  DeleteAssetCommand,
   DeleteAuthoredScriptCommand,
   DeleteEnemyCommand,
   DeleteEntityCommand,
@@ -35,18 +36,19 @@ import {
   SetEnemyBattleSpriteCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
+  UpdateAssetLabelCommand,
   UpdateBattleFieldCommand,
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
   UpdateLevelUpCommand,
-  UpdateMusicNameCommand,
   UpdatePoisonCommand,
   UpdateProjectMapLayerCommand,
   UpdateSceneCommand,
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
+  UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
 } from './commands.js'
@@ -67,14 +69,19 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 2,
+      contentVersion: 3,
       entryScene: 's',
       content: { maps: 'content/maps/index.json' },
       assets: {
-        root: 'assets',
-        tilesets: 'tilesets',
-        sprites: 'sprites',
-        palettes: 'palettes',
+        catalog: 'assets/index.json',
+        roles: {},
+        legacy: {
+          families: ['tileset', 'sprite', 'color-table'],
+          root: 'assets',
+          tilesets: 'tilesets',
+          sprites: 'sprites',
+          palettes: 'palettes',
+        },
       },
       startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     },
@@ -97,6 +104,8 @@ function st(): EditorState {
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
   } as never
 }
 
@@ -214,24 +223,24 @@ describe('布置命令集 · 不可变 + invert', () => {
   })
 
   // ── UpdateSceneCommand ─────────────────────────────────────
-  test('UpdateScene:改 musicId + 源不变;invert 还原(缺省→undefined)', () => {
+  test('UpdateScene:改 music + 源不变;invert 还原(缺省→undefined)', () => {
     const s0 = st()
-    const cmd = new UpdateSceneCommand('s', { musicId: 3 })
+    const cmd = new UpdateSceneCommand('s', { music: 'music.pal.003' })
     const s1 = cmd.apply(s0)
 
-    expect(s1.scenes[0]!.musicId).toBe(3)
-    expect(s0.scenes[0]!.musicId).toBeUndefined() // 源不变
-    expect(cmd.invert(s1).scenes[0]!.musicId).toBeUndefined()
+    expect(s1.scenes[0]!.music).toBe('music.pal.003')
+    expect(s0.scenes[0]!.music).toBeUndefined() // 源不变
+    expect(cmd.invert(s1).scenes[0]!.music).toBeUndefined()
   })
 
-  test('UpdateScene:已有 musicId 时 invert 还原旧值', () => {
+  test('UpdateScene:已有 music 时 invert 还原旧值', () => {
     const s0 = st()
-    s0.scenes[0]!.musicId = 1
-    const cmd = new UpdateSceneCommand('s', { musicId: 3 })
+    s0.scenes[0]!.music = 'music.pal.001'
+    const cmd = new UpdateSceneCommand('s', { music: 'music.pal.003' })
     const s1 = cmd.apply(s0)
 
-    expect(s1.scenes[0]!.musicId).toBe(3)
-    expect(cmd.invert(s1).scenes[0]!.musicId).toBe(1)
+    expect(s1.scenes[0]!.music).toBe('music.pal.003')
+    expect(cmd.invert(s1).scenes[0]!.music).toBe('music.pal.001')
   })
 
   test('UpdateScene:改 entry;invert 还原旧 entry(深比较)', () => {
@@ -789,61 +798,79 @@ describe('B10 毒命令(不可变 + invert)', () => {
   })
 })
 
-describe('W5 音乐(musicId patch + 音乐库别名)', () => {
+describe('A7 音乐资源(AssetId 引用 + 注册表命令)', () => {
+  const record = {
+    kind: 'music' as const,
+    path: 'assets/authored/theme.mid',
+    mediaType: 'audio/midi',
+    bytes: 4,
+    sha256: 'a'.repeat(64),
+    origin: { kind: 'authored' as const },
+  }
+
   function stMusic(): EditorState {
-    const base = st() as EditorState & { music: { id: number; name?: string }[] }
-    base.music = [{ id: 1 }, { id: 31, name: '客栈' }]
+    const base = st()
+    base.assetCatalog = {
+      version: 1,
+      assets: {
+        'music.demo.theme': record,
+        'music.demo.inn': { ...record, path: 'assets/authored/inn.mid', label: '客栈' },
+      },
+    }
     return base
   }
 
-  test('UpdateScene musicId:设值/清 undefined,invert 还原「延续」语义', () => {
+  test('UpdateScene music:设值/清 undefined,invert 还原「延续」语义', () => {
     const s0 = st()
-    const c = new UpdateSceneCommand('s', { musicId: 31 })
+    const c = new UpdateSceneCommand('s', { music: 'music.demo.inn' })
     const s1 = c.apply(s0)
-    expect(s1.scenes[0]!.musicId).toBe(31)
-    expect(s0.scenes[0]!.musicId).toBeUndefined() // 源不变
+    expect(s1.scenes[0]!.music).toBe('music.demo.inn')
+    expect(s0.scenes[0]!.music).toBeUndefined() // 源不变
     const back = c.invert(s1)
-    expect(back.scenes[0]!.musicId).toBeUndefined() // 还原成「延续」
-    // 清空:31 → undefined
-    const c2 = new UpdateSceneCommand('s', { musicId: undefined })
+    expect(back.scenes[0]!.music).toBeUndefined() // 还原成「延续」
+    const c2 = new UpdateSceneCommand('s', { music: undefined })
     const s2 = c2.apply(s1)
-    expect(s2.scenes[0]!.musicId).toBeUndefined()
-    expect(c2.invert(s2).scenes[0]!.musicId).toBe(31)
+    expect(s2.scenes[0]!.music).toBeUndefined()
+    expect(c2.invert(s2).scenes[0]!.music).toBe('music.demo.inn')
   })
 
-  test('UpdateMusicName:起名/invert 还原;源不变', () => {
+  test('UpdateAssetLabel:起名/清名/invert，AssetId 与 path 不变', () => {
     const s0 = stMusic()
-    const c = new UpdateMusicNameCommand(1, '蝶恋')
+    const c = new UpdateAssetLabelCommand('music.demo.theme', '蝶恋')
     const s1 = c.apply(s0)
-    expect((s1 as typeof s0).music![0]).toEqual({ id: 1, name: '蝶恋' })
-    expect((s0 as typeof s0).music![0]).toEqual({ id: 1 }) // 源不变
-    expect((c.invert(s1) as typeof s0).music![0]).toEqual({ id: 1 })
+    expect(s1.assetCatalog.assets['music.demo.theme']).toMatchObject({
+      path: record.path,
+      label: '蝶恋',
+    })
+    expect(s0.assetCatalog.assets['music.demo.theme']!.label).toBeUndefined()
+    expect(c.invert(s1).assetCatalog.assets['music.demo.theme']!.label).toBeUndefined()
   })
 
-  test('UpdateMusicName:空串 = 清名(键消失);invert 还原旧名', () => {
+  test('Upsert/Delete:二进制随注册表写入删除，undo 还原', () => {
     const s0 = stMusic()
-    const c = new UpdateMusicNameCommand(31, '')
-    const s1 = c.apply(s0)
-    expect((s1 as typeof s0).music![1]).toEqual({ id: 31 }) // name 键消失
-    expect((c.invert(s1) as typeof s0).music![1]).toEqual({ id: 31, name: '客栈' })
-  })
+    const bytes = new Uint8Array([0x4d, 0x54, 0x68, 0x64]).buffer
+    const upsert = new UpsertAssetCommand('music.demo.new', record, bytes)
+    const s1 = upsert.apply(s0)
+    expect(s1.assetCatalog.assets['music.demo.new']).toEqual(record)
+    expect(s1.assetBlobs[record.path]).toEqual(bytes)
+    expect(upsert.invert(s1)).toEqual(s0)
 
-  test('UpdateMusicName:id 不存在 = no-op', () => {
-    const s0 = stMusic()
-    const c = new UpdateMusicNameCommand(99, 'x')
-    expect(c.apply(s0)).toBe(s0)
+    const remove = new DeleteAssetCommand('music.demo.theme')
+    const s2 = remove.apply(s1)
+    expect(s2.assetCatalog.assets['music.demo.theme']).toBeUndefined()
+    expect(remove.invert(s2).assetCatalog.assets['music.demo.theme']).toEqual(record)
   })
 })
 
-test('UpdateScene 回归:仅 musicId patch 不得把必填 entry 覆成 undefined', () => {
+test('UpdateScene 回归:仅 music patch 不得把必填 entry 覆成 undefined', () => {
   const s0 = st()
   ;(s0.scenes[0] as { entry: unknown }).entry = {
     pos: { col: 1, row: 1, height: 0 },
     facing: 'down',
   }
-  const s1 = new UpdateSceneCommand('s', { musicId: 5 }).apply(s0)
+  const s1 = new UpdateSceneCommand('s', { music: 'music.pal.005' }).apply(s0)
   expect(s1.scenes[0]!.entry).toEqual({ pos: { col: 1, row: 1, height: 0 }, facing: 'down' })
-  const s2 = new UpdateSceneCommand('s', { musicId: 31 }).apply(s1)
+  const s2 = new UpdateSceneCommand('s', { music: 'music.pal.031' }).apply(s1)
   expect(s2.scenes[0]!.entry.facing).toBe('down')
 })
 
@@ -1086,13 +1113,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(2)
+    expect(s1.manifest.contentVersion).toBe(3)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(2)
+    expect(back.manifest.contentVersion).toBe(3)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 

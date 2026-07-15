@@ -108,7 +108,7 @@ describe('scene entry prepare 路径', () => {
     {
       entry: {
         prepare: [
-          { kind: 'playMusic', musicId: 31 },
+          { kind: 'playMusic', asset: 'music.pal.031' },
           { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
         ],
         reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
@@ -120,9 +120,12 @@ describe('scene entry prepare 路径', () => {
   test('读取、修改、插入、移动和删除均只重建 prepare', () => {
     const source = entryStages()
     const path = [0, 'entry', 'prepare', 0] as const
-    expect(getCommandAt(source, path)).toEqual({ kind: 'playMusic', musicId: 31 })
-    const updated = updateCommandAt(source, path, { kind: 'playMusic', musicId: 49 })
-    expect(getCommandAt(updated, path)).toEqual({ kind: 'playMusic', musicId: 49 })
+    expect(getCommandAt(source, path)).toEqual({ kind: 'playMusic', asset: 'music.pal.031' })
+    const updated = updateCommandAt(source, path, {
+      kind: 'playMusic',
+      asset: 'music.pal.049',
+    })
+    expect(getCommandAt(updated, path)).toEqual({ kind: 'playMusic', asset: 'music.pal.049' })
     expect(updated[0]?.body).toBe(source[0]?.body)
 
     const inserted = insertAfterAt(updated, path, { kind: 'playSound', soundId: 1 })
@@ -143,8 +146,13 @@ describe('scene entry prepare 路径', () => {
 
   test('空 prepare 可从头插入', () => {
     const source: ScriptStage[] = [{ entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }]
-    const out = insertAtHead(source, 0, { kind: 'playMusic', musicId: 1 }, 'entryPrepare')
-    expect(out[0]?.entry?.prepare).toEqual([{ kind: 'playMusic', musicId: 1 }])
+    const out = insertAtHead(
+      source,
+      0,
+      { kind: 'playMusic', asset: 'music.pal.001' },
+      'entryPrepare',
+    )
+    expect(out[0]?.entry?.prepare).toEqual([{ kind: 'playMusic', asset: 'music.pal.001' }])
     expect(out[0]?.body).toEqual([])
   })
 })

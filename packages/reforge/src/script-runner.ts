@@ -8,6 +8,7 @@
  */
 
 import type {
+  AssetId,
   Command,
   DialogueCue,
   Facing,
@@ -72,7 +73,8 @@ export interface ScriptHost {
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
   playSound(soundId: number): void
-  playMusic(musicId: number): void
+  playMusic(asset: AssetId): void
+  stopMusic(): void
   /** W6 氛围(昼夜):切全局氛围(全帧乘法滤镜;原版 0x53/0x54 全局调色板 flag)。 */
   setAmbience(ambience: string): void
   /** E6b 显式定位权威:接管/归还(缺省全部)。 */
@@ -108,7 +110,7 @@ export interface ScriptHost {
       auto?: boolean
       boss?: boolean
       fieldId?: number
-      musicId?: number
+      music?: AssetId | null
       /** 遭遇专属战斗演出(startBattle.choreography;对话绑遭遇而非敌种)。 */
       choreography?: import('@type-pal/content').BattleChoreography[]
     },
@@ -555,7 +557,9 @@ export class ScriptRunner {
       case 'playSound':
         return h.playSound(cmd.soundId)
       case 'playMusic':
-        return h.playMusic(cmd.musicId)
+        return h.playMusic(cmd.asset)
+      case 'stopMusic':
+        return h.stopMusic()
       case 'setAmbience':
         return h.setAmbience(cmd.ambience)
       case 'takeEntity':
@@ -598,7 +602,7 @@ export class ScriptRunner {
           auto: cmd.auto,
           boss: cmd.boss,
           fieldId: cmd.fieldId,
-          musicId: cmd.musicId,
+          ...(cmd.music !== undefined ? { music: cmd.music } : {}),
           ...(cmd.choreography ? { choreography: cmd.choreography } : {}),
         })
         if (r === 'lose' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])

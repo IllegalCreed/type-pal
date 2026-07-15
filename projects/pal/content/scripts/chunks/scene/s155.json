@@ -51,7 +51,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 69
+        "asset": "music.pal.069"
       },
       {
         "kind": "wait",
@@ -482,7 +482,7 @@
     "scene/s155/root/on-enter/stage-1": [
       {
         "kind": "playMusic",
-        "musicId": 69
+        "asset": "music.pal.069"
       }
     ],
     "scene/s155/root/entity-e2517/page-0/auto/stage-0": [

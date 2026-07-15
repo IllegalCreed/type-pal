@@ -1,7 +1,7 @@
 {
   "id": "s151",
   "mapId": "map-102",
-  "musicId": 15,
+  "music": "music.pal.015",
   "entry": {
     "pos": {
       "col": 96,
@@ -92,7 +92,7 @@
         "prepare": [
           {
             "kind": "playMusic",
-            "musicId": 15
+            "asset": "music.pal.015"
           },
           {
             "kind": "shakeScreen",

@@ -273,7 +273,7 @@
     "scene/s016/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 77
+        "asset": "music.pal.077"
       }
     ],
     "scene/s016/root/on-teleport/stage-0": [
@@ -314,8 +314,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "clearDialog"
@@ -337,7 +336,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 61
+        "asset": "music.pal.061"
       },
       {
         "kind": "cameraPan",
@@ -413,7 +412,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 65
+        "asset": "music.pal.065"
       },
       {
         "kind": "fade",
@@ -1133,8 +1132,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setEntityState",
@@ -1829,7 +1827,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 12
+        "asset": "music.pal.012"
       },
       {
         "kind": "dialog",

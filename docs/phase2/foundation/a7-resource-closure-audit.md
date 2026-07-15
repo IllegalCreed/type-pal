@@ -3,12 +3,13 @@
 > 审计日期: 2026-07-15
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
+> 落地状态: A7-0 音乐/MIDI soundfont 首切片已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
-当前工程**还没有形成资源闭包**。本地克隆会复制资源文件,但运行时仍可绕过工程目录读取仓库级
-`/extracted`、`/baked`、`/ui` 和 `packages/reforge/public`；多类资源还用数字号拼文件名。于是当前只能证明
-“复制过一批文件”,不能证明“工程独立拥有运行所需的全部文件”。
+A7 总体**还没有形成全资源闭包**，但 A7-0 已让音乐与 MIDI soundfont 形成第一条完整闭包。其余资源族的
+运行时仍可绕过工程目录读取仓库级 `/extracted`、`/baked`、`/ui`；多类资源还用数字号拼文件名。因此当前
+可以证明“音乐族由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开外部资源依赖。
 
 问题由四层共同造成:
 
@@ -55,7 +56,7 @@
 - 资源记录必须标记来源类别,为 R8 替代清单、授权/生成记录和发布门禁提供依据。
 - A7 只解决工程闭包和引用真值,不等于 R8 已完成版权替换。
 
-## 3. 当前证据
+## 3. A7-0 前历史证据(保留作回归基线)
 
 ### 3.1 PAL 工程仍指向外部目录
 
@@ -96,12 +97,14 @@
 而是把编号补成三位文件名(`packages/content/src/index.ts:18-26`)。迁移器只是
 `midi.map(id => ({ id }))`(`packages/migrate/src/pal-derived-content.ts:170-172`)。
 
-当前 PAL 音乐引用扫描:
+实现前 PAL 音乐引用扫描；权威迁移器后来证明旧语义站点总数为 1,227，其中 1,174 条最终成为
+`playMusic`，53 条数字 0 最终成为 `stopMusic`：
 
 | 引用 | 数量 |
 |---|---:|
-| `playMusic` 命令 | 1,227 |
-| 其中数字 `0` 停曲 | 53 |
+| 旧 `playMusic` 语义站点 | 1,227 |
+| 最终 `playMusic` | 1,174 |
+| 最终 `stopMusic` | 53 |
 | 场景 `musicId` | 36 |
 | 场景 `battleMusicId` | 80 |
 | `startBattle.musicId` | 31 |
@@ -146,6 +149,7 @@
 | `packages/editor/src/main.tsx:47-51` | dev 音乐表绕过 source | 与本地工程同一加载链 |
 | `packages/editor/src/ui/CutsceneTab.tsx:38,58` | RNG/视频固定服务器路径 | 复用 AssetResolver |
 | `packages/editor/src/ui/BattleFieldPicker.tsx:13` | 战场表预览裸 fetch | 复用工程 source/resolver |
+| `packages/editor/src/ui/ItemTab.tsx` 物品图标 fallback | 固定 `/baked/ui/items` | 后续 item-icon AssetId |
 
 `?e2e-load=` 等明确的开发/测试输入 URL 不属于游戏资源,可继续作为受控调试入口,但不得进入正式工程引用。
 
@@ -155,6 +159,25 @@
 - `FileSource` 只抽象了读取位置,没有禁止绝对路径、URL scheme、`..`、反斜杠和非规范路径。
 - `packages/reforge/src/fsa-source.ts:50-51` 每次 `urlFor` 都创建新 object URL；没有缓存、统一释放或测试 revoke。
 - 当前资源缺失常被 `catch`、警告、静默黑图/静音吞掉,无法作为发布门禁。
+
+### 3.7 A7-0 落地后的音乐族证据
+
+- PAL、demo、e2e-own 均已是 `contentVersion: 3`；manifest 指向 `assets/index.json`，音乐族不在
+  `assets.legacy.families`。
+- PAL catalog 有 86 个 `music` 与 1 个 `soundfont` 记录。87 个文件逐项重读后 bytes/SHA-256 全匹配，
+  总计 6,737,214 字节。
+- 最终脚本有 1,174 个 `playMusic` 与 53 个 `stopMusic`；场景有 36 个 `music`、81 个
+  `battleMusic`，31 个 `startBattle` 显式携 `music`。动态场景覆盖旁路修复后，s106 的战斗曲 37 被正确
+  烘成 `music.pal.037`，因此最终战斗槽比实现前静态表 80 多 1。
+- 写前闭包收集 1,326 条资产引用，缺失和 kind mismatch 为 0；13 个未引用曲目保留为 warning，不能用
+  “未被当前脚本引用”冒充文件错误或擅自删除。
+- `content/music.json`、最终产物中的 `musicId/battleMusicId`、内部 `overrideSceneBattle` 标记均为 0。
+  BGM 与编辑器试听都只经 AssetResolver/FileSource，soundfont 不再从应用根读取。
+- 最终迁移 dry-run 为 `writes=0 deletes=0 conflicts=0`。作者接管同一 AssetId 的记录与 migrated 兄弟条目
+  并行更新已有专测，二进制保持在 MG2 JSON baseline 外。
+
+实际文件/字节/引用与验证清单见
+[`a7-0-music-resource-closure-report.md`](a7-0-music-resource-closure-report.md)。
 
 ## 4. 终态数据契约
 
@@ -385,8 +408,8 @@ A7-0 不得把 A7/R7 标为 done；它必须保留一份全量剩余缺口报告
 
 1. 路径 guard 表驱动测试:绝对路径、URL、盘符、`..`、反斜杠、query/fragment 全拒绝。
 2. catalog 校验:重复/空 id、未知 kind/role、坏 hash、kind mismatch、缺文件均 fail-loud。
-3. PAL 音乐迁移:86 条 MIDI 记录；1,227 个 `playMusic`、36 个场景槽、80 个战斗槽、31 个单场槽全部改写；
-   53 个停曲点不生成假资源；正数引用零缺失。
+3. PAL 音乐迁移:86 条 MIDI 记录；1,174 个 `playMusic`、53 个 `stopMusic`、36 个场景槽、81 个战斗槽、
+   31 个显式 `startBattle.music` 字段全部改写；停曲点不生成假资源，正数引用零缺失。
 4. `content/music.json`、`MusicDef`、`musicId`、`battleMusicId`、数字 BGM API、`<NNN>.mid` 拼接静态扫描归零。
 5. 编辑器音乐 CRUD:新建/导入、改名、替换、受引用删除拒绝、未引用删除、试听、保存重开均走 catalog/resolver。
 6. 旧 `music.json` 作者别名、旧存档当前曲和 MG2 作者替换均不丢。

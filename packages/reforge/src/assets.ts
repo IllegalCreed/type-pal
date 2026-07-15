@@ -6,7 +6,7 @@
  */
 import { type ProjectMapV2, validateProjectMapV2 } from '@type-pal/content'
 import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
-import type { FileSource } from './file-source.js'
+import type { LegacyAssetAdapter } from './file-source.js'
 
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
 export interface AssetBase {
@@ -16,8 +16,6 @@ export interface AssetBase {
   palettes: string
   /** 音效目录完整前缀(<id>.wav;loader 已按绝对/相对规则解析)。 */
   sounds: string
-  /** BGM 目录完整前缀(<NNN>.mid,3 位零填充;同上规则)。 */
-  music: string
   /** 对话/状态立绘目录(<chunk>.png;内容资产,随库/工程)。 */
   portraits: string
   /** 战斗小头像目录(<actorId>.png)。 */
@@ -26,40 +24,26 @@ export interface AssetBase {
   itemIcons: string
   /** UI chrome 覆盖目录(可选:工程自带皮肤;缺省 = 引擎默认皮 /ui)。 */
   uiOverride?: string
-  /** 读取源(P2:素材经它读,本地工程离线可渲染;loadProjectFrom 注入)。缺省 = 裸 fetch(向后兼容)。 */
-  source?: FileSource
+  /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
+  io: LegacyAssetAdapter
 }
 
 /** 资产缺失指路(新 clone 最常见坑:data/extracted 与 data/baked 是可再生产物,不进 git)。 */
 const ASSET_HINT =
   '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract && pnpm --filter @type-pal/migrate run bake(见 docs/dev-servers.md「新人前置」)'
 
-/** fetch 二进制资产:404 或返回 HTML(SPA fallback)都按缺失报,附指路。 */
-async function fetchAsset(url: string, label: string): Promise<Response> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`${label}: ${res.status} ${url} —— ${ASSET_HINT}`)
-  const ct = res.headers.get('content-type') ?? ''
-  if (ct.includes('text/html'))
-    throw new Error(`${label}: ${url} 返回 HTML(路径落空)—— ${ASSET_HINT}`)
-  return res
-}
-
-async function fetchJson<T>(url: string): Promise<T> {
-  const r = await fetch(url)
-  if (!r.ok) throw new Error(`fetch ${url} -> ${r.status}`)
-  return (await r.json()) as T
-}
-
-/** 经 source 读素材字节(缺 source → 裸 fetch,向后兼容);404/HTML 按缺失报,附指路。 */
 async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<ArrayBuffer> {
-  if (base.source) return base.source.readBytes(path)
-  return (await fetchAsset(path, label)).arrayBuffer()
+  try {
+    return await base.io.readBytes(path)
+  } catch (error) {
+    throw new Error(
+      `${label}: ${path} —— ${ASSET_HINT}；${error instanceof Error ? error.message : String(error)}`,
+    )
+  }
 }
 
-/** 经 source 读素材 JSON(缺 source → 裸 fetch)。 */
 async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
-  if (base.source) return base.source.readJson<T>(path)
-  return fetchJson<T>(path)
+  return base.io.readJson<T>(path)
 }
 
 /** 从工程 content 路径读取唯一作者态地图，并在加载边界完整校验。 */

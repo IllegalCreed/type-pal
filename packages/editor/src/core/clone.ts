@@ -3,7 +3,12 @@
  * 逐文件下载→写(流式,单文件在内存,207MB 不 OOM);素材经 src 绝对透传(种子 httpSource)读。
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
-import { type LoadedManifest, type ScriptIndexV1, validateMapIndex } from '@type-pal/content'
+import {
+  type LoadedManifest,
+  type ScriptIndexV1,
+  validateAssetCatalog,
+  validateMapIndex,
+} from '@type-pal/content'
 import { decompressGzip, type FileSource } from '@type-pal/reforge'
 import { writeFile } from './project-io.js'
 import {
@@ -43,6 +48,7 @@ export async function cloneFromPal(
   const mapIndex = manifest.content.maps
     ? validateMapIndex(await seed.readJson(manifest.content.maps))
     : undefined
+  const catalog = validateAssetCatalog(await seed.readJson(manifest.assets.catalog))
   const files = enumerateSeedFiles(
     manifest,
     sceneIds,
@@ -50,6 +56,7 @@ export async function cloneFromPal(
     bakedManifest,
     scriptIndex,
     mapIndex,
+    catalog,
   )
   const total = files.reduce((s, f) => s + f.size, 0)
 

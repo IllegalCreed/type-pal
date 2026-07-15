@@ -616,8 +616,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setEntityState",
@@ -701,11 +700,11 @@
         ],
         "boss": true,
         "fieldId": 32,
-        "musicId": 45
+        "music": "music.pal.045"
       },
       {
         "kind": "playMusic",
-        "musicId": 36
+        "asset": "music.pal.036"
       },
       {
         "kind": "loadScene",
@@ -715,7 +714,7 @@
     "scene/s145/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 81
+        "asset": "music.pal.081"
       }
     ],
     "scene/s145/root/entity-e2397/page-0/trigger/stage-0": [
@@ -732,8 +731,7 @@
         "state": 0
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "moveParty",
@@ -946,7 +944,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 22
+        "asset": "music.pal.022"
       },
       {
         "kind": "fade",

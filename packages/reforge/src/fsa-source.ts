@@ -3,7 +3,8 @@
  * rel 恒为工程内相对(无 /extracted 绝对);逐段 getDirectoryHandle → getFileHandle → getFile。
  * urlFor 产 blob URL —— 一次性解码类调用方须在解码后 revokeObjectURL(design §3;缓存层管理)。
  */
-import type { FileSource } from './file-source.js'
+import { validateProjectRelativePath } from '@type-pal/content'
+import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
 
 function throwIfAborted(signal?: AbortSignal): void {
   if (signal?.aborted) throw new DOMException('file read aborted', 'AbortError')
@@ -15,7 +16,8 @@ async function fileOf(
   signal?: AbortSignal,
 ): Promise<File> {
   throwIfAborted(signal)
-  const parts = rel.split('/').filter(Boolean)
+  validateProjectRelativePath(rel, 'fsaSource 路径')
+  const parts = rel.split('/')
   const name = parts.pop()
   if (!name) throw new Error(`fsaSource: 空路径 "${rel}"`)
   let d = dir
@@ -31,7 +33,8 @@ async function fileOf(
 }
 
 export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
-  return {
+  const urls = new Map<string, string>()
+  const source: FileSource = {
     async readText(rel, signal) {
       const text = await (await fileOf(dir, rel, signal)).text()
       throwIfAborted(signal)
@@ -48,7 +51,17 @@ export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
       return bytes
     },
     async urlFor(rel) {
-      return URL.createObjectURL(await fileOf(dir, rel))
+      const existing = urls.get(rel)
+      if (existing) return existing
+      const url = URL.createObjectURL(await fileOf(dir, rel))
+      urls.set(rel, url)
+      return url
+    },
+    dispose() {
+      for (const url of urls.values()) URL.revokeObjectURL(url)
+      urls.clear()
     },
   }
+  source.legacy = projectRelativeLegacyAdapter(source)
+  return source
 }

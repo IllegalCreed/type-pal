@@ -560,7 +560,7 @@
     "scene/s048/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 12
+        "asset": "music.pal.012"
       },
       {
         "kind": "teleportParty",

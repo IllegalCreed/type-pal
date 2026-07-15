@@ -203,7 +203,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 8
+        "asset": "music.pal.008"
       }
     ],
     "scene/s014/L-5045/e201/d-0a386828": [
@@ -260,7 +260,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 49
+        "asset": "music.pal.049"
       }
     ],
     "scene/s014/override/on-enter/L-5132/stage-0": [
@@ -272,19 +272,15 @@
         ]
       },
       {
-        "kind": "overrideSceneBattle",
-        "musicId": 37
-      },
-      {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       }
     ],
     "scene/s014/override/on-enter/L-5132/stage-1": [],
     "scene/s014/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       },
       {
         "kind": "setPartyFacing",

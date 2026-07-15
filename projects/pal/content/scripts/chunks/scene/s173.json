@@ -19,7 +19,7 @@
     "scene/s173/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 28
+        "asset": "music.pal.028"
       },
       {
         "kind": "unequip",

@@ -91,7 +91,7 @@
     "scene/s021/L-41075/e397/d-2bad595b": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -826,7 +826,7 @@
     "scene/s021/L-41075/e403/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -935,7 +935,7 @@
     "scene/s021/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 71
+        "asset": "music.pal.071"
       },
       {
         "kind": "teleportParty",
@@ -985,7 +985,7 @@
     "scene/s021/root/on-enter/stage-1": [
       {
         "kind": "playMusic",
-        "musicId": 71
+        "asset": "music.pal.071"
       }
     ],
     "scene/s021/root/entity-e394/page-0/trigger/stage-0": [

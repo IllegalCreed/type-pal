@@ -184,7 +184,7 @@ describe('script library schema', () => {
     const entryStage = {
       entry: {
         prepare: [
-          { kind: 'playMusic' as const, musicId: 31 },
+          { kind: 'playMusic' as const, asset: 'music.pal.031' },
           {
             kind: 'teleportParty' as const,
             pos: { col: 59, row: -23, height: 0 },

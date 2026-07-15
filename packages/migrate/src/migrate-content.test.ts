@@ -563,7 +563,9 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(allStages.some((st) => typeof st.next === 'number')).toBe(true)
     const s4 = expandedById.get('s004')!
     expect(s4.onEnter?.length).toBeGreaterThan(0)
-    expect(s4.onEnter![0]!.body.some((c) => c.kind === 'playMusic' && c.musicId === 49)).toBe(true)
+    expect(
+      s4.onEnter![0]!.body.some((c) => c.kind === 'playMusic' && c.asset === 'music.pal.049'),
+    ).toBe(true)
     // 覆盖统计存在;跳转族截断如实上报
     expect(out2.scriptReport.chains).toBeGreaterThan(30)
     expect(out2.scriptReport.commands).toBeGreaterThan(300)
@@ -572,7 +574,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     const raw = byId.get('s001')!.onEnter![0]!
     expect(raw.entry).toEqual({
       prepare: [
-        { kind: 'playMusic', musicId: 31 },
+        { kind: 'playMusic', asset: 'music.pal.031' },
         {
           kind: 'teleportParty',
           pos: { col: 59, row: -23, height: 0 },

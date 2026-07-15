@@ -1,7 +1,7 @@
 {
   "id": "s148",
   "mapId": "map-146",
-  "musicId": 79,
+  "music": "music.pal.079",
   "entry": {
     "pos": {
       "col": 71,
@@ -806,7 +806,7 @@
       ]
     }
   ],
-  "battleMusicId": 37,
+  "battleMusic": "music.pal.037",
   "battleFieldId": 40,
   "entries": {
     "pal-entry-df122ed6": {

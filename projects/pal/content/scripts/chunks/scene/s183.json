@@ -39,7 +39,7 @@
     "scene/s183/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 56
+        "asset": "music.pal.056"
       },
       {
         "kind": "setParty",

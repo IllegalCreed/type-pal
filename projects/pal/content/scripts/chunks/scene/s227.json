@@ -5,7 +5,7 @@
     "scene/s227/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 67
+        "asset": "music.pal.067"
       },
       {
         "kind": "teleportParty",
@@ -133,8 +133,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "fade",

@@ -152,8 +152,7 @@
     ],
     "scene/s118/override/on-enter/L-18261/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setEntityState",
@@ -961,7 +960,7 @@
     "scene/s118/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s118/override/on-enter/L-19792/stage-0": [
@@ -972,7 +971,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s118/root/on-enter/stage-0": [

@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Tilemap } from '@type-pal/shared'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
+import { loadPalAudioAssets } from './pal-assets.js'
 import type { PalMigrationSources } from './pal-migration.js'
 
 function readJson<T>(repo: string, rel: string): T {
@@ -81,6 +82,11 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     })
   if (tilemaps.length !== 223) throw new Error(`PAL 地图源期望 223 张，收到 ${tilemaps.length}`)
 
+  const musicMidi = readJson<{ midi: number[] }>(
+    repo,
+    'data/extracted/data/music-manifest.json',
+  ).midi
+  const audio = loadPalAudioAssets(repo, musicMidi)
   return {
     migrate,
     allJson,
@@ -89,7 +95,9 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     eventsByScene,
     tilemaps,
     objectPlayers: readJson(repo, 'data/extracted/data/object-players.json'),
-    musicMidi: readJson<{ midi: number[] }>(repo, 'data/extracted/data/music-manifest.json').midi,
+    musicMidi,
+    assetCatalog: audio.catalog,
+    binaryAssets: audio.binaries,
     battleFields: readJson(repo, 'data/extracted/data/battle-fields.json'),
     objectPoisons: readJson(repo, 'data/extracted/data/object-poisons.json'),
     stores: readJson(repo, 'data/extracted/data/stores.json'),

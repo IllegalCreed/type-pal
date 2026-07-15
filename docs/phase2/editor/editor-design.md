@@ -114,6 +114,26 @@ interface EditorMode {
 - 图层列表与图层尺共享一个 currentLayerId；高度尺的值既是聚焦条件，也是下一笔的实例高度。
   当前层/高度正常显示，其余瓦片变暗；吸管同时读取 tileId 与实例高度，聚焦状态不写入内容文件。
 
+### 5.3 音乐资源工作台(A7-0,2026-07-15)
+
+“资源 -> 音乐”是音乐的唯一权威编辑页，数据源是 `EditorState.assetCatalog`，不再维护
+`content/music.json` 或数字别名表。
+
+- 列表明确分开显示可编辑名称、稳定 AssetId、工程相对路径和操作；名称不充当 id，id 也不推导路径。
+- 导入只接受有效 MIDI，使用浏览器 SHA-256 生成 `music.authored.<hash>` 和
+  `assets/authored/<hash>.mid`；替换保留原 AssetId，只更新记录/字节，因此所有场景和脚本引用保持稳定。
+- 改名、导入、替换、删除全部是不可变 Command，可 undo/redo。删除前复用 typed 引用 walker；有引用时
+  禁止删除并展示引用数量，未引用条目才可删除。
+- 场景检查器、脚本命令表单和共享脚本抽屉都复用同一 `MusicPicker`；“延续上一曲”“停止音乐”和具体
+  AssetId 是三种不同语义，不能再用 `0` 或空字符串混写。
+- 编辑器试听与游戏 BGM 共用 reforge 的 BGM player 和当前工程 `AssetResolver`，MIDI 与 soundfont 均从
+  当前 `FileSource` 读取。全局只保留一条试听通道，切曲会停止前一首。
+- serialize/save 同时写 `assets/index.json` 与 pending blob；本地 v2 工程先单向升级为 v3 再进入工作态。
+
+浏览器验收以 6010 的 PAL 工程为准：86 首均显示 label/id/path；至少两首可切换试听；改名可撤销；
+引用保护与未引用删除状态正确。完整闭包数据见
+[`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。
+
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 
 现 `content/validate.ts` 只查形状。**投查在 demo 数据里当场抓到 2 个悬空引用**:`skills.json` 的 `levelUp` 指向不存在的技能(349/311/…);土灵珠(267)的 `grantSkill` 指向不存在的 336。形状校验放过了它们。

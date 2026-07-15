@@ -10,12 +10,12 @@
  */
 import type {
   AmbienceDef,
+  AssetCatalogV1,
   Command,
   Facing,
   GridPos,
   LoadSceneCommand,
   Locale,
-  MusicDef,
   SceneDef,
   ScriptIndexV1,
   SharedScriptMetaV1,
@@ -23,7 +23,7 @@ import type {
   WalkSpeed,
 } from '@type-pal/content'
 import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
-import type { AssetBase } from '@type-pal/reforge'
+import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import { MusicPicker } from './MusicPicker.js'
 
@@ -172,9 +172,8 @@ export function CommandForm(props: {
   cmd: Command
   scene: SceneDef
   locale: Locale
-  /** 音乐库 + 试听资产前缀(BGM 选择器;库空退化数字输入)。 */
-  music: MusicDef[]
-  musicBase: string
+  assetCatalog: AssetCatalogV1
+  audioResolver: AudioAssetReader
   /** 全场景(loadScene 目标下拉;W4)。缺省 = 只有当前场景。 */
   scenes?: SceneDef[]
   /** 资产 base(战场选择器预览;B2)。缺省退化数字输入。 */
@@ -197,8 +196,8 @@ export function CommandForm(props: {
     cmd,
     scene,
     locale,
-    music,
-    musicBase,
+    assetCatalog,
+    audioResolver,
     scenes,
     actors,
     ambiences,
@@ -848,10 +847,12 @@ export function CommandForm(props: {
       return (
         <Row label="音乐">
           <MusicPicker
-            value={cmd.musicId}
-            onChange={(v) => set({ musicId: v ?? 0 })}
-            music={music}
-            baseUrl={musicBase}
+            value={cmd.asset}
+            onChange={(asset) => {
+              if (typeof asset === 'string') set({ asset })
+            }}
+            catalog={assetCatalog}
+            resolver={audioResolver}
           />
         </Row>
       )

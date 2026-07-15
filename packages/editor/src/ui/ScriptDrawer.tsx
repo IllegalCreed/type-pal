@@ -9,12 +9,13 @@
 import {
   type ActorDef,
   type AmbienceDef,
+  type AssetCatalogV1,
+  type AssetId,
   type Command,
   type Facing,
   getScriptBody,
   type Locale,
   type MapIndexV1,
-  type MusicDef,
   type SceneDef,
   type SceneEntryPresentation,
   type ScriptChunkV1,
@@ -25,7 +26,12 @@ import {
   type SpriteDef,
   sceneEntryPrepareSafety,
 } from '@type-pal/content'
-import { type AssetBase, MemoryScriptResolver, type ProjectMapV2 } from '@type-pal/reforge'
+import {
+  type AssetBase,
+  type AudioAssetReader,
+  MemoryScriptResolver,
+  type ProjectMapV2,
+} from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import {
   CreateScriptSourceCommand,
@@ -52,6 +58,7 @@ import {
 } from '../core/script-edit.js'
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { CommandForm } from './CommandForm.js'
+import { musicAssets } from './MusicPicker.js'
 import {
   PanelResizeHandle,
   useStoredPanelBoolean,
@@ -65,6 +72,7 @@ import { type RowAction, ScriptTree } from './ScriptTree.js'
 interface InsertCtx {
   scene: SceneDef
   ownerId: string | undefined
+  musicAsset?: AssetId
 }
 const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
 
@@ -72,7 +80,7 @@ const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ??
  *  模板插入即展开为普通指令组,逐条可调,不引入黑盒高层指令)。 */
 const INSERT_GROUPS: {
   title: string
-  items: { label: string; make: (c: InsertCtx) => Command[] }[]
+  items: { label: string; requiresMusic?: boolean; make: (c: InsertCtx) => Command[] }[]
 }[] = [
   {
     title: '单指令',
@@ -106,7 +114,12 @@ const INSERT_GROUPS: {
         make: (c) => [{ kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' }],
       },
       { label: '🌓 淡入/淡出', make: () => [{ kind: 'fade', dir: 'out', ms: 300 }] },
-      { label: '🎵 音乐', make: () => [{ kind: 'playMusic', musicId: 1 }] },
+      {
+        label: '🎵 播放音乐',
+        requiresMusic: true,
+        make: (context) => [{ kind: 'playMusic', asset: context.musicAsset! }],
+      },
+      { label: '⏹ 停止音乐', make: () => [{ kind: 'stopMusic' }] },
       {
         label: '🚪 切场景',
         make: (c) => [{ kind: 'loadScene', scene: c.scene.id }],
@@ -478,7 +491,8 @@ export function ScriptDrawer(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>
   session: EditSession
-  music: MusicDef[]
+  assetCatalog: AssetCatalogV1
+  audioResolver: AudioAssetReader
   /** 工程 id(同源试玩页 ?project=)。 */
   projectId: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */
@@ -507,7 +521,8 @@ export function ScriptDrawer(props: {
     tilesets,
     tilesetBlobs,
     session,
-    music,
+    assetCatalog,
+    audioResolver,
     projectId,
     ambiences,
     shops,
@@ -745,19 +760,21 @@ export function ScriptDrawer(props: {
         return {
           scene,
           ownerId: ref.kind === 'onEnter' || ref.kind === 'onTeleport' ? undefined : ref.entityId,
+          musicAsset: musicAssets(assetCatalog)[0]?.id,
         }
       })()
     : undefined
   const visibleInsertGroups = activeInsertContext
     ? INSERT_GROUPS.map((group) => ({
         ...group,
-        items: insertingEntryPrepare
+        items: (insertingEntryPrepare
           ? group.items.filter((item) =>
               item
                 .make(activeInsertContext)
                 .every((command) => sceneEntryPrepareSafety(command) === 'safe'),
             )
-          : group.items,
+          : group.items
+        ).filter((item) => !item.requiresMusic || activeInsertContext.musicAsset),
       })).filter((group) => group.items.length > 0)
     : []
   const measuredWorkHeight = scriptWorkHeight || 720
@@ -1203,8 +1220,8 @@ export function ScriptDrawer(props: {
                     cmd={selCmd}
                     scene={scene}
                     locale={locale}
-                    music={music}
-                    musicBase={assetBase.music}
+                    assetCatalog={assetCatalog}
+                    audioResolver={audioResolver}
                     scenes={scenes}
                     assetBase={assetBase}
                     ambiences={ambiences}

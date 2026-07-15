@@ -1,8 +1,8 @@
 /**
- * openLocalProject —— 打开本地工程夹(P4)。fsaSource → loadProjectFrom → 全量场景 + 音乐。
+ * openLocalProject —— 打开本地工程夹(P4)。fsaSource → loadProjectFrom → 全量场景与脚本。
  * 无有效 manifest.json → 友好报错(不进编辑器)。素材经 fsaSource 从本地读 → 离线渲染。
  */
-import type { MusicDef, SceneDef, ScriptChunkV1 } from '@type-pal/content'
+import type { SceneDef, ScriptChunkV1 } from '@type-pal/content'
 import {
   fsaSource,
   type LoadedProject,
@@ -10,18 +10,26 @@ import {
   loadAllScriptChunks,
   loadProjectFrom,
 } from '@type-pal/reforge'
+import { type UpgradeLocalV2Options, upgradeLocalProjectV2 } from './upgrade-local-v2.js'
 
 export interface OpenedProject {
   project: LoadedProject
   scenes: SceneDef[]
-  music: MusicDef[]
   scriptChunks: Record<string, ScriptChunkV1>
 }
 
-export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<OpenedProject> {
-  const source = fsaSource(dir)
+export async function openLocalProject(
+  dir: FileSystemDirectoryHandle,
+  options: UpgradeLocalV2Options = {},
+): Promise<OpenedProject> {
+  let source = fsaSource(dir)
   let project: LoadedProject
   try {
+    const rawManifest = await source.readJson<unknown>('manifest.json')
+    if (await upgradeLocalProjectV2(dir, source, rawManifest, options)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+    }
     project = await loadProjectFrom(source)
   } catch (e) {
     throw new Error(
@@ -30,9 +38,5 @@ export async function openLocalProject(dir: FileSystemDirectoryHandle): Promise<
   }
   const scenes = await loadAllScenes(project)
   const scriptChunks = await loadAllScriptChunks(project)
-  const musicRel = project.manifest.content.music
-  const music: MusicDef[] = musicRel
-    ? await source.readJson<MusicDef[]>(musicRel).catch(() => [])
-    : []
-  return { project, scenes, music, scriptChunks }
+  return { project, scenes, scriptChunks }
 }

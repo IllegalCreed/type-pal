@@ -449,11 +449,10 @@
         "team": 25,
         "boss": true,
         "fieldId": 24,
-        "musicId": 47
+        "music": "music.pal.047"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setSceneOnEnter",

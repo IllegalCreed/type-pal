@@ -5,7 +5,7 @@
     "scene/s278/L-41075/e4742/d-3c3ecf56": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -44,7 +44,7 @@
     "scene/s278/L-41075/e4742/d-f58fec65": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -123,8 +123,7 @@
         "state": 0
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "moveParty",
@@ -160,7 +159,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 76
+        "asset": "music.pal.076"
       },
       {
         "kind": "clearDialog"
@@ -445,7 +444,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "dialog",
@@ -616,11 +615,10 @@
         ],
         "boss": true,
         "fieldId": 51,
-        "musicId": 39
+        "music": "music.pal.039"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setMultiEntityState",
@@ -820,7 +818,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 26
+        "asset": "music.pal.026"
       },
       {
         "kind": "dialog",
@@ -985,11 +983,11 @@
           }
         ],
         "boss": true,
-        "musicId": 38
+        "music": "music.pal.038"
       },
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "setEntityState",

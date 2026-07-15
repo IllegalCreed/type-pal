@@ -3,7 +3,6 @@
  * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import type { MusicDef } from '@type-pal/content'
 import type { LoadedProject } from '@type-pal/reforge'
 import {
   loadAllScenes,
@@ -44,15 +43,9 @@ function Root() {
       .then(async (project) => {
         const scenes = await loadAllScenes(project)
         const scriptChunks = await loadAllScriptChunks(project)
-        const musicRel = project.manifest.content.music
-        const music: MusicDef[] = musicRel
-          ? await fetch(`projects/${PROJECT_ID}/${musicRel}`)
-              .then((r) => (r.ok ? (r.json() as Promise<MusicDef[]>) : []))
-              .catch(() => [])
-          : []
         if (!alive) return
         setBoot({
-          session: new EditSession(toEditorState(project, scenes, music, {}, scriptChunks), {
+          session: new EditSession(toEditorState(project, scenes, {}, scriptChunks), {
             loadMap: (mapId) => loadProjectMapById(project, mapId),
           }),
           project,
@@ -68,7 +61,7 @@ function Root() {
 
   const onOpened = (o: Opened): void => {
     setBoot({
-      session: new EditSession(toEditorState(o.project, o.scenes, o.music, {}, o.scriptChunks), {
+      session: new EditSession(toEditorState(o.project, o.scenes, {}, o.scriptChunks), {
         loadMap: (mapId) => loadProjectMapById(o.project, mapId),
       }),
       project: o.project,

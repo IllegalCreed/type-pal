@@ -12,17 +12,22 @@ import {
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 2,
+  contentVersion: 3,
   entryScene: 'guijie-minju',
   content: {
     maps: 'content/maps/index.json',
     tilesets: 'content/tilesets.json',
   },
   assets: {
-    root: 'assets',
-    tilesets: 'tilesets',
-    sprites: 'sprites',
-    palettes: 'palettes',
+    catalog: 'assets/index.json',
+    roles: {},
+    legacy: {
+      families: ['tileset', 'sprite', 'color-table'],
+      root: 'assets',
+      tilesets: 'tilesets',
+      sprites: 'sprites',
+      palettes: 'palettes',
+    },
   },
   startWorld: {
     party: ['li-xiaoyao'],
@@ -109,6 +114,7 @@ const baseJsons = {
     maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
   },
   tilesets: [{ id: 'starter', name: '初始瓦片', category: 'indoor', path: 'tilesets/starter.rle' }],
+  assetCatalog: { version: 1 as const, assets: {} },
 }
 
 const projectMapJson = {
@@ -228,6 +234,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
     'content/tilesets.json': baseJsons.tilesets,
     'content/scenes/index.json': ['guijie-minju'],
     'content/scenes/guijie-minju.json': scenesJson[0],
+    'assets/index.json': baseJsons.assetCatalog,
   }
 
   test('读 manifest + 内容 + 入口场景 → LoadedProject(带 source)', async () => {
@@ -297,7 +304,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
         contentVersion: 1,
       },
     }
-    await expect(loadProjectFrom(memSource(v1Files))).rejects.toThrow('仅支持 contentVersion 2')
+    await expect(loadProjectFrom(memSource(v1Files))).rejects.toThrow('仅支持 contentVersion 3')
 
     const legacySceneFiles: Record<string, unknown> = {
       ...files,

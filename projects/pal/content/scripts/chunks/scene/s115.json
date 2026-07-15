@@ -574,7 +574,7 @@
     "scene/s115/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s115/override/on-enter/L-19792/stage-0": [
@@ -585,7 +585,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s115/root/entity-e2134/page-0/trigger/stage-0": [
@@ -924,7 +924,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 64
+        "asset": "music.pal.064"
       },
       {
         "kind": "wait",
@@ -1023,8 +1023,7 @@
         "ms": 1280
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -1440,7 +1439,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s115/root/entity-e2145/page-0/trigger/stage-1": [

@@ -1182,6 +1182,7 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
 import type {
+  AssetId,
   Command,
   EnemyDef,
   EnemyTeamDef,
@@ -1190,7 +1191,7 @@ import type {
   ScriptIndexV1,
   ScriptStage,
 } from '@type-pal/content'
-import { pixelToGrid } from '@type-pal/content'
+import { palMusicAssetId, pixelToGrid } from '@type-pal/content'
 import { mapIdFromSourceNumber } from './project-map-converter.js'
 import { liftEarlyDitherSceneEntry } from './scene-entry.js'
 import {
@@ -1758,7 +1759,7 @@ export function mapScenesStatic(
       sceneArrivals.find((arrival) => arrival.src === -1)?.pos
     if (!firstEntry) report.entryFallback.push(slug)
     report.scenes++
-    // onEnter 脚本(进场剧情/音乐/战场配置;musicId/entries 窄扫描保留 —— loader/编辑器元数据)
+    // onEnter 脚本(进场剧情/音乐/战场配置;music/entries 窄扫描保留 —— loader/编辑器元数据)
     const onEnter = sc.onEnterLabel ? translateStages(sc.onEnterLabel, undefined, tctx) : undefined
     // 传送出口脚本(原版 wScriptOnTeleport;引路蜂/土灵珠读它)—— 同 onEnter 走 foldStages
     // (setPartyPos+loadScene+fade 门模式折叠成单 loadScene)
@@ -1772,7 +1773,7 @@ export function mapScenesStatic(
     return finalizeBattleConfig({
       id: slug,
       mapId: mapIdFromSourceNumber(sc.mapNum),
-      ...(musicId !== undefined ? { musicId } : {}),
+      ...(musicId !== undefined ? { music: musicId <= 0 ? null : palMusicAssetId(musicId) } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
       ...(onEnterFolded ? { onEnter: onEnterFolded } : {}),
@@ -1791,6 +1792,7 @@ export function mapScenesStatic(
 
   for (let i = 0; i < scenes.length; i++)
     scenes[i] = externalizeSceneScripts(scenes[i]!, registry, report.sceneEntriesLifted)
+  assertNoBattleCfgMarkers(registry.commandBodies())
   report.sceneEntriesLifted.sort()
   report.entryNormalization = normalizeSceneEntryReferences(scenes, registry.commandBodies(), {
     strictMissingScene: Boolean(allCommands),
@@ -1963,7 +1965,14 @@ export function resolveSceneScriptPatches(
           finishPlaceholder(cmd)
           continue
         }
-        binding = folded.map((stage, index) => {
+        const battleDefaults: { battleFieldId?: number; battleMusic?: AssetId | null } = {}
+        const cleanFolded = deepStripBattleCfg(folded, battleDefaults)
+        const targetScene = byId.get(cmd.scene)!
+        if (battleDefaults.battleFieldId !== undefined)
+          targetScene.battleFieldId = battleDefaults.battleFieldId
+        if (battleDefaults.battleMusic !== undefined)
+          targetScene.battleMusic = battleDefaults.battleMusic
+        binding = cleanFolded.map((stage, index) => {
           const id = `scene/${cmd.scene}/override/${slot}/L-${cmd._addr}/stage-${index}`
           const lifted = slot === 'on-enter' ? liftEarlyDitherSceneEntry(stage) : undefined
           const output = lifted?.stage ?? stage
@@ -1994,14 +2003,18 @@ export function resolveSceneScriptPatches(
 }
 
 /** 深走任意结构,bake 出 BattleCfgMarker(0x4A/0x45)→ acc(last-wins)+ strip;返回同构清洁副本。 */
-function deepStripBattleCfg<T>(o: T, acc: { battleFieldId?: number; battleMusicId?: number }): T {
+function deepStripBattleCfg<T>(
+  o: T,
+  acc: { battleFieldId?: number; battleMusic?: AssetId | null },
+): T {
   if (Array.isArray(o)) {
     const kept: unknown[] = []
     for (const x of o) {
       const m = x && typeof x === 'object' ? asBattleCfg(x as Command) : undefined
       if (m) {
         if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
-        if (m.musicId !== undefined) acc.battleMusicId = m.musicId
+        if (m.musicId !== undefined)
+          acc.battleMusic = m.musicId <= 0 ? null : palMusicAssetId(m.musicId)
         continue // strip
       }
       kept.push(deepStripBattleCfg(x, acc))
@@ -2016,21 +2029,39 @@ function deepStripBattleCfg<T>(o: T, acc: { battleFieldId?: number; battleMusicI
   return o
 }
 
+function assertNoBattleCfgMarkers(bodies: readonly Command[][]): void {
+  const visit = (node: unknown, path: string): void => {
+    if (Array.isArray(node)) {
+      node.forEach((child, index) => {
+        visit(child, `${path}[${index}]`)
+      })
+      return
+    }
+    if (!node || typeof node !== 'object') return
+    if (asBattleCfg(node as Command))
+      throw new Error(`迁移内部 BattleCfgMarker 泄漏到最终脚本: ${path}`)
+    for (const [key, child] of Object.entries(node)) visit(child, `${path}.${key}`)
+  }
+  bodies.forEach((body, index) => {
+    visit(body, `registry[${index}]`)
+  })
+}
+
 /**
  * 战斗配置定案(替代旧 hoistBattleDefaults):把场景脚本里的 BattleCfgMarker(原版 0x4A/0x45)
- * bake 成 SceneDef.battleFieldId/battleMusicId + 从脚本 strip 干净。**无持久态、无 override 命令**。
+ * bake 成 SceneDef.battleFieldId/battleMusic + 从脚本 strip 干净。**无持久态、无 override 命令**。
  * 顺序 onEnter→onTeleport→实体触发/巡逻,last-wins —— 赤鬼王/水魔兽类「打完 boss 设回区域曲」在
  * 触发段、晚于 enter,故区域常态值胜;特殊一次性战场早 fold 进 startBattle,打完自然回落此默认。
  */
 export function finalizeBattleConfig(scene: SceneDef): SceneDef {
-  const acc: { battleFieldId?: number; battleMusicId?: number } = {}
+  const acc: { battleFieldId?: number; battleMusic?: AssetId | null } = {}
   const onEnter = scene.onEnter ? deepStripBattleCfg(scene.onEnter, acc) : undefined
   const onTeleport = scene.onTeleport ? deepStripBattleCfg(scene.onTeleport, acc) : undefined
   const entities = deepStripBattleCfg(scene.entities, acc)
   return {
     ...scene,
     ...(acc.battleFieldId !== undefined ? { battleFieldId: acc.battleFieldId } : {}),
-    ...(acc.battleMusicId !== undefined ? { battleMusicId: acc.battleMusicId } : {}),
+    ...(acc.battleMusic !== undefined ? { battleMusic: acc.battleMusic } : {}),
     ...(onEnter ? { onEnter } : {}),
     ...(onTeleport ? { onTeleport } : {}),
     entities,
@@ -2091,14 +2122,21 @@ export function propagateBattleFieldDefaults(
       }
       set.add(src)
     }
-  const fill = (key: 'battleFieldId' | 'battleMusicId'): string[] => {
-    const known = new Map<string, number>()
-    for (const s of scenes) if (s[key] !== undefined) known.set(s.id, s[key])
+  const fill = <T>(
+    read: (scene: SceneDef) => T | undefined,
+    write: (scene: SceneDef, value: T) => void,
+    unresolved: boolean,
+  ): string[] => {
+    const known = new Map<string, T>()
+    for (const s of scenes) {
+      const value = read(s)
+      if (value !== undefined) known.set(s.id, value)
+    }
     for (let round = 0; round < 40; round++) {
       let changed = false
       for (const s of scenes) {
         if (known.has(s.id)) continue
-        const vals = new Set<number>()
+        const vals = new Set<T>()
         for (const p of preds.get(s.id) ?? []) {
           const v = known.get(p)
           if (v !== undefined && p !== s.id) vals.add(v)
@@ -2112,19 +2150,31 @@ export function propagateBattleFieldDefaults(
     }
     const filled: string[] = []
     for (const s of scenes) {
-      if (!hasBattle.has(s.id) || s[key] !== undefined) continue
+      if (!hasBattle.has(s.id) || read(s) !== undefined) continue
       const v = known.get(s.id)
       if (v !== undefined) {
-        s[key] = v
-        filled.push(`${s.id}←${v}`)
-      } else if (key === 'battleFieldId') {
+        write(s, v)
+        filled.push(`${s.id}←${String(v)}`)
+      } else if (unresolved) {
         report.battleFieldUnresolved ??= []
         report.battleFieldUnresolved.push(s.id)
       }
     }
     return filled
   }
-  const f = fill('battleFieldId')
-  fill('battleMusicId')
+  const f = fill(
+    (scene) => scene.battleFieldId,
+    (scene, value) => {
+      scene.battleFieldId = value
+    },
+    true,
+  )
+  fill(
+    (scene) => scene.battleMusic,
+    (scene, value) => {
+      scene.battleMusic = value
+    },
+    false,
+  )
   if (f.length) report.battleFieldsPropagated = f
 }

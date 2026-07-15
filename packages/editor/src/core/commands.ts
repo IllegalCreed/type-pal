@@ -13,6 +13,8 @@
 import type {
   ActorDef,
   AmbienceDef,
+  AssetId,
+  AssetRecordV1,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
@@ -302,13 +304,13 @@ export class UpdateEntityCommand implements Command {
   }
 }
 
-/** UpdateScene 的 patch 范围(entry / musicId / entries / mapId)。 */
-export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'musicId' | 'entries' | 'mapId'>>
+/** UpdateScene 的 patch 范围(entry / music / entries / mapId)。 */
+export type ScenePatch = Partial<Pick<SceneDef, 'entry' | 'music' | 'entries' | 'mapId'>>
 
 /**
- * 改场景字段(mapId/entry/musicId)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
+ * 改场景字段(mapId/entry/music)。apply 记下旧值,invert 还原。语义同 UpdateEntityCommand。
  * entry 是对象,patch 传整个新 entry(整体替换,非深合并)。
- * musicId 传 undefined = 清成「延续上一曲」(JSON 落盘时 undefined 键自然消失)。
+ * music 传 undefined =「延续上一曲」；null = 显式停曲；AssetId = 指定曲。
  */
 export class UpdateSceneCommand implements Command {
   readonly label = '修改场景'
@@ -319,7 +321,7 @@ export class UpdateSceneCommand implements Command {
   constructor(sceneId: string, patch: ScenePatch) {
     this.sceneId = sceneId
     // entry 若有,深拷贝(独立于外部入参,防回写)。
-    // ⚠ 不能无条件写 entry 键:patch 只有 musicId 时,旧写法把 entry:undefined
+    // ⚠ 不能无条件写 entry 键:patch 只有 music 时,旧写法把 entry:undefined
     //   显式塞进 patch → spread 把必填 scene.entry 覆成 undefined → 渲染 entry.facing 崩。
     this.patch = { ...patch }
     if (this.patch.entry) this.patch.entry = structuredClone(this.patch.entry)
@@ -336,7 +338,7 @@ export class UpdateSceneCommand implements Command {
   /** 按 this.patch 出现的键,从 scene 上摘旧值(entry 深拷贝)。 */
   private captureOld(scene: SceneDef): ScenePatch {
     const old: ScenePatch = {}
-    if ('musicId' in this.patch) old.musicId = scene.musicId // undefined=「延续」也是合法旧值
+    if ('music' in this.patch) old.music = scene.music
     if ('entry' in this.patch && this.patch.entry) {
       old.entry = scene.entry ? structuredClone(scene.entry) : undefined
     }
@@ -447,10 +449,9 @@ export class DeleteSceneEntryCommand implements Command {
 }
 
 function withMapCatalogManifest(state: EditorState): EditorState['manifest'] {
-  if (state.manifest.contentVersion >= 2 && state.manifest.content.maps) return state.manifest
+  if (state.manifest.content.maps) return state.manifest
   return {
     ...state.manifest,
-    contentVersion: Math.max(2, state.manifest.contentVersion),
     content: { ...state.manifest.content, maps: MAP_INDEX_PATH },
   }
 }
@@ -1748,42 +1749,126 @@ export class UpdateLocaleCommand implements Command {
 }
 
 // ════════════════════════════════════════════════════════════════════
-// W5 音乐库命令(音乐页起别名)
+// A7 资源注册表命令(音乐首切片)
 // ════════════════════════════════════════════════════════════════════
 
-/** 改音乐库条目别名(空串/undefined = 清名,回显编号)。 */
-export class UpdateMusicNameCommand implements Command {
+/** 改资源显示名；AssetId/path/引用保持不变。 */
+export class UpdateAssetLabelCommand implements Command {
   readonly label = '改音乐名'
-  private readonly musicId: number
-  private readonly name: string | undefined
+  private readonly assetId: AssetId
+  private readonly next: string | undefined
   private old: string | undefined
   private captured = false
 
-  constructor(musicId: number, name: string | undefined) {
-    this.musicId = musicId
-    this.name = name || undefined // 空串规整成 undefined(JSON 落盘键消失)
+  constructor(assetId: AssetId, label: string | undefined) {
+    this.assetId = assetId
+    this.next = label || undefined
   }
 
   apply(state: EditorState): EditorState {
-    const list = state.music ?? []
-    const i = list.findIndex((m) => m.id === this.musicId)
-    if (i < 0) return state
+    const current = state.assetCatalog.assets[this.assetId]
+    if (!current) return state
     if (!this.captured) {
       this.captured = true
-      this.old = list[i]!.name
+      this.old = current.label
     }
-    const next = [...list]
-    next[i] = this.name ? { ...next[i]!, name: this.name } : { id: next[i]!.id }
-    return { ...state, music: next }
+    const record = { ...current, label: this.next }
+    if (!this.next) delete record.label
+    return {
+      ...state,
+      assetCatalog: {
+        ...state.assetCatalog,
+        assets: { ...state.assetCatalog.assets, [this.assetId]: record },
+      },
+    }
   }
 
   invert(state: EditorState): EditorState {
-    const list = state.music ?? []
-    const i = list.findIndex((m) => m.id === this.musicId)
-    if (i < 0) return state
-    const next = [...list]
-    next[i] = this.old ? { ...next[i]!, name: this.old } : { id: next[i]!.id }
-    return { ...state, music: next }
+    const current = state.assetCatalog.assets[this.assetId]
+    if (!current) return state
+    const record = { ...current, label: this.old }
+    if (!this.old) delete record.label
+    return {
+      ...state,
+      assetCatalog: {
+        ...state.assetCatalog,
+        assets: { ...state.assetCatalog.assets, [this.assetId]: record },
+      },
+    }
+  }
+}
+
+/** 新增或替换资源；替换保持 AssetId，二进制按新 record.path 暂存在会话。 */
+export class UpsertAssetCommand implements Command {
+  readonly label = '导入资源'
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
+
+  constructor(
+    private readonly assetId: AssetId,
+    private readonly record: AssetRecordV1,
+    private readonly bytes: ArrayBuffer,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (!this.oldCatalog) {
+      this.oldCatalog = state.assetCatalog
+      this.oldBlobs = state.assetBlobs
+    }
+    const previous = state.assetCatalog.assets[this.assetId]
+    const assetBlobs = { ...state.assetBlobs }
+    if (previous && previous.path !== this.record.path) delete assetBlobs[previous.path]
+    assetBlobs[this.record.path] = this.bytes.slice(0)
+    return {
+      ...state,
+      assetCatalog: {
+        ...state.assetCatalog,
+        assets: {
+          ...state.assetCatalog.assets,
+          [this.assetId]: structuredClone(this.record),
+        },
+      },
+      assetBlobs,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.oldCatalog && this.oldBlobs
+      ? { ...state, assetCatalog: this.oldCatalog, assetBlobs: this.oldBlobs }
+      : state
+  }
+}
+
+/** 删除未被内容引用的资源；引用保护由调用方在 dispatch 前执行。 */
+export class DeleteAssetCommand implements Command {
+  readonly label = '删除资源'
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
+
+  constructor(private readonly assetId: AssetId) {}
+
+  apply(state: EditorState): EditorState {
+    if (!state.assetCatalog.assets[this.assetId]) return state
+    if (!this.oldCatalog) {
+      this.oldCatalog = state.assetCatalog
+      this.oldBlobs = state.assetBlobs
+    }
+    const assets = { ...state.assetCatalog.assets }
+    const path = assets[this.assetId]!.path
+    delete assets[this.assetId]
+    const assetBlobs = { ...state.assetBlobs }
+    delete assetBlobs[path]
+    return {
+      ...state,
+      assetCatalog: { ...state.assetCatalog, assets },
+      assetBlobs,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    return this.oldCatalog && this.oldBlobs
+      ? { ...state, assetCatalog: this.oldCatalog, assetBlobs: this.oldBlobs }
+      : state
   }
 }
 

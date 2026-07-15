@@ -7,6 +7,7 @@
  * 见 docs/phase2/slice1-indoor/guijie-minju.md。稳定 id，不用下标。
  */
 
+import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
 import type { EntityPage, ScriptStage } from './script.js'
 
@@ -14,17 +15,6 @@ export type Facing = 'up' | 'down' | 'left' | 'right'
 
 /** 稳定文本 id;运行时按当前 locale 查表(D9)。 */
 export type TextId = string
-
-/**
- * 音乐库条目(编辑器数据:BGM 下拉/试听/起别名)。
- * 引擎播放只按编号(scene.musicId / playMusic op),不读此表;缺 music.json 的工程照常运行。
- */
-export interface MusicDef {
-  /** 音乐号(assetBase.music 下 <NNN>.mid,3 位零填充)。 */
-  id: number
-  /** 创作者起的别名(选择器/音乐库显示;缺省显示编号)。 */
-  name?: string
-}
 
 /** 对话颜色语义名;palette 映射在渲染层,内容层不出现魔法数。 */
 export type DialogColor = 'default' | 'cyan' | 'red' | 'redAlt' | 'yellow'
@@ -130,8 +120,8 @@ export interface SceneDef {
   id: string
   /** 地图库中的稳定 id；路径只属于 MapAssetDefV1。 */
   mapId: string
-  /** BGM 槽(原版音乐号;窄扫描自 onEnter 链头 playMusic)。缺省 = 延续上一曲(忠实原版)。 */
-  musicId?: number
+  /** BGM 槽。缺省 = 延续上一曲；AssetId = 切曲；null = 停曲。 */
+  music?: AssetId | null
   /**
    * 本场景战斗的默认战场(battle-fields id:背景图+五灵加成+屏波)。
    * 解析优先级(无任何持久态):startBattle.fieldId(剧情战一次性显式)> hostile.battleFieldId
@@ -139,8 +129,8 @@ export interface SceneDef {
    * startBattle,打完自然回落本字段;不再有「剧情点覆写 + 随存档」这一档(铁律 4)。
    */
   battleFieldId?: number
-  /** 本场景战斗的默认 BGM(0 = 战斗静音,忠实原版);解析优先级同 battleFieldId。缺省 = boss?2:3。 */
-  battleMusicId?: number
+  /** 本场景战斗的默认 BGM。缺省 = 项目角色；AssetId = 指定；null = 静音。 */
+  battleMusic?: AssetId | null
   /** 额外命名落点；默认落点只存于 entry，脚本以稳定 record key 引用。 */
   entries?: Record<string, SceneEntryPoint>
   // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
@@ -160,6 +150,7 @@ export interface SceneDef {
 
 export * from './actor.js'
 export * from './ambience.js'
+export * from './asset.js'
 export * from './battle-formulas.js'
 export * from './character.js'
 export * from './dialogue-upgrade.js'
@@ -171,6 +162,7 @@ export * from './locale.js'
 export * from './map-index.js'
 export * from './poison.js'
 export * from './project-map.js'
+export * from './project-upgrade.js'
 export * from './rewards.js'
 export * from './rich-text.js'
 export * from './script.js'

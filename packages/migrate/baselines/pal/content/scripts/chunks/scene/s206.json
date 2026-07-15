@@ -714,7 +714,7 @@
     "scene/s206/L-41075/e3486/d-67291fdc": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -1592,7 +1592,7 @@
     "scene/s206/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 55
+        "asset": "music.pal.055"
       }
     ],
     "scene/s206/root/entity-e3458/page-0/trigger/stage-0": [
@@ -3026,7 +3026,7 @@
         ],
         "boss": true,
         "fieldId": 23,
-        "musicId": 37
+        "music": "music.pal.037"
       }
     ],
     "scene/s206/root/entity-e3487/page-0/trigger/stage-0": [

@@ -168,7 +168,7 @@
     "scene/s061/L-41075/e1180/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -224,7 +224,7 @@
     "scene/s061/L-41075/e1181/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -280,7 +280,7 @@
     "scene/s061/L-41075/e1182/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -336,7 +336,7 @@
     "scene/s061/L-41075/e1183/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -392,7 +392,7 @@
     "scene/s061/L-41075/e1184/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -448,7 +448,7 @@
     "scene/s061/L-41075/e1185/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -504,7 +504,7 @@
     "scene/s061/L-41075/e1186/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -560,7 +560,7 @@
     "scene/s061/L-41075/e1187/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -616,7 +616,7 @@
     "scene/s061/L-41075/e1188/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -691,7 +691,7 @@
     "scene/s061/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 60
+        "asset": "music.pal.060"
       }
     ],
     "scene/s061/root/entity-e1174/page-0/trigger/stage-0": [

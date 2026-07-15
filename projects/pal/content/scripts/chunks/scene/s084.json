@@ -575,8 +575,7 @@
     ],
     "scene/s084/override/on-enter/L-14553/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "teleportParty",

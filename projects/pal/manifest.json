@@ -1,7 +1,7 @@
 {
   "id": "pal",
   "name": "仙剑奇侠传·复刻",
-  "contentVersion": 2,
+  "contentVersion": 3,
   "entryScene": "s000",
   "content": {
     "scenes": "content/scenes/",
@@ -12,7 +12,6 @@
     "sprites": "content/sprites.json",
     "enemies": "content/enemies.json",
     "enemyTeams": "content/enemy-teams.json",
-    "music": "content/music.json",
     "battleFields": "content/battle-fields.json",
     "poisons": "content/poisons.json",
     "tilesets": "content/tilesets.json",
@@ -22,15 +21,40 @@
     "scripts": "content/scripts/"
   },
   "assets": {
-    "root": "/extracted/data",
-    "tilesets": "tileset",
-    "sprites": "sprite",
-    "palettes": "palette",
-    "sounds": "/extracted/sounds",
-    "music": "/extracted/music",
-    "portraits": "/baked/portraits",
-    "faces": "/baked/ui/face",
-    "itemIcons": "/baked/ui/items"
+    "catalog": "assets/index.json",
+    "roles": {
+      "audio.midiSoundfont": "soundfont.default",
+      "audio.defaultBattleMusic": "music.pal.037",
+      "audio.bossVictoryMusic": "music.pal.002",
+      "audio.normalVictoryMusic": "music.pal.003"
+    },
+    "legacy": {
+      "families": [
+        "sound",
+        "tileset",
+        "sprite",
+        "battle-sprite",
+        "effect-sprite",
+        "portrait",
+        "face",
+        "item-icon",
+        "battle-background",
+        "rng",
+        "video",
+        "glyph-table",
+        "ui-image",
+        "color-table",
+        "image"
+      ],
+      "root": "/extracted/data",
+      "tilesets": "tileset",
+      "sprites": "sprite",
+      "palettes": "palette",
+      "sounds": "/extracted/sounds",
+      "portraits": "/baked/portraits",
+      "faces": "/baked/ui/face",
+      "itemIcons": "/baked/ui/items"
+    }
   },
   "startWorld": {
     "party": [

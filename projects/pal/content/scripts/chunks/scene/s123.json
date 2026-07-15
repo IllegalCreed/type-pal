@@ -128,7 +128,7 @@
     "scene/s123/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s123/override/on-enter/L-17982/stage-0": [
@@ -290,7 +290,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s123/root/entity-e2203/page-0/trigger/stage-0": [

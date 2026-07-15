@@ -105,7 +105,7 @@
     "scene/s119/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s119/override/on-enter/L-19364/stage-0": [
@@ -534,7 +534,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s119/root/entity-e2173/page-0/trigger/stage-0": [

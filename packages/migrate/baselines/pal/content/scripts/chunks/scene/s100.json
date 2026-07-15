@@ -837,7 +837,7 @@
     "scene/s100/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 53
+        "asset": "music.pal.053"
       },
       {
         "kind": "setParty",
@@ -1093,7 +1093,7 @@
     "scene/s100/root/on-enter/stage-1": [
       {
         "kind": "playMusic",
-        "musicId": 53
+        "asset": "music.pal.053"
       }
     ],
     "scene/s100/root/entity-e1800/page-0/auto/stage-0": [
@@ -4202,7 +4202,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s100/root/entity-e1839/page-0/trigger/stage-0": [

@@ -5,6 +5,7 @@
  * 旧 opcode 的翻译缺口属于迁移期诊断,不得进入工程内容或运行时。
  */
 
+import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
 import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
@@ -139,7 +140,8 @@ export type Command =
   | { kind: 'addVar'; var: string; delta: number }
   // 声音 / 战斗配置
   | { kind: 'playSound'; soundId: number }
-  | { kind: 'playMusic'; musicId: number }
+  | { kind: 'playMusic'; asset: AssetId }
+  | { kind: 'stopMusic' }
   // 氛围(W6 昼夜;原版 0x53 昼/0x54 夜全局调色板 flag 的 clean 表达 —— 全帧乘法滤镜)
   | { kind: 'setAmbience'; ambience: string }
   // 走位 / 演出(M3b;速度=原版 2/3/4/8 → slow/normal/fast/run)
@@ -161,7 +163,7 @@ export type Command =
       boss?: boolean
       /** 本场专属战场/战斗乐(剧情/boss 战显式指定;缺省走 场景覆写→场景默认→项目默认)。 */
       fieldId?: number
-      musicId?: number
+      music?: AssetId | null
       /** 遭遇专属战斗演出(开场白/逐回合台词/结束条件;二阶段 clean 架构:对话绑**这一场遭遇**
        *  而非敌种 —— 消掉原版敌种绑定 + 0x79 队伍门 + 0x90 说一次那套 hack。boss 战由此携带,
        *  杂兵遭遇不带;同敌种在不同遭遇的对话天然独立)。见 enemy.ts BattleChoreography。 */
@@ -254,6 +256,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   nudgeParty: 'safe',
   openShop: 'blocked',
   playMusic: 'safe',
+  stopMusic: 'safe',
   playRng: 'blocked',
   playSound: 'safe',
   playVideo: 'blocked',
@@ -429,6 +432,13 @@ export function checkCommands(cmds: unknown, path: string): void {
       if (load.pos !== undefined) checkGridPos(load.pos, `${path}[${i}].pos`)
       if (load.facing !== undefined) checkFacing(load.facing, `${path}[${i}].facing`)
     }
+    if (k === 'playMusic') {
+      const asset = (c as { asset?: unknown }).asset
+      if (typeof asset !== 'string' || asset.length === 0)
+        throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
+    }
+    if (k === 'stopMusic' && Object.keys(c as object).some((key) => key !== 'kind'))
+      throw new Error(`${path}[${i}]: stopMusic 不接受参数`)
     if (k === 'branch') {
       checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`)
       const el = (c as { else?: unknown }).else

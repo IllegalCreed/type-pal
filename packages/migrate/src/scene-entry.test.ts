@@ -6,7 +6,7 @@ describe('liftEarlyDitherSceneEntry', () => {
   test('把安全前缀与 dither 提升为 Prepare → Reveal → Body', () => {
     const source: ScriptStage = {
       body: [
-        { kind: 'playMusic', musicId: 31 },
+        { kind: 'playMusic', asset: 'music.pal.031' },
         { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
         { kind: 'ditherScreen', ms: 2160 },
         { kind: 'dialog', cue: { rows: [{ text: 'after' }] } },
@@ -58,7 +58,7 @@ describe('liftEarlyDitherSceneEntry', () => {
   })
 
   test('无 dither 与已有 entry 保持不变', () => {
-    const plain: ScriptStage = { body: [{ kind: 'playMusic', musicId: 1 }] }
+    const plain: ScriptStage = { body: [{ kind: 'playMusic', asset: 'music.pal.001' }] }
     expect(liftEarlyDitherSceneEntry(plain)).toEqual({
       kind: 'unchanged',
       stage: plain,

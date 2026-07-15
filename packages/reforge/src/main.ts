@@ -200,7 +200,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
   const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
-  const bgm = createBgmPlayer(project.assetBase.music) // W5/X2:场景 BGM(懒初始化,首曲才拉 soundfont)
+  const bgm = createBgmPlayer(project.assetResolver)
   // autoplay 解锁:BGM 随 boot 场景起播,彼时多半无手势 → ctx suspended;首个手势补播。
   // (sfx 不用:它惰性建 ctx,首次 play 必在按键手势内。)
   for (const ev of ['pointerdown', 'keydown'] as const)
@@ -245,7 +245,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 全立绘一次载(对话样式 op 的 arg0 遍布全剧情;manifest 报有效块,缺块 loader 自跳)。
   // ⚠ 仅当 manifest 声明了 portraits 才预载:自有工程(空白/Reforge 原创)无原版立绘,
   //    否则会朝不存在的 portraits 目录刷满 91 条「加载失败」warn(E2E-1 gap #6)。
-  const portraits = project.manifest.assets.portraits
+  const portraits = project.manifest.assets.legacy?.portraits
     ? await (async (): Promise<Map<number, HTMLCanvasElement>> => {
         const portraitChunks = await fetch('/extracted/data/portraits.json')
           .then((r) =>
@@ -700,8 +700,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     followerAuth.clear() // 跨场景回 follow(骑乘/站位权威是演出期瞬时态,不跨场景)
     worldMoveAcc = 0 // 世界拍相位随场景重置
     updateCamera()
-    // W5 场景 BGM 槽:缺省 = 延续上一曲(忠实原版);0 = 停曲。同曲不重启由播放器保证。
-    if (def.musicId != null) bgm.play(def.musicId)
+    // 场景 BGM:字段缺省 = 延续；AssetId = 切曲；null = 显式停曲。
+    if (def.music !== undefined) {
+      world.audio ??= {}
+      world.audio.currentMusic = def.music
+      if (def.music === null) bgm.stop()
+      else bgm.play(def.music)
+    }
   }
 
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
@@ -1156,9 +1161,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       world.money = Math.max(0, world.money + delta)
     },
     playSound: () => {}, // 音频系统未落地(音频期);静默
-    playMusic: (id) => {
-      expectDefined(world.script).vars['sys:music'] = id // 记账(存档恢复用)
-      bgm.play(id) // 0 = 停曲(原版语义)
+    playMusic: (asset) => {
+      world.audio ??= {}
+      world.audio.currentMusic = asset
+      bgm.play(asset)
+    },
+    stopMusic: () => {
+      world.audio ??= {}
+      world.audio.currentMusic = null
+      bgm.stop()
     },
     // W6 氛围(0x53 昼/0x54 夜):world.ambience 权威(随存档),显示态播 300ms 过渡
     setAmbience: (id) => {
@@ -1364,14 +1375,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         await host.wait(400)
         return 'win'
       }
-      // 战斗配置解析(无任何持久态):显式参数(剧情战 startBattle.fieldId/musicId、明雷
-      // hostile.battleFieldId)→ 场景默认(SceneDef.battleFieldId/battleMusicId)→ 项目默认。
+      // 战斗配置解析(无任何持久态):显式参数→场景默认→项目具名角色。
       // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
       // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
-      // 战斗乐:0 = 停曲(忠实原版);项目默认 37 = 原版新档 wNumBattleMusic@2.RPG:0x10
-      // (⚠ 不是 3——3 是普通胜利曲,battle.c:1032)
-      const battleTrack = battleOpts?.musicId ?? scene.battleMusicId ?? 37
-      bgm.play(battleTrack)
+      const battleTrack =
+        battleOpts?.music !== undefined
+          ? battleOpts.music
+          : scene.battleMusic !== undefined
+            ? scene.battleMusic
+            : project.assetResolver.assetForRole('audio.defaultBattleMusic')
+      if (battleTrack === null) bgm.stop()
+      else bgm.play(battleTrack)
       let playedVictory = false
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
@@ -1626,8 +1640,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
             if (r.exp > 0) {
-              // 胜利曲:首领战 2 / 普通 3,不循环(battle.c:1032)
-              bgm.play(battleOpts?.boss ? 2 : 3, false)
+              const victoryRole = battleOpts?.boss
+                ? 'audio.bossVictoryMusic'
+                : 'audio.normalVictoryMusic'
+              bgm.play(project.assetResolver.assetForRole(victoryRole), false)
               playedVictory = true
             }
             world.money += r.cash
@@ -1699,9 +1715,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         }
       }
       // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
-      if (result !== 'lose' && (typeof battleTrack === 'number' || playedVictory)) {
-        const m = world.script?.vars['sys:music']
-        bgm.play(typeof m === 'number' ? m : (scene.musicId ?? 0))
+      if (result !== 'lose' && (battleTrack !== undefined || playedVictory)) {
+        const persistent = world.audio?.currentMusic
+        if (persistent === null) bgm.stop()
+        else if (persistent) bgm.play(persistent)
       }
       return result
     },
@@ -2337,7 +2354,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (!raw) return false
     let p: SavePayload
     try {
-      p = normalizePayload(raw) // 运行时归一化:版本闸 + 结构补默认(G10.1)
+      p = normalizePayload(raw)
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
       showToast('存档格式过新,无法读取')
@@ -2368,11 +2385,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
     // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
+    const savedMusic = world.audio?.currentMusic
     await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
+    world.audio ??= {}
+    world.audio.currentMusic = savedMusic
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
-    // 存档时脚本曲(sys:music 记账)覆盖场景槽曲;同曲不重启,无记账则保持场景曲。
-    const savedMusic = world.script.vars['sys:music']
-    if (typeof savedMusic === 'number') bgm.play(savedMusic)
+    if (savedMusic === null) bgm.stop()
+    else if (savedMusic) bgm.play(savedMusic)
     startAutoRunners()
     return true
   }
@@ -3308,10 +3327,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         c.extraPoisonRes = undefined
       }
       syncAmbience()
+      const savedMusic = world.audio?.currentMusic
       await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
+      world.audio ??= {}
+      world.audio.currentMusic = savedMusic
       applyWorldToScene()
-      const savedMusic = world.script.vars['sys:music']
-      if (typeof savedMusic === 'number') bgm.play(savedMusic)
+      if (savedMusic === null) bgm.stop()
+      else if (savedMusic) bgm.play(savedMusic)
       startAutoRunners()
       const e2eLoadScene = params.get('e2e-load-scene')
       if (import.meta.env.DEV && e2eLoadScene && project.sceneIds.includes(e2eLoadScene)) {

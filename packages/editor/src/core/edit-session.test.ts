@@ -26,6 +26,8 @@ function mkState(): EditorState {
     mapIndex: { version: 1, maps: [] },
     tilesets: [],
     tilesetBlobs: {},
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
     scriptChunks: {},
   } as EditorState
 }

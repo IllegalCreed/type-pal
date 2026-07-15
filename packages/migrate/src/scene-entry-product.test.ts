@@ -159,7 +159,7 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
     const site = collectEntrySites().find((candidate) => candidate.targetScene === 's001')
     expect(site?.stage.entry).toEqual({
       prepare: [
-        { kind: 'playMusic', musicId: 31 },
+        { kind: 'playMusic', asset: 'music.pal.031' },
         { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
       ],
       reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },

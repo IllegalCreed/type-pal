@@ -1,4 +1,5 @@
 import type { ActorDef } from './actor.js'
+import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
 import type { WorldScriptState } from './script.js'
 import type { StatusId } from './skill.js'
 
@@ -27,6 +28,8 @@ export interface WorldState {
   ambience?: string
   /** 收妖值(原版 wCollectValue:灵葫咒 0x33 收妖累计,酒仙处兑换)。缺省/旧档 → 0。 */
   collectValue?: number
+  /** 持久 BGM。缺字段 = 尚未建立音乐状态；null = 显式静音；AssetId = 当前世界曲。 */
+  audio?: { currentMusic?: AssetId | null }
 }
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
@@ -59,29 +62,12 @@ export interface EntryPoint {
 export interface LoadedManifest {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
-  contentVersion: number // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
+  contentVersion: 3 // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
   entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)。多入口时 = 默认(无菜单/无 ?entry)开局的场景。
   /** 入口点列表(主菜单开局/DLC 入口)。缺省 = 从 entryScene+startWorld 合成一条 'new-game'(兼容)。 */
   entryPoints?: EntryPoint[]
   content: Record<string, string> // content 文件清单(kind → 相对路径)
-  assets: {
-    root: string
-    tilesets: string
-    sprites: string
-    palettes: string
-    /** 音效目录(wav);'/' 开头 = 应用绝对路径,否则相对工程根。缺省 = root/sounds。 */
-    sounds?: string
-    /** BGM 目录(<NNN>.mid,3 位零填充);同路径规则。缺省 = root/music。 */
-    music?: string
-    /** 对话/状态立绘目录(<chunk>.png);同路径规则。缺省 = root/portraits。 */
-    portraits?: string
-    /** 战斗小头像目录(<actorId>.png)。缺省 = root/faces。 */
-    faces?: string
-    /** 物品图标目录(<icon>.png)。缺省 = root/item-icons。 */
-    itemIcons?: string
-    /** UI chrome 覆盖目录(工程自带皮肤;缺省用引擎默认皮)。 */
-    ui?: string
-  }
+  assets: ManifestAssetConfigV3
   startWorld: StartWorld
 }
 

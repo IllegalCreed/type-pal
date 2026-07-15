@@ -1,7 +1,7 @@
 {
   "id": "s001",
   "mapId": "map-012",
-  "musicId": 31,
+  "music": "music.pal.031",
   "entry": {
     "pos": {
       "col": 60,
@@ -937,7 +937,7 @@
         "prepare": [
           {
             "kind": "playMusic",
-            "musicId": 31
+            "asset": "music.pal.031"
           },
           {
             "kind": "teleportParty",
@@ -967,7 +967,7 @@
       ]
     }
   ],
-  "battleMusicId": 37,
+  "battleMusic": "music.pal.037",
   "battleFieldId": 12,
   "entries": {
     "pal-entry-52725046": {

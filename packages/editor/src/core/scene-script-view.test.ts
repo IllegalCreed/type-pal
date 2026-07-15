@@ -15,7 +15,7 @@ const chunks: Record<string, ScriptChunkV1> = {
     version: 1,
     id: 'scene/s001',
     scripts: {
-      'scene/s001/root/on-enter/stage-0': [{ kind: 'playMusic', musicId: 31 }],
+      'scene/s001/root/on-enter/stage-0': [{ kind: 'playMusic', asset: 'music.pal.031' }],
       'scene/s001/root/on-enter/stage-1': [],
       'scene/s001/root/entity-e2/page-0/auto/stage-0': [{ kind: 'wait', ms: 200 }],
     },
@@ -54,7 +54,7 @@ describe('场景私有分片脚本的编辑视图', () => {
     ]
     const result = materializeSceneStages('s001', { kind: 'onEnter' }, raw, index, chunks)
     expect(result.stages).toEqual([
-      { body: [{ kind: 'playMusic', musicId: 31 }], next: 'advance' },
+      { body: [{ kind: 'playMusic', asset: 'music.pal.031' }], next: 'advance' },
       { body: [] },
     ])
     expect(result.bindings.map((binding) => binding?.id)).toEqual([

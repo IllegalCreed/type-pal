@@ -1,7 +1,7 @@
 {
   "id": "e2e-own",
   "name": "E2E 自有内容烟测",
-  "contentVersion": 2,
+  "contentVersion": 3,
   "entryScene": "start",
   "content": {
     "actors": "content/actors.json",
@@ -14,10 +14,15 @@
     "maps": "content/maps/index.json"
   },
   "assets": {
-    "root": "assets",
-    "tilesets": "tilesets",
-    "sprites": "sprites",
-    "palettes": "palettes"
+    "catalog": "assets/index.json",
+    "roles": {},
+    "legacy": {
+      "families": ["tileset", "sprite", "color-table"],
+      "root": "assets",
+      "tilesets": "tilesets",
+      "sprites": "sprites",
+      "palettes": "palettes"
+    }
   },
   "startWorld": {
     "party": [

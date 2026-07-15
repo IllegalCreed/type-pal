@@ -5,7 +5,7 @@
     "scene/s215/L-41075/e3665/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -61,7 +61,7 @@
     "scene/s215/L-41075/e3666/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -117,7 +117,7 @@
     "scene/s215/L-41075/e3667/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -173,7 +173,7 @@
     "scene/s215/L-41075/e3668/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -229,7 +229,7 @@
     "scene/s215/L-41075/e3669/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -285,7 +285,7 @@
     "scene/s215/L-41075/e3670/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -341,7 +341,7 @@
     "scene/s215/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       }
     ],
     "scene/s215/root/on-teleport/stage-0": [
@@ -381,8 +381,7 @@
     ],
     "scene/s215/root/entity-e3657/page-0/trigger/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -399,7 +398,7 @@
         "kind": "startBattle",
         "team": 223,
         "boss": true,
-        "musicId": 38
+        "music": "music.pal.038"
       },
       {
         "kind": "setEntityState",
@@ -954,7 +953,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 70
+        "asset": "music.pal.070"
       }
     ],
     "scene/s215/root/entity-e3664/page-0/auto/stage-0": [

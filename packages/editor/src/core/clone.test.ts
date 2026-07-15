@@ -49,15 +49,20 @@ describe('cloneFromPal', () => {
   const manifest = {
     id: 'pal',
     name: 'PAL',
-    contentVersion: 1,
+    contentVersion: 3,
     entryScene: 's1',
     content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
     assets: {
-      root: '/extracted/data',
-      tilesets: 'tileset',
-      sprites: 'sprite',
-      palettes: 'palette',
-      portraits: '/baked/portraits',
+      catalog: 'assets/index.json',
+      roles: {},
+      legacy: {
+        families: ['tileset', 'sprite', 'color-table', 'portrait'],
+        root: '/extracted/data',
+        tilesets: 'tileset',
+        sprites: 'sprite',
+        palettes: 'palette',
+        portraits: '/baked/portraits',
+      },
     },
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
   }
@@ -68,6 +73,7 @@ describe('cloneFromPal', () => {
     '/baked/baked-manifest.json': { files: [{ path: 'portraits/1.png', size: 50 }] },
     'content/actors.json': [{ id: 'a' }],
     'content/scenes/s1.json': { id: 's1' },
+    'assets/index.json': { version: 1, assets: {} },
     '/extracted/data/tileset/1.rle': new ArrayBuffer(100),
     '/baked/portraits/1.png': new ArrayBuffer(50),
   }
@@ -79,8 +85,8 @@ describe('cloneFromPal', () => {
 
     // manifest 相对化落盘
     const m = JSON.parse(written.get('manifest.json') as string)
-    expect(m.assets.root).toBe('assets/extracted/data')
-    expect(m.assets.portraits).toBe('assets/baked/portraits')
+    expect(m.assets.legacy.root).toBe('assets/extracted/data')
+    expect(m.assets.legacy.portraits).toBe('assets/baked/portraits')
     // 内容 + 场景 + 素材(extracted/baked)都写了
     expect(written.has('content/actors.json')).toBe(true)
     expect(written.has('content/scenes/index.json')).toBe(true)
@@ -103,6 +109,7 @@ describe('cloneFromPal', () => {
         files: [{ path: 'data/sprite/1.rle', size: gz.byteLength }],
       },
       '/baked/baked-manifest.json': { files: [] },
+      'assets/index.json': { version: 1, assets: {} },
       'content/actors.json': [],
       'content/scenes/s1.json': { id: 's1' },
       '/extracted/data/sprite/1.rle': gz,
@@ -143,7 +150,7 @@ describe('cloneFromPal', () => {
   test('地图注册表与零场景引用地图也会完整克隆', async () => {
     const mapsManifest = {
       ...manifest,
-      contentVersion: 2,
+      contentVersion: 3,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const mapIndex = {

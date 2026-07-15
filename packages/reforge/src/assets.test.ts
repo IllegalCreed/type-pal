@@ -8,19 +8,18 @@ import {
   loadSprite,
   loadTilesetByPath,
 } from './assets.js'
-import type { FileSource } from './file-source.js'
+import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
 
-const base = (source?: FileSource): AssetBase => ({
+const base = (source: FileSource): AssetBase => ({
   root: '/extracted/data',
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
   sounds: '',
-  music: '',
   portraits: '',
   faces: '',
   itemIcons: '',
-  ...(source ? { source } : {}),
+  io: source.legacy ?? projectRelativeLegacyAdapter(source),
 })
 
 function memSource(json: unknown): FileSource {
@@ -42,22 +41,13 @@ describe('assets.ts 经 FileSource 读', () => {
     collision: [[0], [0]],
   }
 
-  test('有 base.source → loadProjectMap/loadPalette 走 source(不碰 fetch)', async () => {
+  test('loadProjectMap/loadPalette 只走显式 legacy adapter(不碰 fetch)', async () => {
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
     const src = memSource(projectMap)
     expect(await loadProjectMap(base(src), 'content/maps/a.json')).toEqual(projectMap)
     expect(await loadPalette(base(src), 0)).toEqual(projectMap)
     expect(fetchMock).not.toHaveBeenCalled()
-    vi.restoreAllMocks()
-  })
-
-  test('缺 base.source → 走裸 fetch(向后兼容,零行为变化)', async () => {
-    const fetchMock = vi.fn(async () => new Response(JSON.stringify(projectMap), { status: 200 }))
-    vi.stubGlobal('fetch', fetchMock)
-    const r = await loadProjectMap(base(), 'content/maps/a.json')
-    expect(r).toEqual(projectMap)
-    expect(fetchMock).toHaveBeenCalledWith('content/maps/a.json')
     vi.restoreAllMocks()
   })
 

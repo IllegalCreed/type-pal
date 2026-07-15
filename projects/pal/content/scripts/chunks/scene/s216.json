@@ -5,7 +5,7 @@
     "scene/s216/L-41075/e3678/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -61,7 +61,7 @@
     "scene/s216/L-41075/e3679/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -117,7 +117,7 @@
     "scene/s216/L-41075/e3680/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -173,7 +173,7 @@
     "scene/s216/L-41075/e3681/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -229,7 +229,7 @@
     "scene/s216/L-41075/e3682/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -285,7 +285,7 @@
     "scene/s216/L-41075/e3683/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -341,7 +341,7 @@
     "scene/s216/L-41075/e3684/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -397,7 +397,7 @@
     "scene/s216/L-41075/e3685/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -453,7 +453,7 @@
     "scene/s216/L-41075/e3686/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -509,7 +509,7 @@
     "scene/s216/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 35
+        "asset": "music.pal.035"
       },
       {
         "kind": "clearDialog"
@@ -671,7 +671,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 35
+        "asset": "music.pal.035"
       }
     ],
     "scene/s216/root/on-teleport/stage-0": [

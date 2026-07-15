@@ -8,6 +8,7 @@
  * 纯 TS + 无 React → 重度单测。见 docs/phase2/editor/editor-design.md §4。
  */
 import type {
+  AssetCatalogV1,
   ContentBundle,
   LoadedManifest,
   MapIndexV1,
@@ -39,6 +40,10 @@ export interface EditorState extends ContentBundle {
   /** 分片脚本工作副本；普通 inline 工程均为空/undefined。 */
   scriptIndex?: ScriptIndexV1
   scriptChunks: Record<string, ScriptChunkV1>
+  /** 工程唯一资源注册表；音乐页与运行时共用同一份 AssetId -> path 真值。 */
+  assetCatalog: AssetCatalogV1
+  /** 本会话新导入/替换的二进制，键为 catalog 中的工程相对 path。 */
+  assetBlobs: Record<string, ArrayBuffer>
 }
 
 export type MapDocumentStatus =
@@ -69,6 +74,7 @@ export class EditSession {
   private readonly mapErrors = new Map<string, string>()
   private mapLru: string[]
   private persistedMapPaths: Set<string>
+  private persistedAssetPaths: Set<string>
   /** 每次 notify 自增。useSyncExternalStore 的 snapshot 用它 —— 因为 markSaved/undo 等
    *  「非内容态」变化不改 state 引用,单靠 getState 当 snapshot 会漏掉这些变化不重渲染。 */
   private version = 0
@@ -80,6 +86,9 @@ export class EditSession {
     this.maxLoadedMaps = Math.max(1, options.maxLoadedMaps ?? 12)
     this.mapLru = Object.keys(initial.maps)
     this.persistedMapPaths = new Set(initial.mapIndex.maps.map((asset) => asset.path))
+    this.persistedAssetPaths = new Set(
+      Object.values(initial.assetCatalog.assets).map((asset) => asset.path),
+    )
   }
 
   /** 当前状态(返回引用;调用方不得 mutate —— 要改发 Command)。 */
@@ -97,6 +106,9 @@ export class EditSession {
     this.dirty = false
     this.dirtyMapIds.clear()
     this.persistedMapPaths = new Set(this.state.mapIndex.maps.map((asset) => asset.path))
+    this.persistedAssetPaths = new Set(
+      Object.values(this.state.assetCatalog.assets).map((asset) => asset.path),
+    )
     this.notify()
   }
 
@@ -196,6 +208,14 @@ export class EditSession {
   getDeletedMapPaths(): string[] {
     const current = new Set(this.state.mapIndex.maps.map((asset) => asset.path))
     return [...this.persistedMapPaths].filter((path) => !current.has(path))
+  }
+
+  /** 打开时存在、当前 catalog 已不再引用的资产文件；保存时精确删除。 */
+  getDeletedAssetPaths(): string[] {
+    const current = new Set(
+      Object.values(this.state.assetCatalog.assets).map((asset) => asset.path),
+    )
+    return [...this.persistedAssetPaths].filter((path) => !current.has(path))
   }
 
   private trackMapChanges(before: EditorState, after: EditorState): void {

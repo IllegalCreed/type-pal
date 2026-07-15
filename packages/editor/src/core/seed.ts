@@ -6,6 +6,7 @@
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
 import {
+  type AssetCatalogV1,
   formatProjectMapV2,
   type LoadedManifest,
   type MapIndexV1,
@@ -74,7 +75,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'manifest.json': {
       id,
       name: name.trim() || '新工程',
-      contentVersion: 2,
+      contentVersion: 3,
       entryScene: 'start',
       content: {
         actors: 'content/actors.json',
@@ -87,10 +88,15 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         maps: 'content/maps/index.json',
       },
       assets: {
-        root: 'assets',
-        tilesets: 'tilesets',
-        sprites: 'sprites',
-        palettes: 'palettes',
+        catalog: 'assets/index.json',
+        roles: {},
+        legacy: {
+          families: ['tileset', 'sprite', 'color-table'],
+          root: 'assets',
+          tilesets: 'tilesets',
+          sprites: 'sprites',
+          palettes: 'palettes',
+        },
       },
       startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
     },
@@ -144,6 +150,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],
     },
     'content/maps/start.json': formatProjectMapV2(buildSeedMap()),
+    'assets/index.json': { version: 1, assets: {} },
     'assets/palettes/0.json': palette,
     'assets/tilesets/starter.rle': tilesetRle,
     'assets/sprites/0.rle': spriteRle,
@@ -152,9 +159,18 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
 
 /** assets 各绝对路径字段相对化(子目录/相对值不变)。深拷,不改原对象。 */
 export function relativizeManifest(m: LoadedManifest): LoadedManifest {
-  const assets = Object.fromEntries(
-    Object.entries(m.assets).map(([k, v]) => [k, typeof v === 'string' ? relPath(v) : v]),
-  ) as LoadedManifest['assets']
+  const legacy = m.assets.legacy
+    ? (Object.fromEntries(
+        Object.entries(m.assets.legacy).map(([key, value]) => [
+          key,
+          typeof value === 'string' ? relPath(value) : structuredClone(value),
+        ]),
+      ) as NonNullable<LoadedManifest['assets']['legacy']>)
+    : undefined
+  const assets: LoadedManifest['assets'] = {
+    ...structuredClone(m.assets),
+    ...(legacy ? { legacy } : {}),
+  }
   return { ...structuredClone(m), assets }
 }
 
@@ -181,6 +197,7 @@ export function enumerateSeedFiles(
   bakedManifest: FileList,
   scriptIndex?: ScriptIndexV1,
   mapIndex?: MapIndexV1,
+  catalog?: AssetCatalogV1,
 ): SeedFile[] {
   const out: SeedFile[] = []
   const json = (rel: string): void => {
@@ -203,6 +220,9 @@ export function enumerateSeedFiles(
   }
   // map index 本身已由 manifest.content 循环加入；这里补齐其登记的所有地图 JSON。
   for (const asset of mapIndex?.maps ?? []) json(asset.path)
+  json(manifest.assets.catalog)
+  for (const record of Object.values(catalog?.assets ?? {}))
+    out.push({ rel: record.path, src: record.path, kind: 'binary', size: record.bytes })
   // 素材:extracted → assets/extracted/;baked → assets/baked/
   for (const f of assetManifest.files) {
     out.push({

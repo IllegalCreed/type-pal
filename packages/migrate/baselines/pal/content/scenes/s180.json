@@ -483,8 +483,7 @@
       "entry": {
         "prepare": [
           {
-            "kind": "playMusic",
-            "musicId": 0
+            "kind": "stopMusic"
           },
           {
             "kind": "playSound",
@@ -513,7 +512,7 @@
     }
   ],
   "battleFieldId": 47,
-  "battleMusicId": 39,
+  "battleMusic": "music.pal.039",
   "entries": {
     "pal-entry-f5f4165a": {
       "label": "原版落点 (62, 3, 0)",

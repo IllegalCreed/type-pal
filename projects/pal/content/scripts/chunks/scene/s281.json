@@ -5,7 +5,7 @@
     "scene/s281/L-41075/e4800/d-9003a63e": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -638,11 +638,11 @@
         ],
         "boss": true,
         "fieldId": 48,
-        "musicId": 18
+        "music": "music.pal.018"
       },
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "playRng",
@@ -814,8 +814,7 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "shakeScreen",

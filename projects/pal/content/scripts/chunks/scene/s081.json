@@ -568,7 +568,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 54
+        "asset": "music.pal.054"
       }
     ],
     "scene/s081/L-13041/none/d-0cdca7db": [
@@ -718,7 +718,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 31
+        "asset": "music.pal.031"
       },
       {
         "kind": "dialog",
@@ -1896,7 +1896,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 31
+        "asset": "music.pal.031"
       },
       {
         "kind": "dialog",
@@ -2940,7 +2940,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 54
+        "asset": "music.pal.054"
       }
     ],
     "scene/s081/root/on-enter/stage-1": [],

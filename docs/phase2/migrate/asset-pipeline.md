@@ -79,3 +79,25 @@ export function bakeIndexedRgba(
   迁移必须零写入、零删除、零冲突。
 
 地图 schema 现行真值见 `../foundation/content-schema.md` §5 和 `../decisions.md` D26。
+
+## 8. A7-0 音乐资产注册与物化(2026-07-15)
+
+UI box 和地图章节记录各自历史切片；A7-0 开始补上统一的工程资产身份、所有权和闭包门禁：
+
+- `loadPalAudioAssets` 从 `data/extracted/music/NNN.mid` 与选定 soundfont 读取源字节，生成稳定
+  `music.pal.NNN` / `soundfont.default` 记录，并把真实 `bytes` 和 SHA-256 写入 `assets/index.json`。
+- 二进制不进入 MG2 JSON baseline。`materializePalAudioAssets` 按 catalog 所有权原子写
+  `projects/pal/assets/migrated/music/**` 与 `assets/runtime/**`，随后逐文件重读校验大小和哈希。
+- `assets/index.json` 仍由 MG2 以 AssetId key 合并，但增加 catalog 专用所有权策略：
+  `origin=authored` 的整条记录归作者，迁移器不能向其中拼入 migrated 字段；迁移记录只能指向
+  `assets/migrated/**`，作者记录只能指向 `assets/authored/**`。
+- PAL 的数字音乐引用只在迁移边界转换。最终产物使用 AssetId、`stopMusic` 和四个具名角色；
+  `content/music.json` 不再生成。动态 `setSceneOnEnter` 根在注册前也必须剥离内部 battle 配置标记并把
+  默认值烘回目标场景，避免旁路正常 finalize。
+- 迁移写前运行 typed 资源引用闭包；缺 id 或 kind mismatch 阻断，未引用资源只告警。正式 `--write`
+  后重新读取提取源再生成一次，第二轮必须 `writes/deletes/conflicts = 0`。
+
+本切片结果：86 个 MIDI + 1 个 soundfont，共 6,737,214 字节；最终数据含 1,174 个 `playMusic`、
+53 个 `stopMusic`、36 个场景音乐槽、81 个场景战斗音乐槽和 31 个显式 `startBattle.music` 字段，
+旧字段和内部迁移标记均为 0。详见
+[`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。

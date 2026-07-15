@@ -125,7 +125,7 @@
     "scene/s117/override/on-enter/L-18433/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       },
       {
         "kind": "setParty",
@@ -533,11 +533,11 @@
         ],
         "boss": true,
         "fieldId": 11,
-        "musicId": 86
+        "music": "music.pal.086"
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       },
       {
         "kind": "increaseHpMp",

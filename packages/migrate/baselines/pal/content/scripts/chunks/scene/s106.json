@@ -8,7 +8,7 @@
     "scene/s106/override/on-enter/L-16627/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 26
+        "asset": "music.pal.026"
       },
       {
         "kind": "setActorSprite",
@@ -258,7 +258,7 @@
         "auto": true,
         "boss": true,
         "fieldId": 23,
-        "musicId": 18,
+        "music": "music.pal.018",
         "choreography": [
           {
             "at": "turnStart",
@@ -427,12 +427,8 @@
         ]
       },
       {
-        "kind": "overrideSceneBattle",
-        "musicId": 37
-      },
-      {
         "kind": "playMusic",
-        "musicId": 18
+        "asset": "music.pal.018"
       },
       {
         "kind": "setParty",
@@ -792,8 +788,7 @@
         }
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "clearDialog"
@@ -890,7 +885,7 @@
     "scene/s106/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 12
+        "asset": "music.pal.012"
       }
     ],
     "scene/s106/root/entity-e1968/page-0/trigger/stage-0": [

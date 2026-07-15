@@ -999,7 +999,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 24
+        "asset": "music.pal.024"
       },
       {
         "kind": "setAmbience",
@@ -1812,8 +1812,7 @@
         "ms": 400
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -1835,7 +1834,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 27
+        "asset": "music.pal.027"
       },
       {
         "kind": "loadScene",
@@ -1865,8 +1864,7 @@
         "ms": 6400
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",

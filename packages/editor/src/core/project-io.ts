@@ -15,9 +15,9 @@
 
 import {
   formatProjectMapV2,
-  type MusicDef,
   type SceneDef,
   type ScriptChunkV1,
+  validateAssetCatalog,
   validateMapIndex,
 } from '@type-pal/content'
 import type { FileSource, LoadedProjectCore, ProjectMapV2 } from '@type-pal/reforge'
@@ -32,14 +32,14 @@ import { assertScriptProjectValid } from './script-references.js'
 export function toEditorState(
   project: LoadedProjectCore,
   scenes: SceneDef[],
-  music: MusicDef[] = [], // W5:音乐库(manifest.content.music 声明才有;缺省空)
   projectMaps: Record<string, ProjectMapV2> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
 ): EditorState {
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes,
-    music,
+    assetCatalog: structuredClone(project.assetCatalog),
+    assetBlobs: {},
     maps: projectMaps,
     mapIndex: project.mapIndex,
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
@@ -83,7 +83,6 @@ type ContentKey =
   | 'sprites'
   | 'enemies'
   | 'enemyTeams'
-  | 'music'
   | 'battleFields'
   | 'poisons'
   | 'ambiences'
@@ -165,7 +164,6 @@ export function serializeProject(
     sprites: state.sprites,
     enemies: state.enemies ?? [],
     enemyTeams: state.enemyTeams ?? [],
-    music: state.music ?? [],
     battleFields: state.battleFields ?? [],
     tilesets: state.tilesets ?? [],
     poisons: state.poisons ?? [],
@@ -178,6 +176,10 @@ export function serializeProject(
     const rel = content[key]
     if (rel !== undefined) addFile(rel, byKey[key], `内容表 ${key}`)
   }
+
+  addFile(state.manifest.assets.catalog, validateAssetCatalog(state.assetCatalog), '资源注册表')
+  for (const [rel, bytes] of Object.entries(state.assetBlobs))
+    addFile(rel, bytes, `资源二进制 ${rel}`)
 
   // manifest.json:整体还原(state.manifest 自带 startWorld,无需重组)。
   addFile('manifest.json', state.manifest, '工程清单')

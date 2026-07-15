@@ -9,6 +9,7 @@
 import type {
   ActorDef,
   AmbienceDef,
+  AssetCatalogV1,
   BattleFieldDef,
   EnemyDef,
   EnemyTeamDef,
@@ -32,17 +33,25 @@ import {
   mapAssetById,
   upgradeLegacyDialogues,
   validateActors,
+  validateAssetCatalog,
   validateItems,
   validateLocale,
+  validateManifestAssetConfigV3,
   validateMapIndex,
   validateScenesForContentVersion,
   validateSkills,
   validateSprites,
   validateTilesets,
 } from '@type-pal/content'
+import { AssetResolver } from './asset-resolver.js'
 import type { AssetBase } from './assets.js'
 import { loadProjectMap } from './assets.js'
-import { type FileSource, httpSource } from './file-source.js'
+import {
+  type FileSource,
+  httpSource,
+  type LegacyAssetAdapter,
+  projectRelativeLegacyAdapter,
+} from './file-source.js'
 import { ScriptChunkStore } from './script-chunk-store.js'
 
 /** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
@@ -82,6 +91,8 @@ export interface LoadedProjectCore {
   tilesets: TilesetDef[]
   /** 工程资源根 + 子目录(assets.ts load* 用;来自 manifest.assets)。 */
   assetBase: AssetBase
+  /** 唯一物理资产注册表；运行时引用不得从 AssetId 猜路径。 */
+  assetCatalog: AssetCatalogV1
   /** 可选分片脚本索引；不含 Command[]。 */
   scriptIndex?: ScriptIndexV1
 }
@@ -89,6 +100,7 @@ export interface LoadedProjectCore {
 /** 运行期工程对象(main.ts / 编辑器消费):数据核 + 读取源(loadSceneDef/素材加载经它)。 */
 export interface LoadedProject extends LoadedProjectCore {
   source: FileSource
+  assetResolver: AssetResolver
   scriptStore?: ScriptChunkStore
 }
 
@@ -120,6 +132,7 @@ export interface ContentJsons {
   /** 必需地图索引。 */
   maps: unknown
   scripts?: unknown
+  assetCatalog: unknown
 }
 
 function indexById<T extends { id: string }>(arr: T[]): Record<string, T> {
@@ -152,10 +165,16 @@ function normalizeLoadedScene(
 }
 
 /** 纯组装核:manifest + content JSON → guard → LoadedProject。无 IO,可单测。 */
-export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): LoadedProjectCore {
+export function assembleProject(
+  manifest: LoadedManifest,
+  jsons: ContentJsons,
+  legacyIo?: LegacyAssetAdapter,
+): LoadedProjectCore {
   const sceneIds = validateSceneIds(jsons.sceneIds)
-  if (manifest.contentVersion !== 2)
-    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 2，请先迁移`)
+  if (manifest.contentVersion !== 3)
+    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 3，请先迁移`)
+  const assetCatalog = validateAssetCatalog(jsons.assetCatalog)
+  validateManifestAssetConfigV3(manifest.assets, assetCatalog)
   if (!manifest.content.maps) throw new Error(`工程 "${manifest.id}": manifest 缺地图索引路径`)
   const mapIndex = validateMapIndex(jsons.maps)
   const entryScene = normalizeLoadedScene(manifest, jsons.entryScene, mapIndex)
@@ -196,7 +215,22 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
       `工程 "${manifest.id}": 入口场景 "${manifest.entryScene}" 不在 scenes/index.json`,
     )
 
-  const a = manifest.assets
+  const a = manifest.assets.legacy
+  const unavailableLegacy: LegacyAssetAdapter = {
+    readText: async (path) => {
+      throw new Error(`assembleProject 纯核无 legacy IO:${path}`)
+    },
+    readJson: async (path) => {
+      throw new Error(`assembleProject 纯核无 legacy IO:${path}`)
+    },
+    readBytes: async (path) => {
+      throw new Error(`assembleProject 纯核无 legacy IO:${path}`)
+    },
+    urlFor: async (path) => {
+      throw new Error(`assembleProject 纯核无 legacy IO:${path}`)
+    },
+  }
+  const root = a?.root ?? 'assets'
   return {
     manifest,
     projectRoot: `projects/${manifest.id}`,
@@ -218,26 +252,19 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
     shops,
     tilesets,
     scriptIndex,
-    assetBase: (() => {
-      // 素材路径**原样用**:相对(如 "assets/extracted/data" / "assets")的根由 FileSource 提供
-      // ——httpSource 的 baseUrl=projects/<id>(dev/种子),fsaSource 是工程夹(本地克隆);
-      // 绝对("/extracted…",pal 共享提取源)则 source passthrough。
-      // ⚠ 不再在此拼 `projects/<id>/` 前缀:那是 P2 前直连 fetch 的旧约定,统一经 source 后拼了会
-      //   双重前缀(dev pal 全绝对故一直没暴露;克隆工程用相对 assets/ 即命中 → 场景渲染 NotFound 根因)。
-      const root = a.root
-      return {
-        root,
-        tilesets: a.tilesets,
-        sprites: a.sprites,
-        palettes: a.palettes,
-        sounds: a.sounds ?? `${root}/sounds`,
-        music: a.music ?? `${root}/music`,
-        portraits: a.portraits ?? `${root}/portraits`,
-        faces: a.faces ?? `${root}/faces`,
-        itemIcons: a.itemIcons ?? `${root}/item-icons`,
-        ...(a.ui ? { uiOverride: a.ui } : {}),
-      }
-    })(),
+    assetCatalog,
+    assetBase: {
+      root,
+      tilesets: a?.tilesets ?? 'tilesets',
+      sprites: a?.sprites ?? 'sprites',
+      palettes: a?.palettes ?? 'palettes',
+      sounds: a?.sounds ?? `${root}/sounds`,
+      portraits: a?.portraits ?? `${root}/portraits`,
+      faces: a?.faces ?? `${root}/faces`,
+      itemIcons: a?.itemIcons ?? `${root}/item-icons`,
+      ...(a?.ui ? { uiOverride: a.ui } : {}),
+      io: legacyIo ?? unavailableLegacy,
+    },
   }
 }
 
@@ -256,6 +283,9 @@ function scriptsDir(manifest: LoadedManifest): string | undefined {
 /** 真加载核:经 FileSource 读 manifest + 表域 + 场景 index + 入口场景 → assembleProject + 挂 source。 */
 export async function loadProjectFrom(source: FileSource): Promise<LoadedProject> {
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
+  if (manifest.contentVersion !== 3)
+    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 3，请先迁移`)
+  validateManifestAssetConfigV3(manifest.assets)
   const content = manifest.content
   const dir = scenesDir(manifest)
   const scriptDir = scriptsDir(manifest)
@@ -276,6 +306,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     tilesets,
     mapIndexJson,
     scripts,
+    assetCatalog,
   ] = await Promise.all([
     source.readJson(content.actors as string),
     source.readJson(`${dir}index.json`),
@@ -293,30 +324,41 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
     content.maps ? source.readJson(content.maps) : Promise.resolve(undefined),
     scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
+    source.readJson(manifest.assets.catalog),
   ])
-  const core = assembleProject(manifest, {
-    actors,
-    sceneIds,
-    entryScene,
-    skills,
-    items,
-    locale,
-    sprites,
-    enemies,
-    enemyTeams,
-    battleFields,
-    poisons,
-    ambiences,
-    shops,
-    tilesets,
-    maps: mapIndexJson,
-    scripts,
-  })
-  // source 注入 assetBase(P2:素材加载经它;assembleProject 纯核不碰 IO,故在壳注入)
+  const core = assembleProject(
+    manifest,
+    {
+      actors,
+      sceneIds,
+      entryScene,
+      skills,
+      items,
+      locale,
+      sprites,
+      enemies,
+      enemyTeams,
+      battleFields,
+      poisons,
+      ambiences,
+      shops,
+      tilesets,
+      maps: mapIndexJson,
+      scripts,
+      assetCatalog,
+    },
+    source.legacy ?? projectRelativeLegacyAdapter(source),
+  )
+  const assetResolver = new AssetResolver(
+    manifest.id,
+    core.assetCatalog,
+    manifest.assets.roles,
+    source,
+  )
   return {
     ...core,
-    assetBase: { ...core.assetBase, source },
     source,
+    assetResolver,
     ...(scriptDir && core.scriptIndex
       ? { scriptStore: new ScriptChunkStore(source, scriptDir, core.scriptIndex) }
       : {}),

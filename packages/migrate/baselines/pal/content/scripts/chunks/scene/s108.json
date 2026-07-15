@@ -18005,7 +18005,7 @@
     "scene/s108/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s108/override/on-enter/L-19695/stage-0": [
@@ -18589,7 +18589,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s108/root/on-enter/stage-0": [
@@ -18612,7 +18612,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 52
+        "asset": "music.pal.052"
       }
     ],
     "scene/s108/root/entity-e1995/page-0/trigger/stage-0": [
@@ -20486,7 +20486,7 @@
         "team": 39,
         "boss": true,
         "fieldId": 29,
-        "musicId": 48
+        "music": "music.pal.048"
       },
       {
         "kind": "setParty",

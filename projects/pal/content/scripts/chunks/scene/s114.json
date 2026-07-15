@@ -5,13 +5,13 @@
     "scene/s114/override/on-enter/L-17192/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 52
+        "asset": "music.pal.052"
       }
     ],
     "scene/s114/override/on-enter/L-20697/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s114/override/on-enter/L-19792/stage-0": [
@@ -22,13 +22,13 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 32
+        "asset": "music.pal.032"
       }
     ],
     "scene/s114/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 73
+        "asset": "music.pal.073"
       }
     ],
     "scene/s114/root/entity-e2122/page-0/trigger/stage-0": [

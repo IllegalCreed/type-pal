@@ -185,3 +185,27 @@ serializeProject(state)  // 内存:JS 对象 → {rel: JSON 值}(便宜);素材�
 §4.2b + §7 把空白项目列「必做」。但空白项目没素材 = 空网格,真正能用得 gated on 地图模块(§4.2b 自己承认)。一个连地图都画不了的空壳,改版 pal 的主流用户(走克隆)不需要,高端用户在能画地图前也用不起来。
 
 **两种取向**:① 砍到地图模块后(本切片工作量给克隆路径,那才是真正解锁用户价值的大头);② 保留但启动屏老实标注「高级:画地图前仅可编非地图内容(角色/道具/技能/属性/对白)」,化解"空壳误导"。**留用户拍板** —— 用户若明确要空白入口则保留(非地图创作本就能干,非死胡同),若优先级在克隆路径则后移。
+
+## 11. A7-0 资源注册表落地更新(2026-07-15)
+
+本文件前十节的 `FileSource` 判断仍成立，但“manifest 直接保存一组资源目录”只代表旧 v2 形态。
+A7-0 起，v3 工程新增唯一物理资产链：
+
+```text
+内容 AssetId -> manifest.assets.catalog -> assets/index.json -> AssetResolver -> FileSource
+```
+
+- manifest 只保存 catalog 路径、封闭角色映射和尚未迁移资源族的 `legacy` 债务区。音乐族不得再通过
+  `assets.music`、数字补零或应用根路径读取。
+- HTTP 与 FSA 工程使用同一 `AssetResolver`。resolver 校验 id/kind/path，并复用 `FileSource` 字节与 URL；
+  切换或关闭工程时统一 `dispose()`，FSA object URL 缓存和 revoke 已有专测。
+- 编辑器 pending blobs 与 JSON 快照一起进入增量保存：导入/替换 MIDI 写到
+  `assets/authored/<sha256>.mid`，catalog 与二进制要么一起保存，要么一起留在内存，不产生半套工程。
+- 本地 v2 工程只在“打开本地”边界执行一次升级：复制旧 MIDI 与 soundfont、生成 catalog、改写引用，
+  最后才原子写 v3 manifest。运行时和编辑器工作态只保留 v3，不维持双格式。
+- 应用壳与工程资源的边界已钉死：MIDI worklet JavaScript 属于应用；MIDI、soundfont 和游戏音乐元数据
+  属于工程。后续 A7-1 至 A7-4 以同一规则迁移其余资源族。
+
+当前音乐族的文件数、字节数、哈希与迁移幂等证据见
+[`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。A7 总体仍未闭包，
+克隆清单改为 catalog 真值和断开外部目录验收仍归 A7-4。

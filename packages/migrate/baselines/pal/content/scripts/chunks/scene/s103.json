@@ -404,13 +404,13 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 82
+        "asset": "music.pal.082"
       }
     ],
     "scene/s103/L-41075/e1908/d-49e19849": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -449,7 +449,7 @@
     "scene/s103/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 36
+        "asset": "music.pal.036"
       }
     ],
     "scene/s103/root/on-teleport/stage-0": [

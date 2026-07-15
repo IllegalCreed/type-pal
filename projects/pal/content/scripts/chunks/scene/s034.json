@@ -482,8 +482,7 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setEntityState",
@@ -603,7 +602,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 34
+        "asset": "music.pal.034"
       }
     ],
     "scene/s034/L-9027/e575/d-0a386828": [
@@ -672,7 +671,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 74
+        "asset": "music.pal.074"
       },
       {
         "kind": "clearDialog"

@@ -5,7 +5,7 @@
     "scene/s147/L-41075/e2407/d-79b32849": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -44,7 +44,7 @@
     "scene/s147/L-41075/e2411/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -114,7 +114,7 @@
     "scene/s147/L-41075/e2412/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -170,7 +170,7 @@
     "scene/s147/L-41075/e2413/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -226,7 +226,7 @@
     "scene/s147/L-41075/e2414/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -282,7 +282,7 @@
     "scene/s147/L-41075/e2415/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -338,7 +338,7 @@
     "scene/s147/L-41075/e2416/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -394,7 +394,7 @@
     "scene/s147/L-41075/e2417/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -464,7 +464,7 @@
     "scene/s147/L-41075/e2418/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -520,7 +520,7 @@
     "scene/s147/L-41075/e2419/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -576,7 +576,7 @@
     "scene/s147/L-41075/e2420/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -999,11 +999,11 @@
         ],
         "boss": true,
         "fieldId": 40,
-        "musicId": 48
+        "music": "music.pal.048"
       },
       {
         "kind": "playMusic",
-        "musicId": 87
+        "asset": "music.pal.087"
       },
       {
         "kind": "teleportParty",
@@ -1554,8 +1554,7 @@
         "state": 0
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "playSound",
@@ -1567,7 +1566,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 80
+        "asset": "music.pal.080"
       }
     ],
     "scene/s147/root/entity-e2407/page-0/trigger/stage-1": [

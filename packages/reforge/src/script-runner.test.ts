@@ -39,6 +39,7 @@ function fakeHost(calls: string[]): ScriptHost {
     giveMoney: log('giveMoney'),
     playSound: log('playSound'),
     playMusic: log('playMusic'),
+    stopMusic: log('stopMusic'),
     setAmbience: log('setAmbience'),
     takeEntity: log('takeEntity'),
     releaseEntity: log('releaseEntity'),
@@ -294,7 +295,7 @@ describe('stages 阶段机', () => {
         {
           entry: {
             prepare: [
-              { kind: 'playMusic', musicId: 31 },
+              { kind: 'playMusic', asset: 'music.pal.031' },
               { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
             ],
             reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
@@ -306,7 +307,7 @@ describe('stages 阶段机', () => {
       { allowSceneEntry: true },
     )
     expect(calls).toEqual([
-      'playMusic(31)',
+      'playMusic("music.pal.031")',
       'teleportParty({"col":59,"row":-23,"height":0},)',
       'revealSceneEntry({"kind":"dither","ms":2160,"source":"previousPresentedFrame"})',
       'playSound(1)',
@@ -487,16 +488,16 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     await r.run(body)
     expect(calls).toEqual(['playSound(1)'])
   })
-  test('startBattle 透传一次性 fieldId/musicId(特殊战场绑本战;override 已退役)', async () => {
+  test('startBattle 透传一次性 fieldId/music(特殊战场绑本战;override 已退役)', async () => {
     const calls: string[] = []
     const host = fakeHost(calls)
     host.startBattle = async (team, opts) => {
-      calls.push(`battle(${team},f=${opts?.fieldId},m=${opts?.musicId})`)
+      calls.push(`battle(${team},f=${opts?.fieldId},m=${opts?.music})`)
       return 'win'
     }
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
-    await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, musicId: 44 }])
-    expect(calls).toEqual(['battle(27,f=22,m=44)'])
+    await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' }])
+    expect(calls).toEqual(['battle(27,f=22,m=music.pal.044)'])
   })
   test('teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂', async () => {
     const calls: string[] = []

@@ -1,4 +1,4 @@
-import type { EnemyDef, MapIndexV1, SceneDef, TilesetDef } from '@type-pal/content'
+import type { AssetCatalogV1, EnemyDef, MapIndexV1, SceneDef, TilesetDef } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapScenesStatic, migrateAll } from './migrate-content.js'
 import {
@@ -9,7 +9,6 @@ import {
 } from './pal-authored-overlays.js'
 import { applyPalBossEncounterOverlay } from './pal-boss-overlay.js'
 import {
-  migratePalMusic,
   migratePalPoisons,
   migratePalShops,
   type SourceObjectPoison,
@@ -44,6 +43,8 @@ export interface PalMigrationSources {
   tilemaps: SourceMapAuditEntry[]
   objectPlayers: Array<{ scriptOnFriendDeath: number; scriptOnDying: number }>
   musicMidi: number[]
+  assetCatalog: AssetCatalogV1
+  binaryAssets: import('./pal-assets.js').PalBinaryAssetSource[]
   battleFields: MigrationJson[]
   objectPoisons: SourceObjectPoison[]
   stores: SourceStore[]
@@ -146,7 +147,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/enemies.json', boss.enemies)
   put('content/enemy-teams.json', migrated.enemyTeams)
   put('content/locale.json', { ...migrated.localeNames, ...sceneOutput.scriptLocale })
-  put('content/music.json', migratePalMusic(sources.musicMidi))
+  put('assets/index.json', sources.assetCatalog)
   put('content/battle-fields.json', structuredClone(sources.battleFields))
   put('content/poisons.json', migratePalPoisons(sources.objectPoisons))
   put('content/shops.json', migratePalShops(sources.stores))

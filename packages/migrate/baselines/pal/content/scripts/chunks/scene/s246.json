@@ -31,7 +31,7 @@
     "scene/s246/L-41075/e4350/d-f6d9d4b6": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -100,7 +100,7 @@
     "scene/s246/L-41075/e4350/d-c4b52e8c": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",

@@ -44,10 +44,23 @@ describe('fsaSource', () => {
     expect(new TextDecoder().decode(new Uint8Array(buf))).toBe('{"id":"proj"}')
   })
 
-  test('urlFor 经 createObjectURL 产 blob URL', async () => {
-    vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:xyz') })
-    expect(await fsaSource(dir).urlFor('manifest.json')).toBe('blob:xyz')
+  test('urlFor 同路径缓存，dispose 统一 revoke', async () => {
+    const createObjectURL = vi.fn(() => 'blob:xyz')
+    const revokeObjectURL = vi.fn()
+    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
+    const source = fsaSource(dir)
+    expect(await source.urlFor('manifest.json')).toBe('blob:xyz')
+    expect(await source.urlFor('manifest.json')).toBe('blob:xyz')
+    expect(createObjectURL).toHaveBeenCalledTimes(1)
+    source.dispose?.()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:xyz')
     vi.restoreAllMocks()
+  })
+
+  test('普通路径与 legacy adapter 都拒绝越界/绝对路径', async () => {
+    const source = fsaSource(dir)
+    await expect(source.readText('../manifest.json')).rejects.toThrow('禁止空段、. 或 ..')
+    await expect(source.legacy?.readText('/manifest.json')).rejects.toThrow('禁止绝对路径')
   })
 
   test('缺文件 → 抛(NotFound 透传)', async () => {

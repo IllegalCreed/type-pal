@@ -252,7 +252,9 @@ function describe(
     case 'releaseEntity':
       return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
     case 'playMusic':
-      return { icon: '🎵', label: `音乐 ${cmd.musicId}` }
+      return { icon: '🎵', label: `播放音乐 ${cmd.asset}` }
+    case 'stopMusic':
+      return { icon: '⏹', label: '停止音乐' }
     case 'setAmbience':
       return {
         icon: '🌗',

@@ -4,8 +4,7 @@
   "scripts": {
     "scene/s233/root/on-enter/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "setActorSprite",
@@ -54,7 +53,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 76
+        "asset": "music.pal.076"
       },
       {
         "kind": "setEntityState",

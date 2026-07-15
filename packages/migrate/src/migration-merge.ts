@@ -1,4 +1,5 @@
 import { isDeepStrictEqual } from 'node:util'
+import { validateAssetCatalog } from '@type-pal/content'
 import type { MigrationJson } from './pal-migration.js'
 
 export interface VersionedJson {
@@ -275,6 +276,17 @@ function mergePages(
 }
 
 function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: MergeContext): Node {
+  if (
+    ctx.file === 'assets/index.json' &&
+    /^\/assets\/[^/]+$/.test(path) &&
+    isObject(ours) &&
+    isObject(theirs)
+  ) {
+    const oursOrigin = (ours.value.origin as { kind?: unknown } | undefined)?.kind
+    const theirsOrigin = (theirs.value.origin as { kind?: unknown } | undefined)?.kind
+    // 一旦作者接管 AssetId，整条记录成为作者所有；迁移侧字段不能再逐项拼入。
+    if (oursOrigin === 'authored' && theirsOrigin !== 'authored') return cloneNode(ours)
+  }
   if (!base.present && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     const empty = present([]) as Node & { value: MigrationJson[] }
@@ -316,6 +328,8 @@ export function mergeManagedFile(
 ): FileMergeResult {
   const conflicts: MergeConflict[] = []
   const value = mergeNode(base, ours, theirs, '', { file, conflicts })
+  if (file === 'assets/index.json' && value.present)
+    validateAssetCatalog(value.value, 'MG2 assets/index.json target')
   return { value, conflicts }
 }
 

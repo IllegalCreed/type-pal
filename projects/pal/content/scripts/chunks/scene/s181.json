@@ -5,7 +5,7 @@
     "scene/s181/L-41075/e2979/d-63bbd18f": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -255,7 +255,7 @@
         ],
         "boss": true,
         "fieldId": 14,
-        "musicId": 38
+        "music": "music.pal.038"
       },
       {
         "kind": "dialog",

@@ -1,9 +1,11 @@
 import {
+  type AssetId,
   type CharacterInstance,
   checkStages,
   type Facing,
   type GridPos,
   isMapAssetId,
+  palMusicAssetId,
   type WorldState,
 } from '@type-pal/content'
 import { SAVE_VERSION, type SaveMeta, type SavePayload, type SlotId, slotKind } from './types.js'
@@ -43,7 +45,14 @@ export function buildPayload(
  *   只补结构不钳数值 —— 数值修复 = "旧档复原",按方针不做(新档干净即可)。
  * 原地修补并返回同一对象(payload 是读档专属拷贝)。
  */
-export function normalizePayload(p: SavePayload): SavePayload {
+export interface NormalizePayloadOptions {
+  legacyMusicAsset?: (track: number) => AssetId
+}
+
+export function normalizePayload(
+  p: SavePayload,
+  options: NormalizePayloadOptions = {},
+): SavePayload {
   if (p.version > SAVE_VERSION)
     throw new Error(`存档格式 v${p.version} 新于引擎支持的 v${SAVE_VERSION}`)
   // v(n)→v(n+1) 升级链挂点:bump SAVE_VERSION 时在此逐版本迁移
@@ -52,6 +61,7 @@ export function normalizePayload(p: SavePayload): SavePayload {
   w.money ??= 0
   w.learnedSkills ??= {}
   w.inventory ??= []
+  normalizeAudioState(p, options)
   for (const c of w.party) {
     c.equipment ??= {}
     c.tags ??= []
@@ -61,6 +71,29 @@ export function normalizePayload(p: SavePayload): SavePayload {
   normalizeSceneScriptOverrides(w.script)
   validateMapOverride(w.script)
   return p
+}
+
+function normalizeAudioState(p: SavePayload, options: NormalizePayloadOptions): void {
+  const world = p.world as WorldState & { audio?: { currentMusic?: AssetId | number | null } }
+  const vars = world.script?.vars as Record<string, unknown> | undefined
+  const legacy = vars?.['sys:music']
+  const current = world.audio?.currentMusic
+  const raw = current === undefined ? legacy : current
+  if (raw !== undefined) {
+    world.audio ??= {}
+    if (raw === null || (typeof raw === 'number' && raw <= 0)) world.audio.currentMusic = null
+    else if (typeof raw === 'string') world.audio.currentMusic = raw
+    else if (typeof raw === 'number') {
+      const convert =
+        options.legacyMusicAsset ?? (p.projectId === 'pal' ? palMusicAssetId : undefined)
+      if (!convert)
+        throw new Error(
+          `旧存档工程 "${p.projectId}" 的数字音乐 ${raw} 无 AssetId 转换规则，拒绝猜测`,
+        )
+      world.audio.currentMusic = convert(raw)
+    } else throw new Error(`存档 world.audio.currentMusic 类型非法:${String(raw)}`)
+  }
+  if (vars) delete vars['sys:music']
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

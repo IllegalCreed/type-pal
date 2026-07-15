@@ -1198,14 +1198,14 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 55
+        "asset": "music.pal.055"
       }
     ],
     "scene/s203/override/on-enter/L-30445/stage-1": [],
     "scene/s203/root/on-enter/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 16
+        "asset": "music.pal.016"
       }
     ],
     "scene/s203/root/entity-e3402/page-0/trigger/stage-0": [

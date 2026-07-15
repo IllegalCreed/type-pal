@@ -56,5 +56,9 @@ data/baked/
 # MG2 迁移事务 journal/staging/冲突报告(本地可恢复状态)
 .type-pal-migrate/
 
+# A7:可从受保护提取源/已选定 runtime 资产确定性重建，不提交原版/授权二进制副本
+projects/pal/assets/migrated/
+projects/pal/assets/runtime/
+
 # MG2 首次 baseline 的一次性逐项审查报告；可由 bootstrap + 分类器重建
 packages/migrate/bootstrap/pal.json

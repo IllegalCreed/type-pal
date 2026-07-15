@@ -275,9 +275,18 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     icon: '🎵',
     name: '音乐',
     group: '音频/战斗配置',
-    params: [['musicId', '曲号(0=停)']],
+    params: [['asset', '音乐 AssetId']],
     desc: '切 BGM;进场景槽曲被本指令覆盖。',
     origin: '0x43',
+  },
+  {
+    kind: 'stopMusic',
+    icon: '⏹',
+    name: '停止音乐',
+    group: '音频/战斗配置',
+    params: [],
+    desc: '显式停止当前 BGM。',
+    origin: '0x43(曲号 0)/0x77',
   },
   {
     kind: 'setAmbience',
@@ -288,7 +297,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     desc: '切全局昼夜氛围(全帧色调滤镜);跨场景持续、随存档。',
     origin: '0x53(昼)/0x54(夜)',
   },
-  // (overrideSceneBattle 已退役:战场/曲走场景属性 battleFieldId/battleMusicId 或 startBattle 一次性参数,无持久覆写)
+  // (overrideSceneBattle 已退役:战场/曲走场景属性 battleFieldId/battleMusic 或 startBattle 一次性参数,无持久覆写)
   // 走位/相机
   {
     kind: 'moveEntity',

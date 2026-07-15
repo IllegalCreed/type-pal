@@ -83,7 +83,7 @@
     "scene/s086/L-41075/e1629/d-0a386828": [
       {
         "kind": "playMusic",
-        "musicId": 1
+        "asset": "music.pal.001"
       },
       {
         "kind": "fade",
@@ -366,8 +366,7 @@
         "entity": "e1629"
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -393,7 +392,7 @@
           }
         ],
         "boss": true,
-        "musicId": 48,
+        "music": "music.pal.048",
         "choreography": [
           {
             "at": "turnStart",
@@ -612,7 +611,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 54
+        "asset": "music.pal.054"
       }
     ],
     "scene/s086/root/entity-e1630/page-0/trigger/stage-0": [
@@ -793,8 +792,7 @@
         "ms": 280
       },
       {
-        "kind": "playMusic",
-        "musicId": 0
+        "kind": "stopMusic"
       },
       {
         "kind": "dialog",
@@ -900,7 +898,7 @@
       },
       {
         "kind": "playMusic",
-        "musicId": 11
+        "asset": "music.pal.011"
       },
       {
         "kind": "setEntityState",

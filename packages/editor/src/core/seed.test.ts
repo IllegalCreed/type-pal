@@ -5,7 +5,7 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 1,
+  contentVersion: 3,
   entryScene: 's1',
   content: {
     actors: 'content/actors.json',
@@ -13,15 +13,19 @@ const manifest = {
     scenes: 'content/scenes/',
   },
   assets: {
-    root: '/extracted/data',
-    tilesets: 'tileset',
-    sprites: 'sprite',
-    palettes: 'palette',
-    sounds: '/extracted/sounds',
-    music: '/extracted/music',
-    portraits: '/baked/portraits',
-    faces: '/baked/ui/face',
-    itemIcons: '/baked/ui/items',
+    catalog: 'assets/index.json',
+    roles: {},
+    legacy: {
+      families: ['tileset', 'sprite', 'color-table', 'sound', 'portrait', 'face', 'item-icon'],
+      root: '/extracted/data',
+      tilesets: 'tileset',
+      sprites: 'sprite',
+      palettes: 'palette',
+      sounds: '/extracted/sounds',
+      portraits: '/baked/portraits',
+      faces: '/baked/ui/face',
+      itemIcons: '/baked/ui/items',
+    },
   },
   startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
 } as unknown as LoadedManifest
@@ -29,17 +33,16 @@ const manifest = {
 describe('relativizeManifest', () => {
   test('assets 的 /extracted、/baked 绝对前缀 → assets/ 相对;子目录不变', () => {
     const a = relativizeManifest(manifest).assets
-    expect(a.root).toBe('assets/extracted/data')
-    expect(a.sounds).toBe('assets/extracted/sounds')
-    expect(a.music).toBe('assets/extracted/music')
-    expect(a.portraits).toBe('assets/baked/portraits')
-    expect(a.faces).toBe('assets/baked/ui/face')
-    expect(a.itemIcons).toBe('assets/baked/ui/items')
-    expect(a.tilesets).toBe('tileset')
+    expect(a.legacy?.root).toBe('assets/extracted/data')
+    expect(a.legacy?.sounds).toBe('assets/extracted/sounds')
+    expect(a.legacy?.portraits).toBe('assets/baked/portraits')
+    expect(a.legacy?.faces).toBe('assets/baked/ui/face')
+    expect(a.legacy?.itemIcons).toBe('assets/baked/ui/items')
+    expect(a.legacy?.tilesets).toBe('tileset')
   })
   test('不改原对象(深拷)', () => {
     relativizeManifest(manifest)
-    expect(manifest.assets.root).toBe('/extracted/data')
+    expect(manifest.assets.legacy?.root).toBe('/extracted/data')
   })
 })
 
@@ -58,7 +61,8 @@ describe('enumerateSeedFiles', () => {
     expect(rels).toContain('assets/extracted/data/tileset/1.rle')
     expect(rels).toContain('assets/baked/portraits/1.png')
     expect(rels).not.toContain('content/scenes/') // scenes 是目录,不作文件
-    expect(seed).toHaveLength(7)
+    expect(rels).toContain('assets/index.json')
+    expect(seed).toHaveLength(8)
   })
 
   test('素材项带 src(绝对透传)+ size(进度用);内容项 src=rel', () => {
@@ -92,9 +96,9 @@ describe('enumerateSeedFiles', () => {
   })
 
   test('map index 登记的零引用地图也进入克隆文件集', () => {
-    const withMaps = {
+    const withMaps: LoadedManifest = {
       ...manifest,
-      contentVersion: 2,
+      contentVersion: 3,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, { files: [] }, undefined, {
@@ -115,15 +119,16 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       contentVersion: number
       entryScene: string
       startWorld: { party: string[] }
-      assets: { root: string }
+      assets: { catalog: string; legacy?: { root?: string } }
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(2)
+    expect(m.contentVersion).toBe(3)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])
-    expect(m.assets.root).toBe('assets')
+    expect(m.assets.catalog).toBe('assets/index.json')
+    expect(m.assets.legacy?.root).toBe('assets')
     expect(m.content.sprites).toBe('content/sprites.json')
     expect(m.content.tilesets).toBe('content/tilesets.json')
     expect(m.content.maps).toBe('content/maps/index.json')

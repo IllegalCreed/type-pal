@@ -18083,7 +18083,7 @@
     "scene/s019/override/on-enter/L-4912/stage-0": [
       {
         "kind": "playMusic",
-        "musicId": 76
+        "asset": "music.pal.076"
       },
       {
         "kind": "teleportParty",
