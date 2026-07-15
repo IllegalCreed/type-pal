@@ -196,11 +196,36 @@ Branch: current
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-15）**。实现已贯通 content schema/校验、Reforge host/runtime、迁移归一化与最终 target 闭包门禁、编辑器落点对象闭环及脚本引用导航；上游重生成后独立 dry-run 为 `writes=0 deletes=0 conflicts=0`。`pnpm check` 全绿；6010 已验证新建/拖动/引用保护及“从 s001 落点引用打开 s003 内部脚本 -> 返回 s001 -> 再选落点”会关闭脚本抽屉、黄色高亮并定位；6051 已确认开场画面正常。两条命名落点进入同场景的坐标/朝向由纯函数与 runner 单测锁定，交 Opus 做实现/视觉主审。
-- Opus: pending
+- Opus: **accept（2026-07-15,实现/视觉主审,零返工项）**。六项复核全过:
+  1. **R1-R3 全部落地**:字段名 `entryId`(script.ts:51-56 SceneSpawn 用 `never` 域做类型级 XOR + validator
+     :427-428 双保险);facing 四级链精确实现"显式 > 锚点 > inheritFacing > 场景默认"(scene-transition.ts:20,
+     docblock 明示);id 域 = (targetScene, col, row, height) 纯函数 + `pal-entry-` 保留前缀 + 源无关注释
+     (scene-entry-normalize.ts:15-19),归一化位于 ScriptRegistry.build 前(分片 hash 从最终命令派生,:40-42)。
+  2. **fail-loud**:resolveSceneSpawn 未知 entryId 抛带场景+id 错误(:32-33)、entryId×pos 共存运行时再拦
+     (:29-30),旧静默回退退役。
+  3. **迁移口径独立对账(产物重扫)**:701 命名落点全 `pal-entry-*`、**零 facing**(R2 零回归前提成立)、
+     zero from-shared*/zero start 键/zero 同坐标重复;966 loadScene = **797 entryId + 169 默认 + 0 pos +
+     0 裸 entry**;**悬空引用 0、未被引用迁移落点 0**;与 Codex/GLM 口径(762 组→61 默认+701 命名)
+     算术自洽(863−797=66 条收敛默认,66 命令÷61 唯一组)。独立 dry-run `writes=0 deletes=0 conflicts=0`;
+     四包测试重跑 190+1skip/348/171/180 全绿。
+  4. **6010 编辑器全链手验**:s001 落点组 = 默认+5 命名(树行只显名称+类型;label 本体带坐标后缀,树按
+     :126-128 折叠正则简化);检查器全字段(名称/只读稳定ID/坐标/朝向"继承进入前朝向"/脚本引用(1)+打开);
+     新建 5→6 自动选中、坐标改写、undo×3 回 5、redo 6、再 undo 5;**改 label(客栈后门)后树更新、引用数
+     不变、稳定 id 不动**;被引用落点删除按钮 disabled + tooltip"仍有 1 处脚本引用,不能删除";loadScene
+     表单三态分段(默认|命名|临时坐标)+命名下拉显 label+坐标+id+朝向"(保持)"。
+  5. **必复现往返路径通过**:s001 选迁移落点 → 引用"打开"跳 s003 **场景工作区脚本抽屉**(URL 留
+     module=scene,非共享模块)→ 场景下拉回 s001 → 再点落点 → **抽屉关闭 + 落点检查器 + 画布标签气泡
+     定位**(截图存证)。共享脚本分流:实测 shared chunk 中 loadScene 站点为 **0**,归属判定按 chunk
+     命名空间(既有 N6 导航),scene 侧两次实证留抽屉。
+  6. **6051 双落点实走**:同一 s003,e3 门 → **默认落点 (143,45)** 落地(+持键步进 1 行);e0 门 →
+     **命名落点 pal-entry-9721fd49 (141,51)** 落地(+持键 2 行)——两门两落点列坐标精确命中、互不相同;
+     facing 均为 down = inheritFacing 门穿行延续(R2 链活体验证);console 0 error/warning。
+  备注(诚实记录):改 label 曾三次"失败"系我探针缺陷(未 focus 即 blur/合成指针不转移真实焦点),
+  修正探针后一次通过——产品行为正确(onBlur 提交 + Enter→blur,App.tsx:2284-2290)。
 - GLM: pending
-- counter / 返工处理: 无
+- counter / 返工处理: 无(Opus 零返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（待 GLM 覆盖复核与用户验收）
 
 ## Draft: 设计与风险
 
@@ -356,14 +381,20 @@ loadScene(scene, { pos })              // 一次性显式坐标
 - 验证方式: Codex 在 6010 编辑器与 6051 Reforge 使用浏览器自动化逐步操作并读取页面/画布截图。
 - 截图 / 像素检查路径: 本会话浏览器截图（未生成独立仓库文件）。
 - 结论: 6010 落点 marker、选中高亮、自动定位、拖动与检查器联动正常；跨场景内部脚本往返后选择态不再丢失。6051 开场渲染正常。
-- 未完成项: Opus 复验两个不同命名落点进入同一目标场景的实际视觉位置与朝向。
+- Opus 独立复验(2026-07-15): 通过,方法独立于 Codex(CDP 逐项断言+截图)。6010:落点树/检查器/新建/
+  坐标改/undo·redo/改名(引用数与稳定 id 不变)/删除保护(disabled+tooltip)/表单三态+命名下拉全过;
+  必复现往返路径终态截图存证(抽屉关/落点检查器/画布标签气泡定位)。**6051 双落点实走补验完成**
+  (原留予 Opus 的未完成项):s003 经 e3 门落**默认 (143,45)**、经 e0 门落**命名 pal-entry-9721fd49
+  (141,51)**,列坐标精确命中、朝向 = 门穿行延续(inheritFacing 链),console 零错。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审 `accept`；等待 Opus 实现/视觉主审与 GLM 迁移覆盖复核。
-- 必须返工项: Codex 自审未发现；以 Opus/GLM 结论为准。
-- Accept / rework: review，done 三签未齐，不得标 done。
+- 审查结论: Codex 自审 `accept`；**Opus 实现/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**；
+  等待 GLM 迁移覆盖复核。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;done 三签未齐,不得标 done。
 
 ## 用户验收
 
@@ -385,22 +416,32 @@ loadScene(scene, { pos })              // 一次性显式坐标
   三签齐后 Codex build;不得抢跑实现。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)基线 1247/726/104/244/966=863+0+103/37 全精确匹配,**W1 裁定 shared 重普通=240(非卡内239)**；(2)污染机理两阶段确认——pal-migration-io:32-54 eventsByScene 三键(正/-1 shared/-2 all.json),migrate-content:1364 遍历全键含-2双扫,:1742 负src统一'shared'同名覆盖；(3)**去重预测 863 pos→762 groups→61收敛默认+701命名锚点(W3 build验收基线)**；(4)R1 entryId静态扫描零裸entry/R2 facing四级链(显式>锚点>inherit>默认)表驱动/R3 id域=target+pos纯函数测试全可落；(5)walker已覆盖全966 loadScene(全在authored chunks,场景槽全callScript间接,W2确认六类反例即可无实际缺口)；(6)MG2 entries Record按entryId key合并+plan.target dangling门禁+漂移模拟(ours引旧from-*×theirs删→throw)全可落。W1(shared=240)/W2(walker六类反例确认)/W3(762/61/701基线)非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex build。未改实现文件。
 - 2026-07-15 Codex: build、自测与自审完成并签 `accept`。content/reforge/migrate/editor 全链落地；纯生成精确口径为 863 静态坐标 → 762 唯一组 → 61 默认 + 701 命名，最终 966 条 `loadScene` = 797 named + 169 default + 0 pos；独立 dry-run 零计划，`pnpm check` 全绿。6010 复现并修复用户报告的“从落点引用打开另一场景内部脚本，返回后落点不高亮/不定位”：统一选择入口会关闭脚本抽屉并恢复选中、黄色 marker 与居中。Evidence: Build/视觉验证记录。Next: Opus 实现/视觉主审；不得标 done。
+- 2026-07-15 Opus: review 主审签 **accept,零返工项**。代码面:R1(entryId+never 型 XOR+validator 双保险)/
+  R2(四级 facing 链 :20 精确)/R3(id 纯函数域 target+pos+保留前缀+源无关)全落地;fail-loud 带场景+id。
+  产物面:701 全 pal-entry-*/零 facing/零污染残留/966=797+169+0/悬空 0/未引用 0,dry-run 零计划,
+  四包测试重跑全绿。手验面:6010 CRUD/undo·redo/改名引用稳定/删除保护/表单三态,必复现往返路径
+  终态达标(抽屉关+检查器+定位,截图存证);**6051 双落点实走**:同 s003 两门分落默认 (143,45) 与命名
+  (141,51),列坐标精确、朝向=inherit 门穿行,console 零错。共享分流:shared chunk 零 loadScene 站点,
+  scene 侧留抽屉两次实证。诚实记录:改名三次假失败为本人探针缺陷(未 focus 即 blur),修正后一次过。
+  Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 迁移覆盖/基线/测试矩阵复核;齐签后交用户验收;
+  不得标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务：W4-1 命名落点闭环与迁移去重（实现/视觉主审，Opus）
-任务卡：docs/ops/tasks/W4-1-named-scene-entry-closure.md
-当前状态：review；Codex build/自测/自审已 accept；done 前 Opus、GLM 签字未齐，不得标 done
-你的职责：实现与视觉主审；默认只改任务卡，不得直接修改实现文件，发现问题请签 counter 并列出返工项
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部；重点读 packages/content/src/script.ts、packages/reforge/src/scene-transition.ts、packages/migrate/src/scene-entry-normalize.ts、packages/migrate/src/migration-validate.ts、packages/editor/src/core/script-references.ts、packages/editor/src/ui/App.tsx、packages/editor/src/ui/SceneCanvas.tsx、packages/editor/src/ui/CommandForm.tsx
-已完成证据：pnpm check 全绿（263 files / 3,545 tests passed / 1 skipped，Biome 679 files）；独立 migrate dry-run writes=0 deletes=0 conflicts=0；产物精确为 294 scenes、701 named entries、966 loadScene=797 named+169 default+0 pos、bare entry=0、重复位置=0
-重点复验：
-1. schema/runtime：默认、entryId、pos 三态 XOR；缺场景/缺落点 fail-loud；朝向为显式 > 命名落点 > inherit > 默认；两个不同 entryId 进入同场景位置与朝向不同且正确
-2. migration/MG2：all.json 不再参与来源落点生成；稳定 id 只依赖 target+GridPos；701 迁移落点均被引用；作者引用被删除迁移落点时最终 target 门禁阻断；独立 dry-run 仍为零计划
-3. 6010 编辑器：s001 落点树/marker/检查器、新建/改名/拖动/undo/删除保护、脚本表单三态；树行不显示坐标和稳定 id，只显示可读名称与“落点”类型
-4. 必复现最新往返路径：s001 选迁移落点 -> 从引用列表打开 s003 内部脚本 -> 场景下拉回 s001 -> 再点落点；应关闭脚本抽屉、右侧显示该落点、画布黄色高亮并自动定位
-5. 引用导航：作者共享脚本进入共享脚本模块；迁移生成的 scene/<id>/... 内部脚本留在目标场景脚本抽屉，不误跳共享模块
-6. 6051：有可达路径或存档时，实走两个不同命名落点进入同一目标场景，核对位置、朝向与普通切场景无回归
-输出要求：在本卡 Opus review 签字行写 accept 或 counter+理由，补交接日志并提交仅任务卡改动；accept 后写下一位 GLM 覆盖复核提示词。不得标 done，不得顺手改 A7-0
+接手任务:W4-1 命名落点闭环与迁移去重,覆盖/基线/测试矩阵复核(GLM)
+任务卡:docs/ops/tasks/W4-1-named-scene-entry-closure.md
+当前状态:review;done 前 Codex accept + Opus accept(实现/视觉主审,零返工项),GLM pending(最后一签);不得标 done
+你的角色:GLM,迁移覆盖面/基线/测试矩阵复核;只改任务卡,不得改实现或生成产物
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期的 W1-W3)、packages/migrate/src/scene-entry-normalize.ts 及其测试、packages/migrate/src/migration-validate.ts、packages/editor/src/core/script-references.ts
+请重点复核(数据/测试面,与 Opus 的实现/视觉面互补):
+1. 你设计期 W1-W3 的落地验收:W1 修复后审计口径(旧 239/240 争议已被重生成清零,确认审计文档记录修复前后对比);W2 walker 六类站点反例(内联 stage/实体页/场景绑定/共享 chunk/分支臂/敌人编舞)在测试中各至少一例;W3 产物对账 762 组→61 默认+701 命名 与 966=797+169+0——用你自己的脚本重扫核对;
+2. 迁移测试矩阵:三来源反例(scene slice/-1 shared/-2 all.json 不参与)、同坐标多来源共锚、等默认收敛、id 纯函数(同 target+pos 跨来源同 id/坐标变更换 id/碰撞 fail-loud)、labels 确定性——每条有测试落点;
+3. dangling 门禁与漂移模拟:plan.target 上 entryId 引用闭包 fail-loud;构造 ours 引用被删 from-*/pal-entry-* × theirs 重生成 → 阻断并报告——测试存在且形态与 ED-4A 漂移门禁同构;
+4. runtime 测试矩阵:三态×互斥×缺场景×缺落点×四级朝向链(含 inheritFacing 门穿行)×默认回退——表驱动逐行核对;
+5. 编辑器测试:创建/选择/移动/改 label(引用不断)/朝向/引用保护删除/undo/redo/保存重开/表单三态——commands 与 project-io 测试逐项确认;
+6. MG2 面:entries record 按 key 合并、`pal-entry-` 前缀与作者 id 分域(作者未引用落点不被删)、首写盘 plan 可解释、双跑与独立 dry-run 零计划口径与 MG2 卡一致。
+已验证(勿重复,可抽查):Opus 已做产物全量重扫(701 全 pal-entry-*/零 facing/悬空 0/未引用 0/966=797+169+0)、四包测试+dry-run 重跑、6010 全链手验含必复现往返、6051 双落点实走(默认 143,45 vs 命名 141,51,朝向 inherit)
+不要做:不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收);不得顺手改 A7-0
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
 ```
