@@ -1,6 +1,6 @@
 # ED-4A - 实体类型边界与精灵/触发区创建闭环
 
-Status: review
+Status: done
 Phase: phase2
 Capability: E1 / MG2
 Coding Owner: Codex
@@ -440,7 +440,7 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **通过**（2026-07-15）
 - 后续任务: ED-4 职责分类与实体模板（门归 `object`）；ED-3 引用删除守卫。
 
 ## 交接日志
@@ -467,7 +467,8 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(通道口径对账/测试矩阵/夹具清单),
   齐签后交用户验收;不得标 done,不得改 capability-map。未改实现文件。
 - 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 868 pass：(1)G1-G3 全落地——dry-run 通道口径 `580/574·3695/3695·6/0·116/69·3/2` 精确吻合;auditSpriteReferenceClosure 五通道含 actors.spriteId(G2);闭包门禁在 plan.target 合并后结果上跑 walkCommands 递归脚本命令(G3,不依赖 validate-refs.ts)。(2)改名后产物 580=574 sprite-*+6 semantic+0 npc-,3695 EntityDef.sprite 全 sprite-*,grep npc-[0-9] 零命中。(3)测试矩阵——§105 migrate-content.test:627 零 legacy 断言/§106 migration-validate.test:36-81 反向保护/R1 漂移模拟 :83-138 ours npc-55×theirs sprite-55→conflicts=[]→闭包 throw/§107 commands.test:126-146 四模式×undo-redo/project-io.test:185-245 保存重开;entity-placement.ts 55行四模式 zone trigger。O1 非阻塞(布局冲突-f无专用单测)。(4)夹具 migrate/reforge 零 npc- 残留,game 一阶段冻结。(5)MG2 315/0/0→631→0/0/0 链路一致。(6)door 归入 object 无平级,源码/docs 零命中。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
+- 2026-07-15 User: 验收通过；ED-4A 转 `done`，从进行中看板移除。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，三方审查签字已齐，等待用户验收。
+无下一位 Agent 提示词，任务已完成。
