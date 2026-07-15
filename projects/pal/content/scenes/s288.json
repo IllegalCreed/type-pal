@@ -1,29 +1,6 @@
 {
   "id": "s288",
   "mapId": "map-206",
-  "entries": {
-    "from-s287": {
-      "pos": {
-        "col": 76,
-        "row": 13,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 76,
-        "row": 13,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 151,
-        "row": 45,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 76,
@@ -1318,5 +1295,23 @@
       ]
     }
   ],
-  "battleFieldId": 57
+  "battleFieldId": 57,
+  "entries": {
+    "pal-entry-c8b0eab3": {
+      "label": "原版落点 (35, 14, 0)",
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "pal-entry-987e044c": {
+      "label": "原版落点 (159, 50, 0)",
+      "pos": {
+        "col": 159,
+        "row": 50,
+        "height": 0
+      }
+    }
+  }
 }

@@ -1,43 +1,6 @@
 {
   "id": "s278",
   "mapId": "map-183",
-  "entries": {
-    "from-s281": {
-      "pos": {
-        "col": 64,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s281-2": {
-      "pos": {
-        "col": 128,
-        "row": 84,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 145,
-        "row": 65,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 143,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 67,
-        "row": 34,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 64,
@@ -392,5 +355,31 @@
       ]
     }
   ],
-  "battleFieldId": 48
+  "battleFieldId": 48,
+  "entries": {
+    "pal-entry-fc6c6f76": {
+      "label": "原版落点 (128, 84, 0)",
+      "pos": {
+        "col": 128,
+        "row": 84,
+        "height": 0
+      }
+    },
+    "pal-entry-6ffadd52": {
+      "label": "原版落点 (100, 82, 0)",
+      "pos": {
+        "col": 100,
+        "row": 82,
+        "height": 0
+      }
+    },
+    "pal-entry-7ad7f04e": {
+      "label": "原版落点 (145, 34, 0)",
+      "pos": {
+        "col": 145,
+        "row": 34,
+        "height": 0
+      }
+    }
+  }
 }

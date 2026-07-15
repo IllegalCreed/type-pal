@@ -6,11 +6,7 @@
       {
         "kind": "loadScene",
         "scene": "s152",
-        "pos": {
-          "col": 87,
-          "row": 58,
-          "height": 0
-        }
+        "entryId": "pal-entry-88dd3d84"
       }
     ],
     "scene/s168/L-41075/e2805/d-0a386828": [
@@ -984,12 +980,7 @@
     "scene/s168/root/entity-e2804/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s145",
-        "pos": {
-          "col": 87,
-          "row": 58,
-          "height": 0
-        }
+        "scene": "s145"
       }
     ],
     "scene/s168/root/entity-e2806/page-0/trigger/stage-0": [

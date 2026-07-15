@@ -18310,22 +18310,13 @@
       {
         "kind": "loadScene",
         "scene": "s016",
-        "pos": {
-          "col": 123,
-          "row": 10,
-          "height": 0
-        }
+        "entryId": "pal-entry-c0a4e1f6"
       }
     ],
     "scene/s019/root/entity-e268/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s020",
-        "pos": {
-          "col": 111,
-          "row": 79,
-          "height": 0
-        }
+        "scene": "s020"
       }
     ],
     "scene/s019/root/entity-e270/page-0/trigger/stage-0": [

@@ -109,7 +109,7 @@ const INSERT_GROUPS: {
       { label: '🎵 音乐', make: () => [{ kind: 'playMusic', musicId: 1 }] },
       {
         label: '🚪 切场景',
-        make: (c) => [{ kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } }],
+        make: (c) => [{ kind: 'loadScene', scene: c.scene.id }],
       },
       { label: '⚔ 战斗', make: () => [{ kind: 'startBattle', team: 0 }] },
     ],
@@ -213,7 +213,7 @@ const INSERT_GROUPS: {
           { kind: 'wait', ms: 40 },
           { kind: 'nudgeParty', dx: -6, dy: 6 },
           { kind: 'wait', ms: 40 },
-          { kind: 'loadScene', scene: c.scene.id, pos: { ...c.scene.entry.pos } },
+          { kind: 'loadScene', scene: c.scene.id },
         ],
       },
       {
@@ -465,6 +465,8 @@ export function ScriptDrawer(props: {
   selectedEntityId?: string | null
   /** 定位脚本源(检查器「去编辑」/数据模式引用跳转:__onEnter__ / <eid>:trigger / <eid>:auto)。 */
   focusSrcKey?: string | null
+  /** 从引用面板直接打开场景内部子脚本；共享脚本仍走独立模块。 */
+  focusInternalScriptId?: string | null
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
@@ -495,6 +497,7 @@ export function ScriptDrawer(props: {
     locale,
     selectedEntityId,
     focusSrcKey,
+    focusInternalScriptId,
     sprites,
     actorsById,
     leaderSpriteId,
@@ -571,7 +574,9 @@ export function ScriptDrawer(props: {
     setSrcKey(sources[0]?.key ?? null)
   }, [sources, srcKey])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
-  const [internalTrail, setInternalTrail] = useState<string[]>([])
+  const [internalTrail, setInternalTrail] = useState<string[]>(() =>
+    focusInternalScriptId ? [focusInternalScriptId] : [],
+  )
   const internalScriptId = internalTrail.at(-1)
   const internalBody =
     internalScriptId && scriptIndex
@@ -610,6 +615,12 @@ export function ScriptDrawer(props: {
     setInsertFor(null)
     setInternalTrail([])
   }, [scene.id, active?.key])
+  useEffect(() => {
+    if (!focusInternalScriptId) return
+    setInternalTrail([focusInternalScriptId])
+    setSelPath(null)
+    setInsertFor(null)
+  }, [focusInternalScriptId])
 
   const dispatchEdited = (
     stages: readonly ScriptStage[],
@@ -812,11 +823,13 @@ export function ScriptDrawer(props: {
           layers={layers}
           sceneFraming={!active && !selectedEntityId}
           hint={
-            active
+            internalScriptId
               ? undefined
-              : selectedEntityId
-                ? '此实体还没有脚本 —— 用下方「＋触发 / ＋巡逻」给它加'
-                : '选中左侧实体看它的脚本;场景级脚本用下方「＋进场脚本 / ＋传送出口」'
+              : active
+                ? undefined
+                : selectedEntityId
+                  ? '此实体还没有脚本 —— 用下方「＋触发 / ＋巡逻」给它加'
+                  : '选中左侧实体看它的脚本;场景级脚本用下方「＋进场脚本 / ＋传送出口」'
           }
         />
       </div>
@@ -1047,11 +1060,12 @@ export function ScriptDrawer(props: {
         >
           {/* 中:指令树(播放跟随高亮) */}
           <div className="drawer-tree">
-            {active ? (
+            {active || internalScriptId ? (
               <ScriptTree
                 stages={editingStages}
                 locale={locale}
                 scriptIndex={scriptIndex}
+                scenes={scenes}
                 activePath={playback.activePath ?? null}
                 selectedPath={selPath}
                 onSelect={(path) => {
@@ -1059,9 +1073,9 @@ export function ScriptDrawer(props: {
                   setInsertFor(null)
                 }}
                 onRowAction={onRowAction}
-                showSceneEntry={!internalScriptId && active.kind === 'onEnter'}
+                showSceneEntry={!internalScriptId && active?.kind === 'onEnter'}
                 onSceneEntryChange={
-                  !internalScriptId && active.kind === 'onEnter'
+                  !internalScriptId && active?.kind === 'onEnter'
                     ? (stageIndex, entry: SceneEntryPresentation | undefined) => {
                         const next = editingStages.map((stage, index) => {
                           if (index !== stageIndex) return stage
@@ -1077,7 +1091,7 @@ export function ScriptDrawer(props: {
                     : undefined
                 }
                 onStageAction={
-                  internalScriptId
+                  internalScriptId || !active
                     ? undefined
                     : (i, a) => {
                         const next =
@@ -1179,7 +1193,7 @@ export function ScriptDrawer(props: {
                   </div>
                 </div>
               ) : null}
-              {selCmd && active && selPath ? (
+              {selCmd && selPath ? (
                 <div className="section">
                   <h4>
                     编辑指令 <span className="cf-path">{selPath}</span>
@@ -1196,7 +1210,7 @@ export function ScriptDrawer(props: {
                     ambiences={ambiences}
                     shops={shops}
                     scriptIndex={scriptIndex}
-                    hasImplicitSelf={active.kind === 'trigger' || active.kind === 'auto'}
+                    hasImplicitSelf={active?.kind === 'trigger' || active?.kind === 'auto'}
                     onOpenScript={openScriptTarget}
                     onChange={(next) => {
                       const path = parsePath(selPath)

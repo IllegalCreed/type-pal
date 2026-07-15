@@ -399,22 +399,14 @@
       {
         "kind": "loadScene",
         "scene": "s090",
-        "pos": {
-          "col": 102,
-          "row": 51,
-          "height": 0
-        }
+        "entryId": "pal-entry-16a6ffd8"
       }
     ],
     "scene/s084/L-13021/e1577/d-0a386828": [
       {
         "kind": "loadScene",
         "scene": "s088",
-        "pos": {
-          "col": 128,
-          "row": 99,
-          "height": 0
-        }
+        "entryId": "pal-entry-2931020f"
       }
     ],
     "scene/s084/L-14213/e1614/d-0a386828": [
@@ -966,34 +958,21 @@
     "scene/s084/root/entity-e1573/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s082",
-        "pos": {
-          "col": 79,
-          "row": -28,
-          "height": 0
-        }
+        "scene": "s082"
       }
     ],
     "scene/s084/root/entity-e1574/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s082",
-        "pos": {
-          "col": 129,
-          "row": 25,
-          "height": 0
-        }
+        "entryId": "pal-entry-18ca08d3"
       }
     ],
     "scene/s084/root/entity-e1575/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s096",
-        "pos": {
-          "col": 101,
-          "row": 24,
-          "height": 0
-        }
+        "entryId": "pal-entry-19835677"
       }
     ],
     "scene/s084/root/entity-e1576/page-0/trigger/stage-0": [
@@ -1043,22 +1022,14 @@
       {
         "kind": "loadScene",
         "scene": "s088",
-        "pos": {
-          "col": 128,
-          "row": 99,
-          "height": 0
-        }
+        "entryId": "pal-entry-2931020f"
       }
     ],
     "scene/s084/root/entity-e1578/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s089",
-        "pos": {
-          "col": 102,
-          "row": 51,
-          "height": 0
-        }
+        "entryId": "pal-entry-c5e1d52a"
       }
     ],
     "scene/s084/root/entity-e1579/page-0/trigger/stage-0": [
@@ -1079,33 +1050,21 @@
       {
         "kind": "loadScene",
         "scene": "s099",
-        "pos": {
-          "col": 46,
-          "row": 12,
-          "height": 0
-        }
+        "entryId": "pal-entry-5559ea23"
       }
     ],
     "scene/s084/root/entity-e1581/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s099",
-        "pos": {
-          "col": 63,
-          "row": -14,
-          "height": 0
-        }
+        "entryId": "pal-entry-182d6599"
       }
     ],
     "scene/s084/root/entity-e1582/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s105",
-        "pos": {
-          "col": 74,
-          "row": 60,
-          "height": 0
-        }
+        "entryId": "pal-entry-0364edb7"
       }
     ],
     "scene/s084/root/entity-e1583/page-0/trigger/stage-0": [
@@ -2217,11 +2176,7 @@
       {
         "kind": "loadScene",
         "scene": "s092",
-        "pos": {
-          "col": 35,
-          "row": 3,
-          "height": 0
-        }
+        "entryId": "pal-entry-8c67b6ee"
       },
       {
         "kind": "setPartyFacing",

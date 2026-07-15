@@ -17,11 +17,7 @@
       {
         "kind": "loadScene",
         "scene": "s118",
-        "pos": {
-          "col": 55,
-          "row": 10,
-          "height": 0
-        }
+        "entryId": "pal-entry-eadf9785"
       }
     ],
     "scene/s115/L-20560/e2135/d-0a386828": [
@@ -596,22 +592,14 @@
       {
         "kind": "loadScene",
         "scene": "s116",
-        "pos": {
-          "col": 166,
-          "row": 57,
-          "height": 0
-        }
+        "entryId": "pal-entry-30d2c67b"
       }
     ],
     "scene/s115/root/entity-e2135/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s118",
-        "pos": {
-          "col": 55,
-          "row": 10,
-          "height": 0
-        }
+        "entryId": "pal-entry-eadf9785"
       }
     ],
     "scene/s115/root/entity-e2145/page-0/trigger/stage-0": [

@@ -405,11 +405,7 @@
       {
         "kind": "loadScene",
         "scene": "s052",
-        "pos": {
-          "col": 84,
-          "row": 28,
-          "height": 0
-        }
+        "entryId": "pal-entry-b37dd0a3"
       },
       {
         "kind": "setActorSprite",
@@ -426,11 +422,7 @@
       {
         "kind": "loadScene",
         "scene": "s052",
-        "pos": {
-          "col": 80,
-          "row": 24,
-          "height": 0
-        }
+        "entryId": "pal-entry-2a1c6c53"
       }
     ],
     "scene/s053/root/entity-e904/page-0/trigger/stage-0": [

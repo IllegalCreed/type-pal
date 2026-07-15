@@ -14,6 +14,7 @@ import type {
   GridPos,
   RuntimeScriptBinding,
   SceneReveal,
+  SceneSpawn,
   ScriptCondition,
   ScriptRef,
   ScriptStage,
@@ -49,7 +50,7 @@ export interface ScriptHost {
   gameOver(): Promise<void>
   wait(ms: number): Promise<void>
   teleportParty(pos: GridPos, facing?: Facing): void
-  loadScene(scene: string, pos?: GridPos, facing?: Facing): Promise<void>
+  loadScene(scene: string, spawn: SceneSpawn): Promise<void>
   /**
    * 0x15:朝向 + 脚本姿势帧。gesture 缺省 = 清姿势(站立);>0 = 姿势帧
    * (渲染 = dir*framesPerDir + gesture,走路/传送时清)。member 0 = 队长。
@@ -446,7 +447,11 @@ export class ScriptRunner {
       case 'teleportParty':
         return h.teleportParty(cmd.pos, cmd.facing)
       case 'loadScene':
-        return h.loadScene(cmd.scene, cmd.pos, cmd.facing)
+        return h.loadScene(cmd.scene, {
+          ...(cmd.entryId !== undefined ? { entryId: cmd.entryId } : {}),
+          ...(cmd.pos !== undefined ? { pos: cmd.pos } : {}),
+          ...(cmd.facing !== undefined ? { facing: cmd.facing } : {}),
+        } as SceneSpawn)
       case 'setPartyFacing':
         return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
       case 'setActorSprite':

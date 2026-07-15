@@ -76,6 +76,13 @@ const scenesJson = [
     mapId: 'map-056',
     paletteId: 0,
     entry: { pos: { col: 90, row: 14, height: 0 }, facing: 'down' },
+    entries: {
+      'entry-stairs': {
+        label: '楼梯入口',
+        pos: { col: 84, row: 18, height: 1 },
+        facing: 'left',
+      },
+    },
     entities: [
       {
         id: 'wandering-ghost',
@@ -180,6 +187,24 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
 
   // manifest.json 整体还原(startWorld 含 seedStats)
   expect(out['manifest.json']).toEqual(manifest)
+})
+
+test('W4-1 命名落点保存重开保持稳定 id、label、完整 GridPos 与朝向', () => {
+  const project = assembleProject(manifest, JSONS)
+  const state = toEditorState(project, SCENES)
+  const saved = serializeProject(state)
+  const savedScene = saved['content/scenes/guijie-minju.json'] as SceneDef
+  const reopened = toEditorState(assembleProject(manifest, { ...JSONS, entryScene: savedScene }), [
+    savedScene,
+  ])
+
+  expect(reopened.scenes[0]!.entries).toEqual({
+    'entry-stairs': {
+      label: '楼梯入口',
+      pos: { col: 84, row: 18, height: 1 },
+      facing: 'left',
+    },
+  })
 })
 
 test('ED-4A actor/sprite/touch zone/interact zone 保存重开保持引用与空脚本源', () => {

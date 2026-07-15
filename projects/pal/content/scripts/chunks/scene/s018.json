@@ -38,22 +38,14 @@
       {
         "kind": "loadScene",
         "scene": "s016",
-        "pos": {
-          "col": 61,
-          "row": 42,
-          "height": 0
-        }
+        "entryId": "pal-entry-0f0b22de"
       }
     ],
     "scene/s018/root/entity-e264/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s015",
-        "pos": {
-          "col": 116,
-          "row": 4,
-          "height": 0
-        }
+        "entryId": "pal-entry-f28ee264"
       }
     ],
     "scene/s018/root/entity-e265/page-0/trigger/stage-0": [
@@ -90,11 +82,7 @@
       {
         "kind": "loadScene",
         "scene": "s016",
-        "pos": {
-          "col": 61,
-          "row": 42,
-          "height": 0
-        }
+        "entryId": "pal-entry-0f0b22de"
       }
     ]
   }

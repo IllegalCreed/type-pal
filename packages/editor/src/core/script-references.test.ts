@@ -7,7 +7,11 @@ import {
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
-import { buildScriptReferenceIndex, findScriptReferences } from './script-references.js'
+import {
+  buildScriptReferenceIndex,
+  findSceneEntryReferences,
+  findScriptReferences,
+} from './script-references.js'
 
 const targetId = 'shared/user/target-a1b2c3d4'
 const callerId = 'shared/user/caller-a1b2c3d4'
@@ -191,5 +195,85 @@ describe('N6 脚本引用图', () => {
     const diagnostics = buildScriptReferenceIndex(state)
     expect(diagnostics.errors).toEqual([])
     expect(diagnostics.warnings.join('\n')).toMatch(/硬编码场景实体 e12/)
+  })
+})
+
+describe('W4-1 命名落点引用图', () => {
+  test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支、战败命令与敌人编舞', () => {
+    const entryId = 'door-west'
+    const load = (): Command => ({ kind: 'loadScene', scene: 's2', entryId })
+    let state = addScript(baseState(), callerId, [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'x', is: true },
+        then: [load()],
+      },
+    ])
+    const source = state.scenes[0]!
+    state = {
+      ...state,
+      scenes: [
+        {
+          ...source,
+          onEnter: [{ body: [load()] }],
+          onTeleport: [{ body: [load()] }],
+          entities: [
+            {
+              ...source.entities[0]!,
+              pages: [{ trigger: { on: 'interact', stages: [{ body: [load()] }] } }],
+              hostile: { team: 1, onLose: [load()] },
+            },
+          ],
+        },
+        {
+          id: 's2',
+          mapId: 'map-s2',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entries: { [entryId]: { label: '西门', pos: { col: 2, row: 3, height: 0 } } },
+          entities: [],
+        },
+      ],
+      enemies: [
+        {
+          id: 'enemy-test',
+          choreography: [{ at: 'battleStart', body: [load()] }],
+        },
+      ] as EditorState['enemies'],
+    }
+
+    const refs = findSceneEntryReferences(state, 's2', entryId)
+    expect(refs).toHaveLength(6)
+    expect(
+      refs.some((entry) => entry.caller.type === 'script' && entry.path.includes('/then/')),
+    ).toBe(true)
+    expect(refs.some((entry) => entry.caller.type === 'global')).toBe(true)
+    expect(buildScriptReferenceIndex(state).errors).toEqual([])
+  })
+
+  test('缺场景、缺落点、旧裸 entry 与 entryId+pos 全部阻止保存', () => {
+    const state = baseState()
+    state.scenes[0] = {
+      ...state.scenes[0]!,
+      onEnter: [
+        {
+          body: [
+            { kind: 'loadScene', scene: 'missing' },
+            { kind: 'loadScene', scene: 's1', entryId: 'missing-entry' },
+            {
+              kind: 'loadScene',
+              scene: 's1',
+              entryId: 'x',
+              pos: { col: 1, row: 2, height: 0 },
+            } as unknown as Command,
+            { kind: 'loadScene', scene: 's1', entry: 'old' } as unknown as Command,
+          ],
+        },
+      ],
+    }
+    const errors = buildScriptReferenceIndex(state).errors.join('\n')
+    expect(errors).toMatch(/目标场景 missing 不存在/)
+    expect(errors).toMatch(/命名落点 s1\/missing-entry 不存在/)
+    expect(errors).toMatch(/entryId 与 pos 不能同时存在/)
+    expect(errors).toMatch(/loadScene\.entry 已退役/)
   })
 })

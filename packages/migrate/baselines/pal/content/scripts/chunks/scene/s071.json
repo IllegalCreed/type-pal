@@ -324,34 +324,20 @@
     "scene/s071/root/on-teleport/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s068",
-        "pos": {
-          "col": 117,
-          "row": 29,
-          "height": 0
-        }
+        "scene": "s068"
       }
     ],
     "scene/s071/root/entity-e1388/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s068",
-        "pos": {
-          "col": 117,
-          "row": 29,
-          "height": 0
-        }
+        "scene": "s068"
       }
     ],
     "scene/s071/root/entity-e1389/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s068",
-        "pos": {
-          "col": 82,
-          "row": -8,
-          "height": 0
-        }
+        "entryId": "pal-entry-1ea3be19"
       }
     ],
     "scene/s071/root/entity-e1395/page-0/trigger/stage-0": [

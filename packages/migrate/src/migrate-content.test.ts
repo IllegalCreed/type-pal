@@ -453,11 +453,25 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     const e = s1.entities.find((x) => x.id === `e${firstVisible.id}`)!
     expect(e.pos).toEqual({ ...pixelToGrid(firstVisible.x, firstVisible.y), height: 0 }) // 像素↔菱形格精确往返
   })
-  test('s003:from-s001 入口 = setPartyPos(49,94) 精确落格(loadScene off-by-one 修复:operand4→index3=s003)', () => {
+  test('s003:默认落点 = setPartyPos(49,94)，对应 loadScene 收敛为默认模式', () => {
     // loadScene operand 1-based:s001 的 loadScene→operand4 = 0-based index3 = s003(修复前错落 s004)
     const s3 = byId.get('s003')!
-    expect(s3.entries?.['from-s001']?.pos).toEqual({ ...pixelToGrid(49 * 32, 94 * 16), height: 0 })
-    expect(s3.entry.pos).toEqual(Object.values(s3.entries!)[0]!.pos) // entry 兜底 = 首个已知入口
+    expect(s3.entry.pos).toEqual({ ...pixelToGrid(49 * 32, 94 * 16), height: 0 })
+    const incoming: Array<Extract<Command, { kind: 'loadScene' }>> = []
+    const collect = (node: unknown): void => {
+      if (Array.isArray(node)) {
+        node.forEach(collect)
+        return
+      }
+      if (!node || typeof node !== 'object') return
+      const record = node as Record<string, unknown>
+      if (record.kind === 'loadScene' && record.scene === 's003')
+        incoming.push(record as unknown as (typeof incoming)[number])
+      Object.values(record).forEach(collect)
+    }
+    collect(expandedScenes)
+    expect(incoming.length).toBeGreaterThan(0)
+    expect(incoming.every((command) => command.pos === undefined)).toBe(true)
   })
   test('实体语义映射:hidden=sState0 / collide=sState≥2 / facing=direction 表 / zBias=sLayer', () => {
     const src1 = readScene(1)
@@ -489,7 +503,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(facing(118)).toBeUndefined()
     expect(out2.report.facingFromAuto).toBeGreaterThanOrEqual(4)
   })
-  test('M3a 门模式折叠:门触发 = 单条 loadScene{scene,pos}(setPartyPos/fadeOut 被吸收)', () => {
+  test('M3a 门模式折叠:loadScene 后不再残留 teleportParty/fadeOut', () => {
     const doors = expandedScenes
       .flatMap((s) =>
         s.entities.flatMap((e) => e.pages?.flatMap((p) => p.trigger?.stages ?? []) ?? []),
@@ -498,11 +512,8 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(doors.length).toBeGreaterThan(5)
     const folded = doors.filter((st) => {
       const i = st.body.findIndex((c) => c.kind === 'loadScene')
-      const ls = st.body[i]! as { kind: 'loadScene'; pos?: unknown }
       const rest = st.body.slice(i + 1)
-      return (
-        ls.pos !== undefined && !rest.some((c) => c.kind === 'teleportParty' || c.kind === 'fade')
-      )
+      return !rest.some((c) => c.kind === 'teleportParty' || c.kind === 'fade')
     })
     // 主流门链(loadScene setPartyPos fadeOut end)全部折叠成单命令
     expect(folded.length).toBeGreaterThan(doors.length * 0.6)

@@ -728,22 +728,14 @@
       {
         "kind": "loadScene",
         "scene": "s049",
-        "pos": {
-          "col": 120,
-          "row": 84,
-          "height": 0
-        }
+        "entryId": "pal-entry-05cd8400"
       }
     ],
     "scene/s048/root/entity-e789/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s049",
-        "pos": {
-          "col": 120,
-          "row": 84,
-          "height": 0
-        }
+        "entryId": "pal-entry-05cd8400"
       }
     ],
     "scene/s048/root/entity-e790/page-0/auto/stage-0": [],

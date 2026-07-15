@@ -301,22 +301,14 @@
       {
         "kind": "loadScene",
         "scene": "s186",
-        "pos": {
-          "col": 108,
-          "row": 32,
-          "height": 0
-        }
+        "entryId": "pal-entry-8ccb2847"
       }
     ],
     "scene/s182/root/entity-e2983/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s180",
-        "pos": {
-          "col": 62,
-          "row": 3,
-          "height": 0
-        }
+        "entryId": "pal-entry-f5f4165a"
       }
     ]
   }

@@ -1,120 +1,6 @@
 {
   "id": "s207",
   "mapId": "map-166",
-  "entries": {
-    "from-s206": {
-      "pos": {
-        "col": 97,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s206-2": {
-      "pos": {
-        "col": 121,
-        "row": 50,
-        "height": 0
-      }
-    },
-    "from-s206-3": {
-      "pos": {
-        "col": 157,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-s206-4": {
-      "pos": {
-        "col": 133,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-s206-5": {
-      "pos": {
-        "col": 102,
-        "row": 61,
-        "height": 0
-      }
-    },
-    "from-s206-6": {
-      "pos": {
-        "col": 73,
-        "row": 35,
-        "height": 0
-      }
-    },
-    "from-s206-7": {
-      "pos": {
-        "col": 104,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-s206-8": {
-      "pos": {
-        "col": 76,
-        "row": -12,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 73,
-        "row": -17,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 130,
-        "row": 96,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 145,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 130,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 114,
-        "row": 97,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 126,
-        "row": 26,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 96,
-        "row": 70,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 106,
-        "row": 72,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 97,
@@ -1762,5 +1648,71 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-486fe888": {
+      "label": "原版落点 (121, 50, 0)",
+      "pos": {
+        "col": 121,
+        "row": 50,
+        "height": 0
+      }
+    },
+    "pal-entry-94171038": {
+      "label": "原版落点 (157, 68, 0)",
+      "pos": {
+        "col": 157,
+        "row": 68,
+        "height": 0
+      }
+    },
+    "pal-entry-efb5c917": {
+      "label": "原版落点 (133, 87, 0)",
+      "pos": {
+        "col": 133,
+        "row": 87,
+        "height": 0
+      }
+    },
+    "pal-entry-51834e63": {
+      "label": "原版落点 (102, 61, 0)",
+      "pos": {
+        "col": 102,
+        "row": 61,
+        "height": 0
+      }
+    },
+    "pal-entry-d14701ef": {
+      "label": "原版落点 (73, 35, 0)",
+      "pos": {
+        "col": 73,
+        "row": 35,
+        "height": 0
+      }
+    },
+    "pal-entry-c7345fed": {
+      "label": "原版落点 (104, 14, 0)",
+      "pos": {
+        "col": 104,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "pal-entry-8ced513e": {
+      "label": "原版落点 (76, -12, 0)",
+      "pos": {
+        "col": 76,
+        "row": -12,
+        "height": 0
+      }
+    },
+    "pal-entry-e77afca8": {
+      "label": "原版落点 (42, 7, 0)",
+      "pos": {
+        "col": 42,
+        "row": 7,
+        "height": 0
+      }
+    }
+  }
 }

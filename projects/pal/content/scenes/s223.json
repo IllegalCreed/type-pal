@@ -1,113 +1,6 @@
 {
   "id": "s223",
   "mapId": "map-221",
-  "entries": {
-    "from-s222": {
-      "pos": {
-        "col": 117,
-        "row": 22,
-        "height": 0
-      }
-    },
-    "from-s222-2": {
-      "pos": {
-        "col": 119,
-        "row": 74,
-        "height": 0
-      }
-    },
-    "from-s222-3": {
-      "pos": {
-        "col": 95,
-        "row": 38,
-        "height": 0
-      }
-    },
-    "from-s223": {
-      "pos": {
-        "col": 65,
-        "row": 1,
-        "height": 0
-      }
-    },
-    "from-s223-2": {
-      "pos": {
-        "col": 151,
-        "row": 46,
-        "height": 0
-      }
-    },
-    "from-s223-3": {
-      "pos": {
-        "col": 59,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s223-4": {
-      "pos": {
-        "col": 118,
-        "row": 8,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 131,
-        "row": 57,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 88,
-        "row": 61,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 122,
-        "row": 47,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 51,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 107,
-        "row": 92,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 151,
-        "row": 46,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 59,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 118,
-        "row": 8,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 117,
@@ -1917,5 +1810,71 @@
     }
   ],
   "battleFieldId": 34,
-  "battleMusicId": 37
+  "battleMusicId": 37,
+  "entries": {
+    "pal-entry-5018c2eb": {
+      "label": "原版落点 (119, 74, 0)",
+      "pos": {
+        "col": 119,
+        "row": 74,
+        "height": 0
+      }
+    },
+    "pal-entry-cc189a08": {
+      "label": "原版落点 (95, 38, 0)",
+      "pos": {
+        "col": 95,
+        "row": 38,
+        "height": 0
+      }
+    },
+    "pal-entry-b3c8a902": {
+      "label": "原版落点 (74, 11, 0)",
+      "pos": {
+        "col": 74,
+        "row": 11,
+        "height": 0
+      }
+    },
+    "pal-entry-c3f8a8a4": {
+      "label": "原版落点 (151, 46, 0)",
+      "pos": {
+        "col": 151,
+        "row": 46,
+        "height": 0
+      }
+    },
+    "pal-entry-3d8a6586": {
+      "label": "原版落点 (59, 43, 0)",
+      "pos": {
+        "col": 59,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "pal-entry-d3aa820d": {
+      "label": "原版落点 (118, 8, 0)",
+      "pos": {
+        "col": 118,
+        "row": 8,
+        "height": 0
+      }
+    },
+    "pal-entry-9e409402": {
+      "label": "原版落点 (121, 90, 0)",
+      "pos": {
+        "col": 121,
+        "row": 90,
+        "height": 0
+      }
+    },
+    "pal-entry-c816ff0a": {
+      "label": "原版落点 (74, 46, 0)",
+      "pos": {
+        "col": 74,
+        "row": 46,
+        "height": 0
+      }
+    }
+  }
 }

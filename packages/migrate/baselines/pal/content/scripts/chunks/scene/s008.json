@@ -427,11 +427,7 @@
       {
         "kind": "loadScene",
         "scene": "s004",
-        "pos": {
-          "col": 151,
-          "row": 58,
-          "height": 0
-        }
+        "entryId": "pal-entry-47257ec2"
       }
     ],
     "scene/s008/root/entity-e175/page-0/trigger/stage-0": [
@@ -617,11 +613,7 @@
       {
         "kind": "loadScene",
         "scene": "s004",
-        "pos": {
-          "col": 117,
-          "row": 39,
-          "height": 0
-        }
+        "entryId": "pal-entry-c735ab9b"
       }
     ],
     "scene/s008/root/entity-e180/page-0/trigger/stage-0": [

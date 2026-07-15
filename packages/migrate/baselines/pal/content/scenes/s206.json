@@ -1,141 +1,6 @@
 {
   "id": "s206",
   "mapId": "map-163",
-  "entries": {
-    "from-s207": {
-      "pos": {
-        "col": 130,
-        "row": 96,
-        "height": 0
-      }
-    },
-    "from-s207-2": {
-      "pos": {
-        "col": 145,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s207-3": {
-      "pos": {
-        "col": 130,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-s207-4": {
-      "pos": {
-        "col": 114,
-        "row": 97,
-        "height": 0
-      }
-    },
-    "from-s207-5": {
-      "pos": {
-        "col": 126,
-        "row": 26,
-        "height": 0
-      }
-    },
-    "from-s207-6": {
-      "pos": {
-        "col": 96,
-        "row": 70,
-        "height": 0
-      }
-    },
-    "from-s207-7": {
-      "pos": {
-        "col": 106,
-        "row": 72,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 73,
-        "row": -21,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 146,
-        "row": 53,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 97,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 121,
-        "row": 50,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 157,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 133,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 102,
-        "row": 61,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 73,
-        "row": 35,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 104,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 76,
-        "row": -12,
-        "height": 0
-      }
-    },
-    "from-shared-11": {
-      "pos": {
-        "col": 42,
-        "row": 7,
-        "height": 0
-      }
-    },
-    "from-shared-12": {
-      "pos": {
-        "col": 105,
-        "row": 58,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 130,
@@ -2028,5 +1893,103 @@
       ]
     }
   ],
-  "battleFieldId": 23
+  "battleFieldId": 23,
+  "entries": {
+    "pal-entry-8bd062b3": {
+      "label": "原版落点 (106, 2, 0)",
+      "pos": {
+        "col": 106,
+        "row": 2,
+        "height": 0
+      }
+    },
+    "pal-entry-27c34556": {
+      "label": "原版落点 (120, 98, 0)",
+      "pos": {
+        "col": 120,
+        "row": 98,
+        "height": 0
+      }
+    },
+    "pal-entry-8a840e32": {
+      "label": "原版落点 (34, 3, 0)",
+      "pos": {
+        "col": 34,
+        "row": 3,
+        "height": 0
+      }
+    },
+    "pal-entry-7577fecb": {
+      "label": "原版落点 (145, 43, 0)",
+      "pos": {
+        "col": 145,
+        "row": 43,
+        "height": 0
+      }
+    },
+    "pal-entry-01f01fe6": {
+      "label": "原版落点 (130, 68, 0)",
+      "pos": {
+        "col": 130,
+        "row": 68,
+        "height": 0
+      }
+    },
+    "pal-entry-cdf83096": {
+      "label": "原版落点 (114, 97, 0)",
+      "pos": {
+        "col": 114,
+        "row": 97,
+        "height": 0
+      }
+    },
+    "pal-entry-ebd5fa6f": {
+      "label": "原版落点 (126, 26, 0)",
+      "pos": {
+        "col": 126,
+        "row": 26,
+        "height": 0
+      }
+    },
+    "pal-entry-d371ae44": {
+      "label": "原版落点 (96, 70, 0)",
+      "pos": {
+        "col": 96,
+        "row": 70,
+        "height": 0
+      }
+    },
+    "pal-entry-d26bccda": {
+      "label": "原版落点 (106, 72, 0)",
+      "pos": {
+        "col": 106,
+        "row": 72,
+        "height": 0
+      }
+    },
+    "pal-entry-5dcc0fb7": {
+      "label": "原版落点 (105, 58, 0)",
+      "pos": {
+        "col": 105,
+        "row": 58,
+        "height": 0
+      }
+    },
+    "pal-entry-b98b6cc4": {
+      "label": "原版落点 (154, 59, 0)",
+      "pos": {
+        "col": 154,
+        "row": 59,
+        "height": 0
+      }
+    },
+    "pal-entry-f3059df9": {
+      "label": "原版落点 (73, 45, 0)",
+      "pos": {
+        "col": 73,
+        "row": 45,
+        "height": 0
+      }
+    }
+  }
 }

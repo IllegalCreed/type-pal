@@ -1,15 +1,6 @@
 {
   "id": "s187",
   "mapId": "map-155",
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 98,
-        "row": 79,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 98,
@@ -134,5 +125,23 @@
       ]
     }
   ],
-  "battleFieldId": 14
+  "battleFieldId": 14,
+  "entries": {
+    "pal-entry-84c0b56d": {
+      "label": "原版落点 (90, 66, 0)",
+      "pos": {
+        "col": 90,
+        "row": 66,
+        "height": 0
+      }
+    },
+    "pal-entry-4607d44e": {
+      "label": "原版落点 (108, 14, 0)",
+      "pos": {
+        "col": 108,
+        "row": 14,
+        "height": 0
+      }
+    }
+  }
 }

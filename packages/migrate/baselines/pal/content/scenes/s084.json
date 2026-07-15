@@ -1,92 +1,6 @@
 {
   "id": "s084",
   "mapId": "map-080",
-  "entries": {
-    "from-s082": {
-      "pos": {
-        "col": 30,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-s096": {
-      "pos": {
-        "col": 103,
-        "row": 41,
-        "height": 0
-      }
-    },
-    "from-s099": {
-      "pos": {
-        "col": 49,
-        "row": 8,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 100,
-        "row": -6,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 30,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 103,
-        "row": 41,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 35,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 102,
-        "row": 51,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 102,
-        "row": 51,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 46,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 63,
-        "row": -14,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 112,
-        "row": 84,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 30,
@@ -1743,5 +1657,71 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-ee9c76fb": {
+      "label": "原版落点 (74, 42, 0)",
+      "pos": {
+        "col": 74,
+        "row": 42,
+        "height": 0
+      }
+    },
+    "pal-entry-dad46496": {
+      "label": "原版落点 (92, 69, 0)",
+      "pos": {
+        "col": 92,
+        "row": 69,
+        "height": 0
+      }
+    },
+    "pal-entry-2841960d": {
+      "label": "原版落点 (116, 12, 0)",
+      "pos": {
+        "col": 116,
+        "row": 12,
+        "height": 0
+      }
+    },
+    "pal-entry-dee9de53": {
+      "label": "原版落点 (63, -5, 0)",
+      "pos": {
+        "col": 63,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "pal-entry-eaba5941": {
+      "label": "原版落点 (35, 14, 0)",
+      "pos": {
+        "col": 35,
+        "row": 14,
+        "height": 0
+      }
+    },
+    "pal-entry-ab691c45": {
+      "label": "原版落点 (49, 8, 0)",
+      "pos": {
+        "col": 49,
+        "row": 8,
+        "height": 0
+      }
+    },
+    "pal-entry-d3b72678": {
+      "label": "原版落点 (54, 7, 0)",
+      "pos": {
+        "col": 54,
+        "row": 7,
+        "height": 0
+      }
+    },
+    "pal-entry-3458a4c3": {
+      "label": "原版落点 (81, -29, 0)",
+      "pos": {
+        "col": 81,
+        "row": -29,
+        "height": 0
+      }
+    }
+  }
 }

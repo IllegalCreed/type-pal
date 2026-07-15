@@ -21,6 +21,7 @@ import {
   validateTilesets,
 } from '@type-pal/content'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
+import { MIGRATED_SCENE_ENTRY_PREFIX } from './scene-entry-normalize.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
 
 export interface MigrationValidationReport {
@@ -29,6 +30,7 @@ export interface MigrationValidationReport {
   managedFiles: number
   referenceWarnings: number
   spriteReferences: SpriteReferenceClosureReport
+  sceneEntryReferences: SceneEntryReferenceClosureReport
   scriptAudit: ReturnType<typeof auditScriptLibrary>
 }
 
@@ -43,6 +45,12 @@ export interface SpriteReferenceClosureReport {
   channels: Record<SpriteReferenceChannel, { total: number; migrated: number }>
   legacy: Array<{ where: string; id: string }>
   unresolved: Array<{ where: string; id: string; channel: SpriteReferenceChannel }>
+}
+
+export interface SceneEntryReferenceClosureReport {
+  commands: { total: number; default: number; named: number; explicitPos: number }
+  generatedEntries: number
+  issues: Array<{ where: string; message: string }>
 }
 
 const LEGACY_MIGRATED_SPRITE_ID = /^npc-\d+(?:-f\d+)?$/
@@ -153,6 +161,109 @@ export function assertSpriteReferenceClosure(
   throw new Error(`精灵引用闭包门禁失败:\n${details.slice(0, 50).join('\n')}`)
 }
 
+/**
+ * W4-1:审计三方合并后的最终 target。脚本可位于 scene、共享 chunk、分支或敌人编舞，
+ * 因而按命令形状递归扫全部托管 JSON，而不是另写一套场景内联脚本扫描器。
+ */
+export function auditSceneEntryReferenceClosure(
+  files: ReadonlyMap<string, MigrationJson>,
+): SceneEntryReferenceClosureReport {
+  type EntryRecord = Record<string, { pos?: unknown }>
+  const scenes = new Map<string, { path: string; entries: EntryRecord }>()
+  const generated = new Map<string, { where: string; references: number }>()
+  const issues: SceneEntryReferenceClosureReport['issues'] = []
+  for (const [path, value] of files) {
+    if (!/^content\/scenes\/[^/]+\.json$/.test(path) || path === 'content/scenes/index.json')
+      continue
+    if (!value || typeof value !== 'object' || Array.isArray(value) || typeof value.id !== 'string')
+      continue
+    const entries =
+      value.entries && typeof value.entries === 'object' && !Array.isArray(value.entries)
+        ? (value.entries as EntryRecord)
+        : {}
+    scenes.set(value.id, { path, entries })
+    const positions = new Map<string, string>()
+    for (const [entryId, entry] of Object.entries(entries)) {
+      if (!entryId.startsWith(MIGRATED_SCENE_ENTRY_PREFIX)) continue
+      const where = `${path}/entries/${pointerSegment(entryId)}`
+      generated.set(`${value.id}\0${entryId}`, { where, references: 0 })
+      const pos = entry?.pos
+      if (!pos || typeof pos !== 'object' || Array.isArray(pos)) continue
+      const record = pos as Record<string, unknown>
+      const key = `${String(record.col)},${String(record.row)},${String(record.height)}`
+      const duplicate = positions.get(key)
+      if (duplicate)
+        issues.push({ where, message: `迁移命名落点与 ${duplicate} 使用重复 GridPos ${key}` })
+      else positions.set(key, entryId)
+    }
+  }
+
+  const commands = { total: 0, default: 0, named: 0, explicitPos: 0 }
+  const seen = new WeakSet<object>()
+  const walk = (node: unknown, where: string): void => {
+    if (!node || typeof node !== 'object') return
+    if (seen.has(node)) return
+    seen.add(node)
+    if (Array.isArray(node)) {
+      node.forEach((child, index) => {
+        walk(child, `${where}/${index}`)
+      })
+      return
+    }
+    const record = node as Record<string, unknown>
+    if (record.kind === 'loadScene') {
+      commands.total++
+      if ('entry' in record)
+        issues.push({ where, message: 'loadScene.entry 旧字段已退役，必须使用 entryId' })
+      if (record.entryId !== undefined && record.pos !== undefined)
+        issues.push({ where, message: 'entryId 与 pos 不能同时存在' })
+      const sceneId = record.scene
+      const target = typeof sceneId === 'string' ? scenes.get(sceneId) : undefined
+      if (!target) {
+        issues.push({ where, message: `目标场景 ${String(sceneId)} 不存在` })
+      } else if (record.entryId !== undefined) {
+        commands.named++
+        if (typeof record.entryId !== 'string' || !record.entryId) {
+          issues.push({ where, message: 'entryId 必须是非空字符串' })
+        } else if (!(record.entryId in target.entries)) {
+          issues.push({
+            where,
+            message: `命名落点 ${sceneId}/${record.entryId} 不存在`,
+          })
+        } else {
+          const migrated = generated.get(`${sceneId}\0${record.entryId}`)
+          if (migrated) migrated.references++
+        }
+      } else if (record.pos !== undefined) commands.explicitPos++
+      else commands.default++
+    }
+    for (const [key, child] of Object.entries(record))
+      walk(child, `${where}/${pointerSegment(key)}`)
+  }
+  for (const [path, value] of files) walk(value, path)
+
+  for (const [key, entry] of generated) {
+    if (entry.references > 0) continue
+    const [, entryId = key] = key.split('\0')
+    issues.push({ where: entry.where, message: `迁移命名落点 ${entryId} 没有任何脚本引用` })
+  }
+
+  return { commands, generatedEntries: generated.size, issues }
+}
+
+export function assertSceneEntryReferenceClosure(
+  files: ReadonlyMap<string, MigrationJson>,
+): SceneEntryReferenceClosureReport {
+  const report = auditSceneEntryReferenceClosure(files)
+  if (!report.issues.length) return report
+  throw new Error(
+    `命名落点引用闭包门禁失败:\n${report.issues
+      .slice(0, 50)
+      .map((issue) => `${issue.where}: ${issue.message}`)
+      .join('\n')}`,
+  )
+}
+
 export function findMissingDialogLocaleRefs(
   files: ReadonlyMap<string, MigrationJson>,
   locale: Readonly<Record<string, string>>,
@@ -232,6 +343,7 @@ export function validatePalMigrationTarget(args: {
   const locale = validateLocale(required(files, 'content/locale.json'))
   const sprites = validateSprites(required(files, 'content/sprites.json'))
   const spriteReferences = assertSpriteReferenceClosure(files)
+  const sceneEntryReferences = assertSceneEntryReferenceClosure(files)
   const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
   const tilesets = validateTilesets(required(files, 'content/tilesets.json'))
   const tilesetIds = new Set(tilesets.map((tileset) => tileset.id))
@@ -355,6 +467,7 @@ export function validatePalMigrationTarget(args: {
     managedFiles: managedFiles.size,
     referenceWarnings: issues.length - referenceErrors.length,
     spriteReferences,
+    sceneEntryReferences,
     scriptAudit,
   }
 }

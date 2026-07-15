@@ -1,15 +1,6 @@
 {
   "id": "s088",
   "mapId": "map-082",
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 110,
-        "row": 54,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 110,
@@ -79,5 +70,23 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-2931020f": {
+      "label": "原版落点 (128, 99, 0)",
+      "pos": {
+        "col": 128,
+        "row": 99,
+        "height": 0
+      }
+    },
+    "pal-entry-2e7b2214": {
+      "label": "原版落点 (112, 84, 0)",
+      "pos": {
+        "col": 112,
+        "row": 84,
+        "height": 0
+      }
+    }
+  }
 }

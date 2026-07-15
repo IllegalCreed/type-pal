@@ -75,11 +75,7 @@
       {
         "kind": "loadScene",
         "scene": "s109",
-        "pos": {
-          "col": 95,
-          "row": 38,
-          "height": 0
-        }
+        "entryId": "pal-entry-1045fec5"
       }
     ],
     "scene/s110/override/on-enter/L-16974/stage-0": [
@@ -299,11 +295,7 @@
       {
         "kind": "loadScene",
         "scene": "s106",
-        "pos": {
-          "col": 95,
-          "row": 38,
-          "height": 0
-        }
+        "entryId": "pal-entry-6ee7bb4c"
       }
     ],
     "scene/s110/root/entity-e2061/page-0/trigger/stage-0": [

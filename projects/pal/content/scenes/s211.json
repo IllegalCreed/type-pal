@@ -2,29 +2,6 @@
   "id": "s211",
   "mapId": "map-173",
   "musicId": 55,
-  "entries": {
-    "from-s206": {
-      "pos": {
-        "col": 146,
-        "row": 53,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 34,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 96,
-        "row": 78,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 146,
@@ -286,5 +263,23 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-d26b4ede": {
+      "label": "原版落点 (87, 5, 0)",
+      "pos": {
+        "col": 87,
+        "row": 5,
+        "height": 0
+      }
+    },
+    "pal-entry-dde5ea06": {
+      "label": "原版落点 (97, 62, 0)",
+      "pos": {
+        "col": 97,
+        "row": 62,
+        "height": 0
+      }
+    }
+  }
 }

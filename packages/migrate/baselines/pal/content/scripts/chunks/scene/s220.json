@@ -1152,44 +1152,27 @@
       {
         "kind": "loadScene",
         "scene": "s215",
-        "pos": {
-          "col": 72,
-          "row": 20,
-          "height": 0
-        }
+        "entryId": "pal-entry-4b0f7f2d"
       }
     ],
     "scene/s220/root/entity-e3784/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s222",
-        "pos": {
-          "col": 68,
-          "row": -10,
-          "height": 0
-        }
+        "scene": "s222"
       }
     ],
     "scene/s220/root/entity-e3785/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s222",
-        "pos": {
-          "col": 88,
-          "row": 61,
-          "height": 0
-        }
+        "entryId": "pal-entry-f67b5b5f"
       }
     ],
     "scene/s220/root/entity-e3786/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s219",
-        "pos": {
-          "col": 70,
-          "row": -21,
-          "height": 0
-        }
+        "entryId": "pal-entry-1b29503f"
       }
     ],
     "scene/s220/root/entity-e3787/page-0/trigger/stage-0": [

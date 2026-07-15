@@ -1,64 +1,6 @@
 {
   "id": "s035",
   "mapId": "map-015",
-  "entries": {
-    "from-s034": {
-      "pos": {
-        "col": 57,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-s038": {
-      "pos": {
-        "col": 41,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-s038-2": {
-      "pos": {
-        "col": 57,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 57,
-        "row": 12,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 96,
-        "row": 71,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 69,
-        "row": 36,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 41,
-        "row": -25,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 57,
-        "row": -25,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 57,
@@ -786,5 +728,47 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-5c0b4730": {
+      "label": "原版落点 (96, 1, 0)",
+      "pos": {
+        "col": 96,
+        "row": 1,
+        "height": 0
+      }
+    },
+    "pal-entry-a6f0a264": {
+      "label": "原版落点 (69, 36, 0)",
+      "pos": {
+        "col": 69,
+        "row": 36,
+        "height": 0
+      }
+    },
+    "pal-entry-538f180b": {
+      "label": "原版落点 (41, -25, 0)",
+      "pos": {
+        "col": 41,
+        "row": -25,
+        "height": 0
+      }
+    },
+    "pal-entry-2cdc6a8e": {
+      "label": "原版落点 (57, -25, 0)",
+      "pos": {
+        "col": 57,
+        "row": -25,
+        "height": 0
+      }
+    },
+    "pal-entry-e8130d1a": {
+      "label": "原版落点 (84, -25, 0)",
+      "pos": {
+        "col": 84,
+        "row": -25,
+        "height": 0
+      }
+    }
+  }
 }

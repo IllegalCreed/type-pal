@@ -2,85 +2,6 @@
   "id": "s001",
   "mapId": "map-012",
   "musicId": 31,
-  "entries": {
-    "from-s003": {
-      "pos": {
-        "col": 60,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-s003-2": {
-      "pos": {
-        "col": 108,
-        "row": 30,
-        "height": 0
-      }
-    },
-    "from-s003-3": {
-      "pos": {
-        "col": 38,
-        "row": 9,
-        "height": 0
-      }
-    },
-    "from-s003-4": {
-      "pos": {
-        "col": 100,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-s003-5": {
-      "pos": {
-        "col": 66,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 60,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 108,
-        "row": 30,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 38,
-        "row": 9,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 100,
-        "row": 59,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 66,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 57,
-        "row": -24,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 60,
@@ -1047,5 +968,47 @@
     }
   ],
   "battleMusicId": 37,
-  "battleFieldId": 12
+  "battleFieldId": 12,
+  "entries": {
+    "pal-entry-52725046": {
+      "label": "原版落点 (57, -24, 0)",
+      "pos": {
+        "col": 57,
+        "row": -24,
+        "height": 0
+      }
+    },
+    "pal-entry-2ab4db76": {
+      "label": "原版落点 (66, 32, 0)",
+      "pos": {
+        "col": 66,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "pal-entry-7640e57b": {
+      "label": "原版落点 (108, 30, 0)",
+      "pos": {
+        "col": 108,
+        "row": 30,
+        "height": 0
+      }
+    },
+    "pal-entry-8e265ee5": {
+      "label": "原版落点 (38, 9, 0)",
+      "pos": {
+        "col": 38,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "pal-entry-ee1472b8": {
+      "label": "原版落点 (100, 59, 0)",
+      "pos": {
+        "col": 100,
+        "row": 59,
+        "height": 0
+      }
+    }
+  }
 }

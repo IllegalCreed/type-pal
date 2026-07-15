@@ -27,11 +27,12 @@ const PAN_DRAG_THRESHOLD_PX = 3
 
 export type Tool = 'select' | 'add'
 
-/** 进场点命中盒的哨兵 id(非实体;选中/拖拽走 entry 专属回调)。 */
-const ENTRY_HIT_ID = '__entry__'
+export type SceneAnchorSelection = { kind: 'default' } | { kind: 'named'; id: string }
+
+type HitTarget = { kind: 'entity'; id: string } | { kind: 'anchor'; anchor: SceneAnchorSelection }
 
 interface HitRect {
-  id: string
+  target: HitTarget
   x: number
   y: number
   w: number
@@ -39,10 +40,24 @@ interface HitRect {
 }
 /** pointerdown 记录:被抓实体 + 抓取格偏移(实体格 − 光标格),供拖动时保持相对。 */
 interface Down {
-  entityId: string | null
+  target: HitTarget | null
   grabDcol: number
   grabDrow: number
   moved: boolean
+}
+
+interface Drag {
+  target: HitTarget
+  col: number
+  row: number
+}
+
+function sameAnchor(
+  left: SceneAnchorSelection | null | undefined,
+  right: SceneAnchorSelection | null | undefined,
+): boolean {
+  if (!left || !right || left.kind !== right.kind) return false
+  return left.kind === 'default' || (right.kind === 'named' && left.id === right.id)
 }
 
 export function SceneCanvas(props: {
@@ -59,9 +74,8 @@ export function SceneCanvas(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
-  selectedId: string | null
-  /** 进场点节点是否选中(树/画布点中它 → 金环加粗高亮,和实体的蓝框选中呼应)。 */
-  entrySelected?: boolean
+  selectedEntityId: string | null
+  selectedAnchor?: SceneAnchorSelection | null
   tool: Tool
   /** 图层显隐(布置模式左栏开关):base 地板 / cover 高物 / entities 实体 / grid 网格 / blocked 禁入格。 */
   layers: {
@@ -70,15 +84,15 @@ export function SceneCanvas(props: {
     entities: boolean
     grid: boolean
     blocked: boolean
+    /** 默认落点与命名落点锚点。 */
+    entries: boolean
     /** 显隐透视:初始隐藏实体画半透明幽灵(可点选编排;剧情后期才出场的 NPC 全靠它可见)。 */
     ghosts: boolean
   }
-  onSelect: (id: string | null) => void
+  onSelectEntity: (id: string) => void
   onMoveEntity: (id: string, cell: { col: number; row: number }) => void
-  /** 画布点中进场点标记(选中场景节点看 entry 属性)。 */
-  onSelectEntry: () => void
-  /** 拖拽进场点 → 改 scene.entry.pos(入 undo)。 */
-  onMoveEntry: (cell: { col: number; row: number }) => void
+  onSelectAnchor: (anchor: SceneAnchorSelection) => void
+  onMoveAnchor: (anchor: SceneAnchorSelection, cell: { col: number; row: number }) => void
   onAddAt: (cell: { col: number; row: number }) => void
 }) {
   const {
@@ -91,21 +105,21 @@ export function SceneCanvas(props: {
     mapIndex,
     tilesets,
     tilesetBlobs,
-    selectedId,
-    entrySelected,
+    selectedEntityId,
+    selectedAnchor,
     tool,
     layers,
-    onSelect,
+    onSelectEntity,
     onMoveEntity,
-    onSelectEntry,
-    onMoveEntry,
+    onSelectAnchor,
+    onMoveAnchor,
     onAddAt,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const hitsRef = useRef<HitRect[]>([])
   const downRef = useRef<Down | null>(null)
-  const [drag, setDrag] = useState<{ id: string; col: number; row: number } | null>(null)
+  const [drag, setDrag] = useState<Drag | null>(null)
   // 共享层:容器自适应 + 视图态(缩放/平移,滚轮锚点缩放)—— 与预览/W7 同一套(scene-stage)
   const size = useStageSize(wrapRef)
   const { view, viewRef, setView } = useViewZoomPan({
@@ -145,7 +159,7 @@ export function SceneCanvas(props: {
   const spriteNums = [
     ...new Set(
       [
-        leaderDef?.spriteNum,
+        layers.entries ? leaderDef?.spriteNum : undefined,
         // 全量含 hidden:显隐透视要画幽灵 —— 曾 filter(!hidden) 致幽灵素材未载、画了个寂寞
         ...scene.entities.map((e) => entitySpriteDef(e)?.spriteNum),
       ].filter((n): n is number => n != null),
@@ -180,13 +194,25 @@ export function SceneCanvas(props: {
     // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
     // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
     const room = { col: 0, row: 0, cols: map.width, rows: map.height }
-    const entryDragging = drag && drag.id === ENTRY_HIT_ID
-    const entryCell = entryDragging
-      ? { col: drag.col, row: drag.row, height: scene.entry.pos.height ?? 0 }
-      : scene.entry.pos
-    const ep = gridToPixel(entryCell)
     const { zoom, panX, panY } = viewRef.current
     const camera = { x: panX, y: panY }
+
+    const anchorDefs = layers.entries
+      ? [
+          { selection: { kind: 'default' } as const, entry: scene.entry },
+          ...Object.entries(scene.entries ?? {}).map(([id, entry]) => ({
+            selection: { kind: 'named', id } as const,
+            entry,
+          })),
+        ]
+      : []
+    const anchorCell = (
+      selection: SceneAnchorSelection,
+      base: SceneDef['entry'] | NonNullable<SceneDef['entries']>[string],
+    ) =>
+      drag?.target.kind === 'anchor' && sameAnchor(drag.target.anchor, selection)
+        ? { ...base.pos, col: drag.col, row: drag.row }
+        : base.pos
 
     const physRect = (
       wx: number,
@@ -195,7 +221,7 @@ export function SceneCanvas(props: {
       ay: number,
       fw: number,
       fh: number,
-    ): Omit<HitRect, 'id'> => {
+    ): Omit<HitRect, 'target'> => {
       // 与引擎同一 blit 矩形(spriteBlitRect = +7 资产下沉唯一收口;曾手写漏 +7 致选框偏高)
       const r = spriteBlitRect({
         worldX: wx,
@@ -210,28 +236,41 @@ export function SceneCanvas(props: {
     const draws: SpriteDraw[] = []
     const hits: HitRect[] = []
     let selectedZoneHit: HitRect | null = null
-    // 进场点预览 = scene.entry 的可视化(默认出生位置+朝向),**是标记不是实体**:
-    // 半透明玩家形(身高/朝向参照)+ 下方金菱形环(见 renderSceneFrame 后叠加)。
-    // 曾画成不透明真人 → 像放错的 NPC(作者问"每场景放个李逍遥干嘛"),还被误认成幽灵。
+
+    for (const { selection, entry } of anchorDefs) {
+      const cell = anchorCell(selection, entry)
+      const point = gridToPixel(cell)
+      hits.push({
+        target: { kind: 'anchor', anchor: selection },
+        x: (point.x - panX - 16) * zoom,
+        y: (point.y - panY - 10) * zoom,
+        w: 32 * zoom,
+        h: 20 * zoom,
+      })
+    }
+
+    // 默认落点额外画半透明玩家身高参照；命名落点只画轻量锚点，避免误认成实体。
+    const defaultCell = anchorCell({ kind: 'default' }, scene.entry)
+    const defaultPoint = gridToPixel(defaultCell)
     const ps = leaderDef ? spritesByNum.get(leaderDef.spriteNum) : undefined
     const pf = leaderDef
       ? (ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing)] ?? ps?.frames[0])
       : undefined
-    if (ps && pf) {
+    if (layers.entries && ps && pf) {
       // 每帧自锚(sdlpal 按当前帧宽高 blit;引擎侧同款,防变尺寸帧组错位)
       draws.push({
         frame: pf,
-        worldX: ep.x,
-        worldY: spriteScreenY(entryCell),
+        worldX: defaultPoint.x,
+        worldY: spriteScreenY(defaultCell),
         anchorX: Math.floor(pf.width / 2),
         anchorY: pf.height,
         alpha: 0.55,
       })
       hits.push({
-        id: ENTRY_HIT_ID,
+        target: { kind: 'anchor', anchor: { kind: 'default' } },
         ...physRect(
-          ep.x,
-          spriteScreenY(entryCell),
+          defaultPoint.x,
+          spriteScreenY(defaultCell),
           Math.floor(pf.width / 2),
           pf.height,
           pf.width,
@@ -243,12 +282,15 @@ export function SceneCanvas(props: {
     for (const e of layers.entities ? scene.entities : []) {
       const ghost = e.hidden === true
       if (ghost && !layers.ghosts) continue // 透视关:同引擎不渲染
-      const pos = drag && drag.id === e.id ? { ...e.pos, col: drag.col, row: drag.row } : e.pos
+      const pos =
+        drag?.target.kind === 'entity' && drag.target.id === e.id
+          ? { ...e.pos, col: drag.col, row: drag.row }
+          : e.pos
       if ('zone' in e) {
-        if (e.id === selectedId) {
+        if (e.id === selectedEntityId) {
           const p = gridToPixel(pos)
           selectedZoneHit = {
-            id: e.id,
+            target: { kind: 'entity', id: e.id },
             x: (p.x - panX - 16) * zoom,
             y: (p.y - panY - 8) * zoom,
             w: 32 * zoom,
@@ -276,7 +318,10 @@ export function SceneCanvas(props: {
         baseYBias: e.zBias,
         ...(ghost ? { alpha: 0.45 } : {}),
       })
-      hits.push({ id: e.id, ...physRect(p.x, wy, ax, ay, f.width, f.height) })
+      hits.push({
+        target: { kind: 'entity', id: e.id },
+        ...physRect(p.x, wy, ax, ay, f.width, f.height),
+      })
     }
     if (selectedZoneHit) hits.push(selectedZoneHit)
     hitsRef.current = hits
@@ -306,9 +351,9 @@ export function SceneCanvas(props: {
         blocked: layers.blocked,
       },
     )
-    const selectedZoneBase = scene.entities.find((e) => e.id === selectedId && 'zone' in e)
+    const selectedZoneBase = scene.entities.find((e) => e.id === selectedEntityId && 'zone' in e)
     const selectedZone =
-      selectedZoneBase && drag?.id === selectedZoneBase.id
+      selectedZoneBase && drag?.target.kind === 'entity' && drag.target.id === selectedZoneBase.id
         ? {
             ...selectedZoneBase,
             pos: { ...selectedZoneBase.pos, col: drag.col, row: drag.row },
@@ -320,20 +365,35 @@ export function SceneCanvas(props: {
         ownerDashed: true,
       })
     }
-    // 进场点标记环:金菱形 + 朝向短箭头 —— 它是数据标记不是实体(半透明人形只是身高参照)
-    {
-      const sx = (ep.x - panX) * zoom
-      const sy = (ep.y - panY) * zoom
+    // 空间锚点叠加层：默认落点为实线金菱形，命名落点为较小的蓝色虚线菱形。
+    for (const { selection, entry } of anchorDefs) {
+      const point = gridToPixel(anchorCell(selection, entry))
+      const sx = (point.x - panX) * zoom
+      const sy = (point.y - panY) * zoom
+      const named = selection.kind === 'named'
+      const selected = sameAnchor(selectedAnchor, selection)
+      const halfWidth = (named ? 11 : 16) * zoom
+      const halfHeight = (named ? 6 : 8) * zoom
       ctx.save()
-      // 选中(树/画布点中进场点节点)→ 加粗提亮,和实体蓝框选中呼应;未选 = 常态金环
-      ctx.strokeStyle = entrySelected ? 'rgba(255, 244, 200, 1)' : 'rgba(255, 214, 90, 0.95)'
-      ctx.lineWidth = entrySelected ? 3.5 : 2
+      ctx.strokeStyle = selected
+        ? 'rgba(255, 244, 200, 1)'
+        : named
+          ? 'rgba(93, 195, 255, 0.95)'
+          : 'rgba(255, 214, 90, 0.95)'
+      ctx.fillStyle = selected
+        ? 'rgba(255, 214, 90, 0.2)'
+        : named
+          ? 'rgba(93, 195, 255, 0.12)'
+          : 'rgba(255, 214, 90, 0.1)'
+      ctx.lineWidth = selected ? 3 : named ? 1.5 : 2
+      if (named) ctx.setLineDash([4, 3])
       ctx.beginPath()
-      ctx.moveTo(sx, sy - 8 * zoom)
-      ctx.lineTo(sx + 16 * zoom, sy)
-      ctx.lineTo(sx, sy + 8 * zoom)
-      ctx.lineTo(sx - 16 * zoom, sy)
+      ctx.moveTo(sx, sy - halfHeight)
+      ctx.lineTo(sx + halfWidth, sy)
+      ctx.lineTo(sx, sy + halfHeight)
+      ctx.lineTo(sx - halfWidth, sy)
       ctx.closePath()
+      ctx.fill()
       ctx.stroke()
       const ARROW: Record<string, [number, number]> = {
         up: [16, -8],
@@ -341,16 +401,42 @@ export function SceneCanvas(props: {
         left: [-16, -8],
         right: [16, 8],
       }
-      const [adx, ady] = ARROW[scene.entry.facing] ?? [0, 8]
-      ctx.strokeStyle = 'rgba(255, 235, 170, 0.9)'
-      ctx.beginPath()
-      ctx.moveTo(sx, sy)
-      ctx.lineTo(sx + adx * zoom * 0.8, sy + ady * zoom * 0.8)
-      ctx.stroke()
+      if (entry.facing) {
+        const [adx, ady] = ARROW[entry.facing] ?? [0, 8]
+        ctx.setLineDash([])
+        ctx.strokeStyle = selected
+          ? 'rgba(255, 244, 200, 1)'
+          : named
+            ? 'rgba(145, 218, 255, 0.9)'
+            : 'rgba(255, 235, 170, 0.9)'
+        ctx.beginPath()
+        ctx.moveTo(sx, sy)
+        ctx.lineTo(sx + adx * zoom * 0.8, sy + ady * zoom * 0.8)
+        ctx.stroke()
+      }
+      if (selected) {
+        const label =
+          selection.kind === 'default'
+            ? '默认落点'
+            : ('label' in entry && entry.label) || selection.id
+        ctx.setLineDash([])
+        ctx.font = '11px ui-sans-serif, system-ui, sans-serif'
+        const width = ctx.measureText(label).width + 10
+        const labelX = sx - width / 2
+        const labelY = sy - halfHeight - 22
+        ctx.fillStyle = 'rgba(13, 17, 25, 0.88)'
+        ctx.fillRect(labelX, labelY, width, 18)
+        ctx.fillStyle = '#f5f7fb'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(label, sx, labelY + 9)
+      }
       ctx.restore()
     }
 
-    const sel = selectedZone ? undefined : hits.find((h) => h.id === selectedId)
+    const sel = selectedZone
+      ? undefined
+      : hits.find((hit) => hit.target.kind === 'entity' && hit.target.id === selectedEntityId)
     if (sel) {
       ctx.save()
       ctx.strokeStyle = '#4c9aff'
@@ -363,8 +449,8 @@ export function SceneCanvas(props: {
   }, [
     status,
     scene,
-    selectedId,
-    entrySelected,
+    selectedEntityId,
+    selectedAnchor,
     drag,
     actorsById,
     leaderSpriteId,
@@ -383,33 +469,36 @@ export function SceneCanvas(props: {
     const { zoom, panX, panY } = viewRef.current
     return pixelToGrid(sx / zoom + panX, sy / zoom + panY)
   }
-  const entityAt = (clientX: number, clientY: number): string | null => {
+  const targetAt = (clientX: number, clientY: number): HitTarget | null => {
     const canvas = canvasRef.current!
     const r = canvas.getBoundingClientRect()
     const cx = ((clientX - r.left) / r.width) * canvas.width
     const cy = ((clientY - r.top) / r.height) * canvas.height
-    let id: string | null = null
+    let target: HitTarget | null = null
     for (const h of hitsRef.current) {
-      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) id = h.id // 取最上(后者覆盖)
+      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) target = h.target // 取最上(后者覆盖)
     }
-    return id
+    return target
   }
 
   // —— 指针交互 ——
   const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     if (tool === 'add') {
-      downRef.current = { entityId: null, grabDcol: 0, grabDrow: 0, moved: false }
+      downRef.current = { target: null, grabDcol: 0, grabDrow: 0, moved: false }
       return
     }
     // select 工具
-    const hitId = entityAt(e.clientX, e.clientY)
-    if (hitId === ENTRY_HIT_ID) {
-      onSelectEntry()
+    const hit = targetAt(e.clientX, e.clientY)
+    if (hit?.kind === 'anchor') {
+      pickFromCanvasRef.current = true
+      onSelectAnchor(hit.anchor)
       const cell = screenToCell(e.clientX, e.clientY)
+      const entry = hit.anchor.kind === 'default' ? scene.entry : scene.entries?.[hit.anchor.id]
+      if (!entry) return
       downRef.current = {
-        entityId: ENTRY_HIT_ID,
-        grabDcol: scene.entry.pos.col - cell.col,
-        grabDrow: scene.entry.pos.row - cell.row,
+        target: hit,
+        grabDcol: entry.pos.col - cell.col,
+        grabDrow: entry.pos.row - cell.row,
         moved: false,
       }
       try {
@@ -419,13 +508,13 @@ export function SceneCanvas(props: {
       }
       return
     }
-    if (hitId) {
+    if (hit?.kind === 'entity') {
       pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
-      onSelect(hitId)
-      const ent = scene.entities.find((x) => x.id === hitId)
+      onSelectEntity(hit.id)
+      const ent = scene.entities.find((x) => x.id === hit.id)
       const cell = screenToCell(e.clientX, e.clientY)
       downRef.current = {
-        entityId: hitId,
+        target: hit,
         grabDcol: (ent?.pos.col ?? cell.col) - cell.col,
         grabDrow: (ent?.pos.row ?? cell.row) - cell.row,
         moved: false,
@@ -470,10 +559,14 @@ export function SceneCanvas(props: {
       return
     }
     const d = downRef.current
-    if (!d?.entityId) return
+    if (!d?.target) return
     const cell = screenToCell(e.clientX, e.clientY)
     d.moved = true
-    setDrag({ id: d.entityId, col: cell.col + d.grabDcol, row: cell.row + d.grabDrow })
+    setDrag({
+      target: d.target,
+      col: cell.col + d.grabDcol,
+      row: cell.row + d.grabDrow,
+    })
   }
   const onPointerUp = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     if (panDragRef.current) {
@@ -486,9 +579,10 @@ export function SceneCanvas(props: {
       onAddAt(screenToCell(e.clientX, e.clientY))
       return
     }
-    if (d?.entityId && d.moved && drag) {
-      if (d.entityId === ENTRY_HIT_ID) onMoveEntry({ col: drag.col, row: drag.row })
-      else onMoveEntity(d.entityId, { col: drag.col, row: drag.row })
+    if (d?.target && d.moved && drag) {
+      if (d.target.kind === 'anchor')
+        onMoveAnchor(d.target.anchor, { col: drag.col, row: drag.row })
+      else onMoveEntity(d.target.id, { col: drag.col, row: drag.row })
     }
     setDrag(null)
   }
@@ -501,10 +595,16 @@ export function SceneCanvas(props: {
   useEffect(() => {
     const fromCanvas = pickFromCanvasRef.current
     pickFromCanvasRef.current = false
-    if (!selectedId || fromCanvas) return
-    const e = scene.entities.find((x) => x.id === selectedId)
-    if (!e) return
-    const p = gridToPixel(e.pos)
+    if (fromCanvas) return
+    const selectedPos = selectedEntityId
+      ? scene.entities.find((entity) => entity.id === selectedEntityId)?.pos
+      : selectedAnchor?.kind === 'default'
+        ? scene.entry.pos
+        : selectedAnchor?.kind === 'named'
+          ? scene.entries?.[selectedAnchor.id]?.pos
+          : undefined
+    if (!selectedPos) return
+    const p = gridToPixel(selectedPos)
     const { zoom, panX, panY } = viewRef.current
     const vw = size.w / zoom
     const vh = size.h / zoom
@@ -517,7 +617,7 @@ export function SceneCanvas(props: {
       const nz = Math.max(zoom, 1.5)
       setView({ zoom: nz, panX: p.x - size.w / nz / 2, panY: p.y - size.h / nz / 2 })
     }
-  }, [selectedId])
+  }, [selectedEntityId, selectedAnchor])
 
   // fit 整图:首次就绪 / 切场景 / 容器尺寸变 → 重新 fit(用户缩放平移不触发)。
   // biome-ignore lint/correctness/useExhaustiveDependencies: 场景和容器尺寸是刻意的 fit 触发器，ref 读取当前载入结果。

@@ -126,11 +126,7 @@
       {
         "kind": "loadScene",
         "scene": "s023",
-        "pos": {
-          "col": 88,
-          "row": 16,
-          "height": 0
-        }
+        "entryId": "pal-entry-9eff9930"
       }
     ],
     "scene/s025/L-6458/e481/d-0a386828": [
@@ -1955,88 +1951,56 @@
       {
         "kind": "loadScene",
         "scene": "s023",
-        "pos": {
-          "col": 88,
-          "row": 16,
-          "height": 0
-        }
+        "entryId": "pal-entry-9eff9930"
       }
     ],
     "scene/s025/root/entity-e493/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s028",
-        "pos": {
-          "col": 83,
-          "row": 20,
-          "height": 0
-        }
+        "entryId": "pal-entry-b1d0603b"
       }
     ],
     "scene/s025/root/entity-e494/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s026",
-        "pos": {
-          "col": 84,
-          "row": 50,
-          "height": 0
-        }
+        "entryId": "pal-entry-c73c7025"
       }
     ],
     "scene/s025/root/entity-e495/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s026",
-        "pos": {
-          "col": 69,
-          "row": -19,
-          "height": 0
-        }
+        "entryId": "pal-entry-422fd550"
       }
     ],
     "scene/s025/root/entity-e496/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s026",
-        "pos": {
-          "col": 49,
-          "row": 11,
-          "height": 0
-        }
+        "entryId": "pal-entry-f2dfd4c3"
       }
     ],
     "scene/s025/root/entity-e497/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s027",
-        "pos": {
-          "col": 75,
-          "row": -15,
-          "height": 0
-        }
+        "entryId": "pal-entry-b764b182"
       }
     ],
     "scene/s025/root/entity-e498/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s027",
-        "pos": {
-          "col": 75,
-          "row": -5,
-          "height": 0
-        }
+        "entryId": "pal-entry-988ff097"
       }
     ],
     "scene/s025/root/entity-e499/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s027",
-        "pos": {
-          "col": 75,
-          "row": 5,
-          "height": 0
-        }
+        "entryId": "pal-entry-8594e300"
       }
     ]
   }

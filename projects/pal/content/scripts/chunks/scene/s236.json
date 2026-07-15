@@ -643,22 +643,14 @@
       {
         "kind": "loadScene",
         "scene": "s229",
-        "pos": {
-          "col": 34,
-          "row": 3,
-          "height": 0
-        }
+        "entryId": "pal-entry-5dd044c7"
       }
     ],
     "scene/s236/root/entity-e4226/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s240",
-        "pos": {
-          "col": 53,
-          "row": -2,
-          "height": 0
-        }
+        "entryId": "pal-entry-15b721ed"
       }
     ],
     "scene/s236/root/entity-e4227/page-0/trigger/stage-0": [

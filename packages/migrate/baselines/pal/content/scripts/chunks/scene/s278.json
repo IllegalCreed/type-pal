@@ -83,34 +83,21 @@
     "scene/s278/root/entity-e4737/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s281",
-        "pos": {
-          "col": 143,
-          "row": 39,
-          "height": 0
-        }
+        "scene": "s281"
       }
     ],
     "scene/s278/root/entity-e4738/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s281",
-        "pos": {
-          "col": 96,
-          "row": 39,
-          "height": 0
-        }
+        "entryId": "pal-entry-0ef5414c"
       }
     ],
     "scene/s278/root/entity-e4739/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s284",
-        "pos": {
-          "col": 67,
-          "row": 34,
-          "height": 0
-        }
+        "entryId": "pal-entry-9c6deeee"
       }
     ],
     "scene/s278/root/entity-e4741/page-0/auto/stage-0": [

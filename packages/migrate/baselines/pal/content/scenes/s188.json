@@ -1,22 +1,6 @@
 {
   "id": "s188",
   "mapId": "map-153",
-  "entries": {
-    "from-s184": {
-      "pos": {
-        "col": 90,
-        "row": 66,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 90,
-        "row": 66,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 90,
@@ -174,5 +158,15 @@
       ]
     }
   ],
-  "battleFieldId": 15
+  "battleFieldId": 15,
+  "entries": {
+    "pal-entry-007519b3": {
+      "label": "原版落点 (109, 33, 0)",
+      "pos": {
+        "col": 109,
+        "row": 33,
+        "height": 0
+      }
+    }
+  }
 }

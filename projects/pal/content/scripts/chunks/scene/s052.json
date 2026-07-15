@@ -4429,22 +4429,14 @@
       {
         "kind": "loadScene",
         "scene": "s049",
-        "pos": {
-          "col": 95,
-          "row": -5,
-          "height": 0
-        }
+        "entryId": "pal-entry-094ed64d"
       }
     ],
     "scene/s052/root/entity-e885/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s053",
-        "pos": {
-          "col": 95,
-          "row": 15,
-          "height": 0
-        }
+        "entryId": "pal-entry-3cd31456"
       }
     ],
     "scene/s052/root/entity-e886/page-0/trigger/stage-0": [

@@ -1,29 +1,6 @@
 {
   "id": "s174",
   "mapId": "map-202",
-  "entries": {
-    "start": {
-      "pos": {
-        "col": 60,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-s176": {
-      "pos": {
-        "col": 129,
-        "row": 16,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 89,
-        "row": 0,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 60,
@@ -739,5 +716,15 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-a24f707b": {
+      "label": "原版落点 (61, 17, 0)",
+      "pos": {
+        "col": 61,
+        "row": 17,
+        "height": 0
+      }
+    }
+  }
 }

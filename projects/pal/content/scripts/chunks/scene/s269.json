@@ -902,33 +902,20 @@
       {
         "kind": "loadScene",
         "scene": "s269",
-        "pos": {
-          "col": 174,
-          "row": 63,
-          "height": 0
-        }
+        "entryId": "pal-entry-9eba0c0c"
       }
     ],
     "scene/s269/root/entity-e4679/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s266",
-        "pos": {
-          "col": 103,
-          "row": 14,
-          "height": 0
-        }
+        "scene": "s266"
       }
     ],
     "scene/s269/root/entity-e4680/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s267",
-        "pos": {
-          "col": 84,
-          "row": 63,
-          "height": 0
-        }
+        "entryId": "pal-entry-7e89c7ae"
       }
     ]
   }

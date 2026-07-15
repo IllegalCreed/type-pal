@@ -26,6 +26,7 @@ import {
   type SceneDef,
   type SceneEntryPresentation,
   type SceneReveal,
+  type SceneSpawn,
   type ScriptStage,
   type SpriteDef,
   sellableItems,
@@ -119,7 +120,7 @@ import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './sa
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
-import { resolveSceneFacing } from './scene-transition.js'
+import { resolveSceneSpawn } from './scene-transition.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
 import { animFrameIndex, idleFrameIndex, loopFrameIndex, walkFrameIndex } from './sprite-anim.js'
@@ -631,7 +632,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
    */
   async function switchScene(
     sceneId: string,
-    spawn?: { entry?: string; pos?: GridPos; facing?: Facing; inheritFacing?: Facing },
+    spawn?: SceneSpawn & { inheritFacing?: Facing },
   ): Promise<void> {
     const def = await getSceneDef(sceneId)
     // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
@@ -688,13 +689,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     viewMinY = room.row * TILE_H - 40
     viewMaxX = (room.col + room.cols) * TILE_W + TILE_W
     viewMaxY = (room.row + room.rows) * TILE_H + 16
-    const entryDef = spawn?.entry ? def.entries?.[spawn.entry] : undefined
-    player.pos = { ...(spawn?.pos ?? entryDef?.pos ?? def.entry.pos) }
-    facing = resolveSceneFacing(
-      spawn?.facing,
-      spawn?.inheritFacing,
-      entryDef?.facing ?? def.entry.facing,
-    )
+    const resolvedSpawn = resolveSceneSpawn(sceneId, def, spawn)
+    player.pos = resolvedSpawn.pos
+    facing = resolvedSpawn.facing
     walking = false
     stepFrame = 0
     // trail 清零:全队聚拢队长(原版 rgTrail 全 = 队首坐标)
@@ -723,15 +720,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ? { col: expectDefined(posParam[0]), row: expectDefined(posParam[1]), height: 0 }
       : undefined
   const facingParam = params.get('facing')
-  await switchScene(initialSceneId, {
-    ...(spawnPos ? { pos: spawnPos } : {}),
-    ...(facingParam === 'up' ||
+  const initialFacing =
+    facingParam === 'up' ||
     facingParam === 'down' ||
     facingParam === 'left' ||
     facingParam === 'right'
-      ? { facing: facingParam }
-      : {}),
-  })
+      ? facingParam
+      : undefined
+  const initialSpawn: SceneSpawn = spawnPos
+    ? { pos: spawnPos, ...(initialFacing ? { facing: initialFacing } : {}) }
+    : initialFacing
+      ? { facing: initialFacing }
+      : {}
+  await switchScene(initialSceneId, initialSpawn)
   const playerSprite = expectDefined(spriteByNum.get(leaderSpriteDef.spriteNum))
   const dialogBox = new DialogBox(
     ctx,
@@ -970,7 +971,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       walking = false
       updateCamera()
     },
-    loadScene: async (sceneId, pos, fc) => {
+    loadScene: async (sceneId, spawn) => {
       // 只消费“紧随自动对话收尾”的旧帧；其他 entry 从当前 presented canvas 取 source。
       const closedDialogFrame = preserveClosedDialogFrame
         ? ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -1005,7 +1006,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       markSceneLoad(fromSceneId, sceneId, 'switch')
       stopAutoRunners()
       try {
-        await switchScene(sceneId, { pos, facing: fc, inheritFacing: facing })
+        await switchScene(sceneId, { ...spawn, inheritFacing: facing })
       } catch (error) {
         ditherTransition.cancel()
         sceneEntrySession.cancel()
@@ -3326,11 +3327,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         startScript('__e2e:loadScene', [
           {
             body: [
-              {
-                kind: 'loadScene',
-                scene: e2eLoadScene,
-                ...(e2eLoadPos ? { pos: e2eLoadPos } : {}),
-              },
+              e2eLoadPos
+                ? { kind: 'loadScene', scene: e2eLoadScene, pos: e2eLoadPos }
+                : { kind: 'loadScene', scene: e2eLoadScene },
             ],
           },
         ])

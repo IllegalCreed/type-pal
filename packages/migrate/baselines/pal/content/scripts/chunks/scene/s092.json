@@ -914,12 +914,7 @@
       },
       {
         "kind": "loadScene",
-        "scene": "s092",
-        "pos": {
-          "col": 123,
-          "row": 89,
-          "height": 0
-        }
+        "scene": "s092"
       }
     ],
     "scene/s092/root/entity-e1689/page-0/trigger/stage-0": [
@@ -934,11 +929,7 @@
       {
         "kind": "loadScene",
         "scene": "s092",
-        "pos": {
-          "col": 121,
-          "row": 28,
-          "height": 0
-        }
+        "entryId": "pal-entry-e4186db5"
       }
     ],
     "scene/s092/root/entity-e1690/page-0/trigger/stage-0": [

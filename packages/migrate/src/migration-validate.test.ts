@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import {
+  assertSceneEntryReferenceClosure,
   assertSpriteReferenceClosure,
+  auditSceneEntryReferenceClosure,
   auditSpriteReferenceClosure,
   findMissingDialogLocaleRefs,
 } from './migration-validate.js'
@@ -29,6 +31,107 @@ describe('迁移合并后 locale 引用门禁', () => {
       'dlg.missing',
       'spk.missing',
     ])
+  })
+})
+
+describe('W4-1 合并后命名落点引用闭包门禁', () => {
+  const scene = (
+    entries: Record<string, MigrationJson> | undefined,
+    onEnter: MigrationJson[] = [],
+  ): MigrationJson => ({
+    id: 's001',
+    mapId: 'map-001',
+    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+    ...(entries ? { entries } : {}),
+    entities: [],
+    ...(onEnter.length ? { onEnter } : {}),
+  })
+
+  test('递归覆盖分支中的命名引用，并区分默认/显式坐标', () => {
+    const entryId = 'pal-entry-a1'
+    const files = new Map<string, MigrationJson>([
+      [
+        'content/scenes/s001.json',
+        scene({
+          [entryId]: {
+            label: '侧门',
+            pos: { col: 2, row: 3, height: 0 },
+          },
+        }),
+      ],
+      [
+        'content/scripts/chunks/shared.json',
+        {
+          scripts: {
+            a: [
+              { kind: 'loadScene', scene: 's001' },
+              { kind: 'loadScene', scene: 's001', pos: { col: 8, row: 9, height: 0 } },
+              {
+                kind: 'branch',
+                then: [{ kind: 'loadScene', scene: 's001', entryId }],
+              },
+            ],
+          },
+        },
+      ],
+    ])
+    expect(assertSceneEntryReferenceClosure(files)).toEqual({
+      commands: { total: 3, default: 1, named: 1, explicitPos: 1 },
+      generatedEntries: 1,
+      issues: [],
+    })
+  })
+
+  test('ours 仍引用旧 from-* × theirs 删除定义：结构合并可成功，闭包必须阻断', () => {
+    const oldId = 'from-shared-1'
+    const entry = { pos: { col: 2, row: 3, height: 0 } }
+    const baseFiles = new Map<string, MigrationJson>([
+      ['content/scenes/s001.json', scene({ [oldId]: entry })],
+    ])
+    const oursFiles = new Map<string, MigrationJson>([
+      [
+        'content/scenes/s001.json',
+        scene({ [oldId]: entry }, [
+          { body: [{ kind: 'loadScene', scene: 's001', entryId: oldId }] },
+        ]),
+      ],
+    ])
+    const theirsFiles = new Map<string, MigrationJson>([
+      [
+        'content/scenes/s001.json',
+        scene(undefined, [{ body: [{ kind: 'loadScene', scene: 's001', entryId: oldId }] }]),
+      ],
+    ])
+    const fileSet = (files: Map<string, MigrationJson>) => ({
+      files,
+      managedFiles: new Set(files.keys()),
+    })
+    const plan = createMigrationPlan(
+      snapshotOf(fileSet(baseFiles)),
+      snapshotOf(fileSet(oursFiles)),
+      fileSet(theirsFiles),
+    )
+
+    expect(plan.conflicts).toEqual([])
+    expect(auditSceneEntryReferenceClosure(plan.target).issues).toEqual([
+      expect.objectContaining({ message: `命名落点 s001/${oldId} 不存在` }),
+    ])
+    expect(() => assertSceneEntryReferenceClosure(plan.target)).toThrow(/命名落点引用闭包门禁失败/)
+  })
+
+  test('迁移落点未引用或同坐标重复均 fail-loud', () => {
+    const files = new Map<string, MigrationJson>([
+      [
+        'content/scenes/s001.json',
+        scene({
+          'pal-entry-a': { pos: { col: 1, row: 2, height: 0 } },
+          'pal-entry-b': { pos: { col: 1, row: 2, height: 0 } },
+        }),
+      ],
+    ])
+    const messages = auditSceneEntryReferenceClosure(files).issues.map((issue) => issue.message)
+    expect(messages.some((message) => message.includes('重复 GridPos'))).toBe(true)
+    expect(messages.filter((message) => message.includes('没有任何脚本引用'))).toHaveLength(2)
   })
 })
 

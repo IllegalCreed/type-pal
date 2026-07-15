@@ -1481,12 +1481,11 @@ export function foldDoorPattern(body: Command[]): Command[] {
       }
       if (p.kind !== 'fade') break
     }
-    out.push({
-      kind: 'loadScene',
-      scene: c.scene,
-      ...(pos ? { pos } : {}),
-      ...(facing ? { facing } : {}),
-    })
+    out.push(
+      pos
+        ? { kind: 'loadScene', scene: c.scene, pos, ...(facing ? { facing } : {}) }
+        : { kind: 'loadScene', scene: c.scene, ...(facing ? { facing } : {}) },
+    )
     i += consumed
   }
   return out

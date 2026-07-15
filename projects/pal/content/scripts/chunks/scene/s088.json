@@ -6,11 +6,7 @@
       {
         "kind": "loadScene",
         "scene": "s084",
-        "pos": {
-          "col": 116,
-          "row": 12,
-          "height": 0
-        }
+        "entryId": "pal-entry-2841960d"
       }
     ],
     "scene/s088/root/entity-e1647/page-0/trigger/stage-0": [
@@ -53,11 +49,7 @@
       {
         "kind": "loadScene",
         "scene": "s091",
-        "pos": {
-          "col": 112,
-          "row": 46,
-          "height": 0
-        }
+        "entryId": "pal-entry-f34019d8"
       }
     ]
   }

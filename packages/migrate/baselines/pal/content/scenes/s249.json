@@ -2,78 +2,6 @@
   "id": "s249",
   "mapId": "map-203",
   "musicId": 60,
-  "entries": {
-    "from-s260": {
-      "pos": {
-        "col": 59,
-        "row": 5,
-        "height": 0
-      }
-    },
-    "from-s260-2": {
-      "pos": {
-        "col": 59,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-s260-3": {
-      "pos": {
-        "col": 68,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-s260-4": {
-      "pos": {
-        "col": 102,
-        "row": 29,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 107,
-        "row": 76,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 149,
-        "row": 49,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 149,
-        "row": 67,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 65,
-        "row": 22,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 102,
-        "row": 29,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 102,
-        "row": 29,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 59,
@@ -503,5 +431,55 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-b52cbef0": {
+      "label": "原版落点 (54, 33, 0)",
+      "pos": {
+        "col": 54,
+        "row": 33,
+        "height": 0
+      }
+    },
+    "pal-entry-cabb791d": {
+      "label": "原版落点 (59, 17, 0)",
+      "pos": {
+        "col": 59,
+        "row": 17,
+        "height": 0
+      }
+    },
+    "pal-entry-419ff423": {
+      "label": "原版落点 (68, -5, 0)",
+      "pos": {
+        "col": 68,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "pal-entry-0a18e24a": {
+      "label": "原版落点 (96, -5, 0)",
+      "pos": {
+        "col": 96,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "pal-entry-dd37b135": {
+      "label": "原版落点 (102, 29, 0)",
+      "pos": {
+        "col": 102,
+        "row": 29,
+        "height": 0
+      }
+    },
+    "pal-entry-d71dc1da": {
+      "label": "原版落点 (76, 13, 0)",
+      "pos": {
+        "col": 76,
+        "row": 13,
+        "height": 0
+      }
+    }
+  }
 }

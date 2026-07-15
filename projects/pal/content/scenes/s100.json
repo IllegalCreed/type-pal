@@ -2,50 +2,6 @@
   "id": "s100",
   "mapId": "map-105",
   "musicId": 53,
-  "entries": {
-    "from-s114": {
-      "pos": {
-        "col": 75,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 75,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 66,
-        "row": 19,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 55,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 42,
-        "row": 17,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 61,
-        "row": 17,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 75,
@@ -1800,5 +1756,63 @@
     }
   ],
   "battleFieldId": 11,
-  "battleMusicId": 39
+  "battleMusicId": 39,
+  "entries": {
+    "pal-entry-e36f1c59": {
+      "label": "原版落点 (33, 6, 0)",
+      "pos": {
+        "col": 33,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "pal-entry-c854d578": {
+      "label": "原版落点 (67, 8, 0)",
+      "pos": {
+        "col": 67,
+        "row": 8,
+        "height": 0
+      }
+    },
+    "pal-entry-6c4ec0e4": {
+      "label": "原版落点 (128, 53, 0)",
+      "pos": {
+        "col": 128,
+        "row": 53,
+        "height": 0
+      }
+    },
+    "pal-entry-81f53a81": {
+      "label": "原版落点 (94, 34, 0)",
+      "pos": {
+        "col": 94,
+        "row": 34,
+        "height": 0
+      }
+    },
+    "pal-entry-3049e2f4": {
+      "label": "原版落点 (97, 9, 0)",
+      "pos": {
+        "col": 97,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "pal-entry-0fe786ce": {
+      "label": "原版落点 (117, 35, 0)",
+      "pos": {
+        "col": 117,
+        "row": 35,
+        "height": 0
+      }
+    },
+    "pal-entry-91bb5a90": {
+      "label": "原版落点 (51, 7, 0)",
+      "pos": {
+        "col": 51,
+        "row": 7,
+        "height": 0
+      }
+    }
+  }
 }

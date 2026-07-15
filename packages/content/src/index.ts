@@ -116,6 +116,16 @@ export interface HostileBehavior {
 /** 场景实体 = 公共字段 & (actor ⊕ sprite ⊕ zone)。判别与外观解析见 actor.ts。 */
 export type EntityDef = EntityBase & EntityRef
 
+/**
+ * 场景空间锚点。record key 是脚本引用的稳定 id；label 只供作者阅读和修改。
+ * 它不是 EntityDef，不参与精灵、碰撞、触发页或实体生命周期。
+ */
+export interface SceneEntryPoint {
+  label?: string
+  pos: GridPos
+  facing?: Facing
+}
+
 export interface SceneDef {
   id: string
   /** 地图库中的稳定 id；路径只属于 MapAssetDefV1。 */
@@ -131,8 +141,8 @@ export interface SceneDef {
   battleFieldId?: number
   /** 本场景战斗的默认 BGM(0 = 战斗静音,忠实原版);解析优先级同 battleFieldId。缺省 = boss?2:3。 */
   battleMusicId?: number
-  /** 命名入口(M3 传送引用;迁移自 setPartyPos→loadScene 对:from-scene-<src>[-k] / start)。 */
-  entries?: Record<string, { pos: GridPos; facing?: Facing }>
+  /** 额外命名落点；默认落点只存于 entry，脚本以稳定 record key 引用。 */
+  entries?: Record<string, SceneEntryPoint>
   // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
   /** 玩家（李逍遥）进场点 */
   entry: { pos: GridPos; facing: Facing }

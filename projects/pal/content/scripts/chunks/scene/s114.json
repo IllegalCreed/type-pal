@@ -35,22 +35,14 @@
       {
         "kind": "loadScene",
         "scene": "s118",
-        "pos": {
-          "col": 75,
-          "row": 6,
-          "height": 0
-        }
+        "entryId": "pal-entry-3c4aab24"
       }
     ],
     "scene/s114/root/entity-e2123/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s100",
-        "pos": {
-          "col": 33,
-          "row": 6,
-          "height": 0
-        }
+        "entryId": "pal-entry-e36f1c59"
       }
     ],
     "scene/s114/root/entity-e2124/page-0/auto/stage-0": [

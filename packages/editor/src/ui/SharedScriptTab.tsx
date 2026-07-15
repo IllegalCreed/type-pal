@@ -75,7 +75,9 @@ function referenceKey(entry: ScriptReferenceEntry): string {
   const caller =
     entry.caller.type === 'script'
       ? `script:${entry.caller.scriptId}`
-      : `scene:${entry.caller.sceneId}:${entry.caller.sourceKey}`
+      : entry.caller.type === 'scene'
+        ? `scene:${entry.caller.sceneId}:${entry.caller.sourceKey}`
+        : `global:${entry.caller.sourceKey}`
   return `${caller}:${entry.path}:${entry.kind}:${entry.target.id}`
 }
 
@@ -361,6 +363,7 @@ export function SharedScriptTab(props: {
                   stages={stages}
                   locale={locale}
                   scriptIndex={scriptIndex}
+                  scenes={scenes}
                   activePath={playback.activePath ?? null}
                   selectedPath={selectedPath}
                   onSelect={(path) => {
@@ -535,13 +538,17 @@ export function SharedScriptTab(props: {
                   type="button"
                   className="shared-ref"
                   key={referenceKey(entry)}
-                  disabled={entry.caller.type === 'script' && !library[entry.caller.scriptId]}
+                  disabled={
+                    entry.caller.type === 'global' ||
+                    (entry.caller.type === 'script' && !library[entry.caller.scriptId])
+                  }
                   onClick={() => {
                     if (entry.caller.type === 'script') {
                       if (library[entry.caller.scriptId]) selectScript(entry.caller.scriptId)
                       return
                     }
-                    onJumpToEvent(entry.caller.sceneId, entry.caller.sourceKey)
+                    if (entry.caller.type === 'scene')
+                      onJumpToEvent(entry.caller.sceneId, entry.caller.sourceKey)
                   }}
                 >
                   {sourceLabel(entry)}

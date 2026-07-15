@@ -10,8 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W4-1 | 命名传送落点闭环与迁移去重 | draft | Opus 设计主审 | 迁移缺陷优先；Codex 已签 agree，Opus/GLM 设计签未齐，禁止进入 build |
-| A7-0 | 工程资源闭包地基与音乐注册表首切片 | build | Codex 实现 | 三方设计签齐；G5 按 catalog 所有权策略、合并后 validator 与回归测试落地 |
+| W4-1 | 命名落点闭环与迁移去重 | review | Opus 实现/视觉主审 | Codex 已 accept；精确基线 762/61/701、独立 dry-run 零计划，done 三签未齐 |
+| A7-0 | 工程资源闭包地基与音乐注册表首切片 | build | W4-1 done 后由 Codex 实现 | 三方设计签齐；G5 按 catalog 所有权策略、合并后 validator 与回归测试落地 |
 
 ## 阻塞
 

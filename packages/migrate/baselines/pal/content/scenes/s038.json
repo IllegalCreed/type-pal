@@ -2,57 +2,6 @@
   "id": "s038",
   "mapId": "map-034",
   "musicId": 51,
-  "entries": {
-    "start": {
-      "pos": {
-        "col": 115,
-        "row": 19,
-        "height": 0
-      }
-    },
-    "from-s035": {
-      "pos": {
-        "col": 94,
-        "row": 49,
-        "height": 0
-      }
-    },
-    "from-s035-2": {
-      "pos": {
-        "col": 62,
-        "row": 35,
-        "height": 0
-      }
-    },
-    "from-s035-3": {
-      "pos": {
-        "col": 117,
-        "row": 27,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 94,
-        "row": 49,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 62,
-        "row": 35,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 117,
-        "row": 27,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 115,
@@ -457,5 +406,31 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-dc547035": {
+      "label": "原版落点 (62, 35, 0)",
+      "pos": {
+        "col": 62,
+        "row": 35,
+        "height": 0
+      }
+    },
+    "pal-entry-6db7a93b": {
+      "label": "原版落点 (117, 27, 0)",
+      "pos": {
+        "col": 117,
+        "row": 27,
+        "height": 0
+      }
+    },
+    "pal-entry-2df0747e": {
+      "label": "原版落点 (96, 71, 0)",
+      "pos": {
+        "col": 96,
+        "row": 71,
+        "height": 0
+      }
+    }
+  }
 }

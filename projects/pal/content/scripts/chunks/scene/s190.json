@@ -812,33 +812,20 @@
       {
         "kind": "loadScene",
         "scene": "s175",
-        "pos": {
-          "col": 109,
-          "row": 92,
-          "height": 0
-        }
+        "entryId": "pal-entry-f3ba39e0"
       }
     ],
     "scene/s190/root/entity-e3195/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s181",
-        "pos": {
-          "col": 166,
-          "row": 69,
-          "height": 0
-        }
+        "scene": "s181"
       }
     ],
     "scene/s190/root/entity-e3196/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s175",
-        "pos": {
-          "col": 109,
-          "row": 92,
-          "height": 0
-        }
+        "entryId": "pal-entry-f3ba39e0"
       }
     ],
     "scene/s190/root/entity-e3197/page-0/trigger/stage-0": [

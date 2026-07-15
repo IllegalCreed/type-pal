@@ -19,6 +19,7 @@ import {
   DeleteEnemyCommand,
   DeleteEntityCommand,
   DeleteMapAssetCommand,
+  DeleteSceneEntryCommand,
   DuplicateMapAssetCommand,
   MapAssetInUseError,
   MoveEntityCommand,
@@ -47,9 +48,11 @@ import {
   UpdateScriptCommand,
   UpdateSpriteCommand,
   UpsertAuthoredScriptCommand,
+  UpsertSceneEntryCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
 import { createPlacedEntity, type EntityPlacement } from './entity-placement.js'
+import { findSceneEntryReferences } from './script-references.js'
 import { buildBlankProject } from './seed.js'
 
 const ent = (id: string): EntityDef => ({
@@ -880,6 +883,67 @@ test('W4 UpdateScene entries:增改删 + invert 深还原;空表传 undefined �
   const s2 = c2.apply(s1)
   expect(s2.scenes[0]!.entries).toBeUndefined()
   expect(c2.invert(s2).scenes[0]!.entries).toEqual(es)
+})
+
+test('W4-1 命名落点增改、稳定 id 与 undo/redo 闭环', () => {
+  const session = new EditSession(st())
+  const id = 'entry-side-door'
+  session.dispatch(
+    new UpsertSceneEntryCommand('s', id, {
+      label: '侧门',
+      pos: { col: 3, row: 4, height: 1 },
+      facing: 'left',
+    }),
+  )
+  expect(session.getState().scenes[0]?.entries?.[id]?.label).toBe('侧门')
+  session.dispatch(
+    new UpsertSceneEntryCommand('s', id, {
+      label: '西侧门',
+      pos: { col: 8, row: 9, height: 1 },
+      facing: 'up',
+    }),
+  )
+  expect(Object.keys(session.getState().scenes[0]?.entries ?? {})).toEqual([id])
+  expect(session.getState().scenes[0]?.entries?.[id]?.pos).toEqual({ col: 8, row: 9, height: 1 })
+  session.undo()
+  expect(session.getState().scenes[0]?.entries?.[id]?.label).toBe('侧门')
+  session.undo()
+  expect(session.getState().scenes[0]?.entries).toBeUndefined()
+  session.redo()
+  expect(session.getState().scenes[0]?.entries?.[id]?.label).toBe('侧门')
+})
+
+test('W4-1 改名/移动不改变两处引用的稳定 id；引用落点禁止删除', () => {
+  const s0 = st()
+  s0.scenes[0] = {
+    ...s0.scenes[0]!,
+    entries: {
+      used: { label: '有引用', pos: { col: 1, row: 2, height: 0 } },
+      free: { label: '无引用', pos: { col: 3, row: 4, height: 0 } },
+    },
+    onEnter: [
+      {
+        body: [
+          { kind: 'loadScene', scene: 's', entryId: 'used' },
+          { kind: 'loadScene', scene: 's', entryId: 'used' },
+        ],
+      },
+    ],
+  }
+  const updated = new UpsertSceneEntryCommand('s', 'used', {
+    label: '改名后',
+    pos: { col: 8, row: 9, height: 1 },
+  }).apply(s0)
+  expect(findSceneEntryReferences(updated, 's', 'used')).toHaveLength(2)
+  expect(updated.scenes[0]?.onEnter?.[0]?.body).toEqual([
+    { kind: 'loadScene', scene: 's', entryId: 'used' },
+    { kind: 'loadScene', scene: 's', entryId: 'used' },
+  ])
+  expect(() => new DeleteSceneEntryCommand('s', 'used').apply(updated)).toThrow(/正被 2 处脚本引用/)
+  const command = new DeleteSceneEntryCommand('s', 'free')
+  const s1 = command.apply(updated)
+  expect(s1.scenes[0]?.entries?.free).toBeUndefined()
+  expect(command.invert(s1).scenes[0]?.entries?.free?.label).toBe('无引用')
 })
 
 describe('C6 升级学技能命令(levelUp 表)', () => {

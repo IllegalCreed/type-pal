@@ -6,22 +6,14 @@
       {
         "kind": "loadScene",
         "scene": "s080",
-        "pos": {
-          "col": 125,
-          "row": 25,
-          "height": 0
-        }
+        "entryId": "pal-entry-e01ad201"
       }
     ],
     "scene/s083/root/entity-e1571/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s079",
-        "pos": {
-          "col": 104,
-          "row": 78,
-          "height": 0
-        }
+        "entryId": "pal-entry-4c28feda"
       }
     ],
     "scene/s083/root/entity-e1572/page-0/trigger/stage-0": [

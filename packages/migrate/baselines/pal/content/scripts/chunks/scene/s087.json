@@ -510,22 +510,14 @@
       {
         "kind": "loadScene",
         "scene": "s098",
-        "pos": {
-          "col": 45,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-00fb282c"
       }
     ],
     "scene/s087/root/entity-e1636/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s098",
-        "pos": {
-          "col": 74,
-          "row": -14,
-          "height": 0
-        }
+        "entryId": "pal-entry-7d5b37f8"
       }
     ],
     "scene/s087/root/entity-e1645/page-0/auto/stage-0": [

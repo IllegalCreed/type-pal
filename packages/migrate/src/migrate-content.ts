@@ -1193,6 +1193,10 @@ import type {
 import { pixelToGrid } from '@type-pal/content'
 import { mapIdFromSourceNumber } from './project-map-converter.js'
 import { liftEarlyDitherSceneEntry } from './scene-entry.js'
+import {
+  normalizeSceneEntryReferences,
+  type SceneEntryNormalizationReport,
+} from './scene-entry-normalize.js'
 
 export interface SourceEventObject {
   id: number
@@ -1269,6 +1273,8 @@ export interface SceneMigrationResult {
     battleFieldUnresolved?: string[]
     /** onEnter 的安全前缀 + 0x73 已提升为显式 entry 的稳定 stage id。 */
     sceneEntriesLifted: string[]
+    /** W4-1:最终脚本树中的静态坐标归一化统计。 */
+    entryNormalization?: SceneEntryNormalizationReport
   }
 }
 
@@ -1361,6 +1367,9 @@ export function mapScenesStatic(
   // 真实控制流,勿以 end 重置(初版此误杀 414 对)。gap>4(10 个)与无前置(231,
   // 沿用当前坐标的传送)不配对 → 归 M3。──
   const arrivals = new Map<number, { src: number; pos: ReturnType<typeof partyPosToGrid> }[]>()
+  // all.json(-2) 只作为全局控制流索引，为“无 start、无具体来源”的场景提供默认落点兜底；
+  // 它不进入 arrivals、来源计数或任何命名落点定义。
+  const indexedArrivals = new Map<number, ReturnType<typeof partyPosToGrid>[]>()
   for (const [srcId, cmds] of eventsByScene) {
     let last: { pos: ReturnType<typeof partyPosToGrid>; at: number } | null = null
     cmds.forEach((c, i) => {
@@ -1377,10 +1386,16 @@ export function mapScenesStatic(
       const target = typeof rawTarget === 'number' ? Math.max(0, rawTarget - 1) : undefined
       if (typeof target === 'number') {
         if (last && i - last.at <= 4) {
-          const list = arrivals.get(target) ?? []
-          list.push({ src: srcId, pos: last.pos })
-          arrivals.set(target, list)
-          report.entriesFound++
+          if (srcId === -2) {
+            const list = indexedArrivals.get(target) ?? []
+            list.push(last.pos)
+            indexedArrivals.set(target, list)
+          } else {
+            const list = arrivals.get(target) ?? []
+            list.push({ src: srcId, pos: last.pos })
+            arrivals.set(target, list)
+            report.entriesFound++
+          }
         }
         last = null
       }
@@ -1730,19 +1745,17 @@ export function mapScenesStatic(
       })
     }
     const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)
-    if (start) report.scenesWithStart++
-    if (musicId !== undefined) report.scenesWithMusic++
-    const entries: NonNullable<SceneDef['entries']> = {}
-    if (start) entries.start = { pos: start }
-    const seen = new Map<number, number>()
-    for (const a of arrivals.get(sc.sceneId) ?? []) {
-      const k = (seen.get(a.src) ?? 0) + 1
-      seen.set(a.src, k)
-      // src<0 = 共享段(events/shared.json,key -1)里的传送 —— 真实入口但无来源场景
-      const srcName = a.src >= 0 ? sceneSlug(a.src) : 'shared'
-      entries[`from-${srcName}${k > 1 ? `-${k}` : ''}`] = { pos: a.pos }
+    if (start) {
+      report.scenesWithStart++
     }
-    const firstEntry = start ?? Object.values(entries)[0]?.pos
+    if (musicId !== undefined) report.scenesWithMusic++
+    // 默认落点只存 scene.entry；额外命名落点稍后从最终 loadScene.pos 统一反建。
+    const sceneArrivals = arrivals.get(sc.sceneId) ?? []
+    const firstEntry =
+      start ??
+      sceneArrivals.find((arrival) => arrival.src >= 0)?.pos ??
+      indexedArrivals.get(sc.sceneId)?.[0] ??
+      sceneArrivals.find((arrival) => arrival.src === -1)?.pos
     if (!firstEntry) report.entryFallback.push(slug)
     report.scenes++
     // onEnter 脚本(进场剧情/音乐/战场配置;musicId/entries 窄扫描保留 —— loader/编辑器元数据)
@@ -1760,7 +1773,6 @@ export function mapScenesStatic(
       id: slug,
       mapId: mapIdFromSourceNumber(sc.mapNum),
       ...(musicId !== undefined ? { musicId } : {}),
-      ...(Object.keys(entries).length ? { entries } : {}),
       entry: { pos: firstEntry ?? { ...pixelToGrid(1024, 1024), height: 0 }, facing: 'down' },
       entities,
       ...(onEnterFolded ? { onEnter: onEnterFolded } : {}),
@@ -1780,6 +1792,9 @@ export function mapScenesStatic(
   for (let i = 0; i < scenes.length; i++)
     scenes[i] = externalizeSceneScripts(scenes[i]!, registry, report.sceneEntriesLifted)
   report.sceneEntriesLifted.sort()
+  report.entryNormalization = normalizeSceneEntryReferences(scenes, registry.commandBodies(), {
+    strictMissingScene: Boolean(allCommands),
+  })
   const library = registry.build()
 
   const predecessorCount = new Map<number, number>()

@@ -1,15 +1,6 @@
 {
   "id": "s201",
   "mapId": "map-187",
-  "entries": {
-    "from-shared": {
-      "pos": {
-        "col": 109,
-        "row": 92,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 109,
@@ -486,5 +477,15 @@
     }
   ],
   "battleFieldId": 35,
-  "battleMusicId": 37
+  "battleMusicId": 37,
+  "entries": {
+    "pal-entry-eeaa1f51": {
+      "label": "原版落点 (135, 27, 0)",
+      "pos": {
+        "col": 135,
+        "row": 27,
+        "height": 0
+      }
+    }
+  }
 }

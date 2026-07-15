@@ -763,22 +763,14 @@
       {
         "kind": "loadScene",
         "scene": "s061",
-        "pos": {
-          "col": 35,
-          "row": 23,
-          "height": 0
-        }
+        "entryId": "pal-entry-b4b51956"
       }
     ],
     "scene/s064/root/entity-e1218/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s063",
-        "pos": {
-          "col": 67,
-          "row": -31,
-          "height": 0
-        }
+        "entryId": "pal-entry-e30f5c31"
       }
     ],
     "scene/s064/root/entity-e1219/page-0/trigger/stage-0": [
@@ -825,11 +817,7 @@
       {
         "kind": "loadScene",
         "scene": "s060",
-        "pos": {
-          "col": 138,
-          "row": 53,
-          "height": 0
-        }
+        "entryId": "pal-entry-8e6c4f36"
       }
     ],
     "scene/s064/root/entity-e1220/page-0/auto/stage-0": [

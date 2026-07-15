@@ -44,6 +44,17 @@ export type ScriptCondition =
   | { kind: 'not'; cond: ScriptCondition }
 
 // ── 命令(M3a 集;增量见设计 §2.3 表)──
+/**
+ * 跨场景落位的三种互斥模式：缺省=场景默认落点，entryId=命名落点，pos=一次性坐标。
+ * facing 是命令级覆盖，不属于目标身份。
+ */
+export type SceneSpawn =
+  | { entryId: string; pos?: never; facing?: Facing }
+  | { pos: GridPos; entryId?: never; facing?: Facing }
+  | { entryId?: never; pos?: never; facing?: Facing }
+
+export type LoadSceneCommand = { kind: 'loadScene'; scene: string } & SceneSpawn
+
 export type Command =
   // 演出 / 对话
   | { kind: 'dialog'; cue: DialogueCue }
@@ -70,7 +81,7 @@ export type Command =
   | { kind: 'wait'; ms: number }
   // 队伍 / 场景
   | { kind: 'teleportParty'; pos: GridPos; facing?: Facing } // 场景内瞬移(0x46)
-  | { kind: 'loadScene'; scene: string; pos?: GridPos; facing?: Facing } // 门传送模式折叠(0x59[+0x46+0x50])
+  | LoadSceneCommand // 门传送模式折叠(0x59[+0x46+0x50])
   // 0x15:原版同时写 wPartyDirection 和 rgParty[member].wFrame = dir*3 + gesture。
   // gesture 缺省 = 0(站立帧,清脚本姿势);>0 = 脚本姿势帧(配合 setActorSprite 演出,
   // 如开场李逍遥练武 gesture 9)。member 缺省 = 0(队长;跟随者渲染落地后生效)。
@@ -407,6 +418,17 @@ export function checkCommands(cmds: unknown, path: string): void {
       )
         throw new Error(`${path}[${i}].cue.autoAdvance: 期望非负有限数`)
     }
+    if (k === 'loadScene') {
+      const load = c as { scene?: unknown; entryId?: unknown; pos?: unknown; facing?: unknown }
+      if (typeof load.scene !== 'string' || load.scene.length === 0)
+        throw new Error(`${path}[${i}].scene: 期望非空场景 id`)
+      if (load.entryId !== undefined && (typeof load.entryId !== 'string' || !load.entryId))
+        throw new Error(`${path}[${i}].entryId: 期望非空命名落点 id`)
+      if (load.entryId !== undefined && load.pos !== undefined)
+        throw new Error(`${path}[${i}]: entryId 与 pos 不能同时存在`)
+      if (load.pos !== undefined) checkGridPos(load.pos, `${path}[${i}].pos`)
+      if (load.facing !== undefined) checkFacing(load.facing, `${path}[${i}].facing`)
+    }
     if (k === 'branch') {
       checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`)
       const el = (c as { else?: unknown }).else
@@ -444,6 +466,21 @@ export function checkCommands(cmds: unknown, path: string): void {
       }
     }
   })
+}
+
+function checkGridPos(value: unknown, path: string): void {
+  if (typeof value !== 'object' || value === null || Array.isArray(value))
+    throw new Error(`${path}: 期望 GridPos`)
+  const pos = value as { col?: unknown; row?: unknown; height?: unknown }
+  for (const key of ['col', 'row', 'height'] as const) {
+    if (typeof pos[key] !== 'number' || !Number.isFinite(pos[key]))
+      throw new Error(`${path}.${key}: 期望有限数`)
+  }
+}
+
+function checkFacing(value: unknown, path: string): void {
+  if (value !== 'up' && value !== 'down' && value !== 'left' && value !== 'right')
+    throw new Error(`${path}: 期望 up/down/left/right`)
 }
 
 export interface CheckStagesOptions {

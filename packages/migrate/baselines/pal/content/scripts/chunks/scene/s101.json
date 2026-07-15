@@ -1426,22 +1426,14 @@
       {
         "kind": "loadScene",
         "scene": "s102",
-        "pos": {
-          "col": 87,
-          "row": 48,
-          "height": 0
-        }
+        "entryId": "pal-entry-2129003a"
       }
     ],
     "scene/s101/root/entity-e1843/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s103",
-        "pos": {
-          "col": 130,
-          "row": 96,
-          "height": 0
-        }
+        "entryId": "pal-entry-0c4d6cd7"
       }
     ],
     "scene/s101/root/entity-e1844/page-0/trigger/stage-0": [

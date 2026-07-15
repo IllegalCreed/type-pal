@@ -2,22 +2,6 @@
   "id": "s079",
   "mapId": "map-079",
   "musicId": 54,
-  "entries": {
-    "from-s083": {
-      "pos": {
-        "col": 125,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 125,
-        "row": 25,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 125,
@@ -294,5 +278,15 @@
       ]
     }
   ],
-  "battleMusicId": 38
+  "battleMusicId": 38,
+  "entries": {
+    "pal-entry-4c28feda": {
+      "label": "原版落点 (104, 78, 0)",
+      "pos": {
+        "col": 104,
+        "row": 78,
+        "height": 0
+      }
+    }
+  }
 }

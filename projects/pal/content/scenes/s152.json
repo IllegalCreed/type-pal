@@ -1,22 +1,6 @@
 {
   "id": "s152",
   "mapId": "map-074",
-  "entries": {
-    "start": {
-      "pos": {
-        "col": 78,
-        "row": -27,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 85,
-        "row": 4,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 78,
@@ -140,5 +124,15 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-88dd3d84": {
+      "label": "原版落点 (87, 58, 0)",
+      "pos": {
+        "col": 87,
+        "row": 58,
+        "height": 0
+      }
+    }
+  }
 }

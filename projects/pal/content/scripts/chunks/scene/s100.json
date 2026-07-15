@@ -1567,22 +1567,14 @@
       {
         "kind": "loadScene",
         "scene": "s114",
-        "pos": {
-          "col": 125,
-          "row": 27,
-          "height": 0
-        }
+        "entryId": "pal-entry-aacbf68d"
       }
     ],
     "scene/s100/root/entity-e1810/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s127",
-        "pos": {
-          "col": 66,
-          "row": 19,
-          "height": 0
-        }
+        "entryId": "pal-entry-d0932794"
       }
     ],
     "scene/s100/root/entity-e1811/page-0/trigger/stage-0": [
@@ -1948,11 +1940,7 @@
       {
         "kind": "loadScene",
         "scene": "s129",
-        "pos": {
-          "col": 75,
-          "row": 15,
-          "height": 0
-        }
+        "entryId": "pal-entry-024cdbf6"
       }
     ],
     "scene/s100/root/entity-e1819/page-0/trigger/stage-0": [
@@ -2005,11 +1993,7 @@
       {
         "kind": "loadScene",
         "scene": "s130",
-        "pos": {
-          "col": 92,
-          "row": 46,
-          "height": 0
-        }
+        "entryId": "pal-entry-e93c81ef"
       }
     ],
     "scene/s100/root/entity-e1819/page-0/trigger/stage-1": [
@@ -2027,44 +2011,28 @@
       {
         "kind": "loadScene",
         "scene": "s130",
-        "pos": {
-          "col": 92,
-          "row": 46,
-          "height": 0
-        }
+        "entryId": "pal-entry-e93c81ef"
       }
     ],
     "scene/s100/root/entity-e1820/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s137",
-        "pos": {
-          "col": 55,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-3284b551"
       }
     ],
     "scene/s100/root/entity-e1821/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s135",
-        "pos": {
-          "col": 42,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-c1cc9e03"
       }
     ],
     "scene/s100/root/entity-e1822/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s136",
-        "pos": {
-          "col": 61,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-0fecb1a1"
       }
     ],
     "scene/s100/root/entity-e1823/page-0/trigger/stage-0": [

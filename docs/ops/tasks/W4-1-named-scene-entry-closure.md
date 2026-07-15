@@ -1,6 +1,6 @@
-# W4-1 - 命名传送落点闭环与迁移去重
+# W4-1 - 命名落点闭环与迁移去重
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: W4 / MG2 / ED-3
 Coding Owner: Codex
@@ -16,7 +16,7 @@ Branch: current
 
 ## 用户裁决
 
-- 2026-07-15：命名传送落点不是实体；它是场景内的空间锚点。
+- 2026-07-15：命名落点不是实体；它是场景内的空间锚点。
 - 2026-07-15：当前把所有落点直接堆在右侧、无法在画布中识别和选中的形态不可接受。
 - 2026-07-15：接受改为“左侧落点分组 + 画布标记 + 选中后右侧检查器 + `loadScene` 真引用”的闭环形态。
 - 数据迁移缺陷按项目铁律优先修上游，不允许手删 `projects/pal` 中的重复行冒充修复。
@@ -110,7 +110,7 @@ Branch: current
 
 ### 编辑器闭环
 
-- 左侧场景树增加“传送落点”分组，包含“默认落点”和所有命名落点；它们与 sprite/zone 实体分组清晰区隔。
+- 左侧场景树增加“落点”分组，包含“默认落点”和所有命名落点；它们与 sprite/zone 实体分组清晰区隔。
 - 画布以轻量图钉/菱形 marker 显示所有落点；支持统一显隐、点选、树选定位和拖动。命名落点不重复绘制半透明玩家精灵。
 - 右侧只显示当前选中落点：显示名、只读稳定 id、col/row/height、朝向、引用数量和可跳转的引用来源；场景检查器不再堆整张落点表。
 - 新增落点从分组标题或工具按钮进入，创建后立即选中；改 label、移动、改朝向、撤销/重做、保存重开均走 Command。
@@ -195,7 +195,7 @@ Branch: current
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-15）**。实现已贯通 content schema/校验、Reforge host/runtime、迁移归一化与最终 target 闭包门禁、编辑器落点对象闭环及脚本引用导航；上游重生成后独立 dry-run 为 `writes=0 deletes=0 conflicts=0`。`pnpm check` 全绿；6010 已验证新建/拖动/引用保护及“从 s001 落点引用打开 s003 内部脚本 -> 返回 s001 -> 再选落点”会关闭脚本抽屉、黄色高亮并定位；6051 已确认开场画面正常。两条命名落点进入同场景的坐标/朝向由纯函数与 runner 单测锁定，交 Opus 做实现/视觉主审。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: 无
@@ -327,26 +327,43 @@ loadScene(scene, { pos })              // 一次性显式坐标
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/`：`SceneEntryPoint`、`SceneSpawn`/`LoadSceneCommand` 三态 XOR 与运行前校验。
+  - `packages/reforge/src/`：runner/host 透传 `entryId`，`resolveSceneSpawn` 统一 fail-loud、坐标与四级朝向优先级。
+  - `packages/migrate/src/`、`packages/migrate/scripts/`：排除 `all.json` 到达污染、最终脚本树归一化、稳定 id、合并后引用闭包与报告；同步 baseline。
+  - `packages/editor/src/`：落点 Command/引用索引、对象树/画布/检查器、脚本表单三态、内部脚本与共享脚本正确导航；新增相关测试。
+  - `projects/pal/`：只由迁移器重生成的场景、脚本分片与索引产物。
+- 实现摘要:
+  - 默认落点继续由 `scene.entry` 唯一表达；701 个额外位置生成稳定 `pal-entry-*` 命名落点，label 与 id 分离。
+  - 966 条 `loadScene` 收敛为 797 条 `entryId` 引用 + 169 条默认落点；显式 `pos` 与旧裸 `entry` 均为 0。
+  - 编辑器落点不是实体，但可在树和画布选择、聚焦、拖动、显隐、改名/坐标/朝向、撤销重做；被引用时禁止删除并可跳到引用脚本。
+  - 修复跨场景脚本导航后的选择态：返回原场景再点落点会退出脚本抽屉并恢复落点高亮和画布定位。
+- 运行命令:
+  - `pnpm check`：退出码 0；263 个测试文件、3,545 条测试通过，1 条既有测试跳过；Biome 检查 679 个文件无问题。
+  - `pnpm --filter @type-pal/migrate run migrate:content`：`writes=0 deletes=0 conflicts=0`。
+  - 独立 JSON 扫描：294 场景、701 命名落点、同场景重复位置 0；966 条 `loadScene` = 797 named + 169 default + 0 pos，裸 `entry` 0。
+  - `git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - 6010 PAL `s001`：落点树行已简化为名称/类型，树选与画布 marker 对应，选择可定位，拖动只改当前落点。
+  - 新建 `entry-1` 后立即选中；改坐标、删除、undo 恢复均正常；有引用的迁移落点显示引用数且删除按钮禁用。
+  - 从 s001 落点引用打开 s003 内部脚本，看到目标 `loadScene` 三态表单；切回 s001 后再次选择落点，抽屉关闭、检查器切回落点、marker 黄色高亮并居中。
+  - 6051 打开 Reforge，开场画面、canvas 与脚本启动正常，无空白或启动回归。
+- 跳过的检查及原因: 未手工推进剧情实走两扇通往同一场景不同落点的门；该分支由 `resolveSceneSpawn` 两个命名 id 的确定性单测和 runner 透传单测覆盖，留 Opus 结合可达存档做视觉复验。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Opus
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: Codex 在 6010 编辑器与 6051 Reforge 使用浏览器自动化逐步操作并读取页面/画布截图。
+- 截图 / 像素检查路径: 本会话浏览器截图（未生成独立仓库文件）。
+- 结论: 6010 落点 marker、选中高亮、自动定位、拖动与检查器联动正常；跨场景内部脚本往返后选择态不再丢失。6051 开场渲染正常。
+- 未完成项: Opus 复验两个不同命名落点进入同一目标场景的实际视觉位置与朝向。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自审 `accept`；等待 Opus 实现/视觉主审与 GLM 迁移覆盖复核。
+- 必须返工项: Codex 自审未发现；以 Opus/GLM 结论为准。
+- Accept / rework: review，done 三签未齐，不得标 done。
 
 ## 用户验收
 
@@ -367,22 +384,23 @@ loadScene(scene, { pos })              // 一次性显式坐标
   多来源/来源增删 churn)。Evidence: 主审立场+普查脚本输出。Next: GLM 迁移覆盖/基线/测试矩阵复核;
   三签齐后 Codex build;不得抢跑实现。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)基线 1247/726/104/244/966=863+0+103/37 全精确匹配,**W1 裁定 shared 重普通=240(非卡内239)**；(2)污染机理两阶段确认——pal-migration-io:32-54 eventsByScene 三键(正/-1 shared/-2 all.json),migrate-content:1364 遍历全键含-2双扫,:1742 负src统一'shared'同名覆盖；(3)**去重预测 863 pos→762 groups→61收敛默认+701命名锚点(W3 build验收基线)**；(4)R1 entryId静态扫描零裸entry/R2 facing四级链(显式>锚点>inherit>默认)表驱动/R3 id域=target+pos纯函数测试全可落；(5)walker已覆盖全966 loadScene(全在authored chunks,场景槽全callScript间接,W2确认六类反例即可无实际缺口)；(6)MG2 entries Record按entryId key合并+plan.target dangling门禁+漂移模拟(ours引旧from-*×theirs删→throw)全可落。W1(shared=240)/W2(walker六类反例确认)/W3(762/61/701基线)非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex build。未改实现文件。
+- 2026-07-15 Codex: build、自测与自审完成并签 `accept`。content/reforge/migrate/editor 全链落地；纯生成精确口径为 863 静态坐标 → 762 唯一组 → 61 默认 + 701 命名，最终 966 条 `loadScene` = 797 named + 169 default + 0 pos；独立 dry-run 零计划，`pnpm check` 全绿。6010 复现并修复用户报告的“从落点引用打开另一场景内部脚本，返回后落点不高亮/不定位”：统一选择入口会关闭脚本抽屉并恢复选中、黄色 marker 与居中。Evidence: Build/视觉验证记录。Next: Opus 实现/视觉主审；不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:W4-1 命名传送落点闭环与迁移去重,迁移覆盖/基线/测试矩阵复核(GLM)
-任务卡:docs/ops/tasks/W4-1-named-scene-entry-closure.md
-当前状态:draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S3),GLM pending(设计最后一签);build 准入 blocked
-你的角色:GLM,迁移覆盖面/基线/测试矩阵复核;只改任务卡,不得改实现文件或生成产物
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、packages/migrate/src/migrate-content.ts:1358-1387,1735-1745、packages/migrate/src/pal-migration-io.ts:32-54、packages/editor/src/core/script-references.ts
-请重点复核(数据/测试面,与 Opus 的 schema/runtime/UI 面互补):
-1. 基线对账:用独立脚本重扫 projects/pal——1,247 entries/726 from-shared*/104 同坐标重复场景/244 冗余/966 loadScene(863 pos+0 命名+103 默认)/37 场景 entries.start 双写;裁定 shared 重普通 239(卡) vs 240(Opus)的权威口径;
-2. 污染机理复现:eventsByScene 键集实测(-1 shared 27 站点/-2 all.json),确认 -2 参与到达扫描的双算量与 from-shared 同名覆盖的丢失量——修复后预期 entries 总数/形态给出预测区间,作为 build 后对账基线;
-3. 去重预测:按(目标场景,GridPos)分组 863 条 loadScene.pos,给出预期命名锚点数与"等于默认落点收敛为默认模式"的数量——build 产物直接对着这两个数验收;
-4. R1-R3 测试形态:entryId 命名的静态扫描断言(全仓零 loadScene.entry 裸字段)、facing 四级链专测(带/不带锚点 facing×门穿行)、id 域纯函数测试(同 target+pos 跨来源同 id/坐标变更换 id/碰撞 fail-loud)各是什么;
-5. 引用面完备:script-references walker 扩展后覆盖内联 stage/实体页/场景绑定/共享 chunk/分支臂/敌人编舞六类站点的 loadScene——反例集各至少一例;
-6. MG2 面:entries record 按 key 合并、plan.target dangling 门禁与作者漂移模拟(作者引用被删 from-* id → 阻断)的测试落点;首写盘 plan 可解释+双跑零计划口径。
-不要做:不得修改实现文件;不得进入 build;不得顺手改 projects/pal;不得改 A7-0 任务卡
-输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R3+S1-S3 纳入 build 范围),交 Codex build
+接手任务：W4-1 命名落点闭环与迁移去重（实现/视觉主审，Opus）
+任务卡：docs/ops/tasks/W4-1-named-scene-entry-closure.md
+当前状态：review；Codex build/自测/自审已 accept；done 前 Opus、GLM 签字未齐，不得标 done
+你的职责：实现与视觉主审；默认只改任务卡，不得直接修改实现文件，发现问题请签 counter 并列出返工项
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部；重点读 packages/content/src/script.ts、packages/reforge/src/scene-transition.ts、packages/migrate/src/scene-entry-normalize.ts、packages/migrate/src/migration-validate.ts、packages/editor/src/core/script-references.ts、packages/editor/src/ui/App.tsx、packages/editor/src/ui/SceneCanvas.tsx、packages/editor/src/ui/CommandForm.tsx
+已完成证据：pnpm check 全绿（263 files / 3,545 tests passed / 1 skipped，Biome 679 files）；独立 migrate dry-run writes=0 deletes=0 conflicts=0；产物精确为 294 scenes、701 named entries、966 loadScene=797 named+169 default+0 pos、bare entry=0、重复位置=0
+重点复验：
+1. schema/runtime：默认、entryId、pos 三态 XOR；缺场景/缺落点 fail-loud；朝向为显式 > 命名落点 > inherit > 默认；两个不同 entryId 进入同场景位置与朝向不同且正确
+2. migration/MG2：all.json 不再参与来源落点生成；稳定 id 只依赖 target+GridPos；701 迁移落点均被引用；作者引用被删除迁移落点时最终 target 门禁阻断；独立 dry-run 仍为零计划
+3. 6010 编辑器：s001 落点树/marker/检查器、新建/改名/拖动/undo/删除保护、脚本表单三态；树行不显示坐标和稳定 id，只显示可读名称与“落点”类型
+4. 必复现最新往返路径：s001 选迁移落点 -> 从引用列表打开 s003 内部脚本 -> 场景下拉回 s001 -> 再点落点；应关闭脚本抽屉、右侧显示该落点、画布黄色高亮并自动定位
+5. 引用导航：作者共享脚本进入共享脚本模块；迁移生成的 scene/<id>/... 内部脚本留在目标场景脚本抽屉，不误跳共享模块
+6. 6051：有可达路径或存档时，实走两个不同命名落点进入同一目标场景，核对位置、朝向与普通切场景无回归
+输出要求：在本卡 Opus review 签字行写 accept 或 counter+理由，补交接日志并提交仅任务卡改动；accept 后写下一位 GLM 覆盖复核提示词。不得标 done，不得顺手改 A7-0
 ```

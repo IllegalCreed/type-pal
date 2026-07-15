@@ -341,23 +341,14 @@
     "scene/s113/root/entity-e2111/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s105",
-        "pos": {
-          "col": 35,
-          "row": 19,
-          "height": 0
-        }
+        "scene": "s105"
       }
     ],
     "scene/s113/root/entity-e2112/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s105",
-        "pos": {
-          "col": 41,
-          "row": -19,
-          "height": 0
-        }
+        "entryId": "pal-entry-6dee930a"
       }
     ],
     "scene/s113/root/entity-e2113/page-0/auto/stage-0": [

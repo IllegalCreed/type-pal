@@ -12,6 +12,8 @@ import type {
   AmbienceDef,
   Command,
   Facing,
+  GridPos,
+  LoadSceneCommand,
   Locale,
   MusicDef,
   SceneDef,
@@ -27,6 +29,28 @@ import { MusicPicker } from './MusicPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
 const SPEEDS: WalkSpeed[] = ['slow', 'normal', 'fast', 'run']
+
+export type LoadSceneTarget =
+  | { mode: 'default' }
+  | { mode: 'entry'; entryId: string }
+  | { mode: 'pos'; pos: GridPos }
+
+export function makeLoadScene(
+  scene: string,
+  target: LoadSceneTarget,
+  facing?: Facing,
+): LoadSceneCommand {
+  const facingPatch = facing ? { facing } : {}
+  if (target.mode === 'entry')
+    return { kind: 'loadScene', scene, entryId: target.entryId, ...facingPatch }
+  if (target.mode === 'pos')
+    return { kind: 'loadScene', scene, pos: { ...target.pos }, ...facingPatch }
+  return { kind: 'loadScene', scene, ...facingPatch }
+}
+
+export function retargetLoadScene(command: LoadSceneCommand, scene: string): LoadSceneCommand {
+  return makeLoadScene(scene, { mode: 'default' }, command.facing)
+}
 
 function Row(props: { label: string; children: React.ReactNode }) {
   return (
@@ -496,20 +520,22 @@ export function CommandForm(props: {
         </>
       )
     case 'loadScene': {
-      // W4 传送编辑:目标场景下拉 + 落点(缺省 = 目标场景进场点)+ 朝向。
-      const target = (scenes ?? [scene]).find((s) => s.id === cmd.scene)
+      const availableScenes = scenes ?? [scene]
+      const target = availableScenes.find((s) => s.id === cmd.scene)
+      const entries = Object.entries(target?.entries ?? {})
+      const mode = cmd.entryId ? 'entry' : cmd.pos ? 'pos' : 'default'
       return (
         <>
           <Row label="目标场景">
             <select
               className="in"
               value={cmd.scene}
-              onChange={(e) => set({ scene: e.target.value })}
+              onChange={(e) => onChange(retargetLoadScene(cmd, e.target.value))}
             >
-              {!(scenes ?? [scene]).some((s) => s.id === cmd.scene) && (
+              {!availableScenes.some((s) => s.id === cmd.scene) && (
                 <option value={cmd.scene}>{cmd.scene} (不在索引)</option>
               )}
-              {(scenes ?? [scene]).map((s) => (
+              {availableScenes.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.id}
                 </option>
@@ -517,27 +543,112 @@ export function CommandForm(props: {
             </select>
           </Row>
           <Row label="落点">
-            <label className="cf-inline">
-              <input
-                type="checkbox"
-                checked={cmd.pos !== undefined}
-                onChange={(e) =>
-                  e.target.checked
-                    ? set({ pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) } })
-                    : onChange({
-                        kind: 'loadScene',
-                        scene: cmd.scene,
-                        ...(cmd.facing ? { facing: cmd.facing } : {}),
-                      })
+            <fieldset className="cf-segment" aria-label="落点模式">
+              <button
+                type="button"
+                className={mode === 'default' ? 'active' : ''}
+                onClick={() => onChange(makeLoadScene(cmd.scene, { mode: 'default' }, cmd.facing))}
+              >
+                默认
+              </button>
+              <button
+                type="button"
+                className={mode === 'entry' ? 'active' : ''}
+                disabled={!entries.length}
+                onClick={() => {
+                  const entryId =
+                    cmd.entryId && target?.entries?.[cmd.entryId] ? cmd.entryId : entries[0]?.[0]
+                  if (entryId)
+                    onChange(makeLoadScene(cmd.scene, { mode: 'entry', entryId }, cmd.facing))
+                }}
+              >
+                命名
+              </button>
+              <button
+                type="button"
+                className={mode === 'pos' ? 'active' : ''}
+                onClick={() =>
+                  onChange(
+                    makeLoadScene(
+                      cmd.scene,
+                      {
+                        mode: 'pos',
+                        pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) },
+                      },
+                      cmd.facing,
+                    ),
+                  )
                 }
-              />{' '}
-              自定(不勾 = 目标场景进场点)
-            </label>
+              >
+                临时坐标
+              </button>
+            </fieldset>
           </Row>
+          {cmd.entryId && (
+            <Row label="命名落点">
+              <select
+                className="in"
+                value={cmd.entryId}
+                onChange={(e) =>
+                  onChange(
+                    makeLoadScene(
+                      cmd.scene,
+                      { mode: 'entry', entryId: e.target.value },
+                      cmd.facing,
+                    ),
+                  )
+                }
+              >
+                {!target?.entries?.[cmd.entryId] && (
+                  <option value={cmd.entryId}>{cmd.entryId} (缺失)</option>
+                )}
+                {entries.map(([id, entry]) => (
+                  <option key={id} value={id}>
+                    {entry.label || id} · {id} ({entry.pos.col},{entry.pos.row},h
+                    {entry.pos.height ?? 0})
+                  </option>
+                ))}
+              </select>
+            </Row>
+          )}
           {cmd.pos && (
-            <Row label="col / row">
-              <Num value={cmd.pos.col} onChange={(n) => set({ pos: { ...cmd.pos!, col: n } })} />
-              <Num value={cmd.pos.row} onChange={(n) => set({ pos: { ...cmd.pos!, row: n } })} />
+            <Row label="col / row / h">
+              <Num
+                value={cmd.pos.col}
+                onChange={(n) =>
+                  onChange(
+                    makeLoadScene(
+                      cmd.scene,
+                      { mode: 'pos', pos: { ...cmd.pos!, col: n } },
+                      cmd.facing,
+                    ),
+                  )
+                }
+              />
+              <Num
+                value={cmd.pos.row}
+                onChange={(n) =>
+                  onChange(
+                    makeLoadScene(
+                      cmd.scene,
+                      { mode: 'pos', pos: { ...cmd.pos!, row: n } },
+                      cmd.facing,
+                    ),
+                  )
+                }
+              />
+              <Num
+                value={cmd.pos.height ?? 0}
+                onChange={(n) =>
+                  onChange(
+                    makeLoadScene(
+                      cmd.scene,
+                      { mode: 'pos', pos: { ...cmd.pos!, height: n } },
+                      cmd.facing,
+                    ),
+                  )
+                }
+              />
             </Row>
           )}
           <Row label="朝向">
@@ -546,10 +657,12 @@ export function CommandForm(props: {
               value={cmd.facing ?? ''}
               onChange={(e) => {
                 const f = e.target.value as Facing | ''
-                const next: Command = { kind: 'loadScene', scene: cmd.scene }
-                if (cmd.pos) (next as { pos?: unknown }).pos = cmd.pos
-                if (f) (next as { facing?: Facing }).facing = f
-                onChange(next)
+                const targetMode: LoadSceneTarget = cmd.entryId
+                  ? { mode: 'entry', entryId: cmd.entryId }
+                  : cmd.pos
+                    ? { mode: 'pos', pos: cmd.pos }
+                    : { mode: 'default' }
+                onChange(makeLoadScene(cmd.scene, targetMode, f || undefined))
               }}
             >
               <option value="">(保持)</option>

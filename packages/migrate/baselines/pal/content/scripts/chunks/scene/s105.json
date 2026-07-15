@@ -12,44 +12,27 @@
       {
         "kind": "loadScene",
         "scene": "s102",
-        "pos": {
-          "col": 104,
-          "row": 68,
-          "height": 0
-        }
+        "entryId": "pal-entry-9e83fc1a"
       }
     ],
     "scene/s105/root/entity-e1965/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s084",
-        "pos": {
-          "col": 81,
-          "row": -29,
-          "height": 0
-        }
+        "entryId": "pal-entry-3458a4c3"
       }
     ],
     "scene/s105/root/entity-e1966/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s113",
-        "pos": {
-          "col": 131,
-          "row": 101,
-          "height": 0
-        }
+        "scene": "s113"
       }
     ],
     "scene/s105/root/entity-e1967/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s113",
-        "pos": {
-          "col": 169,
-          "row": 67,
-          "height": 0
-        }
+        "entryId": "pal-entry-921af816"
       }
     ]
   }

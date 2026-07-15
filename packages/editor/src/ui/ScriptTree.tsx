@@ -8,6 +8,7 @@
 import type {
   Command,
   Locale,
+  SceneDef,
   SceneEntryPresentation,
   SceneReveal,
   ScriptCondition,
@@ -69,7 +70,12 @@ interface Described {
   warn?: boolean
 }
 
-function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): Described {
+function describe(
+  cmd: Command,
+  locale: Locale,
+  scriptIndex?: ScriptIndexV1,
+  scenes?: readonly SceneDef[],
+): Described {
   switch (cmd.kind) {
     case 'chasePlayer':
       return {
@@ -113,12 +119,22 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
       return { icon: '⏱', label: `等待 ${cmd.ms}ms` }
     case 'teleportParty':
       return { icon: '📍', label: '队伍瞬移', detail: `(${cmd.pos.col},${cmd.pos.row})` }
-    case 'loadScene':
+    case 'loadScene': {
+      const target = scenes?.find((scene) => scene.id === cmd.scene)
+      const entry = cmd.entryId ? target?.entries?.[cmd.entryId] : undefined
+      const detail = cmd.entryId
+        ? entry
+          ? `${entry.label || cmd.entryId} · ${cmd.entryId} · (${entry.pos.col},${entry.pos.row},h${entry.pos.height ?? 0})`
+          : `${cmd.entryId} (落点缺失)`
+        : cmd.pos
+          ? `临时坐标 (${cmd.pos.col},${cmd.pos.row},h${cmd.pos.height ?? 0})`
+          : '默认落点'
       return {
         icon: '🚪',
         label: `切到场景 ${cmd.scene}`,
-        detail: cmd.pos ? `落点 (${cmd.pos.col},${cmd.pos.row})` : undefined,
+        detail,
       }
+    }
     case 'setPartyFacing':
       return {
         icon: '🧭',
@@ -357,6 +373,7 @@ export type StageAction =
 interface RowCtx {
   locale: Locale
   scriptIndex?: ScriptIndexV1
+  scenes?: readonly SceneDef[]
   activePath: string | null
   selectedPath: string | null
   onSelect?: (path: string, cmd: Command) => void
@@ -366,7 +383,7 @@ interface RowCtx {
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
   const { cmd, depth, path, ctx } = props
-  const d = describe(cmd, ctx.locale, ctx.scriptIndex)
+  const d = describe(cmd, ctx.locale, ctx.scriptIndex, ctx.scenes)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
@@ -608,6 +625,7 @@ export function ScriptTree(props: {
   stages: readonly ScriptStage[]
   locale: Locale
   scriptIndex?: ScriptIndexV1
+  scenes?: readonly SceneDef[]
   activePath?: string | null
   selectedPath?: string | null
   onSelect?: (path: string, cmd: Command) => void
@@ -620,6 +638,7 @@ export function ScriptTree(props: {
     stages,
     locale,
     scriptIndex,
+    scenes,
     activePath = null,
     selectedPath = null,
     onSelect,
@@ -628,7 +647,15 @@ export function ScriptTree(props: {
     showSceneEntry = false,
     onSceneEntryChange,
   } = props
-  const ctx: RowCtx = { locale, scriptIndex, activePath, selectedPath, onSelect, onRowAction }
+  const ctx: RowCtx = {
+    locale,
+    scriptIndex,
+    scenes,
+    activePath,
+    selectedPath,
+    onSelect,
+    onRowAction,
+  }
   const renderBody = (stage: ScriptStage, stageIndex: number) =>
     stage.body.length === 0 ? (
       ctx.onRowAction ? (

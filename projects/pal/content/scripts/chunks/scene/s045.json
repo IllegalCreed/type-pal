@@ -1084,11 +1084,7 @@
       {
         "kind": "loadScene",
         "scene": "s044",
-        "pos": {
-          "col": 174,
-          "row": 60,
-          "height": 0
-        }
+        "entryId": "pal-entry-6a8e4aa2"
       },
       {
         "kind": "setParty",
@@ -1102,33 +1098,21 @@
       {
         "kind": "loadScene",
         "scene": "s046",
-        "pos": {
-          "col": 93,
-          "row": 6,
-          "height": 0
-        }
+        "entryId": "pal-entry-47a1fc50"
       }
     ],
     "scene/s045/root/entity-e724/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s046",
-        "pos": {
-          "col": 97,
-          "row": 32,
-          "height": 0
-        }
+        "entryId": "pal-entry-83900727"
       }
     ],
     "scene/s045/root/entity-e725/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s046",
-        "pos": {
-          "col": 127,
-          "row": 77,
-          "height": 0
-        }
+        "entryId": "pal-entry-af45bce0"
       }
     ],
     "scene/s045/root/entity-e728/page-0/trigger/stage-0": [

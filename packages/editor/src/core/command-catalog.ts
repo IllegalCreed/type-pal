@@ -112,10 +112,11 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     group: '队伍/场景',
     params: [
       ['scene', '目标场景 id'],
-      ['pos', '落点(缺省=目标进场点)'],
+      ['entryId', '命名落点(可选)'],
+      ['pos', '临时坐标(与命名落点互斥)'],
       ['facing', '朝向'],
     ],
-    desc: '门传送/剧情转场。',
+    desc: '门传送/剧情转场；可用目标场景默认落点、命名落点或一次性坐标。',
     origin: '0x59(+0x46+0x50 折叠)',
   },
   {

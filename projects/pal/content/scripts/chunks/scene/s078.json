@@ -7,22 +7,14 @@
       {
         "kind": "loadScene",
         "scene": "s077",
-        "pos": {
-          "col": 93,
-          "row": 21,
-          "height": 0
-        }
+        "entryId": "pal-entry-1a88268f"
       }
     ],
     "scene/s078/root/entity-e1496/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s080",
-        "pos": {
-          "col": 37,
-          "row": 19,
-          "height": 0
-        }
+        "entryId": "pal-entry-8292e336"
       }
     ]
   }

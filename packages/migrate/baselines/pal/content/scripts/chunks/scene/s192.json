@@ -952,11 +952,7 @@
       {
         "kind": "loadScene",
         "scene": "s186",
-        "pos": {
-          "col": 92,
-          "row": 52,
-          "height": 0
-        }
+        "entryId": "pal-entry-f87102e1"
       },
       {
         "kind": "setPartyFacing",
@@ -2915,11 +2911,7 @@
       {
         "kind": "loadScene",
         "scene": "s185",
-        "pos": {
-          "col": 113,
-          "row": 56,
-          "height": 0
-        }
+        "entryId": "pal-entry-985bbe9a"
       }
     ],
     "scene/s192/root/entity-e3298/page-0/trigger/stage-0": [

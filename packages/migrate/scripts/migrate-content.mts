@@ -98,6 +98,13 @@ function reportGeneration(theirs: MigrationFileSet): void {
       `chunk ${[...theirs.managedFiles].filter((path) => path.startsWith('content/scripts/') && path !== 'content/scripts/index.json').length} ` +
       `· boss overlay ${theirs.report.bossOverlay.attached}`,
   )
+  const entryNormalization = theirs.report.scenes.entryNormalization
+  if (entryNormalization)
+    console.log(
+      `[落点归一化] 静态坐标 ${entryNormalization.staticCommands} · 唯一组 ${entryNormalization.uniqueTargets} · ` +
+        `默认 ${entryNormalization.defaultTargets} · 命名 ${entryNormalization.namedTargets} · ` +
+        `缺目标 ${entryNormalization.unresolvedCommands}`,
+    )
   console.log(
     `[脚本门禁] compact ${audit.ratios.normalized.toFixed(2)}x · pretty ${audit.ratios.pretty.toFixed(2)}x · ` +
       `commands ${audit.ratios.commands.toFixed(2)}x · closure ${audit.maxDependencyClosureBytes}B`,

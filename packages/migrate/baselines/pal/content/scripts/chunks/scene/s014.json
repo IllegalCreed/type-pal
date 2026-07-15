@@ -199,12 +199,7 @@
       },
       {
         "kind": "loadScene",
-        "scene": "s005",
-        "pos": {
-          "col": 119,
-          "row": 50,
-          "height": 0
-        }
+        "scene": "s005"
       },
       {
         "kind": "playMusic",
@@ -261,12 +256,7 @@
       },
       {
         "kind": "loadScene",
-        "scene": "s005",
-        "pos": {
-          "col": 119,
-          "row": 50,
-          "height": 0
-        }
+        "scene": "s005"
       },
       {
         "kind": "playMusic",
@@ -354,11 +344,7 @@
       {
         "kind": "loadScene",
         "scene": "s014",
-        "pos": {
-          "col": 74,
-          "row": -14,
-          "height": 0
-        }
+        "entryId": "pal-entry-206a2a44"
       }
     ],
     "scene/s014/root/entity-e201/page-0/trigger/stage-0": [
@@ -431,12 +417,7 @@
     "scene/s014/root/entity-e202/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s015",
-        "pos": {
-          "col": 117,
-          "row": 91,
-          "height": 0
-        }
+        "scene": "s015"
       }
     ],
     "scene/s014/root/entity-e203/page-0/auto/stage-0": [

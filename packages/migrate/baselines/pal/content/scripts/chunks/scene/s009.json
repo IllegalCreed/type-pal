@@ -38,22 +38,14 @@
       {
         "kind": "loadScene",
         "scene": "s004",
-        "pos": {
-          "col": 89,
-          "row": 27,
-          "height": 0
-        }
+        "entryId": "pal-entry-ae876778"
       }
     ],
     "scene/s009/root/entity-e186/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s005",
-        "pos": {
-          "col": 125,
-          "row": 88,
-          "height": 0
-        }
+        "entryId": "pal-entry-439d529b"
       }
     ],
     "scene/s009/root/entity-e187/page-0/trigger/stage-0": [

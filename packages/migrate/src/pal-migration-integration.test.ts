@@ -58,6 +58,13 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
   test('闭合 bootstrap -> 同事务工程+baseline -> 二次严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    expect(theirs.report.scenes.entryNormalization).toEqual({
+      staticCommands: 863,
+      uniqueTargets: 762,
+      defaultTargets: 61,
+      namedTargets: 701,
+      unresolvedCommands: 0,
+    })
     const seed = discoverProjectManagedFiles(repo, theirs.managedFiles)
     const ours = loadProjectMigrationSnapshot(repo, seed)
     const report = JSON.parse(
@@ -81,6 +88,11 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
+    expect(validation.sceneEntryReferences).toEqual({
+      commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
+      generatedEntries: 701,
+      issues: [],
+    })
     expect(validation.spriteReferences.channels).toEqual({
       definitions: { total: 580, migrated: 574 },
       actors: { total: 6, migrated: 0 },
@@ -127,6 +139,13 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
   test('当前工程 + baseline + 纯生成必须是严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    expect(theirs.report.scenes.entryNormalization).toEqual({
+      staticCommands: 863,
+      uniqueTargets: 762,
+      defaultTargets: 61,
+      namedTargets: 701,
+      unresolvedCommands: 0,
+    })
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
 
@@ -149,6 +168,11 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
     expect(validation.scriptAudit.issues).toEqual([])
+    expect(validation.sceneEntryReferences).toEqual({
+      commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
+      generatedEntries: 701,
+      issues: [],
+    })
     expect(validation.spriteReferences.channels).toEqual({
       definitions: { total: 580, migrated: 574 },
       actors: { total: 6, migrated: 0 },

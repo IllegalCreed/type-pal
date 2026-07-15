@@ -1,169 +1,6 @@
 {
   "id": "s060",
   "mapId": "map-055",
-  "entries": {
-    "from-s064": {
-      "pos": {
-        "col": 67,
-        "row": -31,
-        "height": 0
-      }
-    },
-    "from-s065": {
-      "pos": {
-        "col": 106,
-        "row": 18,
-        "height": 0
-      }
-    },
-    "from-s065-2": {
-      "pos": {
-        "col": 95,
-        "row": -3,
-        "height": 0
-      }
-    },
-    "from-s065-3": {
-      "pos": {
-        "col": 96,
-        "row": -17,
-        "height": 0
-      }
-    },
-    "from-s065-4": {
-      "pos": {
-        "col": 74,
-        "row": -29,
-        "height": 0
-      }
-    },
-    "from-s065-5": {
-      "pos": {
-        "col": 58,
-        "row": -26,
-        "height": 0
-      }
-    },
-    "from-s065-6": {
-      "pos": {
-        "col": 60,
-        "row": 24,
-        "height": 0
-      }
-    },
-    "from-s065-7": {
-      "pos": {
-        "col": 74,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s065-8": {
-      "pos": {
-        "col": 128,
-        "row": 85,
-        "height": 0
-      }
-    },
-    "from-s065-9": {
-      "pos": {
-        "col": 122,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s065-10": {
-      "pos": {
-        "col": 102,
-        "row": 51,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 67,
-        "row": -31,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 97,
-        "row": 34,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 106,
-        "row": 18,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 95,
-        "row": -3,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 96,
-        "row": -17,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 74,
-        "row": -29,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 58,
-        "row": -26,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 60,
-        "row": 24,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 74,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 128,
-        "row": 85,
-        "height": 0
-      }
-    },
-    "from-shared-11": {
-      "pos": {
-        "col": 122,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-12": {
-      "pos": {
-        "col": 102,
-        "row": 51,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 67,
@@ -1474,5 +1311,103 @@
     }
   ],
   "battleFieldId": 39,
-  "battleMusicId": 40
+  "battleMusicId": 40,
+  "entries": {
+    "pal-entry-8e6c4f36": {
+      "label": "原版落点 (138, 53, 0)",
+      "pos": {
+        "col": 138,
+        "row": 53,
+        "height": 0
+      }
+    },
+    "pal-entry-c4400e88": {
+      "label": "原版落点 (106, 18, 0)",
+      "pos": {
+        "col": 106,
+        "row": 18,
+        "height": 0
+      }
+    },
+    "pal-entry-6197abaa": {
+      "label": "原版落点 (95, -3, 0)",
+      "pos": {
+        "col": 95,
+        "row": -3,
+        "height": 0
+      }
+    },
+    "pal-entry-c49341de": {
+      "label": "原版落点 (96, -17, 0)",
+      "pos": {
+        "col": 96,
+        "row": -17,
+        "height": 0
+      }
+    },
+    "pal-entry-bb1f522d": {
+      "label": "原版落点 (74, -29, 0)",
+      "pos": {
+        "col": 74,
+        "row": -29,
+        "height": 0
+      }
+    },
+    "pal-entry-c5d2971c": {
+      "label": "原版落点 (58, -26, 0)",
+      "pos": {
+        "col": 58,
+        "row": -26,
+        "height": 0
+      }
+    },
+    "pal-entry-ae2586d4": {
+      "label": "原版落点 (60, 24, 0)",
+      "pos": {
+        "col": 60,
+        "row": 24,
+        "height": 0
+      }
+    },
+    "pal-entry-53d696fa": {
+      "label": "原版落点 (74, 45, 0)",
+      "pos": {
+        "col": 74,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "pal-entry-b242715a": {
+      "label": "原版落点 (128, 85, 0)",
+      "pos": {
+        "col": 128,
+        "row": 85,
+        "height": 0
+      }
+    },
+    "pal-entry-a9ac98a1": {
+      "label": "原版落点 (122, 62, 0)",
+      "pos": {
+        "col": 122,
+        "row": 62,
+        "height": 0
+      }
+    },
+    "pal-entry-2af593c5": {
+      "label": "原版落点 (102, 51, 0)",
+      "pos": {
+        "col": 102,
+        "row": 51,
+        "height": 0
+      }
+    },
+    "pal-entry-54908090": {
+      "label": "原版落点 (92, 18, 0)",
+      "pos": {
+        "col": 92,
+        "row": 18,
+        "height": 0
+      }
+    }
+  }
 }

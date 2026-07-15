@@ -4,18 +4,29 @@ import type { EditorState } from './edit-session.js'
 
 export type ScriptReferenceKind = 'call' | 'jump' | 'binding'
 
+export type ScriptReferenceCaller =
+  | { type: 'scene'; sceneId: string; sourceKey: string; label: string }
+  | { type: 'script'; scriptId: string; label: string }
+  | { type: 'global'; sourceKey: string; label: string }
+
 export interface ScriptReferenceEntry {
   target: ScriptRef
   kind: ScriptReferenceKind
-  caller:
-    | { type: 'scene'; sceneId: string; sourceKey: string; label: string }
-    | { type: 'script'; scriptId: string; label: string }
+  caller: ScriptReferenceCaller
   path: string
   explicitSelf?: string
 }
 
+export interface SceneEntryReferenceEntry {
+  targetSceneId: string
+  entryId: string
+  caller: ScriptReferenceCaller
+  path: string
+}
+
 export interface ScriptProjectDiagnostics {
   references: Map<string, ScriptReferenceEntry[]>
+  sceneEntryReferences: Map<string, SceneEntryReferenceEntry[]>
   errors: string[]
   warnings: string[]
 }
@@ -23,9 +34,13 @@ export interface ScriptProjectDiagnostics {
 type SelfAvailability = 'always' | 'maybe' | 'none' | 'unknown'
 
 interface ScanContext {
-  caller: ScriptReferenceEntry['caller']
+  caller: ScriptReferenceCaller
   self: SelfAvailability
   callerScriptId?: string
+}
+
+export function sceneEntryReferenceKey(sceneId: string, entryId: string): string {
+  return JSON.stringify([sceneId, entryId])
 }
 
 function pushRef(
@@ -50,11 +65,13 @@ function selfAvailability(contract: SharedScriptSelf | undefined): SelfAvailabil
  */
 export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiagnostics {
   const references = new Map<string, ScriptReferenceEntry[]>()
+  const sceneEntryReferences = new Map<string, SceneEntryReferenceEntry[]>()
   const errors: string[] = []
   const warnings: string[] = []
   const bodies = new Map<string, { chunk: string; body: Command[] }>()
   const callEdges = new Map<string, Set<string>>()
   const chunks = state.scriptChunks ?? {}
+  const scenesById = new Map(state.scenes.map((scene) => [scene.id, scene]))
 
   if (state.scriptIndex) {
     try {
@@ -93,6 +110,30 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
     if (!node || typeof node !== 'object') return
     const command = node as Partial<Command> & Record<string, unknown>
     const kind = command.kind
+
+    if (kind === 'loadScene') {
+      const sceneId = command.scene
+      const entryId = command.entryId
+      const pos = command.pos
+      if ('entry' in command)
+        errors.push(`${context.caller.label}${path}: loadScene.entry 已退役，请使用 entryId`)
+      if (entryId !== undefined && pos !== undefined)
+        errors.push(`${context.caller.label}${path}: loadScene.entryId 与 pos 不能同时存在`)
+      if (typeof sceneId !== 'string' || !scenesById.has(sceneId)) {
+        errors.push(`${context.caller.label}${path}: loadScene 目标场景 ${String(sceneId)} 不存在`)
+      } else if (entryId !== undefined) {
+        if (typeof entryId !== 'string' || !entryId) {
+          errors.push(`${context.caller.label}${path}: loadScene.entryId 必须是非空字符串`)
+        } else {
+          const key = sceneEntryReferenceKey(sceneId, entryId)
+          const entries = sceneEntryReferences.get(key) ?? []
+          entries.push({ targetSceneId: sceneId, entryId, caller: context.caller, path })
+          sceneEntryReferences.set(key, entries)
+          if (!scenesById.get(sceneId)?.entries?.[entryId])
+            errors.push(`${context.caller.label}${path}: 命名落点 ${sceneId}/${entryId} 不存在`)
+        }
+      }
+    }
 
     if ((kind === 'callScript' || kind === 'jumpScript') && isScriptRef(command.ref)) {
       const refKind: ScriptReferenceKind = kind === 'callScript' ? 'call' : 'jump'
@@ -220,6 +261,28 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
     })
   }
 
+  for (const enemy of state.enemies ?? []) {
+    enemy.choreography?.forEach((hook, index) => {
+      walk(hook.body, '', {
+        caller: {
+          type: 'global',
+          sourceKey: `enemy:${enemy.id}:choreography:${index}`,
+          label: `敌人 ${enemy.id} 编舞[${index}]`,
+        },
+        self: 'none',
+      })
+    })
+    if (enemy.onDefeated?.length)
+      walk(enemy.onDefeated, '', {
+        caller: {
+          type: 'global',
+          sourceKey: `enemy:${enemy.id}:onDefeated`,
+          label: `敌人 ${enemy.id} 战败脚本`,
+        },
+        self: 'none',
+      })
+  }
+
   const authored = new Set(Object.keys(state.scriptIndex?.library ?? {}))
   const stateById = new Map<string, 'visiting' | 'done'>()
   const stack: string[] = []
@@ -247,11 +310,28 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
   }
   for (const id of bodies.keys()) visit(id)
 
-  return { references, errors: [...new Set(errors)], warnings: [...new Set(warnings)] }
+  return {
+    references,
+    sceneEntryReferences,
+    errors: [...new Set(errors)],
+    warnings: [...new Set(warnings)],
+  }
 }
 
 export function findScriptReferences(state: EditorState, scriptId: string): ScriptReferenceEntry[] {
   return buildScriptReferenceIndex(state).references.get(scriptId) ?? []
+}
+
+export function findSceneEntryReferences(
+  state: EditorState,
+  sceneId: string,
+  entryId: string,
+): SceneEntryReferenceEntry[] {
+  return (
+    buildScriptReferenceIndex(state).sceneEntryReferences.get(
+      sceneEntryReferenceKey(sceneId, entryId),
+    ) ?? []
+  )
 }
 
 export function assertScriptProjectValid(state: EditorState): ScriptProjectDiagnostics {

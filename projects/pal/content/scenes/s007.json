@@ -1,29 +1,6 @@
 {
   "id": "s007",
   "mapId": "map-005",
-  "entries": {
-    "from-s006": {
-      "pos": {
-        "col": 103,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 103,
-        "row": 14,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 46,
-        "row": 17,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 103,
@@ -177,5 +154,15 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-896f641f": {
+      "label": "原版落点 (76, 12, 0)",
+      "pos": {
+        "col": 76,
+        "row": 12,
+        "height": 0
+      }
+    }
+  }
 }

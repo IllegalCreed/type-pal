@@ -1558,33 +1558,20 @@
       {
         "kind": "loadScene",
         "scene": "s186",
-        "pos": {
-          "col": 108,
-          "row": 32,
-          "height": 0
-        }
+        "entryId": "pal-entry-8ccb2847"
       }
     ],
     "scene/s189/root/entity-e3160/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s180",
-        "pos": {
-          "col": 94,
-          "row": -16,
-          "height": 0
-        }
+        "scene": "s180"
       }
     ],
     "scene/s189/root/entity-e3161/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s180",
-        "pos": {
-          "col": 87,
-          "row": 73,
-          "height": 0
-        }
+        "entryId": "pal-entry-5782dc3e"
       }
     ],
     "scene/s189/root/entity-e3162/page-0/trigger/stage-0": [

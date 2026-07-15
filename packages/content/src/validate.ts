@@ -22,6 +22,20 @@ function assertObject(x: unknown, ctx: string): object {
   return x as object
 }
 
+function validateGridPos(x: unknown, ctx: string): void {
+  const pos = assertObject(x, ctx) as { col?: unknown; row?: unknown; height?: unknown }
+  requireKeys(pos, ['col', 'row', 'height'], ctx)
+  for (const key of ['col', 'row', 'height'] as const) {
+    if (typeof pos[key] !== 'number' || !Number.isFinite(pos[key]))
+      throw new Error(`${ctx}.${key}: 期望有限数`)
+  }
+}
+
+function validateFacing(x: unknown, ctx: string): void {
+  if (x !== 'up' && x !== 'down' && x !== 'left' && x !== 'right')
+    throw new Error(`${ctx}: 期望 up/down/left/right`)
+}
+
 function validateSceneArray(json: unknown): SceneDef[] {
   const arr = assertArray<SceneDef>(json, 'scenes')
   arr.forEach((s, i) => {
@@ -30,6 +44,31 @@ function validateSceneArray(json: unknown): SceneDef[] {
     if (typeof (s as { id: unknown }).id !== 'string') throw new Error(`scenes[${i}]: id 非string`)
     if (!isMapAssetId((s as { mapId: unknown }).mapId))
       throw new Error(`scenes[${i}].mapId: 期望合法稳定地图 id`)
+    const entry = assertObject((s as { entry: unknown }).entry, `scenes[${i}].entry`) as {
+      pos?: unknown
+      facing?: unknown
+    }
+    requireKeys(entry, ['pos', 'facing'], `scenes[${i}].entry`)
+    validateGridPos(entry.pos, `scenes[${i}].entry.pos`)
+    validateFacing(entry.facing, `scenes[${i}].entry.facing`)
+    const namedEntries = (s as { entries?: unknown }).entries
+    if (namedEntries !== undefined) {
+      const record = assertObject(namedEntries, `scenes[${i}].entries`) as Record<string, unknown>
+      for (const [entryId, value] of Object.entries(record)) {
+        if (!entryId) throw new Error(`scenes[${i}].entries: 命名落点 id 不能为空`)
+        const named = assertObject(value, `scenes[${i}].entries.${entryId}`) as {
+          label?: unknown
+          pos?: unknown
+          facing?: unknown
+        }
+        requireKeys(named, ['pos'], `scenes[${i}].entries.${entryId}`)
+        if (named.label !== undefined && typeof named.label !== 'string')
+          throw new Error(`scenes[${i}].entries.${entryId}.label: 期望 string`)
+        validateGridPos(named.pos, `scenes[${i}].entries.${entryId}.pos`)
+        if (named.facing !== undefined)
+          validateFacing(named.facing, `scenes[${i}].entries.${entryId}.facing`)
+      }
+    }
     // (paletteId 字段已退役 W7a-3:只留盘 0,校验一并去)
     // 实体引用:actor ⊕ sprite 恰一(C0;都有/都无 → 数据错)。
     const ents = (s as { entities: unknown }).entities

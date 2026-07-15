@@ -1,78 +1,6 @@
 {
   "id": "s191",
   "mapId": "map-161",
-  "entries": {
-    "from-s175": {
-      "pos": {
-        "col": 147,
-        "row": 88,
-        "height": 0
-      }
-    },
-    "from-s175-2": {
-      "pos": {
-        "col": 126,
-        "row": 40,
-        "height": 0
-      }
-    },
-    "from-s175-3": {
-      "pos": {
-        "col": 90,
-        "row": 31,
-        "height": 0
-      }
-    },
-    "from-s175-4": {
-      "pos": {
-        "col": 78,
-        "row": -15,
-        "height": 0
-      }
-    },
-    "from-s175-5": {
-      "pos": {
-        "col": 41,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 110,
-        "row": 77,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 108,
-        "row": 46,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 132,
-        "row": 64,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 92,
-        "row": 42,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 132,
-        "row": 46,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 147,
@@ -892,5 +820,47 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-640e2fac": {
+      "label": "原版落点 (126, 40, 0)",
+      "pos": {
+        "col": 126,
+        "row": 40,
+        "height": 0
+      }
+    },
+    "pal-entry-bb5692d2": {
+      "label": "原版落点 (90, 31, 0)",
+      "pos": {
+        "col": 90,
+        "row": 31,
+        "height": 0
+      }
+    },
+    "pal-entry-4e25f2c5": {
+      "label": "原版落点 (78, -15, 0)",
+      "pos": {
+        "col": 78,
+        "row": -15,
+        "height": 0
+      }
+    },
+    "pal-entry-e729349d": {
+      "label": "原版落点 (41, 3, 0)",
+      "pos": {
+        "col": 41,
+        "row": 3,
+        "height": 0
+      }
+    },
+    "pal-entry-41649b24": {
+      "label": "原版落点 (109, 76, 0)",
+      "pos": {
+        "col": 109,
+        "row": 76,
+        "height": 0
+      }
+    }
+  }
 }

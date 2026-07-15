@@ -814,45 +814,28 @@
     "scene/s286/root/entity-e4826/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s285",
-        "pos": {
-          "col": 59,
-          "row": 5,
-          "height": 0
-        }
+        "scene": "s285"
       }
     ],
     "scene/s286/root/entity-e4827/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s285",
-        "pos": {
-          "col": 59,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-f89de5d5"
       }
     ],
     "scene/s286/root/entity-e4828/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s285",
-        "pos": {
-          "col": 68,
-          "row": -5,
-          "height": 0
-        }
+        "entryId": "pal-entry-e507090b"
       }
     ],
     "scene/s286/root/entity-e4829/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s285",
-        "pos": {
-          "col": 96,
-          "row": -5,
-          "height": 0
-        }
+        "entryId": "pal-entry-f8599752"
       }
     ],
     "scene/s286/root/entity-e4842/page-0/auto/stage-0": [

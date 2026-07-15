@@ -380,23 +380,14 @@
     "scene/s266/root/entity-e4655/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
-        "scene": "s269",
-        "pos": {
-          "col": 18,
-          "row": 5,
-          "height": 0
-        }
+        "scene": "s269"
       }
     ],
     "scene/s266/root/entity-e4656/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s268",
-        "pos": {
-          "col": 46,
-          "row": 17,
-          "height": 0
-        }
+        "entryId": "pal-entry-354e1528"
       }
     ],
     "scene/s266/root/entity-e4658/page-0/auto/stage-0": [

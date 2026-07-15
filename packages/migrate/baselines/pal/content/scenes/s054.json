@@ -1,43 +1,6 @@
 {
   "id": "s054",
   "mapId": "map-059",
-  "entries": {
-    "from-s049": {
-      "pos": {
-        "col": 92,
-        "row": 66,
-        "height": 0
-      }
-    },
-    "from-s061": {
-      "pos": {
-        "col": 121,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 147,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 95,
-        "row": -5,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 49,
-        "row": 18,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 92,
@@ -268,5 +231,39 @@
     }
   ],
   "battleFieldId": 12,
-  "battleMusicId": 40
+  "battleMusicId": 40,
+  "entries": {
+    "pal-entry-702c591a": {
+      "label": "原版落点 (133, 79, 0)",
+      "pos": {
+        "col": 133,
+        "row": 79,
+        "height": 0
+      }
+    },
+    "pal-entry-af7d6726": {
+      "label": "原版落点 (87, 71, 0)",
+      "pos": {
+        "col": 87,
+        "row": 71,
+        "height": 0
+      }
+    },
+    "pal-entry-3c807fdd": {
+      "label": "原版落点 (47, 21, 0)",
+      "pos": {
+        "col": 47,
+        "row": 21,
+        "height": 0
+      }
+    },
+    "pal-entry-34906e96": {
+      "label": "原版落点 (63, -23, 0)",
+      "pos": {
+        "col": 63,
+        "row": -23,
+        "height": 0
+      }
+    }
+  }
 }

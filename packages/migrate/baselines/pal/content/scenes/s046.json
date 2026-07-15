@@ -1,141 +1,6 @@
 {
   "id": "s046",
   "mapId": "map-070",
-  "entries": {
-    "from-s040": {
-      "pos": {
-        "col": 124,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-s041": {
-      "pos": {
-        "col": 123,
-        "row": 43,
-        "height": 0
-      }
-    },
-    "from-s041-2": {
-      "pos": {
-        "col": 148,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-s041-3": {
-      "pos": {
-        "col": 84,
-        "row": 44,
-        "height": 0
-      }
-    },
-    "from-s044": {
-      "pos": {
-        "col": 61,
-        "row": 31,
-        "height": 0
-      }
-    },
-    "from-s044-2": {
-      "pos": {
-        "col": 60,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-s044-3": {
-      "pos": {
-        "col": 133,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-s045": {
-      "pos": {
-        "col": 93,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-s045-2": {
-      "pos": {
-        "col": 97,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 60,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 133,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 93,
-        "row": 6,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 97,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 127,
-        "row": 77,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 124,
-        "row": 87,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 158,
-        "row": 54,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 148,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 84,
-        "row": 44,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 95,
-        "row": 23,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 124,
@@ -531,5 +396,87 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-6b6e7d4b": {
+      "label": "原版落点 (158, 54, 0)",
+      "pos": {
+        "col": 158,
+        "row": 54,
+        "height": 0
+      }
+    },
+    "pal-entry-4a2abab1": {
+      "label": "原版落点 (148, 48, 0)",
+      "pos": {
+        "col": 148,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "pal-entry-eb161e64": {
+      "label": "原版落点 (84, 44, 0)",
+      "pos": {
+        "col": 84,
+        "row": 44,
+        "height": 0
+      }
+    },
+    "pal-entry-85d0f84d": {
+      "label": "原版落点 (78, 64, 0)",
+      "pos": {
+        "col": 78,
+        "row": 64,
+        "height": 0
+      }
+    },
+    "pal-entry-84b6c385": {
+      "label": "原版落点 (60, 25, 0)",
+      "pos": {
+        "col": 60,
+        "row": 25,
+        "height": 0
+      }
+    },
+    "pal-entry-0c60c568": {
+      "label": "原版落点 (58, 9, 0)",
+      "pos": {
+        "col": 58,
+        "row": 9,
+        "height": 0
+      }
+    },
+    "pal-entry-231ee4bf": {
+      "label": "原版落点 (133, 39, 0)",
+      "pos": {
+        "col": 133,
+        "row": 39,
+        "height": 0
+      }
+    },
+    "pal-entry-47a1fc50": {
+      "label": "原版落点 (93, 6, 0)",
+      "pos": {
+        "col": 93,
+        "row": 6,
+        "height": 0
+      }
+    },
+    "pal-entry-83900727": {
+      "label": "原版落点 (97, 32, 0)",
+      "pos": {
+        "col": 97,
+        "row": 32,
+        "height": 0
+      }
+    },
+    "pal-entry-af45bce0": {
+      "label": "原版落点 (127, 77, 0)",
+      "pos": {
+        "col": 127,
+        "row": 77,
+        "height": 0
+      }
+    }
+  }
 }

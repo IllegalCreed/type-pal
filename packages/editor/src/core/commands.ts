@@ -24,6 +24,7 @@ import type {
   MapAssetDefV1,
   PoisonDef,
   SceneDef,
+  SceneEntryPoint,
   Command as ScriptCommand,
   ScriptStage,
   SharedScriptMetaV1,
@@ -61,7 +62,7 @@ import {
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { createEmptyScriptStages } from './entity-placement.js'
-import { findScriptReferences } from './script-references.js'
+import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -350,6 +351,98 @@ export class UpdateSceneCommand implements Command {
     const scene = findScene(state, this.sceneId)
     if (!scene) return state
     return withScene(state, this.sceneId, { ...scene, ...this.oldPatch })
+  }
+}
+
+/** 新增或修改一个命名落点；稳定 id 是 record key，不随 label 修改。 */
+export class UpsertSceneEntryCommand implements Command {
+  readonly label = '修改落点'
+  private previous: SceneEntryPoint | undefined
+  private existed: boolean | undefined
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly entryId: string,
+    private readonly entry: SceneEntryPoint,
+  ) {
+    if (!entryId) throw new Error('落点 id 不能为空')
+    this.entry = structuredClone(entry)
+  }
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene) return state
+    if (this.existed === undefined) {
+      this.existed = scene.entries?.[this.entryId] !== undefined
+      this.previous = scene.entries?.[this.entryId]
+        ? structuredClone(scene.entries[this.entryId])
+        : undefined
+    }
+    return withScene(state, this.sceneId, {
+      ...scene,
+      entries: { ...(scene.entries ?? {}), [this.entryId]: structuredClone(this.entry) },
+    })
+  }
+
+  invert(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene || this.existed === undefined) return state
+    const entries = { ...(scene.entries ?? {}) }
+    if (this.existed && this.previous) entries[this.entryId] = structuredClone(this.previous)
+    else delete entries[this.entryId]
+    return withScene(state, this.sceneId, {
+      ...scene,
+      entries: Object.keys(entries).length ? entries : undefined,
+    })
+  }
+}
+
+export class SceneEntryInUseError extends Error {
+  constructor(
+    readonly sceneId: string,
+    readonly entryId: string,
+    readonly references: ReturnType<typeof findSceneEntryReferences>,
+  ) {
+    super(`落点 ${sceneId}/${entryId} 正被 ${references.length} 处脚本引用`)
+    this.name = 'SceneEntryInUseError'
+  }
+}
+
+/** 删除未引用的命名落点；引用保护在 Command 层，键盘、按钮与未来调用方行为一致。 */
+export class DeleteSceneEntryCommand implements Command {
+  readonly label = '删除落点'
+  private removed: SceneEntryPoint | undefined
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly entryId: string,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    const entry = scene?.entries?.[this.entryId]
+    if (!scene || !entry) return state
+    const references = findSceneEntryReferences(state, this.sceneId, this.entryId)
+    if (references.length) throw new SceneEntryInUseError(this.sceneId, this.entryId, references)
+    if (!this.removed) this.removed = structuredClone(entry)
+    const entries = { ...(scene.entries ?? {}) }
+    delete entries[this.entryId]
+    return withScene(state, this.sceneId, {
+      ...scene,
+      entries: Object.keys(entries).length ? entries : undefined,
+    })
+  }
+
+  invert(state: EditorState): EditorState {
+    const scene = findScene(state, this.sceneId)
+    if (!scene || !this.removed) return state
+    return withScene(state, this.sceneId, {
+      ...scene,
+      entries: {
+        ...(scene.entries ?? {}),
+        [this.entryId]: structuredClone(this.removed),
+      },
+    })
   }
 }
 

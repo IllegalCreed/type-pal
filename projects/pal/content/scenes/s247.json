@@ -1,22 +1,6 @@
 {
   "id": "s247",
   "mapId": "map-184",
-  "entries": {
-    "from-s256": {
-      "pos": {
-        "col": 96,
-        "row": 39,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 120,
-        "row": 39,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 96,
@@ -162,5 +146,15 @@
       ]
     }
   ],
-  "battleFieldId": 49
+  "battleFieldId": 49,
+  "entries": {
+    "pal-entry-1b83aef1": {
+      "label": "原版落点 (69, 34, 0)",
+      "pos": {
+        "col": 69,
+        "row": 34,
+        "height": 0
+      }
+    }
+  }
 }

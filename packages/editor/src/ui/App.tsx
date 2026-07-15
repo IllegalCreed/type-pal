@@ -16,6 +16,7 @@ import type {
   MapAssetDefV1,
   MusicDef,
   SceneDef,
+  SceneEntryPoint,
   SpriteDef,
 } from '@type-pal/content'
 import {
@@ -48,12 +49,14 @@ import {
   BindSceneMapCommand,
   CreateMapAssetCommand,
   DeleteEntityCommand,
+  DeleteSceneEntryCommand,
   DuplicateMapAssetCommand,
   MoveEntityCommand,
   RenameProjectCommand,
   SetEntitySpriteCommand,
   UpdateEntityCommand,
   UpdateSceneCommand,
+  UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import {
@@ -67,6 +70,10 @@ import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import {
+  findSceneEntryReferences,
+  type SceneEntryReferenceEntry,
+} from '../core/script-references.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import {
@@ -90,13 +97,20 @@ import {
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
-import { SceneCanvas, type Tool } from './SceneCanvas.js'
+import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
-const SCENE_NODE = '__scene__'
-/** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
-const ENTRY_NODE = '__entry__'
+type SceneSelection =
+  | { kind: 'scene' }
+  | { kind: 'default-entry' }
+  | { kind: 'named-entry'; id: string }
+  | { kind: 'entity'; id: string }
+
+const SCENE_SELECTION: SceneSelection = { kind: 'scene' }
+const DEFAULT_ENTRY_SELECTION: Extract<SceneSelection, { kind: 'default-entry' }> = {
+  kind: 'default-entry',
+}
 const MODULE_NAV_COLLAPSED_WIDTH = 52
 const MODULE_NAV_EXPANDED_WIDTH = 136
 const MODULE_NAV_COMPACT_BREAKPOINT = 860
@@ -107,6 +121,12 @@ const OUTLINER_MAX_WIDTH = 420
 const INSPECTOR_DEFAULT_WIDTH = 290
 const INSPECTOR_MIN_WIDTH = 220
 const INSPECTOR_MAX_WIDTH = 620
+
+function sceneEntryOutlineLabel(entry: SceneEntryPoint): string {
+  const label = entry.label?.trim()
+  if (!label) return '未命名落点'
+  return /^原版(?:传送点|落点) \(-?\d+,\s*-?\d+,\s*-?\d+\)$/.test(label) ? '原版落点' : label
+}
 
 interface StoredEditorNavigation {
   last?: EditorLocation
@@ -119,6 +139,12 @@ function newEntityId(existing: EntityDef[]): string {
   let n = 1
   while (ids.has(`entity-${n}`)) n++
   return `entity-${n}`
+}
+
+function newSceneEntryId(scene: SceneDef): string {
+  let index = 1
+  while (scene.entries?.[`entry-${index}`]) index++
+  return `entry-${index}`
 }
 
 function editorNavigationKey(projectId: string): string {
@@ -274,7 +300,7 @@ export function App(props: {
     return () => window.cancelAnimationFrame(frame)
   }, [activeScrollKey])
 
-  const [selected, setSelected] = useState<string>(SCENE_NODE)
+  const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
   const [tool, setTool] = useState<Tool>('select')
   // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
   const [canvasLayers, setCanvasLayers] = useState({
@@ -283,6 +309,7 @@ export function App(props: {
     entities: true,
     grid: false,
     blocked: false,
+    entries: true,
     ghosts: true, // 显隐透视:隐藏实体半透明(编辑器默认开;游戏内不渲染)
   })
   const [placeSceneId, setPlaceSceneId] = useState<string>(() => {
@@ -322,7 +349,7 @@ export function App(props: {
     state.scenes.find((s) => s.id === state.manifest.entryScene)
   const switchPlaceScene = (id: string): void => {
     setPlaceSceneId(id)
-    setSelected(SCENE_NODE)
+    setSelected(SCENE_SELECTION)
     setTool('select')
     const current = locationRef.current
     if (current.module === 'scene' && current.subpage === 'workspace') {
@@ -331,21 +358,55 @@ export function App(props: {
   }
   // N5 引用跳转:变量页/物品页点引用 → 事件模式定位到 场景+脚本源。
   // 底部脚本抽屉(audit §6 Step2:场景模式内嵌脚本编辑,独立事件模式已退役)
-  const [drawer, setDrawer] = useState<{ open: boolean; src: string | null }>({
+  const [drawer, setDrawer] = useState<{
+    open: boolean
+    src: string | null
+    internalScriptId: string | null
+  }>({
     open: false,
     src: null,
+    internalScriptId: null,
   })
+  const selectSceneEntry = (
+    selection: Extract<SceneSelection, { kind: 'default-entry' | 'named-entry' }>,
+  ): void => {
+    setSelected(selection)
+    setTool('select')
+    setDrawer({ open: false, src: null, internalScriptId: null })
+  }
   /** 「去编辑脚本」统一入口(检查器按钮/数据模式引用跳转):回场景模式+定位场景+展开抽屉。 */
   const jumpToEvent = (sceneId: string, srcKey: string): void => {
     setPlaceSceneId(sceneId)
     applyEditorLocation(editorLinks.scene(sceneId))
     // 源列跟随选中 → 跳转须同步选中目标(实体源选实体,场景级源选场景节点)
-    setSelected(srcKey.startsWith('__') ? SCENE_NODE : (srcKey.split(':')[0] ?? SCENE_NODE))
-    setDrawer({ open: true, src: srcKey })
+    const entityId = srcKey.split(':')[0]
+    setSelected(
+      srcKey.startsWith('__') || !entityId ? SCENE_SELECTION : { kind: 'entity', id: entityId },
+    )
+    setDrawer({ open: true, src: srcKey, internalScriptId: null })
   }
   const openSharedScript = (id: string): void => {
     if (!state.scriptIndex?.library?.[id]) return
     applyEditorLocation(editorLinks.sharedScript(id))
+  }
+  const openScriptReference = (id: string): void => {
+    if (state.scriptIndex?.library?.[id]) {
+      openSharedScript(id)
+      return
+    }
+    const sceneId = /^scene\/([^/]+)\//.exec(id)?.[1]
+    const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
+    if (!sceneId || !targetScene) return
+    const entityId = id.split('/').find((part) => /^e\d+$/.test(part))
+    setPlaceSceneId(sceneId)
+    applyEditorLocation(editorLinks.scene(sceneId))
+    setSelected(
+      entityId && targetScene.entities.some((entity) => entity.id === entityId)
+        ? { kind: 'entity', id: entityId }
+        : SCENE_SELECTION,
+    )
+    setTool('select')
+    setDrawer({ open: true, src: null, internalScriptId: id })
   }
   const issues = useMemo(() => validateReferences(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -491,7 +552,22 @@ export function App(props: {
     return false
   })()
 
-  const selEntity = scene?.entities.find((e) => e.id === selected)
+  const selEntity =
+    selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
+  const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
+  const selectedAnchor: SceneAnchorSelection | null =
+    selected.kind === 'default-entry'
+      ? { kind: 'default' }
+      : selected.kind === 'named-entry'
+        ? { kind: 'named', id: selected.id }
+        : null
+  const selectedEntryReferences = useMemo(
+    () =>
+      scene && selectedNamedEntryId
+        ? findSceneEntryReferences(state, scene.id, selectedNamedEntryId)
+        : [],
+    [state, scene, selectedNamedEntryId],
+  )
 
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
@@ -502,7 +578,7 @@ export function App(props: {
       if ((e.key === 'Delete' || e.key === 'Backspace') && selEntity && scene && !typing) {
         e.preventDefault()
         session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
-        setSelected(SCENE_NODE)
+        setSelected(SCENE_SELECTION)
         return
       }
       // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
@@ -556,13 +632,13 @@ export function App(props: {
         createPlacedEntity(id, { col: cell.col, row: cell.row, height: 0 }, placement),
       ),
     )
-    setSelected(id)
+    setSelected({ kind: 'entity', id })
     setTool('select')
   }
   const deleteSelected = (): void => {
     if (!selEntity) return
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
-    setSelected(SCENE_NODE)
+    setSelected(SCENE_SELECTION)
   }
   // 保存:File System Access + 增量(快照-diff,只写变化;P3)。首次弹选文件夹并把句柄存
   // IndexedDB(工程标识 = manifest.id;将来「打开本地/最近工程」= P4 复用)。
@@ -864,26 +940,65 @@ export function App(props: {
               <div className="tree">
                 <button
                   type="button"
-                  className={`node${selected === SCENE_NODE ? ' sel' : ''}`}
-                  onClick={() => setSelected(SCENE_NODE)}
+                  className={`node${selected.kind === 'scene' ? ' sel' : ''}`}
+                  onClick={() => setSelected(SCENE_SELECTION)}
                 >
                   <span className="ico">🗺️</span>
                   <span>{scene.id}</span>
                 </button>
+                <div className="node-group-head">
+                  <span>落点</span>
+                  <button
+                    type="button"
+                    className="mini"
+                    title="新建命名落点"
+                    aria-label="新建命名落点"
+                    onClick={() => {
+                      const id = newSceneEntryId(scene)
+                      session.dispatch(
+                        new UpsertSceneEntryCommand(scene.id, id, {
+                          label: `落点 ${Object.keys(scene.entries ?? {}).length + 1}`,
+                          pos: { ...scene.entry.pos },
+                          facing: scene.entry.facing,
+                        }),
+                      )
+                      selectSceneEntry({ kind: 'named-entry', id })
+                    }}
+                  >
+                    ＋
+                  </button>
+                </div>
                 <button
                   type="button"
-                  className={`node child${selected === ENTRY_NODE ? ' sel' : ''}`}
-                  onClick={() => setSelected(ENTRY_NODE)}
+                  className={`node child${selected.kind === 'default-entry' ? ' sel' : ''}`}
+                  onClick={() => selectSceneEntry(DEFAULT_ENTRY_SELECTION)}
                 >
                   <span className="ico">📍</span>
-                  <span>进场点</span>
+                  <span>默认落点</span>
+                  <span className="k">落点</span>
                 </button>
+                {Object.entries(scene.entries ?? {}).map(([id, entry]) => (
+                  <button
+                    type="button"
+                    key={id}
+                    className={`node child${
+                      selected.kind === 'named-entry' && selected.id === id ? ' sel' : ''
+                    }`}
+                    onClick={() => selectSceneEntry({ kind: 'named-entry', id })}
+                  >
+                    <span className="ico">◇</span>
+                    <span className="node-label">{sceneEntryOutlineLabel(entry)}</span>
+                    <span className="k">落点</span>
+                  </button>
+                ))}
                 {scene.entities.map((e) => (
                   <button
                     type="button"
                     key={e.id}
-                    className={`node child${selected === e.id ? ' sel' : ''}`}
-                    onClick={() => setSelected(e.id)}
+                    className={`node child${
+                      selected.kind === 'entity' && selected.id === e.id ? ' sel' : ''
+                    }`}
+                    onClick={() => setSelected({ kind: 'entity', id: e.id })}
                   >
                     <span className="ico">
                       {isActorEntity(e) ? '👤' : 'sprite' in e ? '📦' : '⬚'}
@@ -921,6 +1036,16 @@ export function App(props: {
                     onChange={(e) => setCanvasLayers({ ...canvasLayers, cover: e.target.checked })}
                   />{' '}
                   高物(墙·家具)
+                </label>
+                <label className="lrow">
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.entries}
+                    onChange={(e) =>
+                      setCanvasLayers({ ...canvasLayers, entries: e.target.checked })
+                    }
+                  />{' '}
+                  落点
                 </label>
                 <label className="lrow">
                   <input
@@ -997,7 +1122,13 @@ export function App(props: {
                 <button
                   type="button"
                   className={`tool${drawer.open ? ' active' : ''}`}
-                  onClick={() => setDrawer((d) => ({ open: !d.open, src: d.src }))}
+                  onClick={() =>
+                    setDrawer((drawerState) => ({
+                      open: !drawerState.open,
+                      src: drawerState.src,
+                      internalScriptId: null,
+                    }))
+                  }
                   title="底部脚本抽屉:本场景 onEnter/实体触发/巡逻 就地编 + 预览"
                 >
                   📜 脚本
@@ -1018,23 +1149,40 @@ export function App(props: {
                   mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
                   tilesetBlobs={state.tilesetBlobs}
-                  selectedId={selEntity ? selected : null}
-                  entrySelected={selected === ENTRY_NODE}
+                  selectedEntityId={selEntity?.id ?? null}
+                  selectedAnchor={selectedAnchor}
                   tool={tool}
                   layers={canvasLayers}
-                  onSelect={(id) => setSelected(id ?? SCENE_NODE)}
+                  onSelectEntity={(id) => setSelected({ kind: 'entity', id })}
                   onMoveEntity={moveEntity}
-                  onSelectEntry={() => setSelected(ENTRY_NODE)}
-                  onMoveEntry={(cell) =>
-                    session.dispatch(
-                      new UpdateSceneCommand(scene.id, {
-                        entry: {
-                          pos: { ...cell, height: scene.entry.pos.height ?? 0 },
-                          facing: scene.entry.facing,
-                        },
-                      }),
+                  onSelectAnchor={(anchor) =>
+                    setSelected(
+                      anchor.kind === 'default'
+                        ? DEFAULT_ENTRY_SELECTION
+                        : { kind: 'named-entry', id: anchor.id },
                     )
                   }
+                  onMoveAnchor={(anchor, cell) => {
+                    if (anchor.kind === 'default') {
+                      session.dispatch(
+                        new UpdateSceneCommand(scene.id, {
+                          entry: {
+                            pos: { ...scene.entry.pos, ...cell },
+                            facing: scene.entry.facing,
+                          },
+                        }),
+                      )
+                      return
+                    }
+                    const entry = scene.entries?.[anchor.id]
+                    if (entry)
+                      session.dispatch(
+                        new UpsertSceneEntryCommand(scene.id, anchor.id, {
+                          ...entry,
+                          pos: { ...entry.pos, ...cell },
+                        }),
+                      )
+                  }}
                   onAddAt={addAt}
                 />
               ) : (
@@ -1042,8 +1190,9 @@ export function App(props: {
                   scene={scene}
                   scenes={state.scenes}
                   locale={state.locale}
-                  selectedEntityId={selEntity ? selected : null}
+                  selectedEntityId={selEntity?.id ?? null}
                   focusSrcKey={drawer.src}
+                  focusInternalScriptId={drawer.internalScriptId}
                   sprites={state.sprites}
                   actorsById={actorsById}
                   leaderSpriteId={leaderSpriteId}
@@ -1063,7 +1212,7 @@ export function App(props: {
                     ghosts: canvasLayers.ghosts,
                   }}
                   onOpenScript={openSharedScript}
-                  onClose={() => setDrawer({ open: false, src: null })}
+                  onClose={() => setDrawer({ open: false, src: null, internalScriptId: null })}
                 />
               )}
             </div>
@@ -1101,8 +1250,27 @@ export function App(props: {
                   onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
-              ) : selected === ENTRY_NODE ? (
+              ) : selected.kind === 'default-entry' ? (
                 <EntryInspector scene={scene} session={session} />
+              ) : selected.kind === 'named-entry' && scene.entries?.[selected.id] ? (
+                <NamedEntryInspector
+                  key={`${scene.id}:${selected.id}`}
+                  scene={scene}
+                  entryId={selected.id}
+                  entry={scene.entries[selected.id]!}
+                  references={selectedEntryReferences}
+                  session={session}
+                  onJumpToEvent={jumpToEvent}
+                  onOpenScript={openScriptReference}
+                  onDelete={() => {
+                    try {
+                      session.dispatch(new DeleteSceneEntryCommand(scene.id, selected.id))
+                      setSelected(SCENE_SELECTION)
+                    } catch (error) {
+                      window.alert(error instanceof Error ? error.message : String(error))
+                    }
+                  }}
+                />
               ) : (
                 <SceneInspector
                   scene={scene}
@@ -1858,7 +2026,12 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
   const { scene, session } = props
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   const patch = (
-    next: Partial<{ col: number; row: number; facing: SceneDef['entry']['facing'] }>,
+    next: Partial<{
+      col: number
+      row: number
+      height: number
+      facing: SceneDef['entry']['facing']
+    }>,
   ): void => {
     session.dispatch(
       new UpdateSceneCommand(scene.id, {
@@ -1866,7 +2039,7 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
           pos: {
             col: next.col ?? scene.entry.pos.col,
             row: next.row ?? scene.entry.pos.row,
-            height: scene.entry.pos.height ?? 0,
+            height: next.height ?? scene.entry.pos.height ?? 0,
           },
           facing: next.facing ?? scene.entry.facing,
         },
@@ -1902,6 +2075,15 @@ function EntryInspector(props: { scene: SceneDef; session: EditSession }) {
               value={scene.entry.pos.row}
               onChange={(e) =>
                 Number.isFinite(e.target.valueAsNumber) && patch({ row: e.target.valueAsNumber })
+              }
+            />
+            <input
+              className="in mono entry-n"
+              type="number"
+              title="高度 height"
+              value={scene.entry.pos.height ?? 0}
+              onChange={(e) =>
+                Number.isFinite(e.target.valueAsNumber) && patch({ height: e.target.valueAsNumber })
               }
             />
           </div>
@@ -2049,118 +2231,154 @@ function SceneInspector(props: {
           />
         </div>
       </div>
-      <div className="section">
-        <h4>
-          命名入口 <span className="hint2">传送落点(loadScene/X5 引用)</span>
-        </h4>
-        {Object.entries(scene.entries ?? {}).map(([name, ent]) => (
-          <EntryRow
-            key={name}
-            name={name}
-            entry={ent}
-            onChange={(nextName, nextEntry) => {
-              const es = { ...(scene.entries ?? {}) }
-              if (nextName !== name) {
-                if (nextName in es) return // 重名不覆盖
-                delete es[name]
-              }
-              es[nextName] = nextEntry
-              session.dispatch(new UpdateSceneCommand(scene.id, { entries: es }))
-            }}
-            onRemove={() => {
-              const es = { ...(scene.entries ?? {}) }
-              delete es[name]
-              session.dispatch(
-                new UpdateSceneCommand(scene.id, {
-                  entries: Object.keys(es).length ? es : undefined, // 空表收敛,落盘干净
-                }),
-              )
-            }}
-          />
-        ))}
-        <button
-          type="button"
-          className="tool"
-          onClick={() => {
-            const es = { ...(scene.entries ?? {}) }
-            let i = 1
-            while (`entry-${i}` in es) i++
-            es[`entry-${i}`] = { pos: { ...scene.entry.pos }, facing: scene.entry.facing }
-            session.dispatch(new UpdateSceneCommand(scene.id, { entries: es }))
-          }}
-        >
-          ＋ 添加入口(初始 = 进场点)
-        </button>
-      </div>
-      <div className="insp-empty">
-        点左侧实体 / 画布上的实体,看编它的属性。工具栏「+ 添加实体」→ 点画布放。
-      </div>
+      <div className="insp-empty">点左侧落点或实体查看属性。工具栏「+ 添加实体」→ 点画布放。</div>
     </>
   )
 }
 
-/** 命名入口行:名字(失焦改名)+ col/row + 朝向 + 删。 */
-function EntryRow(props: {
-  name: string
-  entry: { pos: GridPos; facing?: SceneDef['entry']['facing'] }
-  onChange: (name: string, entry: { pos: GridPos; facing?: SceneDef['entry']['facing'] }) => void
-  onRemove: () => void
+function sceneEntryReferenceLabel(reference: SceneEntryReferenceEntry): string {
+  return `${reference.caller.label}${reference.path || '/'}`
+}
+
+function NamedEntryInspector(props: {
+  scene: SceneDef
+  entryId: string
+  entry: SceneEntryPoint
+  references: SceneEntryReferenceEntry[]
+  session: EditSession
+  onJumpToEvent: (sceneId: string, sourceKey: string) => void
+  onOpenScript: (scriptId: string) => void
+  onDelete: () => void
 }) {
-  const { name, entry, onChange, onRemove } = props
-  const [draft, setDraft] = useState<string | null>(null)
+  const { scene, entryId, entry, references, session, onJumpToEvent, onOpenScript, onDelete } =
+    props
+  const [labelDraft, setLabelDraft] = useState(entry.label ?? '')
+  useEffect(() => setLabelDraft(entry.label ?? ''), [entry.label])
+  const patch = (next: Partial<SceneEntryPoint>): void =>
+    session.dispatch(
+      new UpsertSceneEntryCommand(scene.id, entryId, {
+        ...entry,
+        ...next,
+        pos: next.pos ? { ...next.pos } : { ...entry.pos },
+      }),
+    )
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   return (
-    <div className="entry-row">
-      <input
-        className="in entry-name mono"
-        value={draft ?? name}
-        onChange={(e) => setDraft(e.target.value)}
-        onBlur={() => {
-          if (draft && draft !== name) onChange(draft, entry)
-          setDraft(null)
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
-        }}
-      />
-      <input
-        className="in mono entry-n"
-        type="number"
-        title="col"
-        value={entry.pos.col}
-        onChange={(e) =>
-          Number.isFinite(e.target.valueAsNumber) &&
-          onChange(name, { ...entry, pos: { ...entry.pos, col: e.target.valueAsNumber } })
-        }
-        onWheel={(e) => e.currentTarget.blur()}
-      />
-      <input
-        className="in mono entry-n"
-        type="number"
-        title="row"
-        value={entry.pos.row}
-        onChange={(e) =>
-          Number.isFinite(e.target.valueAsNumber) &&
-          onChange(name, { ...entry, pos: { ...entry.pos, row: e.target.valueAsNumber } })
-        }
-        onWheel={(e) => e.currentTarget.blur()}
-      />
-      <select
-        className="in entry-f"
-        value={entry.facing ?? 'down'}
-        onChange={(e) =>
-          onChange(name, { ...entry, facing: e.target.value as SceneDef['entry']['facing'] })
-        }
-      >
-        {facings.map((f) => (
-          <option key={f} value={f}>
-            {f}
-          </option>
-        ))}
-      </select>
-      <button type="button" className="mini" title="删除此入口" onClick={onRemove}>
-        ✕
-      </button>
-    </div>
+    <>
+      <div className="insp-head">
+        <div className="what">选中命名落点</div>
+        <div className="who">◇ {entry.label || entryId}</div>
+      </div>
+      <div className="section">
+        <h4>落点属性</h4>
+        <div className="field">
+          <label className="field-label" htmlFor={`entry-label-${scene.id}-${entryId}`}>
+            名称
+          </label>
+          <input
+            id={`entry-label-${scene.id}-${entryId}`}
+            className="in"
+            value={labelDraft}
+            placeholder="未命名落点"
+            onChange={(event) => setLabelDraft(event.target.value)}
+            onBlur={(event) => {
+              const label = event.currentTarget.value.trim()
+              if (label !== (entry.label ?? '')) patch({ label: label || undefined })
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') event.currentTarget.blur()
+            }}
+          />
+        </div>
+        <div className="field">
+          <span className="field-label">稳定 ID</span>
+          <code className="entry-stable-id">{entryId}</code>
+        </div>
+        <div className="field">
+          <span className="field-label">坐标</span>
+          <div className="entry-coordinate-grid">
+            {(['col', 'row', 'height'] as const).map((axis) => (
+              <label key={axis}>
+                <span>{axis === 'height' ? 'h' : axis}</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  value={entry.pos[axis] ?? 0}
+                  onChange={(event) => {
+                    if (!Number.isFinite(event.target.valueAsNumber)) return
+                    patch({ pos: { ...entry.pos, [axis]: event.target.valueAsNumber } })
+                  }}
+                  onWheel={(event) => event.currentTarget.blur()}
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor={`entry-facing-${scene.id}-${entryId}`}>
+            朝向
+          </label>
+          <select
+            id={`entry-facing-${scene.id}-${entryId}`}
+            className="in"
+            value={entry.facing ?? ''}
+            onChange={(event) => {
+              const facing = event.target.value as SceneDef['entry']['facing'] | ''
+              patch({ facing: facing || undefined })
+            }}
+          >
+            <option value="">继承进入前朝向</option>
+            {facings.map((facing) => (
+              <option key={facing} value={facing}>
+                {facing}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="section">
+        <h4>脚本引用 ({references.length})</h4>
+        {references.length ? (
+          <div className="entry-reference-list">
+            {references.map((reference, index) => {
+              const canOpen = reference.caller.type !== 'global'
+              return (
+                <button
+                  type="button"
+                  className="ref-row"
+                  key={`${sceneEntryReferenceLabel(reference)}:${index}`}
+                  disabled={!canOpen}
+                  onClick={() => {
+                    if (reference.caller.type === 'scene')
+                      onJumpToEvent(reference.caller.sceneId, reference.caller.sourceKey)
+                    else if (reference.caller.type === 'script')
+                      onOpenScript(reference.caller.scriptId)
+                  }}
+                >
+                  <span className="rw read">引用</span>
+                  <span className="src">{sceneEntryReferenceLabel(reference)}</span>
+                  <span className="det">打开</span>
+                </button>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="hint2">当前没有脚本引用此落点。</div>
+        )}
+      </div>
+      <div className="section" style={{ borderBottom: 0 }}>
+        <button
+          type="button"
+          className="tool danger-action"
+          disabled={references.length > 0}
+          title={
+            references.length ? `仍有 ${references.length} 处脚本引用，不能删除` : '删除此落点'
+          }
+          onClick={onDelete}
+        >
+          🗑 删除此落点
+        </button>
+      </div>
+    </>
   )
 }

@@ -2,113 +2,6 @@
   "id": "s049",
   "mapId": "map-046",
   "musicId": 12,
-  "entries": {
-    "from-s051": {
-      "pos": {
-        "col": 103,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s051-2": {
-      "pos": {
-        "col": 103,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s051-3": {
-      "pos": {
-        "col": 114,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-s051-4": {
-      "pos": {
-        "col": 114,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-s051-5": {
-      "pos": {
-        "col": 130,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 83,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 81,
-        "row": 25,
-        "height": 0
-      }
-    },
-    "from-shared-3": {
-      "pos": {
-        "col": 92,
-        "row": 66,
-        "height": 0
-      }
-    },
-    "from-shared-4": {
-      "pos": {
-        "col": 154,
-        "row": 58,
-        "height": 0
-      }
-    },
-    "from-shared-5": {
-      "pos": {
-        "col": 103,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-6": {
-      "pos": {
-        "col": 103,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-7": {
-      "pos": {
-        "col": 114,
-        "row": 45,
-        "height": 0
-      }
-    },
-    "from-shared-8": {
-      "pos": {
-        "col": 114,
-        "row": 62,
-        "height": 0
-      }
-    },
-    "from-shared-9": {
-      "pos": {
-        "col": 130,
-        "row": 48,
-        "height": 0
-      }
-    },
-    "from-shared-10": {
-      "pos": {
-        "col": 80,
-        "row": 24,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 103,
@@ -2181,5 +2074,79 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-05cd8400": {
+      "label": "原版落点 (120, 84, 0)",
+      "pos": {
+        "col": 120,
+        "row": 84,
+        "height": 0
+      }
+    },
+    "pal-entry-b55d4ad1": {
+      "label": "原版落点 (81, 25, 0)",
+      "pos": {
+        "col": 81,
+        "row": 25,
+        "height": 0
+      }
+    },
+    "pal-entry-6142edf7": {
+      "label": "原版落点 (103, 62, 0)",
+      "pos": {
+        "col": 103,
+        "row": 62,
+        "height": 0
+      }
+    },
+    "pal-entry-e805be46": {
+      "label": "原版落点 (114, 45, 0)",
+      "pos": {
+        "col": 114,
+        "row": 45,
+        "height": 0
+      }
+    },
+    "pal-entry-c176bd73": {
+      "label": "原版落点 (114, 62, 0)",
+      "pos": {
+        "col": 114,
+        "row": 62,
+        "height": 0
+      }
+    },
+    "pal-entry-3975bd15": {
+      "label": "原版落点 (130, 48, 0)",
+      "pos": {
+        "col": 130,
+        "row": 48,
+        "height": 0
+      }
+    },
+    "pal-entry-714d0e13": {
+      "label": "原版落点 (130, 64, 0)",
+      "pos": {
+        "col": 130,
+        "row": 64,
+        "height": 0
+      }
+    },
+    "pal-entry-094ed64d": {
+      "label": "原版落点 (95, -5, 0)",
+      "pos": {
+        "col": 95,
+        "row": -5,
+        "height": 0
+      }
+    },
+    "pal-entry-e3bed3db": {
+      "label": "原版落点 (69, 9, 0)",
+      "pos": {
+        "col": 69,
+        "row": 9,
+        "height": 0
+      }
+    }
+  }
 }

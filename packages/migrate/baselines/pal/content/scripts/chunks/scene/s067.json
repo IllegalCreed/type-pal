@@ -138,22 +138,14 @@
       {
         "kind": "loadScene",
         "scene": "s069",
-        "pos": {
-          "col": 95,
-          "row": 11,
-          "height": 0
-        }
+        "entryId": "pal-entry-5c4042af"
       }
     ],
     "scene/s067/root/entity-e1339/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s076",
-        "pos": {
-          "col": 48,
-          "row": 18,
-          "height": 0
-        }
+        "entryId": "pal-entry-a3ca4e40"
       }
     ],
     "scene/s067/root/entity-e1340/page-0/trigger/stage-0": [

@@ -244,4 +244,33 @@ describe('script library schema', () => {
       checkCommands([{ kind: 'unmigrated', opcode: 0x78, operands: [0, 0, 0] }], 'legacy-script'),
     ).toThrow(/旧工程产物,请用迁移器重新生成/)
   })
+
+  it('loadScene 只允许默认、命名落点、显式坐标三种互斥目标', () => {
+    expect(() => checkCommands([{ kind: 'loadScene', scene: 's001' }], 'script')).not.toThrow()
+    expect(() =>
+      checkCommands([{ kind: 'loadScene', scene: 's001', entryId: 'pal-entry-a1' }], 'script'),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands(
+        [{ kind: 'loadScene', scene: 's001', pos: { col: 1, row: 2, height: 0 } }],
+        'script',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands(
+        [
+          {
+            kind: 'loadScene',
+            scene: 's001',
+            entryId: 'pal-entry-a1',
+            pos: { col: 1, row: 2, height: 0 },
+          },
+        ],
+        'script',
+      ),
+    ).toThrow(/entryId 与 pos 不能同时存在/)
+    expect(() =>
+      checkCommands([{ kind: 'loadScene', scene: 's001', entryId: '' }], 'script'),
+    ).toThrow(/非空命名落点 id/)
+  })
 })

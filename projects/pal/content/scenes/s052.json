@@ -1,29 +1,6 @@
 {
   "id": "s052",
   "mapId": "map-047",
-  "entries": {
-    "from-s049": {
-      "pos": {
-        "col": 83,
-        "row": 32,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 160,
-        "row": 68,
-        "height": 0
-      }
-    },
-    "from-shared-2": {
-      "pos": {
-        "col": 95,
-        "row": 15,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 83,
@@ -832,5 +809,31 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-b37dd0a3": {
+      "label": "原版落点 (84, 28, 0)",
+      "pos": {
+        "col": 84,
+        "row": 28,
+        "height": 0
+      }
+    },
+    "pal-entry-845d237e": {
+      "label": "原版落点 (92, 66, 0)",
+      "pos": {
+        "col": 92,
+        "row": 66,
+        "height": 0
+      }
+    },
+    "pal-entry-2a1c6c53": {
+      "label": "原版落点 (80, 24, 0)",
+      "pos": {
+        "col": 80,
+        "row": 24,
+        "height": 0
+      }
+    }
+  }
 }

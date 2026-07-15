@@ -784,22 +784,14 @@
       {
         "kind": "loadScene",
         "scene": "s229",
-        "pos": {
-          "col": 119,
-          "row": 98,
-          "height": 0
-        }
+        "entryId": "pal-entry-364fe7fb"
       }
     ],
     "scene/s228/root/entity-e4017/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s214",
-        "pos": {
-          "col": 35,
-          "row": -12,
-          "height": 0
-        }
+        "entryId": "pal-entry-522e5779"
       }
     ],
     "scene/s228/root/entity-e4027/page-0/trigger/stage-0": [

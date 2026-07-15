@@ -1212,22 +1212,14 @@
       {
         "kind": "loadScene",
         "scene": "s211",
-        "pos": {
-          "col": 87,
-          "row": 5,
-          "height": 0
-        }
+        "entryId": "pal-entry-d26b4ede"
       }
     ],
     "scene/s203/root/entity-e3403/page-0/trigger/stage-0": [
       {
         "kind": "loadScene",
         "scene": "s204",
-        "pos": {
-          "col": 108,
-          "row": 78,
-          "height": 0
-        }
+        "entryId": "pal-entry-af6eef88"
       }
     ],
     "scene/s203/root/entity-e3404/page-0/trigger/stage-0": [

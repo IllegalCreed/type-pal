@@ -1,22 +1,6 @@
 {
   "id": "s210",
   "mapId": "map-172",
-  "entries": {
-    "from-s205": {
-      "pos": {
-        "col": 34,
-        "row": 3,
-        "height": 0
-      }
-    },
-    "from-shared": {
-      "pos": {
-        "col": 49,
-        "row": 8,
-        "height": 0
-      }
-    }
-  },
   "entry": {
     "pos": {
       "col": 34,
@@ -56,5 +40,15 @@
         }
       ]
     }
-  ]
+  ],
+  "entries": {
+    "pal-entry-91260980": {
+      "label": "原版落点 (53, -2, 0)",
+      "pos": {
+        "col": 53,
+        "row": -2,
+        "height": 0
+      }
+    }
+  }
 }

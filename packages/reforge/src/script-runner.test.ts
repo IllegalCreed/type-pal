@@ -142,11 +142,24 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
     'dialog({"rows":[{"text":"dlg.1"}]})',
     'setEntityState("e9",0)',
     'giveItem("166",1)',
-    'loadScene("s001",{"col":1,"row":2,"height":0},)', // JSON.stringify(undefined) → 空段
+    'loadScene("s001",{"pos":{"col":1,"row":2,"height":0}})',
   ])
   expect(world.flags.met).toBe(true)
   expect(world.vars.n).toBe(5)
   expect(world.entityState.e9).toBe(0)
+})
+
+test('loadScene 命名落点原样交给 host，不降级成默认或临时坐标', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([
+    { kind: 'loadScene', scene: 's001', entryId: 'west', facing: 'up' },
+    { kind: 'loadScene', scene: 's001', entryId: 'east' },
+  ])
+  expect(calls).toEqual([
+    'loadScene("s001",{"entryId":"west","facing":"up"})',
+    'loadScene("s001",{"entryId":"east"})',
+  ])
 })
 
 test('过场编排:playVideo 命令 → host.playVideo(videoId)(阻塞式,一指令播一段过场)', async () => {
