@@ -28,6 +28,7 @@ import {
 import {
   type AssetBase,
   buildBlankProjectMap,
+  idleFrameIndex,
   type LoadedProject,
   type ProjectMapV2,
   type TilesetDef,
@@ -1059,6 +1060,8 @@ export function App(props: {
                   actorsById={actorsById}
                   enemyTeams={state.enemyTeams ?? []}
                   sprites={state.sprites}
+                  assetBase={project.assetBase}
+                  spriteBlobs={state.tilesetBlobs}
                   onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
@@ -1253,6 +1256,9 @@ function EntityInspector(props: {
   enemyTeams: EnemyTeamDef[]
   /** 精灵注册表(prop 实体换精灵下拉)。 */
   sprites: SpriteDef[]
+  assetBase: AssetBase
+  /** 上传但尚未保存的精灵字节,供预览即时解码。 */
+  spriteBlobs?: Record<string, ArrayBuffer>
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   onDelete: () => void
@@ -1265,6 +1271,8 @@ function EntityInspector(props: {
     actorsById,
     enemyTeams,
     sprites,
+    assetBase,
+    spriteBlobs,
     onJumpToEvent,
     onDelete,
   } = props
@@ -1277,6 +1285,8 @@ function EntityInspector(props: {
     session.dispatch(new MoveEntityCommand(sceneId, entity.id, { ...entity.pos, ...patch }))
   }
   const spriteId = resolveEntitySpriteId(entity, actorsById)
+  const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
+  const facing = entity.facing ?? 'down'
   const dispatchHostile = (h: HostileBehavior | undefined): void => {
     session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h }))
   }
@@ -1300,7 +1310,22 @@ function EntityInspector(props: {
       </div>
       <div className="section">
         <h4>外观 / 交互</h4>
-        {/* C0:实体引用只读展示(actor⊕sprite);切换引用/朝向编辑 = C1 角色模式一并做 */}
+        {spriteDef && (
+          <div className="field entity-preview-field">
+            <span className="field-label">预览</span>
+            <div className="entity-sprite-preview">
+              <SpriteThumb
+                assetBase={assetBase}
+                spriteNum={spriteDef.spriteNum}
+                frameIndex={idleFrameIndex(spriteDef.layout, facing)}
+                size={80}
+                path={spriteDef.path}
+                blob={spriteDef.path ? spriteBlobs?.[spriteDef.path] : undefined}
+              />
+            </div>
+          </div>
+        )}
+        {/* actor 引用只读解算外观;普通 sprite 实体可换精灵;朝向暂只读。 */}
         {isActorEntity(entity) ? (
           <div className="field">
             <span className="field-label">角色</span>
@@ -1341,7 +1366,7 @@ function EntityInspector(props: {
         <div className="field">
           <span className="field-label">朝向</span>
           <div className="in pick">
-            <span>{entity.facing ?? 'down'}</span>
+            <span>{facing}</span>
             <span className="meta">C1 可编</span>
           </div>
         </div>

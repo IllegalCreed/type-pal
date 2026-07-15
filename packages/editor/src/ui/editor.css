@@ -806,6 +806,21 @@ html[data-panel-resize="horizontal"] * {
   color: var(--dim);
   font-size: 12px;
 }
+.entity-preview-field {
+  align-items: stretch;
+}
+.entity-sprite-preview {
+  display: grid;
+  place-items: center;
+  min-height: 92px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+}
+.entity-sprite-preview .sprite-thumb {
+  background: transparent;
+}
 .in {
   background: var(--panel2);
   border: 1px solid var(--line);

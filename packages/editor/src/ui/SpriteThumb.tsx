@@ -14,11 +14,12 @@ import {
 } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
-const thumbCache = new Map<number, Promise<HTMLCanvasElement | null>>()
+const thumbCache = new Map<string, Promise<HTMLCanvasElement | null>>()
 
 function loadThumb(
   assetBase: AssetBase,
   spriteNum: number,
+  frameIndex: number,
   path?: string,
   blob?: ArrayBuffer,
 ): Promise<HTMLCanvasElement | null> {
@@ -30,14 +31,15 @@ function loadThumb(
           decompressGzip(new Blob([blob])).then(parseSpriteChunk),
           loadPalette(assetBase, 0),
         ])
-        const f = frames[0]
+        const f = frames[frameIndex] ?? frames[0]
         return f ? bakeFrame(f, palette) : null
       } catch {
         return null
       }
     })()
   }
-  let p = thumbCache.get(spriteNum)
+  const cacheKey = `${assetBase.root}\0${assetBase.sprites}\0${path ?? ''}\0${spriteNum}\0${frameIndex}`
+  let p = thumbCache.get(cacheKey)
   if (!p) {
     p = (async () => {
       try {
@@ -45,14 +47,14 @@ function loadThumb(
           loadSprite(assetBase, spriteNum, path),
           loadPalette(assetBase, 0),
         ])
-        const f = sprite.frames[0]
+        const f = sprite.frames[frameIndex] ?? sprite.frames[0]
         if (!f) return null
         return bakeFrame(f, palette)
       } catch {
         return null // 缺图静默(工程无此精灵资产)
       }
     })()
-    thumbCache.set(spriteNum, p)
+    thumbCache.set(cacheKey, p)
   }
   return p
 }
@@ -61,12 +63,14 @@ export function SpriteThumb(props: {
   assetBase: AssetBase
   spriteNum: number
   size?: number
+  /** 要预览的帧;越界时回退首帧。 */
+  frameIndex?: number
   /** 自有上传精灵的 .rle 路径(缺省走原版号约定)。 */
   path?: string
   /** 新上传未保存的字节(内存解码优先)。 */
   blob?: ArrayBuffer
 }) {
-  const { assetBase, spriteNum, size = 36, path, blob } = props
+  const { assetBase, spriteNum, size = 36, frameIndex = 0, path, blob } = props
   const hostRef = useRef<HTMLCanvasElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -87,7 +91,7 @@ export function SpriteThumb(props: {
   useEffect(() => {
     if (!visible) return
     let alive = true
-    void loadThumb(assetBase, spriteNum, path, blob).then((baked) => {
+    void loadThumb(assetBase, spriteNum, frameIndex, path, blob).then((baked) => {
       if (!alive || !hostRef.current) return
       const ctx = hostRef.current.getContext('2d')
       if (!ctx) return
@@ -103,7 +107,16 @@ export function SpriteThumb(props: {
     return () => {
       alive = false
     }
-  }, [visible, assetBase, spriteNum, size, path, blob])
+  }, [visible, assetBase, spriteNum, size, frameIndex, path, blob])
 
-  return <canvas ref={hostRef} width={size} height={size} className="sprite-thumb" />
+  return (
+    <canvas
+      ref={hostRef}
+      width={size}
+      height={size}
+      className="sprite-thumb"
+      role="img"
+      aria-label={`精灵 #${spriteNum} 预览`}
+    />
+  )
 }
