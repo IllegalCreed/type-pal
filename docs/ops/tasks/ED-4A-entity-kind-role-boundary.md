@@ -234,10 +234,49 @@ Branch: main
      字符串;检查器文案同步。
   门禁独立重跑:migrate 183+1skip/content 170/editor 172/reforge 343/migration-validate 3;dry-run
   `writes=0 deletes=0 conflicts=0` 含通道报告。
-- GLM: pending
-- counter / 返工处理: 无(Opus 零返工项)。
+- GLM: **accept（2026-07-15;见下）**。六项独立实测 + 四包 868 tests pass + 1 skip。G1-G3 全落地。
+
+  **(1) G1-G3 落地验收** ✅：
+  - **G1（dry-run 通道口径注明）**：实测 dry-run 输出 `sprite-defs=580/574 sprite-refs=entities:3695/3695,actors:6/0,setActorSprite:116/69,setActorAppearance:3/2`——116/69 与 3/2 的 total/migrated 口径与设计期基线逐项吻合。✅
+  - **G2（actors.spriteId 第五通道入闭包）**：`auditSpriteReferenceClosure`（migration-validate.ts:59-139）五通道全扫——definitions(:73-83)/actors(:96-102 **G2 第五通道**)/entities(:104-117)/setActorSprite+setActorAppearance(:119-135 walkCommands 递归)。`assertSpriteReferenceClosure`（:142-154）对 legacy/unresolved fail-loud throw。✅
+  - **G3（闭包门禁显式扫脚本命令不依赖 validate-refs.ts）**：调用位序实证——`createMigrationPlan`→冲突检查→**`plan.target`（合并后最终结果）上 `validatePalMigrationTarget`→`assertSpriteReferenceClosure`**（migrate-content.mts:256-273），dry-run 和 `--write` 两路同门禁。walkCommands 递归覆盖场景脚本分片 + 敌人编舞。✅ **不依赖 validate-refs.ts（它只覆盖 EntityDef.sprite + actors.spriteId）。**
+
+  **(2) 通道口径全量对账（改名后独立重扫）** ✅：
+  - sprites.json **580 总 = 574 sprite-***（含 16 `-f`）+ 6 semantic + **0 npc-***。✅
+  - EntityDef.sprite **3,695 全 sprite-***。✅
+  - `grep '"npc-[0-9]' projects/pal/content/` = **0**。✅ 产物零 `^npc-\d+(-f\d+)?$`。
+
+  **(3) 测试矩阵完备性** ✅：
+  - **§105 结构化扫描**：migrate-content.test.ts:627 `expect(.../^npc-\d+(?:-f\d+)?$/.test(def.id)).toBe(false)` 零 legacy 断言。✅
+  - **§106 反向保护**：migration-validate.test.ts:36-81 作者 `npc-merchant`（semantic）五通道全放行 + 实体 id 字面 `npc-55` 不被扫描。✅
+  - **R1 漂移模拟**：migration-validate.test.ts:83-138 ours 引 `npc-55` × theirs 改名 `sprite-55` → `plan.conflicts=[]`（结构化合并成功）→ 闭包审计捕获悬空 → `assertSpriteReferenceClosure` throw `/精灵引用闭包门禁失败.*npc-55/`。与 R1 规格精确一致。✅
+  - **§107 四形态创建 × 撤销重做**：commands.test.ts:126-146 `test.each` 四模式（actor/sprite/touch-zone/interact-zone）× AddEntityCommand apply/invert。✅
+  - **§107 保存重开**：project-io.test.ts:185-245 四类 `createPlacedEntity` → serialize → assemble → toEditorState → `toEqual(placements)` + zone trigger `{on,range,stages:[{body:[]}]}`。✅
+  - **entity-placement.ts**：55 行纯模块，四模式收口 EntityRef，zone 自带 `pages[0].trigger` + `createEmptyScriptStages`，缺省 touch 0/interact 1。✅
+  - **O1 非阻塞**：§104 "同号布局冲突 `-f` 逃生口"无专用单测——实现存在（migrate-content.ts:1255 layoutConflicts），§105 测试容忍 `-f` id 但不主动构造冲突；结构保证已足够。
+
+  **(4) 夹具同步复核** ✅：
+  - **migrate 测试**：translate-events.test.ts npc- **0 残留**（原 4 hits 全改 sprite-*）；migrate-content.test.ts 仅 1 处（:627 负向断言"npc- 不存在"，正确保留）。✅
+  - **reforge**：script-runner.test.ts npc- **0 残留**（R2 夹具已同步）。✅
+  - **game**：present.test.ts 11 hits + scene-system.test.ts 1 hit（注释 `npc->x` C 指针）——**一阶段冻结未改**，正确。✅
+
+  **(5) MG2 事务面** ✅：
+  - 首次 dry-run `writes=315 deletes=0 conflicts=0` → `--write` 事务提交 631 项 → 命令内二跑 `0/0/0` → 独立 dry-run `0/0/0`。链路与 MG2 卡"结构化三方合并 + 事务写盘 + 二次严格零计划"口径一致。✅
+  - sprites.json id-mode 结构化合并（574 del + 574 add），scenes 按实体 id 锚定不扰动。✅
+  - baseline 同步完整（当前 dry-run 稳态零计划确认）。✅
+
+  **(6) door 边界（文档面）** ✅：
+  - 卡内职责枚举 `object` 含门（line 21/99/233/366/419），无平级 `door` 职责。
+  - editor/content/reforge 源码零 `'door'` 职责字符串。✅
+  - phase2 docs 零 `door` 平级职责命中（`outdoor`/`resolveOutdoorSkills` 等无关子串除外）。✅
+
+  **总结**：G1-G3 全落地（闭包门禁五通道 + plan.target 位序 + walkCommands 脚本命令）；改名后产物 580/574sprite/3695/0 npc- 全确认；测试矩阵 §105-108 + R1 漂移模拟精确一致；夹具零残留 + game 冻结；MG2 事务链路一致；door 归入 object 无平级。四包 183+1skip/170/172/343 = **868 pass**。**accept**。
+
+  **O1 非阻塞（不影响 accept）**：§104 同号布局冲突 `-f` 逃生口无专用单测（实现存在 + §105 容忍，结构保证已足够）。
+
+- counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1 布局冲突无专用单测非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM 覆盖复核与用户验收）
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
@@ -427,6 +466,7 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
   door 边界:源码零平级 role 残留。门禁重跑 183+1skip/170/172/343 + dry-run 零计划含通道报告。
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(通道口径对账/测试矩阵/夹具清单),
   齐签后交用户验收;不得标 done,不得改 capability-map。未改实现文件。
+- 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 868 pass：(1)G1-G3 全落地——dry-run 通道口径 `580/574·3695/3695·6/0·116/69·3/2` 精确吻合;auditSpriteReferenceClosure 五通道含 actors.spriteId(G2);闭包门禁在 plan.target 合并后结果上跑 walkCommands 递归脚本命令(G3,不依赖 validate-refs.ts)。(2)改名后产物 580=574 sprite-*+6 semantic+0 npc-,3695 EntityDef.sprite 全 sprite-*,grep npc-[0-9] 零命中。(3)测试矩阵——§105 migrate-content.test:627 零 legacy 断言/§106 migration-validate.test:36-81 反向保护/R1 漂移模拟 :83-138 ours npc-55×theirs sprite-55→conflicts=[]→闭包 throw/§107 commands.test:126-146 四模式×undo-redo/project-io.test:185-245 保存重开;entity-placement.ts 55行四模式 zone trigger。O1 非阻塞(布局冲突-f无专用单测)。(4)夹具 migrate/reforge 零 npc- 残留,game 一阶段冻结。(5)MG2 315/0/0→631→0/0/0 链路一致。(6)door 归入 object 无平级,源码/docs 零命中。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
