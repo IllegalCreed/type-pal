@@ -196,10 +196,48 @@ Branch: main
   (真实方向键出房门 e3 touch):fade 曲线 0→1(s001)→switch→1→0(s003),全程零 entry 帧/零 dither 帧,
   落地 s003 ✓。6010 s001:准备(2条)/呈现(逐像素渐变 2160ms 可编辑+恢复默认)/呈现后(138条)三区齐,
   native details 折叠可用,布局无溢出。
-- GLM: pending
-- counter / 返工处理: 无(Opus 零返工项)。
+- GLM: **accept（2026-07-15;见下）**。六项独立实测 + 四包 861 tests pass + 1 skip。
+
+  **(1) X-N1~X-N3 落地验收** ✅：
+  - **X-N1（s001 站点勘误）**：审计文档 x3-scene-entry-migration-audit.md:17-19 已写"s001 精确提升为 prepare=[playMusic(31),teleportParty(59,-23)]/reveal=dither 2160ms"；product.test.ts:158-171 断言 s001 entry 精确参数 + body 首条为 dialog + 零 ditherScreen。s001 override（L-2876/L-2920）不含 dither——勘误已入审计。✅
+  - **X-N2（17 反例 + 13 非早期清单）**：审计文档 :25-37 两组清单完整；product.test.ts:173-202 精确断言 `independent===expectedIndependentDitherScenes(17)` + `nonEarlyOnEnter===expectedNonEarlyOnEnterScenes(13)`。✅
+  - **X-N3（root/override 独立扫描）**：product.test.ts:66-85 `collectEntrySites()` 分别遍历 `scene.onEnter`（root）和 chunk 内 `setSceneOnEnter.stages`（override），两条独立路径。s182 override 物理在 s188 分片但稳定 id 归 s182，测试断言 scriptId=`scene/s182/override/on-enter/L-27448/stage-0`。✅
+
+  **(2) 11/17/13 三组清单全量对账（独立重扫）** ✅：
+  - **lift 集 11**（10 root + 1 override s182/L-27448）：独立 Python 重扫 projects/pal 全量场景 + 全 chunk，entry 场景精确匹配 `[s001,s018,s057,s090,s151,s180,s182,s196,s197,s198,s200]`。✅
+  - **17 独立站点**：全在 entity trigger / shared 编舞，保持通用 ditherScreen 不提升。✅
+  - **13 非早期 onEnter**：dither 前有非安全前缀（setActorSprite/wait/dialog 等），零 entry。✅
+  - 三组互斥共 41 = 总 ditherScreen 场景数。product.test.ts 三组 `toEqual` 精确断言。✅
+
+  **(3) 安全集分类复核** ✅：
+  - `SCENE_ENTRY_PREPARE_SAFETY`（script.ts:213-287）`as const satisfies Record<Command['kind'], …>` 编译期穷尽。**实测 73 项**（= Command union 73 kind 一一对应，零缺漏）——⚠️ **O1 非阻塞勘误：卡内"66 项"应为 73**。
+  - 逐项语义复核无异议：blocked 27 项（control flow/timing-animation/scene-asset-transition/IO：branch/callScript/cameraPan/wait/moveEntity/dialog/fade/loadScene/startBattle/setActorSprite/setActorAppearance/setSceneMapOverride…）；safe 46 项（pure state mutation + instant visual setup：cameraSnap/stepEntity/animEntity/shakeScreen/playMusic/teleportParty/setEntity*/setFlag/setVar…）。
+  - **边界正确**：cameraSnap(瞬时 safe) vs cameraPan(动画 blocked)；stepEntity(单步 safe) vs moveEntity(走到 blocked)；animEntity(仅推帧不位移 safe)；shakeScreen(time=0 setup safe，s151 prepare 实测 frames:0 用了它)；setActorSprite/appearance(改渲染态 blocked)；setSceneMapOverride(改目标渲染 blocked) vs setSceneOnEnter/Teleport(状态绑定 safe)。✅
+
+  **(4) 测试矩阵完备性** ✅：
+  - **X-R3 五路径**：scene-entry-session.test.ts 7 tests。二次 loadScene（:28-36 独立 token-guard 测试——旧 token 无法收尾新 session）；prepare 抛错/abort/读档打断/资产失败（:38-49 test.each 四路径统一经 `cancel()` 收口——session 设计如此：不加载资产/不跑脚本，host 捕获后调 cancel）；reveal 契约失配（:56-61 场景不匹配 `/场景不匹配/` + 契约不一致 `/契约不一致/` 两分支 throw）。✅
+  - **X-R1 穷尽性**：编译期 `satisfies Record<Command['kind'],…>` 是真保险（新增 kind 未分类=typecheck 失败）；validator checkSceneEntry（script.ts:459-470）+ migrate lifting（scene-entry.ts:33）+ editor ScriptDrawer（:700/:747）三消费者共用唯一分类源。runtime 测试为 spot-check（playMusic safe / wait blocked），非遍历 73 kind——编译期保证已足够。✅
+  - **reveal 契约 fail-loud**：scene-entry-session.test.ts:56-61 两分支（wrong scene + wrong reveal kind）throw。✅
+
+  **(5) s151 多 dither 语义** ✅：
+  - s151 entry.prepare 5 命令（playMusic/shakeScreen frames:0/teleportParty/clearDialog/setEntityState）+ reveal dither 720ms。body callScript 指向 chunk `scene/s151/root/on-enter/stage-0`（63 命令），含 **恰好 2 个 ditherScreen**（剧情 dither，不提升）。✅
+  - **结构保证不重复提升**：liftEarlyDitherSceneEntry（scene-entry.ts:13-32）遇首个 ditherScreen 即 return + `body.slice(index+1)`，不扫描后续 dither。✅
+  - **O2 非阻塞**：无测试直接钉死"s151 body 恰好 2 ditherScreen"——结构保证已足够，审计文档 :22-23 已记录。
+
+  **(6) MG2 二跑零计划 + 体积门禁** ✅：
+  - dry-run `writes=0 deletes=0 conflicts=0`，compact 1.65x / pretty 1.13x / commands 1.53x / closure 450582B。✅
+  - 四包测试：migrate 181+1skip / content 170 / reforge 343 / editor 167 = **861 pass**。✅
+  - 旧机制退役：`DETERMINISTIC_PREFIX_KINDS`/`hasEarlyDitherScreen`/`bindingHasEarlyDither` 全仓零引用。✅
+
+  **总结**：X-N1~X-N3 全落地；11/17/13 三组独立重扫全匹配；安全集语义全正确（73 项非 66）；X-R3 五路径 + X-R1 编译期穷尽 + reveal fail-loud 全有测试；s151 多 dither 结构保证不重复提升；MG2 零计划 + 861 pass + 旧机制零引用。**accept**。
+
+  **O1-O2 非阻塞（不影响 accept）**：
+  - **O1**：卡内"安全集 66 项"应为 73（= Command union kind 总数，satisfies 穷尽）。建议修正卡内措辞。
+  - **O2**：s151 body 剩余 2 ditherScreen 无直接断言（结构保证 + 审计记录已足够）。
+
+- counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1 卡内措辞勘误 + O2 s151 无直接断言均非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM accept 及用户验收）
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
@@ -371,6 +409,7 @@ Branch: main
   **s001→s003 手动步行 = 纯默认 fade 三段曲线,零 entry/dither**;6010 三区/折叠/2160ms 可编辑齐。
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(11/17/13 清单全量对账+测试矩阵),
   齐签后交用户验收;不得标 done。未改实现文件。
+- 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 861 pass：(1)X-N1~X-N3 全落地——s001 仅 root 勘误入审计+product.test 断言/17+13 清单入审计+精确 toEqual/root/override 独立扫描有测试；(2)11/17/13 三组独立 Python 重扫 projects/pal 全量精确匹配(lift 10 root+1 override s182/L-27448,反例 17 trigger/shared,非早期 13 setActorSprite 等前缀)；(3)安全集 `SCENE_ENTRY_PREPARE_SAFETY` satisfies Record 穷尽 **实测 73 项**(=Command union 73 kind),逐项语义全正确(cameraSnap safe/cameraPan blocked/stepEntity safe/moveEntity blocked/animEntity safe/shakeScreen frames:0 safe/setActorSprite blocked),**O1 非阻塞：卡内"66项"应为73**；(4)测试矩阵——X-R3 五路径(scene-entry-session.test 7 tests,二次loadScene独立token-guard+四路径cancel统一收口+reveal契约失配两分支throw)/X-R1 编译期satisfies穷尽+三消费者共用唯一源/reveal fail-loud两分支有测；(5)s151 首个dither升entry+body剩2剧情dither(lifting首个即return结构保证)；(6)MG2 writes=0+1.65x/1.13x/1.53x+旧机制三标识零引用。O1(73非66勘误)+O2(s151无直接断言)非阻塞。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
