@@ -149,11 +149,49 @@ Branch: current
   loadScene 三态 XOR(与 sceneScriptOverrides 三态先例同构)、post-pass 归一化(在门模式 fold 后的最终
   绑定+chunks 上递归,复用全脚本 walker 不另写残缺扫描器)、plan.target 合并后 dangling 门禁(ED-4A
   漂移门禁精确同构)——全部成立。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(loadScene 字段名 entryId 防三重 entry 同名/
-  facing 链补 inheritFacing/迁移 id 函数域钉死为 target+pos),纳入 build 范围。
+- GLM: **agree（2026-07-15;附 W1-W3 build 必落范围澄清,见下）**。六项独立实测逐条：
+
+  **(1) 基线对账** ✅（全精确匹配 + shared 口径裁定）：
+  - entries **1,247** / from-shared* **726** / 同坐标重复场景 **104** / 冗余 **244** / loadScene **966**（863 pos + 0 命名 + 103 默认）/ entries.start 双写 **37** 场景——全独立重扫逐项精确匹配。✅
+  - **W1（shared 重普通权威口径裁定）**：实测 = **240**（非卡内 239）。Opus 的 240 正确，卡内 239 偏一。**build 时以 240 为准。**
+
+  **(2) 污染机理复现** ✅（两阶段机理完整确认）：
+  - `pal-migration-io.ts:32-54` eventsByScene 三键：正数(0..293 真实场景) / **-1**(shared.json) / **-2**(all.json 全量副本)。✅
+  - `migrate-content.ts:1358-1388` 到达扫描 `for (const [srcId, cmds] of eventsByScene)` **遍历全键含 -2** → each setPartyPos→loadScene pair 被双扫（正数 + -2）。✅
+  - `migrate-content.ts:1742` `srcName = a.src >= 0 ? sceneSlug(a.src) : 'shared'` → **-1 和 -2 同名 'shared'，计数器按 src 自增 → 同名 from-shared-N 键互相覆盖**。✅
+  - **修复后预期**：排除 -2 后 arrivals 只含正数 + -1 真实 shared（27 站点），entries 总数将从 1,247 显著下降（污染 726 from-shared 中大量为 -2 副本 + 同名覆盖丢失的）；**精确数字 build 后以产物为准**，审计报告记录修复前后对比。
+
+  **(3) 去重预测（build 后直接对账基线）** ✅：
+  - 863 loadScene.pos 按 `(targetScene, col, row, height)` 分组 = **762 unique groups**。
+  - 其中 **61 收敛为默认落点**（等于场景 SceneDef.entry）→ 改默认模式。
+  - **701 需新建命名锚点**。
+  - **build 产物验收直接对着 762/61/701 这三个数**：迁移后 loadScene.entry 全部可解析、命名锚点全被引用、同场景无重复 GridPos。
+
+  **(4) R1-R3 测试形态** ✅（每条可落）：
+  - **R1（entryId 命名静态扫描）**：全仓 grep `loadScene.entry` 裸字段为零（用 `entryId` 替代），防三个 entry 语义混淆。测试 = 静态扫描断言。✅
+  - **R2（facing 四级链专测）**：显式 facing > 锚点 facing > inheritFacing(门穿行) > 默认落点 facing——四组合 × 门穿行 × 带/不带锚点 facing 的表驱动测试。迁移锚点 pos-only 故零回归。✅
+  - **R3（id 域纯函数测试）**：id = 迁移前缀 + hash(targetScene, col, row, height)。测试 = 同 target+pos 跨来源（shared vs scene）同 id / 坐标变更换 id / 碰撞 fail-loud。✅
+
+  **(5) 引用面完备（walker 覆盖）** ✅：
+  - **script-references.ts generic walk（:86-154）已覆盖全 966 loadScene**——实测全 966 都在 authored chunks 中（场景 onEnter/onTeleport/entity pages 全是 callScript 间接，零内联 loadScene），generic walk 递归 branch/battle/confirm/choreography 全臂。✅
+  - **W2（非阻塞，build 确认）**：walker 的 hostile.onLose 特例（:201）理论上可能漏 hostile.onFlee，但实测 HostileBehavior 无 onFlee 字段（index.ts:103-114），且全 966 loadScene 在 chunks 中已全覆盖——**无实际缺口**。build 时确认 walker 扩展 loadScene 引用边后六类站点（内联 stage/实体页/场景绑定/共享 chunk/分支臂/敌人编舞）反例各至少一例即可。
+
+  **(6) MG2 面** ✅：
+  - **entries record 按 key 合并**：与 A7-0 catalog 同构——entries 是 `Record<entryId, EntryDef>`，mergeObject 按 entryId 键合并。✅
+  - **plan.target dangling 门禁**：三方合并后最终 target 上检查 loadScene.entryId 全部可解析；作者引用被删 from-* id → 阻断写盘（与 ED-4A sprite 闭包门禁同构）。✅
+  - **漂移模拟测试**：构造 ours 引用旧 from-shared-N × theirs 删除该 entry → conflicts=[]（结构化合并成功）→ dangling 门禁 throw。✅
+  - **首写盘 plan 可解释 + 双跑零计划**：pal-migration-integration.test.ts:119-122 已有骨架，扩展 entries 变更。✅
+
+  **总结**：基线全精确匹配（W1 shared=240 裁定）；污染机理两阶段完整确认（-2 双扫 + 同名覆盖）；去重预测 762/61/701 三数作 build 验收基线；R1-R3 测试形态全可落；walker 无实际 loadScene 缺口（W2 确认）；MG2 entries key 合并 + dangling 门禁 + 漂移模拟全可落。**agree**。
+
+  **W1-W3 build 必落范围澄清（非阻塞，纳入 build 范围）**：
+  - **W1**：shared 重普通权威口径 = **240**（非卡内 239），build 审计报告以 240 为准。
+  - **W2**：walker 扩展 loadScene 引用边后确认六类站点反例（非阻塞——generic walk 已全覆盖 966 loadScene，无实际缺口）。
+  - **W3**：去重预测 762 groups / 61 收敛默认 / 701 命名锚点作为 build 后产物验收直接对账基线。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 W1-W3 build 必落)。shared 重普通=240(W1)已裁定权威口径。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（待 GLM 覆盖复核）**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R3 必改 + S1-S3 + W1(shared=240口径)/W2(walker六类反例确认)/W3(去重预测762/61/701基线)纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -273,7 +311,7 @@ loadScene(scene, { pos })              // 一次性显式坐标
   选择态/walker 复用);基线普查独立坐实(1247/726/104/244/966=863+0+103,另发现 37 场景 entries.start
   双写);附 R1(entryId 防三重 entry 同名)/R2(facing 链补 inheritFacing——验收现文漏了门穿行延续)/
   R3(迁移 id 域=target+pos 与来源无关)+S1-S3。
-- GLM: pending
+- GLM: **agree**。基线全精确匹配(1247/726/104/244/966=863+0+103/37)；**W1 裁定 shared 重普通=240(非卡内239)**；污染机理两阶段完整确认(-2 all.json 双扫+负src同名'shared'覆盖)；**去重预测: 863 pos→762 unique groups→61 收敛默认+701 命名锚点**(W3 build验收基线)；R1-R3 测试形态全可落(entryId静态/facing四级/id域纯函数)；walker 已覆盖全966 loadScene(W2 确认六类反例即可,无实际缺口)；MG2 entries key 合并+plan.target dangling门禁+漂移模拟全可落。W1-W3 非阻塞。
 - 用户拍板: 接受闭环形态；未授权缺签进入 build。
 
 ## 额度 / 代班记录(如适用)
@@ -328,6 +366,7 @@ loadScene(scene, { pos })              // 一次性显式坐标
   穿行延续,迁移锚点 pos-only 故零回归);R3=迁移 id 域钉死(targetScene,GridPos) 与来源无关(防同锚
   多来源/来源增删 churn)。Evidence: 主审立场+普查脚本输出。Next: GLM 迁移覆盖/基线/测试矩阵复核;
   三签齐后 Codex build;不得抢跑实现。未改实现文件。
+- 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)基线 1247/726/104/244/966=863+0+103/37 全精确匹配,**W1 裁定 shared 重普通=240(非卡内239)**；(2)污染机理两阶段确认——pal-migration-io:32-54 eventsByScene 三键(正/-1 shared/-2 all.json),migrate-content:1364 遍历全键含-2双扫,:1742 负src统一'shared'同名覆盖；(3)**去重预测 863 pos→762 groups→61收敛默认+701命名锚点(W3 build验收基线)**；(4)R1 entryId静态扫描零裸entry/R2 facing四级链(显式>锚点>inherit>默认)表驱动/R3 id域=target+pos纯函数测试全可落；(5)walker已覆盖全966 loadScene(全在authored chunks,场景槽全callScript间接,W2确认六类反例即可无实际缺口)；(6)MG2 entries Record按entryId key合并+plan.target dangling门禁+漂移模拟(ours引旧from-*×theirs删→throw)全可落。W1(shared=240)/W2(walker六类反例确认)/W3(762/61/701基线)非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
