@@ -115,11 +115,24 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 
 - Codex: **agree（2026-07-15）**。现状审计确认复制链、加载链和引用链未闭合；建议采用单 catalog + AssetResolver,
   以音乐/soundfont 首切片验证 contentVersion、MG2、编辑器 CRUD、运行时与本地工程全链。
-- Opus: pending
+- Opus: **agree（2026-07-15,附 R1-R4 必改 + S1-S2 建议,见主审立场）**。七项压力测试全过,独立地面重验:
+  音乐引用普查逐项吻合(playMusic **1,227** 含停曲 **53**、场景 musicId **36**、battleMusicId **80**、
+  startBattle.musicId **31**、正数去重 **71**、music.json **86** 条且全为 `{id}` 数字壳);硬编码锚点实证
+  (main.ts:1372 战斗曲 37、:1629 胜利曲 boss?2:3、bgm.ts:88 `/soundfont.sf3` 应用根、:61 MIDI 裸 fetch);
+  `sys:music` 魔法槽三站点(:1159/:1702/:2373+3313);fsa-source urlFor 每调用新建 object URL 无 revoke;
+  编辑器 main.tsx:47-51 音乐表绕 source——审计证据全部坐实。**bgm.play 全站点普查**(707/1160/1373/1629/
+  1703/2374/3313):除四个硬编码角色外全部数据驱动,**roles 封闭集 = 恰四个**(defaultBattleMusic/
+  bossVictoryMusic/normalVictoryMusic/midiSoundfont),无第五个隐藏常量。单 catalog 架构裁定成立:
+  Record<AssetId,Record> 合并键/引用键/选择键三合一,id 不透明不可推路径,与 R2/N1-1 的"单一模型+
+  fail-loud"先例同构;v3 显式 legacy 债务区优于两种替代(v2 平铺新旧字段 = 同族双真值,一步到 v4 =
+  3,232 文件四包一卡,均否);战斗临时曲不落持久态 + WorldState.audio 典型化 = X3/RNG 呈现态与持久态
+  分离先例的音频版。范围裁定:地基+音乐纵向切片不再切(地基无切片验证 = 未证抽象;音乐族 86 文件
+  最小完整,半族分卡必留旧回退,违铁律)。
 - GLM: pending
-- counter / 分歧处理: 待 Opus 审架构/分期与 GLM 审覆盖/迁移矩阵；任一 counter 时留在 draft。
+- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补(族排他机械门禁/v2→v3 变换归包/二进制门禁
+  三条明示/roles 封闭集钉死),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（三方设计签字未齐,不得修改实现文件）**
+- build 准入结论: **blocked（待 GLM 覆盖复核）**
 
 ### 进入 done 前:审查签字
 
@@ -189,14 +202,55 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 ### 主审立场
 
 - Reviewer: Opus
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-15): **agree — 单 catalog + AssetResolver + v3 债务区 + 音乐首切片,七问逐项裁定如下**:
+  1. **单 catalog + roles 覆盖 runtime**:成立。物理真值单点(catalog),运行角色是 content 定义的封闭联合
+     (实测普查恰四个,见签字行),`project-files.json` 传输清单已声明为派生只读非第二作者数据;
+     包边界 content(schema/walker 纯数据)← reforge(resolver 持 FileSource)← editor(零自建解析器)方向正确。
+     AssetKind 全集先定义、未迁族零条目,不构成双真值。
+  2. **v3 legacy 债务区 / v4 收口**:方案干净且优于两种替代——v2 平铺新旧字段 = 同族双真值(违 READ-FIRST
+     铁律),一步到 v4 = 四包 3,232 文件一卡(不可审)。"同族任一时刻只在一侧"必须机械化(R1),
+     不能靠约定。旧工程一次性迁移方向对,但变换归包有倒置风险(R2)。
+  3. **音乐语义**:AssetId/null/缺席三态与 sceneScriptOverrides 三态先例同构;playMusic/stopMusic 分离
+     替代 0 哨兵、WorldState.audio.currentMusic 替代 sys:music 魔法槽、战斗临时曲不覆盖持久 BGM
+     战后恢复——与一阶段行为(缺省延续/指定切曲/显式停曲、胜利曲不落账)逐条对应;musicId:0 →
+     null(战斗静音忠实原版)映射正确。
+  4. **MG2 所有权**:catalog Record 按 AssetId 键合并;"迁移器只可更新 origin=legacy-migrated 且 path 在
+     migrated/** 的记录"+作者替换双跑零计划专测,与 ED-4A 漂移门禁同构。二进制不进 JSON baseline
+     正确,但门禁三条须明示(R3)。
+  5. **soundfont/worklet 边界**:soundfont=工程资源(licensed 角色,自包含铁律要求物理拥有,6MB 可接受
+     且用户已拍板 TimGM6mb 不换);worklet=引擎代码=应用壳。划线正确。object URL 收敛到
+     resolver/source 级缓存+dispose 统一 revoke,修 fsa-source:50-51 泄漏,正确。
+  6. **范围**:不再切。地基不带纵向切片 = 未验证的抽象;音乐族最小完整(86 文件/单一消费链);
+     半族分卡必留旧回退。工作量与 N1-1/R2 同量级,可一卡完成。
+  7. **验收矩阵**:普查数字已由我独立坐实(1,227/53/36/80/31/71/86),验收 §95 的计数基线可直接对账。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 族排他性机械门禁**:content validator 必须断言「catalog 中出现的 AssetKind 所属资源族」与
+    「manifest.assets.legacy.families」**互斥**——音乐族入 catalog 后 families 含 music/soundfont 即
+    fail-loud;任何族两侧同时可解析 = 校验错误而非约定。A7-1..3 每迁一族此断言自动收紧,A7-4 断言
+    families 为空后升 v4。
+  - **R2 v2→v3 变换归包与 IO 契约**:变换的纯逻辑层放 **@type-pal/content**(先例:dialogue-upgrade.ts
+    loader 边界升级器),文件读取(bytes/sha256)经注入的最小 reader 接口;migrate 包装它做 PAL/CLI 侧,
+    editor 在打开边界调用并强制保存——**editor 不得新增对 @type-pal/migrate 的包依赖**(现状零依赖,
+    migrate 携 Node 侧重依赖,进浏览器 bundle 即包边界倒置)。
+  - **R3 二进制物化门禁三条明示**:迁移物化 `assets/migrated/music/**` 与 `assets/runtime/**` 不在 MG2
+    JSON 事务内,验收须写明:(a) 二进制写入确定性可重建且幂等;(b) 写盘后立即跑文件闭包
+    (bytes/sha256)作为写后门禁;(c) MG2 双跑零计划判据明确不含二进制,二进制以闭包报告为唯一门禁
+    ——防"JSON 零计划但二进制缺/烂"的假绿。
+  - **R4 roles 封闭集钉死**:audio 角色联合 = {midiSoundfont, defaultBattleMusic, bossVictoryMusic,
+    normalVictoryMusic} 恰四个(Opus 已普查全部 bgm.play 站点,余者皆数据驱动);build 静态断言
+    main.ts/bgm.ts 音乐数字字面量与 `/soundfont.sf3` 归零,roles 缺一即闭包报红。
+- 建议项(S,不阻塞):
+  - S1 存档 normalizer 时机写进设计:load 边界一次性转换(sys:music → audio.currentMusic),X1 auto-save
+    自然写回新形态,不迁存量档(CLAUDE.md 修 bug 不迁旧档缺省;normalizer 只管读入)。
+  - S2 projects/demo 与空白模板同步直接产 v3(demo-project.test 是真值锚,别漏)。
+- 是否建议进入 build: **待 GLM 覆盖复核(迁移矩阵/测试面);R1-R4 纳入 build 范围后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: 支持单 catalog、manifest v3、runtime 零双轨；建议音乐/soundfont 为首切片并退役 music.json。
-- Opus: pending
+- Opus: **agree**。单 catalog/v3 债务区/音乐首切片三判全立(替代方案 v2 平铺=双真值、直跳 v4=不可审,
+  均否);普查数字独立坐实、roles 封闭集=恰四个;附 R1(族排他机械门禁)/R2(v2→v3 归 content 防包倒置)/
+  R3(二进制门禁三条)/R4(roles 钉死+字面量归零断言)+S1-S2。
 - GLM: pending
 - 用户拍板: 用户于 2026-07-15 同意按推荐顺序开始；三签齐前只允许设计审查。
 
@@ -254,24 +308,31 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 - 2026-07-15 Codex: 完成 A7/R7 现状审计、终态契约、分期和 A7-0 任务卡；Codex 设计签 agree。
   Evidence: `docs/phase2/foundation/a7-resource-closure-audit.md`；当前只改文档。
   Next: Opus 架构/实现可行性主审并签 agree/counter；不得开始实现。
+- 2026-07-15 Opus: 设计主审签 **agree + R1-R4 必改 + S1-S2 建议**。独立地面重验:音乐引用普查
+  1,227/53/36/80/31/71/86 逐项吻合;硬编码 37/2/3+`/soundfont.sf3`+sys:music 三站点+fsa urlFor 泄漏+
+  编辑器音乐旁路全坐实;bgm.play 全站点普查 → roles 封闭集恰四个。裁定:单 catalog(Record 键三合一/
+  id 不可推路径)、v3 显式债务区(优于 v2 平铺与直跳 v4)、三态音乐语义(与 sceneScriptOverrides 同构)、
+  MG2 所有权(与 ED-4A 漂移门禁同构)、soundfont 工程资源/worklet 应用壳、范围不再切——七问全立。
+  R1=族排他 validator 断言;R2=v2→v3 纯变换归 content+注入 reader,editor 禁增 migrate 依赖(防包倒置);
+  R3=二进制物化"幂等/写后闭包/MG2 判据排除二进制"三条明示;R4=roles 四角色钉死+音乐字面量归零断言。
+  Evidence: 主审立场+普查脚本输出。Next: GLM 覆盖/迁移/测试矩阵复核;三签齐后 Codex build;
+  不得抢跑实现。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:A7-0 工程资源闭包地基与音乐注册表首切片——设计主审(Opus)
+接手任务:A7-0 工程资源闭包地基与音乐注册表首切片,覆盖/迁移/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/A7-0-resource-closure-registry.md
-当前状态:draft;Codex 已签 agree,Opus/GLM pending,build 准入 blocked
-你的角色:Opus,做架构/schema/跨包/MG2/实现分期压力测试;只改任务卡和必要设计文档,不得改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全部、docs/phase2/foundation/a7-resource-closure-audit.md、docs/phase2/editor/project-lifecycle-design.md、docs/phase2/roadmap.md §10
-已完成:Codex 已审计 manifest/FileSource/AssetBase/BGM/SFX/克隆/编辑器旁路;确认当前克隆 3,232 文件但仍非闭包;提出单 assets/index.json + AssetResolver + v3 迁移债务区/v4 最终收口,并以音乐/MIDI soundfont 做首个纵向切片
-请你做:
-1. 审单 catalog + manifest roles 是否足以覆盖 runtime,是否存在第二真值或包边界倒置;
-2. 重点审 v3 `assets.legacy` 按资源族隔离、A7-4 升 v4 删除适配器的方案:是否足够干净、是否有更低成本但不让同一资源族双轨的替代;同时审旧工程/旧存档一次性迁移;
-3. 审 music.json 退役、AssetId/null/stopMusic、WorldState.audio 与战斗临时曲恢复语义;
-4. 审 MG2 所有权:同 AssetId authored 替换不得被 migrated 记录/二进制覆盖,大二进制不进 baseline;
-5. 审 MIDI soundfont 归工程资源、worklet 留应用壳的边界,以及 fsa object URL dispose;
-6. 审 A7-0 范围/工作量是否应再切,但不能留下半条音乐旧回退;
-7. 把结论、必改项和你的设计签字写回任务卡;如 counter 给出可落地替代形态。
-不要做:不改 packages/**、projects/** 实现或生成产物;不把 A7/R7/capability-map 标 done;三签未齐不得进入 build
-输出要求:提交仅文档改动;签 agree 或 counter+理由;更新交接日志和“下一位 Agent 提示词”给 GLM 做覆盖/迁移/测试矩阵复核。
+当前状态:draft;Codex agree + Opus agree(附 R1-R4 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
+你的角色:GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现文件或生成产物
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R4)、docs/phase2/foundation/a7-resource-closure-audit.md §3/§5/§7
+请重点复核(数据/测试面,与 Opus 的架构/分期面互补):
+1. 音乐引用普查独立对账:用你自己的脚本重扫 projects/pal——playMusic 1,227(含停曲 53)、场景 musicId 36、battleMusicId 80、startBattle.musicId 31、正数去重 71、music.json 86 条全数字壳;86 个 MIDI(1..87 缺 29)与正数引用零缺源;
+2. 旁路清单完备性:审计 §3.5 十四处裸 fetch/绝对路径逐一核对存在,并反向扫一遍 reforge/editor 是否还有审计漏列的音乐/音频旁路(重点:菜单/标题/RNG/视频页的 BGM 调用);
+3. roles 封闭集反证:Opus 普查 bgm.play 七站点(707/1160/1373/1629/1703/2374/3313)结论"恰四角色"——请独立验证无第五个音乐硬编码(含 bgm.stop/音量/静音路径);
+4. 验收测试矩阵逐条可落:§93-100 每条有明确测试落点;R1 族排他断言、R2 归包+editor 零 migrate 依赖、R3 二进制三条门禁、R4 字面量归零断言的测试形态各是什么;
+5. v2→v3 迁移矩阵:旧 music.json 别名保留为 label、musicId:0→null/stopMusic 分站点映射、旧存档 sys:music 归一化、demo 工程与空白模板直接产 v3(S2)——每条有专测;
+6. MG2 面:catalog Record 按 key 合并入 baseline、作者替换 music.pal.031→authored/<hash>.mid 双跑零计划专测、二进制不进 baseline 的判据(R3c)可测。
+不要做:不改 packages/**、projects/**;不把 A7/R7/capability-map 标 done;三签未齐不得进入 build
+输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R4+S1-S2 纳入 build 范围),交 Codex build
 ```
