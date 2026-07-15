@@ -136,11 +136,24 @@ Branch: current
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-15）**。根因和闭环面已定位：落点应是非实体空间锚点；默认落点与额外命名落点分责；稳定 id 与 label 分离；`loadScene` 真引用并 fail-loud；迁移必须排除 `all.json`、去重、改写脚本并在 MG2 合并后做引用门禁。实现可行，但必须按本卡全链落地，不能只做画布 marker。
-- Opus: pending
+- Opus: **agree（2026-07-15,附 R1-R3 必改 + S1-S3 建议,见主审立场）**。六问压力测试全过,独立地面重验:
+  基线普查逐项吻合——**1,247** entries / **726** from-shared* / **104** 场景同坐标重复 / **244** 冗余 /
+  **966** loadScene(863 pos + 0 命名 + 103 默认);shared 重普通我测得 **240**(卡 239,计数口径微差留 GLM
+  对账);**新事实:37 个场景存在 entries.start 与 SceneDef.entry 双写**(migrate-content.ts:1736 实证)。
+  代码锚点全坐实:switchScene:691-692 未知 entry **静默回退**默认落点(`def.entries?.[spawn.entry]` →
+  undefined → `?? def.entry.pos`);迁移 :1364 遍历 eventsByScene 全键(**含 -2 = all.json 全量副本,每个
+  到达点被双扫**),:1742 把所有负 src 统一命名 'shared' 且 :1739 计数器按 src 独立自增 → **-1 与 -2 产出
+  同名 from-shared-N 键互相覆盖**——726 条污染的机理完整确认;host(script-runner:52/448)只传 pos/facing,
+  switchScene 的 entry 参数"有雏形没接线"属实。裁定:非实体空间锚点(与 ED-4A 两轴同法理,锚点是第三类
+  非实体对象、正确不入 EntityRef)、record key=稳定 id + label 人读(与 A7-0 catalog Record 键三合一同构)、
+  loadScene 三态 XOR(与 sceneScriptOverrides 三态先例同构)、post-pass 归一化(在门模式 fold 后的最终
+  绑定+chunks 上递归,复用全脚本 walker 不另写残缺扫描器)、plan.target 合并后 dangling 门禁(ED-4A
+  漂移门禁精确同构)——全部成立。
 - GLM: pending
-- counter / 分歧处理: 无
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(loadScene 字段名 entryId 防三重 entry 同名/
+  facing 链补 inheritFacing/迁移 id 函数域钉死为 target+pos),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（待 Opus/GLM 设计签字）**
+- build 准入结论: **blocked（待 GLM 覆盖复核）**
 
 ### 进入 done 前:审查签字
 
@@ -215,14 +228,51 @@ loadScene(scene, { pos })              // 一次性显式坐标
 ### 主审立场
 
 - Reviewer: Opus（schema/runtime/UI 架构主审）+ GLM（迁移覆盖、基线和测试矩阵主审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-15): **agree — 六问逐项裁定**:
+  1. **entry/entries 边界**:成立。`SceneDef.entry` 不动(默认落点)、`entries` 只存命名锚点,二者非实体
+     ——与 ED-4A 两轴同法理(锚点是第三类非实体对象,不入 EntityRef);37 个场景的 entries.start 双写
+     (实测)随迁移收敛,零 schema 翻新。
+  2. **id/label 分离**:成立且必要。record key = 稳定引用键 = MG2 合并键(与 A7-0 catalog 同构);当前
+     key 即显示名(from-s003-2)正是要修的病;UI 不开放 id 随手改名正确。
+  3. **loadScene 三态 + SceneSpawn**:成立,附 R1/R2。XOR validator(entry⊕pos,双缺=默认)与
+     sceneScriptOverrides 三态先例同构;SceneSpawn 值对象收口 host 参数(现状 host 只传 pos/facing,
+     switchScene 的 entry 参数"有雏形没接线"——实证);未知 entry fail-loud 替换 :691-692 静默回退,正确。
+  4. **迁移 post-pass**:成立,附 R3。扫描源修复直击实证机理(-2 全量副本被当来源双扫 + 负 src 统一命名
+     'shared' 且计数器按 src 自增 → 同名键互相覆盖);post-pass 位于门模式 fold 后的最终绑定+chunks,
+     按(目标场景,GridPos)分组、等默认收默认、其余去重成锚并改写引用——顺序正确(fold 是 pos 的上游
+     入口,post-pass 必须在其后);复用全脚本 walker 不另写扫描器,正确。
+  5. **编辑器闭环**:成立。选择态改显式判别值(结束字符串哨兵拼接)、统一 marker 列表复用已证明的默认
+     进场点命中/拖动通路(SceneCanvas:30-81)、AnchorInspector 单一编辑面、walker 扩展引用边供删除保护
+     ——与 ED-4A/编辑器设计 §5/§8 一致;marker 不画半透明玩家精灵符合"落点非实体"的认知一致性。
+  6. **ScriptStage.entry 冲突 + 测试矩阵**:风险真实,R1 机械化解;测试矩阵行覆盖完整(三态×互斥×缺失×
+     朝向×fail-loud + 迁移三来源反例 + 编辑器 CRUD),另补 R2 的门穿行朝向回归行。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 loadScene 引用字段名用 `entryId`,不用裸 `entry`**:仓库现已有三个 entry 语义——`SceneDef.entry`
+    (默认落点对象)、`ScriptStage.entry`(X3-1 入场呈现契约)、本卡新增的命令引用。第三个再叫 `entry`
+    是把冲突焊进公共 schema;`entryId`(或等价明确名)让类型、grep 与文档三层都可区分。验收/迁移小节中
+    的 `loadScene.entry` 字样同步改写。
+  - **R2 facing 链补 inheritFacing 并钉死次序**:验收现文"命令 facing > 命名落点朝向 > 默认落点朝向"
+    **漏了 inheritFacing(门穿行方向延续)**——现行 resolveSceneFacing(:693-697)链中它真实存在,漏写会在
+    build 期被当成可删。钉死为:**显式 facing > 锚点 facing(若有)> inheritFacing > 默认落点 facing**;
+    迁移生成的锚点不带 facing(现状 entries 全 pos-only,实证),故门穿行行为与现状逐帧一致、零回归;
+    作者显式给锚点设朝向时按作者意图覆盖走向。此链须有专测(带 facing 锚点 × 无 facing 锚点 × 门穿行)。
+  - **R3 迁移 id 生成函数域钉死 = (目标场景, GridPos),与来源站点无关**:卡文"稳定 tuple/source hash"有
+    歧义——若掺入来源站点,同锚多来源合并与来源增删都会 churn id。钉死:id = 迁移保留前缀 +
+    确定性散列(targetScene, col, row, height);同坐标永同 id,上游坐标变更 = 新 id(旧引用由 plan.target
+    dangling 门禁接住);碰撞 fail-loud。label 才允许携带来源摘要。
+- 建议项(S,不阻塞):
+  - S1 label 多来源摘要须确定性排序(label 非引用键但进 MG2 diff,不定序 = 重迁假 diff)。
+  - S2 dev 面(dev-panel 跳场景/`?scene=`)裁量支持 entryId 落点,便于验证与复现(非验收项)。
+  - S3 shared 重普通计数卡 239 vs Opus 实测 240,口径微差由 GLM 复核定权威数,连同修复后新基线一并落卡。
+- 是否建议进入 build: **待 GLM 覆盖复核(迁移矩阵/基线/测试面);R1-R3 纳入 build 范围后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: `agree`，采用非实体空间锚点、稳定 id + label、loadScene 真引用、迁移 post-pass 去重和合并后引用门禁。
-- Opus: pending
+- Opus: **agree**。六问全立(锚点非实体/id-label 分离/三态 XOR/post-pass 位序与扫描源修复/编辑器判别值
+  选择态/walker 复用);基线普查独立坐实(1247/726/104/244/966=863+0+103,另发现 37 场景 entries.start
+  双写);附 R1(entryId 防三重 entry 同名)/R2(facing 链补 inheritFacing——验收现文漏了门穿行延续)/
+  R3(迁移 id 域=target+pos 与来源无关)+S1-S3。
 - GLM: pending
 - 用户拍板: 接受闭环形态；未授权缺签进入 build。
 
@@ -268,17 +318,32 @@ loadScene(scene, { pos })              // 一次性显式坐标
 ## 交接日志
 
 - 2026-07-15 Codex: 完成现状审计并建立 W4-1。确认命名落点当前不是实体、没有画布闭环，且 PAL 迁移被 `all.json` 污染；全产物基线为 1,247 entries / 726 from-shared / 966 loadScene 中 0 条命名引用。Codex 设计签 `agree`。Evidence: 本卡上下文锚点与验收条件。Next: Opus 做 schema/runtime/UI 架构压力测试并签字。
+- 2026-07-15 Opus: 设计主审签 **agree + R1-R3 必改 + S1-S3 建议**。独立地面重验:基线普查全吻合
+  (1,247/726/104/244/966=863+0+103;shared 重普通 240 vs 卡 239 留 GLM 定口径)+新事实 37 场景
+  entries.start 双写;switchScene:691-692 静默回退、迁移 :1364 全键遍历(-2 双扫)+:1742 负 src 同名
+  'shared' 覆盖机理、host 未接线 entry——锚点全坐实。六问裁定全立(锚点非实体同 ED-4A 两轴法理/
+  record key 同 A7-0 catalog 构/三态同 sceneScriptOverrides 构/post-pass 在 fold 后+复用 walker/
+  判别值选择态/plan.target 门禁同 ED-4A 构)。R1=loadScene 字段名 entryId(仓库已有三个 entry 语义,
+  第三个不得再叫裸 entry);R2=facing 链补 inheritFacing 并钉死"显式>锚点>inherit>默认"(验收现文漏门
+  穿行延续,迁移锚点 pos-only 故零回归);R3=迁移 id 域钉死(targetScene,GridPos) 与来源无关(防同锚
+  多来源/来源增删 churn)。Evidence: 主审立场+普查脚本输出。Next: GLM 迁移覆盖/基线/测试矩阵复核;
+  三签齐后 Codex build;不得抢跑实现。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:W4-1 命名传送落点闭环与迁移去重，设计主审
+接手任务:W4-1 命名传送落点闭环与迁移去重,迁移覆盖/基线/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/W4-1-named-scene-entry-closure.md
-当前状态:draft；Codex 已签 agree，Opus/GLM pending；build 准入 blocked
-你的角色:Claude Opus，schema/runtime/UI 架构压力测试与设计签字
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡全部、docs/phase2/editor/editor-design.md §5/§8/§11；代码重点读 content SceneDef/loadScene、reforge switchScene/ScriptRunner、editor App/SceneCanvas/CommandForm/script-references、migrate 的 arrivals 扫描与 foldDoorPattern
-已完成:已确认落点不是实体；定位 all.json(-2) 被错误扫描为 shared、-1/-2 同名覆盖；PAL 基线 1247 entries/726 from-shared/104 场景重复/966 loadScene 中 0 entry+863 pos+103 default；Codex 提议默认落点与命名落点分责、稳定 id+label、loadScene 三态、迁移 post-pass 去重和 plan.target 引用门禁
-请你做:重点审查 1) SceneDef.entry 与 entries 边界；2) label/id 分离是否必要且足够；3) loadScene entry XOR pos 与 SceneSpawn API；4) post-pass 遍历共享 chunk 的可行性和 id 稳定性；5) 引用保护/删除/画布 marker 是否闭环；6) 与 ScriptStage.entry 命名冲突及测试矩阵。把 agree 或 counter+替代方案写入本卡 Opus 签字、主审立场和交接日志并提交
-不要做:不得修改任何实现文件；不得进入 build；不得顺手改 projects/pal；不得改 A7-0 任务卡
-输出要求:给出明确 agree/counter、必改项与是否建议进入 build；若 agree，请在卡末写可直接交给 GLM 做迁移覆盖复核的下一位提示词
+当前状态:draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S3),GLM pending(设计最后一签);build 准入 blocked
+你的角色:GLM,迁移覆盖面/基线/测试矩阵复核;只改任务卡,不得改实现文件或生成产物
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、packages/migrate/src/migrate-content.ts:1358-1387,1735-1745、packages/migrate/src/pal-migration-io.ts:32-54、packages/editor/src/core/script-references.ts
+请重点复核(数据/测试面,与 Opus 的 schema/runtime/UI 面互补):
+1. 基线对账:用独立脚本重扫 projects/pal——1,247 entries/726 from-shared*/104 同坐标重复场景/244 冗余/966 loadScene(863 pos+0 命名+103 默认)/37 场景 entries.start 双写;裁定 shared 重普通 239(卡) vs 240(Opus)的权威口径;
+2. 污染机理复现:eventsByScene 键集实测(-1 shared 27 站点/-2 all.json),确认 -2 参与到达扫描的双算量与 from-shared 同名覆盖的丢失量——修复后预期 entries 总数/形态给出预测区间,作为 build 后对账基线;
+3. 去重预测:按(目标场景,GridPos)分组 863 条 loadScene.pos,给出预期命名锚点数与"等于默认落点收敛为默认模式"的数量——build 产物直接对着这两个数验收;
+4. R1-R3 测试形态:entryId 命名的静态扫描断言(全仓零 loadScene.entry 裸字段)、facing 四级链专测(带/不带锚点 facing×门穿行)、id 域纯函数测试(同 target+pos 跨来源同 id/坐标变更换 id/碰撞 fail-loud)各是什么;
+5. 引用面完备:script-references walker 扩展后覆盖内联 stage/实体页/场景绑定/共享 chunk/分支臂/敌人编舞六类站点的 loadScene——反例集各至少一例;
+6. MG2 面:entries record 按 key 合并、plan.target dangling 门禁与作者漂移模拟(作者引用被删 from-* id → 阻断)的测试落点;首写盘 plan 可解释+双跑零计划口径。
+不要做:不得修改实现文件;不得进入 build;不得顺手改 projects/pal;不得改 A7-0 任务卡
+输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R3+S1-S3 纳入 build 范围),交 Codex build
 ```
