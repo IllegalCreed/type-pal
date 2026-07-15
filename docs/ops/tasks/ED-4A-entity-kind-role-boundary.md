@@ -206,11 +206,38 @@ Branch: main
 ### 进入 done 前:审查签字
 
 - Codex: **accept**（2026-07-15；实现、自测、MG2 写盘与 6010/6051 视觉回归均完成；用户新增裁决“门归入物件”已同步，未新增 role schema）
-- Opus: pending
+- Opus: **accept（2026-07-15,实现/架构/视觉主审,零返工项）**。五项重点全过:
+  1. **R1/G3 闭包门禁**:`auditSpriteReferenceClosure`(migration-validate.ts:59-139)五通道齐——definitions/
+     actors(G2 semantic 第五通道纳入)/entities/setActorSprite/setActorAppearance,`walkCommands` 递归覆盖
+     全部文件含脚本分片与敌人编舞,不依赖 validate-refs.ts(G3 落地);`assertSpriteReferenceClosure` 对
+     旧 id 或悬空引用 fail-loud 抛错;调用位序实证 = createMigrationPlan(合并)→ 冲突检查 → **在
+     plan.target(合并后最终结果)上验证** → 事务(migrate-content.mts:256-278),dry-run/写盘两路同门禁。
+     **漂移模拟测试精确落地**(migration-validate.test.ts:83-138):ours 实体引 npc-55 × theirs 改名 →
+     `plan.conflicts=[]`(结构化合并成功)→ 闭包审计捕获悬空 → 断言抛错;**反向保护**(同文件:40-81):
+     作者资源 `npc-merchant` 五通道全放行、实体 id 字面 `npc-55` 不被扫描。dry-run 报告内联通道口径
+     `580/574 · 3695/3695 · 6/0 · 116/69 · 3/2`,与我设计期基线及 G1/G2 语义逐项吻合。
+  2. **四形态统一命令路**:entity-placement.ts 55 行纯模块——四模式收口现有 EntityRef、zone 自带
+     pages[0].trigger(on/range/空 stages,`createEmptyScriptStages` 与 CreateScriptSourceCommand 共用,
+     无第二套内联模型)、缺省 touch 0/interact 1 与 TriggerSpec 一致;App addAt 四分支全走
+     `AddEntityCommand`(App.tsx:553-556);树 `entityShapeLabel` 仅 精灵/触发区,来源细节归 tooltip。
+  3. **6010 临时工程手验(OPFS 目录句柄,831 JSON+14 二进制)**:四类创建 32→36(📦entity-1 sprite 源/
+     👤entity-2 actor 源 李逍遥/⬚entity-3 touch/⬚entity-4 interact);**zone 原生拖动补验通过**——渲染画布上
+     指针拖 entity-4 (9,1)→(13,1),撤销回 (9,1)、重做回 (13,1);保存 → 整页重载 → 最近工程重连:36 实体
+     全数持久,OPFS 字节级复核四实体 canonical 形状(sprite:li-xiaoyao / actor:li-xiaoyao / zone touch
+     range 0 stages 1 / zone interact range 1 stages 1),无幽灵实体无编辑器私有形状。附带发现:资产缺失
+     致场景渲染失败时放置仍可用(add 分支不依赖命中矩形)而选中/拖动不可用(entityAt 依赖渲染),
+     属既有 SceneCanvas 行为、非本卡引入,不阻塞。
+  4. **6051 改名产物四点抽验**:新游戏开场立绘/家具/换装(s000 `setActorSprite sprite-193`)全渲染;
+     s001→s003 房门真实步行落地 (143,46);`battle=0` 战场+敌我+战斗 UI 正常;s074 宝箱 e1415(sprite-10)
+     交互开启 + 横向"获得赤蝎粉"卷轴。console 0 error/warning。
+  5. **door 边界**:卡内职责枚举已改(object 含门等,无平级 door);editor/content 源码零 `'door'` 职责
+     字符串;检查器文案同步。
+  门禁独立重跑:migrate 183+1skip/content 170/editor 172/reforge 343/migration-validate 3;dry-run
+  `writes=0 deletes=0 conflicts=0` 含通道报告。
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 无(Opus 零返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（等待 Opus / GLM 独立复核与用户验收）
+- done 准入结论: blocked（待 GLM 覆盖复核与用户验收）
 
 ## Draft: 设计与风险
 
@@ -352,18 +379,25 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 
 ## 视觉验证记录(如适用)
 
-- Visual Verification Owner: Codex（已完成）+ Opus（待独立复验）
+- Visual Verification Owner: Codex（已完成）+ Opus（已完成）
 - 验证方式: 6010/6051 in-app browser 实操、整页截图、DOM 状态与 console warn/error 检查。
 - 截图 / 像素检查路径: 会话内截图（未写入仓库，避免生成视觉证据噪音）；关键帧为 touch 单格、interact 3×3、四模式 palette、s001 开场、战斗揭场、s074 宝箱前后。
 - 结论: Codex 视觉自验通过；资源重命名后未见空白/错图/悬空引用，四模式 UI 无溢出或遮挡。
-- 未完成项: Opus 在临时工程补验 zone 原生拖动与保存重开。
+- Opus 独立复验(2026-07-15): 通过,方法独立于 Codex(CDP + OPFS 临时工程,与用户真实目录同 API 面)。
+  6010:四模式面板(精灵/触发区分段 + 角色/精灵资源来源 + "原精灵 N #num"标签)实操创建四类实体;
+  **zone 原生拖动**(树选中居中 → 画布指针拖 (9,1)→(13,1))、撤销/重做位置往返、**保存 → 重载 → 重连
+  36 实体持久 + OPFS 字节级四实体 canonical 形状复核**——原留予 Opus 的两项未完成项均已补验。
+  6051:开场(含 sprite-193 换装)/s001→s003 步行/battle=0/s074 宝箱"获得赤蝎粉"四点全过,console 零错。
+  临时工程与句柄记录已清理。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex self-review accept；Opus / GLM pending。
-- 必须返工项: Codex 自审未发现。
-- Accept / rework: pending（签字不齐不得 done）
+- 审查结论: Codex self-review accept；**Opus 实现/架构/视觉主审 accept(2026-07-15,证据见 done 前签字
+  Opus 行)**;GLM pending。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;待 GLM 覆盖复核（签字不齐不得 done）。
 
 ## 用户验收
 
@@ -384,22 +418,32 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)R3 对账——574 npc-*(16-f)/6 semantic/3695 EntityDef.sprite/69 setActorSprite npc/2 setActorAppearance npc 全确认；**G1**:setActorSprite 总 116(69npc+47semantic)/setActorAppearance 总 3(2npc+1semantic),semantic 指向不改名六主角故不在改名面；**G2**:actors.json.spriteId 第六主角 semantic 是第五 id 通道但不改名。(2)反证——locale/music/demo 零 npc-,资产按 spriteNum 键控,源码 content/reforge/editor 零硬编码。(3)测试矩阵逐条可落,**G3 关键**:validate-refs.ts 不校验脚本命令 sprite 引用(仅 EntityDef.sprite+actors.spriteId),R1 闭包门禁必须显式扫四处含 setActorSprite/setActorAppearance 不能依赖 validate-refs.ts。(4)夹具全量 5 文件(present.test 11/scene-system 1 误报/translate-events 4/migrate-content 3/script-runner 2),R2 同步清单=migrate+reforge,game 一阶段冻结。(5)MG2 sprites.json id-mode 结构化合并,改名=del+add 零冲突,dry-run writes=0。(6)AddEntityCommand 已 EntityRef-agnostic,仅 addAt/UI 需扩展四模式。G1-G3 build 必落。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,交 Codex build。未改实现文件。
 - 2026-07-15 User: 补充产品裁决：`door` 不单列职责，归入 `object`；Codex 已同步本卡与检查器文案，未新增 schema。
 - 2026-07-15 Codex: build 完成并自审签 **accept**。中性 sprite ID、合并后五通道闭包门禁、四形态创建/roundtrip、MG2 事务写盘与独立零计划均落地；全仓 3,524 tests passed、Biome clean；6010/6051 实操无浏览器错误。Evidence: Build/视觉记录。Next: Opus 实现+视觉主审；不得标 done。
+- 2026-07-15 Opus: review 主审签 **accept,零返工项**。代码面:闭包门禁五通道+递归扫描落于合并后
+  plan.target、位序在事务前(dry-run/写盘两路同门禁),漂移模拟(ours 旧引 × theirs 改名 → 零冲突但硬阻断)
+  与反向保护(npc-merchant 放行/实体 id 不扫)双测精确;四形态经 entity-placement 纯模块统一走
+  AddEntityCommand,zone 空 stages 与 CreateScriptSourceCommand 共源。手验面:6010 OPFS 临时工程
+  四类创建 32→36、**zone 拖动 (9,1)→(13,1) + 撤销/重做 + 保存重开 36 实体字节级持久**(补掉 Codex
+  两项未完成);6051 开场/换装 sprite-193/s003 步行/battle=0/s074 宝箱四点全过,console 零错。
+  door 边界:源码零平级 role 残留。门禁重跑 183+1skip/170/172/343 + dry-run 零计划含通道报告。
+  Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(通道口径对账/测试矩阵/夹具清单),
+  齐签后交用户验收;不得标 done,不得改 capability-map。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,实现与视觉主审(Opus)
+接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,覆盖/测试矩阵复核(GLM)
 任务卡: docs/ops/tasks/ED-4A-entity-kind-role-boundary.md
-当前状态: review;Codex review accept,Opus/GLM pending;done 准入 blocked
-你的角色: Opus,实现/架构/视觉主审;原则上只改任务卡,发现问题签 counter 并列返工项,不得直接抢 Coding Owner
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 R1-R3/G1-G3、Build、视觉记录)、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/migrate/src/migration-validate.ts、packages/editor/src/core/entity-placement.ts、packages/editor/src/ui/App.tsx
-已完成: 通用 npc-*→sprite-* 上游迁移;最终合并目标五通道闭包门禁;actor/sprite/touch/interact 四形态创建与保存 roundtrip;MG2 写盘+两次 0/0/0;pnpm check 3,524 passed;6010/6051 Codex 视觉自验。用户裁决: door 归 object,不得单列一级职责。
-请重点复核:
-1. R1 fail-loud 是否确实作用于三方合并后的最终目标,漂移模拟是否覆盖 ours 旧引用×theirs 改名,语义 npc-* 是否不会误杀;
-2. App 四形态创建是否都走 AddEntityCommand,zone 是否自带现有 ScriptRef/空 stage 而非第二套内联模型,undo/redo/dirty/选择是否无幽灵态;
-3. 在 6010 临时工程手验四类创建,重点补 Codex 自动化未覆盖的 zone 原生拖动与保存→重开;检查黄色单格/范围框、脚本跳转和 UI 溢出;
-4. 在 6051 抽验 s001 开场、任一跨场景入口、敌人和 s074 宝箱;确认重命名没有空图/错图;
-5. 用户新增职责边界:door 只能作为 object 模板/子类,不能在后续建议或代码里成为平级 role。
-已验证证据: migrate 183/content 170/editor 172/reforge 343;全仓 3,524 passed+1 skipped;MG2 首 plan 315/0/0,写后内外二跑均 0/0/0;浏览器 warn/error=0。
-输出要求: 在本卡 Opus review 签字行写 accept 或 counter+理由,补 Review/视觉记录和交接日志并提交;accept 后给 GLM 覆盖复核提示词。不得标 done,不得改 capability-map。
+当前状态: review;done 前 Codex accept + Opus accept(实现/架构/视觉主审,零返工项),GLM pending(最后一签);不得标 done
+你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现或生成产物
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与 G1-G3)、packages/migrate/src/migration-validate.ts 及其测试、packages/editor/src/core/entity-placement.ts 及编辑器命令测试
+请重点复核(数据/测试面,与 Opus 的实现/视觉面互补):
+1. 你设计期 G1-G3 的落地验收:G1 dry-run 报告口径注明(116/69、3/2 npc 子集语义);G2 actors.spriteId 第五通道已入闭包(migration-validate.ts:96-102);G3 闭包门禁显式扫脚本命令不依赖 validate-refs.ts——逐项确认;
+2. 通道口径全量对账:用独立脚本重扫改名后 projects/pal——sprites.json 580 定义(574 sprite-* + 6 semantic)、EntityDef.sprite 3,695 全 sprite-*、setActorSprite 116(69 sprite-* + 47 semantic)、setActorAppearance 3(2+1);断言产物零 ^npc-\d+(-f\d+)?$;
+3. 测试矩阵完备性:验收§105-108 逐条有落点(普通/directional/布局冲突/0x65/语义优先/结构化扫描/反向保护/四形态创建×撤销重做×保存重开);漂移模拟测试(migration-validate.test.ts:83-138)形态与 R1 规格一致;
+4. 夹具同步复核:R2 清单(migrate 2 文件+reforge script-runner.test)改名后零 npc- 残留;packages/game 两处一阶段语境未被误改;
+5. MG2 事务面:首 plan 315/0/0 → 写盘 631 项 → 内外二跑 0/0/0 的链路与 MG2 卡口径一致;baseline 同步完整;
+6. door 边界:全仓建议/代码/文档无平级 door 职责(Opus 已扫源码,你补文档面)。
+已验证(勿重复,可抽查): Opus 已做闭包门禁位序实证(合并后 plan.target/事务前)、6010 OPFS 四类创建+zone 拖动+保存重开字节级复核、6051 四点抽验(开场/换装/s003/battle/s074 宝箱)、门禁重跑 183+1skip/170/172/343+dry-run 零计划
+不要做: 不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收);不得改 capability-map
+输出要求: 在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
 ```
