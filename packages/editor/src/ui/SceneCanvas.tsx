@@ -22,6 +22,7 @@ import {
 } from './scene-stage.js'
 
 const WORLD_SCALE = 4
+const PAN_DRAG_THRESHOLD_PX = 3
 
 export type Tool = 'select' | 'add'
 
@@ -110,7 +111,13 @@ export function SceneCanvas(props: {
     canvasRef,
     initial: { zoom: WORLD_SCALE, panX: 0, panY: 0 },
   })
-  const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
+  const panDragRef = useRef<{
+    sx: number
+    sy: number
+    panX: number
+    panY: number
+    moved: boolean
+  } | null>(null)
 
   // 地图像素包围盒(菱形投影 AABB;room 缺省 = 整图)。
   const mapBox = (map: StageAssets['map']) => mapBoxOf(map, undefined)
@@ -384,9 +391,9 @@ export function SceneCanvas(props: {
       }
       return
     }
-    if (hitId) pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
-    onSelect(hitId)
     if (hitId) {
+      pickFromCanvasRef.current = true // 画布点选:用户已看到它,选中定位不动镜头
+      onSelect(hitId)
       const ent = scene.entities.find((x) => x.id === hitId)
       const cell = screenToCell(e.clientX, e.clientY)
       downRef.current = {
@@ -401,13 +408,14 @@ export function SceneCanvas(props: {
         /* 合成/边缘指针可能抛 InvalidPointerId,忽略即可(拖动仍在画布内可用) */
       }
     } else {
-      // 点空白(select 工具)→ 拖动平移画布
+      // 空白只负责平移,不改变选中;场景节点必须在左树显式点选。
       downRef.current = null
       panDragRef.current = {
         sx: e.clientX,
         sy: e.clientY,
         panX: viewRef.current.panX,
         panY: viewRef.current.panY,
+        moved: false,
       }
       try {
         e.currentTarget.setPointerCapture(e.pointerId)
@@ -419,11 +427,17 @@ export function SceneCanvas(props: {
   const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>): void => {
     const pd = panDragRef.current
     if (pd) {
+      const dx = e.clientX - pd.sx
+      const dy = e.clientY - pd.sy
+      if (!pd.moved) {
+        if (dx * dx + dy * dy < PAN_DRAG_THRESHOLD_PX * PAN_DRAG_THRESHOLD_PX) return
+        pd.moved = true
+      }
       const { zoom } = viewRef.current
       setView((v) => ({
         ...v,
-        panX: pd.panX - (e.clientX - pd.sx) / zoom,
-        panY: pd.panY - (e.clientY - pd.sy) / zoom,
+        panX: pd.panX - dx / zoom,
+        panY: pd.panY - dy / zoom,
       }))
       return
     }
