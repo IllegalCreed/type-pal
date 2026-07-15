@@ -192,16 +192,16 @@ Branch: main
      「最近工程」重连 → **113 持久、chunk 仍 cue 形态、零 `line`、原始字节零控制码、树摘要零码**;
      s173 黄色对白摘要清洁、富文本标签零泄漏。与用户真实磁盘句柄的差异仅存储后端,API 面等价。
 - GLM: pending
-- counter / 返工处理: **D1(文档必改,done 前落)**:审计文档 n1-dialogue-migration-audit.md:45 与本卡 Build
-  摘要称"18 处 `-` 按用户选择 A 迁移为 cyan toggle/减益数字写成 `<cyan>…</cyan>`"——**与产物事实不符**:
+- counter / 返工处理: **D1 已由 Codex 于 2026-07-15 落地,待 GLM 独立复核**。原文称
+  "18 处 `-` 按用户选择 A 迁移为 cyan toggle/减益数字写成 `<cyan>…</cyan>`"——**与产物事实不符**:
   全产物 0 个 cyan 值。实测 18 处(17 站点)全在 0xA7 道具描述脚本族(addr 39926-40790),该族由更早的道具
   管线(C3 期)迁入 items.json desc,**保留字面负号**,N1-1 对话管线不触及(0xA7=noop、desc 段不可达对话根)。
   且一阶段 script-desc.ts 对 desc 行**原文直画**(sdlpal WIN95 itemmenu.c:267-284 路径,不过 parseDialogText)
   ——**字面负号即原版/一阶段真实渲染,items.json 现状正确且忠实**。用户裁决 A 实际仅约束 decoder 缺省
-  (已实现+已测,对可达对话语料零命中)。返工 = 修正审计文档该段 + Build 摘要一行,说明"A=decoder 政策,
-  17 站点属菜单文案不经对话管线,负号字面保留即忠实";不改任何实现与产物。
+  (已实现+已测,对可达对话语料零命中)。现已修正审计文档与 Build 摘要,明确"A=decoder 政策,
+  17 站点属菜单文案不经对话管线,负号字面保留即忠实";未改任何实现与产物。
 - 缺签豁免: N/A
-- done 准入结论: blocked(待 D1 落地 + GLM 复核)
+- done 准入结论: blocked(待 GLM 复核 + 用户验收)
 
 ## Draft: 设计与风险
 
@@ -271,7 +271,8 @@ Branch: main
   (需用户裁决 toggle vs literal)、`\n` 政策。
 - GLM: **agree**。基线数字全吻合(113/107/240/27/6722/2392 独立实测);12vs9 口径差异=定义不同(6 值含>1 `$NN`),两口径行中=0 但依赖 `\u3000` 算非可见(N1 build 必落);R3 考证 18 处 `-` 全站点清单备齐(全属性±N 文案,一阶段无条件 cyan toggle);测试矩阵方向完整(R1 `"`slot依赖/R2 `~`后死码两形态/R3 18站点)。variant id 确定性需补测试(N2)。N1-N3 非阻塞。Evidence: 设计签字 GLM 行。
 - 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。2026-07-15 选择 A（忠实原版）：
-  18 处 `-` 全部按 cyan toggle 迁移，负号不显示，属性减益数字以语义青色标签表达；该控制码不得进入新版工程。
+  legacy dialogue decoder 遇 `-` 时按 cyan toggle 解释，该控制码不得进入新版工程。D1 后续确认原始
+  18 处 `-` 均属菜单描述直绘路径、不经过 decoder；这些站点保留字面负号才忠实。
 
 ## 额度 / 代班记录(如适用)
 
@@ -291,8 +292,9 @@ Branch: main
   - `projects/pal` + `packages/migrate/baselines/pal`:全量重生成；`projects/demo` 改为 canonical。
   - `docs/phase2`:model-design、content-schema、capability-map 与独立迁移审计。
 - 实现摘要:
-  - `$NN/~NN/-/'/@/"/()/\` 只由 `packages/migrate/src/legacy-dialog.ts` 解码；`-` 按用户选择 A
-    忠实消费为 cyan toggle。
+  - `$NN/~NN/-/'/@/"/()/\` 只由 `packages/migrate/src/legacy-dialog.ts` 解码；用户选择 A 将 decoder 的
+    `-` 缺省语义定为 cyan toggle,但可达对话语料零命中。原始 18 处 `-` 均属 0xA7 道具描述块,
+    不经过对话管线,在 `items.json` 中保留字面负号才是忠实结果。
   - 原始每条 showDialog 变成独立 row；`~` 在当前位置切 cue；速度与自动推进写真实毫秒。颜色状态、速度、
     speaker、slot、portrait 跨连续行与脚本控制流传播；同文本异入口态使用内容哈希变体 id。
   - 分支臂 memo key 与 ScriptRegistry id 都包含入口对话态；callScript 离开态回传调用方，已有专项回归。
@@ -343,8 +345,8 @@ Branch: main
 
 - Reviewer: Opus + GLM
 - 审查结论: Codex accept；**Opus 实现/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**;GLM pending。
-- 必须返工项: **D1**(文档修正,见 done 前签字"counter / 返工处理"——审计文档与 Build 摘要关于 18 处 `-` 的
-  陈述与产物不符;产物本身正确且忠实,不改实现)。
+- 必须返工项: **D1 已完成,待 GLM 复核**(审计文档与 Build 摘要已区分 decoder 策略和 0xA7 道具描述
+  实际路径；产物本身正确且忠实,未改实现)。
 - 独立发现(非本卡范围,建议另开 lite 卡): **F1** 同 id 工程切换不重挂 App——`main.tsx` 以
   `key={manifest.id}` 挂 App,「打开工程」换到同 id 工程(pal→pal 克隆)时 React 不重建组件,
   `dirHandleRef/snapshotRef` 残留旧会话:保存时**再弹一次目录选择器**、zip 导出误判"无文件夹"。
@@ -393,23 +395,28 @@ Branch: main
   `key={manifest.id}` 同 id 工程切换不重挂 App,dirHandleRef/snapshotRef 残留 → 保存二次弹选夹/zip 误判,
   实测复现,P4 期既有。Evidence:done 前签字 Opus 行+视觉记录+Review 节。Next:Codex 落 D1(两处文档行);
   GLM 覆盖复核;不得标 done(仍需 GLM+用户验收)。未改实现文件。
+- 2026-07-15 Codex: D1 文档返工已落地。独立重扫 `data/extracted/events/all.json` 得 18 个 `-`/17 站点,
+  地址 39926–40790 且全部位于 0xA7 道具描述块；`walkDesc`、一阶段 `script-desc.ts` 与 `items.json`
+  共同确认其走菜单原文直绘、不进对话 decoder。已修正迁移审计与 Build 摘要,未改实现或生成产物。
+  Evidence: `docs/phase2/foundation/n1-dialogue-migration-audit.md`「残留与合法性」+ 本卡 Build 摘要。
+  Next: GLM 覆盖/测试矩阵复核并签最后一签；不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
 接手任务:N1-1 对话控制码退出内容与运行时,覆盖/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/N1-1-dialogue-control-code-retirement.md
-当前状态:review;done 前 Codex accept + Opus accept(实现/视觉主审,附 D1 文档必改+F1 独立发现),GLM pending(最后一签);不得标 done
+当前状态:review;done 前 Codex accept + Opus accept;D1 文档修正已由 Codex 落地;GLM pending(最后一签);不得标 done
 你的角色:GLM,覆盖面/测试矩阵复核;只改任务卡,不得改实现
 先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行、Review 节 D1/F1 与 Opus 自我修正)、docs/phase2/foundation/n1-dialogue-migration-audit.md、packages/migrate/src/legacy-dialog.ts 与其测试
 请重点复核(数据/测试面,与 Opus 的代码/视觉面互补):
 1. 产物口径对账:829 文件/6,858 dialog/14,200 rows/8,637 text id/变体 26/颜色标签值 125(全 yellow、0 cyan)——按你设计期的独立脚本重扫一遍;
 2. 你设计期 N1-N3 的落地验收:N1 `　`(U+3000)约定(decoder docblock+emit 分类+专测)、N2 变体 id 正逆序确定性测试、N3 迁移前口径表(6,722/1,234 + 敌人 135/12 = 6,857/1,246,审计文档「迁移前口径」节);
-3. D1 核实:审计文档:45 与本卡 Build 摘要"18 处 `-` 按 A 迁为 cyan"与产物矛盾(全产物 0 cyan)——请独立确认 17 站点(addr 39926-40790)全在 0xA7 道具描述族、items.json desc 字面负号、一阶段 script-desc.ts 原文直画;确认后督促 Codex 落 D1 文档修正并复核修正文本;
+3. D1 复核:Codex 已修正审计文档「残留与合法性」及本卡 Build 摘要。请独立确认 17 站点(addr 39926-40790)全在 0xA7 道具描述族、items.json desc 字面负号、一阶段 script-desc.ts 原文直画,并检查修正文案是否准确;不准确则 counter;
 4. 表驱动测试矩阵完备性:legacy-dialog.test 八用例对照一阶段 parseDialogText 全分支是否有漏(-'@" 四色/quote-narration/跨行 $NN/~后死码/转义/光标/U+3000/fail-loud/变体确定性);
 5. 敌人 choreography 对白(135 条/12 含码)是否同 decoder 同门禁;
 6. MG2 二跑零计划与 M3 体积门禁(1.65x/1.13x/1.53x)重跑核对。
 已验证(勿重复,可抽查):Opus 已做 6051 开场逐段视觉、6010 s000/s173 编辑器、OPFS 句柄保存重开(113 持久/cue/零码回生)、四包测试+dry-run 重跑
 不要做:不改实现文件;F1(同 id 工程切换不重挂 App)是独立发现,不在本卡处理,不要顺手修
-输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论仍为等 D1 落地+用户验收,不得标 done
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后仍须用户验收才能标 done
 ```
