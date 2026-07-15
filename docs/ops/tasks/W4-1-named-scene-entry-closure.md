@@ -431,10 +431,9 @@ loadScene(scene, { pos })              // 一次性显式坐标
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审 `accept`；**Opus 实现/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**；
-  等待 GLM 迁移覆盖复核。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;done 三签未齐,不得标 done。
+- 审查结论: Codex、Opus、GLM 三方均已 `accept`；实现/视觉、迁移覆盖、基线与测试矩阵复核全部通过。
+- 必须返工项: 无；GLM 记录的 O1-O3 均为非阻塞补强建议。
+- Accept / rework: 三方 **accept**；等待用户最终验收，用户点头后方可标 `done`。
 
 ## 用户验收
 
@@ -469,20 +468,4 @@ loadScene(scene, { pos })              // 一次性显式坐标
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:W4-1 命名落点闭环与迁移去重,覆盖/基线/测试矩阵复核(GLM)
-任务卡:docs/ops/tasks/W4-1-named-scene-entry-closure.md
-当前状态:review;done 前 Codex accept + Opus accept(实现/视觉主审,零返工项),GLM pending(最后一签);不得标 done
-你的角色:GLM,迁移覆盖面/基线/测试矩阵复核;只改任务卡,不得改实现或生成产物
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期的 W1-W3)、packages/migrate/src/scene-entry-normalize.ts 及其测试、packages/migrate/src/migration-validate.ts、packages/editor/src/core/script-references.ts
-请重点复核(数据/测试面,与 Opus 的实现/视觉面互补):
-1. 你设计期 W1-W3 的落地验收:W1 修复后审计口径(旧 239/240 争议已被重生成清零,确认审计文档记录修复前后对比);W2 walker 六类站点反例(内联 stage/实体页/场景绑定/共享 chunk/分支臂/敌人编舞)在测试中各至少一例;W3 产物对账 762 组→61 默认+701 命名 与 966=797+169+0——用你自己的脚本重扫核对;
-2. 迁移测试矩阵:三来源反例(scene slice/-1 shared/-2 all.json 不参与)、同坐标多来源共锚、等默认收敛、id 纯函数(同 target+pos 跨来源同 id/坐标变更换 id/碰撞 fail-loud)、labels 确定性——每条有测试落点;
-3. dangling 门禁与漂移模拟:plan.target 上 entryId 引用闭包 fail-loud;构造 ours 引用被删 from-*/pal-entry-* × theirs 重生成 → 阻断并报告——测试存在且形态与 ED-4A 漂移门禁同构;
-4. runtime 测试矩阵:三态×互斥×缺场景×缺落点×四级朝向链(含 inheritFacing 门穿行)×默认回退——表驱动逐行核对;
-5. 编辑器测试:创建/选择/移动/改 label(引用不断)/朝向/引用保护删除/undo/redo/保存重开/表单三态——commands 与 project-io 测试逐项确认;
-6. MG2 面:entries record 按 key 合并、`pal-entry-` 前缀与作者 id 分域(作者未引用落点不被删)、首写盘 plan 可解释、双跑与独立 dry-run 零计划口径与 MG2 卡一致。
-已验证(勿重复,可抽查):Opus 已做产物全量重扫(701 全 pal-entry-*/零 facing/悬空 0/未引用 0/966=797+169+0)、四包测试+dry-run 重跑、6010 全链手验含必复现往返、6051 双落点实走(默认 143,45 vs 命名 141,51,朝向 inherit)
-不要做:不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收);不得顺手改 A7-0
-输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
-```
+无下一位 Agent 提示词。三方审查签字已齐，当前等待用户最终验收；用户确认“验收通过”后由 Codex 收口 `done`、同步看板并提交。
