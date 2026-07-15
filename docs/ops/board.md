@@ -10,7 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| A7-0 | 工程资源闭包地基与音乐注册表首切片 | draft | Opus 设计主审 | Codex 已签 agree；Opus/GLM 设计签未齐，禁止进入 build |
+| W4-1 | 命名传送落点闭环与迁移去重 | draft | Opus 设计主审 | 迁移缺陷优先；Codex 已签 agree，Opus/GLM 设计签未齐，禁止进入 build |
+| A7-0 | 工程资源闭包地基与音乐注册表首切片 | draft | GLM 覆盖复核 | Codex/Opus 已签 agree；GLM 设计签未齐，禁止进入 build |
 
 ## 阻塞
 
