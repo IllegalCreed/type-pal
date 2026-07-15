@@ -85,7 +85,7 @@ import {
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
-import { SpriteThumb } from './SpriteThumb.js'
+import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
 const SCENE_NODE = '__scene__'
 /** 进场点节点哨兵(与 SceneCanvas 的 ENTRY_HIT_ID 对齐):选中它 → 专属进场点 inspector(坐标+朝向)。 */
@@ -1276,6 +1276,7 @@ function EntityInspector(props: {
     onJumpToEvent,
     onDelete,
   } = props
+  const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
   // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
   const actorName =
     isActorEntity(entity) && actorsById[entity.actor]
@@ -1321,7 +1322,17 @@ function EntityInspector(props: {
                 size={80}
                 path={spriteDef.path}
                 blob={spriteDef.path ? spriteBlobs?.[spriteDef.path] : undefined}
+                align="center"
               />
+              <button
+                type="button"
+                className="entity-preview-zoom"
+                aria-label={`放大查看 ${spriteDef.label || spriteDef.id}`}
+                title="放大查看"
+                onClick={() => setSpriteViewerOpen(true)}
+              >
+                <span className="preview-zoom-icon" aria-hidden="true" />
+              </button>
             </div>
           </div>
         )}
@@ -1632,6 +1643,17 @@ function EntityInspector(props: {
           🗑 删除此实体
         </button>
       </div>
+      {spriteViewerOpen && spriteDef && (
+        <SpriteImageViewer
+          assetBase={assetBase}
+          spriteNum={spriteDef.spriteNum}
+          frameIndex={idleFrameIndex(spriteDef.layout, facing)}
+          path={spriteDef.path}
+          blob={spriteDef.path ? spriteBlobs?.[spriteDef.path] : undefined}
+          label={spriteDef.label || spriteDef.id}
+          onClose={() => setSpriteViewerOpen(false)}
+        />
+      )}
     </>
   )
 }
