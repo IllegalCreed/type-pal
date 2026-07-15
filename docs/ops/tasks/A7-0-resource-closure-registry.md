@@ -1,6 +1,6 @@
 # A7-0 - 工程资源闭包地基与音乐注册表首切片
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / W5 / X2
 Coding Owner: Codex
@@ -167,6 +167,14 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   - **作者替换双跑零计划**：pal-migration-integration.test.ts:119-122 已有二跑零计划骨架，需扩展音乐替换+label 保留。✅
   - **⚠️ G5（build 必落关键）**：实测 `migration-merge.ts:41-57` arrayMode **没有 `assets/index.json` 条目**——catalog（Record<AssetId,AssetRecordV1>，object 非 array）当前会 fall through 到 `'atomic'` 整文件替换，**违作者替换保护设计**。**build 必须新增 `assets/index.json` → AssetId-keyed mergeObject 路由 + 所有权 validator（migrator 只可更新 origin=legacy-migrated 且 path 在 migrated/** 的记录）。** 这是隐含在设计中的实现细节，但未显式列为 build 任务——不补则作者替换音乐会被 atomic 覆盖。
 
+  - **Codex 对 G5 的实现前复核（2026-07-15，口径修正）**：G5 指出的作者所有权风险成立，但
+    “缺 `arrayMode` 条目会让 Record 整文件 atomic”不成立。`arrayMode` 只在数组分支调用；catalog 根是
+    object，`mergeNode` 已在 `migration-merge.ts:292-293` 递归进入 `mergeObject`，天然按 AssetId key
+    合并。最小三方实跑也确认：作者把 `a` 改为 `origin=authored/path=assets/authored/**`，同时迁移器更新
+    `b` 并新增 `c`，结果无冲突且三项分别正确保留。因此 build **不得往 arrayMode 加死路条件**；G5
+    的实际必落项修正为：为 `assets/index.json` 增加显式的 catalog 所有权合并策略/validator，确保作者
+    接管的 AssetRecord 整条不被迁移侧字段拼入，迁移器只管理允许的 origin/path，并补上述三方回归测试。
+
   **总结**：核心普查全确认（36/80/31/71/86 + MIDI 零缺源 + roles 恰四 + 旁路十四处全存在）；playMusic 精确数字 build 时审计脚本钉死（G1）；MG2 catalog 合并路由缺失是 build 必落关键项（G5）；测试矩阵+R1-R4+迁移矩阵全可落。**agree**。
 
   **G1-G5 build 必落范围澄清（非阻塞，纳入 build 范围）**：
@@ -174,11 +182,13 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   - **G2**：MIDI 路径勘误 `data/extracted/music/NNN.mid`。
   - **G3**：§3.5 补 ItemTab.tsx:273 漏列（非音乐族，后续范围记录）。
   - **G4**：§95 "31 startBattle"→"31 携 musicId 字段"。
-  - **G5（关键）**：migration-merge.ts 新增 `assets/index.json` → AssetId-keyed mergeObject 路由 + 所有权 validator。
+  - **G5（关键，Codex 复核后修正）**：通用 `mergeObject` 已按 AssetId key 合并；新增
+    `assets/index.json` 显式所有权策略 + `plan.target` validator + 作者接管/迁移兄弟条目并行更新回归测试，
+    不向只处理数组的 `arrayMode` 添加无效路由。
 
-- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补,GLM 无 counter(标 G1-G5 build 必落)。MG2 catalog 合并路由缺失(G5)是 build 必落关键实现项,非设计 counter——单 catalog/所有权/二进制排除方向全正确,只是 arrayMode 路由表缺一行。
+- counter / 分歧处理: Opus 无架构 counter;R1-R4 为设计必补,GLM 无设计 counter(标 G1-G5 build 必落)。Codex 已用 `mergeNode` 控制流和最小三方实跑修正 G5 的“Record atomic”事实口径；三方对“catalog 必须按 AssetId 保护作者所有权并有硬门禁”方向无分歧。
 - 缺签豁免: N/A
-- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4 必改 + S1-S2 + G1(精确数字钉死)/G2(MIDI路径勘误)/G3(ItemTab漏列记录)/G4(31措辞)/G5(**catalog合并路由+所有权validator**)纳入 build 范围。
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4 必改 + S1-S2 + G1(精确数字钉死)/G2(MIDI路径勘误)/G3(ItemTab漏列记录)/G4(31措辞)/G5(**catalog所有权策略+plan.target validator+三方合并回归**)纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -222,6 +232,8 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 
 - `migrated/**` 由迁移器拥有；`authored/<sha256>.<ext>` 由作者拥有；`runtime/**` 有明确 license/ref。
 - catalog 按 AssetId 合并；只要记录已转 authored,重迁必须保留整条作者记录。迁移器不得删除 authored blob。
+- `mergeManagedFile` 对 Record 已经递归按 key 合并；本卡新增的 catalog 专用策略负责“作者接管后整条记录归作者”
+  的所有权语义，不能依赖逐字段偶然合并，也不能误把对象路由塞进 `arrayMode`。
 - 大二进制不放 MG2 JSON baseline；catalog 和内容引用进入 baseline,二进制由 hash/所有权门禁验证。
 
 #### E. A7-0 之后
@@ -294,6 +306,8 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 ### 三方争议记录(按需)
 
 - Codex: 支持单 catalog、manifest v3、runtime 零双轨；建议音乐/soundfont 为首切片并退役 music.json。
+  对 G5 补充事实修正：Record 已走通用 `mergeObject`，无需 `arrayMode` 路由；build 仍必须增加 catalog
+  专用所有权策略、合并后 validator 与作者替换三方回归，防逐字段拼接污染 authored 整条记录。
 - Opus: **agree**。单 catalog/v3 债务区/音乐首切片三判全立(替代方案 v2 平铺=双真值、直跳 v4=不可审,
   均否);普查数字独立坐实、roles 封闭集=恰四个;附 R1(族排他机械门禁)/R2(v2→v3 归 content 防包倒置)/
   R3(二进制门禁三条)/R4(roles 钉死+字面量归零断言)+S1-S2。
@@ -364,22 +378,13 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   Evidence: 主审立场+普查脚本输出。Next: GLM 覆盖/迁移/测试矩阵复核;三签齐后 Codex build;
   不得抢跑实现。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)普查 36/80/31/71/86+MIDI零缺源全确认,playMusic精确数字build审计钉死(G1:1223 vs 1227/52 vs 53),MIDI路径勘误(G2:extracted/music/NNN.mid非audio/midi/)；(2)旁路§3.5十四处全存在,G3发现ItemTab.tsx:273漏列(非音乐族后续范围)；(3)roles恰四——硬编码音乐字面量仅main.ts{37,2,3}+bgm.ts{/soundfont.sf3},无第五,bgm.stop走play(0),音量静音全数据驱动；(4)测试矩阵§93-100+R1-R4全可落,R2 editor零migrate依赖已为真；(5)v2→v3矩阵全可落——music.json仅{id}无别名label post-migration新建/musicId0→null三站点/sys:music 5文本处main.ts/demo无music.json产v3 trivially；(6)**G5关键: migration-merge.ts:41-57 arrayMode无assets/index.json条目→catalog fall through atomic违作者替换保护,build必落AssetId-keyed mergeObject路由+所有权validator**；二进制不进baseline已结构性成立。G1-G5 build必落非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex build。未改实现文件。
+- 2026-07-15 Codex: 对 G5 做实现前控制流复核与最小三方实跑。确认 catalog Record 已经由通用
+  `mergeObject` 按 AssetId key 合并，不会因缺 `arrayMode` 条目整文件 atomic；同时确认通用逐字段合并
+  仍不足以表达“authored 整条归作者”的所有权边界。G5 修正为 catalog 专用所有权策略 + plan.target
+  validator + 作者接管/迁移兄弟条目并行更新回归，禁止添加无效 arrayMode 路由。Evidence:
+  `migration-merge.ts:279-293` 与本地 tsx 三方 fixture（a authored 保留、b 更新、c 新增、0 conflicts）。
+  Next: Codex build 时按修正后的 G5 落地。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:A7-0 工程资源闭包地基与音乐注册表首切片,覆盖/迁移/测试矩阵复核(GLM)
-任务卡:docs/ops/tasks/A7-0-resource-closure-registry.md
-当前状态:draft;Codex agree + Opus agree(附 R1-R4 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
-你的角色:GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现文件或生成产物
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R4)、docs/phase2/foundation/a7-resource-closure-audit.md §3/§5/§7
-请重点复核(数据/测试面,与 Opus 的架构/分期面互补):
-1. 音乐引用普查独立对账:用你自己的脚本重扫 projects/pal——playMusic 1,227(含停曲 53)、场景 musicId 36、battleMusicId 80、startBattle.musicId 31、正数去重 71、music.json 86 条全数字壳;86 个 MIDI(1..87 缺 29)与正数引用零缺源;
-2. 旁路清单完备性:审计 §3.5 十四处裸 fetch/绝对路径逐一核对存在,并反向扫一遍 reforge/editor 是否还有审计漏列的音乐/音频旁路(重点:菜单/标题/RNG/视频页的 BGM 调用);
-3. roles 封闭集反证:Opus 普查 bgm.play 七站点(707/1160/1373/1629/1703/2374/3313)结论"恰四角色"——请独立验证无第五个音乐硬编码(含 bgm.stop/音量/静音路径);
-4. 验收测试矩阵逐条可落:§93-100 每条有明确测试落点;R1 族排他断言、R2 归包+editor 零 migrate 依赖、R3 二进制三条门禁、R4 字面量归零断言的测试形态各是什么;
-5. v2→v3 迁移矩阵:旧 music.json 别名保留为 label、musicId:0→null/stopMusic 分站点映射、旧存档 sys:music 归一化、demo 工程与空白模板直接产 v3(S2)——每条有专测;
-6. MG2 面:catalog Record 按 key 合并入 baseline、作者替换 music.pal.031→authored/<hash>.mid 双跑零计划专测、二进制不进 baseline 的判据(R3c)可测。
-不要做:不改 packages/**、projects/**;不把 A7/R7/capability-map 标 done;三签未齐不得进入 build
-输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R4+S1-S2 纳入 build 范围),交 Codex build
-```
+无下一位 Agent 提示词。三方设计签字已齐，Codex 是当前 Coding Owner；按修正后的 G5 进入 build。
