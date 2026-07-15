@@ -1,6 +1,6 @@
 # X3-1 - 场景入场呈现事务
 
-Status: review
+Status: done
 Phase: phase2
 Capability: X3 / N3
 Coding Owner: Codex
@@ -237,7 +237,7 @@ Branch: main
 
 - counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1 卡内措辞勘误 + O2 s151 无直接断言均非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。**
+- done 准入结论: **三方 accept 已齐，用户于 2026-07-15 验收通过；允许并已进入 done。**
 
 ## Draft: 设计与风险
 
@@ -373,14 +373,14 @@ Branch: main
 
 - Reviewer: Opus + GLM
 - Codex 自审: accept；schema 单源、迁移真源、runtime 生命周期、编辑器创作与文档均已落地。
-- 审查结论: **Opus 架构/代码/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**;GLM pending。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;待 GLM 覆盖复核。
+- 审查结论: **Codex、Opus、GLM 三方 accept**；架构/代码/视觉、迁移覆盖和测试矩阵均通过。
+- 必须返工项: 无；GLM 的 O1（66→73）已随收口删除过期提示词，O2 为非阻塞测试建议。
+- Accept / rework: **accept**。
 
 ## 用户验收
 
-- 用户结论: 设计方向认可并授权 build；实现待三方 review 签字后由用户验收。
-- 后续任务: Opus + GLM review；三签齐后交用户验收。
+- 用户结论: **验收通过（2026-07-15）**。
+- 后续任务: X3-1 无；X3 其余能力按路线图另行开卡。
 
 ## 交接日志
 
@@ -410,23 +410,10 @@ Branch: main
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(11/17/13 清单全量对账+测试矩阵),
   齐签后交用户验收;不得标 done。未改实现文件。
 - 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 861 pass：(1)X-N1~X-N3 全落地——s001 仅 root 勘误入审计+product.test 断言/17+13 清单入审计+精确 toEqual/root/override 独立扫描有测试；(2)11/17/13 三组独立 Python 重扫 projects/pal 全量精确匹配(lift 10 root+1 override s182/L-27448,反例 17 trigger/shared,非早期 13 setActorSprite 等前缀)；(3)安全集 `SCENE_ENTRY_PREPARE_SAFETY` satisfies Record 穷尽 **实测 73 项**(=Command union 73 kind),逐项语义全正确(cameraSnap safe/cameraPan blocked/stepEntity safe/moveEntity blocked/animEntity safe/shakeScreen frames:0 safe/setActorSprite blocked),**O1 非阻塞：卡内"66项"应为73**；(4)测试矩阵——X-R3 五路径(scene-entry-session.test 7 tests,二次loadScene独立token-guard+四路径cancel统一收口+reveal契约失配两分支throw)/X-R1 编译期satisfies穷尽+三消费者共用唯一源/reveal fail-loud两分支有测；(5)s151 首个dither升entry+body剩2剧情dither(lifting首个即return结构保证)；(6)MG2 writes=0+1.65x/1.13x/1.53x+旧机制三标识零引用。O1(73非66勘误)+O2(s151无直接断言)非阻塞。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
+- 2026-07-15 User: 验收通过。
+- 2026-07-15 Codex: 三方 accept + 用户验收门禁齐全，任务转 `done` 并移出进行中看板；删除已过期的
+  GLM 交接提示词，同时消除其中“66 项”旧口径。无下一位 Agent。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:X3-1 场景入场呈现事务,覆盖/迁移/测试矩阵复核(GLM)
-任务卡:docs/ops/tasks/X3-1-scene-entry-presentation.md
-当前状态:review;done 前 Codex accept + Opus accept(架构/代码/视觉主审,零返工项),GLM pending(最后一签);不得标 done
-你的角色:GLM,覆盖面/迁移站点/测试矩阵复核;只改任务卡,不得改实现
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行)、docs/phase2/foundation/x3-scene-entry-migration-audit.md、packages/migrate/src/scene-entry.ts 与两份测试、packages/content/src/script.ts:196-291
-请重点复核(数据/测试面,与 Opus 的架构/视觉面互补):
-1. 你设计期 X-N1~X-N3 的落地验收:X-N1 站点勘误已入审计文档(s001 仅 root,override 唯 s182/L-27448);X-N2 17 反例+13 非早期清单入审计+scene-entry-product.test 精确断言;X-N3 root/override 独立扫描有测试;
-2. 11/17/13 三组清单全量对账:用你设计期的独立脚本重扫 projects/pal,对照审计文档逐场景核对(lift 集 10 root+1 override、17 独立站点仍为通用 ditherScreen、13 非早期 onEnter 零 entry);
-3. 安全集分类复核:SCENE_ENTRY_PREPARE_SAFETY 66 项逐项过一遍语义(重点:blocked 的 setActorSprite/cameraPan/wait/moveEntity 与 safe 的 cameraSnap/animEntity/stepEntity/shakeScreen 边界),有异议列出+理由;
-4. 测试矩阵完备性:X-R3 五路径(prepare 抛错/abort/reveal 中二次 loadScene/读档打断/资产失败)是否每行有对应 runtime 测试;X-R1 穷尽性是否有编译期+测试双保险;reveal 契约不匹配 fail-loud 是否有测试;
-5. s151 多 dither 语义:首个升 entry、body 剩 2 个剧情 dither——确认测试钉住"不重复提升";
-6. MG2 二跑零计划与体积门禁(1.65x/1.13x/1.53x)重跑核对。
-已验证(勿重复,可抽查):Opus 已做 6051 开场逐帧采样(dither 2157ms/对白仅 reveal 后/0% 双锚无取反/prepare 持帧含对白像素)、s001→s003 手动步行(纯默认 fade)、6010 三区/折叠/2160ms、产物计数(10+1/s188 未升/s151 剩 2)、四包测试+dry-run 重跑
-不要做:不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收)
-输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
-```
+无下一位 Agent 提示词；X3-1 已完成三方审查和用户验收。
