@@ -268,7 +268,7 @@ export function App(props: {
 
   const [selected, setSelected] = useState<string>(SCENE_NODE)
   const [tool, setTool] = useState<Tool>('select')
-  // 画布图层显隐(布置模式:左栏 地板/高物/实体 + 工具栏 网格/禁入格)
+  // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
     cover: true,
@@ -916,6 +916,24 @@ export function App(props: {
                   />{' '}
                   隐藏实体(透视)
                 </label>
+                <label className="lrow">
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.grid}
+                    onChange={(e) => setCanvasLayers({ ...canvasLayers, grid: e.target.checked })}
+                  />{' '}
+                  网格
+                </label>
+                <label className="lrow">
+                  <input
+                    type="checkbox"
+                    checked={canvasLayers.blocked}
+                    onChange={(e) =>
+                      setCanvasLayers({ ...canvasLayers, blocked: e.target.checked })
+                    }
+                  />{' '}
+                  禁入
+                </label>
               </div>
             </div>
 
@@ -948,25 +966,6 @@ export function App(props: {
                 >
                   🗑 删除
                 </button>
-                <span className="sep" />
-                <label className="vtog on">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.grid}
-                    onChange={(e) => setCanvasLayers({ ...canvasLayers, grid: e.target.checked })}
-                  />{' '}
-                  网格
-                </label>
-                <label className="vtog">
-                  <input
-                    type="checkbox"
-                    checked={canvasLayers.blocked}
-                    onChange={(e) =>
-                      setCanvasLayers({ ...canvasLayers, blocked: e.target.checked })
-                    }
-                  />{' '}
-                  禁入
-                </label>
                 <span className="sep" />
                 <button
                   type="button"
