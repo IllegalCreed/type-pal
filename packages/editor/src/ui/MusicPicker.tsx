@@ -56,15 +56,17 @@ function usePlayingTrack(): number | null {
 /** 单曲试听按钮(▶/⏹;全局单路,后播顶前)。 */
 export function PreviewButton(props: { track: number; baseUrl: string; disabled?: boolean }) {
   const playing = usePlayingTrack() === props.track
+  const label = playing ? `停止试听音乐 ${props.track}` : `试听音乐 ${props.track}`
   return (
     <button
       type="button"
       className={`btn mp-play${playing ? ' on' : ''}`}
-      title={playing ? '停止试听' : '试听'}
+      title={label}
+      aria-label={label}
       disabled={props.disabled || props.track <= 0}
       onClick={() => togglePreview(props.baseUrl, props.track)}
     >
-      {playing ? '⏹' : '▶'}
+      <span className={playing ? 'mp-stop-icon' : 'mp-play-icon'} aria-hidden="true" />
     </button>
   )
 }
@@ -82,20 +84,24 @@ export function musicLabel(m: MusicDef): string {
  * - 音乐库空 → 退化数字输入(工程没烤 music.json 也能编)。
  */
 export function MusicPicker(props: {
+  id?: string
   value: number | undefined
   onChange: (v: number | undefined) => void
   music: MusicDef[]
   /** 试听资产前缀(assetBase.music)。 */
   baseUrl: string
   allowUnset?: boolean
+  ariaLabel?: string
 }) {
-  const { value, onChange, music, baseUrl, allowUnset } = props
+  const { id, value, onChange, music, baseUrl, allowUnset, ariaLabel = '音乐' } = props
   if (music.length === 0) {
     return (
       <span className="music-picker">
         <input
+          id={id}
           className="in cf-num"
           type="number"
+          aria-label={ariaLabel}
           value={value ?? 0}
           onChange={(e) => onChange(Number(e.target.value))}
           onWheel={(e) => e.currentTarget.blur()}
@@ -107,7 +113,9 @@ export function MusicPicker(props: {
   return (
     <span className="music-picker">
       <select
+        id={id}
         className="in"
+        aria-label={ariaLabel}
         value={value === undefined ? '' : String(value)}
         onChange={(e) => onChange(e.target.value === '' ? undefined : Number(e.target.value))}
       >

@@ -1731,6 +1731,8 @@ function SceneInspector(props: {
   const { scene, session, music, musicBase, maps, projectMaps, tilesets, onOpenMap } = props
   const mapId = scene.mapId
   const currentAsset = maps.find((asset) => asset.id === mapId)
+  const mapSelectId = `scene-map-${scene.id}`
+  const musicSelectId = `scene-music-${scene.id}`
 
   const createAndBind = (): void => {
     const { id, path } = nextMapAssetIdentity({ version: 1, maps }, scene.id)
@@ -1772,46 +1774,61 @@ function SceneInspector(props: {
       </div>
       <div className="section">
         <h4>场景</h4>
-        <div className="field">
-          <span className="field-label">地图</span>
-          <div className="linked-control">
-            <select
-              className="in"
-              value={mapId}
-              onChange={(event) =>
-                event.target.value &&
-                session.dispatch(new BindSceneMapCommand(scene.id, event.target.value))
-              }
-            >
-              {!currentAsset && <option value={mapId}>{mapId} (缺失)</option>}
-              {maps.map((asset) => (
-                <option key={asset.id} value={asset.id}>
-                  {asset.name} ({asset.id})
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="linked-value-open"
-              title="在地图模块打开"
-              aria-label={`打开地图 ${mapId}`}
-              onClick={() => onOpenMap(mapId)}
-            >
-              ↗
-            </button>
+        <div className="field scene-map-field">
+          <label className="field-label" htmlFor={mapSelectId}>
+            地图
+          </label>
+          <div className="scene-map-control">
+            <div className="linked-control">
+              <select
+                id={mapSelectId}
+                className="in"
+                value={mapId}
+                onChange={(event) =>
+                  event.target.value &&
+                  session.dispatch(new BindSceneMapCommand(scene.id, event.target.value))
+                }
+              >
+                {!currentAsset && <option value={mapId}>{mapId} (缺失)</option>}
+                {maps.map((asset) => (
+                  <option key={asset.id} value={asset.id}>
+                    {asset.name} ({asset.id})
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="linked-value-open"
+                title="在地图模块打开"
+                aria-label={`打开地图 ${mapId}`}
+                onClick={() => onOpenMap(mapId)}
+              >
+                ↗
+              </button>
+            </div>
+            <div className="scene-map-actions">
+              <button type="button" className="scene-map-action" onClick={createAndBind}>
+                <span aria-hidden="true">＋</span>
+                创建并绑定
+              </button>
+              <button
+                type="button"
+                className="scene-map-action"
+                disabled={!currentAsset}
+                onClick={() => void duplicateAndBind()}
+              >
+                <span aria-hidden="true">⧉</span>
+                复制并绑定
+              </button>
+            </div>
           </div>
         </div>
-        <div className="scene-map-actions">
-          <button type="button" className="tool" onClick={createAndBind}>
-            ＋ 创建并绑定
-          </button>
-          <button type="button" className="tool" onClick={() => void duplicateAndBind()}>
-            ⧉ 复制并绑定
-          </button>
-        </div>
         <div className="field">
-          <span className="field-label">音乐</span>
+          <label className="field-label" htmlFor={musicSelectId}>
+            音乐
+          </label>
           <MusicPicker
+            id={musicSelectId}
             value={scene.musicId}
             onChange={(v) => session.dispatch(new UpdateSceneCommand(scene.id, { musicId: v }))}
             music={music}
