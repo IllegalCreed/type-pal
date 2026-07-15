@@ -191,8 +191,46 @@ Branch: main
      「打开工程」→ 改 s000 首 cue speed 112→113 → 💾 保存(真 createWritable 写盘)→ 整页重载 →
      「最近工程」重连 → **113 持久、chunk 仍 cue 形态、零 `line`、原始字节零控制码、树摘要零码**;
      s173 黄色对白摘要清洁、富文本标签零泄漏。与用户真实磁盘句柄的差异仅存储后端,API 面等价。
-- GLM: pending
-- counter / 返工处理: **D1 已由 Codex 于 2026-07-15 落地,待 GLM 独立复核**。原文称
+- GLM: **accept（2026-07-15;见下）**。六项独立实测 + 四包 841 tests pass + 1 skip。D1 文档修正已复核通过。
+
+  **(1) 产物口径对账（独立重扫）** ✅：
+  - 8,637 text id / 26 变体 / 125 yellow 标签值 / **0 cyan** / 0 残留控制码——逐项精确匹配。✅
+  - dialog 命令口径：scripts chunks 实测 6,723 + enemies.json 135 = 6,858（卡内口径含敌人 choreography）。rows 14,200 同理（14,065 scripts + 135 enemy）。**口径差异 = 统计边界（scripts vs scripts+enemies），两者都正确**。✅
+  - managed files 829（dry-run 确认 `[纯生成] 托管文件 829`）。✅
+
+  **(2) N1-N3 落地验收** ✅：
+  - **N1（U+3000 约定）**：legacy-dialog.ts:64-69 docblock 显式"U+3000...本语料只把它当行首缩进...判断 `$NN` 是否属于首字前设速时明确忽略"；emit(:84-87) 保留字面字符但排除出 `semanticSpeeds`；专测 legacy-dialog.test.ts:29-35 `'\u3000$10正文'→'\u3000正文' speed=112`。✅
+  - **N2（变体 id 确定性）**：legacy-dialog.test.ts:59-70 正序/逆序 `build(false)===build(true)` 断言；id 用 `stableScriptHash`(FNV-1a 内容哈希,非插入序) + baseline 钉死默认色+bottom slot(:146 docblock)。✅
+  - **N3（迁移前口径表）**：n1-dialogue-migration-audit.md:13-17 `脚本chunks 6,722/1,234 + 敌人 135/12 = 合计 6,857/1,246`。✅
+
+  **(3) D1 核实——审计文档修正已到位** ✅：
+  - **原问题**：审计文档 :45 原称"18 处 `-` 按 A 迁为 cyan toggle/减益数字写成 `<cyan>…</cyan>`"与产物 0 cyan 矛盾。
+  - **修正文本**（实测 :45-48 现状）：`"用户选择 A 确定的是 legacy dialogue decoder 遇 - 时按 cyan toggle 解释；可达对话语料实际零命中。原始 18 处 -（17 个站点）均属 0xA7 道具描述块，由描述管线原文写入 items.json，不经过对话 decoder；字面负号原样保留才与原版及一阶段菜单直绘路径一致。"` ✅
+  - **独立确认**：items.json 17 个 item desc 含字面 `-`（id 129/153-162/167/175/185/211/213/215/217/218/255，item 175 含 2 dash = 18 token）；translate-events.ts:1054 0xA7=noop；一阶段 script-desc.ts:30-38 `cmd.text` 原文直画不过 parseDialogText。**字面负号 = 原版/一阶段真实渲染，items.json 现状正确且忠实。** ✅
+  - **结论**：D1 修正文本准确，不改实现/产物。✅
+
+  **(4) 表驱动测试矩阵（legacy-dialog.test 八用例对照 parseDialogText）** ✅：
+  - `'-/[@` 三色 toggle（cyan/red/redAlt, :9-12）✅
+  - `"` 跨行颜色 + 每值独立闭合（:14-21）✅
+  - `"` narration 只消费不变色（R1, :23-27）✅
+  - `$NN` 跨行持续 + U+3000 非语义（:29-35）✅
+  - 真·中途变速 fail-loud（:37-39）✅
+  - `~` 后全废含死 `$NN`/颜色码（R2 两形态, :41-51）✅
+  - 光标 `(`/`)` + 转义 `\`（:53-57）✅
+  - 变体正逆序确定性（N2, :59-70）✅
+  - **全分支覆盖，无漏。** ✅
+
+  **(5) 敌人 choreography 对白（135/12）同 decoder 同门禁** ✅：
+  - enemies.json 135 dialog 引用（130 distinct dlg id），经同一 decoder + 同一 locale 门禁。产物中 0 控制码、0 cyan、1 yellow。✅
+  - **"12 含码"是迁移前口径**（audit doc :16），迁移后 0——符合预期。✅
+
+  **(6) MG2 二跑零计划 + M3 体积门禁** ✅：
+  - dry-run `writes=0 deletes=0 conflicts=0`，compact 1.65x / pretty 1.13x / commands 1.53x / closure 450582B。✅
+  - 四包测试：migrate 174+1skip / content 168 / editor 165 / reforge 334 = **841 pass**。✅
+
+  **总结**：产物口径全吻合（0 cyan/0 控制码/26 变体/125 yellow 独立确认）；N1-N3 全落地；D1 文档修正已到位且文本准确；测试矩阵八用例全分支无漏；敌人 choreography 同门禁；MG2 零计划 + 841 tests pass。**accept**。
+
+- counter / 返工处理: **D1 已由 Codex 于 2026-07-15 落地, GLM 独立复核通过**（修正文本准确，见 GLM 签字 (3)）。无返工项。
   "18 处 `-` 按用户选择 A 迁移为 cyan toggle/减益数字写成 `<cyan>…</cyan>`"——**与产物事实不符**:
   全产物 0 个 cyan 值。实测 18 处(17 站点)全在 0xA7 道具描述脚本族(addr 39926-40790),该族由更早的道具
   管线(C3 期)迁入 items.json desc,**保留字面负号**,N1-1 对话管线不触及(0xA7=noop、desc 段不可达对话根)。
@@ -201,7 +239,7 @@ Branch: main
   (已实现+已测,对可达对话语料零命中)。现已修正审计文档与 Build 摘要,明确"A=decoder 政策,
   17 站点属菜单文案不经对话管线,负号字面保留即忠实";未改任何实现与产物。
 - 缺签豁免: N/A
-- done 准入结论: blocked(待 GLM 复核 + 用户验收)
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），D1 文档修正已落地并经 GLM 复核通过。交用户验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
@@ -400,6 +438,7 @@ Branch: main
   共同确认其走菜单原文直绘、不进对话 decoder。已修正迁移审计与 Build 摘要,未改实现或生成产物。
   Evidence: `docs/phase2/foundation/n1-dialogue-migration-audit.md`「残留与合法性」+ 本卡 Build 摘要。
   Next: GLM 覆盖/测试矩阵复核并签最后一签；不得标 done。
+- 2026-07-15 GLM: done 前覆盖复验签 **accept**。六项独立实测+四包 841 pass：(1)产物口径 8637 textid/26变体/125 yellow/**0 cyan**/0控制码全精确匹配；dialog 6723 scripts+135 enemy=6858 口径差异=统计边界；(2)N1 U+3000 docblock(:64-69)+emit+专测(:29-35)/N2 变体正逆序(:59-70,FNV-1a内容哈希)/N3 迁移前口径表(audit:13-17 6722/1234+135/12=6857/1246)全落地；(3)**D1 文档修正已到位且经独立复核**——audit:45-48 现文准确("decoder政策...可达语料零命中...17站点属0xA7道具描述块不经对话decoder...字面负号原样保留=忠实")，items.json 17 item含字面`-`(id 129/153-162/167/175/185/211-218/255)，0xA7=noop(translate-events:1054)，script-desc.ts:30-38原文直画；(4)legacy-dialog.test 八用例对照parseDialogText全分支无漏(R1`"`slot/R2`~`后死码两形态/三色toggle/U+3000/fail-loud/转义光标/变体确定性)；(5)敌人135 dialog同decoder同门禁产物0码；(6)MG2 writes=0+门禁1.65x/1.13x/1.53x。D1返工复核通过无返工项。Evidence: done 准入 GLM 行。Next: 三签齐+D1落地，交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
