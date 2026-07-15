@@ -103,6 +103,10 @@ export function injectToolsPanelStyles(): void {
   padding:13px 18px 12px; border-bottom:1px solid var(--tp-border); }
 .tp-title { color:var(--tp-gold); font-size:17px; letter-spacing:5px;
   text-shadow:0 0 10px rgba(160,30,30,0.45); }
+.tp-title-wrap { display:flex; align-items:baseline; gap:12px; }
+.tp-gh-link { color:var(--tp-text-dim); font-size:12px; text-decoration:none;
+  border-bottom:1px dotted var(--tp-text-dim); transition:color .12s, border-color .12s; }
+.tp-gh-link:hover { color:var(--tp-gold); border-bottom-color:var(--tp-gold); }
 .tp-close { background:transparent; border:none; color:var(--tp-text-dim);
   font-size:20px; line-height:1; cursor:pointer; padding:0 4px; transition:color .12s; }
 .tp-close:hover { color:var(--tp-cream); }
@@ -923,14 +927,24 @@ export function setupToolsPanel(deps: ToolsPanelDeps): void {
   main.className = 'tp-main'
   const header = document.createElement('div')
   header.className = 'tp-header'
+  const titleWrap = document.createElement('div')
+  titleWrap.className = 'tp-title-wrap'
   const title = document.createElement('div')
   title.className = 'tp-title'
   title.textContent = '仙剑 · 工具'
+  const ghLink = document.createElement('a')
+  ghLink.className = 'tp-gh-link'
+  ghLink.href = 'https://github.com/IllegalCreed/type-pal'
+  ghLink.target = '_blank'
+  ghLink.rel = 'noopener noreferrer'
+  ghLink.textContent = 'GitHub'
+  ghLink.title = 'github.com/IllegalCreed/type-pal'
+  titleWrap.append(title, ghLink)
   const closeBtn = document.createElement('button')
   closeBtn.className = 'tp-close'
   closeBtn.textContent = '×'
   closeBtn.setAttribute('aria-label', '关闭')
-  header.append(title, closeBtn)
+  header.append(titleWrap, closeBtn)
   const body = document.createElement('div')
   body.className = 'tp-body'
   main.append(header, body)
