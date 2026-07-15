@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkCommands, checkStages } from './script.js'
+import { checkCommands, checkStages, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import {
   AUTHORED_SCRIPT_PREFIX,
   checkScriptIndex,
@@ -178,6 +178,65 @@ describe('script library schema', () => {
     expect(() =>
       checkStages([{ body: [{ kind: 'jumpScript', ref: { chunk: '', id: 'bad' } }] }], 'stages'),
     ).toThrow(/ScriptRef/)
+  })
+
+  it('scene entry 只准用于 onEnter，prepare 复用穷尽能力目录', () => {
+    const entryStage = {
+      entry: {
+        prepare: [
+          { kind: 'playMusic' as const, musicId: 31 },
+          {
+            kind: 'teleportParty' as const,
+            pos: { col: 59, row: -23, height: 0 },
+          },
+        ],
+        reveal: {
+          kind: 'dither' as const,
+          ms: 2160,
+          source: 'previousPresentedFrame' as const,
+        },
+      },
+      body: [{ kind: 'dialog' as const, cue: { rows: [{ text: 'after' }] } }],
+    }
+    expect(() =>
+      checkStages([entryStage], 'scene.onEnter', { allowSceneEntry: true }),
+    ).not.toThrow()
+    expect(() => checkStages([entryStage], 'entity.trigger')).toThrow(/只允许出现在场景 onEnter/)
+    expect(SCENE_ENTRY_PREPARE_SAFETY.playMusic).toBe('safe')
+    expect(SCENE_ENTRY_PREPARE_SAFETY.wait).toBe('blocked')
+    expect(() =>
+      checkStages(
+        [
+          {
+            ...entryStage,
+            entry: { ...entryStage.entry, prepare: [{ kind: 'wait', ms: 1 }] },
+          },
+        ],
+        'scene.onEnter',
+        { allowSceneEntry: true },
+      ),
+    ).toThrow(/wait 不允许在隐藏目标画面时执行/)
+  })
+
+  it('scene entry reveal 参数 fail-loud，普通旧 stage 仍兼容', () => {
+    expect(() =>
+      checkStages([{ body: [] }], 'legacy.onEnter', { allowSceneEntry: true }),
+    ).not.toThrow()
+    expect(() =>
+      checkStages(
+        [
+          {
+            entry: {
+              prepare: [],
+              reveal: { kind: 'dither', ms: -1, source: 'previousPresentedFrame' },
+            },
+            body: [],
+          },
+        ],
+        'scene.onEnter',
+        { allowSceneEntry: true },
+      ),
+    ).toThrow(/非负有限数/)
   })
 
   it('拒绝旧工程的 unmigrated 节点并提示重新迁移', () => {

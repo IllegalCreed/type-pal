@@ -24,6 +24,7 @@ function fakeHost(calls: string[]): ScriptHost {
     clearDialog: log('clearDialog'),
     fade: alog('fade'),
     ditherScreen: alog('ditherScreen'),
+    revealSceneEntry: alog('revealSceneEntry'),
     wait: alog('wait'),
     teleportParty: log('teleportParty'),
     loadScene: alog('loadScene'),
@@ -268,6 +269,48 @@ describe('stages 阶段机', () => {
     const r = new ScriptRunner(fakeHost([]), world, new AbortController().signal)
     await r.runStages('e1', stages)
     expect(world.vars.ran).toBe(2)
+  })
+
+  test('scene onEnter 严格按 Prepare → Reveal → Body 执行', async () => {
+    const calls: string[] = []
+    const world = emptyWorldScriptState()
+    const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
+    await r.runStages(
+      's:s001',
+      [
+        {
+          entry: {
+            prepare: [
+              { kind: 'playMusic', musicId: 31 },
+              { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
+            ],
+            reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
+          },
+          body: [{ kind: 'playSound', soundId: 1 }],
+          next: 'advance',
+        },
+      ],
+      { allowSceneEntry: true },
+    )
+    expect(calls).toEqual([
+      'playMusic(31)',
+      'teleportParty({"col":59,"row":-23,"height":0},)',
+      'revealSceneEntry({"kind":"dither","ms":2160,"source":"previousPresentedFrame"})',
+      'playSound(1)',
+    ])
+    expect(world.entityStage['s:s001']).toBe(1)
+  })
+
+  test('非 onEnter 上下文执行 entry fail-loud', async () => {
+    const r = new ScriptRunner(fakeHost([]), emptyWorldScriptState(), new AbortController().signal)
+    await expect(
+      r.runStages('e1', [
+        {
+          entry: { prepare: [], reveal: { kind: 'cut' } },
+          body: [],
+        },
+      ]),
+    ).rejects.toThrow(/非 scene onEnter/)
   })
 })
 

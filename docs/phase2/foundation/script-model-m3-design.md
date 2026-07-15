@@ -100,6 +100,23 @@ type TriggerKind = 'interact' | 'touch' | 'sceneEnter' | 'use' | 'auto'
 range 0-3)→ touch。SceneDef 增 `onEnter?: Script`(146 场景)。`use` 挂 ItemUseEffect
 .triggerScript(M1d 已留口)。
 
+### 2.5 场景入场呈现契约(X3-1)
+
+`ScriptStage.entry` 是目标场景活动 stage 的可选呈现元数据，不是来源 `loadScene` 的参数。
+它把原先扁平的早期命令分成三个阶段:
+
+1. `prepare`: 在旧 presented frame 仍被 compositor 冻结时，对目标逻辑世界做同步准备。
+2. `reveal`: 以 `dither | fade | cut` 之一原子提交目标画面。
+3. `body`: 呈现完成后才跑正常演出、对话和 stage 推进。
+
+`ScriptRunner.runStages` 是顺序的唯一执行者；`SceneEntrySession` 只持有 source frame、目标场景、
+reveal 契约和生命周期 token。切场景、读档、abort、prepare 异常或资产加载失败都必须清理
+session，旧 token 不得收口新事务。无 `entry` 时仍走普通 fade；非 onEnter 站点的
+`ditherScreen` 仍在当前已呈现画面上工作。
+
+旧 PAL 脚本的 lifting 仅发生在 migrate，且同时扫描 root 与 `setSceneOnEnter` override；运行时
+已删除命令前缀白名单和分片穿透预读。
+
 ## 3. 翻译器(migrate 包,纯函数 + golden)
 
 **分层策略 —— 按普查份额逐层吃,每层可验收:**

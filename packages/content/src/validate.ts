@@ -46,7 +46,11 @@ function validateSceneArray(json: unknown): SceneDef[] {
     })
     // M3:进场脚本(可选)
     if ('onEnter' in o && (o as { onEnter?: unknown }).onEnter !== undefined)
-      checkStages((o as { onEnter: unknown }).onEnter, `scenes[${i}].onEnter`)
+      checkStages((o as { onEnter: unknown }).onEnter, `scenes[${i}].onEnter`, {
+        allowSceneEntry: true,
+      })
+    if ('onTeleport' in o && (o as { onTeleport?: unknown }).onTeleport !== undefined)
+      checkStages((o as { onTeleport: unknown }).onTeleport, `scenes[${i}].onTeleport`)
   })
   return arr
 }

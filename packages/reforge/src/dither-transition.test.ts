@@ -1,4 +1,3 @@
-import type { ScriptStage } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
   applyDitherPaletteTransition,
@@ -7,7 +6,6 @@ import {
   DITHER_TOTAL_STEPS,
   DitherTransitionController,
   ditherVisitsForPixel,
-  hasEarlyDitherScreen,
 } from './dither-transition.js'
 
 const paletteColors = Array.from({ length: 256 }, (_, index): [number, number, number] => [
@@ -147,63 +145,24 @@ describe('buildDitherPalettePlan / applyDitherPaletteTransition', () => {
   })
 })
 
-describe('hasEarlyDitherScreen', () => {
-  test('只接受同步确定前缀中的 ditherScreen', () => {
-    const stage: ScriptStage = {
-      body: [
-        { kind: 'playMusic', musicId: 31 },
-        { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
-        { kind: 'ditherScreen', ms: 2160 },
-        { kind: 'dialog', cue: { rows: [{ text: 'after' }] } },
-      ],
-    }
-    expect(hasEarlyDitherScreen(stage)).toBe(true)
-  })
-
-  test('阻塞命令或分支在前时关闭前瞻', () => {
-    expect(
-      hasEarlyDitherScreen({
-        body: [
-          { kind: 'wait', ms: 1 },
-          { kind: 'ditherScreen', ms: 720 },
-        ],
-      }),
-    ).toBe(false)
-    expect(
-      hasEarlyDitherScreen({
-        body: [
-          { kind: 'branch', cond: { kind: 'flag', flag: 'x', is: true }, then: [] },
-          { kind: 'ditherScreen' },
-        ],
-      }),
-    ).toBe(false)
-  })
-})
-
 describe('DitherTransitionController', () => {
-  test('跨场景优先消费匹配 handoff，不调用命令内 snapshot', () => {
+  test('场景 entry 显式提供 previous presented frame', () => {
     const controller = new DitherTransitionController<string>()
-    const snapshot = vi.fn(() => 'new-snapshot')
-    controller.arm('s001', 's000-final')
-    void controller.begin('s001', snapshot, 2160)
+    void controller.beginEntry('s000-final', 2160)
     expect(controller.active?.backup).toBe('s000-final')
-    expect(controller.active?.source).toBe('handoff')
-    expect(controller.pendingTargetSceneId).toBeNull()
-    expect(snapshot).not.toHaveBeenCalled()
+    expect(controller.active?.source).toBe('entry')
   })
 
   test('独立站点走命令内 snapshot；cancel 清状态并兑现 Promise', async () => {
     const controller = new DitherTransitionController<string>()
-    const done = controller.begin('s020', () => 'same-scene-frame', 720)
+    const snapshot = vi.fn(() => 'same-scene-frame')
+    const done = controller.beginSnapshot(snapshot, 720)
     expect(controller.active?.backup).toBe('same-scene-frame')
     expect(controller.active?.source).toBe('snapshot')
-    controller.arm('s021', 'old-frame')
-    await done
+    expect(snapshot).toHaveBeenCalledOnce()
 
-    const activeDone = controller.begin('s021', () => 'unused', 720)
     controller.cancel()
-    await activeDone
+    await done
     expect(controller.active).toBeNull()
-    expect(controller.pendingTargetSceneId).toBeNull()
   })
 })

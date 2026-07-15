@@ -1011,7 +1011,28 @@
           }
         }
       ],
-      "next": "advance"
+      "next": "advance",
+      "entry": {
+        "prepare": [
+          {
+            "kind": "playMusic",
+            "musicId": 31
+          },
+          {
+            "kind": "teleportParty",
+            "pos": {
+              "col": 59,
+              "row": -23,
+              "height": 0
+            }
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 2160,
+          "source": "previousPresentedFrame"
+        }
+      }
     },
     {
       "body": [

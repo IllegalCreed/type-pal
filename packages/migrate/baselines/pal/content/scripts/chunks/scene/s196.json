@@ -4,18 +4,6 @@
   "scripts": {
     "scene/s196/root/on-enter/stage-0": [
       {
-        "kind": "teleportParty",
-        "pos": {
-          "col": 92,
-          "row": 36,
-          "height": 0
-        }
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 3600
-      },
-      {
         "kind": "dialog",
         "cue": {
           "rows": [

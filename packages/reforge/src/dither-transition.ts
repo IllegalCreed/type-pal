@@ -9,7 +9,6 @@
  * 色表只是渲染特效的输入，不进入内容 schema；正常场景仍是 RGBA 渲染。
  */
 
-import type { Command, ScriptStage } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 
 /** 总步数 = 12 outer × 6 相位。 */
@@ -196,70 +195,7 @@ export function applyDitherPaletteTransition(
   }
 }
 
-const DETERMINISTIC_PREFIX_KINDS = new Set<Command['kind']>([
-  'animEntity',
-  'cameraSnap',
-  'clearDialog',
-  'endBattle',
-  'fleeBattle',
-  'giveItem',
-  'giveMoney',
-  'halveMoney',
-  'increaseHpMp',
-  'learnSkill',
-  'loseItem',
-  'mountParty',
-  'nudgeEntity',
-  'nudgeParty',
-  'playMusic',
-  'playSound',
-  'releaseEntity',
-  'revivePartyAll',
-  'setAmbience',
-  'setEntityAuto',
-  'setEntityFacing',
-  'setEntityFrame',
-  'setEntityLayer',
-  'setEntityPos',
-  'setEntityPosRelParty',
-  'setEntityState',
-  'setEntityTrigger',
-  'setEntityTriggerMode',
-  'setFlag',
-  'setFollowers',
-  'setMultiEntityState',
-  'setParty',
-  'setPartyFacing',
-  'setSceneOnEnter',
-  'setSceneOnTeleport',
-  'clearSceneScripts',
-  'setScreenWave',
-  'setVar',
-  'addVar',
-  'shakeScreen',
-  'stepEntity',
-  'takeEntity',
-  'teleportParty',
-  'toggleDayNight',
-  'unequip',
-  'unmountParty',
-  'vanishEntity',
-])
-
-/**
- * 只接受当前活动 stage 的确定性同步前缀。遇到 await、分支、跳场景或未知新命令立即失败关闭，
- * 防止为“可能执行”的 0x73 错误冻结普通 loadScene。
- */
-export function hasEarlyDitherScreen(stage: ScriptStage | undefined): boolean {
-  if (!stage) return false
-  for (const command of stage.body) {
-    if (command.kind === 'ditherScreen') return true
-    if (!DETERMINISTIC_PREFIX_KINDS.has(command.kind)) return false
-  }
-  return false
-}
-
-export type DitherBackupSource = 'handoff' | 'snapshot'
+export type DitherBackupSource = 'entry' | 'snapshot'
 
 export interface ActiveDither<T> {
   backup: T
@@ -275,32 +211,14 @@ export interface ActiveDither<T> {
 }
 
 /**
- * 管理跨场景一次性交接与 active Promise。T 用泛型保持本模块可在无 DOM 的 Vitest 中验证；
- * 浏览器运行时实例化为 ImageData。
+ * 管理显式 entry source 或独立命令快照的 active Promise。T 用泛型保持本模块可在无 DOM
+ * 的 Vitest 中验证；浏览器运行时实例化为 ImageData。
  */
 export class DitherTransitionController<T> {
-  private pending: { targetSceneId: string; backup: T } | null = null
   active: ActiveDither<T> | null = null
 
-  get pendingTargetSceneId(): string | null {
-    return this.pending?.targetSceneId ?? null
-  }
-
-  pendingBackupFor(sceneId: string): T | null {
-    return this.pending?.targetSceneId === sceneId ? this.pending.backup : null
-  }
-
-  arm(targetSceneId: string, backup: T): void {
-    this.cancel()
-    this.pending = { targetSceneId, backup }
-  }
-
-  begin(sceneId: string, snapshot: () => T, durationMs: number): Promise<void> {
+  private begin(backup: T, durationMs: number, source: DitherBackupSource): Promise<void> {
     this.finish()
-    const matched = this.pending?.targetSceneId === sceneId ? this.pending : null
-    if (matched) this.pending = null
-    const backup = matched?.backup ?? snapshot()
-    const source: DitherBackupSource = matched ? 'handoff' : 'snapshot'
     return new Promise((resolve) => {
       this.active = {
         backup,
@@ -317,8 +235,12 @@ export class DitherTransitionController<T> {
     })
   }
 
-  clearPendingFor(sceneId: string): void {
-    if (this.pending?.targetSceneId === sceneId) this.pending = null
+  beginEntry(backup: T, durationMs: number): Promise<void> {
+    return this.begin(backup, durationMs, 'entry')
+  }
+
+  beginSnapshot(snapshot: () => T, durationMs: number): Promise<void> {
+    return this.begin(snapshot(), durationMs, 'snapshot')
   }
 
   finish(): void {
@@ -328,7 +250,6 @@ export class DitherTransitionController<T> {
   }
 
   cancel(): void {
-    this.pending = null
     this.finish()
   }
 }

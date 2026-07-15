@@ -158,7 +158,39 @@ scene = {
   `clearSceneScripts`，同时把双槽写成 `null`。
 - 旧存档的 `world.script.onTeleport` 在读档时逐场景归一化到新结构；字段冲突、未知槽或异型绑定均拒绝猜测。
 
-### 6.2 对话命令(N1-1,2026-07-15)
+### 6.2 场景入场呈现事务(X3-1,2026-07-15)
+
+场景 `onEnter` 的每个活动 stage 可选声明一个显式入场契约:
+
+```ts
+interface ScriptStage {
+  entry?: {
+    prepare: Command[]
+    reveal:
+      | { kind: 'dither'; ms: number; source: 'previousPresentedFrame' }
+      | { kind: 'fade'; outMs: number; inMs: number }
+      | { kind: 'cut' }
+  }
+  body: Command[]
+  next?: 'advance' | number
+}
+```
+
+- 执行顺序唯一且固定:`prepare → reveal → body`。`prepare` 修改的是尚未呈现的目标世界，
+  `reveal` 是旧 presented frame 向目标画面的唯一提交边界，对话等正文只能在完成后执行。
+- `entry` 只允许出现在 `SceneDef.onEnter` 或 `setSceneOnEnter` 安装的 stage。实体触发、auto、
+  onTeleport 和普通共享脚本出现该字段时必须 fail-loud。
+- `prepare` 的安全性由 content 命令目录的穷尽分类决定；分支、等待、对话、再次切场景等会
+  阻塞或改变控制流的命令不得进入。新增 `Command.kind` 未分类时直接类型检查失败。
+- 没有 `entry` 的普通 `loadScene` 仍使用默认淡出/切换/淡入。独立脚本中的 `ditherScreen`
+  仍是通用屏幕命令，不会被误当成场景入场元数据。
+- PAL 旧数据只在 migrate 边界把 onEnter 的“安全同步前缀 + 早期 `ditherScreen`”一次性
+  提升为 `entry`；运行时禁止扫描 body 或穿透 `callScript` 猜入场效果。
+
+迁移范围、反例集和产物门禁见
+[`x3-scene-entry-migration-audit.md`](x3-scene-entry-migration-audit.md)。
+
+### 6.3 对话命令(N1-1,2026-07-15)
 
 content、reforge、editor 的唯一对话命令形态为:
 

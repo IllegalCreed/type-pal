@@ -1192,6 +1192,7 @@ import type {
 } from '@type-pal/content'
 import { pixelToGrid } from '@type-pal/content'
 import { mapIdFromSourceNumber } from './project-map-converter.js'
+import { liftEarlyDitherSceneEntry } from './scene-entry.js'
 
 export interface SourceEventObject {
   id: number
@@ -1261,6 +1262,8 @@ export interface SceneMigrationResult {
     battleFieldsPropagated?: string[]
     /** 有战斗但战场默认解不出的场景(运行时吃项目默认;待人工定值)。 */
     battleFieldUnresolved?: string[]
+    /** onEnter 的安全前缀 + 0x73 已提升为显式 entry 的稳定 stage id。 */
+    sceneEntriesLifted: string[]
   }
 }
 
@@ -1344,6 +1347,7 @@ export function mapScenesStatic(
     facingFromAuto: 0,
     zonesMigrated: 0,
     hostilesFolded: 0,
+    sceneEntriesLifted: [],
   }
 
   // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
@@ -1758,7 +1762,7 @@ export function mapScenesStatic(
       ...(onTeleport ? { onTeleport } : {}),
     })
   })
-  resolveSceneScriptPatches(scenes, tctx)
+  resolveSceneScriptPatches(scenes, tctx, report.sceneEntriesLifted)
   scenes = applyPalScriptOverlays(scenes)
   // 0x6D 追加的新段也要参与 battle marker bake 与默认传播。
   for (let i = 0; i < scenes.length; i++) scenes[i] = finalizeBattleConfig(scenes[i]!)
@@ -1768,7 +1772,9 @@ export function mapScenesStatic(
   // all.json(-2),此时任何可达 gap/flow cut 都在写盘前硬失败。
   if (allCommands) assertNoMigrationGaps(tctx.report)
 
-  for (let i = 0; i < scenes.length; i++) scenes[i] = externalizeSceneScripts(scenes[i]!, registry)
+  for (let i = 0; i < scenes.length; i++)
+    scenes[i] = externalizeSceneScripts(scenes[i]!, registry, report.sceneEntriesLifted)
+  report.sceneEntriesLifted.sort()
   const library = registry.build()
 
   const predecessorCount = new Map<number, number>()
@@ -1817,20 +1823,28 @@ export function mapScenesStatic(
 }
 
 /** scene 只保留持久 stage 壳；每个根体进入 scene chunk，避免场景 JSON 重复脚本树。 */
-function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): SceneDef {
+function externalizeSceneScripts(
+  scene: SceneDef,
+  registry: ScriptRegistry,
+  sceneEntriesLifted: string[],
+): SceneDef {
   const bindStages = (
     stages: ScriptStage[] | undefined,
     source: string,
+    liftEntry = false,
   ): ScriptStage[] | undefined =>
     stages?.map((stage, index) => {
       const id = `scene/${scene.id}/root/${source}/stage-${index}`
-      const ref = registry.registerRoot(id, stage.body)
-      return { ...stage, body: [{ kind: 'callScript', ref }] }
+      const lifted = liftEntry ? liftEarlyDitherSceneEntry(stage) : undefined
+      const output = lifted?.stage ?? stage
+      if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
+      const ref = registry.registerRoot(id, output.body)
+      return { ...output, body: [{ kind: 'callScript', ref }] }
     })
 
   return {
     ...scene,
-    onEnter: bindStages(scene.onEnter, 'on-enter'),
+    onEnter: bindStages(scene.onEnter, 'on-enter', true),
     onTeleport: bindStages(scene.onTeleport, 'on-teleport'),
     entities: scene.entities.map((entity) => ({
       ...entity,
@@ -1858,7 +1872,11 @@ function externalizeSceneScripts(scene: SceneDef, registry: ScriptRegistry): Sce
  * clean ScriptStage[] 绑定。每段体注册进分片,命令只保留小型 callScript 根,避免多站点
  * 内联导致体积膨胀。嵌套 0x6D 逐轮解析;任何目标缺失都记 MigrationGap 并在写盘前失败。
  */
-export function resolveSceneScriptPatches(scenes: SceneDef[], tctx: TranslateCtx): void {
+export function resolveSceneScriptPatches(
+  scenes: SceneDef[],
+  tctx: TranslateCtx,
+  sceneEntriesLifted: string[] = [],
+): void {
   const byId = new Map(scenes.map((s) => [s.id, s]))
   type Pending = {
     kind: 'setSceneOnEnter' | 'setSceneOnTeleport'
@@ -1927,9 +1945,12 @@ export function resolveSceneScriptPatches(scenes: SceneDef[], tctx: TranslateCtx
         }
         binding = folded.map((stage, index) => {
           const id = `scene/${cmd.scene}/override/${slot}/L-${cmd._addr}/stage-${index}`
-          const ref = tctx.registry?.registerRoot(id, stage.body)
-          if (!ref) return stage
-          return { ...stage, body: [{ kind: 'callScript', ref }] }
+          const lifted = slot === 'on-enter' ? liftEarlyDitherSceneEntry(stage) : undefined
+          const output = lifted?.stage ?? stage
+          if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
+          const ref = tctx.registry?.registerRoot(id, output.body)
+          if (!ref) return output
+          return { ...output, body: [{ kind: 'callScript', ref }] }
         })
         bindingsByKey.set(key, binding)
       }

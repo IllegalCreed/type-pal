@@ -1082,7 +1082,24 @@
                 }
               }
             ],
-            "next": "advance"
+            "next": "advance",
+            "entry": {
+              "prepare": [
+                {
+                  "kind": "setEntityTrigger",
+                  "entity": "e2960",
+                  "script": {
+                    "chunk": "scene/s180",
+                    "id": "scene/s180/L-25096/e2960/d-0a386828"
+                  }
+                }
+              ],
+              "reveal": {
+                "kind": "dither",
+                "ms": 720,
+                "source": "previousPresentedFrame"
+              }
+            }
           },
           {
             "body": [

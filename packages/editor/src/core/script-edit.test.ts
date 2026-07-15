@@ -8,6 +8,7 @@ import {
   addStageAfter,
   getCommandAt,
   insertAfterAt,
+  insertAtHead,
   moveAt,
   parsePath,
   removeAt,
@@ -99,6 +100,52 @@ describe('insertAfterAt / removeAt / moveAt', () => {
       't1',
       't0',
     ])
+  })
+})
+
+describe('scene entry prepare 路径', () => {
+  const entryStages = (): ScriptStage[] => [
+    {
+      entry: {
+        prepare: [
+          { kind: 'playMusic', musicId: 31 },
+          { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
+        ],
+        reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
+      },
+      body: [dlg('after')],
+    },
+  ]
+
+  test('读取、修改、插入、移动和删除均只重建 prepare', () => {
+    const source = entryStages()
+    const path = [0, 'entry', 'prepare', 0] as const
+    expect(getCommandAt(source, path)).toEqual({ kind: 'playMusic', musicId: 31 })
+    const updated = updateCommandAt(source, path, { kind: 'playMusic', musicId: 49 })
+    expect(getCommandAt(updated, path)).toEqual({ kind: 'playMusic', musicId: 49 })
+    expect(updated[0]?.body).toBe(source[0]?.body)
+
+    const inserted = insertAfterAt(updated, path, { kind: 'playSound', soundId: 1 })
+    expect(inserted[0]?.entry?.prepare.map((command) => command.kind)).toEqual([
+      'playMusic',
+      'playSound',
+      'teleportParty',
+    ])
+    const moved = moveAt(inserted, [0, 'entry', 'prepare', 1], 1)
+    expect(moved[0]?.entry?.prepare.map((command) => command.kind)).toEqual([
+      'playMusic',
+      'teleportParty',
+      'playSound',
+    ])
+    const removed = removeAt(moved, [0, 'entry', 'prepare', 2])
+    expect(removed[0]?.entry?.prepare).toHaveLength(2)
+  })
+
+  test('空 prepare 可从头插入', () => {
+    const source: ScriptStage[] = [{ entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }]
+    const out = insertAtHead(source, 0, { kind: 'playMusic', musicId: 1 }, 'entryPrepare')
+    expect(out[0]?.entry?.prepare).toEqual([{ kind: 'playMusic', musicId: 1 }])
+    expect(out[0]?.body).toEqual([])
   })
 })
 

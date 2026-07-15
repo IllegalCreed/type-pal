@@ -4,34 +4,6 @@
   "scripts": {
     "scene/s200/root/on-enter/stage-0": [
       {
-        "kind": "teleportParty",
-        "pos": {
-          "col": 80,
-          "row": 24,
-          "height": 0
-        }
-      },
-      {
-        "kind": "setPartyFacing",
-        "facing": "up"
-      },
-      {
-        "kind": "playMusic",
-        "musicId": 59
-      },
-      {
-        "kind": "clearDialog"
-      },
-      {
-        "kind": "setEntityState",
-        "entity": "e3351",
-        "state": 1
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 3600
-      },
-      {
         "kind": "dialog",
         "cue": {
           "rows": [

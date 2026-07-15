@@ -192,12 +192,112 @@ export type Command =
 
 export type WalkSpeed = 'slow' | 'normal' | 'fast' | 'run'
 
+/** 场景入场把目标世界交给呈现层的唯一提交边界。 */
+export type SceneReveal =
+  | { kind: 'dither'; ms: number; source: 'previousPresentedFrame' }
+  | { kind: 'fade'; outMs: number; inMs: number }
+  | { kind: 'cut' }
+
+/** 仅 scene onEnter stage 可声明；prepare 在目标画面尚未呈现时执行。 */
+export interface SceneEntryPresentation {
+  prepare: Command[]
+  reveal: SceneReveal
+}
+
+export type SceneEntryPrepareSafety = 'safe' | 'blocked'
+
+/**
+ * 入场 prepare 的命令能力目录。validator 与迁移 lifting 共用这一份穷尽表；新增 Command kind
+ * 未分类会在 typecheck 失败，不允许再出现运行时靠前缀白名单猜语义的第二决策源。
+ */
+export const SCENE_ENTRY_PREPARE_SAFETY = {
+  addVar: 'safe',
+  animEntity: 'safe',
+  branch: 'blocked',
+  callScript: 'blocked',
+  cameraPan: 'blocked',
+  cameraSnap: 'safe',
+  chasePlayer: 'blocked',
+  clearDialog: 'safe',
+  clearSceneScripts: 'safe',
+  confirm: 'blocked',
+  dialog: 'blocked',
+  ditherScreen: 'blocked',
+  endBattle: 'safe',
+  fade: 'blocked',
+  fleeBattle: 'safe',
+  gameOver: 'blocked',
+  giveItem: 'safe',
+  giveMoney: 'safe',
+  halveMoney: 'safe',
+  increaseHpMp: 'safe',
+  jumpScript: 'blocked',
+  learnSkill: 'safe',
+  loadLastSave: 'blocked',
+  loadScene: 'blocked',
+  loseItem: 'safe',
+  mountParty: 'safe',
+  moveEntity: 'blocked',
+  moveParty: 'blocked',
+  nudgeEntity: 'safe',
+  nudgeParty: 'safe',
+  openShop: 'blocked',
+  playMusic: 'safe',
+  playRng: 'blocked',
+  playSound: 'safe',
+  playVideo: 'blocked',
+  quitToTitle: 'blocked',
+  releaseEntity: 'safe',
+  revivePartyAll: 'safe',
+  ride: 'blocked',
+  setActorAppearance: 'blocked',
+  setActorSprite: 'blocked',
+  setAmbience: 'safe',
+  setEntityAuto: 'safe',
+  setEntityFacing: 'safe',
+  setEntityFrame: 'safe',
+  setEntityLayer: 'safe',
+  setEntityPos: 'safe',
+  setEntityPosRelParty: 'safe',
+  setEntityState: 'safe',
+  setEntityTrigger: 'safe',
+  setEntityTriggerMode: 'safe',
+  setFlag: 'safe',
+  setFollowers: 'safe',
+  setMultiEntityState: 'safe',
+  setParty: 'safe',
+  setPartyFacing: 'safe',
+  setSceneMapOverride: 'blocked',
+  setSceneOnEnter: 'safe',
+  setSceneOnTeleport: 'safe',
+  setScreenWave: 'safe',
+  setVar: 'safe',
+  shakeScreen: 'safe',
+  startBattle: 'blocked',
+  stepEntity: 'safe',
+  stopScript: 'blocked',
+  takeEntity: 'safe',
+  teleportOut: 'blocked',
+  teleportParty: 'safe',
+  toggleDayNight: 'safe',
+  unequip: 'safe',
+  unmountParty: 'safe',
+  vanishEntity: 'safe',
+  wait: 'blocked',
+} as const satisfies Record<Command['kind'], SceneEntryPrepareSafety>
+
+export function sceneEntryPrepareSafety(command: Command): SceneEntryPrepareSafety {
+  return SCENE_ENTRY_PREPARE_SAFETY[command.kind]
+}
+
 /**
  * 触发段(stage):原版 end.advance/end.reset(合计 1,699 次)的 clean 版。
  * 实体/场景的触发脚本 = stages 数组;world.entityStage 记当前第几段。
  * 段跑完按 next 转移:缺省 = stay(下次重跑同段);'advance' = 推进下一段;数字 = 重置到该段。
  */
 export interface ScriptStage {
+  /** 仅场景 onEnter 使用：先准备隐藏目标世界，再显式 reveal，最后执行 body。 */
+  entry?: SceneEntryPresentation
   body: Command[]
   next?: 'advance' | number
 }
@@ -338,16 +438,66 @@ export function checkCommands(cmds: unknown, path: string): void {
       } else {
         // 动态换页的 [] 是既有“停用”语义；普通 stage 根仍要求非空。
         if (!(Array.isArray(binding.stages) && binding.stages.length === 0))
-          checkStages(binding.stages, `${path}[${i}].stages`)
+          checkStages(binding.stages, `${path}[${i}].stages`, {
+            allowSceneEntry: k === 'setSceneOnEnter',
+          })
       }
     }
   })
 }
 
-export function checkStages(stages: unknown, path: string): void {
+export interface CheckStagesOptions {
+  /** 只有 SceneDef.onEnter 与 setSceneOnEnter 的 stage 能声明 entry。 */
+  allowSceneEntry?: boolean
+}
+
+function checkNonNegativeFinite(value: unknown, path: string): void {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0)
+    throw new Error(`${path}: 期望非负有限数`)
+}
+
+function checkSceneEntry(value: unknown, path: string): void {
+  if (typeof value !== 'object' || value === null || Array.isArray(value))
+    throw new Error(`${path}: 期望 SceneEntryPresentation`)
+  const entry = value as { prepare?: unknown; reveal?: unknown }
+  checkCommands(entry.prepare, `${path}.prepare`)
+  for (const [index, raw] of (entry.prepare as unknown[]).entries()) {
+    const kind = (raw as { kind?: unknown } | null)?.kind
+    const safety =
+      typeof kind === 'string' ? SCENE_ENTRY_PREPARE_SAFETY[kind as Command['kind']] : undefined
+    if (safety !== 'safe')
+      throw new Error(`${path}.prepare[${index}]: 命令 ${String(kind)} 不允许在隐藏目标画面时执行`)
+  }
+  if (typeof entry.reveal !== 'object' || entry.reveal === null || Array.isArray(entry.reveal))
+    throw new Error(`${path}.reveal: 期望对象`)
+  const reveal = entry.reveal as Record<string, unknown>
+  switch (reveal.kind) {
+    case 'dither':
+      checkNonNegativeFinite(reveal.ms, `${path}.reveal.ms`)
+      if (reveal.source !== 'previousPresentedFrame')
+        throw new Error(`${path}.reveal.source: 期望 previousPresentedFrame`)
+      break
+    case 'fade':
+      checkNonNegativeFinite(reveal.outMs, `${path}.reveal.outMs`)
+      checkNonNegativeFinite(reveal.inMs, `${path}.reveal.inMs`)
+      break
+    case 'cut':
+      break
+    default:
+      throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
+  }
+}
+
+export function checkStages(stages: unknown, path: string, options: CheckStagesOptions = {}): void {
   if (!Array.isArray(stages) || stages.length === 0)
     throw new Error(`${path}: 期望非空 ScriptStage[]`)
   stages.forEach((st, i) => {
+    const entry = (st as { entry?: unknown } | null)?.entry
+    if (entry !== undefined) {
+      if (!options.allowSceneEntry)
+        throw new Error(`${path}[${i}].entry: 只允许出现在场景 onEnter stage`)
+      checkSceneEntry(entry, `${path}[${i}].entry`)
+    }
     checkCommands((st as { body?: unknown })?.body, `${path}[${i}].body`)
     const nx = (st as { next?: unknown }).next
     if (nx !== undefined && nx !== 'advance' && typeof nx !== 'number')

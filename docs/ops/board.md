@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| X3-1 | 场景入场呈现事务 | draft | Codex 可接手 build | N1-1 已 done；X3-1 设计三签齐，等待 Coding Owner 启动 |
+| X3-1 | 场景入场呈现事务 | review | Opus 架构/代码/视觉主审 | Codex accept；全仓门禁与浏览器验证完成，待 Opus + GLM |
 
 ## 阻塞
 

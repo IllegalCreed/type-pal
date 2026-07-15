@@ -1012,6 +1012,116 @@ html[data-panel-resize="horizontal"] * {
   color: var(--faint);
   font-weight: 400;
 }
+.scene-entry-default {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px;
+  padding: 5px 10px;
+  margin: 3px 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--panel2) 78%, var(--bg));
+  color: var(--dim);
+}
+.scene-entry-default > span {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+}
+.scene-entry-note {
+  color: var(--faint);
+  font-size: 11px;
+}
+.scene-entry-sections {
+  display: grid;
+  gap: 3px;
+  padding: 3px 8px 0;
+}
+.scene-entry-section {
+  overflow: clip;
+  margin: 0 8px 3px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--panel2) 72%, var(--panel));
+}
+.scene-entry-sections .scene-entry-section {
+  margin: 0;
+}
+.scene-entry-section.prepare {
+  background: color-mix(in srgb, var(--ok) 8%, var(--panel2));
+}
+.scene-entry-section.reveal {
+  background: color-mix(in srgb, var(--accent) 9%, var(--panel2));
+}
+.scene-entry-section.post {
+  background: color-mix(in srgb, var(--panel) 74%, var(--bg));
+}
+.scene-entry-section > summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 28px;
+  padding: 4px 9px;
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.scene-entry-section > summary::-webkit-details-marker {
+  display: none;
+}
+.scene-entry-section > summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid currentColor;
+  opacity: 0.65;
+  transition: transform 120ms ease;
+}
+.scene-entry-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.scene-entry-section > summary > span:last-child {
+  margin-left: auto;
+  overflow: hidden;
+  color: var(--faint);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scene-entry-section-body {
+  padding: 2px 0 5px;
+}
+.scene-entry-add {
+  margin: 4px 10px;
+}
+.scene-reveal-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 5px 10px 8px 26px;
+}
+.scene-reveal-controls > .in {
+  width: 124px;
+}
+.scene-reveal-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--faint);
+  font-size: 11px;
+}
+.scene-reveal-controls .scene-reveal-number {
+  width: 72px;
+}
+.mini-txt.danger {
+  color: var(--err);
+}
 .cmd-row {
   display: flex;
   align-items: baseline;

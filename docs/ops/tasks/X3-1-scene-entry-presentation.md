@@ -1,6 +1,6 @@
 # X3-1 - 场景入场呈现事务
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: X3 / N3
 Coding Owner: Codex
@@ -163,12 +163,14 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-15）**。实现、自测和浏览器验证完成；旧命令前瞻零引用，迁移二跑零计划，
+  Prepare→Reveal→Body、默认 fade 回归和编辑器三区均有证据。`s001→s003` 精确出口留给 Opus 视觉复验，
+  Codex 已在同一无 entry host 路径用自动站点 `s291→s292` 验证完整 fade-out→switch→fade-in。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（待 Opus + GLM accept 及用户验收）
 
 ## Draft: 设计与风险
 
@@ -241,32 +243,73 @@ Branch: main
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（N1-1 收口且本卡三签齐后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex
+- 修改文件:
+  - schema/校验: `packages/content/src/script.ts`、`validate.ts`、`script-library.test.ts`
+  - 迁移真源/产物: `packages/migrate/src/scene-entry*.ts`、`migrate-content.ts`、PAL scenes/scripts 与 baseline
+  - runtime: `packages/reforge/src/scene-entry-session.ts`、`main.ts`、`script-runner.ts`、
+    `dither-transition.ts` 及对应测试
+  - editor: `playback.ts`、`script-edit.ts`、`ScriptDrawer.tsx`、`ScriptTree.tsx`、`editor.css` 及测试
+  - 文档: content schema、script model、编辑器创作说明、迁移审计、X3 历史任务备注
+- 实现摘要:
+  - `ScriptStage.entry` 正式承载 `prepare + reveal`；content 层对全部 `Command.kind` 穷尽分类，非法上下文、
+    不安全 prepare 和非法时长全部 fail-loud。
+  - 迁移器在 scene onEnter 的 root/override 各 stage 独立 lifting；精确提升 11 场景（10 root +
+    `s182/L-27448`），17 个独立站点与 13 个非早期站点保持原命令。
+  - `SceneEntrySession` 持有 source/target/phase/token；prepare 异常、abort、读档/退出、目标资产失败和 reveal
+    中二次 loadScene 均由 token 安全收口。删除 `DETERMINISTIC_PREFIX_KINDS`、
+    `hasEarlyDitherScreen`、`bindingHasEarlyDither` 与 pending handoff。
+  - loadScene 只读目标活动 stage 的显式 metadata；dither 算法、72 步 profile 与 2160ms 不变；无 entry
+    继续默认淡入淡出，独立 `ditherScreen` 继续走当前帧 snapshot。
+  - 编辑器三区可折叠、可编辑；prepare 过滤不安全命令；预览支持 reveal。浏览器检查时发现局部类名
+    `body` 撞全局四列布局，已改为专用 `post` 并复验标题高度/溢出。
+- 运行命令:
+  - `pnpm check`：7 个包 typecheck/test 全绿；shared 111、content 170、pal-extract 251、game 2294、
+    reforge 343、migrate 181 pass + 1 skip、editor 167；Biome 675 文件全绿。
+  - `pnpm --filter @type-pal/reforge build`：通过。
+  - `pnpm --filter @type-pal/editor build`：通过；仅既有 500k chunk 提示，无错误。
+  - `pnpm --filter @type-pal/migrate migrate:content`：829 托管文件、294 scenes、297 chunks；
+    `writes=0 deletes=0 conflicts=0`、warnings/issues=0；体积门禁 1.65x/1.13x/1.53x。
+  - 曾将 MG2 与全仓扫描并发运行，`dialogue-project.test` 因共享产物读取竞态失败一次；生成结束后该用例
+    独立复跑 2/2 通过，随后完整 `pnpm check` 串行通过。最终门禁只采用串行结果。
+- 浏览器 / 手工检查: 见下节。
+- 跳过的检查及原因: 无功能门禁跳过；`s001→s003` 精确出口由 Opus 补视觉复验，Codex 已验证同一默认
+  host 路径的自动站点与 runtime 测试。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Opus
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式:
+  - `http://localhost:6051/?menu` 从新游戏进入开场，按 transition phase 连续采样 canvas dataset 与帧像素，
+    并在 prepare、25%/50%/75%/100%、body 对白阶段截图检查。
+  - `http://localhost:6051/?scene=s291` 触发无 entry 的自动 `s291→s292`，连续采样默认 fade。
+  - `http://localhost:6010/?module=scene&page=workspace&object=s001` 打开进场脚本，检查 DOM、折叠交互、
+    控件值和窄面板几何尺寸。
+- 截图 / 像素检查路径: Codex 浏览器会话（截图未落仓）；6051 与 6010 验收页已保留。
+- 结论:
+  - prepare 保持 s000 最后一帧，画面含“既然落在你的手里，要杀要剐不用多说！”；target 为 s001
+    `{col:59,row:-23,height:0}`，prepare 时对白关闭。
+  - dither 0% `zeroFrameMatchesBackup=true` 且 `zeroFrameDiffersFromTarget=true`；source=`entry`；
+    2160ms 后 phase 才变 done，李大娘对白随后出现。25%/50%/75%/100% 均为既有 target-only 假色溶解。
+  - 无 entry 路径实测 s291(source,fadeBlack 0→1)→s292(target,fadeBlack 1→0)→done；全过程
+    `SceneEntrySession.active=false`、dither inactive，无冻屏/残帧。
+  - 编辑器显示“入场准备 2 条 / 呈现 逐像素渐变 2160ms / 呈现后脚本 138 条”；三区可折叠，
+    251px 窄栏下标题均 28px、控件可见且无横向溢出。
+- 未完成项: Opus 在 6051 手动走 `s001→s003` 出口做精确视觉复验；这是同一默认 host 路径的场景级
+  复核，不阻塞 Codex 送审。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- Codex 自审: accept；schema 单源、迁移真源、runtime 生命周期、编辑器创作与文档均已落地。
+- 审查结论: 待 Opus（架构/代码/视觉）与 GLM（覆盖/迁移/测试矩阵）。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: review
 
 ## 用户验收
 
-- 用户结论: 设计方向认可；实现待三贤人签字与 build。
-- 后续任务: pending
+- 用户结论: 设计方向认可并授权 build；实现待三方 review 签字后由用户验收。
+- 后续任务: Opus + GLM review；三签齐后交用户验收。
 
 ## 交接日志
 
@@ -281,9 +324,35 @@ Branch: main
   X-R4=fade reveal 时序钉死。Evidence: 主审立场 + 代码/产物核验。Next: GLM 复核(与 N1-1 一并,提示词见
   N1-1 卡末);三签齐后 build,固定排在 N1-1 收口后。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。两项独立实测：(1)X-R2 lifting 站点面——实测 lift 集=**11 场景**(10 root + 1 override s182/L-27448),非"s001 为主";**勘误 Opus: s001 L-2876/L-2920 两 override 均不含 ditherScreen**(prefix 无 dither),s001 只有 root;反例集 17 场景(trigger/shared)+第三类 13 场景(onEnter 非早期,多 setActorSprite 前缀,s188 dither idx=91)。三集互斥共 41=总 ditherScreen 场景。(2)测试矩阵——X-R3 生命周期 5 路径逐行可测(沿 R2 RngPresentation 先例)/X-R1 安全集穷尽性(遍历 Command kind 断言 oneOf safe/blocked)/X-R4 fade 时序。X-N1(override 勘误)/X-N2(17反例+13非早期入审计)/X-N3(root/override 独立扫描)非阻塞。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,固定排在 N1-1 收口后;交 Codex build。未改实现文件。
+- 2026-07-15 Codex: N1-1 已正式 done，用户授权 X3-1 开始实现；任务进入 `build`。先改迁移真源，
+  不直接手补 `projects/pal`；已验 dither 算法、2160ms 与 source/target 视觉语义保持不变。
+- 2026-07-15 Codex: 完成 schema/迁移/runtime/editor/docs 全链路并转 `review`。迁移精确提升 11 场景，
+  MG2 二跑零计划；`SceneEntrySession` 替代命令前瞻/跨场 handoff；6051 开场像素锚与默认 fade、6010
+  编辑器三区均通过。全仓 check、两端 build 全绿。Next: Opus 架构/代码/视觉主审；不得标 done。
 
 ## 下一位 Agent 提示词
 
-本卡与 N1-1 一并交 GLM 覆盖/测试矩阵复核（Opus 已双卡签 agree），直接使用
-`docs/ops/tasks/N1-1-dialogue-control-code-retirement.md` 末尾的“下一位 Agent 提示词”。实现顺序固定为
-N1-1 优先，本卡后置。
+接手任务：X3-1 场景入场呈现事务，做 Opus 架构/代码/视觉主审。
+
+任务卡：`docs/ops/tasks/X3-1-scene-entry-presentation.md`。当前状态：`review`；Codex 已签 accept，
+Opus/GLM pending；不得标 done。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本卡全部、
+`docs/phase2/foundation/x3-scene-entry-migration-audit.md`、`docs/phase2/foundation/content-schema.md`、
+`docs/phase2/editor/scene-entry-authoring.md`，再审实现 diff。
+
+已完成：显式 `ScriptStage.entry`、穷尽 prepare safety、11 站点 lifting、`SceneEntrySession`、默认 fade
+回归、独立 dither 保留、编辑器三区与文档；`pnpm check`、reforge/editor build、MG2 二跑零计划均通过。
+Codex 已在 6051 验证 s000 最终帧→s001 落位目标的 0% 像素锚、2160ms dither、body 对白时序，并在
+6010 验证三区折叠/编辑/窄栏无溢出。
+
+请重点复核：
+1. X-R1~X-R4：prepare 安全集单源穷尽、root/override 独立 lifting、五类异常/中断收口、fade reveal 时序。
+2. runtime 已彻底删除 body 前缀扫描和 pending handoff；二次 loadScene/abort 不会让旧 session 收尾新 session。
+3. 在 6051 手动走一次 `s001→s003`，确认无 entry 仍为 fade-out→switch→fade-in；再看开场 source/target
+   未取反、0% 纯旧帧、李大娘对白只在 reveal 后出现。
+4. 在 6010 打开 s001 进场脚本，确认“准备/呈现/呈现后脚本”可折叠、可编辑，2160ms 和准备两条正确，
+   不安全 prepare 命令不可选，视觉无错位/溢出。
+5. 抽查迁移审计的 11 lift / 17 independent / 13 non-early 与 s182 override 物理归属；不得手改生成产物。
+
+输出：只在任务卡 Opus review 签字行写 `accept` 或 `counter + 证据/返工项`，补交接日志并提交。
+无返工时给出下一位 GLM 的可复制提示词；GLM 与用户尚未验收，**不得标记 done**。除非发现 counter
+并由用户/Codex转 rework，否则不要修改实现文件。

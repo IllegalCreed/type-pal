@@ -10,6 +10,12 @@ Visual Verification Owner: Codex 自验；Opus 复验
 Unavailable Agents: none
 Branch: main
 
+> **2026-07-15 后继说明(X3-1)**:本卡建立的通用 `ditherScreen`、72 步视觉算法、
+> 假色 profile 和独立站点快照路径继续有效；“`loadScene` 窄前瞻 + 跨场景 handoff”仅是当时的
+> 过渡架构，已由 [`X3-1-scene-entry-presentation.md`](X3-1-scene-entry-presentation.md) 的显式
+> `ScriptStage.entry` 和 `SceneEntrySession` 取代。运行时不再扫描目标 body 前缀；本卡下文的
+> 窄前瞻、pending handoff 和白名单描述只作历史记录，不是现行实现真值。
+
 ## 目标
 
 先撤掉当前未完成 dither 草稿对全局 `loadScene` 的破坏，恢复所有普通场景稳定跳转；再把

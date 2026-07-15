@@ -1030,22 +1030,6 @@
     "scene/s001/override/on-enter/L-2920/stage-1": [],
     "scene/s001/root/on-enter/stage-0": [
       {
-        "kind": "playMusic",
-        "musicId": 31
-      },
-      {
-        "kind": "teleportParty",
-        "pos": {
-          "col": 59,
-          "row": -23,
-          "height": 0
-        }
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 2160
-      },
-      {
         "kind": "dialog",
         "cue": {
           "rows": [

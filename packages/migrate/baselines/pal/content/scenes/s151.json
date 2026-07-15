@@ -87,7 +87,41 @@
             "id": "scene/s151/root/on-enter/stage-0"
           }
         }
-      ]
+      ],
+      "entry": {
+        "prepare": [
+          {
+            "kind": "playMusic",
+            "musicId": 15
+          },
+          {
+            "kind": "shakeScreen",
+            "frames": 0,
+            "level": 4
+          },
+          {
+            "kind": "teleportParty",
+            "pos": {
+              "col": 155,
+              "row": 53,
+              "height": 0
+            }
+          },
+          {
+            "kind": "clearDialog"
+          },
+          {
+            "kind": "setEntityState",
+            "entity": "e2467",
+            "state": 1
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 720,
+          "source": "previousPresentedFrame"
+        }
+      }
     }
   ]
 }

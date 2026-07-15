@@ -2,24 +2,7 @@
   "version": 1,
   "id": "scene/s018",
   "scripts": {
-    "scene/s018/root/on-enter/stage-0": [
-      {
-        "kind": "setEntityTrigger",
-        "entity": "e204",
-        "script": {
-          "chunk": "scene/s015",
-          "id": "scene/s015/L-4211/e204/d-0a386828"
-        }
-      },
-      {
-        "kind": "playSound",
-        "soundId": 260
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 2160
-      }
-    ],
+    "scene/s018/root/on-enter/stage-0": [],
     "scene/s018/root/on-enter/stage-1": [],
     "scene/s018/root/on-teleport/stage-0": [
       {

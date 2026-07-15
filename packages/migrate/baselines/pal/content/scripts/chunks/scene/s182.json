@@ -8,18 +8,6 @@
   "scripts": {
     "scene/s182/override/on-enter/L-27448/stage-0": [
       {
-        "kind": "setEntityTrigger",
-        "entity": "e2960",
-        "script": {
-          "chunk": "scene/s180",
-          "id": "scene/s180/L-25096/e2960/d-0a386828"
-        }
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 720
-      },
-      {
         "kind": "setPartyFacing",
         "facing": "right"
       },

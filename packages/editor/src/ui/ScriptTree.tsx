@@ -8,6 +8,8 @@
 import type {
   Command,
   Locale,
+  SceneEntryPresentation,
+  SceneReveal,
   ScriptCondition,
   ScriptIndexV1,
   ScriptStage,
@@ -430,6 +432,176 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
   )
 }
 
+function revealLabel(reveal: SceneReveal): string {
+  switch (reveal.kind) {
+    case 'dither':
+      return `逐像素渐变 ${reveal.ms}ms`
+    case 'fade':
+      return `淡出 ${reveal.outMs}ms / 淡入 ${reveal.inMs}ms`
+    case 'cut':
+      return '直接切换'
+  }
+}
+
+function SceneEntrySections(props: {
+  stage: ScriptStage
+  stageIndex: number
+  ctx: RowCtx
+  onChange?: (entry: SceneEntryPresentation | undefined) => void
+}) {
+  const { stage, stageIndex, ctx, onChange } = props
+  const entry = stage.entry
+  if (!entry) {
+    return (
+      <div className="scene-entry-default">
+        <span>
+          <strong>入场呈现</strong>
+          <span className="scene-entry-note">默认淡出 → 切场 → 淡入</span>
+        </span>
+        {onChange ? (
+          <button
+            type="button"
+            className="mini-txt"
+            onClick={() =>
+              onChange({ prepare: [], reveal: { kind: 'fade', outMs: 260, inMs: 260 } })
+            }
+          >
+            设为显式入场
+          </button>
+        ) : null}
+      </div>
+    )
+  }
+
+  const setReveal = (reveal: SceneReveal): void => onChange?.({ ...entry, reveal })
+  return (
+    <div className="scene-entry-sections">
+      <details className="scene-entry-section prepare" open>
+        <summary>
+          <span>入场准备</span>
+          <span>{entry.prepare.length} 条</span>
+        </summary>
+        <div className="scene-entry-section-body">
+          {entry.prepare.length ? (
+            entry.prepare.map((command, index) => (
+              <CommandRow
+                key={index}
+                cmd={command}
+                depth={0}
+                path={`${stageIndex}/entry/prepare/${index}`}
+                ctx={ctx}
+              />
+            ))
+          ) : ctx.onRowAction ? (
+            <button
+              type="button"
+              className="tool scene-entry-add"
+              onClick={() => ctx.onRowAction?.(`${stageIndex}/entry/prepare/-1`, 'insert')}
+            >
+              ＋ 添加准备指令
+            </button>
+          ) : (
+            <div className="script-empty">（无准备指令）</div>
+          )}
+        </div>
+      </details>
+
+      <details className="scene-entry-section reveal" open>
+        <summary>
+          <span>呈现</span>
+          <span>{revealLabel(entry.reveal)}</span>
+        </summary>
+        <div className="scene-reveal-controls">
+          <select
+            className="in"
+            value={entry.reveal.kind}
+            disabled={!onChange}
+            onChange={(event) => {
+              const kind = event.target.value
+              setReveal(
+                kind === 'dither'
+                  ? { kind, ms: 720, source: 'previousPresentedFrame' }
+                  : kind === 'fade'
+                    ? { kind, outMs: 260, inMs: 260 }
+                    : { kind: 'cut' },
+              )
+            }}
+          >
+            <option value="dither">逐像素渐变</option>
+            <option value="fade">淡出 / 淡入</option>
+            <option value="cut">直接切换</option>
+          </select>
+          {entry.reveal.kind === 'dither' ? (
+            <label>
+              时长
+              <input
+                className="in scene-reveal-number"
+                type="number"
+                min={0}
+                value={entry.reveal.ms}
+                disabled={!onChange}
+                onChange={(event) =>
+                  setReveal({
+                    kind: 'dither',
+                    ms: Math.max(0, Number(event.target.value) || 0),
+                    source: 'previousPresentedFrame',
+                  })
+                }
+              />
+              ms
+            </label>
+          ) : null}
+          {entry.reveal.kind === 'fade' ? (
+            <>
+              <label>
+                淡出
+                <input
+                  className="in scene-reveal-number"
+                  type="number"
+                  min={0}
+                  value={entry.reveal.outMs}
+                  disabled={!onChange}
+                  onChange={(event) =>
+                    setReveal({
+                      kind: 'fade',
+                      outMs: Math.max(0, Number(event.target.value) || 0),
+                      inMs: entry.reveal.kind === 'fade' ? entry.reveal.inMs : 260,
+                    })
+                  }
+                />
+                ms
+              </label>
+              <label>
+                淡入
+                <input
+                  className="in scene-reveal-number"
+                  type="number"
+                  min={0}
+                  value={entry.reveal.inMs}
+                  disabled={!onChange}
+                  onChange={(event) =>
+                    setReveal({
+                      kind: 'fade',
+                      outMs: entry.reveal.kind === 'fade' ? entry.reveal.outMs : 260,
+                      inMs: Math.max(0, Number(event.target.value) || 0),
+                    })
+                  }
+                />
+                ms
+              </label>
+            </>
+          ) : null}
+          {onChange ? (
+            <button type="button" className="mini-txt danger" onClick={() => onChange(undefined)}>
+              恢复默认
+            </button>
+          ) : null}
+        </div>
+      </details>
+    </div>
+  )
+}
+
 /** 渲染一组 stages（触发段/进场段）。多段时显示段号 + next 转移语义。
  *  activePath = 演出预览当前指令(高亮+滚动跟随);selectedPath/onSelect/onRowAction = 编辑交互(v1)。 */
 export function ScriptTree(props: {
@@ -441,6 +613,8 @@ export function ScriptTree(props: {
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
   onStageAction?: (stageIdx: number, action: StageAction) => void
+  showSceneEntry?: boolean
+  onSceneEntryChange?: (stageIdx: number, entry: SceneEntryPresentation | undefined) => void
 }) {
   const {
     stages,
@@ -451,8 +625,34 @@ export function ScriptTree(props: {
     onSelect,
     onRowAction,
     onStageAction,
+    showSceneEntry = false,
+    onSceneEntryChange,
   } = props
   const ctx: RowCtx = { locale, scriptIndex, activePath, selectedPath, onSelect, onRowAction }
+  const renderBody = (stage: ScriptStage, stageIndex: number) =>
+    stage.body.length === 0 ? (
+      ctx.onRowAction ? (
+        <button
+          type="button"
+          className="tool scene-entry-add"
+          onClick={() => ctx.onRowAction?.(`${stageIndex}/-1`, 'insert')}
+        >
+          ＋ 插入第一条指令
+        </button>
+      ) : (
+        <div className="script-empty">（空段）</div>
+      )
+    ) : (
+      stage.body.map((command, commandIndex) => (
+        <CommandRow
+          key={commandIndex}
+          cmd={command}
+          depth={0}
+          path={`${stageIndex}/${commandIndex}`}
+          ctx={ctx}
+        />
+      ))
+    )
   if (stages.length === 0) return <div className="script-empty">（空脚本）</div>
   return (
     <div className="script-tree">
@@ -521,25 +721,24 @@ export function ScriptTree(props: {
               )}
             </div>
           ) : null}
-          {st.body.length === 0 ? (
-            ctx.onRowAction ? (
-              <button
-                type="button"
-                className="tool"
-                style={{ marginLeft: 24 }}
-                onClick={() => ctx.onRowAction?.(`${i}/-1`, 'insert')}
-              >
-                ＋ 插入第一条指令
-              </button>
-            ) : (
-              <div className="script-empty" style={{ paddingLeft: 24 }}>
-                （空段）
-              </div>
-            )
+          {showSceneEntry ? (
+            <SceneEntrySections
+              stage={st}
+              stageIndex={i}
+              ctx={ctx}
+              onChange={onSceneEntryChange ? (entry) => onSceneEntryChange(i, entry) : undefined}
+            />
+          ) : null}
+          {showSceneEntry ? (
+            <details className="scene-entry-section post" open>
+              <summary>
+                <span>呈现后脚本</span>
+                <span>{st.body.length} 条</span>
+              </summary>
+              <div className="scene-entry-section-body">{renderBody(st, i)}</div>
+            </details>
           ) : (
-            st.body.map((c, j) => (
-              <CommandRow key={j} cmd={c} depth={0} path={`${i}/${j}`} ctx={ctx} />
-            ))
+            renderBody(st, i)
           )}
         </div>
       ))}

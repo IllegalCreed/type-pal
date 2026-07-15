@@ -16,12 +16,14 @@ import {
   type MapIndexV1,
   type MusicDef,
   type SceneDef,
+  type SceneEntryPresentation,
   type ScriptChunkV1,
   type ScriptIndexV1,
   type ScriptRef,
   type ScriptStage,
   type ShopDef,
   type SpriteDef,
+  sceneEntryPrepareSafety,
 } from '@type-pal/content'
 import { type AssetBase, MemoryScriptResolver, type ProjectMapV2 } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
@@ -609,9 +611,25 @@ export function ScriptDrawer(props: {
     setInternalTrail([])
   }, [scene.id, active?.key])
 
-  const dispatchBody = (stages: readonly ScriptStage[], stageIndex: number): void => {
+  const dispatchEdited = (
+    stages: readonly ScriptStage[],
+    stageIndex: number,
+    entryEdit = false,
+  ): void => {
     const stage = stages[stageIndex]
     if (!stage) return
+    if (entryEdit) {
+      if (internalScriptId || !active) return
+      const rawStages = active.rawStages.map((raw, index) => {
+        if (index !== stageIndex) return raw
+        const next = { ...raw } as ScriptStage
+        if (stage.entry) next.entry = stage.entry
+        else delete next.entry
+        return next
+      })
+      session.dispatch(new UpdateScriptCommand(scene.id, sourceRefOf(active.key), rawStages))
+      return
+    }
     if (internalScriptId) {
       session.dispatch(new UpdateScriptBodyCommand(internalScriptId, stage.body))
       return
@@ -655,7 +673,7 @@ export function ScriptDrawer(props: {
     if (action === 'remove') {
       const next = removeAt(editingStages, p)
       if (next !== editingStages) {
-        dispatchBody(next, stageIndex)
+        dispatchEdited(next, stageIndex, p[1] === 'entry')
         if (selPath === path) setSelPath(null)
       }
       return
@@ -663,7 +681,7 @@ export function ScriptDrawer(props: {
     const dir = action === 'up' ? -1 : 1
     const next = moveAt(editingStages, p, dir)
     if (next !== editingStages) {
-      dispatchBody(next, stageIndex)
+      dispatchEdited(next, stageIndex, p[1] === 'entry')
       if (selPath === path) {
         const last = p[p.length - 1] as number
         setSelPath([...p.slice(0, -1), last + dir].join('/'))
@@ -677,18 +695,31 @@ export function ScriptDrawer(props: {
     let at = parsePath(insertFor)
     const stageIndex = at[0]
     if (typeof stageIndex !== 'number') return
+    if (
+      at[1] === 'entry' &&
+      commands.some((command) => sceneEntryPrepareSafety(command) !== 'safe')
+    ) {
+      console.warn('[editor] entry.prepare 拒绝非安全命令')
+      return
+    }
     for (const command of commands) {
       const last = at[at.length - 1] as number
       if (last === -1) {
-        stages = insertAtHead(stages, at[0] as number, command)
-        at = [at[0] as number, 0]
+        const entryPrepare = at[1] === 'entry' && at[2] === 'prepare'
+        stages = insertAtHead(
+          stages,
+          at[0] as number,
+          command,
+          entryPrepare ? 'entryPrepare' : 'body',
+        )
+        at = entryPrepare ? [at[0] as number, 'entry', 'prepare', 0] : [at[0] as number, 0]
       } else {
         stages = insertAfterAt(stages, at, command)
         at = [...at.slice(0, -1), last + 1]
       }
     }
     if (stages !== editingStages) {
-      dispatchBody(stages, stageIndex)
+      dispatchEdited(stages, stageIndex, at[1] === 'entry')
       setSelPath(at.join('/'))
     }
     setInsertFor(null)
@@ -696,6 +727,28 @@ export function ScriptDrawer(props: {
   const authoredScripts = Object.entries(scriptIndex?.library ?? {}).sort(([, a], [, b]) =>
     a.name.localeCompare(b.name),
   )
+  const insertingEntryPrepare = insertFor ? parsePath(insertFor)[1] === 'entry' : false
+  const activeInsertContext: InsertCtx | undefined = active
+    ? (() => {
+        const ref = sourceRefOf(active.key)
+        return {
+          scene,
+          ownerId: ref.kind === 'onEnter' || ref.kind === 'onTeleport' ? undefined : ref.entityId,
+        }
+      })()
+    : undefined
+  const visibleInsertGroups = activeInsertContext
+    ? INSERT_GROUPS.map((group) => ({
+        ...group,
+        items: insertingEntryPrepare
+          ? group.items.filter((item) =>
+              item
+                .make(activeInsertContext)
+                .every((command) => sceneEntryPrepareSafety(command) === 'safe'),
+            )
+          : group.items,
+      })).filter((group) => group.items.length > 0)
+    : []
   const measuredWorkHeight = scriptWorkHeight || 720
   const drawerMaxHeight = Math.max(
     DRAWER_MIN_HEIGHT,
@@ -1006,6 +1059,23 @@ export function ScriptDrawer(props: {
                   setInsertFor(null)
                 }}
                 onRowAction={onRowAction}
+                showSceneEntry={!internalScriptId && active.kind === 'onEnter'}
+                onSceneEntryChange={
+                  !internalScriptId && active.kind === 'onEnter'
+                    ? (stageIndex, entry: SceneEntryPresentation | undefined) => {
+                        const next = editingStages.map((stage, index) => {
+                          if (index !== stageIndex) return stage
+                          const updated = { ...stage } as ScriptStage
+                          if (entry) updated.entry = entry
+                          else delete updated.entry
+                          return updated
+                        })
+                        dispatchEdited(next, stageIndex, true)
+                        setSelPath(null)
+                        setInsertFor(null)
+                      }
+                    : undefined
+                }
                 onStageAction={
                   internalScriptId
                     ? undefined
@@ -1062,8 +1132,8 @@ export function ScriptDrawer(props: {
             <div className="drawer-form">
               {insertFor && active ? (
                 <div className="section">
-                  <h4>插入(到选中行之后)</h4>
-                  {authoredScripts.length ? (
+                  <h4>{insertingEntryPrepare ? '添加入场准备指令' : '插入(到选中行之后)'}</h4>
+                  {authoredScripts.length && !insertingEntryPrepare ? (
                     <div>
                       <div className="cf-group">调用共享脚本</div>
                       <div className="cf-insert">
@@ -1083,7 +1153,7 @@ export function ScriptDrawer(props: {
                       </div>
                     </div>
                   ) : null}
-                  {INSERT_GROUPS.map((g) => (
+                  {visibleInsertGroups.map((g) => (
                     <div key={g.title}>
                       <div className="cf-group">{g.title}</div>
                       <div className="cf-insert">
@@ -1093,15 +1163,7 @@ export function ScriptDrawer(props: {
                             type="button"
                             className="pv-btn"
                             onClick={() => {
-                              const ref = sourceRefOf(active.key)
-                              const ctx: InsertCtx = {
-                                scene,
-                                ownerId:
-                                  ref.kind === 'onEnter' || ref.kind === 'onTeleport'
-                                    ? undefined
-                                    : ref.entityId,
-                              }
-                              insertCommands(t.make(ctx))
+                              if (activeInsertContext) insertCommands(t.make(activeInsertContext))
                             }}
                           >
                             {t.label}
@@ -1141,7 +1203,8 @@ export function ScriptDrawer(props: {
                       const stageIndex = path[0]
                       if (typeof stageIndex !== 'number') return
                       const out = updateCommandAt(editingStages, path, next)
-                      if (out !== editingStages) dispatchBody(out, stageIndex)
+                      if (out !== editingStages)
+                        dispatchEdited(out, stageIndex, path[1] === 'entry')
                     }}
                   />
                 </div>

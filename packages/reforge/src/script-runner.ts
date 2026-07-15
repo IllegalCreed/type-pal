@@ -13,6 +13,7 @@ import type {
   Facing,
   GridPos,
   RuntimeScriptBinding,
+  SceneReveal,
   ScriptCondition,
   ScriptRef,
   ScriptStage,
@@ -36,6 +37,8 @@ export interface ScriptHost {
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
   ditherScreen(ms: number): Promise<void>
+  /** scene onEnter entry 的显式提交边界；普通脚本不得调用。 */
+  revealSceneEntry?(reveal: SceneReveal): Promise<void>
   /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
   chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
   /** B8:实体消失 seconds 秒后重现(临时态)。 */
@@ -245,6 +248,11 @@ export interface StepEvent {
   cmd: Command
 }
 
+export interface RunStagesOptions {
+  /** 仅 scene onEnter 入口为 true；其他上下文遇到 entry 立即拒绝。 */
+  allowSceneEntry?: boolean
+}
+
 export class ScriptRunner {
   private static readonly MAX_CALL_DEPTH = 128
   private callDepth = 0
@@ -383,12 +391,26 @@ export class ScriptRunner {
    * 跑触发脚本:按 world.entityStage 选段 → 跑段体 → 按 next 转移阶段。
    * key = 实体 id(触发)或 `s:<sceneId>`(onEnter)。
    */
-  async runStages(key: string, stages: readonly ScriptStage[]): Promise<void> {
+  async runStages(
+    key: string,
+    stages: readonly ScriptStage[],
+    options: RunStagesOptions = {},
+  ): Promise<void> {
     const idx = stageIndexFor(this.world, key, stages as ScriptStage[])
     const stage = stages[idx]
     if (!stage) return
     this.running = true
     try {
+      if (stage.entry) {
+        if (!options.allowSceneEntry)
+          throw new Error(`ScriptRunner: ${key} 非 scene onEnter，禁止执行 stage.entry`)
+        if (!this.host.revealSceneEntry)
+          throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
+        await this.run(stage.entry.prepare, [idx, 'entry', 'prepare'])
+        throwIfAborted(this.signal)
+        await this.host.revealSceneEntry(stage.entry.reveal)
+        throwIfAborted(this.signal)
+      }
       await this.run(stage.body, [idx])
       applyStageNext(this.world, key, idx, stage.next)
     } catch (err) {

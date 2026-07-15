@@ -516,7 +516,24 @@
             "id": "scene/s180/root/on-enter/stage-0"
           }
         }
-      ]
+      ],
+      "entry": {
+        "prepare": [
+          {
+            "kind": "playMusic",
+            "musicId": 0
+          },
+          {
+            "kind": "playSound",
+            "soundId": 103
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 2160,
+          "source": "previousPresentedFrame"
+        }
+      }
     }
   ],
   "onTeleport": [

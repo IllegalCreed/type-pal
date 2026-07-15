@@ -44,14 +44,6 @@
     ],
     "scene/s090/root/on-enter/stage-0": [
       {
-        "kind": "playSound",
-        "soundId": 134
-      },
-      {
-        "kind": "ditherScreen",
-        "ms": 720
-      },
-      {
         "kind": "setPartyFacing",
         "facing": "left"
       },

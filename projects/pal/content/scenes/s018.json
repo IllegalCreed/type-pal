@@ -121,7 +121,28 @@
           }
         }
       ],
-      "next": "advance"
+      "next": "advance",
+      "entry": {
+        "prepare": [
+          {
+            "kind": "setEntityTrigger",
+            "entity": "e204",
+            "script": {
+              "chunk": "scene/s015",
+              "id": "scene/s015/L-4211/e204/d-0a386828"
+            }
+          },
+          {
+            "kind": "playSound",
+            "soundId": 260
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 2160,
+          "source": "previousPresentedFrame"
+        }
+      }
     },
     {
       "body": [

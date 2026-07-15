@@ -120,7 +120,20 @@
           }
         }
       ],
-      "next": "advance"
+      "next": "advance",
+      "entry": {
+        "prepare": [
+          {
+            "kind": "playSound",
+            "soundId": 134
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 720,
+          "source": "previousPresentedFrame"
+        }
+      }
     },
     {
       "body": [

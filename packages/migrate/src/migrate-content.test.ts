@@ -557,6 +557,25 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     expect(out2.scriptReport.chains).toBeGreaterThan(30)
     expect(out2.scriptReport.commands).toBeGreaterThan(300)
   })
+  test('X3 onEnter 早期 0x73 提升为显式 Prepare → Reveal → Body', () => {
+    const raw = byId.get('s001')!.onEnter![0]!
+    expect(raw.entry).toEqual({
+      prepare: [
+        { kind: 'playMusic', musicId: 31 },
+        {
+          kind: 'teleportParty',
+          pos: { col: 59, row: -23, height: 0 },
+        },
+      ],
+      reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
+    })
+    expect(raw.body).toHaveLength(1)
+    expect(raw.body[0]?.kind).toBe('callScript')
+    const expanded = expandedById.get('s001')!.onEnter![0]!
+    expect(expanded.body[0]?.kind).toBe('dialog')
+    expect(expanded.body.some((command) => command.kind === 'ditherScreen')).toBe(false)
+    expect(out2.report.sceneEntriesLifted).toContain('scene/s001/root/on-enter/stage-0')
+  })
   test('D24 传送出口:onTeleportLabel → onTeleport(setPartyPos+loadScene+fade 折叠成单 loadScene)', () => {
     // 场景 7 有 wScriptOnTeleport(引路蜂出口);其脚本 L_2201 在 shared 段(跨场景传送脚本)
     const out = mapScenesStatic(

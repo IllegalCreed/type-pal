@@ -24,6 +24,8 @@ import {
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
+  type SceneEntryPresentation,
+  type SceneReveal,
   type ScriptStage,
   type SpriteDef,
   sellableItems,
@@ -63,7 +65,6 @@ import {
   buildDitherPalettePlan,
   DITHER_TOTAL_STEPS,
   DitherTransitionController,
-  hasEarlyDitherScreen,
 } from './dither-transition.js'
 import {
   closeEquipMenu,
@@ -115,6 +116,7 @@ import {
 import { buildMeta, buildPayload, captureThumbnail, normalizePayload } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './save/types.js'
+import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
 import { resolveSceneFacing } from './scene-transition.js'
@@ -449,6 +451,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world = buildWorld(bootStartWorld, project.actorsById)
   const ditherTransition = new DitherTransitionController<ImageData>()
+  const sceneEntrySession = new SceneEntrySession<ImageData>()
   const rngPresentation = new RngPresentationState()
   let rngLayerCanvas: HTMLCanvasElement | null = null
   const writeRngLayerFrame = (frame: RngFrameSnapshot): void => {
@@ -521,15 +524,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         ...zeroFrame,
       }
     }
-    const targetSceneId = ditherTransition.pendingTargetSceneId
-    return targetSceneId
+    const entry = sceneEntrySession.active
+    return entry?.phase === 'preparing' && entry.reveal.kind === 'dither'
       ? {
           active: false,
           pending: true,
           pr: 0,
           step: -1,
           hasTarget: false,
-          targetSceneId,
+          targetSceneId: entry.targetSceneId,
+          source: 'entry',
           algorithm: 'source-level-target-band',
           ...zeroFrame,
         }
@@ -543,10 +547,25 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           ...zeroFrame,
         }
   }
+  const sceneEntryDebugState = () => {
+    const active = sceneEntrySession.active
+    return active
+      ? {
+          active: true,
+          token: active.token,
+          sourceSceneId: active.sourceSceneId,
+          targetSceneId: active.targetSceneId,
+          phase: active.phase,
+          reveal: active.reveal,
+          hasSourceFrame: true,
+        }
+      : { active: false }
+  }
   const syncDitherDebugDataset = (): void => {
     if (!import.meta.env.DEV) return
     canvas.dataset.rfScene = scene.id
     canvas.dataset.rfDither = JSON.stringify(ditherDebugState())
+    canvas.dataset.rfSceneEntry = JSON.stringify(sceneEntryDebugState())
     canvas.dataset.rfRender = JSON.stringify({
       fadeBlack,
       position: player.pos,
@@ -574,6 +593,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       get: ditherDebugState,
       configurable: true,
     })
+    Object.defineProperty(window, '__rfSceneEntry', {
+      get: sceneEntryDebugState,
+      configurable: true,
+    })
   }
   world.script ??= emptyWorldScriptState()
 
@@ -590,24 +613,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     return def[slot]
   }
 
-  /** loadScene 前瞻需穿过分片入口,才能在切场景前冻结旧帧交给 0x73。 */
-  const bindingHasEarlyDither = async (
+  /** loadScene 只读取目标活动 stage 的显式 entry；不解析 body、不穿透 ScriptRef。 */
+  const bindingSceneEntry = (
     key: string,
     binding: RuntimeScriptBinding | undefined,
-  ): Promise<boolean> => {
-    if (!binding) return false
+  ): SceneEntryPresentation | undefined => {
+    if (!binding) return undefined
     const stages = runnableStages(binding)
     const stage = stages[stageIndexFor(expectDefined(world.script), key, stages)]
-    if (hasEarlyDitherScreen(stage)) return true
-    const first = stage?.body[0]
-    if (stage?.body.length !== 1 || first?.kind !== 'callScript' || !project.scriptStore)
-      return false
-    const lease = await project.scriptStore.resolve(first.ref, new AbortController().signal)
-    try {
-      return hasEarlyDitherScreen({ body: [...lease.body] })
-    } finally {
-      lease.release()
-    }
+    return stage?.entry
   }
 
   /**
@@ -733,7 +747,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   /** X1 自动存档:本次演出链切过场景 → 整链(含排队 onEnter)收尾后静默写 auto 槽。 */
   let sceneChangedByScript = false
   let scriptAbort: AbortController | null = null
-  let pendingOnEnter: string | null = null // loadScene 后待跑的新场景 onEnter(当前脚本收尾后)
+  // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
+  let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
   let nowMs = 0 // tick 注入的时间源(driver 计时用)
   const timers: { deadline: number; resolve: () => void }[] = []
   let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
@@ -843,6 +858,32 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     })
   }
 
+  async function hostSceneEntryReveal(reveal: SceneReveal): Promise<void> {
+    const entry = sceneEntrySession.startReveal(scene.id, reveal)
+    // boot、读档直达或 dev ?scene 没有 previous presented frame：prepare 照跑，呈现直接提交。
+    if (!entry) return
+    try {
+      switch (reveal.kind) {
+        case 'dither':
+          ditherZeroFrameMatchesBackup = null
+          ditherZeroFrameDiffersFromTarget = null
+          await ditherTransition.beginEntry(entry.sourceFrame, reveal.ms)
+          break
+        case 'fade':
+          // fade-out 已在切换逻辑世界前完成；这里先露出黑幕后的 target，再 fade-in。
+          sceneEntrySession.complete(entry.token)
+          await hostFade('in', reveal.inMs)
+          break
+        case 'cut':
+          sceneEntrySession.complete(entry.token)
+          break
+      }
+      markSceneLoad(entry.sourceSceneId, entry.targetSceneId, 'done')
+    } finally {
+      sceneEntrySession.complete(entry.token)
+    }
+  }
+
   // ══ E6a 实体定位权威(设计:docs/phase2/foundation/e6-position-authority-design.md)══
   // 缺省不在表 = world(输入/auto/hostile 可写);'script' = 主脚本演出接管。
   // 拍板(2026-07-05):①仅被接管的实体暂停 auto;②位移指令才隐式接管。
@@ -866,6 +907,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       dialogBox.close()
     },
     fade: (dir, ms, color) => hostFade(dir, ms, color),
+    revealSceneEntry: hostSceneEntryReveal,
     // ── B8 野外遇敌 ──
     chaseStep: async (entityId, range, speed, floating) => {
       const e = scene.entities.find((x) => x.id === entityId)
@@ -929,7 +971,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       updateCamera()
     },
     loadScene: async (sceneId, pos, fc) => {
-      // 只消费“紧随自动对话收尾”的旧帧；其他 loadScene 继续现场快照。
+      // 只消费“紧随自动对话收尾”的旧帧；其他 entry 从当前 presented canvas 取 source。
       const closedDialogFrame = preserveClosedDialogFrame
         ? ctx.getImageData(0, 0, canvas.width, canvas.height)
         : null
@@ -937,20 +979,27 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const fromSceneId = scene.id
       markSceneLoad(fromSceneId, sceneId, 'preflight')
       ditherTransition.cancel()
+      sceneEntrySession.cancel()
       const targetDef = await getSceneDef(sceneId)
       const targetBinding = sceneScriptBinding(targetDef, 'onEnter')
-      const handoffToDither = await bindingHasEarlyDither(`s:${sceneId}`, targetBinding)
-      markSceneLoad(fromSceneId, sceneId, handoffToDither ? 'handoff' : 'fade-out')
-      if (handoffToDither) {
-        // M2:先关对话状态、但不强制重画；canvas 仍是旧场景最后已呈现帧。
+      const entry = bindingSceneEntry(`s:${sceneId}`, targetBinding)
+      if (entry) {
+        // 先关对话状态但不重画；source 仍是来源场景最后一张完整 presented frame。
         dialogBox.close()
-        ditherZeroFrameMatchesBackup = null
-        ditherZeroFrameDiffersFromTarget = null
-        ditherTransition.arm(
+        sceneEntrySession.begin(
+          fromSceneId,
           sceneId,
           closedDialogFrame ?? ctx.getImageData(0, 0, canvas.width, canvas.height),
+          entry.reveal,
         )
+        if (entry.reveal.kind === 'fade') {
+          markSceneLoad(fromSceneId, sceneId, 'entry-fade-out')
+          await hostFade('out', entry.reveal.outMs)
+        } else {
+          markSceneLoad(fromSceneId, sceneId, 'entry-hold')
+        }
       } else {
+        markSceneLoad(fromSceneId, sceneId, 'fade-out')
         await hostFade('out', 260)
       }
       markSceneLoad(fromSceneId, sceneId, 'switch')
@@ -959,28 +1008,33 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         await switchScene(sceneId, { pos, facing: fc, inheritFacing: facing })
       } catch (error) {
         ditherTransition.cancel()
+        sceneEntrySession.cancel()
+        fadeFx?.resolve()
+        fadeFx = null
+        fadeBlack = 0
         markSceneLoad(fromSceneId, sceneId, 'error')
         throw error
       }
       markSceneLoad(fromSceneId, sceneId, 'committed')
       applyWorldToScene()
       entityFrameOverride.clear()
-      pendingOnEnter = sceneId // 新场景 onEnter 排队(当前脚本收尾后跑,不嵌套)
+      pendingOnEnter = targetBinding ? { sceneId, binding: targetBinding } : null
       sceneChangedByScript = true // X1:演出链全部收尾后写 auto 档
       startAutoRunners()
-      if (!handoffToDither) {
+      if (!entry) {
         markSceneLoad(fromSceneId, sceneId, 'fade-in')
         await hostFade('in', 260)
+        markSceneLoad(fromSceneId, sceneId, 'done')
+      } else {
+        markSceneLoad(fromSceneId, sceneId, 'entry-ready')
       }
-      markSceneLoad(fromSceneId, sceneId, 'done')
     },
     ditherScreen: (ms) => {
-      // 独立 0x73 与交接路径都先关闭 dialog 状态；只有无匹配 handoff 时 snapshot 才会执行。
+      // 非 entry 的独立 0x73 仍在命令现场 snapshot，不参与场景入场事务。
       dialogBox.close()
       ditherZeroFrameMatchesBackup = null
       ditherZeroFrameDiffersFromTarget = null
-      return ditherTransition.begin(
-        scene.id,
+      return ditherTransition.beginSnapshot(
         () => ctx.getImageData(0, 0, canvas.width, canvas.height),
         ms,
       )
@@ -2114,7 +2168,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     r.selfId = selfId
     runner = r
     void r
-      .runStages(key, runnableStages(binding))
+      .runStages(key, runnableStages(binding), { allowSceneEntry: key.startsWith('s:') })
       .catch((err: unknown) => {
         if (!(err instanceof DOMException && err.name === 'AbortError')) {
           console.error('[script]', key, err)
@@ -2128,15 +2182,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         dismountParty() // E7 兜底收尾人:脚本链结束仍挂载 → 下筏(防跟随者漏挂持久态)
         authority.clear() // E6a:脚本链收尾统一归还(兜底收尾人;续链新段自行重新接管)
         const finishedSceneId = key.startsWith('s:') ? key.slice(2) : null
-        if (finishedSceneId === scene.id) ditherTransition.clearPendingFor(finishedSceneId)
+        if (
+          finishedSceneId === scene.id &&
+          sceneEntrySession.active?.targetSceneId === finishedSceneId
+        )
+          sceneEntrySession.cancel()
         if (pendingOnEnter) {
-          const sid = pendingOnEnter
+          const pending = pendingOnEnter
           pendingOnEnter = null
-          const onEnter = scene.id === sid ? sceneScriptBinding(scene, 'onEnter') : undefined
-          if (onEnter) {
-            startScript(`s:${sid}`, onEnter)
+          if (scene.id === pending.sceneId) {
+            startScript(`s:${pending.sceneId}`, pending.binding)
             return // onEnter 续链;auto 档等整链收尾(下一次 finally)
           }
+          sceneEntrySession.cancel()
         }
         if (sceneChangedByScript) {
           // X1 自动存档:演出链(含 onEnter)全部收尾、玩家落地 → 静默写 auto 槽
@@ -2165,6 +2223,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     fadeFx?.resolve()
     fadeFx = null
     ditherTransition.cancel()
+    sceneEntrySession.cancel()
     resetRngPresentation()
     fadeBlack = 0
     entityFrameOverride.clear()
@@ -2343,6 +2402,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     }
   }
 
+  function drawFadeCurtain(): void {
+    if (fadeBlack <= 0.001) return
+    ctx.save()
+    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeBlack.toFixed(3)})`
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.restore()
+  }
+
   /**
    * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
@@ -2350,6 +2417,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   function render(): void {
     // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
     if (preserveClosedDialogFrame) return
+    // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
+    // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
+    const heldEntryFrame = sceneEntrySession.heldFrame
+    if (heldEntryFrame) {
+      ctx.putImageData(heldEntryFrame, 0, 0)
+      drawFadeCurtain()
+      syncDitherDebugDataset()
+      return
+    }
     updateCamera() // 相机跟随玩家
     // trail 推进(离开方向语义,拐弯甩尾忠实原版 —— 见 pushTrail 文档)
     pushTrail(trail, player.pos, facing)
@@ -2522,12 +2598,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
     const cinematicLayerDrawn = drawCinematicLayer()
     // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
-    if (fadeBlack > 0.001) {
-      ctx.save()
-      ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeBlack.toFixed(3)})`
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.restore()
-    }
+    drawFadeCurtain()
     // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
     if (shop) {
       ctx.save()
@@ -2683,9 +2754,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         ditherZeroFrameDiffersFromTarget = !equals(shown, dither.target.data)
       }
       if (pr >= 1) ditherTransition.finish()
-    } else {
-      const pendingBackup = ditherTransition.pendingBackupFor(scene.id)
-      if (pendingBackup) ctx.putImageData(pendingBackup, 0, 0)
     }
     syncDitherDebugDataset()
   }

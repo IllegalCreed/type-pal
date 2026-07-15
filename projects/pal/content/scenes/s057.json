@@ -67,7 +67,24 @@
             "id": "scene/s057/root/on-enter/stage-0"
           }
         }
-      ]
+      ],
+      "entry": {
+        "prepare": [
+          {
+            "kind": "teleportParty",
+            "pos": {
+              "col": 72,
+              "row": -2,
+              "height": 0
+            }
+          }
+        ],
+        "reveal": {
+          "kind": "dither",
+          "ms": 2160,
+          "source": "previousPresentedFrame"
+        }
+      }
     }
   ]
 }

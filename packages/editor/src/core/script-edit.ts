@@ -42,8 +42,12 @@ function withArm(cmd: Command, seg: string, newArm: Command[]): Command {
 export function getCommandAt(stages: readonly ScriptStage[], path: CmdPath): Command | undefined {
   const [si, ...rest] = path
   if (typeof si !== 'number') return undefined
-  let body = stages[si]?.body
-  for (let k = 0; k < rest.length; k++) {
+  const stage = stages[si]
+  if (!stage) return undefined
+  const entryPrepare = rest[0] === 'entry' && rest[1] === 'prepare'
+  let body = entryPrepare ? stage.entry?.prepare : stage.body
+  const start = entryPrepare ? 2 : 0
+  for (let k = start; k < rest.length; k++) {
     const seg = rest[k]!
     if (typeof seg === 'number') {
       const cmd: Command | undefined = body?.[seg]
@@ -87,9 +91,17 @@ function mapContainingBody(
   }
 
   const st = stages[si]!
-  const newBody = walk(st.body, rest)
-  if (newBody === st.body) return stages as ScriptStage[]
-  return stages.map((s, i) => (i === si ? { ...s, body: newBody as Command[] } : s))
+  const entryPrepare = rest[0] === 'entry' && rest[1] === 'prepare'
+  const source = entryPrepare ? st.entry?.prepare : st.body
+  if (!source) return stages as ScriptStage[]
+  const newBody = walk(source, entryPrepare ? rest.slice(2) : rest)
+  if (newBody === source) return stages as ScriptStage[]
+  return stages.map((s, i) => {
+    if (i !== si) return s
+    if (entryPrepare && s.entry)
+      return { ...s, entry: { ...s.entry, prepare: newBody as Command[] } }
+    return { ...s, body: newBody as Command[] }
+  })
 }
 
 /** 替换 path 所指命令。 */
@@ -119,10 +131,16 @@ export function insertAtHead(
   stages: readonly ScriptStage[],
   stageIdx: number,
   cmd: Command,
+  region: 'body' | 'entryPrepare' = 'body',
 ): ScriptStage[] {
   const st = stages[stageIdx]
   if (!st) return stages as ScriptStage[]
-  return stages.map((s, i) => (i === stageIdx ? { ...s, body: [cmd, ...s.body] } : s))
+  return stages.map((s, i) => {
+    if (i !== stageIdx) return s
+    if (region === 'entryPrepare' && s.entry)
+      return { ...s, entry: { ...s.entry, prepare: [cmd, ...s.entry.prepare] } }
+    return { ...s, body: [cmd, ...s.body] }
+  })
 }
 
 /** 删除 path 所指命令。 */

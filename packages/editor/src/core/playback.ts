@@ -196,7 +196,9 @@ export class Playback {
         this.gateQueue.push(resolve)
       })
     void runner
-      .runStages(key, stages)
+      .runStages(key, stages, {
+        allowSceneEntry: key === '__onEnter__' || key.startsWith('s:'),
+      })
       .then(() => {
         if (this.abort === ac) {
           this.mode = 'done'
@@ -350,6 +352,25 @@ export class Playback {
         this.log(`逐像素渐变 ${ms}ms（编辑器预览只模拟时长）`)
         this.timers.push({ left: ms, resolve })
       }),
+    revealSceneEntry: (reveal) => {
+      switch (reveal.kind) {
+        case 'dither':
+          return new Promise<void>((resolve) => {
+            this.log(`入场呈现：逐像素渐变 ${reveal.ms}ms（预览只模拟时长）`)
+            this.timers.push({ left: reveal.ms, resolve })
+          })
+        case 'fade':
+          this.view.fadeBlack = 1
+          return new Promise<void>((resolve) => {
+            this.log(`入场呈现：淡入 ${reveal.inMs}ms`)
+            this.fadeJob?.resolve()
+            this.fadeJob = { dir: 'in', ms: reveal.inMs, done: 0, resolve }
+          })
+        case 'cut':
+          this.log('入场呈现：直接切换')
+          return Promise.resolve()
+      }
+    },
     wait: (ms) =>
       new Promise<void>((resolve) => {
         this.timers.push({ left: ms, resolve })
