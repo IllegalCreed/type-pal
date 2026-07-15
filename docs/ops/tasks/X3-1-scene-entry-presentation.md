@@ -166,11 +166,40 @@ Branch: main
 - Codex: **accept（2026-07-15）**。实现、自测和浏览器验证完成；旧命令前瞻零引用，迁移二跑零计划，
   Prepare→Reveal→Body、默认 fade 回归和编辑器三区均有证据。`s001→s003` 精确出口留给 Opus 视觉复验，
   Codex 已在同一无 entry host 路径用自动站点 `s291→s292` 验证完整 fade-out→switch→fade-in。
-- Opus: pending
+- Opus: **accept（2026-07-15,架构/代码/视觉主审,零返工项）**。六项复核全过:
+  1. **X-R1 单源穷尽**:`SCENE_ENTRY_PREPARE_SAFETY` 以 `satisfies Record<Command['kind'],…>` 编译期穷尽
+     (新增 kind 未分类 = typecheck 失败),全仓恰三个消费者——content validator(script.ts:467)、migrate lifting
+     (scene-entry.ts:33)、editor ScriptDrawer(:700/:747)——零第二张表。分类逐项抽查合理(cameraSnap 瞬时
+     safe vs cameraPan 动画 blocked;dialog/fade/wait/loadScene/startBattle 全 blocked)。
+  2. **X-R2/lifting**:37 行纯函数(首个 dither 前全 safe 则升,遇 blocked fail-closed,already-entry 幂等);
+     产物计数精确——scene 文件 entry **10** + setSceneOnEnter 携带 entry **1**(s182/L-27448,物理在 s188 分片、
+     稳定 id 归 s182)= lift 集 11;s188 root 未升(第三类)、s151 已升且 body 保留 2 个剧情 dither
+     ("场景已提升 ≠ 删光逐像素")。s001 = prepare[playMusic31, teleportParty(59,-23)]/dither 2160/body callScript。
+  3. **X-R3 生命周期**:SceneEntrySession 82 行 token 化单活跃态;`complete(token)` 匹配才清 → **旧 token
+     无法收尾新 session**;reveal 场景/契约不匹配 fail-loud;五路径逐条对上收尾人——二次 loadScene
+     (main.ts:982 先 cancel 再 begin)、switchScene 异常(:1010)、脚本链 finally 双守卫(:2179 runner 引用 +
+     :2185-2189 场景匹配才 cancel)、abortScript 读档/dev 强停全清(:2226)、quitToTitle 整页导航天然终结。
+     runner 顺序 prepare→abort 检查→reveal→abort 检查→body(script-runner.ts:404-414),非 onEnter 上下文
+     执行 entry 即抛。
+  4. **X-R4 fade 时序**:entry.fade 落地为 capture source → out(outMs,:995-997)→ switch → prepare(隐藏期)→
+     reveal 时 complete+in(inMs,:872-875),与既定语义一致;compositor 以 `heldFrame` 单源持帧
+     (preparing 期冻结 + fade 幕布叠加,main.ts:2419-2428),`preserveClosedDialogFrame` 收窄为微任务级
+     作用域(:2894-2899)不再泄漏。
+  5. **runtime 旧机制退役**:`DETERMINISTIC_PREFIX_KINDS`/`hasEarlyDitherScreen`/`bindingHasEarlyDither`
+     全仓零引用;dither-transition 统一 begin/beginEntry/beginSnapshot,无 pending handoff/arm。
+  6. **门禁独立重跑**:scene-entry+product 6 tests、content 18 文件、reforge 343、editor 167 全绿;
+     MG2 dry-run `writes=0 deletes=0 conflicts=0`、体积 1.65x/1.13x/1.53x 与 Build 一致。
+  视觉复验(独立方法,rAF 逐帧采样 + toDataURL 回放):开场转移序列 三段对白(0-2686ms)→ preparing(2702,
+  无对话无 fade)→ revealing+dither(2826,历时 **2157ms≈2160**)→ complete(4993)→ **李大娘对白 5016 才出现**,
+  `dlgDuringEntry=0`;prepare 持帧截图 = 含"既然落在你的手里…"对白像素的 s000 末帧(用户视觉真值);
+  0% 锚点 `zeroFrameMatchesBackup=true`+`zeroFrameDiffersFromTarget=true`(无取反)。**s001→s003 手动步行**
+  (真实方向键出房门 e3 touch):fade 曲线 0→1(s001)→switch→1→0(s003),全程零 entry 帧/零 dither 帧,
+  落地 s003 ✓。6010 s001:准备(2条)/呈现(逐像素渐变 2160ms 可编辑+恢复默认)/呈现后(138条)三区齐,
+  native details 折叠可用,布局无溢出。
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: 无(Opus 零返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 Opus + GLM accept 及用户验收）
+- done 准入结论: blocked（待 GLM accept 及用户验收）
 
 ## Draft: 设计与风险
 
@@ -295,16 +324,20 @@ Branch: main
     `SceneEntrySession.active=false`、dither inactive，无冻屏/残帧。
   - 编辑器显示“入场准备 2 条 / 呈现 逐像素渐变 2160ms / 呈现后脚本 138 条”；三区可折叠，
     251px 窄栏下标题均 28px、控件可见且无横向溢出。
-- 未完成项: Opus 在 6051 手动走 `s001→s003` 出口做精确视觉复验；这是同一默认 host 路径的场景级
-  复核，不阻塞 Codex 送审。
+- Opus 独立复验(2026-07-15): 通过,方法独立于 Codex(CDP rAF 采样 + 页内 toDataURL 捕获/回放)。
+  开场:转移序列与时序锚(dither 2157ms≈2160、对白仅在 complete 后、dlgDuringEntry=0)、prepare 持帧
+  截图为含对白像素的 s000 末帧、0% 双锚点无取反。**s001→s003 手动步行完成**(李大娘链推完后真实
+  方向键出房门 e3):fade 0→1→switch→1→0,零 entry/dither 参与,落地 s003。6010 三区/2160ms/折叠/
+  布局复验通过(窄栏 251px 几何以 Codex 实测为准,默认宽度无溢出)。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
 - Codex 自审: accept；schema 单源、迁移真源、runtime 生命周期、编辑器创作与文档均已落地。
-- 审查结论: 待 Opus（架构/代码/视觉）与 GLM（覆盖/迁移/测试矩阵）。
-- 必须返工项: pending
-- Accept / rework: review
+- 审查结论: **Opus 架构/代码/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**;GLM pending。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;待 GLM 覆盖复核。
 
 ## 用户验收
 
@@ -329,30 +362,32 @@ Branch: main
 - 2026-07-15 Codex: 完成 schema/迁移/runtime/editor/docs 全链路并转 `review`。迁移精确提升 11 场景，
   MG2 二跑零计划；`SceneEntrySession` 替代命令前瞻/跨场 handoff；6051 开场像素锚与默认 fade、6010
   编辑器三区均通过。全仓 check、两端 build 全绿。Next: Opus 架构/代码/视觉主审；不得标 done。
+- 2026-07-15 Opus: review 主审签 **accept,零返工项**。代码面:X-R1 单源穷尽(satisfies + 恰三消费者,
+  零第二张表)、lifting 纯函数 fail-closed+幂等、SceneEntrySession token 守卫(旧 token 不收尾新 session)、
+  五路径收尾人逐条落位、fade 时序按定义落地、旧前瞻三标识符+pending handoff 全仓零引用、
+  preserveClosedDialogFrame 收窄微任务级。产物面:10 root+1 override(s182 稳定 id 归属正确)=11、
+  s188 未升、s151 保留 2 剧情 dither。门禁面:6+18+343+167 tests 全绿、MG2 dry-run 零计划。视觉面:
+  开场 prepare 持帧=含对白像素 s000 末帧、dither 2157ms、对白仅 reveal 后、0% 双锚无取反;
+  **s001→s003 手动步行 = 纯默认 fade 三段曲线,零 entry/dither**;6010 三区/折叠/2160ms 可编辑齐。
+  Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖复核(11/17/13 清单全量对账+测试矩阵),
+  齐签后交用户验收;不得标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-接手任务：X3-1 场景入场呈现事务，做 Opus 架构/代码/视觉主审。
-
-任务卡：`docs/ops/tasks/X3-1-scene-entry-presentation.md`。当前状态：`review`；Codex 已签 accept，
-Opus/GLM pending；不得标 done。先读 `AGENTS.md`、`docs/phase2/READ-FIRST.md`、本卡全部、
-`docs/phase2/foundation/x3-scene-entry-migration-audit.md`、`docs/phase2/foundation/content-schema.md`、
-`docs/phase2/editor/scene-entry-authoring.md`，再审实现 diff。
-
-已完成：显式 `ScriptStage.entry`、穷尽 prepare safety、11 站点 lifting、`SceneEntrySession`、默认 fade
-回归、独立 dither 保留、编辑器三区与文档；`pnpm check`、reforge/editor build、MG2 二跑零计划均通过。
-Codex 已在 6051 验证 s000 最终帧→s001 落位目标的 0% 像素锚、2160ms dither、body 对白时序，并在
-6010 验证三区折叠/编辑/窄栏无溢出。
-
-请重点复核：
-1. X-R1~X-R4：prepare 安全集单源穷尽、root/override 独立 lifting、五类异常/中断收口、fade reveal 时序。
-2. runtime 已彻底删除 body 前缀扫描和 pending handoff；二次 loadScene/abort 不会让旧 session 收尾新 session。
-3. 在 6051 手动走一次 `s001→s003`，确认无 entry 仍为 fade-out→switch→fade-in；再看开场 source/target
-   未取反、0% 纯旧帧、李大娘对白只在 reveal 后出现。
-4. 在 6010 打开 s001 进场脚本，确认“准备/呈现/呈现后脚本”可折叠、可编辑，2160ms 和准备两条正确，
-   不安全 prepare 命令不可选，视觉无错位/溢出。
-5. 抽查迁移审计的 11 lift / 17 independent / 13 non-early 与 s182 override 物理归属；不得手改生成产物。
-
-输出：只在任务卡 Opus review 签字行写 `accept` 或 `counter + 证据/返工项`，补交接日志并提交。
-无返工时给出下一位 GLM 的可复制提示词；GLM 与用户尚未验收，**不得标记 done**。除非发现 counter
-并由用户/Codex转 rework，否则不要修改实现文件。
+```text
+接手任务:X3-1 场景入场呈现事务,覆盖/迁移/测试矩阵复核(GLM)
+任务卡:docs/ops/tasks/X3-1-scene-entry-presentation.md
+当前状态:review;done 前 Codex accept + Opus accept(架构/代码/视觉主审,零返工项),GLM pending(最后一签);不得标 done
+你的角色:GLM,覆盖面/迁移站点/测试矩阵复核;只改任务卡,不得改实现
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行)、docs/phase2/foundation/x3-scene-entry-migration-audit.md、packages/migrate/src/scene-entry.ts 与两份测试、packages/content/src/script.ts:196-291
+请重点复核(数据/测试面,与 Opus 的架构/视觉面互补):
+1. 你设计期 X-N1~X-N3 的落地验收:X-N1 站点勘误已入审计文档(s001 仅 root,override 唯 s182/L-27448);X-N2 17 反例+13 非早期清单入审计+scene-entry-product.test 精确断言;X-N3 root/override 独立扫描有测试;
+2. 11/17/13 三组清单全量对账:用你设计期的独立脚本重扫 projects/pal,对照审计文档逐场景核对(lift 集 10 root+1 override、17 独立站点仍为通用 ditherScreen、13 非早期 onEnter 零 entry);
+3. 安全集分类复核:SCENE_ENTRY_PREPARE_SAFETY 66 项逐项过一遍语义(重点:blocked 的 setActorSprite/cameraPan/wait/moveEntity 与 safe 的 cameraSnap/animEntity/stepEntity/shakeScreen 边界),有异议列出+理由;
+4. 测试矩阵完备性:X-R3 五路径(prepare 抛错/abort/reveal 中二次 loadScene/读档打断/资产失败)是否每行有对应 runtime 测试;X-R1 穷尽性是否有编译期+测试双保险;reveal 契约不匹配 fail-loud 是否有测试;
+5. s151 多 dither 语义:首个升 entry、body 剩 2 个剧情 dither——确认测试钉住"不重复提升";
+6. MG2 二跑零计划与体积门禁(1.65x/1.13x/1.53x)重跑核对。
+已验证(勿重复,可抽查):Opus 已做 6051 开场逐帧采样(dither 2157ms/对白仅 reveal 后/0% 双锚无取反/prepare 持帧含对白像素)、s001→s003 手动步行(纯默认 fade)、6010 三区/折叠/2160ms、产物计数(10+1/s188 未升/s151 剩 2)、四包测试+dry-run 重跑
+不要做:不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收)
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
+```
