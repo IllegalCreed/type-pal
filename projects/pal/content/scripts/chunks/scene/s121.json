@@ -48,8 +48,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6481",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6481"
+            },
+            {
+              "text": "dlg.6482"
+            },
+            {
+              "text": "dlg.6483"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
@@ -62,8 +72,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6485",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6485"
+            },
+            {
+              "text": "dlg.6486"
+            }
+          ],
           "speaker": "spk.刘夫人",
           "slot": "top",
           "portrait": {
@@ -108,8 +125,15 @@
     "scene/s121/root/entity-e2196/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6488",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6488"
+            },
+            {
+              "text": "dlg.6489"
+            }
+          ],
           "speaker": "spk.刘夫人"
         }
       }
@@ -121,8 +145,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6491",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6491"
+            }
+          ],
           "speaker": "spk.婢　女"
         }
       }
@@ -142,8 +170,12 @@
     "scene/s121/root/entity-e2198/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7266",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7266"
+            }
+          ],
           "slot": "center"
         }
       }

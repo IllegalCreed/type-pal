@@ -29,8 +29,12 @@
                 "body": [
                   {
                     "kind": "dialog",
-                    "line": {
-                      "text": "(骑上幽魂!E7 验证垫)"
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "(骑上幽魂!E7 验证垫)"
+                        }
+                      ]
                     }
                   },
                   {
@@ -62,8 +66,12 @@
                   },
                   {
                     "kind": "dialog",
-                    "line": {
-                      "text": "(到站,下鬼。)"
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "(到站,下鬼。)"
+                        }
+                      ]
                     }
                   }
                 ]
@@ -77,10 +85,14 @@
   "dialogues": [
     {
       "id": "ghost-hearsay",
-      "lines": [
+      "cues": [
         {
           "speaker": "name.youhun",
-          "text": "dlg.ghost-hearsay.0",
+          "rows": [
+            {
+              "text": "dlg.ghost-hearsay.0"
+            }
+          ],
           "slot": "bottom",
           "portrait": {
             "icon": 1,
@@ -90,9 +102,13 @@
         },
         {
           "speaker": "name.youhun",
-          "text": "dlg.ghost-hearsay.1",
+          "rows": [
+            {
+              "text": "dlg.ghost-hearsay.1",
+              "speed": 48
+            }
+          ],
           "slot": "bottom",
-          "speed": 48,
           "portrait": {
             "icon": 1,
             "side": "right"
@@ -101,7 +117,11 @@
         },
         {
           "speaker": "name.distant-ghost",
-          "text": "dlg.ghost-hearsay.2",
+          "rows": [
+            {
+              "text": "dlg.ghost-hearsay.2"
+            }
+          ],
           "slot": "top",
           "portrait": {
             "icon": 2,
@@ -111,9 +131,13 @@
         },
         {
           "speaker": "name.youhun",
-          "text": "dlg.ghost-hearsay.3",
+          "rows": [
+            {
+              "text": "dlg.ghost-hearsay.3",
+              "speed": 12
+            }
+          ],
           "slot": "bottom",
-          "speed": 12,
           "autoAdvance": 800,
           "portrait": {
             "icon": 1,
@@ -121,7 +145,11 @@
           }
         },
         {
-          "text": "dlg.ghost-hearsay.4",
+          "rows": [
+            {
+              "text": "dlg.ghost-hearsay.4"
+            }
+          ],
           "slot": "bottom"
         }
       ]

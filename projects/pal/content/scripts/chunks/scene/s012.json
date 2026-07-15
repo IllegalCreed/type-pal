@@ -26,8 +26,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1228",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1228"
+            }
+          ],
           "speaker": "spk.曾伯"
         }
       },

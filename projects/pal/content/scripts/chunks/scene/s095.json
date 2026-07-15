@@ -27,8 +27,15 @@
     "scene/s095/root/entity-e1764/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5198",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5198"
+            },
+            {
+              "text": "dlg.5199"
+            }
+          ],
           "speaker": "spk.煮饭婆"
         }
       }
@@ -40,8 +47,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12471",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12471"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -62,8 +73,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12482",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12482"
+            }
+          ],
           "slot": "narration"
         }
       },

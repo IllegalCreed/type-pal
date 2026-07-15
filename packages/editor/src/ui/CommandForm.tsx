@@ -5,7 +5,7 @@
  * 走 JSON 兜底(textarea + 应用,保证全指令可编)。每次变更即 onChange(整指令替换,
  * 由 EventMode 经 script-edit 纯函数 + UpdateScriptCommand 落进 EditSession)。
  *
- * 对话文本:line.text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
+ * 对话文本:cue.rows[].text 是 TextId(locale 键);编辑即改写为**字面量**(lookupText
  * 未命中回显原文,引擎/预览同语义)——新写的行直接放中文,旧行一改即脱离 locale 键。
  */
 import type {
@@ -188,36 +188,132 @@ export function CommandForm(props: {
 
   switch (cmd.kind) {
     case 'dialog': {
-      const line = cmd.line
-      const setLine = (patch: object): void => onChange({ ...cmd, line: { ...line, ...patch } })
-      const shown = lookupText(line.text, locale)
+      const cue = cmd.cue
+      const setCue = (patch: object): void => onChange({ ...cmd, cue: { ...cue, ...patch } })
+      const setRow = (index: number, patch: object): void =>
+        setCue({
+          rows: cue.rows.map((row, rowIndex) => (rowIndex === index ? { ...row, ...patch } : row)),
+        })
       return (
         <>
           <Row label="说话人">
             <Txt
-              value={line.speaker ? lookupText(line.speaker, locale) : ''}
-              onChange={(s) => setLine({ speaker: s || undefined })}
+              value={cue.speaker ? lookupText(cue.speaker, locale) : ''}
+              onChange={(s) => setCue({ speaker: s || undefined })}
               placeholder="(旁白)"
             />
           </Row>
-          <Row label="文本">
-            <textarea
-              className="in cf-ta"
-              value={shown}
-              onChange={(e) => setLine({ text: e.target.value })}
-              spellCheck={false}
-            />
-          </Row>
+          {cue.rows.map((row, index) => (
+            <div className="cf-dialog-row" key={index}>
+              <Row label={`第 ${index + 1} 行`}>
+                <textarea
+                  className="in cf-ta"
+                  value={lookupText(row.text, locale)}
+                  onChange={(e) => setRow(index, { text: e.target.value })}
+                  spellCheck={false}
+                />
+              </Row>
+              <div className="cf-dialog-row-actions">
+                <label className="cf-inline">
+                  <input
+                    type="checkbox"
+                    checked={row.speed !== undefined}
+                    onChange={(e) => setRow(index, { speed: e.target.checked ? 24 : undefined })}
+                  />
+                  自定速度
+                </label>
+                {row.speed !== undefined ? (
+                  <Num value={row.speed} onChange={(speed) => setRow(index, { speed })} step={8} />
+                ) : null}
+                <button
+                  type="button"
+                  className="pv-btn"
+                  title="删除此行"
+                  aria-label="删除此行"
+                  disabled={cue.rows.length === 1}
+                  onClick={() =>
+                    setCue({ rows: cue.rows.filter((_, rowIndex) => rowIndex !== index) })
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="pv-btn"
+            title="添加一行"
+            onClick={() => setCue({ rows: [...cue.rows, { text: '(新一行)' }] })}
+          >
+            ＋ 行
+          </button>
           <Row label="位置">
             <Sel
-              value={line.slot ?? 'bottom'}
-              options={['bottom', 'top', 'narration'] as const}
-              onChange={(v) => setLine({ slot: v === 'bottom' ? undefined : v })}
+              value={cue.slot ?? 'bottom'}
+              options={['bottom', 'top', 'narration', 'center'] as const}
+              labels={['下方', '上方', '横向卷轴', '中央']}
+              onChange={(v) => setCue({ slot: v === 'bottom' ? undefined : v })}
             />
           </Row>
-          <p className="hint">
-            编辑即写为字面文本(脱离 locale 键;显示=所见即所得)。立绘等其余字段用下方 JSON。
-          </p>
+          <Row label="自动推进">
+            <label className="cf-inline">
+              <input
+                type="checkbox"
+                checked={cue.autoAdvance !== undefined}
+                onChange={(e) => setCue({ autoAdvance: e.target.checked ? 0 : undefined })}
+              />
+              启用
+            </label>
+            {cue.autoAdvance !== undefined ? (
+              <Num
+                value={cue.autoAdvance}
+                onChange={(autoAdvance) => setCue({ autoAdvance })}
+                step={40}
+              />
+            ) : null}
+          </Row>
+          <Row label="光标">
+            <Sel
+              value={String(cue.cursorFrame ?? 0) as '0' | '1' | '2'}
+              options={['0', '1', '2'] as const}
+              labels={['默认', '样式 1', '样式 2']}
+              onChange={(value) => {
+                const cursorFrame = Number(value) as 0 | 1 | 2
+                setCue({ cursorFrame: cursorFrame === 0 ? undefined : cursorFrame })
+              }}
+            />
+          </Row>
+          <Row label="立绘">
+            <label className="cf-inline">
+              <input
+                type="checkbox"
+                checked={cue.portrait !== undefined}
+                onChange={(e) =>
+                  setCue({
+                    portrait: e.target.checked ? { icon: 1, side: 'right' as const } : undefined,
+                  })
+                }
+              />
+              启用
+            </label>
+            {cue.portrait ? (
+              <>
+                <Num
+                  value={cue.portrait.icon}
+                  onChange={(icon) =>
+                    setCue({ portrait: { icon, side: cue.portrait?.side ?? 'right' } })
+                  }
+                />
+                <Sel
+                  value={cue.portrait.side}
+                  options={['left', 'right'] as const}
+                  labels={['左', '右']}
+                  onChange={(side) => setCue({ portrait: { icon: cue.portrait?.icon ?? 1, side } })}
+                />
+              </>
+            ) : null}
+          </Row>
           <JsonForm cmd={cmd} onChange={onChange} />
         </>
       )

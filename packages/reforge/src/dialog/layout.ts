@@ -1,15 +1,15 @@
 /**
- * 对话排版(② 外观):把 DialogueLine[] 按 maxRight 切成扁平显示行。
+ * 对话排版(② 外观):把 DialogueRow[] 按 maxRight 切成扁平显示行。
  * 纯函数,不碰 DOM/canvas——宽度计算靠 GlyphTable(渲染资产)。
  * 自动换行:长句折成多 DisplayLine,使内容不被分辨率绑架。
  */
-import { type DialogColor, type DialogueLine, parseRichText, type TextId } from '@type-pal/content'
+import { type DialogColor, type DialogueRow, parseRichText, type TextId } from '@type-pal/content'
 import type { GlyphTable } from '../text/glyph.js'
 
 export interface DisplayLine {
   spans: { text: string; color?: DialogColor }[] // 这一个显示行的 spans(已按宽度切好)
-  srcLineIdx: number // 来自第几个 DialogueLine(姓名牌/光标归属用)
-  isLineStart: boolean // 是否该 DialogueLine 的首显示行(姓名牌只画首行)
+  srcRowIdx: number // 来自第几个 DialogueRow(逐行速度归属用)
+  isRowStart: boolean // 是否该 DialogueRow 的首显示行
 }
 
 interface CharRun {
@@ -18,12 +18,12 @@ interface CharRun {
 }
 
 /**
- * 把 DialogueLine[] 排版成 DisplayLine[]。
- * 每个 DialogueLine 经 resolveText + parseRichText → 字符流,按 maxRight - startX 折行。
- * 一个长 DialogueLine → 多 DisplayLine(第 1 个 isLineStart=true)。
+ * 把 DialogueRow[] 排版成 DisplayLine[]。
+ * 每个 DialogueRow 经 resolveText + parseRichText → 字符流,按 maxRight - startX 折行。
+ * 一个长 DialogueRow → 多 DisplayLine(第 1 个 isRowStart=true)。
  */
 export function layoutLines(
-  lines: readonly DialogueLine[],
+  rows: readonly DialogueRow[],
   glyphs: GlyphTable,
   resolveText: (id: TextId) => string,
   maxRight: number,
@@ -32,8 +32,8 @@ export function layoutLines(
   const usable = maxRight - startX
   const result: DisplayLine[] = []
 
-  for (let li = 0; li < lines.length; li++) {
-    const src = lines[li]
+  for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
+    const src = rows[rowIdx]
     if (!src) continue
     const spans = parseRichText(resolveText(src.text).replace(/\r\n?/g, '\n'))
     // 展开成字符流(带 color),逐字符测宽分组
@@ -42,7 +42,7 @@ export function layoutLines(
       for (const ch of span.text) chars.push({ text: ch, color: span.color })
     }
     if (chars.length === 0) {
-      result.push({ spans: [{ text: '' }], srcLineIdx: li, isLineStart: true })
+      result.push({ spans: [{ text: '' }], srcRowIdx: rowIdx, isRowStart: true })
       continue
     }
 
@@ -51,7 +51,7 @@ export function layoutLines(
     let isFirstOfLine = true
 
     const flush = () => {
-      result.push(toDisplayLine(curRun, li, isFirstOfLine))
+      result.push(toDisplayLine(curRun, rowIdx, isFirstOfLine))
       isFirstOfLine = false
       curRun = []
       curWidth = 0
@@ -79,7 +79,7 @@ export function layoutLines(
 }
 
 /** 字符 run 数组 → DisplayLine spans(合并相邻同色)。 */
-function toDisplayLine(runs: CharRun[], srcLineIdx: number, isLineStart: boolean): DisplayLine {
+function toDisplayLine(runs: CharRun[], srcRowIdx: number, isRowStart: boolean): DisplayLine {
   const spans: { text: string; color?: DialogColor }[] = []
   for (const r of runs) {
     const last = spans[spans.length - 1]
@@ -89,5 +89,5 @@ function toDisplayLine(runs: CharRun[], srcLineIdx: number, isLineStart: boolean
       spans.push({ text: r.text, color: r.color })
     }
   }
-  return { spans, srcLineIdx, isLineStart }
+  return { spans, srcRowIdx, isRowStart }
 }

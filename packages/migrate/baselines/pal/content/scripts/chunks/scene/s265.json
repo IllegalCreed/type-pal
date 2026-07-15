@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s265",
   "scripts": {
-    "scene/s265/L-35627/e4649/d-89d21e09": [
+    "scene/s265/L-35627/e4649/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4649"
@@ -11,12 +11,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4649/d-89d21e09"
+          "id": "scene/s265/L-35627/e4649/d-0a386828"
         },
         "self": "e4649"
       }
     ],
-    "scene/s265/L-35627/e4650/d-89d21e09": [
+    "scene/s265/L-35627/e4650/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4650"
@@ -25,12 +25,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4650/d-89d21e09"
+          "id": "scene/s265/L-35627/e4650/d-0a386828"
         },
         "self": "e4650"
       }
     ],
-    "scene/s265/L-35627/e4651/d-89d21e09": [
+    "scene/s265/L-35627/e4651/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4651"
@@ -39,12 +39,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4651/d-89d21e09"
+          "id": "scene/s265/L-35627/e4651/d-0a386828"
         },
         "self": "e4651"
       }
     ],
-    "scene/s265/L-35627/e4652/d-89d21e09": [
+    "scene/s265/L-35627/e4652/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4652"
@@ -53,12 +53,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4652/d-89d21e09"
+          "id": "scene/s265/L-35627/e4652/d-0a386828"
         },
         "self": "e4652"
       }
     ],
-    "scene/s265/L-35627/e4653/d-89d21e09": [
+    "scene/s265/L-35627/e4653/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4653"
@@ -67,12 +67,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4653/d-89d21e09"
+          "id": "scene/s265/L-35627/e4653/d-0a386828"
         },
         "self": "e4653"
       }
     ],
-    "scene/s265/L-35627/e4654/d-89d21e09": [
+    "scene/s265/L-35627/e4654/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4654"
@@ -81,7 +81,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4654/d-89d21e09"
+          "id": "scene/s265/L-35627/e4654/d-0a386828"
         },
         "self": "e4654"
       }
@@ -139,8 +139,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11767",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11767"
+            }
+          ],
           "slot": "narration"
         }
       }
@@ -154,7 +158,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4649/d-89d21e09"
+          "id": "scene/s265/L-35627/e4649/d-0a386828"
         },
         "self": "e4649"
       }
@@ -168,7 +172,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4650/d-89d21e09"
+          "id": "scene/s265/L-35627/e4650/d-0a386828"
         },
         "self": "e4650"
       }
@@ -182,7 +186,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4651/d-89d21e09"
+          "id": "scene/s265/L-35627/e4651/d-0a386828"
         },
         "self": "e4651"
       }
@@ -196,7 +200,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4652/d-89d21e09"
+          "id": "scene/s265/L-35627/e4652/d-0a386828"
         },
         "self": "e4652"
       }
@@ -210,7 +214,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4653/d-89d21e09"
+          "id": "scene/s265/L-35627/e4653/d-0a386828"
         },
         "self": "e4653"
       }
@@ -224,7 +228,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s265",
-          "id": "scene/s265/L-35627/e4654/d-89d21e09"
+          "id": "scene/s265/L-35627/e4654/d-0a386828"
         },
         "self": "e4654"
       }

@@ -482,13 +482,16 @@ export class BattleSession {
           // 战斗对话 = 大世界同款对话框叠战斗场景上(一阶段真值)。敌方台词默认顶框(林天南
           //   setDialogStyleTop);已带 slot 的沿用。
           box.open(
-            startDialogue({ id: '__battle', lines: [{ slot: 'top', ...c.line }] }),
+            startDialogue({
+              id: '__battle',
+              cues: [{ ...c.cue, slot: c.cue.slot ?? 'top' }],
+            }),
             this.nowMs,
           )
         } else {
           this.choreoBanner = {
             name: this.choreoName,
-            text: lookupText(c.line.text, this.opts.locale ?? {}),
+            text: c.cue.rows.map((row) => lookupText(row.text, this.opts.locale ?? {})).join('\n'),
           }
         }
         return

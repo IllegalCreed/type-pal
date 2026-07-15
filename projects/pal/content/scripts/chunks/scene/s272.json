@@ -38,8 +38,15 @@
     "scene/s272/root/entity-e4716/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12040",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12040"
+            },
+            {
+              "text": "dlg.12041"
+            }
+          ],
           "speaker": "spk.老王"
         }
       }
@@ -59,8 +66,18 @@
     "scene/s272/root/entity-e4717/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12043",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12043"
+            },
+            {
+              "text": "dlg.12044"
+            },
+            {
+              "text": "dlg.12045"
+            }
+          ],
           "speaker": "spk.王婶"
         }
       }
@@ -68,8 +85,12 @@
     "scene/s272/root/entity-e4718/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12047",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12047"
+            }
+          ],
           "speaker": "spk.来福伯"
         }
       },
@@ -78,8 +99,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12048",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12048"
+            }
+          ],
           "speaker": "spk.来福伯"
         }
       }
@@ -87,8 +112,18 @@
     "scene/s272/root/entity-e4718/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12050",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12050"
+            },
+            {
+              "text": "dlg.12051"
+            },
+            {
+              "text": "dlg.12052"
+            }
+          ],
           "speaker": "spk.来福伯"
         }
       }
@@ -96,8 +131,18 @@
     "scene/s272/root/entity-e4718/page-0/trigger/stage-2": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12054",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12054"
+            },
+            {
+              "text": "dlg.12055"
+            },
+            {
+              "text": "dlg.12056"
+            }
+          ],
           "speaker": "spk.来福伯"
         }
       }

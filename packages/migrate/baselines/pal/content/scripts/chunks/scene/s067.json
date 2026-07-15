@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s067",
   "scripts": {
-    "scene/s067/L-35627/e1348/d-89d21e09": [
+    "scene/s067/L-35627/e1348/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1348"
@@ -11,12 +11,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1348/d-89d21e09"
+          "id": "scene/s067/L-35627/e1348/d-0a386828"
         },
         "self": "e1348"
       }
     ],
-    "scene/s067/L-35627/e1349/d-89d21e09": [
+    "scene/s067/L-35627/e1349/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1349"
@@ -25,12 +25,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1349/d-89d21e09"
+          "id": "scene/s067/L-35627/e1349/d-0a386828"
         },
         "self": "e1349"
       }
     ],
-    "scene/s067/L-35627/e1350/d-89d21e09": [
+    "scene/s067/L-35627/e1350/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1350"
@@ -39,12 +39,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1350/d-89d21e09"
+          "id": "scene/s067/L-35627/e1350/d-0a386828"
         },
         "self": "e1350"
       }
     ],
-    "scene/s067/L-35627/e1351/d-89d21e09": [
+    "scene/s067/L-35627/e1351/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1351"
@@ -53,12 +53,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1351/d-89d21e09"
+          "id": "scene/s067/L-35627/e1351/d-0a386828"
         },
         "self": "e1351"
       }
     ],
-    "scene/s067/L-35627/e1352/d-89d21e09": [
+    "scene/s067/L-35627/e1352/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1352"
@@ -67,12 +67,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1352/d-89d21e09"
+          "id": "scene/s067/L-35627/e1352/d-0a386828"
         },
         "self": "e1352"
       }
     ],
-    "scene/s067/L-35627/e1353/d-89d21e09": [
+    "scene/s067/L-35627/e1353/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1353"
@@ -81,12 +81,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1353/d-89d21e09"
+          "id": "scene/s067/L-35627/e1353/d-0a386828"
         },
         "self": "e1353"
       }
     ],
-    "scene/s067/L-35627/e1354/d-89d21e09": [
+    "scene/s067/L-35627/e1354/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1354"
@@ -95,12 +95,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1354/d-89d21e09"
+          "id": "scene/s067/L-35627/e1354/d-0a386828"
         },
         "self": "e1354"
       }
     ],
-    "scene/s067/L-35627/e1355/d-89d21e09": [
+    "scene/s067/L-35627/e1355/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1355"
@@ -109,12 +109,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1355/d-89d21e09"
+          "id": "scene/s067/L-35627/e1355/d-0a386828"
         },
         "self": "e1355"
       }
     ],
-    "scene/s067/L-35627/e1356/d-89d21e09": [
+    "scene/s067/L-35627/e1356/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e1356"
@@ -123,7 +123,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1356/d-89d21e09"
+          "id": "scene/s067/L-35627/e1356/d-0a386828"
         },
         "self": "e1356"
       }
@@ -159,8 +159,12 @@
     "scene/s067/root/entity-e1340/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4467",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4467"
+            }
+          ],
           "slot": "narration"
         }
       }
@@ -168,8 +172,12 @@
     "scene/s067/root/entity-e1341/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4467",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4467"
+            }
+          ],
           "slot": "narration"
         }
       }
@@ -185,8 +193,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4402",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4402"
+            }
+          ],
           "speaker": "spk.韩梦慈",
           "portrait": {
             "icon": 51,
@@ -330,8 +342,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4404",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4404"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -366,8 +382,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4406",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4406"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "slot": "top",
           "portrait": {
@@ -384,8 +404,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4408",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4408"
+            },
+            {
+              "text": "dlg.4409"
+            },
+            {
+              "text": "dlg.4410"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -403,8 +433,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4412",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4412"
+            },
+            {
+              "text": "dlg.4413"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 16,
@@ -417,8 +454,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4415",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4415"
+            },
+            {
+              "text": "dlg.4416"
+            },
+            {
+              "text": "dlg.4417"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -432,8 +479,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4419",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4419"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 17,
@@ -446,8 +497,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4421",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4421"
+            },
+            {
+              "text": "dlg.4422"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -461,8 +519,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4423",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4423"
+            },
+            {
+              "text": "dlg.4424"
+            },
+            {
+              "text": "dlg.4425"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -476,8 +544,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4426",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4426"
+            },
+            {
+              "text": "dlg.4427"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -491,8 +566,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4429",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4429"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 18,
@@ -505,8 +584,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4431",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4431"
+            },
+            {
+              "text": "dlg.4432"
+            },
+            {
+              "text": "dlg.4433"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -517,8 +606,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4435",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4435"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 18,
@@ -531,8 +624,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4437",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4437"
+            },
+            {
+              "text": "dlg.4438"
+            },
+            {
+              "text": "dlg.4439"
+            },
+            {
+              "text": "dlg.4440"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -546,8 +652,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4442",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4442"
+            },
+            {
+              "text": "dlg.4443"
+            },
+            {
+              "text": "dlg.4444"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 17,
@@ -560,8 +676,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4446",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4446"
+            },
+            {
+              "text": "dlg.4447"
+            },
+            {
+              "text": "dlg.4448"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -575,8 +701,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4449",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4449"
+            },
+            {
+              "text": "dlg.4450"
+            },
+            {
+              "text": "dlg.4451"
+            },
+            {
+              "text": "dlg.4452"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -590,8 +729,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4454",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4454"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 15,
@@ -604,8 +747,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4455",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4455"
+            },
+            {
+              "text": "dlg.4456"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 15,
@@ -618,8 +768,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4458",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4458"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -637,8 +791,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4460",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4460"
+            },
+            {
+              "text": "dlg.4461"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 11,
@@ -651,8 +812,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4463",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4463"
+            }
+          ],
           "speaker": "spk.石长老",
           "slot": "top",
           "portrait": {
@@ -675,8 +840,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4465",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4465"
+            }
+          ],
           "speaker": "spk.小石头",
           "portrait": {
             "icon": 86,
@@ -689,8 +858,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4466",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4466"
+            }
+          ],
           "slot": "center"
         }
       },
@@ -788,7 +961,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1348/d-89d21e09"
+          "id": "scene/s067/L-35627/e1348/d-0a386828"
         },
         "self": "e1348"
       }
@@ -802,7 +975,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1349/d-89d21e09"
+          "id": "scene/s067/L-35627/e1349/d-0a386828"
         },
         "self": "e1349"
       }
@@ -816,7 +989,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1350/d-89d21e09"
+          "id": "scene/s067/L-35627/e1350/d-0a386828"
         },
         "self": "e1350"
       }
@@ -830,7 +1003,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1351/d-89d21e09"
+          "id": "scene/s067/L-35627/e1351/d-0a386828"
         },
         "self": "e1351"
       }
@@ -844,7 +1017,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1352/d-89d21e09"
+          "id": "scene/s067/L-35627/e1352/d-0a386828"
         },
         "self": "e1352"
       }
@@ -858,7 +1031,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1353/d-89d21e09"
+          "id": "scene/s067/L-35627/e1353/d-0a386828"
         },
         "self": "e1353"
       }
@@ -872,7 +1045,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1354/d-89d21e09"
+          "id": "scene/s067/L-35627/e1354/d-0a386828"
         },
         "self": "e1354"
       }
@@ -886,7 +1059,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1355/d-89d21e09"
+          "id": "scene/s067/L-35627/e1355/d-0a386828"
         },
         "self": "e1355"
       }
@@ -900,7 +1073,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s067",
-          "id": "scene/s067/L-35627/e1356/d-89d21e09"
+          "id": "scene/s067/L-35627/e1356/d-0a386828"
         },
         "self": "e1356"
       }

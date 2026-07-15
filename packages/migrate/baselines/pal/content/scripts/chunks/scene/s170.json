@@ -55,8 +55,14 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9190"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9190",
+              "speed": 56
+            }
+          ],
+          "autoAdvance": 742
         }
       },
       {

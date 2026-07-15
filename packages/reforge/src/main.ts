@@ -1,7 +1,7 @@
 import {
   applySetParty,
   buildWorld,
-  type DialogueLine,
+  type DialogueCue,
   type EntityDef,
   type EntryPoint,
   effectiveGrantedStatuses,
@@ -854,11 +854,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   const host: ScriptHost = {
-    dialog: (line: DialogueLine) =>
+    dialog: (cue: DialogueCue) =>
       new Promise((resolve) => {
         preserveClosedDialogFrame = false
         rngPresentation.enterDialogue()
-        dialogBox.open(startDialogue({ id: '__script', lines: [line] }), nowMs)
+        dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
       }),
     clearDialog: () => {
@@ -914,8 +914,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     gameOver: async () => {
       // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
       await hostFade('out', 900, 'red')
-      await host.dialog({ slot: 'narration', text: 'gameover.1' })
-      await host.dialog({ slot: 'narration', text: 'gameover.2' })
+      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.1' }] })
+      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.2' }] })
       await host.loadLastSave()
     },
     wait: (ms) =>

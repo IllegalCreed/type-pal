@@ -128,8 +128,12 @@
     "scene/s114/root/entity-e2130/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6493",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6493"
+            }
+          ],
           "speaker": "spk.婢　女"
         }
       }
@@ -149,8 +153,12 @@
     "scene/s114/root/entity-e2131/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6493",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6493"
+            }
+          ],
           "speaker": "spk.婢　女"
         }
       }
@@ -170,8 +178,12 @@
     "scene/s114/root/entity-e2132/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7266",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7266"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -179,8 +191,12 @@
     "scene/s114/root/entity-e2133/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7266",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7266"
+            }
+          ],
           "slot": "center"
         }
       }

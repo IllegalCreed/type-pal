@@ -28,8 +28,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4507",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4507"
+            },
+            {
+              "text": "dlg.4508"
+            },
+            {
+              "text": "dlg.4509"
+            }
+          ],
           "speaker": "spk.巡捕"
         }
       },
@@ -272,8 +282,15 @@
     "scene/s079/root/entity-e1501/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4502",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4502"
+            },
+            {
+              "text": "dlg.4503"
+            }
+          ],
           "speaker": "spk.官差"
         }
       }
@@ -293,8 +310,12 @@
     "scene/s079/root/entity-e1502/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4505",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4505"
+            }
+          ],
           "speaker": "spk.官差"
         }
       }
@@ -314,8 +335,18 @@
     "scene/s079/root/entity-e1503/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4742",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4742"
+            },
+            {
+              "text": "dlg.4743.v-c3b6c128"
+            },
+            {
+              "text": "dlg.4744.v-37210b10"
+            }
+          ],
           "speaker": "spk.告示上写着"
         }
       }
@@ -323,8 +354,21 @@
     "scene/s079/root/entity-e1504/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5163",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5163"
+            },
+            {
+              "text": "dlg.5164"
+            },
+            {
+              "text": "dlg.5165"
+            },
+            {
+              "text": "dlg.5166"
+            }
+          ],
           "speaker": "spk.路人"
         }
       }

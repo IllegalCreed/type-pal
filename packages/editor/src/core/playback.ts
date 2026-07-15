@@ -6,7 +6,7 @@
  * 演出态全部写进 overlay(PlaybackView),**不触碰编辑器场景数据**;重置即丢弃。
  * 走位步进逻辑与引擎同源语义(半格步 + 像素轴朝向,见 reforge main.ts)。
  */
-import type { DialogueLine, Facing, GridPos, SceneDef, ScriptStage } from '@type-pal/content'
+import type { DialogueCue, Facing, GridPos, SceneDef, ScriptStage } from '@type-pal/content'
 import { emptyWorldScriptState, pixelDeltaToGridDelta } from '@type-pal/content'
 import type { ScriptHost, ScriptResolver, StepEvent } from '@type-pal/reforge'
 import { ScriptRunner } from '@type-pal/reforge'
@@ -24,7 +24,7 @@ export interface EntityOverlay {
 export interface PlaybackView {
   entity: Map<string, EntityOverlay>
   player: { pos: GridPos; facing: Facing; gesture: number | null; spriteId: string | null }
-  dialog: { line: DialogueLine; resolve: () => void } | null
+  dialog: { cue: DialogueCue; resolve: () => void } | null
   /** 0 透明 → 1 全黑(fade 命令补间)。 */
   fadeBlack: number
   logs: string[]
@@ -329,9 +329,9 @@ export class Playback {
 
   // ── 画布 host(可视化 + 日志桩)──
   private host: ScriptHost = {
-    dialog: (line) =>
+    dialog: (cue) =>
       new Promise<void>((resolve) => {
-        this.view.dialog = { line, resolve }
+        this.view.dialog = { cue, resolve }
         this.onUi?.()
       }),
     clearDialog: () => {

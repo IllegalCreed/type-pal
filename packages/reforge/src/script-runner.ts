@@ -9,7 +9,7 @@
 
 import type {
   Command,
-  DialogueLine,
+  DialogueCue,
   Facing,
   GridPos,
   RuntimeScriptBinding,
@@ -27,7 +27,7 @@ export type ScriptBinding = RuntimeScriptBinding
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {
-  dialog(line: DialogueLine): Promise<void>
+  dialog(cue: DialogueCue): Promise<void>
   clearDialog(): void
   /** 0x99 当前场景即时换底图(mapId 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
   reloadMap?(mapId: string): Promise<void>
@@ -404,7 +404,7 @@ export class ScriptRunner {
     const h = this.host
     switch (cmd.kind) {
       case 'dialog':
-        return h.dialog(cmd.line)
+        return h.dialog(cmd.cue)
       case 'clearDialog':
         return h.clearDialog()
       case 'fade':

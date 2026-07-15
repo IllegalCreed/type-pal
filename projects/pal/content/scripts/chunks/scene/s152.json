@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s152",
   "scripts": {
-    "scene/s152/L-35627/e2475/d-89d21e09": [
+    "scene/s152/L-35627/e2475/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e2475"
@@ -11,7 +11,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s152",
-          "id": "scene/s152/L-35627/e2475/d-89d21e09"
+          "id": "scene/s152/L-35627/e2475/d-0a386828"
         },
         "self": "e2475"
       }
@@ -30,7 +30,7 @@
         "entity": "e2804",
         "script": {
           "chunk": "scene/s168",
-          "id": "scene/s168/L-22599/e2804/d-89d21e09"
+          "id": "scene/s168/L-22599/e2804/d-0a386828"
         }
       },
       {
@@ -69,7 +69,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s152",
-          "id": "scene/s152/L-35627/e2475/d-89d21e09"
+          "id": "scene/s152/L-35627/e2475/d-0a386828"
         },
         "self": "e2475"
       }

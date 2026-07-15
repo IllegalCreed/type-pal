@@ -38,8 +38,12 @@
     "scene/s027/root/entity-e515/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2553",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2553"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -51,8 +55,12 @@
     "scene/s027/root/entity-e515/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2554",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2554"
+            }
+          ],
           "slot": "narration"
         }
       }
@@ -60,8 +68,18 @@
     "scene/s027/root/entity-e516/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2556",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2556"
+            },
+            {
+              "text": "dlg.2557"
+            },
+            {
+              "text": "dlg.2558"
+            }
+          ],
           "speaker": "spk.书生"
         }
       }
@@ -69,8 +87,18 @@
     "scene/s027/root/entity-e517/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2560",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2560"
+            },
+            {
+              "text": "dlg.2561"
+            },
+            {
+              "text": "dlg.2562"
+            }
+          ],
           "speaker": "spk.刘楚香"
         }
       },
@@ -79,8 +107,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2563",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2563"
+            }
+          ],
           "speaker": "spk.刘楚香"
         }
       }
@@ -94,8 +126,15 @@
     "scene/s027/root/entity-e518/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2565",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2565"
+            },
+            {
+              "text": "dlg.2566"
+            }
+          ],
           "speaker": "spk.拳师"
         }
       }
@@ -103,8 +142,18 @@
     "scene/s027/root/entity-e519/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2568",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2568"
+            },
+            {
+              "text": "dlg.2569"
+            },
+            {
+              "text": "dlg.2570"
+            }
+          ],
           "speaker": "spk.护院"
         }
       }
@@ -112,8 +161,18 @@
     "scene/s027/root/entity-e520/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2572",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2572"
+            },
+            {
+              "text": "dlg.2573"
+            },
+            {
+              "text": "dlg.2574"
+            }
+          ],
           "speaker": "spk.小厮"
         }
       }
@@ -121,8 +180,18 @@
     "scene/s027/root/entity-e521/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2576",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2576"
+            },
+            {
+              "text": "dlg.2577"
+            },
+            {
+              "text": "dlg.2578"
+            }
+          ],
           "speaker": "spk.铁面煞星"
         }
       }
@@ -194,8 +263,18 @@
     "scene/s027/root/entity-e522/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2580",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2580"
+            },
+            {
+              "text": "dlg.2581"
+            },
+            {
+              "text": "dlg.2582"
+            }
+          ],
           "speaker": "spk.剑客"
         }
       }

@@ -12,14 +12,17 @@ import type {
   ScriptIndexV1,
   ScriptStage,
 } from '@type-pal/content'
-import { lookupText } from '@type-pal/content'
+import { lookupText, parseRichText } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
-function txt(id: string | undefined, locale: Locale): string {
+export function scriptTreeText(id: string | undefined, locale: Locale): string {
   if (!id) return ''
   const s = lookupText(id, locale)
-  return s === id ? `⟨${id}⟩` : s // 未翻译键用尖括号标出(而非静默显 id)
+  if (s === id) return `⟨${id}⟩` // 未翻译键用尖括号标出(而非静默显 id)
+  return parseRichText(s)
+    .map((span) => span.text)
+    .join('')
 }
 
 function describeCondition(c: ScriptCondition, locale: Locale): string {
@@ -78,12 +81,20 @@ function describe(cmd: Command, locale: Locale, scriptIndex?: ScriptIndexV1): De
     case 'gameOver':
       return { icon: '💀', label: '战败流程(渐红 + 文案 + 读档)' }
     case 'dialog': {
-      const who = cmd.line.speaker ? `${txt(cmd.line.speaker, locale)}: ` : ''
-      const slot = cmd.line.slot === 'top' ? '上' : cmd.line.slot === 'narration' ? '旁白' : '下'
+      const who = cmd.cue.speaker ? `${scriptTreeText(cmd.cue.speaker, locale)}: ` : ''
+      const slot =
+        cmd.cue.slot === 'top'
+          ? '上'
+          : cmd.cue.slot === 'narration'
+            ? '卷轴'
+            : cmd.cue.slot === 'center'
+              ? '中央'
+              : '下'
+      const text = cmd.cue.rows.map((row) => scriptTreeText(row.text, locale)).join(' / ')
       return {
         icon: '💬',
-        label: `${who}${txt(cmd.line.text, locale)}`,
-        detail: cmd.line.portrait ? `${slot}·立绘${cmd.line.portrait.icon}` : slot,
+        label: `${who}${text}`,
+        detail: cmd.cue.portrait ? `${slot}·立绘${cmd.cue.portrait.icon}` : slot,
       }
     }
     case 'clearDialog':

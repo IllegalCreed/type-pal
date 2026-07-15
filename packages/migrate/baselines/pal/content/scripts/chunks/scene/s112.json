@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s112",
   "scripts": {
-    "scene/s112/L-20902/e2109/d-89d21e09": [
+    "scene/s112/L-20902/e2109/d-0a386828": [
       {
         "kind": "branch",
         "cond": {
@@ -62,7 +62,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20902/e2109/d-89d21e09"
+              "id": "scene/s112/L-20902/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -127,7 +127,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20908/e2109/d-89d21e09"
+              "id": "scene/s112/L-20908/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -144,7 +144,7 @@
         "frame": 3
       }
     ],
-    "scene/s112/L-20908/e2109/d-89d21e09": [
+    "scene/s112/L-20908/e2109/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2109",
@@ -204,7 +204,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20908/e2109/d-89d21e09"
+              "id": "scene/s112/L-20908/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -221,7 +221,7 @@
         "frame": 3
       }
     ],
-    "scene/s112/L-20914/e2109/d-89d21e09": [
+    "scene/s112/L-20914/e2109/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2109",
@@ -373,8 +373,15 @@
     "scene/s112/root/entity-e2090/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7651",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7651"
+            },
+            {
+              "text": "dlg.7652"
+            }
+          ],
           "speaker": "spk.商人"
         }
       },
@@ -383,8 +390,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7654",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7654"
+            }
+          ],
           "speaker": "spk.伙计"
         }
       }
@@ -392,8 +403,15 @@
     "scene/s112/root/entity-e2091/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7651",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7651"
+            },
+            {
+              "text": "dlg.7652"
+            }
+          ],
           "speaker": "spk.商人"
         }
       },
@@ -402,8 +420,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7654",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7654"
+            }
+          ],
           "speaker": "spk.伙计"
         }
       }
@@ -411,8 +433,15 @@
     "scene/s112/root/entity-e2092/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7656",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7656"
+            },
+            {
+              "text": "dlg.7657"
+            }
+          ],
           "speaker": "spk.旅客"
         }
       }
@@ -420,8 +449,15 @@
     "scene/s112/root/entity-e2093/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7648",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7648"
+            },
+            {
+              "text": "dlg.7649"
+            }
+          ],
           "speaker": "spk.小贩"
         }
       }
@@ -441,8 +477,15 @@
     "scene/s112/root/entity-e2094/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7659",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7659"
+            },
+            {
+              "text": "dlg.7660"
+            }
+          ],
           "speaker": "spk.小贩"
         }
       }
@@ -462,8 +505,18 @@
     "scene/s112/root/entity-e2095/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7694",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7694"
+            },
+            {
+              "text": "dlg.7695"
+            },
+            {
+              "text": "dlg.7696"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -471,8 +524,15 @@
     "scene/s112/root/entity-e2096/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7707",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7707"
+            },
+            {
+              "text": "dlg.7708"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -480,8 +540,12 @@
     "scene/s112/root/entity-e2097/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7683",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7683"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -489,8 +553,15 @@
     "scene/s112/root/entity-e2098/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7691",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7691"
+            },
+            {
+              "text": "dlg.7692"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -498,8 +569,15 @@
     "scene/s112/root/entity-e2099/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7685",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7685"
+            },
+            {
+              "text": "dlg.7686"
+            }
+          ],
           "speaker": "spk.路人"
         }
       }
@@ -507,8 +585,12 @@
     "scene/s112/root/entity-e2100/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7705",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7705"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -516,8 +598,12 @@
     "scene/s112/root/entity-e2101/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7698",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7698"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -525,8 +611,12 @@
     "scene/s112/root/entity-e2102/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7703",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7703"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -534,8 +624,15 @@
     "scene/s112/root/entity-e2103/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7688",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7688"
+            },
+            {
+              "text": "dlg.7689"
+            }
+          ],
           "speaker": "spk.老头"
         }
       }
@@ -543,8 +640,15 @@
     "scene/s112/root/entity-e2104/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7700",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7700"
+            },
+            {
+              "text": "dlg.7701"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -552,8 +656,12 @@
     "scene/s112/root/entity-e2105/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7662",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7662"
+            }
+          ],
           "speaker": "spk.孩童甲"
         }
       }
@@ -573,8 +681,12 @@
     "scene/s112/root/entity-e2106/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7664",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7664"
+            }
+          ],
           "speaker": "spk.孩童乙"
         }
       },
@@ -583,8 +695,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7666",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7666"
+            },
+            {
+              "text": "dlg.7667"
+            }
+          ],
           "speaker": "spk.孩童甲"
         }
       },
@@ -593,8 +712,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7669",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7669"
+            }
+          ],
           "speaker": "spk.孩童乙"
         }
       },
@@ -613,8 +736,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7671",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7671"
+            }
+          ],
           "speaker": "spk.孩童甲"
         }
       },
@@ -623,8 +750,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7673",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7673"
+            }
+          ],
           "speaker": "spk.孩童乙"
         }
       }
@@ -632,8 +763,15 @@
     "scene/s112/root/entity-e2107/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7675",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7675"
+            },
+            {
+              "text": "dlg.7676"
+            }
+          ],
           "speaker": "spk.孩童丙"
         }
       }
@@ -653,8 +791,21 @@
     "scene/s112/root/entity-e2108/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7678",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7678"
+            },
+            {
+              "text": "dlg.7679"
+            },
+            {
+              "text": "dlg.7680"
+            },
+            {
+              "text": "dlg.7681"
+            }
+          ],
           "speaker": "spk.观众"
         }
       }
@@ -719,7 +870,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20902/e2109/d-89d21e09"
+              "id": "scene/s112/L-20902/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -784,7 +935,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20908/e2109/d-89d21e09"
+              "id": "scene/s112/L-20908/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -849,7 +1000,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s112",
-              "id": "scene/s112/L-20914/e2109/d-89d21e09"
+              "id": "scene/s112/L-20914/e2109/d-0a386828"
             },
             "self": "e2109"
           }
@@ -859,8 +1010,24 @@
     "scene/s112/root/entity-e2110/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7974",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7974"
+            },
+            {
+              "text": "dlg.7975"
+            },
+            {
+              "text": "dlg.7976"
+            },
+            {
+              "text": "dlg.7977"
+            },
+            {
+              "text": "dlg.7978"
+            }
+          ],
           "speaker": "spk.许仙"
         }
       },
@@ -869,8 +1036,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7980",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7980"
+            },
+            {
+              "text": "dlg.7981"
+            }
+          ],
           "speaker": "spk.白娘子"
         }
       },
@@ -879,8 +1053,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7983",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7983"
+            },
+            {
+              "text": "dlg.7984"
+            }
+          ],
           "speaker": "spk.群唱"
         }
       }
@@ -888,8 +1069,18 @@
     "scene/s112/root/entity-e2110/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7986",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7986"
+            },
+            {
+              "text": "dlg.7987"
+            },
+            {
+              "text": "dlg.7988"
+            }
+          ],
           "speaker": "spk.小青"
         }
       },
@@ -898,8 +1089,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7990",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7990"
+            },
+            {
+              "text": "dlg.7991"
+            },
+            {
+              "text": "dlg.7992"
+            },
+            {
+              "text": "dlg.7993"
+            }
+          ],
           "speaker": "spk.白娘子"
         }
       },
@@ -908,8 +1112,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7995",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7995"
+            },
+            {
+              "text": "dlg.7996"
+            }
+          ],
           "speaker": "spk.许仙"
         }
       },
@@ -918,8 +1129,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7998",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7998"
+            },
+            {
+              "text": "dlg.7999"
+            }
+          ],
           "speaker": "spk.白娘子"
         }
       },
@@ -928,8 +1146,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8001",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8001"
+            },
+            {
+              "text": "dlg.8002"
+            }
+          ],
           "speaker": "spk.许仙"
         }
       }
@@ -937,8 +1162,24 @@
     "scene/s112/root/entity-e2110/page-0/trigger/stage-2": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8004",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8004"
+            },
+            {
+              "text": "dlg.8005"
+            },
+            {
+              "text": "dlg.8006"
+            },
+            {
+              "text": "dlg.8007"
+            },
+            {
+              "text": "dlg.8008"
+            }
+          ],
           "speaker": "spk.小青"
         }
       },
@@ -947,8 +1188,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8010",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8010"
+            },
+            {
+              "text": "dlg.8011"
+            },
+            {
+              "text": "dlg.8012"
+            },
+            {
+              "text": "dlg.8013"
+            }
+          ],
           "speaker": "spk.白娘子"
         }
       },
@@ -957,8 +1211,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8015",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8015"
+            }
+          ],
           "speaker": "spk.小青"
         }
       },
@@ -967,8 +1225,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8017",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8017"
+            },
+            {
+              "text": "dlg.8018"
+            },
+            {
+              "text": "dlg.8019"
+            },
+            {
+              "text": "dlg.8020"
+            }
+          ],
           "speaker": "spk.白娘子"
         }
       },
@@ -977,8 +1248,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8022",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8022"
+            },
+            {
+              "text": "dlg.8023"
+            },
+            {
+              "text": "dlg.8024"
+            },
+            {
+              "text": "dlg.8025"
+            }
+          ],
           "speaker": "spk.小青"
         }
       }
@@ -986,8 +1270,15 @@
     "scene/s112/root/entity-e2110/page-0/trigger/stage-3": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8027",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8027"
+            },
+            {
+              "text": "dlg.8028"
+            }
+          ],
           "speaker": "spk.群唱"
         }
       }

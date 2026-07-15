@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s177",
   "scripts": {
-    "scene/s177/L-28023/e2945/d-89d21e09": [
+    "scene/s177/L-28023/e2945/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2945",
@@ -52,8 +52,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9905",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9905"
+            }
+          ],
           "speaker": "spk.剑圣",
           "slot": "top",
           "portrait": {
@@ -67,8 +71,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9907",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9907"
+            },
+            {
+              "text": "dlg.9908"
+            }
+          ],
           "speaker": "spk.老婆婆",
           "portrait": {
             "icon": 82,
@@ -81,8 +92,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9909",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9909"
+            },
+            {
+              "text": "dlg.9910"
+            },
+            {
+              "text": "dlg.9911"
+            },
+            {
+              "text": "dlg.9912"
+            }
+          ],
           "speaker": "spk.老婆婆",
           "portrait": {
             "icon": 82,
@@ -95,8 +119,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9914",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9914"
+            },
+            {
+              "text": "dlg.9915"
+            },
+            {
+              "text": "dlg.9916"
+            }
+          ],
           "speaker": "spk.剑圣",
           "slot": "top",
           "portrait": {
@@ -110,8 +144,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9918",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9918"
+            },
+            {
+              "text": "dlg.9919"
+            }
+          ],
           "speaker": "spk.老婆婆",
           "portrait": {
             "icon": 82,
@@ -124,8 +165,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9921",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9921"
+            }
+          ],
           "speaker": "spk.剑圣",
           "slot": "top",
           "portrait": {
@@ -139,8 +184,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9923",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9923"
+            },
+            {
+              "text": "dlg.9924"
+            }
+          ],
           "speaker": "spk.老婆婆",
           "portrait": {
             "icon": 82,
@@ -153,8 +205,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9926",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9926"
+            },
+            {
+              "text": "dlg.9927"
+            }
+          ],
           "speaker": "spk.剑圣",
           "slot": "top",
           "portrait": {
@@ -192,8 +251,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9929",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9929"
+            },
+            {
+              "text": "dlg.9930"
+            }
+          ],
           "speaker": "spk.剑圣",
           "slot": "top",
           "portrait": {
@@ -207,7 +273,7 @@
         "entity": "e2945",
         "script": {
           "chunk": "scene/s177",
-          "id": "scene/s177/L-28023/e2945/d-89d21e09"
+          "id": "scene/s177/L-28023/e2945/d-0a386828"
         }
       },
       {
@@ -287,8 +353,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9222.v-7da7ed7b"
+            }
+          ],
           "slot": "narration"
         }
       },

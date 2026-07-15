@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s155",
   "scripts": {
-    "scene/s155/L-22562/e2518/d-89d21e09": [
+    "scene/s155/L-22562/e2518/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e2518",
@@ -19,7 +19,7 @@
         "state": 0
       }
     ],
-    "scene/s155/L-22543/e2517/d-89d21e09": [
+    "scene/s155/L-22543/e2517/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e2517",
@@ -59,8 +59,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8231",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8231"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "slot": "top",
           "portrait": {
@@ -159,8 +163,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8233",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8233"
+            },
+            {
+              "text": "dlg.8234"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 3,
@@ -173,8 +184,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8236",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8236"
+            },
+            {
+              "text": "dlg.8237"
+            },
+            {
+              "text": "dlg.8238"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "slot": "top",
           "portrait": {
@@ -188,8 +209,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8240",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8240"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 3,
@@ -199,8 +224,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8242",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8242"
+            },
+            {
+              "text": "dlg.8243"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "slot": "top",
           "portrait": {
@@ -214,7 +246,7 @@
         "entity": "e2517",
         "script": {
           "chunk": "scene/s155",
-          "id": "scene/s155/L-22543/e2517/d-89d21e09"
+          "id": "scene/s155/L-22543/e2517/d-0a386828"
         }
       },
       {
@@ -251,8 +283,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8245",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8245"
+            },
+            {
+              "text": "dlg.8246"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 25,
@@ -269,8 +308,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8248",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8248"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -288,8 +331,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8250",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8250"
+            },
+            {
+              "text": "dlg.8251"
+            },
+            {
+              "text": "dlg.8252"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 24,
@@ -306,8 +359,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8254",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8254"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -330,8 +387,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8256",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8256"
+            },
+            {
+              "text": "dlg.8257"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 25,
@@ -344,8 +408,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8259",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8259"
+            },
+            {
+              "text": "dlg.8260"
+            },
+            {
+              "text": "dlg.8261"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -368,8 +442,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8263",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8263"
+            },
+            {
+              "text": "dlg.8264"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 22,
@@ -443,8 +524,27 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8266",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8266"
+            },
+            {
+              "text": "dlg.8267.v-1b15469e"
+            },
+            {
+              "text": "dlg.8268.v-7287473f"
+            },
+            {
+              "text": "dlg.8269.v-f98d93fd"
+            },
+            {
+              "text": "dlg.8270.v-f3c9b62a"
+            },
+            {
+              "text": "dlg.8271.v-235b30b2"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "slot": "top",
           "portrait": {
@@ -455,8 +555,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8273",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8273"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -469,7 +573,7 @@
         "entity": "e2518",
         "script": {
           "chunk": "scene/s155",
-          "id": "scene/s155/L-22562/e2518/d-89d21e09"
+          "id": "scene/s155/L-22562/e2518/d-0a386828"
         }
       },
       {

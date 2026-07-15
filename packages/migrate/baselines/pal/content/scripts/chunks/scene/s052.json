@@ -5,7 +5,7 @@
     "scene/s053"
   ],
   "scripts": {
-    "scene/s052/L-35858/e898/d-89d21e09": [
+    "scene/s052/L-35858/e898/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e898"
@@ -21,7 +21,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35858/e898/d-89d21e09"
+              "id": "scene/s052/L-35858/e898/d-0a386828"
             },
             "self": "e898"
           }
@@ -169,271 +169,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e898/d-89d21e09"
-            },
-            "self": "e898"
-          }
-        ]
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e898",
-        "dx": 0,
-        "dy": -2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e898",
-        "dx": 4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e898",
-        "dx": -4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "left"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "right"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e898",
-        "dx": 0,
-        "dy": 2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e898",
-        "dir": "down"
-      }
-    ],
-    "scene/s052/L-35882/e898/d-89d21e09": [
-      {
-        "kind": "animEntity",
-        "entity": "e898"
-      },
-      {
-        "kind": "branch",
-        "cond": {
-          "kind": "chance",
-          "percent": 91
-        },
-        "then": [
-          {
-            "kind": "jumpScript",
-            "ref": {
-              "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e898/d-89d21e09"
+              "id": "scene/s052/L-35882/e898/d-0a386828"
             },
             "self": "e898"
           }
@@ -681,7 +417,271 @@
         "dir": "down"
       }
     ],
-    "scene/s052/L-35858/e899/d-89d21e09": [
+    "scene/s052/L-35882/e898/d-0a386828": [
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 91
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s052",
+              "id": "scene/s052/L-35882/e898/d-0a386828"
+            },
+            "self": "e898"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e898",
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e898",
+        "dx": 4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e898",
+        "dx": -4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "right"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e898",
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e898"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e898",
+        "dir": "down"
+      }
+    ],
+    "scene/s052/L-35858/e899/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e899"
@@ -697,7 +697,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35858/e899/d-89d21e09"
+              "id": "scene/s052/L-35858/e899/d-0a386828"
             },
             "self": "e899"
           }
@@ -845,7 +845,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e899/d-89d21e09"
+              "id": "scene/s052/L-35882/e899/d-0a386828"
             },
             "self": "e899"
           }
@@ -1093,7 +1093,7 @@
         "dir": "down"
       }
     ],
-    "scene/s052/L-35882/e899/d-89d21e09": [
+    "scene/s052/L-35882/e899/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e899"
@@ -1109,7 +1109,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e899/d-89d21e09"
+              "id": "scene/s052/L-35882/e899/d-0a386828"
             },
             "self": "e899"
           }
@@ -1357,7 +1357,7 @@
         "dir": "down"
       }
     ],
-    "scene/s052/L-35931/e900/d-89d21e09": [
+    "scene/s052/L-35931/e900/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e900"
@@ -1373,7 +1373,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e900/d-89d21e09"
+              "id": "scene/s052/L-35931/e900/d-0a386828"
             },
             "self": "e900"
           }
@@ -1610,370 +1610,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e900/d-89d21e09"
-            },
-            "self": "e900"
-          }
-        ]
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": 0,
-        "dy": 2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": 0,
-        "dy": 4
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": 4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": 0,
-        "dy": -2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "down"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": 0,
-        "dy": -4
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e900",
-        "dx": -4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e900",
-        "dir": "right"
-      }
-    ],
-    "scene/s052/L-35978/e900/d-89d21e09": [
-      {
-        "kind": "animEntity",
-        "entity": "e900"
-      },
-      {
-        "kind": "branch",
-        "cond": {
-          "kind": "chance",
-          "percent": 91
-        },
-        "then": [
-          {
-            "kind": "jumpScript",
-            "ref": {
-              "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e900/d-89d21e09"
+              "id": "scene/s052/L-35978/e900/d-0a386828"
             },
             "self": "e900"
           }
@@ -2320,7 +1957,370 @@
         "dir": "right"
       }
     ],
-    "scene/s052/L-35931/e901/d-89d21e09": [
+    "scene/s052/L-35978/e900/d-0a386828": [
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 91
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s052",
+              "id": "scene/s052/L-35978/e900/d-0a386828"
+            },
+            "self": "e900"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": 4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "down"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": 0,
+        "dy": -4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e900",
+        "dx": -4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e900"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e900",
+        "dir": "right"
+      }
+    ],
+    "scene/s052/L-35931/e901/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e901"
@@ -2336,7 +2336,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e901/d-89d21e09"
+              "id": "scene/s052/L-35931/e901/d-0a386828"
             },
             "self": "e901"
           }
@@ -2573,7 +2573,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e901/d-89d21e09"
+              "id": "scene/s052/L-35978/e901/d-0a386828"
             },
             "self": "e901"
           }
@@ -2920,7 +2920,7 @@
         "dir": "right"
       }
     ],
-    "scene/s052/L-35978/e901/d-89d21e09": [
+    "scene/s052/L-35978/e901/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e901"
@@ -2936,7 +2936,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e901/d-89d21e09"
+              "id": "scene/s052/L-35978/e901/d-0a386828"
             },
             "self": "e901"
           }
@@ -3283,7 +3283,7 @@
         "dir": "right"
       }
     ],
-    "scene/s052/L-35931/e902/d-89d21e09": [
+    "scene/s052/L-35931/e902/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e902"
@@ -3299,7 +3299,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e902/d-89d21e09"
+              "id": "scene/s052/L-35931/e902/d-0a386828"
             },
             "self": "e902"
           }
@@ -3536,370 +3536,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e902/d-89d21e09"
-            },
-            "self": "e902"
-          }
-        ]
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": 0,
-        "dy": 2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": 0,
-        "dy": 4
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": 4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "down"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": 0,
-        "dy": -2
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "down"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": 0,
-        "dy": -4
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "up"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "nudgeEntity",
-        "entity": "e902",
-        "dx": -4,
-        "dy": 0
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "left"
-      },
-      {
-        "kind": "stepEntity",
-        "entity": "e902",
-        "dir": "right"
-      }
-    ],
-    "scene/s052/L-35978/e902/d-89d21e09": [
-      {
-        "kind": "animEntity",
-        "entity": "e902"
-      },
-      {
-        "kind": "branch",
-        "cond": {
-          "kind": "chance",
-          "percent": 91
-        },
-        "then": [
-          {
-            "kind": "jumpScript",
-            "ref": {
-              "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e902/d-89d21e09"
+              "id": "scene/s052/L-35978/e902/d-0a386828"
             },
             "self": "e902"
           }
@@ -4246,7 +3883,370 @@
         "dir": "right"
       }
     ],
-    "scene/s052/L-10245/e897/d-89d21e09": [
+    "scene/s052/L-35978/e902/d-0a386828": [
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "chance",
+          "percent": 91
+        },
+        "then": [
+          {
+            "kind": "jumpScript",
+            "ref": {
+              "chunk": "scene/s052",
+              "id": "scene/s052/L-35978/e902/d-0a386828"
+            },
+            "self": "e902"
+          }
+        ]
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": 0,
+        "dy": 2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": 0,
+        "dy": 4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": 4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "down"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": 0,
+        "dy": -2
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "down"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": 0,
+        "dy": -4
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "up"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "nudgeEntity",
+        "entity": "e902",
+        "dx": -4,
+        "dy": 0
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "animEntity",
+        "entity": "e902"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "left"
+      },
+      {
+        "kind": "stepEntity",
+        "entity": "e902",
+        "dir": "right"
+      }
+    ],
+    "scene/s052/L-10245/e897/d-0a386828": [
       {
         "kind": "setEntityState",
         "entity": "e797",
@@ -4262,21 +4262,35 @@
         "entity": "e876",
         "script": {
           "chunk": "scene/s051",
-          "id": "scene/s051/L-9825/e876/d-89d21e09"
+          "id": "scene/s051/L-9825/e876/d-0a386828"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3622",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3622"
+            },
+            {
+              "text": "dlg.3623"
+            },
+            {
+              "text": "dlg.3624"
+            }
+          ],
           "speaker": "spk.煎药童子",
           "slot": "top"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3626"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       },
@@ -4285,8 +4299,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3628",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3628"
+            },
+            {
+              "text": "dlg.3629"
+            }
+          ],
           "speaker": "spk.煎药童子",
           "slot": "top"
         }
@@ -4296,8 +4317,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3631",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3631"
+            },
+            {
+              "text": "dlg.3632"
+            },
+            {
+              "text": "dlg.3633"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -4311,8 +4342,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3635",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3635"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -4322,8 +4357,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3637",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3637"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -4411,8 +4450,12 @@
     "scene/s052/root/entity-e886/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3611",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3611"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -4431,8 +4474,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3862",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3862"
+            },
+            {
+              "text": "dlg.3863"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -4445,16 +4495,30 @@
     "scene/s052/root/entity-e887/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3864"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3864"
+            },
+            {
+              "text": "dlg.3865"
+            },
+            {
+              "text": "dlg.3866"
+            }
+          ]
         }
       }
     ],
     "scene/s052/root/entity-e887/page-0/trigger/stage-2": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3867"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3867"
+            }
+          ]
         }
       }
     ],
@@ -4473,8 +4537,18 @@
     "scene/s052/root/entity-e888/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3574",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3574"
+            },
+            {
+              "text": "dlg.3575"
+            },
+            {
+              "text": "dlg.3576"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4494,8 +4568,18 @@
     "scene/s052/root/entity-e889/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3578",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3578"
+            },
+            {
+              "text": "dlg.3579"
+            },
+            {
+              "text": "dlg.3580"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4515,8 +4599,21 @@
     "scene/s052/root/entity-e890/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3582",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3582"
+            },
+            {
+              "text": "dlg.3583"
+            },
+            {
+              "text": "dlg.3584"
+            },
+            {
+              "text": "dlg.3585"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4536,8 +4633,18 @@
     "scene/s052/root/entity-e891/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3587",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3587"
+            },
+            {
+              "text": "dlg.3588"
+            },
+            {
+              "text": "dlg.3589"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4557,8 +4664,18 @@
     "scene/s052/root/entity-e892/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3591",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3591"
+            },
+            {
+              "text": "dlg.3592"
+            },
+            {
+              "text": "dlg.3593"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4578,8 +4695,18 @@
     "scene/s052/root/entity-e893/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3595",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3595"
+            },
+            {
+              "text": "dlg.3596"
+            },
+            {
+              "text": "dlg.3597"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4599,8 +4726,21 @@
     "scene/s052/root/entity-e894/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3599",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3599"
+            },
+            {
+              "text": "dlg.3600"
+            },
+            {
+              "text": "dlg.3601"
+            },
+            {
+              "text": "dlg.3602"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4620,8 +4760,18 @@
     "scene/s052/root/entity-e895/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3604",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3604"
+            },
+            {
+              "text": "dlg.3605"
+            },
+            {
+              "text": "dlg.3606"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4641,8 +4791,18 @@
     "scene/s052/root/entity-e896/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3608",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3608"
+            },
+            {
+              "text": "dlg.3609"
+            },
+            {
+              "text": "dlg.3610"
+            }
+          ],
           "speaker": "spk.村人"
         }
       }
@@ -4662,8 +4822,15 @@
     "scene/s052/root/entity-e897/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3619",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3619"
+            },
+            {
+              "text": "dlg.3620"
+            }
+          ],
           "speaker": "spk.煎药童子"
         }
       }
@@ -4690,7 +4857,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35858/e898/d-89d21e09"
+              "id": "scene/s052/L-35858/e898/d-0a386828"
             },
             "self": "e898"
           }
@@ -4838,7 +5005,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e898/d-89d21e09"
+              "id": "scene/s052/L-35882/e898/d-0a386828"
             },
             "self": "e898"
           }
@@ -5102,7 +5269,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35858/e899/d-89d21e09"
+              "id": "scene/s052/L-35858/e899/d-0a386828"
             },
             "self": "e899"
           }
@@ -5250,7 +5417,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35882/e899/d-89d21e09"
+              "id": "scene/s052/L-35882/e899/d-0a386828"
             },
             "self": "e899"
           }
@@ -5514,7 +5681,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e900/d-89d21e09"
+              "id": "scene/s052/L-35931/e900/d-0a386828"
             },
             "self": "e900"
           }
@@ -5751,7 +5918,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e900/d-89d21e09"
+              "id": "scene/s052/L-35978/e900/d-0a386828"
             },
             "self": "e900"
           }
@@ -6114,7 +6281,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e901/d-89d21e09"
+              "id": "scene/s052/L-35931/e901/d-0a386828"
             },
             "self": "e901"
           }
@@ -6351,7 +6518,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e901/d-89d21e09"
+              "id": "scene/s052/L-35978/e901/d-0a386828"
             },
             "self": "e901"
           }
@@ -6714,7 +6881,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35931/e902/d-89d21e09"
+              "id": "scene/s052/L-35931/e902/d-0a386828"
             },
             "self": "e902"
           }
@@ -6951,7 +7118,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s052",
-              "id": "scene/s052/L-35978/e902/d-89d21e09"
+              "id": "scene/s052/L-35978/e902/d-0a386828"
             },
             "self": "e902"
           }

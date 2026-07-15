@@ -37,7 +37,7 @@ export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {
       ],
     )
     const question = body.findIndex(
-      (command) => command.kind === 'dialog' && command.line.text === 'dlg.1369',
+      (command) => command.kind === 'dialog' && command.cue.rows[0]?.text === 'dlg.1369',
     )
     const turn = body.findIndex(
       (command, index) =>
@@ -55,7 +55,7 @@ export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {
     })
 
     const reply = body.findIndex(
-      (command) => command.kind === 'dialog' && command.line.text === 'dlg.1371',
+      (command) => command.kind === 'dialog' && command.cue.rows[0]?.text === 'dlg.1371',
     )
     const partyMove = body.findIndex(
       (command, index) => index > reply && command.kind === 'moveParty',

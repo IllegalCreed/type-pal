@@ -6,6 +6,7 @@ export const DEFAULT_SPEED_MS = 24
 
 /** 已显示字符数 = ⌊elapsedMs / speedMs⌋。渲染层按 performance.now 算,不挂逻辑 tick。 */
 export function charsShown(elapsedMs: number, speedMs: number): number {
+  if (speedMs <= 0) return Number.POSITIVE_INFINITY
   return Math.floor(elapsedMs / speedMs)
 }
 

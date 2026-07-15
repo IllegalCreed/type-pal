@@ -5,7 +5,7 @@
     "scene/s084"
   ],
   "scripts": {
-    "scene/s089/L-35650/e1661/d-89d21e09": [
+    "scene/s089/L-35650/e1661/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e1661",
@@ -40,7 +40,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s089",
-          "id": "scene/s089/L-35650/e1661/d-89d21e09"
+          "id": "scene/s089/L-35650/e1661/d-0a386828"
         },
         "self": "e1661"
       }
@@ -59,8 +59,18 @@
     "scene/s089/root/entity-e1649/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4613",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4613"
+            },
+            {
+              "text": "dlg.4614"
+            },
+            {
+              "text": "dlg.4615"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -68,8 +78,12 @@
     "scene/s089/root/entity-e1650/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4617",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4617"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -82,8 +96,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4619",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4619"
+            },
+            {
+              "text": "dlg.4620"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -97,8 +118,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4622",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4622"
+            },
+            {
+              "text": "dlg.4623"
+            },
+            {
+              "text": "dlg.4624"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -111,8 +142,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4626"
+            },
+            {
+              "text": "dlg.4627"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -126,8 +164,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4629",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4629"
+            },
+            {
+              "text": "dlg.4630"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -140,8 +185,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4632",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4632"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -155,8 +204,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4634",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4634"
+            },
+            {
+              "text": "dlg.4635"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -169,8 +225,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4637",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4637"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -184,8 +244,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4639",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4639"
+            },
+            {
+              "text": "dlg.4640"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -198,8 +265,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4642",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4642"
+            },
+            {
+              "text": "dlg.4643"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -213,8 +287,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4644",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4644"
+            },
+            {
+              "text": "dlg.4645"
+            },
+            {
+              "text": "dlg.4646"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -228,8 +312,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4647",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4647"
+            },
+            {
+              "text": "dlg.4648"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -243,8 +334,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4650",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4650"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -257,8 +352,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4652",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4652"
+            },
+            {
+              "text": "dlg.4653"
+            },
+            {
+              "text": "dlg.4654"
+            },
+            {
+              "text": "dlg.4655"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -272,13 +380,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4657",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4657"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
             "side": "right"
-          }
+          },
+          "cursorFrame": 2
         }
       },
       {
@@ -286,8 +399,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4659",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4659"
+            },
+            {
+              "text": "dlg.4660"
+            },
+            {
+              "text": "dlg.4661"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -301,8 +424,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4663",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4663"
+            }
+          ],
           "speaker": "spk.林月如嘟嚷",
           "portrait": {
             "icon": 25,
@@ -315,8 +442,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4665",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4665"
+            },
+            {
+              "text": "dlg.4666"
+            },
+            {
+              "text": "dlg.4667"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -330,8 +467,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4669",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4669"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 23,
@@ -344,8 +485,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4671",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4671"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -359,8 +504,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4672",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4672"
+            },
+            {
+              "text": "dlg.4673"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -374,8 +526,27 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4674",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4674"
+            },
+            {
+              "text": "dlg.4675"
+            },
+            {
+              "text": "dlg.4676"
+            },
+            {
+              "text": "dlg.4677"
+            },
+            {
+              "text": "dlg.4678"
+            },
+            {
+              "text": "dlg.4679"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -389,8 +560,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4681",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4681"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -403,8 +578,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4683",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4683"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 22,
@@ -464,8 +643,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4685",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4685"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -483,8 +666,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4687",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4687"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -529,8 +716,12 @@
     "scene/s089/root/entity-e1650/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4689",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4689"
+            }
+          ],
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
@@ -543,8 +734,12 @@
     "scene/s089/root/entity-e1651/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5280",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5280"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -564,8 +759,12 @@
     "scene/s089/root/entity-e1652/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5282",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5282"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -585,8 +784,12 @@
     "scene/s089/root/entity-e1653/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -606,8 +809,12 @@
     "scene/s089/root/entity-e1654/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -627,8 +834,12 @@
     "scene/s089/root/entity-e1655/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -648,8 +859,12 @@
     "scene/s089/root/entity-e1656/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -669,8 +884,12 @@
     "scene/s089/root/entity-e1657/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -690,8 +909,12 @@
     "scene/s089/root/entity-e1658/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5284",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5284"
+            }
+          ],
           "speaker": "spk.婢女"
         }
       }
@@ -748,7 +971,7 @@
         "entity": "e1578",
         "script": {
           "chunk": "scene/s084",
-          "id": "scene/s084/L-13095/e1578/d-89d21e09"
+          "id": "scene/s084/L-13095/e1578/d-0a386828"
         }
       },
       {
@@ -792,7 +1015,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s089",
-          "id": "scene/s089/L-35650/e1661/d-89d21e09"
+          "id": "scene/s089/L-35650/e1661/d-0a386828"
         },
         "self": "e1661"
       }

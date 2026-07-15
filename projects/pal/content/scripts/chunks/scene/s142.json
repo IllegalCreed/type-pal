@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s142",
   "scripts": {
-    "scene/s142/L-22267/e2382/d-89d21e09": [
+    "scene/s142/L-22267/e2382/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e2382",
@@ -17,12 +17,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s142",
-          "id": "scene/s142/L-22267/e2382/d-89d21e09"
+          "id": "scene/s142/L-22267/e2382/d-0a386828"
         },
         "self": "e2382"
       }
     ],
-    "scene/s142/L-22270/e2383/d-89d21e09": [
+    "scene/s142/L-22270/e2383/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2383",
@@ -147,7 +147,7 @@
         "entity": "e2383",
         "script": {
           "chunk": "scene/s142",
-          "id": "scene/s142/L-22270/e2383/d-89d21e09"
+          "id": "scene/s142/L-22270/e2383/d-0a386828"
         }
       },
       {
@@ -189,7 +189,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s142",
-          "id": "scene/s142/L-22267/e2382/d-89d21e09"
+          "id": "scene/s142/L-22267/e2382/d-0a386828"
         },
         "self": "e2382"
       }

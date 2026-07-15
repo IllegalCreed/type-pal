@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s150",
   "scripts": {
-    "scene/s150/L-24988/e2465/d-89d21e09": [
+    "scene/s150/L-24988/e2465/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e2465",
@@ -17,12 +17,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s150",
-          "id": "scene/s150/L-24988/e2465/d-89d21e09"
+          "id": "scene/s150/L-24988/e2465/d-0a386828"
         },
         "self": "e2465"
       }
     ],
-    "scene/s150/L-24995/e2466/d-89d21e09": [
+    "scene/s150/L-24995/e2466/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e2466",
@@ -33,7 +33,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s150",
-          "id": "scene/s150/L-24995/e2466/d-89d21e09"
+          "id": "scene/s150/L-24995/e2466/d-0a386828"
         },
         "self": "e2466"
       }
@@ -80,13 +80,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9208",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9208",
+              "speed": 32
+            }
+          ],
           "speaker": "spk.剑圣",
           "portrait": {
             "icon": 63,
             "side": "right"
-          }
+          },
+          "autoAdvance": 685
         }
       },
       {
@@ -108,13 +114,23 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9209",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9209",
+              "speed": 56
+            },
+            {
+              "text": "dlg.9210",
+              "speed": 56
+            }
+          ],
           "slot": "top",
           "portrait": {
             "icon": 37,
             "side": "left"
-          }
+          },
+          "autoAdvance": 800
         }
       },
       {
@@ -122,13 +138,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9212",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9212",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.剑圣",
           "portrait": {
             "icon": 63,
             "side": "right"
-          }
+          },
+          "autoAdvance": 685
         }
       },
       {
@@ -175,12 +197,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9213",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9213",
+              "speed": 56
+            }
+          ],
           "portrait": {
             "icon": 37,
             "side": "right"
-          }
+          },
+          "autoAdvance": 742
         }
       },
       {
@@ -240,7 +268,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s150",
-          "id": "scene/s150/L-24988/e2465/d-89d21e09"
+          "id": "scene/s150/L-24988/e2465/d-0a386828"
         },
         "self": "e2465"
       }
@@ -280,7 +308,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s150",
-          "id": "scene/s150/L-24995/e2466/d-89d21e09"
+          "id": "scene/s150/L-24995/e2466/d-0a386828"
         },
         "self": "e2466"
       }

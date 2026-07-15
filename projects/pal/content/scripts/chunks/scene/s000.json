@@ -31,9 +31,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.0",
-          "slot": "center"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.0",
+              "speed": 112
+            }
+          ],
+          "slot": "center",
+          "autoAdvance": 342
         }
       },
       {
@@ -41,9 +47,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2",
-          "speaker": "spk.李逍遥"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2",
+              "speed": 16
+            }
+          ],
+          "speaker": "spk.李逍遥",
+          "autoAdvance": 457
         }
       },
       {
@@ -51,9 +63,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3",
-          "speaker": "spk.李逍遥"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3",
+              "speed": 16
+            },
+            {
+              "text": "dlg.4",
+              "speed": 16
+            }
+          ],
+          "speaker": "spk.李逍遥",
+          "autoAdvance": 685
         }
       },
       {

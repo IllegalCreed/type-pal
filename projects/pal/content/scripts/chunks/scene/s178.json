@@ -16,8 +16,12 @@
     "scene/s178/root/entity-e2948/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9774",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9774"
+            }
+          ],
           "slot": "center"
         }
       },

@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s245",
   "scripts": {
-    "scene/s245/L-32029/e4337/d-89d21e09": [
+    "scene/s245/L-32029/e4337/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4337",
@@ -14,7 +14,7 @@
         "frame": 0
       }
     ],
-    "scene/s245/L-32032/e4337/d-89d21e09": [
+    "scene/s245/L-32032/e4337/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4337",
@@ -26,7 +26,7 @@
         "frame": 0
       }
     ],
-    "scene/s245/L-32035/e4337/d-89d21e09": [
+    "scene/s245/L-32035/e4337/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4337",
@@ -38,7 +38,7 @@
         "frame": 0
       }
     ],
-    "scene/s245/L-32006/e4338/d-89d21e09": [
+    "scene/s245/L-32006/e4338/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4338",
@@ -53,12 +53,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4338/d-89d21e09"
+          "id": "scene/s245/L-32006/e4338/d-0a386828"
         },
         "self": "e4338"
       }
     ],
-    "scene/s245/L-32006/e4339/d-89d21e09": [
+    "scene/s245/L-32006/e4339/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4339",
@@ -73,12 +73,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4339/d-89d21e09"
+          "id": "scene/s245/L-32006/e4339/d-0a386828"
         },
         "self": "e4339"
       }
     ],
-    "scene/s245/L-32006/e4340/d-89d21e09": [
+    "scene/s245/L-32006/e4340/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4340",
@@ -93,12 +93,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4340/d-89d21e09"
+          "id": "scene/s245/L-32006/e4340/d-0a386828"
         },
         "self": "e4340"
       }
     ],
-    "scene/s245/L-32006/e4341/d-89d21e09": [
+    "scene/s245/L-32006/e4341/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4341",
@@ -113,12 +113,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4341/d-89d21e09"
+          "id": "scene/s245/L-32006/e4341/d-0a386828"
         },
         "self": "e4341"
       }
     ],
-    "scene/s245/L-32006/e4342/d-89d21e09": [
+    "scene/s245/L-32006/e4342/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4342",
@@ -133,12 +133,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4342/d-89d21e09"
+          "id": "scene/s245/L-32006/e4342/d-0a386828"
         },
         "self": "e4342"
       }
     ],
-    "scene/s245/L-32006/e4343/d-89d21e09": [
+    "scene/s245/L-32006/e4343/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4343",
@@ -153,12 +153,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4343/d-89d21e09"
+          "id": "scene/s245/L-32006/e4343/d-0a386828"
         },
         "self": "e4343"
       }
     ],
-    "scene/s245/L-32006/e4344/d-89d21e09": [
+    "scene/s245/L-32006/e4344/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4344",
@@ -173,12 +173,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4344/d-89d21e09"
+          "id": "scene/s245/L-32006/e4344/d-0a386828"
         },
         "self": "e4344"
       }
     ],
-    "scene/s245/L-32006/e4345/d-89d21e09": [
+    "scene/s245/L-32006/e4345/d-0a386828": [
       {
         "kind": "nudgeEntity",
         "entity": "e4345",
@@ -193,12 +193,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4345/d-89d21e09"
+          "id": "scene/s245/L-32006/e4345/d-0a386828"
         },
         "self": "e4345"
       }
     ],
-    "scene/s245/L-35627/e4346/d-89d21e09": [
+    "scene/s245/L-35627/e4346/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4346"
@@ -207,12 +207,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-35627/e4346/d-89d21e09"
+          "id": "scene/s245/L-35627/e4346/d-0a386828"
         },
         "self": "e4346"
       }
     ],
-    "scene/s245/L-35627/e4347/d-89d21e09": [
+    "scene/s245/L-35627/e4347/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4347"
@@ -221,7 +221,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-35627/e4347/d-89d21e09"
+          "id": "scene/s245/L-35627/e4347/d-0a386828"
         },
         "self": "e4347"
       }
@@ -244,9 +244,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11117",
-          "speaker": "spk.白苗族长"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11117",
+              "speed": 56
+            }
+          ],
+          "speaker": "spk.白苗族长",
+          "autoAdvance": 800
         }
       },
       {
@@ -311,9 +317,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11119",
-          "speaker": "spk.士兵"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11119",
+              "speed": 0
+            },
+            {
+              "text": "dlg.11120",
+              "speed": 0
+            }
+          ],
+          "speaker": "spk.士兵",
+          "autoAdvance": 571
         }
       },
       {
@@ -348,13 +364,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11122",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11122",
+              "speed": 0
+            }
+          ],
           "speaker": "spk.拜月教主",
           "portrait": {
             "icon": 81,
             "side": "right"
-          }
+          },
+          "autoAdvance": 571
         }
       },
       {
@@ -404,7 +426,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s245",
-              "id": "scene/s245/L-32029/e4337/d-89d21e09"
+              "id": "scene/s245/L-32029/e4337/d-0a386828"
             },
             "self": "e4337"
           }
@@ -421,7 +443,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s245",
-              "id": "scene/s245/L-32032/e4337/d-89d21e09"
+              "id": "scene/s245/L-32032/e4337/d-0a386828"
             },
             "self": "e4337"
           }
@@ -438,7 +460,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s245",
-              "id": "scene/s245/L-32035/e4337/d-89d21e09"
+              "id": "scene/s245/L-32035/e4337/d-0a386828"
             },
             "self": "e4337"
           }
@@ -492,7 +514,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4338/d-89d21e09"
+          "id": "scene/s245/L-32006/e4338/d-0a386828"
         },
         "self": "e4338"
       }
@@ -534,7 +556,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4339/d-89d21e09"
+          "id": "scene/s245/L-32006/e4339/d-0a386828"
         },
         "self": "e4339"
       }
@@ -582,7 +604,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4340/d-89d21e09"
+          "id": "scene/s245/L-32006/e4340/d-0a386828"
         },
         "self": "e4340"
       }
@@ -630,7 +652,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4341/d-89d21e09"
+          "id": "scene/s245/L-32006/e4341/d-0a386828"
         },
         "self": "e4341"
       }
@@ -672,7 +694,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4342/d-89d21e09"
+          "id": "scene/s245/L-32006/e4342/d-0a386828"
         },
         "self": "e4342"
       }
@@ -714,7 +736,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4343/d-89d21e09"
+          "id": "scene/s245/L-32006/e4343/d-0a386828"
         },
         "self": "e4343"
       }
@@ -762,7 +784,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4344/d-89d21e09"
+          "id": "scene/s245/L-32006/e4344/d-0a386828"
         },
         "self": "e4344"
       }
@@ -810,7 +832,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-32006/e4345/d-89d21e09"
+          "id": "scene/s245/L-32006/e4345/d-0a386828"
         },
         "self": "e4345"
       }
@@ -824,7 +846,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-35627/e4346/d-89d21e09"
+          "id": "scene/s245/L-35627/e4346/d-0a386828"
         },
         "self": "e4346"
       }
@@ -838,7 +860,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s245",
-          "id": "scene/s245/L-35627/e4347/d-89d21e09"
+          "id": "scene/s245/L-35627/e4347/d-0a386828"
         },
         "self": "e4347"
       }

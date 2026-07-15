@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s017",
   "scripts": {
-    "scene/s017/L-36505/e263/d-89d21e09": [
+    "scene/s017/L-36505/e263/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e263",
@@ -41,8 +41,12 @@
     "scene/s017/root/entity-e235/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1574",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1574"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -54,8 +58,12 @@
     "scene/s017/root/entity-e235/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1575",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1575"
+            }
+          ],
           "slot": "narration"
         }
       }
@@ -63,8 +71,12 @@
     "scene/s017/root/entity-e236/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1786",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1786"
+            }
+          ],
           "speaker": "spk.观音像上刻着一行字"
         }
       }
@@ -1209,7 +1221,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s017",
-          "id": "scene/s017/L-36505/e263/d-89d21e09"
+          "id": "scene/s017/L-36505/e263/d-0a386828"
         },
         "self": "e263"
       },
@@ -1218,8 +1230,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1895",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1895"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1247,8 +1263,12 @@
     "scene/s017/root/entity-e263/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }

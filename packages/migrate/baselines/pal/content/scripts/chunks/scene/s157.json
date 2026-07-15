@@ -27,8 +27,12 @@
     "scene/s157/root/entity-e2642/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8400",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8400"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -36,8 +40,15 @@
     "scene/s157/root/entity-e2642/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8402",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8402"
+            },
+            {
+              "text": "dlg.8403"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -46,8 +57,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8404",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8404"
+            },
+            {
+              "text": "dlg.8405"
+            },
+            {
+              "text": "dlg.8406"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -67,8 +88,12 @@
     "scene/s157/root/entity-e2643/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8408",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8408"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }

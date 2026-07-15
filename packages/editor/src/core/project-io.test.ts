@@ -85,7 +85,7 @@ const scenesJson = [
         interact: 'ghost-hearsay',
       },
     ],
-    dialogues: [{ id: 'ghost-hearsay', lines: [{ text: 'dlg.ghost.0' }] }],
+    dialogues: [{ id: 'ghost-hearsay', cues: [{ rows: [{ text: 'dlg.ghost.0' }] }] }],
   },
 ]
 const skillsJson = {

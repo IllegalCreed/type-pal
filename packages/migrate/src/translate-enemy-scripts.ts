@@ -12,7 +12,7 @@
  * - battleEnd:全部是「(概率)给物+对白」→ 复用 translateStages → onDefeated。
  * 翻不净(0x79 队伍条件对话 / 复杂跳转臂等)→ pending 标注,编辑器手修(同 M3 方针)。
  */
-import type { AiRule, BattleChoreography, Command, DialogueLine } from '@type-pal/content'
+import type { AiRule, BattleChoreography, Command, DialogueCue } from '@type-pal/content'
 
 /** 0x79 队伍门:原版 rgwName word(operand[0])→ 角色模板 id。rgwName=[36,37,38,40,39,41]。 */
 const NAME_WORD_TO_SLUG: Record<number, string> = {
@@ -24,6 +24,12 @@ const NAME_WORD_TO_SLUG: Record<number, string> = {
   41: 'gai-luojiao',
 }
 
+import {
+  DEFAULT_LEGACY_DIALOG_STATE,
+  decodeLegacyDialogueLine,
+  LEGACY_DIALOG_DEFAULT_SPEED,
+  putLegacyDialogueText,
+} from './legacy-dialog.js'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
@@ -141,6 +147,7 @@ function translateHook(
     // 说话人合并:冒号结尾行(「蜘蛛精:」)不单独成句,记住它合并到紧跟的正文句
     // (否则说话人行自己成一句空正文对话 —— 战斗框只显「蜘蛛精:」没台词,作者报的通病)
     let pendingSpeaker: string | undefined
+    let dialogState = { ...DEFAULT_LEGACY_DIALOG_STATE }
     let i = 0
     while (i < seg.ops.length) {
       const c = seg.ops[i]!
@@ -271,21 +278,34 @@ function translateHook(
       }
       if (c.op === 'showDialog') {
         const idx = (c as { messageIndex?: number }).messageIndex
-        const text = (c as { text?: string }).text ?? ''
-        const key = idx !== undefined ? `dlg.${idx}` : text
-        if (idx !== undefined) ctx.locale[key] = text
-        if (ENEMY_SPEAKER_RE.test(text)) {
+        const raw = (c as { text?: string }).text ?? ''
+        const decoded = decodeLegacyDialogueLine(raw, dialogState)
+        if (ENEMY_SPEAKER_RE.test(decoded.plainText)) {
           // 说话人行:记住,合并到下一正文句(不单独成对话)
-          pendingSpeaker = text.replace(ENEMY_SPEAKER_RE, '')
+          pendingSpeaker = decoded.plainText.replace(ENEMY_SPEAKER_RE, '')
         } else {
-          const line: DialogueLine = { text: key }
+          dialogState = decoded.state
+          const text =
+            idx === undefined
+              ? decoded.text
+              : putLegacyDialogueText(ctx.locale, idx, raw, decoded.text)
+          const cue: DialogueCue = {
+            rows: [
+              {
+                text,
+                ...(decoded.speed !== LEGACY_DIALOG_DEFAULT_SPEED ? { speed: decoded.speed } : {}),
+              },
+            ],
+            ...(decoded.autoAdvance !== undefined ? { autoAdvance: decoded.autoAdvance } : {}),
+            ...(decoded.cursorFrame !== undefined ? { cursorFrame: decoded.cursorFrame } : {}),
+          }
           if (pendingSpeaker) {
             const sk = `spk.${pendingSpeaker}`
             ctx.locale[sk] = pendingSpeaker
-            line.speaker = sk
+            cue.speaker = sk
             pendingSpeaker = undefined
           }
-          dlg.push({ kind: 'dialog', line })
+          dlg.push({ kind: 'dialog', cue })
         }
         i++
         continue

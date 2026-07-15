@@ -16,8 +16,12 @@
     "scene/s137/root/entity-e2332/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5732",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5732"
+            }
+          ],
           "speaker": "spk.宋氏"
         }
       },
@@ -26,8 +30,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5733",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5733"
+            },
+            {
+              "text": "dlg.5734"
+            },
+            {
+              "text": "dlg.5735"
+            }
+          ],
           "speaker": "spk.宋氏"
         }
       }
@@ -35,8 +49,15 @@
     "scene/s137/root/entity-e2333/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5737",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5737"
+            },
+            {
+              "text": "dlg.5738"
+            }
+          ],
           "speaker": "spk.书生"
         }
       },
@@ -45,8 +66,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5739"
+            },
+            {
+              "text": "dlg.5740"
+            }
+          ],
           "speaker": "spk.书生"
         }
       }
@@ -110,8 +138,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12507",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12507"
+            }
+          ],
           "slot": "narration"
         }
       },

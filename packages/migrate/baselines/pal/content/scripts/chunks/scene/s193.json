@@ -33,25 +33,37 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10162",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10162",
+              "speed": 32
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 10,
             "side": "right"
-          }
+          },
+          "autoAdvance": 571
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10164",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10164",
+              "speed": 64
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
             "icon": 21,
             "side": "left"
-          }
+          },
+          "autoAdvance": 800
         }
       },
       {

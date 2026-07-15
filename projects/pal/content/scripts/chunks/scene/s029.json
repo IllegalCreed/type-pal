@@ -2,11 +2,18 @@
   "version": 1,
   "id": "scene/s029",
   "scripts": {
-    "scene/s029/L-7477/e536/d-e87ba239": [
+    "scene/s029/L-7477/e536/d-97fa4458": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2644",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2644"
+            },
+            {
+              "text": "dlg.2645"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -15,16 +22,26 @@
         }
       }
     ],
-    "scene/s029/L-7502/e537/d-89d21e09": [
+    "scene/s029/L-7502/e537/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2654",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2654"
+            },
+            {
+              "text": "dlg.2655"
+            },
+            {
+              "text": "dlg.2656"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
     ],
-    "scene/s029/L-7492/e536/d-89d21e09": [
+    "scene/s029/L-7492/e536/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e536",
@@ -75,8 +92,18 @@
     "scene/s029/root/entity-e535/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2422",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2422"
+            },
+            {
+              "text": "dlg.2423"
+            },
+            {
+              "text": "dlg.2424"
+            }
+          ],
           "speaker": "spk.当铺老板"
         }
       },
@@ -104,8 +131,12 @@
     "scene/s029/root/entity-e536/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2647",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2647"
+            }
+          ],
           "speaker": "spk.赌鬼"
         }
       },
@@ -116,7 +147,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s029",
-              "id": "scene/s029/L-7477/e536/d-e87ba239"
+              "id": "scene/s029/L-7477/e536/d-97fa4458"
             },
             "self": "e536"
           }
@@ -131,7 +162,7 @@
         "entity": "e537",
         "script": {
           "chunk": "scene/s029",
-          "id": "scene/s029/L-7502/e537/d-89d21e09"
+          "id": "scene/s029/L-7502/e537/d-0a386828"
         }
       },
       {
@@ -139,7 +170,7 @@
         "entity": "e536",
         "script": {
           "chunk": "scene/s029",
-          "id": "scene/s029/L-7492/e536/d-89d21e09"
+          "id": "scene/s029/L-7492/e536/d-0a386828"
         }
       },
       {
@@ -147,8 +178,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2648",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2648"
+            }
+          ],
           "speaker": "spk.赌鬼"
         }
       }
@@ -156,8 +191,18 @@
     "scene/s029/root/entity-e537/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2650",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2650"
+            },
+            {
+              "text": "dlg.2651"
+            },
+            {
+              "text": "dlg.2652"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }

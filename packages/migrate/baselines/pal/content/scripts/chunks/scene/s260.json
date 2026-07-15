@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s260",
   "scripts": {
-    "scene/s260/L-35627/e4558/d-89d21e09": [
+    "scene/s260/L-35627/e4558/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4558"
@@ -11,12 +11,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4558/d-89d21e09"
+          "id": "scene/s260/L-35627/e4558/d-0a386828"
         },
         "self": "e4558"
       }
     ],
-    "scene/s260/L-35627/e4559/d-89d21e09": [
+    "scene/s260/L-35627/e4559/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4559"
@@ -25,12 +25,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4559/d-89d21e09"
+          "id": "scene/s260/L-35627/e4559/d-0a386828"
         },
         "self": "e4559"
       }
     ],
-    "scene/s260/L-35627/e4560/d-89d21e09": [
+    "scene/s260/L-35627/e4560/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4560"
@@ -39,7 +39,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4560/d-89d21e09"
+          "id": "scene/s260/L-35627/e4560/d-0a386828"
         },
         "self": "e4560"
       }
@@ -119,7 +119,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4558/d-89d21e09"
+          "id": "scene/s260/L-35627/e4558/d-0a386828"
         },
         "self": "e4558"
       }
@@ -133,7 +133,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4559/d-89d21e09"
+          "id": "scene/s260/L-35627/e4559/d-0a386828"
         },
         "self": "e4559"
       }
@@ -147,7 +147,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s260",
-          "id": "scene/s260/L-35627/e4560/d-89d21e09"
+          "id": "scene/s260/L-35627/e4560/d-0a386828"
         },
         "self": "e4560"
       }

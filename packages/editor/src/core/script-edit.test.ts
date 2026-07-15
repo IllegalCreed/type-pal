@@ -16,7 +16,7 @@ import {
   updateCommandAt,
 } from './script-edit.js'
 
-const dlg = (t: string): Command => ({ kind: 'dialog', line: { text: t } })
+const dlg = (t: string): Command => ({ kind: 'dialog', cue: { rows: [{ text: t }] } })
 const stages = (): ScriptStage[] => [
   {
     body: [
@@ -65,14 +65,21 @@ describe('updateCommandAt(不可变)', () => {
 describe('insertAfterAt / removeAt / moveAt', () => {
   test('插入到目标命令之后', () => {
     const out = insertAfterAt(stages(), [0, 0], dlg('new'))
-    expect(
-      out[0]!.body.map((c) => (c as { line?: { text: string } }).line?.text ?? c.kind),
-    ).toEqual(['a', 'new', 'branch', 'b'])
+    expect(out[0]!.body.map((c) => (c.kind === 'dialog' ? c.cue.rows[0]?.text : c.kind))).toEqual([
+      'a',
+      'new',
+      'branch',
+      'b',
+    ])
   })
   test('臂内插入', () => {
     const out = insertAfterAt(stages(), [0, 1, 'then', 0], dlg('mid'))
     const arm = (getCommandAt(out, [0, 1]) as Extract<Command, { kind: 'branch' }>).then
-    expect(arm.map((c) => (c as { line: { text: string } }).line.text)).toEqual(['t0', 'mid', 't1'])
+    expect(arm.map((c) => (c as Extract<Command, { kind: 'dialog' }>).cue.rows[0]?.text)).toEqual([
+      't0',
+      'mid',
+      't1',
+    ])
   })
   test('删除(返回新数组,源不变)', () => {
     const s = stages()
@@ -88,7 +95,10 @@ describe('insertAfterAt / removeAt / moveAt', () => {
     expect(moveAt(s, [0, 0], -1)).toBe(s) // 顶端上移 = 原样
     const down = moveAt(s, [0, 1, 'then', 0], 1)
     const arm = (getCommandAt(down, [0, 1]) as Extract<Command, { kind: 'branch' }>).then
-    expect(arm.map((c) => (c as { line: { text: string } }).line.text)).toEqual(['t1', 't0'])
+    expect(arm.map((c) => (c as Extract<Command, { kind: 'dialog' }>).cue.rows[0]?.text)).toEqual([
+      't1',
+      't0',
+    ])
   })
 })
 

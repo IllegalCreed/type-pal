@@ -14,10 +14,10 @@ describe('PAL 脚本 overlay', () => {
           body: [
             { kind: 'setEntityState', entity: 'e10', state: 2 },
             { kind: 'wait', ms: 1 },
-            { kind: 'dialog', line: { text: 'dlg.1369' } },
+            { kind: 'dialog', cue: { rows: [{ text: 'dlg.1369' }] } },
             { kind: 'wait', ms: 1 },
             { kind: 'setEntityFacing', entity: 'e10', facing: 'up' },
-            { kind: 'dialog', line: { text: 'dlg.1371' } },
+            { kind: 'dialog', cue: { rows: [{ text: 'dlg.1371' }] } },
             { kind: 'wait', ms: 1 },
             { kind: 'moveParty', to: { col: 1, row: 1, height: 0 }, speed: 'slow' },
           ],

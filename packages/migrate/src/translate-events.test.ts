@@ -13,6 +13,7 @@ import {
   battleCfgMarker,
   emptyTranslateReport,
   foldBattleConfig,
+  ScriptRegistry,
   translateStages,
 } from './translate-events.js'
 
@@ -128,8 +129,17 @@ describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
     ])
     const body = bodyOf(ctx)
 
-    expect(body).toEqual([{ kind: 'dialog', line: { text: 'dlg.3' } }])
-    expect(ctx.locale['dlg.3']).toBe('既然落在你的手里，\n  要杀要剐不用多说！~60')
+    expect(body).toEqual([
+      {
+        kind: 'dialog',
+        cue: {
+          rows: [{ text: 'dlg.3' }, { text: 'dlg.4' }],
+          autoAdvance: 685,
+        },
+      },
+    ])
+    expect(ctx.locale['dlg.3']).toBe('既然落在你的手里，')
+    expect(ctx.locale['dlg.4']).toBe('  要杀要剐不用多说！')
   })
 
   test('跨 raw 0x05 flush 仍继承', () => {
@@ -141,8 +151,8 @@ describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
         { op: 'showDialog', messageIndex: 22, text: '第二句' } as unknown as SourceCmd,
       ]),
     )
-    const lines = body.flatMap((c) => (c.kind === 'dialog' ? [c.line] : []))
-    expect(lines.map((line) => line.speaker)).toEqual(['spk.李逍遥', 'spk.李逍遥'])
+    const cues = body.flatMap((c) => (c.kind === 'dialog' ? [c.cue] : []))
+    expect(cues.map((cue) => cue.speaker)).toEqual(['spk.李逍遥', 'spk.李逍遥'])
   })
 
   test('换 slot 清空；新姓名牌会替换旧姓名', () => {
@@ -156,8 +166,106 @@ describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
         { op: 'showDialog', messageIndex: 34, text: '换槽后无姓名' } as unknown as SourceCmd,
       ]),
     )
-    const lines = body.flatMap((c) => (c.kind === 'dialog' ? [c.line] : []))
-    expect(lines.map((line) => line.speaker)).toEqual(['spk.李逍遥', 'spk.李大娘', undefined])
+    const cues = body.flatMap((c) => (c.kind === 'dialog' ? [c.cue] : []))
+    expect(cues.map((cue) => cue.speaker)).toEqual(['spk.李逍遥', 'spk.李大娘', undefined])
+  })
+
+  test('同一分支目标按入口颜色/速度分别缓存，不串用第一次翻译结果', () => {
+    const source: SourceCmd[] = [
+      {
+        op: 'showDialog',
+        messageIndex: 40,
+        text: '$02-青色前文',
+        label: 'L_1',
+      } as unknown as SourceCmd,
+      { op: 'raw', opcode: 0x06, operands: [22, 9, 0] } as unknown as SourceCmd,
+      { op: 'showDialog', messageIndex: 41, text: '$03-默认前文' } as unknown as SourceCmd,
+      { op: 'raw', opcode: 0x06, operands: [22, 9, 0] } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+      {
+        op: 'showDialog',
+        messageIndex: 42,
+        text: '分支正文',
+        label: 'L_9',
+      } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+    ]
+    const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
+    source.forEach((command, idx) => {
+      if (command.label) labelAt.set(command.label, { cmds: source, idx })
+    })
+    const ctx: TranslateCtx = { labelAt, locale: {}, report: emptyTranslateReport() }
+    const body = translateStages('L_1', 'e0', ctx)![0]!.body
+    const branches = body.filter(
+      (command): command is Extract<Command, { kind: 'branch' }> => command.kind === 'branch',
+    )
+    const first = branches[0]!.then.find((command) => command.kind === 'dialog')
+    const second = branches[1]!.then.find((command) => command.kind === 'dialog')
+
+    expect(first).toMatchObject({
+      kind: 'dialog',
+      cue: { rows: [{ speed: 16 }] },
+    })
+    expect(second).toMatchObject({
+      kind: 'dialog',
+      cue: { rows: [{ speed: 32 }] },
+    })
+    if (first?.kind !== 'dialog' || second?.kind !== 'dialog') throw new Error('缺少分支对话')
+    expect(ctx.locale[first.cue.rows[0]!.text]).toBe('<cyan>分支正文</cyan>')
+    expect(ctx.locale[second.cue.rows[0]!.text]).toBe('分支正文')
+  })
+
+  test('registry callScript 继承入口态，并把被调用脚本的离开态带回调用方', () => {
+    const source: SourceCmd[] = [
+      {
+        op: 'showDialog',
+        messageIndex: 50,
+        text: '$02-调用前',
+        label: 'L_1',
+      } as unknown as SourceCmd,
+      { op: 'raw', opcode: 0x04, operands: [9, 0, 0] } as unknown as SourceCmd,
+      { op: 'showDialog', messageIndex: 51, text: '调用后' } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+      {
+        op: 'showDialog',
+        messageIndex: 52,
+        text: "$03'被调用脚本",
+        label: 'L_9',
+      } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+    ]
+    const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
+    source.forEach((command, idx) => {
+      if (command.label) labelAt.set(command.label, { cmds: source, idx })
+    })
+    const registry = new ScriptRegistry(() => 's000')
+    const ctx: TranslateCtx = {
+      labelAt,
+      locale: {},
+      report: emptyTranslateReport(),
+      registry,
+    }
+    const body = translateStages('L_1', 'e0', ctx)![0]!.body
+    const call = body.find(
+      (command): command is Extract<Command, { kind: 'callScript' }> =>
+        command.kind === 'callScript',
+    )
+    if (!call) throw new Error('缺少 callScript')
+    const calleeDialog = registry.bodyFor(call.ref.id)?.find((command) => command.kind === 'dialog')
+    const afterCall = body.at(-1)
+
+    expect(calleeDialog).toMatchObject({
+      kind: 'dialog',
+      cue: { rows: [{ speed: 32 }] },
+    })
+    expect(afterCall).toMatchObject({
+      kind: 'dialog',
+      cue: { rows: [{ speed: 32 }] },
+    })
+    if (calleeDialog?.kind !== 'dialog' || afterCall?.kind !== 'dialog')
+      throw new Error('缺少调用链对话')
+    expect(ctx.locale[calleeDialog.cue.rows[0]!.text]).toBe('<red>被调用脚本</red>')
+    expect(ctx.locale[afterCall.cue.rows[0]!.text]).toBe('<red>调用后</red>')
   })
 })
 
@@ -241,7 +349,7 @@ describe('战斗配置(铁律4:0x4A/0x45 持久全局退役 —— 无 override 
       battleCfgMarker({ fieldId: 53 }),
       battleCfgMarker({ musicId: 39 }),
       { kind: 'playMusic', musicId: 30 },
-      { kind: 'dialog', line: { text: 'x' } },
+      { kind: 'dialog', cue: { rows: [{ text: 'x' }] } },
       { kind: 'startBattle', team: 1 },
     ]
     const out = foldBattleConfig(body)
@@ -388,6 +496,6 @@ describe('0x90 剧情侧清敌种回合演出', () => {
         { opcode: 0x90, operands: [123, 0, 0] },
       ]),
     )
-    expect(body).toEqual([{ kind: 'dialog', line: { text: 'dlg.90' } }])
+    expect(body).toEqual([{ kind: 'dialog', cue: { rows: [{ text: 'dlg.90' }] } }])
   })
 })

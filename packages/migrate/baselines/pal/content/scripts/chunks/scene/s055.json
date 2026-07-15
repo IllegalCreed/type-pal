@@ -2,11 +2,15 @@
   "version": 1,
   "id": "scene/s055",
   "scripts": {
-    "scene/s055/L-10805/e934/d-89d21e09": [
+    "scene/s055/L-10805/e934/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3847",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3847"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       },
@@ -15,8 +19,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3849",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3849"
+            },
+            {
+              "text": "dlg.3850"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 11,
@@ -29,8 +40,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3852",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3852"
+            },
+            {
+              "text": "dlg.3853"
+            },
+            {
+              "text": "dlg.3854"
+            }
+          ],
           "speaker": "spk.苗人",
           "portrait": {
             "icon": 11,
@@ -43,8 +64,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3856",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3856"
+            },
+            {
+              "text": "dlg.3857"
+            },
+            {
+              "text": "dlg.3858"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 5,
@@ -57,8 +88,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3860",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3860"
+            }
+          ],
           "speaker": "spk.苗人",
           "portrait": {
             "icon": 5,
@@ -83,11 +118,15 @@
         "state": 0
       }
     ],
-    "scene/s055/L-10805/e935/d-89d21e09": [
+    "scene/s055/L-10805/e935/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3847",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3847"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       },
@@ -96,8 +135,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3849",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3849"
+            },
+            {
+              "text": "dlg.3850"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 11,
@@ -110,8 +156,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3852",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3852"
+            },
+            {
+              "text": "dlg.3853"
+            },
+            {
+              "text": "dlg.3854"
+            }
+          ],
           "speaker": "spk.苗人",
           "portrait": {
             "icon": 11,
@@ -124,8 +180,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3856",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3856"
+            },
+            {
+              "text": "dlg.3857"
+            },
+            {
+              "text": "dlg.3858"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 5,
@@ -138,8 +204,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3860",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3860"
+            }
+          ],
           "speaker": "spk.苗人",
           "portrait": {
             "icon": 5,
@@ -237,8 +307,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3820",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3820"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       }
@@ -246,8 +320,12 @@
     "scene/s055/root/entity-e934/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3822",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3822"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       }
@@ -287,8 +365,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3820",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3820"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       }
@@ -296,8 +378,12 @@
     "scene/s055/root/entity-e935/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3822",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3822"
+            }
+          ],
           "speaker": "spk.苗人"
         }
       }

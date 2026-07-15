@@ -15,7 +15,7 @@
  */
 import {
   type Command,
-  type DialogueLine,
+  type DialogueCue,
   deriveScriptChunk,
   pixelDeltaToGridDelta,
   pixelToGrid,
@@ -25,6 +25,13 @@ import {
   type ScriptStage,
   stableScriptHash,
 } from '@type-pal/content'
+import {
+  DEFAULT_LEGACY_DIALOG_STATE,
+  decodeLegacyDialogueLine,
+  LEGACY_DIALOG_DEFAULT_SPEED,
+  type LegacyDialogueState,
+  putLegacyDialogueText,
+} from './legacy-dialog.js'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
@@ -104,8 +111,10 @@ export interface TranslateCtx {
   pathStack?: string[]
   /** 报告计数按源站点去重,避免同一共享链因多个 owner 被重复翻译而虚高。 */
   knownNoOpSites?: Set<string>
-  /** 分支臂记忆化(label|owner → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
+  /** 分支臂记忆化(label|owner|入口对话态 → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
   armMemo?: Map<string, Command[]>
+  /** 非 registry 单测路径的 callScript 对话离开态；生产路径由 ScriptRegistry 持有。 */
+  dialogueExitMemo?: Map<string, DialogueEntryState>
   /** 在译链栈(label|owner):0x24/25 页目标可自引用,防 translateStages 无限递归。 */
   translating?: Set<string>
   /** B9:0x8A 置位、下一个 0x07 消费 → startBattle.auto(fAutoBattle 语义)。 */
@@ -125,16 +134,19 @@ export interface TranslateCtx {
 }
 
 interface DialogueEntryState {
-  slot?: DialogueLine['slot']
-  portrait?: DialogueLine['portrait']
+  slot?: DialogueCue['slot']
+  portrait?: DialogueCue['portrait']
   activeSpeaker?: string
   speakerAwaitingBody?: boolean
+  color?: LegacyDialogueState['color']
+  speed?: number
 }
 
 interface RegisteredScript {
   ref: ScriptRef
   body: Command[]
   status: 'translating' | 'done'
+  dialogueExit?: DialogueEntryState
 }
 
 export interface ScriptRegistryOutput {
@@ -161,6 +173,8 @@ export class ScriptRegistry {
       portrait: state.portrait ?? null,
       speaker: state.activeSpeaker ?? '',
       awaiting: state.speakerAwaitingBody ?? false,
+      color: state.color ?? DEFAULT_LEGACY_DIALOG_STATE.color,
+      speed: state.speed ?? DEFAULT_LEGACY_DIALOG_STATE.speed,
     })
     const stateId = stableScriptHash(summary).toString(16).padStart(8, '0')
     return `${scope}/${label.replace(/^L_/, 'L-')}/${owner ?? 'none'}/d-${stateId}`
@@ -202,6 +216,7 @@ export class ScriptRegistry {
         if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
           note(ctx, '引用目标含段转移(按 end 处理)')
         record.body = foldBattleConfig(foldDoorPattern(translated.body))
+        record.dialogueExit = translated.dialogueState
       } finally {
         ctx.pathStack.pop()
       }
@@ -228,6 +243,10 @@ export class ScriptRegistry {
 
   bodyFor(id: string): Command[] | undefined {
     return this.scripts.get(id)?.body
+  }
+
+  dialogueExitFor(ref: ScriptRef): DialogueEntryState | undefined {
+    return this.scripts.get(ref.id)?.dialogueExit
   }
 
   build(): ScriptRegistryOutput {
@@ -311,14 +330,14 @@ const FRAME_MS = 40
 /** 段体命令上限(防御:超长 cutscene 截断上报,不静默膨胀)。 */
 const MAX_BODY = 800
 
-const STYLE_SLOT: Record<string, DialogueLine['slot'] | undefined> = {
+const STYLE_SLOT: Record<string, DialogueCue['slot'] | undefined> = {
   setDialogStyleBottom: undefined, // bottom = 缺省,不写字段
   setDialogStyleTop: 'top',
   setDialogStyleNarration: 'narration',
   setDialogStyleCenter: 'center', // M3b:原版居中窗(开场独白偏上大字),独立 center slot(≠底部叙述窗)
 }
 
-/** 说话人行:以全角/半角冒号结尾(原版约定;DialogueLine 显式 speaker 字段的来源)。 */
+/** 说话人行:以全角/半角冒号结尾(原版约定;DialogueCue 显式 speaker 字段的来源)。 */
 const SPEAKER_RE = /[∶:：]\s*$/
 
 interface WalkTerm {
@@ -544,48 +563,86 @@ function walkBody(
   ctx: TranslateCtx,
   depth = 0,
   entryState: DialogueEntryState = {},
-): { body: Command[]; term: WalkTerm } {
+): { body: Command[]; term: WalkTerm; dialogueState: DialogueEntryState } {
   const body: Command[] = []
   let lastRngChunk = 0 // 0x36 设当前 RNG 序列号,0x37 播放时消费(折叠成 playRng{chunkIdx})
-  let slot: DialogueLine['slot'] | undefined = entryState.slot
+  let slot: DialogueCue['slot'] | undefined = entryState.slot
   /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
-  let portrait: DialogueLine['portrait'] = entryState.portrait
+  let portrait: DialogueCue['portrait'] = entryState.portrait
   /** 姓名牌属于整条 walkBody；同 slot 的 flush/clearDialog 不应把梦话说话人抹掉。 */
   let activeSpeaker: string | undefined = entryState.activeSpeaker
   let speakerAwaitingBody = entryState.speakerAwaitingBody ?? false
+  let dialogState: LegacyDialogueState = {
+    color: entryState.color ?? DEFAULT_LEGACY_DIALOG_STATE.color,
+    speed: entryState.speed ?? DEFAULT_LEGACY_DIALOG_STATE.speed,
+  }
   /** 对话批:待成组的 showDialog 行。 */
   let batch: { msgIdx: number; text: string }[] = []
   const visited = new Set<number>() // goto 环保护(同数组按下标;跨数组由 steps 总上限兜底)
   let steps = 0
   let at = { cmds, idx: startIdx }
 
+  const dialogueSnapshot = (): DialogueEntryState => ({
+    slot,
+    portrait,
+    activeSpeaker,
+    speakerAwaitingBody,
+    color: dialogState.color,
+    speed: dialogState.speed,
+  })
+  const applyDialogueState = (state: DialogueEntryState): void => {
+    slot = state.slot
+    portrait = state.portrait
+    activeSpeaker = state.activeSpeaker
+    speakerAwaitingBody = state.speakerAwaitingBody ?? false
+    dialogState = {
+      color: state.color ?? DEFAULT_LEGACY_DIALOG_STATE.color,
+      speed: state.speed ?? DEFAULT_LEGACY_DIALOG_STATE.speed,
+    }
+  }
+
   const flush = () => {
     if (!batch.length) return
-    // 成组:尾冒号行更新 walkBody 级 speaker;其余 showDialog 各占原版的一条显示行。
-    let parts: { msgIdx: number; text: string }[] = []
-    const emit = () => {
+    // 成组:尾冒号行更新 speaker；正文每条 showDialog 独立成 row，~ 在当前 row 后切 cue。
+    let parts: { text: string; speed: number }[] = []
+    let cursorFrame: DialogueCue['cursorFrame']
+    const emit = (autoAdvance?: number) => {
       if (!parts.length) return
-      const key = `dlg.${parts[0]!.msgIdx}`
-      ctx.locale[key] = parts.map((p) => p.text).join('\n')
-      const line: DialogueLine = { text: key }
+      const cue: DialogueCue = {
+        rows: parts.map((part) => ({
+          text: part.text,
+          ...(part.speed !== LEGACY_DIALOG_DEFAULT_SPEED ? { speed: part.speed } : {}),
+        })),
+      }
       if (activeSpeaker) {
         const sk = `spk.${activeSpeaker}`
         ctx.locale[sk] = activeSpeaker
-        line.speaker = sk
+        cue.speaker = sk
         speakerAwaitingBody = false
       }
-      if (slot) line.slot = slot
-      if (portrait) line.portrait = portrait
-      body.push({ kind: 'dialog', line })
+      if (slot) cue.slot = slot
+      if (portrait) cue.portrait = portrait
+      if (cursorFrame !== undefined) cue.cursorFrame = cursorFrame
+      if (autoAdvance !== undefined) cue.autoAdvance = autoAdvance
+      body.push({ kind: 'dialog', cue })
       parts = []
+      cursorFrame = undefined
     }
     for (const l of batch) {
-      if (SPEAKER_RE.test(l.text)) {
+      const decoded = decodeLegacyDialogueLine(l.text, dialogState, slot ?? 'bottom')
+      if (SPEAKER_RE.test(decoded.plainText)) {
         emit()
         if (speakerAwaitingBody) note(ctx, '悬空说话人行(无正文)')
-        activeSpeaker = l.text.replace(SPEAKER_RE, '')
+        // 一阶段 title 走独立绘制路径，不改变颜色/速度状态。
+        activeSpeaker = decoded.plainText.replace(SPEAKER_RE, '')
         speakerAwaitingBody = true
-      } else parts.push(l)
+      } else {
+        dialogState = decoded.state
+        const key = putLegacyDialogueText(ctx.locale, l.msgIdx, l.text, decoded.text)
+        parts.push({ text: key, speed: decoded.speed })
+        if (decoded.cursorFrame !== undefined) cursorFrame = decoded.cursorFrame
+        if (decoded.endedWithTilde) emit(decoded.autoAdvance)
+      }
     }
     emit()
     batch = []
@@ -598,9 +655,19 @@ function walkBody(
     // ── end 族:段终 ──
     if (op === 'end') {
       flush()
-      if (c.advance) return { body, term: { kind: 'advance', nextIdx: at.idx + 1 } }
-      if (c.reset) return { body, term: { kind: 'reset', resetTo: `L_${c.resetTo}` } }
-      return { body, term: { kind: 'end' } }
+      if (c.advance)
+        return {
+          body,
+          term: { kind: 'advance', nextIdx: at.idx + 1 },
+          dialogueState: dialogueSnapshot(),
+        }
+      if (c.reset)
+        return {
+          body,
+          term: { kind: 'reset', resetTo: `L_${c.resetTo}` },
+          dialogueState: dialogueSnapshot(),
+        }
+      return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
     }
     // ── goto:延迟 → wait;目标内联续走(环 → 截断)──
     if (op === 'goto') {
@@ -622,18 +689,20 @@ function walkBody(
               portrait,
               activeSpeaker,
               speakerAwaitingBody,
+              color: dialogState.color,
+              speed: dialogState.speed,
             },
             ctx,
           )
           body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
         }
-        return { body, term: { kind: 'cut' } }
+        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
       }
       const target = ctx.labelAt.get(toName)
       if (!target || (target.cmds === at.cmds && visited.has(target.idx))) {
         note(ctx, target ? 'goto 环截断' : `goto 目标缺失`)
         ctx.report.flowCuts++
-        return { body, term: { kind: 'cut' } }
+        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
       }
       visited.add(at.idx)
       at = { cmds: target.cmds, idx: target.idx }
@@ -650,6 +719,8 @@ function walkBody(
       activeSpeaker = undefined
       speakerAwaitingBody = false
       slot = STYLE_SLOT[op]
+      // PAL_StartDialog 重置当前字体色，但脚本级 iDelay 继续保留。
+      dialogState = { ...dialogState, color: 'default' }
       // 立绘:top(0x3C)/bottom(0x3D) 的 arg0 = wNumCharFace(RGM 立绘号);sdlpal script.c:3402/3412。
       // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
       const face = op === 'setDialogStyleTop' || op === 'setDialogStyleBottom' ? (c.arg0 ?? 0) : 0
@@ -729,12 +800,14 @@ function walkBody(
               portrait,
               activeSpeaker,
               speakerAwaitingBody,
+              color: dialogState.color,
+              speed: dialogState.speed,
             },
             ctx,
           )
           return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
         }
-        const memoKey = `L_${addr}|${owner ?? ''}`
+        const memoKey = `L_${addr}|${owner ?? ''}|${JSON.stringify(dialogueSnapshot())}`
         ctx.armMemo ??= new Map()
         const memo = ctx.armMemo
         const hit = memo.get(memoKey)
@@ -745,7 +818,7 @@ function walkBody(
           return [{ kind: 'stopScript' }]
         }
         memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
-        const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1)
+        const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1, dialogueSnapshot())
         if (r.term.kind === 'advance' || r.term.kind === 'reset')
           note(ctx, '分支臂含段转移(按 end 处理)')
         let arm = r.body
@@ -1067,7 +1140,7 @@ function walkBody(
           speed: (o[1] ?? 0) || 4,
           ...((o[2] ?? 0) !== 0 ? { floating: true } : {}),
         })
-        return { body, term: { kind: 'end' } }
+        return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
       } else if (oc === 0x4b) {
         // B8:实体短暂消失(原版 sVanishTime=-15 ≈ 1.5s;野怪战胜后的重生窗)
         push({ kind: 'vanishEntity', seconds: 2 })
@@ -1211,14 +1284,18 @@ function walkBody(
         // callScript:目标链整段内联(owner 可被 op1 覆盖;memo 防重展)
         flush()
         const callOwner = (o[1] ?? 0) !== 0 ? `e${o[1]}` : owner
+        const callEntry = dialogueSnapshot()
         if (ctx.registry) {
-          const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, {}, ctx)
+          const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, callEntry, ctx)
           body.push({ kind: 'callScript', ref, ...(callOwner ? { self: callOwner } : {}) })
+          const exit = ctx.registry.dialogueExitFor(ref)
+          if (exit) applyDialogueState(exit)
           at = { cmds: at.cmds, idx: at.idx + 1 }
           continue
         }
-        const memoKey = `call:L_${o[0]}|${callOwner ?? ''}`
+        const memoKey = `call:L_${o[0]}|${callOwner ?? ''}|${JSON.stringify(callEntry)}`
         ctx.armMemo ??= new Map()
+        ctx.dialogueExitMemo ??= new Map()
         const memo = ctx.armMemo
         let calleeBody = memo.get(memoKey)
         if (!calleeBody) {
@@ -1226,15 +1303,18 @@ function walkBody(
           if (!target || depth >= MAX_ARM_DEPTH) {
             gap(target ? 'call 深度截断' : `call 目标缺失 L_${o[0]}`)
             calleeBody = []
+            ctx.dialogueExitMemo.set(memoKey, callEntry)
           } else {
             memo.set(memoKey, [])
-            const r = walkBody(target.cmds, target.idx, callOwner, ctx, depth + 1)
+            const r = walkBody(target.cmds, target.idx, callOwner, ctx, depth + 1, callEntry)
             calleeBody = r.body.length > MAX_ARM_BODY ? [] : r.body
+            ctx.dialogueExitMemo.set(memoKey, r.dialogueState)
             if (r.body.length > MAX_ARM_BODY) gap(`call 体超长(${r.body.length})`)
           }
           memo.set(memoKey, calleeBody)
         }
         body.push(...calleeBody)
+        applyDialogueState(ctx.dialogueExitMemo.get(memoKey) ?? callEntry)
       } else if (oc === 0x24 || oc === 0x25) {
         flush()
         if ((o[0] ?? 0) === 0) {
@@ -1336,7 +1416,7 @@ function walkBody(
         // 未实现的跳转族:截断本段(不猜控制流)
         gap(`jump-family 0x${oc.toString(16)}`)
         ctx.report.flowCuts++
-        return { body, term: { kind: 'cut' } }
+        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
       } else {
         gap(`未知 opcode 0x${oc.toString(16)}`)
       }
@@ -1360,7 +1440,7 @@ function walkBody(
     note(ctx, '段体超长截断')
     ctx.report.flowCuts++
   }
-  return { body, term: { kind: 'cut' } }
+  return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
 }
 
 /**

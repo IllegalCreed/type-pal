@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s249",
   "scripts": {
-    "scene/s249/L-33970/e4394/d-89d21e09": [
+    "scene/s249/L-33970/e4394/d-0a386828": [
       {
         "kind": "nudgeParty",
         "dx": -8,
@@ -20,12 +20,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-33970/e4394/d-89d21e09"
+          "id": "scene/s249/L-33970/e4394/d-0a386828"
         },
         "self": "e4394"
       }
     ],
-    "scene/s249/L-35627/e4396/d-89d21e09": [
+    "scene/s249/L-35627/e4396/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4396"
@@ -34,12 +34,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4396/d-89d21e09"
+          "id": "scene/s249/L-35627/e4396/d-0a386828"
         },
         "self": "e4396"
       }
     ],
-    "scene/s249/L-35627/e4402/d-89d21e09": [
+    "scene/s249/L-35627/e4402/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4402"
@@ -48,12 +48,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4402/d-89d21e09"
+          "id": "scene/s249/L-35627/e4402/d-0a386828"
         },
         "self": "e4402"
       }
     ],
-    "scene/s249/L-35627/e4403/d-89d21e09": [
+    "scene/s249/L-35627/e4403/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4403"
@@ -62,12 +62,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4403/d-89d21e09"
+          "id": "scene/s249/L-35627/e4403/d-0a386828"
         },
         "self": "e4403"
       }
     ],
-    "scene/s249/L-35627/e4404/d-89d21e09": [
+    "scene/s249/L-35627/e4404/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4404"
@@ -76,12 +76,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4404/d-89d21e09"
+          "id": "scene/s249/L-35627/e4404/d-0a386828"
         },
         "self": "e4404"
       }
     ],
-    "scene/s249/L-35627/e4405/d-89d21e09": [
+    "scene/s249/L-35627/e4405/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4405"
@@ -90,12 +90,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4405/d-89d21e09"
+          "id": "scene/s249/L-35627/e4405/d-0a386828"
         },
         "self": "e4405"
       }
     ],
-    "scene/s249/L-35627/e4406/d-89d21e09": [
+    "scene/s249/L-35627/e4406/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4406"
@@ -104,12 +104,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4406/d-89d21e09"
+          "id": "scene/s249/L-35627/e4406/d-0a386828"
         },
         "self": "e4406"
       }
     ],
-    "scene/s249/L-35627/e4407/d-89d21e09": [
+    "scene/s249/L-35627/e4407/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4407"
@@ -118,7 +118,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4407/d-89d21e09"
+          "id": "scene/s249/L-35627/e4407/d-0a386828"
         },
         "self": "e4407"
       }
@@ -162,7 +162,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-33970/e4394/d-89d21e09"
+          "id": "scene/s249/L-33970/e4394/d-0a386828"
         },
         "self": "e4394"
       }
@@ -217,7 +217,7 @@
         "entity": "e4396",
         "script": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4396/d-89d21e09"
+          "id": "scene/s249/L-35627/e4396/d-0a386828"
         }
       },
       {
@@ -331,7 +331,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4402/d-89d21e09"
+          "id": "scene/s249/L-35627/e4402/d-0a386828"
         },
         "self": "e4402"
       }
@@ -345,7 +345,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4403/d-89d21e09"
+          "id": "scene/s249/L-35627/e4403/d-0a386828"
         },
         "self": "e4403"
       }
@@ -359,7 +359,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4404/d-89d21e09"
+          "id": "scene/s249/L-35627/e4404/d-0a386828"
         },
         "self": "e4404"
       }
@@ -373,7 +373,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4405/d-89d21e09"
+          "id": "scene/s249/L-35627/e4405/d-0a386828"
         },
         "self": "e4405"
       }
@@ -387,7 +387,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4406/d-89d21e09"
+          "id": "scene/s249/L-35627/e4406/d-0a386828"
         },
         "self": "e4406"
       }
@@ -401,7 +401,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s249",
-          "id": "scene/s249/L-35627/e4407/d-89d21e09"
+          "id": "scene/s249/L-35627/e4407/d-0a386828"
         },
         "self": "e4407"
       }

@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s039",
   "scripts": {
-    "scene/s039/L-38724/e634/d-89d21e09": [
+    "scene/s039/L-38724/e634/d-0a386828": [
       {
         "kind": "wait",
         "ms": 120
@@ -26,7 +26,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s039",
-              "id": "scene/s039/L-38724/e634/d-89d21e09"
+              "id": "scene/s039/L-38724/e634/d-0a386828"
             },
             "self": "e634"
           }
@@ -69,8 +69,15 @@
     "scene/s039/root/entity-e633/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3266",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3266"
+            },
+            {
+              "text": "dlg.3267"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -84,8 +91,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3269",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3269"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 2,
@@ -98,8 +109,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3271",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3271"
+            },
+            {
+              "text": "dlg.3272"
+            },
+            {
+              "text": "dlg.3273"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -113,8 +134,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3275",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3275"
+            },
+            {
+              "text": "dlg.3276"
+            },
+            {
+              "text": "dlg.3277"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -127,8 +158,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3279",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3279"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -139,8 +174,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3281",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3281"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -153,8 +192,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3283",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3283"
+            },
+            {
+              "text": "dlg.3284"
+            },
+            {
+              "text": "dlg.3285"
+            },
+            {
+              "text": "dlg.3286"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -168,8 +220,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3288",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3288"
+            },
+            {
+              "text": "dlg.3289"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -179,8 +238,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3291",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3291"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -194,8 +257,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3293",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3293"
+            },
+            {
+              "text": "dlg.3294"
+            },
+            {
+              "text": "dlg.3295"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -221,8 +294,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3297",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3297"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top"
         }
@@ -242,8 +319,36 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3299",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3299"
+            },
+            {
+              "text": "dlg.3300"
+            },
+            {
+              "text": "dlg.3301"
+            },
+            {
+              "text": "dlg.3302"
+            },
+            {
+              "text": "dlg.3303"
+            },
+            {
+              "text": "dlg.3304"
+            },
+            {
+              "text": "dlg.3305"
+            },
+            {
+              "text": "dlg.3306"
+            },
+            {
+              "text": "dlg.3307"
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -257,8 +362,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.3309",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.3309"
+            },
+            {
+              "text": "dlg.3310"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -308,7 +420,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s039",
-              "id": "scene/s039/L-38724/e634/d-89d21e09"
+              "id": "scene/s039/L-38724/e634/d-0a386828"
             },
             "self": "e634"
           }

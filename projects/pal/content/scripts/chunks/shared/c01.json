@@ -2,7 +2,7 @@
   "version": 1,
   "id": "shared/c01",
   "scripts": {
-    "shared/scc-L-41075/L-41075/none/d-e02dc0ab": [
+    "shared/scc-L-41075/L-41075/none/d-4037dfb1": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -15,8 +15,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -24,7 +41,7 @@
         "kind": "loadLastSave"
       }
     ],
-    "shared/scc-L-41075/L-41075/none/d-9ce3246f": [
+    "shared/scc-L-41075/L-41075/none/d-8da71bb6": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -37,8 +54,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },

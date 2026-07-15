@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s270",
   "scripts": {
-    "scene/s270/L-34486/e4706/d-89d21e09": [
+    "scene/s270/L-34486/e4706/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e4706",
@@ -48,9 +48,14 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11855",
-          "speaker": "spk.小女孩"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11855"
+            }
+          ],
+          "speaker": "spk.小女孩",
+          "autoAdvance": 457
         }
       },
       {
@@ -58,7 +63,7 @@
         "entity": "e4706",
         "script": {
           "chunk": "scene/s270",
-          "id": "scene/s270/L-34486/e4706/d-89d21e09"
+          "id": "scene/s270/L-34486/e4706/d-0a386828"
         }
       },
       {
@@ -67,8 +72,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11857",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11857"
+            },
+            {
+              "text": "dlg.11858"
+            }
+          ],
           "speaker": "spk.小女孩"
         }
       },
@@ -77,8 +89,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11860",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11860"
+            },
+            {
+              "text": "dlg.11861"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -91,8 +110,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11863",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11863"
+            },
+            {
+              "text": "dlg.11864"
+            },
+            {
+              "text": "dlg.11865"
+            }
+          ],
           "speaker": "spk.小女孩",
           "slot": "top"
         }
@@ -415,8 +444,12 @@
     "scene/s270/root/entity-e4706/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11867",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11867"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       },
@@ -425,8 +458,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11869",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11869"
+            }
+          ],
           "speaker": "spk.小女孩",
           "slot": "top"
         }
@@ -436,8 +473,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11871",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11871"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       },
@@ -446,8 +487,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11873",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11873"
+            }
+          ],
           "speaker": "spk.小女孩",
           "slot": "top"
         }
@@ -456,8 +501,15 @@
     "scene/s270/root/entity-e4706/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11875",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11875"
+            },
+            {
+              "text": "dlg.11876"
+            }
+          ],
           "speaker": "spk.小女孩",
           "slot": "top"
         }

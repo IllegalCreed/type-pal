@@ -40,13 +40,19 @@ export interface Vec2 {
   y: number
 }
 
-export interface DialogueLine {
-  /** 说话人名的 textId;省略 = 旁白 / 心理活动。原版「末尾冒号」判定 → 此显式字段。 */
-  speaker?: TextId
+export interface DialogueRow {
   /** 正文 textId,指向 locale 富文本(单色纯文本 / 多色带 <color> 标记)。 */
   text: TextId
   /** 打字速度(ms/字);省略 = 默认。原版 $NN。 */
   speed?: number
+}
+
+/** 一次连续显示单元。共享外观/收尾属性放 cue，逐行文本与速度放 rows。 */
+export interface DialogueCue {
+  /** 说话人名的 textId;省略 = 旁白 / 心理活动。原版「末尾冒号」判定 → 此显式字段。 */
+  speaker?: TextId
+  /** 原版每条 showDialog 对应一行；不得再用 locale 内换行模拟行边界。 */
+  rows: DialogueRow[]
   /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
   autoAdvance?: number
   /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。narration = 中央叙述窗(原版 0x3E)。 */
@@ -59,8 +65,7 @@ export interface DialogueLine {
 
 export interface Dialogue {
   id: string
-  /** 每行 = 一页 */
-  lines: DialogueLine[]
+  cues: DialogueCue[]
 }
 
 /**
@@ -148,7 +153,7 @@ export * from './actor.js'
 export * from './ambience.js'
 export * from './battle-formulas.js'
 export * from './character.js'
-export * from './dialog-text.js'
+export * from './dialogue-upgrade.js'
 export * from './enemy.js'
 export * from './enemy-ai.js'
 export * from './grid.js'

@@ -16,8 +16,15 @@
     "scene/s241/root/entity-e4280/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11128",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11128"
+            },
+            {
+              "text": "dlg.11129"
+            }
+          ],
           "slot": "center"
         }
       },
@@ -26,8 +33,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11131",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11131"
+            },
+            {
+              "text": "dlg.11132"
+            },
+            {
+              "text": "dlg.11133"
+            },
+            {
+              "text": "dlg.11134"
+            }
+          ],
           "speaker": "spk.碑文记载",
           "slot": "center"
         }
@@ -36,8 +56,21 @@
     "scene/s241/root/entity-e4281/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11131",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11131"
+            },
+            {
+              "text": "dlg.11132"
+            },
+            {
+              "text": "dlg.11133"
+            },
+            {
+              "text": "dlg.11134"
+            }
+          ],
           "speaker": "spk.碑文记载"
         }
       }
@@ -45,8 +78,12 @@
     "scene/s241/root/entity-e4282/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11115",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11115"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -54,8 +91,12 @@
     "scene/s241/root/entity-e4283/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11115",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11115"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -63,8 +104,12 @@
     "scene/s241/root/entity-e4284/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11115",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11115"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -72,8 +117,12 @@
     "scene/s241/root/entity-e4285/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11115",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11115"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -81,8 +130,12 @@
     "scene/s241/root/entity-e4286/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11115",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11115"
+            }
+          ],
           "slot": "center"
         }
       }

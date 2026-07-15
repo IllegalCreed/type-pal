@@ -43,11 +43,16 @@ export function findMissingDialogLocaleRefs(
     }
     if (!node || typeof node !== 'object') return
     const record = node as Record<string, unknown>
-    if (record.kind === 'dialog' && record.line && typeof record.line === 'object') {
-      const line = record.line as Record<string, unknown>
-      for (const field of ['text', 'speaker']) {
-        const key = line[field]
-        if (typeof key === 'string' && !(key in locale)) missing.add(key)
+    if (record.kind === 'dialog' && record.cue && typeof record.cue === 'object') {
+      const cue = record.cue as Record<string, unknown>
+      const speaker = cue.speaker
+      if (typeof speaker === 'string' && !(speaker in locale)) missing.add(speaker)
+      if (Array.isArray(cue.rows)) {
+        for (const row of cue.rows) {
+          if (!row || typeof row !== 'object') continue
+          const key = (row as Record<string, unknown>).text
+          if (typeof key === 'string' && !(key in locale)) missing.add(key)
+        }
       }
     }
     for (const value of Object.values(record)) walk(value)

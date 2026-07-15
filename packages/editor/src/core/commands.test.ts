@@ -416,7 +416,9 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
 })
 
 describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
-  const stg = (t: string): ScriptStage[] => [{ body: [{ kind: 'dialog', line: { text: t } }] }]
+  const stg = (t: string): ScriptStage[] => [
+    { body: [{ kind: 'dialog', cue: { rows: [{ text: t }] } }] },
+  ]
   function stScript(): EditorState {
     const base = st()
     const scene = base.scenes[0]! as { onEnter?: ScriptStage[]; entities: EntityDef[] }

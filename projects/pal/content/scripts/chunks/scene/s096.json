@@ -49,8 +49,18 @@
     "scene/s096/root/entity-e1771/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4511",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4511"
+            },
+            {
+              "text": "dlg.4512"
+            },
+            {
+              "text": "dlg.4513"
+            }
+          ],
           "speaker": "spk.磨刀老头"
         }
       }
@@ -58,8 +68,12 @@
     "scene/s096/root/entity-e1771/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4515",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4515"
+            }
+          ],
           "speaker": "spk.磨刀老头"
         }
       }
@@ -74,8 +88,12 @@
     "scene/s096/root/entity-e1772/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5135"
+            }
+          ],
           "speaker": "spk.老板"
         }
       },
@@ -91,8 +109,15 @@
     "scene/s096/root/entity-e1773/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5125",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5125"
+            },
+            {
+              "text": "dlg.5126"
+            }
+          ],
           "speaker": "spk.官差"
         }
       },
@@ -101,8 +126,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5128",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5128"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       }
@@ -110,8 +139,21 @@
     "scene/s096/root/entity-e1773/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5130",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5130"
+            },
+            {
+              "text": "dlg.5131"
+            },
+            {
+              "text": "dlg.5132"
+            },
+            {
+              "text": "dlg.5133"
+            }
+          ],
           "speaker": "spk.官差"
         }
       }
@@ -119,8 +161,15 @@
     "scene/s096/root/entity-e1774/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5137",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5137"
+            },
+            {
+              "text": "dlg.5138"
+            }
+          ],
           "speaker": "spk.药铺老板"
         }
       },
@@ -136,8 +185,15 @@
     "scene/s096/root/entity-e1775/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5153",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5153"
+            },
+            {
+              "text": "dlg.5154"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -145,8 +201,15 @@
     "scene/s096/root/entity-e1776/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5156",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5156"
+            },
+            {
+              "text": "dlg.5157"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -154,8 +217,18 @@
     "scene/s096/root/entity-e1777/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5159",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5159"
+            },
+            {
+              "text": "dlg.5160"
+            },
+            {
+              "text": "dlg.5161"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -167,8 +240,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12476",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12476"
+            }
+          ],
           "slot": "narration"
         }
       },

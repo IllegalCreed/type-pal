@@ -44,7 +44,10 @@ const EMPTY_BODY: readonly Command[] = []
 const EMPTY_LIBRARY: Record<string, SharedScriptMetaV1> = {}
 
 const BASE_INSERTS: { label: string; make: () => Command }[] = [
-  { label: '💬 对话', make: () => ({ kind: 'dialog', line: { text: '(新对话)' } }) },
+  {
+    label: '💬 对话',
+    make: () => ({ kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } }),
+  },
   { label: '⏱ 等待', make: () => ({ kind: 'wait', ms: 200 }) },
   { label: '🚩 设开关', make: () => ({ kind: 'setFlag', flag: 'my-flag', value: true }) },
   { label: '🔢 设数值', make: () => ({ kind: 'setVar', var: 'my-var', value: 1 }) },

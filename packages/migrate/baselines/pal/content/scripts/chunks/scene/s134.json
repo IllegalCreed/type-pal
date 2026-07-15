@@ -5,13 +5,13 @@
     "scene/s131"
   ],
   "scripts": {
-    "scene/s134/L-17554/e2318/d-89d21e09": [
+    "scene/s134/L-17554/e2318/d-0a386828": [
       {
         "kind": "setEntityTrigger",
         "entity": "e2319",
         "script": {
           "chunk": "scene/s134",
-          "id": "scene/s134/L-17573/e2319/d-89d21e09"
+          "id": "scene/s134/L-17573/e2319/d-0a386828"
         }
       },
       {
@@ -45,8 +45,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6172"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6172"
+            },
+            {
+              "text": "dlg.6173"
+            }
+          ]
         }
       },
       {
@@ -54,8 +61,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6174"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6174"
+            },
+            {
+              "text": "dlg.6175"
+            },
+            {
+              "text": "dlg.6176"
+            }
+          ]
         }
       },
       {
@@ -63,8 +80,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6177",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6177"
+            },
+            {
+              "text": "dlg.6178"
+            }
+          ],
           "portrait": {
             "icon": 1,
             "side": "right"
@@ -76,24 +100,39 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6179",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6179"
+            }
+          ],
           "slot": "top"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6180",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6180"
+            },
+            {
+              "text": "dlg.6181"
+            }
+          ],
           "slot": "top"
         }
       }
     ],
-    "scene/s134/L-17573/e2319/d-89d21e09": [
+    "scene/s134/L-17573/e2319/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6182"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6182"
+            }
+          ]
         }
       }
     ],
@@ -111,8 +150,12 @@
     "scene/s134/root/entity-e2318/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5433",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5433"
+            }
+          ],
           "speaker": "spk.妓　女"
         }
       }
@@ -120,8 +163,15 @@
     "scene/s134/root/entity-e2319/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5441",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5441"
+            },
+            {
+              "text": "dlg.5442"
+            }
+          ],
           "speaker": "spk.嫖　客"
         }
       }
@@ -142,16 +192,24 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6249"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6249"
+            }
+          ]
         }
       }
     ],
     "scene/s134/root/entity-e2319/page-0/trigger/stage-2": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6250"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6250"
+            }
+          ]
         }
       }
     ],
@@ -170,8 +228,18 @@
     "scene/s134/root/entity-e2320/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6252",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6252"
+            },
+            {
+              "text": "dlg.6253"
+            },
+            {
+              "text": "dlg.6254"
+            }
+          ],
           "speaker": "spk.莺莺夫人",
           "slot": "top",
           "portrait": {
@@ -184,8 +252,12 @@
     "scene/s134/root/entity-e2320/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6256",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6256"
+            }
+          ],
           "speaker": "spk.莺莺夫人"
         }
       }
@@ -206,16 +278,24 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6249"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6249"
+            }
+          ]
         }
       }
     ],
     "scene/s134/root/entity-e2321/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6250"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6250"
+            }
+          ]
         }
       }
     ]

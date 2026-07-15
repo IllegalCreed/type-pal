@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s267",
   "scripts": {
-    "scene/s267/L-36675/e4670/d-89d21e09": [
+    "scene/s267/L-36675/e4670/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4670",
@@ -14,7 +14,7 @@
         "frame": 0
       }
     ],
-    "scene/s267/L-36675/e4671/d-89d21e09": [
+    "scene/s267/L-36675/e4671/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4671",
@@ -106,8 +106,15 @@
     "scene/s267/root/entity-e4669/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12058",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12058"
+            },
+            {
+              "text": "dlg.12059"
+            }
+          ],
           "speaker": "spk.丁大伯"
         }
       }
@@ -115,8 +122,15 @@
     "scene/s267/root/entity-e4669/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12061",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12061"
+            },
+            {
+              "text": "dlg.12062"
+            }
+          ],
           "speaker": "spk.丁大伯"
         }
       }
@@ -179,8 +193,18 @@
     "scene/s267/root/entity-e4670/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12006",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12006"
+            },
+            {
+              "text": "dlg.12007"
+            },
+            {
+              "text": "dlg.12008"
+            }
+          ],
           "speaker": "spk.旺财嫂"
         }
       },
@@ -189,8 +213,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12010",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12010"
+            },
+            {
+              "text": "dlg.12011"
+            }
+          ],
           "speaker": "spk.来福婶"
         }
       },
@@ -199,8 +230,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12013",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12013"
+            },
+            {
+              "text": "dlg.12014"
+            }
+          ],
           "speaker": "spk.旺财嫂",
           "slot": "top"
         }
@@ -210,8 +248,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12016",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12016"
+            },
+            {
+              "text": "dlg.12017"
+            }
+          ],
           "speaker": "spk.来福婶",
           "slot": "top"
         }
@@ -220,8 +265,18 @@
     "scene/s267/root/entity-e4670/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12019",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12019"
+            },
+            {
+              "text": "dlg.12020"
+            },
+            {
+              "text": "dlg.12021"
+            }
+          ],
           "speaker": "spk.旺财嫂",
           "slot": "top"
         }
@@ -231,8 +286,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12022",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12022"
+            },
+            {
+              "text": "dlg.12023"
+            }
+          ],
           "speaker": "spk.旺财嫂",
           "slot": "top"
         }
@@ -274,7 +336,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s267",
-              "id": "scene/s267/L-36675/e4670/d-89d21e09"
+              "id": "scene/s267/L-36675/e4670/d-0a386828"
             },
             "self": "e4670"
           }
@@ -346,8 +408,21 @@
     "scene/s267/root/entity-e4671/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12025",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12025"
+            },
+            {
+              "text": "dlg.12026"
+            },
+            {
+              "text": "dlg.12027"
+            },
+            {
+              "text": "dlg.12028"
+            }
+          ],
           "speaker": "spk.来福婶"
         }
       },
@@ -356,8 +431,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12030",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12030"
+            },
+            {
+              "text": "dlg.12031"
+            },
+            {
+              "text": "dlg.12032"
+            },
+            {
+              "text": "dlg.12033"
+            }
+          ],
           "speaker": "spk.旺财嫂",
           "slot": "top"
         }
@@ -366,8 +454,15 @@
     "scene/s267/root/entity-e4671/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12035",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12035"
+            },
+            {
+              "text": "dlg.12036"
+            }
+          ],
           "speaker": "spk.来福婶"
         }
       },
@@ -376,8 +471,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12038",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12038"
+            }
+          ],
           "speaker": "spk.旺财嫂",
           "slot": "top"
         }
@@ -419,7 +518,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s267",
-              "id": "scene/s267/L-36675/e4671/d-89d21e09"
+              "id": "scene/s267/L-36675/e4671/d-0a386828"
             },
             "self": "e4671"
           }

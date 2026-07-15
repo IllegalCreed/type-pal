@@ -128,7 +128,7 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   const world = emptyWorldScriptState()
   const r = new ScriptRunner(fakeHost(calls), world, new AbortController().signal)
   const body: Command[] = [
-    { kind: 'dialog', line: { text: 'dlg.1' } },
+    { kind: 'dialog', cue: { rows: [{ text: 'dlg.1' }] } },
     { kind: 'setFlag', flag: 'met', value: true },
     { kind: 'setVar', var: 'n', value: 2 },
     { kind: 'addVar', var: 'n', delta: 3 },
@@ -138,7 +138,7 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   ]
   await r.run(body)
   expect(calls).toEqual([
-    'dialog({"text":"dlg.1"})',
+    'dialog({"rows":[{"text":"dlg.1"}]})',
     'setEntityState("e9",0)',
     'giveItem("166",1)',
     'loadScene("s001",{"col":1,"row":2,"height":0},)', // JSON.stringify(undefined) → 空段
@@ -325,7 +325,7 @@ test('abort:await 间隙取消,后续命令不再执行', async () => {
   const r = new ScriptRunner(host, emptyWorldScriptState(), ac.signal)
   await expect(
     r.run([
-      { kind: 'dialog', line: { text: 'x' } },
+      { kind: 'dialog', cue: { rows: [{ text: 'x' }] } },
       { kind: 'giveItem', itemId: '1' },
     ]),
   ).rejects.toThrow(/aborted/)

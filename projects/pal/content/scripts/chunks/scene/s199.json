@@ -16,13 +16,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10216",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10216",
+              "speed": 40
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
             "side": "right"
-          }
+          },
+          "autoAdvance": 685
         }
       },
       {
@@ -30,13 +36,23 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10217",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10217",
+              "speed": 40
+            },
+            {
+              "text": "dlg.10218",
+              "speed": 40
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
             "side": "right"
-          }
+          },
+          "autoAdvance": 914
         }
       },
       {

@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s130",
   "scripts": {
-    "scene/s130/L-36365/e2261/d-89d21e09": [
+    "scene/s130/L-36365/e2261/d-0a386828": [
       {
         "kind": "setPartyFacing",
         "facing": "up"
@@ -140,7 +140,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s130",
-          "id": "scene/s130/L-36365/e2261/d-89d21e09"
+          "id": "scene/s130/L-36365/e2261/d-0a386828"
         },
         "self": "e2261"
       },
@@ -156,8 +156,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7752",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7752"
+            },
+            {
+              "text": "dlg.7753"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -166,8 +173,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7755",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7755"
+            }
+          ],
           "speaker": "spk.员外"
         }
       },
@@ -176,8 +187,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7757",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7757"
+            },
+            {
+              "text": "dlg.7758"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -186,8 +204,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7760",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7760"
+            },
+            {
+              "text": "dlg.7761"
+            }
+          ],
           "speaker": "spk.员外"
         }
       },
@@ -196,8 +221,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7763",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7763"
+            },
+            {
+              "text": "dlg.7764"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -206,8 +238,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7766",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7766"
+            },
+            {
+              "text": "dlg.7767"
+            }
+          ],
           "speaker": "spk.员外"
         }
       }
@@ -231,8 +270,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7752",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7752"
+            },
+            {
+              "text": "dlg.7753"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -241,8 +287,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7755",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7755"
+            }
+          ],
           "speaker": "spk.员外"
         }
       },
@@ -251,8 +301,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7757",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7757"
+            },
+            {
+              "text": "dlg.7758"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -261,8 +318,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7760",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7760"
+            },
+            {
+              "text": "dlg.7761"
+            }
+          ],
           "speaker": "spk.员外"
         }
       },
@@ -271,8 +335,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7763",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7763"
+            },
+            {
+              "text": "dlg.7764"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -281,8 +352,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7766",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7766"
+            },
+            {
+              "text": "dlg.7767"
+            }
+          ],
           "speaker": "spk.员外"
         }
       }
@@ -302,8 +380,27 @@
     "scene/s130/root/entity-e2264/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7745",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7745"
+            },
+            {
+              "text": "dlg.7746"
+            },
+            {
+              "text": "dlg.7747"
+            },
+            {
+              "text": "dlg.7748"
+            },
+            {
+              "text": "dlg.7749"
+            },
+            {
+              "text": "dlg.7750"
+            }
+          ],
           "speaker": "spk.男子"
         }
       }
@@ -311,8 +408,15 @@
     "scene/s130/root/entity-e2265/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7742",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7742"
+            },
+            {
+              "text": "dlg.7743"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       }
@@ -332,8 +436,15 @@
     "scene/s130/root/entity-e2266/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7739"
+            },
+            {
+              "text": "dlg.7740"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -345,8 +456,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7724",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7724"
+            },
+            {
+              "text": "dlg.7725"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       },
@@ -355,8 +473,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7727",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7727"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -365,8 +487,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7729",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7729"
+            },
+            {
+              "text": "dlg.7730"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       },
@@ -375,8 +504,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7732",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7732"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -385,8 +518,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7734",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7734"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -404,8 +541,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7724",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7724"
+            },
+            {
+              "text": "dlg.7725"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       },
@@ -414,8 +558,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7727",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7727"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -424,8 +572,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7729",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7729"
+            },
+            {
+              "text": "dlg.7730"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       },
@@ -434,8 +589,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7732",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7732"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       },
@@ -444,8 +603,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7734",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7734"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -453,8 +616,12 @@
     "scene/s130/root/entity-e2269/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7769",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7769"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       }
@@ -466,8 +633,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7771",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7771"
+            },
+            {
+              "text": "dlg.7772"
+            }
+          ],
           "speaker": "spk.男"
         }
       },
@@ -476,8 +650,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7774",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7774"
+            },
+            {
+              "text": "dlg.7775"
+            }
+          ],
           "speaker": "spk.女"
         }
       },
@@ -486,8 +667,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7777",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7777"
+            },
+            {
+              "text": "dlg.7778"
+            },
+            {
+              "text": "dlg.7779"
+            }
+          ],
           "speaker": "spk.男"
         }
       },
@@ -496,8 +687,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7781",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7781"
+            },
+            {
+              "text": "dlg.7782"
+            },
+            {
+              "text": "dlg.7783"
+            }
+          ],
           "speaker": "spk.女"
         }
       }
@@ -509,8 +710,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7771",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7771"
+            },
+            {
+              "text": "dlg.7772"
+            }
+          ],
           "speaker": "spk.男"
         }
       },
@@ -519,8 +727,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7774",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7774"
+            },
+            {
+              "text": "dlg.7775"
+            }
+          ],
           "speaker": "spk.女"
         }
       },
@@ -529,8 +744,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7777",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7777"
+            },
+            {
+              "text": "dlg.7778"
+            },
+            {
+              "text": "dlg.7779"
+            }
+          ],
           "speaker": "spk.男"
         }
       },
@@ -539,8 +764,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7781",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7781"
+            },
+            {
+              "text": "dlg.7782"
+            },
+            {
+              "text": "dlg.7783"
+            }
+          ],
           "speaker": "spk.女"
         }
       }
@@ -564,8 +799,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7785",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7785"
+            },
+            {
+              "text": "dlg.7786"
+            }
+          ],
           "speaker": "spk.男子"
         }
       },
@@ -574,8 +816,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7788",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7788"
+            },
+            {
+              "text": "dlg.7789"
+            },
+            {
+              "text": "dlg.7790"
+            },
+            {
+              "text": "dlg.7791"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       }
@@ -599,8 +854,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7785",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7785"
+            },
+            {
+              "text": "dlg.7786"
+            }
+          ],
           "speaker": "spk.男子"
         }
       },
@@ -609,8 +871,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7788",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7788"
+            },
+            {
+              "text": "dlg.7789"
+            },
+            {
+              "text": "dlg.7790"
+            },
+            {
+              "text": "dlg.7791"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       }
@@ -618,8 +893,15 @@
     "scene/s130/root/entity-e2274/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7736",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7736"
+            },
+            {
+              "text": "dlg.7737"
+            }
+          ],
           "speaker": "spk.妓女"
         }
       }

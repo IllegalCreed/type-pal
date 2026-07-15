@@ -629,8 +629,15 @@
     "scene/s255/root/entity-e4506/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11710",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11710"
+            },
+            {
+              "text": "dlg.11711"
+            }
+          ],
           "speaker": "spk.刽子手"
         }
       }
@@ -638,8 +645,12 @@
     "scene/s255/root/entity-e4507/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -647,8 +658,12 @@
     "scene/s255/root/entity-e4508/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -656,8 +671,12 @@
     "scene/s255/root/entity-e4509/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -665,8 +684,12 @@
     "scene/s255/root/entity-e4510/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -674,8 +697,12 @@
     "scene/s255/root/entity-e4511/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -683,8 +710,12 @@
     "scene/s255/root/entity-e4512/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -692,8 +723,12 @@
     "scene/s255/root/entity-e4513/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -701,8 +736,12 @@
     "scene/s255/root/entity-e4514/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -710,8 +749,12 @@
     "scene/s255/root/entity-e4515/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -719,8 +762,12 @@
     "scene/s255/root/entity-e4516/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -728,8 +775,12 @@
     "scene/s255/root/entity-e4517/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11739",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11739"
+            }
+          ],
           "speaker": "spk.汉人俘虏"
         }
       }
@@ -737,8 +788,18 @@
     "scene/s255/root/entity-e4518/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11713",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11713"
+            },
+            {
+              "text": "dlg.11714"
+            },
+            {
+              "text": "dlg.11715"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -758,8 +819,18 @@
     "scene/s255/root/entity-e4519/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11717",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11717"
+            },
+            {
+              "text": "dlg.11718"
+            },
+            {
+              "text": "dlg.11719"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -779,8 +850,18 @@
     "scene/s255/root/entity-e4520/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11706",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11706"
+            },
+            {
+              "text": "dlg.11707"
+            },
+            {
+              "text": "dlg.11708"
+            }
+          ],
           "speaker": "spk.刽子手"
         }
       }
@@ -800,8 +881,15 @@
     "scene/s255/root/entity-e4521/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11721",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11721"
+            },
+            {
+              "text": "dlg.11722"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -821,8 +909,18 @@
     "scene/s255/root/entity-e4522/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11724",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11724"
+            },
+            {
+              "text": "dlg.11725"
+            },
+            {
+              "text": "dlg.11726"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -842,8 +940,21 @@
     "scene/s255/root/entity-e4523/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11728",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11728"
+            },
+            {
+              "text": "dlg.11729"
+            },
+            {
+              "text": "dlg.11730"
+            },
+            {
+              "text": "dlg.11731"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -863,8 +974,18 @@
     "scene/s255/root/entity-e4524/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11733",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11733"
+            },
+            {
+              "text": "dlg.11734"
+            },
+            {
+              "text": "dlg.11735"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -872,8 +993,12 @@
     "scene/s255/root/entity-e4525/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11737",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11737"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -893,8 +1018,18 @@
     "scene/s255/root/entity-e4526/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11691",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11691"
+            },
+            {
+              "text": "dlg.11692"
+            },
+            {
+              "text": "dlg.11693"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       },
@@ -903,8 +1038,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11694",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11694"
+            },
+            {
+              "text": "dlg.11695"
+            },
+            {
+              "text": "dlg.11696"
+            },
+            {
+              "text": "dlg.11697"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }
@@ -949,8 +1097,27 @@
     "scene/s255/root/entity-e4527/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11699",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11699"
+            },
+            {
+              "text": "dlg.11700"
+            },
+            {
+              "text": "dlg.11701"
+            },
+            {
+              "text": "dlg.11702"
+            },
+            {
+              "text": "dlg.11703"
+            },
+            {
+              "text": "dlg.11704"
+            }
+          ],
           "speaker": "spk.士兵"
         }
       }

@@ -39,9 +39,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11123",
-          "slot": "center"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11123",
+              "speed": 136
+            }
+          ],
+          "slot": "center",
+          "autoAdvance": 685
         }
       },
       {
@@ -111,9 +117,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11124",
-          "slot": "top"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11124",
+              "speed": 136
+            },
+            {
+              "text": "dlg.11125",
+              "speed": 136
+            }
+          ],
+          "slot": "top",
+          "autoAdvance": 1028
         }
       },
       {
@@ -144,8 +160,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11127",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11127"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "slot": "top"
         }

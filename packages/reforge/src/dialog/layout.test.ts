@@ -1,4 +1,4 @@
-import type { DialogueLine } from '@type-pal/content'
+import type { DialogueRow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { GlyphTable } from '../text/glyph.js'
 import { type DisplayLine, layoutLines } from './layout.js'
@@ -18,25 +18,25 @@ const START_X = 44
 
 describe('layoutLines', () => {
   test('短句(≤16字)→ 单 DisplayLine,isLineStart', () => {
-    const lines: DialogueLine[] = [{ text: '一二三四五六七八九' }] // 9 全宽字 = 144px
+    const lines: DialogueRow[] = [{ text: '一二三四五六七八九' }] // 9 全宽字 = 144px
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
     expect(out).toHaveLength(1)
-    expect(out[0]?.isLineStart).toBe(true)
-    expect(out[0]?.srcLineIdx).toBe(0)
+    expect(out[0]?.isRowStart).toBe(true)
+    expect(out[0]?.srcRowIdx).toBe(0)
   })
 
   test('长句(17字)→ 折成 2 DisplayLine(16+1),第二行 isLineStart=false', () => {
-    const lines: DialogueLine[] = [{ text: '一二三四五六七八九十一二三四五六七' }] // 17 字
+    const lines: DialogueRow[] = [{ text: '一二三四五六七八九十一二三四五六七' }] // 17 字
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
     expect(out).toHaveLength(2)
-    expect(out[0]?.isLineStart).toBe(true)
-    expect(out[1]?.isLineStart).toBe(false)
+    expect(out[0]?.isRowStart).toBe(true)
+    expect(out[1]?.isRowStart).toBe(false)
     expect(out[0]?.spans[0]?.text).toHaveLength(16) // 首行 16 字
     expect(out[1]?.spans[0]?.text).toHaveLength(1) // 次行 1 字
   })
 
   test('显式换行强制另起一行，并保留下一行缩进', () => {
-    const lines: DialogueLine[] = [{ text: '既然落在你的手里，\n  要杀要剐不用多说！' }]
+    const lines: DialogueRow[] = [{ text: '既然落在你的手里，\n  要杀要剐不用多说！' }]
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
 
     expect(out).toHaveLength(2)
@@ -44,26 +44,26 @@ describe('layoutLines', () => {
       '既然落在你的手里，',
       '  要杀要剐不用多说！',
     ])
-    expect(out.map((line) => line.isLineStart)).toEqual([true, false])
+    expect(out.map((line) => line.isRowStart)).toEqual([true, false])
   })
 
-  test('多个 DialogueLine → srcLineIdx 递增,各自 isLineStart=true', () => {
-    const lines: DialogueLine[] = [
+  test('多个 DialogueRow → srcRowIdx 递增,各自 isRowStart=true', () => {
+    const lines: DialogueRow[] = [
       { text: '甲' }, // 1 字,单行
       { text: '乙' },
     ]
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
     expect(out).toHaveLength(2)
-    expect(out[0]?.srcLineIdx).toBe(0)
-    expect(out[0]?.isLineStart).toBe(true)
-    expect(out[1]?.srcLineIdx).toBe(1)
-    expect(out[1]?.isLineStart).toBe(true)
+    expect(out[0]?.srcRowIdx).toBe(0)
+    expect(out[0]?.isRowStart).toBe(true)
+    expect(out[1]?.srcRowIdx).toBe(1)
+    expect(out[1]?.isRowStart).toBe(true)
   })
 
   test('跨 span 折行:前 span 满 + 后 span 接下一行', () => {
     // 16 字无色 span(满行 256px)+ 1 字 cyan span
     const text = '一'.repeat(16)
-    const lines: DialogueLine[] = [{ text: `${text}<cyan>二</cyan>` }]
+    const lines: DialogueRow[] = [{ text: `${text}<cyan>二</cyan>` }]
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
     expect(out).toHaveLength(2)
     // 第二行的 span 应带 cyan 色(跨 span 折行保留色)
@@ -71,7 +71,7 @@ describe('layoutLines', () => {
   })
 
   test('空句 → 单个空 DisplayLine(不崩)', () => {
-    const lines: DialogueLine[] = [{ text: '' }]
+    const lines: DialogueRow[] = [{ text: '' }]
     const out = layoutLines(lines, glyphs, resolveText, MAX_RIGHT, START_X)
     expect(out).toHaveLength(1)
   })

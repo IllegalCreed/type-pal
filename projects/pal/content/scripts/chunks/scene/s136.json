@@ -20,8 +20,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5663",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5663"
+            },
+            {
+              "text": "dlg.5664"
+            }
+          ],
           "speaker": "spk.妇人"
         }
       }
@@ -41,8 +48,12 @@
     "scene/s136/root/entity-e2329/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5666",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5666"
+            }
+          ],
           "speaker": "spk.孩童"
         }
       }
@@ -62,8 +73,12 @@
     "scene/s136/root/entity-e2330/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5668",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5668"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -71,8 +86,12 @@
     "scene/s136/root/entity-e2330/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5670",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5670"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }

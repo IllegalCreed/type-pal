@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s123",
   "scripts": {
-    "scene/s123/L-36393/e2203/d-89d21e09": [
+    "scene/s123/L-36393/e2203/d-0a386828": [
       {
         "kind": "setPartyFacing",
         "facing": "down"
@@ -154,8 +154,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6410",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6410"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 24,
@@ -168,8 +172,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6412",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6412"
+            },
+            {
+              "text": "dlg.6413"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -183,8 +194,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6414",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6414"
+            },
+            {
+              "text": "dlg.6415"
+            },
+            {
+              "text": "dlg.6416"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -202,8 +223,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6418",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6418"
+            },
+            {
+              "text": "dlg.6419"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 22,
@@ -213,8 +241,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6421",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6421"
+            },
+            {
+              "text": "dlg.6422"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -232,8 +267,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6424",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6424"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 22,
@@ -267,7 +306,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s123",
-          "id": "scene/s123/L-36393/e2203/d-89d21e09"
+          "id": "scene/s123/L-36393/e2203/d-0a386828"
         },
         "self": "e2203"
       },

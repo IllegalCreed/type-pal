@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s010",
   "scripts": {
-    "scene/s010/L-3308/e191/d-89d21e09": [
+    "scene/s010/L-3308/e191/d-0a386828": [
       {
         "kind": "branch",
         "cond": {
@@ -16,7 +16,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s010",
-              "id": "scene/s010/L-3320/e191/d-89d21e09"
+              "id": "scene/s010/L-3320/e191/d-0a386828"
             },
             "self": "e191"
           }
@@ -24,8 +24,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1196",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1196"
+            },
+            {
+              "text": "dlg.1197"
+            },
+            {
+              "text": "dlg.1198"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       },
@@ -34,8 +44,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1199",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1199"
+            },
+            {
+              "text": "dlg.1200"
+            },
+            {
+              "text": "dlg.1201"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       },
@@ -48,11 +68,21 @@
         "mode": "buy"
       }
     ],
-    "scene/s010/L-3320/e191/d-89d21e09": [
+    "scene/s010/L-3320/e191/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1203",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1203"
+            },
+            {
+              "text": "dlg.1204"
+            },
+            {
+              "text": "dlg.1205"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       },
@@ -74,17 +104,37 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1207",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1207"
+            },
+            {
+              "text": "dlg.1208"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       }
     ],
-    "scene/s010/L-2018/e191/d-89d21e09": [
+    "scene/s010/L-2018/e191/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.714",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.714"
+            },
+            {
+              "text": "dlg.715"
+            },
+            {
+              "text": "dlg.716"
+            },
+            {
+              "text": "dlg.717"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       },
@@ -93,21 +143,38 @@
         "itemId": "107"
       }
     ],
-    "scene/s010/L-2191/e191/d-89d21e09": [
+    "scene/s010/L-2191/e191/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.778",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.778"
+            },
+            {
+              "text": "dlg.779"
+            }
+          ],
           "speaker": "spk.洪大夫",
           "slot": "top"
         }
       }
     ],
-    "scene/s010/L-2008/e191/d-89d21e09": [
+    "scene/s010/L-2008/e191/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.708",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.708"
+            },
+            {
+              "text": "dlg.709"
+            },
+            {
+              "text": "dlg.710"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       },
@@ -125,8 +192,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.712",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.712"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       }
@@ -145,7 +216,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s010",
-              "id": "scene/s010/L-2008/e191/d-89d21e09"
+              "id": "scene/s010/L-2008/e191/d-0a386828"
             },
             "self": "e191"
           }
@@ -153,8 +224,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.705",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.705"
+            },
+            {
+              "text": "dlg.706"
+            }
+          ],
           "speaker": "spk.洪大夫"
         }
       }
@@ -185,8 +263,12 @@
     "scene/s010/root/entity-e193/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1448",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1448"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }

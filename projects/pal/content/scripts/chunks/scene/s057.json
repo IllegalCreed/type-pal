@@ -20,13 +20,17 @@
         "entity": "e926",
         "script": {
           "chunk": "scene/s054",
-          "id": "scene/s054/L-9700/e926/d-89d21e09"
+          "id": "scene/s054/L-9700/e926/d-0a386828"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4344",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4344"
+            }
+          ],
           "portrait": {
             "icon": 2,
             "side": "right"

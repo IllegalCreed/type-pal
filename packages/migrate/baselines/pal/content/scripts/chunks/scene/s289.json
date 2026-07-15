@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s289",
   "scripts": {
-    "scene/s289/L-41075/e4918/d-89d21e09": [
+    "scene/s289/L-41075/e4918/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -15,8 +15,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -24,13 +41,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4918/d-89d21e09": [
+    "scene/s289/L-41073/e4918/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4918/d-89d21e09": [
+    "scene/s289/L-41127/e4918/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -41,7 +58,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4919/d-89d21e09": [
+    "scene/s289/L-41075/e4919/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -54,8 +71,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -63,13 +97,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4919/d-89d21e09": [
+    "scene/s289/L-41073/e4919/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4919/d-89d21e09": [
+    "scene/s289/L-41127/e4919/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -80,7 +114,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4920/d-89d21e09": [
+    "scene/s289/L-41075/e4920/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -93,8 +127,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -102,13 +153,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4920/d-89d21e09": [
+    "scene/s289/L-41073/e4920/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4920/d-89d21e09": [
+    "scene/s289/L-41127/e4920/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -119,7 +170,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4921/d-89d21e09": [
+    "scene/s289/L-41075/e4921/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -132,8 +183,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -141,13 +209,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4921/d-89d21e09": [
+    "scene/s289/L-41073/e4921/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4921/d-89d21e09": [
+    "scene/s289/L-41127/e4921/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -158,7 +226,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4922/d-89d21e09": [
+    "scene/s289/L-41075/e4922/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -171,8 +239,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -180,13 +265,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4922/d-89d21e09": [
+    "scene/s289/L-41073/e4922/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4922/d-89d21e09": [
+    "scene/s289/L-41127/e4922/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -197,7 +282,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4923/d-89d21e09": [
+    "scene/s289/L-41075/e4923/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -210,8 +295,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -219,13 +321,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4923/d-89d21e09": [
+    "scene/s289/L-41073/e4923/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4923/d-89d21e09": [
+    "scene/s289/L-41127/e4923/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -236,7 +338,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4924/d-89d21e09": [
+    "scene/s289/L-41075/e4924/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -249,8 +351,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -258,13 +377,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4924/d-89d21e09": [
+    "scene/s289/L-41073/e4924/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4924/d-89d21e09": [
+    "scene/s289/L-41127/e4924/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -275,7 +394,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4925/d-89d21e09": [
+    "scene/s289/L-41075/e4925/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -288,8 +407,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -297,13 +433,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4925/d-89d21e09": [
+    "scene/s289/L-41073/e4925/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4925/d-89d21e09": [
+    "scene/s289/L-41127/e4925/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -314,7 +450,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4926/d-89d21e09": [
+    "scene/s289/L-41075/e4926/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -327,8 +463,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -336,13 +489,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4926/d-89d21e09": [
+    "scene/s289/L-41073/e4926/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4926/d-89d21e09": [
+    "scene/s289/L-41127/e4926/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -353,7 +506,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4927/d-89d21e09": [
+    "scene/s289/L-41075/e4927/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -366,8 +519,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -375,13 +545,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4927/d-89d21e09": [
+    "scene/s289/L-41073/e4927/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4927/d-89d21e09": [
+    "scene/s289/L-41127/e4927/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -392,7 +562,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4928/d-89d21e09": [
+    "scene/s289/L-41075/e4928/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -405,8 +575,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -414,13 +601,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4928/d-89d21e09": [
+    "scene/s289/L-41073/e4928/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4928/d-89d21e09": [
+    "scene/s289/L-41127/e4928/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -431,7 +618,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4929/d-89d21e09": [
+    "scene/s289/L-41075/e4929/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -444,8 +631,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -453,13 +657,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4929/d-89d21e09": [
+    "scene/s289/L-41073/e4929/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4929/d-89d21e09": [
+    "scene/s289/L-41127/e4929/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -470,7 +674,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4930/d-89d21e09": [
+    "scene/s289/L-41075/e4930/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -483,8 +687,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -492,13 +713,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4930/d-89d21e09": [
+    "scene/s289/L-41073/e4930/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4930/d-89d21e09": [
+    "scene/s289/L-41127/e4930/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -509,7 +730,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4931/d-89d21e09": [
+    "scene/s289/L-41075/e4931/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -522,8 +743,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -531,13 +769,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4931/d-89d21e09": [
+    "scene/s289/L-41073/e4931/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4931/d-89d21e09": [
+    "scene/s289/L-41127/e4931/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -548,7 +786,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4932/d-89d21e09": [
+    "scene/s289/L-41075/e4932/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -561,8 +799,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -570,13 +825,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4932/d-89d21e09": [
+    "scene/s289/L-41073/e4932/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4932/d-89d21e09": [
+    "scene/s289/L-41127/e4932/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -587,7 +842,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4933/d-89d21e09": [
+    "scene/s289/L-41075/e4933/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -600,8 +855,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -609,13 +881,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4933/d-89d21e09": [
+    "scene/s289/L-41073/e4933/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4933/d-89d21e09": [
+    "scene/s289/L-41127/e4933/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -626,7 +898,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4934/d-89d21e09": [
+    "scene/s289/L-41075/e4934/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -639,8 +911,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -648,13 +937,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4934/d-89d21e09": [
+    "scene/s289/L-41073/e4934/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4934/d-89d21e09": [
+    "scene/s289/L-41127/e4934/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -665,7 +954,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4935/d-89d21e09": [
+    "scene/s289/L-41075/e4935/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -678,8 +967,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -687,13 +993,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4935/d-89d21e09": [
+    "scene/s289/L-41073/e4935/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4935/d-89d21e09": [
+    "scene/s289/L-41127/e4935/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -704,7 +1010,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4936/d-89d21e09": [
+    "scene/s289/L-41075/e4936/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -717,8 +1023,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -726,13 +1049,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4936/d-89d21e09": [
+    "scene/s289/L-41073/e4936/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4936/d-89d21e09": [
+    "scene/s289/L-41127/e4936/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -743,7 +1066,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4937/d-89d21e09": [
+    "scene/s289/L-41075/e4937/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -756,8 +1079,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -765,13 +1105,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4937/d-89d21e09": [
+    "scene/s289/L-41073/e4937/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4937/d-89d21e09": [
+    "scene/s289/L-41127/e4937/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -782,7 +1122,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4938/d-89d21e09": [
+    "scene/s289/L-41075/e4938/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -795,8 +1135,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -804,13 +1161,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4938/d-89d21e09": [
+    "scene/s289/L-41073/e4938/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4938/d-89d21e09": [
+    "scene/s289/L-41127/e4938/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -821,7 +1178,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-41075/e4939/d-89d21e09": [
+    "scene/s289/L-41075/e4939/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -834,8 +1191,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -843,13 +1217,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s289/L-41073/e4939/d-89d21e09": [
+    "scene/s289/L-41073/e4939/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s289/L-41127/e4939/d-89d21e09": [
+    "scene/s289/L-41127/e4939/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -860,7 +1234,7 @@
         "ms": 600
       }
     ],
-    "scene/s289/L-35627/e4940/d-89d21e09": [
+    "scene/s289/L-35627/e4940/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4940"
@@ -869,12 +1243,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4940/d-89d21e09"
+          "id": "scene/s289/L-35627/e4940/d-0a386828"
         },
         "self": "e4940"
       }
     ],
-    "scene/s289/L-35627/e4941/d-89d21e09": [
+    "scene/s289/L-35627/e4941/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4941"
@@ -883,12 +1257,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4941/d-89d21e09"
+          "id": "scene/s289/L-35627/e4941/d-0a386828"
         },
         "self": "e4941"
       }
     ],
-    "scene/s289/L-35627/e4942/d-89d21e09": [
+    "scene/s289/L-35627/e4942/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4942"
@@ -897,12 +1271,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4942/d-89d21e09"
+          "id": "scene/s289/L-35627/e4942/d-0a386828"
         },
         "self": "e4942"
       }
     ],
-    "scene/s289/L-35627/e4943/d-89d21e09": [
+    "scene/s289/L-35627/e4943/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4943"
@@ -911,12 +1285,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4943/d-89d21e09"
+          "id": "scene/s289/L-35627/e4943/d-0a386828"
         },
         "self": "e4943"
       }
     ],
-    "scene/s289/L-35627/e4944/d-89d21e09": [
+    "scene/s289/L-35627/e4944/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4944"
@@ -925,12 +1299,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4944/d-89d21e09"
+          "id": "scene/s289/L-35627/e4944/d-0a386828"
         },
         "self": "e4944"
       }
     ],
-    "scene/s289/L-35627/e4945/d-89d21e09": [
+    "scene/s289/L-35627/e4945/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4945"
@@ -939,12 +1313,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4945/d-89d21e09"
+          "id": "scene/s289/L-35627/e4945/d-0a386828"
         },
         "self": "e4945"
       }
     ],
-    "scene/s289/L-35627/e4946/d-89d21e09": [
+    "scene/s289/L-35627/e4946/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4946"
@@ -953,12 +1327,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4946/d-89d21e09"
+          "id": "scene/s289/L-35627/e4946/d-0a386828"
         },
         "self": "e4946"
       }
     ],
-    "scene/s289/L-35627/e4947/d-89d21e09": [
+    "scene/s289/L-35627/e4947/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4947"
@@ -967,12 +1341,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4947/d-89d21e09"
+          "id": "scene/s289/L-35627/e4947/d-0a386828"
         },
         "self": "e4947"
       }
     ],
-    "scene/s289/L-35627/e4948/d-89d21e09": [
+    "scene/s289/L-35627/e4948/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e4948"
@@ -981,12 +1355,12 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4948/d-89d21e09"
+          "id": "scene/s289/L-35627/e4948/d-0a386828"
         },
         "self": "e4948"
       }
     ],
-    "scene/s289/L-36505/e4949/d-89d21e09": [
+    "scene/s289/L-36505/e4949/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4949",
@@ -1005,7 +1379,7 @@
         "soundId": 78
       }
     ],
-    "scene/s289/L-36505/e4950/d-89d21e09": [
+    "scene/s289/L-36505/e4950/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4950",
@@ -1024,7 +1398,7 @@
         "soundId": 78
       }
     ],
-    "scene/s289/L-36505/e4951/d-89d21e09": [
+    "scene/s289/L-36505/e4951/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4951",
@@ -1043,7 +1417,7 @@
         "soundId": 78
       }
     ],
-    "scene/s289/L-36505/e4952/d-89d21e09": [
+    "scene/s289/L-36505/e4952/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4952",
@@ -1062,7 +1436,7 @@
         "soundId": 78
       }
     ],
-    "scene/s289/L-36505/e4953/d-89d21e09": [
+    "scene/s289/L-36505/e4953/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4953",
@@ -1081,7 +1455,7 @@
         "soundId": 78
       }
     ],
-    "scene/s289/L-36505/e4954/d-89d21e09": [
+    "scene/s289/L-36505/e4954/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e4954",
@@ -1120,7 +1494,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4940/d-89d21e09"
+          "id": "scene/s289/L-35627/e4940/d-0a386828"
         },
         "self": "e4940"
       }
@@ -1134,7 +1508,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4941/d-89d21e09"
+          "id": "scene/s289/L-35627/e4941/d-0a386828"
         },
         "self": "e4941"
       }
@@ -1148,7 +1522,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4942/d-89d21e09"
+          "id": "scene/s289/L-35627/e4942/d-0a386828"
         },
         "self": "e4942"
       }
@@ -1162,7 +1536,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4943/d-89d21e09"
+          "id": "scene/s289/L-35627/e4943/d-0a386828"
         },
         "self": "e4943"
       }
@@ -1176,7 +1550,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4944/d-89d21e09"
+          "id": "scene/s289/L-35627/e4944/d-0a386828"
         },
         "self": "e4944"
       }
@@ -1190,7 +1564,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4945/d-89d21e09"
+          "id": "scene/s289/L-35627/e4945/d-0a386828"
         },
         "self": "e4945"
       }
@@ -1204,7 +1578,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4946/d-89d21e09"
+          "id": "scene/s289/L-35627/e4946/d-0a386828"
         },
         "self": "e4946"
       }
@@ -1218,7 +1592,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4947/d-89d21e09"
+          "id": "scene/s289/L-35627/e4947/d-0a386828"
         },
         "self": "e4947"
       }
@@ -1232,7 +1606,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-35627/e4948/d-89d21e09"
+          "id": "scene/s289/L-35627/e4948/d-0a386828"
         },
         "self": "e4948"
       }
@@ -1242,14 +1616,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4949/d-89d21e09"
+          "id": "scene/s289/L-36505/e4949/d-0a386828"
         },
         "self": "e4949"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12363",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12363"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1261,8 +1639,12 @@
     "scene/s289/root/entity-e4949/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -1272,14 +1654,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4950/d-89d21e09"
+          "id": "scene/s289/L-36505/e4950/d-0a386828"
         },
         "self": "e4950"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12362",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12362"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1291,8 +1677,12 @@
     "scene/s289/root/entity-e4950/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -1302,14 +1692,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4951/d-89d21e09"
+          "id": "scene/s289/L-36505/e4951/d-0a386828"
         },
         "self": "e4951"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12353",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12353"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1321,8 +1715,12 @@
     "scene/s289/root/entity-e4951/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -1332,14 +1730,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4952/d-89d21e09"
+          "id": "scene/s289/L-36505/e4952/d-0a386828"
         },
         "self": "e4952"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12354",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12354"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1351,8 +1753,12 @@
     "scene/s289/root/entity-e4952/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -1362,14 +1768,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4953/d-89d21e09"
+          "id": "scene/s289/L-36505/e4953/d-0a386828"
         },
         "self": "e4953"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12287",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12287"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1381,8 +1791,12 @@
     "scene/s289/root/entity-e4953/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }
@@ -1392,14 +1806,18 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s289",
-          "id": "scene/s289/L-36505/e4954/d-89d21e09"
+          "id": "scene/s289/L-36505/e4954/d-0a386828"
         },
         "self": "e4954"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12350",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12350"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -1411,8 +1829,12 @@
     "scene/s289/root/entity-e4954/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12222",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12222"
+            }
+          ],
           "slot": "center"
         }
       }

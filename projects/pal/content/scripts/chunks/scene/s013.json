@@ -16,8 +16,15 @@
     "scene/s013/root/entity-e199/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1230",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1230"
+            },
+            {
+              "text": "dlg.1231"
+            }
+          ],
           "speaker": "spk.林木匠"
         }
       },
@@ -26,8 +33,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1232",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1232"
+            },
+            {
+              "text": "dlg.1233"
+            },
+            {
+              "text": "dlg.1234"
+            },
+            {
+              "text": "dlg.1235"
+            }
+          ],
           "speaker": "spk.林木匠"
         }
       }
@@ -35,8 +55,12 @@
     "scene/s013/root/entity-e199/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1236"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1236"
+            }
+          ]
         }
       },
       {
@@ -63,8 +87,15 @@
     "scene/s013/root/entity-e200/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1450",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1450"
+            },
+            {
+              "text": "dlg.1451"
+            }
+          ],
           "speaker": "spk.学徒"
         }
       }

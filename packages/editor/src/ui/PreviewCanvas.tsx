@@ -326,8 +326,8 @@ export function PreviewCanvas(props: {
   const v = playback.view
   const mode = playback.mode
   const dlg = v.dialog
-  const speaker = dlg?.line.speaker ? lookupText(dlg.line.speaker, locale) : null
-  const text = dlg ? lookupText(dlg.line.text, locale) : null
+  const speaker = dlg?.cue.speaker ? lookupText(dlg.cue.speaker, locale) : null
+  const text = dlg ? dlg.cue.rows.map((row) => lookupText(row.text, locale)).join('\n') : null
 
   return (
     <div className="preview-wrap">

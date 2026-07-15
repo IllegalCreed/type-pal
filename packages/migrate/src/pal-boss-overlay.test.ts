@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { applyPalBossEncounterOverlay } from './pal-boss-overlay.js'
 
 const choreography = (text: string): NonNullable<EnemyDef['choreography']> => [
-  { at: 'turnStart', once: true, body: [{ kind: 'dialog', line: { text } }] },
+  { at: 'turnStart', once: true, body: [{ kind: 'dialog', cue: { rows: [{ text }] } }] },
 ]
 
 describe('PAL boss encounter 纯 overlay', () => {

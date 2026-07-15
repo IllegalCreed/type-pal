@@ -27,8 +27,12 @@
     "scene/s083/root/entity-e1572/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5116",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5116"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -41,8 +45,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5118",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5118"
+            },
+            {
+              "text": "dlg.5119"
+            }
+          ],
           "speaker": "spk.盖罗娇",
           "slot": "top",
           "portrait": {
@@ -56,8 +67,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5121",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5121"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -70,8 +85,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5123",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5123"
+            }
+          ],
           "speaker": "spk.盖罗娇",
           "slot": "top",
           "portrait": {

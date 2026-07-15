@@ -44,8 +44,22 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9184"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9184",
+              "speed": 80
+            },
+            {
+              "text": "dlg.9185",
+              "speed": 80
+            },
+            {
+              "text": "dlg.9186",
+              "speed": 80
+            }
+          ],
+          "autoAdvance": 800
         }
       },
       {

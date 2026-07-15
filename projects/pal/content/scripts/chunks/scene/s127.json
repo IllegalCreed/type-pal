@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s127",
   "scripts": {
-    "scene/s127/L-36365/e2222/d-89d21e09": [
+    "scene/s127/L-36365/e2222/d-0a386828": [
       {
         "kind": "setPartyFacing",
         "facing": "up"
@@ -124,12 +124,16 @@
         "ms": 40
       }
     ],
-    "scene/s127/L-16219/e2224/d-eeca3125": [],
-    "scene/s127/L-20070/e2228/d-89d21e09": [
+    "scene/s127/L-16219/e2224/d-9a507d14": [],
+    "scene/s127/L-20070/e2228/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7319",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7319"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -151,7 +155,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s127",
-          "id": "scene/s127/L-36365/e2222/d-89d21e09"
+          "id": "scene/s127/L-36365/e2222/d-0a386828"
         },
         "self": "e2222"
       },
@@ -168,8 +172,12 @@
     "scene/s127/root/entity-e2223/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5578",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5578"
+            }
+          ],
           "speaker": "spk.小二"
         }
       }
@@ -299,8 +307,15 @@
     "scene/s127/root/entity-e2224/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5580",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5580"
+            },
+            {
+              "text": "dlg.5581"
+            }
+          ],
           "speaker": "spk.酒馆老板"
         }
       },
@@ -311,7 +326,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s127",
-              "id": "scene/s127/L-16219/e2224/d-eeca3125"
+              "id": "scene/s127/L-16219/e2224/d-9a507d14"
             },
             "self": "e2224"
           }
@@ -334,7 +349,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s127",
-              "id": "scene/s127/L-16219/e2224/d-eeca3125"
+              "id": "scene/s127/L-16219/e2224/d-9a507d14"
             },
             "self": "e2224"
           }
@@ -353,8 +368,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5583",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5583"
+            }
+          ],
           "speaker": "spk.酒馆老板"
         }
       }
@@ -362,8 +381,18 @@
     "scene/s127/root/entity-e2225/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5585",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5585"
+            },
+            {
+              "text": "dlg.5586"
+            },
+            {
+              "text": "dlg.5587"
+            }
+          ],
           "speaker": "spk.小二"
         }
       }
@@ -383,8 +412,15 @@
     "scene/s127/root/entity-e2226/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7437",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7437"
+            },
+            {
+              "text": "dlg.7438"
+            }
+          ],
           "speaker": "spk.客人甲"
         }
       },
@@ -393,8 +429,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7440",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7440"
+            },
+            {
+              "text": "dlg.7441"
+            },
+            {
+              "text": "dlg.7442"
+            }
+          ],
           "speaker": "spk.客人乙"
         }
       }
@@ -402,8 +448,15 @@
     "scene/s127/root/entity-e2227/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7437",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7437"
+            },
+            {
+              "text": "dlg.7438"
+            }
+          ],
           "speaker": "spk.客人甲"
         }
       },
@@ -412,8 +465,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7440",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7440"
+            },
+            {
+              "text": "dlg.7441"
+            },
+            {
+              "text": "dlg.7442"
+            }
+          ],
           "speaker": "spk.客人乙"
         }
       }
@@ -421,8 +484,12 @@
     "scene/s127/root/entity-e2228/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7297",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7297"
+            }
+          ],
           "speaker": "spk.算命仙"
         }
       },
@@ -431,8 +498,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7299",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7299"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -445,8 +516,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7301",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7301"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -456,24 +531,42 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7302",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7302"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7304",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7304"
+            },
+            {
+              "text": "dlg.7305"
+            }
+          ],
           "speaker": "spk.小姑娘看过相。结果公子说",
           "slot": "top"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7307",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7307"
+            },
+            {
+              "text": "dlg.7308"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 3,
@@ -486,8 +579,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7310",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7310"
+            },
+            {
+              "text": "dlg.7311"
+            },
+            {
+              "text": "dlg.7312"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -497,8 +600,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7314",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7314"
+            },
+            {
+              "text": "dlg.7315"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -511,8 +621,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7316",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7316"
+            },
+            {
+              "text": "dlg.7317"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -525,8 +642,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7319",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7319"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -547,7 +668,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s127",
-              "id": "scene/s127/L-20070/e2228/d-89d21e09"
+              "id": "scene/s127/L-20070/e2228/d-0a386828"
             },
             "self": "e2228"
           }
@@ -559,8 +680,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7321",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7321"
+            },
+            {
+              "text": "dlg.7322"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 6,
@@ -570,8 +698,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7323",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7323"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -580,16 +712,33 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7325",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7325"
+            },
+            {
+              "text": "dlg.7326"
+            },
+            {
+              "text": "dlg.7327"
+            },
+            {
+              "text": "dlg.7328"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7330",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7330"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -602,8 +751,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7332",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7332"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -612,8 +765,18 @@
     "scene/s127/root/entity-e2228/page-0/trigger/stage-2": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7334",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7334"
+            },
+            {
+              "text": "dlg.7335"
+            },
+            {
+              "text": "dlg.7336"
+            }
+          ],
           "speaker": "spk.算命仙",
           "slot": "top"
         }
@@ -622,8 +785,18 @@
     "scene/s127/root/entity-e2229/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7365",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7365"
+            },
+            {
+              "text": "dlg.7366"
+            },
+            {
+              "text": "dlg.7367"
+            }
+          ],
           "speaker": "spk.醉汉甲"
         }
       },
@@ -632,8 +805,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7369",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7369"
+            },
+            {
+              "text": "dlg.7370"
+            }
+          ],
           "speaker": "spk.醉汉乙"
         }
       },
@@ -642,8 +822,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7372",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7372"
+            },
+            {
+              "text": "dlg.7373"
+            },
+            {
+              "text": "dlg.7374"
+            },
+            {
+              "text": "dlg.7375"
+            }
+          ],
           "speaker": "spk.醉汉甲"
         }
       },
@@ -652,8 +845,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7377",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7377"
+            }
+          ],
           "speaker": "spk.醉汉乙"
         }
       },
@@ -662,8 +859,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7379",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7379"
+            },
+            {
+              "text": "dlg.7380"
+            }
+          ],
           "speaker": "spk.醉汉甲"
         }
       },
@@ -672,8 +876,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7381",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7381"
+            },
+            {
+              "text": "dlg.7382"
+            },
+            {
+              "text": "dlg.7383"
+            },
+            {
+              "text": "dlg.7384"
+            }
+          ],
           "speaker": "spk.醉汉甲"
         }
       },
@@ -682,8 +899,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7386",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7386"
+            },
+            {
+              "text": "dlg.7387"
+            },
+            {
+              "text": "dlg.7388"
+            },
+            {
+              "text": "dlg.7389"
+            }
+          ],
           "speaker": "spk.醉汉乙"
         }
       },
@@ -692,8 +922,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7391",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7391"
+            },
+            {
+              "text": "dlg.7392"
+            }
+          ],
           "speaker": "spk.醉汉甲"
         }
       },
@@ -702,8 +939,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7394",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7394"
+            },
+            {
+              "text": "dlg.7395"
+            },
+            {
+              "text": "dlg.7396"
+            }
+          ],
           "speaker": "spk.醉汉乙"
         }
       }
@@ -711,8 +958,12 @@
     "scene/s127/root/entity-e2229/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7398",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7398"
+            }
+          ],
           "speaker": "spk.醉汉"
         }
       }

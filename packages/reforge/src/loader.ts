@@ -30,6 +30,7 @@ import type {
 import {
   checkScriptIndex,
   mapAssetById,
+  upgradeLegacyDialogues,
   validateActors,
   validateItems,
   validateLocale,
@@ -139,7 +140,8 @@ function normalizeLoadedScene(
   json: unknown,
   mapIndex: MapIndexV1,
 ): SceneDef {
-  const [input] = validateScenesForContentVersion([json], manifest.contentVersion)
+  const upgraded = upgradeLegacyDialogues(json).value
+  const [input] = validateScenesForContentVersion([upgraded], manifest.contentVersion)
   if (!input) throw new Error(`工程 "${manifest.id}": 场景为空`)
   const scene = input
   if (!mapAssetById(mapIndex, scene.mapId))
@@ -160,7 +162,9 @@ export function assembleProject(manifest: LoadedManifest, jsons: ContentJsons): 
   const actors = validateActors(jsons.actors)
   const { skills, levelUp } = validateSkills(jsons.skills)
   const items = validateItems(jsons.items)
-  const locale = validateLocale(jsons.locale)
+  // 旧作者工程可能把多行保存在一个 locale 值里；加载边界保留为单 row 软换行。
+  // 新生成内容与迁移写盘仍走 validateLocale 默认严格模式，禁止新建这种形态。
+  const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })
   const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
   // M4:敌人/敌队轻校验(数组 + id;详校验编辑器期上 zod)
   const enemies = Array.isArray(jsons.enemies) ? (jsons.enemies as EnemyDef[]) : []
@@ -349,7 +353,8 @@ export async function loadAllScriptChunks(
   if (!index || !dir) return {}
   const entries = await Promise.all(
     Object.entries(index.chunks).map(async ([id, meta]) => {
-      const chunk = await project.source.readJson<ScriptChunkV1>(`${dir}${meta.path}`)
+      const raw = await project.source.readJson<unknown>(`${dir}${meta.path}`)
+      const chunk = upgradeLegacyDialogues(raw).value as ScriptChunkV1
       if (
         chunk.version !== 1 ||
         chunk.id !== id ||

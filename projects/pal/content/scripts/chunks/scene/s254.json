@@ -2,8 +2,8 @@
   "version": 1,
   "id": "scene/s254",
   "scripts": {
-    "scene/s254/L-36124/e4476/d-89d21e09": [],
-    "scene/s254/L-36127/e4476/d-89d21e09": [],
+    "scene/s254/L-36124/e4476/d-0a386828": [],
+    "scene/s254/L-36127/e4476/d-0a386828": [],
     "scene/s254/root/on-enter/stage-0": [
       {
         "kind": "setPartyFacing",
@@ -14,8 +14,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11298",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11298"
+            },
+            {
+              "text": "dlg.11299"
+            }
+          ],
           "speaker": "spk.士兵甲"
         }
       },
@@ -24,8 +31,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11301",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11301"
+            },
+            {
+              "text": "dlg.11302"
+            }
+          ],
           "speaker": "spk.士兵乙"
         }
       },
@@ -44,8 +58,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11304",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11304"
+            },
+            {
+              "text": "dlg.11305"
+            },
+            {
+              "text": "dlg.11306"
+            }
+          ],
           "speaker": "spk.士兵甲",
           "slot": "top"
         }
@@ -55,8 +79,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11308",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11308"
+            },
+            {
+              "text": "dlg.11309"
+            },
+            {
+              "text": "dlg.11310"
+            }
+          ],
           "speaker": "spk.士兵乙"
         }
       },
@@ -65,8 +99,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11312",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11312"
+            },
+            {
+              "text": "dlg.11313"
+            }
+          ],
           "speaker": "spk.士兵甲",
           "slot": "top"
         }
@@ -76,8 +117,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11315",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11315"
+            },
+            {
+              "text": "dlg.11316"
+            },
+            {
+              "text": "dlg.11317"
+            }
+          ],
           "speaker": "spk.士兵乙"
         }
       },
@@ -86,8 +137,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11319",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11319"
+            },
+            {
+              "text": "dlg.11320"
+            },
+            {
+              "text": "dlg.11321"
+            }
+          ],
           "speaker": "spk.士兵甲",
           "slot": "top"
         }
@@ -97,8 +158,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11323",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11323"
+            },
+            {
+              "text": "dlg.11324"
+            },
+            {
+              "text": "dlg.11325"
+            }
+          ],
           "speaker": "spk.士兵乙"
         }
       },
@@ -111,8 +182,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11327",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11327"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -135,8 +210,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11329",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11329"
+            }
+          ],
           "speaker": "spk.士兵甲",
           "slot": "top"
         }
@@ -146,8 +225,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11330",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11330"
+            },
+            {
+              "text": "dlg.11331"
+            },
+            {
+              "text": "dlg.11332"
+            }
+          ],
           "speaker": "spk.士兵甲",
           "slot": "top"
         }
@@ -157,8 +246,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11334",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11334"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       }
@@ -178,8 +271,12 @@
     "scene/s254/root/entity-e4466/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11344",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11344"
+            }
+          ],
           "speaker": "spk.黑苗士兵乙"
         }
       }
@@ -187,8 +284,12 @@
     "scene/s254/root/entity-e4466/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11346",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11346"
+            }
+          ],
           "speaker": "spk.黑苗士兵乙"
         }
       }
@@ -196,8 +297,30 @@
     "scene/s254/root/entity-e4467/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11336",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11336"
+            },
+            {
+              "text": "dlg.11337"
+            },
+            {
+              "text": "dlg.11338"
+            },
+            {
+              "text": "dlg.11339"
+            },
+            {
+              "text": "dlg.11340"
+            },
+            {
+              "text": "dlg.11341"
+            },
+            {
+              "text": "dlg.11342"
+            }
+          ],
           "speaker": "spk.黑苗士兵甲"
         }
       }
@@ -205,8 +328,15 @@
     "scene/s254/root/entity-e4468/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11348",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11348"
+            },
+            {
+              "text": "dlg.11349"
+            }
+          ],
           "speaker": "spk.苗民"
         }
       }
@@ -306,8 +436,21 @@
     "scene/s254/root/entity-e4469/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11351",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11351"
+            },
+            {
+              "text": "dlg.11352"
+            },
+            {
+              "text": "dlg.11353"
+            },
+            {
+              "text": "dlg.11354"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -315,8 +458,21 @@
     "scene/s254/root/entity-e4470/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11356",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11356"
+            },
+            {
+              "text": "dlg.11357"
+            },
+            {
+              "text": "dlg.11358"
+            },
+            {
+              "text": "dlg.11359"
+            }
+          ],
           "speaker": "spk.苗民"
         }
       }
@@ -414,8 +570,36 @@
     "scene/s254/root/entity-e4471/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11361",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11361"
+            },
+            {
+              "text": "dlg.11362"
+            },
+            {
+              "text": "dlg.11363"
+            },
+            {
+              "text": "dlg.11364"
+            },
+            {
+              "text": "dlg.11365"
+            },
+            {
+              "text": "dlg.11366"
+            },
+            {
+              "text": "dlg.11367"
+            },
+            {
+              "text": "dlg.11368"
+            },
+            {
+              "text": "dlg.11369"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -423,8 +607,15 @@
     "scene/s254/root/entity-e4472/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11371",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11371"
+            },
+            {
+              "text": "dlg.11372"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       },
@@ -433,8 +624,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11373",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11373"
+            },
+            {
+              "text": "dlg.11374"
+            },
+            {
+              "text": "dlg.11375"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -442,8 +643,12 @@
     "scene/s254/root/entity-e4473/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11377",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11377"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }
@@ -463,8 +668,18 @@
     "scene/s254/root/entity-e4474/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11379",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11379"
+            },
+            {
+              "text": "dlg.11380"
+            },
+            {
+              "text": "dlg.11381"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }
@@ -472,8 +687,42 @@
     "scene/s254/root/entity-e4475/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11383",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11383"
+            },
+            {
+              "text": "dlg.11384"
+            },
+            {
+              "text": "dlg.11385"
+            },
+            {
+              "text": "dlg.11386"
+            },
+            {
+              "text": "dlg.11387"
+            },
+            {
+              "text": "dlg.11388"
+            },
+            {
+              "text": "dlg.11389"
+            },
+            {
+              "text": "dlg.11390"
+            },
+            {
+              "text": "dlg.11391"
+            },
+            {
+              "text": "dlg.11392"
+            },
+            {
+              "text": "dlg.11393"
+            }
+          ],
           "speaker": "spk.苗民"
         }
       }
@@ -603,8 +852,15 @@
     "scene/s254/root/entity-e4476/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11395",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11395"
+            },
+            {
+              "text": "dlg.11396"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }
@@ -622,7 +878,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s254",
-              "id": "scene/s254/L-36124/e4476/d-89d21e09"
+              "id": "scene/s254/L-36124/e4476/d-0a386828"
             },
             "self": "e4476"
           }
@@ -651,7 +907,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s254",
-              "id": "scene/s254/L-36127/e4476/d-89d21e09"
+              "id": "scene/s254/L-36127/e4476/d-0a386828"
             },
             "self": "e4476"
           }
@@ -671,8 +927,15 @@
     "scene/s254/root/entity-e4477/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11398",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11398"
+            },
+            {
+              "text": "dlg.11399"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }
@@ -692,8 +955,15 @@
     "scene/s254/root/entity-e4478/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11401",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11401"
+            },
+            {
+              "text": "dlg.11402"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -713,8 +983,21 @@
     "scene/s254/root/entity-e4479/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11404",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11404"
+            },
+            {
+              "text": "dlg.11405"
+            },
+            {
+              "text": "dlg.11406"
+            },
+            {
+              "text": "dlg.11407"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -734,8 +1017,18 @@
     "scene/s254/root/entity-e4480/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11409",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11409"
+            },
+            {
+              "text": "dlg.11410"
+            },
+            {
+              "text": "dlg.11411"
+            }
+          ],
           "speaker": "spk.苗女"
         }
       }
@@ -743,8 +1036,12 @@
     "scene/s254/root/entity-e4481/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11413",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11413"
+            }
+          ],
           "speaker": "spk.苗民"
         }
       }

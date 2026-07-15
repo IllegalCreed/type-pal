@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { validateActors, validateScenes, validateSprites } from './validate.js'
+import { validateActors, validateLocale, validateScenes, validateSprites } from './validate.js'
 
 const mkScene = (over: Record<string, unknown> = {}): unknown => ({
   id: 's',
@@ -101,5 +101,14 @@ describe('validateActors(C0)', () => {
         { id: 'a', name: 'n', spriteId: 's', battler: { initialEquipment: {}, initialMagic: [] } },
       ]),
     ).toThrow('缺键 "baseStats"')
+  })
+})
+
+describe('validateLocale · 对话行边界', () => {
+  test('新内容禁止 locale 内换行；loader 兼容边界可显式保留旧软换行', () => {
+    expect(() => validateLocale({ old: '第一行\n第二行' })).toThrow(/DialogueCue\.rows/)
+    expect(validateLocale({ old: '第一行\n第二行' }, { allowLegacySoftWrap: true })).toEqual({
+      old: '第一行\n第二行',
+    })
   })
 })

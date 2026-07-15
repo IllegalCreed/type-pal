@@ -17,10 +17,16 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10190",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10190",
+              "speed": 40
+            }
+          ],
           "speaker": "spk.李逍遥",
-          "slot": "top"
+          "slot": "top",
+          "autoAdvance": 571
         }
       },
       {
@@ -43,9 +49,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10192",
-          "speaker": "spk.林月如"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10192",
+              "speed": 32
+            }
+          ],
+          "speaker": "spk.林月如",
+          "autoAdvance": 571
         }
       },
       {

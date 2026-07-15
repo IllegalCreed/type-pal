@@ -44,8 +44,15 @@
     "scene/s256/root/entity-e4531/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11741",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11741"
+            },
+            {
+              "text": "dlg.11742"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       },
@@ -54,8 +61,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11743",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11743"
+            },
+            {
+              "text": "dlg.11744"
+            },
+            {
+              "text": "dlg.11745"
+            },
+            {
+              "text": "dlg.11746"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       }
@@ -75,8 +95,39 @@
     "scene/s256/root/entity-e4532/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11748",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11748"
+            },
+            {
+              "text": "dlg.11749"
+            },
+            {
+              "text": "dlg.11750"
+            },
+            {
+              "text": "dlg.11751"
+            },
+            {
+              "text": "dlg.11752"
+            },
+            {
+              "text": "dlg.11753"
+            },
+            {
+              "text": "dlg.11754"
+            },
+            {
+              "text": "dlg.11755"
+            },
+            {
+              "text": "dlg.11756"
+            },
+            {
+              "text": "dlg.11757"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       }
@@ -96,8 +147,18 @@
     "scene/s256/root/entity-e4533/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11759",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11759"
+            },
+            {
+              "text": "dlg.11760"
+            },
+            {
+              "text": "dlg.11761"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       },
@@ -106,8 +167,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11762",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11762"
+            },
+            {
+              "text": "dlg.11763"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       },
@@ -116,8 +184,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11764",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11764"
+            },
+            {
+              "text": "dlg.11765"
+            },
+            {
+              "text": "dlg.11766"
+            }
+          ],
           "speaker": "spk.王宫卫兵"
         }
       }
@@ -155,8 +233,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11468",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11468"
+            },
+            {
+              "text": "dlg.11469"
+            }
+          ],
           "speaker": "spk.守卫"
         }
       },
@@ -169,8 +254,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11471",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11471"
+            },
+            {
+              "text": "dlg.11472"
+            }
+          ],
           "speaker": "spk.李逍遥"
         }
       },
@@ -179,8 +271,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11474",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11474"
+            }
+          ],
           "speaker": "spk.守卫",
           "slot": "top"
         }

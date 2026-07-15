@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s173",
   "scripts": {
-    "scene/s173/L-27737/e2866/d-89d21e09": [
+    "scene/s173/L-27737/e2866/d-0a386828": [
       {
         "kind": "animEntity",
         "entity": "e2866"
@@ -11,7 +11,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s173",
-          "id": "scene/s173/L-27737/e2866/d-89d21e09"
+          "id": "scene/s173/L-27737/e2866/d-0a386828"
         },
         "self": "e2866"
       }
@@ -53,8 +53,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9827"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9827",
+              "speed": 136
+            },
+            {
+              "text": "dlg.9828.v-157df70c",
+              "speed": 136
+            }
+          ],
+          "autoAdvance": 685
         }
       },
       {
@@ -63,8 +73,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9829"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9829",
+              "speed": 80
+            },
+            {
+              "text": "dlg.9830",
+              "speed": 80
+            }
+          ],
+          "autoAdvance": 571
         }
       },
       {
@@ -73,9 +93,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9831",
-          "slot": "top"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9831",
+              "speed": 136
+            }
+          ],
+          "slot": "top",
+          "autoAdvance": 800
         }
       },
       {
@@ -83,9 +109,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9832",
-          "slot": "top"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9832.v-a4e078f7",
+              "speed": 136
+            }
+          ],
+          "slot": "top",
+          "autoAdvance": 685
         }
       },
       {
@@ -97,7 +129,7 @@
         "entity": "e2866",
         "script": {
           "chunk": "scene/s173",
-          "id": "scene/s173/L-27737/e2866/d-89d21e09"
+          "id": "scene/s173/L-27737/e2866/d-0a386828"
         }
       },
       {

@@ -16,8 +16,15 @@
     "scene/s276/root/entity-e4734/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11987",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11987"
+            },
+            {
+              "text": "dlg.11988"
+            }
+          ],
           "speaker": "spk.木匠"
         }
       },
@@ -26,8 +33,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11990",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11990"
+            },
+            {
+              "text": "dlg.11991"
+            }
+          ],
           "speaker": "spk.木匠"
         }
       },

@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s090",
   "scripts": {
-    "scene/s090/L-35650/e1664/d-89d21e09": [
+    "scene/s090/L-35650/e1664/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e1664",
@@ -37,7 +37,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s090",
-          "id": "scene/s090/L-35650/e1664/d-89d21e09"
+          "id": "scene/s090/L-35650/e1664/d-0a386828"
         },
         "self": "e1664"
       }
@@ -60,8 +60,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.4949"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.4949"
+            }
+          ]
         }
       },
       {
@@ -133,7 +137,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s090",
-          "id": "scene/s090/L-35650/e1664/d-89d21e09"
+          "id": "scene/s090/L-35650/e1664/d-0a386828"
         },
         "self": "e1664"
       }

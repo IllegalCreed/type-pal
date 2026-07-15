@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s224",
   "scripts": {
-    "scene/s224/L-41075/e3922/d-89d21e09": [
+    "scene/s224/L-41075/e3922/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -15,8 +15,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -24,13 +41,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s224/L-41073/e3922/d-89d21e09": [
+    "scene/s224/L-41073/e3922/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s224/L-41127/e3922/d-89d21e09": [
+    "scene/s224/L-41127/e3922/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -41,7 +58,7 @@
         "ms": 600
       }
     ],
-    "scene/s224/L-41075/e3923/d-89d21e09": [
+    "scene/s224/L-41075/e3923/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -54,8 +71,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -63,13 +97,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s224/L-41073/e3923/d-89d21e09": [
+    "scene/s224/L-41073/e3923/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s224/L-41127/e3923/d-89d21e09": [
+    "scene/s224/L-41127/e3923/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -80,7 +114,7 @@
         "ms": 600
       }
     ],
-    "scene/s224/L-41075/e3924/d-89d21e09": [
+    "scene/s224/L-41075/e3924/d-0a386828": [
       {
         "kind": "playMusic",
         "musicId": 1
@@ -93,8 +127,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.13135",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.13135",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13136",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13137",
+              "speed": 0
+            },
+            {
+              "text": "dlg.13138",
+              "speed": 16
+            }
+          ],
           "slot": "center"
         }
       },
@@ -102,13 +153,13 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s224/L-41073/e3924/d-89d21e09": [
+    "scene/s224/L-41073/e3924/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 2
       }
     ],
-    "scene/s224/L-41127/e3924/d-89d21e09": [
+    "scene/s224/L-41127/e3924/d-0a386828": [
       {
         "kind": "vanishEntity",
         "seconds": 80
@@ -150,7 +201,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s224",
-              "id": "scene/s224/L-41075/e3924/d-89d21e09"
+              "id": "scene/s224/L-41075/e3924/d-0a386828"
             },
             "self": "e3924"
           }
@@ -160,7 +211,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s224",
-              "id": "scene/s224/L-41073/e3924/d-89d21e09"
+              "id": "scene/s224/L-41073/e3924/d-0a386828"
             },
             "self": "e3924"
           }
@@ -170,7 +221,7 @@
         "kind": "jumpScript",
         "ref": {
           "chunk": "scene/s224",
-          "id": "scene/s224/L-41127/e3924/d-89d21e09"
+          "id": "scene/s224/L-41127/e3924/d-0a386828"
         },
         "self": "e3924"
       }

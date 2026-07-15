@@ -1,5 +1,5 @@
 import type { Command, ScriptChunkV1, ScriptIndexV1, ScriptRef } from '@type-pal/content'
-import { checkCommands, deriveScriptChunk } from '@type-pal/content'
+import { checkCommands, deriveScriptChunk, upgradeLegacyDialogues } from '@type-pal/content'
 import type { FileSource } from './file-source.js'
 
 export interface ResolvedScript {
@@ -78,10 +78,8 @@ export class ScriptChunkStore implements ScriptResolver {
     }
     const meta = this.index.chunks[chunkId]
     if (!meta) throw new Error(`ScriptChunkStore: chunk 不存在 "${chunkId}"`)
-    const json = await this.source.readJson<ScriptChunkV1>(
-      joinPath(this.baseDir, meta.path),
-      signal,
-    )
+    const raw = await this.source.readJson<unknown>(joinPath(this.baseDir, meta.path), signal)
+    const json = upgradeLegacyDialogues(raw).value as ScriptChunkV1
     if (signal.aborted) throw new DOMException('script chunk load aborted', 'AbortError')
     if (
       json.version !== 1 ||

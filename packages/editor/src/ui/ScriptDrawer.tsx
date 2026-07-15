@@ -75,7 +75,10 @@ const INSERT_GROUPS: {
   {
     title: '单指令',
     items: [
-      { label: '💬 对话', make: () => [{ kind: 'dialog', line: { text: '(新对话)' } }] },
+      {
+        label: '💬 对话',
+        make: () => [{ kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } }],
+      },
       { label: '⏱ 等待', make: () => [{ kind: 'wait', ms: 200 }] },
       {
         label: '🚶 队伍走到',
@@ -120,8 +123,8 @@ const INSERT_GROUPS: {
           {
             kind: 'branch',
             cond: { kind: 'flag', flag: 'my-flag', is: true },
-            then: [{ kind: 'dialog', line: { text: '(开关已开)' } }],
-            else: [{ kind: 'dialog', line: { text: '(开关未开)' } }],
+            then: [{ kind: 'dialog', cue: { rows: [{ text: '(开关已开)' }] } }],
+            else: [{ kind: 'dialog', cue: { rows: [{ text: '(开关未开)' }] } }],
           },
         ],
       },
@@ -138,7 +141,7 @@ const INSERT_GROUPS: {
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
           { kind: 'setEntityFrame', entity: selfOf(c), frame: 1 },
           { kind: 'playSound', soundId: 2 },
-          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
         ],
       },
@@ -147,7 +150,7 @@ const INSERT_GROUPS: {
         label: '🌿 地上道具(捡走消失)',
         make: (c) => [
           { kind: 'playSound', soundId: 2 },
-          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
         ],
@@ -158,7 +161,7 @@ const INSERT_GROUPS: {
         make: (c) => [
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
           { kind: 'playSound', soundId: 2 },
-          { kind: 'dialog', line: { text: '(得到○○!)' } },
+          { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
         ],
       },
@@ -167,7 +170,7 @@ const INSERT_GROUPS: {
         label: '💰 得钱',
         make: (c) => [
           { kind: 'playSound', soundId: 2 },
-          { kind: 'dialog', line: { text: '(得到○○文钱!)' } },
+          { kind: 'dialog', cue: { rows: [{ text: '(得到○○文钱!)' }] } },
           { kind: 'giveMoney', delta: 100 },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
         ],
@@ -216,7 +219,7 @@ const INSERT_GROUPS: {
         label: '🗣 NPC 搭话',
         make: (c) => [
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
-          { kind: 'dialog', line: { text: '(新对话)' } },
+          { kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } },
         ],
       },
     ],

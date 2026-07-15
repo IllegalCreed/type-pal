@@ -2,11 +2,18 @@
   "version": 1,
   "id": "scene/s158",
   "scripts": {
-    "scene/s158/L-22647/e2645/d-89d21e09": [
+    "scene/s158/L-22647/e2645/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8275",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8275"
+            },
+            {
+              "text": "dlg.8276"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -20,7 +27,7 @@
         }
       }
     ],
-    "scene/s158/L-23279/e2648/d-89d21e09": [
+    "scene/s158/L-23279/e2648/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e2648",
@@ -32,7 +39,7 @@
         "speed": "slow"
       }
     ],
-    "scene/s158/L-23281/e2648/d-89d21e09": [
+    "scene/s158/L-23281/e2648/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e2648",
@@ -44,7 +51,7 @@
         "speed": "slow"
       }
     ],
-    "scene/s158/L-23286/e2649/d-89d21e09": [
+    "scene/s158/L-23286/e2649/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e2649",
@@ -91,8 +98,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8558",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8558"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -102,8 +113,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8560",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8560"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -146,8 +161,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8562",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8562"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -160,7 +179,7 @@
         "entity": "e2648",
         "script": {
           "chunk": "scene/s158",
-          "id": "scene/s158/L-23279/e2648/d-89d21e09"
+          "id": "scene/s158/L-23279/e2648/d-0a386828"
         }
       },
       {
@@ -169,8 +188,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8564",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8564"
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -183,8 +206,25 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8565",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8565",
+              "speed": 56
+            },
+            {
+              "text": "dlg.8566",
+              "speed": 56
+            },
+            {
+              "text": "dlg.8567",
+              "speed": 56
+            },
+            {
+              "text": "dlg.8568",
+              "speed": 56
+            }
+          ],
           "slot": "center"
         }
       },
@@ -232,8 +272,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8570",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8570",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8571",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8572",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -246,8 +299,41 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8573",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8573",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8574",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8575",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8576",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8577",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8578",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8579",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8580",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -260,8 +346,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8581",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8581",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8582",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8583",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -274,7 +373,7 @@
         "entity": "e2648",
         "script": {
           "chunk": "scene/s158",
-          "id": "scene/s158/L-23281/e2648/d-89d21e09"
+          "id": "scene/s158/L-23281/e2648/d-0a386828"
         }
       },
       {
@@ -283,8 +382,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8585",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8585",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8586",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8587",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -297,8 +409,13 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8588",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8588",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.酒剑仙",
           "portrait": {
             "icon": 37,
@@ -315,7 +432,7 @@
         "entity": "e2649",
         "script": {
           "chunk": "scene/s158",
-          "id": "scene/s158/L-23286/e2649/d-89d21e09"
+          "id": "scene/s158/L-23286/e2649/d-0a386828"
         }
       },
       {
@@ -324,8 +441,13 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8590",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8590",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -343,8 +465,17 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8592",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8592",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8593",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 9,
@@ -357,8 +488,13 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8595",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8595",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -372,8 +508,17 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8596",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8596",
+              "speed": 16
+            },
+            {
+              "text": "dlg.8597",
+              "speed": 16
+            }
+          ],
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
@@ -410,8 +555,15 @@
     "scene/s158/root/entity-e2645/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8368",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8368"
+            },
+            {
+              "text": "dlg.8369"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -441,8 +593,21 @@
     "scene/s158/root/entity-e2646/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8371",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8371"
+            },
+            {
+              "text": "dlg.8372"
+            },
+            {
+              "text": "dlg.8373"
+            },
+            {
+              "text": "dlg.8374"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -451,8 +616,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8375",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8375"
+            },
+            {
+              "text": "dlg.8376"
+            },
+            {
+              "text": "dlg.8377"
+            },
+            {
+              "text": "dlg.8378"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -460,8 +638,21 @@
     "scene/s158/root/entity-e2646/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8380",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8380"
+            },
+            {
+              "text": "dlg.8381"
+            },
+            {
+              "text": "dlg.8382"
+            },
+            {
+              "text": "dlg.8383"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -481,8 +672,18 @@
     "scene/s158/root/entity-e2647/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8385",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8385"
+            },
+            {
+              "text": "dlg.8386"
+            },
+            {
+              "text": "dlg.8387"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -491,8 +692,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8388",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8388"
+            },
+            {
+              "text": "dlg.8389"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -501,8 +709,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8390",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8390"
+            },
+            {
+              "text": "dlg.8391"
+            },
+            {
+              "text": "dlg.8392"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       },
@@ -511,8 +729,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8393",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8393"
+            },
+            {
+              "text": "dlg.8394"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -520,8 +745,18 @@
     "scene/s158/root/entity-e2647/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8396",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8396"
+            },
+            {
+              "text": "dlg.8397"
+            },
+            {
+              "text": "dlg.8398"
+            }
+          ],
           "speaker": "spk.青衣弟子"
         }
       }
@@ -541,8 +776,12 @@
     "scene/s158/root/entity-e2648/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.8599",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.8599"
+            }
+          ],
           "speaker": "spk.酒剑仙"
         }
       }

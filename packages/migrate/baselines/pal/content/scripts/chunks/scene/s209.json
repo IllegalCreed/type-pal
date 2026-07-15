@@ -60,8 +60,15 @@
     "scene/s209/root/entity-e3569/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10607",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10607"
+            },
+            {
+              "text": "dlg.10608"
+            }
+          ],
           "speaker": "spk.当铺老板"
         }
       },
@@ -78,8 +85,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10610",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10610"
+            },
+            {
+              "text": "dlg.10611"
+            }
+          ],
           "speaker": "spk.当铺老板"
         }
       }
@@ -87,8 +101,15 @@
     "scene/s209/root/entity-e3570/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10613",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10613"
+            },
+            {
+              "text": "dlg.10614"
+            }
+          ],
           "speaker": "spk.老板"
         }
       },
@@ -104,8 +125,12 @@
     "scene/s209/root/entity-e3571/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10616",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10616"
+            }
+          ],
           "speaker": "spk.药铺老板"
         }
       },
@@ -122,8 +147,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10618",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10618"
+            },
+            {
+              "text": "dlg.10619"
+            }
+          ],
           "speaker": "spk.药铺老板"
         }
       }
@@ -131,8 +163,15 @@
     "scene/s209/root/entity-e3572/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10621",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10621"
+            },
+            {
+              "text": "dlg.10622"
+            }
+          ],
           "speaker": "spk.顾客"
         }
       }
@@ -144,8 +183,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10624",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10624"
+            },
+            {
+              "text": "dlg.10625"
+            },
+            {
+              "text": "dlg.10626"
+            },
+            {
+              "text": "dlg.10627"
+            }
+          ],
           "speaker": "spk.妻"
         }
       },
@@ -154,8 +206,24 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10629",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10629"
+            },
+            {
+              "text": "dlg.10630"
+            },
+            {
+              "text": "dlg.10631"
+            },
+            {
+              "text": "dlg.10632"
+            },
+            {
+              "text": "dlg.10633"
+            }
+          ],
           "speaker": "spk.夫"
         }
       }
@@ -179,8 +247,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10624",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10624"
+            },
+            {
+              "text": "dlg.10625"
+            },
+            {
+              "text": "dlg.10626"
+            },
+            {
+              "text": "dlg.10627"
+            }
+          ],
           "speaker": "spk.妻"
         }
       },
@@ -189,8 +270,24 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10629",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10629"
+            },
+            {
+              "text": "dlg.10630"
+            },
+            {
+              "text": "dlg.10631"
+            },
+            {
+              "text": "dlg.10632"
+            },
+            {
+              "text": "dlg.10633"
+            }
+          ],
           "speaker": "spk.夫"
         }
       }
@@ -214,8 +311,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12496",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12496"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -236,8 +337,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12495",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12495"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -258,8 +363,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12469",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12469"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -280,8 +389,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12513",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12513"
+            }
+          ],
           "slot": "narration"
         }
       },

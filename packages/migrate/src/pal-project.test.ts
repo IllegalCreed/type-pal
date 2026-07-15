@@ -38,7 +38,7 @@ describe('pal 工程定制演出', () => {
         command.to.row === -18.5,
     )
     const questionAt = body.findIndex(
-      (command) => command.kind === 'dialog' && command.line.text === 'dlg.1369',
+      (command) => command.kind === 'dialog' && command.cue.rows[0]?.text === 'dlg.1369',
     )
     const stopAt = body.findIndex(
       (command) =>
@@ -52,7 +52,7 @@ describe('pal 工程定制演出', () => {
         command.kind === 'setEntityFacing' && command.entity === 'e10' && command.facing === 'up',
     )
     const replyAt = body.findIndex(
-      (command) => command.kind === 'dialog' && command.line.text === 'dlg.1371',
+      (command) => command.kind === 'dialog' && command.cue.rows[0]?.text === 'dlg.1371',
     )
     const secondMoveAt = body.findIndex(
       (command) =>

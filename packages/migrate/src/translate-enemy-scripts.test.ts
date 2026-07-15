@@ -136,7 +136,7 @@ describe('advance 游标状态机 → 规则', () => {
         when: { kind: 'firstOfKind' },
         body: [
           { kind: 'playSound', soundId: 8 },
-          { kind: 'dialog', line: { text: 'dlg.5001' } },
+          { kind: 'dialog', cue: { rows: [{ text: 'dlg.5001' }] } },
         ],
       },
     ])
@@ -163,7 +163,7 @@ describe('advance 游标状态机 → 规则', () => {
       { turnStart: 510 },
     )
     expect(t2.choreography[0]!.body).toEqual([
-      { kind: 'dialog', line: { text: 'dlg.5002' } },
+      { kind: 'dialog', cue: { rows: [{ text: 'dlg.5002' }], autoAdvance: 0 } },
       { kind: 'fleeBattle' },
     ])
   })
@@ -205,7 +205,9 @@ describe('advance 游标状态机 → 规则', () => {
     const t = translateEnemyScripts(ctxOf({ 900: [dlg('只说一次', 9), raw(0x90, 0, 0), end()] }), {
       turnStart: 900,
     })
-    expect(t.choreography[0]?.body).toEqual([{ kind: 'dialog', line: { text: 'dlg.9' } }])
+    expect(t.choreography[0]?.body).toEqual([
+      { kind: 'dialog', cue: { rows: [{ text: 'dlg.9' }] } },
+    ])
     expect(t.pending.some((item) => item.includes('0x90'))).toBe(false)
   })
 })

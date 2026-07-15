@@ -6,7 +6,7 @@
  */
 
 import type { GridPos } from './grid.js'
-import type { DialogueLine, Facing } from './index.js'
+import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
 
 type ScriptBinding =
@@ -46,7 +46,7 @@ export type ScriptCondition =
 // ── 命令(M3a 集;增量见设计 §2.3 表)──
 export type Command =
   // 演出 / 对话
-  | { kind: 'dialog'; line: DialogueLine }
+  | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
   /** 原版 0x73:把上一帧按 6 相位 × 12 级逐像素渐变为当前世界帧。 */
@@ -288,8 +288,25 @@ export function checkCommands(cmds: unknown, path: string): void {
       throw new Error(`${path}[${i}]: 缺 kind`)
     const k = (c as { kind: string }).kind
     if (k === 'unmigrated') throw new Error(`${path}[${i}]: 旧工程产物,请用迁移器重新生成`)
-    if (k === 'dialog' && typeof (c as { line?: { text?: unknown } }).line?.text !== 'string')
-      throw new Error(`${path}[${i}]: dialog 缺 line.text`)
+    if (k === 'dialog') {
+      const dialog = c as { cue?: unknown; line?: unknown }
+      if (dialog.line !== undefined)
+        throw new Error(`${path}[${i}]: dialog.line 已退役，请在加载边界升级为 cue.rows`)
+      const cue = dialog.cue as Partial<DialogueCue> | null | undefined
+      if (!cue || !Array.isArray(cue.rows) || cue.rows.length === 0)
+        throw new Error(`${path}[${i}]: dialog 缺非空 cue.rows`)
+      cue.rows.forEach((row, rowIdx) => {
+        if (!row || typeof row.text !== 'string')
+          throw new Error(`${path}[${i}].cue.rows[${rowIdx}]: 缺 text`)
+        if (row.speed !== undefined && (!Number.isFinite(row.speed) || row.speed < 0))
+          throw new Error(`${path}[${i}].cue.rows[${rowIdx}].speed: 期望非负有限数`)
+      })
+      if (
+        cue.autoAdvance !== undefined &&
+        (!Number.isFinite(cue.autoAdvance) || cue.autoAdvance < 0)
+      )
+        throw new Error(`${path}[${i}].cue.autoAdvance: 期望非负有限数`)
+    }
     if (k === 'branch') {
       checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`)
       const el = (c as { else?: unknown }).else

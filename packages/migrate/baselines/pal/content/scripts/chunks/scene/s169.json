@@ -29,8 +29,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9187"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9187",
+              "speed": 80
+            },
+            {
+              "text": "dlg.9188",
+              "speed": 80
+            }
+          ],
+          "autoAdvance": 800
         }
       },
       {
@@ -84,8 +94,13 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9189"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9189"
+            }
+          ],
+          "autoAdvance": 800
         }
       },
       {

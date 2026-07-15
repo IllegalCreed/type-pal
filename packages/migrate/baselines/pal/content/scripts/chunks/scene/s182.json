@@ -12,7 +12,7 @@
         "entity": "e2960",
         "script": {
           "chunk": "scene/s180",
-          "id": "scene/s180/L-25096/e2960/d-89d21e09"
+          "id": "scene/s180/L-25096/e2960/d-0a386828"
         }
       },
       {
@@ -45,8 +45,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9736",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9736"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -70,7 +74,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "shared/c08",
-              "id": "shared/scc-L-27506/L-27506/none/d-08dae3b8"
+              "id": "shared/scc-L-27506/L-27506/none/d-17816477"
             }
           }
         ]
@@ -90,8 +94,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9738",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9738"
+            },
+            {
+              "text": "dlg.9739"
+            }
+          ],
           "speaker": "spk.阿奴",
           "portrait": {
             "icon": 32,
@@ -108,8 +119,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9741",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9741"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -123,8 +138,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9743",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9743"
+            },
+            {
+              "text": "dlg.9744"
+            },
+            {
+              "text": "dlg.9745"
+            },
+            {
+              "text": "dlg.9746"
+            }
+          ],
           "speaker": "spk.阿奴",
           "portrait": {
             "icon": 27,
@@ -137,8 +165,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9748",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9748"
+            },
+            {
+              "text": "dlg.9749"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -152,8 +187,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9751",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9751"
+            }
+          ],
           "speaker": "spk.阿奴",
           "portrait": {
             "icon": 28,
@@ -166,8 +205,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9753",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9753"
+            },
+            {
+              "text": "dlg.9754"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -191,8 +237,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9756",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9756"
+            },
+            {
+              "text": "dlg.9757"
+            },
+            {
+              "text": "dlg.9758"
+            },
+            {
+              "text": "dlg.9759"
+            }
+          ],
           "speaker": "spk.阿奴",
           "portrait": {
             "icon": 28,
@@ -205,8 +264,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.9761",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.9761"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -227,7 +290,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "shared/c03",
-              "id": "shared/scc-L-27510/L-27510/none/d-f0674873"
+              "id": "shared/scc-L-27510/L-27510/none/d-aa3341da"
             }
           }
         ]

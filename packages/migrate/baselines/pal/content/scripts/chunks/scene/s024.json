@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s024",
   "scripts": {
-    "scene/s024/L-7541/e466/d-89d21e09": [
+    "scene/s024/L-7541/e466/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e466",
@@ -113,7 +113,7 @@
         "state": 0
       }
     ],
-    "scene/s024/L-7554/e467/d-89d21e09": [
+    "scene/s024/L-7554/e467/d-0a386828": [
       {
         "kind": "moveEntity",
         "entity": "e467",
@@ -255,8 +255,18 @@
     "scene/s024/root/entity-e465/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2658",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2658"
+            },
+            {
+              "text": "dlg.2659"
+            },
+            {
+              "text": "dlg.2660"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -264,8 +274,12 @@
     "scene/s024/root/entity-e466/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2667"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2667"
+            }
+          ]
         }
       }
     ],
@@ -276,8 +290,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2668"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2668"
+            }
+          ]
         }
       },
       {
@@ -285,7 +303,7 @@
         "entity": "e466",
         "script": {
           "chunk": "scene/s024",
-          "id": "scene/s024/L-7541/e466/d-89d21e09"
+          "id": "scene/s024/L-7541/e466/d-0a386828"
         }
       },
       {
@@ -293,15 +311,25 @@
         "entity": "e467",
         "script": {
           "chunk": "scene/s024",
-          "id": "scene/s024/L-7554/e467/d-89d21e09"
+          "id": "scene/s024/L-7554/e467/d-0a386828"
         }
       }
     ],
     "scene/s024/root/entity-e468/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2662",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2662"
+            },
+            {
+              "text": "dlg.2663"
+            },
+            {
+              "text": "dlg.2664"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -321,8 +349,12 @@
     "scene/s024/root/entity-e469/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2666",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2666"
+            }
+          ],
           "speaker": "spk.少女"
         }
       }
@@ -330,8 +362,12 @@
     "scene/s024/root/entity-e470/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2670",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2670"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -339,8 +375,15 @@
     "scene/s024/root/entity-e471/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2672",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2672"
+            },
+            {
+              "text": "dlg.2673"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -348,8 +391,12 @@
     "scene/s024/root/entity-e472/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2675",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2675"
+            }
+          ],
           "speaker": "spk.夫"
         }
       }
@@ -357,8 +404,15 @@
     "scene/s024/root/entity-e473/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2677",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2677"
+            },
+            {
+              "text": "dlg.2678"
+            }
+          ],
           "speaker": "spk.妻"
         }
       }
@@ -382,8 +436,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12530",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12530"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -404,8 +462,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12482",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12482"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -426,8 +488,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12524",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12524"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -448,8 +514,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12534",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12534"
+            }
+          ],
           "slot": "narration"
         }
       },

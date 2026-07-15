@@ -2,11 +2,18 @@
   "version": 1,
   "id": "scene/s132",
   "scripts": {
-    "scene/s132/L-20013/e2313/d-89d21e09": [
+    "scene/s132/L-20013/e2313/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7283",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7283"
+            },
+            {
+              "text": "dlg.7284"
+            }
+          ],
           "speaker": "spk.胖妓女"
         }
       },
@@ -15,8 +22,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7286",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7286"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 10,
@@ -26,8 +37,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7288",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7288"
+            }
+          ],
           "speaker": "spk.胖妓女",
           "slot": "top"
         }
@@ -37,8 +52,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7290",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7290"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 10,
@@ -155,16 +174,24 @@
     "scene/s132/root/entity-e2304/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5434"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5434"
+            }
+          ]
         }
       }
     ],
     "scene/s132/root/entity-e2305/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5445"
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5445"
+            }
+          ]
         }
       }
     ],
@@ -183,8 +210,15 @@
     "scene/s132/root/entity-e2306/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5447",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5447"
+            },
+            {
+              "text": "dlg.5448"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -192,8 +226,12 @@
     "scene/s132/root/entity-e2306/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5450",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5450"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -207,8 +245,12 @@
     "scene/s132/root/entity-e2307/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5436",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5436"
+            }
+          ],
           "speaker": "spk.妓　女"
         }
       }
@@ -216,8 +258,12 @@
     "scene/s132/root/entity-e2308/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5436",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5436"
+            }
+          ],
           "speaker": "spk.妓　女"
         }
       }
@@ -225,8 +271,12 @@
     "scene/s132/root/entity-e2309/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5444",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5444"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -246,8 +296,12 @@
     "scene/s132/root/entity-e2310/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5436",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5436"
+            }
+          ],
           "speaker": "spk.妓　女"
         }
       }
@@ -255,8 +309,12 @@
     "scene/s132/root/entity-e2311/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5444",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5444"
+            }
+          ],
           "speaker": "spk.嫖客"
         }
       }
@@ -270,8 +328,15 @@
     "scene/s132/root/entity-e2312/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5500",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5500"
+            },
+            {
+              "text": "dlg.5501"
+            }
+          ],
           "speaker": "spk.小雪"
         }
       }
@@ -279,8 +344,15 @@
     "scene/s132/root/entity-e2313/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5438",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5438"
+            },
+            {
+              "text": "dlg.5439"
+            }
+          ],
           "speaker": "spk.胖妓女"
         }
       }

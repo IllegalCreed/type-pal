@@ -133,11 +133,15 @@ export function validateSprites(json: unknown): SpriteDef[] {
   return arr
 }
 
-export function validateLocale(json: unknown): Record<string, string> {
+export function validateLocale(
+  json: unknown,
+  opts: { allowLegacySoftWrap?: boolean } = {},
+): Record<string, string> {
   const o = assertObject(json, 'locale')
-  // 值都应是 string
   for (const [k, v] of Object.entries(o)) {
     if (typeof v !== 'string') throw new Error(`locale: 键 "${k}" 的值非string`)
+    if (!opts.allowLegacySoftWrap && /[\r\n]/.test(v))
+      throw new Error(`locale: 键 "${k}" 含换行；请拆成 DialogueCue.rows`)
   }
   return o as Record<string, string>
 }

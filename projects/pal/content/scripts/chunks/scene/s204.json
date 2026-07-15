@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s204",
   "scripts": {
-    "scene/s204/L-36497/e3438/d-89d21e09": [
+    "scene/s204/L-36497/e3438/d-0a386828": [
       {
         "kind": "wait",
         "ms": 80
@@ -18,7 +18,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s204",
-              "id": "scene/s204/L-36497/e3438/d-89d21e09"
+              "id": "scene/s204/L-36497/e3438/d-0a386828"
             },
             "self": "e3438"
           }
@@ -562,8 +562,15 @@
     "scene/s204/root/entity-e3437/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11128",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11128"
+            },
+            {
+              "text": "dlg.11129"
+            }
+          ],
           "slot": "center"
         }
       },
@@ -572,8 +579,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11131",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11131"
+            },
+            {
+              "text": "dlg.11132"
+            },
+            {
+              "text": "dlg.11133"
+            },
+            {
+              "text": "dlg.11134"
+            }
+          ],
           "speaker": "spk.碑文记载",
           "slot": "center"
         }
@@ -582,8 +602,15 @@
     "scene/s204/root/entity-e3438/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10943",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10943"
+            },
+            {
+              "text": "dlg.10944"
+            }
+          ],
           "speaker": "spk.妇人"
         }
       },
@@ -592,8 +619,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10945",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10945"
+            },
+            {
+              "text": "dlg.10946"
+            },
+            {
+              "text": "dlg.10947"
+            },
+            {
+              "text": "dlg.10948"
+            }
+          ],
           "speaker": "spk.妇人"
         }
       }
@@ -601,8 +641,21 @@
     "scene/s204/root/entity-e3438/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10950",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10950"
+            },
+            {
+              "text": "dlg.10951"
+            },
+            {
+              "text": "dlg.10952"
+            },
+            {
+              "text": "dlg.10953"
+            }
+          ],
           "speaker": "spk.妇人"
         }
       }
@@ -623,7 +676,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s204",
-              "id": "scene/s204/L-36497/e3438/d-89d21e09"
+              "id": "scene/s204/L-36497/e3438/d-0a386828"
             },
             "self": "e3438"
           }

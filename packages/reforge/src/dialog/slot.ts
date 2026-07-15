@@ -6,12 +6,12 @@
  * - 推进只推活跃槽(最新进槽的段)
  * 排版(displayLines/pageStart)不在此,归 DialogBox(它持 glyphs)。
  */
-import type { DialogueLine } from '@type-pal/content'
+import type { DialogueCue } from '@type-pal/content'
 
 export type SlotId = 'top' | 'bottom' | 'narration' | 'center'
 
 export interface SlotEntry {
-  lineIdx: number // 该槽当前显示的是第几段话
+  cueIdx: number // 该槽当前显示的是第几个 cue
 }
 
 export interface SlotState {
@@ -30,11 +30,11 @@ export function emptySlots(): SlotState {
  * 把一段话放进它的 slot(默认 bottom)。
  * 同 slot 覆盖(替换 entry),异 slot 共存(旧槽不动),该 slot 成活跃。
  */
-export function advanceSlots(state: SlotState, line: DialogueLine, lineIdx: number): SlotState {
-  const slot: SlotId = line.slot ?? 'bottom'
+export function advanceSlots(state: SlotState, cue: DialogueCue, cueIdx: number): SlotState {
+  const slot: SlotId = cue.slot ?? 'bottom'
   return {
     ...state,
-    [slot]: { lineIdx },
+    [slot]: { cueIdx },
     activeSlot: slot,
   }
 }

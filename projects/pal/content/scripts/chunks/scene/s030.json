@@ -2,14 +2,24 @@
   "version": 1,
   "id": "scene/s030",
   "scripts": {
-    "scene/s030/L-7469/e540/d-5f102105": [
+    "scene/s030/L-7469/e540/d-3c831ff4": [
       {
         "kind": "clearDialog"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2640",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2640"
+            },
+            {
+              "text": "dlg.2641"
+            },
+            {
+              "text": "dlg.2642"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -18,11 +28,18 @@
         }
       }
     ],
-    "scene/s030/L-7477/e540/d-5f102105": [
+    "scene/s030/L-7477/e540/d-3c831ff4": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2644",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2644"
+            },
+            {
+              "text": "dlg.2645"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -45,8 +62,15 @@
     "scene/s030/root/entity-e539/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2430",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2430"
+            },
+            {
+              "text": "dlg.2431"
+            }
+          ],
           "speaker": "spk.药铺老板"
         }
       },
@@ -74,15 +98,29 @@
     "scene/s030/root/entity-e540/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2626"
+            },
+            {
+              "text": "dlg.2627"
+            },
+            {
+              "text": "dlg.2628"
+            }
+          ],
           "speaker": "spk.少女"
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2630",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2630"
+            }
+          ],
           "speaker": "spk.赵灵儿",
           "portrait": {
             "icon": 11,
@@ -97,7 +135,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s030",
-              "id": "scene/s030/L-7469/e540/d-5f102105"
+              "id": "scene/s030/L-7469/e540/d-3c831ff4"
             },
             "self": "e540"
           }
@@ -120,7 +158,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s030",
-              "id": "scene/s030/L-7477/e540/d-5f102105"
+              "id": "scene/s030/L-7477/e540/d-3c831ff4"
             },
             "self": "e540"
           }
@@ -132,8 +170,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2632",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2632"
+            },
+            {
+              "text": "dlg.2633"
+            },
+            {
+              "text": "dlg.2634"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -146,8 +194,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2636",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2636"
+            }
+          ],
           "speaker": "spk.少女",
           "slot": "top"
         }

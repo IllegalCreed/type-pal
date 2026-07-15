@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s214",
   "scripts": {
-    "scene/s214/L-31118/e3646/d-89d21e09": [
+    "scene/s214/L-31118/e3646/d-0a386828": [
       {
         "kind": "loadScene",
         "scene": "s228",
@@ -50,8 +50,18 @@
     "scene/s214/root/entity-e3647/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11011",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11011"
+            },
+            {
+              "text": "dlg.11012"
+            },
+            {
+              "text": "dlg.11013"
+            }
+          ],
           "speaker": "spk.白苗士兵"
         }
       },
@@ -60,8 +70,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11015",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11015"
+            },
+            {
+              "text": "dlg.11016"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -74,8 +91,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11018",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11018"
+            },
+            {
+              "text": "dlg.11019"
+            },
+            {
+              "text": "dlg.11020"
+            },
+            {
+              "text": "dlg.11021"
+            }
+          ],
           "speaker": "spk.白苗士兵",
           "portrait": {
             "icon": 1,
@@ -105,8 +135,15 @@
     "scene/s214/root/entity-e3647/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11023",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11023"
+            },
+            {
+              "text": "dlg.11024"
+            }
+          ],
           "speaker": "spk.白苗士兵"
         }
       },
@@ -144,8 +181,18 @@
     "scene/s214/root/entity-e3648/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11011",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11011"
+            },
+            {
+              "text": "dlg.11012"
+            },
+            {
+              "text": "dlg.11013"
+            }
+          ],
           "speaker": "spk.白苗士兵"
         }
       },
@@ -154,8 +201,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11015",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11015"
+            },
+            {
+              "text": "dlg.11016"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "portrait": {
             "icon": 1,
@@ -168,8 +222,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11018",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11018"
+            },
+            {
+              "text": "dlg.11019"
+            },
+            {
+              "text": "dlg.11020"
+            },
+            {
+              "text": "dlg.11021"
+            }
+          ],
           "speaker": "spk.白苗士兵",
           "portrait": {
             "icon": 1,
@@ -199,8 +266,15 @@
     "scene/s214/root/entity-e3648/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.11023",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.11023"
+            },
+            {
+              "text": "dlg.11024"
+            }
+          ],
           "speaker": "spk.白苗士兵"
         }
       },

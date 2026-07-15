@@ -1,6 +1,6 @@
 # N1-1 - 对话控制码退出内容与运行时
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: N1 / MG1 / MG2
 Coding Owner: Codex
@@ -159,7 +159,10 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-15）**。实现、自测、全量重迁移、MG2 二跑、静态残留审计、6051 开场与
+  6010 编辑器实机检查均通过；浏览器会话无 console warning/error。自动化浏览器没有已授权的工程目录
+  句柄，FSA 保存按钮会触发系统目录选择器，因此“真实保存后重开”留给 Opus 用已有目录句柄补验；
+  canonical round-trip 与 loader 单向升级已由单测覆盖。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理:
@@ -233,7 +236,8 @@ Branch: main
   autoAdvance 归 cue 级正确);反对双格式立场一致。附 R1-R4:`"` slot 依赖、`~` 后死码、18 处 `-` 负号考证
   (需用户裁决 toggle vs literal)、`\n` 政策。
 - GLM: **agree**。基线数字全吻合(113/107/240/27/6722/2392 独立实测);12vs9 口径差异=定义不同(6 值含>1 `$NN`),两口径行中=0 但依赖 `\u3000` 算非可见(N1 build 必落);R3 考证 18 处 `-` 全站点清单备齐(全属性±N 文案,一阶段无条件 cyan toggle);测试矩阵方向完整(R1 `"`slot依赖/R2 `~`后死码两形态/R3 18站点)。variant id 确定性需补测试(N2)。N1-N3 非阻塞。Evidence: 设计签字 GLM 行。
-- 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。R3 的 18 站点 toggle/literal 裁决待呈报。
+- 用户拍板: 控制码必须移除并改成现代明确属性；迁移缺陷优先处理。2026-07-15 选择 A（忠实原版）：
+  18 处 `-` 全部按 cyan toggle 迁移，负号不显示，属性减益数字以语义青色标签表达；该控制码不得进入新版工程。
 
 ## 额度 / 代班记录(如适用)
 
@@ -241,27 +245,62 @@ Branch: main
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（三签齐后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- Coding Owner: Codex（三签齐，2026-07-15 已进入 build）
+- 修改文件:
+  - `packages/content`:唯一 `DialogueCue + DialogueRow` schema、严格校验、旧工程单向 upgrader；删除
+    `dialog-text` 运行时解析器。
+  - `packages/migrate`:有状态 legacy decoder、事件/敌人对白迁移、goto/branch/callScript 状态传播、
+    确定性 text id 变体、全 PAL 永久产物门禁。
+  - `packages/reforge`:loader 升级边界、cue/rows 状态机/排版/时序/runner 消费链；无旧控制码解析入口。
+  - `packages/editor`:cue/rows 全字段表单、清洁脚本摘要、模板/预览/播放链；保存 round-trip fixture 改为
+    canonical。
+  - `projects/pal` + `packages/migrate/baselines/pal`:全量重生成；`projects/demo` 改为 canonical。
+  - `docs/phase2`:model-design、content-schema、capability-map 与独立迁移审计。
+- 实现摘要:
+  - `$NN/~NN/-/'/@/"/()/\` 只由 `packages/migrate/src/legacy-dialog.ts` 解码；`-` 按用户选择 A
+    忠实消费为 cyan toggle。
+  - 原始每条 showDialog 变成独立 row；`~` 在当前位置切 cue；速度与自动推进写真实毫秒。颜色状态、速度、
+    speaker、slot、portrait 跨连续行与脚本控制流传播；同文本异入口态使用内容哈希变体 id。
+  - 分支臂 memo key 与 ScriptRegistry id 都包含入口对话态；callScript 离开态回传调用方，已有专项回归。
+  - 新 locale 禁止 CR/LF；旧作者工程只在 loader 边界保留软换行读取豁免，保存产物只写 cue。
+  - 全 PAL 829 个 content JSON 中共 6,858 条 dialog / 14,200 rows，非 canonical 0；8,637 个正文
+    text id 的旧控制字符、换行和非平衡标签均为 0；确定性变体 26。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate run migrate:content`（dry-run）:829 托管文件、294 场景、297 chunks；
+    `writes=276 deletes=0 conflicts=0`，脚本 compact/pretty/command 比 `1.65x/1.13x/1.53x`，未放宽门禁。
+  - 同命令写盘并同步 baseline；二次迁移严格 `writes=0 deletes=0 conflicts=0`。
+  - `pnpm -r --workspace-concurrency=1 run check` + `pnpm lint`:7 个工作区包 typecheck + 3,497 项测试通过
+    （另 1 项按既有条件跳过），Biome 检查 670 文件无错误。
+  - 并发版 `pnpm check` 曾在同轮重型测试并行时触发 migrate/pal-extract/game 的超时；三个包随后分别单跑
+    全绿，串行全仓门禁亦全绿，确认不是断言回归。
+  - 专项:`legacy-dialog`、`translate-events`、`dialogue-project`、content upgrader、editor
+    round-trip/脚本摘要测试均通过。
+- 浏览器 / 手工检查:
+  - 6051 `?entry=new-game`:连续取帧确认三段自动对白按序出现并自动进入 s001；画面无 `$NN/~NN`，
+    speaker/center/bottom 正确，console warning/error 为 0。
+  - 6010 s000:脚本树显示清洁正文；第一段表单 `speed=112/auto=342/center`，第三段双 row
+    `16/16`、speaker 李逍遥、`auto=685`。
+  - 6010 s173:跨源行黄色对白显示清洁摘要；表单保留平衡 `<yellow>…</yellow>` i18n 样式数据，
+    `speed=136/auto=800/top` 可读；修复摘要曾直出富文本标签的问题后复验通过。
+- 跳过的检查及原因:
+  - 自动化会话没有 FSA 工程目录句柄，点击保存会被浏览器系统目录选择器以“非用户手势”拒绝；未产生
+    磁盘写入。保存/重开结构由 `project-io` round-trip + loader upgrader 单测覆盖，Opus 用已有句柄补一轮
+    真实 UI 保存重开。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Opus
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: Codex in-app browser 实机访问 6051/6010；开场连续帧 + 编辑器 DOM/表单值 + console 日志。
+- 截图 / 像素检查路径: Codex 浏览器会话；临时验收图未写入仓库，避免把二进制证据混入功能提交。
+- 结论: Codex 视觉验收通过；旧控制码不显示、自动推进与显式属性一致、编辑器摘要清洁。
+- 未完成项: Opus 用已授权工程目录句柄补验“改一个字段 → 保存 → 重开仍为 cue 且旧码不回生”。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论: Codex accept；Opus/GLM pending。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: 等 Opus 主审与 GLM 覆盖复核。
 
 ## 用户验收
 
@@ -282,23 +321,27 @@ Branch: main
   X3-1 设计主审(agree + X-R1~X-R4,见该卡)。Evidence: 两卡主审立场 + 本人核验脚本输出。
   Next: GLM 覆盖/测试矩阵复核(两卡一并);三签齐后 Codex build,顺序 N1-1 优先。未改实现文件。
 - 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)基线 113/107/240/27(拆17+10)/6722/2392 全吻合,12vs9=定义口径不同(6值含>1`$NN`),行中=0 依赖`\u3000`非可见(N1 build必落);(2)测试矩阵对照 parseDialogText:98-180 全分支方向完整,R1`"`slot依赖/R2`~`后死码两形态/R3专项全落表;(3)R3 材料 18处`-`全站点备齐(全属性±N,cmd39926-40790范围,一阶段:121-123无条件cyan toggle),裁决(A)忠实toggle vs(B)literal备齐交用户;(4)variant id 确定性需补正序/逆序测试(N2);(5)parseDialogText真值复核与Opus一致。N1(`\u3000`约定)/N2(variant确定性)/N3(1234交叉口径)非阻塞。Evidence: 设计签字GLM行。Next: 三签齐已 build allowed,N1-1优先;交 Codex build。未改实现文件。
+- 2026-07-15 Codex: build 完成并签 review accept。唯一 cue/rows schema、旧工程 upgrader、有状态迁移 decoder、
+  goto/callScript 状态传播、runtime/editor 单路消费、全 PAL/baseline 重生成均已落地；`pnpm check` 全绿，
+  MG2 二跑零计划，PAL 旧控制字符/旧 line/换行/坏标签全为 0。6051 开场与 6010 s000/s173 实机复验
+  通过；FSA 真实保存重开因自动化会话无目录句柄交 Opus 补验。Evidence:本卡 Build/视觉记录 +
+  `docs/phase2/foundation/n1-dialogue-migration-audit.md`。Next:Opus 代码/架构/视觉主审；不得标 done。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: N1-1 对话控制码退出内容与运行时 + X3-1 场景入场呈现事务,覆盖/测试矩阵复核(GLM)
-主任务卡: docs/ops/tasks/N1-1-dialogue-control-code-retirement.md
-关联设计卡: docs/ops/tasks/X3-1-scene-entry-presentation.md
-当前状态: 两卡设计签字 Codex agree + Opus agree(N1-1 附 R1-R4,X3-1 附 X-R1~X-R4),GLM pending;三签未齐,build blocked
-你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得实现
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、两卡全部(重点两卡 Opus 主审立场的 R 项)、docs/phase2/dialogue/model-design.md、packages/game/src/present/dialog-box.ts(一阶段真值)
-请重点复核(数据/测试面,与 Opus 的 schema/架构面互补):
-1. N1-1 基线对账:113 $NN/107 ~NN/240 quote/27 paren(出现次数口径)、6,722 dialog 命令、1,234 控制码引用、2,392 join 值;卡"12 个批内变速批次"与 Opus 按 join 值口径 9 个的差异对账(两口径均应全属行界形态,行中=0);
-2. 表驱动测试矩阵完备性:对照一阶段 parseDialogText 全分支(-'@" 四色 toggle、`"` 仅普通对话变黄、$NN 跨行跨命令持续、~NN 行止且其后含 $NN 一并作废、\ 转义、() 光标、末尾冒号 speaker),每分支至少一用例;R1/R2/R3 的专项用例是否全部落进测试列表;
-3. R3 考证材料:18 处 `-` 全站点清单(实测全为属性±N 文案)+ 一阶段渲染实况,备齐给用户裁决 toggle vs literal;
-4. variant text id:同源多状态站点数量的审计方法;命名确定性(与翻译遍历顺序无关)如何落断言;
-5. X3-1 lifting 站点面:全 PAL onEnter 绑定(root + override 家族)中"早期 0x73"站点计数,确认除 s001 root 外还有哪些;独立 0x73(非 onEnter 前缀)不误升 entry 的反例集;
-6. X3-1 测试矩阵:X-R3 生命周期路径表(prepare 中 abort/reveal 中二次 loadScene/读档打断/prepare 抛错)逐行可落测试;X-R1 prepare 安全集穷尽性断言(每个 Command kind 必须声明分类)的测试形态。
-不要做: 不改实现文件;不重生成 PAL;不改 capability-map;三签未齐不得转 build
-输出要求: 在两卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后把两卡 build 准入结论改 allowed(实现顺序固定 N1-1 优先、X3-1 后置),交 Codex build
+接手任务:N1-1 对话控制码退出内容与运行时,review 主审(Opus)
+任务卡:docs/ops/tasks/N1-1-dialogue-control-code-retirement.md
+当前状态:review；Codex build/self-review 已 accept，Opus/GLM review 签字 pending；不得标 done
+你的角色:Opus，架构/代码/视觉主审。默认只改任务卡；发现问题签 counter 并列出最小返工项，不要直接改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部、docs/phase2/dialogue/model-design.md、docs/phase2/foundation/n1-dialogue-migration-audit.md、packages/game/src/present/dialog-box.ts
+实现锚点:packages/content/src/{index,script,dialogue-upgrade,validate}.ts；packages/migrate/src/{legacy-dialog,translate-events,translate-enemy-scripts,dialogue-project.test}.ts；packages/reforge/src/dialog/{dialog-box,layout,slot}.ts；packages/editor/src/ui/{CommandForm,ScriptTree}.tsx
+请复核:
+1. canonical 是否真正只有 dialog.cue.rows；loader upgrader 是否只做 line/lines → cue/cues 结构平移且不解释旧控制码；content/reforge/editor 是否无 legacy parser
+2. decoder 是否逐项忠实一阶段：用户选择 A 的 `-` cyan toggle、quote 的 narration 分叉、$NN 跨行、~ 后全死、转义、光标、U+3000、真中途变速 fail-loud
+3. 颜色/速度/speaker/slot/portrait 在 goto、分支、callScript、registry 上下文中是否正确传播；variant id 是否与遍历顺序无关
+4. Reforge 多 row 打字/autoAdvance/分页是否正确；编辑器摘要是否只显示可见正文，表单是否完整编辑 rows/speed/auto/slot/speaker/portrait/cursor
+5. 重跑关键测试或 pnpm check；核对全 PAL 6,858 dialog/14,200 rows、旧形态/控制字符/换行/坏标签为 0，以及 MG2 二跑零计划
+6. 浏览器 6051 ?entry=new-game 复验三段与 s001 跳转；6010 复验 s000 和 s173。请用已授权工程目录句柄补“改字段→保存→重开仍为 cue、旧码不回生”
+输出要求:在本卡 Opus review 签字行写 accept，或 counter+证据/返工项；补交接日志并提交。若 accept，给用户一段可直接转交 GLM 的覆盖复核提示词。不得开始 X3-1，不得把 N1-1 标 done
 ```

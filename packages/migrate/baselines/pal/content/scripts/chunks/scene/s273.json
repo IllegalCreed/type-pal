@@ -83,8 +83,15 @@
     "scene/s273/root/entity-e4724/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12064",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12064"
+            },
+            {
+              "text": "dlg.12065"
+            }
+          ],
           "speaker": "spk.船商"
         }
       }
@@ -92,8 +99,18 @@
     "scene/s273/root/entity-e4724/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12067",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12067"
+            },
+            {
+              "text": "dlg.12068"
+            },
+            {
+              "text": "dlg.12069"
+            }
+          ],
           "speaker": "spk.船商"
         }
       }

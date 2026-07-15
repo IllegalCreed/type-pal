@@ -16,8 +16,18 @@
     "scene/s031/root/entity-e542/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2426",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2426"
+            },
+            {
+              "text": "dlg.2427"
+            },
+            {
+              "text": "dlg.2428"
+            }
+          ],
           "speaker": "spk.铁铺老板"
         }
       },
@@ -45,8 +55,18 @@
     "scene/s031/root/entity-e543/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2608",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2608"
+            },
+            {
+              "text": "dlg.2609"
+            },
+            {
+              "text": "dlg.2610"
+            }
+          ],
           "speaker": "spk.居民"
         }
       },
@@ -55,8 +75,39 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2611",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2611"
+            },
+            {
+              "text": "dlg.2612"
+            },
+            {
+              "text": "dlg.2613"
+            },
+            {
+              "text": "dlg.2614"
+            },
+            {
+              "text": "dlg.2615"
+            },
+            {
+              "text": "dlg.2616"
+            },
+            {
+              "text": "dlg.2617"
+            },
+            {
+              "text": "dlg.2618"
+            },
+            {
+              "text": "dlg.2619"
+            },
+            {
+              "text": "dlg.2620"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -64,8 +115,18 @@
     "scene/s031/root/entity-e543/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2622",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2622"
+            },
+            {
+              "text": "dlg.2623"
+            },
+            {
+              "text": "dlg.2624"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -85,8 +146,15 @@
     "scene/s031/root/entity-e544/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2596",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2596"
+            },
+            {
+              "text": "dlg.2597"
+            }
+          ],
           "speaker": "spk.顾客"
         }
       },
@@ -95,8 +163,27 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2598",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2598"
+            },
+            {
+              "text": "dlg.2599"
+            },
+            {
+              "text": "dlg.2600"
+            },
+            {
+              "text": "dlg.2601"
+            },
+            {
+              "text": "dlg.2602"
+            },
+            {
+              "text": "dlg.2603"
+            }
+          ],
           "speaker": "spk.顾客"
         }
       }
@@ -104,8 +191,15 @@
     "scene/s031/root/entity-e544/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.2605",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.2605"
+            },
+            {
+              "text": "dlg.2606"
+            }
+          ],
           "speaker": "spk.顾客"
         }
       }

@@ -27,8 +27,12 @@
     "scene/s099/root/entity-e1796/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5140",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5140"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -36,8 +40,12 @@
     "scene/s099/root/entity-e1796/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5142",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5142"
+            }
+          ],
           "speaker": "spk.居民"
         }
       }
@@ -45,8 +53,15 @@
     "scene/s099/root/entity-e1797/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5144",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5144"
+            },
+            {
+              "text": "dlg.5145"
+            }
+          ],
           "speaker": "spk.父"
         }
       },
@@ -55,8 +70,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5147",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5147"
+            }
+          ],
           "speaker": "spk.女"
         }
       }
@@ -64,8 +83,15 @@
     "scene/s099/root/entity-e1798/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5144",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5144"
+            },
+            {
+              "text": "dlg.5145"
+            }
+          ],
           "speaker": "spk.父"
         }
       },
@@ -74,8 +100,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5147",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5147"
+            }
+          ],
           "speaker": "spk.女"
         }
       }
@@ -83,8 +113,12 @@
     "scene/s099/root/entity-e1799/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5149",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5149"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }
@@ -92,8 +126,12 @@
     "scene/s099/root/entity-e1799/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5151",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5151"
+            }
+          ],
           "speaker": "spk.小孩"
         }
       }

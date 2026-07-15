@@ -5,11 +5,18 @@
     "scene/s119"
   ],
   "scripts": {
-    "scene/s128/L-19311/e2245/d-89d21e09": [
+    "scene/s128/L-19311/e2245/d-0a386828": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6988",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6988"
+            },
+            {
+              "text": "dlg.6989"
+            }
+          ],
           "speaker": "spk.茅山道士"
         }
       },
@@ -18,8 +25,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6990",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6990"
+            },
+            {
+              "text": "dlg.6991"
+            },
+            {
+              "text": "dlg.6992"
+            },
+            {
+              "text": "dlg.6993"
+            }
+          ],
           "speaker": "spk.茅山道士"
         }
       },
@@ -28,8 +48,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6994",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6994"
+            },
+            {
+              "text": "dlg.6995"
+            },
+            {
+              "text": "dlg.6996"
+            }
+          ],
           "speaker": "spk.茅山道士"
         }
       },
@@ -38,8 +68,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6998",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6998"
+            },
+            {
+              "text": "dlg.6999"
+            },
+            {
+              "text": "dlg.7000"
+            },
+            {
+              "text": "dlg.7001"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
@@ -52,8 +95,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7003",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7003"
+            },
+            {
+              "text": "dlg.7004"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
@@ -63,8 +113,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7006",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7006"
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
@@ -77,8 +131,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7008",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7008"
+            },
+            {
+              "text": "dlg.7009"
+            },
+            {
+              "text": "dlg.7010"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
@@ -88,8 +152,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7011",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7011"
+            },
+            {
+              "text": "dlg.7012"
+            },
+            {
+              "text": "dlg.7013"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
@@ -99,8 +173,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7015",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7015"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
@@ -112,7 +190,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-19309/e2245/d-fbdb0f7e"
+              "id": "scene/s128/L-19309/e2245/d-d52ded5d"
             },
             "self": "e2245"
           }
@@ -132,7 +210,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-19306/e2245/d-fbdb0f7e"
+              "id": "scene/s128/L-19306/e2245/d-d52ded5d"
             },
             "self": "e2245"
           }
@@ -147,8 +225,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7017",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7017"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
@@ -193,21 +275,25 @@
         "musicId": 32
       }
     ],
-    "scene/s128/L-19309/e2245/d-fbdb0f7e": [],
-    "scene/s128/L-19306/e2245/d-fbdb0f7e": [
+    "scene/s128/L-19309/e2245/d-d52ded5d": [],
+    "scene/s128/L-19306/e2245/d-d52ded5d": [
       {
         "kind": "clearDialog"
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6986",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6986"
+            }
+          ],
           "speaker": "spk.茅山道士",
           "slot": "top"
         }
       }
     ],
-    "scene/s128/L-36411/e2231/d-89d21e09": [
+    "scene/s128/L-36411/e2231/d-0a386828": [
       {
         "kind": "setPartyFacing",
         "facing": "down",
@@ -250,7 +336,7 @@
         "ms": 40
       }
     ],
-    "scene/s128/L-35709/e2242/d-89d21e09": [
+    "scene/s128/L-35709/e2242/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2242",
@@ -272,7 +358,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-35709/e2242/d-89d21e09"
+              "id": "scene/s128/L-35709/e2242/d-0a386828"
             },
             "self": "e2242"
           }
@@ -289,7 +375,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-35715/e2242/d-89d21e09"
+              "id": "scene/s128/L-35715/e2242/d-0a386828"
             },
             "self": "e2242"
           }
@@ -310,7 +396,7 @@
         "ms": 360
       }
     ],
-    "scene/s128/L-35715/e2242/d-89d21e09": [
+    "scene/s128/L-35715/e2242/d-0a386828": [
       {
         "kind": "setEntityFacing",
         "entity": "e2242",
@@ -373,7 +459,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s128",
-          "id": "scene/s128/L-36411/e2231/d-89d21e09"
+          "id": "scene/s128/L-36411/e2231/d-0a386828"
         },
         "self": "e2231"
       },
@@ -394,8 +480,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5589",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5589"
+            },
+            {
+              "text": "dlg.5590"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -404,8 +497,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5592",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5592"
+            },
+            {
+              "text": "dlg.5593"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -414,8 +514,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5595",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5595"
+            },
+            {
+              "text": "dlg.5596"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -424,8 +531,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5598",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5598"
+            },
+            {
+              "text": "dlg.5599"
+            },
+            {
+              "text": "dlg.5600"
+            },
+            {
+              "text": "dlg.5601"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -434,8 +554,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5603",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5603"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -444,8 +568,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5605",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5605"
+            },
+            {
+              "text": "dlg.5606"
+            },
+            {
+              "text": "dlg.5607"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -454,8 +588,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5609",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5609"
+            },
+            {
+              "text": "dlg.5610"
+            },
+            {
+              "text": "dlg.5611"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -464,8 +608,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5613",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5613"
+            },
+            {
+              "text": "dlg.5614"
+            },
+            {
+              "text": "dlg.5615"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -474,8 +628,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5617",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5617"
+            },
+            {
+              "text": "dlg.5618"
+            },
+            {
+              "text": "dlg.5619"
+            },
+            {
+              "text": "dlg.5620"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -487,8 +654,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5622",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5622"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -497,8 +668,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5624",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5624"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -506,8 +681,12 @@
     "scene/s128/root/entity-e2233/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5626"
+            }
+          ],
           "speaker": "spk.巨鲸帮众"
         }
       }
@@ -527,8 +706,12 @@
     "scene/s128/root/entity-e2234/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5626"
+            }
+          ],
           "speaker": "spk.巨鲸帮众"
         }
       }
@@ -548,8 +731,12 @@
     "scene/s128/root/entity-e2235/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5626"
+            }
+          ],
           "speaker": "spk.巨鲸帮众"
         }
       }
@@ -569,8 +756,12 @@
     "scene/s128/root/entity-e2236/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5626",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5626"
+            }
+          ],
           "speaker": "spk.巨鲸帮众"
         }
       }
@@ -582,8 +773,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5589",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5589"
+            },
+            {
+              "text": "dlg.5590"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -592,8 +790,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5592",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5592"
+            },
+            {
+              "text": "dlg.5593"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -602,8 +807,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5595",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5595"
+            },
+            {
+              "text": "dlg.5596"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -612,8 +824,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5598",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5598"
+            },
+            {
+              "text": "dlg.5599"
+            },
+            {
+              "text": "dlg.5600"
+            },
+            {
+              "text": "dlg.5601"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -622,8 +847,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5603",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5603"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -632,8 +861,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5605",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5605"
+            },
+            {
+              "text": "dlg.5606"
+            },
+            {
+              "text": "dlg.5607"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -642,8 +881,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5609",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5609"
+            },
+            {
+              "text": "dlg.5610"
+            },
+            {
+              "text": "dlg.5611"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       },
@@ -652,8 +901,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5613",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5613"
+            },
+            {
+              "text": "dlg.5614"
+            },
+            {
+              "text": "dlg.5615"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -662,8 +921,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5617",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5617"
+            },
+            {
+              "text": "dlg.5618"
+            },
+            {
+              "text": "dlg.5619"
+            },
+            {
+              "text": "dlg.5620"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -675,8 +947,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5622",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5622"
+            }
+          ],
           "speaker": "spk.巨鲸帮"
         }
       },
@@ -685,8 +961,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5624",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5624"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -694,8 +974,15 @@
     "scene/s128/root/entity-e2238/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5628",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5628"
+            },
+            {
+              "text": "dlg.5629"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -715,8 +1002,15 @@
     "scene/s128/root/entity-e2239/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5628",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5628"
+            },
+            {
+              "text": "dlg.5629"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -736,8 +1030,15 @@
     "scene/s128/root/entity-e2240/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5628",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5628"
+            },
+            {
+              "text": "dlg.5629"
+            }
+          ],
           "speaker": "spk.飞鹰帮"
         }
       }
@@ -757,8 +1058,12 @@
     "scene/s128/root/entity-e2241/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5631",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5631"
+            }
+          ],
           "speaker": "spk.小妹"
         }
       }
@@ -766,8 +1071,18 @@
     "scene/s128/root/entity-e2242/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5633",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5633"
+            },
+            {
+              "text": "dlg.5634"
+            },
+            {
+              "text": "dlg.5635"
+            }
+          ],
           "speaker": "spk.酒客"
         }
       }
@@ -794,7 +1109,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-35709/e2242/d-89d21e09"
+              "id": "scene/s128/L-35709/e2242/d-0a386828"
             },
             "self": "e2242"
           }
@@ -811,7 +1126,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s128",
-              "id": "scene/s128/L-35715/e2242/d-89d21e09"
+              "id": "scene/s128/L-35715/e2242/d-0a386828"
             },
             "self": "e2242"
           }
@@ -835,8 +1150,15 @@
     "scene/s128/root/entity-e2244/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5637",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5637"
+            },
+            {
+              "text": "dlg.5638"
+            }
+          ],
           "speaker": "spk.酒客"
         }
       }
@@ -844,8 +1166,21 @@
     "scene/s128/root/entity-e2245/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6396",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6396"
+            },
+            {
+              "text": "dlg.6397"
+            },
+            {
+              "text": "dlg.6398"
+            },
+            {
+              "text": "dlg.6399"
+            }
+          ],
           "speaker": "spk.茅山道士"
         }
       },
@@ -862,8 +1197,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6401",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6401"
+            },
+            {
+              "text": "dlg.6402"
+            },
+            {
+              "text": "dlg.6403"
+            },
+            {
+              "text": "dlg.6404"
+            }
+          ],
           "speaker": "spk.茅山道士"
         }
       }

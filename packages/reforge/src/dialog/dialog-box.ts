@@ -3,15 +3,9 @@
  * 逐段推进 + top/bottom 多槽:同槽覆盖、异槽共存。位置真值 GLM spec §3。
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
-import {
-  type Locale,
-  lookupText,
-  parseDialogControlCodes,
-  parseRichText,
-  type TextSpan,
-} from '@type-pal/content'
+import { type Locale, lookupText, parseRichText, type TextSpan } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
-import { advanceLine, type DialogueState } from '../dialogue.js'
+import { advanceCue, type DialogueState } from '../dialogue.js'
 import { type BoxTiles, drawScroll } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
@@ -60,15 +54,15 @@ const POS = {
 const MAX_RIGHT = 308 // 正文右边距 → 每行可用 264px(无头像)
 const CURSOR_RESERVE = 12 // 末行末尾给光标留位,防顶出屏幕
 
-/** 单个 slot 的排版渲染态(slot.ts 管 lineIdx,这里管该段的排版)。 */
+/** 单个 slot 的排版渲染态(slot.ts 管 cueIdx,这里管 cue 内 rows 的排版)。 */
 interface SlotRender {
   displayLines: DisplayLine[]
   /** narration 单行卷轴使用未折行的富文本。 */
   singleLineSpans: TextSpan[]
   pageStart: number
-  /** 该段话打字速度(ms/字):显式 line.speed > 原版 $NN 控制码 > DEFAULT_SPEED_MS。 */
-  speed: number
-  /** 尾停顿自动推进(ms):显式 line.autoAdvance > 原版 ~NN;非 undefined = 自动推进、无光标。 */
+  /** 每个源 row 的真实打字速度(ms/字)。 */
+  rowSpeeds: number[]
+  /** cue 尾停顿自动推进(ms);非 undefined = 自动推进、无光标。 */
   autoAdvance?: number
 }
 
@@ -95,12 +89,12 @@ export class DialogBox {
     return this.state !== null
   }
 
-  /** 把第 idx 段话排版进它的 slot,返回该 slot 的渲染态。有头像时正文 x 缩进 + 右边界给头像让位(spec §3)。 */
-  private layoutLineInto(lineIdx: number): { slot: SlotId; render: SlotRender } {
-    const line = this.state?.dialogue.lines[lineIdx]
-    if (!line) throw new Error('reforge: layoutLineInto lineIdx 越界')
-    const slot: SlotId = line.slot ?? 'bottom'
-    const portraitImg = line.portrait ? this.portraits.get(line.portrait.icon) : undefined
+  /** 把第 idx 个 cue 排版进它的 slot。有头像时正文 x 缩进 + 右边界给头像让位。 */
+  private layoutCueInto(cueIdx: number): { slot: SlotId; render: SlotRender } {
+    const cue = this.state?.dialogue.cues[cueIdx]
+    if (!cue) throw new Error('reforge: layoutCueInto cueIdx 越界')
+    const slot: SlotId = cue.slot ?? 'bottom'
+    const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.icon) : undefined
     const hasPortrait = Boolean(portraitImg)
     const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
     // maxRight:头像在右(bottom)→ 正文右边收到头像左;头像在左(top)→ startX 已避开头像,maxRight 不变。
@@ -110,24 +104,24 @@ export class DialogBox {
       // bottom 头像在右(portrait.x=270),正文右边收到头像左边界
       maxRight = POS[slot].portrait.x - portraitImg.width / 2 - 4
     }
-    const resolved = parseDialogControlCodes(lookupText(line.text, this.locale)).text
     const displayLines = layoutLines(
-      [line],
+      cue.rows,
       this.glyphs,
-      () => resolved, // 剥离 $NN/~NN 等控制码
+      (textId) => lookupText(textId, this.locale),
       maxRight,
       startX,
-    ).map((dl) => ({ ...dl, srcLineIdx: lineIdx }))
-    // 控制码 → 行级属性:显式字段优先,原版 $NN(速度)/~NN(尾停顿自动推进)次之。
-    const codes = parseDialogControlCodes(lookupText(line.text, this.locale))
+    )
+    const singleLineText = cue.rows.map((row) => lookupText(row.text, this.locale)).join('')
     return {
       slot,
       render: {
         displayLines,
-        singleLineSpans: parseRichText(resolved),
+        singleLineSpans: parseRichText(singleLineText),
         pageStart: 0,
-        speed: slot === 'narration' ? 0 : (line.speed ?? codes.speed ?? DEFAULT_SPEED_MS),
-        autoAdvance: line.autoAdvance ?? codes.autoAdvance,
+        rowSpeeds: cue.rows.map((row) =>
+          slot === 'narration' ? 0 : (row.speed ?? DEFAULT_SPEED_MS),
+        ),
+        autoAdvance: cue.autoAdvance,
       },
     }
   }
@@ -137,10 +131,10 @@ export class DialogBox {
     this.slots = emptySlots()
     this.renders = {}
     // 第一段话进它的 slot
-    const firstLine = state.dialogue.lines[0]
-    if (!firstLine) throw new Error('reforge: 对话无台词')
-    this.slots = advanceSlots(this.slots, firstLine, 0)
-    const { slot, render } = this.layoutLineInto(0)
+    const firstCue = state.dialogue.cues[0]
+    if (!firstCue) throw new Error('reforge: 对话无显示单元')
+    this.slots = advanceSlots(this.slots, firstCue, 0)
+    const { slot, render } = this.layoutCueInto(0)
     this.renders[slot] = render
     this.lineStartMs = nowMs
     this.pageDone = false
@@ -170,24 +164,24 @@ export class DialogBox {
     // 该段话翻完 → 推进下一段话。但若该段有 autoAdvance(尾停顿),
     // sdlpal 真值(spec §Bug3):尾停顿不可加速,玩家按 space = noop,必须等 update 自动推进。
     if (this.activeAutoAdvance() !== undefined) return
-    this.advanceToNextLine(nowMs)
+    this.advanceToNextCue(nowMs)
   }
 
-  /** 推进到下一段话(advance 第3段 + autoAdvance 共用)。对话结束 → 清所有 slot。 */
-  private advanceToNextLine(nowMs: number): void {
+  /** 推进到下一个 cue(按键 + autoAdvance 共用)。对话结束 → 清所有 slot。 */
+  private advanceToNextCue(nowMs: number): void {
     const cur = this.state
     if (!cur) return
-    const next = advanceLine(cur) // dialogue.ts 逐段指针推进
+    const next = advanceCue(cur)
     if (!next) {
       this.close()
       return
     }
     this.state = next
-    const nextIdx = next.lineIdx
-    const line = next.dialogue.lines[nextIdx]
-    if (!line) throw new Error('reforge: advanceToNextLine lineIdx 越界')
-    this.slots = advanceSlots(this.slots, line, nextIdx)
-    const { slot, render } = this.layoutLineInto(nextIdx)
+    const nextIdx = next.cueIdx
+    const cue = next.dialogue.cues[nextIdx]
+    if (!cue) throw new Error('reforge: advanceToNextCue cueIdx 越界')
+    this.slots = advanceSlots(this.slots, cue, nextIdx)
+    const { slot, render } = this.layoutCueInto(nextIdx)
     this.renders[slot] = render // 同槽覆盖(替换 render)/异槽新建(旧 render 不动)
     this.lineStartMs = nowMs
     this.pageDone = false
@@ -215,9 +209,11 @@ export class DialogBox {
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
-    const totalChars = page.reduce((sum, dl) => sum + countChars(dl.spans), 0)
-    const doneAt = totalChars * r.speed + auto
-    if (nowMs - this.lineStartMs >= doneAt) this.advanceToNextLine(nowMs)
+    const typeMs = page.reduce(
+      (sum, dl) => sum + countChars(dl.spans) * (r.rowSpeeds[dl.srcRowIdx] ?? DEFAULT_SPEED_MS),
+      0,
+    )
+    if (nowMs - this.lineStartMs >= typeMs + auto) this.advanceToNextCue(nowMs)
   }
 
   render(nowMs: number): void {
@@ -249,10 +245,10 @@ export class DialogBox {
     }
 
     // 该段话的头像(若有):spec §3 位置,bottom 右 / top 左。
-    const firstDl = page[0]
-    const line = state.dialogue.lines[firstDl?.srcLineIdx ?? 0]
-    const hasPortrait = line?.portrait ? this.portraits.has(line.portrait.icon) : false
-    const portraitImg = line?.portrait ? this.portraits.get(line.portrait.icon) : undefined
+    const cueIdx = this.slots[slotId]?.cueIdx
+    const cue = cueIdx === undefined ? undefined : state.dialogue.cues[cueIdx]
+    const hasPortrait = cue?.portrait ? this.portraits.has(cue.portrait.icon) : false
+    const portraitImg = cue?.portrait ? this.portraits.get(cue.portrait.icon) : undefined
     if (hasPortrait && portraitImg) {
       const px = pos.portrait.x - portraitImg.width / 2
       const py = pos.portrait.y - portraitImg.height / 2
@@ -263,8 +259,8 @@ export class DialogBox {
     const textX = hasPortrait ? pos.textWithPortrait.x : pos.text.x
 
     // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
-    if (line?.speaker) {
-      const nameSpans: TextSpan[] = [{ text: `${lookupText(line.speaker, this.locale)}：` }]
+    if (cue?.speaker) {
+      const nameSpans: TextSpan[] = [{ text: `${lookupText(cue.speaker, this.locale)}：` }]
       renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
         shadow: true,
@@ -273,38 +269,37 @@ export class DialogBox {
     }
 
     let ty = pos.text.y
-    const speed = r.speed // 该段话打字速度(变速;含原版 $NN)
     const elapsed = isActive ? nowMs - this.lineStartMs : Number.POSITIVE_INFINITY // 留显槽全字
-    let charsBefore = 0
+    let elapsedBefore = 0
     let allDone = true
     for (const dl of page) {
       const rowLen = countChars(dl.spans)
+      const speed = r.rowSpeeds[dl.srcRowIdx] ?? DEFAULT_SPEED_MS
       const limit = !isActive
         ? rowLen // 留显全字
         : this.pageDone
           ? rowLen // 瞬显全字
-          : Math.min(charsShown(Math.max(0, elapsed - charsBefore * speed), speed), rowLen)
+          : Math.min(charsShown(Math.max(0, elapsed - elapsedBefore), speed), rowLen)
       if (limit < rowLen) allDone = false
       renderSpans(this.ctx, dl.spans, textX, ty, {
         glyphs: this.glyphs,
         shadow: true,
         maxChars: limit,
       })
-      charsBefore += rowLen
+      elapsedBefore += rowLen * speed
       ty += LINE_HEIGHT
     }
     if (isActive && allDone && !this.pageDone) this.pageDone = true
 
     // 光标:仅活跃槽 + 全显 + 非 autoAdvance,末显示行末尾。形态取该段 cursorFrame(默认 0)。
     const lastDl = page[page.length - 1]
-    const lastLine = state.dialogue.lines[lastDl?.srcLineIdx ?? 0]
     if (isActive && this.pageDone && r.autoAdvance === undefined && lastDl) {
       this.drawCursor(
         nowMs,
         lastDl.spans,
         page.length - 1,
         { text: { x: textX, y: pos.text.y } },
-        lastLine?.cursorFrame ?? 0,
+        cue?.cursorFrame ?? 0,
       )
     }
   }

@@ -63,8 +63,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12449",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12449"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -88,8 +92,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12449",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12449"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -113,8 +121,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12450",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12450"
+            }
+          ],
           "slot": "narration"
         }
       },
@@ -138,8 +150,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.12449",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12449"
+            }
+          ],
           "slot": "narration"
         }
       },

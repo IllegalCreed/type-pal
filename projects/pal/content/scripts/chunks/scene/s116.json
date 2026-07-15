@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s116",
   "scripts": {
-    "scene/s116/L-36497/e2150/d-89d21e09": [
+    "scene/s116/L-36497/e2150/d-0a386828": [
       {
         "kind": "wait",
         "ms": 80
@@ -18,7 +18,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s116",
-              "id": "scene/s116/L-36497/e2150/d-89d21e09"
+              "id": "scene/s116/L-36497/e2150/d-0a386828"
             },
             "self": "e2150"
           }
@@ -95,8 +95,15 @@
     "scene/s116/root/entity-e2150/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6495",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6495"
+            },
+            {
+              "text": "dlg.6496"
+            }
+          ],
           "speaker": "spk.婢　女"
         }
       }
@@ -104,8 +111,15 @@
     "scene/s116/root/entity-e2150/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.6498",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.6498"
+            },
+            {
+              "text": "dlg.6499"
+            }
+          ],
           "speaker": "spk.婢　女"
         }
       }
@@ -126,7 +140,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s116",
-              "id": "scene/s116/L-36497/e2150/d-89d21e09"
+              "id": "scene/s116/L-36497/e2150/d-0a386828"
             },
             "self": "e2150"
           }

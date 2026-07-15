@@ -1660,6 +1660,24 @@ html[data-panel-resize="horizontal"] * {
   line-height: 1.5;
   resize: vertical;
 }
+.cf-dialog-row {
+  padding: 8px 6px 6px;
+  margin-bottom: 6px;
+  background: color-mix(in srgb, var(--panel2) 76%, transparent);
+  border-radius: 4px;
+}
+.cf-dialog-row .cf-row {
+  align-items: flex-start;
+}
+.cf-dialog-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.cf-dialog-row-actions .cf-num {
+  width: 88px;
+}
 .cf-json {
   display: flex;
   flex-direction: column;

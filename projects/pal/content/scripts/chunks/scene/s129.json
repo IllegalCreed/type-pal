@@ -16,8 +16,18 @@
     "scene/s129/root/entity-e2247/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7793",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7793"
+            },
+            {
+              "text": "dlg.7794"
+            },
+            {
+              "text": "dlg.7795"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -25,8 +35,15 @@
     "scene/s129/root/entity-e2248/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7797",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7797"
+            },
+            {
+              "text": "dlg.7798"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -34,8 +51,15 @@
     "scene/s129/root/entity-e2249/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7800",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7800"
+            },
+            {
+              "text": "dlg.7801"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -43,8 +67,21 @@
     "scene/s129/root/entity-e2250/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7803",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7803"
+            },
+            {
+              "text": "dlg.7804"
+            },
+            {
+              "text": "dlg.7805"
+            },
+            {
+              "text": "dlg.7806"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -52,8 +89,21 @@
     "scene/s129/root/entity-e2251/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7808",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7808"
+            },
+            {
+              "text": "dlg.7809"
+            },
+            {
+              "text": "dlg.7810"
+            },
+            {
+              "text": "dlg.7811"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -61,8 +111,15 @@
     "scene/s129/root/entity-e2252/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7800",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7800"
+            },
+            {
+              "text": "dlg.7801"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -70,8 +127,15 @@
     "scene/s129/root/entity-e2253/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7797",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7797"
+            },
+            {
+              "text": "dlg.7798"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -79,8 +143,21 @@
     "scene/s129/root/entity-e2254/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7808",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7808"
+            },
+            {
+              "text": "dlg.7809"
+            },
+            {
+              "text": "dlg.7810"
+            },
+            {
+              "text": "dlg.7811"
+            }
+          ],
           "speaker": "spk.女客"
         }
       }
@@ -88,8 +165,30 @@
     "scene/s129/root/entity-e2255/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5640",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5640"
+            },
+            {
+              "text": "dlg.5641"
+            },
+            {
+              "text": "dlg.5642"
+            },
+            {
+              "text": "dlg.5643"
+            },
+            {
+              "text": "dlg.5644"
+            },
+            {
+              "text": "dlg.5645"
+            },
+            {
+              "text": "dlg.5646"
+            }
+          ],
           "speaker": "spk.澡堂老板"
         }
       }
@@ -110,8 +209,15 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5648",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5648"
+            },
+            {
+              "text": "dlg.5649"
+            }
+          ],
           "speaker": "spk.澡堂老板"
         }
       },
@@ -166,8 +272,12 @@
     "scene/s129/root/entity-e2258/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7400",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7400"
+            }
+          ],
           "speaker": "spk.澡堂女客甲"
         }
       }
@@ -175,8 +285,15 @@
     "scene/s129/root/entity-e2258/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7402",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7402"
+            },
+            {
+              "text": "dlg.7403"
+            }
+          ],
           "speaker": "spk.澡堂女客甲"
         }
       }
@@ -196,8 +313,15 @@
     "scene/s129/root/entity-e2259/page-0/trigger/stage-0": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7405",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7405"
+            },
+            {
+              "text": "dlg.7406"
+            }
+          ],
           "speaker": "spk.澡堂女客乙"
         }
       },
@@ -206,8 +330,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7408",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7408"
+            }
+          ],
           "speaker": "spk.澡堂女客甲"
         }
       },
@@ -216,8 +344,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7410",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7410"
+            }
+          ],
           "speaker": "spk.澡堂女客乙"
         }
       },
@@ -226,8 +358,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7412",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7412"
+            }
+          ],
           "speaker": "spk.澡堂女客甲"
         }
       },
@@ -236,8 +372,18 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7414",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7414"
+            },
+            {
+              "text": "dlg.7415"
+            },
+            {
+              "text": "dlg.7416"
+            }
+          ],
           "speaker": "spk.澡堂女客乙"
         }
       },
@@ -246,8 +392,21 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7417",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7417"
+            },
+            {
+              "text": "dlg.7418"
+            },
+            {
+              "text": "dlg.7419"
+            },
+            {
+              "text": "dlg.7420"
+            }
+          ],
           "speaker": "spk.澡堂女客乙"
         }
       }
@@ -255,8 +414,18 @@
     "scene/s129/root/entity-e2259/page-0/trigger/stage-1": [
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.7422",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.7422"
+            },
+            {
+              "text": "dlg.7423"
+            },
+            {
+              "text": "dlg.7424"
+            }
+          ],
           "speaker": "spk.澡堂女客乙"
         }
       }

@@ -158,6 +158,30 @@ scene = {
   `clearSceneScripts`，同时把双槽写成 `null`。
 - 旧存档的 `world.script.onTeleport` 在读档时逐场景归一化到新结构；字段冲突、未知槽或异型绑定均拒绝猜测。
 
+### 6.2 对话命令(N1-1,2026-07-15)
+
+content、reforge、editor 的唯一对话命令形态为:
+
+```ts
+type DialogCommand = { kind: 'dialog'; cue: DialogueCue }
+
+interface DialogueCue {
+  speaker?: TextId
+  rows: { text: TextId; speed?: number }[]
+  autoAdvance?: number
+  slot?: 'top' | 'bottom' | 'narration' | 'center'
+  portrait?: { icon: number; side: 'left' | 'right' }
+  cursorFrame?: 0 | 1 | 2
+}
+```
+
+- 一条 `row` 是显式行边界；新 locale 正文禁止用换行模拟多行。
+- 时间字段均为真实毫秒，不保存 `$NN/~NN` 原参数。
+- locale 只允许成对闭合的语义颜色标签；旧 `- ' @ "` toggle 只由 migrate 展开。
+- 同一旧文本从不同颜色状态进入时，迁移器生成由内容哈希决定的 `.v-<hash>` 变体 id；命名不得依赖遍历顺序。
+- `packages/migrate/src/legacy-dialog.ts` 是唯一旧控制码解码入口。PAL 产物必须重迁；旧作者工程只可在 loader
+  边界把旧 `line` 结构单向搬成 cue，内存、保存产物、运行时和编辑器均不得保留双格式。
+
 ## 7. 内容工程目录结构
 
 独立、版本化（文本 + 稳定排序 + git 友好），初始化 = 迁移器从 `data/extracted/` 灌入：

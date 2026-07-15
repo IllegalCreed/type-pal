@@ -154,7 +154,7 @@ describe('hasEarlyDitherScreen', () => {
         { kind: 'playMusic', musicId: 31 },
         { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
         { kind: 'ditherScreen', ms: 2160 },
-        { kind: 'dialog', line: { text: 'after' } },
+        { kind: 'dialog', cue: { rows: [{ text: 'after' }] } },
       ],
     }
     expect(hasEarlyDitherScreen(stage)).toBe(true)

@@ -30,13 +30,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10166",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10166",
+              "speed": 56
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
             "side": "right"
-          }
+          },
+          "autoAdvance": 571
         }
       },
       {
@@ -44,14 +50,20 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10168",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10168",
+              "speed": 88
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
             "icon": 1,
             "side": "left"
-          }
+          },
+          "autoAdvance": 800
         }
       },
       {
@@ -72,13 +84,23 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10170",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10170",
+              "speed": 40
+            },
+            {
+              "text": "dlg.10171",
+              "speed": 40
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 22,
             "side": "right"
-          }
+          },
+          "autoAdvance": 571
         }
       },
       {
@@ -86,14 +108,24 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10173",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10173",
+              "speed": 64
+            },
+            {
+              "text": "dlg.10174",
+              "speed": 64
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
             "icon": 8,
             "side": "left"
-          }
+          },
+          "autoAdvance": 685
         }
       },
       {
@@ -116,13 +148,19 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10176",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10176",
+              "speed": 32
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
             "side": "right"
-          }
+          },
+          "autoAdvance": 800
         }
       },
       {
@@ -130,25 +168,41 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10178",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10178",
+              "speed": 80
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
             "icon": 7,
             "side": "left"
-          }
+          },
+          "autoAdvance": 914
         }
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.10180",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.10180",
+              "speed": 40
+            },
+            {
+              "text": "dlg.10181",
+              "speed": 40
+            }
+          ],
           "speaker": "spk.林月如",
           "portrait": {
             "icon": 21,
             "side": "right"
-          }
+          },
+          "autoAdvance": 800
         }
       },
       {

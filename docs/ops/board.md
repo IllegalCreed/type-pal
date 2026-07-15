@@ -10,8 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N1-1 | 对话控制码退出内容与运行时 | draft | Opus 设计主审 | 数据迁移缺陷优先；Codex 提议 cue + rows 单一模型，三签未齐禁止实现 |
-| X3-1 | 场景入场呈现事务 | draft | Opus 设计主审 | 显式 Prepare→Reveal→Body 取代窄前瞻；设计可审，build 排在 N1-1 后 |
+| N1-1 | 对话控制码退出内容与运行时 | review | Opus 主审，随后 GLM 覆盖复核 | Codex build/self-review accept；全 PAL 重迁移、MG2 零计划与 6051/6010 实机验证完成 |
+| X3-1 | 场景入场呈现事务 | draft | N1-1 完成后由 Codex 实现 | 三签齐但按既定顺序后置；本轮不改实现 |
 
 ## 阻塞
 

@@ -8,7 +8,7 @@
         "entity": "e204",
         "script": {
           "chunk": "scene/s015",
-          "id": "scene/s015/L-4211/e204/d-89d21e09"
+          "id": "scene/s015/L-4211/e204/d-0a386828"
         }
       },
       {
@@ -31,8 +31,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1897",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1897"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
@@ -79,8 +83,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.1897",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.1897"
+            }
+          ],
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {

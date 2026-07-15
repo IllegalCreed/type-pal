@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s107",
   "scripts": {
-    "scene/s107/L-15495/e1990/d-89d21e09": [
+    "scene/s107/L-15495/e1990/d-0a386828": [
       {
         "kind": "loadScene",
         "scene": "s109",
@@ -150,8 +150,12 @@
       },
       {
         "kind": "dialog",
-        "line": {
-          "text": "dlg.5431",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.5431"
+            }
+          ],
           "slot": "center"
         }
       }
