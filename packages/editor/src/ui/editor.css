@@ -400,19 +400,21 @@ html[data-panel-resize="horizontal"] * {
 .module-subnav-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   min-width: 0;
   min-height: 30px;
   padding: 5px 7px;
   overflow: hidden;
   border: 0;
-  border-radius: 4px;
+  border-bottom: 2px solid transparent;
+  border-radius: 4px 4px 0 0;
   background: transparent;
   color: var(--dim);
   cursor: pointer;
   font: inherit;
   font-size: 11px;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
 }
 .module-subnav-item:hover {
@@ -422,7 +424,7 @@ html[data-panel-resize="horizontal"] * {
 .module-subnav-item.active {
   color: var(--fg);
   background: color-mix(in srgb, var(--accent) 18%, var(--panel2));
-  box-shadow: inset 2px 0 0 var(--accent);
+  border-bottom-color: var(--accent);
 }
 .linked-control,
 .linked-value {
