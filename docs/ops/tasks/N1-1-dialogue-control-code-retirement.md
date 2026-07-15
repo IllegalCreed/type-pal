@@ -163,11 +163,45 @@ Branch: main
   6010 编辑器实机检查均通过；浏览器会话无 console warning/error。自动化浏览器没有已授权的工程目录
   句柄，FSA 保存按钮会触发系统目录选择器，因此“真实保存后重开”留给 Opus 用已有目录句柄补验；
   canonical round-trip 与 loader 单向升级已由单测覆盖。
-- Opus: pending
+- Opus: **accept（2026-07-15,实现/视觉主审;附 D1 文档必改 + F1 独立发现,均不阻塞本卡语义）**。复核全过:
+  1. **decoder 逐分支对照一阶段真值**:R1 `"` slot 分叉(legacy-dialog.ts:97-99,narration 只消费)、
+     R2 `~` 后全废含死 `$NN`(:107-112,`i=chars.length` 整段丢弃、状态不污染)、`-'/@` 三 toggle、
+     U+3000 非语义缩进约定(:86 + docblock)、真中途变速 fail-loud(:130-132)全部落地;测试八用例齐点名
+     (含 GLM N1 `　` 约定与 N2 变体正逆序)。补验畸形序列:全语料 `$`/`~` 后非双位数字 **0 例**,
+     decoder 严格正则与一阶段 `parseInt` 宽松解析的理论分歧零语料效果。
+  2. **状态传播**:walkBody 携带 color/speed/speaker/slot/portrait;goto(:684)/分支臂(:795)/callScript(:1287)
+     全站点传入口态;registry id 含状态哈希 `d-<hash>`(异态入口分脚本);callScript 出口态回传调用方
+     (:1291-1292);speaker 行 decode 后弃状态(忠实一阶段 nameplate 独立绘制不动 iDelay);变体 id 用内容哈希
+     (`stableScriptHash(decodedText)`)——与遍历顺序无关是构造性质,非约定;同 key 异文冲突 fail-loud。
+  3. **产物数据面(独立重扫)**:8,637 个 dlg.* 值 0 控制码/0 换行/0 非平衡标签;变体 26;颜色标签值 125 个
+     **全部 yellow**(cyan/red/redAlt 均 0,见 D1);开场三 cue 精确(112/342 center、16/457 speaker、
+     双 row 16+16/685);dlg.9831→`<yellow>好吧．．．</yellow>` 与 dlg.9832.v-a4e078f7 跨值续闭合实证;
+     dlg.8603 `~50$02` 死码丢弃 + 全角 `～`/U+3000 字面保留。
+  4. **canonical 单一**:content dialog 命令仅 cue.rows,validator 拒 line(导向升级);dialogue-upgrade 纯结构
+     平移、双格式共存 fail-loud、不解释控制码;editor 经 reforge loadProjectFrom/loadAllScriptChunks 共享
+     升级边界(单一加载路);content/reforge/editor 全仓 `parseDialogControlCodes`/dialog-text 零引用。
+  5. **测试/门禁(独立重跑)**:migrate legacy-dialog+dialogue-project 10 tests、translate-events 42、
+     content 168、reforge 38 文件、editor 19 文件全绿;MG2 dry-run `writes=0 deletes=0 conflicts=0`,
+     门禁 1.65x/1.13x/1.53x 与 Build 一致。
+  6. **6051 开场(前台,页内 toDataURL 定时捕获+overlay 回放截图)**:三段零按键自动推进(112ms 慢打字/center
+     → 16ms 快打字/speaker 李逍遥青名牌 → dither → s001 李大娘立绘+双行+等键光标),画面零控制码,
+     console 0 error/warning。
+  7. **保存重开实测(替代方案)**:自动化 profile 无已授权句柄(IndexedDB 空,与 Codex 同墙),改用 **OPFS 目录
+     句柄**(同 FileSystemDirectoryHandle API、免授权)全真跑 FSA 通路:克隆 831 个 JSON → ?picker 启动屏
+     「打开工程」→ 改 s000 首 cue speed 112→113 → 💾 保存(真 createWritable 写盘)→ 整页重载 →
+     「最近工程」重连 → **113 持久、chunk 仍 cue 形态、零 `line`、原始字节零控制码、树摘要零码**;
+     s173 黄色对白摘要清洁、富文本标签零泄漏。与用户真实磁盘句柄的差异仅存储后端,API 面等价。
 - GLM: pending
-- counter / 返工处理:
+- counter / 返工处理: **D1(文档必改,done 前落)**:审计文档 n1-dialogue-migration-audit.md:45 与本卡 Build
+  摘要称"18 处 `-` 按用户选择 A 迁移为 cyan toggle/减益数字写成 `<cyan>…</cyan>`"——**与产物事实不符**:
+  全产物 0 个 cyan 值。实测 18 处(17 站点)全在 0xA7 道具描述脚本族(addr 39926-40790),该族由更早的道具
+  管线(C3 期)迁入 items.json desc,**保留字面负号**,N1-1 对话管线不触及(0xA7=noop、desc 段不可达对话根)。
+  且一阶段 script-desc.ts 对 desc 行**原文直画**(sdlpal WIN95 itemmenu.c:267-284 路径,不过 parseDialogText)
+  ——**字面负号即原版/一阶段真实渲染,items.json 现状正确且忠实**。用户裁决 A 实际仅约束 decoder 缺省
+  (已实现+已测,对可达对话语料零命中)。返工 = 修正审计文档该段 + Build 摘要一行,说明"A=decoder 政策,
+  17 站点属菜单文案不经对话管线,负号字面保留即忠实";不改任何实现与产物。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked(待 D1 落地 + GLM 复核)
 
 ## Draft: 设计与风险
 
@@ -293,14 +327,35 @@ Branch: main
 - 验证方式: Codex in-app browser 实机访问 6051/6010；开场连续帧 + 编辑器 DOM/表单值 + console 日志。
 - 截图 / 像素检查路径: Codex 浏览器会话；临时验收图未写入仓库，避免把二进制证据混入功能提交。
 - 结论: Codex 视觉验收通过；旧控制码不显示、自动推进与显式属性一致、编辑器摘要清洁。
-- 未完成项: Opus 用已授权工程目录句柄补验“改一个字段 → 保存 → 重开仍为 cue 且旧码不回生”。
+- Opus 独立复验(2026-07-15): 通过。方法独立于 Codex(chrome-devtools CDP):6051 开场经页内定时
+  `canvas.toDataURL` 捕获 + overlay 回放截图逐段检视——段1 center 慢打字(112ms/字,全角 `～` 字面保留)、
+  段2 speaker 李逍遥青名牌快打字(16ms/字)、s001 李大娘立绘+双 row+等键光标,全程零按键(autoAdvance 驱动)、
+  画面零控制码、console 零错误/警告;6010 s000 树摘要清洁+表单全字段(行文本/速度/自动推进/位置/光标/立绘)、
+  s173 黄色对白摘要清洁且富文本标签零泄漏。
+- 保存重开补验(原留予 Opus 的未完成项,已完成): 自动化 profile 无已授权句柄(IndexedDB 空,与 Codex 同墙),
+  以 **OPFS 目录句柄**等价替代(同 FileSystemDirectoryHandle API、免授权弹窗):克隆 831 个内容 JSON →
+  ?picker 启动屏「打开工程」→ s000 首 cue speed 112→113 → 💾 真实 FSA 写盘 → 整页重载 → 「最近工程」
+  重连 → **113 持久、chunk 仍 cue 形态、零 `line` 字段、原始字节零控制码**。旧码不回生 ✓。与真实磁盘
+  句柄差异仅存储后端,API 面等价;测试目录与句柄记录已清理。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex accept；Opus/GLM pending。
-- 必须返工项: pending
-- Accept / rework: 等 Opus 主审与 GLM 覆盖复核。
+- 审查结论: Codex accept；**Opus 实现/视觉主审 accept(2026-07-15,证据见 done 前签字 Opus 行)**;GLM pending。
+- 必须返工项: **D1**(文档修正,见 done 前签字"counter / 返工处理"——审计文档与 Build 摘要关于 18 处 `-` 的
+  陈述与产物不符;产物本身正确且忠实,不改实现)。
+- 独立发现(非本卡范围,建议另开 lite 卡): **F1** 同 id 工程切换不重挂 App——`main.tsx` 以
+  `key={manifest.id}` 挂 App,「打开工程」换到同 id 工程(pal→pal 克隆)时 React 不重建组件,
+  `dirHandleRef/snapshotRef` 残留旧会话:保存时**再弹一次目录选择器**、zip 导出误判"无文件夹"。
+  实测复现(种子 pal → OPFS pal 克隆);经 ?picker 启动屏全新挂载则一切正常。P4 期既有问题,
+  4b215279 未触碰该文件,不阻塞本卡。
+- Accept / rework: Opus **accept**(D1 文档返工随 GLM 复核批次落);待 GLM。
+- Opus 自我修正(公开记录): 本卡设计期 R3 的前提陈述——"按一阶段解析器语义 18 处 `-` 会被当 cyan toggle
+  消费"——**对这些站点不成立**:它们经由道具描述渲染路径(script-desc.ts 原文直画),从不进 parseDialogText。
+  用户据此做出的 A 裁决实际是"decoder 缺省策略"决定(零语料命中),而非 18 站点的实际迁移方式;
+  道具菜单里负号可见才是原版/一阶段真实观感。该前提错误由我在设计期引入,与 R2 卡 M3 期结论修正同格式
+  记录在案。
 
 ## 用户验收
 
@@ -326,22 +381,35 @@ Branch: main
   MG2 二跑零计划，PAL 旧控制字符/旧 line/换行/坏标签全为 0。6051 开场与 6010 s000/s173 实机复验
   通过；FSA 真实保存重开因自动化会话无目录句柄交 Opus 补验。Evidence:本卡 Build/视觉记录 +
   `docs/phase2/foundation/n1-dialogue-migration-audit.md`。Next:Opus 代码/架构/视觉主审；不得标 done。
+- 2026-07-15 Opus: review 主审签 **accept + D1 文档必改 + F1 独立发现**。代码面:decoder 八分支逐项对照
+  一阶段真值(R1 quote-slot/R2 `~`后死码/U+3000/fail-loud 全落地),状态传播三通道(goto/分支/callScript)+
+  registry 状态哈希+出口回传全验,变体 id 内容哈希构造性与序无关;数据面:8,637 值 0 残留、变体 26、
+  开场三 cue 精确、9831/9832 跨值黄实证;门禁面:四包测试独立重跑全绿+MG2 dry-run 零计划;视觉面:6051
+  三段零按键零控制码、6010 s000/s173 清洁;保存重开以 OPFS 句柄等价完成(113 持久/cue/零码回生)。
+  **D1**:审计文档:45"18 处 `-` 迁为 cyan"与产物不符(0 个 cyan 值)——17 站点属 0xA7 道具描述族,
+  经 C3 期道具管线入 items.json 字面负号,且一阶段 script-desc.ts 原文直画=忠实,产物正确、文档须改。
+  **公开修正本人设计期 R3 前提**("会被当 cyan toggle"对这些站点不成立,desc 不经 parseDialogText);
+  用户 A 裁决实际约束 decoder 缺省(已实现已测,语料零命中)。**F1**(非本卡,建议 lite 卡):main.tsx
+  `key={manifest.id}` 同 id 工程切换不重挂 App,dirHandleRef/snapshotRef 残留 → 保存二次弹选夹/zip 误判,
+  实测复现,P4 期既有。Evidence:done 前签字 Opus 行+视觉记录+Review 节。Next:Codex 落 D1(两处文档行);
+  GLM 覆盖复核;不得标 done(仍需 GLM+用户验收)。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:N1-1 对话控制码退出内容与运行时,review 主审(Opus)
+接手任务:N1-1 对话控制码退出内容与运行时,覆盖/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/N1-1-dialogue-control-code-retirement.md
-当前状态:review；Codex build/self-review 已 accept，Opus/GLM review 签字 pending；不得标 done
-你的角色:Opus，架构/代码/视觉主审。默认只改任务卡；发现问题签 counter 并列出最小返工项，不要直接改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部、docs/phase2/dialogue/model-design.md、docs/phase2/foundation/n1-dialogue-migration-audit.md、packages/game/src/present/dialog-box.ts
-实现锚点:packages/content/src/{index,script,dialogue-upgrade,validate}.ts；packages/migrate/src/{legacy-dialog,translate-events,translate-enemy-scripts,dialogue-project.test}.ts；packages/reforge/src/dialog/{dialog-box,layout,slot}.ts；packages/editor/src/ui/{CommandForm,ScriptTree}.tsx
-请复核:
-1. canonical 是否真正只有 dialog.cue.rows；loader upgrader 是否只做 line/lines → cue/cues 结构平移且不解释旧控制码；content/reforge/editor 是否无 legacy parser
-2. decoder 是否逐项忠实一阶段：用户选择 A 的 `-` cyan toggle、quote 的 narration 分叉、$NN 跨行、~ 后全死、转义、光标、U+3000、真中途变速 fail-loud
-3. 颜色/速度/speaker/slot/portrait 在 goto、分支、callScript、registry 上下文中是否正确传播；variant id 是否与遍历顺序无关
-4. Reforge 多 row 打字/autoAdvance/分页是否正确；编辑器摘要是否只显示可见正文，表单是否完整编辑 rows/speed/auto/slot/speaker/portrait/cursor
-5. 重跑关键测试或 pnpm check；核对全 PAL 6,858 dialog/14,200 rows、旧形态/控制字符/换行/坏标签为 0，以及 MG2 二跑零计划
-6. 浏览器 6051 ?entry=new-game 复验三段与 s001 跳转；6010 复验 s000 和 s173。请用已授权工程目录句柄补“改字段→保存→重开仍为 cue、旧码不回生”
-输出要求:在本卡 Opus review 签字行写 accept，或 counter+证据/返工项；补交接日志并提交。若 accept，给用户一段可直接转交 GLM 的覆盖复核提示词。不得开始 X3-1，不得把 N1-1 标 done
+当前状态:review;done 前 Codex accept + Opus accept(实现/视觉主审,附 D1 文档必改+F1 独立发现),GLM pending(最后一签);不得标 done
+你的角色:GLM,覆盖面/测试矩阵复核;只改任务卡,不得改实现
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行、Review 节 D1/F1 与 Opus 自我修正)、docs/phase2/foundation/n1-dialogue-migration-audit.md、packages/migrate/src/legacy-dialog.ts 与其测试
+请重点复核(数据/测试面,与 Opus 的代码/视觉面互补):
+1. 产物口径对账:829 文件/6,858 dialog/14,200 rows/8,637 text id/变体 26/颜色标签值 125(全 yellow、0 cyan)——按你设计期的独立脚本重扫一遍;
+2. 你设计期 N1-N3 的落地验收:N1 `　`(U+3000)约定(decoder docblock+emit 分类+专测)、N2 变体 id 正逆序确定性测试、N3 迁移前口径表(6,722/1,234 + 敌人 135/12 = 6,857/1,246,审计文档「迁移前口径」节);
+3. D1 核实:审计文档:45 与本卡 Build 摘要"18 处 `-` 按 A 迁为 cyan"与产物矛盾(全产物 0 cyan)——请独立确认 17 站点(addr 39926-40790)全在 0xA7 道具描述族、items.json desc 字面负号、一阶段 script-desc.ts 原文直画;确认后督促 Codex 落 D1 文档修正并复核修正文本;
+4. 表驱动测试矩阵完备性:legacy-dialog.test 八用例对照一阶段 parseDialogText 全分支是否有漏(-'@" 四色/quote-narration/跨行 $NN/~后死码/转义/光标/U+3000/fail-loud/变体确定性);
+5. 敌人 choreography 对白(135 条/12 含码)是否同 decoder 同门禁;
+6. MG2 二跑零计划与 M3 体积门禁(1.65x/1.13x/1.53x)重跑核对。
+已验证(勿重复,可抽查):Opus 已做 6051 开场逐段视觉、6010 s000/s173 编辑器、OPFS 句柄保存重开(113 持久/cue/零码回生)、四包测试+dry-run 重跑
+不要做:不改实现文件;F1(同 id 工程切换不重挂 App)是独立发现,不在本卡处理,不要顺手修
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论仍为等 D1 落地+用户验收,不得标 done
 ```
