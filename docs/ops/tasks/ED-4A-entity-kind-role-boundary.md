@@ -148,11 +148,59 @@ Branch: main
      (script.ts:206-210);"创建自带合法脚本源"可直接复用既有 `CreateScriptSourceCommand`
      (ScriptDrawer.tsx:878-884 已有 ＋触发/＋巡逻 补建路径),无需新脚本模型——与"不得重新引入"清单自洽;
      zone 渲染(黄框/选中/拖动)对迁移产 zone 已存在,本卡只补创建缺口,范围判断准确。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(合并后引用闭包门禁/夹具覆盖补点/
-  引用字段清单钉死),纳入 build 范围。
+- GLM: **agree（2026-07-15;附 G1-G3 build 必落范围澄清,见下）**。六项独立实测逐条：
+
+  **(1) R3 对账（独立重扫 projects/pal 全产物）** ✅：
+  - sprites.json 通用定义 **574 个 npc-***（含 16 个 `-f<n>` 变体）+ 6 个语义 ID（li-xiaoyao/zhao-linger/lin-yueru/wu-hou/anu/gai-luojiao）= 580 总。✅
+  - EntityDef.sprite **3,695** ✅；setActorSprite.sprite npc-* **69** ✅；setActorAppearance.spriteId npc-* **2** ✅。
+  - **⚠️ G1（build 必落范围澄清，非阻塞）**：setActorSprite 总引用 = **116**（69 npc + **47 semantic** 指向六主角）；setActorAppearance 总引用 = **3**（2 npc + **1 semantic** zhao-linger）。47+1 semantic 引用指向**不改名**的六主角，**不在改名面**——但 R3 基线"69/2"口径仅计 npc-*，build 时审计报告应注明"69/2 = npc-* 子集；47+1 semantic 不改名故不在改名面"。
+  - **⚠️ G2（build 必落范围澄清，非阻塞）**：`actors.json.spriteId` 有 **6 个 semantic 引用**（六主角），是独立于四处脚本/实体引用字段的**第五个 id 引用通道**——但全指向不改名的 semantic ID，不在改名面。R3"四处引用字段"应补注 actors.json.spriteId = semantic-only 不涉及。
+  - **结论：id 引用通道恰五处，但改名面仍限四处**（npc-* 引用只在 sprites[].id / EntityDef.sprite / setActorSprite.sprite / setActorAppearance.spriteId）。enemies.json `spriteNum` 是数字索引非 id；skills effectSprite 数字；items 零；portraits 数字。✅
+
+  **(2) 不在改名面反证** ✅：
+  - actors.json 六角色 `sprite` 字段不存在（`spriteId` 仅 semantic 六主角）✅
+  - locale.json npc- 引用 **0** ✅；music **0** ✅
+  - 资产路径按 `spriteNum`（数字）键控，非 id ✅
+  - projects/demo npc- **0** ✅
+  - 源码 npc- 硬编码：content/reforge/editor 零命中；migrate 是生成方（6 处字面量）；game/present.ts 2 处是运行时渲染排序键 `npc-${npcId}` 非内容 id。✅
+
+  **(3) 测试矩阵完备性** ✅（方向完整，逐条可落）：
+  - §104 普通静态/directional/同号布局冲突/0x65 换装补登记/语义 ID 优先——每条有 migrate 单测落点。✅
+  - §105 结构化扫描断言 `^npc-\d+(-f\d+)?$` 为零 + 每个 sprite 引用可解析。✅
+  - §106 反向保护（作者含 npc- 的 id 不误改）。✅
+  - **R1 模拟测试形态可落**：构造 ours 引用 `npc-55` × theirs 改名 `sprite-55` → 三方合并 → 断言事务阻断并报告悬空引用。✅ 形态清晰。
+  - **⚠️ G3（build 必落，关键）**：实测 `validate-refs.ts` **不校验脚本命令中的 sprite 引用**（setActorSprite.sprite / setActorAppearance.spriteId）——只校验 EntityDef.sprite（:106-113）和 actors.spriteId（:176-181）。**R1 合并后引用闭包门禁必须显式扫描全部四处引用字段含脚本命令，不能只依赖 validate-refs.ts。** 这是本卡改名安全的真正兜底。
+
+  **(4) 夹具面全仓扫** ✅：
+  - 实测 `grep -rln "npc-" packages/ --include="*.test.*"` = **5 个测试文件**：
+    - `packages/game/src/present/present.test.ts`（11 hits，z-sort 排序测试）— 一阶段语境
+    - `packages/game/src/core/scene-system.test.ts`（1 hit，注释 `npc->x` C 指针语法误报）
+    - `packages/migrate/src/translate-events.test.ts`（4 hits，非"2 已知"）
+    - `packages/migrate/src/migrate-content.test.ts`（3 hits）
+    - `packages/reforge/src/script-runner.test.ts`（2 hits = R2 夹具）
+  - **R2 同步清单 = migrate(2 文件 7 hits) + reforge(1 文件 2 hits)；game(2 文件) 一阶段冻结不动。** 卡内"migrate 两个已知"少计（translate-events 实际 4 非 2），build 时以全量清单为准。
+
+  **(5) MG2 语义** ✅：
+  - sprites.json 走 **id-mode 结构化合并**（migration-merge.ts:46 `/content/(actors|items|sprites|...)\.json$/` → `'id'`），非 atomic。改名 = 旧 id delete + 新 id add，base/theirs 一致时零冲突。✅
+  - scenes 按实体 id 锚定（:53 scenes 也 id-mode），EntityDef.sprite 字段值变化不扰动 orderedIds。✅
+  - dry-run `writes=0 deletes=0 conflicts=0` = 零作者漂移，合并干净构造性成立。✅
+  - migration-plan/pal-migration-integration 测试能表达"574 delete + 574 add in sprites.json + 字段值变化 in scenes"形状。✅
+
+  **(6) 编辑器测试面** ✅：
+  - AddEntityCommand（commands.ts:167-196）签名为 `(sceneId, entity: EntityDef)`——**已接受任意 EntityRef（actor/sprite/zone），命令本身无需改动**。✅
+  - 当前 addAt（App.tsx:525-538）只创建 `{ sprite }`；需扩展为四模式（actor/sprite/touch-zone/interact-zone）+ Tool 类型扩展 + palette 分支。✅ 方向清晰。
+  - 四类创建 × undo/redo × 保存重开用例矩阵齐：AddEntityCommand invert 已有（filter by id），zone 需补 trigger source 创建（复用 CreateScriptSourceCommand）。✅
+
+  **总结**：R3 核心数字全确认（574/3695/69/2）；改名面限四处 npc-* 引用（G1/G2 semantic 不改名）；测试矩阵逐条可落（G3 validate-refs 缺口需 R1 显式覆盖）；夹具 5 文件全量清单；MG2 id-mode 结构化合并语义正确；AddEntityCommand 已 zone-agnostic。**agree**。
+
+  **G1-G3 build 必落范围澄清（非阻塞，纳入 build 范围）**：
+  - **G1**：审计报告注明 69/2 = npc-* 子集，47+1 semantic 不改名。
+  - **G2**：R3 四处引用字段补注 actors.json.spriteId = semantic-only 不涉及。
+  - **G3**：**R1 合并后闭包门禁必须显式扫描全部四处引用字段含脚本命令 setActorSprite/setActorAppearance——validate-refs.ts 当前不覆盖脚本命令 sprite 引用，R1 不能依赖它。**
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 G1-G3 build 必落范围澄清)。actors.json.spriteId 是第五 id 通道但 semantic-only 不在改名面;validate-refs.ts 脚本命令 sprite 引用缺口由 R1 显式闭包门禁覆盖。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**(待 GLM 覆盖复核)
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R3 必改 + G1(69/2口径注明)/G2(actors.spriteId semantic注)/G3(**R1闭包门禁显式扫四处含脚本命令,不依赖validate-refs.ts**)纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -260,7 +308,7 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
   改名面实测(574 定义/3,695+69+2 引用,全在生成文件,命名单点,零撞名)后 MG2 风险收敛为"未来 ours
   引用旧 id"一条,R1 合并后闭包门禁封死;zone 创建复用 CreateScriptSourceCommand 实证可行。
   附 R1-R3 + S1-S2。
-- GLM: pending
+- GLM: **agree**。R3 核心数字全确认(574 npc-*/16-f/6 semantic/3695/69/2)；改名面限四处 npc-* 引用(actors.spriteId 第五通道 semantic-only 不改名)；测试矩阵逐条可落；夹具 5 文件全量清单(migrate 7 hits + reforge 2 + game 一阶段冻结)；MG2 id-mode 结构化合并语义正确(dry-run 零计划)；AddEntityCommand 已 EntityRef-agnostic。**G3 关键**：validate-refs.ts 不校验脚本命令 sprite 引用,R1 闭包门禁必须显式扫四处含 setActorSprite/setActorAppearance。G1(69/2=npc子集)/G2(actors.spriteId semantic注)非阻塞。Evidence: 设计签字 GLM 行。
 - 用户拍板: 表现形态与职责分开；职责后续可细分。
 
 ## 额度 / 代班记录(如适用)
@@ -313,6 +361,7 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
   fail-loud 门禁 + ours 漂移模拟测试(本卡唯一真实 MG2 敞口);R2=reforge script-runner.test 夹具补进
   同步清单;R3=四处引用字段与对账基线钉进卡。Evidence: 主审立场 + 本人核验脚本输出。
   Next: GLM 覆盖复核(扫描口径/测试矩阵/反向保护),三签齐后 build;不得抢跑实现。未改实现文件。
+- 2026-07-15 GLM: 设计复核签 **agree**。六项独立实测：(1)R3 对账——574 npc-*(16-f)/6 semantic/3695 EntityDef.sprite/69 setActorSprite npc/2 setActorAppearance npc 全确认；**G1**:setActorSprite 总 116(69npc+47semantic)/setActorAppearance 总 3(2npc+1semantic),semantic 指向不改名六主角故不在改名面；**G2**:actors.json.spriteId 第六主角 semantic 是第五 id 通道但不改名。(2)反证——locale/music/demo 零 npc-,资产按 spriteNum 键控,源码 content/reforge/editor 零硬编码。(3)测试矩阵逐条可落,**G3 关键**:validate-refs.ts 不校验脚本命令 sprite 引用(仅 EntityDef.sprite+actors.spriteId),R1 闭包门禁必须显式扫四处含 setActorSprite/setActorAppearance 不能依赖 validate-refs.ts。(4)夹具全量 5 文件(present.test 11/scene-system 1 误报/translate-events 4/migrate-content 3/script-runner 2),R2 同步清单=migrate+reforge,game 一阶段冻结。(5)MG2 sprites.json id-mode 结构化合并,改名=del+add 零冲突,dry-run writes=0。(6)AddEntityCommand 已 EntityRef-agnostic,仅 addAt/UI 需扩展四模式。G1-G3 build 必落。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,交 Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
