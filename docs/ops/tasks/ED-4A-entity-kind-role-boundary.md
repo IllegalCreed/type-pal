@@ -434,9 +434,9 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 
 - Reviewer: Opus + GLM
 - 审查结论: Codex self-review accept；**Opus 实现/架构/视觉主审 accept(2026-07-15,证据见 done 前签字
-  Opus 行)**;GLM pending。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;待 GLM 覆盖复核（签字不齐不得 done）。
+  Opus 行)**；**GLM 覆盖/测试矩阵复核 accept(2026-07-15,证据见 done 前签字 GLM 行)**。
+- 必须返工项: 无。
+- Accept / rework: 三方 **accept**；等待用户验收，用户通过前不得标 `done`。
 
 ## 用户验收
 
@@ -470,20 +470,4 @@ NPC / 敌人 / 物件（门等）/ 宝箱 / 装饰 / 特效 / ...
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,覆盖/测试矩阵复核(GLM)
-任务卡: docs/ops/tasks/ED-4A-entity-kind-role-boundary.md
-当前状态: review;done 前 Codex accept + Opus accept(实现/架构/视觉主审,零返工项),GLM pending(最后一签);不得标 done
-你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现或生成产物
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与 G1-G3)、packages/migrate/src/migration-validate.ts 及其测试、packages/editor/src/core/entity-placement.ts 及编辑器命令测试
-请重点复核(数据/测试面,与 Opus 的实现/视觉面互补):
-1. 你设计期 G1-G3 的落地验收:G1 dry-run 报告口径注明(116/69、3/2 npc 子集语义);G2 actors.spriteId 第五通道已入闭包(migration-validate.ts:96-102);G3 闭包门禁显式扫脚本命令不依赖 validate-refs.ts——逐项确认;
-2. 通道口径全量对账:用独立脚本重扫改名后 projects/pal——sprites.json 580 定义(574 sprite-* + 6 semantic)、EntityDef.sprite 3,695 全 sprite-*、setActorSprite 116(69 sprite-* + 47 semantic)、setActorAppearance 3(2+1);断言产物零 ^npc-\d+(-f\d+)?$;
-3. 测试矩阵完备性:验收§105-108 逐条有落点(普通/directional/布局冲突/0x65/语义优先/结构化扫描/反向保护/四形态创建×撤销重做×保存重开);漂移模拟测试(migration-validate.test.ts:83-138)形态与 R1 规格一致;
-4. 夹具同步复核:R2 清单(migrate 2 文件+reforge script-runner.test)改名后零 npc- 残留;packages/game 两处一阶段语境未被误改;
-5. MG2 事务面:首 plan 315/0/0 → 写盘 631 项 → 内外二跑 0/0/0 的链路与 MG2 卡口径一致;baseline 同步完整;
-6. door 边界:全仓建议/代码/文档无平级 door 职责(Opus 已扫源码,你补文档面)。
-已验证(勿重复,可抽查): Opus 已做闭包门禁位序实证(合并后 plan.target/事务前)、6010 OPFS 四类创建+zone 拖动+保存重开字节级复核、6051 四点抽验(开场/换装/s003/battle/s074 宝箱)、门禁重跑 183+1skip/170/172/343+dry-run 零计划
-不要做: 不改实现文件;不重生成 PAL;不得标 done(GLM 签后仍需用户验收);不得改 capability-map
-输出要求: 在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
-```
+无下一位 Agent 提示词，三方审查签字已齐，等待用户验收。
