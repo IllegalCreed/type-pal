@@ -128,11 +128,31 @@ Branch: main
 ### 进入 build 前:设计签字
 
 - Codex: **agree**（2026-07-15；实现可行。必须把表现形态与玩法职责正交拆分，先从上游将通用资源 ID 中性化，再用现有 EntityRef/ScriptDrawer 闭环 actor/sprite/zone 创建；本卡不抢跑新增 role schema）
-- Opus: pending
+- Opus: **agree（2026-07-15,附 R1-R3 必改 + S1-S2 建议,见主审立场）**。设计压力测试全过,独立地面重验:
+  1. **两轴正交裁定成立**:EntityRef 现状已是 actor⊕sprite⊕zone 三选一判别(index.ts:71-76),本卡是
+     UI 认知 + 上游改名,零 schema 改动;role 轴延后且 `hostile`/脚本/模板行为真值不动 = 正确防住
+     "第二真值"陷阱;`scene` 不进 EntityRef、职责不编码进 ID 前缀两条"明确不做"与铁律一致。
+  2. **actor 归属正确**:actor 是可见实体的语义外观来源(与 sprite 并列为来源、不与 zone 并列为形态),
+     UI 归入"精灵"模式下的来源选择,与 schema 判别(isActorEntity/resolveEntitySpriteId)同构。
+  3. **改名面全量实测(基线数据,供 build/GLM 对账)**:sprites.json 通用定义 **574 个**(含 16 个 `-f<n>`
+     布局逃生变体),语义 ID 恰六主角;引用 = EntityDef.sprite **3,695** + setActorSprite.sprite **69** +
+     setActorAppearance.spriteId **2**,全部位于生成文件;actors.json 六角色 sprite 字段全为空(不在
+     改名面)、locale/music/demo 工程/资产路径(spriteNum 键控,非 id)零涉及;现存 `sprite-*` 前缀
+     **零冲突**;命名生成单点(migrate-content.ts spriteRef 两处模板字面量,:1524/:1528),"集中命名函数"
+     主张实证成立。reforge/content/editor 源码零 `npc-` 硬编码。
+  4. **MG2 改名风险裁定**:当前 dry-run 零计划 = 零作者漂移,本次合并干净是**构造性的**;scenes 合并按
+     实体 id 锚定,sprite 字段值变化不扰动 orderedIds;sprites.json 全量 delete+add 发生在 theirs 权威的
+     纯生成文件内,安全。**真正的风险在未来**:ours 侧作者实体若引用旧 `npc-*`,结构化合并会成功但引用
+     悬空——必须以 R1 的合并后闭包门禁钉死。
+  5. **zone 创建闭环可行性实证**:touch 缺省 0/interact 缺省 1 与 TriggerSpec schema 缺省一致
+     (script.ts:206-210);"创建自带合法脚本源"可直接复用既有 `CreateScriptSourceCommand`
+     (ScriptDrawer.tsx:878-884 已有 ＋触发/＋巡逻 补建路径),无需新脚本模型——与"不得重新引入"清单自洽;
+     zone 渲染(黄框/选中/拖动)对迁移产 zone 已存在,本卡只补创建缺口,范围判断准确。
 - GLM: pending
-- counter / 分歧处理: 无；待 Opus 审架构与 MG2 改名风险，GLM 审产物覆盖和测试矩阵。
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(合并后引用闭包门禁/夹具覆盖补点/
+  引用字段清单钉死),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **blocked**(待 GLM 覆盖复核)
 
 ### 进入 done 前:审查签字
 
@@ -209,14 +229,37 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
 ### 主审立场
 
 - Reviewer: Opus（架构/MG2 改名主审）+ GLM（迁移覆盖/测试矩阵主审）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-15): **agree — 两轴拆分、上游中性化改名、actor/sprite/zone 创建闭环三件事全部成立**。
+  压测未发现架构 counter:两轴与现有 EntityRef 判别同构(零 schema 改动);role 轴延后且行为真值不动;
+  改名面全在生成文件、命名单点、零撞名、零硬编码;MG2 合并干净当前是构造性的(零作者漂移),
+  风险收敛为"未来 ours 引用旧 id"一条,由 R1 门禁封死。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 合并后引用闭包门禁 + 漂移模拟测试**:改名事务的引用闭包检查必须作用在**三方合并后的最终结果**
+    (而非纯生成中间态),且为 fail-loud 硬门禁(闭包违例 = 拒绝写盘,不是 warning 计数);新增一条模拟测试:
+    构造 ours 侧实体引用 `npc-55` × theirs 侧改名为 `sprite-55` 的合并,断言事务**阻断并报告悬空引用**,
+    交用户裁决而非静默保留或强改。这是本卡 MG2 风险的唯一真实敞口(当前零漂移,门禁保护的是未来作者内容)。
+  - **R2 夹具覆盖补点**:`packages/reforge/src/script-runner.test.ts` 夹具含 `npc-*` ID,须随改名同步,
+    补进"相关测试"清单;`packages/game` 两处 npc- 命中属一阶段自有语境(一阶段冻结、不用二阶段迁移契约),
+    build 期确认不受影响即可、不改。
+  - **R3 引用字段清单在卡内钉死**:结构化扫描的"已知 sprite 引用字段"明确为四处——`sprites[].id`、
+    `EntityDef.sprite`、`setActorSprite.sprite`、`setActorAppearance.spriteId`;对账基线 = 574 定义
+    (含 16 个 -f 变体)/ 3,695 / 69 / 2(Opus 2026-07-15 全产物实测)。同时明确**不在**改名面的:
+    actors.json(六角色 sprite 字段全空)、locale/music、资产路径(spriteNum 键控)、demo 工程。
+    防止 build 期误扩面或漏点。
+- 建议项(S,不阻塞):
+  - S1 文档级声明 `sprite-*` 为迁移器保留 ID 前缀(与 npc-* 同样的作者撞名风险本来就存在,
+    非本卡引入;编辑器资源新建沿用既有重复 id 校验即可)。
+  - S2 放置模式文案裁量:模式名"精灵"下含来源"角色"读起来略绕(放一个精灵→来源:角色),build 时可斟酌
+    模式标签用"可见实体";顶层三分类(场景/精灵/触发区)按用户 2026-07-15 裁决不动。
+- 是否建议进入 build: **待 GLM 覆盖复核(引用扫描口径 + 测试矩阵);R1-R3 纳入 build 范围后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: 两轴拆分；本卡完成中性 ID 和 actor/sprite/zone 创建，不新增职责 schema。
-- Opus: pending
+- Opus: **agree**。两轴与现有 EntityRef 判别同构,零 schema 改动;role 延后 + 行为真值不动 = 防第二真值;
+  改名面实测(574 定义/3,695+69+2 引用,全在生成文件,命名单点,零撞名)后 MG2 风险收敛为"未来 ours
+  引用旧 id"一条,R1 合并后闭包门禁封死;zone 创建复用 CreateScriptSourceCommand 实证可行。
+  附 R1-R3 + S1-S2。
 - GLM: pending
 - 用户拍板: 表现形态与职责分开；职责后续可细分。
 
@@ -262,17 +305,30 @@ NPC / 敌人 / 物件 / 宝箱 / 门 / 装饰 / 特效 / ...
 ## 交接日志
 
 - 2026-07-15 Codex: 完成根因审计和 Draft，确认当前 `npc-*` 是迁移器生成契约，zone 只能由迁移/手改 JSON 产生；提出表现形态与玩法职责两轴模型，Codex 设计签 `agree`。Evidence: 本卡代码锚点与验收矩阵。Next: Opus 设计压力测试；不得开始实现。
+- 2026-07-15 Opus: 设计压力测试签 **agree + R1-R3 必改 + S1-S2 建议**。独立地面重验:改名面 574 定义
+  (16 个 -f 变体)+ 引用 3,695(EntityDef.sprite)/69(setActorSprite)/2(setActorAppearance),全在生成文件;
+  命名生成单点(spriteRef 两处字面量);零 sprite-* 撞名、零源码硬编码;actors.json/locale/music/demo/
+  资产路径零涉及;当前 dry-run 零计划 = 零作者漂移,合并干净构造性成立。裁定:两轴与 EntityRef 同构、
+  actor 归 UI 来源、zone 缺省与 TriggerSpec 一致且复用 CreateScriptSourceCommand。R1=合并后闭包
+  fail-loud 门禁 + ours 漂移模拟测试(本卡唯一真实 MG2 敞口);R2=reforge script-runner.test 夹具补进
+  同步清单;R3=四处引用字段与对账基线钉进卡。Evidence: 主审立场 + 本人核验脚本输出。
+  Next: GLM 覆盖复核(扫描口径/测试矩阵/反向保护),三签齐后 build;不得抢跑实现。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环，做 Opus 设计压力测试
+接手任务: ED-4A 实体类型边界与精灵/触发区创建闭环,迁移覆盖/测试矩阵复核(GLM)
 任务卡: docs/ops/tasks/ED-4A-entity-kind-role-boundary.md
-当前状态: draft；Codex 已签 agree，Opus / GLM pending，build 准入 blocked
-你的角色: Claude Opus，架构、跨包契约与 MG2 稳定 ID 改名主审；只改任务卡，不得改实现或生成产物
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部、docs/ops/tasks/MG2-incremental-migration-merge.md、docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md、packages/content/src/index.ts:71-118、packages/migrate/src/migrate-content.ts:1219-1224,1518-1560、packages/editor/src/ui/App.tsx:525-538,858-877,1189-1246、packages/editor/src/ui/ScriptDrawer.tsx:870-906,960-1008
-已完成: 已确认通用 npc-* 来自迁移器而非 UI；Draft 将 scene 容器、可见精灵实体(actor/sprite 来源)、zone 与 NPC/敌人/物件/宝箱职责拆成两条轴；本卡不新增 role schema
-请你做: 压测两轴边界、actor 在 UI 中的归属、zone 创建默认数据、npc-* -> sprite-* 的 MG2 删除/新增与冲突风险、脚本/场景/换装引用覆盖、测试与视觉验收；在任务卡 Opus 设计签字行写 agree 或 counter+可执行替代方案，并补主审立场、争议记录和交接日志
-不要做: 不得开始实现，不得修改 projects/pal 或 baseline，不得标 build allowed；不要把职责编码进 SpriteDef ID，也不要未经三签新增 role schema
-输出要求: 提交仅任务卡文档；若 agree，给出可直接交 GLM 做迁移覆盖/测试矩阵复核的下一位 Agent 提示词；若 counter，写清阻塞点和替代设计交用户拍板
+当前状态: draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
+你的角色: GLM,迁移覆盖面/测试矩阵复核;只改任务卡,不得改实现或生成产物
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、docs/ops/tasks/MG2-incremental-migration-merge.md、packages/migrate/src/migrate-content.ts:1518-1560、packages/content/src/validate-refs.ts
+请重点复核(数据/测试面,与 Opus 的架构/MG2 面互补):
+1. R3 对账:用独立脚本重扫 projects/pal 全产物,核对 Opus 基线——sprites.json 通用定义 574(含 16 个 -f 变体,语义 ID 恰六主角)、EntityDef.sprite 3,695、setActorSprite.sprite 69、setActorAppearance.spriteId 2;确认引用字段恰四处,无第五处(重点排查:敌人/战斗/立绘/物品是否有独立 sprite 引用通道);
+2. 不在改名面的反证:actors.json 六角色 sprite 字段全空、locale/music 零 npc- 引用、资产路径按 spriteNum 键控、projects/demo 零命中——逐项独立确认;
+3. 测试矩阵完备性:验收§104-110 逐条可落(普通/directional/同号布局冲突/0x65 换装/语义 ID 优先/结构化扫描断言 ^npc-\d+(-f\d+)?$ 为零/反向保护 作者含 npc- 的 id 不误改);R1 的"ours 引用旧 id × theirs 改名 → 事务阻断"模拟测试形态是否可落;
+4. 夹具面:R2 所列 reforge/script-runner.test 之外,再全仓扫一遍 *.test.* 含 npc- 的文件(migrate 两个已知),确认同步清单无漏;packages/game 两处属一阶段语境仅确认不受影响;
+5. MG2 语义:改名在 sprites.json = 574 删 + 574 增(theirs 权威纯生成文件),scenes 按实体 id 锚定不扰动——确认 migration-plan/pal-migration-integration 测试能表达这次变更形状;写盘门禁(二次零计划+独立 dry-run)口径与 MG2 卡一致;
+6. 编辑器测试面:actor 来源/sprite 来源/touch zone/interact zone 四类创建 × 撤销重做 × 保存重开的用例矩阵是否齐。
+不要做: 不得开始实现;不得修改 projects/pal 或 baseline;三签未齐不得标 build allowed
+输出要求: 在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed,交 Codex build(R1-R3 纳入 build 范围)
 ```
