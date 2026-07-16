@@ -198,7 +198,31 @@ Branch: TBD
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-16，资源设置返工后重签）**。实现、编辑器全量测试、PAL 迁移回归、三视口浏览器验证和浏览器错误日志均已复核；用户追加的入口术语、跟随状态只读、蓝色 checkbox，以及八项全局资源设置的分组置顶/概览直达反馈均已落地。独立只读 UX 复核亦未发现阻塞项。
-- Opus: pending
+- Opus: **accept（2026-07-17,实现/信息架构/交互/视觉主审,零阻塞返工项）**。七项重点逐条代码核对 + 6010 实机复验全过:
+  1. **四页 IA + 单一作者边界** ✅:editor-navigation project 四子页(overview/startup/entrypoint/advanced)实证;live 四 tab 齐;
+     全局资源页明文"资源文件导入/替换/预览仍在'资源'模块"(绑定归工程页、二进制归资源模块);ActorMode 的 startSkills
+     已从可编辑 select 改为**只读摘要 + "前往'入口与开局'编辑↗"**跳转(diff 实证),单一作者坐实。
+  2. **跟随默认只读 / 复制后独立** ✅:StartWorldFields `readOnly` 贯穿每控件,`value={selected.startWorld ?? manifest.startWorld}`、
+     `readOnly={!selected.startWorld}`;live new-game 入口 跟随默认(18 控件 disabled)→ 复制默认 → 本入口独立设置(disabled→4)→
+     改为跟随默认可回退;默认入口标"默认真源"。
+  3. **八项 role 发现性 + 特殊战胜利结算自由绑定** ✅:PROJECT_ASSET_ROLE_GROUPS 四组恰覆盖 8 项 ASSET_ROLES
+     (project-role-groups.test 断言 sort()===ASSET_ROLES.sort() 穷尽守护);live 页首 4 组 3/3+3/3+1/1+1/1=8、每项下拉可绑
+     任意期望 kind + 预览↗;`audio.bossVictoryMusic` = "特殊战胜利结算音乐" + "可自由绑定音乐资源"(不写死 PAL 002)。
+  4. **问题面板跳具体资源** ✅:按资产 kind 解析目标页(music→music / video·frame-animation→cutscene)+ objectId;
+     live 点 music.pal.005 → `?module=asset&page=music&object=music.pal.005` 且行 `.selected`;底栏误报绿色改为 `⚠ 15 项待处理`。
+  5. **跨子页不携带旧 objectId** ✅:`objectIdForSubpageNavigation` 仅同子页且 acceptsObject 才保留(wired ModuleNav:75);
+     live music+object 点"过场素材"→ `?module=asset&page=cutscene`(objectId 已丢)、无"目标不存在"。
+  6. **文字按钮/checkbox/队伍动作列无溢出(1280/900/720)** ✅:队伍行 grid `22px minmax(0,1.15fr) minmax(0,0.85fr) 28px 28px max-content`、
+     linked-value-open 自适应、checkbox inline-flex 居中;live 900px 文档零横向溢出、文字按钮零 scrollWidth 溢出;
+     `.project-party-name` scrollW>clientW 系 overflow-x:hidden+ellipsis 的**设计内截断**(非破裂),已核。
+  7. **稳定 id 深链 / R1 不依赖 ED-3 / S1-S2 只读边界** ✅:入口深链按稳定 id(live object=new-game 非下标)、page=startworld→entrypoint
+     归一化;**R1 坐实**:project-diagnostics/ProjectWorkbenchTab 对 `ProjectReferenceIndex` **零命中**,collectAssetReferences 用 4 次
+     作唯一资产引用源 + 本地 entrypoint validator,无第二扫描器、无 ED-3 依赖;S1 概览=只读摘要+跳转、S2 启动链(只读)均实证。
+  另核门禁:editor 27 files/211 tests 独立重跑通过;G2 `assertProjectSaveValid`(保存前)对入口场景缺失/重复 id/≥1 入口/
+  startWorld 引用与不变式 fail-loud,FSA/HTTP 同门;R2 缺省 entryPoints 不物化(整 manifest 回写实证)。
+  非阻塞观察(不返工):N1 900px 下 `.project-party-name` 对三字名即 ellipsis(clientW≈30px)且 AssetId 在 900px 仍显示
+  (交接日志曾述"900 隐藏 AssetId"),身份列偏窄纯观感、无破裂;N2 概览中栏"未解决问题"与右栏"工程诊断"同页两处
+  问题列表(同源一致、皆只读跳转,S1 残留)可择一更紧凑,非必须。
 - GLM: **accept（2026-07-17;见下）**。九项验收点逐条独立核对，editor 27 files / 211 tests 全绿。
 
   **(1) 五字段唯一作者 + round-trip** ✅：
@@ -256,7 +280,7 @@ Branch: TBD
 
 - counter / 返工处理: 无。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex accept + GLM accept，Opus pending）。待 Opus 签后交用户验收。**
+- done 准入结论: **三方 done 前审查签字齐（Codex accept + Opus accept + GLM accept，2026-07-17）。待用户验收；不得由 Agent 标 done。**
 
 ## Draft: 设计与风险
 
@@ -376,9 +400,9 @@ Branch: TBD
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自审 accept；**GLM accept（2026-07-17，九项验收点全过，211 tests 绿）**；Opus pending。第二轮返工（诊断口径/资产深链/按钮布局/checkbox 对齐）已由 GLM 独立复核通过。
-- 必须返工项: 无（GLM 视角）。
-- Accept / rework: GLM **accept**；待 Opus review。
+- 审查结论: Codex 自审 accept；**Opus accept（2026-07-17,七项重点代码核对 + 6010 实机复验全过,零阻塞返工项）**；**GLM accept（2026-07-17，九项验收点全过，211 tests 绿）**。第二轮返工（诊断口径/资产深链/按钮布局/checkbox 对齐）已由 Opus/GLM 独立复核通过。
+- 必须返工项: 无（三方一致）。Opus 附两条非阻塞观察 N1（900px 身份列偏窄、AssetId 未按交接日志所述在 900 隐藏）/N2（概览页问题列表两处同源可择一），均可 build 期顺手或后续微调，不阻塞 done。
+- Accept / rework: **三方 accept（Codex + Opus + GLM，2026-07-17）**；done 待用户验收（改默认入口/入口视频/角色绑定/开局数据后重开工程 + 启动运行时消费修改结果）。
 
 ## 用户验收
 
@@ -411,6 +435,19 @@ Branch: TBD
   覆盖/保存矩阵/引用测试复核;R1 排期方向请用户拍板;三签齐 + R1-R3 纳入后方可 build。未改实现文件。
 - 2026-07-16 GLM: 设计复核签 **agree**。六项独立实测：(1)**R1 完全坐实解耦**——ED-3 零卡零码(ls 无 ED-3*；grep ProjectReferenceIndex 唯一命中 commands.ts:484 注释)；collectAssetReferences(asset.ts:266-436)覆盖 X7-1 全部引用面(8 角色:353-364/introVideo:365-373/场景 music:374-388/脚本命令:298-348 递归/敌人编舞:421-434)；剩余(scene 存在/id 唯一/≥1入口)全本地不变式；"哪些场景引用某资产"反向查询 manifest 编辑不需要。**X7-1 不等 ED-3**（用户拍板正确）。(2)五字段覆盖矩阵(name RenameProject/entryScene loader 检查/entryPoints SetEntryPoints/startWorld UpdateStartSkills/assets.roles validator)全可落。(3)R2 缺省 round-trip——project-io:185 整 manifest 回写,entryPoints 未编辑保持 undefined 不物化,合成 new-game 只在 UI+runtime。(4)继承语义 toggleCustom 雏形→formalize 复制/清除两动作。(5)保存矩阵 FSA+HTTP+round-trip PAL/空白/损坏。(6)R3 locale 延后/S1 概览摘要只读/S2 onEnter 只读标注。G1(serialize passthrough)+G2(保存前 entrypoint 校验封 c/d/e)非阻塞。Evidence: 设计签字 GLM 行。Next: Codex 签后 build allowed（不等 ED-3）。未改实现文件。
 - 2026-07-17 GLM: done 前 review 签 **accept**（rework 复核）。九项验收点逐条独立核对+editor 27 files/211 tests 全绿：(1)五字段唯一作者——name/entryScene/entryPoints/startWorld/assets.roles 各一命令 apply/invert structuredClone 首次捕获，EntryPointTab 文档化 shim 非第二编辑器；round-trip 整 manifest 回写不物化 entryPoints。(2)稳定 id——entrypoint acceptsObject+selection by entry.id 非数组下标，旧 page=startworld 归一化 entrypoint(test:84-94)，损坏 id 降级修复模式不伪造深链。(3)跟随/独立——跟随 readOnly 显示活值，复制 structuredClone 全拷贝，清除 delete startWorld key，全走 SetEntryPointsCommand apply/invert。(4)保存重开——assertProjectSaveValid 门禁(scene/id唯一/≥1/seedStats/角色/资产闭包)+project-io.test 4 路覆盖。(5)诊断——collectAssetReferences 唯一 scanner 喂底栏+保存门+问题面板，15 码覆盖。(6)unused 跳转 objectId=assetId 按 kind 映射 page+目标页选中(test:155-198)。(7)跨子页 objectIdForSubpageNavigation 仅同页保留。(8)胜利 role 标签'特殊战胜利结算音乐' select 列全 music-kind 任意绑定，002 仅迁移升级路径非 schema 限制。(9)未知字段 serialize passthrough+test 断言+高级页只读计数+零第一阶段改动。Evidence: done 准入 GLM 行。Next: 待 Opus 签后交用户验收。未改实现文件。
+- 2026-07-17 Opus: done 前 review 签 **accept,零阻塞返工项**。七项重点代码核对 + 6010 PAL 实机复验全过:(1)四页 IA
+  (editor-navigation project 四子页)+单一作者(全局资源页明文绑定归工程/二进制归资源;ActorMode startSkills 改只读摘要+
+  跳转,diff 实证)。(2)跟随默认只读(readOnly 贯穿,value=selected.startWorld??manifest.startWorld)/复制独立(live 18→4
+  disabled + 本入口独立设置)/改回跟随可回退。(3)八项 role 四组穷尽(project-role-groups.test sort()===ASSET_ROLES)、
+  特殊战胜利结算音乐"可自由绑定音乐资源"不写死 002。(4)问题跳转按 kind 映射目标页+objectId,live music.pal.005→
+  asset/music/object 且行 selected,底栏改 ⚠15 项待处理。(5)跨子页 objectIdForSubpageNavigation 仅同页保留(wired
+  ModuleNav:75),live music→cutscene objectId 丢弃无"目标不存在"。(6)900px 文档零横向溢出/文字按钮零溢出,
+  .project-party-name 为设计内 ellipsis 截断非破裂。(7)稳定 id 深链(live object=new-game)/R1 坐实(project-diagnostics 与
+  ProjectWorkbenchTab 对 ProjectReferenceIndex 零命中,collectAssetReferences×4 唯一源+本地 validator,无 ED-3)/
+  S1 概览只读摘要+S2 启动链只读。另核:editor 27 files/211 tests 独立重跑绿;G2 assertProjectSaveValid 保存前 fail-loud;
+  R2 缺省 entryPoints 不物化。非阻塞观察 N1(900px 身份列偏窄+AssetId 未如交接日志所述在 900 隐藏,纯观感无破裂)/
+  N2(概览问题列表两处同源可择一)。Evidence: done 准入 Opus 行 + Review 区。Next: 三方 accept 齐,交用户验收(改
+  默认入口/入口视频/角色绑定/开局数据后重开+启动运行时消费);不得由 Agent 标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
