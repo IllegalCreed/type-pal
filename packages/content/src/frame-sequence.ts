@@ -47,6 +47,16 @@ export interface EncodeFrameSequenceInput {
   frames: readonly FrameSequenceFrameInput[]
 }
 
+/** 流式完整帧提供器；允许保存端每次只恢复一个 32 帧块。 */
+export interface EncodeFrameSequenceProviderInput {
+  width: number
+  height: number
+  defaultFrameMs: number
+  colorTreatment?: 'preserve' | 'project-standard'
+  frames: readonly FrameSequenceFrameV1[]
+  frame(index: number): Promise<Uint8Array> | Uint8Array
+}
+
 export type FrameSequenceByteTransform = (bytes: Uint8Array) => Promise<Uint8Array> | Uint8Array
 
 export interface FrameSequencePlaybackOptions {
@@ -272,10 +282,29 @@ export function parseFrameSequence(bytes: Uint8Array): ParsedFrameSequenceV1 {
   }
 }
 
-export async function encodeFrameSequence(
-  input: EncodeFrameSequenceInput,
-  deflate: FrameSequenceByteTransform,
-): Promise<Uint8Array> {
+interface PreparedFrameSequenceInput {
+  width: number
+  height: number
+  defaultFrameMs: number
+  colorTreatment?: 'preserve' | 'project-standard'
+  inputFrames: readonly FrameSequenceFrameInput[]
+  frames: FrameSequenceFrameV1[]
+  frameBytes: number
+}
+
+interface EncodedFrameSequenceBlock {
+  firstFrame: number
+  frameCount: number
+  rawBytes: number
+  compressed: Uint8Array
+}
+
+type FrameSequenceEncodingMetadata = Pick<
+  PreparedFrameSequenceInput,
+  'width' | 'height' | 'defaultFrameMs' | 'colorTreatment' | 'frames' | 'frameBytes'
+>
+
+function prepareFrameSequenceInput(input: EncodeFrameSequenceInput): PreparedFrameSequenceInput {
   const width = integerAt(input.width, 'TPFS.encode.width', 1)
   const height = integerAt(input.height, 'TPFS.encode.height', 1)
   const defaultFrameMs = positiveNumberAt(input.defaultFrameMs, 'TPFS.encode.defaultFrameMs')
@@ -295,41 +324,56 @@ export async function encodeFrameSequence(
     return frame.durationMs === undefined ? {} : { durationMs: frame.durationMs }
   })
 
-  const blocks: FrameSequenceBlockV1[] = []
-  const payloads: Uint8Array[] = []
-  let payloadOffset = 0
-  for (
-    let firstFrame = 0;
-    firstFrame < input.frames.length;
-    firstFrame += FRAME_SEQUENCE_BLOCK_FRAMES
-  ) {
-    const frameCount = Math.min(FRAME_SEQUENCE_BLOCK_FRAMES, input.frames.length - firstFrame)
-    const rawBytes = checkedProduct(frameBytes, frameCount, 'TPFS.encode.block.rawBytes')
-    const raw = new Uint8Array(rawBytes)
-    for (let local = 0; local < frameCount; local++) {
-      const current = input.frames[firstFrame + local]?.rgba
-      if (!current) throw new Error('TPFS.encode: 内部帧索引越界')
-      const targetOffset = local * frameBytes
-      if (local === 0) raw.set(current, targetOffset)
-      else {
-        const previous = input.frames[firstFrame + local - 1]?.rgba
-        if (!previous) throw new Error('TPFS.encode: 内部前帧索引越界')
-        for (let byte = 0; byte < frameBytes; byte++)
-          raw[targetOffset + byte] = (current[byte] ?? 0) ^ (previous[byte] ?? 0)
-      }
+  return {
+    width,
+    height,
+    defaultFrameMs,
+    ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
+    inputFrames: input.frames,
+    frames,
+    frameBytes,
+  }
+}
+
+function buildRawFrameSequenceBlock(
+  input: PreparedFrameSequenceInput,
+  firstFrame: number,
+): { frameCount: number; raw: Uint8Array } {
+  const frameCount = Math.min(FRAME_SEQUENCE_BLOCK_FRAMES, input.inputFrames.length - firstFrame)
+  const rawBytes = checkedProduct(input.frameBytes, frameCount, 'TPFS.encode.block.rawBytes')
+  const raw = new Uint8Array(rawBytes)
+  for (let local = 0; local < frameCount; local++) {
+    const current = input.inputFrames[firstFrame + local]?.rgba
+    if (!current) throw new Error('TPFS.encode: 内部帧索引越界')
+    const targetOffset = local * input.frameBytes
+    if (local === 0) raw.set(current, targetOffset)
+    else {
+      const previous = input.inputFrames[firstFrame + local - 1]?.rgba
+      if (!previous) throw new Error('TPFS.encode: 内部前帧索引越界')
+      for (let byte = 0; byte < input.frameBytes; byte++)
+        raw[targetOffset + byte] = (current[byte] ?? 0) ^ (previous[byte] ?? 0)
     }
-    const compressed = await deflate(raw)
-    if (!(compressed instanceof Uint8Array) || compressed.byteLength === 0)
+  }
+  return { frameCount, raw }
+}
+
+function finishFrameSequenceEncoding(
+  input: FrameSequenceEncodingMetadata,
+  encoded: readonly EncodedFrameSequenceBlock[],
+): Uint8Array {
+  const blocks: FrameSequenceBlockV1[] = []
+  let payloadOffset = 0
+  for (const block of encoded) {
+    if (!(block.compressed instanceof Uint8Array) || block.compressed.byteLength === 0)
       throw new Error('TPFS.encode: Deflate 必须返回非空 Uint8Array')
     blocks.push({
-      firstFrame,
-      frameCount,
+      firstFrame: block.firstFrame,
+      frameCount: block.frameCount,
       offset: payloadOffset,
-      bytes: compressed.byteLength,
-      rawBytes,
+      bytes: block.compressed.byteLength,
+      rawBytes: block.rawBytes,
     })
-    payloads.push(compressed)
-    payloadOffset += compressed.byteLength
+    payloadOffset += block.compressed.byteLength
     if (!Number.isSafeInteger(payloadOffset)) throw new Error('TPFS.encode: payload 过大')
   }
 
@@ -337,12 +381,12 @@ export async function encodeFrameSequence(
     version: FRAME_SEQUENCE_VERSION,
     codec: FRAME_SEQUENCE_CODEC,
     pixelFormat: 'rgba8',
-    width,
-    height,
-    defaultFrameMs,
+    width: input.width,
+    height: input.height,
+    defaultFrameMs: input.defaultFrameMs,
     blockFrames: FRAME_SEQUENCE_BLOCK_FRAMES,
     ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
-    frames,
+    frames: input.frames,
     blocks,
   }
   const indexBytes = encodeUtf8(JSON.stringify(index))
@@ -354,11 +398,124 @@ export async function encodeFrameSequence(
   writeU32Le(output, 8, indexBytes.byteLength)
   output.set(indexBytes, 12)
   let offset = 12 + indexBytes.byteLength
-  for (const payload of payloads) {
-    output.set(payload, offset)
-    offset += payload.byteLength
+  for (const { compressed } of encoded) {
+    output.set(compressed, offset)
+    offset += compressed.byteLength
   }
   return output
+}
+
+function prepareFrameSequenceProviderInput(
+  input: EncodeFrameSequenceProviderInput,
+): FrameSequenceEncodingMetadata {
+  const width = integerAt(input.width, 'TPFS.encode.width', 1)
+  const height = integerAt(input.height, 'TPFS.encode.height', 1)
+  const defaultFrameMs = positiveNumberAt(input.defaultFrameMs, 'TPFS.encode.defaultFrameMs')
+  if (
+    input.colorTreatment !== undefined &&
+    input.colorTreatment !== 'preserve' &&
+    input.colorTreatment !== 'project-standard'
+  )
+    throw new Error('TPFS.encode.colorTreatment: 期望 preserve 或 project-standard')
+  if (input.frames.length === 0) throw new Error('TPFS.encode.frames: 期望非空数组')
+  const frames = input.frames.map((frame, index) => {
+    if (frame.durationMs !== undefined)
+      positiveNumberAt(frame.durationMs, `TPFS.encode.frames[${index}].durationMs`)
+    return frame.durationMs === undefined ? {} : { durationMs: frame.durationMs }
+  })
+  return {
+    width,
+    height,
+    defaultFrameMs,
+    ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
+    frames,
+    frameBytes: checkedProduct(checkedProduct(width, height, 'TPFS.encode'), 4, 'TPFS.encode'),
+  }
+}
+
+export async function encodeFrameSequence(
+  input: EncodeFrameSequenceInput,
+  deflate: FrameSequenceByteTransform,
+): Promise<Uint8Array> {
+  const prepared = prepareFrameSequenceInput(input)
+  const encoded: EncodedFrameSequenceBlock[] = []
+  for (
+    let firstFrame = 0;
+    firstFrame < prepared.inputFrames.length;
+    firstFrame += FRAME_SEQUENCE_BLOCK_FRAMES
+  ) {
+    const { frameCount, raw } = buildRawFrameSequenceBlock(prepared, firstFrame)
+    encoded.push({
+      firstFrame,
+      frameCount,
+      rawBytes: raw.byteLength,
+      compressed: await deflate(raw),
+    })
+  }
+  return finishFrameSequenceEncoding(prepared, encoded)
+}
+
+export function encodeFrameSequenceSync(
+  input: EncodeFrameSequenceInput,
+  deflate: (bytes: Uint8Array) => Uint8Array,
+): Uint8Array {
+  const prepared = prepareFrameSequenceInput(input)
+  const encoded: EncodedFrameSequenceBlock[] = []
+  for (
+    let firstFrame = 0;
+    firstFrame < prepared.inputFrames.length;
+    firstFrame += FRAME_SEQUENCE_BLOCK_FRAMES
+  ) {
+    const { frameCount, raw } = buildRawFrameSequenceBlock(prepared, firstFrame)
+    encoded.push({
+      firstFrame,
+      frameCount,
+      rawBytes: raw.byteLength,
+      compressed: deflate(raw),
+    })
+  }
+  return finishFrameSequenceEncoding(prepared, encoded)
+}
+
+/**
+ * 从完整帧提供器分块编码。调用方可惰性解码旧资产；本函数在任一时刻只持有一个原始 block，
+ * 不要求把整段动画的所有 RGBA 帧同时放进内存。
+ */
+export async function encodeFrameSequenceFromProvider(
+  input: EncodeFrameSequenceProviderInput,
+  deflate: FrameSequenceByteTransform,
+): Promise<Uint8Array> {
+  const prepared = prepareFrameSequenceProviderInput(input)
+  const encoded: EncodedFrameSequenceBlock[] = []
+  for (
+    let firstFrame = 0;
+    firstFrame < prepared.frames.length;
+    firstFrame += FRAME_SEQUENCE_BLOCK_FRAMES
+  ) {
+    const frameCount = Math.min(FRAME_SEQUENCE_BLOCK_FRAMES, prepared.frames.length - firstFrame)
+    const raw = new Uint8Array(prepared.frameBytes * frameCount)
+    let previous: Uint8Array | undefined
+    for (let local = 0; local < frameCount; local++) {
+      const frameIndex = firstFrame + local
+      const current = await input.frame(frameIndex)
+      if (!(current instanceof Uint8Array) || current.byteLength !== prepared.frameBytes)
+        throw new Error(`TPFS.encode.frames[${frameIndex}].rgba: 期望 ${prepared.frameBytes} 字节`)
+      const offset = local * prepared.frameBytes
+      if (!previous) raw.set(current, offset)
+      else {
+        for (let byte = 0; byte < prepared.frameBytes; byte++)
+          raw[offset + byte] = (current[byte] ?? 0) ^ (previous[byte] ?? 0)
+      }
+      previous = current
+    }
+    encoded.push({
+      firstFrame,
+      frameCount,
+      rawBytes: raw.byteLength,
+      compressed: await deflate(raw),
+    })
+  }
+  return finishFrameSequenceEncoding(prepared, encoded)
 }
 
 export async function decodeFrameSequenceBlock(

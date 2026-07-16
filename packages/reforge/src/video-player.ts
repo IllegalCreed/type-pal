@@ -9,7 +9,7 @@
  */
 
 export interface PlayVideoOptions {
-  /** mp4 资源 URL(如 `/extracted/videos/1.mp4`)。 */
+  /** 由 AssetResolver 生成的视频资源 URL。 */
   src: string
   /** 容器,默认 document.body。 */
   containerEl?: HTMLElement

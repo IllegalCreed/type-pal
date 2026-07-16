@@ -6,6 +6,7 @@
  */
 import { type ProjectMapV2, validateProjectMapV2 } from '@type-pal/content'
 import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import type { AssetResolver } from './asset-resolver.js'
 import type { LegacyAssetAdapter } from './file-source.js'
 
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
@@ -26,6 +27,8 @@ export interface AssetBase {
   uiOverride?: string
   /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
   io: LegacyAssetAdapter
+  /** 已迁移资源的唯一解析器；标准颜色、音乐、视频等不得回落到 legacy 路径。 */
+  assetResolver?: AssetResolver
 }
 
 /** 资产缺失指路(新 clone 最常见坑:data/extracted 与 data/baked 是可再生产物,不进 git)。 */
@@ -51,8 +54,29 @@ export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<
   return validateProjectMapV2(await readAssetJson<unknown>(base, mapPath))
 }
 
-export function loadPalette(base: AssetBase, palId: number): Promise<Palette> {
-  return readAssetJson<Palette>(base, `${base.root}/${base.palettes}/${palId}.json`)
+export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
+  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取工程标准色彩')
+  const text = await base.assetResolver.readRoleText('visual.standardColorTable')
+  let palette: Partial<Palette>
+  try {
+    palette = JSON.parse(text) as Partial<Palette>
+  } catch (error) {
+    throw new Error(
+      `工程标准色彩 JSON 非法: ${error instanceof Error ? error.message : String(error)}`,
+    )
+  }
+  if (!Array.isArray(palette.colors) || palette.colors.length !== 256)
+    throw new Error('工程标准色彩必须包含 256 个 RGB 颜色')
+  for (const [index, color] of palette.colors.entries()) {
+    if (
+      !Array.isArray(color) ||
+      color.length !== 3 ||
+      color.some((channel) => !Number.isInteger(channel) || channel < 0 || channel > 255)
+    )
+      throw new Error(`工程标准色彩第 ${index} 项不是合法 RGB`)
+  }
+  if (!Array.isArray(palette.cycles)) throw new Error('工程标准色彩缺 cycles 数组')
+  return palette as Palette
 }
 
 /**

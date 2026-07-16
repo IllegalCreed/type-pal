@@ -6,6 +6,7 @@ import type {
   AssetRole,
   ManifestAssetConfigV3,
 } from '@type-pal/content'
+import { ASSET_ROLE_KINDS } from '@type-pal/content'
 import type { FileSource } from './file-source.js'
 
 export class AssetResolver {
@@ -66,8 +67,17 @@ export class AssetResolver {
 
   async readRoleBytes(role: AssetRole): Promise<ArrayBuffer> {
     const asset = this.assetForRole(role)
-    const expected = role === 'audio.midiSoundfont' ? 'soundfont' : 'music'
-    return this.readBytes(asset, expected)
+    return this.readBytes(asset, ASSET_ROLE_KINDS[role])
+  }
+
+  async readRoleText(role: AssetRole): Promise<string> {
+    const asset = this.assetForRole(role)
+    return this.readText(asset, ASSET_ROLE_KINDS[role])
+  }
+
+  async urlForRole(role: AssetRole): Promise<string> {
+    const asset = this.assetForRole(role)
+    return this.urlFor(asset, ASSET_ROLE_KINDS[role])
   }
 
   dispose(): void {

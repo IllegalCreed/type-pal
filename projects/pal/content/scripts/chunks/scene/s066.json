@@ -44,10 +44,10 @@
         "soundId": 117
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 0,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.000",
         "startFrame": 0,
-        "speed": 14
+        "frameRate": 14
       },
       {
         "kind": "setEntityState",

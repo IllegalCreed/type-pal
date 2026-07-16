@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   type AssetCatalogV1,
   collectAssetReferences,
+  groupAssetReferencesBySite,
   type ManifestAssetConfigV3,
   palFrameAnimationAssetId,
   palMusicAssetId,
@@ -68,6 +69,14 @@ const catalog: AssetCatalogV1 = {
     'video.pal.001': {
       kind: 'video',
       path: 'assets/migrated/videos/001.mp4',
+      mediaType: 'video/mp4',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'video.pal.004': {
+      kind: 'video',
+      path: 'assets/migrated/videos/004.mp4',
       mediaType: 'video/mp4',
       bytes: 3,
       sha256: hash,
@@ -154,6 +163,15 @@ describe('catalog 与 manifest v3', () => {
         catalog,
       ),
     ).toThrow('期望 color-table')
+    expect(() =>
+      validateManifestAssetConfigV3(
+        {
+          ...assets,
+          roles: { ...assets.roles, 'video.startupSplash': 'music.pal.002' },
+        },
+        catalog,
+      ),
+    ).toThrow('期望 video')
     const { 'audio.openingMenuMusic': _openingMenuMusic, ...rolesWithoutOpeningMenu } = assets.roles
     expect(() =>
       validateManifestAssetConfigV3({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
@@ -204,6 +222,7 @@ describe('typed 资源引用与文件闭包', () => {
                 startFrame: 2,
                 endFrame: 8,
               },
+              { kind: 'quitToTitle' as const, videos: ['video.pal.004'] },
             ],
           },
         ],
@@ -212,7 +231,11 @@ describe('typed 资源引用与文件闭包', () => {
   }
 
   test('walker 覆盖 roles、场景、嵌套命令', () => {
-    const refs = collectAssetReferences({ assets, scenes: [scene] })
+    const refs = collectAssetReferences({
+      assets,
+      entryPoints: [{ id: 'new-game', label: '新的故事', scene: 's', introVideo: 'video.pal.001' }],
+      scenes: [scene],
+    })
     expect(refs.map((ref) => ref.asset)).toEqual(
       expect.arrayContaining([
         'soundfont.default',
@@ -222,6 +245,7 @@ describe('typed 资源引用与文件闭包', () => {
         'music.pal.004',
         'color.project-standard',
         'video.pal.001',
+        'video.pal.004',
         'frame-animation.pal.003',
         'music.missing',
       ]),
@@ -230,16 +254,31 @@ describe('typed 资源引用与文件闭包', () => {
       asset: 'music.pal.004',
       expectedKind: 'music',
       where: 'manifest.assets.roles.audio.openingMenuMusic',
+      site: 'manifest.assets.roles.audio.openingMenuMusic',
+    })
+    expect(refs).toContainEqual({
+      asset: 'video.pal.001',
+      expectedKind: 'video',
+      where: 'entryPoints[0].introVideo',
+      site: 'entryPoint:new-game:introVideo',
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.001',
       expectedKind: 'video',
       where: 'scenes[0].onEnter[0].body[1].onLose[1].asset',
+      site: 'scene:s:onEnter',
+    })
+    expect(refs).toContainEqual({
+      asset: 'video.pal.004',
+      expectedKind: 'video',
+      where: 'scenes[0].onEnter[0].body[1].onLose[3].videos[0]',
+      site: 'scene:s:onEnter',
     })
     expect(refs).toContainEqual({
       asset: 'frame-animation.pal.003',
       expectedKind: 'frame-animation',
       where: 'scenes[0].onEnter[0].body[1].onLose[2].asset',
+      site: 'scene:s:onEnter',
     })
     expect(validateAssetReferenceClosure(catalog, refs)).toContainEqual(
       expect.objectContaining({ code: 'missing-asset', severity: 'error' }),
@@ -262,5 +301,39 @@ describe('typed 资源引用与文件闭包', () => {
     expect(issues.map((issue) => issue.code)).toEqual(
       expect.arrayContaining(['missing-file', 'bytes-mismatch', 'hash-mismatch']),
     )
+  })
+
+  test('同一脚本内多次调用同一过场资源时，原始边表保留命令次数，引用站点只显示一处', () => {
+    const refs = collectAssetReferences({
+      scriptChunks: {
+        'scene/s011': {
+          version: 1,
+          id: 'scene/s011',
+          scripts: {
+            'scene/s011/root/entity-e195/page-0/trigger/stage-0': [
+              { kind: 'playFrameAnimation', asset: 'frame-animation.pal.003', startFrame: 0 },
+              { kind: 'wait', ms: 1 },
+              { kind: 'playFrameAnimation', asset: 'frame-animation.pal.003', startFrame: 2 },
+            ],
+            'scene/s011/root/entity-e196/page-0/trigger/stage-0': [
+              { kind: 'playFrameAnimation', asset: 'frame-animation.pal.003', startFrame: 4 },
+            ],
+          },
+        },
+      },
+    })
+    expect(refs).toHaveLength(3)
+    expect(groupAssetReferencesBySite(refs)).toEqual([
+      expect.objectContaining({
+        asset: 'frame-animation.pal.003',
+        site: 'script:scene/s011:scene/s011/root/entity-e195/page-0/trigger/stage-0',
+        occurrences: 2,
+      }),
+      expect.objectContaining({
+        asset: 'frame-animation.pal.003',
+        site: 'script:scene/s011:scene/s011/root/entity-e196/page-0/trigger/stage-0',
+        occurrences: 1,
+      }),
+    ])
   })
 })

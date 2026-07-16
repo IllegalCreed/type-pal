@@ -22,6 +22,14 @@ const catalog: AssetCatalogV1 = {
       sha256: 'b'.repeat(64),
       origin: { kind: 'licensed' },
     },
+    color: {
+      kind: 'color-table',
+      path: 'assets/migrated/colors/standard.json',
+      mediaType: 'application/json',
+      bytes: 2,
+      sha256: 'c'.repeat(64),
+      origin: { kind: 'legacy-migrated' },
+    },
   },
 }
 
@@ -43,6 +51,7 @@ describe('AssetResolver', () => {
     'audio.bossVictoryMusic': 'song',
     'audio.normalVictoryMusic': 'song',
     'audio.openingMenuMusic': 'song',
+    'visual.standardColorTable': 'color',
   } as const
 
   test('AssetId 与角色只经 catalog 显式 path 读取', async () => {
@@ -50,8 +59,12 @@ describe('AssetResolver', () => {
     const resolver = new AssetResolver('demo', catalog, roles, io)
     await resolver.readBytes('song', 'music')
     await resolver.readRoleBytes('audio.midiSoundfont')
+    await resolver.readRoleText('visual.standardColorTable')
     expect(io.readBytes).toHaveBeenNthCalledWith(1, 'assets/authored/song.mid')
     expect(io.readBytes).toHaveBeenNthCalledWith(2, 'assets/runtime/main.sf3')
+    await expect(resolver.urlForRole('visual.standardColorTable')).resolves.toBe(
+      'blob:assets/migrated/colors/standard.json',
+    )
   })
 
   test('缺 id、kind 错和读取失败都带工程/id/kind/path 上下文', async () => {

@@ -13,7 +13,7 @@ import {
   bakeFrame,
   decompressGzip,
   loadBattleSprite,
-  loadPalette,
+  loadStandardPalette,
   parseSpriteChunk,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -85,14 +85,14 @@ export function EnemyAnimPreview(props: {
     setErr('')
     void (async () => {
       try {
-        const [sp, pal]: [LoadedSprite, Awaited<ReturnType<typeof loadPalette>>] =
+        const [sp, pal]: [LoadedSprite, Awaited<ReturnType<typeof loadStandardPalette>>] =
           await Promise.all([
             blob
               ? decompressGzip(new Blob([blob]))
                   .then(parseSpriteChunk)
                   .then((frames) => ({ frames, anchorX: 0, anchorY: 0 }))
               : loadBattleSprite(assetBase, 'enemy', enemy.spriteNum, enemy.spritePath),
-            loadPalette(assetBase, 0),
+            loadStandardPalette(assetBase),
           ])
         if (!alive) return
         setBaked(sp.frames.map((f) => bakeFrame(f, pal)))

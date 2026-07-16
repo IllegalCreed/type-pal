@@ -134,6 +134,26 @@ interface EditorMode {
 引用保护与未引用删除状态正确。完整闭包数据见
 [`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。
 
+### 5.4 过场资源工作台(A7-3,2026-07-16)
+
+“资源 -> 过场素材”由统一 catalog 派生，不再是 `/extracted` 浏览器：
+
+- 左侧是可独立滚动、可搜索和导入的视频/帧动画双列表；中间按类型显示黑底原生视频播放器或完整帧时间轴；
+  右侧显示名称、AssetId、来源、文件、媒体信息、typed 引用、替换、删除和诊断。
+- 视频支持 MP4/WebM 导入、改名、保持 AssetId 替换与引用安全删除。编辑器播放器留在中间面板；游戏运行时
+  仍使用 Cinematic Layer。
+- 帧动画导入 PNG/JPEG/WebP 序列，初始自然排序，导入前可逐张上移、下移或排除；时间轴支持播放、帧率/
+  单帧时长、插入、替换、多选、复制、删除、拖动重排和局部撤销/重做。
+- 作者始终编辑完整 RGBA8 画布；时间轴只渲染可见缩略图。批量量化与 TPFS 重编码在 Worker 中完成，
+  未修改旧帧保持惰性来源引用，保存时才恢复完整帧并自动压缩。
+- “保留原色 / 工程标准色彩”只决定完整帧像素；不显示 palette 编号。标准色彩来自
+  `visual.standardColorTable` 角色。
+- 有未保存帧编辑时切换资源必须确认；有 typed 引用的资源禁删，无引用资源确认删除。首次修改迁移资产后
+  AssetId 不变，路径转 `assets/authored/**`、来源转 authored，受 MG2 所有权保护。
+
+完整格式、边界与验证矩阵见
+[`cutscene-asset-workbench-design.md`](cutscene-asset-workbench-design.md)。
+
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 
 现 `content/validate.ts` 只查形状。**投查在 demo 数据里当场抓到 2 个悬空引用**:`skills.json` 的 `levelUp` 指向不存在的技能(349/311/…);土灵珠(267)的 `grantSkill` 指向不存在的 336。形状校验放过了它们。

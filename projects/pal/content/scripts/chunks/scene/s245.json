@@ -265,10 +265,10 @@
         "ms": 600
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 8,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.008",
         "startFrame": 0,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "playSound",

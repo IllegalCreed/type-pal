@@ -45,6 +45,7 @@ export interface PalMigrationSources {
   musicMidi: number[]
   assetCatalog: AssetCatalogV1
   binaryAssets: import('./pal-assets.js').PalBinaryAssetSource[]
+  assetReport: import('./pal-assets.js').PalAssetMigrationReport
   battleFields: MigrationJson[]
   objectPoisons: SourceObjectPoison[]
   stores: SourceStore[]
@@ -63,6 +64,7 @@ export interface MigrationFileSet {
     audit: ReturnType<typeof auditScriptLibrary>
     bossOverlay: { attached: number; clearedEnemies: string[] }
     maps: ProjectMapAuditReport
+    assets: import('./pal-assets.js').PalAssetMigrationReport
   }
 }
 
@@ -210,6 +212,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       audit,
       bossOverlay: { attached: boss.attached, clearedEnemies: boss.clearedEnemies },
       maps: convertedMaps.report,
+      assets: structuredClone(sources.assetReport),
     },
   }
 }

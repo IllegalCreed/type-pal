@@ -35,7 +35,7 @@ export interface ScriptHost {
   /** 0x99 当前场景即时换底图(mapId 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
   reloadMap?(mapId: string): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
-  quitToTitle?(): void
+  quitToTitle?(videos?: readonly AssetId[]): void | Promise<void>
   fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
   ditherScreen(ms: number): Promise<void>
@@ -117,12 +117,12 @@ export interface ScriptHost {
   ): Promise<'win' | 'lose' | 'flee'>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
   teleportOut(): Promise<boolean>
-  /** 过场编排:播 mp4 视频(videos/{videoId}.mp4),阻塞至播完 or 跳过。加载失败静默不卡流程。 */
-  playVideo(videoId: number): Promise<void>
-  /** 过场编排:播 RNG 序列图(chunkIdx;正确调色盘引擎内定死,不传参),阻塞至播完 or 跳过。 */
-  playRng(
-    chunkIdx: number,
-    opts?: { speed?: number; startFrame?: number; endFrame?: number },
+  /** 过场编排:按稳定 AssetId 播视频，阻塞至播完或跳过。 */
+  playVideo(asset: AssetId): Promise<void>
+  /** 过场编排:按稳定 AssetId 播真彩帧动画，阻塞至播完或跳过。 */
+  playFrameAnimation(
+    asset: AssetId,
+    opts?: { frameRate?: number; startFrame?: number; endFrame?: number },
   ): Promise<void>
   /** 商店/当铺(阻塞脚本至关店;店不存在须立即 resolve 防卡死)。 */
   openShop(shop: number, mode: 'buy' | 'sell'): Promise<void>
@@ -577,7 +577,7 @@ export class ScriptRunner {
       case 'stopScript':
         throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
       case 'quitToTitle':
-        return h.quitToTitle?.() // 0xA0 通关退出 → 回标题屏
+        return h.quitToTitle?.(cmd.videos) // 0xA0 通关退出 → 回标题屏
 
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
@@ -615,10 +615,10 @@ export class ScriptRunner {
         return
       }
       case 'playVideo':
-        return h.playVideo(cmd.videoId)
-      case 'playRng':
-        return h.playRng(cmd.chunkIdx, {
-          speed: cmd.speed,
+        return h.playVideo(cmd.asset)
+      case 'playFrameAnimation':
+        return h.playFrameAnimation(cmd.asset, {
+          frameRate: cmd.frameRate,
           startFrame: cmd.startFrame,
           endFrame: cmd.endFrame,
         })

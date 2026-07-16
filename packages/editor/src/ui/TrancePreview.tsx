@@ -4,7 +4,7 @@
  * 全帧循环播(战斗待机观感)。
  */
 import type { AssetBase } from '@type-pal/reforge'
-import { bakeFrame, loadBattleSprite, loadPalette } from '@type-pal/reforge'
+import { bakeFrame, loadBattleSprite, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
 const cache = new Map<number, Promise<HTMLCanvasElement[] | null>>()
@@ -16,7 +16,7 @@ function load(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElement[] 
       try {
         const [sprite, palette] = await Promise.all([
           loadBattleSprite(assetBase, 'player', chunk),
-          loadPalette(assetBase, 0),
+          loadStandardPalette(assetBase),
         ])
         if (!sprite.frames.length) return null
         return sprite.frames.map((f: Parameters<typeof bakeFrame>[0]) => bakeFrame(f, palette))

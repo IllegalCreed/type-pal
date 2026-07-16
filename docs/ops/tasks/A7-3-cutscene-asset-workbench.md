@@ -1,6 +1,6 @@
 # A7-3 - 视频与帧动画资源闭包及过场工作台
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7 / R3 / R7 / X3
 Coding Owner: Codex
@@ -23,6 +23,7 @@ Branch: main
   - PAL 6 个 MP4 与 12 段/1,464 帧 RNG 的确定性物化；20 条 `playRng` 改为稳定 AssetId 命令。
   - TPFS v1 真彩 32 帧 block + 相邻完整帧 XOR + Deflate 容器、随机 seek、in-flight 缓存和有限 LRU。
   - 作者编辑模型始终是一帧一张完整画布；block/XOR/压缩只属于加载与保存 codec，对用户和编辑 API 透明。
+    codec 允许以后从完整帧重新基准测试并版本化替换，不得反向改变作者模型、内容 schema 或脚本命令。
   - 量化所需的唯一项目标准颜色表角色；现有 palette 0 消费点统一走该角色，RNG 烘焙后清除非 0 运行依赖。
   - 编辑器左侧视频/帧动画双列表，中间内嵌视频播放器或时间轴编辑器，右侧属性/引用/删除面板。
   - 视频导入、改名、替换、删除；帧动画图片序列导入、量化、逐帧增删替换/复制/重排、时长编辑、保存重开。
@@ -63,8 +64,8 @@ Branch: main
 - 已知坑 / 审计文档:
   - [`cutscene-asset-workbench-design.md`](../../phase2/editor/cutscene-asset-workbench-design.md):完整数据模型、UI 和分期。
   - 真实体积审计:当前 RLE 3,970,927 B；完整 RGBA PNG 100,075,957 B；脏矩形 PNG 方案
-    31,525,705 B；完整 RGBA8 按 32 帧 block、相邻帧 XOR、Deflate 后 8,271,766 B。选择最后一项，
-    随机 seek 最多恢复 31 帧；64 帧 block 仅再省约 0.30 MB，不接受其双倍 seek/内存代价。
+    31,525,705 B；32 帧 block、相邻完整帧 XOR、默认 Deflate 的选型原型为 8,271,766 B。正式迁移器固定
+    zlib level 9 后，12 个 TPFS 实际合计 7,960,282 B；随机 seek 最多恢复 31 帧。
   - 20 条 RNG 调用只有部分紧邻音乐，且同一动画会分段插入不同音效/对白；BGM 属脚本编排，不能绑资产。
   - 6 个 MP4 全部已有 AAC 音轨；视频资产不需要外接 BGM 字段。
   - `packages/game/src/shell/rng-player.ts` 历史教训:缓存必须在 await 前保存 Promise，避免 O(N^2) 重解码。
@@ -189,7 +190,10 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-16）**。A7-3A→D 已按完整帧作者模型落地；正式 TPFS 产物 12 段/
+  1,464 帧/7,960,282 B，catalog 大小与 SHA-256 逐项匹配。全仓 3,611 tests passed、1 skipped，
+  Biome 707 files、editor/reforge build、迁移零计划、旧路径静态扫描均通过；6010 HTTP 工作台与 6051
+  `s066` 全段/跳过已做浏览器验证。真实 FSA 句柄和窄视口留给 Opus 独立复验，不冒充已完成。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: pending
@@ -287,18 +291,56 @@ Branch: main
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/{asset,script,frame-sequence}.ts` 及测试：稳定资产/命令、typed references、TPFS v1。
+  - `packages/migrate/src/{pal-assets,pal-migration*,translate-events}.ts`、迁移脚本、baseline 与 PAL 产物。
+  - `packages/reforge/src/{asset-resolver,frame-animation-*,script-runner,main}.ts`：工程内读取和播放；删除旧
+    `rng-player/rng-presentation` 双运行时。
+  - `packages/editor/src/core/frame-animation-*`、`editor-asset-reader.ts`、`CutsceneTab.tsx`、
+    `FrameAnimationEditor.tsx` 与样式：视频/帧动画作者工作台。
+  - content/migrate/editor/reforge 设计与审计文档、capability-map、看板和本卡。
+- 实现摘要:
+  - **A7-3A 契约/codec**：新增 `frame-animation`、`visual.standardColorTable`、稳定
+    `playVideo.asset/playFrameAnimation.asset` 和 typed 引用。TPFS v1 固定 32 帧块、块首完整 RGBA8、后续
+    完整帧 XOR、zlib level 9 Deflate；parser 对坏头/索引/块/长度 fail-loud，provider 编码不全量持帧。
+  - **A7-3B 迁移/运行时**：物化 6 MP4、12 TPFS/1,464 帧，迁移 20 条命令并保留区间/帧率；颜色表映射
+    `{3:2,6:3,7:6}`，其余标准色。Reforge 只经 AssetResolver 读取；容器与 block Promise 在 await 前缓存，
+    完整帧 LRU 上限 64。chunk 6 已登记为稳定资产；一阶段 `packages/game` 仅保留忠实还原参考路径。
+  - **引用模型补正**：启动视频 001/002 从 manifest 角色收集，入口剧情视频 003 从
+    `entryPoints[].introVideo` 收集，结尾视频 004/005/006 从 `quitToTitle.videos[]` 收集；同一脚本位置内
+    为插入音效/对白/等待而拆出的多个帧动画段按 `site` 合并，并在 UI 标注真实调用次数。
+  - **A7-3C 作者工作台**：左侧视频/帧动画双列表，中间原生视频播放器或完整帧时间轴，右侧属性/引用/删除；
+    支持导入/替换/改名/保护删除、图片序列自然排序后人工重排/剔除、完整帧插入/替换/多选复制删除/拖排、
+    时长、撤销重做、Worker 批量量化与编码、未保存切换保护。410 帧时间轴仅渲染 12-15 个可见项。
+  - **A7-3D 闭包**：临时断开外部视频/RNG 目录后，HTTP 编辑器仍可播放 MP4、打开 410 帧动画；6051
+    `s066` 实际 TPFS 全段播放、正常结束和空格跳过清理通过。MG2 作者接管与二跑零计划通过。
+- 运行命令:
+  - `pnpm check`：shared 111、content 207、reforge 360、game 2,294、pal-extract 251、migrate 196、
+    editor 192，共 3,611 tests passed、1 skipped；Biome 检查 707 文件，无错误。
+  - `pnpm --filter @type-pal/editor build`、`pnpm --filter @type-pal/reforge build`：通过；帧动画 Worker 独立出包。
+  - `pnpm --filter @type-pal/migrate run migrate:content`：`writes=0 deletes=0 conflicts=0`，
+    `videos=6 frame-animations=12 frames=1464`，`asset-refs=1354 asset-warnings=15`，脚本体积门禁
+    1.66x/1.13x/1.53x。
+  - `rg ... packages/content/src packages/reforge/src packages/editor/src --glob '!**/*.test.ts'`：
+    `/extracted/videos`、`/extracted/data/animation`、`playRng/chunkIdx/videoId/rngPaletteId` 零命中。
+  - `git diff --check`：通过。
+- 浏览器 / 手工检查:
+  - 6010：视频 `001` 为 blob 工程源且原生 controls 可播；帧动画 `001` 为 320×200/410 帧/16.40 秒，
+    播放推进、虚拟滚动、多选复制/删除/撤销、Worker 标准色量化和保存按钮状态符合预期。
+  - 6051 `?scene=s066`：真实帧动画全段播放后进入后续场景；播放中按空格立即跳过，画面层和 DOM 无残留。
+  - 临时改名外部视频/RNG 目录后重新加载 6010，视频与动画仍从工程资产打开；验证后已恢复目录名。
+- 跳过的检查及原因:
+  - 未在 Codex 浏览器环境执行真实 File System Access 目录句柄“保存→重开”手测；FSA/FileSource 核心有单测，
+    但仍交 Opus 用真实句柄独立复验。
+  - 当前浏览器不提供 viewport override，未保留伪窄屏截图；6010 窄视口与长文本布局交 Opus 独立复验。
 
 ## 资源生成记录(如适用)
 
 - Generation Owner: N/A
 - 生成目的 / 替换对象:本卡迁移本地合法原始数据，不做 AI 生图或发布素材替换。
 - 提示词要点 / 风格约束: N/A
-- 输出路径: pending
+- 输出路径:`projects/pal/assets/migrated/videos/*.mp4`、`frame-animations/*.tpfs`、
+  `colors/project-standard.json`；登记于 `projects/pal/assets/index.json`。
 - 尺寸 / 格式 / 透明背景 / 调色约束:TPFS 真彩 320 x 200；作者输入按向导设置。
 - 资源登记位置: `assets/index.json`
 - 验证方式:逐像素 codec、闭包和浏览器播放。
@@ -306,17 +348,20 @@ Branch: main
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Opus + User
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式:6010 工作台交互 + 6051 `s066` 实际运行/跳过；检查完整帧画面、时间轴、引用栏和播放层清理。
+- 截图 / 像素检查路径:
+  - `docs/ops/evidence/A7-3/editor-frame-workbench-desktop.png`
+  - `docs/ops/evidence/A7-3/reforge-s066-frame-animation.png`
+  - `docs/ops/evidence/A7-3/reforge-s066-skip-cleanup.png`
+- 结论:Codex 桌面 HTTP 与运行时视觉检查通过，无全屏编辑器视频、外部路径 fallback 或跳过残留。
+- 未完成项:真实 FSA 句柄保存重开、6010 窄视口、Opus 独立视觉复验。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论:Codex 自审 accept；Opus/GLM pending。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework:等待 Opus 实现/性能/视觉主审，再交 GLM 覆盖/迁移矩阵复核。
 
 ## 用户验收
 
@@ -346,11 +391,41 @@ Branch: main
   A7-3A→D 单 Coding Owner 实现。R1-R3、S1-S2、G1-G2 全部进入强制实现/验证清单。Evidence: 推进签字表。
   Next: Codex 分段 build；实现完成并自验证后转 review 交 Opus，不得提前标 done。
 - 2026-07-16 User/Codex: 用户明确压缩算法属于保存/加载内部实现，不要求沿用脏矩形；作者仍只编辑完整帧。
-  Codex 用全部 1,464 张真实 RGBA8 帧复测，32 帧 block + 相邻帧 XOR + Deflate 为 8,271,766 B，
-  相比脏矩形 PNG 31,525,705 B 小约 73.8%，据此替换 TPFS 内部 codec。Evidence: 设计文档 §2.3/§4.2。
+  Codex 用全部 1,464 张真实 RGBA8 帧复测，32 帧 block + 相邻帧 XOR + 默认 Deflate 的选型原型为
+  8,271,766 B；正式迁移器固定 zlib level 9 后产物为 7,960,282 B，相比脏矩形 PNG 31,525,705 B
+  小约 74.7%，据此替换 TPFS 内部 codec。Evidence: 设计文档 §2.3/§4.2。
   Next: 按新 codec 契约实施 A7-3A。
+- 2026-07-16 Codex: 完成 A7-3A→D 实现与自验证，Codex done 前签 `accept`，任务转 `review`。6 视频、
+  12 TPFS/1,464 帧、20 条稳定命令、TPFS 7,960,282 B、MG2 零计划、全仓 3,611 tests、两个生产构建、
+  HTTP 断外链和 6051 全段/跳过证据均通过；真实 FSA 句柄与窄视口明确留给 Opus。Evidence: Build/视觉记录。
+  Next: Opus 做实现/性能/视觉主审，只改任务卡签字；不得标 done。
+- 2026-07-16 Codex: 根据用户复核修正资源引用闭包：启动 001/002、入口剧情 003、结尾 004/005/006
+  均进入统一 typed 引用表；同一脚本位置的分段帧动画按作者 site 合并并显示 occurrences，避免 UI 将一次
+  原版 RNG 编排误报为六个独立引用。相关单测、迁移 dry-run、editor/reforge typecheck 已通过。
+  Next: Opus 复核这组三类视频入口与 site 分组语义；不得标 done。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，Codex 正在执行 A7-3A→D build。完成实现与自验证后，任务转 `review` 并生成
-交 Opus 的实现/性能/视觉主审提示词。
+接手 A7-3 视频与帧动画资源闭包及过场工作台实现/性能/视觉主审（Opus）。
+
+任务卡：`docs/ops/tasks/A7-3-cutscene-asset-workbench.md`。当前状态 `review`；Codex 已完成 A7-3A→D 并在
+done 前签 `accept`，Opus/GLM 仍 pending，三签未齐不得标 `done`。先读 `AGENTS.md`、
+`docs/phase2/READ-FIRST.md`、本卡上下文锚点、`docs/phase2/editor/cutscene-asset-workbench-design.md`、
+`docs/phase2/foundation/a7-resource-closure-audit.md`。
+
+你的职责是实现/性能/视觉主审，默认只改任务卡，不得顺手改实现。重点复核：
+
+1. TPFS 完整帧作者语义、32 帧 XOR/Deflate v1、坏容器 fail-loud、in-flight Promise、64 帧 LRU、Worker
+   编码/量化与内存边界；压缩细节不得泄漏到 UI/schema/脚本。
+2. 迁移精确对账 6 视频、12 动画、1,464 帧、20 命令、颜色映射 `{3:2,6:3,7:6}`、正式 TPFS
+   7,960,282 B、MG2 authored 保护与 dry-run `0/0/0`；确认 G1 的 phase1 参考引擎/phase2 Reforge 边界。
+3. 6010 桌面与窄视口：视频原生播放器；图片序列自然排序后重排/剔除；完整帧多选、复制、删除、拖排、
+   量化、保存重开、引用禁删和未保存切换。请务必用真实 FSA 目录句柄做一次“保存→重开”，这是 Codex 未完成项。
+4. 6051 `?scene=s066`：全段、空格跳过与结束清理；结合单测抽查分段、不同 frameRate、越界和失败路径。
+5. 复核 `pnpm check`、editor/reforge build、迁移零计划与旧路径静态扫描证据。
+6. 重点复核本次引用模型补正：manifest 角色 001/002、entryPoint introVideo 003、`quitToTitle.videos[]`
+   004/005/006 是否都能在 6010 反向索引；同一脚本位置的分段 RNG 是否只显示一个 site 并标注调用次数，
+   不得把分段次数当成多个独立作者引用。
+
+输出要求：在本卡 Opus review 签字行写 `accept` 或 `counter + 理由/返工项`，补视觉/FSA证据和交接日志并提交。
+若 accept，给出可直接转交 GLM 的覆盖/迁移矩阵复核提示词；三签未齐，不得标 `done`。

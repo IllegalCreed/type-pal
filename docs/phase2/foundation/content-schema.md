@@ -239,6 +239,35 @@ interface DialogueCue {
 authored 记录拼回 migrated 字段。完整证据见
 [`a7-0-music-resource-closure-report.md`](a7-0-music-resource-closure-report.md)。
 
+### 6.5 视频与完整帧动画(A7-3,2026-07-16)
+
+`video` 与 `frame-animation` 是 catalog 中两种独立的一等资产。视频允许浏览器原生 MP4/WebM；帧动画使用
+`application/vnd.type-pal.frame-sequence` 的单文件 TPFS v1。`visual.standardColorTable` 是唯一颜色表角色，
+只供迁移与作者量化使用，不进入内容命令。
+
+```ts
+type PlayVideoCommand = { kind: 'playVideo'; asset: AssetId }
+
+type PlayFrameAnimationCommand = {
+  kind: 'playFrameAnimation'
+  asset: AssetId
+  startFrame?: number
+  endFrame?: number
+  frameRate?: number
+}
+```
+
+- `startFrame/endFrame` 是资产内部闭区间坐标，不是资源身份；越界、负数或 `start > end` 一律 fail-loud。
+- `frameRate` 存在时覆盖容器逐帧时长；否则使用单帧 `durationMs`，再回落 `defaultFrameMs`。
+- `playRng/chunkIdx/videoId/rngPaletteId` 已退出 content、reforge 和 editor；旧数字只允许在 migrate 输入边界出现。
+- TPFS 解码后向作者层交付完整 RGBA8 帧；32 帧 block、XOR 与 Deflate 不进入 schema、脚本、草稿或 UI。
+- `collectAssetReferences` 递归收集两类命令，并同时收集 manifest 角色、入口点 `introVideo` 与
+  `quitToTitle.videos[]`；校验 `video` / `frame-animation` kind。删除保护和右侧引用面板共用同一张
+  typed 边表。同一作者脚本位置拆成多个分段调用时，引用面板按 site 合并并显示调用次数，不伪造多个作者位置。
+
+格式与创作工作台详见
+[`cutscene-asset-workbench-design.md`](../editor/cutscene-asset-workbench-design.md)。
+
 ## 7. 内容工程目录结构
 
 独立、版本化（文本 + 稳定排序 + git 友好），初始化 = 迁移器从 `data/extracted/` 灌入：

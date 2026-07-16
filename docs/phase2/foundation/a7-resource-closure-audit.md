@@ -1,15 +1,15 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-15
+> 审计日期: 2026-07-16
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
-> 落地状态: A7-0 音乐/MIDI soundfont 首切片已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
+> 落地状态: A7-0 音乐/MIDI soundfont 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
-A7 总体**还没有形成全资源闭包**，但 A7-0 已让音乐与 MIDI soundfont 形成第一条完整闭包。其余资源族的
+A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soundfont，A7-3 已闭合视频与完整帧动画。其余资源族的
 运行时仍可绕过工程目录读取仓库级 `/extracted`、`/baked`、`/ui`；多类资源还用数字号拼文件名。因此当前
-可以证明“音乐族由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开外部资源依赖。
+可以证明“音乐、视频和帧动画由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开全部外部资源依赖。
 
 问题由四层共同造成:
 
@@ -173,6 +173,27 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已让音乐与 MIDI soun
   “未被当前脚本引用”冒充文件错误或擅自删除。
 - `content/music.json`、最终产物中的 `musicId/battleMusicId`、内部 `overrideSceneBattle` 标记均为 0。
   BGM 与编辑器试听都只经 AssetResolver/FileSource，soundfont 不再从应用根读取。
+
+### 3.8 A7-3 落地后的视频/帧动画证据
+
+- PAL catalog 新增 6 个 `video`、12 个 `frame-animation` 与唯一 `visual.standardColorTable` 角色；12 段
+  TPFS 共 1,464 帧、7,960,282 B（zlib level 9 正式产物；选型原型为 8,271,766 B）。视频约 20 MB，
+  原 MP4 字节原样进入工程。
+- 20 条旧 RNG 站点全部成为 `playFrameAnimation.asset`；9 个动画有引用、3 个未引用。未引用仅告警，
+  缺 AssetId 或 kind mismatch 阻断。
+- 视频引用闭包覆盖三类作者入口：启动 001/002 的 manifest 角色、入口剧情 003 的
+  `entryPoints[].introVideo`、结尾 004/005/006 的 `quitToTitle.videos[]`。同一脚本位置拆成多个动画段时，
+  引用索引按作者 site 合并并记录 occurrences，避免把一个 RNG 误报成多个独立引用。
+- Reforge 删除旧 `rng-player/rng-presentation`，视频与帧动画都只经工程 `AssetResolver/FileSource`；editor
+  也使用同一 catalog、未保存 blob 覆盖和 typed 引用表。
+- 断开 `data/extracted/videos` 与 `data/extracted/data/animation` 后，HTTP 工程仍能预览视频和 410 帧动画；
+  `s066` 真机脚本可全段播放、跳过并清理。FSA 字节读取/写回由同一 FileSource 与 project-io 测试覆盖，
+  真实目录句柄烟测留 review 再独立复验。
+- MG2 dry-run 为 `writes=0 deletes=0 conflicts=0`；作者替换保持 AssetId、转 authored/hash 路径，不被迁移器覆盖。
+- 当前 PAL 全量写前闭包为 **1,354 条资产引用、15 条未引用 warning、0 条缺失/kind 错误**；其中视频入口覆盖
+  manifest 角色、入口点 introVideo 和 quitToTitle 视频序列，帧动画分段按作者 site 归并计数。
+- A7 总体仍未完成：SFX、字形/UI、头像/图标、精灵/瓦片等 legacy family 与裸路径仍按 A7-1/A7-2/A7-4
+  继续收口。
 - 最终迁移 dry-run 为 `writes=0 deletes=0 conflicts=0`。作者接管同一 AssetId 的记录与 migrated 兄弟条目
   并行更新已有专测，二进制保持在 MG2 JSON baseline 外。
 
@@ -200,8 +221,8 @@ export type AssetKind =
   | 'face'
   | 'item-icon'
   | 'battle-background'
-  | 'rng'
   | 'video'
+  | 'frame-animation'
   | 'glyph-table'
   | 'ui-image'
   | 'color-table'
@@ -398,7 +419,7 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 | **A7-0** | 公共 catalog/guard/resolver/闭包地基 + 音乐/MIDI soundfont 首切片 | 音乐引用、试听、运行、保存、重迁全部只走 AssetId；`music.json` 与数字文件名推断归零 |
 | **A7-1** | SFX 与音频剩余资源 | 音效引用、角色/敌人/技能音效、导入替换全部只走 AssetId |
 | **A7-2** | 静态图像、游戏 UI、字形、颜色表 | 头像/图标/战场/UI/字体无 `/baked`、`/ui`、`/extracted` 旁路 |
-| **A7-3** | 瓦片、精灵、战斗/法术动画、RNG、视频 | 数字号/path 双轨归零,所有动态资源只走 resolver |
+| **A7-3** | 瓦片、精灵、战斗/法术动画、RNG、视频 | **RNG/视频部分已完成**：稳定 AssetId + TPFS + resolver + 作者工作台；瓦片/精灵/战斗动画剩余族继续收口 |
 | **A7-4** | 克隆/另存/zip/闭包总门禁 + v4 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
 
 A7-0 不得把 A7/R7 标为 done；它必须保留一份全量剩余缺口报告,后续切片只能减少,不能用 allowlist 隐藏。

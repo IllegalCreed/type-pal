@@ -83,6 +83,44 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
   })
 })
 
+describe('0x36/0x37 帧动画迁移', () => {
+  test('旧段号只在迁移边界出现，输出稳定 AssetId 与闭合帧区间', () => {
+    const body = bodyOf(
+      ctxOf([
+        { opcode: 0x36, operands: [7, 0, 0] },
+        { opcode: 0x37, operands: [3, 18, 25] },
+      ]),
+    )
+    expect(body).toEqual([
+      {
+        kind: 'playFrameAnimation',
+        asset: 'frame-animation.pal.007',
+        startFrame: 3,
+        endFrame: 18,
+        frameRate: 25,
+      },
+    ])
+  })
+
+  test('原版缺省速率映射 16fps，end=0 表示播到末帧', () => {
+    expect(
+      bodyOf(
+        ctxOf([
+          { opcode: 0x36, operands: [0, 0, 0] },
+          { opcode: 0x37, operands: [0, 0, 0] },
+        ]),
+      ),
+    ).toEqual([
+      {
+        kind: 'playFrameAnimation',
+        asset: 'frame-animation.pal.000',
+        startFrame: 0,
+        frameRate: 16,
+      },
+    ])
+  })
+})
+
 describe('0x49 setObjectState operand0=0', () => {
   test('不产 e-1 实体命令，但保留两侧对话批次边界', () => {
     const body = bodyOf(
@@ -425,7 +463,10 @@ describe('R2 残余 opcode clean 收口', () => {
 
   test('0xA0 → quitToTitle', () => {
     expect(bodyOf(ctxOf([{ opcode: 0xa0, operands: [0, 0, 0] }]))).toEqual([
-      { kind: 'quitToTitle' },
+      {
+        kind: 'quitToTitle',
+        videos: ['video.pal.004', 'video.pal.005', 'video.pal.006'],
+      },
     ])
   })
 

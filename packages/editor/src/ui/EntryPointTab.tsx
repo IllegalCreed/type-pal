@@ -2,8 +2,8 @@
  * 入口点(开局档)页(数据模式·入口标签)—— 主菜单每个「开始游戏 / DLC 入口」= 一条 entryPoint。
  * 每条:稳定 id + 标签(主菜单按钮文案)+ 起始场景;可选自带 startWorld(缺 = 用 manifest 默认开局)。
  *
- * 分工(D25 前的入口点决策):**存档状态走数据(startWorld),叙事走该场景 onEnter(脚本)**。
- * 本页编 entryPoints 表(增删改 + 场景下拉)。startWorld 子表单(队伍/道具/技能/钱)= 后续切片,
+ * 分工(D25 前的入口点决策):**存档状态走数据(startWorld),入口视频走 introVideo,其余叙事走场景 onEnter**。
+ * 本页编 entryPoints 表(增删改 + 场景/入口视频下拉)。startWorld 子表单(队伍/道具/技能/钱)= 后续切片,
  * 现只标「用默认开局」/「自带(N 队员)」。整表改走 SetEntryPointsCommand(undo/redo + 存 manifest.json)。
  */
 import type {
@@ -121,8 +121,8 @@ export function EntryPointTab(props: {
           <span className="k">{entryPoints.length} 条</span>
         </div>
         <div className="insp-empty" style={{ marginTop: 8 }}>
-          主菜单每个按钮 = 一条入口点(开始游戏 / DLC 入口…)。选定 → 用它的起始场景 + 开局数据。
-          开场视频/梦境写在该场景的 onEnter 脚本(不进本表)。
+          主菜单每个按钮 = 一条入口点(开始游戏 / DLC 入口…)。选定 → 用它的入口视频、起始场景 +
+          开局数据。 入口视频属于本表；梦境、对白等进入场后的叙事仍写在该场景的 onEnter 脚本。
         </div>
         <div className="et-scroll" style={{ marginTop: 8 }}>
           {entryPoints.map((e, i) => (

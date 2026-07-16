@@ -149,65 +149,65 @@
         "asset": "music.pal.086"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 0,
         "endFrame": 112,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "playSound",
         "soundId": 86
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 113,
         "endFrame": 162,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "playSound",
         "soundId": 87
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 163,
         "endFrame": 186,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "playSound",
         "soundId": 85
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 187,
         "endFrame": 195,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "playSound",
         "soundId": 85
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 196,
         "endFrame": 266,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "playSound",
         "soundId": 88
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 1,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.001",
         "startFrame": 267,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "fade",

@@ -8,7 +8,7 @@ import {
   bakeFrame,
   compressGzip,
   encodeSpriteChunk,
-  loadPalette,
+  loadStandardPalette,
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
@@ -51,7 +51,7 @@ export function BattleSpriteUploader(props: {
 
   useEffect(() => {
     let alive = true
-    loadPalette(assetBase, 0)
+    loadStandardPalette(assetBase)
       .then((p) => {
         if (alive) setPalette(p)
       })

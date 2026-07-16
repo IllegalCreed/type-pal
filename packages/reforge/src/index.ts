@@ -15,16 +15,16 @@ export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 
 import type { AssetBase, LoadedSprite } from './assets.js'
-// 资产加载(ProjectMapV2/palette/tileset/sprite + gzip 解压)
+// 资产加载(ProjectMapV2/工程标准色彩/tileset/sprite + gzip 解压)
 import {
   compressGzip,
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
-  loadPalette,
   loadProjectMap,
   loadSprite,
+  loadStandardPalette,
   loadTilesetByPath,
 } from './assets.js'
 
@@ -35,9 +35,9 @@ export {
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
-  loadPalette,
   loadProjectMap,
   loadSprite,
+  loadStandardPalette,
   loadTilesetByPath,
 }
 
@@ -158,11 +158,20 @@ import { createBgmPlayer } from './audio/bgm.js'
 export type { AudioAssetReader, BgmPlayer }
 export { createBgmPlayer }
 
-import type { PlayRngOptions } from './rng-player.js'
-// 过场编排播放运行时(编辑器过场库预览复用;引擎 script-host 自用同款)
-import { playRng, rngPaletteId } from './rng-player.js'
+import type {
+  FrameAnimationFrameSnapshot,
+  FrameSequenceAssetReader,
+  PlayFrameAnimationOptions,
+} from './frame-animation-player.js'
+// 过场编排播放运行时与 TPFS 随机读取器。
+import { FrameSequenceReader, playFrameAnimation } from './frame-animation-player.js'
 import type { PlayVideoOptions } from './video-player.js'
 import { playVideo } from './video-player.js'
 
-export type { PlayRngOptions, PlayVideoOptions }
-export { playRng, playVideo, rngPaletteId }
+export type {
+  FrameAnimationFrameSnapshot,
+  FrameSequenceAssetReader,
+  PlayFrameAnimationOptions,
+  PlayVideoOptions,
+}
+export { FrameSequenceReader, playFrameAnimation, playVideo }

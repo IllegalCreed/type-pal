@@ -645,11 +645,11 @@
         "asset": "music.pal.034"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 0,
         "endFrame": 1,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -673,11 +673,11 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 1,
         "endFrame": 16,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -697,11 +697,11 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 17,
         "endFrame": 54,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -723,11 +723,11 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 55,
         "endFrame": 59,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -773,11 +773,11 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 60,
         "endFrame": 74,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -822,11 +822,11 @@
         "level": 1
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 9,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.009",
         "startFrame": 75,
         "endFrame": 109,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "dialog",
@@ -863,7 +863,12 @@
         "kind": "clearDialog"
       },
       {
-        "kind": "quitToTitle"
+        "kind": "quitToTitle",
+        "videos": [
+          "video.pal.004",
+          "video.pal.005",
+          "video.pal.006"
+        ]
       }
     ],
     "scene/s281/root/entity-e4801/page-0/auto/stage-0": [

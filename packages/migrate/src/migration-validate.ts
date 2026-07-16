@@ -2,6 +2,7 @@ import type {
   Command,
   EnemyDef,
   EnemyTeamDef,
+  EntryPoint,
   ManifestAssetConfigV3,
   ScriptChunkV1,
   ScriptIndexV1,
@@ -343,6 +344,7 @@ export function validatePalMigrationTarget(args: {
   sources: PalMigrationSources
   startWorld: StartWorld
   assets: ManifestAssetConfigV3
+  entryPoints?: readonly EntryPoint[]
 }): MigrationValidationReport {
   const { files, managedFiles, sources, startWorld } = args
   const assetCatalog = validateAssetCatalog(required(files, 'assets/index.json'))
@@ -461,6 +463,7 @@ export function validatePalMigrationTarget(args: {
 
   const assetReferences = collectAssetReferences({
     assets: args.assets,
+    entryPoints: args.entryPoints,
     scenes,
     scriptChunks: chunks,
     enemies,

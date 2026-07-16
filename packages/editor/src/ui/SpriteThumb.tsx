@@ -8,8 +8,8 @@ import type { AssetBase } from '@type-pal/reforge'
 import {
   bakeFrame,
   decompressGzip,
-  loadPalette,
   loadSprite,
+  loadStandardPalette,
   parseSpriteChunk,
 } from '@type-pal/reforge'
 import { useEffect, useId, useRef, useState } from 'react'
@@ -30,7 +30,7 @@ function loadThumb(
       try {
         const [frames, palette] = await Promise.all([
           decompressGzip(new Blob([blob])).then(parseSpriteChunk),
-          loadPalette(assetBase, 0),
+          loadStandardPalette(assetBase),
         ])
         const f = frames[frameIndex] ?? frames[0]
         return f ? bakeFrame(f, palette) : null
@@ -46,7 +46,7 @@ function loadThumb(
       try {
         const [sprite, palette] = await Promise.all([
           loadSprite(assetBase, spriteNum, path),
-          loadPalette(assetBase, 0),
+          loadStandardPalette(assetBase),
         ])
         const f = sprite.frames[frameIndex] ?? sprite.frames[0]
         if (!f) return null

@@ -1754,7 +1754,7 @@ export class UpdateLocaleCommand implements Command {
 
 /** 改资源显示名；AssetId/path/引用保持不变。 */
 export class UpdateAssetLabelCommand implements Command {
-  readonly label = '改音乐名'
+  readonly label = '修改资源名称'
   private readonly assetId: AssetId
   private readonly next: string | undefined
   private old: string | undefined

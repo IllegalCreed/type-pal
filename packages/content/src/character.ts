@@ -46,14 +46,17 @@ export interface StartWorld {
 
 /**
  * 入口点(开局档)—— 主菜单一个按钮 = 一个开局。「开始游戏」是一条,DLC 入口各是一条。
- * 分工(2026-07-06 定):**存档状态走数据(startWorld),叙事走脚本(该场景 onEnter)**。
- * 判据「读档也能得到它吗」—— 是(队伍/道具/技能/属性/金钱)= 数据;否(视频/梦境/对白)= 场景脚本。
- * 加 DLC = 加一条 entryPoint(自己的 startWorld + 指向自己的场景,开场叙事写该场景 onEnter),零引擎改动。
+ * 分工(2026-07-06 定):**存档状态走数据(startWorld),叙事走入口视频或场景脚本**。
+ * 判据「读档也能得到它吗」—— 是(队伍/道具/技能/属性/金钱)= 数据;否(入口视频/梦境/对白)=
+ * 入口点 introVideo 或该场景 onEnter 脚本。
+ * 加 DLC = 加一条 entryPoint(自己的 startWorld + 指向自己的场景 + 可选入口视频),零引擎改动。
  */
 export interface EntryPoint {
   id: string // 稳定 id(new-game / dlc1 …;主菜单/存档引用)
   label: string // 主菜单按钮文案(如「开始游戏」)
   scene: string // 起始场景 id
+  /** 选择该入口后、创建世界前播放的剧情视频；例:PAL WIN95 新游戏动画 3.mp4。 */
+  introVideo?: AssetId
   /** 该开局的初始存档状态(队伍/道具/技能/属性/金钱);缺省 = manifest.startWorld(兼容单入口老工程)。 */
   startWorld?: StartWorld
 }

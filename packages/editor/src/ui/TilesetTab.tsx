@@ -12,7 +12,7 @@ import {
   compressGzip,
   decompressGzip,
   encodeSpriteChunk,
-  loadPalette,
+  loadStandardPalette,
   loadTilesetByPath,
   parseSpriteChunk,
   quantizeToRleFrame,
@@ -96,7 +96,7 @@ export function TilesetTab(props: {
 
   useEffect(() => {
     let alive = true
-    loadPalette(assetBase, 0)
+    loadStandardPalette(assetBase)
       .then((p) => {
         if (alive) setPalette(p)
       })

@@ -32,10 +32,10 @@
         "level": 4
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 5,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.005",
         "startFrame": 0,
-        "speed": 7
+        "frameRate": 7
       },
       {
         "kind": "fade",
@@ -62,10 +62,10 @@
         "level": 1
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 2,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.002",
         "startFrame": 0,
-        "speed": 16
+        "frameRate": 16
       },
       {
         "kind": "fade",

@@ -112,6 +112,7 @@ export function MusicTab(props: {
     const byAsset = new Map<AssetId, string[]>()
     for (const reference of collectAssetReferences({
       assets: state.manifest.assets,
+      entryPoints: state.manifest.entryPoints,
       scenes: state.scenes,
       scriptChunks: state.scriptChunks,
       enemies: state.enemies,
@@ -121,7 +122,13 @@ export function MusicTab(props: {
       byAsset.set(reference.asset, list)
     }
     return byAsset
-  }, [state.manifest.assets, state.scenes, state.scriptChunks, state.enemies])
+  }, [
+    state.manifest.assets,
+    state.manifest.entryPoints,
+    state.scenes,
+    state.scriptChunks,
+    state.enemies,
+  ])
   const shown = entries.filter(
     (entry) =>
       !filter ||

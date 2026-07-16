@@ -5,7 +5,7 @@
  * 清单/预览加载失败退化数字输入(demo 工程无战斗资产)。
  */
 import type { AssetBase } from '@type-pal/reforge'
-import { loadBattleBg, loadPalette } from '@type-pal/reforge'
+import { loadBattleBg, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
 let fieldsCache: Promise<number[]> | null = null
@@ -42,7 +42,7 @@ export function BattleFieldPicker(props: {
     if (!cvs) return
     void (async () => {
       try {
-        const pal = await loadPalette(assetBase, 0)
+        const pal = await loadStandardPalette(assetBase)
         const bg = await loadBattleBg(assetBase, value, pal)
         if (!alive || !canvasRef.current) return
         const ctx = canvasRef.current.getContext('2d')

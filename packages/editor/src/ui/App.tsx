@@ -59,7 +59,7 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { createEditorAudioReader } from '../core/editor-asset-reader.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
@@ -200,10 +200,11 @@ export function App(props: {
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
   const state = session.getState()
-  const audioResolver = useMemo(
-    () => createEditorAudioReader(project.source, state),
-    [project.source, state],
+  const assetReader = useMemo(
+    () => createEditorAssetReader(project.source, () => session.getState()),
+    [project.source, session],
   )
+  const audioResolver = assetReader
   const bodyRef = useRef<HTMLDivElement>(null)
   const storedNavigationRef = useRef(readStoredEditorNavigation(state.manifest.id))
   const [location, setLocation] = useState<EditorLocation>(() =>
@@ -878,6 +879,7 @@ export function App(props: {
             enemies={state.enemies ?? []}
             enemyTeams={state.enemyTeams ?? []}
             assetCatalog={state.assetCatalog}
+            assetReader={assetReader}
             audioResolver={audioResolver}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}

@@ -58,7 +58,7 @@ function fakeHost(calls: string[]): ScriptHost {
       return 'win' as const
     },
     playVideo: alog('playVideo'),
-    playRng: alog('playRng'),
+    playFrameAnimation: alog('playFrameAnimation'),
     teleportOut: async () => {
       calls.push('teleportOut()')
       return false
@@ -88,7 +88,7 @@ function fakeHost(calls: string[]): ScriptHost {
     vanishEntity: log('vanishEntity'),
     loadLastSave: alog('loadLastSave'),
     gameOver: alog('gameOver'),
-    quitToTitle: log('quitToTitle'),
+    quitToTitle: alog('quitToTitle'),
     shakeScreen: log('shakeScreen'),
     toggleDayNight: log('toggleDayNight'),
     increaseHpMp: log('increaseHpMp'),
@@ -121,8 +121,8 @@ test('场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone', as
 test('结局命令调用宿主回标题', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([{ kind: 'quitToTitle' }])
-  expect(calls).toEqual(['quitToTitle()'])
+  await r.run([{ kind: 'quitToTitle', videos: ['video.pal.004', 'video.pal.005'] }])
+  expect(calls).toEqual(['quitToTitle(["video.pal.004","video.pal.005"])'])
 })
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {
@@ -163,18 +163,28 @@ test('loadScene 命名落点原样交给 host，不降级成默认或临时坐�
   ])
 })
 
-test('过场编排:playVideo 命令 → host.playVideo(videoId)(阻塞式,一指令播一段过场)', async () => {
+test('过场编排:playVideo 命令按稳定 AssetId 阻塞播放', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([{ kind: 'playVideo', videoId: 1 }])
-  expect(calls).toEqual(['playVideo(1)'])
+  await r.run([{ kind: 'playVideo', asset: 'video.pal.001' }])
+  expect(calls).toEqual(['playVideo("video.pal.001")'])
 })
 
-test('过场编排:playRng 命令 → host.playRng(chunkIdx, {段/速})(无调色盘参数)', async () => {
+test('过场编排:playFrameAnimation 按 AssetId 传递区间与帧率', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
-  await r.run([{ kind: 'playRng', chunkIdx: 6, speed: 25 }])
-  expect(calls).toEqual(['playRng(6,{"speed":25})']) // 正确调色盘引擎内定,不传参
+  await r.run([
+    {
+      kind: 'playFrameAnimation',
+      asset: 'frame-animation.pal.006',
+      startFrame: 2,
+      endFrame: 9,
+      frameRate: 25,
+    },
+  ])
+  expect(calls).toEqual([
+    'playFrameAnimation("frame-animation.pal.006",{"frameRate":25,"startFrame":2,"endFrame":9})',
+  ])
 })
 
 test('setAmbience(W6 昼夜)→ host 分发氛围 id', async () => {

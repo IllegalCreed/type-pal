@@ -112,9 +112,13 @@ function describe(
     case 'ditherScreen':
       return { icon: '▦', label: `逐像素渐变 ${cmd.ms ?? 720}ms` }
     case 'playVideo':
-      return { icon: '🎬', label: `播过场视频 videos/${cmd.videoId}.mp4` }
-    case 'playRng':
-      return { icon: '🎞', label: `播 RNG 序列 chunk ${cmd.chunkIdx}` }
+      return { icon: '🎬', label: `播放视频 ${cmd.asset}` }
+    case 'playFrameAnimation':
+      return {
+        icon: '🎞',
+        label: `播放帧动画 ${cmd.asset}`,
+        detail: `${cmd.startFrame ?? 0}..${cmd.endFrame ?? '末帧'}${cmd.frameRate ? ` · ${cmd.frameRate}fps` : ''}`,
+      }
     case 'wait':
       return { icon: '⏱', label: `等待 ${cmd.ms}ms` }
     case 'teleportParty':

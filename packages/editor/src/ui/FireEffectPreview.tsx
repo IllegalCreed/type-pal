@@ -6,7 +6,7 @@
  */
 import type { SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { bakeFrame, loadFireSprite, loadPalette } from '@type-pal/reforge'
+import { bakeFrame, loadFireSprite, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
 
 const fireCache = new Map<number, Promise<HTMLCanvasElement[] | null>>()
@@ -18,7 +18,7 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
       try {
         const [sprite, palette] = await Promise.all([
           loadFireSprite(assetBase, chunk),
-          loadPalette(assetBase, 0),
+          loadStandardPalette(assetBase),
         ])
         if (!sprite.frames.length) return null
         return sprite.frames.map((f: Parameters<typeof bakeFrame>[0]) => bakeFrame(f, palette))

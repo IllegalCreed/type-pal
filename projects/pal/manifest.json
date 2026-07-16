@@ -27,7 +27,10 @@
       "audio.openingMenuMusic": "music.pal.004",
       "audio.defaultBattleMusic": "music.pal.037",
       "audio.bossVictoryMusic": "music.pal.002",
-      "audio.normalVictoryMusic": "music.pal.003"
+      "audio.normalVictoryMusic": "music.pal.003",
+      "video.startupTrademark": "video.pal.001",
+      "video.startupSplash": "video.pal.002",
+      "visual.standardColorTable": "color.project-standard"
     },
     "legacy": {
       "families": [
@@ -40,11 +43,8 @@
         "face",
         "item-icon",
         "battle-background",
-        "rng",
-        "video",
         "glyph-table",
         "ui-image",
-        "color-table",
         "image"
       ],
       "root": "/extracted/data",
@@ -95,7 +95,8 @@
     {
       "id": "new-game",
       "label": "新的故事",
-      "scene": "s000"
+      "scene": "s000",
+      "introVideo": "video.pal.003"
     }
   ]
 }

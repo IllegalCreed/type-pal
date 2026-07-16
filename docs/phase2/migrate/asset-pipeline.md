@@ -102,3 +102,26 @@ UI box 和地图章节记录各自历史切片；A7-0 开始补上统一的工�
 53 个 `stopMusic`、36 个场景音乐槽、81 个场景战斗音乐槽和 31 个显式 `startBattle.music` 字段，
 旧字段和内部迁移标记均为 0。详见
 [`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。
+
+## 9. A7-3 视频与帧动画物化(2026-07-16)
+
+- `loadPalCutsceneAssets` 登记 6 个 `video.pal.001..006` 与 12 个
+  `frame-animation.pal.000..011`。MP4 原字节物化到 `assets/migrated/videos/**`；原版 RNG 在迁移时按
+  `{3:2,6:3,7:6}` 与其余标准颜色表烘焙 1,464 张完整 RGBA8 帧，再编码为 TPFS。
+- TPFS v1 每 32 帧一块：块首保存完整帧，其余保存与前帧逐字节 XOR，整块以 zlib level 9 Deflate。
+  全部正式产物总计 7,960,282 B（选型原型为 8,271,766 B）；作者层永远只接触完整帧，codec 可独立替换。
+- 0x36/0x37 迁移为稳定 `playFrameAnimation.asset`，保留 `startFrame/endFrame/frameRate` 语义；最终
+  20 条调用、9 个被引用动画、3 个未引用动画，旧 `playRng/chunkIdx/rngPaletteId` 不进入产物。
+- 视频引用按运行语义分层：启动 001/002 写入 manifest 角色，入口剧情 003 写入
+  `entryPoints[].introVideo`，结尾 004/005/006 写入 `quitToTitle.videos[]`；引用审计必须覆盖三类位置。
+- 同一脚本位置内为插入音效/对白/等待而拆出的多个帧动画区段仍是一个作者引用位置，审计输出保留真实调用次数。
+- catalog 仍以 AssetId 为 MG2 合并键。`origin=authored` 的视频/帧动画整条记录和二进制归作者，重迁不能
+  覆盖；迁移器二次 dry-run 必须 `writes=0 deletes=0 conflicts=0`。
+- Reforge 与 editor 只经 `AssetResolver/FileSource` 读取工程文件，不允许 `/extracted/videos`、
+  `/extracted/data/animation` 或数字补零路径 fallback。
+- `packages/game` 是第一阶段忠实还原参考引擎，其 trademark fallback 仍可消费原版 chunk 6；第二阶段
+  Reforge 不继承该 bootstrap。chunk 6 已作为 `frame-animation.pal.006` 物化，未来若恢复商标流程只能引用
+  该 AssetId。
+
+实现与验证见
+[`A7-3-cutscene-asset-workbench.md`](../../ops/tasks/A7-3-cutscene-asset-workbench.md)。

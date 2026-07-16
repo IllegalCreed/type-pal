@@ -22,9 +22,9 @@ import {
   buildIsBlocked,
   Canvas2DRenderer,
   decompressGzip,
-  loadPalette,
   loadSceneMap,
   loadSprite,
+  loadStandardPalette,
   loadTilesetByPath,
   parseSpriteChunk,
   tilesFromChunkBytes,
@@ -130,7 +130,7 @@ export function useSceneAssets(opts: {
                 return { map: liveMap, tiles }
               })()
             : loadSceneMap(assetBase, mapId, tilesets, mapIndex ?? { version: 1, maps: [] }),
-          loadPalette(assetBase, 0), // 只留盘 0(W7a-3:调色板概念退役)
+          loadStandardPalette(assetBase), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
           spriteNums.map(async (n) => {

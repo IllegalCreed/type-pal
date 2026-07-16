@@ -357,6 +357,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
   )
   return {
     ...core,
+    assetBase: { ...core.assetBase, assetResolver },
     source,
     assetResolver,
     ...(scriptDir && core.scriptIndex

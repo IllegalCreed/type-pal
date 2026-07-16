@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import type { RngFrameSnapshot } from './rng-player.js'
-import { RngPresentationState } from './rng-presentation.js'
+import type { FrameAnimationFrameSnapshot } from './frame-animation-player.js'
+import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 
-function frame(value: number): RngFrameSnapshot {
-  return { width: 1, height: 1, rgba: new Uint8ClampedArray([value, 0, 0, 255]) }
+function frame(value: number): FrameAnimationFrameSnapshot {
+  return { width: 1, height: 1, rgba: new Uint8Array([value, 0, 0, 255]) }
 }
 
-describe('RngPresentationState', () => {
+describe('FrameAnimationPresentationState', () => {
   it('播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方', () => {
-    const state = new RngPresentationState()
+    const state = new FrameAnimationPresentationState()
     const previousOutput = frame(11)
     const last = frame(17)
 
@@ -29,8 +29,8 @@ describe('RngPresentationState', () => {
     expect(state.visibleFrame).toBe(last)
   })
 
-  it('连续 RNG 在新首帧前保持旧画面，新帧替换后由场景边界统一清除', () => {
-    const state = new RngPresentationState()
+  it('连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除', () => {
+    const state = new FrameAnimationPresentationState()
     const first = frame(17)
     const second = frame(29)
 
@@ -53,8 +53,8 @@ describe('RngPresentationState', () => {
     expect(state.visibleFrame).toBeUndefined()
   })
 
-  it('新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧 RNG', () => {
-    const state = new RngPresentationState()
+  it('新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画', () => {
+    const state = new FrameAnimationPresentationState()
     state.beginPlayback()
     state.present(frame(17))
     state.finishPlayback()

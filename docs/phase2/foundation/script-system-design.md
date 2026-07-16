@@ -63,7 +63,8 @@ type Command =
   | { kind: 'addVar'; var: string; delta: number }
   // —— 表现 ——
   | { kind: 'playEffect'; effectId: string; at?: ActorRef | GridPos }
-  | { kind: 'playRng'; rngId: string } // 过场动画(RNG.MKF)
+  | { kind: 'playVideo'; asset: AssetId } // 工程内视频，稳定 AssetId
+  | { kind: 'playFrameAnimation'; asset: AssetId; startFrame?: number; endFrame?: number; frameRate?: number }
   | { kind: 'playSound'; soundId: string }
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number }
   // —— 流程控制(结构化嵌套)——

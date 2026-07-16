@@ -18,7 +18,9 @@ import {
   type Command,
   type DialogueCue,
   deriveScriptChunk,
+  palFrameAnimationAssetId,
   palMusicAssetId,
+  palVideoAssetId,
   pixelDeltaToGridDelta,
   pixelToGrid,
   type ScriptChunkV1,
@@ -571,7 +573,7 @@ function walkBody(
   entryState: DialogueEntryState = {},
 ): { body: Command[]; term: WalkTerm; dialogueState: DialogueEntryState } {
   const body: Command[] = []
-  let lastRngChunk = 0 // 0x36 设当前 RNG 序列号,0x37 播放时消费(折叠成 playRng{chunkIdx})
+  let lastRngChunk = 0 // 0x36 只在迁移边界保存旧段号，0x37 立即映射稳定帧动画 AssetId。
   let slot: DialogueCue['slot'] | undefined = entryState.slot
   /** 当前立绘(对话样式 op 的 arg0 = RGM 立绘号;top→左 / bottom→右;0/narration = 无)。 */
   let portrait: DialogueCue['portrait'] = entryState.portrait
@@ -950,13 +952,13 @@ function walkBody(
       } else if (oc === 0x36) {
         lastRngChunk = o[0] ?? 0 // 0x36 设当前 RNG 序列号(script.c:1537;配 0x37)
       } else if (oc === 0x37) {
-        // 0x37 播 RNG(script.c:1544):startFrame=op0,endFrame=op1>0,speed=op2>0?op2:16
+        // 0x37 播帧动画(script.c:1544):帧区间闭合，旧 speed 映射统一 frameRate。
         push({
-          kind: 'playRng',
-          chunkIdx: lastRngChunk,
+          kind: 'playFrameAnimation',
+          asset: palFrameAnimationAssetId(lastRngChunk),
           startFrame: o[0] ?? 0,
           ...((o[1] ?? 0) > 0 ? { endFrame: o[1] } : {}),
-          speed: (o[2] ?? 0) > 0 ? o[2]! : 16,
+          frameRate: (o[2] ?? 0) > 0 ? o[2]! : 16,
         })
       } else if (oc === 0x76) {
         push(undefined) // 0x76 ShowFBP:全数据 op0=0xFFFF 填黑帧缓冲(reforge 每帧重画天然 no-op)
@@ -1378,7 +1380,10 @@ function walkBody(
         push(undefined)
         knownNoOp(ctx, '0x78', sourceAddressAt(ctx, at.cmds, at.idx))
       } else if (oc === 0xa0) {
-        push({ kind: 'quitToTitle' })
+        push({
+          kind: 'quitToTitle',
+          videos: [palVideoAssetId(4), palVideoAssetId(5), palVideoAssetId(6)],
+        })
         resolved(ctx, '0xa0 -> quitToTitle')
       } else if (oc === 0x6d) {
         flush()

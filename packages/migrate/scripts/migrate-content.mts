@@ -42,7 +42,7 @@ import {
 } from '../src/migration-transaction.js'
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
-import { materializePalAudioAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
+import { materializePalAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
 import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
@@ -110,6 +110,11 @@ function reportGeneration(theirs: MigrationFileSet): void {
   console.log(
     `[脚本门禁] compact ${audit.ratios.normalized.toFixed(2)}x · pretty ${audit.ratios.pretty.toFixed(2)}x · ` +
       `commands ${audit.ratios.commands.toFixed(2)}x · closure ${audit.maxDependencyClosureBytes}B`,
+  )
+  console.log(
+    `[过场资产] videos=${theirs.report.assets.videos} ` +
+      `frame-animations=${theirs.report.assets.frameAnimations} frames=${theirs.report.assets.frames} ` +
+      `legacy-palette-map=${JSON.stringify(theirs.report.assets.legacyPaletteByFrameAnimation)}`,
   )
 }
 
@@ -187,13 +192,13 @@ async function commitAndVerify(args: {
     target.files.get('assets/index.json') as AssetCatalogV1,
     'PAL 迁移 target assets/index.json',
   )
-  const materialized = materializePalAudioAssets({
+  const materialized = materializePalAssets({
     repo,
     catalog,
     binaries: args.binaryAssets,
   })
   console.log(
-    `[音频物化] files=${materialized.files} bytes=${materialized.bytes} ` +
+    `[资源物化] files=${materialized.files} bytes=${materialized.bytes} ` +
       `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
   )
 
@@ -266,6 +271,7 @@ async function main(): Promise<void> {
       sources,
       startWorld: manifest.startWorld,
       assets: manifest.assets,
+      entryPoints: manifest.entryPoints,
     })
     reportValidation(validation)
     const plan = createInitialMigrationPlan(ours, target)
@@ -297,6 +303,7 @@ async function main(): Promise<void> {
     sources,
     startWorld: manifest.startWorld,
     assets: manifest.assets,
+    entryPoints: manifest.entryPoints,
   })
   reportValidation(validation)
   if (!write) {

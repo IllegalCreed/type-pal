@@ -222,11 +222,11 @@
         "level": 4
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 4,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.004",
         "startFrame": 0,
         "endFrame": 21,
-        "speed": 6
+        "frameRate": 6
       },
       {
         "kind": "shakeScreen",
@@ -234,10 +234,10 @@
         "level": 4
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 4,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.004",
         "startFrame": 22,
-        "speed": 9
+        "frameRate": 9
       },
       {
         "kind": "stopMusic"

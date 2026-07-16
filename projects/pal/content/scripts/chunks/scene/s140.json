@@ -1083,10 +1083,10 @@
         "asset": "music.pal.072"
       },
       {
-        "kind": "playRng",
-        "chunkIdx": 3,
+        "kind": "playFrameAnimation",
+        "asset": "frame-animation.pal.003",
         "startFrame": 0,
-        "speed": 8
+        "frameRate": 8
       },
       {
         "kind": "stopMusic"

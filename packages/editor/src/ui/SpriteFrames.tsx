@@ -13,8 +13,8 @@ import {
   decompressGzip,
   deriveStepCycle,
   encodeSpriteChunk,
-  loadPalette,
   loadSprite,
+  loadStandardPalette,
   parseSpriteChunk,
   quantizeToRleFrame,
   sliceAtlasGrid,
@@ -228,7 +228,7 @@ export function SpriteFrames(props: {
                   anchorY: frames[0]?.height ?? 0,
                 }))
             : loadSprite(assetBase, sprite.spriteNum, sprite.path),
-          loadPalette(assetBase, 0),
+          loadStandardPalette(assetBase),
         ])
         if (!alive) return
         setLoaded(sp)

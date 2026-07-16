@@ -1,3 +1,4 @@
+import type { EntryPoint } from './character.js'
 import type { EnemyDef } from './enemy.js'
 import type { SceneDef } from './index.js'
 import type { ScriptChunkV1 } from './script-library.js'
@@ -30,6 +31,8 @@ export const ASSET_ROLES = [
   'audio.bossVictoryMusic',
   'audio.normalVictoryMusic',
   'audio.openingMenuMusic',
+  'video.startupTrademark',
+  'video.startupSplash',
   'visual.standardColorTable',
 ] as const
 export type AssetRole = (typeof ASSET_ROLES)[number]
@@ -45,6 +48,8 @@ export type AudioAssetRole = keyof typeof AUDIO_ASSET_ROLES
 
 export const ASSET_ROLE_KINDS = {
   ...AUDIO_ASSET_ROLES,
+  'video.startupTrademark': 'video',
+  'video.startupSplash': 'video',
   'visual.standardColorTable': 'color-table',
 } as const satisfies Record<AssetRole, AssetKind>
 
@@ -262,34 +267,84 @@ export interface AssetReference {
   asset: AssetId
   expectedKind: AssetKind
   where: string
+  /** 用户可理解的作者位置；同一脚本里多条命令仍只算一个编辑位置。 */
+  site: string
+}
+
+export interface AssetReferenceSite {
+  asset: AssetId
+  expectedKind: AssetKind
+  where: string
+  site: string
+  occurrences: number
 }
 
 export interface AssetReferenceSource {
   assets?: ManifestAssetConfigV3
+  entryPoints?: readonly EntryPoint[]
   scenes?: readonly SceneDef[]
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>> | readonly ScriptChunkV1[]
   enemies?: readonly EnemyDef[]
 }
 
-function collectCommandAssets(node: unknown, where: string, out: AssetReference[]): void {
+function pushAssetReference(
+  out: AssetReference[],
+  reference: Omit<AssetReference, 'site'>,
+  site: string,
+): void {
+  out.push({ ...reference, site })
+}
+
+function collectCommandAssets(
+  node: unknown,
+  where: string,
+  out: AssetReference[],
+  site = where,
+): void {
   if (Array.isArray(node)) {
     node.forEach((value, index) => {
-      collectCommandAssets(value, `${where}[${index}]`, out)
+      collectCommandAssets(value, `${where}[${index}]`, out, site)
     })
     return
   }
   if (!node || typeof node !== 'object') return
   const record = node as Record<string, unknown>
   if (record.kind === 'playMusic' && typeof record.asset === 'string')
-    out.push({ asset: record.asset, expectedKind: 'music', where: `${where}.asset` })
+    pushAssetReference(
+      out,
+      { asset: record.asset, expectedKind: 'music', where: `${where}.asset` },
+      site,
+    )
   if (record.kind === 'startBattle' && typeof record.music === 'string')
-    out.push({ asset: record.music, expectedKind: 'music', where: `${where}.music` })
+    pushAssetReference(
+      out,
+      { asset: record.music, expectedKind: 'music', where: `${where}.music` },
+      site,
+    )
   if (record.kind === 'playVideo' && typeof record.asset === 'string')
-    out.push({ asset: record.asset, expectedKind: 'video', where: `${where}.asset` })
+    pushAssetReference(
+      out,
+      { asset: record.asset, expectedKind: 'video', where: `${where}.asset` },
+      site,
+    )
   if (record.kind === 'playFrameAnimation' && typeof record.asset === 'string')
-    out.push({ asset: record.asset, expectedKind: 'frame-animation', where: `${where}.asset` })
+    pushAssetReference(
+      out,
+      { asset: record.asset, expectedKind: 'frame-animation', where: `${where}.asset` },
+      site,
+    )
+  if (record.kind === 'quitToTitle' && Array.isArray(record.videos)) {
+    record.videos.forEach((asset, index) => {
+      if (typeof asset === 'string')
+        pushAssetReference(
+          out,
+          { asset, expectedKind: 'video', where: `${where}.videos[${index}]` },
+          site,
+        )
+    })
+  }
   for (const [key, value] of Object.entries(record))
-    collectCommandAssets(value, `${where}.${key}`, out)
+    collectCommandAssets(value, `${where}.${key}`, out, site)
 }
 
 /** 递归收集所有 typed AssetId 引用；删除保护、闭包检查和引用面板共用这一张边表。 */
@@ -303,37 +358,97 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           asset,
           expectedKind: ASSET_ROLE_KINDS[role],
           where: `manifest.assets.roles.${role}`,
+          site: `manifest.assets.roles.${role}`,
         })
     }
   }
+  source.entryPoints?.forEach((entryPoint, index) => {
+    if (typeof entryPoint.introVideo === 'string')
+      references.push({
+        asset: entryPoint.introVideo,
+        expectedKind: 'video',
+        where: `entryPoints[${index}].introVideo`,
+        site: `entryPoint:${entryPoint.id}:introVideo`,
+      })
+  })
   source.scenes?.forEach((scene, index) => {
     if (typeof scene.music === 'string')
       references.push({
         asset: scene.music,
         expectedKind: 'music',
         where: `scenes[${index}].music`,
+        site: `scenes[${index}].music`,
       })
     if (typeof scene.battleMusic === 'string')
       references.push({
         asset: scene.battleMusic,
         expectedKind: 'music',
         where: `scenes[${index}].battleMusic`,
+        site: `scenes[${index}].battleMusic`,
       })
-    collectCommandAssets(scene.onEnter, `scenes[${index}].onEnter`, references)
-    collectCommandAssets(scene.onTeleport, `scenes[${index}].onTeleport`, references)
-    collectCommandAssets(scene.entities, `scenes[${index}].entities`, references)
+    collectCommandAssets(
+      scene.onEnter,
+      `scenes[${index}].onEnter`,
+      references,
+      `scene:${scene.id}:onEnter`,
+    )
+    collectCommandAssets(
+      scene.onTeleport,
+      `scenes[${index}].onTeleport`,
+      references,
+      `scene:${scene.id}:onTeleport`,
+    )
+    collectCommandAssets(
+      scene.entities,
+      `scenes[${index}].entities`,
+      references,
+      `scene:${scene.id}:entities`,
+    )
   })
   const chunks = Array.isArray(source.scriptChunks)
-    ? source.scriptChunks
-    : Object.values(source.scriptChunks ?? {})
-  chunks.forEach((chunk, index) => {
-    collectCommandAssets(chunk.scripts, `scriptChunks[${index}].scripts`, references)
+    ? source.scriptChunks.map((chunk, index) => [chunk.id || String(index), chunk] as const)
+    : Object.entries(source.scriptChunks ?? {})
+  chunks.forEach(([chunkId, chunk]) => {
+    for (const [scriptId, body] of Object.entries(chunk.scripts)) {
+      collectCommandAssets(
+        body,
+        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        references,
+        `script:${chunkId}:${scriptId}`,
+      )
+    }
   })
   source.enemies?.forEach((enemy, index) => {
-    collectCommandAssets(enemy.choreography, `enemies[${index}].choreography`, references)
-    collectCommandAssets(enemy.onDefeated, `enemies[${index}].onDefeated`, references)
+    collectCommandAssets(
+      enemy.choreography,
+      `enemies[${index}].choreography`,
+      references,
+      `enemy:${enemy.id}:choreography`,
+    )
+    collectCommandAssets(
+      enemy.onDefeated,
+      `enemies[${index}].onDefeated`,
+      references,
+      `enemy:${enemy.id}:onDefeated`,
+    )
   })
   return references
+}
+
+export function groupAssetReferencesBySite(
+  references: readonly AssetReference[],
+): AssetReferenceSite[] {
+  const grouped = new Map<string, AssetReferenceSite>()
+  for (const reference of references) {
+    const key = `${reference.asset}\0${reference.expectedKind}\0${reference.site}`
+    const existing = grouped.get(key)
+    if (existing) {
+      existing.occurrences++
+      continue
+    }
+    grouped.set(key, { ...reference, occurrences: 1 })
+  }
+  return [...grouped.values()]
 }
 
 export interface AssetClosureIssue {

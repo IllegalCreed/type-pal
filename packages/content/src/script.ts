@@ -133,7 +133,7 @@ export type Command =
   // 运行(否则落穿回父体 = 概率门/确认门全废)——翻译器在每个跳走臂尾发射本命令;
   // runner 收到即结束 runStages 本次运行且**阶段不转移**(auto 下拍重跑 = 原版"原地不动")。
   | { kind: 'stopScript' }
-  | { kind: 'quitToTitle' } // 0xA0 游戏通关退出(拜月最终决战后 → 回标题屏;仙剑单一结局)
+  | { kind: 'quitToTitle'; videos?: AssetId[] } // 0xA0 游戏通关退出(拜月最终决战后 → 回标题屏;仙剑单一结局)
   // 世界状态
   | { kind: 'giveItem'; itemId: string; count?: number }
   | { kind: 'loseItem'; itemId: string; count?: number }
@@ -446,6 +446,16 @@ export function checkCommands(cmds: unknown, path: string): void {
       const asset = (c as { asset?: unknown }).asset
       if (typeof asset !== 'string' || asset.length === 0)
         throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
+    }
+    if (k === 'quitToTitle') {
+      const videos = (c as { videos?: unknown }).videos
+      if (videos !== undefined) {
+        if (!Array.isArray(videos)) throw new Error(`${path}[${i}].videos: 期望 AssetId 数组`)
+        videos.forEach((asset, index) => {
+          if (typeof asset !== 'string' || asset.length === 0)
+            throw new Error(`${path}[${i}].videos[${index}]: 期望非空 AssetId`)
+        })
+      }
     }
     if (k === 'playFrameAnimation') {
       const animation = c as {

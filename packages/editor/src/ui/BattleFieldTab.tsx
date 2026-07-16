@@ -6,7 +6,7 @@
  */
 import type { BattleFieldDef, ElementVec } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { loadBattleBg, loadPalette } from '@type-pal/reforge'
+import { loadBattleBg, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { type BattleFieldPatch, UpdateBattleFieldCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
@@ -29,7 +29,7 @@ function FieldPreview(props: { assetBase: AssetBase; field: BattleFieldDef }) {
     let alive = true
     void (async () => {
       try {
-        const pal = await loadPalette(assetBase, 0)
+        const pal = await loadStandardPalette(assetBase)
         const bg = await loadBattleBg(assetBase, field.id, pal)
         if (!alive || !canvasRef.current) return
         const ctx = canvasRef.current.getContext('2d')

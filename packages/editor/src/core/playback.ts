@@ -485,8 +485,15 @@ export class Playback {
       this.log('🌀 传送出口(引路蜂)→ 编辑器预览按「不灵」')
       return false
     },
-    playVideo: async (videoId) => this.log(`🎬 过场视频 videos/${videoId}.mp4(编辑器预览桩)`),
-    playRng: async (chunkIdx) => this.log(`🎞 过场 RNG chunk ${chunkIdx}(编辑器预览桩)`),
+    playVideo: async (asset) => this.log(`🎬 过场视频 ${asset}(编辑器预览桩)`),
+    playFrameAnimation: async (asset, opts) =>
+      this.log(
+        `🎞 帧动画 ${asset}` +
+          (opts
+            ? ` (${opts.startFrame ?? 0}..${opts.endFrame ?? '末帧'}${opts.frameRate ? ` @ ${opts.frameRate}fps` : ''})`
+            : '') +
+          '(编辑器预览桩)',
+      ),
     openShop: async (shop, mode) => this.log(`🏪 商店 #${shop}(${mode === 'buy' ? '买' : '卖'})`),
     confirm: async () => {
       this.log('❓ 是/否 → 按「是」继续(v0 桩)')

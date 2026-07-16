@@ -1,14 +1,30 @@
+import type { AssetCatalogV1 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { AssetResolver } from './asset-resolver.js'
 import type { AssetBase } from './assets.js'
 import {
   compressGzip,
   loadBattleSprite,
-  loadPalette,
   loadProjectMap,
   loadSprite,
+  loadStandardPalette,
   loadTilesetByPath,
 } from './assets.js'
 import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
+
+const paletteCatalog: AssetCatalogV1 = {
+  version: 1,
+  assets: {
+    standard: {
+      kind: 'color-table',
+      path: 'assets/migrated/colors/standard.json',
+      mediaType: 'application/json',
+      bytes: 0,
+      sha256: 'a'.repeat(64),
+      origin: { kind: 'legacy-migrated' },
+    },
+  },
+}
 
 const base = (source: FileSource): AssetBase => ({
   root: '/extracted/data',
@@ -20,11 +36,17 @@ const base = (source: FileSource): AssetBase => ({
   faces: '',
   itemIcons: '',
   io: source.legacy ?? projectRelativeLegacyAdapter(source),
+  assetResolver: new AssetResolver(
+    'test',
+    paletteCatalog,
+    { 'visual.standardColorTable': 'standard' },
+    source,
+  ),
 })
 
-function memSource(json: unknown): FileSource {
+function memSource(json: unknown, roleJson: unknown = json): FileSource {
   return {
-    readText: async () => JSON.stringify(json),
+    readText: async (path) => JSON.stringify(path.includes('standard.json') ? roleJson : json),
     readJson: async <T>() => json as T,
     readBytes: async () => new ArrayBuffer(0),
     urlFor: async (rel: string) => rel,
@@ -41,12 +63,16 @@ describe('assets.ts 经 FileSource 读', () => {
     collision: [[0], [0]],
   }
 
-  test('loadProjectMap/loadPalette 只走显式 legacy adapter(不碰 fetch)', async () => {
+  test('地图走 legacy adapter，工程标准色彩只走角色 resolver', async () => {
     const fetchMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
-    const src = memSource(projectMap)
+    const palette = {
+      colors: Array.from({ length: 256 }, () => [0, 0, 0]),
+      cycles: [],
+    }
+    const src = memSource(projectMap, palette)
     expect(await loadProjectMap(base(src), 'content/maps/a.json')).toEqual(projectMap)
-    expect(await loadPalette(base(src), 0)).toEqual(projectMap)
+    expect(await loadStandardPalette(base(src))).toEqual(palette)
     expect(fetchMock).not.toHaveBeenCalled()
     vi.restoreAllMocks()
   })

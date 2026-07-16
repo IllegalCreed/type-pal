@@ -46,8 +46,8 @@ import {
   loadEffectSprite,
   loadFireSprite,
   loadGlyphs,
-  loadPalette,
   loadSprite,
+  loadStandardPalette,
 } from './assets.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
@@ -77,6 +77,12 @@ import {
   openEquipMenu,
 } from './equip-menu-state.js'
 import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
+import {
+  type FrameAnimationFrameSnapshot,
+  FrameSequenceReader,
+  playFrameAnimation as playFrameAnimationOverlay,
+} from './frame-animation-player.js'
+import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { Keyboard } from './input.js'
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import {
@@ -103,8 +109,6 @@ import { resolveMove } from './movement.js'
 import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
-import { playRng as playRngOverlay, type RngFrameSnapshot, rngPaletteId } from './rng-player.js'
-import { RngPresentationState } from './rng-presentation.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -287,13 +291,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     }
     return entry
   }
-  const paletteCache = new Map<number, Palette>()
-  async function getPalette(id: number): Promise<Palette> {
-    const hit = paletteCache.get(id)
-    if (hit) return hit
-    const p = await loadPalette(project.assetBase, id)
-    paletteCache.set(id, p)
-    return p
+  let standardPalettePromise: Promise<Palette> | undefined
+  function getStandardPalette(): Promise<Palette> {
+    standardPalettePromise ??= loadStandardPalette(project.assetBase)
+    return standardPalettePromise
   }
   const sceneDefCache = new Map<string, SceneDef>()
   sceneDefCache.set(project.entryScene.id, project.entryScene)
@@ -313,7 +314,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
 
   // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
   if (params.has('gallery')) {
-    await renderSpriteGallery(project.assetBase, await getPalette(0))
+    await renderSpriteGallery(project.assetBase, await getStandardPalette())
     return
   }
 
@@ -406,10 +407,25 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const saveStore: SaveStore =
     typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
   const menuAssets = await loadMenuAssets(project.items, project.assetBase)
+  const playVideoAsset = async (asset: string | undefined): Promise<void> => {
+    if (!asset) return
+    await playVideoOverlay({ src: await project.assetResolver.urlFor(asset, 'video') })
+  }
+  const playVideoSequence = async (
+    assets: readonly (string | undefined)[] | undefined,
+  ): Promise<void> => {
+    for (const asset of assets ?? []) await playVideoAsset(asset)
+  }
   // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints + 读取进度。
   // 选开局项 → bootEntry(其 startWorld + 场景开局);选读档 → bootLoadSlot。(正式发布可翻默认走菜单,现 ?menu opt-in。)
   if (params.has('menu') && !bootEntry) {
-    const menuBg = await loadBattleBg(project.assetBase, 2, await getPalette(0)).catch(
+    if (!params.has('skip-startup')) {
+      await playVideoSequence([
+        project.manifest.assets.roles['video.startupTrademark'],
+        project.manifest.assets.roles['video.startupSplash'],
+      ])
+    }
+    const menuBg = await loadBattleBg(project.assetBase, 2, await getStandardPalette()).catch(
       () => undefined,
     )
     if (menuBg) {
@@ -429,7 +445,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           }),
       )
       if (decision.kind === 'load') bootLoadSlot = decision.slotId
-      else bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
+      else {
+        bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
+        await playVideoAsset(bootEntry?.introVideo)
+      }
     }
   }
   // ?party=<id,id,…> dev 覆写开局队伍(验合击等多队员功能;满血在 buildWorld 后统一拉);首位应为世界队长
@@ -464,11 +483,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let world = buildWorld(bootStartWorld, project.actorsById)
   const ditherTransition = new DitherTransitionController<ImageData>()
   const sceneEntrySession = new SceneEntrySession<ImageData>()
-  const rngPresentation = new RngPresentationState()
-  let rngLayerCanvas: HTMLCanvasElement | null = null
-  const writeRngLayerFrame = (frame: RngFrameSnapshot): void => {
-    if (!rngLayerCanvas) rngLayerCanvas = document.createElement('canvas')
-    const layer = rngLayerCanvas
+  const frameSequenceReader = new FrameSequenceReader(project.assetResolver)
+  const frameAnimationPresentation = new FrameAnimationPresentationState()
+  let frameAnimationLayerCanvas: HTMLCanvasElement | null = null
+  const writeFrameAnimationLayer = (frame: FrameAnimationFrameSnapshot): void => {
+    if (!frameAnimationLayerCanvas) frameAnimationLayerCanvas = document.createElement('canvas')
+    const layer = frameAnimationLayerCanvas
     layer.width = frame.width
     layer.height = frame.height
     const layerCtx = get2dContext(layer)
@@ -476,35 +496,36 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     image.data.set(frame.rgba)
     layerCtx.putImageData(image, 0, 0)
   }
-  /** RNG player 的逐帧出口：只更新 Cinematic Layer，不直接操作主画布或 DOM 层级。 */
-  const presentRngFrame = (frame: RngFrameSnapshot): void => {
-    rngPresentation.present(frame)
-    writeRngLayerFrame(frame)
+  /** 帧动画播放器只更新 Cinematic Layer，不直接操作主画布或 DOM 层级。 */
+  const presentFrameAnimationFrame = (frame: FrameAnimationFrameSnapshot): void => {
+    frameAnimationPresentation.present(frame)
+    writeFrameAnimationLayer(frame)
   }
-  /** 首段资源加载期间冻结当前完整输出；连续段已有上一张 RNG 末帧，不再另取世界帧。 */
-  const beginRngPlayback = (): void => {
-    let fallback: RngFrameSnapshot | undefined
-    if (!rngPresentation.hasBufferedFrame) {
+  /** 首段资源加载期间冻结当前完整输出；连续段已有上一张末帧，不再另取世界帧。 */
+  const beginFrameAnimationPlayback = (): void => {
+    let fallback: FrameAnimationFrameSnapshot | undefined
+    if (!frameAnimationPresentation.hasBufferedFrame) {
       const current = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      fallback = {
+      const captured: FrameAnimationFrameSnapshot = {
         width: current.width,
         height: current.height,
         rgba: new Uint8ClampedArray(current.data),
       }
-      writeRngLayerFrame(fallback)
+      fallback = captured
+      writeFrameAnimationLayer(captured)
     }
-    rngPresentation.beginPlayback(fallback)
+    frameAnimationPresentation.beginPlayback(fallback)
   }
-  const resetRngPresentation = (): void => {
-    rngPresentation.reset()
-    rngLayerCanvas = null
+  const resetFrameAnimationPresentation = (): void => {
+    frameAnimationPresentation.reset()
+    frameAnimationLayerCanvas = null
   }
   /** Presentation Pass 2：在 World Layer 之上合成 Cinematic Layer。 */
   const drawCinematicLayer = (): boolean => {
-    if (!rngPresentation.visibleFrame || !rngLayerCanvas) return false
+    if (!frameAnimationPresentation.visibleFrame || !frameAnimationLayerCanvas) return false
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(rngLayerCanvas, 0, 0, canvas.width, canvas.height)
+    ctx.drawImage(frameAnimationLayerCanvas, 0, 0, canvas.width, canvas.height)
     ctx.restore()
     return true
   }
@@ -584,8 +605,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       facing,
       scriptRunning: !!runner,
       dialogActive: dialogBox.active,
-      rngLayerMode: rngPresentation.mode,
-      rngLayerVisible: rngPresentation.visibleFrame !== undefined,
+      frameAnimationLayerMode: frameAnimationPresentation.mode,
+      frameAnimationLayerVisible: frameAnimationPresentation.visibleFrame !== undefined,
     })
   }
   const markSceneLoad = (from: string, to: string, step: string): void => {
@@ -649,7 +670,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
     const mapId = world.script?.mapOverride?.[sceneId] ?? def.mapId
     const assets = await getMapAssets(mapId)
-    const pal = await getPalette(Number(params.get('pal') ?? 0)) // 只留盘 0(W7a-3);?pal= 仅 dev 调试兜底
+    const pal = await getStandardPalette()
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
       // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过
@@ -688,7 +709,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
     }
     // 原子提交。新场景开始即不再属于上一张 RNG 画面。
-    resetRngPresentation()
+    resetFrameAnimationPresentation()
     scene = def
     map = assets.map
     tiles = assets.tiles
@@ -915,7 +936,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     dialog: (cue: DialogueCue) =>
       new Promise((resolve) => {
         preserveClosedDialogFrame = false
-        rngPresentation.enterDialogue()
+        frameAnimationPresentation.enterDialogue()
         dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
       }),
@@ -1769,26 +1790,23 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       return true
     },
-    // 过场编排:播 mp4(videos/{id}.mp4;reforge dev/preview 中间件把 /extracted/* 映射到 data/extracted)。
-    // 演出期 runner 活跃 → 游戏循环吞输入,视频 overlay 盖住画布;加载失败 video-player 内部静默 resolve。
-    playVideo: (videoId) => playVideoOverlay({ src: `/extracted/videos/${videoId}.mp4` }),
-    // 过场编排:播 RNG 序列图(speed=iSpeed 帧率)。播放器逐帧写 Cinematic Layer；
+    // 演出期 runner 活跃 → 游戏循环吞输入；视频 URL 只经 catalog resolver 获得。
+    playVideo: async (asset) => playVideoAsset(asset),
+    // 帧动画逐帧写 Cinematic Layer；
     // World Layer 在下、对话/UI 在上，播放与末帧保持共用同一条合成路径。
-    playRng: async (chunkIdx, opts) => {
-      const palette = await getPalette(rngPaletteId(chunkIdx)).catch(() => undefined)
-      if (!palette) return
-      beginRngPlayback()
+    playFrameAnimation: async (asset, opts) => {
+      beginFrameAnimationPlayback()
       try {
-        await playRngOverlay({
-          chunkIdx,
-          palette,
-          frameDelayMs: opts?.speed ? Math.round(1000 / opts.speed) : 40,
+        await playFrameAnimationOverlay({
+          reader: frameSequenceReader,
+          asset,
+          frameRate: opts?.frameRate,
           startFrame: opts?.startFrame,
           endFrame: opts?.endFrame,
-          onFrame: presentRngFrame,
+          onFrame: presentFrameAnimationFrame,
         })
       } finally {
-        rngPresentation.finishPlayback()
+        frameAnimationPresentation.finishPlayback()
       }
     },
     confirm: async () => {
@@ -1818,9 +1836,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       room = { col: 0, row: 0, cols: map.width, rows: map.height }
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
-    quitToTitle: () => {
-      resetRngPresentation()
-      location.href = `${location.pathname}?menu`
+    quitToTitle: async (videos) => {
+      resetFrameAnimationPresentation()
+      await playVideoSequence(videos)
+      location.href = `${location.pathname}?menu&skip-startup=1`
     },
     report: (msg) => {
       if (!import.meta.env.DEV) return
@@ -2259,7 +2278,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     fadeFx = null
     ditherTransition.cancel()
     sceneEntrySession.cancel()
-    resetRngPresentation()
+    resetFrameAnimationPresentation()
     fadeBlack = 0
     entityFrameOverride.clear()
     partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
@@ -2307,7 +2326,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     poisonsById: project.poisonsById,
     actorsById: project.actorsById,
     portraitsDir: project.assetBase.portraits,
-    palette: await getPalette(0).catch(() => undefined),
+    palette: await getStandardPalette().catch(() => undefined),
   })
   let menu: MenuState = CLOSED
   let magicMenu: MagicMenuState = closeMagicMenu()
@@ -2868,10 +2887,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
     startBattle: (team: number) => host.startBattle(team),
-    /** dev:播过场视频(过场编排验证;videos/{id}.mp4,1=开场)。 */
-    playVideo: (videoId: number) => host.playVideo(videoId),
-    /** dev:播 RNG 序列图(过场编排验证;chunkIdx,正确调色盘引擎内定)。 */
-    playRng: (chunkIdx: number) => host.playRng(chunkIdx),
+    /** dev:按稳定 AssetId 播过场视频。 */
+    playVideo: (asset: string) => host.playVideo(asset),
+    /** dev:按稳定 AssetId 播帧动画。 */
+    playFrameAnimation: (asset: string) => host.playFrameAnimation(asset),
     get battleLog() {
       return activeBattle?.debugLog() ?? []
     },
@@ -2881,8 +2900,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         fadeBlack,
         inBattle: !!activeBattle,
         menuActive: menu.active,
-        rngLayerMode: rngPresentation.mode,
-        rngLayerVisible: rngPresentation.visibleFrame !== undefined,
+        frameAnimationLayerMode: frameAnimationPresentation.mode,
+        frameAnimationLayerVisible: frameAnimationPresentation.visibleFrame !== undefined,
       }
     },
     /** dev:活动战斗队员态快照(护体符/毒携带验证:status.protect / poisons)。无战斗 = []。 */
@@ -3182,7 +3201,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             if (r.action?.kind === 'quit') {
               // 退出「是」→ 回标题屏(作者拍板 2026-07-11):导航到 ?menu 干净重启
               // (丢弃 dev 参数;未存进度即弃,原版 quit 同语义 —— 想留进度先存档)
-              location.href = `${location.pathname}?menu`
+              location.href = `${location.pathname}?menu&skip-startup=1`
             } else {
               lastSystemCursor = systemMenu.cursor
               systemMenu = closeSystemMenu()
@@ -3470,7 +3489,7 @@ async function renderBattlePreview(project: LoadedProject, params: URLSearchPara
   const WORLD_SCALE = 4
   canvas.width = 320 * WORLD_SCALE
   canvas.height = 200 * WORLD_SCALE
-  const palette = await loadPalette(project.assetBase, 0)
+  const palette = await loadStandardPalette(project.assetBase)
   // 真实战斗 field(场景 setBattleField 用 24/12/10/7…;field 2 是主菜单背景,勿用)。
   const field =
     params.get('battle-preview') && Number(params.get('battle-preview')) > 0

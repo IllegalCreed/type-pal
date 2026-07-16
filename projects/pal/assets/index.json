@@ -1044,6 +1044,234 @@
       },
       "bytes": 5969788,
       "sha256": "c5378b62028c920cb11e4803327983fee2f2cdff5dc89c708e39da417e51c854"
+    },
+    "color.project-standard": {
+      "kind": "color-table",
+      "path": "assets/migrated/colors/project-standard.json",
+      "mediaType": "application/json",
+      "label": "工程标准色彩",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "palette/0.json"
+      },
+      "bytes": 22117,
+      "sha256": "c07d1ae9d6dede23379aeda7cfc04ee37663abb7b8cb9069a6e3d00d9f6cfca9"
+    },
+    "video.pal.001": {
+      "kind": "video",
+      "path": "assets/migrated/videos/001.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/1.mp4"
+      },
+      "bytes": 742773,
+      "sha256": "f0d972ede26b3a1e14950ce6e094530b6d95da75efe8adb346220a4abc78e740"
+    },
+    "video.pal.002": {
+      "kind": "video",
+      "path": "assets/migrated/videos/002.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/2.mp4"
+      },
+      "bytes": 3162516,
+      "sha256": "117491837f4d40db40d9c0400ce4d6f6adb4f396133fea4972c723459b23e271"
+    },
+    "video.pal.003": {
+      "kind": "video",
+      "path": "assets/migrated/videos/003.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/3.mp4"
+      },
+      "bytes": 1150371,
+      "sha256": "806efd7e0e0be814dc6a63aad287755b7610c98108ca8a281cf89835336aa90d"
+    },
+    "video.pal.004": {
+      "kind": "video",
+      "path": "assets/migrated/videos/004.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/4.mp4"
+      },
+      "bytes": 625350,
+      "sha256": "29ed57c3534b6e5ba4177b3ea3452ab2026cafaeff87bd2ce478bb5bb49d9b44"
+    },
+    "video.pal.005": {
+      "kind": "video",
+      "path": "assets/migrated/videos/005.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/5.mp4"
+      },
+      "bytes": 7637825,
+      "sha256": "363539dd0a5d0b4f30ef06f124e4368abcb4ef5614f69caa0cc9183445efd08b"
+    },
+    "video.pal.006": {
+      "kind": "video",
+      "path": "assets/migrated/videos/006.mp4",
+      "mediaType": "video/mp4",
+      "label": "PAL 视频 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "videos/6.mp4"
+      },
+      "bytes": 8091135,
+      "sha256": "f22edd89cb3c9f0a0ad2c57253cfa1647435f84ed9cbcfc6e7b0dc1dd4ecdc82"
+    },
+    "frame-animation.pal.000": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/000.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 000",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-00.rle"
+      },
+      "bytes": 163992,
+      "sha256": "92461783478265a5b040c0b259329c97f752701f4d1c5e70313619863f99a6fe"
+    },
+    "frame-animation.pal.001": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/001.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-01.rle"
+      },
+      "bytes": 1511759,
+      "sha256": "2b75f2dfe4936a96263492da0463617fd322f1651712c07fef20deca4f31cca4"
+    },
+    "frame-animation.pal.002": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/002.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-02.rle"
+      },
+      "bytes": 221196,
+      "sha256": "d6c1be801db3fa375e1e946574ef54a22fa2da4f34cef7aa74311064805bfb0a"
+    },
+    "frame-animation.pal.003": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/003.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-03.rle"
+      },
+      "bytes": 1389065,
+      "sha256": "87d909839f4d04de279ef347ae53614e83285764dfab30ef0938b8c3ed182360"
+    },
+    "frame-animation.pal.004": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/004.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-04.rle"
+      },
+      "bytes": 409353,
+      "sha256": "088873dddf9c1bd559e8e504bcda3ac7eed5f133af4f0401b629934f535ffa58"
+    },
+    "frame-animation.pal.005": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/005.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-05.rle"
+      },
+      "bytes": 771404,
+      "sha256": "0b0fcc54733a06fa8b572a954752b8ff8fe10c9f73c5962bc87bf888a7b15627"
+    },
+    "frame-animation.pal.006": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/006.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-06.rle"
+      },
+      "bytes": 374611,
+      "sha256": "cf00f60a707d1c567101db0fe12c96c345f50e8622e475c4dc51a7a9bb33f343"
+    },
+    "frame-animation.pal.007": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/007.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-07.rle"
+      },
+      "bytes": 1003810,
+      "sha256": "0bb7bb35d206fc15de33f465d84d2bd2b8bafbe448bb9d0450d7e7e0e484d117"
+    },
+    "frame-animation.pal.008": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/008.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-08.rle"
+      },
+      "bytes": 86841,
+      "sha256": "aeafdfc6921fcca709e441093b24ab97cdb839b6d6f6d8c4466a99bf214124db"
+    },
+    "frame-animation.pal.009": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/009.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-09.rle"
+      },
+      "bytes": 1721770,
+      "sha256": "42a4da2ba9e9a6ca9734ac636ce97078ed94a03d87e7eb7490bebae355c3c3cf"
+    },
+    "frame-animation.pal.010": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/010.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-10.rle"
+      },
+      "bytes": 62498,
+      "sha256": "70ea46f9355c50aaee8f602b3d5731679de45ed6e90292a4fc7f08f4def1810a"
+    },
+    "frame-animation.pal.011": {
+      "kind": "frame-animation",
+      "path": "assets/migrated/frame-animations/011.tpfs",
+      "mediaType": "application/vnd.type-pal.frame-sequence",
+      "label": "PAL 帧动画 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "animation/rng-11.rle"
+      },
+      "bytes": 243983,
+      "sha256": "e2035e15fac80448dab540b0a430f7b16630ca8ce9cd14466fcf6d856ae3b75d"
     }
   }
 }

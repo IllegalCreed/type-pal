@@ -16,6 +16,7 @@ import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { UpdateSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
@@ -68,6 +69,7 @@ export function DataMode(props: {
   enemies: EnemyDef[]
   enemyTeams: EnemyTeamDef[]
   assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   audioResolver: AudioAssetReader
   /** tileset 注册表 + 上传字节暂存(瓦片集页,W7B)。 */
   tilesets: import('@type-pal/reforge').TilesetDef[]
@@ -109,6 +111,7 @@ export function DataMode(props: {
     locale,
     itemList,
     assetCatalog,
+    assetReader,
     audioResolver,
     tilesets,
     tilesetBlobs,
@@ -227,7 +230,15 @@ export function DataMode(props: {
   }
 
   if (tab === 'cutscene') {
-    return <CutsceneTab assetBase={assetBase} tabBar={tabBar} />
+    return (
+      <CutsceneTab
+        assetBase={assetBase}
+        catalog={assetCatalog}
+        reader={assetReader}
+        session={session}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'entrypoint') {

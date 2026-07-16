@@ -3,10 +3,12 @@ import {
   decodeFrameSequenceBlock,
   decodeFrameSequenceFrame,
   encodeFrameSequence,
+  encodeFrameSequenceFromProvider,
+  encodeFrameSequenceSync,
+  type FrameSequenceIndexV1,
   frameSequenceFrameDurationMs,
   parseFrameSequence,
   resolveFrameSequencePlayback,
-  type FrameSequenceIndexV1,
 } from './frame-sequence.js'
 
 const identity = (bytes: Uint8Array): Uint8Array => bytes.slice()
@@ -77,6 +79,39 @@ describe('TPFS v1 完整帧 round-trip', () => {
 
   test('编码同输入两次字节完全一致', async () => {
     await expect(validContainer()).resolves.toEqual(await validContainer())
+    const input = {
+      width: 2,
+      height: 1,
+      defaultFrameMs: 40,
+      frames: makeFrames(35),
+    }
+    expect(encodeFrameSequenceSync(input, identity)).toEqual(
+      await encodeFrameSequence(input, identity),
+    )
+  })
+
+  test('完整帧提供器逐块编码且与普通编码器产出相同字节', async () => {
+    const frames = makeFrames(35)
+    const direct = await encodeFrameSequence(
+      { width: 2, height: 1, defaultFrameMs: 40, frames },
+      identity,
+    )
+    const requested: number[] = []
+    const provided = await encodeFrameSequenceFromProvider(
+      {
+        width: 2,
+        height: 1,
+        defaultFrameMs: 40,
+        frames: frames.map(({ durationMs }) => (durationMs === undefined ? {} : { durationMs })),
+        frame(index) {
+          requested.push(index)
+          return frames[index]!.rgba
+        },
+      },
+      identity,
+    )
+    expect(provided).toEqual(direct)
+    expect(requested).toEqual(Array.from({ length: 35 }, (_value, index) => index))
   })
 
   test('播放区间 fail-loud，frameRate 优先于逐帧和默认时长', async () => {
