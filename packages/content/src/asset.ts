@@ -29,6 +29,7 @@ export const ASSET_ROLES = [
   'audio.defaultBattleMusic',
   'audio.bossVictoryMusic',
   'audio.normalVictoryMusic',
+  'audio.openingMenuMusic',
 ] as const
 export type AssetRole = (typeof ASSET_ROLES)[number]
 
@@ -37,6 +38,7 @@ export const AUDIO_ASSET_ROLES: Readonly<Record<AssetRole, AssetKind>> = {
   'audio.defaultBattleMusic': 'music',
   'audio.bossVictoryMusic': 'music',
   'audio.normalVictoryMusic': 'music',
+  'audio.openingMenuMusic': 'music',
 }
 
 export type AssetOriginKind = 'legacy-migrated' | 'authored' | 'generated' | 'licensed'

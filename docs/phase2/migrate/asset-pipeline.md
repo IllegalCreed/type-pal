@@ -91,7 +91,8 @@ UI box 和地图章节记录各自历史切片；A7-0 开始补上统一的工�
 - `assets/index.json` 仍由 MG2 以 AssetId key 合并，但增加 catalog 专用所有权策略：
   `origin=authored` 的整条记录归作者，迁移器不能向其中拼入 migrated 字段；迁移记录只能指向
   `assets/migrated/**`，作者记录只能指向 `assets/authored/**`。
-- PAL 的数字音乐引用只在迁移边界转换。最终产物使用 AssetId、`stopMusic` 和四个具名角色；
+- PAL 的数字音乐引用只在迁移边界转换。最终产物使用 AssetId、`stopMusic` 和五个具名角色（含
+  `audio.openingMenuMusic`）；
   `content/music.json` 不再生成。动态 `setSceneOnEnter` 根在注册前也必须剥离内部 battle 配置标记并把
   默认值烘回目标场景，避免旁路正常 finalize。
 - 迁移写前运行 typed 资源引用闭包；缺 id 或 kind mismatch 阻断，未引用资源只告警。正式 `--write`

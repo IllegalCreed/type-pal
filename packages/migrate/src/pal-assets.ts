@@ -21,6 +21,7 @@ export const PAL_AUDIO_ROLES: ManifestAssetConfigV3['roles'] = {
   'audio.defaultBattleMusic': palMusicAssetId(37),
   'audio.bossVictoryMusic': palMusicAssetId(2),
   'audio.normalVictoryMusic': palMusicAssetId(3),
+  'audio.openingMenuMusic': palMusicAssetId(4),
 }
 
 function binarySource(

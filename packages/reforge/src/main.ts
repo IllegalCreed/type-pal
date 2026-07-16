@@ -100,7 +100,7 @@ import { drawSystemMenu } from './menu/system-box.js'
 import { drawUseMenu } from './menu/use-box.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from './menu-state.js'
 import { resolveMove } from './movement.js'
-import { runOpeningMenu } from './opening-menu.js'
+import { runOpeningMenu, runOpeningMenuWithMusic } from './opening-menu.js'
 import { Canvas2DRenderer, type CellRect, type SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import { playRng as playRngOverlay, type RngFrameSnapshot, rngPaletteId } from './rng-player.js'
@@ -413,16 +413,21 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       () => undefined,
     )
     if (menuBg) {
-      const decision = await runOpeningMenu({
-        ctx,
-        glyphs,
-        bg: menuBg,
-        worldScale: WORLD_SCALE,
-        items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
-        locale: project.locale,
-        menuAssets,
-        saveStore,
-      })
+      const decision = await runOpeningMenuWithMusic(
+        bgm,
+        project.manifest.assets.roles['audio.openingMenuMusic'],
+        () =>
+          runOpeningMenu({
+            ctx,
+            glyphs,
+            bg: menuBg,
+            worldScale: WORLD_SCALE,
+            items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
+            locale: project.locale,
+            menuAssets,
+            saveStore,
+          }),
+      )
       if (decision.kind === 'load') bootLoadSlot = decision.slotId
       else bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
     }

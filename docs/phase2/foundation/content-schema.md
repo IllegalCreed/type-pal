@@ -222,8 +222,9 @@ interface DialogueCue {
 
 - `AssetRecord.path` 只允许规范的工程相对路径；绝对路径、URL、盘符、反斜杠、query/fragment、`.` 和 `..`
   全部在 content 公共 guard 中拒绝。
-- `manifest.assets.roles` 是封闭的运行角色映射。A7-0 固定四个音频角色：MIDI soundfont、默认战斗曲、
-  首领胜利曲和普通胜利曲；角色值仍是 AssetId，不是路径。
+- `manifest.assets.roles` 是封闭的运行角色映射。A7-0/A7-0A 固定五个音频角色：MIDI soundfont、
+  默认战斗曲、首领胜利曲、普通胜利曲和标题菜单音乐；角色值仍是 AssetId，不是路径。标题菜单音乐是
+  应用壳临时态，不进入 `WorldState.audio.currentMusic`。
 - 未迁移的资源族只能集中在 `manifest.assets.legacy` 债务区。同一资源族不能同时出现在 catalog 与 legacy；
   A7-0 后音乐和 soundfont 已完全退出 legacy。
 - `SceneDef.music?: AssetId | null`：缺省延续、字符串切曲、`null` 停曲。`battleMusic` 与

@@ -24,6 +24,7 @@ import { commitMigrationTransaction } from './migration-transaction.js'
 import { validatePalMigrationTarget } from './migration-validate.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { auditMusicReferences } from './music-reference-audit.js'
+import { PAL_AUDIO_ROLES } from './pal-assets.js'
 import { buildPalMigration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
@@ -93,6 +94,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
+    expect(manifest.assets.roles).toMatchObject(PAL_AUDIO_ROLES)
     const validation = validatePalMigrationTarget({
       files: target.files,
       managedFiles: target.managedFiles,
@@ -102,6 +104,8 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
+    expect(validation.assetReferences).toBe(1_327)
+    expect(validation.assetWarnings).toBe(12)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -187,6 +191,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
+    expect(manifest.assets.roles).toMatchObject(PAL_AUDIO_ROLES)
     const validation = validatePalMigrationTarget({
       files: ours.files,
       managedFiles: ours.managedFiles,
@@ -196,6 +201,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
+    expect(validation.assetReferences).toBe(1_327)
+    expect(validation.assetWarnings).toBe(12)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },

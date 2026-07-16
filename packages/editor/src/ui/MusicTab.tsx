@@ -16,6 +16,7 @@ import type { EditSession } from '../core/edit-session.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
 const ROLE_LABELS: Readonly<Record<string, string>> = {
+  'manifest.assets.roles.audio.openingMenuMusic': '标题菜单音乐（新的故事 / 旧的回忆）',
   'manifest.assets.roles.audio.defaultBattleMusic': '默认战斗音乐',
   'manifest.assets.roles.audio.bossVictoryMusic': '首领战胜利音乐',
   'manifest.assets.roles.audio.normalVictoryMusic': '普通战斗胜利音乐',

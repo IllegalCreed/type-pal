@@ -52,7 +52,7 @@ SceneDef / Command / WorldState 中的 AssetId
 | 旧 `musicId/battleMusicId` 键 | 0 |
 | 泄漏 `overrideSceneBattle` 标记 | 0 |
 
-完整 typed walker 共收集 1,326 条资产引用，错误为 0。13 个 catalog 曲目目前未被引用，按规则只报
+完整 typed walker 共收集 1,327 条资产引用，错误为 0。12 个 catalog 曲目目前未被引用，按规则只报
 `unused-asset` warning；它们仍是有效工程资源，不能由迁移器或编辑器静默删除。
 
 静态表在实现前只显示 80 个战斗音乐槽。迁移时发现动态 `setSceneOnEnter` 根曾绕过正常 finalize，导致
@@ -60,8 +60,9 @@ s106 的内部 battle 配置标记泄漏；修复后该根先剥离标记并把�
 
 ## 4. 运行与编辑闭环
 
-- reforge 的 BGM player 只接受 AssetId，四个具名角色分别承载 soundfont、默认战斗曲、首领胜利曲和
-  普通胜利曲。`WorldState.audio.currentMusic` 是持久当前曲，战斗临时曲不会污染它。
+- reforge 的 BGM player 只接受 AssetId，五个具名角色分别承载 soundfont、默认战斗曲、首领胜利曲、
+  普通胜利曲和标题菜单音乐。`audio.openingMenuMusic` 在 PAL 工程绑定 `music.pal.004`，只在“新的故事 /
+  旧的回忆”标题菜单显示期间播放，不写入 `WorldState.audio.currentMusic`。
 - `AssetResolver` 校验 id/kind/path；同一资源 URL 复用，工程切换或 dispose 后统一 revoke。
 - 编辑器“资源 -> 音乐”显示 86 首的名称、AssetId 和路径；导入/改名/替换/删除均走 Command。
   导入与替换写入 `assets/authored/<sha256>.mid`，替换保留 AssetId。
@@ -76,8 +77,14 @@ s106 的内部 battle 配置标记泄漏；修复后该根先剥离标记并把�
 - MG2 对 catalog 采用 AssetId-keyed 合并与专用所有权校验。作者接管同一 AssetId 后，迁移器不能向其记录
   拼入 migrated 字段；迁移兄弟记录仍可正常更新和新增。
 - 正式写盘后重新读取源数据再生成；最终 dry-run 为 `writes=0 deletes=0 conflicts=0`。
-- 最终 PAL 迁移规模：829 个托管 JSON 文件、294 个场景、297 个脚本 chunk；资产引用门禁 1,326 条，
+- 最终 PAL 迁移规模：829 个托管 JSON 文件、294 个场景、297 个脚本 chunk；资产引用门禁 1,327 条，
   缺引用/kind mismatch 为 0。
+
+### A7-0A 勘误（2026-07-16）
+
+A7-0 最初把“现有 Reforge 播放站点只有四种角色”误当成完整需求证明，因而漏掉了尚未实现的标题菜单音乐。
+反查一阶段全部 `wNumMusic` 赋值后确认：交互式标题菜单使用 track 4，splash 使用的 track 5 不属于本角色。
+本次新增第五个封闭角色并修复删除保护；教训是“扫描现实现站点”只能描述现状，不能发现整段漏实现的需求。
 
 ## 6. 未闭合范围
 

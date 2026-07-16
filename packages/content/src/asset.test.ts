@@ -31,6 +31,14 @@ const catalog: AssetCatalogV1 = {
       sha256: hash,
       origin: { kind: 'legacy-migrated' },
     },
+    'music.pal.004': {
+      kind: 'music',
+      path: 'assets/migrated/music/004.mid',
+      mediaType: 'audio/midi',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
     'music.pal.037': {
       kind: 'music',
       path: 'assets/migrated/music/037.mid',
@@ -57,6 +65,7 @@ const assets: ManifestAssetConfigV3 = {
     'audio.defaultBattleMusic': 'music.pal.037',
     'audio.bossVictoryMusic': 'music.pal.002',
     'audio.normalVictoryMusic': 'music.pal.003',
+    'audio.openingMenuMusic': 'music.pal.004',
   },
   legacy: { families: ['sprite', 'tileset'] },
 }
@@ -85,7 +94,7 @@ describe('validateProjectRelativePath', () => {
 })
 
 describe('catalog 与 manifest v3', () => {
-  test('合法目录、四个封闭角色与 legacy 债务区通过', () => {
+  test('合法目录、五个封闭角色与 legacy 债务区通过', () => {
     expect(validateAssetCatalog(catalog)).toEqual(catalog)
     expect(validateManifestAssetConfigV3(assets, catalog)).toEqual(assets)
   })
@@ -105,13 +114,14 @@ describe('catalog 与 manifest v3', () => {
     ).toThrow('期望 soundfont')
     expect(() =>
       validateManifestAssetConfigV3(
-        {
-          ...assets,
-          roles: { ...assets.roles, 'audio.normalVictoryMusic': undefined },
-        },
+        { ...assets, roles: { ...assets.roles, 'audio.openingMenuMusic': 'soundfont.default' } },
         catalog,
       ),
-    ).toThrow('期望非空 AssetId')
+    ).toThrow('期望 music')
+    const { 'audio.openingMenuMusic': _openingMenuMusic, ...rolesWithoutOpeningMenu } = assets.roles
+    expect(() =>
+      validateManifestAssetConfigV3({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
+    ).toThrow('音乐切片缺角色 "audio.openingMenuMusic"')
   })
 
   test('同一资源族不得同时存在于 catalog 和 legacy', () => {
@@ -159,11 +169,17 @@ describe('音乐引用与文件闭包', () => {
       'music.pal.037',
       'music.pal.002',
       'music.pal.003',
+      'music.pal.004',
       'music.pal.002',
       'music.pal.003',
       'music.pal.037',
       'music.missing',
     ])
+    expect(refs).toContainEqual({
+      asset: 'music.pal.004',
+      expectedKind: 'music',
+      where: 'manifest.assets.roles.audio.openingMenuMusic',
+    })
     expect(validateAssetReferenceClosure(catalog, refs)).toContainEqual(
       expect.objectContaining({ code: 'missing-asset', severity: 'error' }),
     )

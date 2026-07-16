@@ -1,6 +1,6 @@
 # A7-0A - 标题菜单音乐角色与删除保护
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: A7 / X2
 Coding Owner: Codex
@@ -145,7 +145,10 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-16，自验证）**。第五角色、PAL 004 绑定、旧 v3 打开边界补齐、标题菜单
+  `try/finally` 停止和 BGM 异步取消均已落地；全仓 3,581 测试通过（另 1 skipped），MG2 连续两次
+  `writes=0 deletes=0 conflicts=0`，写前闭包实测 `asset-refs=1327 asset-warnings=12`。6010 已确认 004
+  仅一条标题菜单角色引用且禁删、037 原有三类引用无回归；6051 新游戏与读档两路均已离开菜单并由后续画面接管。
 - Opus: pending
 - GLM: pending
 - counter / 返工处理: N/A
@@ -232,11 +235,40 @@ Branch: main
 ## Build: 实现与自测
 
 - Coding Owner: Codex
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - `packages/content/src/asset.ts` / `asset.test.ts`
+  - `packages/migrate/src/pal-assets.ts` / `pal-migration-integration.test.ts`
+  - `packages/editor/src/core/upgrade-local-v2.ts` / `open-local.ts` / `open-local.test.ts`
+  - `packages/editor/src/ui/MusicTab.tsx`
+  - `packages/reforge/src/audio/bgm.ts` / `bgm.test.ts`
+  - `packages/reforge/src/opening-menu.ts` / `opening-menu.test.ts` / `main.ts`
+  - `projects/pal/manifest.json` 与 A7/能力地图相关中文真值文档
+- 实现摘要:
+  - 新增封闭角色 `audio.openingMenuMusic: music`，PAL 迁移源与工程清单绑定 `music.pal.004`；typed
+    walker 自动建立引用，编辑器只补中文语义标签，没有 004 删除特判。
+  - v2 升级补 `roleTrack(4)`；旧 v3 音乐工程在本地打开边界幂等补键并保存，优先 004，否则按排序后的
+    首个 music AssetId 确定性回退；已有自定义角色不覆盖、无音乐工程不写。
+  - 标题菜单实际显示期间按角色循环播放，正常新游戏、读档和异常退出都在结果返回前 `finally stop()`；
+    菜单曲不进入 `WorldState.audio.currentMusic`。
+  - BGM 后端抽出可控测试适配器，并加入请求代次；`stop()` 同时取消初始化尾部补播和在途 MIDI 读取，
+    `setEnabled(false)` 仍保留当前曲记账供恢复，两个语义没有合并。
+  - A7 审计口径修为五角色、1,327 引用、12 warning，并记录“现实现站点扫描不能发现漏实现需求”的根因。
+- 运行命令:
+  - `pnpm --filter @type-pal/content test -- asset.test.ts`
+  - `pnpm --filter @type-pal/editor test -- open-local.test.ts`
+  - `pnpm --filter @type-pal/reforge test -- bgm.test.ts opening-menu.test.ts asset-resolver.test.ts`
+  - `pnpm --filter @type-pal/migrate test`
+  - `pnpm --filter @type-pal/migrate run migrate:content`（连续两次，均零计划）
+  - `pnpm check`
+  - `pnpm --filter @type-pal/editor build`
+  - `pnpm --filter @type-pal/reforge build`
+- 浏览器 / 手工检查:
+  - 6010：筛选并选中 004，右栏显示“标题菜单音乐（新的故事 / 旧的回忆）/ 工程清单 / 引用 1 处”，
+    删除按钮禁用；037 显示默认战斗、场景战斗、战斗指令音乐共 39 处，删除仍禁用。
+  - 6051 `?menu`：标题菜单正常显示；Enter 选择“新的故事”进入开场 s000；另一新会话进入“旧的回忆”，
+    显示现有存档并成功载入场景。两路都没有停留或返回标题菜单画面。
+- 跳过的检查及原因: 当前自动化会话不能对扬声器输出作听觉判定；004 曲目听感及切换瞬间是否有极短串音，
+  仍需 Opus 或用户实际听验。调用顺序、循环参数、清账竞态和读档前 stop 已由自动测试覆盖。
 
 ## 资源生成记录(如适用)
 
@@ -251,15 +283,15 @@ Branch: main
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + User
-- 验证方式: 6010 编辑器引用详情 + 6051 标题菜单听验
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: 6010 编辑器引用详情 + 6051 标题菜单新游戏/读档两路浏览器检查
+- 截图 / 像素检查路径: Codex 浏览器会话内截图目视，未写入仓库
+- 结论: UI 引用、禁删、菜单显示、新游戏接管与读档接管均通过
+- 未完成项: 实际扬声器听验 004 及切换瞬间串音，交 Opus/用户复验
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: pending
+- 审查结论: Codex 自验证 accept；Opus/GLM pending
 - 必须返工项: pending
 - Accept / rework: pending
 
@@ -283,22 +315,27 @@ Branch: main
   幂等/保存固化/运行时零兼容);R2=补播竞态+双语义区分+读档序三组专测。Evidence: 主审立场+锚点
   实证。Next: GLM 迁移覆盖/测试矩阵复核;三签齐后 Codex build;不得抢跑实现。未改实现文件。
 - 2026-07-16 GLM: 设计复核签 **agree**。六项独立实测：(1)穷举 wNumMusic 全赋值面——应用级硬编码仅 track 4(标题菜单 bootstrap:1751/1917/1925 三站点)+track 5(splash bootstrap:1812 确属 DOS logo 屏 palette3+FBP0x26/27+crane/title sprite 非交互菜单)+0(停)+数据驱动(0x43/45/77)+ending 脚本(setMus port ending.c),**无第六角色**；Opus 公开修正方法论成立(站点普查≠需求普查)。(2)004 catalog 有(kind=music 004.mid)全产物零引用在 13 unused,manifest 恰四角色无 openingMenuMusic,新角色后 unused 13→12。(3)R1 roleTrack(4) 已泛化(upgrade-local-v2:112-115),三处并行加一行(asset.ts ASSET_ROLES+pal-assets.ts PAL_AUDIO_ROLES+upgrade-local-v2 roleTrack),三分支表驱动(有004/缺004有music fallback musicIds[0]/无音乐不写)。(4)R2 bgm last/stop 双语义(stopPlayback:58 清 last vs setEnabled:136-138 留 last)+补播竞态(ensureInit:112 检查 last,stop 后已清不补播)+读档序(stop 先 bootLoadSlot,savedMusic 接管,currentMusic 不污染)。(5)迁移五角色断言+MG2 双跑零计划+v2/v3 集成测试。(6)文档勘误四→五角色+根因。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,交 Codex build。未改实现文件。
+- 2026-07-16 Codex: 完成 build 与自验证并签 **accept**。第五角色/004 绑定、旧 v3 幂等补齐、菜单
+  `try/finally stop`、初始化与 MIDI 在途取消、开关留账语义均有专测；全仓 3,581 pass、MG2 双跑零计划，
+  闭包 1,327/12；6010 004/037 与 6051 新游戏/读档两路通过。Evidence: Build/视觉记录。Next: Opus 做
+  实现与运行主审并实际听验，签 accept/counter；不得标 done，随后交 GLM 覆盖终审。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:A7-0A 标题菜单音乐角色与删除保护,迁移覆盖/测试矩阵复核(GLM)
+接手任务:A7-0A 标题菜单音乐角色与删除保护,实现/运行主审(Opus)
 任务卡:docs/ops/tasks/A7-0A-opening-menu-music-role.md
-当前状态:draft;Codex agree + Opus agree(附 R1-R2 必改 + S1-S2,含 Opus 对 A7-0"恰四角色"的公开修正),GLM pending(设计最后一签);build 准入 blocked
-你的角色:GLM,迁移覆盖面/产物/测试矩阵复核;只改任务卡,不得改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R2)、packages/migrate/src/pal-assets.ts:19-24、packages/editor/src/core/upgrade-local-v2.ts:100-126、packages/reforge/src/audio/bgm.ts:50-145
-请重点复核(数据/测试面,与 Opus 的 schema/生命周期面互补):
-1. 一阶段播放位点反查(修正后的正确方法):扫 packages/game 全部 wNumMusic 赋值/播放位点,确认标题菜单 track 4 之外没有第六个应用级角色需求(splash track 5 已明确划出范围,核对其确属 splash 而非本卡菜单);
-2. 004 现状对账:产物 music.pal.004 零引用(在 13 unused warning 清单内)、6010 当前可删——独立确认;新角色落地后 catalog 引用闭包应计入 roles 引用,unused 清单从 13 变 12;
-3. R1 测试形态:v3 缺角色补齐的幂等测试(已有五角色工程重开零改动/四角色工程补齐后保存固化/无音乐工程不写角色)+ roleTrack(4) 三分支(有 004/无 004 有音乐/无音乐)表驱动;
-4. R2 测试形态:补播竞态(play→init 未完→stop→init 完成不响)、音乐开关"留账续播"vs 菜单 stop"清账"双语义分测、菜单读档序(stop 先于 bootLoadSlot,savedMusic 接管,currentMusic 不被菜单曲污染);
-5. 迁移/MG2 面:PAL 重生成 manifest 五角色断言、MG2 二跑零计划、v2 升级与 v3 补齐分别有集成测试;
-6. 文档勘误面:A7 audit/闭包报告的"四角色"表述更新为五角色并记录遗漏根因(站点普查≠需求普查)。
-不要做:不得修改实现文件;不得开始 build;不得用运行时硬编码 004、删除按钮特判或恢复旧 musicId
-输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R2+S1-S2 纳入 build 范围),交 Codex build
+当前状态:review;设计三签齐且 Codex build/自验证 accept,Opus/GLM done 前签字 pending;不得标 done
+你的角色:Opus,实现正确性/运行生命周期/听觉主审;原则上只改任务卡,发现 counter 再列精确返工项
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 R1/R2、Build 与视觉记录)、git show HEAD、packages/reforge/src/audio/bgm.ts、packages/reforge/src/opening-menu.ts、packages/reforge/src/main.ts:409-430、packages/editor/src/core/upgrade-local-v2.ts
+请重点复核:
+1. 封闭第五角色完整贯通,运行时没有数字 4/music.pal.004 硬编码,编辑器删除保护来自 typed reference 而非 UI 特判;
+2. 旧 v3 打开边界补齐是否幂等并保存固化:有004优先、缺004确定性fallback、已有自定义不覆盖、无音乐不写;
+3. BGM R2:play→后端初始化未完→stop→初始化完成不补播;在途 MIDI 读取也不得迟到播放;setEnabled(false)留账与stop清账仍严格区分;
+4. 标题菜单必须 loop=true,正常新游戏/读档/异常均在结果返回前finally stop,不写WorldState.audio.currentMusic;
+5. 6051实际听验:标题菜单确为004;进入新的故事和从旧的回忆读取存档后均无串音,后续场景/存档音乐正常接管;
+6. 6010抽查004仅“标题菜单音乐/工程清单”1引用且禁删,037既有引用分类无回归。
+已验证:pnpm check全绿(3,581 pass+1 skipped),editor/reforge build全绿,MG2连续两次writes=0/deletes=0/conflicts=0且asset-refs=1327/warnings=12;Codex已走6051新游戏+读档画面链,但未冒充完成听觉判断
+不要做:不得标done;不要顺手改范围外splash 005或ESC菜单;无counter不要改实现文件
+输出要求:在本卡Opus review签字行写accept或counter+理由,补交接日志并提交;accept后把下一位Agent提示词改为GLM覆盖/迁移终审
 ```

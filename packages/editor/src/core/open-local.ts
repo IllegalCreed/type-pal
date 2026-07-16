@@ -10,7 +10,11 @@ import {
   loadAllScriptChunks,
   loadProjectFrom,
 } from '@type-pal/reforge'
-import { type UpgradeLocalV2Options, upgradeLocalProjectV2 } from './upgrade-local-v2.js'
+import {
+  completeLocalProjectV3AudioRoles,
+  type UpgradeLocalV2Options,
+  upgradeLocalProjectV2,
+} from './upgrade-local-v2.js'
 
 export interface OpenedProject {
   project: LoadedProject
@@ -25,8 +29,13 @@ export async function openLocalProject(
   let source = fsaSource(dir)
   let project: LoadedProject
   try {
-    const rawManifest = await source.readJson<unknown>('manifest.json')
+    let rawManifest = await source.readJson<unknown>('manifest.json')
     if (await upgradeLocalProjectV2(dir, source, rawManifest, options)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await completeLocalProjectV3AudioRoles(dir, source, rawManifest)) {
       source.dispose?.()
       source = fsaSource(dir)
     }

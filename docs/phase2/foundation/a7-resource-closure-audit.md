@@ -169,7 +169,7 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已让音乐与 MIDI soun
 - 最终脚本有 1,174 个 `playMusic` 与 53 个 `stopMusic`；场景有 36 个 `music`、81 个
   `battleMusic`，31 个 `startBattle` 显式携 `music`。动态场景覆盖旁路修复后，s106 的战斗曲 37 被正确
   烘成 `music.pal.037`，因此最终战斗槽比实现前静态表 80 多 1。
-- 写前闭包收集 1,326 条资产引用，缺失和 kind mismatch 为 0；13 个未引用曲目保留为 warning，不能用
+- 写前闭包收集 1,327 条资产引用，缺失和 kind mismatch 为 0；12 个未引用曲目保留为 warning，不能用
   “未被当前脚本引用”冒充文件错误或擅自删除。
 - `content/music.json`、最终产物中的 `musicId/battleMusicId`、内部 `overrideSceneBattle` 标记均为 0。
   BGM 与编辑器试听都只经 AssetResolver/FileSource，soundfont 不再从应用根读取。
@@ -277,6 +277,7 @@ A7-0 的 v3 示例:
     "catalog": "assets/index.json",
     "roles": {
       "audio.midiSoundfont": "soundfont.default",
+      "audio.openingMenuMusic": "music.pal.004",
       "audio.defaultBattleMusic": "music.pal.037",
       "audio.bossVictoryMusic": "music.pal.002",
       "audio.normalVictoryMusic": "music.pal.003"

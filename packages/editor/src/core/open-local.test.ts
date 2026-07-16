@@ -5,6 +5,7 @@ import { openLocalProject } from './open-local.js'
 function mockDir(
   name: string,
   files: Record<string, string | ArrayBuffer>,
+  writes: string[] = [],
 ): FileSystemDirectoryHandle {
   const make = (prefix: string): FileSystemDirectoryHandle =>
     ({
@@ -38,6 +39,7 @@ function mockDir(
               },
               async close() {
                 files[full] = pending
+                writes.push(full)
               },
             }
           },
@@ -53,6 +55,7 @@ function mockDir(
 }
 
 const J = (v: unknown): string => JSON.stringify(v)
+const hash = 'a'.repeat(64)
 
 const fullProject: Record<string, string | ArrayBuffer> = {
   'manifest.json': J({
@@ -103,6 +106,52 @@ const fullProject: Record<string, string | ArrayBuffer> = {
   'assets/index.json': J({ version: 1, assets: {} }),
 }
 
+function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) {
+  const manifest = JSON.parse(String(fullProject['manifest.json'])) as Record<string, unknown> & {
+    assets: { roles: Record<string, string> }
+  }
+  const fallback = musicIds[0]
+  if (!fallback) throw new Error('测试工程至少需要一首音乐')
+  manifest.assets.roles = {
+    'audio.midiSoundfont': 'soundfont.default',
+    'audio.defaultBattleMusic': fallback,
+    'audio.bossVictoryMusic': fallback,
+    'audio.normalVictoryMusic': fallback,
+    ...(openingMenuMusic ? { 'audio.openingMenuMusic': openingMenuMusic } : {}),
+  }
+  const musicAssets = Object.fromEntries(
+    musicIds.map((id) => [
+      id,
+      {
+        kind: 'music',
+        path: `assets/migrated/music/${id.slice(-3)}.mid`,
+        mediaType: 'audio/midi',
+        bytes: 3,
+        sha256: hash,
+        origin: { kind: 'legacy-migrated' },
+      },
+    ]),
+  )
+  return {
+    ...fullProject,
+    'manifest.json': J(manifest),
+    'assets/index.json': J({
+      version: 1,
+      assets: {
+        ...musicAssets,
+        'soundfont.default': {
+          kind: 'soundfont',
+          path: 'assets/runtime/soundfont.sf3',
+          mediaType: 'audio/sf3',
+          bytes: 3,
+          sha256: hash,
+          origin: { kind: 'licensed' },
+        },
+      },
+    }),
+  }
+}
+
 describe('openLocalProject', () => {
   test('有效工程夹 → 装配 project + 全量场景', async () => {
     const { project, scenes } = await openLocalProject(mockDir('my-proj', fullProject))
@@ -114,6 +163,44 @@ describe('openLocalProject', () => {
 
   test('无 manifest.json → 友好报错(带夹名)', async () => {
     await expect(openLocalProject(mockDir('空夹', {}))).rejects.toThrow('空夹')
+  })
+
+  test.each([
+    {
+      name: '优先使用 PAL 004',
+      ids: ['music.pal.004', 'music.pal.037'],
+      expected: 'music.pal.004',
+    },
+    {
+      name: '缺 004 时按 AssetId 确定性回退',
+      ids: ['music.pal.009', 'music.pal.001'],
+      expected: 'music.pal.001',
+    },
+  ])('旧 v3 音乐工程补齐标题菜单角色：$name', async ({ ids, expected }) => {
+    const files = v3MusicProject(ids)
+    const writes: string[] = []
+    const dir = mockDir('old-v3', files, writes)
+    const opened = await openLocalProject(dir)
+    expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
+    expect(writes.filter((path) => path === 'manifest.json')).toHaveLength(1)
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('已有标题菜单角色不覆盖，无音乐工程不新增角色', async () => {
+    const custom = v3MusicProject(['music.pal.004', 'music.pal.009'], 'music.pal.009')
+    const customWrites: string[] = []
+    const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
+    expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
+    expect(customWrites).toEqual([])
+
+    const silentFiles = { ...fullProject }
+    const silentWrites: string[] = []
+    const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
+    expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
+    expect(silentWrites).toEqual([])
   })
 
   test('v2 音乐工程在打开边界一次性升级为 v3，并保留别名、引用与字节', async () => {
@@ -163,6 +250,7 @@ describe('openLocalProject', () => {
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(opened.project.assetCatalog.assets['music.pal.001']?.label).toBe('蝶恋')
     expect(opened.project.assetCatalog.assets['music.pal.001']?.bytes).toBe(4)
+    expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.001')
     expect(files['content/music.json']).toBeUndefined()
     expect(files['assets/migrated/music/001.mid']).toEqual(midi)
     expect(files['assets/runtime/soundfont.sf3']).toEqual(soundfont)

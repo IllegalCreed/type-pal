@@ -12,7 +12,6 @@
  * - 懒初始化:首次 play 才拉 worklet+soundfont —— 不放曲的工程(demo)零开销
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
-import type { Sequencer } from 'spessasynth_lib'
 
 export interface AudioAssetReader {
   readBytes(asset: AssetId, expectedKind?: AssetKind): Promise<ArrayBuffer>
@@ -34,7 +33,22 @@ export interface BgmPlayer {
   setEnabled(on: boolean): void
 }
 
-export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
+export interface BgmSequencerAdapter {
+  pause(): void
+  loadNewSongList(songs: Array<{ binary: ArrayBuffer; fileName: string }>): void
+  loopCount: number
+  play(): void
+}
+
+export interface BgmRuntimeAdapter {
+  context: {
+    readonly state: AudioContextState
+    resume(): Promise<void>
+  }
+  initialize(): Promise<BgmSequencerAdapter>
+}
+
+function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter | undefined {
   const w =
     typeof window !== 'undefined'
       ? (window as unknown as {
@@ -43,43 +57,12 @@ export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
         })
       : undefined
   const AudioCtor = w?.AudioContext ?? w?.webkitAudioContext
-  if (!AudioCtor) return { play() {}, stop() {}, resume() {}, setEnabled() {} } // 单测/无 Web Audio → no-op
+  if (!AudioCtor) return undefined
 
   const ctx = new AudioCtor()
-  let seq: Sequencer | undefined
-  let ready = false
-  let last: { asset: AssetId; loop: boolean } | undefined
-  let playing: AssetId | undefined
-  let resuming = false
-  let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
-
-  function stopPlayback(): void {
-    seq?.pause()
-    last = undefined
-    playing = undefined
-  }
-
-  async function doPlay(asset: AssetId, loop: boolean): Promise<void> {
-    if (!seq || !enabled) return
-    if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
-    let binary: ArrayBuffer
-    try {
-      binary = await resolver.readBytes(asset, 'music')
-    } catch (error) {
-      console.warn(`[bgm] MIDI AssetId ${asset} 读取失败`, error)
-      return
-    }
-    seq.loadNewSongList([{ binary, fileName: asset }])
-    seq.loopCount = loop ? Infinity : 0
-    seq.play()
-    playing = asset
-  }
-
-  // 懒初始化:首次真要播才拉合成器库 + worklet + soundfont(~6MB)——不放曲的工程(demo)
-  // 零开销,放曲工程首屏 bundle 也不背合成器。
-  let initP: Promise<void> | null = null
-  const ensureInit = (): Promise<void> => {
-    initP ??= (async () => {
+  return {
+    context: ctx,
+    async initialize() {
       const { Sequencer, WorkletSynthesizer } = await import('spessasynth_lib')
       if (!ctx.audioWorklet) {
         const secure = typeof window !== 'undefined' ? window.isSecureContext : false
@@ -101,18 +84,81 @@ export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
       }
       await synth.soundBankManager.addSoundBank(sfBytes, 'main')
       await synth.isReady
-      // 仙剑原声偏干:混响 CC91=0 + 锁(一阶段作者实测拍板)
       const REVERB_CC = 91 as Parameters<typeof synth.controllerChange>[1]
       for (let ch = 0; ch < 16; ch++) {
         synth.controllerChange(ch, REVERB_CC, 0)
         synth.midiChannels[ch]?.lockController(REVERB_CC, true)
       }
-      seq = new Sequencer(synth, { skipToFirstNoteOn: false })
-      ready = true
-      if (last) void doPlay(last.asset, last.loop)
-    })().catch((err: unknown) => {
-      console.warn('[bgm] ✗ MIDI 后端初始化失败 → BGM 静默:', err)
-    })
+      return new Sequencer(synth, { skipToFirstNoteOn: false })
+    },
+  }
+}
+
+/** 测试入口：注入可控的异步后端，生产代码仍只走 createBgmPlayer。 */
+export function createBgmPlayerWithRuntime(
+  resolver: AudioAssetReader,
+  runtime: BgmRuntimeAdapter | undefined,
+): BgmPlayer {
+  if (!runtime) return { play() {}, stop() {}, resume() {}, setEnabled() {} }
+
+  const ctx = runtime.context
+  let seq: BgmSequencerAdapter | undefined
+  let ready = false
+  let last: { asset: AssetId; loop: boolean } | undefined
+  let playing: AssetId | undefined
+  let resuming = false
+  let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
+  let requestSerial = 0
+
+  function stopPlayback(): void {
+    requestSerial++
+    seq?.pause()
+    last = undefined
+    playing = undefined
+  }
+
+  const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
+    serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
+
+  async function doPlay(asset: AssetId, loop: boolean, serial: number): Promise<void> {
+    if (!seq || !enabled) return
+    if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
+    if (!isCurrent(serial, asset, loop)) return
+    let binary: ArrayBuffer
+    try {
+      binary = await resolver.readBytes(asset, 'music')
+    } catch (error) {
+      console.warn(`[bgm] MIDI AssetId ${asset} 读取失败`, error)
+      return
+    }
+    if (!isCurrent(serial, asset, loop)) return
+    seq.loadNewSongList([{ binary, fileName: asset }])
+    seq.loopCount = loop ? Infinity : 0
+    seq.play()
+    playing = asset
+  }
+
+  function playCurrent(): void {
+    if (!seq || !enabled || !last) return
+    const current = last
+    const serial = ++requestSerial
+    void doPlay(current.asset, current.loop, serial)
+  }
+
+  // 懒初始化:首次真要播才拉合成器库 + worklet + soundfont(~6MB)——不放曲的工程(demo)
+  // 零开销,放曲工程首屏 bundle 也不背合成器。
+  let initP: Promise<void> | null = null
+  const ensureInit = (): Promise<void> => {
+    initP ??= runtime
+      .initialize()
+      .then((initialized) => {
+        seq = initialized
+        ready = true
+        playCurrent()
+      })
+      .catch((err: unknown) => {
+        console.warn('[bgm] ✗ MIDI 后端初始化失败 → BGM 静默:', err)
+      })
     return initP
   }
 
@@ -124,7 +170,7 @@ export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
       }
       last = { asset, loop }
       if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
-      if (ready) void doPlay(asset, loop)
+      if (ready) playCurrent()
       else void ensureInit() // 懒初始化;init 尾部按 last 补播
     },
     stop() {
@@ -134,10 +180,11 @@ export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
       if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
       enabled = on
       if (!on) {
+        requestSerial++
         seq?.pause()
         playing = undefined // 停播;last 保留 → 重开续当前记账曲
       } else if (last) {
-        if (ready) void doPlay(last.asset, last.loop)
+        if (ready) playCurrent()
         else void ensureInit()
       }
     },
@@ -148,11 +195,15 @@ export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
         .resume()
         .then(() => {
           resuming = false
-          if (ready && last) void doPlay(last.asset, last.loop)
+          if (ready && last) playCurrent()
         })
         .catch(() => {
           resuming = false
         })
     },
   }
+}
+
+export function createBgmPlayer(resolver: AudioAssetReader): BgmPlayer {
+  return createBgmPlayerWithRuntime(resolver, createBrowserBgmRuntime(resolver))
 }

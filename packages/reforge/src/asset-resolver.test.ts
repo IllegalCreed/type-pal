@@ -42,6 +42,7 @@ describe('AssetResolver', () => {
     'audio.defaultBattleMusic': 'song',
     'audio.bossVictoryMusic': 'song',
     'audio.normalVictoryMusic': 'song',
+    'audio.openingMenuMusic': 'song',
   } as const
 
   test('AssetId 与角色只经 catalog 显式 path 读取', async () => {

@@ -6,6 +6,7 @@ import {
   type ScriptIndexV1,
   upgradeManifestV2ToV3,
   upgradeV2MusicReferences,
+  validateAssetCatalog,
   validateProjectRelativePath,
 } from '@type-pal/content'
 import type { FileSource } from '@type-pal/reforge'
@@ -120,6 +121,7 @@ async function buildAudioCatalog(
       'audio.defaultBattleMusic': roleTrack(37),
       'audio.bossVictoryMusic': roleTrack(2),
       'audio.normalVictoryMusic': roleTrack(3),
+      'audio.openingMenuMusic': roleTrack(4),
     },
     oldMusicPath,
   }
@@ -170,6 +172,49 @@ export async function upgradeLocalProjectV2(
   files['manifest.json'] = upgraded
   await writeProject(dir, files, {
     removePaths: audio.oldMusicPath ? [audio.oldMusicPath] : [],
+  })
+  return true
+}
+
+/**
+ * A7-0A 的 v3 打开边界补全：已有音乐工程缺标题菜单角色时写回清单。
+ * 只补缺失键，不修正非法值；非法角色仍交给 content validator fail-loud。
+ */
+export async function completeLocalProjectV3AudioRoles(
+  dir: FileSystemDirectoryHandle,
+  source: FileSource,
+  rawManifest: unknown,
+): Promise<boolean> {
+  const manifest = asObject(rawManifest, 'manifest')
+  if (manifest.contentVersion !== 3) return false
+
+  const assets = asObject(manifest.assets, 'manifest.assets')
+  const roles = asObject(assets.roles, 'manifest.assets.roles')
+  const role = 'audio.openingMenuMusic'
+  if (role in roles) return false
+
+  const catalogPath = validateProjectRelativePath(
+    assets.catalog as string,
+    'manifest.assets.catalog',
+  )
+  const catalog = validateAssetCatalog(await source.readJson<unknown>(catalogPath), catalogPath)
+  const musicIds = Object.entries(catalog.assets)
+    .filter(([, record]) => record.kind === 'music')
+    .map(([id]) => id)
+    .sort((left, right) => left.localeCompare(right))
+  const fallback = musicIds[0]
+  if (!fallback) return false
+
+  const preferred = palMusicAssetId(4)
+  const openingMenuMusic = catalog.assets[preferred]?.kind === 'music' ? preferred : fallback
+  await writeProject(dir, {
+    'manifest.json': {
+      ...manifest,
+      assets: {
+        ...assets,
+        roles: { ...roles, [role]: openingMenuMusic },
+      },
+    },
   })
   return true
 }

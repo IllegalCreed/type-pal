@@ -9,7 +9,8 @@
  * 自持 rAF 渲染循环 + 键盘监听(捕获相,先于游戏输入监听挂载);选定/读档 → cleanup + resolve。
  */
 
-import type { Locale } from '@type-pal/content'
+import type { AssetId, Locale } from '@type-pal/content'
+import type { BgmPlayer } from './audio/bgm.js'
 import { expectDefined } from './defined.js'
 import type { MenuAssets } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
@@ -55,6 +56,21 @@ function openingItemX(label: string): number {
 
 /** 主菜单选定结果:开新局(某入口点)或读某存档槽。 */
 export type OpeningDecision = { kind: 'new'; entryId: string } | { kind: 'load'; slotId: SlotId }
+
+/** 标题菜单音乐是应用壳临时态：菜单结果返回前统一 stop，不写入 WorldState。 */
+export async function runOpeningMenuWithMusic<T>(
+  bgm: Pick<BgmPlayer, 'play' | 'stop'>,
+  asset: AssetId | undefined,
+  run: () => Promise<T>,
+): Promise<T> {
+  if (!asset) return run()
+  bgm.play(asset, true)
+  try {
+    return await run()
+  } finally {
+    bgm.stop()
+  }
+}
 
 export function runOpeningMenu(deps: {
   ctx: CanvasRenderingContext2D
