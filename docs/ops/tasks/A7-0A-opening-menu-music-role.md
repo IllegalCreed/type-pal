@@ -175,10 +175,44 @@ Branch: main
   方法论记录(诚实):我的 performance-timing 观察器三轮零取证一度指向"未起播",CDP 网络日志实锤
   起播正常——JS 性能缓冲(模块风暴淹没+时窗)不可靠,取证层级应为 **CDP 网络日志 > performance buffer**;
   与 N1-1 blur 探针教训同类,先证仪器再疑产品。
-- GLM: pending
-- counter / 返工处理: 无(Opus 零返工项)。
+- GLM: **accept（2026-07-16;见下）**。六项独立实测 + 定向测试全绿。设计期六项全落地。
+
+  **(1) 设计期六项落地验收** ✅：
+  - **五角色 manifest**：独立重扫 manifest `audio.openingMenuMusic: music.pal.004` + 原四角色 = 恰五。✅
+  - **004 unused 13→12**：004 现经 role 引用被 collectAssetReferences 计入；dry-run `asset-refs=1327 asset-warnings=12`（A7-0 时 1326/13，本次 +1 ref / -1 warning）。✅
+  - **三处并行添加点**：asset.ts:32 `ASSET_ROLES` + :41 kind 映射 / pal-assets.ts:24 `palMusicAssetId(4)` / upgrade-local-v2.ts:124 `roleTrack(4)` + :193 `completeLocalProjectV3AudioRoles`。逐一确认。✅
+
+  **(2) R1 测试矩阵（open-local.test 六用例）** ✅：
+  - :170-172 优先 004（catalog 有 004 → `music.pal.004`）✅
+  - :175-177 缺 004 回退排序首条（→ `music.pal.001` localeCompare）✅
+  - :184-185 四角色工程补齐第五 + 保存 ✅
+  - :187-189 五角色工程重开幂等零改动（`writes=[]`）✅
+  - :193-197 已有自定义角色不覆盖（`music.pal.009` 保留，`customWrites=[]`）✅
+  - :200-203 无音乐工程不写角色（`toBeUndefined()` + `silentWrites=[]`）✅
+
+  **(3) R2 测试矩阵（bgm.test 三行 + opening-menu.test 两行）** ✅：
+  - **bgm.test:41** init 竞态：play → init 未完 → stop → init resolves → backend.play **不调用** ✅
+  - **bgm.test:60** MIDI 在途取消：readBytes deferred → stop → resolve → backend.play **不调用** ✅
+  - **bgm.test:79** 留账 vs 清账：setEnabled(false→true) 重播(count=2) vs stop 后 toggle **不重播**(仍 2) ✅
+  - **opening-menu.test:5** 循环+读档序：`play:music.menu:true`(loop) → menu → stop → load；`world.currentMusic` **不变** ✅
+  - **opening-menu.test:24** 异常退出+无角色静默：异常路径 stop 一次；undefined role 零 play 零 stop ✅
+
+  **(4) 迁移/MG2 面** ✅：
+  - dry-run `writes=0 deletes=0 conflicts=0`，`asset-refs=1327 asset-warnings=12`（与 A7-0 报告勘误一致）。✅
+  - pal-migration-integration 五角色断言 + 双跑零计划。✅
+
+  **(5) 文档勘误面** ✅：
+  - content-schema:225 "五个音频角色" / a7-0-closure-report:63,87 "五个具名角色"+"第五个封闭角色" / capability-map:124 "第五个封闭角色" / a7-audit:280 五角色 manifest 块——四处全更新齐，无残留"四角色"表述（任务卡历史文档保留属正确，记录发现缺口→修正过程）。✅
+
+  **(6) 边界确认** ✅：
+  - **splash 005 未被顺手实现**：opening-menu.ts / main.ts 零 005/splash/title music 引用。范围外正确。✅
+  - **ESC/战斗/系统菜单未改动**：main.ts battle-track 逻辑（:1398-1399）pre-existing 未改；systemMenu(:2320) 不触 BGM 角色。零范围蔓延。✅
+
+  **总结**：五角色全落地（manifest+三处源码+unused 13→12）；R1 六用例 + R2 五行断言逐条与规格一致；MG2 零计划 asset-refs=1327/warnings=12；四文档四→五角色更新齐；边界正确（无 005/无菜单蔓延）。定向套件 reforge 357 + editor 183 + migrate 192+1skip 全绿。**accept**。
+
+- counter / 返工处理: 无(Opus 零返工项,GLM 无 counter)。
 - 缺签豁免: N/A
-- done 准入结论: blocked（待 GLM 终审与用户听验/验收）
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户真实扬声器听验（004 曲目正确性 + 切换瞬间串音）与验收，用户点头方 done。**
 
 ## Draft: 设计与风险
 
@@ -361,6 +395,7 @@ Branch: main
   方法论记录:performance buffer 三轮零取证系仪器伪影(模块风暴淹没),CDP 网络日志才是地面真值——
   先证仪器再疑产品(N1-1 blur 探针同课)。真实扬声器听感留用户终验。Evidence: done 前签字 Opus 行+
   视觉记录。Next: GLM 覆盖/迁移终审;齐签后交用户听验/验收;不得标 done。未改实现文件。
+- 2026-07-16 GLM: done 前覆盖终审签 **accept**。六项独立实测+定向套件全绿：(1)五角色 manifest(openingMenuMusic:004)+三处并行(asset.ts:32/pal-assets.ts:24/upgrade-local-v2:124+193)+unused 13→12(dry-run asset-refs=1327 warnings=12)。(2)R1 open-local.test 六用例逐行核对——:170-172优先004/:175-177缺004回退首条/:184-185补齐保存/:187-189幂等零改动/:193-197不覆盖自定义/:200-203无音乐不写。(3)R2 bgm.test:41 init竞态/:60 MIDI在途取消/:79留账vs清账 + opening-menu.test:5 循环读档序不污染/:24 异常退出无角色静默,五行断言与规格逐条一致。(4)MG2 writes=0 asset-refs=1327 warnings=12。(5)四文档四→五角色更新齐(content-schema/a7-0-report/capability-map/a7-audit)。(6)边界——splash 005 未实现,ESC/battle/system 菜单未改动。reforge 357/editor 183/migrate 192+1skip 全绿。Evidence: done 准入 GLM 行。Next: 三签齐,交用户真实扬声器听验(004曲目+切换串音)与验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
