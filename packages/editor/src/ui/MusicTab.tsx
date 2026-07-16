@@ -15,6 +15,25 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
+const ROLE_LABELS: Readonly<Record<string, string>> = {
+  'manifest.assets.roles.audio.defaultBattleMusic': '默认战斗音乐',
+  'manifest.assets.roles.audio.bossVictoryMusic': '首领战胜利音乐',
+  'manifest.assets.roles.audio.normalVictoryMusic': '普通战斗胜利音乐',
+}
+
+const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
+  'legacy-migrated': '原版迁移',
+  authored: '工程创作',
+  generated: '生成资源',
+  licensed: '授权资源',
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`
+}
+
 async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', bytes)
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
@@ -108,6 +127,42 @@ export function MusicTab(props: {
       entry.id.toLowerCase().includes(filter.toLowerCase()) ||
       (entry.record.label ?? '').toLowerCase().includes(filter.toLowerCase()),
   )
+  const [selectedId, setSelectedId] = useState<AssetId | null>(entries[0]?.id ?? null)
+  const selected = entries.find((entry) => entry.id === selectedId) ?? shown[0] ?? entries[0]
+  const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
+  const scriptChunkIds = Object.keys(state.scriptChunks)
+
+  const describeReference = (where: string): { kind: string; owner: string } => {
+    const roleLabel = ROLE_LABELS[where]
+    if (roleLabel) return { kind: roleLabel, owner: '工程清单' }
+
+    const sceneMatch = /^scenes\[(\d+)](.*)$/.exec(where)
+    if (sceneMatch) {
+      const sceneId = state.scenes[Number(sceneMatch[1])]?.id ?? `#${sceneMatch[1]}`
+      const tail = sceneMatch[2] ?? ''
+      if (tail === '.music') return { kind: '场景背景音乐', owner: `场景 ${sceneId}` }
+      if (tail === '.battleMusic') return { kind: '场景战斗音乐', owner: `场景 ${sceneId}` }
+      if (tail.endsWith('.music')) return { kind: '战斗指令音乐', owner: `场景 ${sceneId}` }
+      return { kind: '脚本播放音乐', owner: `场景 ${sceneId}` }
+    }
+
+    const chunkMatch = /^scriptChunks\[(\d+)](.*)$/.exec(where)
+    if (chunkMatch) {
+      const chunkId = scriptChunkIds[Number(chunkMatch[1])] ?? `#${chunkMatch[1]}`
+      return {
+        kind: where.endsWith('.music') ? '战斗指令音乐' : '脚本播放音乐',
+        owner: `脚本块 ${chunkId}`,
+      }
+    }
+
+    const enemyMatch = /^enemies\[(\d+)](.*)$/.exec(where)
+    if (enemyMatch) {
+      const enemyId = state.enemies?.[Number(enemyMatch[1])]?.id ?? `#${enemyMatch[1]}`
+      return { kind: '敌人演出音乐', owner: `敌人 ${enemyId}` }
+    }
+
+    return { kind: '音乐引用', owner: where }
+  }
 
   const importFile = async (file: File, replaceId?: AssetId): Promise<void> => {
     try {
@@ -130,9 +185,27 @@ export function MusicTab(props: {
           <span className="spacer" />
           <span className="k">{shown.length} 首</span>
         </div>
-        <button type="button" className="btn" onClick={() => importRef.current?.click()}>
-          ＋ 导入 MIDI
-        </button>
+        <div className="music-library-tools">
+          <button
+            type="button"
+            className="music-import-button"
+            onClick={() => importRef.current?.click()}
+          >
+            <span className="music-import-icon" aria-hidden="true" />
+            导入 MIDI
+          </button>
+          <div className="music-search-field">
+            <span className="music-search-icon" aria-hidden="true" />
+            <input
+              className="in"
+              aria-label="搜索音乐"
+              placeholder="搜索名称或 AssetId"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
+            />
+          </div>
+          {error ? <div className="cf-err">{error}</div> : null}
+        </div>
         <input
           ref={importRef}
           type="file"
@@ -144,13 +217,6 @@ export function MusicTab(props: {
             event.target.value = ''
           }}
         />
-        <input
-          className="in"
-          placeholder="搜索名称或 AssetId"
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
-        />
-        {error ? <div className="cf-err">{error}</div> : null}
       </div>
       <div className="canvas-wrap data-body">
         <div className="et-scroll">
@@ -176,7 +242,11 @@ export function MusicTab(props: {
                 {shown.map(({ id, record }) => {
                   const usedAt = references.get(id) ?? []
                   return (
-                    <tr key={id}>
+                    <tr
+                      key={id}
+                      className={selected?.id === id ? 'selected' : undefined}
+                      onClick={() => setSelectedId(id)}
+                    >
                       <td>
                         <NameCell assetId={id} label={record.label} session={session} />
                       </td>
@@ -187,8 +257,11 @@ export function MusicTab(props: {
                       <td>
                         <div className="music-actions">
                           <PreviewButton asset={id} resolver={resolver} />
-                          <label className="btn" title={`替换 ${id} 的 MIDI，保持引用不变`}>
-                            ↺
+                          <label
+                            className="music-action-button music-replace-button"
+                            title={`替换 ${id} 的 MIDI，保持引用不变`}
+                          >
+                            <span aria-hidden="true">↺</span>
                             <input
                               type="file"
                               accept=".mid,audio/midi"
@@ -202,7 +275,7 @@ export function MusicTab(props: {
                           </label>
                           <button
                             type="button"
-                            className="btn danger"
+                            className="music-action-button music-delete-button"
                             title={
                               usedAt.length ? `有 ${usedAt.length} 处引用，不能删除` : `删除 ${id}`
                             }
@@ -210,7 +283,7 @@ export function MusicTab(props: {
                             disabled={usedAt.length > 0}
                             onClick={() => session.dispatch(new DeleteAssetCommand(id))}
                           >
-                            ×
+                            <span className="music-delete-icon" aria-hidden="true" />
                           </button>
                         </div>
                       </td>
@@ -221,6 +294,58 @@ export function MusicTab(props: {
             </table>
           )}
         </div>
+      </div>
+      <div className="inspector music-inspector">
+        {selected ? (
+          <>
+            <div className="insp-head">
+              <div className="what">选中音乐</div>
+              <div className="who">{selected.record.label || '未命名'}</div>
+            </div>
+            <div className="section">
+              <h4>资源</h4>
+              <div className="music-meta-row">
+                <span>AssetId</span>
+                <code title={selected.id}>{selected.id}</code>
+              </div>
+              <div className="music-meta-row">
+                <span>文件</span>
+                <code title={selected.record.path}>{selected.record.path}</code>
+              </div>
+              <div className="music-meta-row">
+                <span>来源</span>
+                <strong>{ORIGIN_LABELS[selected.record.origin.kind]}</strong>
+              </div>
+              <div className="music-meta-row">
+                <span>大小</span>
+                <strong>{formatBytes(selected.record.bytes)}</strong>
+              </div>
+            </div>
+            <div className="section music-reference-section">
+              <h4>
+                引用 <span className="hint2">{selectedReferences.length} 处</span>
+              </h4>
+              {selectedReferences.length ? (
+                <div className="music-reference-list">
+                  {selectedReferences.map((where, index) => {
+                    const description = describeReference(where)
+                    return (
+                      <div className="music-reference-item" key={`${where}-${index}`}>
+                        <strong>{description.kind}</strong>
+                        <span>{description.owner}</span>
+                        <code title={where}>{where}</code>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="music-reference-empty">当前工程没有引用这首音乐。</div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="insp-empty">选择一首音乐查看资源与引用。</div>
+        )}
       </div>
     </>
   )

@@ -2206,6 +2206,90 @@ html[data-panel-resize="horizontal"] * {
   border-radius: 1px;
   background: currentColor;
 }
+.music-library-tools {
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.music-import-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel2));
+  color: var(--fg);
+  cursor: pointer;
+  font: 500 12px / 1 var(--sans);
+}
+.music-import-button:hover,
+.music-import-button:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 19%, var(--panel2));
+  outline: none;
+}
+.music-import-icon {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-bottom: 1.5px solid currentColor;
+}
+.music-import-icon::before,
+.music-import-icon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  background: currentColor;
+  transform: translateX(-50%);
+}
+.music-import-icon::before {
+  top: 0;
+  width: 1.5px;
+  height: 8px;
+}
+.music-import-icon::after {
+  top: 4px;
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateX(-50%) rotate(45deg);
+}
+.music-search-field {
+  position: relative;
+}
+.music-search-field > .in {
+  height: 30px;
+  padding-left: 28px;
+}
+.music-search-icon {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 9px;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--faint);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.music-search-icon::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  width: 5px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--faint);
+  transform: rotate(45deg);
+}
 .music-table {
   width: 100%;
   max-width: 560px;
@@ -2239,7 +2323,7 @@ html[data-panel-resize="horizontal"] * {
   width: 25%;
 }
 .asset-music-table .music-action-column {
-  width: 108px;
+  width: 114px;
 }
 .asset-music-table td > .in {
   width: 100%;
@@ -2256,13 +2340,134 @@ html[data-panel-resize="horizontal"] * {
   gap: 5px;
   white-space: nowrap;
 }
-.asset-music-table .music-actions > .btn {
+.asset-music-table tbody tr {
+  cursor: pointer;
+}
+.asset-music-table tbody tr:hover td {
+  background: color-mix(in srgb, var(--panel2) 48%, transparent);
+}
+.asset-music-table tbody tr.selected td {
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel));
+}
+.asset-music-table tbody tr.selected td:first-child {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.asset-music-table .music-actions > .mp-play,
+.music-action-button {
   display: grid;
   place-items: center;
   flex: 0 0 28px;
   width: 28px;
   height: 28px;
   padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel3);
+  color: var(--dim);
+  cursor: pointer;
+  font: 600 15px / 1 var(--sans);
+}
+.music-action-button:hover,
+.music-action-button:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel3));
+  color: var(--fg);
+  outline: none;
+}
+.music-replace-button {
+  position: relative;
+}
+.music-delete-button:not(:disabled):hover,
+.music-delete-button:not(:disabled):focus-visible {
+  border-color: color-mix(in srgb, var(--err) 65%, var(--line));
+  background: color-mix(in srgb, var(--err) 12%, var(--panel3));
+  color: var(--err);
+}
+.music-delete-button:disabled {
+  border-color: var(--line);
+  background: var(--panel2);
+  color: var(--faint);
+  cursor: default;
+  opacity: 0.38;
+}
+.music-delete-icon {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+.music-delete-icon::before,
+.music-delete-icon::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.music-delete-icon::before {
+  transform: rotate(45deg);
+}
+.music-delete-icon::after {
+  transform: rotate(-45deg);
+}
+.music-inspector .section {
+  min-width: 0;
+}
+.music-meta-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  color: var(--dim);
+  font-size: 11px;
+}
+.music-meta-row code,
+.music-meta-row strong {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fg);
+  font: 500 11px / 1.4 var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.music-reference-section {
+  min-height: 0;
+}
+.music-reference-list {
+  display: grid;
+  gap: 5px;
+}
+.music-reference-item {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 68%, var(--line));
+  border-radius: 0 4px 4px 0;
+  background: var(--panel2);
+}
+.music-reference-item strong {
+  color: var(--fg);
+  font-size: 11px;
+}
+.music-reference-item span {
+  color: var(--dim);
+  font-size: 11px;
+}
+.music-reference-item code {
+  overflow: hidden;
+  color: var(--faint);
+  font: 10px / 1.4 var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.music-reference-empty {
+  padding: 8px 0;
+  color: var(--faint);
+  font-size: 11px;
 }
 
 /* ── N5 变量总览 + 引用反向索引 ── */
