@@ -122,11 +122,33 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: pending
-- Opus: pending
+- Opus: **agree（2026-07-16,附 R1-R3 必改 + S1-S2 建议,见主审立场）**。架构/信息架构/交互/视觉七问逐项复核,
+  核心设计成立,独立地面核对锚点全部坐实:
+  - **信息架构**:当前 project 模块仅 `entrypoint` 一子页(editor-navigation.ts:146-154 实证);editor-design
+    line 92 模块表与 §11 确把工程模块定位为入口点+工程设置+问题面板+闭包报告,五子页方向与之一致。
+    单一字段作者(工程页拥 manifest 全局 + 角色绑定;资源库拥 catalog/二进制;场景/脚本拥局部演出)
+    与 project-design §3、READ-FIRST 铁律契合。
+  - **稳定 id**:当前 EntryPointTab.tsx:41 用 `selIdx`(数组位置)作选择态是真实缺口,设计 #2 改 `EntryPoint.id`
+    深链接身份正确;`EntryPoint.id/LoadedManifest.id` schema(character.ts:54-74)已支持,id 只读、重命名
+    另开卡的边界正确。
+  - **默认/入口 startWorld 继承**:现有 `toggleCustom`(EntryPointTab.tsx:58-60,custom=克隆 manifest.startWorld /
+    关=删字段回落)已是"缺字段=继承、有字段=完整覆盖"雏形;设计 #3 formalize 为复制默认/清除覆盖两显式
+    动作 + 共享 StartWorldEditor,是对既有模式的正确收敛,不靠空对象/下标猜。
+  - **启动链无重复播放**:三类视频源实证互斥且触发点不同——manifest 角色 startupTrademark/Splash(001/002)、
+    entryPoints[].introVideo(003)、quitToTitle.videos[](004/005/006,脚本级);设计 #4 把启动流程定为
+    **只读解释层、可编辑项只回写 manifest 字段、脚本内 video/RNG/BGM 仍归脚本模块**——正确规避了
+    "预览变第二运行时"的重复播放陷阱。
+  - **命令/序列化**:现有 manifest 命令(RenameProjectCommand/UpdateStartSkillsCommand/SetEntryPointsCommand,
+    commands.ts:2178-2244)均守 apply/invert 不可变约定;设计 #1"新增命令扩展不绕过" + project-io 整
+    manifest 回写"结构化 patch 不丢未知字段"方向正确。
+  - **不改 schema**:设计 #6"发现 schema 不足即停回设计"守铁律。
+  裁定:核心架构无 counter。但 **R1(ED-3 依赖被过度耦合且陈述失实)必须先改,否则本卡要么永久 blocked
+  于一个无卡无码的 ED-3、要么有人造一次性扫描器违铁律**——见主审立场 R1。
 - GLM: pending
-- counter / 分歧处理: 尚无；任何 schema、引用权威或继承语义分歧先留在本节并请用户拍板
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(ED-3 解耦/缺省 round-trip 契约/locale 归属),
+  纳入 build 范围。schema 无分歧,继承语义无分歧。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked（待 GLM 复核;R1 ED-3 解耦是 build 前提）
 
 ### 进入 done 前:审查签字
 
@@ -175,16 +197,45 @@ Branch: TBD
 ### 主审立场
 
 - Reviewer: Opus（架构、编辑器信息架构和视觉主审）；GLM（manifest 字段覆盖、保存矩阵、引用/测试审计）。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending（必须三方设计签字且 ED-3 依赖边界明确）
+- 结论(Opus,2026-07-16): **agree — 核心设计成立(见推进签字 Opus 行七问);附 R1-R3 必改 + S1-S2**。
+- 必改项(R,设计层面,build 前必落):
+  - **R1 解除 ED-3 硬依赖并纠正"既有 ProjectReferenceIndex"的失实陈述**(最关键)。事实:ED-3 无任务卡、
+    无 `ProjectReferenceIndex` 代码(全仓零命中),故本卡范围/设计 #5/风险把它当"既有"是错的。而 X7-1
+    真正需要的引用面**已被现有统一收集器覆盖**:`collectAssetReferences`(asset.ts:351-436,A7-0/A7-3 建立)
+    已跨 manifest 角色 + entryPoints.introVideo + 场景 music/命令资产 + 脚本 chunk + 敌人编舞 收集 typed
+    资产引用边——**用它就是用既有唯一资产引用源,不是"第二套扫描器"**。其余 X7-1 所谓"引用"实为本地
+    不变式:入口点"至少留一条有效"、`entryPoint.scene` 存在性、角色绑定 kind/存在性——均是 manifest/
+    content/asset validator 的本地校验,非反查图查询。**改法**:①范围与设计 #5 改为"问题面板与角色/
+    introVideo 引用展示消费 `collectAssetReferences` + 既有 validator";②显式枚举 X7-1 是否真需要任何
+    跨域反查(如"哪些场景引用某资产"——manifest 编辑不需要),需要的那一小块才标 ED-3-依赖并**延后**,
+    不阻塞本卡主体;③删除"ED-3 是 build 前置依赖"这条硬门,把 done 准入改为"消费既有引用源即可"。
+    这条不改,本卡在无卡无码的 ED-3 面前要么死锁、要么诱使造一次性扫描器(违"每页各写一套扫描器"铁律)。
+  - **R2 缺省态 round-trip 升为显式序列化契约,不止一条测试**。设计须明文规定:打开无 `entryPoints` 的
+    manifest 且未编辑入口点即保存,**不得物化合成的 'new-game' 条目**(缺字段逐字保留),仅显式入口点编辑
+    才写 `entryPoints` 数组;同理入口点无 `startWorld` 覆盖时保存保持字段缺席。把这钉成契约 + round-trip
+    测试守住,否则每次 PAL/空白工程开→存都产生伪 manifest diff(风险节 #1 只列了测试,未把规则钉进设计)。
+  - **R3 locale 归属显式表态**。editor-design §11(本卡引为信息架构权威)把 locale 列在工程模块下,但五子页
+    未含 locale 编辑。设计须明说 locale 编辑延后到哪个任务(或明确不归工程页),避免"UI 文案在哪编"成为
+    静默缺口日后返工。
+- 建议项(S,不阻塞):
+  - S1 五子页存在摘要重叠(问题:概览 + 问题与高级两处;启动:概览摘要 + 启动流程详情)。editor-design §11
+    要求"页面少而紧凑";设计应论证为何 5 页而非 4(把概览的问题/启动摘要折进详情页,避免两张可能不一致
+    的问题列表),或明确概览=纯摘要只读、详情页=唯一编辑处的分工以消歧。
+  - S2 启动流程页的来源矩阵应显式标注:场景 onEnter 内的 video/RNG(如 s001 逐像素/s066 梦境)是脚本
+    所有、**不可从启动页编辑**,只读展示——防止未来"在这里也能改"诱发本卡自己警告的双作者。
+- 是否建议进入 build: **待 GLM 复核(manifest 字段覆盖/保存矩阵/测试);R1-R3 纳入 build 范围、R1 落地后
+  本卡不再依赖 ED-3 即可 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: 提案采用五个子页、稳定 id、显式继承和单一字段作者；待 Opus/GLM 复核。
-- Opus: pending
+- Opus: **agree**。核心架构成立(五子页 IA/稳定 id 深链/显式继承/单一字段作者/启动链只读解释层无重复播放/
+  不改 schema),锚点全实证(entrypoint 单页现状/selIdx 缺口/toggleCustom 继承雏形/三类视频源互斥/命令
+  apply-invert)。**关键分歧 R1**:ED-3 依赖被过度耦合且"既有 ProjectReferenceIndex"陈述失实(ED-3 无卡无码);
+  X7-1 的引用需求已被现有 `collectAssetReferences`(跨 manifest/场景/脚本/敌人)+ 既有 validator 覆盖,应据此
+  解耦、删掉 ED-3 硬门,只把真正跨域反查(若有)延后。附 R2(缺省 round-trip 契约)/R3(locale 归属)+S1-S2。
 - GLM: pending
-- 用户拍板: pending
+- 用户拍板: pending（R1 若牵动"X7-1 是否等 ED-3"的排期,请用户确认解耦方向）
 
 ## 额度 / 代班记录(如适用)
 
@@ -238,17 +289,32 @@ Branch: TBD
 ## 交接日志
 
 - 2026-07-16 Codex: 根据当前 V3 manifest schema、工程模块设计、编辑器闭环审计和现有入口点实现，起草 X7-1 任务卡；明确工程页字段唯一归属、稳定 id、默认开局继承、ED-3 引用图依赖和保存/重开验收矩阵。Evidence: `packages/content/src/character.ts`、`packages/content/src/asset.ts`、`packages/editor/src/ui/EntryPointTab.tsx`、`docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md`。Next: Opus 设计/UX 审查。
+- 2026-07-16 Opus: 设计/UX 主审签 **agree + R1-R3 必改 + S1-S2 建议**。核心架构成立并锚点实证:project 模块
+  现仅 entrypoint 单页(editor-navigation:146-154)、editor-design line92/§11 定位一致;selIdx 数组身份缺口
+  (EntryPointTab:41)、toggleCustom 继承雏形(:58-60)、三类视频源(startupTrademark/Splash 角色 + introVideo +
+  quitToTitle.videos)互斥、manifest 命令 apply/invert(commands:2178-2244)——七问全立,启动链只读解释层
+  无重复播放。**R1(关键)**:ED-3 无卡无码,"既有 ProjectReferenceIndex"失实;X7-1 引用需求已被
+  `collectAssetReferences`(asset.ts:351-436,跨 manifest 角色/introVideo/场景/脚本/敌人)+ 既有 validator 覆盖,
+  须解耦、删 ED-3 硬门,仅真跨域反查延后,否则死锁或诱造违铁律的第二扫描器。R2=缺省 round-trip 升为
+  序列化契约(不物化合成 new-game);R3=locale 归属显式表态(§11 列在工程模块下但五页未含)。S1 五页摘要
+  重叠论证/S2 启动页 onEnter 脚本源只读标注。Evidence: 主审立场 + 代码锚点核对。Next: GLM manifest 字段
+  覆盖/保存矩阵/引用测试复核;R1 排期方向请用户拍板;三签齐 + R1-R3 纳入后方可 build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:X7-1 manifest 工程设置与启动流程工作台
+接手任务:X7-1 manifest 工程设置与启动流程工作台,manifest 字段覆盖/保存矩阵/引用测试复核(GLM)
 任务卡:docs/ops/tasks/X7-1-manifest-project-workbench.md
-当前状态:draft；三方设计签字未齐，build blocked
-你的角色:Claude Opus；架构、编辑器信息架构、交互和视觉主审
-先读:AGENTS.md；docs/phase2/READ-FIRST.md；本卡全部；docs/phase2/editor/project-design.md §3；docs/phase2/editor/editor-design.md §11；docs/phase2/editor/editor-authoring-closure-audit-2026-07-13.md §§5、7、8；docs/phase2/roadmap.md 中 ED-3；packages/content/src/character.ts:53-74；packages/content/src/asset.ts:28-116、192-245、266-435；packages/editor/src/ui/editor-navigation.ts:52-155、185-252；packages/editor/src/ui/EntryPointTab.tsx；packages/editor/src/core/commands.ts:2175-2262；packages/editor/src/core/project-io.ts:95-187
-已完成:Codex 已起草五子页工程模块、manifest 字段唯一归属、稳定 id 深链接、默认/入口 startWorld 显式继承、资源角色选择、启动链解释、ED-3 依赖和保存/重开验收矩阵
-请你做:只审设计，不改实现文件；检查信息架构是否过重、manifest/运行时边界是否干净、入口/默认开局继承是否可实现、启动链是否会重复播放、ED-3 依赖和响应式视觉方案是否合理；输出 agree，或 counter + 可执行替代方案，并把结论写回本卡「推进签字」的 Opus 行和「三方争议记录」
-不要做:不得开始 build；不得修改 packages/ 下实现；不得标记 done；不得另起第二套引用扫描器或 schema
-输出要求:在任务卡签 Opus agree/counter，列出必改项；完成后给出下一位 GLM 的覆盖/测试矩阵复核提示词
+当前状态:draft;Codex pending + Opus agree(附 R1-R3 必改 + S1-S2),GLM pending(设计最后一签);build blocked
+你的角色:GLM,manifest 字段覆盖面/保存矩阵/引用与测试矩阵复核;只审设计不改实现
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、packages/content/src/character.ts:53-74、packages/content/src/asset.ts:266-436(collectAssetReferences 全貌)、packages/content/src/asset.ts:192-245(manifest validator)、packages/editor/src/core/project-io.ts:95-187、packages/editor/src/ui/EntryPointTab.tsx
+请重点复核(数据/覆盖/测试面,与 Opus 的架构/IA/视觉面互补):
+1. R1 独立验证:全仓确认 ED-3/ProjectReferenceIndex 零卡零码;逐条核对 `collectAssetReferences` 是否确实覆盖 X7-1 所需引用面(manifest 5 角色 + entryPoints.introVideo + 场景/脚本资产),给出"哪些引用已被覆盖 / 哪些真需 ED-3 跨域反查(若有)"的清单,坐实 Opus 的解耦主张或提出反例;
+2. manifest 字段覆盖矩阵:name/entryScene/entryPoints/startWorld/assets.roles 五组字段的编辑、apply-invert、round-trip 是否各有测试落点;是否有字段(如 content 路径/legacy/未知受支持字段)只读展示但保存必须逐字保留;
+3. R2 缺省 round-trip:无 entryPoints/无 startWorld 覆盖的 manifest 开→未编辑→存,断言零物化、零伪 diff 的测试形态;PAL(有 entryPoints?)与空白 fixture 各一;
+4. 继承语义测试:默认/入口覆盖的复制默认/清除覆盖/继承摘要,及 seedStats/inventory/learnedSkills/party/money 完整快照 + undo/redo;
+5. 保存矩阵:FSA 与 HTTP/FileSource 两条路径保存重开 + 运行时消费新入口场景/introVideo/角色绑定/开局数据;serialize round-trip 覆盖 PAL/空白/故意损坏 fixture;
+6. R3 locale 归属 + S1 五页摘要重叠 + S2 启动页 onEnter 只读——确认设计已明确表态。
+不要做:不改实现;不得 build/done;不得另起第二套扫描器或 schema
+输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐 + R1-R3 纳入 build 范围后,build 准入改 allowed(R1 排期方向若牵动是否等 ED-3,交用户拍板)
 ```
