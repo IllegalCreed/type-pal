@@ -42,7 +42,19 @@
 | 首帧 + 连续脏矩形 PNG | 29,746,679 B | 7.49x |
 | 每 32 帧关键帧 + 脏矩形 PNG | 31,525,705 B | 7.94x |
 
-每 32 帧插入关键帧只增加约 1.78 MB，却让随机定位最多回放 31 个补丁。因此选“关键帧 + 脏矩形补丁”的单文件容器，不恢复 1,464 个散文件方案。
+上表证明“不恢复 1,464 个散文件”，但不把脏矩形定为最终 codec。用户于 2026-07-16 明确：作者只编辑
+完整帧，保存/加载层可以从全部完整帧选择更高效的无损压缩。随后以全部 1,464 张真实 RGBA8 完整帧追加实测：
+
+| 编码方式 | 分块 | 总体积 | 最坏随机恢复 |
+|---|---:|---:|---:|
+| RGBA8 + 相邻帧 XOR + Deflate | 16 帧 | 9,066,635 B | 15 帧 |
+| **RGBA8 + 相邻帧 XOR + Deflate** | **32 帧** | **8,271,766 B** | **31 帧** |
+| RGBA8 + 相邻帧 XOR + Deflate | 64 帧 | 7,973,769 B | 63 帧 |
+| RGBA8 + 相邻帧 XOR + Brotli | 32 帧 | 5,184,446 B | 31 帧 |
+
+最终选择 32 帧 XOR + Deflate：比脏矩形 PNG 小约 73.8%；64 帧只再省约 0.30 MB，却把随机恢复步数和
+单块解压内存翻倍；Brotli 虽再小约 3.09 MB，但迁移编码实测约 70.5 秒，浏览器侧写入兼容性也弱于
+原生 Deflate。codec 输入和输出语义仍是完整 RGBA8 帧，XOR 与压缩仅存在于容器内部。
 
 ## 3. 核心决策
 
@@ -76,10 +88,10 @@
 
 - 作者和编辑器的语义永远是“一帧 = 一张完整画布”。时间轴、预览、选中、替换、重排、时长、撤销/重做和
   对外编辑 API 都只处理完整帧，不出现关键帧、脏矩形或补丁概念。
-- 加载时由 TPFS 解码层把关键帧和补丁合成为完整帧后再交给编辑器；允许按需解码和缓存，但不能要求用户理解
-  当前帧依赖哪一帧。
-- 保存时由 Worker 比较完整帧，自动决定关键帧位置和最小变化矩形，再编码 TPFS。用户不选择压缩区域，也不维护
-  补丁关系。
+- 加载时由 TPFS 解码层解压目标 32 帧块，并从块首完整帧按相邻帧 XOR 还原完整帧后再交给编辑器；允许
+  按需解码和缓存，但不能要求用户理解块或帧间依赖。
+- 保存时由 Worker 接收完整帧，自动按 32 帧分块、生成相邻帧 XOR 数据并 Deflate。用户不选择压缩区域，
+  也不维护帧间关系。
 - undo 的结构共享、延迟解码和帧引用只是内存优化，不改变完整帧的作者模型。替换编码算法时，不得修改内容
   schema、脚本命令或编辑器交互。
 
@@ -105,42 +117,47 @@ type AssetRole =
 
 ### 4.2 TPFS v1 单文件容器
 
-帧动画使用 `application/vnd.type-pal.frame-sequence`，建议扩展名 `.tpfs`。容器由以下部分组成：
+帧动画使用 `application/vnd.type-pal.frame-sequence`，扩展名 `.tpfs`。容器由以下部分组成：
 
-1. 固定魔数 `TPFS` 和容器版本。
-2. UTF-8 JSON 索引长度与索引正文。
-3. 连续 PNG payload。
+1. 4 字节固定魔数 `TPFS`。
+2. 1 字节版本 `1`、3 字节保留位（必须为 0）。
+3. 4 字节无符号小端整数：UTF-8 JSON 索引长度。
+4. JSON 索引正文。
+5. 连续 Deflate block payload。
 
-索引至少包含：
+索引固定为：
 
 ```ts
 interface FrameSequenceIndexV1 {
   version: 1
+  codec: 'deflate-rgba8-xor-v1'
+  pixelFormat: 'rgba8'
   width: number
   height: number
   defaultFrameMs: number
-  keyframeInterval: number
+  blockFrames: 32
   colorTreatment?: 'preserve' | 'project-standard'
-  frames: Array<{
-    kind: 'keyframe' | 'patch'
-    x: number
-    y: number
-    width: number
-    height: number
+  frames: Array<{ durationMs?: number }>
+  blocks: Array<{
+    firstFrame: number
+    frameCount: number
     offset: number
     bytes: number
-    durationMs?: number
+    rawBytes: number
   }>
 }
 ```
 
 约束：
 
-- 第 0 帧和每 32 帧必须是完整关键帧。
-- 补丁按顺序覆盖到上一完整画布，不允许依赖外部调色板或其他资产。
-- `offset/bytes` 只相对 payload，解析器必须校验越界、重叠、非法尺寸、首帧非关键帧等错误。
-- 重新排序、插入或删除后由保存 Worker 重新计算关键帧和补丁；这些字段仅存在于 codec，不进入作者草稿、
-  编辑命令、内容层或 UI。
+- 每块最多 32 帧。块内解压数据长度必须精确等于 `width × height × 4 × frameCount`。
+- 块内第 0 段是完整 RGBA8；其余每段是当前完整帧与前一完整帧逐字节 XOR 的等长数据。恢复使用 XOR，
+  不做 alpha 混合；RGBA 四通道逐字节保持。
+- `offset/bytes` 只相对 payload。block 必须按帧和字节连续覆盖，无重叠、空洞、越界或尾随数据；
+  `firstFrame/frameCount` 必须无缝覆盖全部 `frames`。
+- Node 迁移使用固定 zlib 参数生成字节确定的 Deflate；浏览器只重编码被修改的动画，未修改资产零重写。
+- 重新排序、插入或删除后由保存 Worker 从完整帧重新分块和编码；block/XOR 字段仅存在于 codec，
+  不进入作者草稿、编辑命令、内容层或 UI。
 
 ### 4.3 脚本命令
 
@@ -258,8 +275,9 @@ type PlayFrameAnimationCommand = {
 ## 7. 运行时与编辑器边界
 
 - 运行时 `playVideo` 继续使用全屏 Cinematic Layer，这是游戏表现；编辑器预览使用中间内嵌播放器，两者不能复用同一个 DOM 布局函数。
-- `FrameSequenceReader` 解析 TPFS，按最近关键帧随机定位，解码帧 Promise 在 `await` 前缓存。
-- 运行时只保留有限 ImageBitmap/画布 LRU，并预取后续少量帧；结束/切工程统一释放。
+- `FrameSequenceReader` 解析 TPFS，按目标帧所在 32 帧块随机定位，解码 block Promise 在 `await` 前缓存。
+- 运行时只保留当前解压 block 与最多 64 张完整帧的 ImageBitmap/画布 LRU，并预取后续一个 block；
+  结束/切工程统一释放。
 - 帧动画播放器继续输出到 Cinematic Layer，世界层在下、对话/UI 在上。
 - 编辑器使用同一 TPFS 解析/合成纯核，但有自己的 transport、时间轴和草稿模型。
 
@@ -291,8 +309,9 @@ type PlayFrameAnimationCommand = {
 ## 9. 验收门禁
 
 - schema、坏容器、路径、hash、kind、引用缺失均 fail-loud。
-- TPFS 关键帧/补丁逐像素回放与源 RGBA 一致；随机 seek 与顺序播放一致。
-- 任意 TPFS 帧加载到编辑器后都是完整画布；修改任意帧再保存重开保持逐像素一致，且 UI/作者草稿不含补丁概念。
+- TPFS block/XOR/Deflate 逐像素回放与源 RGBA 一致；随机 seek 与顺序播放一致。
+- 任意 TPFS 帧加载到编辑器后都是完整画布；修改任意帧再保存重开保持逐像素一致，且 UI/作者草稿不含
+  block、XOR 或压缩概念。
 - 20 条 PAL 动画调用和 6 个视频记录数量精确；9 个被引用动画与 3 个未引用动画口径精确。
 - 视频/RNG 作者替换后 MG2 连跑两次仍保留 authored 记录，第二次零计划。
 - 新增、替换、改名、重排帧、删除未引用项、阻止删除已引用项、保存重开全覆盖。

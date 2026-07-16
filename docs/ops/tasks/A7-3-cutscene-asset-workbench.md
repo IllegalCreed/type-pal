@@ -1,6 +1,6 @@
 # A7-3 - 视频与帧动画资源闭包及过场工作台
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / X3
 Coding Owner: Codex
@@ -21,8 +21,8 @@ Branch: main
 - 范围内:
   - `video` 和新版 `frame-animation` 的 catalog、resolver、typed references、文件闭包与 MG2 所有权。
   - PAL 6 个 MP4 与 12 段/1,464 帧 RNG 的确定性物化；20 条 `playRng` 改为稳定 AssetId 命令。
-  - TPFS v1 真彩关键帧 + 脏矩形补丁容器、随机 seek、in-flight 缓存和有限 LRU。
-  - 作者编辑模型始终是一帧一张完整画布；关键帧/脏矩形/补丁只属于加载与保存 codec，对用户和编辑 API 透明。
+  - TPFS v1 真彩 32 帧 block + 相邻完整帧 XOR + Deflate 容器、随机 seek、in-flight 缓存和有限 LRU。
+  - 作者编辑模型始终是一帧一张完整画布；block/XOR/压缩只属于加载与保存 codec，对用户和编辑 API 透明。
   - 量化所需的唯一项目标准颜色表角色；现有 palette 0 消费点统一走该角色，RNG 烘焙后清除非 0 运行依赖。
   - 编辑器左侧视频/帧动画双列表，中间内嵌视频播放器或时间轴编辑器，右侧属性/引用/删除面板。
   - 视频导入、改名、替换、删除；帧动画图片序列导入、量化、逐帧增删替换/复制/重排、时长编辑、保存重开。
@@ -62,8 +62,9 @@ Branch: main
   - `packages/pal-extract/scripts/extract-videos.ts`:6 个 AVI 确定性转 H.264/AAC MP4。
 - 已知坑 / 审计文档:
   - [`cutscene-asset-workbench-design.md`](../../phase2/editor/cutscene-asset-workbench-design.md):完整数据模型、UI 和分期。
-  - 真实体积审计:当前 RLE 3,970,927 B；完整 RGBA PNG 100,075,957 B；连续补丁 29,746,679 B；
-    每 32 帧关键帧方案 31,525,705 B。选择后者，随机 seek 最多回放 31 个补丁。
+  - 真实体积审计:当前 RLE 3,970,927 B；完整 RGBA PNG 100,075,957 B；脏矩形 PNG 方案
+    31,525,705 B；完整 RGBA8 按 32 帧 block、相邻帧 XOR、Deflate 后 8,271,766 B。选择最后一项，
+    随机 seek 最多恢复 31 帧；64 帧 block 仅再省约 0.30 MB，不接受其双倍 seek/内存代价。
   - 20 条 RNG 调用只有部分紧邻音乐，且同一动画会分段插入不同音效/对白；BGM 属脚本编排，不能绑资产。
   - 6 个 MP4 全部已有 AAC 音轨；视频资产不需要外接 BGM 字段。
   - `packages/game/src/shell/rng-player.ts` 历史教训:缓存必须在 await 前保存 Promise，避免 O(N^2) 重解码。
@@ -72,7 +73,7 @@ Branch: main
   - `rng` 作者资产 kind、`playRng`、`chunkIdx`、`videoId`、`rngPaletteId`、数字补零路径。
   - 运行时/编辑器 `/extracted/videos`、`/extracted/data/animation`、`rng-frames.json` 裸读取。
   - 调色板选择器、任意 palette id、运行时索引帧 + 活调色板。
-  - 在作者草稿、编辑命令或 UI 中暴露关键帧、脏矩形、补丁依赖等存储实现。
+  - 在作者草稿、编辑命令或 UI 中暴露 block、XOR、脏矩形、补丁依赖等存储实现。
   - 迁移资源“只读”特判；作者修改必须转 authored 并受 MG2 保护。
 - 相关测试:
   - `packages/content/src/asset.test.ts`:kind/role/reference/file closure 基线。
@@ -88,13 +89,15 @@ Branch: main
   - 运行时与编辑器不再读取外部视频/RNG 路径；AssetId 只经 AssetResolver 到工程文件。
   - 视频在中间黑底面板使用原生 controls 播放，不覆盖编辑器全屏；游戏运行时仍可使用全屏 Cinematic Layer。
   - 帧动画可以新建图片序列、预览量化结果、逐帧编辑、撤销/重做、保存重开并被脚本播放。
-  - 时间轴和编辑 API 只呈现完整帧；加载自动合成，保存自动压缩，用户无需选择或维护脏矩形/补丁。
+  - 时间轴和编辑 API 只呈现完整帧；加载自动还原，保存自动压缩，用户无需选择或维护帧间依赖。
   - 右侧显示名称、AssetId、来源、路径、大小、分辨率、时长/帧数、音轨、引用与诊断。
   - 被引用项删除按钮禁用并列出引用；未引用项确认后删除记录和文件；替换保持 AssetId。
   - 修改任一 PAL 视频/动画后重迁仍指向 authored 文件，作者内容不被覆盖。
 - 测试:
-  - TPFS parser/encoder 对非法魔数、版本、越界、重叠、坏尺寸、首帧非关键帧 fail-loud。
-  - 完整帧作者模型经过加载、任意单帧修改、保存和重开后逐像素一致；codec 存储结构不会泄漏进草稿/命令/UI。
+  - TPFS parser/encoder 对非法魔数、版本/保留位、端序、越界、重叠/空洞、坏尺寸、坏 block 帧覆盖、
+    解压长度不符 fail-loud。
+  - 完整帧作者模型经过加载、任意单帧修改、保存和重开后逐像素一致；codec 存储结构不会泄漏进
+    草稿/命令/UI。
   - 12 段 TPFS 顺序播放和随机 seek 与迁移期 RGBA 逐像素一致；1,464 帧数精确。
   - `playFrameAnimation` 覆盖全段/分段/不同 frameRate/异常加载/跳过/末帧保持；Promise 缓存无并发重复解码。
   - typed walker 精确收集视频/帧动画嵌套脚本引用；kind 错、缺 id、受引用删除均有测试。
@@ -104,7 +107,7 @@ Branch: main
   - `pnpm check`、editor/reforge build 全绿；迁移体积门禁继续成立。
 - 文档:
   - 更新 content schema、A7 闭包审计、asset pipeline、脚本命令、编辑器设计和 capability-map 实际状态。
-  - 记录 TPFS v1 格式、关键帧间隔实测、颜色处理边界、PAL 资源映射与版权/来源口径。
+  - 记录 TPFS v1 格式、block 间隔与 codec 实测、颜色处理边界、PAL 资源映射与版权/来源口径。
 - 视觉 / 手工验证:
   - 6010 桌面与窄视口检查左侧双列表、中间播放器/时间轴、右栏长文本、面板拖动/折叠、空态和错误态。
   - 6010 导入一段自有图片序列，对比原色/标准色量化，编辑帧后保存重开结果不变。
@@ -176,7 +179,11 @@ Branch: main
   - **G1（build 必落，关键）**：**chunk 6 是 trademark-fallback 路径**——`packages/game/src/shell/rng-player.ts` bootstrap `PAL_RNGPlay(6,0,-1,25)`。内容脚本普查显示"未引用"但 DOS 启动路径会到达。A7-3D 断外链后此 bootstrap consumer 必须已迁移（或 trademark fallback 已退役），否则商标屏可能断。**build 时确认 chunk 6 的 bootstrap 路径归属 A7-3B 或显式退役。**
   - **G2（非阻塞）**：静态扫描归零基线 126 处——确认 4 个 rng-frames.json consumer + 2 个 rng-player.ts + CutsceneTab 显式分配到 A7-3B/C/D 子任务，防遗漏。
 
-- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 G1-G2 build 必落)。chunk 6 trademark-fallback（G1）是 build 必落关键确认项——普查"未引用"不等于"无运行时消费"（与 A7-0A 标题菜单音乐同方法论教训：站点普查≠需求普查）。
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 G1-G2 build 必落)。
+  用户于 2026-07-16 明确允许 codec 从完整帧重新实测选型；实测后 R1(b)“PNG 补丁替换”与 R1(d)
+  “PNG RGBA8”由“32 帧 block、RGBA8 完整首帧 + 相邻帧逐字节 XOR、Deflate”替代，R1(a) u32 LE、
+  R1(c) 时长优先链和逐像素无损约束保持。chunk 6 trademark-fallback（G1）仍是 build 必落关键确认项——
+  普查"未引用"不等于"无运行时消费"（与 A7-0A 标题菜单音乐同方法论教训：站点普查≠需求普查）。
 - 缺签豁免: N/A
 - build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R3 必改 + S1-S2 + G1(chunk 6 trademark-fallback 确认/迁移)+ G2(静态扫描 126 处分配确认)纳入 build 范围。交 Codex 按 A7-3A→D 分段 build。
 
@@ -238,6 +245,9 @@ Branch: main
     含 alpha 时的行为必须定义为"忽略 alpha 全量替换"或迁移/保存期强制 alpha=255,二选一钉死;
     (c) 帧时长优先链:命令 `frameRate` 存在 ⇒ 覆盖全段;否则 `frame.durationMs ?? defaultFrameMs`;
     (d) PNG 色型固定 RGBA8。缺一即 codec 测试无法钉逐像素契约。
+  - **R1 用户裁决后的 codec 替代（2026-07-16）**：保留 (a) u32 LE、(c) 时长优先链与逐像素无损目标；
+    (b)/(d) 不再采用 PNG 补丁，替换为 32 帧 block、完整 RGBA8 首帧、后续帧与前帧逐字节 XOR、整块
+    Deflate。block 解压长度、帧覆盖、字节覆盖和 XOR round-trip 进入 fail-loud/逐像素测试。
   - **R2 编码确定性分径**:迁移侧(Node)TPFS 编码必须**字节确定性**(固定编码器与参数)——这是 MG2
     双跑零计划的前提;编辑器侧(浏览器 convertToBlob)PNG 字节天然不确定,故**保存事务只重编码被修改
     的动画,未修改资产零重写**(防哈希漂移与假 diff)。两条路径在设计/测试中分别声明与验证。
@@ -332,24 +342,15 @@ Branch: main
   脚本输出。Next: GLM 迁移覆盖/体积复测/测试矩阵复核;三签齐后 Codex 按 A7-3A→D 分段 build;
   不得抢跑实现。未改实现文件。
 - 2026-07-16 GLM: 设计复核签 **agree**。七项独立实测：(1)普查 20 playRng/引用[0-5,7-9]=9/未引用[6,10,11]=3/0 playVideo/12RLE 3970927B/1464帧(rng-frames.json per-chunk 0:64..11:180,chunk1=410虚拟化目标)/6MP4全H264+AAC 288×180 ~20.4MB——逐项精确。(2)体积 256KB/帧×1464≈357MB未压缩(与Opus R3 ~375MB自洽),三方案100075957/29746679/31525705B实测一致,+1.78MB换≤31补丁seek成立。(3)R1 TPFS七类fail-loud表驱动/R2迁移Node字节确定性vs编辑器只重编码已修改/R3惰性帧句柄+LRU≤64+可见区缩略图内存上界。(4)迁移 RNG_PALETTE{3:2,6:3,7:6}实锚(rng-player.ts:24),translate-events:950-960 0x36/0x37 chunkIdx→asset/speed→frameRate,6视频物化不转码,legacy退出依赖A7-3A颜色表先行。(5)MG2 authored替换+双跑零计划/unused warning不error。(6)静态扫描归零基线126处/分期A-D各段独立门禁。**G1关键:chunk 6 trademark-fallback(game/shell bootstrap PAL_RNGPlay(6,0,-1,25))内容脚本"未引用"但DOS启动到达——与A7-0A标题菜单同方法论(站点普查≠需求普查),build必落确认迁移或退役**。G2静态126处分配确认。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex按A7-3A→D分段build。未改实现文件。
+- 2026-07-16 Codex: 复核 Codex/Opus/GLM 三方设计签字均为 agree，build 准入 allowed；接手
+  A7-3A→D 单 Coding Owner 实现。R1-R3、S1-S2、G1-G2 全部进入强制实现/验证清单。Evidence: 推进签字表。
+  Next: Codex 分段 build；实现完成并自验证后转 review 交 Opus，不得提前标 done。
+- 2026-07-16 User/Codex: 用户明确压缩算法属于保存/加载内部实现，不要求沿用脏矩形；作者仍只编辑完整帧。
+  Codex 用全部 1,464 张真实 RGBA8 帧复测，32 帧 block + 相邻帧 XOR + Deflate 为 8,271,766 B，
+  相比脏矩形 PNG 31,525,705 B 小约 73.8%，据此替换 TPFS 内部 codec。Evidence: 设计文档 §2.3/§4.2。
+  Next: 按新 codec 契约实施 A7-3A。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:A7-3 视频与帧动画资源闭包及过场工作台,迁移覆盖/测试矩阵复核(GLM)
-任务卡:docs/ops/tasks/A7-3-cutscene-asset-workbench.md
-设计文档:docs/phase2/editor/cutscene-asset-workbench-design.md
-当前状态:draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
-你的角色:GLM,迁移覆盖面/体积/测试矩阵复核;只改任务卡,不得改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、设计文档 §2/§4/§5/§9、packages/pal-extract/src/cli.ts:412-447、packages/migrate/src/translate-events.ts:950-960
-请重点复核(数据/测试面,与 Opus 的架构/性能/UX 面互补):
-1. 普查对账:用独立脚本重扫——20 条 playRng/引用段 [0,1,2,3,4,5,7,8,9]/未引用 [6,10,11]/产物零 playVideo/12 RLE 总 3,970,927B/1,464 帧数(rng-frames.json 清单核对)/6 MP4 音轨确认;
-2. 体积实测复核:三方案数字(100,075,957/29,746,679/31,525,705)可复算或抽样验证(至少复算 1-2 段),32 帧间隔 +1.78MB 结论成立;
-3. R1-R3 测试形态:TPFS 坏容器七类 fail-loud(魔数/版本/越界/重叠/坏尺寸/首帧非关键帧/端序错)表驱动;迁移侧字节确定性(同输入双跑同字节)与编辑器"未修改零重写"各自的测试行;内存上界断言(410 帧段打开/滚动/编辑)落在哪一层(自动 or 手测记录);
-4. 迁移矩阵:12 段颜色表映射({3:2,6:3,7:6}+其余标准表,S2 要求入迁移报告)、20 条命令改写(chunkIdx→AssetId/speed→frameRate/start·endFrame 保留)、6 视频物化不转码、legacy families 退出(rng/video/color-table 顺序依赖 A7-3A 颜色角色先行);
-5. MG2 面:视频/动画作者替换转 authored+双跑零计划专测;未引用 3 段与 6 个零引用视频按 unused warning 不按 error;
-6. 静态扫描面:/extracted/videos、/extracted/data/animation、playRng、chunkIdx、videoId、rngPaletteId 目标包归零清单;
-7. 分期门禁:A7-3A/B/C/D 各段退出条件是否可独立验证,build 分段证据块要求(Opus 七问第 7 条)可执行。
-不要做:不得修改实现文件;不得把任务标 build/done;不要恢复原版 RLE 运行时、palette 选择器或外部路径 fallback
-输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R3+S1-S2 纳入 build 范围),交 Codex 按 A7-3A→D 分段 build
-```
+无下一位 Agent 提示词，Codex 正在执行 A7-3A→D build。完成实现与自验证后，任务转 `review` 并生成
+交 Opus 的实现/性能/视觉主审提示词。
