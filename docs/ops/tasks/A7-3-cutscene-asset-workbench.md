@@ -22,6 +22,7 @@ Branch: main
   - `video` 和新版 `frame-animation` 的 catalog、resolver、typed references、文件闭包与 MG2 所有权。
   - PAL 6 个 MP4 与 12 段/1,464 帧 RNG 的确定性物化；20 条 `playRng` 改为稳定 AssetId 命令。
   - TPFS v1 真彩关键帧 + 脏矩形补丁容器、随机 seek、in-flight 缓存和有限 LRU。
+  - 作者编辑模型始终是一帧一张完整画布；关键帧/脏矩形/补丁只属于加载与保存 codec，对用户和编辑 API 透明。
   - 量化所需的唯一项目标准颜色表角色；现有 palette 0 消费点统一走该角色，RNG 烘焙后清除非 0 运行依赖。
   - 编辑器左侧视频/帧动画双列表，中间内嵌视频播放器或时间轴编辑器，右侧属性/引用/删除面板。
   - 视频导入、改名、替换、删除；帧动画图片序列导入、量化、逐帧增删替换/复制/重排、时长编辑、保存重开。
@@ -71,6 +72,7 @@ Branch: main
   - `rng` 作者资产 kind、`playRng`、`chunkIdx`、`videoId`、`rngPaletteId`、数字补零路径。
   - 运行时/编辑器 `/extracted/videos`、`/extracted/data/animation`、`rng-frames.json` 裸读取。
   - 调色板选择器、任意 palette id、运行时索引帧 + 活调色板。
+  - 在作者草稿、编辑命令或 UI 中暴露关键帧、脏矩形、补丁依赖等存储实现。
   - 迁移资源“只读”特判；作者修改必须转 authored 并受 MG2 保护。
 - 相关测试:
   - `packages/content/src/asset.test.ts`:kind/role/reference/file closure 基线。
@@ -86,11 +88,13 @@ Branch: main
   - 运行时与编辑器不再读取外部视频/RNG 路径；AssetId 只经 AssetResolver 到工程文件。
   - 视频在中间黑底面板使用原生 controls 播放，不覆盖编辑器全屏；游戏运行时仍可使用全屏 Cinematic Layer。
   - 帧动画可以新建图片序列、预览量化结果、逐帧编辑、撤销/重做、保存重开并被脚本播放。
+  - 时间轴和编辑 API 只呈现完整帧；加载自动合成，保存自动压缩，用户无需选择或维护脏矩形/补丁。
   - 右侧显示名称、AssetId、来源、路径、大小、分辨率、时长/帧数、音轨、引用与诊断。
   - 被引用项删除按钮禁用并列出引用；未引用项确认后删除记录和文件；替换保持 AssetId。
   - 修改任一 PAL 视频/动画后重迁仍指向 authored 文件，作者内容不被覆盖。
 - 测试:
   - TPFS parser/encoder 对非法魔数、版本、越界、重叠、坏尺寸、首帧非关键帧 fail-loud。
+  - 完整帧作者模型经过加载、任意单帧修改、保存和重开后逐像素一致；codec 存储结构不会泄漏进草稿/命令/UI。
   - 12 段 TPFS 顺序播放和随机 seek 与迁移期 RGBA 逐像素一致；1,464 帧数精确。
   - `playFrameAnimation` 覆盖全段/分段/不同 frameRate/异常加载/跳过/末帧保持；Promise 缓存无并发重复解码。
   - typed walker 精确收集视频/帧动画嵌套脚本引用；kind 错、缺 id、受引用删除均有测试。
@@ -224,6 +228,8 @@ Branch: main
 - 2026-07-16 Codex: 完成现状、脚本关系、视频音轨和 1,464 帧编码体积审计；起草 TPFS、资源闭包、
   三栏工作台、时间轴和测试矩阵并签 agree。Evidence: 本卡与设计文档。Next: Opus 做架构/性能/UX 设计主审；
   build 三签未齐，不得开始实现。
+- 2026-07-16 User/Codex: 明确帧动画的作者语义必须是一帧一张完整画布；关键帧、脏矩形和补丁仅用于
+  加载/保存压缩，对用户完全透明。已补入设计、验收和主审清单。Next: Opus 复核分层边界。
 
 ## 下一位 Agent 提示词
 
@@ -238,7 +244,8 @@ Branch: main
 请重点审:
 1. `video` / `frame-animation` 作者模型与 `playVideo.asset` / `playFrameAnimation.asset` 是否足够干净,是否仍有数字/路径双轨;
 2. TPFS v1 的关键帧+PNG补丁、32帧间隔、随机seek、LRU/in-flight缓存与坏容器校验是否可落地;
-3. 编辑器帧草稿、结构共享undo、Worker重编码和保存事务能否避免每步复制30MB容器;
+3. 编辑器是否始终只暴露完整帧语义,TPFS关键帧/脏矩形/补丁仅由加载/保存codec处理;结构共享undo、
+   Worker重编码和保存事务能否在不泄漏压缩概念的前提下避免每步复制30MB容器;
 4. palette 0 仅作为作者导入的“工程标准色彩”,原版迁移按每段正确静态颜色烘焙,内容/运行时零paletteId的边界;
 5. BGM/SFX留在脚本层而非绑定资产是否成立,引用面板显示邻近编排是否会误导;
 6. 左双列表/中播放器或时间轴/右属性引用删除的UX闭环,以及视频只替换不做浏览器NLE的范围是否合理;
