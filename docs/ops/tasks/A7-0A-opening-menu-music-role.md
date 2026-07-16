@@ -104,11 +104,44 @@ Branch: main
   无第五隐藏常量"——方法论缺陷:站点普查只能证明「现实现无第五常量」,而标题菜单在 Reforge 是漏实现
   的功能,其角色需求不可能出现在现有站点里;正确方法应反查一阶段全部播放位点(wNumMusic 赋值面)。
   本卡即该错误的勘误;与 M3 期"源悬空"、N1-1 期"R3 前提"同格式记录在案。**
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R2 为设计必补(v3 补角色边界钉死/迟到补播竞态与双语义
-  专测),纳入 build 范围。
+- GLM: **agree（2026-07-16;见下）**。六项独立实测逐条：
+
+  **(1) 一阶段播放位点穷举反查（修正方法：扫全 wNumMusic 赋值面）** ✅：
+  - 穷举 `packages/game/src/` 全部 `wNumMusic` 赋值/播放位点。应用级硬编码音乐恰两条 track：
+    - **track 4（标题菜单）**：bootstrap:1751 `returnToTitle` + :1917/:1925 post-splash 入 OpeningMenu（注释 RIX_NUM_OPENINGMENU uigame.c:114）——三站点一致。✅
+    - **track 5（splash）**：bootstrap:1812 `playDosOpening` 内（注释 NUM_RIX_TITLE main.c:46 蝶恋）——**确属 DOS 商标/splash logo 屏**（palette 3 trademark + FBP 0x26/0x27 + crane/title sprite），非交互式"新的故事/旧的回忆"菜单。✅ 划出范围正确。
+  - **无第六个应用级角色**：其余 wNumMusic 赋值全为 0（停：bootstrap:1442/1647/1787 + game-state:1458/1912）或数据驱动（0x43/0x45/0x77 opcode 读 operands）或 ending 脚本序列（bootstrap:1442 setMus faithfully port ending.c）。**track 4+5+四角色 = 全集。** ✅
+  - **方法论确认**：Opus 公开修正成立——站点普查（扫现有 bgm.play）无法发现 Reforge **漏实现**的标题菜单功能；正确方法是反查一阶段 wNumMusic 赋值面全集。与 M3/N1-1 同格式方法论教训。
+
+  **(2) 004 现状对账** ✅：
+  - 独立重扫：`music.pal.004` 在 catalog（kind=music, path=`assets/migrated/music/004.mid`）但**全产物零引用**——不在任何 scene/script/manifest role。✅
+  - 当前 manifest roles 恰四个（midiSoundfont/defaultBattleMusic:037/bossVictoryMusic:002/normalVictoryMusic:003），无 openingMenuMusic。✅
+  - 004 在 13 unused warning 清单内 → 编辑器可删（bug 坐实）。新角色落地后 collectAssetReferences 计入 role 引用 → unused **13→12**。✅
+
+  **(3) R1 测试形态** ✅：
+  - **v3 缺角色补齐幂等**：已有五角色工程重开零改动 / 四角色工程打开边界补齐 openingMenuMusic→保存固化 / 无音乐 catalog 工程不写角色（hasAudio 门禁）。✅
+  - **roleTrack(4) 三分支表驱动**：catalog 有 `music.pal.004` → 返回 004 / 缺 004 但有其他 music → fallback `musicIds[0]` / 无音乐 catalog → 不写角色。`roleTrack`（upgrade-local-v2:112-115）已泛化，零改动只需加一行 `'audio.openingMenuMusic': roleTrack(4)`。✅
+  - **三处并行添加点**确认：asset.ts(ASSET_ROLES+AUDIO_ASSET_ROLES 类型门)+pal-assets.ts(PAL_AUDIO_ROLES 生成)+upgrade-local-v2.ts(roleTrack 映射)。✅
+
+  **(4) R2 测试形态** ✅：
+  - **补播竞态**：`play(role)` → init 未完 → `stop()` → init 完成（ensureInit:112 检查 `last`）→ `last` 已被 stopPlayback:58 清除 → **不补播**。测试 = mock init 延迟 + 断言完成不响。✅
+  - **双语义分测**：音乐开关 setEnabled(false) **留 last**（:136-138 停播续播）vs 菜单 stop **清 last**（:58）——各自专测钉住，防重构误合并。✅
+  - **读档序**：菜单 stop 先于 bootLoadSlot → savedMusic 接管 → `WorldState.audio.currentMusic` 不被菜单曲污染（菜单曲是应用壳临时态，不写持久）。✅
+
+  **(5) 迁移/MG2 面** ✅：
+  - PAL 重生成 manifest 五角色断言（pal-migration-integration.test 扩展 `openingMenuMusic: music.pal.004`）。✅
+  - MG2 二跑零计划。✅
+  - v2 升级（upgrade-local-v2.test）与 v3 补齐（独立 v3 normalizer 或扩展 upgrade）分别有集成测试。✅
+
+  **(6) 文档勘误面** ✅：
+  - A7 audit/闭包报告"四角色"→"五角色"，记录遗漏根因（站点普查≠需求普查）。✅
+  - capability-map W5/X2 音乐资源生命周期事实更新（openingMenuMusic 角色）。✅
+
+  **总结**：穷举反查确认无第六角色（track4 标题菜单 + track5 splash 划出 = 全集）；004 零引用可删 bug 坐实；R1/R2 测试形态全可落（roleTrack 已泛化三处并行加一行）；三处添加点确认；bgm last/stop 双语义精确对应一阶段；文档勘误方向正确。**agree**。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R2 为设计必补,GLM 无 counter。Opus 公开修正方法论（站点普查≠需求普查）成立——GLM 独立穷举 wNumMusic 赋值面确认无第六角色。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（待 GLM 复核）**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R2 必改 + S1-S2 纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -183,7 +216,7 @@ Branch: main
   取消补播语义精确对应/删除保护零特判);附 R1(v3 补角色边界:打开边界+roleTrack(4) 同构+幂等+
   保存固化)/R2(补播竞态+开关"留账"vs 菜单"清账"双语义+读档序三组专测)+S1-S2。**公开修正本人
   A7-0"恰四角色"结论——站点普查证明不了漏实现功能的角色需求,应反查一阶段播放位点全集。**
-- GLM: pending
+- GLM: **agree**。穷举 wNumMusic 全赋值面确认**无第六角色**——track 4 标题菜单(3 站点)+track 5 splash(确属 logo 屏非菜单)+0 停+数据驱动 opcode+ending 脚本=全集；004 零引用可删 bug 坐实(catalog 有 004.mid 全产物零引用在 13 unused)；R1 roleTrack(4) 已泛化三处并行加一行(asset.ts/pal-assets.ts/upgrade-local-v2.ts)；R2 bgm last/stop 双语义精确( stop 清 last:58 vs setEnabled 留 last:136-138)；Opus 公开修正方法论成立(站点普查≠需求普查,GLM 独立穷举确认)。
 - 用户拍板: 用户已明确目标菜单；其余待三方设计签字。
 
 ## 额度 / 代班记录(如适用)
@@ -249,6 +282,7 @@ Branch: main
   (标题菜单)的角色需求,应反查一阶段播放位点全集**。R1=v3 补角色边界(打开边界/roleTrack(4) 同构/
   幂等/保存固化/运行时零兼容);R2=补播竞态+双语义区分+读档序三组专测。Evidence: 主审立场+锚点
   实证。Next: GLM 迁移覆盖/测试矩阵复核;三签齐后 Codex build;不得抢跑实现。未改实现文件。
+- 2026-07-16 GLM: 设计复核签 **agree**。六项独立实测：(1)穷举 wNumMusic 全赋值面——应用级硬编码仅 track 4(标题菜单 bootstrap:1751/1917/1925 三站点)+track 5(splash bootstrap:1812 确属 DOS logo 屏 palette3+FBP0x26/27+crane/title sprite 非交互菜单)+0(停)+数据驱动(0x43/45/77)+ending 脚本(setMus port ending.c),**无第六角色**；Opus 公开修正方法论成立(站点普查≠需求普查)。(2)004 catalog 有(kind=music 004.mid)全产物零引用在 13 unused,manifest 恰四角色无 openingMenuMusic,新角色后 unused 13→12。(3)R1 roleTrack(4) 已泛化(upgrade-local-v2:112-115),三处并行加一行(asset.ts ASSET_ROLES+pal-assets.ts PAL_AUDIO_ROLES+upgrade-local-v2 roleTrack),三分支表驱动(有004/缺004有music fallback musicIds[0]/无音乐不写)。(4)R2 bgm last/stop 双语义(stopPlayback:58 清 last vs setEnabled:136-138 留 last)+补播竞态(ensureInit:112 检查 last,stop 后已清不补播)+读档序(stop 先 bootLoadSlot,savedMusic 接管,currentMusic 不污染)。(5)迁移五角色断言+MG2 双跑零计划+v2/v3 集成测试。(6)文档勘误四→五角色+根因。Evidence: 设计签字 GLM 行。Next: 三签齐已 build allowed,交 Codex build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
