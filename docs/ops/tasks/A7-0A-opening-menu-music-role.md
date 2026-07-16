@@ -357,9 +357,9 @@ Branch: main
 
 - Reviewer: Opus + GLM
 - 审查结论: Codex 自验证 accept；**Opus 实现/运行主审 accept(2026-07-16,证据见 done 前签字 Opus 行)**;
-  GLM pending。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;待 GLM 覆盖/迁移终审与用户听验。
+  **GLM 覆盖/迁移终审 accept(2026-07-16,证据见 done 前签字 GLM 行)**。
+- 必须返工项: 无。
+- Accept / rework: 三方 **accept**；待用户真实扬声器听验。
 
 ## 用户验收
 
@@ -396,23 +396,10 @@ Branch: main
   先证仪器再疑产品(N1-1 blur 探针同课)。真实扬声器听感留用户终验。Evidence: done 前签字 Opus 行+
   视觉记录。Next: GLM 覆盖/迁移终审;齐签后交用户听验/验收;不得标 done。未改实现文件。
 - 2026-07-16 GLM: done 前覆盖终审签 **accept**。六项独立实测+定向套件全绿：(1)五角色 manifest(openingMenuMusic:004)+三处并行(asset.ts:32/pal-assets.ts:24/upgrade-local-v2:124+193)+unused 13→12(dry-run asset-refs=1327 warnings=12)。(2)R1 open-local.test 六用例逐行核对——:170-172优先004/:175-177缺004回退首条/:184-185补齐保存/:187-189幂等零改动/:193-197不覆盖自定义/:200-203无音乐不写。(3)R2 bgm.test:41 init竞态/:60 MIDI在途取消/:79留账vs清账 + opening-menu.test:5 循环读档序不污染/:24 异常退出无角色静默,五行断言与规格逐条一致。(4)MG2 writes=0 asset-refs=1327 warnings=12。(5)四文档四→五角色更新齐(content-schema/a7-0-report/capability-map/a7-audit)。(6)边界——splash 005 未实现,ESC/battle/system 菜单未改动。reforge 357/editor 183/migrate 192+1skip 全绿。Evidence: done 准入 GLM 行。Next: 三签齐,交用户真实扬声器听验(004曲目+切换串音)与验收。未改实现文件。
+- 2026-07-16 Codex: 复核 done 前 Codex/Opus/GLM 三方均已 accept，任务无返工项。Evidence: done 前签字表。
+  Next: 等用户用真实扬声器确认标题菜单 004 曲目及菜单切换瞬间无串音；未验收前保持 review。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:A7-0A 标题菜单音乐角色与删除保护,覆盖/迁移/测试矩阵终审(GLM)
-任务卡:docs/ops/tasks/A7-0A-opening-menu-music-role.md
-当前状态:review;done 前 Codex accept + Opus accept(实现/运行主审,零返工项),GLM pending(最后一签);不得标 done
-你的角色:GLM,覆盖面/迁移/测试矩阵终审;只改任务卡,不得改实现文件
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期六项)、packages/editor/src/core/upgrade-local-v2.ts:181-220、packages/reforge/src/audio/bgm.test.ts、packages/reforge/src/opening-menu.test.ts
-请重点复核(数据/测试面,与 Opus 的实现/运行面互补):
-1. 你设计期六项的落地验收:五角色 manifest(重扫)、004 引用 unused 13→12(独立重扫对账)、roleTrack(4) 三处并行添加点(asset.ts/pal-assets.ts/upgrade-local-v2.ts)逐一确认;
-2. R1 测试矩阵:open-local.test 六用例是否覆盖 幂等重开零改动/四角色补齐保存固化/无音乐不写/优先004/缺004回退排序首条/非法值不修正交 validator——逐行核对;
-3. R2 测试矩阵:bgm.test :41(init 竞态)/:60(MIDI 在途取消)/:79(留账 vs 清账)与 opening-menu.test :5(loop+读档序+不污染)/:24(异常退出+无角色静默)五行断言逐一读文本确认与规格一致;
-4. 迁移/MG2 面:pal-migration-integration 五角色断言、MG2 双跑零计划、asset-refs=1327/warnings=12 口径与 A7-0 报告勘误一致;
-5. 文档勘误面:A7 audit/闭包报告/content-schema/capability-map 四→五角色更新齐,遗漏根因(站点普查≠需求普查)记录在案;
-6. 边界确认:splash 005 未被顺手实现(范围外);ESC/战斗/系统菜单未被改动。
-已验证(勿重复,可抽查):Opus 已做零硬编码扫描、R1/R2 代码全要件实证、6051 CDP 网络起播链(spessasynth_lib→soundfont.sf3→004.mid)+选定后 currentMusic=031 零污染、6010 004 禁删/037 无回归、定向套件+dry-run 重跑
-不要做:不改实现文件;不重生成 PAL;不得标 done——GLM 签后仍需**用户真实扬声器听验**(004 曲目正确性+切换瞬间串音)与验收
-输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户听验/验收"
-```
+无下一位 Agent 提示词，等待用户验收/收口。用户需用真实扬声器确认标题菜单播放 004 曲目，且选择
+“新的故事”或“旧的回忆”进入后续流程时没有瞬间串音；验收通过后再把本卡与看板标为 `done`。
