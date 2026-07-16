@@ -122,11 +122,25 @@ Branch: main
   `video/frame-animation` AssetId、TPFS 真彩关键帧补丁容器、脚本编排分离和三栏工作台一次闭环。真实数据实测
   每 32 帧关键帧方案约 30.07 MB，远低于完整 PNG 的 100.08 MB；BGM/SFX 应留在脚本层。palette 0 只作为
   作者导入的“工程标准色彩”，不进入内容或运行时参数。
-- Opus: pending
+- Opus: **agree（2026-07-16,附 R1-R3 必改 + S1-S2 建议,见主审立场）**。七问压力测试全过,独立地面重验:
+  **20 条 playRng 站点、引用段 [0,1,2,3,4,5,7,8,9]=9 段、未引用 [6,10,11]=3 段、产物零 playVideo、
+  12 个 RLE 总字节 3,970,927、6 个 MP4 约 20MB——逐项精确吻合**;script.ts:66-72 现状(playVideo.videoId
+  数字 + playRng.chunkIdx/speed/startFrame/endFrame)坐实,新命令的 startFrame/endFrame/frameRate 与现状
+  分段语义一一对应(段寻址是资产内坐标非身份,合规);**rng-player.ts:24 `RNG_PALETTE={3:2,6:3,7:6}`
+  与设计"3/6/7 段各用考证颜色表、其余标准表"精确对应**——迁移烘焙的颜色真值有代码实锚,不是凭空断言。
+  裁定:作者模型二分(video/frame-animation)+ `rng` 只留 legacy 术语,干净;TPFS 32 帧关键帧折中
+  (+1.78MB 换随机 seek ≤31 补丁)工程上成立且有 in-flight Promise 缓存的一阶段 O(N²) 教训锚;
+  完整帧作者语义 × codec 分层是用户 2026-07-16 拍板的正确抽象;BGM/SFX 留脚本层有硬数据支撑
+  (20 条调用音乐/音效/对白交错编排,同段分段插不同音效——绑资产即事实性错误;MP4 自带 AAC);
+  颜色边界(标准色仅作者导入量化/迁移按段烘焙/零 paletteId)与 no-palette 既定方针一致;三栏/时间轴
+  /引用删除闭环沿用 A7-0/0A 已验证的 catalog+typed references 机制;视频只替换不做浏览器 NLE 范围
+  正确。分期裁定:A7-3A→D 四段一卡**不再切**——拆卡必留半迁移双轨态(命令改了运行时没接/迁了资产
+  编辑器缺失),四段各有退出门禁 + 单一 done 闸即可,但 build 须按段落证据块记录(见 R 后注)。
 - GLM: pending
-- counter / 分歧处理: pending
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(TPFS 规格细节钉死/编码确定性分径/
+  内存预算硬化),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: blocked
+- build 准入结论: blocked（待 GLM 复核）
 
 ### 进入 done 前:审查签字
 
@@ -162,14 +176,52 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Opus
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-16): **agree — 七问逐项裁定**:
+  1. **作者模型/命令**:成立。video/frame-animation 二分、`rng` 只留迁移术语;`playFrameAnimation.asset`
+     +startFrame/endFrame/frameRate 与现状 playRng 分段语义一一映射(段号是资产内坐标非身份);
+     videoId/chunkIdx/路径推导全退役,零双轨。
+  2. **TPFS 可落地**:成立。32 帧关键帧 vs 连续补丁只差 +1.78MB(实测表)换 seek ≤31 补丁;魔数/版本/
+     越界/重叠/首帧非关键帧 fail-loud 校验面完整;in-flight Promise 缓存有一阶段 O(N²) 历史教训锚。
+     细节须钉死(R1)。
+  3. **完整帧语义 × codec 分层**:成立(用户拍板)。结构共享 undo 与 Worker 重编码方向对,但内存预算
+     必须硬化(R3),编码确定性必须分径声明(R2)。
+  4. **颜色边界**:成立。`RNG_PALETTE={3:2,6:3,7:6}`(rng-player.ts:24)实锚"3/6/7 各用考证表";
+     标准色仅作者导入量化、UI 零颜色表编号、量化输出真彩、运行时零 paletteId——与 no-palette 方针
+     及 A7-0 color-table 唯一角色路线一致;A7-3A 先迁 palette 0 消费点再退 legacy 顺序正确。
+  5. **BGM/SFX 分层**:成立且有硬数据(20 条调用交错编排/分段异音效/MP4 自带 AAC);引用面板的邻近
+     编排只作提示且明确标注,不入资产,误导风险可控。
+  6. **UX 闭环/范围**:成立。三栏/双列表/内嵌播放器(修正现有 fixed 全屏覆盖 bug)/虚拟化时间轴/
+     导入向导/引用删除面板均沿用已验证机制;视频只替换不做浏览器 NLE 正确划界。
+  7. **分期**:四段一卡不再切(拆卡必留半迁移双轨),但 **build 须按 A7-3A/B/C/D 分段记录证据块**
+     (各段命令/测试/门禁独立可查),实现审查按段核对。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 TPFS 规格细节钉死**(随验收"记录 TPFS v1 格式"一并落):(a) 索引长度前缀的整数宽度与端序
+    (建议 u32 LE);(b) **补丁合成语义 = 不透明矩形替换**(putImageData 式,非 alpha 混合)——补丁 PNG
+    含 alpha 时的行为必须定义为"忽略 alpha 全量替换"或迁移/保存期强制 alpha=255,二选一钉死;
+    (c) 帧时长优先链:命令 `frameRate` 存在 ⇒ 覆盖全段;否则 `frame.durationMs ?? defaultFrameMs`;
+    (d) PNG 色型固定 RGBA8。缺一即 codec 测试无法钉逐像素契约。
+  - **R2 编码确定性分径**:迁移侧(Node)TPFS 编码必须**字节确定性**(固定编码器与参数)——这是 MG2
+    双跑零计划的前提;编辑器侧(浏览器 convertToBlob)PNG 字节天然不确定,故**保存事务只重编码被修改
+    的动画,未修改资产零重写**(防哈希漂移与假 diff)。两条路径在设计/测试中分别声明与验证。
+  - **R3 内存预算硬化**:1,464 帧 × 320×200 RGBA ≈ 每帧 256KB,全量解码 ≈ **375MB,不可接受**。
+    钉死:打开动画**不做全量解码**——草稿帧引用 = 惰性 TPFS 帧句柄(按需合成);时间轴缩略图仅可见区
+    生成;合成帧 LRU 上限显式(建议 ≤64 帧 ≈ 16MB 级);undo 结构共享 = 已编辑帧持位图、未编辑帧持
+    容器引用。"延迟解码只是内存优化"的说法降级了它——它是**硬约束**,验收须含 410 帧段打开/滚动/
+    编辑的内存上界断言(性能测试或手测记录)。
+- 建议项(S,不阻塞):
+  - S1 `playFrameAnimation` 区间越界(startFrame/endFrame 超帧数、start>end)的 validator+runtime
+    行为(fail-loud vs clamp)钉一条并入测试矩阵(现验收"异常加载/跳过/末帧保持"未点名区间越界)。
+  - S2 迁移报告记录每段所用颜色表({3:2,6:3,7:6} 与其余=标准表),供 GLM/后人对账,防考证结论口传失真。
+- 是否建议进入 build: **待 GLM 复核(迁移覆盖/体积复测/测试矩阵);R1-R3 纳入 build 范围后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: agree，见设计签字。
-- Opus: pending
+- Opus: **agree**。七问全立(作者模型零双轨/TPFS 折中有实测表/完整帧×codec 分层守用户拍板/颜色边界
+  有 RNG_PALETTE 代码实锚/BGM 分层有 20 站点编排硬数据/UX 沿已验证机制/四段一卡不再切);
+  普查独立坐实(20 站点/9 用 3 空/零 playVideo/RLE 3,970,927B)。附 R1(TPFS 端序·补丁替换语义·
+  时长优先链·色型)/R2(迁移侧字节确定性 vs 编辑器只重编码已修改资产)/R3(内存预算硬化:惰性帧句柄+
+  LRU 上限+按可见区缩略图,全量解码 375MB 不可接受)+S1-S2。
 - GLM: pending
 - 用户拍板:用户已明确要求本卡的工作台布局、创作闭环、RNG 时间轴/量化，以及视频/RNG 工程自包含；
   具体容器、BGM 分层和实现分期由三方审查。
@@ -230,26 +282,35 @@ Branch: main
   build 三签未齐，不得开始实现。
 - 2026-07-16 User/Codex: 明确帧动画的作者语义必须是一帧一张完整画布；关键帧、脏矩形和补丁仅用于
   加载/保存压缩，对用户完全透明。已补入设计、验收和主审清单。Next: Opus 复核分层边界。
+- 2026-07-16 Opus: 设计主审签 **agree + R1-R3 必改 + S1-S2 建议**。独立地面重验:20 条 playRng/
+  引用段 [0,1,2,3,4,5,7,8,9]/未引用 [6,10,11]/零 playVideo/12 RLE 共 3,970,927B/6 MP4 约 20MB
+  逐项精确吻合;`RNG_PALETTE={3:2,6:3,7:6}`(rng-player.ts:24)为"3/6/7 段各用考证表"提供代码实锚;
+  script.ts 现状(videoId 数字/chunkIdx+speed+start/endFrame)与新命令一一映射。七问全立:作者模型
+  零双轨/TPFS 折中有实测表且校验面完整/完整帧×codec 分层守用户拍板/颜色边界合 no-palette 方针/
+  BGM 分层有编排硬数据/UX 沿已验证机制/四段一卡不再切但 build 分段证据块。R1=TPFS 规格细节钉死
+  (索引前缀端序·补丁=不透明替换语义·时长优先链·RGBA8);R2=编码确定性分径(迁移 Node 字节确定 vs
+  编辑器只重编码已修改资产,防哈希漂移);R3=内存预算硬化(全量解码≈375MB 不可接受——惰性帧句柄/
+  可见区缩略图/LRU 上限/undo 仅已编辑帧持位图,并入验收内存上界断言)。Evidence: 主审立场+普查
+  脚本输出。Next: GLM 迁移覆盖/体积复测/测试矩阵复核;三签齐后 Codex 按 A7-3A→D 分段 build;
+  不得抢跑实现。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:A7-3 视频与帧动画资源闭包及过场工作台,设计主审(Opus)
+接手任务:A7-3 视频与帧动画资源闭包及过场工作台,迁移覆盖/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/A7-3-cutscene-asset-workbench.md
 设计文档:docs/phase2/editor/cutscene-asset-workbench-design.md
-当前状态:draft;Codex 已签 agree,Opus/GLM pending;build 准入 blocked,不得开始实现
-你的角色:Opus,架构/schema/跨包/性能/复杂 UX 主审
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部、设计文档、docs/phase2/foundation/a7-resource-closure-audit.md:35-52/398-404、docs/phase2/foundation/x-shell-audit.md:268-295、packages/editor/src/ui/CutsceneTab.tsx、packages/content/src/asset.ts:7-58/242-410、packages/content/src/script.ts:59-73、packages/reforge/src/rng-player.ts、packages/editor/src/core/edit-session.ts:43-46/213-219
-已完成:确认当前页无 CRUD/inspector/工程闭包;PAL 有 6 个 H.264+AAC MP4、12 段1,464帧RNG、20条RNG调用且音乐/音效/对白为脚本编排;实测完整RGBA PNG=100,075,957B、连续补丁=29,746,679B、32帧关键帧方案=31,525,705B;Codex 提案 TPFS 单文件+稳定AssetId+脚本分层+三栏工作台
-请重点审:
-1. `video` / `frame-animation` 作者模型与 `playVideo.asset` / `playFrameAnimation.asset` 是否足够干净,是否仍有数字/路径双轨;
-2. TPFS v1 的关键帧+PNG补丁、32帧间隔、随机seek、LRU/in-flight缓存与坏容器校验是否可落地;
-3. 编辑器是否始终只暴露完整帧语义,TPFS关键帧/脏矩形/补丁仅由加载/保存codec处理;结构共享undo、
-   Worker重编码和保存事务能否在不泄漏压缩概念的前提下避免每步复制30MB容器;
-4. palette 0 仅作为作者导入的“工程标准色彩”,原版迁移按每段正确静态颜色烘焙,内容/运行时零paletteId的边界;
-5. BGM/SFX留在脚本层而非绑定资产是否成立,引用面板显示邻近编排是否会误导;
-6. 左双列表/中播放器或时间轴/右属性引用删除的UX闭环,以及视频只替换不做浏览器NLE的范围是否合理;
-7. A7-3A/B/C/D 分期是否仍过大,若 counter 请给能保持最终闭环的替代切法和明确退出条件。
-不要做:不得修改实现文件;不得把任务标 build/done;不要恢复原版RLE运行时、palette选择器或外部路径fallback
-输出要求:在任务卡 Opus 设计签字行写 agree 或 counter+替代方案,补主审立场与交接日志并提交;agree 后把下一位 Agent 提示词改为 GLM 做迁移覆盖/测试矩阵复核
+当前状态:draft;Codex agree + Opus agree(附 R1-R3 必改 + S1-S2),GLM pending(设计最后一签);build 准入 blocked
+你的角色:GLM,迁移覆盖面/体积/测试矩阵复核;只改任务卡,不得改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R3)、设计文档 §2/§4/§5/§9、packages/pal-extract/src/cli.ts:412-447、packages/migrate/src/translate-events.ts:950-960
+请重点复核(数据/测试面,与 Opus 的架构/性能/UX 面互补):
+1. 普查对账:用独立脚本重扫——20 条 playRng/引用段 [0,1,2,3,4,5,7,8,9]/未引用 [6,10,11]/产物零 playVideo/12 RLE 总 3,970,927B/1,464 帧数(rng-frames.json 清单核对)/6 MP4 音轨确认;
+2. 体积实测复核:三方案数字(100,075,957/29,746,679/31,525,705)可复算或抽样验证(至少复算 1-2 段),32 帧间隔 +1.78MB 结论成立;
+3. R1-R3 测试形态:TPFS 坏容器七类 fail-loud(魔数/版本/越界/重叠/坏尺寸/首帧非关键帧/端序错)表驱动;迁移侧字节确定性(同输入双跑同字节)与编辑器"未修改零重写"各自的测试行;内存上界断言(410 帧段打开/滚动/编辑)落在哪一层(自动 or 手测记录);
+4. 迁移矩阵:12 段颜色表映射({3:2,6:3,7:6}+其余标准表,S2 要求入迁移报告)、20 条命令改写(chunkIdx→AssetId/speed→frameRate/start·endFrame 保留)、6 视频物化不转码、legacy families 退出(rng/video/color-table 顺序依赖 A7-3A 颜色角色先行);
+5. MG2 面:视频/动画作者替换转 authored+双跑零计划专测;未引用 3 段与 6 个零引用视频按 unused warning 不按 error;
+6. 静态扫描面:/extracted/videos、/extracted/data/animation、playRng、chunkIdx、videoId、rngPaletteId 目标包归零清单;
+7. 分期门禁:A7-3A/B/C/D 各段退出条件是否可独立验证,build 分段证据块要求(Opus 七问第 7 条)可执行。
+不要做:不得修改实现文件;不得把任务标 build/done;不要恢复原版 RLE 运行时、palette 选择器或外部路径 fallback
+输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R3+S1-S2 纳入 build 范围),交 Codex 按 A7-3A→D 分段 build
 ```
