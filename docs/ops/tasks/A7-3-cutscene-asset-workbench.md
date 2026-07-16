@@ -194,11 +194,32 @@ Branch: main
   1,464 帧/7,960,282 B，catalog 大小与 SHA-256 逐项匹配。全仓 3,611 tests passed、1 skipped，
   Biome 707 files、editor/reforge build、迁移零计划、旧路径静态扫描均通过；6010 HTTP 工作台与 6051
   `s066` 全段/跳过已做浏览器验证。真实 FSA 句柄和窄视口留给 Opus 独立复验，不冒充已完成。
-- Opus: pending
+- Opus: **counter（2026-07-16,实现/性能/视觉主审）**。资源闭包/契约/迁移/编辑器工作台五个面全部实证通过
+  (见下"已验证通过"),但发现一个**用户当场确认的运行时视觉回归**必须返工,故签 counter:
+  **【C1 · 阻塞】s066 开场帧动画(血池梦境 000)播完后,后续世界场景("灵儿！月如！"对白那段)以约半尺寸
+  渲染在画布左上角(实测非黑内容边界 620×356,画布 1280×800),而不是铺满。** 精确复现与排障:
+  - 复现:6051 `?scene=s066` → 等开场帧动画播完 → 观察"灵儿！月如！"对白帧。fresh s066(动画前)与 s001
+    均满屏正确渲染,s227 动画前世界也满屏——**只在帧动画播完后的世界帧出现半尺寸**。
+  - 已排除:①`frameAnimationLayerMode='idle'`(Cinematic Layer 不是元凶,已复位);②`ctx.getTransform()`
+    为单位阵(非 ctx transform 泄漏);③canvas 1280×800、cssWH 1280×800、DPR 2 均正常(非 DPR 错配);
+    ④s066 不含 setScreenWave(非屏波 offscreen 路径);⑤resize 与相机移动后 620×356 不变(**持久态损坏,
+    非单帧闪烁**)。
+  - 定位方向(交 Codex 根因):世界经 `renderSceneFrame(ctx, renderer, {worldScale: WORLD_SCALE=4})` 每帧常量
+    绘制,却半尺寸 → 半尺寸(≈640×400=1280×800 的一半,等效 worldScale=2)被烘进 `Canvas2DRenderer`/
+    renderSceneFrame 或帧动画播放后遗留的内部态,而非本帧参数。b99d4fb7 对 main.ts 的合成 diff 仅是
+    rngLayerCanvas→frameAnimationLayerCanvas 改名,结构未变;新 `frame-animation-player` 取代
+    `rng-player` 是最大变量,须查其播放/复位是否污染世界 framebuffer 刷新尺度。
+  - **两个必答开放项**:(a) **是否 dev `?scene=` 同步 runEnterScript 路径特有**(真门进入 s066 是否复现)——
+    本轮无可达存档,未能走真实门进入确认;(b) **回归 vs 既存**(pre-b99d4fb7 的旧 rng-player 路径下 s066
+    梦境后是否也半尺寸)——需 Codex checkout 父提交对照。无论(a)(b)结论如何,C1 都falsify 了 Codex 自审
+    "6051 s066 全段播放、正常结束和空格跳过清理通过"与视觉记录"无跳过残留",故本卡必须返工或由用户
+    对该已知缺陷显式豁免后才能进 done。
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: **C1 世界半尺寸回归**(见 Opus 行)。返工要求:根因定位 + 修复 + 6051 s066 帧动画后
+  世界满屏复验 + 回答 dev-jump/回归两开放项;修复后重跑 6051 代表性帧动画场景(至少 s066 + 一个动画在
+  中段的场景如 s227/s149)确认世界层前后均满屏。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（C1 阻塞;Opus counter,GLM 未复核,真实 FSA/窄视口未完成）
 
 ## Draft: 设计与风险
 
@@ -359,9 +380,30 @@ Branch: main
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论:Codex 自审 accept；Opus/GLM pending。
-- 必须返工项: pending
-- Accept / rework:等待 Opus 实现/性能/视觉主审，再交 GLM 覆盖/迁移矩阵复核。
+- 审查结论:Codex 自审 accept；**Opus 实现/性能/视觉主审 counter(C1 s066 帧动画后世界半尺寸回归,证据见
+  done 前签字 Opus 行)**;GLM pending。
+- 已验证通过(Opus,2026-07-16,不必返工的部分):
+  - **资源闭包/契约**:catalog 精确 6 video + 12 frame-animation + 1 color-table;TPFS 12 段总
+    7,960,282 B、SHA-256/bytes 逐项匹配;`frame-sequence.ts` codec R1 全落地(u32 LE 索引前缀、
+    XOR+Deflate、rgba8、时长优先链)且 fail-loud 面完整(magic/version/reserved/端序/块覆盖连续/
+    rawBytes/payload 越界/尾随/解压长度不符);运行时零全量解码(块级惰性 + 容器·块 Promise await 前缓存 +
+    帧 LRU=64)。静态扫描 `/extracted/videos`、`/extracted/data/animation`、`playRng/chunkIdx/videoId/
+    rngPaletteId` 在 content/reforge/editor 非测试源零命中;旧 rng-player.ts 已删。
+  - **引用模型(用户点名复核)**:启动 001/002 来自 `manifest.assets.roles.video.startupTrademark/
+    startupSplash`、入口 003 来自 `entryPoints[new-game].introVideo`、结尾 004/005/006 来自
+    `quitToTitle.videos[]`——三类入口 typed 收集实证一致;`playFrameAnimation` 20 命令/9 引用段/未引用
+    [6,10,11] 与原 playRng 拓扑 1:1;**同一脚本位置的分段(chunk 1/9 各 6 段)按 `site` 合并为 1 条引用
+    并显示"本处调用 6 次"**(groupAssetReferencesBySite key=asset\0kind\0site),满足用户第 5 点。
+  - **编辑器工作台**:三栏(左双列表/中内嵌 `<video controls>` 非全屏/右属性引用删除)、帧动画 410 帧
+    虚拟化时间轴(仅渲染可见缩略图)、完整帧作者语义(列表标"完整帧",无 block/XOR/补丁泄漏)、
+    删除保护双向(001 引用中禁删、006 未引用可删)、colorTreatment 显示"保留原色"。
+  - **迁移**:dry-run 零计划,`videos=6 frame-animations=12 frames=1464`,legacy-palette-map
+    `{003:2,006:3,007:6,其余0}` 精确对应 `RNG_PALETTE={3:2,6:3,7:6}`(S2 落地),asset-refs=1354/
+    warnings=15(12 音乐 + 3 未引用动画);定向套件(frame-sequence/asset/player/presentation/
+    script-runner/draft/codec/reader)全绿。
+- 必须返工项: **C1**(s066 帧动画后世界半尺寸回归,阻塞)。
+- 未完成(counter 后暂停):真实 FSA 句柄保存重开、6010 窄视口——待 C1 修复后与 GLM 复核一并收口。
+- Accept / rework: **rework**（Opus counter；C1 修复后重走 Opus 视觉复验 + GLM 覆盖/迁移矩阵复核）。
 
 ## 用户验收
 
@@ -403,29 +445,41 @@ Branch: main
   均进入统一 typed 引用表；同一脚本位置的分段帧动画按作者 site 合并并显示 occurrences，避免 UI 将一次
   原版 RNG 编排误报为六个独立引用。相关单测、迁移 dry-run、editor/reforge typecheck 已通过。
   Next: Opus 复核这组三类视频入口与 site 分组语义；不得标 done。
+- 2026-07-16 Opus: 实现/性能/视觉主审签 **counter**。资源闭包/契约/迁移/编辑器工作台/引用模型五面实证
+  全部通过(catalog 6+12+1、TPFS 7,960,282B hash 逐项符、codec R1 全落地 + fail-loud 完整、运行时惰性块+
+  LRU64、三类视频入口与 site 分组"本处调用 N 次"、20/9/[6,10,11] 拓扑 1:1、palette-map{3:2,6:3,7:6}、
+  静态扫描零命中、定向套件全绿、6010 双列表/内嵌播放器/虚拟化时间轴/删除保护双向)。**但用户当场发现
+  运行时视觉回归 C1:6051 s066 开场帧动画(血池梦境)播完后,后续世界场景("灵儿！月如！"对白)半尺寸渲染
+  在左上角(620×356 / 画布 1280×800),非满屏。** 已排除 Cinematic Layer(idle)/ctx transform(单位阵)/
+  DPR/屏波/单帧闪烁(resize+移动后持久);定位方向=世界 framebuffer 刷新尺度被帧动画播放后遗留内部态
+  污染(worldScale 参数每帧仍为 4)。两开放项待 Codex:dev `?scene=` 同步路径特有?回归 vs 既存
+  (pre-b99d4fb7 对照)?C1 falsify 了自审"s066 全段...清理通过",本卡回 rework。真实 FSA 保存重开与
+  窄视口在 C1 修复后与 GLM 一并收口。Evidence: done 前签字 Opus 行 + Review 已验证通过节 + 6051 实测
+  边界/transform/持久性数据。Next: Codex 根因定位 + 修复 C1 + 回答两开放项,再转 Opus 复验。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-接手 A7-3 视频与帧动画资源闭包及过场工作台实现/性能/视觉主审（Opus）。
-
-任务卡：`docs/ops/tasks/A7-3-cutscene-asset-workbench.md`。当前状态 `review`；Codex 已完成 A7-3A→D 并在
-done 前签 `accept`，Opus/GLM 仍 pending，三签未齐不得标 `done`。先读 `AGENTS.md`、
-`docs/phase2/READ-FIRST.md`、本卡上下文锚点、`docs/phase2/editor/cutscene-asset-workbench-design.md`、
-`docs/phase2/foundation/a7-resource-closure-audit.md`。
-
-你的职责是实现/性能/视觉主审，默认只改任务卡，不得顺手改实现。重点复核：
-
-1. TPFS 完整帧作者语义、32 帧 XOR/Deflate v1、坏容器 fail-loud、in-flight Promise、64 帧 LRU、Worker
-   编码/量化与内存边界；压缩细节不得泄漏到 UI/schema/脚本。
-2. 迁移精确对账 6 视频、12 动画、1,464 帧、20 命令、颜色映射 `{3:2,6:3,7:6}`、正式 TPFS
-   7,960,282 B、MG2 authored 保护与 dry-run `0/0/0`；确认 G1 的 phase1 参考引擎/phase2 Reforge 边界。
-3. 6010 桌面与窄视口：视频原生播放器；图片序列自然排序后重排/剔除；完整帧多选、复制、删除、拖排、
-   量化、保存重开、引用禁删和未保存切换。请务必用真实 FSA 目录句柄做一次“保存→重开”，这是 Codex 未完成项。
-4. 6051 `?scene=s066`：全段、空格跳过与结束清理；结合单测抽查分段、不同 frameRate、越界和失败路径。
-5. 复核 `pnpm check`、editor/reforge build、迁移零计划与旧路径静态扫描证据。
-6. 重点复核本次引用模型补正：manifest 角色 001/002、entryPoint introVideo 003、`quitToTitle.videos[]`
-   004/005/006 是否都能在 6010 反向索引；同一脚本位置的分段 RNG 是否只显示一个 site 并标注调用次数，
-   不得把分段次数当成多个独立作者引用。
-
-输出要求：在本卡 Opus review 签字行写 `accept` 或 `counter + 理由/返工项`，补视觉/FSA证据和交接日志并提交。
-若 accept，给出可直接转交 GLM 的覆盖/迁移矩阵复核提示词；三签未齐，不得标 `done`。
+```text
+接手 A7-3 C1 返工：过场帧动画后世界半尺寸回归（Coding Owner: Codex）。
+任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 review；Opus 已签 counter，GLM pending，不得标 done）
+背景：Opus 实现/性能/视觉主审已通过资源闭包/契约/TPFS codec/迁移/编辑器工作台/引用模型五面（详见 Review「已验证通过」节），
+     仅 C1 一个阻塞回归需返工。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字 Opus 行 + Review 节、
+     packages/reforge/src/main.ts:487-531,2614-2645、frame-animation-player.ts、frame-animation-presentation.ts、
+     Canvas2DRenderer / render-scene.ts。
+C1 缺陷（用户当场确认）：6051 ?scene=s066 开场帧动画（血池梦境 frame-animation.pal.000）播完后，后续世界场景
+（"灵儿！月如！"对白帧）以约半尺寸渲染在画布左上角——实测非黑内容边界 620×356，画布 1280×800。
+复现/排障（Opus 已做，勿重复，可直接采信）：
+ - fresh s066（动画前）与 s001 满屏正确；s227 动画前世界满屏 → 只在帧动画播完后的世界帧半尺寸。
+ - frameAnimationLayerMode='idle'（Cinematic Layer 不是元凶）；ctx.getTransform() 单位阵（非 transform 泄漏）；
+   canvas/cssWH 1280×800、DPR 2 正常；s066 无 setScreenWave（非屏波路径）；resize+相机移动后 620×356 不变（持久态损坏）。
+ - 世界经 renderSceneFrame(ctx, renderer, {worldScale: WORLD_SCALE=4}) 每帧常量绘制却半尺寸（≈640×400=等效 worldScale=2）
+   → 半尺寸被烘进 Canvas2DRenderer/renderSceneFrame 或帧动画播放后遗留的内部态，非本帧参数。
+   main.ts 合成 diff 仅 rngLayerCanvas→frameAnimationLayerCanvas 改名；新 frame-animation-player 取代 rng-player 是最大变量。
+必答两开放项：
+ (a) 是否 dev ?scene= 同步 runEnterScript 路径特有？请走真实门/存档进入 s066 确认真实游戏是否复现。
+ (b) 回归 vs 既存？checkout b99d4fb7^ 对照旧 rng-player 路径下 s066 梦境后世界是否也半尺寸。
+返工完成标准：根因定位 + 修复 + 6051 s066 帧动画后世界满屏复验 + 至少再跑一个动画在中段的场景（s227/s149）
+确认世界层前后均满屏 + 回答 (a)(b)。修复后转 Opus 复验 C1，再交 GLM 覆盖/迁移矩阵复核 + 真实 FSA 保存重开 + 窄视口。
+不要做：不改资源闭包/契约/迁移/工作台已通过的部分；不得标 done。
+```
