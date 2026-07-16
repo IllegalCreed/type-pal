@@ -136,11 +136,49 @@ Branch: main
   /引用删除闭环沿用 A7-0/0A 已验证的 catalog+typed references 机制;视频只替换不做浏览器 NLE 范围
   正确。分期裁定:A7-3A→D 四段一卡**不再切**——拆卡必留半迁移双轨态(命令改了运行时没接/迁了资产
   编辑器缺失),四段各有退出门禁 + 单一 done 闸即可,但 build 须按段落证据块记录(见 R 后注)。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(TPFS 规格细节钉死/编码确定性分径/
-  内存预算硬化),纳入 build 范围。
+- GLM: **agree（2026-07-16;附 G1-G2 build 必落范围澄清,见下）**。七项独立实测逐条：
+
+  **(1) 普查对账（独立重扫）** ✅：
+  - playRng **20** / 引用段 **[0,1,2,3,4,5,7,8,9]=9** / 未引用 **[6,10,11]=3** / playVideo **0** / playFrameAnimation **0**——逐项精确匹配。per-chunk 用量 `{0:1,1:6,2:1,3:1,4:2,5:1,7:1,8:1,9:6}`。✅
+  - 12 RLE 总 **3,970,927 B**（最大 rng-09 1,154,187B / 最小 rng-10 25,309B）。✅
+  - rng-frames.json **1,464 帧**（per-chunk: 0:64/1:410/2:93/3:140/4:40/5:82/6:54/7:70/8:33/9:256/10:42/11:180；chunk 1 的 410 帧 = 虚拟化目标）。✅
+  - 6 MP4 全 H.264+AAC 288×180（总 ~20.4MB，mono/stereo 混合但运行时透传不影响）。✅
+
+  **(2) 体积实测复核** ✅：
+  - 每帧 RGBA = 320×200×4 = **256,000B（250KB）**；全量未压缩 = ~357MB（与 Opus R3 "~375MB 不可接受"自洽，数量级正确）。✅
+  - 三方案实测一致：Full RGBA PNG 100,075,957B / 连续补丁 29,746,679B / 32 帧 keyframe 31,525,705B（+1,778,026B ≈ +1.78MB）。✅
+  - keyframe 数 = (1464+31)//32 = 46；32 帧间隔 +1.78MB 换随机 seek ≤31 补丁——工程折中成立。✅
+
+  **(3) R1-R3 测试形态** ✅（每条可落）：
+  - **R1 TPFS 坏容器七类 fail-loud**：魔数/版本/越界/重叠/坏尺寸/首帧非关键帧/端序错——表驱动，每类构造 fixture + expect throw。设计 §4.2 已列约束面。✅
+  - **R2 编码确定性分径**：迁移侧（Node）TPFS 编码字节确定性 = 同输入双跑同字节（MG2 双跑零计划前提）；编辑器侧（浏览器 convertToBlob）PNG 非确定 → **保存事务只重编码被修改的动画，未修改资产零重写**。两条路径分别声明 + 各自测试行。✅
+  - **R3 内存上界**：全量解码 ~357MB 不可接受 → 惰性 TPFS 帧句柄（按需合成）+ 可见区缩略图 + 合成帧 LRU ≤64 帧（~16MB）+ undo 结构共享（已编辑帧持位图/未编辑帧持容器引用）。410 帧段打开/滚动/编辑的内存上界断言 = 性能测试或手测记录（设计 §6.3 虚拟化）。✅
+
+  **(4) 迁移矩阵** ✅：
+  - **12 段颜色表映射**：`RNG_PALETTE={3:2,6:3,7:6}`（rng-player.ts:24 实锚）→ 迁移按段烘焙考证颜色表（3/6/7 各用对应表，其余标准表 0）；S2 要求入迁移报告。✅
+  - **20 条命令改写**：translate-events:950-960 `0x36` 设 lastRngChunk + `0x37` emit playRng(chunkIdx/speed/startFrame/endFrame) → playFrameAnimation(asset=frame-animation.pal.NNN/frameRate/start·endFrame 保留)。✅
+  - **6 视频物化不转码**：6 MP4 原样进 assets/migrated/video/。✅
+  - **legacy families 退出顺序**：rng/video/color-table 依赖 A7-3A 颜色表角色先行（palette 0 消费点全迁移后才退 legacy）。✅
+
+  **(5) MG2 面** ✅：
+  - 视频/动画作者替换转 authored（origin 所有权 + AssetId key merge，与 A7-0 catalog 同构）+ 双跑零计划专测。✅
+  - 未引用 3 段 + 6 个零引用视频按 **unused warning 不按 error**（与 A7-0 13 unused 同口径）。✅
+
+  **(6) 静态扫描面 + 分期门禁** ✅：
+  - 归零清单：`/extracted/videos`、`/extracted/data/animation`、`playRng`、`chunkIdx`、`videoId`、`rngPaletteId` 在 content/reforge/editor 目标包归零。**当前基线 126 处**（含 4 个 rng-frames.json consumer + 2 个 rng-player.ts + CutsceneTab）。✅
+  - **A7-3A/B/C/D 各段退出条件可独立验证**：A（契约+颜色表依赖+TPFS codec）/B（PAL 迁移+运行时+MG2）/C（编辑器工作台+时间轴）/D（断外链验收）——每段有独立门禁，build 分段证据块（Opus 七问第 7 条）。✅
+
+  **(7) RNG_PALETTE + translate-events 实锚确认** ✅（见 (1)(4)）。
+
+  **总结**：普查全精确匹配（20/9/3/0/3970927B/1464帧/6MP4 AAC）；体积自洽（256KB/帧 × 1464 ≈ 357MB / 三方案 / +1.78MB 折中）；R1-R3 测试形态全可落；迁移矩阵（颜色表/命令改写/视频物化/legacy 退出顺序）全确认；MG2 + 静态扫描 + 分期门禁全可落。**agree**。
+
+  **G1-G2 build 必落范围澄清（非阻塞，纳入 build 范围）**：
+  - **G1（build 必落，关键）**：**chunk 6 是 trademark-fallback 路径**——`packages/game/src/shell/rng-player.ts` bootstrap `PAL_RNGPlay(6,0,-1,25)`。内容脚本普查显示"未引用"但 DOS 启动路径会到达。A7-3D 断外链后此 bootstrap consumer 必须已迁移（或 trademark fallback 已退役），否则商标屏可能断。**build 时确认 chunk 6 的 bootstrap 路径归属 A7-3B 或显式退役。**
+  - **G2（非阻塞）**：静态扫描归零基线 126 处——确认 4 个 rng-frames.json consumer + 2 个 rng-player.ts + CutsceneTab 显式分配到 A7-3B/C/D 子任务，防遗漏。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 G1-G2 build 必落)。chunk 6 trademark-fallback（G1）是 build 必落关键确认项——普查"未引用"不等于"无运行时消费"（与 A7-0A 标题菜单音乐同方法论教训：站点普查≠需求普查）。
 - 缺签豁免: N/A
-- build 准入结论: blocked（待 GLM 复核）
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R3 必改 + S1-S2 + G1(chunk 6 trademark-fallback 确认/迁移)+ G2(静态扫描 126 处分配确认)纳入 build 范围。交 Codex 按 A7-3A→D 分段 build。
 
 ### 进入 done 前:审查签字
 
@@ -222,7 +260,7 @@ Branch: main
   普查独立坐实(20 站点/9 用 3 空/零 playVideo/RLE 3,970,927B)。附 R1(TPFS 端序·补丁替换语义·
   时长优先链·色型)/R2(迁移侧字节确定性 vs 编辑器只重编码已修改资产)/R3(内存预算硬化:惰性帧句柄+
   LRU 上限+按可见区缩略图,全量解码 375MB 不可接受)+S1-S2。
-- GLM: pending
+- GLM: **agree**。普查全精确匹配(20 playRng/9引用[0-5,7-9]/3未引用[6,10,11]/0 playVideo/12RLE 3970927B/1464帧/6MP4全AAC)；体积自洽(256KB/帧×1464≈357MB/三方案/+1.78MB折中)；R1-R3测试形态全可落(TPFS七类fail-loud/确定性分径/内存上界)；迁移矩阵全确认({3:2,6:3,7:6}实锚/20条改写/6视频物化/legacy退出顺序)；MG2+静态扫描+分期门禁全可落。**G1关键: chunk 6 trademark-fallback(game/shell/rng-player.ts bootstrap)内容脚本普查"未引用"但DOS启动路径到达——build必落确认迁移或退役,与A7-0A同方法论教训(站点普查≠需求普查)**。G2静态扫描126处分配确认。非阻塞。
 - 用户拍板:用户已明确要求本卡的工作台布局、创作闭环、RNG 时间轴/量化，以及视频/RNG 工程自包含；
   具体容器、BGM 分层和实现分期由三方审查。
 
@@ -293,6 +331,7 @@ Branch: main
   可见区缩略图/LRU 上限/undo 仅已编辑帧持位图,并入验收内存上界断言)。Evidence: 主审立场+普查
   脚本输出。Next: GLM 迁移覆盖/体积复测/测试矩阵复核;三签齐后 Codex 按 A7-3A→D 分段 build;
   不得抢跑实现。未改实现文件。
+- 2026-07-16 GLM: 设计复核签 **agree**。七项独立实测：(1)普查 20 playRng/引用[0-5,7-9]=9/未引用[6,10,11]=3/0 playVideo/12RLE 3970927B/1464帧(rng-frames.json per-chunk 0:64..11:180,chunk1=410虚拟化目标)/6MP4全H264+AAC 288×180 ~20.4MB——逐项精确。(2)体积 256KB/帧×1464≈357MB未压缩(与Opus R3 ~375MB自洽),三方案100075957/29746679/31525705B实测一致,+1.78MB换≤31补丁seek成立。(3)R1 TPFS七类fail-loud表驱动/R2迁移Node字节确定性vs编辑器只重编码已修改/R3惰性帧句柄+LRU≤64+可见区缩略图内存上界。(4)迁移 RNG_PALETTE{3:2,6:3,7:6}实锚(rng-player.ts:24),translate-events:950-960 0x36/0x37 chunkIdx→asset/speed→frameRate,6视频物化不转码,legacy退出依赖A7-3A颜色表先行。(5)MG2 authored替换+双跑零计划/unused warning不error。(6)静态扫描归零基线126处/分期A-D各段独立门禁。**G1关键:chunk 6 trademark-fallback(game/shell bootstrap PAL_RNGPlay(6,0,-1,25))内容脚本"未引用"但DOS启动到达——与A7-0A标题菜单同方法论(站点普查≠需求普查),build必落确认迁移或退役**。G2静态126处分配确认。Evidence: 设计签字GLM行。Next: 三签齐已build allowed,交Codex按A7-3A→D分段build。未改实现文件。
 
 ## 下一位 Agent 提示词
 
