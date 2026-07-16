@@ -149,11 +149,36 @@ Branch: main
   `try/finally` 停止和 BGM 异步取消均已落地；全仓 3,581 测试通过（另 1 skipped），MG2 连续两次
   `writes=0 deletes=0 conflicts=0`，写前闭包实测 `asset-refs=1327 asset-warnings=12`。6010 已确认 004
   仅一条标题菜单角色引用且禁删、037 原有三类引用无回归；6051 新游戏与读档两路均已离开菜单并由后续画面接管。
-- Opus: pending
+- Opus: **accept（2026-07-16,实现/运行主审,零返工项）**。六项复核全过:
+  1. **贯通与零硬编码**:`runOpeningMenuWithMusic(bgm, roles['audio.openingMenuMusic'], run)` 61 行包装
+     (opening-menu.ts)——无角色静默直跑、有角色 `play(asset, true)`(循环=S2)→try/finally `stop()`,
+    停止先于决策返回(= 新游戏/读档启动前);reforge 运行时零 `4`/`music.pal.004` 字面量(扫描净,
+    命中皆无关 UI 常量);角色仅经 manifest.assets.roles 可选读取。
+  2. **R1 v3 补齐全要件**:`completeLocalProjectV3AudioRoles`(upgrade-local-v2:181-220)——仅 v3、仅缺键
+     (`role in roles` 即返回,**不覆盖自定义**)、优先 `palMusicAssetId(4)` 且校验 kind===music、缺则
+     **排序后首条** music id 确定性回退、无音乐 catalog 返回 false 不写、`writeProject` 落盘固化;
+     open-local.ts:38 打开边界调用;v2 路径同步加 `roleTrack(4)`。幂等 = 构造性(二开即缺键不成立)。
+  3. **R2 代次取消**:`requestSerial` 在 `stopPlayback` 与 `playCurrent` 双点自增,`doPlay` 在
+     **ctx.resume 后与 readBytes 后两个 await 边界**复查 `isCurrent`(serial+enabled+last 三重匹配)——
+     后端初始化与 MIDI 在途读取期间 stop 均作废迟到播放;`setEnabled(false)` 也升代次但**留账**
+     (:180-184),与菜单 stop"清账"双语义分离。测试三行齐:bgm.test :41(init 竞态)/:60(MIDI 在途)/
+     :79(留账 vs 清账);opening-menu.test :5(循环+读档序+不污染 world)/:24(异常退出+无角色静默)。
+  4. **产物与门禁**:manifest 五角色精确(openingMenuMusic: music.pal.004);dry-run 零计划且
+     `asset-refs=1327 asset-warnings=12`(unused 13→12,GLM 预测吻合);定向套件 5+2+6+19 全绿。
+  5. **6051 实走(听感代理:CDP 网络链+typed 状态)**:`?menu` 进入即完整点火
+     **spessasynth_lib → soundfont.sf3 → 004.mid**(CDP 网络日志 reqid 1051-1053,均 catalog 工程路径);
+     选"新的故事"→ 开场 → s001 后 `world.audio.currentMusic='music.pal.031'`(**非 004,零污染**),
+     场景音乐接管;console 全程零错误零 404。真实扬声器听感与切换瞬间串音判定留用户
+     (卡 Visual Owner 本含 User;自动化无法判定扬声器输出,不冒充)。
+  6. **6010**:004 选中显示"标题菜单音乐（新的故事 / 旧的回忆）/ 工程清单",删除禁用
+     ("有 1 处引用,不能删除");037 默认战斗+场景战斗多类引用无回归、仍禁删。
+  方法论记录(诚实):我的 performance-timing 观察器三轮零取证一度指向"未起播",CDP 网络日志实锤
+  起播正常——JS 性能缓冲(模块风暴淹没+时窗)不可靠,取证层级应为 **CDP 网络日志 > performance buffer**;
+  与 N1-1 blur 探针教训同类,先证仪器再疑产品。
 - GLM: pending
-- counter / 返工处理: N/A
+- counter / 返工处理: 无(Opus 零返工项)。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: blocked（待 GLM 终审与用户听验/验收）
 
 ## Draft: 设计与风险
 
@@ -286,14 +311,21 @@ Branch: main
 - 验证方式: 6010 编辑器引用详情 + 6051 标题菜单新游戏/读档两路浏览器检查
 - 截图 / 像素检查路径: Codex 浏览器会话内截图目视，未写入仓库
 - 结论: UI 引用、禁删、菜单显示、新游戏接管与读档接管均通过
-- 未完成项: 实际扬声器听验 004 及切换瞬间串音，交 Opus/用户复验
+- Opus 独立复验(2026-07-16): 通过,方法独立于 Codex(CDP 网络日志+typed 状态取证)。6051 `?menu` 起播链
+  实锤:spessasynth_lib → soundfont.sf3 → **004.mid** 三连请求(均 catalog 工程路径);选"新的故事"后
+  进世界 `currentMusic='music.pal.031'`(非 004,菜单曲零污染),场景音乐接管;console 零错误零 404。
+  6010:004 显示"标题菜单音乐（新的故事 / 旧的回忆）/ 工程清单"且禁删("有 1 处引用");037 多类战斗
+  引用无回归。代次取消/双语义/读档序由 bgm.test(:41/:60/:79)与 opening-menu.test(:5/:24)五行专测钉住。
+- 未完成项: 真实扬声器听感(004 曲目正确性与切换瞬间串音)留**用户**最终听验——自动化环境无法判定
+  扬声器输出,不冒充完成。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论: Codex 自验证 accept；Opus/GLM pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自验证 accept；**Opus 实现/运行主审 accept(2026-07-16,证据见 done 前签字 Opus 行)**;
+  GLM pending。
+- 必须返工项: 无(Opus)。
+- Accept / rework: Opus **accept**;待 GLM 覆盖/迁移终审与用户听验。
 
 ## 用户验收
 
@@ -319,23 +351,33 @@ Branch: main
   `try/finally stop`、初始化与 MIDI 在途取消、开关留账语义均有专测；全仓 3,581 pass、MG2 双跑零计划，
   闭包 1,327/12；6010 004/037 与 6051 新游戏/读档两路通过。Evidence: Build/视觉记录。Next: Opus 做
   实现与运行主审并实际听验，签 accept/counter；不得标 done，随后交 GLM 覆盖终审。
+- 2026-07-16 Opus: review 主审签 **accept,零返工项**。代码面:包装器精确(无角色静默/loop=true/
+  finally stop 先于决策返回)、运行时零 4/004 字面量、R1 补齐全要件(仅缺键不覆盖/优先 004+kind 校验/
+  排序首条回退/无音乐不写/写盘固化,open-local:38 调用)、R2 代次取消(stop 与 playCurrent 双点自增+
+  doPlay 两 await 边界复查,setEnabled 留账与 stop 清账分离)。测试面:R2/S2 五行专测点名齐
+  (bgm :41/:60/:79 + opening-menu :5/:24)。产物面:manifest 五角色、dry-run 零计划 1327/12
+  (unused 13→12 吻合)。运行面:6051 CDP 网络实锤起播链 spessasynth_lib→soundfont.sf3→004.mid,
+  选定后 currentMusic=031 零污染、场景接管、console 零错;6010 004 角色引用+禁删、037 无回归。
+  方法论记录:performance buffer 三轮零取证系仪器伪影(模块风暴淹没),CDP 网络日志才是地面真值——
+  先证仪器再疑产品(N1-1 blur 探针同课)。真实扬声器听感留用户终验。Evidence: done 前签字 Opus 行+
+  视觉记录。Next: GLM 覆盖/迁移终审;齐签后交用户听验/验收;不得标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:A7-0A 标题菜单音乐角色与删除保护,实现/运行主审(Opus)
+接手任务:A7-0A 标题菜单音乐角色与删除保护,覆盖/迁移/测试矩阵终审(GLM)
 任务卡:docs/ops/tasks/A7-0A-opening-menu-music-role.md
-当前状态:review;设计三签齐且 Codex build/自验证 accept,Opus/GLM done 前签字 pending;不得标 done
-你的角色:Opus,实现正确性/运行生命周期/听觉主审;原则上只改任务卡,发现 counter 再列精确返工项
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 R1/R2、Build 与视觉记录)、git show HEAD、packages/reforge/src/audio/bgm.ts、packages/reforge/src/opening-menu.ts、packages/reforge/src/main.ts:409-430、packages/editor/src/core/upgrade-local-v2.ts
-请重点复核:
-1. 封闭第五角色完整贯通,运行时没有数字 4/music.pal.004 硬编码,编辑器删除保护来自 typed reference 而非 UI 特判;
-2. 旧 v3 打开边界补齐是否幂等并保存固化:有004优先、缺004确定性fallback、已有自定义不覆盖、无音乐不写;
-3. BGM R2:play→后端初始化未完→stop→初始化完成不补播;在途 MIDI 读取也不得迟到播放;setEnabled(false)留账与stop清账仍严格区分;
-4. 标题菜单必须 loop=true,正常新游戏/读档/异常均在结果返回前finally stop,不写WorldState.audio.currentMusic;
-5. 6051实际听验:标题菜单确为004;进入新的故事和从旧的回忆读取存档后均无串音,后续场景/存档音乐正常接管;
-6. 6010抽查004仅“标题菜单音乐/工程清单”1引用且禁删,037既有引用分类无回归。
-已验证:pnpm check全绿(3,581 pass+1 skipped),editor/reforge build全绿,MG2连续两次writes=0/deletes=0/conflicts=0且asset-refs=1327/warnings=12;Codex已走6051新游戏+读档画面链,但未冒充完成听觉判断
-不要做:不得标done;不要顺手改范围外splash 005或ESC菜单;无counter不要改实现文件
-输出要求:在本卡Opus review签字行写accept或counter+理由,补交接日志并提交;accept后把下一位Agent提示词改为GLM覆盖/迁移终审
+当前状态:review;done 前 Codex accept + Opus accept(实现/运行主审,零返工项),GLM pending(最后一签);不得标 done
+你的角色:GLM,覆盖面/迁移/测试矩阵终审;只改任务卡,不得改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期六项)、packages/editor/src/core/upgrade-local-v2.ts:181-220、packages/reforge/src/audio/bgm.test.ts、packages/reforge/src/opening-menu.test.ts
+请重点复核(数据/测试面,与 Opus 的实现/运行面互补):
+1. 你设计期六项的落地验收:五角色 manifest(重扫)、004 引用 unused 13→12(独立重扫对账)、roleTrack(4) 三处并行添加点(asset.ts/pal-assets.ts/upgrade-local-v2.ts)逐一确认;
+2. R1 测试矩阵:open-local.test 六用例是否覆盖 幂等重开零改动/四角色补齐保存固化/无音乐不写/优先004/缺004回退排序首条/非法值不修正交 validator——逐行核对;
+3. R2 测试矩阵:bgm.test :41(init 竞态)/:60(MIDI 在途取消)/:79(留账 vs 清账)与 opening-menu.test :5(loop+读档序+不污染)/:24(异常退出+无角色静默)五行断言逐一读文本确认与规格一致;
+4. 迁移/MG2 面:pal-migration-integration 五角色断言、MG2 双跑零计划、asset-refs=1327/warnings=12 口径与 A7-0 报告勘误一致;
+5. 文档勘误面:A7 audit/闭包报告/content-schema/capability-map 四→五角色更新齐,遗漏根因(站点普查≠需求普查)记录在案;
+6. 边界确认:splash 005 未被顺手实现(范围外);ESC/战斗/系统菜单未被改动。
+已验证(勿重复,可抽查):Opus 已做零硬编码扫描、R1/R2 代码全要件实证、6051 CDP 网络起播链(spessasynth_lib→soundfont.sf3→004.mid)+选定后 currentMusic=031 零污染、6010 004 禁删/037 无回归、定向套件+dry-run 重跑
+不要做:不改实现文件;不重生成 PAL;不得标 done——GLM 签后仍需**用户真实扬声器听验**(004 曲目正确性+切换瞬间串音)与验收
+输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户听验/验收"
 ```
