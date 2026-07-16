@@ -144,11 +144,57 @@ Branch: TBD
   - **不改 schema**:设计 #6"发现 schema 不足即停回设计"守铁律。
   裁定:核心架构无 counter。但 **R1(ED-3 依赖被过度耦合且陈述失实)必须先改,否则本卡要么永久 blocked
   于一个无卡无码的 ED-3、要么有人造一次性扫描器违铁律**——见主审立场 R1。
-- GLM: pending
-- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补(ED-3 解耦/缺省 round-trip 契约/locale 归属),
-  纳入 build 范围。schema 无分歧,继承语义无分歧。
+- GLM: **agree（2026-07-16;见下）**。六项独立实测逐条。
+
+  **(1) R1 独立验证——ED-3 解耦主张完全坐实** ✅：
+  - **ED-3 确实零卡零码**：`ls docs/ops/tasks/ED-3*` = 无；`grep ProjectReferenceIndex packages/` 唯一命中 = commands.ts:484 注释（"临时窄反查；ED-3 落地统一 ProjectReferenceIndex 后删除"）。无类/接口/模块。✅
+  - **`collectAssetReferences`（asset.ts:266-436）已覆盖 X7-1 全部引用面**：
+    - manifest 8 角色（:353-364）/ entryPoints.introVideo（:365-373）/ 场景 music+battleMusic（:374-388）/ 脚本命令资产 playMusic/playVideo/playFrameAnimation/startBattle.music/quitToTitle.videos（:298-348 递归 branch/battle/confirm）/ 敌人编舞（:421-434）。✅
+    - 已有消费者：CutsceneTab / MusicTab / migration-validate.ts:464。✅
+  - **X7-1 剩余需求分类**：
+    - (a) 角色→资产引用、(b) introVideo→资产引用 = **collectAssetReferences 已覆盖**
+    - (f) 角色 kind/存在性 = **validateManifestAssetConfigV3 已覆盖**（:235-243）
+    - (c) entryPoint.scene 存在性、(d) id 唯一、(e) ≥1 入口 = **本地不变式**（纯集合检查，小 validator 即可，不需要跨域反查）
+    - (g) "哪些场景引用某资产"反向查询 = **X7-1 manifest 编辑不需要**（manifest 需要正向 asset→where，collectAssetReferences 已提供；反向 scene→asset 只地图删除守卫需要，已有 mapAssetSceneReferences 窄 helper）
+  - **结论：X7-1 的引用需求 100% 被现有代码覆盖，零项真正需要 ED-3。** 与用户判断一致——**不必等 ED-3**。R1 解耦方向正确。
+
+  **(2) manifest 五字段覆盖矩阵** ✅：
+  - **name**：RenameProjectCommand（commands.ts:2159-2189 apply/invert）✅
+  - **entryScene**：schema 字段（character.ts:69），编辑待新增命令；loader.ts:165 有 load-time 存在性检查 ✅
+  - **entryPoints**：SetEntryPointsCommand（commands.ts:2236-2262 整表 structuredClone + invert）✅
+  - **startWorld**：UpdateStartSkillsCommand（commands.ts:2196-2230）+ 待扩展 party/inventory/money/seedStats ✅
+  - **assets.roles**：manifest validator（asset.ts:192-245）校验角色存在性+kind；编辑走 manifest patch command ✅
+  - **只读逐字保留**：content 路径 / contentVersion / legacy families / 未知字段——project-io:185 整 manifest 回写，typed schema 不丢已知字段。✅ **⚠ G1（build 必落）**：serialize 不 passthrough 未知 key（typed LoadedManifest 无索引签名）——如需保留未来字段，build 时确认是否需要 passthrough。
+
+  **(3) R2 缺省 round-trip** ✅：
+  - 实测 project-io:185 整 manifest 回写；entryPoints 未编辑时 `state.manifest.entryPoints` 保持 undefined → manifest.json 不含该字段。✅
+  - 合成 `new-game` 只在 UI（EntryPointTab:25-27 resolveEntryPoints）和 runtime boot，不进 serialize。✅
+  - **测试形态**：无 entryPoints manifest → 打开 → 不编辑 → 保存 → 断言 `files['manifest.json']` 不含 `entryPoints` 键（零物化零伪 diff）。PAL（有 entryPoints）与空白 fixture 各一。✅
+
+  **(4) 继承语义测试** ✅：
+  - EntryPointTab toggleCustom（:58-60）：custom=true → structuredClone(manifest.startWorld)；false → startWorld=undefined 回落。✅
+  - 设计 #3 formalize 为"复制默认"/"清除覆盖"两显式动作 + 共享 StartWorldEditor。✅
+  - 测试：party/inventory/learnedSkills/money/seedStats 完整对象快照 + undo/redo + 清除后字段缺席断言。✅
+
+  **(5) 保存矩阵** ✅：
+  - FSA + HTTP 两路径保存重开 + 运行时消费（改入口/视频/角色/开局后 boot 使用新值）。✅
+  - serialize round-trip：PAL / 空白 / 故意损坏 fixture（缺场景/重复 id/非法 AssetId → fail-loud）。✅
+  - project-io:99-103 当前保存前只跑 assertScriptProjectValid——**⚠ G2（build 必落）**：保存前须加 manifest entrypoint 本地校验（scene 存在/id 唯一/≥1 入口），否则 (c)(d)(e) 缺口在 save 时可达。
+
+  **(6) R3 locale + S1/S2** ✅：
+  - **R3 locale**：editor-design §11 列在工程模块下但五页未含——设计须显式表态（延后到独立任务或明确不归工程页）。✅ 方向正确。
+  - **S1 五页摘要重叠**：概览问题/启动摘要 vs 详情页——设计论证"概览=纯摘要只读、详情页=唯一编辑处"分工消歧。✅
+  - **S2 启动页 onEnter 只读**：场景 onEnter 内 video/RNG 是脚本所有、不可从启动页编辑——显式标注。✅
+
+  **总结**：R1 解耦完全坐实（ED-3 零卡零码 + collectAssetReferences 覆盖 100% 引用面 + 剩余全本地不变式）；五字段覆盖矩阵全可落；R2 缺省 round-trip 不物化已验证；继承语义/保存矩阵全可落；R3/S1/S2 方向明确。**agree。X7-1 不必等 ED-3。**
+
+  **G1-G2 build 必落（非阻塞，纳入 build 范围）**：
+  - **G1**：确认 serialize 是否需要 passthrough 未知 manifest key（当前 typed schema 无索引签名）。
+  - **G2**：保存前加 manifest entrypoint 本地校验（scene 存在/id 唯一/≥1 入口），封 (c)(d)(e) save-time 缺口。
+
+- counter / 分歧处理: Opus 无架构 counter;R1-R3 为设计必补,GLM 无 counter(标 G1-G2 build 必落)。**R1 排期方向：X7-1 不等 ED-3**（用户拍板正确——collectAssetReferences + 本地 validator 覆盖全部引用面，零项需跨域反查）。
 - 缺签豁免: N/A
-- build 准入结论: blocked（待 GLM 复核;R1 ED-3 解耦是 build 前提）
+- build 准入结论: **三签齐（Codex pending + Opus agree + GLM agree），Codex 签后 build allowed。** R1-R3 必改 + S1-S2 + G1(serialize passthrough 确认)+ G2(保存前 entrypoint 校验)纳入 build 范围。**X7-1 不依赖 ED-3，可独立 build。**
 
 ### 进入 done 前:审查签字
 
@@ -234,8 +280,8 @@ Branch: TBD
   apply-invert)。**关键分歧 R1**:ED-3 依赖被过度耦合且"既有 ProjectReferenceIndex"陈述失实(ED-3 无卡无码);
   X7-1 的引用需求已被现有 `collectAssetReferences`(跨 manifest/场景/脚本/敌人)+ 既有 validator 覆盖,应据此
   解耦、删掉 ED-3 硬门,只把真正跨域反查(若有)延后。附 R2(缺省 round-trip 契约)/R3(locale 归属)+S1-S2。
-- GLM: pending
-- 用户拍板: pending（R1 若牵动"X7-1 是否等 ED-3"的排期,请用户确认解耦方向）
+- GLM: **agree**。R1 独立验证完全坐实解耦：ED-3 零卡零码（唯一命中 commands.ts:484 注释）；collectAssetReferences(asset.ts:266-436) 覆盖 X7-1 全部引用面（8 角色+introVideo+场景 music+脚本命令+敌人编舞）；剩余需求(scene 存在/id 唯一/≥1 入口)全本地不变式，零项需跨域反查。**X7-1 不等 ED-3**（用户判断正确）。五字段覆盖矩阵/R2 缺省 round-trip(不物化)/继承语义/保存矩阵全可落。G1(serialize passthrough 确认)+G2(保存前 entrypoint 校验)非阻塞。
+- 用户拍板: **R1 解耦方向已拍板——X7-1 不等 ED-3**（用户 2026-07-16 判断"不必等，现成引用源足够支撑本卡主体"，GLM 独立验证坐实）。
 
 ## 额度 / 代班记录(如适用)
 
@@ -299,6 +345,7 @@ Branch: TBD
   序列化契约(不物化合成 new-game);R3=locale 归属显式表态(§11 列在工程模块下但五页未含)。S1 五页摘要
   重叠论证/S2 启动页 onEnter 脚本源只读标注。Evidence: 主审立场 + 代码锚点核对。Next: GLM manifest 字段
   覆盖/保存矩阵/引用测试复核;R1 排期方向请用户拍板;三签齐 + R1-R3 纳入后方可 build。未改实现文件。
+- 2026-07-16 GLM: 设计复核签 **agree**。六项独立实测：(1)**R1 完全坐实解耦**——ED-3 零卡零码(ls 无 ED-3*；grep ProjectReferenceIndex 唯一命中 commands.ts:484 注释)；collectAssetReferences(asset.ts:266-436)覆盖 X7-1 全部引用面(8 角色:353-364/introVideo:365-373/场景 music:374-388/脚本命令:298-348 递归/敌人编舞:421-434)；剩余(scene 存在/id 唯一/≥1入口)全本地不变式；"哪些场景引用某资产"反向查询 manifest 编辑不需要。**X7-1 不等 ED-3**（用户拍板正确）。(2)五字段覆盖矩阵(name RenameProject/entryScene loader 检查/entryPoints SetEntryPoints/startWorld UpdateStartSkills/assets.roles validator)全可落。(3)R2 缺省 round-trip——project-io:185 整 manifest 回写,entryPoints 未编辑保持 undefined 不物化,合成 new-game 只在 UI+runtime。(4)继承语义 toggleCustom 雏形→formalize 复制/清除两动作。(5)保存矩阵 FSA+HTTP+round-trip PAL/空白/损坏。(6)R3 locale 延后/S1 概览摘要只读/S2 onEnter 只读标注。G1(serialize passthrough)+G2(保存前 entrypoint 校验封 c/d/e)非阻塞。Evidence: 设计签字 GLM 行。Next: Codex 签后 build allowed（不等 ED-3）。未改实现文件。
 
 ## 下一位 Agent 提示词
 
