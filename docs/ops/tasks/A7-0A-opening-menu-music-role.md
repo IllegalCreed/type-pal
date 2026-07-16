@@ -1,6 +1,6 @@
 # A7-0A - 标题菜单音乐角色与删除保护
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / X2
 Coding Owner: Codex
@@ -212,7 +212,8 @@ Branch: main
 
 - counter / 返工处理: 无(Opus 零返工项,GLM 无 counter)。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户真实扬声器听验（004 曲目正确性 + 切换瞬间串音）与验收，用户点头方 done。**
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），用户于 2026-07-16 完成
+  真实扬声器听验，确认 004 曲目与菜单切换均无问题；done allowed。**
 
 ## Draft: 设计与风险
 
@@ -363,8 +364,8 @@ Branch: main
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-07-16）**。真实试听标题菜单音乐和菜单切换，反馈“听了没问题”。
+- 后续任务: A7-0A 无遗留；其他资源闭包按 A7 路线图继续推进，当前进行 A7-3。
 
 ## 交接日志
 
@@ -398,8 +399,9 @@ Branch: main
 - 2026-07-16 GLM: done 前覆盖终审签 **accept**。六项独立实测+定向套件全绿：(1)五角色 manifest(openingMenuMusic:004)+三处并行(asset.ts:32/pal-assets.ts:24/upgrade-local-v2:124+193)+unused 13→12(dry-run asset-refs=1327 warnings=12)。(2)R1 open-local.test 六用例逐行核对——:170-172优先004/:175-177缺004回退首条/:184-185补齐保存/:187-189幂等零改动/:193-197不覆盖自定义/:200-203无音乐不写。(3)R2 bgm.test:41 init竞态/:60 MIDI在途取消/:79留账vs清账 + opening-menu.test:5 循环读档序不污染/:24 异常退出无角色静默,五行断言与规格逐条一致。(4)MG2 writes=0 asset-refs=1327 warnings=12。(5)四文档四→五角色更新齐(content-schema/a7-0-report/capability-map/a7-audit)。(6)边界——splash 005 未实现,ESC/battle/system 菜单未改动。reforge 357/editor 183/migrate 192+1skip 全绿。Evidence: done 准入 GLM 行。Next: 三签齐,交用户真实扬声器听验(004曲目+切换串音)与验收。未改实现文件。
 - 2026-07-16 Codex: 复核 done 前 Codex/Opus/GLM 三方均已 accept，任务无返工项。Evidence: done 前签字表。
   Next: 等用户用真实扬声器确认标题菜单 004 曲目及菜单切换瞬间无串音；未验收前保持 review。
+- 2026-07-16 User/Codex: 用户完成真实扬声器听验，确认标题菜单音乐及切换均无问题；三方审查和用户验收
+  全部通过，本卡转 `done`。Evidence: 用户反馈“听了没问题”。Next: 无，本任务收口。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词，等待用户验收/收口。用户需用真实扬声器确认标题菜单播放 004 曲目，且选择
-“新的故事”或“旧的回忆”进入后续流程时没有瞬间串音；验收通过后再把本卡与看板标为 `done`。
+无下一位 Agent 提示词，任务已完成并经用户验收。
