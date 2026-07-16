@@ -1,6 +1,6 @@
 # A7-0 - 工程资源闭包地基与音乐注册表首切片
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / W5 / X2
 Coding Owner: Codex
@@ -277,7 +277,7 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 
 - counter / 返工处理: 无(Opus 零返工项,GLM 无 counter;O1-O2 非阻塞)。
 - 缺签豁免: N/A
-- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept）。交用户验收，用户点头方 done。A7-0 完成≠A7 完成（SFX/精灵/UI 等族仍 legacy）。**
+- done 准入结论: **三方 done 前审查签字齐（Codex + Opus + GLM accept），用户于 2026-07-16 验收通过，准入满足并转 done。A7-0 完成≠A7 完成（SFX/精灵/UI 等族仍 legacy）。**
 
 ## Draft: 设计与风险
 
@@ -474,13 +474,13 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
 
 - Reviewer: Opus + GLM
 - 审查结论: Codex self-review accept；**Opus 实现/运行/视觉主审 accept(2026-07-15,证据见 done 前
-  签字 Opus 行)**;GLM pending。
-- 必须返工项: 无(Opus)。
-- Accept / rework: Opus **accept**;待 GLM 覆盖/数据/测试矩阵终审。
+  签字 Opus 行)**；**GLM 覆盖/数据/测试矩阵终审 accept（2026-07-16）**。
+- 必须返工项: 无。
+- Accept / rework: Codex、Opus、GLM 三方 **accept**；用户验收通过。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-07-16）**。用户确认“签了”，A7-0 验收通过并收口。
 - 后续任务: A7-1 SFX 资源族,再按审计分期推进。
 
 ## 交接日志
@@ -521,23 +521,8 @@ PAL 和空白工程的音乐引用、编辑、试听、运行、保存与重迁�
   Evidence: done 前签字 Opus 行+视觉记录。Next: GLM 覆盖/数据/测试矩阵终审;齐签后交用户验收;
   不得标 done。未改实现文件。
 - 2026-07-16 GLM: done 前覆盖终审签 **accept**。六项独立实测+四包 917 pass：(1)G1-G5 全落地——审计钉死 1174 play+53 stop(含 inline scene s001/s151/s200),G5 所有权 merge:278-289 authored 整条克隆+target validator:332+回归测试 merge.test:268-323；(2)产物 catalog 87(86music+1sf)全 bytes+sha256,引用 1174/53/36/81/31/71/missing0,旧键零(musicId/battleMusicId/music.json/sys:music仅save normalizer),dry-run asset-refs=1326 warnings=13；(3)测试矩阵 §94 asset.test 表驱动全覆盖/§95 计数精确/§99 双跑零计划,R1 族排他 asset.test:117-124,R4 roles 恰四 :88,002 binding 层覆盖(asset.test:58,88,102)；O1 非阻塞(048无专用测试,044同逻辑覆盖)；O2 非阻塞(§96统一扫描/§97 reload/§98跨adapter各自独立覆盖)；(4)v2→v3 project-upgrade.test musicId0→null/stopMusic+alias→label,sys:music在save/ops normalizer(S1设计)；(5)marker internalBattleCfgMarkers=0双断言(audit.test:48+integration:73,168),finalize双root(scene-entry-product:66-85)；(6)MG2 writes=0+catalog所有权三路合并测试。A7-0完成≠A7完成。Evidence: done 准入 GLM 行。Next: 三签齐,交用户验收。未改实现文件。
+- 2026-07-16 User: 验收签 **accept**。A7-0 转 `done`；A7 总体仍未完成，下一资源切片为 A7-1 SFX。
 
 ## 下一位 Agent 提示词
 
-```text
-接手任务:A7-0 工程资源闭包地基与音乐注册表首切片,覆盖/数据/测试矩阵终审(GLM)
-任务卡:docs/ops/tasks/A7-0-resource-closure-registry.md
-当前状态:review;done 前 Codex accept + Opus accept(实现/运行/视觉主审,零返工项),GLM pending(最后一签);不得标 done
-你的角色:GLM,覆盖面/数据/测试矩阵终审;只改任务卡,不得改实现或生成产物
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 done 前签字三行与你设计期 G1-G5)、docs/phase2/foundation/a7-0-music-resource-closure-report.md、packages/content/src/asset.ts、packages/migrate/src/music-reference-audit.ts
-请重点复核(数据/测试面,与 Opus 的实现/听感面互补):
-1. 你设计期 G1-G5 的落地验收:G1 权威计数已由审计钉死(1,174 play+53 stop=1,227 旧口径,重扫核对);G2 MIDI 路径口径(assets/migrated/music/NNN.mid);G3 ItemTab 旁路属后续族(确认未混入本卡);G4(若有)与 G5 catalog 所有权(mergeNode assets/index.json 特例 :278-289 + target validator + 作者接管/兄弟更新回归测试)逐项确认;
-2. 产物对账:用独立脚本重扫——catalog 86 music+1 soundfont、87 文件 bytes/sha256 全量核(Opus 抽查 6 个)、引用 1,174/53/36/81/31/71/缺失 0、旧键(musicId/battleMusicId/music.json/sys:music 除归一化)全仓 0、13 unused warning 清单列出;
-3. 测试矩阵:验收 §93-100 逐条落点(路径 guard 表驱动/catalog 校验 fail-loud/迁移计数/静态扫描/v2→v3 双格式/FSA-HTTP 一致/URL revoke/MG2 作者替换双跑);R1 族排他与四角色强制的测试行;**002 首领胜利曲与 048 显式 startBattle.music 的单测行**(Opus 实走受剧情旗门禁,单测是唯一承接——精确到测试名);
-4. v2→v3 与存档矩阵:旧别名保留、musicId:0→null/stopMusic 分站点、旧存档 sys:music 归一化专测、demo/空白模板 v3;
-5. marker 门禁:music-reference-audit 的 internalBattleCfgMarkers=0 断言 + 动态 setSceneOnEnter 根 finalize 回归测试存在;s106 烘 037 记录在审计文档;
-6. MG2 面:二进制排除 baseline 判据(R3c)可测、双跑与独立 dry-run 零计划、asset-refs=1326/warnings=13 口径与报告一致。
-已验证(勿重复,可抽查):Opus 已做单链路/R1/R2/G5 代码实证、产物对账、6010 CRUD+试听取证、OPFS 真 FSA 工程零 HTTP 音频+保存重开、6051 typed 状态+037/003/读档恢复/开关、console 全程零 404
-不要做:不改实现文件;不重生成 PAL;不把 A7/R7/capability-map 标 done(A7-0 完成≠A7 完成);GLM 签后仍需用户验收
-输出要求:在本卡 GLM review 签字行写 accept 或 counter+理由,补交接日志并提交;三签齐后 done 准入结论改为"等用户验收"
-```
+无下一位 Agent 提示词：A7-0 已完成三方审查与用户验收，任务收口。后续 A7-1 需另行开卡并完成设计签字。
