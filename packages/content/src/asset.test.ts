@@ -3,7 +3,9 @@ import {
   type AssetCatalogV1,
   collectAssetReferences,
   type ManifestAssetConfigV3,
+  palFrameAnimationAssetId,
   palMusicAssetId,
+  palVideoAssetId,
   validateAssetCatalog,
   validateAssetFileClosure,
   validateAssetReferenceClosure,
@@ -55,6 +57,30 @@ const catalog: AssetCatalogV1 = {
       sha256: hash,
       origin: { kind: 'licensed' },
     },
+    'color.project-standard': {
+      kind: 'color-table',
+      path: 'assets/migrated/color/project-standard.json',
+      mediaType: 'application/json',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'video.pal.001': {
+      kind: 'video',
+      path: 'assets/migrated/videos/001.mp4',
+      mediaType: 'video/mp4',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'frame-animation.pal.003': {
+      kind: 'frame-animation',
+      path: 'assets/migrated/frame-animations/003.tpfs',
+      mediaType: 'application/vnd.type-pal.frame-sequence',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
   },
 }
 
@@ -66,6 +92,7 @@ const assets: ManifestAssetConfigV3 = {
     'audio.bossVictoryMusic': 'music.pal.002',
     'audio.normalVictoryMusic': 'music.pal.003',
     'audio.openingMenuMusic': 'music.pal.004',
+    'visual.standardColorTable': 'color.project-standard',
   },
   legacy: { families: ['sprite', 'tileset'] },
 }
@@ -94,7 +121,7 @@ describe('validateProjectRelativePath', () => {
 })
 
 describe('catalog 与 manifest v3', () => {
-  test('合法目录、五个封闭角色与 legacy 债务区通过', () => {
+  test('合法目录、音频与视觉角色及 legacy 债务区通过', () => {
     expect(validateAssetCatalog(catalog)).toEqual(catalog)
     expect(validateManifestAssetConfigV3(assets, catalog)).toEqual(assets)
   })
@@ -118,6 +145,15 @@ describe('catalog 与 manifest v3', () => {
         catalog,
       ),
     ).toThrow('期望 music')
+    expect(() =>
+      validateManifestAssetConfigV3(
+        {
+          ...assets,
+          roles: { ...assets.roles, 'visual.standardColorTable': 'music.pal.002' },
+        },
+        catalog,
+      ),
+    ).toThrow('期望 color-table')
     const { 'audio.openingMenuMusic': _openingMenuMusic, ...rolesWithoutOpeningMenu } = assets.roles
     expect(() =>
       validateManifestAssetConfigV3({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
@@ -136,10 +172,14 @@ describe('catalog 与 manifest v3', () => {
 
 test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palMusicAssetId(31)).toBe('music.pal.031')
+  expect(palVideoAssetId(1)).toBe('video.pal.001')
+  expect(palFrameAnimationAssetId(0)).toBe('frame-animation.pal.000')
   expect(() => palMusicAssetId(0)).toThrow('正整数')
+  expect(() => palVideoAssetId(0)).toThrow('正整数')
+  expect(() => palFrameAnimationAssetId(-1)).toThrow('非负整数')
 })
 
-describe('音乐引用与文件闭包', () => {
+describe('typed 资源引用与文件闭包', () => {
   const scene = {
     id: 's',
     mapId: 'map-001',
@@ -155,7 +195,16 @@ describe('音乐引用与文件闭包', () => {
             kind: 'startBattle' as const,
             team: 1,
             music: 'music.pal.037',
-            onLose: [{ kind: 'playMusic' as const, asset: 'music.missing' }],
+            onLose: [
+              { kind: 'playMusic' as const, asset: 'music.missing' },
+              { kind: 'playVideo' as const, asset: 'video.pal.001' },
+              {
+                kind: 'playFrameAnimation' as const,
+                asset: 'frame-animation.pal.003',
+                startFrame: 2,
+                endFrame: 8,
+              },
+            ],
           },
         ],
       },
@@ -164,21 +213,33 @@ describe('音乐引用与文件闭包', () => {
 
   test('walker 覆盖 roles、场景、嵌套命令', () => {
     const refs = collectAssetReferences({ assets, scenes: [scene] })
-    expect(refs.map((ref) => ref.asset)).toEqual([
-      'soundfont.default',
-      'music.pal.037',
-      'music.pal.002',
-      'music.pal.003',
-      'music.pal.004',
-      'music.pal.002',
-      'music.pal.003',
-      'music.pal.037',
-      'music.missing',
-    ])
+    expect(refs.map((ref) => ref.asset)).toEqual(
+      expect.arrayContaining([
+        'soundfont.default',
+        'music.pal.037',
+        'music.pal.002',
+        'music.pal.003',
+        'music.pal.004',
+        'color.project-standard',
+        'video.pal.001',
+        'frame-animation.pal.003',
+        'music.missing',
+      ]),
+    )
     expect(refs).toContainEqual({
       asset: 'music.pal.004',
       expectedKind: 'music',
       where: 'manifest.assets.roles.audio.openingMenuMusic',
+    })
+    expect(refs).toContainEqual({
+      asset: 'video.pal.001',
+      expectedKind: 'video',
+      where: 'scenes[0].onEnter[0].body[1].onLose[1].asset',
+    })
+    expect(refs).toContainEqual({
+      asset: 'frame-animation.pal.003',
+      expectedKind: 'frame-animation',
+      where: 'scenes[0].onEnter[0].body[1].onLose[2].asset',
     })
     expect(validateAssetReferenceClosure(catalog, refs)).toContainEqual(
       expect.objectContaining({ code: 'missing-asset', severity: 'error' }),

@@ -245,6 +245,33 @@ describe('script library schema', () => {
     ).toThrow(/旧工程产物,请用迁移器重新生成/)
   })
 
+  it('过场命令只接受稳定 AssetId，并拒绝退役的 playRng', () => {
+    expect(() =>
+      checkCommands(
+        [
+          { kind: 'playVideo', asset: 'video.pal.001' },
+          {
+            kind: 'playFrameAnimation',
+            asset: 'frame-animation.pal.003',
+            startFrame: 2,
+            endFrame: 8,
+            frameRate: 25,
+          },
+        ],
+        'script',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands([{ kind: 'playRng', chunkIdx: 3, speed: 25 }], 'legacy-script'),
+    ).toThrow(/未知命令/)
+    expect(() =>
+      checkCommands(
+        [{ kind: 'playFrameAnimation', asset: 'frame-animation.pal.003', endFrame: -1 }],
+        'script',
+      ),
+    ).toThrow(/非负整数/)
+  })
+
   it('loadScene 只允许默认、命名落点、显式坐标三种互斥目标', () => {
     expect(() => checkCommands([{ kind: 'loadScene', scene: 's001' }], 'script')).not.toThrow()
     expect(() =>

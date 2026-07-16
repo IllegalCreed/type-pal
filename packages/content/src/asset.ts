@@ -16,8 +16,8 @@ export const ASSET_KINDS = [
   'face',
   'item-icon',
   'battle-background',
-  'rng',
   'video',
+  'frame-animation',
   'glyph-table',
   'ui-image',
   'color-table',
@@ -30,16 +30,23 @@ export const ASSET_ROLES = [
   'audio.bossVictoryMusic',
   'audio.normalVictoryMusic',
   'audio.openingMenuMusic',
+  'visual.standardColorTable',
 ] as const
 export type AssetRole = (typeof ASSET_ROLES)[number]
 
-export const AUDIO_ASSET_ROLES: Readonly<Record<AssetRole, AssetKind>> = {
+export const AUDIO_ASSET_ROLES = {
   'audio.midiSoundfont': 'soundfont',
   'audio.defaultBattleMusic': 'music',
   'audio.bossVictoryMusic': 'music',
   'audio.normalVictoryMusic': 'music',
   'audio.openingMenuMusic': 'music',
-}
+} as const satisfies Partial<Record<AssetRole, AssetKind>>
+export type AudioAssetRole = keyof typeof AUDIO_ASSET_ROLES
+
+export const ASSET_ROLE_KINDS = {
+  ...AUDIO_ASSET_ROLES,
+  'visual.standardColorTable': 'color-table',
+} as const satisfies Record<AssetRole, AssetKind>
 
 export type AssetOriginKind = 'legacy-migrated' | 'authored' | 'generated' | 'licensed'
 
@@ -174,7 +181,7 @@ export function validateAssetCatalog(value: unknown, where = 'assets/index.json'
 }
 
 function familyForKind(kind: AssetKind): LegacyAssetFamily {
-  return kind
+  return kind === 'frame-animation' ? 'rng' : kind
 }
 
 export function validateManifestAssetConfigV3(
@@ -216,7 +223,7 @@ export function validateManifestAssetConfigV3(
       ([, record]) => record.kind === 'music' || record.kind === 'soundfont',
     )
     if (hasAudio) {
-      for (const role of ASSET_ROLES) {
+      for (const role of Object.keys(AUDIO_ASSET_ROLES) as AudioAssetRole[]) {
         if (!(role in roles)) throw new Error(`${where}.roles: 音乐切片缺角色 "${role}"`)
       }
     }
@@ -225,7 +232,7 @@ export function validateManifestAssetConfigV3(
       if (id === undefined) continue
       const record = catalog.assets[id as string]
       if (!record) throw new Error(`${where}.roles.${role}: AssetId "${String(id)}" 不存在`)
-      const expected = AUDIO_ASSET_ROLES[role]
+      const expected = ASSET_ROLE_KINDS[role]
       if (record.kind !== expected)
         throw new Error(`${where}.roles.${role}: 期望 ${expected}，实际 ${record.kind}`)
     }
@@ -237,6 +244,18 @@ export function palMusicAssetId(track: number): AssetId {
   if (!Number.isInteger(track) || track <= 0)
     throw new Error(`PAL 音乐号必须是正整数，收到 ${String(track)}`)
   return `music.pal.${String(track).padStart(3, '0')}`
+}
+
+export function palVideoAssetId(video: number): AssetId {
+  if (!Number.isInteger(video) || video <= 0)
+    throw new Error(`PAL 视频号必须是正整数，收到 ${String(video)}`)
+  return `video.pal.${String(video).padStart(3, '0')}`
+}
+
+export function palFrameAnimationAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk < 0)
+    throw new Error(`PAL 帧动画号必须是非负整数，收到 ${String(chunk)}`)
+  return `frame-animation.pal.${String(chunk).padStart(3, '0')}`
 }
 
 export interface AssetReference {
@@ -252,10 +271,10 @@ export interface AssetReferenceSource {
   enemies?: readonly EnemyDef[]
 }
 
-function collectCommandMusic(node: unknown, where: string, out: AssetReference[]): void {
+function collectCommandAssets(node: unknown, where: string, out: AssetReference[]): void {
   if (Array.isArray(node)) {
     node.forEach((value, index) => {
-      collectCommandMusic(value, `${where}[${index}]`, out)
+      collectCommandAssets(value, `${where}[${index}]`, out)
     })
     return
   }
@@ -265,11 +284,15 @@ function collectCommandMusic(node: unknown, where: string, out: AssetReference[]
     out.push({ asset: record.asset, expectedKind: 'music', where: `${where}.asset` })
   if (record.kind === 'startBattle' && typeof record.music === 'string')
     out.push({ asset: record.music, expectedKind: 'music', where: `${where}.music` })
+  if (record.kind === 'playVideo' && typeof record.asset === 'string')
+    out.push({ asset: record.asset, expectedKind: 'video', where: `${where}.asset` })
+  if (record.kind === 'playFrameAnimation' && typeof record.asset === 'string')
+    out.push({ asset: record.asset, expectedKind: 'frame-animation', where: `${where}.asset` })
   for (const [key, value] of Object.entries(record))
-    collectCommandMusic(value, `${where}.${key}`, out)
+    collectCommandAssets(value, `${where}.${key}`, out)
 }
 
-/** 音乐首切片的 typed 引用边；后续 A7 切片按资源族扩充本函数。 */
+/** 递归收集所有 typed AssetId 引用；删除保护、闭包检查和引用面板共用这一张边表。 */
 export function collectAssetReferences(source: AssetReferenceSource): AssetReference[] {
   const references: AssetReference[] = []
   if (source.assets) {
@@ -278,7 +301,7 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       if (asset)
         references.push({
           asset,
-          expectedKind: AUDIO_ASSET_ROLES[role],
+          expectedKind: ASSET_ROLE_KINDS[role],
           where: `manifest.assets.roles.${role}`,
         })
     }
@@ -296,19 +319,19 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         expectedKind: 'music',
         where: `scenes[${index}].battleMusic`,
       })
-    collectCommandMusic(scene.onEnter, `scenes[${index}].onEnter`, references)
-    collectCommandMusic(scene.onTeleport, `scenes[${index}].onTeleport`, references)
-    collectCommandMusic(scene.entities, `scenes[${index}].entities`, references)
+    collectCommandAssets(scene.onEnter, `scenes[${index}].onEnter`, references)
+    collectCommandAssets(scene.onTeleport, `scenes[${index}].onTeleport`, references)
+    collectCommandAssets(scene.entities, `scenes[${index}].entities`, references)
   })
   const chunks = Array.isArray(source.scriptChunks)
     ? source.scriptChunks
     : Object.values(source.scriptChunks ?? {})
   chunks.forEach((chunk, index) => {
-    collectCommandMusic(chunk.scripts, `scriptChunks[${index}].scripts`, references)
+    collectCommandAssets(chunk.scripts, `scriptChunks[${index}].scripts`, references)
   })
   source.enemies?.forEach((enemy, index) => {
-    collectCommandMusic(enemy.choreography, `enemies[${index}].choreography`, references)
-    collectCommandMusic(enemy.onDefeated, `enemies[${index}].onDefeated`, references)
+    collectCommandAssets(enemy.choreography, `enemies[${index}].choreography`, references)
+    collectCommandAssets(enemy.onDefeated, `enemies[${index}].onDefeated`, references)
   })
   return references
 }
