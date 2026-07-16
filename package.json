@@ -10,8 +10,6 @@
     "format:all": "biome format --write .",
     "lint": "biome check .",
     "extract": "pnpm --filter @type-pal/pal-extract run extract",
-    "extract-tilemap-baseline": "bash scripts/extract-tilemap-baseline.sh",
-    "extract-battle-baseline": "bash scripts/extract-battle-baseline.sh",
     "bake": "pnpm --filter @type-pal/migrate run bake"
   },
   "devDependencies": {

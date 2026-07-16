@@ -96,17 +96,6 @@ pnpm --filter @type-pal/game exec vitest run src/core/battle/__tests__/battle-sy
 pnpm --filter @type-pal/game exec vitest run -t "test case name"
 ```
 
-差分测试用的 sdlpal oracle:
-
-```sh
-brew install make sdl3
-bash scripts/build-sdlpal.sh
-bash scripts/build-sdlpal-classic.sh
-
-bash scripts/extract-tilemap-baseline.sh
-bash scripts/extract-battle-baseline.sh
-```
-
 ## 包结构
 
 | 包 | 阶段 | 作用 |
@@ -127,7 +116,7 @@ bash scripts/extract-battle-baseline.sh
 | [`reference/sdlpal/`](reference/sdlpal/) | sdlpal 源码副本,作为行为、公式、数据格式和时序的规格来源。 |
 | [`data/raw/`](data/raw/) | 原版数据输入目录,不入库。 |
 | `data/extracted/` | `pal-extract` 生成的运行时资源,可再生。 |
-| [`scripts/`](scripts/) | sdlpal build、baseline 提取等辅助脚本。 |
+| [`scripts/`](scripts/) | 部署、烘焙清单生成等辅助脚本。 |
 
 ## 移植原则
 

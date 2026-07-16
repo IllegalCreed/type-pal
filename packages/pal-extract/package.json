@@ -8,8 +8,7 @@
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "extract": "tsx src/cli.ts",
-    "extract:videos": "tsx scripts/extract-videos.ts",
-    "render-tilemap": "tsx scripts/render-tilemap.ts"
+    "extract:videos": "tsx scripts/extract-videos.ts"
   },
   "dependencies": {
     "@type-pal/shared": "workspace:*",
@@ -18,9 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
-    "@types/pixelmatch": "^5.2.6",
     "@types/pngjs": "^6.0.5",
-    "pixelmatch": "^7.2.0",
     "tsx": "^4.22.3"
   }
 }
