@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: reforge/dialog_system
-title: 对话系统渲染与多槽布局
-scope:
-    - packages/reforge/src/dialog/
-source_files: []
-depends_on: []
-related_to:
-    - path: reforge/text_rendering

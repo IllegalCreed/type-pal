@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: pal_extract/utils
-title: GBK 转码残留修复与 DATA.MKF 审计工具
-scope:
-    - packages/pal-extract/src/utils/
-    - packages/pal-extract/audit-data-mkf.mjs
-source_files: []
-depends_on: []
-related_to: []

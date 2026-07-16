@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: pal_extract
-title: SDL-PAL 资源提取与反汇编工具集
-scope:
-    - packages/pal-extract/
-source_files: []
-depends_on: []
-related_to:
-    - path: migrate

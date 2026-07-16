@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: reforge/save_system
-title: 存档系统（保存/读取与浏览状态机）
-scope:
-    - packages/reforge/src/save/
-source_files: []
-depends_on: []
-related_to:
-    - path: game_engine/core_engine/save_system

@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: pal_extract/events
-title: 事件脚本反汇编与切片管线
-scope:
-    - packages/pal-extract/src/events/
-source_files: []
-depends_on: []
-related_to:
-    - path: pal_extract/io_layer

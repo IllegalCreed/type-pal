@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: reforge/text_rendering
-title: 点阵字模与打字机文本渲染
-scope:
-    - packages/reforge/src/text/
-source_files: []
-depends_on: []
-related_to:
-    - path: reforge/dialog_system

@@ -1,8 +1,0 @@
-schema_version: 1
-module_path: reforge/menu_states
-title: 菜单与面板 Canvas UI 渲染层
-scope:
-    - packages/reforge/src/menu/
-source_files: []
-depends_on: []
-related_to: []

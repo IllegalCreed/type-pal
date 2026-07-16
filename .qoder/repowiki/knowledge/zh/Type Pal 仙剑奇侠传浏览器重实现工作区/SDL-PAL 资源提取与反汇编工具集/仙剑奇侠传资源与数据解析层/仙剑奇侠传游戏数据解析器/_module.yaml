@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: pal_extract/resources/game_data_parsers
-title: 仙剑奇侠传游戏数据解析器
-scope:
-    - packages/pal-extract/src/resources/parsers/
-source_files: []
-depends_on: []
-related_to:
-    - path: pal_extract/io_layer

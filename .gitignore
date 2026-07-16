@@ -62,3 +62,6 @@ projects/pal/assets/runtime/
 
 # MG2 首次 baseline 的一次性逐项审查报告；可由 bootstrap + 分类器重建
 packages/migrate/bootstrap/pal.json
+
+# IDE 自动生成的知识库 / 索引（非项目真值文档，真值在 docs/ 和代码注释）
+.qoder/

@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: game_engine/core_engine/battle_system/turn_and_actions
-title: 战斗行动队列与动作执行器
-scope:
-    - packages/game/src/core/battle/turn-queue.ts
-    - packages/game/src/core/battle/actions/
-source_files: []
-depends_on: []
-related_to: []
