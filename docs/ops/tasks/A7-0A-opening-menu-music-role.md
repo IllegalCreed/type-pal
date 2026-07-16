@@ -92,11 +92,23 @@ Branch: main
 - Codex: **agree（2026-07-16）**。一阶段两条标题菜单路径都以 track 4 为真值；应新增封闭
   `audio.openingMenuMusic` 角色并由迁移边界绑定 004。Reforge 只读取角色，不得硬编码；菜单运行期临时播放，
   `finally` 停止且不写入 WorldState，编辑器引用闭包自然获得删除保护。
-- Opus: pending
+- Opus: **agree（2026-07-16,附 R1-R2 必改 + S1-S2 建议,见主审立场;含本人 A7-0 结论的公开修正）**。
+  独立地面重验全部锚点:一阶段 bootstrap:1751 `wNumMusic=4`(注释引 uigame.c:114 RIX_NUM_OPENINGMENU)、
+  :1787 选定后先停乐并**取消补播记账**(注释载 2026-06-12 真实用户 bug:32MB soundfont 未就绪时菜单曲
+  挂 `last` 等补播,AVI 中途 ready 突然混入视频声轨);Reforge main.ts:411-429 `?menu` 只画背景+菜单,
+  **零 BGM 调用**——漏播放坐实;`music.pal.004` 产物零引用 = 当前可删 bug 坐实;bgm.ts `last` 记账
+  (:112/:122/:128 懒初始化/autoplay 解锁尾部补播)与 `stopPlayback` 清 `last`(:58)语义实证,且 :138-140
+  音乐开关路径是"停播**留账**续播"的另一语义——与菜单 stop"**清账**"必须区分。fallback 机制实锚:
+  `roleTrack(track)` = 优先 pal id、缺则 `musicIds[0]`、空表 fail-loud(upgrade-local-v2:110-115),
+  新角色补齐可直接同构复用。**公开修正:A7-0 设计期我普查 bgm.play 全站点得出"roles 封闭集恰四个、
+  无第五隐藏常量"——方法论缺陷:站点普查只能证明「现实现无第五常量」,而标题菜单在 Reforge 是漏实现
+  的功能,其角色需求不可能出现在现有站点里;正确方法应反查一阶段全部播放位点(wNumMusic 赋值面)。
+  本卡即该错误的勘误;与 M3 期"源悬空"、N1-1 期"R3 前提"同格式记录在案。**
 - GLM: pending
-- counter / 分歧处理: N/A
+- counter / 分歧处理: Opus 无架构 counter;R1-R2 为设计必补(v3 补角色边界钉死/迟到补播竞态与双语义
+  专测),纳入 build 范围。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（三方设计签字未齐，不得改实现）**
+- build 准入结论: **blocked（待 GLM 复核）**
 
 ### 进入 done 前:审查签字
 
@@ -133,14 +145,44 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Opus（schema/跨包/运行时生命周期主审）+ GLM（迁移覆盖/产物/测试矩阵复核）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-16): **agree — 五问逐项裁定**:
+  1. **新增封闭角色**:成立。复用既有封闭联合 + AUDIO_ASSET_ROLES kind 映射(kind=music 机械校验),
+     迁移/升级层独知 track 4、schema/runtime/编辑器只知 AssetId——与 A7-0 四角色同构,零新机制。
+  2. **v3 升级边界**:方向对但须钉死(R1)。第五角色对音乐工程必填 ⇒ 既有 v3 工程(用户本地 FSA 克隆)
+     缺角色会 fail-loud;补齐必须发生在打开边界、幂等、保存固化,运行时零兼容分支。
+  3. **无音乐工程静默**:成立。沿用既有 `hasAudio` 门禁(有音乐 ⇒ 五角色全量必填;无音乐 ⇒ 角色可缺),
+     runtime 读可选 role 存在才播 = 双保险;不为静默放宽有音乐工程的完整性,正确。
+  4. **生命周期**:成立,附 R2。play(role) 在背景载成真正进入菜单后;正常/异常统一 try/finally stop();
+     stop 清 `last`(bgm.ts:58 实证)= 一阶段 :1782-1788 取消补播记账语义的精确对应(含真实用户 bug
+     教训);菜单曲不写 `WorldState.audio.currentMusic` = 应用壳临时态,与战斗临时曲/RNG 呈现态同一
+     "呈现态不落持久态"法理。stop 时机在新游戏/读档启动**之前** = 一阶段 uigame.c:157-158 真值。
+  5. **删除保护**:成立。`collectAssetReferences` 枚举封闭 ASSET_ROLES ⇒ 新角色自动进引用闭包,
+     004 获引用即禁删,零 UI 特判——正是 A7-0 "删除能力只取 typed references" 契约的自然延伸。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 v3 缺新角色的补齐边界钉死**:位置 = 与 v2→v3 同一打开/迁移边界(upgrade-local-v2 扩展为
+    "v2→v3 + v3 角色补全"或独立 v3 normalizer,归 content/editor 既有升级层,不得进 runtime);
+    规则 = `roleTrack(4)` 同构(catalog 有 `music.pal.004` → 004,缺则既有确定性 fallback 首条 music
+    记录,无音乐 catalog 则不写角色);幂等(已有角色的工程重开零改动);保存后固化,运行时不留
+    "缺键容忍"分支。PAL 工程由迁移器重生成直接产五角色,不走此路径。
+  - **R2 补播竞态与双语义专测**:(a) 竞态行——`play(role)` 于 soundfont 初始化未完成期 → `stop()` →
+    初始化完成 → 断言**不补播**(`last` 已清,bgm.ts:58);(b) 语义区分行——音乐开关的"停播留账续播"
+    (:138-140)与菜单 stop 的"清账"是两个不同语义,各自专测钉住,防未来重构误合并;(c) 序列行——
+    菜单读档:stop 先于 bootLoadSlot,载入后 `savedMusic` 接管,菜单曲不得写入或污染
+    `WorldState.audio.currentMusic`。
+- 建议项(S,不阻塞):
+  - S1 A7-0 卡已 done 不回改;其"恰四个"结论的勘误由本卡 + audit/闭包报告承载(卡文档节已列),
+    我的方法论自认见设计签字行。
+  - S2 菜单曲循环语义:一阶段 track 4 为循环播放,`play(role, loop)` 的 loop 参数在测试中显式断言,
+    防默认值漂移。
+- 是否建议进入 build: **待 GLM 复核(迁移覆盖/测试矩阵);R1-R2 纳入 build 范围后 build**。
 
 ### 三方争议记录(按需)
 
 - Codex: 采用新增封闭 role + PAL 迁移绑定 + 菜单临时生命周期，不采用 UI 特判或运行时曲号。
-- Opus: pending
+- Opus: **agree**。五问全立(封闭角色同构/升级边界须钉死/静默沿用 hasAudio 门禁/生命周期与一阶段
+  取消补播语义精确对应/删除保护零特判);附 R1(v3 补角色边界:打开边界+roleTrack(4) 同构+幂等+
+  保存固化)/R2(补播竞态+开关"留账"vs 菜单"清账"双语义+读档序三组专测)+S1-S2。**公开修正本人
+  A7-0"恰四角色"结论——站点普查证明不了漏实现功能的角色需求,应反查一阶段播放位点全集。**
 - GLM: pending
 - 用户拍板: 用户已明确目标菜单；其余待三方设计签字。
 
@@ -198,17 +240,31 @@ Branch: main
 - 2026-07-16 Codex: 完成缺陷确认、UI 通用引用详情（提交 `02c980a9`）和 A7-0A 设计；确认一阶段标题菜单
   track 4、Reforge `?menu` 漏播放、manifest 漏角色、004 因零引用可删除。Evidence: 本卡上下文锚点与
   6010 004/037 浏览器复验。Next: Opus 做 schema/跨包/生命周期设计主审并签 agree/counter；不得开始实现。
+- 2026-07-16 Opus: 设计主审签 **agree + R1-R2 必改 + S1-S2 建议,含本人 A7-0 结论公开修正**。
+  独立重验:一阶段 wNumMusic=4(:1751)与选定停乐+取消补播记账(:1787,载真实用户 bug 教训)、
+  Reforge ?menu 零 BGM(:411-429)、004 产物零引用、bgm `last` 记账/stop 清账(:58/:112/:128)与音乐
+  开关"留账"(:138-140)双语义、roleTrack fallback(upgrade-local-v2:110-115)全部坐实。五问全立:
+  封闭角色同构/升级边界须钉死/静默沿 hasAudio/生命周期精确对应一阶段/删除保护零特判。
+  **公开修正:A7-0"roles 恰四个"系站点普查方法论缺陷——普查现有 bgm.play 站点无法发现漏实现功能
+  (标题菜单)的角色需求,应反查一阶段播放位点全集**。R1=v3 补角色边界(打开边界/roleTrack(4) 同构/
+  幂等/保存固化/运行时零兼容);R2=补播竞态+双语义区分+读档序三组专测。Evidence: 主审立场+锚点
+  实证。Next: GLM 迁移覆盖/测试矩阵复核;三签齐后 Codex build;不得抢跑实现。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手任务:A7-0A 标题菜单音乐角色与删除保护设计主审
+接手任务:A7-0A 标题菜单音乐角色与删除保护,迁移覆盖/测试矩阵复核(GLM)
 任务卡:docs/ops/tasks/A7-0A-opening-menu-music-role.md
-当前状态:draft；Codex 已签 agree，build 准入仍 blocked
-你的角色:Claude Opus，schema/跨包/运行时音乐生命周期主审
-先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部、docs/ops/tasks/A7-0-resource-closure-registry.md；重点核对 packages/game/src/shell/bootstrap.ts:1749-1752,1782-1788,1917-1926 与 packages/reforge/src/main.ts:409-429
-已完成:确认用户指的是“新的故事 / 旧的回忆”标题菜单；一阶段真值为 track 4；Reforge 当前漏播放，manifest 漏角色，004 被误判零引用可删除；通用音乐页 UI 已在 02c980a9 独立提交
-请你做:审新增封闭 audio.openingMenuMusic 角色、旧 v3 升级边界、无音乐工程静默语义、runOpeningMenu 外层 play/try-finally stop 时机、自动/听验矩阵；在本卡 Opus 设计签字写 agree 或 counter+替代方案，并补交接日志
-不要做:不得修改实现文件；不得开始 build；不得用运行时硬编码 004、删除按钮特判或恢复旧 musicId
-输出要求:提交仅任务卡/必要设计文档；给出 Opus 签字结论，并生成可直接交给 GLM 做迁移覆盖/测试矩阵复核的下一位 Agent 提示词
+当前状态:draft;Codex agree + Opus agree(附 R1-R2 必改 + S1-S2,含 Opus 对 A7-0"恰四角色"的公开修正),GLM pending(设计最后一签);build 准入 blocked
+你的角色:GLM,迁移覆盖面/产物/测试矩阵复核;只改任务卡,不得改实现文件
+先读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部(重点 Opus 主审立场 R1-R2)、packages/migrate/src/pal-assets.ts:19-24、packages/editor/src/core/upgrade-local-v2.ts:100-126、packages/reforge/src/audio/bgm.ts:50-145
+请重点复核(数据/测试面,与 Opus 的 schema/生命周期面互补):
+1. 一阶段播放位点反查(修正后的正确方法):扫 packages/game 全部 wNumMusic 赋值/播放位点,确认标题菜单 track 4 之外没有第六个应用级角色需求(splash track 5 已明确划出范围,核对其确属 splash 而非本卡菜单);
+2. 004 现状对账:产物 music.pal.004 零引用(在 13 unused warning 清单内)、6010 当前可删——独立确认;新角色落地后 catalog 引用闭包应计入 roles 引用,unused 清单从 13 变 12;
+3. R1 测试形态:v3 缺角色补齐的幂等测试(已有五角色工程重开零改动/四角色工程补齐后保存固化/无音乐工程不写角色)+ roleTrack(4) 三分支(有 004/无 004 有音乐/无音乐)表驱动;
+4. R2 测试形态:补播竞态(play→init 未完→stop→init 完成不响)、音乐开关"留账续播"vs 菜单 stop"清账"双语义分测、菜单读档序(stop 先于 bootLoadSlot,savedMusic 接管,currentMusic 不被菜单曲污染);
+5. 迁移/MG2 面:PAL 重生成 manifest 五角色断言、MG2 二跑零计划、v2 升级与 v3 补齐分别有集成测试;
+6. 文档勘误面:A7 audit/闭包报告的"四角色"表述更新为五角色并记录遗漏根因(站点普查≠需求普查)。
+不要做:不得修改实现文件;不得开始 build;不得用运行时硬编码 004、删除按钮特判或恢复旧 musicId
+输出要求:在本卡 GLM 设计签字行写 agree 或 counter+理由,补交接日志并提交;三签齐后 build 准入结论改 allowed(R1-R2+S1-S2 纳入 build 范围),交 Codex build
 ```
