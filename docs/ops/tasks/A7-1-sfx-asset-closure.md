@@ -546,8 +546,25 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   的旧行为作为回归反例);④ 同毒双侧不互吞(561 两侧独立 visited);⑤ attackEquivItem→playerTicks
   映射行;⑥ fatal 可见态(非永久 preparing);⑦ done resolve 后屏障回调作废(token+identity 双护栏);
   ⑧ 审计断言 51/26/2/0/63 且 violations=[]、legacyFullLoadEvidence 保留 67/74/94。
-- GLM 二次重签: pending（重点复核两侧毒映射、561/562、51/26/2/0/63 和新 violations 口径;
-  Opus 补测 ③④⑤ 与其映射复核同源,可直接引用)。
+- GLM 二次重签: **agree（2026-07-17;冻结 side-aware 计数 + 验收断言,见下）**。独立复核 side-aware 毒映射逻辑 + 数据自洽性。
+
+  **counter 条件触发确认** ✅：旧 `collectBattleSoundAssets` 毒 BFS（sfx-readiness.ts:180-194）固定读 `poisonDefs[poisonId]?.playerTicks`——但 PAL 561/562 的 `grantItem` 只在 `enemyTicks`（实测：561 playerTicks=0/enemyTicks=8 grantItem=145@tick7；562 同理 grantItem=149@tick7）。**我第一次重签列的 counter 条件确实已触发。**
+
+  **battle-core side mapping 独立验证（读源码逐路径推演）** ✅：
+  - 玩家 cast oneEnemy/allEnemies applyPoison → `applyPoisonToEnemy`（battle-core:951）→ enemy → enemyTicks
+  - 玩家 throw applyPoison → `applyPoisonToEnemy`（:1472）→ enemy → enemyTicks
+  - 玩家 item use applyPoison → `applyPoisonToPlayer`（:1371）→ player → playerTicks
+  - 敌 AI cast applyPoison → `applyPoisonToEnemy`（:951，敌视角 oneEnemy=打队员 :1571 onParty 反转）→ player → playerTicks
+  - attackEquivItem.use.effects applyPoison → `applyPoisonToPlayer`（:1846 附毒攻击自毒）→ player → playerTicks
+  - Codex B1′ side-aware 映射与此一致 ✅
+
+  **数据自洽性** ✅：
+  - Items 145/149（灵蛊/赤血蚕）均无 use.sound/throw.sound（纯 healMp/healHp）→ activePoisonUpper=0 自洽
+  - Skill 315 animation.sound=103 + summon 349 = 2 → maxSingleAction=2 自洽
+  - 新数 51/26/2/0/63：51(battleBase team-27) + 6×2(六人单轮) + 0(毒产物) = 63 ≤ 64 → violations=[] ✅
+  - 旧 67/74/94 保留为 legacyFullLoadEvidence ✅
+
+  **side-aware 枚举完整性** ✅：visited key `${side}:${poisonId}` 不互吞；grantItem 后 use→player throw→enemy 继续闭包；coop 按 target 映射。
 - 用户裁决: 无需(Opus 二次重签 agree,无产品分歧;待 GLM 二次重签齐后直接恢复 build)。
 
 ### 进入 done 前:审查签字
@@ -781,6 +798,7 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   **O5:边距 1 是 PAL 事实非设计余量,63≤64 断言进 CI,超限必 fail-loud 重审不得调预算**。LRU 64 不动。
   Evidence: 二次门禁节 Opus 二次重签行。Next: GLM 二次重签(两侧毒映射/51/26/2/0/63/violations 口径,
   补测 ③④⑤ 可直接引用);签齐后 Codex 恢复 build;不得标 review/done。未改实现文件。
+- 2026-07-17 GLM: readiness 二次返工数据复核签 **agree（side-aware 两级屏障）**。counter 条件触发确认：旧毒 BFS 固定 playerTicks 漏 enemyTicks 561/562（实测 561 playerTicks=0/enemyTicks=8 grantItem=145@7；562 同理 149@7——561/562 是 PAL 全产物唯二带 grantItem 的毒）。battle-core side mapping 逐路径读源码验证：cast oneEnemy/allEnemies+throw→applyPoisonToEnemy→enemyTicks(:951/:1472)；item use+attackEquivItem→applyPoisonToPlayer→playerTicks(:1371/:1846)；敌 AI cast→onParty 反转→playerTicks(:1571)。数据自洽：items 145/149 无 sound→activePoisonUpper=0；skill315 103+349→maxSingleAction=2；51+6×2+0=63≤64→violations=[]；旧67/74/94 保留 legacyFullLoadEvidence。side-aware 枚举完整：visited key `${side}:${poisonId}` 不互吞、grantItem 后 use→player throw→enemy 继续闭包、coop 按 target 映射。Evidence: 二次门禁 GLM 行。Next: Opus+GLM 二次重签齐，Codex 恢复 build（side-aware collector 实现）。未改实现文件。
 
 ## 下一位 Agent 提示词
 
