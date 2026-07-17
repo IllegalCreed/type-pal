@@ -273,10 +273,31 @@ Branch: main
 
   **总结**：FSA/LAN rework 覆盖面完整（secure-context 先判 + 两类提示 + dev:lan + 另存为 activation 顺序正确）；C1-C5 全有专测；MG2 零计划；G1 chunk 6 已迁移；静态归零。editor 214 + reforge 370 + content 208 + migrate 199 全绿。**accept**（本轮 FSA/LAN + C1-C5 rework 的覆盖/测试面）。
 
-- counter / 返工处理: C1-C5 已由 Codex 修复并自验；第一阶段仅作真值，`git diff -- packages/game` 为空。
-  **GLM accept（覆盖/测试面）**；Opus 历史 counter（C1 视觉回归）待 Opus 改签；真实 FSA 保存重开仍需人工复验。
+- Opus 返工复核: **accept（2026-07-17,实现/性能/视觉主审;C1 counter 解除）**。逐项运行时+代码实证:
+  - **C1(原阻塞项)已修 —— 代码 + 运行时 + 视觉三重确认**。① 代码:0x71 屏波离屏 pass 现单建绑定 `wctx`
+    的 `waveRenderer`(main.ts:2669),主 ctx 静态 pass 独立 `save/scale(WORLD_SCALE)/renderScene({skipBase})/
+    restore` 收口(main.ts:2681-2685);`renderSceneFrame` 加 `renderer.context !== ctx` fail-loud
+    (render-scene.ts:34-35)——正是能拦住 b99d4fb7 旧 bug(把主 ctx 绑定 renderer 传给 wctx)的结构性护栏。
+    ② 运行时:直入 `?scene=s059`(root 启用 0x71,`sys:screenWave=2` 实证屏波激活)后世界内容边界实测
+    **1279×799 铺满 1280×800**,非我 counter 记录的 620×356 半尺寸。③ 视觉:s059 血海梦境("灵儿！月如！"
+    那幕)整屏渲染、红海波动正常。
+  - **C2(三人被地形截半身)已修 —— 视觉确认**:同帧三主角以**全身**立于岛上,遮挡排序正确。
+  - **C3/C4/C5**:与 GLM 复核一致(skipKeys=[] 默认 / s059 600ms fade-in overlay / seedFormationTrail);
+    s059 世界正常渲染 + 三人在场,活证 C4 淡入与 C5 队形收尾。
+  - **FSA/LAN 已验**:分类器先判 isSecureContext 再判 picker(file-system-access.ts:31-49),localhost:6010
+    实测 secureContext=true→available;`pickDir` 统一入口四流程共用;`saveProjectAs` 先弹 picker(:76)再
+    await buildFiles(:78) 保 transient activation。**真实句柄 save→reopen round-trip 实证**:OPFS 背书的真
+    `FileSystemDirectoryHandle`(与原生同 API)走真实"另存为"→写出合法 manifest.json(有 id)+content/+assets/
+    →"打开工程"重开无报错、工程正常加载。
+  - 诚实边界:(a) save→reopen 以 OPFS 真句柄验证(原生 OS 对话框是浏览器原生手势、无法自动化,与 A7-0
+    同口径);(b) s066→帧动画→s059 未走真实门(无可达存档),C1 根因(屏波 pass)已由直接激活 s059 屏波
+    (实际故障渲染路径)确证;(c) 900×720 无横向溢出以 Codex Playwright + GLM 复核为准。
+  - GLM 的 O1(reforge Biome 5 处 auto-fixable 漂移)/O2(asset.test.ts:294 缺 site 的 pre-existing fixture)
+    附议为 done 前清理项,非阻塞。**C1 counter 解除,Opus accept**。
+- counter / 返工处理: C1-C5 + FSA/LAN 已由 Codex 修复;**Opus 返工复核 accept + GLM accept**(证据见各自签字)。
+  仅剩:原生 OS 对话框 save→reopen 交用户终验(自动化以 OPFS 真句柄等价证明);done 前建议清 O1/O2。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Opus 历史 counter 尚未改签；真实 FSA 保存重开与独立视觉复核未完成；GLM 已签 accept）
+- done 准入结论: blocked（Opus + GLM 均 accept;待用户对原生对话框 save→reopen 终验 + done 前清 O1/O2）
 
 ## Draft: 设计与风险
 
@@ -453,7 +474,9 @@ Branch: main
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论:Codex 已完成 C1-C5 返工并自验；**Opus 历史 counter 尚待复核改签**；GLM pending。
+- 审查结论:Codex 已完成 C1-C5 + FSA/LAN 返工并自验；**Opus 返工复核 accept(C1 counter 解除)**;
+  **GLM accept(覆盖/测试面)**。三方 review 齐 accept,余用户对原生 OS 对话框 save→reopen 终验 + done 前
+  清 O1(reforge Biome auto-fix)/O2(asset.test.ts:294 site fixture)。
 - 已验证通过(Opus,2026-07-16,不必返工的部分):
   - **资源闭包/契约**:catalog 精确 6 video + 12 frame-animation + 1 color-table;TPFS 12 段总
     7,960,282 B、SHA-256/bytes 逐项匹配;`frame-sequence.ts` codec R1 全落地(u32 LE 索引前缀、
@@ -480,10 +503,13 @@ Branch: main
 - FSA/LAN 结果（Codex,2026-07-17）：`editor` typecheck/test/build 全绿（28 files/214 tests）；HTTP localhost、
   HTTP 局域网 IP、HTTPS 局域网 IP 三态矩阵符合预期；`dev:lan` 文档与启动脚本已落地，来源切换提示会要求
   重新选择目录句柄。
-- 未完成:Opus C1-C5/FSA 实现与视觉复核、GLM 覆盖/迁移矩阵复核、真实 FSA 句柄保存重开；
-  历史 C1 要求的真实门进入与父提交对照也未做（当前 s066→s059 现路径的 context mismatch 已由 guard/独立
-  renderer 证据定位，不把未做的对照冒充完成）。
-- Accept / rework: **rework**（返工自验完成，审查签字未齐，不得标 done）。
+- Opus 返工复核结果（2026-07-17）：C1 代码(独立 waveRenderer + context fail-loud guard)+ 运行时(s059
+  屏波激活 sys:screenWave=2、世界 1279×799 铺满非 620×356)+ 视觉(血海梦境整屏、三人全身)三重确认修复;
+  C2 视觉确认;FSA 分类器/pickDir 统一/saveAs activation 顺序代码确认 + OPFS 真句柄 save→reopen round-trip
+  实证(另存为写出合法 manifest+content+assets,打开工程无报错加载)。**C1 counter 解除,Opus accept**。
+- 未完成:真实原生 OS 文件夹对话框 save→reopen 交用户终验(自动化以 OPFS 真句柄等价证明);s066→帧动画→
+  s059 真实门进入未走(无可达存档,C1 已由直接激活 s059 屏波路径确证根因修复)。
+- Accept / rework: **Opus accept + GLM accept**（三方 review 齐,待用户验收;done 前清 O1/O2,不得提前标 done）。
 
 ## 用户验收
 
@@ -548,25 +574,35 @@ Branch: main
   并在 900×720 场景页与过场资源页确认无横向溢出。真实目录句柄授权与保存重开仍交 Opus/用户人工复验。
   Next: Opus 复核 C1-C5 + FSA 说明/视觉，GLM 复核覆盖；不得标 done。
 - 2026-07-17 GLM: rework 覆盖/测试复核签 **accept**。七项独立实测：(1)测试套件 editor 214/reforge 370/content 208/migrate 199+1skip 全绿。(2)FSA file-system-access.ts classifyDirectoryPicker 先 isSecureContext 再 showDirectoryPicker 两类区分+3 tests。(3)dev:lan EDITOR_LAN_HTTPS=1 basicSsl 条件注入 localhost 保持 HTTP LAN-IP 走 HTTPS；另存为 pickDir(:76)先于 buildFiles(:78)保 transient activation。(4)C1-C5 全有专测——屏波 context-mismatch guard+32-phase/nudgeParty layer 保留/skipKeys 默认空不可跳/s059 fade-in overlay/seedFormationTrail 四向。(5)MG2 writes=0+chunk6 在 catalog(frame-animation.pal.006)+palette map{3:2,6:3,7:6}入报告+startup videos manifest roles。(6)静态 playRng/chunkIdx/rngPaletteId/videoId 目标包零命中。(7)O1 reforge Biome 5 格式漂移(auto-fixable)/O2 content asset.test:294 缺 site(pre-existing)/O3 migrate integration skip(慢)均非阻塞。Evidence: done 准入 GLM 行。Next: 待 Opus C1-C5/FSA 视觉改签+真实 FSA 保存重开人工复验。未改实现文件。
+- 2026-07-17 Opus: rework 实现/性能/视觉主审签 **accept,C1 counter 解除**。运行时+代码+视觉三重实证:
+  C1 —— 代码(独立 waveRenderer main.ts:2669 + renderSceneFrame context fail-loud render-scene.ts:34-35,
+  拦得住 b99d4fb7 旧 bug)、运行时(直入 ?scene=s059,sys:screenWave=2 屏波激活,世界内容 1279×799 铺满
+  1280×800 非 620×356 半尺寸)、视觉(血海梦境"灵儿！月如！"整屏、红海波动正常);C2 视觉(三人全身立岛,
+  遮挡正确);C3/C4/C5 与 GLM 复核一致且 s059 世界+三人在场活证。FSA —— 分类器先判 isSecureContext
+  (localhost 实测 available)、pickDir 统一四流程、saveAs 先弹 picker(:76)再 buildFiles(:78) 保 activation;
+  **OPFS 真 FileSystemDirectoryHandle save→reopen round-trip 实证**:另存为写出合法 manifest(有 id)+content/
+  +assets/,打开工程无报错正常加载。诚实边界:原生 OS 对话框手势无法自动化(与 A7-0 同口径,以 OPFS 真
+  句柄等价证明,交用户终验);s066→动画→s059 真实门未走(C1 根因屏波 pass 已直接激活 s059 屏波确证)。
+  附议 GLM O1/O2 为 done 前清理项。Evidence: done 准入 Opus 行 + Review 节。Next: 三方 review 齐 accept,
+  交用户验收(原生对话框 save→reopen)+ done 前 `biome check --write packages/reforge` 清 O1、修 O2 fixture;
+  不得提前标 done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 A7-3 rework 审查（不得改实现文件）。
-任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 rework；Opus 历史 counter，GLM pending，不得标 done）。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字与 Review、
-docs/phase2/foundation/n-event-script-audit.md 的 2026-07-16 补记。
-已完成：
- - C1：s066→s059 屏波 context mismatch → 独立 waveRenderer + renderSceneFrame context guard；背景-only 波动，
-   人物/cover 静态，探索波相位只按 100ms 世界拍推进。
- - C2：0x6E layer + PAL 五邻 cover/排序；C3：剧情 RNG 默认不可跳，skipKeys 仅显式 opt-in。
- - C4：s059 dlg.4348 后显式 600ms fade-in，表达 0x50/首个 MakeScene 隐式语义并已重迁。
- - C5：switchScene/teleportParty 按 0x46 seedFormationTrail，静止 follower 用 trail[m]，终场无需移动即三人完整。
-证据：Reforge 43 files/370 tests；Migrate 29 files/199 passed + 1 skipped；Reforge/Migrate/Editor typecheck；
-Reforge build；迁移 writes=0 deletes=0 conflicts=0；packages/game 零 diff；6051 默认 RNG 不跳、淡入继续、
-无方向键终场三人完整画布复验。FSA/LAN：`dev:lan` 提供 HTTPS；HTTP localhost / HTTP IP / HTTPS IP
-能力矩阵与 900×720 场景/过场资源页无横向溢出已验证；另存为先选目录再序列化，保持用户激活。
-下一步：Opus 审实现/视觉，GLM 审迁移/覆盖，分别返回 accept 或列出具体 counter；不得标 done。
-注意：HTTPS 自动化证据绕过了开发自签证书错误，不等于普通浏览器已信任证书。仍未完成：真实 FSA 句柄
-“保存→重开”、Opus/GLM 复核；不得开始实现或标记 done。
+接手 A7-3 用户验收 + done 前收尾（不得改实现逻辑，仅允许 O1/O2 清理与 done 收尾）。
+任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 rework；三方 review 已齐 accept：
+Codex accept / Opus accept(C1 counter 解除) / GLM accept；仅剩用户验收 + done 前清理，未验收前不得标 done）。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字与 Review 全部。
+已完成（三方 review 齐 accept）：
+ - C1-C5 修复经 Opus 运行时+代码+视觉三重实证（s059 屏波激活世界 1279×799 铺满、三人全身、context guard）；
+   GLM 覆盖/测试面全过（C1-C5 全有专测、MG2 零计划、G1 chunk6 迁移、静态归零、214/370/208/199 全绿）。
+ - FSA/LAN：分类器先判 isSecureContext、pickDir 统一、saveAs activation 顺序正确；Opus 以 OPFS 真句柄
+   实证 save→reopen round-trip（另存为写合法 manifest+content+assets、打开工程无报错加载）。
+待用户/收尾 Agent 做：
+ 1. 用户在真实原生 OS 文件夹对话框下走一次 save→reopen（自动化只能以 OPFS 真句柄等价证明，原生手势需人工）。
+ 2. done 前清理（非阻塞观察）：`biome check --write packages/reforge` 清 O1 的 5 处格式漂移；
+    修 O2（content asset.test.ts:294 缺 `site` fixture 一行）令 `pnpm check` 全绿。
+ 3. 用户验收通过 + 上述清理后方可将 Status 改 done、更新 capability-map；三方 review 已齐但用户未验收前不得标 done。
+注意：HTTPS 自动化证据绕过了开发自签证书错误，不等于普通浏览器已信任证书；原生对话框 save→reopen 仍需人工终验。
 ```
