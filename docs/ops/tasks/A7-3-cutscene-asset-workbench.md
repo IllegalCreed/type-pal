@@ -1,6 +1,6 @@
 # A7-3 - 视频与帧动画资源闭包及过场工作台
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: A7 / R3 / R7 / X3
 Coding Owner: Codex
@@ -194,6 +194,8 @@ Branch: main
   1,464 帧/7,960,282 B，catalog 大小与 SHA-256 逐项匹配。全仓 3,611 tests passed、1 skipped，
   Biome 707 files、editor/reforge build、迁移零计划、旧路径静态扫描均通过；6010 HTTP 工作台与 6051
   `s066` 全段/跳过已做浏览器验证。真实 FSA 句柄和窄视口留给 Opus 独立复验，不冒充已完成。
+  **返工注（2026-07-16）**：这是 C1-C5 出现前的历史自审签字，已被用户复现与 Opus counter 推翻；其中
+  “剧情 RNG 可跳过”本身也是错误验收口径。Codex 当前结论为 `rework`，不得把此旧 `accept` 用作 done 准入。
 - Opus: **counter（2026-07-16,实现/性能/视觉主审）**。资源闭包/契约/迁移/编辑器工作台五个面全部实证通过
   (见下"已验证通过"),但发现一个**用户当场确认的运行时视觉回归**必须返工,故签 counter:
   **【C1 · 阻塞】s066 开场帧动画(血池梦境 000)播完后,后续世界场景("灵儿！月如！"对白那段)以约半尺寸
@@ -202,8 +204,8 @@ Branch: main
     均满屏正确渲染,s227 动画前世界也满屏——**只在帧动画播完后的世界帧出现半尺寸**。
   - 已排除:①`frameAnimationLayerMode='idle'`(Cinematic Layer 不是元凶,已复位);②`ctx.getTransform()`
     为单位阵(非 ctx transform 泄漏);③canvas 1280×800、cssWH 1280×800、DPR 2 均正常(非 DPR 错配);
-    ④s066 不含 setScreenWave(非屏波 offscreen 路径);⑤resize 与相机移动后 620×356 不变(**持久态损坏,
-    非单帧闪烁**)。
+    ④s066 root 本身不含 setScreenWave（但动画结束会 load `s059`，其 root 才启用 0x71；因此这条旧排除
+    不能排除实际故障路径）；⑤resize 与相机移动后 620×356 不变(**持久态损坏,非单帧闪烁**)。
   - 定位方向(交 Codex 根因):世界经 `renderSceneFrame(ctx, renderer, {worldScale: WORLD_SCALE=4})` 每帧常量
     绘制,却半尺寸 → 半尺寸(≈640×400=1280×800 的一半,等效 worldScale=2)被烘进 `Canvas2DRenderer`/
     renderSceneFrame 或帧动画播放后遗留的内部态,而非本帧参数。b99d4fb7 对 main.ts 的合成 diff 仅是
@@ -214,12 +216,67 @@ Branch: main
     梦境后是否也半尺寸)——需 Codex checkout 父提交对照。无论(a)(b)结论如何,C1 都falsify 了 Codex 自审
     "6051 s066 全段播放、正常结束和空格跳过清理通过"与视觉记录"无跳过残留",故本卡必须返工或由用户
     对该已知缺陷显式豁免后才能进 done。
-- GLM: pending
-- counter / 返工处理: **C1 世界半尺寸回归**(见 Opus 行)。返工要求:根因定位 + 修复 + 6051 s066 帧动画后
-  世界满屏复验 + 回答 dev-jump/回归两开放项;修复后重跑 6051 代表性帧动画场景(至少 s066 + 一个动画在
-  中段的场景如 s227/s149)确认世界层前后均满屏。
+- Codex 返工（2026-07-16，待 Opus/GLM 复核）：
+  - **C1 已定位**：`s066` 播完帧动画后进入 `s059`，后者才启用 0x71 屏波。旧屏波离屏 pass 把绑定主
+    `ctx` 的 `Canvas2DRenderer` 传给 `wctx`，renderer 实际落笔与目标 transform 错配，造成半尺寸/画布污染。
+    现为离屏 `wctx` 单建 `waveRenderer`，`renderSceneFrame` 对 context 不一致 fail-loud；严格按
+    `scene.c:475-491` 先卷背景、后静态绘人物/cover，人物不随波。相位只在探索 100ms 世界拍推进，rAF
+    只复用当前相位。
+  - **C2 已修**：迁移保留 0x6E 第三 operand 为 `nudgeParty.layer`；运行时以 PAL 的 party/NPC layer、
+    sort offset 和五邻 cover candidate 参与遮挡排序，解决三人被地形截成半身。
+  - **C3 已修**：原版剧情 RNG 循环不读取输入，Reforge 默认 `skipKeys=[]`；只有开发/编辑器预览显式
+    传入 `skipKeys` 才能跳。默认 Space 不跳与 opt-in 可跳均有单测。
+  - **C4 已修**：原版 dlg.4348 后 0x50 只置 `fNeedToFadeIn`，首个 `PAL_MakeScene` 自动淡入；clean
+    脚本曾只保留 fade-out，故永久黑屏。s059 语义 overlay 在首个 wait 前显式加入 600ms fade-in，已上游
+    重迁并双跑零计划。不能全局 blanket fade-in，以免破坏 FBP/RNG 的黑屏保持。
+  - **C5 已修**：原版 0x46 不只移动队长，还按朝向重填 `rgTrail`。Reforge 的场景落点/teleport 现用
+    `seedFormationTrail` 铺满直线队形并清 frozen/派生 follower；静止回退使用 `trail[m]`。最终 `setParty`
+    恢复三人后无需移动即可出现。
+- Codex FSA/LAN 修复（2026-07-17，待 Opus/GLM 复核）：
+  - 根因确认：Chrome 的 File System Access API 要求 secure context；`http://localhost` 是开发期安全来源，
+    `http://<局域网IP>` 不是，因此 IP 入口会把 `showDirectoryPicker` 隐藏。编辑器现在统一通过
+    `packages/editor/src/core/file-system-access.ts` 先区分“来源不安全”和“浏览器不支持”，避免误报。
+  - 新增 `pnpm --filter @type-pal/editor run dev:lan`：以 `0.0.0.0:6010` 提供开发 HTTPS；访问
+    `https://<局域网IP>:6010/` 后可恢复 picker。开发证书首次会有浏览器警告；协议、主机或端口变化是新 origin，
+    localhost 已保存的目录句柄必须重新选择。
+  - 浏览器矩阵（Playwright/Chrome，900×720；HTTPS 会话使用 `ignoreHTTPSErrors` 绕过开发自签证书错误，
+    仅证明 TLS 页面进入 secure context，不冒充普通浏览器已信任证书）：`http://localhost:6012` → secure/picker function；
+    `http://10.105.21.65:6012` → insecure/picker undefined 且显示可操作提示；
+    `https://10.105.21.65:6010` → secure/picker function。编辑器场景页和过场资源页均无横向溢出
+    (`scrollWidth === clientWidth === 900`)；真实原生目录授权器“保存→重开”仍需人工/Opus 复验。
+  - 另存为也已保持用户激活：先弹目录选择器，再异步序列化/复制地图文件，避免大工程序列化耗尽 transient activation。
+- GLM: **accept（2026-07-17;见下）**。本轮 rework（FSA/LAN + C1-C5）覆盖/测试矩阵复核全过。
+
+  **测试套件** ✅：editor 28 files/214 tests / reforge 43 files/370 tests / content 21 files/208 tests / migrate 29 files/199+1skip 全绿。
+
+  **FSA 能力检测** ✅：`file-system-access.ts` classifyDirectoryPicker 先判 `isSecureContext`（:31 insecure-context）再判 `showDirectoryPicker`（:43 unsupported-browser），两类错误各自可操作中文提示（:36-40 指引 dev:lan / :47 换浏览器），3 tests 覆盖。
+
+  **dev:lan HTTPS 入口** ✅：`package.json:8` `EDITOR_LAN_HTTPS=1 vite --host 0.0.0.0 --port 6010`；vite.config:85 条件注入 basicSsl。localhost HTTP 保持 HTTP（浏览器豁免），仅 LAN-IP 走 HTTPS。
+
+  **另存为 transient activation** ✅：`open-actions.ts:76` `pickDir()` 先弹（用户手势内），`:78` `buildFiles()` 异步序列化在后。注释 :68-69 明确 "不能先 await 序列化再弹 picker"。正确顺序。
+
+  **C1-C5 修复测试覆盖** ✅：
+  - **C1 屏波**：render-scene.test context-mismatch fail-loud guard + screen-wave.test 32-phase 表 ✅
+  - **C2 nudgeParty**：script-runner.test:153-160 layer 保留 + 缺省 0 ✅
+  - **C3 skipKeys**：frame-animation-player.test:162-170 默认空不可跳/opt-in 可跳 ✅
+  - **C4 fade-in**：script-overlays.test:41-66 s059 0x50 后显式 600ms fade-in overlay ✅
+  - **C5 trail**：follower.test:114-149 seedFormationTrail 四向参数化 ✅
+
+  **MG2 + chunk 6（G1）** ✅：dry-run `writes=0 deletes=0 conflicts=0`；chunk 6 在 catalog（`frame-animation.pal.006` → 006.tpfs origin legacy-migrated）；legacy palette map `{3:2,6:3,7:6}` 入迁移报告（S2 落地）；startup videos 经 manifest roles（startupTrademark→video.pal.001/splash→002）。**G1 落地确认：chunk 6 已作一等资产迁移；phase-1 game/shell bootstrap 属一阶段范围不在 phase-2 reforge 运行时。**
+
+  **静态扫描归零** ✅：playRng/chunkIdx/rngPaletteId/videoId 在 content/reforge/editor 目标包（非 test/非 migrate/非注释）零命中；`/extracted/videos`/`/extracted/data/animation` 在 reforge/editor 运行时零命中。
+
+  **非阻塞观察（不影响 accept）**：
+  - **O1**：reforge Biome 5 处格式/import-sort 漂移（全 auto-fixable，零 lint error）——建议 done 前 `biome check --write packages/reforge` 清零。
+  - **O2**：content typecheck `asset.test.ts:294` 缺 `site` 字段（pre-existing，卡内已声明与本轮无关）——如需 `pnpm check` 全绿需一行 fixture 修复。
+  - **O3**：migrate pal-migration-integration.test 零计划测试 skip（38s 慢集成）——MG2 零计划由 CLI dry-run + 其他 plan 测试覆盖，非缺口。
+
+  **总结**：FSA/LAN rework 覆盖面完整（secure-context 先判 + 两类提示 + dev:lan + 另存为 activation 顺序正确）；C1-C5 全有专测；MG2 零计划；G1 chunk 6 已迁移；静态归零。editor 214 + reforge 370 + content 208 + migrate 199 全绿。**accept**（本轮 FSA/LAN + C1-C5 rework 的覆盖/测试面）。
+
+- counter / 返工处理: C1-C5 已由 Codex 修复并自验；第一阶段仅作真值，`git diff -- packages/game` 为空。
+  **GLM accept（覆盖/测试面）**；Opus 历史 counter（C1 视觉回归）待 Opus 改签；真实 FSA 保存重开仍需人工复验。
 - 缺签豁免: N/A
-- done 准入结论: blocked（C1 阻塞;Opus counter,GLM 未复核,真实 FSA/窄视口未完成）
+- done 准入结论: blocked（Opus 历史 counter 尚未改签；真实 FSA 保存重开与独立视觉复核未完成；GLM 已签 accept）
 
 ## Draft: 设计与风险
 
@@ -334,7 +391,10 @@ Branch: main
     支持导入/替换/改名/保护删除、图片序列自然排序后人工重排/剔除、完整帧插入/替换/多选复制删除/拖排、
     时长、撤销重做、Worker 批量量化与编码、未保存切换保护。410 帧时间轴仅渲染 12-15 个可见项。
   - **A7-3D 闭包**：临时断开外部视频/RNG 目录后，HTTP 编辑器仍可播放 MP4、打开 410 帧动画；6051
-    `s066` 实际 TPFS 全段播放、正常结束和空格跳过清理通过。MG2 作者接管与二跑零计划通过。
+    `s066` 实际 TPFS 全段播放和正常结束通过。历史“空格跳过通过”已被推翻：剧情 RNG 原版默认不可跳，
+    当前也默认不可跳；快捷跳过仅供显式 opt-in 的开发/编辑器预览。MG2 作者接管与二跑零计划通过。
+  - **s066→s059 视觉返工**：屏波改为背景-only 双 pass + 独立 renderer；0x6E layer/cover 排序恢复；
+    s059 显式表达原版隐式 600ms fade-in；场景落点/teleport 按 0x46 重建队伍 trail。
 - 运行命令:
   - `pnpm check`：shared 111、content 207、reforge 360、game 2,294、pal-extract 251、migrate 196、
     editor 192，共 3,611 tests passed、1 skipped；Biome 检查 707 文件，无错误。
@@ -345,10 +405,19 @@ Branch: main
   - `rg ... packages/content/src packages/reforge/src packages/editor/src --glob '!**/*.test.ts'`：
     `/extracted/videos`、`/extracted/data/animation`、`playRng/chunkIdx/videoId/rngPaletteId` 零命中。
   - `git diff --check`：通过。
+  - 返工后：Reforge 43 files / 370 tests；Migrate 29 files / 199 passed + 1 skipped；Reforge/Migrate/
+    Editor typecheck、Reforge build、`git diff --check` 全通过。Content typecheck 仅保留既有
+    `asset.test.ts:294` fixture 缺 `site` 的 TS2345，与本轮无关。
+  - 返工后迁移 dry-run：`writes=0 deletes=0 conflicts=0`，294 scenes、`ref-warnings=0`、
+    `script-issues=0`；`git diff -- packages/game` 为空。
 - 浏览器 / 手工检查:
   - 6010：视频 `001` 为 blob 工程源且原生 controls 可播；帧动画 `001` 为 320×200/410 帧/16.40 秒，
     播放推进、虚拟滚动、多选复制/删除/撤销、Worker 标准色量化和保存按钮状态符合预期。
-  - 6051 `?scene=s066`：真实帧动画全段播放后进入后续场景；播放中按空格立即跳过，画面层和 DOM 无残留。
+  - 6051 `?scene=s066` 历史检查“播放中按空格立即跳过”已作废：它证明了旧实现偏离原版，不再是通过证据。
+  - 返工后 6051 `?scene=s066`：帧动画播放中按 Space 仍停留 s066 并继续出帧；进入 s059 后三人完整、
+    人物不随背景波动，屏波按 100ms 世界拍推进。
+  - s059 dlg.4348 后先淡出，再于 600ms 淡入后继续“好臭的味道”对白，不再永久黑屏；关闭最后一句时只按
+    Space、不发送方向键，完整 1280×800 画布立刻显示李逍遥、赵灵儿、林月如三人队形。
   - 临时改名外部视频/RNG 目录后重新加载 6010，视频与动画仍从工程资产打开；验证后已恢复目录名。
 - 跳过的检查及原因:
   - 未在 Codex 浏览器环境执行真实 File System Access 目录句柄“保存→重开”手测；FSA/FileSource 核心有单测，
@@ -369,19 +438,22 @@ Branch: main
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Opus + User
-- 验证方式:6010 工作台交互 + 6051 `s066` 实际运行/跳过；检查完整帧画面、时间轴、引用栏和播放层清理。
+- 验证方式:6010 工作台交互 + 6051 `s066→s059` 实际运行；检查剧情 RNG 默认不可跳、完整帧画面、
+  背景-only 屏波、遮挡、淡入和无方向输入的终场三人队形。
 - 截图 / 像素检查路径:
   - `docs/ops/evidence/A7-3/editor-frame-workbench-desktop.png`
   - `docs/ops/evidence/A7-3/reforge-s066-frame-animation.png`
   - `docs/ops/evidence/A7-3/reforge-s066-skip-cleanup.png`
-- 结论:Codex 桌面 HTTP 与运行时视觉检查通过，无全屏编辑器视频、外部路径 fallback 或跳过残留。
-- 未完成项:真实 FSA 句柄保存重开、6010 窄视口、Opus 独立视觉复验。
+- 结论:Codex 桌面 HTTP 与运行时返工自验通过；旧“跳过残留”口径作废，当前剧情 RNG 默认不可跳。
+- 未完成项:真实 FSA 句柄保存重开、Opus 独立视觉复验；窄视口已在 900×720 的场景页与过场资源页
+  做尺寸回归（仍需 Opus 独立视觉复验）。
+- LAN HTTPS 说明：自动化使用 `ignoreHTTPSErrors`，所以证据覆盖 secure-context/API 暴露与布局，
+  不覆盖用户首次面对自签证书警告时的点击路径；真实目录授权仍保留人工复验门。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论:Codex 自审 accept；**Opus 实现/性能/视觉主审 counter(C1 s066 帧动画后世界半尺寸回归,证据见
-  done 前签字 Opus 行)**;GLM pending。
+- 审查结论:Codex 已完成 C1-C5 返工并自验；**Opus 历史 counter 尚待复核改签**；GLM pending。
 - 已验证通过(Opus,2026-07-16,不必返工的部分):
   - **资源闭包/契约**:catalog 精确 6 video + 12 frame-animation + 1 color-table;TPFS 12 段总
     7,960,282 B、SHA-256/bytes 逐项匹配;`frame-sequence.ts` codec R1 全落地(u32 LE 索引前缀、
@@ -401,9 +473,17 @@ Branch: main
     `{003:2,006:3,007:6,其余0}` 精确对应 `RNG_PALETTE={3:2,6:3,7:6}`(S2 落地),asset-refs=1354/
     warnings=15(12 音乐 + 3 未引用动画);定向套件(frame-sequence/asset/player/presentation/
     script-runner/draft/codec/reader)全绿。
-- 必须返工项: **C1**(s066 帧动画后世界半尺寸回归,阻塞)。
-- 未完成(counter 后暂停):真实 FSA 句柄保存重开、6010 窄视口——待 C1 修复后与 GLM 复核一并收口。
-- Accept / rework: **rework**（Opus counter；C1 修复后重走 Opus 视觉复验 + GLM 覆盖/迁移矩阵复核）。
+- 返工结果（Codex,2026-07-16）：
+  - C1 context mismatch 已以独立 `waveRenderer` + context guard 修复；C2 layer/cover、C3 RNG 默认不可跳、
+    C4 s059 隐式淡入、C5 0x46 formation trail 均已补测试与浏览器证据。
+  - 全量 Reforge/Migrate 测试、三包 typecheck、Reforge build、迁移零计划和 phase1 零 diff 通过。
+- FSA/LAN 结果（Codex,2026-07-17）：`editor` typecheck/test/build 全绿（28 files/214 tests）；HTTP localhost、
+  HTTP 局域网 IP、HTTPS 局域网 IP 三态矩阵符合预期；`dev:lan` 文档与启动脚本已落地，来源切换提示会要求
+  重新选择目录句柄。
+- 未完成:Opus C1-C5/FSA 实现与视觉复核、GLM 覆盖/迁移矩阵复核、真实 FSA 句柄保存重开；
+  历史 C1 要求的真实门进入与父提交对照也未做（当前 s066→s059 现路径的 context mismatch 已由 guard/独立
+  renderer 证据定位，不把未做的对照冒充完成）。
+- Accept / rework: **rework**（返工自验完成，审查签字未齐，不得标 done）。
 
 ## 用户验收
 
@@ -456,30 +536,37 @@ Branch: main
   (pre-b99d4fb7 对照)?C1 falsify 了自审"s066 全段...清理通过",本卡回 rework。真实 FSA 保存重开与
   窄视口在 C1 修复后与 GLM 一并收口。Evidence: done 前签字 Opus 行 + Review 已验证通过节 + 6051 实测
   边界/transform/持久性数据。Next: Codex 根因定位 + 修复 C1 + 回答两开放项,再转 Opus 复验。未改实现文件。
+- 2026-07-16 Codex: 完成用户回归 C1-C5 返工。C1 根因是 s066→s059 后屏波离屏目标与 renderer
+  context 错配，改为独立 waveRenderer + fail-loud guard，并按 SDLPal 顺序只卷背景、人物/cover 静态叠回；
+  屏波相位仅 100ms 世界拍推进。C2 恢复 0x6E layer/五邻 cover 遮挡；C3 恢复剧情 RNG 默认不可跳；
+  C4 在 s059 语义 overlay 表达 0x50→首个 MakeScene 的 600ms 隐式淡入并重迁；C5 按 0x46 重建 trail。
+  浏览器在不发送方向键下确认终场完整三人队形。Evidence: Reforge 370 tests、Migrate 199+1、三包
+  typecheck、Reforge build、迁移 `writes=0 deletes=0 conflicts=0`、`packages/game` 零 diff。
+  Next: Opus/GLM 只审查并签 accept/counter，不得标 done。
+- 2026-07-17 Codex: 处理局域网 IP 下 Chrome FSA 不可用。新增 `file-system-access.ts` 能力分类与单测、
+  `dev:lan` HTTPS 启动入口、保存/启动屏统一 guard；完成 HTTP localhost / HTTP IP / HTTPS IP 实测矩阵，
+  并在 900×720 场景页与过场资源页确认无横向溢出。真实目录句柄授权与保存重开仍交 Opus/用户人工复验。
+  Next: Opus 复核 C1-C5 + FSA 说明/视觉，GLM 复核覆盖；不得标 done。
+- 2026-07-17 GLM: rework 覆盖/测试复核签 **accept**。七项独立实测：(1)测试套件 editor 214/reforge 370/content 208/migrate 199+1skip 全绿。(2)FSA file-system-access.ts classifyDirectoryPicker 先 isSecureContext 再 showDirectoryPicker 两类区分+3 tests。(3)dev:lan EDITOR_LAN_HTTPS=1 basicSsl 条件注入 localhost 保持 HTTP LAN-IP 走 HTTPS；另存为 pickDir(:76)先于 buildFiles(:78)保 transient activation。(4)C1-C5 全有专测——屏波 context-mismatch guard+32-phase/nudgeParty layer 保留/skipKeys 默认空不可跳/s059 fade-in overlay/seedFormationTrail 四向。(5)MG2 writes=0+chunk6 在 catalog(frame-animation.pal.006)+palette map{3:2,6:3,7:6}入报告+startup videos manifest roles。(6)静态 playRng/chunkIdx/rngPaletteId/videoId 目标包零命中。(7)O1 reforge Biome 5 格式漂移(auto-fixable)/O2 content asset.test:294 缺 site(pre-existing)/O3 migrate integration skip(慢)均非阻塞。Evidence: done 准入 GLM 行。Next: 待 Opus C1-C5/FSA 视觉改签+真实 FSA 保存重开人工复验。未改实现文件。
 
 ## 下一位 Agent 提示词
 
 ```text
-接手 A7-3 C1 返工：过场帧动画后世界半尺寸回归（Coding Owner: Codex）。
-任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 review；Opus 已签 counter，GLM pending，不得标 done）
-背景：Opus 实现/性能/视觉主审已通过资源闭包/契约/TPFS codec/迁移/编辑器工作台/引用模型五面（详见 Review「已验证通过」节），
-     仅 C1 一个阻塞回归需返工。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字 Opus 行 + Review 节、
-     packages/reforge/src/main.ts:487-531,2614-2645、frame-animation-player.ts、frame-animation-presentation.ts、
-     Canvas2DRenderer / render-scene.ts。
-C1 缺陷（用户当场确认）：6051 ?scene=s066 开场帧动画（血池梦境 frame-animation.pal.000）播完后，后续世界场景
-（"灵儿！月如！"对白帧）以约半尺寸渲染在画布左上角——实测非黑内容边界 620×356，画布 1280×800。
-复现/排障（Opus 已做，勿重复，可直接采信）：
- - fresh s066（动画前）与 s001 满屏正确；s227 动画前世界满屏 → 只在帧动画播完后的世界帧半尺寸。
- - frameAnimationLayerMode='idle'（Cinematic Layer 不是元凶）；ctx.getTransform() 单位阵（非 transform 泄漏）；
-   canvas/cssWH 1280×800、DPR 2 正常；s066 无 setScreenWave（非屏波路径）；resize+相机移动后 620×356 不变（持久态损坏）。
- - 世界经 renderSceneFrame(ctx, renderer, {worldScale: WORLD_SCALE=4}) 每帧常量绘制却半尺寸（≈640×400=等效 worldScale=2）
-   → 半尺寸被烘进 Canvas2DRenderer/renderSceneFrame 或帧动画播放后遗留的内部态，非本帧参数。
-   main.ts 合成 diff 仅 rngLayerCanvas→frameAnimationLayerCanvas 改名；新 frame-animation-player 取代 rng-player 是最大变量。
-必答两开放项：
- (a) 是否 dev ?scene= 同步 runEnterScript 路径特有？请走真实门/存档进入 s066 确认真实游戏是否复现。
- (b) 回归 vs 既存？checkout b99d4fb7^ 对照旧 rng-player 路径下 s066 梦境后世界是否也半尺寸。
-返工完成标准：根因定位 + 修复 + 6051 s066 帧动画后世界满屏复验 + 至少再跑一个动画在中段的场景（s227/s149）
-确认世界层前后均满屏 + 回答 (a)(b)。修复后转 Opus 复验 C1，再交 GLM 覆盖/迁移矩阵复核 + 真实 FSA 保存重开 + 窄视口。
-不要做：不改资源闭包/契约/迁移/工作台已通过的部分；不得标 done。
+接手 A7-3 rework 审查（不得改实现文件）。
+任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 rework；Opus 历史 counter，GLM pending，不得标 done）。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字与 Review、
+docs/phase2/foundation/n-event-script-audit.md 的 2026-07-16 补记。
+已完成：
+ - C1：s066→s059 屏波 context mismatch → 独立 waveRenderer + renderSceneFrame context guard；背景-only 波动，
+   人物/cover 静态，探索波相位只按 100ms 世界拍推进。
+ - C2：0x6E layer + PAL 五邻 cover/排序；C3：剧情 RNG 默认不可跳，skipKeys 仅显式 opt-in。
+ - C4：s059 dlg.4348 后显式 600ms fade-in，表达 0x50/首个 MakeScene 隐式语义并已重迁。
+ - C5：switchScene/teleportParty 按 0x46 seedFormationTrail，静止 follower 用 trail[m]，终场无需移动即三人完整。
+证据：Reforge 43 files/370 tests；Migrate 29 files/199 passed + 1 skipped；Reforge/Migrate/Editor typecheck；
+Reforge build；迁移 writes=0 deletes=0 conflicts=0；packages/game 零 diff；6051 默认 RNG 不跳、淡入继续、
+无方向键终场三人完整画布复验。FSA/LAN：`dev:lan` 提供 HTTPS；HTTP localhost / HTTP IP / HTTPS IP
+能力矩阵与 900×720 场景/过场资源页无横向溢出已验证；另存为先选目录再序列化，保持用户激活。
+下一步：Opus 审实现/视觉，GLM 审迁移/覆盖，分别返回 accept 或列出具体 counter；不得标 done。
+注意：HTTPS 自动化证据绕过了开发自签证书错误，不等于普通浏览器已信任证书。仍未完成：真实 FSA 句柄
+“保存→重开”、Opus/GLM 复核；不得开始实现或标记 done。
 ```
