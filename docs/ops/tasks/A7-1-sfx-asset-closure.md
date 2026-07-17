@@ -578,7 +578,28 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   resolve 时仍完整驻留；旧 v3 sound-family 生产 UI 显示真实读/写字节，删除落定后才报 100%；mock FSA
   端到端钉死替换/删除→保存→undo→再保存→重开恢复 catalog 与原字节。冻结矩阵补齐 F/R/A、真实 R
   重复技能、合击、auto/无菜单、敌先手、cancel/done 迟到回调、施毒后跨轮继续枚举产物音。
-- Opus: pending（独立运行/视觉主审：冷缓存声画、lastSFX、HTTP/FSA 试听、字段选择与删除体验）。
+- Opus: **accept（2026-07-18,实现/运行/视觉主审,零返工项）**。四个面独立复验全过:
+  **① 代码面(五项返工核心实证)**:AsyncIntentController 窄身份门(async-intent.ts)双实例落地——
+  worldMutationIntent(main.ts:516,giveItem 世界身份)+ battleLaunchIntent(:920,启动身份);
+  SfxPlayer.prepare 二次冻结三要件全落地——预算 typed throw **前置于 adapter 判空**(sfx.ts:138-141)、
+  `allSettled` 全落定汇总 SfxReadinessResourceError(:152-163)、**串行批次队列**失败不毒化恢复空闲
+  (:114-149);冻结矩阵 13 条测试行点名齐(双侧毒×3/preparing 输入锁/auto 同屏障/fatal 可见/
+  done 迟到回调/跨轮重拍毒快照/真实 R 重复/施毒跨轮产物音/并发 prepare 串行×2/消耗品竞态)。
+  **② 独立复跑**:reforge 46 files/409 tests 全绿;audit:sfx-readiness `violations=[]/leased=0`;
+  audit:sounds 1,661/325/363/**328/35**/missing=0——与设计期冻结权威数逐项吻合。
+  **③ 6051 运行面**:冷缓存挂帧实证——startBattle 瞬间并发预取 15 个 wav(同刻 t=23218,屏障期读取),
+  战斗两轮**零新 wav 请求**(全部挂帧命中已解码缓存,不迟播);双重启动竞态(preparing 早期二次
+  startBattle 强停旧启动)干净落地;console 全程零错误。
+  **④ 6010 真实 FSA(OPFS 句柄工程,1,300 文件含全部 469 项二进制)**:试听**零 HTTP wav**(纯 FSA 读)
+  +零 error span;改名+undo;引用禁删(045"有 4 处引用,不能删除")与未引用 013 删除+undo 恢复双向;
+  **替换全链**——合成 108B RIFF WAV 替换**被引用资产 504**(1 处 enemy-401 attack 引用):AssetId 保持、
+  引用完整、path 转 `assets/authored/<sha256>.wav`、来源"工程创作";保存后 OPFS catalog 字节级持久、
+  013 邻居未误伤(16,906 原字节);**重开工程后 authored 状态仍在**;50 项 unused warning 面板与审计
+  一致;SoundPicker 预览控件技能页在场;**900×720 窄视口音效页零横向溢出**(较 Codex 1024 更窄一档)。
+  诚实边界:(a) 试听为一次性短音形态(无停止 toggle),我初探"停止"态是探针假设错误,非产品缺陷;
+  (b) 替换实测命中选中项 504 而非目标行 013 系我的探针取错 file input,产品行为(按选中项替换)正确——
+  反而意外提供了"被引用资产替换保持引用"的更强证据;(c) 原生 OS 目录对话框手势不可自动化,以 OPFS
+  真句柄等价(与 A7-0/A7-3 同口径);(d) 扬声器音色正确性留用户终验,字节链+零错为代理。
 - GLM: **accept（2026-07-18;见下）**。独立数据/迁移/测试矩阵终审全过。四包 1059 tests pass + 1 skip。
 
   **(1) 产物普查** ✅：
@@ -607,9 +628,11 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   **总结**：catalog 363/18,110,864B 全 sha256 + 122 删 + 174 恢复 + 25 suppress + 0 负数；MG2 零计划；readiness violations=[] 51/26/2/0/63 leased=0；静态归零；1059 tests 全绿。**accept**。
 
 - counter / 返工处理:2026-07-18 五项 counter 已由唯一 Coding Owner 修复；只读复审确认三项 runtime 竞态
-  闭合，剩余两项冻结测试缺口（真实 R、施毒跨轮）也已补齐并通过。**GLM accept（数据/迁移/测试面）**。
+  闭合，剩余两项冻结测试缺口（真实 R、施毒跨轮）也已补齐并通过。**GLM accept（数据/迁移/测试面）+
+  Opus accept（实现/运行/视觉面,零新增返工项）**。
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Opus 独立 `accept`，三签未齐不得 done。**
+- done 准入结论: **三签齐（Codex accept + Opus accept + GLM accept）；待用户验收(扬声器音色终验 +
+  原生 OS 目录对话框一次保存重开)后方可标 done。**
 
 ## Draft:设计与风险
 
@@ -889,55 +912,25 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   按下方更新后的提示词独立复审并各签 accept/counter；三签未齐不得 done。
 - 2026-07-18 GLM: 数据/迁移/测试矩阵终审签 **accept**。独立复验：(1)catalog 363 sound entries/18,110,864B/全 sha256/122 absent/174 present/25 suppressMagicEffectSound/0 负数。(2)MG2 dry-run writes=0 deletes=0 conflicts=0/ref-warnings=0/script-issues=0。(3)readiness violations=[]/battleBase team-27=51/entryBase=26/startBattleBase=26/maxSingleAction=2(skill315)/activePoisonUpper=0/fivePlayer=61/authorSix=63/leased=0/legacyFullLoadEvidence 67/74/94 保留。(4)静态归零——soundId 数字/assetBase.sounds//extracted/sounds/runtime 28/29/45/47 目标包零命中（唯一命中 battle-anim.ts:320 docstring 注释非运行时）。legacy families 无 sound/无 legacy.sounds。(5)四包 content 215/reforge 409/editor 223/migrate 212+1skip=1059 pass。独立 grep edges≈1675/unique≈325 与卡内 1666/328 差异=递归去重策略不同（正式审计 violations=[] 为权威口径）。Evidence: done 准入 GLM 行。Next: 待 Opus 独立 accept 后三签齐交用户验收。未改实现文件。
 
+- 2026-07-18 Opus: 实现/运行/视觉终审签 **accept,三签齐,零新增返工项**。四面独立复验:代码面五项返工
+  核心实证(AsyncIntentController 双实例 :516/:920;prepare 预算 typed throw 前置 adapter 判空+allSettled
+  全落定+串行批次队列不毒化;冻结矩阵 13 条测试行点名齐);独立复跑 409 tests 全绿+双审计
+  (violations=[]/leased=0;1,661/325/363/328/35/missing=0 与冻结权威数全吻合);6051 冷缓存挂帧实证
+  (startBattle 同刻并发预取 15 wav=屏障期读取,战斗两轮零新请求=挂帧全命中,双重启动竞态干净,
+  console 零错);6010 真实 FSA(OPFS 1,300 文件含全部二进制)全链——零 HTTP 试听/改名 undo/引用禁删
+  045/未引用 013 删+undo/**被引用资产 504 替换保持 AssetId 与引用、转 authored、保存字节级持久、
+  重开仍在**/50 warning 面板/SoundPicker 在场/900×720 零溢出。诚实边界:试听一次性短音无停止 toggle
+  与替换命中选中项均为我的探针假设错误、非产品缺陷;原生对话框以 OPFS 等价;音色留用户终验。
+  Evidence: done 准入 Opus 行。Next: 三签齐,交用户验收(扬声器音色 + 原生对话框保存重开一次)后标
+  done;capability-map X2 编辑器格由收口提交更新。未改实现文件。
+
 ## 下一位 Agent 提示词
 
-### 给 Opus（实现与运行/视觉主审）
+### 给用户(验收)
 
-```text
-接手 A7-1 实现与运行/视觉主审。只读审查；发现问题写 counter/返工项，不直接修改实现文件。
-任务卡:docs/ops/tasks/A7-1-sfx-asset-closure.md
-当前状态:review；Codex 是唯一 Coding Owner，已完成实现和自验并签 accept；Opus/GLM done 审查签字 pending。
-必读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部（重点验收条件、两次 readiness 反证、Build/视觉记录）；
-一阶段真值:packages/game/src/shell/audio.ts:51-70 与对应测试；相关实现:packages/reforge/src/audio/sfx.ts、
-packages/reforge/src/audio/sfx-readiness.ts、packages/reforge/src/battle/battle-session.ts、packages/reforge/src/main.ts、
-packages/editor/src/ui/SoundTab.tsx、SoundPicker.tsx、packages/editor/src/core/upgrade-local-v3-sounds.ts。
-已完成证据:reforge 46/409、editor 29/223、content 21/215、migrate 30/212+1 skipped；`pnpm check`
-全仓 3,705 passed+1 skipped / 699 files，三 build、MG2 dry-run 0/0/0、readiness audit 和两份迁移 audit
-全绿。五项终审返工见签字与 2026-07-18 交接日志；Codex 浏览器证据见 output/playwright/a7-1-*.png。
-请重点独立复验:
-1. 冷缓存首次挂帧、同号去重/结束后重播、recoverable/fatal 分界、preparing 输入锁、退出/切场景竞态；
-2. HTTP 与真实 FSA Chrome 工程的音效试听/替换/改名/引用禁删/未引用删除撤销/保存重开；
-3. SoundPicker 四类作者字段与四 roles 的选择/试听/深链，1024 或更窄视口无按钮文字溢出；
-4. source/readiness 失败没有静默吞错，资源加载只经 catalog→resolver→FileSource，不重新猜路径；
-5. 设计期 O1-O5 和竞态矩阵是否锁住，重点复核 `giveItem`/battle launch 各 await identity、并发不相交
-   prepare、真实 R 重复技能和本轮施毒→次轮活跃毒工作集。
-剩余风险:Codex 自动化无法代点原生目录选择器，真实 FSA 交互是本次 Opus 视觉主审必验项；不要让用户代验。
-输出:在“进入 done 前:审查签字”把 Opus 写为 accept（附证据）或 counter（列精确返工项），同步
-Review 与交接日志并提交签字。不得修改实现文件；不得自行标记 done；若 counter，状态改 rework 并交回 Codex。
-```
-
-### 给 GLM（数据、迁移与测试矩阵主审）
-
-```text
-接手 A7-1 数据、迁移与测试矩阵主审。只读审查；发现问题写 counter/返工项，不直接修改实现文件。
-任务卡:docs/ops/tasks/A7-1-sfx-asset-closure.md
-当前状态:review；Codex 是唯一 Coding Owner，已完成实现和自验并签 accept；Opus/GLM done 审查签字 pending。
-必读:AGENTS.md、docs/phase2/READ-FIRST.md、本卡全部（重点权威冻结、验收条件、Build 证据）；
-代码锚点:packages/migrate/scripts/audit-pal-sounds.mts、audit-a7-sound-diff.mts、
-packages/migrate/src/sound-migration.ts、pal-assets.ts、pal-authored-overlays.ts、migration-project-io.ts，
-packages/content/src/asset.ts 与 packages/reforge/scripts/audit-sfx-readiness.mts。
-已完成证据:source 1,953/1,661/325；target sound edges 1,666、总引用 3,020、catalog 363、referenced 328、
-unused 35、warning 50、missing/kind mismatch 0；empty 142、bytes 18,110,864；readiness 51/26/2/0/63≤64、
-violations=[]、leased=0；四包测试合计 1,059 passed + 1 skipped，`pnpm check` 全仓 3,705 passed + 1 skipped /
-699 files，MG2 dry-run 0/0/0、三 build 全绿。
-请重点独立复核:
-1. 505/363/142/18,110,864B 与 363 条 size/hash，122 删除、377→174、151 use→45、25 负 magic；
-2. 权威 occurrence/edge/unique/warning 口径 1,953/1,666/328/50 与 missing/kind mismatch=0；
-3. authored 同 AssetId 所有权、双跑 zero plan、manifest-last/journal、源缺失失败和 v2/v3 sound-family 升级；
-4. 两级 collector 的 side-aware 映射、561/562 双侧毒、grantItem use/throw 递归、51/26/2/0/63 上界；
-   新增真实 R 重复技能与本轮施毒→次轮活跃毒集成测试没有用全量扫描掩盖漏项；
-5. 静态边界只剩迁移/升级 oracle，runtime/editor 无 soundId、legacy.sounds、assetBase.sounds、数字拼路径；
-6. 剩余 legacy families/未消费 sound slots 的文档是否如实，没有把 A7/R7 冒充完成。
-输出:在“进入 done 前:审查签字”把 GLM 写为 accept（附独立命令/数值）或 counter（列精确返工项），同步
-Review 与交接日志并提交签字。不得修改实现文件；不得自行标记 done；若 counter，状态改 rework 并交回 Codex。
-```
+A7-1 三签已齐(Codex/Opus/GLM 全 accept)。剩两项人工终验,通过即可把卡标 done:
+1. 打开 6051 随便打一场战(或用一件战斗物品/放一个技能),听音效音色与时机是否对味——
+   自动化已证字节链与挂帧确定性,但扬声器出来的"对不对味"只有你能判。
+2. 在 6010 用真实系统文件夹对话框打开一个本地工程副本,改一个音效名保存,重开确认还在——
+   自动化用 OPFS 真句柄等价验证过全链,原生对话框那一下手势自动化点不了。
+验收通过后:Status 改 done,capability-map X2 编辑器格 ⚠️→✅(收口提交一并做)。
