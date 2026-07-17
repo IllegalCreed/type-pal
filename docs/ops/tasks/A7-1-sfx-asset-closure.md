@@ -1,6 +1,6 @@
 # A7-1 - SFX 音效资源闭包与编辑工作台
 
-Status: build
+Status: rework
 Phase: phase2
 Capability: A7 / R3 / R7 / X2 / B5
 Coding Owner: Codex
@@ -241,7 +241,8 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
      invalidate、session 切换全量 dispose——与 bgm/A7-0 契约同构。
   5. **旧 v3 升级边界成立**:legacy.families 含 sound 判据/打开边界一次性/manifest-last/幂等,与 A7-0A
      completeLocalProjectV3AudioRoles 先例同构;**注意本次含 363 个 WAV ≈ 18MB 二进制复制**,比音乐角色
-     补全重——FSA 写入加进度提示,manifest-last 保证失败不半迁;HTTP 只读给明确提示(卡已列)。
+     补全重——FSA 写入加进度提示；manifest-last 只保证旧 family 判据不提前退出，中途失败可能已留下完整的
+     二进制/JSON，下一次打开必须按旧判据幂等重入并滚前完成；HTTP 只读给明确提示(卡已列)。
   6. **SoundTab/SoundPicker 复用成立**:MusicTab/过场页已验收形态 + 共享 SoundPicker(脚本/角色/敌人/
      技能/roles 同一控件),roles 落"全局资源与启动"页(X7-1 先例),无隐藏字段。
   7. **消费矩阵切分成立**:actor dying/death、enemy attack 等无 runtime 事件的槽 = 数据先迁 + B5 债务
@@ -292,7 +293,9 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   **(4) authored 整条所有权 + 二进制事务顺序 + 双跑零计划** ✅：
   - **migration-merge.ts:278-289** authored 所有权 pattern **generic by AssetId/path**——不按 kind 分支，sound WAV 替换无需扩展，与 music/video 同构。✅
   - **二进制不进 baseline**——managedFiles 只含 JSON，MigrationPlan.writes Map<string,MigrationJson>。✅
-  - **事务顺序**：源/目标预检 → 物化 WAV → 核 bytes/hash → JSON 提交 → manifest 最后写。失败保留旧工程。✅
+  - **事务顺序**：源/目标预检 → 物化 WAV → 核 bytes/hash → journal → JSON 提交 → manifest 最后写。
+    journal 发布前失败保持原 JSON；发布后可能部分前进，由恢复逻辑按已校验 journal 滚前。二进制物化先行，失败时
+    允许留下尚未被 manifest/catalog 引用的完整文件，不承诺事务级回滚。✅
   - **双跑零计划**——与 A7-0/A7-3 同构（catalog 按 AssetId key merge + authored 整条保留）。✅
 
   **(5) v2/旧 v3/FSA/HTTP 升级矩阵 + 静态归零** ✅ + **G2-G4（build 必落）**：
@@ -317,7 +320,8 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   - **G4**：四 SFX roles 必要性——Opus 裁定 global role vs engine-config。
   - **G5**：sounds-metadata.json 是 `{chunkCount, chunks}` dict 非 array——审计脚本须读 `.chunks`。
 
-- counter / 分歧处理:**无 counter,三签全 agree**。与 GLM 签字的三处口径差已由 Opus 签字调和并冻结:
+- counter / 分歧处理:**原 build 准入时无 counter，三签全 agree；当前 readiness counter 见下节。**
+  与 GLM 签字的三处口径差已由 Opus 签字调和并冻结:
   ① GLM"≈327/36 待确认"→ 权威 **328/35**(45 已被 s145/s086 引用,roles novel 仅 {28,29,47});
   ② GLM"非零 unique=144"系**仅 playSound 命令**口径(143 非空+122),权威唯一数以全位点 **325** 为准,
   两者不可混写;③ GLM 三口径"递归策略差异"说法不充分,确定性分解见基线节(3,018=漏 174 唯一分解/
@@ -328,6 +332,108 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 - 缺签豁免: N/A
 - build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4(Opus)+
   G1-G5(GLM,G4 已裁)+ 口径 B 权威数全部纳入 build 范围,交 Codex 按 A7-1A→E 分段 build。
+
+### build 中 readiness 反证与重新设计门禁（2026-07-17）
+
+- Codex: **counter（仅针对原 readiness 第 3 条）**。入仓审计
+  `pnpm --filter @type-pal/reforge run audit:sfx-readiness` 复用正式 collector 实测：294 scenes 场景峰值 9，
+  380 enemy teams 的默认 `new-game` 峰值 27；但李逍遥+赵灵儿+林月如按 manifest 初技和全部升级技能，
+  `team-291` 已达 **67**，再纳入静态 `learnSkill` 为 **74**，六角色作者意图包络为 **94**。三项均会被
+  `SfxPlayer.prepare` 的 64 上限在进战前直接拒绝。故“进战一次性预载全部已学技能”与“LRU ≤64”不能同时
+  成立，默认开局 27 不能替代可编辑入口/存档的真实工作集。
+- 推荐重签方案 B：保持单播放器解码 LRU 64；进战屏障只准备队员固定音、敌人/变身/召唤/敌 AI 技能闭包、
+  roles 和遭遇演出；玩家技能/物品改为“本轮已提交动作”屏障，所有队员选招完成后，先准备
+  `battleBase ∪ 本轮动作音效`，完成才进入 `performAction`。播放仍在原动画帧同步命中，不在 dispatch 提前播，
+  也不对冷缓存迟到补播。每轮集合超过 64 继续 fail-loud。
+- 否决仅把上限提高到 96 作为终态：它能覆盖当前 PAL 的 94，但编辑器可继续配置更多技能，仍把合法工程规模
+  绑定到一次性全技能预载，结构问题没有消失。
+- 独立既有缺口：`buildWorld/applySetParty` 尚未把 `ActorDef.initialMagic` 注入 `world.learnedSkills`；本卡不借
+  readiness 返工顺手扩大范围。即使完全不计 initialMagic，67 的反证仍成立。
+- 当前门禁：任务转 `rework`；A7-1A/B/D 已完成部分和只读/测试工作保留，但在 Opus、GLM 对方案 B 重新签
+  `agree` 前，Codex 不再修改 readiness/BattleSession 公共契约，也不进入浏览器验收或 `review`。
+- Opus 重签: pending（确认两级屏障、异步选招提交状态、挂帧确定性与 LRU 64）。
+- GLM 重签: **agree（2026-07-17;冻结计数 + 验收断言 + 测试矩阵,见下）**。独立复跑 `audit:sfx-readiness` 确认 + 代码逻辑审查枚举完整性。
+
+  **审计输出确认（独立复跑）** ✅：
+  scenes=294 / chunks=297 / teams=380 / startBattles=173 / sceneOverrides=61 / maxScene=9(s176) / maxSceneWithItems=10(s176) / entry new-game=27(team-27) / startBattleMaximum=27(team-27) / **stress progression-three=67 / progression-three+script-learn=74 / author-intent-six=94(team-27)** / scriptStore leased=0 / violations=3(67/74/94 > 64)。逐项精确匹配卡内预期。
+
+  **枚举完整性——代码逻辑审查（读 sfx-readiness.ts 源码逐路径推演）** ✅：
+
+  **`collectBattleSoundAssets`（:99-199）闭包路径逐条**：
+  1. **队员 BattlerSounds 7 项/人**（:140 `addBattlerSounds`）✅
+  2. **玩家技能 animation.sound + summon sound**（:141-142 `includeSkill` → `addSkillSounds` 遍历 effects[summon].sound）✅
+  3. **合击 cooperativeSkillId**（:133-135）✅
+  4. **物品 use.sound + throw.sound**（:143 `includeItem`）✅
+  5. **四 SOUND_ASSET_ROLES**（:146-147 遍历 `SOUND_ASSET_ROLES`）✅
+  6. **敌人 BFS（:149-178）**：
+     - enemy.sounds 5 项（:156-160）✅
+     - steal item sound（:161 `itemsById[enemy.steal.itemId]`）✅
+     - attackEquivItem item sound（:162-165 `includeSounds=false`——同 item 的 use/throw 效果链仍扫 applyPoison 但不重复 sound，合理）✅
+     - choreography + onDefeated → scriptRoots（:166 → :196 collectScriptSoundAssets 递归）✅
+     - **AI rules（:167-177）**：cast→includeSkill（含该 skill 的 animation.sound + summon + applyPoison 链）/ transform→BFS 入队目标 enemy（再遍历其 sounds + AI + choreography）/ summon→BFS 入队（同 transform）✅
+  7. **毒→物品 BFS（:180-194）**：三入口入队——activePlayerPoisons（:144-145）/ skill applyPoison（:133）/ item applyPoison（:138）；BFS 按 tickIndex 感知，从 `max(start, 0)` 扫 grantItem（:189-193）✅
+  8. **ScriptRef 递归（:196 `collectScriptSoundAssets`）**：visitScriptRefs + resolver.resolve + 环检测 seen Set + lease release finally ✅
+
+  **漏项排查结果：零漏项** ✅：
+  - **ScriptRef** — collectScriptSoundAssets 递归穿过 callScript/jumpScript（visitScriptRefs）✅
+  - **敌变身/召唤** — BFS 入队 transform/summon 目标，目标 enemy 的 sounds + AI + choreography 被递归遍历 ✅
+  - **敌 AI 技能** — ai.rules cast→includeSkill（含 skill 的 sound + summon + applyPoison 链）✅
+  - **毒→物品链** — BFS 从 active poisons + skill/item applyPoison 入队，按 tickIndex 感知扫 grantItem ✅
+  - **合击** — cooperativeSkillId + cooperativeMagicSkillId ✅
+  - **入口 startWorld** — entryEnvelopes 遍历 manifest.entryPoints 每个 startWorld ✅
+  - **静态 learnSkill** — learnedByRole 从全产物扫描 learnSkill 命令，progressionWithScripts 纳入 → 74 ✅
+  - **Actor.initialMagic** — allSixStart 显式纳入 `actor.battler?.initialMagic`（:222）。**既有缺口**：runtime `buildWorld/applySetParty` 尚未把 initialMagic 注入 `world.learnedSkills`——这是 **runtime 侧既有缺陷非审计侧漏项**（审计直接从 actor 定义读，正确）。即使不计 initialMagic，progression-three=67 仍 > 64 反证成立。✅
+
+  **67/74/94 反证成立确认** ✅：
+  - 67 = progression-three（李+赵+林 startWorld 初技 + 全升级技能 + 全物品 + 全毒 vs team-291）——不含 initialMagic
+  - 74 = + learnSkill 脚本习得技能
+  - 94 = 六角色全包络（含 initialMagic + levelUp + learnSkill + 全物品 + 全毒，全 380 队取最大 team-27）
+  - 三项均 > LRU 64，证明"全部已学技能进战预载 + LRU≤64"不可同时成立。✅
+
+  **冻结验收断言**：
+  - `audit:sfx-readiness` **violations 非零**（当前 3 项：67/74/94 > 64）= 方案 B 两级屏障的**正确基线**——进战全量预载不可行，须改两级。
+  - 方案 B 落地后 violations 应 = 0（两级屏障保证工作集 ≤ 64）。
+  - `leased=0` 全循环后零泄漏 = 必须持续保持。
+
+  **两级 readiness 屏障测试矩阵（build 必落）**：
+
+  **屏障 1：战斗进场（battleBase）**
+  | 测试行 | 输入 | 预期 |
+  |---|---|---|
+  | battleBase 集合 | 队员 BattlerSounds × N + 敌人 BFS 闭包(5项+AI cast/transform/summon 递归) + 四 roles + 遭遇 choreography 脚本 | 集合 ⊆ 64 且 ⊆ 非空 catalog |
+  | battleBase 冷缓存 | fake adapter 所有 AssetId 未解码 | prepare 完成后全解码，播放挂帧同步 |
+  | battleBase 超限 | 构造 > 64 unique sounds 的敌队 | fail-loud（进战屏障拒绝） |
+  | battleBase leased | prepare 后/script resolve 后 | leased=0 |
+
+  **屏障 2：单轮动作集（perRound）**
+  | 测试行 | 输入 | 预期 |
+  |---|---|---|
+  | 单轮普通攻击 | battleBase ∪ {攻击 sound} | ≤ 64 |
+  | 单轮法术 | battleBase ∪ {法术 animation.sound} | ≤ 64 |
+  | 单轮物品 | battleBase ∪ {item use.sound} | ≤ 64 |
+  | 单轮合击 | battleBase ∪ {coop skill sound} | ≤ 64 |
+  | 自动/重复 | 全自动或重复同一技能 | 不重新 prepare 已就绪集 |
+  | 敌 AI 施法 | 敌 cast skill 在 battleBase 已含 | 命中已解码 buffer |
+
+  **边界与失败**
+  | 测试行 | 输入 | 预期 |
+  |---|---|---|
+  | 选招提交后等待 | 所有队员提交 → await prepare perRound → performAction | 等待态可见、拒绝重复提交/退出竞态 |
+  | perRound 超限 | 构造 > 64 的单轮集 | fail-loud |
+  | 冷缓存首挂帧 | 首次播放某 sound | 在动画帧同步命中，不迟到补播不提前 dispatch |
+  | 场景恢复 | 战斗结束 → 场景切换拍预取 | scene sounds 集准备完毕 |
+  | 编辑器任意技能规模 | 构造 > 64 技能的作者工程 | 试听单项 await 正常；进战/场景屏障对大集 fail-loud 而非静默截断 |
+
+  **fail-loud 边界明确**：
+  - battleBase > 64 → 进战屏障拒绝，不进入战斗
+  - perRound > 64 → 动作提交屏障拒绝，不进入 performAction
+  - 编辑器试听 → 无上限（单项 await，不走 LRU 批量）
+  - 场景预取 > 64 → 场景切换拍 fail-loud（但当前 maxScene=9/10 远低于 64，实际不会触发）
+
+  **总结**：审计输出精确匹配（294/297/380/173/61 + 9/10/27/67/74/94 + leased=0）；代码逻辑逐路径推演确认枚举零漏项（ScriptRef 递归 / 敌 BFS 变身+召唤+AI cast / 毒 BFS grantItem / 合击 / 入口 startWorld / learnSkill / initialMagic 区分既有缺口）；67/74/94 反证成立。**agree（方案 B 两级屏障 + 冻结计数 + 验收断言）。**
+
+  **GLM 的 counter 条件**（当前不触发）：若枚举漏项被独立发现（如某 ScriptRef 路径未被穿过、某 enemy transform/summon 闭包截断、毒 grantItem tickIndex 计算错误），或审计输出与预期不符，则签 counter 并列精确阻塞点。当前零漏项。
+- 用户裁决: pending；若 Opus/GLM 对 B 有分歧，请用户在 B 与其他明确方案间拍板。
 
 ### 进入 done 前:审查签字
 
@@ -384,7 +490,8 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 - WAV 导入先验 RIFF/WAVE，生成稳定 authored AssetId/内容 hash 路径；替换保持 AssetId，改名只改 label。
 - SoundPicker 是共享控件，脚本/角色/敌人/技能/全局 roles 使用同一候选、预览、清空和跳转语义。
 - 打开旧 v3 时若 `legacy.families` 含 sound，先做文件感知的一次性 upgrader，再建 EditSession；升级写临时内容并
-  manifest 最后落盘，失败保留旧工程。已闭包 v3 幂等 no-op。HTTP 只读旧工程不能原地升级时给出明确操作提示。
+  manifest 最后落盘；失败时旧 family 判据仍在，但此前完成的文件/JSON 可保留，下一次打开幂等滚前完成。
+  已闭包 v3 幂等 no-op。HTTP 只读旧工程不能原地升级时给出明确操作提示。
 - schema 重写放在 content 的纯函数，editor 只通过注入的 FileSource/写入边界搬运字节；不反向依赖 migrate。
 - runtime 对旧 v3 fail-loud 并提示“用编辑器升级”，不保留兼容 parser；v2 打开链必须直接得到本卡终态。
 
@@ -408,7 +515,8 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 - 风险:旧 v3 与新 v3 同版本，普通版本号升级器无法区分。
   - 缓解:以显式 `legacy.families` 含 sound 为一次性 family-exit 判据；闭包后删除判据，测试幂等。
 - 风险:迁移先提交 JSON 再发现 WAV 缺失会留下半闭包工程。
-  - 缓解:源/目标预检前置，manifest 最后写，错误注入测试验证原工程不变。
+  - 缓解:源/目标和完整 WAV 预检前置；manifest/journal 最后发布判据。错误注入测试验证发布前不切判据、
+    发布后可安全重入滚前，不虚构跨文件 FSA/文件系统事务回滚。
 - 风险:四个 SFX roles 变成隐藏 manifest 配置或空白工程被 PAL 角色绑死。
   - 缓解:roles 可选、kind 严格；PAL 填齐；全局资源 UI 必须覆盖每一 role，空白工程可缺省。
 - 风险:把资源闭包扩大成缺失战斗能力开发，范围失控。
@@ -451,11 +559,26 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 ## Build:实现与自测
 
 - Coding Owner:Codex
-- 修改文件:pending
-- 实现摘要:pending
-- 运行命令:pending
+- 修改文件:content/migrate/reforge/editor 的 A7-1 纵向闭包与两棵 PAL 生成 JSON；完整清单待恢复 build 后由
+  `git diff --name-only 08cb9050...` 固化。
+- 实现摘要:
+  - A7-1A/B：AssetId-only schema/walker/validator，363 WAV 迁移与 122/174/45/25 负值修复，MG2
+    manifest-last+journal 校验，本地 v2/v3 sound-family 滚前升级。
+  - A7-1C（未完成）：AssetId-only SfxPlayer、world/battle 接线和原版帧挂载已实现；工作集 collector 的
+    “全部已学技能进战预载”被正式审计证伪，等待两级屏障重签。
+  - A7-1D：SoundTab/SoundPicker、作者字段、四 roles、诊断/深链/删除保护、FSA 命令 undo 资源恢复已实现；
+    仍待浏览器验收。
+  - 差异白名单：`audit:a7-sound-diff` 从固定 base 用窄 upgrader 重建 oracle；606 个 baseline JSON、223
+    原子地图 hash、147 个允许生成变更、两棵树各 148 个 Git 变更及 363 WAV 集合/bytes/hash 全闭合，
+    `nonWhitelistChanges=0`。
+- 运行命令:
+  - `pnpm --filter @type-pal/migrate run audit:a7-sound-diff` ✅
+  - `pnpm --filter @type-pal/editor typecheck && pnpm --filter @type-pal/editor test -- --run` ✅ 29 files / 222 tests
+  - `pnpm --filter @type-pal/reforge typecheck && pnpm --filter @type-pal/reforge test -- --run` ✅ 45 files / 387 tests
+  - `pnpm --filter @type-pal/reforge run audit:sfx-readiness` ❌（设计反证门禁：67/74/94 > 64；预期非零）
 - 浏览器 / 手工检查:pending
-- 跳过的检查及原因:不得跳过 cold-cache、FSA、MG2 或静态归零。
+- 跳过的检查及原因:当前因 readiness 设计需重签，尚未进入 cold-cache 浏览器、FSA、MG2 双跑、全仓静态
+  归零和三 build；恢复 build 后不得跳过。
 
 ## 资源生成记录
 
@@ -509,11 +632,41 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   实现完成自验后转 review。未改实现文件与生成产物。
 - 2026-07-17 Codex: 复核 Codex/Opus/GLM 三方设计签字均为 **agree**，`build 准入结论`为
   **build allowed**，同步任务状态 `draft → build` 并接任唯一活跃 Coding Owner。Evidence: 本卡设计签字表、
-  提交 `9ef3b056`。Next: 按 A7-1A→E 分段实现；W8 已准入但排队，不与本卡并行修改实现文件。
+  提交 `08cb9050`。Next: 按 A7-1A→E 分段实现；W8 已准入但排队，不与本卡并行修改实现文件。
+- 2026-07-17 Codex: build 中用正式 collector 全工作区审计，证伪“全部已学技能进战预载 + LRU 64”可兼容性；
+  默认入口峰值 27，但三人正常成长已 67，脚本习得 74，作者包络 94。任务 `build → rework`，Codex 对
+  原 readiness 条款签 `counter` 并建议两级屏障 B。Evidence:`packages/reforge/scripts/audit-sfx-readiness.mts`
+  及本卡“build 中 readiness 反证”。Next:Opus/GLM 只读复核并对 B 重签；签齐前不得继续改 runtime 公共契约。
+- 2026-07-17 GLM: readiness 返工数据复核签 **agree（方案 B 两级屏障）**。独立复跑 audit:sfx-readiness 确认 294/297/380/173/61 + 9/10/27/67/74/94 + leased=0 全精确匹配。代码逻辑审查（读 sfx-readiness.ts 逐路径推演）确认枚举零漏项：collectBattleSoundAssets 8 条闭包路径（队员 7 项/技能含 summon/合击/物品/四 roles/敌人 BFS 5 项+AI cast/transform/summon 递归/毒 BFS grantItem/ScriptRef 递归）全覆盖；ScriptRef/敌变身召唤/AI 技能/毒物品链/合击/入口 startWorld/learnSkill/initialMagic 逐项排查无遗漏。initialMagic 区分为 runtime 既有缺口（buildWorld 未注入）非审计漏项，且即使不计 initialMagic 67 仍 > 64 反证成立。冻结验收断言：violations 非零（3 项）= 方案 B 正确基线；方案 B 落地后 violations=0；leased=0 持续保持。给出两级屏障测试矩阵（battleBase 4 行 + perRound 6 行 + 边界失败 5 行）+ fail-loud 边界明确（battleBase/perRound > 64 拒绝；编辑器试听无上限；场景预取 9/10 远低于 64）。Evidence: readiness 反证 GLM 行。Next: 待 Opus 重签方案 B 后三齐恢复 build；签齐前 Codex 不得改 runtime 公共契约。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex(build)
+### 给 Opus（readiness 架构重签）
+
+```text
+接手 A7-1 readiness 返工设计审查，只读，不得修改实现文件。
+任务卡：docs/ops/tasks/A7-1-sfx-asset-closure.md
+当前状态：rework；原 build 三签中的 readiness 条款已被正式工作区审计证伪。Codex 已签 counter，重签前不得继续修改 BattleSession/readiness 公共契约。
+必读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、任务卡“build 中 readiness 反证与重新设计门禁”、packages/reforge/src/audio/sfx.ts、packages/reforge/src/audio/sfx-readiness.ts、packages/reforge/src/main.ts 战斗进场接线、packages/reforge/src/battle/battle-session.ts 选招/performAction 状态机。
+先独立运行：pnpm --filter @type-pal/reforge run audit:sfx-readiness（当前应以 67/74/94 > 64 非零退出）。
+已证事实：场景峰值9；默认入口×380队峰值27；三人正常成长+team-291=67；加静态 learnSkill=74；六角色作者包络=94；ScriptChunkStore leased=0。默认开局不能代表可编辑入口/存档。
+请压力测试方案 B：保持单播放器 LRU64；进战只准备 battleBase（队员固定音、敌人递归闭包/敌AI技能、roles、演出）；所有玩家指令提交后，在进入 performAction 前 await 准备 battleBase∪本轮实际技能/物品声音。不得提前播放或迟到补播；等待态须可见、拒绝重复提交/退出竞态，并处理自动/强行/重复/合击/一人无菜单/敌方先手。
+明确输出并写回任务卡：agree（给出冻结接口、状态机、失败/取消语义和验收测试）或 counter（说明理由及替代方案）。不要只建议把上限改96；若确需改预算，必须解释编辑器可继续扩展技能的结构边界。不得标 review/done。
+```
+
+### 给 GLM（readiness 数据与测试矩阵重签）
+
+```text
+接手 A7-1 readiness 返工数据复核，只读，不得修改实现文件。
+任务卡：docs/ops/tasks/A7-1-sfx-asset-closure.md
+当前状态：rework；原“全部已学技能进战预载 + LRU≤64”被 Codex 入仓审计反证，等待 Opus/GLM 重签。
+必读：AGENTS.md、docs/phase2/READ-FIRST.md、任务卡“build 中 readiness 反证”、packages/reforge/scripts/audit-sfx-readiness.mts、packages/reforge/src/audio/sfx-readiness.ts。
+独立运行并核对：pnpm --filter @type-pal/reforge run audit:sfx-readiness。应得到 scenes294/chunks297/teams380/startBattle173/sceneOverrides61；峰值9/10/27/67/74/94；leased=0。检查脚本的枚举是否漏 ScriptRef、敌变身/召唤、敌AI技能、毒→物品链、合击、入口 startWorld 和静态 learnSkill；区分 Actor.initialMagic 当前未注入 runtime 的既有缺口。
+针对方案 B 给出最小但完整测试矩阵：battleBase 上限、单轮实际动作集上限、自动/重复/合击/物品/敌AI/取消与失败、冷缓存首个挂帧、场景恢复工作集、编辑器任意技能规模。明确哪些配置应 fail-loud。
+输出并写回任务卡：agree（冻结权威计数和验收断言）或 counter（精确漏项/替代口径）。签字未完成前不得让 Codex继续改 runtime，不得标 review/done。
+```
+
+### 历史提示词：给 Codex（原 build 准入，现已被 readiness counter 暂停）
 
 ```text
 接手任务:A7-1 SFX 音效资源闭包与编辑工作台,进入 build(Coding Owner)
