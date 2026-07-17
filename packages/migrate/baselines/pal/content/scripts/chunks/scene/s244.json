@@ -6746,7 +6746,7 @@
     "scene/s244/root/entity-e4330/page-0/auto/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 256
+        "asset": "sound.pal.256"
       },
       {
         "kind": "wait",

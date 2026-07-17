@@ -2,6 +2,12 @@ import { describe, expect, test } from 'vitest'
 import type { AssetCatalogV1 } from './asset.js'
 import {
   applyV2MusicLabels,
+  exitLegacySoundFamily,
+  upgradeLegacyActorSounds,
+  upgradeLegacyEnemySounds,
+  upgradeLegacyItemSounds,
+  upgradeLegacySkillSounds,
+  upgradeLegacySoundCommands,
   upgradeManifestV2ToV3,
   upgradeV2MusicReferences,
 } from './project-upgrade.js'
@@ -83,5 +89,95 @@ describe('v2 音乐引用升级', () => {
       'music.pal.001': { ...record(1), label: '蝶恋' },
     })
     expect(catalog.assets['music.pal.001']?.label).toBeUndefined()
+  })
+})
+
+describe('旧 sound family 一次性升级', () => {
+  const resolveSound = (id: number) => (id === 122 ? undefined : `sound.pal.${id}`)
+
+  test('命令深层递归、空 122 删除且非空缺源 fail-loud', () => {
+    expect(
+      upgradeLegacySoundCommands(
+        [
+          {
+            kind: 'branch',
+            body: [
+              { kind: 'playSound', soundId: 45 },
+              { kind: 'playSound', soundId: 122 },
+            ],
+          },
+        ],
+        resolveSound,
+      ),
+    ).toEqual([{ kind: 'branch', body: [{ kind: 'playSound', asset: 'sound.pal.45' }] }])
+    expect(() =>
+      upgradeLegacySoundCommands([{ kind: 'playSound', soundId: 99 }], () => undefined),
+    ).toThrow('旧音效 99')
+  })
+
+  test('角色、敌人负 magic、技能深层 summon 与物品分别升级，输入不变', () => {
+    const actors = [{ battler: { sounds: { attack: 1, death: 0 } } }]
+    const enemies = [{ sounds: { attack: 2, magic: -3, call: 0 } }]
+    const skills = {
+      skills: [
+        {
+          animation: { sound: 4 },
+          effects: [{ kind: 'damage' }, { kind: 'summon', sound: 5 }],
+        },
+      ],
+      levelUp: {},
+    }
+    const items = [{ use: { sound: 6 }, throw: { sound: 0 } }]
+    expect(upgradeLegacyActorSounds(actors, resolveSound)).toEqual([
+      { battler: { sounds: { attack: 'sound.pal.1' } } },
+    ])
+    expect(upgradeLegacyEnemySounds(enemies, resolveSound)).toEqual([
+      {
+        sounds: {
+          attack: 'sound.pal.2',
+          magic: 'sound.pal.3',
+          suppressMagicEffectSound: true,
+        },
+      },
+    ])
+    expect(upgradeLegacySkillSounds(skills, resolveSound)).toEqual({
+      skills: [
+        {
+          animation: { sound: 'sound.pal.4' },
+          effects: [{ kind: 'damage' }, { kind: 'summon', sound: 'sound.pal.5' }],
+        },
+      ],
+      levelUp: {},
+    })
+    expect(upgradeLegacyItemSounds(items, resolveSound)).toEqual([
+      { use: { sound: 'sound.pal.6' }, throw: {} },
+    ])
+    expect(enemies[0]?.sounds.magic).toBe(-3)
+  })
+
+  test('manifest 只退出 sound 并保留作者角色覆盖', () => {
+    const manifest = {
+      id: 'p',
+      name: 'P',
+      contentVersion: 3 as const,
+      entryScene: 's',
+      content: {},
+      assets: {
+        catalog: 'assets/index.json',
+        roles: { 'audio.battleEscapeSound': 'sound.authored' as const },
+        legacy: { families: ['sound', 'sprite'] as const, sounds: 'old', sprites: 'sprite' },
+      },
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    }
+    expect(
+      exitLegacySoundFamily({
+        manifest: manifest as never,
+        roles: { 'audio.battleEscapeSound': 'sound.default' },
+      }).assets,
+    ).toEqual({
+      catalog: 'assets/index.json',
+      roles: { 'audio.battleEscapeSound': 'sound.authored' },
+      legacy: { families: ['sprite'], sprites: 'sprite' },
+    })
   })
 })

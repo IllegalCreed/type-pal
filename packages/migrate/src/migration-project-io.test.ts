@@ -70,6 +70,19 @@ describe('PAL 迁移工程快照', () => {
     expect(readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')).toBe('{ }\n')
   })
 
+  test('显式排除迁移器负责的 manifest 与二进制路径', () => {
+    const repo = tempRepo()
+    put(repo, 'manifest.json', '{}\n')
+    put(repo, 'assets/migrated/sounds/001.wav', 'wave')
+    put(repo, 'notes.txt', 'keep')
+    const hashes = hashUnmanagedProjectFiles(
+      repo,
+      new Set(),
+      new Set(['manifest.json', 'assets/migrated/sounds/001.wav']),
+    )
+    expect([...hashes.keys()]).toEqual(['notes.txt'])
+  })
+
   test('只发现 index 明示引用的额外场景和 chunk', () => {
     const repo = tempRepo()
     put(repo, 'content/scenes/index.json', '["s000","manual"]\n')

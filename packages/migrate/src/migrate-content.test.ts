@@ -23,6 +23,7 @@ import {
   type SourceCmd,
   type SourceScene,
   sceneSlug,
+  translateThrowScript,
   walkDesc,
 } from './migrate-content.js'
 
@@ -301,7 +302,8 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
       { kind: 'curePoison', poisonId: '552' },
     ]) // 净衣咒
     expect(byId.get('376')?.effects).toEqual([{ kind: 'applyPoison', poisonId: '553' }]) // 咒蛇
-    expect(byId.get('377')?.effects).toEqual([{ kind: 'steal', rate: 6 }]) // 飞龙探云手(0x47 音效有损注)
+    expect(byId.get('377')?.effects).toEqual([{ kind: 'steal', rate: 6 }])
+    expect(byId.get('377')?.animation.sound).toBe('sound.pal.174') // 飞龙探云手 0x47 恢复
     expect(byId.get('295')?.effects).toEqual([
       { kind: 'trance', sprite: 5 },
       { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
@@ -309,13 +311,12 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
     ]) // 梦蛇
     expect(byId.get('295')?.target).toBe('self')
   })
-  test('有损点登记:0x68 敌方分支(回梦/夺魂/鬼降)+ 飞龙 0x47 音效;三尸三连双脚本 → 正确 pending', () => {
+  test('有损点登记:0x68 敌方分支 + 酒神动态伤害；已恢复的 377 不再有损', () => {
     expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([
       303,
       304,
       305,
-      370,
-      377, // 370 = 酒神(summon 动态伤害直译占位,2026-07-05)
+      370, // 酒神(summon 动态伤害直译占位,2026-07-05)
     ])
     const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
     expect(dual).toHaveLength(3)
@@ -400,6 +401,7 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
       target: 'scene',
       consuming: true,
       effects: [{ kind: 'teleportOut' }],
+      sound: 'sound.pal.045',
     })
     // 土灵珠 use 脚本以 0x81(是否面对指定 event object)开头 = 场景交互,系统未落地 → 保持 pending
     expect(byId.get('267')!.use).toBeUndefined()
@@ -417,6 +419,17 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(withUse + out.report.pendingUse.length).toBe(100)
     expect(withUse).toBeGreaterThanOrEqual(60)
     for (const p of out.report.pendingUse) expect(p.reason).toMatch(/系统|B2|剧情|空链/)
+  })
+})
+
+test('投掷链的 0x47 不再静默丢弃', () => {
+  const commands: SourceCmd[] = [
+    { op: 'raw', opcode: 0x47, operands: [88, 0, 0], label: 'L_1' },
+    { op: 'end' },
+  ]
+  expect(translateThrowScript(commands, buildLabelIndex(commands), 1)).toEqual({
+    effects: [],
+    sound: 'sound.pal.088',
   })
 })
 
@@ -687,18 +700,21 @@ describe('M3 写盘白名单', () => {
               trigger: {
                 on: 'interact',
                 range: 3,
-                stages: [{ body: [{ kind: 'playSound', soundId: 1 }] }],
+                stages: [{ body: [{ kind: 'playSound', asset: 'sound.pal.001' }] }],
               },
               auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
             },
             {
               state: 9,
-              trigger: { on: 'touch', stages: [{ body: [{ kind: 'playSound', soundId: 9 }] }] },
+              trigger: {
+                on: 'touch',
+                stages: [{ body: [{ kind: 'playSound', asset: 'sound.pal.009' }] }],
+              },
             },
           ],
         },
       ],
-      onEnter: [{ body: [{ kind: 'playSound', soundId: 2 }] }],
+      onEnter: [{ body: [{ kind: 'playSound', asset: 'sound.pal.002' }] }],
     }
     const ref = { chunk: 'scene/s001', id: 'scene/s001/root' }
     const fresh: SceneDef = {

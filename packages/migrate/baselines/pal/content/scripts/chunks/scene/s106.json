@@ -31,7 +31,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 123
+        "asset": "sound.pal.123"
       },
       {
         "kind": "wait",
@@ -39,7 +39,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 190
+        "asset": "sound.pal.190"
       },
       {
         "kind": "cameraPan",
@@ -816,7 +816,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 175
+        "asset": "sound.pal.175"
       },
       {
         "kind": "fade",

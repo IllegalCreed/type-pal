@@ -2054,7 +2054,7 @@
     "scene/s118/root/entity-e2171/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -2080,7 +2080,7 @@
     "scene/s118/root/entity-e2172/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

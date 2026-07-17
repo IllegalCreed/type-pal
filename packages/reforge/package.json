@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "vite --port 6050 --strictPort",
     "build": "vite build",
+    "audit:sfx-readiness": "tsx scripts/audit-sfx-readiness.mts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",

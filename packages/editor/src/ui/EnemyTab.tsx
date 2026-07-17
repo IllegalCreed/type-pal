@@ -11,7 +11,10 @@ import type {
   AiCond,
   AiRule,
   AiTarget,
+  AssetCatalogV1,
+  AssetId,
   EnemyDef,
+  EnemySounds,
   EnemyTeamDef,
   Locale,
   SkillData,
@@ -26,7 +29,20 @@ import {
   UpdateLocaleCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { EnemyAnimPreview } from './EnemyAnimPreview.js'
+import { SoundPicker } from './SoundPicker.js'
+
+const ENEMY_SOUND_FIELDS: readonly {
+  key: Exclude<keyof EnemySounds, 'suppressMagicEffectSound'>
+  label: string
+}[] = [
+  { key: 'attack', label: '普攻' },
+  { key: 'action', label: '行动' },
+  { key: 'magic', label: '施法' },
+  { key: 'death', label: '死亡' },
+  { key: 'call', label: '呼叫' },
+]
 
 /** reforge(pal)地址:主机跟随编辑器访问地址(局域网/同事机不再错跳 localhost),端口按 dev-servers.md。 */
 // 同源试玩页(本地工程 FSA 句柄跨不了源;?project= 由调用处拼)
@@ -62,7 +78,7 @@ function newEnemy(id: string): EnemyDef {
       actWaitFrames: 1,
       yPosOffset: 0,
     },
-    sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
+    sounds: {},
   }
 }
 
@@ -335,6 +351,9 @@ export function EnemyTab(props: {
   skills: SkillData[]
   locale: Locale
   session: EditSession
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onOpenSound?: (id: string) => void
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
@@ -350,6 +369,9 @@ export function EnemyTab(props: {
     skills,
     locale,
     session,
+    assetCatalog,
+    assetReader,
+    onOpenSound,
     tabBar,
     assetBase,
     projectId = 'pal',
@@ -388,6 +410,12 @@ export function EnemyTab(props: {
   }
   const setTeams = (teams: EnemyTeamDef[]): void =>
     session.dispatch(new UpdateEnemyTeamsCommand(teams))
+  const setSound = (key: keyof EnemySounds, value: AssetId | boolean | undefined): void => {
+    if (!enemy) return
+    const sounds = { ...enemy.sounds, [key]: value }
+    if (value === undefined || value === false) delete sounds[key]
+    session.dispatch(new UpdateEnemyCommand(enemy.id, { sounds }))
+  }
 
   const addEnemy = (): void => {
     let n = 1
@@ -526,6 +554,35 @@ export function EnemyTab(props: {
                     />
                   </label>
                 ))}
+              </div>
+            </div>
+            <div className="section">
+              <h4>战斗音效</h4>
+              <div className="sound-field-list">
+                {ENEMY_SOUND_FIELDS.map(({ key, label }) => (
+                  <div className="field" key={key}>
+                    <span className="field-label">{label}</span>
+                    <SoundPicker
+                      value={enemy.sounds[key]}
+                      onChange={(value) => setSound(key, value)}
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      ariaLabel={`${label}音效`}
+                      onOpenAsset={onOpenSound}
+                    />
+                  </div>
+                ))}
+                <label className="cf-inline sound-suppress-toggle">
+                  <input
+                    type="checkbox"
+                    checked={enemy.sounds.suppressMagicEffectSound === true}
+                    onChange={(event) =>
+                      setSound('suppressMagicEffectSound', event.target.checked || undefined)
+                    }
+                  />
+                  播放施法音，但抑制本次技能特效音
+                </label>
               </div>
             </div>
             <div className="section">

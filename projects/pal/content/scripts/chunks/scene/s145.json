@@ -291,7 +291,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 45
+        "asset": "sound.pal.045"
       },
       {
         "kind": "nudgeParty",
@@ -417,7 +417,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 92
+        "asset": "sound.pal.092"
       },
       {
         "kind": "wait",
@@ -632,10 +632,6 @@
         "kind": "setEntityState",
         "entity": "e2402",
         "state": 1
-      },
-      {
-        "kind": "playSound",
-        "soundId": 122
       },
       {
         "kind": "shakeScreen",

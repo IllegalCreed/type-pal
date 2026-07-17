@@ -39,6 +39,28 @@ function bodyOf(ctx: TranslateCtx): Command[] {
   return stages![0]!.body
 }
 
+describe('0x47 音效迁移', () => {
+  test('非空 chunk 变稳定 AssetId；空 chunk 删除并记唯一 no-op', () => {
+    const ctx = ctxOf([
+      { opcode: 0x47, operands: [45, 0, 0] },
+      { opcode: 0x47, operands: [122, 0, 0] },
+    ])
+    ctx.soundAssetForNum = (sound) =>
+      sound === 122 ? undefined : `sound.pal.${String(sound).padStart(3, '0')}`
+    expect(bodyOf(ctx)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])
+    expect(ctx.report.knownNoOps['playSound.emptyChunk']).toBe(1)
+    expect(ctx.report.knownNoOpDetails).toEqual([
+      {
+        key: 'playSound.emptyChunk',
+        sourceAddress: 2,
+        legacyId: 122,
+        owner: 'e0',
+        path: 'L_1@e0',
+      },
+    ])
+  })
+})
+
 describe('0x15 队员方向+姿势(script.c: wFrame = dir*3 + gesture)', () => {
   test('gesture>0 → setPartyFacing 带 gesture(开场练武 [0,9,0])', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x15, operands: [0, 9, 0] }]))

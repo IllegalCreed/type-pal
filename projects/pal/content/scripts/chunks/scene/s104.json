@@ -17,7 +17,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 80
+        "asset": "sound.pal.080"
       },
       {
         "kind": "wait",
@@ -54,7 +54,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 74
+        "asset": "sound.pal.074"
       },
       {
         "kind": "wait",
@@ -1533,7 +1533,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1956/d-0a386828": [
@@ -1552,7 +1552,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1957/d-0a386828": [
@@ -1571,7 +1571,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1958/d-0a386828": [
@@ -1590,7 +1590,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1959/d-0a386828": [
@@ -1609,7 +1609,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1960/d-0a386828": [
@@ -1628,7 +1628,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1961/d-0a386828": [
@@ -1647,7 +1647,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1962/d-0a386828": [
@@ -1666,7 +1666,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-36505/e1963/d-0a386828": [
@@ -1685,7 +1685,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s104/L-21170/e1927/d-0a386828": [
@@ -1744,7 +1744,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 80
+        "asset": "sound.pal.080"
       },
       {
         "kind": "wait",
@@ -1781,7 +1781,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 74
+        "asset": "sound.pal.074"
       },
       {
         "kind": "wait",

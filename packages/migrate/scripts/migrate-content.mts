@@ -8,7 +8,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import type { AssetCatalogV1, LoadedManifest } from '@type-pal/content'
-import { validateAssetCatalog } from '@type-pal/content'
+import { validateAssetCatalog, validateManifestAssetConfigV3 } from '@type-pal/content'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
@@ -43,6 +43,7 @@ import {
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
 import { materializePalAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
+import { closePalSoundManifest } from '../src/pal-manifest.js'
 import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
@@ -163,35 +164,28 @@ async function commitAndVerify(args: {
   previousBaseline?: MigrationSnapshot
   theirs: MigrationFileSet
   binaryAssets: readonly PalBinaryAssetSource[]
+  currentManifestText: string
+  nextManifest: LoadedManifest
 }): Promise<void> {
-  const { ours, target, plan, previousBaseline, theirs } = args
+  const { ours, target, plan, previousBaseline, theirs, nextManifest } = args
   const nextBaseline = snapshotOf(theirs)
   const transactionManaged = new Set([...ours.managedFiles, ...target.managedFiles])
   assertProjectSnapshotCurrent(repo, ours, transactionManaged)
-  const unmanagedBefore = hashUnmanagedProjectFiles(repo, transactionManaged)
-  const changes = buildMigrationTransactionChanges({
-    repo,
-    plan,
-    previousBaseline,
-    nextBaseline,
-  })
-  if (changes.length) commitMigrationTransaction(repo, changes)
-  console.log(`[事务] ${changes.length ? `已提交 ${changes.length} 项操作` : '无需写盘'}`)
-
-  const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged)
-  assertHashMapsEqual(unmanagedBefore, unmanagedAfter, '非托管工程文件')
-  const baselineAfter = loadPalBaseline(repo)
-  if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
-  sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')
-
-  const postManaged = discoverProjectManagedFiles(repo, target.managedFiles)
-  const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
-  sameSnapshot(target, projectAfter, '写盘工程与合并 target')
+  const assertManifestCurrent = (): void => {
+    if (
+      readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== args.currentManifestText
+    )
+      throw new Error('迁移计划后 manifest.json 已变更')
+  }
+  assertManifestCurrent()
 
   const catalog = validateAssetCatalog(
     target.files.get('assets/index.json') as AssetCatalogV1,
     'PAL 迁移 target assets/index.json',
   )
+  validateManifestAssetConfigV3(nextManifest.assets, catalog, 'PAL 闭环 manifest.assets')
+
+  // 二进制必须在 journal 和 manifest 切换之前完成全量预检、物化与逐文件闭包。
   const materialized = materializePalAssets({
     repo,
     catalog,
@@ -201,6 +195,50 @@ async function commitAndVerify(args: {
     `[资源物化] files=${materialized.files} bytes=${materialized.bytes} ` +
       `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
   )
+  assertProjectSnapshotCurrent(repo, ours, transactionManaged)
+  assertManifestCurrent()
+  // 物化已完成，此后所有二进制也应保持不变；仅排除本事务最后负责切换的 manifest。
+  const excludedFiles = new Set(['manifest.json'])
+  const unmanagedBefore = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
+  const catalogHash = snapshotFileHash(target, 'assets/index.json')
+  if (!catalogHash) throw new Error('PAL 迁移 target 缺 assets/index.json hash')
+  const manifestPreconditions = [
+    { target: 'projects/pal/assets/index.json', hash: catalogHash },
+    ...Object.values(catalog.assets).map((record) => ({
+      target: `projects/pal/${record.path}`,
+      hash: record.sha256,
+    })),
+  ]
+  const changes = buildMigrationTransactionChanges({
+    repo,
+    plan,
+    previousBaseline,
+    nextBaseline,
+    nextManifest,
+    manifestPreconditions,
+  })
+  if (changes.length) commitMigrationTransaction(repo, changes)
+  console.log(`[事务] ${changes.length ? `已提交 ${changes.length} 项操作` : '无需写盘'}`)
+
+  const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
+  assertHashMapsEqual(unmanagedBefore, unmanagedAfter, '非托管工程文件')
+  const manifestAfterText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  const manifestAfter = JSON.parse(manifestAfterText) as LoadedManifest
+  if (!isDeepStrictEqual(nextManifest, manifestAfter))
+    throw new Error('事务完成后 manifest 与闭环目标不符')
+  validateManifestAssetConfigV3(manifestAfter.assets, catalog, '写盘后 manifest.assets')
+  if (
+    manifestAfter.assets.legacy?.families.includes('sound') ||
+    manifestAfter.assets.legacy?.sounds !== undefined
+  )
+    throw new Error('写盘后 manifest 仍含 legacy sound')
+  const baselineAfter = loadPalBaseline(repo)
+  if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
+  sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')
+
+  const postManaged = discoverProjectManagedFiles(repo, target.managedFiles)
+  const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
+  sameSnapshot(target, projectAfter, '写盘工程与合并 target')
 
   // 真正重读提取源并重跑纯生成，不用上一轮内存结果冒充幂等。
   const sources2 = loadPalMigrationSources(repo)
@@ -216,6 +254,18 @@ async function commitAndVerify(args: {
     throw new Error(
       `二次迁移非空计划: writes=${second.writes.size} deletes=${second.deletes.length} conflicts=${second.conflicts.length}`,
     )
+  const secondCatalog = validateAssetCatalog(
+    projectAfter.files.get('assets/index.json') as AssetCatalogV1,
+    '二次 PAL 工程 assets/index.json',
+  )
+  validateManifestAssetConfigV3(manifestAfter.assets, secondCatalog, '二次 manifest.assets')
+  const secondMaterialized = materializePalAssets({
+    repo,
+    catalog: secondCatalog,
+    binaries: sources2.binaryAssets,
+  })
+  if (secondMaterialized.written !== 0)
+    throw new Error(`二次资源物化非空写入: writes=${secondMaterialized.written}`)
   console.log('[幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
 }
 
@@ -240,7 +290,9 @@ async function main(): Promise<void> {
   const seed = new Set([...(baseline?.managedFiles ?? []), ...theirs.managedFiles])
   const managed = discoverProjectManagedFiles(repo, seed)
   const ours = loadProjectMigrationSnapshot(repo, managed)
-  const manifest = readJson<LoadedManifest>('projects/pal/manifest.json')
+  const manifestPath = resolve(repo, 'projects/pal/manifest.json')
+  const manifestText = readFileSync(manifestPath, 'utf8')
+  const manifest = JSON.parse(manifestText) as LoadedManifest
 
   if (!baseline) {
     if (!bootstrap)
@@ -265,12 +317,17 @@ async function main(): Promise<void> {
       files: normalizedFiles,
       managedFiles: new Set([...applied.managedFiles, ...normalizedFiles.keys()]),
     }
+    const targetCatalog = validateAssetCatalog(
+      target.files.get('assets/index.json') as AssetCatalogV1,
+      'PAL bootstrap target assets/index.json',
+    )
+    const nextManifest = closePalSoundManifest(manifest, targetCatalog)
     const validation = validatePalMigrationTarget({
       files: target.files,
       managedFiles: target.managedFiles,
       sources,
       startWorld: manifest.startWorld,
-      assets: manifest.assets,
+      assets: nextManifest.assets,
       entryPoints: manifest.entryPoints,
     })
     reportValidation(validation)
@@ -282,6 +339,8 @@ async function main(): Promise<void> {
       plan,
       theirs,
       binaryAssets: sources.binaryAssets,
+      currentManifestText: manifestText,
+      nextManifest,
     })
     return
   }
@@ -297,12 +356,17 @@ async function main(): Promise<void> {
     files: plan.target,
     managedFiles: new Set([...managed, ...plan.target.keys()]),
   }
+  const targetCatalog = validateAssetCatalog(
+    target.files.get('assets/index.json') as AssetCatalogV1,
+    'PAL merge target assets/index.json',
+  )
+  const nextManifest = closePalSoundManifest(manifest, targetCatalog)
   const validation = validatePalMigrationTarget({
     files: target.files,
     managedFiles: target.managedFiles,
     sources,
     startWorld: manifest.startWorld,
-    assets: manifest.assets,
+    assets: nextManifest.assets,
     entryPoints: manifest.entryPoints,
   })
   reportValidation(validation)
@@ -317,6 +381,8 @@ async function main(): Promise<void> {
     previousBaseline: baseline,
     theirs,
     binaryAssets: sources.binaryAssets,
+    currentManifestText: manifestText,
+    nextManifest,
   })
 }
 

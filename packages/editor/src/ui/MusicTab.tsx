@@ -1,10 +1,5 @@
 /** A7 音乐资源工作台：catalog CRUD、引用保护、MIDI 替换与同 resolver 试听。 */
-import {
-  type AssetCatalogV1,
-  type AssetId,
-  type AssetRecordV1,
-  collectAssetReferences,
-} from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import type { AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -13,6 +8,7 @@ import {
   UpsertAssetCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import { musicAssets, PreviewButton } from './MusicPicker.js'
 
 const ROLE_LABELS: Readonly<Record<string, string>> = {
@@ -112,25 +108,13 @@ export function MusicTab(props: {
   const state = session.getState()
   const references = useMemo(() => {
     const byAsset = new Map<AssetId, string[]>()
-    for (const reference of collectAssetReferences({
-      assets: state.manifest.assets,
-      entryPoints: state.manifest.entryPoints,
-      scenes: state.scenes,
-      scriptChunks: state.scriptChunks,
-      enemies: state.enemies,
-    })) {
+    for (const reference of collectEditorAssetReferences(state)) {
       const list = byAsset.get(reference.asset) ?? []
       list.push(reference.where)
       byAsset.set(reference.asset, list)
     }
     return byAsset
-  }, [
-    state.manifest.assets,
-    state.manifest.entryPoints,
-    state.scenes,
-    state.scriptChunks,
-    state.enemies,
-  ])
+  }, [state])
   const shown = entries.filter(
     (entry) =>
       !filter ||
@@ -186,9 +170,10 @@ export function MusicTab(props: {
     try {
       setError('')
       const previous = replaceId ? catalog.assets[replaceId] : undefined
+      const previousBytes = replaceId ? await resolver.readBytes(replaceId) : undefined
       const prepared = await authoredMidiRecord(file, previous?.label)
       const id = replaceId ?? nextMusicId(catalog, prepared.record.sha256)
-      session.dispatch(new UpsertAssetCommand(id, prepared.record, prepared.bytes))
+      session.dispatch(new UpsertAssetCommand(id, prepared.record, prepared.bytes, previousBytes))
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
     }
@@ -302,7 +287,17 @@ export function MusicTab(props: {
                             }
                             aria-label={`删除 ${id}`}
                             disabled={usedAt.length > 0}
-                            onClick={() => session.dispatch(new DeleteAssetCommand(id))}
+                            onClick={() => {
+                              if (!window.confirm(`确认删除未被引用的音乐 ${id}？`)) return
+                              void resolver
+                                .readBytes(id)
+                                .then((previousBytes) =>
+                                  session.dispatch(new DeleteAssetCommand(id, previousBytes)),
+                                )
+                                .catch((cause: unknown) =>
+                                  setError(cause instanceof Error ? cause.message : String(cause)),
+                                )
+                            }}
                           >
                             <span className="music-delete-icon" aria-hidden="true" />
                           </button>

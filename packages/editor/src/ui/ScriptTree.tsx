@@ -242,7 +242,7 @@ function describe(
     case 'addVar':
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
-      return { icon: '🔊', label: `音效 ${cmd.soundId}` }
+      return { icon: '🔊', label: `音效 ${cmd.asset}` }
     case 'setParty':
       return { icon: '👥', label: `队伍变更 → ${cmd.members.join(', ')}` }
     case 'mountParty':

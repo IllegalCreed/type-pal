@@ -254,7 +254,11 @@ export async function writeFile(
 export async function writeProject(
   dir: FileSystemDirectoryHandle,
   files: Record<string, unknown>,
-  opts?: { prevSnapshot?: Map<string, string>; removePaths?: readonly string[] },
+  opts?: {
+    prevSnapshot?: Map<string, string>
+    removePaths?: readonly string[]
+    onProgress?: (progress: { completed: number; total: number }) => void
+  },
 ): Promise<Map<string, string>> {
   const prev = opts?.prevSnapshot
   const { write, remove: diffRemove } = prev
@@ -263,7 +267,19 @@ export async function writeProject(
   const remove = [...new Set([...diffRemove, ...(opts?.removePaths ?? [])])].filter(
     (rel) => !(rel in files),
   )
-  for (const rel of write) await writeFile(dir, rel, files[rel])
+  const encoder = new TextEncoder()
+  const byteLength = (value: unknown): number =>
+    value instanceof ArrayBuffer ? value.byteLength : encoder.encode(serializeOne(value)).byteLength
+  const sizes = new Map(write.map((rel) => [rel, byteLength(files[rel])]))
+  const total = [...sizes.values()].reduce((sum, size) => sum + size, 0)
+  let completed = 0
+  opts?.onProgress?.({ completed, total })
+  for (const rel of write) {
+    await writeFile(dir, rel, files[rel])
+    completed += sizes.get(rel) ?? 0
+    // 100% 只在删除也落定后报告；避免 manifest close 后、函数返回前 UI 先宣告完成。
+    if (completed < total) opts?.onProgress?.({ completed, total })
+  }
   for (const rel of remove) {
     const segs = rel.split('/')
     const fileName = segs.pop()!
@@ -275,6 +291,7 @@ export async function writeProject(
       /* 已不在 = 目标态达成,忽略 */
     }
   }
+  opts?.onProgress?.({ completed: total, total })
   const snapshot = new Map<string, string>()
   for (const [rel, value] of Object.entries(files)) {
     snapshot.set(

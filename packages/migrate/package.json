@@ -8,6 +8,8 @@
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "audit:maps": "tsx scripts/audit-project-maps.mts",
+    "audit:a7-sound-diff": "tsx scripts/audit-a7-sound-diff.mts",
+    "audit:sounds": "tsx scripts/audit-pal-sounds.mts",
     "bake": "tsx scripts/bake-assets.mts",
     "migrate:content": "tsx scripts/migrate-content.mts"
   },

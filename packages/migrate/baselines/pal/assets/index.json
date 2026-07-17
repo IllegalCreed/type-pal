@@ -1272,6 +1272,4362 @@
       },
       "bytes": 243983,
       "sha256": "e2035e15fac80448dab540b0a430f7b16630ca8ce9cd14466fcf6d856ae3b75d"
+    },
+    "sound.pal.001": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/001.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/1.wav"
+      },
+      "bytes": 9782,
+      "sha256": "ee9d7e88e858c66ebed3300fe274cb20779843437aa915cc0a4cd62c360d7948"
+    },
+    "sound.pal.002": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/002.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/2.wav"
+      },
+      "bytes": 10358,
+      "sha256": "76ec345ae1902916ce1a7b06f21a9e3613e5b4235b380e19514107201460ed6a"
+    },
+    "sound.pal.003": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/003.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/3.wav"
+      },
+      "bytes": 10006,
+      "sha256": "b1121d3834e33ff2ff322e473fe6617003972654ae4f872dd13438ce7d0a6644"
+    },
+    "sound.pal.004": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/004.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/4.wav"
+      },
+      "bytes": 23758,
+      "sha256": "8eb73d29994f9ed4f51556491bb362bb9da473f16156b3bcb65a27835901f690"
+    },
+    "sound.pal.005": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/005.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/5.wav"
+      },
+      "bytes": 22508,
+      "sha256": "3786d06f1f3493fbeae198c92c4fdd54097ac95977e71bf323cfaf262cdf8cae"
+    },
+    "sound.pal.006": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/006.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/6.wav"
+      },
+      "bytes": 20648,
+      "sha256": "53296c2edc7cea5f6b86499e2574c1bce16fe27eed61e6de5d2c1e37a7000cf7"
+    },
+    "sound.pal.007": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/007.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/7.wav"
+      },
+      "bytes": 12164,
+      "sha256": "fdb99ef1df003dea75850fd54b443a7bf2fd93c5d3073e613a33e1700c671d69"
+    },
+    "sound.pal.008": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/008.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/8.wav"
+      },
+      "bytes": 12216,
+      "sha256": "3b9a246618568f68a2b32870e8acc7dc7691b676e7a11fc8148e7de1a74e19e1"
+    },
+    "sound.pal.009": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/009.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/9.wav"
+      },
+      "bytes": 14008,
+      "sha256": "95b4467e8457689d70bad12ec29b6649717682854e6549b029678cd31dd19f9b"
+    },
+    "sound.pal.010": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/010.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/10.wav"
+      },
+      "bytes": 20872,
+      "sha256": "cadc1cb01d6659b6b57b28c7467553b170ed7119dc35a0aeea6ba67f29adc6f6"
+    },
+    "sound.pal.011": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/011.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/11.wav"
+      },
+      "bytes": 11614,
+      "sha256": "997299c24471c447d7c91a4cadf85fb48087da95d87ecb983f3d473a906a56a7"
+    },
+    "sound.pal.012": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/012.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/12.wav"
+      },
+      "bytes": 32880,
+      "sha256": "2a062483bbf27bbb95048357b94d56d9ba15a93bc21d84efadee7b6599b59391"
+    },
+    "sound.pal.013": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/013.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/13.wav"
+      },
+      "bytes": 16906,
+      "sha256": "76e6a4c7e00a3f2bf163e73aeafa1ab56b796a6ea43a423c5c923c8b5cad2411"
+    },
+    "sound.pal.014": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/014.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/14.wav"
+      },
+      "bytes": 15226,
+      "sha256": "af6c0e665867e90b09f16b46ce98098b16453a2c8e8b007ca920e40e64a34431"
+    },
+    "sound.pal.015": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/015.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/15.wav"
+      },
+      "bytes": 24444,
+      "sha256": "4f01c8176a81a02082861926195ff5e5a47be908c5b0be80246cae9ab2638272"
+    },
+    "sound.pal.016": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/016.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/16.wav"
+      },
+      "bytes": 15650,
+      "sha256": "1771c420fdd68285b81c4eec6f016438f0f7a7bd07fd482977297208aa401229"
+    },
+    "sound.pal.017": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/017.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/17.wav"
+      },
+      "bytes": 28596,
+      "sha256": "339c6d48ef6a0dbf0ff749698c0462f2001dde2482ae50cc4d6d508d48374b0a"
+    },
+    "sound.pal.018": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/018.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/18.wav"
+      },
+      "bytes": 20492,
+      "sha256": "081c0bda7b73235d8571df7aedbc502077e0e9718df0650c7b65df57ff715fb0"
+    },
+    "sound.pal.019": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/019.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/19.wav"
+      },
+      "bytes": 15434,
+      "sha256": "97ddde4f68a4315fc123432eb2148a4aa8ae1da4199ca0e686af8687db3e588e"
+    },
+    "sound.pal.020": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/020.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/20.wav"
+      },
+      "bytes": 19564,
+      "sha256": "c87c7e1c45b62e674f673ad293e601a17b3289174e985b40e6c1348828646884"
+    },
+    "sound.pal.021": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/021.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/21.wav"
+      },
+      "bytes": 11692,
+      "sha256": "060fe4d08d617f42b3e339191bb683a2f877cbf2129ef26470b9e3da08b2cff7"
+    },
+    "sound.pal.022": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/022.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/22.wav"
+      },
+      "bytes": 13980,
+      "sha256": "925f872d7de2ac482c263378647bdb09d472f61710d32b831add1c4d181e47a1"
+    },
+    "sound.pal.023": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/023.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/23.wav"
+      },
+      "bytes": 26746,
+      "sha256": "0108a45f92b2608a416a42868face7047a63eaeb23dea225ffa7bae450c46404"
+    },
+    "sound.pal.024": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/024.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/24.wav"
+      },
+      "bytes": 40706,
+      "sha256": "e03c28edefc2a15def4d0dbb8429abc9308032fa3dc128d378e1495de63f9a8b"
+    },
+    "sound.pal.025": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/025.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/25.wav"
+      },
+      "bytes": 42734,
+      "sha256": "56200580fbcaec19d2f69aacf18695280c77e9bfcf211727f3d5c58cff209728"
+    },
+    "sound.pal.026": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/026.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/26.wav"
+      },
+      "bytes": 36064,
+      "sha256": "1ed298e95a87dee75aff603fb5684cac4181a6377582e1f895eef9ac7bad8c10"
+    },
+    "sound.pal.027": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/027.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/27.wav"
+      },
+      "bytes": 13090,
+      "sha256": "9d185a967ae47f5e8a2fa299cfd1b3957b021de867fbe930f876fc9fd1098454"
+    },
+    "sound.pal.028": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/028.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/28.wav"
+      },
+      "bytes": 27024,
+      "sha256": "5e077e724aef9474eb424491b9cf013601f84dcf1a84012ebf987c167b540a37"
+    },
+    "sound.pal.029": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/029.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/29.wav"
+      },
+      "bytes": 27190,
+      "sha256": "e0f508053065f1540418ae57ce3f4f6c9cbbf8986bad1e72da8fd645db639681"
+    },
+    "sound.pal.030": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/030.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/30.wav"
+      },
+      "bytes": 74798,
+      "sha256": "39afd3bbc3b159476fa1f6bca8d8d7db6513f28b125bcdafa1eba943da082745"
+    },
+    "sound.pal.032": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/032.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/32.wav"
+      },
+      "bytes": 41606,
+      "sha256": "30e7f668827daa7ced43a02b109b841cf5c9decb8bb358d5204243af8c7ff12c"
+    },
+    "sound.pal.035": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/035.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/35.wav"
+      },
+      "bytes": 30038,
+      "sha256": "821b606bdc92773a2955b7288566cc6c99cef944768485aaa3b4b72e044e2a0d"
+    },
+    "sound.pal.037": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/037.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/37.wav"
+      },
+      "bytes": 8248,
+      "sha256": "7e367db33224082845830f97ba2314116d9b1a1ba199531f9f7b71277924b2c6"
+    },
+    "sound.pal.038": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/038.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/38.wav"
+      },
+      "bytes": 24882,
+      "sha256": "7dac59efadf206db366143241cce006bfbbcecf5b1a6d70a56ef6e02878ad0bf"
+    },
+    "sound.pal.039": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/039.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/39.wav"
+      },
+      "bytes": 12050,
+      "sha256": "006a60f606aa881b0afd98410051f36320e2fc9916c89f6d5a4709a4e948c65d"
+    },
+    "sound.pal.040": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/040.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/40.wav"
+      },
+      "bytes": 11782,
+      "sha256": "f192fa71503d63b859faecab0ad1b36151b140ca35fdba4076c789bfd89cbe85"
+    },
+    "sound.pal.043": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/043.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/43.wav"
+      },
+      "bytes": 13132,
+      "sha256": "60d2c4bdf38a544fc56e9330ecbdbd33adcd59ffbbd7ec0a65213989f3b5edc1"
+    },
+    "sound.pal.045": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/045.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/45.wav"
+      },
+      "bytes": 38018,
+      "sha256": "cc4950d125236c76fe02b71f6011088a8cb331fe56c33f6cf6b89a38e17f7c23"
+    },
+    "sound.pal.046": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/046.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/46.wav"
+      },
+      "bytes": 9516,
+      "sha256": "46f6f3ac6df743c973149470da709a2717c375f6897c68b8b3187910b6287903"
+    },
+    "sound.pal.047": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/047.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/47.wav"
+      },
+      "bytes": 50430,
+      "sha256": "f7531e248761e062a4724644c7912a627866e70f4d6dc83c9fd27cce00471dc1"
+    },
+    "sound.pal.048": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/048.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/48.wav"
+      },
+      "bytes": 26990,
+      "sha256": "c522e3788ede3d02e72834d8458fb1d4187900c23ef3aaf0ad23baf510280b66"
+    },
+    "sound.pal.049": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/049.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/49.wav"
+      },
+      "bytes": 47094,
+      "sha256": "3789712190cef9c695035bd59a9f09da57feb77e2b19020b3604aa809533b07a"
+    },
+    "sound.pal.050": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/050.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/50.wav"
+      },
+      "bytes": 29392,
+      "sha256": "00f6e2e1ab2ce7f3716d14f150742cfc0d14c54890d7b09e827031a48d2dd395"
+    },
+    "sound.pal.051": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/051.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/51.wav"
+      },
+      "bytes": 44042,
+      "sha256": "ce7770b3f9205e5e9f280d753787c6c271c4b9a355567292f27bdd41a123d8c0"
+    },
+    "sound.pal.052": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/052.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/52.wav"
+      },
+      "bytes": 66108,
+      "sha256": "9b858b5fab6956212d9c48693fc0342a58fabcfffebfe4a4e53e20cb8dca177a"
+    },
+    "sound.pal.053": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/053.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/53.wav"
+      },
+      "bytes": 13388,
+      "sha256": "f320ba2dcd5d4e4e56257eba58fa041bb885ad823a89dabd7a560f9083377fc5"
+    },
+    "sound.pal.054": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/054.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/54.wav"
+      },
+      "bytes": 76600,
+      "sha256": "63c6cf20476d1e372ced5de04c4ed42c7d05b7b714b2e2a7ccb8e246253947a2"
+    },
+    "sound.pal.055": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/055.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/55.wav"
+      },
+      "bytes": 29290,
+      "sha256": "6a6e0218b1e7030224260c8f90ce1eb287295858ad54d816c673b93bcf521971"
+    },
+    "sound.pal.056": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/056.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/56.wav"
+      },
+      "bytes": 23074,
+      "sha256": "c93bf8f036b19602adb23adc5019c482f16401df88d0d7a9a327f3d81b7c290d"
+    },
+    "sound.pal.057": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/057.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/57.wav"
+      },
+      "bytes": 36240,
+      "sha256": "40d3d269e19c2f167bcff6ca003477d7b0781363b61782aed2d54a89659315f4"
+    },
+    "sound.pal.058": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/058.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/58.wav"
+      },
+      "bytes": 9044,
+      "sha256": "c74c44cc6ce4da80e7bee22ca19a6618686981253bd94c31a32500627b6d1cc4"
+    },
+    "sound.pal.059": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/059.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/59.wav"
+      },
+      "bytes": 30746,
+      "sha256": "019e76a4556440e139d440adc47c4d8ec73240d1fa711e9c8237027be2eabede"
+    },
+    "sound.pal.060": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/060.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/60.wav"
+      },
+      "bytes": 137018,
+      "sha256": "8c1d29617d9c0d0e559c2efd8cc1894b9dec77f832a89d401aac52c0d7a0e336"
+    },
+    "sound.pal.061": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/061.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/61.wav"
+      },
+      "bytes": 157106,
+      "sha256": "19c789e6a4ed1b7a65351b9d8cca22b3b311b0d29cca37aa8feb8f261a366bff"
+    },
+    "sound.pal.062": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/062.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/62.wav"
+      },
+      "bytes": 204740,
+      "sha256": "3ae6b59a6ca68bba25b7a39f7f45ae78fad3626f6dcf0566d48f539e0186ba44"
+    },
+    "sound.pal.063": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/063.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/63.wav"
+      },
+      "bytes": 166196,
+      "sha256": "ee05116ede93fa6bf6b3ee10af08026f9c8799c3d04190bdec1b5a40ff50d459"
+    },
+    "sound.pal.064": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/064.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/64.wav"
+      },
+      "bytes": 185966,
+      "sha256": "e3cd49429179396e25c417cdbd9b7f30df0c2090a67978ea4aa8898839b2a4a8"
+    },
+    "sound.pal.065": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/065.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/65.wav"
+      },
+      "bytes": 189038,
+      "sha256": "9c8b1a55f8a7e5bc63e3112fecf71d1846671d8547c26f3c4cdea427db94606f"
+    },
+    "sound.pal.066": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/066.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/66.wav"
+      },
+      "bytes": 55734,
+      "sha256": "346ee0e3e0086105188880fa50a9a9bfafd2b5c87760dc6da243b87806bef4eb"
+    },
+    "sound.pal.067": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/067.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/67.wav"
+      },
+      "bytes": 153472,
+      "sha256": "f8b46832bc415f2e22a961b7110f09eb6075e3a4ac76ff199b8723b153b01005"
+    },
+    "sound.pal.068": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/068.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/68.wav"
+      },
+      "bytes": 119172,
+      "sha256": "b67791c21a4cbba22fb47462e96a1917182ec4c4f4bc96e51ca81ae79ad7dd31"
+    },
+    "sound.pal.069": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/069.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/69.wav"
+      },
+      "bytes": 176248,
+      "sha256": "cdd5a0371bcb1dba20e4660eb5424e88359ac25ef97f40fb7ff201ce928d57a8"
+    },
+    "sound.pal.070": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/070.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/70.wav"
+      },
+      "bytes": 166298,
+      "sha256": "fc036cdcb5c02382238a8357ec88b1a0056352368975f2f87140a81be68f3b32"
+    },
+    "sound.pal.071": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/071.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/71.wav"
+      },
+      "bytes": 37480,
+      "sha256": "ff6bdd0bc4f6a5d38b4aa825813cc3830fca7c6b35d05d3d1100d4a11128a3f8"
+    },
+    "sound.pal.072": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/072.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/72.wav"
+      },
+      "bytes": 198782,
+      "sha256": "8800672e81c9b4d964541b3cc83f6918a44e006be8e87c9eac36de920ea2b8aa"
+    },
+    "sound.pal.073": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/073.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/73.wav"
+      },
+      "bytes": 267662,
+      "sha256": "832b652906183e8fe1f14693bf5a96529c6c968f5d8ade0cdfbb1c4bc7e7cf33"
+    },
+    "sound.pal.074": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/074.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/74.wav"
+      },
+      "bytes": 68460,
+      "sha256": "997cc7839ceedf8deaf1d678c87fb61a96786c4b551094124984b5d9599caee8"
+    },
+    "sound.pal.075": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/075.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/75.wav"
+      },
+      "bytes": 20732,
+      "sha256": "dff6d144e4642160729a3603d7450d7360ba9a0f5dde3c47665d1ff35e5e0071"
+    },
+    "sound.pal.076": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/076.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/76.wav"
+      },
+      "bytes": 41292,
+      "sha256": "474874c9d2600d130c1149fd5688c8d0a780b50d5fd4fbcf4509db955600cb79"
+    },
+    "sound.pal.078": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/078.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 078",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/78.wav"
+      },
+      "bytes": 16798,
+      "sha256": "b7eefe78b8ad2d1d8e49729e586d97c01a51c645c6577a5ce5c6ca83bb01378b"
+    },
+    "sound.pal.079": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/079.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 079",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/79.wav"
+      },
+      "bytes": 120612,
+      "sha256": "008a5ad9a72deee83615030ca1ac27f07395fb8027db966f12d263cd8213430a"
+    },
+    "sound.pal.080": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/080.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/80.wav"
+      },
+      "bytes": 37534,
+      "sha256": "2cdd5ded1ce0d7ab3c9636a1252c6d4afcad0778acfda2de2b43b9468268ea80"
+    },
+    "sound.pal.081": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/081.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/81.wav"
+      },
+      "bytes": 39068,
+      "sha256": "8187d120a81fccdf182e0e785ac9d7601f010e9e4556ed68f89c164281a85b33"
+    },
+    "sound.pal.082": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/082.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/82.wav"
+      },
+      "bytes": 140628,
+      "sha256": "4171718f229664924047b1c4d502fc5767fc5a01b6ab2a24899e9d8a2c43c053"
+    },
+    "sound.pal.083": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/083.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/83.wav"
+      },
+      "bytes": 43338,
+      "sha256": "87289c8fa8e409784f830cbaa5450872c55cb39d7636e42329594396d79c8823"
+    },
+    "sound.pal.084": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/084.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/84.wav"
+      },
+      "bytes": 65276,
+      "sha256": "704bbd451592596f8d4b85580fde22532a0d9f44cd0f54753e8f26b3a9df6380"
+    },
+    "sound.pal.085": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/085.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/85.wav"
+      },
+      "bytes": 28442,
+      "sha256": "1e128f662d6c6744fed8b64442e1ed26f3b35fb488f5a9f5c0f85e8c60f73ee5"
+    },
+    "sound.pal.086": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/086.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/86.wav"
+      },
+      "bytes": 14842,
+      "sha256": "4790a287cac6be3478abded2e52802c024f808f3f0b1576a910b765a1cd4b49e"
+    },
+    "sound.pal.087": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/087.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/87.wav"
+      },
+      "bytes": 55848,
+      "sha256": "7de445899f60ebba4c1269bfb48cfceb154d4339e8e73ce6a8b09f2f447f62a2"
+    },
+    "sound.pal.088": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/088.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 088",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/88.wav"
+      },
+      "bytes": 50274,
+      "sha256": "3e413f04ef6950b21eaa6686199676f52f4b3b4dc782703ccef75190a5ebb9ca"
+    },
+    "sound.pal.089": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/089.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 089",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/89.wav"
+      },
+      "bytes": 17692,
+      "sha256": "fa1790a4df69e5cd7d7913ff00532681cbb4ef6c5efc5b404e62f91a4185e9b0"
+    },
+    "sound.pal.090": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/090.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 090",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/90.wav"
+      },
+      "bytes": 12970,
+      "sha256": "bfa95663ea1e7eb75d5ad2634840805fb8669b11b5a666aabfa3c3d11c8bddde"
+    },
+    "sound.pal.091": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/091.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 091",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/91.wav"
+      },
+      "bytes": 13446,
+      "sha256": "8288e3a1183568ce7b418d29dea5123b7e97bb8bba89f6ee18985a0c3c737860"
+    },
+    "sound.pal.092": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/092.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 092",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/92.wav"
+      },
+      "bytes": 14172,
+      "sha256": "355b2719dc62fc3adda733e44098437b9dbfeffde2e2aaf90aaaecbadd39a1d4"
+    },
+    "sound.pal.093": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/093.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 093",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/93.wav"
+      },
+      "bytes": 13140,
+      "sha256": "7a36b017c10bef990230cbc3f1a68283e85eaba9f7ea9e2e4e2f1672b16c5c39"
+    },
+    "sound.pal.094": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/094.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 094",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/94.wav"
+      },
+      "bytes": 6368,
+      "sha256": "3cd72683d39bd00b7330e820a310a50a365b4affedb63f777f3c6dcdb2e24328"
+    },
+    "sound.pal.095": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/095.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 095",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/95.wav"
+      },
+      "bytes": 35690,
+      "sha256": "f63cbd9bbf571dfdd14a5e61a2cb8bfef4b563f46ff1b9ef4a47b1bb5bdb0acd"
+    },
+    "sound.pal.096": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/096.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 096",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/96.wav"
+      },
+      "bytes": 15842,
+      "sha256": "833327e80a20fe93d92b7b431a17f00db4f30eb9a2e7d44c524c3c63afcbeed2"
+    },
+    "sound.pal.097": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/097.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 097",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/97.wav"
+      },
+      "bytes": 37708,
+      "sha256": "9985e6b30cc44613e13be27385f35e3e7300552953546de189670132defe8ca5"
+    },
+    "sound.pal.098": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/098.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 098",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/98.wav"
+      },
+      "bytes": 38822,
+      "sha256": "ebd4b2c29a08d1814337b082f926d2df1d594b408ad14dd4949dcaf4dec53f5b"
+    },
+    "sound.pal.101": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/101.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 101",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/101.wav"
+      },
+      "bytes": 59546,
+      "sha256": "97ea6c4f9008ae4d0fa86139da481502b73363958e2af072745afe21c73b5b86"
+    },
+    "sound.pal.102": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/102.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 102",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/102.wav"
+      },
+      "bytes": 143526,
+      "sha256": "88fb117c13720700494b9aac80fc7352c63bd9ad4ec0c54c31b4c271ad70c45f"
+    },
+    "sound.pal.103": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/103.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 103",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/103.wav"
+      },
+      "bytes": 213370,
+      "sha256": "84f79f447733284ef28abd1bf3b446f244fe85719056cce6e7860f0eb6896e9b"
+    },
+    "sound.pal.106": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/106.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 106",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/106.wav"
+      },
+      "bytes": 38840,
+      "sha256": "23153c4aa5dce9593955f8d63a8c2263b5a93b87f9cc3b075a8fde3f4c3dd1f5"
+    },
+    "sound.pal.107": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/107.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 107",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/107.wav"
+      },
+      "bytes": 52616,
+      "sha256": "918734c752e96185465eeff3bb65464b34e5262fd3ac84ba01f5bd81e2316481"
+    },
+    "sound.pal.109": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/109.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 109",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/109.wav"
+      },
+      "bytes": 137788,
+      "sha256": "6ac53279476a1e961089cc4fb686774ec577e64e4829f104d541a94a331b879c"
+    },
+    "sound.pal.110": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/110.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 110",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/110.wav"
+      },
+      "bytes": 135826,
+      "sha256": "af4fd6a5c8faf9f561b5e9ed6db064e9a717bea398e49be4c6b3061825b3558a"
+    },
+    "sound.pal.111": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/111.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 111",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/111.wav"
+      },
+      "bytes": 127952,
+      "sha256": "6520c9c184c9e97a6e742a0f69912cbf6c4f7efd9ccceabc2134e9ada38bdee6"
+    },
+    "sound.pal.113": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/113.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 113",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/113.wav"
+      },
+      "bytes": 42924,
+      "sha256": "27b67b8ce925d9d7efabfbe356df90b94763ae44d0941fd0c8c037ed5bb3b03c"
+    },
+    "sound.pal.115": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/115.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 115",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/115.wav"
+      },
+      "bytes": 73958,
+      "sha256": "7704eaf47866ca125c64d97d46069c1a2e4fead14cfe837b14baa02219d887ee"
+    },
+    "sound.pal.116": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/116.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 116",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/116.wav"
+      },
+      "bytes": 57200,
+      "sha256": "3ec263234f3b99c2e9b14f70d24925f98816e58883ac33a6a6e328205f64ce93"
+    },
+    "sound.pal.117": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/117.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 117",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/117.wav"
+      },
+      "bytes": 70306,
+      "sha256": "23873578ad5a0044b9592cccb4ab0c3e641954bede99085247b44cc63925de20"
+    },
+    "sound.pal.118": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/118.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 118",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/118.wav"
+      },
+      "bytes": 49690,
+      "sha256": "9b0690cf86f69bdb74b6758208146644a28c702a44ebd53c055dfb2e1f404598"
+    },
+    "sound.pal.119": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/119.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 119",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/119.wav"
+      },
+      "bytes": 56454,
+      "sha256": "76565fe48fa36d5d6c31c6e206c472fd040496d34744e33acc97b0762024c524"
+    },
+    "sound.pal.120": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/120.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 120",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/120.wav"
+      },
+      "bytes": 131880,
+      "sha256": "1d6a058161bf0815d7b4439cdeb7ea58aae237b5d098b9806e12134ac9d58380"
+    },
+    "sound.pal.121": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/121.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 121",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/121.wav"
+      },
+      "bytes": 103656,
+      "sha256": "216928d6b93ea5fa7b58f5cf98d7b006b353c0983167919935a99a5222ad701d"
+    },
+    "sound.pal.123": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/123.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 123",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/123.wav"
+      },
+      "bytes": 81708,
+      "sha256": "af00b7e4dc661d8a2ecc3556b5b924ef12826d68dc5a51c6b469d2d318cbb12d"
+    },
+    "sound.pal.124": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/124.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 124",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/124.wav"
+      },
+      "bytes": 73310,
+      "sha256": "92e7c7f4e916d1cbada15323ffaca3a4e710be55841329e4a87fa1ceb0d9d062"
+    },
+    "sound.pal.125": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/125.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 125",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/125.wav"
+      },
+      "bytes": 25028,
+      "sha256": "d6974f4dd5488c5faee36273cbb8a909c5306d58acf4e320eec0432d98e980ca"
+    },
+    "sound.pal.126": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/126.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 126",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/126.wav"
+      },
+      "bytes": 20536,
+      "sha256": "3429628bfda6ef55523b8e592450baab52c908c7e1b9e07437da1dc0f01b75c7"
+    },
+    "sound.pal.129": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/129.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 129",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/129.wav"
+      },
+      "bytes": 28324,
+      "sha256": "be6a919df07984011c210250bdc420660940842b70d06162125348bda4c45516"
+    },
+    "sound.pal.130": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/130.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 130",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/130.wav"
+      },
+      "bytes": 35638,
+      "sha256": "810db0fd9d6f116c2e3b993c50ac7f54c69254c50be7eb2cf7fd6cde7611c74e"
+    },
+    "sound.pal.131": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/131.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 131",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/131.wav"
+      },
+      "bytes": 43648,
+      "sha256": "a9fb738d3569ba1338ab976f0cf48ee99ce47d0de18a286cbba8151c9b50c335"
+    },
+    "sound.pal.132": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/132.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 132",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/132.wav"
+      },
+      "bytes": 72248,
+      "sha256": "83818e062a8950ad5d0d42bef044ee87af3aba1da6f78ef21d3cadcafb911ad7"
+    },
+    "sound.pal.133": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/133.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 133",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/133.wav"
+      },
+      "bytes": 110552,
+      "sha256": "cf0b79912eb752b5f64ad31801307b719cbe38d6fb87bbcd3068f876cec3367f"
+    },
+    "sound.pal.134": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/134.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 134",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/134.wav"
+      },
+      "bytes": 67268,
+      "sha256": "3cb997465f8045d0002bd831b2de40cd4a679a6bdc9f117d0560de044421da9d"
+    },
+    "sound.pal.135": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/135.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 135",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/135.wav"
+      },
+      "bytes": 17168,
+      "sha256": "8e8f0edf787f399a2ec8b404a12d2c2ede0fa1b5fc659174b04615d4ab53d135"
+    },
+    "sound.pal.136": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/136.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 136",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/136.wav"
+      },
+      "bytes": 8226,
+      "sha256": "d7b7266b5e76a92c9a7cb7ac028154da10cedc2f02380f16e618727c9dcc5a71"
+    },
+    "sound.pal.138": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/138.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 138",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/138.wav"
+      },
+      "bytes": 83618,
+      "sha256": "4c2160417adbf5d92ebdc6f667b362ec44eda1ad27ad686e4b3c4b78a33a29fa"
+    },
+    "sound.pal.139": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/139.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 139",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/139.wav"
+      },
+      "bytes": 88860,
+      "sha256": "c83bfbf1728e2a6efda47eba38e56dbae0bc623419d4342731a4904de4556944"
+    },
+    "sound.pal.141": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/141.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 141",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/141.wav"
+      },
+      "bytes": 75870,
+      "sha256": "9a81a147b8acb3573102f805c1058953844ec058c99df86ca562d379014c7e2d"
+    },
+    "sound.pal.144": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/144.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 144",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/144.wav"
+      },
+      "bytes": 28112,
+      "sha256": "0f537727a7bfc84ace1d56522b93d83c62e3caa3c6db710dcf78efc34d8fe709"
+    },
+    "sound.pal.149": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/149.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 149",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/149.wav"
+      },
+      "bytes": 109280,
+      "sha256": "4f2789e66530674b7e6c24916445ad4199a3041de3b1c92e94e25c2907f8aa1d"
+    },
+    "sound.pal.151": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/151.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 151",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/151.wav"
+      },
+      "bytes": 28324,
+      "sha256": "e2c66d2259a47c43f47a17df7973cf38fbb4eeaf2a3a769f566dd24195804a92"
+    },
+    "sound.pal.152": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/152.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 152",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/152.wav"
+      },
+      "bytes": 72544,
+      "sha256": "71ea3cc55154c626497ec0993b8c01db815ff771445948f4337ec2ecc5c82f40"
+    },
+    "sound.pal.153": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/153.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 153",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/153.wav"
+      },
+      "bytes": 75002,
+      "sha256": "5f3e42b6876beea791fc22260646e14eac22a107b725b5a075662f94f1fe588a"
+    },
+    "sound.pal.154": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/154.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 154",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/154.wav"
+      },
+      "bytes": 32092,
+      "sha256": "b65a0e5b76caaf1eab2db73cff5a8e83103898deab2c9b5aa6e1ae6283cdd338"
+    },
+    "sound.pal.155": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/155.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 155",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/155.wav"
+      },
+      "bytes": 77734,
+      "sha256": "92e825c60017b9952b184db8b34dddbee9b44d0849c3271e36db1180449d9c4f"
+    },
+    "sound.pal.156": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/156.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 156",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/156.wav"
+      },
+      "bytes": 79896,
+      "sha256": "94cfc47962690b312e998f2b6fb66cfb4ac0e6257327a0b1011754e713c2d9b1"
+    },
+    "sound.pal.157": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/157.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 157",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/157.wav"
+      },
+      "bytes": 23150,
+      "sha256": "878ce1c4dc46bf6e8e990a0dde825b33730e8a38db9ed051e96c352f062d655b"
+    },
+    "sound.pal.158": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/158.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 158",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/158.wav"
+      },
+      "bytes": 23864,
+      "sha256": "c1a1fe7a3f566680d64adbc9a3884ce5fbb1102172a6fd22504ba11afbf2a8ea"
+    },
+    "sound.pal.159": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/159.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 159",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/159.wav"
+      },
+      "bytes": 43724,
+      "sha256": "1339e441b155df3e6b342b6a5e4a8cba7ba47b2aa32a7c97cdf42146f6003381"
+    },
+    "sound.pal.166": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/166.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 166",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/166.wav"
+      },
+      "bytes": 67860,
+      "sha256": "c230b001d28203b5fbe6a6244a8e636e2785b2829a89df6c046ab74bd023bdb8"
+    },
+    "sound.pal.167": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/167.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 167",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/167.wav"
+      },
+      "bytes": 66582,
+      "sha256": "12dbff61cf3ea77be5df040a8ebecf703b3f6682a3e081b7393cba57938bb765"
+    },
+    "sound.pal.168": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/168.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 168",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/168.wav"
+      },
+      "bytes": 151966,
+      "sha256": "168336f520724613b178c017cbfa04106eecc5c691df155fe7fecb46a44183b5"
+    },
+    "sound.pal.169": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/169.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 169",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/169.wav"
+      },
+      "bytes": 72350,
+      "sha256": "4b059d5d8eb36f12824c6b4e99c03504ef0c3c4e72e9888a3428ee18543bcedd"
+    },
+    "sound.pal.170": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/170.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 170",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/170.wav"
+      },
+      "bytes": 75266,
+      "sha256": "889d78dd50ac089d71b6d1ddcdf96a6ba8037928a069724f7cb4968008355b8d"
+    },
+    "sound.pal.171": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/171.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 171",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/171.wav"
+      },
+      "bytes": 66164,
+      "sha256": "54c72a7375984c853305aea07edea894381561a865c563cade0148783cd49d29"
+    },
+    "sound.pal.172": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/172.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 172",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/172.wav"
+      },
+      "bytes": 104558,
+      "sha256": "5565c9422f85ba79b779bc3638484e5f3d16b94a7a2c6ae4f85233fdfabdbc9a"
+    },
+    "sound.pal.173": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/173.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 173",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/173.wav"
+      },
+      "bytes": 111526,
+      "sha256": "afae8c815fe29b8cd4b25023719ee04ba6033c6a099aa29c47f42440a69e5aa8"
+    },
+    "sound.pal.174": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/174.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 174",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/174.wav"
+      },
+      "bytes": 37708,
+      "sha256": "4a2c15ed3d1c972328b6c682a7318cedc6fce8502fb5559aab465999996788a1"
+    },
+    "sound.pal.175": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/175.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 175",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/175.wav"
+      },
+      "bytes": 64116,
+      "sha256": "c9898da8cc4883f5781536548dda799a7e22ff845809c3522dd888a225fb7678"
+    },
+    "sound.pal.176": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/176.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 176",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/176.wav"
+      },
+      "bytes": 63046,
+      "sha256": "eaeb581d27ac6211f2750796911d66114553378cefc010a7007d3f65a4da98f9"
+    },
+    "sound.pal.177": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/177.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 177",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/177.wav"
+      },
+      "bytes": 110108,
+      "sha256": "2bc348b7d91c3e0fe546355a1a9179b5e098e9c8d4421c2c605b513f6f648b67"
+    },
+    "sound.pal.178": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/178.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 178",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/178.wav"
+      },
+      "bytes": 47108,
+      "sha256": "cbc215cbab48e7987ce91cf15208eeed0a864d4b11ac1032673abb6141026f91"
+    },
+    "sound.pal.179": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/179.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 179",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/179.wav"
+      },
+      "bytes": 119590,
+      "sha256": "41ac9378407f16882221ccb5bd95a8d2d9f877fa439817f37cab31ad5be770d9"
+    },
+    "sound.pal.180": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/180.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 180",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/180.wav"
+      },
+      "bytes": 82878,
+      "sha256": "5b8fe6e4289cf29d1c1f777a018919f89d448acbb9d58bbb43f49a2b44a62fda"
+    },
+    "sound.pal.181": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/181.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 181",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/181.wav"
+      },
+      "bytes": 53432,
+      "sha256": "f6047b80e741ba6c61d43ee06b015f2603071b2b4748dd0a91bbd8bc278126fe"
+    },
+    "sound.pal.182": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/182.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 182",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/182.wav"
+      },
+      "bytes": 80316,
+      "sha256": "09021c6e2c4a7b6517d324dbf43f938605ef78b9c7c2751d6811e8dd30924499"
+    },
+    "sound.pal.183": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/183.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 183",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/183.wav"
+      },
+      "bytes": 94274,
+      "sha256": "8864db116fe755f6acd2bd1753efc7a1eb80c926a11318c3aecd146f78783fef"
+    },
+    "sound.pal.184": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/184.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 184",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/184.wav"
+      },
+      "bytes": 74594,
+      "sha256": "db611f18e0239c0be2a6cd7e016289295c7f6f5643467899f5483b9a7b9b7cf1"
+    },
+    "sound.pal.185": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/185.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 185",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/185.wav"
+      },
+      "bytes": 13416,
+      "sha256": "bc04d6bacc2404760d675e9836f54f9c023a425d3ff96230a4d6b7a4681b659c"
+    },
+    "sound.pal.186": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/186.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 186",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/186.wav"
+      },
+      "bytes": 47304,
+      "sha256": "8e7da0807fd92902876ad6013f135f17eff98c6dcab3680b66650f08516a88a1"
+    },
+    "sound.pal.187": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/187.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 187",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/187.wav"
+      },
+      "bytes": 24156,
+      "sha256": "b745cf98435131d8423695b688f0a26657323b8eefd45af52ad87454ef7c446c"
+    },
+    "sound.pal.189": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/189.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 189",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/189.wav"
+      },
+      "bytes": 21428,
+      "sha256": "56c78fc692af6c35ad8d1faca65287ffb9d98c117e54aaf737ec551e47cb8f1f"
+    },
+    "sound.pal.190": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/190.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 190",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/190.wav"
+      },
+      "bytes": 22044,
+      "sha256": "c45fa20ee5d5e3235b1ef4e30c00f2eed15920b4d02aad7c41413aecdf35de05"
+    },
+    "sound.pal.191": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/191.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 191",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/191.wav"
+      },
+      "bytes": 53746,
+      "sha256": "61cbc637c0320edb61e5552066b2763af052067564df87089851510a4fa0473a"
+    },
+    "sound.pal.192": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/192.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 192",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/192.wav"
+      },
+      "bytes": 112440,
+      "sha256": "b7883df64a6f2098834b9e16ce0882ab430a12991d3393d9596cd091d231f040"
+    },
+    "sound.pal.193": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/193.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 193",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/193.wav"
+      },
+      "bytes": 61368,
+      "sha256": "16941e34019626951e7d8fa8618e5e8c297fc0ae7b1b07e51b9e30b2afb7c970"
+    },
+    "sound.pal.194": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/194.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 194",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/194.wav"
+      },
+      "bytes": 12172,
+      "sha256": "5c4aaec1e1d46e4b1e2d1447b98f28d954d0e2d3b090a810f15104cd9c1c1b93"
+    },
+    "sound.pal.201": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/201.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 201",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/201.wav"
+      },
+      "bytes": 111372,
+      "sha256": "2d43d7bc844e2652dc33532908948e279ffe0a9713a13aadfa8b6caf36066c27"
+    },
+    "sound.pal.202": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/202.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 202",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/202.wav"
+      },
+      "bytes": 30352,
+      "sha256": "3b3645506e60f7394eb3a74640a9915f2c2d5dba11f5e5702eff5b2977076c79"
+    },
+    "sound.pal.203": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/203.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 203",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/203.wav"
+      },
+      "bytes": 17278,
+      "sha256": "73593d24d309bd82879c51358b936ffdb2f7f7bb24e75aef2448c6fb0ebcf42f"
+    },
+    "sound.pal.204": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/204.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 204",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/204.wav"
+      },
+      "bytes": 9074,
+      "sha256": "90cc4459a13f879a0296fc7e8de4126c9b50d216b3ed3f29501bb5a7c47d609b"
+    },
+    "sound.pal.205": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/205.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 205",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/205.wav"
+      },
+      "bytes": 82454,
+      "sha256": "b3ea35c967d0c8569349d0b2cf204d4958c0a0c8c393757a2f8c6a1f375ef04f"
+    },
+    "sound.pal.206": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/206.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 206",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/206.wav"
+      },
+      "bytes": 63364,
+      "sha256": "5e0829b55c1abcee106b9fc91065a5a5dcdea5ebf03f3015a9a8dd77fecf0692"
+    },
+    "sound.pal.207": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/207.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 207",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/207.wav"
+      },
+      "bytes": 18986,
+      "sha256": "209514bda6d573ede1fbf64d1ef6a0204a30355017cb32dd76d0549691c34a1b"
+    },
+    "sound.pal.209": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/209.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 209",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/209.wav"
+      },
+      "bytes": 12128,
+      "sha256": "98776019910497445638b8a4d978cb5ce09efe1c629ab4bf81cf148a328b4d5d"
+    },
+    "sound.pal.212": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/212.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 212",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/212.wav"
+      },
+      "bytes": 76488,
+      "sha256": "3e3611530de0e9496e8160fb130b6e009f17b1fbb19ef23ad0583332350970b8"
+    },
+    "sound.pal.213": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/213.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 213",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/213.wav"
+      },
+      "bytes": 103116,
+      "sha256": "35ef42eaa53187f82ec8064e76ae1a4683dbd1ce131220ee68cf3cc33dc7d753"
+    },
+    "sound.pal.214": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/214.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 214",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/214.wav"
+      },
+      "bytes": 193532,
+      "sha256": "38daabf35969ac38461c5fa1dc6814576cc7399d1ffe1bf5f4594f31ecdfb6e2"
+    },
+    "sound.pal.215": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/215.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 215",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/215.wav"
+      },
+      "bytes": 9460,
+      "sha256": "0f7d0ec46fc01a6489453928bf2f31d9050724db5c00ed7a549b3c638f466463"
+    },
+    "sound.pal.216": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/216.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 216",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/216.wav"
+      },
+      "bytes": 55488,
+      "sha256": "1e4c8599e489ba05354fe883a63ac3d18d9493d9b5ef77cfd67d4f1e6eb76d15"
+    },
+    "sound.pal.217": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/217.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 217",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/217.wav"
+      },
+      "bytes": 146614,
+      "sha256": "413d08af57abbc20f02c4cc40ce16e565136b6fb620df01141a9ee75fd354376"
+    },
+    "sound.pal.219": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/219.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 219",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/219.wav"
+      },
+      "bytes": 34790,
+      "sha256": "0ef62aa23a049f435f9142550315894a01dfef262f8eaf75689e5b8cb93abd20"
+    },
+    "sound.pal.226": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/226.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 226",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/226.wav"
+      },
+      "bytes": 43284,
+      "sha256": "836842076f8151f7f08deeb82c98f89443c207c96810c27102daf5fbd7cdb20d"
+    },
+    "sound.pal.229": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/229.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 229",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/229.wav"
+      },
+      "bytes": 61758,
+      "sha256": "196d7c45c274b9c24eb4f1e5f92cbb516eb9ef49f72383f07ac357f98cee3af1"
+    },
+    "sound.pal.230": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/230.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 230",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/230.wav"
+      },
+      "bytes": 54136,
+      "sha256": "f7f90320fc4bb644c903c39cbf781a0b827b99a8e96160c7361f46e783e265d3"
+    },
+    "sound.pal.233": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/233.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 233",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/233.wav"
+      },
+      "bytes": 82402,
+      "sha256": "dda6a2ce333fe61167519441db65654133dfc8d881fbf77722e5d8ac27742202"
+    },
+    "sound.pal.236": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/236.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 236",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/236.wav"
+      },
+      "bytes": 62846,
+      "sha256": "736f688ddcff0d4f27e6347dc477e78113745eaf790279204c79f9af48ba8e30"
+    },
+    "sound.pal.237": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/237.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 237",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/237.wav"
+      },
+      "bytes": 23304,
+      "sha256": "7e5700a3cde8b21a66208476e79a2da43eca50ea46f7c8cdea5db738f8b01a56"
+    },
+    "sound.pal.238": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/238.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 238",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/238.wav"
+      },
+      "bytes": 20336,
+      "sha256": "94f8711dd9dc42c93b60626fa01dae6fd0b76f39959688bb00913f31257fe058"
+    },
+    "sound.pal.239": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/239.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 239",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/239.wav"
+      },
+      "bytes": 41966,
+      "sha256": "9a8602f25475fd5c502a35da8199818c40404b51ee5eea52827fb37005e0f34a"
+    },
+    "sound.pal.240": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/240.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 240",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/240.wav"
+      },
+      "bytes": 22690,
+      "sha256": "116062dd355760bd4e98b042efe54b7d7c6d62eced8003c781a7f9058f5d0447"
+    },
+    "sound.pal.241": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/241.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 241",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/241.wav"
+      },
+      "bytes": 9356,
+      "sha256": "1342a0c4269bba48277a4f30ab2dea3d7db5701c07be0179d8ddb82d61334067"
+    },
+    "sound.pal.242": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/242.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 242",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/242.wav"
+      },
+      "bytes": 10586,
+      "sha256": "ba60c4ccea819273d2e908687ccb35d80c0f65688d109d8067472fbba293f679"
+    },
+    "sound.pal.243": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/243.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 243",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/243.wav"
+      },
+      "bytes": 43594,
+      "sha256": "ab1f4001f3a34905c6e9c08a56f80041d2ec04c9e28b315260c0631f71a979c3"
+    },
+    "sound.pal.244": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/244.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 244",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/244.wav"
+      },
+      "bytes": 14326,
+      "sha256": "1f0dae219affeaa941b360155173d5cfee11deb993aff17ad8c0ec4bcbb6a432"
+    },
+    "sound.pal.245": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/245.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 245",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/245.wav"
+      },
+      "bytes": 73232,
+      "sha256": "aa7bbed6598078cd3e2e1b1ba5bd7ccacfdea3cf2e60ff4528dc087194b1dddd"
+    },
+    "sound.pal.246": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/246.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 246",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/246.wav"
+      },
+      "bytes": 50912,
+      "sha256": "5b7b9be468c0a522e3cd46156b2e236b757face1a2f3c426b54f192901d8be01"
+    },
+    "sound.pal.247": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/247.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 247",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/247.wav"
+      },
+      "bytes": 70242,
+      "sha256": "e5894bc73495188b2e426d739c823732c34c4f3411f0d9f05c3a9c21b01ca45a"
+    },
+    "sound.pal.248": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/248.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 248",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/248.wav"
+      },
+      "bytes": 15472,
+      "sha256": "c89bab53219cb5f1c337fe7272a50798302c98dda315ee9b92ec59586a19c0a2"
+    },
+    "sound.pal.251": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/251.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 251",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/251.wav"
+      },
+      "bytes": 9694,
+      "sha256": "ca7737de1dc07b93a54b232e3cb9394812db2bc271a71c999d607dd3b2df9675"
+    },
+    "sound.pal.252": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/252.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 252",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/252.wav"
+      },
+      "bytes": 13472,
+      "sha256": "34eb5db934b796f57202896f60d462fb1e80960c22e472af75eea731c794b3e1"
+    },
+    "sound.pal.253": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/253.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 253",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/253.wav"
+      },
+      "bytes": 8582,
+      "sha256": "ce79aa1d9c99736fb4dbab7f28804dcbcbdd547b252363da685a68896dea5533"
+    },
+    "sound.pal.254": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/254.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 254",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/254.wav"
+      },
+      "bytes": 72622,
+      "sha256": "5856762a6dbb633adebf0b1ea2d1bbb10bc4a431b0b746f22854d98dffb54219"
+    },
+    "sound.pal.255": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/255.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 255",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/255.wav"
+      },
+      "bytes": 285782,
+      "sha256": "dd7131cbd717e65fce9c4742c7ff5c6b0a6b81c8c32ca5c31327670d540ffa9e"
+    },
+    "sound.pal.256": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/256.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 256",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/256.wav"
+      },
+      "bytes": 223320,
+      "sha256": "19866c05db51cfd6fb0776ffe1786f15df58546fac6c8f2ab7f9f06f23151cb2"
+    },
+    "sound.pal.258": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/258.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 258",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/258.wav"
+      },
+      "bytes": 28864,
+      "sha256": "552424514eac670b17fac0cc4e7d1711eb2f6ae35dc4a84ec1fc8a49b41a4506"
+    },
+    "sound.pal.259": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/259.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 259",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/259.wav"
+      },
+      "bytes": 69790,
+      "sha256": "b6414f676ee8dd73c541d2b313cf0675866433b8b0fe38073a975ff0b676c24f"
+    },
+    "sound.pal.260": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/260.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 260",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/260.wav"
+      },
+      "bytes": 69304,
+      "sha256": "21ddb407b4105c0f78ad4e32d048d0b56a3057f86410cb726b32d57cc10c3953"
+    },
+    "sound.pal.261": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/261.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 261",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/261.wav"
+      },
+      "bytes": 110422,
+      "sha256": "0cfe46875cd914fc21fc9780d0d3506b354534b15b648899b7707ff84001294d"
+    },
+    "sound.pal.262": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/262.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 262",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/262.wav"
+      },
+      "bytes": 31132,
+      "sha256": "17f3900850a5e56dea960a8513e1ce7db407d756b0dc17154668091277275167"
+    },
+    "sound.pal.263": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/263.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 263",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/263.wav"
+      },
+      "bytes": 84454,
+      "sha256": "e808a7c4ade79cd66d95344854efe476492808aa2085a023784e7927b4fb8f1d"
+    },
+    "sound.pal.264": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/264.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 264",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/264.wav"
+      },
+      "bytes": 28760,
+      "sha256": "86cd8fc0aede77dc043fa888875360b2562371b2dc2a4065c668d19656a9f822"
+    },
+    "sound.pal.265": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/265.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 265",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/265.wav"
+      },
+      "bytes": 19460,
+      "sha256": "bc2909e263d3a2e23dee9428c363afafce793b598bb3627743bce87fe8f0b2b6"
+    },
+    "sound.pal.266": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/266.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 266",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/266.wav"
+      },
+      "bytes": 44360,
+      "sha256": "87174222e8552f8750330c7b822c2b0ef92aead328f809240ad7d3c87a2cdd03"
+    },
+    "sound.pal.267": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/267.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 267",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/267.wav"
+      },
+      "bytes": 69504,
+      "sha256": "f75fbdfc9ae081206e47db01b39509886f726b6533dd92baf1c1d1909a1a2072"
+    },
+    "sound.pal.268": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/268.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 268",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/268.wav"
+      },
+      "bytes": 24490,
+      "sha256": "02cea4c303a3045463308f7738b70dea9a36b85c949e918d475c445bc2be7bb1"
+    },
+    "sound.pal.269": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/269.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 269",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/269.wav"
+      },
+      "bytes": 80636,
+      "sha256": "2b7e2f7216c08e3a82181ba50ca459d165262a01e6dfd18f47ae71dbf1faf623"
+    },
+    "sound.pal.270": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/270.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 270",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/270.wav"
+      },
+      "bytes": 9280,
+      "sha256": "fc91791271139988d379f493fe7d649dba4229a3c99b68a38d33cee087c5d23e"
+    },
+    "sound.pal.271": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/271.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 271",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/271.wav"
+      },
+      "bytes": 105260,
+      "sha256": "38690ad15756d6505da4db3d0abd816587a74dfa4037904bc25ee75878f64179"
+    },
+    "sound.pal.272": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/272.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 272",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/272.wav"
+      },
+      "bytes": 75358,
+      "sha256": "eb3ba0a469cec96667d7bc986b890b04277ebf65d23b9f2d5adad2eaf0508ebf"
+    },
+    "sound.pal.273": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/273.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 273",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/273.wav"
+      },
+      "bytes": 78208,
+      "sha256": "ac74a6f92e64d94b90eb3c9bffd320381a3b1a0a888125d1b2079763dc1e78ca"
+    },
+    "sound.pal.274": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/274.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 274",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/274.wav"
+      },
+      "bytes": 135582,
+      "sha256": "583bc3a53eca6170d420880576fac4a85d1e1732a7cdc0a53e2f9005f1bdff2b"
+    },
+    "sound.pal.275": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/275.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 275",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/275.wav"
+      },
+      "bytes": 55674,
+      "sha256": "97015e7a84a110ca9360590badd6893e2431ce200bfe4767a65f5fc0a8f32652"
+    },
+    "sound.pal.301": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/301.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 301",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/301.wav"
+      },
+      "bytes": 132262,
+      "sha256": "81a4e9410fae3b88db76b5fc1661900ec35ab70be61e90ff459737d957167175"
+    },
+    "sound.pal.302": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/302.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 302",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/302.wav"
+      },
+      "bytes": 186990,
+      "sha256": "5b1d09ae4e2658f090ed6b75042bbedd7869ca3a85256efb1e8985424560b479"
+    },
+    "sound.pal.303": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/303.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 303",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/303.wav"
+      },
+      "bytes": 116068,
+      "sha256": "30e7ed02ccee11e856ff128e525437840a59437aaa26e1bfdf2260cf348d89fa"
+    },
+    "sound.pal.304": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/304.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 304",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/304.wav"
+      },
+      "bytes": 114922,
+      "sha256": "795192e1c71e5257d4fc600f78dc40745ec6fd20609c21ceda6f0f60d2640cf9"
+    },
+    "sound.pal.312": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/312.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 312",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/312.wav"
+      },
+      "bytes": 96350,
+      "sha256": "0af6ab0241626e5be9d32b772cb923351910c16d9e7f6e11ca2e5cfd7c093864"
+    },
+    "sound.pal.313": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/313.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 313",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/313.wav"
+      },
+      "bytes": 63392,
+      "sha256": "4833733b0bf2a0576d6ae13e7fd80f1207e10a6e07ecf5fe2102787bde29b5ae"
+    },
+    "sound.pal.316": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/316.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 316",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/316.wav"
+      },
+      "bytes": 84524,
+      "sha256": "79924490835d908b4a6d6175db9d65d8dfdcc321f61d836d8bccc895ec70adc2"
+    },
+    "sound.pal.322": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/322.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 322",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/322.wav"
+      },
+      "bytes": 118624,
+      "sha256": "b1a2da2195bd304d9a8f503b057b282edb8d1e933fffc7a7fa5d96c627ceb632"
+    },
+    "sound.pal.323": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/323.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 323",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/323.wav"
+      },
+      "bytes": 73512,
+      "sha256": "79fcd4737d9b62a53716747e8d5de90de834b0da1df6169a2c6e1ef25fc96c09"
+    },
+    "sound.pal.325": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/325.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 325",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/325.wav"
+      },
+      "bytes": 42146,
+      "sha256": "984f4ae1c14e3491aa6b2ce34d2e9a100d15c9dfa4224dad3fbe3af16b1e832d"
+    },
+    "sound.pal.329": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/329.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 329",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/329.wav"
+      },
+      "bytes": 200498,
+      "sha256": "e751549d9c04efcab1563060f8a6b4b453c626f058bbb93af00bbefdd1a4d051"
+    },
+    "sound.pal.335": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/335.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 335",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/335.wav"
+      },
+      "bytes": 95894,
+      "sha256": "a125c35ead7beb552b76a3b7ce684eecb268244ec06f99a54df0057bd2dd1049"
+    },
+    "sound.pal.336": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/336.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 336",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/336.wav"
+      },
+      "bytes": 197280,
+      "sha256": "91ed4b7f51aafbabb78b60205e9393f9db0c9c6aae47597d1b1d9e2a72c9af7f"
+    },
+    "sound.pal.338": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/338.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 338",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/338.wav"
+      },
+      "bytes": 170286,
+      "sha256": "62204c2df7eff7a39aed50fde5f1eef2f78ed53642c6a514558a0941e3d16f24"
+    },
+    "sound.pal.339": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/339.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 339",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/339.wav"
+      },
+      "bytes": 192694,
+      "sha256": "9e4847bb0033d0565cdf5f74c2e31fb7b6f04ad46b0462ff2854f6ca6aabd894"
+    },
+    "sound.pal.340": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/340.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 340",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/340.wav"
+      },
+      "bytes": 100082,
+      "sha256": "28758c8ef497e7207877af6285ab9762892e11da24932929b6e6a8673e4978e0"
+    },
+    "sound.pal.343": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/343.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 343",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/343.wav"
+      },
+      "bytes": 206266,
+      "sha256": "73e66fcfec85575affa0aa8c5e7719624ce502addf814eeb5b27fe1025130c00"
+    },
+    "sound.pal.347": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/347.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 347",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/347.wav"
+      },
+      "bytes": 37346,
+      "sha256": "77930e59f0d7d7ee83e01585e6f963309516e1a09864f552b89a9ab949c86a65"
+    },
+    "sound.pal.349": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/349.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 349",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/349.wav"
+      },
+      "bytes": 240196,
+      "sha256": "6fe410c1805a127c6fa8b22608183fa4c8d04dcb643226c8056307882ad0384e"
+    },
+    "sound.pal.351": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/351.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 351",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/351.wav"
+      },
+      "bytes": 17772,
+      "sha256": "3f9fd026f68c83f7c93f4a438fe8b02b9f243fceaedc8c019766efcaa7981f36"
+    },
+    "sound.pal.352": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/352.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 352",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/352.wav"
+      },
+      "bytes": 18280,
+      "sha256": "a778ccc0b8c936bd3da47da1097af96696fd9a4820e90c5305547b0d202d63b1"
+    },
+    "sound.pal.353": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/353.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 353",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/353.wav"
+      },
+      "bytes": 20648,
+      "sha256": "c05a9c4a8a842018faf01d50e8fe04d2bdada71249d361680816520942ddba11"
+    },
+    "sound.pal.354": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/354.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 354",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/354.wav"
+      },
+      "bytes": 18846,
+      "sha256": "08db52dd1fcac5e647fb0c168a13f144f53cc44281af6635b90de2387c0a66f9"
+    },
+    "sound.pal.355": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/355.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 355",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/355.wav"
+      },
+      "bytes": 18624,
+      "sha256": "316f033b56f22b084ff48b18ae575511d9e959dea40cd39faa06789d17e55b8a"
+    },
+    "sound.pal.356": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/356.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 356",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/356.wav"
+      },
+      "bytes": 13302,
+      "sha256": "d5ad8ac41b907f11d93ccd3485a3b33e8b8a68a65fb1a41362a221da35424273"
+    },
+    "sound.pal.357": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/357.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 357",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/357.wav"
+      },
+      "bytes": 18042,
+      "sha256": "b983d3fcc6a5832c923cc50455278aa875f7931cdd09165fa1880d6d9d88415f"
+    },
+    "sound.pal.358": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/358.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 358",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/358.wav"
+      },
+      "bytes": 32362,
+      "sha256": "0f3beae64f661947c5b98c2c3e4d1b366f9746a85cd7e10bfbc0866f5883e599"
+    },
+    "sound.pal.359": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/359.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 359",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/359.wav"
+      },
+      "bytes": 23224,
+      "sha256": "ee89335702606b16b9e673c4f617c12e44991a71df5ae8004a28c66a74c078e8"
+    },
+    "sound.pal.360": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/360.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 360",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/360.wav"
+      },
+      "bytes": 23978,
+      "sha256": "a3c9a602efdbb90807da6950b4e8a3dcea7b7c1baeaa1a92e84e0b9a86b2b5d0"
+    },
+    "sound.pal.361": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/361.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 361",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/361.wav"
+      },
+      "bytes": 24518,
+      "sha256": "01c57a0703656ec96f3c0620b08df447a281f9ddfbd69b7a5112b917e70a49fc"
+    },
+    "sound.pal.362": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/362.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 362",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/362.wav"
+      },
+      "bytes": 19152,
+      "sha256": "5314c6bfea48626706852f8ef7507c765454a28f7c3b5f209e3f33538bda3775"
+    },
+    "sound.pal.363": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/363.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 363",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/363.wav"
+      },
+      "bytes": 82392,
+      "sha256": "8c77d44cd60d8a1c9e886da3f266a10b46e13de65b9d9510ebab2bcc5562b623"
+    },
+    "sound.pal.364": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/364.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 364",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/364.wav"
+      },
+      "bytes": 17462,
+      "sha256": "92e80dca58cd02f99b3d91f8ac9cc631421da72f1b8498a26012fc2118244069"
+    },
+    "sound.pal.365": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/365.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 365",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/365.wav"
+      },
+      "bytes": 24244,
+      "sha256": "aaaf442cebaa49673e54861a27bc875b6cf63f3890ae38a8ce61b053b0ab658b"
+    },
+    "sound.pal.366": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/366.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 366",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/366.wav"
+      },
+      "bytes": 21966,
+      "sha256": "c8b040635446f92e8b401b50d51a7e6e4f531834c8739db6eb31be7b5bd02fac"
+    },
+    "sound.pal.367": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/367.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 367",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/367.wav"
+      },
+      "bytes": 27996,
+      "sha256": "6b51656f61ab551944782ed41e56ae7c0a2d142786dad7a4af11bbc4aa0e70dd"
+    },
+    "sound.pal.368": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/368.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 368",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/368.wav"
+      },
+      "bytes": 12866,
+      "sha256": "25706de00cc8c62034f020c18911171b408931ca662bdd607694aaeb7f42d548"
+    },
+    "sound.pal.369": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/369.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 369",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/369.wav"
+      },
+      "bytes": 7154,
+      "sha256": "7ab590e31e5fb18cac952d032b046b6ac7516284987b13dd22acc5e41c611f82"
+    },
+    "sound.pal.370": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/370.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 370",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/370.wav"
+      },
+      "bytes": 22502,
+      "sha256": "53043955f3973071e37c9cefe849e8dccf58c6b57ad8d2962e93e3b0d1404972"
+    },
+    "sound.pal.371": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/371.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 371",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/371.wav"
+      },
+      "bytes": 23478,
+      "sha256": "717c11189dcc36eead689958301b01ed2ed854775b9803005f3e3733d0c5441c"
+    },
+    "sound.pal.372": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/372.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 372",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/372.wav"
+      },
+      "bytes": 15930,
+      "sha256": "f03add1d059ee5e9fcc0684c6de84b8b45f8a82a0671d8a4ed9b5e7c0d4c85d3"
+    },
+    "sound.pal.373": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/373.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 373",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/373.wav"
+      },
+      "bytes": 30250,
+      "sha256": "1b1fe0c5ef781e98da09a478d4435387110c529f89292f44a26bdce2e1d9f842"
+    },
+    "sound.pal.374": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/374.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 374",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/374.wav"
+      },
+      "bytes": 22158,
+      "sha256": "ca8116ba98752210c584606f0a47029ab6f2e3f1e2d7d1ffe69e7b05e537a308"
+    },
+    "sound.pal.375": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/375.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 375",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/375.wav"
+      },
+      "bytes": 25246,
+      "sha256": "3767123e2c4637b00ae5257df3772146ab9b557938b1469363aa318eacfb5972"
+    },
+    "sound.pal.376": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/376.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 376",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/376.wav"
+      },
+      "bytes": 31842,
+      "sha256": "85780e3b170e167e6f31cbf9d2b77369e81b0ef398aabcc74728456c33919531"
+    },
+    "sound.pal.377": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/377.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 377",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/377.wav"
+      },
+      "bytes": 23748,
+      "sha256": "114035be69f3615d1e0c5c2f0685147c5c3a3999121146e37617eec9db6fedd2"
+    },
+    "sound.pal.378": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/378.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 378",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/378.wav"
+      },
+      "bytes": 16252,
+      "sha256": "19b5389f737638c69aca526fcd275d1fcaa4a883ac50e0b5427a9993a9668dec"
+    },
+    "sound.pal.379": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/379.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 379",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/379.wav"
+      },
+      "bytes": 39196,
+      "sha256": "50163ca096ba8ffabcd21f9ccb24c3e7d29e57f2c66b5d6b0df509796b9e8c70"
+    },
+    "sound.pal.380": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/380.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 380",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/380.wav"
+      },
+      "bytes": 13116,
+      "sha256": "62bec4c9386383d018809d88517b9a9dcdab6197dc775ed6272a9e431dca6335"
+    },
+    "sound.pal.381": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/381.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 381",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/381.wav"
+      },
+      "bytes": 16236,
+      "sha256": "f4bafb775e9e417acb19dc7d5e2f44f5426390856787de0ce69be2b2271d5cac"
+    },
+    "sound.pal.382": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/382.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 382",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/382.wav"
+      },
+      "bytes": 20118,
+      "sha256": "754eaa0ce1e76b5604b7190d884e234f8b1a7c9961b76b5c4d99606af377076f"
+    },
+    "sound.pal.383": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/383.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 383",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/383.wav"
+      },
+      "bytes": 23348,
+      "sha256": "754146893613c9a82a577cbab1b28f5acfcff3de35f5bc7f871a2e31bcff5c3e"
+    },
+    "sound.pal.384": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/384.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 384",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/384.wav"
+      },
+      "bytes": 76478,
+      "sha256": "008a30df83684bfdc3d37a00d49ba1c65f62ae690a8db319df2f1f6ea881be13"
+    },
+    "sound.pal.385": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/385.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 385",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/385.wav"
+      },
+      "bytes": 23316,
+      "sha256": "73e6c3b891baa9b93a46e49b7dada31d94fffa81cbeca96d346a7c0c345204fa"
+    },
+    "sound.pal.386": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/386.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 386",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/386.wav"
+      },
+      "bytes": 25186,
+      "sha256": "1c94a3279aead14a102562b6ae109cf8a10b831b59fb2b4ceeaa60b71203990a"
+    },
+    "sound.pal.387": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/387.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 387",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/387.wav"
+      },
+      "bytes": 70072,
+      "sha256": "0221ad255f987414d797fa14df83330e985eb87ad18b1ba5be9462fb9e80c925"
+    },
+    "sound.pal.388": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/388.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 388",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/388.wav"
+      },
+      "bytes": 26416,
+      "sha256": "c9ea56977fa01dfdf21c07925fe98c826ee64272361628ff1103f7018898d61f"
+    },
+    "sound.pal.389": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/389.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 389",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/389.wav"
+      },
+      "bytes": 18212,
+      "sha256": "830fb3994b9907a3ea6a76afad0ad9f030983a44603f649963784b984257203a"
+    },
+    "sound.pal.390": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/390.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 390",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/390.wav"
+      },
+      "bytes": 163392,
+      "sha256": "4544b37ac7f7aa9e7cece08f3847084d603b2ce0e4155452b641da707f98ded6"
+    },
+    "sound.pal.391": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/391.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 391",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/391.wav"
+      },
+      "bytes": 28872,
+      "sha256": "99b7e0a528110dea554f008e50c240ab69ae714974894f72cbb36114a3c59598"
+    },
+    "sound.pal.392": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/392.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 392",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/392.wav"
+      },
+      "bytes": 20300,
+      "sha256": "d57d2a810bc007c7a1baa48522287b83f1ff0d4263e26d053d5e8f6d86a46b11"
+    },
+    "sound.pal.393": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/393.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 393",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/393.wav"
+      },
+      "bytes": 23348,
+      "sha256": "90c4fd1d1793a8656de055deb1823323738e68119cf0ffb37a88913865d582d7"
+    },
+    "sound.pal.394": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/394.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 394",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/394.wav"
+      },
+      "bytes": 12826,
+      "sha256": "8c5a43826c19fa71e5d6a79ceb565462699c502d73138390c35eda35a39a7943"
+    },
+    "sound.pal.395": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/395.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 395",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/395.wav"
+      },
+      "bytes": 20030,
+      "sha256": "10a46386f42b666cbc3b1863b36dddaeec3d37bf95002d7d869105ac546234d0"
+    },
+    "sound.pal.396": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/396.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 396",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/396.wav"
+      },
+      "bytes": 30318,
+      "sha256": "8bc7dd13cc19750c39c9bf808c502daed02543371644b118f19e125e97601f5a"
+    },
+    "sound.pal.397": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/397.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 397",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/397.wav"
+      },
+      "bytes": 24768,
+      "sha256": "3890602e9c2b794369629d356fc12ba08ff172ec0d3e834afae53e4c74a2a36d"
+    },
+    "sound.pal.398": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/398.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 398",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/398.wav"
+      },
+      "bytes": 21094,
+      "sha256": "a8b2fbed3bccd53ef50988df36f7457c75269511cd2b2d5f6aaf4b22f05f886c"
+    },
+    "sound.pal.399": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/399.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 399",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/399.wav"
+      },
+      "bytes": 15374,
+      "sha256": "0178c987d171d8bd415d6a0a805c91bf21f5c65e82381852b576b61da8c05efd"
+    },
+    "sound.pal.400": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/400.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 400",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/400.wav"
+      },
+      "bytes": 33068,
+      "sha256": "e930aedcdc8486d097c9ed68bcbfd1866a5488b086a3c026dc95475e388882bc"
+    },
+    "sound.pal.401": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/401.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 401",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/401.wav"
+      },
+      "bytes": 105492,
+      "sha256": "6b0003f576c2f16f169c4c126433a12340277d7b6cc8891f2924bfbd84321c80"
+    },
+    "sound.pal.402": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/402.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 402",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/402.wav"
+      },
+      "bytes": 29278,
+      "sha256": "1ea6052200e83d8f5d103a3148ed6797567c0917f802130b1f5196ce866fb35e"
+    },
+    "sound.pal.403": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/403.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 403",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/403.wav"
+      },
+      "bytes": 40760,
+      "sha256": "529d05a38bd5c305e3ca622f3da3554f9f19976f62996b623df8f3d91f951f30"
+    },
+    "sound.pal.404": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/404.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 404",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/404.wav"
+      },
+      "bytes": 118244,
+      "sha256": "2c9661e9502de6bd862f3ebdc48b24bed976575fd07fccdb7472c9ccf8791a74"
+    },
+    "sound.pal.405": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/405.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 405",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/405.wav"
+      },
+      "bytes": 27230,
+      "sha256": "70f8053131cc0d2378c9f2013004177bc0e3b037d81b8f3317ae9357ee91b3c4"
+    },
+    "sound.pal.406": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/406.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 406",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/406.wav"
+      },
+      "bytes": 30346,
+      "sha256": "740c0e09697f1760eeb47c3cfe03c625f031d55dcea8a9a15cc6b7189aa50e9e"
+    },
+    "sound.pal.407": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/407.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 407",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/407.wav"
+      },
+      "bytes": 32802,
+      "sha256": "5ff58514b08aeff23d45d992b014390e132d4ae4935bbe7d950f54b9babe4278"
+    },
+    "sound.pal.408": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/408.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 408",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/408.wav"
+      },
+      "bytes": 22970,
+      "sha256": "e41bef8a3f8becada816b8ebb3e28a95715000f70c935e153b94b222250ae3fc"
+    },
+    "sound.pal.409": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/409.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 409",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/409.wav"
+      },
+      "bytes": 36426,
+      "sha256": "093c82dbec17df0c5d64ebe8ba3e1a831918ea838a672fc0cb5a6470411aab2f"
+    },
+    "sound.pal.410": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/410.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 410",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/410.wav"
+      },
+      "bytes": 26472,
+      "sha256": "40250d38a178dab4afee9f7699dc22cb3bf1d9a4b3e89c1fe289f4f2da9b9200"
+    },
+    "sound.pal.411": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/411.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 411",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/411.wav"
+      },
+      "bytes": 10988,
+      "sha256": "57f670b00f5a4a1972eb236e5accf4827dc3de073dcefb365d3ce6ee55dd923d"
+    },
+    "sound.pal.412": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/412.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 412",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/412.wav"
+      },
+      "bytes": 29412,
+      "sha256": "af54f1c14e46947f8102765cc849dfbdb65fbd0efb7f462307bce982702a013a"
+    },
+    "sound.pal.413": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/413.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 413",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/413.wav"
+      },
+      "bytes": 31512,
+      "sha256": "0502fed98e29a4a0266ac9518221a52b0d5433b693c9881df91040e1d6f85cfb"
+    },
+    "sound.pal.414": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/414.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 414",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/414.wav"
+      },
+      "bytes": 30806,
+      "sha256": "c7e40b2b79d443ebb69dad7d5d2f883cb395e201dbe8d283c93b49be8ef57efc"
+    },
+    "sound.pal.415": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/415.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 415",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/415.wav"
+      },
+      "bytes": 22936,
+      "sha256": "8bcb52ab927be16d6187f3e7bc6bce81f2673dee624273dd34858d0d644d2241"
+    },
+    "sound.pal.416": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/416.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 416",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/416.wav"
+      },
+      "bytes": 164118,
+      "sha256": "270f387f4f88c3bb1a02b47841ffe251c1479daa68b8b3d92d4ade472043c0b3"
+    },
+    "sound.pal.417": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/417.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 417",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/417.wav"
+      },
+      "bytes": 39136,
+      "sha256": "1685bbbf645f4265b056967125828803c25d0704e17e114f83082032845ac91f"
+    },
+    "sound.pal.418": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/418.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 418",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/418.wav"
+      },
+      "bytes": 34644,
+      "sha256": "fc33467f75ac86caa0dd890bc7b377a2080402de5bccda78f462a0c142a2b01a"
+    },
+    "sound.pal.419": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/419.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 419",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/419.wav"
+      },
+      "bytes": 15764,
+      "sha256": "16f13927ee5559065611157e32c52c9e66a720e22b51db7de14f3142a41c8d78"
+    },
+    "sound.pal.420": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/420.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 420",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/420.wav"
+      },
+      "bytes": 32136,
+      "sha256": "cdbd5a33765ec7ee1597905bb424001cf0a2d39469d2e413a04998088b57eb09"
+    },
+    "sound.pal.424": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/424.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 424",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/424.wav"
+      },
+      "bytes": 16328,
+      "sha256": "146dfa4005b1910ba1affb507dc5bc70e0a2fce9b0d06c2790590dac87f2cb6c"
+    },
+    "sound.pal.425": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/425.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 425",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/425.wav"
+      },
+      "bytes": 3692,
+      "sha256": "7bfe8bb69b25cb1357fdfe3c8f402a4f441bc0f0816828baf48d2a167086a174"
+    },
+    "sound.pal.426": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/426.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 426",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/426.wav"
+      },
+      "bytes": 5368,
+      "sha256": "c21f918d6d1d39061cfefcafe9f33833bf5688aba287be1f0a49e49f562aa1f9"
+    },
+    "sound.pal.427": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/427.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 427",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/427.wav"
+      },
+      "bytes": 24164,
+      "sha256": "54820e8e2c9f064a0b01ac612d939a85886acf37cce88142f572336c1534f6a2"
+    },
+    "sound.pal.428": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/428.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 428",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/428.wav"
+      },
+      "bytes": 5472,
+      "sha256": "7e25dbce59372784c1e0e196e7564b10c461738e5c0102135a099519a78945af"
+    },
+    "sound.pal.431": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/431.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 431",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/431.wav"
+      },
+      "bytes": 4958,
+      "sha256": "3018b2382f1ba27763f8582b3c32140bf5bb6ab2fb20598149fd34267d6e18a3"
+    },
+    "sound.pal.432": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/432.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 432",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/432.wav"
+      },
+      "bytes": 7732,
+      "sha256": "2c45b59cefe26431935c96bb38a89b3b61d0440f842ae496264c6f38e957705d"
+    },
+    "sound.pal.433": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/433.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 433",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/433.wav"
+      },
+      "bytes": 20006,
+      "sha256": "08aab20b69818c850d593e60dfb2f2f280108b0c1a6636eaab032a3fd76e35c8"
+    },
+    "sound.pal.434": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/434.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 434",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/434.wav"
+      },
+      "bytes": 6462,
+      "sha256": "25553c7cc84b26ef115f40f3a9adb4d4eeb5780e6959b762c50bad2807a890bc"
+    },
+    "sound.pal.435": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/435.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 435",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/435.wav"
+      },
+      "bytes": 13678,
+      "sha256": "d9278fb9e973511beed6f3ab7d1692e31891935c0c0360bf8ee15f53f3da5aa9"
+    },
+    "sound.pal.436": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/436.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 436",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/436.wav"
+      },
+      "bytes": 7484,
+      "sha256": "aa4fafa6f6e3e2b5d035689236a35570b6a05ff62279c85055e113d88d5daa83"
+    },
+    "sound.pal.438": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/438.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 438",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/438.wav"
+      },
+      "bytes": 10182,
+      "sha256": "20445fe3ab3d06f69fc7248f1228e12470b33e52d84c5bf87a5c08f3f71ec111"
+    },
+    "sound.pal.439": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/439.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 439",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/439.wav"
+      },
+      "bytes": 9866,
+      "sha256": "f7ec5f5744e32dfcbb938341892a7f4275f163d9d6e7e4134f8a64c38cd67fd7"
+    },
+    "sound.pal.441": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/441.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 441",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/441.wav"
+      },
+      "bytes": 5440,
+      "sha256": "7f74150c4668c0bf4d4cb332f3c70e2315ac032f5da162af147aa9ab12c292c5"
+    },
+    "sound.pal.442": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/442.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 442",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/442.wav"
+      },
+      "bytes": 15742,
+      "sha256": "4c0e731baafb5cdc43317bfa7c553eb26afe058dca1ca579808eb6cf0f915db9"
+    },
+    "sound.pal.443": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/443.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 443",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/443.wav"
+      },
+      "bytes": 3470,
+      "sha256": "94c58ba17016ed8ba4170af5d581a90492a32f177c206cb8ffcafb30ef92b191"
+    },
+    "sound.pal.447": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/447.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 447",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/447.wav"
+      },
+      "bytes": 6248,
+      "sha256": "82301fe25a3050b3ffda6b8f5b1c0261315a6850ad81d1953507d69485c1d64b"
+    },
+    "sound.pal.449": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/449.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 449",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/449.wav"
+      },
+      "bytes": 25994,
+      "sha256": "e6cd903ad216daaff31b46b113abac71f557eebfb09061a2fa4fd94835154c7e"
+    },
+    "sound.pal.450": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/450.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 450",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/450.wav"
+      },
+      "bytes": 7808,
+      "sha256": "c350d8e722616f86063006739f8fa7d35c28c1ba3c7a68c283ae77eca7990903"
+    },
+    "sound.pal.451": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/451.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 451",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/451.wav"
+      },
+      "bytes": 7622,
+      "sha256": "7bb11abcdd486d468fa1c232345f270dda23863ff325e6c15a2545d768c7714a"
+    },
+    "sound.pal.452": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/452.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 452",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/452.wav"
+      },
+      "bytes": 18012,
+      "sha256": "8d5a45577849cc09011880f4844424b342a201bb71ec49e60c2da56cd2ae0e4a"
+    },
+    "sound.pal.453": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/453.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 453",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/453.wav"
+      },
+      "bytes": 7494,
+      "sha256": "7362d7f9e60baa012dab4bed26630027f30bef6994b7714c1a7b1baca7063f0a"
+    },
+    "sound.pal.455": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/455.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 455",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/455.wav"
+      },
+      "bytes": 22326,
+      "sha256": "3ee6a6a4c4ac42b6ef8eb27538043170c753213cb4644f42a78c90c2aebeed51"
+    },
+    "sound.pal.457": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/457.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 457",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/457.wav"
+      },
+      "bytes": 32396,
+      "sha256": "234ea2a089e905a566e0fd5cfafa42b588b8514b6e06a3b34d680e66d6dc0262"
+    },
+    "sound.pal.458": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/458.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 458",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/458.wav"
+      },
+      "bytes": 6300,
+      "sha256": "5aceab9751a0eef50401a7168b01eddee6d894fa052e4b7adffac1782961bbdc"
+    },
+    "sound.pal.459": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/459.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 459",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/459.wav"
+      },
+      "bytes": 2202,
+      "sha256": "d3cd69359c0d3647a285b0147c2cbe2efc20cddcd5347623b0d47868052faaee"
+    },
+    "sound.pal.462": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/462.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 462",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/462.wav"
+      },
+      "bytes": 7658,
+      "sha256": "9bdbdbc281652cccbd7fd2cb1a4d9fc2c2324dc06ecdadbd5b8f0981984bfb1b"
+    },
+    "sound.pal.463": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/463.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 463",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/463.wav"
+      },
+      "bytes": 25322,
+      "sha256": "bd2fff6c5d3e07e59b5eb2de23c082076c3c2de84f4ee1ae6c9a217754a3d031"
+    },
+    "sound.pal.464": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/464.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 464",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/464.wav"
+      },
+      "bytes": 6806,
+      "sha256": "c61a3498062f38ce71450203847dc867f992e6a4436c74fe06997a5c65183c53"
+    },
+    "sound.pal.465": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/465.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 465",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/465.wav"
+      },
+      "bytes": 25264,
+      "sha256": "6c4a2a85deed51255480d66f1883f32d6b128103f867fe67ccee58b38b76dfaa"
+    },
+    "sound.pal.466": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/466.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 466",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/466.wav"
+      },
+      "bytes": 6172,
+      "sha256": "4f2e6dc270b669fb5aa874cd0990c81060d4a3de4e2cd8950bd7d501cd7ea290"
+    },
+    "sound.pal.469": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/469.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 469",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/469.wav"
+      },
+      "bytes": 6470,
+      "sha256": "b38f92571619628d5ffdb68498eea49bafc1d3288896ea8810ec9aea008e173f"
+    },
+    "sound.pal.470": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/470.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 470",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/470.wav"
+      },
+      "bytes": 3788,
+      "sha256": "e04dfd53f8a884c43e1180300afb7e3a5588af480b90a03e4c0916bfff0a434a"
+    },
+    "sound.pal.475": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/475.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 475",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/475.wav"
+      },
+      "bytes": 5892,
+      "sha256": "dbe135d61115a02f53126d9917f808ad38c4ade85fb78f80dea3bd3bd1e3002e"
+    },
+    "sound.pal.476": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/476.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 476",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/476.wav"
+      },
+      "bytes": 5296,
+      "sha256": "37ff1e6bc64db0c3dde2f873aea0c6deeb5ce231f4a6d98143d1eb8d3d5f0c29"
+    },
+    "sound.pal.477": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/477.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 477",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/477.wav"
+      },
+      "bytes": 9606,
+      "sha256": "ebc2f3913deee3a81bc443dd7667025ad2e5d0231d532cdb2378f6b64bca5482"
+    },
+    "sound.pal.478": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/478.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 478",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/478.wav"
+      },
+      "bytes": 7196,
+      "sha256": "1d24b751573bc508d378e44efb6ead6964ee2f2632925cead9d517db2525e79a"
+    },
+    "sound.pal.482": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/482.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 482",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/482.wav"
+      },
+      "bytes": 6338,
+      "sha256": "c2dd64de5329729edc4ff556ce99cd929ae413fb33182c06b51764cdaa1aac1b"
+    },
+    "sound.pal.483": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/483.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 483",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/483.wav"
+      },
+      "bytes": 11380,
+      "sha256": "97fb1623347f35fc88727b4373a18de3881da30544d333e7eda8f0b7da5bd7ff"
+    },
+    "sound.pal.484": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/484.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 484",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/484.wav"
+      },
+      "bytes": 8024,
+      "sha256": "c6ae6bb363bec160c7436ead236c9c854f36b3157817c0324bb3fdac25b256d3"
+    },
+    "sound.pal.485": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/485.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 485",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/485.wav"
+      },
+      "bytes": 9348,
+      "sha256": "62652bfe8d82441d4d7853b8085f04dfe82b07870ee9fd9b7766ebdca975827d"
+    },
+    "sound.pal.486": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/486.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 486",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/486.wav"
+      },
+      "bytes": 4894,
+      "sha256": "bcea23013c6286eeca699097d529c76647a58e408430ca96a432df07d93012eb"
+    },
+    "sound.pal.487": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/487.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 487",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/487.wav"
+      },
+      "bytes": 5832,
+      "sha256": "b94e1408577c14ef499d083b5996d4953b12a5180c2499eefa0b19a4d470fea6"
+    },
+    "sound.pal.488": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/488.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 488",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/488.wav"
+      },
+      "bytes": 6798,
+      "sha256": "0f65eec53b83655badec8df0c39ad17748fad86b73c5b229d6f336a136db8e49"
+    },
+    "sound.pal.489": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/489.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 489",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/489.wav"
+      },
+      "bytes": 5674,
+      "sha256": "92f160af6bf079668e06f9b66da9bdcb9217da44ad8958a459bcf696e465e685"
+    },
+    "sound.pal.490": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/490.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 490",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/490.wav"
+      },
+      "bytes": 15906,
+      "sha256": "164b9409a501a2701043122496156416b39019bb510ab022a723258a32c96db9"
+    },
+    "sound.pal.491": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/491.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 491",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/491.wav"
+      },
+      "bytes": 5476,
+      "sha256": "abfa23984cd2d214b521edb81fc2c2a8283a4a8bc3969b11f39997307258cd43"
+    },
+    "sound.pal.492": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/492.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 492",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/492.wav"
+      },
+      "bytes": 14188,
+      "sha256": "665f32b435f076931de095b2070ae15a2fe19bf54fe7795ed79ea9f87aac79e2"
+    },
+    "sound.pal.493": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/493.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 493",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/493.wav"
+      },
+      "bytes": 7726,
+      "sha256": "123e77ba03abe763c19c894eb48d3aae4c79cafcb04c25c4261397c030e0cc2e"
+    },
+    "sound.pal.494": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/494.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 494",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/494.wav"
+      },
+      "bytes": 15988,
+      "sha256": "772dd8de09bc2649346bd883d983d0f957326ac70bc8d1247c1d94e6f5e14954"
+    },
+    "sound.pal.495": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/495.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 495",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/495.wav"
+      },
+      "bytes": 7726,
+      "sha256": "a8c4180bf261863b61c9d7c6925bfbe27adc664258a261e8d79c6d33055bdcb8"
+    },
+    "sound.pal.496": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/496.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 496",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/496.wav"
+      },
+      "bytes": 14002,
+      "sha256": "c32ca0de5c545eb7b14b12e7428850f5d58b164019cd6ed6e8be6258daf1424e"
+    },
+    "sound.pal.499": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/499.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 499",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/499.wav"
+      },
+      "bytes": 6700,
+      "sha256": "804ab1310b9338ec1d70581d04a790754816387f09b99894ccf88fdca98c656a"
+    },
+    "sound.pal.500": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/500.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 500",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/500.wav"
+      },
+      "bytes": 20868,
+      "sha256": "cde178f6cf312147bc480915ca02a946898a9db05cbf62ea8bd23e147667dda9"
+    },
+    "sound.pal.501": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/501.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 501",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/501.wav"
+      },
+      "bytes": 21510,
+      "sha256": "73fbc3171e014122bb132994f278376f193901eb88ef72bf1598f5bd581ae1ae"
+    },
+    "sound.pal.502": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/502.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 502",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/502.wav"
+      },
+      "bytes": 5656,
+      "sha256": "9070f2c27aa7d609c8938e0ddf6cc4a7cb12141fc9dba61da41fe2ca4208be8d"
+    },
+    "sound.pal.503": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/503.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 503",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/503.wav"
+      },
+      "bytes": 15928,
+      "sha256": "9d758f604c52ed05251b6bdece88096a13993acd755356d94077e4c0589ec2ee"
+    },
+    "sound.pal.504": {
+      "kind": "sound",
+      "path": "assets/migrated/sounds/504.wav",
+      "mediaType": "audio/wav",
+      "label": "PAL 音效 504",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "sounds/504.wav"
+      },
+      "bytes": 6378,
+      "sha256": "5e911bef260dec4c3cba394875f1a33efaa6658c13f9be183d7b1a31044852a8"
     }
   }
 }

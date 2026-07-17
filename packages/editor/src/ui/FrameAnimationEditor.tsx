@@ -366,6 +366,7 @@ export function FrameAnimationEditor(props: {
         (frame) => frame.source.kind === 'asset' && frame.source.asset === asset.id,
       )
       const source = needsSource ? await reader.readBytes(asset.id, 'frame-animation') : undefined
+      const previousBytes = source ?? (await reader.readBytes(asset.id, 'frame-animation'))
       const frames: FrameAnimationEncodeFrame[] = []
       for (let index = 0; index < draft.frames.length; index++) {
         const frame = draft.frames[index]!
@@ -394,7 +395,9 @@ export function FrameAnimationEditor(props: {
         sha256: hash,
         origin: { kind: 'authored', ref: asset.id },
       }
-      session.dispatch(new UpsertAssetCommand(asset.id, record, sourceArrayBuffer(encoded)))
+      session.dispatch(
+        new UpsertAssetCommand(asset.id, record, sourceArrayBuffer(encoded), previousBytes),
+      )
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
     } finally {

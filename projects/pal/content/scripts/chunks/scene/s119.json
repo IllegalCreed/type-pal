@@ -61,7 +61,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s119/L-36505/e2187/d-0a386828": [
@@ -80,7 +80,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s119/L-36505/e2188/d-0a386828": [
@@ -99,7 +99,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s119/override/on-enter/L-20697/stage-0": [

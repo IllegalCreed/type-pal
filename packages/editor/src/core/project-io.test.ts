@@ -156,7 +156,19 @@ const tilesetsJson = [
     path: 'tileset/56.rle',
   },
 ]
-const assetCatalogJson = { version: 1 as const, assets: {} }
+const assetCatalogJson = {
+  version: 1 as const,
+  assets: {
+    'sound.pal.001': {
+      kind: 'sound' as const,
+      path: 'assets/migrated/sounds/001.wav',
+      mediaType: 'audio/wav',
+      bytes: 44,
+      sha256: '0'.repeat(64),
+      origin: { kind: 'legacy-migrated' as const, ref: 'SOUNDS.MKF#1' },
+    },
+  },
+}
 const JSONS = {
   actors: actorsJson,
   sceneIds: scenesJson.map((s) => s.id),
@@ -375,7 +387,7 @@ test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', (
   const rawChunk = {
     version: 1 as const,
     id: 'scene/guijie-minju',
-    scripts: { [scriptId]: [{ kind: 'playSound' as const, soundId: 1 }] },
+    scripts: { [scriptId]: [{ kind: 'playSound' as const, asset: 'sound.pal.001' }] },
   }
   const rawLibraryChunk = {
     version: 1 as const,

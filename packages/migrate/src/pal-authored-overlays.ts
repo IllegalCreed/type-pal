@@ -1,4 +1,4 @@
-import type { ItemData, SkillData } from '@type-pal/content'
+import { type ItemData, palSoundAssetId, type SkillData } from '@type-pal/content'
 
 export const PAL_RESOLVED_SKILL_IDS = new Set([314, 344, 392, 394])
 export const PAL_RESOLVED_ITEM_USE_IDS = new Set([141])
@@ -22,7 +22,7 @@ const SPECIAL_SKILLS: SkillData[] = [
       effectTimes: 2,
       shake: 0,
       wave: 0,
-      sound: 103,
+      sound: palSoundAssetId(103),
     },
   },
   {
@@ -43,7 +43,7 @@ const SPECIAL_SKILLS: SkillData[] = [
       effectTimes: 0,
       shake: 0,
       wave: 0,
-      sound: 347,
+      sound: palSoundAssetId(347),
     },
   },
   {
@@ -64,7 +64,6 @@ const SPECIAL_SKILLS: SkillData[] = [
       effectTimes: 0,
       shake: 0,
       wave: 0,
-      sound: 0,
     },
   },
   {
@@ -85,7 +84,7 @@ const SPECIAL_SKILLS: SkillData[] = [
       effectTimes: 0,
       shake: 0,
       wave: 0,
-      sound: 347,
+      sound: palSoundAssetId(347),
     },
   },
 ]

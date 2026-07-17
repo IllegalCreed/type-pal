@@ -286,7 +286,7 @@
     "scene/s209/root/entity-e3575/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -312,7 +312,7 @@
     "scene/s209/root/entity-e3576/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -338,7 +338,7 @@
     "scene/s209/root/entity-e3577/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -364,7 +364,7 @@
     "scene/s209/root/entity-e3578/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

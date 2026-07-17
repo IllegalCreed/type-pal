@@ -5,12 +5,20 @@
  * 完整战斗语境预览等引擎 B5 召唤/变身动画补齐后再上(拍板记录)。
  */
 
-import type { SkillAnimation, SkillData, SkillEffect, StatusId } from '@type-pal/content'
+import type {
+  AssetCatalogV1,
+  SkillAnimation,
+  SkillData,
+  SkillEffect,
+  StatusId,
+} from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
+import { SoundPicker } from './SoundPicker.js'
 import { SummonPreview } from './SummonPreview.js'
 import { TrancePreview } from './TrancePreview.js'
 
@@ -115,8 +123,14 @@ function N(props: {
 }
 
 /** 单条效果的分支字段。 */
-function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }) {
-  const { e, on } = props
+function EffectFields(props: {
+  e: SkillEffect
+  on: (next: SkillEffect) => void
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onOpenSound?: (id: string) => void
+}) {
+  const { e, on, assetCatalog, assetReader, onOpenSound } = props
   switch (e.kind) {
     case 'damage':
       return (
@@ -319,6 +333,17 @@ function EffectFields(props: { e: SkillEffect; on: (next: SkillEffect) => void }
             <span>背景染色</span>
             <N v={e.tint} on={(n) => on({ ...e, tint: n ?? undefined })} ph="0" />
           </label>
+          <div className="sound-effect-field">
+            <span>现身音效</span>
+            <SoundPicker
+              value={e.sound}
+              onChange={(sound) => on({ ...e, sound })}
+              catalog={assetCatalog}
+              reader={assetReader}
+              allowUnset
+              onOpenAsset={onOpenSound}
+            />
+          </div>
         </>
       )
     case 'trance':
@@ -358,11 +383,23 @@ export function SkillTab(props: {
   skills: SkillData[]
   session: EditSession
   assetBase: AssetBase
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onOpenSound?: (id: string) => void
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
   tabBar?: React.ReactNode
 }) {
-  const { skills, session, assetBase, projectId = 'pal', tabBar } = props
+  const {
+    skills,
+    session,
+    assetBase,
+    assetCatalog,
+    assetReader,
+    onOpenSound,
+    projectId = 'pal',
+    tabBar,
+  } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
   const shown = useMemo(
@@ -545,7 +582,13 @@ export function SkillTab(props: {
                       ))}
                     </select>
                     <div className="ef-fields">
-                      <EffectFields e={e} on={(next) => setEffect(i, next)} />
+                      <EffectFields
+                        e={e}
+                        on={(next) => setEffect(i, next)}
+                        assetCatalog={assetCatalog}
+                        assetReader={assetReader}
+                        onOpenSound={onOpenSound}
+                      />
                     </div>
                     <span className="ef-ops">
                       <button
@@ -615,13 +658,13 @@ export function SkillTab(props: {
               </h4>
               <div className="sk-anim">
                 <div className="sk-grid">
-                  <label>
+                  <div className="sound-effect-field">
                     <span className="lb">特效号</span>{' '}
                     <N
                       v={skill.animation.effectSprite}
                       on={(n) => setAnim({ effectSprite: n ?? 0 })}
                     />
-                  </label>
+                  </div>
                   <label>
                     <span className="lb">落点</span>
                     <select
@@ -678,12 +721,23 @@ export function SkillTab(props: {
                     </span>{' '}
                     <N v={skill.animation.wave} on={(n) => setAnim({ wave: n })} ph="0" />
                   </label>
-                  <label>
-                    <span className="lb">音效号</span>{' '}
-                    <N v={skill.animation.sound} on={(n) => setAnim({ sound: n })} ph="(无)" />
-                  </label>
+                  <div className="sound-effect-field">
+                    <span className="lb">特效音</span>
+                    <SoundPicker
+                      value={skill.animation.sound}
+                      onChange={(sound) => setAnim({ sound })}
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      onOpenAsset={onOpenSound}
+                    />
+                  </div>
                 </div>
-                <FireEffectPreview assetBase={assetBase} anim={skill.animation} />
+                <FireEffectPreview
+                  assetBase={assetBase}
+                  anim={skill.animation}
+                  assetReader={assetReader}
+                />
               </div>
             </div>
           </div>

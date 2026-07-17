@@ -119,7 +119,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 132
+        "asset": "sound.pal.132"
       },
       {
         "kind": "setEntityFacing",
@@ -1205,7 +1205,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s148/L-36505/e2452/d-0a386828": [
@@ -1224,7 +1224,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s148/L-36505/e2453/d-0a386828": [
@@ -1243,7 +1243,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s148/L-36505/e2454/d-0a386828": [
@@ -1262,7 +1262,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s148/L-36505/e2455/d-0a386828": [
@@ -1281,7 +1281,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s148/root/on-enter/stage-0": [

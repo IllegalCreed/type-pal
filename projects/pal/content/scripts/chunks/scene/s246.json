@@ -139,7 +139,7 @@
     "scene/s246/root/on-enter/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 274
+        "asset": "sound.pal.274"
       },
       {
         "kind": "teleportParty",

@@ -42,6 +42,7 @@ import {
   UpdateTriggerModeCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { Playback } from '../core/playback.js'
 import { materializeSceneStages } from '../core/scene-script-view.js'
 import {
@@ -67,12 +68,14 @@ import {
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { clampPanelSize } from './panel-layout.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
+import { soundAssets } from './SoundPicker.js'
 
 /** 插入上下文:当前场景 + 「自身」实体(当前源为实体触发/auto 时 = 该实体,模板自动指自己)。 */
 interface InsertCtx {
   scene: SceneDef
   ownerId: string | undefined
   musicAsset?: AssetId
+  soundAsset?: AssetId
 }
 const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
 
@@ -80,7 +83,12 @@ const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ??
  *  模板插入即展开为普通指令组,逐条可调,不引入黑盒高层指令)。 */
 const INSERT_GROUPS: {
   title: string
-  items: { label: string; requiresMusic?: boolean; make: (c: InsertCtx) => Command[] }[]
+  items: {
+    label: string
+    requiresMusic?: boolean
+    requiresSound?: boolean
+    make: (c: InsertCtx) => Command[]
+  }[]
 }[] = [
   {
     title: '单指令',
@@ -119,6 +127,11 @@ const INSERT_GROUPS: {
         requiresMusic: true,
         make: (context) => [{ kind: 'playMusic', asset: context.musicAsset! }],
       },
+      {
+        label: '🔊 播放音效',
+        requiresSound: true,
+        make: (context) => [{ kind: 'playSound', asset: context.soundAsset! }],
+      },
       { label: '⏹ 停止音乐', make: () => [{ kind: 'stopMusic' }] },
       {
         label: '🚪 切场景',
@@ -155,7 +168,6 @@ const INSERT_GROUPS: {
         make: (c) => [
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
           { kind: 'setEntityFrame', entity: selfOf(c), frame: 1 },
-          { kind: 'playSound', soundId: 2 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
         ],
@@ -164,7 +176,6 @@ const INSERT_GROUPS: {
         // 145 例:地上道具(有精灵)—— 给完**末尾自隐**(玩家看着捡走);触发随实体灭
         label: '🌿 地上道具(捡走消失)',
         make: (c) => [
-          { kind: 'playSound', soundId: 2 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
@@ -175,7 +186,6 @@ const INSERT_GROUPS: {
         label: '🗄 柜中搜刮(无精灵)',
         make: (c) => [
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
-          { kind: 'playSound', soundId: 2 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
           { kind: 'giveItem', itemId: '0' },
         ],
@@ -184,7 +194,6 @@ const INSERT_GROUPS: {
         // 19/16 例:给钱变体
         label: '💰 得钱',
         make: (c) => [
-          { kind: 'playSound', soundId: 2 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○文钱!)' }] } },
           { kind: 'giveMoney', delta: 100 },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
@@ -493,6 +502,7 @@ export function ScriptDrawer(props: {
   session: EditSession
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
+  assetReader: EditorAssetReader
   /** 工程 id(同源试玩页 ?project=)。 */
   projectId: string
   /** 氛围表(setAmbience 表单下拉;W6)。 */
@@ -503,6 +513,7 @@ export function ScriptDrawer(props: {
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   /** N6:从调用行跳到数据模式的共享脚本页。 */
   onOpenScript?: (id: string) => void
+  onOpenSound?: (id: string) => void
   onClose: () => void
 }) {
   const {
@@ -523,11 +534,13 @@ export function ScriptDrawer(props: {
     session,
     assetCatalog,
     audioResolver,
+    assetReader,
     projectId,
     ambiences,
     shops,
     layers,
     onOpenScript,
+    onOpenSound,
     onClose,
   } = props
   const scriptWorkRef = useRef<HTMLDivElement>(null)
@@ -761,6 +774,7 @@ export function ScriptDrawer(props: {
           scene,
           ownerId: ref.kind === 'onEnter' || ref.kind === 'onTeleport' ? undefined : ref.entityId,
           musicAsset: musicAssets(assetCatalog)[0]?.id,
+          soundAsset: soundAssets(assetCatalog)[0]?.id,
         }
       })()
     : undefined
@@ -774,7 +788,11 @@ export function ScriptDrawer(props: {
                 .every((command) => sceneEntryPrepareSafety(command) === 'safe'),
             )
           : group.items
-        ).filter((item) => !item.requiresMusic || activeInsertContext.musicAsset),
+        ).filter(
+          (item) =>
+            (!item.requiresMusic || activeInsertContext.musicAsset) &&
+            (!item.requiresSound || activeInsertContext.soundAsset),
+        ),
       })).filter((group) => group.items.length > 0)
     : []
   const measuredWorkHeight = scriptWorkHeight || 720
@@ -1222,6 +1240,7 @@ export function ScriptDrawer(props: {
                     locale={locale}
                     assetCatalog={assetCatalog}
                     audioResolver={audioResolver}
+                    assetReader={assetReader}
                     scenes={scenes}
                     assetBase={assetBase}
                     ambiences={ambiences}
@@ -1229,6 +1248,7 @@ export function ScriptDrawer(props: {
                     scriptIndex={scriptIndex}
                     hasImplicitSelf={active?.kind === 'trigger' || active?.kind === 'auto'}
                     onOpenScript={openScriptTarget}
+                    onOpenSound={onOpenSound}
                     onChange={(next) => {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]

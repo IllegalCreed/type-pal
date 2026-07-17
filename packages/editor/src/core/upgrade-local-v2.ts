@@ -2,7 +2,9 @@ import {
   type AssetCatalogV1,
   type AssetRecordV1,
   applyV2MusicLabels,
+  normalizeScriptLibrary,
   palMusicAssetId,
+  type ScriptChunkV1,
   type ScriptIndexV1,
   upgradeManifestV2ToV3,
   upgradeV2MusicReferences,
@@ -20,6 +22,14 @@ interface ManifestV2 {
 
 export interface UpgradeLocalV2Options {
   readSoundfont?: () => Promise<ArrayBuffer>
+  onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void
+}
+
+export interface SoundUpgradeProgress {
+  phase: 'read' | 'write'
+  /** 当前阶段已处理字节；UI 可直接显示真实 MB，而不是把文件个数伪装成进度。 */
+  completed: number
+  total: number
 }
 
 function asObject(value: unknown, where: string): Record<string, unknown> {
@@ -157,8 +167,18 @@ export async function upgradeLocalProjectV2(
   const scriptDir = manifest.content.scripts?.replace(/\/?$/, '/')
   if (scriptDir) {
     const index = await source.readJson<ScriptIndexV1>(`${scriptDir}index.json`)
-    for (const meta of Object.values(index.chunks))
-      await upgradeReferencedJson(source, files, `${scriptDir}${meta.path}`)
+    const chunks: Record<string, ScriptChunkV1> = {}
+    for (const [id, meta] of Object.entries(index.chunks))
+      chunks[id] = upgradeV2MusicReferences(
+        await source.readJson<unknown>(`${scriptDir}${meta.path}`),
+      ) as ScriptChunkV1
+    const normalized = normalizeScriptLibrary(index, chunks)
+    files[`${scriptDir}index.json`] = normalized.index
+    for (const [id, chunk] of Object.entries(normalized.chunks)) {
+      const meta = normalized.index.chunks[id]
+      if (!meta) throw new Error(`脚本分片 ${id} 缺失重算元数据`)
+      files[`${scriptDir}${meta.path}`] = chunk
+    }
   }
   if (manifest.content.enemies) await upgradeReferencedJson(source, files, manifest.content.enemies)
 

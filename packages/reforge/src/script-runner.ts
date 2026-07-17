@@ -69,10 +69,10 @@ export interface ScriptHost {
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
   setEntityFrame(entity: string, frame: number): void
-  giveItem(itemId: string, count: number): void
+  giveItem(itemId: string, count: number): void | Promise<void>
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
-  playSound(soundId: number): void
+  playSound(asset: AssetId): void
   playMusic(asset: AssetId): void
   stopMusic(): void
   /** W6 氛围(昼夜):切全局氛围(全帧乘法滤镜;原版 0x53/0x54 全局调色板 flag)。 */
@@ -555,7 +555,7 @@ export class ScriptRunner {
         this.world.vars[cmd.var] = (this.world.vars[cmd.var] ?? 0) + cmd.delta
         return
       case 'playSound':
-        return h.playSound(cmd.soundId)
+        return h.playSound(cmd.asset)
       case 'playMusic':
         return h.playMusic(cmd.asset)
       case 'stopMusic':

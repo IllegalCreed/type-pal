@@ -36,7 +36,7 @@ describe('M4a 敌人迁移(enemies + enemy-objects 合并)', () => {
     expect(slime.stats.elemResistance).toEqual(src.elemResistance)
     expect(slime.stats.dualMove).toBe(src.dualMove !== 0)
     expect(slime.anim.attackFrames).toBe(src.attackFrames)
-    expect(slime.sounds.death).toBe(src.deathSound)
+    expect(slime.sounds.death).toBe(`sound.pal.${String(src.deathSound).padStart(3, '0')}`)
   })
   test('AI(M4c):fallback 施法翻成规则([chance rate×10] cast/pass + 缺省普攻);抗异常在 object 侧', () => {
     for (const eo of enemyObjects) {
@@ -67,6 +67,26 @@ describe('M4a 敌人迁移(enemies + enemy-objects 合并)', () => {
       const src = enemies.find((e) => e.id === eo.enemyId)!
       expect('steal' in def).toBe(src.stealItem !== 0)
       expect('attackEquivItem' in def).toBe(src.attackEquivItem !== 0)
+    }
+  })
+  test('五项音效 0 省略；25 个负 magic 拆为绝对 AssetId + 显式抑制语义', () => {
+    expect(out.enemies.filter((enemy) => enemy.sounds.suppressMagicEffectSound)).toHaveLength(25)
+    for (const eo of enemyObjects) {
+      const def = byId.get(enemySlug(eo.objectIndex))
+      const src = enemies.find((enemy) => enemy.id === eo.enemyId)
+      if (!def || !src) continue
+      for (const [field, value] of [
+        ['attack', src.attackSound],
+        ['action', src.actionSound],
+        ['magic', src.magicSound],
+        ['death', src.deathSound],
+        ['call', src.callSound],
+      ] as const) {
+        expect(def.sounds[field]).toBe(
+          value === 0 ? undefined : `sound.pal.${String(Math.abs(value)).padStart(3, '0')}`,
+        )
+      }
+      expect(def.sounds.suppressMagicEffectSound).toBe(src.magicSound < 0 ? true : undefined)
     }
   })
 })

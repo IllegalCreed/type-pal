@@ -32,6 +32,7 @@ import {
   UpdateStartWorldCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   collectProjectIssues,
   getRepairableEntryIndexes,
@@ -39,6 +40,7 @@ import {
   resolveProjectEntryPoints,
 } from '../core/project-diagnostics.js'
 import type { EditorLocation } from './editor-navigation.js'
+import { SoundPicker } from './SoundPicker.js'
 
 export type ProjectWorkbenchPage = 'overview' | 'startup' | 'entrypoint' | 'advanced'
 
@@ -53,6 +55,7 @@ export interface ProjectWorkbenchTabProps {
   assetCatalog: AssetCatalogV1
   session: EditSession
   editorState: EditorState
+  assetReader: EditorAssetReader
   tabBar?: ReactNode
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
@@ -68,6 +71,10 @@ const ROLE_LABELS: Record<AssetRole, string> = {
   'audio.bossVictoryMusic': '特殊战胜利结算音乐',
   'audio.normalVictoryMusic': '普通胜利音乐',
   'audio.openingMenuMusic': '标题菜单音乐',
+  'audio.battleItemUseSound': '战斗物品使用音效',
+  'audio.battleCoopCastSound': '合击起手音效',
+  'audio.battleEscapeSound': '逃跑音效',
+  'audio.battleEnemyTransformSound': '敌人变身音效',
   'video.startupTrademark': '启动商标视频',
   'video.startupSplash': '启动开场视频',
   'visual.standardColorTable': '标准色表',
@@ -102,6 +109,17 @@ export const PROJECT_ASSET_ROLE_GROUPS: readonly {
     title: '音频基础',
     description: 'MIDI 播放使用的工程级 SoundFont。',
     roles: ['audio.midiSoundfont'],
+  },
+  {
+    id: 'battle-sfx',
+    title: '战斗音效',
+    description: '物品使用、合击、逃跑与敌人变身的全局回退音效。',
+    roles: [
+      'audio.battleItemUseSound',
+      'audio.battleCoopCastSound',
+      'audio.battleEscapeSound',
+      'audio.battleEnemyTransformSound',
+    ],
   },
   {
     id: 'visual-base',
@@ -169,10 +187,18 @@ function RoleBindings(props: {
   manifest: LoadedManifest
   assetCatalog: AssetCatalogV1
   session: EditSession
+  assetReader: EditorAssetReader
   roles?: readonly AssetRole[]
   onOpenLocation?: (location: EditorLocation) => void
 }) {
-  const { manifest, assetCatalog, session, roles = ASSET_ROLES, onOpenLocation } = props
+  const {
+    manifest,
+    assetCatalog,
+    session,
+    assetReader,
+    roles = ASSET_ROLES,
+    onOpenLocation,
+  } = props
   const hasAudioCatalog = Object.values(assetCatalog.assets).some(
     (record) => record.kind === 'music' || record.kind === 'soundfont',
   )
@@ -187,8 +213,15 @@ function RoleBindings(props: {
           .sort(([left], [right]) => left.localeCompare(right))
         const currentRecord = current ? assetCatalog.assets[current] : undefined
         const targetSubpage =
-          expected === 'music' ? 'music' : expected === 'video' ? 'cutscene' : undefined
-        const libraryLabel = targetSubpage === 'music' ? '音乐库' : '过场素材库'
+          expected === 'music'
+            ? 'music'
+            : expected === 'sound'
+              ? 'sound'
+              : expected === 'video'
+                ? 'cutscene'
+                : undefined
+        const libraryLabel =
+          targetSubpage === 'music' ? '音乐库' : targetSubpage === 'sound' ? '音效库' : '过场素材库'
         const bindingError = current
           ? !currentRecord
             ? `AssetId ${current} 不存在`
@@ -202,7 +235,7 @@ function RoleBindings(props: {
             ? '不可逃战胜利后播放；若随后升级，升级屏继续沿用此曲。可自由绑定音乐资源。'
             : undefined
         return (
-          <label className="project-role-row" key={role}>
+          <div className="project-role-row" key={role}>
             <span className="project-role-label">
               <strong>{ROLE_LABELS[role]}</strong>
               <small>
@@ -211,33 +244,48 @@ function RoleBindings(props: {
               {roleHint ? <small className="project-role-hint">{roleHint}</small> : null}
             </span>
             <span className="project-role-control">
-              <select
-                className="in"
-                value={current}
-                onChange={(event) =>
-                  session.dispatch(
-                    new UpdateManifestAssetRolesCommand({
-                      [role]: event.target.value || undefined,
-                    }),
-                  )
-                }
-              >
-                <option value="">未绑定</option>
-                {current && !currentRecord ? (
-                  <option value={current}>{current}（缺失）</option>
-                ) : null}
-                {currentRecord && currentRecord.kind !== expected ? (
-                  <option value={current}>
-                    {current}（类型 {currentRecord.kind}）
-                  </option>
-                ) : null}
-                {candidates.map(([id, record]) => (
-                  <option value={id} key={id}>
-                    {record.label ? `${record.label} · ` : ''}
-                    {id}
-                  </option>
-                ))}
-              </select>
+              {expected === 'sound' ? (
+                <SoundPicker
+                  value={current || undefined}
+                  onChange={(asset) =>
+                    session.dispatch(new UpdateManifestAssetRolesCommand({ [role]: asset }))
+                  }
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                  allowUnset
+                  onOpenAsset={(asset) =>
+                    onOpenLocation?.({ module: 'asset', subpage: 'sound', objectId: asset })
+                  }
+                />
+              ) : (
+                <select
+                  className="in"
+                  value={current}
+                  onChange={(event) =>
+                    session.dispatch(
+                      new UpdateManifestAssetRolesCommand({
+                        [role]: event.target.value || undefined,
+                      }),
+                    )
+                  }
+                >
+                  <option value="">未绑定</option>
+                  {current && !currentRecord ? (
+                    <option value={current}>{current}（缺失）</option>
+                  ) : null}
+                  {currentRecord && currentRecord.kind !== expected ? (
+                    <option value={current}>
+                      {current}（类型 {currentRecord.kind}）
+                    </option>
+                  ) : null}
+                  {candidates.map(([id, record]) => (
+                    <option value={id} key={id}>
+                      {record.label ? `${record.label} · ` : ''}
+                      {id}
+                    </option>
+                  ))}
+                </select>
+              )}
               {bindingError ? (
                 <span className="project-role-error">{bindingError}</span>
               ) : validRecord ? (
@@ -245,7 +293,7 @@ function RoleBindings(props: {
                   {validRecord.kind} · {validRecord.path}
                 </span>
               ) : null}
-              {onOpenLocation && targetSubpage ? (
+              {expected !== 'sound' && onOpenLocation && targetSubpage ? (
                 <button
                   type="button"
                   className="btn"
@@ -270,7 +318,7 @@ function RoleBindings(props: {
                 </span>
               )}
             </span>
-          </label>
+          </div>
         )
       })}
     </div>
@@ -1058,8 +1106,17 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
 }
 
 export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
-  const { page, manifest, scenes, assetCatalog, session, editorState, tabBar, onOpenLocation } =
-    props
+  const {
+    page,
+    manifest,
+    scenes,
+    assetCatalog,
+    assetReader,
+    session,
+    editorState,
+    tabBar,
+    onOpenLocation,
+  } = props
   const issues = useMemo(() => collectProjectIssues(editorState), [editorState])
   if (page === 'entrypoint') return <EntryPointEditor {...props} issues={issues} />
 
@@ -1083,8 +1140,8 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
             <span className="t">全局资源与启动</span>
           </div>
           <PageHint>
-            manifest.assets.roles
-            的八项设置都在本页，按用途分组；启动链放在设置之后解释实际消费顺序。
+            manifest.assets.roles 的 {ASSET_ROLES.length}{' '}
+            项设置都在本页，按用途分组；启动链放在设置之后解释实际消费顺序。
           </PageHint>
           <div className="project-step-list">
             {PROJECT_ASSET_ROLE_GROUPS.map((group) => {
@@ -1140,6 +1197,7 @@ export function ProjectWorkbenchTab(props: ProjectWorkbenchTabProps) {
                   <RoleBindings
                     manifest={manifest}
                     assetCatalog={assetCatalog}
+                    assetReader={assetReader}
                     session={session}
                     roles={group.roles}
                     onOpenLocation={onOpenLocation}

@@ -31,6 +31,7 @@ import { PoisonTab } from './PoisonTab.js'
 import { SharedScriptTab } from './SharedScriptTab.js'
 import { ShopTab } from './ShopTab.js'
 import { SkillTab } from './SkillTab.js'
+import { SoundTab } from './SoundTab.js'
 import { SpriteFrames } from './SpriteFrames.js'
 import { SpriteUploadWizard } from './SpriteUploadWizard.js'
 import { TilesetTab } from './TilesetTab.js'
@@ -100,6 +101,7 @@ export function DataMode(props: {
   tab: DataTab
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
+  onOpenSound?: (id: string) => void
 }) {
   const {
     sprites,
@@ -130,6 +132,7 @@ export function DataMode(props: {
     tab,
     focusObjectId,
     onObjectFocus,
+    onOpenSound,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
   const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
@@ -167,6 +170,9 @@ export function DataMode(props: {
         skills={Object.values(skills)}
         locale={locale}
         session={session}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
+        onOpenSound={onOpenSound}
         tabBar={tabBar}
       />
     )
@@ -181,6 +187,9 @@ export function DataMode(props: {
         locale={locale}
         assetBase={assetBase}
         session={session}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
+        onOpenSound={onOpenSound}
         itemRefs={refIndex.items}
         onJumpToEvent={onJumpToEvent}
         tabBar={tabBar}
@@ -195,6 +204,9 @@ export function DataMode(props: {
         session={session}
         assetBase={assetBase}
         projectId={manifest.id}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
+        onOpenSound={onOpenSound}
         tabBar={tabBar}
       />
     )
@@ -236,6 +248,19 @@ export function DataMode(props: {
     )
   }
 
+  if (tab === 'sound') {
+    return (
+      <SoundTab
+        catalog={assetCatalog}
+        reader={assetReader}
+        session={session}
+        tabBar={tabBar}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+      />
+    )
+  }
+
   if (tab === 'cutscene') {
     return (
       <CutsceneTab
@@ -260,6 +285,7 @@ export function DataMode(props: {
         skills={skillList}
         locale={locale}
         assetCatalog={assetCatalog}
+        assetReader={assetReader}
         session={session}
         tabBar={tabBar}
       />
@@ -300,6 +326,7 @@ export function DataMode(props: {
         assetBase={assetBase}
         assetCatalog={assetCatalog}
         audioResolver={audioResolver}
+        assetReader={assetReader}
         projectMaps={state.maps}
         mapIndex={state.mapIndex}
         tilesets={tilesets}
@@ -309,6 +336,7 @@ export function DataMode(props: {
         focusScriptRevision={focusScriptRevision}
         onJumpToEvent={onJumpToEvent}
         onSelectedScriptId={onObjectFocus}
+        onOpenSound={onOpenSound}
       />
     )
   }

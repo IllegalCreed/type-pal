@@ -6,7 +6,6 @@
  * UI、保存前校验和测试都消费同一组纯函数。
  */
 import {
-  collectAssetReferences,
   type EntryPoint,
   type LoadedManifest,
   type SceneDef,
@@ -16,6 +15,7 @@ import {
   validateReferences,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
+import { collectEditorAssetReferences } from './editor-asset-references.js'
 
 export type ProjectIssueSeverity = 'error' | 'warn'
 
@@ -312,13 +312,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   }
 
   // 调用统一引用收集器 + closure validator，确保诊断覆盖脚本/场景/敌人引用；本页只展示摘要。
-  const references = collectAssetReferences({
-    assets: state.manifest.assets,
-    entryPoints: state.manifest.entryPoints,
-    scenes: state.scenes,
-    scriptChunks: state.scriptChunks,
-    enemies: state.enemies,
-  })
+  const references = collectEditorAssetReferences(state)
   for (const closure of catalogValid
     ? validateAssetReferenceClosure(state.assetCatalog, references)
     : []) {
@@ -351,9 +345,11 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
     const assetPage =
       targetKind === 'music'
         ? 'music'
-        : targetKind === 'video' || targetKind === 'frame-animation'
-          ? 'cutscene'
-          : undefined
+        : targetKind === 'sound'
+          ? 'sound'
+          : targetKind === 'video' || targetKind === 'frame-animation'
+            ? 'cutscene'
+            : undefined
     issues.push({
       severity: closure.severity,
       code,
@@ -468,13 +464,7 @@ export function assertProjectSaveValid(state: EditorState): void {
     )
   }
 
-  const references = collectAssetReferences({
-    assets: state.manifest.assets,
-    entryPoints: state.manifest.entryPoints,
-    scenes: state.scenes,
-    scriptChunks: state.scriptChunks,
-    enemies: state.enemies,
-  })
+  const references = collectEditorAssetReferences(state)
   const closureErrors = validateAssetReferenceClosure(state.assetCatalog, references).filter(
     (issue) => issue.severity === 'error',
   )

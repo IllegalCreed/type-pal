@@ -1,5 +1,13 @@
 import { describe, expect, test } from 'vitest'
-import { validateActors, validateLocale, validateScenes, validateSprites } from './validate.js'
+import {
+  validateActors,
+  validateEnemies,
+  validateItems,
+  validateLocale,
+  validateScenes,
+  validateSkills,
+  validateSprites,
+} from './validate.js'
 
 const mkScene = (over: Record<string, unknown> = {}): unknown => ({
   id: 's',
@@ -102,6 +110,62 @@ describe('validateActors(C0)', () => {
       ]),
     ).toThrow('缺键 "baseStats"')
   })
+  test('战斗音效只接受可选 AssetId，拒绝旧数字', () => {
+    expect(() =>
+      validateActors([
+        {
+          id: 'a',
+          name: 'n',
+          spriteId: 's',
+          battler: { ...battler, sounds: { attack: 9 } },
+        },
+      ]),
+    ).toThrow('期望非空 AssetId')
+  })
+})
+
+test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () => {
+  expect(() =>
+    validateSkills({
+      skills: [
+        {
+          id: '1',
+          name: 'n',
+          cost: {},
+          target: 'oneEnemy',
+          effects: [],
+          animation: { effectSprite: 1, sound: 45 },
+        },
+      ],
+      levelUp: {},
+    }),
+  ).toThrow('期望非空 AssetId')
+  expect(() =>
+    validateItems([
+      {
+        id: '151',
+        name: '引路蜂',
+        desc: [],
+        icon: 1,
+        buyPrice: 1,
+        sellPrice: 1,
+        sellable: true,
+        use: { consuming: true, effects: [], sound: 45 },
+      },
+    ]),
+  ).toThrow('期望非空 AssetId')
+  expect(() =>
+    validateEnemies([
+      {
+        id: 'enemy-1',
+        name: 'name.enemy-1',
+        stats: {},
+        ai: {},
+        anim: {},
+        sounds: { magic: -47 },
+      },
+    ]),
+  ).toThrow('期望非空 AssetId')
 })
 
 describe('validateLocale · 对话行边界', () => {

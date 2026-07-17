@@ -46,7 +46,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
       actWaitFrames: 1,
       yPosOffset: 0,
     },
-    sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
+    sounds: {},
   }
 }
 const player = (roleId: string, o: Partial<CreatePlayerInput> = {}): CreatePlayerInput => ({

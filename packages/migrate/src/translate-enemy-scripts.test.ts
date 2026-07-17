@@ -135,7 +135,7 @@ describe('advance 游标状态机 → 规则', () => {
         once: true,
         when: { kind: 'firstOfKind' },
         body: [
-          { kind: 'playSound', soundId: 8 },
+          { kind: 'playSound', asset: 'sound.pal.008' },
           { kind: 'dialog', cue: { rows: [{ text: 'dlg.5001' }] } },
         ],
       },

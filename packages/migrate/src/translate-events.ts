@@ -36,6 +36,8 @@ import {
   type LegacyDialogueState,
   putLegacyDialogueText,
 } from './legacy-dialog.js'
+import type { SoundAssetForNum } from './sound-migration.js'
+import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
@@ -68,6 +70,13 @@ export interface TranslateReport {
   notes: Record<string, number>
   /** 已由一阶段/原引擎真值证明的 no-op。 */
   knownNoOps: Record<string, number>
+  knownNoOpDetails: Array<{
+    key: string
+    sourceAddress?: number
+    legacyId?: number
+    owner: string
+    path: string
+  }>
   /** 已映射为 clean 命令的原 opcode 统计。 */
   resolved: Record<string, number>
   /** 无显式 label 但已按 all.json 数组地址解析的目标。 */
@@ -87,6 +96,7 @@ export function emptyTranslateReport(): TranslateReport {
     commands: 0,
     notes: {},
     knownNoOps: {},
+    knownNoOpDetails: [],
     resolved: {},
     resolvedAddressTargets: [],
     gaps: [],
@@ -133,6 +143,8 @@ export interface TranslateCtx {
   spriteIdForNum?: (num: number) => string
   /** 迁移边界内把旧 mapNum 解析为工程稳定 map id。 */
   mapIdForNum?: (num: number) => string
+  /** 旧 sound chunk 到已登记 AssetId；生产迁移用它把空 chunk 转为无命令。 */
+  soundAssetForNum?: SoundAssetForNum
   /** M3 分片注册表；生产迁移必须提供，缺省仅供旧 inline 单测/手工窄工具。 */
   registry?: ScriptRegistry
 }
@@ -551,12 +563,24 @@ function note(ctx: TranslateCtx, key: string): void {
   ctx.report.notes[key] = (ctx.report.notes[key] ?? 0) + 1
 }
 
-function knownNoOp(ctx: TranslateCtx, key: string, sourceAddress?: number): void {
+function knownNoOp(
+  ctx: TranslateCtx,
+  key: string,
+  sourceAddress?: number,
+  detail?: { legacyId?: number; owner?: string },
+): void {
   ctx.knownNoOpSites ??= new Set()
   const site = `${key}@${sourceAddress ?? 'unknown'}`
   if (ctx.knownNoOpSites.has(site)) return
   ctx.knownNoOpSites.add(site)
   ctx.report.knownNoOps[key] = (ctx.report.knownNoOps[key] ?? 0) + 1
+  ctx.report.knownNoOpDetails.push({
+    key,
+    ...(sourceAddress === undefined ? {} : { sourceAddress }),
+    ...(detail?.legacyId === undefined ? {} : { legacyId: detail.legacyId }),
+    owner: detail?.owner ?? 'unknown',
+    path: ctx.pathStack?.join(' > ') ?? '',
+  })
 }
 
 function resolved(ctx: TranslateCtx, key: string): void {
@@ -1011,8 +1035,17 @@ function walkBody(
           })
           body.push({ kind: 'setEntityFrame', entity: ent16, frame: o[2] ?? 0 })
         }
-      } else if (oc === 0x47) push({ kind: 'playSound', soundId: o[0] ?? 0 })
-      else if (oc === 0x43) push(palMusicCommand(o[0] ?? 0))
+      } else if (oc === 0x47) {
+        const sound = resolveSoundAsset(o[0], ctx.soundAssetForNum)
+        if (sound) push({ kind: 'playSound', asset: sound })
+        else {
+          flush()
+          knownNoOp(ctx, 'playSound.emptyChunk', sourceAddressAt(ctx, at.cmds, at.idx), {
+            legacyId: o[0],
+            owner,
+          })
+        }
+      } else if (oc === 0x43) push(palMusicCommand(o[0] ?? 0))
       // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 迁移期内部标记 BattleCfgMarker
       // (schema overrideSceneBattle 已退役,不复活):邻战 → fold 进 startBattle 一次性参数;
       // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。

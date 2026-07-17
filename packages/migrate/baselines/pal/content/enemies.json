@@ -37,11 +37,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 351,
-      "action": 0,
-      "magic": 0,
-      "death": 246,
-      "call": 91
+      "attack": "sound.pal.351",
+      "death": "sound.pal.246",
+      "call": "sound.pal.091"
     }
   },
   {
@@ -82,11 +80,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 50,
-      "action": 0,
-      "magic": 0,
-      "death": 32,
-      "call": 352
+      "attack": "sound.pal.050",
+      "death": "sound.pal.032",
+      "call": "sound.pal.352"
     }
   },
   {
@@ -156,11 +152,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 353,
-      "action": 0,
-      "magic": 71,
-      "death": 186,
-      "call": 92
+      "attack": "sound.pal.353",
+      "magic": "sound.pal.071",
+      "death": "sound.pal.186",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "91",
@@ -234,11 +229,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 504,
-      "action": 0,
-      "magic": 0,
-      "death": 246,
-      "call": 0
+      "attack": "sound.pal.504",
+      "death": "sound.pal.246"
     },
     "steal": {
       "itemId": "107",
@@ -405,11 +397,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 354,
-      "action": 0,
-      "magic": 219,
-      "death": 186,
-      "call": 91
+      "attack": "sound.pal.354",
+      "magic": "sound.pal.219",
+      "death": "sound.pal.186",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "104",
@@ -483,11 +474,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 355,
-      "action": 0,
-      "magic": 0,
-      "death": 30,
-      "call": 2
+      "attack": "sound.pal.355",
+      "death": "sound.pal.030",
+      "call": "sound.pal.002"
     },
     "attackEquivItem": {
       "itemId": "117",
@@ -561,11 +550,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 50,
-      "action": 0,
-      "magic": 0,
-      "death": 216,
-      "call": 92
+      "attack": "sound.pal.050",
+      "death": "sound.pal.216",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "148",
@@ -610,11 +597,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 356,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 93
+      "attack": "sound.pal.356",
+      "death": "sound.pal.183",
+      "call": "sound.pal.093"
     }
   },
   {
@@ -655,11 +640,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 357,
-      "action": 0,
-      "magic": 0,
-      "death": 216,
-      "call": 92
+      "attack": "sound.pal.357",
+      "death": "sound.pal.216",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "147",
@@ -708,11 +691,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 358,
-      "action": 0,
-      "magic": 0,
-      "death": 185,
-      "call": 0
+      "attack": "sound.pal.358",
+      "death": "sound.pal.185"
     },
     "steal": {
       "itemId": "116",
@@ -774,11 +754,8 @@
       "yPosOffset": 6
     },
     "sounds": {
-      "attack": 359,
-      "action": 0,
-      "magic": 0,
-      "death": 246,
-      "call": 0
+      "attack": "sound.pal.359",
+      "death": "sound.pal.246"
     },
     "steal": {
       "itemId": "116",
@@ -958,7 +935,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 205
+            "asset": "sound.pal.205"
           },
           {
             "kind": "dialog",
@@ -1040,11 +1017,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 360,
-      "action": 0,
-      "magic": 0,
-      "death": 182,
-      "call": 94
+      "attack": "sound.pal.360",
+      "death": "sound.pal.182",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "167",
@@ -1234,11 +1209,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 361,
-      "action": 0,
-      "magic": 362,
-      "death": 186,
-      "call": 92
+      "attack": "sound.pal.361",
+      "magic": "sound.pal.362",
+      "death": "sound.pal.186",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "87",
@@ -1283,11 +1257,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 364,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 93
+      "attack": "sound.pal.364",
+      "death": "sound.pal.183",
+      "call": "sound.pal.093"
     }
   },
   {
@@ -1328,11 +1300,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 365,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 92
+      "attack": "sound.pal.365",
+      "death": "sound.pal.183",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "120",
@@ -1394,11 +1364,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 366,
-      "action": 0,
-      "magic": 367,
-      "death": 32,
-      "call": 93
+      "attack": "sound.pal.366",
+      "magic": "sound.pal.367",
+      "death": "sound.pal.032",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "113",
@@ -1456,11 +1425,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 368,
-      "action": 0,
-      "magic": 369,
-      "death": 247,
-      "call": 94
+      "attack": "sound.pal.368",
+      "magic": "sound.pal.369",
+      "death": "sound.pal.247",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "162",
@@ -1505,11 +1473,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 370,
-      "action": 0,
-      "magic": 0,
-      "death": 32,
-      "call": 0
+      "attack": "sound.pal.370",
+      "death": "sound.pal.032"
     },
     "steal": {
       "itemId": "86",
@@ -1567,11 +1532,10 @@
       "yPosOffset": 12
     },
     "sounds": {
-      "attack": 371,
-      "action": 0,
-      "magic": 372,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.371",
+      "magic": "sound.pal.372",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "144",
@@ -1616,11 +1580,9 @@
       "yPosOffset": 10
     },
     "sounds": {
-      "attack": 373,
-      "action": 0,
-      "magic": 0,
-      "death": 184,
-      "call": 90
+      "attack": "sound.pal.373",
+      "death": "sound.pal.184",
+      "call": "sound.pal.090"
     }
   },
   {
@@ -1674,11 +1636,10 @@
       "yPosOffset": 5
     },
     "sounds": {
-      "attack": 375,
-      "action": 0,
-      "magic": 374,
-      "death": 182,
-      "call": 91
+      "attack": "sound.pal.375",
+      "magic": "sound.pal.374",
+      "death": "sound.pal.182",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "68",
@@ -1723,11 +1684,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 376,
-      "action": 0,
-      "magic": 376,
-      "death": 190,
-      "call": 92
+      "attack": "sound.pal.376",
+      "magic": "sound.pal.376",
+      "death": "sound.pal.190",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "116",
@@ -1828,7 +1788,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 258
+            "asset": "sound.pal.258"
           }
         ]
       }
@@ -1842,11 +1802,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 377,
-      "action": 0,
-      "magic": 219,
-      "death": 254,
-      "call": 0
+      "attack": "sound.pal.377",
+      "magic": "sound.pal.219",
+      "death": "sound.pal.254"
     },
     "steal": {
       "itemId": "112",
@@ -1969,11 +1927,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 378,
-      "magic": 0,
-      "death": 30,
-      "call": 0
+      "action": "sound.pal.378",
+      "death": "sound.pal.030"
     }
   },
   {
@@ -2028,7 +1983,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 258
+            "asset": "sound.pal.258"
           }
         ]
       }
@@ -2042,11 +1997,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 379,
-      "death": 186,
-      "call": 18
+      "magic": "sound.pal.379",
+      "death": "sound.pal.186",
+      "call": "sound.pal.018"
     },
     "steal": {
       "itemId": "126",
@@ -2091,11 +2044,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 380,
-      "action": 0,
-      "magic": 0,
-      "death": 30,
-      "call": 382
+      "attack": "sound.pal.380",
+      "death": "sound.pal.030",
+      "call": "sound.pal.382"
     },
     "steal": {
       "itemId": "129",
@@ -2153,11 +2104,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 381,
-      "action": 0,
-      "magic": 381,
-      "death": 30,
-      "call": 92
+      "attack": "sound.pal.381",
+      "magic": "sound.pal.381",
+      "death": "sound.pal.030",
+      "call": "sound.pal.092"
     }
   },
   {
@@ -2211,11 +2161,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 383,
-      "action": 0,
-      "magic": -384,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.383",
+      "magic": "sound.pal.384",
+      "death": "sound.pal.190",
+      "suppressMagicEffectSound": true
     }
   },
   {
@@ -2256,11 +2205,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 385,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.385",
+      "death": "sound.pal.183"
     }
   },
   {
@@ -2314,11 +2260,10 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 386,
-      "action": 0,
-      "magic": -387,
-      "death": 254,
-      "call": 0
+      "attack": "sound.pal.386",
+      "magic": "sound.pal.387",
+      "death": "sound.pal.254",
+      "suppressMagicEffectSound": true
     }
   },
   {
@@ -2359,11 +2304,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 388,
-      "action": 0,
-      "magic": 417,
-      "death": 186,
-      "call": 0
+      "attack": "sound.pal.388",
+      "magic": "sound.pal.417",
+      "death": "sound.pal.186"
     },
     "steal": {
       "itemId": "80",
@@ -2480,11 +2423,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 389,
-      "magic": 219,
-      "death": 186,
-      "call": 0
+      "action": "sound.pal.389",
+      "magic": "sound.pal.219",
+      "death": "sound.pal.186"
     },
     "steal": {
       "itemId": "147",
@@ -2529,11 +2470,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 391,
-      "action": 0,
-      "magic": 0,
-      "death": 186,
-      "call": 0
+      "attack": "sound.pal.391",
+      "death": "sound.pal.186"
     },
     "steal": {
       "itemId": "147",
@@ -2578,11 +2516,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 392,
-      "action": 0,
-      "magic": 0,
-      "death": 30,
-      "call": 92
+      "attack": "sound.pal.392",
+      "death": "sound.pal.030",
+      "call": "sound.pal.092"
     }
   },
   {
@@ -2636,11 +2572,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 393,
-      "action": 0,
-      "magic": 394,
-      "death": 30,
-      "call": 0
+      "attack": "sound.pal.393",
+      "magic": "sound.pal.394",
+      "death": "sound.pal.030"
     },
     "steal": {
       "itemId": "252",
@@ -2685,11 +2619,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 395,
-      "action": 0,
-      "magic": 202,
-      "death": 183,
-      "call": 91
+      "attack": "sound.pal.395",
+      "magic": "sound.pal.202",
+      "death": "sound.pal.183",
+      "call": "sound.pal.091"
     }
   },
   {
@@ -2730,11 +2663,9 @@
       "yPosOffset": 5
     },
     "sounds": {
-      "attack": 396,
-      "action": 0,
-      "magic": 420,
-      "death": 30,
-      "call": 0
+      "attack": "sound.pal.396",
+      "magic": "sound.pal.420",
+      "death": "sound.pal.030"
     }
   },
   {
@@ -2856,11 +2787,9 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 397,
-      "action": 0,
-      "magic": 204,
-      "death": 185,
-      "call": 0
+      "attack": "sound.pal.397",
+      "magic": "sound.pal.204",
+      "death": "sound.pal.185"
     },
     "steal": {
       "itemId": "159",
@@ -2923,7 +2852,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 245
+            "asset": "sound.pal.245"
           }
         ]
       }
@@ -2937,11 +2866,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 398,
-      "action": 0,
-      "magic": 399,
-      "death": 247,
-      "call": 92
+      "attack": "sound.pal.398",
+      "magic": "sound.pal.399",
+      "death": "sound.pal.247",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "67",
@@ -2999,11 +2927,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 400,
-      "action": 0,
-      "magic": -401,
-      "death": 182,
-      "call": 0
+      "attack": "sound.pal.400",
+      "magic": "sound.pal.401",
+      "death": "sound.pal.182",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "144",
@@ -3061,11 +2988,9 @@
       "yPosOffset": 14
     },
     "sounds": {
-      "attack": 403,
-      "action": 0,
-      "magic": 402,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.403",
+      "magic": "sound.pal.402",
+      "death": "sound.pal.266"
     },
     "steal": {
       "itemId": "174",
@@ -3123,11 +3048,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -404,
-      "death": 216,
-      "call": 93
+      "magic": "sound.pal.404",
+      "death": "sound.pal.216",
+      "call": "sound.pal.093",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "143",
@@ -3185,11 +3109,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 405,
-      "action": 0,
-      "magic": 406,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.405",
+      "magic": "sound.pal.406",
+      "death": "sound.pal.190"
     },
     "steal": {
       "itemId": "101",
@@ -3234,11 +3156,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 407,
-      "action": 0,
-      "magic": 0,
-      "death": 186,
-      "call": 0
+      "attack": "sound.pal.407",
+      "death": "sound.pal.186"
     }
   },
   {
@@ -3279,11 +3198,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 408,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 94
+      "attack": "sound.pal.408",
+      "death": "sound.pal.190",
+      "call": "sound.pal.094"
     }
   },
   {
@@ -3324,11 +3241,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 409,
-      "magic": 418,
-      "death": 266,
-      "call": 0
+      "action": "sound.pal.409",
+      "magic": "sound.pal.418",
+      "death": "sound.pal.266"
     }
   },
   {
@@ -3369,11 +3284,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 410,
-      "action": 0,
-      "magic": 265,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.410",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.190"
     },
     "steal": {
       "itemId": "86",
@@ -3441,11 +3354,9 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 0,
-      "action": 411,
-      "magic": 419,
-      "death": 266,
-      "call": 0
+      "action": "sound.pal.411",
+      "magic": "sound.pal.419",
+      "death": "sound.pal.266"
     }
   },
   {
@@ -3499,11 +3410,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 412,
-      "action": 0,
-      "magic": 265,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.412",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.190"
     },
     "steal": {
       "itemId": "160",
@@ -3546,7 +3455,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 267
+            "asset": "sound.pal.267"
           }
         ]
       }
@@ -3560,11 +3469,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 413,
-      "action": 0,
-      "magic": 0,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.413",
+      "death": "sound.pal.266"
     },
     "steal": {
       "itemId": "63",
@@ -3609,11 +3515,8 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 414,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.414",
+      "death": "sound.pal.190"
     }
   },
   {
@@ -3652,7 +3555,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 267
+            "asset": "sound.pal.267"
           }
         ]
       }
@@ -3666,11 +3569,8 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 415,
-      "action": 0,
-      "magic": 0,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.415",
+      "death": "sound.pal.266"
     },
     "steal": {
       "itemId": "105",
@@ -3715,11 +3615,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 424,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.424",
+      "death": "sound.pal.190"
     }
   },
   {
@@ -3760,11 +3657,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 425,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.425",
+      "death": "sound.pal.190"
     },
     "steal": {
       "itemId": "254",
@@ -3822,11 +3716,10 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 426,
-      "action": 0,
-      "magic": -427,
-      "death": 254,
-      "call": 0
+      "attack": "sound.pal.426",
+      "magic": "sound.pal.427",
+      "death": "sound.pal.254",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "158",
@@ -3871,11 +3764,8 @@
       "yPosOffset": 6
     },
     "sounds": {
-      "attack": 428,
-      "action": 0,
-      "magic": 0,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.428",
+      "death": "sound.pal.266"
     },
     "steal": {
       "itemId": "72",
@@ -3933,11 +3823,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 238,
-      "action": 0,
-      "magic": 248,
-      "death": 243,
-      "call": 0
+      "attack": "sound.pal.238",
+      "magic": "sound.pal.248",
+      "death": "sound.pal.243"
     }
   },
   {
@@ -3978,11 +3866,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 431,
-      "action": 0,
-      "magic": 0,
-      "death": 185,
-      "call": 0
+      "attack": "sound.pal.431",
+      "death": "sound.pal.185"
     }
   },
   {
@@ -4036,11 +3921,10 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 432,
-      "action": 0,
-      "magic": -433,
-      "death": 233,
-      "call": 0
+      "attack": "sound.pal.432",
+      "magic": "sound.pal.433",
+      "death": "sound.pal.233",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "92",
@@ -4098,11 +3982,10 @@
       "yPosOffset": 12
     },
     "sounds": {
-      "attack": 434,
-      "action": 0,
-      "magic": -435,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.434",
+      "magic": "sound.pal.435",
+      "death": "sound.pal.266",
+      "suppressMagicEffectSound": true
     }
   },
   {
@@ -4143,11 +4026,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 436,
-      "action": 0,
-      "magic": 0,
-      "death": 26,
-      "call": 0
+      "attack": "sound.pal.436",
+      "death": "sound.pal.026"
     },
     "steal": {
       "itemId": "179",
@@ -4205,11 +4085,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 90
+      "attack": "sound.pal.265",
+      "death": "sound.pal.190",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "148",
@@ -4267,11 +4145,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -438,
-      "death": 26,
-      "call": 0
+      "magic": "sound.pal.438",
+      "death": "sound.pal.026",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "163",
@@ -4329,11 +4205,9 @@
       "yPosOffset": 22
     },
     "sounds": {
-      "attack": 439,
-      "action": 0,
-      "magic": 439,
-      "death": 192,
-      "call": 0
+      "attack": "sound.pal.439",
+      "magic": "sound.pal.439",
+      "death": "sound.pal.192"
     },
     "steal": {
       "itemId": "106",
@@ -4391,11 +4265,10 @@
       "yPosOffset": 20
     },
     "sounds": {
-      "attack": 441,
-      "action": 0,
-      "magic": -442,
-      "death": 233,
-      "call": 0
+      "attack": "sound.pal.441",
+      "magic": "sound.pal.442",
+      "death": "sound.pal.233",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "150",
@@ -4452,11 +4325,10 @@
       "yPosOffset": 20
     },
     "sounds": {
-      "attack": 443,
-      "action": 0,
-      "magic": 443,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.443",
+      "magic": "sound.pal.443",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "149",
@@ -4514,11 +4386,10 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 447,
-      "action": 0,
-      "magic": -449,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.447",
+      "magic": "sound.pal.449",
+      "death": "sound.pal.183",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "206",
@@ -4580,11 +4451,8 @@
       "yPosOffset": 14
     },
     "sounds": {
-      "attack": 450,
-      "action": 0,
-      "magic": 0,
-      "death": 181,
-      "call": 0
+      "attack": "sound.pal.450",
+      "death": "sound.pal.181"
     },
     "steal": {
       "itemId": "119",
@@ -4646,11 +4514,10 @@
       "yPosOffset": 24
     },
     "sounds": {
-      "attack": 451,
-      "action": 0,
-      "magic": -452,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.451",
+      "magic": "sound.pal.452",
+      "death": "sound.pal.266",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "145",
@@ -4708,11 +4575,11 @@
       "yPosOffset": 28
     },
     "sounds": {
-      "attack": 453,
-      "action": 0,
-      "magic": -455,
-      "death": 233,
-      "call": 93
+      "attack": "sound.pal.453",
+      "magic": "sound.pal.455",
+      "death": "sound.pal.233",
+      "call": "sound.pal.093",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "122",
@@ -4941,11 +4808,9 @@
       "yPosOffset": 31
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -457,
-      "death": 26,
-      "call": 0
+      "magic": "sound.pal.457",
+      "death": "sound.pal.026",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "109",
@@ -5214,11 +5079,10 @@
       "yPosOffset": 14
     },
     "sounds": {
-      "attack": 458,
-      "action": 0,
-      "magic": 459,
-      "death": 269,
-      "call": 92
+      "attack": "sound.pal.458",
+      "magic": "sound.pal.459",
+      "death": "sound.pal.269",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "127",
@@ -5276,11 +5140,11 @@
       "yPosOffset": 24
     },
     "sounds": {
-      "attack": 462,
-      "action": 0,
-      "magic": -463,
-      "death": 26,
-      "call": 92
+      "attack": "sound.pal.462",
+      "magic": "sound.pal.463",
+      "death": "sound.pal.026",
+      "call": "sound.pal.092",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "109",
@@ -5338,11 +5202,10 @@
       "yPosOffset": 20
     },
     "sounds": {
-      "attack": 464,
-      "action": 0,
-      "magic": -465,
-      "death": 269,
-      "call": 0
+      "attack": "sound.pal.464",
+      "magic": "sound.pal.465",
+      "death": "sound.pal.269",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "124",
@@ -5724,11 +5587,9 @@
       "yPosOffset": 32
     },
     "sounds": {
-      "attack": 466,
-      "action": 0,
-      "magic": 469,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.466",
+      "magic": "sound.pal.469",
+      "death": "sound.pal.183"
     },
     "steal": {
       "itemId": "213",
@@ -5972,7 +5833,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 267
+            "asset": "sound.pal.267"
           }
         ]
       }
@@ -5986,11 +5847,10 @@
       "yPosOffset": 22
     },
     "sounds": {
-      "attack": 470,
-      "action": 0,
-      "magic": 470,
-      "death": 266,
-      "call": 91
+      "attack": "sound.pal.470",
+      "magic": "sound.pal.470",
+      "death": "sound.pal.266",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "162",
@@ -6764,11 +6624,9 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 18
+      "attack": "sound.pal.265",
+      "death": "sound.pal.190",
+      "call": "sound.pal.018"
     },
     "steal": {
       "itemId": "62",
@@ -6817,11 +6675,9 @@
       "yPosOffset": 24
     },
     "sounds": {
-      "attack": 475,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 95
+      "attack": "sound.pal.475",
+      "death": "sound.pal.190",
+      "call": "sound.pal.095"
     }
   },
   {
@@ -6862,11 +6718,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 240,
-      "action": 0,
-      "magic": 0,
-      "death": 187,
-      "call": 93
+      "attack": "sound.pal.240",
+      "death": "sound.pal.187",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "250",
@@ -6911,11 +6765,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 476,
-      "action": 0,
-      "magic": 0,
-      "death": 189,
-      "call": 1
+      "attack": "sound.pal.476",
+      "death": "sound.pal.189",
+      "call": "sound.pal.001"
     },
     "steal": {
       "itemId": "154",
@@ -6973,11 +6825,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 477,
-      "death": 264,
-      "call": 0
+      "magic": "sound.pal.477",
+      "death": "sound.pal.264"
     },
     "steal": {
       "itemId": "212",
@@ -7035,11 +6884,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 477,
-      "death": 264,
-      "call": 0
+      "magic": "sound.pal.477",
+      "death": "sound.pal.264"
     },
     "steal": {
       "itemId": "212",
@@ -7195,11 +7041,9 @@
       "yPosOffset": 28
     },
     "sounds": {
-      "attack": 0,
-      "action": 39,
-      "magic": 11,
-      "death": 25,
-      "call": 0
+      "action": "sound.pal.039",
+      "magic": "sound.pal.011",
+      "death": "sound.pal.025"
     }
   },
   {
@@ -7253,11 +7097,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -478,
-      "death": 242,
-      "call": 0
+      "magic": "sound.pal.478",
+      "death": "sound.pal.242",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "153",
@@ -7302,11 +7144,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.265",
+      "death": "sound.pal.190"
     },
     "steal": {
       "itemId": "74",
@@ -7483,7 +7322,7 @@
           },
           {
             "kind": "playSound",
-            "soundId": 213
+            "asset": "sound.pal.213"
           }
         ]
       }
@@ -7497,11 +7336,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 39,
-      "magic": 11,
-      "death": 25,
-      "call": 2
+      "action": "sound.pal.039",
+      "magic": "sound.pal.011",
+      "death": "sound.pal.025",
+      "call": "sound.pal.002"
     }
   },
   {
@@ -7542,11 +7380,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 3,
-      "magic": 0,
-      "death": 184,
-      "call": 94
+      "action": "sound.pal.003",
+      "death": "sound.pal.184",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "148",
@@ -7604,11 +7440,10 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 482,
-      "action": 0,
-      "magic": -483,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.482",
+      "magic": "sound.pal.483",
+      "death": "sound.pal.266",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "101",
@@ -7737,11 +7572,10 @@
       "yPosOffset": 10
     },
     "sounds": {
-      "attack": 484,
-      "action": 0,
-      "magic": -485,
-      "death": 190,
-      "call": 0
+      "attack": "sound.pal.484",
+      "magic": "sound.pal.485",
+      "death": "sound.pal.190",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "96",
@@ -7786,11 +7620,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 486,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.486",
+      "death": "sound.pal.183"
     },
     "steal": {
       "itemId": "117",
@@ -7839,11 +7670,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 487,
-      "action": 0,
-      "magic": 0,
-      "death": 184,
-      "call": 0
+      "attack": "sound.pal.487",
+      "death": "sound.pal.184"
     },
     "steal": {
       "itemId": "117",
@@ -7888,11 +7716,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 488,
-      "action": 0,
-      "magic": 0,
-      "death": 192,
-      "call": 0
+      "attack": "sound.pal.488",
+      "death": "sound.pal.192"
     }
   },
   {
@@ -7963,11 +7788,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 489,
-      "action": 0,
-      "magic": -490,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.489",
+      "magic": "sound.pal.490",
+      "death": "sound.pal.183",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "133",
@@ -8029,11 +7853,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 491,
-      "action": 0,
-      "magic": -492,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.491",
+      "magic": "sound.pal.492",
+      "death": "sound.pal.183",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "130",
@@ -8112,11 +7935,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 493,
-      "action": 0,
-      "magic": -494,
-      "death": 183,
-      "call": 0
+      "attack": "sound.pal.493",
+      "magic": "sound.pal.494",
+      "death": "sound.pal.183",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "157",
@@ -8178,11 +8000,10 @@
       "yPosOffset": 2
     },
     "sounds": {
-      "attack": 495,
-      "action": 0,
-      "magic": -496,
-      "death": 266,
-      "call": 0
+      "attack": "sound.pal.495",
+      "magic": "sound.pal.496",
+      "death": "sound.pal.266",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "148",
@@ -8580,11 +8401,10 @@
       "yPosOffset": 6
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 190,
-      "call": 94
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.190",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "66",
@@ -8629,11 +8449,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 499,
-      "action": 0,
-      "magic": 265,
-      "death": 259,
-      "call": 0
+      "attack": "sound.pal.499",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.259"
     }
   },
   {
@@ -8687,11 +8505,10 @@
       "yPosOffset": 10
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -501,
-      "death": 190,
-      "call": 90
+      "magic": "sound.pal.501",
+      "death": "sound.pal.190",
+      "call": "sound.pal.090",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "123",
@@ -8749,11 +8566,9 @@
       "yPosOffset": 10
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": -500,
-      "death": 0,
-      "call": 92
+      "magic": "sound.pal.500",
+      "call": "sound.pal.092",
+      "suppressMagicEffectSound": true
     }
   },
   {
@@ -8824,11 +8639,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 502,
-      "action": 0,
-      "magic": -503,
-      "death": 246,
-      "call": 0
+      "attack": "sound.pal.502",
+      "magic": "sound.pal.503",
+      "death": "sound.pal.246",
+      "suppressMagicEffectSound": true
     },
     "steal": {
       "itemId": "159",
@@ -8972,11 +8786,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 219,
-      "action": 0,
-      "magic": 219,
-      "death": 186,
-      "call": 91
+      "attack": "sound.pal.219",
+      "magic": "sound.pal.219",
+      "death": "sound.pal.186",
+      "call": "sound.pal.091"
     }
   },
   {
@@ -9359,11 +9172,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 270,
-      "action": 0,
-      "magic": 270,
-      "death": 269,
-      "call": 94
+      "attack": "sound.pal.270",
+      "magic": "sound.pal.270",
+      "death": "sound.pal.269",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "125",
@@ -9483,11 +9295,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 11,
-      "action": 0,
-      "magic": 11,
-      "death": 25,
-      "call": 94
+      "attack": "sound.pal.011",
+      "magic": "sound.pal.011",
+      "death": "sound.pal.025",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "122",
@@ -9604,13 +9415,7 @@
       "actWaitFrames": 2,
       "yPosOffset": 0
     },
-    "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 0,
-      "call": 0
-    }
+    "sounds": {}
   },
   {
     "id": "enemy-503",
@@ -9663,11 +9468,11 @@
       "yPosOffset": 24
     },
     "sounds": {
-      "attack": 71,
-      "action": 4,
-      "magic": 71,
-      "death": 191,
-      "call": 93
+      "attack": "sound.pal.071",
+      "action": "sound.pal.004",
+      "magic": "sound.pal.071",
+      "death": "sound.pal.191",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "151",
@@ -9712,11 +9517,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 3,
-      "magic": 0,
-      "death": 184,
-      "call": 2
+      "action": "sound.pal.003",
+      "death": "sound.pal.184",
+      "call": "sound.pal.002"
     },
     "steal": {
       "itemId": "100",
@@ -9761,11 +9564,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 1,
-      "magic": 0,
-      "death": 183,
-      "call": 94
+      "action": "sound.pal.001",
+      "death": "sound.pal.183",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "100",
@@ -9810,11 +9611,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 4,
-      "magic": 0,
-      "death": 185,
-      "call": 93
+      "action": "sound.pal.004",
+      "death": "sound.pal.185",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "116",
@@ -9872,11 +9671,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 0,
-      "death": 185,
-      "call": 92
+      "attack": "sound.pal.265",
+      "death": "sound.pal.185",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "148",
@@ -9921,11 +9718,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 186,
-      "call": 92
+      "death": "sound.pal.186",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "129",
@@ -9970,11 +9764,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 51,
-      "magic": 0,
-      "death": 184,
-      "call": 91
+      "action": "sound.pal.051",
+      "death": "sound.pal.184",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "129",
@@ -10032,11 +9824,10 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 266,
-      "call": 91
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.266",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "148",
@@ -10094,11 +9885,11 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 4,
-      "magic": 265,
-      "death": 190,
-      "call": 91
+      "attack": "sound.pal.265",
+      "action": "sound.pal.004",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.190",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "148",
@@ -10156,11 +9947,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 241,
-      "action": 0,
-      "magic": 241,
-      "death": 191,
-      "call": 90
+      "attack": "sound.pal.241",
+      "magic": "sound.pal.241",
+      "death": "sound.pal.191",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "67",
@@ -10210,7 +10000,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 206
+            "asset": "sound.pal.206"
           }
         ]
       }
@@ -10224,11 +10014,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 397,
-      "action": 0,
-      "magic": 397,
-      "death": 233,
-      "call": 94
+      "attack": "sound.pal.397",
+      "magic": "sound.pal.397",
+      "death": "sound.pal.233",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "92",
@@ -10273,11 +10062,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 183,
-      "call": 92
+      "death": "sound.pal.183",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "159",
@@ -10326,11 +10112,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 71,
-      "action": 0,
-      "magic": 71,
-      "death": 183,
-      "call": 92
+      "attack": "sound.pal.071",
+      "magic": "sound.pal.071",
+      "death": "sound.pal.183",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "148",
@@ -10375,11 +10160,8 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 184,
-      "call": 92
+      "death": "sound.pal.184",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "118",
@@ -10441,11 +10223,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 246,
-      "action": 0,
-      "magic": 246,
-      "death": 183,
-      "call": 91
+      "attack": "sound.pal.246",
+      "magic": "sound.pal.246",
+      "death": "sound.pal.183",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "121",
@@ -10599,11 +10380,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 75,
-      "action": 0,
-      "magic": 75,
-      "death": 182,
-      "call": 90
+      "attack": "sound.pal.075",
+      "magic": "sound.pal.075",
+      "death": "sound.pal.182",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "143",
@@ -11241,11 +11021,10 @@
       "yPosOffset": 14
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 266,
-      "call": 90
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.266",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "73",
@@ -11303,11 +11082,8 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 182,
-      "call": 93
+      "death": "sound.pal.182",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "143",
@@ -11369,11 +11145,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 236,
-      "action": 0,
-      "magic": 236,
-      "death": 192,
-      "call": 90
+      "attack": "sound.pal.236",
+      "magic": "sound.pal.236",
+      "death": "sound.pal.192",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "148",
@@ -11557,11 +11332,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 244,
-      "action": 0,
-      "magic": 244,
-      "death": 185,
-      "call": 91
+      "attack": "sound.pal.244",
+      "magic": "sound.pal.244",
+      "death": "sound.pal.185",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "123",
@@ -11747,7 +11521,7 @@
         "body": [
           {
             "kind": "playSound",
-            "soundId": 267
+            "asset": "sound.pal.267"
           }
         ]
       }
@@ -11761,11 +11535,8 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 266,
-      "call": 91
+      "death": "sound.pal.266",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "148",
@@ -12192,11 +11963,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 244,
-      "action": 0,
-      "magic": 244,
-      "death": 190,
-      "call": 91
+      "attack": "sound.pal.244",
+      "magic": "sound.pal.244",
+      "death": "sound.pal.190",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "72",
@@ -12529,11 +12299,9 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 0,
-      "call": 94
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "call": "sound.pal.094"
     },
     "steal": {
       "itemId": "184",
@@ -12591,11 +12359,11 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 252,
-      "action": 251,
-      "magic": 252,
-      "death": 26,
-      "call": 90
+      "attack": "sound.pal.252",
+      "action": "sound.pal.251",
+      "magic": "sound.pal.252",
+      "death": "sound.pal.026",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "154",
@@ -12640,11 +12408,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 190,
-      "call": 94
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.190",
+      "call": "sound.pal.094"
     }
   },
   {
@@ -12698,11 +12465,10 @@
       "yPosOffset": 20
     },
     "sounds": {
-      "attack": 239,
-      "action": 0,
-      "magic": 265,
-      "death": 266,
-      "call": 91
+      "attack": "sound.pal.239",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.266",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "146",
@@ -12964,11 +12730,8 @@
       "yPosOffset": 22
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 266,
-      "call": 92
+      "death": "sound.pal.266",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "98",
@@ -13039,11 +12802,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 258,
-      "action": 0,
-      "magic": 258,
-      "death": 186,
-      "call": 92
+      "attack": "sound.pal.258",
+      "magic": "sound.pal.258",
+      "death": "sound.pal.186",
+      "call": "sound.pal.092"
     }
   },
   {
@@ -13097,11 +12859,11 @@
       "yPosOffset": 22
     },
     "sounds": {
-      "attack": 179,
-      "action": 59,
-      "magic": 179,
-      "death": 192,
-      "call": 91
+      "attack": "sound.pal.179",
+      "action": "sound.pal.059",
+      "magic": "sound.pal.179",
+      "death": "sound.pal.192",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "143",
@@ -13159,11 +12921,11 @@
       "yPosOffset": 22
     },
     "sounds": {
-      "attack": 179,
-      "action": 59,
-      "magic": 179,
-      "death": 192,
-      "call": 91
+      "attack": "sound.pal.179",
+      "action": "sound.pal.059",
+      "magic": "sound.pal.179",
+      "death": "sound.pal.192",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "114",
@@ -13208,11 +12970,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 71,
-      "action": 0,
-      "magic": 71,
-      "death": 182,
-      "call": 91
+      "attack": "sound.pal.071",
+      "magic": "sound.pal.071",
+      "death": "sound.pal.182",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "123",
@@ -13271,11 +13032,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 50,
-      "action": 0,
-      "magic": 0,
-      "death": 186,
-      "call": 92
+      "attack": "sound.pal.050",
+      "death": "sound.pal.186",
+      "call": "sound.pal.092"
     }
   },
   {
@@ -13329,11 +13088,10 @@
       "yPosOffset": 2
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 185,
-      "call": 92
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.185",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "148",
@@ -13408,11 +13166,9 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 246,
-      "action": 0,
-      "magic": 0,
-      "death": 233,
-      "call": 92
+      "attack": "sound.pal.246",
+      "death": "sound.pal.233",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "120",
@@ -13461,11 +13217,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 75,
-      "action": 0,
-      "magic": 75,
-      "death": 186,
-      "call": 91
+      "attack": "sound.pal.075",
+      "magic": "sound.pal.075",
+      "death": "sound.pal.186",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "119",
@@ -13586,11 +13341,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 75,
-      "action": 0,
-      "magic": 75,
-      "death": 186,
-      "call": 90
+      "attack": "sound.pal.075",
+      "magic": "sound.pal.075",
+      "death": "sound.pal.186",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "142",
@@ -13710,11 +13464,10 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 236,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.236",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "278",
@@ -13772,11 +13525,10 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 230,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 92
+      "attack": "sound.pal.230",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.092"
     },
     "steal": {
       "itemId": "63",
@@ -13834,11 +13586,10 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 230,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 90
+      "attack": "sound.pal.230",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "71",
@@ -13896,11 +13647,10 @@
       "yPosOffset": 8
     },
     "sounds": {
-      "attack": 236,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.236",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "70",
@@ -13958,11 +13708,10 @@
       "yPosOffset": 12
     },
     "sounds": {
-      "attack": 59,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.059",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "69",
@@ -14020,11 +13769,10 @@
       "yPosOffset": 12
     },
     "sounds": {
-      "attack": 230,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 91
+      "attack": "sound.pal.230",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "67",
@@ -14082,11 +13830,10 @@
       "yPosOffset": 12
     },
     "sounds": {
-      "attack": 59,
-      "action": 0,
-      "magic": 230,
-      "death": 179,
-      "call": 90
+      "attack": "sound.pal.059",
+      "magic": "sound.pal.230",
+      "death": "sound.pal.179",
+      "call": "sound.pal.090"
     },
     "steal": {
       "itemId": "68",
@@ -14215,11 +13962,8 @@
       "yPosOffset": 10
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 190,
-      "call": 91
+      "death": "sound.pal.190",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "123",
@@ -14281,11 +14025,10 @@
       "yPosOffset": 16
     },
     "sounds": {
-      "attack": 236,
-      "action": 0,
-      "magic": 236,
-      "death": 192,
-      "call": 91
+      "attack": "sound.pal.236",
+      "magic": "sound.pal.236",
+      "death": "sound.pal.192",
+      "call": "sound.pal.091"
     },
     "steal": {
       "itemId": "278",
@@ -14334,11 +14077,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 238,
-      "action": 0,
-      "magic": 248,
-      "death": 259,
-      "call": 91
+      "attack": "sound.pal.238",
+      "magic": "sound.pal.248",
+      "death": "sound.pal.259",
+      "call": "sound.pal.091"
     }
   },
   {
@@ -14379,11 +14121,10 @@
       "yPosOffset": 0
     },
     "sounds": {
-      "attack": 265,
-      "action": 0,
-      "magic": 265,
-      "death": 247,
-      "call": 94
+      "attack": "sound.pal.265",
+      "magic": "sound.pal.265",
+      "death": "sound.pal.247",
+      "call": "sound.pal.094"
     }
   },
   {
@@ -14454,11 +14195,8 @@
       "yPosOffset": 4
     },
     "sounds": {
-      "attack": 0,
-      "action": 0,
-      "magic": 0,
-      "death": 182,
-      "call": 93
+      "death": "sound.pal.182",
+      "call": "sound.pal.093"
     },
     "steal": {
       "itemId": "142",

@@ -1,7 +1,10 @@
+import type { ActorDef } from './actor.js'
 import type { EntryPoint } from './character.js'
 import type { EnemyDef } from './enemy.js'
 import type { SceneDef } from './index.js'
+import type { ItemData } from './item.js'
 import type { ScriptChunkV1 } from './script-library.js'
+import type { SkillData } from './skill.js'
 
 export type AssetId = string
 
@@ -31,6 +34,10 @@ export const ASSET_ROLES = [
   'audio.bossVictoryMusic',
   'audio.normalVictoryMusic',
   'audio.openingMenuMusic',
+  'audio.battleItemUseSound',
+  'audio.battleCoopCastSound',
+  'audio.battleEscapeSound',
+  'audio.battleEnemyTransformSound',
   'video.startupTrademark',
   'video.startupSplash',
   'visual.standardColorTable',
@@ -46,8 +53,18 @@ export const AUDIO_ASSET_ROLES = {
 } as const satisfies Partial<Record<AssetRole, AssetKind>>
 export type AudioAssetRole = keyof typeof AUDIO_ASSET_ROLES
 
+/** 可选的全局战斗提示音；与必填的音乐切片角色分开校验。 */
+export const SOUND_ASSET_ROLES = {
+  'audio.battleItemUseSound': 'sound',
+  'audio.battleCoopCastSound': 'sound',
+  'audio.battleEscapeSound': 'sound',
+  'audio.battleEnemyTransformSound': 'sound',
+} as const satisfies Partial<Record<AssetRole, AssetKind>>
+export type SoundAssetRole = keyof typeof SOUND_ASSET_ROLES
+
 export const ASSET_ROLE_KINDS = {
   ...AUDIO_ASSET_ROLES,
+  ...SOUND_ASSET_ROLES,
   'video.startupTrademark': 'video',
   'video.startupSplash': 'video',
   'visual.standardColorTable': 'color-table',
@@ -251,6 +268,12 @@ export function palMusicAssetId(track: number): AssetId {
   return `music.pal.${String(track).padStart(3, '0')}`
 }
 
+export function palSoundAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk <= 0)
+    throw new Error(`PAL 音效号必须是正整数，收到 ${String(chunk)}`)
+  return `sound.pal.${String(chunk).padStart(3, '0')}`
+}
+
 export function palVideoAssetId(video: number): AssetId {
   if (!Number.isInteger(video) || video <= 0)
     throw new Error(`PAL 视频号必须是正整数，收到 ${String(video)}`)
@@ -284,8 +307,22 @@ export interface AssetReferenceSource {
   entryPoints?: readonly EntryPoint[]
   scenes?: readonly SceneDef[]
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>> | readonly ScriptChunkV1[]
+  actors?: readonly ActorDef[]
   enemies?: readonly EnemyDef[]
+  items?: readonly ItemData[]
+  skills?: readonly SkillData[]
 }
+
+const BATTLER_SOUND_FIELDS = [
+  'attack',
+  'critical',
+  'weapon',
+  'magic',
+  'cover',
+  'dying',
+  'death',
+] as const
+const ENEMY_SOUND_FIELDS = ['attack', 'action', 'magic', 'death', 'call'] as const
 
 function pushAssetReference(
   out: AssetReference[],
@@ -313,6 +350,12 @@ function collectCommandAssets(
     pushAssetReference(
       out,
       { asset: record.asset, expectedKind: 'music', where: `${where}.asset` },
+      site,
+    )
+  if (record.kind === 'playSound' && typeof record.asset === 'string')
+    pushAssetReference(
+      out,
+      { asset: record.asset, expectedKind: 'sound', where: `${where}.asset` },
       site,
     )
   if (record.kind === 'startBattle' && typeof record.music === 'string')
@@ -345,6 +388,26 @@ function collectCommandAssets(
   }
   for (const [key, value] of Object.entries(record))
     collectCommandAssets(value, `${where}.${key}`, out, site)
+}
+
+/** 单棵命令树的 typed 资源边；运行时 readiness 与全工程 walker 共用同一递归语义。 */
+export function collectCommandAssetReferences(
+  node: unknown,
+  where = 'commands',
+  site = where,
+): AssetReference[] {
+  const references: AssetReference[] = []
+  collectCommandAssets(node, where, references, site)
+  return references
+}
+
+function appendCommandAssetReferences(
+  out: AssetReference[],
+  node: unknown,
+  where: string,
+  site: string,
+): void {
+  out.push(...collectCommandAssetReferences(node, where, site))
 }
 
 /** 递归收集所有 typed AssetId 引用；删除保护、闭包检查和引用面板共用这一张边表。 */
@@ -386,22 +449,22 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         where: `scenes[${index}].battleMusic`,
         site: `scenes[${index}].battleMusic`,
       })
-    collectCommandAssets(
+    appendCommandAssetReferences(
+      references,
       scene.onEnter,
       `scenes[${index}].onEnter`,
-      references,
       `scene:${scene.id}:onEnter`,
     )
-    collectCommandAssets(
+    appendCommandAssetReferences(
+      references,
       scene.onTeleport,
       `scenes[${index}].onTeleport`,
-      references,
       `scene:${scene.id}:onTeleport`,
     )
-    collectCommandAssets(
+    appendCommandAssetReferences(
+      references,
       scene.entities,
       `scenes[${index}].entities`,
-      references,
       `scene:${scene.id}:entities`,
     )
   })
@@ -410,27 +473,79 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
     : Object.entries(source.scriptChunks ?? {})
   chunks.forEach(([chunkId, chunk]) => {
     for (const [scriptId, body] of Object.entries(chunk.scripts)) {
-      collectCommandAssets(
+      appendCommandAssetReferences(
+        references,
         body,
         `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
-        references,
         `script:${chunkId}:${scriptId}`,
       )
     }
   })
+  source.actors?.forEach((actor, index) => {
+    for (const field of BATTLER_SOUND_FIELDS) {
+      const asset = actor.battler?.sounds?.[field]
+      if (typeof asset === 'string')
+        references.push({
+          asset,
+          expectedKind: 'sound',
+          where: `actors[${index}].battler.sounds.${field}`,
+          site: `actor:${actor.id}:sounds`,
+        })
+    }
+  })
   source.enemies?.forEach((enemy, index) => {
-    collectCommandAssets(
+    for (const field of ENEMY_SOUND_FIELDS) {
+      const asset = enemy.sounds[field]
+      if (typeof asset === 'string')
+        references.push({
+          asset,
+          expectedKind: 'sound',
+          where: `enemies[${index}].sounds.${field}`,
+          site: `enemy:${enemy.id}:sounds`,
+        })
+    }
+    appendCommandAssetReferences(
+      references,
       enemy.choreography,
       `enemies[${index}].choreography`,
-      references,
       `enemy:${enemy.id}:choreography`,
     )
-    collectCommandAssets(
+    appendCommandAssetReferences(
+      references,
       enemy.onDefeated,
       `enemies[${index}].onDefeated`,
-      references,
       `enemy:${enemy.id}:onDefeated`,
     )
+  })
+  source.items?.forEach((item, index) => {
+    for (const field of ['use', 'throw'] as const) {
+      const asset = item[field]?.sound
+      if (typeof asset === 'string')
+        references.push({
+          asset,
+          expectedKind: 'sound',
+          where: `items[${index}].${field}.sound`,
+          site: `item:${item.id}:${field}`,
+        })
+    }
+  })
+  source.skills?.forEach((skill, index) => {
+    if (typeof skill.animation.sound === 'string')
+      references.push({
+        asset: skill.animation.sound,
+        expectedKind: 'sound',
+        where: `skills[${index}].animation.sound`,
+        site: `skill:${skill.id}:animation`,
+      })
+    skill.effects.forEach((effect, effectIndex) => {
+      if (effect.kind === 'summon' && typeof effect.sound === 'string')
+        references.push({
+          asset: effect.sound,
+          expectedKind: 'sound',
+          where: `skills[${index}].effects[${effectIndex}].sound`,
+          site: `skill:${skill.id}:effects`,
+        })
+    })
   })
   return references
 }

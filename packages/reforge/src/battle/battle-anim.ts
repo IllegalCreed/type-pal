@@ -8,6 +8,7 @@
  * 玩家战斗精灵帧语义(F.MKF):0 站立 / 1 濒死 / 2 死 / 3 防御 / 4 受击 / 5 投掷 / 6,7 施法蓄力 / 8,9 攻击。
  * 敌人帧布局:idle(idleFrames 个)→ magic(magicFrames)→ attack(attackFrames)。
  */
+import type { AssetId } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
@@ -45,7 +46,7 @@ export interface AnimFrame {
     value: number
     tone?: 'blue' | 'yellow' | 'cyan'
   }>
-  sound?: number
+  sound?: AssetId
   /** 震屏帧(法术末 wShake 帧;session 累计 shakeUntil,合成级垂直位移,level 恒 3 fight.c:2718)。 */
   screenShake?: boolean
   /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
@@ -73,7 +74,7 @@ export interface BuildPlayerAttackInput {
   /** 首击前摇(一阶段 L12:仅回合首击 frame7 + Delay4)。 */
   windup?: boolean
   /** 出招/兵器音(rgwAttackSound 冲锋帧 fight.c:2061;rgwWeaponSound 挥击帧 fight.c:2124)。 */
-  sounds?: { attack: number; weapon: number }
+  sounds?: { attack?: AssetId; weapon?: AssetId }
 }
 
 export interface BuildAttackAllInput {
@@ -83,8 +84,8 @@ export interface BuildAttackAllInput {
   centerPos: { x: number; y: number }
   /** 各命中敌:idx + 屏位 + 伤害(逐敌染色/数字/击退)。 */
   hits: { idx: number; pos: { x: number; y: number }; value: number }[]
-  weaponSound: number
-  attackSound: number
+  weaponSound?: AssetId
+  attackSound?: AssetId
 }
 
 /**
@@ -106,7 +107,7 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
   frames.push({
     durationMs: delayMs(2),
     fighters: [{ side: 'player', idx: attackerIdx, frame: 8, pos: { x: rushX, y: rushY } }],
-    ...(attackSound > 0 ? { sound: attackSound } : {}),
+    ...(attackSound ? { sound: attackSound } : {}),
   })
   // 挥击 9 + 全敌染色 + 逐敌伤害数字 + 兵器音
   frames.push({
@@ -119,7 +120,7 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
       target: { side: 'enemy' as const, idx: h.idx },
       value: h.value,
     })),
-    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
+    ...(weaponSound ? { sound: weaponSound } : {}),
   })
   // 全敌击退 3 帧(x −8/−4/−6 衰减),末帧染色复位
   let dist = 8
@@ -236,7 +237,7 @@ export interface BuildMateAttackInput {
   mateIdx: number
   matePos: { x: number; y: number }
   /** 攻击者武器音(rgwWeaponSound,fight.c:3810)。 */
-  weaponSound: number
+  weaponSound?: AssetId
   damage: number
   mateDied: boolean
 }
@@ -274,7 +275,7 @@ export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: attackerIdx, frame: 9 }],
-    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
+    ...(weaponSound ? { sound: weaponSound } : {}),
   })
   frames.push({
     durationMs: delayMs(1),
@@ -307,6 +308,8 @@ export interface BuildUseItemInput {
   targetIdxs: number[]
   /** 物品名:与举物/音效**同帧**起显示 13 帧(一阶段 battleMessage @210,50,fight.c:2316)。 */
   itemName?: string
+  /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
+  sound?: AssetId
   /** 涨益数字(回血黄/回 MP 青):呼吸结束后、**归位之前**弹出(作者对照原版:
    *  先显血量、后瞬移归位;不传则不弹 —— 调用方须自行防双弹)。 */
   gains?: Array<{ idx: number; value: number; tone: 'yellow' | 'cyan' }>
@@ -322,7 +325,7 @@ export interface BuildUseItemInput {
  * 不做 ease/密帧/渲染平滑(作者裁决 2026-07-11 第六轮收口)。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
-  const { casterIdx, casterPos, targetIdxs, itemName, gains } = input
+  const { casterIdx, casterPos, targetIdxs, itemName, sound, gains } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
   // 走近:6 步线性(fight.c:3881-3890 同构;C 整除 = floor)
@@ -349,7 +352,7 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     frames.push({
       durationMs: delayMs(1),
       fighters,
-      ...(i === 0 ? { sound: 28 } : {}),
+      ...(i === 0 && sound ? { sound } : {}),
       // 举物+音效+物品名同帧出现(作者对照原版确认的「三同步」;一阶段 L15 同款)
       ...(i === 0 && itemName ? { banner: { text: itemName, durationMs: delayMs(13) } } : {}),
     })
@@ -381,16 +384,16 @@ export interface BuildEnemyPhysicalInput {
   targetIdx: number
   targetPos: { x: number; y: number }
   anim: { idleFrames: number; magicFrames: number; attackFrames: number; actWaitFrames: number }
-  sounds: { action: number; call: number }
+  sounds: { action?: AssetId; call?: AssetId }
   damage: number
   targetDied: boolean
   /** 被动格挡(7/17「闪避」):frame3 免伤免数字,音换 coverSound,仍击退(fight.c:5052-5105)。 */
   blocked?: boolean
   /** 目标玩家的格挡音(rgwCoverSound;blocked 时替代 call)。 */
-  coverSound?: number
+  coverSound?: AssetId
   /** 替挡守护者(coveredBy;blocked 且有 → 守护者 frame3 瞬移目标前 (−24,−12) 接刀,
    *  音 = 守护者 coverSound,命中拍敌被架开 (−10,−8) + 守护者小退 (+4,+2);fight.c:5012-5099)。 */
-  cover?: { idx: number; sound?: number }
+  cover?: { idx: number; sound?: AssetId }
 }
 
 /**
@@ -420,7 +423,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       fighters: [{ side: 'enemy', idx: enemyIdx, pos: { x: ex, y: ey } }],
     })
   }
-  frames.push({ durationMs: delayMs(1), ...(sounds.action > 0 ? { sound: sounds.action } : {}) })
+  frames.push({ durationMs: delayMs(1), ...(sounds.action ? { sound: sounds.action } : {}) })
   const chargeX = targetPos.x - 44
   const chargeY = targetPos.y - 16
   // 替挡:守护者 frame3 瞬移到目标身前 (−24,−12)(fight.c:5016-5021,在敌攻击帧循环前)
@@ -470,7 +473,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
     const c = input.cover
     frames.push({
       durationMs: delayMs(1),
-      ...((c.sound ?? 0) > 0 ? { sound: c.sound } : {}),
+      ...(c.sound ? { sound: c.sound } : {}),
     })
     frames.push({
       durationMs: delayMs(1),
@@ -499,10 +502,10 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       ? {}
       : { damageNum: { target: { side: 'player', idx: targetIdx }, value: damage } }),
     ...(blocked
-      ? (input.coverSound ?? 0) > 0
+      ? input.coverSound
         ? { sound: input.coverSound }
         : {}
-      : sounds.call > 0
+      : sounds.call
         ? { sound: sounds.call }
         : {}),
   })
@@ -542,14 +545,14 @@ export interface CastFxParams {
   shake: number
   /** 屏幕波幅叠加(原 wWave;fight.c:2666 演出期 += 、末尾还原)。 */
   wave: number
-  sound: number
+  sound?: AssetId
 }
 
 export interface BuildPlayerCastInput {
   casterIdx: number
   casterPos: { x: number; y: number }
   /** 施法吟唱音(rgwMagicSound;挂 PreMagic frame5 姿势帧 —— 一阶段真值,曾误在起手即播早 ~6 帧)。 */
-  magicSound?: number
+  magicSound?: AssetId
   /** 施法前摇特效帧基 = battle-effect-index[spriteNum*2]*10+15;<0 = 跳过前摇特效。 */
   castEffectBase: number
   /** 本法术 fire sprite 帧数;<=0 = 无特效资产(只播姿势)。 */
@@ -563,7 +566,7 @@ export interface BuildPlayerCastInput {
    *  神将溶入/背景染色,72×16ms)→ 神将 loop 0..n-2 → 定格末帧贯穿二次法术 → PostMagic
    *  (神在场)→ crossfade out。sound = 召唤自身音(变亮首帧一次,fight.c:3112;
    *  二次法术段 fSummon 不重复播音 fight.c:2669 —— 作者报剑神二次段错响御剑声)。 */
-  summon?: { frames: number; frameTimeMs: number; x: number; y: number; sound?: number }
+  summon?: { frames: number; frameTimeMs: number; x: number; y: number; sound?: AssetId }
   /** 全队下标(召唤变亮/隐显用;缺省只有施法者)。 */
   partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
@@ -683,7 +686,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
           ? { fighters: [{ side: 'player' as const, idx: casterIdx, frame: 6 }] }
           : {}),
         // 二次法术段不播二级自身音(fSummon 门,fight.c:2669 WIN95;作者报剑神段错响御剑声)
-        ...(!inSummon && fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        ...(!inSummon && fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
@@ -744,9 +747,6 @@ const COOP_POS: ReadonlyArray<readonly [number, number]> = [
   [234, 170],
   [260, 183],
 ]
-/** 非召唤合击起手音(fight.c:3875 固定 29)。 */
-const COOP_CAST_SOUND = 29
-
 export interface BuildPlayerCoopInput {
   /** 发起者 slot 索引。 */
   casterIdx: number
@@ -764,6 +764,8 @@ export interface BuildPlayerCoopInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
   postTargets?: { idx: number; pos: { x: number; y: number } }[]
+  /** 原版固定槽位 29 的工程角色绑定；函数本身不认识 PAL 编号。 */
+  castSound?: AssetId
 }
 
 /**
@@ -832,7 +834,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
   // ③ 发起者闪白 + 起手音 → ④ 出招
   frames.push({
     durationMs: delayMs(5),
-    sound: COOP_CAST_SOUND,
+    ...(input.castSound ? { sound: input.castSound } : {}),
     fighters: [{ side: 'player', idx: casterIdx, colorShift: 6, frame: 5 }],
   })
   frames.push({
@@ -869,7 +871,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       frames.push({
         durationMs: frameDur,
         overlays: drop(k),
-        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        ...(fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
       })
@@ -946,7 +948,7 @@ export interface BuildEnemyCastInput {
   enemyIdx: number
   anim: { idleFrames: number; magicFrames: number }
   /** 敌施法起手音(sounds.magic)。 */
-  magicSound: number
+  magicSound?: AssetId
   fireFrames: number
   fx: CastFxParams
   /** normal 落点(目标队员底锚)。 */
@@ -973,7 +975,7 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       fighters: [
         { side: 'enemy', idx: enemyIdx, frame: anim.magicFrames > 0 ? anim.idleFrames + i : 0 },
       ],
-      ...(i === 0 && magicSound > 0 ? { sound: magicSound } : {}),
+      ...(i === 0 && magicSound ? { sound: magicSound } : {}),
     })
   }
   // 被动格挡摆防御姿 frame3:注入起手**末帧**、特效前(fight.c:4737-4738/4755-4756;一阶段
@@ -1005,7 +1007,7 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       frames.push({
         durationMs: frameDur,
         overlays: ov,
-        ...(fx.sound > 0 && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        ...(fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
         // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
@@ -1043,7 +1045,7 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
 }
 
 export interface AnimSideEffects {
-  onSound?(id: number): void
+  onSound?(asset: AssetId): void
   onDamage?(
     target: { side: 'player' | 'enemy'; idx: number },
     value: number,
@@ -1095,7 +1097,7 @@ export class AnimPlayer {
   private enter(f: AnimFrame): void {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
     this.fx.onOverlay?.(f.overlays ?? null)
-    if (f.sound !== undefined && f.sound > 0) this.fx.onSound?.(f.sound)
+    if (f.sound) this.fx.onSound?.(f.sound)
     if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value, d.tone)
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs)
@@ -1118,7 +1120,7 @@ export interface BuildPartyFleeInput {
  *  **全员统一 (+5,+4) 右下**滑出屏 —— 一阶段 fleeStepDelta 真值(作者 2026-05-31 拍板:
  *  忠于原版三人同向同速,主动偏离 sdlpal 的槽位扇形 (4,6)/(4,4)/(6,3),其源码自带 TODO
  *  承认与原版不一致)。收尾**不复位**(人已离场,session skipNextReset)。 */
-export function buildPartyFlee(input: BuildPartyFleeInput): AnimFrame[] {
+export function buildPartyFlee(input: BuildPartyFleeInput & { sound?: AssetId }): AnimFrame[] {
   const frames: AnimFrame[] = []
   for (let i = 1; i <= 16; i++) {
     frames.push({
@@ -1129,7 +1131,7 @@ export function buildPartyFlee(input: BuildPartyFleeInput): AnimFrame[] {
         frame: 0,
         pos: { x: p.pos.x + 5 * i, y: p.pos.y + 4 * i },
       })),
-      ...(i === 1 ? { sound: 45 } : {}),
+      ...(i === 1 && input.sound ? { sound: input.sound } : {}),
     })
   }
   return frames
@@ -1205,6 +1207,7 @@ export function buildSteal(input: {
  *  直到全部滑出左屏(x+精灵宽 ≤ 0);终帧停 500ms(原版 UTIL_Delay(500) 再终止)。 */
 export function buildEnemyEscape(input: {
   enemies: { idx: number; pos: { x: number; y: number }; width: number }[]
+  sound?: AssetId
 }): AnimFrame[] {
   if (!input.enemies.length) return [{ durationMs: 500 }]
   const ticks = Math.max(1, ...input.enemies.map((e) => Math.ceil((e.pos.x + e.width) / 5)))
@@ -1217,7 +1220,7 @@ export function buildEnemyEscape(input: {
         idx: e.idx,
         pos: { x: e.pos.x - 5 * t, y: e.pos.y },
       })),
-      ...(t === 1 ? { sound: 45 } : {}),
+      ...(t === 1 && input.sound ? { sound: input.sound } : {}),
     })
   }
   frames.push({ durationMs: 500 })
@@ -1227,7 +1230,7 @@ export function buildEnemyEscape(input: {
 /** 敌变身现形(script.c:2954 0x9F):colorShift 0→5 六帧 ×40ms 染白渐显 → 归 0 + 音效 47
  *  定格一拍。换精灵由 session 侧异步重载 —— 原版 PAL_LoadBattleSprites + FadeScene
  *  交叉淡的 clean 表达(def 已在 core 换好、保 HP)。 */
-export function buildEnemyTransform(input: { idx: number }): AnimFrame[] {
+export function buildEnemyTransform(input: { idx: number; sound?: AssetId }): AnimFrame[] {
   const frames: AnimFrame[] = []
   for (let i = 0; i < 6; i++)
     frames.push({
@@ -1237,7 +1240,7 @@ export function buildEnemyTransform(input: { idx: number }): AnimFrame[] {
   frames.push({
     durationMs: delayMs(1), // 归 0 一拍(一阶段 buildEnemyTransformTimeline 末帧 40ms)
     fighters: [{ side: 'enemy', idx: input.idx, colorShift: 0 }],
-    sound: 47,
+    ...(input.sound ? { sound: input.sound } : {}),
   })
   return frames
 }

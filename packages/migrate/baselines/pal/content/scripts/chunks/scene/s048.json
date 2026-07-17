@@ -413,7 +413,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 14
+        "asset": "sound.pal.014"
       }
     ],
     "scene/s048/L-10433/e796/d-0a386828": [
@@ -1055,7 +1055,7 @@
     "scene/s048/root/entity-e799/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

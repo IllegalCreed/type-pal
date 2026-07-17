@@ -298,7 +298,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s070/L-36505/e1387/d-0a386828": [
@@ -317,7 +317,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s070/root/on-enter/stage-0": [],

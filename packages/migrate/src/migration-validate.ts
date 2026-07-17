@@ -15,6 +15,7 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateEnemies,
   validateItems,
   validateLocale,
   validateManifestAssetConfigV3,
@@ -402,7 +403,7 @@ export function validatePalMigrationTarget(args: {
   )
   if (orphanScene) throw new Error(`合并结果有孤儿场景文件 ${orphanScene}`)
 
-  const enemies = required(files, 'content/enemies.json') as unknown as EnemyDef[]
+  const enemies = validateEnemies(required(files, 'content/enemies.json'))
   const enemyTeams = required(files, 'content/enemy-teams.json') as unknown as EnemyTeamDef[]
   const issues = validateReferences({
     scenes,
@@ -466,7 +467,10 @@ export function validatePalMigrationTarget(args: {
     entryPoints: args.entryPoints,
     scenes,
     scriptChunks: chunks,
+    actors,
     enemies,
+    items,
+    skills: skillData.skills,
   })
   const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')

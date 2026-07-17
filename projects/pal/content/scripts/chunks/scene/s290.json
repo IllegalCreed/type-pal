@@ -102,7 +102,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s290/L-36505/e4964/d-0a386828": [
@@ -121,7 +121,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s290/L-36505/e4965/d-0a386828": [
@@ -140,7 +140,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s290/root/entity-e4955/page-0/trigger/stage-0": [

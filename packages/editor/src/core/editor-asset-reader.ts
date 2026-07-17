@@ -10,6 +10,7 @@ import type { EditorState } from './edit-session.js'
 
 /** 编辑器资源读取器：未保存 blob 覆盖磁盘，同一 catalog/roles 契约与正式运行时一致。 */
 export interface EditorAssetReader extends AudioAssetReader {
+  readonly projectId: string
   record(asset: AssetId, expectedKind?: AssetKind): AssetRecordV1
   urlFor(asset: AssetId, expectedKind?: AssetKind): Promise<string>
 }
@@ -35,6 +36,9 @@ export function createEditorAssetReader(
     return pending ? pending.slice(0) : source.readBytes(value.path)
   }
   return {
+    get projectId() {
+      return current().manifest.id
+    },
     record,
     readBytes,
     async readRoleBytes(role: AssetRole) {

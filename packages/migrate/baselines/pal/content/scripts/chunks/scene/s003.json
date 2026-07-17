@@ -970,7 +970,7 @@
     "scene/s003/L-38742/e75/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -978,7 +978,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -986,7 +986,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -994,7 +994,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",
@@ -1002,7 +1002,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",
@@ -1010,7 +1010,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",
@@ -2111,7 +2111,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 92
+        "asset": "sound.pal.092"
       },
       {
         "kind": "setEntityFacing",
@@ -2199,7 +2199,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 90
+        "asset": "sound.pal.090"
       },
       {
         "kind": "wait",
@@ -2240,7 +2240,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "wait",
@@ -3646,7 +3646,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 92
+        "asset": "sound.pal.092"
       },
       {
         "kind": "setEntityFacing",
@@ -3734,7 +3734,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 90
+        "asset": "sound.pal.090"
       },
       {
         "kind": "wait",
@@ -3775,7 +3775,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "wait",
@@ -5017,7 +5017,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 92
+        "asset": "sound.pal.092"
       },
       {
         "kind": "setEntityFacing",
@@ -5105,7 +5105,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 90
+        "asset": "sound.pal.090"
       },
       {
         "kind": "wait",
@@ -5146,7 +5146,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "wait",
@@ -7191,7 +7191,7 @@
     "scene/s003/root/entity-e65/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -7217,7 +7217,7 @@
     "scene/s003/root/entity-e66/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -7243,7 +7243,7 @@
     "scene/s003/root/entity-e67/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -7341,7 +7341,7 @@
     "scene/s003/root/entity-e75/page-0/auto/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -7349,7 +7349,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -7357,7 +7357,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 48
+        "asset": "sound.pal.048"
       },
       {
         "kind": "wait",
@@ -7365,7 +7365,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",
@@ -7373,7 +7373,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",
@@ -7381,7 +7381,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 49
+        "asset": "sound.pal.049"
       },
       {
         "kind": "wait",

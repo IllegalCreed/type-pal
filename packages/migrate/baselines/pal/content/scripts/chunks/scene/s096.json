@@ -220,7 +220,7 @@
     "scene/s096/root/entity-e1778/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

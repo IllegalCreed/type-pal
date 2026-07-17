@@ -10,12 +10,14 @@
  */
 import type {
   ActorDef,
+  AssetId,
   HostileBehavior,
   ItemData,
   LevelUpSkill,
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
+import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
 export interface SourceRole {
@@ -87,7 +89,7 @@ export interface SourceMagic {
 const signedI16 = (v: number): number => (v > 0x7fff ? v - 0x10000 : v)
 
 /** MAGIC 表 → SkillAnimation(播放参数全带;attack 系落点同名,其余落目标处;M4d-2b)。 */
-function mapAnimation(m: SourceMagic): SkillData['animation'] {
+function mapAnimation(m: SourceMagic, soundAssetForNum?: SoundAssetForNum): SkillData['animation'] {
   const placement =
     m.type === 'attackAll' || m.type === 'attackWhole' || m.type === 'attackField'
       ? m.type
@@ -107,7 +109,9 @@ function mapAnimation(m: SourceMagic): SkillData['animation'] {
     effectTimes: m.effectTimes ?? 0,
     shake: m.shake ?? 0,
     wave: m.wave ?? 0,
-    sound: m.sound ?? 0,
+    ...(resolveSoundAsset(m.sound, soundAssetForNum)
+      ? { sound: resolveSoundAsset(m.sound, soundAssetForNum) }
+      : {}),
     // 原 wKeepEffect==0xFFFF:特效末帧烙进战斗背景(万剑诀插剑入地等 12 招)
     ...(m.keepEffect === 0xffff ? { keepEffect: true } : {}),
   }
@@ -232,7 +236,11 @@ export function walkDesc(
 }
 
 // ── 角色 ──────────────────────────────────────────────────
-export function mapActor(role: SourceRole, expTable: readonly number[]): ActorDef {
+export function mapActor(
+  role: SourceRole,
+  expTable: readonly number[],
+  soundAssetForNum?: SoundAssetForNum,
+): ActorDef {
   const slug = ROLE_SLUGS[role.id]
   if (!slug) throw new Error(`mapActor: 未知 roleId ${role.id}`)
   const initialEquipment: Record<string, string> = {}
@@ -268,15 +276,20 @@ export function mapActor(role: SourceRole, expTable: readonly number[]): ActorDe
       leveling: { expTable: [...expTable] },
       battleSpriteNum: role.spriteNumInBattle,
       // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
-      sounds: {
-        attack: role.attackSound,
-        critical: role.criticalSound,
-        weapon: role.weaponSound,
-        magic: role.magicSound,
-        cover: role.coverSound,
-        dying: role.dyingSound,
-        death: role.deathSound,
-      },
+      sounds: Object.fromEntries(
+        [
+          ['attack', role.attackSound],
+          ['critical', role.criticalSound],
+          ['weapon', role.weaponSound],
+          ['magic', role.magicSound],
+          ['cover', role.coverSound],
+          ['dying', role.dyingSound],
+          ['death', role.deathSound],
+        ].flatMap(([field, value]) => {
+          const asset = resolveSoundAsset(value as number, soundAssetForNum)
+          return asset ? [[field, asset]] : []
+        }),
+      ),
     },
   }
 }
@@ -352,6 +365,8 @@ const BUFF_STAT_BY_ROW: Record<number, 'attack' | 'magic' | 'defense' | 'dexteri
 
 export interface SkillScriptTranslation {
   effects: SkillData['effects']
+  /** scriptOnSuccess 自带的表现音，覆盖 MAGIC 表动画音。 */
+  sound?: AssetId
   /** 有损点(如 0x68 敌方施法分支未表达)——按仓规:注释 + 报告钉住。 */
   lossyNotes: string[]
   /** 整技翻不动的原因(命中未支持 op → 保守整技 pending,不出半吊子)。 */
@@ -372,6 +387,7 @@ export function translateSkillScript(
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
   ip: number,
+  soundAssetForNum?: SoundAssetForNum,
 ): SkillScriptTranslation {
   const out: SkillScriptTranslation = { effects: [], lossyNotes: [] }
   const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
@@ -465,9 +481,14 @@ export function translateSkillScript(
         out.effects.push({ kind: 'buffStat', stat, percent: b, duration: 'battle' })
         break
       }
-      case 0x47: // 播放音效:表现层,SkillAnimation 暂无 sound 槽 → 忽略(将来加字段再回填)
-        out.lossyNotes.push(`0x47 音效 ${a} 未表达(animation 无 sound 槽)`)
+      case 0x47: {
+        const sound = resolveSoundAsset(a, soundAssetForNum)
+        if (!sound) break
+        if (out.sound && out.sound !== sound)
+          return { ...out, pendingReason: `多个不同 0x47 音效(${out.sound},${sound})` }
+        out.sound = sound
         break
+      }
       case 0x68: // 敌方施法分派头:敌用同技走 alt 脚本 —— 玩家侧效果照译,敌方变体待战斗期
         out.lossyNotes.push(`0x68 敌方施法分支(alt L_${a})未表达 —— 战斗期`)
         break
@@ -501,6 +522,7 @@ export function mapSkills(
   descOf: (ip: number) => string[],
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
+  soundAssetForNum?: SoundAssetForNum,
 ): SkillMigrationResult {
   const skills: SkillData[] = []
   const pending: SkillMigrationResult['pending'] = []
@@ -541,13 +563,15 @@ export function mapSkills(
             speed: m.speed,
             ...(signedI16(m.effectTimes ?? 0) !== 0 ? { tint: signedI16(m.effectTimes ?? 0) } : {}),
             // 召唤自身音(m.sound;变亮首帧播,fight.c:3112;animation.sound 是二级的)
-            ...((m.sound ?? 0) > 0 ? { sound: m.sound } : {}),
+            ...(resolveSoundAsset(m.sound, soundAssetForNum)
+              ? { sound: resolveSoundAsset(m.sound, soundAssetForNum) }
+              : {}),
           },
           { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
         ],
         // ⚠ 召唤的 wEffect ≠ FIRE chunk:是**二次法术的 magic 表号**(fight.c:3098-3101 查
         // OBJECT.magic.wMagicNumber === wEffect → 播那条法术完整动画)。animation 整段取二次法术。
-        animation: mapAnimation(magicById.get(m.effect) ?? m),
+        animation: mapAnimation(magicById.get(m.effect) ?? m, soundAssetForNum),
       })
       continue
     }
@@ -565,8 +589,9 @@ export function mapSkills(
       continue
     }
     let effects: SkillData['effects']
+    let scriptSound: AssetId | undefined
     if (s.scriptOnSuccess !== 0) {
-      const t = translateSkillScript(commands, labelIndex, s.scriptOnSuccess)
+      const t = translateSkillScript(commands, labelIndex, s.scriptOnSuccess, soundAssetForNum)
       if (t.pendingReason) {
         pending.push({ id: s.id, name: s._name, reason: t.pendingReason })
         continue
@@ -577,6 +602,7 @@ export function mapSkills(
       }
       if (t.lossyNotes.length) lossy.push({ id: s.id, name: s._name, notes: t.lossyNotes })
       effects = t.effects
+      scriptSound = t.sound
     } else {
       effects = [{ kind: 'damage', power: m.baseDamage, elemental: m.elemental }]
     }
@@ -588,7 +614,10 @@ export function mapSkills(
       usableOutsideBattle: s.flags.usableOutsideBattle,
       target,
       effects,
-      animation: mapAnimation(m),
+      animation: {
+        ...mapAnimation(m, soundAssetForNum),
+        ...(scriptSound ? { sound: scriptSound } : {}),
+      },
     })
   }
   return { skills, pending, lossy }
@@ -745,6 +774,7 @@ const PERM_STAT_BY_ROW: Record<
 
 export interface UseScriptTranslation {
   effects: NonNullable<ItemData['use']>['effects']
+  sound?: AssetId
   lossyNotes: string[]
   pendingReason?: string
 }
@@ -761,6 +791,7 @@ export function translateUseScript(
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
   ip: number,
+  soundAssetForNum?: SoundAssetForNum,
 ): UseScriptTranslation {
   const out: UseScriptTranslation = { effects: [], lossyNotes: [] }
   const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
@@ -849,9 +880,16 @@ export function translateUseScript(
         out.lossyNotes.push(`0x${(c.opcode ?? 0).toString(16)} 战斗分支(L_${a})未表达 —— 战斗期`)
         break
       case 0x05: // 重绘画面(表现层)
-      case 0x47: // 音效(表现层)
       case 0xa1: // 跟随者 trail 收拢到队首(传送后表现;demo 单队列无操作)
         break
+      case 0x47: {
+        const sound = resolveSoundAsset(a, soundAssetForNum)
+        if (!sound) break
+        if (out.sound && out.sound !== sound)
+          return { ...out, pendingReason: `多个不同 0x47 音效(${out.sound},${sound})` }
+        out.sound = sound
+        break
+      }
       case 167:
         break
       default:
@@ -883,13 +921,19 @@ export function translateThrowScript(
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
   ip: number,
-): { effects: NonNullable<ItemData['throw']>['effects']; pendingReason?: string } {
+  soundAssetForNum?: SoundAssetForNum,
+): {
+  effects: NonNullable<ItemData['throw']>['effects']
+  sound?: AssetId
+  pendingReason?: string
+} {
   const effects: NonNullable<ItemData['throw']>['effects'] = []
+  let sound: AssetId | undefined
   const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
   if (start === undefined) return { effects, pendingReason: `L_${ip} 不存在` }
   for (let i = start; i < commands.length; i++) {
     const c = commands[i]!
-    if (c.op === 'end') return { effects }
+    if (c.op === 'end') return { effects, ...(sound ? { sound } : {}) }
     if (c.op !== 'raw') {
       if (c.label !== undefined && c.op === undefined) continue
       return { effects, pendingReason: `剧情类(${c.op})→ B2 脚本` }
@@ -903,9 +947,16 @@ export function translateThrowScript(
       case 0x60: // 秒杀敌(致死达成)—— 同上
       case 0x42: // 块头标记(投掷前摇)
       case 0x05:
-      case 0x47:
       case 167:
         break
+      case 0x47: {
+        const next = resolveSoundAsset(c.operands?.[0], soundAssetForNum)
+        if (!next) break
+        if (sound && sound !== next)
+          return { effects, sound, pendingReason: `多个不同 0x47 音效(${sound},${next})` }
+        sound = next
+        break
+      }
       default:
         // 相克(0x5D/0x2B use-on-self 以毒攻毒)+ 其它 → 相克 use 层后续
         return {
@@ -914,7 +965,7 @@ export function translateThrowScript(
         }
     }
   }
-  return { effects }
+  return { effects, ...(sound ? { sound } : {}) }
 }
 
 // ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
@@ -945,6 +996,8 @@ export interface MigrateSources {
   enemies?: SourceEnemy[]
   enemyObjects?: SourceEnemyObject[]
   enemyTeams?: SourceEnemyTeam[]
+  /** 生产迁移由 sound catalog 注入；fixture 缺省按正整数确定性映射。 */
+  soundAssetForNum?: SoundAssetForNum
 }
 export interface MigrateOutput {
   actors: ActorDef[]
@@ -995,9 +1048,16 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       return r.lines
     }
   const magicById = new Map(src.magic.map((m) => [m.id, m]))
-  const actors = src.roles.map((r) => mapActor(r, src.levelUpExp))
+  const actors = src.roles.map((r) => mapActor(r, src.levelUpExp, src.soundAssetForNum))
   const sprites = mapSprites(src.roles)
-  const skillsRes = mapSkills(src.spells, magicById, descOf('spell'), src.commands, labelIndex)
+  const skillsRes = mapSkills(
+    src.spells,
+    magicById,
+    descOf('spell'),
+    src.commands,
+    labelIndex,
+    src.soundAssetForNum,
+  )
   // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
   const pendingUse: MigrateOutput['report']['pendingUse'] = []
@@ -1023,7 +1083,12 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       }
     }
     if (srcItem.flags.usable) {
-      const u = translateUseScript(src.commands, labelIndex, srcItem.scriptOnUse)
+      const u = translateUseScript(
+        src.commands,
+        labelIndex,
+        srcItem.scriptOnUse,
+        src.soundAssetForNum,
+      )
       // 六大毒药对己 use = 相克三段链(0x5D 查我毒 + 0x2B 解 / 0x5F 秒 / 0x29 下本毒),整链 =
       // applyPoison(本毒)——相克/致死靠 PoisonDef.counters/lethalWith 数据(不硬码)。own = 投掷毒。
       const selfPoison = POISON_ITEM_SELF[srcItem.id]
@@ -1053,6 +1118,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
             target,
             consuming: srcItem.flags.consuming,
             effects: u.effects,
+            ...(u.sound ? { sound: u.sound } : {}),
           },
         }
       } else {
@@ -1060,11 +1126,16 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       }
     }
     if (srcItem.flags.throwable && srcItem.scriptOnThrow !== 0) {
-      const t = translateThrowScript(src.commands, labelIndex, srcItem.scriptOnThrow)
+      const t = translateThrowScript(
+        src.commands,
+        labelIndex,
+        srcItem.scriptOnThrow,
+        src.soundAssetForNum,
+      )
       if (t.pendingReason) {
         pendingThrow.push({ itemId: srcItem.id, name: srcItem._name, reason: t.pendingReason })
-      } else if (t.effects.length) {
-        out = { ...out, throw: { effects: t.effects } }
+      } else if (t.effects.length || t.sound) {
+        out = { ...out, throw: { effects: t.effects, ...(t.sound ? { sound: t.sound } : {}) } }
       }
     }
     return out
@@ -1081,6 +1152,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     explicitLabels,
     locale: {} as Record<string, string>,
     report: emptyTranslateReport(),
+    soundAssetForNum: src.soundAssetForNum,
   }
   const enemyRes =
     src.enemies && src.enemyObjects
@@ -1121,10 +1193,18 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       let effects: SkillData['effects'] = [
         { kind: 'damage', power: m.baseDamage, elemental: m.elemental },
       ]
+      let scriptSound: AssetId | undefined
       if (s.scriptOnSuccess !== 0) {
-        const t = translateSkillScript(src.commands, labelIndex, s.scriptOnSuccess)
-        if (!t.pendingReason && t.effects.length) effects = t.effects
-        else
+        const t = translateSkillScript(
+          src.commands,
+          labelIndex,
+          s.scriptOnSuccess,
+          src.soundAssetForNum,
+        )
+        if (!t.pendingReason && t.effects.length) {
+          effects = t.effects
+          scriptSound = t.sound
+        } else
           skillsRes.lossy.push({
             id: s.id,
             name: s._name,
@@ -1139,7 +1219,10 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         usableOutsideBattle: false,
         target: (m.type === 'trance' ? 'self' : TYPE_TARGET[m.type]) ?? 'oneEnemy',
         effects,
-        animation: mapAnimation(m),
+        animation: {
+          ...mapAnimation(m, src.soundAssetForNum),
+          ...(scriptSound ? { sound: scriptSound } : {}),
+        },
       })
     }
   }
@@ -1182,7 +1265,6 @@ export function mergeExtras<T extends { id: string }>(migrated: T[], extras: T[]
 // loadScene 是具名 op 且 sceneId 已解析为 0-based;setPartyPos=raw 70;playMusic=raw 67。
 // ════════════════════════════════════════════════════════════════════
 import type {
-  AssetId,
   Command,
   EnemyDef,
   EnemyTeamDef,
@@ -1344,6 +1426,8 @@ export function mapScenesStatic(
   roleSprites: readonly SpriteDef[] = [],
   /** 物品/法术/敌 AI/角色钩子等不属于场景的执行根。 */
   globalRoots: readonly ScriptRoot[] = [],
+  /** 生产迁移按 catalog 过滤空 sound chunk。 */
+  soundAssetForNum?: SoundAssetForNum,
 ): SceneMigrationResult {
   const report: SceneMigrationResult['report'] = {
     scenes: 0,
@@ -1596,6 +1680,7 @@ export function mapScenesStatic(
     report: emptyTranslateReport(),
     spriteIdForNum,
     mapIdForNum: mapIdFromSourceNumber,
+    soundAssetForNum,
     registry,
   }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */

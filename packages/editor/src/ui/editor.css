@@ -2884,6 +2884,59 @@ html[data-panel-resize="horizontal"] * {
   flex: 1;
   min-width: 0;
 }
+.sound-preview-control {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+.sound-preview-error {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  right: 0;
+  width: min(280px, 70vw);
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--err) 55%, var(--line));
+  border-radius: 4px;
+  background: var(--panel3);
+  color: var(--err);
+  font-size: 10px;
+  line-height: 1.35;
+  white-space: normal;
+}
+.project-role-control > .sound-picker {
+  flex: 1 1 220px;
+}
+.sound-field-list {
+  display: grid;
+  gap: 2px;
+}
+.sound-field-list .field {
+  grid-template-columns: minmax(84px, auto) minmax(0, 1fr);
+}
+.sound-suppress-toggle {
+  margin-top: 6px;
+}
+.sound-effect-field {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+.skill-form .sk-grid > .sound-effect-field {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  color: var(--dim);
+  font-size: 12px;
+}
+.ef-fields .sound-effect-field {
+  flex: 1 1 320px;
+}
+.ef-fields .sound-effect-field > span {
+  white-space: nowrap;
+}
 .btn.mp-play {
   display: grid;
   place-items: center;
@@ -3077,6 +3130,7 @@ html[data-panel-resize="horizontal"] * {
   box-shadow: inset 2px 0 0 var(--accent);
 }
 .asset-music-table .music-actions > .mp-play,
+.asset-music-table .music-actions > .sound-preview-control .mp-play,
 .music-action-button {
   display: grid;
   place-items: center;

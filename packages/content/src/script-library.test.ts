@@ -272,6 +272,18 @@ describe('script library schema', () => {
     ).toThrow(/非负整数/)
   })
 
+  it('playSound 只接受稳定 AssetId，并拒绝旧 soundId', () => {
+    expect(() =>
+      checkCommands([{ kind: 'playSound', asset: 'sound.pal.045' }], 'script'),
+    ).not.toThrow()
+    expect(() => checkCommands([{ kind: 'playSound', soundId: 45 }], 'legacy-script')).toThrow(
+      /soundId.*已退役/,
+    )
+    expect(() => checkCommands([{ kind: 'playSound', asset: '' }], 'script')).toThrow(
+      /期望非空 AssetId/,
+    )
+  })
+
   it('loadScene 只允许默认、命名落点、显式坐标三种互斥目标', () => {
     expect(() => checkCommands([{ kind: 'loadScene', scene: 's001' }], 'script')).not.toThrow()
     expect(() =>

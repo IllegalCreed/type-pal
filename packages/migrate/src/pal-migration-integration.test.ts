@@ -5,11 +5,13 @@ import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import { gunzipSync, inflateSync } from 'node:zlib'
 import {
+  type AssetCatalogV1,
   decodeFrameSequenceBlock,
   decodeFrameSequenceFrame,
   type LoadedManifest,
   palFrameAnimationAssetId,
   parseFrameSequence,
+  validateAssetCatalog,
 } from '@type-pal/content'
 import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
@@ -33,10 +35,15 @@ import { commitMigrationTransaction } from './migration-transaction.js'
 import { validatePalMigrationTarget } from './migration-validate.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { auditMusicReferences } from './music-reference-audit.js'
-import { PAL_ASSET_ROLES } from './pal-assets.js'
+import { materializePalAssets, PAL_ASSET_ROLES } from './pal-assets.js'
+import { closePalSoundManifest } from './pal-manifest.js'
 import { buildPalMigration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
+import {
+  assertPalSoundReferenceBaseline,
+  auditPalSoundReferences,
+} from './sound-reference-audit.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const hasExtractedData = existsSync(resolve(repo, 'data/extracted/events/all.json'))
@@ -74,6 +81,27 @@ function expectOriginalPalNewGame(manifest: LoadedManifest): void {
     learnedSkills: { 'li-xiaoyao': ['296'] },
     inventory: [],
   })
+}
+
+function auditSounds(
+  sources: ReturnType<typeof loadPalMigrationSources>,
+  generated: ReturnType<typeof buildPalMigration>,
+  manifest: LoadedManifest,
+) {
+  const catalog = validateAssetCatalog(
+    generated.files.get('assets/index.json') as unknown as AssetCatalogV1,
+    'PAL integration assets/index.json',
+  )
+  const nextManifest = closePalSoundManifest(manifest, catalog)
+  const report = auditPalSoundReferences({
+    sources,
+    files: generated.files,
+    assets: nextManifest.assets,
+    entryPoints: nextManifest.entryPoints,
+    translationReport: generated.report.scripts,
+  })
+  assertPalSoundReferenceBaseline(report)
+  return { catalog, nextManifest, report }
 }
 
 function sourceRgba(pixels: Uint8Array, palette: Palette): Uint8Array {
@@ -145,6 +173,9 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       videos: 6,
       frameAnimations: 12,
       frames: 1_464,
+      sounds: 363,
+      emptySounds: 142,
+      soundBytes: 18_110_864,
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     expect(auditMusicReferences(theirs.files)).toEqual({
@@ -181,20 +212,21 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
-    expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
+    const soundAudit = auditSounds(sources, theirs, manifest)
+    expect(soundAudit.report.target.soundEdges).toBe(1_666)
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
       files: target.files,
       managedFiles: target.managedFiles,
       sources,
       startWorld: manifest.startWorld,
-      assets: manifest.assets,
+      assets: soundAudit.nextManifest.assets,
       entryPoints: manifest.entryPoints,
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(1_354)
-    expect(validation.assetWarnings).toBe(15)
+    expect(validation.assetReferences).toBe(3_020)
+    expect(validation.assetWarnings).toBe(50)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -216,19 +248,46 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     const tempManaged = discoverProjectManagedFiles(temp, theirs.managedFiles)
     const tempOurs = loadProjectMigrationSnapshot(temp, tempManaged)
     const transactionManaged = new Set([...tempManaged, ...target.managedFiles])
-    const unmanagedBefore = hashUnmanagedProjectFiles(temp, transactionManaged)
+    const materialized = materializePalAssets({
+      repo: temp,
+      catalog: soundAudit.catalog,
+      binaries: sources.binaryAssets,
+    })
+    expect(materialized.files).toBe(Object.keys(soundAudit.catalog.assets).length)
+    const unmanagedBefore = hashUnmanagedProjectFiles(
+      temp,
+      transactionManaged,
+      new Set(['manifest.json']),
+    )
     const plan = createInitialMigrationPlan(tempOurs, target)
+    const catalogHash = snapshotFileHash(target, 'assets/index.json')!
     const changes = buildMigrationTransactionChanges({
       repo: temp,
       plan,
       nextBaseline: snapshotOf(theirs),
+      nextManifest: soundAudit.nextManifest,
+      manifestPreconditions: [
+        { target: 'projects/pal/assets/index.json', hash: catalogHash },
+        ...Object.values(soundAudit.catalog.assets).map((record) => ({
+          target: `projects/pal/${record.path}`,
+          hash: record.sha256,
+        })),
+      ],
     })
     expect(changes.some((change) => change.scope === 'project')).toBe(true)
-    expect(changes.at(-1)?.target).toBe('packages/migrate/baselines/pal/_state.json')
+    expect(changes.at(-2)?.target).toBe('packages/migrate/baselines/pal/_state.json')
+    expect(changes.at(-1)?.target).toBe('projects/pal/manifest.json')
     commitMigrationTransaction(temp, changes)
 
-    const unmanagedAfter = hashUnmanagedProjectFiles(temp, transactionManaged)
+    const unmanagedAfter = hashUnmanagedProjectFiles(
+      temp,
+      transactionManaged,
+      new Set(['manifest.json']),
+    )
     assertHashMapsEqual(unmanagedBefore, unmanagedAfter, '非托管工程文件')
+    expect(JSON.parse(readFileSync(resolve(temp, 'projects/pal/manifest.json'), 'utf8'))).toEqual(
+      soundAudit.nextManifest,
+    )
     const baseline = loadPalBaseline(temp)
     expect(baseline).toBeDefined()
     assertSameSnapshot(snapshotOf(theirs), baseline!)
@@ -240,6 +299,13 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     expect(second.conflicts).toEqual([])
     expect(second.writes.size).toBe(0)
     expect(second.deletes).toEqual([])
+    expect(
+      materializePalAssets({
+        repo: temp,
+        catalog: soundAudit.catalog,
+        binaries: sources.binaryAssets,
+      }).written,
+    ).toBe(0)
   }, 60_000)
 })
 
@@ -251,6 +317,9 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       videos: 6,
       frameAnimations: 12,
       frames: 1_464,
+      sounds: 363,
+      emptySounds: 142,
+      soundBytes: 18_110_864,
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     await assertFrameAnimationsMatchSource(sources)
@@ -287,7 +356,11 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
+    const soundAudit = auditSounds(sources, theirs, manifest)
+    expect(soundAudit.report.target.soundEdges).toBe(1_666)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
+    expect(manifest.assets.legacy?.families).not.toContain('sound')
+    expect(manifest.assets.legacy?.sounds).toBeUndefined()
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
       files: ours.files,
@@ -299,8 +372,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(1_354)
-    expect(validation.assetWarnings).toBe(15)
+    expect(validation.assetReferences).toBe(3_020)
+    expect(validation.assetWarnings).toBe(50)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },

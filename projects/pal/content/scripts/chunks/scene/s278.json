@@ -718,7 +718,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 2
+        "asset": "sound.pal.002"
       },
       {
         "kind": "wait",
@@ -734,7 +734,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 20
+        "asset": "sound.pal.020"
       },
       {
         "kind": "dialog",
@@ -919,7 +919,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 212
+        "asset": "sound.pal.212"
       },
       {
         "kind": "ditherScreen",
@@ -956,7 +956,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 217
+        "asset": "sound.pal.217"
       },
       {
         "kind": "ditherScreen",

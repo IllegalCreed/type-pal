@@ -32,6 +32,7 @@ import {
   sellableItems,
   spriteScreenY,
   stageIndexFor,
+  usableItems,
   type WalkSpeed,
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
@@ -49,8 +50,14 @@ import {
   loadSprite,
   loadStandardPalette,
 } from './assets.js'
+import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { createBgmPlayer } from './audio/bgm.js'
-import { SfxPlayer } from './audio/sfx.js'
+import { SfxPlayer, SfxReadinessCollectionError, SfxReadinessResourceError } from './audio/sfx.js'
+import {
+  collectBattleBaseSounds,
+  collectSceneSoundAssets,
+  collectTurnActionSounds,
+} from './audio/sfx-readiness.js'
 import { curePoisons } from './battle/battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
@@ -196,6 +203,15 @@ function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
   return context
 }
 
+function isAbortError(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'name' in error &&
+    (error as { name?: unknown }).name === 'AbortError'
+  )
+}
+
 // 画布延迟到 bootGame 取(曾模块级 getElementById → 导入即抓 DOM,无 #screen 的页面
 // import 本模块直接炸;拆成可复用启动函数后,编辑器 play 页同源试玩也走 bootGame)。
 let canvas!: HTMLCanvasElement
@@ -215,12 +231,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
-  const sfx = new SfxPlayer(project.assetBase.sounds) // 应用级单例(解码缓存跨战斗复用)
+  const sfx = new SfxPlayer(project.assetResolver) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetResolver)
-  // autoplay 解锁:BGM 随 boot 场景起播,彼时多半无手势 → ctx suspended;首个手势补播。
-  // (sfx 不用:它惰性建 ctx,首次 play 必在按键手势内。)
+  // autoplay 解锁:BGM/SFX 都可能在 boot 时建出 suspended context。每次真实手势都允许重试，
+  // 避免首次 resume 被浏览器拒绝后永久静音；播放器内部负责并发去重。
+  const resumeAudio = (): void => {
+    bgm.resume()
+    void sfx.resume().catch((error: unknown) => {
+      console.warn('[sfx] AudioContext resume 失败；下一次用户手势将重试', error)
+    })
+  }
   for (const ev of ['pointerdown', 'keydown'] as const)
-    window.addEventListener(ev, () => bgm.resume(), { once: true, capture: true })
+    window.addEventListener(ev, resumeAudio, { capture: true })
   // 音乐/音效开关持久(应用级配置 localStorage,不随存档 —— 原版 sdlpal.cfg 同性质)
   const audioPrefs = { music: true, sound: true }
   try {
@@ -491,6 +513,41 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // world 须先于 switchScene 定义(switchScene 首调在 boot 时读 world.script.mapOverride;
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world = buildWorld(bootStartWorld, project.actorsById)
+  const worldMutationIntent = new AsyncIntentController()
+  const replaceWorld = (next: typeof world): void => {
+    worldMutationIntent.invalidate()
+    world = next
+  }
+  const itemSoundAssets = (itemId: string): string[] => {
+    const item = project.items[itemId]
+    return [item?.use?.sound, item?.throw?.sound].filter((asset): asset is string => !!asset)
+  }
+  const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
+  const prepareSceneSounds = async (def: SceneDef): Promise<void> => {
+    const override = world.script?.sceneScriptOverrides?.[def.id]
+    const soundScene = structuredClone(def)
+    const additionalRoots: unknown[] = []
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      if (!override || !Object.hasOwn(override, slot)) continue
+      delete soundScene[slot]
+      if (override[slot]) additionalRoots.push(override[slot])
+    }
+    const currentItems = new Map(
+      world.inventory.flatMap((entry) => {
+        const item = project.items[entry.itemId]
+        return entry.count > 0 && item ? [[item.id, item] as const] : []
+      }),
+    )
+    for (const item of usableItems(world, project.items)) currentItems.set(item.id, item)
+    const sounds = await collectSceneSoundAssets({
+      scene: soundScene,
+      ...(additionalRoots.length ? { additionalRoots } : {}),
+      inventoryItems: [...currentItems.values()],
+      ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+      signal: new AbortController().signal,
+    })
+    await sfx.prepare(sounds)
+  }
   const ditherTransition = new DitherTransitionController<ImageData>()
   const sceneEntrySession = new SceneEntrySession<ImageData>()
   const frameSequenceReader = new FrameSequenceReader(project.assetResolver)
@@ -718,6 +775,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (!needed.has(k)) spriteByNum.delete(k)
       }
     }
+    // readiness 是场景原子提交的一部分：脚本首帧只允许同步命中已解码 buffer，绝不迟播。
+    await prepareSceneSounds(def)
     // 原子提交。新场景开始即不再属于上一张 RNG 画面。
     resetFrameAnimationPresentation()
     scene = def
@@ -857,6 +916,21 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
   let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
+  // 会话创建前也有 readiness/图片加载 await；新启动或强停必须让旧启动意图失效。
+  const battleLaunchIntent = new AsyncIntentController()
+  const reportedBattleReadiness = new Set<string>()
+  const reportBattleReadiness = (
+    team: number,
+    stage: string,
+    error: Error,
+    fatal: boolean,
+  ): void => {
+    // 同一坏资源会在 battleBase 与后续每轮 union 中重试；按错误本体去重，不能按 turn 刷屏。
+    const key = `${team}:${error.name}:${error.message}`
+    if (reportedBattleReadiness.has(key)) return
+    reportedBattleReadiness.add(key)
+    console.error(`[sfx readiness] team-${team} ${stage}${fatal ? ' fatal' : ' degraded'}`, error)
+  }
   let battleFieldsPromise: Promise<Map<number, BattleFieldEntry>> | null = null // 战场表懒载一次
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
@@ -1196,10 +1270,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (e) e.facing = fc
     },
     setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
-    giveItem: (itemId, count) => {
-      const entry = world.inventory.find((x) => x.itemId === itemId)
+    giveItem: async (itemId, count) => {
+      const targetWorld = world
+      const mutationToken = worldMutationIntent.capture()
+      await prepareItemSounds(itemId)
+      worldMutationIntent.assertCurrent(mutationToken, `giveItem(${itemId}) 的所属世界已失效`)
+      if (world !== targetWorld)
+        throw asyncIntentAbortError(`giveItem(${itemId}) 的所属世界已被替换`)
+      const entry = targetWorld.inventory.find((x) => x.itemId === itemId)
       if (entry) entry.count += count
-      else world.inventory.push({ itemId, count })
+      else targetWorld.inventory.push({ itemId, count })
     },
     loseItem: (itemId, count) => {
       const entry = world.inventory.find((x) => x.itemId === itemId)
@@ -1210,7 +1290,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     giveMoney: (delta) => {
       world.money = Math.max(0, world.money + delta)
     },
-    playSound: () => {}, // 音频系统未落地(音频期);静默
+    playSound: (asset) => {
+      sfx.play(asset)
+    },
     playMusic: (asset) => {
       world.audio ??= {}
       world.audio.currentMusic = asset
@@ -1418,6 +1500,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
     },
     startBattle: async (team, battleOpts) => {
+      const launchToken = battleLaunchIntent.begin()
+      const launchWorld = world
+      const launchSignal = scriptAbort?.signal
+      const assertLaunchCurrent = (): void => {
+        battleLaunchIntent.assertCurrent(launchToken, `team-${team} 战斗启动意图已失效`)
+        if (world !== launchWorld || launchSignal?.aborted)
+          throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
+      }
       const teamDef = project.enemyTeamsById[`team-${team}`]
       const enemyDefs = (teamDef?.members ?? [])
         .map((id) => project.enemiesById[id])
@@ -1425,8 +1515,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (enemyDefs.length === 0) {
         showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
         await host.wait(400)
+        assertLaunchCurrent()
         return 'win'
       }
+      const encounterChoreo =
+        battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
       // 战斗配置解析(无任何持久态):显式参数→场景默认→项目具名角色。
       // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
       // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
@@ -1436,9 +1529,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           : scene.battleMusic !== undefined
             ? scene.battleMusic
             : project.assetResolver.assetForRole('audio.defaultBattleMusic')
-      if (battleTrack === null) bgm.stop()
-      else bgm.play(battleTrack)
       let playedVictory = false
+      const restoreSceneMusic = (): void => {
+        if (battleTrack === undefined && !playedVictory) return
+        const persistent = world.audio?.currentMusic
+        if (persistent === null) bgm.stop()
+        else if (persistent) bgm.play(persistent)
+      }
       // 队员战斗态:CharacterInstance + 装备加成(effectiveStat)
       const itemsById = project.items
       // dev:?dualattack / ?attackall 给队长强制连击/全体(验演出;无对应装备的默认档用)
@@ -1497,6 +1594,39 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               : granted,
         }
       })
+      const playerSounds = world.party.map(
+        (character) => project.actorsById[character.template]?.battler?.sounds,
+      )
+      const cooperativeSkillIds = world.party.flatMap((character) => {
+        const skillId = project.actorsById[character.template]?.battler?.cooperativeMagicSkillId
+        return skillId ? [skillId] : []
+      })
+      const battleBaseSounds = await collectBattleBaseSounds({
+        playerSounds,
+        cooperativeSkillIds,
+        enemyDefs,
+        enemiesById: project.enemiesById,
+        skills: project.skills,
+        itemsById: project.items,
+        activePlayerPoisons: players.flatMap((player) => player.poisons ?? []),
+        activeEnemyPoisons: [],
+        poisonDefs: project.poisonsById,
+        roles: project.manifest.assets.roles,
+        encounterChoreography: encounterChoreo,
+        ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+        signal: launchSignal ?? new AbortController().signal,
+      }).catch((error: unknown) => {
+        if (isAbortError(error)) throw error
+        throw new SfxReadinessCollectionError(`team-${team} battleBase 音效闭包收集失败`, {
+          cause: error,
+        })
+      })
+      assertLaunchCurrent()
+      await sfx.prepare(battleBaseSounds).catch((error: unknown) => {
+        if (!(error instanceof SfxReadinessResourceError)) throw error
+        reportBattleReadiness(team, 'battleBase', error, false)
+      })
+      assertLaunchCurrent()
       // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
       // B5 召唤:扫队伍已学技能的 summon godId,预载神将精灵(F.MKF player 通道 chunk godId+10)
       const summonGodIds = new Set<number>()
@@ -1524,6 +1654,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           )
         : loadBattleFields(project.assetBase).catch(() => new Map<number, BattleFieldEntry>())
       const fields = await battleFieldsPromise
+      assertLaunchCurrent()
       const fieldDef = fields.get(Number(fieldId))
       const fieldWave = fieldDef?.screenWave ?? 0
       const [
@@ -1582,6 +1713,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         loadEffectOnce(),
         loadEffectIndexOnce(),
       ])
+      assertLaunchCurrent()
       // 各队员命中/施法前摇特效帧基(fight.c:2055 攻击 [1]*3;2387 施法 [0]*10+15;表缺 → −1)
       const playerEffectBase = world.party.map((c) => {
         const sn =
@@ -1629,10 +1761,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             .catch(() => undefined),
         ),
       )
+      assertLaunchCurrent()
       const faces: Record<string, ImageBitmap | undefined> = {}
       world.party.forEach((c, i) => {
         faces[c.id] = faceList[i]
       })
+      // 战斗曲与 active session 同一原子提交拍；启动已失效时不得在新场景迟到播放旧曲。
+      if (battleTrack === null) bgm.stop()
+      else bgm.play(battleTrack)
       const session = new BattleSession(
         players,
         enemyDefs,
@@ -1677,15 +1813,37 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // 战斗演出来源(二阶段 clean):遭遇专属(startBattle.choreography,boss 战剧情台词)优先;
           // 缺省回落敌种 def.choreography(随机遇敌固有台词 —— 无 scene 遭遇挂点的敌种)。
           // boss/杂兵混的敌种(胖苗)对话迁到 boss startBattle 且从 def 删,故杂兵场回落为空 = 不串戏。
-          encounterChoreo:
-            battleOpts?.choreography ?? enemyDefs.flatMap((e) => e.choreography ?? []),
+          encounterChoreo,
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
-          playerSounds: world.party.map((c) => project.actorsById[c.template]?.battler?.sounds),
+          playerSounds,
+          soundRoles: project.manifest.assets.roles,
           // 变身换形/异种召唤的中场精灵重载(原版 PAL_LoadBattleSprites)
           loadEnemySprite: (def) =>
             loadBattleSprite(project.assetBase, 'enemy', def.spriteNum, def.spritePath).catch(
               () => undefined,
             ),
+          prepareTurnSounds: async (snapshot) => {
+            let turnSounds: ReturnType<typeof collectTurnActionSounds>
+            try {
+              turnSounds = collectTurnActionSounds({
+                pendingActions: snapshot.actions.values(),
+                activePlayerPoisons: snapshot.activePlayerPoisons,
+                activeEnemyPoisons: snapshot.activeEnemyPoisons,
+                skills: project.skills,
+                itemsById: project.items,
+                poisonDefs: project.poisonsById,
+              })
+            } catch (error) {
+              throw new SfxReadinessCollectionError(
+                `team-${team} turn-${snapshot.turn} 音效闭包收集失败`,
+                { cause: error },
+              )
+            }
+            // 每轮重触整个 union，保证 LRU 中 battleBase 仍全部驻留，不能只准备增量。
+            await sfx.prepare(new Set([...battleBaseSounds, ...turnSounds]))
+          },
+          reportReadinessError: (error, context) =>
+            reportBattleReadiness(team, `turn-${context.turn}`, error, context.fatal),
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
           //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
           buildSettlement: () => {
@@ -1727,9 +1885,29 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       activeBattle = session
       // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
       if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
-      const result = await session.done
-      if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
-      activeBattle = null
+      let result: 'win' | 'lose' | 'flee'
+      try {
+        result = await session.done
+      } catch (error) {
+        // readiness fatal 经可见错误态确认退出后，仍要归还场景工作集与曲目。
+        // AbortError 则由读档/切场景流程接管，避免与新场景准备互相覆盖。
+        if (!isAbortError(error)) {
+          await prepareSceneSounds(scene).catch((restoreError: unknown) => {
+            console.error('[sfx readiness] fatal 后恢复场景工作集失败', restoreError)
+          })
+          assertLaunchCurrent()
+          restoreSceneMusic()
+        }
+        throw error
+      } finally {
+        // 旧会话的异步收尾不得清掉后来启动的新会话。
+        if (activeBattle === session) {
+          if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
+          activeBattle = null
+        }
+      }
+      // done 与读档/切场景可落在相邻 microtask；任何战果写回前再次确认仍属于原世界。
+      assertLaunchCurrent()
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
@@ -1763,17 +1941,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           await r
             .runStages(`battle-end:${def.id}`, [{ body: def.onDefeated }])
             .catch((err: unknown) => {
-              if (!(err instanceof DOMException && err.name === 'AbortError'))
-                console.error('[script] onDefeated', def.id, err)
+              if (!isAbortError(err)) console.error('[script] onDefeated', def.id, err)
             })
+          assertLaunchCurrent()
         }
       }
+      // 战斗 readiness 可能淘汰场景 LRU；恢复当前（也可能被战后脚本切换过的）场景工作集。
+      await prepareSceneSounds(scene)
+      assertLaunchCurrent()
       // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
-      if (result !== 'lose' && (battleTrack !== undefined || playedVictory)) {
-        const persistent = world.audio?.currentMusic
-        if (persistent === null) bgm.stop()
-        else if (persistent) bgm.play(persistent)
-      }
+      if (result !== 'lose') restoreSceneMusic()
       return result
     },
     openShop: (shopId, mode) => {
@@ -1806,8 +1983,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           project.scriptStore,
         )
         await r.runStages(`teleport:${scene.id}`, runnableStages(binding)).catch((err: unknown) => {
-          if (!(err instanceof DOMException && err.name === 'AbortError'))
-            console.error('[script] teleportOut', scene.id, err)
+          if (!isAbortError(err)) console.error('[script] teleportOut', scene.id, err)
         })
       }
       return true
@@ -2156,7 +2332,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const dist = Math.max(Math.abs(dc), Math.abs(dr))
       // 贴脸(≤1)→ 开战
       if (dist <= 1) {
-        void runHostileEncounter(e, h)
+        void runHostileEncounter(e, h).catch((error: unknown) => {
+          if (!isAbortError(error)) console.error('[battle] hostile encounter', e.id, error)
+        })
         return
       }
       const chase = h.chase
@@ -2247,7 +2425,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     void r
       .runStages(key, runnableStages(binding), { allowSceneEntry: key.startsWith('s:') })
       .catch((err: unknown) => {
-        if (!(err instanceof DOMException && err.name === 'AbortError')) {
+        if (!isAbortError(err)) {
           console.error('[script]', key, err)
           showToast(`脚本错误: ${String(err).slice(0, 40)}`)
         }
@@ -2285,6 +2463,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
 
   /** 强停脚本(读档/dev 切场景):abort 全树 + 兑现悬挂 driver + 清演出态。 */
   function abortScript(): void {
+    worldMutationIntent.invalidate()
+    battleLaunchIntent.invalidate()
+    activeBattle?.cancel()
     scriptAbort?.abort()
     runner = null
     scriptAbort = null
@@ -2432,7 +2613,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (p.contentVersion !== project.manifest.contentVersion) {
       showToast('存档来自旧版内容,如有异常请重开新档')
     }
-    world = p.world
+    replaceWorld(p.world)
     world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
     // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
     // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
@@ -3020,7 +3201,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // await 期间活跃 —— 必须先于「脚本演出中吞输入」分支消费按键)
     if (shop) {
       const r = shopInput(shop.ui, pressed, world, project.items, (next) => {
-        world = next
+        replaceWorld(next)
       })
       if (r === 'close') {
         shop.resolve()
@@ -3122,7 +3303,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
           if (interact) {
             const r = equipApply(equipMenu, world, project.items)
-            world = r.world
+            replaceWorld(r.world)
             equipMenu = r.state
           } else if (esc) {
             equipMenu = equipBackToList(equipMenu, world, project.items)
@@ -3143,6 +3324,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
+            const itemId = useMenu.selectedItemId
             const r = useApply(
               useMenu,
               world,
@@ -3150,8 +3332,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               project.items,
               project.poisonsById,
             )
-            world = r.world
+            replaceWorld(r.world)
             useMenu = r.state
+            const sound = itemId ? project.items[itemId]?.use?.sound : undefined
+            if (sound) sfx.play(sound)
           } else if (esc) {
             useMenu = useBackFromTarget(useMenu)
           }
@@ -3162,6 +3346,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
+            const selectedItemId = useMenu.items[useMenu.cursor]?.id
             const r = useConfirm(useMenu, world, project.items, project.poisonsById)
             if (r.kind === 'teleportOut') {
               // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
@@ -3170,6 +3355,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               const teleportScript = sceneScriptBinding(scene, 'onTeleport')
               if (teleportScript && (!Array.isArray(teleportScript) || teleportScript.length > 0)) {
                 if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
+                const sound = project.items[r.itemId]?.use?.sound
+                if (sound) sfx.play(sound)
                 lastUseCursor = useMenu.cursor
                 useMenu = closeUseMenu()
                 menu = CLOSED
@@ -3178,7 +3365,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
                 host.report('引路蜂不灵(当前场景无传送出口)')
               }
             } else {
-              if (r.kind === 'direct') world = r.world // 脚本/全体类:已直接执行,回写 world
+              if (r.kind === 'direct') {
+                replaceWorld(r.world) // 脚本/全体类:已直接执行,回写 world
+                const sound = selectedItemId ? project.items[selectedItemId]?.use?.sound : undefined
+                if (sound) sfx.play(sound)
+              }
               useMenu = r.state
             }
           }
@@ -3402,7 +3593,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   if (e2eLoadUrl) {
     try {
       const p = normalizePayload(await fetch(e2eLoadUrl).then((r) => r.json()))
-      world = p.world
+      replaceWorld(p.world)
       world.script ??= emptyWorldScriptState()
       for (const c of world.party) {
         c.poisons = undefined
@@ -3511,7 +3702,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           ...(fieldParam !== null ? { fieldId: Number(fieldParam) } : {}),
           ...(choreography ? { choreography } : {}),
         })
-        .then((r) => showToast(`试打结束:${r}`)),
+        .then((r) => showToast(`试打结束:${r}`))
+        .catch((error: unknown) => {
+          if (!isAbortError(error)) showToast(`试打失败:${String(error).slice(0, 48)}`)
+        }),
     )
   } else if (spawnPos) {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫

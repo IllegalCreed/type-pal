@@ -25,10 +25,19 @@ function fixture(): Pick<EditorState, 'assetCatalog' | 'assetBlobs' | 'manifest'
           sha256: '1'.repeat(64),
           origin: { kind: 'authored' },
         },
+        'sound.demo': {
+          kind: 'sound',
+          path: 'assets/authored/sound/demo.wav',
+          mediaType: 'audio/wav',
+          bytes: 2,
+          sha256: '2'.repeat(64),
+          origin: { kind: 'authored' },
+        },
       },
     },
     assetBlobs: { 'assets/authored/video/demo.mp4': Uint8Array.from([1, 2, 3]).buffer },
     manifest: {
+      id: 'test-project',
       assets: {
         catalog: 'assets/index.json',
         roles: { 'visual.standardColorTable': 'color.demo' },
@@ -47,6 +56,7 @@ describe('editor asset reader', () => {
       urlFor: vi.fn(async (path: string) => `/project/${path}`),
     } as unknown as FileSource
     const reader = createEditorAssetReader(source, fixture())
+    expect(reader.projectId).toBe('test-project')
     await expect(reader.readBytes('video.demo', 'video')).resolves.toEqual(
       Uint8Array.from([1, 2, 3]).buffer,
     )
@@ -56,5 +66,8 @@ describe('editor asset reader', () => {
     )
     await expect(reader.readBytes('video.demo', 'music')).rejects.toThrow(/期望 music/)
     await expect(reader.readBytes('missing')).rejects.toThrow(/不在 catalog/)
+    await expect(reader.readBytes('sound.demo', 'sound')).resolves.toEqual(
+      Uint8Array.from([9, 9]).buffer,
+    )
   })
 })

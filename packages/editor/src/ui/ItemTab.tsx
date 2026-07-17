@@ -9,6 +9,8 @@
  */
 import type {
   ActorDef,
+  AssetCatalogV1,
+  AssetId,
   CombatStat,
   EquipEffect,
   EquipSlot,
@@ -17,14 +19,30 @@ import type {
   Locale,
   SkillData,
   StatusId,
+  ThrowSpec,
+  UseSpec,
 } from '@type-pal/content'
 import { describeEquipEffects, lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateItemCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { RefEntry } from '../core/ref-index.js'
+import { SoundPicker } from './SoundPicker.js'
 import { RefList } from './VarsTab.js'
+
+function withoutSound<T extends { sound?: AssetId }>(spec: T): Omit<T, 'sound'> {
+  const copy = { ...spec }
+  delete copy.sound
+  return copy
+}
+
+function withSound<T extends { sound?: AssetId }>(spec: T, sound: AssetId | undefined): T {
+  const copy = { ...spec, sound }
+  if (sound === undefined) delete copy.sound
+  return copy
+}
 
 const SLOTS: { v: EquipSlot; label: string }[] = [
   { v: 'weapon', label: '武器' },
@@ -255,13 +273,28 @@ export function ItemTab(props: {
   locale: Locale
   assetBase?: AssetBase
   session: EditSession
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onOpenSound?: (id: string) => void
   tabBar?: React.ReactNode
   /** N5:物品 → 引用它的事件(give/lose/hasItem);剧情道具的编辑入口。 */
   itemRefs?: Map<string, RefEntry[]>
   onJumpToEvent?: (sceneId: string, srcKey: string) => void
 }) {
-  const { items, actors, skills, locale, assetBase, session, tabBar, itemRefs, onJumpToEvent } =
-    props
+  const {
+    items,
+    actors,
+    skills,
+    locale,
+    assetBase,
+    session,
+    assetCatalog,
+    assetReader,
+    onOpenSound,
+    tabBar,
+    itemRefs,
+    onJumpToEvent,
+  } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(items[0]?.id ?? '')
 
@@ -588,14 +621,59 @@ export function ItemTab(props: {
                 使用 / 投掷效果(JSON 兜底)
                 <span className="hint2">删除键值 = 取消该用途;结构见 content/item.ts</span>
               </h4>
+              <div className="sound-field-list item-sound-fields">
+                {item.use ? (
+                  <div className="field">
+                    <span className="field-label">使用音效</span>
+                    <SoundPicker
+                      value={item.use.sound}
+                      onChange={(sound) => patch({ use: withSound(item.use!, sound) })}
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      onOpenAsset={onOpenSound}
+                    />
+                  </div>
+                ) : null}
+                {item.throw ? (
+                  <div className="field">
+                    <span className="field-label">投掷音效</span>
+                    <SoundPicker
+                      value={item.throw.sound}
+                      onChange={(sound) => patch({ throw: withSound(item.throw!, sound) })}
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      onOpenAsset={onOpenSound}
+                    />
+                  </div>
+                ) : null}
+              </div>
               <textarea
                 className="in cf-ta it-ta it-ta-tall"
                 key={`${item.id}-spec`}
-                defaultValue={JSON.stringify({ use: item.use, throw: item.throw }, null, 2)}
+                defaultValue={JSON.stringify(
+                  {
+                    use: item.use ? withoutSound(item.use) : undefined,
+                    throw: item.throw ? withoutSound(item.throw) : undefined,
+                  },
+                  null,
+                  2,
+                )}
                 onBlur={(e) => {
                   try {
-                    const v = JSON.parse(e.target.value) as Pick<ItemData, 'use' | 'throw'>
-                    patch({ use: v.use, throw: v.throw })
+                    const v = JSON.parse(e.target.value) as {
+                      use?: UseSpec
+                      throw?: ThrowSpec
+                    }
+                    patch({
+                      use: v.use
+                        ? withSound(withoutSound(v.use) as UseSpec, item.use?.sound)
+                        : undefined,
+                      throw: v.throw
+                        ? withSound(withoutSound(v.throw) as ThrowSpec, item.throw?.sound)
+                        : undefined,
+                    })
                   } catch {
                     /* 解析失败不落盘;失焦保持原文供修 */
                   }

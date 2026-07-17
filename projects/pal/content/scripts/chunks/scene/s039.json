@@ -9,7 +9,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 79
+        "asset": "sound.pal.079"
       },
       {
         "kind": "wait",
@@ -38,7 +38,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 67
+        "asset": "sound.pal.067"
       },
       {
         "kind": "wait",
@@ -399,7 +399,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 79
+        "asset": "sound.pal.079"
       },
       {
         "kind": "wait",
@@ -428,7 +428,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 67
+        "asset": "sound.pal.067"
       },
       {
         "kind": "wait",

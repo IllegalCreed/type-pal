@@ -1,6 +1,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
+import type { LoadedManifest } from '@type-pal/content'
 import { afterEach, describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from './migration-baseline.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
@@ -21,13 +22,22 @@ const put = (repo: string, path: string, content: string): void => {
   mkdirSync(dirname(full), { recursive: true })
   writeFileSync(full, content)
 }
+const manifest = (): LoadedManifest => ({
+  id: 'pal',
+  name: 'PAL',
+  contentVersion: 3,
+  entryScene: 's000',
+  content: {},
+  assets: { catalog: 'assets/index.json', roles: {} },
+  startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+})
 
 afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
 describe('migration transaction change list', () => {
-  test('合并工程与纯 theirs baseline 分开取值，_state 最后提交', () => {
+  test('合并工程与纯 theirs baseline 分开取值，manifest 在 _state 后最后提交', () => {
     const repo = tempRepo()
     const changes = buildMigrationTransactionChanges({
       repo,
@@ -36,6 +46,8 @@ describe('migration transaction change list', () => {
         deletes: [],
       },
       nextBaseline: snapshot({ 'content/items.json': [{ id: 'generated' }] }),
+      nextManifest: manifest(),
+      manifestPreconditions: [{ target: 'projects/pal/assets/index.json', hash: 'a'.repeat(64) }],
     })
     expect(
       changes.find((item) => item.target === 'projects/pal/content/items.json')?.content,
@@ -43,7 +55,11 @@ describe('migration transaction change list', () => {
     expect(
       changes.find((item) => item.target.includes('baselines/pal/content/items.json'))?.content,
     ).toContain('generated')
-    expect(changes.at(-1)?.target).toBe('packages/migrate/baselines/pal/_state.json')
+    expect(changes.at(-2)?.target).toBe('packages/migrate/baselines/pal/_state.json')
+    expect(changes.at(-1)).toMatchObject({
+      target: 'projects/pal/manifest.json',
+      scope: 'manifest',
+    })
   })
 
   test('删除退役 baseline 文件且跳过内容未变写入', () => {

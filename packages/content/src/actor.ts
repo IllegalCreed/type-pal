@@ -8,6 +8,7 @@
  * 与 content-schema §9「外观解耦」对齐:spriteId/battleSpriteNum = 基础造型层;
  * 装备驱动的外观覆盖 = 将来加字段(appearanceRules),纯加法。
  */
+import type { AssetId } from './asset.js'
 import type { EntityDef, TextId } from './index.js'
 
 /**
@@ -17,19 +18,19 @@ import type { EntityDef, TextId } from './index.js'
  */
 export interface BattlerSounds {
   /** 普攻出招(rgwAttackSound,冲锋帧)。 */
-  attack: number
+  attack?: AssetId
   /** 暴击出招(rgwCriticalSound,替换 attack;暴击未实现,先存数据)。 */
-  critical: number
+  critical?: AssetId
   /** 兵器命中(rgwWeaponSound,挥击帧 frame9)。 */
-  weapon: number
+  weapon?: AssetId
   /** 施法吟唱(rgwMagicSound,PreMagic 姿势帧 frame5)。 */
-  magic: number
+  magic?: AssetId
   /** 替挡/格挡(rgwCoverSound)。 */
-  cover: number
+  cover?: AssetId
   /** 濒死(rgwDyingSound)。 */
-  dying: number
+  dying?: AssetId
   /** 阵亡(rgwDeathSound)。 */
-  death: number
+  death?: AssetId
 }
 
 /** 可战斗数据(可入队/可参战的角色带;普通 NPC 不带)。 */

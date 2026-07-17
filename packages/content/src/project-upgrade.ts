@@ -177,3 +177,179 @@ export function applyV2MusicLabels(catalog: AssetCatalogV1, legacyMusic: unknown
   }
   return next
 }
+
+export type LegacySoundAssetResolver = (legacyId: number) => AssetId | undefined
+
+function legacySoundAsset(
+  value: unknown,
+  resolveSound: LegacySoundAssetResolver,
+  where: string,
+): AssetId | undefined {
+  if (typeof value === 'string') return value
+  if (!Number.isInteger(value)) throw new Error(`${where}: 期望整数或 AssetId`)
+  const legacy = value as number
+  if (legacy === 0) return undefined
+  const id = Math.abs(legacy)
+  const asset = resolveSound(id)
+  if (!asset && id !== 122) throw new Error(`${where}: 旧音效 ${id} 没有可迁移 WAV`)
+  return asset
+}
+
+const DROP_COMMAND = Symbol('drop-command')
+
+/** 递归升级场景、chunk 与敌人编舞中的 playSound；已知空槽 122 还原为无命令。 */
+export function upgradeLegacySoundCommands<T>(input: T, resolveSound: LegacySoundAssetResolver): T {
+  const walk = (value: unknown, where: string): unknown | typeof DROP_COMMAND => {
+    if (Array.isArray(value))
+      return value.flatMap((child, index) => {
+        const next = walk(child, `${where}[${index}]`)
+        return next === DROP_COMMAND ? [] : [next]
+      })
+    if (!value || typeof value !== 'object') return value
+    const source = value as Record<string, unknown>
+    if (source.kind === 'playSound' && 'soundId' in source) {
+      const asset = legacySoundAsset(source.soundId, resolveSound, `${where}.soundId`)
+      if (!asset) return DROP_COMMAND
+      const output: Record<string, unknown> = { kind: 'playSound', asset }
+      for (const [key, child] of Object.entries(source)) {
+        if (key === 'kind' || key === 'soundId') continue
+        const next = walk(child, `${where}.${key}`)
+        if (next !== DROP_COMMAND) output[key] = next
+      }
+      return output
+    }
+    const output: Record<string, unknown> = {}
+    for (const [key, child] of Object.entries(source)) {
+      const next = walk(child, `${where}.${key}`)
+      if (next !== DROP_COMMAND) output[key] = next
+    }
+    return output
+  }
+  const upgraded = walk(input, 'commands')
+  if (upgraded === DROP_COMMAND) throw new Error('命令根不能是空音效命令')
+  return upgraded as T
+}
+
+const ACTOR_SOUND_FIELDS = [
+  'attack',
+  'critical',
+  'weapon',
+  'magic',
+  'cover',
+  'dying',
+  'death',
+] as const
+const ENEMY_SOUND_FIELDS = ['attack', 'action', 'magic', 'death', 'call'] as const
+
+function upgradeSoundObject(
+  sounds: Record<string, unknown>,
+  fields: readonly string[],
+  resolveSound: LegacySoundAssetResolver,
+  where: string,
+): void {
+  for (const field of fields) {
+    if (!(field in sounds)) continue
+    const asset = legacySoundAsset(sounds[field], resolveSound, `${where}.${field}`)
+    if (asset) sounds[field] = asset
+    else delete sounds[field]
+  }
+}
+
+export function upgradeLegacyActorSounds<T>(input: T, resolveSound: LegacySoundAssetResolver): T {
+  const actors = cloneJson(input) as unknown
+  if (!Array.isArray(actors)) throw new Error('actors: 期望数组')
+  actors.forEach((raw, index) => {
+    const actor = object(raw, `actors[${index}]`)
+    if (actor.battler === undefined) return
+    const battler = object(actor.battler, `actors[${index}].battler`)
+    if (battler.sounds === undefined) return
+    upgradeSoundObject(
+      object(battler.sounds, `actors[${index}].battler.sounds`),
+      ACTOR_SOUND_FIELDS,
+      resolveSound,
+      `actors[${index}].battler.sounds`,
+    )
+  })
+  return actors as T
+}
+
+export function upgradeLegacyEnemySounds<T>(input: T, resolveSound: LegacySoundAssetResolver): T {
+  const enemies = cloneJson(input) as unknown
+  if (!Array.isArray(enemies)) throw new Error('enemies: 期望数组')
+  enemies.forEach((raw, index) => {
+    const enemy = object(raw, `enemies[${index}]`)
+    const sounds = object(enemy.sounds, `enemies[${index}].sounds`)
+    const legacyMagic = sounds.magic
+    upgradeSoundObject(sounds, ENEMY_SOUND_FIELDS, resolveSound, `enemies[${index}].sounds`)
+    if (typeof legacyMagic === 'number' && legacyMagic < 0) sounds.suppressMagicEffectSound = true
+  })
+  return enemies as T
+}
+
+export function upgradeLegacySkillSounds<T>(input: T, resolveSound: LegacySoundAssetResolver): T {
+  const root = cloneJson(input) as unknown
+  const skills = object(root, 'skills')
+  if (!Array.isArray(skills.skills)) throw new Error('skills.skills: 期望数组')
+  skills.skills.forEach((raw, index) => {
+    const skill = object(raw, `skills.skills[${index}]`)
+    const animation = object(skill.animation, `skills.skills[${index}].animation`)
+    if ('sound' in animation) {
+      const asset = legacySoundAsset(
+        animation.sound,
+        resolveSound,
+        `skills.skills[${index}].animation.sound`,
+      )
+      if (asset) animation.sound = asset
+      else delete animation.sound
+    }
+    if (!Array.isArray(skill.effects)) throw new Error(`skills.skills[${index}].effects: 期望数组`)
+    skill.effects.forEach((rawEffect, effectIndex) => {
+      const effect = object(rawEffect, `skills.skills[${index}].effects[${effectIndex}]`)
+      if (effect.kind !== 'summon' || !('sound' in effect)) return
+      const asset = legacySoundAsset(
+        effect.sound,
+        resolveSound,
+        `skills.skills[${index}].effects[${effectIndex}].sound`,
+      )
+      if (asset) effect.sound = asset
+      else delete effect.sound
+    })
+  })
+  return root as T
+}
+
+export function upgradeLegacyItemSounds<T>(input: T, resolveSound: LegacySoundAssetResolver): T {
+  const items = cloneJson(input) as unknown
+  if (!Array.isArray(items)) throw new Error('items: 期望数组')
+  items.forEach((raw, index) => {
+    const item = object(raw, `items[${index}]`)
+    for (const field of ['use', 'throw'] as const) {
+      if (item[field] === undefined) continue
+      const spec = object(item[field], `items[${index}].${field}`)
+      if (!('sound' in spec)) continue
+      const asset = legacySoundAsset(spec.sound, resolveSound, `items[${index}].${field}.sound`)
+      if (asset) spec.sound = asset
+      else delete spec.sound
+    }
+  })
+  return items as T
+}
+
+/** 只退出 sound family；调用方负责先建好 catalog 和二进制，再把此 manifest 最后落盘。 */
+export function exitLegacySoundFamily(args: {
+  manifest: LoadedManifest
+  roles?: Partial<Record<AssetRole, AssetId>>
+  catalog?: AssetCatalogV1
+}): LoadedManifest {
+  const next = cloneJson(args.manifest)
+  next.assets.roles = { ...args.roles, ...args.manifest.assets.roles }
+  if (args.manifest.assets.legacy) {
+    const { sounds: _retiredSounds, ...legacy } = args.manifest.assets.legacy
+    next.assets.legacy = {
+      ...legacy,
+      families: args.manifest.assets.legacy.families.filter((family) => family !== 'sound'),
+    }
+  }
+  validateManifestAssetConfigV3(next.assets, args.catalog, '升级后 manifest.assets')
+  return next
+}

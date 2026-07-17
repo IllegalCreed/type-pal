@@ -12,6 +12,7 @@ import { saveHandle } from './handle-store.js'
 import { openLocalProject } from './open-local.js'
 import { writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
+import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
 
 export interface Opened {
   project: LoadedProject
@@ -33,16 +34,24 @@ export async function pickDir(): Promise<FileSystemDirectoryHandle | null> {
 }
 
 /** 目录句柄 → 装配 Opened + 记入 IndexedDB(最近工程 / 重连)。 */
-export async function finishOpen(dir: FileSystemDirectoryHandle): Promise<Opened> {
-  const opened = await openLocalProject(dir)
+export async function finishOpen(
+  dir: FileSystemDirectoryHandle,
+  onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void,
+): Promise<Opened> {
+  const opened = await openLocalProject(
+    dir,
+    onSoundUpgradeProgress ? { onSoundUpgradeProgress } : {},
+  )
   await saveHandle(opened.project.manifest.id, dir.name, dir)
   return { ...opened, dir }
 }
 
 /** 打开已有本地工程。取消 → null。 */
-export async function openExistingProject(): Promise<Opened | null> {
+export async function openExistingProject(
+  onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void,
+): Promise<Opened | null> {
   const dir = await pickDir()
-  return dir ? finishOpen(dir) : null
+  return dir ? finishOpen(dir, onSoundUpgradeProgress) : null
 }
 
 /** 新建空白工程(选空夹 → 写骨架 → 打开)。取消 → null。 */

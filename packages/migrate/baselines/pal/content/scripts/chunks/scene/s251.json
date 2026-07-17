@@ -88,7 +88,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 175
+        "asset": "sound.pal.175"
       },
       {
         "kind": "ditherScreen",
@@ -123,7 +123,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 192
+        "asset": "sound.pal.192"
       },
       {
         "kind": "setEntityFacing",

@@ -208,7 +208,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 262
+        "asset": "sound.pal.262"
       },
       {
         "kind": "setEntityFacing",
@@ -809,7 +809,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 141
+        "asset": "sound.pal.141"
       },
       {
         "kind": "setEntityFacing",
@@ -921,7 +921,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "wait",

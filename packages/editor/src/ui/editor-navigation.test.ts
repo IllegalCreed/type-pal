@@ -23,7 +23,7 @@ describe('编辑器模块注册表', () => {
     }
   })
 
-  it('十五个旧数据页恰好各登记一次', () => {
+  it('十六个数据页恰好各登记一次', () => {
     const registered = EDITOR_MODULES.flatMap((module) =>
       module.subpages.flatMap((subpage) => (subpage.dataPage ? [subpage.dataPage] : [])),
     )
@@ -96,10 +96,12 @@ describe('EditorLocation URL 契约', () => {
   it('切换资源子页不携带上一资源族的 objectId', () => {
     const asset = EDITOR_MODULES.find((module) => module.id === 'asset')!
     const music = asset.subpages.find((subpage) => subpage.id === 'music')!
+    const sound = asset.subpages.find((subpage) => subpage.id === 'sound')!
     const cutscene = asset.subpages.find((subpage) => subpage.id === 'cutscene')!
     const current = { module: 'asset', subpage: 'music', objectId: 'music.pal.003' } as const
 
     expect(objectIdForSubpageNavigation(current, music)).toBe('music.pal.003')
+    expect(objectIdForSubpageNavigation(current, sound)).toBeUndefined()
     expect(objectIdForSubpageNavigation(current, cutscene)).toBeUndefined()
   })
 })
@@ -120,6 +122,11 @@ describe('跨模块唯一链接', () => {
       module: 'map',
       subpage: 'workspace',
       objectId: 'map-home',
+    })
+    expect(editorLinks.sound('sound.pal.045')).toEqual({
+      module: 'asset',
+      subpage: 'sound',
+      objectId: 'sound.pal.045',
     })
   })
 })

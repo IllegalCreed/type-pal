@@ -6,11 +6,19 @@
  * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
  */
 
-import type { ActivePoison, BattleStatus, Command, EnemyDef, SkillData } from '@type-pal/content'
+import type {
+  ActivePoison,
+  AssetId,
+  BattleStatus,
+  Command,
+  EnemyDef,
+  SkillData,
+  SoundAssetRole,
+} from '@type-pal/content'
 import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
-import type { SfxPlayer } from '../audio/sfx.js'
+import { type SfxPlayer, SfxReadinessFatalError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
@@ -100,8 +108,23 @@ type UiPhase =
   | 'item'
   | 'throwItem'
   | 'target'
+  | 'preparing'
+  | 'readinessError'
   | 'acting'
   | 'over'
+
+/** 最后一名队员交招后、core 建行动队列前冻结的音效工作集输入。 */
+export interface BattleTurnReadinessSnapshot {
+  turn: number
+  actions: ReadonlyMap<number, BattleAction>
+  activePlayerPoisons: readonly ActivePoison[]
+  activeEnemyPoisons: readonly ActivePoison[]
+}
+
+export interface BattleReadinessErrorContext {
+  turn: number
+  fatal: boolean
+}
 
 export interface BattleSessionAssets {
   bg?: CanvasImageSource
@@ -147,6 +170,12 @@ interface VisualFighter {
 export class BattleSession {
   readonly done: Promise<'win' | 'lose' | 'flee'>
   private resolveDone!: (r: 'win' | 'lose' | 'flee') => void
+  private rejectDone!: (reason?: unknown) => void
+  private doneSettled = false
+  private closed = false
+  /** 每次准备/退出均递增；过期 Promise 回调不得推进 core。 */
+  private preparationSerial = 0
+  private readinessError: Error | null = null
   private readonly state: BattleState
   private ui: UiPhase = 'menu'
   /** 主菜单 4 图标选中(0攻击 1法术 2合击 3杂项;一阶段 selectedAction)。 */
@@ -257,6 +286,8 @@ export class BattleSession {
       playerCastBase?: number[]
       /** 各队员战斗音效(BattlerSpec.sounds;与 players 同序。演出数据走 opts 通道,不进逻辑核)。 */
       playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
+      /** 工程级战斗提示音角色；演出层只消费 AssetId，不认识 PAL 数字槽。 */
+      soundRoles?: Partial<Record<SoundAssetRole, AssetId>>
       /** 战场常驻波幅(battle-fields.json screenWave;法术 wave 演出期叠加其上,battle.c:1559)。 */
       fieldWave?: number
       /** 战场五灵加成(battle-fields.json magicEffect;fight.c:244 双向乘入法术伤害)。 */
@@ -278,6 +309,10 @@ export class BattleSession {
       /** 按敌 def 加载战斗精灵(变身换形/异种召唤时中场重载 —— 原版 PAL_LoadBattleSprites;
        *  缺 = 沿用槽位旧精灵,分裂/同种召唤不受影响)。 */
       loadEnemySprite?: (def: EnemyDef) => Promise<LoadedSprite | undefined>
+      /** 全员交招后的第二级音效屏障；缺省保持 headless/旧单测的同步行为。 */
+      prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
+      /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
+      reportReadinessError?: (error: Error, context: BattleReadinessErrorContext) => void
     } = {},
   ) {
     this.state = createBattleState({
@@ -293,8 +328,9 @@ export class BattleSession {
       poisonDefs: opts.poisonDefs,
       money: opts.money,
     })
-    this.done = new Promise((res) => {
+    this.done = new Promise((res, rej) => {
       this.resolveDone = res
+      this.rejectDone = rej
     })
     stepBattle(this.state, this.rng) // preBattle → selectAction
     this.resetVisual()
@@ -387,6 +423,102 @@ export class BattleSession {
       if (needsManualSelect(expectDefined(s.players[i])) && !s.pendingActions.has(i)) return i
     }
     return undefined
+  }
+
+  /** 保持 core 同步：只有 readiness 落定后才从 selectAction 跨入 performAction。 */
+  private enterActionPhase(): void {
+    if (this.closed || this.doneSettled || this.state.phase !== 'selectAction') return
+    stepBattle(this.state, this.rng)
+    this.ui = 'acting'
+    this.actTimer = 0
+  }
+
+  private reportPreparationFailure(error: Error, fatal: boolean): void {
+    this.opts.reportReadinessError?.(error, { turn: this.state.turn, fatal })
+  }
+
+  private settleTurnPreparation(
+    token: number,
+    outcome: { ok: true } | { ok: false; error: unknown },
+  ): void {
+    if (
+      token !== this.preparationSerial ||
+      this.closed ||
+      this.doneSettled ||
+      this.state.phase !== 'selectAction' ||
+      this.ui !== 'preparing'
+    )
+      return
+    if (outcome.ok) {
+      this.enterActionPhase()
+      return
+    }
+    const { error } = outcome
+    const normalized = error instanceof Error ? error : new Error(String(error))
+    // 只有已知的资源准备失败允许静音降级；预算/collector/未知编程错误一律 fail-loud。
+    const fatal =
+      normalized instanceof SfxReadinessFatalError ||
+      !(normalized instanceof SfxReadinessResourceError)
+    this.reportPreparationFailure(normalized, fatal)
+    if (fatal) {
+      this.readinessError = normalized
+      this.ui = 'readinessError'
+      return
+    }
+    // 单项缺失/读取/WAV/decode 失败：allSettled 已保证其余成功项 ready，再降级行动。
+    this.enterActionPhase()
+  }
+
+  private beginTurnPreparation(): void {
+    if (this.closed || this.doneSettled || this.ui === 'preparing') return
+    const prepare = this.opts.prepareTurnSounds
+    if (!prepare) {
+      this.enterActionPhase()
+      return
+    }
+    const snapshot: BattleTurnReadinessSnapshot = {
+      turn: this.state.turn,
+      actions: new Map(this.state.pendingActions),
+      activePlayerPoisons: this.state.players.flatMap((player) =>
+        player.poisons.map((poison) => ({ ...poison })),
+      ),
+      activeEnemyPoisons: this.state.enemies.flatMap((enemy) =>
+        enemy.poisons.map((poison) => ({ ...poison })),
+      ),
+    }
+    const token = ++this.preparationSerial
+    this.readinessError = null
+    this.ui = 'preparing'
+    let pending: Promise<void>
+    try {
+      pending = prepare(snapshot)
+    } catch (error) {
+      this.settleTurnPreparation(token, { ok: false, error })
+      return
+    }
+    void pending.then(
+      () => this.settleTurnPreparation(token, { ok: true }),
+      (error: unknown) => this.settleTurnPreparation(token, { ok: false, error }),
+    )
+  }
+
+  private complete(result: 'win' | 'lose' | 'flee'): void {
+    if (this.doneSettled) return
+    this.doneSettled = true
+    this.closed = true
+    this.preparationSerial++
+    this.resolveDone(result)
+  }
+
+  /** 读档、切场景或 readiness fatal 退出；令所有尚未落定的准备回调失效。 */
+  cancel(reason?: unknown): void {
+    if (this.doneSettled) return
+    this.doneSettled = true
+    this.closed = true
+    this.preparationSerial++
+    const abortError = new Error('BattleSession 已取消')
+    abortError.name = 'AbortError'
+    this.rejectDone(reason ?? abortError)
   }
 
   private aliveEnemyIdxs(): number[] {
@@ -496,8 +628,8 @@ export class BattleSession {
         }
         return
       case 'playSound':
-        this.assets.sfx?.play(c.soundId)
-        this.state.log.push(`♪ 音效 ${c.soundId}`)
+        this.assets.sfx?.play(c.asset)
+        this.state.log.push(`♪ 音效 ${c.asset}`)
         return
       case 'fleeBattle': {
         this.state.enemyFled = true
@@ -586,12 +718,21 @@ export class BattleSession {
   }
 
   tick(dtMs: number, pressed: ReadonlySet<string>): void {
+    if (this.closed) return
     this.nowMs += dtMs
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
     )
     const s = this.state
+
+    // readiness pending 期间锁住所有输入；fatal 可见停留，Enter/Escape 明确退出本场。
+    if (this.ui === 'preparing') return
+    if (this.ui === 'readinessError') {
+      if (pressed.has('Enter') || pressed.has('Escape'))
+        this.cancel(this.readinessError ?? undefined)
+      return
+    }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
@@ -617,7 +758,7 @@ export class BattleSession {
           this.settleIdx++
           this.overTimer = 0
           if (this.settleIdx >= this.settlement.length) {
-            this.resolveDone('win')
+            this.complete('win')
           }
         }
         return
@@ -625,7 +766,7 @@ export class BattleSession {
       // 无结算屏(败/逃/敌逃):短暂停留自动收尾
       this.overTimer += dtMs
       if (this.overTimer >= OVER_MS) {
-        this.resolveDone(s.phase === 'won' ? 'win' : s.phase === 'lost' ? 'lose' : 'flee')
+        this.complete(s.phase === 'won' ? 'win' : s.phase === 'lost' ? 'lose' : 'flee')
       }
       return
     }
@@ -642,9 +783,7 @@ export class BattleSession {
       }
       const sel = this.nextSelecting()
       if (sel === undefined) {
-        stepBattle(s, this.rng) // 全填 → build queue → performAction
-        this.ui = 'acting'
-        this.actTimer = 0
+        this.beginTurnPreparation()
         return
       }
       // 自动战斗(0x8A):玩家侧不出菜单,逐个活队员派 AI 攻击最近活敌(石长老过场战)
@@ -1015,7 +1154,7 @@ export class BattleSession {
       // fallback(非物攻动作):即时飘字 + 敌施法音
       if (la?.side === 'enemy') {
         const snd = s.enemies[la.idx]?.def.sounds
-        if (snd && la.kind === 'cast') this.assets.sfx?.play(snd.magic)
+        if (snd?.magic && la.kind === 'cast') this.assets.sfx?.play(snd.magic)
       }
       s.players.forEach((p, i) => {
         const d = expectDefined(pHp[i]) - p.hp
@@ -1084,7 +1223,7 @@ export class BattleSession {
       effectTimes: a.effectTimes ?? 0,
       shake: a.shake ?? 0,
       wave: a.wave ?? 0,
-      sound: a.sound ?? 0,
+      ...(a.sound ? { sound: a.sound } : {}),
     }
     const damageNums = this.diffDamageNums(pHp, eHp)
     if (la.side === 'player') {
@@ -1116,6 +1255,9 @@ export class BattleSession {
           targetPos,
           damageNums,
           postTargets,
+          ...(this.opts.soundRoles?.['audio.battleCoopCastSound']
+            ? { castSound: this.opts.soundRoles['audio.battleCoopCastSound'] }
+            : {}),
         })
       }
       return buildPlayerCast({
@@ -1163,12 +1305,14 @@ export class BattleSession {
     if (!def) return null
     const targetPos =
       la.target !== undefined ? getPlayerBasePos(s.players.length, la.target) : undefined
+    const enemyFx = { ...fx }
+    if (def.sounds.suppressMagicEffectSound) delete enemyFx.sound
     return buildEnemyCast({
       enemyIdx: la.idx,
       anim: { idleFrames: def.anim.idleFrames, magicFrames: def.anim.magicFrames },
       magicSound: def.sounds.magic,
       fireFrames: fire?.frames.length ?? 0,
-      fx,
+      fx: enemyFx,
       targetPos: targetPos ?? undefined,
       damageNums,
       ...(a.keepEffect ? { keepEffect: true } : {}),
@@ -1233,7 +1377,12 @@ export class BattleSession {
           }))
         if (!alive.length) return null
         this.skipNextReset = true
-        return buildPartyFlee({ players: alive })
+        return buildPartyFlee({
+          players: alive,
+          ...(this.opts.soundRoles?.['audio.battleEscapeSound']
+            ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
+            : {}),
+        })
       }
       return this.buildCastTimeline(la, pHp, eHp)
     }
@@ -1258,6 +1407,12 @@ export class BattleSession {
         casterPos,
         targetIdxs: [la.targetAllyIdx ?? la.idx],
         itemName,
+        ...(() => {
+          const sound = la.itemId
+            ? (s.items[la.itemId]?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound'])
+            : this.opts.soundRoles?.['audio.battleItemUseSound']
+          return sound ? { sound } : {}
+        })(),
         gains,
       })
     }
@@ -1274,7 +1429,12 @@ export class BattleSession {
           }))
         if (!alive.length) return null
         this.skipNextReset = true
-        return buildPartyFlee({ players: alive })
+        return buildPartyFlee({
+          players: alive,
+          ...(this.opts.soundRoles?.['audio.battleEscapeSound']
+            ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
+            : {}),
+        })
       }
       const pos = getPlayerBasePos(s.players.length, la.idx)
       return pos ? buildFleeFail({ idx: la.idx, pos }) : null
@@ -1293,7 +1453,12 @@ export class BattleSession {
       if (!fleeing.length) return null
       this.fleeingEnemies = fleeing.map((f) => f.idx)
       this.skipNextReset = true
-      return buildEnemyEscape({ enemies: fleeing })
+      return buildEnemyEscape({
+        enemies: fleeing,
+        ...(this.opts.soundRoles?.['audio.battleEscapeSound']
+          ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
+          : {}),
+      })
     }
     // 敌变身现形(script.c:2954 0x9F):colorShift 0→5 染白 + 音 47;def 已换(保 HP),
     // 精灵异步重载(原版 PAL_LoadBattleSprites;同精灵号变身 = 立即命中缓存)
@@ -1303,7 +1468,12 @@ export class BattleSession {
         this.opts.loadEnemySprite?.(def).then((sp) => {
           if (sp) this.assets.enemySprites[la.idx] = sp
         })
-      return buildEnemyTransform({ idx: la.idx })
+      return buildEnemyTransform({
+        idx: la.idx,
+        ...(this.opts.soundRoles?.['audio.battleEnemyTransformSound']
+          ? { sound: this.opts.soundRoles['audio.battleEnemyTransformSound'] }
+          : {}),
+      })
     }
     // 敌分裂(script.c:2776 0x9C):分身播种(visual 落本体位 + 共用本体精灵)→
     // 10 帧整数二分滑开到各自槽位
@@ -1359,8 +1529,13 @@ export class BattleSession {
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
+      const throwSound = la.itemId ? s.items[la.itemId]?.throw?.sound : undefined
       return [
-        { durationMs: 120, fighters: [{ side: 'player', idx: la.idx, frame: 5 }] },
+        {
+          durationMs: 120,
+          fighters: [{ side: 'player', idx: la.idx, frame: 5 }],
+          ...(throwSound ? { sound: throwSound } : {}),
+        },
         { durationMs: 200, fighters: [{ side: 'enemy', idx: la.target, colorShift: 6 }] },
         {
           durationMs: 160,
@@ -1381,7 +1556,7 @@ export class BattleSession {
         attackerPos,
         mateIdx: la.target,
         matePos,
-        weaponSound: this.opts.playerSounds?.[la.idx]?.weapon ?? 0,
+        weaponSound: this.opts.playerSounds?.[la.idx]?.weapon,
         damage: (pHp[la.target] ?? 0) - (s.players[la.target]?.hp ?? 0),
         mateDied: (s.players[la.target]?.hp ?? 0) <= 0,
       })
@@ -1405,8 +1580,8 @@ export class BattleSession {
         attackerPos,
         centerPos: expectDefined(hits[Math.floor(hits.length / 2)]).pos, // 中心敌落点挥击
         hits,
-        weaponSound: snd?.weapon ?? 0,
-        attackSound: (la.crit ? snd?.critical : snd?.attack) ?? 0,
+        weaponSound: snd?.weapon,
+        attackSound: la.crit ? snd?.critical : snd?.attack,
       })
     }
     if (la.kind !== 'attack' || la.target === undefined) return null
@@ -1598,7 +1773,7 @@ export class BattleSession {
     for (const i of this.pendingDeaths) {
       this.deathFades.set(i, this.nowMs)
       const e = this.state.enemies[i]
-      if (e) this.assets.sfx?.play(e.def.sounds.death)
+      if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
     }
     this.pendingDeaths = []
     this.state.players.forEach((p, i) => {
@@ -1610,6 +1785,14 @@ export class BattleSession {
   /** dev:战斗日志只读视图(M4c 验证)。 */
   debugLog(): readonly string[] {
     return this.state.log
+  }
+
+  /** dev/test:异步音效屏障只读状态。 */
+  debugReadiness(): { phase: UiPhase; error?: string } {
+    return {
+      phase: this.ui,
+      ...(this.readinessError ? { error: this.readinessError.message } : {}),
+    }
   }
 
   /** dev:队员战斗态只读快照(护体符/毒携带/大蒜毒抗验证:roleId/hp/status/poisons/poisonRes)。 */
@@ -1933,6 +2116,25 @@ export class BattleSession {
         forceRgba: [226, 179, 64],
       })
       renderSpans(ctx, [{ text: this.choreoBanner.text }], 10, 24, { glyphs: g, shadow: true })
+    }
+
+    // 第二级音效屏障：战场保持可见、人物不动、菜单与所有输入锁住。
+    if (!dialogActive && (this.ui === 'preparing' || this.ui === 'readinessError')) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.72)'
+      ctx.fillRect(48, 76, 224, this.ui === 'preparing' ? 42 : 58)
+      renderSpans(
+        ctx,
+        [{ text: this.ui === 'preparing' ? '音效准备中…' : '音效工作集错误' }],
+        this.ui === 'preparing' ? 112 : 104,
+        88,
+        { glyphs: g, shadow: true, forceRgba: [255, 255, 255] },
+      )
+      if (this.ui === 'readinessError')
+        renderSpans(ctx, [{ text: '按 Enter 或 Esc 返回' }], 80, 109, {
+          glyphs: g,
+          shadow: true,
+          forceRgba: [226, 179, 64],
+        })
     }
 
     // 指令菜单(一阶段原版形态:4 图标 + 杂项盒 + 3 列网格)。选敌态不画(一阶段 DL30);对话期全隐。

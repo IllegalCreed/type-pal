@@ -15,7 +15,6 @@ const base: AssetBase = {
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
-  sounds: 'sound',
   portraits: 'portrait',
   faces: 'face',
   itemIcons: 'item-icon',

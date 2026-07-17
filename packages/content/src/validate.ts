@@ -1,9 +1,9 @@
 // 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
-import type { ActorDef, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
+import type { ActorDef, EnemyDef, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
 import { isMapAssetId } from './map-index.js'
-import { checkEntityPages, checkStages } from './script.js'
+import { checkCommands, checkEntityPages, checkStages } from './script.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -20,6 +20,22 @@ function assertArray<T>(x: unknown, ctx: string): T[] {
 function assertObject(x: unknown, ctx: string): object {
   if (typeof x !== 'object' || x === null || Array.isArray(x)) throw new Error(`${ctx}: 期望对象`)
   return x as object
+}
+
+function validateOptionalAssetId(record: Record<string, unknown>, key: string, ctx: string): void {
+  const value = record[key]
+  if (value !== undefined && (typeof value !== 'string' || value.length === 0))
+    throw new Error(`${ctx}.${key}: 期望非空 AssetId`)
+}
+
+function validateSoundFields(
+  value: unknown,
+  fields: readonly string[],
+  ctx: string,
+): Record<string, unknown> {
+  const sounds = assertObject(value, ctx) as Record<string, unknown>
+  for (const field of fields) validateOptionalAssetId(sounds, field, ctx)
+  return sounds
 }
 
 function validateGridPos(x: unknown, ctx: string): void {
@@ -117,8 +133,14 @@ export function validateActors(json: unknown): ActorDef[] {
     }
     const battler = (a as { battler?: unknown }).battler
     if (battler !== undefined) {
-      const bo = assertObject(battler, `actors[${i}].battler`)
+      const bo = assertObject(battler, `actors[${i}].battler`) as Record<string, unknown>
       requireKeys(bo, ['baseStats', 'initialEquipment', 'initialMagic'], `actors[${i}].battler`)
+      if (bo.sounds !== undefined)
+        validateSoundFields(
+          bo.sounds,
+          ['attack', 'critical', 'weapon', 'magic', 'cover', 'dying', 'death'],
+          `actors[${i}].battler.sounds`,
+        )
     }
   })
   return arr
@@ -132,8 +154,22 @@ export function validateSkills(json: unknown): {
   requireKeys(o, ['skills', 'levelUp'], 'skills')
   const skills = assertArray<SkillData>((json as { skills: unknown }).skills, 'skills.skills')
   skills.forEach((s, i) => {
-    const so = assertObject(s, `skills.skills[${i}]`)
+    const so = assertObject(s, `skills.skills[${i}]`) as Record<string, unknown>
     requireKeys(so, ['id', 'name', 'cost', 'target', 'effects', 'animation'], `skills.skills[${i}]`)
+    const animation = assertObject(so.animation, `skills.skills[${i}].animation`) as Record<
+      string,
+      unknown
+    >
+    validateOptionalAssetId(animation, 'sound', `skills.skills[${i}].animation`)
+    const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
+    effects.forEach((effect, effectIndex) => {
+      const eo = assertObject(effect, `skills.skills[${i}].effects[${effectIndex}]`) as Record<
+        string,
+        unknown
+      >
+      if (eo.kind === 'summon')
+        validateOptionalAssetId(eo, 'sound', `skills.skills[${i}].effects[${effectIndex}]`)
+    })
   })
   assertObject((json as { levelUp: unknown }).levelUp, 'skills.levelUp')
   return { skills, levelUp: (json as { levelUp: Record<string, unknown> }).levelUp }
@@ -145,6 +181,50 @@ export function validateItems(json: unknown): ItemData[] {
     const o = assertObject(it, `items[${i}]`)
     requireKeys(o, ['id', 'name', 'icon', 'buyPrice', 'sellPrice', 'sellable'], `items[${i}]`)
     if (typeof (it as { id: unknown }).id !== 'string') throw new Error(`items[${i}]: id 非string`)
+    const record = it as unknown as Record<string, unknown>
+    for (const field of ['use', 'throw'] as const) {
+      if (record[field] === undefined) continue
+      const spec = assertObject(record[field], `items[${i}].${field}`) as Record<string, unknown>
+      validateOptionalAssetId(spec, 'sound', `items[${i}].${field}`)
+    }
+  })
+  return arr
+}
+
+/** 敌人定义轻量 guard；音效边界必须拒绝旧数字/负号协议。 */
+export function validateEnemies(json: unknown): EnemyDef[] {
+  const arr = assertArray<EnemyDef>(json, 'enemies')
+  arr.forEach((enemy, index) => {
+    const ctx = `enemies[${index}]`
+    const record = assertObject(enemy, ctx) as Record<string, unknown>
+    requireKeys(record, ['id', 'name', 'stats', 'ai', 'anim', 'sounds'], ctx)
+    if (typeof record.id !== 'string' || record.id.length === 0)
+      throw new Error(`${ctx}.id: 期望非空 string`)
+    const sounds = validateSoundFields(
+      record.sounds,
+      ['attack', 'action', 'magic', 'death', 'call'],
+      `${ctx}.sounds`,
+    )
+    if (
+      sounds.suppressMagicEffectSound !== undefined &&
+      typeof sounds.suppressMagicEffectSound !== 'boolean'
+    )
+      throw new Error(`${ctx}.sounds.suppressMagicEffectSound: 期望 boolean`)
+    if (record.choreography !== undefined) {
+      const choreography = assertArray<Record<string, unknown>>(
+        record.choreography,
+        `${ctx}.choreography`,
+      )
+      choreography.forEach((hook, hookIndex) => {
+        const body = assertObject(hook, `${ctx}.choreography[${hookIndex}]`) as Record<
+          string,
+          unknown
+        >
+        requireKeys(body, ['at', 'body'], `${ctx}.choreography[${hookIndex}]`)
+        checkCommands(body.body, `${ctx}.choreography[${hookIndex}].body`)
+      })
+    }
+    if (record.onDefeated !== undefined) checkCommands(record.onDefeated, `${ctx}.onDefeated`)
   })
   return arr
 }

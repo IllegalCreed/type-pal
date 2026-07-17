@@ -11,7 +11,7 @@
     "scene/s176/L-38685/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 63
+        "asset": "sound.pal.063"
       },
       {
         "kind": "wait",
@@ -50,7 +50,7 @@
     "scene/s176/L-38690/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 64
+        "asset": "sound.pal.064"
       },
       {
         "kind": "wait",
@@ -89,7 +89,7 @@
     "scene/s176/L-38695/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 65
+        "asset": "sound.pal.065"
       },
       {
         "kind": "wait",
@@ -128,7 +128,7 @@
     "scene/s176/L-38700/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 68
+        "asset": "sound.pal.068"
       },
       {
         "kind": "wait",
@@ -167,7 +167,7 @@
     "scene/s176/L-38705/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 69
+        "asset": "sound.pal.069"
       },
       {
         "kind": "wait",
@@ -206,7 +206,7 @@
     "scene/s176/L-38710/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 70
+        "asset": "sound.pal.070"
       },
       {
         "kind": "wait",
@@ -245,7 +245,7 @@
     "scene/s176/L-38715/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 84
+        "asset": "sound.pal.084"
       },
       {
         "kind": "wait",
@@ -284,7 +284,7 @@
     "scene/s176/L-38720/e2930/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 83
+        "asset": "sound.pal.083"
       },
       {
         "kind": "wait",
@@ -10447,7 +10447,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -10476,7 +10476,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -10505,7 +10505,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

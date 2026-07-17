@@ -1,5 +1,7 @@
 // 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
+
+import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import { applyPoisonSelf, poisonCurableBy } from './poison.js'
@@ -128,6 +130,8 @@ export interface UseSpec {
   target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'
   consuming: boolean
   effects: ItemUseEffect[]
+  /** 本物品使用链自带的表现音；缺席时由战斗物品提示音 role 决定。 */
+  sound?: AssetId
   /** 战斗专用(原版 wFlags 只带 UsableInBattle,如隐蛊):大世界使用菜单不列。缺省 = 两边可用。 */
   battleOnly?: boolean
 }
@@ -135,6 +139,8 @@ export interface UseSpec {
 /** 战斗投掷,phase3 细化。 */
 export interface ThrowSpec {
   effects: ItemUseEffect[] // 占位:投掷效果届时可能独立联合
+  /** 投掷链显式表现音；缺席表示没有物品专属音。 */
+  sound?: AssetId
 }
 
 /** 物品基类。能力块(equip/use/throw)可叠加;菜单按能力块过滤(灵珠双重身份零特判)。 */

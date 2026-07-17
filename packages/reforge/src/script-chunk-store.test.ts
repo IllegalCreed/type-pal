@@ -57,12 +57,12 @@ describe('ScriptChunkStore', () => {
           'content/scripts/chunks/shared/c00.json': {
             version: 1,
             id: 'shared/c00',
-            scripts: { [authorId]: [{ kind: 'playSound', soundId: 2 }] },
+            scripts: { [authorId]: [{ kind: 'playSound', asset: 'sound.pal.002' }] },
           },
           'content/scripts/chunks/shared/c01.json': {
             version: 1,
             id: 'shared/c01',
-            scripts: { 'shared/unused': [{ kind: 'playSound', soundId: 99 }] },
+            scripts: { 'shared/unused': [{ kind: 'playSound', asset: 'sound.pal.099' }] },
           },
         },
         reads,
@@ -88,7 +88,7 @@ describe('ScriptChunkStore', () => {
           'content/scripts/chunks/scene/s001.json': {
             version: 1,
             id: 'scene/s001',
-            scripts: { [id]: [{ kind: 'playSound', soundId: 1 }] },
+            scripts: { [id]: [{ kind: 'playSound', asset: 'sound.pal.001' }] },
           },
           'content/scripts/chunks/shared/c00.json': { version: 1, id: 'shared/c00', scripts: {} },
         },
@@ -99,7 +99,7 @@ describe('ScriptChunkStore', () => {
     )
     const lease = await store.resolve({ chunk: 'shared/c00', id }, new AbortController().signal)
     expect(lease.ref.chunk).toBe('scene/s001')
-    expect(lease.body).toEqual([{ kind: 'playSound', soundId: 1 }])
+    expect(lease.body).toEqual([{ kind: 'playSound', asset: 'sound.pal.001' }])
     expect(reads).toEqual([
       'content/scripts/chunks/shared/c00.json',
       'content/scripts/chunks/scene/s001.json',
@@ -165,7 +165,7 @@ describe('ScriptChunkStore', () => {
     const chunk: ScriptChunkV1 = {
       version: 1,
       id: 'scene/s001',
-      scripts: { [id]: [{ kind: 'playSound', soundId: 1 }] },
+      scripts: { [id]: [{ kind: 'playSound', asset: 'sound.pal.001' }] },
     }
     const expectedBytes = Math.max(100, new TextEncoder().encode(JSON.stringify(chunk)).byteLength)
     const source: FileSource = {

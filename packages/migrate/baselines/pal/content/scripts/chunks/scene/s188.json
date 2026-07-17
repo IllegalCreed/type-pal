@@ -154,7 +154,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 263
+        "asset": "sound.pal.263"
       },
       {
         "kind": "setPartyFacing",
@@ -406,7 +406,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 89
+        "asset": "sound.pal.089"
       },
       {
         "kind": "dialog",
@@ -1141,7 +1141,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -1170,7 +1170,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -1199,7 +1199,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import type { LoadedManifest } from '@type-pal/content'
 import {
   baselineWrites,
   type MigrationSnapshot,
@@ -7,7 +8,7 @@ import {
   serializeMigrationJson,
 } from './migration-baseline.js'
 import type { MigrationPlan } from './migration-plan.js'
-import type { TransactionChange } from './migration-transaction.js'
+import type { TransactionChange, TransactionPrecondition } from './migration-transaction.js'
 
 function differs(repo: string, path: string, content: string): boolean {
   const full = resolve(repo, path)
@@ -20,8 +21,11 @@ export function buildMigrationTransactionChanges(args: {
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
   previousBaseline?: MigrationSnapshot
   nextBaseline: MigrationSnapshot
+  /** 必须最后提交：新 manifest 只能在资源及其 catalog 已就绪后对运行时可见。 */
+  nextManifest?: LoadedManifest
+  manifestPreconditions?: readonly TransactionPrecondition[]
 }): TransactionChange[] {
-  const { repo, plan, previousBaseline, nextBaseline } = args
+  const { repo, plan, previousBaseline, nextBaseline, nextManifest } = args
   const changes: TransactionChange[] = []
   for (const [path, value] of [...plan.writes].sort(([a], [b]) => a.localeCompare(b))) {
     changes.push({
@@ -49,5 +53,17 @@ export function buildMigrationTransactionChanges(args: {
   const state = desired.get(statePath)!
   if (differs(repo, statePath, state))
     changes.push({ target: statePath, scope: 'baseline', content: state })
+  if (nextManifest) {
+    if (!args.manifestPreconditions?.length) throw new Error('manifest 变更缺资源闭包前置条件')
+    const path = 'projects/pal/manifest.json'
+    const content = `${JSON.stringify(nextManifest, null, 2)}\n`
+    if (differs(repo, path, content))
+      changes.push({
+        target: path,
+        scope: 'manifest',
+        content,
+        preconditions: args.manifestPreconditions,
+      })
+  }
   return changes
 }

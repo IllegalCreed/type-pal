@@ -142,7 +142,7 @@ export type Command =
   | { kind: 'setVar'; var: string; value: number }
   | { kind: 'addVar'; var: string; delta: number }
   // 声音 / 战斗配置
-  | { kind: 'playSound'; soundId: number }
+  | { kind: 'playSound'; asset: AssetId }
   | { kind: 'playMusic'; asset: AssetId }
   | { kind: 'stopMusic' }
   // 氛围(W6 昼夜;原版 0x53 昼/0x54 夜全局调色板 flag 的 clean 表达 —— 全帧乘法滤镜)
@@ -444,6 +444,13 @@ export function checkCommands(cmds: unknown, path: string): void {
     if (k === 'playMusic') {
       const asset = (c as { asset?: unknown }).asset
       if (typeof asset !== 'string' || asset.length === 0)
+        throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
+    }
+    if (k === 'playSound') {
+      const command = c as { asset?: unknown; soundId?: unknown }
+      if (command.soundId !== undefined)
+        throw new Error(`${path}[${i}].soundId: 旧数字音效字段已退役，请升级为 asset`)
+      if (typeof command.asset !== 'string' || command.asset.length === 0)
         throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
     }
     if (k === 'playVideo' || k === 'playFrameAnimation') {

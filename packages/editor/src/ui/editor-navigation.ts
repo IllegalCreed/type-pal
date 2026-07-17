@@ -21,6 +21,7 @@ export const DATA_PAGE_IDS = [
   'shop',
   'battlefield',
   'music',
+  'sound',
   'tileset',
   'cutscene',
   'entrypoint',
@@ -148,6 +149,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         icon: '🎵',
         kind: 'data',
         dataPage: 'music',
+        acceptsObject: true,
+      },
+      {
+        id: 'sound',
+        label: '音效',
+        icon: '🔊',
+        kind: 'data',
+        dataPage: 'sound',
         acceptsObject: true,
       },
       {
@@ -294,6 +303,11 @@ export const editorLinks = {
     module: 'asset',
     subpage: 'sprite',
     objectId: spriteId,
+  }),
+  sound: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sound',
+    objectId: assetId,
   }),
   sharedScript: (scriptId: string): EditorLocation => ({
     module: 'story',

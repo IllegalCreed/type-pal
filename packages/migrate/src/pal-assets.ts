@@ -1,4 +1,15 @@
-import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  closeSync,
+  existsSync,
+  fsyncSync,
+  mkdirSync,
+  openSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { deflateSync, gunzipSync } from 'node:zlib'
 import {
@@ -9,6 +20,7 @@ import {
   type ManifestAssetConfigV3,
   palFrameAnimationAssetId,
   palMusicAssetId,
+  palSoundAssetId,
   palVideoAssetId,
   validateAssetCatalog,
 } from '@type-pal/content'
@@ -38,6 +50,9 @@ export interface PalAssetMigrationReport {
   videos: number
   frameAnimations: number
   frames: number
+  sounds: number
+  emptySounds: number
+  soundBytes: number
   /** 迁移边界审计字段；项目内容、运行时和编辑器不得消费这些旧编号。 */
   legacyPaletteByFrameAnimation: Record<string, number>
 }
@@ -52,8 +67,16 @@ export const PAL_AUDIO_ROLES = {
   'audio.openingMenuMusic': palMusicAssetId(4),
 } as const satisfies ManifestAssetConfigV3['roles']
 
+export const PAL_SOUND_ROLES = {
+  'audio.battleItemUseSound': palSoundAssetId(28),
+  'audio.battleCoopCastSound': palSoundAssetId(29),
+  'audio.battleEscapeSound': palSoundAssetId(45),
+  'audio.battleEnemyTransformSound': palSoundAssetId(47),
+} as const satisfies ManifestAssetConfigV3['roles']
+
 export const PAL_ASSET_ROLES = {
   ...PAL_AUDIO_ROLES,
+  ...PAL_SOUND_ROLES,
   'video.startupTrademark': palVideoAssetId(1),
   'video.startupSplash': palVideoAssetId(2),
   'visual.standardColorTable': 'color.project-standard',
@@ -128,9 +151,116 @@ interface ExtractedRngManifest {
   chunks: Array<{ chunkIndex: number; frameCount: number; frames: Array<{ index: number }> }>
 }
 
+interface ExtractedSoundChunk {
+  index: number
+  size: number
+  isEmpty: boolean
+}
+
+interface ExtractedSoundsMetadata {
+  chunkCount: number
+  chunks: ExtractedSoundChunk[]
+}
+
+interface ExtractedAssetManifest {
+  files: Array<{ path: string; size: number }>
+}
+
+function assertWave(bytes: Uint8Array, label: string): void {
+  const tag = (offset: number): string => String.fromCharCode(...bytes.subarray(offset, offset + 4))
+  if (bytes.byteLength < 12 || tag(0) !== 'RIFF' || tag(8) !== 'WAVE')
+    throw new Error(`${label}: 不是 RIFF/WAVE 文件`)
+}
+
+/** PAL SOUNDS.MKF 提取物的三向闭包：metadata、asset-manifest 与实际 WAV 必须完全一致。 */
+export function loadPalSoundAssets(repo: string): {
+  binaries: PalBinaryAssetSource[]
+  report: Pick<PalAssetMigrationReport, 'sounds' | 'emptySounds' | 'soundBytes'>
+} {
+  const metadata = JSON.parse(
+    readFileSync(resolve(repo, 'data/extracted/data/sounds-metadata.json'), 'utf8'),
+  ) as Partial<ExtractedSoundsMetadata>
+  if (!Number.isInteger(metadata.chunkCount) || !Array.isArray(metadata.chunks))
+    throw new Error('PAL sounds metadata 期望 {chunkCount,chunks} 对象')
+  if (metadata.chunkCount !== metadata.chunks.length)
+    throw new Error(
+      `PAL sounds metadata chunkCount=${String(metadata.chunkCount)}，chunks=${metadata.chunks.length}`,
+    )
+  if (metadata.chunkCount !== 505)
+    throw new Error(`PAL sounds metadata 期望 505 段，收到 ${String(metadata.chunkCount)}`)
+
+  const nonempty: ExtractedSoundChunk[] = []
+  let emptySounds = 0
+  for (const [index, raw] of metadata.chunks.entries()) {
+    const chunk = raw as Partial<ExtractedSoundChunk>
+    if (chunk.index !== index)
+      throw new Error(`PAL sound 段号不连续，期望 ${index}，实际 ${chunk.index}`)
+    if (!Number.isInteger(chunk.size) || (chunk.size ?? -1) < 0)
+      throw new Error(`PAL sound ${index}: size 非法`)
+    if (typeof chunk.isEmpty !== 'boolean' || chunk.isEmpty !== (chunk.size === 0))
+      throw new Error(`PAL sound ${index}: isEmpty 与 size 不一致`)
+    if (chunk.isEmpty) emptySounds++
+    else nonempty.push(chunk as ExtractedSoundChunk)
+  }
+
+  const extractedManifest = JSON.parse(
+    readFileSync(resolve(repo, 'data/extracted/asset-manifest.json'), 'utf8'),
+  ) as Partial<ExtractedAssetManifest>
+  if (!Array.isArray(extractedManifest.files)) throw new Error('PAL asset-manifest.files 期望数组')
+  const manifestSounds = new Map<number, number>()
+  for (const file of extractedManifest.files) {
+    const match = /^sounds\/(\d+)\.wav$/.exec(file.path)
+    if (!match) continue
+    const index = Number(match[1])
+    if (manifestSounds.has(index)) throw new Error(`PAL asset-manifest 重复 sound ${index}`)
+    manifestSounds.set(index, file.size)
+  }
+  const actualSounds = new Set<number>()
+  for (const file of readdirSync(resolve(repo, 'data/extracted/sounds'))) {
+    const match = /^(\d+)\.wav$/.exec(file)
+    if (!match) throw new Error(`PAL sounds 目录出现非规范文件 ${file}`)
+    const index = Number(match[1])
+    if (actualSounds.has(index)) throw new Error(`PAL sounds 目录重复 sound ${index}`)
+    actualSounds.add(index)
+  }
+  const expected = new Set(nonempty.map((chunk) => chunk.index))
+  const exactSet = (label: string, actual: ReadonlySet<number>): void => {
+    const missing = [...expected].filter((index) => !actual.has(index))
+    const extra = [...actual].filter((index) => !expected.has(index))
+    if (missing.length || extra.length)
+      throw new Error(
+        `${label} 与 metadata 不闭包：missing=${missing.join(',')} extra=${extra.join(',')}`,
+      )
+  }
+  exactSet('PAL asset-manifest sounds', new Set(manifestSounds.keys()))
+  exactSet('PAL sounds 目录', actualSounds)
+
+  let soundBytes = 0
+  const binaries = nonempty.map((chunk) => {
+    const sourcePath = resolve(repo, `data/extracted/sounds/${chunk.index}.wav`)
+    const bytes = readFileSync(sourcePath)
+    if (bytes.byteLength !== chunk.size || manifestSounds.get(chunk.index) !== chunk.size)
+      throw new Error(`PAL sound ${chunk.index}: metadata/manifest/文件 size 不一致`)
+    assertWave(bytes, `PAL sound ${chunk.index}`)
+    soundBytes += bytes.byteLength
+    const padded = String(chunk.index).padStart(3, '0')
+    return fileSource(palSoundAssetId(chunk.index), sourcePath, {
+      kind: 'sound',
+      path: `assets/migrated/sounds/${padded}.wav`,
+      mediaType: 'audio/wav',
+      label: `PAL 音效 ${padded}`,
+      origin: { kind: 'legacy-migrated', ref: `sounds/${chunk.index}.wav` },
+    })
+  })
+  return { binaries, report: { sounds: binaries.length, emptySounds, soundBytes } }
+}
+
 function loadPalFrameAnimations(repo: string): {
   binaries: PalBinaryAssetSource[]
-  report: PalAssetMigrationReport
+  report: Pick<
+    PalAssetMigrationReport,
+    'videos' | 'frameAnimations' | 'frames' | 'legacyPaletteByFrameAnimation'
+  >
 } {
   const manifestPath = resolve(repo, 'data/extracted/data/rng-frames.json')
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as ExtractedRngManifest
@@ -253,6 +383,8 @@ export function loadPalAssets(
   }
   const frameAnimations = loadPalFrameAnimations(repo)
   binaries.push(...frameAnimations.binaries)
+  const sounds = loadPalSoundAssets(repo)
+  binaries.push(...sounds.binaries)
 
   const ids = new Set<string>()
   for (const source of binaries) {
@@ -271,7 +403,7 @@ export function loadPalAssets(
     catalog,
     binaries,
     roles: { ...PAL_ASSET_ROLES },
-    report: frameAnimations.report,
+    report: { ...frameAnimations.report, ...sounds.report },
   }
 }
 
@@ -301,6 +433,15 @@ function assertSourceBytes(source: PalBinaryAssetSource): Uint8Array {
   return bytes
 }
 
+function syncPath(path: string): void {
+  const fd = openSync(path, 'r')
+  try {
+    fsyncSync(fd)
+  } finally {
+    closeSync(fd)
+  }
+}
+
 /**
  * 二进制不进入 MG2 JSON 事务。此函数按 catalog 所有权确定性物化，并在返回前逐文件重读闭包。
  * 作者接管同 AssetId 后只验证 authored 文件，绝不再复制 migrated 来源。
@@ -314,6 +455,34 @@ export function materializePalAssets(args: {
   const catalog = validateAssetCatalog(args.catalog)
   const sourceById = new Map(binaries.map((asset) => [asset.id, asset]))
   if (sourceById.size !== binaries.length) throw new Error('PAL 二进制迁移源存在重复 AssetId')
+  const ownerByPath = new Map<string, string>()
+  for (const [id, record] of Object.entries(catalog.assets)) {
+    const owner = ownerByPath.get(record.path)
+    if (owner) throw new Error(`PAL catalog 资源路径冲突: ${owner} / ${id} -> ${record.path}`)
+    ownerByPath.set(record.path, id)
+  }
+  // 全量预检必须先于第一个写入，避免后续坏源留下半批目标。
+  for (const source of binaries) {
+    const target = catalog.assets[source.id]
+    if (!target) throw new Error(`PAL catalog 缺迁移资源 ${source.id}`)
+    if (target.origin.kind === 'authored') {
+      assertBytes(resolve(repo, 'projects/pal', target.path), target)
+      continue
+    }
+    const sourceControlled = ['kind', 'path', 'mediaType', 'bytes', 'sha256'] as const
+    for (const key of sourceControlled) {
+      if (target[key] !== source.record[key])
+        throw new Error(`迁移资源 ${source.id}.${key} 被非 authored 记录改写`)
+    }
+    assertSourceBytes(source)
+  }
+  for (const [id, record] of Object.entries(catalog.assets)) {
+    if (sourceById.has(id)) continue
+    if (record.origin.kind !== 'authored' && record.origin.kind !== 'generated')
+      throw new Error(`未知迁移所有权资源 ${id}`)
+    assertBytes(resolve(repo, 'projects/pal', record.path), record)
+  }
+
   let written = 0
   let unchanged = 0
   let authored = 0
@@ -323,11 +492,6 @@ export function materializePalAssets(args: {
     if (target.origin.kind === 'authored') {
       authored++
       continue
-    }
-    const sourceControlled = ['kind', 'path', 'mediaType', 'bytes', 'sha256'] as const
-    for (const key of sourceControlled) {
-      if (target[key] !== source.record[key])
-        throw new Error(`迁移资源 ${source.id}.${key} 被非 authored 记录改写`)
     }
     const bytes = assertSourceBytes(source)
     const destination = resolve(repo, 'projects/pal', target.path)
@@ -342,20 +506,17 @@ export function materializePalAssets(args: {
     const temporary = `${destination}.tmp-${process.pid}`
     rmSync(temporary, { force: true })
     writeFileSync(temporary, bytes)
+    syncPath(temporary)
     renameSync(temporary, destination)
+    syncPath(destination)
+    syncPath(dirname(destination))
     written++
   }
 
   let bytes = 0
-  for (const [id, record] of Object.entries(catalog.assets)) {
+  for (const record of Object.values(catalog.assets)) {
     const file = assertBytes(resolve(repo, 'projects/pal', record.path), record)
     bytes += file.byteLength
-    if (
-      !sourceById.has(id) &&
-      record.origin.kind !== 'authored' &&
-      record.origin.kind !== 'generated'
-    )
-      throw new Error(`未知迁移所有权资源 ${id}`)
   }
   return {
     written,

@@ -25,7 +25,9 @@ import type {
 import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { MusicPicker } from './MusicPicker.js'
+import { SoundPicker } from './SoundPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
 const SPEEDS: WalkSpeed[] = ['slow', 'normal', 'fast', 'run']
@@ -174,6 +176,7 @@ export function CommandForm(props: {
   locale: Locale
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
+  assetReader: EditorAssetReader
   /** 全场景(loadScene 目标下拉;W4)。缺省 = 只有当前场景。 */
   scenes?: SceneDef[]
   /** 资产 base(战场选择器预览;B2)。缺省退化数字输入。 */
@@ -190,6 +193,7 @@ export function CommandForm(props: {
   hasImplicitSelf?: boolean
   /** 打开 callScript/jumpScript 目标；调用方决定留在场景内或进入作者共享库。 */
   onOpenScript?: (id: string) => void
+  onOpenSound?: (id: string) => void
   onChange: (next: Command) => void
 }) {
   const {
@@ -198,6 +202,7 @@ export function CommandForm(props: {
     locale,
     assetCatalog,
     audioResolver,
+    assetReader,
     scenes,
     actors,
     ambiences,
@@ -205,6 +210,7 @@ export function CommandForm(props: {
     scriptIndex,
     hasImplicitSelf,
     onOpenScript,
+    onOpenSound,
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
@@ -842,8 +848,16 @@ export function CommandForm(props: {
     }
     case 'playSound':
       return (
-        <Row label="音效 id">
-          <Num value={cmd.soundId} onChange={(n) => set({ soundId: n })} />
+        <Row label="音效">
+          <SoundPicker
+            value={cmd.asset}
+            onChange={(asset) => {
+              if (asset) set({ asset })
+            }}
+            catalog={assetCatalog}
+            reader={assetReader}
+            onOpenAsset={onOpenSound}
+          />
         </Row>
       )
     case 'playMusic':

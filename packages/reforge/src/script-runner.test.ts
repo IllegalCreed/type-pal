@@ -227,7 +227,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
           {
             kind: 'branch',
             cond: { kind: 'chance', percent: 100 },
-            then: [{ kind: 'playSound', soundId: 1 }],
+            then: [{ kind: 'playSound', asset: 'sound.pal.001' }],
           },
           { kind: 'confirm', onNo: [{ kind: 'giveMoney', delta: 5 }] },
         ],
@@ -255,7 +255,7 @@ describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => 
           {
             kind: 'branch',
             cond: { kind: 'chance', percent: 100 },
-            then: [{ kind: 'playSound', soundId: 1 }],
+            then: [{ kind: 'playSound', asset: 'sound.pal.001' }],
           },
         ],
       },
@@ -320,7 +320,7 @@ describe('stages 阶段机', () => {
             ],
             reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
           },
-          body: [{ kind: 'playSound', soundId: 1 }],
+          body: [{ kind: 'playSound', asset: 'sound.pal.001' }],
           next: 'advance',
         },
       ],
@@ -330,7 +330,7 @@ describe('stages 阶段机', () => {
       'playMusic("music.pal.031")',
       'teleportParty({"col":59,"row":-23,"height":0},)',
       'revealSceneEntry({"kind":"dither","ms":2160,"source":"previousPresentedFrame"})',
-      'playSound(1)',
+      'playSound("sound.pal.001")',
     ])
     expect(world.entityStage['s:s001']).toBe(1)
   })
@@ -359,14 +359,14 @@ describe('stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)', (
           {
             kind: 'branch',
             cond: { kind: 'chance', percent: 79 }, // rnd 0 → 命中
-            then: [{ kind: 'playSound', soundId: 7 }, { kind: 'stopScript' }],
+            then: [{ kind: 'playSound', asset: 'sound.pal.007' }, { kind: 'stopScript' }],
           },
           { kind: 'giveItem', itemId: '99' }, // 命中臂后必须不落穿(曾 21% 掉落变 100%)
         ],
         next: 'advance',
       },
     ])
-    expect(calls).toEqual(['playSound(7)'])
+    expect(calls).toEqual(['playSound("sound.pal.007")'])
     expect(world.entityStage.e1 ?? 0).toBe(0) // stop → 阶段不转移(下次触发重掷)
   })
   test('不命中走落穿路径,自然收尾照常转移阶段', async () => {
@@ -436,30 +436,35 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       {
         kind: 'branch',
         cond: { kind: 'hasMoney', atLeast: 40 },
-        then: [{ kind: 'playSound', soundId: 1 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.001' }],
       }, // 50≥40 ✓
       {
         kind: 'branch',
         cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: 60 } },
-        then: [{ kind: 'playSound', soundId: 2 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.002' }],
       },
       {
         kind: 'branch',
         cond: { kind: 'inParty', actorId: 'li-xiaoyao' },
-        then: [{ kind: 'playSound', soundId: 3 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.003' }],
       },
       {
         kind: 'branch',
         cond: { kind: 'entityState', entity: 'e7', is: 2 },
-        then: [{ kind: 'playSound', soundId: 4 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.004' }],
       },
       {
         kind: 'branch',
         cond: { kind: 'hasItem', itemId: '1' },
-        then: [{ kind: 'playSound', soundId: 9 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.009' }],
       }, // false
     ])
-    expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)', 'playSound(4)'])
+    expect(calls).toEqual([
+      'playSound("sound.pal.001")',
+      'playSound("sound.pal.002")',
+      'playSound("sound.pal.003")',
+      'playSound("sound.pal.004")',
+    ])
   })
   test('branch:allFullHp/itemEquipped 走 query(0x74 洪大夫治伤门 / 0x86 玉佛珠门禁)', async () => {
     // fakeHost:allFullHp→true(满血)、itemEquipped→false(未装备)
@@ -474,22 +479,26 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
       {
         kind: 'branch',
         cond: { kind: 'not', cond: { kind: 'allFullHp' } },
-        then: [{ kind: 'playSound', soundId: 1 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.001' }],
       },
-      { kind: 'branch', cond: { kind: 'allFullHp' }, then: [{ kind: 'playSound', soundId: 2 }] }, // 满血 ✓
+      {
+        kind: 'branch',
+        cond: { kind: 'allFullHp' },
+        then: [{ kind: 'playSound', asset: 'sound.pal.002' }],
+      }, // 满血 ✓
       // 0x86 玉佛珠:未装备才拦。未装备 → not(itemEquipped)=true → 拦截
       {
         kind: 'branch',
         cond: { kind: 'not', cond: { kind: 'itemEquipped', itemId: '274', atLeast: 1 } },
-        then: [{ kind: 'playSound', soundId: 3 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.003' }],
       },
       {
         kind: 'branch',
         cond: { kind: 'itemEquipped', itemId: '274' },
-        then: [{ kind: 'playSound', soundId: 4 }],
+        then: [{ kind: 'playSound', asset: 'sound.pal.004' }],
       }, // 未装备 → 不走
     ])
-    expect(calls).toEqual(['playSound(2)', 'playSound(3)'])
+    expect(calls).toEqual(['playSound("sound.pal.002")', 'playSound("sound.pal.003")'])
   })
   test('startBattle:win 直走;lose 走 onLose 臂', async () => {
     const calls: string[] = []
@@ -498,15 +507,15 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     host.startBattle = async () => result
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
-      { kind: 'startBattle', team: 5, onLose: [{ kind: 'playSound', soundId: 99 }] },
-      { kind: 'playSound', soundId: 1 },
+      { kind: 'startBattle', team: 5, onLose: [{ kind: 'playSound', asset: 'sound.pal.099' }] },
+      { kind: 'playSound', asset: 'sound.pal.001' },
     ]
     await r.run(body)
-    expect(calls).toEqual(['playSound(99)', 'playSound(1)']) // 败臂后仍续走(臂内自终结才会停)
+    expect(calls).toEqual(['playSound("sound.pal.099")', 'playSound("sound.pal.001")']) // 败臂后仍续走(臂内自终结才会停)
     calls.length = 0
     result = 'win'
     await r.run(body)
-    expect(calls).toEqual(['playSound(1)'])
+    expect(calls).toEqual(['playSound("sound.pal.001")'])
   })
   test('startBattle 透传一次性 fieldId/music(特殊战场绑本战;override 已退役)', async () => {
     const calls: string[] = []
@@ -529,15 +538,19 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     }
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
-      { kind: 'teleportOut', onFail: [{ kind: 'playSound', soundId: 42 }] },
-      { kind: 'playSound', soundId: 1 },
+      { kind: 'teleportOut', onFail: [{ kind: 'playSound', asset: 'sound.pal.042' }] },
+      { kind: 'playSound', asset: 'sound.pal.001' },
     ]
     await r.run(body)
-    expect(calls).toEqual(['teleportOut→false', 'playSound(42)', 'playSound(1)']) // 不灵 → onFail 后续走
+    expect(calls).toEqual([
+      'teleportOut→false',
+      'playSound("sound.pal.042")',
+      'playSound("sound.pal.001")',
+    ]) // 不灵 → onFail 后续走
     calls.length = 0
     ok = true
     await r.run(body)
-    expect(calls).toEqual(['teleportOut→true', 'playSound(1)']) // 传走成功,不跑 onFail
+    expect(calls).toEqual(['teleportOut→true', 'playSound("sound.pal.001")']) // 传走成功,不跑 onFail
   })
   test('confirm:是 → 直走;否 → onNo 臂', async () => {
     const calls: string[] = []
@@ -546,15 +559,15 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     host.confirm = async () => yes
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     const body: Command[] = [
-      { kind: 'confirm', onNo: [{ kind: 'playSound', soundId: 7 }] },
-      { kind: 'playSound', soundId: 1 },
+      { kind: 'confirm', onNo: [{ kind: 'playSound', asset: 'sound.pal.007' }] },
+      { kind: 'playSound', asset: 'sound.pal.001' },
     ]
     await r.run(body)
-    expect(calls).toEqual(['playSound(7)', 'playSound(1)'])
+    expect(calls).toEqual(['playSound("sound.pal.007")', 'playSound("sound.pal.001")'])
     calls.length = 0
     yes = true
     await r.run(body)
-    expect(calls).toEqual(['playSound(1)'])
+    expect(calls).toEqual(['playSound("sound.pal.001")'])
   })
 })
 
@@ -588,7 +601,7 @@ test('ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落�
   const runner = new ScriptRunner(host, emptyWorldScriptState(), ac.signal)
   const running = runner.run([
     { kind: 'ditherScreen', ms: 2160 },
-    { kind: 'playSound', soundId: 1 },
+    { kind: 'playSound', asset: 'sound.pal.001' },
   ])
   await Promise.resolve()
   expect(calls).toEqual(['ditherScreen(2160)'])
@@ -631,11 +644,11 @@ describe('分片脚本 call/jump', () => {
     const ref = (id: string) => ({ chunk: 'shared/c00', id })
     const resolver = resolverOf({
       'shared/a': [
-        { kind: 'playSound', soundId: 1 },
+        { kind: 'playSound', asset: 'sound.pal.001' },
         { kind: 'jumpScript', ref: ref('shared/b') },
-        { kind: 'playSound', soundId: 99 },
+        { kind: 'playSound', asset: 'sound.pal.099' },
       ],
-      'shared/b': [{ kind: 'playSound', soundId: 2 }],
+      'shared/b': [{ kind: 'playSound', asset: 'sound.pal.002' }],
     })
     const runner = new ScriptRunner(
       fakeHost(calls),
@@ -646,9 +659,13 @@ describe('分片脚本 call/jump', () => {
     )
     await runner.run([
       { kind: 'callScript', ref: ref('shared/a') },
-      { kind: 'playSound', soundId: 3 },
+      { kind: 'playSound', asset: 'sound.pal.003' },
     ])
-    expect(calls).toEqual(['playSound(1)', 'playSound(2)', 'playSound(3)'])
+    expect(calls).toEqual([
+      'playSound("sound.pal.001")',
+      'playSound("sound.pal.002")',
+      'playSound("sound.pal.003")',
+    ])
   })
 
   test('嵌套 branch 内 jump 穿透父体，父体后续不落穿', async () => {
@@ -659,7 +676,7 @@ describe('分片脚本 call/jump', () => {
       emptyWorldScriptState(),
       new AbortController().signal,
       () => 0,
-      resolverOf({ [target.id]: [{ kind: 'playSound', soundId: 7 }] }),
+      resolverOf({ [target.id]: [{ kind: 'playSound', asset: 'sound.pal.007' }] }),
     )
     await runner.run([
       {
@@ -667,9 +684,9 @@ describe('分片脚本 call/jump', () => {
         cond: { kind: 'chance', percent: 100 },
         then: [{ kind: 'jumpScript', ref: target }],
       },
-      { kind: 'playSound', soundId: 99 },
+      { kind: 'playSound', asset: 'sound.pal.099' },
     ])
-    expect(calls).toEqual(['playSound(7)'])
+    expect(calls).toEqual(['playSound("sound.pal.007")'])
   })
 
   test('深 call 链的 lease 覆盖全部活动调用帧', async () => {
@@ -680,7 +697,7 @@ describe('分片脚本 call/jump', () => {
       {
         'shared/a': [{ kind: 'callScript', ref: ref('shared/b') }],
         'shared/b': [{ kind: 'callScript', ref: ref('shared/c') }],
-        'shared/c': [{ kind: 'playSound', soundId: 3 }],
+        'shared/c': [{ kind: 'playSound', asset: 'sound.pal.003' }],
       },
       leases,
     )
@@ -694,7 +711,7 @@ describe('分片脚本 call/jump', () => {
     await runner.run([{ kind: 'callScript', ref: ref('shared/a') }])
     expect(leases.peak).toBe(3)
     expect(leases.active).toBe(0)
-    expect(calls).toEqual(['playSound(3)'])
+    expect(calls).toEqual(['playSound("sound.pal.003")'])
   })
 
   test('作者 shared/user 脚本复用同一受控调用栈并继承 self', async () => {
@@ -739,7 +756,7 @@ describe('分片脚本 call/jump', () => {
       async resolve(ref) {
         visited.push(`${ref.chunk}:${ref.id}`)
         return {
-          body: [{ kind: 'playSound', soundId: 1 }],
+          body: [{ kind: 'playSound', asset: 'sound.pal.001' }],
           ref,
           release() {},
         }

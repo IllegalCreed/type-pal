@@ -102,7 +102,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s020/L-35650/e364/d-0a386828": [
@@ -2099,7 +2099,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 212
+        "asset": "sound.pal.212"
       },
       {
         "kind": "setEntityFacing",
@@ -2165,7 +2165,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "dialog",
@@ -2648,7 +2648,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 51
+        "asset": "sound.pal.051"
       },
       {
         "kind": "dialog",
@@ -5010,7 +5010,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 263
+        "asset": "sound.pal.263"
       },
       {
         "kind": "increaseHpMp",
@@ -5953,7 +5953,7 @@
     "scene/s020/root/entity-e392/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -5979,7 +5979,7 @@
     "scene/s020/root/entity-e393/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

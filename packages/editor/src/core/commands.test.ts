@@ -529,7 +529,7 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
       actWaitFrames: 0,
       yPosOffset: 0,
     },
-    sounds: { attack: 0, action: 0, magic: 0, death: 0, call: 0 },
+    sounds: {},
   })
   function stE(): EditorState {
     const base = st() as EditorState & {
@@ -863,6 +863,21 @@ describe('A7 音乐资源(AssetId 引用 + 注册表命令)', () => {
     const s2 = remove.apply(s1)
     expect(s2.assetCatalog.assets['music.demo.theme']).toBeUndefined()
     expect(remove.invert(s2).assetCatalog.assets['music.demo.theme']).toEqual(record)
+  })
+
+  test('替换/删除保存后撤销可恢复只存在于磁盘的旧字节', () => {
+    const oldBytes = Uint8Array.from([1, 2, 3]).buffer
+    const newBytes = Uint8Array.from([4, 5, 6]).buffer
+    const nextRecord = { ...record, path: 'assets/authored/replaced.mid', sha256: 'b'.repeat(64) }
+    const replaced = new UpsertAssetCommand('music.demo.theme', nextRecord, newBytes, oldBytes)
+    const afterReplace = replaced.apply(stMusic())
+    const restoredReplace = replaced.invert(afterReplace)
+    expect(restoredReplace.assetBlobs[record.path]).toEqual(oldBytes)
+
+    const removed = new DeleteAssetCommand('music.demo.theme', oldBytes)
+    const afterDelete = removed.apply(stMusic())
+    const restoredDelete = removed.invert(afterDelete)
+    expect(restoredDelete.assetBlobs[record.path]).toEqual(oldBytes)
   })
 })
 

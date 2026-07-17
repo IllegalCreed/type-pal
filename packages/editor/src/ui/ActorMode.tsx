@@ -6,6 +6,9 @@
 
 import type {
   ActorDef,
+  AssetCatalogV1,
+  AssetId,
+  BattlerSounds,
   BattlerSpec,
   ItemDataMap,
   LevelUpSkill,
@@ -18,10 +21,12 @@ import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useState } from 'react'
 import { SetActorBattleSpriteCommand, UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
+import { SoundPicker } from './SoundPicker.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
 const SLOT_LABEL: Record<string, string> = {
@@ -33,6 +38,16 @@ const SLOT_LABEL: Record<string, string> = {
   accessory: '饰',
 }
 
+const BATTLER_SOUND_FIELDS: readonly { key: keyof BattlerSounds; label: string }[] = [
+  { key: 'attack', label: '普攻出招' },
+  { key: 'critical', label: '暴击出招' },
+  { key: 'weapon', label: '兵器命中' },
+  { key: 'magic', label: '施法吟唱' },
+  { key: 'cover', label: '替挡 / 格挡' },
+  { key: 'dying', label: '濒死' },
+  { key: 'death', label: '阵亡' },
+]
+
 export function ActorMode(props: {
   actors: ActorDef[]
   sprites: SpriteDef[]
@@ -41,6 +56,8 @@ export function ActorMode(props: {
   locale: Locale
   assetBase: AssetBase
   session: EditSession
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   /** 升级学技能表(skills.json levelUp 键;C6 编辑)。 */
   levelUp: Record<string, LevelUpSkill[]>
   /** 默认入口的开局技能，只读摘要；唯一作者在工程 → 入口与开局。 */
@@ -49,6 +66,7 @@ export function ActorMode(props: {
   focusActorId?: string
   onActorFocus?: (id: string) => void
   onOpenSprite?: (id: string) => void
+  onOpenSound?: (id: string) => void
   onOpenStartSettings?: () => void
 }) {
   const {
@@ -59,12 +77,15 @@ export function ActorMode(props: {
     locale,
     assetBase,
     session,
+    assetCatalog,
+    assetReader,
     levelUp,
     startSkills,
     navigation,
     focusActorId,
     onActorFocus,
     onOpenSprite,
+    onOpenSound,
     onOpenStartSettings,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
@@ -91,6 +112,18 @@ export function ActorMode(props: {
     if (key === 'maxMP') bs.mp = val
     session.dispatch(
       new UpdateActorCommand(actor.id, { battler: { ...actor.battler, baseStats: bs } }),
+    )
+  }
+
+  const setBattlerSound = (key: keyof BattlerSounds, value: AssetId | undefined): void => {
+    if (!actor?.battler) return
+    const sounds = { ...actor.battler.sounds, [key]: value }
+    if (value === undefined) delete sounds[key]
+    const nextSounds = Object.keys(sounds).length ? sounds : undefined
+    session.dispatch(
+      new UpdateActorCommand(actor.id, {
+        battler: { ...actor.battler, sounds: nextSounds },
+      }),
     )
   }
 
@@ -271,6 +304,25 @@ export function ActorMode(props: {
                       onCancel={() => setBattleUpload(false)}
                     />
                   )}
+                </div>
+                <div className="section">
+                  <h4>战斗音效</h4>
+                  <div className="sound-field-list">
+                    {BATTLER_SOUND_FIELDS.map(({ key, label }) => (
+                      <div className="field" key={key}>
+                        <span className="field-label">{label}</span>
+                        <SoundPicker
+                          value={actor.battler?.sounds?.[key]}
+                          onChange={(value) => setBattlerSound(key, value)}
+                          catalog={assetCatalog}
+                          reader={assetReader}
+                          allowUnset
+                          ariaLabel={`${label}音效`}
+                          onOpenAsset={onOpenSound}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div className="section">
                   <h4>初始装备</h4>

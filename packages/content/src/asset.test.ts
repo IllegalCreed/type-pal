@@ -1,11 +1,14 @@
 import { describe, expect, test } from 'vitest'
+import type { ActorDef } from './actor.js'
 import {
   type AssetCatalogV1,
   collectAssetReferences,
+  collectCommandAssetReferences,
   groupAssetReferencesBySite,
   type ManifestAssetConfigV3,
   palFrameAnimationAssetId,
   palMusicAssetId,
+  palSoundAssetId,
   palVideoAssetId,
   validateAssetCatalog,
   validateAssetFileClosure,
@@ -13,6 +16,9 @@ import {
   validateManifestAssetConfigV3,
   validateProjectRelativePath,
 } from './asset.js'
+import type { EnemyDef } from './enemy.js'
+import type { ItemData } from './item.js'
+import type { SkillData } from './skill.js'
 
 const hash = 'a'.repeat(64)
 const catalog: AssetCatalogV1 = {
@@ -58,6 +64,38 @@ const catalog: AssetCatalogV1 = {
       sha256: hash,
       origin: { kind: 'licensed' },
     },
+    'sound.pal.029': {
+      kind: 'sound',
+      path: 'assets/migrated/sounds/029.wav',
+      mediaType: 'audio/wav',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'sound.pal.045': {
+      kind: 'sound',
+      path: 'assets/migrated/sounds/045.wav',
+      mediaType: 'audio/wav',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'sound.pal.174': {
+      kind: 'sound',
+      path: 'assets/migrated/sounds/174.wav',
+      mediaType: 'audio/wav',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
+    'sound.pal.301': {
+      kind: 'sound',
+      path: 'assets/migrated/sounds/301.wav',
+      mediaType: 'audio/wav',
+      bytes: 3,
+      sha256: hash,
+      origin: { kind: 'legacy-migrated' },
+    },
     'color.project-standard': {
       kind: 'color-table',
       path: 'assets/migrated/color/project-standard.json',
@@ -101,6 +139,7 @@ const assets: ManifestAssetConfigV3 = {
     'audio.bossVictoryMusic': 'music.pal.002',
     'audio.normalVictoryMusic': 'music.pal.003',
     'audio.openingMenuMusic': 'music.pal.004',
+    'audio.battleItemUseSound': 'sound.pal.045',
     'visual.standardColorTable': 'color.project-standard',
   },
   legacy: { families: ['sprite', 'tileset'] },
@@ -172,6 +211,12 @@ describe('catalog 与 manifest v3', () => {
         catalog,
       ),
     ).toThrow('期望 video')
+    expect(() =>
+      validateManifestAssetConfigV3(
+        { ...assets, roles: { ...assets.roles, 'audio.battleEscapeSound': 'music.pal.002' } },
+        catalog,
+      ),
+    ).toThrow('期望 sound')
     const { 'audio.openingMenuMusic': _openingMenuMusic, ...rolesWithoutOpeningMenu } = assets.roles
     expect(() =>
       validateManifestAssetConfigV3({ ...assets, roles: rolesWithoutOpeningMenu }, catalog),
@@ -185,16 +230,41 @@ describe('catalog 与 manifest v3', () => {
         catalog,
       ),
     ).toThrow('同时出现在 catalog 与 legacy')
+    expect(() =>
+      validateManifestAssetConfigV3(
+        { ...assets, legacy: { families: ['sound', 'sprite'] } },
+        catalog,
+      ),
+    ).toThrow('资源族 "sound" 同时出现在 catalog 与 legacy')
   })
 })
 
 test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palMusicAssetId(31)).toBe('music.pal.031')
+  expect(palSoundAssetId(45)).toBe('sound.pal.045')
   expect(palVideoAssetId(1)).toBe('video.pal.001')
   expect(palFrameAnimationAssetId(0)).toBe('frame-animation.pal.000')
   expect(() => palMusicAssetId(0)).toThrow('正整数')
+  expect(() => palSoundAssetId(0)).toThrow('正整数')
   expect(() => palVideoAssetId(0)).toThrow('正整数')
   expect(() => palFrameAnimationAssetId(-1)).toThrow('非负整数')
+})
+
+test('命令级 walker 与全工程 walker 共用深层递归', () => {
+  expect(
+    collectCommandAssetReferences(
+      [{ kind: 'branch', then: [{ kind: 'playSound', asset: 'sound.deep' }] }],
+      'body',
+      'script:test',
+    ),
+  ).toEqual([
+    {
+      asset: 'sound.deep',
+      expectedKind: 'sound',
+      where: 'body[0].then[0].asset',
+      site: 'script:test',
+    },
+  ])
 })
 
 describe('typed 资源引用与文件闭包', () => {
@@ -223,6 +293,7 @@ describe('typed 资源引用与文件闭包', () => {
                 endFrame: 8,
               },
               { kind: 'quitToTitle' as const, videos: ['video.pal.004'] },
+              { kind: 'playSound' as const, asset: 'sound.pal.029' },
             ],
           },
         ],
@@ -231,10 +302,50 @@ describe('typed 资源引用与文件闭包', () => {
   }
 
   test('walker 覆盖 roles、场景、嵌套命令', () => {
+    const actors = [
+      {
+        id: 'li-xiaoyao',
+        battler: { sounds: { attack: 'sound.pal.045', weapon: 'sound.pal.029' } },
+      } as ActorDef,
+    ]
+    const enemies = [
+      {
+        id: 'enemy-1',
+        sounds: { magic: 'sound.pal.174', suppressMagicEffectSound: true },
+        choreography: [
+          { at: 'battleStart', body: [{ kind: 'playSound', asset: 'sound.pal.029' }] },
+        ],
+      } as EnemyDef,
+    ]
+    const skills: SkillData[] = [
+      {
+        id: '377',
+        name: 'skill.377.name',
+        desc: 'skill.377.desc',
+        cost: {},
+        usableOutsideBattle: false,
+        target: 'allEnemies',
+        effects: [
+          { kind: 'damage', power: 1, elemental: 0 },
+          { kind: 'summon', godId: 1, sound: 'sound.pal.301' },
+        ],
+        animation: { effectSprite: 1, sound: 'sound.pal.174' },
+      },
+    ]
+    const items = [
+      {
+        id: '151',
+        use: { consuming: true, effects: [], sound: 'sound.pal.045' },
+      } as unknown as ItemData,
+    ]
     const refs = collectAssetReferences({
       assets,
       entryPoints: [{ id: 'new-game', label: '新的故事', scene: 's', introVideo: 'video.pal.001' }],
       scenes: [scene],
+      actors,
+      enemies,
+      items,
+      skills,
     })
     expect(refs.map((ref) => ref.asset)).toEqual(
       expect.arrayContaining([
@@ -248,6 +359,10 @@ describe('typed 资源引用与文件闭包', () => {
         'video.pal.004',
         'frame-animation.pal.003',
         'music.missing',
+        'sound.pal.029',
+        'sound.pal.045',
+        'sound.pal.174',
+        'sound.pal.301',
       ]),
     )
     expect(refs).toContainEqual({
@@ -267,6 +382,42 @@ describe('typed 资源引用与文件闭包', () => {
       expectedKind: 'video',
       where: 'scenes[0].onEnter[0].body[1].onLose[1].asset',
       site: 'scene:s:onEnter',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.029',
+      expectedKind: 'sound',
+      where: 'scenes[0].onEnter[0].body[1].onLose[4].asset',
+      site: 'scene:s:onEnter',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.045',
+      expectedKind: 'sound',
+      where: 'actors[0].battler.sounds.attack',
+      site: 'actor:li-xiaoyao:sounds',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.174',
+      expectedKind: 'sound',
+      where: 'enemies[0].sounds.magic',
+      site: 'enemy:enemy-1:sounds',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.174',
+      expectedKind: 'sound',
+      where: 'skills[0].animation.sound',
+      site: 'skill:377:animation',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.301',
+      expectedKind: 'sound',
+      where: 'skills[0].effects[1].sound',
+      site: 'skill:377:effects',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.045',
+      expectedKind: 'sound',
+      where: 'items[0].use.sound',
+      site: 'item:151:use',
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.004',

@@ -567,7 +567,7 @@
     "scene/s060/L-36518/e1129/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -613,7 +613,7 @@
     "scene/s060/L-36518/e1131/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -659,7 +659,7 @@
     "scene/s060/L-36518/e1133/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -705,7 +705,7 @@
     "scene/s060/L-36518/e1135/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -751,7 +751,7 @@
     "scene/s060/L-36518/e1137/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -797,7 +797,7 @@
     "scene/s060/L-36518/e1139/d-0a386828": [
       {
         "kind": "playSound",
-        "soundId": 113
+        "asset": "sound.pal.113"
       },
       {
         "kind": "setEntityFacing",
@@ -1976,7 +1976,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1168/d-0a386828": [
@@ -1995,7 +1995,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1169/d-0a386828": [
@@ -2014,7 +2014,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1170/d-0a386828": [
@@ -2033,7 +2033,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1171/d-0a386828": [
@@ -2052,7 +2052,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1172/d-0a386828": [
@@ -2071,7 +2071,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/L-36505/e1173/d-0a386828": [
@@ -2090,7 +2090,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s060/root/on-enter/stage-0": [

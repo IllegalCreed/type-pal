@@ -338,7 +338,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
       'content/scripts/chunks/scene/guijie-minju.json': {
         version: 1,
         id: 'scene/guijie-minju',
-        scripts: { [scriptId]: [{ kind: 'playSound', soundId: 1 }] },
+        scripts: { [scriptId]: [{ kind: 'playSound', asset: 'sound.pal.001' }] },
       },
     }
     const reads: string[] = []

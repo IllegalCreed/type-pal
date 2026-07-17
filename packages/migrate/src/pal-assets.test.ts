@@ -1,12 +1,18 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { AssetCatalogV1 } from '@type-pal/content'
 import { afterEach, describe, expect, test } from 'vitest'
 import { sha256 } from './migration-baseline.js'
-import { materializePalAssets, type PalBinaryAssetSource } from './pal-assets.js'
+import {
+  loadPalSoundAssets,
+  materializePalAssets,
+  type PalBinaryAssetSource,
+} from './pal-assets.js'
 
 const roots: string[] = []
+const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 
 afterEach(() => {
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
@@ -89,5 +95,88 @@ describe('PAL 二进制资源所有权物化', () => {
     expect(() => materializePalAssets({ repo, catalog, binaries: [source] })).toThrow(
       '被非 authored 记录改写',
     )
+  })
+
+  test('全部迁移源预检通过前不写任何目标', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-assets-'))
+    roots.push(temp)
+    const good = Uint8Array.from([1, 2])
+    const invalid = Uint8Array.from([3])
+    const sources: PalBinaryAssetSource[] = [
+      {
+        id: 'video.pal.001',
+        bytes: good,
+        record: {
+          kind: 'video',
+          path: 'assets/migrated/videos/001.mp4',
+          mediaType: 'video/mp4',
+          bytes: good.byteLength,
+          sha256: sha256(good),
+          origin: { kind: 'legacy-migrated' },
+        },
+      },
+      {
+        id: 'video.pal.002',
+        bytes: invalid,
+        record: {
+          kind: 'video',
+          path: 'assets/migrated/videos/002.mp4',
+          mediaType: 'video/mp4',
+          bytes: 2,
+          sha256: sha256(Uint8Array.from([3, 4])),
+          origin: { kind: 'legacy-migrated' },
+        },
+      },
+    ]
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: Object.fromEntries(sources.map((source) => [source.id, source.record])),
+    }
+    expect(() => materializePalAssets({ repo: temp, catalog, binaries: sources })).toThrow(
+      'bytes/hash',
+    )
+    expect(existsSync(resolve(temp, 'projects/pal/assets/migrated/videos/001.mp4'))).toBe(false)
+  })
+
+  test('写入前拒绝两个 AssetId 共用同一目标路径', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-assets-'))
+    roots.push(temp)
+    const bytes = Uint8Array.from([1])
+    const record = {
+      kind: 'video' as const,
+      path: 'assets/migrated/videos/shared.mp4',
+      mediaType: 'video/mp4',
+      bytes: bytes.byteLength,
+      sha256: sha256(bytes),
+      origin: { kind: 'legacy-migrated' as const },
+    }
+    const sources: PalBinaryAssetSource[] = [
+      { id: 'video.pal.001', bytes, record },
+      { id: 'video.pal.002', bytes, record },
+    ]
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: Object.fromEntries(sources.map((source) => [source.id, source.record])),
+    }
+    expect(() => materializePalAssets({ repo: temp, catalog, binaries: sources })).toThrow(
+      '资源路径冲突',
+    )
+    expect(existsSync(resolve(temp, 'projects/pal/assets/migrated/videos/shared.mp4'))).toBe(false)
+  })
+})
+
+describe('PAL sound 提取闭包', () => {
+  test('metadata、asset-manifest 与目录精确闭合为 363 个 RIFF/WAVE', () => {
+    const loaded = loadPalSoundAssets(repo)
+    expect(loaded.report).toEqual({ sounds: 363, emptySounds: 142, soundBytes: 18_110_864 })
+    expect(loaded.binaries).toHaveLength(363)
+    expect(new Set(loaded.binaries.map((source) => source.id)).size).toBe(363)
+    expect(loaded.binaries.find((source) => source.id === 'sound.pal.122')).toBeUndefined()
+    expect(loaded.binaries.find((source) => source.id === 'sound.pal.045')?.record).toMatchObject({
+      kind: 'sound',
+      path: 'assets/migrated/sounds/045.wav',
+      mediaType: 'audio/wav',
+      origin: { kind: 'legacy-migrated', ref: 'sounds/45.wav' },
+    })
   })
 })

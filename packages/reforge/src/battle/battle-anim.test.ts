@@ -41,7 +41,7 @@ describe('M4d-2 战斗动画时间线', () => {
       effectFrameBase: 3,
       damage: 42,
       windup: true,
-      sounds: { attack: 37, weapon: 1 },
+      sounds: { attack: 'sound.pal.037', weapon: 'sound.pal.001' },
     })
     const { events, player } = record(frames)
     let guard = 0
@@ -55,17 +55,17 @@ describe('M4d-2 战斗动画时间线', () => {
     // 抖动首帧 x=ex−8 且染色复位
     expect(events).toContain('f:enemy1@92,96c0')
     // 音效挂帧:出招音在冲刺帧(fight.c:2061)、兵器音在挥击帧(fight.c:2124)且序为 37→1
-    expect(events).toContain('snd:37')
-    expect(events).toContain('snd:1')
-    expect(events.indexOf('snd:37')).toBeLessThan(events.indexOf('snd:1'))
-    expect(events.indexOf('snd:1')).toBe(events.indexOf('f:player0#9') + 2) // 与挥击同帧(f→f→snd 派发序)
+    expect(events).toContain('snd:sound.pal.037')
+    expect(events).toContain('snd:sound.pal.001')
+    expect(events.indexOf('snd:sound.pal.037')).toBeLessThan(events.indexOf('snd:sound.pal.001'))
+    expect(events.indexOf('snd:sound.pal.001')).toBe(events.indexOf('f:player0#9') + 2) // 与挥击同帧(f→f→snd 派发序)
   })
 
   test('玩家施法:吟唱音挂 frame5 姿势帧(rgwMagicSound,非起手即播)', () => {
     const frames = buildPlayerCast({
       casterIdx: 0,
       casterPos: { x: 240, y: 170 },
-      magicSound: 9,
+      magicSound: 'sound.pal.009',
       castEffectBase: -1,
       fireFrames: 0,
       fx: {
@@ -77,14 +77,13 @@ describe('M4d-2 战斗动画时间线', () => {
         effectTimes: 1,
         shake: 0,
         wave: 0,
-        sound: 0,
       },
       damageNums: [],
     })
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    const snd = events.indexOf('snd:9')
+    const snd = events.indexOf('snd:sound.pal.009')
     const gesture = events.indexOf('f:player0#5')
     expect(snd).toBeGreaterThan(-1)
     expect(gesture).toBeGreaterThan(-1)
@@ -95,7 +94,6 @@ describe('M4d-2 战斗动画时间线', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,
       anim: { idleFrames: 4, magicFrames: 2 },
-      magicSound: 0,
       fireFrames: 0, // 无特效资产也要有受击反应
       fx: {
         placement: 'normal',
@@ -106,7 +104,6 @@ describe('M4d-2 战斗动画时间线', () => {
         effectTimes: 1,
         shake: 0,
         wave: 0,
-        sound: 0,
       },
       damageNums: [{ target: { side: 'player', idx: 0 }, value: 9 }],
       hurtPlayers: [{ idx: 0, pos: { x: 240, y: 170 } }],
@@ -125,7 +122,6 @@ describe('M4d-2 战斗动画时间线', () => {
       buildEnemyCast({
         enemyIdx: 0,
         anim: { idleFrames: 4, magicFrames: 2 },
-        magicSound: 0,
         fireFrames: 3,
         fx: {
           placement: 'normal',
@@ -136,7 +132,6 @@ describe('M4d-2 战斗动画时间线', () => {
           effectTimes: 1,
           shake: 0,
           wave: 0,
-          sound: 0,
         },
         damageNums: [],
         ...(autoDefendPlayers ? { autoDefendPlayers } : {}),
@@ -163,7 +158,7 @@ describe('M4d-2 战斗动画时间线', () => {
       attackerPos: { x: 200, y: 170 },
       mateIdx: 1,
       matePos: { x: 240, y: 190 },
-      weaponSound: 12,
+      weaponSound: 'sound.pal.012',
       damage: 5,
       mateDied: false,
     })
@@ -174,7 +169,7 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('f:player0#8@270,202') // 瞬移至队友旁(+30,+12)
     const swing = events.indexOf('f:player0#9')
     expect(swing).toBeGreaterThan(-1)
-    expect(events[swing + 1]).toBe('snd:12') // 挥击帧同帧武器音
+    expect(events[swing + 1]).toBe('snd:sound.pal.012') // 挥击帧同帧武器音
     expect(events).toContain('f:player1@228,184') // 队友击退(−12,−6)
     expect(events).toContain('f:player1c6') // 红闪
     expect(events).toContain('dmg:player1:5')
@@ -189,17 +184,17 @@ describe('M4d-2 战斗动画时间线', () => {
       targetIdx: 0,
       targetPos: { x: 240, y: 170 },
       anim: { idleFrames: 4, magicFrames: 0, attackFrames: 2, actWaitFrames: 1 },
-      sounds: { action: 355, call: 2 },
+      sounds: { action: 'sound.pal.355', call: 'sound.pal.002' },
       damage: 7,
       targetDied: false,
     })
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    expect(events).toContain('snd:355')
+    expect(events).toContain('snd:sound.pal.355')
     expect(events).toContain('f:enemy0#5@196,154') // 冲锋帧:idle4+magic0+2−1=5 @ (240−44,170−16)
     expect(events).toContain('f:player0#4c6')
-    expect(events).toContain('snd:2')
+    expect(events).toContain('snd:sound.pal.002')
     expect(events).toContain('dmg:player0:7')
     expect(events).toContain('f:player0@248,174c0') // 击退 +8,+4
     expect(events).toContain('f:enemy0#0@100,100') // 敌回位
@@ -212,6 +207,7 @@ describe('M4d-2 战斗动画时间线', () => {
       casterPos: { x: 240, y: 170 },
       targetIdxs: [1], // v1 施己
       itemName: '观音符',
+      sound: 'sound.pal.028',
       gains: [{ idx: 1, value: 50, tone: 'yellow' }],
     })
     const { events, player } = record(frames)
@@ -229,17 +225,17 @@ describe('M4d-2 战斗动画时间线', () => {
       'f:player1@225,163',
     ])
     expect(events).toContain('f:player1#5@225,163') // 到位举物姿(无渲染平滑标记)
-    expect(events).toContain('snd:28') // 用品音(fight.c:2300)
+    expect(events).toContain('snd:sound.pal.028') // 用品音(fight.c:2300)
     expect(events).toContain('f:player1c6') // 呼吸峰值
     expect(events).toContain('f:player1c0') // 降回
     expect(events).toContain('f:player1#0@240,170') // 归位帧**不带**平滑 = 瞬移直落
     // 升 0..6 七级 + 降 5..0 六级 = 13 次染色事件
     expect(events.filter((e) => /^f:player1c\d$/.test(e)).length).toBe(13)
     // 「三同步」(作者对照原版):前移举物 / 音效 / 物品名 banner 同帧派发 —— 事件序列上
-    // banner 紧邻 snd:28 与举物帧,且早于任何 colorShift>0
+    // banner 紧邻 snd:sound.pal.028 与举物帧,且早于任何 colorShift>0
     const bannerAt = events.indexOf('banner:观音符:520')
     expect(bannerAt).toBeGreaterThanOrEqual(0)
-    expect(Math.abs(bannerAt - events.indexOf('snd:28'))).toBeLessThanOrEqual(2)
+    expect(Math.abs(bannerAt - events.indexOf('snd:sound.pal.028'))).toBeLessThanOrEqual(2)
     expect(bannerAt).toBeLessThan(events.indexOf('f:player1c1'))
     // 涨益数字先于归位(作者对照原版:先显血量、后瞬移归位)
     expect(events).toContain('dmg:player1:50')
@@ -248,13 +244,14 @@ describe('M4d-2 战斗动画时间线', () => {
 
   test('逃跑成功:16 帧×40ms 全员统一 (+5,+4)(一阶段 fleeStepDelta,作者 2026-05-31 拍板);音效45首帧', () => {
     const frames = buildPartyFlee({
+      sound: 'sound.pal.045',
       players: [
         { idx: 0, pos: { x: 200, y: 160 } },
         { idx: 1, pos: { x: 240, y: 170 } },
       ],
     })
     expect(frames.length).toBe(16)
-    expect(frames[0]!.sound).toBe(45)
+    expect(frames[0]!.sound).toBe('sound.pal.045')
     expect(frames[0]!.fighters).toEqual([
       { side: 'player', idx: 0, frame: 0, pos: { x: 205, y: 164 } },
       { side: 'player', idx: 1, frame: 0, pos: { x: 245, y: 174 } },
@@ -306,10 +303,13 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('敌逃(battle.c:1376):每 10ms x−5 至滑出左屏 + 终帧停 500ms;音效45首帧', () => {
-    const frames = buildEnemyEscape({ enemies: [{ idx: 0, pos: { x: 100, y: 110 }, width: 50 }] })
+    const frames = buildEnemyEscape({
+      enemies: [{ idx: 0, pos: { x: 100, y: 110 }, width: 50 }],
+      sound: 'sound.pal.045',
+    })
     // ceil((100+50)/5) = 30 步 + 终帧
     expect(frames.length).toBe(31)
-    expect(frames[0]!.sound).toBe(45)
+    expect(frames[0]!.sound).toBe('sound.pal.045')
     expect(frames[0]!.durationMs).toBe(10)
     expect(frames[0]!.fighters![0]!.pos).toEqual({ x: 95, y: 110 })
     expect(frames[29]!.fighters![0]!.pos).toEqual({ x: -50, y: 110 }) // 完全出屏
@@ -317,11 +317,11 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('变身现形(script.c:2954 0x9F):colorShift 0→5 六帧染白 → 归 0 + 音效 47', () => {
-    const frames = buildEnemyTransform({ idx: 2 })
+    const frames = buildEnemyTransform({ idx: 2, sound: 'sound.pal.047' })
     expect(frames.length).toBe(7)
     expect(frames.slice(0, 6).map((f) => f.fighters![0]!.colorShift)).toEqual([0, 1, 2, 3, 4, 5])
     expect(frames[6]!.fighters![0]!.colorShift).toBe(0)
-    expect(frames[6]!.sound).toBe(47)
+    expect(frames[6]!.sound).toBe('sound.pal.047')
   })
 
   test('分裂滑开(script.c:2853 0x9C):10 帧整数二分逼近 + 终帧精确落位', () => {
@@ -343,17 +343,17 @@ describe('M4d-2 战斗动画时间线', () => {
       targetIdx: 1,
       targetPos: { x: 240, y: 170 },
       anim: { idleFrames: 4, magicFrames: 0, attackFrames: 2, actWaitFrames: 1 },
-      sounds: { action: 0, call: 2 },
+      sounds: { call: 'sound.pal.002' },
       damage: 0,
       targetDied: false,
       blocked: true,
-      cover: { idx: 0, sound: 15 },
+      cover: { idx: 0, sound: 'sound.pal.015' },
     })
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
     expect(events).toContain('f:player0#3@216,158') // 守护者瞬移目标前 (−24,−12)
-    expect(events).toContain('snd:15') // 音 = 守护者的 coverSound(非敌 call)
+    expect(events).toContain('snd:sound.pal.015') // 音 = 守护者的 coverSound(非敌 call)
     expect(events).toContain('f:enemy0@186,146') // 敌被架开(冲锋位 (196,154) −10,−8)
     expect(events).toContain('f:player0@220,160') // 守护者小退(目标 −20,−10)
     expect(events.some((e) => e.startsWith('dmg:'))).toBe(false) // 完全免伤
@@ -367,7 +367,7 @@ describe('M4d-2 战斗动画时间线', () => {
       targetIdx: 0,
       targetPos: { x: 240, y: 170 },
       anim: { idleFrames: 2, magicFrames: 0, attackFrames: 3, actWaitFrames: 0 },
-      sounds: { action: 0, call: 0 },
+      sounds: {},
       damage: 1,
       targetDied: true,
     })

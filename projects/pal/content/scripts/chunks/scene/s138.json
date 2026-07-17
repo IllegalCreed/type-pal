@@ -407,7 +407,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 260
+        "asset": "sound.pal.260"
       },
       {
         "kind": "ditherScreen",
@@ -649,7 +649,7 @@
             "body": [
               {
                 "kind": "playSound",
-                "soundId": 245
+                "asset": "sound.pal.245"
               },
               {
                 "kind": "dialog",
@@ -825,7 +825,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 95
+        "asset": "sound.pal.095"
       },
       {
         "kind": "wait",
@@ -833,7 +833,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 269
+        "asset": "sound.pal.269"
       },
       {
         "kind": "setEntityFacing",

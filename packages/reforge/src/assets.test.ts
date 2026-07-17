@@ -31,7 +31,6 @@ const base = (source: FileSource): AssetBase => ({
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
-  sounds: '',
   portraits: '',
   faces: '',
   itemIcons: '',

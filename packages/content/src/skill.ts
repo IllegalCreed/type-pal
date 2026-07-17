@@ -1,6 +1,8 @@
 // 技能数据 ① 层:技能定义。见 docs/phase2/foundation/skill-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 
+import type { AssetId } from './asset.js'
+
 /** 消耗。原版 MP 在 magic.costMP;酒/蛊/金钱原版 scriptOnUse 脚本硬编 → 这里显式数据化。 */
 export interface SkillCost {
   mp?: number
@@ -60,7 +62,7 @@ export type SkillEffect =
   // sound=召唤自身音(召唤 magic 自己的 wSound,301-349 段神将威严音;变亮首帧播一次,
   // WIN95 语义 fight.c:3112 + 一阶段 9ab63b6d;二级法术段 fSummon 不重复播音 —— 曾漏迁
   // 致武神/天剑全程静默、剑神只闻二级刀剑声)。
-  | { kind: 'summon'; godId: number; speed?: number; tint?: number; sound?: number }
+  | { kind: 'summon'; godId: number; speed?: number; tint?: number; sound?: AssetId }
   | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
   // 0x3A(金蝉脱壳 scriptOnUse):全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离」臂)
   | { kind: 'fleeBattle' }
@@ -87,7 +89,7 @@ export interface SkillAnimation {
   /** 屏幕波幅叠加(原 wWave;演出期叠在战场常驻波上,fight.c:2666;原版仅 4 条法术非零)。 */
   wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
-  sound?: number
+  sound?: AssetId
   /** 特效末帧烙进战斗背景整场留存(原 wKeepEffect==0xFFFF;fight.c:2757 末帧 blit
    *  lpBackground,屏波≥9 时不烙 —— 万剑诀插剑入地等 12 招)。 */
   keepEffect?: boolean

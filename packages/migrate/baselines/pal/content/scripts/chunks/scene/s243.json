@@ -271,7 +271,7 @@
     "scene/s243/root/on-enter/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 255
+        "asset": "sound.pal.255"
       },
       {
         "kind": "teleportParty",
@@ -295,7 +295,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 256
+        "asset": "sound.pal.256"
       },
       {
         "kind": "setEntityState",
@@ -357,7 +357,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 256
+        "asset": "sound.pal.256"
       },
       {
         "kind": "wait",
@@ -365,7 +365,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 256
+        "asset": "sound.pal.256"
       },
       {
         "kind": "fade",

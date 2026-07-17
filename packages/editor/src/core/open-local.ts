@@ -15,6 +15,7 @@ import {
   type UpgradeLocalV2Options,
   upgradeLocalProjectV2,
 } from './upgrade-local-v2.js'
+import { upgradeLocalProjectV3Sounds } from './upgrade-local-v3-sounds.js'
 
 export interface OpenedProject {
   project: LoadedProject
@@ -31,6 +32,11 @@ export async function openLocalProject(
   try {
     let rawManifest = await source.readJson<unknown>('manifest.json')
     if (await upgradeLocalProjectV2(dir, source, rawManifest, options)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV3Sounds(dir, source, rawManifest, options)) {
       source.dispose?.()
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')

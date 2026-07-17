@@ -1,4 +1,5 @@
 import type { AssetCatalogV1, EnemyDef, MapIndexV1, SceneDef, TilesetDef } from '@type-pal/content'
+import { palSoundAssetId } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapScenesStatic, migrateAll } from './migrate-content.js'
 import {
@@ -86,8 +87,13 @@ function enemyCommandRoots(enemies: readonly EnemyDef[]) {
 
 /** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
+  const soundAssetForNum = (sound: number) => {
+    if (!Number.isInteger(sound) || sound <= 0) return undefined
+    const id = palSoundAssetId(sound)
+    return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
+  }
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
-  const migrated = migrateAll(sources.migrate)
+  const migrated = migrateAll({ ...sources.migrate, soundAssetForNum })
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,
@@ -120,6 +126,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     sources.eventsByScene,
     migrated.sprites,
     globalRoots,
+    soundAssetForNum,
   )
   const boss = applyPalBossEncounterOverlay(
     migrated.enemies,

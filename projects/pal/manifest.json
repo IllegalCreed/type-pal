@@ -24,17 +24,20 @@
     "catalog": "assets/index.json",
     "roles": {
       "audio.midiSoundfont": "soundfont.default",
-      "audio.openingMenuMusic": "music.pal.004",
       "audio.defaultBattleMusic": "music.pal.037",
       "audio.bossVictoryMusic": "music.pal.002",
       "audio.normalVictoryMusic": "music.pal.003",
+      "audio.openingMenuMusic": "music.pal.004",
+      "audio.battleItemUseSound": "sound.pal.028",
+      "audio.battleCoopCastSound": "sound.pal.029",
+      "audio.battleEscapeSound": "sound.pal.045",
+      "audio.battleEnemyTransformSound": "sound.pal.047",
       "video.startupTrademark": "video.pal.001",
       "video.startupSplash": "video.pal.002",
       "visual.standardColorTable": "color.project-standard"
     },
     "legacy": {
       "families": [
-        "sound",
         "tileset",
         "sprite",
         "battle-sprite",
@@ -51,7 +54,6 @@
       "tilesets": "tileset",
       "sprites": "sprite",
       "palettes": "palette",
-      "sounds": "/extracted/sounds",
       "portraits": "/baked/portraits",
       "faces": "/baked/ui/face",
       "itemIcons": "/baked/ui/items"

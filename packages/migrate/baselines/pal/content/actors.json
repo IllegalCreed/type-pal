@@ -137,13 +137,13 @@
       },
       "battleSpriteNum": 0,
       "sounds": {
-        "attack": 37,
-        "critical": 5,
-        "weapon": 1,
-        "magic": 9,
-        "cover": 15,
-        "dying": 19,
-        "death": 23
+        "attack": "sound.pal.037",
+        "critical": "sound.pal.005",
+        "weapon": "sound.pal.001",
+        "magic": "sound.pal.009",
+        "cover": "sound.pal.015",
+        "dying": "sound.pal.019",
+        "death": "sound.pal.023"
       }
     }
   },
@@ -293,13 +293,13 @@
       },
       "battleSpriteNum": 1,
       "sounds": {
-        "attack": 38,
-        "critical": 6,
-        "weapon": 2,
-        "magic": 10,
-        "cover": 16,
-        "dying": 20,
-        "death": 24
+        "attack": "sound.pal.038",
+        "critical": "sound.pal.006",
+        "weapon": "sound.pal.002",
+        "magic": "sound.pal.010",
+        "cover": "sound.pal.016",
+        "dying": "sound.pal.020",
+        "death": "sound.pal.024"
       }
     }
   },
@@ -442,13 +442,13 @@
       },
       "battleSpriteNum": 2,
       "sounds": {
-        "attack": 39,
-        "critical": 7,
-        "weapon": 3,
-        "magic": 11,
-        "cover": 17,
-        "dying": 21,
-        "death": 25
+        "attack": "sound.pal.039",
+        "critical": "sound.pal.007",
+        "weapon": "sound.pal.003",
+        "magic": "sound.pal.011",
+        "cover": "sound.pal.017",
+        "dying": "sound.pal.021",
+        "death": "sound.pal.025"
       }
     }
   },
@@ -599,13 +599,13 @@
       },
       "battleSpriteNum": 3,
       "sounds": {
-        "attack": 38,
-        "critical": 6,
-        "weapon": 2,
-        "magic": 10,
-        "cover": 16,
-        "dying": 20,
-        "death": 24
+        "attack": "sound.pal.038",
+        "critical": "sound.pal.006",
+        "weapon": "sound.pal.002",
+        "magic": "sound.pal.010",
+        "cover": "sound.pal.016",
+        "dying": "sound.pal.020",
+        "death": "sound.pal.024"
       }
     }
   },
@@ -755,13 +755,13 @@
       },
       "battleSpriteNum": 4,
       "sounds": {
-        "attack": 40,
-        "critical": 8,
-        "weapon": 4,
-        "magic": 12,
-        "cover": 18,
-        "dying": 22,
-        "death": 26
+        "attack": "sound.pal.040",
+        "critical": "sound.pal.008",
+        "weapon": "sound.pal.004",
+        "magic": "sound.pal.012",
+        "cover": "sound.pal.018",
+        "dying": "sound.pal.022",
+        "death": "sound.pal.026"
       }
     }
   },
@@ -909,13 +909,13 @@
       },
       "battleSpriteNum": 8,
       "sounds": {
-        "attack": 39,
-        "critical": 7,
-        "weapon": 3,
-        "magic": 11,
-        "cover": 17,
-        "dying": 21,
-        "death": 25
+        "attack": "sound.pal.039",
+        "critical": "sound.pal.007",
+        "weapon": "sound.pal.003",
+        "magic": "sound.pal.011",
+        "cover": "sound.pal.017",
+        "dying": "sound.pal.021",
+        "death": "sound.pal.025"
       }
     }
   }

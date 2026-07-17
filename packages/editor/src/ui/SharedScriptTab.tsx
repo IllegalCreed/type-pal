@@ -26,6 +26,7 @@ import {
   UpsertAuthoredScriptCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { Playback } from '../core/playback.js'
 import {
   getCommandAt,
@@ -41,6 +42,7 @@ import { createAuthoredScriptCall, createAuthoredScriptId } from '../core/shared
 import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
+import { soundAssets } from './SoundPicker.js'
 
 const EMPTY_BODY: readonly Command[] = []
 const EMPTY_LIBRARY: Record<string, SharedScriptMetaV1> = {}
@@ -95,6 +97,7 @@ export function SharedScriptTab(props: {
   assetBase: AssetBase
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
+  assetReader: EditorAssetReader
   projectMaps: Record<string, ProjectMapV2>
   mapIndex: MapIndexV1
   tilesets: readonly TilesetDef[]
@@ -104,6 +107,7 @@ export function SharedScriptTab(props: {
   focusScriptRevision?: number
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
   onSelectedScriptId?: (id: string | undefined) => void
+  onOpenSound?: (id: string) => void
 }) {
   const {
     tabBar,
@@ -117,12 +121,14 @@ export function SharedScriptTab(props: {
     assetBase,
     assetCatalog,
     audioResolver,
+    assetReader,
     projectMaps,
     mapIndex,
     tilesets,
     tilesetBlobs,
     projectId,
     focusScriptId,
+    onOpenSound,
     focusScriptRevision,
     onJumpToEvent,
     onSelectedScriptId,
@@ -394,6 +400,22 @@ export function SharedScriptTab(props: {
                           {entry.label}
                         </button>
                       ))}
+                      {soundAssets(assetCatalog)[0] ? (
+                        <button
+                          type="button"
+                          className="pv-btn"
+                          onClick={() =>
+                            insertCommands([
+                              {
+                                kind: 'playSound',
+                                asset: soundAssets(assetCatalog)[0]!.id,
+                              },
+                            ])
+                          }
+                        >
+                          🔊 播放音效
+                        </button>
+                      ) : null}
                     </div>
                     {authoredIds.filter((id) => id !== selectedId).length ? (
                       <>
@@ -432,6 +454,7 @@ export function SharedScriptTab(props: {
                       locale={locale}
                       assetCatalog={assetCatalog}
                       audioResolver={audioResolver}
+                      assetReader={assetReader}
                       scenes={scenes}
                       assetBase={assetBase}
                       actors={actorsById}
@@ -442,6 +465,7 @@ export function SharedScriptTab(props: {
                       onOpenScript={
                         selectedTargetId && library[selectedTargetId] ? selectScript : undefined
                       }
+                      onOpenSound={onOpenSound}
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)

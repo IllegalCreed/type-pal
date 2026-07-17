@@ -13,6 +13,7 @@ import {
   type Opened,
   openExistingProject,
 } from '../core/open-actions.js'
+import type { SoundUpgradeProgress } from '../core/upgrade-local-v2.js'
 
 const mb = (n: number): string => (n / 1024 / 1024).toFixed(1)
 
@@ -20,7 +21,11 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
   const { onOpened, seedBaseUrl = 'projects/pal' } = props
   const [recent, setRecent] = useState<{ id: string; name: string }[]>([])
   const [busy, setBusy] = useState('')
-  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
+  const [progress, setProgress] = useState<{
+    done: number
+    total: number
+    detail?: string
+  } | null>(null)
   const [err, setErr] = useState('')
 
   useEffect(() => {
@@ -45,18 +50,24 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
     }
   }
 
+  const onSoundUpgradeProgress = (value: SoundUpgradeProgress): void =>
+    setProgress({
+      done: value.completed,
+      total: value.total,
+      detail: value.phase === 'read' ? '校验旧音效' : '写入升级工程',
+    })
   const onCloneFromPal = run('从 pal 克隆', () =>
-    newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total })),
+    newFromPal(seedBaseUrl, (done, total) => setProgress({ done, total, detail: '下载工程' })),
   )
   const onNewBlank = run('创建空白工程', newBlankProject)
-  const onOpen = run('打开工程', openExistingProject)
+  const onOpen = run('打开工程', () => openExistingProject(onSoundUpgradeProgress))
   const onRecent = (id: string) =>
     run('打开最近工程', async () => {
       const dir = await loadHandle(id)
       if (!dir) throw new Error('句柄已失效,请「打开工程」重新选文件夹')
       const perm = await ensurePermission(dir, { withRequest: true })
       if (perm !== 'granted') throw new Error('未授权访问该文件夹')
-      return finishOpen(dir)
+      return finishOpen(dir, onSoundUpgradeProgress)
     })()
 
   if (!pickerAvailability.available) {
@@ -90,6 +101,7 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
                   <div className="picker-bar-fill" style={{ width: `${pct}%` }} />
                 </div>
                 <div className="picker-busy-sub">
+                  {progress.detail ? `${progress.detail} · ` : ''}
                   {pct}% · {mb(progress.done)}/{mb(progress.total)} MB
                 </div>
               </>

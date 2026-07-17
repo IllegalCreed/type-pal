@@ -1684,7 +1684,7 @@
     "scene/s175/root/entity-e2914/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

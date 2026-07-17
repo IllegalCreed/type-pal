@@ -4,7 +4,6 @@ import {
   type AssetId,
   type AssetRecordV1,
   type AssetReferenceSite,
-  collectAssetReferences,
   FRAME_SEQUENCE_MEDIA_TYPE,
   groupAssetReferencesBySite,
   validateAssetReferenceClosure,
@@ -26,6 +25,7 @@ import {
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { collectEditorAssetReferences } from '../core/editor-asset-references.js'
 import type { FrameAnimationEncodeFrame } from '../core/frame-animation-codec.js'
 import type { FrameQuantization } from '../core/frame-animation-draft.js'
 import { decodeFrameImages, sortFrameImageFiles } from '../core/frame-animation-images.js'
@@ -390,47 +390,16 @@ export function CutsceneTab(props: {
   const state = session.getState()
   const references = useMemo(() => {
     const result = new Map<AssetId, AssetReferenceSite[]>()
-    for (const reference of groupAssetReferencesBySite(
-      collectAssetReferences({
-        assets: state.manifest.assets,
-        entryPoints: state.manifest.entryPoints,
-        scenes: state.scenes,
-        scriptChunks: state.scriptChunks,
-        enemies: state.enemies,
-      }),
-    )) {
+    for (const reference of groupAssetReferencesBySite(collectEditorAssetReferences(state))) {
       const list = result.get(reference.asset) ?? []
       list.push(reference)
       result.set(reference.asset, list)
     }
     return result
-  }, [
-    state.manifest.assets,
-    state.manifest.entryPoints,
-    state.scenes,
-    state.scriptChunks,
-    state.enemies,
-  ])
+  }, [state])
   const closureIssues = useMemo(
-    () =>
-      validateAssetReferenceClosure(
-        catalog,
-        collectAssetReferences({
-          assets: state.manifest.assets,
-          entryPoints: state.manifest.entryPoints,
-          scenes: state.scenes,
-          scriptChunks: state.scriptChunks,
-          enemies: state.enemies,
-        }),
-      ),
-    [
-      catalog,
-      state.manifest.assets,
-      state.manifest.entryPoints,
-      state.scenes,
-      state.scriptChunks,
-      state.enemies,
-    ],
+    () => validateAssetReferenceClosure(catalog, collectEditorAssetReferences(state)),
+    [catalog, state],
   )
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
   const selectedIssues = selected
@@ -457,6 +426,7 @@ export function CutsceneTab(props: {
       const type = videoExtension(file, new Uint8Array(bytes))
       const hash = await sha256Hex(bytes)
       const previous = replaceId ? catalog.assets[replaceId] : undefined
+      const previousBytes = replaceId ? await reader.readBytes(replaceId, 'video') : undefined
       const id = replaceId ?? nextAssetId(catalog, 'video', hash)
       const record: AssetRecordV1 = {
         kind: 'video',
@@ -467,7 +437,7 @@ export function CutsceneTab(props: {
         label: previous?.label || file.name.replace(/\.(mp4|webm)$/i, ''),
         origin: { kind: 'authored', ref: file.name },
       }
-      session.dispatch(new UpsertAssetCommand(id, record, bytes))
+      session.dispatch(new UpsertAssetCommand(id, record, bytes, previousBytes))
       setSelectedId(id)
       setFrameEditorDirty(false)
       onObjectFocus?.(id)
@@ -512,6 +482,9 @@ export function CutsceneTab(props: {
       })
       const hash = await sha256Hex(encoded)
       const previous = pendingFrames.replaceId ? catalog.assets[pendingFrames.replaceId] : undefined
+      const previousBytes = pendingFrames.replaceId
+        ? await reader.readBytes(pendingFrames.replaceId, 'frame-animation')
+        : undefined
       const id = pendingFrames.replaceId ?? nextAssetId(catalog, 'frame-animation', hash)
       const firstName = sortFrameImageFiles(pendingFrames.files)[0]?.name ?? '帧动画'
       const record: AssetRecordV1 = {
@@ -532,6 +505,7 @@ export function CutsceneTab(props: {
             encoded.byteOffset,
             encoded.byteOffset + encoded.byteLength,
           ) as ArrayBuffer,
+          previousBytes,
         ),
       )
       setSelectedId(id)
@@ -572,14 +546,20 @@ export function CutsceneTab(props: {
     })
   }
 
-  const deleteSelected = (): void => {
+  const deleteSelected = async (): Promise<void> => {
     if (!selected || selectedReferences.length) return
     if (
       window.confirm(
         `删除“${selected.record.label || selected.id}”？\n这会移除资源记录和工程内文件，可通过全局撤销恢复。`,
       )
-    )
-      session.dispatch(new DeleteAssetCommand(selected.id))
+    ) {
+      try {
+        const previousBytes = await reader.readBytes(selected.id, selected.record.kind)
+        session.dispatch(new DeleteAssetCommand(selected.id, previousBytes))
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : String(cause))
+      }
+    }
   }
 
   return (
@@ -772,7 +752,7 @@ export function CutsceneTab(props: {
                     ? `有 ${selectedReferences.length} 处引用，不能删除`
                     : '删除资源'
                 }
-                onClick={deleteSelected}
+                onClick={() => void deleteSelected()}
               >
                 删除资源
               </button>

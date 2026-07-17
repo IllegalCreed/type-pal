@@ -113,12 +113,14 @@ function walkFiles(root: string, dir = root, out: string[] = []): string[] {
 export function hashUnmanagedProjectFiles(
   repo: string,
   managedFiles: ReadonlySet<string>,
+  excludedFiles: ReadonlySet<string> = new Set(),
 ): Map<string, string> {
   const root = resolve(repo, PAL_PROJECT_REL)
   const hashes = new Map<string, string>()
   if (!existsSync(root)) return hashes
   for (const path of walkFiles(root).sort()) {
-    if (!managedFiles.has(path)) hashes.set(path, sha256(readFileSync(resolve(root, path))))
+    if (!managedFiles.has(path) && !excludedFiles.has(path))
+      hashes.set(path, sha256(readFileSync(resolve(root, path))))
   }
   return hashes
 }

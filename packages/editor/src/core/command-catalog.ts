@@ -266,9 +266,9 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     icon: '🔊',
     name: '音效',
     group: '音频/战斗配置',
-    params: [['soundId', '音效号(sounds/<id>.wav)']],
+    params: [['asset', '音效 AssetId']],
     desc: '播一发音效。',
-    origin: '0x4D',
+    origin: '0x47',
   },
   {
     kind: 'playMusic',

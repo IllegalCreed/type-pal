@@ -7,6 +7,7 @@
  * - ai.rules = **战斗策略**(条件规则列表,enemy-ai.ts 求值;默认 = 原版行为)
  * - choreography = **剧情演出借战斗舞台**(嘲讽/剧情逃跑,事件 Command 词汇,M4c-2 执行)
  */
+import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { AiCond, AiRule } from './enemy-ai.js'
 import type { TextId } from './index.js'
@@ -73,13 +74,15 @@ export interface EnemyAnim {
   yPosOffset: number
 }
 
-/** 敌人音效（SFX 号;0 = 无）。 */
+/** 敌人音效；字段缺席表示无声。 */
 export interface EnemySounds {
-  attack: number
-  action: number
-  magic: number
-  death: number
-  call: number
+  attack?: AssetId
+  action?: AssetId
+  magic?: AssetId
+  death?: AssetId
+  call?: AssetId
+  /** 原 PAL 负 magicSound 的干净语义：播放施法音，但抑制本次技能特效音。 */
+  suppressMagicEffectSound?: boolean
 }
 
 export interface EnemyDef {

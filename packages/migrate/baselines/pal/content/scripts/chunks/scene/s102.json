@@ -17,7 +17,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 80
+        "asset": "sound.pal.080"
       },
       {
         "kind": "wait",
@@ -54,7 +54,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 74
+        "asset": "sound.pal.074"
       },
       {
         "kind": "wait",
@@ -347,7 +347,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s102/L-41075/e1890/d-0a386828": [
@@ -1169,7 +1169,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 80
+        "asset": "sound.pal.080"
       },
       {
         "kind": "wait",
@@ -1206,7 +1206,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 74
+        "asset": "sound.pal.074"
       },
       {
         "kind": "wait",
@@ -1895,7 +1895,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -1962,7 +1962,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",

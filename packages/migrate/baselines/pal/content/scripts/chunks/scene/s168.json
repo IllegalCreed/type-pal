@@ -935,7 +935,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s168/L-36505/e2822/d-0a386828": [
@@ -954,7 +954,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s168/L-36505/e2823/d-0a386828": [
@@ -973,7 +973,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s168/root/on-enter/stage-0": [],

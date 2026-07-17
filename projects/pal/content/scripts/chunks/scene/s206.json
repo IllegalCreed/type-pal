@@ -3048,7 +3048,7 @@
     "scene/s206/root/entity-e3488/page-0/trigger/stage-0": [
       {
         "kind": "playSound",
-        "soundId": 178
+        "asset": "sound.pal.178"
       },
       {
         "kind": "dialog",

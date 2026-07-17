@@ -14,6 +14,7 @@ import type {
 } from '@type-pal/content'
 import type { ReactNode } from 'react'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 
 export function EntryPointTab(props: {
@@ -25,6 +26,7 @@ export function EntryPointTab(props: {
   locale: Locale
   assetCatalog: AssetCatalogV1
   session: EditSession
+  assetReader: EditorAssetReader
   tabBar?: ReactNode
 }) {
   return <ProjectWorkbenchTab page="entrypoint" {...props} editorState={props.session.getState()} />

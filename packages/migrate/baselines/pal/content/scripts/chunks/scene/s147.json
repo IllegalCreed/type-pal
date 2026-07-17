@@ -645,7 +645,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/L-36505/e2422/d-0a386828": [
@@ -664,7 +664,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/L-36505/e2423/d-0a386828": [
@@ -683,7 +683,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/L-36505/e2424/d-0a386828": [
@@ -702,7 +702,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/L-36505/e2425/d-0a386828": [
@@ -721,7 +721,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/L-36505/e2426/d-0a386828": [
@@ -740,7 +740,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s147/root/on-enter/stage-0": [],
@@ -873,7 +873,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 212
+        "asset": "sound.pal.212"
       },
       {
         "kind": "ditherScreen",
@@ -1558,7 +1558,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 170
+        "asset": "sound.pal.170"
       },
       {
         "kind": "ditherScreen",

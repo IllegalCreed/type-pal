@@ -155,6 +155,30 @@ import type { AudioAssetReader, BgmPlayer } from './audio/bgm.js'
 // BGM 播放器(W5:编辑器试听复用;引擎 main.ts 自用同款)
 import { createBgmPlayer } from './audio/bgm.js'
 
+export type {
+  SfxAssetReader,
+  SfxAudioAdapter,
+  SfxPlaybackSource,
+} from './audio/sfx.js'
+export {
+  SFX_DECODE_BUDGET,
+  SfxPlayer,
+  SfxReadinessBudgetError,
+  SfxReadinessCollectionError,
+  SfxReadinessFatalError,
+  SfxReadinessResourceError,
+} from './audio/sfx.js'
+export type {
+  BattleBaseSoundInput,
+  PoisonSoundSide,
+  TurnActionSoundInput,
+} from './audio/sfx-readiness.js'
+export {
+  collectBattleBaseSounds,
+  collectSceneSoundAssets,
+  collectScriptSoundAssets,
+  collectTurnActionSounds,
+} from './audio/sfx-readiness.js'
 export type { AudioAssetReader, BgmPlayer }
 export { createBgmPlayer }
 

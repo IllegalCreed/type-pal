@@ -30,6 +30,7 @@ import {
   LEGACY_DIALOG_DEFAULT_SPEED,
   putLegacyDialogueText,
 } from './legacy-dialog.js'
+import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
@@ -250,7 +251,8 @@ function translateHook(
         continue
       }
       if (oc === 0x47) {
-        dlg.push({ kind: 'playSound', soundId: ops[0] ?? 0 })
+        const sound = resolveSoundAsset(ops[0], ctx.soundAssetForNum)
+        if (sound) dlg.push({ kind: 'playSound', asset: sound })
         i++
         continue
       }

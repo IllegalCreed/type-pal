@@ -165,6 +165,7 @@ describe('X7 工程诊断与保存门', () => {
       ['soundfont.bound', assetRecord('soundfont', 'soundfont-bound')],
       ...musicIds.map((id) => [id, assetRecord('music', id)] as const),
       ['music.unused', assetRecord('music', 'music-unused')],
+      ['sound.unused', assetRecord('sound', 'sound-unused')],
       ['rng.unused', assetRecord('frame-animation', 'rng-unused')],
     ])
     const manifest: LoadedManifest = {
@@ -195,6 +196,113 @@ describe('X7 工程诊断与保存门', () => {
       page: 'cutscene',
       objectId: 'rng.unused',
     })
+    expect(issues.find((issue) => issue.message.includes('sound.unused'))?.target).toEqual({
+      module: 'asset',
+      page: 'sound',
+      objectId: 'sound.unused',
+    })
+  })
+
+  test('Actor/Enemy/Item/Skill/Script 音效引用共用 typed walker，缺失项拒绝保存', () => {
+    const base = state()
+    const sound = 'sound.used'
+    const actor: ActorDef = {
+      ...hero,
+      battler: { ...hero.battler!, sounds: { attack: sound } },
+    }
+    const enemy = {
+      id: 'enemy',
+      name: 'enemy',
+      spriteNum: 1,
+      stats: {
+        health: 1,
+        level: 1,
+        exp: 0,
+        cash: 0,
+        attackStrength: 1,
+        magicStrength: 1,
+        defense: 1,
+        dexterity: 1,
+        fleeRate: 1,
+        physicalResistance: 0,
+        poisonResistance: 0,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        dualMove: false,
+        collectValue: 0,
+      },
+      ai: { resistanceToSorcery: 0 },
+      anim: {
+        idleFrames: 1,
+        magicFrames: 1,
+        attackFrames: 1,
+        idleAnimSpeed: 1,
+        actWaitFrames: 1,
+        yPosOffset: 0,
+      },
+      sounds: { action: sound },
+    }
+    const withEverySoundSite = state({
+      actors: [actor],
+      enemies: [enemy],
+      items: [
+        {
+          id: 'item',
+          name: 'Item',
+          desc: [],
+          icon: 0,
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: { consuming: false, effects: [], sound },
+        },
+      ],
+      skills: [
+        {
+          id: 'skill',
+          name: 'Skill',
+          desc: '',
+          cost: {},
+          usableOutsideBattle: false,
+          target: 'self',
+          effects: [],
+          animation: { effectSprite: 1, sound },
+        },
+      ],
+      scenes: [
+        {
+          ...base.scenes[0]!,
+          onEnter: [{ body: [{ kind: 'playSound', asset: sound }] }],
+        },
+      ],
+      scriptChunks: {
+        shared: {
+          version: 1,
+          id: 'shared',
+          scripts: { 'shared/test': [{ kind: 'playSound', asset: sound }] },
+        },
+      },
+      assetCatalog: { version: 1, assets: { [sound]: assetRecord('sound', 'used') } },
+    })
+    expect(
+      collectProjectIssues(withEverySoundSite).some(
+        (issue) => issue.code === 'unused-asset' && issue.message.includes(sound),
+      ),
+    ).toBe(false)
+    expect(() => assertProjectSaveValid(withEverySoundSite)).not.toThrow()
+
+    const broken = {
+      ...withEverySoundSite,
+      items: [
+        {
+          ...withEverySoundSite.items[0]!,
+          use: { consuming: false, effects: [], sound: 'sound.missing' },
+        },
+      ],
+    }
+    expect(
+      collectProjectIssues(broken).find((issue) => issue.message.includes('sound.missing'))?.target,
+    ).toEqual({ module: 'asset', page: 'sound', objectId: 'sound.missing' })
+    expect(() => assertProjectSaveValid(broken)).toThrow(/保存前资源引用校验失败/)
   })
 
   test('底部状态诊断合并未引用资产、普通内容引用且不重复 startWorld', () => {

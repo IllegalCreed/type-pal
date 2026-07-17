@@ -2,7 +2,8 @@
  * M4a/M4c · 敌人数据迁移:enemies.json(154 stats) + enemy-objects.json(153 AI 指针) → EnemyDef[]。
  * 纯函数,golden 钉真值。AI/演出/战后 = translate-enemy-scripts 翻译(M4c-2)。
  */
-import type { EnemyDef, EnemyTeamDef } from '@type-pal/content'
+import type { EnemyDef, EnemySounds, EnemyTeamDef } from '@type-pal/content'
+import { resolveSoundAsset } from './sound-migration.js'
 import { translateEnemyScripts } from './translate-enemy-scripts.js'
 import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 
@@ -95,6 +96,15 @@ export function mapEnemies(
     const name = eo._name ?? stats._name ?? `敌人 ${eo.objectIndex}`
     localeNames[`name.${id}`] = name
     if (eo.scriptOnReady || eo.scriptOnTurnStart || eo.scriptOnBattleEnd) withScript++
+    const sound = (value: number) => resolveSoundAsset(Math.abs(value), tctx?.soundAssetForNum)
+    const sounds: EnemySounds = {
+      ...(sound(stats.attackSound) ? { attack: sound(stats.attackSound) } : {}),
+      ...(sound(stats.actionSound) ? { action: sound(stats.actionSound) } : {}),
+      ...(sound(stats.magicSound) ? { magic: sound(stats.magicSound) } : {}),
+      ...(sound(stats.deathSound) ? { death: sound(stats.deathSound) } : {}),
+      ...(sound(stats.callSound) ? { call: sound(stats.callSound) } : {}),
+      ...(stats.magicSound < 0 ? { suppressMagicEffectSound: true } : {}),
+    }
 
     out.push({
       id,
@@ -153,13 +163,7 @@ export function mapEnemies(
         actWaitFrames: stats.actWaitFrames,
         yPosOffset: stats.yPosOffset,
       },
-      sounds: {
-        attack: stats.attackSound,
-        action: stats.actionSound,
-        magic: stats.magicSound,
-        death: stats.deathSound,
-        call: stats.callSound,
-      },
+      sounds,
       ...(stats.stealItem
         ? { steal: { itemId: String(stats.stealItem), count: Math.max(1, stats.stealItemCount) } }
         : {}),

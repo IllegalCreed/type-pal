@@ -34,6 +34,7 @@ import {
   upgradeLegacyDialogues,
   validateActors,
   validateAssetCatalog,
+  validateEnemies,
   validateItems,
   validateLocale,
   validateManifestAssetConfigV3,
@@ -185,8 +186,7 @@ export function assembleProject(
   // 新生成内容与迁移写盘仍走 validateLocale 默认严格模式，禁止新建这种形态。
   const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })
   const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
-  // M4:敌人/敌队轻校验(数组 + id;详校验编辑器期上 zod)
-  const enemies = Array.isArray(jsons.enemies) ? (jsons.enemies as EnemyDef[]) : []
+  const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
   const battleFields = Array.isArray(jsons.battleFields)
     ? (jsons.battleFields as BattleFieldDef[])
@@ -258,7 +258,6 @@ export function assembleProject(
       tilesets: a?.tilesets ?? 'tilesets',
       sprites: a?.sprites ?? 'sprites',
       palettes: a?.palettes ?? 'palettes',
-      sounds: a?.sounds ?? `${root}/sounds`,
       portraits: a?.portraits ?? `${root}/portraits`,
       faces: a?.faces ?? `${root}/faces`,
       itemIcons: a?.itemIcons ?? `${root}/item-icons`,

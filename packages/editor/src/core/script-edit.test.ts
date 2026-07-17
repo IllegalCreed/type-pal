@@ -128,7 +128,10 @@ describe('scene entry prepare 路径', () => {
     expect(getCommandAt(updated, path)).toEqual({ kind: 'playMusic', asset: 'music.pal.049' })
     expect(updated[0]?.body).toBe(source[0]?.body)
 
-    const inserted = insertAfterAt(updated, path, { kind: 'playSound', soundId: 1 })
+    const inserted = insertAfterAt(updated, path, {
+      kind: 'playSound',
+      asset: 'sound.pal.001',
+    })
     expect(inserted[0]?.entry?.prepare.map((command) => command.kind)).toEqual([
       'playMusic',
       'playSound',

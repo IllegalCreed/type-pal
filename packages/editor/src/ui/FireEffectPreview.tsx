@@ -4,10 +4,12 @@
  * 帧时长 (speed+5)×10ms、fireDelay 为循环起点、音效在循环点播。参数改动即重启。
  * 完整战斗语境(施法者/飞行/命中)待引擎 B5 召唤·变身动画补齐后上。
  */
-import type { SkillAnimation } from '@type-pal/content'
+import type { AssetId, SkillAnimation } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { bakeFrame, loadFireSprite, loadStandardPalette } from '@type-pal/reforge'
+import { bakeFrame, loadFireSprite, loadStandardPalette, type SfxPlayer } from '@type-pal/reforge'
 import { useEffect, useRef, useState } from 'react'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { prepareSoundPreview } from './SoundPicker.js'
 
 const fireCache = new Map<number, Promise<HTMLCanvasElement[] | null>>()
 
@@ -34,15 +36,21 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
 const W = 200
 const H = 170
 
-export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnimation }) {
-  const { assetBase, anim } = props
+export function FireEffectPreview(props: {
+  assetBase: AssetBase
+  anim: SkillAnimation
+  assetReader: EditorAssetReader
+}) {
+  const { assetBase, anim, assetReader } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [frames, setFrames] = useState<HTMLCanvasElement[] | null | 'loading'>('loading')
-  // 播放控件(2026-07-05 作者:帧太快/音量大/音画不同步):倍速减慢 + 音量 + 暂停
+  // 音效准备必须发生在用户手势中；准备完成后才起动动画，不做迟到补播。
   const [rate, setRate] = useState(0.5) // 默认半速(编辑时看清帧)
-  const [volume, setVolume] = useState(0.15)
-  const [playing, setPlaying] = useState(true)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [playing, setPlaying] = useState(false)
+  const [audioError, setAudioError] = useState('')
+  const sfxRef = useRef<SfxPlayer | null>(null)
+  const preparedSoundRef = useRef<AssetId | undefined>(undefined)
+  const preparedReaderRef = useRef<EditorAssetReader | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -64,11 +72,6 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
     const stepMs = (((anim.speed ?? 0) + 5) * 10) / rate // 倍速:rate 0.5 = 半速
     let idx = 0
     let disposed = false
-    const soundUrl =
-      anim.sound !== undefined && anim.sound > 0 ? `${assetBase.sounds}/${anim.sound}.wav` : null
-    // 单实例音效(防循环点叠加轰炸 = 作者报「音量大/不同步」的根因):重播前复位
-    if (soundUrl && !audioRef.current?.src.endsWith(`/${anim.sound}.wav`))
-      audioRef.current = new Audio(soundUrl)
     const draw = (): void => {
       const img = frames[idx]!
       ctx.clearRect(0, 0, W, H)
@@ -83,12 +86,17 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
       draw()
       // 音效:引擎语义 (i−fireDelay)%(n−fireDelay)===0 循环点播;单实例复位重播,画帧同 tick = 同步
       const span = n - fireDelay
-      const a = audioRef.current
-      if (soundUrl && a && span > 0 && idx >= fireDelay && (idx - fireDelay) % span === 0) {
-        a.pause()
-        a.currentTime = 0
-        a.volume = volume
-        void a.play().catch(() => {})
+      if (anim.sound && span > 0 && idx >= fireDelay && (idx - fireDelay) % span === 0) {
+        if (preparedSoundRef.current !== anim.sound || preparedReaderRef.current !== assetReader) {
+          setPlaying(false)
+          return
+        }
+        try {
+          sfxRef.current?.play(anim.sound)
+        } catch (cause) {
+          setAudioError(cause instanceof Error ? cause.message : String(cause))
+          setPlaying(false)
+        }
       }
       idx = idx + 1 >= n ? fireDelay : idx + 1 // 到尾回循环起点(预览无限循环)
     }
@@ -97,9 +105,24 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
     return () => {
       disposed = true
       window.clearInterval(timer)
-      audioRef.current?.pause()
     }
-  }, [frames, anim.speed, anim.fireDelay, anim.sound, assetBase.sounds, rate, volume, playing])
+  }, [frames, anim.speed, anim.fireDelay, anim.sound, assetReader, rate, playing])
+
+  const togglePlayback = async (): Promise<void> => {
+    if (playing) {
+      setPlaying(false)
+      return
+    }
+    setAudioError('')
+    try {
+      sfxRef.current = anim.sound ? await prepareSoundPreview(assetReader, anim.sound) : null
+      preparedSoundRef.current = anim.sound
+      preparedReaderRef.current = assetReader
+      setPlaying(true)
+    } catch (cause) {
+      setAudioError(cause instanceof Error ? cause.message : String(cause))
+    }
+  }
 
   return (
     <div className="fire-preview">
@@ -113,7 +136,7 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
               type="button"
               className="mini"
               title={playing ? '暂停' : '播放'}
-              onClick={() => setPlaying(!playing)}
+              onClick={() => void togglePlayback()}
             >
               {playing ? '⏸' : '▶'}
             </button>
@@ -127,18 +150,8 @@ export function FireEffectPreview(props: { assetBase: AssetBase; anim: SkillAnim
               <option value="0.5">0.5×</option>
               <option value="1">1×</option>
             </select>
-            <span title="音量">🔉</span>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={volume}
-              onChange={(e) => setVolume(Number(e.target.value))}
-              className="fp-vol"
-              title={`音量 ${Math.round(volume * 100)}%`}
-            />
           </div>
+          {audioError ? <div className="cf-err">{audioError}</div> : null}
           <div className="hint2">
             #{anim.effectSprite} · {frames.length} 帧 · 实速 {((anim.speed ?? 0) + 5) * 10}ms/帧
           </div>

@@ -266,7 +266,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1697/d-0a386828": [
@@ -285,7 +285,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1698/d-0a386828": [
@@ -304,7 +304,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1699/d-0a386828": [
@@ -323,7 +323,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1700/d-0a386828": [
@@ -342,7 +342,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1701/d-0a386828": [
@@ -361,7 +361,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1702/d-0a386828": [
@@ -380,7 +380,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1703/d-0a386828": [
@@ -399,7 +399,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1704/d-0a386828": [
@@ -418,7 +418,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1705/d-0a386828": [
@@ -437,7 +437,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-36505/e1706/d-0a386828": [
@@ -456,7 +456,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s092/L-41075/e1707/d-0a386828": [
@@ -1076,7 +1076,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 93
+        "asset": "sound.pal.093"
       },
       {
         "kind": "wait",
@@ -1139,7 +1139,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 201
+        "asset": "sound.pal.201"
       },
       {
         "kind": "clearDialog"

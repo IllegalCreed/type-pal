@@ -101,6 +101,7 @@ import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
+import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
 type SceneSelection =
@@ -204,6 +205,12 @@ export function App(props: {
   const assetReader = useMemo(
     () => createEditorAssetReader(project.source, () => session.getState()),
     [project.source, session],
+  )
+  useEffect(
+    () => () => {
+      void disposeSoundPreview(assetReader)
+    },
+    [assetReader],
   )
   const audioResolver = assetReader
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -555,6 +562,9 @@ export function App(props: {
     if (activeSubpage.dataPage === 'music') {
       return state.assetCatalog.assets[location.objectId]?.kind !== 'music'
     }
+    if (activeSubpage.dataPage === 'sound') {
+      return state.assetCatalog.assets[location.objectId]?.kind !== 'sound'
+    }
     if (activeSubpage.dataPage === 'cutscene') {
       const kind = state.assetCatalog.assets[location.objectId]?.kind
       return kind !== 'video' && kind !== 'frame-animation'
@@ -892,6 +902,9 @@ export function App(props: {
             focusActorId={location.objectId}
             onActorFocus={(id) => focusCurrentObject(id)}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
+            assetCatalog={state.assetCatalog}
+            assetReader={assetReader}
+            onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenStartSettings={() =>
               applyEditorLocation({ module: 'project', subpage: 'entrypoint' })
             }
@@ -912,6 +925,7 @@ export function App(props: {
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenLocation={applyEditorLocation}
+            assetReader={assetReader}
           />
         ) : activeSubpage.kind === 'data' && activeSubpage.dataPage ? (
           <DataMode
@@ -944,6 +958,7 @@ export function App(props: {
             tab={activeSubpage.dataPage}
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
+            onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
           />
         ) : (
           <>
@@ -1258,6 +1273,7 @@ export function App(props: {
                   session={session}
                   assetCatalog={state.assetCatalog}
                   audioResolver={audioResolver}
+                  assetReader={assetReader}
                   projectId={state.manifest.id}
                   ambiences={state.ambiences ?? []}
                   shops={state.shops ?? []}
@@ -1267,6 +1283,7 @@ export function App(props: {
                     ghosts: canvasLayers.ghosts,
                   }}
                   onOpenScript={openSharedScript}
+                  onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
                   onClose={() => setDrawer({ open: false, src: null, internalScriptId: null })}
                 />
               )}

@@ -1810,6 +1810,8 @@ export class UpsertAssetCommand implements Command {
     private readonly assetId: AssetId,
     private readonly record: AssetRecordV1,
     private readonly bytes: ArrayBuffer,
+    /** 旧资源可能只在磁盘上；保留字节使保存后撤销仍可物化旧 record。 */
+    private readonly previousBytes?: ArrayBuffer,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -1819,7 +1821,14 @@ export class UpsertAssetCommand implements Command {
     }
     const previous = state.assetCatalog.assets[this.assetId]
     const assetBlobs = { ...state.assetBlobs }
-    if (previous && previous.path !== this.record.path) delete assetBlobs[previous.path]
+    if (
+      previous &&
+      previous.path !== this.record.path &&
+      !Object.entries(state.assetCatalog.assets).some(
+        ([id, asset]) => id !== this.assetId && asset.path === previous.path,
+      )
+    )
+      delete assetBlobs[previous.path]
     assetBlobs[this.record.path] = this.bytes.slice(0)
     return {
       ...state,
@@ -1835,9 +1844,11 @@ export class UpsertAssetCommand implements Command {
   }
 
   invert(state: EditorState): EditorState {
-    return this.oldCatalog && this.oldBlobs
-      ? { ...state, assetCatalog: this.oldCatalog, assetBlobs: this.oldBlobs }
-      : state
+    if (!this.oldCatalog || !this.oldBlobs) return state
+    const assetBlobs = { ...this.oldBlobs }
+    const previous = this.oldCatalog.assets[this.assetId]
+    if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
+    return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
 }
 
@@ -1847,7 +1858,11 @@ export class DeleteAssetCommand implements Command {
   private oldCatalog: EditorState['assetCatalog'] | undefined
   private oldBlobs: EditorState['assetBlobs'] | undefined
 
-  constructor(private readonly assetId: AssetId) {}
+  constructor(
+    private readonly assetId: AssetId,
+    /** 删除前预读磁盘字节，避免保存删文件后撤销只恢复空 record。 */
+    private readonly previousBytes?: ArrayBuffer,
+  ) {}
 
   apply(state: EditorState): EditorState {
     if (!state.assetCatalog.assets[this.assetId]) return state
@@ -1859,7 +1874,7 @@ export class DeleteAssetCommand implements Command {
     const path = assets[this.assetId]!.path
     delete assets[this.assetId]
     const assetBlobs = { ...state.assetBlobs }
-    delete assetBlobs[path]
+    if (!Object.values(assets).some((asset) => asset.path === path)) delete assetBlobs[path]
     return {
       ...state,
       assetCatalog: { ...state.assetCatalog, assets },
@@ -1868,9 +1883,11 @@ export class DeleteAssetCommand implements Command {
   }
 
   invert(state: EditorState): EditorState {
-    return this.oldCatalog && this.oldBlobs
-      ? { ...state, assetCatalog: this.oldCatalog, assetBlobs: this.oldBlobs }
-      : state
+    if (!this.oldCatalog || !this.oldBlobs) return state
+    const assetBlobs = { ...this.oldBlobs }
+    const previous = this.oldCatalog.assets[this.assetId]
+    if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
+    return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
 }
 
@@ -2146,7 +2163,6 @@ export class AddSkillCommand implements Command {
         fireDelay: 0,
         effectTimes: 0,
         shake: 0,
-        sound: 0,
       },
     }
   }

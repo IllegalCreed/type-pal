@@ -15,8 +15,6 @@ export interface AssetBase {
   tilesets: string
   sprites: string
   palettes: string
-  /** 音效目录完整前缀(<id>.wav;loader 已按绝对/相对规则解析)。 */
-  sounds: string
   /** 对话/状态立绘目录(<chunk>.png;内容资产,随库/工程)。 */
   portraits: string
   /** 战斗小头像目录(<actorId>.png)。 */
@@ -27,7 +25,7 @@ export interface AssetBase {
   uiOverride?: string
   /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
   io: LegacyAssetAdapter
-  /** 已迁移资源的唯一解析器；标准颜色、音乐、视频等不得回落到 legacy 路径。 */
+  /** 已迁移资源的唯一解析器；标准颜色、音乐、音效、视频等不得回落到 legacy 路径。 */
   assetResolver?: AssetResolver
 }
 

@@ -17,7 +17,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 62
+        "asset": "sound.pal.062"
       },
       {
         "kind": "wait",
@@ -97,7 +97,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 61
+        "asset": "sound.pal.061"
       },
       {
         "kind": "wait",
@@ -117,7 +117,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 62
+        "asset": "sound.pal.062"
       },
       {
         "kind": "wait",
@@ -685,7 +685,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       }
     ],
     "scene/s061/root/on-enter/stage-0": [
@@ -747,7 +747,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 60
+        "asset": "sound.pal.060"
       },
       {
         "kind": "wait",
@@ -784,7 +784,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 61
+        "asset": "sound.pal.061"
       },
       {
         "kind": "wait",
@@ -804,7 +804,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 62
+        "asset": "sound.pal.062"
       },
       {
         "kind": "wait",

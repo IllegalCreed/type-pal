@@ -934,7 +934,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "wait",
@@ -959,7 +959,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "branch",
@@ -981,7 +981,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 66
+        "asset": "sound.pal.066"
       },
       {
         "kind": "branch",
@@ -1018,7 +1018,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 66
+        "asset": "sound.pal.066"
       },
       {
         "kind": "wait",
@@ -1059,7 +1059,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "wait",
@@ -1084,7 +1084,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "branch",
@@ -1131,7 +1131,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -1160,7 +1160,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 78
+        "asset": "sound.pal.078"
       },
       {
         "kind": "dialog",
@@ -1185,7 +1185,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 66
+        "asset": "sound.pal.066"
       },
       {
         "kind": "branch",
@@ -1222,7 +1222,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 66
+        "asset": "sound.pal.066"
       },
       {
         "kind": "wait",
@@ -1263,7 +1263,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "wait",
@@ -1288,7 +1288,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 73
+        "asset": "sound.pal.073"
       },
       {
         "kind": "branch",

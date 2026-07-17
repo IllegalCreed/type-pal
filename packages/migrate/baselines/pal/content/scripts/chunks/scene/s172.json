@@ -618,7 +618,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 272
+        "asset": "sound.pal.272"
       },
       {
         "kind": "clearDialog"
@@ -820,7 +820,7 @@
       },
       {
         "kind": "playSound",
-        "soundId": 273
+        "asset": "sound.pal.273"
       },
       {
         "kind": "wait",
