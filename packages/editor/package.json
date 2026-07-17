@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_PROJECT_ID=pal vite --port 6010 --strictPort",
+    "dev:lan": "EDITOR_LAN_HTTPS=1 VITE_PROJECT_ID=pal vite --host 0.0.0.0 --port 6010 --strictPort",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-basic-ssl": "2.3.0",
     "@vitejs/plugin-react": "^5.0.0",
     "vite": "^8.0.14"
   }

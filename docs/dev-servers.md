@@ -60,6 +60,18 @@ pnpm --filter @type-pal/editor run dev
 pnpm --filter @type-pal/editor run dev:demo
 ```
 
+需要从另一台设备通过局域网 IP 使用文件夹读写时，不能使用 `http://<IP>:6010`：Chrome 只把
+localhost/loopback 的 HTTP 当作开发期安全来源，普通 IP 必须走 HTTPS。使用专门的 LAN 模式：
+
+```bash
+pnpm --filter @type-pal/editor run dev:lan
+```
+
+然后打开 `https://<运行编辑器电脑的局域网IP>:6010/`。该命令使用开发期自签证书，首次访问需在浏览器高级设置中
+继续（只应在可信局域网操作）；长期或多人使用应换成包含该 IP/稳定 DNS SAN 且客户端信任的正式开发证书。协议、主机名或端口变化会形成
+新的浏览器 origin，localhost 下保存的“最近工程”句柄不会迁移，首次需重新选择工程文件夹。`dev:lan` 会把
+源码及开发资源暴露给同一局域网，只能在可信网络使用。
+
 ## 二阶段 · 新引擎(reforge)
 
 | 端口 | 用途 |

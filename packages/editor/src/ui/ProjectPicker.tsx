@@ -4,6 +4,7 @@
  * FSA 选夹是浏览器原生弹窗(须用户手势);非 Chromium 无 showDirectoryPicker → 提示换浏览器。
  */
 import { useEffect, useState } from 'react'
+import { currentDirectoryPickerAvailability } from '../core/file-system-access.js'
 import { ensurePermission, listRecent, loadHandle } from '../core/handle-store.js'
 import {
   finishOpen,
@@ -28,8 +29,7 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
       .catch(() => {})
   }, [])
 
-  const supported =
-    typeof window !== 'undefined' && typeof window.showDirectoryPicker === 'function'
+  const pickerAvailability = currentDirectoryPickerAvailability()
 
   const run = (label: string, fn: () => Promise<Opened | null>) => async (): Promise<void> => {
     setErr('')
@@ -59,14 +59,12 @@ export function ProjectPicker(props: { onOpened: (o: Opened) => void; seedBaseUr
       return finishOpen(dir)
     })()
 
-  if (!supported) {
+  if (!pickerAvailability.available) {
     return (
       <div className="picker">
         <div className="picker-card">
           <h1 className="picker-title">type-pal 编辑器</h1>
-          <div className="picker-err">
-            此编辑器需要「文件系统访问」能力,请用 <b>Chrome</b> 或 <b>Edge</b> 打开。
-          </div>
+          <div className="picker-err">{pickerAvailability.message}</div>
         </div>
       </div>
     )

@@ -1,6 +1,7 @@
 import { createReadStream, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import basicSsl from '@vitejs/plugin-basic-ssl'
 import react from '@vitejs/plugin-react'
 import type { Plugin } from 'vite'
 
@@ -14,6 +15,7 @@ import type { Plugin } from 'vite'
  * editor 复用 reforge 的 loadProject → 同样需要这两条映射。
  */
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
+const lanHttps = process.env.EDITOR_LAN_HTTPS === '1'
 
 function serveDir(urlPrefix: string, fsDir: string): Plugin {
   // dev + preview 同款中间件(见 reforge/vite.config.ts;⚠ 去前导斜杠 bug 已修,照抄)。
@@ -78,6 +80,9 @@ export default {
     },
   },
   plugins: [
+    // File System Access 只在 secure context 暴露。localhost 的 HTTP 有浏览器豁免，
+    // 局域网 IP 没有；dev:lan 才启用自签 HTTPS，日常 localhost dev 仍保持 HTTP。
+    ...(lanHttps ? [basicSsl()] : []),
     react(),
     serveDir('/projects', resolve(repoRoot, 'projects')),
     serveDir('/extracted', resolve(repoRoot, 'data/extracted')),

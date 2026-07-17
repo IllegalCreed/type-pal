@@ -69,7 +69,7 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
-import { type Opened, openExistingProject, saveProjectAs } from '../core/open-actions.js'
+import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
   findSceneEntryReferences,
@@ -652,7 +652,8 @@ export function App(props: {
     try {
       let dir = dirHandleRef.current
       if (!dir) {
-        dir = await window.showDirectoryPicker({ mode: 'readwrite' })
+        dir = await pickDir()
+        if (!dir) return
         dirHandleRef.current = dir
         snapshotRef.current = null // 新目录 → 快照作废,首存全写
         void saveHandle(state.manifest.id, dir.name, dir) // 持久化句柄(P4 打开本地用)
@@ -733,7 +734,7 @@ export function App(props: {
                   onClick={() =>
                     void runProj(async () =>
                       saveProjectAs(
-                        await serializeProjectWithMapCopies(session.getState(), project.source),
+                        () => serializeProjectWithMapCopies(session.getState(), project.source),
                         dirHandleRef.current ?? undefined,
                         [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()],
                       ),
