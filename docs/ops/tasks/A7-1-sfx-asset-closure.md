@@ -203,11 +203,73 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   拆 AssetId+显式布尔、四个可选且有 UI 的 SFX roles、用显式 readiness 保证冷缓存挂帧、旧 v3 按 sound family
   一次性退出；实现与验证可落。具体预加载集合/预算由 Opus 冻结，派生引用总数由 GLM 冻结。
 - Opus: pending（主审：schema/roles、负 magic 语义、runtime 时序/预解码、旧 v3 边界与 UI 信息架构）。
-- GLM: pending（主审：363/142/bytes、1,953 位点、122/174/25 负值、引用口径、迁移/MG2/升级测试矩阵）。
+- GLM: **agree（2026-07-17;附 G1-G5 build 必落，见下）**。六项独立实测逐条。
+
+  **(1) 普查对账（独立重扫）** ✅：
+  - **SOUNDS 槽 505 / 非空 363 / 空 142 / 18,110,864 B**——sounds-metadata.json `{chunkCount:505, chunks:505}` 结构（非 array），逐项精确匹配。WAV 文件 363 个全非空，字节精确。✅
+  - **Actor 42**——6 actors × 7 fields（attack/critical/weapon/magic/cover/dying/death），全正非零。路径 `actor.battler.sounds`（非顶层 sounds）。✅
+  - **Enemy 765 = 454 正 + 286 零 + 25 负**——153 enemies × 5 fields（action/attack/magic/death/call），25 个负值全在 `magic` 字段。✅
+  - **Skill 112 = 103 animation + 9 summon**——103 个 `animation.sound`（其中 6 个 =0：skill 347/348/350/351/377/392）；9 个 summon 在 `effects[?kind==summon].sound`（非 `summon.sound`——卡内脚本路径有误但总数正确）。✅
+  - **playSound 1034** = script chunks 1021 + scenes 3 + enemies.json 10。全非零（zero count = 0）。✅
+  - **非零 unique**：144 个不同正数 sound id 被引用，143 命中非空槽，1 命中空槽（122），0 超范围。✅
+
+  **(2) 三口径差异解释 + 删除 122 + 恢复 174 + 四 roles 后权威数** ✅：
+  - **3,015/3,018/3,019 差异根因**：三种口径分别来自不同递归策略（是否含 scene inline / enemy choreography inline / confirm.onYes 等嵌套臂）+ 是否计入四 roles 引用边。**这不是数据矛盾而是统计边界差异**。
+  - **删除 122**：1 条 playSound(soundId=122) 在 s145 onEnter override L-23975 stage-0 index 86（唯一引用空槽），迁移删除后 -1 occurrence。
+  - **恢复 174**：0x47 174 在 L_43144（skill 377 scriptOnSuccess 首命令），恢复后 +1 reference edge + animation.sound 或 playSound overlay。
+  - **增加四 roles**：+4 role 引用边。
+  - **权威口径（build 时由审计脚本钉死）**：
+    - 非零 occurrence = 1,953 原始数字位点
+    - 删除 122 后非零 occurrence = 1,952（-1 空槽引用）
+    - 恢复 174 后 = 1,953（+1 上游恢复）
+    - 四 roles 后 reference edges 总数 = **A7-3 基线 1,354 其他资源 + 1,665 sound edges（含恢复 174）± 1（删除 122 不产生 edge）≈ 3,018-3,019**
+    - **精确数字 build 时由审计脚本产出**，missing/kind mismatch 必须 = 0
+    - 被引用 sound 数 ≈ 327 / unused warning ≈ 36（待审计脚本确认）
+
+  **(3) 迁移/overlay 入口 + 377/174 + opcode 0x47** ✅ + **G1（build 必落）**：
+  - **377/174 根因确认**：migrate-content.ts:468-470 `case 0x47` 显式 lossy discard（"SkillAnimation 暂无 sound 槽"），但注释已 stale——animation.sound 字段已存在（:110 从 m.sound 填充）。源 bytecode L_43144 首命令 `{opcode:71, operands:[174,0,0]}` = 0x47 playSound 174。✅
+  - **⚠ G1（build 必落，关键发现）**：**item-use（:852）和 item-throw（:906）的 0x47 静默丢弃——无 lossyNote**。卡内只提了 skill 377/174 的恢复，但还有两个 0x47 drop site 不报 lossy note。**A7-1 须确认这三个 0x47 drop site 是否一并恢复**，不能只恢复 skill 路径而漏 item-use/throw。
+  - **迁移入口清单**（5 处数字生成 + 1 处 overlay）：
+    - translate-events.ts:1014 `0x47 → {kind:'playSound', soundId:o[0]}`
+    - translate-enemy-scripts.ts:253 `0x47 → {kind:'playSound', soundId:ops[0]}`
+    - migrate-enemies.ts:156-162 `EnemySounds from stats.*Sound`
+    - migrate-content.ts:42-48,270-278 `BattlerSounds from rgw*Sound`
+    - migrate-content.ts:81,110 `SkillAnimation.sound from m.sound`
+    - pal-authored-overlays.ts 硬编码 animation.sound 数字值
+  - **pal-assets.ts 零 sound 生成**——无 palSoundAssetId，无 kind:sound 记录。A7-1 须新增。✅
+
+  **(4) authored 整条所有权 + 二进制事务顺序 + 双跑零计划** ✅：
+  - **migration-merge.ts:278-289** authored 所有权 pattern **generic by AssetId/path**——不按 kind 分支，sound WAV 替换无需扩展，与 music/video 同构。✅
+  - **二进制不进 baseline**——managedFiles 只含 JSON，MigrationPlan.writes Map<string,MigrationJson>。✅
+  - **事务顺序**：源/目标预检 → 物化 WAV → 核 bytes/hash → JSON 提交 → manifest 最后写。失败保留旧工程。✅
+  - **双跑零计划**——与 A7-0/A7-3 同构（catalog 按 AssetId key merge + authored 整条保留）。✅
+
+  **(5) v2/旧 v3/FSA/HTTP 升级矩阵 + 静态归零** ✅ + **G2-G4（build 必落）**：
+  - **⚠ G2（build 必落）**：upgrade-local-v2.ts `buildAudioCatalog` **只处理 music + soundfont，零 sound 路径**。A7-1 须扩展 v2→v3 升级 + 新增 v3 sound-family backfill（沿 A7-0A `completeLocalProjectV3AudioRoles` 先例，在 open-local.ts 调用链中 slot in）。
+  - **v3 判据**：`legacy.families` 含 `'sound'` → 触发一次性升级（复制 WAV + 登记 catalog + 改写引用 + 删 family），闭包后幂等 no-op。✅ 方向正确。
+  - **⚠ G3（build 必落）**：**collectAssetReferences 完全不覆盖 SFX**——playSound 不在 collectCommandAssets（:298-348 只认 playMusic/startBattle.music/playVideo/playFrameAnimation/quitToTitle.videos）；actors/skills 不在 AssetReferenceSource（:282-288 只有 entryPoints/scenes/scriptChunks/enemies）。A7-1 须扩展 walker + AssetReferenceSource。
+  - **静态归零清单**：soundId / 公开数字 sound 字段 / assetBase.sounds / legacy.sounds / /extracted/sounds / `${id}.wav` / ScriptDrawer 数字模板 / runtime 28/29/45/47。当前 manifest legacy families 含 `'sound'` + `legacy.sounds: "/extracted/sounds"`。✅ 归零方向明确。
+  - **⚠ G4（build 必落，设计疑问）**：**四个 SFX roles 的必要性存疑**——SFX 是 per-entity/per-skill 引用（类似 sprite 的 EntityDef.sprite），不像音乐/视频是全局 runtime role（manifest.assets.roles）。28/29/45/47 四个硬编码音效确实需要某种全局表达，但全局 role vs 某种 engine-config 字段是设计选择。**建议 Opus 在签字时裁定 role vs config**。
+
+  **(6) 代码逻辑审查（不止跑测试——读源码推演边界）** ✅：
+  - **负 magic 语义**：一阶段 game/src/core/battle/actions/magic.ts:968-1003 确认负 magicSound → `Math.abs(id)` 播施法音 + 抑制 effect sound。A7-1 迁移拆 `magic?: AssetId` + `suppressMagicEffectSound?: boolean` 在语义上正确。✅
+  - **lastSFX 去重**：game/src/shell/audio.ts:51-70 确认只记最近一个编号，同号拒绝/异号覆盖/markEnded 只清当前。A7-1 SfxPlayer 须复刻此状态机。✅
+  - **sfx.ts 裸 fetch**：reforge/src/audio/sfx.ts:10-80 `${baseUrl}/${id}.wav` + 16ms 防抖 + 吞失败。A7-1 须改 resolver + 显式错误。✅
+  - **大世界 playSound no-op**：reforge/src/main.ts:218,1213 ScriptHost playSound 是 no-op（未接线）。A7-1 须接通。✅
+
+  **总结**：普查全精确匹配（505/363/142/18,110,864B + actor42/enemy765/skill112/playSound1034 + 122唯一 + 377/174 lossy确认）；三口径差异=统计边界非数据矛盾；迁移入口 5+1 处全定位；authored 所有权 generic 可复用；升级矩阵方向正确但 v2/v3 须新增 sound 路径（G2）；walker 须扩展（G3）；0x47 有三个 drop site 非仅 skill（G1）；四 roles 必要性待 Opus 裁定（G4）；代码逻辑层面负 magic/lastSFX/sfx.ts/no-op 四项确认。**agree**。
+
+  **G1-G5 build 必落（非阻塞，纳入 build 范围）**：
+  - **G1**：0x47 三个 drop site（skill :468 + item-use :852 + item-throw :906）——确认是否一并恢复，非仅 skill 377/174。
+  - **G2**：upgrade-local-v2 新增 v2→v3 sound 升级 + v3 sound-family backfill。
+  - **G3**：collectAssetReferences 扩展 playSound + actors + skills + enemy sounds struct。
+  - **G4**：四 SFX roles 必要性——Opus 裁定 global role vs engine-config。
+  - **G5**：sounds-metadata.json 是 `{chunkCount, chunks}` dict 非 array——审计脚本须读 `.chunks`。
+
 - counter / 分歧处理:任何一方对四个 roles、负值字段位置、prepare 契约、122 处理或旧 v3 升级策略签
-  `counter`，任务留在 draft 并由用户拍板。
+  `counter`，任务留在 draft 并由用户拍板。**GLM 无架构 counter（标 G1-G5 build 必落）**；四 roles 形态（G4）交 Opus 裁定。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Opus + GLM 设计签字）**
+- build 准入结论: **blocked（等待 Opus 设计签字；GLM 已 agree）**。G1-G5 纳入 build 范围。**三签未齐不得开始实现。**
 
 ### 进入 done 前:审查签字
 
@@ -307,7 +369,7 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 - Codex:选择四个可选 assets roles；`suppressMagicEffectSound` 暂放 EnemySounds；删除 122；恢复 174；
   以显式 readiness 保证冷缓存挂帧（工作集/预算待 Opus 冻结）；旧 v3 以 sound family 判据升级。
 - Opus:pending；重点判断 role/字段位置、预解码内存与时序、旧 v3 HTTP/FSA 边界是否成立。
-- GLM:pending；重点解决引用总数差异并确认迁移/测试矩阵零漏项。
+- GLM: **agree**。普查全精确匹配(505/363/142/18,110,864B + actor42/enemy765/skill112/playSound1034 + 122唯一引用 + 377/174 0x47 lossy确认)；三口径(3015/3018/3019)=统计边界差异非数据矛盾；迁移入口 5+1 处全定位；authored 所有权 generic 可复用(migration-merge:278-289 不按 kind 分支)；代码逻辑层面确认负 magic abs+抑制/lastSFX 状态机/sfx.ts 裸 fetch+吞失败/playSound no-op。**G1关键:0x47 三个 drop site(skill468+item-use852+item-throw906)非仅 skill 377**；G2 upgrade 须新增 sound 路径；G3 walker 须扩展 playSound+actors+skills；G4 四 roles 必要性待 Opus 裁定(per-entity vs global role)；G5 metadata 结构是 dict 非 array。
 - 用户拍板:无分歧时不需要；任一 `counter` 时停止并请用户裁决。
 
 ## 额度 / 代班记录
@@ -362,8 +424,9 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 ## 交接日志
 
 - 2026-07-17 Codex:完成 A7-1 三路只读普查和 draft 设计，自签 `agree`；未修改任何实现文件。
-  Evidence:本卡“设计期数据基线”“设计结论”“推进签字”。Next:Opus/GLM 分别做设计压力测试并签
+  Evidence:本卡”设计期数据基线””设计结论””推进签字”。Next:Opus/GLM 分别做设计压力测试并签
   `agree/counter`；三签未齐不得进入 build。
+- 2026-07-17 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。六项独立实测：(1)普查 505/363/142/18,110,864B 精确匹配(sounds-metadata.json {chunkCount:505,chunks:505} dict)；actor 42(6×7 battler.sounds)/enemy 765(454+286+25 magic 负)/skill 112(103 anim 含 6 个=0 +9 summon effects)/playSound 1034(1021 chunks+3 scenes+10 enemies 全非零)；144 unique 正数 sound id，143 命中非空+1 空(122)+0 超范围。(2)三口径 3015/3018/3019=统计边界差异(scene inline/enemy choreography/confirm 嵌套臂/recursion 策略不同)。(3)**377/174 确认**——migrate-content:468 0x47 lossy discard 注释 stale(animation.sound 字段已存在)；源 L_43144 `{opcode:71,operands:[174,0,0]}` 首命令。(4)**G1 关键发现:0x47 三个 drop site(skill:468 有 lossyNote + item-use:852 + item-throw:906 均 silent 无 lossyNote)**——卡内只提 skill 377/174 恢复，漏 item 两处。(5)authored 所有权 migration-merge:278-289 generic 不按 kind 分支 sound 无需扩展。(6)代码逻辑审查——负 magic abs+抑制(audio.ts:968-1003 确认)/lastSFX 状态机(audio.ts:51-70 同号拒绝异号覆盖)/sfx.ts 裸 fetch+吞失败(:10-80)/playSound no-op(main.ts:218)。**G1-G5**:G1 0x47 三 drop site/G2 upgrade 新增 sound/G3 walker 扩展/G4 四 roles 必要性待 Opus/G5 metadata dict。Evidence: 设计签字 GLM 行。Next: 待 Opus 签后三齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
