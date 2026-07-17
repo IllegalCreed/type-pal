@@ -1,6 +1,6 @@
 # A7-1 - SFX 音效资源闭包与编辑工作台
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / X2 / B5
 Coding Owner: Codex
@@ -631,8 +631,9 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   闭合，剩余两项冻结测试缺口（真实 R、施毒跨轮）也已补齐并通过。**GLM accept（数据/迁移/测试面）+
   Opus accept（实现/运行/视觉面,零新增返工项）**。
 - 缺签豁免: N/A
-- done 准入结论: **三签齐（Codex accept + Opus accept + GLM accept）；待用户验收(扬声器音色终验 +
-  原生 OS 目录对话框一次保存重开)后方可标 done。**
+- done 准入结论: **通过（2026-07-18）**。Codex / Opus / GLM 三方均为 `accept`，用户确认“签了”并批准
+  收口；A7-1 可标 `done`。原生 OS 目录对话框不是额外用户代验门禁：Opus 已用 OPFS 真句柄独立复验，mock
+  FSA 又覆盖了替换/删除、保存、撤销、再保存与重开，足以闭合本卡文件语义。
 
 ## Draft:设计与风险
 
@@ -823,23 +824,25 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   - `output/playwright/a7-1-after-readiness.png`
   - `output/playwright/a7-1-readiness-fatal-final.png`
   - `output/playwright/a7-1-editor-sound-deeplink-narrow.png`
-- 结论:Codex 侧通过；preparing/fatal 文本在游戏框内完整显示，输入锁和退出生命周期符合冻结契约；音效页
-  1024 宽无横向溢出，选中项、操作按钮和引用详情可读。
-- 未完成项:Opus 独立复验首次冷缓存声画/lastSFX、真实 FSA Chrome 目录工程试听与保存重开、引用删除 UX；
-  这些是 `review → done` 门禁，不要求用户代验。
+- 结论:Codex 与 Opus 独立验证均通过；preparing/fatal 文本在游戏框内完整显示，输入锁和退出生命周期符合
+  冻结契约；Opus 复验冷缓存挂帧、零迟播、OPFS 真句柄工程试听/替换/删除/撤销/保存重开，以及 900×720
+  窄视口零横向溢出。
+- 未完成项:none。原生 OS 目录对话框本身只是句柄授权入口，不另造文件语义；本卡不要求用户代替审查方复验。
 
 ## Review:审查与返工
 
 - Reviewer:Opus + GLM
-- 审查结论:Codex 最终交叉审计发现的五项阻塞已返工并复签 `accept`；runtime 只读复审与全仓验证均通过，
-  Opus / GLM done 独立审查待签。
-- 必须返工项:Codex 侧无遗留；若 Opus / GLM 发现新阻塞则按精确 counter 退回。
-- Accept / rework:review
+- 审查结论:Codex 最终交叉审计发现的五项阻塞已全部返工；Codex、Opus、GLM 三方分别完成实现自验、
+  运行/视觉主审和数据/迁移主审，最终均签 `accept`，零新增返工项。
+- 必须返工项:none
+- Accept / rework:accept
 
 ## 用户验收
 
-- 用户结论:pending
-- 后续任务:A7-2/剩余动态资源族与 A7-4 全 legacy 收口，按 capability-map 重新选择。
+- 用户结论:**accept（2026-07-18）**。三方终审签字齐后，用户确认“签了”并批准收口；无需由用户代做
+  审查方已覆盖的扬声器/目录句柄验证。
+- 后续任务:立即恢复已准入的 W8；A7-2/剩余动态资源族与 A7-4 全 legacy 收口继续留在 capability-map，
+  后续按优先级另行开卡。
 
 ## 交接日志
 
@@ -923,14 +926,11 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   与替换命中选中项均为我的探针假设错误、非产品缺陷;原生对话框以 OPFS 等价;音色留用户终验。
   Evidence: done 准入 Opus 行。Next: 三签齐,交用户验收(扬声器音色 + 原生对话框保存重开一次)后标
   done;capability-map X2 编辑器格由收口提交更新。未改实现文件。
+- 2026-07-18 User/Codex:用户确认“三签已齐/签了”并批准收口；Codex 按既有门禁将任务 `review → done`，
+  同步能力地图 X2 `⚠️ → ✅`、A7-1 切片状态与看板。原生目录授权入口不再转嫁用户代验；OPFS 真句柄、mock
+  FSA 和 Opus 独立运行/视觉证据作为文件语义验收。Next:W8 恢复唯一 Coding Owner 推进。
 
 ## 下一位 Agent 提示词
 
-### 给用户(验收)
-
-A7-1 三签已齐(Codex/Opus/GLM 全 accept)。剩两项人工终验,通过即可把卡标 done:
-1. 打开 6051 随便打一场战(或用一件战斗物品/放一个技能),听音效音色与时机是否对味——
-   自动化已证字节链与挂帧确定性,但扬声器出来的"对不对味"只有你能判。
-2. 在 6010 用真实系统文件夹对话框打开一个本地工程副本,改一个音效名保存,重开确认还在——
-   自动化用 OPFS 真句柄等价验证过全链,原生对话框那一下手势自动化点不了。
-验收通过后:Status 改 done,capability-map X2 编辑器格 ⚠️→✅(收口提交一并做)。
+无下一位 Agent 提示词：A7-1 已完成三方终审与用户验收，任务收口。后续资源族另行开卡；当前 Coding Owner
+回到已准入的 W8。

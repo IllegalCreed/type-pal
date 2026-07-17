@@ -1,20 +1,20 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-16
+> 审计日期: 2026-07-16；最近收口:2026-07-18（A7-1 SFX）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
-> 落地状态: A7-0 音乐/MIDI soundfont 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
+> 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
-A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soundfont，A7-3 已闭合视频与完整帧动画。其余资源族的
+A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soundfont，A7-1 已闭合 SFX，A7-3 已闭合视频与完整帧动画。其余资源族的
 运行时仍可绕过工程目录读取仓库级 `/extracted`、`/baked`、`/ui`；多类资源还用数字号拼文件名。因此当前
-可以证明“音乐、视频和帧动画由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开全部外部资源依赖。
+可以证明“音乐、音效、视频和帧动画由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开全部外部资源依赖。
 
 问题由四层共同造成:
 
 1. `manifest.assets` 声明的是目录约定,不是“稳定资源 id -> 明确文件”的注册表。
-2. `AssetBase`、BGM/SFX、RNG、视频、字体、对话资源和部分编辑器预览仍保留裸 `fetch` 或绝对路径旁路。
+2. `AssetBase`、字体、游戏 UI、静态图像和部分编辑器预览仍保留裸 `fetch` 或绝对路径旁路。
 3. 克隆按仓库级提取/烘焙清单复制全部 3,232 个文件,并不按工程真实引用闭包复制。
 4. 当前引用校验只检查内容对象之间的 id,不检查资源 id、种类、物理文件、大小或哈希。
 
@@ -192,13 +192,29 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soun
 - MG2 dry-run 为 `writes=0 deletes=0 conflicts=0`；作者替换保持 AssetId、转 authored/hash 路径，不被迁移器覆盖。
 - 当前 PAL 全量写前闭包为 **1,354 条资产引用、15 条未引用 warning、0 条缺失/kind 错误**；其中视频入口覆盖
   manifest 角色、入口点 introVideo 和 quitToTitle 视频序列，帧动画分段按作者 site 归并计数。
-- A7 总体仍未完成：SFX、字形/UI、头像/图标、精灵/瓦片等 legacy family 与裸路径仍按 A7-1/A7-2/A7-4
+- A7 总体仍未完成：字形/UI、头像/图标、精灵/瓦片等 legacy family 与裸路径仍按 A7-2/A7-3/A7-4
   继续收口。
 - 最终迁移 dry-run 为 `writes=0 deletes=0 conflicts=0`。作者接管同一 AssetId 的记录与 migrated 兄弟条目
   并行更新已有专测，二进制保持在 MG2 JSON baseline 外。
 
 实际文件/字节/引用与验证清单见
 [`a7-0-music-resource-closure-report.md`](a7-0-music-resource-closure-report.md)。
+
+### 3.9 A7-1 落地后的 SFX 证据
+
+- PAL catalog 登记 363 个非空 `sound`，共 18,110,864 B，全部带 SHA-256；142 个空 chunk 不生成假资产，
+  唯一误引空槽 122 的命令已在上游迁移边界删除。
+- 脚本、角色、敌人、技能、召唤与四个战斗提示音角色全部使用稳定 AssetId；技能 377 的 174 与物品 151
+  使用链的 45 已从迁移丢失中恢复，25 个负 enemy magic 被拆成正 AssetId 与显式抑制标记。
+- 权威闭包为 1,666 条 sound reference edges、项目总引用 3,020、referenced 328、unused 35、warning 50，
+  missing 与 kind mismatch 均为 0；MG2 双跑为 `writes=0 deletes=0 conflicts=0`。
+- Reforge 的大世界和战斗 SFX 只经 AssetResolver/FileSource 读取；两级 readiness 屏障上界为 battleBase 51、
+  entry/start base 26、单动作 2、活跃毒增量 0、六人作者包络 63≤64，`violations=[]`、`leased=0`。
+- 编辑器音效工作台与共享 SoundPicker 支持导入、替换、改名、试听、选择、引用保护删除、撤销、保存重开和
+  旧 v2/v3 sound-family 一次性升级；`legacy.sounds`、sound family、数字文件名推断和运行时提示音字面量已退役。
+- Codex、Opus、GLM 三方最终均签 `accept`；Opus 独立复验冷缓存挂帧、OPFS 真句柄读写与 900×720 窄视口，
+  用户于 2026-07-18 验收收口。完整实现、返工与测试矩阵见
+  [`A7-1 任务卡`](../../ops/tasks/A7-1-sfx-asset-closure.md)。
 
 ## 4. 终态数据契约
 
@@ -417,12 +433,12 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 | 切片 | 范围 | 退出条件 |
 |---|---|---|
 | **A7-0** | 公共 catalog/guard/resolver/闭包地基 + 音乐/MIDI soundfont 首切片 | 音乐引用、试听、运行、保存、重迁全部只走 AssetId；`music.json` 与数字文件名推断归零 |
-| **A7-1** | SFX 与音频剩余资源 | 音效引用、角色/敌人/技能音效、导入替换全部只走 AssetId |
+| **A7-1** | SFX 与音频剩余资源 | **done（2026-07-18）**：音效引用、角色/敌人/技能/召唤音效、导入替换全部只走 AssetId |
 | **A7-2** | 静态图像、游戏 UI、字形、颜色表 | 头像/图标/战场/UI/字体无 `/baked`、`/ui`、`/extracted` 旁路 |
 | **A7-3** | 瓦片、精灵、战斗/法术动画、RNG、视频 | **RNG/视频部分已完成**：稳定 AssetId + TPFS + resolver + 作者工作台；瓦片/精灵/战斗动画剩余族继续收口 |
 | **A7-4** | 克隆/另存/zip/闭包总门禁 + v4 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
 
-A7-0 不得把 A7/R7 标为 done；它必须保留一份全量剩余缺口报告,后续切片只能减少,不能用 allowlist 隐藏。
+A7-0/A7-1 等单一切片不得把 A7/R7 标为 done；全量剩余缺口报告只能减少，不能用 allowlist 隐藏。
 
 ## 7. A7-0 验证基线
 
