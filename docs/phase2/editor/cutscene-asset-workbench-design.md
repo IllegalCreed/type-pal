@@ -1,6 +1,6 @@
 # 过场资源工作台与工程闭包设计
 
-> 状态: implemented，A7-3 build 已完成，等待 Opus/GLM review 与用户验收。
+> 状态: done（2026-07-17），A7-3 实现、返工、三方 review 与用户验收均已完成。
 > 任务卡: [`A7-3-cutscene-asset-workbench.md`](../../ops/tasks/A7-3-cutscene-asset-workbench.md)
 
 ## 1. 目标

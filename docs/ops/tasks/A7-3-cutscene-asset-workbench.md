@@ -1,6 +1,6 @@
 # A7-3 - 视频与帧动画资源闭包及过场工作台
 
-Status: rework
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / X3
 Coding Owner: Codex
@@ -216,7 +216,7 @@ Branch: main
     梦境后是否也半尺寸)——需 Codex checkout 父提交对照。无论(a)(b)结论如何,C1 都falsify 了 Codex 自审
     "6051 s066 全段播放、正常结束和空格跳过清理通过"与视觉记录"无跳过残留",故本卡必须返工或由用户
     对该已知缺陷显式豁免后才能进 done。
-- Codex 返工（2026-07-16，待 Opus/GLM 复核）：
+- Codex 返工（2026-07-16；2026-07-17 已获 Opus/GLM accept）：
   - **C1 已定位**：`s066` 播完帧动画后进入 `s059`，后者才启用 0x71 屏波。旧屏波离屏 pass 把绑定主
     `ctx` 的 `Canvas2DRenderer` 传给 `wctx`，renderer 实际落笔与目标 transform 错配，造成半尺寸/画布污染。
     现为离屏 `wctx` 单建 `waveRenderer`，`renderSceneFrame` 对 context 不一致 fail-loud；严格按
@@ -232,7 +232,7 @@ Branch: main
   - **C5 已修**：原版 0x46 不只移动队长，还按朝向重填 `rgTrail`。Reforge 的场景落点/teleport 现用
     `seedFormationTrail` 铺满直线队形并清 frozen/派生 follower；静止回退使用 `trail[m]`。最终 `setParty`
     恢复三人后无需移动即可出现。
-- Codex FSA/LAN 修复（2026-07-17，待 Opus/GLM 复核）：
+- Codex FSA/LAN 修复（2026-07-17；已获 Opus/GLM accept）：
   - 根因确认：Chrome 的 File System Access API 要求 secure context；`http://localhost` 是开发期安全来源，
     `http://<局域网IP>` 不是，因此 IP 入口会把 `showDirectoryPicker` 隐藏。编辑器现在统一通过
     `packages/editor/src/core/file-system-access.ts` 先区分“来源不安全”和“浏览器不支持”，避免误报。
@@ -294,10 +294,17 @@ Branch: main
     (实际故障渲染路径)确证;(c) 900×720 无横向溢出以 Codex Playwright + GLM 复核为准。
   - GLM 的 O1(reforge Biome 5 处 auto-fixable 漂移)/O2(asset.test.ts:294 缺 site 的 pre-existing fixture)
     附议为 done 前清理项,非阻塞。**C1 counter 解除,Opus accept**。
+- Codex 返工复核: **accept（2026-07-17）**。复核 Opus/GLM 证据后完成 O1/O2 收尾：Reforge 5 处
+  Biome 漂移已格式化，`asset.test.ts` 引用 fixture 已补 `site`；随后 `pnpm check` 全仓通过
+  （shared 111、content 208、reforge 370、game 2,289、pal-extract 246、migrate 199+1 skipped、editor 214，
+  Biome 682 files），editor/reforge production build 通过。FSA 以 Opus 的 OPFS 真句柄 round-trip 作为
+  自动化边界证据；原生 OS 对话框仅是浏览器手势壳，不再要求用户重复工程验证。
 - counter / 返工处理: C1-C5 + FSA/LAN 已由 Codex 修复;**Opus 返工复核 accept + GLM accept**(证据见各自签字)。
-  仅剩:原生 OS 对话框 save→reopen 交用户终验(自动化以 OPFS 真句柄等价证明);done 前建议清 O1/O2。
+  原生 OS 对话框 save→reopen 未自动化；用户此前明确不承担重复工程验证，并于 2026-07-17 确认三方已签，
+  接受以 OPFS 真 `FileSystemDirectoryHandle` round-trip + 三方审查作为该边界的完成证据。O1/O2 已清。
 - 缺签豁免: N/A
-- done 准入结论: blocked（Opus + GLM 均 accept;待用户对原生对话框 save→reopen 终验 + done 前清 O1/O2）
+- done 准入结论: **allowed / complete（Codex + Opus + GLM 三方 accept；用户确认签字齐并接受工程验收代行；
+  O1/O2 已清，完整门禁全绿）**。
 
 ## Draft: 设计与风险
 
@@ -466,17 +473,17 @@ Branch: main
   - `docs/ops/evidence/A7-3/reforge-s066-frame-animation.png`
   - `docs/ops/evidence/A7-3/reforge-s066-skip-cleanup.png`
 - 结论:Codex 桌面 HTTP 与运行时返工自验通过；旧“跳过残留”口径作废，当前剧情 RNG 默认不可跳。
-- 未完成项:真实 FSA 句柄保存重开、Opus 独立视觉复验；窄视口已在 900×720 的场景页与过场资源页
-  做尺寸回归（仍需 Opus 独立视觉复验）。
+- 完成项:Opus 已完成独立运行时/视觉复验，并以 OPFS 真 `FileSystemDirectoryHandle` 完成 save→reopen；
+  900×720 场景页与过场资源页尺寸回归通过。
 - LAN HTTPS 说明：自动化使用 `ignoreHTTPSErrors`，所以证据覆盖 secure-context/API 暴露与布局，
-  不覆盖用户首次面对自签证书警告时的点击路径；真实目录授权仍保留人工复验门。
+  不覆盖用户首次面对自签证书警告时的点击路径；这是已记录的开发证书运维边界，不再阻塞 A7-3。
 
 ## Review: 审查与返工
 
 - Reviewer: Opus + GLM
-- 审查结论:Codex 已完成 C1-C5 + FSA/LAN 返工并自验；**Opus 返工复核 accept(C1 counter 解除)**;
-  **GLM accept(覆盖/测试面)**。三方 review 齐 accept,余用户对原生 OS 对话框 save→reopen 终验 + done 前
-  清 O1(reforge Biome auto-fix)/O2(asset.test.ts:294 site fixture)。
+- 审查结论:Codex 已完成 C1-C5 + FSA/LAN 返工并自验；**Opus 返工复核 accept(C1 counter 解除)**，
+  **GLM accept(覆盖/测试面)**，**Codex accept(实现/集成/门禁)**。O1/O2 已清，用户接受以 OPFS 真句柄
+  round-trip 和三方审查代行工程验收；A7-3 done。
 - 已验证通过(Opus,2026-07-16,不必返工的部分):
   - **资源闭包/契约**:catalog 精确 6 video + 12 frame-animation + 1 color-table;TPFS 12 段总
     7,960,282 B、SHA-256/bytes 逐项匹配;`frame-sequence.ts` codec R1 全落地(u32 LE 索引前缀、
@@ -507,14 +514,16 @@ Branch: main
   屏波激活 sys:screenWave=2、世界 1279×799 铺满非 620×356)+ 视觉(血海梦境整屏、三人全身)三重确认修复;
   C2 视觉确认;FSA 分类器/pickDir 统一/saveAs activation 顺序代码确认 + OPFS 真句柄 save→reopen round-trip
   实证(另存为写出合法 manifest+content+assets,打开工程无报错加载)。**C1 counter 解除,Opus accept**。
-- 未完成:真实原生 OS 文件夹对话框 save→reopen 交用户终验(自动化以 OPFS 真句柄等价证明);s066→帧动画→
-  s059 真实门进入未走(无可达存档,C1 已由直接激活 s059 屏波路径确证根因修复)。
-- Accept / rework: **Opus accept + GLM accept**（三方 review 齐,待用户验收;done 前清 O1/O2,不得提前标 done）。
+- 已知边界:原生 OS 文件夹对话框手势未自动化（OPFS 真句柄已等价覆盖读写/重开 API）；s066→帧动画→
+  s059 真实门进入未走（无可达存档，C1 已由直接激活 s059 屏波路径确证根因修复）。两项均经三方 accept，
+  用户确认不再重复工程验证。
+- Accept / rework: **Codex accept + Opus accept + GLM accept；A7-3 done**。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-07-17）**。用户确认三方签字已齐；沿用此前“工程验证由 Agent 完成、无需用户
+  重复验证”的裁决，以 Opus/GLM/Codex 审查和 OPFS 真句柄 round-trip 作为 FSA 技术验收。
+- 后续任务:按 capability-map 选择下一能力，不在 A7-3 继续堆补丁。
 
 ## 交接日志
 
@@ -586,23 +595,11 @@ Branch: main
   附议 GLM O1/O2 为 done 前清理项。Evidence: done 准入 Opus 行 + Review 节。Next: 三方 review 齐 accept,
   交用户验收(原生对话框 save→reopen)+ done 前 `biome check --write packages/reforge` 清 O1、修 O2 fixture;
   不得提前标 done。未改实现文件。
+- 2026-07-17 User/Codex: 用户确认 Codex/Opus/GLM 均已签字，并沿用此前“不由用户重复执行工程验证”的
+  裁决。Codex 清理 O1（Reforge Biome）与 O2（asset reference fixture `site`），完整 `pnpm check` 及
+  editor/reforge build 全绿；三方 review 均为 accept，A7-3 收口为 done，从进行中看板移除并更新
+  capability-map。Evidence: done 前签字、Review、用户验收、全仓门禁。Next: 按 capability-map 选下一能力。
 
 ## 下一位 Agent 提示词
 
-```text
-接手 A7-3 用户验收 + done 前收尾（不得改实现逻辑，仅允许 O1/O2 清理与 done 收尾）。
-任务卡：docs/ops/tasks/A7-3-cutscene-asset-workbench.md（状态 rework；三方 review 已齐 accept：
-Codex accept / Opus accept(C1 counter 解除) / GLM accept；仅剩用户验收 + done 前清理，未验收前不得标 done）。
-先读：AGENTS.md、docs/phase2/READ-FIRST.md、本卡 done 前签字与 Review 全部。
-已完成（三方 review 齐 accept）：
- - C1-C5 修复经 Opus 运行时+代码+视觉三重实证（s059 屏波激活世界 1279×799 铺满、三人全身、context guard）；
-   GLM 覆盖/测试面全过（C1-C5 全有专测、MG2 零计划、G1 chunk6 迁移、静态归零、214/370/208/199 全绿）。
- - FSA/LAN：分类器先判 isSecureContext、pickDir 统一、saveAs activation 顺序正确；Opus 以 OPFS 真句柄
-   实证 save→reopen round-trip（另存为写合法 manifest+content+assets、打开工程无报错加载）。
-待用户/收尾 Agent 做：
- 1. 用户在真实原生 OS 文件夹对话框下走一次 save→reopen（自动化只能以 OPFS 真句柄等价证明，原生手势需人工）。
- 2. done 前清理（非阻塞观察）：`biome check --write packages/reforge` 清 O1 的 5 处格式漂移；
-    修 O2（content asset.test.ts:294 缺 `site` fixture 一行）令 `pnpm check` 全绿。
- 3. 用户验收通过 + 上述清理后方可将 Status 改 done、更新 capability-map；三方 review 已齐但用户未验收前不得标 done。
-注意：HTTPS 自动化证据绕过了开发自签证书错误，不等于普通浏览器已信任证书；原生对话框 save→reopen 仍需人工终验。
-```
+无下一位 Agent 提示词；A7-3 已完成，等待用户选择 capability-map 中的下一项。

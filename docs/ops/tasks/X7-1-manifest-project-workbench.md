@@ -1,6 +1,6 @@
 # X7-1 - manifest 工程设置与启动流程工作台
 
-Status: rework
+Status: done
 Phase: phase2
 Capability: X7 / editor-project
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: both
 Visual Verification Owner: Codex + Opus + User
 Unavailable Agents: none
-Branch: TBD
+Branch: main
 
 ## 目标
 
@@ -402,12 +402,12 @@ Branch: TBD
 - Reviewer: Opus + GLM
 - 审查结论: Codex 自审 accept；**Opus accept（2026-07-17,七项重点代码核对 + 6010 实机复验全过,零阻塞返工项）**；**GLM accept（2026-07-17，九项验收点全过，211 tests 绿）**。第二轮返工（诊断口径/资产深链/按钮布局/checkbox 对齐）已由 Opus/GLM 独立复核通过。
 - 必须返工项: 无（三方一致）。Opus 附两条非阻塞观察 N1（900px 身份列偏窄、AssetId 未按交接日志所述在 900 隐藏）/N2（概览页问题列表两处同源可择一），均可 build 期顺手或后续微调，不阻塞 done。
-- Accept / rework: **三方 accept（Codex + Opus + GLM，2026-07-17）**；done 待用户验收（改默认入口/入口视频/角色绑定/开局数据后重开工程 + 启动运行时消费修改结果）。
+- Accept / rework: **三方 accept（Codex + Opus + GLM，2026-07-17）**；无阻塞返工项，审查门已通过。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accepted（2026-07-17）**。用户明确这些工程回归项无需重复手工验证，接受 Codex/Opus/GLM 已完成的代码、测试与浏览器证据作为验收依据。
+- 后续任务: 按 capability-map 选择下一能力，不在 X7-1 继续堆补丁。
 
 ## 交接日志
 
@@ -449,7 +449,11 @@ Branch: TBD
   N2(概览问题列表两处同源可择一)。Evidence: done 准入 Opus 行 + Review 区。Next: 三方 accept 齐,交用户验收(改
   默认入口/入口视频/角色绑定/开局数据后重开+启动运行时消费);不得由 Agent 标 done。未改实现文件。
 
-## 下一位 Agent 提示词
+2026-07-17 User + Codex: 用户确认 Opus/GLM 审查签字已齐，并明确不需要重复手工跑工程回归项，接受三方代码、测试与浏览器证据作为最终验收依据。三方均为 `accept` 且无 counter，任务由 `rework` 收口为 `done`。
+
+## 下一位 Agent 提示词（已完成，无需继续交接）
+
+无下一位 Agent 提示词：X7-1 已完成三方 review 与用户验收并收口为 `done`。下方保留本轮已执行的历史 review 提示词，供追溯。
 
 当前阶段由 Codex 作为唯一 Coding Owner 负责 build；本轮返工实现与自测已完成，现交 Opus/GLM review。两位审查 Agent 只读，不得修改实现文件；三方 review 签字未齐不得标记 done。可分别复制下面对应提示词：
 
