@@ -135,6 +135,23 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 解释独立普查中 3,015/3,018/3,019 的口径差，冻结 occurrence/edge/unique/warning 四项权威结果后才能签
 `agree`。无论最终计数为何，missing/kind mismatch 必须为 0。
 
+**权威冻结（2026-07-17,Opus 独立实测,全部可复现脚本;取代上段临时估算)**:
+- 现状:位点 **1,953**(=主扫 1,944 + summon 深层 9)/ 非零 **1,661** / 唯一 abs **325**(含空槽 122;
+  其余 324 全非空 → **missing=0 实证**);122 仅 1 位点(s145);45 已被 s145/s086 两处 playSound 引用。
+- 0x47 恢复面(真实翻译器/链扫描全量重演):skill 链恰 1 条(**377/飞龙探云手 → 174**,重演全部 104 spells);
+  item-use 链恰 1 条已翻译被丢(**151/引路蜂 → 45**,重演 102 use + 76 throw;throw 零命中);
+  **260/圣灵珠的 0x47(sound 260,非空槽 69,304B)不属恢复面**——其整链未翻译(产物无 use),记消费矩阵。
+- 迁移后四项权威(两套口径曾并存,**Opus 设计签字已裁定口径 B 为权威**,理由见签字行):
+  - 口径 A(仅恢复 skill 377/174,草案原范围):sound edges = 1,661−1(删122)+1(174)+4(roles) = 1,665;
+    项目总引用 = 1,354 + 1,665 = 3,019。
+  - **口径 B(+同轮恢复 item-use 151/45,权威)**:sound edges = **1,666**;项目总引用 = **3,020**。
+  - 两口径下均为:**被引用唯一 sound = 328、unused = 35**(修正草案 327/36;根因:45 已被引用,
+    四 roles 编号 {28,29,45,47} 中 novel 仅 {28,29,47};324+174+3=328)、项目总 unused warning = 15+35 = **50**、
+    missing/kind mismatch = **0**。
+- 3,015/3,018/3,019 口径差确定性分解:**3,019 = 全计净变化(−122+174+4roles)**;**3,018 = 计删 122 与
+  roles、漏恢复 174(唯一分解)**;**3,015 = 未计 roles+4**(删 122/恢复 174 恰 ±1 相抵,故与"全未计净变化"
+  数值不可分辨,共同特征是漏 roles)。三个临时口径均未计 item 151/45。
+
 ## 验收条件
 
 - 功能:
@@ -202,7 +219,41 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   resolver/runtime→editor→旧工程升级的完整 SFX 纵切。Codex 选择：空 122 删除、377/174 上游恢复、负 magic
   拆 AssetId+显式布尔、四个可选且有 UI 的 SFX roles、用显式 readiness 保证冷缓存挂帧、旧 v3 按 sound family
   一次性退出；实现与验证可落。具体预加载集合/预算由 Opus 冻结，派生引用总数由 GLM 冻结。
-- Opus: pending（主审：schema/roles、负 magic 语义、runtime 时序/预解码、旧 v3 边界与 UI 信息架构）。
+- Opus: **agree（2026-07-17,附 R1-R4 必落 + 口径 B 裁定,见下与主审立场）**。数据面独立实测冻结
+  (见"设计期数据基线·权威冻结"节:1,953/1,661/325/missing=0;恢复面精确 = skill 377/174 + item-use
+  151/45,260 不属恢复面;**328 被引用/35 unused,修正草案 327/36**;权威 edges=1,666/总引用=3,020),
+  七问架构裁定:
+  1. **四 roles = global role 成立(裁 G4)**:物品使用 28/合击 29/逃跑 45/变身 47 是**战斗系统级提示音,
+     无自然宿主实体**(使用音不属于某件物品,属"使用"这个动作)——与 defaultBattleMusic/bossVictoryMusic
+     同性质,归 `manifest.assets.roles` 正确;engine-config 会造第二种全局配置机制,违单 catalog+roles。
+     可选(非音乐式全量必填)+ 全局资源 UI 必须四项全覆盖(A7-0A 教训:role 无编辑面 = 隐藏配置)。
+  2. **suppressMagicEffectSound 放 EnemySounds 成立**:源自同一 PAL magicSound 负号源值,语义"该敌施法时
+     抑制技能特效音",归敌人音效配置;放 SkillAnimation 会让技能定义背敌人特例,放呈现层丢数据来源。
+  3. **readiness 契约冻结**:全量预解码否决(363 条解码 PCM 估 40-70MB,同 A7-3 R3 内存教训)。分阶段:
+     **战斗 = 进场屏障预载本场引用集**(本场敌五项 + 在队 actor 七项 + 已学技能音 + 四 roles,量级几十条,
+     字节+解码预热——战斗本有载入拍,不加感知时延);**大世界 = 场景切换拍预取当前场景脚本引用集**;
+     **编辑器试听 = 单项 await**。解码 buffer LRU 上限显式(建议 ≤64 条,数 MB 级);suspended AudioContext
+     沿 bgm 先例(首手势 resume,resume 前 tryPlay 只记账不出声不算失败);预载不阻塞首屏(懒初始化同构)。
+     挂帧点不迟播不提前 = 由进场屏障保证就绪,而非播放点等待。
+  4. **播放器契约**:lastSFX 一阶段同构状态机(同号在播拒/异号覆盖/markEnded 清当前)——**现 sfx.ts 的
+     16ms 时间防抖是自造 workaround,必须退役**(一阶段真值是状态机不是时间窗);in-flight promise
+     await 前缓存、失败删 promise 允许重试、成功存 buffer;错误带 project/AssetId/path/kind;替换单条
+     invalidate、session 切换全量 dispose——与 bgm/A7-0 契约同构。
+  5. **旧 v3 升级边界成立**:legacy.families 含 sound 判据/打开边界一次性/manifest-last/幂等,与 A7-0A
+     completeLocalProjectV3AudioRoles 先例同构;**注意本次含 363 个 WAV ≈ 18MB 二进制复制**,比音乐角色
+     补全重——FSA 写入加进度提示,manifest-last 保证失败不半迁;HTTP 只读给明确提示(卡已列)。
+  6. **SoundTab/SoundPicker 复用成立**:MusicTab/过场页已验收形态 + 共享 SoundPicker(脚本/角色/敌人/
+     技能/roles 同一控件),roles 落"全局资源与启动"页(X7-1 先例),无隐藏字段。
+  7. **消费矩阵切分成立**:actor dying/death、enemy attack 等无 runtime 事件的槽 = 数据先迁 + B5 债务
+     如实列账,不伪造事件;ED-3 不抢跑(walker 扩展即可,A7-1 不建 ProjectReferenceIndex)。
+  8. **恢复口径裁定 B(权威)**:item-use 151/45 与 skill 377/174 完全同性质(链已静态翻译、表现层 0x47
+     被丢)——不同轮修 = 明知上游 lossy 还重迁,违"迁移类 bug 必须先修上游"铁律;260 圣灵珠链未翻译,
+     不属本卡恢复面,记消费矩阵防误算。权威终值 edges=1,666/总引用=3,020。
+  **R1-R4(build 必落)**:R1 = 审计脚本入仓断言全部权威数(1,953/1,661/325/1,666/328/35/3,020/50 +
+  引用集⊆非空集);R2 = 45 双站点(battle-anim:1132/1220 共用 escape role)归零与 golden 点名两处;
+  R3 = walker 测试必含 summon 深层节点 fixture(本轮普查主扫曾漏 9 条 = 浅层遍历假闭包现场实证);
+  R4 = GLM 的 G1-G3/G5 全纳入(0x47 三 drop site 处置按口径 B/upgrade sound 路径/walker 扩展/metadata
+  dict 读法),G4 已由本签字裁定。
 - GLM: **agree（2026-07-17;附 G1-G5 build 必落，见下）**。六项独立实测逐条。
 
   **(1) 普查对账（独立重扫）** ✅：
@@ -266,10 +317,17 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   - **G4**：四 SFX roles 必要性——Opus 裁定 global role vs engine-config。
   - **G5**：sounds-metadata.json 是 `{chunkCount, chunks}` dict 非 array——审计脚本须读 `.chunks`。
 
-- counter / 分歧处理:任何一方对四个 roles、负值字段位置、prepare 契约、122 处理或旧 v3 升级策略签
-  `counter`，任务留在 draft 并由用户拍板。**GLM 无架构 counter（标 G1-G5 build 必落）**；四 roles 形态（G4）交 Opus 裁定。
+- counter / 分歧处理:**无 counter,三签全 agree**。与 GLM 签字的三处口径差已由 Opus 签字调和并冻结:
+  ① GLM"≈327/36 待确认"→ 权威 **328/35**(45 已被 s145/s086 引用,roles novel 仅 {28,29,47});
+  ② GLM"非零 unique=144"系**仅 playSound 命令**口径(143 非空+122),权威唯一数以全位点 **325** 为准,
+  两者不可混写;③ GLM 三口径"递归策略差异"说法不充分,确定性分解见基线节(3,018=漏 174 唯一分解/
+  3,015=漏 roles 与全未计不可分辨)。GLM G4(roles 形态)已由 Opus 裁定 global role;G1 三 drop site 已
+  量化到条并按口径 B 处置(item-throw 侧 76 链实测零命中,收窄为 use 链;260 不属恢复面)。
+  pal-authored-overlays.ts 4 处数字 sound(:25/:46/:67/:88)实证——输出已含于产物位点账不重复计,
+  schema 改造同轮改写(设计 B 节已覆盖)。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Opus 设计签字；GLM 已 agree）**。G1-G5 纳入 build 范围。**三签未齐不得开始实现。**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R4(Opus)+
+  G1-G5(GLM,G4 已裁)+ 口径 B 权威数全部纳入 build 范围,交 Codex 按 A7-1A→E 分段 build。
 
 ### 进入 done 前:审查签字
 
@@ -359,16 +417,24 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 ### 主审立场
 
 - Reviewer:Opus 主审 schema/runtime/UX；GLM 主审数据/迁移/测试矩阵。
-- 结论:Codex 建议按完整 SFX 纵切进入 build，但必须先补齐 Opus、GLM 两份 `agree`。
-- 必改项:122 删除、174 恢复、25 负值显式化、cold-cache readiness、world no-op 接线、四硬编码数据化、旧 v3 升级、
-  typed walker 与所有作者 UI 缺一不可。
-- 是否建议进入 build:pending（当前 blocked）。
+- 结论(Opus,2026-07-17):**agree,七问全裁**(global roles 成立/suppress 放 EnemySounds/分阶段 readiness
+  =战斗进场屏障+场景切换拍预取+试听单项 await、LRU ≤64、AudioContext 沿 bgm 先例/lastSFX 状态机取代
+  16ms 防抖 workaround/旧 v3 判据成立但注意 18MB 二进制复制加进度/SoundTab 复用已验收形态/消费矩阵
+  如实分账)。数据面独立实测冻结权威数并裁定恢复口径 B(见设计签字与基线"权威冻结"节)。
+- 必改项:122 删除、**174+45 双恢复(口径 B)**、25 负值显式化、cold-cache readiness、world no-op 接线、
+  四硬编码数据化(45 双站点点名)、旧 v3 升级、typed walker(含 summon 深层 fixture)与所有作者 UI 缺一不可;
+  R1-R4 + G1-G5 全纳入。
+- 是否建议进入 build:**是——三签齐,build allowed**。
 
 ### 三方争议记录
 
 - Codex:选择四个可选 assets roles；`suppressMagicEffectSound` 暂放 EnemySounds；删除 122；恢复 174；
   以显式 readiness 保证冷缓存挂帧（工作集/预算待 Opus 冻结）；旧 v3 以 sound family 判据升级。
-- Opus:pending；重点判断 role/字段位置、预解码内存与时序、旧 v3 HTTP/FSA 边界是否成立。
+- Opus:**agree**。裁定:四 roles = global role(战斗系统级提示音无宿主实体,engine-config 会造第二套全局
+  配置);suppress 放 EnemySounds(同源 PAL 负号值);readiness 分阶段(战斗进场屏障/场景切换拍/试听
+  await,全量预解码 40-70MB 否决);**恢复口径 B**(item-use 151/45 与 377/174 同性质已翻译链 lossy,
+  不同修即明知上游 bug 重迁);权威数冻结 328/35/1,666/3,020(修正草案与 GLM 的 ≈327/36——45 已被
+  s145/s086 引用;GLM 的 144 系仅 playSound 口径,权威唯一数 = 全位点 325)。
 - GLM: **agree**。普查全精确匹配(505/363/142/18,110,864B + actor42/enemy765/skill112/playSound1034 + 122唯一引用 + 377/174 0x47 lossy确认)；三口径(3015/3018/3019)=统计边界差异非数据矛盾；迁移入口 5+1 处全定位；authored 所有权 generic 可复用(migration-merge:278-289 不按 kind 分支)；代码逻辑层面确认负 magic abs+抑制/lastSFX 状态机/sfx.ts 裸 fetch+吞失败/playSound no-op。**G1关键:0x47 三个 drop site(skill468+item-use852+item-throw906)非仅 skill 377**；G2 upgrade 须新增 sound 路径；G3 walker 须扩展 playSound+actors+skills；G4 四 roles 必要性待 Opus 裁定(per-entity vs global role)；G5 metadata 结构是 dict 非 array。
 - 用户拍板:无分歧时不需要；任一 `counter` 时停止并请用户裁决。
 
@@ -376,11 +442,11 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 
 - 缺席 Agent:none
 - 缺席原因:N/A
-- 代班 Agent:N/A
+- 代班 Agent:N/A（Opus 与 GLM 各签本职;两份独立数据普查的口径差在 Opus 签字与争议记录中调和）
 - 代班范围:N/A
 - 风险:N/A
 - 是否需要补审:N/A
-- 用户裁决:N/A
+- 用户裁决:N/A（恢复口径 B 已由 Opus 设计签字裁定,无遗留分歧）
 
 ## Build:实现与自测
 
@@ -427,60 +493,39 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   Evidence:本卡”设计期数据基线””设计结论””推进签字”。Next:Opus/GLM 分别做设计压力测试并签
   `agree/counter`；三签未齐不得进入 build。
 - 2026-07-17 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。六项独立实测：(1)普查 505/363/142/18,110,864B 精确匹配(sounds-metadata.json {chunkCount:505,chunks:505} dict)；actor 42(6×7 battler.sounds)/enemy 765(454+286+25 magic 负)/skill 112(103 anim 含 6 个=0 +9 summon effects)/playSound 1034(1021 chunks+3 scenes+10 enemies 全非零)；144 unique 正数 sound id，143 命中非空+1 空(122)+0 超范围。(2)三口径 3015/3018/3019=统计边界差异(scene inline/enemy choreography/confirm 嵌套臂/recursion 策略不同)。(3)**377/174 确认**——migrate-content:468 0x47 lossy discard 注释 stale(animation.sound 字段已存在)；源 L_43144 `{opcode:71,operands:[174,0,0]}` 首命令。(4)**G1 关键发现:0x47 三个 drop site(skill:468 有 lossyNote + item-use:852 + item-throw:906 均 silent 无 lossyNote)**——卡内只提 skill 377/174 恢复，漏 item 两处。(5)authored 所有权 migration-merge:278-289 generic 不按 kind 分支 sound 无需扩展。(6)代码逻辑审查——负 magic abs+抑制(audio.ts:968-1003 确认)/lastSFX 状态机(audio.ts:51-70 同号拒绝异号覆盖)/sfx.ts 裸 fetch+吞失败(:10-80)/playSound no-op(main.ts:218)。**G1-G5**:G1 0x47 三 drop site/G2 upgrade 新增 sound/G3 walker 扩展/G4 四 roles 必要性待 Opus/G5 metadata dict。Evidence: 设计签字 GLM 行。Next: 待 Opus 签后三齐 build allowed。未改实现文件。
+- 2026-07-17 Opus: 设计主审签 **agree,三签齐,build allowed**。数据面独立实测冻结权威数(与 GLM 普查
+  交叉对账并调和三处口径差):现状 1,953/1,661/325、missing=0 实证;**恢复面精确量化**——真实
+  translateSkillScript 重演 104 spells 命中恰 377/174,线性链扫 102 use+76 throw 得 item-use 恰 1 条已翻译
+  被丢(**151 引路蜂→45**),260 圣灵珠整链未翻译不属恢复面(记消费矩阵),throw 零命中;**裁定恢复
+  口径 B**(151/45 与 377/174 同性质,不同修即明知上游 lossy 重迁);权威终值 **edges=1,666/总引用=3,020/
+  被引用 328/unused=35(修正草案与 GLM ≈327/36:45 已被 s145/s086 引用,roles novel 仅 {28,29,47})/
+  总 warning=50**;三口径确定性分解入基线节;GLM 的 144 系仅 playSound 口径,权威唯一数=全位点 325。
+  架构面七问全裁:global roles(裁 G4)/suppress 放 EnemySounds/分阶段 readiness(战斗进场屏障+场景
+  切换拍+试听 await,LRU≤64,全量预解码 40-70MB 否决)/lastSFX 状态机取代 16ms 防抖 workaround/
+  旧 v3 判据成立注意 18MB 二进制复制/SoundTab 复用/消费矩阵如实分账。R1-R4 必落(审计脚本入仓断言
+  权威数/45 双站点 1132+1220 点名/summon 深层 fixture——本轮主扫曾漏 9 条即现场实证/G1-G3·G5 纳入)。
+  pal-authored-overlays 4 处数字 sound 实证(产物账不重复计,同轮改写)。Evidence: 设计签字 Opus 行 +
+  基线"权威冻结"节,审计脚本留 scratchpad 可复跑。Next: Codex 按 A7-1A→E 分段 build(提示词见下);
+  实现完成自验后转 review。未改实现文件与生成产物。
 
 ## 下一位 Agent 提示词
 
-### 给 Claude Opus
+### 给 Codex(build)
 
 ```text
-接手任务:A7-1 SFX 音效资源闭包与编辑工作台设计主审
+接手任务:A7-1 SFX 音效资源闭包与编辑工作台,进入 build(Coding Owner)
 任务卡:docs/ops/tasks/A7-1-sfx-asset-closure.md
-当前状态:draft；Codex 已签 agree，Opus/GLM pending，build 准入 blocked
-你的角色:Opus 架构/runtime/UX 主审；只审设计，不改实现或生成产物，可回写任务卡签字与意见
-先读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
-docs/phase2/foundation/a7-resource-closure-audit.md、
-docs/phase2/foundation/phase1-knowledge-harvest.md 的 SFX 段、
-docs/ops/tasks/A7-0-resource-closure-registry.md，以及本任务卡全部内容。
-重点代码:packages/content/src/{asset,script,actor,enemy,skill}.ts；
-packages/reforge/src/audio/sfx.ts、asset-resolver.ts、main.ts、battle/battle-anim.ts；
-packages/editor/src/ui/{MusicTab,CommandForm,SkillTab,FireEffectPreview}.tsx；
-packages/editor/src/core/{open-local,upgrade-local-v2}.ts。
-已完成:三份只读普查；锁定 505/363/142/18,110,864B、1,953 原始数字位点、空 122、
-技能 377/174 上游丢失、25 个负 magicSound、world playSound no-op、28/29/45/47 硬编码。
-请你做:压力测试并裁定 1)四个可选 SFX roles 是否是正确边界且 UI 必须覆盖；
-2)suppressMagicEffectSound 字段位置；3)哪种有预算的 readiness/分阶段 prepare 能保证冷缓存挂帧，
-并明确预加载集合、启动时延、解码内存和 suspended AudioContext 契约；
-4)lastSFX/in-flight/error/invalidate/dispose 契约；5)旧 v3 sound-family 升级和 HTTP/FSA 失败边界；
-6)SoundTab/SoundPicker 是否完整复用现有工作台且没有隐藏字段；7)消费矩阵与 A7-2/A7-4/ED-3 切分。
-不要做:不得修改实现文件、生成产物、capability-map 状态或把任务改为 build/done；
-允许只修改本任务卡的 Opus 设计签字、主审意见、争议记录和交接日志。
-输出要求:把结论写回任务卡并明确签 agree 或 counter；agree 可附 build 必落项，counter 必须给出可执行替代方案。
-最后给用户一段可直接转给 GLM/Codex 的提示词。三签未齐前明确写“不得开始实现”。
-```
-
-### 给 GLM
-
-```text
-接手任务:A7-1 SFX 音效资源闭包与编辑工作台数据/迁移设计审查
-任务卡:docs/ops/tasks/A7-1-sfx-asset-closure.md
-当前状态:draft；Codex 已签 agree，Opus/GLM pending，build 准入 blocked
-你的角色:GLM 覆盖、数据、迁移、MG2、升级和测试矩阵主审；只审设计，不改实现或生成产物，可回写任务卡签字与意见
-先读:AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、
-docs/phase2/foundation/a7-resource-closure-audit.md、docs/ops/tasks/A7-0-resource-closure-registry.md、
-docs/ops/tasks/MG2-incremental-migration-merge.md，以及本任务卡全部内容。
-重点代码/数据:data/extracted/data/sounds-metadata.json、data/extracted/sounds、
-packages/migrate/src/{pal-assets,migrate-content,migrate-enemies,translate-events,translate-enemy-scripts,
-migration-validate,migration-merge}.ts、packages/content/src/asset.ts、
-packages/editor/src/core/{project-diagnostics,open-local,upgrade-local-v2}.ts、projects/pal/content。
-已完成:三份只读普查共同确认 505 槽/363 非空/142 空/18,110,864B、1,953 数字位点、
-空 122、技能 377/174 被丢、25 个负 enemy magic。临时派生总数出现 3,015/3,018/3,019 口径差，
-本卡故意未把其中一个冒充权威终值。
-请你做:1)用可复现扫描逐项对账 actor42/enemy765/skill112/playSound1034 与非零/unique；
-2)解释 3,015/3,018/3,019 差异，给出删除122+恢复174+四roles后的权威总引用、被引用 sound 数和 unused warning；
-3)核对全部迁移/overlay 入口、377/174 根因与 command opcode 0x47；4)验证 authored 整条所有权、
-二进制事务顺序和双跑零计划；5)补齐 v2/旧v3/FSA/HTTP 升级矩阵；6)审查静态归零与测试矩阵是否漏项。
-不要做:不得修改实现文件、生成产物、capability-map 状态或把任务改为 build/done；
-允许只修改本任务卡的 GLM 设计签字、数据基线、主审意见和交接日志。
-输出要求:把权威口径和证据写回任务卡，明确签 agree 或 counter；若数据尚不能闭合就签 counter 并列阻塞点。
-最后给用户一段可直接转给 Opus/Codex 的提示词。三签未齐前明确写“不得开始实现”。
+当前状态:draft → build allowed;三方设计签字齐(Codex/Opus/GLM 全 agree),按 A7-1A→E 分段实现
+先读:本卡全部——重点"设计期数据基线·权威冻结"节、Opus 设计签字(七问裁定 + R1-R4)、GLM 签字(G1-G5)、分歧调和记录
+权威数(审计脚本必须断言,R1):现状 1,953 位点/1,661 非零/325 唯一 abs;迁移后 sound edges=1,666/项目总引用=3,020/被引用唯一 sound=328/unused=35/项目总 warning=50/missing·kind-mismatch=0
+已拍板决策(不得偏离):
+1. 恢复口径 B:skill 377→174 与 item-use 151(引路蜂)→45 双恢复(三个 0x47 drop site 中两条已翻译链;260 圣灵珠链未翻译不属恢复面,记消费矩阵;item-throw 76 链零命中);
+2. 四提示音 = 可选 global roles(audio.battleItemUseSound/CoopCastSound/EscapeSound/EnemyTransformSound),全局资源 UI 四项全覆盖;
+3. suppressMagicEffectSound 放 EnemySounds;25 负 magic 迁移边界拆 abs+布尔;
+4. readiness 分阶段:战斗进场屏障预载本场引用集(敌五项+队伍七项+已学技能+roles)/大世界场景切换拍预取/编辑器试听单项 await;解码 LRU ≤64;AudioContext 沿 bgm 先例;禁全量预解码;
+5. lastSFX 一阶段状态机(同号拒/异号覆盖/markEnded 清当前)取代 sfx.ts 16ms 防抖;in-flight promise await 前缓存+失败可重试;
+6. 旧 v3 以 legacy.families 含 sound 判据一次性升级(363 WAV ≈18MB 复制加进度提示,manifest-last,幂等),v2 链同步;editor 零 migrate 依赖;
+7. 删除 s145 空槽 122 命令并报告;summon 9 深层节点必须被 walker 覆盖(R3 fixture);45 双站点(battle-anim:1132/1220)归零点名(R2)。
+实现顺序:A7-1A content schema/roles/walker/审计脚本 → A7-1B migrate/PAL 物化/122·174·45·负值/MG2/upgrader → A7-1C SfxPlayer/prepare/world·battle 接线/硬编码退役 → A7-1D SoundTab/SoundPicker/诊断/深链/保存重开 → A7-1E 静态归零/报告/capability-map。每段定向测试绿后才进下段;跳过任何 cold-cache/FSA/MG2/静态归零检查都不允许。
+完成后:全仓 pnpm check、三 build、迁移重生成+双跑零计划、6010/6051 浏览器自验,Build 节写分段证据块,签 done 前 Codex accept 转 review;不得标 done。
 ```
