@@ -260,10 +260,67 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 - Codex: **agree（2026-07-17）**。已完成 MapMode/EditorState/Command/ProjectMapV2 静态普查、6010 Playwright 界面核对和 Tiled/Unity/Godot 官方交互参考；结论是新增 W8、W7 收窄保持 ✅、W8 作为 W7G 前置，普通 selection 不持久化，W7G 的整章重选必须另卡设计持久非链接 placement group。
 - Opus: pending
-- GLM: pending
-- counter / 分歧处理: 无；若对锁层持久位置、碰撞随变换默认值、透明像素 hit 成本或 W7G placement group 边界有 counter，留在 draft 并请用户裁决。
+- GLM: **agree（2026-07-17;附 G1-G3 build 必落 + build 必落测试清单,见下）**。四维矩阵逐项核对 + 代码锚点全实证。
+
+  **代码逻辑审查（读源码，非仅跑测试）** ✅：
+  - **commands.ts:703-789**：`PaintTilesCommand`（:703-749）和 `PaintCollisionCommand`（:751-789）是两条独立 Command——前者写 `{layerId,col,row,tileId,height}` 一体（tile+height 原子但 collision 分离），后者写 `{col,row,value}`。跨通道原子 patch **当前不支持**，须新增复合命令。`prev` 快照模式可复用但双通道结构是真新工作。✅
+  - **project-map.ts:1-25,107-121**：`MapLayerV2` 有稳定 `id`/`depthMode`/`tiles`/`heights?`；`ProjectMapV2.collision` 是独立矩阵。约束验证：null tile height≠0 throw（:116-117）、flat 层非零高度 throw（:118-119）、height 层须有 heights（:107-108）。lattice = `2*height` 行 × `width` 列。✅
+  - **MapMode.tsx 全锚点确认**：:54 工具集无 select / :133-146 无选区状态 / :304-320 tileId+height 耦合写入 / :343-353 矩形=铺瓦非框选 / :527-534 只有 hidden 无 locked / :1078-1118 右栏只有 depthMode+笔刷高度。✅
+  - **edit-session.ts:26-47**：EditorState 纯持久内容（maps/manifest/assets/scripts），无 MapWorkspaceState 概念。选区须放独立 UI 层状态（沿 hiddenLayerIds/activeLayerId 先例），不进 dispatch/undo/serialize。✅
+
+  **四维矩阵核对** ✅：
+  | selection 操作 | active 层 | non-active 层 | hidden 层 | locked 层 |
+  |---|---|---|---|---|
+  | replace（单击/框选） | ✅ 命中+可写 | ❌ 普通不命中（须显式 scope） | ❌ 不命中不写 | ❌ 不命中不写 |
+  | add（Shift） | ✅ 增选 | ✅ 显式 scope 增选 | ❌ | ❌ |
+  | subtract（Ctrl） | ✅ 减选 | ✅ | — | — |
+  | clear（Esc/Esc） | ✅ | ✅ | ✅ | ✅ |
+
+  | 内容类型 | tile 编辑 | height 编辑 | collision 编辑 | 约束 |
+  |---|---|---|---|---|
+  | null tile | ❌ 无 tile 可改 | ⚠ 跳过+提示 | ✅ 可改 | null+height≠0 → reject |
+  | flat 层 tile | ✅ | ❌ 只读 0 | ✅ | flat+height≠0 → reject |
+  | height 层 tile | ✅ | ✅ ±N 或设 N | ✅ | — |
+  | mixed tileId | 只改 tile 各自保留 | 只改 height | 只改 collision | 分通道不串扰 |
+  | collision-only 格 | — | — | ✅ | gridPoint 去重 |
+
+  | command | apply | invert | fail-zero-write | save-reopen |
+  |---|---|---|---|---|
+  | 单通道 patch | ✅ | ✅ prev 快照 | ✅ 前置校验 | ✅ |
+  | 跨通道 patch | ✅ 需新复合命令 | ✅ 双 prev | ✅ 任一通道失败全回滚 | ✅ |
+  | 移动/复制/剪切/粘贴 | ✅ | ✅ | ✅ 目标层检查 | ✅ |
+  | 删除 | ✅ | ✅ | ✅ | ✅ |
+
+  **关键边界确认** ✅：
+  - **collision 去重**：VisualSlotRef 按 `{layerId,row,col}` 去重，GridPointRef 按 `{row,col}` 去重——多视觉层共享同一格点时碰撞只一份。✅
+  - **跨层原子失败**：设计 §5 "先完整校验，再全量 apply，任一前置不满足则零写入"——前置校验含目标层存在/未锁/未隐藏 + schema 约束。✅
+  - **剪贴板 include-collision**：默认关，显式开关，payload 含 `{relative row/col, layer mapping, tileId, height}` + 选入 collision。✅
+  - **缩图裁剪**：删层/缩图/切图时 reducer 对选区裁剪/清空，不留悬空 refs。✅
+
+  **能力总数** ✅：capability-map.md 头部已写 **58 格**（W=8 含 W8），W8 已登记在 :61（引擎—/编辑器❌）。W8 done 时只改 ❌→✅，不改变总数。卡内"57→58"措辞 stale（已含 W8）。**G1**：修正卡内措辞"57→58"→"58（W8 已含）"。
+
+  **W7/W8/W7G 边界** ✅：W7 ✅ 只覆盖地图库+画笔/吸管/擦除/碰撞+图层显隐/排序/高度尺（不包选区/Inspector/锁定）；W8 ❌ 新增选区+Inspector+锁定+候选+变换+W7G 接口；W7G 另卡持久 placement group schema（W8 只留 `stamp-placement` 分支不实现）。✅
+
+  **总结**：代码锚点全实证（双命令/独立碰撞矩阵/耦合写入/无选区/无锁定/无 Inspector）；四维矩阵全闭合（selection×图层×内容×command 无漏格）；collision 去重/跨层原子/剪贴板/缩图裁剪设计正确；能力总数 58 已含 W8。**agree**。
+
+  **G1-G3 非阻塞（纳入 build 范围）**：
+  - **G1**：卡内"57→58"→"58（W8 已含）"。
+  - **G2**：跨通道原子命令须确保 `invert` 恢复**双 prev**（tile prev + collision prev），不能只恢复一个通道——当前 PaintTilesCommand/PaintCollisionCommand 各自独立 prev，复合命令须协调两者。
+  - **G3**：透明像素命中需读取 tileset 像素——确认命中计算不依赖渲染时 ImageBitmap（否则离屏 tileset 须预解码）。Opus 审查时确认。
+
+  **build 必落测试清单**（纯函数 + 逻辑，非 UI 手测）：
+  1. **selection reducer 表驱动**：replace/add/subtract/clear × 空格/非空/mixed/collision-only × 去重验证
+  2. **selection 裁剪**：删层/缩图/切图后零悬空 refs（每项独立用例）
+  3. **原子 patch 单通道**：只改 tileId 不变 height/collision；只改 height 不变 tileId（flat 层 reject + null tile skip + height 层 ±N）
+  4. **原子 patch 跨通道**：tile+collision 同时改 apply/invert 双 prev 恢复 + 任一通道校验失败零写入
+  5. **原子 patch 边界**：null+height≠0 reject / flat+height≠0 reject / 目标层隐藏或锁定 reject
+  6. **剪贴板**：visual-only vs include-collision payload 形状 + 跨层映射 + 冲突取消/覆盖
+  7. **变换**：移动/复制/剪切/粘贴/删除 各 apply/invert + 选区跟随新位置 + 失败保持原选区
+  8. **undo/redo 后选区**：stable refs 仍存在则保持，否则裁剪
+
+- counter / 分歧处理: 无；GLM 无架构 counter（标 G1-G3 build 必落 + 8 条 build 必落测试）。若对锁层持久位置、碰撞随变换默认值、透明像素 hit 成本或 W7G placement group 边界有 counter，留在 draft 并请用户裁决。
 - 缺签豁免: N/A
-- build 准入结论: **blocked**
+- build 准入结论: **blocked（等待 Opus 设计签字；GLM 已 agree）**。G1-G3 + 8 条测试纳入 build 范围。**三签未齐不得开始实现。**
 
 ### 进入 done 前:审查签字
 
@@ -285,7 +342,7 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 - Codex: 建议 W8 不改 ProjectMapV2 schema；普通选区/显隐/锁定均为作者工作区态。W7G 为满足保存重开后整章选择，需要独立三签后增加非链接 placement group 作者元数据。
 - Opus: pending
-- GLM: pending
+- GLM: **agree**。代码锚点全实证(PaintTilesCommand/PaintCollisionCommand 双独立命令 + ProjectMapV2 独立碰撞矩阵 + tileId/height 耦合写入 + 无 select/无 locked/无 Inspector)；四维矩阵(selection×图层×内容×command)全闭合无漏格；collision 去重(VisualSlotRef/GridPointRef 分模)/跨层原子(前置校验零写入)/剪贴板 include-collision/缩图裁剪 设计正确；能力总数 58 已含 W8(卡内"57→58"stale)。G1(措辞57→58)/G2(跨通道 invert 双 prev)/G3(透明像素命中依赖)+ 8 条 build 必落测试。
 - 用户拍板: 2026-07-17 要求新增能力、整章可选、图层不干扰并参考成熟产品；具体 schema/命令细节待三方签字。
 
 ## Build: 实现与自测
@@ -307,6 +364,7 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 ## 交接记录
 
 - 2026-07-17 Codex: 新增 W8，完成现状普查、成熟产品参考、交互/状态/图层/命令/W7G 边界草案并签设计 agree。Evidence: 本卡、capability-map、roadmap、6010 Playwright snapshot。Next: Opus 做交互/架构主审，GLM 做覆盖/测试矩阵复核；三签前不得改实现文件。
+- 2026-07-17 GLM: 覆盖/测试矩阵复核签 **agree**。代码逻辑审查(非仅跑测试)：commands.ts:703-789 PaintTilesCommand/PaintCollisionCommand 双独立命令(跨通道原子须新建复合命令)；project-map.ts 独立碰撞矩阵+null tile height=0/flat 层 height=0 约束验证(:116-119)；MapMode.tsx 全 6 锚点确认(无 select/无 locked/无 Inspector/tileId+height 耦合/矩形=铺瓦/hidden 无 locked)；edit-session.ts 纯持久内容选区须独立 UI 层。四维矩阵逐项闭合无漏格。collision 去重/跨层原子/剪贴板/缩图裁剪设计正确。能力总数 58 已含 W8。G1(57→58 stale)/G2(跨通道 invert 双 prev)/G3(透明像素命中)+ 8 条 build 必落测试清单。Evidence: 设计签字 GLM 行。Next: 待 Opus 签后三齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
