@@ -26,8 +26,9 @@ sdlpal.cfg
 # 本地 brainstorm 参考资料 —— 含第三方版权内容(fan-made 攻略等),只本地用
 reference/walkthrough/
 
-# Playwright MCP 临时缓存(快照 / 截图)
+# Playwright 工具临时缓存（快照 / 截图 / 控制台日志）
 .playwright-mcp/
+.playwright-cli/
 
 # 临时截图(本机 dev 验证用,版权 + 临时性质)
 # 规范:dev verify 截图请保存到 build/dev-screenshots/(build/ 整目录已 gitignored)
@@ -63,5 +64,6 @@ projects/pal/assets/runtime/
 # MG2 首次 baseline 的一次性逐项审查报告；可由 bootstrap + 分类器重建
 packages/migrate/bootstrap/pal.json
 
-# IDE 自动生成的知识库 / 索引（非项目真值文档，真值在 docs/ 和代码注释）
+# IDE / Agent 自动生成的知识库、索引和本地计划（非项目真值文档，真值在 docs/ 和代码注释）
 .qoder/
+.zcode/
