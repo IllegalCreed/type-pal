@@ -259,7 +259,25 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 ### 进入 build 前:设计签字
 
 - Codex: **agree（2026-07-17）**。已完成 MapMode/EditorState/Command/ProjectMapV2 静态普查、6010 Playwright 界面核对和 Tiled/Unity/Godot 官方交互参考；结论是新增 W8、W7 收窄保持 ✅、W8 作为 W7G 前置，普通 selection 不持久化，W7G 的整章重选必须另卡设计持久非链接 placement group。
-- Opus: pending
+- Opus: **agree（2026-07-17,附 R1-R5 必改 + S1-S2 建议 + G3 答复,见主审立场）**。七个重点逐项压测,
+  锚点抽验吻合(editFor :304-320 tileId+height 一体写实证/hiddenLayerIds 纯 UI Set 无 locked/双命令各持
+  独立 prev/project-map 约束 :116-119):
+  1. **四状态轴正交成立**:paletteSelection(下一笔素材)/activeStampTemplate(待盖模板)/mapSelection
+     (已有内容)/currentLayerId(作用域)四者语义互斥,MapSelection 双成分(visualSlots+gridPoints)与
+     变换"默认视觉-only、碰撞显式开关"自洽;MapWorkspaceState 按 mapId 独立、不进 EditorState/JSON/URL,
+     与 X 系呈现态先例同构。Pick 工具"取样即切笔刷"(:356-369)与选择工具分离 = Tiled/Unity 共识,正确。
+  2. **图层命中矩阵成立**:§3 五态表 + GLM 四维矩阵闭合;隐藏/锁定活动层→画布只读+显式说明不偷切层、
+     focus/dim 纯 alpha 不进 hit policy、稳定 layerId+削剪 reducer——全部正确。
+  3. **重叠候选成立**,附 R5(循环排序确定性)。
+  4. **高大 tile 命中可落地**:**G3 关闭**——tiles = `Map<number, RleFrame>`(tilesFromChunkBytes,
+     assets.ts:288),`RleFrame.opaque` 掩码(shared/rle.ts:13-21,1=不透明/0=RLE-skip)可直查像素命中,
+     **不依赖渲染时 ImageBitmap、零额外预解码**;源格菱形+图像轮廓双反馈正确。附 R1(命中优先级钉死)。
+  5. **混合值 Inspector 成立**:分通道/±N/跳过空格提示/flat 只读/换层前置校验全对;附 R4(批量换层
+     冲突语义补齐)。
+  6. **跨层原子命令成立**:前置全校验+零写入+一次 undo;与现存 PaintTiles/PaintCollision 并存不冲突
+     (笔刷续用旧命令,Inspector/变换走新 patch,同一 EditSession undo 栈);GLM G2 双 prev 采纳。
+  7. **不持久/持久边界成立**:普通选区会话态、W7G 非链接 placement group 另卡持久——§6 契约把
+     "刚盖完才知道成员"的记忆缺陷说透了,划界正确;W8 只留 stamp-placement 类型分支,附 S2。
 - GLM: **agree（2026-07-17;附 G1-G3 build 必落 + build 必落测试清单,见下）**。四维矩阵逐项核对 + 代码锚点全实证。
 
   **代码逻辑审查（读源码，非仅跑测试）** ✅：
@@ -318,9 +336,12 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
   7. **变换**：移动/复制/剪切/粘贴/删除 各 apply/invert + 选区跟随新位置 + 失败保持原选区
   8. **undo/redo 后选区**：stable refs 仍存在则保持，否则裁剪
 
-- counter / 分歧处理: 无；GLM 无架构 counter（标 G1-G3 build 必落 + 8 条 build 必落测试）。若对锁层持久位置、碰撞随变换默认值、透明像素 hit 成本或 W7G placement group 边界有 counter，留在 draft 并请用户裁决。
+- counter / 分歧处理: 无；三方全 agree。GLM 标 G1-G3 build 必落 + 8 条测试;Opus 标 R1-R5 必落 + S1-S2
+  建议,并关闭 G3(RleFrame.opaque 掩码直查,无 ImageBitmap 依赖);两处设计裁量(R1 所见即所选优先级/
+  R3 全选收窄)已由 Opus 裁定,用户可在 build 前推翻。
 - 缺签豁免: N/A
-- build 准入结论: **blocked（等待 Opus 设计签字；GLM 已 agree）**。G1-G3 + 8 条测试纳入 build 范围。**三签未齐不得开始实现。**
+- build 准入结论: **三签齐（Codex agree + Opus agree + GLM agree），build allowed。** R1-R5 + G1-G2 +
+  8 条 build 必落测试全部纳入 build 范围,交 Codex 按 W8-A→D 分段 build。
 
 ### 进入 done 前:审查签字
 
@@ -334,14 +355,39 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 ### 主审立场
 
 - Reviewer: Opus
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论(Opus,2026-07-17): **agree——七问全立**(四轴正交/命中矩阵/候选/高大 tile 可落地且 G3 关闭/
+  混合 Inspector/原子命令/持久边界),无架构 counter。
+- 必改项(R,设计层面补明,build 必落):
+  - **R1 命中优先级钉死**:同一次普通单击,active 层内"光标逻辑格非空"与"邻近高大 tile 透明像素命中
+    指向他格"同时成立时,取**像素命中的源格**(所见即所选),光标逻辑格进 Alt 候选;跨层像素命中只进
+    候选、不抢默认目标。此规则必须写进设计并有表驱动测试,否则实现各自漂移。
+  - **R2 hitScope 显式切换控件**:`visible-unlocked-layers` 作用域在 §2 手势表中没有入口——需工具栏
+    显式"跨层选择"开关(或等价 UI),且切换 scope 不得静默改动既有选区(保持或清空,二选一钉死并提示)。
+  - **R3 全选语义收窄**:Ctrl/Cmd+A = 活动层全部**非空视觉槽** + **非默认 collision 格点**;不含
+    "空且无碰撞"的格点——否则 128×128 图全选产生数万 lattice 格,叠加层与 Inspector 双爆。全选后
+    27%/高倍缩放的叠加层渲染性能并入浏览器验收。
+  - **R4 Inspector 批量换层的目标格冲突语义**:与粘贴一致(取消/覆盖普通格确认),不静默覆盖、不部分
+    迁移;写进 §4 编辑规则。
+  - **R5 Alt 候选循环排序确定性**:按图层面板顺序自上而下,同层内按源格 (row,col);可测、不随渲染序漂移。
+- 建议项(S,不阻塞):
+  - S1 §1 措辞"visualSlots 可指向 null"改为"视觉槽引用;槽可为空(空格选择/粘贴目标)"——引用永远指向
+    槽位而非 tile,防"ref 为 null"误读。
+  - S2 `stamp-placement` 分支在 W8 内是预留 dead branch:所有 switch 用 TS `never` 兜底穷尽,W7G 接入时
+    编译期暴露全部需扩展位点。
+- G3 答复(GLM 问透明像素命中依赖):**关闭**——命中直查 `RleFrame.opaque` 掩码(shared/rle.ts:13-21),
+  编辑器画布与 reforge 渲染共用同一 `tilesFromChunkBytes` 解码产物,无 ImageBitmap 依赖、无额外预解码。
+- 用户待裁决问题: **无阻塞裁决**。两处设计裁量已由本签字直接裁定,如与你的直觉不符可在 build 前推翻:
+  ① R1 的"所见即所选"优先级(另一选项是"逻辑格优先、像素命中进候选");② R3 的全选收窄(另一选项是
+  全选含全部空格碰撞点)。
+- 是否建议进入 build: **是——三签齐,build allowed**(R1-R5 + G1-G3 + 8 条测试全纳入 build 范围)。
 
 ### 三方争议记录
 
 - Codex: 建议 W8 不改 ProjectMapV2 schema；普通选区/显隐/锁定均为作者工作区态。W7G 为满足保存重开后整章选择，需要独立三签后增加非链接 placement group 作者元数据。
-- Opus: pending
+- Opus: **agree**。七问全立(四轴正交/命中矩阵/候选/高大 tile/混合 Inspector/原子命令/持久边界);
+  G3 关闭(RleFrame.opaque 掩码直查,零 ImageBitmap 依赖);附 R1(像素命中优先级=所见即所选)/
+  R2(跨层 scope 显式控件)/R3(全选收窄防 lattice 爆炸)/R4(换层冲突=粘贴语义)/R5(候选排序确定性)
+  +S1-S2。两处裁量(R1 优先级/R3 收窄)已裁定,用户可在 build 前推翻。
 - GLM: **agree**。代码锚点全实证(PaintTilesCommand/PaintCollisionCommand 双独立命令 + ProjectMapV2 独立碰撞矩阵 + tileId/height 耦合写入 + 无 select/无 locked/无 Inspector)；四维矩阵(selection×图层×内容×command)全闭合无漏格；collision 去重(VisualSlotRef/GridPointRef 分模)/跨层原子(前置校验零写入)/剪贴板 include-collision/缩图裁剪 设计正确；能力总数 58 已含 W8(卡内"57→58"stale)。G1(措辞57→58)/G2(跨通道 invert 双 prev)/G3(透明像素命中依赖)+ 8 条 build 必落测试。
 - 用户拍板: 2026-07-17 要求新增能力、整章可选、图层不干扰并参考成熟产品；具体 schema/命令细节待三方签字。
 
@@ -365,33 +411,34 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 - 2026-07-17 Codex: 新增 W8，完成现状普查、成熟产品参考、交互/状态/图层/命令/W7G 边界草案并签设计 agree。Evidence: 本卡、capability-map、roadmap、6010 Playwright snapshot。Next: Opus 做交互/架构主审，GLM 做覆盖/测试矩阵复核；三签前不得改实现文件。
 - 2026-07-17 GLM: 覆盖/测试矩阵复核签 **agree**。代码逻辑审查(非仅跑测试)：commands.ts:703-789 PaintTilesCommand/PaintCollisionCommand 双独立命令(跨通道原子须新建复合命令)；project-map.ts 独立碰撞矩阵+null tile height=0/flat 层 height=0 约束验证(:116-119)；MapMode.tsx 全 6 锚点确认(无 select/无 locked/无 Inspector/tileId+height 耦合/矩形=铺瓦/hidden 无 locked)；edit-session.ts 纯持久内容选区须独立 UI 层。四维矩阵逐项闭合无漏格。collision 去重/跨层原子/剪贴板/缩图裁剪设计正确。能力总数 58 已含 W8。G1(57→58 stale)/G2(跨通道 invert 双 prev)/G3(透明像素命中)+ 8 条 build 必落测试清单。Evidence: 设计签字 GLM 行。Next: 待 Opus 签后三齐 build allowed。未改实现文件。
+- 2026-07-17 Opus: 设计主审签 **agree,三签齐,build allowed**。七问全立并锚点抽验(editFor 耦合写入/
+  hiddenLayerIds 纯 UI 无 locked/双命令独立 prev/project-map 约束);**G3 关闭**——透明像素命中直查
+  `RleFrame.opaque` 掩码(shared/rle.ts:13-21),编辑器画布与 reforge 共用 tilesFromChunkBytes 解码产物,
+  零 ImageBitmap 依赖零预解码。R1-R5 必落:像素命中优先级钉死(所见即所选,光标逻辑格进候选)/
+  跨层 scope 显式控件(手势表缺入口)/全选收窄(非空槽+非默认碰撞点,防 128×128 全 lattice 爆炸,
+  并入缩放性能验收)/Inspector 批量换层冲突=粘贴语义/Alt 候选排序=面板序+源格序。S1(visualSlots
+  措辞防 null-ref 误读)/S2(stamp-placement dead branch 用 TS never 兜底)。两处裁量(R1/R3)已裁定,
+  用户可 build 前推翻。Evidence: 设计签字 Opus 行+主审立场。Next: Codex 按 W8-A→D 分段 build
+  (提示词见下);每段定向测试绿后进下段;实现完成自验后转 review。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 Claude Opus
+### 给 Codex(build)
 
 ```text
-接手任务: W8 地图内容选择、实例属性检查与可逆变换——设计主审
+接手任务: W8 地图内容选择、实例属性检查与可逆变换,进入 build(Coding Owner)
 任务卡: docs/ops/tasks/W8-map-content-selection-inspector.md
-当前状态: draft；Codex 已签 agree；build 准入仍 blocked
-你的角色: Opus，交互/状态/图层命中/跨层原子命令/W7G 边界主审
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；docs/phase2/capability-map.md 的 W7/W8；docs/phase2/roadmap.md 的 W8/W7G；docs/phase2/editor/editor-design.md §4/§5/§5.2；本任务卡全部；packages/editor/src/ui/MapMode.tsx:54,133-146,304-441,527-534,659-713,1078-1118；packages/editor/src/core/commands.ts:703-789；packages/content/src/project-map.ts:1-25,107-121。
-已完成: Codex 已确认当前没有地图内容 selection，矩形只是铺瓦；高度只能取样后重画；隐藏活动层仍可能不可见写入；tile/collision 分命令。已参考 Tiled/Unity/Godot，提出 active-layer 默认命中、隐藏/锁定不命中、Alt 候选、mixed Inspector、channel-aware 原子 patch、W7G 非链接 placement group 边界。
-请你做: 压测四状态轴是否正交；检查单击/框选/多选/高大 tile hit/锁层/隐藏层/跨层候选是否会产生歧义；审查普通 selection 不持久、W7G group 持久的边界；判断碰撞默认不随普通选区变换、透明像素 hit、锁层工作区态是否合理；补出必须修改的验收场景。
-不要做: 不得改 packages/** 实现；不得把状态标 build/done；不得绕过三签；不得把 linked prefab 或第二套地图格式带回。
-输出要求: 在任务卡设计签字与交接记录写 agree 或 counter；agree 可带 R1/R2 必改项，counter 必须说明阻塞理由和用户待裁决问题。给下一位 GLM 一段可复制提示词或确认现有 GLM 提示词可用。
-```
-
-### 给 GLM
-
-```text
-接手任务: W8 地图内容选择、实例属性检查与可逆变换——覆盖与测试矩阵复核
-任务卡: docs/ops/tasks/W8-map-content-selection-inspector.md
-当前状态: draft；Codex 已签 agree；build 准入仍 blocked
-你的角色: GLM，图层×选择×属性×命令覆盖审计
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；docs/phase2/capability-map.md 的 W7/W8；docs/phase2/roadmap.md 的 W8/W7G；本任务卡全部；packages/editor/src/ui/MapMode.tsx:54,133-146,304-441,527-534；packages/editor/src/core/edit-session.ts:26-47；packages/editor/src/core/commands.ts:703-789；packages/content/src/project-map.ts:1-25,107-121。
-已完成: Codex 已做代码/6010 UI 普查并提出 VisualSlotRef/GridPointRef 分模、active-layer 默认命中、mixed Inspector、channel-aware 原子 patch、四阶段实现与 W7G placement group 后续边界。
-请你做: 建立并逐项核对 selection 操作(replace/add/subtract/clear) × 图层(active/non-active/hidden/locked/renamed/reordered/deleted) × 内容(null/non-null/flat/height/mixed/collision) × command(apply/invert/fail-zero-write/save-reopen) 矩阵；检查空格、collision 去重、跨层失败原子性、剪贴板 include-collision、缩图裁剪和浏览器验收是否漏项；复核能力总数 58 与 W7/W8/W7G 边界。
-不要做: 不得改 packages/** 实现；不得标 build/done；不得把 W7G schema 直接实现；不得以 UI 手测替代纯函数测试。
-输出要求: 在任务卡设计签字与交接记录写 agree 或 counter；列出 build 必落项和非阻塞建议。三签未齐必须明确“不得开始实现”。
+当前状态: draft → build allowed;三方设计签字齐(Codex/Opus/GLM 全 agree),按 W8-A→D 分段实现
+先读: 本卡全部——重点 Draft 设计 §1-§7、Opus 主审立场(R1-R5+S1-S2+G3 答复)、GLM 签字(四维矩阵+G1-G2+8 条必落测试)
+已拍板决策(不得偏离):
+1. MapSelection 双成分(VisualSlotRef+GridPointRef)放独立 MapWorkspaceState(按 mapId,不进 EditorState/JSON/URL);
+2. R1 命中优先级: active 层内像素命中(RleFrame.opaque 掩码直查,共用 tilesFromChunkBytes 解码产物——G3 已关)> 光标逻辑格,后者进 Alt 候选;跨层像素命中只进候选;
+3. R2 跨层 scope 显式工具栏开关,切换不静默改选区;R5 候选排序=图层面板序+源格 (row,col);
+4. R3 Ctrl/Cmd+A = 活动层非空视觉槽 + 非默认 collision 格点(不含空且无碰撞格),全选后 27%/高倍缩放性能并入验收;
+5. 原子 ApplyProjectMapPatchCommand: 前置全校验零写入,invert 双 prev(G2),一动作一 undo;R4 批量换层冲突=粘贴语义(取消/覆盖);
+6. 变换默认视觉-only,include-collision 显式开关;隐藏/锁定层不可命中不可写,隐藏/锁定活动层=画布只读+说明;
+7. stamp-placement 分支仅留类型(S2: switch 用 TS never 兜底),不实现 group schema;普通选区不持久;
+8. G1: 卡内"57→58"措辞改"58(W8 已含)";S1: visualSlots 注释改"槽可为空"措辞。
+实现顺序: W8-A 选择地基 → W8-B Inspector+原子 patch → W8-C 变换与图层安全 → W8-D 浏览器与文档收口;每段定向测试绿后进下段;GLM 8 条必落测试+R1 优先级表驱动测试全落。
+完成后: 全仓 pnpm check、editor build、6010 多层地图(map-020 或等价)27%/高倍缩放实测、Console 零新错,Build 节写分段证据块,签 done 前 Codex accept 转 review;不得标 done。
 ```
