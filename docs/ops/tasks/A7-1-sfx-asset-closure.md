@@ -472,6 +472,83 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   battleBase 还是 per-turn)已由 Opus 裁定留 battleBase(与现 collector 归属一致),GLM 矩阵该行同步调和,
   数值断言不变。**重签齐,readiness 返工解除,Codex 可按 B1-B5 + GLM 矩阵恢复 build**;其余 build 工作
   (A7-1C 剩余/A7-1E)继续原范围。
+- Codex 恢复 build（2026-07-17）：已复核 Opus/GLM 重签均为 `agree` 且无 `counter`，按 B1-B5 接回唯一
+  Coding Owner；实现与自测完成前不得进入 `review`。
+
+### readiness 重签后的 side-aware 毒链与屏障结算反证（二次门禁，2026-07-17）
+
+- Codex: **counter（触发 GLM 明列的枚举漏项条件）**。恢复 build 后的只读实现复核发现，现
+  `sfx-readiness.ts` 的毒 BFS 只以 `poisonId` 为身份，且固定读取 `playerTicks`；但 `battle-core.ts`
+  明确让玩家毒走 `playerTicks`、敌人毒走 `enemyTicks`，PAL 的 561/562 产物 `grantItem` 又只存在于
+  `enemyTicks`。因此“毒 BFS 零漏项”结论不成立；旧 collector 扫全技能/全背包会掩盖这一缺口，两级缩集后
+  必须显式修正，不能靠缓存偶然命中。
+- 同轮只读审查还证伪了 B4 的一个隐含前提：`SfxPlayer.prepare` 当前先在无 adapter 时直接返回，预算检查在后；
+  有 adapter 时又使用 `Promise.all`，首个资源失败会提前 reject，而同批其他 decode 仍在后台完成。若此时降级
+  进入 `performAction`，首挂帧是否命中将取决于异步完成时机，违反“不迟播、屏障释放后状态确定”的冻结语义。
+- 修订稿（待 Opus/GLM 重签）：
+  - **B1′ side-aware collector**：导出 `collectBattleBaseSounds` 与 `collectTurnActionSounds`；毒种子身份改为
+    `(side, poisonId, tickIndex)`，visited key 为 `${side}:${poisonId}`（代码模板字面量）。玩家 cast 仅在实际敌方目标
+    技能（`oneEnemy/allEnemies`）有 `applyPoison` 时走 `enemyTicks`，throw 同样走 `enemyTicks`；item use、
+    敌 AI cast、`attackEquivItem.use.effects` 走 `playerTicks`；coop 保留 battleBase 并按实际技能目标映射；
+    `grantItem` 后分别沿 use→player、throw→enemy 继续闭包。两级输入都能携带
+    `activePlayerPoisons + activeEnemyPoisons`，同毒两侧不得互相吞。
+  - **B2′ 会话快照**：`BattleTurnReadinessSnapshot` 固化本轮 `pendingActions` 及敌我两侧活跃毒；
+    `BattleSession` 只在壳层增加 `preparing/token`，不污染同步/headless `BattlePhase`。普通攻击、敌动作、合击音
+    仍由 battleBase 保证；本轮实际 cast/item/throw 与本轮新施毒/次轮活跃毒由 turn collector 保证。
+  - **B4′ typed failure**：预算超限使用独立 `SfxReadinessBudgetError`，必须在启动任何 decode、甚至判断 adapter
+    前 fail-loud，禁止进入 `performAction`；合法集合用 `Promise.allSettled` 等全部请求落定后才汇总抛 recoverable
+    资源错误，成功项保持 ready，BattleSession 诊断恰一次后可降级继续。token/dispose 使悬空回调作废；fatal
+    状态必须可见，不能伪装成永久 preparing。
+  - **B5′ 新审计实数**（只读脚本重算）：380 队 + 六角色作者包络的 `battleBase` 峰值
+    **team-27 = 51**；默认入口 base 与 173 个 startBattle 峰值均 **26**；单动作峰值为 skill 315 的
+    **2** 个音（103 + summon 349）；两侧 PAL 活跃毒显式音增量峰值 **0**。代码没有五人队上限，故采用更强的
+    六人门禁 **51 + 6×2 + 0 = 63 ≤ 64**（五人值 61 仅报告）；旧 **67/74/94** 留作
+    `legacyFullLoadEvidence`，不得再算新 violations。目标报告为 `violations=[]`、`leased=0`。
+- 当前门禁：任务再次转 `rework`；本轮恢复 build 后**没有修改实现文件**。Opus/GLM 对 B1′/B2′/B4′/B5′
+  重新签 `agree` 前，Codex 不修改 readiness/BattleSession/SfxPlayer 公共契约，也不进入浏览器验收。
+- Opus 二次重签: **agree（2026-07-17,B1′/B2′/B4′/B5′ 全部冻结;附 O1-O5 精确化 + 补测清单)**。
+  两个反证独立坐实:① **毒单侧**——battle-core.ts:349-356 明确双侧(玩家 playerTicks/敌 enemyTicks),
+  而 sfx-readiness.ts:188 硬编码 `playerTicks`;PAL 产物 561/562 的 `grantItem` **只在 enemyTicks**
+  (逐条核验)——玩家对敌施 561/562 后敌侧 DoT 物品音链被现 collector 完全漏掉,GLM counter 条件命中
+  成立;② **prepare 结算**——sfx.ts:99 无 adapter 早 return 在预算 throw(:101-104)之前(无 Web Audio
+  环境超限集静默通过),:105 `Promise.all` 首败早 reject 而同批 decode 仍在飞,屏障 reject 后首挂帧命中
+  取决于后台时机——"屏障释放后状态确定"被破坏。两处均为真缺陷,二次 rework 正当。
+  **六项冻结裁定**:
+  1. **B1′ (side,poisonId,tickIndex) 身份成立**:visited key `${side}:${poisonId}`,同毒两侧独立链不互吞
+     (561 玩家侧空链/敌侧 grantItem 链是两条真实不同的可达集)。**action→side 映射逐条核验**:玩家 cast
+     敌方目标技能(oneEnemy/allEnemies)带 applyPoison → enemyTicks ✓;throw(全对敌)→ enemyTicks ✓;
+     item use(自/队友)→ playerTicks ✓;敌 AI cast(施于玩家)→ playerTicks ✓;
+     **attackEquivItem 是 EnemyDef 字段**(enemy.ts:105,敌攻带物品效果作用于玩家)→ playerTicks ✓
+     修订稿正确;coop 留 battleBase 按实际目标映射(合体技全对敌 → enemyTicks)✓;grantItem 后
+     use→player/throw→enemy 继续闭包 ✓。
+  2. **B2′ 快照成立**:`BattleTurnReadinessSnapshot { actions, activePlayerPoisons, activeEnemyPoisons }`
+     每轮从 core state 拍——把一次重签 B2 的"当前活跃毒每轮重算"精确为双侧,正确收敛。
+  3. **异步态只在壳层成立**:preparing/token 只进 BattleSession,battle-core/stepBattle 保持纯同步
+     headless——core 可测性与"呈现态不入核"方针一致,不得让 BattlePhase 出现异步分支。
+  4. **B4′ typed fatal 成立**:`SfxReadinessBudgetError` 在计算 unique 后**立即**检查、先于 adapter 判空、
+     先于任何 decode;fatal 禁止进入 performAction。**O2 分界钉死**:预算超限 = 作者工程配置错误
+     (fatal,fail-loud,进不了战斗——降级会静默掩盖工程超限);资源 decode 失败 = 运行时瞬态
+     (recoverable,降级继续)。两类错误不得互串。
+  5. **recoverable = allSettled 全落定成立**:合法集合等**全部请求落定**后汇总抛(带全部失败 AssetId
+     上下文),屏障释放时零在飞 decode = 状态确定;成功项保持 ready;**O3**:失败项必须已从 in-flight
+     缓存删除(现有失败删 promise 语义),下轮屏障可重试。
+  6. **可见性/token/guard/done 成立**:preparing 渲染等待帧;fatal 显式可见态(不伪装永久 preparing);
+     token 轮次化,dispose/cancel 即失效;**main 侧 identity guard**(await 回来校验 session 同一性,
+     A7-3 C1 后的 guard 文化)与壳层 token 双护栏;**O4**:`done` resolve 是最高优先终止信号——win/lose/flee
+     已 resolve 后屏障回调一律作废,不得再 stepBattle。
+  **B5′ 预算抽验通过**:skill 315 = sound.pal.103 + summon 349 恰 2 音(产物核验,单动作峰值成立);
+  毒显式音增量 0 合理(毒链贡献经 grantItem→物品音,已入闭包);六人上界 51+6×2+0=63 ≤ 64,较五人 61
+  更强且代码无五人上限,采六人正确。**O5:边距 1 是 PAL 事实而非设计余量**——审计 63≤64 断言必须进
+  CI 门禁,未来任何新增音效字段/角色使其 >64 时必须 fail-loud 重审,不得调预算消音。LRU 64 不动 ✓。
+  **补测清单(并入测试节,build 必落)**:① budget-before-adapter(无 adapter 超限集也 throw typed
+  fatal);② allSettled 全落定(mock 快成功+慢失败,断言屏障 settle 时零在飞、成功项 ready);
+  ③ 561/562 敌侧链专测(玩家 cast 施毒技能 → 敌侧 enemyTicks grantItem 物品音入集;固定 playerTicks
+  的旧行为作为回归反例);④ 同毒双侧不互吞(561 两侧独立 visited);⑤ attackEquivItem→playerTicks
+  映射行;⑥ fatal 可见态(非永久 preparing);⑦ done resolve 后屏障回调作废(token+identity 双护栏);
+  ⑧ 审计断言 51/26/2/0/63 且 violations=[]、legacyFullLoadEvidence 保留 67/74/94。
+- GLM 二次重签: pending（重点复核两侧毒映射、561/562、51/26/2/0/63 和新 violations 口径;
+  Opus 补测 ③④⑤ 与其映射复核同源,可直接引用)。
+- 用户裁决: 无需(Opus 二次重签 agree,无产品分歧;待 GLM 二次重签齐后直接恢复 build)。
 
 ### 进入 done 前:审查签字
 
@@ -686,23 +763,41 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   不迟播/审计新口径 battleBase 峰值+最坏单轮增量 ≤64 断言。否决"上限改 96"认同(结构问题不消失)。
   验收补八竞态+毒跨轮+失败降级测试行。Evidence: readiness 反证节 Opus 重签行。Next: Codex 按
   B1-B5 + GLM 矩阵恢复 build(A7-1C 剩余接线+A7-1E);实现完成自验后转 review。未改实现文件。
+- 2026-07-17 Codex: 重签后只读实现复核发现 poison BFS 固定 `playerTicks`，与 battle-core 敌我双侧语义及
+  561/562 仅 `enemyTicks.grantItem` 的 PAL 数据冲突，命中 GLM 自列 counter 条件；同时发现
+  `prepare` 的 budget-after-adapter 与 Promise.all 早退会破坏屏障确定性。任务再次 `build → rework`，未改
+  实现文件。Evidence: 本卡“readiness 重签后的 side-aware 毒链与屏障结算反证”。Next: Opus/GLM 对
+  B1′/B2′/B4′/B5′ 聚焦重签；签齐前不得继续实现。
+- 2026-07-17 Opus: readiness 二次返工架构重签 **agree(B1′/B2′/B4′/B5′ 全冻结 + O1-O5 + 八条补测)**。
+  两反证独立坐实:毒单侧(battle-core:349-356 双侧 vs sfx-readiness:188 硬编码 playerTicks;561/562
+  grantItem 仅 enemyTicks 产物核验——玩家施毒的敌侧物品音链现被全漏)与 prepare 结算(sfx.ts:99
+  adapter 早 return 先于预算 throw + :105 Promise.all 早退致屏障释放后在飞不确定)。六项裁定:
+  (side,poisonId,tickIndex) 身份+visited `${side}:${poisonId}` 双侧不互吞;action→side 映射逐条核验
+  (attackEquivItem 系 EnemyDef 字段→playerTicks 正确;coop 留 base 按目标映射);快照三元每轮拍;
+  异步态只进壳层(core 纯同步不破);**O2 fatal/recoverable 分界钉死**(预算超限=工程配置错 fatal
+  不进战斗/decode 失败=瞬态 recoverable 降级,不得互串);allSettled 全落定零在飞+失败项出 in-flight
+  可重试(O3);done resolve 最高优先终止(O4)+token/main identity 双护栏;fatal 显式可见非永久
+  preparing。B5′ 抽验:skill 315=sound.pal.103+summon 349 恰 2 音,六人 51+12+0=63≤64 采信,
+  **O5:边距 1 是 PAL 事实非设计余量,63≤64 断言进 CI,超限必 fail-loud 重审不得调预算**。LRU 64 不动。
+  Evidence: 二次门禁节 Opus 二次重签行。Next: GLM 二次重签(两侧毒映射/51/26/2/0/63/violations 口径,
+  补测 ③④⑤ 可直接引用);签齐后 Codex 恢复 build;不得标 review/done。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex(恢复 build)
+### 给 GLM(readiness 二次重签)
 
 ```text
-接手任务:A7-1 SFX 音效资源闭包,readiness 返工解除,恢复 build(Coding Owner)
+接手 A7-1 readiness 二次返工数据复核,只读,不得修改实现文件。
 任务卡:docs/ops/tasks/A7-1-sfx-asset-closure.md
-当前状态:rework → 恢复 build;Codex counter 后 Opus/GLM 均对方案 B 重签 agree,重签齐;可继续修改 readiness/BattleSession 公共契约
-先读:本卡"build 中 readiness 反证与重新设计门禁"全节——Codex counter、Opus 重签(八竞态裁定+B1-B5 冻结)、GLM 重签(枚举零漏项+两级测试矩阵+fail-loud 边界)
-已拍板(不得偏离):
-1. 两级屏障:进战只准备 battleBase(队员固定音+敌 BFS 闭包(五项/变身/召唤/AI cast/偷取物品链)+进战活跃毒链+coop 技能音+SFX roles+遭遇演出);全部队员指令提交后、performAction 前 await battleBase ∪ 本轮动作音 ∪ 当前活跃毒 tick 音(每轮重算);
-2. B1 接口:collectBattleBaseSounds + collectTurnActionSounds(pendingActions),复用现有 add*/enqueuePoison/BFS;合击音留 battleBase(GLM 矩阵"单轮合击"行按此调和);
-3. B3 状态机:全填收口点(battle-session:653-658)新增显式 preparing 态+token 守卫;preparing 期渲染等待帧、输入锁定、不可取消;战斗终止后悬空回调作废;
-4. B4 失败语义:prepare 失败 → 捕获 → 一次带上下文诊断 → 照常 performAction 降级(play 冷缓存同步 false);不迟播不卡死;
-5. B5 审计:audit 增补 battleBase 峰值(380 teams)+最坏单轮增量上界,断言 ∪ ≤ 64;方案 B 落地后 violations=0 exit 0;leased=0 保持;
-6. LRU 64 不动;不得把上限改 96;auto(0x8A)/粘滞 F·R·A/重复/无菜单全部走同一屏障;敌先手轮直 perform(敌音全在 base)。
-测试:GLM 三张矩阵(battleBase 4 行/perRound 6 行/边界失败 5 行)+ Opus 补充行(八竞态各一/毒跨轮 readiness/失败降级诊断恰一次)全落。
-完成后:A7-1C 剩余接线+A7-1E 静态归零/报告照原范围;全仓 pnpm check、audit exit 0、6010/6051 自验,Build 节补 readiness 返工证据块,签 done 前 accept 转 review;不得标 done。
+当前状态:rework;Codex 二次 counter(毒单侧+prepare 结算)后,Opus 已对 B1'/B2'/B4'/B5' 二次重签 agree(附 O1-O5+八条补测),GLM 二次重签 pending(最后一签)
+必读:本卡"readiness 重签后的 side-aware 毒链与屏障结算反证"全节(重点 Opus 二次重签行)、packages/reforge/src/audio/sfx-readiness.ts:180-199、packages/reforge/src/battle/battle-core.ts:349-356、projects/pal/content/poisons.json 的 561/562
+请重点复核(数据面,与 Opus 架构面互补):
+1. 两侧毒映射矩阵独立复算:玩家 cast 敌方目标技能→enemyTicks/throw→enemyTicks/item use→playerTicks/敌 AI cast→playerTicks/attackEquivItem(敌字段)→playerTicks/coop 按目标→enemyTicks/grantItem 后 use→player·throw→enemy——逐条给出 PAL 产物反例或确认;
+2. 561/562 独立核验:playerTicks 无 grantItem/enemyTicks 有——确认玩家施毒敌侧物品音链的具体音集;
+3. B5' 五数复算:battleBase 峰值 51(team-27)/默认入口与 173 startBattle 峰值 26/单动作峰值 2(skill 315=103+summon 349)/两侧活跃毒显式音增量 0/六人门禁 63≤64(五人 61 仅报告);
+4. 新 violations 口径:violations=[] 为目标、67/74/94 移入 legacyFullLoadEvidence 不再计新违例、leased=0 保持;
+5. Opus 八条补测与你既有三张矩阵的合并去重(③④⑤ 与你映射复核同源);
+6. visited key ${side}:${poisonId} 的去重正确性(同毒双侧独立、同侧幂等)。
+不要做:不改实现;不标 review/done;签齐前 Codex 不得恢复实现。
+输出:在"二次门禁"节 GLM 二次重签行写 agree 或 counter+精确阻塞点,补交接日志并提交;签齐后用户裁决行改"重签齐,恢复 build",Codex 按 B1'/B2'/B4'/B5'+O1-O5+合并测试清单恢复。
 ```
