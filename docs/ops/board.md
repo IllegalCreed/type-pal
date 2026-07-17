@@ -10,8 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| A7-1 | SFX 音效资源闭包 | draft | Opus / GLM 设计签字 | Codex 已完成三路普查并签 agree；三签未齐不得进入 build |
-| W8 | 地图内容选择与实例属性编辑 | draft | Opus / GLM 设计签字 | Codex 已完成代码/界面普查与成熟产品交互草案并签 agree；W7G 前置，三签未齐不得进入 build |
+| A7-1 | SFX 音效资源闭包 | build | Codex 分段实现与自测 | 三签齐且 build allowed；当前唯一活跃实现任务，按 A7-1A→E 推进 |
+| W8 | 地图内容选择与实例属性编辑 | build | Codex（A7-1 收口后） | 三签齐且 build allowed；W7G 前置，已排队，不与 A7-1 并行修改实现文件 |
 
 ## 阻塞
 

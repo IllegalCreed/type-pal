@@ -1,6 +1,6 @@
 # W8 - 地图内容选择、实例属性检查与可逆变换
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W8
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: Opus（交互/状态/图层主审）+ GLM（覆盖/测试矩阵复核）
 Visual Verification Owner: Codex
 Unavailable Agents: none
-Branch: main（仅登记 draft；build 分支待三签后建立）
+Branch: main
 
 ## 目标
 
@@ -393,7 +393,7 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（待 build allowed）
+- Coding Owner: Codex（已准入，排队等待 A7-1 收口）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -420,6 +420,10 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
   措辞防 null-ref 误读)/S2(stamp-placement dead branch 用 TS never 兜底)。两处裁量(R1/R3)已裁定,
   用户可 build 前推翻。Evidence: 设计签字 Opus 行+主审立场。Next: Codex 按 W8-A→D 分段 build
   (提示词见下);每段定向测试绿后进下段;实现完成自验后转 review。未改实现文件。
+- 2026-07-17 Codex: 复核 Codex/Opus/GLM 三方设计签字均为 **agree**，`build 准入结论`为
+  **build allowed**，同步任务状态 `draft → build`。为遵守单一 Coding Owner 实现门禁，本卡先排队等待
+  A7-1 收口；未修改 W8 实现文件。Evidence: 本卡设计签字表、提交 `2287a592`/`b918911e`。
+  Next: A7-1 转 review 后由 Codex 按 W8-A→D 接续 build；若用户要求 W8 插队，先在看板显式换序。
 
 ## 下一位 Agent 提示词
 

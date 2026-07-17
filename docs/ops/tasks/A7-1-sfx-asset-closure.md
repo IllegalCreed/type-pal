@@ -1,9 +1,9 @@
 # A7-1 - SFX 音效资源闭包与编辑工作台
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / X2 / B5
-Coding Owner: Codex（三方设计签字齐后）
+Coding Owner: Codex
 Generation Owner: N/A
 Reviewer: Opus + GLM
 Visual Verification Owner: Codex + Opus
@@ -450,7 +450,7 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
 
 ## Build:实现与自测
 
-- Coding Owner:Codex（三方设计签字齐后）
+- Coding Owner:Codex
 - 修改文件:pending
 - 实现摘要:pending
 - 运行命令:pending
@@ -507,6 +507,9 @@ AssetId 去重的物理资产，三者不得混写。设计草案按“删除 12
   pal-authored-overlays 4 处数字 sound 实证(产物账不重复计,同轮改写)。Evidence: 设计签字 Opus 行 +
   基线"权威冻结"节,审计脚本留 scratchpad 可复跑。Next: Codex 按 A7-1A→E 分段 build(提示词见下);
   实现完成自验后转 review。未改实现文件与生成产物。
+- 2026-07-17 Codex: 复核 Codex/Opus/GLM 三方设计签字均为 **agree**，`build 准入结论`为
+  **build allowed**，同步任务状态 `draft → build` 并接任唯一活跃 Coding Owner。Evidence: 本卡设计签字表、
+  提交 `9ef3b056`。Next: 按 A7-1A→E 分段实现；W8 已准入但排队，不与本卡并行修改实现文件。
 
 ## 下一位 Agent 提示词
 
