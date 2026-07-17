@@ -31,6 +31,7 @@ export function renderSceneFrame(
   renderer: Renderer,
   args: RenderSceneFrameArgs,
 ): void {
+  if (renderer.context !== ctx) throw new Error('renderSceneFrame: renderer 与目标 context 不一致')
   const { map, room, camera, sprites, worldScale, layers } = args
   renderer.clear()
   ctx.save()

@@ -150,6 +150,16 @@ test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async (
   expect(world.entityState.e9).toBe(0)
 })
 
+test('0x6E clean nudgeParty 保留层号并兼容缺省 layer=0', async () => {
+  const calls: string[] = []
+  const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
+  await r.run([
+    { kind: 'nudgeParty', dx: 0, dy: 0, layer: 6 },
+    { kind: 'nudgeParty', dx: 16, dy: -8 },
+  ])
+  expect(calls).toEqual(['nudgeParty(0,0,6)', 'nudgeParty(16,-8,0)'])
+})
+
 test('loadScene 命名落点原样交给 host，不降级成默认或临时坐标', async () => {
   const calls: string[] = []
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)

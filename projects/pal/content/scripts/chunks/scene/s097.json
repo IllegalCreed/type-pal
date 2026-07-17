@@ -598,7 +598,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 0
+        "dy": 0,
+        "layer": 5
       },
       {
         "kind": "setEntityState",

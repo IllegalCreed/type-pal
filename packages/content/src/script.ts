@@ -153,7 +153,11 @@ export type Command =
   | { kind: 'animEntity'; entity: string } // 0x87:仅推动画帧(不位移)
   | { kind: 'nudgeEntity'; entity: string; dx: number; dy: number } // 0x7D/0x6C:像素位移(瞬时)
   | { kind: 'moveParty'; to: GridPos; speed: WalkSpeed } // 阻塞:队伍走到
-  | { kind: 'nudgeParty'; dx: number; dy: number } // 0x6E:队伍相对单步(带走姿)
+  /**
+   * 0x6E 队伍相对单步(带走姿)。layer 是原版第三操作数的逻辑层号；
+   * 缺省按 0 兼容手写脚本。原版每次 0x6E 都覆盖 wLayer，执行时缺省值也必须清回 0。
+   */
+  | { kind: 'nudgeParty'; dx: number; dy: number; layer?: number }
   // 战斗 / 商店 / 确认(M3b 翻译;战斗引擎 M4,先桩)
   // auto(0x8A):整场自动战斗(玩家侧 AI 代打、不出指令菜单 —— 石长老 vs 盖罗娇过场战)。
   // boss:原版 0x07 fIsBoss = !op2(script.c:3318,无逃跑臂 = 首领战:不可逃 + 胜利曲 2)。

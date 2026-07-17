@@ -49,6 +49,12 @@ function resolver(bytes: Uint8Array, readBytes?: FileSource['readBytes']): Asset
   return new AssetResolver('test', catalog, {}, source)
 }
 
+function keydown(code: string): Event {
+  const event = new Event('keydown', { cancelable: true })
+  Object.defineProperty(event, 'code', { value: code })
+  return event
+}
+
 describe('FrameSequenceReader', () => {
   test('容器 Promise 在 await 前缓存，并发读取只访问一次文件', async () => {
     const bytes = await fixture(2)
@@ -133,5 +139,42 @@ describe('playFrameAnimation', () => {
     await expect(
       playFrameAnimation({ reader: broken, asset, onFrame: () => {}, wait: async () => {} }),
     ).rejects.toThrow(/test.*frame-animation\.test.*NotFound/)
+  })
+
+  test('剧情默认不可用空格跳过，仍输出完整帧序列', async () => {
+    const bytes = await fixture(3)
+    const reader = new FrameSequenceReader(resolver(bytes), identity)
+    const target = new EventTarget()
+    const frames: number[] = []
+    let waits = 0
+    await playFrameAnimation({
+      reader,
+      asset,
+      eventTarget: target,
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+      wait: async () => {
+        if (waits++ === 0) target.dispatchEvent(keydown('Space'))
+      },
+    })
+    expect(frames).toEqual([0, 1, 2])
+  })
+
+  test('开发预览显式声明 skipKeys 后才允许空格提前结束', async () => {
+    const bytes = await fixture(3)
+    const reader = new FrameSequenceReader(resolver(bytes), identity)
+    const target = new EventTarget()
+    const frames: number[] = []
+    const result = await playFrameAnimation({
+      reader,
+      asset,
+      skipKeys: ['Space'],
+      eventTarget: target,
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+      wait: async () => {
+        target.dispatchEvent(keydown('Space'))
+      },
+    })
+    expect(frames).toEqual([0])
+    expect(result?.rgba[0]).toBe(0)
   })
 })

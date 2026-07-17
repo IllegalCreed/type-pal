@@ -10,7 +10,8 @@
       {
         "kind": "nudgeParty",
         "dx": 10,
-        "dy": -10
+        "dy": -10,
+        "layer": 1
       },
       {
         "kind": "wait",
@@ -19,7 +20,8 @@
       {
         "kind": "nudgeParty",
         "dx": 6,
-        "dy": -6
+        "dy": -6,
+        "layer": 2
       },
       {
         "kind": "wait",
@@ -28,7 +30,8 @@
       {
         "kind": "nudgeParty",
         "dx": 10,
-        "dy": -10
+        "dy": -10,
+        "layer": 3
       },
       {
         "kind": "wait",
@@ -37,7 +40,8 @@
       {
         "kind": "nudgeParty",
         "dx": 6,
-        "dy": -6
+        "dy": -6,
+        "layer": 4
       },
       {
         "kind": "wait",

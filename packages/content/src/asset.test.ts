@@ -287,9 +287,24 @@ describe('typed 资源引用与文件闭包', () => {
 
   test('文件缺失、大小与 hash 不符均有独立错误', async () => {
     const refs = [
-      { asset: 'music.pal.002', expectedKind: 'music' as const, where: 'scene.music' },
-      { asset: 'music.pal.003', expectedKind: 'music' as const, where: 'script.asset' },
-      { asset: 'music.pal.037', expectedKind: 'music' as const, where: 'battle.music' },
+      {
+        asset: 'music.pal.002',
+        expectedKind: 'music' as const,
+        where: 'scene.music',
+        site: 'scene.music',
+      },
+      {
+        asset: 'music.pal.003',
+        expectedKind: 'music' as const,
+        where: 'script.asset',
+        site: 'script.asset',
+      },
+      {
+        asset: 'music.pal.037',
+        expectedKind: 'music' as const,
+        where: 'battle.music',
+        site: 'battle.music',
+      },
     ]
     const issues = await validateAssetFileClosure(catalog, refs, {
       readBytes: async (path) => {

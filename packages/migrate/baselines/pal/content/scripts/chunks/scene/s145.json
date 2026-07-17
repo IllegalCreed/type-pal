@@ -265,7 +265,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 0
+        "dy": 0,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -277,7 +278,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -294,7 +296,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -306,7 +309,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -319,7 +323,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -331,7 +336,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -344,7 +350,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 10
       },
       {
         "kind": "setPartyFacing",
@@ -356,7 +363,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 4
       },
       {
         "kind": "setPartyFacing",
@@ -369,7 +377,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 3
       },
       {
         "kind": "setPartyFacing",
@@ -381,7 +390,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 16
+        "dy": 16,
+        "layer": 2
       },
       {
         "kind": "setPartyFacing",

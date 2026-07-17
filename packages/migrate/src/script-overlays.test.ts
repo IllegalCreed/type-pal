@@ -37,4 +37,36 @@ describe('PAL 脚本 overlay', () => {
     ).toBe(true)
     expect(scene.onEnter![0]!.body).toHaveLength(8)
   })
+
+  test('s059 把 0x50 后 PAL_MakeScene 的隐式自动淡入显式化', () => {
+    const scene: SceneDef = {
+      id: 's059',
+      mapId: 'map-059',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+      onEnter: [
+        {
+          body: [
+            { kind: 'dialog', cue: { rows: [{ text: 'dlg.4348' }] } },
+            { kind: 'fade', dir: 'out', ms: 1200 },
+            { kind: 'setEntityState', entity: 'e983', state: 2 },
+            { kind: 'teleportParty', pos: { col: 167, row: 57, height: 0 } },
+            { kind: 'wait', ms: 320 },
+            { kind: 'dialog', cue: { rows: [{ text: 'dlg.4349' }] } },
+          ],
+        },
+      ],
+    }
+    const body = applyPalScriptOverlays([scene])[0]!.onEnter![0]!.body
+    expect(body).toEqual([
+      { kind: 'dialog', cue: { rows: [{ text: 'dlg.4348' }] } },
+      { kind: 'fade', dir: 'out', ms: 1200 },
+      { kind: 'setEntityState', entity: 'e983', state: 2 },
+      { kind: 'teleportParty', pos: { col: 167, row: 57, height: 0 } },
+      { kind: 'fade', dir: 'in', ms: 600 },
+      { kind: 'wait', ms: 320 },
+      { kind: 'dialog', cue: { rows: [{ text: 'dlg.4349' }] } },
+    ])
+    expect(scene.onEnter![0]!.body).toHaveLength(6)
+  })
 })

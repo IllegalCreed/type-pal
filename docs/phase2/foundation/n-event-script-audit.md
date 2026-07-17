@@ -15,6 +15,11 @@
 > 迁移缺口只写 `MigrationGap` 并阻断生成；全局脚本地址按 `all.json.commands[n]` 解析。本文仍保留原始证据与
 > 当时缺口，不能再作为这三项的当前实现真值。
 
+> **返工补记（2026-07-16）**：A7-3 的 `s066→s059` 实机复核又发现四类不能由“clean async 架构”自动
+> 免疫的源语义：0x6E party layer、0x50 后首个 `PAL_MakeScene` 隐式淡入、0x46 重填整条 party trail、
+> 以及 0x71 必须先卷背景再画人物。下文已补当前锚点；本轮只改 phase2 migrate/content/reforge/editor 与
+> 上游迁移生成物，`packages/game` 零 diff，第一阶段继续作为真值而未被修改。
+
 > 全文行号锚点都基于上述 commit。判断必有 `文件:行`。
 >
 > 本子系统是 reforge 重写最重的一块。一阶段 `event-system.ts`(5583 行)在三套 cursor(trigger / autoScript / battle runScript)+ 单一 `applyRawOpcode` 分发上叠了大量修补;reforge 用「原生 async AST 树遍历 + AbortSignal」从架构上消解了多数坑,但**仍有一批因语义折叠 / 内容层决策引入的新缺口**,见各单元「缺口」。
@@ -464,6 +469,13 @@ function fireTrigger(e) {
 - **同 PartyWalkTo + 联动 event object**:`p->x += dx; p->y += dy`(297-298,被骑对象同步移)。
 - **trail 存储**(282-289):含 `+dx`(预扣本步位移)。
 
+#### 0x46 setPartyPos(script.c:1665-1700)— **落点同时重填队伍与 trail**
+- operand `(col,row,h)` 定位世界点 `x=col*32+h*16`、`y=row*16+h*8`，再以 partyoffset 计算 viewport。
+- 它不是“只移动队长”：循环把 `rgParty[i]` 与 `rgTrail[i]` 同时写成队长位置加 `i×(xOffset,yOffset)`，
+  每槽沿当前朝向向身后铺一个 16×8 菱形步，并把 trail 方向写成当前 party direction。
+- 后续 0x75 只替换成员角色，不重算位置；静止期恢复成员时直接复用这条已铺好的队形。若迁移只留下
+  `teleportParty(player)`，队员会叠在队长脚下/被 cover 遮住，直到玩家移动才补出 trail。
+
 #### 0x6E movePlayerOneStep(script.c:2091-2113)— **相对移 viewport**
 ```c
 gpGlobals->rgTrail[0].x = viewport.x + partyoffset.x;  // 存旧位
@@ -505,6 +517,10 @@ return  // 未到 → 下 tick
 - ✅ **speed 映射**:0x3F=2, 0x44=4, 0x97=8(2733-2737,对齐 script.c:1609/1654/2705)。
 - ✅ **清 sceneLoading**(2748)。
 
+#### 0x46 handler(event-system.ts:3709-3727)— **重填 rgTrail 真值已落地**
+- 一阶段按 SDLPal 方向计算 `(xOff,yOff)`，同时写 `party/camera/trail[0..4]`，并清
+  `followerFrozenOffset`。`present/follower-pos.ts` 的静止无快照分支使用 `trail[m]`，不是走路态的偏移公式。
+
 #### 0x6E handler(event-system.ts:4215-4238)— **相对移 camera**
 ```ts
 gs.camera.x += dx  // 相对,非绝对回正
@@ -543,6 +559,15 @@ partyGesture = null; stepFrame = (stepFrame+1)%4  // 走姿推进
 updateCamera()
 ```
 - ✅ **相对移**(增量制,非绝对回正)。注释 main.ts:84「⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正」—— 设计层已记录此坑。
+- **2026-07-16 补正**：0x6E 第三 operand 不能丢；迁移为可选 `nudgeParty.layer`，host 同步覆写
+  `partyLayer`。队伍 cover iLayer=`layer*8+6`、sort offset=10，NPC 为 `layer*8+2`/9，并按
+  `PAL_CalcCoverTiles` 五邻候选扫描；这才是 s059 三人不被地形截成半身的层级真值。
+
+#### teleportParty / switchScene— **0x46 trail side effect 已恢复**
+- `follower.ts:51-65` 的 `seedFormationTrail` 把四朝向换成菱形格后退轴；`main.ts:741-745` 与
+  `1018-1027` 在场景落点/同场景 teleport 时铺满 trail，并清 frozen/派生 follower 位置。
+- 静止且无冻结快照时 `follower.ts:104-115` 直接取 `trail[m]`；连续走路的 `BASE_SLOT` 校准不能套到
+  0x46 静止队形。s059 最终 setParty 因此无需先走一步即可显示三人。
 
 #### cameraPan(0x7F 相对)(main.ts:663-675)— **cameraOffset 累积**
 ```ts
@@ -563,10 +588,20 @@ ride: async (entityId, to, speed) => {
 - **commit `43010172`**(载具权威):mount = 父动子随(deriveMounts main.ts:991-1005 每 tick 派生 party 位置 = parent + offset)。
 - ✅ **骑乘 = mount + ride**(script.ts:96-99):0xA1 聚拢 → mountParty;0x3F/44/97 → ride。
 
+#### 0x71 screen wave— **先背景波动、再静态人物/cover**
+- SDLPal `scene.c:475-491` 先画地图层、调用 `PAL_ApplyWave(gpScreen)`，再 `PAL_SceneDrawSprites`；因此人物
+  不随血池波动。旧 Reforge 曾把绑定主 ctx 的 renderer 交给离屏 wctx，目标 transform 与实际落笔错配，
+  在 s066→s059 后造成半尺寸/画布污染。
+- 当前 `render-scene.ts:29-42` 对 renderer/context 不一致 fail-loud；`main.ts:2664-2683` 给 wctx 独立
+  `waveRenderer`，离屏只画 background，卷完后在主 ctx 静态叠 sprites/cover。探索屏波相位只在 100ms
+  world tick 推进（`screen-wave.ts:52-83`），rAF 补帧不加速。
+
 #### sceneLoading 冻屏 — **✨ 并行模型免疫**
 - reforge **无 sceneLoading 概念**:loadScene 是 `async`(main.ts host.loadScene),`await` 期间主脚本挂起,渲染线程照跑(显示旧帧 until 新场景 ready)。
 - ✅ **走位/骑乘三组 op 无需「清 sceneLoading」**:它们是 `await moveParty/ride` Promise,挂起期间不存在「冻屏漏清」问题。
-- ✅ **needToFadeIn 两白名单不存在**:reforge 无 `tickSceneAutoFadeIn` + mode.ts autoScript 白名单二分 —— fade 是 `await host.fade()`(script-runner.ts:215),autoScript 是否并行由 `authority` + 设计裁决(不感知对话)决定,无白名单同步问题。
+- ⚠️ **白名单耦合不存在，不等于隐式淡入语义免疫**：reforge 无 `tickSceneAutoFadeIn` + mode.ts
+  autoScript 白名单二分，显式 fade 是 `await host.fade()`；但 SDLPal 0x50 只置 `fNeedToFadeIn`，随后首个
+  `PAL_MakeScene` 才消费并淡入。迁移若只保留 fade-out，clean 运行时没有全局 flag 可补救，会永久黑屏。
 
 #### autoScript 并行模型(main.ts:1105 + authority)
 - **设计裁决**(main.ts:1106-1107, 452):auto 与主脚本并行,不复刻「对话期冻结 NPC」;仅被主脚本 `authority` 接管的实体其位移暂停(main.ts:954-955 `while authority.has(id) await wait(150)`)。
@@ -581,7 +616,10 @@ ride: async (entityId, to, speed) => {
 | G4.1 | reforge moveParty/moveEntity 半格步长 vs sdlpal 整格视口移动 —— 节奏 / 碰撞判定细节差异(半格可能卡碰撞) | 低 | 半格是 reforge 手感设计(main.ts:637 注释);碰撞用 `isBlockedAt` 整格判,半格累积进位时检查。接受 |
 | G4.2 | reforge `SPEED_MS`(main.ts:409)= `{slow:200, normal:130, fast:100, run:50}` ms/半格步。迁移映射(translate-events.ts:80-84,473-478):0x70(speed2)→slow(200ms)、0x7A(speed4)→fast(100ms)、0x7B(speed8)→run(50ms)。sdlpal speed 2/4/8 = 4/8/16px 每步(整格视口)。节奏近似(半格步 + 时间驱动 vs 整格视口 + 帧驱动) | 低 | 接受;若实测走位节奏偏离原版,内容层微调 SPEED_MS |
 | G4.3 | reforge 0x7F 相对 pan 的 `frames` 语义:sdlpal `do-while ++i<op2`(op2=0 跑 1 帧);reforge `Math.min(steps, done+round(dt/16))`(main.ts:1012)按 dt 推进,frame 概念模糊 | 低 | reforge 帧率无关(dt 驱动),frames 近似成时间;接受 |
-| G4.4 | 一阶段 sceneLoading 冻屏 + needToFadeIn 双白名单(W4)在 reforge 完全免疫 —— 但 reforge loadScene 期间旧帧保留靠渲染线程,若 host.loadScene 卡死无超时 | 低 | loadScene 失败应有 fallback(当前 `?battle` 等有);评估加超时 |
+| G4.4 | reforge 免疫的是 sceneLoading/白名单耦合，不是 0x50→首个 MakeScene 的隐式淡入；s059 曾漏译而在 dlg.4348 后永久黑屏 | 已修 | s059 semantic overlay 在 fade-out 后首个 wait 前显式插入 600ms fade-in；禁止全局 blanket fade-in，以保留 FBP/RNG 黑屏 hold |
+| G4.5 | 场景落点/teleport 曾只重置 leader，丢失 0x46 重填 rgTrail side effect；setParty 后 followers 叠脚下，走一步才恢复 | 已修 | `seedFormationTrail` + 清 frozen/派生位置；静止 fallback=`trail[m]`；四朝向单测 + s059 无方向输入终场浏览器复验 |
+| G4.6 | 0x6E 第三 operand layer 曾在迁移中丢失，party cover/sort 层级错误，s059 三人被地形截成半身 | 已修 | clean 命令保留可选 layer；runtime 对齐 PAL party/NPC iLayer、sort offset 与五邻 cover candidates |
+| G4.7 | 0x71 离屏 pass 复用绑定主 ctx 的 renderer，context/transform 错配；且人物被一起卷、rAF 推相位过快 | 已修 | context guard + 独立 waveRenderer；background-only wave 后静态 sprites/cover；探索相位按 100ms world tick |
 
 ---
 
@@ -709,6 +747,13 @@ function applyStageNext(world, key, current, next) {
 - ✅ **原版指针 vs clean entityStage**:原版 `wTriggerScript` 存的是**全局 script entry 指针**(下标),每次触发从该指针跑;reforge `entityStage` 存**第几段**(`ScriptStage` 数组下标),`stageIndexFor` 选段。**语义清洁**(无裸指针)。
 - ✅ **end.advance/reset → next**(content/script.ts:114):`next?: 'advance' | number`,数字=重置到该段。
 
+#### 0x50 隐式 FadeIn— **迁移必须显式保留消费点**
+- SDLPal `script.c:1775-1791` 的 0x50 在已经黑屏时只设置 `fNeedToFadeIn`；随后首个
+  `PAL_MakeScene` 才在 `scene.c:501-508` 消费该标记并执行 `PAL_FadeIn(...,1)`。
+- clean Reforge 没有这个全局 flag，因此“运行时没有白名单耦合”不能替代迁移语义。s059 dlg.4348 后曾只
+  迁出 fade-out，导致永久黑屏；`packages/migrate/src/script-overlays.ts:30-47` 现于首个 wait 前定点插入 600ms
+  fade-in。这里必须定点表达，不能给所有 fade-out 自动补 fade-in，否则会破坏 FBP/RNG 黑屏保持。
+
 #### setPalette — **❌ reforge 无此命令**(高危)
 - **Command 联合无 setPalette**(content/script.ts:26-103 全表无)。
 - reforge palette 仅场景级:`def.paletteId`(content/index.ts:137)→ main.ts:327 `getPalette(def.paletteId ?? 0)` 加载。
@@ -725,7 +770,7 @@ function applyStageNext(world, key, current, next) {
 | **G5.2** | **setEntityAuto / setEntityTrigger 运行时不持久**(script.ts:88 注释)—— 读档 / 切场景重置成 def 初态,脚本运行期改的 auto/trigger 页丢失 | **高** | **方案**:页注册表(world.script 加 `entityAutoOverride` / `entityTriggerOverride` Record),setEntityAuto/Trigger host 写 world.script(进存档),applyWorldToScene 重放。**或**:内容层把所有 0x24/25 静态化(不靠运行时改) |
 | G5.3 | reforge getPalette 是 async(main.ts:227)—— 即使 G5.1 加 setPalette,若 host 实现不预载成同步,同帧 RNG 消费仍偏色(同 W7) | 高(随 G5.1) | G5.1 实现时**必须** bootstrap 预载 PAT 全块成 Map,host.setPalette 同步查表(参照一阶段 `setPaletteSource` event-system.ts:556) |
 | G5.4 | reforge `entityStage` 持久化已对齐(clean 化,无裸指针)—— ✅ 已 clean | — | 无需动作;确认 buildPayload 序列化 world.script.entityStage(save-system) |
-| G5.5 | 一阶段 needToFadeIn 两白名单(W4 层 B)在 reforge 不存在 —— reforge fade 是 await,无白名单同步问题 | — | reforge 免疫;接受 |
+| G5.5 | 一阶段 needToFadeIn 的运行时白名单耦合在 reforge 不存在，但 0x50→首个 MakeScene 的隐式消费仍是迁移责任；s059 曾漏译 | 已修/持续审计 | s059 semantic overlay 定点补 600ms fade-in；其他 0x50 站点逐场景审计，禁止 blanket 规则 |
 
 ---
 
@@ -751,7 +796,7 @@ function applyStageNext(world, key, current, next) {
 | callScript(0x04)callStack + 跨段 shared# | 0x04 迁移期整段内联,无 callStack/IP | ✅ 免疫 |
 | goto 不消耗帧(同帧续跑) | for 循环顺序 await;阶段转移靠 next | ✅ 免疫(单段内) |
 | sceneLoading 冻屏(走位/骑乘漏清) | 无 sceneLoading;loadScene 是 async await | ✅ 免疫 |
-| needToFadeIn 两白名单同步 | 无 tickSceneAutoFadeIn + mode.ts 白名单;fade 是 await | ✅ 免疫 |
+| needToFadeIn 两白名单同步 | 无 tickSceneAutoFadeIn + mode.ts 白名单；显式 fade 是 await | ⚠️ 仅免疫白名单耦合；0x50 隐式 MakeScene 淡入仍须迁移显式表达（G4.4/G5.5） |
 | suppressAutoTriggerOnce(TouchFar 死锁) | 触发边沿(落步才查,main.ts:1996) | ✅ 免疫 |
 | 走位相对移相机 vs 绝对回正(0x7F 偏移) | cameraOffset 独立累积 + nudgeParty 相对(main.ts:656-662) | ✅ 已对齐 |
 | autoScript owner 排除窗口 | auto 不感知对话(设计裁决 main.ts:1106) | ✅ 规避(语义不同但合理) |
@@ -765,13 +810,14 @@ function applyStageNext(world, key, current, next) {
 ### sdlpal(`reference/sdlpal/`)
 - `PAL_RunTriggerScript`:script.c:3139-3480(循环 3194;0x04 call 3258;0x06 3299;0x07 3314)
 - `PAL_RunAutoScript`:script.c:3482-3651(0x06 auto 3575;0x04 auto 3566;0x03 goto 3549;0x09 3593)
-- `PAL_InterpretInstruction`:script.c:586-3084(0x24 setAutoScript 1137;0x25 1147;0x40 1613;0x8A 2564;0x8B 2571;0x6E 2091;0x7F 2292;0x70 2125;0x7A 2245;0x7B 2252;0x3F 1605;0x44 1650;0x97 2701)
+- `PAL_InterpretInstruction`:script.c:586-3084(0x24 setAutoScript 1137;0x25 1147;0x40 1613;0x46 setPartyPos 1665;0x50 fadeOut flag 1775;0x8A 2564;0x8B 2571;0x6E 2091;0x71 screenWave 2132;0x7F 2292;0x70 2125;0x7A 2245;0x7B 2252;0x3F 1605;0x44 1650;0x97 2701)
+- scene.c:`PAL_MakeScene` 453-508（ApplyWave→DrawSprites 475-491；隐式 FadeIn 501-508）。
 - `PAL_PartyWalkTo`:script.c:100-200;`PAL_PartyRideEventObject`:202-307
 - play.c 触发:107-165(touch 自动)/ 172-192(autoScript)/ 440-499(search 手动)
 - global.h:82-93(triggerMode 枚举)
 
 ### 一阶段(`packages/game/src/core/`)
-- `applyRawOpcode`:event-system.ts:3529-5583(0x8A 4036;0x06 4266;0x04 4739;0x24 3853;0x25 4454;0x40 4570;0x6E 4215;0x7F 3650;0x70/7A/7B 2645;0x3F/44/97 2725)
+- `applyRawOpcode`:event-system.ts:3529-5583(0x8A 4036;0x06 4266;0x04 4739;0x24 3853;0x25 4454;0x40 4570;0x46 3709;0x6E 4215;0x7F 3650;0x70/7A/7B 2645;0x3F/44/97 2725)
 - `tickAutoScripts`:event-system.ts:1242-1285;`runOneAutoOp`:1287+(0x06 auto 1387;0x04 auto 1426)
 - `jumpToGlobalIp`:event-system.ts:3430;`restoreModeAfterScript`(suppressAutoTriggerOnce):3358-3374
 - `setPalette`:event-system.ts:2827-2870;`setPaletteSource`:556;`tickSceneAutoFadeIn`:645
@@ -787,6 +833,9 @@ function applyStageNext(world, key, current, next) {
 - main.ts:`startAutoRunner` 1094;`startAutoRunners` 1122;`restartAutoRunner` 1189;`deriveMounts` 991;`advanceMoves` 1008
 - main.ts:`startScript` 1207;`fireTrigger` 1294;`findTrigger` 1277(touch 边沿 1996)
 - migrate:translate-events.ts(0x04 内联 612;0x06 branch 546;0x24/25 645;0x40 672;0x8A→startBattle.auto 530);translateStages 116(无 auto/trigger 区分)
+- A7-3 当前锚点:`follower.ts:51-65,104-115`；`main.ts:741-745,1018-1027,2534-2613,2664-2683`；
+  `render-scene.ts:29-42`；`screen-wave.ts:52-83`；`frame-animation-player.ts:161-184`；
+  `migrate/src/script-overlays.ts:30-47`。
 
 ### 关键 commit(一阶段踩坑 → 修复)
 - `0f71695e` 0x8A 事件侧补实现

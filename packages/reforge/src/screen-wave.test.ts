@@ -31,4 +31,11 @@ describe('0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1)', () => {
     // 未设 → 0(无脚本世界)
     expect(advanceWave({})).toBe(0)
   })
+
+  test('补帧读取不推进:advance=false 保持当前波幅与 progression', () => {
+    const vars: Record<string, number> = { 'sys:screenWave': 10, 'sys:waveProgression': -2 }
+    expect(advanceWave(vars, false)).toBe(10)
+    expect(vars).toEqual({ 'sys:screenWave': 10, 'sys:waveProgression': -2 })
+    expect(advanceWave({ 'sys:screenWave': 256, 'sys:waveProgression': 0 }, false)).toBe(0)
+  })
 })

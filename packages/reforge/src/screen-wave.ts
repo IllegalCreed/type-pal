@@ -4,7 +4,7 @@
  *   · 32 相位偏移表(scene.c:404-417):a/b 递推 a=0,b=68;16 次 b−=8,a+=b;
  *     wave[i] = trunc(a×W/256);wave[i+16] = 320 − wave[i](镜像凑满 32 相位)。
  *   · 逐逻辑行(200 行)左卷**环绕**(scene.c:423-449);每行相位 = (index+row)%32,index 每帧 +1。
- *   · 波幅每帧 += 推进量(SHORT 可负 = 渐弱);==0 或 ≥256 → 关闭并双清零(scene.c:391-398)。
+ *   · 波幅每个逻辑拍 += 推进量(SHORT 可负 = 渐弱);补帧只读取当前值；==0 或 ≥256 → 关闭并双清零(scene.c:391-398)。
  * 状态存 world.script.vars('sys:screenWave' / 'sys:waveProgression'):脚本 0x71 设,
  * 随存档;相位计数是纯视觉节拍,不入档(一阶段 s_waveIndex 同为模块态)。
  */
@@ -27,11 +27,16 @@ export function waveTable(w: number): number[] {
 }
 
 /**
- * 每帧推进(scene.c:389-398):W += 推进量;==0 或 ≥256 → 双清零关闭。
+ * 逻辑拍推进(scene.c:389-398):W += 推进量;补帧传 advance=false 时只读当前值。
  * 原地改 vars(随存档 = 存的是衰减后的当前值,一阶段 gs.wScreenWave 同语义)。
  * 返回推进后的波幅(0 = 本帧不卷)。
  */
-export function advanceWave(vars: Record<string, number>): number {
+export function advanceWave(vars: Record<string, number>, advance = true): number {
+  // 渲染补帧只重画当前波形，不推进逻辑状态；推进由世界拍门控。
+  if (!advance) {
+    const current = vars['sys:screenWave'] ?? 0
+    return current > 0 && current < 256 ? current : 0
+  }
   const w = (vars['sys:screenWave'] ?? 0) + (vars['sys:waveProgression'] ?? 0)
   if (w === 0 || w >= 256) {
     if (vars['sys:screenWave'] !== undefined || w !== 0) {
@@ -48,13 +53,16 @@ export function advanceWave(vars: Record<string, number>): number {
 export class WorldWaveRenderer {
   private waveIndex = 0
 
-  /** 把 src(已按 worldScale 合成的世界层)逐行左卷画到 ctx;每调一次相位 +1。 */
+  /** 把 src(已按 worldScale 合成的世界层)逐行左卷画到 ctx；逻辑拍才推进相位。 */
   apply(
     ctx: CanvasRenderingContext2D,
     src: HTMLCanvasElement,
     w: number,
     worldScale: number,
+    advancePhase = true,
   ): void {
+    ctx.save()
+    ctx.imageSmoothingEnabled = false
     const wave = waveTable(w)
     const devW = WAVE_SCREEN_W * worldScale
     let ai = this.waveIndex
@@ -71,6 +79,7 @@ export class WorldWaveRenderer {
       }
       ai = (ai + 1) % 32
     }
-    this.waveIndex = (this.waveIndex + 1) % 32
+    if (advancePhase) this.waveIndex = (this.waveIndex + 1) % 32
+    ctx.restore()
   }
 }

@@ -1111,7 +1111,15 @@ function walkBody(
           })
         else gap('骑乘无属主')
       } else if (oc === 0x6e) {
-        push({ kind: 'nudgeParty', dx: signExtendI16(o[0] ?? 0), dy: signExtendI16(o[1] ?? 0) })
+        // sdlpal script.c:2091-2107:每次 0x6E 都写 wLayer = operand[2] * 8；
+        // 第三操作数不能丢，否则上桥/血池过场的人物会按地面层参与遮挡。
+        // clean schema 存逻辑层号，渲染消费端统一换算为像素深度。
+        push({
+          kind: 'nudgeParty',
+          dx: signExtendI16(o[0] ?? 0),
+          dy: signExtendI16(o[1] ?? 0),
+          ...(o[2] ? { layer: signExtendI16(o[2]) } : {}),
+        })
       } else if (oc === 0x7d) {
         const ent = pcRef(o[0] ?? 0)
         if (ent)

@@ -50,7 +50,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 0
+        "dy": 0,
+        "layer": 1
       },
       {
         "kind": "setPartyFacing",

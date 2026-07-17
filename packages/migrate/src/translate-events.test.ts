@@ -83,6 +83,20 @@ describe('0x73 淡入场景(script.c: PAL_MakeScene + VIDEO_FadeScreen)', () => 
   })
 })
 
+describe('0x6E 队伍相对步的第三层号(script.c: wLayer = operand[2] * 8)', () => {
+  test('保留 layer=6，不能只迁移 dx/dy', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x6e, operands: [0, 0, 6] }]))).toEqual([
+      { kind: 'nudgeParty', dx: 0, dy: 0, layer: 6 },
+    ])
+  })
+
+  test('layer=0 可省略，运行时缺省仍覆盖回地面层', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x6e, operands: [16, -8, 0] }]))).toEqual([
+      { kind: 'nudgeParty', dx: 16, dy: -8 },
+    ])
+  })
+})
+
 describe('0x36/0x37 帧动画迁移', () => {
   test('旧段号只在迁移边界出现，输出稳定 AssetId 与闭合帧区间', () => {
     const body = bodyOf(

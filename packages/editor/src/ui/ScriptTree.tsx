@@ -279,7 +279,11 @@ function describe(
     case 'moveParty':
       return { icon: '🚶', label: '队伍走到', detail: `(${cmd.to.col},${cmd.to.row}) ${cmd.speed}` }
     case 'nudgeParty':
-      return { icon: '↔', label: '队伍位移', detail: `(${cmd.dx},${cmd.dy})px` }
+      return {
+        icon: '↔',
+        label: '队伍位移',
+        detail: `(${cmd.dx},${cmd.dy})px${cmd.layer !== undefined ? ` · 层${cmd.layer}` : ''}`,
+      }
     case 'startBattle':
       return {
         icon: '⚔',

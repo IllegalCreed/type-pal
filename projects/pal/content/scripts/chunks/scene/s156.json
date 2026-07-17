@@ -2621,7 +2621,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 0
+        "dy": 0,
+        "layer": 6
       },
       {
         "kind": "loadScene",

@@ -505,6 +505,9 @@ export function CommandForm(props: {
           <Row label="dy(px)">
             <Num value={cmd.dy} onChange={(n) => set({ dy: n })} />
           </Row>
+          <Row label="层号">
+            <Num value={cmd.layer ?? 0} onChange={(n) => set({ layer: n })} />
+          </Row>
         </>
       )
     case 'setActorSprite':

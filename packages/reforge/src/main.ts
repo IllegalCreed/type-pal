@@ -76,7 +76,13 @@ import {
   equipMoveCursor,
   openEquipMenu,
 } from './equip-menu-state.js'
-import { computeFollowerPos, type FollowerFrozen, pushTrail, type TrailEntry } from './follower.js'
+import {
+  computeFollowerPos,
+  type FollowerFrozen,
+  pushTrail,
+  seedFormationTrail,
+  type TrailEntry,
+} from './follower.js'
 import {
   type FrameAnimationFrameSnapshot,
   FrameSequenceReader,
@@ -337,6 +343,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let tiles!: Map<number, RleFrame>
   let palette!: Palette
   let renderer!: Canvas2DRenderer
+  let waveRenderer: Canvas2DRenderer | null = null
   let room!: CellRect
   let viewMinX = 0
   let viewMinY = 0
@@ -345,6 +352,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let entitySpriteDefs = new Map<string, SpriteDef>()
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
+  // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
+  // sort/cover；换场景由 sdlpal 真值清零。
+  let partyLayer = 0
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位(步进节拍 = advanceMoves 的全局世界拍)
   // ── E7 跟随者定位(party[1..N])──────────────────────────────────────────
@@ -715,6 +725,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     tiles = assets.tiles
     palette = pal
     renderer = new Canvas2DRenderer(ctx, palette, tiles)
+    waveRenderer = null
     entitySpriteDefs = defs
     room = { col: 0, row: 0, cols: map.width, rows: map.height }
     viewMinX = room.col * TILE_W - TILE_W
@@ -724,11 +735,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     const resolvedSpawn = resolveSceneSpawn(sceneId, def, spawn)
     player.pos = resolvedSpawn.pos
     facing = resolvedSpawn.facing
+    partyLayer = 0
     walking = false
     stepFrame = 0
-    // trail 清零:全队聚拢队长(原版 rgTrail 全 = 队首坐标)
-    trail = [{ pos: { ...player.pos }, dir: facing }]
+    // 场景落点等价 0x46:按当前朝向向身后铺满轨迹，队员无需先走一步才显出队形。
+    trail = seedFormationTrail(player.pos, facing)
     followerFrozen.length = 0
+    followerPos.length = 0
     followerAuth.clear() // 跨场景回 follow(骑乘/站位权威是演出期瞬时态,不跨场景)
     worldMoveAcc = 0 // 世界拍相位随场景重置
     updateCamera()
@@ -1006,6 +1019,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       player.pos = { ...pos }
       if (fc) facing = fc
       walking = false
+      // sdlpal 0x46 除了改队长坐标，还会重填 rgTrail。剧情末尾 setParty 恢复队员时
+      // 直接复用这条轨迹；若只改队长，队员会叠在其脚下并被遮住，走一步后才出现。
+      trail = seedFormationTrail(player.pos, facing)
+      followerFrozen.length = 0
+      followerPos.length = 0
       updateCamera()
     },
     loadScene: async (sceneId, spawn) => {
@@ -1334,7 +1352,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         dismountParty() // 走位即下筏(原版 ride 是 op-scoped,挂载不跨走位;零持久态)
         partyMove = { to, speed, resolve } // 世界拍推进(advanceMoves)
       }),
-    nudgeParty: (dx, dy) => {
+    nudgeParty: (dx, dy, layer) => {
+      // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
+      partyLayer = layer
       const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
       partyGesture = null // 原版走位重算 wFrame
@@ -1672,6 +1692,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
             if (r.exp > 0) {
+              // SDL PAL_BattleWon 在升级计算前按不可逃战标志选择胜利结算曲 002/003；
+              // 升级屏没有独立的 AUDIO_PlayMusic 调用，manifest role 保持兼容。
               const victoryRole = battleOpts?.boss
                 ? 'audio.bossVictoryMusic'
                 : 'audio.normalVictoryMusic'
@@ -1833,6 +1855,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       map = assets.map
       tiles = assets.tiles
       renderer = new Canvas2DRenderer(ctx, palette, tiles)
+      waveRenderer = null
       room = { col: 0, row: 0, cols: map.width, rows: map.height }
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
@@ -2514,6 +2537,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 0x7E 图层覆写:只进深度排序键(+8px/层 = 一阶段 present.ts:540 sLayer×8 真值),
       // 不进落笔位;render 直读持久映射,跨场景/存档天然生效
       const lay = world.script?.entityLayer?.[e.id]
+      const effectiveLayer = lay ?? e.zBias ?? 0
       sprites.push({
         frame: f,
         worldX: p.x,
@@ -2522,7 +2546,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         // 已修):组锚(首帧)配变尺寸帧组(爬行 193 高 31~73)会溢出几十 px = 演出瞬移感。
         anchorX: Math.floor(f.width / 2),
         anchorY: f.height,
-        baseYBias: lay ? (e.zBias ?? 0) + lay * 8 : e.zBias,
+        coverILayer: effectiveLayer * 8 + 2,
+        coverSortOffset: effectiveLayer * 8 + 9,
+        baseYBias: effectiveLayer,
       })
     }
     // 玩家帧:脚本姿势(0x15 gesture,原版 wFrame=dir*3+gesture)优先;否则 walk/idle
@@ -2551,6 +2577,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         worldY: spriteScreenY(player.pos), // 含 height 上移(D16);地面=0 同 pp.y
         anchorX: Math.floor(pf.width / 2), // 每帧自锚(同上;0x65 换爬行精灵后帧高差巨大)
         anchorY: pf.height,
+        sortOffset: 10,
+        coverILayer: partyLayer * 8 + 6,
+        coverSortOffset: partyLayer * 8 + 10,
+        baseYBias: partyLayer,
       })
     }
     // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
@@ -2576,9 +2606,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         worldY: spriteScreenY(fp.pos),
         anchorX: Math.floor(ff.width / 2),
         anchorY: ff.height,
+        sortOffset: 10,
+        coverILayer: partyLayer * 8 + 6,
+        coverSortOffset: partyLayer * 8 + 10,
         // 队长永远遮挡队员(作者定调,骑乘重叠时尤其):同 Y 平局给队员微负深度,
         // 序号越大越靠后;偏置 -0.01×8=-0.08px 只破平局,不扰正常深度排序。
-        baseYBias: -0.01 * m,
+        baseYBias: partyLayer - 0.01 * m,
       })
     }
     // 0x98 编外跟随者(script.c:2709 nFollower):精灵号直用(s102 书生 82/83),
@@ -2608,7 +2641,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         worldY: spriteScreenY(pos),
         anchorX: Math.floor(ff.width / 2),
         anchorY: ff.height,
-        baseYBias: -0.01 * m,
+        sortOffset: 10,
+        coverILayer: partyLayer * 8 + 6,
+        coverSortOffset: partyLayer * 8 + 10,
+        baseYBias: partyLayer - 0.01 * m,
       })
     }
     // 场景底图:clear + scale + renderScene + restore(抽成 renderSceneFrame,editor 复用同一绘制)。
@@ -2620,20 +2656,31 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           y: camera.y + (Math.floor(nowMs / 40) % 2 === 0 ? worldShake.level : -worldShake.level),
         }
       : camera
-    // 0x71 屏波:活跃时世界层先合成到离屏,再逐行左卷到主画布(一阶段 applyScreenWave
-    // 的 canvas 行卷版;波幅每帧自累加,==0/≥256 自灭 —— advanceWave 原地改 vars 随存档)
-    const waveAmp = world.script ? advanceWave(world.script.vars) : 0
+    // 0x71 屏波：只卷背景层，人物和局部 cover 瓦片在波动完成后静态叠回。
+    // 一阶段探索 present 只在 100ms 世界拍推进波相位；rAF 补帧只复用当前相位，
+    // 否则 60/120Hz 会把水波加速 6~12 倍。
+    const advanceWaveFrame = worldTicksThisFrame > 0
+    const waveAmp = world.script ? advanceWave(world.script.vars, advanceWaveFrame) : 0
     if (waveAmp > 0) {
       const wc = ensureWaveCanvas()
       const wctx = get2dContext(wc)
-      renderSceneFrame(wctx, renderer, {
+      waveRenderer ??= new Canvas2DRenderer(wctx, palette, tiles)
+      renderSceneFrame(wctx, waveRenderer, {
         map,
         room,
         camera: shakeCam,
-        sprites,
+        sprites: [],
         worldScale: WORLD_SCALE,
+        layers: { skipCover: true },
       })
-      worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE)
+      worldWave.apply(ctx, wc, waveAmp, WORLD_SCALE, advanceWaveFrame)
+      // renderSceneFrame 会 clear，静态 pass 必须直接调用 renderer.renderScene，
+      // 只跳过 base，不能再套一层 clear，否则会抹掉刚卷好的背景。
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      renderer.renderScene(map, room, shakeCam, sprites, { skipBase: true })
+      ctx.restore()
     } else {
       renderSceneFrame(ctx, renderer, {
         map,

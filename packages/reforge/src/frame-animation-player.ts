@@ -158,7 +158,12 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-/** 阻塞播放完整帧序列；容器/区间错误 fail-loud，跳过只结束当前调用。 */
+/**
+ * 阻塞播放完整帧序列；容器/区间错误 fail-loud。
+ *
+ * 原版剧情 RNG 不读取输入，因此默认不可跳过。开发/编辑器预览如需快捷跳过，必须通过
+ * `skipKeys` 显式 opt-in；跳过只结束当前调用。
+ */
 export async function playFrameAnimation(
   options: PlayFrameAnimationOptions,
 ): Promise<FrameAnimationFrameSnapshot | undefined> {
@@ -169,7 +174,7 @@ export async function playFrameAnimation(
     ...(options.frameRate === undefined ? {} : { frameRate: options.frameRate }),
   })
   const target = options.eventTarget ?? (typeof window === 'undefined' ? undefined : window)
-  const skipKeys = new Set(options.skipKeys ?? ['Space', 'Enter', 'Escape'])
+  const skipKeys = new Set(options.skipKeys ?? [])
   const wait = options.wait ?? sleep
   let skipped = false
   let last: FrameAnimationFrameSnapshot | undefined

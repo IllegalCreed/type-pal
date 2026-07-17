@@ -3,6 +3,7 @@ import {
   computeFollowerPos,
   type FollowerPosState,
   pushTrail,
+  seedFormationTrail,
   type TrailEntry,
 } from './follower.js'
 
@@ -108,4 +109,30 @@ describe('computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长�
     expect(s.frozenOffset[1]).toEqual({ dcol: 3, drow: 0, dir: 'left' })
     expect(computeFollowerPos(state([{ pos: g(0, 0), dir: 'down' }]), 1, walkable)).toBeNull()
   })
+})
+
+describe('seedFormationTrail —— 0x46 / 场景出生立即铺开队形', () => {
+  const cases: Array<['left' | 'right' | 'up' | 'down', [number, number]]> = [
+    ['left', [1, 0]],
+    ['right', [-1, 0]],
+    ['up', [0, 1]],
+    ['down', [0, -1]],
+  ]
+
+  for (const [facing, back] of cases) {
+    test(`${facing}:每槽向身后铺一步，静止时两名队员无需移动即可分开`, () => {
+      const trail = seedFormationTrail(g(10, 10), facing)
+      expect(trail).toHaveLength(6)
+      expect(trail[1]?.pos).toEqual(g(10 + back[0], 10 + back[1]))
+      expect(trail.every((entry) => entry.dir === facing)).toBe(true)
+
+      const s = state(trail, false)
+      const first = computeFollowerPos(s, 1, walkable)
+      const second = computeFollowerPos(s, 2, walkable)
+      expect(first?.pos).toEqual(trail[1]?.pos)
+      expect(second?.pos).toEqual(trail[2]?.pos)
+      expect(first?.pos).not.toEqual(second?.pos)
+      expect(first?.pos).not.toEqual(s.party)
+    })
+  }
 })

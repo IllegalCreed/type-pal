@@ -9,7 +9,7 @@
  */
 import type { ProjectMapV2 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
-import { projectMapTilesInView } from './project-map.js'
+import { type ProjectMapTileDraw, projectMapTilesInView } from './project-map.js'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -72,6 +72,12 @@ export interface SpriteDraw {
   anchorY: number
   /** 画序偏置(原版 sLayer 人工覆盖;加进 baseY 排序键,不动 blit 位置)。 */
   baseYBias?: number
+  /** 精灵类别的固定排序偏移：NPC=9，队伍=10（sdlpal scene.c:302/225）。 */
+  sortOffset?: number
+  /** PAL_CalcCoverTiles 的 iLayer；缺省表示普通 NPC 的兼容几何。 */
+  coverILayer?: number
+  /** PAL_CalcCoverTiles 的 sortY 偏移(队伍=10，NPC=9)。 */
+  coverSortOffset?: number
   /** 不透明度(编辑器幽灵渲染等;缺省 1)。 */
   alpha?: number
 }
@@ -119,6 +125,8 @@ export interface RenderLayerOpts {
 }
 
 export interface Renderer {
+  /** Renderer 实际落笔的 context；renderSceneFrame 用它阻止离屏/主画布错配。 */
+  readonly context: CanvasRenderingContext2D
   clear(): void
   renderScene(
     map: ProjectMapV2,
@@ -147,6 +155,10 @@ export class Canvas2DRenderer implements Renderer {
     private readonly tiles: Map<number, RleFrame>,
   ) {}
 
+  get context(): CanvasRenderingContext2D {
+    return this.ctx
+  }
+
   private bake(frame: RleFrame): HTMLCanvasElement {
     let b = this.frameCache.get(frame)
     if (!b) {
@@ -166,6 +178,87 @@ export class Canvas2DRenderer implements Renderer {
     return b
   }
 
+  /**
+   * PAL_CalcCoverTiles 的 sprite-specific 候选扫描。
+   * ProjectMapV2 的 lattice 行 `2 * dy + dh` 正好对应旧地图 cell 的
+   * `(dy, dh)`；保留原版的五邻 tile 候选和高度门，避免把视口内所有高瓦片
+   * 都重画成“全屏遮罩”。
+   */
+  private coverTileCandidates(
+    tilesByLattice: ReadonlyMap<string, readonly ProjectMapTileDraw[]>,
+    sprite: SpriteDraw,
+  ): { tile: ProjectMapTileDraw; image: HTMLCanvasElement; baseY: number }[] {
+    const spriteW = sprite.frame.width
+    const spriteH = sprite.frame.height
+    const iLayer = sprite.coverILayer ?? 0
+    const sx = sprite.worldX - Math.floor(spriteW / 2) - Math.floor(iLayer / 2)
+    const sy = sprite.worldY + (sprite.coverSortOffset ?? 9) - iLayer
+    const sh = ((sx % TILE_W) + TILE_W) % TILE_W !== 0 ? 1 : 0
+    const yStart = Math.trunc((sy - spriteH - 15) / TILE_H)
+    const yEnd = Math.trunc(sy / TILE_H)
+    const xStart = Math.trunc((sx - Math.floor(spriteW / 2)) / TILE_W)
+    const xEnd = Math.trunc((sx + Math.floor(spriteW / 2)) / TILE_W)
+    const out: { tile: ProjectMapTileDraw; image: HTMLCanvasElement; baseY: number }[] = []
+    const seen = new Set<string>()
+
+    for (let y = yStart; y <= yEnd; y++) {
+      for (let x = xStart; x <= xEnd; x++) {
+        const iStart = x === xStart ? 0 : 3
+        for (let i = iStart; i < 5; i++) {
+          let dx = 0
+          let dy = 0
+          let dh = 0
+          switch (i) {
+            case 0:
+              dx = x
+              dy = y
+              dh = sh
+              break
+            case 1:
+              dx = x - 1
+              dy = y
+              dh = sh
+              break
+            case 2:
+              dx = sh ? x : x - 1
+              dy = sh ? y + 1 : y
+              dh = 1 - sh
+              break
+            case 3:
+              dx = x + 1
+              dy = y
+              dh = sh
+              break
+            default:
+              dx = sh ? x + 1 : x
+              dy = sh ? y + 1 : y
+              dh = 1 - sh
+              break
+          }
+          if (dy < 0 || dx < 0) continue
+          const latticeRow = dy * 2 + dh
+          const tileAt = tilesByLattice.get(`${dx}:${latticeRow}`) ?? []
+          for (const tile of tileAt) {
+            if (tile.depthMode !== 'height' || tile.height <= 0) continue
+            // scene.c:156：瓦片投影深度必须到达精灵脚下。
+            if ((dy + tile.height) * TILE_H + dh * SUBROW < sy) continue
+            const key = `${tile.layerIndex}:${tile.row}:${tile.col}`
+            if (seen.has(key)) continue
+            const image = this.bakedTile(tile.tileId)
+            if (!image) continue
+            seen.add(key)
+            out.push({
+              tile,
+              image,
+              baseY: tile.centerY + 7 + tile.layerIndex + tile.height * SUBROW,
+            })
+          }
+        }
+      }
+    }
+    return out
+  }
+
   clear(): void {
     const { canvas } = this.ctx
     this.ctx.fillStyle = '#000'
@@ -182,6 +275,13 @@ export class Canvas2DRenderer implements Renderer {
     const ox = -camera.x
     const oy = -camera.y
     const tiles = projectMapTilesInView(map, view, new Set(opts?.hiddenLayerIds ?? []))
+    const tilesByLattice = new Map<string, ProjectMapTileDraw[]>()
+    for (const tile of tiles) {
+      const key = `${tile.col}:${tile.row}`
+      const bucket = tilesByLattice.get(key)
+      if (bucket) bucket.push(tile)
+      else tilesByLattice.set(key, [tile])
+    }
     const tileAlpha = (tile: (typeof tiles)[number]): number => {
       if (opts?.showAll) return 1
       const layerMatches = opts?.focusLayerId === undefined || tile.layerId === opts.focusLayerId
@@ -215,7 +315,7 @@ export class Canvas2DRenderer implements Renderer {
       const y = Math.round(rect.y + oy)
       const alpha = sprite.alpha
       entries.push({
-        baseY: sprite.worldY + 9 + (sprite.baseYBias ?? 0) * 8,
+        baseY: sprite.worldY + (sprite.sortOffset ?? 9) + (sprite.baseYBias ?? 0) * 8,
         draw:
           alpha !== undefined && alpha < 1
             ? () => {
@@ -229,17 +329,17 @@ export class Canvas2DRenderer implements Renderer {
     }
 
     if (!opts?.skipCover) {
-      for (const tile of tiles) {
-        if (tile.depthMode !== 'height' || tile.height <= 0) continue
-        const image = this.bakedTile(tile.tileId)
-        if (!image) continue
-        const x = tile.centerX - HALF_W + ox
-        const y = tile.centerY + 7 - image.height + oy
-        const alpha = tileAlpha(tile)
-        entries.push({
-          baseY: tile.centerY + 7 + tile.height * SUBROW + tile.layerIndex / 1000,
-          draw: () => drawTile(image, x, y, alpha),
-        })
+      for (const sprite of sprites) {
+        for (const candidate of this.coverTileCandidates(tilesByLattice, sprite)) {
+          const { tile, image, baseY } = candidate
+          const x = tile.centerX - HALF_W + ox
+          const y = tile.centerY + 7 - image.height + oy
+          const alpha = tileAlpha(tile)
+          entries.push({
+            baseY,
+            draw: () => drawTile(image, x, y, alpha),
+          })
+        }
       }
     }
 

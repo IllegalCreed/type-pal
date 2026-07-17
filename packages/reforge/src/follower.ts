@@ -43,6 +43,29 @@ export interface FollowerPosState {
 }
 
 /**
+ * 0x46 / 场景落点后的直线队形轨迹。
+ *
+ * sdlpal 会从队长位置开始，按当前朝向每槽向身后铺一个 16×8 菱形步；不能只留一个
+ * trail 头，否则随后 setParty 恢复的队员会叠在队长脚下，直到玩家走动才重新排开。
+ */
+export function seedFormationTrail(pos: GridPos, facing: Facing, cap = 6): TrailEntry[] {
+  const back = {
+    left: { dcol: 1, drow: 0 },
+    right: { dcol: -1, drow: 0 },
+    up: { dcol: 0, drow: 1 },
+    down: { dcol: 0, drow: -1 },
+  }[facing]
+  return Array.from({ length: cap }, (_, index) => ({
+    pos: {
+      col: pos.col + back.dcol * index,
+      row: pos.row + back.drow * index,
+      height: pos.height,
+    },
+    dir: facing,
+  }))
+}
+
+/**
  * trail 推进(原版 rgTrail 模型)。同格不记(原地转身队员不动)。
  * ⚠ dir = **离开该格的方向**(PAL_UpdateParty 先定向后记录):推进时回写旧头 dir 为本步方向。
  * 拐角格因此记「新方向」,偏移向量提前一槽翻转 → 跟随者拐弯甩尾(m1 甩到拐角外侧再回落)。
@@ -86,8 +109,9 @@ export function computeFollowerPos(
         dir: curDir,
       }
     }
-    // 未捕获冻结快照(0x46 摆位/刚进场景):落 trail[m×BASE_SLOT](每员退一平铺 tile=2 格),不做障碍回退。
-    const frozen = s.trail[m * BASE_SLOT] ?? expectDefined(s.trail[s.trail.length - 1])
+    // 未捕获冻结快照(0x46 摆位/刚进场景):原版直接取 rgTrail[m]。0x46 的相邻槽本身
+    // 已按 16×8(一个菱形格)铺开；BASE_SLOT=2 只属于连续走路轨迹的半步采样，不能套到这里。
+    const frozen = s.trail[m] ?? expectDefined(s.trail[s.trail.length - 1])
     return { pos: { ...frozen.pos }, dir: curDir }
   }
 

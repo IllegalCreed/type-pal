@@ -14,6 +14,7 @@ test('renderSceneFrame:clear → save → scale(worldScale) → renderScene(args
   } as unknown as CanvasRenderingContext2D
   const renderScene = vi.fn(() => calls.push('renderScene'))
   const renderer = {
+    context: ctx,
     clear: () => calls.push('clear'),
     renderScene,
   } as unknown as Parameters<typeof renderSceneFrame>[1]
@@ -25,4 +26,24 @@ test('renderSceneFrame:clear → save → scale(worldScale) → renderScene(args
   expect(calls).toEqual(['clear', 'save', 'scale:4,4', 'renderScene', 'restore'])
   expect(renderScene).toHaveBeenCalledWith(map, room, camera, sprites, undefined) // layers 缺省透传
   expect(smoothing).toBe(false)
+})
+
+test('renderSceneFrame:renderer 与目标 context 错配时 fail-loud', () => {
+  const ctx = {} as CanvasRenderingContext2D
+  const renderer = {
+    context: {} as CanvasRenderingContext2D,
+    clear: vi.fn(),
+    renderScene: vi.fn(),
+  } as unknown as Parameters<typeof renderSceneFrame>[1]
+
+  expect(() =>
+    renderSceneFrame(ctx, renderer, {
+      map: {} as never,
+      room: { col: 0, row: 0, cols: 1, rows: 1 },
+      camera: { x: 0, y: 0 },
+      sprites: [],
+      worldScale: 4,
+    }),
+  ).toThrow('renderer 与目标 context 不一致')
+  expect(renderer.clear).not.toHaveBeenCalled()
 })

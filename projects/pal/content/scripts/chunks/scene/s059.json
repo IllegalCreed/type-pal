@@ -3208,7 +3208,8 @@
       {
         "kind": "nudgeParty",
         "dx": 0,
-        "dy": 0
+        "dy": 0,
+        "layer": 6
       },
       {
         "kind": "setActorSprite",
@@ -3307,6 +3308,11 @@
       {
         "kind": "setPartyFacing",
         "facing": "right"
+      },
+      {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
       },
       {
         "kind": "wait",

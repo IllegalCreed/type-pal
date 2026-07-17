@@ -92,7 +92,7 @@ export interface ScriptHost {
   animEntity(entity: string): void
   nudgeEntity(entity: string, dx: number, dy: number): void
   moveParty(to: GridPos, speed: WalkSpeed): Promise<void>
-  nudgeParty(dx: number, dy: number): void
+  nudgeParty(dx: number, dy: number, layer: number): void
   // ── M3c 相机 / 页切换 ──
   cameraPan(dx: number, dy: number, frames: number): Promise<void>
   cameraSnap(to?: GridPos): void
@@ -596,7 +596,7 @@ export class ScriptRunner {
       case 'moveParty':
         return h.moveParty(cmd.to, cmd.speed)
       case 'nudgeParty':
-        return h.nudgeParty(cmd.dx, cmd.dy)
+        return h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0)
       case 'startBattle': {
         const r = await h.startBattle(cmd.team, {
           auto: cmd.auto,

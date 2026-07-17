@@ -362,8 +362,11 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     icon: '👣',
     name: '队伍相对步',
     group: '走位/相机',
-    params: [['dx/dy', '像素(带走姿)']],
-    desc: '楼梯登阶类演出碎步。',
+    params: [
+      ['dx/dy', '像素(带走姿)'],
+      ['layer', '层号(可选)'],
+    ],
+    desc: '楼梯登阶类演出碎步；第三层号会覆盖队伍遮挡层。',
     origin: '0x6E',
   },
   {
