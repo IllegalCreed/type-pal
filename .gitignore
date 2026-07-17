@@ -29,6 +29,7 @@ reference/walkthrough/
 # Playwright 工具临时缓存（快照 / 截图 / 控制台日志）
 .playwright-mcp/
 .playwright-cli/
+output/playwright/
 
 # 临时截图(本机 dev 验证用,版权 + 临时性质)
 # 规范:dev verify 截图请保存到 build/dev-screenshots/(build/ 整目录已 gitignored)
