@@ -89,7 +89,7 @@ interface EditorMode {
 | 物品 | `item` | 物品、商店 |
 | 战斗 | `battle` | 技能、敌人、毒、战场 |
 | 资源 | `asset` | 精灵、音乐、过场素材 |
-| 工程 | `project` | 入口点 |
+| 工程 | `project` | 概览、全局资源与启动、入口与开局、问题与高级 |
 
 - 唯一注册表位于 `packages/editor/src/ui/editor-navigation.ts`;一级导航、二级导航、URL 解析和覆盖测试均由它派生。旧 `DataMode` 仅保留为内部页面适配器,不再是可见一级模块。
 - 统一位置类型为 `EditorLocation { module, subpage, objectId? }`,URL 形式为 `?module=<id>&page=<id>&object=<encoded-id>`。业务入口只能通过统一导航函数跳转,不得自行维护第二套路由状态。
@@ -153,6 +153,35 @@ interface EditorMode {
 
 完整格式、边界与验证矩阵见
 [`cutscene-asset-workbench-design.md`](cutscene-asset-workbench-design.md)。
+
+### 5.5 manifest 工程工作台（X7-1，2026-07-16）
+
+“工程”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题与高级。不得再把
+`startWorld` 暴露成与入口点并列的独立作者模块。
+
+- “入口与开局”左侧第一项是无 `menu` / `entry` 参数时使用的“默认入口（不经过标题菜单）”，它在同一详情中编辑
+  `manifest.entryScene + manifest.startWorld`。其余项是 `manifest.entryPoints` 中的标题菜单入口，按稳定
+  `EntryPoint.id` 选择和深链接，并在同一详情中编辑 `label`、`scene`、`introVideo` 与实际开局设置。
+- 每个菜单入口都对应一套有效开局：缺少 `entry.startWorld` 表示完整跟随默认入口的
+  `manifest.startWorld`；存在时必须是完整、自包含的 `StartWorld` 覆盖。UI 始终展示有效整套设置，跟随
+  状态下只读；点击复制后才形成可编辑的本入口独立设置。“改为跟随默认入口”删除整个可选字段，不写
+  半对象或 `undefined` 占位。
+- `manifest` 字段只有一个作者：工程页拥有 `name`、`entryScene`、`entryPoints`、`startWorld` 和
+  `assets.roles`；资源页拥有 catalog 与二进制；场景/脚本页拥有 `onEnter` 内的视频、RNG、BGM 和剧情编排。
+- “全局资源与启动”页先把八项 `manifest.assets.roles` 按启动与标题菜单、战斗音乐、音频基础、视觉基础
+  四组置顶编辑；概览必须显示绑定数量并提供直达入口。已绑定数量只是摘要，必选性和健康状态由 validator
+  决定，不能要求八项全部存在。music/video 只有在 AssetId 存在且 kind 正确时才显示预览；SoundFont 和
+  color-table 在专用资源页落地前必须明确标注当前只能绑定 catalog 已有项。
+- 该页下半部的启动流程只是当前运行时分支的只读解释层。默认入口直接建世界并进入场景；标题菜单分支先消费启动
+  资源角色，再选择入口、播放该入口的 `introVideo`、建立该入口世界并执行场景 `onEnter`。页面不得复制
+  一套播放器或脚本执行逻辑。
+- `?module=project&page=entrypoint` 定位默认入口；附 `object=<EntryPoint.id>` 定位菜单入口。历史
+  `page=startworld` 只做 URL 兼容归一化到 `entrypoint`，不保留旧页面。
+- 没有显式 `entryPoints` 的兼容工程只在 UI/runtime 合成 `new-game`；未编辑即保存不得物化该字段。入口
+  未覆盖 `startWorld`、默认开局未含 `seedStats` 时也必须保持字段缺席。保存前统一校验入口 id/scene、
+  StartWorld 引用、资源角色与 typed 资产闭包，错误跳回字段的唯一作者。
+- locale 编辑不属于本工作台四页，留给独立内容/本地化任务；工程高级页只显示当前 locale 状态，避免
+  为补齐 manifest 概念而增加第二个文案编辑入口。
 
 ## 6. 校验层(第四根)—— 编辑器的核心价值
 
@@ -224,7 +253,7 @@ interface EditorMode {
 - **左·Outliner(对象树)**:「场景里有什么」= 场景根 → 进场点 → 各实体;`＋` 加实体在此;下接图层/显隐。
 - **中·工具栏 + 画布**:工具栏放**动作/工具**(选择·移动 / 添加实体 / 删除)+ 视图开关(网格 / 禁入 / 选中置顶 / 亮度);画布复用渲染器画场景 + 模式叠加层。
 - **右·Inspector**:**只放当前选中项的属性**(选实体→实体属性;选场景根→地图/调色板/进场点)。留 `▸ 状态/条件` 折叠位给 §10.5 的 B2。
-- **底·状态条**:校验告警 + “已检查的引用无问题”。ED-3 完成全工程引用图后才可升级为全量完整性结论。
+- **底·状态条**:统一汇总内容跨表引用、manifest/入口不变式和资产闭包诊断；有待处理项时显示数量与摘要，只有零项时显示“引用与工程诊断无问题”。这里仍消费现有校验器与 `collectAssetReferences`，不在状态条另建扫描器。
 
 **IA 铁律(v1/v2 违反过,记牢)**:① Inspector 只放选中项属性,全局动作(增/删)一律进工具栏 / 对象树头;② 「场景里有什么」进 Outliner,不塞 Inspector;③ 选谁右侧就显谁。所有编辑动作 = Command → undo/redo(接 §4)。像素细节留 B1 实现时浏览器实测 + 逐版微调。
 

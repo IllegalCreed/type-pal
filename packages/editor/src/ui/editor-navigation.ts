@@ -30,7 +30,9 @@ export const DATA_PAGE_IDS = [
 ] as const
 
 export type DataPageId = (typeof DATA_PAGE_IDS)[number]
-export type EditorWorkspaceKind = 'scene' | 'map' | 'actor' | 'data'
+export const PROJECT_PAGE_IDS = ['overview', 'startup', 'entrypoint', 'advanced'] as const
+export type ProjectPageId = (typeof PROJECT_PAGE_IDS)[number]
+export type EditorWorkspaceKind = 'scene' | 'map' | 'actor' | 'data' | 'project'
 
 export interface EditorSubpageDefinition {
   id: string
@@ -38,6 +40,7 @@ export interface EditorSubpageDefinition {
   icon: string
   kind: EditorWorkspaceKind
   dataPage?: DataPageId
+  projectPage?: ProjectPageId
   acceptsObject?: boolean
 }
 
@@ -139,17 +142,48 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         dataPage: 'sprite',
         acceptsObject: true,
       },
-      { id: 'music', label: '音乐', icon: '🎵', kind: 'data', dataPage: 'music' },
-      { id: 'cutscene', label: '过场素材', icon: '🎞️', kind: 'data', dataPage: 'cutscene' },
+      {
+        id: 'music',
+        label: '音乐',
+        icon: '🎵',
+        kind: 'data',
+        dataPage: 'music',
+        acceptsObject: true,
+      },
+      {
+        id: 'cutscene',
+        label: '过场素材',
+        icon: '🎞️',
+        kind: 'data',
+        dataPage: 'cutscene',
+        acceptsObject: true,
+      },
     ],
   },
   {
     id: 'project',
     label: '工程',
     icon: '🛠️',
-    defaultSubpage: 'entrypoint',
+    defaultSubpage: 'overview',
     subpages: [
-      { id: 'entrypoint', label: '入口点', icon: '🚪', kind: 'data', dataPage: 'entrypoint' },
+      { id: 'overview', label: '概览', icon: '📌', kind: 'project', projectPage: 'overview' },
+      {
+        id: 'startup',
+        label: '全局资源与启动',
+        icon: '🎛️',
+        kind: 'project',
+        projectPage: 'startup',
+      },
+      {
+        id: 'entrypoint',
+        label: '入口与开局',
+        icon: '🚪',
+        kind: 'project',
+        dataPage: 'entrypoint',
+        projectPage: 'entrypoint',
+        acceptsObject: true,
+      },
+      { id: 'advanced', label: '问题与高级', icon: '⚠️', kind: 'project', projectPage: 'advanced' },
     ],
   },
 ]
@@ -167,6 +201,21 @@ export function editorModule(id: EditorModuleId): EditorModuleDefinition {
 export function editorSubpage(location: EditorLocation): EditorSubpageDefinition {
   const module = editorModule(location.module)
   return module.subpages.find((subpage) => subpage.id === location.subpage) ?? module.subpages[0]!
+}
+
+/**
+ * 子页切换时是否继续携带对象身份。
+ *
+ * objectId 是当前子页的选择态，不是模块级选择态；尤其资源的 music、cutscene、sprite
+ * 都接受 AssetId，但它们的资源族互斥。只有留在同一子页才可保留对象，否则让目标页选首项。
+ */
+export function objectIdForSubpageNavigation(
+  location: EditorLocation,
+  destination: EditorSubpageDefinition,
+): string | undefined {
+  return location.subpage === destination.id && destination.acceptsObject
+    ? location.objectId
+    : undefined
 }
 
 export function editorSubpageForDataPage(page: DataPageId): EditorSubpageDefinition {
@@ -189,8 +238,10 @@ export function normalizeEditorLocation(
     ? (input?.module as EditorModuleId)
     : 'scene'
   const module = editorModule(moduleId)
-  const subpage = module.subpages.some((candidate) => candidate.id === input?.subpage)
-    ? (input?.subpage as string)
+  const requestedSubpage =
+    moduleId === 'project' && input?.subpage === 'startworld' ? 'entrypoint' : input?.subpage
+  const subpage = module.subpages.some((candidate) => candidate.id === requestedSubpage)
+    ? (requestedSubpage as string)
     : module.defaultSubpage
   const objectId = typeof input?.objectId === 'string' ? input.objectId.trim() : ''
   return { module: moduleId, subpage, ...(objectId ? { objectId } : {}) }
@@ -248,5 +299,10 @@ export const editorLinks = {
     module: 'story',
     subpage: 'scripts',
     objectId: scriptId,
+  }),
+  project: (page: ProjectPageId = 'overview', objectId?: string): EditorLocation => ({
+    module: 'project',
+    subpage: page,
+    ...(objectId ? { objectId } : {}),
   }),
 }

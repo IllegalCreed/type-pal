@@ -225,7 +225,14 @@ export function DataMode(props: {
   }
   if (tab === 'music') {
     return (
-      <MusicTab catalog={assetCatalog} resolver={audioResolver} session={session} tabBar={tabBar} />
+      <MusicTab
+        catalog={assetCatalog}
+        resolver={audioResolver}
+        session={session}
+        tabBar={tabBar}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+      />
     )
   }
 
@@ -237,6 +244,8 @@ export function DataMode(props: {
         reader={assetReader}
         session={session}
         tabBar={tabBar}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
       />
     )
   }
@@ -250,6 +259,7 @@ export function DataMode(props: {
         items={itemList}
         skills={skillList}
         locale={locale}
+        assetCatalog={assetCatalog}
         session={session}
         tabBar={tabBar}
       />

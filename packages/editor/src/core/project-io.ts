@@ -22,6 +22,7 @@ import {
 } from '@type-pal/content'
 import type { FileSource, LoadedProjectCore, ProjectMapV2 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
 
 /**
@@ -96,6 +97,9 @@ export function serializeProject(
   state: EditorState,
   opts?: { mapCopies?: Readonly<Record<string, string>> },
 ): Record<string, unknown> {
+  // G2：入口场景/入口点本地不变式必须在任一路径落盘前 fail-loud。
+  // 缺省 entryPoints 仍由 runtime/UI 合成兼容入口，不会被这里物化。
+  assertProjectSaveValid(state)
   if (state.scriptIndex || Object.keys(state.scriptChunks).length) {
     const diagnostics = assertScriptProjectValid(state)
     if (diagnostics.warnings.length)

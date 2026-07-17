@@ -64,32 +64,10 @@
     "money": 0,
     "learnedSkills": {
       "li-xiaoyao": [
-        "296",
-        "298",
-        "299",
-        "345"
+        "296"
       ]
     },
-    "inventory": [
-      {
-        "itemId": "267",
-        "count": 1
-      },
-      {
-        "itemId": "61",
-        "count": 2
-      },
-      {
-        "itemId": "78",
-        "count": 1
-      }
-    ],
-    "seedStats": {
-      "li-xiaoyao": {
-        "hp": 100,
-        "mp": 30
-      }
-    }
+    "inventory": []
   },
   "entryPoints": [
     {

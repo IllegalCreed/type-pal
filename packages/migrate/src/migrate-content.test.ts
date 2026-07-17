@@ -227,10 +227,10 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   test('端到端:迁移物品 × buildWorld × effectiveStat = 防御 41 / 武术 35(状态板真值)', async () => {
     const { effectiveStat } = await import('@type-pal/content')
     const actorsById = Object.fromEntries(out.actors.map((a) => [a.id, a]))
-    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
-      'projects/demo/manifest.json',
+    const palManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
+      'projects/pal/manifest.json',
     )
-    const li = buildWorld(demoManifest.startWorld, actorsById).party[0]!
+    const li = buildWorld(palManifest.startWorld, actorsById).party[0]!
     const itemsById = Object.fromEntries(out.items.map((i) => [i.id, i]))
     expect(effectiveStat(li, 'defense', itemsById)).toBe(41) // 32 + 六件装备Σ9(全来自翻译的 scriptOnEquip)
     expect(effectiveStat(li, 'attack', itemsById)).toBe(35) // 33 + 木剑 2
@@ -324,7 +324,7 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
 })
 
 describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
-  test('validate* 全过;merge demo extras 后 buildWorld(demo startWorld)不 throw', () => {
+  test('validate* 全过;merge demo extras 后 buildWorld(PAL 原版新档)不 throw', () => {
     const actors = mergeExtras(out.actors, demoActors)
     const sprites = mergeExtras(
       out.sprites,
@@ -336,11 +336,14 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
     expect(() => validateSkills(out.skills)).not.toThrow()
     expect(() => validateLocale({ ...out.localeNames })).not.toThrow()
     const actorsById = Object.fromEntries(actors.map((a) => [a.id, a]))
-    const demoManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
-      'projects/demo/manifest.json',
+    const palManifest = readJson<{ startWorld: Parameters<typeof buildWorld>[0] }>(
+      'projects/pal/manifest.json',
     )
-    const w = buildWorld(demoManifest.startWorld, actorsById)
-    expect(w.party[0]?.hp).toBe(100) // seedStats 仍生效(pal 工程沿用 demo startWorld)
+    const w = buildWorld(palManifest.startWorld, actorsById)
+    expect(w.party[0]?.hp).toBe(150)
+    expect(w.party[0]?.mp).toBe(100)
+    expect(w.learnedSkills['li-xiaoyao']).toEqual(['296'])
+    expect(w.inventory).toEqual([])
   })
 })
 

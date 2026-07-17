@@ -324,12 +324,18 @@ export function CutsceneTab(props: {
   reader: EditorAssetReader
   session: EditSession
   tabBar?: ReactNode
+  focusObjectId?: AssetId
+  onObjectFocus?: (id: string | undefined) => void
 }) {
-  const { assetBase, catalog, reader, session, tabBar } = props
+  const { assetBase, catalog, reader, session, tabBar, focusObjectId, onObjectFocus } = props
   const videos = useMemo(() => entriesOf(catalog, 'video'), [catalog])
   const animations = useMemo(() => entriesOf(catalog, 'frame-animation'), [catalog])
   const [selectedId, setSelectedId] = useState<AssetId | undefined>(
-    videos[0]?.id ?? animations[0]?.id,
+    focusObjectId &&
+      (catalog.assets[focusObjectId]?.kind === 'video' ||
+        catalog.assets[focusObjectId]?.kind === 'frame-animation')
+      ? focusObjectId
+      : (videos[0]?.id ?? animations[0]?.id),
   )
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
@@ -362,10 +368,21 @@ export function CutsceneTab(props: {
       if (!confirmDiscardFrameEdits()) return false
       setSelectedId(nextId)
       setFrameEditorDirty(false)
+      onObjectFocus?.(nextId)
       return true
     },
-    [confirmDiscardFrameEdits, selectedId],
+    [confirmDiscardFrameEdits, onObjectFocus, selectedId],
   )
+  useEffect(() => {
+    if (!focusObjectId || !allEntries.some((entry) => entry.id === focusObjectId)) return
+    if (focusObjectId === selectedId) return
+    if (!confirmDiscardFrameEdits()) {
+      onObjectFocus?.(selectedId)
+      return
+    }
+    setSelectedId(focusObjectId)
+    setFrameEditorDirty(false)
+  }, [allEntries, confirmDiscardFrameEdits, focusObjectId, onObjectFocus, selectedId])
   useEffect(() => {
     if (!selected && allEntries[0]) setSelectedId(allEntries[0].id)
   }, [allEntries, selected])
@@ -453,6 +470,7 @@ export function CutsceneTab(props: {
       session.dispatch(new UpsertAssetCommand(id, record, bytes))
       setSelectedId(id)
       setFrameEditorDirty(false)
+      onObjectFocus?.(id)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))
     } finally {
@@ -518,6 +536,7 @@ export function CutsceneTab(props: {
       )
       setSelectedId(id)
       setFrameEditorDirty(false)
+      onObjectFocus?.(id)
       setPendingFrames(undefined)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause))

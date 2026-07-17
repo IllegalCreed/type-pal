@@ -67,6 +67,15 @@ function assertSameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapsh
   }
 }
 
+function expectOriginalPalNewGame(manifest: LoadedManifest): void {
+  expect(manifest.startWorld).toEqual({
+    party: ['li-xiaoyao'],
+    money: 0,
+    learnedSkills: { 'li-xiaoyao': ['296'] },
+    inventory: [],
+  })
+}
+
 function sourceRgba(pixels: Uint8Array, palette: Palette): Uint8Array {
   const rgba = new Uint8Array(RNG_WIDTH * RNG_HEIGHT * 4)
   for (let pixel = 0; pixel < pixels.length; pixel++) {
@@ -173,6 +182,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
+    expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
       files: target.files,
       managedFiles: target.managedFiles,
@@ -278,6 +288,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
+    expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
       files: ours.files,
       managedFiles: ours.managedFiles,

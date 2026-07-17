@@ -16,11 +16,7 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useState } from 'react'
-import {
-  SetActorBattleSpriteCommand,
-  UpdateActorCommand,
-  UpdateStartSkillsCommand,
-} from '../core/commands.js'
+import { SetActorBattleSpriteCommand, UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
@@ -47,12 +43,13 @@ export function ActorMode(props: {
   session: EditSession
   /** 升级学技能表(skills.json levelUp 键;C6 编辑)。 */
   levelUp: Record<string, LevelUpSkill[]>
-  /** 新档初始技能(manifest.startWorld.learnedSkills —— 战斗技能真实来源;可编辑)。 */
+  /** 默认入口的开局技能，只读摘要；唯一作者在工程 → 入口与开局。 */
   startSkills: Record<string, string[]>
   navigation?: React.ReactNode
   focusActorId?: string
   onActorFocus?: (id: string) => void
   onOpenSprite?: (id: string) => void
+  onOpenStartSettings?: () => void
 }) {
   const {
     actors,
@@ -68,6 +65,7 @@ export function ActorMode(props: {
     focusActorId,
     onActorFocus,
     onOpenSprite,
+    onOpenStartSettings,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
   const [battleUpload, setBattleUpload] = useState(false) // A4c 战斗形象上传器展开
@@ -304,51 +302,30 @@ export function ActorMode(props: {
                 </div>
                 <div className="section">
                   <h4>
-                    初始技能<span className="hint2"> · 新档入队即会(startWorld;战斗技能来源)</span>
+                    入口开局技能<span className="hint2"> · 默认入口摘要（只读）</span>
                   </h4>
                   <div className="chips">
                     {(startSkills[actor.id] ?? []).map((sid) => (
                       <span key={sid} className="chip2">
                         {skills[sid]?.name ?? sid}
-                        <button
-                          type="button"
-                          className="mini"
-                          style={{ width: 16, height: 16, fontSize: 10, marginLeft: 4 }}
-                          title="移除"
-                          onClick={() =>
-                            session.dispatch(
-                              new UpdateStartSkillsCommand(
-                                actor.id,
-                                (startSkills[actor.id] ?? []).filter((x) => x !== sid),
-                              ),
-                            )
-                          }
-                        >
-                          ✕
-                        </button>
+                        <span className="meta">{sid}</span>
                       </span>
                     ))}
+                    {(startSkills[actor.id] ?? []).length === 0 ? (
+                      <span className="hint">（默认入口未配置）</span>
+                    ) : null}
                   </div>
-                  <select
-                    className="in"
-                    value=""
-                    onChange={(e) => {
-                      const sid = e.target.value
-                      if (!sid) return
-                      const cur = startSkills[actor.id] ?? []
-                      if (!cur.includes(sid))
-                        session.dispatch(new UpdateStartSkillsCommand(actor.id, [...cur, sid]))
-                    }}
+                  <div className="hint" style={{ marginTop: 7 }}>
+                    每个入口可以有不同的队伍与技能；请在入口自己的开局设置中统一编辑。
+                  </div>
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    style={{ marginTop: 7 }}
+                    onClick={onOpenStartSettings}
                   >
-                    <option value="">＋ 添加技能…</option>
-                    {Object.values(skills)
-                      .filter((sk) => !(startSkills[actor.id] ?? []).includes(sk.id))
-                      .map((sk) => (
-                        <option key={sk.id} value={sk.id}>
-                          {sk.name} ({sk.id})
-                        </option>
-                      ))}
-                  </select>
+                    前往“入口与开局”编辑 ↗
+                  </button>
                 </div>
                 <LevelingEditor
                   actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}

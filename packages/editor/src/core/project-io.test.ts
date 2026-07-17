@@ -196,6 +196,53 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['manifest.json']).toEqual(manifest)
 })
 
+test('X7 缺省入口契约:未编辑即保存不物化 entryPoints，也不添加 startWorld 可选字段', () => {
+  const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  const saved = serializeProject(state)['manifest.json'] as LoadedManifest
+
+  expect(Object.hasOwn(manifest, 'entryPoints')).toBe(false)
+  expect(Object.hasOwn(saved, 'entryPoints')).toBe(false)
+  expect(Object.hasOwn(saved.startWorld, 'seedStats')).toBe(true)
+
+  const withoutSeedStats: LoadedManifest = {
+    ...manifest,
+    startWorld: { party: ['li-xiaoyao'], money: 0, learnedSkills: {}, inventory: [] },
+  }
+  const savedWithoutSeedStats = serializeProject(
+    toEditorState(assembleProject(withoutSeedStats, JSONS), SCENES),
+  )['manifest.json'] as LoadedManifest
+  expect(Object.hasOwn(savedWithoutSeedStats.startWorld, 'seedStats')).toBe(false)
+})
+
+test('X7 manifest 未知字段与入口继承字段缺席可逐层 round-trip', () => {
+  const futureManifest = {
+    ...manifest,
+    futureTopLevel: { enabled: true },
+    assets: { ...manifest.assets, futureAssetMeta: { format: 4 } },
+    entryPoints: [{ id: 'new-game', label: '新的故事', scene: 'guijie-minju' }],
+  } as LoadedManifest & {
+    futureTopLevel: { enabled: boolean }
+    assets: LoadedManifest['assets'] & { futureAssetMeta: { format: number } }
+  }
+  const saved = serializeProject(toEditorState(assembleProject(futureManifest, JSONS), SCENES))[
+    'manifest.json'
+  ] as typeof futureManifest
+
+  expect(saved.futureTopLevel).toEqual({ enabled: true })
+  expect(saved.assets.futureAssetMeta).toEqual({ format: 4 })
+  expect(Object.hasOwn(saved.entryPoints![0]!, 'startWorld')).toBe(false)
+  expect(Object.hasOwn(saved.entryPoints![0]!, 'introVideo')).toBe(false)
+})
+
+test('X7 serializeProject 对损坏的显式入口 fail-loud', () => {
+  const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  const broken: LoadedManifest = {
+    ...state.manifest,
+    entryPoints: [{ id: 'missing-scene', label: '坏入口', scene: 'does-not-exist' }],
+  }
+  expect(() => serializeProject({ ...state, manifest: broken })).toThrow(/入口点.*指向不存在的场景/)
+})
+
 test('W4-1 命名落点保存重开保持稳定 id、label、完整 GridPos 与朝向', () => {
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project, SCENES)
@@ -491,10 +538,32 @@ test('A7 资源注册表与待写二进制 round-trip，不再产出 content/mus
         label: '主题曲',
         origin: { kind: 'authored' as const },
       },
+      'soundfont.demo': {
+        kind: 'soundfont' as const,
+        path: 'assets/authored/demo.sf2',
+        mediaType: 'audio/x-soundfont',
+        bytes: 0,
+        sha256: 'b'.repeat(64),
+        label: '测试音色库',
+        origin: { kind: 'authored' as const },
+      },
     },
   }
   const out = serializeProject({
     ...state,
+    manifest: {
+      ...state.manifest,
+      assets: {
+        ...state.manifest.assets,
+        roles: {
+          'audio.midiSoundfont': 'soundfont.demo',
+          'audio.defaultBattleMusic': 'music.demo.theme',
+          'audio.bossVictoryMusic': 'music.demo.theme',
+          'audio.normalVictoryMusic': 'music.demo.theme',
+          'audio.openingMenuMusic': 'music.demo.theme',
+        },
+      },
+    },
     assetCatalog,
     assetBlobs: { 'assets/authored/theme.mid': bytes },
   })

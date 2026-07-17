@@ -24,7 +24,6 @@ import {
   lookupText,
   nextMapAssetIdentity,
   resolveEntitySpriteId,
-  validateReferences,
 } from '@type-pal/content'
 import {
   type AssetBase,
@@ -70,6 +69,7 @@ import {
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
+import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
   findSceneEntryReferences,
@@ -97,6 +97,7 @@ import {
   useStoredPanelBoolean,
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
+import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
@@ -350,9 +351,8 @@ export function App(props: {
   }, [location, state.scenes])
 
   // 布置模式当前编辑场景(可切;默认入口)。切场景重置选中 —— 实体属于场景。
-  const scene =
-    state.scenes.find((s) => s.id === placeSceneId) ??
-    state.scenes.find((s) => s.id === state.manifest.entryScene)
+  const scene = (state.scenes.find((s) => s.id === placeSceneId) ??
+    state.scenes.find((s) => s.id === state.manifest.entryScene))!
   const switchPlaceScene = (id: string): void => {
     setPlaceSceneId(id)
     setSelected(SCENE_SELECTION)
@@ -414,7 +414,7 @@ export function App(props: {
     setTool('select')
     setDrawer({ open: true, src: null, internalScriptId: id })
   }
-  const issues = useMemo(() => validateReferences(state), [state])
+  const statusIssues = useMemo(() => collectEditorStatusIssues(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
@@ -552,8 +552,21 @@ export function App(props: {
     if (activeSubpage.dataPage === 'sprite') {
       return !state.sprites.some((candidate) => candidate.id === location.objectId)
     }
+    if (activeSubpage.dataPage === 'music') {
+      return state.assetCatalog.assets[location.objectId]?.kind !== 'music'
+    }
+    if (activeSubpage.dataPage === 'cutscene') {
+      const kind = state.assetCatalog.assets[location.objectId]?.kind
+      return kind !== 'video' && kind !== 'frame-animation'
+    }
     if (activeSubpage.dataPage === 'scripts') {
       return !state.scriptIndex?.library?.[location.objectId]
+    }
+    if (activeSubpage.kind === 'project' && activeSubpage.projectPage === 'entrypoint') {
+      const entries = state.manifest.entryPoints ?? [
+        { id: 'new-game', label: '开始游戏', scene: state.manifest.entryScene },
+      ]
+      return !entries.some((entry) => entry.id === location.objectId)
     }
     return false
   })()
@@ -598,10 +611,22 @@ export function App(props: {
     return () => window.removeEventListener('keydown', onKey)
   }, [session, scene, selEntity])
 
-  if (!scene) {
+  if (!scene && activeSubpage.kind !== 'project') {
     return (
       <div className="boot">
-        <div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div>
+        <div className="boot-entry-error">
+          <div className="err">入口场景 "{state.manifest.entryScene}" 不在 scenes</div>
+          <p>工程仍可修复；请重新选择默认入口（不经过标题菜单）的起始场景。</p>
+          <button
+            type="button"
+            className="tool"
+            onClick={() =>
+              applyEditorLocation({ module: 'project', subpage: 'entrypoint' }, 'replace')
+            }
+          >
+            打开“入口与开局”修复
+          </button>
+        </div>
       </div>
     )
   }
@@ -867,6 +892,26 @@ export function App(props: {
             focusActorId={location.objectId}
             onActorFocus={(id) => focusCurrentObject(id)}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
+            onOpenStartSettings={() =>
+              applyEditorLocation({ module: 'project', subpage: 'entrypoint' })
+            }
+          />
+        ) : activeSubpage.kind === 'project' && activeSubpage.projectPage ? (
+          <ProjectWorkbenchTab
+            page={activeSubpage.projectPage}
+            manifest={state.manifest}
+            scenes={state.scenes}
+            actors={state.actors}
+            items={state.items}
+            skills={state.skills}
+            locale={state.locale}
+            assetCatalog={state.assetCatalog}
+            session={session}
+            editorState={state}
+            tabBar={moduleSubnav}
+            focusObjectId={location.objectId}
+            onObjectFocus={focusCurrentObject}
+            onOpenLocation={applyEditorLocation}
           />
         ) : activeSubpage.kind === 'data' && activeSubpage.dataPage ? (
           <DataMode
@@ -1340,11 +1385,11 @@ export function App(props: {
       </div>
 
       <div className="valbar">
-        {issues.length > 0 ? (
+        {statusIssues.length > 0 ? (
           <>
-            <span className="pill warn">⚠ {issues.length} 问题</span>
+            <span className="pill warn">⚠ {statusIssues.length} 项待处理</span>
             <span className="msg">
-              {issues
+              {statusIssues
                 .slice(0, 2)
                 .map((i) => i.message)
                 .join(' · ')}
@@ -1352,7 +1397,7 @@ export function App(props: {
           </>
         ) : (
           <span className="pill" style={{ color: 'var(--ok)' }}>
-            ✓ 已检查的引用无问题
+            ✓ 引用与工程诊断无问题
           </span>
         )}
         <span className="spacer" />

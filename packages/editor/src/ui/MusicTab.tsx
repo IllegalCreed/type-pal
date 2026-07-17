@@ -6,7 +6,7 @@ import {
   collectAssetReferences,
 } from '@type-pal/content'
 import type { AudioAssetReader } from '@type-pal/reforge'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DeleteAssetCommand,
   UpdateAssetLabelCommand,
@@ -18,7 +18,7 @@ import { musicAssets, PreviewButton } from './MusicPicker.js'
 const ROLE_LABELS: Readonly<Record<string, string>> = {
   'manifest.assets.roles.audio.openingMenuMusic': '标题菜单音乐（新的故事 / 旧的回忆）',
   'manifest.assets.roles.audio.defaultBattleMusic': '默认战斗音乐',
-  'manifest.assets.roles.audio.bossVictoryMusic': '首领战胜利音乐',
+  'manifest.assets.roles.audio.bossVictoryMusic': '特殊战胜利结算音乐',
   'manifest.assets.roles.audio.normalVictoryMusic': '普通战斗胜利音乐',
 }
 
@@ -101,8 +101,10 @@ export function MusicTab(props: {
   resolver: AudioAssetReader
   session: EditSession
   tabBar?: React.ReactNode
+  focusObjectId?: AssetId
+  onObjectFocus?: (id: string | undefined) => void
 }) {
-  const { catalog, resolver, session, tabBar } = props
+  const { catalog, resolver, session, tabBar, focusObjectId, onObjectFocus } = props
   const [filter, setFilter] = useState('')
   const [error, setError] = useState('')
   const importRef = useRef<HTMLInputElement>(null)
@@ -135,7 +137,15 @@ export function MusicTab(props: {
       entry.id.toLowerCase().includes(filter.toLowerCase()) ||
       (entry.record.label ?? '').toLowerCase().includes(filter.toLowerCase()),
   )
-  const [selectedId, setSelectedId] = useState<AssetId | null>(entries[0]?.id ?? null)
+  const [selectedId, setSelectedId] = useState<AssetId | null>(
+    focusObjectId && entries.some((entry) => entry.id === focusObjectId)
+      ? focusObjectId
+      : (entries[0]?.id ?? null),
+  )
+  useEffect(() => {
+    if (focusObjectId && entries.some((entry) => entry.id === focusObjectId))
+      setSelectedId(focusObjectId)
+  }, [entries, focusObjectId])
   const selected = entries.find((entry) => entry.id === selectedId) ?? shown[0] ?? entries[0]
   const selectedReferences = selected ? (references.get(selected.id) ?? []) : []
   const scriptChunkIds = Object.keys(state.scriptChunks)
@@ -253,7 +263,10 @@ export function MusicTab(props: {
                     <tr
                       key={id}
                       className={selected?.id === id ? 'selected' : undefined}
-                      onClick={() => setSelectedId(id)}
+                      onClick={() => {
+                        setSelectedId(id)
+                        onObjectFocus?.(id)
+                      }}
                     >
                       <td>
                         <NameCell assetId={id} label={record.label} session={session} />

@@ -34,6 +34,7 @@ import {
   ResizeProjectMapCommand,
   SetActorBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
+  SetEntryPointsCommand,
   UpdateActorCommand,
   UpdateAmbienceCommand,
   UpdateAssetLabelCommand,
@@ -41,13 +42,16 @@ import {
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
+  UpdateEntrySceneCommand,
   UpdateLevelUpCommand,
+  UpdateManifestAssetRolesCommand,
   UpdatePoisonCommand,
   UpdateProjectMapLayerCommand,
   UpdateSceneCommand,
   UpdateScriptBodyCommand,
   UpdateScriptCommand,
   UpdateSpriteCommand,
+  UpdateStartWorldCommand,
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
@@ -1355,5 +1359,73 @@ describe('RenameProjectCommand', () => {
     expect((s0.manifest as { name: string }).name).toBe('旧名') // 源不变
     const back = cmd.invert(s1)
     expect((back.manifest as { name: string }).name).toBe('旧名')
+  })
+})
+
+describe('X7 manifest 命令', () => {
+  test('entryScene / roles apply-invert 保留未知字段且源不变', () => {
+    const s0 = st()
+    s0.manifest = {
+      ...s0.manifest,
+      futureField: { keep: true },
+      assets: { ...s0.manifest.assets, futureRoleMeta: 'keep' },
+    } as never
+    const sceneCmd = new UpdateEntrySceneCommand('s')
+    const roleCmd = new UpdateManifestAssetRolesCommand({ 'audio.openingMenuMusic': 'music.a' })
+    const s1 = sceneCmd.apply(s0)
+    const s2 = roleCmd.apply(s1)
+    expect(s2.manifest.entryScene).toBe('s')
+    expect(s2.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.a')
+    expect((s2.manifest as never as { futureField: unknown }).futureField).toEqual({ keep: true })
+    expect((s2.manifest.assets as never as { futureRoleMeta: unknown }).futureRoleMeta).toBe('keep')
+    expect(s0.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
+    const backRoles = roleCmd.invert(s2)
+    const backScene = sceneCmd.invert(backRoles)
+    expect(backScene.manifest.entryScene).toBe(s0.manifest.entryScene)
+    expect(backScene.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
+  })
+
+  test('默认入口整套开局 apply-invert 同步顶层镜像并清除 seedStats 缺席字段', () => {
+    const s0 = st()
+    const next = {
+      party: ['li'],
+      money: 99,
+      learnedSkills: { li: ['skill-a'] },
+      inventory: [{ itemId: 'item-a', count: 2 }],
+      seedStats: undefined,
+    }
+    const cmd = new UpdateStartWorldCommand(next)
+    const s1 = cmd.apply(s0)
+    expect(s1.manifest.startWorld).toEqual({
+      party: ['li'],
+      money: 99,
+      learnedSkills: { li: ['skill-a'] },
+      inventory: [{ itemId: 'item-a', count: 2 }],
+    })
+    expect(s1.startWorld).toBe(s1.manifest.startWorld)
+    expect(Object.hasOwn(s1.manifest.startWorld, 'seedStats')).toBe(false)
+    expect(cmd.invert(s1).manifest.startWorld).toEqual(s0.manifest.startWorld)
+  })
+
+  test('入口点拒绝空/重复/带首尾空格 id，清除覆盖时不留下 undefined own key', () => {
+    expect(() => new SetEntryPointsCommand([])).toThrow(/不能为空/)
+    expect(
+      () =>
+        new SetEntryPointsCommand([
+          { id: 'x', label: 'x', scene: 's' },
+          { id: 'x', label: 'y', scene: 's' },
+        ]),
+    ).toThrow(/重复/)
+    expect(() => new SetEntryPointsCommand([{ id: ' x', label: 'x', scene: 's' }])).toThrow(
+      /首尾空格/,
+    )
+    const s0 = st()
+    const cmd = new SetEntryPointsCommand([
+      { id: 'x', label: 'x', scene: 's', introVideo: undefined, startWorld: undefined },
+    ])
+    const s1 = cmd.apply(s0)
+    expect(Object.hasOwn(s1.manifest.entryPoints![0]!, 'introVideo')).toBe(false)
+    expect(Object.hasOwn(s1.manifest.entryPoints![0]!, 'startWorld')).toBe(false)
+    expect(cmd.invert(s1).manifest.entryPoints).toBeUndefined()
   })
 })

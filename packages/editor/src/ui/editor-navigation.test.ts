@@ -7,6 +7,8 @@ import {
   editorLinks,
   editorLocationHref,
   normalizeEditorLocation,
+  objectIdForSubpageNavigation,
+  PROJECT_PAGE_IDS,
   sameEditorLocation,
 } from './editor-navigation.js'
 
@@ -27,6 +29,18 @@ describe('编辑器模块注册表', () => {
     )
     expect([...registered].sort()).toEqual([...DATA_PAGE_IDS].sort())
     expect(new Set(registered).size).toBe(DATA_PAGE_IDS.length)
+  })
+
+  it('工程模块只有四个权威子页，入口与开局合并登记', () => {
+    const project = EDITOR_MODULES.find((module) => module.id === 'project')!
+    expect(project.subpages.map((subpage) => subpage.id)).toEqual(PROJECT_PAGE_IDS)
+    expect(project.subpages.find((subpage) => subpage.id === 'entrypoint')?.label).toBe(
+      '入口与开局',
+    )
+    expect(project.subpages.find((subpage) => subpage.id === 'startup')?.label).toBe(
+      '全局资源与启动',
+    )
+    expect(project.subpages.some((subpage) => subpage.id === 'startworld')).toBe(false)
   })
 })
 
@@ -65,6 +79,28 @@ describe('EditorLocation URL 契约', () => {
     })
     expect(normalized).toEqual({ module: 'asset', subpage: 'sprite' })
     expect(sameEditorLocation(normalized, { module: 'asset', subpage: 'sprite' })).toBe(true)
+  })
+
+  it('旧默认开局深链归一化到统一入口与开局页', () => {
+    expect(decodeEditorLocation('?module=project&page=startworld')).toEqual({
+      module: 'project',
+      subpage: 'entrypoint',
+    })
+    expect(decodeEditorLocation('?module=project&page=entrypoint&object=chapter-2')).toEqual({
+      module: 'project',
+      subpage: 'entrypoint',
+      objectId: 'chapter-2',
+    })
+  })
+
+  it('切换资源子页不携带上一资源族的 objectId', () => {
+    const asset = EDITOR_MODULES.find((module) => module.id === 'asset')!
+    const music = asset.subpages.find((subpage) => subpage.id === 'music')!
+    const cutscene = asset.subpages.find((subpage) => subpage.id === 'cutscene')!
+    const current = { module: 'asset', subpage: 'music', objectId: 'music.pal.003' } as const
+
+    expect(objectIdForSubpageNavigation(current, music)).toBe('music.pal.003')
+    expect(objectIdForSubpageNavigation(current, cutscene)).toBeUndefined()
   })
 })
 
