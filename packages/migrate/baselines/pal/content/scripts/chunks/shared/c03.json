@@ -2,7 +2,7 @@
   "version": 1,
   "id": "shared/c03",
   "scripts": {
-    "shared/scc-L-27510/L-27510/none/d-aa3341da": [
+    "shared/scc-L-27510/L-27510/none/d-92510afd": [
       {
         "kind": "clearDialog"
       },
@@ -19,7 +19,7 @@
           ],
           "speaker": "spk.阿奴",
           "portrait": {
-            "icon": 27,
+            "asset": "portrait.pal.027",
             "side": "right"
           }
         }
@@ -38,7 +38,7 @@
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
-            "icon": 10,
+            "asset": "portrait.pal.010",
             "side": "left"
           }
         }
@@ -59,7 +59,7 @@
           ],
           "speaker": "spk.阿奴",
           "portrait": {
-            "icon": 29,
+            "asset": "portrait.pal.029",
             "side": "right"
           }
         }
@@ -75,7 +75,7 @@
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
-            "icon": 10,
+            "asset": "portrait.pal.010",
             "side": "left"
           }
         }
@@ -103,7 +103,7 @@
           ],
           "speaker": "spk.阿奴",
           "portrait": {
-            "icon": 27,
+            "asset": "portrait.pal.027",
             "side": "right"
           }
         }

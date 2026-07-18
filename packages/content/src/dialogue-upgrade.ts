@@ -6,6 +6,8 @@
  * 控制码解码只属于 migrate；升级后的内存与保存产物只保留 canonical cue。
  */
 
+import { legacyPalPortraitAssetId } from './asset.js'
+
 export interface DialogueUpgradeResult<T> {
   value: T
   upgraded: number
@@ -26,14 +28,36 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function cueFromLegacyLine(line: LegacyDialogueLine): Record<string, unknown> {
+  const portrait = line.portrait
+  const portraitAsset = portrait === undefined ? undefined : legacyPalPortraitAssetId(portrait.icon)
   return {
     ...(line.speaker !== undefined ? { speaker: line.speaker } : {}),
     rows: [{ text: line.text, ...(line.speed !== undefined ? { speed: line.speed } : {}) }],
     ...(line.autoAdvance !== undefined ? { autoAdvance: line.autoAdvance } : {}),
     ...(line.slot !== undefined ? { slot: line.slot } : {}),
-    ...(line.portrait !== undefined ? { portrait: line.portrait } : {}),
+    ...(portraitAsset !== undefined && portrait !== undefined
+      ? { portrait: { asset: portraitAsset, side: portrait.side } }
+      : {}),
     ...(line.cursorFrame !== undefined ? { cursorFrame: line.cursorFrame } : {}),
   }
+}
+
+function normalizeLegacyCuePortrait(cueValue: unknown): {
+  cue: Record<string, unknown>
+  changed: boolean
+} {
+  if (!isRecord(cueValue)) throw new Error('dialog.cue 期望对象')
+  const cue = Object.fromEntries(Object.entries(cueValue))
+  if (cue.portrait === undefined) return { cue, changed: false }
+  if (!isRecord(cue.portrait)) throw new Error('dialog.cue.portrait 期望对象')
+  const portrait = cue.portrait
+  if (!('icon' in portrait)) return { cue, changed: false }
+  if ('asset' in portrait) throw new Error('dialog.cue.portrait 同时含 icon 与 asset')
+  if (typeof portrait.icon !== 'number') throw new Error('dialog.cue.portrait.icon 期望数字')
+  const asset = legacyPalPortraitAssetId(portrait.icon)
+  if (asset) cue.portrait = { asset, side: portrait.side }
+  else delete cue.portrait
+  return { cue, changed: true }
 }
 
 export function upgradeLegacyDialogues<T>(input: T): DialogueUpgradeResult<T> {
@@ -57,6 +81,19 @@ export function upgradeLegacyDialogues<T>(input: T): DialogueUpgradeResult<T> {
       }
     }
 
+    if (value.kind === 'dialog' && value.cue !== undefined) {
+      const normalized = normalizeLegacyCuePortrait(value.cue)
+      if (normalized.changed) upgraded++
+      return {
+        ...Object.fromEntries(
+          Object.entries(value)
+            .filter(([key]) => key !== 'cue')
+            .map(([key, child]) => [key, visit(child)]),
+        ),
+        cue: visit(normalized.cue),
+      }
+    }
+
     if (typeof value.id === 'string' && value.lines !== undefined) {
       if (value.cues !== undefined)
         throw new Error('Dialogue 同时含 lines 与 cues，无法确定 canonical 内容')
@@ -70,6 +107,23 @@ export function upgradeLegacyDialogues<T>(input: T): DialogueUpgradeResult<T> {
       return {
         ...Object.fromEntries(Object.entries(dialogue).map(([key, child]) => [key, visit(child)])),
         cues: lines.map((line) => cueFromLegacyLine(line as unknown as LegacyDialogueLine)),
+      }
+    }
+    if (typeof value.id === 'string' && Array.isArray(value.cues)) {
+      let changed = false
+      const cues = value.cues.map((cue) => {
+        const normalized = normalizeLegacyCuePortrait(cue)
+        changed ||= normalized.changed
+        return visit(normalized.cue)
+      })
+      if (changed) upgraded++
+      return {
+        ...Object.fromEntries(
+          Object.entries(value)
+            .filter(([key]) => key !== 'cues')
+            .map(([key, child]) => [key, visit(child)]),
+        ),
+        cues,
       }
     }
 

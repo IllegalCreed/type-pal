@@ -25,6 +25,7 @@ import { EnemyTab } from './EnemyTab.js'
 import { EntryPointTab } from './EntryPointTab.js'
 import { EventLibTab } from './EventLibTab.js'
 import { type DataPageId, editorSubpageForDataPage } from './editor-navigation.js'
+import { ImageTab } from './ImageTab.js'
 import { ItemTab } from './ItemTab.js'
 import { MusicTab } from './MusicTab.js'
 import { PoisonTab } from './PoisonTab.js'
@@ -107,6 +108,7 @@ export function DataMode(props: {
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
   onOpenMap?: (id: string) => void
   onOpenTileset?: (id: string) => void
   onOpenStamp?: (id: string) => void
@@ -145,6 +147,7 @@ export function DataMode(props: {
     focusObjectId,
     onObjectFocus,
     onOpenSound,
+    onOpenImage,
     onOpenMap,
     onOpenTileset,
     onOpenStamp,
@@ -201,11 +204,11 @@ export function DataMode(props: {
         actors={actors}
         skills={skillList}
         locale={locale}
-        assetBase={assetBase}
         session={session}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
         onOpenSound={onOpenSound}
+        onOpenImage={onOpenImage}
         itemRefs={refIndex.items}
         onJumpToEvent={onJumpToEvent}
         tabBar={tabBar}
@@ -289,6 +292,20 @@ export function DataMode(props: {
     )
   }
 
+  if (tab === 'image') {
+    return (
+      <ImageTab
+        assetBase={assetBase}
+        catalog={assetCatalog}
+        reader={assetReader}
+        session={session}
+        tabBar={tabBar}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+      />
+    )
+  }
+
   if (tab === 'sound') {
     return (
       <SoundTab
@@ -339,6 +356,9 @@ export function DataMode(props: {
         battleFields={battleFields}
         assetBase={assetBase}
         session={session}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
+        onOpenImage={onOpenImage}
         tabBar={tabBar}
       />
     )
@@ -378,6 +398,7 @@ export function DataMode(props: {
         onJumpToEvent={onJumpToEvent}
         onSelectedScriptId={onObjectFocus}
         onOpenSound={onOpenSound}
+        onOpenImage={onOpenImage}
       />
     )
   }

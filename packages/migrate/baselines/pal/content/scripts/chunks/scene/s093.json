@@ -334,7 +334,7 @@
         "state": 0
       }
     ],
-    "scene/s093/L-13783/e1759/d-cb824c6d": [
+    "scene/s093/L-13783/e1759/d-b0b63e5a": [
       {
         "kind": "setEntityState",
         "entity": "e1758",
@@ -423,7 +423,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -455,7 +455,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 22,
+            "asset": "portrait.pal.022",
             "side": "left"
           }
         }
@@ -479,7 +479,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 6,
+            "asset": "portrait.pal.006",
             "side": "right"
           }
         }
@@ -498,7 +498,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 24,
+            "asset": "portrait.pal.024",
             "side": "left"
           }
         }
@@ -522,7 +522,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -544,7 +544,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "left"
           }
         }
@@ -1177,7 +1177,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -1815,7 +1815,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 23,
+            "asset": "portrait.pal.023",
             "side": "left"
           }
         }
@@ -1828,7 +1828,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s093",
-              "id": "scene/s093/L-13783/e1759/d-cb824c6d"
+              "id": "scene/s093/L-13783/e1759/d-b0b63e5a"
             },
             "self": "e1759"
           }
@@ -1985,7 +1985,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -2017,7 +2017,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 22,
+            "asset": "portrait.pal.022",
             "side": "left"
           }
         }
@@ -2041,7 +2041,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 6,
+            "asset": "portrait.pal.006",
             "side": "right"
           }
         }
@@ -2060,7 +2060,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 24,
+            "asset": "portrait.pal.024",
             "side": "left"
           }
         }
@@ -2084,7 +2084,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -2106,7 +2106,7 @@
           "speaker": "spk.林月如",
           "slot": "top",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "left"
           }
         }

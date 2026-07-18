@@ -42,7 +42,7 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s252/L-41075/e4442/d-6f630c71": [
+    "scene/s252/L-41075/e4442/d-d0751632": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -856,7 +856,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "right"
           }
         }
@@ -920,7 +920,7 @@
           "speaker": "spk.巫后",
           "slot": "top",
           "portrait": {
-            "icon": 73,
+            "asset": "portrait.pal.073",
             "side": "left"
           }
         }
@@ -953,7 +953,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "right"
           }
         }
@@ -975,7 +975,7 @@
           "speaker": "spk.巫后",
           "slot": "top",
           "portrait": {
-            "icon": 73,
+            "asset": "portrait.pal.073",
             "side": "left"
           }
         }
@@ -996,7 +996,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "right"
           }
         }
@@ -1014,7 +1014,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "right"
           }
         }
@@ -1040,7 +1040,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s252",
-              "id": "scene/s252/L-41075/e4442/d-6f630c71"
+              "id": "scene/s252/L-41075/e4442/d-d0751632"
             },
             "self": "e4442"
           }
@@ -1067,7 +1067,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 5,
+            "asset": "portrait.pal.005",
             "side": "right"
           }
         }
@@ -1105,7 +1105,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 10,
+            "asset": "portrait.pal.010",
             "side": "right"
           },
           "cursorFrame": 2

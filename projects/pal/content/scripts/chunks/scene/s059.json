@@ -1220,7 +1220,7 @@
         "frame": 0
       }
     ],
-    "scene/s059/L-41075/e1048/d-63061a0e": [
+    "scene/s059/L-41075/e1048/d-be5f76ff": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -3358,7 +3358,7 @@
             }
           ],
           "portrait": {
-            "icon": 22,
+            "asset": "portrait.pal.022",
             "side": "right"
           }
         }
@@ -3425,7 +3425,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -3446,7 +3446,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 23,
+            "asset": "portrait.pal.023",
             "side": "left"
           }
         }
@@ -3466,7 +3466,7 @@
             }
           ],
           "portrait": {
-            "icon": 5,
+            "asset": "portrait.pal.005",
             "side": "right"
           }
         }
@@ -3486,7 +3486,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -4132,7 +4132,7 @@
           ],
           "speaker": "spk.小石头",
           "portrait": {
-            "icon": 86,
+            "asset": "portrait.pal.086",
             "side": "right"
           }
         }
@@ -4156,7 +4156,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 61,
+            "asset": "portrait.pal.061",
             "side": "left"
           }
         }
@@ -4186,7 +4186,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 61,
+            "asset": "portrait.pal.061",
             "side": "left"
           }
         }
@@ -4209,7 +4209,7 @@
             }
           ],
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -4227,7 +4227,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 61,
+            "asset": "portrait.pal.061",
             "side": "left"
           }
         }
@@ -4509,7 +4509,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s059",
-              "id": "scene/s059/L-41075/e1048/d-63061a0e"
+              "id": "scene/s059/L-41075/e1048/d-be5f76ff"
             },
             "self": "e1048"
           }
@@ -4566,7 +4566,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -4588,7 +4588,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "left"
           }
         }
@@ -4623,7 +4623,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -4644,7 +4644,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "left"
           }
         }
@@ -4658,7 +4658,7 @@
             }
           ],
           "portrait": {
-            "icon": 22,
+            "asset": "portrait.pal.022",
             "side": "right"
           }
         }
@@ -4681,7 +4681,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -4705,7 +4705,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 4,
+            "asset": "portrait.pal.004",
             "side": "left"
           }
         }
@@ -4728,7 +4728,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }
@@ -4743,7 +4743,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 24,
+            "asset": "portrait.pal.024",
             "side": "left"
           }
         }
@@ -4763,7 +4763,7 @@
             }
           ],
           "portrait": {
-            "icon": 11,
+            "asset": "portrait.pal.011",
             "side": "right"
           }
         }

@@ -89,7 +89,7 @@
           ],
           "speaker": "spk.剑圣",
           "portrait": {
-            "icon": 63,
+            "asset": "portrait.pal.063",
             "side": "right"
           },
           "autoAdvance": 685
@@ -127,7 +127,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 37,
+            "asset": "portrait.pal.037",
             "side": "left"
           },
           "autoAdvance": 800
@@ -147,7 +147,7 @@
           ],
           "speaker": "spk.剑圣",
           "portrait": {
-            "icon": 63,
+            "asset": "portrait.pal.063",
             "side": "right"
           },
           "autoAdvance": 685
@@ -205,7 +205,7 @@
             }
           ],
           "portrait": {
-            "icon": 37,
+            "asset": "portrait.pal.037",
             "side": "right"
           },
           "autoAdvance": 742

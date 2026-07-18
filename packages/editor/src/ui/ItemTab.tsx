@@ -23,12 +23,12 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { describeEquipEffects, lookupText } from '@type-pal/content'
-import type { AssetBase } from '@type-pal/reforge'
 import { useMemo, useState } from 'react'
 import { UpdateItemCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { RefEntry } from '../core/ref-index.js'
+import { ImageAssetPicker, ImageAssetThumbnail } from './ImageAssetPicker.js'
 import { SoundPicker } from './SoundPicker.js'
 import { RefList } from './VarsTab.js'
 
@@ -249,33 +249,16 @@ function EquipEffectFields(props: {
   }
 }
 
-/** 图标(预烘 RGBA PNG;assetBase.itemIcons 目录)。 */
-function ItemIcon(props: { base: string; icon: number; size?: number }) {
-  const { icon, size = 32 } = props
-  return (
-    <img
-      src={`${props.base}/${icon}.png`}
-      alt=""
-      width={size}
-      height={size}
-      style={{ imageRendering: 'pixelated', objectFit: 'contain' }}
-      onError={(e) => {
-        ;(e.target as HTMLImageElement).style.visibility = 'hidden' // 缺图静默(demo 无图标目录)
-      }}
-    />
-  )
-}
-
 export function ItemTab(props: {
   items: ItemData[]
   actors: ActorDef[]
   skills: SkillData[]
   locale: Locale
-  assetBase?: AssetBase
   session: EditSession
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
   tabBar?: React.ReactNode
   /** N5:物品 → 引用它的事件(give/lose/hasItem);剧情道具的编辑入口。 */
   itemRefs?: Map<string, RefEntry[]>
@@ -286,11 +269,11 @@ export function ItemTab(props: {
     actors,
     skills,
     locale,
-    assetBase,
     session,
     assetCatalog,
     assetReader,
     onOpenSound,
+    onOpenImage,
     tabBar,
     itemRefs,
     onJumpToEvent,
@@ -303,7 +286,6 @@ export function ItemTab(props: {
     [items, filter],
   )
   const item = items.find((i) => i.id === selId) ?? shown[0]
-  const iconBase = assetBase?.itemIcons ?? '/baked/ui/items'
   const skillName = useMemo(() => {
     const m = new Map(skills.map((s) => [s.id, s.name]))
     return (id: string): string | undefined => m.get(id)
@@ -350,7 +332,13 @@ export function ItemTab(props: {
               onClick={() => setSelId(i.id)}
             >
               <span className="face">
-                <ItemIcon base={iconBase} icon={i.icon} size={22} />
+                <ImageAssetThumbnail
+                  asset={i.icon}
+                  kind="item-icon"
+                  reader={assetReader}
+                  revision={i.icon ? assetCatalog.assets[i.icon]?.sha256 : undefined}
+                  className="item-list-icon"
+                />
               </span>
               <span className="nm">
                 {i.name}
@@ -373,21 +361,19 @@ export function ItemTab(props: {
               <h4>基础</h4>
               <div className="it-form">
                 <div className="it-icon-cell">
-                  <span className="it-icon-frame">
-                    <ItemIcon base={iconBase} icon={item.icon} size={40} />
-                  </span>
-                  <label className="it-field num">
-                    <span>图标#</span>
-                    <input
-                      className="in mono"
-                      type="number"
+                  <div className="it-field">
+                    <span>图标</span>
+                    <ImageAssetPicker
                       value={item.icon}
-                      onWheel={(e) => e.currentTarget.blur()}
-                      onChange={(e) =>
-                        patch({ icon: Math.max(0, Math.floor(e.target.valueAsNumber || 0)) })
-                      }
+                      kind="item-icon"
+                      catalog={assetCatalog}
+                      reader={assetReader}
+                      allowUnset
+                      ariaLabel={`${item.name}物品图标`}
+                      onOpenAsset={onOpenImage}
+                      onChange={(icon) => patch({ icon })}
                     />
-                  </label>
+                  </div>
                 </div>
                 <label className="it-field name">
                   <span>名字</span>

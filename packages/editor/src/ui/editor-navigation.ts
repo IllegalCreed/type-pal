@@ -20,6 +20,7 @@ export const DATA_PAGE_IDS = [
   'ambience',
   'shop',
   'battlefield',
+  'image',
   'music',
   'sound',
   'tileset',
@@ -157,6 +158,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         icon: '🖼️',
         kind: 'data',
         dataPage: 'sprite',
+        acceptsObject: true,
+      },
+      {
+        id: 'image',
+        label: '图像',
+        icon: '🌄',
+        kind: 'data',
+        dataPage: 'image',
         acceptsObject: true,
       },
       {
@@ -333,6 +342,11 @@ export const editorLinks = {
   sound: (assetId: string): EditorLocation => ({
     module: 'asset',
     subpage: 'sound',
+    objectId: assetId,
+  }),
+  image: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'image',
     objectId: assetId,
   }),
   sharedScript: (scriptId: string): EditorLocation => ({

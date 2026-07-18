@@ -148,7 +148,8 @@ export interface ItemData {
   id: string // demo = 原版 oid 字符串;当不透明 string
   name: string
   desc: string[] // 物品说明(原版 scriptDesc 多行:风味行 + 效果行),逐行渲染
-  icon: number // 图标 bitmap(BALL.MKF chunk)
+  /** 图标资源；缺席表示刻意无图。 */
+  icon?: AssetId
   buyPrice: number
   sellPrice: number
   sellable: boolean

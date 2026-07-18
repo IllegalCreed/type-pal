@@ -21,7 +21,6 @@ const hero = {
   id: 'hero',
   name: 'name.hero',
   spriteId: 'hero',
-  portraits: { default: 1 },
   battler: {
     baseStats: {
       level: 1,
@@ -250,7 +249,6 @@ describe('X7 工程诊断与保存门', () => {
           id: 'item',
           name: 'Item',
           desc: [],
-          icon: 0,
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,

@@ -1,5 +1,12 @@
-import type { AssetCatalogV1, EnemyDef, MapIndexV1, SceneDef, TilesetDef } from '@type-pal/content'
-import { palSoundAssetId } from '@type-pal/content'
+import type {
+  AssetCatalogV1,
+  BattleFieldDef,
+  EnemyDef,
+  MapIndexV1,
+  SceneDef,
+  TilesetDef,
+} from '@type-pal/content'
+import { palBattleBackgroundAssetId, palSoundAssetId } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapScenesStatic, migrateAll } from './migrate-content.js'
 import {
@@ -47,7 +54,7 @@ export interface PalMigrationSources {
   assetCatalog: AssetCatalogV1
   binaryAssets: import('./pal-assets.js').PalBinaryAssetSource[]
   assetReport: import('./pal-assets.js').PalAssetMigrationReport
-  battleFields: MigrationJson[]
+  battleFields: BattleFieldDef[]
   objectPoisons: SourceObjectPoison[]
   stores: SourceStore[]
 }
@@ -157,7 +164,13 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/enemy-teams.json', migrated.enemyTeams)
   put('content/locale.json', { ...migrated.localeNames, ...sceneOutput.scriptLocale })
   put('assets/index.json', sources.assetCatalog)
-  put('content/battle-fields.json', structuredClone(sources.battleFields))
+  const battleFields = sources.battleFields.map((field) => ({
+    ...structuredClone(field),
+    ...(field.id >= 6 && field.id <= 57
+      ? { background: palBattleBackgroundAssetId(field.id) }
+      : {}),
+  }))
+  put('content/battle-fields.json', battleFields)
   put('content/poisons.json', migratePalPoisons(sources.objectPoisons))
   put('content/shops.json', migratePalShops(sources.stores))
   const mapIndex: MapIndexV1 = {

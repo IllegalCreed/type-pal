@@ -17,6 +17,7 @@ import type {
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
+import { palFaceAssetId, palItemIconAssetId, palPortraitAssetId } from '@type-pal/content'
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
@@ -253,7 +254,8 @@ export function mapActor(
     name: `name.${slug}`,
     spriteId: slug,
     // 头像组(C1):迁移填主头像(role.avatar);命名表情由编辑器人工加(原版无表情组数据)
-    ...(role.avatar ? { portraits: { default: role.avatar } } : {}),
+    ...(role.avatar ? { portraits: { default: palPortraitAssetId(role.avatar) } } : {}),
+    face: palFaceAssetId(slug),
     battler: {
       baseStats: {
         level: role.level,
@@ -977,7 +979,7 @@ export function mapItemsTable(
     id: String(it.id),
     name: it._name,
     desc: descOf(it.scriptDesc),
-    icon: it.bitmap,
+    ...(it.bitmap > 0 ? { icon: palItemIconAssetId(it.bitmap) } : {}),
     buyPrice: it.price,
     sellPrice: Math.floor(it.price / 2), // 原版卖价 = 买价/2(sdlpal 商店惯例;demo 木剑 50/25 一致)
     sellable: it.flags.sellable,

@@ -15,6 +15,7 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateBattleFields,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -412,6 +413,7 @@ export function validatePalMigrationTarget(args: {
   if (orphanScene) throw new Error(`合并结果有孤儿场景文件 ${orphanScene}`)
 
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
+  const battleFields = validateBattleFields(required(files, 'content/battle-fields.json'))
   const enemyTeams = required(files, 'content/enemy-teams.json') as unknown as EnemyTeamDef[]
   const issues = validateReferences({
     scenes,
@@ -424,7 +426,7 @@ export function validatePalMigrationTarget(args: {
     startWorld,
     enemies,
     enemyTeams,
-    battleFields: required(files, 'content/battle-fields.json') as never,
+    battleFields,
     poisons: required(files, 'content/poisons.json') as never,
     shops: required(files, 'content/shops.json') as never,
     tilesets,
@@ -480,6 +482,7 @@ export function validatePalMigrationTarget(args: {
     enemies,
     items,
     skills: skillData.skills,
+    battleFields,
   })
   const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')

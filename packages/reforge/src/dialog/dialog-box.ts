@@ -3,7 +3,13 @@
  * 逐段推进 + top/bottom 多槽:同槽覆盖、异槽共存。位置真值 GLM spec §3。
  * 每段话在它的 slot 内自动折行(layoutLines)+ 按 4 显示行/页分页,翻页只翻活跃槽。
  */
-import { type Locale, lookupText, parseRichText, type TextSpan } from '@type-pal/content'
+import {
+  type AssetId,
+  type Locale,
+  lookupText,
+  parseRichText,
+  type TextSpan,
+} from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { advanceCue, type DialogueState } from '../dialogue.js'
 import { type BoxTiles, drawScroll } from '../menu/menu-box.js'
@@ -80,7 +86,7 @@ export class DialogBox {
     private readonly ctx: CanvasRenderingContext2D,
     private readonly glyphs: GlyphTable,
     private readonly cursorFrames: RleFrame[],
-    private readonly portraits: ReadonlyMap<number, HTMLCanvasElement> = new Map(),
+    private readonly portraits: ReadonlyMap<AssetId, ImageBitmap> = new Map(),
     private readonly locale: Locale = {},
     private readonly scroll?: BoxTiles,
   ) {}
@@ -94,7 +100,7 @@ export class DialogBox {
     const cue = this.state?.dialogue.cues[cueIdx]
     if (!cue) throw new Error('reforge: layoutCueInto cueIdx 越界')
     const slot: SlotId = cue.slot ?? 'bottom'
-    const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.icon) : undefined
+    const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.asset) : undefined
     const hasPortrait = Boolean(portraitImg)
     const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
     // maxRight:头像在右(bottom)→ 正文右边收到头像左;头像在左(top)→ startX 已避开头像,maxRight 不变。
@@ -247,8 +253,8 @@ export class DialogBox {
     // 该段话的头像(若有):spec §3 位置,bottom 右 / top 左。
     const cueIdx = this.slots[slotId]?.cueIdx
     const cue = cueIdx === undefined ? undefined : state.dialogue.cues[cueIdx]
-    const hasPortrait = cue?.portrait ? this.portraits.has(cue.portrait.icon) : false
-    const portraitImg = cue?.portrait ? this.portraits.get(cue.portrait.icon) : undefined
+    const hasPortrait = cue?.portrait ? this.portraits.has(cue.portrait.asset) : false
+    const portraitImg = cue?.portrait ? this.portraits.get(cue.portrait.asset) : undefined
     if (hasPortrait && portraitImg) {
       const px = pos.portrait.x - portraitImg.width / 2
       const py = pos.portrait.y - portraitImg.height / 2

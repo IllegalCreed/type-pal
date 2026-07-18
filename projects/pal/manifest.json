@@ -43,21 +43,12 @@
         "sprite",
         "battle-sprite",
         "effect-sprite",
-        "portrait",
-        "face",
-        "item-icon",
-        "battle-background",
-        "glyph-table",
-        "ui-image",
         "image"
       ],
       "root": "/extracted/data",
       "tilesets": "tileset",
       "sprites": "sprite",
-      "palettes": "palette",
-      "portraits": "/baked/portraits",
-      "faces": "/baked/ui/face",
-      "itemIcons": "/baked/ui/items"
+      "palettes": "palette"
     }
   },
   "startWorld": {

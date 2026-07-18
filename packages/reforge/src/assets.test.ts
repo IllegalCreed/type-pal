@@ -31,9 +31,6 @@ const base = (source: FileSource): AssetBase => ({
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
-  portraits: '',
-  faces: '',
-  itemIcons: '',
   io: source.legacy ?? projectRelativeLegacyAdapter(source),
   assetResolver: new AssetResolver(
     'test',

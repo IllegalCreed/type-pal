@@ -23,6 +23,7 @@ import { SetActorBattleSpriteCommand, UpdateActorCommand } from '../core/command
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
 import { LevelingEditor } from './LevelingEditor.js'
 import { PortraitEditor } from './PortraitEditor.js'
@@ -67,6 +68,7 @@ export function ActorMode(props: {
   onActorFocus?: (id: string) => void
   onOpenSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
   onOpenStartSettings?: () => void
 }) {
   const {
@@ -86,6 +88,7 @@ export function ActorMode(props: {
     onActorFocus,
     onOpenSprite,
     onOpenSound,
+    onOpenImage,
     onOpenStartSettings,
   } = props
   const [selId, setSelId] = useState(focusActorId ?? actors[0]?.id ?? '')
@@ -218,7 +221,31 @@ export function ActorMode(props: {
                 </div>
               </div>
             </div>
-            <PortraitEditor actor={actor} session={session} portraitBase={assetBase.portraits} />
+            <PortraitEditor
+              actor={actor}
+              session={session}
+              catalog={assetCatalog}
+              reader={assetReader}
+              onOpenAsset={onOpenImage}
+            />
+            <div className="section">
+              <h4>
+                菜单 / 战斗小头像 <span className="hint2">face 图片；缺省表示刻意不显示</span>
+              </h4>
+              <div className="field">
+                <span className="field-label">小头像</span>
+                <ImageAssetPicker
+                  value={actor.face}
+                  kind="face"
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                  allowUnset
+                  ariaLabel="菜单和战斗小头像"
+                  onOpenAsset={onOpenImage}
+                  onChange={(face) => session.dispatch(new UpdateActorCommand(actor.id, { face }))}
+                />
+              </div>
+            </div>
             {actor.battler ? (
               <>
                 <div className="section">

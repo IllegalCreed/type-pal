@@ -56,12 +56,11 @@ describe('cloneFromPal', () => {
       catalog: 'assets/index.json',
       roles: {},
       legacy: {
-        families: ['tileset', 'sprite', 'color-table', 'portrait'],
+        families: ['tileset', 'sprite', 'color-table'],
         root: '/extracted/data',
         tilesets: 'tileset',
         sprites: 'sprite',
         palettes: 'palette',
-        portraits: '/baked/portraits',
       },
     },
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
@@ -70,12 +69,23 @@ describe('cloneFromPal', () => {
     'manifest.json': manifest,
     'content/scenes/index.json': ['s1'],
     '/extracted/asset-manifest.json': { files: [{ path: 'data/tileset/1.rle', size: 100 }] },
-    '/baked/baked-manifest.json': { files: [{ path: 'portraits/1.png', size: 50 }] },
     'content/actors.json': [{ id: 'a' }],
     'content/scenes/s1.json': { id: 's1' },
-    'assets/index.json': { version: 1, assets: {} },
+    'assets/index.json': {
+      version: 1,
+      assets: {
+        'portrait.pal.001': {
+          kind: 'portrait',
+          path: 'assets/migrated/portraits/001.png',
+          mediaType: 'image/png',
+          bytes: 50,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'legacy-migrated' },
+        },
+      },
+    },
     '/extracted/data/tileset/1.rle': new ArrayBuffer(100),
-    '/baked/portraits/1.png': new ArrayBuffer(50),
+    'assets/migrated/portraits/001.png': new ArrayBuffer(50),
   }
 
   test('写相对化 manifest + 全部内容/素材文件;进度累计到满', async () => {
@@ -86,13 +96,13 @@ describe('cloneFromPal', () => {
     // manifest 相对化落盘
     const m = JSON.parse(written.get('manifest.json') as string)
     expect(m.assets.legacy.root).toBe('assets/extracted/data')
-    expect(m.assets.legacy.portraits).toBe('assets/baked/portraits')
-    // 内容 + 场景 + 素材(extracted/baked)都写了
+    expect(m.assets.legacy.portraits).toBeUndefined()
+    // 内容 + 场景 + 素材(catalog/extracted)都写了
     expect(written.has('content/actors.json')).toBe(true)
     expect(written.has('content/scenes/index.json')).toBe(true)
     expect(written.has('content/scenes/s1.json')).toBe(true)
     expect(written.has('assets/extracted/data/tileset/1.rle')).toBe(true)
-    expect(written.has('assets/baked/portraits/1.png')).toBe(true)
+    expect(written.has('assets/migrated/portraits/001.png')).toBe(true)
     // 进度:末次 = 满(100 + 50)
     expect(prog.at(-1)).toEqual([150, 150])
   })
@@ -108,7 +118,6 @@ describe('cloneFromPal', () => {
       '/extracted/asset-manifest.json': {
         files: [{ path: 'data/sprite/1.rle', size: gz.byteLength }],
       },
-      '/baked/baked-manifest.json': { files: [] },
       'assets/index.json': { version: 1, assets: {} },
       'content/actors.json': [],
       'content/scenes/s1.json': { id: 's1' },

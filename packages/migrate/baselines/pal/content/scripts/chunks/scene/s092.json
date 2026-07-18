@@ -211,7 +211,7 @@
         "ms": 40
       }
     ],
-    "scene/s092/L-41075/e1692/d-2244c52f": [
+    "scene/s092/L-41075/e1692/d-05ee0c3c": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -870,7 +870,7 @@
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
-            "icon": 2,
+            "asset": "portrait.pal.002",
             "side": "left"
           }
         }
@@ -891,7 +891,7 @@
           ],
           "speaker": "spk.林月如",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "right"
           }
         }
@@ -1104,7 +1104,7 @@
           "speaker": "spk.姬三娘",
           "slot": "top",
           "portrait": {
-            "icon": 42,
+            "asset": "portrait.pal.042",
             "side": "left"
           }
         }
@@ -1119,7 +1119,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -1197,7 +1197,7 @@
           ],
           "speaker": "spk.女飞贼",
           "portrait": {
-            "icon": 41,
+            "asset": "portrait.pal.041",
             "side": "right"
           }
         }
@@ -1210,7 +1210,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s092",
-              "id": "scene/s092/L-41075/e1692/d-2244c52f"
+              "id": "scene/s092/L-41075/e1692/d-05ee0c3c"
             },
             "self": "e1692"
           }

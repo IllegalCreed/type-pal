@@ -43,7 +43,6 @@ describe('使用菜单状态机', () => {
         id: '151',
         name: '引路蜂',
         desc: [],
-        icon: 0,
         buyPrice: 0,
         sellPrice: 0,
         sellable: true,

@@ -6,7 +6,7 @@ import type { WorldState } from '@type-pal/content'
 import type { MagicMenuState } from '../magic-menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawScroll, drawSlicedBox, loadPng, type MenuAssets } from './menu-box.js'
+import { drawScroll, drawSlicedBox, type MenuAssets } from './menu-box.js'
 
 // ── 网格(红框)──
 const GRID_X = 10
@@ -80,20 +80,6 @@ function drawNumRight(
   }
 }
 
-// 队员小头像懒加载缓存(faces/<template>.png;portraitFor 同款模式:null = 加载中/失败)
-const faceCache = new Map<string, ImageBitmap | null>()
-function faceFor(facesDir: string, template: string): ImageBitmap | undefined {
-  const key = `${facesDir}/${template}`
-  const hit = faceCache.get(key)
-  if (hit) return hit
-  if (hit === null) return undefined
-  faceCache.set(key, null)
-  void loadPng(`${facesDir}/${template}.png`).then((img) => {
-    if (img) faceCache.set(key, img)
-  })
-  return undefined
-}
-
 /** 大世界仙术菜单:三阶段渲染(见文件头)。nameFor = 队员显示名(locale 由壳层闭包)。 */
 export function drawMagicMenu(
   ctx: CanvasRenderingContext2D,
@@ -102,7 +88,10 @@ export function drawMagicMenu(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
-  opts: { facesDir?: string; nameFor?: (template: string) => string } = {},
+  opts: {
+    faceFor?: (template: string) => ImageBitmap | undefined
+    nameFor?: (template: string) => string
+  } = {},
 ): void {
   const caster = world.party[state.casterIdx]
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
@@ -111,7 +100,7 @@ export function drawMagicMenu(
   world.party.forEach((c, i) => {
     const x = PBOX_X + i * PBOX_STEP
     if (assets.magicPlayerBox) ctx.drawImage(assets.magicPlayerBox, x, PBOX_Y)
-    const face = opts.facesDir ? faceFor(opts.facesDir, c.template) : undefined
+    const face = opts.faceFor?.(c.template)
     if (face) ctx.drawImage(face, x - 2, PBOX_Y - 4)
     if (assets.slash) {
       ctx.drawImage(assets.slash, x + 49, PBOX_Y + 6)

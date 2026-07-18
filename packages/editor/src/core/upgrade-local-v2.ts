@@ -23,6 +23,12 @@ interface ManifestV2 {
 export interface UpgradeLocalV2Options {
   readSoundfont?: () => Promise<ArrayBuffer>
   onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void
+  /** 测试/宿主可注入解码器；默认使用浏览器原生解码并校验 battle 索引像素契约。 */
+  validateStaticImage?: (
+    bytes: ArrayBuffer,
+    kind: 'portrait' | 'face' | 'item-icon' | 'battle-background',
+    where: string,
+  ) => Promise<void>
 }
 
 export interface SoundUpgradeProgress {

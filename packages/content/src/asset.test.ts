@@ -5,9 +5,14 @@ import {
   collectAssetReferences,
   collectCommandAssetReferences,
   groupAssetReferencesBySite,
+  legacyPalPortraitAssetId,
   type ManifestAssetConfigV3,
+  palBattleBackgroundAssetId,
+  palFaceAssetId,
   palFrameAnimationAssetId,
+  palItemIconAssetId,
   palMusicAssetId,
+  palPortraitAssetId,
   palSoundAssetId,
   palVideoAssetId,
   validateAssetCatalog,
@@ -237,6 +242,18 @@ describe('catalog 与 manifest v3', () => {
       ),
     ).toThrow('资源族 "sound" 同时出现在 catalog 与 legacy')
   })
+
+  test('旧 UI 目录字段 actionable fail，不作为未知扩展静默穿透', () => {
+    expect(() => validateManifestAssetConfigV3({ ...assets, ui: 'assets/ui' }, catalog)).toThrow(
+      'manifest.assets.ui',
+    )
+    expect(() =>
+      validateManifestAssetConfigV3(
+        { ...assets, legacy: { families: ['sprite'], ui: 'assets/ui' } },
+        catalog,
+      ),
+    ).toThrow('manifest.assets.legacy.ui')
+  })
 })
 
 test('PAL 数字号只在迁移边界确定性映射', () => {
@@ -244,10 +261,46 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palSoundAssetId(45)).toBe('sound.pal.045')
   expect(palVideoAssetId(1)).toBe('video.pal.001')
   expect(palFrameAnimationAssetId(0)).toBe('frame-animation.pal.000')
+  expect(palPortraitAssetId(7)).toBe('portrait.pal.007')
+  expect(legacyPalPortraitAssetId(0)).toBeUndefined()
+  expect(legacyPalPortraitAssetId(7)).toBe('portrait.pal.007')
+  expect(palFaceAssetId('li-xiaoyao')).toBe('face.pal.li-xiaoyao')
+  expect(palItemIconAssetId(12)).toBe('item-icon.pal.012')
+  expect(palBattleBackgroundAssetId(6)).toBe('battle-background.pal.006')
   expect(() => palMusicAssetId(0)).toThrow('正整数')
   expect(() => palSoundAssetId(0)).toThrow('正整数')
   expect(() => palVideoAssetId(0)).toThrow('正整数')
   expect(() => palFrameAnimationAssetId(-1)).toThrow('非负整数')
+  expect(() => palPortraitAssetId(0)).toThrow('正整数')
+  expect(() => legacyPalPortraitAssetId(-1)).toThrow('非负整数')
+  expect(() => palFaceAssetId('')).toThrow('非空字符串')
+  expect(() => palItemIconAssetId(0)).toThrow('正整数')
+  expect(() => palBattleBackgroundAssetId(-1)).toThrow('非负整数')
+})
+
+test('项目 schema 不再接受幽灵 glyph/ui 资源族', () => {
+  expect(() =>
+    validateManifestAssetConfigV3({
+      catalog: 'assets/index.json',
+      roles: {},
+      legacy: { families: ['glyph-table'] },
+    }),
+  ).toThrow('未知 legacy family')
+  expect(() =>
+    validateAssetCatalog({
+      version: 1,
+      assets: {
+        ghost: {
+          kind: 'ui-image',
+          path: 'assets/migrated/ui/ghost.png',
+          mediaType: 'image/png',
+          bytes: 0,
+          sha256: hash,
+          origin: { kind: 'legacy-migrated' },
+        },
+      },
+    }),
+  ).toThrow('非法 AssetKind')
 })
 
 test('命令级 walker 与全工程 walker 共用深层递归', () => {
@@ -300,6 +353,138 @@ describe('typed 资源引用与文件闭包', () => {
       },
     ],
   }
+
+  test('静态图 walker 覆盖立绘表情、对话、形象命令、face、物品、战场与存档世界', () => {
+    const refs = collectAssetReferences({
+      actors: [
+        {
+          id: 'li-xiaoyao',
+          name: 'name.li-xiaoyao',
+          spriteId: 'sprite.li-xiaoyao',
+          portraits: {
+            default: 'portrait.pal.001',
+            expressions: { hurt: 'portrait.pal.002' },
+          },
+          face: 'face.pal.li-xiaoyao',
+        },
+      ],
+      scenes: [
+        {
+          id: 's',
+          mapId: 'map-001',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+          onEnter: [
+            {
+              body: [
+                {
+                  kind: 'dialog',
+                  cue: {
+                    rows: [{ text: 'dlg.test' }],
+                    portrait: { asset: 'portrait.pal.003', side: 'left' },
+                  },
+                },
+                {
+                  kind: 'setActorAppearance',
+                  actor: 'li-xiaoyao',
+                  portrait: 'portrait.pal.004',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      items: [
+        {
+          id: '1',
+          name: 'item.1.name',
+          desc: [],
+          icon: 'item-icon.pal.001',
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+        },
+      ],
+      battleFields: [
+        {
+          id: 6,
+          background: 'battle-background.pal.006',
+          screenWave: 0,
+          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        },
+      ],
+      worlds: [
+        {
+          party: [
+            {
+              id: 'li-xiaoyao',
+              template: 'li-xiaoyao',
+              level: 1,
+              exp: 0,
+              hp: 1,
+              maxHP: 1,
+              mp: 1,
+              maxMP: 1,
+              attack: 1,
+              defense: 1,
+              magicAttack: 1,
+              speed: 1,
+              luck: 1,
+              equipment: {},
+              tags: [],
+              appearance: { portrait: 'portrait.pal.005' },
+            },
+          ],
+          reserve: [
+            {
+              id: 'zhao-linger',
+              template: 'zhao-linger',
+              level: 1,
+              exp: 0,
+              hp: 1,
+              maxHP: 1,
+              mp: 1,
+              maxMP: 1,
+              attack: 1,
+              defense: 1,
+              magicAttack: 1,
+              speed: 1,
+              luck: 1,
+              equipment: {},
+              tags: [],
+              appearance: { portrait: 'portrait.pal.006' },
+            },
+          ],
+          money: 0,
+          learnedSkills: {},
+          inventory: [],
+        },
+      ],
+    })
+    expect(refs.map(({ asset, expectedKind }) => [asset, expectedKind])).toEqual([
+      ['portrait.pal.003', 'portrait'],
+      ['portrait.pal.004', 'portrait'],
+      ['portrait.pal.001', 'portrait'],
+      ['portrait.pal.002', 'portrait'],
+      ['face.pal.li-xiaoyao', 'face'],
+      ['item-icon.pal.001', 'item-icon'],
+      ['battle-background.pal.006', 'battle-background'],
+      ['portrait.pal.005', 'portrait'],
+      ['portrait.pal.006', 'portrait'],
+    ])
+    expect(refs).toContainEqual({
+      asset: 'portrait.pal.002',
+      expectedKind: 'portrait',
+      where: 'actors[0].portraits.expressions["hurt"]',
+      site: 'actor:li-xiaoyao:portraits',
+    })
+    expect(refs).toContainEqual({
+      asset: 'portrait.pal.006',
+      expectedKind: 'portrait',
+      where: 'worlds[0].reserve[0].appearance.portrait',
+      site: 'world:0:character:zhao-linger:appearance',
+    })
+  })
 
   test('walker 覆盖 roles、场景、嵌套命令', () => {
     const actors = [
@@ -466,6 +651,34 @@ describe('typed 资源引用与文件闭包', () => {
     })
     expect(issues.map((issue) => issue.code)).toEqual(
       expect.arrayContaining(['missing-file', 'bytes-mismatch', 'hash-mismatch']),
+    )
+  })
+
+  test('文件闭包也校验未引用 catalog 记录', async () => {
+    const unusedCatalog: AssetCatalogV1 = {
+      version: 1,
+      assets: {
+        'portrait.unused': {
+          kind: 'portrait',
+          path: 'assets/authored/unused.png',
+          mediaType: 'image/png',
+          bytes: 3,
+          sha256: hash,
+          origin: { kind: 'authored' },
+        },
+      },
+    }
+    const issues = await validateAssetFileClosure(unusedCatalog, [], {
+      readBytes: async () => {
+        throw new Error('ENOENT')
+      },
+      sha256: () => hash,
+    })
+    expect(issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ code: 'unused-asset', severity: 'warn' }),
+        expect.objectContaining({ code: 'missing-file', severity: 'error' }),
+      ]),
     )
   })
 

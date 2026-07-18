@@ -514,6 +514,7 @@ export function ScriptDrawer(props: {
   /** N6:从调用行跳到数据模式的共享脚本页。 */
   onOpenScript?: (id: string) => void
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
   onClose: () => void
 }) {
   const {
@@ -541,6 +542,7 @@ export function ScriptDrawer(props: {
     layers,
     onOpenScript,
     onOpenSound,
+    onOpenImage,
     onClose,
   } = props
   const scriptWorkRef = useRef<HTMLDivElement>(null)
@@ -1249,6 +1251,7 @@ export function ScriptDrawer(props: {
                     hasImplicitSelf={active?.kind === 'trigger' || active?.kind === 'auto'}
                     onOpenScript={openScriptTarget}
                     onOpenSound={onOpenSound}
+                    onOpenImage={onOpenImage}
                     onChange={(next) => {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]

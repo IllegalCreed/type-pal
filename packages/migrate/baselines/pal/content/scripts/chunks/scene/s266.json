@@ -128,7 +128,7 @@
         "speed": "normal"
       }
     ],
-    "scene/s266/L-34912/e4662/d-196b76cc": [],
+    "scene/s266/L-34912/e4662/d-639410b9": [],
     "scene/s266/L-34330/e4657/d-0a386828": [
       {
         "kind": "moveEntity",
@@ -288,7 +288,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -306,7 +306,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "right"
           }
         }
@@ -358,7 +358,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -482,7 +482,7 @@
             }
           ],
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "right"
           }
         }
@@ -514,7 +514,7 @@
           ],
           "speaker": "spk.小孩",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "right"
           }
         }
@@ -541,7 +541,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 6,
+            "asset": "portrait.pal.006",
             "side": "left"
           }
         }
@@ -562,7 +562,7 @@
           ],
           "speaker": "spk.小孩",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "right"
           }
         }
@@ -619,7 +619,7 @@
             }
           ],
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "right"
           }
         }
@@ -647,7 +647,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -664,7 +664,7 @@
             }
           ],
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "right"
           }
         }
@@ -686,7 +686,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -706,7 +706,7 @@
             }
           ],
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "right"
           }
         }
@@ -731,7 +731,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -751,7 +751,7 @@
             }
           ],
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -770,7 +770,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -957,7 +957,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }
@@ -980,7 +980,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s266",
-              "id": "scene/s266/L-34912/e4662/d-196b76cc"
+              "id": "scene/s266/L-34912/e4662/d-639410b9"
             },
             "self": "e4662"
           }
@@ -999,7 +999,7 @@
             }
           ],
           "portrait": {
-            "icon": 3,
+            "asset": "portrait.pal.003",
             "side": "right"
           }
         }
@@ -1018,7 +1018,7 @@
           "speaker": "spk.小孩",
           "slot": "top",
           "portrait": {
-            "icon": 85,
+            "asset": "portrait.pal.085",
             "side": "left"
           }
         }

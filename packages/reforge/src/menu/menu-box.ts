@@ -7,6 +7,7 @@
  */
 import {
   type ActorDef,
+  type AssetId,
   type CharacterInstance,
   EQUIP_SLOT_IDS,
   effectiveStat,
@@ -18,14 +19,16 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
+import { type EngineChromeUiSlot, loadEngineChromeImage } from '../engine-chrome/registry.js'
 import type { MenuState } from '../menu-state.js'
+import type { ProjectImageCache } from '../project-image-cache.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
 /** 9 个九宫格块(0..8 = i*3+j,i=row,j=col;黄框 frame-00..08)。 */
 export interface BoxTiles {
   /** 9 块预烘 RGBA,索引 = i*3+j。frame 尺寸不规则 → drawSlicedBox 按各块实际宽高定位。 */
-  tiles: (ImageBitmap | undefined)[]
+  tiles: ImageBitmap[]
 }
 
 /** 平铺填充:在 (dx,dy,dw,dh) 内重复画 img(原版 RLEBlit 平铺,非拉伸),clip 裁出界部分。 */
@@ -310,113 +313,104 @@ export interface MenuAssets {
   /** 黄框九宫格 9 块(ImageBitmap,索引 i*3+j)。 */
   box: BoxTiles
   /** 状态背景图。 */
-  statusBg: ImageBitmap | undefined
+  statusBg: ImageBitmap
   /** 装备格图。 */
-  equipSlot: ImageBitmap | undefined
+  equipSlot: ImageBitmap
   /** 卷轴 scroll 九宫格 9 块(原单行卷轴 frame 44/45/46 重切;金钱/否是确认/存档槽通用,撑任意高宽)。 */
   scroll: BoxTiles
   /** 数字 0-9 预烘(索引=数字值)。 */
-  nums: (ImageBitmap | undefined)[]
+  nums: ImageBitmap[]
   /** 角色立绘(状态面板;李逍遥 = RGM avatar chunk 1 = portraits/1)。 */
   avatar: ImageBitmap | undefined
   /** 蓝数字 0-9(HP/MP 最大值;PAL_DrawNumber kNumColorBlue)。 */
-  numsBlue: (ImageBitmap | undefined)[]
+  numsBlue: ImageBitmap[]
   /** 青数字 0-9(exp 下一级;PAL_DrawNumber kNumColorCyan)。 */
-  numsCyan: (ImageBitmap | undefined)[]
+  numsCyan: ImageBitmap[]
   /** 斜杠 sprite(HP/MP 当前/最大分隔;SPRITENUM_SLASH)。 */
-  slash: ImageBitmap | undefined
+  slash: ImageBitmap
   /** 物品图标(bitmap chunk → sprite;状态板/装备菜单按 item.icon 取)。 */
-  itemIcons: Record<number, ImageBitmap | undefined>
+  itemIcons: Record<AssetId, ImageBitmap | undefined>
   /** 仙术菜单:红框九宫格 9 块(ui/box-red,iStyle1)。 */
   redBox: BoxTiles
   /** 仙术菜单:角色框(playerbox;全队 x=45+78i 排开)。 */
-  magicPlayerBox: ImageBitmap | undefined
+  magicPlayerBox: ImageBitmap
   /** 仙术菜单:网格选中光标(cursor/grid,frame 69)。 */
-  cursorGrid: ImageBitmap | undefined
+  cursorGrid: ImageBitmap
   /** 仙术菜单/战斗选队友箭头常色帧(cursor/up,frame 67)。 */
-  cursorUp: ImageBitmap | undefined
+  cursorUp: ImageBitmap
   /** 战斗选队友箭头红帧(cursor/up-red,frame 66;与 67 常色 40ms 交替闪 —— 一阶段
    *  SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED/arrowBlinkRed 真值)。 */
-  cursorUpRed: ImageBitmap | undefined
+  cursorUpRed: ImageBitmap
   /** 战斗当前行动者红手指(cursor/down,frame 68;与 cursorGrid 69 交替闪)。 */
-  cursorDown: ImageBitmap | undefined
+  cursorDown: ImageBitmap
   /** 结算升级屏 old→cur 箭头(frame 47)。 */
-  settleArrow: ImageBitmap | undefined
+  settleArrow: ImageBitmap
+  /** 战斗主菜单四按钮:attack/magic/coop/misc。 */
+  battleIcons: ImageBitmap[]
   /** 物品/装备列表:选中物详情框 itembox 九宫格 9 块(frame 70 重切;64×64 处与原图一致,可扩尺寸)。 */
   itembox: BoxTiles
 }
 
-/** 加载 PNG → ImageBitmap;失败返回 undefined(不阻断,渲染容错)。 */
-export async function loadPng(url: string): Promise<ImageBitmap | undefined> {
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return undefined
-    return await createImageBitmap(await res.blob())
-  } catch {
-    return undefined
-  }
-}
-
-/** 菜单资产目录(AssetBase 的子集;loader 已解析成完整前缀)。 */
-export interface MenuAssetDirs {
-  /** 立绘目录(状态面板/对话头像)。 */
-  portraits: string
-  /** 物品图标目录。 */
-  itemIcons: string
-  /** 战斗小头像目录(仙术菜单角色头像)。 */
-  faces: string
-  /** UI chrome 覆盖目录(工程皮肤;缺省 = 引擎默认皮 /ui)。 */
-  uiOverride?: string
-}
-
 /**
  * 加载菜单资产:黄框九宫格 + 状态背景 + 装备格 + 金钱卷轴 + 数字。
- * 全部 = 预烘 RGBA(@type-pal/migrate bake-assets,palette 0),drawImage 直接用、零运行时烤。
- * chrome(框/数字/光标)= 引擎默认皮,工程可经 dirs.uiOverride 覆盖(有则优先,404 退默认);
- * 内容资产(立绘/物品图标/头像)按 dirs 目录取(随库/工程)。
+ * chrome 只走 bundler registry；物品图标/默认状态立绘只走工程 AssetId cache。
  */
-export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): Promise<MenuAssets> {
-  // chrome 取图:工程覆盖优先,退引擎默认皮
-  const ui = async (rel: string): Promise<ImageBitmap | undefined> =>
-    dirs.uiOverride
-      ? ((await loadPng(`${dirs.uiOverride}/${rel}`)) ?? loadPng(`/ui/${rel}`))
-      : loadPng(`/ui/${rel}`)
+export async function loadMenuAssets(
+  items: ItemDataMap,
+  images: ProjectImageCache,
+  defaultPortrait?: AssetId,
+): Promise<MenuAssets> {
+  const ui = (slot: EngineChromeUiSlot): Promise<ImageBitmap> => loadEngineChromeImage(slot)
   // 黄框 9 块预烘 RGBA(frame-00..08 = i*3+j),drawImage 直接用、零运行时烤
-  const tiles: (ImageBitmap | undefined)[] = []
+  const tiles: ImageBitmap[] = []
   for (let i = 0; i <= 8; i++) {
     const name = `frame-${String(i).padStart(2, '0')}.png`
-    tiles.push(await ui(`box/${name}`))
+    tiles.push(await ui(`box/${name}` as EngineChromeUiSlot))
   }
   // 仙术菜单红框 9 块(ui/box-red,iStyle1)
-  const redTiles: (ImageBitmap | undefined)[] = []
+  const redTiles: ImageBitmap[] = []
   for (let i = 0; i <= 8; i++) {
-    redTiles.push(await ui(`box-red/frame-${String(i).padStart(2, '0')}.png`))
+    redTiles.push(await ui(`box-red/frame-${String(i).padStart(2, '0')}.png` as EngineChromeUiSlot))
   }
   // 卷轴 scroll 9 块(原单行卷轴重切;金钱/否是/存档槽通用,撑任意高宽)
-  const scrollTiles: (ImageBitmap | undefined)[] = []
+  const scrollTiles: ImageBitmap[] = []
   for (let i = 0; i <= 8; i++) {
-    scrollTiles.push(await ui(`scroll/frame-${String(i).padStart(2, '0')}.png`))
+    scrollTiles.push(
+      await ui(`scroll/frame-${String(i).padStart(2, '0')}.png` as EngineChromeUiSlot),
+    )
   }
   // 物品详情框 itembox 9 块(frame 70 重切)
-  const itemboxTiles: (ImageBitmap | undefined)[] = []
+  const itemboxTiles: ImageBitmap[] = []
   for (let i = 0; i <= 8; i++) {
-    itemboxTiles.push(await ui(`itembox/frame-${String(i).padStart(2, '0')}.png`))
+    itemboxTiles.push(
+      await ui(`itembox/frame-${String(i).padStart(2, '0')}.png` as EngineChromeUiSlot),
+    )
   }
   const [statusBg, equipSlot, nums, avatar, numsBlue, numsCyan, slash] = await Promise.all([
     ui('status/bg.png'),
     ui('status/slot.png'),
-    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num/${d}.png`))),
-    loadPng(`${dirs.portraits}/1.png`), // 李逍遥状态立绘(RGM avatar chunk 1,复用对话头像)
-    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num-blue/${d}.png`))),
-    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num-cyan/${d}.png`))),
+    Promise.all(Array.from({ length: 10 }, (_, d) => ui(`num/${d}.png` as EngineChromeUiSlot))),
+    defaultPortrait ? images.load(defaultPortrait, 'portrait') : Promise.resolve(undefined),
+    Promise.all(
+      Array.from({ length: 10 }, (_, d) => ui(`num-blue/${d}.png` as EngineChromeUiSlot)),
+    ),
+    Promise.all(
+      Array.from({ length: 10 }, (_, d) => ui(`num-cyan/${d}.png` as EngineChromeUiSlot)),
+    ),
     ui('num/slash.png'),
   ])
   // 物品图标(按 item.icon = bitmap chunk;状态板/装备菜单数据驱动渲染)
-  const iconChunks = [...new Set(Object.values(items).map((it) => it.icon))]
-  const iconArr = await Promise.all(iconChunks.map((ch) => loadPng(`${dirs.itemIcons}/${ch}.png`)))
-  const itemIcons: Record<number, ImageBitmap | undefined> = {}
-  iconChunks.forEach((ch, i) => {
-    itemIcons[ch] = iconArr[i]
+  const iconAssets = [
+    ...new Set(
+      Object.values(items)
+        .map((item) => item.icon)
+        .filter((asset): asset is AssetId => typeof asset === 'string'),
+    ),
+  ]
+  const iconArr = await Promise.all(iconAssets.map((asset) => images.load(asset, 'item-icon')))
+  const itemIcons: Record<AssetId, ImageBitmap | undefined> = {}
+  iconAssets.forEach((asset, i) => {
+    itemIcons[asset] = iconArr[i]
   })
   // 仙术菜单专用 sprite(角色框 / 网格光标;队员头像 magic-box faceFor 按 template 懒加载)
   const [magicPlayerBox, cursorGrid, cursorUp, cursorUpRed, cursorDown, settleArrow] =
@@ -428,6 +422,9 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
       ui('cursor/down.png'),
       ui('cursor/settle-arrow.png'),
     ])
+  const battleIcons = await Promise.all(
+    (['attack', 'magic', 'coop', 'misc'] as const).map((name) => ui(`battle/icon-${name}.png`)),
+  )
   return {
     box: { tiles },
     statusBg,
@@ -446,13 +443,15 @@ export async function loadMenuAssets(items: ItemDataMap, dirs: MenuAssetDirs): P
     cursorUpRed,
     cursorDown,
     settleArrow,
+    battleIcons,
     itembox: { tiles: itemboxTiles },
   }
 }
 
 export class MenuBox {
   /** 状态板头像懒加载缓存(chunk 号 → 图;null = 加载中/失败,回落 assets.avatar)。 */
-  private readonly portraitCache = new Map<number, ImageBitmap | null>()
+  private readonly portraitCache = new Map<AssetId, ImageBitmap | null>()
+  private readonly portraitErrors = new Map<AssetId, Error>()
 
   constructor(
     private readonly glyphs: GlyphTable,
@@ -465,23 +464,28 @@ export class MenuBox {
       poisonsById?: Record<number, PoisonDef>
       /** 角色表(头像号 portraits.default / 升级阈值 battler.leveling.expTable)。 */
       actorsById?: Record<string, ActorDef>
-      /** 立绘目录(按角色头像号懒加载;menuAssets.avatar 只是李逍遥兜底)。 */
-      portraitsDir?: string
+      /** 工程图像缓存；状态立绘按 AssetId 懒加载。 */
+      imageCache?: ProjectImageCache
       /** 调色板(毒名色 = colors[wColor+10],uigame.c:1252)。 */
       palette?: Palette
     } = {},
   ) {}
 
-  /** 按 RGM 头像号取立绘(懒加载 + 缓存;未就绪返回 undefined 由调用方回落)。 */
-  private portraitFor(num: number | undefined): ImageBitmap | undefined {
-    if (num === undefined || !this.extras.portraitsDir) return undefined
-    const hit = this.portraitCache.get(num)
+  /** 按稳定 AssetId 取立绘(懒加载 + 缓存;未就绪返回 undefined 由调用方回落)。 */
+  private portraitFor(asset: AssetId | undefined): ImageBitmap | undefined {
+    if (asset === undefined || !this.extras.imageCache) return undefined
+    const failure = this.portraitErrors.get(asset)
+    if (failure) throw failure
+    const hit = this.portraitCache.get(asset)
     if (hit) return hit
     if (hit === null) return undefined // 加载中/失败
-    this.portraitCache.set(num, null)
-    void loadPng(`${this.extras.portraitsDir}/${num}.png`).then((img) => {
-      if (img) this.portraitCache.set(num, img)
-    })
+    this.portraitCache.set(asset, null)
+    void this.extras.imageCache
+      .load(asset, 'portrait')
+      .then((image) => this.portraitCache.set(asset, image))
+      .catch((error: unknown) =>
+        this.portraitErrors.set(asset, error instanceof Error ? error : new Error(String(error))),
+      )
     return undefined
   }
 
@@ -620,7 +624,7 @@ export class MenuBox {
       if (!equippedId) return // 空槽:格画了,图标/名都不画(留空)
       const equipped = this.items[equippedId]
       // 装备图标:items[itemId].icon → itemIcons;缩进内凹区、保比例居中
-      const icon = this.assets.itemIcons[equipped?.icon ?? -1]
+      const icon = equipped?.icon ? this.assets.itemIcons[equipped.icon] : undefined
       if (icon) {
         const inner = EQUIP_SLOT_SIZE - EQUIP_BORDER * 2
         const scale = Math.min(inner / icon.width, inner / icon.height, 1)

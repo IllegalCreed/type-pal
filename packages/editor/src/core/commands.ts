@@ -1556,8 +1556,10 @@ function withActor(state: EditorState, actorId: string, newActor: ActorDef): Edi
   return hit ? { ...state, actors } : state
 }
 
-/** UpdateActor 的 patch 范围(名字 / 头像组 / 战斗数据 / 精灵引用)。 */
-export type ActorPatch = Partial<Pick<ActorDef, 'name' | 'portraits' | 'battler' | 'spriteId'>>
+/** UpdateActor 的 patch 范围(名字 / 头像组 / 小头像 / 战斗数据 / 精灵引用)。 */
+export type ActorPatch = Partial<
+  Pick<ActorDef, 'name' | 'portraits' | 'face' | 'battler' | 'spriteId'>
+>
 
 /** 改角色字段。语义同上:首次 apply 捕获旧值,invert 还原;portraits/battler 深拷贝。 */
 export class UpdateActorCommand implements Command {
@@ -1582,6 +1584,7 @@ export class UpdateActorCommand implements Command {
     const old: ActorPatch = {}
     if ('name' in this.patch) old.name = a.name
     if ('spriteId' in this.patch) old.spriteId = a.spriteId
+    if ('face' in this.patch) old.face = a.face
     if ('portraits' in this.patch)
       old.portraits = a.portraits ? structuredClone(a.portraits) : undefined
     if ('battler' in this.patch) old.battler = a.battler ? structuredClone(a.battler) : undefined
@@ -1663,7 +1666,7 @@ function withBattleField(state: EditorState, fieldId: number, next: BattleFieldD
 
 /** UpdateBattleField 的 patch 范围(id 不可改 —— 数字稳定身份被场景/脚本引用)。 */
 export type BattleFieldPatch = Partial<
-  Pick<BattleFieldDef, 'name' | 'bg' | 'screenWave' | 'magicEffect'>
+  Pick<BattleFieldDef, 'name' | 'background' | 'screenWave' | 'magicEffect'>
 >
 
 /** 改战场字段(D24 战场页)。语义同 UpdateItemCommand:首次 apply 捕获旧值,invert 还原。 */

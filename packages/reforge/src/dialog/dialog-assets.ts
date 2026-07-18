@@ -4,6 +4,7 @@
  * Canvas2D 适配:光标 sprite → tint bake(6 步轮转);头像 → 预烘 RGBA PNG(@type-pal/migrate bake-assets),直接 drawImage。
  */
 import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { ENGINE_CHROME } from '../engine-chrome/registry.js'
 
 /** base64 → bytes(浏览器 atob)。 */
 function base64ToBytes(b64: string): Uint8Array {
@@ -14,6 +15,18 @@ interface DialogIconsRaw {
   source: string
   size: number
   base64: string
+}
+
+/** DATA chunk 12 的纯解码边界；metadata 与 bytes 不一致时拒绝静默继续。 */
+export function decodeCursorFrames(entry: DialogIconsRaw, source = 'dialog cursor'): RleFrame[] {
+  const bytes = base64ToBytes(entry.base64)
+  if (bytes.byteLength !== entry.size)
+    throw new Error(
+      `引擎 chrome 对话光标长度错误:${source}:metadata=${entry.size}, actual=${bytes.byteLength}`,
+    )
+  const frames = parseSpriteChunk(bytes)
+  if (frames.length === 0) throw new Error(`引擎 chrome 对话光标为空:${source}`)
+  return frames
 }
 
 /** 单个光标 frame → 离屏 canvas,不透明像素染成指定 rgba(透明背景)。
@@ -44,46 +57,9 @@ export function bakeCursorTinted(
 }
 
 /** 解码光标 sprite frames(DATA chunk12),bake 推迟到 DialogBox(按 step bake+缓存)。 */
-export async function loadCursorFrames(baseUrl = '/extracted'): Promise<RleFrame[]> {
-  const res = await fetch(`${baseUrl}/data/dialog-icons-raw.json`)
-  if (!res.ok) throw new Error(`dialog-assets: dialog-icons-raw.json fetch failed (${res.status})`)
+export async function loadCursorFrames(url = ENGINE_CHROME.dialogCursor): Promise<RleFrame[]> {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`引擎 chrome 对话光标加载失败(${res.status}):${url}`)
   const entry = (await res.json()) as DialogIconsRaw
-  return parseSpriteChunk(base64ToBytes(entry.base64))
-}
-
-/**
- * 加载预烘 RGBA 头像 PNG(`/portraits/<chunk>.png`,@type-pal/migrate bake-assets 产物)。
- * 运行时已脱离场景 palette:PNG 本身就是真彩,直接 createImageBitmap → 画到离屏 canvas,
- * drawImage 即可(D15 阶段A)。返回 Map<chunkIndex, HTMLCanvasElement>。失败项跳过(降级无头像)。
- */
-export async function loadPortraits(
-  chunkIndices: readonly number[],
-  baseUrl = '/portraits',
-): Promise<Map<number, HTMLCanvasElement>> {
-  const map = new Map<number, HTMLCanvasElement>()
-  await Promise.all(
-    chunkIndices.map(async (chunk) => {
-      try {
-        const res = await fetch(`${baseUrl}/${chunk}.png`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const bitmap = await createImageBitmap(await res.blob()).catch((cause: unknown) => {
-          throw new Error(`loadPortraits: PNG decode 失败 (chunk ${chunk})`, { cause })
-        })
-        try {
-          const cvs = document.createElement('canvas')
-          cvs.width = bitmap.width
-          cvs.height = bitmap.height
-          const ctx = cvs.getContext('2d')
-          if (!ctx) throw new Error('loadPortraits: 2d context 不可用')
-          ctx.drawImage(bitmap, 0, 0)
-          map.set(chunk, cvs)
-        } finally {
-          bitmap.close()
-        }
-      } catch (err) {
-        console.warn(`dialog-assets: portrait ${chunk} 加载失败,跳过:`, err)
-      }
-    }),
-  )
-  return map
+  return decodeCursorFrames(entry, url)
 }

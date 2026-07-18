@@ -284,6 +284,45 @@ describe('script library schema', () => {
     )
   })
 
+  it('对话与持久形象只接受立绘 AssetId，拒绝旧数字字段', () => {
+    expect(() =>
+      checkCommands(
+        [
+          {
+            kind: 'dialog',
+            cue: {
+              rows: [{ text: 'dlg.test' }],
+              portrait: { asset: 'portrait.pal.001', side: 'left' },
+            },
+          },
+          {
+            kind: 'setActorAppearance',
+            actor: 'li-xiaoyao',
+            portrait: 'portrait.pal.002',
+          },
+        ],
+        'script',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands(
+        [
+          {
+            kind: 'dialog',
+            cue: { rows: [{ text: 'dlg.test' }], portrait: { icon: 1, side: 'left' } },
+          },
+        ],
+        'legacy-script',
+      ),
+    ).toThrow(/portrait\.icon.*已退役/)
+    expect(() =>
+      checkCommands(
+        [{ kind: 'setActorAppearance', actor: 'li-xiaoyao', portrait: 2 }],
+        'legacy-script',
+      ),
+    ).toThrow(/portrait.*AssetId/)
+  })
+
   it('loadScene 只允许默认、命名落点、显式坐标三种互斥目标', () => {
     expect(() => checkCommands([{ kind: 'loadScene', scene: 's001' }], 'script')).not.toThrow()
     expect(() =>

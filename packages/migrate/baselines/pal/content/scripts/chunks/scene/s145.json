@@ -131,7 +131,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 10,
+            "asset": "portrait.pal.010",
             "side": "right"
           },
           "autoAdvance": 571
@@ -179,7 +179,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 2,
+            "asset": "portrait.pal.002",
             "side": "right"
           },
           "autoAdvance": 685
@@ -228,7 +228,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 5,
+            "asset": "portrait.pal.005",
             "side": "right"
           },
           "autoAdvance": 742
@@ -460,7 +460,7 @@
           ],
           "slot": "top",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "left"
           }
         }
@@ -479,7 +479,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 6,
+            "asset": "portrait.pal.006",
             "side": "right"
           }
         }
@@ -499,7 +499,7 @@
           ],
           "speaker": "spk.赵灵儿",
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           }
         }
@@ -526,7 +526,7 @@
           ],
           "speaker": "spk.林月如",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "right"
           }
         }
@@ -549,7 +549,7 @@
           ],
           "speaker": "spk.林月如",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "right"
           }
         }
@@ -568,7 +568,7 @@
           ],
           "speaker": "spk.赵灵儿",
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           }
         }
@@ -596,7 +596,7 @@
           ],
           "speaker": "spk.林月如",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "right"
           }
         }
@@ -619,7 +619,7 @@
           ],
           "speaker": "spk.林月如",
           "portrait": {
-            "icon": 21,
+            "asset": "portrait.pal.021",
             "side": "right"
           },
           "cursorFrame": 1
@@ -662,7 +662,7 @@
       {
         "kind": "setActorAppearance",
         "actor": "zhao-linger",
-        "portrait": 91
+        "portrait": "portrait.pal.091"
       },
       {
         "kind": "setActorAppearance",
@@ -773,7 +773,7 @@
             }
           ],
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           }
         }
@@ -884,7 +884,7 @@
             }
           ],
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           },
           "autoAdvance": 914
@@ -915,7 +915,7 @@
             }
           ],
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           },
           "autoAdvance": 800
@@ -938,7 +938,7 @@
             }
           ],
           "portrait": {
-            "icon": 90,
+            "asset": "portrait.pal.090",
             "side": "right"
           },
           "autoAdvance": 685

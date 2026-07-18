@@ -102,7 +102,7 @@ function describe(
       return {
         icon: '💬',
         label: `${who}${text}`,
-        detail: cmd.cue.portrait ? `${slot}·立绘${cmd.cue.portrait.icon}` : slot,
+        detail: cmd.cue.portrait ? `${slot}·立绘 ${cmd.cue.portrait.asset}` : slot,
       }
     }
     case 'clearDialog':

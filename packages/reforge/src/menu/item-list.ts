@@ -126,7 +126,7 @@ export function drawItemGridList(
   drawSlicedBox(ctx, assets.itembox, ITEMBOX_X, ITEMBOX_Y, 64, 64)
   const sel = items[cursor]
   if (sel) {
-    const icon = assets.itemIcons[sel.icon]
+    const icon = sel.icon ? assets.itemIcons[sel.icon] : undefined
     if (icon) ctx.drawImage(icon, ITEMBOX_X + ICON_DX, ITEMBOX_Y + ICON_DY)
     // 风味说明 + 装备效果派生行(数值单一真相源 = equip.effects;desc 只写风味,防脱节)
     if (!opts?.noDesc) {

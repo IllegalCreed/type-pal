@@ -1,6 +1,6 @@
 import type { ActorDef } from './actor.js'
-import type { EntryPoint } from './character.js'
-import type { EnemyDef } from './enemy.js'
+import type { EntryPoint, WorldState } from './character.js'
+import type { BattleFieldDef, EnemyDef } from './enemy.js'
 import type { SceneDef } from './index.js'
 import type { ItemData } from './item.js'
 import type { ScriptChunkV1 } from './script-library.js'
@@ -22,8 +22,6 @@ export const ASSET_KINDS = [
   'battle-background',
   'video',
   'frame-animation',
-  'glyph-table',
-  'ui-image',
   'color-table',
 ] as const
 export type AssetKind = (typeof ASSET_KINDS)[number]
@@ -102,8 +100,6 @@ export const LEGACY_ASSET_FAMILIES = [
   'battle-background',
   'rng',
   'video',
-  'glyph-table',
-  'ui-image',
   'color-table',
   'image',
 ] as const
@@ -120,7 +116,6 @@ export interface LegacyAssetConfigV3 {
   portraits?: string
   faces?: string
   itemIcons?: string
-  ui?: string
   images?: string
   rng?: string
   videos?: string
@@ -212,6 +207,10 @@ export function validateManifestAssetConfigV3(
   where = 'manifest.assets',
 ): ManifestAssetConfigV3 {
   const assets = objectAt(value, where)
+  if ('ui' in assets)
+    throw new Error(
+      `${where}.ui: 旧工程 UI 主题没有可安全升级的 slot 契约；请备份并移除该自定义后重开`,
+    )
   validateProjectRelativePath(assets.catalog as string, `${where}.catalog`)
   const roles = objectAt(assets.roles, `${where}.roles`)
   for (const [role, id] of Object.entries(roles)) {
@@ -223,6 +222,10 @@ export function validateManifestAssetConfigV3(
   let families: LegacyAssetFamily[] = []
   if (assets.legacy !== undefined) {
     const legacy = objectAt(assets.legacy, `${where}.legacy`)
+    if ('ui' in legacy)
+      throw new Error(
+        `${where}.legacy.ui: 旧工程 UI 主题没有可安全升级的 slot 契约；请备份并移除该自定义后重开`,
+      )
     if (!Array.isArray(legacy.families)) throw new Error(`${where}.legacy.families: 期望数组`)
     families = legacy.families.map((family, index) => {
       if (typeof family !== 'string' || !legacyFamilySet.has(family))
@@ -286,6 +289,37 @@ export function palFrameAnimationAssetId(chunk: number): AssetId {
   return `frame-animation.pal.${String(chunk).padStart(3, '0')}`
 }
 
+export function palPortraitAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk <= 0)
+    throw new Error(`PAL 立绘号必须是正整数，收到 ${String(chunk)}`)
+  return `portrait.pal.${String(chunk).padStart(3, '0')}`
+}
+
+/** 旧 PAL 的 0 是“无立绘”，只允许在升级边界被消解。 */
+export function legacyPalPortraitAssetId(chunk: number): AssetId | undefined {
+  if (!Number.isInteger(chunk) || chunk < 0)
+    throw new Error(`旧 PAL 立绘号必须是非负整数，收到 ${String(chunk)}`)
+  return chunk === 0 ? undefined : palPortraitAssetId(chunk)
+}
+
+export function palFaceAssetId(actorId: string): AssetId {
+  if (typeof actorId !== 'string' || actorId.length === 0 || actorId.trim() !== actorId)
+    throw new Error(`PAL 角色 id 必须是无首尾空白的非空字符串，收到 ${JSON.stringify(actorId)}`)
+  return `face.pal.${actorId}`
+}
+
+export function palItemIconAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk <= 0)
+    throw new Error(`PAL 物品图标号必须是正整数，收到 ${String(chunk)}`)
+  return `item-icon.pal.${String(chunk).padStart(3, '0')}`
+}
+
+export function palBattleBackgroundAssetId(chunk: number): AssetId {
+  if (!Number.isInteger(chunk) || chunk < 0)
+    throw new Error(`PAL 战场背景号必须是非负整数，收到 ${String(chunk)}`)
+  return `battle-background.pal.${String(chunk).padStart(3, '0')}`
+}
+
 export interface AssetReference {
   asset: AssetId
   expectedKind: AssetKind
@@ -311,6 +345,9 @@ export interface AssetReferenceSource {
   enemies?: readonly EnemyDef[]
   items?: readonly ItemData[]
   skills?: readonly SkillData[]
+  battleFields?: readonly BattleFieldDef[]
+  /** 存档/运行态删除保护可选输入；工程内容闭包本身不传此槽。 */
+  worlds?: readonly WorldState[]
 }
 
 const BATTLER_SOUND_FIELDS = [
@@ -374,6 +411,27 @@ function collectCommandAssets(
     pushAssetReference(
       out,
       { asset: record.asset, expectedKind: 'frame-animation', where: `${where}.asset` },
+      site,
+    )
+  if (record.kind === 'dialog') {
+    const cue = record.cue
+    if (cue && typeof cue === 'object' && !Array.isArray(cue)) {
+      const portrait = (cue as Record<string, unknown>).portrait
+      if (portrait && typeof portrait === 'object' && !Array.isArray(portrait)) {
+        const asset = (portrait as Record<string, unknown>).asset
+        if (typeof asset === 'string')
+          pushAssetReference(
+            out,
+            { asset, expectedKind: 'portrait', where: `${where}.cue.portrait.asset` },
+            site,
+          )
+      }
+    }
+  }
+  if (record.kind === 'setActorAppearance' && typeof record.portrait === 'string')
+    pushAssetReference(
+      out,
+      { asset: record.portrait, expectedKind: 'portrait', where: `${where}.portrait` },
       site,
     )
   if (record.kind === 'quitToTitle' && Array.isArray(record.videos)) {
@@ -482,6 +540,28 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
     }
   })
   source.actors?.forEach((actor, index) => {
+    if (actor.portraits) {
+      references.push({
+        asset: actor.portraits.default,
+        expectedKind: 'portrait',
+        where: `actors[${index}].portraits.default`,
+        site: `actor:${actor.id}:portraits`,
+      })
+      for (const [expression, asset] of Object.entries(actor.portraits.expressions ?? {}))
+        references.push({
+          asset,
+          expectedKind: 'portrait',
+          where: `actors[${index}].portraits.expressions[${JSON.stringify(expression)}]`,
+          site: `actor:${actor.id}:portraits`,
+        })
+    }
+    if (actor.face)
+      references.push({
+        asset: actor.face,
+        expectedKind: 'face',
+        where: `actors[${index}].face`,
+        site: `actor:${actor.id}:face`,
+      })
     for (const field of BATTLER_SOUND_FIELDS) {
       const asset = actor.battler?.sounds?.[field]
       if (typeof asset === 'string')
@@ -518,6 +598,13 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
     )
   })
   source.items?.forEach((item, index) => {
+    if (item.icon)
+      references.push({
+        asset: item.icon,
+        expectedKind: 'item-icon',
+        where: `items[${index}].icon`,
+        site: `item:${item.id}:icon`,
+      })
     for (const field of ['use', 'throw'] as const) {
       const asset = item[field]?.sound
       if (typeof asset === 'string')
@@ -546,6 +633,32 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           site: `skill:${skill.id}:effects`,
         })
     })
+  })
+  source.battleFields?.forEach((field, index) => {
+    if (field.background)
+      references.push({
+        asset: field.background,
+        expectedKind: 'battle-background',
+        where: `battleFields[${index}].background`,
+        site: `battleField:${field.id}:background`,
+      })
+  })
+  source.worlds?.forEach((world, worldIndex) => {
+    for (const [collection, characters] of [
+      ['party', world.party],
+      ['reserve', world.reserve ?? []],
+    ] as const) {
+      characters.forEach((character, characterIndex) => {
+        const asset = character.appearance?.portrait
+        if (asset)
+          references.push({
+            asset,
+            expectedKind: 'portrait',
+            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.portrait`,
+            site: `world:${worldIndex}:character:${character.id}:appearance`,
+          })
+      })
+    }
   })
   return references
 }
@@ -627,10 +740,11 @@ export async function validateAssetFileClosure(
   options: AssetFileClosureOptions,
 ): Promise<AssetClosureIssue[]> {
   const issues = validateAssetReferenceClosure(catalog, references)
-  const referencedIds = new Set(references.map((reference) => reference.asset))
-  for (const id of [...referencedIds].sort()) {
-    const record = catalog.assets[id]
-    if (!record) continue
+  // catalog 是工程会打包/保存的物理闭包；未引用记录虽会另报 warning，其 bytes/hash 也必须有效。
+  // 否则“未使用”资源可在发布包中悄悄缺文件，等作者重新引用才延迟爆炸。
+  for (const [id, record] of Object.entries(catalog.assets).sort(([left], [right]) =>
+    left.localeCompare(right),
+  )) {
     let bytes: Uint8Array
     try {
       bytes = await options.readBytes(record.path)

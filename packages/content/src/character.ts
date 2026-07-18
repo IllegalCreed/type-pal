@@ -119,10 +119,10 @@ export interface CharacterInstance {
    * 运行时形象覆写(原版 0x1A 改 PlayerRoles SoA:成年灵儿等剧情**持久**换形象,随存档)。
    * 缺省 = 用模板(ActorDef)的形象。与 0x65 的临时演出换精灵(内存态、脚本内切回)不同 —— 此为持久。
    * - spriteId:大世界精灵(覆写 ActorDef.spriteId;migrate 已把原版精灵号解析成 id)
-   * - portrait:状态板/对话立绘号(覆写 ActorDef.portraits.default)
+   * - portrait:状态板/对话立绘 AssetId(覆写 ActorDef.portraits.default)
    * - battleSprite:战斗精灵号(覆写 ActorDef.battler.battleSpriteNum)
    */
-  appearance?: { spriteId?: string; portrait?: number; battleSprite?: number }
+  appearance?: { spriteId?: string; portrait?: AssetId; battleSprite?: number }
 }
 
 /** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */

@@ -4,7 +4,7 @@
  * 子目录用 manifest.assets 的 tilesets/sprites/palettes(见 AssetBase)。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
-import { type ProjectMap, validateProjectMap } from '@type-pal/content'
+import { type AssetId, type ProjectMap, validateProjectMap } from '@type-pal/content'
 import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 import type { AssetResolver } from './asset-resolver.js'
 import type { LegacyAssetAdapter } from './file-source.js'
@@ -15,23 +15,15 @@ export interface AssetBase {
   tilesets: string
   sprites: string
   palettes: string
-  /** 对话/状态立绘目录(<chunk>.png;内容资产,随库/工程)。 */
-  portraits: string
-  /** 战斗小头像目录(<actorId>.png)。 */
-  faces: string
-  /** 物品图标目录(<icon>.png)。 */
-  itemIcons: string
-  /** UI chrome 覆盖目录(可选:工程自带皮肤;缺省 = 引擎默认皮 /ui)。 */
-  uiOverride?: string
   /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
   io: LegacyAssetAdapter
   /** 已迁移资源的唯一解析器；标准颜色、音乐、音效、视频等不得回落到 legacy 路径。 */
   assetResolver?: AssetResolver
 }
 
-/** 资产缺失指路(新 clone 最常见坑:data/extracted 与 data/baked 是可再生产物,不进 git)。 */
+/** 资产缺失指路（新 clone 最常见坑：PAL 提取源尚未准备）。 */
 const ASSET_HINT =
-  '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract && pnpm --filter @type-pal/migrate run bake(见 docs/dev-servers.md「新人前置」)'
+  '资产缺失?新 clone 需先放入 data/raw 并跑:pnpm extract(见 docs/dev-servers.md「新人前置」)'
 
 async function readAssetBytes(base: AssetBase, path: string, label: string): Promise<ArrayBuffer> {
   try {
@@ -179,8 +171,8 @@ export async function loadFireSprite(base: AssetBase, chunk: number): Promise<Lo
 export interface BattleFieldEntry {
   screenWave: number
   magicEffect?: { wind: number; thunder: number; water: number; fire: number; earth: number }
-  /** 背景图显式引用(相对 images 根;缺省 = battle/bg/<id 三位>.png 惯例路径)。 */
-  bg?: string
+  /** 背景图稳定引用；缺席明确表示黑底。 */
+  background?: AssetId
 }
 
 /** 战场表(id → BattleFieldEntry)。缺文件由调用方 catch 空表兜底。 */
@@ -197,9 +189,8 @@ export async function loadBattleFields(base: AssetBase): Promise<Map<number, Bat
 }
 
 /**
- * 战斗背景(M4b):{root}/../images/battle/bg/{NNN}.png —— FBP 8-bit 索引位图,提取器把索引
- * 直接写成灰度 PNG(R=G=B=索引,未着色)。故此处读 R 通道当索引,经 palette 着色成真彩 canvas
- * (同 bakeFrame 精灵着色)。palette = 触发战斗的场景调色板。
+ * 战斗背景是工程 catalog 中的 320×200 索引 PNG。AssetResolver 负责 id/kind/path/file，
+ * 本函数校验 R=G=B=index 且 alpha=255，再用触发战斗场景的 palette 着色。
  */
 export interface BattleBgAsset {
   canvas: HTMLCanvasElement
@@ -209,17 +200,29 @@ export interface BattleBgAsset {
   h: number
 }
 
-/** 战斗背景全量(canvas + 索引源)。染色/重着色场景用。bgPath = BattleFieldDef.bg 显式引用。 */
+/** 战斗背景全量(canvas + 索引源)。染色/重着色场景用。 */
 export async function loadBattleBgFull(
   base: AssetBase,
-  id: number,
+  asset: AssetId,
   palette: Palette,
-  bgPath?: string,
 ): Promise<BattleBgAsset> {
-  const imagesRoot = base.root.replace(/\/data$/, '/images')
-  const path = `${imagesRoot}/${bgPath ?? `battle/bg/${String(id).padStart(3, '0')}.png`}`
-  const bytes = await readAssetBytes(base, path, `battle bg ${id}`)
-  const bitmap = await createImageBitmap(new Blob([bytes]))
+  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取战场背景')
+  const record = base.assetResolver.record(asset, 'battle-background')
+  const bytes = await base.assetResolver.readBytes(asset, 'battle-background')
+  let bitmap: ImageBitmap
+  try {
+    bitmap = await createImageBitmap(new Blob([bytes], { type: record.mediaType }))
+  } catch (error) {
+    throw new Error(
+      `战场背景 AssetId "${asset}" 解码失败:${error instanceof Error ? error.message : String(error)}`,
+    )
+  }
+  if (bitmap.width !== 320 || bitmap.height !== 200) {
+    bitmap.close()
+    throw new Error(
+      `战场背景 AssetId "${asset}" 尺寸必须为 320×200，实际 ${bitmap.width}×${bitmap.height}`,
+    )
+  }
   const cvs = document.createElement('canvas')
   cvs.width = bitmap.width
   cvs.height = bitmap.height
@@ -230,7 +233,16 @@ export async function loadBattleBgFull(
   const src = ctx.getImageData(0, 0, cvs.width, cvs.height)
   const n = cvs.width * cvs.height
   const indices = new Uint8Array(n)
-  for (let i = 0; i < n; i++) indices[i] = src.data[i * 4] ?? 0 // R 通道 = FBP 索引
+  for (let i = 0; i < n; i++) {
+    const offset = i * 4
+    const r = src.data[offset] ?? 0
+    const g = src.data[offset + 1] ?? 0
+    const b = src.data[offset + 2] ?? 0
+    const a = src.data[offset + 3] ?? 0
+    if (r !== g || r !== b || a !== 255)
+      throw new Error(`战场背景 AssetId "${asset}" 像素 ${i} 不满足索引图契约(R=G=B, alpha=255)`)
+    indices[i] = r
+  }
   ctx.putImageData(bakeBgImageData(ctx, indices, cvs.width, cvs.height, palette, 0), 0, 0)
   return { canvas: cvs, indices, w: cvs.width, h: cvs.height }
 }
@@ -272,10 +284,10 @@ export function bakeBgImageData(
 /** 战斗背景(兼容薄壳:只要 canvas)。 */
 export async function loadBattleBg(
   base: AssetBase,
-  id: number,
+  asset: AssetId,
   palette: Palette,
 ): Promise<HTMLCanvasElement> {
-  return (await loadBattleBgFull(base, id, palette)).canvas
+  return (await loadBattleBgFull(base, asset, palette)).canvas
 }
 
 /**

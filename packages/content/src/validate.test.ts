@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   validateActors,
+  validateBattleFields,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -122,6 +123,35 @@ describe('validateActors(C0)', () => {
       ]),
     ).toThrow('期望非空 AssetId')
   })
+  test('立绘组与 face 只接受 AssetId，expressions 全量检查', () => {
+    expect(() =>
+      validateActors([
+        {
+          id: 'a',
+          name: 'n',
+          spriteId: 's',
+          portraits: { default: 'portrait.a', expressions: { hurt: 'portrait.a.hurt' } },
+          face: 'face.a',
+        },
+      ]),
+    ).not.toThrow()
+    expect(() =>
+      validateActors([{ id: 'a', name: 'n', spriteId: 's', portraits: { default: 1 } }]),
+    ).toThrow('期望非空 AssetId')
+    expect(() =>
+      validateActors([
+        {
+          id: 'a',
+          name: 'n',
+          spriteId: 's',
+          portraits: { default: 'portrait.a', expressions: { hurt: 2 } },
+        },
+      ]),
+    ).toThrow('期望非空 AssetId')
+    expect(() => validateActors([{ id: 'a', name: 'n', spriteId: 's', face: 1 }])).toThrow(
+      '期望非空 AssetId',
+    )
+  })
 })
 
 test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () => {
@@ -163,6 +193,39 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
         ai: {},
         anim: {},
         sounds: { magic: -47 },
+      },
+    ]),
+  ).toThrow('期望非空 AssetId')
+})
+
+test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合法', () => {
+  const item = {
+    id: '277',
+    name: '无图物品',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+  }
+  expect(validateItems([item])).toEqual([item])
+  expect(() => validateItems([{ ...item, icon: 1 }])).toThrow('期望非空 AssetId')
+  expect(() =>
+    validateBattleFields([
+      {
+        id: 6,
+        bg: 'battle/bg/006.png',
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ]),
+  ).toThrow('旧路径字段已退役')
+  expect(() =>
+    validateBattleFields([
+      {
+        id: 6,
+        background: 6,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
       },
     ]),
   ).toThrow('期望非空 AssetId')

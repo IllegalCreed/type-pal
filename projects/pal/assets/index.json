@@ -5628,6 +5628,4554 @@
       },
       "bytes": 6378,
       "sha256": "5e911bef260dec4c3cba394875f1a33efaa6658c13f9be183d7b1a31044852a8"
+    },
+    "portrait.pal.001": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/001.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/01.png"
+      },
+      "bytes": 7977,
+      "sha256": "35cafbb9ced8c21f4271dfec52195dd1dc3279012d049c32d39c7e37d1fec2a7"
+    },
+    "portrait.pal.002": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/002.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/02.png"
+      },
+      "bytes": 8057,
+      "sha256": "329ee6935db082150cd9be5471ae4dec08f76c07332a6f7673f5cbf4209fb351"
+    },
+    "portrait.pal.003": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/003.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/03.png"
+      },
+      "bytes": 8044,
+      "sha256": "1ffaeb1329d24e6f6f60af151098d10f4e5e683dfe91d3d172c83e85851ed92d"
+    },
+    "portrait.pal.004": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/004.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/04.png"
+      },
+      "bytes": 7937,
+      "sha256": "2983a8b4252c982e8489c239af59920db93d78e7db07bc90056aea41257929c6"
+    },
+    "portrait.pal.005": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/005.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/05.png"
+      },
+      "bytes": 7969,
+      "sha256": "dc5a456db5e0f7ac1fbd677fdeaae412e635a4cab9ccb4c8f1d1f4c24da6c059"
+    },
+    "portrait.pal.006": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/006.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/06.png"
+      },
+      "bytes": 7948,
+      "sha256": "cf48e567afb073740654f78629cb7b6bef27900e7020168e240a834031390426"
+    },
+    "portrait.pal.007": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/007.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/07.png"
+      },
+      "bytes": 7918,
+      "sha256": "5f673836fad2fa226ca36ae66c46760afc7f4cdfc7126dbb5bdb750b3148e8e9"
+    },
+    "portrait.pal.008": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/008.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/08.png"
+      },
+      "bytes": 7982,
+      "sha256": "34b0e6856104138e5e4a75b741dbbb7c4724695cc5230f55bea0c12ec1c1be18"
+    },
+    "portrait.pal.009": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/009.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/09.png"
+      },
+      "bytes": 7993,
+      "sha256": "4c2a2618359b3c4d047e756b6442b2f268b6463aa84cf1ae48f1f99f0c4a84bd"
+    },
+    "portrait.pal.010": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/010.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/10.png"
+      },
+      "bytes": 7978,
+      "sha256": "5dc4ae8514fc45ea1a40a30d5da90f2d4fcba31b9426d5af75738554768fef6f"
+    },
+    "portrait.pal.011": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/011.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/11.png"
+      },
+      "bytes": 8391,
+      "sha256": "6169e9fb93b1c94a44f29bee7f5d2313446e27a770c3b7489c0713b5e71a7c5f"
+    },
+    "portrait.pal.012": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/012.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/12.png"
+      },
+      "bytes": 8454,
+      "sha256": "3ddbcf9921ddfb792de5de1e6e54cd385c5d1f9053474240b33927e24c0b0921"
+    },
+    "portrait.pal.013": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/013.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/13.png"
+      },
+      "bytes": 7249,
+      "sha256": "fd0cc621eedaf7aa91c5ca2b2266872fda199ed251d827d23813b0ffb632dced"
+    },
+    "portrait.pal.014": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/014.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/14.png"
+      },
+      "bytes": 8431,
+      "sha256": "4cfbe32aeb31701d6c646873ed23b83b095c0c8080d582e8a38d9ab245bc1618"
+    },
+    "portrait.pal.015": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/015.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/15.png"
+      },
+      "bytes": 8347,
+      "sha256": "eb6b10379b0ae09b7653f2d8d77a850f2b8c93120581280faff3243348c01e32"
+    },
+    "portrait.pal.016": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/016.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/16.png"
+      },
+      "bytes": 8361,
+      "sha256": "7d5dd465e5e01b5ddfbb345898e8d282aa053d42c3a5d31143a85bbe64faeee2"
+    },
+    "portrait.pal.017": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/017.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/17.png"
+      },
+      "bytes": 8341,
+      "sha256": "707a9a590f9c858cf80436c62c0df0a085bb4ac8657253bf57136eb9aaf70031"
+    },
+    "portrait.pal.018": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/018.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/18.png"
+      },
+      "bytes": 8460,
+      "sha256": "16386e47d52a55a5d5f9661a1d1cfb5143c13983af47ebdf35a0276eaa0a4b3a"
+    },
+    "portrait.pal.019": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/019.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/19.png"
+      },
+      "bytes": 8105,
+      "sha256": "b29d1206765276bc9f8e8ea0724dd43c35b352f46a14a796b36c6518de228784"
+    },
+    "portrait.pal.021": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/021.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/21.png"
+      },
+      "bytes": 8532,
+      "sha256": "563d4ee011b519fa090fd9744569e08fd9f7b1b1b2bcb15d2426425e0fbaeaaa"
+    },
+    "portrait.pal.022": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/022.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/22.png"
+      },
+      "bytes": 8628,
+      "sha256": "d968eaf516d3935ad9a2086228952dda0f7cc1f945e689912ba1d45c90d00da2"
+    },
+    "portrait.pal.023": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/023.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/23.png"
+      },
+      "bytes": 8656,
+      "sha256": "2c5385df06e6614288c92fce7673c271ce28026cb8c6b64d8e4cb8a8bbefc728"
+    },
+    "portrait.pal.024": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/024.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/24.png"
+      },
+      "bytes": 8530,
+      "sha256": "f37a3f27b41d242e556903df3c7432a7e27dff9fa8407ab3e83f2bfd4790af49"
+    },
+    "portrait.pal.025": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/025.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/25.png"
+      },
+      "bytes": 8393,
+      "sha256": "420cceeb4a6e19c3918a14617be9470fcc88edbed30869de80abd6219b151c11"
+    },
+    "portrait.pal.026": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/026.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/26.png"
+      },
+      "bytes": 8551,
+      "sha256": "15f730674bee059ccd22f5e387b32cad8f18e7d0406ba126e87b24b087e3415e"
+    },
+    "portrait.pal.027": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/027.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/27.png"
+      },
+      "bytes": 12352,
+      "sha256": "3dfc20fea94e0848686f915707907cc81b976c7c65c531cd05f7cb1676d8f3ef"
+    },
+    "portrait.pal.028": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/028.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/28.png"
+      },
+      "bytes": 12352,
+      "sha256": "b7e5c48fd6933a3a423dd10578da99d97fe8f4aaf07e3225720f27429b88a275"
+    },
+    "portrait.pal.029": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/029.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/29.png"
+      },
+      "bytes": 12328,
+      "sha256": "34a989655d49312c03e473e5c1a1389d50c54751721107d135ab00850ed1e4fb"
+    },
+    "portrait.pal.030": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/030.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/30.png"
+      },
+      "bytes": 12345,
+      "sha256": "1f02cef3de0e06f2a10604ea6f34de64dddb83eec57c899b7311237130f8257e"
+    },
+    "portrait.pal.031": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/031.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/31.png"
+      },
+      "bytes": 12322,
+      "sha256": "decb66ea212d2290c65588fbbdaccc4c824bfdd32f8d31f53afadd700d6d4630"
+    },
+    "portrait.pal.032": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/032.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/32.png"
+      },
+      "bytes": 12310,
+      "sha256": "ebd2a519089d8e8118ab46ee7a36b9cbebdc57c7fc963355a5c8fd22779e0b0d"
+    },
+    "portrait.pal.033": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/033.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/33.png"
+      },
+      "bytes": 8299,
+      "sha256": "7af3486ed9cc755298ee11e84f40b9ea43634bbb5e727f6672a948890faf0d17"
+    },
+    "portrait.pal.034": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/034.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/34.png"
+      },
+      "bytes": 8270,
+      "sha256": "e87b876dc76c277be2fe7e235434a46c00c66f61f5473d53ea3e8a21e187eb83"
+    },
+    "portrait.pal.035": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/035.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/35.png"
+      },
+      "bytes": 8404,
+      "sha256": "2429b0be7e83fbf9654177a759c399d3f14144ab066df02f9058772e414ac2ab"
+    },
+    "portrait.pal.036": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/036.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/36.png"
+      },
+      "bytes": 9522,
+      "sha256": "73940b6123a53af9d976984d694d69269fdf5b132ff4474e96e1483e4b7d67b5"
+    },
+    "portrait.pal.037": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/037.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/37.png"
+      },
+      "bytes": 8331,
+      "sha256": "b2bdc70e54b844c69dd8538f56ea6e3d267693b965d120fb1ff141cbcb548493"
+    },
+    "portrait.pal.038": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/038.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/38.png"
+      },
+      "bytes": 8584,
+      "sha256": "229b1612d761f98759c7200ba9628c6ff5616257c932e61c11ba85e7696ef3c1"
+    },
+    "portrait.pal.039": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/039.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/39.png"
+      },
+      "bytes": 9750,
+      "sha256": "f8f05f9624b44ffcd947469e3616a2db9fb92abed6fdf2c562fc6be9d488a9f0"
+    },
+    "portrait.pal.040": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/040.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/40.png"
+      },
+      "bytes": 7204,
+      "sha256": "0f051d71dbc1449ddcf81a389c892823d70584d16583406defd7064d464da15d"
+    },
+    "portrait.pal.041": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/041.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/41.png"
+      },
+      "bytes": 6415,
+      "sha256": "10384c47fe84423e45dfa439b09edf5961f8686dddc12f46c250458035e3c70e"
+    },
+    "portrait.pal.042": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/042.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/42.png"
+      },
+      "bytes": 9396,
+      "sha256": "4a09a4f6ca17929c0547b6576757b320178338dd34c5a369171b8ad3d55ece43"
+    },
+    "portrait.pal.043": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/043.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/43.png"
+      },
+      "bytes": 10306,
+      "sha256": "00d200cb70f3c79331bad3c423cb163b9cddddecb610d9209ae0a342c41673d3"
+    },
+    "portrait.pal.044": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/044.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/44.png"
+      },
+      "bytes": 9937,
+      "sha256": "a92691bf2d3c123c8ed777c9fd6cdbdcac36cef93a4001936546b8da7de9bcba"
+    },
+    "portrait.pal.045": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/045.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/45.png"
+      },
+      "bytes": 10278,
+      "sha256": "7be32c20fd1ed8f02cd606d92b27879eda93cdfe7fcae91fbd34641ab847c388"
+    },
+    "portrait.pal.046": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/046.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/46.png"
+      },
+      "bytes": 10054,
+      "sha256": "186eaf484408c3ce41b6e4073803f54a20be99468a0b9531a613d9dc85e336c9"
+    },
+    "portrait.pal.047": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/047.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/47.png"
+      },
+      "bytes": 8773,
+      "sha256": "54a56e06fbc044e8551e4c9db0fc70d47020dce7886a8fa663955f33bbfc6a8b"
+    },
+    "portrait.pal.048": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/048.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/48.png"
+      },
+      "bytes": 8484,
+      "sha256": "92b5f7e2adf65ea9e88362bc5ecd2d430339aa0bf2fa32241b77bfbc4c2ded97"
+    },
+    "portrait.pal.049": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/049.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/49.png"
+      },
+      "bytes": 8400,
+      "sha256": "998e444f0c5661a061a17726d372aa50c9b2a91671a920b05d8c11ad4fe56f9a"
+    },
+    "portrait.pal.050": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/050.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/50.png"
+      },
+      "bytes": 8102,
+      "sha256": "38f4266a16a074f4bc0fccfd048b9c7f03af83cb6bd05948e273dce18a6c51db"
+    },
+    "portrait.pal.051": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/051.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/51.png"
+      },
+      "bytes": 8068,
+      "sha256": "399a67b4706aecb6c575ae3124fdf77ab534606ac443258a9b11da935bb082e5"
+    },
+    "portrait.pal.052": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/052.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/52.png"
+      },
+      "bytes": 7821,
+      "sha256": "3c447250507201a9277c629fccc49c8140cf7c6764ced94c018990b74531ae54"
+    },
+    "portrait.pal.053": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/053.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/53.png"
+      },
+      "bytes": 9944,
+      "sha256": "36ea931d86209475a1d0d03870d6d10f289a95c071149d00682e25f378dff4cb"
+    },
+    "portrait.pal.054": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/054.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/54.png"
+      },
+      "bytes": 10173,
+      "sha256": "7d2fbcad4f423e95c36afbc738aeb8772afac220d82435b6632be120d355cc43"
+    },
+    "portrait.pal.055": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/055.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/55.png"
+      },
+      "bytes": 10350,
+      "sha256": "6efeb06525ed0949b1559d8edd837ec19de721b5757096c21e42b991dd03f7b7"
+    },
+    "portrait.pal.056": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/056.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/56.png"
+      },
+      "bytes": 10691,
+      "sha256": "48a86ff610c4a3823221173f1ad111322ac49c50dc91e12eb129f748c5581853"
+    },
+    "portrait.pal.057": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/057.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/57.png"
+      },
+      "bytes": 8833,
+      "sha256": "309fb819f8d6c0dc4458346680cecda095cedb1ae9cf3ecd2751aa062a374c7d"
+    },
+    "portrait.pal.058": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/058.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/58.png"
+      },
+      "bytes": 11954,
+      "sha256": "9d3883718be24f53e540a5aa927024bc522dc8aaaa41b6e9cbd4f5d6b81c87a6"
+    },
+    "portrait.pal.059": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/059.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/59.png"
+      },
+      "bytes": 7352,
+      "sha256": "e21d989669917421fbca5efaa976a48805135c057ee33c5bb4958da2b0a58d76"
+    },
+    "portrait.pal.060": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/060.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/60.png"
+      },
+      "bytes": 9569,
+      "sha256": "6058304e661653f76e57c3e97fc5bf0c6ac4940a4e83ce7af01dc034a32645f3"
+    },
+    "portrait.pal.061": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/061.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/61.png"
+      },
+      "bytes": 7032,
+      "sha256": "37d2d51ebc13e641d91a4a7651e8f8e2ed61528376770b84801859d8860afa63"
+    },
+    "portrait.pal.062": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/062.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/62.png"
+      },
+      "bytes": 6178,
+      "sha256": "454333c89f96ea549d9bcdc907c643860d5a0663a1d51f0f7ceb350610080ef4"
+    },
+    "portrait.pal.063": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/063.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/63.png"
+      },
+      "bytes": 10204,
+      "sha256": "f76b3f182f47105dec93ae83888950c43a886d7d57535e1637bbc778ae651150"
+    },
+    "portrait.pal.064": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/064.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/64.png"
+      },
+      "bytes": 7715,
+      "sha256": "79c9bc4b3bc41f394e4c77347a605a4f5fdc472bc70b0252a287d922ac635689"
+    },
+    "portrait.pal.065": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/065.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/65.png"
+      },
+      "bytes": 12213,
+      "sha256": "65463ddb46ec6b1ee873f4905929f9d5686e4d0150d2c35ea6125e7f83f5864d"
+    },
+    "portrait.pal.066": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/066.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/66.png"
+      },
+      "bytes": 8300,
+      "sha256": "1d586b89ff7dc25374b0ab468b937b9ee376df76cbdd479156363364ae22eeaf"
+    },
+    "portrait.pal.067": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/067.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/67.png"
+      },
+      "bytes": 7859,
+      "sha256": "796f41a30a1254fd8279eedaa227b557094ef96e2bd0c898c851cbfb2d663e02"
+    },
+    "portrait.pal.068": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/068.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/68.png"
+      },
+      "bytes": 5440,
+      "sha256": "9ae3df13fcaeb90be16d484e5f8f84258af6c852c2f412e80cca341f003b0326"
+    },
+    "portrait.pal.069": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/069.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/69.png"
+      },
+      "bytes": 7148,
+      "sha256": "ed62224ad02ed6cd25fbcf582ad9bb97e1ed59e5df31d81ccc7c7334f506fb32"
+    },
+    "portrait.pal.070": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/070.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/70.png"
+      },
+      "bytes": 4423,
+      "sha256": "fa8fa0929d2c9f16a34fec3b83e1b0a31c85d1e58ade895297064ee65812a14d"
+    },
+    "portrait.pal.071": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/071.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/71.png"
+      },
+      "bytes": 5750,
+      "sha256": "ccb10ac0a9a641071cd465f3428ac59b9500648ab7d654b3d44f01ba1e9fe8fd"
+    },
+    "portrait.pal.072": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/072.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/72.png"
+      },
+      "bytes": 10549,
+      "sha256": "0fbb231cf7c654495503990f059d8ba3ae1cb5a994bb0918892201c91fd1b8c9"
+    },
+    "portrait.pal.073": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/073.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/73.png"
+      },
+      "bytes": 11832,
+      "sha256": "c77b459e2fa9e758013e41156555a1ddb2b77cfa875610f26108a4af0b4b71de"
+    },
+    "portrait.pal.074": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/074.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/74.png"
+      },
+      "bytes": 9108,
+      "sha256": "66d9d14c3ce8392351dfec5e46a0ef2c1e99a1212ce35603ceaeb11b29c4e69d"
+    },
+    "portrait.pal.075": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/075.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/75.png"
+      },
+      "bytes": 8886,
+      "sha256": "570611cf7d376bb02811d060e2cc916ceeb5bdd707eb2703094d8aa6be103793"
+    },
+    "portrait.pal.076": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/076.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/76.png"
+      },
+      "bytes": 8414,
+      "sha256": "91ae7eb15ed57c21dd04d2a6a50f380e60bd654f4c949f1e67c409f7a1939307"
+    },
+    "portrait.pal.077": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/077.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 077",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/77.png"
+      },
+      "bytes": 10544,
+      "sha256": "25a59ba8ccf612c14ddc1b1cf99cc1ae6ef7225fe915c804fa743b34878ed245"
+    },
+    "portrait.pal.080": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/080.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/80.png"
+      },
+      "bytes": 6415,
+      "sha256": "7f9a123a59c60ada77619120d8458ac172f48cbd763ed3030fef2e0652da240c"
+    },
+    "portrait.pal.081": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/081.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/81.png"
+      },
+      "bytes": 7750,
+      "sha256": "98c08f9d111ecb5d7ebca606b37ba755beb9f2aa8d150db209ffff366dd57d25"
+    },
+    "portrait.pal.082": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/082.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/82.png"
+      },
+      "bytes": 13536,
+      "sha256": "670d13bfc4c57b5c7e8600f876990c8f9110092badfe91da489b7a59046c1ba0"
+    },
+    "portrait.pal.083": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/083.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/83.png"
+      },
+      "bytes": 7169,
+      "sha256": "69084e94a59929ae857bcf7cce108b2fbc1da6d9a12ac276eade2ee12f869ed4"
+    },
+    "portrait.pal.084": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/084.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/84.png"
+      },
+      "bytes": 10005,
+      "sha256": "cca9f3dd446da735bf21d56bddf58e48a4212daed4bb8a7dfda1f84547466e77"
+    },
+    "portrait.pal.085": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/085.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/85.png"
+      },
+      "bytes": 4325,
+      "sha256": "4cde2479ba5961cce85e7bccfe056985f76f652b632cbebecc1a2b8a8b143877"
+    },
+    "portrait.pal.086": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/086.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/86.png"
+      },
+      "bytes": 6306,
+      "sha256": "7643b0f67a0766b9b667fddb491788c8e5a096fd521e0de2114b2ccf86e185ef"
+    },
+    "portrait.pal.087": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/087.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/87.png"
+      },
+      "bytes": 6259,
+      "sha256": "aa5c2fdb50a38bf82a87ac182deb5113d120934fc78c8c95ee9bde100a76231c"
+    },
+    "portrait.pal.088": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/088.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 088",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/88.png"
+      },
+      "bytes": 10722,
+      "sha256": "80fcf037c347e962597c024711bb5f18af3844a052affd420179c18b2bc500d0"
+    },
+    "portrait.pal.089": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/089.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 089",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/89.png"
+      },
+      "bytes": 10766,
+      "sha256": "9fb25ce1f407330c15ce930dae743c958b5ee77d83f01954a8de0f210128d811"
+    },
+    "portrait.pal.090": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/090.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 090",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/90.png"
+      },
+      "bytes": 6013,
+      "sha256": "21d6641f9ca908292e87689eb9a9afd8d664fbb6265b7b92a3012f974b0cd074"
+    },
+    "portrait.pal.091": {
+      "kind": "portrait",
+      "path": "assets/migrated/portraits/091.png",
+      "mediaType": "image/png",
+      "label": "PAL 立绘 091",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/portraits/91.png"
+      },
+      "bytes": 5475,
+      "sha256": "ce063392110a954b218f1edb5e066b8aae0b92334bcef0a397cedfee53b2a6f3"
+    },
+    "face.pal.li-xiaoyao": {
+      "kind": "face",
+      "path": "assets/migrated/faces/li-xiaoyao.png",
+      "mediaType": "image/png",
+      "label": "PAL li-xiaoyao 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-48.png"
+      },
+      "bytes": 1742,
+      "sha256": "8e34f587e6dcc09c78f2a12a7683064ae342cd9a789c13edebc18d4c834932df"
+    },
+    "face.pal.zhao-linger": {
+      "kind": "face",
+      "path": "assets/migrated/faces/zhao-linger.png",
+      "mediaType": "image/png",
+      "label": "PAL zhao-linger 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-49.png"
+      },
+      "bytes": 2129,
+      "sha256": "ca94694abf402404ecbc10562423042c6e642de475bd2c25c6e6bb390391e306"
+    },
+    "face.pal.lin-yueru": {
+      "kind": "face",
+      "path": "assets/migrated/faces/lin-yueru.png",
+      "mediaType": "image/png",
+      "label": "PAL lin-yueru 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-50.png"
+      },
+      "bytes": 1782,
+      "sha256": "40147e2e051c9e32e44fbfd5d4d50d5e4fc829e559aad7a48a5e3c61b9f2a368"
+    },
+    "face.pal.wu-hou": {
+      "kind": "face",
+      "path": "assets/migrated/faces/wu-hou.png",
+      "mediaType": "image/png",
+      "label": "PAL wu-hou 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-51.png"
+      },
+      "bytes": 2057,
+      "sha256": "96ea87e610c0c5d9d74ff045484a42a7d97664fcc0730e455d96d37102a9a83b"
+    },
+    "face.pal.anu": {
+      "kind": "face",
+      "path": "assets/migrated/faces/anu.png",
+      "mediaType": "image/png",
+      "label": "PAL anu 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-52.png"
+      },
+      "bytes": 2614,
+      "sha256": "6b041641606337a85ea24132db9f878394c071edccb9c2c3d6a680f876aad78f"
+    },
+    "face.pal.gai-luojiao": {
+      "kind": "face",
+      "path": "assets/migrated/faces/gai-luojiao.png",
+      "mediaType": "image/png",
+      "label": "PAL gai-luojiao 战斗头像",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/ui/frame-53.png"
+      },
+      "bytes": 68,
+      "sha256": "75790aedb28f9156ebcdb1798c7ac7d2326e32b46529ec881131fba2148bd8b2"
+    },
+    "item-icon.pal.001": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/001.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/001.png"
+      },
+      "bytes": 879,
+      "sha256": "609881b873d998d79d70acc9d4342c4f7ebf6ed23a21e740c310753a09be06b3"
+    },
+    "item-icon.pal.002": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/002.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/002.png"
+      },
+      "bytes": 999,
+      "sha256": "c98c7b0d9557e136d9c5b73f45ad6b22e321ca5bf9a19deebc311ca895de1948"
+    },
+    "item-icon.pal.003": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/003.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/003.png"
+      },
+      "bytes": 906,
+      "sha256": "c5577de1ca6b0f4a22f0dde8eff30bd1b7fecd392277367bcd812c99f3a0ff6d"
+    },
+    "item-icon.pal.004": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/004.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/004.png"
+      },
+      "bytes": 1132,
+      "sha256": "cd9cc0a3814211694fffb0afe2ccb43702bf22f7d06bc191ea4446e862ca9cf3"
+    },
+    "item-icon.pal.005": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/005.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/005.png"
+      },
+      "bytes": 1024,
+      "sha256": "df12b8f2d4cf08c1378925c7fd7dce2af2a3ed3abf90af532050fbebf80f40df"
+    },
+    "item-icon.pal.006": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/006.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/006.png"
+      },
+      "bytes": 910,
+      "sha256": "ac4a07fc6e744066e404abf65bdf8e1f58987d6b8d10f93b5a46f548150fb5f9"
+    },
+    "item-icon.pal.007": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/007.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/007.png"
+      },
+      "bytes": 851,
+      "sha256": "3b24c06169ac7f587418a207fc6ccbd9b696f3529303a078962ea6145e998c88"
+    },
+    "item-icon.pal.008": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/008.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/008.png"
+      },
+      "bytes": 1001,
+      "sha256": "4e890c0eb734790de0d305a2fddf9baa87de037eebd59bdb6453953766d74366"
+    },
+    "item-icon.pal.009": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/009.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/009.png"
+      },
+      "bytes": 982,
+      "sha256": "450a1829b781e801271041c7530c42fe9f95fc5aff54421157650b7710855bc2"
+    },
+    "item-icon.pal.010": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/010.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/010.png"
+      },
+      "bytes": 605,
+      "sha256": "3a7f50ebff04e68e62f2b9e467f7ce7dd5e2299f12924443d43e2e66e21ec09c"
+    },
+    "item-icon.pal.011": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/011.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/011.png"
+      },
+      "bytes": 1368,
+      "sha256": "58bfa75ed82eb4fa10dde32bfebf1d57aec590da4296b4f35a0c5c76408db45a"
+    },
+    "item-icon.pal.012": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/012.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/012.png"
+      },
+      "bytes": 773,
+      "sha256": "5353e495ea6cfa7b773c05aa3e344def9f17d6cfce3e60caa301e59c045ec791"
+    },
+    "item-icon.pal.013": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/013.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/013.png"
+      },
+      "bytes": 647,
+      "sha256": "32d87eed168caa40e6084400404143913cbddb388da07ea2f575aabb2d7d91f4"
+    },
+    "item-icon.pal.014": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/014.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/014.png"
+      },
+      "bytes": 920,
+      "sha256": "9eba15328f9d9fe3525578fa448aa7a6ca312384876378024f806f1cb5d6414b"
+    },
+    "item-icon.pal.015": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/015.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/015.png"
+      },
+      "bytes": 1871,
+      "sha256": "800f14ed46e72d017ea62e44f6ed421984e5592cddbb1c60c7efbefd5bff1755"
+    },
+    "item-icon.pal.016": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/016.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/016.png"
+      },
+      "bytes": 386,
+      "sha256": "e2d975477bf1e01539a74cec5db5de82a2354cb7f39e16821933cdad88411da8"
+    },
+    "item-icon.pal.017": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/017.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/017.png"
+      },
+      "bytes": 720,
+      "sha256": "8cffab63f55cfe9c3cf40dfe8d308cfea6e6b684ad760f143c2e8b8a279854da"
+    },
+    "item-icon.pal.018": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/018.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/018.png"
+      },
+      "bytes": 1158,
+      "sha256": "cd35f5506620f4018dc374ac6f1564b018f7e8b4ef93a2368227e05cdb5e094b"
+    },
+    "item-icon.pal.019": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/019.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/019.png"
+      },
+      "bytes": 355,
+      "sha256": "02350a1ad2393b3f77740c693ed0b8c0c384585da1208f2b712e987b7b11f548"
+    },
+    "item-icon.pal.020": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/020.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/020.png"
+      },
+      "bytes": 736,
+      "sha256": "84e4db316cd9868165f6c5f8ae2721186130a63a43b2fc39169cdb98282e65a6"
+    },
+    "item-icon.pal.021": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/021.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/021.png"
+      },
+      "bytes": 905,
+      "sha256": "ca6ba1933d17a0821a4dd97a535805b74e4f8fee315e15aa04b6d7e37b7a3f22"
+    },
+    "item-icon.pal.022": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/022.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/022.png"
+      },
+      "bytes": 1054,
+      "sha256": "1e78c59b9ac472b4460949f38b7835c8bba9f5d5cadafb6a1a525c7e1923c2da"
+    },
+    "item-icon.pal.023": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/023.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/023.png"
+      },
+      "bytes": 601,
+      "sha256": "ed5c4c8357d7ebd64f1b83931803c8e6877325292a20993df9ebcc6e662c8544"
+    },
+    "item-icon.pal.024": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/024.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/024.png"
+      },
+      "bytes": 1356,
+      "sha256": "1fe19ce136a284e6c5da1ed71b363518e0fcefcbdaa2ff2fe6d638ee30b5bed3"
+    },
+    "item-icon.pal.025": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/025.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/025.png"
+      },
+      "bytes": 1112,
+      "sha256": "ceb0e34f50f27bc2195d9d7a7b898f0a7b3b57a3fade2ec0ca2f15f2686583bf"
+    },
+    "item-icon.pal.027": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/027.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/027.png"
+      },
+      "bytes": 1461,
+      "sha256": "40e7796978ef1dacb1515391488b0df8725ad50b2dddb72504c41bfd57060e82"
+    },
+    "item-icon.pal.028": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/028.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/028.png"
+      },
+      "bytes": 1256,
+      "sha256": "de45c61e6d36d4012b16eb2d77e0e39b8850478f9662d37543f944add8d10a8f"
+    },
+    "item-icon.pal.029": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/029.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/029.png"
+      },
+      "bytes": 709,
+      "sha256": "c647ebb22778ad9d505497e213c629f3d5a3ba6b7f317c8f6479b0a3e2093c18"
+    },
+    "item-icon.pal.030": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/030.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/030.png"
+      },
+      "bytes": 712,
+      "sha256": "ee768da6026c5b4b7fb033771c18e8063caa92cf241d69d3eaa4c7adca932835"
+    },
+    "item-icon.pal.034": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/034.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/034.png"
+      },
+      "bytes": 852,
+      "sha256": "226eaee816737e55fc504ca0c858f66028d41d7e2d9dc4989dd23c5b1918929b"
+    },
+    "item-icon.pal.035": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/035.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/035.png"
+      },
+      "bytes": 749,
+      "sha256": "5045cf0ea99e2e029a4cf46b078d231b17986d7475877254adbb6355c9de9fcd"
+    },
+    "item-icon.pal.036": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/036.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/036.png"
+      },
+      "bytes": 1146,
+      "sha256": "44f2bcd8eb0521a3fccd0e43116e386c6a8a2145dd0b6e6e12ccbb603efc9afa"
+    },
+    "item-icon.pal.037": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/037.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/037.png"
+      },
+      "bytes": 1890,
+      "sha256": "33faf656e2fe2fd3a73f58019f088746bcfa631cefeeecd9300e2956f06b293e"
+    },
+    "item-icon.pal.038": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/038.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/038.png"
+      },
+      "bytes": 1087,
+      "sha256": "61ce61b194087e19d0c1a60d99a376b2ca29c56ae88b8a6ee6647966e378b376"
+    },
+    "item-icon.pal.039": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/039.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/039.png"
+      },
+      "bytes": 2607,
+      "sha256": "f87611f5d8c43ccb08b835f22119ac08950d49474c0850ed55a2bf7d837f9841"
+    },
+    "item-icon.pal.040": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/040.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/040.png"
+      },
+      "bytes": 462,
+      "sha256": "f17cdf82153e0f0f900867367191406c0c4a5321054f69017b1c3fdf132302b2"
+    },
+    "item-icon.pal.041": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/041.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/041.png"
+      },
+      "bytes": 908,
+      "sha256": "c39b6ee74bdd9e85e4126dd937063988cf385cfba0ab38fe49e83a38cf051452"
+    },
+    "item-icon.pal.042": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/042.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/042.png"
+      },
+      "bytes": 987,
+      "sha256": "778ec22bd29d49558d03362c3d195cf8235e4873e84ef1fef2799890df4d45b2"
+    },
+    "item-icon.pal.044": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/044.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/044.png"
+      },
+      "bytes": 710,
+      "sha256": "3a3d6035a8596825d3f3448dbf9f96f94a1607d920da2f020061c5b726a7c634"
+    },
+    "item-icon.pal.045": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/045.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/045.png"
+      },
+      "bytes": 1797,
+      "sha256": "07842937d92ec6fe2c88e8fb6ffb095bf2a8e18dc3f652e97a67230a02300796"
+    },
+    "item-icon.pal.046": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/046.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/046.png"
+      },
+      "bytes": 1901,
+      "sha256": "dafac22139c455e2bc94498fdbb10cbdc6a06ec84f27d4d219e55d6b82f3e088"
+    },
+    "item-icon.pal.047": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/047.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/047.png"
+      },
+      "bytes": 1644,
+      "sha256": "fa012d6fc6d093bda55489a07677fee1b4e206f2de20e9b494bcda61582fe8a0"
+    },
+    "item-icon.pal.048": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/048.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/048.png"
+      },
+      "bytes": 858,
+      "sha256": "d8a04efeaaaf4a49aa13245f97042112edcdeb3f28f8111c534f1868fb563b39"
+    },
+    "item-icon.pal.049": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/049.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/049.png"
+      },
+      "bytes": 1147,
+      "sha256": "f80d479da0626ddbb7ec2a3429295d9404e1a0a809765a18a8aab76114363df0"
+    },
+    "item-icon.pal.050": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/050.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/050.png"
+      },
+      "bytes": 2208,
+      "sha256": "645515f892705967996d0d7e2bc2ea47704b38e9eff26086845f36740705d5f3"
+    },
+    "item-icon.pal.051": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/051.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/051.png"
+      },
+      "bytes": 1326,
+      "sha256": "d01e60dfc4c177a2915d7c57fc0afd217a3face16fb336ab1ff1db9e7b956d37"
+    },
+    "item-icon.pal.052": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/052.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/052.png"
+      },
+      "bytes": 1548,
+      "sha256": "0a8f9657e4ebe5218c19a34725fc0d8bfc8968b63fd305413a96169251ea6994"
+    },
+    "item-icon.pal.053": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/053.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/053.png"
+      },
+      "bytes": 1598,
+      "sha256": "f7fa2598f25e142164ddc2911787fcfafdcbd99293d12fd73afe05b6d6252542"
+    },
+    "item-icon.pal.054": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/054.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/054.png"
+      },
+      "bytes": 1195,
+      "sha256": "caf18737ed46a4e4a48ce08d324fae25aaa99ba7e8f49789eb5684fb38756a1d"
+    },
+    "item-icon.pal.055": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/055.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/055.png"
+      },
+      "bytes": 2050,
+      "sha256": "c4bc67e304c511aff849c2b7b7090988a031e9d31d30909ea39e42dc143752ed"
+    },
+    "item-icon.pal.056": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/056.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/056.png"
+      },
+      "bytes": 1286,
+      "sha256": "929fa055dc1d96ff01c86e1095929101549506992519477c526c17779d94388c"
+    },
+    "item-icon.pal.057": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/057.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/057.png"
+      },
+      "bytes": 878,
+      "sha256": "d7258cb2d955f39096075cfa162ce21d51a8dfd4f7036f00ea5c67d8e92285b5"
+    },
+    "item-icon.pal.058": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/058.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/058.png"
+      },
+      "bytes": 976,
+      "sha256": "77e2b43feb5f7d8ab996b1f8d3b7de66176bc5e7923e1137d65bb583bf31a3df"
+    },
+    "item-icon.pal.059": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/059.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/059.png"
+      },
+      "bytes": 1079,
+      "sha256": "b88640dc393774c4c54514843891af9a5ba3a2e117a21d10c14902039060635b"
+    },
+    "item-icon.pal.060": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/060.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/060.png"
+      },
+      "bytes": 1042,
+      "sha256": "c40a86cef26e950f1138384700a3a4de3e4211bab2df290bc49600dd1d3c1778"
+    },
+    "item-icon.pal.061": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/061.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/061.png"
+      },
+      "bytes": 1381,
+      "sha256": "4df336c5cbd2a3b1eebdae9b81b63414113e4d6315a2a409bf0a2387fb393229"
+    },
+    "item-icon.pal.062": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/062.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/062.png"
+      },
+      "bytes": 1266,
+      "sha256": "16caec54f4e1650a1ecde893ade7e2bfcf41bc0b614319adc24906e72190c30f"
+    },
+    "item-icon.pal.063": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/063.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/063.png"
+      },
+      "bytes": 1623,
+      "sha256": "d0059036329e72e5898c02cef77a79e4416d05e48bab6999947623c14a588afe"
+    },
+    "item-icon.pal.064": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/064.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/064.png"
+      },
+      "bytes": 956,
+      "sha256": "1b288b11cf3f751ddbc194670229c5ad4f6bdce063832613fb348eed94cfb1a0"
+    },
+    "item-icon.pal.065": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/065.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/065.png"
+      },
+      "bytes": 1222,
+      "sha256": "abbc874ef86b7adc9e3d8c2d3a131affddc0cf22df070a0b32f2b14f06ac7acb"
+    },
+    "item-icon.pal.066": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/066.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/066.png"
+      },
+      "bytes": 1208,
+      "sha256": "d5935afd36d27a71d839e5cbe207bc35aa8c8d344e598a118c9e9953902ffb75"
+    },
+    "item-icon.pal.067": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/067.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/067.png"
+      },
+      "bytes": 1692,
+      "sha256": "f130bda4c96d10a9aa79a3c66fdaf30364846d59a10927990c92dc5cca5306c1"
+    },
+    "item-icon.pal.068": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/068.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/068.png"
+      },
+      "bytes": 897,
+      "sha256": "a4415de33685e5e8eea47bc167d7cbfa84f41c375a6f13e567ecb5a82d826ad0"
+    },
+    "item-icon.pal.069": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/069.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/069.png"
+      },
+      "bytes": 1393,
+      "sha256": "73b179e871b28d98507bf9849fd7ff0212da6abd637ec8d4d250d34e453548f9"
+    },
+    "item-icon.pal.070": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/070.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/070.png"
+      },
+      "bytes": 1295,
+      "sha256": "1dd10f29f0ea24602f01a3c7e783099c91d561c5aff206df86033d44be31e554"
+    },
+    "item-icon.pal.071": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/071.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/071.png"
+      },
+      "bytes": 931,
+      "sha256": "89fc45ab451cd90aa67de48481eed68310022a305e98a7691cf2332efb64e1a7"
+    },
+    "item-icon.pal.072": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/072.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/072.png"
+      },
+      "bytes": 713,
+      "sha256": "1e2f7bb3fc9ca4560c95d1d795a1f7845fb6356c516db1dbf33a374b72847de1"
+    },
+    "item-icon.pal.073": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/073.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/073.png"
+      },
+      "bytes": 195,
+      "sha256": "034f3702f9a4ebc1ae6e8753712f7075ca89d0b260f3ee6f80f92c1bf5df73c5"
+    },
+    "item-icon.pal.074": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/074.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/074.png"
+      },
+      "bytes": 1465,
+      "sha256": "daf388a280b3ca1ca3899ce10a5d89d48f7634d362dcec2bf86eea9155488ab2"
+    },
+    "item-icon.pal.075": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/075.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/075.png"
+      },
+      "bytes": 908,
+      "sha256": "ffd83ca16ba4f3395a0cfb85bb41ab2318813a9e0ccc49a72682126f1c190926"
+    },
+    "item-icon.pal.076": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/076.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/076.png"
+      },
+      "bytes": 1138,
+      "sha256": "e4c9995880b32bb18ecf787ddd126bccbe8af6129776ca8c546cb97f74fea99e"
+    },
+    "item-icon.pal.077": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/077.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 077",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/077.png"
+      },
+      "bytes": 1616,
+      "sha256": "58d60ae0270064d594fb41ca25866131666aadc34d094898517459ae61e6a4d5"
+    },
+    "item-icon.pal.078": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/078.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 078",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/078.png"
+      },
+      "bytes": 1597,
+      "sha256": "aec11ca69e9f3fe21b8a087c45d495f168f531c1f913d0265b2fbb5b46d0ce31"
+    },
+    "item-icon.pal.079": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/079.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 079",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/079.png"
+      },
+      "bytes": 2155,
+      "sha256": "9d7899bc7b3d3d03f3dc33ed2e6a249a6b36c6e00ba98c0c6b2b0dc1b635985b"
+    },
+    "item-icon.pal.080": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/080.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/080.png"
+      },
+      "bytes": 560,
+      "sha256": "740bda66e401f8f0b5e9398f5435d3f67e596b469d237e2dd04f5ccbb90bf130"
+    },
+    "item-icon.pal.081": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/081.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/081.png"
+      },
+      "bytes": 378,
+      "sha256": "b4fc9ec622976a85546ee45bed252f0f2a0773166dc4c36d1eaab3e3b2e47673"
+    },
+    "item-icon.pal.082": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/082.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/082.png"
+      },
+      "bytes": 1376,
+      "sha256": "b47d509a4ce0f07b8d6ceb3eb977e0067c10c83ea3d4cd231807986f58ffa8d6"
+    },
+    "item-icon.pal.083": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/083.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/083.png"
+      },
+      "bytes": 2128,
+      "sha256": "aed55bd0ac56cbbf53938b3f89f32f9e0736cbb8dc77f52b6755f243cbec998a"
+    },
+    "item-icon.pal.084": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/084.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/084.png"
+      },
+      "bytes": 692,
+      "sha256": "f444c6daa2e5fa6e746cb5bbe49c6694abb6c50953505992b814e3754ad81b14"
+    },
+    "item-icon.pal.085": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/085.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/085.png"
+      },
+      "bytes": 993,
+      "sha256": "490bff2d26933c0ae77a429f88d83783375d6520aeeb787ba0a7f9b7ce5011d1"
+    },
+    "item-icon.pal.086": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/086.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/086.png"
+      },
+      "bytes": 1790,
+      "sha256": "eae3554dfb10b53b6cb35df30c0d3ed9253a91a2556becd01f7553b9dec8fbb2"
+    },
+    "item-icon.pal.087": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/087.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/087.png"
+      },
+      "bytes": 1824,
+      "sha256": "992ed366f4177784f5ac5f694ea3e9a7fe2df7c81480b03f32235d65eb888187"
+    },
+    "item-icon.pal.088": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/088.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 088",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/088.png"
+      },
+      "bytes": 1169,
+      "sha256": "2b6570bb5d70a1b1133503643f72db8091d4810757a09676cc10639bb557a922"
+    },
+    "item-icon.pal.089": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/089.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 089",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/089.png"
+      },
+      "bytes": 2362,
+      "sha256": "799cf51f7bc8e9a9b8d0a1269719a6dc3cb6bfb7881bfee9d3ad4fd4ffb267cb"
+    },
+    "item-icon.pal.090": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/090.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 090",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/090.png"
+      },
+      "bytes": 2574,
+      "sha256": "432671dca9e2450edb1c3d2cc1cfb84bfc1fd14835f90ee6342edce4ae33908d"
+    },
+    "item-icon.pal.091": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/091.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 091",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/091.png"
+      },
+      "bytes": 1579,
+      "sha256": "23dce5822cbb233d2afecd80218469466e76f429d626a816c97028c02fcbcc5d"
+    },
+    "item-icon.pal.092": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/092.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 092",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/092.png"
+      },
+      "bytes": 981,
+      "sha256": "b024508a61d88eb6c6a799b3494961c4cac71ec3da76b2a1df4e762ce0f99431"
+    },
+    "item-icon.pal.093": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/093.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 093",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/093.png"
+      },
+      "bytes": 2420,
+      "sha256": "9764db636411963a2861455a706ec1b3d3b1251b42c4211d27c1ab642fe906f9"
+    },
+    "item-icon.pal.094": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/094.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 094",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/094.png"
+      },
+      "bytes": 1110,
+      "sha256": "cd297cb6db8ea0457bdb03f28e65ee92c6ce0606486b1a9019fab852cdb4da6f"
+    },
+    "item-icon.pal.095": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/095.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 095",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/095.png"
+      },
+      "bytes": 1414,
+      "sha256": "ab06ceee84a7550079fd623f6735bd5867b1927455abeca05285ae5c8e86ffe0"
+    },
+    "item-icon.pal.096": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/096.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 096",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/096.png"
+      },
+      "bytes": 876,
+      "sha256": "59ba6291fcc7b595ee3a53224f1a1d4779221735084f6c647e774a0e62ca26d4"
+    },
+    "item-icon.pal.097": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/097.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 097",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/097.png"
+      },
+      "bytes": 1084,
+      "sha256": "172fa2a2bc491517b1f780c11d6a867104eaaf8542088a13d71c13eaed439f15"
+    },
+    "item-icon.pal.098": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/098.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 098",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/098.png"
+      },
+      "bytes": 647,
+      "sha256": "083c8e6c15862cbe1679742164d53aa517110d12102002f57054f606cff21f73"
+    },
+    "item-icon.pal.099": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/099.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 099",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/099.png"
+      },
+      "bytes": 760,
+      "sha256": "c2728872640f8571c6c29476160d9a9e83deabba473f66ee6fd1fcd153c736fe"
+    },
+    "item-icon.pal.100": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/100.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 100",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/100.png"
+      },
+      "bytes": 935,
+      "sha256": "a45da3ae9c755bf9469a34dbe7739c0a0141f33143f149a304c1384e19746afb"
+    },
+    "item-icon.pal.101": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/101.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 101",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/101.png"
+      },
+      "bytes": 904,
+      "sha256": "1d232a923e516febaf7b161bdf0705af9f8e824d115a7a740e587b036c7d31d9"
+    },
+    "item-icon.pal.102": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/102.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 102",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/102.png"
+      },
+      "bytes": 981,
+      "sha256": "ce0f4030e6aee69e7d9fec6b66effc2b46f3678b755bceca270dfcc12273bed3"
+    },
+    "item-icon.pal.103": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/103.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 103",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/103.png"
+      },
+      "bytes": 1034,
+      "sha256": "8a3d885696c0659c6f0f5c224e78871e7db954468afc6e773677c33cd69ac364"
+    },
+    "item-icon.pal.104": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/104.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 104",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/104.png"
+      },
+      "bytes": 741,
+      "sha256": "bfc0c3f01aaa2cca526d6545e2830bb653524b771c631d5abcb4bd8d53a8baa9"
+    },
+    "item-icon.pal.105": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/105.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 105",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/105.png"
+      },
+      "bytes": 972,
+      "sha256": "9165783181356c4689753b8a0e75de9d5f650c2e0d13cc3749e57f69e2fd236e"
+    },
+    "item-icon.pal.106": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/106.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 106",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/106.png"
+      },
+      "bytes": 1148,
+      "sha256": "974a0d19b38179ffd7b7b8bf005b414b51ceab48568596ada1a173fc7cbd4d22"
+    },
+    "item-icon.pal.107": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/107.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 107",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/107.png"
+      },
+      "bytes": 1010,
+      "sha256": "e6840944bfaba6759e154a4b01ea519303178520b7e06abeeea53eb6f1b1d137"
+    },
+    "item-icon.pal.108": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/108.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 108",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/108.png"
+      },
+      "bytes": 581,
+      "sha256": "98ffd79bd6c0fd7cc8058373197ee69b0ebbc2be314364831a12026677c80e03"
+    },
+    "item-icon.pal.109": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/109.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 109",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/109.png"
+      },
+      "bytes": 846,
+      "sha256": "55a25be3b30fe13727194273328c6ac92c27ea905fbb242025e6fc3e73f7d4ea"
+    },
+    "item-icon.pal.110": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/110.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 110",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/110.png"
+      },
+      "bytes": 472,
+      "sha256": "7123b921a975993a705c46fff643f472ea0430d8e152c3eb46ad92e5a0c091d8"
+    },
+    "item-icon.pal.111": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/111.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 111",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/111.png"
+      },
+      "bytes": 556,
+      "sha256": "fb2a5b448fbff5ea1e1864c360b4d3610a9d23a8d964098f13543f34d2d07010"
+    },
+    "item-icon.pal.112": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/112.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 112",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/112.png"
+      },
+      "bytes": 956,
+      "sha256": "34728e6e82318126effe0609c5b614e8bdd5c3b614e797f8cf5fc777d0829478"
+    },
+    "item-icon.pal.113": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/113.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 113",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/113.png"
+      },
+      "bytes": 844,
+      "sha256": "3d60b6ddb8bd87406297a3cb9f088f7284d80da3fead463d1d38efcedfca4f5f"
+    },
+    "item-icon.pal.114": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/114.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 114",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/114.png"
+      },
+      "bytes": 611,
+      "sha256": "0394c667b932acca8ac1662a1953eb20055ec1bb0602c6a424efb3b8c0144f75"
+    },
+    "item-icon.pal.115": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/115.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 115",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/115.png"
+      },
+      "bytes": 812,
+      "sha256": "a004dd3ee3cfd2515fdf04240513a5fe5aae6308062769ca4cbafad7771d6888"
+    },
+    "item-icon.pal.116": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/116.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 116",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/116.png"
+      },
+      "bytes": 1500,
+      "sha256": "fcf6bd645d27155ad15b963941f65d8fe444c1904887d45557128b55240f63d1"
+    },
+    "item-icon.pal.117": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/117.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 117",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/117.png"
+      },
+      "bytes": 1013,
+      "sha256": "5e3396229d24448b5f47a9678f59d74a3abf1ed1c98cfa21d1a3240ae04153df"
+    },
+    "item-icon.pal.118": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/118.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 118",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/118.png"
+      },
+      "bytes": 696,
+      "sha256": "b81db5de750501e2485e5b64659a1c7c4eba9b3aa977dc02b597018d12864121"
+    },
+    "item-icon.pal.120": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/120.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 120",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/120.png"
+      },
+      "bytes": 1891,
+      "sha256": "7913c73758c07571b7bd851b7e350a0df99206788b51cea43804931a800d6150"
+    },
+    "item-icon.pal.121": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/121.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 121",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/121.png"
+      },
+      "bytes": 1300,
+      "sha256": "45b33574fd203febc0ada3b9b339fa7c1f5dc6896cdfb66180378ed354f4aa4c"
+    },
+    "item-icon.pal.122": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/122.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 122",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/122.png"
+      },
+      "bytes": 1151,
+      "sha256": "99fcecd105a7fe18f6928a41412cee16b180976bf3138294d77b4cbf1ba01a22"
+    },
+    "item-icon.pal.123": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/123.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 123",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/123.png"
+      },
+      "bytes": 845,
+      "sha256": "f67fde5c31fbb12854bd648161e2cb10046a0c337e45cc81da1c5be6698e9a12"
+    },
+    "item-icon.pal.124": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/124.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 124",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/124.png"
+      },
+      "bytes": 1531,
+      "sha256": "f783a7457a47e7736dade0a8a9bfaa9dcb1d78ad4bd560b0ba7062b320177c44"
+    },
+    "item-icon.pal.125": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/125.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 125",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/125.png"
+      },
+      "bytes": 1226,
+      "sha256": "101a1947cf355b374c7046f6b8c6bea3c5a26c3cb1186c66d00ba05509e5e9d9"
+    },
+    "item-icon.pal.126": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/126.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 126",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/126.png"
+      },
+      "bytes": 1069,
+      "sha256": "6330255d84c6179d7439c93e1cf0ee9abcca47b040cb1a1f9de61d2c67678de5"
+    },
+    "item-icon.pal.127": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/127.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 127",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/127.png"
+      },
+      "bytes": 1412,
+      "sha256": "ee76205bf648c94648090731133c20a434aac4fc6a4e4b020a544ba8bd0a8bf0"
+    },
+    "item-icon.pal.128": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/128.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 128",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/128.png"
+      },
+      "bytes": 876,
+      "sha256": "afb1e14d655ed361991b61d9c654da3adbd7b5c23b5cd77c67d5150114ce8522"
+    },
+    "item-icon.pal.129": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/129.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 129",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/129.png"
+      },
+      "bytes": 1657,
+      "sha256": "c1ee74410d36ff7b11ee65a1ce615e9e4f9b4b823e7c483f2b51ed2b00f73be1"
+    },
+    "item-icon.pal.130": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/130.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 130",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/130.png"
+      },
+      "bytes": 1570,
+      "sha256": "811ecebd1c0fef1435ee78625b4fc8c44c144c21cc5a40152c223f91c5756c24"
+    },
+    "item-icon.pal.131": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/131.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 131",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/131.png"
+      },
+      "bytes": 1545,
+      "sha256": "59328ce0ca47ce9e10e430e1c2ea049afe278fefaf3d87cd9b2a0ecb6161e9ce"
+    },
+    "item-icon.pal.132": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/132.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 132",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/132.png"
+      },
+      "bytes": 1779,
+      "sha256": "c6bbc377ebac86424b349c98cd90d9f5abe63a5443b4a1cff2f5c3f1bc404d75"
+    },
+    "item-icon.pal.133": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/133.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 133",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/133.png"
+      },
+      "bytes": 1584,
+      "sha256": "4babee7f54c27ab7f37848461416f3708bd2ecf693784179e8218b87627d7b77"
+    },
+    "item-icon.pal.134": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/134.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 134",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/134.png"
+      },
+      "bytes": 1555,
+      "sha256": "ab8e0f90be51f3deda1e93f2bb3bf8c13efda54f52fb498cfc02c5c3ab6f7e24"
+    },
+    "item-icon.pal.135": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/135.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 135",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/135.png"
+      },
+      "bytes": 1283,
+      "sha256": "891ad98fc35e2c193a1a0af1019da60ed181a191009ebed83ec9040e073332e5"
+    },
+    "item-icon.pal.136": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/136.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 136",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/136.png"
+      },
+      "bytes": 1138,
+      "sha256": "be1c0f9bca53805dcc4095b22b5199650c33c429a0888667c79c974e5eadb281"
+    },
+    "item-icon.pal.137": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/137.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 137",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/137.png"
+      },
+      "bytes": 813,
+      "sha256": "af0316a86f4e4275364ca33fed862e786f3f3e6b7cded425ed5aa2195feca157"
+    },
+    "item-icon.pal.138": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/138.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 138",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/138.png"
+      },
+      "bytes": 836,
+      "sha256": "5af078fe059b45564972d1d7f2a61ac1e8c6caa484ee5f12d23e758e88836574"
+    },
+    "item-icon.pal.139": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/139.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 139",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/139.png"
+      },
+      "bytes": 917,
+      "sha256": "efb7265e9694b0b9d4f9e5881f15a4a03e3e1664ac4b0983f62b4b589a4e8e13"
+    },
+    "item-icon.pal.140": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/140.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 140",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/140.png"
+      },
+      "bytes": 774,
+      "sha256": "0b856e9180c57a4d82e1ce6b6f7ccaca94a67946f8403cfa96cb02c9f50b80fd"
+    },
+    "item-icon.pal.141": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/141.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 141",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/141.png"
+      },
+      "bytes": 1217,
+      "sha256": "843c32ba5520f6423564baa6920fbcd730379e1626469d78a8d575796e2a583a"
+    },
+    "item-icon.pal.142": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/142.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 142",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/142.png"
+      },
+      "bytes": 1142,
+      "sha256": "ebf1a1eda96e5a061ef653875e9911f93a52d034ff4fa2f447698ca1fc34c6d4"
+    },
+    "item-icon.pal.143": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/143.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 143",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/143.png"
+      },
+      "bytes": 1933,
+      "sha256": "d81af0d940e4d12859dcef15e733a6497f3ce8aceee15999dceb92e49af377ac"
+    },
+    "item-icon.pal.144": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/144.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 144",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/144.png"
+      },
+      "bytes": 874,
+      "sha256": "613b993ca34bb83dfd6893dd23f12fcfff7dcbbc86db7c25e972179529d1dc57"
+    },
+    "item-icon.pal.145": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/145.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 145",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/145.png"
+      },
+      "bytes": 296,
+      "sha256": "39896dfcd4ae9b2f9f9074cab98aec7d3aa885f736229afb8a6e2265a56a5c0b"
+    },
+    "item-icon.pal.146": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/146.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 146",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/146.png"
+      },
+      "bytes": 2502,
+      "sha256": "f15c89aa49fdab540be41de44aaa0e2987cbb138fcab2a5ccb2f208cc5429b61"
+    },
+    "item-icon.pal.147": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/147.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 147",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/147.png"
+      },
+      "bytes": 1228,
+      "sha256": "fa8a3ff01844c174e40e56d5fffc131458bf3a57b80107f8e02369ca0c902bf3"
+    },
+    "item-icon.pal.148": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/148.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 148",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/148.png"
+      },
+      "bytes": 441,
+      "sha256": "c6ce2feef87c3263aeb4fac97fd853dbdd46302a3032bce28ed9a4e51ae8c69d"
+    },
+    "item-icon.pal.149": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/149.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 149",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/149.png"
+      },
+      "bytes": 201,
+      "sha256": "32f8e60e4d9752d199c4300f6e9c5483b59b4eec631b95365827bd61ab0f6f64"
+    },
+    "item-icon.pal.151": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/151.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 151",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/151.png"
+      },
+      "bytes": 719,
+      "sha256": "ff7a353851100a8ebe70ddc4eb820a2364a101a7c92e2f5c55c51ab015023ae5"
+    },
+    "item-icon.pal.152": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/152.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 152",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/152.png"
+      },
+      "bytes": 835,
+      "sha256": "05aae09de434132d6d89a8c7a11ccbbaa86279ae604902a1e707e21bfad605d6"
+    },
+    "item-icon.pal.153": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/153.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 153",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/153.png"
+      },
+      "bytes": 809,
+      "sha256": "86dcc2ec2a9c55f0710079e88d5a67a092a44ea15e3a86994728bd12e2cc0fc4"
+    },
+    "item-icon.pal.154": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/154.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 154",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/154.png"
+      },
+      "bytes": 880,
+      "sha256": "8d06db8e73f4a5064fdff8b19870299afedd431ea137fad4170b1f6b5d5c0512"
+    },
+    "item-icon.pal.155": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/155.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 155",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/155.png"
+      },
+      "bytes": 1436,
+      "sha256": "0a9c0383bdd152227679e1f248a4a76f9c1b916f94c4bc24a536d6d2fe7b8f39"
+    },
+    "item-icon.pal.156": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/156.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 156",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/156.png"
+      },
+      "bytes": 659,
+      "sha256": "b441cd649e3185a09faa9b8f792a15b4a515d496a0cbadf3a3db2809dc3b26f1"
+    },
+    "item-icon.pal.157": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/157.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 157",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/157.png"
+      },
+      "bytes": 1219,
+      "sha256": "08a42cb36fb84a3b5ff6cb938a8deb3af45c3d55b858153ea1763c1c95f48f0c"
+    },
+    "item-icon.pal.158": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/158.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 158",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/158.png"
+      },
+      "bytes": 921,
+      "sha256": "7f2c2dc074cb6595b71765bde066fef5ae07515871d4787ef573aa49263de7dc"
+    },
+    "item-icon.pal.159": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/159.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 159",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/159.png"
+      },
+      "bytes": 2416,
+      "sha256": "68acfa17339d3fc95f3c2707bb3fff5e4783c0821db95605ca0be8ff8e2a3b17"
+    },
+    "item-icon.pal.160": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/160.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 160",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/160.png"
+      },
+      "bytes": 915,
+      "sha256": "00c98e82c1f6a228d944e1ba66bb435219b7ceae0eddf987f87b734470ad8bb9"
+    },
+    "item-icon.pal.161": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/161.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 161",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/161.png"
+      },
+      "bytes": 889,
+      "sha256": "821f2b68253c656b50a23fd5adaee9dc456f0cd1233da3db5b6cf490bc54239a"
+    },
+    "item-icon.pal.162": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/162.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 162",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/162.png"
+      },
+      "bytes": 1109,
+      "sha256": "356583022d8816c240ee46a489f6f264cd0505b2709ad1a4d50c501ee666aaec"
+    },
+    "item-icon.pal.163": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/163.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 163",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/163.png"
+      },
+      "bytes": 2381,
+      "sha256": "007f5a5c681f9eed028bf516403489274a4a726cdccaabeeb2e8916fb5b1157a"
+    },
+    "item-icon.pal.164": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/164.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 164",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/164.png"
+      },
+      "bytes": 647,
+      "sha256": "df60d7b7d1fff1a31ecd6aac988a2f6a711df82c95f20c405e23c8ce7a9ba003"
+    },
+    "item-icon.pal.165": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/165.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 165",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/165.png"
+      },
+      "bytes": 737,
+      "sha256": "14d56d8389e84e3216c01767eef43ad3660932355beed90e86e850318baa8014"
+    },
+    "item-icon.pal.166": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/166.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 166",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/166.png"
+      },
+      "bytes": 849,
+      "sha256": "1348cd2c221f5e953e13e02835510a57cdcce3c25d869503eeb2e64446f4605c"
+    },
+    "item-icon.pal.167": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/167.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 167",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/167.png"
+      },
+      "bytes": 536,
+      "sha256": "7c730f923243aab04e9b805acb6fd9569d16a95399297cf05e68f5cf3067b4bf"
+    },
+    "item-icon.pal.168": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/168.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 168",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/168.png"
+      },
+      "bytes": 949,
+      "sha256": "3f76dde5fdf917e61ed91a522534baa555961e0a518925ed446c4b3cb84ab6f2"
+    },
+    "item-icon.pal.169": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/169.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 169",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/169.png"
+      },
+      "bytes": 762,
+      "sha256": "e8a6cbfdd4d1a0a2849c15df7956b66154e62167572841cf01178c6f94452ff1"
+    },
+    "item-icon.pal.170": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/170.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 170",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/170.png"
+      },
+      "bytes": 1089,
+      "sha256": "5733ebeb3b791ce1aefd4a17ab4ba4316be0a5848503a8cca8a780adf9cb5d47"
+    },
+    "item-icon.pal.171": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/171.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 171",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/171.png"
+      },
+      "bytes": 712,
+      "sha256": "6ff426811f34918136117a22295922390db6dd8ffbd2141fe5a42e773e66ae9b"
+    },
+    "item-icon.pal.172": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/172.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 172",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/172.png"
+      },
+      "bytes": 723,
+      "sha256": "8064d06f7f004463f6839f5bf283cf4a308186b218b87fea59e2761b28232e5e"
+    },
+    "item-icon.pal.173": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/173.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 173",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/173.png"
+      },
+      "bytes": 788,
+      "sha256": "33453f84349d00606f465ba537984f05e8ba9f8f38fa712532d30d544b14f812"
+    },
+    "item-icon.pal.174": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/174.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 174",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/174.png"
+      },
+      "bytes": 774,
+      "sha256": "34399052e9ba4e04cc1ff9dabd8dc60bb6caac4e5970e392cd04d46b01b377d9"
+    },
+    "item-icon.pal.175": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/175.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 175",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/175.png"
+      },
+      "bytes": 786,
+      "sha256": "f78b82f38d49b162fa6aae3b9b8e5c791c77b1b4ad6fa0bf6a23c19297bc74a2"
+    },
+    "item-icon.pal.176": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/176.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 176",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/176.png"
+      },
+      "bytes": 684,
+      "sha256": "5a4f44090e341493307ecae03ca11267869cda7fad9b290f6cfeef9f08ca9696"
+    },
+    "item-icon.pal.177": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/177.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 177",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/177.png"
+      },
+      "bytes": 620,
+      "sha256": "3e85bea9d2e0c68b1d517c51af82b88d9b29af6e7a2f70d2c8993050d2cc9538"
+    },
+    "item-icon.pal.178": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/178.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 178",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/178.png"
+      },
+      "bytes": 419,
+      "sha256": "2079c5bd6f98a5a7da01cd3e84ce398b8aeb6f9c03f25f3d88561b7b5df2c398"
+    },
+    "item-icon.pal.179": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/179.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 179",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/179.png"
+      },
+      "bytes": 718,
+      "sha256": "3015d4de3afe506478c66eeb104757298ce6cbdd2e8d426179f8bc95ddf88770"
+    },
+    "item-icon.pal.180": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/180.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 180",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/180.png"
+      },
+      "bytes": 1041,
+      "sha256": "216bc6b4874b87cdcd88977e77fa4f6ef4d22975b7ae4b6302a746d14d07b7ca"
+    },
+    "item-icon.pal.181": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/181.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 181",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/181.png"
+      },
+      "bytes": 759,
+      "sha256": "fe0a52a2de88d30baa5f52468509e58d6e82d1548dfe81b808a9f23a149e20c2"
+    },
+    "item-icon.pal.182": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/182.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 182",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/182.png"
+      },
+      "bytes": 1246,
+      "sha256": "6fac8dd83f98eab5646f64855bbbf2017f2a02b8f98fe036adcbef9290d233f3"
+    },
+    "item-icon.pal.183": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/183.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 183",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/183.png"
+      },
+      "bytes": 1117,
+      "sha256": "56da2df87f43da65a8aec19e0ebd4690f25acb05e20d08d69eb4018fe24f5f6f"
+    },
+    "item-icon.pal.184": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/184.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 184",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/184.png"
+      },
+      "bytes": 840,
+      "sha256": "c580547c8c1d83cdfccc2891287b5940fe57e983bed95a10e68188bbebb5cdb0"
+    },
+    "item-icon.pal.185": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/185.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 185",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/185.png"
+      },
+      "bytes": 1137,
+      "sha256": "608e861ed43ec912d00cc8aa572fb872363be5de28f744e10be64596b55c9af5"
+    },
+    "item-icon.pal.186": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/186.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 186",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/186.png"
+      },
+      "bytes": 893,
+      "sha256": "dfc793851282555a8751069e24f4c30de13648478881e117665115140ec39fd5"
+    },
+    "item-icon.pal.187": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/187.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 187",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/187.png"
+      },
+      "bytes": 1352,
+      "sha256": "fb823f3913270598349e1113bdb8dbf750f4123f5079461d63bc9e810f79830a"
+    },
+    "item-icon.pal.189": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/189.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 189",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/189.png"
+      },
+      "bytes": 846,
+      "sha256": "4eed41ae8c9941a992ce1874199a17dc510f5abc8fe1bf9926030cebc510dd1d"
+    },
+    "item-icon.pal.190": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/190.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 190",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/190.png"
+      },
+      "bytes": 982,
+      "sha256": "cfe43d44e5b96f0cefb9b0d4c25c2993095905b3914b6dc6418b8f78c5d991be"
+    },
+    "item-icon.pal.192": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/192.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 192",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/192.png"
+      },
+      "bytes": 619,
+      "sha256": "b53a6d91430987834b0b65164fe3c69e2180c761fad71f209f8e682a1484e738"
+    },
+    "item-icon.pal.193": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/193.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 193",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/193.png"
+      },
+      "bytes": 1350,
+      "sha256": "0bb88fbe71aae497ab91700f793505bfbc9b9f7451bca749c2a7783f324a4fb0"
+    },
+    "item-icon.pal.194": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/194.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 194",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/194.png"
+      },
+      "bytes": 1075,
+      "sha256": "90ccbdb9b285795e28e8fd05b29cdb53f69a656da897a91e427d03a926866fec"
+    },
+    "item-icon.pal.195": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/195.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 195",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/195.png"
+      },
+      "bytes": 795,
+      "sha256": "b750e157b05a3eefff48dbe8e2666a05c7ff930530f50b72a81f431eb1827d04"
+    },
+    "item-icon.pal.196": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/196.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 196",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/196.png"
+      },
+      "bytes": 764,
+      "sha256": "3348bc7a4f254c4bd8820cf449ba84062162ff9d03bc823200aa9823999a7f28"
+    },
+    "item-icon.pal.197": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/197.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 197",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/197.png"
+      },
+      "bytes": 470,
+      "sha256": "d39341a5e7776dcebac920e5a8d4454bf488586d8f8e434c7aa0139c2eea65b0"
+    },
+    "item-icon.pal.198": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/198.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 198",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/198.png"
+      },
+      "bytes": 1126,
+      "sha256": "5ae35236089a02265c9c69cb81c966fc4a93c5ae826425fb4eb38f4de8761b01"
+    },
+    "item-icon.pal.199": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/199.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 199",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/199.png"
+      },
+      "bytes": 1913,
+      "sha256": "1efbb307369a9bdcb6fc63ad84969490e9b2ab7eb97f5bf9fc9e7d4acfd4f200"
+    },
+    "item-icon.pal.200": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/200.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 200",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/200.png"
+      },
+      "bytes": 566,
+      "sha256": "0aa4825832b9ac824bb1bad829ea805d2263cc1aa022ef818e8745ef8387a032"
+    },
+    "item-icon.pal.201": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/201.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 201",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/201.png"
+      },
+      "bytes": 1066,
+      "sha256": "b62ff7ff14b7da090979f28727461864771ab18ddcef5a7b9e44984ebe7cab52"
+    },
+    "item-icon.pal.202": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/202.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 202",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/202.png"
+      },
+      "bytes": 1058,
+      "sha256": "fcc4c46fc840d3729620e58c22d6df731714bdf42788589a7667ccbe2ff2bd37"
+    },
+    "item-icon.pal.203": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/203.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 203",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/203.png"
+      },
+      "bytes": 611,
+      "sha256": "a418aaad95e2b12c8e03cfebc026a0ef9b83324ee7875b63cbf01a17927d314c"
+    },
+    "item-icon.pal.205": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/205.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 205",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/205.png"
+      },
+      "bytes": 1424,
+      "sha256": "1e5ca7a9e7216730f7cd9b3776a54638140355665254d2b18a67a3710da69640"
+    },
+    "item-icon.pal.206": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/206.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 206",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/206.png"
+      },
+      "bytes": 441,
+      "sha256": "1c7a574de7f6dd104c327bbe9d2c59cd45da3347a447e5b4a9dbfbf879714be1"
+    },
+    "item-icon.pal.207": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/207.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 207",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/207.png"
+      },
+      "bytes": 1029,
+      "sha256": "9d38954339f2ee84b31868e77124063f73ad329bb214034ca4ed6332cda0686d"
+    },
+    "item-icon.pal.208": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/208.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 208",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/208.png"
+      },
+      "bytes": 1607,
+      "sha256": "000bf74126f9563ca832f2389af742adaf6c18893d20a7ba4e2d28f173c92e60"
+    },
+    "item-icon.pal.209": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/209.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 209",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/209.png"
+      },
+      "bytes": 3299,
+      "sha256": "0b128bb0f11733e3aaed09c1167b3dc3c1284d6da57c800ce8accc70a2f9eaea"
+    },
+    "item-icon.pal.210": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/210.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 210",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/210.png"
+      },
+      "bytes": 3244,
+      "sha256": "b968ca63d17672664b240612a899ba58dce3f538b76acf830ae14d690012156f"
+    },
+    "item-icon.pal.211": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/211.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 211",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/211.png"
+      },
+      "bytes": 2194,
+      "sha256": "25c6391e8942e7d70a4e4b3530c0593c38986508ce8369477e27903d12c0642d"
+    },
+    "item-icon.pal.212": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/212.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 212",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/212.png"
+      },
+      "bytes": 1118,
+      "sha256": "362f9dbef6426c1fb72a3ad51dd9878ebe6a9e42f8762c4e27e4b5300180a715"
+    },
+    "item-icon.pal.213": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/213.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 213",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/213.png"
+      },
+      "bytes": 2004,
+      "sha256": "054c5e78f8840e874bae02a41c3088c8639c76a1a7e9ec597bb3cf1f0cdbd6b9"
+    },
+    "item-icon.pal.214": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/214.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 214",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/214.png"
+      },
+      "bytes": 261,
+      "sha256": "e53a2cb1a1f571662ff853e27fbee064e47fd2e4520cb0c2f1b65d560ada97d6"
+    },
+    "item-icon.pal.215": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/215.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 215",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/215.png"
+      },
+      "bytes": 1148,
+      "sha256": "a19c11e528c35cc38bfc34d4be12072913e6a9094a835cb9968d8f9233a21b90"
+    },
+    "item-icon.pal.216": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/216.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 216",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/216.png"
+      },
+      "bytes": 822,
+      "sha256": "c7479b9d32560f445fda6f280773faa1f3dbb24297df7078b677f605bc499e0c"
+    },
+    "item-icon.pal.217": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/217.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 217",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/217.png"
+      },
+      "bytes": 651,
+      "sha256": "727557b74b37ca8fdff8b726570ad57608368e2f841d767960e06b5c3737e132"
+    },
+    "item-icon.pal.218": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/218.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 218",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/218.png"
+      },
+      "bytes": 718,
+      "sha256": "e0026bf77eb5bf7734f8a6d2a8bf7f58f07402f251123ca9eb7a52335f3ea1c2"
+    },
+    "item-icon.pal.221": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/221.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 221",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/221.png"
+      },
+      "bytes": 552,
+      "sha256": "93ee54ccdd6caf4dcefe24ea3e20ae0ed6141bfd454a2089755a143c5bbc3326"
+    },
+    "item-icon.pal.222": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/222.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 222",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/222.png"
+      },
+      "bytes": 659,
+      "sha256": "a7e4a83f317eee240c42486c887165085dc70e985924575d9d40d01d192ddb7e"
+    },
+    "item-icon.pal.224": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/224.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 224",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/224.png"
+      },
+      "bytes": 618,
+      "sha256": "e453af933090fc1e273936b87583919aea41b085ec184280f2446901d33a029a"
+    },
+    "item-icon.pal.225": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/225.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 225",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/225.png"
+      },
+      "bytes": 2314,
+      "sha256": "724eeee69d3b80b245d63aa59b9623b0b4f3e5f0c5cbc5b5f8b21e6a7f3c8811"
+    },
+    "item-icon.pal.226": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/226.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 226",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/226.png"
+      },
+      "bytes": 1542,
+      "sha256": "d4047af714972a2ec9fb78a1ced87264763b33d1357dc0325b0bd29eaefae0a3"
+    },
+    "item-icon.pal.227": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/227.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 227",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/227.png"
+      },
+      "bytes": 976,
+      "sha256": "47981f8761cf883dcea77d43af9a8326a235e69bfa7b7e151ecb81be0e117696"
+    },
+    "item-icon.pal.228": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/228.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 228",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/228.png"
+      },
+      "bytes": 1702,
+      "sha256": "46b1e6d601bb4546ae3522b00b1f846125614c7e6cce95ac65d68b5a2af64bae"
+    },
+    "item-icon.pal.229": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/229.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 229",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/229.png"
+      },
+      "bytes": 1342,
+      "sha256": "ac89a72cf4044a0bc23b86a90a47c3aa35832e5f9dad337e8813b4f49f85e0f3"
+    },
+    "item-icon.pal.230": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/230.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 230",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/230.png"
+      },
+      "bytes": 1717,
+      "sha256": "c6c1bfab2bba238f069b077b9bd32d5b7e0fddd822bb044b988e3373ee5c2ad3"
+    },
+    "item-icon.pal.231": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/231.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 231",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/231.png"
+      },
+      "bytes": 1353,
+      "sha256": "c70e2b842e9b1247a7bde682a634c648923cb33ff99b77683c975362e09dcf64"
+    },
+    "item-icon.pal.233": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/233.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 233",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/233.png"
+      },
+      "bytes": 1098,
+      "sha256": "30f716e4f9cf40a6f13b367e23b36ae34d154de251797f94cec76f4f983a55d7"
+    },
+    "item-icon.pal.234": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/234.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 234",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/234.png"
+      },
+      "bytes": 760,
+      "sha256": "c710f644b6e35442e714546d33f583be5062b65f6d38b15df16118b2aa0f6ab2"
+    },
+    "item-icon.pal.235": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/235.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 235",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/235.png"
+      },
+      "bytes": 814,
+      "sha256": "46f8dd04978f77bcb048a54a61a53f9a93f48cfabf6220dda1e44811f1633975"
+    },
+    "item-icon.pal.236": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/236.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 236",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/236.png"
+      },
+      "bytes": 760,
+      "sha256": "19a7922eb11361565cf69689b656e2f7b3c1f222ee0cb7e8f45bdfff868bb190"
+    },
+    "item-icon.pal.237": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/237.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 237",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/237.png"
+      },
+      "bytes": 616,
+      "sha256": "7e7af5692299bb761dc149674bb5d4e510fe9b2772aea7a12cc09cc3de5c0ea0"
+    },
+    "item-icon.pal.238": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/238.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 238",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/238.png"
+      },
+      "bytes": 810,
+      "sha256": "bcdd8c355ce98b9f0b48f19845a75792134e06c1ad009187539b09139fb0a105"
+    },
+    "item-icon.pal.239": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/239.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 239",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/239.png"
+      },
+      "bytes": 436,
+      "sha256": "9f432f05fd01addf81b61f08f4a668c7db7a8273ac56d61a2b704278df0d6efc"
+    },
+    "item-icon.pal.240": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/240.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 240",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/240.png"
+      },
+      "bytes": 1692,
+      "sha256": "0088d63cc945216fda9c33896c14679f366d930cfd3c5680eaa07ddf7b881305"
+    },
+    "item-icon.pal.241": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/241.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 241",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/241.png"
+      },
+      "bytes": 612,
+      "sha256": "8a2f0a853b41ecad290bf0b3cd4ea313096e7cff825276357dea715852d52aec"
+    },
+    "item-icon.pal.242": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/242.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 242",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/242.png"
+      },
+      "bytes": 1197,
+      "sha256": "ef0db2576be40a0ff68559675120f2d475ddbafda917b942f73b99273bc2eeaf"
+    },
+    "item-icon.pal.243": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/243.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 243",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/243.png"
+      },
+      "bytes": 2738,
+      "sha256": "c07945f04f52c66a966e74d129d17f67c6fbdd3e1921a41b2459adf34ffeed80"
+    },
+    "item-icon.pal.245": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/245.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 245",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/245.png"
+      },
+      "bytes": 1152,
+      "sha256": "5130dd15eb8525adcd7b054f36ce9f9d47e96ed4ba311e2fe3ee69f73b4ca579"
+    },
+    "item-icon.pal.246": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/246.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 246",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/246.png"
+      },
+      "bytes": 1423,
+      "sha256": "96e9fcaffee7ac43b526c1588f260b06d1e7ea22240c26038612a4b731f6b5e2"
+    },
+    "item-icon.pal.250": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/250.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 250",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/250.png"
+      },
+      "bytes": 1223,
+      "sha256": "1fe8aaa88a455faf904144519fb24c7b7c4849feacbecae5d292083c9f67bfda"
+    },
+    "item-icon.pal.251": {
+      "kind": "item-icon",
+      "path": "assets/migrated/item-icons/251.png",
+      "mediaType": "image/png",
+      "label": "PAL 物品图标 251",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/items/251.png"
+      },
+      "bytes": 1108,
+      "sha256": "c5bfd05036baf4cf38fcc53faad83df1c4a522b6f11cc7207810bd9f56c217c3"
+    },
+    "battle-background.pal.006": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/006.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/006.png"
+      },
+      "bytes": 73859,
+      "sha256": "f777af3dc371c124169eaacc6c882f39e2f21f7f0df0261c38743db4f1f37294"
+    },
+    "battle-background.pal.007": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/007.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/007.png"
+      },
+      "bytes": 99723,
+      "sha256": "0240cf7e45619d05d656324ba152adc5a98dbe2650979765e76207fdbc71d19a"
+    },
+    "battle-background.pal.008": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/008.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/008.png"
+      },
+      "bytes": 57888,
+      "sha256": "5b5f018256eab15b0bec400d48f849ed6b87a6a65010f71a8917313930e723f6"
+    },
+    "battle-background.pal.009": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/009.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/009.png"
+      },
+      "bytes": 37998,
+      "sha256": "fb48968496dd7c43d0d037405c76b2abb5b74a3bd27ae57a982cdf11241c4855"
+    },
+    "battle-background.pal.010": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/010.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/010.png"
+      },
+      "bytes": 31100,
+      "sha256": "a808baff46bc0cb448e15b0030184e03c5bb4823c5f81e97172304bbef772611"
+    },
+    "battle-background.pal.011": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/011.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/011.png"
+      },
+      "bytes": 80311,
+      "sha256": "df76c2bcbcfe5142142a7ad20896fa803ca42086cabe0f5e1d2fdb33c5515fe4"
+    },
+    "battle-background.pal.012": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/012.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/012.png"
+      },
+      "bytes": 64592,
+      "sha256": "c93332bec92dc0393fca5f924fba579e37105f0190f5ed8807dd1ec5e7167742"
+    },
+    "battle-background.pal.013": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/013.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/013.png"
+      },
+      "bytes": 63725,
+      "sha256": "1f0e3e1c75b1e0995e7370f104e283d0bdee1f7b55de5cfa8c35c19c2374de46"
+    },
+    "battle-background.pal.014": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/014.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/014.png"
+      },
+      "bytes": 72002,
+      "sha256": "8e986255e239b44930154b0fb289099f527bd36380faa2ce47982da5532a39f8"
+    },
+    "battle-background.pal.015": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/015.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/015.png"
+      },
+      "bytes": 87682,
+      "sha256": "25762edb9b628b706d2ca470c26fb017598d35c96710a604f0afcf4da2287047"
+    },
+    "battle-background.pal.016": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/016.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/016.png"
+      },
+      "bytes": 79743,
+      "sha256": "9c20bcea67b022973ef68ffee5c0738ac032247466d324a44cd9021c63a69677"
+    },
+    "battle-background.pal.017": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/017.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/017.png"
+      },
+      "bytes": 104611,
+      "sha256": "1ce99e1b020e4d009ed8ccf3322add008841674294a1d9a8aaba85ad46a56e42"
+    },
+    "battle-background.pal.018": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/018.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/018.png"
+      },
+      "bytes": 70044,
+      "sha256": "d3d5a463992021ed1206acfef858a0fbf40a4d689ddc10a6148c866672b17808"
+    },
+    "battle-background.pal.019": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/019.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/019.png"
+      },
+      "bytes": 67856,
+      "sha256": "5f7a0bd7c2eff6ef65c529d0db0d008e48611511a83a7342ea18170673add6c9"
+    },
+    "battle-background.pal.020": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/020.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/020.png"
+      },
+      "bytes": 33186,
+      "sha256": "9fd04b5d6f8aac81ec647ebd4f8dd04647c62564b41927c63e374e98d9ebca53"
+    },
+    "battle-background.pal.021": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/021.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/021.png"
+      },
+      "bytes": 77008,
+      "sha256": "f912584325ea2f7cc4520ca6454c20e975b8ac24197c967e829173a0c0a66387"
+    },
+    "battle-background.pal.022": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/022.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/022.png"
+      },
+      "bytes": 65819,
+      "sha256": "8c0de76f3559bce68948313301f95ccd87d0c8f509e01ca0c69220b93db67d70"
+    },
+    "battle-background.pal.023": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/023.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/023.png"
+      },
+      "bytes": 109551,
+      "sha256": "ec1143d158a9367a2171eb2acce5ed7c974d590506f37ccc4113e290a90be63b"
+    },
+    "battle-background.pal.024": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/024.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/024.png"
+      },
+      "bytes": 81435,
+      "sha256": "52b57518bea7d9888fcf15864018f1f38c620ac9a59743c20e08959a9f059691"
+    },
+    "battle-background.pal.025": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/025.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/025.png"
+      },
+      "bytes": 29773,
+      "sha256": "1a3ccf9fbebe0155839060a84e1f02949c9f39e3306ca99f5e6851afc9e7b9a5"
+    },
+    "battle-background.pal.026": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/026.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/026.png"
+      },
+      "bytes": 68557,
+      "sha256": "a59bfd5598f503a052a119ed0fc7fcd71bc5d805bcd3128368d0585121de5b6d"
+    },
+    "battle-background.pal.027": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/027.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/027.png"
+      },
+      "bytes": 36083,
+      "sha256": "c2e9d955a1b6b9731c82c1421203753f86537588cc4d5c4dc1288ae8c7efbc72"
+    },
+    "battle-background.pal.028": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/028.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/028.png"
+      },
+      "bytes": 48282,
+      "sha256": "fbfbada65ebcc05634d6f0734a7ee105378178da83f43261a1ae4e1365949f54"
+    },
+    "battle-background.pal.029": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/029.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/029.png"
+      },
+      "bytes": 141714,
+      "sha256": "827fb11e17f4310ba841b32def4686871c48c84ddfe2b35c8888b8a5203102e6"
+    },
+    "battle-background.pal.030": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/030.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/030.png"
+      },
+      "bytes": 157985,
+      "sha256": "006f4df2a294ce6719f019b6bed1deb8b0d80390ed66508285934c1615d6ad3e"
+    },
+    "battle-background.pal.031": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/031.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/031.png"
+      },
+      "bytes": 143885,
+      "sha256": "41545fa17b8592dd4968cdee8da025a4e5a6d907a224d4bfd55041472465cdb6"
+    },
+    "battle-background.pal.032": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/032.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/032.png"
+      },
+      "bytes": 46807,
+      "sha256": "b99e863a3dbff24a732cf5c94c48d97ecc7fda8ed7d671fee4eba750c9f3943a"
+    },
+    "battle-background.pal.033": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/033.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/033.png"
+      },
+      "bytes": 133078,
+      "sha256": "be64381e604e0836f2cac842c515a639804a47156d5e4f65f711a08cdb64d128"
+    },
+    "battle-background.pal.034": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/034.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/034.png"
+      },
+      "bytes": 82846,
+      "sha256": "7f48673e5eee350769fe14af559a14eeeb6f3f083671046b1cae2687bc7c2e44"
+    },
+    "battle-background.pal.035": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/035.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/035.png"
+      },
+      "bytes": 157494,
+      "sha256": "5d0e5f7af4852e60dc03c1757f9da3f6398879626de6e85bca6f1d10ad047d0a"
+    },
+    "battle-background.pal.036": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/036.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/036.png"
+      },
+      "bytes": 64908,
+      "sha256": "1d20d6ca65755b16238e460398ff9a97277454326a46340a1199f4f51fbb5090"
+    },
+    "battle-background.pal.037": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/037.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/037.png"
+      },
+      "bytes": 67332,
+      "sha256": "a81ef1410d0fe02c8b4cb8dcbb0f0ad6030c28b3552d4d910f943d144fef18d1"
+    },
+    "battle-background.pal.038": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/038.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/038.png"
+      },
+      "bytes": 18416,
+      "sha256": "499d5e1fe7693c63bd61d0e6e5a9ae8b23efa8a9a9d2031f2ac425835b249482"
+    },
+    "battle-background.pal.039": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/039.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/039.png"
+      },
+      "bytes": 134942,
+      "sha256": "7839b1ab8f8eb2c0937306ff70cbae692f5de55e8ace24e277950cc25f9e7381"
+    },
+    "battle-background.pal.040": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/040.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/040.png"
+      },
+      "bytes": 116553,
+      "sha256": "387384178e7e199430171276dce39c065e9724d9fcd5448ba4d4f83ea4eafe9a"
+    },
+    "battle-background.pal.041": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/041.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/041.png"
+      },
+      "bytes": 69652,
+      "sha256": "4ad81c3f8e6126fbd2575006ce9e19db89d4c3d740a98c0f3d3c13b4e8e24b97"
+    },
+    "battle-background.pal.042": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/042.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/042.png"
+      },
+      "bytes": 75717,
+      "sha256": "53b0111f5f0c3ef26960b99a3480dd46df47d38f03bd456843c935835ae4c473"
+    },
+    "battle-background.pal.043": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/043.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/043.png"
+      },
+      "bytes": 151912,
+      "sha256": "65568aa1cf6061508535e19f807abb271bc5f2baba38832669d531e95c84217d"
+    },
+    "battle-background.pal.044": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/044.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/044.png"
+      },
+      "bytes": 152407,
+      "sha256": "b427ea256d6a057cecdf29b1e34c2fa829b87d806fdb54228a61bdd877302b51"
+    },
+    "battle-background.pal.045": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/045.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/045.png"
+      },
+      "bytes": 66228,
+      "sha256": "bcbb5e3a9264bb24a0af42fb560e6b5f03d0d7cf2f1e0f07f4840f09d6c53998"
+    },
+    "battle-background.pal.046": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/046.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/046.png"
+      },
+      "bytes": 100753,
+      "sha256": "cf0767b1677191554aef54245c0a14af15f25725db25fc3ff565f42e108f4dd6"
+    },
+    "battle-background.pal.047": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/047.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/047.png"
+      },
+      "bytes": 143689,
+      "sha256": "cce940bce9ef90f3724e9920ec8ee65325f0f985c0b5f3f4570a080a4484d1db"
+    },
+    "battle-background.pal.048": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/048.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/048.png"
+      },
+      "bytes": 104400,
+      "sha256": "c92ec2d65e77a0f4acfa2a6a5dd2ddfe5351ce073763b5c511bbaf085a46e2fa"
+    },
+    "battle-background.pal.049": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/049.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/049.png"
+      },
+      "bytes": 92695,
+      "sha256": "eddff8ecfbc7fe84bfeaffe696bb080806d1cd3d0d61811b3aa85f1c5a2d5076"
+    },
+    "battle-background.pal.050": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/050.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/050.png"
+      },
+      "bytes": 102599,
+      "sha256": "90f25e076e053d442603611ba79cec6479bfd8b6db0016f47634371fd43de438"
+    },
+    "battle-background.pal.051": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/051.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/051.png"
+      },
+      "bytes": 9162,
+      "sha256": "e790c1aee23181e70bd8d8e9076fb74d30ca50839e8df52c8c6c9893fed9196d"
+    },
+    "battle-background.pal.052": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/052.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/052.png"
+      },
+      "bytes": 110885,
+      "sha256": "9a46bea19ac74846640178c03e1e1d710a90f643f9959f20e33ed7c5f2396c07"
+    },
+    "battle-background.pal.053": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/053.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/053.png"
+      },
+      "bytes": 82181,
+      "sha256": "bbeee798e12a273dbfe684eef7fc26000f7b4f6bbcd4e9d4ff2ff73e2c0c187e"
+    },
+    "battle-background.pal.054": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/054.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/054.png"
+      },
+      "bytes": 50906,
+      "sha256": "79d5a9d4ba7112670e073d5afe663bb48453c1e074dc79d71d351f1c8f79d380"
+    },
+    "battle-background.pal.055": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/055.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/055.png"
+      },
+      "bytes": 104317,
+      "sha256": "6e41bf9028877b33107398f4e4fd839d7adb19c7e58cafceb18e56a15340adbb"
+    },
+    "battle-background.pal.056": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/056.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/056.png"
+      },
+      "bytes": 103110,
+      "sha256": "2768b52de6b9f3b3f64b017b9917a54bcb3d07f2fb2ed4564ac38dab183d8f83"
+    },
+    "battle-background.pal.057": {
+      "kind": "battle-background",
+      "path": "assets/migrated/battle-backgrounds/057.png",
+      "mediaType": "image/png",
+      "label": "PAL 战场背景 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "images/battle/bg/057.png"
+      },
+      "bytes": 94880,
+      "sha256": "8b13937abe515e1a40a0aa3557e6675c1b56f33603e833e062bff8cfae57e57b"
     }
   }
 }

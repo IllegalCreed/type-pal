@@ -20,6 +20,7 @@ import {
   deriveScriptChunk,
   palFrameAnimationAssetId,
   palMusicAssetId,
+  palPortraitAssetId,
   palVideoAssetId,
   pixelDeltaToGridDelta,
   pixelToGrid,
@@ -757,7 +758,12 @@ function walkBody(
       // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
       const face = op === 'setDialogStyleTop' || op === 'setDialogStyleBottom' ? (c.arg0 ?? 0) : 0
       portrait =
-        face > 0 ? { icon: face, side: op === 'setDialogStyleTop' ? 'left' : 'right' } : undefined
+        face > 0
+          ? {
+              asset: palPortraitAssetId(face),
+              side: op === 'setDialogStyleTop' ? 'left' : 'right',
+            }
+          : undefined
       at = { cmds: at.cmds, idx: at.idx + 1 }
       continue
     }
@@ -1077,7 +1083,12 @@ function walkBody(
         const actor = roleIdx >= 0 ? ROLE_SLUGS[roleIdx] : undefined
         const field = o[0] ?? -1
         const val = o[1] ?? 0
-        if (actor && field === 0) push({ kind: 'setActorAppearance', actor, portrait: val })
+        if (actor && field === 0)
+          push(
+            val > 0
+              ? { kind: 'setActorAppearance', actor, portrait: palPortraitAssetId(val) }
+              : undefined,
+          )
         else if (actor && field === 1)
           push({ kind: 'setActorAppearance', actor, battleSprite: val })
         else if (actor && field === 2) {

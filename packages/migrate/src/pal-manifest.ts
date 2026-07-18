@@ -1,4 +1,9 @@
-import { type AssetCatalogV1, exitLegacySoundFamily, type LoadedManifest } from '@type-pal/content'
+import {
+  type AssetCatalogV1,
+  exitLegacySoundFamily,
+  type LoadedManifest,
+  validateManifestAssetConfigV3,
+} from '@type-pal/content'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
 
 /**
@@ -19,9 +24,40 @@ export function preparePalManifest(
   current: LoadedManifest,
   catalog?: AssetCatalogV1,
 ): LoadedManifest {
-  const soundClosed = closePalSoundManifest(current, catalog)
+  // 既有 PAL manifest 含已退役的 ghost family，不能先交给当前 schema 的逐步 validator；
+  // 在内存中一次性完成全部退场，最后只校验 canonical 结果。
+  const soundClosed = structuredClone(current)
+  soundClosed.assets.roles = { ...PAL_ASSET_ROLES, ...current.assets.roles }
+  const legacy = soundClosed.assets.legacy
+  let assets = soundClosed.assets
+  if (legacy) {
+    const {
+      portraits: _retiredPortraits,
+      faces: _retiredFaces,
+      itemIcons: _retiredItemIcons,
+      sounds: _retiredSounds,
+      ...rest
+    } = legacy
+    // PAL 的既有 manifest 还带两条已确认无真实工程消费者的 ghost family；R1 普查后
+    // 只在这条 PAL 专用升级边界删除，第三方工程仍须走 actionable fail。
+    const retired = new Set<string>([
+      'portrait',
+      'face',
+      'item-icon',
+      'battle-background',
+      'glyph-table',
+      'ui-image',
+      'sound',
+    ])
+    const families = legacy.families.filter((family) => !retired.has(family))
+    assets = families.length
+      ? { ...soundClosed.assets, legacy: { ...rest, families } }
+      : { catalog: soundClosed.assets.catalog, roles: soundClosed.assets.roles }
+  }
+  validateManifestAssetConfigV3(assets, catalog, 'PAL 升级后 manifest.assets')
   return {
     ...soundClosed,
     content: { ...soundClosed.content, stamps: 'content/stamps.json' },
+    assets,
   }
 }

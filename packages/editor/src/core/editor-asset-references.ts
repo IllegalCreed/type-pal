@@ -16,6 +16,7 @@ export function editorAssetReferenceSource(state: EditorState): AssetReferenceSo
     enemies: state.enemies,
     items: state.items,
     skills: state.skills,
+    battleFields: state.battleFields,
   }
 }
 

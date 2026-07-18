@@ -376,7 +376,7 @@
         "kind": "clearDialog"
       }
     ],
-    "scene/s248/L-33811/e4393/d-3e9b765d": [
+    "scene/s248/L-33811/e4393/d-fbb93246": [
       {
         "kind": "setEntityFacing",
         "entity": "e4380",
@@ -1272,7 +1272,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1300,7 +1300,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1312,7 +1312,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s248",
-          "id": "scene/s248/L-33811/e4393/d-3e9b765d"
+          "id": "scene/s248/L-33811/e4393/d-fbb93246"
         },
         "self": "e4393"
       },
@@ -1376,7 +1376,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1401,7 +1401,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1413,7 +1413,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s248",
-          "id": "scene/s248/L-33811/e4393/d-3e9b765d"
+          "id": "scene/s248/L-33811/e4393/d-fbb93246"
         },
         "self": "e4393"
       },
@@ -1453,7 +1453,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1478,7 +1478,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1490,7 +1490,7 @@
         "kind": "callScript",
         "ref": {
           "chunk": "scene/s248",
-          "id": "scene/s248/L-33811/e4393/d-3e9b765d"
+          "id": "scene/s248/L-33811/e4393/d-fbb93246"
         },
         "self": "e4393"
       },
@@ -1566,7 +1566,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }
@@ -1602,7 +1602,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 80,
+            "asset": "portrait.pal.080",
             "side": "left"
           }
         }

@@ -1,237 +1,199 @@
 /**
- * 资产迁移 CLI(asset-pipeline §5 Task 2):indexed PNG(R=index)+ palette 0 → 真彩 RGBA PNG。
- * 收编自 scripts/bake-portraits.mts;头像 + UI box 共用核心 bakeIndexedRgba。
- * 输出 packages/reforge/public/(asset-pipeline D-d 权宜,内容工程目录后置)。
- * 跑:pnpm --filter @type-pal/migrate run bake
+ * Reforge engine chrome 生成器：PAL indexed PNG + palette 0 → bundler-owned RGBA PNG。
+ * 工程内容图像不在这里生成；portrait/face/item-icon/battle-background 由 migrate-content
+ * 直接从 extracted 源写入项目 catalog。
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
 import { bakeIndexedRgba } from '../src/bake-indexed-rgba.js'
 
-// scripts/ → migrate/ → packages/ → repo 根
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const EXTRACTED = resolve(ROOT, 'data/extracted')
-const PUBLIC = resolve(ROOT, 'packages/reforge/public') // 引擎默认 UI 皮(chrome:框/数字/光标/图标)
-// 内容资产库层(立绘/战斗头像/物品图标 —— 角色与物品绑定的美术,随库/工程走;gitignored 可再生)
-const BAKED = resolve(ROOT, 'data/baked')
+const CHROME = resolve(ROOT, 'packages/reforge/src/engine-chrome/assets')
+const UI = resolve(CHROME, 'ui')
 
-// palette 0 = 资产标准 palette(asset-pipeline D-a:UI/头像在 pal0 正确,pal1/2 乱色)
 const palette = (
   JSON.parse(readFileSync(resolve(EXTRACTED, 'data/palette/0.json'), 'utf8')) as {
     colors: [number, number, number][]
   }
 ).colors
 
-/** 读 indexed PNG(R=index)→ bakeIndexedRgba → 写真彩 RGBA PNG。 */
 function bakeFile(src: string, dst: string): void {
   const png = PNG.sync.read(readFileSync(src))
   const out = new PNG({ width: png.width, height: png.height })
   out.data = Buffer.from(bakeIndexedRgba(png.data, palette))
+  mkdirSync(dirname(dst), { recursive: true })
   writeFileSync(dst, PNG.sync.write(out))
 }
 
-/** bake + 裁子区域 (sx,sy,sw,sh) → 写 PNG。用于把单行卷轴 / itembox 切成九宫格 tile。 */
 function bakeSlice(src: string, dst: string, sx: number, sy: number, sw: number, sh: number): void {
   const png = PNG.sync.read(readFileSync(src))
   const baked = bakeIndexedRgba(png.data, palette)
   const out = new PNG({ width: sw, height: sh })
   for (let y = 0; y < sh; y++) {
     for (let x = 0; x < sw; x++) {
-      const si = ((sy + y) * png.width + (sx + x)) * 4
-      const di = (y * sw + x) * 4
-      out.data[di] = baked[si] ?? 0
-      out.data[di + 1] = baked[si + 1] ?? 0
-      out.data[di + 2] = baked[si + 2] ?? 0
-      out.data[di + 3] = baked[si + 3] ?? 0
+      const source = ((sy + y) * png.width + (sx + x)) * 4
+      const target = (y * sw + x) * 4
+      out.data[target] = baked[source] ?? 0
+      out.data[target + 1] = baked[source + 1] ?? 0
+      out.data[target + 2] = baked[source + 2] ?? 0
+      out.data[target + 3] = baked[source + 3] ?? 0
     }
   }
+  mkdirSync(dirname(dst), { recursive: true })
   writeFileSync(dst, PNG.sync.write(out))
 }
 
-/** 读 PNG 尺寸(切片前算 band)。 */
-function pngSize(src: string): { w: number; h: number } {
+function pngSize(src: string): { width: number; height: number } {
   const png = PNG.sync.read(readFileSync(src))
-  return { w: png.width, h: png.height }
+  return { width: png.width, height: png.height }
 }
 
-// 1) 头像(收编 bake-portraits):全部立绘块(对话样式 op 的 arg0 = RGM 立绘号,遍布全剧情)
-mkdirSync(resolve(BAKED, 'portraits'), { recursive: true })
-{
-  const manifest = JSON.parse(readFileSync(resolve(EXTRACTED, 'data/portraits.json'), 'utf8')) as {
-    count: number
-  }
-  let baked = 0
-  for (let chunk = 1; chunk <= manifest.count; chunk++) {
-    const src = resolve(EXTRACTED, `images/portraits/${String(chunk).padStart(2, '0')}.png`)
-    if (!existsSync(src)) continue // 部分块空(RGM 稀疏),跳过
-    bakeFile(src, resolve(BAKED, `portraits/${chunk}.png`))
-    baked++
-  }
-  console.log(`baked ${baked} portraits (全 ${manifest.count} 块)`)
+function sha256(bytes: Uint8Array | string): string {
+  return createHash('sha256').update(bytes).digest('hex')
 }
 
-// 2) UI box 黄框九宫格 frame-00..08(menu design §4:gpSpriteUI i*3+j iStyle 0)
-mkdirSync(resolve(PUBLIC, 'ui/box'), { recursive: true })
+function listFiles(root: string): string[] {
+  return readdirSync(root, { withFileTypes: true })
+    .flatMap((entry) => {
+      const path = resolve(root, entry.name)
+      return entry.isDirectory() ? listFiles(path) : [path]
+    })
+    .sort()
+}
+
+// 黄框/红框九宫格。
 for (let i = 0; i <= 8; i++) {
   const name = `frame-${String(i).padStart(2, '0')}.png`
-  bakeFile(resolve(EXTRACTED, `images/ui/${name}`), resolve(PUBLIC, `ui/box/${name}`))
-  console.log(`baked ui box ${name}`)
-}
-
-// 3) 数字(黄,gpSpriteUI frame 19-28 = 数字 0-9;PAL_DrawNumber kNumColorYellow)
-mkdirSync(resolve(PUBLIC, 'ui/num'), { recursive: true })
-for (let d = 0; d <= 9; d++) {
+  bakeFile(resolve(EXTRACTED, `images/ui/${name}`), resolve(UI, `box/${name}`))
   bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(19 + d).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/num/${d}.png`),
+    resolve(EXTRACTED, `images/ui/frame-${String(9 + i).padStart(2, '0')}.png`),
+    resolve(UI, `box-red/${name}`),
   )
-  console.log(`baked num ${d}`)
 }
 
-// 4) 卷轴 scroll(原「金钱框」frame 44/45/46 = 左/中/右单行卷轴;通用:金钱/否是确认/存档槽都用)。
-//    重切九宫格 frame-00..08:每列(左44/中45/右46)纵向切 上边框 / 中段(纯色,平铺) / 下边框。
-//    BoxTiles 索引 i*3+j(i 行 0上/1中/2下,j 列 0左/1中/2右)→ drawSlicedBox 撑任意高宽。
-mkdirSync(resolve(PUBLIC, 'ui/scroll'), { recursive: true })
-const SCROLL_BORDER = 4 // 上下边框各 4px(实测 frame 44/45/46:y0-3 上 / y30-33 下 / y4-29 中段纯色)
-const scrollFrames = [44, 45, 46] // 左/中/右
-scrollFrames.forEach((frame, j) => {
-  const src = resolve(EXTRACTED, `images/ui/frame-${String(frame).padStart(2, '0')}.png`)
-  const { h } = pngSize(src)
+// 黄/蓝/青数字和斜杠。
+for (let digit = 0; digit <= 9; digit++) {
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(19 + digit).padStart(2, '0')}.png`),
+    resolve(UI, `num/${digit}.png`),
+  )
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(29 + digit).padStart(2, '0')}.png`),
+    resolve(UI, `num-blue/${digit}.png`),
+  )
+  bakeFile(
+    resolve(EXTRACTED, `images/ui/frame-${String(56 + digit).padStart(2, '0')}.png`),
+    resolve(UI, `num-cyan/${digit}.png`),
+  )
+}
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(UI, 'num/slash.png'))
+
+// 单行卷轴 44/45/46 → 可伸缩九宫格。
+const scrollBorder = 4
+;[44, 45, 46].forEach((frame, column) => {
+  const src = resolve(EXTRACTED, `images/ui/frame-${frame}.png`)
+  const { width, height } = pngSize(src)
   const bands: [number, number][] = [
-    [0, SCROLL_BORDER], // 上边框
-    [SCROLL_BORDER, h - 2 * SCROLL_BORDER], // 中段(平铺)
-    [h - SCROLL_BORDER, SCROLL_BORDER], // 下边框
+    [0, scrollBorder],
+    [scrollBorder, height - scrollBorder * 2],
+    [height - scrollBorder, scrollBorder],
   ]
-  bands.forEach(([sy, sh], i) => {
-    const idx = i * 3 + j
-    const { w } = pngSize(src)
+  bands.forEach(([sy, sh], row) => {
     bakeSlice(
       src,
-      resolve(PUBLIC, `ui/scroll/frame-${String(idx).padStart(2, '0')}.png`),
+      resolve(UI, `scroll/frame-${String(row * 3 + column).padStart(2, '0')}.png`),
       0,
       sy,
-      w,
+      width,
       sh,
     )
   })
 })
-console.log('baked scroll 9-slice (frame 00-08)')
 
-// 5) 蓝数字(gpSpriteUI frame 29-38 = 0-9;PAL_DrawNumber kNumColorBlue,HP/MP 最大值)
-mkdirSync(resolve(PUBLIC, 'ui/num-blue'), { recursive: true })
-for (let d = 0; d <= 9; d++) {
+// 通用光标、仙术面板和战斗主按钮。
+bakeFile(resolve(EXTRACTED, 'images/ui/frame-18.png'), resolve(UI, 'magic/playerbox.png'))
+for (const [frame, name] of [
+  [66, 'up-red'],
+  [67, 'up'],
+  [68, 'down'],
+  [69, 'grid'],
+  [47, 'settle-arrow'],
+] as const)
+  bakeFile(resolve(EXTRACTED, `images/ui/frame-${frame}.png`), resolve(UI, `cursor/${name}.png`))
+for (const [index, name] of ['attack', 'magic', 'coop', 'misc'].entries())
   bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(29 + d).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/num-blue/${d}.png`),
+    resolve(EXTRACTED, `images/ui/frame-${40 + index}.png`),
+    resolve(UI, `battle/icon-${name}.png`),
   )
-}
-console.log('baked num-blue 0-9')
 
-// 5b) 青数字(gpSpriteUI frame 56-65 = 0-9;PAL_DrawNumber kNumColorCyan,exp 下一级)
-mkdirSync(resolve(PUBLIC, 'ui/num-cyan'), { recursive: true })
-for (let d = 0; d <= 9; d++) {
-  bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(56 + d).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/num-cyan/${d}.png`),
-  )
-}
-console.log('baked num-cyan 0-9')
-
-// 6) 斜杠(gpSpriteUI frame 39 = SPRITENUM_SLASH;HP/MP 当前/最大分隔)
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-39.png'), resolve(PUBLIC, 'ui/num/slash.png'))
-console.log('baked slash')
-
-// 7) 物品图标:**全量**按 items.json 的 bitmap 去重烤(此前只烤 demo 期硬编码 9 件 —— 2026-07-04 补全)
-mkdirSync(resolve(BAKED, 'ui/items'), { recursive: true })
-{
-  const items = JSON.parse(readFileSync(resolve(EXTRACTED, 'data/items.json'), 'utf8')) as {
-    bitmap: number
-  }[]
-  const chunks = [...new Set(items.map((i) => i.bitmap).filter((b) => b > 0))]
-  let ok = 0
-  for (const chunk of chunks) {
-    const src = resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`)
-    if (!existsSync(src)) continue
-    bakeFile(src, resolve(BAKED, `ui/items/${chunk}.png`))
-    ok++
-  }
-  console.log(`baked item icons ${ok}/${chunks.length}(全量,原 demo 9 件硬编码已废)`)
-}
-
-// 8) 仙术菜单 sprite:红框九宫格(gpSpriteUI 9-17 = iStyle1)+ PlayerInfoBox(18)+ face(48+roleId)+ cursor(67上/68下/69网格)
-mkdirSync(resolve(PUBLIC, 'ui/box-red'), { recursive: true })
-for (let i = 0; i <= 8; i++) {
-  bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(9 + i).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/box-red/frame-${String(i).padStart(2, '0')}.png`),
-  )
-}
-mkdirSync(resolve(PUBLIC, 'ui/magic'), { recursive: true })
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-18.png'), resolve(PUBLIC, 'ui/magic/playerbox.png'))
-mkdirSync(resolve(PUBLIC, 'ui/cursor'), { recursive: true })
-// 66 = 选队友箭头红帧(与 67 常色 40ms 交替闪;一阶段 SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER_RED)
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-66.png'), resolve(PUBLIC, 'ui/cursor/up-red.png'))
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-67.png'), resolve(PUBLIC, 'ui/cursor/up.png'))
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-68.png'), resolve(PUBLIC, 'ui/cursor/down.png'))
-bakeFile(resolve(EXTRACTED, 'images/ui/frame-69.png'), resolve(PUBLIC, 'ui/cursor/grid.png'))
-// 结算升级屏 old→cur 箭头(SPRITENUM_ARROW=47;battle.c:1163)
-bakeFile(
-  resolve(EXTRACTED, 'images/ui/frame-47.png'),
-  resolve(PUBLIC, 'ui/cursor/settle-arrow.png'),
-)
-console.log('baked magic-menu sprites (red box / playerbox / face / cursor)')
-
-// 8a) 战斗主菜单 4 图标(gpSpriteUI frame 40-43 = 攻击/法术/合击/杂项,uibattle.h SPRITENUM_BATTLEICON_*)
-const BATTLE_ICONS = ['attack', 'magic', 'coop', 'misc']
-mkdirSync(resolve(PUBLIC, 'ui/battle'), { recursive: true })
-BATTLE_ICONS.forEach((name, i) => {
-  bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(40 + i).padStart(2, '0')}.png`),
-    resolve(PUBLIC, `ui/battle/icon-${name}.png`),
-  )
-})
-console.log('baked battle icons (frame 40-43 → ui/battle/icon-*)')
-
-// 8b) 战斗队员信息框小头像(gpSpriteUI frame 48+roleId)→ ui/face/<actorId>.png(稳定 id 命名,杜绝下标)。
-//     roleId 序 = 原版 PlayerRoles 列序:0李逍遥 1赵灵儿 2林月如 3巫后 4阿奴 5盖罗娇。
-const FACE_ACTORS = ['li-xiaoyao', 'zhao-linger', 'lin-yueru', 'wu-hou', 'anu', 'gai-luojiao']
-mkdirSync(resolve(BAKED, 'ui/face'), { recursive: true })
-FACE_ACTORS.forEach((actorId, roleId) => {
-  bakeFile(
-    resolve(EXTRACTED, `images/ui/frame-${String(48 + roleId).padStart(2, '0')}.png`),
-    resolve(BAKED, `ui/face/${actorId}.png`),
-  )
-})
-console.log('baked battle faces (frame 48-53 → ui/face/<actorId>)')
-
-// 9) 物品详情框 itembox(SPRITENUM_ITEMBOX 70)。重切九宫格 frame-00..08(角 8px)→ drawSlicedBox 任意尺寸;
-//    64×64 处各区恰好 1 tile、无平铺 → 与原图逐像素一致;将来可扩宽高。
-mkdirSync(resolve(PUBLIC, 'ui/itembox'), { recursive: true })
-const ibSrc = resolve(EXTRACTED, 'images/ui/frame-70.png')
-const IB = 8 // itembox 边框(角)
-const ib = pngSize(ibSrc)
-const ibColX = [0, IB, ib.w - IB]
-const ibColW = [IB, ib.w - 2 * IB, IB]
-const ibRowY = [0, IB, ib.h - IB]
-const ibRowH = [IB, ib.h - 2 * IB, IB]
-for (let i = 0; i < 3; i++) {
-  const sy = ibRowY[i] ?? 0
-  const sh = ibRowH[i] ?? 0
-  for (let j = 0; j < 3; j++) {
-    const sx = ibColX[j] ?? 0
-    const sw = ibColW[j] ?? 0
+// 物品详情 frame 70 → 九宫格。
+const itemSource = resolve(EXTRACTED, 'images/ui/frame-70.png')
+const itemBorder = 8
+const itemSize = pngSize(itemSource)
+const xs = [0, itemBorder, itemSize.width - itemBorder]
+const widths = [itemBorder, itemSize.width - itemBorder * 2, itemBorder]
+const ys = [0, itemBorder, itemSize.height - itemBorder]
+const heights = [itemBorder, itemSize.height - itemBorder * 2, itemBorder]
+for (let row = 0; row < 3; row++)
+  for (let column = 0; column < 3; column++)
     bakeSlice(
-      ibSrc,
-      resolve(PUBLIC, `ui/itembox/frame-${String(i * 3 + j).padStart(2, '0')}.png`),
-      sx,
-      sy,
-      sw,
-      sh,
+      itemSource,
+      resolve(UI, `itembox/frame-${String(row * 3 + column).padStart(2, '0')}.png`),
+      xs[column] ?? 0,
+      ys[row] ?? 0,
+      widths[column] ?? 0,
+      heights[row] ?? 0,
     )
-  }
-}
-console.log('baked itembox 9-slice (frame 00-08)')
 
-console.log('done.')
+// 状态页的 6 张历史装备示例属于已发布 chrome 槽位，仍从原物品 sprite 确定性生成。
+for (const [chunk, slot] of [
+  [56, 'weapon'],
+  [176, 'head'],
+  [78, 'body'],
+  [97, 'feet'],
+  [224, 'accessory'],
+  [95, 'amulet'],
+] as const)
+  bakeFile(
+    resolve(EXTRACTED, `images/items/${String(chunk).padStart(3, '0')}.png`),
+    resolve(UI, `status/equip-demo/${slot}.png`),
+  )
+
+// 两张作者制作的状态页 seed 没有提取源；冻结来源 commit 与 hash，缺失/漂移都必须显式处理。
+for (const [name, expected] of [
+  ['status/bg.png', '345e53a445569f2addb8528c6e99cd1301342117543639fa35e58ce2db27ede2'],
+  ['status/slot.png', '0fe3ab3527c3d7018c0fd84e50931b9c0d6983b8df915414c0f2dc5294285bd2'],
+] as const) {
+  const actual = sha256(readFileSync(resolve(UI, name)))
+  if (actual !== expected)
+    throw new Error(`engine chrome 作者 seed ${name} hash 漂移:${actual}，期望 ${expected}`)
+}
+
+// 当前默认标题(FBP2)与 DATA chunk12 对话光标均属于 engine chrome。
+bakeFile(resolve(EXTRACTED, 'images/battle/bg/002.png'), resolve(CHROME, 'title.png'))
+writeFileSync(
+  resolve(CHROME, 'dialog-icons-raw.json'),
+  `${readFileSync(resolve(EXTRACTED, 'data/dialog-icons-raw.json'), 'utf8').trimEnd()}\n`,
+)
+
+const uiFiles = listFiles(UI).filter((path) => path.endsWith('.png'))
+const uiBytes = uiFiles.reduce((sum, path) => sum + statSync(path).size, 0)
+const uiDigest = sha256(
+  uiFiles
+    .map((path) => `${sha256(readFileSync(path))}  ${relative(UI, path).split(sep).join('/')}\n`)
+    .join(''),
+)
+if (
+  uiFiles.length !== 85 ||
+  uiBytes !== 48_629 ||
+  uiDigest !== '5e5315f85945b35e9df2ae3a205d0d6fcd4faaa524c12082b6ba91ff55888485'
+)
+  throw new Error(
+    `engine chrome UI 冻结基线漂移:files=${uiFiles.length}, bytes=${uiBytes}, sha256=${uiDigest}`,
+  )
+
+console.log('baked Reforge engine chrome (85 UI / 48,629 B + default title + dialog cursor)')

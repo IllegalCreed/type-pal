@@ -108,6 +108,7 @@ export function SharedScriptTab(props: {
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
   onSelectedScriptId?: (id: string | undefined) => void
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
 }) {
   const {
     tabBar,
@@ -129,6 +130,7 @@ export function SharedScriptTab(props: {
     projectId,
     focusScriptId,
     onOpenSound,
+    onOpenImage,
     focusScriptRevision,
     onJumpToEvent,
     onSelectedScriptId,
@@ -466,6 +468,7 @@ export function SharedScriptTab(props: {
                         selectedTargetId && library[selectedTargetId] ? selectScript : undefined
                       }
                       onOpenSound={onOpenSound}
+                      onOpenImage={onOpenImage}
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)

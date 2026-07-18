@@ -122,8 +122,8 @@ export interface BattleFieldDef {
   id: number
   /** 显示名(编辑器;缺省显示 id)。 */
   name?: string
-  /** 背景图显式引用(相对 images 根;缺省 = 惯例路径 battle/bg/<id 三位零填充>.png)。 */
-  bg?: string
+  /** 背景图显式资源引用；缺席表示刻意黑底。 */
+  background?: AssetId
   screenWave: number
   /** 5 元素战场加成（-10..+10,喂 calcMagicDamage.fieldEffect）。 */
   magicEffect: ElementVec

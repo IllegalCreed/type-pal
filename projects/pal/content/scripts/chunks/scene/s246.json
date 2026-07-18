@@ -28,7 +28,7 @@
         "self": "e4348"
       }
     ],
-    "scene/s246/L-41075/e4350/d-f6d9d4b6": [
+    "scene/s246/L-41075/e4350/d-43e18afd": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -536,7 +536,7 @@
           "speaker": "spk.妇人",
           "slot": "top",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "left"
           }
         }
@@ -578,7 +578,7 @@
           "speaker": "spk.妇人",
           "slot": "top",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "left"
           }
         }
@@ -626,7 +626,7 @@
           "speaker": "spk.妇人",
           "slot": "top",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "left"
           }
         }
@@ -664,7 +664,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 2,
+            "asset": "portrait.pal.002",
             "side": "right"
           }
         }
@@ -722,7 +722,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 10,
+            "asset": "portrait.pal.010",
             "side": "right"
           },
           "cursorFrame": 2
@@ -736,7 +736,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s246",
-              "id": "scene/s246/L-41075/e4350/d-f6d9d4b6"
+              "id": "scene/s246/L-41075/e4350/d-43e18afd"
             },
             "self": "e4350"
           }
@@ -827,7 +827,7 @@
           ],
           "speaker": "spk.妇人",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "right"
           }
         }
@@ -855,7 +855,7 @@
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
-            "icon": 1,
+            "asset": "portrait.pal.001",
             "side": "left"
           }
         }
@@ -873,7 +873,7 @@
           ],
           "speaker": "spk.妇人",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "right"
           }
         }
@@ -892,7 +892,7 @@
           "speaker": "spk.李逍遥",
           "slot": "top",
           "portrait": {
-            "icon": 2,
+            "asset": "portrait.pal.002",
             "side": "left"
           }
         }
@@ -919,7 +919,7 @@
           ],
           "speaker": "spk.妇人",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "right"
           }
         }
@@ -940,7 +940,7 @@
           ],
           "speaker": "spk.妇人",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "right"
           }
         }
@@ -987,7 +987,7 @@
           ],
           "speaker": "spk.妇人",
           "portrait": {
-            "icon": 75,
+            "asset": "portrait.pal.075",
             "side": "right"
           }
         }
@@ -1139,7 +1139,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -1157,7 +1157,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -1228,7 +1228,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }

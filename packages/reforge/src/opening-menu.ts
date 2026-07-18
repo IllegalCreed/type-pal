@@ -75,8 +75,8 @@ export async function runOpeningMenuWithMusic<T>(
 export function runOpeningMenu(deps: {
   ctx: CanvasRenderingContext2D
   glyphs: GlyphTable
-  /** FBP 2 已按盘 0 上色的全屏 320×200 画布。 */
-  bg: HTMLCanvasElement
+  /** FBP 2 已按盘 0 烘成 RGBA 的 engine chrome 图像。 */
+  bg: CanvasImageSource
   items: readonly OpeningMenuItem[]
   worldScale: number
   locale: Locale

@@ -2204,7 +2204,7 @@ export class BattleSession {
         }))
         drawBattleGrid(ctx, ui, g, rows, this.itemIdx, now, ITEM_GRID)
         const selItem = this.state.items[list[this.itemIdx % list.length]?.itemId ?? '']
-        drawItemDetailBox(ctx, ui, ui.itemIcons[selItem?.icon ?? -1])
+        drawItemDetailBox(ctx, ui, selItem?.icon ? ui.itemIcons[selItem.icon] : undefined)
       }
     } else if (sel !== undefined && !ui) {
       // 文字兜底(单测/资产缺失)

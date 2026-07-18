@@ -11,6 +11,8 @@ export interface Glyph {
 }
 
 export interface GlyphTable {
+  /** 真实解析表提供；轻量测试/调用方实现可省略。 */
+  readonly size?: number
   has(codepoint: number): boolean
   get(codepoint: number): Glyph | undefined
 }
@@ -35,26 +37,54 @@ export function decodeGlyph(glyph: Glyph, rgba: readonly [number, number, number
   return out
 }
 
-// ── loadGlyphs(browser 环境,fetch glyphs.json) ────────────────────────
+// ── loadGlyphs(browser 环境,bundler-owned Unifont BDF) ───────────────
 
-export async function loadGlyphs(baseUrl = '/extracted'): Promise<GlyphTable> {
-  const res = await fetch(`${baseUrl}/data/font/glyphs.json`)
-  if (!res.ok) throw new Error(`font: fetch glyphs.json failed (${res.status})`)
-  const data = (await res.json()) as {
-    glyphs: { codepoint: number; width: number; height: number; bitmapBase64: string }[]
-  }
+/** BDF 纯解析核；codepoint 0 是 .notdef，沿用一阶段口径不进入可显示字形表。 */
+export function parseBdfGlyphs(text: string, source = 'BDF'): GlyphTable {
+  const lines = text.split(/\r?\n/)
   const map = new Map<number, Glyph>()
-  for (const g of data.glyphs) {
-    map.set(g.codepoint, {
-      width: g.width,
-      height: g.height,
-      bitmap: Uint8Array.from(atob(g.bitmapBase64), (c) => c.charCodeAt(0)),
-    })
+  for (let index = 0; index < lines.length; index++) {
+    if (!lines[index]?.trim().startsWith('STARTCHAR')) continue
+    let codepoint = -1
+    let width = 16
+    let height = 16
+    while (index < lines.length) {
+      const line = lines[index]?.trim() ?? ''
+      if (line.startsWith('ENCODING')) codepoint = Number.parseInt(line.split(/\s+/)[1] ?? '', 10)
+      else if (line.startsWith('BBX')) {
+        const parts = line.split(/\s+/)
+        width = Number.parseInt(parts[1] ?? '16', 10)
+        height = Number.parseInt(parts[2] ?? '16', 10)
+      } else if (line === 'BITMAP') {
+        index++
+        break
+      }
+      index++
+    }
+    const bytesPerRow = Math.ceil(width / 8)
+    const bitmap = new Uint8Array(bytesPerRow * height)
+    for (let row = 0; row < height && index < lines.length; row++, index++) {
+      const hexRow = lines[index]?.trim() ?? ''
+      if (hexRow === 'ENDCHAR') break
+      for (let byte = 0; byte < bytesPerRow; byte++)
+        bitmap[row * bytesPerRow + byte] =
+          Number.parseInt(hexRow.slice(byte * 2, byte * 2 + 2), 16) || 0
+    }
+    while (index < lines.length && lines[index]?.trim() !== 'ENDCHAR') index++
+    if (codepoint > 0) map.set(codepoint, { width, height, bitmap })
   }
+  if (map.size === 0) throw new Error(`引擎 chrome 字形为空:${source}`)
   return {
+    size: map.size,
     has: (cp) => map.has(cp),
     get: (cp) => map.get(cp),
   }
+}
+
+export async function loadGlyphs(url = ENGINE_CHROME.fontBdf): Promise<GlyphTable> {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`引擎 chrome 字形加载失败(${res.status}):${url}`)
+  return parseBdfGlyphs(await res.text(), url)
 }
 
 // ── bakeGlyph(canvas 涂绘 + 缓存,浏览器验) ────────────────────────────
@@ -85,3 +115,5 @@ export function bakeGlyph(
   cache.set(key, cvs)
   return cvs
 }
+
+import { ENGINE_CHROME } from '../engine-chrome/registry.js'

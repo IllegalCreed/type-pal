@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import type { BattleFieldDef } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { loadPalAssets } from './pal-assets.js'
@@ -99,7 +100,7 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     assetCatalog: assets.catalog,
     binaryAssets: assets.binaries,
     assetReport: assets.report,
-    battleFields: readJson(repo, 'data/extracted/data/battle-fields.json'),
+    battleFields: readJson<BattleFieldDef[]>(repo, 'data/extracted/data/battle-fields.json'),
     objectPoisons: readJson(repo, 'data/extracted/data/object-poisons.json'),
     stores: readJson(repo, 'data/extracted/data/stores.json'),
   }

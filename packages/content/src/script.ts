@@ -115,12 +115,12 @@ export type Command =
   // 持续到下一次显式切换(开场练武 627/疯跑 193 后脚本自行切回)。
   | { kind: 'setActorSprite'; actor: string; sprite: string }
   // 0x1A:持久改角色形象(原版 PlayerRoles SoA 字段:成年灵儿换头像/精灵/战斗精灵,随存档)。
-  // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId 已解析成 id,portrait/battleSprite 是号。
+  // 一条命令改一个维度(migrate 按 SoA 字段号分流);spriteId/portrait 已解析成稳定 id。
   | {
       kind: 'setActorAppearance'
       actor: string
       spriteId?: string
-      portrait?: number
+      portrait?: AssetId
       battleSprite?: number
     }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
@@ -429,6 +429,17 @@ export function checkCommands(cmds: unknown, path: string): void {
         (!Number.isFinite(cue.autoAdvance) || cue.autoAdvance < 0)
       )
         throw new Error(`${path}[${i}].cue.autoAdvance: 期望非负有限数`)
+      if (cue.portrait !== undefined) {
+        const portrait = cue.portrait as unknown as Record<string, unknown>
+        if (!portrait || typeof portrait !== 'object' || Array.isArray(portrait))
+          throw new Error(`${path}[${i}].cue.portrait: 期望对象`)
+        if ('icon' in portrait)
+          throw new Error(`${path}[${i}].cue.portrait.icon: 旧数字字段已退役，请升级为 asset`)
+        if (typeof portrait.asset !== 'string' || portrait.asset.length === 0)
+          throw new Error(`${path}[${i}].cue.portrait.asset: 期望非空 AssetId`)
+        if (portrait.side !== 'left' && portrait.side !== 'right')
+          throw new Error(`${path}[${i}].cue.portrait.side: 期望 left/right`)
+      }
     }
     if (k === 'loadScene') {
       const load = c as { scene?: unknown; entryId?: unknown; pos?: unknown; facing?: unknown }
@@ -457,6 +468,11 @@ export function checkCommands(cmds: unknown, path: string): void {
       const asset = (c as { asset?: unknown }).asset
       if (typeof asset !== 'string' || asset.length === 0)
         throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
+    }
+    if (k === 'setActorAppearance') {
+      const portrait = (c as { portrait?: unknown }).portrait
+      if (portrait !== undefined && (typeof portrait !== 'string' || portrait.length === 0))
+        throw new Error(`${path}[${i}].portrait: 期望非空 AssetId`)
     }
     if (k === 'quitToTitle') {
       const videos = (c as { videos?: unknown }).videos

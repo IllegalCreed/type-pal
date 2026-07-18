@@ -18,13 +18,19 @@ import {
   encodeFrameSequenceSync,
   FRAME_SEQUENCE_MEDIA_TYPE,
   type ManifestAssetConfigV3,
+  palBattleBackgroundAssetId,
+  palFaceAssetId,
   palFrameAnimationAssetId,
+  palItemIconAssetId,
   palMusicAssetId,
+  palPortraitAssetId,
   palSoundAssetId,
   palVideoAssetId,
   validateAssetCatalog,
 } from '@type-pal/content'
 import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
+import { PNG } from 'pngjs'
+import { bakeIndexedRgba } from './bake-indexed-rgba.js'
 import { sha256 } from './migration-baseline.js'
 
 interface PalBinaryAssetBase {
@@ -53,9 +59,26 @@ export interface PalAssetMigrationReport {
   sounds: number
   emptySounds: number
   soundBytes: number
+  portraits: number
+  portraitBytes: number
+  faces: number
+  faceBytes: number
+  itemIcons: number
+  itemIconBytes: number
+  battleBackgrounds: number
+  battleBackgroundBytes: number
   /** 迁移边界审计字段；项目内容、运行时和编辑器不得消费这些旧编号。 */
   legacyPaletteByFrameAnimation: Record<string, number>
 }
+
+const PAL_FACE_ACTORS = [
+  'li-xiaoyao',
+  'zhao-linger',
+  'lin-yueru',
+  'wu-hou',
+  'anu',
+  'gai-luojiao',
+] as const
 
 export const PAL_AUDIO_ROLES = {
   'audio.midiSoundfont': 'soundfont.default',
@@ -126,6 +149,167 @@ function readPalette(path: string): Palette {
       throw new Error(`PAL 颜色表 ${path} 第 ${index} 色非法`)
   }
   return value as Palette
+}
+
+function bakeIndexedPng(sourcePath: string, palette: Palette, label: string): Uint8Array {
+  const source = PNG.sync.read(readFileSync(sourcePath))
+  if (source.data.byteLength !== source.width * source.height * 4)
+    throw new Error(`${label}: PNG 像素长度非法`)
+  const output = new PNG({ width: source.width, height: source.height })
+  output.data = Buffer.from(bakeIndexedRgba(source.data, palette.colors))
+  return PNG.sync.write(output)
+}
+
+function assertIndexedBattleBackground(bytes: Uint8Array, label: string): void {
+  const png = PNG.sync.read(Buffer.from(bytes))
+  if (png.width !== 320 || png.height !== 200)
+    throw new Error(`${label}: 战场背景期望 320×200，实际 ${png.width}×${png.height}`)
+  for (let offset = 0; offset < png.data.byteLength; offset += 4) {
+    const red = png.data[offset]
+    if (
+      red !== png.data[offset + 1] ||
+      red !== png.data[offset + 2] ||
+      png.data[offset + 3] !== 255
+    )
+      throw new Error(`${label}: 像素 ${offset / 4} 不满足 R=G=B=index 且 alpha=255`)
+  }
+}
+
+function loadPalStaticImages(repo: string): {
+  binaries: PalBinaryAssetSource[]
+  report: Pick<
+    PalAssetMigrationReport,
+    | 'portraits'
+    | 'portraitBytes'
+    | 'faces'
+    | 'faceBytes'
+    | 'itemIcons'
+    | 'itemIconBytes'
+    | 'battleBackgrounds'
+    | 'battleBackgroundBytes'
+  >
+} {
+  const palette = readPalette(resolve(repo, 'data/extracted/data/palette/0.json'))
+  const binaries: PalBinaryAssetSource[] = []
+
+  const portraitManifest = JSON.parse(
+    readFileSync(resolve(repo, 'data/extracted/data/portraits.json'), 'utf8'),
+  ) as { count?: unknown }
+  if (!Number.isInteger(portraitManifest.count) || (portraitManifest.count as number) <= 0)
+    throw new Error('PAL portraits manifest 期望正整数 count')
+  let portraitBytes = 0
+  for (let chunk = 1; chunk <= (portraitManifest.count as number); chunk++) {
+    const sourcePath = resolve(
+      repo,
+      `data/extracted/images/portraits/${String(chunk).padStart(2, '0')}.png`,
+    )
+    if (!existsSync(sourcePath)) continue
+    const padded = String(chunk).padStart(3, '0')
+    const bytes = bakeIndexedPng(sourcePath, palette, `PAL 立绘 ${padded}`)
+    portraitBytes += bytes.byteLength
+    binaries.push(
+      generatedSource(palPortraitAssetId(chunk), bytes, {
+        kind: 'portrait',
+        path: `assets/migrated/portraits/${padded}.png`,
+        mediaType: 'image/png',
+        label: `PAL 立绘 ${padded}`,
+        origin: {
+          kind: 'legacy-migrated',
+          ref: `images/portraits/${String(chunk).padStart(2, '0')}.png`,
+        },
+      }),
+    )
+  }
+  const portraits = binaries.length
+  if (portraits !== 88) throw new Error(`PAL 立绘期望 88 张，收到 ${portraits}`)
+
+  let faceBytes = 0
+  for (const [roleId, actorId] of PAL_FACE_ACTORS.entries()) {
+    const frame = 48 + roleId
+    const sourceRef = `images/ui/frame-${String(frame).padStart(2, '0')}.png`
+    const bytes = bakeIndexedPng(
+      resolve(repo, `data/extracted/${sourceRef}`),
+      palette,
+      `PAL ${actorId} 小头像`,
+    )
+    faceBytes += bytes.byteLength
+    binaries.push(
+      generatedSource(palFaceAssetId(actorId), bytes, {
+        kind: 'face',
+        path: `assets/migrated/faces/${actorId}.png`,
+        mediaType: 'image/png',
+        label: `PAL ${actorId} 战斗头像`,
+        origin: { kind: 'legacy-migrated', ref: sourceRef },
+      }),
+    )
+  }
+
+  const items = JSON.parse(
+    readFileSync(resolve(repo, 'data/extracted/data/items.json'), 'utf8'),
+  ) as Array<{ id?: unknown; bitmap?: unknown }>
+  const zeroIcons = items.filter((item) => item.bitmap === 0).map((item) => item.id)
+  if (items.length !== 234 || zeroIcons.length !== 1 || zeroIcons[0] !== 277)
+    throw new Error(`PAL 物品图标 0 哨兵漂移: items=${items.length} zero=${zeroIcons.join(',')}`)
+  const itemChunks = [
+    ...new Set(
+      items
+        .map((item) => item.bitmap)
+        .filter((bitmap): bitmap is number => Number.isInteger(bitmap) && (bitmap as number) > 0),
+    ),
+  ].sort((left, right) => left - right)
+  if (itemChunks.length !== 233)
+    throw new Error(`PAL 非零物品图标期望 233 个，收到 ${itemChunks.length}`)
+  let itemIconBytes = 0
+  for (const chunk of itemChunks) {
+    const padded = String(chunk).padStart(3, '0')
+    const sourceRef = `images/items/${padded}.png`
+    const sourcePath = resolve(repo, `data/extracted/${sourceRef}`)
+    if (!existsSync(sourcePath)) throw new Error(`PAL 物品图标源缺失: ${sourceRef}`)
+    const bytes = bakeIndexedPng(sourcePath, palette, `PAL 物品图标 ${padded}`)
+    itemIconBytes += bytes.byteLength
+    binaries.push(
+      generatedSource(palItemIconAssetId(chunk), bytes, {
+        kind: 'item-icon',
+        path: `assets/migrated/item-icons/${padded}.png`,
+        mediaType: 'image/png',
+        label: `PAL 物品图标 ${padded}`,
+        origin: { kind: 'legacy-migrated', ref: sourceRef },
+      }),
+    )
+  }
+
+  let battleBackgroundBytes = 0
+  for (let chunk = 6; chunk <= 57; chunk++) {
+    const padded = String(chunk).padStart(3, '0')
+    const sourceRef = `images/battle/bg/${padded}.png`
+    const sourcePath = resolve(repo, `data/extracted/${sourceRef}`)
+    const bytes = readFileSync(sourcePath)
+    assertIndexedBattleBackground(bytes, `PAL 战场背景 ${padded}`)
+    battleBackgroundBytes += bytes.byteLength
+    binaries.push(
+      fileSource(palBattleBackgroundAssetId(chunk), sourcePath, {
+        kind: 'battle-background',
+        path: `assets/migrated/battle-backgrounds/${padded}.png`,
+        mediaType: 'image/png',
+        label: `PAL 战场背景 ${padded}`,
+        origin: { kind: 'legacy-migrated', ref: sourceRef },
+      }),
+    )
+  }
+
+  return {
+    binaries,
+    report: {
+      portraits,
+      portraitBytes,
+      faces: PAL_FACE_ACTORS.length,
+      faceBytes,
+      itemIcons: itemChunks.length,
+      itemIconBytes,
+      battleBackgrounds: 52,
+      battleBackgroundBytes,
+    },
+  }
 }
 
 function bakeRgbaFrames(bytes: Uint8Array, palette: Palette, label: string): Uint8Array[] {
@@ -385,6 +569,8 @@ export function loadPalAssets(
   binaries.push(...frameAnimations.binaries)
   const sounds = loadPalSoundAssets(repo)
   binaries.push(...sounds.binaries)
+  const staticImages = loadPalStaticImages(repo)
+  binaries.push(...staticImages.binaries)
 
   const ids = new Set<string>()
   for (const source of binaries) {
@@ -403,7 +589,7 @@ export function loadPalAssets(
     catalog,
     binaries,
     roles: { ...PAL_ASSET_ROLES },
-    report: { ...frameAnimations.report, ...sounds.report },
+    report: { ...frameAnimations.report, ...sounds.report, ...staticImages.report },
   }
 }
 

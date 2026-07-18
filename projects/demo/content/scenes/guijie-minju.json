@@ -94,10 +94,6 @@
             }
           ],
           "slot": "bottom",
-          "portrait": {
-            "icon": 1,
-            "side": "right"
-          },
           "cursorFrame": 0
         },
         {
@@ -109,10 +105,6 @@
             }
           ],
           "slot": "bottom",
-          "portrait": {
-            "icon": 1,
-            "side": "right"
-          },
           "cursorFrame": 1
         },
         {
@@ -123,10 +115,6 @@
             }
           ],
           "slot": "top",
-          "portrait": {
-            "icon": 2,
-            "side": "left"
-          },
           "cursorFrame": 2
         },
         {
@@ -138,11 +126,7 @@
             }
           ],
           "slot": "bottom",
-          "autoAdvance": 800,
-          "portrait": {
-            "icon": 1,
-            "side": "right"
-          }
+          "autoAdvance": 800
         },
         {
           "rows": [

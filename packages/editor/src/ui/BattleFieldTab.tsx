@@ -4,12 +4,14 @@
  * 战场是一等 content 域(content/battle-fields.json,数字稳定 id 被场景默认/
  * startBattle 参数/明雷实体引用)。破坏演进(props/damageStates)将来纯增量扩字段。
  */
-import type { BattleFieldDef, ElementVec } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, BattleFieldDef, ElementVec } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { loadBattleBg, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { type BattleFieldPatch, UpdateBattleFieldCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { ImageAssetPicker } from './ImageAssetPicker.js'
 
 /** FBP.MKF chunk 0-5 = UI 背景(主菜单/splash/DOS 开场),战场从 6 起(作者实证)。 */
 const FIRST_BATTLE_FIELD_ID = 6
@@ -25,37 +27,60 @@ const ELEM_LABEL: Record<keyof ElementVec, string> = {
 function FieldPreview(props: { assetBase: AssetBase; field: BattleFieldDef }) {
   const { assetBase, field } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [error, setError] = useState('')
   useEffect(() => {
     let alive = true
     void (async () => {
       try {
+        if (!field.background) {
+          canvasRef.current?.getContext('2d')?.clearRect(0, 0, 320, 200)
+          if (alive) setError('')
+          return
+        }
         const pal = await loadStandardPalette(assetBase)
-        const bg = await loadBattleBg(assetBase, field.id, pal)
+        const bg = await loadBattleBg(assetBase, field.background, pal)
         if (!alive || !canvasRef.current) return
         const ctx = canvasRef.current.getContext('2d')
         if (!ctx) return
         ctx.imageSmoothingEnabled = false
         ctx.clearRect(0, 0, 320, 200)
         ctx.drawImage(bg, 0, 0, 320, 200)
-      } catch {
+        setError('')
+      } catch (cause) {
+        if (!alive) return
         const ctx = canvasRef.current?.getContext('2d')
         ctx?.clearRect(0, 0, 320, 200)
+        setError(cause instanceof Error ? cause.message : String(cause))
       }
     })()
     return () => {
       alive = false
     }
-  }, [assetBase, field.id])
-  return <canvas ref={canvasRef} width={320} height={200} className="bf-tab-preview" />
+  }, [assetBase, field.background])
+  return (
+    <div>
+      <canvas ref={canvasRef} width={320} height={200} className="bf-tab-preview" />
+      {!field.background ? (
+        <div className="insp-empty">未配置背景：正式战斗将刻意显示黑底。</div>
+      ) : error ? (
+        <div className="cf-err">
+          背景“{field.background}”加载失败：{error}
+        </div>
+      ) : null}
+    </div>
+  )
 }
 
 export function BattleFieldTab(props: {
   battleFields: BattleFieldDef[]
   assetBase: AssetBase
   session: EditSession
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
+  onOpenImage?: (asset: AssetId) => void
   tabBar?: React.ReactNode
 }) {
-  const { battleFields, assetBase, session, tabBar } = props
+  const { battleFields, assetBase, session, assetCatalog, assetReader, onOpenImage, tabBar } = props
   const [filter, setFilter] = useState('')
   // FBP.MKF chunk 0-5 是 UI 背景(主菜单 / splash / DOS 开场 3·4),**不是战场** —— 真战场从 6 起
   //(作者实证)。它们五灵加成恒 0、且不该用战场调色盘上色(否则整偏)。战场页只列真战场。
@@ -138,12 +163,16 @@ export function BattleFieldTab(props: {
             </div>
             <div className="insp-row">
               <span className="k">背景</span>
-              <input
-                className="in"
-                style={{ width: 260 }}
-                value={field.bg ?? ''}
-                placeholder={`battle/bg/${String(field.id).padStart(3, '0')}.png (惯例)`}
-                onChange={(e) => patch({ bg: e.target.value || undefined })}
+              <ImageAssetPicker
+                value={field.background}
+                kind="battle-background"
+                catalog={assetCatalog}
+                reader={assetReader}
+                allowUnset
+                showThumbnail={false}
+                ariaLabel={`战场 ${field.id} 背景`}
+                onOpenAsset={onOpenImage}
+                onChange={(background) => patch({ background })}
               />
               <span className="k" style={{ marginLeft: 12 }}>
                 常驻波

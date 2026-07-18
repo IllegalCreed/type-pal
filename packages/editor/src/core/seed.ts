@@ -1,7 +1,7 @@
 /**
  * seed —— 自包含工程克隆的纯核(P4)。
- * relativizeManifest:pal 种子 manifest 的 assets 绝对路径(/extracted、/baked)→ 工程内相对
- * (assets/extracted、assets/baked),使克隆后的本地工程经 fsaSource 离线可读。
+ * relativizeManifest:pal 种子 manifest 的 legacy /extracted 绝对路径 → 工程内相对
+ * assets/extracted，使克隆后的本地工程经 fsaSource 离线可读。
  * enumerateSeedFiles:汇总克隆要拉的**可复制**文件集(内容表 + 场景 + 全部素材);
  * manifest.json 本身走 relativizeManifest 单独写(不在此列)。
  */
@@ -50,7 +50,6 @@ export interface FileList {
 
 function relPath(s: string): string {
   if (s.startsWith('/extracted')) return s.replace(/^\/extracted/, 'assets/extracted')
-  if (s.startsWith('/baked')) return s.replace(/^\/baked/, 'assets/baked')
   return s
 }
 
@@ -190,13 +189,12 @@ export function scriptsDir(m: LoadedManifest): string | undefined {
 
 /**
  * 克隆要复制的文件集:内容表(manifest.content 各文件,scenes 目录除外)+ scenes index + 每场景
- * + 全部素材(asset-manifest → assets/extracted/;baked-manifest → assets/baked/)。
+ * + 全部素材(catalog 精确闭包 + 尚未迁移族的 asset-manifest → assets/extracted/)。
  */
 export function enumerateSeedFiles(
   manifest: LoadedManifest,
   sceneIds: string[],
   assetManifest: FileList,
-  bakedManifest: FileList,
   scriptIndex?: ScriptIndexV1,
   mapIndex?: MapIndexV1,
   catalog?: AssetCatalogV1,
@@ -225,19 +223,11 @@ export function enumerateSeedFiles(
   json(manifest.assets.catalog)
   for (const record of Object.values(catalog?.assets ?? {}))
     out.push({ rel: record.path, src: record.path, kind: 'binary', size: record.bytes })
-  // 素材:extracted → assets/extracted/;baked → assets/baked/
+  // 尚未 catalog 化的 legacy 素材仍从 extracted 复制；四类静态图只来自上面的 catalog records。
   for (const f of assetManifest.files) {
     out.push({
       rel: `assets/extracted/${f.path}`,
       src: `/extracted/${f.path}`,
-      kind: 'binary',
-      size: f.size,
-    })
-  }
-  for (const f of bakedManifest.files) {
-    out.push({
-      rel: `assets/baked/${f.path}`,
-      src: `/baked/${f.path}`,
       kind: 'binary',
       size: f.size,
     })

@@ -1,13 +1,19 @@
 import { describe, expect, test } from 'vitest'
 import type { AssetCatalogV1 } from './asset.js'
+import type { WorldState } from './character.js'
 import {
   applyV2MusicLabels,
   exitLegacySoundFamily,
+  upgradeLegacyActorImages,
   upgradeLegacyActorSounds,
   upgradeLegacyEnemySounds,
+  upgradeLegacyItemImages,
   upgradeLegacyItemSounds,
+  upgradeLegacyPalBattleFields,
   upgradeLegacySkillSounds,
   upgradeLegacySoundCommands,
+  upgradeLegacyStaticImageCommands,
+  upgradeLegacyWorldPortraits,
   upgradeManifestV2ToV3,
   upgradeV2MusicReferences,
 } from './project-upgrade.js'
@@ -19,6 +25,106 @@ const record = (track: number) => ({
   bytes: 1,
   sha256: String(track % 10).repeat(64),
   origin: { kind: 'legacy-migrated' as const },
+})
+
+describe('旧静态图引用单向升级', () => {
+  test('actor default/expressions、item 0 哨兵与 battle fields 幂等规范化', () => {
+    const actors = [
+      {
+        id: 'a',
+        portraits: { default: 1, expressions: { hurt: 2, hidden: 0 } },
+      },
+    ]
+    const upgradedActors = upgradeLegacyActorImages(actors)
+    expect(upgradedActors).toEqual([
+      {
+        id: 'a',
+        portraits: {
+          default: 'portrait.pal.001',
+          expressions: { hurt: 'portrait.pal.002' },
+        },
+      },
+    ])
+    expect(upgradeLegacyActorImages(upgradedActors)).toEqual(upgradedActors)
+    expect(
+      upgradeLegacyItemImages([
+        { id: '277', icon: 0 },
+        { id: '1', icon: 7 },
+      ]),
+    ).toEqual([{ id: '277' }, { id: '1', icon: 'item-icon.pal.007' }])
+    const fields = [
+      { id: 5 },
+      { id: 6 },
+      { id: 7, background: 'battle-background.authored' },
+      { id: 58 },
+    ]
+    expect(upgradeLegacyPalBattleFields(fields)).toEqual([
+      { id: 5 },
+      { id: 6, background: 'battle-background.pal.006' },
+      { id: 7, background: 'battle-background.authored' },
+      { id: 58 },
+    ])
+    expect(fields[1]).toEqual({ id: 6 })
+  })
+
+  test('命令树覆盖 dialog/setActorAppearance，0 删除且不保留空命令', () => {
+    const upgraded = upgradeLegacyStaticImageCommands([
+      {
+        kind: 'dialog',
+        cue: { rows: [{ text: 'dlg' }], portrait: { icon: 3, side: 'left' } },
+      },
+      { kind: 'setActorAppearance', actor: 'a', portrait: 4 },
+      { kind: 'setActorAppearance', actor: 'a', portrait: 0 },
+      {
+        kind: 'branch',
+        then: [{ kind: 'setActorAppearance', actor: 'a', portrait: 0, battleSprite: 9 }],
+      },
+    ])
+    expect(upgraded).toEqual([
+      {
+        kind: 'dialog',
+        cue: {
+          rows: [{ text: 'dlg' }],
+          portrait: { asset: 'portrait.pal.003', side: 'left' },
+        },
+      },
+      { kind: 'setActorAppearance', actor: 'a', portrait: 'portrait.pal.004' },
+      { kind: 'branch', then: [{ kind: 'setActorAppearance', actor: 'a', battleSprite: 9 }] },
+    ])
+    expect(upgradeLegacyStaticImageCommands(upgraded)).toEqual(upgraded)
+  })
+
+  test('存档 party/reserve 共用同一立绘映射，0 清字段且不改输入', () => {
+    const character = (id: string, portrait: number) => ({
+      id,
+      template: id,
+      level: 1,
+      exp: 0,
+      hp: 1,
+      maxHP: 1,
+      mp: 1,
+      maxMP: 1,
+      attack: 1,
+      defense: 1,
+      magicAttack: 1,
+      speed: 1,
+      luck: 1,
+      equipment: {},
+      tags: [],
+      appearance: { portrait },
+    })
+    const world = {
+      party: [character('a', 8)],
+      reserve: [character('b', 0)],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+    }
+    const upgraded = upgradeLegacyWorldPortraits(world as unknown as WorldState)
+    expect(upgraded.party[0]?.appearance).toEqual({ portrait: 'portrait.pal.008' })
+    expect(upgraded.reserve?.[0]?.appearance).toBeUndefined()
+    expect(world.party[0]?.appearance.portrait).toBe(8)
+  })
 })
 
 test('v2 manifest 单向产出 v3，删除 music 清单与 music legacy 双轨', () => {
@@ -47,8 +153,6 @@ test('v2 manifest 单向产出 v3，删除 music 清单与 music legacy 双轨',
         'battle-background',
         'rng',
         'video',
-        'glyph-table',
-        'ui-image',
         'image',
         'sprite',
       ],
@@ -56,6 +160,23 @@ test('v2 manifest 单向产出 v3，删除 music 清单与 music legacy 双轨',
       sprites: 'sprites',
     },
   })
+})
+
+test('v2 manifest 的旧 UI 目录不会被静默丢弃', () => {
+  expect(() =>
+    upgradeManifestV2ToV3({
+      manifest: {
+        id: 'old-ui',
+        name: '旧 UI 工程',
+        contentVersion: 2,
+        entryScene: 's0',
+        content: { scenes: 'content/scenes/' },
+        assets: { ui: 'assets/ui' },
+        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      },
+      catalog: { version: 1, assets: {} },
+    }),
+  ).toThrow('manifest.assets.ui')
 })
 
 describe('v2 音乐引用升级', () => {

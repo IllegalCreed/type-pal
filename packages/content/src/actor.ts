@@ -67,13 +67,13 @@ export interface BattlerSpec {
 
 /**
  * 头像组(C1)= 一主 + 一组命名表情/形态。对话默认用 default;剧情按名字切表情
- * (愤怒/受伤/十年后…)。号 = RGM 立绘 chunk(引擎预烘 PNG)。
+ * (愤怒/受伤/十年后…)。资源身份与物理路径由 catalog 解耦。
  */
 export interface PortraitSet {
   /** 主头像(对话默认)。 */
-  default: number
-  /** 命名表情/形态(名字 → 立绘号);可选。 */
-  expressions?: Record<string, number>
+  default: AssetId
+  /** 命名表情/形态(名字 → 立绘 AssetId);可选。 */
+  expressions?: Record<string, AssetId>
 }
 
 /** 统一角色定义:名字 / 头像组 / 大世界精灵 + 可选战斗数据。 */
@@ -84,6 +84,8 @@ export interface ActorDef {
   spriteId: string
   /** 头像立绘组(主 + 命名表情;C1)。 */
   portraits?: PortraitSet
+  /** 战斗/菜单小头像；缺席表示该角色刻意无小头像。 */
+  face?: AssetId
   /** 有 = 可入队/可参战(instantiate/buildWorld 消费)。 */
   battler?: BattlerSpec
 }

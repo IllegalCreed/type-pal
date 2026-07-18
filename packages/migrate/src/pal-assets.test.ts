@@ -19,6 +19,65 @@ afterEach(() => {
 })
 
 describe('PAL 二进制资源所有权物化', () => {
+  test('四类静态图 authored 接管后逐字节保留，不物化对应迁移源', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-static-assets-'))
+    roots.push(temp)
+    const families = [
+      ['portrait.pal.001', 'portrait'],
+      ['face.pal.li-xiaoyao', 'face'],
+      ['item-icon.pal.001', 'item-icon'],
+      ['battle-background.pal.006', 'battle-background'],
+    ] as const
+    const binaries: PalBinaryAssetSource[] = []
+    const catalog: AssetCatalogV1 = { version: 1, assets: {} }
+    for (const [id, kind] of families) {
+      const migrated = Uint8Array.from([1, 2, 3])
+      const authored = Uint8Array.from([9, kind.length, 7, 6])
+      const migratedPath = `assets/migrated/${kind}/source.png`
+      const authoredPath = `assets/authored/${kind}.png`
+      binaries.push({
+        id,
+        bytes: migrated,
+        record: {
+          kind,
+          path: migratedPath,
+          mediaType: 'image/png',
+          bytes: migrated.byteLength,
+          sha256: sha256(migrated),
+          origin: { kind: 'legacy-migrated' },
+        },
+      })
+      catalog.assets[id] = {
+        kind,
+        path: authoredPath,
+        mediaType: 'image/png',
+        bytes: authored.byteLength,
+        sha256: sha256(authored),
+        origin: { kind: 'authored' },
+      }
+      const target = resolve(temp, 'projects/pal', authoredPath)
+      mkdirSync(dirname(target), { recursive: true })
+      writeFileSync(target, authored)
+    }
+
+    expect(materializePalAssets({ repo: temp, catalog, binaries })).toEqual({
+      written: 0,
+      unchanged: 0,
+      authored: 4,
+      files: 4,
+      bytes: Object.values(catalog.assets).reduce((sum, record) => sum + record.bytes, 0),
+    })
+    for (const [id, kind] of families) {
+      const record = catalog.assets[id]!
+      expect(readFileSync(resolve(temp, 'projects/pal', record.path))).toEqual(
+        Buffer.from([9, kind.length, 7, 6]),
+      )
+      expect(existsSync(resolve(temp, `projects/pal/assets/migrated/${kind}/source.png`))).toBe(
+        false,
+      )
+    }
+  })
+
   test('同 AssetId 被作者接管后保留 authored 路径与字节，不复制迁移源', () => {
     const repo = mkdtempSync(resolve(tmpdir(), 'type-pal-assets-'))
     roots.push(repo)

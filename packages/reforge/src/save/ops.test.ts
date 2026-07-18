@@ -56,6 +56,118 @@ describe('save ops（纯）', () => {
     p.version = SAVE_VERSION + 1
     expect(() => normalizePayload(p)).toThrow(/新于引擎/)
   })
+  test('normalizePayload:v1 party/reserve 数字立绘一次性升级，0 清除且二次幂等', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      3,
+    )
+    p.version = 1
+    p.world.reserve = [structuredClone(p.world.party[0]!)]
+    ;(p.world.party[0]!.appearance as unknown) = { portrait: 8 }
+    ;(p.world.reserve[0]!.appearance as unknown) = { portrait: 0 }
+    const normalized = normalizePayload(p, {
+      where: '存档槽 m03',
+      legacyPortraitAsset: (legacy) => `portrait.pal.${String(legacy).padStart(3, '0')}`,
+      validatePortraitAsset: (asset) => {
+        if (asset !== 'portrait.pal.008') throw new Error('missing portrait')
+      },
+    })
+    expect(normalized.version).toBe(SAVE_VERSION)
+    expect(normalized.world.party[0]?.appearance?.portrait).toBe('portrait.pal.008')
+    expect(normalized.world.reserve?.[0]?.appearance).toBeUndefined()
+    expect(
+      normalizePayload(normalized, {
+        where: '存档槽 m03',
+        validatePortraitAsset: (asset) => {
+          if (asset !== 'portrait.pal.008') throw new Error('missing portrait')
+        },
+      }),
+    ).toBe(normalized)
+  })
+
+  test('normalizePayload:非 PAL 数字立绘须注入唯一映射，失败含存档位置', () => {
+    const make = () => {
+      const p = buildPayload(
+        makeTestWorld(),
+        { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+        'authored',
+        3,
+      )
+      p.version = 1
+      ;(p.world.party[0]!.appearance as unknown) = { portrait: 9 }
+      return p
+    }
+    expect(() => normalizePayload(make(), { where: 'URL /save/old.json' })).toThrow(
+      /URL \/save\/old\.json.*数字立绘 9 无 AssetId 转换规则/,
+    )
+    expect(() =>
+      normalizePayload(make(), { where: '存档槽 quick', legacyPortraitAsset: () => undefined }),
+    ).toThrow(/存档槽 quick.*缺少唯一 AssetId 映射/)
+    expect(
+      normalizePayload(make(), {
+        legacyPortraitAsset: (legacy) => `portrait.authored.${legacy}`,
+      }).world.party[0]?.appearance?.portrait,
+    ).toBe('portrait.authored.9')
+  })
+
+  test('normalizePayload:已是 AssetId 原样保留，非法负数拒绝且不提前升版本', () => {
+    const current = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'authored',
+      3,
+    )
+    current.world.party[0]!.appearance = { portrait: 'portrait.authored.hero' }
+    expect(normalizePayload(current).world.party[0]?.appearance?.portrait).toBe(
+      'portrait.authored.hero',
+    )
+
+    const invalid = structuredClone(current)
+    invalid.version = 1
+    ;(invalid.world.party[0]!.appearance as unknown) = { portrait: -1 }
+    expect(() => normalizePayload(invalid, { where: '存档槽 auto' })).toThrow(
+      /存档槽 auto.*非负整数/,
+    )
+    expect(invalid.version).toBe(1)
+  })
+
+  test('normalizePayload:当前工程 catalog 同时验证旧映射与新 AssetId', () => {
+    const legacy = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      3,
+    )
+    legacy.version = 1
+    ;(legacy.world.party[0]!.appearance as unknown) = { portrait: 20 }
+    expect(() =>
+      normalizePayload(legacy, {
+        where: '存档槽 m20',
+        legacyPortraitAsset: (value) => `portrait.pal.${String(value).padStart(3, '0')}`,
+        validatePortraitAsset: () => {
+          throw new Error('AssetId 不在 catalog')
+        },
+      }),
+    ).toThrow(/映射到 "portrait\.pal\.020".*不在 catalog/)
+
+    const current = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      3,
+    )
+    current.world.party[0]!.appearance = { portrait: 'face.pal.li-xiaoyao' }
+    expect(() =>
+      normalizePayload(current, {
+        where: '存档槽 quick',
+        validatePortraitAsset: () => {
+          throw new Error('期望 portrait，实际 face')
+        },
+      }),
+    ).toThrow(/face\.pal\.li-xiaoyao.*期望 portrait/)
+  })
   test('normalizePayload:新版稳定地图覆写原样保留', () => {
     const p = buildPayload(
       makeTestWorld(),

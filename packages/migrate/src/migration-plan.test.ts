@@ -45,6 +45,64 @@ describe('createMigrationPlan', () => {
     expect(plan.summary).toMatchObject({ writes: 1, conflicts: 0 })
   })
 
+  test('四类静态图 AssetId 被 authored 整条接管，迁移更新不抢回且二次严格零计划', () => {
+    const families = [
+      ['portrait.pal.001', 'portrait'],
+      ['face.pal.li-xiaoyao', 'face'],
+      ['item-icon.pal.001', 'item-icon'],
+      ['battle-background.pal.006', 'battle-background'],
+    ] as const
+    const migratedCatalog = (revision: 'a' | 'b'): MigrationJson => ({
+      version: 1,
+      assets: Object.fromEntries(
+        families.map(([id, kind], index) => [
+          id,
+          {
+            kind,
+            path: `assets/migrated/${kind}/${revision}-${index}.png`,
+            mediaType: 'image/png',
+            bytes: revision === 'a' ? index + 1 : index + 11,
+            sha256: (revision === 'a' ? 'a' : 'b').repeat(64),
+            origin: { kind: 'legacy-migrated' },
+          },
+        ]),
+      ),
+    })
+    const authoredCatalog: MigrationJson = {
+      version: 1,
+      assets: Object.fromEntries(
+        families.map(([id, kind], index) => [
+          id,
+          {
+            kind,
+            path: `assets/authored/static-${index}.png`,
+            mediaType: 'image/png',
+            bytes: 101 + index,
+            sha256: String(index + 1).repeat(64),
+            label: `作者替换 ${kind}`,
+            origin: { kind: 'authored' },
+          },
+        ]),
+      ),
+    }
+    const path = 'assets/index.json'
+    const base = snapshot({ [path]: migratedCatalog('a') })
+    const ours = snapshot({ [path]: authoredCatalog })
+    const nextGenerated = generated({ [path]: migratedCatalog('b') })
+
+    const first = createMigrationPlan(base, ours, nextGenerated)
+    expect(first.conflicts).toEqual([])
+    expect(first.target.get(path)).toEqual(authoredCatalog)
+    expect(first.writes.size).toBe(0)
+
+    const nextBaseline = snapshot({ [path]: migratedCatalog('b') })
+    const second = createMigrationPlan(nextBaseline, ours, nextGenerated)
+    expect(second.conflicts).toEqual([])
+    expect(second.target.get(path)).toEqual(authoredCatalog)
+    expect(second.writes.size).toBe(0)
+    expect(second.deletes).toEqual([])
+  })
+
   test('冲突时严格零写盘计划', () => {
     const base = snapshot({ 'content/locale.json': { a: 1 } })
     const ours = snapshot({ 'content/locale.json': { a: 2 } })

@@ -102,7 +102,7 @@ function drawEquipPickRole(
   // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标 + 数量(青)+ 名(金,左对齐)
   drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64, { shadow: false })
   if (sel) {
-    const icon = assets.itemIcons[sel.icon]
+    const icon = sel.icon ? assets.itemIcons[sel.icon] : undefined
     if (icon) {
       // 图标贴框内左上 (+8,+8) = 一阶段 draw-equip.ts / uigame.c:1869 真值(32×32 图标
       // 落在卷面上部深色区)。曾自创「卷面居中偏下」(+36 中心)→ 作者报「太靠下」,偏了 12px。

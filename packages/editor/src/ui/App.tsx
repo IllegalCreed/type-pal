@@ -580,6 +580,15 @@ export function App(props: {
     if (activeSubpage.dataPage === 'sound') {
       return state.assetCatalog.assets[location.objectId]?.kind !== 'sound'
     }
+    if (activeSubpage.dataPage === 'image') {
+      const kind = state.assetCatalog.assets[location.objectId]?.kind
+      return (
+        kind !== 'portrait' &&
+        kind !== 'face' &&
+        kind !== 'item-icon' &&
+        kind !== 'battle-background'
+      )
+    }
     if (activeSubpage.dataPage === 'cutscene') {
       const kind = state.assetCatalog.assets[location.objectId]?.kind
       return kind !== 'video' && kind !== 'frame-animation'
@@ -937,6 +946,7 @@ export function App(props: {
             assetCatalog={state.assetCatalog}
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
+            onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
             onOpenStartSettings={() =>
               applyEditorLocation({ module: 'project', subpage: 'entrypoint' })
             }
@@ -995,6 +1005,7 @@ export function App(props: {
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
+            onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
             onOpenMap={(id) => applyEditorLocation(editorLinks.map(id))}
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
@@ -1323,6 +1334,7 @@ export function App(props: {
                   }}
                   onOpenScript={openSharedScript}
                   onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
+                  onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
                   onClose={() => setDrawer({ open: false, src: null, internalScriptId: null })}
                 />
               )}

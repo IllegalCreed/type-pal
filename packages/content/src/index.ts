@@ -47,8 +47,8 @@ export interface DialogueCue {
   autoAdvance?: number
   /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。narration = 中央叙述窗(原版 0x3E)。 */
   slot?: 'top' | 'bottom' | 'narration' | 'center'
-  /** 头像 RGM chunk + 左/右;省略 = 无头像。 */
-  portrait?: { icon: number; side: 'left' | 'right' }
+  /** 头像资源 + 左/右;省略 = 无头像。 */
+  portrait?: { asset: AssetId; side: 'left' | 'right' }
   /** 等键光标形态(0 默认箭头 / 1 / 2);省略 = 0。原版 `(`/`)` 控制符 → 此显式字段。 */
   cursorFrame?: 0 | 1 | 2
 }

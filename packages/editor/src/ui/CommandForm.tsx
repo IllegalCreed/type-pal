@@ -26,6 +26,7 @@ import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SoundPicker } from './SoundPicker.js'
 
@@ -194,6 +195,7 @@ export function CommandForm(props: {
   /** 打开 callScript/jumpScript 目标；调用方决定留在场景内或进入作者共享库。 */
   onOpenScript?: (id: string) => void
   onOpenSound?: (id: string) => void
+  onOpenImage?: (id: string) => void
   onChange: (next: Command) => void
 }) {
   const {
@@ -211,6 +213,7 @@ export function CommandForm(props: {
     hasImplicitSelf,
     onOpenScript,
     onOpenSound,
+    onOpenImage,
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
@@ -218,6 +221,9 @@ export function CommandForm(props: {
   switch (cmd.kind) {
     case 'dialog': {
       const cue = cmd.cue
+      const firstPortrait = Object.entries(assetCatalog.assets).find(
+        ([, record]) => record.kind === 'portrait',
+      )?.[0]
       const setCue = (patch: object): void => onChange({ ...cmd, cue: { ...cue, ...patch } })
       const setRow = (index: number, patch: object): void =>
         setCue({
@@ -318,9 +324,13 @@ export function CommandForm(props: {
               <input
                 type="checkbox"
                 checked={cue.portrait !== undefined}
+                disabled={!cue.portrait && !firstPortrait}
                 onChange={(e) =>
                   setCue({
-                    portrait: e.target.checked ? { icon: 1, side: 'right' as const } : undefined,
+                    portrait:
+                      e.target.checked && firstPortrait
+                        ? { asset: firstPortrait, side: 'right' as const }
+                        : undefined,
                   })
                 }
               />
@@ -328,17 +338,27 @@ export function CommandForm(props: {
             </label>
             {cue.portrait ? (
               <>
-                <Num
-                  value={cue.portrait.icon}
-                  onChange={(icon) =>
-                    setCue({ portrait: { icon, side: cue.portrait?.side ?? 'right' } })
-                  }
+                <ImageAssetPicker
+                  value={cue.portrait.asset}
+                  kind="portrait"
+                  catalog={assetCatalog}
+                  reader={assetReader}
+                  showThumbnail={false}
+                  ariaLabel="对话立绘"
+                  onOpenAsset={onOpenImage}
+                  onChange={(asset) => {
+                    if (asset) setCue({ portrait: { asset, side: cue.portrait?.side ?? 'right' } })
+                  }}
                 />
                 <Sel
                   value={cue.portrait.side}
                   options={['left', 'right'] as const}
                   labels={['左', '右']}
-                  onChange={(side) => setCue({ portrait: { icon: cue.portrait?.icon ?? 1, side } })}
+                  onChange={(side) =>
+                    setCue({
+                      portrait: { asset: cue.portrait?.asset ?? firstPortrait ?? '', side },
+                    })
+                  }
                 />
               </>
             ) : null}
@@ -524,6 +544,48 @@ export function CommandForm(props: {
           </Row>
           <Row label="精灵 id">
             <Txt value={cmd.sprite} onChange={(s) => set({ sprite: s })} />
+          </Row>
+        </>
+      )
+    case 'setActorAppearance':
+      return (
+        <>
+          <Row label="角色">
+            <Txt value={cmd.actor} onChange={(actor) => set({ actor })} />
+          </Row>
+          <Row label="大世界精灵">
+            <Txt
+              value={cmd.spriteId ?? ''}
+              placeholder="(不修改)"
+              onChange={(spriteId) => set({ spriteId: spriteId || undefined })}
+            />
+          </Row>
+          <Row label="对话立绘">
+            <ImageAssetPicker
+              value={cmd.portrait}
+              kind="portrait"
+              catalog={assetCatalog}
+              reader={assetReader}
+              allowUnset
+              showThumbnail={false}
+              ariaLabel="角色形象切换立绘"
+              onOpenAsset={onOpenImage}
+              onChange={(portrait) => set({ portrait })}
+            />
+          </Row>
+          <Row label="战斗精灵号">
+            <input
+              className="in cf-num"
+              type="number"
+              value={cmd.battleSprite ?? ''}
+              placeholder="不修改"
+              onChange={(event) =>
+                set({
+                  battleSprite: event.target.value === '' ? undefined : Number(event.target.value),
+                })
+              }
+              onWheel={(event) => event.currentTarget.blur()}
+            />
           </Row>
         </>
       )

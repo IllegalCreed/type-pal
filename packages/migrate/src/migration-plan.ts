@@ -1,5 +1,11 @@
 import { isDeepStrictEqual } from 'node:util'
 import {
+  upgradeLegacyActorImages,
+  upgradeLegacyItemImages,
+  upgradeLegacyPalBattleFields,
+  upgradeLegacyStaticImageCommands,
+} from '@type-pal/content'
+import {
   isAtomicProjectMapPath,
   type MigrationSnapshot,
   serializeMigrationJson,
@@ -50,7 +56,17 @@ export function snapshotOf(
 function canonicalSnapshot(
   snapshot: Pick<MigrationSnapshot, 'files' | 'managedFiles' | 'hashes'>,
 ): MigrationSnapshot {
-  const files = canonicalizeMigrationScriptFiles(snapshot.files)
+  const staticNormalized = new Map<string, MigrationJson>()
+  for (const [path, value] of snapshot.files) {
+    let normalized: unknown = value
+    if (path === 'content/actors.json') normalized = upgradeLegacyActorImages(normalized)
+    else if (path === 'content/items.json') normalized = upgradeLegacyItemImages(normalized)
+    else if (path === 'content/battle-fields.json')
+      normalized = upgradeLegacyPalBattleFields(normalized)
+    normalized = upgradeLegacyStaticImageCommands(normalized)
+    staticNormalized.set(path, normalized as MigrationJson)
+  }
+  const files = canonicalizeMigrationScriptFiles(staticNormalized)
   const managedFiles = new Set(snapshot.managedFiles)
   for (const path of [...managedFiles]) {
     if (isMigrationScriptChunkFile(path) && !files.has(path)) managedFiles.delete(path)

@@ -88,6 +88,18 @@ function waveBytes(marker = 0): ArrayBuffer {
     .buffer
 }
 
+/** 只供升级计划测试；真实像素解码由注入 validateStaticImage 代替。 */
+function pngHeaderBytes(width: number, height: number, marker = 0): ArrayBuffer {
+  const bytes = new Uint8Array(32)
+  bytes.set([137, 80, 78, 71, 13, 10, 26, 10], 0)
+  new DataView(bytes.buffer).setUint32(8, 13)
+  bytes.set([73, 72, 68, 82], 12)
+  new DataView(bytes.buffer).setUint32(16, width)
+  new DataView(bytes.buffer).setUint32(20, height)
+  bytes[24] = marker
+  return bytes.buffer
+}
+
 async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', bytes)
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
@@ -159,6 +171,28 @@ const fullProject: Record<string, string | ArrayBuffer> = {
   'assets/index.json': J({ version: 1, assets: {} }),
 }
 
+function staticPortraitFamilyProject(): {
+  files: Record<string, string | ArrayBuffer>
+  manifestText: string
+  actorsText: string
+} {
+  const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    assets: { legacy: Record<string, unknown> }
+  }
+  manifest.assets.legacy = {
+    ...manifest.assets.legacy,
+    families: ['tileset', 'sprite', 'color-table', 'portrait'],
+    portraits: 'assets/legacy/portraits',
+  }
+  const manifestText = J(manifest)
+  const actorsText = J([{ id: 'a', name: 'name.a', spriteId: 'gs', portraits: { default: 1 } }])
+  files['manifest.json'] = manifestText
+  files['content/actors.json'] = actorsText
+  files['assets/legacy/portraits/1.png'] = pngHeaderBytes(80, 100, 1)
+  return { files, manifestText, actorsText }
+}
+
 function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) {
   const manifest = JSON.parse(String(fullProject['manifest.json'])) as Record<string, unknown> & {
     assets: { roles: Record<string, string> }
@@ -212,6 +246,206 @@ describe('openLocalProject', () => {
     expect(project.entryScene.id).toBe('s1')
     expect(scenes.map((s) => s.id)).toEqual(['s1'])
     expect(project.source).toBeDefined()
+  })
+
+  test('旧 v3 四类静态图像一次闭包：内容/脚本/catalog/bytes/manifest-last，重复打开零写入', async () => {
+    const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      content: Record<string, string>
+      assets: { legacy: Record<string, unknown> }
+    }
+    manifest.content.battleFields = 'content/battle-fields.json'
+    manifest.assets.legacy = {
+      ...manifest.assets.legacy,
+      families: [
+        'tileset',
+        'sprite',
+        'color-table',
+        'portrait',
+        'face',
+        'item-icon',
+        'battle-background',
+      ],
+      portraits: 'assets/legacy/portraits',
+      faces: 'assets/legacy/faces',
+      itemIcons: 'assets/legacy/items',
+    }
+    files['manifest.json'] = J(manifest)
+    files['content/actors.json'] = J([
+      { id: 'a', name: 'name.a', spriteId: 'gs', portraits: { default: 1 } },
+    ])
+    files['content/items.json'] = J([
+      {
+        id: 'with-icon',
+        name: '有图',
+        desc: [],
+        icon: 7,
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+      {
+        id: 'without-icon',
+        name: '无图',
+        desc: [],
+        icon: 0,
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+      },
+    ])
+    files['content/battle-fields.json'] = J([
+      {
+        id: 6,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+    ])
+    files['content/scenes/s1.json'] = J({
+      id: 's1',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+      onEnter: [
+        {
+          id: 'images',
+          body: [
+            {
+              kind: 'dialog',
+              cue: { rows: [{ text: 'hello' }], portrait: { icon: 1, side: 'right' } },
+            },
+            { kind: 'setActorAppearance', actor: 'a', portrait: 1 },
+          ],
+        },
+      ],
+    })
+    files['assets/legacy/portraits/1.png'] = pngHeaderBytes(80, 100, 1)
+    files['assets/legacy/portraits/2.png'] = pngHeaderBytes(80, 100, 2)
+    files['assets/legacy/faces/a.png'] = pngHeaderBytes(48, 48, 3)
+    files['assets/legacy/items/7.png'] = pngHeaderBytes(32, 32, 4)
+    files['assets/extracted/images/battle/bg/006.png'] = pngHeaderBytes(320, 200, 5)
+    const writes: string[] = []
+    const dir = mockDir('static-v3', files, writes)
+    const opened = await openLocalProject(dir, { validateStaticImage: async () => undefined })
+
+    expect(opened.project.manifest.assets.legacy?.families).toEqual([
+      'tileset',
+      'sprite',
+      'color-table',
+    ])
+    expect(opened.project.actorsById.a?.portraits?.default).toBe('portrait.pal.001')
+    expect(opened.project.actorsById.a?.face).toBe('face.pal.a')
+    expect(opened.project.items['with-icon']?.icon).toBe('item-icon.pal.007')
+    expect(opened.project.items['without-icon']?.icon).toBeUndefined()
+    expect(opened.project.battleFields?.[0]?.background).toBe('battle-background.pal.006')
+    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
+      {
+        kind: 'dialog',
+        cue: {
+          rows: [{ text: 'hello' }],
+          portrait: { asset: 'portrait.pal.001', side: 'right' },
+        },
+      },
+      { kind: 'setActorAppearance', actor: 'a', portrait: 'portrait.pal.001' },
+    ])
+    expect(Object.keys(opened.project.assetCatalog.assets).sort()).toEqual([
+      'battle-background.pal.006',
+      'face.pal.a',
+      'item-icon.pal.007',
+      'portrait.pal.001',
+      'portrait.pal.002',
+    ])
+    expect(files['assets/migrated/portraits/001.png']).toEqual(
+      files['assets/legacy/portraits/1.png'],
+    )
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir, { validateStaticImage: async () => undefined })
+    expect(writes).toEqual([])
+  })
+
+  test('旧 v3 静态图保留同 AssetId authored 整条记录与 bytes，不复制 legacy 源', async () => {
+    const { files } = staticPortraitFamilyProject()
+    const authoredPath = 'assets/authored/portraits/custom.png'
+    const authoredBytes = pngHeaderBytes(80, 100, 9)
+    const authoredRecord = {
+      kind: 'portrait' as const,
+      path: authoredPath,
+      mediaType: 'image/png',
+      bytes: authoredBytes.byteLength,
+      sha256: await sha256Hex(authoredBytes),
+      label: '作者立绘',
+      origin: { kind: 'authored' as const },
+    }
+    files[authoredPath] = authoredBytes
+    files['assets/index.json'] = J({
+      version: 1,
+      assets: { 'portrait.pal.001': authoredRecord },
+    })
+    const writes: string[] = []
+    const dir = mockDir('static-authored', files, writes)
+    const opened = await openLocalProject(dir, {
+      validateStaticImage: async () => undefined,
+    })
+
+    expect(opened.project.assetCatalog.assets['portrait.pal.001']).toEqual(authoredRecord)
+    expect(opened.project.actorsById.a?.portraits?.default).toBe('portrait.pal.001')
+    expect(files[authoredPath]).toBe(authoredBytes)
+    expect(writes).not.toContain(authoredPath)
+    expect(writes).not.toContain('assets/migrated/portraits/001.png')
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('portrait')
+
+    writes.length = 0
+    await openLocalProject(dir, { validateStaticImage: async () => undefined })
+    expect(writes).toEqual([])
+  })
+
+  test.each([
+    'missing',
+    'bad-hash',
+  ] as const)('旧 v3 authored 静态图 %s 时写前失败且零写入', async (scenario) => {
+    const { files, manifestText, actorsText } = staticPortraitFamilyProject()
+    const authoredPath = `assets/authored/portraits/${scenario}.png`
+    const authoredBytes = pngHeaderBytes(80, 100, 9)
+    const catalogText = J({
+      version: 1,
+      assets: {
+        'portrait.pal.001': {
+          kind: 'portrait',
+          path: authoredPath,
+          mediaType: 'image/png',
+          bytes: authoredBytes.byteLength,
+          sha256: scenario === 'bad-hash' ? '0'.repeat(64) : await sha256Hex(authoredBytes),
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+    files['assets/index.json'] = catalogText
+    if (scenario === 'bad-hash') files[authoredPath] = authoredBytes
+    const writes: string[] = []
+
+    await expect(
+      openLocalProject(mockDir(`static-${scenario}`, files, writes), {
+        validateStaticImage: async () => undefined,
+      }),
+    ).rejects.toThrow()
+
+    expect(writes).toEqual([])
+    expect(files['manifest.json']).toBe(manifestText)
+    expect(files['assets/index.json']).toBe(catalogText)
+    expect(files['content/actors.json']).toBe(actorsText)
+    expect(files['assets/migrated/portraits/001.png']).toBeUndefined()
+  })
+
+  test('旧 UI 目录不会静默丢弃，给出可操作错误', async () => {
+    const manifest = JSON.parse(String(fullProject['manifest.json'])) as {
+      assets: { legacy: Record<string, unknown> }
+    }
+    manifest.assets.legacy.ui = 'assets/legacy/ui'
+    await expect(
+      openLocalProject(mockDir('legacy-ui', { ...fullProject, 'manifest.json': J(manifest) })),
+    ).rejects.toThrow('manifest.assets.legacy.ui')
   })
 
   test('无 manifest.json → 友好报错(带夹名)', async () => {
@@ -305,7 +539,6 @@ describe('openLocalProject', () => {
         {
           id: 'i',
           name: 'I',
-          icon: 0,
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,

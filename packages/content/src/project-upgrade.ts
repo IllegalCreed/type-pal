@@ -5,8 +5,15 @@ import type {
   LegacyAssetConfigV3,
   LegacyAssetFamily,
 } from './asset.js'
-import { palMusicAssetId, validateAssetCatalog, validateManifestAssetConfigV3 } from './asset.js'
-import type { LoadedManifest } from './character.js'
+import {
+  legacyPalPortraitAssetId,
+  palBattleBackgroundAssetId,
+  palItemIconAssetId,
+  palMusicAssetId,
+  validateAssetCatalog,
+  validateManifestAssetConfigV3,
+} from './asset.js'
+import type { LoadedManifest, WorldState } from './character.js'
 
 interface ManifestV2 {
   id: string
@@ -29,6 +36,184 @@ function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
+function legacyPositiveAsset(
+  value: unknown,
+  where: string,
+  assetFor: (legacy: number) => AssetId,
+): AssetId | undefined {
+  if (typeof value === 'string') {
+    if (value.length === 0) throw new Error(`${where}: AssetId 不能为空`)
+    return value
+  }
+  if (!Number.isInteger(value) || (value as number) < 0)
+    throw new Error(`${where}: 期望非负旧编号或 AssetId`)
+  return value === 0 ? undefined : assetFor(value as number)
+}
+
+function requiredLegacyPortraitAssetId(legacy: number): AssetId {
+  const asset = legacyPalPortraitAssetId(legacy)
+  if (!asset) throw new Error(`旧立绘号 ${legacy} 不能转换为 AssetId`)
+  return asset
+}
+
+/** 旧 actor 立绘号的纯、幂等规范化；expressions 的 0 同样表示字段缺席。 */
+export function upgradeLegacyActorImages<T>(input: T): T {
+  const actors = cloneJson(input) as unknown
+  if (!Array.isArray(actors)) throw new Error('actors: 期望数组')
+  actors.forEach((raw, index) => {
+    const actor = object(raw, `actors[${index}]`)
+    if (actor.portraits === undefined) return
+    const portraits = object(actor.portraits, `actors[${index}].portraits`)
+    const defaultAsset = legacyPositiveAsset(
+      portraits.default,
+      `actors[${index}].portraits.default`,
+      requiredLegacyPortraitAssetId,
+    )
+    const expressions =
+      portraits.expressions === undefined
+        ? undefined
+        : object(portraits.expressions, `actors[${index}].portraits.expressions`)
+    const nextExpressions: Record<string, AssetId> = {}
+    for (const [name, value] of Object.entries(expressions ?? {})) {
+      const asset = legacyPositiveAsset(
+        value,
+        `actors[${index}].portraits.expressions[${JSON.stringify(name)}]`,
+        requiredLegacyPortraitAssetId,
+      )
+      if (asset) nextExpressions[name] = asset
+    }
+    if (!defaultAsset) {
+      if (Object.keys(nextExpressions).length)
+        throw new Error(`actors[${index}].portraits.default: 0 与非空 expressions 无法规范化`)
+      delete actor.portraits
+      return
+    }
+    actor.portraits = {
+      default: defaultAsset,
+      ...(Object.keys(nextExpressions).length ? { expressions: nextExpressions } : {}),
+    }
+  })
+  return actors as T
+}
+
+/** 旧物品 bitmap 号的纯、幂等规范化；0 正式变为无 icon 字段。 */
+export function upgradeLegacyItemImages<T>(input: T): T {
+  const items = cloneJson(input) as unknown
+  if (!Array.isArray(items)) throw new Error('items: 期望数组')
+  items.forEach((raw, index) => {
+    const item = object(raw, `items[${index}]`)
+    if (item.icon === undefined) return
+    const asset = legacyPositiveAsset(item.icon, `items[${index}].icon`, palItemIconAssetId)
+    if (asset) item.icon = asset
+    else delete item.icon
+  })
+  return items as T
+}
+
+const DROP_STATIC_COMMAND = Symbol('drop-static-command')
+
+/** 对话与 setActorAppearance 的旧数字立绘递归升级；输入不原地修改。 */
+export function upgradeLegacyStaticImageCommands<T>(input: T): T {
+  const walk = (value: unknown, where: string): unknown | typeof DROP_STATIC_COMMAND => {
+    if (Array.isArray(value))
+      return value.flatMap((child, index) => {
+        const next = walk(child, `${where}[${index}]`)
+        return next === DROP_STATIC_COMMAND ? [] : [next]
+      })
+    if (!value || typeof value !== 'object') return value
+    const source = value as Record<string, unknown>
+    const output: Record<string, unknown> = {}
+    for (const [key, child] of Object.entries(source)) {
+      const next = walk(child, `${where}.${key}`)
+      if (next !== DROP_STATIC_COMMAND) output[key] = next
+    }
+    if (source.kind === 'dialog' && source.cue && typeof source.cue === 'object') {
+      const cue = object(output.cue, `${where}.cue`)
+      if (cue.portrait !== undefined) {
+        const portrait = object(cue.portrait, `${where}.cue.portrait`)
+        if ('icon' in portrait && 'asset' in portrait)
+          throw new Error(`${where}.cue.portrait: icon 与 asset 不能并存`)
+        if ('icon' in portrait) {
+          const asset = legacyPositiveAsset(
+            portrait.icon,
+            `${where}.cue.portrait.icon`,
+            requiredLegacyPortraitAssetId,
+          )
+          if (asset) cue.portrait = { asset, side: portrait.side }
+          else delete cue.portrait
+        }
+      }
+    }
+    if (source.kind === 'setActorAppearance' && source.portrait !== undefined) {
+      const asset = legacyPositiveAsset(
+        source.portrait,
+        `${where}.portrait`,
+        requiredLegacyPortraitAssetId,
+      )
+      if (asset) output.portrait = asset
+      else delete output.portrait
+      if (
+        output.spriteId === undefined &&
+        output.portrait === undefined &&
+        output.battleSprite === undefined
+      )
+        return DROP_STATIC_COMMAND
+    }
+    return output
+  }
+  const upgraded = walk(input, 'content')
+  if (upgraded === DROP_STATIC_COMMAND) throw new Error('命令根不能是空形象命令')
+  return upgraded as T
+}
+
+/** PAL battle-fields 旧表的确定性规范化；0-5 仍为无背景占位，6-57 才是真实战场。 */
+export function upgradeLegacyPalBattleFields<T>(input: T): T {
+  const fields = cloneJson(input) as unknown
+  if (!Array.isArray(fields)) throw new Error('battleFields: 期望数组')
+  fields.forEach((raw, index) => {
+    const field = object(raw, `battleFields[${index}]`)
+    if (!Number.isInteger(field.id) || (field.id as number) < 0)
+      throw new Error(`battleFields[${index}].id: 期望非负整数`)
+    if ('bg' in field)
+      throw new Error(
+        `battleFields[${index}].bg: 旧路径无法安全推导资源；请在可写工程中重新迁移静态图像`,
+      )
+    if (
+      field.background !== undefined &&
+      (typeof field.background !== 'string' || field.background.length === 0)
+    )
+      throw new Error(`battleFields[${index}].background: 期望非空 AssetId`)
+    if (field.background === undefined && (field.id as number) >= 6 && (field.id as number) <= 57)
+      field.background = palBattleBackgroundAssetId(field.id as number)
+  })
+  return fields as T
+}
+
+/** 旧存档世界态立绘规范化；party 与 reserve 共用同一规则。 */
+export function upgradeLegacyWorldPortraits<T extends WorldState>(input: T): T {
+  const world = cloneJson(input)
+  for (const [collection, characters] of [
+    ['party', world.party],
+    ['reserve', world.reserve ?? []],
+  ] as const) {
+    characters.forEach((character, index) => {
+      const appearance = character.appearance as
+        | { spriteId?: string; portrait?: unknown; battleSprite?: number }
+        | undefined
+      if (!appearance || appearance.portrait === undefined) return
+      const asset = legacyPositiveAsset(
+        appearance.portrait,
+        `world.${collection}[${index}].appearance.portrait`,
+        requiredLegacyPortraitAssetId,
+      )
+      if (asset) appearance.portrait = asset
+      else delete appearance.portrait
+      if (Object.keys(appearance).length === 0) delete character.appearance
+    })
+  }
+  return world
+}
+
 function legacyFamilies(assets: Record<string, unknown>): LegacyAssetFamily[] {
   const families = new Set<LegacyAssetFamily>()
   if (assets.root !== undefined)
@@ -38,8 +223,6 @@ function legacyFamilies(assets: Record<string, unknown>): LegacyAssetFamily[] {
       'battle-background',
       'rng',
       'video',
-      'glyph-table',
-      'ui-image',
       'image',
     ] as const)
       families.add(family)
@@ -66,6 +249,10 @@ export function upgradeManifestV2ToV3(args: {
   const raw = object(args.manifest, 'manifest') as unknown as ManifestV2
   if (raw.contentVersion !== 2) throw new Error(`manifest: 期望 contentVersion 2`)
   const oldAssets = object(raw.assets ?? {}, 'manifest.assets')
+  if ('ui' in oldAssets)
+    throw new Error(
+      'manifest.assets.ui: 旧工程 UI 主题没有可安全升级的 slot 契约；请备份并移除该自定义后重试',
+    )
   const content = { ...raw.content }
   delete content.music
   const legacy: LegacyAssetConfigV3 = {
@@ -80,7 +267,6 @@ export function upgradeManifestV2ToV3(args: {
         'portraits',
         'faces',
         'itemIcons',
-        'ui',
         'images',
         'rng',
         'videos',

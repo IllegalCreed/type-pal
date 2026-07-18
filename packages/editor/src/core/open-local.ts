@@ -16,6 +16,7 @@ import {
   type UpgradeLocalV2Options,
   upgradeLocalProjectV2,
 } from './upgrade-local-v2.js'
+import { upgradeLocalProjectV3StaticImages } from './upgrade-local-v3-images.js'
 import { upgradeLocalProjectV3Sounds } from './upgrade-local-v3-sounds.js'
 
 export interface OpenedProject {
@@ -39,6 +40,11 @@ export async function openLocalProject(
       rawManifest = await source.readJson<unknown>('manifest.json')
     }
     if (await upgradeLocalProjectV3Sounds(dir, source, rawManifest, options)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV3StaticImages(dir, source, rawManifest, options)) {
       source.dispose?.()
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')

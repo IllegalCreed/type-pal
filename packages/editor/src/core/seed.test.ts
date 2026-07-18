@@ -16,28 +16,22 @@ const manifest = {
     catalog: 'assets/index.json',
     roles: {},
     legacy: {
-      families: ['tileset', 'sprite', 'color-table', 'sound', 'portrait', 'face', 'item-icon'],
+      families: ['tileset', 'sprite', 'color-table', 'sound'],
       root: '/extracted/data',
       tilesets: 'tileset',
       sprites: 'sprite',
       palettes: 'palette',
       sounds: '/extracted/sounds',
-      portraits: '/baked/portraits',
-      faces: '/baked/ui/face',
-      itemIcons: '/baked/ui/items',
     },
   },
   startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
 } as unknown as LoadedManifest
 
 describe('relativizeManifest', () => {
-  test('assets 的 /extracted、/baked 绝对前缀 → assets/ 相对;子目录不变', () => {
+  test('assets 的 legacy /extracted 绝对前缀 → assets/ 相对;子目录不变', () => {
     const a = relativizeManifest(manifest).assets
     expect(a.legacy?.root).toBe('assets/extracted/data')
     expect(a.legacy?.sounds).toBe('assets/extracted/sounds')
-    expect(a.legacy?.portraits).toBe('assets/baked/portraits')
-    expect(a.legacy?.faces).toBe('assets/baked/ui/face')
-    expect(a.legacy?.itemIcons).toBe('assets/baked/ui/items')
     expect(a.legacy?.tilesets).toBe('tileset')
   })
   test('不改原对象(深拷)', () => {
@@ -48,10 +42,29 @@ describe('relativizeManifest', () => {
 
 describe('enumerateSeedFiles', () => {
   const assetManifest = { files: [{ path: 'data/tileset/1.rle', size: 100 }] }
-  const bakedManifest = { files: [{ path: 'portraits/1.png', size: 50 }] }
-  const seed = enumerateSeedFiles(manifest, ['s1', 's2'], assetManifest, bakedManifest)
+  const catalog = {
+    version: 1 as const,
+    assets: {
+      'portrait.pal.001': {
+        kind: 'portrait' as const,
+        path: 'assets/migrated/portraits/001.png',
+        mediaType: 'image/png',
+        bytes: 50,
+        sha256: 'a'.repeat(64),
+        origin: { kind: 'legacy-migrated' as const },
+      },
+    },
+  }
+  const seed = enumerateSeedFiles(
+    manifest,
+    ['s1', 's2'],
+    assetManifest,
+    undefined,
+    undefined,
+    catalog,
+  )
 
-  test('汇总:内容表 + scenes index + 每场景 + 素材(extracted/baked)', () => {
+  test('汇总:内容表 + scenes index + 每场景 + catalog 静态图 + legacy extracted', () => {
     const rels = seed.map((f) => f.rel)
     expect(rels).toContain('content/actors.json')
     expect(rels).toContain('content/skills.json')
@@ -59,7 +72,7 @@ describe('enumerateSeedFiles', () => {
     expect(rels).toContain('content/scenes/s1.json')
     expect(rels).toContain('content/scenes/s2.json')
     expect(rels).toContain('assets/extracted/data/tileset/1.rle')
-    expect(rels).toContain('assets/baked/portraits/1.png')
+    expect(rels).toContain('assets/migrated/portraits/001.png')
     expect(rels).not.toContain('content/scenes/') // scenes 是目录,不作文件
     expect(rels).toContain('assets/index.json')
     expect(seed).toHaveLength(8)
@@ -68,8 +81,12 @@ describe('enumerateSeedFiles', () => {
   test('素材项带 src(绝对透传)+ size(进度用);内容项 src=rel', () => {
     const tile = seed.find((f) => f.rel === 'assets/extracted/data/tileset/1.rle')
     expect(tile).toMatchObject({ src: '/extracted/data/tileset/1.rle', kind: 'binary', size: 100 })
-    const baked = seed.find((f) => f.rel === 'assets/baked/portraits/1.png')
-    expect(baked).toMatchObject({ src: '/baked/portraits/1.png', kind: 'binary', size: 50 })
+    const portrait = seed.find((f) => f.rel === 'assets/migrated/portraits/001.png')
+    expect(portrait).toMatchObject({
+      src: 'assets/migrated/portraits/001.png',
+      kind: 'binary',
+      size: 50,
+    })
     const actors = seed.find((f) => f.rel === 'content/actors.json')
     expect(actors).toMatchObject({ src: 'content/actors.json', kind: 'json' })
   })
@@ -82,7 +99,6 @@ describe('enumerateSeedFiles', () => {
     const files = enumerateSeedFiles(
       withScripts,
       ['s1'],
-      { files: [] },
       { files: [] },
       {
         version: 1,
@@ -101,7 +117,7 @@ describe('enumerateSeedFiles', () => {
       contentVersion: 3,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
-    const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, { files: [] }, undefined, {
+    const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, undefined, {
       version: 1,
       maps: [{ id: 'unused', name: '未引用', path: 'content/maps/unused.json' }],
     })

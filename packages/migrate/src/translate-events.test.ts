@@ -526,7 +526,7 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
   const body1a = (ops: number[]) => bodyOf(ctxOf([{ opcode: 0x1a, operands: ops }], spriteIdForNum))
   test('字段0=头像 → portrait(灵儿 role1)', () => {
     expect(body1a([0, 88, 2])).toEqual([
-      { kind: 'setActorAppearance', actor: 'zhao-linger', portrait: 88 },
+      { kind: 'setActorAppearance', actor: 'zhao-linger', portrait: 'portrait.pal.088' },
     ])
   })
   test('字段1=战斗精灵 → battleSprite', () => {

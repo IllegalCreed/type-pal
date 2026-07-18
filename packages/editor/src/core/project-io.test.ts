@@ -126,7 +126,7 @@ const skillsJson = {
   levelUp: { 'li-xiaoyao': [{ level: 7, skillId: '349' }] },
 }
 const itemsJson = [
-  { id: '166', name: '木剑', desc: 'x', icon: 56, buyPrice: 50, sellPrice: 25, sellable: true },
+  { id: '166', name: '木剑', desc: 'x', buyPrice: 50, sellPrice: 25, sellable: true },
 ]
 const localeJson = { 'menu.status': '状态', 'name.li-xiaoyao': '李逍遥', 'dlg.ghost.0': '...' }
 const spritesJson = [

@@ -115,7 +115,14 @@ function st(): EditorState {
 
 function stActor(): EditorState {
   const base = st() as EditorState & { actors: ActorDef[] }
-  base.actors = [{ id: 'li', name: 'name.li', spriteId: 'li', portraits: { default: 1 } }]
+  base.actors = [
+    {
+      id: 'li',
+      name: 'name.li',
+      spriteId: 'li',
+      portraits: { default: 'portrait.test.001' },
+    },
+  ]
   return base
 }
 
@@ -442,15 +449,18 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
     const s0 = stActor()
     const cmd = new UpdateActorCommand('li', {
       name: 'name.new',
-      portraits: { default: 1, expressions: { 愤怒: 55 } },
+      portraits: {
+        default: 'portrait.test.001',
+        expressions: { 愤怒: 'portrait.test.055' },
+      },
     })
     const s1 = cmd.apply(s0)
     expect(s1.actors[0]!.name).toBe('name.new')
-    expect(s1.actors[0]!.portraits?.expressions).toEqual({ 愤怒: 55 })
+    expect(s1.actors[0]!.portraits?.expressions).toEqual({ 愤怒: 'portrait.test.055' })
     expect(s0.actors[0]!.name).toBe('name.li') // 源不变
     const s2 = cmd.invert(s1)
     expect(s2.actors[0]!.name).toBe('name.li')
-    expect(s2.actors[0]!.portraits).toEqual({ default: 1 }) // 表情还原掉
+    expect(s2.actors[0]!.portraits).toEqual({ default: 'portrait.test.001' }) // 表情还原掉
   })
 })
 

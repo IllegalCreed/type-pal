@@ -2,7 +2,7 @@
   "version": 1,
   "id": "scene/s278",
   "scripts": {
-    "scene/s278/L-41075/e4742/d-3c3ecf56": [
+    "scene/s278/L-41075/e4742/d-96882d6f": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -41,7 +41,7 @@
         "kind": "loadLastSave"
       }
     ],
-    "scene/s278/L-41075/e4742/d-f58fec65": [
+    "scene/s278/L-41075/e4742/d-dd419dbc": [
       {
         "kind": "playMusic",
         "asset": "music.pal.001"
@@ -152,7 +152,7 @@
           "speaker": "spk.赵灵儿",
           "slot": "top",
           "portrait": {
-            "icon": 88,
+            "asset": "portrait.pal.088",
             "side": "left"
           }
         }
@@ -177,7 +177,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -199,7 +199,7 @@
           "speaker": "spk.赵灵儿",
           "slot": "top",
           "portrait": {
-            "icon": 88,
+            "asset": "portrait.pal.088",
             "side": "left"
           }
         }
@@ -228,7 +228,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -249,7 +249,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -270,7 +270,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -324,7 +324,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -348,7 +348,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -372,7 +372,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -394,7 +394,7 @@
           "speaker": "spk.赵灵儿",
           "slot": "top",
           "portrait": {
-            "icon": 88,
+            "asset": "portrait.pal.088",
             "side": "left"
           }
         }
@@ -418,7 +418,7 @@
           ],
           "speaker": "spk.巫王",
           "portrait": {
-            "icon": 70,
+            "asset": "portrait.pal.070",
             "side": "right"
           }
         }
@@ -459,7 +459,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 81,
+            "asset": "portrait.pal.081",
             "side": "right"
           }
         }
@@ -520,7 +520,7 @@
           "speaker": "spk.阿奴",
           "slot": "top",
           "portrait": {
-            "icon": 30,
+            "asset": "portrait.pal.030",
             "side": "left"
           }
         }
@@ -548,7 +548,7 @@
           "speaker": "spk.赵灵儿",
           "slot": "top",
           "portrait": {
-            "icon": 88,
+            "asset": "portrait.pal.088",
             "side": "left"
           }
         }
@@ -569,7 +569,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 81,
+            "asset": "portrait.pal.081",
             "side": "right"
           }
         }
@@ -587,7 +587,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 81,
+            "asset": "portrait.pal.081",
             "side": "right"
           }
         }
@@ -608,7 +608,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s278",
-              "id": "scene/s278/L-41075/e4742/d-3c3ecf56"
+              "id": "scene/s278/L-41075/e4742/d-96882d6f"
             },
             "self": "e4742"
           }
@@ -679,7 +679,7 @@
           "speaker": "spk.拜月教主",
           "slot": "top",
           "portrait": {
-            "icon": 81,
+            "asset": "portrait.pal.081",
             "side": "left"
           }
         }
@@ -694,7 +694,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 9,
+            "asset": "portrait.pal.009",
             "side": "right"
           }
         }
@@ -832,7 +832,7 @@
           "speaker": "spk.阿奴",
           "slot": "top",
           "portrait": {
-            "icon": 28,
+            "asset": "portrait.pal.028",
             "side": "left"
           },
           "autoAdvance": 571
@@ -944,7 +944,7 @@
           ],
           "speaker": "spk.拜月教主",
           "portrait": {
-            "icon": 81,
+            "asset": "portrait.pal.081",
             "side": "right"
           }
         }
@@ -977,7 +977,7 @@
             "kind": "jumpScript",
             "ref": {
               "chunk": "scene/s278",
-              "id": "scene/s278/L-41075/e4742/d-f58fec65"
+              "id": "scene/s278/L-41075/e4742/d-dd419dbc"
             },
             "self": "e4742"
           }
@@ -1042,7 +1042,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 4,
+            "asset": "portrait.pal.004",
             "side": "right"
           }
         }
@@ -1070,7 +1070,7 @@
           "speaker": "spk.阿奴",
           "slot": "top",
           "portrait": {
-            "icon": 31,
+            "asset": "portrait.pal.031",
             "side": "left"
           }
         }
@@ -1106,7 +1106,7 @@
           ],
           "speaker": "spk.李逍遥",
           "portrait": {
-            "icon": 5,
+            "asset": "portrait.pal.005",
             "side": "right"
           }
         }

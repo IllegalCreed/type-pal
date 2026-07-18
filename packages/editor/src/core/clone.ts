@@ -40,7 +40,6 @@ export async function cloneFromPal(
   const manifest = await seed.readJson<LoadedManifest>('manifest.json')
   const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
   const assetManifest = await seed.readJson<FileList>('/extracted/asset-manifest.json')
-  const bakedManifest = await seed.readJson<FileList>('/baked/baked-manifest.json')
   const scriptDir = scriptsDir(manifest)
   const scriptIndex = scriptDir
     ? await seed.readJson<ScriptIndexV1>(`${scriptDir}index.json`)
@@ -53,7 +52,6 @@ export async function cloneFromPal(
     manifest,
     sceneIds,
     assetManifest,
-    bakedManifest,
     scriptIndex,
     mapIndex,
     catalog,

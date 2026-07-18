@@ -15,9 +15,6 @@ const base: AssetBase = {
   tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
-  portraits: 'portrait',
-  faces: 'face',
-  itemIcons: 'item-icon',
   io: {
     readText: async () => '',
     readJson: async <T>() => ({}) as T,

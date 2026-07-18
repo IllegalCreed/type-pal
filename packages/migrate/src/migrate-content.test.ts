@@ -92,7 +92,6 @@ const demoItems = readJson<
   {
     id: string
     name: string
-    icon: number
     buyPrice: number
     sellPrice: number
     sellable: boolean
@@ -111,7 +110,8 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     // (startWorld.learnedSkills 才是 demo 的种子源),此处以原版为准,不对齐 demo。
     expect(li.battler!.initialMagic).toEqual(['296'])
     // C1:头像组(主头像 = role.avatar;命名表情由编辑器人工加)
-    expect(li.portraits).toEqual({ default: 1 })
+    expect(li.portraits).toEqual({ default: 'portrait.pal.001' })
+    expect(li.face).toBe('face.pal.li-xiaoyao')
   })
   test('6 角色齐 + expTable 100 级 + 战斗精灵号', () => {
     expect(out.actors.map((a) => a.id)).toEqual([
@@ -174,7 +174,7 @@ describe('M1a · 物品表字段', () => {
       const m = byId.get(d.id)!
       expect(m, d.id).toBeDefined()
       expect(m.name, d.id).toBe(d.name)
-      expect(m.icon, d.id).toBe(d.icon)
+      expect(m.icon, d.id).toMatch(/^item-icon\.pal\.\d{3}$/)
       expect(m.buyPrice, d.id).toBe(d.buyPrice)
       expect(m.sellPrice, d.id).toBe(d.sellPrice)
       expect(m.sellable, d.id).toBe(d.sellable)
@@ -560,14 +560,14 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       .filter((c): c is Extract<typeof c, { kind: 'dialog' }> => c.kind === 'dialog')
     const withPortrait = allDialogs.filter((d) => d.cue.portrait)
     expect(withPortrait.length).toBeGreaterThan(3) // 客栈开场李大娘/李逍遥多页带立绘
-    // side 约定:top slot → 左,bottom slot(缺省)→ 右;icon 为正整数(RGM 立绘号)
+    // side 约定:top slot → 左,bottom slot(缺省)→ 右；立绘已规范化为 AssetId。
     for (const d of withPortrait) {
       const p = d.cue.portrait!
-      expect(p.icon).toBeGreaterThan(0)
+      expect(p.asset).toMatch(/^portrait\.pal\.\d{3}$/)
       expect(p.side).toBe(d.cue.slot === 'top' ? 'left' : 'right')
     }
-    // 李大娘(icon 55)确在开场
-    expect(withPortrait.some((d) => d.cue.portrait!.icon === 55)).toBe(true)
+    // 李大娘(立绘 55)确在开场
+    expect(withPortrait.some((d) => d.cue.portrait!.asset === 'portrait.pal.055')).toBe(true)
     // narration/center 无立绘(arg0 是颜色不是脸)
     expect(allDialogs.every((d) => d.cue.slot !== 'narration' || !d.cue.portrait)).toBe(true)
   })

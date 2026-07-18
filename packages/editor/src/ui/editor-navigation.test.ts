@@ -138,5 +138,10 @@ describe('跨模块唯一链接', () => {
       subpage: 'sound',
       objectId: 'sound.pal.045',
     })
+    expect(editorLinks.image('portrait.pal.001')).toEqual({
+      module: 'asset',
+      subpage: 'image',
+      objectId: 'portrait.pal.001',
+    })
   })
 })

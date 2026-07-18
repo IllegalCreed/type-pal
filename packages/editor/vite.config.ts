@@ -86,7 +86,6 @@ export default {
     react(),
     serveDir('/projects', resolve(repoRoot, 'projects')),
     serveDir('/extracted', resolve(repoRoot, 'data/extracted')),
-    serveDir('/baked', resolve(repoRoot, 'data/baked')), // bake 产物库层(立绘/战斗头像/物品图标)
     // W5 BGM 试听:reforge BgmPlayer 按应用绝对路径拉 worklet + soundfont(在 reforge/public);
     // editor 不复制 6MB 资产,单文件映射过去(serveDir prefix=完整路径 → rel='' → 命中该文件)。
     serveDir('/soundfont.sf3', resolve(repoRoot, 'packages/reforge/public/soundfont.sf3')),

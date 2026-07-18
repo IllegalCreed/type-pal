@@ -12,9 +12,9 @@ import type { Plugin } from 'vite'
  *
  * 映射:
  *   /projects/*  → <repo-root>/projects/*     (工程 JSON + assets;loader fetch)
- *   /extracted/* → <repo-root>/data/extracted/* (原版提取资源;glyph/cursor/tilemap/sprite/palette)
+ *   /extracted/* → <repo-root>/data/extracted/* (尚未迁移的 tilemap/sprite/palette)
  *
- * /ui、/portraits 仍是 public/ 下的实体目录,vite 默认 serve,不到这。
+ * 工程静态图由项目 catalog 读取；默认 UI/字形/光标由 engine-chrome registry 打包，不走这里。
  */
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
@@ -70,6 +70,5 @@ export default {
   plugins: [
     serveDir('/projects', resolve(repoRoot, 'projects')),
     serveDir('/extracted', resolve(repoRoot, 'data/extracted')),
-    serveDir('/baked', resolve(repoRoot, 'data/baked')), // bake 产物库层(立绘/战斗头像/物品图标)
   ],
 }

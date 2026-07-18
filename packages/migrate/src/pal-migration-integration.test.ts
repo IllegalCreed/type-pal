@@ -176,6 +176,14 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       sounds: 363,
       emptySounds: 142,
       soundBytes: 18_110_864,
+      portraits: 88,
+      portraitBytes: 768_841,
+      faces: 6,
+      faceBytes: 10_392,
+      itemIcons: 233,
+      itemIconBytes: 262_667,
+      battleBackgrounds: 52,
+      battleBackgroundBytes: 4_422_281,
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     expect(auditMusicReferences(theirs.files)).toEqual({
@@ -226,8 +234,8 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(3_020)
-    expect(validation.assetWarnings).toBe(50)
+    expect(validation.assetReferences).toBe(5_676)
+    expect(validation.assetWarnings).toBe(54)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -323,6 +331,14 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       sounds: 363,
       emptySounds: 142,
       soundBytes: 18_110_864,
+      portraits: 88,
+      portraitBytes: 768_841,
+      faces: 6,
+      faceBytes: 10_392,
+      itemIcons: 233,
+      itemIconBytes: 262_667,
+      battleBackgrounds: 52,
+      battleBackgroundBytes: 4_422_281,
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     await assertFrameAnimationsMatchSource(sources)
@@ -375,8 +391,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(3_020)
-    expect(validation.assetWarnings).toBe(50)
+    expect(validation.assetReferences).toBe(5_676)
+    expect(validation.assetWarnings).toBe(54)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },

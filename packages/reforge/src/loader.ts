@@ -34,6 +34,7 @@ import {
   upgradeLegacyDialogues,
   validateActors,
   validateAssetCatalog,
+  validateBattleFields,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -54,6 +55,7 @@ import {
   type LegacyAssetAdapter,
   projectRelativeLegacyAdapter,
 } from './file-source.js'
+import { ProjectImageCache } from './project-image-cache.js'
 import { ScriptChunkStore } from './script-chunk-store.js'
 
 /** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
@@ -103,6 +105,7 @@ export interface LoadedProjectCore {
 export interface LoadedProject extends LoadedProjectCore {
   source: FileSource
   assetResolver: AssetResolver
+  imageCache: ProjectImageCache
   scriptStore?: ScriptChunkStore
 }
 
@@ -189,9 +192,8 @@ export function assembleProject(
   const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
   const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
-  const battleFields = Array.isArray(jsons.battleFields)
-    ? (jsons.battleFields as BattleFieldDef[])
-    : []
+  const battleFields =
+    jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   if (!jsons.tilesets) throw new Error(`工程 "${manifest.id}": manifest 缺 tilesets 注册表`)
   const tilesets = validateTilesets(jsons.tilesets)
   const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
@@ -259,10 +261,6 @@ export function assembleProject(
       tilesets: a?.tilesets ?? 'tilesets',
       sprites: a?.sprites ?? 'sprites',
       palettes: a?.palettes ?? 'palettes',
-      portraits: a?.portraits ?? `${root}/portraits`,
-      faces: a?.faces ?? `${root}/faces`,
-      itemIcons: a?.itemIcons ?? `${root}/item-icons`,
-      ...(a?.ui ? { uiOverride: a.ui } : {}),
       io: legacyIo ?? unavailableLegacy,
     },
   }
@@ -355,11 +353,13 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     manifest.assets.roles,
     source,
   )
+  const imageCache = new ProjectImageCache(assetResolver)
   return {
     ...core,
     assetBase: { ...core.assetBase, assetResolver },
     source,
     assetResolver,
+    imageCache,
     ...(scriptDir && core.scriptIndex
       ? { scriptStore: new ScriptChunkStore(source, scriptDir, core.scriptIndex) }
       : {}),

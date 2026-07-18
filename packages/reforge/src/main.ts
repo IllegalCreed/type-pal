@@ -1,6 +1,8 @@
 import {
+  type AssetId,
   applySetParty,
   buildWorld,
+  collectCommandAssetReferences,
   type DialogueCue,
   type EntityDef,
   type EntryPoint,
@@ -16,6 +18,7 @@ import {
   grantBattleRewards,
   gridToPixel,
   isIdentityTint,
+  legacyPalPortraitAssetId,
   lerpTint,
   lookupText,
   pixelDeltaToGridDelta,
@@ -40,7 +43,6 @@ import {
   type AssetBase,
   type BattleFieldEntry,
   type LoadedSprite,
-  loadBattleBg,
   loadBattleBgFull,
   loadBattleFields,
   loadBattleSprite,
@@ -65,7 +67,7 @@ import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battl
 import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
 import { expectDefined } from './defined.js'
-import { loadCursorFrames, loadPortraits } from './dialog/dialog-assets.js'
+import { loadCursorFrames } from './dialog/dialog-assets.js'
 import { DialogBox } from './dialog/dialog-box.js'
 import { startDialogue } from './dialogue.js'
 import {
@@ -74,6 +76,7 @@ import {
   DITHER_TOTAL_STEPS,
   DitherTransitionController,
 } from './dither-transition.js'
+import { assertEngineChromeComplete, loadEngineChromeImage } from './engine-chrome/registry.js'
 import {
   closeEquipMenu,
   type EquipMenuState,
@@ -112,7 +115,7 @@ import {
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
 import { drawMagicMenu } from './menu/magic-box.js'
-import { loadMenuAssets, loadPng, MenuBox } from './menu/menu-box.js'
+import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -227,10 +230,20 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   canvas = document.getElementById('screen') as HTMLCanvasElement
   if (!canvas) throw new Error('bootGame: 页面缺 <canvas id="screen">')
   ctx = get2dContext(canvas)
+  assertEngineChromeComplete()
   // 调试:?collision 把障碍格(0x2000)染色盖在画面上,肉眼比对禁入格 vs 视觉墙。
   const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
+  const savePortraitOptions = {
+    legacyPortraitAsset: (legacy: number): AssetId | undefined => {
+      const asset = legacyPalPortraitAssetId(legacy)
+      return asset && project.assetCatalog.assets[asset]?.kind === 'portrait' ? asset : undefined
+    },
+    validatePortraitAsset: (asset: AssetId): void => {
+      project.assetResolver.record(asset, 'portrait')
+    },
+  }
   const sfx = new SfxPlayer(project.assetResolver) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetResolver)
   // autoplay 解锁:BGM/SFX 都可能在 boot 时建出 suspended context。每次真实手势都允许重试，
@@ -272,31 +285,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   // ── 引擎 chrome(跨场景不变)──
-  const [glyphs, cursorFrames] = await Promise.all([
-    loadGlyphs(),
-    loadCursorFrames().catch((err: unknown) => {
-      console.warn('[reforge] cursor icons 加载失败,降级无光标:', err)
-      return []
+  const [glyphs, cursorFrames] = await Promise.all([loadGlyphs(), loadCursorFrames()])
+  // 立绘按引用惰性读取；DialogBox 持有这张可变 AssetId 表。
+  const portraits = new Map<AssetId, ImageBitmap>()
+  // face 只有角色显式声明的少量资源；菜单与战斗同步绘制，启动时一次预载并 fail-loud。
+  const faceImages = new Map<AssetId, ImageBitmap>()
+  await Promise.all(
+    Object.values(project.actorsById).map(async (actor) => {
+      if (actor.face) faceImages.set(actor.face, await project.imageCache.load(actor.face, 'face'))
     }),
-  ])
-  // portraits 已是预烘 RGBA PNG(@type-pal/migrate bake-assets),不再需 palette 着色。
-  // 全立绘一次载(对话样式 op 的 arg0 遍布全剧情;manifest 报有效块,缺块 loader 自跳)。
-  // ⚠ 仅当 manifest 声明了 portraits 才预载:自有工程(空白/Reforge 原创)无原版立绘,
-  //    否则会朝不存在的 portraits 目录刷满 91 条「加载失败」warn(E2E-1 gap #6)。
-  const portraits = project.manifest.assets.legacy?.portraits
-    ? await (async (): Promise<Map<number, HTMLCanvasElement>> => {
-        const portraitChunks = await fetch('/extracted/data/portraits.json')
-          .then((r) =>
-            r.ok ? (r.json() as Promise<{ portraits: { chunkIndex: number }[] }>) : null,
-          )
-          .then((m) => m?.portraits.map((p) => p.chunkIndex) ?? [1, 2])
-          .catch(() => [1, 2])
-        return loadPortraits(portraitChunks, project.assetBase.portraits).catch((err: unknown) => {
-          console.warn('[reforge] portraits 加载失败,降级无头像:', err)
-          return new Map<number, HTMLCanvasElement>()
-        })
-      })()
-    : new Map<number, HTMLCanvasElement>()
+  )
 
   // ── 场景资产缓存(M2c,设计 §3):map/tileset 按稳定 mapId LRU(cap16 + protect 当前,
   // 修一阶段按 sceneId 双取坑);palette/sceneDef 小缓存;精灵跨场景累积。──
@@ -438,7 +436,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 存档存储 + 菜单 UI 资产提前建(菜单读档界面即用;总加载量与原先一致,仅提前到菜单前)。
   const saveStore: SaveStore =
     typeof indexedDB !== 'undefined' ? new IndexedDbSaveStore() : new MemorySaveStore()
-  const menuAssets = await loadMenuAssets(project.items, project.assetBase)
+  const defaultPortrait =
+    project.actorsById['li-xiaoyao']?.portraits?.default ??
+    Object.values(project.actorsById).find((actor) => actor.portraits)?.portraits?.default
+  const menuAssets = await loadMenuAssets(project.items, project.imageCache, defaultPortrait)
   const playVideoAsset = async (asset: string | undefined): Promise<void> => {
     if (!asset) return
     await playVideoOverlay({ src: await project.assetResolver.urlFor(asset, 'video') })
@@ -457,30 +458,26 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         project.manifest.assets.roles['video.startupSplash'],
       ])
     }
-    const menuBg = await loadBattleBg(project.assetBase, 2, await getStandardPalette()).catch(
-      () => undefined,
+    const menuBg = await loadEngineChromeImage('opening.default-title')
+    const decision = await runOpeningMenuWithMusic(
+      bgm,
+      project.manifest.assets.roles['audio.openingMenuMusic'],
+      () =>
+        runOpeningMenu({
+          ctx,
+          glyphs,
+          bg: menuBg,
+          worldScale: WORLD_SCALE,
+          items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
+          locale: project.locale,
+          menuAssets,
+          saveStore,
+        }),
     )
-    if (menuBg) {
-      const decision = await runOpeningMenuWithMusic(
-        bgm,
-        project.manifest.assets.roles['audio.openingMenuMusic'],
-        () =>
-          runOpeningMenu({
-            ctx,
-            glyphs,
-            bg: menuBg,
-            worldScale: WORLD_SCALE,
-            items: entryPoints.map((e) => ({ id: e.id, label: e.label })),
-            locale: project.locale,
-            menuAssets,
-            saveStore,
-          }),
-      )
-      if (decision.kind === 'load') bootLoadSlot = decision.slotId
-      else {
-        bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
-        await playVideoAsset(bootEntry?.introVideo)
-      }
+    if (decision.kind === 'load') bootLoadSlot = decision.slotId
+    else {
+      bootEntry = entryPoints.find((e) => e.id === decision.entryId) ?? bootEntry
+      await playVideoAsset(bootEntry?.introVideo)
     }
   }
   // ?party=<id,id,…> dev 覆写开局队伍(验合击等多队员功能;满血在 buildWorld 后统一拉);首位应为世界队长
@@ -1020,13 +1017,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   const host: ScriptHost = {
-    dialog: (cue: DialogueCue) =>
-      new Promise((resolve) => {
+    dialog: async (cue: DialogueCue) => {
+      if (cue.portrait && !portraits.has(cue.portrait.asset))
+        portraits.set(
+          cue.portrait.asset,
+          await project.imageCache.load(cue.portrait.asset, 'portrait'),
+        )
+      return new Promise((resolve) => {
         preserveClosedDialogFrame = false
         frameAnimationPresentation.enterDialogue()
         dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
         scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
-      }),
+      })
+    },
     clearDialog: () => {
       preserveClosedDialogFrame = false
       dialogBox.close()
@@ -1520,6 +1523,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       const encounterChoreo =
         battleOpts?.choreography ?? enemyDefs.flatMap((enemy) => enemy.choreography ?? [])
+      const encounterPortraits = new Set(
+        collectCommandAssetReferences(encounterChoreo, 'battle.choreography')
+          .filter((reference) => reference.expectedKind === 'portrait')
+          .map((reference) => reference.asset),
+      )
+      await Promise.all(
+        [...encounterPortraits].map(async (asset) => {
+          if (!portraits.has(asset))
+            portraits.set(asset, await project.imageCache.load(asset, 'portrait'))
+        }),
+      )
+      assertLaunchCurrent()
       // 战斗配置解析(无任何持久态):显式参数→场景默认→项目具名角色。
       // 原版 0x4A/0x45 持久全局已退役:特殊战场/曲一次性绑 startBattle,打完自然回落场景默认,
       // 不再有「剧情点覆写 + 随存档」这一档(那全是老全局年代手动清临时战场的产物)。
@@ -1647,7 +1662,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
                 {
                   screenWave: f.screenWave ?? 0,
                   ...(f.magicEffect ? { magicEffect: f.magicEffect } : {}),
-                  ...(f.bg ? { bg: f.bg } : {}),
+                  ...(f.background ? { background: f.background } : {}),
                 },
               ]),
             ),
@@ -1663,13 +1678,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         enemySprites,
         playerSprites,
         faceList,
-        battleIcons,
         effectSprite,
         effectIndex,
       ] = await Promise.all([
-        loadBattleBgFull(project.assetBase, Number(fieldId), palette, fieldDef?.bg).catch(
-          () => undefined,
-        ),
+        fieldDef?.background
+          ? loadBattleBgFull(project.assetBase, fieldDef.background, palette)
+          : Promise.resolve(undefined),
         Promise.all(
           [...summonGodIds].map(
             async (g) =>
@@ -1704,11 +1718,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
             ).catch(() => undefined),
           ),
         ),
-        Promise.all(
-          world.party.map((c) => loadPng(`${project.assetBase.faces}/${c.template}.png`)),
-        ),
-        Promise.all(
-          ['attack', 'magic', 'coop', 'misc'].map((n) => loadPng(`/ui/battle/icon-${n}.png`)),
+        Promise.resolve(
+          world.party.map((character) => {
+            const asset = project.actorsById[character.template]?.face
+            return asset ? faceImages.get(asset) : undefined
+          }),
         ),
         loadEffectOnce(),
         loadEffectIndexOnce(),
@@ -1782,7 +1796,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           playerSprites,
           ui: menuAssets,
           faces,
-          battleIcons,
+          battleIcons: menuAssets.battleIcons,
           sfx,
           effectSprite,
           fireSprites,
@@ -2529,7 +2543,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const menuBox = new MenuBox(glyphs, project.locale, menuAssets, project.items, {
     poisonsById: project.poisonsById,
     actorsById: project.actorsById,
-    portraitsDir: project.assetBase.portraits,
+    imageCache: project.imageCache,
     palette: await getStandardPalette().catch(() => undefined),
   })
   let menu: MenuState = CLOSED
@@ -2594,10 +2608,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     if (!raw) return false
     let p: SavePayload
     try {
-      p = normalizePayload(raw)
+      p = normalizePayload(raw, { ...savePortraitOptions, where: `存档槽 ${slotId}` })
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
-      showToast('存档格式过新,无法读取')
+      showToast(err instanceof Error ? err.message : '存档无法读取')
       return false
     }
     abortScript() // 演出中读档:全树取消 + 清演出态
@@ -2922,7 +2936,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         )
       } else if (menu.openPanel === 'magic') {
         drawMagicMenu(ctx, magicMenu, world, menuAssets, glyphs, performance.now(), {
-          facesDir: project.assetBase.faces,
+          faceFor: (template) => {
+            const asset = project.actorsById[template]?.face
+            return asset ? faceImages.get(asset) : undefined
+          },
           nameFor: (tpl) => lookupText(`name.${tpl}`, project.locale),
         })
       } else if (menu.openPanel === 'equip') {
@@ -3592,7 +3609,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const e2eLoadUrl = params.get('e2e-load')
   if (e2eLoadUrl) {
     try {
-      const p = normalizePayload(await fetch(e2eLoadUrl).then((r) => r.json()))
+      const p = normalizePayload(await fetch(e2eLoadUrl).then((r) => r.json()), {
+        ...savePortraitOptions,
+        where: `E2E 存档 ${e2eLoadUrl}`,
+      })
       replaceWorld(p.world)
       world.script ??= emptyWorldScriptState()
       for (const c of world.party) {
@@ -3736,10 +3756,12 @@ async function renderBattlePreview(project: LoadedProject, params: URLSearchPara
     params.get('battle-preview') && Number(params.get('battle-preview')) > 0
       ? Number(params.get('battle-preview'))
       : 24
-  const bg = await loadBattleBg(project.assetBase, field, palette).catch((e: unknown) => {
-    console.warn('[battle] bg 加载失败:', e)
-    return undefined
-  })
+  const fieldDef = project.battleFields.find((candidate) => Number(candidate.id) === field)
+  const bg = fieldDef?.background
+    ? await loadBattleBgFull(project.assetBase, fieldDef.background, palette).then(
+        (loaded) => loaded.canvas,
+      )
+    : undefined
   const load = async (kind: 'enemy' | 'player', id: number): Promise<LoadedSprite | undefined> =>
     loadBattleSprite(project.assetBase, kind, id).catch((e: unknown) => {
       console.warn(`[battle] ${kind} 精灵 ${id} 加载失败:`, e)

@@ -194,7 +194,7 @@ export function drawShop(
     drawSlicedBox(ctx, assets.itembox, PREVIEW_ITEMBOX.x, PREVIEW_ITEMBOX.y, 64, 64)
     const sel = s.list[s.cursor] ? items[expectDefined(s.list[s.cursor])] : undefined
     if (sel) {
-      const icon = assets.itemIcons[sel.icon]
+      const icon = sel.icon ? assets.itemIcons[sel.icon] : undefined
       if (icon) ctx.drawImage(icon, PREVIEW_ICON.x, PREVIEW_ICON.y)
     }
     drawScroll(ctx, assets.scroll, OWNED_BOX.x, OWNED_BOX.y, OWNED_BOX.len)

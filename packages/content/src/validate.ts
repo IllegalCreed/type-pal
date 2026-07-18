@@ -1,7 +1,15 @@
 // 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
-import type { ActorDef, EnemyDef, ItemData, SceneDef, SkillData, SpriteDef } from './index.js'
+import type {
+  ActorDef,
+  BattleFieldDef,
+  EnemyDef,
+  ItemData,
+  SceneDef,
+  SkillData,
+  SpriteDef,
+} from './index.js'
 import { isMapAssetId } from './map-index.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
 
@@ -131,6 +139,29 @@ export function validateActors(json: unknown): ActorDef[] {
     for (const k of ['id', 'name', 'spriteId'] as const) {
       if (typeof rec[k] !== 'string') throw new Error(`actors[${i}]: ${k} 非string`)
     }
+    validateOptionalAssetId(rec, 'face', `actors[${i}]`)
+    if (rec.portraits !== undefined) {
+      const portraits = assertObject(rec.portraits, `actors[${i}].portraits`) as Record<
+        string,
+        unknown
+      >
+      requireKeys(portraits, ['default'], `actors[${i}].portraits`)
+      validateOptionalAssetId(portraits, 'default', `actors[${i}].portraits`)
+      if (portraits.expressions !== undefined) {
+        const expressions = assertObject(
+          portraits.expressions,
+          `actors[${i}].portraits.expressions`,
+        ) as Record<string, unknown>
+        for (const [expression, asset] of Object.entries(expressions)) {
+          if (expression.length === 0)
+            throw new Error(`actors[${i}].portraits.expressions: 表情名不能为空`)
+          if (typeof asset !== 'string' || asset.length === 0)
+            throw new Error(
+              `actors[${i}].portraits.expressions[${JSON.stringify(expression)}]: 期望非空 AssetId`,
+            )
+        }
+      }
+    }
     const battler = (a as { battler?: unknown }).battler
     if (battler !== undefined) {
       const bo = assertObject(battler, `actors[${i}].battler`) as Record<string, unknown>
@@ -179,13 +210,41 @@ export function validateItems(json: unknown): ItemData[] {
   const arr = assertArray<ItemData>(json, 'items')
   arr.forEach((it, i) => {
     const o = assertObject(it, `items[${i}]`)
-    requireKeys(o, ['id', 'name', 'icon', 'buyPrice', 'sellPrice', 'sellable'], `items[${i}]`)
+    requireKeys(o, ['id', 'name', 'buyPrice', 'sellPrice', 'sellable'], `items[${i}]`)
     if (typeof (it as { id: unknown }).id !== 'string') throw new Error(`items[${i}]: id 非string`)
     const record = it as unknown as Record<string, unknown>
+    validateOptionalAssetId(record, 'icon', `items[${i}]`)
     for (const field of ['use', 'throw'] as const) {
       if (record[field] === undefined) continue
       const spec = assertObject(record[field], `items[${i}].${field}`) as Record<string, unknown>
       validateOptionalAssetId(spec, 'sound', `items[${i}].${field}`)
+    }
+  })
+  return arr
+}
+
+/** 战场定义 guard；背景只接受稳定 AssetId，缺席明确表示黑底。 */
+export function validateBattleFields(json: unknown): BattleFieldDef[] {
+  const arr = assertArray<BattleFieldDef>(json, 'battleFields')
+  arr.forEach((field, index) => {
+    const ctx = `battleFields[${index}]`
+    const record = assertObject(field, ctx) as Record<string, unknown>
+    requireKeys(record, ['id', 'screenWave', 'magicEffect'], ctx)
+    if (!Number.isInteger(record.id) || (record.id as number) < 0)
+      throw new Error(`${ctx}.id: 期望非负整数`)
+    if (record.name !== undefined && typeof record.name !== 'string')
+      throw new Error(`${ctx}.name: 期望 string`)
+    if ('bg' in record) throw new Error(`${ctx}.bg: 旧路径字段已退役，请升级为 background AssetId`)
+    validateOptionalAssetId(record, 'background', ctx)
+    if (typeof record.screenWave !== 'number' || !Number.isFinite(record.screenWave))
+      throw new Error(`${ctx}.screenWave: 期望有限数`)
+    const magicEffect = assertObject(record.magicEffect, `${ctx}.magicEffect`) as Record<
+      string,
+      unknown
+    >
+    for (const element of ['wind', 'thunder', 'water', 'fire', 'earth'] as const) {
+      if (typeof magicEffect[element] !== 'number' || !Number.isFinite(magicEffect[element]))
+        throw new Error(`${ctx}.magicEffect.${element}: 期望有限数`)
     }
   })
   return arr

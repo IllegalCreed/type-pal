@@ -347,9 +347,14 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
         ? 'music'
         : targetKind === 'sound'
           ? 'sound'
-          : targetKind === 'video' || targetKind === 'frame-animation'
-            ? 'cutscene'
-            : undefined
+          : targetKind === 'portrait' ||
+              targetKind === 'face' ||
+              targetKind === 'item-icon' ||
+              targetKind === 'battle-background'
+            ? 'image'
+            : targetKind === 'video' || targetKind === 'frame-animation'
+              ? 'cutscene'
+              : undefined
     issues.push({
       severity: closure.severity,
       code,

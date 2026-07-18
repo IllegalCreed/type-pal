@@ -28,7 +28,7 @@ describe('upgradeLegacyDialogues', () => {
           rows: [{ text: '第一行\n第二行', speed: 16 }],
           autoAdvance: 300,
           slot: 'top',
-          portrait: { icon: 1, side: 'left' },
+          portrait: { asset: 'portrait.pal.001', side: 'left' },
           cursorFrame: 2,
         },
       },
@@ -42,6 +42,33 @@ describe('upgradeLegacyDialogues', () => {
     expect(() =>
       upgradeLegacyDialogues([{ kind: 'dialog', line: { text: 'old' }, cue: { rows: [] } }]),
     ).toThrow(/同时含 line 与 cue/)
+  })
+
+  test('旧 cue.portrait.icon 也在加载边界升级，0 消解为无头像', () => {
+    expect(
+      upgradeLegacyDialogues([
+        {
+          kind: 'dialog',
+          cue: { rows: [{ text: 'a' }], portrait: { icon: 3, side: 'right' } },
+        },
+        {
+          kind: 'dialog',
+          cue: { rows: [{ text: 'b' }], portrait: { icon: 0, side: 'left' } },
+        },
+      ]),
+    ).toEqual({
+      upgraded: 2,
+      value: [
+        {
+          kind: 'dialog',
+          cue: {
+            rows: [{ text: 'a' }],
+            portrait: { asset: 'portrait.pal.003', side: 'right' },
+          },
+        },
+        { kind: 'dialog', cue: { rows: [{ text: 'b' }] } },
+      ],
+    })
   })
 
   test('旧 Dialogue.lines 容器升级为 cues，字段归入 cue/row', () => {
@@ -70,7 +97,7 @@ describe('upgradeLegacyDialogues', () => {
             rows: [{ text: 'dlg.ghost', speed: 48 }],
             autoAdvance: 800,
             slot: 'top',
-            portrait: { icon: 2, side: 'left' },
+            portrait: { asset: 'portrait.pal.002', side: 'left' },
             cursorFrame: 1,
           },
         ],

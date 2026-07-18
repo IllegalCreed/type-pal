@@ -1,4 +1,5 @@
 import {
+  type AssetKind,
   type AssetReference,
   collectAssetReferences,
   type EntryPoint,
@@ -17,6 +18,27 @@ import {
 import type { SourceMagic, SourceSpell } from './migrate-content.js'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
 import type { TranslateReport } from './translate-events.js'
+
+type StaticImageKind = Extract<AssetKind, 'portrait' | 'face' | 'item-icon' | 'battle-background'>
+
+export interface StaticImageKindAudit {
+  records: number
+  bytes: number
+  edges: number
+  referenced: number
+  unused: number
+  unusedIds: string[]
+}
+
+export interface StaticImageReferenceAudit {
+  byKind: Record<StaticImageKind, StaticImageKindAudit>
+  records: number
+  bytes: number
+  edges: number
+  referenced: number
+  unused: number
+  unusedIds: string[]
+}
 
 export interface SoundValueChannelAudit {
   sites: number
@@ -63,6 +85,7 @@ export interface PalSoundReferenceAudit {
     missing: number
     kindMismatch: number
     hasFake122Asset: boolean
+    staticImages: StaticImageReferenceAudit
   }
   recovery: {
     droppedEmptySounds: Array<{
@@ -153,6 +176,7 @@ export function auditPalSoundReferences(args: {
   const actors = validateActors(required(files, 'content/actors.json'))
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
   const items = validateItems(required(files, 'content/items.json'))
+  const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
   const sceneIds = required(files, 'content/scenes/index.json') as string[]
   const scenes = validateScenes(sceneIds.map((id) => required(files, `content/scenes/${id}.json`)))
@@ -170,6 +194,7 @@ export function auditPalSoundReferences(args: {
     enemies,
     items,
     skills,
+    battleFields,
   })
   const soundReferences = references.filter((reference) => reference.expectedKind === 'sound')
   const channels: PalSoundReferenceAudit['target']['channels'] = {
@@ -185,6 +210,38 @@ export function auditPalSoundReferences(args: {
   for (const reference of soundReferences) channels[targetChannel(reference)]++
 
   const closure = validateAssetReferenceClosure(catalog, references)
+  const staticKinds: StaticImageKind[] = ['portrait', 'face', 'item-icon', 'battle-background']
+  const staticImageByKind = Object.fromEntries(
+    staticKinds.map((kind) => {
+      const records = Object.entries(catalog.assets).filter(([, record]) => record.kind === kind)
+      const kindReferences = references.filter((reference) => reference.expectedKind === kind)
+      const referencedIds = new Set(kindReferences.map((reference) => reference.asset))
+      const unusedIds = records
+        .map(([id]) => id)
+        .filter((id) => !referencedIds.has(id))
+        .sort()
+      return [
+        kind,
+        {
+          records: records.length,
+          bytes: records.reduce((sum, [, record]) => sum + record.bytes, 0),
+          edges: kindReferences.length,
+          referenced: referencedIds.size,
+          unused: unusedIds.length,
+          unusedIds,
+        },
+      ]
+    }),
+  ) as Record<StaticImageKind, StaticImageKindAudit>
+  const staticImages: StaticImageReferenceAudit = {
+    byKind: staticImageByKind,
+    records: staticKinds.reduce((sum, kind) => sum + staticImageByKind[kind].records, 0),
+    bytes: staticKinds.reduce((sum, kind) => sum + staticImageByKind[kind].bytes, 0),
+    edges: staticKinds.reduce((sum, kind) => sum + staticImageByKind[kind].edges, 0),
+    referenced: staticKinds.reduce((sum, kind) => sum + staticImageByKind[kind].referenced, 0),
+    unused: staticKinds.reduce((sum, kind) => sum + staticImageByKind[kind].unused, 0),
+    unusedIds: staticKinds.flatMap((kind) => staticImageByKind[kind].unusedIds).sort(),
+  }
   const referencedSoundIds = new Set(soundReferences.map((reference) => reference.asset))
   const catalogSoundIds = Object.entries(catalog.assets)
     .filter(([, record]) => record.kind === 'sound')
@@ -294,6 +351,7 @@ export function auditPalSoundReferences(args: {
       missing: closure.filter((issue) => issue.code === 'missing-asset').length,
       kindMismatch: closure.filter((issue) => issue.code === 'kind-mismatch').length,
       hasFake122Asset: catalog.assets[palSoundAssetId(122)] !== undefined,
+      staticImages,
     },
     recovery: {
       droppedEmptySounds,
@@ -372,17 +430,68 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
     },
     {
       soundEdges: 1_666,
-      allReferences: 3_020,
-      nonSoundReferences: 1_354,
+      allReferences: 5_676,
+      nonSoundReferences: 4_010,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,
-      warnings: 50,
+      warnings: 54,
       missing: 0,
       kindMismatch: 0,
       hasFake122Asset: false,
     },
     'target.total',
+  )
+  assertFrozen(
+    report.target.staticImages,
+    {
+      byKind: {
+        portrait: {
+          records: 88,
+          bytes: 768_841,
+          edges: 2_365,
+          referenced: 84,
+          unused: 4,
+          unusedIds: [
+            'portrait.pal.050',
+            'portrait.pal.068',
+            'portrait.pal.072',
+            'portrait.pal.089',
+          ],
+        },
+        face: {
+          records: 6,
+          bytes: 10_392,
+          edges: 6,
+          referenced: 6,
+          unused: 0,
+          unusedIds: [],
+        },
+        'item-icon': {
+          records: 233,
+          bytes: 262_667,
+          edges: 233,
+          referenced: 233,
+          unused: 0,
+          unusedIds: [],
+        },
+        'battle-background': {
+          records: 52,
+          bytes: 4_422_281,
+          edges: 52,
+          referenced: 52,
+          unused: 0,
+          unusedIds: [],
+        },
+      },
+      records: 379,
+      bytes: 5_464_181,
+      edges: 2_656,
+      referenced: 375,
+      unused: 4,
+      unusedIds: ['portrait.pal.050', 'portrait.pal.068', 'portrait.pal.072', 'portrait.pal.089'],
+    },
+    'target.staticImages',
   )
   assertFrozen(
     {

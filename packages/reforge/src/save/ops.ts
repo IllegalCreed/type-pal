@@ -47,6 +47,11 @@ export function buildPayload(
  */
 export interface NormalizePayloadOptions {
   legacyMusicAsset?: (track: number) => AssetId
+  legacyPortraitAsset?: (portrait: number) => AssetId | undefined
+  /** 当前工程 catalog 的 portrait kind 闭包；已是 AssetId 的新档也必须验证。 */
+  validatePortraitAsset?: (asset: AssetId) => void
+  /** 槽位、URL 或文件名；升级失败时必须能指向用户可处理的存档。 */
+  where?: string
 }
 
 export function normalizePayload(
@@ -62,7 +67,8 @@ export function normalizePayload(
   w.learnedSkills ??= {}
   w.inventory ??= []
   normalizeAudioState(p, options)
-  for (const c of w.party) {
+  normalizeAppearancePortraits(p, options)
+  for (const c of [...w.party, ...(w.reserve ?? [])]) {
     c.equipment ??= {}
     c.tags ??= []
     c.hiddenExp ??= {}
@@ -70,7 +76,54 @@ export function normalizePayload(
   }
   normalizeSceneScriptOverrides(w.script)
   validateMapOverride(w.script)
+  p.version = SAVE_VERSION
   return p
+}
+
+function normalizeAppearancePortraits(p: SavePayload, options: NormalizePayloadOptions): void {
+  const where = options.where ?? `工程 ${JSON.stringify(p.projectId)} 的存档`
+  const resolve = options.legacyPortraitAsset
+  for (const [collection, characters] of [
+    ['party', p.world.party ?? []],
+    ['reserve', p.world.reserve ?? []],
+  ] as const) {
+    characters.forEach((character, index) => {
+      const appearance = character.appearance as
+        | { spriteId?: string; portrait?: unknown; battleSprite?: number }
+        | undefined
+      const raw = appearance?.portrait
+      if (!appearance || raw === undefined) return
+      const path = `${where}: world.${collection}[${index}].appearance.portrait`
+      if (typeof raw === 'string') {
+        if (raw.length === 0) throw new Error(`${path}: AssetId 不能为空`)
+        try {
+          options.validatePortraitAsset?.(raw)
+        } catch (cause) {
+          throw new Error(
+            `${path}: AssetId "${raw}" 在当前工程中不可用；${cause instanceof Error ? cause.message : String(cause)}`,
+          )
+        }
+        return
+      }
+      if (!Number.isInteger(raw) || (raw as number) < 0)
+        throw new Error(`${path}: 旧立绘号必须是非负整数，收到 ${String(raw)}`)
+      if (raw === 0) delete appearance.portrait
+      else {
+        if (!resolve) throw new Error(`${path}: 数字立绘 ${raw} 无 AssetId 转换规则，拒绝猜测`)
+        const asset = resolve(raw as number)
+        if (!asset) throw new Error(`${path}: 数字立绘 ${raw} 在当前工程中缺少唯一 AssetId 映射`)
+        try {
+          options.validatePortraitAsset?.(asset)
+        } catch (cause) {
+          throw new Error(
+            `${path}: 数字立绘 ${raw} 映射到 "${asset}"，但当前工程不可用；${cause instanceof Error ? cause.message : String(cause)}`,
+          )
+        }
+        appearance.portrait = asset
+      }
+      if (appearance && Object.keys(appearance).length === 0) delete character.appearance
+    })
+  }
 }
 
 function normalizeAudioState(p: SavePayload, options: NormalizePayloadOptions): void {
