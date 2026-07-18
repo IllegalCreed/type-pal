@@ -4,6 +4,7 @@ import {
   insertProjectMapLayer,
   paintProjectMapCollision,
   paintProjectMapTiles,
+  withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { applyPreparedProjectMapPatch, prepareProjectMapPatch } from './map-patch.js'
@@ -42,6 +43,17 @@ const selection: MapSelection = {
     { row: 1, col: 0 },
   ],
   hitScope: 'active-layer',
+}
+
+function ownedMap() {
+  return withProjectMapStampPlacements(mapFixture(), [
+    {
+      id: 'tree-1',
+      anchor: { row: 0, col: 0 },
+      visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
+      gridPoints: [{ row: 0, col: 0 }],
+    },
+  ])
 }
 
 describe('W8 structured clipboard / lattice geometry', () => {
@@ -97,6 +109,63 @@ describe('W8 structured clipboard / lattice geometry', () => {
 })
 
 describe('W8 paste/move/delete planning', () => {
+  test('ownership 是 plan 级硬错误，overwrite 也不能绕过 paste/move/delete', () => {
+    const map = ownedMap()
+    const clipboard = captureMapClipboard('map-a', mapFixture(), selection, true)!
+    const paste = planMapPaste(
+      map,
+      clipboard,
+      { row: 0, col: 0 },
+      {
+        conflictPolicy: 'overwrite',
+        collisionAuthorityLayerId: 'objects',
+      },
+    )
+    expect(paste.canApply).toBe(false)
+    expect(paste.issues.map((issue) => issue.code)).toEqual(
+      expect.arrayContaining(['visual-owned', 'collision-owned']),
+    )
+    expect(paste.patch).toEqual({ visual: [], collision: [] })
+
+    const remove = planMapDelete(map, selection, true, 'objects')
+    expect(remove.canApply).toBe(false)
+    expect(remove.issues.some((issue) => issue.code === 'visual-owned')).toBe(true)
+
+    const moveSource = planMapMove(
+      map,
+      selection,
+      { row: 2, col: 1 },
+      {
+        includeCollision: true,
+        collisionAuthorityLayerId: 'objects',
+        conflictPolicy: 'overwrite',
+      },
+      'map-a',
+    )
+    expect(moveSource.canApply).toBe(false)
+    expect(moveSource.issues.some((issue) => issue.code === 'visual-owned')).toBe(true)
+
+    const ordinarySelection: MapSelection = {
+      kind: 'cells',
+      visualSlots: [{ layerId: 'objects', row: 4, col: 3 }],
+      gridPoints: [],
+      hitScope: 'active-layer',
+    }
+    const moveDestination = planMapMove(
+      map,
+      ordinarySelection,
+      { row: 0, col: 0 },
+      {
+        includeCollision: false,
+        collisionAuthorityLayerId: 'objects',
+        conflictPolicy: 'overwrite',
+      },
+      'map-a',
+    )
+    expect(moveDestination.canApply).toBe(false)
+    expect(moveDestination.issues.some((issue) => issue.code === 'visual-owned')).toBe(true)
+  })
+
   test('paste 跨层 mapping；reject/overwrite 冲突语义；选区跟随', () => {
     const map = mapFixture()
     const clipboard = captureMapClipboard('map-a', map, selection, false)!

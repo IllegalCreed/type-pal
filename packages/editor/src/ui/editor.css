@@ -8017,3 +8017,96 @@ html[data-panel-resize="horizontal"] * {
   border-color: color-mix(in srgb, var(--err) 48%, var(--line));
   color: #ef9a9a;
 }
+
+/* ── W7G-D 图章放置组选区 / 组内编辑 ───────────────────── */
+.stamp-group-selection-head {
+  position: relative;
+  min-width: 0;
+  border-bottom-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 12%, var(--panel2)),
+    var(--panel)
+  );
+}
+.stamp-group-selection-head.editing {
+  box-shadow: inset 3px 0 0 #55b8ff;
+}
+.stamp-group-selection-head .what,
+.stamp-group-selection-head .who {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-group-selection-head > .mini {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: auto;
+  padding-inline: 7px;
+}
+.stamp-group-summary code,
+.stamp-group-summary .field > :last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-group-layer-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  gap: 5px;
+  margin-top: 8px;
+}
+.stamp-group-layer-list > span {
+  min-width: 0;
+  padding: 6px 7px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--accent) 5%, var(--panel2));
+  color: var(--dim);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-group-layer-list > span.blocked {
+  border-color: color-mix(in srgb, var(--warn) 42%, var(--line));
+  color: #d7bd7f;
+}
+.stamp-group-actions {
+  display: grid;
+  gap: 6px;
+}
+.stamp-group-actions button {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-group-edit-summary p {
+  margin: 6px 0 0;
+  color: var(--dim);
+  font-size: 10px;
+  line-height: 1.45;
+}
+.stamp-group-edit-fields .field {
+  align-items: center;
+}
+.stamp-group-edit-fields .in {
+  min-width: 0;
+}
+.map-candidate-options > button.stamp-group-candidate {
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.map-candidate-options > button.stamp-group-candidate:focus-visible,
+.stamp-group-actions button:focus-visible,
+.stamp-group-edit-fields button:focus-visible,
+.stamp-group-selection-head button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 76%, white);
+  outline-offset: 1px;
+}

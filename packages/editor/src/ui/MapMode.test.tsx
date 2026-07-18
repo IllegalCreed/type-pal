@@ -5,8 +5,10 @@ import {
   buildBlankProjectMap,
   buildProjectMapLayer,
   insertProjectMapLayer,
+  paintProjectMapCollision,
   paintProjectMapTiles,
   projectMapStampPlacements,
+  withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -26,6 +28,9 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
 
 vi.mock('./map-selection-overlay.js', () => ({ drawMapSelectionOverlay: vi.fn() }))
 vi.mock('./stamp-placement-overlay.js', () => ({ drawStampPlacementOverlay: vi.fn() }))
+vi.mock('./stamp-placement-selection-overlay.js', () => ({
+  drawStampPlacementSelectionOverlay: vi.fn(),
+}))
 vi.mock('./StampPreviewCanvas.js', () => ({
   StampMiniPreview: (props: { template: StampTemplateV1 }) => (
     <canvas data-stamp-preview={props.template.id} />
@@ -98,7 +103,7 @@ function stampTemplate(): StampTemplateV1 {
   }
 }
 
-function editorState(map: ProjectMapV2, stamps: StampTemplateV1[] = []): EditorState {
+function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorState {
   return {
     manifest: {} as never,
     scenes: [],
@@ -123,14 +128,16 @@ function editorState(map: ProjectMapV2, stamps: StampTemplateV1[] = []): EditorS
   } as EditorState
 }
 
-async function mountMapMode(options: { stamps?: StampTemplateV1[] } = {}): Promise<{
+async function mountMapMode(
+  options: { stamps?: StampTemplateV1[]; map?: ProjectMap; referenceSelectedMap?: boolean } = {},
+): Promise<{
   host: HTMLDivElement
   canvas: HTMLCanvasElement
   session: EditSession
   onWorkspaceNotice: ReturnType<typeof vi.fn>
   rerenderWithSession: (session: EditSession, stamps?: StampTemplateV1[]) => Promise<void>
 }> {
-  const map = fixtureMap()
+  const map = options.map ?? fixtureMap()
   const state = editorState(map, options.stamps ?? [])
   const session = new EditSession(state)
   const scene = {
@@ -149,7 +156,7 @@ async function mountMapMode(options: { stamps?: StampTemplateV1[] } = {}): Promi
     root.render(
       <MapMode
         scene={scene}
-        scenes={[scene]}
+        scenes={options.referenceSelectedMap === false ? [] : [scene]}
         session={renderSession}
         assetBase={{} as never}
         projectMaps={renderState.maps}
@@ -188,8 +195,15 @@ function button(host: HTMLElement, text: string): HTMLButtonElement {
 
 function pointer(
   target: HTMLCanvasElement,
-  type: 'click' | 'pointerdown' | 'pointermove' | 'pointerup',
-  options: { altKey?: boolean; clientX?: number; clientY?: number } = {},
+  type: 'click' | 'dblclick' | 'pointerdown' | 'pointermove' | 'pointerup',
+  options: {
+    altKey?: boolean
+    shiftKey?: boolean
+    ctrlKey?: boolean
+    metaKey?: boolean
+    clientX?: number
+    clientY?: number
+  } = {},
 ): void {
   const event = new MouseEvent(type, {
     bubbles: true,
@@ -198,9 +212,86 @@ function pointer(
     clientX: options.clientX ?? 1,
     clientY: options.clientY ?? 1,
     altKey: options.altKey,
+    shiftKey: options.shiftKey,
+    ctrlKey: options.ctrlKey,
+    metaKey: options.metaKey,
   })
   Object.defineProperty(event, 'pointerId', { value: 7 })
   target.dispatchEvent(event)
+}
+
+function placementMap(two = false): ProjectMap {
+  let map: ProjectMap = fixtureMap()
+  map = paintProjectMapCollision(map, [
+    { row: 0, col: 0, value: 0 },
+    { row: 2, col: 0, value: 1 },
+  ])
+  if (two)
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+      { layerId: 'objects', row: 2, col: 0, tileId: 1, height: 2 },
+    ])
+  return withProjectMapStampPlacements(map, [
+    {
+      id: 'tree-a',
+      sourceStampId: 'tree-house',
+      sourceStampName: '树屋 A',
+      anchor: { row: 0, col: 0 },
+      visualSlots: [
+        { layerId: 'floor', row: 0, col: 0 },
+        { layerId: 'objects', row: 0, col: 0 },
+      ],
+      gridPoints: [{ row: 0, col: 0 }],
+    },
+    ...(two
+      ? [
+          {
+            id: 'tree-b',
+            sourceStampId: 'tree-house',
+            sourceStampName: '树屋 B',
+            anchor: { row: 2, col: 0 },
+            visualSlots: [
+              { layerId: 'floor', row: 2, col: 0 },
+              { layerId: 'objects', row: 2, col: 0 },
+            ],
+            gridPoints: [{ row: 2, col: 0 }],
+          },
+        ]
+      : []),
+  ])
+}
+
+function placementMapWithTwoFloorMembers(): ProjectMap {
+  let map = placementMap()
+  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 1, tileId: 4, height: 0 }])
+  const [placement] = projectMapStampPlacements(map)
+  return withProjectMapStampPlacements(map, [
+    {
+      ...placement!,
+      visualSlots: [...placement!.visualSlots, { layerId: 'floor', row: 0, col: 1 }],
+    },
+  ])
+}
+
+function splitFillPlacementMap(): ProjectMap {
+  let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
+  map = paintProjectMapTiles(map, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
+    { layerId: 'floor', row: 1, col: 0, tileId: 1, height: 0 },
+    { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+  ])
+  return withProjectMapStampPlacements(map, [
+    {
+      id: 'split',
+      sourceStampName: '分离成员',
+      anchor: { row: 0, col: 0 },
+      visualSlots: [
+        { layerId: 'floor', row: 0, col: 0 },
+        { layerId: 'floor', row: 2, col: 0 },
+      ],
+      gridPoints: [],
+    },
+  ])
 }
 
 async function selectFloor(host: HTMLElement, canvas: HTMLCanvasElement): Promise<void> {
@@ -284,6 +375,500 @@ afterEach(async () => {
 })
 
 describe('MapMode 地图内容选择交互', () => {
+  test('点击成员选择完整放置组，Enter/Esc 两级进退，解组保留矩阵且可撤销', async () => {
+    const map = placementMap()
+    const { host, canvas, session } = await mountMapMode({ map, stamps: [stampTemplate()] })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('2 个视觉成员')
+    expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('tree-a')
+
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      'Esc 退出组内',
+    )
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-selection-head.editing')).toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head')).not.toBeNull()
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+
+    await act(async () => pointer(canvas, 'pointerdown'))
+    const beforeLayers = session.getState().maps['map-a']!.layers
+    const beforeCollision = session.getState().maps['map-a']!.collision
+    await act(async () => button(host, '解组（保留地图内容）').click())
+    const ungrouped = session.getState().maps['map-a']!
+    expect(ungrouped.version).toBe(2)
+    expect(ungrouped.layers).toBe(beforeLayers)
+    expect(ungrouped.collision).toBe(beforeCollision)
+    await act(async () => session.undo())
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.id).toBe('tree-a')
+  })
+
+  test('Shift/Ctrl 对完整放置组增减，相邻同款按 placementId 不串组', async () => {
+    const { host, canvas } = await mountMapMode({ map: placementMap(true) })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
+    await act(async () =>
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 17, shiftKey: true }),
+    )
+    expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('2 组')
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, ctrlKey: true }))
+    expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('1 组')
+    expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('tree-b')
+  })
+
+  test('Alt 对同组跨层命中去重；hidden 不命中、locked 仅能显式选为只读整组', async () => {
+    const { host, canvas } = await mountMapMode({ map: placementMap() })
+    await act(async () => button(host, '选择').click())
+    const rows = [...host.querySelectorAll<HTMLElement>('.map-layer-row')]
+    const floor = rows.find((row) => row.textContent?.includes('地板'))!
+    const objects = rows.find((row) => row.textContent?.includes('上层'))!
+    await act(async () =>
+      floor.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+    )
+    await act(async () =>
+      objects.querySelector<HTMLButtonElement>('[aria-label="隐藏图层"]')?.click(),
+    )
+
+    await act(async () => pointer(canvas, 'pointerdown'))
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { altKey: true })
+      pointer(canvas, 'click', { altKey: true })
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    const options = host.querySelectorAll<HTMLButtonElement>('[role="option"]')
+    expect(options).toHaveLength(1)
+    expect(options[0]?.textContent).toContain('树屋 A')
+    expect(options[0]?.textContent).toContain('整组')
+    await act(async () => options[0]?.click())
+    expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('2 个视觉成员')
+    expect(host.querySelector('.map-selection-warning')?.textContent).toContain('隐藏或锁定')
+  })
+
+  test('双击 fresh placement hit 直接进入组内，不依赖上一次 selection render', async () => {
+    const { host, canvas } = await mountMapMode({ map: placementMap() })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'dblclick'))
+    expect(host.querySelector('.stamp-group-selection-head.editing')).not.toBeNull()
+  })
+
+  test('组内双击其他放置组不会绕过隔离切换编辑目标', async () => {
+    const { host, canvas, onWorkspaceNotice } = await mountMapMode({ map: placementMap(true) })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'dblclick', { clientX: 1, clientY: 1 }))
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      '树屋 A',
+    )
+
+    await act(async () => pointer(canvas, 'dblclick', { clientX: 1, clientY: 17 }))
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      '树屋 A',
+    )
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).not.toContain(
+      '树屋 B',
+    )
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('请先按 Esc') }),
+    )
+  })
+
+  test('组内 cells 可单选当前层成员，Inspector 只修改该子选区，Ctrl+A 恢复全组', async () => {
+    const { host, canvas, session } = await mountMapMode({
+      map: placementMapWithTwoFloorMembers(),
+    })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'dblclick', { clientX: 1, clientY: 1 }))
+    expect(host.querySelector('.stamp-group-edit-summary')?.textContent).toContain(
+      '当前层选中 2 个',
+    )
+
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
+    })
+    expect(host.querySelector('.stamp-group-edit-summary')?.textContent).toContain(
+      '当前层选中 1 个',
+    )
+    const tileInput = host.querySelector<HTMLInputElement>('[aria-label="组内当前层 tileId"]')!
+    await act(async () => {
+      tileInput.focus()
+      tileInput.value = '9'
+      tileInput.blur()
+    })
+    const edited = session.getState().maps['map-a']!
+    expect(edited.layers[0]?.tiles[0]?.[0]).toBe(1)
+    expect(edited.layers[0]?.tiles[0]?.[1]).toBe(9)
+    expect(edited.layers[1]?.tiles[0]?.[0]).toBe(1)
+
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-edit-summary')?.textContent).toContain(
+      '当前层选中 1 个',
+    )
+
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'a',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-edit-summary')?.textContent).toContain(
+      '当前层选中 2 个',
+    )
+  })
+
+  test('活动层普通逻辑槽不被非活动层 placement 的透明逻辑命中劫持', async () => {
+    let map: ProjectMap = fixtureMap()
+    map = paintProjectMapTiles(map, [{ layerId: 'objects', row: 0, col: 0, tileId: 9, height: 2 }])
+    map = withProjectMapStampPlacements(map, [
+      {
+        id: 'upper-only',
+        sourceStampName: '透明上层组',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
+        gridPoints: [],
+      },
+    ])
+    const { host, canvas } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(host.querySelector('.map-selection-head')).not.toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+  })
+
+  test('活动层普通不透明像素优先于非活动层 placement 的不透明像素', async () => {
+    let map: ProjectMap = fixtureMap()
+    map = withProjectMapStampPlacements(map, [
+      {
+        id: 'upper-opaque',
+        sourceStampName: '上层不透明组',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
+        gridPoints: [],
+      },
+    ])
+    const { host, canvas } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(host.querySelector('.map-selection-head')).not.toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+  })
+
+  test('活动层普通视觉命中优先于同坐标 placement collision ownership', async () => {
+    let map: ProjectMap = fixtureMap()
+    map = paintProjectMapTiles(map, [{ layerId: 'objects', row: 2, col: 0, tileId: 1, height: 2 }])
+    map = withProjectMapStampPlacements(map, [
+      {
+        id: 'collision-owner',
+        sourceStampName: '碰撞归组',
+        anchor: { row: 2, col: 0 },
+        visualSlots: [{ layerId: 'objects', row: 2, col: 0 }],
+        gridPoints: [{ row: 0, col: 0 }],
+      },
+    ])
+    const { host, canvas } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(host.querySelector('.map-selection-head')).not.toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+  })
+
+  test('活动层空视觉槽不会压住 placement collision 的直接整组选中', async () => {
+    let map: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
+    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 }])
+    map = withProjectMapStampPlacements(map, [
+      {
+        id: 'collision-only-hit',
+        sourceStampName: '远处视觉成员',
+        anchor: { row: 2, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 2, col: 0 }],
+        gridPoints: [{ row: 0, col: 0 }],
+      },
+    ])
+    const { host, canvas } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('1 组')
+    expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('collision-only-hit')
+  })
+
+  test('切换到同 mapId / placementId 的另一工程会话会清空组选择与组内上下文', async () => {
+    const { host, canvas, rerenderWithSession } = await mountMapMode({ map: placementMap() })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'dblclick'))
+    expect(host.querySelector('.stamp-group-selection-head.editing')).not.toBeNull()
+
+    const nextSession = new EditSession(editorState(placementMap()))
+    await rerenderWithSession(nextSession)
+    expect(host.querySelector('.stamp-group-selection-head')).toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head.editing')).toBeNull()
+  })
+
+  test('组内 Alt 与普通剪贴板快捷键不能打开外部候选或变换', async () => {
+    let map = placementMap(true)
+    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 }])
+    const { host, canvas, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1 })
+    })
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'c',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      ),
+    )
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+      ),
+    )
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      '树屋 A',
+    )
+
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 17, altKey: true })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 17, altKey: true })
+      pointer(canvas, 'click', { clientX: 1, clientY: 17, altKey: true })
+    })
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      '树屋 A',
+    )
+
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'v',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      ),
+    )
+    expect(host.querySelector('.map-transform-bar')).toBeNull()
+    expect(host.querySelector('.stamp-group-selection-head.editing')?.textContent).toContain(
+      '树屋 A',
+    )
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('先按 Esc') }),
+    )
+  })
+
+  test('切换 EditSession 会清掉旧工程正在进行的变换预览与剪贴板', async () => {
+    const { host, canvas, rerenderWithSession } = await mountMapMode()
+    await selectFloor(host, canvas)
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'c',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      ),
+    )
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'v',
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      ),
+    )
+    expect(host.querySelector('.map-transform-bar')).not.toBeNull()
+
+    const nextSession = new EditSession(editorState(fixtureMap()))
+    await rerenderWithSession(nextSession)
+    expect(host.querySelector('.map-transform-bar')).toBeNull()
+    expect(button(host, '平移').classList).toContain('active')
+    expect(button(host, '粘贴').disabled).toBe(true)
+  })
+
+  test('切换同 mapId 的 EditSession 会清掉旧工程删除二次确认', async () => {
+    const { host, rerenderWithSession } = await mountMapMode({ referenceSelectedMap: false })
+    const deleteButton = host.querySelector<HTMLButtonElement>('[title="删除地图"]')!
+    await act(async () => deleteButton.click())
+    expect(deleteButton.title).toBe('再次点击确认删除')
+
+    const nextSession = new EditSession(editorState(fixtureMap()))
+    await rerenderWithSession(nextSession)
+    expect(deleteButton.title).toBe('删除地图')
+    await act(async () => deleteButton.click())
+    expect(nextSession.getState().maps['map-a']).toBeDefined()
+    expect(deleteButton.title).toBe('再次点击确认删除')
+  })
+
+  test.each([
+    '笔刷',
+    '矩形',
+    '填充',
+    '擦除',
+  ])('%s 命中组成员整笔零写并提示进入组内或解组', async (tool) => {
+    const map = placementMap()
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, tool).click())
+    const before = session.getState()
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      if (tool === '矩形') pointer(canvas, 'pointermove', { clientX: 17, clientY: 9 })
+      pointer(canvas, 'pointerup')
+    })
+    expect(session.getState()).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('先解组') }),
+    )
+  })
+
+  test.each(['标记', '清除'])('普通碰撞%s 命中组成员整笔零写', async (mode) => {
+    const map = placementMap()
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, mode).click())
+    const before = session.getState()
+    await act(async () => {
+      pointer(canvas, 'pointerdown')
+      pointer(canvas, 'pointerup')
+    })
+    expect(session.getState()).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('先解组') }),
+    )
+  })
+
+  test('普通 fill 即使写回同值也先报告 ownership，不被 helper no-op 吞掉', async () => {
+    let map = placementMap()
+    map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 0, height: 0 }])
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
+    await act(async () => button(host, '填充').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('组内编辑') }),
+    )
+  })
+
+  test('组内 fill 从组外起点零写，且普通格不能桥接两个组成员', async () => {
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({
+      map: splitFillPlacementMap(),
+    })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, altKey: true })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1, altKey: true })
+      pointer(canvas, 'click', { clientX: 1, clientY: 1, altKey: true })
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    await act(async () => host.querySelector<HTMLButtonElement>('.stamp-group-candidate')?.click())
+    await act(async () => button(host, '进入组内编辑').click())
+    expect(host.querySelector('.stamp-group-selection-head.editing')).not.toBeNull()
+    await act(async () => button(host, '填充').click())
+    const before = session.getState().maps['map-a']!
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 16, clientY: 9 }))
+    expect(session.getState().maps['map-a']).toBe(before)
+
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'info', message: expect.stringContaining('可撤销') }),
+    )
+    const edited = session.getState().maps['map-a']!
+    expect(edited.layers[0]?.tiles[0]?.[0]).toBe(0)
+    expect(edited.layers[0]?.tiles[1]?.[0]).toBe(1)
+    expect(edited.layers[0]?.tiles[2]?.[0]).toBe(1)
+  })
+
+  test('组内 Inspector 只改活动层；collision=0/非零均保留身份，显式移出只删身份', async () => {
+    const { host, canvas, session } = await mountMapMode({ map: placementMap() })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '进入组内编辑').click())
+
+    const tileInput = host.querySelector<HTMLInputElement>('[aria-label="组内当前层 tileId"]')!
+    await act(async () => {
+      tileInput.focus()
+      tileInput.value = '9'
+      tileInput.blur()
+    })
+    let edited = session.getState().maps['map-a']!
+    expect(edited.layers[0]?.tiles[0]?.[0]).toBe(9)
+    expect(edited.layers[1]?.tiles[0]?.[0]).toBe(1)
+
+    const collisionInput = host.querySelector<HTMLInputElement>('[aria-label="组内碰撞值"]')!
+    await act(async () => {
+      collisionInput.focus()
+      collisionInput.value = '3'
+      collisionInput.blur()
+    })
+    edited = session.getState().maps['map-a']!
+    expect(edited.collision[0]?.[0]).toBe(3)
+    expect(projectMapStampPlacements(edited)[0]?.gridPoints).toHaveLength(1)
+    await act(async () => button(host, '移出碰撞成员').click())
+    edited = session.getState().maps['map-a']!
+    expect(edited.collision[0]?.[0]).toBe(3)
+    expect(projectMapStampPlacements(edited)[0]?.gridPoints).toEqual([])
+  })
+
+  test('组内碰撞控件在任一 placement 视觉层锁定时只读', async () => {
+    const { host, canvas } = await mountMapMode({ map: placementMap() })
+    const objectRow = [...host.querySelectorAll<HTMLElement>('.map-layer-row')].find((row) =>
+      row.textContent?.includes('上层'),
+    )!
+    await act(async () =>
+      objectRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+    )
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '进入组内编辑').click())
+    expect(host.querySelector<HTMLInputElement>('[aria-label="组内碰撞值"]')?.disabled).toBe(true)
+    expect(host.querySelector('.map-selection-warning')?.textContent).toContain('所有视觉层可写')
+  })
+
   test('选择与取样状态隔离：取样后保留地图选区并转回笔刷', async () => {
     const { host, canvas } = await mountMapMode()
     await selectFloor(host, canvas)

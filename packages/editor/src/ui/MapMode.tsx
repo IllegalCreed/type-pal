@@ -41,8 +41,6 @@ import {
   DuplicateMapAssetCommand,
   MoveProjectMapLayerCommand,
   mapAssetSceneReferences,
-  PaintCollisionCommand,
-  PaintTilesCommand,
   RemoveProjectMapLayerCommand,
   RenameMapAssetCommand,
   ResizeProjectMapCommand,
@@ -54,7 +52,9 @@ import type { ProjectMapPatch } from '../core/map-patch.js'
 import { ProjectMapPatchError } from '../core/map-patch.js'
 import {
   changeMapSelection,
+  changeStampPlacementSelection,
   createMapWorkspaceState,
+  gridPointKey,
   hitTestMapContent,
   isMapSelectionDrag,
   type MapCellSelectionInput,
@@ -66,7 +66,10 @@ import {
   type SelectionChangeMode,
   selectAllMapContent,
   selectionForGridPoints,
+  selectionForStampPlacementGridPoints,
   selectionModeFromModifiers,
+  stampPlacementAllMemberSelection,
+  visualSlotKey,
 } from '../core/map-selection.js'
 import {
   captureMapClipboard,
@@ -79,6 +82,11 @@ import {
   planMapPaste,
 } from '../core/map-transform.js'
 import {
+  EditStampPlacementCommand,
+  UngroupStampPlacementsCommand,
+} from '../core/stamp-group-command.js'
+import { buildStampPlacementIndex, floodFillStampPlacementTiles } from '../core/stamp-ownership.js'
+import {
   planStampPlacement,
   type StampLayerMapping,
   type StampPlacementConflictPolicy,
@@ -88,6 +96,7 @@ import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { MapStampPalette } from './MapStampPalette.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
 import { StampPlacementInspector } from './StampPlacementInspector.js'
+import { StampPlacementSelectionInspector } from './StampPlacementSelectionInspector.js'
 import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
   drawGridBlocked,
@@ -98,6 +107,7 @@ import {
   useViewZoomPan,
 } from './scene-stage.js'
 import { drawStampPlacementOverlay } from './stamp-placement-overlay.js'
+import { drawStampPlacementSelectionOverlay } from './stamp-placement-selection-overlay.js'
 
 const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
@@ -162,10 +172,37 @@ type MapTransformIntent =
       layerMappings: readonly MapLayerMapping[]
     }
 
+type MapCandidate =
+  | { kind: 'cell'; candidate: MapHitCandidate }
+  | {
+      kind: 'stamp-placement'
+      placementId: string
+      ref: { row: number; col: number }
+      layerId?: string
+      layerName: string
+      sourceName: string
+      locked: boolean
+    }
+
 interface MapCandidateMenu {
   x: number
   y: number
-  candidates: MapHitCandidate[]
+  candidates: MapCandidate[]
+}
+
+function tileEditsPatch(map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
+  return {
+    visual: edits.flatMap((edit) => {
+      const layer = map.layers.find((candidate) => candidate.id === edit.layerId)
+      return [
+        { channel: 'tileId' as const, ref: edit, value: edit.tileId },
+        ...(layer?.depthMode === 'height'
+          ? [{ channel: 'height' as const, ref: edit, value: edit.height }]
+          : []),
+      ]
+    }),
+    collision: [],
+  }
 }
 
 const TileThumb = memo(function TileThumb(props: {
@@ -286,6 +323,20 @@ export function MapMode(props: {
     [workspaceMap.lockedLayerIds],
   )
   const selection = workspaceMap.selection
+  const stampPlacementIndex = useMemo(
+    () => (liveMap ? buildStampPlacementIndex(liveMap) : undefined),
+    [liveMap],
+  )
+  const ownedVisualSlotKeys = useMemo(
+    () => new Set(stampPlacementIndex?.visualOwnerByKey.keys() ?? []),
+    [stampPlacementIndex],
+  )
+  const ownedGridPointKeys = useMemo(
+    () => new Set(stampPlacementIndex?.collisionOwnerByKey.keys() ?? []),
+    [stampPlacementIndex],
+  )
+  const stampGroupEditPlacementId = workspaceMap.stampGroupEditContext?.placementId
+  const stampGroupEditSelection = workspaceMap.stampGroupEditContext?.selection
   const activeStamp = stamps.find((stamp) => stamp.id === activeStampId)
   const stampMappingKey = activeStamp ? `${mapId}\u0000${activeStamp.id}` : ''
   const stampMappings = stampMappingKey
@@ -321,15 +372,17 @@ export function MapMode(props: {
   const hoverRef = useRef<LatticePos | null>(null)
   const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
   const paintingRef = useRef(false)
-  const rectAnchorRef = useRef<{ wx: number; wy: number } | null>(null)
+  const rectAnchorRef = useRef<LatticePos | null>(null)
   const cancelPointerInteractionRef = useRef<() => void>(() => undefined)
   const stampSessionRef = useRef(session)
   const selectionDragRef = useRef<{
+    scope: 'map' | 'stamp-group'
     pointerId: number
     startClient: { x: number; y: number }
     startWorld: { wx: number; wy: number }
     mode: SelectionChangeMode
     base: MapSelection
+    placementId?: string
     dragging: boolean
   } | null>(null)
   useEffect(() => {
@@ -342,7 +395,22 @@ export function MapMode(props: {
     setStampMappingsByKey({})
     setStampHoverAnchor(undefined)
     setRecentStampIds([])
+    setSelectionPreview(undefined)
+    selectionPreviewRef.current = undefined
+    setTransformIntent(undefined)
+    setCandidateMenu(undefined)
+    setClipboard(undefined)
+    setStampDialogOpen(false)
+    setPendingDeleteId(undefined)
+    setWorkspaceNotice(undefined)
+    strokeRef.current.clear()
+    paintingRef.current = false
+    rectAnchorRef.current = null
+    panRef.current = null
+    selectionDragRef.current = null
     hoverRef.current = null
+    // mapId / placementId 在不同工程副本中可能相同；选择、隐藏/锁定与组内上下文都必须按会话隔离。
+    dispatchWorkspace({ type: 'reset' })
   }, [session])
   const [paintTick, setPaintTick] = useState(0)
   const [basePaintTick, setBasePaintTick] = useState(0)
@@ -382,6 +450,12 @@ export function MapMode(props: {
         panX: number
         panY: number
         basePaintTick: number
+        hiddenKey: string
+        lockedKey: string
+        showCollision: boolean
+        stampGroupEditPlacementId: string | undefined
+        stampGroupEditSelection: MapSelection | undefined
+        activeLayerId: string
       }
     | undefined
   >(undefined)
@@ -592,6 +666,7 @@ export function MapMode(props: {
     const { zoom, panX, panY } = view
     const room = visibleMapRoom(map, loaded.tiles, ctx.canvas, view)
     const hiddenKey = JSON.stringify([...hiddenLayerIds].sort())
+    const lockedKey = JSON.stringify([...lockedLayerIds].sort())
     const cached = baseCanvasCacheRef.current
     const baseChanged =
       !cached ||
@@ -674,7 +749,13 @@ export function MapMode(props: {
       selectionCached.zoom !== zoom ||
       selectionCached.panX !== panX ||
       selectionCached.panY !== panY ||
-      selectionCached.basePaintTick !== basePaintTick
+      selectionCached.basePaintTick !== basePaintTick ||
+      selectionCached.hiddenKey !== hiddenKey ||
+      selectionCached.lockedKey !== lockedKey ||
+      selectionCached.showCollision !== showCollision ||
+      selectionCached.stampGroupEditPlacementId !== stampGroupEditPlacementId ||
+      selectionCached.stampGroupEditSelection !== stampGroupEditSelection ||
+      selectionCached.activeLayerId !== activeLayerId
     let selectionCanvas = selectionCached?.canvas
     if (selectionOverlayChanged) {
       selectionCanvas ??= document.createElement('canvas')
@@ -682,7 +763,23 @@ export function MapMode(props: {
       selectionCanvas.height = ctx.canvas.height
       const overlayContext = selectionCanvas.getContext('2d')
       if (overlayContext) {
-        if (selectionPreview)
+        if (selection.kind === 'stamp-placements')
+          drawStampPlacementSelectionOverlay(overlayContext, {
+            map,
+            placementIds: selection.placementIds,
+            tiles: loaded.tiles,
+            view,
+            hiddenLayerIds,
+            lockedLayerIds,
+            showCollision,
+            editingPlacementId: stampGroupEditPlacementId,
+            editingSelection:
+              selectionPreview?.kind === 'cells' || selectionPreview?.kind === 'none'
+                ? selectionPreview
+                : stampGroupEditSelection,
+            activeLayerId,
+          })
+        else if (selectionPreview)
           drawMapSelectionOverlay(overlayContext, map, selectionPreview, loaded.tiles, view, {
             tone: 'preview',
             dashed: true,
@@ -738,6 +835,12 @@ export function MapMode(props: {
         panX,
         panY,
         basePaintTick,
+        hiddenKey,
+        lockedKey,
+        showCollision,
+        stampGroupEditPlacementId,
+        stampGroupEditSelection,
+        activeLayerId,
       }
     }
     if (selectionCanvas) ctx.drawImage(selectionCanvas, 0, 0)
@@ -784,6 +887,7 @@ export function MapMode(props: {
     activeTool,
     collisionPaint,
     hiddenLayerIds,
+    lockedLayerIds,
     focusEnabled,
     activeLayer,
     currentHeight,
@@ -793,9 +897,14 @@ export function MapMode(props: {
     transformPlan,
     stampPlan,
     workspaceMap.hitScope,
+    stampGroupEditPlacementId,
+    stampGroupEditSelection,
+    activeLayerId,
   ])
 
-  const toWorld = (event: React.PointerEvent<HTMLCanvasElement>): { wx: number; wy: number } => {
+  const toWorld = (
+    event: React.PointerEvent<HTMLCanvasElement> | React.MouseEvent<HTMLCanvasElement>,
+  ): { wx: number; wy: number } => {
     const canvas = event.currentTarget
     const rect = canvas.getBoundingClientRect()
     const current = viewRef.current
@@ -809,12 +918,25 @@ export function MapMode(props: {
   const editFor = (pos: LatticePos): StrokeEdit | null => {
     if (activeLayerReadOnly) return null
     if (activeTool === 'collision') {
+      if (
+        stampGroupEditPlacementId &&
+        stampPlacementIndex?.collisionOwnerByKey.get(gridPointKey(pos)) !==
+          stampGroupEditPlacementId
+      )
+        return null
       return {
         kind: 'collision',
         edit: { ...pos, value: collisionPaint === 'set' ? 1 : 0 },
       }
     }
     if (!activeLayer) return null
+    if (
+      stampGroupEditPlacementId &&
+      stampPlacementIndex?.visualOwnerByKey.get(
+        visualSlotKey({ ...pos, layerId: activeLayer.id }),
+      ) !== stampGroupEditPlacementId
+    )
+      return null
     return {
       kind: 'tile',
       edit: {
@@ -851,8 +973,17 @@ export function MapMode(props: {
     const anchor = rectAnchorRef.current
     if (!anchor || !liveMap) return
     const { wx, wy } = toWorld(event)
+    const end = pixelToLattice(wx, wy)
+    const startCenter = latticeCenter(anchor)
+    const endCenter = latticeCenter(end)
     strokeRef.current.clear()
-    for (const pos of latticeInMapRect(liveMap, anchor.wx, anchor.wy, wx, wy)) {
+    for (const pos of latticeInMapRect(
+      liveMap,
+      startCenter.x,
+      startCenter.y,
+      endCenter.x,
+      endCenter.y,
+    )) {
       const item = editFor(pos)
       if (item) rememberStroke(item)
     }
@@ -880,7 +1011,134 @@ export function MapMode(props: {
       hitScope: workspaceMap.hitScope,
       hiddenLayerIds,
       lockedLayerIds,
+      excludedVisualSlotKeys: ownedVisualSlotKeys,
+      excludedGridPointKeys: ownedGridPointKeys,
     })
+  }
+
+  const stampGroupSelectionInputAt = (
+    wx: number,
+    wy: number,
+    placementId: string,
+  ): MapCellSelectionInput => {
+    if (!liveMap) return { visualSlots: [], gridPoints: [], hitScope: 'active-layer' as const }
+    const loaded = loadedRef.current
+    let point = pixelToLattice(wx, wy)
+    if (loaded) {
+      const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+        activeLayerId,
+        hiddenLayerIds,
+        lockedLayerIds,
+      })
+      const candidates = [hit.primary, ...hit.candidates].filter(
+        (candidate): candidate is MapHitCandidate => candidate !== undefined,
+      )
+      const member = candidates.find((candidate) => {
+        if (candidate.ref.layerId !== activeLayerId || !candidate.selectable) return false
+        if (candidate !== hit.primary && !candidate.pixelHit) return false
+        return (
+          stampPlacementIndex?.visualOwnerByKey.get(visualSlotKey(candidate.ref)) === placementId
+        )
+      })
+      point = member ? { row: member.ref.row, col: member.ref.col } : { ...hit.logicalPoint }
+    }
+    return selectionForStampPlacementGridPoints(
+      liveMap,
+      stampPlacementIndex?.byId.get(placementId),
+      [point],
+      activeLayerId,
+    )
+  }
+
+  const directStampHitAt = (
+    wx: number,
+    wy: number,
+  ): { placementId: string; layerId?: string } | undefined => {
+    if (!liveMap || !stampPlacementIndex) return undefined
+    const loaded = loadedRef.current
+    if (!loaded) return undefined
+    const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+      activeLayerId,
+      hiddenLayerIds,
+      lockedLayerIds,
+    })
+    const seen = new Set<string>()
+    if (hit.primary?.selectable) {
+      const key = visualSlotKey(hit.primary.ref)
+      seen.add(key)
+      const placementId = stampPlacementIndex.visualOwnerByKey.get(key)
+      if (placementId) return { placementId, layerId: hit.primary.ref.layerId }
+      if (hit.primary.tileId !== null) return undefined
+    }
+    // 非活动层只有真实像素命中才可抢占普通逻辑槽；逻辑重叠的歧义留给 Alt 候选。
+    for (const candidate of hit.candidates) {
+      const key = visualSlotKey(candidate.ref)
+      if (seen.has(key) || !candidate.selectable || !candidate.pixelHit) continue
+      seen.add(key)
+      const placementId = stampPlacementIndex.visualOwnerByKey.get(key)
+      if (placementId) return { placementId, layerId: candidate.ref.layerId }
+    }
+    if (
+      showCollision &&
+      !activeLayerReadOnly &&
+      (!hit.primary?.selectable || hit.primary.tileId === null)
+    ) {
+      const placementId = stampPlacementIndex.collisionOwnerByKey.get(
+        gridPointKey(hit.logicalPoint),
+      )
+      if (placementId) return { placementId, layerId: activeLayerId }
+    }
+    return undefined
+  }
+
+  const candidateRowsAt = (wx: number, wy: number): MapCandidate[] => {
+    if (!liveMap) return []
+    const loaded = loadedRef.current
+    if (!loaded) return []
+    const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
+      activeLayerId,
+      hiddenLayerIds,
+      lockedLayerIds,
+    })
+    const rows: MapCandidate[] = []
+    const seenPlacements = new Set<string>()
+    for (const candidate of hit.candidates) {
+      const placementId = stampPlacementIndex?.visualOwnerByKey.get(visualSlotKey(candidate.ref))
+      if (!placementId) {
+        rows.push({ kind: 'cell', candidate })
+        continue
+      }
+      if (seenPlacements.has(placementId)) continue
+      seenPlacements.add(placementId)
+      const placement = stampPlacementIndex?.byId.get(placementId)
+      rows.push({
+        kind: 'stamp-placement',
+        placementId,
+        ref: { row: candidate.ref.row, col: candidate.ref.col },
+        layerId: candidate.ref.layerId,
+        layerName: candidate.layerName,
+        sourceName: placement?.sourceStampName ?? placementId,
+        locked: candidate.locked,
+      })
+    }
+    if (showCollision) {
+      const placementId = stampPlacementIndex?.collisionOwnerByKey.get(
+        gridPointKey(hit.logicalPoint),
+      )
+      if (placementId && !seenPlacements.has(placementId)) {
+        const placement = stampPlacementIndex?.byId.get(placementId)
+        rows.push({
+          kind: 'stamp-placement',
+          placementId,
+          ref: { ...hit.logicalPoint },
+          layerId: activeLayerId,
+          layerName: '碰撞通道',
+          sourceName: placement?.sourceStampName ?? placementId,
+          locked: activeLayerReadOnly,
+        })
+      }
+    }
+    return rows
   }
 
   const updateSelectionDrag = (event: React.PointerEvent<HTMLCanvasElement>): void => {
@@ -888,24 +1146,35 @@ export function MapMode(props: {
     if (!drag || drag.pointerId !== event.pointerId || !liveMap) return
     const currentClient = { x: event.clientX, y: event.clientY }
     if (!drag.dragging && isMapSelectionDrag(drag.startClient, currentClient)) drag.dragging = true
-    const input = drag.dragging
-      ? selectionForGridPoints(
+    const points = drag.dragging
+      ? latticeInMapRect(
           liveMap,
-          latticeInMapRect(
-            liveMap,
-            drag.startWorld.wx,
-            drag.startWorld.wy,
-            toWorld(event).wx,
-            toWorld(event).wy,
-          ),
-          {
-            activeLayerId,
-            hitScope: workspaceMap.hitScope,
-            hiddenLayerIds,
-            lockedLayerIds,
-          },
+          drag.startWorld.wx,
+          drag.startWorld.wy,
+          toWorld(event).wx,
+          toWorld(event).wy,
         )
-      : selectionInputAt(drag.startWorld.wx, drag.startWorld.wy)
+      : undefined
+    const input =
+      drag.scope === 'stamp-group' && drag.placementId
+        ? points
+          ? selectionForStampPlacementGridPoints(
+              liveMap,
+              stampPlacementIndex?.byId.get(drag.placementId),
+              points,
+              activeLayerId,
+            )
+          : stampGroupSelectionInputAt(drag.startWorld.wx, drag.startWorld.wy, drag.placementId)
+        : points
+          ? selectionForGridPoints(liveMap, points, {
+              activeLayerId,
+              hitScope: workspaceMap.hitScope,
+              hiddenLayerIds,
+              lockedLayerIds,
+              excludedVisualSlotKeys: ownedVisualSlotKeys,
+              excludedGridPointKeys: ownedGridPointKeys,
+            })
+          : selectionInputAt(drag.startWorld.wx, drag.startWorld.wy)
     const next = changeMapSelection(drag.base, input, drag.mode)
     selectionPreviewRef.current = next
     setSelectionPreview(next)
@@ -928,6 +1197,14 @@ export function MapMode(props: {
     (id: string): void => {
       const template = stamps.find((candidate) => candidate.id === id)
       if (!template || !liveMap) return
+      if (stampGroupEditPlacementId) {
+        setWorkspaceNotice({
+          kind: 'error',
+          message: '当前正在组内编辑；请先按 Esc 退出，再选择待放置图章。',
+        })
+        canvasRef.current?.focus({ preventScroll: true })
+        return
+      }
       setActiveStampId(id)
       setPaletteMode('stamps')
       setTool('stamp')
@@ -941,7 +1218,7 @@ export function MapMode(props: {
       })
       canvasRef.current?.focus({ preventScroll: true })
     },
-    [liveMap, stamps],
+    [liveMap, stampGroupEditPlacementId, stamps],
   )
 
   const mapStampSlot = useCallback(
@@ -1029,6 +1306,36 @@ export function MapMode(props: {
     canvasRef.current?.focus({ preventScroll: true })
   }
 
+  const enterStampGroupEdit = (placementId: string): void => {
+    const current = session.getState().maps[mapId]
+    if (!current || !buildStampPlacementIndex(current).byId.has(placementId)) {
+      notifyWorkspace('error', '放置组已被删除，请重新选择。')
+      return
+    }
+    dispatchWorkspace({
+      type: 'set-selection',
+      mapId,
+      selection: { kind: 'stamp-placements', placementIds: [placementId] },
+    })
+    dispatchWorkspace({
+      type: 'enter-stamp-group-edit',
+      mapId,
+      placementId,
+      selection: stampPlacementAllMemberSelection(
+        buildStampPlacementIndex(current).byId.get(placementId),
+      ),
+    })
+    setCandidateMenu(undefined)
+    notifyWorkspace('info', '已进入组内编辑；视觉修改仅作用于当前活动层，Esc 退出组内。')
+    canvasRef.current?.focus({ preventScroll: true })
+  }
+
+  const exitStampGroupEdit = (): void => {
+    dispatchWorkspace({ type: 'exit-stamp-group-edit', mapId })
+    notifyWorkspace('info', '已退出组内编辑；完整放置组选区仍保留。')
+    canvasRef.current?.focus({ preventScroll: true })
+  }
+
   const explainReadOnlySelection = (): boolean => {
     if (!activeLayer) {
       notifyWorkspace('error', '当前没有可写活动层。')
@@ -1083,6 +1390,80 @@ export function MapMode(props: {
     }
   }
 
+  const dispatchStampGroupEdit = (input: {
+    placementId: string
+    patch: ProjectMapPatch
+    removeVisualSlots?: readonly import('../core/map-selection.js').VisualSlotRef[]
+    removeGridPoints?: readonly import('../core/map-selection.js').GridPointRef[]
+    label: string
+  }): 'changed' | 'unchanged' | 'error' => {
+    const currentMap = session.getState().maps[mapId]
+    if (!currentMap) {
+      notifyWorkspace('error', '地图尚未载入。')
+      return 'error'
+    }
+    try {
+      const revision = session.getMapRevision(mapId)
+      const changed = session.dispatchAtMapRevision(
+        mapId,
+        revision,
+        new EditStampPlacementCommand({
+          mapId,
+          map: currentMap,
+          placementId: input.placementId,
+          activeLayerId,
+          patch: input.patch,
+          permission: {
+            hiddenLayerIds: workspaceMap.hiddenLayerIds,
+            lockedLayerIds: workspaceMap.lockedLayerIds,
+          },
+          ...(input.removeVisualSlots ? { removeVisualSlots: input.removeVisualSlots } : {}),
+          ...(input.removeGridPoints ? { removeGridPoints: input.removeGridPoints } : {}),
+          label: input.label,
+        }),
+      )
+      notifyWorkspace(
+        'info',
+        changed ? `${input.label}；组身份同步更新，可撤销。` : `${input.label}：内容没有变化。`,
+      )
+      return changed ? 'changed' : 'unchanged'
+    } catch (error) {
+      notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+      return 'error'
+    }
+  }
+
+  const ungroupStampPlacements = (placementIds: readonly string[]): void => {
+    const currentMap = session.getState().maps[mapId]
+    if (!currentMap) return
+    try {
+      const revision = session.getMapRevision(mapId)
+      const changed = session.dispatchAtMapRevision(
+        mapId,
+        revision,
+        new UngroupStampPlacementsCommand({
+          mapId,
+          map: currentMap,
+          placementIds,
+          permission: {
+            hiddenLayerIds: workspaceMap.hiddenLayerIds,
+            lockedLayerIds: workspaceMap.lockedLayerIds,
+          },
+        }),
+      )
+      if (changed) {
+        dispatchWorkspace({ type: 'clear-selection', mapId })
+        notifyWorkspace(
+          'info',
+          `已解组 ${placementIds.length} 个放置组；瓦片、高度与碰撞值保持不变，可撤销。`,
+        )
+      }
+      canvasRef.current?.focus({ preventScroll: true })
+    } catch (error) {
+      notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+    }
+  }
+
   const copyMapSelection = (): MapCellClipboard | undefined => {
     if (!liveMap) return undefined
     const next = captureMapClipboard(mapId, liveMap, selection, includeCollision)
@@ -1132,6 +1513,10 @@ export function MapMode(props: {
   }
 
   const beginPaste = (source = clipboard): void => {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再粘贴普通地图内容。')
+      return
+    }
     if (!source || !liveMap) {
       notifyWorkspace('error', '地图剪贴板为空。')
       return
@@ -1207,6 +1592,10 @@ export function MapMode(props: {
   }
 
   const repeatMapSelection = (): void => {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再重复普通地图内容。')
+      return
+    }
     if (!liveMap) {
       notifyWorkspace('error', '地图尚未载入。')
       return
@@ -1277,14 +1666,33 @@ export function MapMode(props: {
     }
     if (activeTool === 'select' && event.button === 0 && liveMap) {
       const { wx, wy } = toWorld(event)
+      const stampHit = directStampHitAt(wx, wy)
+      if (stampGroupEditPlacementId) {
+        setCandidateMenu(undefined)
+        if (event.altKey) {
+          notifyWorkspace('error', '组内编辑不打开外部候选；请先按 Esc 退出。')
+          return
+        }
+        if (stampHit && stampHit.placementId !== stampGroupEditPlacementId) {
+          notifyWorkspace('error', '组内编辑已隔离；请先按 Esc 退出，再选择其他地图内容。')
+          return
+        }
+        event.currentTarget.setPointerCapture(event.pointerId)
+        selectionDragRef.current = {
+          scope: 'stamp-group',
+          placementId: stampGroupEditPlacementId,
+          pointerId: event.pointerId,
+          startClient: { x: event.clientX, y: event.clientY },
+          startWorld: { wx, wy },
+          mode: selectionModeFromModifiers(event),
+          base: stampGroupEditSelection ?? { kind: 'none' },
+          dragging: false,
+        }
+        updateSelectionDrag(event)
+        return
+      }
       if (event.altKey) {
-        const loaded = loadedRef.current
-        if (!loaded) return
-        const hit = hitTestMapContent(liveMap, loaded.tiles, wx, wy, {
-          activeLayerId,
-          hiddenLayerIds,
-          lockedLayerIds,
-        })
+        const candidates = candidateRowsAt(wx, wy)
         const rect = event.currentTarget.getBoundingClientRect()
         const rawX = event.clientX - rect.left
         const rawY = event.clientY - rect.top
@@ -1293,19 +1701,38 @@ export function MapMode(props: {
         setCandidateMenu({
           x: Math.max(4, Math.min(rawX, rect.width - menuWidth - 12)),
           y: Math.max(4, Math.min(rawY, rect.height - menuHeight - 12)),
-          candidates: hit.candidates,
+          candidates,
         })
         notifyWorkspace(
           'info',
-          hit.candidates.length
-            ? `当前位置有 ${hit.candidates.length} 个候选；请选择明确目标。`
+          candidates.length
+            ? `当前位置有 ${candidates.length} 个候选；请选择明确目标。`
             : '当前位置没有可选候选。',
         )
         return
       }
       setCandidateMenu(undefined)
+      if (stampHit) {
+        const mode = selectionModeFromModifiers(event)
+        const next = changeStampPlacementSelection(selection, [stampHit.placementId], mode)
+        if (stampHit.layerId) setActiveLayerId(stampHit.layerId)
+        dispatchWorkspace({
+          type: 'change-stamp-selection',
+          mapId,
+          placementIds: [stampHit.placementId],
+          mode,
+        })
+        notifyWorkspace(
+          'info',
+          next.kind === 'stamp-placements'
+            ? `已选择 ${next.placementIds.length} 个完整放置组；Enter 或双击进入单组编辑。`
+            : '放置组选区已清空。',
+        )
+        return
+      }
       event.currentTarget.setPointerCapture(event.pointerId)
       selectionDragRef.current = {
+        scope: 'map',
         pointerId: event.pointerId,
         startClient: { x: event.clientX, y: event.clientY },
         startWorld: { wx, wy },
@@ -1341,19 +1768,41 @@ export function MapMode(props: {
         if (!activeLayer) return
         const { wx, wy } = toWorld(event)
         const start = pixelToLattice(wx, wy)
-        const edits = floodFillProjectMapTiles(
-          liveMap,
-          activeLayer.id,
-          start,
-          selectedTile,
-          currentHeight,
-        )
-        if (edits.length > 0) session.dispatch(new PaintTilesCommand(mapId, edits))
+        if (
+          !stampGroupEditPlacementId &&
+          stampPlacementIndex?.visualOwnerByKey.has(
+            visualSlotKey({ layerId: activeLayer.id, ...start }),
+          )
+        ) {
+          notifyWorkspace('error', '此视觉槽属于图章放置组；请先进入组内编辑或先解组。')
+          return
+        }
+        const edits = stampGroupEditPlacementId
+          ? floodFillStampPlacementTiles(
+              liveMap,
+              stampGroupEditPlacementId,
+              activeLayer.id,
+              start,
+              selectedTile,
+              currentHeight,
+            )
+          : floodFillProjectMapTiles(liveMap, activeLayer.id, start, selectedTile, currentHeight)
+        if (edits.length > 0) {
+          const patch = tileEditsPatch(liveMap, edits)
+          if (stampGroupEditPlacementId)
+            dispatchStampGroupEdit({
+              placementId: stampGroupEditPlacementId,
+              patch,
+              label: '填充组内当前层成员',
+            })
+          else dispatchMapPatch(patch, [activeLayer.id], '填充地图区域')
+        }
         return
       }
       paintingRef.current = true
       if (activeTool === 'rect') {
-        rectAnchorRef.current = toWorld(event)
+        const { wx, wy } = toWorld(event)
+        rectAnchorRef.current = pixelToLattice(wx, wy)
         rectStrokeTo(event)
       } else {
         paintAt(event)
@@ -1431,15 +1880,21 @@ export function MapMode(props: {
     if (selectionDrag) {
       updateSelectionDrag(event)
       const next = selectionPreviewRef.current ?? selectionDrag.base
-      dispatchWorkspace({ type: 'set-selection', mapId, selection: next })
+      if (selectionDrag.scope === 'stamp-group' && next.kind !== 'stamp-placements')
+        dispatchWorkspace({ type: 'set-stamp-group-selection', mapId, selection: next })
+      else dispatchWorkspace({ type: 'set-selection', mapId, selection: next })
       selectionDragRef.current = null
       selectionPreviewRef.current = undefined
       setSelectionPreview(undefined)
       notifyWorkspace(
         'info',
-        next.kind === 'cells'
-          ? `已选择 ${next.visualSlots.length} 个视觉槽、${next.gridPoints.length} 个格点。`
-          : '选区已清空。',
+        selectionDrag.scope === 'stamp-group'
+          ? next.kind === 'cells'
+            ? `组内已选择 ${next.visualSlots.length} 个视觉成员、${next.gridPoints.length} 个碰撞成员。`
+            : '组内 cells 选区已清空；完整 placement 仍保持选中。'
+          : next.kind === 'cells'
+            ? `已选择 ${next.visualSlots.length} 个视觉槽、${next.gridPoints.length} 个格点。`
+            : '选区已清空。',
       )
     }
     if (paintingRef.current) {
@@ -1449,9 +1904,36 @@ export function MapMode(props: {
       strokeRef.current.clear()
       const tileEdits = items.flatMap((item) => (item.kind === 'tile' ? [item.edit] : []))
       const collisionEdits = items.flatMap((item) => (item.kind === 'collision' ? [item.edit] : []))
-      if (tileEdits.length > 0) session.dispatch(new PaintTilesCommand(mapId, tileEdits))
-      if (collisionEdits.length > 0)
-        session.dispatch(new PaintCollisionCommand(mapId, collisionEdits))
+      if (stampGroupEditPlacementId) {
+        if (tileEdits.length > 0)
+          dispatchStampGroupEdit({
+            placementId: stampGroupEditPlacementId,
+            patch: tileEditsPatch(liveMap!, tileEdits),
+            ...(activeTool === 'erase' ? { removeVisualSlots: tileEdits } : {}),
+            label: activeTool === 'erase' ? '擦除组内视觉成员' : '绘制组内视觉成员',
+          })
+        if (collisionEdits.length > 0)
+          dispatchStampGroupEdit({
+            placementId: stampGroupEditPlacementId,
+            patch: {
+              visual: [],
+              collision: collisionEdits.map((edit) => ({ ref: edit, value: edit.value })),
+            },
+            label: collisionPaint === 'set' ? '标记组内碰撞' : '清除组内碰撞值',
+          })
+      } else {
+        if (tileEdits.length > 0 && liveMap)
+          dispatchMapPatch(tileEditsPatch(liveMap, tileEdits), [activeLayerId], '绘制地图瓦片')
+        if (collisionEdits.length > 0)
+          dispatchMapPatch(
+            {
+              visual: [],
+              collision: collisionEdits.map((edit) => ({ ref: edit, value: edit.value })),
+            },
+            [activeLayerId],
+            collisionPaint === 'set' ? '标记地图碰撞' : '清除地图碰撞',
+          )
+      }
       setBasePaintTick((tick) => tick + 1)
     }
     panRef.current = null
@@ -1592,7 +2074,36 @@ export function MapMode(props: {
   }, [selectedMapId, normalizedQuery])
 
   const selectedReferences = selectedAsset ? mapAssetSceneReferences(scenes, selectedAsset.id) : []
-  const selectCandidate = (candidate: MapHitCandidate): void => {
+  const selectCandidate = (row: MapCandidate): void => {
+    if (stampGroupEditPlacementId) {
+      closeCandidateMenu()
+      notifyWorkspace('error', '组内编辑已隔离；请先按 Esc 退出，再选择其他地图内容。')
+      return
+    }
+    if (row.kind === 'stamp-placement') {
+      const placement = liveMap
+        ? buildStampPlacementIndex(liveMap).byId.get(row.placementId)
+        : undefined
+      if (!placement) {
+        closeCandidateMenu()
+        notifyWorkspace('error', '放置组已被删除，请重新选择。')
+        return
+      }
+      if (row.layerId && liveMap?.layers.some((layer) => layer.id === row.layerId))
+        setActiveLayerId(row.layerId)
+      dispatchWorkspace({
+        type: 'set-selection',
+        mapId,
+        selection: { kind: 'stamp-placements', placementIds: [row.placementId] },
+      })
+      closeCandidateMenu()
+      notifyWorkspace(
+        'info',
+        `已确认完整放置组“${placement.sourceStampName ?? placement.id}” (${placement.id})${row.locked ? '；命中成员所在层已锁定，当前只读。' : '。'}`,
+      )
+      return
+    }
+    const candidate = row.candidate
     const currentLayer = liveMap?.layers.find((layer) => layer.id === candidate.ref.layerId)
     if (!currentLayer) {
       closeCandidateMenu()
@@ -1673,6 +2184,7 @@ export function MapMode(props: {
       else if (selectionDragRef.current || selectionPreview) cancelPointerInteraction()
       else if (transformIntent) setTransformIntent(undefined)
       else if (candidateMenu) setCandidateMenu(undefined)
+      else if (stampGroupEditPlacementId) exitStampGroupEdit()
       else dispatchWorkspace({ type: 'clear-selection', mapId })
       return
     }
@@ -1709,6 +2221,44 @@ export function MapMode(props: {
         return
       }
     }
+    if (stampGroupEditPlacementId && command && event.key.toLowerCase() === 'a') {
+      event.preventDefault()
+      event.stopPropagation()
+      if (!liveMap) return
+      const next = stampPlacementAllMemberSelection(
+        stampPlacementIndex?.byId.get(stampGroupEditPlacementId),
+      )
+      dispatchWorkspace({ type: 'set-stamp-group-selection', mapId, selection: next })
+      notifyWorkspace(
+        'info',
+        next.kind === 'cells'
+          ? `已全选当前放置组：${next.visualSlots.length} 个视觉成员、${next.gridPoints.length} 个碰撞成员。`
+          : '当前放置组没有可选成员。',
+      )
+      return
+    }
+    if (
+      stampGroupEditPlacementId &&
+      ((command && ['c', 'x', 'v'].includes(event.key.toLowerCase())) ||
+        event.key === 'Delete' ||
+        event.key === 'Backspace')
+    ) {
+      event.preventDefault()
+      event.stopPropagation()
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再使用普通选区或变换命令。')
+      return
+    }
+    if (
+      event.key === 'Enter' &&
+      selection.kind === 'stamp-placements' &&
+      !stampGroupEditPlacementId
+    ) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (selection.placementIds.length === 1) enterStampGroupEdit(selection.placementIds[0]!)
+      else notifyWorkspace('error', '多组选区不能同时进入组内；请先只保留一个放置组。')
+      return
+    }
     if (command && event.key.toLowerCase() === 'a') {
       event.preventDefault()
       event.stopPropagation()
@@ -1718,6 +2268,8 @@ export function MapMode(props: {
         hitScope: workspaceMap.hitScope,
         hiddenLayerIds,
         lockedLayerIds,
+        excludedVisualSlotKeys: ownedVisualSlotKeys,
+        excludedGridPointKeys: ownedGridPointKeys,
       })
       dispatchWorkspace({ type: 'set-selection', mapId, selection: next })
       notifyWorkspace(
@@ -2036,6 +2588,10 @@ export function MapMode(props: {
               type="button"
               className={`tool${activeTool === 'stamp' ? ' active' : ''}`}
               onClick={() => {
+                if (stampGroupEditPlacementId) {
+                  notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再放置新图章。')
+                  return
+                }
                 if (activeStamp) {
                   setTool('stamp')
                   setTransformIntent(undefined)
@@ -2045,8 +2601,14 @@ export function MapMode(props: {
                   notifyWorkspace('info', '请先从左侧图章面板选择模板。')
                 }
               }}
-              disabled={!liveMap}
-              title={activeStamp ? `放置图章“${activeStamp.name}”` : '先选择一个图章模板'}
+              disabled={!liveMap || Boolean(stampGroupEditPlacementId)}
+              title={
+                stampGroupEditPlacementId
+                  ? '先按 Esc 退出组内编辑'
+                  : activeStamp
+                    ? `放置图章“${activeStamp.name}”`
+                    : '先选择一个图章模板'
+              }
               aria-pressed={activeTool === 'stamp'}
             >
               ◆ 图章
@@ -2116,7 +2678,12 @@ export function MapMode(props: {
             <button
               type="button"
               className="tool"
-              disabled={!clipboard || activeLayerReadOnly || Boolean(transformIntent)}
+              disabled={
+                !clipboard ||
+                activeLayerReadOnly ||
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
+              }
               onClick={() => beginPaste()}
               title="粘贴预览 (Ctrl/⌘+V)"
             >
@@ -2143,7 +2710,8 @@ export function MapMode(props: {
                 (selection.kind !== 'cells' && !clipboard) ||
                 activeLayerReadOnly ||
                 (selection.kind === 'cells' && selectionHasReadOnlyLayer) ||
-                Boolean(transformIntent)
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
               }
               onClick={repeatMapSelection}
               title="重复选区到相邻位置"
@@ -2471,6 +3039,17 @@ export function MapMode(props: {
               // 覆盖候选菜单 effect 的首项聚焦。click 任务结束后再聚焦一次才是稳定顺序。
               if (candidateMenuRef.current) window.setTimeout(focusFirstCandidate, 0)
             }}
+            onDoubleClick={(event) => {
+              if (activeTool !== 'select' || !liveMap) return
+              const { wx, wy } = toWorld(event)
+              const hit = directStampHitAt(wx, wy)
+              if (stampGroupEditPlacementId) {
+                if (hit && hit.placementId !== stampGroupEditPlacementId)
+                  notifyWorkspace('error', '组内编辑已隔离；请先按 Esc 退出，再选择其他地图内容。')
+                return
+              }
+              if (hit) enterStampGroupEdit(hit.placementId)
+            }}
             onKeyDown={onCanvasKeyDown}
             onContextMenu={(event) => event.preventDefault()}
             tabIndex={0}
@@ -2496,34 +3075,58 @@ export function MapMode(props: {
               <div className="map-candidate-title">当前位置候选（面板顺序）</div>
               <div className="map-candidate-options" role="listbox" aria-label="候选列表">
                 {candidateMenu.candidates.length ? (
-                  candidateMenu.candidates.map((candidate) => (
-                    <button
-                      type="button"
-                      key={`${candidate.ref.layerId}:${candidate.ref.row}:${candidate.ref.col}`}
-                      role="option"
-                      disabled={!candidate.selectable}
-                      aria-selected={
-                        selection.kind === 'cells' &&
-                        selection.visualSlots.some(
-                          (ref) =>
-                            ref.layerId === candidate.ref.layerId &&
-                            ref.row === candidate.ref.row &&
-                            ref.col === candidate.ref.col,
-                        )
-                      }
-                      onClick={() => selectCandidate(candidate)}
-                    >
-                      <span>{candidate.locked ? '🔒' : '◇'}</span>
-                      <span>{candidate.layerName}</span>
-                      <code>
-                        r{candidate.ref.row}:c{candidate.ref.col} ·{' '}
-                        {candidate.tileId === null
-                          ? '空槽'
-                          : `#${candidate.tileId} H${candidate.height}`}
-                      </code>
-                      <span>{candidate.pixelHit ? '像素' : '逻辑格'}</span>
-                    </button>
-                  ))
+                  candidateMenu.candidates.map((row) => {
+                    if (row.kind === 'stamp-placement')
+                      return (
+                        <button
+                          type="button"
+                          key={`stamp:${row.placementId}`}
+                          role="option"
+                          className="stamp-group-candidate"
+                          aria-selected={
+                            selection.kind === 'stamp-placements' &&
+                            selection.placementIds.includes(row.placementId)
+                          }
+                          onClick={() => selectCandidate(row)}
+                        >
+                          <span>{row.locked ? '🔒' : '◆'}</span>
+                          <span>{row.layerName}</span>
+                          <code title={`${row.sourceName} · ${row.placementId}`}>
+                            {row.sourceName} · {row.placementId} · r{row.ref.row}:c{row.ref.col}
+                          </code>
+                          <span>整组</span>
+                        </button>
+                      )
+                    const candidate = row.candidate
+                    return (
+                      <button
+                        type="button"
+                        key={`cell:${candidate.ref.layerId}:${candidate.ref.row}:${candidate.ref.col}`}
+                        role="option"
+                        disabled={!candidate.selectable}
+                        aria-selected={
+                          selection.kind === 'cells' &&
+                          selection.visualSlots.some(
+                            (ref) =>
+                              ref.layerId === candidate.ref.layerId &&
+                              ref.row === candidate.ref.row &&
+                              ref.col === candidate.ref.col,
+                          )
+                        }
+                        onClick={() => selectCandidate(row)}
+                      >
+                        <span>{candidate.locked ? '🔒' : '◇'}</span>
+                        <span>{candidate.layerName}</span>
+                        <code>
+                          r{candidate.ref.row}:c{candidate.ref.col} ·{' '}
+                          {candidate.tileId === null
+                            ? '空槽'
+                            : `#${candidate.tileId} H${candidate.height}`}
+                        </code>
+                        <span>{candidate.pixelHit ? '像素' : '逻辑格'}</span>
+                      </button>
+                    )
+                  })
                 ) : (
                   <span className="hint2">没有候选</span>
                 )}
@@ -2575,8 +3178,26 @@ export function MapMode(props: {
               onOpenStampLibrary ? () => onOpenStampLibrary(undefined) : undefined
             }
           />
-        ) : selection.kind === 'stamp-placement' ? (
-          <div className="insp-empty">图章放置组选区由 W7G 接入；W8 不会猜测或拆散成员。</div>
+        ) : selection.kind === 'stamp-placements' && liveMap ? (
+          <StampPlacementSelectionInspector
+            map={liveMap}
+            placementIds={selection.placementIds}
+            activeLayerId={activeLayerId}
+            hiddenLayerIds={hiddenLayerIds}
+            lockedLayerIds={lockedLayerIds}
+            editingPlacementId={stampGroupEditPlacementId}
+            editingSelection={stampGroupEditSelection}
+            notice={workspaceNotice}
+            onEnterEdit={enterStampGroupEdit}
+            onExitEdit={exitStampGroupEdit}
+            onUngroup={ungroupStampPlacements}
+            onOpenSource={onOpenStampLibrary}
+            onEdit={(input) => {
+              dispatchStampGroupEdit(input)
+              canvasRef.current?.focus({ preventScroll: true })
+            }}
+            onValidationError={(message) => notifyWorkspace('error', message)}
+          />
         ) : (
           <div className="section">
             <h4>地图</h4>

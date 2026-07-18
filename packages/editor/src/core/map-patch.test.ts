@@ -4,6 +4,7 @@ import {
   insertProjectMapLayer,
   paintProjectMapCollision,
   paintProjectMapTiles,
+  withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { ApplyProjectMapPatchCommand } from './commands.js'
@@ -14,6 +15,7 @@ import {
   type ProjectMapPatch,
   ProjectMapPatchError,
   prepareProjectMapPatch,
+  prepareStampGroupMemberPatch,
 } from './map-patch.js'
 
 function fixtureMap() {
@@ -27,6 +29,18 @@ function fixtureMap() {
   return paintProjectMapCollision(map, [{ row: 1, col: 1, value: 2 }])
 }
 
+function ownedMap() {
+  return withProjectMapStampPlacements(fixtureMap(), [
+    {
+      id: 'tree-1',
+      sourceStampName: '树',
+      anchor: { row: 1, col: 1 },
+      visualSlots: [{ layerId: 'objects', row: 1, col: 1 }],
+      gridPoints: [{ row: 0, col: 0 }],
+    },
+  ])
+}
+
 const writable = (
   requiredWritableLayerIds: string[] = ['objects'],
 ): MapPatchPermissionSnapshot => ({
@@ -36,6 +50,96 @@ const writable = (
 })
 
 describe('W8 atomic map patch', () => {
+  test('ordinary ownership 在 no-op 前 fail-loud，且 visual/collision 通道正交', () => {
+    const map = ownedMap()
+    for (const patch of [
+      {
+        visual: [
+          {
+            channel: 'tileId' as const,
+            ref: { layerId: 'objects', row: 1, col: 1 },
+            value: 5,
+          },
+        ],
+        collision: [],
+      },
+      {
+        visual: [
+          {
+            channel: 'height' as const,
+            ref: { layerId: 'objects', row: 1, col: 1 },
+            value: 3,
+          },
+        ],
+        collision: [],
+      },
+      { visual: [], collision: [{ ref: { row: 0, col: 0 }, value: 0 }] },
+    ])
+      expect(() => prepareProjectMapPatch(map, patch, writable())).toThrow(/进入组内编辑或先解组/)
+
+    expect(() =>
+      prepareProjectMapPatch(
+        map,
+        { visual: [], collision: [{ ref: { row: 1, col: 1 }, value: 7 }] },
+        writable(),
+      ),
+    ).not.toThrow()
+    expect(() =>
+      prepareProjectMapPatch(
+        map,
+        {
+          visual: [
+            {
+              channel: 'tileId',
+              ref: { layerId: 'objects', row: 0, col: 0 },
+              value: 9,
+            },
+          ],
+          collision: [],
+        },
+        writable(),
+      ),
+    ).not.toThrow()
+  })
+
+  test('组内窄入口只允许本组现有同通道成员，普通格与其他组都拒绝', () => {
+    const map = ownedMap()
+    expect(() =>
+      prepareStampGroupMemberPatch(
+        map,
+        {
+          visual: [
+            {
+              channel: 'height',
+              ref: { layerId: 'objects', row: 1, col: 1 },
+              value: 6,
+            },
+          ],
+          collision: [{ ref: { row: 0, col: 0 }, value: 1 }],
+        },
+        writable(),
+        'tree-1',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      prepareStampGroupMemberPatch(
+        map,
+        {
+          visual: [
+            {
+              channel: 'tileId',
+              ref: { layerId: 'objects', row: 0, col: 0 },
+              value: 8,
+            },
+          ],
+          collision: [],
+        },
+        writable(),
+        'tree-1',
+      ),
+    ).toThrow(/不能扩张到组外/)
+  })
+
   test('tileId-only / height-only / collision-only 各自保持其他通道', () => {
     const map = fixtureMap()
     const tilePrepared = prepareProjectMapPatch(

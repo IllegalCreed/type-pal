@@ -8,7 +8,7 @@ import {
   projectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { PaintTilesCommand } from './commands.js'
+import { PaintCollisionCommand, PaintTilesCommand } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
 import { planStampPlacement } from './stamp-placement.js'
@@ -146,6 +146,25 @@ describe('PlaceStampCommand', () => {
     expect(session.undo()).toBe(true)
     expect(session.getState().maps['map-a']?.version).toBe(2)
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toHaveLength(0)
+  })
+
+  test('legacy Paint* 也不能旁路 ownership，失败不进 history/dirty', () => {
+    const session = new EditSession(state())
+    session.dispatch(new PlaceStampCommand(plan(session.getState().maps['map-a']!)))
+    session.markSaved()
+    const before = session.getState()
+    expect(() =>
+      session.dispatch(
+        new PaintTilesCommand('map-a', [
+          { layerId: 'objects', row: 1, col: 0, tileId: 9, height: 4 },
+        ]),
+      ),
+    ).toThrow(/进入组内编辑或先解组/)
+    expect(() =>
+      session.dispatch(new PaintCollisionCommand('map-a', [{ row: 1, col: 0, value: 1 }])),
+    ).toThrow(/进入组内编辑或先解组/)
+    expect(session.getState()).toBe(before)
+    expect(session.isDirty()).toBe(false)
   })
 
   test('Place → undo 后旧 revision 计划仍被 session 原子拒绝且不清 redo', () => {

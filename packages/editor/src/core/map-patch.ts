@@ -7,6 +7,7 @@ import {
 } from '@type-pal/reforge'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
+import { buildStampPlacementIndex } from './stamp-ownership.js'
 
 export type ProjectMapVisualWrite =
   | { channel: 'tileId'; ref: VisualSlotRef; value: number | null }
@@ -41,11 +42,16 @@ export type MapPatchIssueCode =
   | 'hidden-layer'
   | 'locked-layer'
   | 'collision-authority-missing'
+  | 'visual-owned'
+  | 'collision-owned'
+  | 'outside-stamp-group'
+  | 'stamp-placement-missing'
 
 export interface MapPatchIssue {
   code: MapPatchIssueCode
   message: string
   ref?: VisualSlotRef | GridPointRef
+  ownerPlacementId?: string
 }
 
 export class ProjectMapPatchError extends Error {
@@ -95,6 +101,88 @@ function pushRefIssue(
   issues.push({ code, message, ref: { ...ref } })
 }
 
+type MapPatchOwnershipScope =
+  | { kind: 'ordinary' }
+  | { kind: 'stamp-group-members'; placementId: string }
+
+function inspectProjectMapPatchOwnership(
+  map: ProjectMap,
+  patch: ProjectMapPatch,
+  scope: MapPatchOwnershipScope,
+): MapPatchIssue[] {
+  const index = buildStampPlacementIndex(map)
+  if (scope.kind === 'stamp-group-members' && !index.byId.has(scope.placementId))
+    return [
+      {
+        code: 'stamp-placement-missing',
+        message: `图章放置组 "${scope.placementId}" 不存在或已被移除`,
+        ownerPlacementId: scope.placementId,
+      },
+    ]
+
+  const issues: MapPatchIssue[] = []
+  const checkedVisual = new Set<string>()
+  for (const write of patch.visual) {
+    const key = visualSlotKey(write.ref)
+    if (checkedVisual.has(key)) continue
+    checkedVisual.add(key)
+    const ownerPlacementId = index.visualOwnerByKey.get(key)
+    if (scope.kind === 'ordinary') {
+      if (ownerPlacementId)
+        issues.push({
+          code: 'visual-owned',
+          message: `视觉槽 ${key} 属于图章放置组 "${ownerPlacementId}"；请进入组内编辑或先解组`,
+          ref: { ...write.ref },
+          ownerPlacementId,
+        })
+    } else if (ownerPlacementId !== scope.placementId) {
+      issues.push({
+        code: 'outside-stamp-group',
+        message: ownerPlacementId
+          ? `视觉槽 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${scope.placementId}" 内修改`
+          : `视觉槽 ${key} 不属于放置组 "${scope.placementId}"，组内编辑不能扩张到组外`,
+        ref: { ...write.ref },
+        ...(ownerPlacementId ? { ownerPlacementId } : {}),
+      })
+    }
+  }
+
+  const checkedCollision = new Set<string>()
+  for (const write of patch.collision) {
+    const key = gridPointKey(write.ref)
+    if (checkedCollision.has(key)) continue
+    checkedCollision.add(key)
+    const ownerPlacementId = index.collisionOwnerByKey.get(key)
+    if (scope.kind === 'ordinary') {
+      if (ownerPlacementId)
+        issues.push({
+          code: 'collision-owned',
+          message: `碰撞格点 ${key} 属于图章放置组 "${ownerPlacementId}"；请进入组内编辑或先解组`,
+          ref: { ...write.ref },
+          ownerPlacementId,
+        })
+    } else if (ownerPlacementId !== scope.placementId) {
+      issues.push({
+        code: 'outside-stamp-group',
+        message: ownerPlacementId
+          ? `碰撞格点 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${scope.placementId}" 内修改`
+          : `碰撞格点 ${key} 不属于放置组 "${scope.placementId}"，组内编辑不能扩张到组外`,
+        ref: { ...write.ref },
+        ...(ownerPlacementId ? { ownerPlacementId } : {}),
+      })
+    }
+  }
+  return issues
+}
+
+/** W8 规划器的只读前置检查；最终提交仍由 prepareProjectMapPatch 再守一次。 */
+export function ordinaryProjectMapPatchOwnershipIssues(
+  map: ProjectMap,
+  patch: ProjectMapPatch,
+): MapPatchIssue[] {
+  return inspectProjectMapPatchOwnership(map, patch, { kind: 'ordinary' })
+}
+
 /**
  * 完整预检后产出 full prev/next。失败时只抛 issue，不分配到 map、不留下 command prev。
  */
@@ -103,7 +191,30 @@ export function prepareProjectMapPatch(
   patch: ProjectMapPatch,
   permission: MapPatchPermissionSnapshot,
 ): PreparedProjectMapPatch {
-  const issues: MapPatchIssue[] = []
+  return prepareProjectMapPatchWithOwnership(map, patch, permission, { kind: 'ordinary' })
+}
+
+/** 组内编辑的窄入口：只能写该组当前已拥有的同通道成员。 */
+export function prepareStampGroupMemberPatch(
+  map: ProjectMap,
+  patch: ProjectMapPatch,
+  permission: MapPatchPermissionSnapshot,
+  placementId: string,
+): PreparedProjectMapPatch {
+  return prepareProjectMapPatchWithOwnership(map, patch, permission, {
+    kind: 'stamp-group-members',
+    placementId,
+  })
+}
+
+function prepareProjectMapPatchWithOwnership(
+  map: ProjectMap,
+  patch: ProjectMapPatch,
+  permission: MapPatchPermissionSnapshot,
+  ownershipScope: MapPatchOwnershipScope,
+): PreparedProjectMapPatch {
+  // ownership 必须在 no-op 折叠前检查：普通入口“写回同值”也不能借机触碰组成员。
+  const issues: MapPatchIssue[] = inspectProjectMapPatchOwnership(map, patch, ownershipScope)
   const layerById = new Map(map.layers.map((layer) => [layer.id, layer]))
   const hidden = new Set(permission.hiddenLayerIds)
   const locked = new Set(permission.lockedLayerIds)

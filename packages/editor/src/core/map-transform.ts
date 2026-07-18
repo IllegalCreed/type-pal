@@ -1,7 +1,7 @@
 /** W8 结构化地图剪贴板与可逆变换规划器（纯函数，不直接 dispatch）。 */
 import type { ProjectMap } from '@type-pal/reforge'
 import { mapInstanceHeight } from '@type-pal/reforge'
-import type { ProjectMapPatch } from './map-patch.js'
+import { ordinaryProjectMapPatchOwnershipIssues, type ProjectMapPatch } from './map-patch.js'
 import type { GridPointRef, MapHitScope, MapSelection, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
 
@@ -55,11 +55,15 @@ export type MapTransformIssueCode =
   | 'flat-height'
   | 'collision-authority-missing'
   | 'ambiguous-destination'
+  | 'visual-owned'
+  | 'collision-owned'
+  | 'stamp-selection-unsupported'
 
 export interface MapTransformIssue {
   code: MapTransformIssueCode
   message: string
   ref?: VisualSlotRef | GridPointRef
+  ownerPlacementId?: string
 }
 
 export interface MapTransformPlan {
@@ -115,8 +119,8 @@ export function captureMapClipboard(
   switch (selection.kind) {
     case 'none':
       return undefined
-    case 'stamp-placement':
-      return assertNever(selection as never)
+    case 'stamp-placements':
+      return undefined
     case 'cells': {
       const sourceAnchor = selectionAnchor(selection)
       if (!sourceAnchor) return undefined
@@ -216,6 +220,7 @@ function buildNextSelection(
 }
 
 function finishPlan(
+  map: ProjectMap,
   patch: ProjectMapPatch,
   requiredLayers: ReadonlySet<string>,
   visualRefs: readonly VisualSlotRef[],
@@ -225,6 +230,18 @@ function finishPlan(
   issues: MapTransformIssue[],
   conflictPolicy: MapTransformConflictPolicy,
 ): MapTransformPlan {
+  for (const ownershipIssue of ordinaryProjectMapPatchOwnershipIssues(map, patch)) {
+    if (ownershipIssue.code !== 'visual-owned' && ownershipIssue.code !== 'collision-owned')
+      continue
+    issues.push({
+      code: ownershipIssue.code,
+      message: ownershipIssue.message,
+      ...(ownershipIssue.ref ? { ref: ownershipIssue.ref } : {}),
+      ...(ownershipIssue.ownerPlacementId
+        ? { ownerPlacementId: ownershipIssue.ownerPlacementId }
+        : {}),
+    })
+  }
   const empty = patch.visual.length === 0 && patch.collision.length === 0
   if (empty && issues.length === 0)
     issues.push({ code: 'empty-selection', message: '选区没有可变换的地图内容' })
@@ -363,6 +380,7 @@ export function planMapPaste(
     collision: destination.collision.map(({ source, ref }) => ({ ref, value: source.value })),
   }
   return finishPlan(
+    map,
     patch,
     destination.requiredLayers,
     destination.visual.map(({ ref }) => ref),
@@ -380,9 +398,26 @@ export function planMapDelete(
   includeCollision: boolean,
   collisionAuthorityLayerId: string,
 ): MapTransformPlan {
-  if (selection.kind === 'stamp-placement') return assertNever(selection as never)
+  if (selection.kind === 'stamp-placements')
+    return finishPlan(
+      map,
+      { visual: [], collision: [] },
+      new Set(),
+      [],
+      [],
+      'active-layer',
+      [],
+      [
+        {
+          code: 'stamp-selection-unsupported',
+          message: '整组删除必须使用图章放置组操作，不能拆成普通 W8 单元格删除',
+        },
+      ],
+      'overwrite',
+    )
   if (selection.kind === 'none')
     return finishPlan(
+      map,
       { visual: [], collision: [] },
       new Set(),
       [],
@@ -412,6 +447,7 @@ export function planMapDelete(
     return true
   })
   return finishPlan(
+    map,
     {
       visual: visual.flatMap((ref) => {
         const layer = map.layers.find((candidate) => candidate.id === ref.layerId)
@@ -523,6 +559,7 @@ export function planMapMove(
     collisionWrites.set(gridPointKey(ref), { ref, value: source.value })
 
   return finishPlan(
+    map,
     {
       visual: [...tileIdWrites.values(), ...heightWrites.values()],
       collision: [...collisionWrites.values()],

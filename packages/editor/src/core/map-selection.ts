@@ -4,11 +4,13 @@
  * 这里的 selection 是编辑器工作区临时态：不进入 EditorState、工程 JSON、URL 或 undo 栈。
  * 持久内容修改仍必须通过 Command。
  */
+import type { StampPlacementGroupV1 } from '@type-pal/content'
 import type { ProjectMap, RleFrame } from '@type-pal/reforge'
 import {
   isLatticeInside,
   mapInstanceHeight,
   pixelToLattice,
+  projectMapStampPlacements,
   projectMapTileBlitRect,
 } from '@type-pal/reforge'
 
@@ -35,7 +37,9 @@ export type MapSelection =
       gridPoints: GridPointRef[]
       hitScope: MapHitScope
     }
-  | { kind: 'stamp-placement'; placementId: string }
+  | { kind: 'stamp-placements'; placementIds: string[] }
+
+export type StampGroupCellSelection = Extract<MapSelection, { kind: 'none' } | { kind: 'cells' }>
 
 export type SelectionChangeMode = 'replace' | 'add' | 'subtract'
 
@@ -53,6 +57,11 @@ export interface MapCellSelectionInput {
 
 export interface MapWorkspaceDocumentState {
   selection: MapSelection
+  /** 外层整组选区保持不变；组内 cells 只允许引用该 placement 的成员。 */
+  stampGroupEditContext?: {
+    placementId: string
+    selection: StampGroupCellSelection
+  }
   hitScope: MapHitScope
   hiddenLayerIds: string[]
   lockedLayerIds: string[]
@@ -63,14 +72,29 @@ export interface MapWorkspaceState {
 }
 
 export type MapWorkspaceAction =
+  | { type: 'reset' }
   | {
       type: 'change-selection'
       mapId: string
       input: MapCellSelectionInput
       mode: SelectionChangeMode
     }
+  | {
+      type: 'change-stamp-selection'
+      mapId: string
+      placementIds: readonly string[]
+      mode: SelectionChangeMode
+    }
   | { type: 'set-selection'; mapId: string; selection: MapSelection }
   | { type: 'clear-selection'; mapId: string }
+  | {
+      type: 'enter-stamp-group-edit'
+      mapId: string
+      placementId: string
+      selection: StampGroupCellSelection
+    }
+  | { type: 'set-stamp-group-selection'; mapId: string; selection: StampGroupCellSelection }
+  | { type: 'exit-stamp-group-edit'; mapId: string }
   | { type: 'set-hit-scope'; mapId: string; hitScope: MapHitScope }
   | { type: 'toggle-hidden-layer'; mapId: string; layerId: string }
   | { type: 'toggle-locked-layer'; mapId: string; layerId: string }
@@ -154,11 +178,58 @@ function uniqueBy<T>(values: readonly T[], keyOf: (value: T) => string): T[] {
   return [...found.values()]
 }
 
-function normalizeCellSelection(input: MapCellSelectionInput): MapSelection {
+function normalizeCellSelection(input: MapCellSelectionInput): StampGroupCellSelection {
   const visualSlots = uniqueBy(input.visualSlots, visualSlotKey)
   const gridPoints = uniqueBy(input.gridPoints, gridPointKey)
   if (visualSlots.length === 0 && gridPoints.length === 0) return { kind: 'none' }
   return { kind: 'cells', visualSlots, gridPoints, hitScope: input.hitScope }
+}
+
+function normalizeStampPlacementSelection(placementIds: readonly string[]): MapSelection {
+  const ids = [...new Set(placementIds.filter((id) => id.trim().length > 0))]
+  return ids.length > 0 ? { kind: 'stamp-placements', placementIds: ids } : { kind: 'none' }
+}
+
+function normalizeStampGroupCellSelection(
+  selection: StampGroupCellSelection,
+): StampGroupCellSelection {
+  return selection.kind === 'cells' ? normalizeCellSelection(selection) : selection
+}
+
+export function stampPlacementAllMemberSelection(
+  placement: StampPlacementGroupV1 | undefined,
+): StampGroupCellSelection {
+  if (!placement) return { kind: 'none' }
+  return normalizeCellSelection({
+    visualSlots: placement.visualSlots.map((ref) => ({ ...ref })),
+    gridPoints: placement.gridPoints.map((ref) => ({ ...ref })),
+    hitScope: 'active-layer',
+  })
+}
+
+/** 组内 click/drag 只产出当前活动层视觉成员及同坐标 collision membership。 */
+export function selectionForStampPlacementGridPoints(
+  map: ProjectMap,
+  placement: StampPlacementGroupV1 | undefined,
+  points: readonly GridPointRef[],
+  activeLayerId: string,
+): MapCellSelectionInput {
+  if (!placement) return { visualSlots: [], gridPoints: [], hitScope: 'active-layer' }
+  const pointKeys = new Set(
+    uniqueBy(
+      points.filter((point) => isLatticeInside(map, point)),
+      gridPointKey,
+    ).map(gridPointKey),
+  )
+  return {
+    visualSlots: placement.visualSlots
+      .filter((ref) => ref.layerId === activeLayerId && pointKeys.has(gridPointKey(ref)))
+      .map((ref) => ({ ...ref })),
+    gridPoints: placement.gridPoints
+      .filter((ref) => pointKeys.has(gridPointKey(ref)))
+      .map((ref) => ({ ...ref })),
+    hitScope: 'active-layer',
+  }
 }
 
 function cellsOrEmpty(selection: MapSelection): MapCellSelectionInput {
@@ -167,8 +238,8 @@ function cellsOrEmpty(selection: MapSelection): MapCellSelectionInput {
       return selection
     case 'none':
       return { visualSlots: [], gridPoints: [], hitScope: 'active-layer' }
-    case 'stamp-placement':
-      throw new Error('W7G 尚未接入 stamp-placement 的增选/减选语义')
+    case 'stamp-placements':
+      return { visualSlots: [], gridPoints: [], hitScope: 'active-layer' }
     default: {
       const unreachable: never = selection
       return unreachable
@@ -183,6 +254,8 @@ export function changeMapSelection(
   mode: SelectionChangeMode,
 ): MapSelection {
   if (mode === 'replace') return normalizeCellSelection(input)
+  // cells / placement 是互斥 domain；跨 domain 的修饰键点击仍按 replace 处理。
+  if (current.kind === 'stamp-placements') return normalizeCellSelection(input)
   const before = cellsOrEmpty(current)
   if (mode === 'add') {
     return normalizeCellSelection({
@@ -204,6 +277,22 @@ export function changeMapSelection(
   return unreachable
 }
 
+export function changeStampPlacementSelection(
+  current: MapSelection,
+  placementIds: readonly string[],
+  mode: SelectionChangeMode,
+): MapSelection {
+  const incoming = [...new Set(placementIds)]
+  if (mode === 'replace' || current.kind !== 'stamp-placements')
+    return normalizeStampPlacementSelection(incoming)
+  if (mode === 'add')
+    return normalizeStampPlacementSelection([...current.placementIds, ...incoming])
+  const removed = new Set(incoming)
+  return normalizeStampPlacementSelection(
+    current.placementIds.filter((placementId) => !removed.has(placementId)),
+  )
+}
+
 /** Ctrl/Cmd 减选优先于 Shift 增选；两者同时按减选处理，避免平台差异。 */
 export function selectionModeFromModifiers(modifiers: SelectionModifierState): SelectionChangeMode {
   if (modifiers.ctrlKey || modifiers.metaKey) return 'subtract'
@@ -220,16 +309,38 @@ export function isMapSelectionDrag(
   return Math.hypot(current.x - start.x, current.y - start.y) >= threshold
 }
 
-/** 删除图层/缩图后裁去悬空 ref；stamp placement 留给 W7G 自己定义裁剪语义。 */
+/** 删除图层/缩图/解组后裁去悬空 ref 或 placement id。 */
 export function clipMapSelection(selection: MapSelection, map: ProjectMap): MapSelection {
   if (selection.kind === 'none') return selection
-  if (selection.kind === 'stamp-placement') return selection
+  if (selection.kind === 'stamp-placements') {
+    const selected = new Set(selection.placementIds)
+    const placementIds = projectMapStampPlacements(map)
+      .map((placement) => placement.id)
+      .filter((id) => selected.has(id))
+    if (
+      placementIds.length === selection.placementIds.length &&
+      placementIds.every((id, index) => id === selection.placementIds[index])
+    )
+      return selection
+    return normalizeStampPlacementSelection(placementIds)
+  }
   const layerIds = new Set(map.layers.map((layer) => layer.id))
+  const placementVisualKeys = new Set<string>()
+  const placementGridKeys = new Set<string>()
+  for (const placement of projectMapStampPlacements(map)) {
+    for (const ref of placement.visualSlots) placementVisualKeys.add(visualSlotKey(ref))
+    for (const ref of placement.gridPoints) placementGridKeys.add(gridPointKey(ref))
+  }
   const next = normalizeCellSelection({
     visualSlots: selection.visualSlots.filter(
-      (ref) => layerIds.has(ref.layerId) && isLatticeInside(map, ref),
+      (ref) =>
+        layerIds.has(ref.layerId) &&
+        isLatticeInside(map, ref) &&
+        !placementVisualKeys.has(visualSlotKey(ref)),
     ),
-    gridPoints: selection.gridPoints.filter((ref) => isLatticeInside(map, ref)),
+    gridPoints: selection.gridPoints.filter(
+      (ref) => isLatticeInside(map, ref) && !placementGridKeys.has(gridPointKey(ref)),
+    ),
     hitScope: selection.hitScope,
   })
   if (
@@ -249,6 +360,8 @@ export function mapWorkspaceReducer(
   state: MapWorkspaceState,
   action: MapWorkspaceAction,
 ): MapWorkspaceState {
+  if (action.type === 'reset')
+    return Object.keys(state.maps).length === 0 ? state : createMapWorkspaceState()
   if (action.type === 'remove-map') {
     if (!state.maps[action.mapId]) return state
     const maps = { ...state.maps }
@@ -262,19 +375,76 @@ export function mapWorkspaceReducer(
       next = {
         ...current,
         selection: changeMapSelection(current.selection, action.input, action.mode),
+        stampGroupEditContext: undefined,
       }
       break
+    case 'change-stamp-selection': {
+      const selection = changeStampPlacementSelection(
+        current.selection,
+        action.placementIds,
+        action.mode,
+      )
+      next = {
+        ...current,
+        selection,
+        stampGroupEditContext:
+          selection.kind === 'stamp-placements' &&
+          selection.placementIds.length === 1 &&
+          selection.placementIds[0] === current.stampGroupEditContext?.placementId
+            ? current.stampGroupEditContext
+            : undefined,
+      }
+      break
+    }
     case 'set-selection':
       next = {
         ...current,
         selection:
           action.selection.kind === 'cells'
             ? normalizeCellSelection(action.selection)
-            : action.selection,
+            : action.selection.kind === 'stamp-placements'
+              ? normalizeStampPlacementSelection(action.selection.placementIds)
+              : action.selection,
+        stampGroupEditContext:
+          action.selection.kind === 'stamp-placements' &&
+          action.selection.placementIds.length === 1 &&
+          action.selection.placementIds[0] === current.stampGroupEditContext?.placementId
+            ? current.stampGroupEditContext
+            : undefined,
       }
       break
     case 'clear-selection':
-      next = { ...current, selection: { kind: 'none' } }
+      next = { ...current, selection: { kind: 'none' }, stampGroupEditContext: undefined }
+      break
+    case 'enter-stamp-group-edit':
+      next =
+        current.selection.kind === 'stamp-placements' &&
+        current.selection.placementIds.length === 1 &&
+        current.selection.placementIds[0] === action.placementId
+          ? {
+              ...current,
+              stampGroupEditContext: {
+                placementId: action.placementId,
+                selection: normalizeStampGroupCellSelection(action.selection),
+              },
+            }
+          : current
+      break
+    case 'set-stamp-group-selection':
+      next = current.stampGroupEditContext
+        ? {
+            ...current,
+            stampGroupEditContext: {
+              ...current.stampGroupEditContext,
+              selection: normalizeStampGroupCellSelection(action.selection),
+            },
+          }
+        : current
+      break
+    case 'exit-stamp-group-edit':
+      next = current.stampGroupEditContext
+        ? { ...current, stampGroupEditContext: undefined }
+        : current
       break
     case 'set-hit-scope':
       // R2：切 scope 保留既有选区，只影响下一次命中；UI 会明确提示。
@@ -288,9 +458,41 @@ export function mapWorkspaceReducer(
       break
     case 'clip-map': {
       const validLayers = new Set(action.map.layers.map((layer) => layer.id))
+      const selection = clipMapSelection(current.selection, action.map)
+      const editPlacement = current.stampGroupEditContext
+        ? projectMapStampPlacements(action.map).find(
+            (placement) => placement.id === current.stampGroupEditContext?.placementId,
+          )
+        : undefined
+      const editVisualKeys = new Set(editPlacement?.visualSlots.map(visualSlotKey) ?? [])
+      const editGridKeys = new Set(editPlacement?.gridPoints.map(gridPointKey) ?? [])
+      const editSelection = current.stampGroupEditContext?.selection
+      const clippedEditSelection = editSelection
+        ? normalizeStampGroupCellSelection(
+            editSelection.kind === 'cells'
+              ? {
+                  ...editSelection,
+                  visualSlots: editSelection.visualSlots.filter((ref) =>
+                    editVisualKeys.has(visualSlotKey(ref)),
+                  ),
+                  gridPoints: editSelection.gridPoints.filter((ref) =>
+                    editGridKeys.has(gridPointKey(ref)),
+                  ),
+                }
+              : editSelection,
+          )
+        : undefined
       next = {
         ...current,
-        selection: clipMapSelection(current.selection, action.map),
+        selection,
+        stampGroupEditContext:
+          selection.kind === 'stamp-placements' &&
+          selection.placementIds.length === 1 &&
+          editPlacement !== undefined &&
+          selection.placementIds[0] === editPlacement.id &&
+          clippedEditSelection
+            ? { placementId: editPlacement.id, selection: clippedEditSelection }
+            : undefined,
         hiddenLayerIds: current.hiddenLayerIds.filter((id) => validLayers.has(id)),
         lockedLayerIds: current.lockedLayerIds.filter((id) => validLayers.has(id)),
       }
@@ -332,6 +534,8 @@ export function selectionForGridPoints(
     hitScope: MapHitScope
     hiddenLayerIds?: ReadonlySet<string>
     lockedLayerIds?: ReadonlySet<string>
+    excludedVisualSlotKeys?: ReadonlySet<string>
+    excludedGridPointKeys?: ReadonlySet<string>
   },
 ): MapCellSelectionInput {
   const hidden = options.hiddenLayerIds ?? new Set<string>()
@@ -344,9 +548,13 @@ export function selectionForGridPoints(
   if (layers.length === 0) return { visualSlots: [], gridPoints: [], hitScope: options.hitScope }
   return {
     visualSlots: layers.flatMap((layer) =>
-      validPoints.map((point) => ({ ...point, layerId: layer.id })),
+      validPoints
+        .map((point) => ({ ...point, layerId: layer.id }))
+        .filter((ref) => !options.excludedVisualSlotKeys?.has(visualSlotKey(ref))),
     ),
-    gridPoints: validPoints,
+    gridPoints: validPoints.filter(
+      (point) => !options.excludedGridPointKeys?.has(gridPointKey(point)),
+    ),
     hitScope: options.hitScope,
   }
 }
@@ -359,6 +567,8 @@ export function selectAllMapContent(
     hitScope: MapHitScope
     hiddenLayerIds?: ReadonlySet<string>
     lockedLayerIds?: ReadonlySet<string>
+    excludedVisualSlotKeys?: ReadonlySet<string>
+    excludedGridPointKeys?: ReadonlySet<string>
   },
 ): MapSelection {
   const hidden = options.hiddenLayerIds ?? new Set<string>()
@@ -370,14 +580,19 @@ export function selectAllMapContent(
     for (let row = 0; row < map.height * 2; row++) {
       for (let col = 0; col < map.width; col++) {
         if (layer.tiles[row]?.[col] !== null && layer.tiles[row]?.[col] !== undefined)
-          visualSlots.push({ layerId: layer.id, row, col })
+          if (!options.excludedVisualSlotKeys?.has(visualSlotKey({ layerId: layer.id, row, col })))
+            visualSlots.push({ layerId: layer.id, row, col })
       }
     }
   }
   const gridPoints: GridPointRef[] = []
   for (let row = 0; row < map.height * 2; row++) {
     for (let col = 0; col < map.width; col++) {
-      if ((map.collision[row]?.[col] ?? 0) !== 0) gridPoints.push({ row, col })
+      if (
+        (map.collision[row]?.[col] ?? 0) !== 0 &&
+        !options.excludedGridPointKeys?.has(gridPointKey({ row, col }))
+      )
+        gridPoints.push({ row, col })
     }
   }
   return normalizeCellSelection({ visualSlots, gridPoints, hitScope: options.hitScope })

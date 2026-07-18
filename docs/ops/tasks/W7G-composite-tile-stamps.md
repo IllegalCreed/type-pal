@@ -674,10 +674,32 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
     undo/redo、stale revision、overlay、UI 正交状态、session 切换隔离、逐项问题明细和确认零写入）。
   - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
     1 skipped、game 2289、editor 323；全仓 `biome check` 与 `git diff --check` passed。
-- 下一段:W7G-D 组身份与 P2。把 selection 扩为多 placement 组选择，完成整组选中、进入组内逐层编辑、
-  解组，并让普通画笔/矩形/填充/擦除以及 W8 cells 移动/粘贴/删除全部经过 ownership 守卫。
-  S13 结构生命周期守卫仍在 W7G-E。W7G-F 除 P4 最终体积/性能实测外，还要核对数百 placement 下
-  ownership 索引重建预算，以及 palette tabs 的完整键盘/ARIA 关系和 60 项首屏渲染预算。
+- W7G-D 组身份与 P2（2026-07-18）: **complete**。
+  - selection 扩为复数 `stamp-placements` 外层整组选区，普通 cells 与 placements 永不混合；Shift/Ctrl
+    增减、Alt 歧义候选、跨层像素命中、普通内容优先、collision 空视觉槽命中、Enter/双击进入以及
+    Esc 两级退出均按稳定 placement ID 工作。组内另持单组 cells 子选区，活动层逐层选择和 Ctrl+A
+    全选不会改写外层组身份。
+  - 普通 patch 中央 ownership 守卫覆盖 tile/height/collision，并在 no-op 折叠前 fail-loud；画笔、矩形、
+    填充、擦除、碰撞和 W8 move/paste/delete 全部接入，overwrite 也不能越权。按通道保持独立，普通
+    visual 与 placement collision（以及反向）仍可合法重叠。
+  - 组内 tile/height/fill/collision 与成员擦除由专用原子 Command 完成；视觉只写当前活动层本组成员，
+    collision 要求 placement 涉及的全部视觉层可写。collision 值 0 仍保留 membership；显式移出只删
+    identity 并保持当前矩阵值；最后一个视觉成员不可擦除。
+  - 解组支持单组/多组，只移除 identity，视觉/高度/collision 矩阵引用和值保持不变；最后一组 v3→v2，
+    undo 精确恢复。失败和 no-op 均不污染 history/revision/dirty/redo。
+  - ownership 反向索引按 immutable map 引用缓存；普通选区在槽被 placement 接管后自动裁去。切换到同
+    mapId/placementId 的另一 `EditSession` 会清空组内上下文、剪贴板、变换、候选、stroke、通知和删除
+    二次确认，临时态不串工程。
+- W7G-D 自动检查:
+  - `@type-pal/editor check`:45 files / 368 tests passed（含 P2 全入口、跨通道合法重叠、no-op/overwrite、
+    组内子选区、mixed-height fill、空槽 collision 命中、session 隔离、原子 undo/redo 与解组）。
+  - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
+    1 skipped、game 2289、editor 368；全仓 `biome check` 与 `git diff --check` passed。
+  - Codex 浏览器闭环与只读实现复核均通过；复核结论 P0/P1/P2 均无新增问题。
+- 下一段:W7G-E 结构生命周期，完成删层/缩图/换 tileset 的 placement 处理策略与测试。W7G-F 除 P4
+  最终体积/性能实测外，还要核对数百 placement 下 ownership 索引预算、键盘/ARIA 和 60 项首屏预算。
+  视觉收口同时按用户 2026-07-18 反馈调整地图工作区：层/高观察控件移到左侧图层区，中心画布不再被
+  悬浮控件遮挡，右侧改为“属性 / 瓦片 / 组合”Tab；用户界面使用“组合”，内部 schema 继续保留 `stamp`。
 
 ## 视觉验证记录
 
@@ -704,7 +726,15 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   - `output/playwright/w7g-c-conflict-details-1024.png`
 - W7G-C 结论:1440×900、1024×768 以及 26%/100% 缩放下，模板卡、显式映射、inline 冲突确认、
   Inspector 按钮和 ghost 均无溢出；Console 仍仅既有 `favicon.ico` 404，应用新错误 0、warning 0。
-- 未完成项:W7G-D 组内与 P2、W7G-E 生命周期、W7G-F 最终性能及 Kimi 视觉复验。
+- W7G-D 验证方式:真实 PAL `map-020` 上临时建立一枚含显式 collision 0 的单层组合（未保存到项目），
+  完成普通内容显式覆盖放置、整组选中、进入组内、collision `0 → 3 → undo 0 → redo 3`、退出组内、
+  解组保留内容、undo 恢复组身份与 collision 3 的全链路。
+- W7G-D 截图 / 像素检查路径:
+  - `output/playwright/w7g-d-group-edit.png`
+- W7G-D 结论:完整组摘要、组内面包屑、当前层选中数、视觉/collision 字段和危险动作均无文字溢出；
+  fresh browser Console 仅既有 `favicon.ico` 404，应用新错误 0、warning 0。用户随后指出层/高悬浮控件
+  遮挡画布，布局调整已纳入 W7G-F 视觉收口，不把当前截图当作最终布局验收。
+- 未完成项:W7G-E 生命周期、W7G-F 最终性能/布局调整及 Kimi 视觉复验。
 
 ## Review:审查与返工
 
@@ -716,7 +746,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 ## 用户验收
 
 - 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A/B/C 已完成，继续 W7G-D；全卡仍处于 build，分段完成不等于 W7G done。
+- 后续任务:W7G-A/B/C/D 已完成，继续 W7G-E；全卡仍处于 build，分段完成不等于 W7G done。
 
 ## 交接日志
 
@@ -766,6 +796,13 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   串态和冲突明细不可读两项 P1 已返工。Evidence:43 files / 323 tests、根 `pnpm check`、五张截图和
   Console 检查。Next:同一 Coding Owner 连续推进 W7G-D 组身份与 P2；
   无需转交下一位 Agent，Kimi/GLM 保持只读待命。
+- 2026-07-18 Codex:完成 W7G-D 组身份与 P2。复数整组选区、单组逐层编辑、中央 ownership 守卫、
+  结构成员缩减与解组原子 Command 全部闭合；只读审计提出的普通优先/空槽碰撞命中、stale cells、
+  mixed-height fill、全组 collision 权限和同 ID session 删除确认串态均已返工。Evidence:45 files /
+  368 tests、真实 map-020 的 collision/undo/redo/解组浏览器闭环、fresh Console 检查；只读复核 P0/P1/P2
+  均无新增问题。Next:同一 Coding Owner 连续推进 W7G-E 结构生命周期；W7G-F 同步吸收用户拍板的
+  左侧观察控件、中央纯画布、右侧“属性 / 瓦片 / 组合”布局。无需转交下一位 Agent，Kimi/GLM 保持
+  只读待命。
 
 ## 下一位 Agent 提示词
 

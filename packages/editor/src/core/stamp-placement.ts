@@ -1,5 +1,5 @@
 import type { ProjectMap, StampPlacementGroupV1, StampTemplateV1 } from '@type-pal/content'
-import { isLatticeInside, projectMapStampPlacements } from '@type-pal/reforge'
+import { isLatticeInside } from '@type-pal/reforge'
 import type {
   MapPatchPermissionSnapshot,
   PreparedProjectMapPatch,
@@ -9,6 +9,13 @@ import { ProjectMapPatchError, prepareProjectMapPatch } from './map-patch.js'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
 import { resolveRelativeLatticeOffset } from './map-transform.js'
+import { buildStampPlacementIndex } from './stamp-ownership.js'
+
+export {
+  buildStampPlacementIndex,
+  directStampPlacementOwners,
+  type StampPlacementIndex,
+} from './stamp-ownership.js'
 
 export interface StampLayerMapping {
   layerSlotId: string
@@ -65,12 +72,6 @@ export interface ResolvedStampCollision {
   value: number
 }
 
-export interface StampPlacementIndex {
-  byId: ReadonlyMap<string, StampPlacementGroupV1>
-  visualOwnerByKey: ReadonlyMap<string, string>
-  collisionOwnerByKey: ReadonlyMap<string, string>
-}
-
 export interface StampPlacementPlan {
   mapId: string
   /** 仅供原子 Command 检查 stale；不是持久字段。 */
@@ -102,25 +103,6 @@ export interface PlanStampPlacementInput {
   availableTileIds: ReadonlySet<number>
   conflictPolicy: StampPlacementConflictPolicy
   placementId?: string
-}
-
-const placementIndexCache = new WeakMap<ProjectMap, StampPlacementIndex>()
-
-/** 派生 ownership 反向索引；按 immutable map 引用缓存，永不进入 JSON。 */
-export function buildStampPlacementIndex(map: ProjectMap): StampPlacementIndex {
-  const cached = placementIndexCache.get(map)
-  if (cached) return cached
-  const byId = new Map<string, StampPlacementGroupV1>()
-  const visualOwnerByKey = new Map<string, string>()
-  const collisionOwnerByKey = new Map<string, string>()
-  for (const placement of projectMapStampPlacements(map)) {
-    byId.set(placement.id, placement)
-    for (const ref of placement.visualSlots) visualOwnerByKey.set(visualSlotKey(ref), placement.id)
-    for (const ref of placement.gridPoints) collisionOwnerByKey.set(gridPointKey(ref), placement.id)
-  }
-  const index = { byId, visualOwnerByKey, collisionOwnerByKey }
-  placementIndexCache.set(map, index)
-  return index
 }
 
 function normalizedIdStem(input: string): string {
@@ -410,18 +392,4 @@ export function planStampPlacement(input: PlanStampPlacementInput): StampPlaceme
       preparedPatch !== undefined &&
       (input.conflictPolicy === 'overwrite' || conflicts.length === 0),
   }
-}
-
-/** 测试/诊断用直接扫描；用于证明缓存反向索引没有语义漂移。 */
-export function directStampPlacementOwners(map: ProjectMap): {
-  visual: Map<string, string>
-  collision: Map<string, string>
-} {
-  const visual = new Map<string, string>()
-  const collision = new Map<string, string>()
-  for (const placement of projectMapStampPlacements(map)) {
-    for (const ref of placement.visualSlots) visual.set(visualSlotKey(ref), placement.id)
-    for (const ref of placement.gridPoints) collision.set(gridPointKey(ref), placement.id)
-  }
-  return { visual, collision }
 }

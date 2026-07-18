@@ -71,6 +71,7 @@ import {
   cloneMapPatchPermission,
   cloneProjectMapPatch,
   type MapPatchPermissionSnapshot,
+  ordinaryProjectMapPatchOwnershipIssues,
   type PreparedProjectMapPatch,
   type ProjectMapPatch,
   ProjectMapPatchError,
@@ -726,6 +727,14 @@ export class PaintTilesCommand implements Command {
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map) return state
+    const ownershipIssues = ordinaryProjectMapPatchOwnershipIssues(map, {
+      visual: this.edits.flatMap((edit) => [
+        { channel: 'tileId' as const, ref: edit, value: edit.tileId },
+        { channel: 'height' as const, ref: edit, value: edit.height },
+      ]),
+      collision: [],
+    })
+    if (ownershipIssues.length > 0) throw new ProjectMapPatchError(ownershipIssues)
     if (!this.prev) {
       const seen = new Set<string>()
       this.prev = []
@@ -772,6 +781,11 @@ export class PaintCollisionCommand implements Command {
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map) return state
+    const ownershipIssues = ordinaryProjectMapPatchOwnershipIssues(map, {
+      visual: [],
+      collision: this.edits.map((edit) => ({ ref: edit, value: edit.value })),
+    })
+    if (ownershipIssues.length > 0) throw new ProjectMapPatchError(ownershipIssues)
     if (!this.prev) {
       const seen = new Set<string>()
       this.prev = []
