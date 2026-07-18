@@ -18,29 +18,86 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { AddTilesetCommand, RemoveTilesetCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
 
+const FRAME_PAGE_SIZE = 128
+
+const CATEGORY_LABELS: Readonly<Record<string, string>> = {
+  builtin: '内置',
+  outdoor: '户外',
+  indoor: '室内',
+  dungeon: '迷宫',
+  misc: '其他',
+}
+
+function categoryLabel(category: string): string {
+  return CATEGORY_LABELS[category] ?? category
+}
+
 /** 瓦片帧网格预览(bake 后贴 canvas;量化预览与条目详情共用)。 */
-function FrameGrid(props: { frames: RleFrame[]; palette: Palette; cap?: number }) {
-  const { frames, palette, cap = 128 } = props
-  const shown = frames.slice(0, cap)
+function FrameGrid(props: { frames: readonly RleFrame[]; palette: Palette; startIndex?: number }) {
+  const { frames, palette, startIndex = 0 } = props
   return (
-    <div className="tile-grid">
-      {shown.map((f, i) => (
-        <span key={`${i}:${f.width}x${f.height}`} className="tile-pick">
-          <button type="button" disabled>
-            <FrameThumb frame={f} palette={palette} idx={i} />
-          </button>
-        </span>
+    <ul className="tileset-frame-grid" aria-label="瓦片帧预览">
+      {frames.map((f, i) => (
+        <li
+          key={`${startIndex + i}:${f.width}x${f.height}`}
+          className="tileset-frame"
+          title={`#${startIndex + i} · ${f.width}×${f.height}`}
+        >
+          <FrameThumb frame={f} palette={palette} idx={startIndex + i} />
+          <span className="tileset-frame-index">#{startIndex + i}</span>
+        </li>
       ))}
-      {frames.length > cap && (
-        <span className="hint2">
-          …共 {frames.length} 块(预览前 {cap})
-        </span>
-      )}
-    </div>
+    </ul>
+  )
+}
+
+function PagedFrameGrid(props: { frames: readonly RleFrame[]; palette: Palette }) {
+  const { frames, palette } = props
+  const [page, setPage] = useState(0)
+  const pageCount = Math.max(1, Math.ceil(frames.length / FRAME_PAGE_SIZE))
+  const safePage = Math.min(page, pageCount - 1)
+  const start = safePage * FRAME_PAGE_SIZE
+  const end = Math.min(start + FRAME_PAGE_SIZE, frames.length)
+
+  return (
+    <section className="tileset-preview-panel" aria-label="瓦片预览">
+      <div className="tileset-preview-bar">
+        <div>
+          <strong>瓦片预览</strong>
+          <span className="tileset-preview-range">
+            {frames.length === 0 ? '0 块' : `${start + 1}–${end} / ${frames.length} 块`}
+          </span>
+        </div>
+        {pageCount > 1 && (
+          <nav className="tileset-page-actions" aria-label="瓦片预览分页">
+            <button
+              type="button"
+              aria-label="上一页瓦片"
+              disabled={safePage === 0}
+              onClick={() => setPage((value) => Math.max(0, value - 1))}
+            >
+              ‹
+            </button>
+            <span className="mono">
+              {safePage + 1}/{pageCount}
+            </span>
+            <button
+              type="button"
+              aria-label="下一页瓦片"
+              disabled={safePage === pageCount - 1}
+              onClick={() => setPage((value) => Math.min(pageCount - 1, value + 1))}
+            >
+              ›
+            </button>
+          </nav>
+        )}
+      </div>
+      <FrameGrid frames={frames.slice(start, end)} palette={palette} startIndex={start} />
+    </section>
   )
 }
 
@@ -53,13 +110,18 @@ function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
     ctx.clearRect(0, 0, ref.current.width, ref.current.height)
     ctx.drawImage(bakeFrame(frame, palette), 0, 0)
   }, [frame, palette])
+  const scale = Math.min(2, 48 / Math.max(frame.width, frame.height))
   return (
     <canvas
       ref={ref}
-      className="tile-cell"
+      className="tileset-frame-canvas"
       width={frame.width}
       height={frame.height}
-      title={`#${idx} ${frame.width}×${frame.height}`}
+      style={{
+        width: Math.max(1, Math.round(frame.width * scale)),
+        height: Math.max(1, Math.round(frame.height * scale)),
+      }}
+      aria-label={`瓦片 ${idx}，${frame.width}×${frame.height}`}
     />
   )
 }
@@ -82,8 +144,10 @@ export function TilesetTab(props: {
   tabBar?: React.ReactNode
 }) {
   const { tilesets, tilesetBlobs, assetBase, session, tabBar } = props
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(tilesets[0]?.id ?? null)
   const [uploading, setUploading] = useState(false)
+  const [filter, setFilter] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('all')
   const [draft, setDraft] = useState<Draft | null>(null)
   const [tileW, setTileW] = useState(32)
   const [tileH, setTileH] = useState(16)
@@ -93,6 +157,13 @@ export function TilesetTab(props: {
   const [err, setErr] = useState('')
   const [palette, setPalette] = useState<Palette | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const searchId = useId()
+  const categoryId = useId()
+  const tileWidthId = useId()
+  const tileHeightId = useId()
+  const newIdId = useId()
+  const newNameId = useId()
+  const newCategoryId = useId()
 
   useEffect(() => {
     let alive = true
@@ -106,7 +177,26 @@ export function TilesetTab(props: {
     }
   }, [assetBase])
 
+  const categories = useMemo(
+    () => [...new Set(tilesets.map((tileset) => tileset.category))].sort(),
+    [tilesets],
+  )
+  const shownTilesets = useMemo(() => {
+    const query = filter.trim().toLocaleLowerCase()
+    return tilesets.filter(
+      (tileset) =>
+        (categoryFilter === 'all' || tileset.category === categoryFilter) &&
+        (!query ||
+          tileset.name.toLocaleLowerCase().includes(query) ||
+          tileset.id.toLocaleLowerCase().includes(query)),
+    )
+  }, [categoryFilter, filter, tilesets])
   const selected = tilesets.find((t) => t.id === selectedId) ?? null
+
+  useEffect(() => {
+    if (selectedId && tilesets.some((tileset) => tileset.id === selectedId)) return
+    setSelectedId(tilesets[0]?.id ?? null)
+  }, [selectedId, tilesets])
 
   // 量化预览帧(draft + 参数变化即重算;纯函数,同色缓存后毫秒级)
   const quantized = useMemo(() => {
@@ -186,18 +276,20 @@ export function TilesetTab(props: {
 
   return (
     <>
-      <div className="outliner data-outliner">
+      <div className="outliner data-outliner tileset-outliner">
         {tabBar}
-        <div className="pane-h">
+        <div className="pane-h tileset-library-head">
           <span className="t">瓦片集</span>
           <span className="spacer" />
+          <span className="tileset-library-count">
+            {shownTilesets.length}/{tilesets.length}
+          </span>
           <button
             type="button"
             className="mini-txt"
-            title="上传 PNG 图集,切片并自动贴合工程主色风格"
+            title="上传 PNG、WebP 或 GIF 图集"
             onClick={() => {
               setUploading(true)
-              setSelectedId(null)
               setDraft(null)
               setErr('')
             }}
@@ -205,154 +297,337 @@ export function TilesetTab(props: {
             ＋ 上传图集
           </button>
         </div>
-        <div className="tree">
-          {tilesets.length === 0 && <div className="hint2 pad">尚无条目;「＋ 上传图集」入库。</div>}
-          {tilesets.map((t) => (
+        <div className="tileset-library-tools">
+          <label className="tileset-search-field" htmlFor={searchId}>
+            <span className="tileset-search-icon" aria-hidden="true" />
+            <input
+              id={searchId}
+              className="in"
+              type="search"
+              aria-label="搜索瓦片集"
+              autoComplete="off"
+              placeholder="搜索名称或 ID…"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
+            />
+          </label>
+          <label className="tileset-category-filter" htmlFor={categoryId}>
+            <span>分类</span>
+            <select
+              id={categoryId}
+              className="in"
+              value={categoryFilter}
+              onChange={(event) => setCategoryFilter(event.target.value)}
+            >
+              <option value="all">全部分类</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {categoryLabel(category)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <fieldset className="tileset-library-list" aria-label="瓦片集列表">
+          {tilesets.length === 0 ? (
+            <div className="tileset-list-empty">尚无瓦片集，上传图集后即可在地图中使用。</div>
+          ) : shownTilesets.length === 0 ? (
+            <div className="tileset-list-empty">没有匹配的瓦片集。</div>
+          ) : null}
+          {shownTilesets.map((tileset) => (
             <button
-              key={t.id}
+              key={tileset.id}
               type="button"
-              className={`row${selectedId === t.id ? ' sel' : ''}`}
+              className={`tileset-library-row${!uploading && selectedId === tileset.id ? ' selected' : ''}`}
+              aria-pressed={!uploading && selectedId === tileset.id}
               onClick={() => {
-                setSelectedId(t.id)
+                setSelectedId(tileset.id)
                 setUploading(false)
+                setErr('')
               }}
             >
-              <span className="ico">🧱</span>
-              <span className="nm">{t.name}</span>
-              <span className="tag">{t.category}</span>
+              <span className="tileset-library-icon" aria-hidden="true">
+                ◆
+              </span>
+              <span className="tileset-library-copy">
+                <strong>{tileset.name}</strong>
+                <span className="mono">{tileset.id}</span>
+              </span>
+              <span className="tileset-category-badge" title={tileset.category}>
+                {categoryLabel(tileset.category)}
+              </span>
             </button>
           ))}
-        </div>
+        </fieldset>
       </div>
 
-      <div className="center dpane">
+      <div className="center tileset-center">
         {uploading ? (
-          <div className="dscroll">
-            <h3>上传图集</h3>
-            <p className="hint2">
-              选 PNG → 按网格切片 → 自动贴合工程主色风格(全彩会被近似到原版同一色系)→ 入库。
-              套件型素材(可平铺瓦 + 过渡件)复用率最高;整图切片仅适合一次性地标。
-            </p>
-            <div className="field">
-              <span className="field-label">图集文件</span>
+          <div className="tileset-workspace-scroll">
+            <header className="tileset-workspace-head">
+              <div>
+                <span className="tileset-eyebrow">导入预览</span>
+                <h2>{draft?.fileName ?? '上传瓦片图集'}</h2>
+                <p>选择图片后按网格切片，预览结果就是入库后的瓦片。</p>
+              </div>
+              <button
+                type="button"
+                className="tileset-file-button"
+                onClick={() => fileRef.current?.click()}
+              >
+                {draft ? '更换文件' : '选择图集'}
+              </button>
               <input
                 ref={fileRef}
                 type="file"
                 accept="image/png,image/webp,image/gif"
-                onChange={(e) => {
-                  const f = e.target.files?.[0]
-                  if (f) void pickFile(f)
+                hidden
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) void pickFile(file)
+                  event.target.value = ''
                 }}
               />
-            </div>
-            {draft && (
+            </header>
+            {draft ? (
               <>
-                <div className="field">
-                  <span className="field-label">原图</span>
-                  <span className="mono">
-                    {draft.fileName} · {draft.imgW}×{draft.imgH}
-                  </span>
-                </div>
-                <img src={draft.srcUrl} alt="原图预览" className="atlas-preview" />
-                <div className="field">
-                  <span className="field-label">切片尺寸</span>
-                  <span className="size-edit">
-                    <input
-                      className="in mono"
-                      type="number"
-                      min={1}
-                      max={400}
-                      value={tileW}
-                      title="瓦宽(px);原版菱形瓦 32"
-                      onChange={(e) => setTileW(Math.floor(e.target.valueAsNumber) || 0)}
+                <div className="tileset-atlas-card">
+                  <div className="tileset-preview-bar">
+                    <div>
+                      <strong>原始图集</strong>
+                      <span className="tileset-preview-range mono">
+                        {draft.imgW}×{draft.imgH}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="tileset-atlas-stage">
+                    <img
+                      src={draft.srcUrl}
+                      alt={`${draft.fileName} 原图预览`}
+                      className="atlas-preview"
+                      width={draft.imgW}
+                      height={draft.imgH}
                     />
-                    ×
-                    <input
-                      className="in mono"
-                      type="number"
-                      min={1}
-                      max={400}
-                      value={tileH}
-                      title="瓦高(px);原版菱形瓦 15,可含高物更高"
-                      onChange={(e) => setTileH(Math.floor(e.target.valueAsNumber) || 0)}
-                    />
-                    <span className="hint2">→ 切出 {quantized.length} 块</span>
-                  </span>
+                  </div>
                 </div>
                 {palette && quantized.length > 0 && (
-                  <>
-                    <div className="field">
-                      <span className="field-label">入库预览</span>
-                      <span className="hint2">已贴合工程主色(所见即入库)</span>
-                    </div>
-                    <FrameGrid frames={quantized} palette={palette} />
-                  </>
+                  <PagedFrameGrid frames={quantized} palette={palette} />
                 )}
-                <div className="field">
-                  <span className="field-label">ID</span>
-                  <input
-                    className="in mono"
-                    value={newId}
-                    onChange={(e) => setNewId(e.target.value)}
-                    placeholder="kebab-case,唯一"
-                  />
-                </div>
-                <div className="field">
-                  <span className="field-label">名称</span>
-                  <input
-                    className="in"
-                    value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
-                  />
-                </div>
-                <div className="field">
-                  <span className="field-label">分类</span>
-                  <input
-                    className="in"
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
-                    placeholder="outdoor / indoor / dungeon …"
-                  />
-                </div>
-                <button type="button" className="tool" onClick={() => void submit()}>
-                  ✓ 入库
-                </button>
               </>
+            ) : (
+              <button
+                type="button"
+                className="tileset-upload-empty"
+                onClick={() => fileRef.current?.click()}
+              >
+                <span aria-hidden="true">▦</span>
+                <strong>选择一张瓦片图集</strong>
+                <small>支持 PNG、WebP、GIF；导入后按网格切片。</small>
+              </button>
             )}
-            {err && <div className="err">{err}</div>}
           </div>
         ) : selected && palette ? (
-          <TilesetDetail
+          <TilesetPreview
             key={selected.id}
             def={selected}
             blob={tilesetBlobs[selected.path]}
             assetBase={assetBase}
             palette={palette}
-            onRemove={() => {
-              session.dispatch(new RemoveTilesetCommand(selected.id))
-              setSelectedId(null)
-            }}
           />
         ) : (
-          <div className="dscroll">
-            <p className="hint2 pad">左侧选择瓦片集，或上传新图集。</p>
-            {err && <div className="err">{err}</div>}
+          <div className="tileset-workspace-empty">
+            <span aria-hidden="true">◆</span>
+            <strong>{palette ? '选择瓦片集' : '正在准备瓦片预览…'}</strong>
+            <small>
+              {palette ? '从左侧资源库选择，或上传新的图集。' : '正在读取工程色彩资源。'}
+            </small>
           </div>
         )}
       </div>
+
+      <aside className="inspector tileset-inspector">
+        {uploading ? (
+          <>
+            <div className="insp-head">
+              <div className="what">上传瓦片集</div>
+              <div className="who">切片与登记</div>
+            </div>
+            <section className="section">
+              <h4>切片</h4>
+              <div className="field">
+                <label className="field-label" htmlFor={tileWidthId}>
+                  瓦宽
+                </label>
+                <input
+                  id={tileWidthId}
+                  className="in mono"
+                  type="number"
+                  min={1}
+                  max={400}
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={tileW}
+                  onChange={(event) => setTileW(Math.floor(event.target.valueAsNumber) || 0)}
+                />
+              </div>
+              <div className="field">
+                <label className="field-label" htmlFor={tileHeightId}>
+                  瓦高
+                </label>
+                <input
+                  id={tileHeightId}
+                  className="in mono"
+                  type="number"
+                  min={1}
+                  max={400}
+                  inputMode="numeric"
+                  autoComplete="off"
+                  value={tileH}
+                  onChange={(event) => setTileH(Math.floor(event.target.valueAsNumber) || 0)}
+                />
+              </div>
+              <div className="tileset-cut-summary">
+                {draft ? `将切出 ${quantized.length} 块瓦片` : '选择文件后显示切片结果'}
+              </div>
+            </section>
+            <section className="section">
+              <h4>登记</h4>
+              <div className="field">
+                <label className="field-label" htmlFor={newIdId}>
+                  ID
+                </label>
+                <input
+                  id={newIdId}
+                  className="in mono"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={newId}
+                  onChange={(event) => setNewId(event.target.value)}
+                  placeholder="例如 forest-set…"
+                />
+              </div>
+              <div className="field">
+                <label className="field-label" htmlFor={newNameId}>
+                  名称
+                </label>
+                <input
+                  id={newNameId}
+                  className="in"
+                  autoComplete="off"
+                  value={newName}
+                  onChange={(event) => setNewName(event.target.value)}
+                  placeholder="例如 森林套件…"
+                />
+              </div>
+              <div className="field">
+                <label className="field-label" htmlFor={newCategoryId}>
+                  分类
+                </label>
+                <input
+                  id={newCategoryId}
+                  className="in"
+                  autoComplete="off"
+                  spellCheck={false}
+                  value={newCategory}
+                  onChange={(event) => setNewCategory(event.target.value)}
+                  placeholder="例如 outdoor…"
+                />
+              </div>
+            </section>
+            <section className="section tileset-inspector-actions">
+              <button
+                type="button"
+                className="tileset-primary-action"
+                disabled={!draft || quantized.length === 0 || !palette}
+                onClick={() => void submit()}
+              >
+                入库瓦片集
+              </button>
+              <button
+                type="button"
+                className="tileset-secondary-action"
+                onClick={() => {
+                  setUploading(false)
+                  setDraft(null)
+                  setErr('')
+                }}
+              >
+                取消上传
+              </button>
+            </section>
+          </>
+        ) : selected ? (
+          <>
+            <div className="insp-head">
+              <div className="what">选中瓦片集</div>
+              <div className="who">{selected.name}</div>
+            </div>
+            <section className="section">
+              <h4>登记信息</h4>
+              <div className="field">
+                <span className="field-label">ID</span>
+                <div className="in mono tileset-readonly">{selected.id}</div>
+              </div>
+              <div className="field">
+                <span className="field-label">分类</span>
+                <div className="in tileset-readonly">{categoryLabel(selected.category)}</div>
+              </div>
+              <div className="field tileset-path-field">
+                <span className="field-label">文件</span>
+                <div className="in mono tileset-readonly" title={selected.path}>
+                  {selected.path}
+                </div>
+              </div>
+              {tilesetBlobs[selected.path] && (
+                <div className="tileset-source-note">尚未保存；保存工程后写入资产目录。</div>
+              )}
+            </section>
+            <section className="section">
+              <h4>组合地物</h4>
+              <p className="tileset-inspector-copy">
+                此处管理原始瓦片素材。组合图章将由地图工作区的独立图章库管理，不写入瓦片图像文件。
+              </p>
+            </section>
+            <section className="section tileset-inspector-actions">
+              <button
+                type="button"
+                className="tileset-danger-action"
+                title="从注册表移除；操作可撤销"
+                onClick={() => {
+                  setErr('')
+                  try {
+                    session.dispatch(new RemoveTilesetCommand(selected.id))
+                    setSelectedId(null)
+                  } catch (cause) {
+                    setErr(cause instanceof Error ? cause.message : String(cause))
+                  }
+                }}
+              >
+                移除条目
+              </button>
+            </section>
+          </>
+        ) : (
+          <div className="insp-empty">选择瓦片集后查看登记信息。</div>
+        )}
+        {err && (
+          <div className="tileset-error" role="alert">
+            {err}
+          </div>
+        )}
+      </aside>
     </>
   )
 }
 
-/** 条目详情:元信息 + 瓦片网格(内存字节优先,已落盘走资产加载)。 */
-function TilesetDetail(props: {
+/** 条目预览:瓦片网格(内存字节优先,已落盘走资产加载)。 */
+function TilesetPreview(props: {
   def: TilesetDef
   blob: ArrayBuffer | undefined
   assetBase: AssetBase
   palette: Palette
-  onRemove: () => void
 }) {
-  const { def, blob, assetBase, palette, onRemove } = props
+  const { def, blob, assetBase, palette } = props
   const [frames, setFrames] = useState<RleFrame[] | null>(null)
   const [err, setErr] = useState('')
   useEffect(() => {
@@ -375,37 +650,24 @@ function TilesetDetail(props: {
     }
   }, [def.path, blob, assetBase])
   return (
-    <div className="dscroll">
-      <h3>{def.name}</h3>
-      <div className="field">
-        <span className="field-label">ID</span>
-        <span className="mono">{def.id}</span>
-      </div>
-      <div className="field">
-        <span className="field-label">分类</span>
-        <span className="mono">{def.category}</span>
-      </div>
-      <div className="field">
-        <span className="field-label">文件</span>
-        <span className="mono map-file">{def.path}</span>
-      </div>
-      {blob && <p className="hint2">(新上传,保存工程后落盘)</p>}
+    <div className="tileset-workspace-scroll">
+      <header className="tileset-workspace-head">
+        <div>
+          <span className="tileset-eyebrow">瓦片集预览</span>
+          <h2>{def.name}</h2>
+          <p className="mono">{def.id}</p>
+        </div>
+        <span className="tileset-workspace-badge">{categoryLabel(def.category)}</span>
+      </header>
       {frames ? (
-        <>
-          <div className="field">
-            <span className="field-label">瓦片</span>
-            <span className="mono">{frames.length} 块</span>
-          </div>
-          <FrameGrid frames={frames} palette={palette} />
-        </>
+        <PagedFrameGrid frames={frames} palette={palette} />
       ) : err ? (
-        <div className="err">{err}</div>
+        <div className="tileset-preview-error" role="alert">
+          {err}
+        </div>
       ) : (
-        <p className="hint2">载入中…</p>
+        <div className="tileset-preview-loading">正在载入瓦片…</div>
       )}
-      <button type="button" className="tool danger" onClick={onRemove}>
-        🗑 移除条目
-      </button>
     </div>
   )
 }

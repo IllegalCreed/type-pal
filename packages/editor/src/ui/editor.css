@@ -2300,6 +2300,510 @@ html[data-panel-resize="horizontal"] * {
   flex-direction: column;
   min-height: 0;
 }
+
+/* ── 瓦片集库(W7B):资源库 / 预览 / 登记信息三栏 ── */
+.tileset-outliner {
+  overflow: hidden;
+}
+.tileset-library-head {
+  flex: none;
+  gap: 6px;
+}
+.tileset-library-count {
+  color: var(--faint);
+  font: 10px / 1 var(--mono);
+}
+.tileset-library-tools {
+  display: grid;
+  flex: none;
+  gap: 7px;
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel2) 56%, var(--panel));
+}
+.tileset-search-field {
+  position: relative;
+  display: block;
+}
+.tileset-search-field .in {
+  height: 30px;
+  padding-left: 28px;
+}
+.tileset-search-icon {
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  z-index: 1;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--faint);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.tileset-search-icon::after {
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  width: 5px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--faint);
+  content: "";
+  transform: rotate(45deg);
+}
+.tileset-category-filter {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: var(--dim);
+  font-size: 11px;
+}
+.tileset-category-filter .in {
+  min-width: 0;
+  height: 28px;
+  color-scheme: dark;
+}
+.tileset-search-field .in:focus-visible,
+.tileset-category-filter .in:focus-visible,
+.tileset-inspector .in:focus-visible {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset: 1px;
+}
+.tileset-library-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 0;
+  overscroll-behavior: contain;
+  background: var(--panel);
+}
+.tileset-library-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  width: 100%;
+  min-height: 46px;
+  padding: 6px 8px;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-left: 2px solid transparent;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  touch-action: manipulation;
+  content-visibility: auto;
+  contain-intrinsic-size: 46px;
+}
+.tileset-library-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.tileset-library-row:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.tileset-library-row.selected {
+  border-left-color: var(--accent);
+  background: #2d3852;
+}
+.tileset-library-icon {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+  color: #b58b51;
+  font-size: 10px;
+}
+.tileset-library-row.selected .tileset-library-icon {
+  border-color: color-mix(in srgb, var(--accent) 56%, var(--line));
+  color: #d5ae70;
+}
+.tileset-library-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+.tileset-library-copy strong,
+.tileset-library-copy .mono {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-library-copy strong {
+  font-size: 12px;
+  font-weight: 550;
+}
+.tileset-library-copy .mono {
+  color: var(--faint);
+  font-size: 9px;
+}
+.tileset-category-badge,
+.tileset-workspace-badge {
+  flex: none;
+  max-width: 62px;
+  padding: 2px 5px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel2);
+  color: var(--dim);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-list-empty {
+  padding: 18px 12px;
+  color: var(--faint);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+.tileset-center {
+  display: block;
+  min-height: 0;
+  overflow: hidden;
+  background: #181a20;
+}
+.tileset-workspace-scroll {
+  height: 100%;
+  min-height: 0;
+  padding: 16px;
+  overflow: auto;
+}
+.tileset-workspace-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 12px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+.tileset-workspace-head > div {
+  flex: 1;
+  min-width: 0;
+}
+.tileset-workspace-head h2 {
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-workspace-head p {
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-eyebrow {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.tileset-file-button,
+.tileset-primary-action,
+.tileset-secondary-action,
+.tileset-danger-action {
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel2);
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+.tileset-file-button:hover,
+.tileset-secondary-action:hover {
+  border-color: var(--accent);
+  background: var(--panel3);
+}
+.tileset-file-button:focus-visible,
+.tileset-primary-action:focus-visible,
+.tileset-secondary-action:focus-visible,
+.tileset-danger-action:focus-visible,
+.tileset-upload-empty:focus-visible,
+.tileset-page-actions button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.tileset-workspace-badge {
+  margin-top: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+}
+.tileset-preview-panel,
+.tileset-atlas-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+.tileset-preview-panel + .tileset-preview-panel,
+.tileset-atlas-card + .tileset-preview-panel {
+  margin-top: 12px;
+}
+.tileset-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 39px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel2) 66%, var(--panel));
+}
+.tileset-preview-bar > div:first-child {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 8px;
+}
+.tileset-preview-bar strong {
+  font-size: 11px;
+}
+.tileset-preview-range {
+  color: var(--faint);
+  font-size: 10px;
+}
+.tileset-page-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+}
+.tileset-page-actions button {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--dim);
+  cursor: pointer;
+  font: 18px / 1 var(--sans);
+}
+.tileset-page-actions button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.tileset-page-actions button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.tileset-page-actions .mono {
+  min-width: 34px;
+  color: var(--dim);
+  font-size: 10px;
+  text-align: center;
+}
+.tileset-frame-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  align-content: start;
+  gap: 7px;
+  min-height: 90px;
+  padding: 10px;
+  background:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.015) 25%, transparent 25%) 0 0 / 16px 16px,
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 25%, transparent 25%) 0 0 / 16px 16px,
+    #17191f;
+}
+.tileset-frame {
+  position: relative;
+  display: grid;
+  height: 66px;
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: rgba(35, 39, 50, 0.78);
+}
+.tileset-frame:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: var(--panel2);
+}
+.tileset-frame-canvas,
+.tileset-atlas-stage img {
+  image-rendering: pixelated;
+}
+.tileset-frame-index {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: rgba(10, 12, 16, 0.76);
+  color: var(--faint);
+  font: 8px / 1.25 var(--mono);
+}
+.tileset-atlas-stage {
+  display: grid;
+  min-height: 180px;
+  max-height: 420px;
+  padding: 14px;
+  overflow: auto;
+  place-items: center;
+  background:
+    linear-gradient(45deg, #20232b 25%, transparent 25%) 0 0 / 20px 20px,
+    linear-gradient(-45deg, #20232b 25%, transparent 25%) 0 10px / 20px 20px,
+    linear-gradient(45deg, transparent 75%, #20232b 75%) 10px -10px / 20px 20px,
+    linear-gradient(-45deg, transparent 75%, #20232b 75%) -10px 0 / 20px 20px,
+    #191b22;
+}
+.tileset-atlas-stage img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 380px;
+  object-fit: contain;
+}
+.tileset-upload-empty,
+.tileset-workspace-empty {
+  display: grid;
+  width: 100%;
+  min-height: 260px;
+  padding: 24px;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  border: 1px dashed #46506a;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--panel) 68%, transparent);
+  color: var(--dim);
+  text-align: center;
+}
+.tileset-upload-empty {
+  cursor: pointer;
+  font: inherit;
+}
+.tileset-upload-empty:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel));
+}
+.tileset-upload-empty > span,
+.tileset-workspace-empty > span {
+  color: var(--accent);
+  font-size: 28px;
+}
+.tileset-upload-empty strong,
+.tileset-workspace-empty strong {
+  color: var(--fg);
+  font-size: 13px;
+}
+.tileset-upload-empty small,
+.tileset-workspace-empty small {
+  color: var(--faint);
+  font-size: 11px;
+}
+.tileset-workspace-empty {
+  width: auto;
+  height: calc(100% - 32px);
+  margin: 16px;
+}
+.tileset-preview-loading,
+.tileset-preview-error {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  color: var(--dim);
+  font-size: 11px;
+}
+.tileset-preview-error {
+  color: #ef9a9a;
+}
+.tileset-inspector {
+  min-width: 0;
+}
+.tileset-inspector .in {
+  min-width: 0;
+  color-scheme: dark;
+}
+.tileset-readonly {
+  min-height: 26px;
+  overflow: hidden;
+  color: var(--dim);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-path-field {
+  align-items: start;
+}
+.tileset-source-note,
+.tileset-cut-summary,
+.tileset-inspector-copy {
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.55;
+}
+.tileset-source-note,
+.tileset-cut-summary {
+  margin-top: 7px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel2);
+}
+.tileset-inspector-actions {
+  display: grid;
+  gap: 7px;
+}
+.tileset-primary-action {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #06121f;
+}
+.tileset-primary-action:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.tileset-primary-action:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+.tileset-danger-action {
+  border-color: color-mix(in srgb, var(--err) 52%, var(--line));
+  background: color-mix(in srgb, var(--err) 7%, var(--panel2));
+  color: #ed9a9a;
+}
+.tileset-danger-action:hover {
+  border-color: var(--err);
+  background: color-mix(in srgb, var(--err) 13%, var(--panel2));
+}
+.tileset-error {
+  margin: 10px 12px;
+  padding: 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--err) 54%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--err) 8%, transparent);
+  color: #ef9a9a;
+  font-size: 11px;
+  line-height: 1.45;
+}
 .data-tabs {
   display: flex;
   flex-wrap: wrap;
