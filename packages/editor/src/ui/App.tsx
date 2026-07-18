@@ -98,6 +98,7 @@ import {
   useStoredPanelBoolean,
   useStoredPanelNumber,
 } from './PanelResizeHandle.js'
+import { type ProjectSaveActivity, ProjectSaveDialog } from './ProjectSaveDialog.js'
 import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
@@ -359,6 +360,9 @@ export function App(props: {
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
+  const [saveActivity, setSaveActivity] = useState<ProjectSaveActivity | null>(null)
+  // React state 只负责展示；同步 ref 才能在首个 await 前防住双击和并发工程 IO。
+  const saveInFlightRef = useRef(false)
   const [exporting, setExporting] = useState(false) // A5 导出 zip 进行中
 
   useEffect(() => {
@@ -631,6 +635,7 @@ export function App(props: {
   // 删除键:选中实体时删(在输入框里打字不触发)。
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (saveInFlightRef.current) return
       const t = e.target as HTMLElement | null
       const typing =
         t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
@@ -720,25 +725,51 @@ export function App(props: {
   // 保存:File System Access + 增量(快照-diff,只写变化;P3)。首次弹选文件夹并把句柄存
   // IndexedDB(工程标识 = manifest.id;将来「打开本地/最近工程」= P4 复用)。
   const save = async (): Promise<void> => {
+    if (saveInFlightRef.current || exporting) return
+    saveInFlightRef.current = true
+    setSaveActivity({ phase: 'choosing-directory' })
     try {
       let dir = dirHandleRef.current
+      let rememberDirectory = false
       if (!dir) {
         dir = await pickDir()
         if (!dir) return
         dirHandleRef.current = dir
         snapshotRef.current = null // 新目录 → 快照作废,首存全写
-        void saveHandle(state.manifest.id, dir.name, dir) // 持久化句柄(P4 打开本地用)
+        rememberDirectory = true
       }
-      const files = await serializeProjectWithMapCopies(session.getState(), project.source)
+      const savedState = session.getState()
+      const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
+      setSaveErr('')
+      setSaveActivity({ phase: 'preparing' })
+      // 先让原生 modal 进入 top layer，再开始可能较重的全工程序列化。
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
+      const files = await serializeProjectWithMapCopies(savedState, project.source)
+      let lastPercent = -1
+      setSaveActivity({ phase: 'writing', completed: 0, total: 0 })
       snapshotRef.current = await writeProject(dir, files, {
         ...(snapshotRef.current ? { prevSnapshot: snapshotRef.current } : {}),
-        removePaths: [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()],
+        removePaths,
+        onProgress: ({ completed, total }) => {
+          const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
+          if (percent === lastPercent && completed < total) return
+          lastPercent = percent
+          setSaveActivity({ phase: 'writing', completed, total })
+        },
       })
-      session.markSaved()
-      setSaveErr('')
+      // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
+      if (session.getState() === savedState) session.markSaved()
+      if (rememberDirectory) {
+        void saveHandle(savedState.manifest.id, dir.name, dir).catch((error: unknown) =>
+          console.warn('[project] 工程已保存，但最近工程句柄登记失败', error),
+        )
+      }
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return // 用户取消选择器
       setSaveErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      saveInFlightRef.current = false
+      setSaveActivity(null)
     }
   }
 
@@ -754,9 +785,34 @@ export function App(props: {
     }
   }
 
+  const saveAs = async (): Promise<void> => {
+    if (saveInFlightRef.current || exporting) return
+    saveInFlightRef.current = true
+    setProjMenu(false)
+    setSaveActivity({ phase: 'saving-as' })
+    try {
+      const savedState = session.getState()
+      const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
+      // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
+      const operation = saveProjectAs(
+        () => serializeProjectWithMapCopies(savedState, project.source),
+        dirHandleRef.current ?? undefined,
+        removePaths,
+      )
+      const opened = await operation
+      if (opened) props.onOpened?.(opened)
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return
+      setSaveErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      saveInFlightRef.current = false
+      setSaveActivity(null)
+    }
+  }
+
   return (
-    <div className="editor">
-      <div className="topbar">
+    <div className="editor" aria-busy={saveActivity !== null ? true : undefined}>
+      <div className="topbar" inert={saveActivity !== null ? true : undefined}>
         <div className="proj-menu-wrap">
           <button
             type="button"
@@ -802,21 +858,14 @@ export function App(props: {
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
-                    void runProj(async () =>
-                      saveProjectAs(
-                        () => serializeProjectWithMapCopies(session.getState(), project.source),
-                        dirHandleRef.current ?? undefined,
-                        [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()],
-                      ),
-                    )
-                  }
+                  disabled={exporting || saveActivity !== null}
+                  onClick={() => void saveAs()}
                 >
                   📦 另存为…
                 </button>
                 <button
                   type="button"
-                  disabled={!dirHandleRef.current || exporting}
+                  disabled={!dirHandleRef.current || exporting || saveActivity !== null}
                   title={
                     dirHandleRef.current
                       ? '把工程文件夹原样打包下载(读磁盘;未保存改动不入包)'
@@ -872,16 +921,18 @@ export function App(props: {
         <button
           type="button"
           className="save"
-          disabled={!session.isDirty()}
+          disabled={!session.isDirty() || saveActivity !== null || exporting}
           onClick={() => void save()}
           title="保存改动到工程文件夹(增量,只写变化;打开工程后直接写回,不再选路径)"
         >
-          💾 保存{session.isDirty() ? <span className="dot">●</span> : null}
+          {saveActivity ? '💾 保存中…' : '💾 保存'}
+          {session.isDirty() && !saveActivity ? <span className="dot">●</span> : null}
         </button>
       </div>
 
       <div
         ref={bodyRef}
+        inert={saveActivity !== null ? true : undefined}
         className={`body${moduleNavCompact ? ' module-nav-compact' : ''}${outlinerCollapsed ? ' outliner-collapsed' : ''}${inspectorCollapsed ? ' inspector-collapsed' : ''}`}
         style={bodyStyle}
       >
@@ -1452,7 +1503,7 @@ export function App(props: {
         />
       </div>
 
-      <div className="valbar">
+      <div className="valbar" inert={saveActivity !== null ? true : undefined}>
         {statusIssues.length > 0 ? (
           <>
             <span className="pill warn">⚠ {statusIssues.length} 项待处理</span>
@@ -1478,10 +1529,17 @@ export function App(props: {
           </span>
         ) : null}
         <span className="spacer" />
-        <span style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}>
+        <span
+          role={saveErr ? 'alert' : undefined}
+          style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}
+        >
           {saveErr ? `保存失败: ${saveErr}` : session.isDirty() ? '未保存改动' : '已保存'}
         </span>
       </div>
+
+      {saveActivity && saveActivity.phase !== 'choosing-directory' ? (
+        <ProjectSaveDialog activity={saveActivity} />
+      ) : null}
     </div>
   )
 }
