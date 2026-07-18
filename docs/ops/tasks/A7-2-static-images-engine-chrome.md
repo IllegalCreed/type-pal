@@ -1,6 +1,6 @@
 # A7-2 - 静态内容图像闭包与引擎 chrome 自包含
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / C1 / C4
 Coding Owner: Codex
@@ -329,11 +329,32 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending（done 前审查：独立复算 379/2,656/4unused/0missing/0mismatch + walker 覆盖 + MG2 双跑）
+- Codex: **accept（2026-07-18）**。实现与结果报告已逐项自审：四族 379 records / 5,464,181 B /
+  2,656 edges / 4 unused / 0 missing / 0 mismatch；全 catalog 848 records / 59,704,628 B 物理闭包无错；
+  MG2 dry-run `0/0/0`；四包定向检查与全仓 `pnpm check` 全绿；standalone/editor play 的 `/a7/`
+  production preview 均 0 console error、0 404/500，且无根 `/ui`、`/baked` 请求。Codex 接受进入外部 review，
+  不代表 Kimi/GLM 已验收，也不允许提前标 done。
+- Kimi: pending（主审 engine/project 归属、bundler/base path、图像工作台与视觉/FSA 风险）
+- GLM: **accept（2026-07-18;见下）**。独立复算全部产物数字 + 代码逻辑审查 + 四包 1316 tests pass。
+
+  **产物独立复算** ✅：
+  - catalog **848 entries / 59,704,628B**；四族 portrait 88/768,841B + face 6/10,392B + item-icon 233/262,667B + battle-bg 52/4,422,281B = **379 records / 5,464,181B** ✅
+  - **0 missing / 0 kind mismatch**；20/20 sampled entries hash+bytes 全匹配 ✅
+  - portrait 4 unused(050/068/072/089) 全注册；item-icon 277 不存在（icon=0→缺席）；battle-bg range 6-57，0-5/58-77 排除 ✅
+
+  **MG2** ✅：dry-run `writes=0 deletes=0 conflicts=0`；asset-refs=5676 / asset-warnings=54（5 legacy families deferred to A7-4，pinned baseline test :238/:395）✅
+
+  **代码逻辑审查** ✅：
+  - schema 全 AssetId：actor.face/item.icon/enemy.background/script.portrait/dialogue.portrait.asset 全迁；palPortraitAssetId/palFaceAssetId/palItemIconAssetId/palBattleBackgroundAssetId 稳定 id 构造器存在 ✅
+  - walker 全覆盖：actors portraits.default/expressions/face + dialogue cue portrait.asset + setActorAppearance.portrait + world appearance.portrait + items.icon + battleFields.background 全 7 个消费方接入 ✅
+  - validate.ts:237 拒绝旧 `bg` path 字段；G1-G4 全落地 ✅
+
+  **Legacy/status** ✅：5 families 保留(tileset/sprite/battle-sprite/effect-sprite/image)；6 退出(4 target + glyph-table + ui-image)；/baked/portraits.json/'/ui 静态归零；capability-map A7/R7 未提前标 done ✅
+
+  **总结**：379/2,656/4 unused/0 missing/0 mismatch 全独立冻结；848 catalog 全 hash+bytes 匹配；MG2 零计划；schema/walker/legacy/status 全确认。四包 content 241/reforge 431/editor 421/migrate 223+1skip = 1316 pass。**accept**。
+
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
 
 ## Draft: 设计与风险
 
@@ -422,37 +443,123 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
 
 ## Build: 实现与自测
 
-- Coding Owner:Codex（设计三签齐后才可开始）
-- 修改文件:pending
-- 实现摘要:pending
-- 运行命令:pending
-- 浏览器 / 手工检查:pending
-- 跳过的检查及原因:pending
+- Coding Owner:Codex（三方设计签字已齐，2026-07-18 进入 build）
+- 修改文件:
+  - `packages/content`:四类静态图 schema、guard、legacy exit、typed walker、旧存档 portrait 规范化。
+  - `packages/migrate`:PAL 379 条静态资源生成/物化、引用冻结、MG2/事务、engine chrome bake 与来源测试；
+    确定性重生成 `projects/pal/**` 与 `packages/migrate/baselines/pal/**`。
+  - `packages/reforge`:四族 resolver/cache/索引背景链；typed engine-chrome registry；删除 `public/ui` 与旧
+    `/baked`/`/ui`/portrait manifest fallback。
+  - `packages/editor`:统一图像工作台、四类 picker、导入/替换/量化/预览/引用删除保护/deep link、旧 v3
+    本地升级、clone/seed 退出 baked；未触碰用户已有 `packages/editor/src/ui/scene-stage.ts` 改动。
+  - 文档/任务：A7 审计、project design/lifecycle、asset pipeline、roadmap、capability-map、开发命令与
+    [`A7-2 结果报告`](../../phase2/foundation/a7-2-static-images-engine-chrome-report.md)。
+- 实现摘要:
+  - PAL catalog 469→848；静态四族 379 records / 5,464,181 B / 2,656 typed edges；4 unused、0 missing、
+    0 kind mismatch。全 catalog 848 records / 59,704,628 B 物理文件、bytes、SHA-256 全匹配。
+  - content/runtime/editor 只接受 AssetId；字段缺席与坏 AssetId 分离。battle background 保留索引语义，
+    真彩导入确定性量化；召唤 nibble shift golden 保留。
+  - 旧 v3/static 与旧 save 在边界一次升级；authored 同 AssetId 保留整条记录/bytes，缺文件或坏 hash
+    写前失败；MG2 二跑 `writes=0 deletes=0 conflicts=0`。
+  - 85 个 UI slot / 48,629 B、默认标题、光标、Unifont 与许可通过同一 registry 交给 bundler；
+    `data/baked` 和孤儿 `scripts/gen-baked-manifest.mjs` 退役。
+- 运行命令:
+  - `pnpm check`：全仓 typecheck、759 文件 Biome 与所有测试全绿；其中 content 241、reforge 431、
+    editor 421、migrate 223 passed + 1 skipped，另 shared 111、pal-extract 246、game 2,289。
+  - `pnpm --filter @type-pal/migrate run migrate:content`：`writes=0 deletes=0 conflicts=0`，
+    `asset-refs=5676 asset-warnings=54`。
+  - `pnpm --filter @type-pal/migrate run bake`：`85 UI / 48,629 B + default title + dialog cursor`；
+    bake 后重新 lint 与冻结测试全绿。
+  - `VITE_PROJECT_ID=pal pnpm exec vite build --base=/a7/`（reforge）与
+    `VITE_PROJECT_ID=pal pnpm exec vite build --base=/a7/editor/`（editor）成功；BDF/title/license 都生成
+    base-relative 哈希资源。editor 仅保留既有 >500 kB chunk 非阻塞 warning。
+  - `git diff --check` 与四类 legacy/root-path 静态扫描全绿（历史测试/升级边界中的拒绝用例除外）。
+- 浏览器 / 手工检查:
+  - editor 6010：四筛选数量 88/6/233/52；battle background deep link 精确选中
+    `battle-background.pal.006`，显示 320×200 工程色预览与 `battleFields[6].background` 引用。
+  - 900×700：`document.documentElement.scrollWidth === innerWidth === 900`，无横向溢出。
+  - reforge 6051：默认开局与 `?scene=s066` 正常，0 console error；A7-2 图片只从
+    `projects/pal/assets/migrated/**` 读取。
+  - `/a7/` standalone 与 `/a7/editor/play.html?project=pal&scene=s066` production preview 均正常；
+    0 console error、0 404/500；BDF/UI 与工程图分别从当前 base 的 bundle/project 路径 200 加载，
+    无站点根 `/ui`、`/baked` 或旧 portraits/font/dialog 清单请求。
+- 跳过的检查及原因:
+  - 未在 Codex 自动化中操作 Chrome 原生 `showDirectoryPicker` 系统弹窗；HTTP/FSA 同构、pending blob、
+    保存重开、authored 接管和 manifest-last 已由单测覆盖。Kimi review 仍须独立做一次真实 FSA PAL 冒烟，
+    该项完成前不得签最终视觉 accept。
 
 ## 资源生成记录(如适用)
 
-- Generation Owner:N/A（本卡是确定性迁移/量化，不是 AI 生图）
-- 生成目的 / 替换对象:pending
+- Generation Owner:N/A（确定性迁移/量化由 Coding Owner 执行；不是 AI 生图）
+- 生成目的 / 替换对象:四类 PAL 工程静态图 + bundler-owned engine chrome
 - 提示词要点 / 风格约束:N/A
-- 输出路径:pending
-- 尺寸 / 格式 / 透明背景 / 调色约束:见 battle indexed codec 与 RGBA 三族设计
-- 资源登记位置:projects/*/assets/index.json
-- 验证方式:bytes/hash/visual/MG2
+- 输出路径:
+  - 工程（ignored、可再生）：`projects/pal/assets/migrated/{portraits,faces,item-icons,battle-backgrounds}`
+  - 引擎（tracked）：`packages/reforge/src/engine-chrome/assets/**`
+- 尺寸 / 格式 / 透明背景 / 调色约束:portrait/face/item-icon 为 RGBA PNG；battle background 为
+  320×200 opaque grayscale-index PNG；engine UI/标题为 RGBA PNG。
+- 资源登记位置:四类工程图在 `projects/pal/assets/index.json`；engine chrome 不进入工程 catalog。
+- 验证方式:冻结 records/bytes/hash、全 catalog 重读、MG2 零计划、build hash、HTTP/production 视觉与网络检查。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner:Codex + Kimi
-- 验证方式:pending
-- 截图 / 像素检查路径:pending
-- 结论:pending
-- 未完成项:全部 build 后验证
+- 验证方式:Playwright 实机截图、窄屏 DOM overflow 检查、console/request 审计、root/non-root production preview。
+- 截图 / 像素检查路径:
+  - `output/playwright/a7-2-editor-image-battle-background-final.png`
+  - `output/playwright/a7-2-editor-image-narrow.png`
+  - `output/playwright/a7-2-reforge-s066.png`
+  - `output/playwright/a7-2-reforge-non-root-production.png`
+  - `output/playwright/a7-2-editor-play-non-root-production.png`
+- 结论:Codex 侧 accept；图像工作台颜色/布局、s066、两种非根运行壳与网络路径均符合本卡门禁。
+- 未完成项:Kimi 独立视觉/FSA 冒烟与签字。
 
 ## Review: 审查与返工
 
 - Reviewer:Kimi + GLM
-- 审查结论:pending
-- 必须返工项:pending
-- Accept / rework:pending
+- 审查结论:Codex 自审 accept；Kimi、GLM pending。
+- 必须返工项:当前无；任一外审 counter 时转 `rework`，不得标 done。
+- Accept / rework:pending（三方 accept 未齐）
+
+## 下一位 Agent 提示词
+
+### 给 Kimi（架构 + 视觉主审）
+
+```text
+你是 A7-2 的 Kimi reviewer。任务卡：docs/ops/tasks/A7-2-static-images-engine-chrome.md，当前 Status=review。
+先完整阅读 AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、
+docs/phase2/foundation/a7-2-static-images-engine-chrome-report.md、
+docs/phase2/editor/project-design.md 与 docs/phase2/foundation/a7-resource-closure-audit.md。
+
+Codex 已完成 build：四类项目静态图只走 AssetId/catalog/resolver；engine UI/font/cursor/title 只走 bundler
+registry；PAL 冻结为 379 records / 2,656 edges / 4 unused / 0 missing / 0 mismatch；pnpm check、MG2 0/0/0、
+standalone/editor play 非根 production preview 均已通过。请独立压力测试：
+1) project vs engine chrome 归属、A5/A8 边界与不存在双轨；
+2) /a7/ 和 /a7/editor/ base path、缺 slot fail-loud、无根 /ui 或 /baked；
+3) 图像工作台四类视觉、战场量化预览、900px 窄屏；
+4) 真实 FSA PAL 至少一次打开/替换或保存重开冒烟，并确认 engine chrome 不进工程目录。
+
+只允许修改任务卡的 review/签字记录；不要修改实现文件。输出明确 `accept`，或 `counter/rework` + 可复现证据和
+必须返工项。Kimi 未签 accept 前不得标 done；审完后把结论写进“进入 done 前:审查签字”和 Review 段。
+```
+
+### 给 GLM（数据 + 覆盖审查）
+
+```text
+你是 A7-2 的 GLM reviewer。任务卡：docs/ops/tasks/A7-2-static-images-engine-chrome.md，当前 Status=review。
+先完整阅读 AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、
+docs/phase2/foundation/a7-2-static-images-engine-chrome-report.md 与
+docs/phase2/foundation/a7-resource-closure-audit.md。
+
+请只读独立复算并审计：portrait 88/768841B/2365 edges/84 used/4 unused(50,68,72,89)，face 6/10392B/6，
+item-icon 233/262667B/233，battle-background 52/4422281B/52；合计 379 records/5464181B/2656 edges，
+PAL catalog 848，0 missing、0 kind mismatch；全 catalog 848/59704628B 物理文件与 hash；MG2 二跑 0/0/0。
+同时核 walker 覆盖、item 277 零哨兵、FBP 6-57 分桶、旧 v3/save authored 与失败零写入、clone 仍保留五个
+A7-4 legacy family，以及 roadmap/capability-map 未把 A7/R7 提前标 done。
+
+只允许修改任务卡的 review/签字记录；不要修改实现文件。输出明确 `accept`，或 `counter/rework` + 精确差异、
+复现命令和必须返工项。GLM 未签 accept 前不得标 done；审完后把结论写进“进入 done 前:审查签字”和 Review 段。
+```
 
 ## 用户验收
 
@@ -475,33 +582,9 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
   Evidence:本卡主审立场、签字区、争议记录。Next:GLM 数据/覆盖复核(提示词沿用卡内「给 GLM」,
   请其冻结计数时一并核对 R3 口径);三签齐前不得开始实现。未改实现文件。
 - 2026-07-18 GLM: 数据/覆盖/测试矩阵复核签 **agree**。独立复算全部基线数字：portrait 88 PNG/768,841B/2,365 edges(2,356 dlg+3 appearance+6 actor)/84 unique/4 unused(50,68,72,89)；face 6/10,392B/gai-luojiao 68B 透明有效；item-icon 233/262,667B/233 refs/item277 icon=0 唯一 sentinel/18 未引用 BALL 排除；battle-bg FBP 6-57=52/4,422,281B/52 field refs/0-5 占位/58 空/59-77 不迁/FBP2 归 engine chrome。合计 379 records/2,656 edges/4 unused/0 missing/0 mismatch，PAL catalog 469→848 全精确匹配卡内基线。代码逻辑审查（读源码逐路径推演）：walker 7 个新消费方缺口定位（actors portraits/face + dialogue cue + appearance + item icon + battle field bg）；schema 全数字待迁（PortraitSet.default=number/DialogueCue.icon=number/ItemData.icon=number/BattleFieldDef.bg=string）；MG2 走 catalog authored pattern 不需 arrayMode 条目（同 A7-1 sound WAV）。G1(battle-bg legacy family 有名无路径映射)/G2(battle-bgs.json count:78 是槽位非文件数,实际76)/G3(walker battleFields 槽扩展)/G4(旧存档 portrait number→AssetId 确定性映射) build 必落。Evidence: 设计签字 GLM 行。Next: 三签齐 build allowed，交 Codex 按 A7-2A→E 分段 build。未改实现文件。
-
-## 下一位 Agent 提示词
-
-### 给 Kimi
-
-```text
-接手任务:A7-2 静态内容图像闭包与引擎 chrome 自包含——架构/交互设计主审
-任务卡:docs/ops/tasks/A7-2-static-images-engine-chrome.md
-当前状态:draft；Codex design=agree，Kimi/GLM=pending，build blocked
-你的角色:Kimi 架构主审；只读压力测试归属、schema、save/migration、engine packaging 与编辑器闭环
-先读:AGENTS.md；docs/phase2/READ-FIRST.md；任务卡全文；docs/phase2/editor/project-design.md:21-25,68-83,162-168,186-207；docs/phase2/foundation/a7-resource-closure-audit.md:35-50,431-439；docs/phase2/decisions.md:D25；docs/ops/tasks/A7-0-resource-closure-registry.md 与 A7-1/A7-3 资源卡先例
-已完成:Codex/只读普查已冻结草案——默认 UI/glyph/cursor/title 走 engine chrome typed registry；project 只迁 portrait/face/item-icon/battle-background；基线 379 records、2,656 refs；item 0=无图；battle upload 内部量化并保留索引用于召唤换色；UI theme/custom glyph/generic FBP image 明确不在本卡
-请你做:独立核代码与数据；重点回答 1) engine/project 归属及 FBP2 是否成立 2) 是否应彻底退役 uiOverride/glyph-table/ui-image 3) AssetId 字段与旧存档 number 升级是否单一可行 4) battle indexed PNG/量化是否保留原版换色且作者友好 5) shared engine chrome registry 如何同时服务 reforge/editor/non-root base 6) 图像工作台/picker/删除保护是否闭环 7) A7-4/A8 分界是否诚实。把结论和必改项写回任务卡 Kimi 签字、主审立场、争议记录和交接日志
-不要做:不得修改实现、生成 projects/pal、改 capability 状态或标 build/done；若不同意必须签 counter 并给可执行替代，不要只留评论
-输出要求:明确签 agree 或 counter；列 R1... 必改、S1... 建议、需用户拍板项；给下一位 GLM/Codex 的可复制提示词。三签未齐必须写“不得开始实现”
-```
-
-### 给 GLM
-
-```text
-接手任务:A7-2 静态内容图像闭包与引擎 chrome 自包含——数据/覆盖/测试矩阵复核
-任务卡:docs/ops/tasks/A7-2-static-images-engine-chrome.md
-当前状态:draft；Codex design=agree，Kimi/GLM=pending，build blocked
-你的角色:GLM 覆盖与数据审查；只读独立复算资产/引用/迁移/MG2/测试矩阵
-先读:AGENTS.md；docs/phase2/READ-FIRST.md；任务卡全文；docs/phase1/status/resource-status.md:102-112,145-151；docs/phase2/foundation/a7-resource-closure-audit.md；packages/content/src/asset.ts/actor.ts/index.ts/character.ts/item.ts/enemy.ts；packages/migrate/src/pal-assets.ts 与现 PAL 产物
-已完成:草案基线为 portrait 88 records/2,365 edges/84 unique/4 unused，face 6/6，item-icon 233/233 + item277无图，battle-background 52/52(field6-57)，合计新增 379 records/2,656 edges，PAL catalog 469→848；默认 UI/glyph/cursor/title 不进 project catalog
-请你做:用独立可复现脚本冻结 records/bytes/edges/unique/unused/missing/mismatch；核 2,356 dialogue + 3 appearance + 6 actor 的口径、18 raw item 排除、FBP 0-5/6-57/59-77 分桶、gai-luojiao 透明 face、field 0-5 无真实引用；检查 walker 输入、旧工程/save 升级、MG2 authored takeover、事务顺序、HTTP/FSA、static scan 与视觉矩阵是否无漏项。把结果写回任务卡 GLM 签字、数据基线修正、测试矩阵和交接日志
-不要做:不得修改实现、生成产物、改 capability 状态或标 build/done；数字不一致或消费者漏项就签 counter，不能用 allowlist 消音
-输出要求:明确签 agree 或 counter；给权威计数与复现方法、G1... 必改/S1... 建议、下一位 Codex 提示词。三签未齐必须写“不得开始实现”
-```
+- 2026-07-18 Codex:复核三方 design 均为 `agree`、无 counter，任务转 `build`，Codex 接任唯一 Coding Owner。
+  Evidence:推进签字区 `build allowed`。Next:按 A7-2A→E 分段实现与验证；done 三签前不得标记完成。
+- 2026-07-18 Codex:完成 A7-2A→E build 与自审，签 **accept** 并转 `review`。Evidence:结果报告、
+  `pnpm check`、MG2 `0/0/0`、四包定向检查、root/non-root Playwright 截图与请求审计。Next:Kimi 按
+  架构/视觉/FSA 提示词审查，GLM 按数据/覆盖提示词独立复算；两方均 accept 前不得标 done。
+- 2026-07-18 GLM: 数据与覆盖终审签 **accept**。独立复算 catalog 848/59,704,628B（四族 379/5,464,181B = portrait 88/768,841 + face 6/10,392 + item-icon 233/262,667 + battle-bg 52/4,422,281）；0 missing/0 kind mismatch；20/20 sampled hash+bytes 全匹配；MG2 writes=0/deletes=0/conflicts=0 asset-refs=5676 asset-warnings=54（5 legacy families pinned baseline）；schema 全 AssetId（actor.face/item.icon/enemy.background/script.portrait/dialogue.portrait.asset + 稳定 id 构造器）；walker 7 消费方全覆盖（actors portraits/face + dialogue cue + appearance + world + item icon + battle field bg）；legacy 5 保留(tileset/sprite/battle-sprite/effect-sprite/image) 6 退出(4 target + glyph-table + ui-image)；/baked/portraits.json/'/ui 静态归零；capability-map A7/R7 未提前标 done。四包 content 241/reforge 431/editor 421/migrate 223+1skip = 1316 pass。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
