@@ -1,5 +1,13 @@
 import { type LoadedManifest, normalizeScriptLibrary, type SceneDef } from '@type-pal/content'
-import { assembleProject, buildBlankProjectMap, loadProjectMap } from '@type-pal/reforge'
+import {
+  assembleProject,
+  buildBlankProjectMap,
+  buildProjectMapLayer,
+  insertProjectMapLayer,
+  loadProjectMap,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
+} from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { DeleteMapAssetCommand } from './commands.js'
 import { createPlacedEntity } from './entity-placement.js'
@@ -458,7 +466,16 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
     entryScene: ownScene,
     maps: mapIndex,
   })
-  const projectMap = buildBlankProjectMap(2, 2, 'tileset-056')
+  let projectMap = buildBlankProjectMap(2, 2, 'tileset-056')
+  projectMap = insertProjectMapLayer(
+    projectMap,
+    buildProjectMapLayer(projectMap, 'objects', '物件', 'height'),
+  )
+  projectMap = paintProjectMapTiles(projectMap, [
+    { layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 },
+    { layerId: 'objects', row: 1, col: 0, tileId: 7, height: 3 },
+  ])
+  projectMap = paintProjectMapCollision(projectMap, [{ row: 1, col: 0, value: 5 }])
   const files = serializeProject(toEditorState(project, [ownScene], { 'guijie-minju': projectMap }))
   const source = {
     readText: async (path: string) =>

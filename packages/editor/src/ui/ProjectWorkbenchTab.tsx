@@ -720,7 +720,9 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
         .sort(([left], [right]) => left.localeCompare(right)),
     [assetCatalog],
   )
-  const commit = (next: EntryPoint[]): void => session.dispatch(new SetEntryPointsCommand(next))
+  const commit = (next: EntryPoint[]): void => {
+    session.dispatch(new SetEntryPointsCommand(next))
+  }
   const normalizedRepairIds = repairIds.map((id) => id.trim())
   const repairReady =
     normalizedRepairIds.length === entryPoints.length &&
@@ -852,8 +854,9 @@ function EntryPointEditor(props: ProjectWorkbenchTabProps & { issues: ProjectIss
   const updateOverride = (next: StartWorld): void => {
     if (selected) patchEntry(selected.id, { startWorld: next })
   }
-  const updateDefault = (next: StartWorld): void =>
+  const updateDefault = (next: StartWorld): void => {
     session.dispatch(new UpdateStartWorldCommand(next))
+  }
 
   return (
     <>

@@ -408,8 +408,9 @@ export function EnemyTab(props: {
       }),
     )
   }
-  const setTeams = (teams: EnemyTeamDef[]): void =>
+  const setTeams = (teams: EnemyTeamDef[]): void => {
     session.dispatch(new UpdateEnemyTeamsCommand(teams))
+  }
   const setSound = (key: keyof EnemySounds, value: AssetId | boolean | undefined): void => {
     if (!enemy) return
     const sounds = { ...enemy.sounds, [key]: value }

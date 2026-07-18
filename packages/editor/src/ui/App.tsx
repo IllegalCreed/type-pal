@@ -225,6 +225,9 @@ export function App(props: {
   const moduleLocationsRef = useRef(moduleLocations)
   const scrollPositionsRef = useRef(storedNavigationRef.current.scroll ?? {})
   const navigationStorageKey = editorNavigationKey(state.manifest.id)
+  const [workspaceNotice, setWorkspaceNotice] = useState<
+    { kind: 'info' | 'error'; message: string } | undefined
+  >()
 
   const persistNavigation = useCallback(
     (last: EditorLocation): void => {
@@ -502,6 +505,9 @@ export function App(props: {
 
   const activeModule = editorModule(location.module)
   const activeSubpage = editorSubpage(location)
+  useEffect(() => {
+    if (activeSubpage.kind !== 'map') setWorkspaceNotice(undefined)
+  }, [activeSubpage.kind])
   const sceneMapId = scene?.mapId
   const defaultMapId =
     (location.module === 'map' &&
@@ -604,7 +610,13 @@ export function App(props: {
       const t = e.target as HTMLElement | null
       const typing =
         t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selEntity && scene && !typing) {
+      if (
+        (e.key === 'Delete' || e.key === 'Backspace') &&
+        activeSubpage.kind === 'scene' &&
+        selEntity &&
+        scene &&
+        !typing
+      ) {
         e.preventDefault()
         session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
         setSelected(SCENE_SELECTION)
@@ -619,7 +631,7 @@ export function App(props: {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [session, scene, selEntity])
+  }, [session, scene, selEntity, activeSubpage.kind])
 
   if (!scene && activeSubpage.kind !== 'project') {
     return (
@@ -886,6 +898,7 @@ export function App(props: {
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
             navigation={moduleSubnav}
+            onWorkspaceNotice={setWorkspaceNotice}
           />
         ) : activeSubpage.kind === 'actor' ? (
           <ActorMode
@@ -1417,6 +1430,14 @@ export function App(props: {
             ✓ 引用与工程诊断无问题
           </span>
         )}
+        {workspaceNotice ? (
+          <span className="valbar-status" role="status" aria-live="polite">
+            <span className={`pill${workspaceNotice.kind === 'error' ? ' warn' : ''}`}>
+              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'} 地图工作区
+            </span>
+            <span className="msg">{workspaceNotice.message}</span>
+          </span>
+        ) : null}
         <span className="spacer" />
         <span style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}>
           {saveErr ? `保存失败: ${saveErr}` : session.isDirty() ? '未保存改动' : '已保存'}
@@ -2327,7 +2348,7 @@ function NamedEntryInspector(props: {
     props
   const [labelDraft, setLabelDraft] = useState(entry.label ?? '')
   useEffect(() => setLabelDraft(entry.label ?? ''), [entry.label])
-  const patch = (next: Partial<SceneEntryPoint>): void =>
+  const patch = (next: Partial<SceneEntryPoint>): void => {
     session.dispatch(
       new UpsertSceneEntryCommand(scene.id, entryId, {
         ...entry,
@@ -2335,6 +2356,7 @@ function NamedEntryInspector(props: {
         pos: next.pos ? { ...next.pos } : { ...entry.pos },
       }),
     )
+  }
   const facings: SceneDef['entry']['facing'][] = ['down', 'up', 'left', 'right']
   return (
     <>

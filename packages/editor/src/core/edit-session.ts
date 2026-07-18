@@ -113,38 +113,47 @@ export class EditSession {
   }
 
   /** 派发命令:apply → 入 past → 清 future → 置脏 → 通知。 */
-  dispatch(cmd: Command): void {
+  dispatch(cmd: Command): boolean {
     const previous = this.state
-    this.state = cmd.apply(this.state)
+    const next = cmd.apply(this.state)
+    if (next === previous) return false
+    this.state = next
     this.trackMapChanges(previous, this.state)
     this.past.push(cmd)
     this.future = []
     this.dirty = true
     this.notify()
+    return true
   }
 
   /** 撤销:past 栈顶 invert。空栈 noop。 */
-  undo(): void {
-    const cmd = this.past.pop()
-    if (!cmd) return
+  undo(): boolean {
+    const cmd = this.past.at(-1)
+    if (!cmd) return false
     const previous = this.state
-    this.state = cmd.invert(this.state)
+    const next = cmd.invert(this.state)
+    this.past.pop()
+    this.state = next
     this.trackMapChanges(previous, this.state)
     this.future.push(cmd)
     this.dirty = true
     this.notify()
+    return true
   }
 
   /** 重做:future 栈顶 apply。空栈 noop。 */
-  redo(): void {
-    const cmd = this.future.pop()
-    if (!cmd) return
+  redo(): boolean {
+    const cmd = this.future.at(-1)
+    if (!cmd) return false
     const previous = this.state
-    this.state = cmd.apply(this.state)
+    const next = cmd.apply(this.state)
+    this.future.pop()
+    this.state = next
     this.trackMapChanges(previous, this.state)
     this.past.push(cmd)
     this.dirty = true
     this.notify()
+    return true
   }
 
   /** 变更版本号(每次 notify 自增);useSyncExternalStore 的 getSnapshot 用它。 */

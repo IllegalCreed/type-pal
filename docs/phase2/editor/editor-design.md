@@ -114,6 +114,19 @@ interface EditorMode {
 - 图层列表与图层尺共享一个 currentLayerId；高度尺的值既是聚焦条件，也是下一笔的实例高度。
   当前层/高度正常显示，其余瓦片变暗；吸管同时读取 tileId 与实例高度，聚焦状态不写入内容文件。
 
+### 5.2.1 地图内容选择、Inspector 与可逆变换（W8，2026-07-18）
+
+- 地图工作区的四条状态轴必须正交：瓦片面板素材、待盖图章模板、地图已有内容选区、活动图层不可复用同一状态。`MapSelection` 以稳定 `VisualSlotRef {layerId,row,col}` 和去重 `GridPointRef {row,col}` 分别表示视觉槽/独立碰撞格，按 mapId 存于临时 `MapWorkspaceState`，不进 `EditorState`、JSON、URL 或 undo 栈。
+- 专用 select 工具支持 replace/Shift-add/Ctrl-or-Cmd-subtract/Esc/`Ctrl|Cmd+A`。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。
+- 单击命中与渲染共用 `projectMapTileBlitRect` 和 `RleFrame.opaque`：活动层内高大 tile 的不透明像素源格优先于光标逻辑格；跨层像素只进 Alt 候选。候选固定按面板层自上而下，同层按 row/col；键盘可导航，Esc 返回 canvas。选区叠加同时画源格菱形与实际图像边界。
+- 隐藏层不可见/不可命中/不可写，锁定层可见但普通命中和所有写入均禁止；聚焦/淡化和碰撞叠加显隐仅影响显示，不影响 hit policy 或“变换含碰撞”开关。活动层隐藏/锁定时不偷换层，而是显式进入只读并给出原因。
+- Inspector 把 tileId、实例 height 和 collision 分通道呈现/写入，多值显示“混合”。height 只处理非空 `depthMode=height` 实例，对 null/flat 显示跳过数或拒绝非法值；字段旁与全局底栏都有精确反馈，但只由底栏承担 live region，避免辅助技术重复播报。
+- 所有 Inspector/变换持久修改都走 channel-aware `ApplyProjectMapPatchCommand`：先完整校验坐标、图层、null/flat schema、隐藏/锁定权限和重复写入，再一次应用；失败零写入，invert 同时恢复视觉与碰撞 prev。no-op Command 不入 history、不置脏、不清 redo；undo/redo 执行失败不丢栈顶。
+- 结构化地图剪贴板保留相对错排坐标、稳定图层映射、tileId/height 和显式 included/excluded collision；移动、复制、剪切、粘贴、重复、删除均先生成完整预览/冲突计划，取消/覆盖不静默，每个用户动作只一笔 undo。变换预览期间 Inspector 与破坏性快捷键被锁定。
+- W8 只在 selection 代数类型中预留 `stamp-placement`。W7G 若要实现“保存重开后仍能整章选中”，必须另开三签 schema 任务持久化非链接 placement group；不得从相邻普通格猜组，不得让模板暗中回写已有放置。
+
+实现、测试矩阵和 27%/103% 浏览器证据统一记录在 [W8 任务卡](../../ops/tasks/W8-map-content-selection-inspector.md)。
+
 ### 5.3 音乐资源工作台(A7-0,2026-07-15)
 
 “资源 -> 音乐”是音乐的唯一权威编辑页，数据源是 `EditorState.assetCatalog`，不再维护

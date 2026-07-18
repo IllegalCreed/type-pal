@@ -9,7 +9,11 @@
  */
 import type { ProjectMapV2 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
-import { type ProjectMapTileDraw, projectMapTilesInView } from './project-map.js'
+import {
+  type ProjectMapTileDraw,
+  projectMapTileBlitRect,
+  projectMapTilesInView,
+} from './project-map.js'
 
 const TILE_W = 32
 const TILE_H = 16
@@ -302,8 +306,10 @@ export class Canvas2DRenderer implements Renderer {
     if (!opts?.skipBase) {
       for (const tile of tiles) {
         const image = this.bakedTile(tile.tileId)
-        if (image)
-          drawTile(image, tile.centerX - HALF_W + ox, tile.centerY - SUBROW + oy, tileAlpha(tile))
+        if (image) {
+          const rect = projectMapTileBlitRect(tile, image)
+          drawTile(image, rect.x + ox, rect.y + oy, tileAlpha(tile))
+        }
       }
     }
 

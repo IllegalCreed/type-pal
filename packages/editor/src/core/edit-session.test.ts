@@ -1,6 +1,11 @@
-import { buildBlankProjectMap } from '@type-pal/reforge'
+import {
+  buildBlankProjectMap,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
+} from '@type-pal/reforge'
 import { expect, test, vi } from 'vitest'
-import { PaintTilesCommand } from './commands.js'
+import type { Command } from './commands.js'
+import { ApplyProjectMapPatchCommand, PaintTilesCommand } from './commands.js'
 import { type EditorState, EditSession, MoveEntityCommand } from './edit-session.js'
 
 // 最小 EditorState fixture(字段不全,as 断言 —— 测的是 command/undo 引擎,不是数据形状)。
@@ -85,6 +90,93 @@ test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
   off()
   sess.redo()
   expect(fn).toHaveBeenCalledTimes(2)
+})
+
+test('noop command 不入历史、不置脏、不通知，也不清 redo', () => {
+  const sess = new EditSession(mkState())
+  const fn = vi.fn()
+  sess.subscribe(fn)
+  const noop: Command = {
+    label: 'noop',
+    apply: (state) => state,
+    invert: (state) => state,
+  }
+  expect(sess.dispatch(noop)).toBe(false)
+  expect(sess.canUndo()).toBe(false)
+  expect(sess.isDirty()).toBe(false)
+  expect(fn).not.toHaveBeenCalled()
+
+  sess.dispatch(new MoveEntityCommand('s', 'e', { col: 5, row: 6, height: 0 }))
+  sess.undo()
+  expect(sess.canRedo()).toBe(true)
+  expect(sess.dispatch(noop)).toBe(false)
+  expect(sess.canRedo()).toBe(true)
+})
+
+test('dispatch/undo/redo 抛错时不丢失原历史分支', () => {
+  const sess = new EditSession(mkState())
+  sess.dispatch(new MoveEntityCommand('s', 'e', { col: 5, row: 6, height: 0 }))
+  sess.undo()
+  const failedDispatch: Command = {
+    label: 'failed dispatch',
+    apply: () => {
+      throw new Error('apply failed')
+    },
+    invert: (state) => state,
+  }
+  expect(() => sess.dispatch(failedDispatch)).toThrow('apply failed')
+  expect(sess.canRedo()).toBe(true)
+
+  sess.redo()
+  const badUndo: Command = {
+    label: 'bad undo',
+    apply: (state) => ({ ...state, locale: { ...state.locale } }),
+    invert: () => {
+      throw new Error('invert failed')
+    },
+  }
+  sess.dispatch(badUndo)
+  expect(() => sess.undo()).toThrow('invert failed')
+  expect(sess.canUndo()).toBe(true)
+})
+
+test('原子地图 patch 经 EditSession 一次 dispatch/undo/redo 恢复视觉与碰撞双 prev', () => {
+  const state = mkState()
+  let map = buildBlankProjectMap(2, 1, 'tileset-001')
+  map = paintProjectMapTiles(map, [{ layerId: 'floor', row: 0, col: 0, tileId: 2, height: 0 }])
+  map = paintProjectMapCollision(map, [{ row: 0, col: 0, value: 3 }])
+  state.maps = { a: map }
+  const hiddenLayerIds: string[] = []
+  const command = new ApplyProjectMapPatchCommand(
+    'a',
+    {
+      visual: [
+        {
+          channel: 'tileId',
+          ref: { layerId: 'floor', row: 0, col: 0 },
+          value: 9,
+        },
+      ],
+      collision: [{ ref: { row: 0, col: 0 }, value: 0 }],
+    },
+    {
+      hiddenLayerIds,
+      lockedLayerIds: [],
+      requiredWritableLayerIds: ['floor'],
+    },
+  )
+  hiddenLayerIds.push('floor')
+  const session = new EditSession(state)
+
+  expect(session.dispatch(command)).toBe(true)
+  expect(session.getState().maps.a?.layers[0]?.tiles[0]?.[0]).toBe(9)
+  expect(session.getState().maps.a?.collision[0]?.[0]).toBe(0)
+  expect(session.undo()).toBe(true)
+  expect(session.getState().maps.a).toEqual(map)
+  expect(session.redo()).toBe(true)
+  expect(session.getState().maps.a?.layers[0]?.tiles[0]?.[0]).toBe(9)
+  expect(session.getState().maps.a?.collision[0]?.[0]).toBe(0)
+  expect(session.canUndo()).toBe(true)
 })
 
 // ── 脏标记(L2)──────────────────────────────────────────────

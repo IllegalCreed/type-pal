@@ -9,6 +9,8 @@
   --dim: #8b93a3;
   --faint: #666e7e;
   --accent: #4c9aff;
+  /* 旧样式片段的兼容别名；新代码统一写 --accent。 */
+  --acc: var(--accent);
   --warn: #e2b340;
   --err: #e05b5b;
   --ok: #58b37a;
@@ -699,6 +701,24 @@ html[data-panel-resize="horizontal"] * {
   background: var(--panel3);
   color: var(--fg);
 }
+.tool:focus-visible,
+.layer-eye:focus-visible,
+.layer-lock:focus-visible,
+.layer-name:focus-visible,
+.tile-thumb:focus-visible,
+.map-focus-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.tool:disabled,
+.tool[disabled] {
+  opacity: 0.38;
+  cursor: default;
+}
+.tool:hover:disabled {
+  background: transparent;
+  color: var(--dim);
+}
 .tool.active {
   background: var(--accent);
   border-color: var(--accent);
@@ -945,6 +965,12 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.valbar-status {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 14px;
 }
 .valbar .warn {
   color: var(--warn);
@@ -5301,7 +5327,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .map-layer-row {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-columns: 24px 24px minmax(0, 1fr) auto;
   align-items: center;
   min-height: 32px;
   padding: 2px 6px;
@@ -5316,6 +5342,7 @@ html[data-panel-resize="horizontal"] * {
   box-shadow: inset 2px 0 0 var(--accent);
 }
 .layer-eye,
+.layer-lock,
 .layer-name {
   min-width: 0;
   border: 0;
@@ -5329,6 +5356,18 @@ html[data-panel-resize="horizontal"] * {
   padding: 0;
   color: var(--faint);
   font-size: 12px;
+}
+.layer-lock {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  color: var(--faint);
+  font-size: 11px;
+}
+.layer-lock.on {
+  color: #f0bd68;
 }
 /* 隐藏态:眼睛淡化 + 斜杠删除线(Tiled/PS 惯例的文本版) */
 .layer-eye.off {
@@ -5593,4 +5632,182 @@ html[data-panel-resize="horizontal"] * {
 .tile-thumb:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+/* ── W8 地图内容选区 / 候选 / 可逆变换 ──────────────────── */
+.viewport:has(> canvas:focus-visible) {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 78%, transparent);
+}
+.map-transform-tools .tool {
+  padding-inline: 7px;
+}
+.map-transform-bar {
+  position: absolute;
+  z-index: 8;
+  top: 8px;
+  left: 72px;
+  right: 64px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  min-width: 0;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line));
+  border-radius: 6px;
+  background: rgba(31, 36, 48, 0.96);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
+  color: var(--fg);
+  font-size: 11px;
+}
+.map-transform-bar > span:not(.map-transform-nudge) {
+  flex: 1 1 220px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dim);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.map-transform-nudge {
+  display: inline-flex;
+  gap: 2px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.map-a11y-legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.map-transform-nudge .mini {
+  width: 26px;
+}
+.map-candidate-menu {
+  position: absolute;
+  z-index: 12;
+  display: grid;
+  width: min(390px, calc(100% - 24px));
+  max-height: min(360px, calc(100% - 24px));
+  gap: 3px;
+  padding: 6px;
+  overflow: auto;
+  border: 1px solid #52617e;
+  border-radius: 7px;
+  background: rgba(30, 34, 45, 0.98);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transform: translate(8px, 8px);
+}
+.map-candidate-title {
+  padding: 4px 6px 6px;
+  color: var(--dim);
+  font-size: 11px;
+}
+.map-candidate-options {
+  display: grid;
+  gap: 3px;
+}
+.map-candidate-options > button[role="option"] {
+  display: grid;
+  grid-template-columns: 20px minmax(80px, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 7px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+}
+.map-candidate-options > button[role="option"]:hover:not(:disabled),
+.map-candidate-options > button[role="option"][aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: #2d3852;
+}
+.map-candidate-options > button[role="option"]:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.map-candidate-menu code {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dim);
+  font: 10px / 1.3 var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.map-selection-head {
+  position: relative;
+}
+.map-selection-head > .mini {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: auto;
+  padding-inline: 7px;
+}
+.map-selection-summary .field > :last-child,
+.map-selection-field > :last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.map-field-error {
+  grid-column: 2;
+  color: var(--err);
+  font-size: 11px;
+  line-height: 1.35;
+}
+.map-selection-warning {
+  margin-top: 7px;
+  padding: 7px 8px;
+  border: 1px solid color-mix(in srgb, var(--warn) 48%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--warn) 8%, transparent);
+  color: #e7c978;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.map-inline-action {
+  width: 100%;
+  justify-content: center;
+  margin: -1px 0 8px;
+  border-color: var(--line);
+  background: var(--panel2);
+}
+.map-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: -2px 0 9px 68px;
+}
+.map-step-actions .hint2 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.map-selection-notice {
+  margin: 10px 12px;
+  padding: 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.map-selection-notice.error {
+  border-color: color-mix(in srgb, var(--err) 48%, var(--line));
+  color: #ef9a9a;
 }

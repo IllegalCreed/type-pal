@@ -1,6 +1,6 @@
 # W8 - 地图内容选择、实例属性检查与可逆变换
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W8
 Coding Owner: Codex
@@ -14,7 +14,7 @@ Branch: main
 
 - 用户于 2026-07-18 拍板由 Kimi 接替 Claude Opus 成为现役成员。
 - Opus 于 2026-07-17 已完成的设计 `agree`、R1-R5 主审结论和已经生效的 build 门禁按历史事实保留,不追溯改名、不重开门禁。
-- 迁移时仍为 `pending` 的 done 前架构/交互复审席位转由 Kimi；W8 当前须由 Codex / Kimi / GLM 三方 `accept` 后才能标记 `done` / `✅`。
+- 迁移时仍为 `pending` 的 done 前架构/交互复审席位转由 Kimi；现已由 Codex / Kimi / GLM 三方 `accept` 并完成 `done` / `✅` 收口。
 
 ## 目标
 
@@ -352,7 +352,20 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-18）**。W8-A→D 已实现并自验；`pnpm check`、Editor build、34 个测试文件 / 267 项、Reforge 46 个文件 / 411 项、Biome 和 `git diff --check` 全绿。6010 的 map-031 等价多层/多高度地图已在 27% 与 103% 实测，Console 新错误 0；详见 Build/Review 证据。
-- Kimi: pending
+- Kimi: **accept（2026-07-18）**。交互/架构/代码/视觉复审，独立复跑全绿，无 P0/P1，仅 P2/P3 非阻塞观察（不返工）。证据：
+  1. **R1-R5 全部落地**：`hitTestMapContent`（map-selection.ts:493-555）活动层 opaque 像素优先、同层多命中取 `at(-1)`，与渲染计划序一致（projectMapTilesInView 行主序升序绘制、height 只进 sprite 遮挡 pass 不改 tile 间绘制序，render.ts:306-312）；blit 矩形与渲染共享 `projectMapTileBlitRect` 零魔数漂移。跨层选择为工具栏显式开关、保留既有选区并提示（MapMode.tsx:1745-1767，R2）。全选收窄为活动层非空槽+非零碰撞（map-selection.ts:354-384，R3；103% 截图 16384 槽+377 格实证）。Alt 候选按面板顶层优先再 row/col、锁定灰显禁用、方向键/Home/End 导航、Esc 返还 canvas 焦点（MapMode.test.tsx:241-271，R5）。换层 = move+layerMappings，冲突取消/覆盖语义与粘贴一致（R4）。
+  2. **命令/history**：`prepareProjectMapPatch` 全量预检（整数/越界/层缺失/duplicate-channel/flat/null-height/隐藏/锁定/collision-authority）后零写双 prev；apply/invert 跨 tile+height+collision 精确往返（map-patch.test.ts:89-114、283-304）；no-op 经 `dispatch(): boolean` 不入 history、不置脏、不清 redo；dispatch/undo/redo 抛错不丢栈（edit-session.test.ts 新增 3 测）。
+  3. **键盘/焦点/a11y**：canvas tabIndex+aria-label；Esc 四级回退（拖拽→变换→候选→清空）；预览期 a/c/x/v/Delete 锁定并提示；候选 dialog/listbox/option 焦点管理；字段 aria-invalid/describedby；底栏唯一通知 live region（Inspector 测试断言无重复 aria-live）；focus-visible 与 disabled 样式齐；App 全局 Delete/Backspace 收窄 scene 子页防串页劫持（App.tsx:610-624）。
+  4. **大选区性能**：base/selection 双 canvas 缓存与完整失效键、visibleMapRoom 可见裁剪、单 Path2D 批量、latticeInMapRect 先裁边界再枚举（±1e9 用例）、图像边界 ≤24 实例阈值、bounds 无 spread（256×512 用例）。
+  5. **W7G 边界**：`stamp-placement` 仅为 TS never 兜底 dead branch（cellsOrEmpty/captureMapClipboard/planMapDelete assertNever），零 placement schema 越界；Inspector 显式占位说明。
+  6. **独立复跑**：`pnpm --filter @type-pal/editor test` 34 files/267 ✓；`pnpm --filter @type-pal/reforge test` 46 files/411 ✓；根 `pnpm check`（全 workspace typecheck+test+biome 709 文件）✓。视觉复核 `w8-final-27.png`（27% 叠加对齐、源格菱形+图像边界双反馈、Inspector/底栏）与 `w8-high-zoom.png`（103% 全选叠加对齐）。
+- Kimi 非阻塞观察（P2/P3，无需返工，后续迭代可选）：
+  1. **P2** 变换预览不随 undo/redo 取消：预览中 Ctrl+Z 未被锁，plan 对新 map 用旧 selection 重算，退化为可见 issue 或预览内容漂移；提交仍重新预检，无数据风险。建议后续让 history 变化取消预览。
+  2. **P2** undo/删层/缩图触发的选区裁剪无"已裁剪"提示（设计要求"裁剪并报告"，当前只有裁剪）。
+  3. **P2** 新 UI 零动画，reduced-motion 无对象可减；风险表该项视为满足但未有记录。
+  4. **P3** 变换条 role=status 与底栏 role=status 并存时为两个 live region；消息不同不重复播报，底栏唯一通知通道成立。
+  5. **P3** MapSelectionInspector.test.tsx 有 act() 环境告警（测试全绿，仅噪声）。
+  6. **P3** 活动层锁定/隐藏时单击把选区 replace 为空且无原因提示；工具栏已显式只读原因，行为与成熟产品"点空清空"一致。
 - GLM: **accept（2026-07-18;见下）**。独立复跑 + 代码逻辑审查（读源码逐路径推演）。editor 34 files/267 tests + reforge 46 files/411 tests 全绿。
 
   **(1) 测试复跑** ✅：editor 267 / reforge 411 全 pass、0 skip。
@@ -389,7 +402,7 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 `accept`，三签未齐不得 done。**
+- done 准入结论: **done allowed；Codex accept + Kimi accept + GLM accept 三签齐，用户于 2026-07-18 确认“齐了”，W8 已完成收口。** Kimi P2/P3 与 GLM O1/O2 均为非阻塞观察，保留为后续候选，不阻塞 W8 `done`。
 
 ### 设计阶段主审立场（历史）
 
@@ -462,10 +475,10 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 
 ## Review
 
-- 代码审查: Codex 内部三路独立只读审计已完成（selection/hit/perf、patch/transform/history、React/UI/a11y），返回的 P0/P1/P2 均已关闭；该审计是实现自查证据，**不代替 Kimi/GLM 三贤人 done 签字**。
-- 独立测试复跑: 待 Kimi / GLM 按下方提示词独立复跑；Codex 本地全仓证据见 Build。
-- 视觉验证: Codex 已完成 27%/103% 浏览器验收与截图；待 Kimi 视觉/交互复审。
-- capability-map 更新: W8 备注已标明 build 完成、review 中；按门禁编辑器列仍保持 `❌`，只有 Kimi/GLM 与 Codex 三方 `accept` 后才改 `✅`。当前总数 59 来自后续 A7 登记，不因 W8 收口再增格。
+- 代码审查: Codex 内部三路只读审计完成并关闭 P0/P1/P2；Kimi 交互/架构/代码/视觉复审与 GLM 覆盖/数据/测试矩阵复核均签 `accept`，无阻塞返工项。
+- 独立测试复跑: Kimi 复跑 Editor 34 files / 267 tests、Reforge 46 files / 411 tests 与根 `pnpm check` 全绿；GLM 独立复跑 Editor 267 / Reforge 411 全绿并逐路径完成四维矩阵审查。
+- 视觉验证: Codex 完成 27%/103% 浏览器验收；Kimi 补做 6010 map-031 Playwright 端到端验证，覆盖选区增减、Inspector 高度、undo/redo、Alt 候选、全选、粘贴冲突与 21%→102% 缩放，零新增 Console 错误。
+- capability-map 更新: W8 编辑器列已按三签与用户确认从 `❌` 改为 `✅`；能力总数仍为 59，不因收口增格。
 - 非阻塞后续风险: 当前 W8 UI 只从 builder 产生结构化剪贴板/预检 patch；W7G 复用前应把公开可构造 payload 收紧为 readonly/opaque builder，避免新调用方伪造重复偏移或未预检 prepared patch。
 
 ## 交接记录
@@ -488,10 +501,18 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 - 2026-07-18 Codex: W8-A→D 实现、纯函数/React 交互测试、全仓检查、Editor build 与 6010 的 27%/103% 视觉验证全部完成，Codex 签 **accept**，任务 `build → review`。Evidence: Build/Review 节、`output/playwright/w8-final-27.png`、`w8-high-zoom.png`。Next: Opus 交互/架构主审 + GLM 覆盖/数据/测试矩阵复核；两方签字前不得标 done 或把 capability-map W8 改 `✅`。
 - 2026-07-18 User/Codex: 用户拍板由 Kimi 接替 Claude Opus；历史设计签字继续有效，原 done 前 `Opus pending` 席位迁移为 `Kimi pending`。Evidence: 本卡“三贤人席位迁移”、`AGENTS.md`、`docs/ops/agent-workflow.md`。Next: Kimi 交互/架构主审 + GLM 覆盖/数据/测试矩阵复核；两方签字前不得标 done 或把 capability-map W8 改 `✅`。
 - 2026-07-18 GLM: 覆盖/数据/测试矩阵终审签 **accept**。独立复跑 editor 267/reforge 411 全绿 + 代码逻辑审查（读源码逐路径推演）。map-selection.ts(557行)：dedup 正确(visualSlotKey layerId:row:col / gridPointKey row:col)、selectAll R3 合规(仅非空槽+非默认碰撞)、pruning 正确(layerId缺失/越界裁剪/tile空重排保留)、modifier Ctrl优先、Alt候选 R5 排序确定性。map-patch.ts(278行)：前置全量校验零写入(prepareProjectMapPatch 只读累积issues throw前map不变)、dual prev 四数组(nextVisual/prevVisual/nextCollision/prevCollision)、null-height/flat-height reject(hidden/locked 整笔拒绝)、Command 防御克隆、no-op 同引用。map-transform.ts(539行)：include-collision 默认关、conflict cancel/overwrite + 失败patch置空(:233-234 安全设计)、selection跟随新位置、lattice偏移 col*2+rowParity 避免奇偶行漂移、move重叠同key去重。四维矩阵逐格确认全闭合。O1(失败保持原选区无直接测试-结构保证)+O2(undo/redo+clip-map无集成测试)非阻塞建议。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-18 Kimi: 交互/架构/代码/视觉复审签 **accept**，三签齐。独立复跑 editor 34 files/267、reforge 46 files/411、根 `pnpm check`（typecheck+全测+biome 709）全绿。R1-R5 逐项核实：像素命中优先级与渲染计划序一致（projectMapTilesInView 行主序、height 只进 sprite 遮挡 pass）、跨层显式开关保留选区、全选收窄（103% 截图 16384+377 实证）、候选面板序+行列序+锁定灰显+焦点返还、换层冲突=粘贴语义。命令/history：全量预检零写、双 prev 往返、no-op 不入 history/不清 redo、抛错不丢栈。键盘/a11y：Esc 四级回退、预览期破坏性键锁定、底栏唯一 live region、App Delete 收窄 scene 防串页。性能：双 canvas 缓存、可见裁剪、Path2D 批量、latticeInMapRect 先裁后枚举。W7G：stamp-placement 仅 never 兜底 dead branch，零 schema 越界。视觉复核 w8-final-27.png/w8-high-zoom.png 叠加对齐与双反馈。无 P0/P1；P2×3+P3×3 非阻塞观察记录在签字行（与 GLM O1/O2 互不冲突）。Evidence: done 准入 Kimi 行、上述复跑输出、截图复核。Next: 无下一位审查 Agent；待用户验收后由收口方标 done 并把 capability-map W8 改 ✅，P2/O1/O2 是否开跟进小卡由用户拍板。未改实现文件。
+- 2026-07-18 Kimi（补记）: 应用户要求补做 **Playwright MCP 端到端浏览器验证**（6010 既有实例，map-031，全程未点保存，`projects/` 零写入）。逐项实测通过：单击选区 → Inspector「1 视觉实例·1 格点」；框选 1080 → Shift 增选不相交第二块精确翻倍 2160 → Meta 单击减选 −1 且底栏通知正确；Esc 清空。Inspector 高度混合 → 设 3（「选区高度设为 3；可撤销。」）→ Meta+Z 撤销高度回 0 → Meta+Shift+Z 重做后框内格复测为 3（一次用户动作一笔 undo/redo）。Alt 单击出候选菜单：面板序「上层·空槽·逻辑格 / 下层·#206 H0·像素」，首项自动聚焦，Enter 确认后活动层切到上层、选区落上层空槽、焦点返还 canvas。Meta+A 全选 = 16384 非空视觉槽 + 377 非零碰撞格（与 Codex 数据一致，R3）。复制 → 粘贴预览（锚点 r156:c47·仅视觉）→ 目标非空触发「1 处覆盖冲突」、提交禁用、仅「覆盖并提交」可点 → 提交后选区跟随 → undo 恢复。Ctrl+滚轮 21%→102%，102% 下框选 66 格叠加菱形与网格精确对齐（`output/playwright/w8-kimi-e2e-102.png`）。全程 Console 仅既有 favicon 404，零新增错误。审查结论维持 **accept** 不变。未改实现文件。
+- 2026-07-18 User/Codex: 用户确认三方签字“齐了”，执行 W8 收口：`Status review → done`、capability-map W8 编辑器列 `❌ → ✅`、从进行中看板移除。Kimi P2/P3 与 GLM O1/O2 作为非阻塞后续候选保留，不另开卡；W7G 仍须另开三签卡。Next: 无，W8 已完成。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（review）
+无下一位 Agent 提示词：Codex / Kimi / GLM 三方 `accept` 与用户确认均已完成，W8 已收口为 `done`。
+
+### 历史提示词（已完成的 review 轮次，存档）
+
+<details>
+<summary>给 Kimi（review）—— 已完成，签 accept</summary>
 
 ```text
 审查任务: W8 地图内容选择、实例属性检查与可逆变换（Kimi 交互/架构主审）
@@ -504,7 +525,10 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 权限: 不得修改实现文件；只可更新本任务卡的 Kimi 签字/审查记录。不得标 done，不得把 capability-map W8 改 ✅（还需 GLM 签字）。
 ```
 
-### 给 GLM（review）
+</details>
+
+<details>
+<summary>给 GLM（review）—— 已完成，签 accept</summary>
 
 ```text
 审查任务: W8 地图内容选择、实例属性检查与可逆变换（GLM 覆盖/数据/测试矩阵复核）
@@ -516,3 +540,5 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 输出: 若无阻塞项，在本卡“进入 done 前”的 GLM 行签 `accept（2026-07-18）` 并记测试/矩阵证据；若有问题签 `counter`，列 P0-P2、缺失矩阵格、文件/行号和返工条件。
 权限: 不得修改实现文件；只可更新本任务卡的 GLM 签字/审查记录。不得标 done，不得把 capability-map W8 改 ✅（还需 Kimi 签字）。
 ```
+
+</details>

@@ -5,11 +5,13 @@ import {
   floodFillProjectMapTiles,
   insertProjectMapLayer,
   latticeCenter,
+  latticeInMapRect,
   latticeInRect,
   moveProjectMapLayer,
   paintProjectMapCollision,
   paintProjectMapTiles,
   pixelToLattice,
+  projectMapTileBlitRect,
   projectMapTilesInView,
   removeProjectMapLayer,
   resizeProjectMap,
@@ -55,6 +57,26 @@ describe('lattice 几何', () => {
     expect(got).toContainEqual({ col: 1, row: 1 })
     expect(got).toContainEqual({ col: 1, row: 2 })
     expect(latticeInRect(49, 17, 15, 7)).toEqual(got)
+  })
+
+  test('矩形与 tile blit 几何规范化负零并共享渲染边界', () => {
+    const nearOrigin = latticeInRect(-1, -1, 1, 1)
+    expect(nearOrigin.some((pos) => Object.is(pos.row, -0) || Object.is(pos.col, -0))).toBe(false)
+    expect(projectMapTileBlitRect({ col: 2, row: 3 }, { width: 48, height: 40 })).toEqual({
+      x: 64,
+      y: 16,
+      width: 48,
+      height: 40,
+    })
+  })
+
+  test('地图边界矩形先裁剪再枚举，极端界外端点不会产生超量中间格点', () => {
+    const map = buildBlankProjectMap(3, 2, 'tiles')
+    const got = latticeInMapRect(map, -1e9, -1e9, 1e9, 1e9)
+    expect(got).toHaveLength(map.width * map.height * 2)
+    expect(got[0]).toEqual({ col: 0, row: 0 })
+    expect(got.at(-1)).toEqual({ col: 2, row: 3 })
+    expect(latticeInMapRect(map, 1e9, 1e9, -1e9, -1e9)).toEqual(got)
   })
 })
 

@@ -66,6 +66,17 @@ import {
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { createEmptyScriptStages } from './entity-placement.js'
+import {
+  applyPreparedProjectMapPatch,
+  cloneMapPatchPermission,
+  cloneProjectMapPatch,
+  type MapPatchPermissionSnapshot,
+  type PreparedProjectMapPatch,
+  type ProjectMapPatch,
+  ProjectMapPatchError,
+  preparedProjectMapPatchChanged,
+  prepareProjectMapPatch,
+} from './map-patch.js'
 import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
 
 /**
@@ -785,6 +796,48 @@ export class PaintCollisionCommand implements Command {
       ...state,
       maps: { ...state.maps, [this.mapRel]: paintProjectMapCollision(map, this.prev) },
     }
+  }
+}
+
+/** W8：跨层 tile/height + 独立 collision 的一次原子、可逆 patch。 */
+export class ApplyProjectMapPatchCommand implements Command {
+  readonly label: string
+  private readonly patch: ProjectMapPatch
+  private readonly permission: MapPatchPermissionSnapshot
+  private prepared: PreparedProjectMapPatch | undefined
+
+  constructor(
+    private readonly mapId: string,
+    patch: ProjectMapPatch,
+    permission: MapPatchPermissionSnapshot,
+    label = '修改地图选区',
+  ) {
+    this.label = label
+    this.patch = cloneProjectMapPatch(patch)
+    this.permission = cloneMapPatchPermission(permission)
+  }
+
+  apply(state: EditorState): EditorState {
+    const map = state.maps[this.mapId]
+    if (!map)
+      throw new ProjectMapPatchError([
+        { code: 'map-missing', message: `地图 "${this.mapId}" 尚未加载或不存在` },
+      ])
+    if (!this.prepared) this.prepared = prepareProjectMapPatch(map, this.patch, this.permission)
+    if (!preparedProjectMapPatchChanged(this.prepared)) return state
+    const next = applyPreparedProjectMapPatch(map, this.prepared, 'next')
+    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapId]: next } }
+  }
+
+  invert(state: EditorState): EditorState {
+    const map = state.maps[this.mapId]
+    if (!this.prepared || !preparedProjectMapPatchChanged(this.prepared)) return state
+    if (!map)
+      throw new ProjectMapPatchError([
+        { code: 'map-missing', message: `地图 "${this.mapId}" 尚未加载或不存在` },
+      ])
+    const previous = applyPreparedProjectMapPatch(map, this.prepared, 'prev')
+    return previous === map ? state : { ...state, maps: { ...state.maps, [this.mapId]: previous } }
   }
 }
 
