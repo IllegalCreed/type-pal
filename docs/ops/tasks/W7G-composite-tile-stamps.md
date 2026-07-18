@@ -1,6 +1,6 @@
 # W7G - 组合地物图章与可持久放置组
 
-Status: review
+Status: done
 Phase: phase2
 Capability: W7 / W8 / MG2
 Coding Owner: Codex
@@ -602,7 +602,13 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   `pnpm check` 全仓通过（editor 52 files / 414 tests），production build 通过，3000×20 连续新增
   100 组的端到端 mutation median 0.136ms / p95 0.304ms，第 65 笔有界压实 max 9.40ms；
   1280/1024/768 三档布局与 fresh Console 复核通过。未发现未解决 P0/P1/P2。
-- Kimi: pending。
+- Kimi: **accept（2026-07-18）**。架构/交互/视觉独立复审,无 P0/P1/P2 阻塞;静态全链审查 + 根 `pnpm check` 复跑全绿 + 浏览器实测闭环。证据:
+  1. **schema/公共接口**:`ProjectMapV2(authoring?: never) | ProjectMapV3(authoring: required)` 显式判别联合(content/project-map.ts:59-71);validate 按版本分派、v2 禁 authoring、v3 必须 v1+非空、未知版本 fail-loud;authoring 校验含组内/跨组按通道排他、成员必须指向非空瓦片、确定性排序(project-map.ts:201-296);`StampTemplateV1` offset 奇偶同余、槽唯一且必须被用、flat 高度 0、collision 显式 0 可辨(stamp.ts:63-155);reforge `paintProjectMapTiles/Collision` 泛型保版本、公共删层/缩图入口直接拒绝破坏 placement(reforge/project-map.ts:328/:370)。
+  2. **placement 状态机**:planner 单一 resolved plan 驱动 ghost/patch/group,ownership 为阻塞 issue、普通冲突需显式覆盖(stamp-placement.ts:145-395);`PlaceStampCommand` 先矩阵后身份、apply 引用守卫、invert 精确恢复 beforeMap(stamp-placement-command.ts:33-58);组内编辑限活动层、禁擦最后视觉成员、collision membership/值分轴(stamp-group-command.ts:50-173);move/paste/delete 的 preserve/copy 身份、no-op 守卫、选区跟随(stamp-group-transform.ts);解组只删 identity 且末组 v3→v2。
+  3. **权限/生命周期**:中央 ownership 守卫三 scope(ordinary/members/transform)且在 no-op 折叠前检查(map-patch.ts:104-186);S13 唯一结构入口 reject/ungroup/delete-groups 单 map 原子、显式权限、expectedMap 防过期(stamp-lifecycle.ts:127-173);P3 map-scoped revision + `dispatchAtMapRevision` + Command 引用守卫双防线(edit-session.ts:169-186)。
+  4. **浏览器实测(chrome-devtools MCP,真实 PAL map-020,未保存零磁盘写入)**:中央 viewport 唯一子节点=canvas;右侧 属性/瓦片/组合 语义 tab;768×768 无横向溢出、层高控件侧栏扁平不压画布;选区→保存为组合(原生 dialog、显式锚点/槽/碰撞勾选)→模板入列→显式映射 0/1→点击报 mapping-missing 零写入→补映射→413 普通冲突逐项明细+显式「覆盖普通格并放置」→原子放置(通知"可一步撤销")→点成员整组选中(组 ID/锚点/来源/进入组内/解组)→解组保留内容→undo×N 与 redo 精确恢复组身份与原 groupId。全程 Console error/warning 0。
+  5. **独立复跑**:根 `pnpm check` 全绿(含 editor 52/414、biome 748 files)。
+- 非阻塞观察(P3,不返工):保存为组合弹窗为原生 `<dialog>`(隐式 dialog 语义),可访问名依赖头部文字,建议后续补显式 `aria-label`;768px 下中央工具条换行至约 5 行,可用但偏挤;W8 遗留「选区裁剪无报告」对普通 cells 仍然成立(placement 已由 S13 fail-loud 覆盖)。
 - GLM: **accept（2026-07-18;见下）**。独立复跑 + 代码逻辑审查（读源码逐路径推演）。editor 414 / content 229 / reforge 419 / migrate 219+1skip 全绿。
 
   **(1) 测试复跑** ✅：editor 52 files/414 + content 22 files/229 + reforge 46 files/419 + migrate 31 files/219+1skip = 全 pass。
@@ -650,7 +656,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 - counter / 返工处理:N/A。
 - 缺签豁免: N/A。
-- done 准入结论:**Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**。
+- done 准入结论:**allowed 并已执行（Codex + Kimi + GLM 三方 accept，用户确认签字齐并授权收口，2026-07-18）**。Kimi P3 观察（弹窗显式 aria-label / 窄窗工具条行数 / W8 普通 cells 裁剪提示）保留在本卡，未经用户另行拍板不擅自开跟进卡。
 
 ## 额度 / 代班记录
 
@@ -840,20 +846,22 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - W7G-F 结论:1280×720 最终截图已像素复核；左侧控制区 209×105、中央 viewport 628×528 且唯一子节点
   为 canvas，无水平溢出。1024×768 下控制区 209×105、viewport 372×494；768×768 下控制区
   182×105、viewport 260×460，均无覆盖。fresh browser 切换右栏后 Console error/warning 0。
-- 未完成项:Kimi 视觉/架构审查、GLM 覆盖/数据审查与用户最终验收；未集齐 review 三签前不得标 done。
+- 完成结论:Codex / Kimi / GLM 三方审查均 `accept`，用户确认签字齐并授权收口；W7G 已按 S16 更新
+  capability-map 的 W7/W8 备注与证据，不新增能力格、不改变既有状态符号。
 
 ## Review:审查与返工
 
 - Reviewer:Kimi + GLM。
-- 审查结论:Codex 自审 accept；Kimi / GLM pending。
-- 必须返工项:Codex 自审无；等待 Kimi / GLM 独立结论。
-- Accept / rework:pending（done 三签尚未齐）。
+- 审查结论:Codex 自审 accept;GLM accept(数据/覆盖/性能,附 G1-G3 全落地证据);Kimi accept(架构/交互/视觉,
+  schema/状态机/生命周期静态全链 + 浏览器实测闭环,附 P3 非阻塞观察)。三签齐,无返工项。
+- 必须返工项:无。
+- Accept / rework:**accept（三方，2026-07-18）；用户确认后已收口为 done**。
 
 ## 用户验收
 
-- 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A/B/C/D/E/F 实现与 Codex 自验证已完成，进入三方 review；review 三签与用户验收未完成，
-  全卡仍不得标 `done`。
+- 用户结论:**验收通过（2026-07-18）**。用户回复“签了”，确认 Codex / Kimi / GLM 三方 done 审查签字齐，
+  授权按既定门禁完成收口。
+- 后续任务:无阻塞后续。Kimi 的三项 P3 观察留档；是否另开小卡由用户后续拍板。
 
 ## 交接日志
 
@@ -918,10 +926,26 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   Status 保持 review。Next:Kimi 做架构/状态机/视觉独立复审，GLM 做数据/覆盖/性能证据独立复审；
   两方只可更新任务卡审查记录，不得修改实现，三签不齐不得标 done。
 - 2026-07-18 GLM: done 数据/覆盖/性能复审签 **accept**。独立复跑 editor 414/content 229/reforge 419/migrate 219+1skip 全绿 + 代码逻辑审查（读源码逐路径推演）。ProjectMap v2/v3：判别联合 `V2(authoring?:never)`/`V3(authoring:required)` 类型级安全，validate 按 version 分派 2|3，format 条件发 v3 不物化空字段。stamps.json MG2：id-mode 正则含 stamps（migration-merge.ts:48），authored 整条接管 cloneNode（:280-287），manifest.content.stamps 登记（G1/G2/G3 全落地）。ownership：WeakMap 缓存+OverlayLookupMap 差分(depth≤64 有界压实)+局部 canonicalizer 只校验当前 upsert 不重扫全量；3000/36000/24000 索引尺寸断言+10000 次缓存 lookup 零 authoring 读+80 步连续差分跨压实边界语义一致。PlaceStampCommand：先矩阵再 placement（:33 顺序不可交换）+invert 恢复 beforeMap+revision guard dispatchAtMapRevision+Paint* 越权 throw。P4：337881<900000 bytes+二次格式化字节稳定。性能：3000×20 连续 100 组 median 0.136ms/p95 0.304ms+第 65 笔压实 max 9.40ms。关键测试：v2→v3/v3→v2/copy-through/MG2 authored/ownership reject/group transform undo-redo/ungroup 保留 tile 全确认。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-18 Kimi: done 架构/交互/视觉复审签 **accept**,三签齐。静态全链:判别联合 v2/v3 与双端 validator/formatter、模板 offset 奇偶同余与槽校验、reforge 公共删层/缩图 placement 守卫、planner 单 resolved plan、PlaceStampCommand 先矩阵后身份+引用守卫、组内活动层限制/最后成员阻止/collision 分轴、中央 ownership 三 scope 且 no-op 折叠前检查、S13 单入口三路线、P3 revision+dispatchAtMapRevision 双防线——全部与设计收敛一致。浏览器实测(chrome-devtools MCP,真实 PAL map-020,未保存零磁盘写入):中央 viewport 唯一子节点=canvas、右侧 属性/瓦片/组合 语义 tab、768×768 无横向溢出不压画布;选区→保存为组合(原生 dialog,显式锚点/槽/碰撞)→显式映射→mapping-missing 零写入→413 普通冲突逐项明细→显式覆盖→原子放置→整组选中→解组保留内容→undo/redo 精确恢复组身份与原 groupId;全程 Console error/warning 0。独立复跑根 pnpm check 全绿。P3 非阻塞观察:弹窗可访问名建议显式 aria-label;窄窗工具条约 5 行偏挤;W8 普通 cells 裁剪无报告仍存(placement 已由 S13 覆盖)。Evidence:done 准入 Kimi 行+上述实测。Next:无下一位审查 Agent;待用户验收后由收口方标 done 并按 S16 更新 capability-map 备注,P3 是否开跟进小卡由用户拍板。未改实现文件。
+- 2026-07-18 Codex:用户确认三方签字齐并授权收口；任务卡 `review → done`，看板移除 W7G，
+  capability-map 仅在 W7/W8 既有备注中补充组合模板与可持久放置组证据，不新增能力格、不修改状态符号。
+  Kimi 三项 P3 非阻塞观察继续留档，未擅自开卡。Next:无下一位 Agent，W7G 正式完成。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（done 架构 / 交互 / 视觉复审）
+无下一位 Agent 提示词:Codex / GLM / Kimi 三方 done 审查均已签 `accept`，用户验收与 S16 收口已完成。
+
+### 给收口方（用户验收后,Codex 或用户指定方）—— 已完成
+
+```text
+收口任务:W7G 组合地物图章与可持久放置组(三签已齐,执行 done 收口)
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+完成状态:done;Codex/Kimi/GLM 三方 accept 与用户验收均已齐(2026-07-18)。
+已完成:任务卡转 done、看板移除 W7G、capability-map 按 S16 只补 W7/W8 备注和证据。
+未扩项:Kimi P3 观察只留档,未擅自开跟进小卡。
+```
+
+### 给 Kimi（done 架构 / 交互 / 视觉复审）—— 已完成,签 accept
 
 ```text
 接手任务:W7G 组合地物图章与可持久放置组——done 架构/交互/视觉复审
@@ -940,7 +964,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 输出:明确 accept 或 counter、证据和返工清单；若 accept，给可直接交给 GLM 的复审提示词
 ```
 
-### 给 GLM（done 数据 / 覆盖 / 性能复审）
+### 给 GLM（done 数据 / 覆盖 / 性能复审）—— 已完成,签 accept
 
 ```text
 接手任务:W7G 组合地物图章与可持久放置组——done 数据/覆盖/性能复审
