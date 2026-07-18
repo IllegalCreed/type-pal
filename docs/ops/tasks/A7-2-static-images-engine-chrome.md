@@ -1,6 +1,6 @@
 # A7-2 - 静态内容图像闭包与引擎 chrome 自包含
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / C1 / C4
 Coding Owner: Codex
@@ -334,7 +334,13 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
   MG2 dry-run `0/0/0`；四包定向检查与全仓 `pnpm check` 全绿；standalone/editor play 的 `/a7/`
   production preview 均 0 console error、0 404/500，且无根 `/ui`、`/baked` 请求。Codex 接受进入外部 review，
   不代表 Kimi/GLM 已验收，也不允许提前标 done。
-- Kimi: pending（主审 engine/project 归属、bundler/base path、图像工作台与视觉/FSA 风险）
+- Kimi: **accept（2026-07-18）**。架构与视觉独立终审,无 P0/P1/P2 阻塞;静态审查 + 根 `pnpm check` 复跑全绿 + 双浏览器实测 + 真实 FSA 磁盘验证。证据:
+  1. **归属/无双轨**:`engine-chrome/registry.ts` 封闭 typed slot(85 UI + default-title + BDF + 光标 + 许可),`import.meta.glob('?url')` 由 bundler 产 URL,缺 slot/HTTP/解码失败携 slot fail-loud,`assertEngineChromeComplete` 校验 missing+extras;工程目录 `projects/pal/assets/` 仅 `index.json/migrated/runtime`(清理后无 authored),catalog 0 条 chrome 记录;A5(工程 ZIP 不含 chrome)/A8(引擎壳+工程)分界与报告 §7 保留缺口一致。
+  2. **base path/无根旁路**:本地重建 `vite build --base=/a7/` 产物并挂载 PAL 工程实测:250/250 资源请求全在 `/a7/` 下,0 站外,0 `/baked`,0 根 `/ui`;BDF 为 base 相对哈希资产;战斗渲染完整(竹林索引背景 + face 头像 + chrome 四按钮);静态扫描全仓仅剩 clone/seed 3 处已申报 A7-4 legacy `/extracted`。
+  3. **工作台/量化/窄屏**:四类筛选 88/6/233/52;立绘 154 处引用禁删、walker 精确到 `cue.portrait.asset`/`battleFields[6].background`;真彩测试图(105,947 B)导入得 320×200 工程内效果预览(7.7 KB),「确认工程色彩适配」零 palette 词汇;两次独立导入产出**同一 sha**(c749e363e71a5131,量化确定性);导入→undo 后警告数 54→55→54、history 清空;900×700 `scrollWidth===innerWidth` 零横向溢出。
+  4. **真实 FSA(用户协助,原生目录选择器无法自动化)**:打开→导入→保存全链;磁盘验证 authored PNG 经完整 PNG 反滤波后 **64000 像素全部 R=G=B、alpha 255、49 个索引值**(索引契约成立);`index.json` 记录 kind/path/sha256/origin 正确(849);engine chrome 未写入工程。随后本人用工程同款确定性 JSON 格式**字节级精确移除**测试记录(回到 848、删除 authored 目录),`git diff` 仅剩 A7-2 迁移产物;UI 删除路径已有单测覆盖且引用侧禁删已实证。
+  5. **运行壳(dev)**:6051 网络日志显示 faces/item-icons 走 `projects/pal/assets/migrated/**`、standardColorTable 走 `migrated/colors/project-standard.json`、portrait 按需惰性加载;0 `/baked`、0 根 `/ui`、0 404/500。
+- 非阻塞观察(P3,不返工):① HTTP dev 模式首次保存弹选文件夹是 `App.tsx:722-731` 既有设计(无 FSA 句柄→一次性指定写回目录),用户本轮已实测命中;建议后续在弹窗原因处加一句说明文案,免误读为异常。② 我手搭静态预览下 MIDI worklet 有一条 BGM 警告(音频域,非本卡范围;Codex 部署形态验证无此问题)。
 - GLM: **accept（2026-07-18;见下）**。独立复算全部产物数字 + 代码逻辑审查 + 四包 1316 tests pass。
 
   **产物独立复算** ✅：
@@ -354,7 +360,7 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
   **总结**：379/2,656/4 unused/0 missing/0 mismatch 全独立冻结；848 catalog 全 hash+bytes 匹配；MG2 零计划；schema/walker/legacy/status 全确认。四包 content 241/reforge 431/editor 421/migrate 223+1skip = 1316 pass。**accept**。
 
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
+- done 准入结论: **Codex accept + Kimi accept + GLM accept 三签齐（2026-07-18），用户于 2026-07-19 验收；A7-2 正式 `done`。** capability-map 仅登记本切片完成，A7/R7 仍不标 done。Kimi P3 观察（HTTP 保存弹窗说明文案）不阻塞本卡，未另开任务。
 
 ## Draft: 设计与风险
 
@@ -512,58 +518,23 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
   - `output/playwright/a7-2-reforge-non-root-production.png`
   - `output/playwright/a7-2-editor-play-non-root-production.png`
 - 结论:Codex 侧 accept；图像工作台颜色/布局、s066、两种非根运行壳与网络路径均符合本卡门禁。
-- 未完成项:Kimi 独立视觉/FSA 冒烟与签字。
+- 未完成项:无；Kimi 已完成独立视觉/FSA 冒烟并签 `accept`。
 
 ## Review: 审查与返工
 
 - Reviewer:Kimi + GLM
-- 审查结论:Codex 自审 accept；Kimi、GLM pending。
-- 必须返工项:当前无；任一外审 counter 时转 `rework`，不得标 done。
-- Accept / rework:pending（三方 accept 未齐）
+- 审查结论:Codex 自审 accept;GLM accept(数据/覆盖/性能,1316 tests);Kimi accept(架构/视觉/FSA,
+  归属/registry/base path/工作台/量化/窄屏/真实 FSA 磁盘验证全过,附 P3 非阻塞观察)。三签齐,无返工项。
+- 必须返工项:无。
+- Accept / rework:**accept（三方，2026-07-18）；用户验收（2026-07-19），本卡 `done`。A7/R7 不标 done。**
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（架构 + 视觉主审）
-
-```text
-你是 A7-2 的 Kimi reviewer。任务卡：docs/ops/tasks/A7-2-static-images-engine-chrome.md，当前 Status=review。
-先完整阅读 AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、
-docs/phase2/foundation/a7-2-static-images-engine-chrome-report.md、
-docs/phase2/editor/project-design.md 与 docs/phase2/foundation/a7-resource-closure-audit.md。
-
-Codex 已完成 build：四类项目静态图只走 AssetId/catalog/resolver；engine UI/font/cursor/title 只走 bundler
-registry；PAL 冻结为 379 records / 2,656 edges / 4 unused / 0 missing / 0 mismatch；pnpm check、MG2 0/0/0、
-standalone/editor play 非根 production preview 均已通过。请独立压力测试：
-1) project vs engine chrome 归属、A5/A8 边界与不存在双轨；
-2) /a7/ 和 /a7/editor/ base path、缺 slot fail-loud、无根 /ui 或 /baked；
-3) 图像工作台四类视觉、战场量化预览、900px 窄屏；
-4) 真实 FSA PAL 至少一次打开/替换或保存重开冒烟，并确认 engine chrome 不进工程目录。
-
-只允许修改任务卡的 review/签字记录；不要修改实现文件。输出明确 `accept`，或 `counter/rework` + 可复现证据和
-必须返工项。Kimi 未签 accept 前不得标 done；审完后把结论写进“进入 done 前:审查签字”和 Review 段。
-```
-
-### 给 GLM（数据 + 覆盖审查）
-
-```text
-你是 A7-2 的 GLM reviewer。任务卡：docs/ops/tasks/A7-2-static-images-engine-chrome.md，当前 Status=review。
-先完整阅读 AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、
-docs/phase2/foundation/a7-2-static-images-engine-chrome-report.md 与
-docs/phase2/foundation/a7-resource-closure-audit.md。
-
-请只读独立复算并审计：portrait 88/768841B/2365 edges/84 used/4 unused(50,68,72,89)，face 6/10392B/6，
-item-icon 233/262667B/233，battle-background 52/4422281B/52；合计 379 records/5464181B/2656 edges，
-PAL catalog 848，0 missing、0 kind mismatch；全 catalog 848/59704628B 物理文件与 hash；MG2 二跑 0/0/0。
-同时核 walker 覆盖、item 277 零哨兵、FBP 6-57 分桶、旧 v3/save authored 与失败零写入、clone 仍保留五个
-A7-4 legacy family，以及 roadmap/capability-map 未把 A7/R7 提前标 done。
-
-只允许修改任务卡的 review/签字记录；不要修改实现文件。输出明确 `accept`，或 `counter/rework` + 精确差异、
-复现命令和必须返工项。GLM 未签 accept 前不得标 done；审完后把结论写进“进入 done 前:审查签字”和 Review 段。
-```
+无下一位 Agent 提示词：A7-2 已完成三方审查与用户验收，任务正式收口。
 
 ## 用户验收
 
-- 用户结论:pending
+- 用户结论:**accept（2026-07-19）**。用户确认三方签字齐全并批准收口。
 - 后续任务:A7-3 剩余动态资源族或 A7-4 总闭包，按 capability-map 再选。
 
 ## 交接日志
@@ -587,4 +558,20 @@ A7-4 legacy family，以及 roadmap/capability-map 未把 A7/R7 提前标 done�
 - 2026-07-18 Codex:完成 A7-2A→E build 与自审，签 **accept** 并转 `review`。Evidence:结果报告、
   `pnpm check`、MG2 `0/0/0`、四包定向检查、root/non-root Playwright 截图与请求审计。Next:Kimi 按
   架构/视觉/FSA 提示词审查，GLM 按数据/覆盖提示词独立复算；两方均 accept 前不得标 done。
+- 2026-07-18 GLM: done 数据/覆盖复审签 **accept**。独立复算 catalog 848/59,704,628B、379/2,656/4 unused/
+  0 missing/0 mismatch 全匹配,MG2 零计划,walker 7 消费方,四包 1316 tests pass。
+- 2026-07-18 Kimi: 架构与视觉终审签 **accept**,三签齐。静态审查:engine-chrome registry 封闭 typed slot
+  + import.meta.glob bundler URL + missing/extras 完整性 + 携 slot fail-loud;静态扫描仅剩 clone/seed
+  3 处已申报 A7-4 legacy。浏览器实测:图像工作台四类 88/6/233/52、立绘 154 处引用禁删、walker 精确到
+  cue.portrait.asset/battleFields[6].background;真彩 105,947B 导入得 7.7KB 索引预览,两次独立导入同一
+  sha(c749e363e71a5131,量化确定性),导入→undo 警告数 54→55→54;900×700 零横向溢出;6051 dev 四族只走
+  projects/pal/assets/migrated/** 且 0 根/ui、0 /baked、0 404;自建 /a7/ 非根生产预览 250/250 请求全在
+  base 下、BDF 哈希资产、战斗渲染完整。真实 FSA(用户协助):打开→导入→保存,磁盘验证 authored PNG
+  64000 像素全 R=G=B、alpha 255、49 索引值,index.json 记录正确(849),engine chrome 未入工程;随后以
+  工程同款确定性 JSON 字节级精确移除测试记录(回到 848+删 authored 目录),git diff 仅剩迁移产物。
+  P3 非阻塞观察:HTTP dev 首次保存弹窗建议加说明文案;手搭静态预览有一条音频域 MIDI worklet 警告。
+  独立复跑根 pnpm check 全绿。Evidence:done 准入 Kimi 行+上述实测。Next:无下一位审查 Agent;
+  待用户验收后由收口方标 done(A7/R7 不标 done),P3 是否开跟进小卡由用户拍板。未改实现文件。
 - 2026-07-18 GLM: 数据与覆盖终审签 **accept**。独立复算 catalog 848/59,704,628B（四族 379/5,464,181B = portrait 88/768,841 + face 6/10,392 + item-icon 233/262,667 + battle-bg 52/4,422,281）；0 missing/0 kind mismatch；20/20 sampled hash+bytes 全匹配；MG2 writes=0/deletes=0/conflicts=0 asset-refs=5676 asset-warnings=54（5 legacy families pinned baseline）；schema 全 AssetId（actor.face/item.icon/enemy.background/script.portrait/dialogue.portrait.asset + 稳定 id 构造器）；walker 7 消费方全覆盖（actors portraits/face + dialogue cue + appearance + world + item icon + battle field bg）；legacy 5 保留(tileset/sprite/battle-sprite/effect-sprite/image) 6 退出(4 target + glyph-table + ui-image)；/baked/portraits.json/'/ui 静态归零；capability-map A7/R7 未提前标 done。四包 content 241/reforge 431/editor 421/migrate 223+1skip = 1316 pass。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-19 User:确认 Codex / Kimi / GLM 三方签字齐全并验收 A7-2。
+- 2026-07-19 Codex:复核三方均为 `accept`、无返工项；将任务转 `done`，移出进行中看板并同步能力地图、审计与结果报告。A7/R7 仍保持进行中。

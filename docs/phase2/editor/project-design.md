@@ -215,3 +215,25 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 4. **现状可迁 + 可证不变**:数据全有 JSON 去向;迁移用「旧 const 当 fidelity 测试 oracle」钉死无行为变化;main.ts/assets.ts 硬编码点全列(§5-C)。✅
 5. **范围克制 + gate 可验**:A1/A2 各自可验收;B 期编辑器拆出;A 期完成线 = demo 浏览器实测逐一致 + main.ts 零硬编码。✅
 6. **稳定 id + 版本/存档绑工程**:工程 id=文件夹名;id 约定成文;存档绑 projectId;version 双轴分离。✅
+
+## 11. A7-2 静态图与 engine chrome 落地更新（2026-07-18）
+
+本文件最初拍板的“工程内容资产 / 引擎 chrome”边界继续有效，现行实现进一步明确为两条互斥链：
+
+```text
+工程内容图像：AssetId -> assets/index.json -> AssetResolver -> FileSource
+引擎默认界面：typed engine-chrome slot -> bundler URL
+```
+
+- PAL 的 `portrait`、`face`、`item-icon`、`battle-background` 已全部进入工程 catalog：共 379 条记录、
+  5,464,181 B、2,656 条 typed 引用；0 missing、0 kind mismatch。内容模型和编辑器不再保存数字号或路径。
+- 默认标题、Unifont、对话光标和 85 个默认 UI slot 属于 Reforge 引擎壳；统一由
+  `packages/reforge/src/engine-chrome/registry.ts` 交给 bundler，UI/标题/许可与来源记录位于其 `assets/**`，
+  已跟踪的 BDF build asset 也会进入构建产物。它们不进入工程 catalog，也不进入 A5 工程 ZIP。
+- PAL ignored 二进制由
+  `pnpm --filter @type-pal/migrate run migrate:content -- --write` 物化到 `projects/pal/assets/**`；
+  `data/baked` 已退役，`pnpm bake` 只重建引擎 chrome。
+- `data/extracted` 只保留为迁移输入和 A7-4 尚未退出的 legacy family 过渡源。当前仍有
+  `tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五族，故 A7/R7 仍是进行中，不能把
+  A7-2 的静态图闭包写成整个 PAL 工程已经 catalog-only。
+- A5 只备份/交换工程目录；A8 独立发行包才组合“引擎壳（含 chrome）+ 工程”。

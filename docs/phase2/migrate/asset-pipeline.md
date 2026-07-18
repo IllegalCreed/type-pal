@@ -125,3 +125,27 @@ UI box 和地图章节记录各自历史切片；A7-0 开始补上统一的工�
 
 实现与验证见
 [`A7-3-cutscene-asset-workbench.md`](../../ops/tasks/A7-3-cutscene-asset-workbench.md)。
+
+## 10. A7-2 静态图与 engine chrome 物化（2026-07-18）
+
+前六节的 `public/ui`、`data/baked` 与双根 bake 描述是早期切片的历史记录，不再是现行输出契约。
+现行管线明确分为两种所有权：
+
+1. **工程内容静态图**由 `migrate:content` 从提取源和标准色表生成，登记到 `assets/index.json`，再物化到
+   `projects/pal/assets/migrated/**`。PAL 的冻结结果为：portrait 88 / 768,841 B，face 6 / 10,392 B，
+   item-icon 233 / 262,667 B，battle-background 52 / 4,422,281 B；合计 379 条记录、5,464,181 B、
+   2,656 条引用、4 条未引用 warning、0 missing、0 kind mismatch。
+2. **引擎默认 chrome**由 `pnpm --filter @type-pal/migrate run bake` 确定性重建到
+   `packages/reforge/src/engine-chrome/assets/**`：85 个 UI PNG / 48,629 B，另含默认标题、对话光标、
+   Unifont 许可与来源记录。它由 bundler 产 URL，不写入任何工程 catalog。
+
+PAL 工程资源的正确物化命令是：
+
+```bash
+pnpm --filter @type-pal/migrate run migrate:content -- --write
+pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/0/0
+```
+
+`data/baked` 已退役；`bake` 不是修复工程资源 404 的命令。当前 `data/extracted` 仍作为迁移输入，并为
+`tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五个 A7-4 之前的 legacy family 提供过渡源。
+A7-2 完成静态图切片不等于 A7/R7 总体完成。

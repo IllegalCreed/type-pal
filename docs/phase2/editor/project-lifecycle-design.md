@@ -15,14 +15,15 @@
 
 编辑器是**托管在用户服务器上的网页应用**,匿名用户前端访问,来**改版 pal**(主流)。
 
-> **核心铁律:工程完全自包含 —— 一个工程文件夹 = 整个游戏的全部资源(内容 JSON + 所有素材)。**
+> **核心铁律:工程完全自包含 —— 一个工程文件夹 = 该工程拥有的全部资源(内容 JSON + 项目素材)。**
 > 克隆到本地后,引擎直接从本地跑,**零服务器运行时依赖**。服务器/CDN 只是克隆那一刻的**一次性下载源**,不长期挂共享素材。
+> 默认字形、菜单皮、对话光标和默认标题属于运行壳，不复制进工程；独立发行由 A8 把“引擎壳 + 工程”组合。
 
 ```
 用户的服务器 / CDN(只在「克隆」这一刻用到)
 ├── 编辑器网页 app(built 静态资源)
-└── pal 种子包  完整一份:manifest + content/*.json + 全部素材
-                (map/tileset/sprite/palette/sound/music/立绘/UI…)   ← 克隆时整包下载(CDN 加速)
+└── pal 种子包  完整一份:manifest + content/*.json + 全部项目素材
+                (map/tileset/sprite/color/sound/music/立绘…)   ← 克隆时整包下载(CDN 加速)
 
 每个用户的机器(本地,自包含)
 └── 工程文件夹(FSA)—— 一夹即整个游戏
@@ -39,7 +40,7 @@
 | 决策点 | 选择 | 理由 |
 |---|---|---|
 | 用户项目落点 | **本地 FSA 文件夹**(local-first) | 用户「存在本地」;运营方零后端/零DB/零账号 |
-| **素材归属** | **工程完全自包含**:克隆时**全部素材下到本地工程夹**;manifest.assets 改**工程内相对路径** | project-design.md「自包含」原则;引擎从本地跑、零服务器依赖。(上一版我误设「服务器共享」,已纠正) |
+| **素材归属** | **工程完全自包含**:克隆时**全部项目素材下到本地工程夹**;manifest.assets 使用**工程内相对路径**；engine chrome 留在应用壳 | project-design.md 的工程/引擎边界;引擎从本地工程读内容，同时由自身 bundle 提供默认界面 |
 | pal 种子来源 | **服务器/CDN 静态种子包**(内容 + 全部素材);base URL **可配** | 克隆一次性整包下载,之后不依赖。base URL 可配 → **部署期指向 CDN 二级域名**(用户已有 CDN),`httpSource(baseUrl)` 天然支持 |
 | 新建 | **两选一**:①从 pal 克隆(改版,主流)②空白骨架(从头做新游戏,高端) | 多数改 pal,但架构该允许从零起 |
 | 打开 | `showDirectoryPicker`(read)→ 从句柄读 manifest+content+**素材** → 渲染 | 与保存共用同一句柄 → 「存回打开处」自动成立 |
@@ -77,7 +78,7 @@ fsaSource(dirHandle)  // 逐段 getDirectoryHandle→getFile;urlFor=URL.createOb
 
 #### 4.2a 从 pal 克隆(主流:改版)
 ```
-下载 pal 种子包(内容 + 全部素材,CDN 加速;整包 or 分文件枚举,见 §5)
+下载 pal 种子包(内容 + 全部项目素材,CDN 加速;整包 or 分文件枚举,见 §5)
   → showDirectoryPicker({mode:'readwrite'})   // 用户选本地空夹(非空则警告确认)
   → 写入全部:content/*.json 原样 + assets/** 二进制 + manifest.json(assets 路径已是工程内相对)
   → 存句柄入 IndexedDB → loadProject(fsaSource(handle)) → App
@@ -209,3 +210,17 @@ A7-0 起，v3 工程新增唯一物理资产链：
 当前音乐族的文件数、字节数、哈希与迁移幂等证据见
 [`a7-0-music-resource-closure-report.md`](../foundation/a7-0-music-resource-closure-report.md)。A7 总体仍未闭包，
 克隆清单改为 catalog 真值和断开外部目录验收仍归 A7-4。
+
+## 12. A7-2 生命周期边界更新（2026-07-18）
+
+- `portrait`、`face`、`item-icon`、`battle-background` 四族已经退出 legacy，PAL catalog 新增 379 条
+  静态图记录；打开、运行、编辑、保存和引用定位只接受 AssetId。
+- PAL 的 ignored 二进制不是 `data/baked` 种子。fresh clone 在提取后执行
+  `pnpm --filter @type-pal/migrate run migrate:content -- --write`，由 catalog 与迁移计划物化
+  `projects/pal/assets/**`；随后 dry-run 应为 `writes=0 deletes=0 conflicts=0`。
+- 默认标题、字形、光标和 85 个 UI slot 由 `packages/reforge/src/engine-chrome/registry.ts` 统一交给
+  bundler；UI/标题/许可与来源记录位于其 `assets/**`。它们不进入工程 catalog、FSA 工程目录或 A5 ZIP，
+  A8 发行包负责携带这部分引擎壳。
+- 当前 clone/seed 已不读取 `data/baked` 或 `baked-manifest.json`，但仍需从 extracted 清单复制
+  `tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五个尚未迁移的 legacy family。
+  catalog-only 克隆、导出前全量闭包门禁和 contentVersion 4 仍归 A7-4；A7/R7 不能提前标完成。

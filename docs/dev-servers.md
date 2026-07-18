@@ -7,15 +7,23 @@
 
 ## 新人前置(clone 后必做)
 
-`data/extracted/`(提取产物)与 `data/baked/`(RGBA 烤图)**不进 git、可再生**。缺它们时
-引擎/编辑器会报「资产缺失/返回 HTML/DataView 越界」。首次跑通:
+PAL 的原版输入放在 `data/raw/`，提取中间物在 `data/extracted/`；终态中二者都不是第二阶段工程的
+运行时资源目录（A7-4 前仍有五个 legacy family 过渡读取 extracted）。`projects/pal/assets/**` 也不进 git，
+但必须由迁移器确定性物化。首次跑通：
 
 ```bash
-# 1. 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(找同事拷,版权资产不进 git)
+# 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)
 pnpm install
-pnpm extract                                    # data/raw → data/extracted(几分钟)
-pnpm --filter @type-pal/migrate run bake        # 烤 RGBA:UI 皮 + 立绘/头像/图标 → data/baked
+pnpm extract
+pnpm --filter @type-pal/migrate run migrate:content -- --write
+
+# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
+pnpm --filter @type-pal/migrate run migrate:content
 ```
+
+`data/baked/` 已退役，不再是工程或引擎输入。`pnpm --filter @type-pal/migrate run bake` 只供维护者
+重建 `packages/reforge/src/engine-chrome/assets/**` 的 bundler-owned 默认 UI、标题和对话光标；它不会
+物化 PAL 工程资源，也不应作为缺工程图片时的修复命令。
 
 没有原版资产时可先跑 demo 工程(自包含,不依赖上述产物):editor `dev:demo`(6011)/ reforge `dev`(6050)。
 
@@ -92,6 +100,8 @@ pnpm --filter @type-pal/reforge run dev
 ## 常见坑
 
 - **页面在但接口全挂(Failed to fetch)**= dev server 已死、浏览器里是残留 SPA。重跑上面的命令再刷新即可(server 跨夜/休眠常被系统回收)。
+- **`assets/index.json` 有记录但 `projects/pal/assets/**` 404** = ignored 二进制尚未物化。运行
+  `pnpm --filter @type-pal/migrate run migrate:content -- --write`；只跑 dry-run 或 `bake` 都不会写 PAL 工程。
 - **`VITE_PROJECT_ID` 忘带** → 加载 demo 工程(鬼界民居)而非仙剑。日常脚本已烤死不用管;只有手写 `vite` 裸命令时才需要。
 - **strictPort 报"端口被占"** = 该服务已有实例在跑,直接用现成的,别再起一个。
 - Claude 起验证实例时**直接复用本表脚本/端口**(先探测端口,活着就复用),不再另开临时端口。

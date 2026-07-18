@@ -1,22 +1,23 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-16；最近收口:2026-07-18（A7-1 SFX）
+> 审计日期: 2026-07-16；最近收口:2026-07-19（A7-2 三方审查与用户验收完成）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
-> 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
+> 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX、A7-2 四类静态图/engine chrome 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
-A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soundfont，A7-1 已闭合 SFX，A7-3 已闭合视频与完整帧动画。其余资源族的
-运行时仍可绕过工程目录读取仓库级 `/extracted`、`/baked`、`/ui`；多类资源还用数字号拼文件名。因此当前
-可以证明“音乐、音效、视频和帧动画由工程独立拥有并经单一注册表读取”，不能据此宣称整个工程已经断开全部外部资源依赖。
+A7 总体**还没有形成全资源闭包**。当前已经闭合音乐/MIDI soundfont、SFX、视频/完整帧动画以及
+portrait/face/item-icon/battle-background 四类静态图；默认标题、字形、光标和游戏 UI 已进入引擎 chrome。
+仍未迁移的 `tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五族可继续经隔离的 legacy adapter
+读取 `/extracted`，catalog-only clone/ZIP 和 v4 总门禁也尚未完成。因此不能据此宣称整个工程已断开全部外部资源依赖。
 
 问题由四层共同造成:
 
 1. `manifest.assets` 声明的是目录约定,不是“稳定资源 id -> 明确文件”的注册表。
-2. `AssetBase`、字体、游戏 UI、静态图像和部分编辑器预览仍保留裸 `fetch` 或绝对路径旁路。
-3. 克隆按仓库级提取/烘焙清单复制全部 3,232 个文件,并不按工程真实引用闭包复制。
-4. 当前引用校验只检查内容对象之间的 id,不检查资源 id、种类、物理文件、大小或哈希。
+2. 五个剩余 legacy family 仍保留数字/目录约定，尚未进入单一 catalog 链。
+3. 克隆虽然已退出 `data/baked`，仍按 extracted 清单复制未迁 legacy，尚未完全从 catalog 派生闭包。
+4. 迁移器可核验全 catalog 文件，保存/导出/显式“检查工程”的统一重哈希门禁仍待 A7-4 接线。
 
 终态必须只有一条链:
 
@@ -36,16 +37,18 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soun
 
 ### 2.1 工程自包含的含义
 
-[项目生命周期设计](../editor/project-lifecycle-design.md) 已明确:一个工程文件夹是整个游戏的内容与素材,
-克隆完成后运行时零服务器资源依赖。路线图又明确把字体、UI、音频和过场列入 A7/R8 的闭包与替换范围。
+[项目生命周期设计](../editor/project-lifecycle-design.md) 已明确:一个工程文件夹包含该工程拥有的全部内容与素材,
+克隆完成后项目内容零服务器资源依赖。默认 UI、字形、光标和标题属于引擎运行壳；A8 独立发行再把
+“引擎壳 + 工程”组合成玩家包。
 
 因此本轮采用以下边界:
 
-- **工程资源**:地图用瓦片、精灵、战斗图像、头像、物品图标、游戏 UI 皮、字形数据、RNG、视频、音乐、
-  音效、MIDI 音色库等“换一个游戏就可能变化,或运行该工程必须携带”的文件。
-- **应用壳**:编辑器自己的图标/样式、引擎 JavaScript、MIDI worklet JavaScript、构建器和调试工具。
-- 早期 [project-design.md](../editor/project-design.md) 将游戏 UI/字模划成引擎 chrome 的窄口径,由后来的项目生命周期
-  设计和路线图“工程全部资源”口径覆盖。应用壳仍不进入资产注册表。
+- **工程资源**:地图用瓦片、精灵、战斗图像、头像、物品图标、RNG、视频、音乐、音效、MIDI 音色库和
+  工程标准颜色表等项目内容文件。
+- **应用壳 / engine chrome**:编辑器图标/样式、引擎 JavaScript、MIDI worklet、默认标题、默认 UI、
+  默认字形与对话光标。它们随 bundler 产物分发，不进入工程资产注册表。
+- [project-design.md](../editor/project-design.md) 的早期边界是现行真值；生命周期文档中“全部资源”的
+  用语现统一解释为“全部项目资源”，不覆盖 engine chrome 归属。
 - “调色板”概念不得回到内容 schema 或编辑器。旧 RLE 解码仍需要的唯一颜色查找文件只能作为
   `color-table` 运行时角色存在,不允许出现可选择的 `paletteId`。
 
@@ -192,7 +195,7 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soun
 - MG2 dry-run 为 `writes=0 deletes=0 conflicts=0`；作者替换保持 AssetId、转 authored/hash 路径，不被迁移器覆盖。
 - 当前 PAL 全量写前闭包为 **1,354 条资产引用、15 条未引用 warning、0 条缺失/kind 错误**；其中视频入口覆盖
   manifest 角色、入口点 introVideo 和 quitToTitle 视频序列，帧动画分段按作者 site 归并计数。
-- A7 总体仍未完成：字形/UI、头像/图标、精灵/瓦片等 legacy family 与裸路径仍按 A7-2/A7-3/A7-4
+- A7 总体仍未完成：A7-2 已接手字形/UI/头像/图标，精灵/瓦片等 legacy family 与总门禁仍按 A7-4
   继续收口。
 - 最终迁移 dry-run 为 `writes=0 deletes=0 conflicts=0`。作者接管同一 AssetId 的记录与 migrated 兄弟条目
   并行更新已有专测，二进制保持在 MG2 JSON baseline 外。
@@ -216,11 +219,35 @@ A7 总体**还没有形成全资源闭包**，但 A7-0 已闭合音乐/MIDI soun
   用户于 2026-07-18 验收收口。完整实现、返工与测试矩阵见
   [`A7-1 任务卡`](../../ops/tasks/A7-1-sfx-asset-closure.md)。
 
+### 3.10 A7-2 完成后的静态图与 engine chrome 证据
+
+- PAL catalog 从 469 增至 **848** 条；新增四类静态图 **379** 条、5,464,181 B：portrait
+  88 / 768,841 B，face 6 / 10,392 B，item-icon 233 / 262,667 B，battle-background
+  52 / 4,422,281 B。
+- typed 静态图引用精确为 **2,656**：portrait 2,365、face 6、item-icon 233、battle-background 52。
+  其中 84 张 portrait 被引用，50/68/72/89 四张只报 unused warning；missing 与 kind mismatch 均为 0。
+- 对话、持久换形象、角色头像、物品与战场字段只保存 AssetId；Reforge 和编辑器按 expected kind 经
+  `AssetResolver/FileSource` 读取。旧 v3 与旧存档只在打开/读档边界一次升级，runtime 不接受数字或路径双轨。
+- battle background 保持 320×200 索引 PNG；作者真彩图在编辑器导入边界按工程标准颜色表确定性量化，
+  召唤期间的低 nibble shift 语义继续由同一索引数据驱动。
+- 默认标题、Unifont、对话光标和 85 个 UI slot 由 `packages/reforge/src/engine-chrome/registry.ts` 统一
+  交给 bundler（UI/标题/许可与来源记录位于其 `assets/**`）。Reforge standalone 与 editor play 共用
+  bundler URL；engine chrome 不进项目 catalog。
+- `data/baked` 与 `baked-manifest.json` 已无消费者，PAL 资源使用
+  `pnpm --filter @type-pal/migrate run migrate:content -- --write` 物化。正式迁移后二跑为
+  `writes=0 deletes=0 conflicts=0`。
+- 全 catalog 物理复核为 848 文件记录、59,704,628 B，missing file、bytes mismatch 与 hash mismatch 均为 0。
+  当前 clone/seed 仍需 extracted 清单承载五个未迁 legacy family；统一保存/导出闭包门禁留 A7-4。
+
+完整实现与验证矩阵见
+[`A7-2 结果报告`](a7-2-static-images-engine-chrome-report.md) 和
+[`A7-2 任务卡`](../../ops/tasks/A7-2-static-images-engine-chrome.md)。
+
 ## 4. 终态数据契约
 
 ### 4.1 单一物理资产注册表
 
-建议新增工程文件 `assets/index.json`,由 `manifest.assets.catalog` 唯一指向:
+工程文件 `assets/index.json` 由 `manifest.assets.catalog` 唯一指向，现行公共契约为:
 
 ```ts
 export type AssetId = string
@@ -239,8 +266,6 @@ export type AssetKind =
   | 'battle-background'
   | 'video'
   | 'frame-animation'
-  | 'glyph-table'
-  | 'ui-image'
   | 'color-table'
 
 export interface AssetRecordV1 {
@@ -330,8 +355,8 @@ A7-0 的 v3 示例:
 }
 ```
 
-角色名必须是 content 包定义并校验的封闭联合,不能变成任意字符串配置袋。后续颜色表、字形、对话光标和 UI 主题
-按对应资源族切片加入。角色值仍是 AssetId,不得直接写路径。`assets.legacy` 只允许隔离的 LegacyAssetAdapter 读取,
+角色名必须是 content 包定义并校验的封闭联合,不能变成任意字符串配置袋。工程标准颜色表使用 catalog role；
+默认字形、对话光标和 UI 不进入工程 role，而由 engine chrome registry 提供。角色值仍是 AssetId,不得直接写路径。`assets.legacy` 只允许隔离的 LegacyAssetAdapter 读取,
 普通 FileSource/AssetResolver 不接受绝对路径；全量闭包报告必须把每个 legacy family 记为 error。
 
 ### 4.3 路径规则
@@ -407,7 +432,8 @@ typed walker 递归收集 manifest 角色、场景、脚本分片、角色、敌
 
 ### 5.2 文件闭包
 
-对引用到的记录检查规范路径、文件存在、字节数和 SHA-256。报告至少分:
+对 catalog 中**全部登记记录**检查规范路径、文件存在、字节数和 SHA-256；未引用记录同样必须是可交付的真实文件，
+不能因只报 warning 而逃过物理闭包。报告至少分:
 
 - `missing-reference`
 - `kind-mismatch`
@@ -434,7 +460,7 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 |---|---|---|
 | **A7-0** | 公共 catalog/guard/resolver/闭包地基 + 音乐/MIDI soundfont 首切片 | 音乐引用、试听、运行、保存、重迁全部只走 AssetId；`music.json` 与数字文件名推断归零 |
 | **A7-1** | SFX 与音频剩余资源 | **done（2026-07-18）**：音效引用、角色/敌人/技能/召唤音效、导入替换全部只走 AssetId |
-| **A7-2** | 静态图像、游戏 UI、字形、颜色表 | 头像/图标/战场/UI/字体无 `/baked`、`/ui`、`/extracted` 旁路 |
+| **A7-2** | 四类静态图 + engine chrome + 颜色表 | **done（2026-07-19）**：三方审查与用户验收完成；379 records / 2,656 edges；项目静态图无旁路，默认 UI/字形/光标/标题走 bundler registry |
 | **A7-3** | 瓦片、精灵、战斗/法术动画、RNG、视频 | **RNG/视频部分已完成**：稳定 AssetId + TPFS + resolver + 作者工作台；瓦片/精灵/战斗动画剩余族继续收口 |
 | **A7-4** | 克隆/另存/zip/闭包总门禁 + v4 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
 
