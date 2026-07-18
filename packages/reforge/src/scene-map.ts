@@ -1,14 +1,14 @@
-import type { MapIndexV1, ProjectMapV2, TilesetDef } from '@type-pal/content'
+import type { MapIndexV1, ProjectMap, TilesetDef } from '@type-pal/content'
 import { mapAssetById, resolveTilesetPath } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { type AssetBase, loadProjectMap, loadTilesetByPath } from './assets.js'
 
 export interface SceneMapAssets {
-  map: ProjectMapV2
+  map: ProjectMap
   tiles: Map<number, RleFrame>
 }
 
-/** 唯一加载链：稳定 map id -> map index -> ProjectMapV2 -> tileset registry。 */
+/** 唯一加载链：稳定 map id -> map index -> ProjectMap -> tileset registry。 */
 export async function loadSceneMap(
   base: AssetBase,
   mapId: string,

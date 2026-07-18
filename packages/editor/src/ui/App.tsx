@@ -30,7 +30,7 @@ import {
   buildBlankProjectMap,
   idleFrameIndex,
   type LoadedProject,
-  type ProjectMapV2,
+  type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
 import {
@@ -2210,7 +2210,7 @@ function SceneInspector(props: {
   assetCatalog: AssetCatalogV1
   audioResolver: import('@type-pal/reforge').AudioAssetReader
   maps: MapAssetDefV1[]
-  projectMaps: Record<string, ProjectMapV2>
+  projectMaps: Record<string, ProjectMap>
   tilesets: readonly TilesetDef[]
   onOpenMap: (mapId: string) => void
 }) {

@@ -14,13 +14,16 @@
  */
 
 import {
-  formatProjectMapV2,
+  formatProjectMap,
+  formatStampTemplates,
+  type ProjectMap,
   type SceneDef,
   type ScriptChunkV1,
+  type StampTemplateV1,
   validateAssetCatalog,
   validateMapIndex,
 } from '@type-pal/content'
-import type { FileSource, LoadedProjectCore, ProjectMapV2 } from '@type-pal/reforge'
+import type { FileSource, LoadedProjectCore } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
@@ -33,9 +36,12 @@ import { assertScriptProjectValid } from './script-references.js'
 export function toEditorState(
   project: LoadedProjectCore,
   scenes: SceneDef[],
-  projectMaps: Record<string, ProjectMapV2> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
+  projectMaps: Record<string, ProjectMap> = {}, // 键 = 稳定 map id；缺席 = 尚未按需加载
   scriptChunks: Record<string, ScriptChunkV1> = {},
+  stamps?: StampTemplateV1[],
 ): EditorState {
+  if (project.manifest.content.stamps && stamps === undefined)
+    throw new Error('toEditorState: manifest.content.stamps 已登记但调用方未加载图章模板表')
   return {
     // M2a-2:场景懒加载后 LoadedProject 不再带全量 → 编辑器 loadAllScenes 拉齐后传入
     scenes,
@@ -45,6 +51,7 @@ export function toEditorState(
     mapIndex: project.mapIndex,
     // W7B:tileset 注册表(loader 已 guard;缺省空)+ 上传字节暂存(载入时空,只存新上传)
     tilesets: project.tilesets ?? [],
+    stamps: stamps ?? [],
     tilesetBlobs: {},
     scriptIndex: project.scriptIndex,
     scriptChunks,
@@ -78,6 +85,7 @@ export function toEditorState(
 type ContentKey =
   | 'actors'
   | 'tilesets'
+  | 'stamps'
   | 'skills'
   | 'items'
   | 'locale'
@@ -115,6 +123,8 @@ export function serializeProject(
     files[rel] = value
   }
   const content = state.manifest.content
+  if (!content.stamps && state.stamps.length > 0)
+    throw new Error('serializeProject: 工程有图章模板但 manifest.content.stamps 未登记')
 
   // M2a-2:scenes 走 per-scene 目录(index.json + <id>.json);其余表域单文件。
   const dir = (content.scenes ?? 'content/scenes/').replace(/\/?$/, '/')
@@ -136,7 +146,7 @@ export function serializeProject(
         throw new Error(`serializeProject: 地图资产 "${asset.id}" 覆盖 map index 文件`)
       indexedIds.add(asset.id)
       const map = state.maps[asset.id]
-      if (map) addFile(asset.path, formatProjectMapV2(map), `地图 ${asset.id}`)
+      if (map) addFile(asset.path, formatProjectMap(map), `地图 ${asset.id}`)
       else {
         const copy = opts?.mapCopies?.[asset.path]
         if (copy !== undefined) addFile(asset.path, copy, `地图 ${asset.id} copy-through`)
@@ -170,6 +180,7 @@ export function serializeProject(
     enemyTeams: state.enemyTeams ?? [],
     battleFields: state.battleFields ?? [],
     tilesets: state.tilesets ?? [],
+    stamps: formatStampTemplates(state.stamps),
     poisons: state.poisons ?? [],
     ambiences: state.ambiences ?? [],
     shops: state.shops ?? [],

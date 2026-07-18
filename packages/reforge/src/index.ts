@@ -59,15 +59,32 @@ import {
   loadProjectFrom,
   loadProjectMapById,
   loadSceneDef,
+  loadStampTemplates,
 } from './loader.js'
 
-export type { MapLayerV2, ProjectMapV2, TilesetDef } from '@type-pal/content'
+export type {
+  MapLayerV2,
+  ProjectMap,
+  ProjectMapAuthoringV1,
+  ProjectMapV2,
+  ProjectMapV3,
+  StampPlacementGridPointV1,
+  StampPlacementGroupV1,
+  StampPlacementVisualSlotV1,
+  StampTemplateV1,
+  TilesetDef,
+} from '@type-pal/content'
 // 地图/调色板类型转出口(编辑器不直依赖 shared/content)
 export {
+  isProjectMap,
   isProjectMapV2,
+  isProjectMapV3,
   mapInstanceHeight,
   resolveTilesetPath,
+  validateProjectMap,
   validateProjectMapV2,
+  validateProjectMapV3,
+  validateStampTemplates,
   validateTilesets,
 } from '@type-pal/content'
 export type { Palette, RleFrame } from '@type-pal/shared'
@@ -99,11 +116,13 @@ export {
   paintProjectMapCollision,
   paintProjectMapTiles,
   pixelToLattice,
+  projectMapStampPlacements,
   projectMapTileBlitRect,
   projectMapTilesInView,
   removeProjectMapLayer,
   resizeProjectMap,
   updateProjectMapLayer,
+  withProjectMapStampPlacements,
 } from './project-map.js'
 // 上传素材量化 + 图集网格切片(W7B;编码器在 shared rle-encode)
 export { quantizeToRleFrame, sliceAtlasGrid } from './quantize.js'
@@ -117,6 +136,7 @@ export {
   loadProjectFrom,
   loadProjectMapById,
   loadSceneDef,
+  loadStampTemplates,
 }
 
 // 碰撞判定(编辑器画禁入格复用,与游戏同一套 → 不漂移)

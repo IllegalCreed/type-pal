@@ -16,7 +16,7 @@ import {
   type AssetBase,
   type AudioAssetReader,
   MemoryScriptResolver,
-  type ProjectMapV2,
+  type ProjectMap,
   type TilesetDef,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -98,7 +98,7 @@ export function SharedScriptTab(props: {
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
   assetReader: EditorAssetReader
-  projectMaps: Record<string, ProjectMapV2>
+  projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
   tilesets: readonly TilesetDef[]
   tilesetBlobs: Record<string, ArrayBuffer>

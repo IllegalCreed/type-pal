@@ -1,7 +1,7 @@
 import type { AssetCatalogV1, LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
-import { closePalSoundManifest } from './pal-manifest.js'
+import { closePalSoundManifest, preparePalManifest } from './pal-manifest.js'
 
 const manifest = (): LoadedManifest => ({
   id: 'pal',
@@ -42,5 +42,13 @@ describe('PAL sound manifest closure', () => {
   test('传入 catalog 时立即拒绝不存在的作者角色', () => {
     const catalog: AssetCatalogV1 = { version: 1, assets: {} }
     expect(() => closePalSoundManifest(manifest(), catalog)).toThrow('不存在')
+  })
+
+  test('综合迁移 manifest 登记 stamps，保持 contentVersion 3 且不改输入', () => {
+    const current = manifest()
+    const next = preparePalManifest(current)
+    expect(next.content.stamps).toBe('content/stamps.json')
+    expect(next.contentVersion).toBe(3)
+    expect(current.content.stamps).toBeUndefined()
   })
 })

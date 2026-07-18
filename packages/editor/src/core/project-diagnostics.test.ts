@@ -81,6 +81,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
       maps: [{ id: 'map-000', name: 'Map', path: 'content/maps/map-000.json' }],
     },
     tilesetBlobs: {},
+    stamps: [],
     scriptChunks: {},
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},

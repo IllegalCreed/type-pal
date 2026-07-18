@@ -110,6 +110,45 @@ describe('mergeManagedFile', () => {
     ])
   })
 
+  test('G2：stamps 按稳定 id 合并，authored 接管后整项归作者', () => {
+    const base = [{ id: 'tree', origin: 'migrated', name: '旧树', tilesetId: 'tiles', visual: [1] }]
+    const ours = [
+      { id: 'tree', origin: 'authored', name: '我的树', tilesetId: 'tiles', visual: [9] },
+      { id: 'local', origin: 'authored', name: '本地章', tilesetId: 'tiles', visual: [2] },
+    ]
+    const theirs = [
+      { id: 'tree', origin: 'migrated', name: '新树', tilesetId: 'tiles', visual: [3] },
+      { id: 'upstream', origin: 'migrated', name: '上游章', tilesetId: 'tiles', visual: [4] },
+    ]
+    const result = mergeManagedFile(
+      'content/stamps.json',
+      jsonPresent(base),
+      jsonPresent(ours),
+      jsonPresent(theirs),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual([ours[0], theirs[1], ours[1]])
+  })
+
+  test('G2：上游删除 migrated 模板时保留已 authored 接管项', () => {
+    const base = [
+      { id: 'tree', origin: 'migrated', name: '旧树', tilesetId: 'tiles', visual: [1] },
+      { id: 'rock', origin: 'migrated', name: '旧石', tilesetId: 'tiles', visual: [2] },
+    ]
+    const ours = [
+      { id: 'tree', origin: 'authored', name: '我的树', tilesetId: 'tiles', visual: [9] },
+      base[1]!,
+    ]
+    const result = mergeManagedFile(
+      'content/stamps.json',
+      jsonPresent(base),
+      jsonPresent(ours),
+      jsonPresent([]),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual([ours[0]])
+  })
+
   test('map index 的 /maps 按稳定 id 合并，不退回整数组原子冲突', () => {
     const result = mergeManagedFile(
       'content/maps/index.json',

@@ -604,12 +604,36 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 ## Build:实现与自测
 
-- Coding Owner:Codex(设计三签前不得开始)。
-- 修改文件:尚无。
-- 实现摘要:尚未开始。
-- 运行命令:尚无。
-- 浏览器 / 手工检查:尚无。
-- 跳过的检查及原因:设计门禁未满足。
+- Coding Owner:Codex（唯一实现方）。
+- W7G-A 数据地基（2026-07-18）: **complete**。
+  - `content`:新增独立 `StampTemplateV1` 表、严格 validator/parser/formatter；地图显式升级为
+    `ProjectMapV2 | ProjectMapV3`，非空 placement 条件发 v3，空 placement 降回 v2；authoring 与成员
+    规范排序；视觉/collision 两套 ownership 独立排他，跨层及跨组跨通道重叠允许。
+  - `reforge`:所有地图加载/渲染/碰撞边界消费统一 `ProjectMap`；普通矩阵 mutator 保留 v3 authoring；
+    runtime `loadProjectFrom` 不读取 stamps，编辑器通过独立 `loadStampTemplates` 显式懒加载。
+  - `editor`: `EditorState.stamps` 成为必有作者态；manifest 已登记但调用方漏加载时 fail-loud；v3 地图
+    保存/重开、删除最后 placement 降 v2、未加载 v3 原文本 copy-through、旧工程零物化均已钉测试；
+    新建工程登记空 stamps 表。
+  - `migrate`:G1 统一 map/stamp formatter、G2 stamps 按稳定 id 合并并保护 authored 整项接管（含上游
+    删除）、G3 manifest 最后登记 `content/stamps.json` 且 contentVersion 保持 3；PAL 空表由上游迁移
+    事务生成，未手改生成产物。
+  - P4 固定体积 fixture:80×40、4 层、300 placements、每组 12 visual + 8 collision；UTF-8 输出预算
+    `< 900,000 bytes`，二次格式化字节必须完全一致。
+- 生成证据:
+  - 首跑 `migrate:content -- --write`:plan `writes=1 deletes=0 conflicts=0`，事务提交 4 项操作，
+    469 个资源全部 unchanged。
+  - 紧接二跑 `migrate:content`:严格 `writes=0 deletes=0 conflicts=0`。
+- 自动检查:
+  - `@type-pal/content check`:22 files / 229 tests passed。
+  - `@type-pal/reforge check`:46 files / 417 tests passed。
+  - `@type-pal/editor check`:34 files / 269 tests passed。
+  - `@type-pal/migrate check`:31 files / 219 passed / 1 skipped。
+  - `pnpm lint` 与 `git diff --check`:passed。
+- 浏览器 / 手工检查:W7G-A 没有新增可见 UI；浏览器交互从 W7G-B 起执行。
+- 跳过检查:migrate 的 bootstrap-only 真实数据演练因当前仓库已有 committed baseline 自动 skip；
+  committed-baseline 真实 PAL 回归已执行通过。
+- 下一段:W7G-B 模板库 CRUD、从 W8 选区保存模板、引用/来源诊断；P2 组外写守卫仍按签字门禁在
+  W7G-D 完成，S13 结构生命周期守卫在 W7G-E 完成。
 
 ## 视觉验证记录
 
@@ -628,8 +652,8 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 ## 用户验收
 
-- 用户结论:已要求“按顺序开始”;当前仅授权先收口 git、再起草 W7G 和走三方设计签字。
-- 后续任务:三方设计签齐后才进入 build。
+- 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
+- 后续任务:W7G-A 已完成，继续 W7G-B；全卡仍处于 build，A 完成不等于 W7G done。
 
 ## 交接日志
 
@@ -662,6 +686,11 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   原 counter 按历史保留。Evidence:本卡 S 表 S3 行、推进签字 Kimi 复核行、主审立场、争议记录。
   Next:Codex 按 W7G-A→F 分段 build(提示词见下),各段退出门禁随段核对;Kimi/GLM 只读待命。
   未改实现文件。
+- 2026-07-18 Codex:完成 W7G-A 数据地基。显式 v2/v3、独立 stamps 表、P1 按通道 ownership、
+  runtime 作者态隔离、editor 保存/重开/copy-through、G1-G3 与 PAL 迁移事务全部闭合；处理两轮只读
+  审计返工（跨组跨通道测试、stamps 漏加载 fail-loud、authored 上游删除保护、manifest 最后发布
+  集成断言）。Evidence:Build 节测试与二跑零计划记录。Next:同一 Coding Owner 连续推进 W7G-B；
+  Kimi/GLM 保持只读待命，全卡完成后做 done 三方审查。
 
 ## 下一位 Agent 提示词
 

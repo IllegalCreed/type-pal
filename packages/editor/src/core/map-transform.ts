@@ -1,5 +1,5 @@
 /** W8 结构化地图剪贴板与可逆变换规划器（纯函数，不直接 dispatch）。 */
-import type { ProjectMapV2 } from '@type-pal/reforge'
+import type { ProjectMap } from '@type-pal/reforge'
 import { mapInstanceHeight } from '@type-pal/reforge'
 import type { ProjectMapPatch } from './map-patch.js'
 import type { GridPointRef, MapHitScope, MapSelection, VisualSlotRef } from './map-selection.js'
@@ -108,7 +108,7 @@ function selectionAnchor(
 /** null 视觉槽不进内容 payload；includeCollision 时 0 也保留，表达显式通道覆盖。 */
 export function captureMapClipboard(
   mapId: string,
-  map: ProjectMapV2,
+  map: ProjectMap,
   selection: MapSelection,
   includeCollision: boolean,
 ): MapCellClipboard | undefined {
@@ -178,7 +178,7 @@ function mappedLayerId(sourceLayerId: string, mappings: readonly MapLayerMapping
   )
 }
 
-function inside(map: ProjectMapV2, ref: GridPointRef): boolean {
+function inside(map: ProjectMap, ref: GridPointRef): boolean {
   return (
     Number.isInteger(ref.row) &&
     Number.isInteger(ref.col) &&
@@ -241,7 +241,7 @@ function finishPlan(
 }
 
 function destinationCells(
-  map: ProjectMapV2,
+  map: ProjectMap,
   clipboard: MapCellClipboard,
   targetAnchor: GridPointRef,
   mappings: readonly MapLayerMapping[],
@@ -301,7 +301,7 @@ function destinationCells(
 }
 
 export function planMapPaste(
-  map: ProjectMapV2,
+  map: ProjectMap,
   clipboard: MapCellClipboard,
   targetAnchor: GridPointRef,
   options: {
@@ -375,7 +375,7 @@ export function planMapPaste(
 }
 
 export function planMapDelete(
-  map: ProjectMapV2,
+  map: ProjectMap,
   selection: MapSelection,
   includeCollision: boolean,
   collisionAuthorityLayerId: string,
@@ -433,7 +433,7 @@ export function planMapDelete(
 }
 
 export function planMapMove(
-  map: ProjectMapV2,
+  map: ProjectMap,
   selection: MapSelection,
   targetAnchor: GridPointRef,
   options: {

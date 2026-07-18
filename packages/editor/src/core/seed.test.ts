@@ -131,6 +131,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(m.assets.legacy?.root).toBe('assets')
     expect(m.content.sprites).toBe('content/sprites.json')
     expect(m.content.tilesets).toBe('content/tilesets.json')
+    expect(m.content.stamps).toBe('content/stamps.json')
     expect(m.content.maps).toBe('content/maps/index.json')
     // 场景只保存稳定 mapId；entry 落房间中心(方形 12×12 → (12,0))
     const scene = files['content/scenes/start.json'] as {
@@ -152,6 +153,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       version: 1,
       maps: [{ id: 'start', name: '起始地图', path: 'content/maps/start.json' }],
     })
+    expect(files['content/stamps.json']).toEqual([])
   })
 
   test('占位素材:合成色盘 JSON + 瓦片集/精灵 .rle 二进制(ArrayBuffer)', async () => {

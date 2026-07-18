@@ -27,6 +27,7 @@ import type {
   ShopDef,
   SkillData,
   SpriteDef,
+  StampTemplateV1,
   StartWorld,
   TilesetDef,
 } from './index.js'
@@ -54,6 +55,8 @@ export interface ContentBundle {
   enemyTeams?: EnemyTeamDef[]
   /** tileset 注册表(W7B;可缺省 = 空)。 */
   tilesets?: TilesetDef[]
+  /** 图章模板表(W7G;模板按稳定 tilesetId 引用注册表)。 */
+  stamps?: StampTemplateV1[]
   /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */
   battleFields?: BattleFieldDef[]
   /** 毒定义表(B10 编辑器结构化;可缺省 = 空。保原文件序 —— 勿经 by-id Record 转,数值键会重排)。 */
@@ -81,6 +84,16 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const spriteIds = new Set(b.sprites.map((s) => s.id))
   const localeKeys = new Set(Object.keys(b.locale))
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
+  const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
+
+  ;(b.stamps ?? []).forEach((stamp, index) => {
+    if (!tilesetIds.has(stamp.tilesetId))
+      issues.push({
+        severity: 'error',
+        where: `stamps[${index}](${stamp.id}).tilesetId`,
+        message: `瓦片集 "${stamp.tilesetId}" 不在 tilesets 注册表`,
+      })
+  })
 
   // ── scenes ──────────────────────────────────────────────
   b.scenes.forEach((scene, si) => {

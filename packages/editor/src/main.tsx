@@ -9,6 +9,7 @@ import {
   loadAllScriptChunks,
   loadProject,
   loadProjectMapById,
+  loadStampTemplates,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -41,11 +42,14 @@ function Root() {
     let alive = true
     loadProject(PROJECT_ID)
       .then(async (project) => {
-        const scenes = await loadAllScenes(project)
-        const scriptChunks = await loadAllScriptChunks(project)
+        const [scenes, scriptChunks, stamps] = await Promise.all([
+          loadAllScenes(project),
+          loadAllScriptChunks(project),
+          loadStampTemplates(project),
+        ])
         if (!alive) return
         setBoot({
-          session: new EditSession(toEditorState(project, scenes, {}, scriptChunks), {
+          session: new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps), {
             loadMap: (mapId) => loadProjectMapById(project, mapId),
           }),
           project,
@@ -61,7 +65,7 @@ function Root() {
 
   const onOpened = (o: Opened): void => {
     setBoot({
-      session: new EditSession(toEditorState(o.project, o.scenes, {}, o.scriptChunks), {
+      session: new EditSession(toEditorState(o.project, o.scenes, {}, o.scriptChunks, o.stamps), {
         loadMap: (mapId) => loadProjectMapById(o.project, mapId),
       }),
       project: o.project,

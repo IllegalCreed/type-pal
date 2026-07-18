@@ -1,11 +1,11 @@
-import { mapInstanceHeight, type ProjectMapV2 } from '@type-pal/reforge'
+import { mapInstanceHeight, type ProjectMap } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { MapSelection } from '../core/map-selection.js'
 import { summarizeMapSelection } from '../core/map-selection.js'
 
 export interface MapSelectionInspectorProps {
-  map: ProjectMapV2
+  map: ProjectMap
   selection: Extract<MapSelection, { kind: 'cells' }>
   activeLayerId: string
   hiddenLayerIds: ReadonlySet<string>

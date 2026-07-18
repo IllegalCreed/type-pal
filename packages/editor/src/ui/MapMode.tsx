@@ -1,13 +1,13 @@
-/** 地图模式：ProjectMapV2 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
+/** 地图模式：ProjectMap 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
 import type { MapIndexV1, SceneDef } from '@type-pal/content'
 import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
   LatticePos,
   Palette,
+  ProjectMap,
   ProjectMapCollisionEdit,
   ProjectMapTileEdit,
-  ProjectMapV2,
 } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -84,7 +84,7 @@ const DEFAULT_COLS = 24
 const DEFAULT_ROWS = 24
 
 function visibleMapRoom(
-  map: ProjectMapV2,
+  map: ProjectMap,
   tiles: StageAssets['tiles'],
   canvas: HTMLCanvasElement,
   view: { zoom: number; panX: number; panY: number },
@@ -177,7 +177,7 @@ export function MapMode(props: {
   selectedMapId?: string
   onSelectMap: (id: string | undefined) => void
   onOpenScene: (id: string) => void
-  /** tileset 注册表(W7B:绑定下拉 + ProjectMapV2.tilesetId 解析)。 */
+  /** tileset 注册表(W7B:绑定下拉 + ProjectMap.tilesetId 解析)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
@@ -204,7 +204,7 @@ export function MapMode(props: {
       ? selectedMapId
       : scene.mapId) ?? ''
   const selectedAsset = mapIndex.maps.find((asset) => asset.id === mapId)
-  const liveMap: ProjectMapV2 | undefined = projectMaps[mapId]
+  const liveMap: ProjectMap | undefined = projectMaps[mapId]
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const size = useStageSize(wrapRef, 120)
@@ -268,8 +268,8 @@ export function MapMode(props: {
   const baseCanvasCacheRef = useRef<
     | {
         canvas: HTMLCanvasElement
-        map: ProjectMapV2
-        liveMap: ProjectMapV2 | undefined
+        map: ProjectMap
+        liveMap: ProjectMap | undefined
         width: number
         height: number
         zoom: number
@@ -290,7 +290,7 @@ export function MapMode(props: {
   const selectionCanvasCacheRef = useRef<
     | {
         canvas: HTMLCanvasElement
-        map: ProjectMapV2
+        map: ProjectMap
         tiles: StageAssets['tiles']
         selection: MapSelection
         selectionPreview: MapSelection | undefined

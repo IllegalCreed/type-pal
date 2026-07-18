@@ -45,7 +45,7 @@ function arrayMode(file: string, path: string): ArrayMode {
   if (file === 'content/maps/index.json' && path === '/maps') return 'id'
   if (
     path === '' &&
-    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets)\.json$/.test(
+    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets|stamps)\.json$/.test(
       file,
     )
   )
@@ -276,6 +276,15 @@ function mergePages(
 }
 
 function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: MergeContext): Node {
+  if (
+    ctx.file === 'content/stamps.json' &&
+    /^\/@(?:string|number):[^/]+$/.test(path) &&
+    isObject(ours) &&
+    ours.value.origin === 'authored' &&
+    (!theirs.present || (isObject(theirs) && theirs.value.origin !== 'authored'))
+  )
+    // 显式接管后整条模板归作者；上游 migrated 字段不得再逐项灌回。
+    return cloneNode(ours)
   if (
     ctx.file === 'assets/index.json' &&
     /^\/assets\/[^/]+$/.test(path) &&

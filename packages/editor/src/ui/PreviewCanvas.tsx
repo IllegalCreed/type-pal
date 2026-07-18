@@ -15,7 +15,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
-import type { AssetBase, ProjectMapV2, SpriteDraw } from '@type-pal/reforge'
+import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
 import { idleFrameIndex, renderSceneFrame, walkFrameIndex } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
@@ -65,7 +65,7 @@ export function PreviewCanvas(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   /** 自有地图实时副本(键 = 稳定 map id);own 场景从此渲染(不落磁盘)。 */
-  projectMaps: Record<string, ProjectMapV2>
+  projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
   /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]

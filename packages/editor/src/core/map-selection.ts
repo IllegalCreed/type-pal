@@ -4,7 +4,7 @@
  * 这里的 selection 是编辑器工作区临时态：不进入 EditorState、工程 JSON、URL 或 undo 栈。
  * 持久内容修改仍必须通过 Command。
  */
-import type { ProjectMapV2, RleFrame } from '@type-pal/reforge'
+import type { ProjectMap, RleFrame } from '@type-pal/reforge'
 import {
   isLatticeInside,
   mapInstanceHeight,
@@ -74,7 +74,7 @@ export type MapWorkspaceAction =
   | { type: 'set-hit-scope'; mapId: string; hitScope: MapHitScope }
   | { type: 'toggle-hidden-layer'; mapId: string; layerId: string }
   | { type: 'toggle-locked-layer'; mapId: string; layerId: string }
-  | { type: 'clip-map'; mapId: string; map: ProjectMapV2 }
+  | { type: 'clip-map'; mapId: string; map: ProjectMap }
   | { type: 'remove-map'; mapId: string }
 
 export interface MapSelectionBounds {
@@ -221,7 +221,7 @@ export function isMapSelectionDrag(
 }
 
 /** 删除图层/缩图后裁去悬空 ref；stamp placement 留给 W7G 自己定义裁剪语义。 */
-export function clipMapSelection(selection: MapSelection, map: ProjectMapV2): MapSelection {
+export function clipMapSelection(selection: MapSelection, map: ProjectMap): MapSelection {
   if (selection.kind === 'none') return selection
   if (selection.kind === 'stamp-placement') return selection
   const layerIds = new Set(map.layers.map((layer) => layer.id))
@@ -306,7 +306,7 @@ export function mapWorkspaceReducer(
 }
 
 function layersInScope(
-  map: ProjectMapV2,
+  map: ProjectMap,
   activeLayerId: string,
   hitScope: MapHitScope,
   hiddenLayerIds: ReadonlySet<string>,
@@ -325,7 +325,7 @@ function layersInScope(
 
 /** 单击/框选把逻辑格扩成当前显式作用域；空视觉槽仍保留，便于粘贴目标和碰撞编辑。 */
 export function selectionForGridPoints(
-  map: ProjectMapV2,
+  map: ProjectMap,
   points: readonly GridPointRef[],
   options: {
     activeLayerId: string
@@ -353,7 +353,7 @@ export function selectionForGridPoints(
 
 /** R3：全选固定取活动层非空视觉实例 + 非默认碰撞格，不受跨层框选开关影响。 */
 export function selectAllMapContent(
-  map: ProjectMapV2,
+  map: ProjectMap,
   options: {
     activeLayerId: string
     hitScope: MapHitScope
@@ -417,7 +417,7 @@ export function mapSelectionBounds(selection: MapSelection): MapSelectionBounds 
 /** Inspector 的单值/混合值模型；视觉槽和格点通道分别统计。 */
 export function summarizeMapSelection(
   selection: MapSelection,
-  map: ProjectMapV2,
+  map: ProjectMap,
 ): MapSelectionSummary {
   if (selection.kind !== 'cells') {
     return {
@@ -491,7 +491,7 @@ function frameHit(
  * hidden 不出现；locked 可在候选中灰显，但不可成为 primary。
  */
 export function hitTestMapContent(
-  map: ProjectMapV2,
+  map: ProjectMap,
   tiles: ReadonlyMap<number, RleFrame>,
   worldX: number,
   worldY: number,

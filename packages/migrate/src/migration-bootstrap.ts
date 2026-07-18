@@ -48,7 +48,7 @@ function arrayMode(file: string, path: string): 'id' | 'primitive-id' | 'pages' 
   if (file === 'content/maps/index.json' && path === '/maps') return 'id'
   if (
     path === '' &&
-    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets)\.json$/.test(
+    /content\/(actors|items|sprites|enemies|enemy-teams|music|battle-fields|poisons|shops|tilesets|stamps)\.json$/.test(
       file,
     )
   )

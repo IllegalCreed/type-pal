@@ -20,11 +20,12 @@ import {
   validateLocale,
   validateManifestAssetConfigV3,
   validateMapIndex,
-  validateProjectMapV2,
+  validateProjectMap,
   validateReferences,
   validateScenes,
   validateSkills,
   validateSprites,
+  validateStampTemplates,
   validateTilesets,
 } from '@type-pal/content'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
@@ -360,12 +361,19 @@ export function validatePalMigrationTarget(args: {
   const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
   const tilesets = validateTilesets(required(files, 'content/tilesets.json'))
   const tilesetIds = new Set(tilesets.map((tileset) => tileset.id))
+  const stamps = validateStampTemplates(required(files, 'content/stamps.json'))
+  for (const stamp of stamps) {
+    if (!tilesetIds.has(stamp.tilesetId))
+      throw new Error(
+        `content/stamps.json: 图章 "${stamp.id}" 的 tilesetId "${stamp.tilesetId}" 不在 tilesets 注册表`,
+      )
+  }
   if (mapIndex.maps.length !== sources.tilemaps.length)
     throw new Error(`地图索引数量 ${mapIndex.maps.length} != 源图数量 ${sources.tilemaps.length}`)
   const indexedMapPaths = new Set<string>()
   for (const asset of mapIndex.maps) {
     indexedMapPaths.add(asset.path)
-    const map = validateProjectMapV2(required(files, asset.path))
+    const map = validateProjectMap(required(files, asset.path))
     if (!tilesetIds.has(map.tilesetId))
       throw new Error(`${asset.path}: tilesetId "${map.tilesetId}" 不在 tilesets 注册表`)
   }
@@ -420,6 +428,7 @@ export function validatePalMigrationTarget(args: {
     poisons: required(files, 'content/poisons.json') as never,
     shops: required(files, 'content/shops.json') as never,
     tilesets,
+    stamps,
     mapIndex,
   })
   const referenceErrors = issues.filter((issue) => issue.severity === 'error')

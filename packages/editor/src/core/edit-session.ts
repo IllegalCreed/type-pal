@@ -12,10 +12,11 @@ import type {
   ContentBundle,
   LoadedManifest,
   MapIndexV1,
+  ProjectMap,
   ScriptChunkV1,
   ScriptIndexV1,
+  StampTemplateV1,
 } from '@type-pal/content'
-import type { ProjectMapV2 } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 
 export type { Command } from './commands.js'
@@ -25,11 +26,13 @@ export { MoveEntityCommand } from './commands.js'
 /** 被编辑的内容工作副本(ContentBundle + manifest)。命令 apply/invert 收/返它(不可变)。 */
 export interface EditorState extends ContentBundle {
   manifest: LoadedManifest
+  /** W7G 作者态图章模板表；旧工程加载时规范化为空数组。 */
+  stamps: StampTemplateV1[]
   /**
    * 自有地图工作副本:键 = map asset 稳定 id。文件路径只从 mapIndex 解析。
    * 编辑器画布读取此实时态；保存时按 MapAssetDefV1.path 序列化。
    */
-  maps: Record<string, ProjectMapV2>
+  maps: Record<string, ProjectMap>
   /** 地图资产发现真值；包含零场景引用地图。 */
   mapIndex: MapIndexV1
   /**
@@ -53,8 +56,8 @@ export type MapDocumentStatus =
   | { state: 'error'; message: string }
 
 export interface EditSessionOptions {
-  /** 按稳定 id 读一张 ProjectMapV2；缺省时只能编辑已注入/新建地图。 */
-  loadMap?: (mapId: string) => Promise<ProjectMapV2>
+  /** 按稳定 id 读一张 ProjectMap；缺省时只能编辑已注入/新建地图。 */
+  loadMap?: (mapId: string) => Promise<ProjectMap>
   /** 仅淘汰从未编辑的干净文档；脏地图和撤销链触及地图永不静默丢弃。 */
   maxLoadedMaps?: number
 }
@@ -68,9 +71,9 @@ export class EditSession {
   private dirty = false
   private readonly dirtyMapIds = new Set<string>()
   private readonly pinnedMapIds = new Set<string>()
-  private readonly loadMap?: (mapId: string) => Promise<ProjectMapV2>
+  private readonly loadMap?: (mapId: string) => Promise<ProjectMap>
   private readonly maxLoadedMaps: number
-  private readonly mapLoads = new Map<string, Promise<ProjectMapV2>>()
+  private readonly mapLoads = new Map<string, Promise<ProjectMap>>()
   private readonly mapErrors = new Map<string, string>()
   private mapLru: string[]
   private persistedMapPaths: Set<string>
@@ -177,7 +180,7 @@ export class EditSession {
   }
 
   /** 按需 hydrate 不是作者操作：不入 undo、不置脏，并去重并发读。 */
-  async ensureMapLoaded(mapId: string): Promise<ProjectMapV2> {
+  async ensureMapLoaded(mapId: string): Promise<ProjectMap> {
     const ready = this.state.maps[mapId]
     if (ready) {
       this.touchMap(mapId)

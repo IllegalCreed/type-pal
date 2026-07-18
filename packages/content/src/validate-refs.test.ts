@@ -44,6 +44,26 @@ const base: ContentBundle = {
 test('干净 bundle → 无 issue', () => {
   expect(validateReferences(base)).toEqual([])
 })
+test('图章模板 tilesetId 悬空 → 报 error(W7G)', () => {
+  const b = clone(base)
+  b.tilesets = [{ id: 'known', name: '已知', category: 'test', path: 'known.rle' }]
+  b.stamps = [
+    {
+      id: 'tree',
+      name: '树',
+      tilesetId: 'missing',
+      origin: 'authored',
+      layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
+      visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
+      collision: [],
+    },
+  ]
+  expect(
+    validateReferences(b).some(
+      (issue) => issue.severity === 'error' && issue.where.includes('stamps[0]'),
+    ),
+  ).toBe(true)
+})
 test('levelUp.skillId 不在 skills → 报 warn(demo 已知未迁全)', () => {
   const b = clone(base)
   b.levelUp = { hero: [{ level: 7, skillId: '349' }] }

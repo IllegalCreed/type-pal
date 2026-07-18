@@ -84,6 +84,32 @@ describe('assets.ts 经 FileSource 读', () => {
       loadProjectMap(base(memSource({ ...projectMap, collision: [[0]] })), 'content/maps/a.json'),
     ).rejects.toThrow('期望 2 行')
   })
+
+  test('loadProjectMap 接受 v3 且未知 authoring 版本 fail-loud', async () => {
+    const v3 = {
+      ...projectMap,
+      version: 3,
+      layers: [{ ...projectMap.layers[0]!, tiles: [[1], [null]] }],
+      authoring: {
+        version: 1,
+        stampPlacements: [
+          {
+            id: 'placement-1',
+            anchor: { row: 0, col: 0 },
+            visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+            gridPoints: [],
+          },
+        ],
+      },
+    }
+    await expect(loadProjectMap(base(memSource(v3)), 'content/maps/a.json')).resolves.toEqual(v3)
+    await expect(
+      loadProjectMap(
+        base(memSource({ ...v3, authoring: { ...v3.authoring, version: 2 } })),
+        'content/maps/a.json',
+      ),
+    ).rejects.toThrow('authoring.version')
+  })
 })
 
 describe('loadTilesetByPath 路径约定(W7B)', () => {

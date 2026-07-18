@@ -186,6 +186,8 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     put(`content/maps/${mapIdFromSourceNumber(mapNum)}.json`, map)
   }
   put('content/tilesets.json', tilesets)
+  // W7G-A 只建立上游所有权与合并边界；预置图章内容在 W7G-B 由迁移真源生成。
+  put('content/stamps.json', [])
   put(
     'content/scenes/index.json',
     sceneOutput.scenes.map((scene) => scene.id),

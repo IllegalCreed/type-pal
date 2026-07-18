@@ -1,5 +1,5 @@
 /** W8 跨层、跨通道地图 patch 的预检与纯应用。 */
-import type { ProjectMapCollisionEdit, ProjectMapTileEdit, ProjectMapV2 } from '@type-pal/reforge'
+import type { ProjectMap, ProjectMapCollisionEdit, ProjectMapTileEdit } from '@type-pal/reforge'
 import {
   mapInstanceHeight,
   paintProjectMapCollision,
@@ -78,7 +78,7 @@ function validCoordinate(ref: GridPointRef): boolean {
   return Number.isInteger(ref.row) && Number.isInteger(ref.col)
 }
 
-function inside(map: ProjectMapV2, ref: GridPointRef): boolean {
+function inside(map: ProjectMap, ref: GridPointRef): boolean {
   return ref.row >= 0 && ref.row < map.height * 2 && ref.col >= 0 && ref.col < map.width
 }
 
@@ -99,7 +99,7 @@ function pushRefIssue(
  * 完整预检后产出 full prev/next。失败时只抛 issue，不分配到 map、不留下 command prev。
  */
 export function prepareProjectMapPatch(
-  map: ProjectMapV2,
+  map: ProjectMap,
   patch: ProjectMapPatch,
   permission: MapPatchPermissionSnapshot,
 ): PreparedProjectMapPatch {
@@ -243,11 +243,11 @@ export function preparedProjectMapPatchChanged(prepared: PreparedProjectMapPatch
   return prepared.nextVisual.length > 0 || prepared.nextCollision.length > 0
 }
 
-export function applyPreparedProjectMapPatch(
-  map: ProjectMapV2,
+export function applyPreparedProjectMapPatch<T extends ProjectMap>(
+  map: T,
   prepared: PreparedProjectMapPatch,
   direction: 'next' | 'prev' = 'next',
-): ProjectMapV2 {
+): T {
   const visual = direction === 'next' ? prepared.nextVisual : prepared.prevVisual
   const collision = direction === 'next' ? prepared.nextCollision : prepared.prevCollision
   if (visual.length === 0 && collision.length === 0) return map

@@ -50,9 +50,9 @@ import {
 } from '@type-pal/content'
 import type {
   MapLayerV2,
+  ProjectMap,
   ProjectMapCollisionEdit,
   ProjectMapTileEdit,
-  ProjectMapV2,
   TilesetDef,
 } from '@type-pal/reforge'
 import {
@@ -469,7 +469,7 @@ function withMapCatalogManifest(state: EditorState): EditorState['manifest'] {
   }
 }
 
-function addMapAsset(state: EditorState, def: MapAssetDefV1, map: ProjectMapV2): EditorState {
+function addMapAsset(state: EditorState, def: MapAssetDefV1, map: ProjectMap): EditorState {
   const mapIndex = state.mapIndex ?? { version: 1 as const, maps: [] }
   if (mapIndex.maps.some((asset) => asset.id === def.id) || state.maps[def.id])
     throw new Error(`地图 id "${def.id}" 已存在`)
@@ -513,11 +513,11 @@ export class MapAssetInUseError extends Error {
 export class CreateMapAssetCommand implements Command {
   readonly label = '新建地图'
   private readonly def: MapAssetDefV1
-  private readonly map: ProjectMapV2
+  private readonly map: ProjectMap
   private previousManifest: EditorState['manifest'] | undefined
   private added = false
 
-  constructor(def: MapAssetDefV1, map: ProjectMapV2) {
+  constructor(def: MapAssetDefV1, map: ProjectMap) {
     this.def = structuredClone(def)
     this.map = structuredClone(map)
   }
@@ -539,7 +539,7 @@ export class CreateMapAssetCommand implements Command {
 export class DuplicateMapAssetCommand implements Command {
   readonly label = '复制地图'
   private readonly def: MapAssetDefV1
-  private copiedMap: ProjectMapV2 | undefined
+  private copiedMap: ProjectMap | undefined
   private previousManifest: EditorState['manifest'] | undefined
 
   constructor(
@@ -622,7 +622,7 @@ export class BindSceneMapCommand implements Command {
 /** 删除未被场景引用的地图资产；index/maps 同一命令原子更新。 */
 export class DeleteMapAssetCommand implements Command {
   readonly label = '删除地图'
-  private removed: { def: MapAssetDefV1; map: ProjectMapV2; index: number } | undefined
+  private removed: { def: MapAssetDefV1; map: ProjectMap; index: number } | undefined
 
   constructor(private readonly mapId: string) {}
 
@@ -667,7 +667,7 @@ export class CreateProjectMapCommand implements Command {
   constructor(
     private readonly sceneId: string,
     private readonly projectMapRel: string,
-    private readonly tilemap: ProjectMapV2,
+    private readonly tilemap: ProjectMap,
     private readonly entryPos: GridPos,
   ) {}
 
@@ -971,7 +971,7 @@ export class UpdateProjectMapLayerCommand implements Command {
  */
 export class ResizeProjectMapCommand implements Command {
   readonly label = '改图尺寸'
-  private prev: ProjectMapV2 | undefined
+  private prev: ProjectMap | undefined
 
   constructor(
     private readonly mapRel: string,
@@ -996,7 +996,7 @@ export class ResizeProjectMapCommand implements Command {
 }
 
 /**
- * 换地图绑定的 tileset：ProjectMapV2.tilesetId 只存注册表稳定 id。
+ * 换地图绑定的 tileset：ProjectMap.tilesetId 只存注册表稳定 id。
  * 换绑不重映射瓦片索引(套件间同位替换是常见玩法;索引超出新集 = 渲染空,可换回)。
  */
 export class SetProjectMapTilesetCommand implements Command {

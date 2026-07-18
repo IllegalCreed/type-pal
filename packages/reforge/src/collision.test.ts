@@ -5,7 +5,9 @@ import {
   buildBlankProjectMap,
   latticeCenter,
   paintProjectMapCollision,
+  paintProjectMapTiles,
   pixelToLattice,
+  withProjectMapStampPlacements,
 } from './project-map.js'
 
 describe('ProjectMapV2 独立碰撞 lattice', () => {
@@ -36,6 +38,22 @@ describe('ProjectMapV2 独立碰撞 lattice', () => {
     map = paintProjectMapCollision(map, [{ ...target, value: 1 }])
     expect(isBlockedAt(map, pos)).toBe(true)
     expect(isBlockedAt(map, pos)).toBe(buildIsBlocked(map)(pixel.x, pixel.y))
+  })
+
+  test('相同 collision 的 v2/v3 判定逐点一致', () => {
+    let base = buildBlankProjectMap(1, 1, 'tileset-001')
+    base = paintProjectMapTiles(base, [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }])
+    base = paintProjectMapCollision(base, [{ row: 0, col: 0, value: 1 }])
+    const v3 = withProjectMapStampPlacements(base, [
+      {
+        id: 'placement-1',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+        gridPoints: [{ row: 0, col: 0 }],
+      },
+    ])
+    const point = latticeCenter({ row: 0, col: 0 })
+    expect(buildIsBlocked(v3)(point.x, point.y)).toBe(buildIsBlocked(base)(point.x, point.y))
   })
 })
 

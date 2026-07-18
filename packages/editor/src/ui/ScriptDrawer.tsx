@@ -30,7 +30,7 @@ import {
   type AssetBase,
   type AudioAssetReader,
   MemoryScriptResolver,
-  type ProjectMapV2,
+  type ProjectMap,
 } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -494,7 +494,7 @@ export function ScriptDrawer(props: {
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   /** 自有地图实时副本(键 = 稳定 map id);传给大预览渲染 own 场景。 */
-  projectMaps: Record<string, ProjectMapV2>
+  projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
   /** tileset 注册表(W7B;转发大预览)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]

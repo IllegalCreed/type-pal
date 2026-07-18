@@ -13,3 +13,15 @@ export function closePalSoundManifest(
 ): LoadedManifest {
   return exitLegacySoundFamily({ manifest: current, roles: PAL_ASSET_ROLES, catalog })
 }
+
+/** PAL 迁移事务的综合 manifest 目标；contentVersion 保持 3。 */
+export function preparePalManifest(
+  current: LoadedManifest,
+  catalog?: AssetCatalogV1,
+): LoadedManifest {
+  const soundClosed = closePalSoundManifest(current, catalog)
+  return {
+    ...soundClosed,
+    content: { ...soundClosed.content, stamps: 'content/stamps.json' },
+  }
+}

@@ -8,11 +8,11 @@
  *
  * editor 复用同一函数画底图 → 单一真源、零渲染逻辑漂移。
  */
-import type { ProjectMapV2 } from '@type-pal/content'
+import type { ProjectMap } from '@type-pal/content'
 import type { Camera, CellRect, Renderer, SpriteDraw } from './render.js'
 
 export interface RenderSceneFrameArgs {
-  map: ProjectMapV2
+  map: ProjectMap
   room: CellRect
   camera: Camera
   sprites: readonly SpriteDraw[]

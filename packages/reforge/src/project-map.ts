@@ -1,6 +1,13 @@
-/** ProjectMapV2 的构造与不可变编辑纯逻辑。 */
+/** ProjectMap v2/v3 的构造与不可变编辑纯逻辑。 */
 
-import { type MapLayerV2, mapInstanceHeight, type ProjectMapV2 } from '@type-pal/content'
+import {
+  type MapLayerV2,
+  mapInstanceHeight,
+  type ProjectMap,
+  type ProjectMapV2,
+  type StampPlacementGroupV1,
+  validateProjectMap,
+} from '@type-pal/content'
 import { expectDefined } from './defined.js'
 
 export interface LatticePos {
@@ -58,7 +65,7 @@ export function buildBlankProjectMap(
 }
 
 export function buildProjectMapLayer(
-  map: Pick<ProjectMapV2, 'width' | 'height'>,
+  map: Pick<ProjectMap, 'width' | 'height'>,
   id: string,
   name: string,
   depthMode: MapLayerV2['depthMode'] = 'height',
@@ -73,7 +80,7 @@ export function buildProjectMapLayer(
   }
 }
 
-export function nextProjectMapLayerId(map: ProjectMapV2): string {
+export function nextProjectMapLayerId(map: ProjectMap): string {
   const used = new Set(map.layers.map((layer) => layer.id))
   for (let n = 1; ; n++) {
     const id = `layer-${n}`
@@ -82,7 +89,7 @@ export function nextProjectMapLayerId(map: ProjectMapV2): string {
 }
 
 export function isLatticeInside(
-  map: Pick<ProjectMapV2, 'width' | 'height'>,
+  map: Pick<ProjectMap, 'width' | 'height'>,
   pos: LatticePos,
 ): boolean {
   return pos.col >= 0 && pos.col < map.width && pos.row >= 0 && pos.row < map.height * 2
@@ -146,7 +153,7 @@ export function latticeInRect(x0: number, y0: number, x1: number, y1: number): L
 
 /** 地图内的像素 AABB lattice 中心；先裁枚举边界，避免极低缩放/界外拖拽制造巨量中间数组。 */
 export function latticeInMapRect(
-  map: Pick<ProjectMapV2, 'width' | 'height'>,
+  map: Pick<ProjectMap, 'width' | 'height'>,
   x0: number,
   y0: number,
   x1: number,
@@ -168,7 +175,7 @@ export function latticeInMapRect(
 
 /** 供渲染器消费的纯计划；null 永不产出。 */
 export function projectMapTilesInView(
-  map: ProjectMapV2,
+  map: ProjectMap,
   view: { col: number; row: number; cols: number; rows: number },
   hiddenLayerIds: ReadonlySet<string> = new Set(),
 ): ProjectMapTileDraw[] {
@@ -201,10 +208,10 @@ export function projectMapTilesInView(
   return out
 }
 
-export function paintProjectMapTiles(
-  map: ProjectMapV2,
+export function paintProjectMapTiles<T extends ProjectMap>(
+  map: T,
   edits: readonly ProjectMapTileEdit[],
-): ProjectMapV2 {
+): T {
   const byLayer = new Map<string, ProjectMapTileEdit[]>()
   for (const edit of edits) {
     if (!isLatticeInside(map, edit)) continue
@@ -240,13 +247,13 @@ export function paintProjectMapTiles(
       ...(layer.depthMode === 'height' ? { heights } : {}),
     }
   })
-  return changed ? { ...map, layers } : map
+  return changed ? ({ ...map, layers } as T) : map
 }
 
-export function paintProjectMapCollision(
-  map: ProjectMapV2,
+export function paintProjectMapCollision<T extends ProjectMap>(
+  map: T,
   edits: readonly ProjectMapCollisionEdit[],
-): ProjectMapV2 {
+): T {
   const valid = edits.filter((edit) => isLatticeInside(map, edit))
   if (valid.length === 0) return map
   const touchedRows = new Set(valid.map((edit) => edit.row))
@@ -256,12 +263,12 @@ export function paintProjectMapCollision(
       throw new Error(`碰撞值必须是非负整数，收到 ${edit.value}`)
     expectDefined(collision[edit.row])[edit.col] = edit.value
   }
-  return { ...map, collision }
+  return { ...map, collision } as T
 }
 
 /** 同 tileId 的四邻域填充。 */
 export function floodFillProjectMapTiles(
-  map: ProjectMapV2,
+  map: ProjectMap,
   layerId: string,
   start: LatticePos,
   tileId: number | null,
@@ -301,7 +308,7 @@ export function floodFillProjectMapTiles(
   return out
 }
 
-export function resizeProjectMap(map: ProjectMapV2, width: number, height: number): ProjectMapV2 {
+export function resizeProjectMap<T extends ProjectMap>(map: T, width: number, height: number): T {
   if (width === map.width && height === map.height) return map
   const rows = height * 2
   const rebuild = <T>(src: readonly (readonly T[])[], fill: T): T[][] =>
@@ -318,29 +325,29 @@ export function resizeProjectMap(map: ProjectMapV2, width: number, height: numbe
       ...(layer.depthMode === 'height' ? { heights: rebuild(layer.heights ?? [], 0) } : {}),
     })),
     collision: rebuild(map.collision, 0),
-  }
+  } as T
 }
 
-export function insertProjectMapLayer(
-  map: ProjectMapV2,
+export function insertProjectMapLayer<T extends ProjectMap>(
+  map: T,
   layer: MapLayerV2,
   index = map.layers.length,
-): ProjectMapV2 {
+): T {
   if (map.layers.some((candidate) => candidate.id === layer.id)) return map
   const at = Math.max(0, Math.min(index, map.layers.length))
-  return { ...map, layers: [...map.layers.slice(0, at), layer, ...map.layers.slice(at)] }
+  return { ...map, layers: [...map.layers.slice(0, at), layer, ...map.layers.slice(at)] } as T
 }
 
-export function removeProjectMapLayer(map: ProjectMapV2, layerId: string): ProjectMapV2 {
+export function removeProjectMapLayer<T extends ProjectMap>(map: T, layerId: string): T {
   if (map.layers.length <= 1 || !map.layers.some((layer) => layer.id === layerId)) return map
-  return { ...map, layers: map.layers.filter((layer) => layer.id !== layerId) }
+  return { ...map, layers: map.layers.filter((layer) => layer.id !== layerId) } as T
 }
 
-export function moveProjectMapLayer(
-  map: ProjectMapV2,
+export function moveProjectMapLayer<T extends ProjectMap>(
+  map: T,
   layerId: string,
   toIndex: number,
-): ProjectMapV2 {
+): T {
   const from = map.layers.findIndex((layer) => layer.id === layerId)
   if (from < 0) return map
   const to = Math.max(0, Math.min(toIndex, map.layers.length - 1))
@@ -349,14 +356,14 @@ export function moveProjectMapLayer(
   const [layer] = layers.splice(from, 1)
   if (!layer) return map
   layers.splice(to, 0, layer)
-  return { ...map, layers }
+  return { ...map, layers } as T
 }
 
-export function updateProjectMapLayer(
-  map: ProjectMapV2,
+export function updateProjectMapLayer<T extends ProjectMap>(
+  map: T,
   layerId: string,
   patch: Partial<Pick<MapLayerV2, 'name' | 'depthMode'>>,
-): ProjectMapV2 {
+): T {
   const index = map.layers.findIndex((layer) => layer.id === layerId)
   if (index < 0) return map
   const current = expectDefined(map.layers[index])
@@ -375,5 +382,29 @@ export function updateProjectMapLayer(
   }
   const updated = layers[index]
   if (depthMode === 'flat' && updated) delete updated.heights
-  return { ...map, layers }
+  return { ...map, layers } as T
+}
+
+/** v2 不物化空 authoring；非空 placement 与普通矩阵一同成为 v3。 */
+export function withProjectMapStampPlacements(
+  map: ProjectMap,
+  placements: readonly StampPlacementGroupV1[],
+): ProjectMap {
+  const base = {
+    width: map.width,
+    height: map.height,
+    tilesetId: map.tilesetId,
+    layers: map.layers,
+    collision: map.collision,
+  }
+  if (placements.length === 0) return { version: 2, ...base }
+  return validateProjectMap({
+    version: 3,
+    ...base,
+    authoring: { version: 1, stampPlacements: placements },
+  })
+}
+
+export function projectMapStampPlacements(map: ProjectMap): readonly StampPlacementGroupV1[] {
+  return map.version === 3 ? map.authoring.stampPlacements : []
 }

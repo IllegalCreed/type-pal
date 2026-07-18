@@ -7,6 +7,7 @@ import {
   loadProjectMap,
   paintProjectMapCollision,
   paintProjectMapTiles,
+  withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { DeleteMapAssetCommand } from './commands.js'
@@ -354,9 +355,9 @@ test('ProjectMapV2 round-trip 使用共享确定性格式化器', () => {
   expect(JSON.parse(out['content/maps/map-056.json'] as string)).toEqual(map)
 })
 
-test('未加载地图保存时按原文本 copy-through，不解析正文', async () => {
+test('未加载 v3 地图保存时按原文本 copy-through，authoring 不解析也不改写', async () => {
   const raw =
-    '{"version":2,"width":1,"height":1,"tilesetId":"tileset-056","layers":[],"collision":[]}'
+    '{"version":3,"width":1,"height":1,"tilesetId":"tileset-056","layers":[],"collision":[],"authoring":{"version":1,"stampPlacements":[{"id":"raw-placement"}]}}'
   const reads: string[] = []
   const project = assembleProject(manifest, JSONS)
   const state = toEditorState(project, SCENES)
@@ -486,6 +487,69 @@ test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
     urlFor: async (path: string) => path,
   }
   expect(await loadProjectMap({ ...project.assetBase, io: source }, rel)).toEqual(projectMap)
+})
+
+test('W7G ProjectMapV3 保存重开保留 authoring，删除最后一组同图降回 v2', async () => {
+  let base = buildBlankProjectMap(2, 1, 'tileset-056')
+  base = paintProjectMapTiles(base, [{ layerId: 'floor', row: 0, col: 0, tileId: 9, height: 0 }])
+  const v3 = withProjectMapStampPlacements(base, [
+    {
+      id: 'placement-1',
+      sourceStampId: 'tree',
+      sourceStampName: '树',
+      anchor: { row: 0, col: 0 },
+      visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+      gridPoints: [{ row: 0, col: 0 }],
+    },
+  ])
+  const project = assembleProject(manifest, JSONS)
+  const saved = serializeProject(toEditorState(project, SCENES, { 'map-056': v3 }))
+  const text = saved['content/maps/map-056.json'] as string
+  expect(JSON.parse(text)).toMatchObject({ version: 3, authoring: { version: 1 } })
+  const source = {
+    readText: async () => text,
+    readJson: async <T>() => JSON.parse(text) as T,
+    readBytes: async () => new ArrayBuffer(0),
+    urlFor: async (path: string) => path,
+  }
+  await expect(
+    loadProjectMap({ ...project.assetBase, io: source }, 'content/maps/map-056.json'),
+  ).resolves.toEqual(v3)
+
+  const v2 = withProjectMapStampPlacements(v3, [])
+  const downgraded = serializeProject(toEditorState(project, SCENES, { 'map-056': v2 }))
+  expect(JSON.parse(downgraded['content/maps/map-056.json'] as string)).toEqual(v2)
+  expect('authoring' in v2).toBe(false)
+})
+
+test('W7G stamps 表使用共享 formatter；旧 manifest 零表不物化，非空未登记 fail-loud', () => {
+  const template = {
+    id: 'tree',
+    name: '树',
+    tilesetId: 'tileset-056',
+    origin: 'authored' as const,
+    layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' as const }],
+    visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 9, height: 0 }],
+    collision: [{ offset: { dRow: 0, du: 0 }, value: 0 }],
+  }
+  const project = assembleProject(manifest, JSONS)
+  const oldState = toEditorState(project, SCENES)
+  expect(serializeProject(oldState)['content/stamps.json']).toBeUndefined()
+  expect(() => serializeProject({ ...oldState, stamps: [template] })).toThrow(
+    'manifest.content.stamps',
+  )
+
+  const withStamps: LoadedManifest = {
+    ...manifest,
+    content: { ...manifest.content, stamps: 'content/stamps.json' },
+  }
+  expect(() => toEditorState(assembleProject(withStamps, JSONS), SCENES)).toThrow(
+    '调用方未加载图章模板表',
+  )
+  const state = toEditorState(assembleProject(withStamps, JSONS), SCENES, {}, {}, [template])
+  const first = serializeProject(state)['content/stamps.json'] as string
+  expect(JSON.parse(first)).toEqual([template])
+  expect(serializeProject(state)['content/stamps.json']).toBe(first)
 })
 
 test('toEditorState:by-id Record → 数组(Object.values 保序)', () => {

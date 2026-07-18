@@ -73,6 +73,7 @@ function baseState(): EditorState {
     tilesetBlobs: {},
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},
+    stamps: [],
     scriptIndex: createScriptIndex(),
     scriptChunks: {},
   } as EditorState

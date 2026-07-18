@@ -1,4 +1,4 @@
-import type { ProjectMapV2, RleFrame } from '@type-pal/reforge'
+import type { ProjectMap, RleFrame } from '@type-pal/reforge'
 import { latticeCenter, projectMapTileBlitRect } from '@type-pal/reforge'
 import type { MapSelection } from '../core/map-selection.js'
 import { gridPointKey } from '../core/map-selection.js'
@@ -18,7 +18,7 @@ export interface MapSelectionOverlayOptions {
 /** 大选区用单个 Path2D 批量画，避免逐格 DOM/React 节点。 */
 export function drawMapSelectionOverlay(
   ctx: CanvasRenderingContext2D,
-  map: ProjectMapV2,
+  map: ProjectMap,
   selection: MapSelection,
   tiles: ReadonlyMap<number, RleFrame>,
   view: MapOverlayView,

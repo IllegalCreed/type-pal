@@ -36,7 +36,7 @@ import { validatePalMigrationTarget } from './migration-validate.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { auditMusicReferences } from './music-reference-audit.js'
 import { materializePalAssets, PAL_ASSET_ROLES } from './pal-assets.js'
-import { closePalSoundManifest } from './pal-manifest.js'
+import { preparePalManifest } from './pal-manifest.js'
 import { buildPalMigration } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
@@ -92,7 +92,7 @@ function auditSounds(
     generated.files.get('assets/index.json') as unknown as AssetCatalogV1,
     'PAL integration assets/index.json',
   )
-  const nextManifest = closePalSoundManifest(manifest, catalog)
+  const nextManifest = preparePalManifest(manifest, catalog)
   const report = auditPalSoundReferences({
     sources,
     files: generated.files,
@@ -214,6 +214,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     ) as LoadedManifest
     const soundAudit = auditSounds(sources, theirs, manifest)
     expect(soundAudit.report.target.soundEdges).toBe(1_666)
+    expect(soundAudit.nextManifest.content.stamps).toBe('content/stamps.json')
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
       files: target.files,
@@ -261,6 +262,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     )
     const plan = createInitialMigrationPlan(tempOurs, target)
     const catalogHash = snapshotFileHash(target, 'assets/index.json')!
+    const stampsHash = snapshotFileHash(target, 'content/stamps.json')!
     const changes = buildMigrationTransactionChanges({
       repo: temp,
       plan,
@@ -268,6 +270,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       nextManifest: soundAudit.nextManifest,
       manifestPreconditions: [
         { target: 'projects/pal/assets/index.json', hash: catalogHash },
+        { target: 'projects/pal/content/stamps.json', hash: stampsHash },
         ...Object.values(soundAudit.catalog.assets).map((record) => ({
           target: `projects/pal/${record.path}`,
           hash: record.sha256,

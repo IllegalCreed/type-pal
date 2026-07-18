@@ -7,6 +7,7 @@ import {
   loadProjectFrom,
   loadProjectMapById,
   loadSceneDef,
+  loadStampTemplates,
 } from './loader.js'
 
 const manifest: LoadedManifest = {
@@ -243,6 +244,53 @@ describe('loadProjectFrom(经 FileSource)', () => {
     expect(p.sceneIds).toEqual(['guijie-minju'])
     expect(p.actorsById['li-xiaoyao']).toBeDefined()
     expect(p.source).toBeDefined()
+  })
+
+  test('图章模板只在编辑器显式请求时读取，运行时主 loader 不形成作者态依赖', async () => {
+    const stampFiles = {
+      ...files,
+      'manifest.json': {
+        ...(files['manifest.json'] as LoadedManifest),
+        content: {
+          ...(files['manifest.json'] as LoadedManifest).content,
+          stamps: 'content/stamps.json',
+        },
+      },
+      'content/stamps.json': [
+        {
+          id: 'tree',
+          name: '树',
+          tilesetId: 'starter',
+          origin: 'authored',
+          layerSlots: [{ id: 'ground', name: '地面', depthMode: 'flat' }],
+          visual: [{ layerSlotId: 'ground', offset: { dRow: 0, du: 0 }, tileId: 1, height: 0 }],
+          collision: [],
+        },
+      ],
+    }
+    const reads: string[] = []
+    const source = memSource(stampFiles)
+    const tracked: FileSource = {
+      ...source,
+      async readJson<T>(rel: string, signal?: AbortSignal) {
+        reads.push(rel)
+        return source.readJson<T>(rel, signal)
+      },
+    }
+    const project = await loadProjectFrom(tracked)
+    expect(reads).not.toContain('content/stamps.json')
+    await expect(loadStampTemplates(project)).resolves.toMatchObject([{ id: 'tree' }])
+    expect(reads).toContain('content/stamps.json')
+
+    const invalid = await loadProjectFrom(
+      memSource({ ...stampFiles, 'content/stamps.json': [{ id: 'broken' }] }),
+    )
+    await expect(loadStampTemplates(invalid)).rejects.toThrow('name')
+  })
+
+  test('未声明图章表时编辑器懒加载返回空数组', async () => {
+    const project = await loadProjectFrom(memSource(files))
+    await expect(loadStampTemplates(project)).resolves.toEqual([])
   })
 
   test('loadSceneDef 经 project.source 读单场景', async () => {

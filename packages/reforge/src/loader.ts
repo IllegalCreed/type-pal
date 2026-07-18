@@ -19,7 +19,7 @@ import type {
   Locale,
   MapIndexV1,
   PoisonDef,
-  ProjectMapV2,
+  ProjectMap,
   SceneDef,
   ScriptChunkV1,
   ScriptIndexV1,
@@ -42,6 +42,7 @@ import {
   validateScenesForContentVersion,
   validateSkills,
   validateSprites,
+  validateStampTemplates,
   validateTilesets,
 } from '@type-pal/content'
 import { AssetResolver } from './asset-resolver.js'
@@ -410,6 +411,15 @@ export async function loadAllScriptChunks(
   return Object.fromEntries(entries)
 }
 
+/** 编辑器作者态入口：运行时 loadProjectFrom 不读取、不依赖图章模板表。 */
+export async function loadStampTemplates(
+  project: LoadedProject,
+): Promise<import('@type-pal/content').StampTemplateV1[]> {
+  const path = project.manifest.content.stamps
+  if (!path) return []
+  return validateStampTemplates(await project.source.readJson<unknown>(path))
+}
+
 /**
  * 显式全量载入 map index 中的所有地图，包括零场景引用资产。
  * 键 = 稳定 map id；运行时不会调用此函数，仍按场景懒加载。
@@ -417,8 +427,8 @@ export async function loadAllScriptChunks(
 export async function loadAllProjectMaps(
   project: LoadedProject,
   _scenes: SceneDef[] = [],
-): Promise<Record<string, ProjectMapV2>> {
-  const out: Record<string, ProjectMapV2> = {}
+): Promise<Record<string, ProjectMap>> {
+  const out: Record<string, ProjectMap> = {}
   await Promise.all(
     project.mapIndex.maps.map(async (asset) => {
       out[asset.id] = await loadProjectMap(project.assetBase, asset.path)
@@ -431,7 +441,7 @@ export async function loadAllProjectMaps(
 export async function loadProjectMapById(
   project: LoadedProject,
   mapId: string,
-): Promise<ProjectMapV2> {
+): Promise<ProjectMap> {
   const asset = mapAssetById(project.mapIndex, mapId)
   if (!asset) throw new Error(`loadProjectMapById: mapId "${mapId}" 不在 map index`)
   return loadProjectMap(project.assetBase, asset.path)

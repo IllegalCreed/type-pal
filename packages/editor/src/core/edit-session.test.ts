@@ -33,6 +33,7 @@ function mkState(): EditorState {
     tilesetBlobs: {},
     assetCatalog: { version: 1, assets: {} },
     assetBlobs: {},
+    stamps: [],
     scriptChunks: {},
   } as EditorState
 }

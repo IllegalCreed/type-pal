@@ -84,6 +84,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         locale: 'content/locale.json',
         sprites: 'content/sprites.json',
         tilesets: 'content/tilesets.json',
+        stamps: 'content/stamps.json',
         scenes: 'content/scenes/',
         maps: 'content/maps/index.json',
       },
@@ -135,6 +136,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/tilesets.json': [
       { id: 'starter', name: '起始地形', category: 'outdoor', path: 'assets/tilesets/starter.rle' },
     ],
+    'content/stamps.json': [],
     'content/skills.json': { skills: [], levelUp: {} },
     'content/items.json': [],
     'content/locale.json': { 'name.hero': '主角' },

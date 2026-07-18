@@ -11,11 +11,13 @@ import {
   paintProjectMapCollision,
   paintProjectMapTiles,
   pixelToLattice,
+  projectMapStampPlacements,
   projectMapTileBlitRect,
   projectMapTilesInView,
   removeProjectMapLayer,
   resizeProjectMap,
   updateProjectMapLayer,
+  withProjectMapStampPlacements,
 } from './project-map.js'
 
 describe('buildBlankProjectMap', () => {
@@ -204,5 +206,54 @@ describe('resizeProjectMap', () => {
     expect(map.layers[0]?.tiles[5]?.[2]).toBe(7)
     expect(resizeProjectMap(map, 3, 3)).toBe(map)
     expect(resizeProjectMap(small, 3, 3).layers[0]?.tiles[5]?.[2]).toBeNull()
+  })
+})
+
+describe('ProjectMap v2/v3 作者态转换', () => {
+  test('首个 placement 升 v3，普通矩阵编辑保留 authoring，删最后一组降回 v2', () => {
+    const base = paintProjectMapTiles(buildBlankProjectMap(2, 1, 'tileset-001'), [
+      { layerId: 'floor', row: 0, col: 0, tileId: 7, height: 0 },
+    ])
+    const v3 = withProjectMapStampPlacements(base, [
+      {
+        id: 'placement-1',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+        gridPoints: [{ row: 0, col: 0 }],
+      },
+    ])
+    expect(v3.version).toBe(3)
+    expect(projectMapStampPlacements(v3)).toHaveLength(1)
+
+    const edited = paintProjectMapCollision(v3, [{ row: 0, col: 0, value: 2 }])
+    expect(edited.version).toBe(3)
+    if (edited.version !== 3) throw new Error('期望 v3')
+    expect(edited.authoring).toEqual(v3.version === 3 ? v3.authoring : undefined)
+
+    const v2 = withProjectMapStampPlacements(edited, [])
+    expect(v2).toMatchObject({
+      version: 2,
+      collision: [
+        [2, 0],
+        [0, 0],
+      ],
+    })
+    expect('authoring' in v2).toBe(false)
+  })
+
+  test('相同普通矩阵的 v2/v3 产出完全相同渲染计划', () => {
+    const base = paintProjectMapTiles(buildBlankProjectMap(1, 1, 'tileset-001'), [
+      { layerId: 'floor', row: 0, col: 0, tileId: 3, height: 0 },
+    ])
+    const v3 = withProjectMapStampPlacements(base, [
+      {
+        id: 'placement-1',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+        gridPoints: [],
+      },
+    ])
+    const view = { col: 0, row: 0, cols: 1, rows: 1 }
+    expect(projectMapTilesInView(v3, view)).toEqual(projectMapTilesInView(base, view))
   })
 })

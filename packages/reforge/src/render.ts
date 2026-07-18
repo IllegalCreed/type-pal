@@ -7,7 +7,7 @@
  *   于是投影靠前者后画、盖住投影靠后者 → 正确遮挡（堆叠高墙的每块小瓦片也对）。
  * 图层只是作画组织，与遮挡无关；遮挡纯看 baseY。等距位偏移端口自 game/draw-tilemap.ts。
  */
-import type { ProjectMapV2 } from '@type-pal/content'
+import type { ProjectMap } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import {
   type ProjectMapTileDraw,
@@ -133,7 +133,7 @@ export interface Renderer {
   readonly context: CanvasRenderingContext2D
   clear(): void
   renderScene(
-    map: ProjectMapV2,
+    map: ProjectMap,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],
@@ -270,7 +270,7 @@ export class Canvas2DRenderer implements Renderer {
   }
 
   renderScene(
-    map: ProjectMapV2,
+    map: ProjectMap,
     view: CellRect,
     camera: Camera,
     sprites: readonly SpriteDraw[],

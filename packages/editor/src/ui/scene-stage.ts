@@ -14,7 +14,7 @@ import type {
   AssetBase,
   LoadedSprite,
   Palette,
-  ProjectMapV2,
+  ProjectMap,
   SceneMapAssets,
   TilesetDef,
 } from '@type-pal/reforge'
@@ -71,10 +71,10 @@ export function useSceneAssets(opts: {
   mapId: string
   spriteNums: number[]
   /** 编辑器实时自有地图(键 = 稳定 map id)。 */
-  projectMaps?: Record<string, ProjectMapV2>
+  projectMaps?: Record<string, ProjectMap>
   /** 稳定 map id → 文件路径；实时副本缺失时用于磁盘回退。 */
   mapIndex?: MapIndexV1
-  /** tileset 注册表；ProjectMapV2 只保存稳定 tilesetId。 */
+  /** tileset 注册表；ProjectMap 只保存稳定 tilesetId。 */
   tilesets: readonly TilesetDef[]
   /** 上传未保存的 tileset 字节(键 = 资产路径);命中则内存解码,不读磁盘。 */
   tilesetBlobs?: Record<string, ArrayBuffer>

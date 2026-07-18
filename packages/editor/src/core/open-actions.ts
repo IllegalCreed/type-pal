@@ -3,7 +3,7 @@
  * 每个动作 = 拿本地目录句柄(原生选夹,须用户手势)→ 操作 → openLocalProject 装配 → Opened。
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
-import type { SceneDef, ScriptChunkV1 } from '@type-pal/content'
+import type { SceneDef, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
 import { httpSource, type LoadedProject } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
@@ -18,6 +18,7 @@ export interface Opened {
   project: LoadedProject
   scenes: SceneDef[]
   scriptChunks: Record<string, ScriptChunkV1>
+  stamps: StampTemplateV1[]
   dir: FileSystemDirectoryHandle
 }
 

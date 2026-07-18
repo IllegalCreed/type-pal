@@ -43,7 +43,7 @@ import {
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
 import { materializePalAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
-import { closePalSoundManifest } from '../src/pal-manifest.js'
+import { preparePalManifest } from '../src/pal-manifest.js'
 import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
@@ -202,8 +202,11 @@ async function commitAndVerify(args: {
   const unmanagedBefore = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
   const catalogHash = snapshotFileHash(target, 'assets/index.json')
   if (!catalogHash) throw new Error('PAL 迁移 target 缺 assets/index.json hash')
+  const stampsHash = snapshotFileHash(target, 'content/stamps.json')
+  if (!stampsHash) throw new Error('PAL 迁移 target 缺 content/stamps.json hash')
   const manifestPreconditions = [
     { target: 'projects/pal/assets/index.json', hash: catalogHash },
+    { target: 'projects/pal/content/stamps.json', hash: stampsHash },
     ...Object.values(catalog.assets).map((record) => ({
       target: `projects/pal/${record.path}`,
       hash: record.sha256,
@@ -321,7 +324,7 @@ async function main(): Promise<void> {
       target.files.get('assets/index.json') as AssetCatalogV1,
       'PAL bootstrap target assets/index.json',
     )
-    const nextManifest = closePalSoundManifest(manifest, targetCatalog)
+    const nextManifest = preparePalManifest(manifest, targetCatalog)
     const validation = validatePalMigrationTarget({
       files: target.files,
       managedFiles: target.managedFiles,
@@ -360,7 +363,7 @@ async function main(): Promise<void> {
     target.files.get('assets/index.json') as AssetCatalogV1,
     'PAL merge target assets/index.json',
   )
-  const nextManifest = closePalSoundManifest(manifest, targetCatalog)
+  const nextManifest = preparePalManifest(manifest, targetCatalog)
   const validation = validatePalMigrationTarget({
     files: target.files,
     managedFiles: target.managedFiles,

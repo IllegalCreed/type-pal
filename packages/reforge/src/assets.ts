@@ -1,10 +1,10 @@
 /**
- * 工程资源加载:ProjectMapV2 / palette / tileset / sprite。
+ * 工程资源加载:ProjectMap / palette / tileset / sprite。
  * base 由调用方注入(来自 manifest.assets.root,如 `projects/<id>/assets`);
  * 子目录用 manifest.assets 的 tilesets/sprites/palettes(见 AssetBase)。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
-import { type ProjectMapV2, validateProjectMapV2 } from '@type-pal/content'
+import { type ProjectMap, validateProjectMap } from '@type-pal/content'
 import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 import type { AssetResolver } from './asset-resolver.js'
 import type { LegacyAssetAdapter } from './file-source.js'
@@ -48,8 +48,8 @@ async function readAssetJson<T>(base: AssetBase, path: string): Promise<T> {
 }
 
 /** 从工程 content 路径读取唯一作者态地图，并在加载边界完整校验。 */
-export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<ProjectMapV2> {
-  return validateProjectMapV2(await readAssetJson<unknown>(base, mapPath))
+export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<ProjectMap> {
+  return validateProjectMap(await readAssetJson<unknown>(base, mapPath))
 }
 
 export async function loadStandardPalette(base: AssetBase): Promise<Palette> {

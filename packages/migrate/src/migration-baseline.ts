@@ -1,7 +1,12 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { formatProjectMapV2, type ProjectMapV2 } from '@type-pal/content'
+import {
+  formatProjectMap,
+  formatStampTemplates,
+  type ProjectMap,
+  type StampTemplateV1,
+} from '@type-pal/content'
 import type { MigrationJson } from './pal-migration.js'
 
 export const PAL_BASELINE_REL = 'packages/migrate/baselines/pal'
@@ -24,8 +29,9 @@ export function isAtomicProjectMapPath(path: string): boolean {
 }
 
 export function serializeMigrationJson(value: MigrationJson, path?: string): string {
-  if (path && isAtomicProjectMapPath(path))
-    return formatProjectMapV2(value as unknown as ProjectMapV2)
+  if (path && isAtomicProjectMapPath(path)) return formatProjectMap(value as unknown as ProjectMap)
+  if (path === 'content/stamps.json')
+    return formatStampTemplates(value as unknown as StampTemplateV1[])
   return `${JSON.stringify(value, null, 2)}\n`
 }
 

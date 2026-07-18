@@ -63,6 +63,18 @@ describe('bootstrap report', () => {
     ])
   })
 
+  test('G2：stamps 根数组使用稳定 id 语义路径', () => {
+    const ours = snapshot({
+      'content/stamps.json': [{ id: 'local', origin: 'authored' }],
+    })
+    const theirs = generated({
+      'content/stamps.json': [{ id: 'builtin', origin: 'migrated' }],
+    })
+    expect(
+      createBootstrapReport(ours, theirs).differences.map((difference) => difference.path),
+    ).toEqual(['/@string:local', '/@string:builtin', '/$order'])
+  })
+
   test('精确 decisions 可混合保留 ours 与接受 theirs', () => {
     const ours = snapshot({ 'content/locale.json': { manual: '保留', stale: '旧' } })
     const theirs = generated({ 'content/locale.json': { generated: '新', stale: '新' } })
