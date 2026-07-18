@@ -1,6 +1,6 @@
 # A7-3T - 瓦片集索引资源闭包
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / A4
 Coding Owner: Codex
@@ -197,7 +197,11 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
   唯一 `asset: AssetId` 二进制引用；物理路径只在 catalog。保持 gzip indexed RLE；PAL 223 条一次迁完并
   同期完成本地升级、编辑器生命周期、MG2、clone/save byte-exact 和 transport hash 门禁。方案可实现；
   build 必须等待 Kimi/GLM 独立签字。
-- Kimi: pending
+- Kimi: **agree（2026-07-19;附 R1-R3 build 必落钉,见「主审立场」）**。四问逐项核对并抽查代码/数据:
+  分层优于 id 兼任(共享二进制可表达、名称域分离、删除语义分层、与 W7G placement/stamp 先例一致);
+  共享资产两层引用检查与缩帧阻断成立;canonical gzip + 逐字节 transport + `bin:<bytes>:<sha256>`
+  (长度签名 bug 实证 project-io.ts:237/:310);升级边界与 A7-4 分界诚实;`generated` 来源档已存在
+  (asset.ts:71)非新概念;PAL 223/223/223 基线抽点一致。无架构 counter。
 - GLM: **agree（2026-07-19;附 G1-G4 build 必落,见下）**。独立复算全部基线 + 代码逻辑审查（读源码逐路径推演 tileset.ts/asset.ts/pal-migration.ts/clone.ts/project-io.ts）。
 
   **基线独立复算** ✅：
@@ -223,6 +227,13 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
   - **G4**：`palTilesetAssetId(n)` 构造器须确定性格式（如 `tileset.pal.${String(n).padStart(3,'0')}`），与 `tilesetIdFromSourceNumber(n)`（→`tileset-001`）一一映射且不可逆推导路径。
 
   **总结**：基线 223/223/223/6,501,041B 全独立冻结；map→tileset→path 引用链零悬空；schema/walker/migration 三处缺口定位；clone gzip 解压 workaround + 同长度替换 bug 两项确定性风险识别（G1/G2）。**agree。**
+
+- counter / 分歧处理: Codex 内部「`TilesetDef.id` 直接兼任 AssetId」的更小建议已被 Codex 自己放弃并改分层;
+  Kimi 审后同意分层,无 counter;GLM G1 的 clone gzip 口径已由 Kimi 在主审立场裁定为 (b)
+  catalog=gzip bytes/clone 停止解压,Safe Browsing 走 transport 方案。当前无未决分歧。
+- 缺签豁免: N/A
+- build 准入结论: **allowed（Codex agree + Kimi agree + GLM agree,三签齐,2026-07-19）**;
+  已由 Codex 翻转 draft→build 并同步看板;R1-R3 与 G1-G4 纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -284,15 +295,44 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 ### 主审立场
 
 - Reviewer: Kimi（架构/schema/跨包主审）；GLM 负责数据、迁移与测试矩阵独立覆盖。
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-07-19）**——四问逐项成立,无阻塞;附 R1-R3 build 必落钉。
+  1. **语义定义 + 二进制资产分层优于 id 兼任 AssetId**:成立。共享二进制(N 定义 → 1 AssetId)只有在
+     分层下可表达;`TilesetDef.name`(领域名)与 `AssetRecord.label`(资源诊断)两个名称域不互相冒充;
+     删除语义天然分层(定义删引用、零定义引用才删 record/bytes);与 W7G stamp template/placement/asset
+     三层先例和 A7 系「AssetId=二进制身份」惯例一致。PAL 地图保留 `tileset-xxx` 语义 id 零改写,
+     二进制新发 `tileset.pal.xxx` AssetId,单向引用链不是双轨。
+  2. **共享资产替换/删除/接管**:成立。两层引用分别检查(定义←地图/图章、资产←定义);替换先列完整
+     影响范围;删除仅在零其他定义引用时连带 record/文件;undo 恢复定义+record+bytes 三元组;
+     缩帧替换按引用者最大 tileId fail-closed 并可跳转;authored 同 AssetId 整条受 MG2 保护。
+  3. **canonical gzip / clone-save 契约**:成立。canonical 严格 gzip indexed RLE + 固定 mediaType,
+     裸 RLE 只在升级边界解码校验→重编码→新 hash;catalog 逐字节 transport,不按扩展名/Content-Encoding
+     改码。**G1 口径裁定**:选 (b)——catalog 记 gzip bytes/hash、clone 停止解压;裸 RLE 是历史
+     workaround 不是第二 canonical(否则迁移=gzip、克隆=裸,一族两真值);Safe Browsing 拦截走
+     transport 层方案(清单/封装),不改资产字节。同长度替换 bug 实证(project-io.ts:237/:310
+     `bin:<byteLength>`),`bin:<bytes>:<sha256>` + 二进制→catalog→manifest 提交顺序正确;
+     预览缓存按 record sha 失效。
+  4. **升级边界 / A7-4 分界**:成立。三类输入(gzip/裸 RLE/工程自有 path)统一预检-解码-规范化-冲突
+     检查后写盘,manifest 最后,失败零写入,重开幂等;HTTP 只读给可写化行动提示。tileset 族本卡即退
+     legacy,其余四族与 LegacyAssetAdapter 总门禁留 A7-4,不冒领。`generated` 来源档(asset.ts:71)
+     已有契约,空白种子/e2e 走 `assets/generated/` 不是新概念。
+- 必落钉(R,不阻塞签字,build 验收核对):
+  - **R1 同长度修复必须共用签名原语**:`bin:<bytes>:<sha256>` 升级要覆盖保存/另存/克隆/pending blob
+    全部写路径(同一原语函数),专测同路径同长度不同像素必写 blob(G2 同项)。
+  - **R2 裸 RLE 规范化必须重编码再登记**:升级产物必须带 gzip 魔数且 record hash 针对重编码后字节,
+    禁止把历史裸字节直接登记为 canonical。
+  - **R3 替换缓存统一按 record sha**:瓦片工作台、地图、图章预览三处缓存失效键只认
+    `AssetRecord.sha256`,不认稳定 id/路径/长度;补同长度替换的三画面刷新回归。
+- 是否建议进入 build: **是——Codex/GLM/Kimi 三签齐,build allowed**;Status 翻转与看板更新由
+  Codex 执行。G1 按本节裁定 (b) 落地,G2/G3/G4 按 GLM 行纳入 build。
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐 `TilesetDef.id/name/category` 与 `TilesetDef.asset: AssetId` 分层，物理路径只在 catalog；
   canonical gzip bytes，clone/save/预览缓存按物理 sha 闭环。
-- Kimi: pending
+- Kimi: **agree**。分层优于 id 兼任(共享二进制/名称域/删除分层/W7G 先例);共享资产两层检查与缩帧
+  阻断成立;G1 裁定选 (b) catalog=gzip bytes、clone 停止解压、Safe Browsing 走 transport 方案;
+  同长度 bug 实证 project-io.ts:237/:310;升级边界与 A7-4 分界诚实;generated 档已有契约。
+  R1(签名原语统一)/R2(裸 RLE 重编码再登记)/R3(预览缓存只认 record sha) build 必落。
 - GLM: **agree**。基线 223/223/223/6,501,041B 全独立冻结；map→tileset→path 零悬空；schema/walker/migration 三处缺口定位；clone gzip 解压 workaround + 同长度替换 bug 两项确定性风险识别（G1/G2）。G1(clone gzip 决策须选定口径)/G2(binary snapshot 须加 sha)/G3(walker tilesets 槽)/G4(palTilesetAssetId 确定性) build 必落。
 - 用户拍板: 用户于 2026-07-19 同意开始按四个真实 RLE 族逐族推进；本卡先做 tileset。具体 schema 仍须
   三方设计签字。
@@ -309,7 +349,7 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（签字未齐，不得开始）
+- Coding Owner: Codex（三方设计签字已齐，允许开始实现）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -354,34 +394,20 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 - 2026-07-19 Codex: 三路只读压力测试补齐 schema/migration、编辑器生命周期、clone/save/hash 证据；将
   初稿从“definition id 兼任 AssetId”修订为 `TilesetDef.asset` 显式分层，并加入严格 gzip、同长度替换、
   sha 缓存失效、共享资产影响和缩帧阻断门禁。未修改实现文件。
+- 2026-07-19 Kimi: 架构/schema/跨包设计主审完成,签 **agree**(R1-R3 build 必落钉)。
+  四问逐项核对:分层优于 id 兼任(共享二进制可表达/名称域分离/删除分层/W7G 先例);共享资产两层
+  引用检查与缩帧 fail-closed 成立;canonical gzip+逐字节 transport 成立,**G1 裁定选 (b)**
+  catalog=gzip bytes、clone 停止解压、Safe Browsing 走 transport 方案(裸 RLE 只是历史 workaround,
+  一族不得两真值);同长度替换 bug 实证(project-io.ts:237/:310);升级三类输入与 A7-4 分界诚实;
+  `generated` 来源档已有契约(asset.ts:71)。锚点抽点:tilesets.json 223 defs/223 unique、
+  extracted 223 RLE、maps 223。R1(签名原语统一覆盖保存/另存/克隆/pending blob)/R2(裸 RLE 重编码
+  再登记)/R3(预览缓存只认 record sha)必落。Evidence:本卡主审立场、签字区、争议记录。
+  三签齐,build 准入 allowed,Status 翻转与看板由 Codex 执行。未改实现文件。
 - 2026-07-19 GLM: 数据覆盖/迁移/测试矩阵设计审查签 **agree**。独立复算：tilesets.json 223 definitions/223 unique ids/223 unique paths(`tileset-001`..`tileset-223`/`tileset/1.rle`..`tileset/223.rle`)；RLE 223 files/6,501,041B 精确匹配；223 maps 全引用有效 tilesetId 零悬空；catalog 848/0 tileset；tileset 在 legacy families；stamps.json 空(0 refs)。代码逻辑审查（读源码逐路径推演）：TilesetDef(tileset.ts:6-14) 当前 `{id,name,category,path}` 无 asset/validateTilesets 逐字段重建丢弃未知；walker(asset.ts:472-664) 无 tileset 槽无分支（ASSET_KINDS 已含 tileset）；pal-migration.ts:184-201 path-only 生成须加 asset + palTilesetAssetId（全仓零命中须新建）；clone.ts:28-33 `.rle` decompressGzip 后落盘裸 RLE（catalog 若记 gzip bytes 会 mismatch）；project-io.ts:237 binary snapshot 只 `bin:<byteLength>` 无 hash（同长度不同内容静默漏写）。**G1 关键**：clone gzip 决策须显式选定口径（catalog 记解压裸 RLE vs gzip+Chrome 风险）；**G2**：binary snapshot 须加 sha（`bin:<bytes>:<sha8>`）；**G3**：walker 扩展 tilesets 槽；**G4**：palTilesetAssetId 确定性格式。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
+- 2026-07-19 Codex: 核对 Codex / Kimi / GLM 三方设计签均为 **agree**，无未决 counter；按门禁把任务
+  从 draft 推进到 build 并同步看板。R1-R3、G1-G4 均为实现必落项；尚未修改 A7-3T 实现，也不得标 done。
 
 ## 下一位 Agent 提示词
 
-### Kimi
-
-```text
-接手任务: A7-3T 瓦片集索引资源闭包
-任务卡: docs/ops/tasks/A7-3T-tileset-asset-closure.md
-当前状态: draft；Codex 设计签 agree，Kimi/GLM pending，build blocked
-你的角色: Kimi 架构/schema/跨包设计主审
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文、docs/phase2/decisions.md D25、docs/phase2/foundation/a7-resource-closure-audit.md、docs/phase2/foundation/content-schema.md 的 tileset 段
-已完成: Codex 已只读确认 tileset 是 223 个 gzip 索引 RLE，不应 RGBA bake；提出 TilesetDef { id, name, category, asset }，地图/图章引用语义 id，asset 是唯一二进制 AssetId，物理路径只在 catalog；并冻结 canonical gzip bytes、逐族退出 legacy、本地 v3 升级、clone/save hash 与缩帧阻断门禁。
-请你做: 独立核对代码与数据，重点压力测试“语义定义 + 二进制资产”分层是否优于 id 兼任 AssetId、共享资产替换语义、TilesetDef 元数据归属、作者替换/删除事务、旧工程升级边界、gzip canonical、同长度保存、Chrome clone transport与 A7-4 分界。把结论和必改项写回任务卡 Kimi 设计签及主审立场。
-不要做: 不得修改实现文件，不得迁移 projects/pal，不得把 image/其它 RLE family 扩入本卡，不得标 build/done。
-输出要求: 明确签 agree，或 counter + 具体理由/替代契约；提醒用户随后把同一卡交 GLM。签字未齐不得开始实现。
-```
-
-### GLM
-
-```text
-接手任务: A7-3T 瓦片集索引资源闭包
-任务卡: docs/ops/tasks/A7-3T-tileset-asset-closure.md
-当前状态: draft；Codex 设计签 agree，Kimi/GLM pending，build blocked
-你的角色: GLM 数据覆盖、迁移、测试矩阵设计审查
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、任务卡全文、docs/phase2/foundation/a7-resource-closure-audit.md、docs/phase2/migrate/asset-pipeline.md，以及任务卡列出的 extractor/migrate/editor/clone 锚点
-已完成: Codex 已冻结 PAL 223 definitions / 223 map refs / 223 RLE files / 6,501,041 B / 当前 catalog tileset=0 基线，并提出 `tileset-xxx -> tileset.pal.xxx` 显式映射、PAL/demo/e2e/blank/旧本地工程全覆盖、MG2、严格 gzip、同长度替换与断外链门禁。
-请你做: 独立复算基线与引用覆盖，检查 PAL 迁移映射、TilesetDef.asset typed walker、旧 gzip/裸 RLE/作者 path 升级矩阵、失败零写入、MG2 作者保护、clone 精确字节、保存提交顺序、共享定义/资产删除、缩帧引用扫描、静态扫描和浏览器测试是否完整。把结论和必改项写回任务卡 GLM 设计签。
-不要做: 不得修改实现文件，不得直接改生成产物，不得代替 Kimi 做架构签字，不得标 build/done。
-输出要求: 明确签 agree，或 counter + 缺失数据/测试/迁移风险；三签齐前明确“不得开始实现”。
-```
+无下一位 Agent 提示词。三方设计签字已齐，当前由 Codex 负责 build；完成实现与自验证后，再生成供
+Kimi / GLM 审查验收的提示词。三方 done 签字未齐前不得标记 `done`。
