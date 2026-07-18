@@ -7404,6 +7404,442 @@ html[data-panel-resize="horizontal"] * {
   cursor: default;
 }
 
+/* ── W7G 地图内图章 palette / 显式映射 / ghost 提交 ───────── */
+.map-palette-head {
+  flex: none;
+  gap: 7px;
+  justify-content: space-between;
+}
+.map-palette-tabs {
+  display: inline-flex;
+  min-width: 0;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel2) 78%, #000);
+}
+.map-palette-tabs button {
+  min-width: 54px;
+  min-height: 25px;
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+.map-palette-tabs button.active {
+  background: color-mix(in srgb, var(--accent) 24%, var(--panel3));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 64%, transparent);
+  color: #b9d8ff;
+}
+.map-palette-tabs button:focus-visible,
+.map-stamp-card:focus-visible,
+.map-stamp-palette-actions button:focus-visible,
+.stamp-mapping-list button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.map-stamp-palette {
+  display: grid;
+  flex: 1;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(74, 117, 181, 0.08), transparent 45%), var(--panel2);
+}
+.map-stamp-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(78px, 0.72fr);
+  gap: 5px;
+  padding: 7px;
+  border-bottom: 1px solid var(--line);
+}
+.map-stamp-filters .in {
+  min-width: 0;
+  height: 29px;
+  padding-inline: 7px;
+  font-size: 10px;
+}
+.map-stamp-grid {
+  display: grid;
+  min-height: 0;
+  padding: 6px;
+  overflow-y: auto;
+  align-content: start;
+  gap: 5px;
+}
+.map-stamp-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 5px 7px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  color: var(--dim);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.map-stamp-card:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: var(--panel3);
+  color: var(--fg);
+}
+.map-stamp-card.selected {
+  border-color: color-mix(in srgb, var(--accent) 72%, var(--line));
+  background: color-mix(in srgb, var(--accent) 13%, var(--panel3));
+  box-shadow: inset 2px 0 0 var(--accent);
+  color: var(--fg);
+}
+.map-stamp-card:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.map-stamp-thumb {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #14161c;
+}
+.map-stamp-thumb canvas {
+  width: 34px;
+  height: 34px;
+  image-rendering: pixelated;
+}
+.map-stamp-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+.map-stamp-copy strong,
+.map-stamp-copy small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.map-stamp-copy strong {
+  font-size: 11px;
+  font-weight: 650;
+}
+.map-stamp-copy small {
+  color: var(--faint);
+  font: 9px / 1.25 var(--mono);
+}
+.map-stamp-recent {
+  align-self: start;
+  padding: 2px 5px;
+  border: 1px solid #48658c;
+  border-radius: 999px;
+  color: #91bcf5;
+  font-size: 8px;
+  white-space: nowrap;
+}
+.map-stamp-empty {
+  display: grid;
+  min-height: 120px;
+  padding: 16px;
+  place-content: center;
+  gap: 5px;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.45;
+  text-align: center;
+}
+.map-stamp-empty strong {
+  color: var(--dim);
+  font-size: 11px;
+}
+.map-stamp-palette-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 5px 7px;
+  border-top: 1px solid var(--line);
+}
+.map-stamp-palette-actions .spacer {
+  flex: 1;
+}
+.map-stamp-palette-actions .mini {
+  width: auto;
+  max-width: 100%;
+  padding-inline: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-placement-inspector {
+  min-width: 0;
+  padding: 0;
+}
+.stamp-placement-head {
+  min-width: 0;
+  padding: 13px 12px 10px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 9%, var(--panel2)),
+    var(--panel)
+  );
+}
+.stamp-placement-head h4 {
+  margin: 4px 0 2px;
+  overflow: hidden;
+  color: var(--fg);
+  font-size: 15px;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+.stamp-placement-head code {
+  display: block;
+  overflow: hidden;
+  color: var(--faint);
+  font: 9px / 1.3 var(--mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-placement-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border-bottom: 1px solid var(--line);
+  background: var(--line);
+}
+.stamp-placement-metrics span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 3px;
+  background: var(--panel);
+  color: var(--faint);
+  font-size: 8px;
+}
+.stamp-placement-metrics strong {
+  color: #9ec6ff;
+  font: 14px / 1 var(--mono);
+}
+.stamp-mapping-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 12px 0;
+  color: var(--dim);
+  font-size: 11px;
+}
+.stamp-mapping-heading span {
+  color: var(--faint);
+  font: 9px / 1 var(--mono);
+}
+.stamp-mapping-copy {
+  margin: 5px 12px 9px;
+  line-height: 1.45;
+}
+.stamp-mapping-list {
+  display: grid;
+  gap: 6px;
+  padding: 0 10px 10px;
+}
+.stamp-mapping-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 5px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
+}
+.stamp-mapping-list > div.invalid {
+  border-color: color-mix(in srgb, var(--err) 58%, var(--line));
+}
+.stamp-mapping-list label,
+.stamp-mapping-list label > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.stamp-mapping-list label {
+  gap: 5px;
+}
+.stamp-mapping-list label > span {
+  gap: 2px;
+}
+.stamp-mapping-list strong,
+.stamp-mapping-list small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-mapping-list strong {
+  color: var(--fg);
+  font-size: 10px;
+}
+.stamp-mapping-list small {
+  color: var(--faint);
+  font: 8px / 1.25 var(--mono);
+}
+.stamp-mapping-list .in {
+  min-width: 0;
+  height: 29px;
+  padding-inline: 6px;
+  font-size: 10px;
+}
+.stamp-mapping-list .mini {
+  width: auto;
+  min-width: 61px;
+  padding-inline: 6px;
+  white-space: nowrap;
+}
+.stamp-placement-status {
+  margin: 0 10px 6px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
+  color: var(--dim);
+  font-size: 10px;
+  line-height: 1.45;
+}
+.stamp-placement-status.ready {
+  border-color: #3e725e;
+  background: rgba(64, 142, 106, 0.08);
+  color: #8ed2b4;
+}
+.stamp-placement-status.conflict {
+  border-color: #85633e;
+  background: rgba(166, 110, 48, 0.09);
+  color: #e2ba78;
+}
+.stamp-placement-status.error {
+  border-color: color-mix(in srgb, var(--err) 55%, var(--line));
+  background: color-mix(in srgb, var(--err) 7%, var(--panel));
+  color: #efaa8c;
+}
+.stamp-placement-problems {
+  margin: 0 10px 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel2) 88%, transparent);
+}
+.stamp-placement-problems-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 9px;
+}
+.stamp-placement-problems-head span {
+  color: var(--faint);
+  font: 8px / 1 var(--mono);
+}
+.stamp-placement-problems ul {
+  display: grid;
+  max-height: 180px;
+  margin: 0;
+  padding: 5px;
+  overflow-y: auto;
+  gap: 4px;
+  list-style: none;
+}
+.stamp-placement-problems li {
+  display: grid;
+  min-width: 0;
+  padding: 6px 7px;
+  border-left: 2px solid var(--line);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.12);
+  gap: 2px 7px;
+  color: var(--dim);
+  font-size: 9px;
+  line-height: 1.35;
+}
+.stamp-placement-problems li.error {
+  border-left-color: var(--err);
+}
+.stamp-placement-problems li.conflict {
+  grid-template-columns: minmax(0, 1fr) auto;
+  border-left-color: #c88a46;
+}
+.stamp-placement-problems li strong,
+.stamp-placement-problems li span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.stamp-placement-problems li.error strong,
+.stamp-placement-problems li.error span {
+  grid-column: 1 / -1;
+}
+.stamp-placement-problems li strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+.stamp-placement-problems li code {
+  color: var(--faint);
+  font: 8px / 1.3 var(--mono);
+  white-space: nowrap;
+}
+.stamp-placement-problems li.error code {
+  grid-column: 1 / -1;
+}
+.stamp-placement-problems li.conflict code {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  color: #e5bb7a;
+}
+.stamp-placement-anchor {
+  margin: 0 12px 8px;
+  overflow: hidden;
+  color: var(--faint);
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-placement-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 9px 10px 12px;
+  border-top: 1px solid var(--line);
+}
+.stamp-placement-actions .tool {
+  min-height: 29px;
+  border-color: var(--line);
+  background: var(--panel2);
+}
+.stamp-placement-actions .tool.active {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.map-stamp-placement-bar {
+  border-color: color-mix(in srgb, #59d8ff 55%, var(--line));
+}
+
 /* ── W8 地图内容选区 / 候选 / 可逆变换 ──────────────────── */
 .viewport:has(> canvas:focus-visible) {
   box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 78%, transparent);

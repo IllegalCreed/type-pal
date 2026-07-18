@@ -93,6 +93,41 @@ test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
   expect(fn).toHaveBeenCalledTimes(2)
 })
 
+test('map revision 只随该地图内容变化且覆盖 dispatch/undo/redo，过期派发零写', () => {
+  const state = mkState()
+  state.maps = { 'map-a': buildBlankProjectMap(2, 1, 'tileset-001') }
+  const sess = new EditSession(state)
+  const beforeVersion = sess.getVersion()
+  expect(sess.getMapRevision('map-a')).toBe(0)
+
+  sess.dispatch(
+    new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 }]),
+  )
+  expect(sess.getMapRevision('map-a')).toBe(1)
+  expect(sess.getMapRevision('map-b')).toBe(0)
+  sess.undo()
+  expect(sess.getMapRevision('map-a')).toBe(2)
+  sess.redo()
+  expect(sess.getMapRevision('map-a')).toBe(3)
+  sess.markSaved()
+  expect(sess.getMapRevision('map-a')).toBe(3)
+  sess.dispatch(new MoveEntityCommand('s', 'e', { col: 7, row: 8, height: 0 }))
+  expect(sess.getMapRevision('map-a')).toBe(3)
+
+  const stateBeforeStale = sess.getState()
+  const versionBeforeStale = sess.getVersion()
+  expect(() =>
+    sess.dispatchAtMapRevision(
+      'map-a',
+      2,
+      new PaintTilesCommand('map-a', [{ layerId: 'floor', row: 1, col: 0, tileId: 2, height: 0 }]),
+    ),
+  ).toThrow('已变化')
+  expect(sess.getState()).toBe(stateBeforeStale)
+  expect(sess.getVersion()).toBe(versionBeforeStale)
+  expect(sess.getVersion()).toBeGreaterThan(beforeVersion)
+})
+
 test('noop command 不入历史、不置脏、不通知，也不清 redo', () => {
   const sess = new EditSession(mkState())
   const fn = vi.fn()

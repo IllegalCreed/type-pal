@@ -651,9 +651,33 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
     精确跳转、真实预览、焦点/Esc 与长列表基础行为）。
   - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
     1 skipped、game 2289、editor 291；全仓 `biome check` 与 `git diff --check` passed。
-- 下一段:W7G-C 多层 slot→稳定目标 layer 显式映射、最终值 ghost、冲突计划与一次原子 placement；
-  P3 的 map revision（含 undo/redo）失效键必须在 C 退出前完成。P2 组外写守卫仍在 W7G-D，
-  S13 结构生命周期守卫仍在 W7G-E。
+- W7G-C 放置（2026-07-18）: **complete**。
+  - 地图面板中普通瓦片与图章平级；图章模板、普通瓦片和既有地图选区相互独立。图章列表复用真实
+    tileset 像素，支持搜索、分类、最近使用和分页，来源 tileset 不兼容时 fail-visible；即使切换到
+    manifest ID 相同的另一工程副本，新 `EditSession` 也会清空工具、映射和最近使用，临时态不串工程。
+  - 每个模板局部槽必须显式映射到稳定目标 `layerId`，不按名称、顺序或偶然同 ID 猜测；映射按
+    `{mapId, stampId}` 保留，改名/重排不漂移。隐藏、锁定、深度不兼容、缺 tile、越界、重复目的槽、
+    tileset 不一致均在 planner 中零写入拒绝。
+  - ghost、普通内容冲突、最终矩阵 patch 与 placement metadata 只消费同一个 resolved plan；collision 0
+    与非零有独立可辨叠层。普通视觉或非零碰撞必须显式确认覆盖，即使目标值相同也不能静默纳入组；
+    同通道已有 placement ownership 永远不可覆盖，跨通道重叠仍合法。
+  - Inspector 同时给出摘要和可滚动逐项明细；每个错误不截断，每个普通冲突明确显示视觉/碰撞通道、
+    稳定 layerId、格点坐标与 `current → incoming`，画布颜色不作为唯一信息载体。
+  - `PlaceStampCommand` 严格先写普通矩阵、再登记组身份，一次 history 原子完成；单次 undo/redo 同时恢复
+    矩阵和 metadata，连续放置生成 map-local 唯一 ID。hover、无效点击和首次普通冲突点击均不改
+    state/history/dirty。
+  - P3 已完成：`EditSession` 维护 map-scoped monotonic revision，dispatch/undo/redo/hydrate 的地图引用变化
+    均递增，保存和非地图命令不递增；提交前按实时模板、权限、地图和 tile 集合 fresh replan，再通过
+    `dispatchAtMapRevision` 与 Command 引用守卫双重 fail-loud，旧 ghost/旧确认无法落到新地图。
+- W7G-C 自动检查:
+  - `@type-pal/editor check`:43 files / 323 tests passed（含显式映射、奇偶格偏移、冲突/ownership、原子
+    undo/redo、stale revision、overlay、UI 正交状态、session 切换隔离、逐项问题明细和确认零写入）。
+  - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
+    1 skipped、game 2289、editor 323；全仓 `biome check` 与 `git diff --check` passed。
+- 下一段:W7G-D 组身份与 P2。把 selection 扩为多 placement 组选择，完成整组选中、进入组内逐层编辑、
+  解组，并让普通画笔/矩形/填充/擦除以及 W8 cells 移动/粘贴/删除全部经过 ownership 守卫。
+  S13 结构生命周期守卫仍在 W7G-E。W7G-F 除 P4 最终体积/性能实测外，还要核对数百 placement 下
+  ownership 索引重建预算，以及 palette tabs 的完整键盘/ARIA 关系和 60 项首屏渲染预算。
 
 ## 视觉验证记录
 
@@ -668,7 +692,19 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - W7G-B 结论:1440×900 与 1024×768 下弹窗、三栏库、长稳定 ID、按钮、checkbox 和 Inspector
   无溢出；弹窗居中，预览/anchor/collision 叠层可辨，来源跳转 URL 精确为
   `?module=map&page=tileset&object=tileset-020`。Console 仅既有 `favicon.ico` 404，应用新错误 0、warning 0。
-- 未完成项:W7G-C→F 的 ghost、placement/组内、生命周期、最终性能与 Kimi 视觉复验。
+- W7G-C 验证方式:真实 PAL `map-020` 上在浏览器内临时建立一枚含显式 collision 0 的模板（未保存到
+  项目），验证首次槽映射为空、手工映射活动层、26%/100% ghost、普通内容首次点击零 dispatch、显式
+  覆盖后矩阵+组身份同生、同位置 ownership 阻断、一次 undo 恢复为普通冲突且 revision 刷新，以及
+  canvas 聚焦时 Esc 退出工具但保留模板和地图选区。
+- W7G-C 截图 / 像素检查路径:
+  - `output/playwright/w7g-c-palette-1440.png`
+  - `output/playwright/w7g-c-mapped-ghost-1440.png`
+  - `output/playwright/w7g-c-mapped-1024.png`
+  - `output/playwright/w7g-c-ghost-100pct-1024.png`
+  - `output/playwright/w7g-c-conflict-details-1024.png`
+- W7G-C 结论:1440×900、1024×768 以及 26%/100% 缩放下，模板卡、显式映射、inline 冲突确认、
+  Inspector 按钮和 ghost 均无溢出；Console 仍仅既有 `favicon.ico` 404，应用新错误 0、warning 0。
+- 未完成项:W7G-D 组内与 P2、W7G-E 生命周期、W7G-F 最终性能及 Kimi 视觉复验。
 
 ## Review:审查与返工
 
@@ -680,7 +716,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 ## 用户验收
 
 - 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A/B 已完成，继续 W7G-C；全卡仍处于 build，分段完成不等于 W7G done。
+- 后续任务:W7G-A/B/C 已完成，继续 W7G-D；全卡仍处于 build，分段完成不等于 W7G done。
 
 ## 交接日志
 
@@ -723,6 +759,12 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   新建态元数据串味、通知串页、焦点/分页可访问性和资源定位问题均已返工。Evidence:39 files / 291 tests、
   根 `pnpm check`、223/223 地图浏览器扫描、1440/1024 截图和 Console 检查。PAL 无组合语义真值，迁移
   保持上游空表而未猜预置。Next:同一 Coding Owner 连续推进 W7G-C 显式映射、ghost 与原子放置；
+  无需转交下一位 Agent，Kimi/GLM 保持只读待命。
+- 2026-07-18 Codex:完成 W7G-C 放置。多槽到稳定 layerId 的显式映射、单一 resolved ghost/patch/group、
+  普通内容二次确认、同通道 ownership 硬阻断、原子 Command 与 map-scoped revision/P3 全部闭合；真实
+  PAL map-020 上完成 1440/1024、26%/100%、覆盖/阻断/undo/Esc 走查。终审追加的同 ID 工程 session
+  串态和冲突明细不可读两项 P1 已返工。Evidence:43 files / 323 tests、根 `pnpm check`、五张截图和
+  Console 检查。Next:同一 Coding Owner 连续推进 W7G-D 组身份与 P2；
   无需转交下一位 Agent，Kimi/GLM 保持只读待命。
 
 ## 下一位 Agent 提示词

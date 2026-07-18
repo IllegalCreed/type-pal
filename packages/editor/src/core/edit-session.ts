@@ -75,6 +75,8 @@ export class EditSession {
   private readonly maxLoadedMaps: number
   private readonly mapLoads = new Map<string, Promise<ProjectMap>>()
   private readonly mapErrors = new Map<string, string>()
+  /** 每张地图独立、单调递增的内存 revision；含 dispatch / undo / redo / hydrate。 */
+  private readonly mapRevisions = new Map<string, number>()
   private mapLru: string[]
   private persistedMapPaths: Set<string>
   private persistedAssetPaths: Set<string>
@@ -164,6 +166,24 @@ export class EditSession {
     return this.version
   }
 
+  /** 图章 ghost / 变换预览的失效键；保存状态变化不会误增。 */
+  getMapRevision(mapId: string): number {
+    return this.mapRevisions.get(mapId) ?? 0
+  }
+
+  /**
+   * 以预览时的 map revision 原子派发，封住 pointer preview → click 之间的过期提交窗口。
+   * Command 自身仍应校验地图引用，形成双重 fail-loud 防线。
+   */
+  dispatchAtMapRevision(mapId: string, expectedRevision: number, cmd: Command): boolean {
+    const actualRevision = this.getMapRevision(mapId)
+    if (actualRevision !== expectedRevision)
+      throw new Error(
+        `地图 "${mapId}" 已变化（预览 revision ${expectedRevision}，当前 ${actualRevision}）；请重新预览。`,
+      )
+    return this.dispatch(cmd)
+  }
+
   canUndo(): boolean {
     return this.past.length > 0
   }
@@ -197,6 +217,7 @@ export class EditSession {
       .then((map) => {
         if (this.state.mapIndex.maps.some((asset) => asset.id === mapId)) {
           this.state = { ...this.state, maps: { ...this.state.maps, [mapId]: map } }
+          this.bumpMapRevision(mapId)
           this.touchMap(mapId)
           this.evictCleanMaps(mapId)
         }
@@ -234,6 +255,7 @@ export class EditSession {
     const ids = new Set([...Object.keys(before.maps), ...Object.keys(after.maps)])
     for (const id of ids) {
       if (before.maps[id] === after.maps[id]) continue
+      this.bumpMapRevision(id)
       this.dirtyMapIds.add(id)
       this.pinnedMapIds.add(id)
       this.touchMap(id)
@@ -242,6 +264,10 @@ export class EditSession {
 
   private touchMap(mapId: string): void {
     this.mapLru = [...this.mapLru.filter((id) => id !== mapId), mapId]
+  }
+
+  private bumpMapRevision(mapId: string): void {
+    this.mapRevisions.set(mapId, this.getMapRevision(mapId) + 1)
   }
 
   private evictCleanMaps(protectedId: string): void {
