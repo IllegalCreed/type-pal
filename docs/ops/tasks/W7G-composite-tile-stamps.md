@@ -191,22 +191,22 @@ interface StampPlacementGroupV1 {
 
 | ID | 设计题 | Codex 建议 | 必须验证的影响 | Kimi | GLM |
 |---|---|---|---|---|---|
-| S1 | 模板存放位置 | 独立 `content/stamps.json`,模板显式引用 `tilesetId`;不扩展 `TilesetDef` | manifest、loader、EditorState、引用图、MG2 | pending | pending |
-| S2 | placement 存放位置 | `ProjectMapV2` 增加可选、具版本的 `authoring.stampPlacements`;普通矩阵仍是唯一运行真值 | 校验/格式化/copy-through/运行时忽略作者字段 | pending | pending |
-| S3 | 版本策略 | 保持 map `version:2` 与当前 `contentVersion:3`,只新增可选 `authoring.version:1`;A7-4 的 v4 不被本卡抢占 | 旧工程不物化空字段、未知 authoring 版本 fail-loud、旧二进制前向风险写清 | pending | pending |
-| S4 | 多层表达 | 模板使用局部稳定 `layerSlotId + depthMode`,落笔前显式映射地图 `layerId` | 单层退化、重排/改名、缺层/flat-height | pending | pending |
-| S5 | 使用范围 | 首版仅允许同一 `tilesetId`;不做自动 remap、跨工程粘贴 | tileId 语义、导入/克隆、错误提示 | pending | pending |
-| S6 | group id / 来源 | group id map-local;move/redo/地图 clone 保留,同图 copy/duplicate 重建;来源是可悬空软信息 | 相邻同款、复制地图、模板删除 | pending | pending |
-| S7 | placement 成员 | 保存绝对视觉/碰撞成员 + anchor,不保存模板值快照,也不从当前模板重建 | 组内编辑、模板变更、存储体积 | pending | pending |
-| S8 | 成员所有权/重叠 | 一个视觉槽和一个 collision 点最多属于一个 placement;普通值冲突可确认覆盖,已有 placement 成员冲突必须阻止并要求先解组/删组 | 确定性命中、覆盖与解组策略 | pending | pending |
-| S9 | 选择代数 | 扩为 `{kind:'stamp-placements'; placementIds:string[]}`;允许多组、不允许普通 cells 与 groups 混选;组内上下文只容纳单组 | Shift/Ctrl、Alt 候选、批量变换 | pending | pending |
-| S10 | 组内结构编辑 | 组内擦除会原子缩减成员;若将变成零视觉成员则阻止并提示“删除整组/解组”;组外画笔撞到成员先阻止并提示“进入组内/解组” | 残缺组、隐形碰撞、普通画笔、undo | pending | pending |
-| S11 | collision 整组变换 | placement 的 collision 总随整组移动/复制/删除,不可隐式排除;collision-only 图章首版不支持 | collision 权限、重叠、预览一致性 | pending | pending |
-| S12 | Command 形态 | 新建复合 placement transaction,内部复用 `prepareProjectMapPatch`;普通矩阵 + metadata 一次 dispatch/invert | no-op、redo、错误零写、跨地图暂不支持 | pending | pending |
-| S13 | 地图结构生命周期 | 影响完整性的删层/缩图/换 tileset 默认阻止;对话只提供“取消/先解组/删除整组后继续”,禁止静默裁剪 | 原子确认、undo、悬空引用 | pending | pending |
-| S14 | 模板删除 | 允许删除并保留 placement 的 id/name 来源快照;诊断为 info 而非坏引用 | 引用保护文案、重命名/删除 | pending | pending |
-| S15 | migration / MG2 | 预置模板由上游按稳定 id 生成并按 id 合并;修改 migrated 模板需显式接管为 authored;placement 永远归作者,重迁不得覆盖 | baseline、冲突、二跑零计划 | pending | pending |
-| S16 | 能力地图口径 | W7G 是 W7 基础绘制上的独立增强任务并依赖 W8;不新增能力格、不改现有 `✅/❌`,done 后只补 W7/W8 备注与证据 | 避免 schema 先行冒充闭环 | pending | pending |
+| S1 | 模板存放位置 | 独立 `content/stamps.json`,模板显式引用 `tilesetId`;不扩展 `TilesetDef` | manifest、loader、EditorState、引用图、MG2 | agree | pending |
+| S2 | placement 存放位置 | `ProjectMapV2` 增加可选、具版本的 `authoring.stampPlacements`;普通矩阵仍是唯一运行真值 | 校验/格式化/copy-through/运行时忽略作者字段 | agree | pending |
+| S3 | 版本策略 | 保持 map `version:2` 与当前 `contentVersion:3`,只新增可选 `authoring.version:1`;A7-4 的 v4 不被本卡抢占 | 旧工程不物化空字段、未知 authoring 版本 fail-loud、旧二进制前向风险写清 | **counter**（见下「S2/S3 特别风险」Kimi 裁定） | pending |
+| S4 | 多层表达 | 模板使用局部稳定 `layerSlotId + depthMode`,落笔前显式映射地图 `layerId` | 单层退化、重排/改名、缺层/flat-height | agree | pending |
+| S5 | 使用范围 | 首版仅允许同一 `tilesetId`;不做自动 remap、跨工程粘贴 | tileId 语义、导入/克隆、错误提示 | agree | pending |
+| S6 | group id / 来源 | group id map-local;move/redo/地图 clone 保留,同图 copy/duplicate 重建;来源是可悬空软信息 | 相邻同款、复制地图、模板删除 | agree | pending |
+| S7 | placement 成员 | 保存绝对视觉/碰撞成员 + anchor,不保存模板值快照,也不从当前模板重建 | 组内编辑、模板变更、存储体积 | agree | pending |
+| S8 | 成员所有权/重叠 | 一个视觉槽和一个 collision 点最多属于一个 placement;普通值冲突可确认覆盖,已有 placement 成员冲突必须阻止并要求先解组/删组 | 确定性命中、覆盖与解组策略 | agree（钉 P1） | pending |
+| S9 | 选择代数 | 扩为 `{kind:'stamp-placements'; placementIds:string[]}`;允许多组、不允许普通 cells 与 groups 混选;组内上下文只容纳单组 | Shift/Ctrl、Alt 候选、批量变换 | agree | pending |
+| S10 | 组内结构编辑 | 组内擦除会原子缩减成员;若将变成零视觉成员则阻止并提示“删除整组/解组”;组外画笔撞到成员先阻止并提示“进入组内/解组” | 残缺组、隐形碰撞、普通画笔、undo | agree（钉 P2） | pending |
+| S11 | collision 整组变换 | placement 的 collision 总随整组移动/复制/删除,不可隐式排除;collision-only 图章首版不支持 | collision 权限、重叠、预览一致性 | agree | pending |
+| S12 | Command 形态 | 新建复合 placement transaction,内部复用 `prepareProjectMapPatch`;普通矩阵 + metadata 一次 dispatch/invert | no-op、redo、错误零写、跨地图暂不支持 | agree（钉 P3） | pending |
+| S13 | 地图结构生命周期 | 影响完整性的删层/缩图/换 tileset 默认阻止;对话只提供“取消/先解组/删除整组后继续”,禁止静默裁剪 | 原子确认、undo、悬空引用 | agree | pending |
+| S14 | 模板删除 | 允许删除并保留 placement 的 id/name 来源快照;诊断为 info 而非坏引用 | 引用保护文案、重命名/删除 | agree | pending |
+| S15 | migration / MG2 | 预置模板由上游按稳定 id 生成并按 id 合并;修改 migrated 模板需显式接管为 authored;placement 永远归作者,重迁不得覆盖 | baseline、冲突、二跑零计划 | agree | pending |
+| S16 | 能力地图口径 | W7G 是 W7 基础绘制上的独立增强任务并依赖 W8;不新增能力格、不改现有 `✅/❌`,done 后只补 W7/W8 备注与证据 | 避免 schema 先行冒充闭环 | agree（注） | pending |
 
 #### S2 / S3 特别风险
 
@@ -217,6 +217,41 @@ Codex 倾向把 placement 放进地图,因为它与普通矩阵必须同一命�
 Kimi 必须判断“`version:2 + authoring.version`”是否足够,或应改为 map v3 / 每地图 sidecar。
 如果 counter,必须同时给出旧工程升级、懒加载、copy-through、clone/ZIP、MG2 和运行时无第二格式的完整方案;
 不能只换字段位置而遗漏消费方。
+
+**Kimi 裁定（2026-07-18）：S2 agree；S3 counter，附完整收敛方案。**
+
+代码实证：`validateProjectMapV2`（content/project-map.ts:75-148）与 `formatProjectMapV2`（:166-189）都逐字段
+重建返回对象，未知字段（含未来 `authoring`）在加载和保存两侧都被**静默丢弃**；`version !== 2` 则直接 throw
+（:77-78）。因此 Codex 方案「保持 `version:2` + 把旧二进制擦除风险写清」会让任何 pre-W7G 二进制
+（本仓多 Agent、跨会话 resume 是日常，陈旧 checkout/build 并不 exotic）在「加载 → 修改 → 保存」一张带章地图时
+**静默销毁全部 placement 作者数据**。项目自身先例（A7-0 manifest `contentVersion` 2→3 单向升级）在语义增长时
+选择 fail-loud，本条不得降格为「写清即可」。
+
+收敛方案（替代 S3 原文「保持 version:2」；其余主张保留）：
+
+- **R-S3-1 版本按内容条件发出**：`authoring.stampPlacements` 非空 → 地图写 `version:3`；
+  无图章 → 写 `version:2` 且绝不物化空 `authoring`（旧地图字节稳定、零 diff）。
+  `version:3` 的语义就是「v2 + 可选 authoring」；无章地图对旧工具零成本。
+- **R-S3-2 全部消费方同 build 升级（W7G-A）**：`isProjectMapV2`/`validateProjectMapV2`/
+  `formatProjectMapV2`/reforge `loadProjectMap`/migrate 接受 `2|3`；`authoring` 仅允许随 3 出现；
+  `authoring.version` 未知 → fail-loud。格式化器保留确定性成员顺序。
+- **R-S3-3 运行时零第二格式**：runtime 忽略 `authoring`；带/不带 authoring 的渲染与碰撞逐字节一致
+  （测试矩阵 E 已含）。
+- **R-S3-4 副作用钉**：旧二进制遇带章地图 fail-loud（「仅支持 2，收到 3」），静默擦除路径关闭；
+  sidecar 方案否决——它把原子保存单元拆成两个写单元，且需平行补齐懒加载/copy-through/clone/ZIP，
+  而 in-map authoring 免费继承全部既有路径（project-io.ts:142/:196 copy-through 不 JSON.parse；
+  migration-merge.ts:43-57 单图 atomic 三方合并不解析内部字段）。
+
+build 必落钉（不阻塞签字，W7G-A→F 各段验收时核对）：
+
+- **P1（S8）**：所有权排他**按通道**钉死——视觉槽互斥、collision 点互斥、跨通道（A 的视觉槽 vs B 的
+  collision 点）允许；写进 validator 与测试。
+- **P2（S10）**：所有权守卫覆盖**全部**组外写路径——画笔/矩形/填充/擦除之外，W8 cells 的移动/粘贴/删除
+  也必须在 plan/prepare 阶段做 ownership 预检，不能只挡画笔。
+- **P3（S12）**：ghost/变换计划的失效键 `map revision` 必须包含 undo/redo 引起的 revision 变化
+  （W8 审查 P2 教训：预览不得跨过 history 变化存活）。
+- **P4（S7）**：placement 存储体积进 build 检查——大型章 × 数百 placement 的格式化体积 +
+  二次格式化字节稳定，进测试矩阵 A。
 
 ### 模板到地图的映射
 
@@ -444,16 +479,52 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 - Reviewer: Kimi(schema、版本、状态机、生命周期和跨包接口主审);GLM(消费方、MG2、数据不变量、
   测试矩阵和文档覆盖主审)。
-- 结论:pending。
-- 必改项:等待 Kimi / GLM 对 S1-S16 逐项审查。
-- 是否建议进入 build:pending;当前明确禁止。
+- 结论(Kimi,2026-07-18): **counter——仅 S3 一项;S1-S2、S4-S16 全部 agree**。
+  架构主线成立:独立模板表(S1)沿用 A7-0 新表先例;placement 入 map authoring(S2)与命令/保存/
+  clone/delete 同一原子单元,copy-through 与 MG2 单图 atomic 已实证,sidecar 否决;多层 slot 显式映射、
+  排他所有权、单复合事务、生命周期默认阻止均与用户十条语义和 W8 原子 patch 地基自洽。
+  唯一阻塞:Codex 的「保持 `version:2` + 风险写清」在旧二进制「加载→修改→保存」带章地图时静默销毁
+  placement;收敛方案 R-S3-1~4(版本按内容条件发 3、消费方同 build 接受 2|3、运行时零第二格式、
+  sidecar 否决)已写入「S2/S3 特别风险」节。
+- 必改项(R,design 层面,Codex 收敛后 Kimi 复核重签):
+  - **R-S3-1~4**:按「S2/S3 特别风险」节改写 S3 行与本节——版本条件发出、W7G-A 消费方清单、
+    运行时一致性、静默擦除路径关闭的明确表述。
+- 建议项/必落钉(P,不阻塞签字,build 验收核对):P1 按通道排他(S8)/P2 所有权守卫覆盖全部组外
+  写路径(S10)/P3 ghost revision 含 undo/redo(S12)/P4 placement 存储体积 fixture(S7)。
+- GLM: **agree（2026-07-18;附 G1-G3 build 必落,见下）**。S1-S16 消费方清单逐项核对 + 代码逻辑审查 + S3 收敛方案独立数据/MG2 复核。
+
+  **代码逻辑审查（读源码逐路径推演）** ✅：
+  - **validateProjectMapV2**（project-map.ts:75-148）：逐字段重建返回对象（:147），无 spread 原始输入，未知字段静默丢弃。`version!==2` throw（:77-78）。
+  - **formatProjectMapV2**（:166-189）：先 validate 再逐字段发射 JSON，version 硬编 2（:179），authoring 不在发射列表。旧编辑器加载带章地图→保存=静默擦除。
+  - **Kimi S3 counter 条件实证成立**。✅
+
+  **S1-S16 消费方逐项核对** ✅（重点 S1/S2/S3/S7/S8/S15）：
+  - **S1** stamps.json 独立表：沿 A7-0 新 content 表先例，按 id MG2 合并。当前零代码零产物。✅
+  - **S2** placement 入 map authoring：copy-through（project-io.ts:140-142 raw text 不 parse）免费继承。✅
+  - **S3** 条件 v3：5 处 map 版本消费方全列出（isProjectMapV2:32/validate:77/format:179/loadProjectMap:assets.ts:51/serializeProject:project-io.ts:139），R-S3-2 "同 build 接受 2|3" 覆盖全 5 处零遗漏。✅
+  - **S7** 不存模板值快照：普通矩阵唯一运行真值。✅
+  - **S8** 排他所有权：P1 按通道钉死。✅
+  - **S15** migration/MG2：预置模板 id 合并 + placement ours-only + 单地图 atomic 整文件 sha256 三方（mergeAtomicMapFile:90-134 不解析内部字段）。✅
+
+  **S3 收敛方案独立数据/MG2 复核——agree Kimi counter** ✅：条件 v3 不引入新消费方遗漏或二跑零计划风险；copy-through/MG2 atomic 免费继承；sidecar 否决正确（in-map 免平行补齐全部路径）；旧工程零 diff（无章保持 v2 不物化空 authoring）。
+
+  **G1-G3 build 必落（非阻塞）**：
+  - **G1（关键）**：`serializeMigrationJson`（migration-baseline.ts:27-28）对 map 路径调 formatProjectMapV2——迁移器 canonicalize 带章 v3 地图时 format 须保留 authoring 并输出 version:3。**R-S3-2 消费方清单须显式纳入此第二 format 调用点。**
+  - **G2**：stamps.json MG2 合并模式——确认在 arrayMode 中登记为 id-mode（沿 content 表先例），否则 atomic 整文件替换作者模板。
+  - **G3**：manifest.content.stamps 指向 stamps.json——确认 manifest content key 注册不与 A7-4 v4 冲突。
+
+  **总结**：消费方清单零遗漏；S3 收敛方案从数据/MG2 视角 agree；代码逻辑审查确认 Kimi counter 实证成立；stamps.json 零代码零产物；W8 stamp-placement dead branch 干净。**agree。**
+
+- 是否建议进入 build: **否——Codex 接受 R-S3-1~4 收敛 S3 + Kimi 重签后三签齐方可 build**。GLM 已 agree；G1-G3 纳入 build 范围。
+  若 Codex 接受 R-S3-1~4 并改卡,Kimi 可直接重签 agree,无需用户拍板;若 Codex 坚持原案,
+  请用户拍板「条件 v3(Kimi)vs v2+风险写清(Codex)」。
 
 ### 三方争议记录
 
 - Codex:建议采用独立模板表 + ProjectMap 可选 authoring placement;多层局部 layer slot 显式映射;
   placement 绝对排他成员;多组但不与普通 cells 混选;单一复合 Command。完整立场见 S1-S16。
 - Kimi:pending。
-- GLM:pending。
+- GLM: **agree**。S1-S16 消费方清单逐项核对零遗漏(5 处 map 版本消费方+stamps 表/MG2/IO 全链)；S3 收敛方案(条件 v3)从数据/MG2 视角独立复核 agree——不引入新消费方遗漏或二跑零计划风险，copy-through/MG2 atomic 免费继承，sidecar 否决正确；代码逻辑审查确认 validate/format 逐字段重建丢未知字段(Kimi counter 实证成立)；stamps.json 零代码零产物(W7G 新建)；W8 stamp-placement dead branch 干净(assertNever 编译期暴露)。G1(serializeMigrationJson 第二 format 调用点)/G2(stamps.json MG2 id-mode 登记)/G3(manifest content key 注册)build 必落。
 - 用户拍板:已拍板的十条产品语义见上;schema 分歧若三方无法收敛再请用户裁决。
 
 ## 推进签字
@@ -465,11 +536,19 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - Codex: **agree（2026-07-18）**。已通读第二阶段铁律、W7B/W7F/W8、roadmap、editor design、
   capability map 和 content/reforge/editor/migrate 代码锚点;同意“用户已拍板语义”以及 S1-S16 的
   Codex 建议方案。S2/S3 旧二进制擦除风险已显式暴露给 Kimi,不是默认忽略。
-- Kimi: pending。
-- GLM: pending。
-- counter / 分歧处理:尚无;任一方 counter 后留在 draft,三方收敛或请用户拍板。
+- Kimi: **counter（2026-07-18,仅 S3;S1-S2、S4-S16 agree,逐项见上表与「主审立场」）**。
+  锚点抽验:`validateProjectMapV2`/`formatProjectMapV2` 逐字段重建、未知字段双侧静默丢弃
+  (content/project-map.ts:75-148/:166-189),`version!==2` fail-loud(:77-78)——旧二进制「加载→修改→
+  保存」带章地图会静默擦除全部 placement;copy-through(project-io.ts:142/:196)与 MG2 单图 atomic
+  (migration-merge.ts:43-57)实证支持 S2 入图方案、否掉 sidecar。S3 收敛方案 R-S3-1~4 与 build 必落钉
+  P1-P4 已写入「S2/S3 特别风险」节。Codex 按该节收敛 S3 后 Kimi 重签;若 Codex 坚持原案请用户拍板。
+- GLM: **agree（2026-07-18;附 G1-G3 build 必落,见「主审立场」GLM 行）**。消费方清单零遗漏+S3 收敛方案数据/MG2 视角 agree+代码逻辑审查确认 Kimi counter 实证。
+- counter / 分歧处理:Kimi 对 S3 签 counter(版本策略),任务留 draft;收敛路径:R-S3-1 版本按内容条件
+  发出(有章 v3/无章 v2)、R-S3-2 消费方 W7G-A 同 build 接受 2|3、R-S3-3 运行时零第二格式、
+  R-S3-4 sidecar 否决。Codex 接受并改卡 → Kimi 重签 agree;Codex 反 counter → 用户拍板
+  「条件 v3(Kimi)vs 保持 v2+风险写清(Codex)」。
 - 缺签豁免:N/A。
-- build 准入结论:**blocked**。
+- build 准入结论:**blocked(Kimi S3 counter 待 Codex 收敛 R-S3-1~4 并改卡后 Kimi 重签；GLM 已 agree 附 G1-G3)**。
 
 ### 进入 done 前:审查签字
 
@@ -519,10 +598,64 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - 2026-07-18 Codex:完成 W7G 上下文重建、产品语义固化、S1-S16 设计投票、交互/权限/生命周期/
   MG2/测试矩阵草案并签设计 `agree`。Evidence:本卡、W8/W7F/W7B 和列出的代码锚点。
   Next:Kimi 做架构/schema 主审,GLM 做数据/MG2/测试覆盖审查;两方都不得改实现文件。
+- 2026-07-18 Kimi:架构/schema/版本/状态机/生命周期主审完成,签 **counter(仅 S3)**。
+  S1-S2、S4-S16 逐项 agree(见表);锚点实证:validate/format 逐字段重建丢未知字段
+  (project-map.ts:75-148/:166-189)、copy-through(project-io.ts:142/:196)、MG2 单图 atomic
+  (migration-merge.ts:43-57)。S3 收敛方案 R-S3-1~4(版本按内容条件发 3/消费方同 build 接受 2|3/
+  运行时零第二格式/sidecar 否决)与必落钉 P1-P4 写入「S2/S3 特别风险」节。Codex 接受并改卡 →
+  Kimi 重签 agree;Codex 反 counter → 用户拍板。Evidence:本卡 S 表、S2/S3 节、主审立场、签字区。
+  Next:Codex 收敛 S3 章节;GLM 并行做数据/MG2/覆盖审查(提示词见下,含 S3 counter 通报)。
+  未改实现文件。
+- 2026-07-18 GLM: 数据/MG2/覆盖审查签 **agree**。代码逻辑审查（读源码逐路径推演）：validateProjectMapV2(:75-148)逐字段重建丢未知字段+version!==2 throw；formatProjectMapV2(:166-189)逐字段发射 version 硬编 2——Kimi S3 counter 实证成立。S1-S16 消费方逐项核对零遗漏：5 处 map 版本消费方(isProjectMapV2/validate/format/loadProjectMap/serializeProject)全列出，R-S3-2 覆盖全部；copy-through(project-io.ts:140-142 raw text 不 parse)免费继承；MG2 单地图 atomic(mergeAtomicMapFile:90-134 整文件 sha256 不解析内部字段)不受影响；stamps.json 零代码零产物(W7G 新建)；W8 stamp-placement dead branch 干净(assertNever 编译期暴露)。**S3 收敛方案独立数据/MG2 复核 agree Kimi**：条件 v3 不引入新消费方遗漏或二跑零计划风险，sidecar 否决正确。**G1 关键**：serializeMigrationJson(migration-baseline.ts:27-28)对 map 路径调 formatProjectMapV2 是第二 format 调用点——R-S3-2 消费方清单须显式纳入。G2 stamps.json MG2 id-mode 登记；G3 manifest content key 注册。Evidence: 主审立场 GLM 行。Next: Codex 接受 R-S3-1~4 收敛 S3→Kimi 重签→三签齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi
+### 给 Codex（S3 收敛）
+
+```text
+接手任务:W7G 组合地物图章与可持久放置组——S3 版本策略收敛
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+当前状态:draft；Codex/Kimi 已签,GLM pending；Kimi 对 S3 签 counter,build 准入 blocked
+背景:Kimi 逐项审查 S1-S16,仅 S3 counter,其余全 agree(含 S2 入图方案,sidecar 已否决)。
+      阻塞点:「保持 version:2 + 风险写清」下,旧二进制「加载→修改→保存」带章地图会静默擦除
+      全部 placement(validate/format 逐字段重建丢未知字段,project-map.ts:75-148/:166-189)。
+请你做:按「S2/S3 特别风险」节的 R-S3-1~4 改写 S3 行与该节表述——版本按内容条件发出
+      (authoring.stampPlacements 非空→version:3,否则 version:2 且不物化空 authoring)、
+      W7G-A 消费方(isProjectMapV2/validate/format/loadProjectMap/migrate)同 build 接受 2|3、
+      运行时零第二格式、静默擦除路径关闭的口径;P1-P4 必落钉并入对应分期验收。
+      改完在任务卡记录收敛内容,Kimi 复核后直接重签 agree,无需用户拍板。
+不要做:不要修改实现文件;不要把 Status 改为 build;不要碰 GLM/Kimi 已签内容。
+分支:若你不同意 R-S3-1(条件 v3),在任务卡写明反 counter 理由,转用户拍板
+      「条件 v3(Kimi)vs 保持 v2+风险写清(Codex)」。
+```
+
+### 给 GLM
+
+```text
+接手任务:W7G 组合地物图章与可持久放置组——数据/MG2/覆盖审查
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+当前状态:draft；Codex agree、Kimi counter(仅 S3,收敛方案 R-S3-1~4 已写入「S2/S3 特别风险」节)、
+        GLM pending，build 准入 blocked
+你的角色:消费方清单、数据不变量、确定性序列化、迁移/MG2、工程 IO 与测试矩阵主审
+先读:AGENTS.md；docs/phase2/READ-FIRST.md；本任务卡全文(含 Kimi 的 S 表逐项结论、S2/S3 节与主审立场)；
+      docs/ops/tasks/W8-map-content-selection-inspector.md；
+      docs/ops/tasks/W7B-tileset-library.md；docs/phase2/migrate/asset-pipeline.md；
+      本卡列出的 content/editor/migrate 代码锚点
+已完成:用户十条语义已固化；Codex 给出候选 schema、S1-S16 立场、状态/权限矩阵、MG2 和 A-F 测试草案;
+      Kimi 已完成架构/schema 主审(仅 S3 counter)
+请你做:逐项核对 S1-S16 的所有读写消费者,重点审查 S1/S2/S3/S7/S8/S15、旧工程/懒加载/copy-through/
+      clone/ZIP、单地图原子合并、作者接管和二跑零计划;补齐遗漏测试。
+      特别请你从数据/MG2 视角复核 Kimi 的 S3 收敛方案(条件 v3 + 消费方同 build 接受 2|3)是否引入
+      新的消费方遗漏或二跑零计划风险——若你也有 S3 异议,请独立签 counter 并给出你的方案。
+      无阻塞则在“进入 build 前”GLM 行签 agree;有问题签 counter 并给精确返工项
+不要做:不要修改任何实现文件,不要把 Status 改为 build,不要把 build 准入改 allowed;三签未齐
+输出要求:任务卡内留下覆盖证据和 agree/counter;明确是否存在未登记消费者、数据丢失路径或迁移不可逆风险
+```
+
+### 历史提示词（已完成轮次,存档）
+
+<details>
+<summary>给 Kimi（设计主审）—— 已完成,签 counter(仅 S3)</summary>
 
 ```text
 接手任务:W7G 组合地物图章与可持久放置组——设计主审
@@ -542,21 +675,4 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
         收敛的准确章节和用户待拍板问题
 ```
 
-### 给 GLM
-
-```text
-接手任务:W7G 组合地物图章与可持久放置组——数据/MG2/覆盖审查
-任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
-当前状态:draft；Codex 已签设计 agree，Kimi/GLM 尚需完成设计审查，build 准入 blocked
-你的角色:消费方清单、数据不变量、确定性序列化、迁移/MG2、工程 IO 与测试矩阵主审
-先读:AGENTS.md；docs/phase2/READ-FIRST.md；本任务卡全文；
-      docs/ops/tasks/W8-map-content-selection-inspector.md；
-      docs/ops/tasks/W7B-tileset-library.md；docs/phase2/migrate/asset-pipeline.md；
-      本卡列出的 content/editor/migrate 代码锚点
-已完成:用户十条语义已固化；Codex 给出候选 schema、S1-S16 立场、状态/权限矩阵、MG2 和 A-F 测试草案
-请你做:逐项核对 S1-S16 的所有读写消费者，重点审查 S1/S2/S3/S7/S8/S15、旧工程/懒加载/copy-through/
-        clone/ZIP、单地图原子合并、作者接管和二跑零计划；补齐遗漏测试。无阻塞则在“进入 build 前”
-        GLM 行签 agree；有问题签 counter 并给精确返工项
-不要做:不要修改任何实现文件，不要把 Status 改为 build，不要把 build 准入改 allowed；三签未齐
-输出要求:任务卡内留下覆盖证据和 agree/counter；明确是否存在未登记消费者、数据丢失路径或迁移不可逆风险
-```
+</details>
