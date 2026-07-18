@@ -268,32 +268,48 @@ export function drawGridBlocked(
   const py0 = Math.max(room.row * TILE_H, view.panY - TILE_H)
   const py1 = Math.min((room.row + room.rows) * TILE_H + TILE_H, view.panY + vh + TILE_H)
   const isBlocked = show.blocked ? buildIsBlocked(map) : null
-  const blockedPath = new Path2D()
-  const gridPath = new Path2D()
-  for (let b = Math.ceil(py0 / 8); b * 8 <= py1; b++) {
-    for (let a = Math.ceil(px0 / 16); a * 16 <= px1; a++) {
-      if (((a + b) & 1) !== 0) continue // 非格中心
-      const cx = a * 16
-      const cy = b * 8
-      if (show.grid) diamond(gridPath, cx, cy)
-      // 禁入红只画图内子格(buildIsBlocked 界外恒 true 是游戏语义;编辑器画它 = 边缘一圈
-      // 误导性红圈,空白图看似全边被标碰撞 —— W7C-3 复验发现,W7c-1 遗留)
-      const inRoom =
-        cx >= room.col * TILE_W &&
-        cx < (room.col + room.cols) * TILE_W &&
-        cy >= room.row * TILE_H &&
-        cy < (room.row + room.rows) * TILE_H
-      if (inRoom && isBlocked?.(cx, cy)) diamond(blockedPath, cx, cy)
+  if (isBlocked) {
+    const blockedPath = new Path2D()
+    for (let b = Math.ceil(py0 / 8); b * 8 <= py1; b++) {
+      for (let a = Math.ceil(px0 / 16); a * 16 <= px1; a++) {
+        if (((a + b) & 1) !== 0) continue // 非格中心
+        const cx = a * 16
+        const cy = b * 8
+        // 禁入红只画图内子格(buildIsBlocked 界外恒 true 是游戏语义;编辑器画它 = 边缘一圈
+        // 误导性红圈,空白图看似全边被标碰撞 —— W7C-3 复验发现,W7c-1 遗留)
+        const inRoom =
+          cx >= room.col * TILE_W &&
+          cx < (room.col + room.cols) * TILE_W &&
+          cy >= room.row * TILE_H &&
+          cy < (room.row + room.rows) * TILE_H
+        if (inRoom && isBlocked(cx, cy)) diamond(blockedPath, cx, cy)
+      }
     }
-  }
-  if (show.blocked) {
     ctx.fillStyle = 'rgba(255, 70, 70, 0.3)'
     ctx.fill(blockedPath)
   }
   if (show.grid) {
+    // 网格 = 两组贯穿平行斜线:每个菱形边恰好落在 y = ±x/2 + 8k 上(格中心 (16a,8b) 验证),
+    // 条数 O(可见宽+高) 而非 O(可见格数) 个菱形。低倍率大图上菱形法每帧构建/描边数十万个
+    // Path2D 段(实测 40 次缩放帧 31.6s),贯穿线法只有千级段,且视觉上与逐格菱形完全等价。
+    ctx.save()
+    ctx.beginPath()
+    ctx.rect(px0, py0, px1 - px0, py1 - py0)
+    ctx.clip()
+    const gridPath = new Path2D()
+    for (const m of [0.5, -0.5] as const) {
+      // y = m·x + 8k 与 [px0,px1]×[py0,py1] 相交的 k:min(y)≤py1 且 max(y)≥py0
+      const lo = Math.min(m * px0, m * px1)
+      const hi = Math.max(m * px0, m * px1)
+      for (let k = Math.ceil((py0 - hi) / 8); k <= Math.floor((py1 - lo) / 8); k++) {
+        gridPath.moveTo(px0, m * px0 + 8 * k)
+        gridPath.lineTo(px1, m * px1 + 8 * k)
+      }
+    }
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)'
     ctx.lineWidth = 1 / view.zoom // 屏幕恒 1px
     ctx.stroke(gridPath)
+    ctx.restore()
   }
   ctx.restore()
 }
