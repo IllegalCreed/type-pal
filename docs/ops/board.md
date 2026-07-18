@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W7G | 多图层组合地物图章与可持久放置组 | draft | Kimi / GLM 设计审查 | Codex 已起草并签 agree；三签前不得修改实现或进入 build |
+| W7G | 多图层组合地物图章与可持久放置组 | draft | Kimi 复核 S3 收敛并重签 | Codex 已接受条件 v3；GLM agree；Kimi 原 counter 未解除前仍禁止 build |
 
 ## 阻塞
 
