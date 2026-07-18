@@ -13,6 +13,7 @@ import {
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { UpdateProjectMapLayerCommand } from '../core/commands.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import { MapMode } from './MapMode.js'
@@ -129,7 +130,12 @@ function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorSta
 }
 
 async function mountMapMode(
-  options: { stamps?: StampTemplateV1[]; map?: ProjectMap; referenceSelectedMap?: boolean } = {},
+  options: {
+    stamps?: StampTemplateV1[]
+    map?: ProjectMap
+    referenceSelectedMap?: boolean
+    tilesets?: readonly import('@type-pal/reforge').TilesetDef[]
+  } = {},
 ): Promise<{
   host: HTMLDivElement
   canvas: HTMLCanvasElement
@@ -164,7 +170,11 @@ async function mountMapMode(
         selectedMapId="map-a"
         onSelectMap={vi.fn()}
         onOpenScene={vi.fn()}
-        tilesets={[{ id: 'tiles', name: '测试瓦片', category: 'test', path: 'tiles/test.rle' }]}
+        tilesets={
+          options.tilesets ?? [
+            { id: 'tiles', name: '测试瓦片', category: 'test', path: 'tiles/test.rle' },
+          ]
+        }
         tilesetBlobs={{}}
         stamps={renderStamps}
         onWorkspaceNotice={onWorkspaceNotice}
@@ -428,6 +438,149 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, ctrlKey: true }))
     expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('1 组')
     expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('tree-b')
+  })
+
+  test('整组移动把视觉、高度、碰撞和 placement ID 作为一步历史提交', async () => {
+    const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 5 }])
+    const { host, canvas, session } = await mountMapMode({ map })
+    const before = session.getState().maps['map-a']!
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '移动…').click())
+    expect(button(host.querySelector('.map-transform-bar')!, '提交').disabled).toBe(true)
+    await act(async () => button(host.querySelector('.map-transform-nudge')!, '→').click())
+    await act(async () => button(host.querySelector('.map-transform-bar')!, '提交').click())
+
+    const moved = session.getState().maps['map-a']!
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(moved)).toEqual([
+      expect.objectContaining({ id: 'tree-a', anchor: { row: 0, col: 1 } }),
+    ])
+    expect(moved.layers[0]?.tiles[0]?.[0]).toBeNull()
+    expect(moved.layers[0]?.tiles[0]?.[1]).toBe(1)
+    expect(moved.layers[1]?.tiles[0]?.[0]).toBeNull()
+    expect(moved.layers[1]?.tiles[0]?.[1]).toBe(1)
+    expect(moved.layers[1]?.heights?.[0]?.[1]).toBe(2)
+    expect(moved.collision[0]?.[0]).toBe(0)
+    expect(moved.collision[0]?.[1]).toBe(5)
+
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
+    await act(async () => session.redo())
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.id).toBe('tree-a')
+  })
+
+  test('整组复制粘贴保留来源并生成新 ID，显式 collision 始终同行', async () => {
+    const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 4 }])
+    const { host, canvas, session } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '复制').click())
+    await act(async () => button(host, '粘贴').click())
+    await act(async () =>
+      canvas.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
+      ),
+    )
+    await act(async () => button(host.querySelector('.map-transform-bar')!, '提交').click())
+
+    const pasted = session.getState().maps['map-a']!
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(pasted).map(({ id }) => id)).toEqual(['tree-a', 'tree-a-copy'])
+    expect(pasted.layers[0]?.tiles[0]?.[0]).toBe(1)
+    expect(pasted.layers[0]?.tiles[0]?.[1]).toBe(1)
+    expect(pasted.layers[1]?.heights?.[0]?.[1]).toBe(2)
+    expect(pasted.collision[0]?.[0]).toBe(4)
+    expect(pasted.collision[0]?.[1]).toBe(4)
+  })
+
+  test('整组重复自动建立相邻预览，碰撞通道不可排除且提交仍是一条历史', async () => {
+    const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 6 }])
+    const { host, canvas, session } = await mountMapMode({ map })
+    const before = session.getState().maps['map-a']!
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '重复').click())
+
+    const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
+    expect(bar.textContent).toContain('锚点 r0:c1 · 含碰撞')
+    const collisionToggle = [...host.querySelectorAll<HTMLLabelElement>('label')]
+      .find((label) => label.textContent?.includes('组合始终含碰撞'))
+      ?.querySelector<HTMLInputElement>('input')
+    expect(collisionToggle?.checked).toBe(true)
+    expect(collisionToggle?.disabled).toBe(true)
+    await act(async () => button(bar, '提交').click())
+
+    const repeated = session.getState().maps['map-a']!
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(repeated).map(({ id }) => id)).toEqual([
+      'tree-a',
+      'tree-a-copy',
+    ])
+    expect(repeated.layers[0]?.tiles[0]?.[1]).toBe(1)
+    expect(repeated.layers[1]?.heights?.[0]?.[1]).toBe(2)
+    expect(repeated.collision[0]?.[1]).toBe(6)
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
+  })
+
+  test('整组删除走单条原子命令；整组剪切只提示使用移动且零写', async () => {
+    const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 6 }])
+    const { host, canvas, session, onWorkspaceNotice } = await mountMapMode({ map })
+    const before = session.getState().maps['map-a']!
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '剪切').click())
+    expect(session.getState().maps['map-a']).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('请使用“移动…') }),
+    )
+
+    await act(async () => button(host, '删除').click())
+    const deleted = session.getState().maps['map-a']!
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(deleted)).toEqual([])
+    expect(deleted.layers[0]?.tiles[0]?.[0]).toBeNull()
+    expect(deleted.layers[1]?.tiles[0]?.[0]).toBeNull()
+    expect(deleted.layers[1]?.heights?.[0]?.[0]).toBe(0)
+    expect(deleted.collision[0]?.[0]).toBe(0)
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
+  })
+
+  test('整组目标命中其他 placement 是硬冲突，不出现覆盖入口', async () => {
+    const { host, canvas, session } = await mountMapMode({ map: placementMap(true) })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
+    await act(async () => button(host, '移动…').click())
+    await act(async () => button(host.querySelector('.map-transform-nudge')!, '↓').click())
+    const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
+    expect(bar.textContent).toContain('属于另一放置组')
+    expect(
+      [...bar.querySelectorAll('button')].some((item) => item.textContent === '覆盖并提交'),
+    ).toBe(false)
+    expect(button(bar, '提交').disabled).toBe(true)
+    expect(session.getMapRevision('map-a')).toBe(0)
+  })
+
+  test('组内编辑与整组变换互斥，按钮和 Inspector 都不能制造交叉状态', async () => {
+    const { host, canvas, session } = await mountMapMode({ map: placementMap() })
+    const before = session.getState().maps['map-a']!
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '进入组内编辑').click())
+
+    for (const label of ['复制', '剪切', '移动…', '重复', '删除'])
+      expect(button(host, label).disabled).toBe(true)
+    expect(session.getState().maps['map-a']).toBe(before)
+
+    await act(async () => button(host, '退出组内').click())
+    await act(async () => button(host, '移动…').click())
+    expect(button(host, '进入组内编辑').disabled).toBe(true)
+    expect(button(host, '解组（保留地图内容）').disabled).toBe(true)
+    expect(host.querySelector('.map-selection-warning')?.textContent).toContain('正在预览组合变换')
+    expect(session.getMapRevision('map-a')).toBe(0)
   })
 
   test('Alt 对同组跨层命中去重；hidden 不命中、locked 仅能显式选为只读整组', async () => {
@@ -1052,5 +1205,130 @@ describe('MapMode 地图内容选择交互', () => {
         candidate.textContent?.includes('覆盖普通格并放置'),
       ),
     ).toHaveLength(0)
+  })
+
+  test('删层影响放置组时先零写确认；取消零变化，解组与删层只占一步撤销', async () => {
+    const { host, session } = await mountMapMode({ map: placementMap() })
+    const before = session.getState().maps['map-a']!
+    const removeLayer = host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')!
+
+    await act(async () => removeLayer.click())
+    let dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    expect(dialog.textContent).toContain('树屋 A')
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(session.isDirty()).toBe(false)
+
+    await act(async () => button(dialog, '取消').click())
+    expect(host.querySelector('.stamp-lifecycle-dialog')).toBeNull()
+    expect(session.getState().maps['map-a']).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(0)
+
+    await act(async () => removeLayer.click())
+    dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    await act(async () => button(dialog, '先解组 1 个组合并继续').click())
+    const changed = session.getState().maps['map-a']!
+    expect(changed.layers.map(({ id }) => id)).toEqual(['objects'])
+    expect(changed.layers[0]?.tiles[0]?.[0]).toBe(1)
+    expect(changed.collision[0]?.[0]).toBe(0)
+    expect(projectMapStampPlacements(changed)).toEqual([])
+    expect(session.getMapRevision('map-a')).toBe(1)
+
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(2)
+  })
+
+  test('删除受影响整组会清理所有层成员和 collision，再原子删层', async () => {
+    const map = paintProjectMapCollision(placementMap(), [{ row: 0, col: 0, value: 5 }])
+    const { host, session } = await mountMapMode({ map })
+    const before = session.getState().maps['map-a']!
+    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    await act(async () => button(dialog, '删除 1 个组合并继续').click())
+    const changed = session.getState().maps['map-a']!
+    expect(changed.layers.map(({ id }) => id)).toEqual(['objects'])
+    expect(changed.layers[0]?.tiles[0]?.[0]).toBeNull()
+    expect(changed.layers[0]?.heights?.[0]?.[0]).toBe(0)
+    expect(changed.collision[0]?.[0]).toBe(0)
+    expect(projectMapStampPlacements(changed)).toEqual([])
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
+  })
+
+  test('缩图与换 tileset 共用结构确认；取消恢复真实表单值', async () => {
+    const { host, session } = await mountMapMode({
+      map: placementMap(true),
+      tilesets: [
+        { id: 'tiles', name: '瓦片 A', category: 'test', path: 'tiles/a.rle' },
+        { id: 'tiles-b', name: '瓦片 B', category: 'test', path: 'tiles/b.rle' },
+      ],
+    })
+    const height = host.querySelector<HTMLInputElement>('[title*="高(格)"]')!
+    await act(async () => {
+      height.focus()
+      height.value = '1'
+      height.blur()
+    })
+    expect(host.querySelector('.stamp-lifecycle-dialog')?.textContent).toContain('1 个放置组合')
+    expect(height.value).toBe('2')
+    await act(async () => button(host.querySelector('.stamp-lifecycle-dialog')!, '取消').click())
+    expect(session.getState().maps['map-a']?.height).toBe(2)
+
+    const tileset = host.querySelector<HTMLSelectElement>('select[title^="换本图用的瓦片集"]')!
+    await act(async () => {
+      tileset.value = 'tiles-b'
+      tileset.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(host.querySelector('.stamp-lifecycle-dialog')?.textContent).toContain('2 个放置组合')
+    expect(tileset.value).toBe('tiles')
+    await act(async () =>
+      button(host.querySelector('.stamp-lifecycle-dialog')!, '先解组 2 个组合并继续').click(),
+    )
+    expect(session.getState().maps['map-a']?.tilesetId).toBe('tiles-b')
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toEqual([])
+    expect(session.getMapRevision('map-a')).toBe(1)
+  })
+
+  test('确认期间地图变化会刷新影响清单，第一次过期确认绝不执行', async () => {
+    const { host, session, onWorkspaceNotice } = await mountMapMode({ map: placementMap() })
+    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    await act(async () =>
+      session.dispatch(new UpdateProjectMapLayerCommand('map-a', 'floor', { name: '改名后地板' })),
+    )
+    let dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    await act(async () => button(dialog, '先解组 1 个组合并继续').click())
+    expect(session.getState().maps['map-a']?.layers).toHaveLength(2)
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)).toHaveLength(1)
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        kind: 'error',
+        message: expect.stringContaining('影响清单已刷新'),
+      }),
+    )
+    dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    await act(async () => button(dialog, '先解组 1 个组合并继续').click())
+    expect(session.getState().maps['map-a']?.layers).toHaveLength(1)
+    expect(session.getMapRevision('map-a')).toBe(2)
+  })
+
+  test('受影响组合的任一视觉层锁定时，两种确认路线都零写', async () => {
+    const { host, session, onWorkspaceNotice } = await mountMapMode({ map: placementMap() })
+    const objectRow = [...host.querySelectorAll<HTMLElement>('.map-layer-row')].find((row) =>
+      row.textContent?.includes('上层'),
+    )!
+    await act(async () =>
+      objectRow.querySelector<HTMLButtonElement>('[aria-label="锁定图层"]')?.click(),
+    )
+    await act(async () => host.querySelector<HTMLButtonElement>('[title="删除选中图层"]')?.click())
+    const dialog = host.querySelector<HTMLElement>('.stamp-lifecycle-dialog')!
+    await act(async () => button(dialog, '先解组 1 个组合并继续').click())
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(session.isDirty()).toBe(false)
+    expect(session.getState().maps['map-a']?.layers).toHaveLength(2)
+    expect(host.querySelector('.stamp-lifecycle-dialog')).not.toBeNull()
+    expect(onWorkspaceNotice).toHaveBeenLastCalledWith(
+      expect.objectContaining({ kind: 'error', message: expect.stringContaining('锁定') }),
+    )
   })
 })

@@ -13,6 +13,7 @@ import {
 } from './map-patch.js'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
+import type { StampGroupTransformPlan } from './stamp-group-transform.js'
 import { buildStampPlacementIndex } from './stamp-ownership.js'
 
 export class StampGroupCommandError extends Error {
@@ -234,6 +235,58 @@ export class UngroupStampPlacementsCommand implements Command {
     if (!current) throw new StampGroupCommandError(`地图 "${this.mapId}" 尚未加载或不存在。`)
     if (current !== this.beforeMap)
       throw new StampGroupCommandError('解组计划已过期；请按当前地图重新操作。')
+    return { ...state, maps: { ...state.maps, [this.mapId]: this.afterMap } }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!state.maps[this.mapId])
+      throw new StampGroupCommandError(`地图 "${this.mapId}" 尚未加载或不存在。`)
+    return { ...state, maps: { ...state.maps, [this.mapId]: this.beforeMap } }
+  }
+}
+
+/** 整组矩阵 + placement metadata 的单一可逆命令。 */
+export class TransformStampPlacementsCommand implements Command {
+  readonly label: string
+  private readonly mapId: string
+  private readonly beforeMap: ProjectMap
+  private readonly afterMap: ProjectMap
+
+  constructor(plan: StampGroupTransformPlan) {
+    if (!plan.canApply || !plan.changed || !plan.preparedPatch)
+      throw new StampGroupCommandError(
+        plan.issues[0]?.message ??
+          (plan.conflicts.length > 0
+            ? `组合目标有 ${plan.conflicts.length} 处普通内容冲突。`
+            : '组合变换计划不可提交。'),
+      )
+    this.mapId = plan.mapId
+    this.beforeMap = plan.baseMap
+    this.label =
+      plan.kind === 'move'
+        ? '移动放置组合'
+        : plan.kind === 'paste'
+          ? '复制放置组合'
+          : '删除放置组合'
+    const withValues = applyPreparedProjectMapPatch(
+      plan.baseMap,
+      structuredClone(plan.preparedPatch),
+      'next',
+    )
+    const removed = new Set(plan.removePlacementIds)
+    this.afterMap = withProjectMapStampPlacements(withValues, [
+      ...projectMapStampPlacements(plan.baseMap)
+        .filter((placement) => !removed.has(placement.id))
+        .map(clonePlacement),
+      ...plan.upsertPlacements.map(clonePlacement),
+    ])
+  }
+
+  apply(state: EditorState): EditorState {
+    const current = state.maps[this.mapId]
+    if (!current) throw new StampGroupCommandError(`地图 "${this.mapId}" 尚未加载或不存在。`)
+    if (current !== this.beforeMap)
+      throw new StampGroupCommandError('组合变换计划已过期；请按当前地图重新预览后提交。')
     return { ...state, maps: { ...state.maps, [this.mapId]: this.afterMap } }
   }
 

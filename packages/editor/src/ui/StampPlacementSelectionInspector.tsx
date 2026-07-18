@@ -12,6 +12,7 @@ export interface StampPlacementSelectionInspectorProps {
   lockedLayerIds: ReadonlySet<string>
   editingPlacementId?: string
   editingSelection?: StampGroupCellSelection
+  editingBlockedReason?: string
   notice?: { kind: 'info' | 'error'; message: string }
   onEnterEdit: (placementId: string) => void
   onExitEdit: () => void
@@ -40,6 +41,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
     lockedLayerIds,
     editingPlacementId,
     editingSelection,
+    editingBlockedReason,
     notice,
     onEnterEdit,
     onExitEdit,
@@ -96,7 +98,10 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
       return value === undefined ? [] : [value]
     }) ?? []
   const activeReadOnly =
-    !activeLayer || hiddenLayerIds.has(activeLayerId) || lockedLayerIds.has(activeLayerId)
+    Boolean(editingBlockedReason) ||
+    !activeLayer ||
+    hiddenLayerIds.has(activeLayerId) ||
+    lockedLayerIds.has(activeLayerId)
   const collisionBlockedLayerIds = [
     ...new Set(editing?.visualSlots.map((ref) => ref.layerId) ?? []),
   ].filter(
@@ -105,7 +110,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
       hiddenLayerIds.has(layerId) ||
       lockedLayerIds.has(layerId),
   )
-  const collisionReadOnly = collisionBlockedLayerIds.length > 0
+  const collisionReadOnly = Boolean(editingBlockedReason) || collisionBlockedLayerIds.length > 0
 
   const parseNonNegative = (raw: string, field: string): number | undefined => {
     if (!raw.trim()) return undefined
@@ -167,12 +172,15 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
               ⚠ 整组操作涉及 {blockedLayerIds.length} 个隐藏或锁定图层，当前只读。
             </p>
           ) : null}
+          {editingBlockedReason ? (
+            <p className="map-selection-warning">⚠ {editingBlockedReason}</p>
+          ) : null}
         </div>
         <div className="section stamp-group-actions">
           <button
             type="button"
             className="stamp-primary-action"
-            disabled={!single}
+            disabled={!single || Boolean(editingBlockedReason)}
             title={single ? 'Enter / 双击也可进入' : '多组选区不能同时进入组内'}
             onClick={() => single && onEnterEdit(single.id)}
           >
@@ -181,7 +189,9 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
           <button
             type="button"
             className="stamp-secondary-action"
-            disabled={placements.length === 0 || blockedLayerIds.length > 0}
+            disabled={
+              placements.length === 0 || blockedLayerIds.length > 0 || Boolean(editingBlockedReason)
+            }
             onClick={() => onUngroup(placements.map((placement) => placement.id))}
           >
             解组（保留地图内容）
@@ -233,7 +243,9 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
           选择工具可在组内单选或框选成员；切换活动层不会把修改传播到其他层。Ctrl/⌘+A 恢复全组选中。
         </p>
         {activeReadOnly ? (
-          <p className="map-selection-warning">⚠ 当前活动层隐藏、锁定或不存在，组内只读。</p>
+          <p className="map-selection-warning">
+            ⚠ {editingBlockedReason ?? '当前活动层隐藏、锁定或不存在，组内只读。'}
+          </p>
         ) : null}
       </div>
       <div className="section stamp-group-edit-fields">

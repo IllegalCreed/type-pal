@@ -696,7 +696,30 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
     1 skipped、game 2289、editor 368；全仓 `biome check` 与 `git diff --check` passed。
   - Codex 浏览器闭环与只读实现复核均通过；复核结论 P0/P1/P2 均无新增问题。
-- 下一段:W7G-E 结构生命周期，完成删层/缩图/换 tileset 的 placement 处理策略与测试。W7G-F 除 P4
+- W7G-E 生命周期与整组变换（2026-07-18）: **complete**。
+  - S13 结构入口统一 fail-loud：删层、缩图、换绑 tileset 影响 placement 时默认零写；对话只允许取消、
+    原子解组后继续、原子删除受影响整组后继续。影响清单覆盖 anchor / visual / collision，确认同时以
+    map revision 与对象引用防 stale；任一相关视觉层隐藏/锁定时整笔拒绝。reforge 公共删层/缩图入口也
+    直接拒绝破坏 v3 placement，不能绕过编辑器 UI。
+  - tileset 删除改为全工程 fail-closed 扫描：顺序覆盖 mapIndex 中已加载和未加载地图以及全部组合模板；
+    读取失败、任一引用或索引/当前作者态变化都不生成删除许可。Command 必须持有完整零引用 proof 并再次
+    校验当前 state；引用项可精确跳到地图或组合，重试成功后才出现第二次“确认移除”。
+  - 整组 move/copy/repeat/delete 由专用 planner + 单一复合 Command 完成，visual、height、显式
+    collision 0/非零与 placement metadata 同生同灭。move 保留 ID/provenance；同图 copy/repeat 生成
+    唯一新 ID；删除最后一组 v3→v2；undo/redo 精确恢复。未选中 placement ownership 永久是硬冲突，
+    普通内容才允许显式覆盖；跨地图、tileset 不同、缺层、成员层只读、成员或 anchor 越界均零写。
+  - 组合操作始终包含 collision，UI 不允许关闭；整组 cut 明确引导使用 move，避免拆成两条 history。
+    组内编辑与外层整组变换双向互斥，变换期间 Inspector 也不能进入组内或解组。地图切换会清掉整组
+    clipboard/preview；move 快照绑定源 map 引用，地图变化后 fail-loud 过期。
+  - 性能边界：beginMove 只捕获一次选中组矩阵快照；pointer preview 复用按 immutable map WeakMap 缓存的
+    ownership 索引，copy ID 只做索引查询与本批次保留，不随鼠标移动遍历完整 placement 表。
+- W7G-E 自动检查:
+  - `@type-pal/editor check`:49 files / 399 tests passed（含整组 move/copy/repeat/delete/cut、组内互斥、
+    hard ownership、anchor/stale、S13 三路线、tileset 全扫描失败重试/跳转/删除撤销）。
+  - `@type-pal/reforge check`:46 files / 419 tests passed（含公共删层/缩图 v3 placement 守卫）。
+  - 全仓回归:content 229、shared 111、reforge 419、pal-extract 246、migrate 219 passed + 1 skipped、
+    game 2289、editor 399；`pnpm lint` 与 `git diff --check` passed。
+- 下一段:W7G-F 最终布局、可访问性、性能与浏览器视觉收口。除 P4
   最终体积/性能实测外，还要核对数百 placement 下 ownership 索引预算、键盘/ARIA 和 60 项首屏预算。
   视觉收口同时按用户 2026-07-18 反馈调整地图工作区：层/高观察控件移到左侧图层区，中心画布不再被
   悬浮控件遮挡，右侧改为“属性 / 瓦片 / 组合”Tab；用户界面使用“组合”，内部 schema 继续保留 `stamp`。
@@ -734,7 +757,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - W7G-D 结论:完整组摘要、组内面包屑、当前层选中数、视觉/collision 字段和危险动作均无文字溢出；
   fresh browser Console 仅既有 `favicon.ico` 404，应用新错误 0、warning 0。用户随后指出层/高悬浮控件
   遮挡画布，布局调整已纳入 W7G-F 视觉收口，不把当前截图当作最终布局验收。
-- 未完成项:W7G-E 生命周期、W7G-F 最终性能/布局调整及 Kimi 视觉复验。
+- 未完成项:W7G-F 最终性能/布局调整及 Kimi 视觉复验。
 
 ## Review:审查与返工
 
@@ -746,7 +769,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 ## 用户验收
 
 - 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A/B/C/D 已完成，继续 W7G-E；全卡仍处于 build，分段完成不等于 W7G done。
+- 后续任务:W7G-A/B/C/D/E 已完成，继续 W7G-F；全卡仍处于 build，分段完成不等于 W7G done。
 
 ## 交接日志
 

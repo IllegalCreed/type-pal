@@ -6,6 +6,7 @@
  * 预览分流:新上传未保存的条目从内存字节解码;已落盘的走 loadTilesetByPath。
  */
 
+import type { MapIndexV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -21,6 +22,11 @@ import {
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { AddTilesetCommand, RemoveTilesetCommand } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
+import {
+  scanTilesetReferences,
+  type TilesetReferenceScan,
+  TilesetRemovalProof,
+} from '../core/tileset-references.js'
 
 const FRAME_PAGE_SIZE = 128
 
@@ -141,11 +147,27 @@ export function TilesetTab(props: {
   tilesetBlobs: EditorState['tilesetBlobs']
   assetBase: AssetBase
   session: EditSession
+  mapIndex: MapIndexV1
+  stamps: readonly StampTemplateV1[]
   tabBar?: React.ReactNode
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
+  onOpenMap?: (id: string) => void
+  onOpenStamp?: (id: string) => void
 }) {
-  const { tilesets, tilesetBlobs, assetBase, session, tabBar, focusObjectId, onObjectFocus } = props
+  const {
+    tilesets,
+    tilesetBlobs,
+    assetBase,
+    session,
+    mapIndex,
+    stamps,
+    tabBar,
+    focusObjectId,
+    onObjectFocus,
+    onOpenMap,
+    onOpenStamp,
+  } = props
   const [selectedId, setSelectedId] = useState<string | null>(
     focusObjectId ?? tilesets[0]?.id ?? null,
   )
@@ -159,6 +181,9 @@ export function TilesetTab(props: {
   const [newName, setNewName] = useState('')
   const [newCategory, setNewCategory] = useState('outdoor')
   const [err, setErr] = useState('')
+  const [removalScan, setRemovalScan] = useState<TilesetReferenceScan>()
+  const [removalScanning, setRemovalScanning] = useState(false)
+  const removalScanTokenRef = useRef(0)
   const [palette, setPalette] = useState<Palette | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const searchId = useId()
@@ -210,6 +235,16 @@ export function TilesetTab(props: {
     setSelectedId(nextId)
     onObjectFocus?.(nextId ?? undefined)
   }, [onObjectFocus, selectedId, tilesets])
+
+  useEffect(() => {
+    void mapIndex
+    void selectedId
+    void session
+    void stamps
+    removalScanTokenRef.current += 1
+    setRemovalScan(undefined)
+    setRemovalScanning(false)
+  }, [mapIndex, selectedId, session, stamps])
 
   // 量化预览帧(draft + 参数变化即重算;纯函数,同色缓存后毫秒级)
   const quantized = useMemo(() => {
@@ -287,6 +322,52 @@ export function TilesetTab(props: {
       setErr(e instanceof Error ? e.message : String(e))
     }
   }
+
+  const scanRemovalReferences = async (): Promise<void> => {
+    if (!selected) return
+    const token = removalScanTokenRef.current + 1
+    removalScanTokenRef.current = token
+    setErr('')
+    setRemovalScanning(true)
+    setRemovalScan(undefined)
+    const result = await scanTilesetReferences({
+      tilesetId: selected.id,
+      mapIndex,
+      stamps,
+      loadMap: (mapId) => session.ensureMapLoaded(mapId),
+      onProgress: (progress) => {
+        if (removalScanTokenRef.current === token) setRemovalScan(progress)
+      },
+    })
+    if (removalScanTokenRef.current !== token) return
+    setRemovalScan(result)
+    setRemovalScanning(false)
+  }
+
+  const removeSelected = (): void => {
+    if (!selected || !removalScan) return
+    try {
+      const proof = TilesetRemovalProof.fromScan(removalScan, mapIndex)
+      const nextId = tilesets.find((candidate) => candidate.id !== selected.id)?.id
+      session.dispatch(new RemoveTilesetCommand(selected.id, proof))
+      setSelectedId(nextId ?? null)
+      onObjectFocus?.(nextId)
+      setRemovalScan(undefined)
+      setErr('')
+    } catch (cause) {
+      setErr(cause instanceof Error ? cause.message : String(cause))
+      setRemovalScan(undefined)
+    }
+  }
+
+  const removalComplete = Boolean(
+    removalScan?.done &&
+      removalScan.failures.length === 0 &&
+      removalScan.completed === removalScan.total,
+  )
+  const removalHasReferences = Boolean(
+    removalScan && (removalScan.mapReferences.length > 0 || removalScan.stampReferences.length > 0),
+  )
 
   return (
     <>
@@ -604,24 +685,98 @@ export function TilesetTab(props: {
               </p>
             </section>
             <section className="section tileset-inspector-actions">
+              {removalScan ? (
+                <div className="tileset-removal-check" aria-live="off">
+                  <div className="tileset-removal-progress">
+                    <strong>工程引用检查</strong>
+                    <span className="mono">
+                      {removalScan.completed}/{removalScan.total}
+                    </span>
+                  </div>
+                  {removalScan.failures.length > 0 ? (
+                    <div className="tileset-removal-warning" role="alert">
+                      引用数未知：{removalScan.failures.length} 张地图读取失败，已禁止移除。
+                    </div>
+                  ) : null}
+                  {removalScan.mapReferences.length > 0 ? (
+                    <div className="tileset-removal-refs">
+                      <span>引用地图</span>
+                      {removalScan.mapReferences.map((reference) => (
+                        <button
+                          type="button"
+                          key={reference.mapId}
+                          onClick={() => onOpenMap?.(reference.mapId)}
+                          disabled={!onOpenMap}
+                          title={`打开地图 ${reference.mapId}`}
+                        >
+                          <strong>{reference.mapName}</strong>
+                          <span className="mono">{reference.mapId}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                  {removalScan.stampReferences.length > 0 ? (
+                    <div className="tileset-removal-refs">
+                      <span>引用组合模板</span>
+                      {removalScan.stampReferences.map((reference) => (
+                        <button
+                          type="button"
+                          key={reference.id}
+                          onClick={() => onOpenStamp?.(reference.id)}
+                          disabled={!onOpenStamp}
+                          title={`打开组合 ${reference.id}`}
+                        >
+                          <strong>{reference.name}</strong>
+                          <span className="mono">{reference.id}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                  {removalComplete && !removalHasReferences ? (
+                    <p className="tileset-removal-safe">
+                      全部地图与组合模板均未引用此瓦片集。移除只删除登记与未保存字节，不清理已落盘的
+                      .rle 文件。
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="tileset-inspector-copy">
+                  移除前必须检查全部已加载和未加载地图，以及组合模板的硬引用。
+                </p>
+              )}
               <button
                 type="button"
                 className="tileset-danger-action"
-                title="从注册表移除；操作可撤销"
-                onClick={() => {
-                  setErr('')
-                  try {
-                    const nextId = tilesets.find((candidate) => candidate.id !== selected.id)?.id
-                    session.dispatch(new RemoveTilesetCommand(selected.id))
-                    setSelectedId(nextId ?? null)
-                    onObjectFocus?.(nextId)
-                  } catch (cause) {
-                    setErr(cause instanceof Error ? cause.message : String(cause))
-                  }
-                }}
+                title="检查全工程引用后从注册表移除；操作可撤销"
+                disabled={removalScanning}
+                onClick={() =>
+                  removalComplete && !removalHasReferences
+                    ? removeSelected()
+                    : void scanRemovalReferences()
+                }
               >
-                移除条目
+                {removalScanning
+                  ? `正在检查 ${removalScan?.completed ?? 0}/${removalScan?.total ?? mapIndex.maps.length}`
+                  : removalComplete && !removalHasReferences
+                    ? '确认移除未引用条目'
+                    : removalScan
+                      ? '重新检查引用'
+                      : '检查引用后移除'}
               </button>
+              {removalScan ? (
+                <button
+                  type="button"
+                  className="tileset-secondary-action"
+                  onClick={() => {
+                    removalScanTokenRef.current += 1
+                    setRemovalScan(undefined)
+                    setRemovalScanning(false)
+                    setErr('')
+                  }}
+                >
+                  取消移除
+                </button>
+              ) : null}
             </section>
           </>
         ) : (

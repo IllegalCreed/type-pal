@@ -109,6 +109,7 @@ export function DataMode(props: {
   onOpenSound?: (id: string) => void
   onOpenMap?: (id: string) => void
   onOpenTileset?: (id: string) => void
+  onOpenStamp?: (id: string) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const {
@@ -146,6 +147,7 @@ export function DataMode(props: {
     onOpenSound,
     onOpenMap,
     onOpenTileset,
+    onOpenStamp,
     onStatusNotice,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
@@ -245,9 +247,13 @@ export function DataMode(props: {
         tilesetBlobs={tilesetBlobs}
         assetBase={assetBase}
         session={session}
+        mapIndex={mapIndex}
+        stamps={stamps}
         tabBar={tabBar}
         focusObjectId={focusObjectId}
         onObjectFocus={onObjectFocus}
+        onOpenMap={onOpenMap}
+        onOpenStamp={onOpenStamp}
       />
     )
   }

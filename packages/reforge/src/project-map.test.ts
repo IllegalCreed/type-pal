@@ -207,6 +207,39 @@ describe('resizeProjectMap', () => {
     expect(resizeProjectMap(map, 3, 3)).toBe(map)
     expect(resizeProjectMap(small, 3, 3).layers[0]?.tiles[5]?.[2]).toBeNull()
   })
+
+  test('v3 公共入口默认拒绝裁掉 anchor/visual/collision 成员', () => {
+    const base = paintProjectMapTiles(buildBlankProjectMap(3, 2, 'tileset-001'), [
+      { layerId: 'floor', row: 0, col: 0, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 3, col: 2, tileId: 2, height: 0 },
+    ])
+    for (const placement of [
+      {
+        id: 'anchor-out',
+        anchor: { row: 3, col: 2 },
+        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+        gridPoints: [],
+      },
+      {
+        id: 'visual-out',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 3, col: 2 }],
+        gridPoints: [],
+      },
+      {
+        id: 'collision-out',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
+        gridPoints: [{ row: 3, col: 2 }],
+      },
+    ]) {
+      const map = withProjectMapStampPlacements(base, [placement])
+      expect(() => resizeProjectMap(map, 2, 1)).toThrow(placement.id)
+      expect(projectMapStampPlacements(resizeProjectMap(map, 4, 3))).toEqual(
+        projectMapStampPlacements(map),
+      )
+    }
+  })
 })
 
 describe('ProjectMap v2/v3 作者态转换', () => {
@@ -255,5 +288,23 @@ describe('ProjectMap v2/v3 作者态转换', () => {
     ])
     const view = { col: 0, row: 0, cols: 1, rows: 1 }
     expect(projectMapTilesInView(v3, view)).toEqual(projectMapTilesInView(base, view))
+  })
+
+  test('v3 公共删层入口拒绝制造悬空 layerId', () => {
+    const base = buildBlankProjectMap(1, 1, 'tileset-001')
+    const layered = paintProjectMapTiles(
+      insertProjectMapLayer(base, buildProjectMapLayer(base, 'objects', '物件')),
+      [{ layerId: 'objects', row: 0, col: 0, tileId: 1, height: 0 }],
+    )
+    const map = withProjectMapStampPlacements(layered, [
+      {
+        id: 'tree',
+        anchor: { row: 0, col: 0 },
+        visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
+        gridPoints: [],
+      },
+    ])
+    expect(() => removeProjectMapLayer(map, 'objects')).toThrow('tree')
+    expect(removeProjectMapLayer(map, 'floor').layers.map(({ id }) => id)).toEqual(['objects'])
   })
 })

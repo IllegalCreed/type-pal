@@ -308,8 +308,30 @@ export function floodFillProjectMapTiles(
   return out
 }
 
+function isInsideProjectMapSize(
+  width: number,
+  height: number,
+  ref: Pick<LatticePos, 'row' | 'col'>,
+): boolean {
+  return ref.row >= 0 && ref.row < height * 2 && ref.col >= 0 && ref.col < width
+}
+
+function assertResizeKeepsStampPlacements(map: ProjectMap, width: number, height: number): void {
+  const affected = projectMapStampPlacements(map).filter(
+    (placement) =>
+      !isInsideProjectMapSize(width, height, placement.anchor) ||
+      placement.visualSlots.some((ref) => !isInsideProjectMapSize(width, height, ref)) ||
+      placement.gridPoints.some((ref) => !isInsideProjectMapSize(width, height, ref)),
+  )
+  if (affected.length > 0)
+    throw new Error(
+      `缩小地图会破坏 ${affected.length} 个组合（${affected.map(({ id }) => id).join(', ')}）；请先解组或删除整组。`,
+    )
+}
+
 export function resizeProjectMap<T extends ProjectMap>(map: T, width: number, height: number): T {
   if (width === map.width && height === map.height) return map
+  assertResizeKeepsStampPlacements(map, width, height)
   const rows = height * 2
   const rebuild = <T>(src: readonly (readonly T[])[], fill: T): T[][] =>
     Array.from({ length: rows }, (_, row) =>
@@ -340,6 +362,13 @@ export function insertProjectMapLayer<T extends ProjectMap>(
 
 export function removeProjectMapLayer<T extends ProjectMap>(map: T, layerId: string): T {
   if (map.layers.length <= 1 || !map.layers.some((layer) => layer.id === layerId)) return map
+  const affected = projectMapStampPlacements(map).filter((placement) =>
+    placement.visualSlots.some((ref) => ref.layerId === layerId),
+  )
+  if (affected.length > 0)
+    throw new Error(
+      `删除图层会破坏 ${affected.length} 个组合（${affected.map(({ id }) => id).join(', ')}）；请先解组或删除整组。`,
+    )
   return { ...map, layers: map.layers.filter((layer) => layer.id !== layerId) } as T
 }
 

@@ -1,0 +1,199 @@
+// @vitest-environment jsdom
+import type { MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import { buildBlankProjectMap, type TilesetDef } from '@type-pal/reforge'
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { EditorState } from '../core/edit-session.js'
+import { EditSession } from '../core/edit-session.js'
+import { TilesetTab } from './TilesetTab.js'
+
+vi.mock('@type-pal/reforge', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@type-pal/reforge')>()
+  return {
+    ...original,
+    loadStandardPalette: vi.fn(async () => ({
+      colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
+      cycles: [],
+    })),
+    loadTilesetByPath: vi.fn(async () => new Map()),
+  }
+})
+
+const tilesets: TilesetDef[] = [
+  { id: 'tiles-a', name: '待删瓦片', category: 'test', path: 'assets/a.rle' },
+  { id: 'tiles-b', name: '保留瓦片', category: 'test', path: 'assets/b.rle' },
+]
+
+const mapIndex: MapIndexV1 = {
+  version: 1,
+  maps: [
+    { id: 'map-a', name: '地图 A', path: 'content/maps/map-a.json' },
+    { id: 'map-b', name: '地图 B', path: 'content/maps/map-b.json' },
+  ],
+}
+
+function stamp(tilesetId: string): StampTemplateV1 {
+  return {
+    id: 'tree',
+    name: '树木组合',
+    tilesetId,
+    origin: 'authored',
+    layerSlots: [{ id: 'floor', name: '地面', depthMode: 'flat' }],
+    visual: [{ layerSlotId: 'floor', offset: { dRow: 0, du: 0 }, tileId: 0, height: 0 }],
+    collision: [],
+  }
+}
+
+function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorState {
+  return {
+    manifest: {} as never,
+    scenes: [],
+    actors: [],
+    skills: [],
+    levelUp: {},
+    items: [],
+    locale: {},
+    sprites: [],
+    startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    maps: { 'map-a': map },
+    mapIndex,
+    tilesets,
+    tilesetBlobs: {},
+    assetCatalog: { version: 1, assets: {} },
+    assetBlobs: {},
+    stamps,
+    scriptChunks: {},
+  } as EditorState
+}
+
+const mounted: Array<{ root: Root; host: HTMLDivElement }> = []
+
+async function mountTilesetTab(input: {
+  mapB: ProjectMap
+  stamps?: StampTemplateV1[]
+  onOpenMap?: (id: string) => void
+  onOpenStamp?: (id: string) => void
+  loadMap?: (id: string) => Promise<ProjectMap>
+}) {
+  const loadMap = vi.fn(
+    input.loadMap ??
+      (async (id: string) => {
+        if (id !== 'map-b') throw new Error(`unexpected map ${id}`)
+        return input.mapB
+      }),
+  )
+  const session = new EditSession(
+    editorState(buildBlankProjectMap(1, 1, 'tiles-b'), input.stamps),
+    { loadMap },
+  )
+  const host = document.createElement('div')
+  document.body.append(host)
+  const root = createRoot(host)
+  mounted.push({ root, host })
+  await act(async () => {
+    root.render(
+      <TilesetTab
+        tilesets={tilesets}
+        tilesetBlobs={{}}
+        assetBase={{} as never}
+        session={session}
+        mapIndex={mapIndex}
+        stamps={input.stamps ?? []}
+        onOpenMap={input.onOpenMap}
+        onOpenStamp={input.onOpenStamp}
+      />,
+    )
+    await Promise.resolve()
+  })
+  return { host, session, loadMap }
+}
+
+function button(host: HTMLElement, text: string): HTMLButtonElement {
+  const result = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+    candidate.textContent?.includes(text),
+  )
+  if (!result) throw new Error(`未找到按钮：${text}`)
+  return result
+}
+
+async function runReferenceScan(host: HTMLElement): Promise<void> {
+  await act(async () => {
+    button(host, '检查引用后移除').click()
+    await new Promise((resolve) => window.setTimeout(resolve, 0))
+    await new Promise((resolve) => window.setTimeout(resolve, 0))
+  })
+}
+
+beforeEach(() => {
+  ;(
+    globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
+  ).IS_REACT_ACT_ENVIRONMENT = true
+  Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+    configurable: true,
+    value: () => ({ clearRect: vi.fn(), drawImage: vi.fn() }),
+  })
+})
+
+afterEach(async () => {
+  while (mounted.length) {
+    const item = mounted.pop()!
+    await act(async () => item.root.unmount())
+    item.host.remove()
+  }
+  vi.clearAllMocks()
+})
+
+describe('TilesetTab 全工程引用删除', () => {
+  test('扫描未加载地图和组合模板，列出可跳转引用并保持删除禁用', async () => {
+    const onOpenMap = vi.fn()
+    const onOpenStamp = vi.fn()
+    const { host, session, loadMap } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-a'),
+      stamps: [stamp('tiles-a')],
+      onOpenMap,
+      onOpenStamp,
+    })
+    await runReferenceScan(host)
+
+    expect(loadMap).toHaveBeenCalledOnce()
+    expect(host.querySelector('.tileset-removal-check')?.textContent).toContain('地图 B')
+    expect(host.querySelector('.tileset-removal-check')?.textContent).toContain('树木组合')
+    expect(button(host, '重新检查引用')).toBeDefined()
+    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
+
+    await act(async () => button(host, '地图 B').click())
+    await act(async () => button(host, '树木组合').click())
+    expect(onOpenMap).toHaveBeenCalledWith('map-b')
+    expect(onOpenStamp).toHaveBeenCalledWith('tree')
+  })
+
+  test('完整零引用扫描后才出现确认移除，删除仍可一步撤销', async () => {
+    let attempts = 0
+    const { host, session } = await mountTilesetTab({
+      mapB: buildBlankProjectMap(1, 1, 'tiles-b'),
+      loadMap: async () => {
+        attempts += 1
+        if (attempts === 1) throw new Error('磁盘读取失败')
+        return buildBlankProjectMap(1, 1, 'tiles-b')
+      },
+    })
+    await runReferenceScan(host)
+    expect(host.querySelector('.tileset-removal-warning')?.textContent).toContain('已禁止移除')
+    expect(session.isDirty()).toBe(false)
+    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
+
+    await act(async () => {
+      button(host, '重新检查引用').click()
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+      await new Promise((resolve) => window.setTimeout(resolve, 0))
+    })
+    expect(host.querySelector('.tileset-removal-safe')?.textContent).toContain('均未引用')
+
+    await act(async () => button(host, '确认移除未引用条目').click())
+    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])
+    expect(session.isDirty()).toBe(true)
+    await act(async () => session.undo())
+    expect(session.getState().tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
+  })
+})

@@ -21,6 +21,7 @@ import {
   paintProjectMapCollision,
   paintProjectMapTiles,
   pixelToLattice,
+  projectMapStampPlacements,
   renderSceneFrame,
 } from '@type-pal/reforge'
 import {
@@ -83,8 +84,22 @@ import {
 } from '../core/map-transform.js'
 import {
   EditStampPlacementCommand,
+  TransformStampPlacementsCommand,
   UngroupStampPlacementsCommand,
 } from '../core/stamp-group-command.js'
+import {
+  captureStampGroupClipboard,
+  planStampGroupDelete,
+  planStampGroupMove,
+  planStampGroupPaste,
+  type StampGroupClipboard,
+  type StampGroupTransformPlan,
+} from '../core/stamp-group-transform.js'
+import {
+  inspectStampStructureImpact,
+  type StampStructureOperation,
+  type StampStructureResolutionOptions,
+} from '../core/stamp-lifecycle.js'
 import { buildStampPlacementIndex, floodFillStampPlacementTiles } from '../core/stamp-ownership.js'
 import {
   planStampPlacement,
@@ -160,7 +175,7 @@ type StrokeEdit =
 type MapTransformIntent =
   | {
       kind: 'paste'
-      clipboard: MapCellClipboard
+      clipboard: MapCellClipboard | StampGroupClipboard
       anchor: LatticePos
       layerMappings: readonly MapLayerMapping[]
     }
@@ -170,6 +185,8 @@ type MapTransformIntent =
       anchor: LatticePos
       includeCollision: boolean
       layerMappings: readonly MapLayerMapping[]
+      stampClipboard?: StampGroupClipboard
+      stampBaseMap?: ProjectMap
     }
 
 type MapCandidate =
@@ -188,6 +205,13 @@ interface MapCandidateMenu {
   x: number
   y: number
   candidates: MapCandidate[]
+}
+
+interface StampStructureIntent {
+  operation: StampStructureOperation
+  mapRevision: number
+  map: ProjectMap
+  placementIds: string[]
 }
 
 function tileEditsPatch(map: ProjectMap, edits: readonly ProjectMapTileEdit[]): ProjectMapPatch {
@@ -345,7 +369,7 @@ export function MapMode(props: {
   const [selectionPreview, setSelectionPreview] = useState<MapSelection>()
   const selectionPreviewRef = useRef<MapSelection | undefined>(undefined)
   const [includeCollision, setIncludeCollision] = useState(false)
-  const [clipboard, setClipboard] = useState<MapCellClipboard>()
+  const [clipboard, setClipboard] = useState<MapCellClipboard | StampGroupClipboard>()
   const [transformIntent, setTransformIntent] = useState<MapTransformIntent>()
   const [candidateMenu, setCandidateMenu] = useState<MapCandidateMenu>()
   const candidateMenuRef = useRef<HTMLDivElement>(null)
@@ -353,6 +377,9 @@ export function MapMode(props: {
     { kind: 'info' | 'error'; message: string } | undefined
   >()
   const [stampDialogOpen, setStampDialogOpen] = useState(false)
+  const [stampStructureIntent, setStampStructureIntent] = useState<StampStructureIntent>()
+  const stampStructureReturnFocusRef = useRef<HTMLElement | null>(null)
+  const stampStructureCancelRef = useRef<HTMLButtonElement>(null)
   const mapNameInputRef = useRef<HTMLInputElement>(null)
   const selectedMapRowRef = useRef<HTMLButtonElement>(null)
 
@@ -401,6 +428,8 @@ export function MapMode(props: {
     setCandidateMenu(undefined)
     setClipboard(undefined)
     setStampDialogOpen(false)
+    setStampStructureIntent(undefined)
+    stampStructureReturnFocusRef.current = null
     setPendingDeleteId(undefined)
     setWorkspaceNotice(undefined)
     strokeRef.current.clear()
@@ -498,6 +527,10 @@ export function MapMode(props: {
     focusFirstCandidate()
   }, [candidateMenu, focusFirstCandidate])
 
+  useEffect(() => {
+    if (stampStructureIntent) stampStructureCancelRef.current?.focus({ preventScroll: true })
+  }, [stampStructureIntent])
+
   const maxMapHeight = useMemo(() => {
     if (!liveMap) return 15
     let max = 0
@@ -531,6 +564,9 @@ export function MapMode(props: {
     selectionPreviewRef.current = undefined
     setCandidateMenu(undefined)
     setTransformIntent(undefined)
+    setClipboard((current) => (current?.kind === 'stamp-placements' ? undefined : current))
+    setStampStructureIntent(undefined)
+    stampStructureReturnFocusRef.current = null
     strokeRef.current.clear()
     hoverRef.current = null
     setStampHoverAnchor(undefined)
@@ -567,13 +603,40 @@ export function MapMode(props: {
     (
       intent: MapTransformIntent,
       conflictPolicy: MapTransformConflictPolicy,
-    ): MapTransformPlan | undefined => {
+    ): MapTransformPlan | StampGroupTransformPlan | undefined => {
       if (!liveMap) return undefined
-      if (intent.kind === 'paste')
+      const permission = {
+        hiddenLayerIds: workspaceMap.hiddenLayerIds,
+        lockedLayerIds: workspaceMap.lockedLayerIds,
+      }
+      if (intent.kind === 'paste') {
+        if (intent.clipboard.kind === 'stamp-placements')
+          return planStampGroupPaste({
+            mapId,
+            map: liveMap,
+            mapRevision,
+            clipboard: intent.clipboard,
+            targetAnchor: intent.anchor,
+            permission,
+            conflictPolicy,
+          })
         return planMapPaste(liveMap, intent.clipboard, intent.anchor, {
           layerMappings: intent.layerMappings,
           conflictPolicy,
           collisionAuthorityLayerId: activeLayerId,
+        })
+      }
+      if (intent.selection.kind === 'stamp-placements')
+        return planStampGroupMove({
+          mapId,
+          map: liveMap,
+          mapRevision,
+          placementIds: intent.selection.placementIds,
+          targetAnchor: intent.anchor,
+          permission,
+          conflictPolicy,
+          clipboard: intent.stampClipboard,
+          expectedMap: intent.stampBaseMap,
         })
       return planMapMove(
         liveMap,
@@ -588,7 +651,14 @@ export function MapMode(props: {
         mapId,
       )
     },
-    [liveMap, activeLayerId, mapId],
+    [
+      activeLayerId,
+      liveMap,
+      mapId,
+      mapRevision,
+      workspaceMap.hiddenLayerIds,
+      workspaceMap.lockedLayerIds,
+    ],
   )
 
   const transformPlan = useMemo(
@@ -630,21 +700,36 @@ export function MapMode(props: {
       workspaceMap.lockedLayerIds,
     ],
   )
-  const transformIncludesCollision = transformIntent
+  const transformIsStampGroup = transformIntent
     ? transformIntent.kind === 'paste'
-      ? transformIntent.clipboard.collision.kind === 'included'
-      : transformIntent.includeCollision
-    : includeCollision
+      ? transformIntent.clipboard.kind === 'stamp-placements'
+      : transformIntent.selection.kind === 'stamp-placements'
+    : selection.kind === 'stamp-placements'
+  const transformIncludesCollision = transformIsStampGroup
+    ? true
+    : transformIntent
+      ? transformIntent.kind === 'paste'
+        ? transformIntent.clipboard.kind === 'cells' &&
+          transformIntent.clipboard.collision.kind === 'included'
+        : transformIntent.includeCollision
+      : includeCollision
   const transformPermissionMessage = useMemo(() => {
     if (!transformPlan) return undefined
-    if (activeLayerHidden) return '当前活动层已隐藏，不能提交变换。'
-    if (activeLayerLocked) return '当前活动层已锁定，不能提交变换。'
+    if (!transformIsStampGroup && activeLayerHidden) return '当前活动层已隐藏，不能提交变换。'
+    if (!transformIsStampGroup && activeLayerLocked) return '当前活动层已锁定，不能提交变换。'
     const hidden = transformPlan.requiredWritableLayerIds.find((id) => hiddenLayerIds.has(id))
     if (hidden) return `变换涉及隐藏图层 "${hidden}"，不能提交。`
     const locked = transformPlan.requiredWritableLayerIds.find((id) => lockedLayerIds.has(id))
     if (locked) return `变换涉及锁定图层 "${locked}"，不能提交。`
     return undefined
-  }, [transformPlan, activeLayerHidden, activeLayerLocked, hiddenLayerIds, lockedLayerIds])
+  }, [
+    transformPlan,
+    transformIsStampGroup,
+    activeLayerHidden,
+    activeLayerLocked,
+    hiddenLayerIds,
+    lockedLayerIds,
+  ])
 
   useEffect(() => {
     // size 与 paintTick 是命令式 canvas 的显式重绘触发器。
@@ -1464,9 +1549,16 @@ export function MapMode(props: {
     }
   }
 
-  const copyMapSelection = (): MapCellClipboard | undefined => {
+  const copyMapSelection = (): MapCellClipboard | StampGroupClipboard | undefined => {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再复制完整放置组合。')
+      return undefined
+    }
     if (!liveMap) return undefined
-    const next = captureMapClipboard(mapId, liveMap, selection, includeCollision)
+    const next =
+      selection.kind === 'stamp-placements'
+        ? captureStampGroupClipboard(mapId, liveMap, selection.placementIds, 'copy')
+        : captureMapClipboard(mapId, liveMap, selection, includeCollision)
     if (!next) {
       notifyWorkspace('error', '请先选择要复制的地图内容。')
       return undefined
@@ -1474,13 +1566,54 @@ export function MapMode(props: {
     setClipboard(next)
     notifyWorkspace(
       'info',
-      `已复制 ${next.visual.length} 个视觉实例${next.collision.kind === 'included' ? `和 ${next.collision.cells.length} 个碰撞格点` : ''}。`,
+      next.kind === 'stamp-placements'
+        ? `已复制 ${next.placements.length} 个完整放置组合；视觉、高度和碰撞将始终一起粘贴。`
+        : `已复制 ${next.visual.length} 个视觉实例${next.collision.kind === 'included' ? `和 ${next.collision.cells.length} 个碰撞格点` : ''}。`,
     )
     return next
   }
 
   const deleteMapSelection = (afterDelete?: () => void): void => {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再删除完整放置组合。')
+      return
+    }
     if (!liveMap) return
+    if (selection.kind === 'stamp-placements') {
+      try {
+        const revision = session.getMapRevision(mapId)
+        const plan = planStampGroupDelete({
+          mapId,
+          map: liveMap,
+          mapRevision: revision,
+          placementIds: selection.placementIds,
+          permission: {
+            hiddenLayerIds: workspaceMap.hiddenLayerIds,
+            lockedLayerIds: workspaceMap.lockedLayerIds,
+          },
+        })
+        if (!plan.canApply) {
+          notifyWorkspace('error', plan.issues[0]?.message ?? '放置组合不能删除。')
+          return
+        }
+        const changed = session.dispatchAtMapRevision(
+          mapId,
+          revision,
+          new TransformStampPlacementsCommand(plan),
+        )
+        if (changed) {
+          dispatchWorkspace({ type: 'clear-selection', mapId })
+          notifyWorkspace(
+            'info',
+            `已删除 ${selection.placementIds.length} 个完整放置组合（始终包含碰撞）；可一步撤销。`,
+          )
+          afterDelete?.()
+        }
+      } catch (error) {
+        notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+      }
+      return
+    }
     if (explainReadOnlySelection()) return
     const plan = planMapDelete(liveMap, selection, includeCollision, activeLayerId)
     if (!plan.canApply) {
@@ -1500,7 +1633,15 @@ export function MapMode(props: {
   }
 
   const cutMapSelection = (): void => {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再变换完整放置组合。')
+      return
+    }
     if (!liveMap) return
+    if (selection.kind === 'stamp-placements') {
+      notifyWorkspace('error', '整组剪切会把移动拆成两步历史；请使用“移动…”保留原放置组 ID。')
+      return
+    }
     const next = captureMapClipboard(mapId, liveMap, selection, includeCollision)
     if (!next) {
       notifyWorkspace('error', '请先选择要剪切的地图内容。')
@@ -1521,7 +1662,7 @@ export function MapMode(props: {
       notifyWorkspace('error', '地图剪贴板为空。')
       return
     }
-    if (activeLayerReadOnly) {
+    if (source.kind === 'cells' && activeLayerReadOnly) {
       explainReadOnlySelection()
       return
     }
@@ -1535,12 +1676,19 @@ export function MapMode(props: {
   }
 
   const beginMove = (layerMappings: readonly MapLayerMapping[] = []): void => {
-    if (!liveMap || selection.kind !== 'cells') {
+    if (stampGroupEditPlacementId) {
+      notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再移动完整放置组合。')
+      return
+    }
+    if (!liveMap || selection.kind === 'none') {
       notifyWorkspace('error', '请先选择要移动的地图内容。')
       return
     }
-    if (explainReadOnlySelection()) return
-    const captured = captureMapClipboard(mapId, liveMap, selection, includeCollision)
+    if (selection.kind === 'cells' && explainReadOnlySelection()) return
+    const captured =
+      selection.kind === 'stamp-placements'
+        ? captureStampGroupClipboard(mapId, liveMap, selection.placementIds, 'preserve')
+        : captureMapClipboard(mapId, liveMap, selection, includeCollision)
     if (!captured) {
       notifyWorkspace('error', '选区没有可移动内容。')
       return
@@ -1551,8 +1699,11 @@ export function MapMode(props: {
       kind: 'move',
       selection: structuredClone(selection),
       anchor: captured.sourceAnchor,
-      includeCollision,
+      includeCollision: selection.kind === 'stamp-placements' ? true : includeCollision,
       layerMappings,
+      ...(selection.kind === 'stamp-placements'
+        ? { stampClipboard: captured as StampGroupClipboard, stampBaseMap: liveMap }
+        : {}),
     })
     canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '移动预览：移动鼠标或方向键改变目标，Enter/提交确认。')
@@ -1573,6 +1724,33 @@ export function MapMode(props: {
           ? `目标有 ${plan.conflicts.length} 处冲突；请选择覆盖或取消。`
           : '当前变换不能提交。')
       notifyWorkspace('error', message)
+      return
+    }
+    if ('placementSelection' in plan) {
+      try {
+        const changed = session.dispatchAtMapRevision(
+          mapId,
+          plan.mapRevision,
+          new TransformStampPlacementsCommand(plan),
+        )
+        if (changed) {
+          dispatchWorkspace({ type: 'set-selection', mapId, selection: plan.placementSelection })
+          if (
+            transformIntent.kind === 'paste' &&
+            transformIntent.clipboard.kind === 'stamp-placements' &&
+            transformIntent.clipboard.identity === 'preserve'
+          )
+            setClipboard({ ...transformIntent.clipboard, identity: 'copy' })
+          notifyWorkspace(
+            'info',
+            `${plan.kind === 'move' ? '已移动' : '已复制'} ${plan.upsertPlacements.length} 个完整放置组合（始终包含碰撞）；可一步撤销。`,
+          )
+        }
+        setTransformIntent(undefined)
+        canvasRef.current?.focus({ preventScroll: true })
+      } catch (error) {
+        notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+      }
       return
     }
     const channelLabel = transformIncludesCollision ? '含碰撞' : '仅视觉'
@@ -1604,16 +1782,32 @@ export function MapMode(props: {
     const source =
       selection.kind === 'cells'
         ? captureMapClipboard(mapId, liveMap, selection, includeCollision)
-        : clipboard
+        : selection.kind === 'stamp-placements'
+          ? captureStampGroupClipboard(mapId, liveMap, selection.placementIds, 'copy')
+          : clipboard
     if (!source) {
       notifyWorkspace('error', '当前选区和地图剪贴板都没有可重复内容。')
       return
     }
     setClipboard(source)
     const bounds = mapSelectionBounds(selection)
+    const sourceRefs =
+      source.kind === 'stamp-placements'
+        ? source.placements.flatMap((placement) => [
+            ...placement.visual.map(({ sourceRef }) => sourceRef),
+            ...placement.collision.map(({ sourceRef }) => sourceRef),
+          ])
+        : []
+    const maxSourceCol = sourceRefs.reduce(
+      (maximum, ref) => Math.max(maximum, ref.col),
+      source.sourceAnchor.col,
+    )
     const anchor = bounds
       ? { row: bounds.minRow, col: Math.min((liveMap?.width ?? 1) - 1, bounds.maxCol + 1) }
-      : { ...source.sourceAnchor, col: source.sourceAnchor.col + 1 }
+      : {
+          ...source.sourceAnchor,
+          col: source.kind === 'stamp-placements' ? maxSourceCol + 1 : source.sourceAnchor.col + 1,
+        }
     setTool('select')
     setTransformIntent({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
     canvasRef.current?.focus({ preventScroll: true })
@@ -2025,17 +2219,125 @@ export function MapMode(props: {
     setActiveLayerId(id)
   }
 
+  const closeStampStructureDialog = (returnFocus = true): void => {
+    setStampStructureIntent(undefined)
+    if (!returnFocus) return
+    const target = stampStructureReturnFocusRef.current
+    stampStructureReturnFocusRef.current = null
+    window.setTimeout(() => target?.focus({ preventScroll: true }), 0)
+  }
+
+  const stampStructureCommand = (
+    operation: StampStructureOperation,
+    options: StampStructureResolutionOptions,
+  ) => {
+    switch (operation.kind) {
+      case 'remove-layer':
+        return new RemoveProjectMapLayerCommand(mapId, operation.layerId, options)
+      case 'resize':
+        return new ResizeProjectMapCommand(mapId, operation.width, operation.height, options)
+      case 'set-tileset':
+        return new SetProjectMapTilesetCommand(mapId, operation.tilesetId, options)
+    }
+  }
+
+  const finishStampStructureOperation = (
+    operation: StampStructureOperation,
+    beforeMap: ProjectMap,
+  ): void => {
+    setCandidateMenu(undefined)
+    if (operation.kind !== 'remove-layer') return
+    const removedIndex = beforeMap.layers.findIndex((layer) => layer.id === operation.layerId)
+    const nextMap = session.getState().maps[mapId]
+    if (!nextMap || nextMap.layers.some((layer) => layer.id === activeLayerId)) return
+    const nextIndex = Math.max(0, Math.min(removedIndex - 1, nextMap.layers.length - 1))
+    setActiveLayerId(nextMap.layers[nextIndex]?.id ?? '')
+  }
+
+  const requestStampStructureOperation = (
+    operation: StampStructureOperation,
+    returnFocus: HTMLElement,
+  ): void => {
+    const currentMap = session.getState().maps[mapId]
+    if (!currentMap) return
+    const revision = session.getMapRevision(mapId)
+    const impact = inspectStampStructureImpact(currentMap, operation)
+    if (impact.placementIds.length > 0) {
+      stampStructureReturnFocusRef.current = returnFocus
+      setStampStructureIntent({
+        operation,
+        mapRevision: revision,
+        map: currentMap,
+        placementIds: impact.placementIds,
+      })
+      return
+    }
+    try {
+      const changed = session.dispatchAtMapRevision(
+        mapId,
+        revision,
+        stampStructureCommand(operation, { expectedMap: currentMap }),
+      )
+      if (changed) finishStampStructureOperation(operation, currentMap)
+    } catch (error) {
+      notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+    }
+  }
+
+  const confirmStampStructureOperation = (resolution: 'ungroup' | 'delete-groups'): void => {
+    const intent = stampStructureIntent
+    const currentMap = session.getState().maps[mapId]
+    if (!intent || !currentMap) return
+    const revision = session.getMapRevision(mapId)
+    if (revision !== intent.mapRevision || currentMap !== intent.map) {
+      const impact = inspectStampStructureImpact(currentMap, intent.operation)
+      if (impact.placementIds.length === 0) closeStampStructureDialog()
+      else
+        setStampStructureIntent({
+          ...intent,
+          mapRevision: revision,
+          map: currentMap,
+          placementIds: impact.placementIds,
+        })
+      notifyWorkspace('error', '地图已变化，影响清单已刷新；请重新确认，本次未执行。')
+      return
+    }
+    try {
+      const changed = session.dispatchAtMapRevision(
+        mapId,
+        intent.mapRevision,
+        stampStructureCommand(intent.operation, {
+          resolution,
+          permission: {
+            hiddenLayerIds: workspaceMap.hiddenLayerIds,
+            lockedLayerIds: workspaceMap.lockedLayerIds,
+          },
+          expectedMap: intent.map,
+        }),
+      )
+      if (changed) {
+        finishStampStructureOperation(intent.operation, intent.map)
+        notifyWorkspace(
+          'info',
+          `${resolution === 'ungroup' ? '已解组' : '已删除'} ${intent.placementIds.length} 个受影响组合并完成结构操作；可一步撤销。`,
+        )
+      }
+      closeStampStructureDialog()
+    } catch (error) {
+      notifyWorkspace('error', error instanceof Error ? error.message : String(error))
+    }
+  }
+
   const removeLayer = (): void => {
     if (!liveMap || !activeLayer || liveMap.layers.length <= 1) return
     if (activeLayerReadOnly) {
       explainReadOnlySelection()
       return
     }
-    const index = liveMap.layers.findIndex((layer) => layer.id === activeLayer.id)
-    const next = liveMap.layers[index - 1] ?? liveMap.layers[index + 1]
-    session.dispatch(new RemoveProjectMapLayerCommand(mapId, activeLayer.id))
-    setCandidateMenu(undefined)
-    setActiveLayerId(next?.id ?? '')
+    requestStampStructureOperation(
+      { kind: 'remove-layer', layerId: activeLayer.id },
+      document.activeElement instanceof HTMLElement ? document.activeElement : canvasRef.current!,
+    )
   }
 
   const moveLayer = (offset: -1 | 1): void => {
@@ -2298,7 +2600,7 @@ export function MapMode(props: {
       beginPaste()
       return
     }
-    if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind === 'cells') {
+    if ((event.key === 'Delete' || event.key === 'Backspace') && selection.kind !== 'none') {
       event.preventDefault()
       event.stopPropagation()
       deleteMapSelection()
@@ -2645,17 +2947,21 @@ export function MapMode(props: {
               <input
                 type="checkbox"
                 checked={transformIncludesCollision}
-                disabled={Boolean(transformIntent)}
+                disabled={Boolean(transformIntent) || selection.kind === 'stamp-placements'}
                 onChange={(event) => setIncludeCollision(event.target.checked)}
               />
-              变换含碰撞
+              {selection.kind === 'stamp-placements' ? '组合始终含碰撞' : '变换含碰撞'}
             </label>
           </div>
           <div className="tool-group map-transform-tools">
             <button
               type="button"
               className="tool"
-              disabled={selection.kind !== 'cells' || Boolean(transformIntent)}
+              disabled={
+                selection.kind === 'none' ||
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
+              }
               onClick={() => copyMapSelection()}
               title="复制选区 (Ctrl/⌘+C)"
             >
@@ -2665,10 +2971,11 @@ export function MapMode(props: {
               type="button"
               className="tool"
               disabled={
-                selection.kind !== 'cells' ||
-                activeLayerReadOnly ||
-                selectionHasReadOnlyLayer ||
-                Boolean(transformIntent)
+                selection.kind === 'none' ||
+                (selection.kind === 'cells' &&
+                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
               }
               onClick={cutMapSelection}
               title="剪切选区 (Ctrl/⌘+X)"
@@ -2680,7 +2987,7 @@ export function MapMode(props: {
               className="tool"
               disabled={
                 !clipboard ||
-                activeLayerReadOnly ||
+                (clipboard.kind === 'cells' && activeLayerReadOnly) ||
                 Boolean(transformIntent) ||
                 Boolean(stampGroupEditPlacementId)
               }
@@ -2693,10 +3000,11 @@ export function MapMode(props: {
               type="button"
               className="tool"
               disabled={
-                selection.kind !== 'cells' ||
-                activeLayerReadOnly ||
-                selectionHasReadOnlyLayer ||
-                Boolean(transformIntent)
+                selection.kind === 'none' ||
+                (selection.kind === 'cells' &&
+                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
               }
               onClick={() => beginMove()}
               title="移动选区；通过鼠标或方向键定位"
@@ -2707,8 +3015,10 @@ export function MapMode(props: {
               type="button"
               className="tool"
               disabled={
-                (selection.kind !== 'cells' && !clipboard) ||
-                activeLayerReadOnly ||
+                (selection.kind === 'none' && !clipboard) ||
+                ((selection.kind === 'cells' ||
+                  (selection.kind === 'none' && clipboard?.kind === 'cells')) &&
+                  activeLayerReadOnly) ||
                 (selection.kind === 'cells' && selectionHasReadOnlyLayer) ||
                 Boolean(transformIntent) ||
                 Boolean(stampGroupEditPlacementId)
@@ -2722,10 +3032,11 @@ export function MapMode(props: {
               type="button"
               className="tool danger"
               disabled={
-                selection.kind !== 'cells' ||
-                activeLayerReadOnly ||
-                selectionHasReadOnlyLayer ||
-                Boolean(transformIntent)
+                selection.kind === 'none' ||
+                (selection.kind === 'cells' &&
+                  (activeLayerReadOnly || selectionHasReadOnlyLayer)) ||
+                Boolean(transformIntent) ||
+                Boolean(stampGroupEditPlacementId)
               }
               onClick={() => deleteMapSelection()}
               title="删除选区 (Delete)"
@@ -3187,6 +3498,9 @@ export function MapMode(props: {
             lockedLayerIds={lockedLayerIds}
             editingPlacementId={stampGroupEditPlacementId}
             editingSelection={stampGroupEditSelection}
+            editingBlockedReason={
+              transformIntent ? '正在预览组合变换；请先提交或取消后再编辑或解组。' : undefined
+            }
             notice={workspaceNotice}
             onEnterEdit={enterStampGroupEdit}
             onExitEdit={exitStampGroupEdit}
@@ -3244,7 +3558,11 @@ export function MapMode(props: {
                       onBlur={(event) => {
                         const w = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
                         if (liveMap && Number.isFinite(w) && w !== liveMap.width)
-                          session.dispatch(new ResizeProjectMapCommand(mapId, w, liveMap.height))
+                          requestStampStructureOperation(
+                            { kind: 'resize', width: w, height: liveMap.height },
+                            event.currentTarget,
+                          )
+                        if (liveMap) event.currentTarget.value = String(liveMap.width)
                       }}
                       onKeyDown={(event) => {
                         if (event.key === 'Enter') event.currentTarget.blur()
@@ -3267,7 +3585,11 @@ export function MapMode(props: {
                       onBlur={(event) => {
                         const h = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
                         if (liveMap && Number.isFinite(h) && h !== liveMap.height)
-                          session.dispatch(new ResizeProjectMapCommand(mapId, liveMap.width, h))
+                          requestStampStructureOperation(
+                            { kind: 'resize', width: liveMap.width, height: h },
+                            event.currentTarget,
+                          )
+                        if (liveMap) event.currentTarget.value = String(liveMap.height)
                       }}
                       onKeyDown={(event) => {
                         if (event.key === 'Enter') event.currentTarget.blur()
@@ -3292,7 +3614,10 @@ export function MapMode(props: {
                     disabled={!liveMap}
                     onChange={(e) => {
                       if (e.target.value && liveMap)
-                        session.dispatch(new SetProjectMapTilesetCommand(mapId, e.target.value))
+                        requestStampStructureOperation(
+                          { kind: 'set-tileset', tilesetId: e.target.value },
+                          e.currentTarget,
+                        )
                     }}
                   >
                     {liveMap && !tilesets.some((t) => t.id === liveMap.tilesetId) && (
@@ -3421,6 +3746,56 @@ export function MapMode(props: {
             )
           }}
         />
+      ) : null}
+      {stampStructureIntent ? (
+        <div className="modal-backdrop" role="presentation">
+          <div
+            className="stamp-lifecycle-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="stamp-lifecycle-title"
+            onKeyDown={(event) => {
+              if (event.key !== 'Escape') return
+              event.preventDefault()
+              closeStampStructureDialog()
+            }}
+          >
+            <h2 id="stamp-lifecycle-title">结构操作会影响已放置组合</h2>
+            <p>
+              当前操作会破坏 {stampStructureIntent.placementIds.length} 个放置组合的完整性。
+              可以先解组并保留普通地图内容，或删除这些整组内容后继续。
+            </p>
+            <ul className="stamp-lifecycle-list">
+              {projectMapStampPlacements(stampStructureIntent.map)
+                .filter((placement) => stampStructureIntent.placementIds.includes(placement.id))
+                .map((placement) => (
+                  <li key={placement.id}>
+                    <strong>{placement.sourceStampName ?? '未命名组合'}</strong>
+                    <span className="mono">{placement.id}</span>
+                  </li>
+                ))}
+            </ul>
+            <div className="stamp-lifecycle-actions">
+              <button
+                ref={stampStructureCancelRef}
+                type="button"
+                onClick={() => closeStampStructureDialog()}
+              >
+                取消
+              </button>
+              <button type="button" onClick={() => confirmStampStructureOperation('ungroup')}>
+                先解组 {stampStructureIntent.placementIds.length} 个组合并继续
+              </button>
+              <button
+                type="button"
+                className="danger"
+                onClick={() => confirmStampStructureOperation('delete-groups')}
+              >
+                删除 {stampStructureIntent.placementIds.length} 个组合并继续
+              </button>
+            </div>
+          </div>
+        </div>
       ) : null}
     </>
   )

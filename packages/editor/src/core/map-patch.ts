@@ -104,6 +104,7 @@ function pushRefIssue(
 type MapPatchOwnershipScope =
   | { kind: 'ordinary' }
   | { kind: 'stamp-group-members'; placementId: string }
+  | { kind: 'stamp-group-transform'; placementIds: ReadonlySet<string> }
 
 function inspectProjectMapPatchOwnership(
   map: ProjectMap,
@@ -135,12 +136,17 @@ function inspectProjectMapPatchOwnership(
           ref: { ...write.ref },
           ownerPlacementId,
         })
-    } else if (ownerPlacementId !== scope.placementId) {
+    } else if (
+      scope.kind === 'stamp-group-transform'
+        ? ownerPlacementId !== undefined && !scope.placementIds.has(ownerPlacementId)
+        : ownerPlacementId !== scope.placementId
+    ) {
+      const placementId = scope.kind === 'stamp-group-members' ? scope.placementId : '已选组合'
       issues.push({
-        code: 'outside-stamp-group',
+        code: scope.kind === 'stamp-group-transform' ? 'visual-owned' : 'outside-stamp-group',
         message: ownerPlacementId
-          ? `视觉槽 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${scope.placementId}" 内修改`
-          : `视觉槽 ${key} 不属于放置组 "${scope.placementId}"，组内编辑不能扩张到组外`,
+          ? `视觉槽 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${placementId}" 内修改`
+          : `视觉槽 ${key} 不属于放置组 "${placementId}"，组内编辑不能扩张到组外`,
         ref: { ...write.ref },
         ...(ownerPlacementId ? { ownerPlacementId } : {}),
       })
@@ -161,12 +167,17 @@ function inspectProjectMapPatchOwnership(
           ref: { ...write.ref },
           ownerPlacementId,
         })
-    } else if (ownerPlacementId !== scope.placementId) {
+    } else if (
+      scope.kind === 'stamp-group-transform'
+        ? ownerPlacementId !== undefined && !scope.placementIds.has(ownerPlacementId)
+        : ownerPlacementId !== scope.placementId
+    ) {
+      const placementId = scope.kind === 'stamp-group-members' ? scope.placementId : '已选组合'
       issues.push({
-        code: 'outside-stamp-group',
+        code: scope.kind === 'stamp-group-transform' ? 'collision-owned' : 'outside-stamp-group',
         message: ownerPlacementId
-          ? `碰撞格点 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${scope.placementId}" 内修改`
-          : `碰撞格点 ${key} 不属于放置组 "${scope.placementId}"，组内编辑不能扩张到组外`,
+          ? `碰撞格点 ${key} 属于另一放置组 "${ownerPlacementId}"，不能在组 "${placementId}" 内修改`
+          : `碰撞格点 ${key} 不属于放置组 "${placementId}"，组内编辑不能扩张到组外`,
         ref: { ...write.ref },
         ...(ownerPlacementId ? { ownerPlacementId } : {}),
       })
@@ -204,6 +215,19 @@ export function prepareStampGroupMemberPatch(
   return prepareProjectMapPatchWithOwnership(map, patch, permission, {
     kind: 'stamp-group-members',
     placementId,
+  })
+}
+
+/** 整组 move/delete 的窄入口：选中组或未归组目标可写，其他组永久阻止。 */
+export function prepareStampGroupTransformPatch(
+  map: ProjectMap,
+  patch: ProjectMapPatch,
+  permission: MapPatchPermissionSnapshot,
+  placementIds: ReadonlySet<string>,
+): PreparedProjectMapPatch {
+  return prepareProjectMapPatchWithOwnership(map, patch, permission, {
+    kind: 'stamp-group-transform',
+    placementIds,
   })
 }
 

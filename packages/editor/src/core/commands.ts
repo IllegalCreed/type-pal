@@ -61,7 +61,6 @@ import {
   paintProjectMapCollision,
   paintProjectMapTiles,
   removeProjectMapLayer,
-  resizeProjectMap,
   updateProjectMapLayer,
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
@@ -79,6 +78,11 @@ import {
   prepareProjectMapPatch,
 } from './map-patch.js'
 import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
+import {
+  resolveStampStructureOperation,
+  type StampStructureResolutionOptions,
+} from './stamp-lifecycle.js'
+import { assertTilesetRemovalAllowed, type TilesetRemovalProof } from './tileset-references.js'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -887,32 +891,30 @@ export class AddProjectMapLayerCommand implements Command {
 
 export class RemoveProjectMapLayerCommand implements Command {
   readonly label = '删除地图层'
-  private removed: MapLayerV2 | undefined
-  private removedIndex: number | undefined
+  private prev: ProjectMap | undefined
 
   constructor(
     private readonly mapRel: string,
     private readonly layerId: string,
+    private readonly stampOptions: StampStructureResolutionOptions = {},
   ) {}
 
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || map.layers.length <= 1) return state
-    if (!this.removed) {
-      const index = map.layers.findIndex((layer) => layer.id === this.layerId)
-      if (index < 0) return state
-      this.removed = structuredClone(map.layers[index])
-      this.removedIndex = index
-    }
-    const next = removeProjectMapLayer(map, this.layerId)
+    const next = resolveStampStructureOperation(
+      map,
+      { kind: 'remove-layer', layerId: this.layerId },
+      this.stampOptions,
+    )
+    if (next !== map && !this.prev) this.prev = map
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
-    if (!map || !this.removed || this.removedIndex === undefined) return state
-    const next = insertProjectMapLayer(map, this.removed, this.removedIndex)
-    return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
+    if (!map || !this.prev) return state
+    return { ...state, maps: { ...state.maps, [this.mapRel]: this.prev } }
   }
 }
 
@@ -991,12 +993,17 @@ export class ResizeProjectMapCommand implements Command {
     private readonly mapRel: string,
     private readonly width: number,
     private readonly height: number,
+    private readonly stampOptions: StampStructureResolutionOptions = {},
   ) {}
 
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map) return state
-    const next = resizeProjectMap(map, this.width, this.height)
+    const next = resolveStampStructureOperation(
+      map,
+      { kind: 'resize', width: this.width, height: this.height },
+      this.stampOptions,
+    )
     if (next === map) return state
     if (!this.prev) this.prev = map
     return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
@@ -1015,29 +1022,36 @@ export class ResizeProjectMapCommand implements Command {
  */
 export class SetProjectMapTilesetCommand implements Command {
   readonly label = '换瓦片集'
-  private prev: string | undefined
+  private prev: ProjectMap | undefined
 
   constructor(
     private readonly mapRel: string,
     private readonly tileset: string,
+    private readonly stampOptions: StampStructureResolutionOptions = {},
   ) {}
 
   apply(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || map.tilesetId === this.tileset) return state
-    if (this.prev === undefined) this.prev = map.tilesetId
+    const next = resolveStampStructureOperation(
+      map,
+      { kind: 'set-tileset', tilesetId: this.tileset },
+      this.stampOptions,
+    )
+    if (next === map) return state
+    if (!this.prev) this.prev = map
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: { ...map, tilesetId: this.tileset } },
+      maps: { ...state.maps, [this.mapRel]: next },
     }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
-    if (!map || this.prev === undefined) return state
+    if (!map || !this.prev) return state
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: { ...map, tilesetId: this.prev } },
+      maps: { ...state.maps, [this.mapRel]: this.prev },
     }
   }
 }
@@ -1085,12 +1099,16 @@ export class RemoveTilesetCommand implements Command {
   private removedIndex: number | undefined
   private removedBlob: ArrayBuffer | undefined
 
-  constructor(private readonly tilesetId: string) {}
+  constructor(
+    private readonly tilesetId: string,
+    private readonly proof?: TilesetRemovalProof,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const list = state.tilesets ?? []
     const index = list.findIndex((t) => t.id === this.tilesetId)
     if (index < 0) return state
+    assertTilesetRemovalAllowed(state, this.tilesetId, this.proof)
     if (!this.removed) {
       this.removed = structuredClone(list[index])
       this.removedIndex = index

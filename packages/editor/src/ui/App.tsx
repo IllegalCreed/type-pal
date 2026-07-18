@@ -996,6 +996,7 @@ export function App(props: {
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenMap={(id) => applyEditorLocation(editorLinks.map(id))}
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
+            onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
           />
         ) : (
           <>

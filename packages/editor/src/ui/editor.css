@@ -2776,6 +2776,81 @@ html[data-panel-resize="horizontal"] * {
   display: grid;
   gap: 7px;
 }
+.tileset-removal-check {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel2);
+}
+.tileset-removal-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--dim);
+  font-size: 10px;
+}
+.tileset-removal-progress span {
+  color: var(--faint);
+  font-size: 9px;
+}
+.tileset-removal-warning,
+.tileset-removal-safe {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.tileset-removal-warning {
+  color: #efb47f;
+}
+.tileset-removal-safe {
+  color: #92c6a5;
+}
+.tileset-removal-refs {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.tileset-removal-refs > span {
+  color: var(--faint);
+  font-size: 9px;
+}
+.tileset-removal-refs > button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: center;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--dim);
+  cursor: pointer;
+  text-align: left;
+}
+.tileset-removal-refs > button:disabled {
+  cursor: default;
+  opacity: 0.58;
+}
+.tileset-removal-refs strong,
+.tileset-removal-refs .mono {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileset-removal-refs .mono {
+  color: var(--faint);
+  font-size: 8px;
+}
+.tileset-removal-refs > button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
 .tileset-primary-action {
   border-color: var(--accent);
   background: var(--accent);
@@ -2796,6 +2871,10 @@ html[data-panel-resize="horizontal"] * {
 .tileset-danger-action:hover {
   border-color: var(--err);
   background: color-mix(in srgb, var(--err) 13%, var(--panel2));
+}
+.tileset-danger-action:disabled {
+  cursor: wait;
+  opacity: 0.5;
 }
 .tileset-error {
   margin: 10px 12px;
@@ -5484,6 +5563,87 @@ html[data-panel-resize="horizontal"] * {
   place-items: center;
   padding: 20px;
   background: rgba(4, 6, 10, 0.72);
+}
+.stamp-lifecycle-dialog {
+  display: grid;
+  gap: 12px;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 40px);
+  padding: 18px;
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--warn) 48%, var(--line));
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--fg);
+  box-shadow: 0 20px 64px rgba(0, 0, 0, 0.52);
+}
+.stamp-lifecycle-dialog h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.stamp-lifecycle-dialog > p {
+  margin: 0;
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.stamp-lifecycle-list {
+  display: grid;
+  gap: 5px;
+  max-height: 180px;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
+  list-style: none;
+}
+.stamp-lifecycle-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  font-size: 11px;
+}
+.stamp-lifecycle-list strong,
+.stamp-lifecycle-list span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stamp-lifecycle-list span {
+  color: var(--faint);
+  font-size: 9px;
+}
+.stamp-lifecycle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.stamp-lifecycle-actions button {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
+  color: var(--fg);
+  cursor: pointer;
+  font: 11px / 1.3 var(--sans);
+}
+.stamp-lifecycle-actions button.danger {
+  border-color: color-mix(in srgb, var(--err) 55%, var(--line));
+  color: #f0aaaa;
+}
+.stamp-lifecycle-actions button:hover {
+  border-color: var(--accent);
+}
+.stamp-lifecycle-actions button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 76%, white);
+  outline-offset: 2px;
 }
 .cutscene-import-dialog {
   display: grid;
