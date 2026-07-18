@@ -603,10 +603,54 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   100 组的端到端 mutation median 0.136ms / p95 0.304ms，第 65 笔有界压实 max 9.40ms；
   1280/1024/768 三档布局与 fresh Console 复核通过。未发现未解决 P0/P1/P2。
 - Kimi: pending。
-- GLM: pending。
+- GLM: **accept（2026-07-18;见下）**。独立复跑 + 代码逻辑审查（读源码逐路径推演）。editor 414 / content 229 / reforge 419 / migrate 219+1skip 全绿。
+
+  **(1) 测试复跑** ✅：editor 52 files/414 + content 22 files/229 + reforge 46 files/419 + migrate 31 files/219+1skip = 全 pass。
+
+  **(2) ProjectMap v2/v3 代码逻辑审查** ✅：
+  - **判别联合**：`ProjectMapV2(authoring?: never)` / `ProjectMapV3(authoring: required)`（project-map.ts:59-71）——类型级安全，v2 携 authoring 是编译错误。✅
+  - **validate 按 version 分派**（:324-329）：2→validateV2（:310 禁 authoring throw）/ 3→validateV3 / 其他 throw `仅支持 2 或 3`。✅
+  - **format 条件发 v3**（:385-390）：v3 才 push authoring fields；v2 永不物化空字段。formatV2（:393-395）额外 re-validate 防 v3 静默降级。✅
+  - **StampPlacementGroupV1**（:43-56）：只存身份（id/sourceStampId?/sourceStampName?/anchor/visualSlots/gridPoints），不存 tile 值快照（S7）。✅
+
+  **(3) stamps.json schema + MG2 代码逻辑审查** ✅：
+  - **StampTemplateV1**（stamp.ts:29-39）：`{dRow,du}` 错排坐标（validator :67-68 同奇偶校验）；collision-only 拒绝（:107-108）；重复 id/offset 去重。✅
+  - **MG2 id-mode**：migration-merge.ts:48 正则含 `stamps`（G2 落地）；authored 整条接管（:280-287 `cloneNode(ours)`）；manifest.content.stamps 登记（pal-manifest.ts:25）。✅
+  - **MG2 测试**：migration-merge.test.ts:113-131 authored 接管 + :133-150 上游删除保 authored。✅
+
+  **(4) ownership 局部 canonicalizer + delta cache 代码逻辑审查** ✅：
+  - **WeakMap 缓存**（stamp-ownership.ts:19,74-80）：key=`ProjectMap` 引用，值=完整索引；普通矩阵编辑 `inheritStampPlacementIndex`（:86-90）共享同索引。✅
+  - **OverlayLookupMap 差分**（:29-59）：base lookup + changes map（含 REMOVED_ENTRY）；size 增量计算；`get`/`has` 先查 changes 再委托 base。✅
+  - **局部 canonicalizer**（stamp-placement-mutation.ts:63-177）：只 revalidate/upsert 成员（:85-155），unchanged placements 引用传递（:159 filter）不重扫；ownership 冲突查 beforeIndex（:112-114/:134-136），非本批 mutableOwnerIds 的已有 owner → throw（S8）。✅
+  - **有界压实**（:129-134）：depth≥MAX_OVERLAY_DEPTH(64) 时全量 rebuild。3000/36000/24000 索引尺寸断言（stamp-ownership.test.ts:79-81）+ 10000 次缓存 lookup 零 authoring 读（:95）+ 80 步连续差分跨压实边界语义一致（:162-183）。✅
+
+  **(5) PlaceStampCommand 原子事务 + revision guard** ✅：
+  - **顺序不可交换**（stamp-placement-command.ts:33）：先 `applyPreparedProjectMapPatch`（写矩阵）→ 再 `applyStampPlacementMutation`（登记 placement，此时矩阵已有非空 tile 保证 invariant）。✅
+  - **invert 恢复 beforeMap 引用**（:52-58）：矩阵+metadata 同时原子恢复。✅
+  - **ownership 在 plan 期拦截**（stamp-placement.ts:265-271,312-317）：`visual-ownerByKey`/`collisionOwnerByKey` 查已有 owner → push issue → canApply=false → Command 构造 throw。✅
+  - **Paint* 命令也不能越权**（stamp-placement-command.test.ts:151-168）：PaintTiles/PaintCollision on owned slot throw `进入组内编辑或先解组`，state/dirty/redo 不变。✅（P2 全写路径守卫）
+  - **revision guard**（edit-session.ts:178-183）：`dispatchAtMapRevision` 比对 `getMapRevision` vs expected，mismatch throw `已变化`；undo 后旧 revision dispatch 被 reject 且不清 redo（test :170-184）。✅（P3）
+
+  **(6) P4 体积 + 性能** ✅：
+  - **P4 fixture**（project-map.test.ts:281-328）：80×40 / 4 layers / 300 placements × (12 visual + 8 collision) = **337881 bytes < 900000**（:326 assert）；二次格式化字节完全一致 `formatProjectMap(parseProjectMap(first))===first`（:327）。✅
+  - **性能**（Codex 实测，代码结构验证）：3000×20 连续 100 组 median 0.136ms / p95 0.304ms；第 65 笔压实 max 9.40ms（MAX_OVERLAY_DEPTH=64 触发全量 rebuild，测试 :162-183 验证语义一致）。✅
+
+  **(7) 关键测试用例确认** ✅：
+  - v2→v3 首次放置（mutation.test:34-73 + command.test:84-106）✅
+  - v3→v2 删最后一组（mutation.test:68-72 + group-transform.test:200-210 + group-command.test:244-267）✅
+  - copy-through 保留 v3 未加载地图原文本（project-io.ts:148-153,205-219 raw text 不 parse）✅
+  - stamps MG2 id-merge authored 接管（migration-merge.test:113-150）✅
+  - ownership 冲突 reject（mutation.test:75-90 + plan-level issues）✅
+  - group move/copy/delete/repeat undo/redo（group-command.test + group-transform.test）✅
+  - ungroup 保留 tile（group-command.test:244-267 `layers===layers` `collision===collision` 同引用）✅
+
+  **总结**：v2/v3 判别联合类型级安全 + 条件版本发出/降回；stamps MG2 id-merge + authored 整条接管（G1/G2/G3 全落地）；ownership WeakMap+Overlay 差分缓存 + 局部 canonicalizer + 有界压实（3000/36000/24000 + 10000 次零读验证）；PlaceStampCommand 原子顺序+invert+revision guard；P4 337881<900000 字节稳定；性能 median 0.136ms/p95 0.304ms。**accept**。
+
+  **非阻塞观察**：跨地图粘贴首版显式拒绝（stamp-group-transform.ts:205 `'组合首版不支持跨地图粘贴'`）——有意 scope cut，非缺陷。
+
 - counter / 返工处理:N/A。
-- 缺签豁免:N/A。
-- done 准入结论:**blocked**。
+- 缺签豁免: N/A。
+- done 准入结论:**Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**。
 
 ## 额度 / 代班记录
 
@@ -873,6 +917,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   52 files / 414 editor tests、根 `pnpm check`、production build、fresh browser。Codex 签 done `accept`，
   Status 保持 review。Next:Kimi 做架构/状态机/视觉独立复审，GLM 做数据/覆盖/性能证据独立复审；
   两方只可更新任务卡审查记录，不得修改实现，三签不齐不得标 done。
+- 2026-07-18 GLM: done 数据/覆盖/性能复审签 **accept**。独立复跑 editor 414/content 229/reforge 419/migrate 219+1skip 全绿 + 代码逻辑审查（读源码逐路径推演）。ProjectMap v2/v3：判别联合 `V2(authoring?:never)`/`V3(authoring:required)` 类型级安全，validate 按 version 分派 2|3，format 条件发 v3 不物化空字段。stamps.json MG2：id-mode 正则含 stamps（migration-merge.ts:48），authored 整条接管 cloneNode（:280-287），manifest.content.stamps 登记（G1/G2/G3 全落地）。ownership：WeakMap 缓存+OverlayLookupMap 差分(depth≤64 有界压实)+局部 canonicalizer 只校验当前 upsert 不重扫全量；3000/36000/24000 索引尺寸断言+10000 次缓存 lookup 零 authoring 读+80 步连续差分跨压实边界语义一致。PlaceStampCommand：先矩阵再 placement（:33 顺序不可交换）+invert 恢复 beforeMap+revision guard dispatchAtMapRevision+Paint* 越权 throw。P4：337881<900000 bytes+二次格式化字节稳定。性能：3000×20 连续 100 组 median 0.136ms/p95 0.304ms+第 65 笔压实 max 9.40ms。关键测试：v2→v3/v3→v2/copy-through/MG2 authored/ownership reject/group transform undo-redo/ungroup 保留 tile 全确认。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
