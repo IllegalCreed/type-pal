@@ -1,8 +1,8 @@
 # TASK-ID - 任务标题
 
 Status: build | review | done
-Owner: Codex | Opus | GLM
-Reviewer: Opus | GLM | N/A
+Owner: Codex | Kimi | GLM
+Reviewer: Kimi | GLM | N/A
 Phase: phase1 | phase2 | ops
 Capability: W7 / A4 / ops / etc.
 
@@ -19,8 +19,8 @@ Capability: W7 / A4 / ops / etc.
 -
 
 ## 推进签字
-- build 准入: Codex pending | Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
-- done 准入: Codex pending | Opus pending | GLM pending | 用户豁免 N/A | 结论 blocked
+- build 准入: Codex pending | Kimi pending | GLM pending | 用户豁免 N/A | 结论 blocked
+- done 准入: Codex pending | Kimi pending | GLM pending | 用户豁免 N/A | 结论 blocked
 
 ## 交接
 - YYYY-MM-DD Actor: 摘要。Evidence: 链接/测试。Next: actor/state。

@@ -5,9 +5,9 @@ Phase: phase1 | phase2 | ops
 Capability: W7 / A4 / B5 / etc.
 Coding Owner: Unassigned
 Generation Owner: Codex | N/A
-Reviewer: Opus | GLM | both | TBD
-Visual Verification Owner: Codex | Opus | User | N/A
-Unavailable Agents: none | Codex | Opus | GLM | multiple
+Reviewer: Kimi | GLM | both | TBD
+Visual Verification Owner: Codex | Kimi | User | N/A
+Unavailable Agents: none | Codex | Kimi | GLM | multiple
 Branch: TBD
 
 ## 目标
@@ -44,7 +44,7 @@ Branch: TBD
 ### 进入 build 前:设计签字
 
 - Codex: pending | agree | counter
-- Opus: pending | agree | counter
+- Kimi: pending | agree | counter
 - GLM: pending | agree | counter
 - counter / 分歧处理:
 - 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
@@ -53,7 +53,7 @@ Branch: TBD
 ### 进入 done 前:审查签字
 
 - Codex: pending | accept | counter
-- Opus: pending | accept | counter
+- Kimi: pending | accept | counter
 - GLM: pending | accept | counter
 - counter / 返工处理:
 - 缺签豁免: N/A | 用户已批准(写明缺席方、原因、代班方、是否需补签)
@@ -72,7 +72,7 @@ Branch: TBD
 
 ### 主审立场
 
-按任务性质选择一个默认主审方。架构/schema/跨包/视觉高风险优先 Opus;覆盖/数据/文档优先 GLM。主审立场不替代“推进签字”。
+按任务性质选择一个默认主审方。架构/schema/跨包/视觉高风险优先 Kimi;覆盖/数据/文档优先 GLM。主审立场不替代“推进签字”。
 
 - Reviewer:
 - 结论:
@@ -84,7 +84,7 @@ Branch: TBD
 仅在 schema/save/migration/asset pipeline、新能力格、跨包公共接口、capability-map 状态变化、签字 counter、用户要求或 Coding Owner 自评高风险时填写。
 
 - Codex:
-- Opus:
+- Kimi:
 - GLM:
 - 用户拍板:
 

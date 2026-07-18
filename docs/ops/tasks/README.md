@@ -9,7 +9,7 @@
 1. 不可逆/高风险任务复制 [`TASK-template.md`](TASK-template.md)。
 2. 中等任务复制 [`TASK-lite-template.md`](TASK-lite-template.md)。
 3. 如任务正在进行或阻塞,在 [`../board.md`](../board.md) 增加一行。
-4. 填写推进签字。非小改/已开卡任务必须集齐 Codex、Opus、GLM 三方签字后才能进入 `build`;进入 `done` 前也必须集齐三方审查签字。
+4. 填写推进签字。非小改/已开卡任务必须集齐 Codex、Kimi、GLM 三方签字后才能进入 `build`;进入 `done` 前也必须集齐三方审查签字。
 5. 跨 Agent 交接时,当前 Agent 必须在任务卡和最终回复中给出“下一位 Agent 提示词”,方便用户直接复制给下一位。
 6. 按 `draft -> build -> review -> done` 推进,必要时记录 `blocked` 或 `rework`。签字不齐时不得只靠 `Status` 推进。
 

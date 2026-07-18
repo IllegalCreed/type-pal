@@ -1,6 +1,8 @@
 # 三贤人系统工作流
 
-“三贤人系统”是本项目的多 Agent 协作机制,由 Codex、Claude Opus、GLM 和用户共同组成。本文定义这套系统如何在 type-pal 中协同工作:把聊天里的临时上下文落成仓库里的可追踪状态,同时不让流程拖慢迭代。
+“三贤人系统”是本项目的多 Agent 协作机制,由 Codex、Kimi、GLM 和用户共同组成。本文定义这套系统如何在 type-pal 中协同工作:把聊天里的临时上下文落成仓库里的可追踪状态,同时不让流程拖慢迭代。
+
+席位迁移(用户拍板,2026-07-18):自本日起 Kimi 接替 Claude Opus 成为现役成员。历史上的 Opus 签字、审查结论、作者归属和交接记录保持原样,已经生效的阶段门禁不重开;迁移时仍为 `pending` 的原架构审查席位及所有未来席位统一改由 Kimi 承接。
 
 ## 文件分工
 
@@ -17,11 +19,11 @@
 | 角色 | 模型 | 主要职责 |
 |---|---|---|
 | 主力编码 / 资源生成 | Codex | 本地实现、测试、浏览器验证、git 收口、AI 生图和替代资源生成。 |
-| 架构审查 / 代码审查 | Claude Opus | 设计压力测试、架构风险、代码审查、视觉级验证代班。 |
+| 架构审查 / 代码审查 | Kimi | 设计压力测试、架构风险、代码审查、视觉级验证代班。 |
 | 覆盖审查 | GLM | 通读审计、中文文档、测试矩阵、数据/schema 覆盖。 |
 | 产品裁决 | User | 优先级、范围取舍、最终验收、分歧拍板。 |
 
-Codex 通常是 Coding Owner;需要 AI 生图或批量替代资源生成时,Codex 是唯一 Generation Owner。Opus 和 GLM 是默认审查方池。
+Codex 通常是 Coding Owner;需要 AI 生图或批量替代资源生成时,Codex 是唯一 Generation Owner。Kimi 和 GLM 是默认审查方池。
 
 ## 状态机
 
@@ -44,7 +46,7 @@ draft -> build -> review -> done
 `draft -> build` 前必须集齐三方设计签字:
 
 - Codex: 对实现可行性、验证方案、资源/工具能力签 `agree` 或 `counter`。
-- Opus: 对架构、边界、视觉/UX 风险签 `agree` 或 `counter`。
+- Kimi: 对架构、边界、视觉/UX 风险签 `agree` 或 `counter`。
 - GLM: 对覆盖清单、测试矩阵、文档/数据风险签 `agree` 或 `counter`。
 
 三方均为 `agree` 时,`build 准入结论` 才能写 `build allowed`。只要存在 `pending` 或 `counter`,Coding Owner 不得修改实现文件,任务留在 `draft` 或转 `blocked`。
@@ -54,7 +56,7 @@ draft -> build -> review -> done
 `review -> done` 前必须集齐三方审查签字:
 
 - Codex: 对自测、实现交接和剩余风险签 `accept` 或 `counter`。
-- Opus: 对代码/架构/视觉复验签 `accept` 或 `counter`。
+- Kimi: 对代码/架构/视觉复验签 `accept` 或 `counter`。
 - GLM: 对覆盖、测试矩阵、文档和遗漏风险签 `accept` 或 `counter`。
 
 三方均为 `accept` 时,`done 准入结论` 才能写 `done allowed`。只要存在 `pending` 或 `counter`,不得提交最终收口或标记 `done`。
@@ -70,7 +72,7 @@ draft -> build -> review -> done
 
 ## 交接提示词
 
-用户是三贤人系统的路由器,所以每次跨 Agent 交接都必须降低用户搬运成本。当前 Agent 完成一个阶段后,只要下一步需要用户把任务发给 Codex / Opus / GLM 之一,就必须提供一段可直接复制的提示词。
+用户是三贤人系统的路由器,所以每次跨 Agent 交接都必须降低用户搬运成本。当前 Agent 完成一个阶段后,只要下一步需要用户把任务发给 Codex / Kimi / GLM 之一,就必须提供一段可直接复制的提示词。
 
 交接提示词同时写在两处:
 
@@ -128,15 +130,15 @@ draft -> build -> review -> done
 小改和未开卡的常规迭代默认两方参与:
 
 - 实现方:通常为 Codex。
-- 审查方:按任务性质选择 Opus 或 GLM。
+- 审查方:按任务性质选择 Kimi 或 GLM。
 
 已开任务卡的任务必须按“推进签字”集齐三方签字;下列审查方选择只决定谁主审、谁先审,不取消开卡任务的三签门禁。
 
 审查方选择:
 
-- 架构、schema、跨包边界、引擎抽象、公共接口、视觉级高风险任务:优先 Opus。
+- 架构、schema、跨包边界、引擎抽象、公共接口、视觉级高风险任务:优先 Kimi。
 - 覆盖清单、数据迁移、测试矩阵、中文文档:优先 GLM。
-- UI/UX 形态争议:优先 Opus;必要时 GLM 补清单,用户拍板。
+- UI/UX 形态争议:优先 Kimi;必要时 GLM 补清单,用户拍板。
 
 必须三方参与的情况:
 
@@ -193,10 +195,10 @@ draft -> build -> review -> done
 
 | 缺席账号 | 可代班方 | 限制 |
 |---|---|---|
-| Codex | Opus 可全量代班编码/验证/git 收口;GLM 可代写方案或代码草案,由 Opus 或用户安排落地 | AI 生图和批量替代资源生成暂停等待 Codex,或由用户另行安排。 |
-| Opus | GLM + Codex | 可临时代架构审查;高风险架构决策标记“待 Opus 补审”。 |
-| GLM | Opus + Codex | 可临时代覆盖/文档/测试矩阵审查;大范围数据/文档任务标记“待 GLM 补审”。 |
-| Opus + GLM | Codex | Codex 可推进小改;非平凡/高风险任务需用户确认是否允许单 Agent 推进。 |
+| Codex | Kimi 可全量代班编码/验证/git 收口;GLM 可代写方案或代码草案,由 Kimi 或用户安排落地 | AI 生图和批量替代资源生成暂停等待 Codex,或由用户另行安排。 |
+| Kimi | GLM + Codex | 可临时代架构审查;高风险架构决策标记“待 Kimi 补审”。 |
+| GLM | Kimi + Codex | 可临时代覆盖/文档/测试矩阵审查;大范围数据/文档任务标记“待 GLM 补审”。 |
+| Kimi + GLM | Codex | Codex 可推进小改;非平凡/高风险任务需用户确认是否允许单 Agent 推进。 |
 
 补审规则:
 
@@ -223,7 +225,7 @@ draft -> build -> review -> done
 第二阶段会逐步用自有美术资源替换原有资源。凡涉及 AI 生图、批量生成贴图、立绘、头像、图标、场景素材等任务:
 
 - Codex 必须是 Generation Owner,负责实际生成图片、落位文件、更新资源索引和本地验证。
-- Opus 负责审查美术方向与系统架构、资源管线、UX 形态是否冲突。
+- Kimi 负责审查美术方向与系统架构、资源管线、UX 形态是否冲突。
 - GLM 负责审查替换清单、尺寸/命名、覆盖率、测试矩阵和文档。
 - 任务卡必须记录:
   - 生成目的和替换对象。
@@ -240,8 +242,8 @@ Codex 可在本仓库中通过本地 dev server、Playwright/浏览器工具和�
 约束:
 
 - 若当前会话缺少浏览器工具、资产或服务不可用,必须在任务卡和最终回复中明确标记视觉验证未完成。
-- 未完成的视觉验证必须指定 Opus 或用户补验,或由用户明确接受风险。
-- 高风险 canvas/像素级任务即使由 Codex 实现,也优先让 Opus 做 review 或补验。
+- 未完成的视觉验证必须指定 Kimi 或用户补验,或由用户明确接受风险。
+- 高风险 canvas/像素级任务即使由 Codex 实现,也优先让 Kimi 做 review 或补验。
 
 ## 看板规则
 

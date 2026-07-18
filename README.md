@@ -128,4 +128,4 @@ pnpm --filter @type-pal/migrate run audit:maps        # 地图体积/往返审�
 - `data/extracted/` 是生成物,不要手改;资源问题应修 `packages/pal-extract`。
 - 第二阶段数据迁移缺陷必须先修上游(迁移器/提取器),再重新生成产物,不得手改 `projects/pal`。
 - `pnpm check` 是主要门禁;视觉、音频、长剧情和真机路线问题还需要浏览器实测。
-- 多 Agent 协作(三贤人系统:Codex/Opus/GLM)协议见 [`AGENTS.md`](AGENTS.md)。
+- 多 Agent 协作(三贤人系统:Codex/Kimi/GLM)协议见 [`AGENTS.md`](AGENTS.md)。
