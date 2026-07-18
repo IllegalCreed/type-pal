@@ -138,7 +138,7 @@ describe('MapSelectionInspector React output', () => {
     host.remove()
   })
 
-  test('保存为图章只要求非空视觉实例，transform 预览时禁用并能打开独立图章库', async () => {
+  test('保存为组合只要求非空视觉实例，transform 预览时禁用并能打开独立组合库', async () => {
     const { map, selection } = fixture()
     const host = document.createElement('div')
     document.body.append(host)
@@ -163,14 +163,14 @@ describe('MapSelectionInspector React output', () => {
     )
     await act(async () => root.render(render()))
     const save = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-      candidate.textContent?.includes('保存为图章'),
+      candidate.textContent?.includes('保存为组合'),
     )!
     expect(save.disabled).toBe(false)
     await act(async () => save.click())
     expect(onSaveAsStamp).toHaveBeenCalledOnce()
     await act(async () =>
       [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('打开图章库'))!
+        .find((candidate) => candidate.textContent?.includes('打开组合库'))!
         .click(),
     )
     expect(onOpenStampLibrary).toHaveBeenCalledOnce()
@@ -178,7 +178,7 @@ describe('MapSelectionInspector React output', () => {
     await act(async () => root.render(render('正在预览地图变换')))
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-        candidate.textContent?.includes('保存为图章'),
+        candidate.textContent?.includes('保存为组合'),
       )?.disabled,
     ).toBe(true)
 
@@ -192,7 +192,7 @@ describe('MapSelectionInspector React output', () => {
     )
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-        candidate.textContent?.includes('保存为图章'),
+        candidate.textContent?.includes('保存为组合'),
       )?.disabled,
     ).toBe(true)
     await act(async () => root.unmount())

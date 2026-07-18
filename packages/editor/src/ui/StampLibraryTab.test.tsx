@@ -210,7 +210,7 @@ describe('StampLibraryTab', () => {
     })
     expect(onStatusNotice).toHaveBeenLastCalledWith({
       kind: 'error',
-      message: '图章来源扫描不完整：1 张地图读取失败。',
+      message: '组合来源扫描不完整：1 张地图读取失败。',
     })
 
     await act(async () => {

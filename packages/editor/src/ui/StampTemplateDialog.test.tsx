@@ -139,7 +139,7 @@ describe('StampTemplateDialog', () => {
     await act(async () =>
       document.querySelector<HTMLInputElement>('[name="stamp-include-collision"]')!.click(),
     )
-    await act(async () => button('创建图章').click())
+    await act(async () => button('创建组合').click())
 
     const created = session.getState().stamps[0]!
     expect(created).toMatchObject({ name: '双层树', tilesetId: 'tiles-a', origin: 'authored' })
@@ -173,7 +173,7 @@ describe('StampTemplateDialog', () => {
       ),
     )
 
-    expect(document.querySelector<HTMLInputElement>('[name="stamp-name"]')?.value).toBe('新图章')
+    expect(document.querySelector<HTMLInputElement>('[name="stamp-name"]')?.value).toBe('新组合')
     expect(document.querySelector<HTMLInputElement>('[name="stamp-category"]')?.value).toBe('')
     expect(document.querySelector<HTMLInputElement>('[name="stamp-slot-floor"]')?.value).toBe(
       '地板',
@@ -185,7 +185,7 @@ describe('StampTemplateDialog', () => {
     await act(async () => button('更新已有模板').click())
     expect(document.querySelector<HTMLInputElement>('[name="stamp-name"]')?.value).toBe('旧树')
     await act(async () => button('新建模板').click())
-    expect(document.querySelector<HTMLInputElement>('[name="stamp-name"]')?.value).toBe('新图章')
+    expect(document.querySelector<HTMLInputElement>('[name="stamp-name"]')?.value).toBe('新组合')
     expect(document.querySelector<HTMLInputElement>('[name="stamp-slot-floor"]')?.value).toBe(
       '地板',
     )
@@ -263,7 +263,7 @@ describe('StampTemplateDialog', () => {
     )
     const idInput = document.querySelector<HTMLInputElement>('[name="stamp-id"]')!
     await input(idInput, 'bad/id')
-    await act(async () => button('创建图章').click())
+    await act(async () => button('创建组合').click())
     await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
     expect(idInput.getAttribute('aria-invalid')).toBe('true')
     expect(document.activeElement).toBe(idInput)

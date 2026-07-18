@@ -7,7 +7,7 @@ import {
 } from '@type-pal/reforge'
 import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
-import { buildStampPlacementIndex } from './stamp-ownership.js'
+import { buildStampPlacementIndex, inheritStampPlacementIndex } from './stamp-ownership.js'
 
 export type ProjectMapVisualWrite =
   | { channel: 'tileId'; ref: VisualSlotRef; value: number | null }
@@ -389,9 +389,10 @@ export function applyPreparedProjectMapPatch<T extends ProjectMap>(
   const tileEdits: ProjectMapTileEdit[] = visual.map((write) => ({ ...write }))
   const collisionEdits: ProjectMapCollisionEdit[] = collision.map((write) => ({ ...write }))
   const withVisual = tileEdits.length > 0 ? paintProjectMapTiles(map, tileEdits) : map
-  return collisionEdits.length > 0
-    ? paintProjectMapCollision(withVisual, collisionEdits)
-    : withVisual
+  const next =
+    collisionEdits.length > 0 ? paintProjectMapCollision(withVisual, collisionEdits) : withVisual
+  inheritStampPlacementIndex(map, next)
+  return next
 }
 
 export function cloneProjectMapPatch(patch: ProjectMapPatch): ProjectMapPatch {

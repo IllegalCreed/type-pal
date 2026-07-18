@@ -62,7 +62,7 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
   }, [category, query, recentRank, stamps, tilesetId])
 
   return (
-    <section className="map-stamp-palette" aria-label="地图图章模板">
+    <section className="map-stamp-palette" aria-label="地图组合模板">
       <div className="map-stamp-filters">
         <input
           className="in"
@@ -72,13 +72,13 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
             setQuery(event.target.value)
             setLimit(INITIAL_LIMIT)
           }}
-          placeholder="搜索图章"
-          aria-label="搜索地图图章"
+          placeholder="搜索组合…"
+          aria-label="搜索地图组合"
         />
         <select
           className="in"
           value={category}
-          aria-label="筛选图章分类"
+          aria-label="筛选组合分类"
           onChange={(event) => {
             setCategory(event.target.value)
             setLimit(INITIAL_LIMIT)
@@ -131,8 +131,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
         </div>
       ) : (
         <div className="map-stamp-empty">
-          <strong>没有匹配图章</strong>
-          <span>可从地图选区保存，或到图章库管理模板。</span>
+          <strong>没有匹配组合</strong>
+          <span>可从地图选区保存，或到组合库管理模板。</span>
         </div>
       )}
       <div className="map-stamp-palette-actions">
@@ -144,7 +144,7 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
         <span className="spacer" />
         {onOpenLibrary ? (
           <button type="button" className="mini" onClick={onOpenLibrary}>
-            管理图章 ↗
+            管理组合 ↗
           </button>
         ) : null}
       </div>

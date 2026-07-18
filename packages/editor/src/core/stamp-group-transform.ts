@@ -143,7 +143,7 @@ export function captureStampGroupClipboard(
 
 function nextCopyId(
   sourceId: string,
-  existingIds: ReadonlyMap<string, unknown>,
+  existingIds: Pick<ReadonlyMap<string, unknown>, 'has'>,
   reservedIds: Set<string>,
 ): string {
   const isTaken = (id: string) => existingIds.has(id) || reservedIds.has(id)

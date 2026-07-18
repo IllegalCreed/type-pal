@@ -1,6 +1,6 @@
 # W7G - 组合地物图章与可持久放置组
 
-Status: build
+Status: review
 Phase: phase2
 Capability: W7 / W8 / MG2
 Coding Owner: Codex
@@ -359,11 +359,19 @@ collision 叠加层是否可见不改变数据作用域。若 placement 仅剩 c
 
 ### UI / UX
 
-图章不塞回当前“瓦片集详情”长列表。建议形成三个清楚入口:
+面向作者的可见术语统一为“组合”;内部 schema、类型、文件名和代码仍保留稳定的 `stamp` 命名。最终地图
+工作区不把组合塞回“瓦片集详情”长列表,采用三段职责布局:
 
-1. **地图工作区图章面板**:普通瓦片 / 图章两个同级模式;图章支持搜索、分类、缩略图和最近使用。
-2. **从选区保存为图章**:W8 Inspector/选区操作区提供入口,随后设置 anchor、名称、分类和 layer slot。
-3. **图章库管理页**:独立 CRUD、预览、来源 tileset、使用诊断和显式“用当前选区更新模板”。
+1. **左侧地图与图层区**:地图、图层列表以及扁平的“视图与笔刷”控制；图层/高度滑杆和紧凑聚焦按钮
+   属于侧栏导航,不再作为悬浮卡片遮挡地图。
+2. **中央纯画布**:工具条、缩放状态和唯一 canvas；候选、变换与属性反馈均移到右栏,viewport 内没有
+   DOM 浮层。
+3. **右侧属性 / 瓦片 / 组合 Tab**:属性承载地图/图层/选区/候选/变换；瓦片承载普通 tile；组合承载
+   搜索、分类、缩略图、最近使用和显式槽映射。组合面板首次访问后保留筛选态,Tab 切换不改工具、
+   选区、mapping、history、revision 或 dirty。
+
+另有两个独立入口:W8 Inspector 从选区保存组合（设置 anchor、名称、分类和 layer slot）；“组合库”
+负责 CRUD、预览、来源 tileset、使用诊断和显式“用当前选区更新模板”。
 
 落笔前画布显示跨层完整 ghost、anchor、碰撞覆盖和逐项错误;右侧显示 layer slot 映射,而不是让作者
 猜活动层会落到哪里。整组选中时 Inspector 显示来源、成员层/数量、collision 数、锁定原因以及
@@ -590,7 +598,10 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 ### 进入 done 前:审查签字
 
-- Codex: pending。
+- Codex: **accept（2026-07-18）**。A-F 实现、自测、真实 PAL 浏览器走查与最终 diff 复审完成；
+  `pnpm check` 全仓通过（editor 52 files / 414 tests），production build 通过，3000×20 连续新增
+  100 组的端到端 mutation median 0.136ms / p95 0.304ms，第 65 笔有界压实 max 9.40ms；
+  1280/1024/768 三档布局与 fresh Console 复核通过。未发现未解决 P0/P1/P2。
 - Kimi: pending。
 - GLM: pending。
 - counter / 返工处理:N/A。
@@ -719,10 +730,35 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   - `@type-pal/reforge check`:46 files / 419 tests passed（含公共删层/缩图 v3 placement 守卫）。
   - 全仓回归:content 229、shared 111、reforge 419、pal-extract 246、migrate 219 passed + 1 skipped、
     game 2289、editor 399；`pnpm lint` 与 `git diff --check` passed。
-- 下一段:W7G-F 最终布局、可访问性、性能与浏览器视觉收口。除 P4
-  最终体积/性能实测外，还要核对数百 placement 下 ownership 索引预算、键盘/ARIA 和 60 项首屏预算。
-  视觉收口同时按用户 2026-07-18 反馈调整地图工作区：层/高观察控件移到左侧图层区，中心画布不再被
-  悬浮控件遮挡，右侧改为“属性 / 瓦片 / 组合”Tab；用户界面使用“组合”，内部 schema 继续保留 `stamp`。
+- W7G-F 最终布局、可访问性与性能收口（2026-07-18）: **complete，等待三方 review**。
+  - 地图工作区按用户拍板重排为左侧“地图/图层 + 扁平视图与笔刷控制”、中央工具条 + 纯 canvas、
+    右侧“属性 / 瓦片 / 组合”语义 Tab。层/高控件去掉嵌套边框、大号竖向聚焦按钮和原生大滑块，改成
+    侧栏原生分区、紧凑状态按钮与 3px/12px 轨道/滑块；1280×720、1024×768、768×768 均不遮挡地图。
+  - Tab 使用 `tablist/tab/tabpanel`、roving Arrow/Home/End 和完整 `aria-controls/labelledby`；切换不改
+    编辑态。候选与整组变换自动回“属性”并展开右栏；组合面板惰性首挂后保留搜索/分类；会话切换回
+    属性并清作者临时态。可见术语统一“组合”，内部 `stamp` schema/type/file 名保持不变。
+  - ownership 索引由“每个新 map 全量扫描 + UI 复制两份 Set”改为 WeakMap 派生缓存 + 受影响键差分
+    overlay。普通矩阵/图层改动直接继承索引；放置、组内编辑、解组、move/copy/repeat/delete 和 S13
+    结构操作只移除/补入受影响 placement 的 visual/collision 键；64 层差分后有界压实。lookup 能力收窄为
+    `size/get/has`；作者命令通过内部局部 canonicalizer 只校验本次 upsert 成员，再从 `afterMap` 读取已
+    规范排序的 placement。旧 placement 数组只线性复用对象引用，不再逐组重扫全部 visual/collision 成员。
+  - 规模钉:3000 placements ×（12 visual + 8 collision）精确得到 3000 / 36000 / 24000 三项索引尺寸，
+    与直接扫描逐键一致；10000 次缓存 lookup 不再读取 authoring；连续 80 次差分跨过压实边界仍一致。
+    600 个模板首屏严格只挂 60 个缩略图，“再显示”到 120，搜索重置 60；palette 自身 500 次
+    pointermove 与 MapMode 真实 canvas 300 次 hover 均不增加 DOM 或 preview render。
+  - 本机 3000×20 起步、连续新增 100 组的端到端 `applyStampPlacementMutation` 实测:median 0.136ms、
+    p95 0.304ms；第 65 笔按设计触发有界全量压实，单次 max 9.40ms，随后回到约 0.1ms。基线全量
+    ownership build median 9.24ms / p95 10.94ms，10000 次缓存 lookup median 0.80ms / p95 1.12ms。
+    P4 300 placements × 20 members 格式体积为 337881 bytes，低于 900000-byte 硬门禁，二次格式化
+    字节完全一致。
+- W7G-F 自动检查:
+  - `@type-pal/editor typecheck`、production `vite build`、变更文件 Biome、`git diff --check`:passed。
+  - `@type-pal/editor test`:52 files / 414 tests passed；其中历史 E 缺口的 repeat UI、tileset 引用跳转、
+    fail-closed 重试/二次确认/undo 也已复核存在并通过。
+  - 根 `pnpm check`:content 229、shared 111、reforge 419、pal-extract 246、migrate 219 passed + 1 skipped、
+    game 2289、editor 414；全仓 Biome 748 files passed。
+  - 真实 PAL `map-020` fresh browser：中央 viewport 唯一子节点是 canvas，属性/瓦片/组合切换不置 dirty，
+    无水平溢出；fresh Console error/warning 0。
 
 ## 视觉验证记录
 
@@ -757,19 +793,23 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - W7G-D 结论:完整组摘要、组内面包屑、当前层选中数、视觉/collision 字段和危险动作均无文字溢出；
   fresh browser Console 仅既有 `favicon.ico` 404，应用新错误 0、warning 0。用户随后指出层/高悬浮控件
   遮挡画布，布局调整已纳入 W7G-F 视觉收口，不把当前截图当作最终布局验收。
-- 未完成项:W7G-F 最终性能/布局调整及 Kimi 视觉复验。
+- W7G-F 结论:1280×720 最终截图已像素复核；左侧控制区 209×105、中央 viewport 628×528 且唯一子节点
+  为 canvas，无水平溢出。1024×768 下控制区 209×105、viewport 372×494；768×768 下控制区
+  182×105、viewport 260×460，均无覆盖。fresh browser 切换右栏后 Console error/warning 0。
+- 未完成项:Kimi 视觉/架构审查、GLM 覆盖/数据审查与用户最终验收；未集齐 review 三签前不得标 done。
 
 ## Review:审查与返工
 
 - Reviewer:Kimi + GLM。
-- 审查结论:pending。
-- 必须返工项:pending。
-- Accept / rework:pending。
+- 审查结论:Codex 自审 accept；Kimi / GLM pending。
+- 必须返工项:Codex 自审无；等待 Kimi / GLM 独立结论。
+- Accept / rework:pending（done 三签尚未齐）。
 
 ## 用户验收
 
 - 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A/B/C/D/E 已完成，继续 W7G-F；全卡仍处于 build，分段完成不等于 W7G done。
+- 后续任务:W7G-A/B/C/D/E/F 实现与 Codex 自验证已完成，进入三方 review；review 三签与用户验收未完成，
+  全卡仍不得标 `done`。
 
 ## 交接日志
 
@@ -826,8 +866,53 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   均无新增问题。Next:同一 Coding Owner 连续推进 W7G-E 结构生命周期；W7G-F 同步吸收用户拍板的
   左侧观察控件、中央纯画布、右侧“属性 / 瓦片 / 组合”布局。无需转交下一位 Agent，Kimi/GLM 保持
   只读待命。
+- 2026-07-18 Codex:完成 W7G-E/F 与最终收口。结构生命周期、整组 move/copy/repeat/delete、Tileset
+  引用/删除守卫、左侧扁平层高控制、中央纯 canvas、右侧“属性 / 瓦片 / 组合”Tab 和统一“组合”术语
+  已闭环；ownership 改为缓存 + 受影响成员局部 canonicalize/delta overlay，补齐真实 canvas hover、
+  flat 高度 0、validator differential、3000×20/100 连续新增与 P4 体积证据。Evidence:Build/视觉记录、
+  52 files / 414 editor tests、根 `pnpm check`、production build、fresh browser。Codex 签 done `accept`，
+  Status 保持 review。Next:Kimi 做架构/状态机/视觉独立复审，GLM 做数据/覆盖/性能证据独立复审；
+  两方只可更新任务卡审查记录，不得修改实现，三签不齐不得标 done。
 
 ## 下一位 Agent 提示词
+
+### 给 Kimi（done 架构 / 交互 / 视觉复审）
+
+```text
+接手任务:W7G 组合地物图章与可持久放置组——done 架构/交互/视觉复审
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+当前状态:review；Codex 已签 accept，Kimi/GLM pending，done 准入 blocked
+你的角色:只读审查 schema/公共接口、placement 状态机、结构生命周期、地图工作区交互与视觉
+先读:AGENTS.md；docs/phase2/READ-FIRST.md；本任务卡全文（重点 S1-S16、A-F Build 证据、视觉记录、
+      done 签字）；W8 任务卡；当前分支 W7G 最新提交和实现 diff
+已完成:条件 v2/v3、模板/placement 持久化、跨层原子放置/选择/组内编辑/整组变换/生命周期；最终 UI
+      为左侧扁平层高控制、中央纯 canvas、右侧“属性/瓦片/组合”；ownership 使用 WeakMap + delta overlay
+验证证据:根 pnpm check 全过（editor 52 files/414 tests）；production build；真实 PAL map-020 的
+      1280/1024/768 布局和 fresh Console；3000×20 连续新增100组 median 0.136ms/p95 0.304ms
+请你做:独立检查是否存在 P0/P1/P2、schema/undo/权限/生命周期漏洞、窄栏溢出或画布遮挡；无阻塞则在
+      “进入 done 前”Kimi 行签 accept，并更新 Review/交接日志；有问题签 counter/rework 并给文件:行和复现
+不要做:不要修改任何实现文件，不要代签 Codex/GLM，不要在三签未齐时标 done
+输出:明确 accept 或 counter、证据和返工清单；若 accept，给可直接交给 GLM 的复审提示词
+```
+
+### 给 GLM（done 数据 / 覆盖 / 性能复审）
+
+```text
+接手任务:W7G 组合地物图章与可持久放置组——done 数据/覆盖/性能复审
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+当前状态:review；Codex 已签 accept，Kimi/GLM pending，done 准入 blocked
+你的角色:只读审查 content/reforge/editor/migrate 消费方、数据不变量、确定性 IO、测试矩阵与性能证据
+先读:AGENTS.md；docs/phase2/READ-FIRST.md；本任务卡全文（重点 R-S3-1~4、P1-P4/G1-G3、A-F 证据、
+      done 签字）；W8/W7F 任务卡；当前分支 W7G 最新提交和实现 diff
+已完成:ProjectMap 条件 v3、stamps MG2/IO、按通道 ownership、所有组外写守卫、结构生命周期；作者命令
+      对 changed placement 局部 canonicalize，旧 placement 仅复用引用，索引用 delta overlay + 64层压实
+验证证据:根 pnpm check 全过（content229/shared111/reforge419/pal-extract246/migrate219+1skip/
+      game2289/editor414）；P4 337881<900000 bytes；3000×20 连续新增100组 median0.136ms/p950.304ms
+请你做:逐项核对 A-F 测试矩阵、v2/v3/validator differential、保存重开/MG2、delta cache 契约与性能口径；
+      无阻塞则在“进入 done 前”GLM 行签 accept，并更新 Review/交接日志；有问题签 counter/rework
+不要做:不要修改任何实现文件，不要代签 Codex/Kimi，不要在三签未齐时标 done
+输出:明确 accept 或 counter、覆盖证据、漏测/数据风险；若 accept，明确 done 是否只剩 Kimi/用户验收
+```
 
 ### 给 Codex（build W7G-A → F）
 

@@ -82,7 +82,7 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
       },
       {
         id: 'stamp',
-        label: '图章库',
+        label: '组合库',
         icon: '▦',
         kind: 'data',
         dataPage: 'stamp',

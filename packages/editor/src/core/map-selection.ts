@@ -534,8 +534,8 @@ export function selectionForGridPoints(
     hitScope: MapHitScope
     hiddenLayerIds?: ReadonlySet<string>
     lockedLayerIds?: ReadonlySet<string>
-    excludedVisualSlotKeys?: ReadonlySet<string>
-    excludedGridPointKeys?: ReadonlySet<string>
+    excludedVisualSlotKeys?: Pick<ReadonlySet<string>, 'has'>
+    excludedGridPointKeys?: Pick<ReadonlySet<string>, 'has'>
   },
 ): MapCellSelectionInput {
   const hidden = options.hiddenLayerIds ?? new Set<string>()
@@ -567,8 +567,8 @@ export function selectAllMapContent(
     hitScope: MapHitScope
     hiddenLayerIds?: ReadonlySet<string>
     lockedLayerIds?: ReadonlySet<string>
-    excludedVisualSlotKeys?: ReadonlySet<string>
-    excludedGridPointKeys?: ReadonlySet<string>
+    excludedVisualSlotKeys?: Pick<ReadonlySet<string>, 'has'>
+    excludedGridPointKeys?: Pick<ReadonlySet<string>, 'has'>
   },
 ): MapSelection {
   const hidden = options.hiddenLayerIds ?? new Set<string>()

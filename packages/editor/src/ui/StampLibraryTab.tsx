@@ -161,7 +161,7 @@ export function StampLibraryTab(props: {
           failures.length
             ? {
                 kind: 'error',
-                message: `图章来源扫描不完整：${failures.length} 张地图读取失败。`,
+                message: `组合来源扫描不完整：${failures.length} 张地图读取失败。`,
               }
             : undefined,
         )
@@ -251,7 +251,7 @@ export function StampLibraryTab(props: {
         (await session.ensureMapLoaded(selectionSource.mapId))
       if (map.tilesetId !== selected.tilesetId)
         throw new Error(
-          `当前选区使用 tileset “${map.tilesetId}”，不能更新 tileset “${selected.tilesetId}” 的图章。`,
+          `当前选区使用 tileset “${map.tilesetId}”，不能更新 tileset “${selected.tilesetId}” 的组合。`,
         )
       setSelectionDialogMap(map)
     } catch (cause) {
@@ -293,7 +293,7 @@ export function StampLibraryTab(props: {
       <div className="outliner data-outliner stamp-outliner">
         {tabBar}
         <div className="pane-h stamp-library-head">
-          <span className="t">图章库</span>
+          <span className="t">组合库</span>
           <span className="spacer" />
           <span className="stamp-library-count">
             {shown.length}/{stamps.length}
@@ -306,7 +306,7 @@ export function StampLibraryTab(props: {
               id={searchId}
               className="in"
               type="search"
-              aria-label="搜索图章模板"
+              aria-label="搜索组合模板"
               value={query}
               autoComplete="off"
               placeholder="搜索名称、ID 或瓦片集…"
@@ -345,12 +345,12 @@ export function StampLibraryTab(props: {
             </label>
           </div>
         </div>
-        <section className="stamp-library-list" aria-label="图章模板列表">
+        <section className="stamp-library-list" aria-label="组合模板列表">
           {stamps.length === 0 ? (
             <div className="stamp-list-empty">
               <span aria-hidden="true">▦</span>
-              <strong>还没有图章</strong>
-              <small>到“地图编辑”选中一个或多个瓦片，再从检查器保存为图章。</small>
+              <strong>还没有组合</strong>
+              <small>到“地图编辑”选中一个或多个瓦片，再从检查器保存为组合。</small>
             </div>
           ) : shown.length === 0 ? (
             <div className="stamp-list-empty">
@@ -419,10 +419,10 @@ export function StampLibraryTab(props: {
           ))}
         </section>
         {pageCount > 1 ? (
-          <nav className="stamp-library-pages" aria-label="图章模板分页">
+          <nav className="stamp-library-pages" aria-label="组合模板分页">
             <button
               type="button"
-              aria-label="上一页图章模板"
+              aria-label="上一页组合模板"
               disabled={safePage === 0}
               onClick={() => setPage((value) => Math.max(0, value - 1))}
             >
@@ -433,7 +433,7 @@ export function StampLibraryTab(props: {
             </span>
             <button
               type="button"
-              aria-label="下一页图章模板"
+              aria-label="下一页组合模板"
               disabled={safePage === pageCount - 1}
               onClick={() => setPage((value) => Math.min(pageCount - 1, value + 1))}
             >
@@ -509,8 +509,8 @@ export function StampLibraryTab(props: {
           <div className="stamp-workspace-scroll">
             <div className="stamp-workspace-empty">
               <span aria-hidden="true">▦</span>
-              <strong>{stamps.length ? '选择一个图章' : '从地图选区创建第一个图章'}</strong>
-              <small>图章可以同时包含多个视觉层和独立碰撞通道。</small>
+              <strong>{stamps.length ? '选择一个组合' : '从地图选区创建第一个组合'}</strong>
+              <small>组合可以同时包含多个视觉层和独立碰撞通道。</small>
             </div>
             {sourceDiagnostics}
           </div>
@@ -598,7 +598,7 @@ export function StampLibraryTab(props: {
               </p>
               {confirmAction === 'takeover' ? (
                 <div className="stamp-inline-confirm warning">
-                  <strong>接管预置图章？</strong>
+                  <strong>接管预置组合？</strong>
                   <p>整项转为作者内容，迁移不再覆盖；撤销可恢复。</p>
                   <div>
                     <button
@@ -724,7 +724,7 @@ export function StampLibraryTab(props: {
             </section>
           </>
         ) : (
-          <div className="insp-empty">选择图章后编辑属性和查看来源引用。</div>
+          <div className="insp-empty">选择组合后编辑属性和查看来源引用。</div>
         )}
         {error ? <div className="stamp-error">{error}</div> : null}
       </aside>

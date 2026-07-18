@@ -386,7 +386,7 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
       </div>
       <div className="section map-selection-stamp-actions">
         <h4>
-          复用为图章 <span className="b2">可跨视觉层</span>
+          复用为组合 <span className="b2">可跨视觉层</span>
         </h4>
         <p>把当前非空视觉实例快照为模板；可在保存时显式选择锚点和碰撞通道。</p>
         <button
@@ -395,15 +395,15 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
           disabled={Boolean(editingBlockedReason) || summary.visualInstanceCount === 0}
           title={
             editingBlockedReason ??
-            (summary.visualInstanceCount === 0 ? '选区没有非空视觉实例' : '保存当前选区为图章模板')
+            (summary.visualInstanceCount === 0 ? '选区没有非空视觉实例' : '保存当前选区为组合模板')
           }
           onClick={onSaveAsStamp}
         >
-          保存为图章…
+          保存为组合…
         </button>
         {onOpenStampLibrary ? (
           <button type="button" className="stamp-secondary-action" onClick={onOpenStampLibrary}>
-            打开图章库 ↗
+            打开组合库 ↗
           </button>
         ) : null}
       </div>

@@ -131,7 +131,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
     return (
       <>
         <div className="insp-head stamp-group-selection-head">
-          <div className="what">图章放置组</div>
+          <div className="what">放置组合</div>
           <div className="who">
             {placements.length} 组 · {visualCount} 个视觉成员 · {collisionCount} 个碰撞成员
           </div>
@@ -202,7 +202,7 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
               className="stamp-secondary-action"
               onClick={() => onOpenSource(single.sourceStampId)}
             >
-              在图章库中定位 ↗
+              在组合库中定位 ↗
             </button>
           ) : null}
         </div>

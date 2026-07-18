@@ -916,6 +916,7 @@ export function App(props: {
             onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onStampSelectionChange={captureStampSelection}
             navigation={moduleSubnav}
+            onRequestInspectorOpen={() => setInspectorCollapsed(false)}
             onWorkspaceNotice={setWorkspaceNotice}
           />
         ) : activeSubpage.kind === 'actor' ? (
@@ -1459,7 +1460,7 @@ export function App(props: {
           <span className="valbar-status" role="status" aria-live="polite">
             <span className={`pill${workspaceNotice.kind === 'error' ? ' warn' : ''}`}>
               {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'}{' '}
-              {activeSubpage.dataPage === 'stamp' ? '图章库' : '地图工作区'}
+              {activeSubpage.dataPage === 'stamp' ? '组合库' : '地图工作区'}
             </span>
             <span className="msg">{workspaceNotice.message}</span>
           </span>

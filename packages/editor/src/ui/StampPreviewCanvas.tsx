@@ -215,7 +215,7 @@ export function StampPreviewCanvas(props: {
   }, [assets, showCollision, template.collision, visibleMembers])
 
   return (
-    <section className="stamp-preview-card" aria-label={`${template.name} 图章合成预览`}>
+    <section className="stamp-preview-card" aria-label={`${template.name} 组合预览`}>
       <header className="stamp-preview-toolbar">
         <div>
           <strong>合成预览</strong>

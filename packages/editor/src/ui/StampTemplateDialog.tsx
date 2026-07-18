@@ -51,7 +51,7 @@ export function StampTemplateDialog(props: {
   const [mode, setMode] = useState<'create' | 'update'>(initialMode ?? 'create')
   const [targetId, setTargetId] = useState(initialTarget?.id ?? '')
   const [name, setName] = useState(
-    initialMode === 'update' && initialTarget ? initialTarget.name : '新图章',
+    initialMode === 'update' && initialTarget ? initialTarget.name : '新组合',
   )
   const [id, setId] = useState(() =>
     nextStampTemplateId(
@@ -134,7 +134,7 @@ export function StampTemplateDialog(props: {
     setInvalidField(undefined)
     setTakeOwnership(false)
     if (nextMode === 'create') {
-      setName('新图章')
+      setName('新组合')
       setCategory('')
       setSlotNames(sourceSlotNames)
       return
@@ -191,7 +191,7 @@ export function StampTemplateDialog(props: {
       return
     }
     if (mode === 'update' && target?.origin === 'migrated' && !takeOwnership) {
-      setError('预置图章必须先明确接管，才能用当前选区替换。')
+      setError('预置组合必须先明确接管，才能用当前选区替换。')
       return
     }
     try {
@@ -243,9 +243,9 @@ export function StampTemplateDialog(props: {
         <header className="stamp-dialog-head">
           <div>
             <span>地图选区 → 可复用模板</span>
-            <h2 id={titleId}>保存为图章</h2>
+            <h2 id={titleId}>保存为组合</h2>
           </div>
-          <button type="button" aria-label="关闭保存图章对话框" onClick={onClose}>
+          <button type="button" aria-label="关闭保存组合对话框" onClick={onClose}>
             ×
           </button>
         </header>
@@ -432,7 +432,7 @@ export function StampTemplateDialog(props: {
                 onChange={(event) => setTakeOwnership(event.target.checked)}
               />
               <span>
-                <strong>接管这个预置图章</strong>
+                <strong>接管这个预置组合</strong>
                 <small>整项转为作者内容；之后迁移不会再覆盖。撤销可恢复预置状态。</small>
               </span>
             </label>
@@ -477,7 +477,7 @@ export function StampTemplateDialog(props: {
             取消
           </button>
           <button type="submit" className="primary">
-            {mode === 'create' ? '创建图章' : '替换模板内容'}
+            {mode === 'create' ? '创建组合' : '替换模板内容'}
           </button>
         </footer>
       </form>

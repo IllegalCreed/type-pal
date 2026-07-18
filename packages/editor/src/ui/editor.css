@@ -686,6 +686,13 @@ html[data-panel-resize="horizontal"] * {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.map-toolbar-zoom {
+  flex: none;
+  min-width: 54px;
+  color: var(--faint);
+  font: 10px / 1 var(--mono);
+  text-align: right;
+}
 .tool {
   display: flex;
   align-items: center;
@@ -705,11 +712,14 @@ html[data-panel-resize="horizontal"] * {
   color: var(--fg);
 }
 .tool:focus-visible,
+.mini:focus-visible,
+.map-asset-row:focus-visible,
 .layer-eye:focus-visible,
 .layer-lock:focus-visible,
 .layer-name:focus-visible,
 .tile-thumb:focus-visible,
-.map-focus-toggle:focus-visible {
+.map-focus-toggle:focus-visible,
+.map-candidate-options > button[role="option"]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
@@ -7182,7 +7192,7 @@ html[data-panel-resize="horizontal"] * {
 
 /* ── W7D 地图模式:N 层列表 + tile 面板 ───────────────────── */
 .map-outliner {
-  overflow: hidden;
+  overflow-y: auto;
 }
 .map-assets-head {
   gap: 3px;
@@ -7340,63 +7350,143 @@ html[data-panel-resize="horizontal"] * {
   padding: 8px 10px;
 }
 .map-focus-nav {
-  position: absolute;
-  z-index: 3;
-  top: 42px;
-  right: 12px;
-  display: grid;
-  grid-template-columns: 28px 36px 36px;
-  align-items: start;
-  min-height: 190px;
-  margin: 0;
-  padding: 7px 6px;
-  border: 1px solid #46506a;
-  border-radius: 5px;
-  background: rgba(31, 35, 47, 0.92);
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.32);
+  flex: none;
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
   color: var(--dim);
 }
+.map-focus-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 8px 9px 5px 10px;
+}
+.map-focus-head .t {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.map-focus-layer-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--faint);
+  font-size: 10px;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .map-focus-toggle {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  padding: 0;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: auto;
+  min-width: 44px;
+  height: 24px;
+  padding: 0 5px;
   border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--panel2);
+  border-radius: 999px;
+  background: transparent;
   color: var(--faint);
   cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+}
+.map-focus-toggle:hover {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  background: var(--panel3);
+  color: var(--fg);
 }
 .map-focus-toggle.active {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  color: #9ec6ff;
+}
+.map-focus-controls {
+  display: grid;
+  gap: 3px;
+  padding: 1px 9px 9px 10px;
 }
 .map-focus-axis {
   display: grid;
-  grid-template-rows: 20px 132px 22px;
-  justify-items: center;
-  min-width: 34px;
-  font: 10px / 1 var(--mono);
+  grid-template-columns: 27px minmax(0, 1fr) 26px;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 27px;
+  color: var(--faint);
+  font: inherit;
+  font-size: 10px;
 }
 .map-focus-axis input[type="range"] {
-  width: 132px;
-  height: 24px;
-  margin: 54px -54px;
-  accent-color: var(--accent);
-  transform: rotate(-90deg);
-  transform-origin: center;
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.map-focus-axis input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: #46506a;
+}
+.map-focus-axis input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 65%, transparent);
+}
+.map-focus-axis input[type="range"]::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: #46506a;
+}
+.map-focus-axis input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  background: var(--accent);
 }
 .map-focus-axis input[type="range"]:disabled {
   opacity: 0.35;
+  cursor: default;
+}
+.map-focus-axis input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-radius: 4px;
 }
 .map-focus-axis output {
   min-width: 26px;
-  padding: 4px 2px;
-  border-radius: 3px;
+  padding: 5px 2px;
+  border-radius: 4px;
   background: var(--panel3);
-  color: var(--fg);
+  color: var(--dim);
+  font: 10px / 1 var(--mono);
   text-align: center;
+}
+@media (forced-colors: active) {
+  .map-focus-axis input[type="range"] {
+    appearance: auto;
+  }
 }
 /* 瓦片详情:可点选 + 高度角标(W7 高度补全) */
 .tile-pick {
@@ -7526,7 +7616,10 @@ html[data-panel-resize="horizontal"] * {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+  min-inline-size: 0;
+  margin: 0;
   padding: 8px;
+  border: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, 40px);
   gap: 4px;
@@ -7550,6 +7643,10 @@ html[data-panel-resize="horizontal"] * {
   image-rendering: pixelated;
   max-width: 36px;
   max-height: 36px;
+}
+.tile-thumb > span {
+  display: grid;
+  place-items: center;
 }
 .tile-thumb:hover {
   border-color: var(--acc);
@@ -8000,6 +8097,86 @@ html[data-panel-resize="horizontal"] * {
   border-color: color-mix(in srgb, #59d8ff 55%, var(--line));
 }
 
+/* 地图右栏：属性 / 瓦片 / 组合。中央 viewport 不再承载 DOM 浮层。 */
+.map-inspector {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.map-inspector-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  padding: 6px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel2);
+}
+.map-inspector-tabs button {
+  min-width: 0;
+  min-height: 31px;
+  padding: 5px 4px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.map-inspector-tabs button:hover {
+  background: var(--panel3);
+  color: var(--fg);
+}
+.map-inspector-tabs button[aria-selected="true"] {
+  border-color: color-mix(in srgb, var(--accent) 56%, var(--line));
+  background: color-mix(in srgb, var(--accent) 16%, var(--panel3));
+  color: #b9d8ff;
+}
+.map-inspector-tabs button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.map-inspector-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.map-inspector-panel[hidden] {
+  display: none;
+}
+.map-tiles-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+.map-panel-empty {
+  padding: 18px 12px;
+  text-align: center;
+}
+.map-combination-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+}
+.map-combination-panel.has-details {
+  grid-template-rows: minmax(180px, 0.8fr) minmax(220px, 1.2fr);
+}
+.map-combination-browser,
+.map-combination-details {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.map-combination-details {
+  overflow-y: auto;
+  border-top: 1px solid var(--line);
+}
+
 /* ── W8 地图内容选区 / 候选 / 可逆变换 ──────────────────── */
 .viewport:has(> canvas:focus-visible) {
   box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 78%, transparent);
@@ -8008,33 +8185,30 @@ html[data-panel-resize="horizontal"] * {
   padding-inline: 7px;
 }
 .map-transform-bar {
-  position: absolute;
-  z-index: 8;
-  top: 8px;
-  left: 72px;
-  right: 64px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
   min-width: 0;
   min-inline-size: 0;
-  margin: 0;
-  padding: 6px 8px;
-  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line));
-  border-radius: 6px;
-  background: rgba(31, 36, 48, 0.96);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
+  margin: 8px;
+  padding: 9px;
+  border: 1px solid color-mix(in srgb, var(--accent) 48%, var(--line));
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel2));
   color: var(--fg);
   font-size: 11px;
 }
+.map-transform-bar > legend {
+  padding: 0 3px;
+  color: #9ec6ff;
+  font-size: 10px;
+  font-weight: 650;
+}
 .map-transform-bar > span:not(.map-transform-nudge) {
-  flex: 1 1 220px;
   min-width: 0;
-  overflow: hidden;
   color: var(--dim);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 .map-transform-nudge {
   display: inline-flex;
@@ -8057,20 +8231,20 @@ html[data-panel-resize="horizontal"] * {
 .map-transform-nudge .mini {
   width: 26px;
 }
+.map-transform-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
 .map-candidate-menu {
-  position: absolute;
-  z-index: 12;
   display: grid;
-  width: min(390px, calc(100% - 24px));
-  max-height: min(360px, calc(100% - 24px));
+  min-width: 0;
+  margin: 8px;
   gap: 3px;
-  padding: 6px;
-  overflow: auto;
+  padding: 7px;
   border: 1px solid #52617e;
   border-radius: 7px;
-  background: rgba(30, 34, 45, 0.98);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  transform: translate(8px, 8px);
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel2));
 }
 .map-candidate-title {
   padding: 4px 6px 6px;
@@ -8083,7 +8257,7 @@ html[data-panel-resize="horizontal"] * {
 }
 .map-candidate-options > button[role="option"] {
   display: grid;
-  grid-template-columns: 20px minmax(80px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
   align-items: center;
   gap: 6px;
   min-height: 32px;
@@ -8095,6 +8269,9 @@ html[data-panel-resize="horizontal"] * {
   color: var(--fg);
   text-align: left;
   cursor: pointer;
+}
+.map-candidate-options > button[role="option"] code {
+  grid-column: 2 / -1;
 }
 .map-candidate-options > button[role="option"]:hover:not(:disabled),
 .map-candidate-options > button[role="option"][aria-selected="true"] {

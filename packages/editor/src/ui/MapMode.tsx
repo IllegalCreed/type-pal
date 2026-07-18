@@ -28,6 +28,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useReducer,
   useRef,
@@ -202,10 +203,16 @@ type MapCandidate =
     }
 
 interface MapCandidateMenu {
-  x: number
-  y: number
   candidates: MapCandidate[]
 }
+
+type MapInspectorTab = 'properties' | 'tiles' | 'stamps'
+
+const MAP_INSPECTOR_TABS: readonly { id: MapInspectorTab; label: string }[] = [
+  { id: 'properties', label: '属性' },
+  { id: 'tiles', label: '瓦片' },
+  { id: 'stamps', label: '组合' },
+]
 
 interface StampStructureIntent {
   operation: StampStructureOperation
@@ -250,9 +257,13 @@ const TileThumb = memo(function TileThumb(props: {
       type="button"
       className={`tile-thumb${selected ? ' sel' : ''}`}
       title={`瓦片 #${idx}`}
+      aria-label={`瓦片 #${idx}`}
+      aria-pressed={selected}
       onClick={() => onPick(idx)}
     >
-      <canvas ref={ref} width={frame.width} height={frame.height} />
+      <span aria-hidden="true">
+        <canvas ref={ref} width={frame.width} height={frame.height} />
+      </span>
     </button>
   )
 })
@@ -277,6 +288,7 @@ export function MapMode(props: {
     source: import('../core/stamp-template.js').StampSelectionSource | undefined,
   ) => void
   navigation?: React.ReactNode
+  onRequestInspectorOpen?: () => void
   onWorkspaceNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const {
@@ -295,6 +307,7 @@ export function MapMode(props: {
     onOpenStampLibrary,
     onStampSelectionChange,
     navigation,
+    onRequestInspectorOpen,
     onWorkspaceNotice,
   } = props
   const mapId =
@@ -318,7 +331,10 @@ export function MapMode(props: {
   const [showGrid, setShowGrid] = useState(true)
   const [showCollision, setShowCollision] = useState(true)
   const [tool, setTool] = useState<MapTool>('pan')
-  const [paletteMode, setPaletteMode] = useState<'tiles' | 'stamps'>('tiles')
+  const [inspectorTab, setInspectorTab] = useState<MapInspectorTab>('properties')
+  const [stampPanelVisited, setStampPanelVisited] = useState(false)
+  const inspectorId = useId()
+  const inspectorTabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const [activeStampId, setActiveStampId] = useState<string>()
   const [stampMappingsByKey, setStampMappingsByKey] = useState<Record<string, StampLayerMapping[]>>(
     {},
@@ -351,14 +367,8 @@ export function MapMode(props: {
     () => (liveMap ? buildStampPlacementIndex(liveMap) : undefined),
     [liveMap],
   )
-  const ownedVisualSlotKeys = useMemo(
-    () => new Set(stampPlacementIndex?.visualOwnerByKey.keys() ?? []),
-    [stampPlacementIndex],
-  )
-  const ownedGridPointKeys = useMemo(
-    () => new Set(stampPlacementIndex?.collisionOwnerByKey.keys() ?? []),
-    [stampPlacementIndex],
-  )
+  const ownedVisualSlotKeys = stampPlacementIndex?.visualOwnerByKey
+  const ownedGridPointKeys = stampPlacementIndex?.collisionOwnerByKey
   const stampGroupEditPlacementId = workspaceMap.stampGroupEditContext?.placementId
   const stampGroupEditSelection = workspaceMap.stampGroupEditContext?.selection
   const activeStamp = stamps.find((stamp) => stamp.id === activeStampId)
@@ -417,7 +427,8 @@ export function MapMode(props: {
     stampSessionRef.current = session
     // 同 manifest.id 的另一工程副本仍会换 EditSession；图章作者态绝不能借 mapId/stampId 串过去。
     setTool('pan')
-    setPaletteMode('tiles')
+    setInspectorTab('properties')
+    setStampPanelVisited(false)
     setActiveStampId(undefined)
     setStampMappingsByKey({})
     setStampHoverAnchor(undefined)
@@ -501,6 +512,7 @@ export function MapMode(props: {
   const loadedAssets = status === 'ready' ? loadedRef.current : null
   const activeTool: MapTool = liveMap ? tool : 'pan'
   const activeLayer = liveMap?.layers.find((layer) => layer.id === activeLayerId)
+  const activePaintHeight = activeLayer?.depthMode === 'height' ? currentHeight : 0
   const activeLayerHidden = activeLayer ? hiddenLayerIds.has(activeLayer.id) : false
   const activeLayerLocked = activeLayer ? lockedLayerIds.has(activeLayer.id) : false
   const activeLayerReadOnly = !activeLayer || activeLayerHidden || activeLayerLocked
@@ -766,7 +778,7 @@ export function MapMode(props: {
       cached.hiddenKey !== hiddenKey ||
       cached.focusEnabled !== focusEnabled ||
       cached.activeLayerId !== activeLayer?.id ||
-      cached.currentHeight !== currentHeight ||
+      cached.currentHeight !== activePaintHeight ||
       cached.basePaintTick !== basePaintTick ||
       cached.renderer !== loaded.renderer ||
       cached.tiles !== loaded.tiles
@@ -781,7 +793,7 @@ export function MapMode(props: {
         layers: {
           hiddenLayerIds: [...hiddenLayerIds],
           ...(focusEnabled && activeLayer
-            ? { focusLayerId: activeLayer.id, focusHeight: currentHeight, dimAlpha: 0.22 }
+            ? { focusLayerId: activeLayer.id, focusHeight: activePaintHeight, dimAlpha: 0.22 }
             : { showAll: true }),
         },
       })
@@ -811,7 +823,7 @@ export function MapMode(props: {
         hiddenKey,
         focusEnabled,
         activeLayerId: activeLayer?.id,
-        currentHeight,
+        currentHeight: activePaintHeight,
         basePaintTick,
         renderer: loaded.renderer,
         tiles: loaded.tiles,
@@ -975,7 +987,7 @@ export function MapMode(props: {
     lockedLayerIds,
     focusEnabled,
     activeLayer,
-    currentHeight,
+    activePaintHeight,
     loadedRef,
     selection,
     selectionPreview,
@@ -1028,7 +1040,7 @@ export function MapMode(props: {
         ...pos,
         layerId: activeLayer.id,
         tileId: activeTool === 'erase' ? null : selectedTile,
-        height: activeTool === 'erase' ? 0 : currentHeight,
+        height: activeTool === 'erase' ? 0 : activePaintHeight,
       },
     }
   }
@@ -1270,6 +1282,33 @@ export function MapMode(props: {
     setWorkspaceNotice({ kind, message })
   }
 
+  const activateInspectorTab = (nextTab: MapInspectorTab): void => {
+    setInspectorTab(nextTab)
+    if (nextTab === 'stamps') setStampPanelVisited(true)
+    if (nextTab !== 'properties') setCandidateMenu(undefined)
+    onRequestInspectorOpen?.()
+  }
+
+  const onInspectorTabKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentIndex: number,
+  ): void => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const nextIndex =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? MAP_INSPECTOR_TABS.length - 1
+          : event.key === 'ArrowLeft'
+            ? (currentIndex - 1 + MAP_INSPECTOR_TABS.length) % MAP_INSPECTOR_TABS.length
+            : (currentIndex + 1) % MAP_INSPECTOR_TABS.length
+    const nextTab = MAP_INSPECTOR_TABS[nextIndex]
+    if (!nextTab) return
+    activateInspectorTab(nextTab.id)
+    inspectorTabRefs.current[nextIndex]?.focus()
+  }
+
   const activateMapTool = (nextTool: MapTool): void => {
     const cancelledTransform = Boolean(transformIntent)
     setTool(nextTool)
@@ -1285,13 +1324,15 @@ export function MapMode(props: {
       if (stampGroupEditPlacementId) {
         setWorkspaceNotice({
           kind: 'error',
-          message: '当前正在组内编辑；请先按 Esc 退出，再选择待放置图章。',
+          message: '当前正在组合内编辑；请先按 Esc 退出，再选择待放置组合。',
         })
         canvasRef.current?.focus({ preventScroll: true })
         return
       }
       setActiveStampId(id)
-      setPaletteMode('stamps')
+      setInspectorTab('stamps')
+      setStampPanelVisited(true)
+      onRequestInspectorOpen?.()
       setTool('stamp')
       setTransformIntent(undefined)
       setCandidateMenu(undefined)
@@ -1299,11 +1340,11 @@ export function MapMode(props: {
       setStampHoverAnchor(hover && isLatticeInside(liveMap, hover) ? hover : undefined)
       setWorkspaceNotice({
         kind: 'info',
-        message: `已选择图章“${template.name}”；请先显式映射每个局部层。`,
+        message: `已选择组合“${template.name}”；请先显式映射每个局部层。`,
       })
       canvasRef.current?.focus({ preventScroll: true })
     },
-    [liveMap, stampGroupEditPlacementId, stamps],
+    [liveMap, onRequestInspectorOpen, stampGroupEditPlacementId, stamps],
   )
 
   const mapStampSlot = useCallback(
@@ -1323,7 +1364,7 @@ export function MapMode(props: {
   const cancelStampTool = useCallback((): void => {
     setTool('select')
     setStampHoverAnchor(undefined)
-    setWorkspaceNotice({ kind: 'info', message: '已退出图章放置；模板与普通地图选区仍保留。' })
+    setWorkspaceNotice({ kind: 'info', message: '已退出组合放置；模板与普通地图选区仍保留。' })
     canvasRef.current?.focus({ preventScroll: true })
   }, [])
 
@@ -1332,7 +1373,7 @@ export function MapMode(props: {
     targetAnchor = stampHoverAnchor,
   ): void => {
     if (!activeStamp || !targetAnchor) {
-      notifyWorkspace('error', '请先选择图章并把鼠标移到地图目标位置。')
+      notifyWorkspace('error', '请先选择组合并把鼠标移到地图目标位置。')
       return
     }
     const currentMap = session.getState().maps[mapId]
@@ -1364,7 +1405,7 @@ export function MapMode(props: {
         freshPlan.issues[0]?.message ??
           (freshPlan.conflicts.length
             ? `目标有 ${freshPlan.conflicts.length} 处普通内容冲突；请在右侧显式确认覆盖。`
-            : '当前图章不能放置。'),
+            : '当前组合不能放置。'),
       )
       return
     }
@@ -1375,7 +1416,7 @@ export function MapMode(props: {
       )
       notifyWorkspace(
         'info',
-        `已放置图章“${activeStamp.name}”（${freshPlan.placement.id}）；矩阵与组身份可一步撤销。`,
+        `已放置组合“${activeStamp.name}”（${freshPlan.placement.id}）；矩阵与组身份可一步撤销。`,
       )
     } catch (cause) {
       notifyWorkspace('error', cause instanceof Error ? cause.message : String(cause))
@@ -1386,9 +1427,9 @@ export function MapMode(props: {
     onOpenStampLibrary?.(activeStampId)
   }, [activeStampId, onOpenStampLibrary])
 
-  const closeCandidateMenu = (): void => {
+  const closeCandidateMenu = (returnFocus = true): void => {
     setCandidateMenu(undefined)
-    canvasRef.current?.focus({ preventScroll: true })
+    if (returnFocus) canvasRef.current?.focus({ preventScroll: true })
   }
 
   const enterStampGroupEdit = (placementId: string): void => {
@@ -1671,6 +1712,8 @@ export function MapMode(props: {
     setTool('select')
     setCandidateMenu(undefined)
     setTransformIntent({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
+    setInspectorTab('properties')
+    onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '粘贴预览：移动鼠标选择锚点，检查冲突后提交。')
   }
@@ -1705,6 +1748,8 @@ export function MapMode(props: {
         ? { stampClipboard: captured as StampGroupClipboard, stampBaseMap: liveMap }
         : {}),
     })
+    setInspectorTab('properties')
+    onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '移动预览：移动鼠标或方向键改变目标，Enter/提交确认。')
   }
@@ -1810,6 +1855,8 @@ export function MapMode(props: {
         }
     setTool('select')
     setTransformIntent({ kind: 'paste', clipboard: source, anchor, layerMappings: [] })
+    setInspectorTab('properties')
+    onRequestInspectorOpen?.()
     canvasRef.current?.focus({ preventScroll: true })
     notifyWorkspace('info', '重复预览已建立；确认目标无冲突后提交。')
   }
@@ -1887,16 +1934,9 @@ export function MapMode(props: {
       }
       if (event.altKey) {
         const candidates = candidateRowsAt(wx, wy)
-        const rect = event.currentTarget.getBoundingClientRect()
-        const rawX = event.clientX - rect.left
-        const rawY = event.clientY - rect.top
-        const menuWidth = Math.min(390, Math.max(0, rect.width - 24))
-        const menuHeight = Math.min(360, Math.max(0, rect.height - 24))
-        setCandidateMenu({
-          x: Math.max(4, Math.min(rawX, rect.width - menuWidth - 12)),
-          y: Math.max(4, Math.min(rawY, rect.height - menuHeight - 12)),
-          candidates,
-        })
+        setCandidateMenu({ candidates })
+        setInspectorTab('properties')
+        onRequestInspectorOpen?.()
         notifyWorkspace(
           'info',
           candidates.length
@@ -1968,7 +2008,7 @@ export function MapMode(props: {
             visualSlotKey({ layerId: activeLayer.id, ...start }),
           )
         ) {
-          notifyWorkspace('error', '此视觉槽属于图章放置组；请先进入组内编辑或先解组。')
+          notifyWorkspace('error', '此视觉槽属于放置组合；请先进入组合内编辑或先解组。')
           return
         }
         const edits = stampGroupEditPlacementId
@@ -1978,9 +2018,15 @@ export function MapMode(props: {
               activeLayer.id,
               start,
               selectedTile,
-              currentHeight,
+              activePaintHeight,
             )
-          : floodFillProjectMapTiles(liveMap, activeLayer.id, start, selectedTile, currentHeight)
+          : floodFillProjectMapTiles(
+              liveMap,
+              activeLayer.id,
+              start,
+              selectedTile,
+              activePaintHeight,
+            )
         if (edits.length > 0) {
           const patch = tileEditsPatch(liveMap, edits)
           if (stampGroupEditPlacementId)
@@ -2626,7 +2672,7 @@ export function MapMode(props: {
       : activeTool === 'stamp'
         ? activeStamp
           ? `${activeStamp.name} · ${stampMappings.length}/${activeStamp.layerSlots.length} 层已映射 · 点击原子放置`
-          : '请先从图章面板选择模板'
+          : '请先从组合面板选择模板'
         : activeLayerReadOnly
           ? `${activeLayerName} · ${activeLayerHidden ? '已隐藏' : '已锁定'} · 只读`
           : activeTool === 'select'
@@ -2635,7 +2681,7 @@ export function MapMode(props: {
               ? `${activeLayerName} · 取样瓦片与实例高度`
               : activeTool === 'collision'
                 ? `${collisionPaint === 'set' ? '标记' : '清除'}碰撞`
-                : `${activeLayerName} · 高度 ${currentHeight} · ${activeTool === 'fill' ? '填充' : activeTool === 'rect' ? '矩形' : activeTool === 'erase' ? '擦除' : '笔刷'}`
+                : `${activeLayerName} · 高度 ${activePaintHeight} · ${activeTool === 'fill' ? '填充' : activeTool === 'rect' ? '矩形' : activeTool === 'erase' ? '擦除' : '笔刷'}`
 
   return (
     <>
@@ -2644,7 +2690,13 @@ export function MapMode(props: {
         <div className="pane-h map-assets-head">
           <span className="t">地图</span>
           <span className="spacer" />
-          <button type="button" className="mini" onClick={createMap} title="新建地图">
+          <button
+            type="button"
+            className="mini"
+            onClick={createMap}
+            title="新建地图"
+            aria-label="新建地图"
+          >
             ＋
           </button>
           <button
@@ -2653,6 +2705,7 @@ export function MapMode(props: {
             onClick={duplicateMap}
             disabled={!selectedAsset || !liveMap}
             title="复制地图"
+            aria-label="复制地图"
           >
             ⧉
           </button>
@@ -2662,6 +2715,7 @@ export function MapMode(props: {
             onClick={renameMap}
             disabled={!selectedAsset}
             title="重命名地图"
+            aria-label="重命名地图"
           >
             ✎
           </button>
@@ -2677,6 +2731,7 @@ export function MapMode(props: {
                   ? '再次点击确认删除'
                   : '删除地图'
             }
+            aria-label={pendingDeleteId === selectedAsset?.id ? '确认删除地图' : '删除地图'}
           >
             {pendingDeleteId === selectedAsset?.id ? '✓' : '−'}
           </button>
@@ -2717,7 +2772,13 @@ export function MapMode(props: {
           <span className="spacer" />
           {liveMap ? (
             <>
-              <button type="button" className="mini" onClick={addLayer} title="新增图层">
+              <button
+                type="button"
+                className="mini"
+                onClick={addLayer}
+                title="新增图层"
+                aria-label="新增图层"
+              >
                 ＋
               </button>
               <button
@@ -2726,6 +2787,7 @@ export function MapMode(props: {
                 onClick={removeLayer}
                 disabled={liveMap.layers.length <= 1 || activeLayerReadOnly}
                 title="删除选中图层"
+                aria-label="删除选中图层"
               >
                 −
               </button>
@@ -2779,6 +2841,7 @@ export function MapMode(props: {
                         onClick={() => moveLayer(1)}
                         disabled={activeLayerReadOnly || index === liveMap.layers.length - 1}
                         title="上移图层"
+                        aria-label="上移图层"
                       >
                         ↑
                       </button>
@@ -2788,6 +2851,7 @@ export function MapMode(props: {
                         onClick={() => moveLayer(-1)}
                         disabled={activeLayerReadOnly || index === 0}
                         title="下移图层"
+                        aria-label="下移图层"
                       >
                         ↓
                       </button>
@@ -2800,65 +2864,66 @@ export function MapMode(props: {
         ) : (
           <p className="hint2 map-readonly-hint">正在载入可编辑地图…</p>
         )}
-        <div className="pane-h map-tiles-head map-palette-head">
-          <div className="map-palette-tabs" role="tablist" aria-label="地图绘制素材">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={paletteMode === 'tiles'}
-              className={paletteMode === 'tiles' ? 'active' : ''}
-              onClick={() => setPaletteMode('tiles')}
-            >
-              瓦片
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={paletteMode === 'stamps'}
-              className={paletteMode === 'stamps' ? 'active' : ''}
-              onClick={() => setPaletteMode('stamps')}
-            >
-              图章
-            </button>
-          </div>
-          {paletteMode === 'tiles' && liveMap && loaded ? (
-            <span className="hint2">
-              #{selectedTile} · H{currentHeight}
-            </span>
-          ) : paletteMode === 'stamps' ? (
-            <span className="hint2">{stamps.length} 个模板</span>
-          ) : null}
-        </div>
-        {paletteMode === 'tiles' && liveMap && loaded ? (
-          <div className="tile-grid" role="tabpanel" aria-label="普通瓦片">
-            {[...loaded.tiles.entries()]
-              .sort((a, b) => a[0] - b[0])
-              .map(([idx, frame]) => (
-                <TileThumb
-                  key={idx}
-                  idx={idx}
-                  frame={frame}
-                  palette={loaded.palette}
-                  selected={idx === selectedTile}
-                  onPick={(id) => {
-                    setSelectedTile(id)
-                    activateMapTool('brush')
+        {liveMap && activeLayer ? (
+          <section className="map-focus-nav" aria-label="视图与笔刷高度">
+            <div className="map-focus-head">
+              <span className="t">视图与笔刷</span>
+              <span className="map-focus-layer-name" title={activeLayer.name}>
+                {activeLayer.name}
+              </span>
+              <button
+                type="button"
+                className={`map-focus-toggle${focusEnabled ? ' active' : ''}`}
+                onClick={() => setFocusEnabled((enabled) => !enabled)}
+                title={focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
+                aria-label={focusEnabled ? '关闭其他图层聚焦' : '聚焦当前图层和高度'}
+                aria-pressed={focusEnabled}
+              >
+                <span aria-hidden="true">◉</span>
+                {focusEnabled ? '聚焦中' : '聚焦'}
+              </button>
+            </div>
+            <div className="map-focus-controls">
+              <label className="map-focus-axis">
+                <span>图层</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={Math.max(0, liveMap.layers.length - 1)}
+                  step={1}
+                  value={Math.max(0, activeLayerIndex)}
+                  aria-label="当前图层"
+                  aria-valuetext={`${activeLayerIndex + 1}：${activeLayer.name}`}
+                  onChange={(event) => {
+                    const layer = liveMap.layers[Number(event.target.value)]
+                    if (layer) setActiveLayerId(layer.id)
                   }}
+                  title={`当前图层：${activeLayer.name}`}
                 />
-              ))}
-          </div>
-        ) : paletteMode === 'stamps' && liveMap ? (
-          <MapStampPalette
-            stamps={stamps}
-            tilesetId={liveMap.tilesetId}
-            tilesets={tilesets}
-            tilesetBlobs={tilesetBlobs}
-            assetBase={assetBase}
-            activeStampId={activeStampId}
-            recentStampIds={recentStampIds}
-            onPick={pickStamp}
-            onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
-          />
+                <output title={activeLayer.name}>{activeLayerIndex + 1}</output>
+              </label>
+              <label className="map-focus-axis">
+                <span>高度</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={maxMapHeight}
+                  step={1}
+                  value={activePaintHeight}
+                  disabled={activeLayer.depthMode === 'flat'}
+                  aria-label="观察与笔刷高度"
+                  aria-valuetext={`高度 ${activePaintHeight}`}
+                  onChange={(event) => setCurrentHeight(Number(event.target.value))}
+                  title={
+                    activeLayer.depthMode === 'flat'
+                      ? '平面图层的实例高度固定为 0'
+                      : `观察并写入实例高度：${activePaintHeight}`
+                  }
+                />
+                <output>{activePaintHeight}</output>
+              </label>
+            </div>
+          </section>
         ) : null}
       </div>
 
@@ -2891,16 +2956,17 @@ export function MapMode(props: {
               className={`tool${activeTool === 'stamp' ? ' active' : ''}`}
               onClick={() => {
                 if (stampGroupEditPlacementId) {
-                  notifyWorkspace('error', '当前正在组内编辑；请先按 Esc 退出，再放置新图章。')
+                  notifyWorkspace('error', '当前正在组合内编辑；请先按 Esc 退出，再放置新组合。')
                   return
                 }
                 if (activeStamp) {
+                  activateInspectorTab('stamps')
                   setTool('stamp')
                   setTransformIntent(undefined)
                   canvasRef.current?.focus({ preventScroll: true })
                 } else {
-                  setPaletteMode('stamps')
-                  notifyWorkspace('info', '请先从左侧图章面板选择模板。')
+                  activateInspectorTab('stamps')
+                  notifyWorkspace('info', '请先从右侧“组合”面板选择模板。')
                 }
               }}
               disabled={!liveMap || Boolean(stampGroupEditPlacementId)}
@@ -2908,12 +2974,12 @@ export function MapMode(props: {
                 stampGroupEditPlacementId
                   ? '先按 Esc 退出组内编辑'
                   : activeStamp
-                    ? `放置图章“${activeStamp.name}”`
-                    : '先选择一个图章模板'
+                    ? `放置组合“${activeStamp.name}”`
+                    : '先选择一个组合模板'
               }
               aria-pressed={activeTool === 'stamp'}
             >
-              ◆ 图章
+              ◆ 组合
             </button>
           </div>
           <div className="tool-group">
@@ -3146,187 +3212,11 @@ export function MapMode(props: {
           </div>
           <span className="spacer" />
           <span className="map-toolbar-hint">{toolbarHint}</span>
+          <span className="map-toolbar-zoom" title="画布缩放">
+            {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
+          </span>
         </div>
         <div className="viewport" ref={wrapRef}>
-          <div className="canvas-note">
-            {Math.round(view.zoom * 100)}%{status === 'loading' ? ' · 载入中…' : ''}
-          </div>
-          {activeTool === 'stamp' && activeStamp && stampPlan ? (
-            <fieldset className="map-transform-bar map-stamp-placement-bar">
-              <legend className="map-a11y-legend">图章放置预览</legend>
-              <strong>{activeStamp.name}</strong>
-              <span>
-                锚点 r{stampPlan.anchor.row}:c{stampPlan.anchor.col}
-                {stampPlan.issues.length
-                  ? ` · ${stampPlan.issues[0]?.message}`
-                  : stampPlan.conflicts.length
-                    ? ` · ${stampPlan.conflicts.length} 处普通内容冲突`
-                    : ' · 跨层预览有效'}
-              </span>
-              <button
-                type="button"
-                className="tool"
-                disabled={!stampPlan.canApply}
-                onClick={() => commitStamp('reject')}
-              >
-                放置
-              </button>
-              {stampPlan.issues.length === 0 && stampPlan.conflicts.length > 0 ? (
-                <button
-                  type="button"
-                  className="tool danger"
-                  onClick={() => commitStamp('overwrite')}
-                >
-                  覆盖普通格并放置
-                </button>
-              ) : null}
-              <button type="button" className="tool" onClick={cancelStampTool}>
-                取消
-              </button>
-            </fieldset>
-          ) : null}
-          {transformIntent && transformPlan ? (
-            <fieldset
-              className="map-transform-bar"
-              onKeyDown={(event) => {
-                if (event.key === 'Escape') {
-                  event.preventDefault()
-                  event.stopPropagation()
-                  cancelTransform()
-                } else if (event.key.startsWith('Arrow')) {
-                  event.preventDefault()
-                  event.stopPropagation()
-                  if (event.key === 'ArrowLeft') adjustTransform(0, -1)
-                  else if (event.key === 'ArrowRight') adjustTransform(0, 1)
-                  else if (event.key === 'ArrowUp') adjustTransform(-2, 0)
-                  else if (event.key === 'ArrowDown') adjustTransform(2, 0)
-                }
-              }}
-            >
-              <legend className="map-a11y-legend">地图变换预览</legend>
-              <strong>{transformIntent.kind === 'paste' ? '粘贴预览' : '移动预览'}</strong>
-              <span>
-                锚点 r{transformIntent.anchor.row}:c{transformIntent.anchor.col}
-                {transformIncludesCollision ? ' · 含碰撞' : ' · 仅视觉'}
-                {transformPlan.issues.length
-                  ? ` · ${transformPlan.issues[0]?.message}`
-                  : transformPermissionMessage
-                    ? ` · ${transformPermissionMessage}`
-                    : transformPlan.conflicts.length
-                      ? ` · ${transformPlan.conflicts.length} 处覆盖冲突`
-                      : ' · 可提交'}
-              </span>
-              {transformIntent.kind === 'move' ? (
-                <fieldset className="map-transform-nudge">
-                  <legend className="map-a11y-legend">微调移动目标</legend>
-                  <button type="button" className="mini" onClick={() => adjustTransform(-2, 0)}>
-                    ↑
-                  </button>
-                  <button type="button" className="mini" onClick={() => adjustTransform(2, 0)}>
-                    ↓
-                  </button>
-                  <button type="button" className="mini" onClick={() => adjustTransform(0, -1)}>
-                    ←
-                  </button>
-                  <button type="button" className="mini" onClick={() => adjustTransform(0, 1)}>
-                    →
-                  </button>
-                </fieldset>
-              ) : null}
-              <button
-                type="button"
-                className="tool"
-                disabled={
-                  transformPlan.issues.length > 0 ||
-                  transformPlan.conflicts.length > 0 ||
-                  Boolean(transformPermissionMessage)
-                }
-                onClick={() => commitTransform('reject')}
-              >
-                提交
-              </button>
-              {transformPlan.conflicts.length > 0 &&
-              transformPlan.issues.length === 0 &&
-              !transformPermissionMessage ? (
-                <button
-                  type="button"
-                  className="tool danger"
-                  onClick={() => commitTransform('overwrite')}
-                >
-                  覆盖并提交
-                </button>
-              ) : null}
-              <button type="button" className="tool" onClick={cancelTransform}>
-                取消
-              </button>
-            </fieldset>
-          ) : null}
-          {liveMap && activeLayer ? (
-            <fieldset className="map-focus-nav" aria-label="地图图层与高度导航">
-              <button
-                type="button"
-                className={`map-focus-toggle${focusEnabled ? ' active' : ''}`}
-                onClick={() => setFocusEnabled((enabled) => !enabled)}
-                title={focusEnabled ? '关闭聚焦，全部正常显示' : '开启聚焦，其他瓦片变暗'}
-                aria-label={focusEnabled ? '关闭聚焦' : '开启聚焦'}
-              >
-                ◉
-              </button>
-              <label className="map-focus-axis">
-                <span>层</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={Math.max(0, liveMap.layers.length - 1)}
-                  step={1}
-                  value={Math.max(0, activeLayerIndex)}
-                  onChange={(event) => {
-                    const layer = liveMap.layers[Number(event.target.value)]
-                    if (layer) setActiveLayerId(layer.id)
-                  }}
-                  onWheel={(event) => {
-                    event.preventDefault()
-                    const nextIndex = Math.max(
-                      0,
-                      Math.min(
-                        liveMap.layers.length - 1,
-                        activeLayerIndex + (event.deltaY < 0 ? 1 : -1),
-                      ),
-                    )
-                    const layer = liveMap.layers[nextIndex]
-                    if (layer) setActiveLayerId(layer.id)
-                  }}
-                  title={`聚焦图层：${activeLayer.name}`}
-                />
-                <output>{activeLayerIndex + 1}</output>
-              </label>
-              <label className="map-focus-axis">
-                <span>高</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={maxMapHeight}
-                  step={1}
-                  value={currentHeight}
-                  disabled={activeLayer.depthMode === 'flat'}
-                  onChange={(event) => setCurrentHeight(Number(event.target.value))}
-                  onWheel={(event) => {
-                    event.preventDefault()
-                    if (activeLayer.depthMode === 'flat') return
-                    setCurrentHeight((height) =>
-                      Math.max(0, Math.min(maxMapHeight, height + (event.deltaY < 0 ? 1 : -1))),
-                    )
-                  }}
-                  title={
-                    activeLayer.depthMode === 'flat'
-                      ? '平面图层的实例高度固定为 0'
-                      : `聚焦并写入实例高度：${currentHeight}`
-                  }
-                />
-                <output>{currentHeight}</output>
-              </label>
-            </fieldset>
-          ) : null}
           {status === 'error' && (
             <div className="boot">
               <div className="err">地图渲染失败: {err}</div>
@@ -3346,8 +3236,8 @@ export function MapMode(props: {
             }}
             onPointerLeave={onLeave}
             onClick={() => {
-              // Chromium 可在 Alt+pointerdown 后才完成 canvas 的原生焦点默认动作，
-              // 覆盖候选菜单 effect 的首项聚焦。click 任务结束后再聚焦一次才是稳定顺序。
+              // Chromium 可在 Alt+pointerdown 后才完成 canvas 的原生焦点默认动作；
+              // 候选列表移入右侧后仍需在 click 任务结束后恢复首项焦点。
               if (candidateMenuRef.current) window.setTimeout(focusFirstCandidate, 0)
             }}
             onDoubleClick={(event) => {
@@ -3374,12 +3264,41 @@ export function MapMode(props: {
               touchAction: 'none',
             }}
           />
+        </div>
+      </div>
+
+      <div className="inspector map-inspector">
+        <div className="map-inspector-tabs" role="tablist" aria-label="地图右侧面板">
+          {MAP_INSPECTOR_TABS.map((tab, index) => (
+            <button
+              key={tab.id}
+              ref={(element) => {
+                inspectorTabRefs.current[index] = element
+              }}
+              id={`${inspectorId}-${tab.id}-tab`}
+              type="button"
+              role="tab"
+              aria-controls={`${inspectorId}-${tab.id}-panel`}
+              aria-selected={inspectorTab === tab.id}
+              tabIndex={inspectorTab === tab.id ? 0 : -1}
+              onClick={() => activateInspectorTab(tab.id)}
+              onKeyDown={(event) => onInspectorTabKeyDown(event, index)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div
+          id={`${inspectorId}-properties-panel`}
+          className="map-inspector-panel map-properties-panel"
+          role="tabpanel"
+          aria-labelledby={`${inspectorId}-properties-tab`}
+          hidden={inspectorTab !== 'properties'}
+        >
           {candidateMenu ? (
-            <div
+            <section
               ref={candidateMenuRef}
               className="map-candidate-menu"
-              style={{ left: candidateMenu.x, top: candidateMenu.y }}
-              role="dialog"
               aria-label="重叠地图内容候选"
               onKeyDown={onCandidateMenuKeyDown}
             >
@@ -3400,7 +3319,7 @@ export function MapMode(props: {
                           }
                           onClick={() => selectCandidate(row)}
                         >
-                          <span>{row.locked ? '🔒' : '◆'}</span>
+                          <span aria-hidden="true">{row.locked ? '🔒' : '◆'}</span>
                           <span>{row.layerName}</span>
                           <code title={`${row.sourceName} · ${row.placementId}`}>
                             {row.sourceName} · {row.placementId} · r{row.ref.row}:c{row.ref.col}
@@ -3426,7 +3345,7 @@ export function MapMode(props: {
                         }
                         onClick={() => selectCandidate(row)}
                       >
-                        <span>{candidate.locked ? '🔒' : '◇'}</span>
+                        <span aria-hidden="true">{candidate.locked ? '🔒' : '◇'}</span>
                         <span>{candidate.layerName}</span>
                         <code>
                           r{candidate.ref.row}:c{candidate.ref.col} ·{' '}
@@ -3442,295 +3361,477 @@ export function MapMode(props: {
                   <span className="hint2">没有候选</span>
                 )}
               </div>
-              <button type="button" className="tool" onClick={closeCandidateMenu}>
-                关闭
+              <button type="button" className="tool" onClick={() => closeCandidateMenu()}>
+                关闭候选
               </button>
-            </div>
+            </section>
           ) : null}
-        </div>
-      </div>
-
-      <div className="inspector">
-        {activeTool === 'stamp' && activeStamp && liveMap ? (
-          <StampPlacementInspector
-            template={activeStamp}
-            map={liveMap}
-            mappings={stampMappings}
-            plan={stampPlan}
-            activeLayerId={activeLayerId}
-            hiddenLayerIds={hiddenLayerIds}
-            lockedLayerIds={lockedLayerIds}
-            onMapSlot={mapStampSlot}
-            onCommit={() => commitStamp('reject')}
-            onOverwrite={() => commitStamp('overwrite')}
-            onCancel={cancelStampTool}
-            onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
-          />
-        ) : selection.kind === 'cells' && liveMap ? (
-          <MapSelectionInspector
-            key={mapId}
-            map={liveMap}
-            selection={selection}
-            activeLayerId={activeLayerId}
-            hiddenLayerIds={hiddenLayerIds}
-            lockedLayerIds={lockedLayerIds}
-            editingBlockedReason={
-              transformIntent ? '正在预览地图变换；请先提交或取消后再修改选区。' : undefined
-            }
-            notice={workspaceNotice}
-            onPatch={(patch, requiredLayerIds, label) => {
-              dispatchMapPatch(patch, requiredLayerIds, label)
-            }}
-            onValidationError={(message) => notifyWorkspace('error', message)}
-            onMoveToLayer={moveSelectionToLayer}
-            onClearSelection={() => dispatchWorkspace({ type: 'clear-selection', mapId })}
-            onSaveAsStamp={() => setStampDialogOpen(true)}
-            onOpenStampLibrary={
-              onOpenStampLibrary ? () => onOpenStampLibrary(undefined) : undefined
-            }
-          />
-        ) : selection.kind === 'stamp-placements' && liveMap ? (
-          <StampPlacementSelectionInspector
-            map={liveMap}
-            placementIds={selection.placementIds}
-            activeLayerId={activeLayerId}
-            hiddenLayerIds={hiddenLayerIds}
-            lockedLayerIds={lockedLayerIds}
-            editingPlacementId={stampGroupEditPlacementId}
-            editingSelection={stampGroupEditSelection}
-            editingBlockedReason={
-              transformIntent ? '正在预览组合变换；请先提交或取消后再编辑或解组。' : undefined
-            }
-            notice={workspaceNotice}
-            onEnterEdit={enterStampGroupEdit}
-            onExitEdit={exitStampGroupEdit}
-            onUngroup={ungroupStampPlacements}
-            onOpenSource={onOpenStampLibrary}
-            onEdit={(input) => {
-              dispatchStampGroupEdit(input)
-              canvasRef.current?.focus({ preventScroll: true })
-            }}
-            onValidationError={(message) => notifyWorkspace('error', message)}
-          />
-        ) : (
-          <div className="section">
-            <h4>地图</h4>
-            {selectedAsset ? (
-              <>
-                <div className="field">
-                  <span className="field-label">名称</span>
-                  <input
-                    ref={mapNameInputRef}
-                    key={`${selectedAsset?.id}:${selectedAsset?.name}`}
-                    className="in"
-                    defaultValue={selectedAsset?.name ?? ''}
-                    onBlur={(event) => {
-                      const name = event.target.value.trim()
-                      if (selectedAsset && name && name !== selectedAsset.name)
-                        session.dispatch(new RenameMapAssetCommand(selectedAsset.id, name))
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') event.currentTarget.blur()
-                    }}
-                  />
-                </div>
-                <div className="field">
-                  <span className="field-label">ID</span>
-                  <span className="mono map-file">{selectedAsset?.id ?? mapId}</span>
-                </div>
-                <div className="field">
-                  <span className="field-label">尺寸</span>
-                  {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
-                  <span className="size-edit">
-                    <input
-                      key={`w:${liveMap?.width}`}
-                      className="in mono"
-                      type="number"
-                      min={1}
-                      max={256}
-                      defaultValue={liveMap?.width ?? 0}
-                      disabled={mapHasReadOnlyLayer}
-                      title={
-                        mapHasReadOnlyLayer
-                          ? '地图含隐藏或锁定层，不能调整尺寸'
-                          : '宽(格);1-256,左上锚定'
-                      }
-                      onBlur={(event) => {
-                        const w = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
-                        if (liveMap && Number.isFinite(w) && w !== liveMap.width)
-                          requestStampStructureOperation(
-                            { kind: 'resize', width: w, height: liveMap.height },
-                            event.currentTarget,
-                          )
-                        if (liveMap) event.currentTarget.value = String(liveMap.width)
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter') event.currentTarget.blur()
-                      }}
-                    />
-                    ×
-                    <input
-                      key={`h:${liveMap?.height}`}
-                      className="in mono"
-                      type="number"
-                      min={1}
-                      max={256}
-                      defaultValue={liveMap?.height ?? 0}
-                      disabled={mapHasReadOnlyLayer}
-                      title={
-                        mapHasReadOnlyLayer
-                          ? '地图含隐藏或锁定层，不能调整尺寸'
-                          : '高(格);1-256,左上锚定'
-                      }
-                      onBlur={(event) => {
-                        const h = Math.max(1, Math.min(256, Math.floor(event.target.valueAsNumber)))
-                        if (liveMap && Number.isFinite(h) && h !== liveMap.height)
-                          requestStampStructureOperation(
-                            { kind: 'resize', width: liveMap.width, height: h },
-                            event.currentTarget,
-                          )
-                        if (liveMap) event.currentTarget.value = String(liveMap.height)
-                      }}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter') event.currentTarget.blur()
-                      }}
-                    />
-                  </span>
-                </div>
-                <div className="field">
-                  <span className="field-label">图层</span>
-                  <span className="mono">{liveMap?.layers.length ?? 0}</span>
-                </div>
-                <div className="field">
-                  <span className="field-label">文件</span>
-                  <span className="mono map-file">{selectedAsset?.path ?? '(索引缺失)'}</span>
-                </div>
-                <div className="field">
-                  <span className="field-label">瓦片集</span>
-                  <select
-                    className="in"
-                    title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
-                    value={liveMap?.tilesetId ?? ''}
-                    disabled={!liveMap}
-                    onChange={(e) => {
-                      if (e.target.value && liveMap)
-                        requestStampStructureOperation(
-                          { kind: 'set-tileset', tilesetId: e.target.value },
-                          e.currentTarget,
-                        )
-                    }}
+          {transformIntent && transformPlan ? (
+            <fieldset
+              className="map-transform-bar"
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  cancelTransform()
+                } else if (event.key.startsWith('Arrow')) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  if (event.key === 'ArrowLeft') adjustTransform(0, -1)
+                  else if (event.key === 'ArrowRight') adjustTransform(0, 1)
+                  else if (event.key === 'ArrowUp') adjustTransform(-2, 0)
+                  else if (event.key === 'ArrowDown') adjustTransform(2, 0)
+                }
+              }}
+            >
+              <legend>地图变换预览</legend>
+              <strong>{transformIntent.kind === 'paste' ? '粘贴预览' : '移动预览'}</strong>
+              <span>
+                锚点 r{transformIntent.anchor.row}:c{transformIntent.anchor.col}
+                {transformIncludesCollision ? ' · 含碰撞' : ' · 仅视觉'}
+                {transformPlan.issues.length
+                  ? ` · ${transformPlan.issues[0]?.message}`
+                  : transformPermissionMessage
+                    ? ` · ${transformPermissionMessage}`
+                    : transformPlan.conflicts.length
+                      ? ` · ${transformPlan.conflicts.length} 处覆盖冲突`
+                      : ' · 可提交'}
+              </span>
+              {transformIntent.kind === 'move' ? (
+                <fieldset className="map-transform-nudge">
+                  <legend className="map-a11y-legend">微调移动目标</legend>
+                  <button
+                    type="button"
+                    className="mini"
+                    aria-label="向上移动"
+                    onClick={() => adjustTransform(-2, 0)}
                   >
-                    {liveMap && !tilesets.some((t) => t.id === liveMap.tilesetId) && (
-                      <option value={liveMap.tilesetId}>缺失条目({liveMap.tilesetId})</option>
-                    )}
-                    {tilesets.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.name}({t.category})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {activeLayer ? (
-                  <>
-                    <h4>选中图层</h4>
-                    <div className="field">
-                      <span className="field-label">名称</span>
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    className="mini"
+                    aria-label="向下移动"
+                    onClick={() => adjustTransform(2, 0)}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    type="button"
+                    className="mini"
+                    aria-label="向左移动"
+                    onClick={() => adjustTransform(0, -1)}
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    className="mini"
+                    aria-label="向右移动"
+                    onClick={() => adjustTransform(0, 1)}
+                  >
+                    →
+                  </button>
+                </fieldset>
+              ) : null}
+              <div className="map-transform-actions">
+                <button
+                  type="button"
+                  className="tool"
+                  disabled={
+                    transformPlan.issues.length > 0 ||
+                    transformPlan.conflicts.length > 0 ||
+                    Boolean(transformPermissionMessage)
+                  }
+                  onClick={() => commitTransform('reject')}
+                >
+                  提交
+                </button>
+                {transformPlan.conflicts.length > 0 &&
+                transformPlan.issues.length === 0 &&
+                !transformPermissionMessage ? (
+                  <button
+                    type="button"
+                    className="tool danger"
+                    onClick={() => commitTransform('overwrite')}
+                  >
+                    覆盖并提交
+                  </button>
+                ) : null}
+                <button type="button" className="tool" onClick={cancelTransform}>
+                  取消
+                </button>
+              </div>
+            </fieldset>
+          ) : null}
+          {selection.kind === 'cells' && liveMap ? (
+            <MapSelectionInspector
+              key={mapId}
+              map={liveMap}
+              selection={selection}
+              activeLayerId={activeLayerId}
+              hiddenLayerIds={hiddenLayerIds}
+              lockedLayerIds={lockedLayerIds}
+              editingBlockedReason={
+                transformIntent ? '正在预览地图变换；请先提交或取消后再修改选区。' : undefined
+              }
+              notice={workspaceNotice}
+              onPatch={(patch, requiredLayerIds, label) => {
+                dispatchMapPatch(patch, requiredLayerIds, label)
+              }}
+              onValidationError={(message) => notifyWorkspace('error', message)}
+              onMoveToLayer={moveSelectionToLayer}
+              onClearSelection={() => dispatchWorkspace({ type: 'clear-selection', mapId })}
+              onSaveAsStamp={() => setStampDialogOpen(true)}
+              onOpenStampLibrary={
+                onOpenStampLibrary ? () => onOpenStampLibrary(undefined) : undefined
+              }
+            />
+          ) : selection.kind === 'stamp-placements' && liveMap ? (
+            <StampPlacementSelectionInspector
+              map={liveMap}
+              placementIds={selection.placementIds}
+              activeLayerId={activeLayerId}
+              hiddenLayerIds={hiddenLayerIds}
+              lockedLayerIds={lockedLayerIds}
+              editingPlacementId={stampGroupEditPlacementId}
+              editingSelection={stampGroupEditSelection}
+              editingBlockedReason={
+                transformIntent ? '正在预览组合变换；请先提交或取消后再编辑或解组。' : undefined
+              }
+              notice={workspaceNotice}
+              onEnterEdit={enterStampGroupEdit}
+              onExitEdit={exitStampGroupEdit}
+              onUngroup={ungroupStampPlacements}
+              onOpenSource={onOpenStampLibrary}
+              onEdit={(input) => {
+                dispatchStampGroupEdit(input)
+                canvasRef.current?.focus({ preventScroll: true })
+              }}
+              onValidationError={(message) => notifyWorkspace('error', message)}
+            />
+          ) : (
+            <div className="section">
+              <h4>地图</h4>
+              {selectedAsset ? (
+                <>
+                  <div className="field">
+                    <span className="field-label">名称</span>
+                    <input
+                      ref={mapNameInputRef}
+                      key={`${selectedAsset?.id}:${selectedAsset?.name}`}
+                      className="in"
+                      aria-label="地图名称"
+                      defaultValue={selectedAsset?.name ?? ''}
+                      onBlur={(event) => {
+                        const name = event.target.value.trim()
+                        if (selectedAsset && name && name !== selectedAsset.name)
+                          session.dispatch(new RenameMapAssetCommand(selectedAsset.id, name))
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') event.currentTarget.blur()
+                      }}
+                    />
+                  </div>
+                  <div className="field">
+                    <span className="field-label">ID</span>
+                    <span className="mono map-file">{selectedAsset?.id ?? mapId}</span>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">尺寸</span>
+                    {/* 左上锚定裁剪/扩展;失焦或回车提交,一次 = 一步撤销(缩图裁掉的内容 undo 可回) */}
+                    <span className="size-edit">
                       <input
-                        key={`${activeLayer.id}:${activeLayer.name}`}
-                        className="in"
-                        defaultValue={activeLayer.name}
-                        disabled={activeLayerReadOnly}
+                        key={`w:${liveMap?.width}`}
+                        className="in mono"
+                        type="number"
+                        aria-label="地图宽度"
+                        min={1}
+                        max={256}
+                        defaultValue={liveMap?.width ?? 0}
+                        disabled={mapHasReadOnlyLayer}
+                        title={
+                          mapHasReadOnlyLayer
+                            ? '地图含隐藏或锁定层，不能调整尺寸'
+                            : '宽(格);1-256,左上锚定'
+                        }
                         onBlur={(event) => {
-                          const name = event.target.value.trim()
-                          if (name && name !== activeLayer.name)
-                            session.dispatch(
-                              new UpdateProjectMapLayerCommand(mapId, activeLayer.id, { name }),
+                          const w = Math.max(
+                            1,
+                            Math.min(256, Math.floor(event.target.valueAsNumber)),
+                          )
+                          if (liveMap && Number.isFinite(w) && w !== liveMap.width)
+                            requestStampStructureOperation(
+                              { kind: 'resize', width: w, height: liveMap.height },
+                              event.currentTarget,
                             )
+                          if (liveMap) event.currentTarget.value = String(liveMap.width)
                         }}
                         onKeyDown={(event) => {
                           if (event.key === 'Enter') event.currentTarget.blur()
                         }}
                       />
-                    </div>
-                    <div className="field">
-                      <span className="field-label">ID</span>
-                      <span className="mono">{activeLayer.id}</span>
-                    </div>
-                    <div className="field">
-                      <span className="field-label">深度</span>
-                      <select
-                        className="in"
-                        value={activeLayer.depthMode}
-                        disabled={activeLayerReadOnly}
-                        onChange={(event) =>
-                          session.dispatch(
-                            new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
-                              depthMode: event.target.value as 'flat' | 'height',
-                            }),
-                          )
-                        }
-                      >
-                        <option
-                          value="flat"
-                          disabled={
-                            activeLayer.heights?.some((row) =>
-                              row.some((height) => height !== 0),
-                            ) ?? false
-                          }
-                        >
-                          平面
-                        </option>
-                        <option value="height">按实例高度参与遮挡</option>
-                      </select>
-                    </div>
-                    <div className="field">
-                      <span className="field-label">笔刷高度</span>
+                      ×
                       <input
+                        key={`h:${liveMap?.height}`}
                         className="in mono"
                         type="number"
-                        min={0}
-                        max={255}
-                        value={currentHeight}
-                        disabled={activeLayerReadOnly || activeLayer.depthMode === 'flat'}
-                        onChange={(event) =>
-                          setCurrentHeight(
-                            Math.max(0, Math.min(255, Math.floor(event.target.valueAsNumber || 0))),
-                          )
+                        aria-label="地图高度"
+                        min={1}
+                        max={256}
+                        defaultValue={liveMap?.height ?? 0}
+                        disabled={mapHasReadOnlyLayer}
+                        title={
+                          mapHasReadOnlyLayer
+                            ? '地图含隐藏或锁定层，不能调整尺寸'
+                            : '高(格);1-256,左上锚定'
                         }
+                        onBlur={(event) => {
+                          const h = Math.max(
+                            1,
+                            Math.min(256, Math.floor(event.target.valueAsNumber)),
+                          )
+                          if (liveMap && Number.isFinite(h) && h !== liveMap.height)
+                            requestStampStructureOperation(
+                              { kind: 'resize', width: liveMap.width, height: h },
+                              event.currentTarget,
+                            )
+                          if (liveMap) event.currentTarget.value = String(liveMap.height)
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter') event.currentTarget.blur()
+                        }}
                       />
-                    </div>
-                  </>
-                ) : null}
-                <h4>使用场景</h4>
-                {selectedReferences.length ? (
-                  <div className="map-reference-list">
-                    {selectedReferences.map((sceneId) => (
-                      <button
-                        type="button"
-                        key={sceneId}
-                        className="linked-value-open map-reference"
-                        onClick={() => onOpenScene(sceneId)}
-                        title={`打开场景 ${sceneId}`}
-                      >
-                        <span>{sceneId}</span>
-                        <span>↗</span>
-                      </button>
-                    ))}
+                    </span>
                   </div>
-                ) : (
-                  <p className="hint2">尚未绑定场景，保存重开后仍会保留。</p>
-                )}
-              </>
-            ) : (
-              <>
-                <p className="hint2">当前场景引用的地图没有索引条目。</p>
-                <button type="button" className="tool" onClick={createMap}>
-                  ＋ 新建地图
-                </button>
-              </>
-            )}
+                  <div className="field">
+                    <span className="field-label">图层</span>
+                    <span className="mono">{liveMap?.layers.length ?? 0}</span>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">文件</span>
+                    <span className="mono map-file">{selectedAsset?.path ?? '(索引缺失)'}</span>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">瓦片集</span>
+                    <select
+                      className="in"
+                      aria-label="地图瓦片集"
+                      title="换本图用的瓦片集(库条目;换绑不重映射瓦片索引)"
+                      value={liveMap?.tilesetId ?? ''}
+                      disabled={!liveMap}
+                      onChange={(e) => {
+                        if (e.target.value && liveMap)
+                          requestStampStructureOperation(
+                            { kind: 'set-tileset', tilesetId: e.target.value },
+                            e.currentTarget,
+                          )
+                      }}
+                    >
+                      {liveMap && !tilesets.some((t) => t.id === liveMap.tilesetId) && (
+                        <option value={liveMap.tilesetId}>缺失条目({liveMap.tilesetId})</option>
+                      )}
+                      {tilesets.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name}({t.category})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {activeLayer ? (
+                    <>
+                      <h4>选中图层</h4>
+                      <div className="field">
+                        <span className="field-label">名称</span>
+                        <input
+                          key={`${activeLayer.id}:${activeLayer.name}`}
+                          className="in"
+                          aria-label="图层名称"
+                          defaultValue={activeLayer.name}
+                          disabled={activeLayerReadOnly}
+                          onBlur={(event) => {
+                            const name = event.target.value.trim()
+                            if (name && name !== activeLayer.name)
+                              session.dispatch(
+                                new UpdateProjectMapLayerCommand(mapId, activeLayer.id, { name }),
+                              )
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') event.currentTarget.blur()
+                          }}
+                        />
+                      </div>
+                      <div className="field">
+                        <span className="field-label">ID</span>
+                        <span className="mono">{activeLayer.id}</span>
+                      </div>
+                      <div className="field">
+                        <span className="field-label">深度</span>
+                        <select
+                          className="in"
+                          aria-label="图层深度模式"
+                          value={activeLayer.depthMode}
+                          disabled={activeLayerReadOnly}
+                          onChange={(event) =>
+                            session.dispatch(
+                              new UpdateProjectMapLayerCommand(mapId, activeLayer.id, {
+                                depthMode: event.target.value as 'flat' | 'height',
+                              }),
+                            )
+                          }
+                        >
+                          <option
+                            value="flat"
+                            disabled={
+                              activeLayer.heights?.some((row) =>
+                                row.some((height) => height !== 0),
+                              ) ?? false
+                            }
+                          >
+                            平面
+                          </option>
+                          <option value="height">按实例高度参与遮挡</option>
+                        </select>
+                      </div>
+                      <div className="field">
+                        <span className="field-label">笔刷高度</span>
+                        <input
+                          className="in mono"
+                          type="number"
+                          aria-label="笔刷高度"
+                          min={0}
+                          max={255}
+                          value={activePaintHeight}
+                          disabled={activeLayerReadOnly || activeLayer.depthMode === 'flat'}
+                          onChange={(event) =>
+                            setCurrentHeight(
+                              Math.max(
+                                0,
+                                Math.min(255, Math.floor(event.target.valueAsNumber || 0)),
+                              ),
+                            )
+                          }
+                        />
+                      </div>
+                    </>
+                  ) : null}
+                  <h4>使用场景</h4>
+                  {selectedReferences.length ? (
+                    <div className="map-reference-list">
+                      {selectedReferences.map((sceneId) => (
+                        <button
+                          type="button"
+                          key={sceneId}
+                          className="linked-value-open map-reference"
+                          onClick={() => onOpenScene(sceneId)}
+                          title={`打开场景 ${sceneId}`}
+                        >
+                          <span>{sceneId}</span>
+                          <span>↗</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="hint2">尚未绑定场景，保存重开后仍会保留。</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p className="hint2">当前场景引用的地图没有索引条目。</p>
+                  <button type="button" className="tool" onClick={createMap}>
+                    ＋ 新建地图
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+        <div
+          id={`${inspectorId}-tiles-panel`}
+          className="map-inspector-panel map-tiles-panel"
+          role="tabpanel"
+          aria-labelledby={`${inspectorId}-tiles-tab`}
+          hidden={inspectorTab !== 'tiles'}
+        >
+          <div className="pane-h map-tiles-head">
+            <span className="t">瓦片</span>
+            {liveMap && loaded ? (
+              <span className="hint2">
+                #{selectedTile} · H{activePaintHeight} · {loaded.tiles.size} 块
+              </span>
+            ) : null}
           </div>
-        )}
+          {inspectorTab === 'tiles' && liveMap && loaded ? (
+            <fieldset className="tile-grid">
+              <legend className="map-a11y-legend">瓦片列表</legend>
+              {[...loaded.tiles.entries()]
+                .sort((a, b) => a[0] - b[0])
+                .map(([idx, frame]) => (
+                  <TileThumb
+                    key={idx}
+                    idx={idx}
+                    frame={frame}
+                    palette={loaded.palette}
+                    selected={idx === selectedTile}
+                    onPick={(id) => {
+                      setSelectedTile(id)
+                      activateMapTool('brush')
+                      canvasRef.current?.focus({ preventScroll: true })
+                    }}
+                  />
+                ))}
+            </fieldset>
+          ) : (
+            <p className="hint2 map-panel-empty">正在载入瓦片…</p>
+          )}
+        </div>
+        <div
+          id={`${inspectorId}-stamps-panel`}
+          className={`map-inspector-panel map-combination-panel${
+            activeTool === 'stamp' && activeStamp && liveMap ? ' has-details' : ''
+          }`}
+          role="tabpanel"
+          aria-labelledby={`${inspectorId}-stamps-tab`}
+          hidden={inspectorTab !== 'stamps'}
+        >
+          {stampPanelVisited && liveMap ? (
+            <>
+              <div className="map-combination-browser">
+                <MapStampPalette
+                  stamps={stamps}
+                  tilesetId={liveMap.tilesetId}
+                  tilesets={tilesets}
+                  tilesetBlobs={tilesetBlobs}
+                  assetBase={assetBase}
+                  activeStampId={activeStampId}
+                  recentStampIds={recentStampIds}
+                  onPick={pickStamp}
+                  onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
+                />
+              </div>
+              {activeTool === 'stamp' && activeStamp ? (
+                <div className="map-combination-details">
+                  <StampPlacementInspector
+                    template={activeStamp}
+                    map={liveMap}
+                    mappings={stampMappings}
+                    plan={stampPlan}
+                    activeLayerId={activeLayerId}
+                    hiddenLayerIds={hiddenLayerIds}
+                    lockedLayerIds={lockedLayerIds}
+                    onMapSlot={mapStampSlot}
+                    onCommit={() => commitStamp('reject')}
+                    onOverwrite={() => commitStamp('overwrite')}
+                    onCancel={cancelStampTool}
+                    onOpenLibrary={onOpenStampLibrary ? openActiveStampLibrary : undefined}
+                  />
+                </div>
+              ) : null}
+            </>
+          ) : (
+            <p className="hint2 map-panel-empty">选择“组合”后载入组合库。</p>
+          )}
+        </div>
       </div>
       {stampDialogOpen && selection.kind === 'cells' && liveMap ? (
         <StampTemplateDialog
@@ -3742,7 +3843,7 @@ export function MapMode(props: {
           onSaved={(id, mode) => {
             notifyWorkspace(
               'info',
-              mode === 'create' ? `已创建图章 “${id}”。` : `已用当前选区更新图章 “${id}”。`,
+              mode === 'create' ? `已创建组合 “${id}”。` : `已用当前选区更新组合 “${id}”。`,
             )
           }}
         />

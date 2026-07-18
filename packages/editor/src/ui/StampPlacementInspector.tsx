@@ -45,7 +45,7 @@ export function StampPlacementInspector(props: {
   return (
     <div className="section stamp-placement-inspector">
       <div className="stamp-placement-head">
-        <span className="stamp-eyebrow">待放置图章</span>
+        <span className="stamp-eyebrow">待放置组合</span>
         <h4 title={`${template.name} (${template.id})`}>{template.name}</h4>
         <code>{template.id}</code>
       </div>
@@ -130,11 +130,11 @@ export function StampPlacementInspector(props: {
                   .map((item) => item.message)
                   .join('；')
               : plan.conflicts.length
-                ? `${plan.conflicts.length} 处普通内容冲突；不会覆盖已有图章成员。`
+                ? `${plan.conflicts.length} 处普通内容冲突；不会覆盖已有组合成员。`
                 : '预览有效；点击画布或下方按钮一次原子放置。'}
       </div>
       {plan && problemCount > 0 ? (
-        <section className="stamp-placement-problems" aria-label="图章放置问题明细">
+        <section className="stamp-placement-problems" aria-label="组合放置问题明细">
           <div className="stamp-placement-problems-head">
             <strong>问题明细</strong>
             <span>{problemCount}</span>
@@ -177,7 +177,7 @@ export function StampPlacementInspector(props: {
           </button>
         ) : null}
         <button type="button" className="tool" onClick={onCancel}>
-          退出图章工具
+          退出组合工具
         </button>
         {onOpenLibrary ? (
           <button type="button" className="tool" onClick={onOpenLibrary}>

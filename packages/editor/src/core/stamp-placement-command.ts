@@ -1,8 +1,8 @@
-import { projectMapStampPlacements, withProjectMapStampPlacements } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { applyPreparedProjectMapPatch } from './map-patch.js'
 import type { StampPlacementPlan } from './stamp-placement.js'
+import { applyStampPlacementMutation } from './stamp-placement-mutation.js'
 
 export class StampPlacementCommandError extends Error {
   constructor(message: string) {
@@ -36,10 +36,9 @@ export class PlaceStampCommand implements Command {
       structuredClone(plan.preparedPatch),
       'next',
     )
-    this.afterMap = withProjectMapStampPlacements(withValues, [
-      ...projectMapStampPlacements(this.beforeMap),
-      structuredClone(plan.placement),
-    ])
+    this.afterMap = applyStampPlacementMutation(this.beforeMap, withValues, {
+      upsertPlacements: [structuredClone(plan.placement)],
+    })
   }
 
   apply(state: EditorState): EditorState {

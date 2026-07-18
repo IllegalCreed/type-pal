@@ -681,7 +681,7 @@ export function TilesetTab(props: {
             <section className="section">
               <h4>组合地物</h4>
               <p className="tileset-inspector-copy">
-                此处管理原始瓦片素材。组合图章将由地图工作区的独立图章库管理，不写入瓦片图像文件。
+                此处管理原始瓦片素材。组合模板由地图工作区的独立组合库管理，不写入瓦片图像文件。
               </p>
             </section>
             <section className="section tileset-inspector-actions">

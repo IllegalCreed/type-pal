@@ -3,7 +3,6 @@ import {
   projectMapStampPlacements,
   removeProjectMapLayer,
   resizeProjectMap,
-  withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import {
   applyPreparedProjectMapPatch,
@@ -11,6 +10,8 @@ import {
   type ProjectMapPatch,
   prepareProjectMapPatch,
 } from './map-patch.js'
+import { inheritStampPlacementIndex } from './stamp-ownership.js'
+import { applyStampPlacementMutation } from './stamp-placement-mutation.js'
 
 export type StampStructureOperation =
   | { kind: 'remove-layer'; layerId: string }
@@ -87,14 +88,6 @@ export function inspectStampStructureImpact(
   return { placementIds }
 }
 
-function withPlacementsPreservingMatrices(map: ProjectMap, placementIdsToRemove: Set<string>) {
-  const next = withProjectMapStampPlacements(
-    map,
-    projectMapStampPlacements(map).filter((placement) => !placementIdsToRemove.has(placement.id)),
-  )
-  return { ...next, layers: map.layers, collision: map.collision } as ProjectMap
-}
-
 function deletePlacementContentPatch(map: ProjectMap, placementIds: ReadonlySet<string>) {
   const placements = projectMapStampPlacements(map).filter((placement) =>
     placementIds.has(placement.id),
@@ -140,7 +133,11 @@ export function resolveStampStructureOperation(
     throw new StampStructureLifecycleError('结构操作确认已过期；请按当前地图重新确认。')
 
   const impact = inspectStampStructureImpact(map, operation)
-  if (impact.placementIds.length === 0) return applyStructureOperation(map, operation)
+  if (impact.placementIds.length === 0) {
+    const next = applyStructureOperation(map, operation)
+    inheritStampPlacementIndex(map, next)
+    return next
+  }
 
   const resolution = options.resolution ?? 'reject'
   if (resolution === 'reject')
@@ -157,7 +154,9 @@ export function resolveStampStructureOperation(
   const requiredWritableLayerIds = [
     ...new Set(affected.flatMap((placement) => placement.visualSlots.map((ref) => ref.layerId))),
   ]
-  const withoutAffected = withPlacementsPreservingMatrices(map, removed)
+  const withoutAffected = applyStampPlacementMutation(map, map, {
+    removedPlacementIds: impact.placementIds,
+  })
   const permission: MapPatchPermissionSnapshot = {
     hiddenLayerIds: [...options.permission.hiddenLayerIds],
     lockedLayerIds: [...options.permission.lockedLayerIds],
@@ -169,5 +168,7 @@ export function resolveStampStructureOperation(
       : ({ visual: [], collision: [] } satisfies ProjectMapPatch)
   const prepared = prepareProjectMapPatch(withoutAffected, patch, permission)
   const resolved = applyPreparedProjectMapPatch(withoutAffected, prepared, 'next')
-  return applyStructureOperation(resolved, operation)
+  const next = applyStructureOperation(resolved, operation)
+  inheritStampPlacementIndex(resolved, next)
+  return next
 }

@@ -82,6 +82,7 @@ import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
 } from './stamp-lifecycle.js'
+import { inheritStampPlacementIndex } from './stamp-ownership.js'
 import { assertTilesetRemovalAllowed, type TilesetRemovalProof } from './tileset-references.js'
 
 /**
@@ -756,18 +757,22 @@ export class PaintTilesCommand implements Command {
         })
       }
     }
+    const next = paintProjectMapTiles(map, this.edits)
+    inheritStampPlacementIndex(map, next)
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintProjectMapTiles(map, this.edits) },
+      maps: { ...state.maps, [this.mapRel]: next },
     }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
+    const next = paintProjectMapTiles(map, this.prev)
+    inheritStampPlacementIndex(map, next)
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintProjectMapTiles(map, this.prev) },
+      maps: { ...state.maps, [this.mapRel]: next },
     }
   }
 }
@@ -801,18 +806,22 @@ export class PaintCollisionCommand implements Command {
         if (value !== undefined) this.prev.push({ ...edit, value })
       }
     }
+    const next = paintProjectMapCollision(map, this.edits)
+    inheritStampPlacementIndex(map, next)
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintProjectMapCollision(map, this.edits) },
+      maps: { ...state.maps, [this.mapRel]: next },
     }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.prev) return state
+    const next = paintProjectMapCollision(map, this.prev)
+    inheritStampPlacementIndex(map, next)
     return {
       ...state,
-      maps: { ...state.maps, [this.mapRel]: paintProjectMapCollision(map, this.prev) },
+      maps: { ...state.maps, [this.mapRel]: next },
     }
   }
 }
@@ -878,6 +887,7 @@ export class AddProjectMapLayerCommand implements Command {
     if (this.insertedIndex === undefined)
       this.insertedIndex = Math.max(0, Math.min(this.index ?? map.layers.length, map.layers.length))
     const next = insertProjectMapLayer(map, this.layer, this.insertedIndex)
+    inheritStampPlacementIndex(map, next)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
@@ -885,6 +895,7 @@ export class AddProjectMapLayerCommand implements Command {
     const map = state.maps[this.mapRel]
     if (!map) return state
     const next = removeProjectMapLayer(map, this.layer.id)
+    inheritStampPlacementIndex(map, next)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 }
@@ -934,6 +945,7 @@ export class MoveProjectMapLayerCommand implements Command {
     if (this.fromIndex === undefined)
       this.fromIndex = map.layers.findIndex((l) => l.id === this.layerId)
     const next = moveProjectMapLayer(map, this.layerId, this.toIndex)
+    inheritStampPlacementIndex(map, next)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
@@ -941,6 +953,7 @@ export class MoveProjectMapLayerCommand implements Command {
     const map = state.maps[this.mapRel]
     if (!map || this.fromIndex === undefined || this.fromIndex < 0) return state
     const next = moveProjectMapLayer(map, this.layerId, this.fromIndex)
+    inheritStampPlacementIndex(map, next)
     return next === map ? state : { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 }
@@ -965,17 +978,20 @@ export class UpdateProjectMapLayerCommand implements Command {
       if ('depthMode' in this.patch) this.oldPatch.depthMode = layer.depthMode
     }
     const next = updateProjectMapLayer(map, this.layerId, this.patch)
+    inheritStampPlacementIndex(map, next)
     return { ...state, maps: { ...state.maps, [this.mapRel]: next } }
   }
 
   invert(state: EditorState): EditorState {
     const map = state.maps[this.mapRel]
     if (!map || !this.oldPatch) return state
+    const next = updateProjectMapLayer(map, this.layerId, this.oldPatch)
+    inheritStampPlacementIndex(map, next)
     return {
       ...state,
       maps: {
         ...state.maps,
-        [this.mapRel]: updateProjectMapLayer(map, this.layerId, this.oldPatch),
+        [this.mapRel]: next,
       },
     }
   }

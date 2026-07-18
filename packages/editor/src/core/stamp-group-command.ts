@@ -1,5 +1,4 @@
 import type { ProjectMap, StampPlacementGroupV1 } from '@type-pal/content'
-import { projectMapStampPlacements, withProjectMapStampPlacements } from '@type-pal/reforge'
 import type { Command } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import {
@@ -15,6 +14,7 @@ import type { GridPointRef, VisualSlotRef } from './map-selection.js'
 import { gridPointKey, visualSlotKey } from './map-selection.js'
 import type { StampGroupTransformPlan } from './stamp-group-transform.js'
 import { buildStampPlacementIndex } from './stamp-ownership.js'
+import { applyStampPlacementMutation } from './stamp-placement-mutation.js'
 
 export class StampGroupCommandError extends Error {
   constructor(message: string) {
@@ -44,16 +44,6 @@ function clonePlacement(placement: StampPlacementGroupV1): StampPlacementGroupV1
     visualSlots: placement.visualSlots.map((ref) => ({ ...ref })),
     gridPoints: placement.gridPoints.map((ref) => ({ ...ref })),
   }
-}
-
-function withPlacementsPreservingMatrices(
-  map: ProjectMap,
-  placements: readonly StampPlacementGroupV1[],
-): ProjectMap {
-  const validated = withProjectMapStampPlacements(map, placements)
-  return validated.version === 3
-    ? { ...validated, layers: map.layers, collision: map.collision }
-    : validated
 }
 
 /** 当前 placement + 当前显式活动层的窄编辑原子。 */
@@ -160,12 +150,9 @@ export class EditStampPlacementCommand implements Command {
       visualSlots: nextVisualSlots.map((ref) => ({ ...ref })),
       gridPoints: nextGridPoints.map((ref) => ({ ...ref })),
     }
-    this.afterMap = withPlacementsPreservingMatrices(
-      withValues,
-      projectMapStampPlacements(input.map).map((candidate) =>
-        candidate.id === placement.id ? nextPlacement : clonePlacement(candidate),
-      ),
-    )
+    this.afterMap = applyStampPlacementMutation(this.beforeMap, withValues, {
+      upsertPlacements: [nextPlacement],
+    })
   }
 
   apply(state: EditorState): EditorState {
@@ -220,13 +207,9 @@ export class UngroupStampPlacementsCommand implements Command {
         requiredWritableLayerIds,
       },
     )
-    const removed = new Set(ids)
-    this.afterMap = withPlacementsPreservingMatrices(
-      input.map,
-      projectMapStampPlacements(input.map)
-        .filter((placement) => !removed.has(placement.id))
-        .map(clonePlacement),
-    )
+    this.afterMap = applyStampPlacementMutation(this.beforeMap, this.beforeMap, {
+      removedPlacementIds: ids,
+    })
     this.label = ids.length === 1 ? `解组“${ids[0]}”` : `解组 ${ids.length} 个图章放置组`
   }
 
@@ -273,13 +256,10 @@ export class TransformStampPlacementsCommand implements Command {
       structuredClone(plan.preparedPatch),
       'next',
     )
-    const removed = new Set(plan.removePlacementIds)
-    this.afterMap = withProjectMapStampPlacements(withValues, [
-      ...projectMapStampPlacements(plan.baseMap)
-        .filter((placement) => !removed.has(placement.id))
-        .map(clonePlacement),
-      ...plan.upsertPlacements.map(clonePlacement),
-    ])
+    this.afterMap = applyStampPlacementMutation(this.beforeMap, withValues, {
+      removedPlacementIds: plan.removePlacementIds,
+      upsertPlacements: plan.upsertPlacements.map(clonePlacement),
+    })
   }
 
   apply(state: EditorState): EditorState {
