@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| W7G | 多图层组合地物图章与可持久放置组 | draft | Kimi 复核 S3 收敛并重签 | Codex 已接受条件 v3；GLM agree；Kimi 原 counter 未解除前仍禁止 build |
+| W7G | 多图层组合地物图章与可持久放置组 | build | Codex | 三签齐 build allowed（S3 条件 v3 收敛）；Codex 按 W7G-A→F 分段实现，各段退出门禁随段核对 |
 
 ## 阻塞
 

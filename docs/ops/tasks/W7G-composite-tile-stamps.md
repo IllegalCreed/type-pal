@@ -1,6 +1,6 @@
 # W7G - 组合地物图章与可持久放置组
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: W7 / W8 / MG2
 Coding Owner: Codex
@@ -195,7 +195,7 @@ interface StampPlacementGroupV1 {
 |---|---|---|---|---|---|
 | S1 | 模板存放位置 | 独立 `content/stamps.json`,模板显式引用 `tilesetId`;不扩展 `TilesetDef` | manifest、loader、EditorState、引用图、MG2 | agree | agree |
 | S2 | placement 存放位置 | 地图增加可选、具版本的 `authoring.stampPlacements`;普通矩阵仍是唯一运行真值 | 校验/格式化/copy-through/运行时忽略作者字段 | agree | agree |
-| S3 | 版本策略 | `stampPlacements` 非空时写 map `version:3`;无章地图保持 `version:2` 且不物化空 authoring。当前消费方同 build 支持 `2|3`,authoring 仅随 v3 出现且未知 authoring 版本 fail-loud | 旧工程零 diff、旧二进制遇 v3 fail-loud、G1 第二 formatter、运行时零第二格式 | **counter（原案;待复核收敛版）** | agree（R-S3-1~4） |
+| S3 | 版本策略 | `stampPlacements` 非空时写 map `version:3`;无章地图保持 `version:2` 且不物化空 authoring。当前消费方同 build 支持 `2|3`,authoring 仅随 v3 出现且未知 authoring 版本 fail-loud | 旧工程零 diff、旧二进制遇 v3 fail-loud、G1 第二 formatter、运行时零第二格式 | agree（复核通过；原 counter 已按 R-S3-1~4 解决） | agree（R-S3-1~4） |
 | S4 | 多层表达 | 模板使用局部稳定 `layerSlotId + depthMode`,落笔前显式映射地图 `layerId` | 单层退化、重排/改名、缺层/flat-height | agree | agree |
 | S5 | 使用范围 | 首版仅允许同一 `tilesetId`;不做自动 remap、跨工程粘贴 | tileId 语义、导入/克隆、错误提示 | agree | agree |
 | S6 | group id / 来源 | group id map-local;move/redo/地图 clone 保留,同图 copy/duplicate 重建;来源是可悬空软信息 | 相邻同款、复制地图、模板删除 | agree | agree |
@@ -504,18 +504,15 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
 - Reviewer: Kimi(schema、版本、状态机、生命周期和跨包接口主审);GLM(消费方、MG2、数据不变量、
   测试矩阵和文档覆盖主审)。
-- 结论(Kimi,2026-07-18): **counter——仅 S3 一项;S1-S2、S4-S16 全部 agree**。
-  架构主线成立:独立模板表(S1)沿用 A7-0 新表先例;placement 入 map authoring(S2)与命令/保存/
-  clone/delete 同一原子单元,copy-through 与 MG2 单图 atomic 已实证,sidecar 否决;多层 slot 显式映射、
-  排他所有权、单复合事务、生命周期默认阻止均与用户十条语义和 W8 原子 patch 地基自洽。
-  唯一阻塞:Codex 的「保持 `version:2` + 风险写清」在旧二进制「加载→修改→保存」带章地图时静默销毁
-  placement;收敛方案 R-S3-1~4(版本按内容条件发 3、消费方同 build 接受 2|3、运行时零第二格式、
-  sidecar 否决)已写入「S2/S3 特别风险」节。
-- 必改项(R,design 层面,Codex 收敛后 Kimi 复核重签):
-  - **R-S3-1~4**:按「S2/S3 特别风险」节改写 S3 行与本节——版本条件发出、W7G-A 消费方清单、
-    运行时一致性、静默擦除路径关闭的明确表述。
-- 建议项/必落钉(P,不阻塞签字,build 验收核对):P1 按通道排他(S8)/P2 所有权守卫覆盖全部组外
-  写路径(S10)/P3 ghost revision 含 undo/redo(S12)/P4 placement 存储体积 fixture(S7)。
+- 结论(Kimi,2026-07-18 复核更新): **agree——S3 收敛复核通过,S1-S16 全表 agree**。
+  原 counter(仅 S3)保留为历史;Codex 已撤回「始终 v2」原案并按 R-S3-1~4 收敛,GLM 独立复核 agree。
+  复核结论:条件 v3 语义完备(版本=内容纯函数、删最后一组同命令降回 v2)、消费方清单完整
+  (含 G1 第二 formatter 与 migration-validate)、显式 `ProjectMapV2 | ProjectMapV3` union、
+  P1-P4/G1-G3 全部进入分期门禁,未发现新矛盾。
+- 必改项(R,design 层面):**已全部解决**——R-S3-1~4 已并入 S3 行、「S2/S3 特别风险」节与分期门禁。
+- 建议项/必落钉(P,不阻塞签字,build 验收核对):P1 按通道排他(S8,W7G-A 退出)/P2 所有权守卫
+  覆盖全部组外写路径(S10,W7G-D 退出)/P3 ghost revision 含 undo/redo(S12,W7G-C 退出)/
+  P4 placement 存储体积 fixture + 数值预算(S7,W7G-F 退出)。
 - GLM: **agree（2026-07-18;附 G1-G3 build 必落,见下）**。S1-S16 消费方清单逐项核对 + 代码逻辑审查 + S3 收敛方案独立数据/MG2 复核。
 
   **代码逻辑审查（读源码逐路径推演）** ✅：
@@ -540,9 +537,8 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 
   **总结**：消费方清单零遗漏；S3 收敛方案从数据/MG2 视角 agree；代码逻辑审查确认 Kimi counter 实证成立；stamps.json 零代码零产物；W8 stamp-placement dead branch 干净。**agree。**
 
-- 是否建议进入 build: **否——Codex 接受 R-S3-1~4 收敛 S3 + Kimi 重签后三签齐方可 build**。GLM 已 agree；G1-G3 纳入 build 范围。
-  若 Codex 接受 R-S3-1~4 并改卡,Kimi 可直接重签 agree,无需用户拍板;若 Codex 坚持原案,
-  请用户拍板「条件 v3(Kimi)vs v2+风险写清(Codex)」。
+- 是否建议进入 build: **是——Codex 已收敛 S3、GLM agree、Kimi 复核 agree,三签齐,build allowed**。
+  用户无需在 v2/v3 间裁决(Codex 已接受条件 v3)。Codex 按 W7G-A→F 分段 build,各段退出门禁随段核对。
 
 ### 三方争议记录
 
@@ -550,8 +546,10 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   authoring placement;非空 placement 条件发 map v3、无章保持 v2;全部消费者同 build 支持 2|3;
   多层局部 layer slot 显式映射、placement 按通道排他、多组但不与普通 cells 混选、单一复合 Command。
   R-S3-1~4、P1-P4、G1-G3 已并入 S 表、风险节和分期门禁。
-- Kimi: **原 counter（仅 S3）已由 Codex 接受,等待本人复核修订版并重签 agree**。原审查证据和 counter
-  保留在“主审立场”“推进签字”“交接日志”,不得由 Codex 代签或改写成 agree。
+- Kimi: **agree（2026-07-18,S3 收敛复核通过）**。原 counter(仅 S3)由 Codex 接受并按 R-S3-1~4
+  收敛后,本人只读复核确认:条件 v3 语义完备(版本=内容纯函数、删最后一组同命令降回 v2)、
+  消费方清单完整(含 G1 第二 formatter 与 migration-validate)、显式 union 类型边界、P1-P4/G1-G3
+  全部进入分期门禁,未发现新矛盾。原审查证据和 counter 保留在“主审立场”“推进签字”“交接日志”。
 - GLM: **agree**。S1-S16 消费方清单逐项核对零遗漏(5 处 map 版本消费方+stamps 表/MG2/IO 全链)；S3 收敛方案(条件 v3)从数据/MG2 视角独立复核 agree——不引入新消费方遗漏或二跑零计划风险，copy-through/MG2 atomic 免费继承，sidecar 否决正确；代码逻辑审查确认 validate/format 逐字段重建丢未知字段(Kimi counter 实证成立)；stamps.json 零代码零产物(W7G 新建)；W8 stamp-placement dead branch 干净(assertNever 编译期暴露)。G1(serializeMigrationJson 第二 format 调用点)/G2(stamps.json MG2 id-mode 登记)/G3(manifest content key 注册)build 必落。
 - 用户拍板:已拍板的十条产品语义见上。Codex 已接受 Kimi/GLM 的条件 v3,当前无需用户在 v2/v3 间裁决。
 
@@ -571,13 +569,24 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   保存」带章地图会静默擦除全部 placement;copy-through(project-io.ts:142/:196)与 MG2 单图 atomic
   (migration-merge.ts:43-57)实证支持 S2 入图方案、否掉 sidecar。S3 收敛方案 R-S3-1~4 与 build 必落钉
   P1-P4 已写入「S2/S3 特别风险」节。Codex 按该节收敛 S3 后 Kimi 重签;若 Codex 坚持原案请用户拍板。
+- Kimi 复核重签: **agree（2026-07-18,S3 收敛复核通过）**。逐项核对 Codex 修订:
+  R-S3-1 条件 v3 语义完备(非空 placement→v3、v2 禁 authoring、v3 必须 authoring.version:1+非空
+  placements、删最后一组同命令降回 v2——版本成为内容的纯函数,无振荡歧义);R-S3-2 消费方清单完整
+  (is/validate/format/reforge load/editor serialize + G1 的 serializeMigrationJson 第二 formatter +
+  migration-validate,统一 `ProjectMapV2 | ProjectMapV3` 显式 union,不暗扩 `version: 2|3`);
+  R-S3-3 运行时零第二格式仍在测试矩阵 E;R-S3-4 sidecar 否决与 fail-loud 口径保持。
+  P1-P4 已并入 S8/S10/S12/S7 行与分期门禁(A 退出版本+ownership validator、C 退出 P3 ghost revision、
+  D 退出 P2 全写路径守卫、F 退出 P4 体积/性能实测);G1-G3 已并入 R-S3-2/S15 行与分期门禁。
+  未发现新矛盾;GLM 的 G1-G3 与我的 R-S3-2 清单一致,Codex 的锚点校正(migration-plan.ts:90-134)属实。
+  三签已对同一版 S3 收敛,**build allowed**。
 - Codex 证据锚点校正（不改 Kimi 原 counter 结论）:单地图 atomic 三方合并的实锚是
   `packages/migrate/src/migration-plan.ts:90-134`,不是原记录中的 `migration-merge.ts:43-57`。
 - GLM: **agree（2026-07-18;附 G1-G3 build 必落,见「主审立场」GLM 行）**。消费方清单零遗漏+S3 收敛方案数据/MG2 视角 agree+代码逻辑审查确认 Kimi counter 实证。
-- counter / 分歧处理:Kimi 的 S3 counter 已被 Codex 接受并按 R-S3-1~4 收敛;GLM 已 agree。
-  仍需 Kimi 复核当前修订并亲自追加 agree,原 counter 保留为历史证据。
+- counter / 分歧处理:Kimi 的 S3 counter 已被 Codex 接受并按 R-S3-1~4 收敛;Kimi 已于 2026-07-18
+  只读复核通过并追加 agree,原 counter 保留为历史证据。当前无未决分歧。
 - 缺签豁免:N/A。
-- build 准入结论:**blocked（Codex 已收敛、GLM 已 agree；等待 Kimi 复核并重签 agree）**。
+- build 准入结论:**allowed（Codex agree + GLM agree + Kimi 复核 agree,三签齐,2026-07-18）**。
+  Codex 按 W7G-A→F 分段 build;各段退出门禁(版本/ownership validator/P2/P3/P4/G1-G3)随段核对。
 
 ### 进入 done 前:审查签字
 
@@ -643,10 +652,39 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   口径校正:GLM 的“消费方零遗漏”按其同段 G1 解释为“把第二 formatter 纳入后零遗漏”;当前最终清单
   还显式包含 `migration-validate`,MG2 atomic 实锚校正为 `migration-plan.ts:90-134`。
   Next:Kimi 只读复核修订版并重签 agree;在此之前仍为 draft/blocked,不得修改 W7G 实现。
+- 2026-07-18 Kimi:S3 收敛只读复核通过,**追加 agree,三签齐,Status draft → build**。
+  复核证据:R-S3-1 条件 v3 语义完备(v2 禁 authoring、v3 必须 authoring.version:1+非空 placements、
+  删最后一组同命令降回 v2,版本=内容纯函数);R-S3-2 消费方清单完整(is/validate/format/reforge
+  load/editor serialize + serializeMigrationJson + migration-validate,显式
+  `ProjectMapV2 | ProjectMapV3` union);R-S3-3 运行时零第二格式在测试矩阵 E;R-S3-4 sidecar 否决保持。
+  P1-P4 与 G1-G3 已并入 S8/S10/S12/S7/S15 行和分期门禁(A 退出版本+ownership validator、C 退出 P3、
+  D 退出 P2、F 退出 P4)。未发现新矛盾;Codex 锚点校正(migration-plan.ts:90-134)属实。
+  原 counter 按历史保留。Evidence:本卡 S 表 S3 行、推进签字 Kimi 复核行、主审立场、争议记录。
+  Next:Codex 按 W7G-A→F 分段 build(提示词见下),各段退出门禁随段核对;Kimi/GLM 只读待命。
+  未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（S3 收敛复核）
+### 给 Codex（build W7G-A → F）
+
+```text
+接手任务:W7G 组合地物图章与可持久放置组——分段 build
+任务卡:docs/ops/tasks/W7G-composite-tile-stamps.md
+当前状态:build（Codex/GLM/Kimi 三方设计 agree 已齐,build allowed,2026-07-18）;
+        你是唯一 Coding Owner,Kimi/GLM 只读待命
+先读:docs/phase2/READ-FIRST.md;本任务卡全文(重点:用户十条语义、S1-S16 收敛表、
+     S2/S3 特别风险的 R-S3-1~4、分期与退出门禁、测试矩阵 A-F);W8 任务卡的原子 patch/
+     选择代数;代码锚点(content/project-map.ts、reforge/loader.ts、editor core 三件、
+     migrate migration-plan.ts:90-134 与 migration-baseline.ts:27-28)
+铁律:build 期间只有你改实现文件;W8 的 stamp-placement dead branch 用 never 兜底扩展;
+     普通矩阵+metadata 永远单一复合 dispatch;不得提前加半套字段;每段退出门禁随段核对——
+     A 退出:R-S3-1~4+G1-G3+P1(条件 v3、消费方全清单、stamps manifest key、MG2 id-mode、
+     按通道 ownership validator);C 退出:P3(ghost revision 含 undo/redo);
+     D 退出:P2(全部组外写路径 ownership 守卫);F 退出:P4(体积/性能实测带数值预算)。
+输出:按段汇报实现+测试证据;完成自验后转 review,由 Kimi/GLM 做 done 审查(三方 accept 才标 done)。
+```
+
+### 给 Kimi（S3 收敛复核）—— 已完成,签 agree
 
 ```text
 接手任务:W7G 组合地物图章与可持久放置组——S3 counter 收敛复核与重签
