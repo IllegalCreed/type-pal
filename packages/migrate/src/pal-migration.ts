@@ -186,7 +186,8 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     put(`content/maps/${mapIdFromSourceNumber(mapNum)}.json`, map)
   }
   put('content/tilesets.json', tilesets)
-  // W7G-A 只建立上游所有权与合并边界；预置图章内容在 W7G-B 由迁移真源生成。
+  // PAL 提取真值只有逐格 tile/height/collision，没有命名组合、锚点或成员语义。
+  // 因此保持空表；不得用邻接/图案相似度猜预置图章。未来预置须来自显式策展的上游描述源。
   put('content/stamps.json', [])
   put(
     'content/scenes/index.json',

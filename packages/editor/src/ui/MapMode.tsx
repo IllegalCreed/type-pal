@@ -1,5 +1,5 @@
 /** 地图模式：ProjectMap 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
-import type { MapIndexV1, SceneDef } from '@type-pal/content'
+import type { MapIndexV1, SceneDef, StampTemplateV1 } from '@type-pal/content'
 import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
@@ -71,6 +71,7 @@ import {
 } from '../core/map-transform.js'
 import { MapSelectionInspector } from './MapSelectionInspector.js'
 import { drawMapSelectionOverlay } from './map-selection-overlay.js'
+import { StampTemplateDialog } from './StampTemplateDialog.js'
 import {
   drawGridBlocked,
   mapBoxOf,
@@ -181,6 +182,11 @@ export function MapMode(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   /** 上传未保存的 tileset 字节(内存优先)。 */
   tilesetBlobs: Record<string, ArrayBuffer>
+  stamps: readonly StampTemplateV1[]
+  onOpenStampLibrary?: (id?: string) => void
+  onStampSelectionChange?: (
+    source: import('../core/stamp-template.js').StampSelectionSource | undefined,
+  ) => void
   navigation?: React.ReactNode
   onWorkspaceNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
@@ -196,6 +202,9 @@ export function MapMode(props: {
     onOpenScene,
     tilesets,
     tilesetBlobs,
+    stamps,
+    onOpenStampLibrary,
+    onStampSelectionChange,
     navigation,
     onWorkspaceNotice,
   } = props
@@ -247,8 +256,16 @@ export function MapMode(props: {
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
+  const [stampDialogOpen, setStampDialogOpen] = useState(false)
   const mapNameInputRef = useRef<HTMLInputElement>(null)
   const selectedMapRowRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    onStampSelectionChange?.(selection.kind === 'cells' && mapId ? { mapId, selection } : undefined)
+  }, [mapId, onStampSelectionChange, selection])
+  useEffect(() => {
+    if (selection.kind !== 'cells') setStampDialogOpen(false)
+  }, [selection.kind])
   const strokeRef = useRef<Map<string, StrokeEdit>>(new Map())
   const hoverRef = useRef<LatticePos | null>(null)
   const panRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
@@ -2210,6 +2227,10 @@ export function MapMode(props: {
             onValidationError={(message) => notifyWorkspace('error', message)}
             onMoveToLayer={moveSelectionToLayer}
             onClearSelection={() => dispatchWorkspace({ type: 'clear-selection', mapId })}
+            onSaveAsStamp={() => setStampDialogOpen(true)}
+            onOpenStampLibrary={
+              onOpenStampLibrary ? () => onOpenStampLibrary(undefined) : undefined
+            }
           />
         ) : selection.kind === 'stamp-placement' ? (
           <div className="insp-empty">图章放置组选区由 W7G 接入；W8 不会猜测或拆散成员。</div>
@@ -2422,6 +2443,21 @@ export function MapMode(props: {
           </div>
         )}
       </div>
+      {stampDialogOpen && selection.kind === 'cells' && liveMap ? (
+        <StampTemplateDialog
+          map={liveMap}
+          selection={selection}
+          stamps={stamps}
+          session={session}
+          onClose={() => setStampDialogOpen(false)}
+          onSaved={(id, mode) => {
+            notifyWorkspace(
+              'info',
+              mode === 'create' ? `已创建图章 “${id}”。` : `已用当前选区更新图章 “${id}”。`,
+            )
+          }}
+        />
+      ) : null}
     </>
   )
 }

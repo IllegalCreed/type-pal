@@ -130,6 +130,7 @@ async function mountMapMode(): Promise<{
         onOpenScene={vi.fn()}
         tilesets={[]}
         tilesetBlobs={{}}
+        stamps={[]}
         onWorkspaceNotice={onWorkspaceNotice}
       />,
     )

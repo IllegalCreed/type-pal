@@ -23,6 +23,7 @@ export const DATA_PAGE_IDS = [
   'music',
   'sound',
   'tileset',
+  'stamp',
   'cutscene',
   'entrypoint',
   'vars',
@@ -71,7 +72,22 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     defaultSubpage: 'workspace',
     subpages: [
       { id: 'workspace', label: '地图编辑', icon: '✏️', kind: 'map', acceptsObject: true },
-      { id: 'tileset', label: '瓦片集', icon: '🧱', kind: 'data', dataPage: 'tileset' },
+      {
+        id: 'tileset',
+        label: '瓦片集',
+        icon: '🧱',
+        kind: 'data',
+        dataPage: 'tileset',
+        acceptsObject: true,
+      },
+      {
+        id: 'stamp',
+        label: '图章库',
+        icon: '▦',
+        kind: 'data',
+        dataPage: 'stamp',
+        acceptsObject: true,
+      },
     ],
   },
   {
@@ -293,6 +309,16 @@ export const editorLinks = {
     module: 'map',
     subpage: 'workspace',
     objectId: mapId,
+  }),
+  stamp: (stampId?: string): EditorLocation => ({
+    module: 'map',
+    subpage: 'stamp',
+    ...(stampId ? { objectId: stampId } : {}),
+  }),
+  tileset: (tilesetId: string): EditorLocation => ({
+    module: 'map',
+    subpage: 'tileset',
+    objectId: tilesetId,
   }),
   actor: (actorId: string): EditorLocation => ({
     module: 'actor',

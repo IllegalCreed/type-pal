@@ -75,6 +75,7 @@ import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
+import type { StampSelectionSource } from '../core/stamp-template.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
 import {
@@ -228,6 +229,14 @@ export function App(props: {
   const [workspaceNotice, setWorkspaceNotice] = useState<
     { kind: 'info' | 'error'; message: string } | undefined
   >()
+  const [stampSelectionSource, setStampSelectionSource] = useState<StampSelectionSource>()
+  const captureStampSelection = useCallback((source: StampSelectionSource | undefined) => {
+    setStampSelectionSource(source)
+  }, [])
+  useEffect(() => {
+    void session
+    setStampSelectionSource(undefined)
+  }, [session])
 
   const persistNavigation = useCallback(
     (last: EditorLocation): void => {
@@ -265,7 +274,10 @@ export function App(props: {
       const next = normalizeEditorLocation(input)
       const current = locationRef.current
       const pageChanged = current.module !== next.module || current.subpage !== next.subpage
-      if (pageChanged) captureScroll(current)
+      if (pageChanged) {
+        captureScroll(current)
+        setWorkspaceNotice(undefined)
+      }
 
       if (!sameEditorLocation(current, next)) {
         locationRef.current = next
@@ -505,9 +517,6 @@ export function App(props: {
 
   const activeModule = editorModule(location.module)
   const activeSubpage = editorSubpage(location)
-  useEffect(() => {
-    if (activeSubpage.kind !== 'map') setWorkspaceNotice(undefined)
-  }, [activeSubpage.kind])
   const sceneMapId = scene?.mapId
   const defaultMapId =
     (location.module === 'map' &&
@@ -574,6 +583,12 @@ export function App(props: {
     if (activeSubpage.dataPage === 'cutscene') {
       const kind = state.assetCatalog.assets[location.objectId]?.kind
       return kind !== 'video' && kind !== 'frame-animation'
+    }
+    if (activeSubpage.dataPage === 'stamp') {
+      return !state.stamps.some((candidate) => candidate.id === location.objectId)
+    }
+    if (activeSubpage.dataPage === 'tileset') {
+      return !(state.tilesets ?? []).some((candidate) => candidate.id === location.objectId)
     }
     if (activeSubpage.dataPage === 'scripts') {
       return !state.scriptIndex?.library?.[location.objectId]
@@ -897,6 +912,9 @@ export function App(props: {
             }}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
+            stamps={state.stamps}
+            onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}
+            onStampSelectionChange={captureStampSelection}
             navigation={moduleSubnav}
             onWorkspaceNotice={setWorkspaceNotice}
           />
@@ -956,6 +974,10 @@ export function App(props: {
             audioResolver={audioResolver}
             tilesets={state.tilesets ?? []}
             tilesetBlobs={state.tilesetBlobs}
+            stamps={state.stamps}
+            mapIndex={state.mapIndex}
+            stampSelectionSource={stampSelectionSource}
+            onStatusNotice={setWorkspaceNotice}
             battleFields={state.battleFields ?? []}
             poisons={state.poisons ?? []}
             ambiences={state.ambiences ?? []}
@@ -972,6 +994,8 @@ export function App(props: {
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
+            onOpenMap={(id) => applyEditorLocation(editorLinks.map(id))}
+            onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
           />
         ) : (
           <>
@@ -1433,7 +1457,8 @@ export function App(props: {
         {workspaceNotice ? (
           <span className="valbar-status" role="status" aria-live="polite">
             <span className={`pill${workspaceNotice.kind === 'error' ? ' warn' : ''}`}>
-              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'} 地图工作区
+              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'}{' '}
+              {activeSubpage.dataPage === 'stamp' ? '图章库' : '地图工作区'}
             </span>
             <span className="msg">{workspaceNotice.message}</span>
           </span>

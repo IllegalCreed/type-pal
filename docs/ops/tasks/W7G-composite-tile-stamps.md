@@ -632,16 +632,43 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 - 浏览器 / 手工检查:W7G-A 没有新增可见 UI；浏览器交互从 W7G-B 起执行。
 - 跳过检查:migrate 的 bootstrap-only 真实数据演练因当前仓库已有 committed baseline 自动 skip；
   committed-baseline 真实 PAL 回归已执行通过。
-- 下一段:W7G-B 模板库 CRUD、从 W8 选区保存模板、引用/来源诊断；P2 组外写守卫仍按签字门禁在
-  W7G-D 完成，S13 结构生命周期守卫在 W7G-E 完成。
+- W7G-B 模板库（2026-07-18）: **complete**。
+  - 独立“图章库”形成搜索/分类/来源筛选、分页与 roving keyboard 的三栏工作区；缩略图与合成预览
+    直接复用缓存后的真实 palette/tileset 像素，不用占位图；长 ID、窄窗和资源按钮均不溢出。
+  - W8 `cells` 选区可从地图 Inspector 显式保存为模板；跨层槽按源稳定 `layerId` 建立并允许编辑显示名，
+    anchor 必须显式确认，collision 是独立可选通道且值 0 精确保留。选区快照只存在当前 Editor 会话，
+    不进入 URL、EditorState 或 JSON；切换工程会话立即清除。
+  - authored 模板新增/改名/分类/复制/替换/删除全部经 Command 且可撤销；首枚模板原子登记
+    `manifest.content.stamps`。migrated 模板首次修改必须显式整项接管为 authored；新建态不会继承
+    同 tileset 旧模板的名称、分类或局部槽名。
+  - 全量地图来源扫描区分“精确 N”与失败时“至少 N”；失败时禁止删除并可重试，重试成功/离页清除
+    全局错误。模板删除只删模板，既有 placement 和普通地图值不变；悬空 `sourceStampId` 作为信息展示，
+    可逐地图精确跳转。来源 tileset 也可深链到具体库条目，tileset 页同步支持稳定对象 URL。
+  - PAL 数据没有可靠的组合分组、名称或 anchor 真值，故上游迁移继续生成权威空表；没有用相邻关系、
+    图案相似或人工手补生成产物伪造“预置图章”。
+- W7G-B 自动检查:
+  - `@type-pal/editor check`:39 files / 291 tests passed（含建章、migrated 接管、CRUD/undo、扫描失败、
+    精确跳转、真实预览、焦点/Esc 与长列表基础行为）。
+  - 根 `pnpm check`:content 229、shared 111、reforge 417、pal-extract 246、migrate 219 passed +
+    1 skipped、game 2289、editor 291；全仓 `biome check` 与 `git diff --check` passed。
+- 下一段:W7G-C 多层 slot→稳定目标 layer 显式映射、最终值 ghost、冲突计划与一次原子 placement；
+  P3 的 map revision（含 undo/redo）失效键必须在 C 退出前完成。P2 组外写守卫仍在 W7G-D，
+  S13 结构生命周期守卫仍在 W7G-E。
 
 ## 视觉验证记录
 
 - Visual Verification Owner:Codex;Kimi 复验。
-- 验证方式:待 build 后使用专用 fixture、本地 dev server、Playwright/浏览器截图与 Console 检查。
-- 截图 / 像素检查路径:待定。
-- 结论:未开始。
-- 未完成项:全部 W7G 视觉验收。
+- W7G-B 验证方式:本地 editor `http://localhost:6010` + Playwright；真实 PAL map-020 上走通
+  “选择普通格 → 保存含显式 collision 0 的模板 → 图章库完整扫描 223/223 张地图 → 真实像素预览 →
+  来源 tileset 精确跳转”。浏览器内未保存测试改动，不改工程产物。
+- 截图 / 像素检查路径:
+  - `output/playwright/w7g-b-create-dialog-centered-1440.png`
+  - `output/playwright/w7g-b-populated-1440.png`
+  - `output/playwright/w7g-b-populated-1024.png`
+- W7G-B 结论:1440×900 与 1024×768 下弹窗、三栏库、长稳定 ID、按钮、checkbox 和 Inspector
+  无溢出；弹窗居中，预览/anchor/collision 叠层可辨，来源跳转 URL 精确为
+  `?module=map&page=tileset&object=tileset-020`。Console 仅既有 `favicon.ico` 404，应用新错误 0、warning 0。
+- 未完成项:W7G-C→F 的 ghost、placement/组内、生命周期、最终性能与 Kimi 视觉复验。
 
 ## Review:审查与返工
 
@@ -653,7 +680,7 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
 ## 用户验收
 
 - 用户结论:已确认三方设计签字齐并要求按 W7G-A→F 顺序推进。
-- 后续任务:W7G-A 已完成，继续 W7G-B；全卡仍处于 build，A 完成不等于 W7G done。
+- 后续任务:W7G-A/B 已完成，继续 W7G-C；全卡仍处于 build，分段完成不等于 W7G done。
 
 ## 交接日志
 
@@ -691,6 +718,12 @@ build 期间只有 Codex 修改实现文件;Kimi/GLM 只读审查并把结论写
   审计返工（跨组跨通道测试、stamps 漏加载 fail-loud、authored 上游删除保护、manifest 最后发布
   集成断言）。Evidence:Build 节测试与二跑零计划记录。Next:同一 Coding Owner 连续推进 W7G-B；
   Kimi/GLM 保持只读待命，全卡完成后做 done 三方审查。
+- 2026-07-18 Codex:完成 W7G-B 模板库。独立库页、真实预览、W8 选区建章、authored CRUD/undo、
+  migrated 显式接管、全工程来源扫描与失败锁删除、悬空来源/tileset 精确跳转全部闭合；只读 UI 审计提出的
+  新建态元数据串味、通知串页、焦点/分页可访问性和资源定位问题均已返工。Evidence:39 files / 291 tests、
+  根 `pnpm check`、223/223 地图浏览器扫描、1440/1024 截图和 Console 检查。PAL 无组合语义真值，迁移
+  保持上游空表而未猜预置。Next:同一 Coding Owner 连续推进 W7G-C 显式映射、ghost 与原子放置；
+  无需转交下一位 Agent，Kimi/GLM 保持只读待命。
 
 ## 下一位 Agent 提示词
 

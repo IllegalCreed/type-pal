@@ -60,7 +60,12 @@ export function ModuleSubnav(props: {
   const module = editorModule(location.module)
   if (module.subpages.length <= 1) return null
   return (
-    <div className="module-subnav" role="tablist" aria-label={`${module.label}子页`}>
+    <div
+      className="module-subnav"
+      data-count={module.subpages.length}
+      role="tablist"
+      aria-label={`${module.label}子页`}
+    >
       {module.subpages.map((subpage) => (
         <button
           type="button"

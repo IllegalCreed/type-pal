@@ -142,9 +142,13 @@ export function TilesetTab(props: {
   assetBase: AssetBase
   session: EditSession
   tabBar?: React.ReactNode
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
 }) {
-  const { tilesets, tilesetBlobs, assetBase, session, tabBar } = props
-  const [selectedId, setSelectedId] = useState<string | null>(tilesets[0]?.id ?? null)
+  const { tilesets, tilesetBlobs, assetBase, session, tabBar, focusObjectId, onObjectFocus } = props
+  const [selectedId, setSelectedId] = useState<string | null>(
+    focusObjectId ?? tilesets[0]?.id ?? null,
+  )
   const [uploading, setUploading] = useState(false)
   const [filter, setFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
@@ -194,9 +198,18 @@ export function TilesetTab(props: {
   const selected = tilesets.find((t) => t.id === selectedId) ?? null
 
   useEffect(() => {
+    if (focusObjectId === undefined) return
+    setSelectedId(focusObjectId)
+    setUploading(false)
+    setErr('')
+  }, [focusObjectId])
+
+  useEffect(() => {
     if (selectedId && tilesets.some((tileset) => tileset.id === selectedId)) return
-    setSelectedId(tilesets[0]?.id ?? null)
-  }, [selectedId, tilesets])
+    const nextId = tilesets[0]?.id ?? null
+    setSelectedId(nextId)
+    onObjectFocus?.(nextId ?? undefined)
+  }, [onObjectFocus, selectedId, tilesets])
 
   // 量化预览帧(draft + 参数变化即重算;纯函数,同色缓存后毫秒级)
   const quantized = useMemo(() => {
@@ -269,6 +282,7 @@ export function TilesetTab(props: {
       setUploading(false)
       setDraft(null)
       setSelectedId(id)
+      onObjectFocus?.(id)
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e))
     }
@@ -342,6 +356,7 @@ export function TilesetTab(props: {
               aria-pressed={!uploading && selectedId === tileset.id}
               onClick={() => {
                 setSelectedId(tileset.id)
+                onObjectFocus?.(tileset.id)
                 setUploading(false)
                 setErr('')
               }}
@@ -596,8 +611,10 @@ export function TilesetTab(props: {
                 onClick={() => {
                   setErr('')
                   try {
+                    const nextId = tilesets.find((candidate) => candidate.id !== selected.id)?.id
                     session.dispatch(new RemoveTilesetCommand(selected.id))
-                    setSelectedId(null)
+                    setSelectedId(nextId ?? null)
+                    onObjectFocus?.(nextId)
                   } catch (cause) {
                     setErr(cause instanceof Error ? cause.message : String(cause))
                   }

@@ -137,4 +137,65 @@ describe('MapSelectionInspector React output', () => {
     await act(async () => root.unmount())
     host.remove()
   })
+
+  test('保存为图章只要求非空视觉实例，transform 预览时禁用并能打开独立图章库', async () => {
+    const { map, selection } = fixture()
+    const host = document.createElement('div')
+    document.body.append(host)
+    const root = createRoot(host)
+    const onSaveAsStamp = vi.fn()
+    const onOpenStampLibrary = vi.fn()
+    const render = (editingBlockedReason?: string, nextSelection = selection) => (
+      <MapSelectionInspector
+        map={map}
+        selection={nextSelection}
+        activeLayerId="objects"
+        hiddenLayerIds={new Set()}
+        lockedLayerIds={new Set()}
+        editingBlockedReason={editingBlockedReason}
+        onPatch={vi.fn()}
+        onValidationError={vi.fn()}
+        onMoveToLayer={vi.fn()}
+        onClearSelection={vi.fn()}
+        onSaveAsStamp={onSaveAsStamp}
+        onOpenStampLibrary={onOpenStampLibrary}
+      />
+    )
+    await act(async () => root.render(render()))
+    const save = [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+      candidate.textContent?.includes('保存为图章'),
+    )!
+    expect(save.disabled).toBe(false)
+    await act(async () => save.click())
+    expect(onSaveAsStamp).toHaveBeenCalledOnce()
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('打开图章库'))!
+        .click(),
+    )
+    expect(onOpenStampLibrary).toHaveBeenCalledOnce()
+
+    await act(async () => root.render(render('正在预览地图变换')))
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+        candidate.textContent?.includes('保存为图章'),
+      )?.disabled,
+    ).toBe(true)
+
+    await act(async () =>
+      root.render(
+        render(undefined, {
+          ...selection,
+          visualSlots: [{ layerId: 'objects', row: 2, col: 0 }],
+        }),
+      ),
+    )
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+        candidate.textContent?.includes('保存为图章'),
+      )?.disabled,
+    ).toBe(true)
+    await act(async () => root.unmount())
+    host.remove()
+  })
 })

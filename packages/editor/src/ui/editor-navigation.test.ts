@@ -23,7 +23,7 @@ describe('编辑器模块注册表', () => {
     }
   })
 
-  it('十六个数据页恰好各登记一次', () => {
+  it('十七个数据页恰好各登记一次', () => {
     const registered = EDITOR_MODULES.flatMap((module) =>
       module.subpages.flatMap((subpage) => (subpage.dataPage ? [subpage.dataPage] : [])),
     )
@@ -122,6 +122,16 @@ describe('跨模块唯一链接', () => {
       module: 'map',
       subpage: 'workspace',
       objectId: 'map-home',
+    })
+    expect(editorLinks.stamp('tree-corner')).toEqual({
+      module: 'map',
+      subpage: 'stamp',
+      objectId: 'tree-corner',
+    })
+    expect(editorLinks.tileset('tileset-forest')).toEqual({
+      module: 'map',
+      subpage: 'tileset',
+      objectId: 'tileset-forest',
     })
     expect(editorLinks.sound('sound.pal.045')).toEqual({
       module: 'asset',

@@ -16,6 +16,8 @@ export interface MapSelectionInspectorProps {
   onValidationError: (message: string) => void
   onMoveToLayer: (targetLayerId: string) => void
   onClearSelection: () => void
+  onSaveAsStamp?: () => void
+  onOpenStampLibrary?: () => void
 }
 
 function mixedLabel(value: ReturnType<typeof summarizeMapSelection>['tileId']): string {
@@ -37,6 +39,8 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
     onValidationError,
     onMoveToLayer,
     onClearSelection,
+    onSaveAsStamp,
+    onOpenStampLibrary,
   } = props
   const summary = useMemo(() => summarizeMapSelection(selection, map), [selection, map])
   const [targetLayerId, setTargetLayerId] = useState(activeLayerId)
@@ -379,6 +383,29 @@ export function MapSelectionInspector(props: MapSelectionInspectorProps) {
             </span>
           ) : null}
         </div>
+      </div>
+      <div className="section map-selection-stamp-actions">
+        <h4>
+          复用为图章 <span className="b2">可跨视觉层</span>
+        </h4>
+        <p>把当前非空视觉实例快照为模板；可在保存时显式选择锚点和碰撞通道。</p>
+        <button
+          type="button"
+          className="stamp-primary-action"
+          disabled={Boolean(editingBlockedReason) || summary.visualInstanceCount === 0}
+          title={
+            editingBlockedReason ??
+            (summary.visualInstanceCount === 0 ? '选区没有非空视觉实例' : '保存当前选区为图章模板')
+          }
+          onClick={onSaveAsStamp}
+        >
+          保存为图章…
+        </button>
+        {onOpenStampLibrary ? (
+          <button type="button" className="stamp-secondary-action" onClick={onOpenStampLibrary}>
+            打开图章库 ↗
+          </button>
+        ) : null}
       </div>
       <div className={`map-selection-notice${notice?.kind === 'error' ? ' error' : ''}`}>
         {notice?.message ?? '修改只作用于指定通道；每次提交是一笔撤销。'}
