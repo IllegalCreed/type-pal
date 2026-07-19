@@ -266,11 +266,36 @@ Branch: main
   迁移/保存/编辑器/transport 一次收口。直接 AssetId 方案已评估，但不能为 effect-index 与可复用动作布局提供
   独立归属。方案可实现；build 必须等待 Kimi/GLM 独立签字。
 - Kimi: pending
-- GLM: pending
-- counter / 分歧处理: N/A；若 Kimi 对 BattleSpriteDef vs direct AssetId、enemy profile 字段归属或 A7-3B/
-  A7-3E 边界有异议，签 `counter` 并把替代 schema/迁移/验收口径写入本卡，交用户拍板后再实现。
-- 缺签豁免: N/A
-- build 准入结论: **blocked（仅 Codex agree；等待 Kimi + GLM）**
+- GLM: **agree（2026-07-19;附 G1-G4 build 必落,见下）**。独立复算全部基线 + 代码逻辑审查（读源码逐路径推演 actor.ts/enemy.ts/skill.ts/asset.ts/battle-effect-index）。
+
+  **基线独立复算** ✅：
+  - 源文件 player **19** / **137,531 gzip B**（0..18 连续）+ enemy **153** / **763,442 gzip B**（1..153 连续）= 合计 **172 files / 900,973 gzip B** ✅
+  - catalog **1,707** / **0 battle-sprite records** ✅
+  - battle-sprite 在 legacy families（共 3: battle-sprite/effect-sprite/image）✅
+  - **153 enemies → 152 unique spriteNum / 1 unused(enemy 98) / 1 shared(spriteNum 81 = enemy-478+479)** ✅
+  - Actor battleSprite **全 6 = None**（通过 setActorAppearance/number 解析，非 ActorDef 直接引用）✅
+  - setActorAppearance battleSprite **3 条**（值 5/1/9，全 zhao-linger 梦蛇相关 s145/s174/s233）✅
+  - summon **9 条** godId **0..8**（覆盖 player 10..18）✅
+  - trance **1 条** skill 295 sprite=**5**（梦蛇）✅
+  - battle-effect-index.json 确认存在，20 值 `[0,0,1,1,...,3,3]` = player 0..9 pair ✅
+
+  **0x1A row=1 口径说明** ✅：卡内"10 条原始 0x1A row=1"指 **PAL 源**（3 剧情+7 装备）；当前迁移产物中 3 剧情已翻译（s145→5/s174→1/s233→9 = 上面的 setActorAppearance 3 条），7 装备仍 pending（migrate-content.ts:742-753）。**不矛盾**——设计要求把这 7 条在上游翻译，不矛盾。
+
+  **代码逻辑审查** ✅：
+  - **ActorDef**（actor.ts:60-63）：`battleSpriteNum?: number` + `battleSpritePath?: string`——裸数字+路径双轨 ✅ 缺口确认
+  - **EnemyDef**（enemy.ts:88-97）：`spriteNum: number`（必填）+ `spritePath?: string`——同双轨 ✅ 缺口确认
+  - **summon**（skill.ts:65）：`godId: number`——隐式 +10 映射到 player 10..18 ✅ 缺口确认
+  - **trance**（skill.ts:66）：`sprite: number`——裸数字 ✅ 缺口确认
+  - **battle-effect-index**：当前 runtime 按 `spriteNum * 2` 查表（main.ts:295-306），须迁为 profile 显式 `castEffectBase`/`attackEffectBase` ✅
+  - **player 0 合法**：与 world sprite/portrait 的"0 = 缺席/清空"语义不同，player 0 是李逍遥 fighter，迁移边界须携带 channel（player vs enemy 同号隔离）✅
+
+  **G1-G4 build 必落（非阻塞，纳入 build 范围）**：
+  - **G1（关键）**：**player 0 合法性 + player/enemy 同号隔离**——迁移器必须按 channel 区分 player 0..18 vs enemy 1..153，不能套用"正数有效/0 = 无"的通用 helper。AssetId 格式 `battle-sprite.pal.player.NNN` / `battle-sprite.pal.enemy.NNN` 带 channel 前缀。
+  - **G2**：**7 条装备 row=1 必须在上游 raw script 翻译**（migrate-content.ts:742-753 当前 pending=7），不在 local-v3 upgrader 按 PAL item id 猜注入。卡内 §57/§152 已明确。
+  - **G3**：**summon godId → BattleSpriteDef.id 映射**——godId 0..8 映射到 player 10..18 的 BattleSpriteDef.id（如 `player-summon-10`..`player-summon-18`），迁移器确定性格式。
+  - **G4**：**battle-effect-index profile 物化**——10×2 数值表从 runtime 查表改为 player-fighter profile 的显式 `castEffectBase`/`attackEffectBase` 字段；不再按 `spriteNum * 2` 寻址。A7-3E 只负责把 effect frame base 升级为 effect clip 语义引用。
+
+  **总结**：172/900,973B + 153/152/1/1 + 6+153+9+1+3 = 179 refs + 3 digest 全独立冻结；schema 全数字双轨确认；player 0/同号隔离/装备 pending/effect-index/battle-effect-index 五项 build 必落。**agree。**
 
 ### 进入 done 前:审查签字
 
@@ -325,7 +350,7 @@ Branch: main
 - Codex: 建议采用带 profile 的 BattleSpriteDef；认为 direct AssetId 无法正确承接同二进制多布局与
   battle-effect-index 的表现语义。
 - Kimi: pending
-- GLM: pending
+- GLM: **agree**。172 源/900,973B + 153 enemies→152 unique/1 unused(enemy98)/1 shared(spriteNum81) + Actor6+Enemy153+summon9+trance1+appearance3+equip7=179 refs/171 used/5 shared 全独立冻结；schema 全数字双轨确认(actor.battleSpriteNum/enemy.spriteNum/summon.godId/trance.sprite)；battle-effect-index 20 值确认。G1(player0合法+channel隔离)/G2(7装备上游翻译)/G3(summon godId→id映射)/G4(effect-index profile物化) build 必落。
 - 用户拍板: pending（仅发生 counter 时需要）
 
 ## 额度 / 代班记录(如适用)
@@ -383,6 +408,7 @@ Branch: main
   171 defs、179 refs/171 used/5 shared/1 unused，以及 7 equip + 3 appearance + 1 trance + 9 summon 的完整
   语义面。确认梦蛇未换图、effectiveSkills 召唤漏预载、敌换图迟到写与 equal-Y 遮挡差异。Evidence: 本卡
   上下文锚点、数据基线与验收矩阵。Next: Kimi/GLM 独立设计审查并写 agree/counter；签字不齐不得实现。
+- 2026-07-19 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。独立复算：player 19 源/137,531B(0..18) + enemy 153 源/763,442B(1..153) = 172 files/900,973 gzip B 全精确；catalog 1,707/0 battle-sprite；battle-sprite 在 legacy(3 families)。153 enemies→152 unique spriteNum/1 unused(enemy 98)/1 shared(spriteNum 81=enemy-478+479)；Actor battleSprite 全 6=None(经 setActorAppearance 解析)；setActorAppearance battleSprite=3(值 5/1/9 全 zhao-linger s145/s174/s233)；summon 9 godId 0..8(player 10..18)；trance 1 skill 295 sprite=5。代码逻辑审查（读源码逐路径推演）：actor.battleSpriteNum?:number + battleSpritePath?:string 双轨；enemy.spriteNum:number(必填)+spritePath? 双轨；summon.godId:number 隐式+10；trance.sprite:number 裸数字；battle-effect-index 20 值 [0,0,...,3,3] runtime 按 spriteNum*2 查表。**G1 关键**：player 0 合法(李逍遥 fighter)+player/enemy 同号隔离须 channel 前缀 AssetId；G2：7 装备 row=1 必须上游翻译(migrate-content.ts:742-753 pending=7)不在 local-v3 按 item id 猜注入；G3：summon godId→BattleSpriteDef.id 确定性映射(godId 0..8→player 10..18)；G4：battle-effect-index profile 物化(10×2 表→castEffectBase/attackEffectBase)。0x1A row=1 口径=原始 PAL 源 10 条(3 剧情已迁+7 装备 pending)，不矛盾。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
