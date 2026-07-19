@@ -259,11 +259,35 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   P0/P1/P2；Reforge 全套 52 files / 487 tests、五包 typecheck、两端 production build、Biome 与
   `git diff --check` 全绿。Codex 自验通过，建议进入外部三贤人 done 审查。
 - Kimi: pending
-- GLM: pending
-- counter / 返工处理: Codex 内部只读审计提出的阻断均已返工并复审 accept；用户告知 Kimi/GLM 均已
-  给出反馈，但截至本次收口其最终 `accept/counter` 原文尚未写入本卡，Codex 不代签。
+- GLM: **accept（2026-07-19;见下）**。独立复算全部产物数字 + 全 636 文件 SHA 逐项验证 + 代码逻辑审查。
+
+  **产物独立复算** ✅：
+  - catalog **1,707** entries / **636 sprite records** / **1,332,725B**（编号 1..636 连续零缺失）✅
+  - **全 636 文件 SHA256+bytes 逐项零 mismatch**（全量非抽样 ok=636 fail=0 missing=0）✅
+  - mediaType 统一 `application/vnd.type-pal.rle` / origin `legacy-migrated` ✅
+  - **580 SpriteDef** 全有 `asset`、零 `spriteNum`、零 `path` ✅
+  - **559 unique asset** / **21 共享** / **77 unused warning** ✅
+  - MG2 dry-run `sprites=636 bytes=1332725 frames=4133 malformed-tail-slots=30 tuple-digest=c92c14b5...` + `writes=0 deletes=0 conflicts=0` ✅
+
+  **代码逻辑审查** ✅：
+  - SpriteDef（sprite.ts:38）= `{id,asset,label,layout,poses?}` 无 spriteNum/path ✅
+  - **setFollowers.sprites = string[]**（script.ts:109）+ **WorldScriptState.followers = string[]**（script.ts:362）——G1 隐藏旁路已落地迁移 ✅
+  - PAL setFollowers 2 条：1 清空 `sprites=[]` + 1 `sprites=['sprite-82']`（PAL 82→sprite-82 确定性映射）✅
+  - spriteByNum 全仓零命中 / loadSprite(base,num) 旧签名退役 ✅
+  - sprite 退出 legacy families（保留 battle-sprite/effect-sprite/image）✅
+  - loadSpriteAsset(resolver, assetId) 统一加载器（assets.ts:185）✅
+
+  **G1-G4 全落地** ✅：G1 followers number[]→string[] + 存档升级；G2 来源分级 parser（30 坏尾 legacy 容忍 / authored generated fail-loud）；G3 walker sprites 槽（sprite-refs=entities:3695/3695 actors:6/0 setActorSprite:116/69 setActorAppearance:3/2 setFollowers:1/1）；G4 全 636 登记（77 unused=warning）。
+
+  **测试** ✅：content 248 / reforge 487 / editor 479 / migrate 233+1skip 全 pass。
+
+  **文档** ✅：capability-map A7 ⚠️/⚠️ 未提前标 done（sprite 仍在 outstanding list — 正确，因 review 非_done_）。
+
+  **总结**：636/580/559/21/77/1,332,725B/4,133 frames/30 tails/tuple-digest 全独立冻结；全 636 SHA 零 mismatch；G1-G4 全落地；MG2 零计划；静态归零；capability-map 未提前 done。**accept**。
+
+- counter / 返工处理: Codex 内部只读审计提出的阻断均已返工并复审 accept；GLM accept 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
 
 ## Draft: 设计与风险
 
@@ -450,8 +474,8 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 - Reviewer: Kimi + GLM
 - 审查结论: Codex 自验证 **accept**；两路内部只读终审最终均 accept（runtime 5 files / 83 tests；
   editor/data/migration 179 + 99 + 70 tests），但它们不能代替 Kimi/GLM 的推进签字。
-- 必须返工项: 内部审计发现的全部 P1/P2 已完成返工并复审；外部 Kimi/GLM 结论待写回。
-- Accept / rework: **review（等待 Kimi + GLM 最终签字）**。
+- 必须返工项: 内部审计发现的全部 P1/P2 已完成返工并复审；**GLM accept 无返工项**；Kimi 结论待写回。
+- Accept / rework: **Codex accept + GLM accept；等待 Kimi 最终签字**。
 
 ## 用户验收
 
@@ -485,6 +509,7 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   reloadMap/fade/dither/auto ownership 阻断全部返工，最终两路均 accept；Reforge 全套 487 tests，Biome
   775 files。Evidence: 本卡 Build/视觉/Review 区。Next: Kimi + GLM 分别完成最终审查并把 accept/counter
   写回；两签未齐不得标 done。
+- 2026-07-19 GLM: done 数据/迁移/测试终审签 **accept**（commit 80a520a4）。独立复算：catalog 1,707/636 sprite records/1,332,725B（编号 1..636 连续零缺失）；全 636 文件 SHA256+bytes 逐项零 mismatch（全量非抽样 ok=636 fail=0 missing=0）；580 SpriteDef 全有 asset 零 spriteNum 零 path；559 unique/21 共享/77 unused；setFollowers.sprites=string[] + followers=string[]（G1 落地）；PAL setFollowers 2 条（清空 + sprite-82）；spriteByNum/loadSprite(base,num) 全仓零命中；sprite 退出 legacy（保留 3）；loadSpriteAsset(resolver,asset) 统一加载器；MG2 writes=0/deletes=0/conflicts=0 + tuple-digest c92c14b5... + frames=4133 + malformed-tail-slots=30；capability-map A7 ⚠️/⚠️ 未提前 done。测试 content 248/reforge 487/editor 479/migrate 233+1skip 全 pass。Evidence: done 准入 GLM 行 + Review 段。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
