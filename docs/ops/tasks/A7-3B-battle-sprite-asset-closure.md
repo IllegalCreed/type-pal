@@ -1,6 +1,6 @@
 # A7-3B - 战斗精灵索引资源闭包
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / B5 / X4
 Coding Owner: Codex
@@ -307,6 +307,8 @@ Branch: main
 - build 准入结论: **allowed（Codex agree + Kimi agree + GLM agree,三签齐,2026-07-19）**;
   Status 翻转 draft→build 与看板更新由 Codex 执行;R1-R4 与 G1-G4 纳入 build 范围。
 
+### 进入 done 前:审查签字
+
 - Codex: pending
 - Kimi: pending
 - GLM: pending
@@ -407,7 +409,7 @@ Branch: main
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（设计三签前不得开始）
+- Coding Owner: Codex（三签齐，2026-07-19 进入 build）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -461,7 +463,14 @@ Branch: main
   三签齐 build 准入 allowed,Status 翻转与看板由 Codex 执行。未改实现文件。
 - 2026-07-19 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。独立复算：player 19 源/137,531B(0..18) + enemy 153 源/763,442B(1..153) = 172 files/900,973 gzip B 全精确；catalog 1,707/0 battle-sprite；battle-sprite 在 legacy(3 families)。153 enemies→152 unique spriteNum/1 unused(enemy 98)/1 shared(spriteNum 81=enemy-478+479)；Actor battleSprite 全 6=None(经 setActorAppearance 解析)；setActorAppearance battleSprite=3(值 5/1/9 全 zhao-linger s145/s174/s233)；summon 9 godId 0..8(player 10..18)；trance 1 skill 295 sprite=5。代码逻辑审查（读源码逐路径推演）：actor.battleSpriteNum?:number + battleSpritePath?:string 双轨；enemy.spriteNum:number(必填)+spritePath? 双轨；summon.godId:number 隐式+10；trance.sprite:number 裸数字；battle-effect-index 20 值 [0,0,...,3,3] runtime 按 spriteNum*2 查表。**G1 关键**：player 0 合法(李逍遥 fighter)+player/enemy 同号隔离须 channel 前缀 AssetId；G2：7 装备 row=1 必须上游翻译(migrate-content.ts:742-753 pending=7)不在 local-v3 按 item id 猜注入；G3：summon godId→BattleSpriteDef.id 确定性映射(godId 0..8→player 10..18)；G4：battle-effect-index profile 物化(10×2 表→castEffectBase/attackEffectBase)。0x1A row=1 口径=原始 PAL 源 10 条(3 剧情已迁+7 装备 pending)，不矛盾。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
 
+- 2026-07-19 Codex: 核对 Codex/Kimi/GLM 三方设计签均为 **agree**，无 counter 或缺签豁免；
+  正式将任务从 draft 推进至 build。R1-R4 与 G1-G4 全部并入实现和验收范围，Coding Owner 仅 Codex；
+  其他 Agent 只允许只读审计。Next: 先完成内容模型、确定性迁移与工程自包含，再收口 runtime、editor、save
+  和 transport，完成自验证后进入三方 review。
+
 ## 下一位 Agent 提示词
+
+当前无下一位 Agent 提示词；Codex 正在 build。以下为已经执行完毕的 draft 历史提示词，仅保留审计轨迹。
 
 ### Kimi
 
