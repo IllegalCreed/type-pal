@@ -1,6 +1,6 @@
 # A7-3W - 大世界精灵索引资源闭包
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / C2
 Coding Owner: Codex
@@ -258,7 +258,13 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   竞态。最终 runtime 终审 5 files / 83 tests、editor/data/migration 终审 179 + 99 + 70 tests 均无
   P0/P1/P2；Reforge 全套 52 files / 487 tests、五包 typecheck、两端 production build、Biome 与
   `git diff --check` 全绿。Codex 自验通过，建议进入外部三贤人 done 审查。
-- Kimi: pending
+- Kimi: **accept（2026-07-19）**。架构/runtime 并发/视觉独立终审,无 P0/P1/P2 阻塞;静态全链 + 独立复跑 + 浏览器实测。证据:
+  1. **catalog 唯一链**:`SpriteDef {id,asset,label,layout,poses?}`(sprite.ts:38-49);PAL 产物 580 defs 全 `asset`/0 `spriteNum`/0 `path`,636 records,559 used/77 unused 精确;抽点 def→record→文件 bytes/sha256 全对;manifest legacy 仅剩 battle-sprite/effect-sprite/image。
+  2. **来源分级 RLE**:`parseWorldSpriteChunk`(shared/rle.ts)canonical 全严格;legacy-migrated 先尝 canonical,失败才走连续前缀兼容,且**坏尾后任一槽若能独立解出帧即拒绝**(中间空洞),skippedLegacyTailSlots 计数报告;运行时无源 id 特判(R2 落地)。
+  3. **AssetId+SHA 缓存**:`SpriteAssetCache` 按 AssetId 定位、record.sha256 校验/失效(assets.ts:153/:164/:205);语义引用继续只认 SpriteDef.id(followers 存档 string id)。
+  4. **并发所有权**:`prepareAndCommitSceneSwitch` 的依赖快照只含真实消费集(队伍/装备/followers/inventory/scene override/entryStage/mapOverride/actorOverrides),prepare/present 后双 assertCurrent,过期请求不得清后来画面(scene-switch-transaction.ts:91-104);`SupersedingFadeDriver.cancelOwned` 与 dither `cancelOwned` 在被新 owner 接管后 no-op(fade-driver.ts:96-105、dither-transition.ts),完成态保留 owner 到显式复位。
+  5. **浏览器实测**:reforge s066 血池三人全身/锚点/遮挡/场景色正常;editor sprite-627 显示「历史声明 12 帧/实际 4 帧」,4..11 全部「缺失→0」禁用、警告「仅可缩小债务,不能替换不存在的帧」,定义删除与资源删除分离;console 0 error;`sprite.pal.627` 经工程 catalog 加载。
+  6. **独立复跑**:根 `pnpm check` 全绿(首跑 migrate 一次抖动,隔离复跑与二次根跑均全过;content 248/shared 121/editor 479/migrate 233+1skip/reforge 487);A7-2 OFL 遗留已由 `5b7b49c8` 收口。
 - GLM: **accept（2026-07-19;见下）**。独立复算全部产物数字 + 全 636 文件 SHA 逐项验证 + 代码逻辑审查。
 
   **产物独立复算** ✅：
@@ -287,7 +293,7 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 
 - counter / 返工处理: Codex 内部只读审计提出的阻断均已返工并复审 accept；GLM accept 无 counter。
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
+- done 准入结论: **allowed / closed（2026-07-19）**。Codex、Kimi、GLM 三方均签 `accept`，用户确认签字已齐；无遗留阻塞项。
 
 ## Draft: 设计与风险
 
@@ -466,20 +472,22 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 - 验证方式: 真实 Chromium；PAL editor 双视图、unused resource、`sprite-627` 缺帧保护；Reforge
   `s001/s066/s102`；旧 extracted sprite 路由 503 + Network/console 核查。
 - 截图 / 像素检查路径: 临时截图只在会话内检查，未写入仓库。
-- 结论: Codex 视觉验证通过；工程内索引 RLE 的像素、颜色、脚底锚点与遮挡未见回归，历史缺帧不会误开编辑。
-- 未完成项: Kimi 的最终视觉 `accept/counter` 尚未写入任务卡。
+- 结论: Codex 与 Kimi 视觉验证均通过；工程内索引 RLE 的像素、颜色、脚底锚点与遮挡未见回归，
+  `s066` 三人全身与遮挡正常，`sprite-627` 历史缺帧不会误开编辑。
+- 未完成项: 无。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自验证 **accept**；两路内部只读终审最终均 accept（runtime 5 files / 83 tests；
-  editor/data/migration 179 + 99 + 70 tests），但它们不能代替 Kimi/GLM 的推进签字。
-- 必须返工项: 内部审计发现的全部 P1/P2 已完成返工并复审；**GLM accept 无返工项**；Kimi 结论待写回。
-- Accept / rework: **Codex accept + GLM accept；等待 Kimi 最终签字**。
+- 审查结论: Codex 自验证 **accept**；GLM accept(数据/迁移/测试独立复算,无返工项);Kimi accept(架构/runtime
+  并发/视觉,唯一链/来源分级/SHA 缓存/并发所有权/s066 遮挡/sprite-627 缺帧全过)。三签齐,无返工项。
+- 必须返工项: 无;内部审计发现的全部 P1/P2 已完成返工并复审。
+- Accept / rework: **done（三方 accept + 用户确认，2026-07-19）**。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-07-19）**。用户确认三方 done 签字已齐，按 Codex/Kimi/GLM 的独立验证证据收口，
+  无需重复执行已覆盖的人工验证。
 - 后续任务: A7-3B battle sprite -> A7-3E effect sprite -> X3 generic image -> A7-4 总门禁
 
 ## 交接日志
@@ -509,11 +517,24 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   reloadMap/fade/dither/auto ownership 阻断全部返工，最终两路均 accept；Reforge 全套 487 tests，Biome
   775 files。Evidence: 本卡 Build/视觉/Review 区。Next: Kimi + GLM 分别完成最终审查并把 accept/counter
   写回；两签未齐不得标 done。
-- 2026-07-19 GLM: done 数据/迁移/测试终审签 **accept**（commit 80a520a4）。独立复算：catalog 1,707/636 sprite records/1,332,725B（编号 1..636 连续零缺失）；全 636 文件 SHA256+bytes 逐项零 mismatch（全量非抽样 ok=636 fail=0 missing=0）；580 SpriteDef 全有 asset 零 spriteNum 零 path；559 unique/21 共享/77 unused；setFollowers.sprites=string[] + followers=string[]（G1 落地）；PAL setFollowers 2 条（清空 + sprite-82）；spriteByNum/loadSprite(base,num) 全仓零命中；sprite 退出 legacy（保留 3）；loadSpriteAsset(resolver,asset) 统一加载器；MG2 writes=0/deletes=0/conflicts=0 + tuple-digest c92c14b5... + frames=4133 + malformed-tail-slots=30；capability-map A7 ⚠️/⚠️ 未提前 done。测试 content 248/reforge 487/editor 479/migrate 233+1skip 全 pass。Evidence: done 准入 GLM 行 + Review 段。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-19 Kimi: 架构/runtime 并发/视觉 done 终审签 **accept**,三签齐。逐项核实:580 defs 全 asset/
+  0 spriteNum/0 path + 636 records/559 used/77 unused 精确(catalog 唯一链);parseWorldSpriteChunk 来源
+  分级(canonical 全严格、legacy 连续前缀兼容且坏尾后可解即拒、运行时无 id 特判);SpriteAssetCache 按
+  AssetId+record.sha256;prepareAndCommitSceneSwitch 依赖快照+双 assertCurrent、fade/dither cancelOwned
+  被接管后 no-op(并发所有权);reforge s066 三人全身/锚点/遮挡/场景色正常、editor sprite-627 历史声明
+  12/实际 4 帧全槽缺失→0 禁用且定义/资源删除分离;console 0 error。独立复跑根 pnpm check 全绿(首跑
+  migrate 抖动,隔离与复跑均过);A7-2 OFL 遗留已由 5b7b49c8 收口。Evidence:done 准入 Kimi 行+上述实测。
+  Next:无下一位审查 Agent;待用户验收后由收口方标 done。未改实现文件。
+- 2026-07-19 GLM: done 数据/迁移/测试终审签 **accept**（commit `ea34d0e3`）。独立复算：catalog 1,707/636 sprite records/1,332,725B（编号 1..636 连续零缺失）；全 636 文件 SHA256+bytes 逐项零 mismatch（全量非抽样 ok=636 fail=0 missing=0）；580 SpriteDef 全有 asset 零 spriteNum 零 path；559 unique/21 共享/77 unused；setFollowers.sprites=string[] + followers=string[]（G1 落地）；PAL setFollowers 2 条（清空 + sprite-82）；spriteByNum/loadSprite(base,num) 全仓零命中；sprite 退出 legacy（保留 3）；loadSpriteAsset(resolver,asset) 统一加载器；MG2 writes=0/deletes=0/conflicts=0 + tuple-digest c92c14b5... + frames=4133 + malformed-tail-slots=30；capability-map A7 ⚠️/⚠️ 未提前 done。测试 content 248/reforge 487/editor 479/migrate 233+1skip 全 pass。Evidence: done 准入 GLM 行 + Review 段。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-19 Codex: 核对 Codex/Kimi/GLM 三方 done 签字均为 `accept` 且无 counter；用户确认签字已齐，
+  将任务从 review 收口为 done、移出进行中看板，并清理两张会话视觉验证截图。Evidence: 本卡推进签字、
+  Review 与用户验收区；GLM 签字 commit `ea34d0e3`。Next: A7-3B battle sprite；A7/R7/A7-4 仍未提前标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（架构、runtime 并发与视觉主审）
+无下一位 Agent 提示词；A7-3W 已三方审查 `accept` 并由用户确认收口。以下提示词均为已执行的历史记录。
+
+### 历史：给 Kimi（架构、runtime 并发与视觉主审）
 
 ```text
 接手任务: A7-3W 大世界精灵索引资源闭包的 done 前最终审查
@@ -536,7 +557,7 @@ accept 或 counter 直接写回任务卡“进入 done 前:审查签字”的 Ki
 Kimi + GLM accept 未齐不得标 done。
 ```
 
-### 给 GLM（数据、迁移、保存与测试矩阵审查）
+### 历史：给 GLM（数据、迁移、保存与测试矩阵审查）
 
 ```text
 接手任务: A7-3W 大世界精灵索引资源闭包的 done 前最终审查
