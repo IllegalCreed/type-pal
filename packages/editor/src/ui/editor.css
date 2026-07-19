@@ -1740,10 +1740,25 @@ html[data-panel-resize="horizontal"] * {
   overflow-wrap: anywhere;
 }
 .project-issue-more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px 10px;
   padding: 7px 8px;
   color: var(--faint);
   font-size: 10px;
   text-align: center;
+}
+.project-issue-more-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.project-issue-more .mini-txt {
+  flex: none;
 }
 .project-empty {
   padding: 28px 16px;

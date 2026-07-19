@@ -140,13 +140,20 @@ function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
   } as EditorLocation
 }
 
-function IssueList(props: {
+const ISSUE_PAGE_SIZE = 80
+const COMPACT_ISSUE_LIMIT = 30
+
+export function IssueList(props: {
   issues: ProjectIssue[]
   onOpenLocation?: (location: EditorLocation) => void
   compact?: boolean
+  onViewAll?: () => void
 }) {
-  const { issues, onOpenLocation, compact = false } = props
-  const visibleIssues = issues.slice(0, compact ? 30 : 80)
+  const { issues, onOpenLocation, compact = false, onViewAll } = props
+  const initialLimit = compact ? COMPACT_ISSUE_LIMIT : ISSUE_PAGE_SIZE
+  const [visibleLimit, setVisibleLimit] = useState(initialLimit)
+  useEffect(() => setVisibleLimit(initialLimit), [initialLimit])
+  const visibleIssues = issues.slice(0, visibleLimit)
   const hiddenCount = issues.length - visibleIssues.length
   if (issues.length === 0)
     return <div className="project-empty project-ok">✓ 未发现工程配置问题</div>
@@ -172,9 +179,47 @@ function IssueList(props: {
           </div>
         )
       })}
-      {hiddenCount > 0 ? (
+      {issues.length > initialLimit ? (
         <div className="project-issue-more">
-          另有 {hiddenCount} 项；当前仅显示前 {visibleIssues.length} 项。
+          <span role="status" aria-live="polite">
+            {hiddenCount > 0
+              ? `已显示 ${visibleIssues.length} / ${issues.length} 项`
+              : `已显示全部 ${issues.length} 项`}
+          </span>
+          <span className="project-issue-more-actions">
+            {compact && hiddenCount > 0 && onViewAll ? (
+              <button type="button" className="mini-txt" onClick={onViewAll}>
+                查看全部 {issues.length} 项
+              </button>
+            ) : null}
+            {hiddenCount > 0 && (!compact || !onViewAll) ? (
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => setVisibleLimit((current) => current + ISSUE_PAGE_SIZE)}
+              >
+                继续显示 {Math.min(ISSUE_PAGE_SIZE, hiddenCount)} 项
+              </button>
+            ) : null}
+            {!compact && hiddenCount > 0 ? (
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => setVisibleLimit(issues.length)}
+              >
+                显示全部
+              </button>
+            ) : null}
+            {!compact && visibleIssues.length > initialLimit ? (
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => setVisibleLimit(initialLimit)}
+              >
+                收起至前 {initialLimit} 项
+              </button>
+            ) : null}
+          </span>
         </div>
       ) : null}
     </div>
@@ -674,7 +719,20 @@ function ProjectIssuesAside(props: {
       </div>
       <div className="section">
         <h4>问题与跳转</h4>
-        <IssueList issues={props.issues} onOpenLocation={props.onOpenLocation} compact />
+        <IssueList
+          issues={props.issues}
+          onOpenLocation={props.onOpenLocation}
+          compact
+          onViewAll={
+            props.onOpenLocation
+              ? () =>
+                  props.onOpenLocation?.({
+                    module: 'project',
+                    subpage: 'advanced',
+                  } as EditorLocation)
+              : undefined
+          }
+        />
       </div>
     </>
   )
