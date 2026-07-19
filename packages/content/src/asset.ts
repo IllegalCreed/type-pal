@@ -5,6 +5,7 @@ import type { SceneDef } from './index.js'
 import type { ItemData } from './item.js'
 import type { ScriptChunkV1 } from './script-library.js'
 import type { SkillData } from './skill.js'
+import type { SpriteDef } from './sprite.js'
 import type { TilesetDef } from './tileset.js'
 
 export type AssetId = string
@@ -327,6 +328,25 @@ export function palTilesetAssetId(mapNum: number): AssetId {
   return `tileset.pal.${String(mapNum).padStart(3, '0')}`
 }
 
+export function palSpriteAssetId(spriteNum: number): AssetId {
+  if (!Number.isInteger(spriteNum) || spriteNum <= 0)
+    throw new Error(`PAL 大世界精灵号必须是正整数，收到 ${String(spriteNum)}`)
+  return `sprite.pal.${String(spriteNum).padStart(3, '0')}`
+}
+
+/**
+ * 只供旧 content/save 升级边界恢复大世界精灵号。
+ * canonical PAL 资源和本地 v3 工程自有资源都把旧号持久编码进 AssetId；运行时加载绝不调用它猜路径。
+ */
+export function legacyWorldSpriteNumberFromAsset(asset: AssetId): number | undefined {
+  const pal = /^sprite\.pal\.(\d+)$/.exec(asset)
+  const authored = /^sprite\.authored\.legacy-(\d+)(?:\.|$)/.exec(asset)
+  const raw = pal?.[1] ?? authored?.[1]
+  if (raw === undefined) return undefined
+  const value = Number(raw)
+  return Number.isInteger(value) && value > 0 ? value : undefined
+}
+
 export interface AssetReference {
   asset: AssetId
   expectedKind: AssetKind
@@ -355,6 +375,8 @@ export interface AssetReferenceSource {
   battleFields?: readonly BattleFieldDef[]
   /** 瓦片集领域定义到二进制资产的唯一 typed 边。 */
   tilesets?: readonly TilesetDef[]
+  /** 大世界精灵领域定义到二进制资产的唯一 typed 边。 */
+  sprites?: readonly SpriteDef[]
   /** 存档/运行态删除保护可选输入；工程内容闭包本身不传此槽。 */
   worlds?: readonly WorldState[]
 }
@@ -658,6 +680,14 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       expectedKind: 'tileset',
       where: `tilesets[${index}].asset`,
       site: `tileset:${tileset.id}:asset`,
+    })
+  })
+  source.sprites?.forEach((sprite, index) => {
+    references.push({
+      asset: sprite.asset,
+      expectedKind: 'sprite',
+      where: `sprites[${index}].asset`,
+      site: `sprite:${sprite.id}:asset`,
     })
   })
   source.worlds?.forEach((world, worldIndex) => {

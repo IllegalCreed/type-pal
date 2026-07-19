@@ -126,6 +126,24 @@ describe('enumerateSeedFiles', () => {
       expect.arrayContaining(['content/maps/index.json', 'content/maps/unused.json']),
     )
   })
+
+  test('已闭环的 sprite family 不再从 extracted 重复克隆', () => {
+    const closed: LoadedManifest = {
+      ...manifest,
+      assets: {
+        ...manifest.assets,
+        legacy: { ...manifest.assets.legacy, families: ['tileset'] },
+      },
+    }
+    const files = enumerateSeedFiles(closed, ['s1'], {
+      files: [
+        { path: 'data/tileset/1.rle', size: 10 },
+        { path: 'data/sprite/2.rle', size: 20 },
+      ],
+    })
+    expect(files.map((file) => file.rel)).toContain('assets/extracted/data/tileset/1.rle')
+    expect(files.map((file) => file.rel)).not.toContain('assets/extracted/data/sprite/2.rle')
+  })
 })
 
 describe('buildBlankProject(W-blank:开箱即玩)', () => {
@@ -150,9 +168,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(m.startWorld.party).toEqual(['hero'])
     expect(m.assets.catalog).toBe('assets/index.json')
     expect(m.assets.roles['visual.standardColorTable']).toBe('color.project-standard')
-    expect(m.assets.legacy?.root).toBe('assets')
-    expect(m.assets.legacy?.families).toEqual(['sprite'])
-    expect(m.assets.legacy?.palettes).toBeUndefined()
+    expect(m.assets.legacy).toBeUndefined()
     expect(m.content.sprites).toBe('content/sprites.json')
     expect(m.content.tilesets).toBe('content/tilesets.json')
     expect(m.content.stamps).toBe('content/stamps.json')
@@ -202,10 +218,20 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       origin: { kind: 'generated' },
     })
     expect(files['assets/generated/tilesets/starter.rle']).toBeInstanceOf(ArrayBuffer)
-    expect(files['assets/sprites/0.rle']).toBeInstanceOf(ArrayBuffer)
+    expect(files['assets/generated/sprites/starter.rle']).toBeInstanceOf(ArrayBuffer)
     expect(
       (files['assets/generated/tilesets/starter.rle'] as ArrayBuffer).byteLength,
     ).toBeGreaterThan(0)
+    const spriteBytes = files['assets/generated/sprites/starter.rle'] as ArrayBuffer
+    expect(catalog.assets['sprite.generated.starter']).toEqual({
+      kind: 'sprite',
+      path: 'assets/generated/sprites/starter.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: spriteBytes.byteLength,
+      sha256: await sha256Hex(spriteBytes),
+      label: '占位主角',
+      origin: { kind: 'generated' },
+    })
   })
 
   test('空名 → 兜底 id new-project', async () => {

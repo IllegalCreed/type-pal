@@ -12,7 +12,6 @@ import { loadSceneMap } from './scene-map.js'
 
 const base: AssetBase = {
   root: '/proj/data',
-  sprites: 'sprite',
   palettes: 'palette',
   io: {
     readText: async () => '',

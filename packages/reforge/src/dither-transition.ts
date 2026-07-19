@@ -196,8 +196,10 @@ export function applyDitherPaletteTransition(
 }
 
 export type DitherBackupSource = 'entry' | 'snapshot'
+export type DitherOwner = object
 
 export interface ActiveDither<T> {
+  owner: DitherOwner
   backup: T
   target: T | null
   plan: DitherPalettePlan | null
@@ -208,6 +210,13 @@ export interface ActiveDither<T> {
   durationMs: number
   source: DitherBackupSource
   resolve: () => void
+  reject: (error: Error) => void
+}
+
+function ditherAbortError(message: string): Error {
+  const error = new Error(message)
+  error.name = 'AbortError'
+  return error
 }
 
 /**
@@ -217,10 +226,16 @@ export interface ActiveDither<T> {
 export class DitherTransitionController<T> {
   active: ActiveDither<T> | null = null
 
-  private begin(backup: T, durationMs: number, source: DitherBackupSource): Promise<void> {
-    this.finish()
-    return new Promise((resolve) => {
+  private begin(
+    backup: T,
+    durationMs: number,
+    source: DitherBackupSource,
+    owner: DitherOwner,
+  ): Promise<void> {
+    this.cancel(ditherAbortError('dither superseded'))
+    return new Promise((resolve, reject) => {
       this.active = {
+        owner,
         backup,
         target: null,
         plan: null,
@@ -231,16 +246,17 @@ export class DitherTransitionController<T> {
         durationMs: Math.max(0, Number.isFinite(durationMs) ? durationMs : 0),
         source,
         resolve,
+        reject,
       }
     })
   }
 
-  beginEntry(backup: T, durationMs: number): Promise<void> {
-    return this.begin(backup, durationMs, 'entry')
+  beginEntry(backup: T, durationMs: number, owner: DitherOwner = {}): Promise<void> {
+    return this.begin(backup, durationMs, 'entry', owner)
   }
 
-  beginSnapshot(snapshot: () => T, durationMs: number): Promise<void> {
-    return this.begin(snapshot(), durationMs, 'snapshot')
+  beginSnapshot(snapshot: () => T, durationMs: number, owner: DitherOwner = {}): Promise<void> {
+    return this.begin(snapshot(), durationMs, 'snapshot', owner)
   }
 
   finish(): void {
@@ -249,7 +265,16 @@ export class DitherTransitionController<T> {
     active?.resolve()
   }
 
-  cancel(): void {
-    this.finish()
+  cancel(error = ditherAbortError('dither cancelled')): void {
+    const active = this.active
+    this.active = null
+    active?.reject(error)
+  }
+
+  /** 旧事务只能取消自己仍在活动的 effect；较新的 owner 接管后这里必须保持 no-op。 */
+  cancelOwned(owner: DitherOwner, error = ditherAbortError('dither cancelled')): boolean {
+    if (this.active?.owner !== owner) return false
+    this.cancel(error)
+    return true
   }
 }

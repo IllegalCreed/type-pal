@@ -152,6 +152,7 @@ export interface PlayFrameAnimationOptions {
   eventTarget?: EventTarget
   onFrame(frame: FrameAnimationFrameSnapshot): void
   wait?: (ms: number) => Promise<void>
+  signal?: AbortSignal
 }
 
 function sleep(ms: number): Promise<void> {
@@ -167,7 +168,33 @@ function sleep(ms: number): Promise<void> {
 export async function playFrameAnimation(
   options: PlayFrameAnimationOptions,
 ): Promise<FrameAnimationFrameSnapshot | undefined> {
-  const sequence = await options.reader.sequence(options.asset)
+  const abortError = (): DOMException => new DOMException('frame animation aborted', 'AbortError')
+  const assertActive = (): void => {
+    if (options.signal?.aborted) throw abortError()
+  }
+  const awaitActive = <T>(promise: Promise<T>): Promise<T> => {
+    const signal = options.signal
+    if (!signal) return promise
+    assertActive()
+    return new Promise<T>((resolve, reject) => {
+      let settled = false
+      const finish = (result: { value: T } | { error: unknown }): void => {
+        if (settled) return
+        settled = true
+        signal.removeEventListener('abort', abort)
+        if ('error' in result) reject(result.error)
+        else resolve(result.value)
+      }
+      const abort = (): void => finish({ error: abortError() })
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+      void promise.then(
+        (value) => finish({ value }),
+        (error: unknown) => finish({ error }),
+      )
+    })
+  }
+  const sequence = await awaitActive(options.reader.sequence(options.asset))
   const range = resolveFrameSequencePlayback(sequence.index, {
     ...(options.startFrame === undefined ? {} : { startFrame: options.startFrame }),
     ...(options.endFrame === undefined ? {} : { endFrame: options.endFrame }),
@@ -188,13 +215,16 @@ export async function playFrameAnimation(
   target?.addEventListener('keydown', onKey, true)
   try {
     for (let frameIndex = range.startFrame; frameIndex <= range.endFrame; frameIndex++) {
+      assertActive()
       if (skipped) break
-      const frame = await options.reader.frame(options.asset, frameIndex)
+      const frame = await awaitActive(options.reader.frame(options.asset, frameIndex))
       if (skipped) break
       options.onFrame(frame)
       last = frame
       if (frameIndex < range.endFrame) options.reader.prefetch(options.asset, frameIndex + 1)
-      await wait(frameSequenceFrameDurationMs(sequence.index, frameIndex, range.frameRate))
+      await awaitActive(
+        wait(frameSequenceFrameDurationMs(sequence.index, frameIndex, range.frameRate)),
+      )
     }
   } finally {
     target?.removeEventListener('keydown', onKey, true)

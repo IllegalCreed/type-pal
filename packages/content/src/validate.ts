@@ -3,6 +3,7 @@
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
 import type {
   ActorDef,
+  AssetCatalogV1,
   BattleFieldDef,
   EnemyDef,
   ItemData,
@@ -288,28 +289,76 @@ export function validateEnemies(json: unknown): EnemyDef[] {
   return arr
 }
 
-/** 精灵注册表形状校验:id/spriteNum/label + layout(kind 合法 + 按 kind 的必需字段)。 */
-export function validateSprites(json: unknown): SpriteDef[] {
+/** 精灵注册表形状校验:id/asset/label + layout，并可与 catalog 的 sprite kind 交叉校验。 */
+export function validateSprites(json: unknown, catalog?: AssetCatalogV1): SpriteDef[] {
   const arr = assertArray<SpriteDef>(json, 'sprites')
+  const ids = new Set<string>()
   arr.forEach((sp, i) => {
-    const o = assertObject(sp, `sprites[${i}]`)
-    requireKeys(o, ['id', 'spriteNum', 'label', 'layout'], `sprites[${i}]`)
+    const o = assertObject(sp, `sprites[${i}]`) as Record<string, unknown>
+    requireKeys(o, ['id', 'asset', 'label', 'layout'], `sprites[${i}]`)
     const id = (sp as { id: unknown }).id
-    if (typeof id !== 'string') throw new Error(`sprites[${i}]: id 非string`)
-    const spriteNum = (sp as { spriteNum: unknown }).spriteNum
-    if (typeof spriteNum !== 'number') throw new Error(`sprites[${i}]: spriteNum 非number`)
+    if (typeof id !== 'string' || id.length === 0)
+      throw new Error(`sprites[${i}]: id 期望非空string`)
+    if (ids.has(id)) throw new Error(`sprites[${i}]: 重复 id "${id}"`)
+    ids.add(id)
+    if ('spriteNum' in o) throw new Error(`sprites[${i}].spriteNum: 已退役；请升级为 asset AssetId`)
+    if ('path' in o)
+      throw new Error(`sprites[${i}].path: 已退役；物理路径只能来自 assets/index.json`)
+    const asset = (sp as { asset: unknown }).asset
+    if (typeof asset !== 'string' || asset.trim().length === 0)
+      throw new Error(`sprites[${i}].asset: 期望非空 AssetId`)
+    if (catalog) {
+      const record = catalog.assets[asset]
+      if (!record) throw new Error(`sprites[${i}].asset: AssetId "${asset}" 不在 catalog`)
+      if (record.kind !== 'sprite')
+        throw new Error(`sprites[${i}].asset: AssetId "${asset}" 期望 sprite，实际 ${record.kind}`)
+    }
     if (typeof (sp as { label: unknown }).label !== 'string')
       throw new Error(`sprites[${i}]: label 非string`)
     const layout = assertObject((sp as { layout: unknown }).layout, `sprites[${i}].layout`)
     const kind = (layout as { kind?: unknown }).kind
     if (kind === 'directional') {
-      if (typeof (layout as { framesPerDir?: unknown }).framesPerDir !== 'number')
+      const framesPerDir = (layout as { framesPerDir?: unknown }).framesPerDir
+      if (framesPerDir === undefined)
         throw new Error(`sprites[${i}].layout: directional 缺 framesPerDir(number)`)
+      if (!Number.isInteger(framesPerDir) || (framesPerDir as number) <= 0)
+        throw new Error(`sprites[${i}].layout: directional framesPerDir 期望正整数`)
     } else if (kind === 'loop') {
-      if (typeof (layout as { frameCount?: unknown }).frameCount !== 'number')
+      const frameCount = (layout as { frameCount?: unknown }).frameCount
+      if (frameCount === undefined)
         throw new Error(`sprites[${i}].layout: loop 缺 frameCount(number)`)
+      if (!Number.isInteger(frameCount) || (frameCount as number) <= 0)
+        throw new Error(`sprites[${i}].layout: loop frameCount 期望正整数`)
     } else if (kind !== 'static') {
       throw new Error(`sprites[${i}].layout: kind 非法("${String(kind)}")`)
+    }
+    if (o.poses !== undefined) {
+      const poses = assertObject(o.poses, `sprites[${i}].poses`)
+      for (const [name, rawPose] of Object.entries(poses)) {
+        const pose = assertObject(
+          rawPose,
+          `sprites[${i}].poses[${JSON.stringify(name)}]`,
+        ) as Record<string, unknown>
+        const frames = assertArray<unknown>(
+          pose.frames,
+          `sprites[${i}].poses[${JSON.stringify(name)}].frames`,
+        )
+        if (!frames.length)
+          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].frames: 期望非空数组`)
+        frames.forEach((frame, frameIndex) => {
+          if (typeof frame !== 'number' || !Number.isInteger(frame) || frame < 0)
+            throw new Error(
+              `sprites[${i}].poses[${JSON.stringify(name)}].frames[${frameIndex}]: 期望非负整数`,
+            )
+        })
+        if (pose.mode !== 'static' && pose.mode !== 'loop')
+          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].mode: 非法`)
+        if (
+          pose.ticksPerFrame !== undefined &&
+          (!Number.isInteger(pose.ticksPerFrame) || (pose.ticksPerFrame as number) <= 0)
+        )
+          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].ticksPerFrame: 期望正整数`)
+      }
     }
   })
   return arr

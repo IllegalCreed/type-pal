@@ -138,10 +138,11 @@ export interface TranslateCtx {
   locale: Record<string, string>
   report: TranslateReport
   /**
-   * 0x65(换角色精灵)的 spriteNum → 精灵 id 解析(mapScenesStatic 注入:
-   * 角色本体精灵优先,未注册的补登记 sprite-<num>)。缺省会记阻塞 gap。
+   * 所有旧大世界 spriteNum → 精灵 id 的唯一解析口(0x65/0x1A/0x98；
+   * mapScenesStatic 注入:角色本体精灵优先,未注册的补登记 sprite-<num>)。
+   * 非空引用缺省会记阻塞 gap。
    */
-  spriteIdForNum?: (num: number) => string
+  spriteIdForNum?: (num: number) => string | undefined
   /** 迁移边界内把旧 mapNum 解析为工程稳定 map id。 */
   mapIdForNum?: (num: number) => string
   /** 旧 sound chunk 到已登记 AssetId；生产迁移用它把空 chunk 转为无命令。 */
@@ -970,7 +971,12 @@ function walkBody(
       } else if (oc === 0x80) {
         push({ kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }) // 0x80 昼夜切换
       } else if (oc === 0x98) {
-        push({ kind: 'setFollowers', sprites: [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0) }) // 0x98 跟随者
+        // 旧 spriteNum 只在迁移边界消解；空数组仍是合法的“清除跟随者”命令。
+        const sourceSprites = [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0)
+        const sprites = sourceSprites.map((spriteNum) => ctx.spriteIdForNum?.(spriteNum))
+        if (sprites.every((sprite): sprite is string => typeof sprite === 'string'))
+          push({ kind: 'setFollowers', sprites })
+        else gap('setFollowers 无精灵注册回调')
       } else if (oc === 0x99) {
         // 0x99 换图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
         const mapNum = o[1] ?? 0

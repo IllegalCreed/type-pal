@@ -1,54 +1,36 @@
 /**
  * 精灵缩略图(放置 palette / 检查器;2026-07-05 作者:「光看名字不清楚是什么」)。
- * 懒加载:进入视口才 loadSprite(579 精灵全量拉图太重);bake 结果模块级缓存(跨行复用)。
+ * 懒加载:进入视口才按 AssetId 解码(全量精灵不预拉);bake 结果模块级缓存(跨行复用)。
  * 0 号调色板 bake(编辑器缩略不追场景准色,同 BattleFieldPicker 约定)。
- * A4 自有上传:path 双轨 + 未保存字节(blob)内存解码优先(磁盘尚无此文件)。
+ * pending bytes 由 EditorAssetReader 统一覆盖磁盘，组件不接触物理路径。
  */
+import type { AssetId } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import {
-  bakeFrame,
-  decompressGzip,
-  loadSprite,
-  loadStandardPalette,
-  parseSpriteChunk,
-} from '@type-pal/reforge'
+import { actualFrameIndex, bakeFrame, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { loadEditorSprite } from '../core/sprite-assets.js'
 
 const thumbCache = new Map<string, Promise<HTMLCanvasElement | null>>()
 
 function loadThumb(
   assetBase: AssetBase,
-  spriteNum: number,
+  assetReader: EditorAssetReader,
+  asset: AssetId,
+  revision: string,
   frameIndex: number,
-  path?: string,
-  blob?: ArrayBuffer,
 ): Promise<HTMLCanvasElement | null> {
-  // blob(新上传未保存)不进缓存:保存后走磁盘路径,缓存键仍按 num(上传条目 num 唯一)
-  if (blob) {
-    return (async () => {
-      try {
-        const [frames, palette] = await Promise.all([
-          decompressGzip(new Blob([blob])).then(parseSpriteChunk),
-          loadStandardPalette(assetBase),
-        ])
-        const f = frames[frameIndex] ?? frames[0]
-        return f ? bakeFrame(f, palette) : null
-      } catch {
-        return null
-      }
-    })()
-  }
-  const cacheKey = `${assetBase.root}\0${assetBase.sprites}\0${path ?? ''}\0${spriteNum}\0${frameIndex}`
+  const cacheKey = `${assetReader.projectId}\0${asset}\0${revision}\0${frameIndex}`
   let p = thumbCache.get(cacheKey)
   if (!p) {
     p = (async () => {
       try {
         const [sprite, palette] = await Promise.all([
-          loadSprite(assetBase, spriteNum, path),
+          loadEditorSprite(assetReader, asset),
           loadStandardPalette(assetBase),
         ])
-        const f = sprite.frames[frameIndex] ?? sprite.frames[0]
+        const f = sprite.frames[actualFrameIndex(frameIndex, sprite.frames.length)]
         if (!f) return null
         return bakeFrame(f, palette)
       } catch {
@@ -62,14 +44,14 @@ function loadThumb(
 
 export function SpriteThumb(props: {
   assetBase: AssetBase
-  spriteNum: number
+  assetReader: EditorAssetReader
+  asset: AssetId
+  /** catalog SHA；同 AssetId 替换后必须令缩略图 effect/cache 失效。 */
+  revision: string
   size?: number
   /** 要预览的帧;越界时回退首帧。 */
   frameIndex?: number
-  /** 自有上传精灵的 .rle 路径(缺省走原版号约定)。 */
-  path?: string
-  /** 新上传未保存的字节(内存解码优先)。 */
-  blob?: ArrayBuffer
+  label?: string
   /** palette 行保留脚底锚点;独立预览/查看器使用几何居中。 */
   align?: 'bottom' | 'center'
   /** 放大上限;默认缩略图最多 2×,查看器可提高。 */
@@ -77,11 +59,12 @@ export function SpriteThumb(props: {
 }) {
   const {
     assetBase,
-    spriteNum,
+    assetReader,
+    asset,
+    revision,
     size = 36,
     frameIndex = 0,
-    path,
-    blob,
+    label,
     align = 'bottom',
     maxScale = 2,
   } = props
@@ -105,7 +88,7 @@ export function SpriteThumb(props: {
   useEffect(() => {
     if (!visible) return
     let alive = true
-    void loadThumb(assetBase, spriteNum, frameIndex, path, blob).then((baked) => {
+    void loadThumb(assetBase, assetReader, asset, revision, frameIndex).then((baked) => {
       if (!alive || !hostRef.current) return
       const ctx = hostRef.current.getContext('2d')
       if (!ctx) return
@@ -122,7 +105,7 @@ export function SpriteThumb(props: {
     return () => {
       alive = false
     }
-  }, [visible, assetBase, spriteNum, size, frameIndex, path, blob, align, maxScale])
+  }, [visible, assetBase, assetReader, asset, revision, size, frameIndex, align, maxScale])
 
   return (
     <canvas
@@ -131,7 +114,7 @@ export function SpriteThumb(props: {
       height={size}
       className="sprite-thumb"
       role="img"
-      aria-label={`精灵 #${spriteNum} 预览`}
+      aria-label={`${label ?? asset} 预览`}
     />
   )
 }
@@ -139,14 +122,14 @@ export function SpriteThumb(props: {
 /** 检查器使用的模态精灵查看器:黑底、像素整数放大、原帧居中。 */
 export function SpriteImageViewer(props: {
   assetBase: AssetBase
-  spriteNum: number
+  assetReader: EditorAssetReader
+  asset: AssetId
+  revision: string
   frameIndex?: number
-  path?: string
-  blob?: ArrayBuffer
   label: string
   onClose: () => void
 }) {
-  const { assetBase, spriteNum, frameIndex = 0, path, blob, label, onClose } = props
+  const { assetBase, assetReader, asset, revision, frameIndex = 0, label, onClose } = props
   const [zoom, setZoom] = useState(4)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -176,7 +159,7 @@ export function SpriteImageViewer(props: {
         <div className="sprite-image-viewer-title">
           <strong id={titleId}>{label}</strong>
           <span>
-            #{spriteNum} · 帧 {frameIndex}
+            {asset} · 帧 {frameIndex}
           </span>
         </div>
         <fieldset className="sprite-image-viewer-tools">
@@ -219,11 +202,12 @@ export function SpriteImageViewer(props: {
       <div className="sprite-image-viewer-stage">
         <SpriteThumb
           assetBase={assetBase}
-          spriteNum={spriteNum}
+          assetReader={assetReader}
+          asset={asset}
+          revision={revision}
           frameIndex={frameIndex}
           size={512}
-          path={path}
-          blob={blob}
+          label={label}
           align="center"
           maxScale={zoom}
         />

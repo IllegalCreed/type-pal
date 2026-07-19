@@ -5,7 +5,9 @@ import {
   type Facing,
   type GridPos,
   isMapAssetId,
+  legacyWorldSpriteNumberFromAsset,
   palMusicAssetId,
+  type SpriteDef,
   type WorldState,
 } from '@type-pal/content'
 import { SAVE_VERSION, type SaveMeta, type SavePayload, type SlotId, slotKind } from './types.js'
@@ -43,21 +45,26 @@ export function buildPayload(
  * · version 闸:新于引擎 → 抛(宁拒不猜);旧于当前 → 逐版本升级挂点(现仅 v1,占位)。
  * · 结构补默认:引擎演进新增的**容器**字段旧档缺失 → 补空值(?? 语义,不动既有值)。
  *   只补结构不钳数值 —— 数值修复 = "旧档复原",按方针不做(新档干净即可)。
- * 原地修补并返回同一对象(payload 是读档专属拷贝)。
+ * 在隔离副本上完成全部验证后才一次提交并返回原顶层对象；任何失败都不污染输入。
  */
 export interface NormalizePayloadOptions {
   legacyMusicAsset?: (track: number) => AssetId
   legacyPortraitAsset?: (portrait: number) => AssetId | undefined
   /** 当前工程 catalog 的 portrait kind 闭包；已是 AssetId 的新档也必须验证。 */
   validatePortraitAsset?: (asset: AssetId) => void
+  /** v1/v2 编外跟随者旧数字到当前工程唯一 SpriteDef.id 的显式映射。 */
+  legacyFollowerSpriteId?: (spriteNum: number) => string | undefined
+  /** 当前工程 SpriteDef.id 闭包；旧映射和新字符串都必须验证。 */
+  validateFollowerSpriteId?: (spriteId: string) => void
   /** 槽位、URL 或文件名；升级失败时必须能指向用户可处理的存档。 */
   where?: string
 }
 
 export function normalizePayload(
-  p: SavePayload,
+  input: SavePayload,
   options: NormalizePayloadOptions = {},
 ): SavePayload {
+  const p = structuredClone(input)
   if (p.version > SAVE_VERSION)
     throw new Error(`存档格式 v${p.version} 新于引擎支持的 v${SAVE_VERSION}`)
   // v(n)→v(n+1) 升级链挂点:bump SAVE_VERSION 时在此逐版本迁移
@@ -76,8 +83,94 @@ export function normalizePayload(
   }
   normalizeSceneScriptOverrides(w.script)
   validateMapOverride(w.script)
+  normalizeFollowers(p, options)
   p.version = SAVE_VERSION
-  return p
+  input.version = p.version
+  input.projectId = p.projectId
+  input.contentVersion = p.contentVersion
+  input.world = p.world
+  input.position = p.position
+  return input
+}
+
+/** 旧数字只经升级边界持久映射反查定义；工程名、定义 id 与物理路径均不参与推导。 */
+export function resolveLegacyFollowerSpriteId(
+  spritesById: Readonly<Record<string, SpriteDef>>,
+  spriteNum: number,
+): string | undefined {
+  if (!Number.isInteger(spriteNum) || spriteNum <= 0) return undefined
+  const candidates = Object.values(spritesById).filter(
+    (definition) => legacyWorldSpriteNumberFromAsset(definition.asset) === spriteNum,
+  )
+  if (candidates.length !== 1) return undefined
+  const [candidate] = candidates
+  if (!candidate) return undefined
+  return candidate.layout.kind === 'directional' && candidate.layout.framesPerDir === 3
+    ? candidate.id
+    : undefined
+}
+
+export interface RestoredMusicDecision {
+  currentMusic: AssetId | null | undefined
+  action: 'play' | 'stop'
+}
+
+/** 读档不能继承读档前世界的曲目：存档值优先，其次目标场景；两者都缺省则明确停止。 */
+export function resolveRestoredMusic(
+  saved: AssetId | null | undefined,
+  sceneDefault: AssetId | null | undefined,
+): RestoredMusicDecision {
+  const currentMusic = saved !== undefined ? saved : sceneDefault
+  return currentMusic === undefined || currentMusic === null
+    ? { currentMusic, action: 'stop' }
+    : { currentMusic, action: 'play' }
+}
+
+function normalizeFollowers(p: SavePayload, options: NormalizePayloadOptions): void {
+  const script = p.world.script as (WorldState['script'] & { followers?: unknown }) | undefined
+  const raw = script?.followers
+  if (!script || raw === undefined) return
+  const where = options.where ?? `工程 ${JSON.stringify(p.projectId)} 的存档`
+  const basePath = `${where}: world.script.followers`
+  if (!Array.isArray(raw)) throw new Error(`${basePath}: 必须是 SpriteDef.id 数组`)
+  if (raw.length > 2) throw new Error(`${basePath}: 最多允许 2 个编外跟随者，收到 ${raw.length}`)
+  const hasString = raw.some((value) => typeof value === 'string')
+  const hasNumber = raw.some((value) => typeof value === 'number')
+  if (hasString && hasNumber) throw new Error(`${basePath}: 不允许数字与 SpriteDef.id 混合`)
+  if (raw.some((value) => typeof value !== 'string' && typeof value !== 'number'))
+    throw new Error(`${basePath}: 只允许 SpriteDef.id${p.version < 3 ? ' 或旧数字' : ''}`)
+  if (p.version >= 3 && hasNumber)
+    throw new Error(`${basePath}: v${p.version} 只允许 SpriteDef.id，拒绝数字`)
+
+  const planned: string[] = []
+  raw.forEach((value, index) => {
+    const path = `${basePath}[${index}]`
+    let spriteId: string | undefined
+    if (typeof value === 'string') {
+      if (!value) throw new Error(`${path}: SpriteDef.id 不能为空`)
+      spriteId = value
+    } else {
+      if (!Number.isInteger(value) || value < 0)
+        throw new Error(`${path}: 旧精灵号必须是非负整数，收到 ${String(value)}`)
+      if (value === 0) return
+      if (!options.legacyFollowerSpriteId)
+        throw new Error(`${path}: 数字精灵 ${value} 无 SpriteDef.id 转换规则，拒绝猜测`)
+      spriteId = options.legacyFollowerSpriteId(value)
+      if (!spriteId)
+        throw new Error(`${path}: 数字精灵 ${value} 在当前工程中缺少唯一 SpriteDef.id 映射`)
+    }
+    try {
+      options.validateFollowerSpriteId?.(spriteId)
+    } catch (cause) {
+      throw new Error(
+        `${path}: SpriteDef.id "${spriteId}" 在当前工程中不可用；${cause instanceof Error ? cause.message : String(cause)}`,
+      )
+    }
+    planned.push(spriteId)
+  })
+
+  if (planned.length) script.followers = planned
+  else delete script.followers
 }
 
 function normalizeAppearancePortraits(p: SavePayload, options: NormalizePayloadOptions): void {

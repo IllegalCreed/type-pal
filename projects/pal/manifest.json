@@ -39,13 +39,11 @@
     },
     "legacy": {
       "families": [
-        "sprite",
         "battle-sprite",
         "effect-sprite",
         "image"
       ],
       "root": "/extracted/data",
-      "sprites": "sprite",
       "palettes": "palette"
     }
   },

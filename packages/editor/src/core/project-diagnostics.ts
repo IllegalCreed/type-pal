@@ -340,6 +340,13 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
         ? reference.site.slice('entryPoint:'.length, -':introVideo'.length)
         : undefined
     const expectedKind = reference?.expectedKind
+    const spriteDefinitionIndex = reference
+      ? /^sprites\[(\d+)\]\.asset$/.exec(reference.where)?.[1]
+      : undefined
+    const spriteDefinitionId =
+      spriteDefinitionIndex === undefined
+        ? undefined
+        : state.sprites[Number(spriteDefinitionIndex)]?.id
     const actualKind = assetId ? state.assetCatalog.assets[assetId]?.kind : undefined
     const targetKind = actualKind ?? expectedKind
     const assetPage =
@@ -347,14 +354,16 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
         ? 'music'
         : targetKind === 'sound'
           ? 'sound'
-          : targetKind === 'portrait' ||
-              targetKind === 'face' ||
-              targetKind === 'item-icon' ||
-              targetKind === 'battle-background'
-            ? 'image'
-            : targetKind === 'video' || targetKind === 'frame-animation'
-              ? 'cutscene'
-              : undefined
+          : targetKind === 'sprite'
+            ? 'sprite'
+            : targetKind === 'portrait' ||
+                targetKind === 'face' ||
+                targetKind === 'item-icon' ||
+                targetKind === 'battle-background'
+              ? 'image'
+              : targetKind === 'video' || targetKind === 'frame-animation'
+                ? 'cutscene'
+                : undefined
     issues.push({
       severity: closure.severity,
       code,
@@ -364,13 +373,15 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
         ? { module: 'project', page: 'entrypoint', ...(entryId ? { objectId: entryId } : {}) }
         : isRole
           ? { module: 'project', page: 'startup' }
-          : assetId && assetPage
-            ? {
-                module: 'asset',
-                page: assetPage,
-                objectId: assetId,
-              }
-            : { module: 'project', page: 'advanced' },
+          : spriteDefinitionId
+            ? { module: 'asset', page: 'sprite', objectId: spriteDefinitionId }
+            : assetId && assetPage
+              ? {
+                  module: 'asset',
+                  page: assetPage,
+                  objectId: assetId,
+                }
+              : { module: 'project', page: 'advanced' },
     })
   }
 
@@ -420,21 +431,23 @@ export function assertProjectSaveValid(state: EditorState): void {
   )
   if (errors.length) throw new Error(`保存前工程校验失败：${errors[0]!.message}`)
 
-  const startWorldErrors = [
+  const referenceErrors = [
     ...validateReferences(state),
     ...Array.from(
       (state.manifest.entryPoints ?? []).flatMap((entry) =>
         entry.startWorld
-          ? validateReferences({ ...state, startWorld: entry.startWorld }).map((issue) => ({
-              ...issue,
-              where: `entryPoints[${entry.id}].${issue.where}`,
-            }))
+          ? validateReferences({ ...state, startWorld: entry.startWorld })
+              .filter((issue) => issue.where.startsWith('startWorld'))
+              .map((issue) => ({
+                ...issue,
+                where: `entryPoints[${entry.id}].${issue.where}`,
+              }))
           : [],
       ),
     ),
-  ].filter((issue) => issue.severity === 'error' && issue.where.includes('startWorld'))
-  if (startWorldErrors.length)
-    throw new Error(`保存前开局数据校验失败：${startWorldErrors[0]!.message}`)
+  ].filter((issue) => issue.severity === 'error')
+  if (referenceErrors.length)
+    throw new Error(`保存前内容引用校验失败：${referenceErrors[0]!.message}`)
   const startWorldInvariantErrors = [
     ...validateSeedStats(state.manifest.startWorld, state.actors, 'startWorld'),
     ...validateStartWorldUniqueness(state.manifest.startWorld, 'startWorld'),

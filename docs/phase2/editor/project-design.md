@@ -97,12 +97,12 @@ type-pal/
     "items": "content/items.json",
     "locale": "content/locale.json"
   },
-  "assets": {                      // 工程自有资源根 + 命名规则(loader/assets.ts 据此解析,A2)
-    "root": "assets",
-    "maps": "maps",                // reuseOriginalMap=N → assets/maps/<N>.json
-    "tilesets": "tilesets",        // → assets/tilesets/<N>.rle
-    "sprites": "sprites",          // → assets/sprites/<N>.rle
-    "palettes": "palettes"         // → assets/palettes/<N>.json
+  "assets": {                      // v3 唯一物理资源入口；路径只存在 catalog record
+    "catalog": "assets/index.json",
+    "roles": {},                   // 引擎所需具名角色 → AssetId
+    "legacy": {                    // 仅尚未 catalog 化的资源族；逐族迁完即删除
+      "families": ["battle-sprite", "effect-sprite", "image"]
+    }
   },
   "startWorld": {                  // initialWorld() 的数据化(替代函数;§5-A)
     "party": ["li-xiaoyao"],       // 角色模板 id 列表(顺序 = 入队顺序)
@@ -165,7 +165,7 @@ content 里的东西分两类,**必须分开处理**(这是迁移的关键):
 | `main.ts: import { guijieMinjuScene, initialWorld }`([:7](../../../packages/reforge/src/main.ts#L7)) | `const project = await loader.loadProject(PROJECT_ID)` |
 | `SCENE_ID/MAP_NAME` 局部常量([:202-204](../../../packages/reforge/src/main.ts#L202-L204)) | `project.manifest.entryScene` / `.name`;入口场景 = `project.scenes.find(s => s.id === entryScene)` |
 | `initialWorld()`([:181](../../../packages/reforge/src/main.ts#L181)) | `buildWorld(project.manifest.startWorld, project.charactersById)` |
-| `assets.ts: BASE = '/extracted'`([:8](../../../packages/reforge/src/assets.ts#L8));`loadTilemap/loadTileset/loadSprite/loadPalette` 只收 `N` | 注入工程 assets root:`loadTilemap(root, N)` 等,root 来自 manifest.assets(A2)。引擎 UI 皮/字模(menu/dialog/glyph)**不动**,仍走引擎路径 |
+| 早期 `assets.ts` 以提取根 + 数字读取 map/tileset/world sprite/palette | v3 map 定义、TilesetDef 与 SpriteDef 只保存稳定 id/AssetId；二进制经 `assets/index.json -> AssetResolver/FileSource`。尚未迁移的 battle/effect/image 仅留在 manifest legacy 债务区；引擎 UI 皮/字模留引擎壳 |
 | 新增 `loader.ts` | fetch manifest + 5 个 content JSON + guard + 组装 `LoadedProject { manifest, scenes, charactersById, skills, items, locale }` |
 | 存档 `SavePayload`([save/types.ts:33](../../../packages/reforge/src/save/types.ts#L33))无 projectId | 加 `projectId` + `contentVersion`(存档绑工程:读档时校验工程匹配,防把 A 工程存档读进 B 工程) |
 

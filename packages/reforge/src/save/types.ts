@@ -5,7 +5,7 @@ export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
 
 export const MANUAL_SLOT_COUNT = 28
 export const SLOTS_PER_PAGE = 3
-export const SAVE_VERSION = 2
+export const SAVE_VERSION = 3
 
 /** 全部槽 id（固定序）：自动、快速最前，其后 m01..m28（共 30，3/页 → 10 页）。 */
 export const ALL_SLOT_IDS: SlotId[] = [
@@ -31,7 +31,7 @@ export interface SaveMeta {
   savedTimes?: number
 }
 
-/** 全量还原状态；v2 起持久形象立绘只允许 AssetId，不再保存 PAL 数字号。 */
+/** 全量还原状态；v3 起编外跟随者只允许 SpriteDef.id。 */
 export interface SavePayload {
   version: number
   /** 存档所属工程 id(读档校验:防把 A 工程存档读进 B 工程)。 */

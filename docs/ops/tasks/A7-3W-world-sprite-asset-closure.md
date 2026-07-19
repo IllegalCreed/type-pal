@@ -1,6 +1,6 @@
 # A7-3W - 大世界精灵索引资源闭包
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / C2
 Coding Owner: Codex
@@ -243,7 +243,8 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 
 - counter / 分歧处理: 当前无未决分歧;GLM G1-G4 与 Kimi R1-R3 互不冲突,G1-G2 与 Kimi 主审立场同项。
   Codex 在 build 准入复算时补两处**口径勘误（不改变总数或签字结论）**：21 个共享二进制组精确拆分为
-  **5 个主角语义定义对 + 16 个布局变体对**，不是审查记录中的 4+17；`setActorAppearance` 共 9 条命令，
+  **5 个主角同布局语义定义对 + 15 个 directional/static kind 变体对 + 1 个 directional framesPerDir
+  变体对**，不是审查记录中的 4+17；`setActorAppearance` 共 9 条命令，
   其中只有 **3 条 `spriteId`** 属本卡大世界精灵语义引用，另 3 条 portrait 已闭环、3 条 battleSprite
   属 A7-3B。build 的引用冻结与测试必须采用 3 条 spriteId 口径，历史审查原文保留以供追踪。
 - 缺签豁免: N/A
@@ -252,10 +253,15 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-19）**。完成实现、自测、真实浏览器与 503 旧路径阻断验收；两轮内部只读
+  终审先后发现并返工 editor revision/引用刷新/深链/布局问题，以及 scene-switch 的 fade/dither owner
+  竞态。最终 runtime 终审 5 files / 83 tests、editor/data/migration 终审 179 + 99 + 70 tests 均无
+  P0/P1/P2；Reforge 全套 52 files / 487 tests、五包 typecheck、两端 production build、Biome 与
+  `git diff --check` 全绿。Codex 自验通过，建议进入外部三贤人 done 审查。
 - Kimi: pending
 - GLM: pending
-- counter / 返工处理: pending
+- counter / 返工处理: Codex 内部只读审计提出的阻断均已返工并复审 accept；用户告知 Kimi/GLM 均已
+  给出反馈，但截至本次收口其最终 `accept/counter` 原文尚未写入本卡，Codex 不代签。
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
@@ -359,11 +365,66 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 ## Build: 实现与自测
 
 - Coding Owner: Codex（三方设计 agree 已齐，允许开始实现）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - content / codec：`packages/content/src/{actor,asset,enemy,script,sprite,validate,validate-refs}*`、
+    `packages/shared/src/rle*`。
+  - migrate / 生成真值：`packages/migrate/{src,scripts}/**`、PAL baseline、
+    `projects/pal/{assets/index.json,content/sprites.json,content/scripts,manifest.json}`。
+  - editor 生命周期与 UI：`packages/editor/src/core/{commands,edit-session,editor-asset-references,
+    open-local,project-diagnostics,project-io,seed,sprite-assets,upgrade-local-v3-sprites}*`，以及精灵库、上传、
+    帧编辑、场景/剧情预览、深链和样式相关 UI / 测试。
+  - runtime / 存档：`packages/reforge/src/{assets,loader,main,script-runner,sprite-anim,
+    frame-animation-player,fade-driver,dither-transition,scene-switch-transaction,save}*` 及测试。
+  - fixture / 文档：demo、e2e-own canonical 工程，content schema、A7 审计、asset pipeline、project
+    lifecycle、project design、本卡与看板。
+- 实现摘要:
+  - `SpriteDef` 收敛为 `{id,asset,label,layout,poses?}`；typed walker、catalog 交叉校验、角色/实体/脚本/
+    visible world 反向引用和 followers 存档全部使用语义 id，旧数字只留迁移/升级输入边界。
+  - world-sprite loader 统一验证 AssetId、kind/media、bytes/SHA、gzip 与来源分级 RLE；author/generated
+    严格 fail-loud，`legacy-migrated` 只容忍结构上安全的连续有效前缀坏尾，渲染/idle 统一按实际帧数。
+  - 迁移器确定性物化全部 636 个资源并保留原 gzip 字节，生成 580 definitions / 559 used / 21 shared /
+    77 unused；PAL 退出 sprite legacy，只保留 battle-sprite/effect-sprite/image 后续族。
+  - editor 提供 580 语义定义 / 636 二进制资源双视图；上传、共享替换、定义/资源分开删除、帧追加/
+    缩帧 repair、undo/redo、pending blob、保存重开和 SHA revision 刷新形成原子闭环。13 条历史布局债
+    显示实际帧与缺失槽，缺失槽回退第 0 帧但不可操作。
+  - v3 本地工程升级、MG2 authored 接管、FSA/Save As/clone/ZIP 复用 A7-3T 的完整 SHA 与两阶段 catalog
+    提交；demo/e2e-own/blank canonical fixture 不再写 sprite legacy。
+  - runtime/editor 只经 `SpriteDef.asset -> AssetRecord -> AssetResolver/FileSource` 加载，并以
+    AssetId + record SHA 缓存；删除 world sprite 的数字/path/root fallback 和 `spriteByNum` 第二缓存。
+  - 实现期只读审计返工了加载/换场/队伍更新的异步提交边界：reloadMap 的 runtime+持久状态同步提交，
+    auto 禁止 `loadScene`，fade/dither 以 owner 身份接管与清理，完成态黑幕也保留 owner 到明确复位；旧
+    runner/事务不再越权继续副作用或取消新演出。
+- 运行命令:
+  - 全套测试：content **22 files / 248 tests**；shared **13 / 121**；editor **57 / 479**；migrate
+    **32 / 233 passed / 1 skipped**；Reforge 最终 **52 / 487**，全部通过。migrate 唯一 skip 是仓库不含
+    私有 bootstrap fixture 的条件式真实数据演练；已提交 baseline 的真实回归正常执行。
+  - content/shared/editor/migrate/reforge 五包 `typecheck` 全绿；editor/reforge production build 全绿，
+    仅 editor 保留既有 chunk-size warning。
+  - `pnpm lint`：**775 files**，零问题；`git diff --check` 通过。
+  - 独立数据复算：636 records / 580 defs / 559 used AssetIds / 21 shared / 77 unused，1,332,725 B /
+    4,133 frames / 30 legacy tails / 13 layout debts；tuple digest
+    `c92c14b5dac5abc39006d94fdefaa699eb0bffddb925447ceb4070c32bb45d03`。636/636 工程文件与提取源
+    byte-exact，catalog bytes/SHA/media/origin 零 mismatch。
+  - 正式路径静态扫描只剩 battle/effect 的 `spriteNum`、content 退役字段拒绝器、PAL AssetId helper 和
+    v1/v2 存档升级边界；world sprite runtime/editor 无数字、path、legacy root 或 `assets/sprites/` 回退。
+- 浏览器 / 手工检查:
+  - 真实 Chromium 检查 PAL editor：语义定义 **580/580**、二进制资源 **636/636**、**77** 个未使用资源；
+    `sprite.pal.017` 可作为独立未使用资源打开，定义删除与资源删除分离，长 AssetId/path 无溢出。
+  - `sprite-627` 的 12 帧历史声明 / 4 实际帧按运行时真值展示；4..11 全部标为 `缺失→0` 且 disabled，
+    SHA 对应的实际帧证明加载完成前不可编辑。
+  - PAL Reforge `s001/s066/s102` 均正常渲染；s066 多人动画中三人全身、锚点、遮挡和颜色正常，未见半身、
+    漂移或黑屏；三场景 console 0 warning/error。s102 的 followers 设置/清空/存档重开另由迁移与 runtime
+    专测覆盖。
+  - 在本地代理把 `/extracted/data/sprite/**` 固定为 **503** 后，PAL editor 与 Reforge 仍完整加载；Network
+    实际只请求 `projects/pal/assets/migrated/sprites/**`，console 无 fallback/error。代表请求
+    `assets/migrated/sprites/002.rle` 返回 200，旧 `extracted/data/sprite/2.rle` 返回 503。
+- 跳过的检查及原因:
+  - 原生 `showDirectoryPicker` 无法由当前浏览器自动化跨安全提示接管；真实 FSA/Save As/clone/ZIP 的
+    byte-exact、失败重试与提交顺序由 editor core 全套测试覆盖，PAL HTTP 工程则已在真实浏览器检查。
+  - demo/e2e-own/blank 的 schema、资源文件、保存/重开由完整测试矩阵覆盖；本轮人工像素验收聚焦 PAL
+    代表场景和历史布局债。
+  - 浏览器截图仅在会话内检查，未写入仓库；`git status` 无测试图片。PAL 本地版权资源目录继续按既有规则
+    ignore，不 force-add；无关的 `projects/pal/content/ambiences.json` 未修改。
 
 ## 资源生成记录(如适用)
 
@@ -378,17 +439,19 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending（临时截图验后删除，不写入仓库）
-- 结论: pending
-- 未完成项: 全部
+- 验证方式: 真实 Chromium；PAL editor 双视图、unused resource、`sprite-627` 缺帧保护；Reforge
+  `s001/s066/s102`；旧 extracted sprite 路由 503 + Network/console 核查。
+- 截图 / 像素检查路径: 临时截图只在会话内检查，未写入仓库。
+- 结论: Codex 视觉验证通过；工程内索引 RLE 的像素、颜色、脚底锚点与遮挡未见回归，历史缺帧不会误开编辑。
+- 未完成项: Kimi 的最终视觉 `accept/counter` 尚未写入任务卡。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自验证 **accept**；两路内部只读终审最终均 accept（runtime 5 files / 83 tests；
+  editor/data/migration 179 + 99 + 70 tests），但它们不能代替 Kimi/GLM 的推进签字。
+- 必须返工项: 内部审计发现的全部 P1/P2 已完成返工并复审；外部 Kimi/GLM 结论待写回。
+- Accept / rework: **review（等待 Kimi + GLM 最终签字）**。
 
 ## 用户验收
 
@@ -415,11 +478,62 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   准入复算补正两处审查分项口径：共享组为 5+16，`setActorAppearance` 9 条命令中仅 3 条含 spriteId。
   将任务从 draft 推进到 build 并同步看板。Evidence: `projects/pal/content/sprites.json` 全量分组与 9 条命令
   字段检查。Next: Codex 单一 Coding Owner 实现；进入 review 前不得标 done。
+- 2026-07-19 Codex: A7-3W build、自验证与内部终审返工完成，状态推进到 review。PAL 冻结为 636 records /
+  580 definitions / 559 used / 21 shared / 77 unused，1,332,725 B / 4,133 frames / 30 legacy tails /
+  13 layout debts；636/636 byte-exact。editor/resource lifecycle、v3/MG2、followers/save、runtime 单链和
+  503 extracted-route 浏览器验证均通过。两轮只读终审发现的 revision/refs/deep-link/CSS 与
+  reloadMap/fade/dither/auto ownership 阻断全部返工，最终两路均 accept；Reforge 全套 487 tests，Biome
+  775 files。Evidence: 本卡 Build/视觉/Review 区。Next: Kimi + GLM 分别完成最终审查并把 accept/counter
+  写回；两签未齐不得标 done。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；三方设计签字已齐，由 Codex 作为唯一 Coding Owner 连续推进 build。以下两段为
-draft 阶段已经执行完毕的历史交接提示词，仅保留审计记录。
+### 给 Kimi（架构、runtime 并发与视觉主审）
+
+```text
+接手任务: A7-3W 大世界精灵索引资源闭包的 done 前最终审查
+任务卡: docs/ops/tasks/A7-3W-world-sprite-asset-closure.md
+当前状态: review；Codex=accept，Kimi/GLM=pending，done 准入 blocked
+你的角色: Kimi，负责架构/schema/跨包、runtime 并发所有权、资源唯一链与视觉主审
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/decisions.md 的 D25、
+docs/phase2/foundation/phase1-knowledge-harvest.md 的 E2/E5/MG5、
+docs/phase2/foundation/a7-resource-closure-audit.md、docs/ops/tasks/A7-3T-tileset-asset-closure.md，
+以及本任务卡全部内容（重点 Build/视觉/Review 与内部返工记录）
+已完成: SpriteDef.asset/catalog-only 单链、636 全量 byte-exact 迁移、followers/save 语义 id、
+shared-aware editor transaction、实际帧驱动；旧 extracted sprite 路由 503 下 editor 与
+Reforge s001/s066/s102 正常。内部终审发现的 scene reloadMap 原子性、auto loadScene、fade/dither
+owner 接管/完成态复位均已修，最终 runtime 5 files/83 tests accept，Reforge 全套 487 tests。
+请你做: 只读复核 origin+结构分级 parser、AssetId+SHA 缓存、scene/party/fade/dither 异步提交，
+共享替换/删除/缩帧的架构边界，以及 s066 三人全身/遮挡/颜色和 sprite-627 缺帧保护；把
+accept 或 counter 直接写回任务卡“进入 done 前:审查签字”的 Kimi 行、Review 与交接日志。
+不要做: 不得修改实现文件，不得代签 GLM，不得提前把 Status 改为 done，不得冒领 A7-3B/E/X3/A7-4。
+输出要求: 无 P0/P1/P2 签 accept；有阻断签 counter，给 file:line、复现、影响和最小返工项。
+Kimi + GLM accept 未齐不得标 done。
+```
+
+### 给 GLM（数据、迁移、保存与测试矩阵审查）
+
+```text
+接手任务: A7-3W 大世界精灵索引资源闭包的 done 前最终审查
+任务卡: docs/ops/tasks/A7-3W-world-sprite-asset-closure.md
+当前状态: review；Codex=accept，Kimi/GLM=pending，done 准入 blocked
+你的角色: GLM，负责数据/schema、迁移/MG2、本地 v3/存档、保存 transport、测试与文档口径
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/decisions.md 的 D25、
+docs/phase2/foundation/a7-resource-closure-audit.md、docs/phase2/migrate/asset-pipeline.md、
+docs/ops/tasks/A7-3T-tileset-asset-closure.md 和本任务卡全部内容
+已完成: PAL 636 records / 580 defs / 559 used / 21 shared / 77 unused，1,332,725 B / 4,133 frames /
+30 legacy tails / 13 layout debts；tuple digest 已冻结，636/636 文件与提取源 byte-exact；followers、
+typed walker、v3/MG2、save/FSA/clone/ZIP 与 demo/e2e/blank 均有测试。内部 editor/data/migration
+终审 179+99+70 tests accept；五包 typecheck、全套测试、build、Biome 均通过。
+请你做: 独立复算全部集合/digest/bytes/SHA/media/origin，审计 30 源兼容不按 id 特判、77 unused warning、
+13 债务不扩大、followers/存档升级歧义 fail-loud、MG2 authored 保护、两阶段保存与 byte-exact transport；
+核对文档未提前宣称 A7/R7/A7-4 完成；把 accept 或 counter 写回 done 签字 GLM 行、Review 与交接日志。
+不要做: 不得修改实现文件，不得只抽样 559 个已用资源，不得代签 Kimi，不得提前标 done。
+输出要求: 给出独立命令/数据；无 P0/P1/P2 签 accept，有阻断签 counter 并列差异和最小返工项。
+Kimi + GLM accept 未齐不得标 done。
+```
+
+以下两段为 draft 阶段已经执行完毕的历史交接提示词，仅保留审计记录。
 
 ### 历史：给 Kimi（架构/schema/跨包主审）
 

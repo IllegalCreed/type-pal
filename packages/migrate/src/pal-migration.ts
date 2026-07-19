@@ -4,11 +4,18 @@ import type {
   EnemyDef,
   MapIndexV1,
   SceneDef,
+  SpriteDef,
   TilesetDef,
 } from '@type-pal/content'
-import { palBattleBackgroundAssetId, palSoundAssetId, palTilesetAssetId } from '@type-pal/content'
+import {
+  palBattleBackgroundAssetId,
+  palSoundAssetId,
+  palSpriteAssetId,
+  palTilesetAssetId,
+} from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
-import { mapScenesStatic, migrateAll } from './migrate-content.js'
+import { mapRoleSpriteIdsByNumber, mapScenesStatic, migrateAll } from './migrate-content.js'
+import { sha256 } from './migration-baseline.js'
 import {
   applyPalItemOverlays,
   applyPalSkillOverlays,
@@ -92,6 +99,47 @@ function enemyCommandRoots(enemies: readonly EnemyDef[]) {
   ])
 }
 
+export const PAL_WORLD_SPRITE_UNUSED_NUMBERS = [
+  17, 71, 73, 85, 89, 93, 99, 101, 103, 115, 120, 126, 128, 130, 133, 168, 170, 174, 176, 180, 182,
+  184, 186, 187, 208, 221, 243, 259, 277, 278, 280, 282, 283, 286, 287, 288, 290, 291, 296, 302,
+  303, 304, 305, 316, 320, 328, 340, 352, 359, 403, 404, 406, 411, 417, 461, 463, 465, 467, 469,
+  475, 483, 493, 496, 497, 498, 499, 503, 507, 508, 509, 510, 542, 543, 571, 572, 595, 635,
+] as const
+
+export const PAL_WORLD_SPRITE_SEMANTIC_DIGEST =
+  'a45887f9e22c00c6afc95704945e52d24f7f60a1e2c0a85f5a32102c3b55902f'
+
+function assertPalWorldSpriteBaseline(
+  sprites: readonly SpriteDef[],
+  catalog: AssetCatalogV1,
+): void {
+  const expectedCatalogIds = Array.from({ length: 636 }, (_, index) => palSpriteAssetId(index + 1))
+  const catalogIds = Object.entries(catalog.assets)
+    .filter(([, record]) => record.kind === 'sprite')
+    .map(([asset]) => asset)
+    .sort()
+  const used = new Set(sprites.map(({ asset }) => asset))
+  const unused = expectedCatalogIds.filter((asset) => !used.has(asset))
+  const expectedUnused = PAL_WORLD_SPRITE_UNUSED_NUMBERS.map(palSpriteAssetId)
+  const semanticDigest = sha256(
+    JSON.stringify(
+      sprites.map(({ id, asset, label, layout, poses }) =>
+        poses === undefined ? { id, asset, label, layout } : { id, asset, label, layout, poses },
+      ),
+    ),
+  )
+  if (sprites.length !== 580) throw new Error(`PAL SpriteDef 期望 580，收到 ${sprites.length}`)
+  if (used.size !== 559) throw new Error(`PAL 已用 sprite AssetId 期望 559，收到 ${used.size}`)
+  if (sprites.length - used.size !== 21)
+    throw new Error(`PAL 共享 SpriteDef 关系期望 21，收到 ${sprites.length - used.size}`)
+  if (JSON.stringify(catalogIds) !== JSON.stringify(expectedCatalogIds))
+    throw new Error('PAL sprite catalog AssetId 集合不是精确 1..636')
+  if (JSON.stringify(unused) !== JSON.stringify(expectedUnused))
+    throw new Error('PAL 未引用 sprite AssetId 集合发生漂移')
+  if (semanticDigest !== PAL_WORLD_SPRITE_SEMANTIC_DIGEST)
+    throw new Error(`PAL SpriteDef 语义投影发生漂移: ${semanticDigest}`)
+}
+
 /** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
   const soundAssetForNum = (sound: number) => {
@@ -131,7 +179,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   const sceneOutput = mapScenesStatic(
     sources.scenes,
     sources.eventsByScene,
-    migrated.sprites,
+    mapRoleSpriteIdsByNumber(sources.migrate.roles, migrated.sprites),
     globalRoots,
     soundAssetForNum,
   )
@@ -141,6 +189,8 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     sceneOutput.scriptChunks,
   )
   const scripts = normalizeScriptLibrary(sceneOutput.scriptIndex, boss.chunks)
+  const sprites = [...migrated.sprites, ...sceneOutput.sprites]
+  assertPalWorldSpriteBaseline(sprites, sources.assetCatalog)
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,
     sourcePrettyBytes: sources.allJsonPrettyBytes,
@@ -157,7 +207,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     files.set(path, asJson(value))
   }
   put('content/actors.json', migrated.actors)
-  put('content/sprites.json', [...migrated.sprites, ...sceneOutput.sprites])
+  put('content/sprites.json', sprites)
   put('content/items.json', items)
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)

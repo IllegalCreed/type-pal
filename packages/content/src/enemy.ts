@@ -92,7 +92,7 @@ export interface EnemyDef {
   name: TextId
   /** 战斗精灵 RLE chunk（enemyId → battle-sprite/enemy/N.rle）。 */
   spriteNum: number
-  /** 自有上传战斗外观的 .rle 路径(A4c;`assets/` 前缀 = 工程根相对,同 SpriteDef.path 约定)。
+  /** 自有上传战斗外观的 .rle 路径(A4c；`assets/` 前缀 = 工程根相对，battle-sprite 族尚未 catalog 化)。
    *  缺省走原版号约定 battle-sprite/enemy/<spriteNum>.rle。 */
   spritePath?: string
   stats: EnemyStats

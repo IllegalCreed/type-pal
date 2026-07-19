@@ -109,7 +109,7 @@ describe('全库脚本去内联门禁', () => {
       ]),
       actors: actors.flatMap((actor) => [actor.scriptOnFriendDeath, actor.scriptOnDying]),
     })
-    const migrated = mapScenesStatic(scenes, events, [], globalRoots)
+    const migrated = mapScenesStatic(scenes, events, new Map(), globalRoots)
     const productEnemies = json<EnemyDef[]>('projects/pal/content/enemies.json')
     const globalCommandRoots = productEnemies.flatMap((enemy) => [
       ...(enemy.choreography ?? []).map((hook, index) => ({

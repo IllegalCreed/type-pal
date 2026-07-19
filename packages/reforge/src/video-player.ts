@@ -17,6 +17,8 @@ export interface PlayVideoOptions {
   skipKeys?: string[]
   /** 静音播放(e2e/自动化;默认 false)。 */
   muted?: boolean
+  /** 剧情 runner 生命周期；取消时立即移除视频层并兑现播放 Promise。 */
+  signal?: AbortSignal
 }
 
 /**
@@ -57,6 +59,7 @@ export function playVideo(options: PlayVideoOptions): Promise<void> {
       if (settled) return
       settled = true
       window.removeEventListener('keydown', onKey, true)
+      options.signal?.removeEventListener('abort', onAbort)
       video.removeEventListener('ended', onEnded)
       video.removeEventListener('error', onError)
       try {
@@ -69,6 +72,7 @@ export function playVideo(options: PlayVideoOptions): Promise<void> {
       resolve()
     }
     const onEnded = (): void => cleanup()
+    const onAbort = (): void => cleanup()
     const onError = (): void => {
       console.warn(`[video-player] load/decode failed: ${options.src}`)
       cleanup()
@@ -84,6 +88,11 @@ export function playVideo(options: PlayVideoOptions): Promise<void> {
     video.addEventListener('ended', onEnded)
     video.addEventListener('error', onError)
     window.addEventListener('keydown', onKey, true)
+    options.signal?.addEventListener('abort', onAbort, { once: true })
+    if (options.signal?.aborted) {
+      cleanup()
+      return
+    }
     container.appendChild(video)
 
     const tryPlay = (): void => {

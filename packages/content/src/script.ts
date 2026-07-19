@@ -106,7 +106,7 @@ export type Command =
   | { kind: 'learnSkill'; role: number; skill: string } // 0x55 角色学仙术(role 0-based)
   | { kind: 'unequip'; role: number; slot: number | 'all' } // 0x23 卸装(退回背包)
   | { kind: 'toggleDayNight'; ms: number } // 0x80 昼夜切换(op0==0 → 3200ms 否则 800ms)
-  | { kind: 'setFollowers'; sprites: number[] } // 0x98 编外跟随者精灵号(空=清)
+  | { kind: 'setFollowers'; sprites: string[] } // 0x98 编外跟随者 SpriteDef.id(空=清)
   | { kind: 'setSceneMapOverride'; scene?: string; mapId: string } // 0x99 换图(scene 缺=当前即时重载)
   | { kind: 'halveMoney' } // 0x8F 金钱减半(酒剑仙赌局;运行时算 delta)
   | { kind: 'setEntityFacing'; entity: string; facing: Facing } // 0x0F/0x16
@@ -357,9 +357,9 @@ export interface WorldScriptState {
   /** 实体图层覆写(原版 0x7E sLayer:**只进深度排序键**(+8px/层)不进落笔位,
    *  一阶段 present.ts:540 真值;立交/上下层遮挡)。render 每帧直读,天然跨场景。 */
   entityLayer?: Record<string, number>
-  /** 编外跟随者精灵号(原版 0x98 nFollower:operand **直接当精灵 chunk**,非角色表;
-   *  ≤2 个,队尾按 trail 跟走恒 3 帧步 —— s102 书生 82/83)。空/缺省 = 无。 */
-  followers?: number[]
+  /** 编外跟随者 SpriteDef.id(原版 0x98 数字只在迁移/旧存档边界消解;
+   *  ≤2 个,队尾按 trail 跟走恒 3 帧步 —— s102 书生)。空/缺省 = 无。 */
+  followers?: string[]
   /** 场景底图覆写(原版 0x99 wMapNum 改写:键 = sceneId;0xFFFF 当前场景即时重载,
    *  其余场景下次进场生效;随存档持久 —— 麒麟洞 s230/s243 岩浆变化)。 */
   mapOverride?: Record<string, string>
@@ -402,7 +402,16 @@ function checkRef(value: unknown, path: string): void {
     throw new Error(`${path}: 期望 {chunk,id} ScriptRef`)
 }
 
-export function checkCommands(cmds: unknown, path: string): void {
+export interface CheckCommandsOptions {
+  /** auto runner 不能拥有场景生命周期；禁止直接或在同步执行臂中 loadScene。 */
+  forbidLoadScene?: boolean
+}
+
+export function checkCommands(
+  cmds: unknown,
+  path: string,
+  options: CheckCommandsOptions = {},
+): void {
   if (!Array.isArray(cmds)) throw new Error(`${path}: 期望 Command[]`)
   cmds.forEach((c, i) => {
     if (typeof c !== 'object' || c === null || typeof (c as { kind?: unknown }).kind !== 'string')
@@ -442,6 +451,8 @@ export function checkCommands(cmds: unknown, path: string): void {
       }
     }
     if (k === 'loadScene') {
+      if (options.forbidLoadScene)
+        throw new Error(`${path}[${i}]: auto 脚本禁止 loadScene，请由 trigger/onEnter 切换场景`)
       const load = c as { scene?: unknown; entryId?: unknown; pos?: unknown; facing?: unknown }
       if (typeof load.scene !== 'string' || load.scene.length === 0)
         throw new Error(`${path}[${i}].scene: 期望非空场景 id`)
@@ -473,6 +484,15 @@ export function checkCommands(cmds: unknown, path: string): void {
       const portrait = (c as { portrait?: unknown }).portrait
       if (portrait !== undefined && (typeof portrait !== 'string' || portrait.length === 0))
         throw new Error(`${path}[${i}].portrait: 期望非空 AssetId`)
+    }
+    if (k === 'setFollowers') {
+      const sprites = (c as { sprites?: unknown }).sprites
+      if (!Array.isArray(sprites)) throw new Error(`${path}[${i}].sprites: 期望 SpriteDef.id 数组`)
+      if (sprites.length > 2) throw new Error(`${path}[${i}].sprites: 最多允许 2 个编外跟随者`)
+      sprites.forEach((sprite, index) => {
+        if (typeof sprite !== 'string' || sprite.length === 0)
+          throw new Error(`${path}[${i}].sprites[${index}]: 期望非空 SpriteDef.id`)
+      })
     }
     if (k === 'quitToTitle') {
       const videos = (c as { videos?: unknown }).videos
@@ -512,20 +532,21 @@ export function checkCommands(cmds: unknown, path: string): void {
     if (k === 'stopMusic' && Object.keys(c as object).some((key) => key !== 'kind'))
       throw new Error(`${path}[${i}]: stopMusic 不接受参数`)
     if (k === 'branch') {
-      checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`)
+      checkCommands((c as { then?: unknown }).then, `${path}[${i}].then`, options)
       const el = (c as { else?: unknown }).else
-      if (el !== undefined) checkCommands(el, `${path}[${i}].else`)
+      if (el !== undefined) checkCommands(el, `${path}[${i}].else`, options)
     }
     if (k === 'startBattle') {
       const battle = c as { onLose?: unknown; onFlee?: unknown }
-      if (battle.onLose !== undefined) checkCommands(battle.onLose, `${path}[${i}].onLose`)
-      if (battle.onFlee !== undefined) checkCommands(battle.onFlee, `${path}[${i}].onFlee`)
+      if (battle.onLose !== undefined) checkCommands(battle.onLose, `${path}[${i}].onLose`, options)
+      if (battle.onFlee !== undefined) checkCommands(battle.onFlee, `${path}[${i}].onFlee`, options)
     }
     if (k === 'teleportOut') {
       const onFail = (c as { onFail?: unknown }).onFail
-      if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`)
+      if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`, options)
     }
-    if (k === 'confirm') checkCommands((c as { onNo?: unknown }).onNo, `${path}[${i}].onNo`)
+    if (k === 'confirm')
+      checkCommands((c as { onNo?: unknown }).onNo, `${path}[${i}].onNo`, options)
     if (k === 'callScript' || k === 'jumpScript')
       checkRef((c as { ref?: unknown }).ref, `${path}[${i}].ref`)
     if (
@@ -544,6 +565,7 @@ export function checkCommands(cmds: unknown, path: string): void {
         if (!(Array.isArray(binding.stages) && binding.stages.length === 0))
           checkStages(binding.stages, `${path}[${i}].stages`, {
             allowSceneEntry: k === 'setSceneOnEnter',
+            forbidLoadScene: k === 'setEntityAuto',
           })
       }
     }
@@ -568,6 +590,8 @@ function checkFacing(value: unknown, path: string): void {
 export interface CheckStagesOptions {
   /** 只有 SceneDef.onEnter 与 setSceneOnEnter 的 stage 能声明 entry。 */
   allowSceneEntry?: boolean
+  /** auto runner 不拥有场景生命周期。 */
+  forbidLoadScene?: boolean
 }
 
 function checkNonNegativeFinite(value: unknown, path: string): void {
@@ -617,7 +641,7 @@ export function checkStages(stages: unknown, path: string, options: CheckStagesO
         throw new Error(`${path}[${i}].entry: 只允许出现在场景 onEnter stage`)
       checkSceneEntry(entry, `${path}[${i}].entry`)
     }
-    checkCommands((st as { body?: unknown })?.body, `${path}[${i}].body`)
+    checkCommands((st as { body?: unknown })?.body, `${path}[${i}].body`, options)
     const nx = (st as { next?: unknown }).next
     if (nx !== undefined && nx !== 'advance' && typeof nx !== 'number')
       throw new Error(`${path}[${i}].next: 期望 'advance'|number`)
@@ -633,5 +657,7 @@ export function checkEntityPages(pages: unknown, path: string): void {
         throw new Error(`${path}[${i}].trigger.on: 期望 interact|touch`)
       checkStages(t.stages, `${path}[${i}].trigger.stages`)
     }
+    const a = (p as { auto?: { stages?: unknown } })?.auto
+    if (a) checkStages(a.stages, `${path}[${i}].auto.stages`, { forbidLoadScene: true })
   })
 }

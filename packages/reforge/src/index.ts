@@ -14,33 +14,37 @@ import { bakeFrame, Canvas2DRenderer, spriteBlitRect } from './render.js'
 export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 
-import type { AssetBase, LoadedSprite } from './assets.js'
+import type { AssetBase, LoadedSprite, LoadedWorldSprite, SpriteAssetReader } from './assets.js'
 // 资产加载(ProjectMapV2/工程标准色彩/tileset/sprite + gzip 解压)
 import {
   compressGzip,
+  decodeWorldSpriteAssetBytes,
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
   loadProjectMap,
-  loadSprite,
+  loadSpriteAsset,
   loadStandardPalette,
   loadTileset,
   loadTilesetAsset,
+  SpriteAssetCache,
 } from './assets.js'
 
-export type { AssetBase, LoadedSprite }
+export type { AssetBase, LoadedSprite, LoadedWorldSprite, SpriteAssetReader }
 export {
   compressGzip,
+  decodeWorldSpriteAssetBytes,
   decompressGzip,
   loadBattleBg,
   loadBattleSprite,
   loadFireSprite,
   loadProjectMap,
-  loadSprite,
+  loadSpriteAsset,
   loadStandardPalette,
   loadTileset,
   loadTilesetAsset,
+  SpriteAssetCache,
 }
 
 import type { SceneMapAssets } from './scene-map.js'
@@ -157,6 +161,7 @@ export { bootGame, renderSceneFrame }
 
 // 精灵帧下标计算(C0 布局数据化;editor 画布/角色模式走路预览共用,单一真源)
 import {
+  actualFrameIndex,
   deriveStepCycle,
   FACING_TO_DIR,
   idleFrameIndex,
@@ -164,7 +169,14 @@ import {
   walkFrameIndex,
 } from './sprite-anim.js'
 
-export { deriveStepCycle, FACING_TO_DIR, idleFrameIndex, loopFrameIndex, walkFrameIndex }
+export {
+  actualFrameIndex,
+  deriveStepCycle,
+  FACING_TO_DIR,
+  idleFrameIndex,
+  loopFrameIndex,
+  walkFrameIndex,
+}
 
 import type { ScriptHost, StepEvent } from './script-runner.js'
 // 脚本解释器(编辑器演出预览:注入画布 host 播演出;onStep/gate = 高亮/单步钩子)

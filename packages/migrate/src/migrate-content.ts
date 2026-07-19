@@ -17,7 +17,12 @@ import type {
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
-import { palFaceAssetId, palItemIconAssetId, palPortraitAssetId } from '@type-pal/content'
+import {
+  palFaceAssetId,
+  palItemIconAssetId,
+  palPortraitAssetId,
+  palSpriteAssetId,
+} from '@type-pal/content'
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
@@ -303,11 +308,42 @@ export function mapSprites(roles: readonly SourceRole[]): SpriteDef[] {
     if (!slug) throw new Error(`mapSprites: 未知 roleId ${r.id}`)
     return {
       id: slug,
-      spriteNum: r.spriteNum,
+      asset: palSpriteAssetId(r.spriteNum),
       label: `${r._name}(大世界)`,
       layout: { kind: 'directional' as const, framesPerDir: r.walkFrames || 3 },
     }
   })
+}
+
+/**
+ * 旧角色表中的 spriteNum 只允许在迁移边界解析一次。映射由 source role 与语义
+ * SpriteDef.id 显式建立，不能从 AssetId/path 反推；同一旧编号若落到多个语义定义则
+ * 无法替脚本猜测意图，必须 fail-loud。
+ */
+export function mapRoleSpriteIdsByNumber(
+  roles: readonly SourceRole[],
+  sprites: readonly SpriteDef[],
+): ReadonlyMap<number, string> {
+  const spritesById = new Map(sprites.map((sprite) => [sprite.id, sprite]))
+  const result = new Map<number, string>()
+  for (const role of roles) {
+    const id = ROLE_SLUGS[role.id]
+    if (!id) throw new Error(`mapRoleSpriteIdsByNumber: 未知 roleId ${role.id}`)
+    const sprite = spritesById.get(id)
+    if (!sprite) throw new Error(`mapRoleSpriteIdsByNumber: 角色 ${id} 缺少语义 SpriteDef`)
+    const expectedAsset = palSpriteAssetId(role.spriteNum)
+    if (sprite.asset !== expectedAsset)
+      throw new Error(
+        `mapRoleSpriteIdsByNumber: 角色 ${id} 的资源应为 ${expectedAsset}，实际 ${sprite.asset}`,
+      )
+    const existing = result.get(role.spriteNum)
+    if (existing !== undefined && existing !== id)
+      throw new Error(
+        `mapRoleSpriteIdsByNumber: 旧精灵号 ${role.spriteNum} 同时对应 ${existing} 与 ${id}`,
+      )
+    result.set(role.spriteNum, id)
+  }
+  return result
 }
 
 /** level-up-magic:20 行 × 5 列,**列 = roleId**(列主序;行内取列,勿按行)。空槽 level/magic=0 滤掉。 */
@@ -1424,8 +1460,8 @@ export function mergeSceneScriptBindings(disk: SceneDef, fresh: SceneDef): Scene
 export function mapScenesStatic(
   srcScenes: readonly SourceScene[],
   eventsByScene: ReadonlyMap<number, readonly SourceCmd[]>,
-  /** 角色本体精灵表(mapSprites 产物)。0x65 换精灵翻译:角色精灵优先复用其 id。 */
-  roleSprites: readonly SpriteDef[] = [],
+  /** 迁移边界显式建立的旧 spriteNum → 角色语义 SpriteDef.id 映射。 */
+  roleSpriteIdsByNum: ReadonlyMap<number, string> = new Map(),
   /** 物品/法术/敌 AI/角色钩子等不属于场景的执行根。 */
   globalRoots: readonly ScriptRoot[] = [],
   /** 生产迁移按 catalog 过滤空 sound chunk。 */
@@ -1638,7 +1674,7 @@ export function mapScenesStatic(
     if (!spriteDefs.has(defId)) {
       spriteDefs.set(defId, {
         id: defId,
-        spriteNum: eo.spriteNum,
+        asset: palSpriteAssetId(eo.spriteNum),
         label: `原精灵 ${eo.spriteNum}`,
         layout: n > 0 ? { kind: 'directional', framesPerDir: n } : { kind: 'static' },
       })
@@ -1652,14 +1688,14 @@ export function mapScenesStatic(
    * (原版 rgwSpriteNum 全是 3 帧/向大世界精灵;0x15 的 wFrame=dir*3+gesture 同源)。
    */
   const spriteIdForNum = (num: number): string => {
-    const role = roleSprites.find((s) => s.spriteNum === num)
-    if (role) return role.id
+    const roleSpriteId = roleSpriteIdsByNum.get(num)
+    if (roleSpriteId) return roleSpriteId
     const defId = migratedSpriteId(num)
     if (!spriteDefs.has(defId)) {
       primaryLayout.set(num, 3)
       spriteDefs.set(defId, {
         id: defId,
-        spriteNum: num,
+        asset: palSpriteAssetId(num),
         label: `原精灵 ${num}(0x65 换装)`,
         layout: { kind: 'directional', framesPerDir: 3 },
       })

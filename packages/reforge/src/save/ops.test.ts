@@ -1,6 +1,13 @@
+import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
-import { buildMeta, buildPayload, normalizePayload } from './ops.js'
+import {
+  buildMeta,
+  buildPayload,
+  normalizePayload,
+  resolveLegacyFollowerSpriteId,
+  resolveRestoredMusic,
+} from './ops.js'
 import { SAVE_VERSION } from './types.js'
 
 describe('save ops（纯）', () => {
@@ -168,6 +175,145 @@ describe('save ops（纯）', () => {
       }),
     ).toThrow(/face\.pal\.li-xiaoyao.*期望 portrait/)
   })
+
+  test('normalizePayload:v2 数字 followers 原子升级为 SpriteDef.id，零槽过滤且字符串幂等', () => {
+    const make = () => {
+      const payload = buildPayload(
+        makeTestWorld(),
+        { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+        'pal',
+        3,
+      )
+      payload.version = 2
+      payload.world.script = emptyWorldScriptState()
+      return payload
+    }
+    const numeric = make()
+    ;(numeric.world.script!.followers as unknown) = [82, 0]
+    expect(
+      normalizePayload(numeric, {
+        where: '存档槽 m08',
+        legacyFollowerSpriteId: (value) => (value === 82 ? 'sprite-82' : undefined),
+        validateFollowerSpriteId: (id) => {
+          if (id !== 'sprite-82') throw new Error('missing')
+        },
+      }).world.script?.followers,
+    ).toEqual(['sprite-82'])
+
+    const cleared = make()
+    ;(cleared.world.script!.followers as unknown) = [0, 0]
+    expect(
+      normalizePayload(cleared, { legacyFollowerSpriteId: () => undefined }).world.script
+        ?.followers,
+    ).toBeUndefined()
+
+    const stable = make()
+    stable.world.script!.followers = ['sprite-82']
+    expect(
+      normalizePayload(stable, { validateFollowerSpriteId: () => undefined }).world.script
+        ?.followers,
+    ).toEqual(['sprite-82'])
+  })
+
+  test('normalizePayload:followers 的 v3 数字、混合、歧义和超长均 fail-loud 且不改原数组/版本', () => {
+    const make = (version: number, followers: unknown[]) => {
+      const payload = buildPayload(
+        makeTestWorld(),
+        { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+        'pal',
+        3,
+      )
+      payload.version = version
+      payload.world.script = emptyWorldScriptState()
+      ;(payload.world.script.followers as unknown) = followers
+      return payload
+    }
+    const v3 = make(3, [82])
+    expect(() => normalizePayload(v3, { where: '存档槽 quick' })).toThrow(
+      /world\.script\.followers.*v3.*拒绝数字/,
+    )
+    expect(v3.version).toBe(3)
+    expect(v3.world.script?.followers).toEqual([82])
+
+    expect(() => normalizePayload(make(2, [82, 'sprite-82']))).toThrow(/不允许.*混合/)
+    expect(() => normalizePayload(make(2, [82, 83, 84]))).toThrow(/最多允许 2/)
+    const missing = make(2, [82])
+    const missingCharacter = missing.world.party[0]! as unknown as Record<string, unknown>
+    delete missingCharacter.tags
+    delete missingCharacter.hiddenExp
+    delete missingCharacter.luck
+    ;(missing.world as unknown as Record<string, unknown>).money = undefined
+    const beforeMissing = structuredClone(missing)
+    expect(() =>
+      normalizePayload(missing, {
+        where: 'URL /save/old.json',
+        legacyFollowerSpriteId: () => undefined,
+      }),
+    ).toThrow(/URL \/save\/old\.json.*followers\[0\].*缺少唯一 SpriteDef\.id 映射/)
+    expect(missing).toEqual(beforeMissing)
+  })
+  test('旧 follower resolver 只按 PAL AssetId 唯一反查，并冻结 directional/3 语义', () => {
+    const directional = { kind: 'directional' as const, framesPerDir: 3 }
+    expect(
+      resolveLegacyFollowerSpriteId(
+        {
+          follower: { id: 'follower', asset: 'sprite.pal.082', label: 'f', layout: directional },
+          fake: { id: 'sprite-82', asset: 'sprite.pal.999', label: 'fake', layout: directional },
+        },
+        82,
+      ),
+    ).toBe('follower')
+    expect(
+      resolveLegacyFollowerSpriteId(
+        {
+          custom: {
+            id: 'custom',
+            asset: 'sprite.authored.legacy-900.custom',
+            label: 'custom',
+            layout: directional,
+          },
+        },
+        900,
+      ),
+    ).toBe('custom')
+    expect(
+      resolveLegacyFollowerSpriteId(
+        {
+          a: { id: 'a', asset: 'sprite.pal.002', label: 'a', layout: directional },
+          b: { id: 'b', asset: 'sprite.pal.002', label: 'b', layout: directional },
+        },
+        2,
+      ),
+    ).toBeUndefined()
+    expect(
+      resolveLegacyFollowerSpriteId(
+        { still: { id: 'still', asset: 'sprite.pal.082', label: 's', layout: { kind: 'static' } } },
+        82,
+      ),
+    ).toBeUndefined()
+  })
+  test('读档音乐三态不继承旧活动世界：存档优先，其次场景，双缺省明确停止', () => {
+    expect(resolveRestoredMusic('music.saved', 'music.scene')).toEqual({
+      currentMusic: 'music.saved',
+      action: 'play',
+    })
+    expect(resolveRestoredMusic(null, 'music.scene')).toEqual({
+      currentMusic: null,
+      action: 'stop',
+    })
+    expect(resolveRestoredMusic(undefined, 'music.scene')).toEqual({
+      currentMusic: 'music.scene',
+      action: 'play',
+    })
+    expect(resolveRestoredMusic(undefined, null)).toEqual({
+      currentMusic: null,
+      action: 'stop',
+    })
+    expect(resolveRestoredMusic(undefined, undefined)).toEqual({
+      currentMusic: undefined,
+      action: 'stop',
+    })
+  })
   test('normalizePayload:新版稳定地图覆写原样保留', () => {
     const p = buildPayload(
       makeTestWorld(),
@@ -225,7 +371,7 @@ describe('save ops（纯）', () => {
     expect(normalized.sceneScriptOverrides?.s059?.onTeleport).toEqual([
       { body: [{ kind: 'clearDialog' }] },
     ])
-    expect(raw.onTeleport).toBeUndefined()
+    expect(normalized).not.toHaveProperty('onTeleport')
     expect(normalized.mapOverride).toEqual({ s059: 'map-024' })
   })
 

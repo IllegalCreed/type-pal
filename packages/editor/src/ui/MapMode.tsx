@@ -505,7 +505,7 @@ export function MapMode(props: {
     canvasRef,
     assetBase,
     mapId,
-    spriteNums: [],
+    spriteAssets: [],
     projectMaps: currentProjectMaps,
     mapIndex,
     tilesets,

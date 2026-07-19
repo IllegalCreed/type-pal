@@ -36,6 +36,7 @@ export function preparePalManifest(
       faces: _retiredFaces,
       itemIcons: _retiredItemIcons,
       tilesets: _retiredTilesets,
+      sprites: _retiredSprites,
       sounds: _retiredSounds,
       ...rest
     } = legacy
@@ -50,6 +51,7 @@ export function preparePalManifest(
       'ui-image',
       'sound',
       'tileset',
+      'sprite',
     ])
     const families = legacy.families.filter((family) => !retired.has(family))
     assets = families.length

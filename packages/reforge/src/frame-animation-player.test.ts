@@ -177,4 +177,23 @@ describe('playFrameAnimation', () => {
     expect(frames).toEqual([0])
     expect(result?.rgba[0]).toBe(0)
   })
+
+  test('runner signal 取消会立即终止等待且不再提交后续帧', async () => {
+    const bytes = await fixture(3)
+    const reader = new FrameSequenceReader(resolver(bytes), identity)
+    const controller = new AbortController()
+    const gate = new Promise<void>(() => {})
+    const frames: number[] = []
+    const running = playFrameAnimation({
+      reader,
+      asset,
+      signal: controller.signal,
+      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
+      wait: () => gate,
+    })
+    await vi.waitFor(() => expect(frames).toEqual([0]))
+    controller.abort()
+    await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    expect(frames).toEqual([0])
+  })
 })

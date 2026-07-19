@@ -37,6 +37,7 @@ import type {
 } from '@type-pal/content'
 import {
   checkCommands,
+  collectSpriteDefinitionReferences,
   createScriptIndex,
   findScriptOwnerChunk,
   MAP_INDEX_PATH,
@@ -45,6 +46,8 @@ import {
   nextMapAssetId,
   normalizeScriptLibrary,
   removeAuthoredScript,
+  spriteDefinitionFrameDemand,
+  spriteDefinitionFrameIndices,
   upsertAuthoredScript,
   validateMapIndex,
   validateProjectRelativePath,
@@ -123,6 +126,17 @@ function assertTilesetRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {
   if (!/^[a-f0-9]{64}$/.test(record.sha256)) throw new Error('瓦片集资源 sha256 非法')
   const view = new Uint8Array(bytes)
   if (view[0] !== 0x1f || view[1] !== 0x8b) throw new Error('瓦片集资源必须是 canonical gzip')
+}
+
+function assertSpriteRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {
+  if (record.kind !== 'sprite') throw new Error('大世界精灵资源 kind 必须是 sprite')
+  if (record.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error('大世界精灵资源 mediaType 必须是 application/vnd.type-pal.rle')
+  validateProjectRelativePath(record.path, '大世界精灵资源路径')
+  if (record.bytes !== bytes.byteLength) throw new Error('大世界精灵资源 bytes 与二进制长度不一致')
+  if (!/^[a-f0-9]{64}$/.test(record.sha256)) throw new Error('大世界精灵资源 sha256 非法')
+  const view = new Uint8Array(bytes)
+  if (view[0] !== 0x1f || view[1] !== 0x8b) throw new Error('大世界精灵资源必须是 canonical gzip')
 }
 
 // ── 不可变更新工具 ──────────────────────────────────────────
@@ -1341,6 +1355,33 @@ function withSprite(state: EditorState, spriteId: string, newSprite: SpriteDef):
 /** UpdateSprite 的 patch 范围(布局 / 命名姿势 / 标签)。 */
 export type SpritePatch = Partial<Pick<SpriteDef, 'layout' | 'poses' | 'label'>>
 
+/** 布局/姿势编辑在预览时解码出的资源事实；SHA 防止预览后资源已被替换。 */
+export interface SpriteLayoutEditProof {
+  asset: AssetId
+  sha256: string
+  actualFrameCount: number
+}
+
+function assertSpriteEditShape(sprite: Pick<SpriteDef, 'id' | 'layout' | 'poses'>): void {
+  if (
+    (sprite.layout.kind === 'directional' &&
+      (!Number.isInteger(sprite.layout.framesPerDir) || sprite.layout.framesPerDir <= 0)) ||
+    (sprite.layout.kind === 'loop' &&
+      (!Number.isInteger(sprite.layout.frameCount) || sprite.layout.frameCount <= 0))
+  )
+    throw new Error(`精灵 ${sprite.id} 的布局帧数必须是正整数`)
+  for (const [name, pose] of Object.entries(sprite.poses ?? {})) {
+    if (
+      (pose.mode !== 'static' && pose.mode !== 'loop') ||
+      pose.frames.length === 0 ||
+      pose.frames.some((frame) => !Number.isInteger(frame) || frame < 0) ||
+      (pose.ticksPerFrame !== undefined &&
+        (!Number.isInteger(pose.ticksPerFrame) || pose.ticksPerFrame <= 0))
+    )
+      throw new Error(`精灵 ${sprite.id} 的命名姿势 ${name} 非法`)
+  }
+}
+
 /**
  * 改精灵字段(layout/poses/label)。语义同 UpdateEntityCommand:首次 apply 捕获旧值,invert 还原。
  * layout/poses 是对象 → 深拷贝入参 + 捕获时深拷贝旧值(防回写)。
@@ -1351,7 +1392,11 @@ export class UpdateSpriteCommand implements Command {
   private readonly patch: SpritePatch
   private oldPatch: SpritePatch | undefined
 
-  constructor(spriteId: string, patch: SpritePatch) {
+  constructor(
+    spriteId: string,
+    patch: SpritePatch,
+    private readonly proof?: SpriteLayoutEditProof,
+  ) {
     this.spriteId = spriteId
     this.patch = structuredClone(patch)
   }
@@ -1359,6 +1404,32 @@ export class UpdateSpriteCommand implements Command {
   apply(state: EditorState): EditorState {
     const sp = state.sprites.find((s) => s.id === this.spriteId)
     if (!sp) return state
+    if ('layout' in this.patch || 'poses' in this.patch) {
+      const proof = this.proof
+      const record = state.assetCatalog.assets[sp.asset]
+      if (
+        record?.kind !== 'sprite' ||
+        !proof ||
+        proof.asset !== sp.asset ||
+        proof.sha256 !== record.sha256
+      )
+        throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入')
+      if (!Number.isInteger(proof.actualFrameCount) || proof.actualFrameCount <= 0)
+        throw new Error('精灵布局证明的实际帧数非法')
+      const next = { ...sp, ...this.patch }
+      assertSpriteEditShape(next)
+      const previousMissing = new Set(
+        [...spriteDefinitionFrameIndices(sp)].filter((frame) => frame >= proof.actualFrameCount),
+      )
+      const nextMissing = [...spriteDefinitionFrameIndices(next)].filter(
+        (frame) => frame >= proof.actualFrameCount,
+      )
+      const addedMissing = nextMissing.filter((frame) => !previousMissing.has(frame))
+      if (addedMissing.length)
+        throw new Error(
+          `布局会新增越界帧 ${addedMissing.join(', ')}，资源实际只有 ${proof.actualFrameCount} 帧`,
+        )
+    }
     if (!this.oldPatch) this.oldPatch = this.captureOld(sp)
     return withSprite(state, this.spriteId, { ...sp, ...this.patch })
   }
@@ -2672,87 +2743,205 @@ export class UpdatePoisonCommand implements Command {
   }
 }
 
-// ── A4 尚未 catalog 化的自有精灵上传（历史 pending store 名为 tilesetBlobs）──
-// tilesetBlobs 名字是 W7B 起的,现泛化为「一切上传二进制」(键 = 工程相对路径);
-// serializeProject 对它一视同仁产出文件,不区分素材种类。
+// ── A7-3W 大世界精灵 catalog 生命周期 ──────────────────────────────
 
-/** 上传精灵入库:SpriteDef(含 path)入注册表 + .rle 字节暂存(保存时落盘)。 */
+/** 上传精灵入库：SpriteDef + catalog record + gzip 字节一次可撤销提交。 */
 export class AddSpriteCommand implements Command {
   readonly label = '上传精灵'
   private readonly def: SpriteDef
+  private readonly record: AssetRecordV1
   private readonly blob: ArrayBuffer
+  private createdAsset = false
 
-  constructor(def: SpriteDef, blob: ArrayBuffer) {
+  constructor(def: SpriteDef, record: AssetRecordV1, blob: ArrayBuffer) {
     this.def = structuredClone(def)
+    this.record = structuredClone(record)
     this.blob = blob
   }
 
   apply(state: EditorState): EditorState {
-    if (state.sprites.some((s) => s.id === this.def.id)) return state
-    const path = this.def.path
+    if (state.sprites.some((s) => s.id === this.def.id))
+      throw new Error(`精灵定义 id 已存在: ${this.def.id}`)
+    if (!this.def.asset) throw new Error('精灵定义缺 AssetId')
+    assertSpriteRecord(this.record, this.blob)
+    const existing = state.assetCatalog.assets[this.def.asset]
+    if (existing && !sameAssetRecord(existing, this.record))
+      throw new Error(`精灵 AssetId 已存在且记录不同: ${this.def.asset}`)
+    const pathOwner = Object.entries(state.assetCatalog.assets).find(
+      ([id, record]) => id !== this.def.asset && record.path === this.record.path,
+    )
+    if (pathOwner) throw new Error(`精灵资源路径已由 ${pathOwner[0]} 登记`)
+    this.createdAsset = !existing
     return {
       ...state,
       sprites: [...state.sprites, structuredClone(this.def)],
-      ...(path ? { tilesetBlobs: { ...state.tilesetBlobs, [path]: this.blob } } : {}),
+      assetCatalog: existing
+        ? state.assetCatalog
+        : {
+            ...state.assetCatalog,
+            assets: { ...state.assetCatalog.assets, [this.def.asset]: this.record },
+          },
+      assetBlobs: existing
+        ? state.assetBlobs
+        : { ...state.assetBlobs, [this.record.path]: this.blob.slice(0) },
     }
   }
 
   invert(state: EditorState): EditorState {
-    const path = this.def.path
-    let tilesetBlobs = state.tilesetBlobs
-    if (path) {
-      const { [path]: _drop, ...rest } = state.tilesetBlobs
-      tilesetBlobs = rest
-    }
+    const assets = { ...state.assetCatalog.assets }
+    if (this.createdAsset) delete assets[this.def.asset]
+    const assetBlobs = { ...state.assetBlobs }
+    if (
+      this.createdAsset &&
+      !Object.values(assets).some((record) => record.path === this.record.path)
+    )
+      delete assetBlobs[this.record.path]
     return {
       ...state,
       sprites: state.sprites.filter((s) => s.id !== this.def.id),
-      tilesetBlobs,
+      assetCatalog: { ...state.assetCatalog, assets },
+      assetBlobs,
     }
   }
 }
 
-/**
- * 给现有精灵追加帧带(A4;作者反馈「后补动作不必重传整图」):替换该 path 的暂存字节
- * (新字节 = 旧帧 + 新帧重编码,由向导侧完成)。prev = 追加前的暂存字节;undefined =
- * 此前未暂存(帧在磁盘)→ invert 删除暂存键(回落读盘)。命名动作走「精灵帧」面板 poses。
- */
-export class AppendSpriteFramesCommand implements Command {
+export interface SpriteReplacementProof {
+  asset: AssetId
+  previousSha256: string
+  previousFrameCount: number
+  nextFrameCount: number
+  consumerIds: string[]
+  /** 缩帧时必须显式给出每个共享消费者的新布局/姿势；与资源替换同一撤销事务提交。 */
+  repairs?: Record<string, Pick<SpriteDef, 'layout' | 'poses'>>
+  /** 预览时的消费者元数据；缩帧 await 期间若变化，命令 fail-loud 而非覆盖新编辑。 */
+  consumerSnapshots?: Record<string, Pick<SpriteDef, 'layout' | 'poses'>>
+}
+
+/** 保持 SpriteDef.id / AssetId，只替换该共享 AssetId 的 record 与 gzip 字节。 */
+export class ReplaceSpriteAssetCommand implements Command {
   readonly label: string
-  private readonly path: string
-  private readonly prev: ArrayBuffer | undefined
-  private readonly next: ArrayBuffer
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
+  private oldSprites: EditorState['sprites'] | undefined
 
   constructor(
-    path: string,
-    prev: ArrayBuffer | undefined,
-    next: ArrayBuffer,
-    label = '追加精灵帧',
+    private readonly spriteId: string,
+    private readonly asset: AssetId,
+    private readonly record: AssetRecordV1,
+    private readonly bytes: ArrayBuffer,
+    private readonly previousBytes: ArrayBuffer,
+    private readonly proof: SpriteReplacementProof,
+    label = '替换精灵资源',
   ) {
     this.label = label
-    this.path = path
-    this.prev = prev
-    this.next = next
   }
 
   apply(state: EditorState): EditorState {
-    return { ...state, tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.next } }
+    const target = state.sprites.find((sprite) => sprite.id === this.spriteId)
+    if (!target || target.asset !== this.asset) throw new Error('精灵定义与待替换 AssetId 不一致')
+    const previous = state.assetCatalog.assets[this.asset]
+    if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog')
+    assertSpriteRecord(this.record, this.bytes)
+    if (this.proof.asset !== this.asset || this.proof.previousSha256 !== previous.sha256)
+      throw new Error('精灵替换证明已过期，请重新载入资源')
+    if (
+      !Number.isInteger(this.proof.previousFrameCount) ||
+      this.proof.previousFrameCount <= 0 ||
+      !Number.isInteger(this.proof.nextFrameCount) ||
+      this.proof.nextFrameCount <= 0
+    )
+      throw new Error('精灵替换证明的帧数非法')
+    const consumers = state.sprites
+      .filter((sprite) => sprite.asset === this.asset)
+      .map((sprite) => sprite.id)
+      .sort()
+    if (consumers.join('\0') !== [...this.proof.consumerIds].sort().join('\0'))
+      throw new Error('共享精灵消费者已变化，请重新确认影响范围')
+    let nextSprites = state.sprites
+    if (this.proof.nextFrameCount < this.proof.previousFrameCount) {
+      const repairs = this.proof.repairs
+      const snapshots = this.proof.consumerSnapshots
+      if (!repairs || !snapshots)
+        throw new Error('精灵替换不得减少有效帧；缩帧需使用显式布局修复事务')
+      const repairedIds = Object.keys(repairs).sort()
+      const snapshotIds = Object.keys(snapshots).sort()
+      if (
+        repairedIds.join('\0') !== consumers.join('\0') ||
+        snapshotIds.join('\0') !== consumers.join('\0')
+      )
+        throw new Error('缩帧事务必须显式修复全部共享精灵消费者')
+      nextSprites = state.sprites.map((sprite) => {
+        if (sprite.asset !== this.asset) return sprite
+        const snapshot = snapshots[sprite.id]
+        if (
+          !snapshot ||
+          JSON.stringify({ layout: sprite.layout, poses: sprite.poses }) !==
+            JSON.stringify({ layout: snapshot.layout, poses: snapshot.poses })
+        )
+          throw new Error(`缩帧消费者 ${sprite.id} 的布局或姿势已变化，请重新确认`)
+        const repair = repairs[sprite.id]
+        if (!repair) throw new Error(`缩帧事务缺少消费者 ${sprite.id} 的布局修复`)
+        const next = {
+          ...sprite,
+          layout: structuredClone(repair.layout),
+          poses: repair.poses ? structuredClone(repair.poses) : undefined,
+        }
+        assertSpriteEditShape(next)
+        if (spriteDefinitionFrameDemand(next) > this.proof.nextFrameCount)
+          throw new Error(
+            `缩帧后 ${sprite.id} 的布局/姿势仍需 ${spriteDefinitionFrameDemand(next)} 帧，资源只有 ${this.proof.nextFrameCount} 帧`,
+          )
+        return next
+      })
+    }
+    const pathOwner = Object.entries(state.assetCatalog.assets).find(
+      ([id, candidate]) => id !== this.asset && candidate.path === this.record.path,
+    )
+    if (pathOwner) throw new Error(`精灵替换路径已由 ${pathOwner[0]} 登记`)
+    if (!this.oldCatalog) {
+      this.oldCatalog = state.assetCatalog
+      this.oldBlobs = state.assetBlobs
+      this.oldSprites = state.sprites
+    }
+    const assetBlobs = { ...state.assetBlobs }
+    if (
+      previous.path !== this.record.path &&
+      !Object.entries(state.assetCatalog.assets).some(
+        ([id, candidate]) => id !== this.asset && candidate.path === previous.path,
+      )
+    )
+      delete assetBlobs[previous.path]
+    assetBlobs[this.record.path] = this.bytes.slice(0)
+    return {
+      ...state,
+      sprites: nextSprites,
+      assetCatalog: {
+        ...state.assetCatalog,
+        assets: { ...state.assetCatalog.assets, [this.asset]: structuredClone(this.record) },
+      },
+      assetBlobs,
+    }
   }
 
   invert(state: EditorState): EditorState {
-    if (this.prev)
-      return { ...state, tilesetBlobs: { ...state.tilesetBlobs, [this.path]: this.prev } }
-    const { [this.path]: _drop, ...rest } = state.tilesetBlobs
-    return { ...state, tilesetBlobs: rest }
+    if (!this.oldCatalog || !this.oldBlobs) return state
+    const oldRecord = this.oldCatalog.assets[this.asset]
+    const assetBlobs = { ...this.oldBlobs }
+    if (oldRecord) assetBlobs[oldRecord.path] = this.previousBytes.slice(0)
+    return {
+      ...state,
+      sprites: this.oldSprites ?? state.sprites,
+      assetCatalog: this.oldCatalog,
+      assetBlobs,
+    }
   }
 }
 
-/** 移除上传精灵条目(捕获条目+暂存字节供 invert;原版精灵条目也可移,引用悬空由校验层报)。 */
-export class RemoveSpriteCommand implements Command {
-  readonly label = '移除精灵'
+/** 删除语义定义；资产是独立对象，绝不随定义静默级联。 */
+export class RemoveSpriteDefinitionCommand implements Command {
+  readonly label = '删除精灵定义'
   private removed: SpriteDef | undefined
   private removedIndex: number | undefined
-  private removedBlob: ArrayBuffer | undefined
 
   constructor(private readonly spriteId: string) {}
 
@@ -2760,20 +2949,20 @@ export class RemoveSpriteCommand implements Command {
     const index = state.sprites.findIndex((s) => s.id === this.spriteId)
     if (index < 0) return state
     const def = state.sprites[index]!
+    const references = collectSpriteDefinitionReferences(state).filter(
+      (reference) => reference.sprite === this.spriteId,
+    )
+    if (references.length)
+      throw new Error(
+        `精灵定义 ${this.spriteId} 仍被 ${references.length} 处引用：${references[0]!.where}`,
+      )
     if (!this.removed) {
       this.removed = structuredClone(def)
       this.removedIndex = index
-      this.removedBlob = def.path ? state.tilesetBlobs[def.path] : undefined
-    }
-    let tilesetBlobs = state.tilesetBlobs
-    if (def.path) {
-      const { [def.path]: _drop, ...rest } = state.tilesetBlobs
-      tilesetBlobs = rest
     }
     return {
       ...state,
       sprites: state.sprites.filter((s) => s.id !== this.spriteId),
-      tilesetBlobs,
     }
   }
 
@@ -2781,14 +2970,47 @@ export class RemoveSpriteCommand implements Command {
     if (!this.removed || this.removedIndex === undefined) return state
     const sprites = [...state.sprites]
     sprites.splice(this.removedIndex, 0, this.removed)
+    return { ...state, sprites }
+  }
+}
+
+/** 显式删除已无 SpriteDef 消费者的 sprite 资产；与定义删除是两个 UI 动作。 */
+export class DeleteUnusedSpriteAssetCommand implements Command {
+  readonly label = '删除未使用的精灵资产'
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
+
+  constructor(
+    private readonly asset: AssetId,
+    private readonly persistedBytes?: ArrayBuffer,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    if (state.sprites.some((sprite) => sprite.asset === this.asset))
+      throw new Error(`精灵资产 ${this.asset} 仍被定义引用`)
+    const record = state.assetCatalog.assets[this.asset]
+    if (!record) return state
+    if (record.kind !== 'sprite') throw new Error(`AssetId ${this.asset} 不是 sprite`)
+    this.oldCatalog ??= state.assetCatalog
+    this.oldBlobs ??= state.assetBlobs
+    const assets = { ...state.assetCatalog.assets }
+    delete assets[this.asset]
+    const assetBlobs = { ...state.assetBlobs }
+    if (!Object.values(assets).some((candidate) => candidate.path === record.path))
+      delete assetBlobs[record.path]
     return {
       ...state,
-      sprites,
-      tilesetBlobs:
-        this.removedBlob !== undefined && this.removed.path
-          ? { ...state.tilesetBlobs, [this.removed.path]: this.removedBlob }
-          : state.tilesetBlobs,
+      assetCatalog: { ...state.assetCatalog, assets },
+      assetBlobs,
     }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldCatalog || !this.oldBlobs) return state
+    const assetBlobs = { ...this.oldBlobs }
+    const record = this.oldCatalog.assets[this.asset]
+    if (record && this.persistedBytes) assetBlobs[record.path] = this.persistedBytes.slice(0)
+    return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
 }
 

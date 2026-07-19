@@ -21,7 +21,10 @@ export function editorObjectTargetMissing(state: EditorState, location: EditorLo
     return !state.actors.some((candidate) => candidate.id === objectId)
   }
   if (subpage.dataPage === 'sprite') {
-    return !state.sprites.some((candidate) => candidate.id === objectId)
+    return (
+      !state.sprites.some((candidate) => candidate.id === objectId) &&
+      state.assetCatalog.assets[objectId]?.kind !== 'sprite'
+    )
   }
   if (subpage.dataPage === 'music') {
     return state.assetCatalog.assets[objectId]?.kind !== 'music'

@@ -268,6 +268,37 @@ type PlayFrameAnimationCommand = {
 格式与创作工作台详见
 [`cutscene-asset-workbench-design.md`](../editor/cutscene-asset-workbench-design.md)。
 
+### 6.6 大世界精灵索引资源(A7-3W,2026-07-19)
+
+大世界精灵定义与二进制身份严格分层：`SpriteDef.id` 是角色、实体和脚本引用的语义身份，
+`SpriteDef.asset` 是到 catalog 二进制记录的唯一边，物理路径只存在于 `AssetRecord.path`。
+
+```ts
+interface SpriteDef {
+  id: string
+  asset: AssetId
+  label: string
+  layout: SpriteLayout
+  poses?: Record<string, PoseDef>
+}
+```
+
+- canonical 定义不再接受 `spriteNum/path`。Actor、Entity、`setActorSprite`、`setActorAppearance.spriteId`
+  和 `setFollowers.sprites` 继续引用 `SpriteDef.id`，不能直接保存 AssetId；
+  `WorldScriptState.followers` 同样是 `string[]`，旧数字只在迁移/旧存档升级边界出现。
+- 同一个 `AssetId` 可以被多个 SpriteDef 共享；定义标签与 AssetRecord 标签属于两个独立命名域。
+  删除定义必须先检查语义消费者，只有最后一个定义解除引用后才可单独删除二进制记录。
+- `kind=sprite` 使用 gzip indexed RLE，mediaType 固定为 `application/vnd.type-pal.rle`。运行时与编辑器
+  均经 `SpriteDef.asset -> AssetResolver/FileSource` 读取，并按 AssetRecord SHA-256 失效缓存。
+- authored/generated 资源使用 canonical 严格容器规则；`origin=legacy-migrated` 只额外容忍 PAL 历史上
+  “连续有效帧前缀 + 全部余槽不可解”的坏尾。兼容由 origin 与结构共同判定，不能按 AssetId 写特例。
+- `layout` 是声明语义，不保证历史资产真的拥有声明的全部帧。所有 idle/walk/loop/anim 取帧最终必须用
+  实际解码帧数收口；越界候选回到第 0 帧，不能依赖数组访问的隐式 `undefined` 回退。
+
+PAL 冻结基线为 636 个 catalog 文件、580 个定义、559 个已用二进制、21 条共享关系和 77 个未引用
+warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。`sprite` 已退出 legacy，当前只剩
+`battle-sprite`、`effect-sprite` 与 generic `image` 等待后续切片。
+
 ## 7. 内容工程目录结构
 
 独立、版本化（文本 + 稳定排序 + git 友好），初始化 = 迁移器从 `data/extracted/` 灌入：

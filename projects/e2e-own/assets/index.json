@@ -18,6 +18,15 @@
       "sha256": "3f6135c8deced3f8c4f41b66f68ddea7cb8db74e721e8f63fbe61cac26d851eb",
       "label": "烟测套件",
       "origin": { "kind": "generated" }
+    },
+    "sprite.pal.002": {
+      "kind": "sprite",
+      "path": "assets/migrated/sprites/002.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "bytes": 4031,
+      "sha256": "53a0a3687f899238dc7e22e318b33c612c7afbebdaef40dda39da721748cf14f",
+      "label": "PAL 大世界精灵 002",
+      "origin": { "kind": "legacy-migrated", "ref": "sprite/2.rle" }
     }
   }
 }

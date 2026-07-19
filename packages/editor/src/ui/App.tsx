@@ -58,7 +58,7 @@ import {
   UpsertSceneEntryCommand,
 } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
-import { createEditorAssetReader } from '../core/editor-asset-reader.js'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   createPlacedEntity,
   DEFAULT_ZONE_RANGE,
@@ -1310,7 +1310,6 @@ export function App(props: {
                   projectMaps={state.maps}
                   mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
-                  tilesetBlobs={state.tilesetBlobs}
                   selectedEntityId={selEntity?.id ?? null}
                   selectedAnchor={selectedAnchor}
                   tool={tool}
@@ -1362,7 +1361,6 @@ export function App(props: {
                   projectMaps={state.maps}
                   mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}
-                  tilesetBlobs={state.tilesetBlobs}
                   session={session}
                   assetCatalog={state.assetCatalog}
                   audioResolver={audioResolver}
@@ -1394,7 +1392,7 @@ export function App(props: {
                   selectedSpriteId={placeSpriteId}
                   zoneRanges={placeZoneRanges}
                   assetBase={project.assetBase}
-                  blobs={state.tilesetBlobs}
+                  assetReader={assetReader}
                   onModeChange={setPlaceMode}
                   onActorPick={setPlaceActorId}
                   onSpritePick={setPlaceSpriteId}
@@ -1412,7 +1410,7 @@ export function App(props: {
                   enemyTeams={state.enemyTeams ?? []}
                   sprites={state.sprites}
                   assetBase={project.assetBase}
-                  spriteBlobs={state.tilesetBlobs}
+                  assetReader={assetReader}
                   onJumpToEvent={jumpToEvent}
                   onDelete={deleteSelected}
                 />
@@ -1582,8 +1580,7 @@ function PlacePalette(props: {
   selectedSpriteId: string
   zoneRanges: { touch: number; interact: number }
   assetBase: AssetBase
-  /** 上传未保存的精灵字节(A4;键 = def.path,缩略图内存解码)。 */
-  blobs?: Record<string, ArrayBuffer>
+  assetReader: EditorAssetReader
   onModeChange: (mode: EntityPlacementMode) => void
   onActorPick: (id: string) => void
   onSpritePick: (id: string) => void
@@ -1598,7 +1595,7 @@ function PlacePalette(props: {
     selectedSpriteId,
     zoneRanges,
     assetBase,
-    blobs,
+    assetReader,
     onModeChange,
     onActorPick,
     onSpritePick,
@@ -1611,11 +1608,7 @@ function PlacePalette(props: {
   const selectedActor = actors.find((actor) => actor.id === selectedActorId)
   const selectedSprite = sprites.find((sprite) => sprite.id === selectedSpriteId)
   const shownSprites = sprites.filter(
-    (s) =>
-      !filter ||
-      s.id.includes(filter) ||
-      s.label.includes(filter) ||
-      String(s.spriteNum).includes(filter),
+    (s) => !filter || s.id.includes(filter) || s.label.includes(filter) || s.asset.includes(filter),
   )
   const shownActors = actors.filter((actor) => {
     if (!filter) return true
@@ -1737,9 +1730,10 @@ function PlacePalette(props: {
                   {sprite ? (
                     <SpriteThumb
                       assetBase={assetBase}
-                      spriteNum={sprite.spriteNum}
-                      path={sprite.path}
-                      blob={sprite.path ? blobs?.[sprite.path] : undefined}
+                      assetReader={assetReader}
+                      asset={sprite.asset}
+                      revision={assetReader.record(sprite.asset, 'sprite').sha256}
+                      label={sprite.label || sprite.id}
                     />
                   ) : (
                     <span className="sprite-thumb-placeholder" aria-hidden="true" />
@@ -1766,14 +1760,15 @@ function PlacePalette(props: {
               >
                 <SpriteThumb
                   assetBase={assetBase}
-                  spriteNum={s.spriteNum}
-                  path={s.path}
-                  blob={s.path ? blobs?.[s.path] : undefined}
+                  assetReader={assetReader}
+                  asset={s.asset}
+                  revision={assetReader.record(s.asset, 'sprite').sha256}
+                  label={s.label || s.id}
                 />
                 <span className="nm">
                   {s.label || s.id}
                   <span className="sub">
-                    资源 · {KIND_ICON[s.layout.kind] ?? ''} #{s.spriteNum}
+                    资源 · {KIND_ICON[s.layout.kind] ?? ''} {s.asset}
                   </span>
                 </span>
               </button>
@@ -1797,8 +1792,7 @@ function EntityInspector(props: {
   /** 精灵注册表(sprite 来源实体换外观下拉)。 */
   sprites: SpriteDef[]
   assetBase: AssetBase
-  /** 上传但尚未保存的精灵字节,供预览即时解码。 */
-  spriteBlobs?: Record<string, ArrayBuffer>
+  assetReader: EditorAssetReader
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   onDelete: () => void
@@ -1812,7 +1806,7 @@ function EntityInspector(props: {
     enemyTeams,
     sprites,
     assetBase,
-    spriteBlobs,
+    assetReader,
     onJumpToEvent,
     onDelete,
   } = props
@@ -1857,11 +1851,12 @@ function EntityInspector(props: {
             <div className="entity-sprite-preview">
               <SpriteThumb
                 assetBase={assetBase}
-                spriteNum={spriteDef.spriteNum}
+                assetReader={assetReader}
+                asset={spriteDef.asset}
+                revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
                 frameIndex={idleFrameIndex(spriteDef.layout, facing)}
                 size={80}
-                path={spriteDef.path}
-                blob={spriteDef.path ? spriteBlobs?.[spriteDef.path] : undefined}
+                label={spriteDef.label || spriteDef.id}
                 align="center"
               />
               <button
@@ -1900,7 +1895,7 @@ function EntityInspector(props: {
               )}
               {sprites.map((sp) => (
                 <option key={sp.id} value={sp.id}>
-                  {sp.label || sp.id} #{sp.spriteNum}
+                  {sp.label || sp.id} · {sp.asset}
                 </option>
               ))}
             </select>
@@ -2186,10 +2181,10 @@ function EntityInspector(props: {
       {spriteViewerOpen && spriteDef && (
         <SpriteImageViewer
           assetBase={assetBase}
-          spriteNum={spriteDef.spriteNum}
+          assetReader={assetReader}
+          asset={spriteDef.asset}
+          revision={assetReader.record(spriteDef.asset, 'sprite').sha256}
           frameIndex={idleFrameIndex(spriteDef.layout, facing)}
-          path={spriteDef.path}
-          blob={spriteDef.path ? spriteBlobs?.[spriteDef.path] : undefined}
           label={spriteDef.label || spriteDef.id}
           onClose={() => setSpriteViewerOpen(false)}
         />

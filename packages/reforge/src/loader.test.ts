@@ -18,14 +18,14 @@ const manifest: LoadedManifest = {
   content: {
     maps: 'content/maps/index.json',
     tilesets: 'content/tilesets.json',
+    sprites: 'content/sprites.json',
   },
   assets: {
     catalog: 'assets/index.json',
     roles: {},
     legacy: {
-      families: ['sprite', 'color-table'],
+      families: ['color-table'],
       root: 'assets',
-      sprites: 'sprites',
       palettes: 'palettes',
     },
   },
@@ -100,7 +100,12 @@ const itemsJson = [
 ]
 const localeJson = { 'menu.status': '状态' }
 const spritesJson = [
-  { id: 'ghost', spriteNum: 16, label: '游魂', layout: { kind: 'directional', framesPerDir: 3 } },
+  {
+    id: 'ghost',
+    asset: 'sprite.demo.ghost',
+    label: '游魂',
+    layout: { kind: 'directional', framesPerDir: 3 },
+  },
 ]
 const baseJsons = {
   actors: actorsJson,
@@ -109,6 +114,7 @@ const baseJsons = {
   skills: skillsJson,
   items: itemsJson,
   locale: localeJson,
+  sprites: spritesJson,
   maps: {
     version: 1 as const,
     maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
@@ -131,6 +137,15 @@ const baseJsons = {
         bytes: 0,
         sha256: '0'.repeat(64),
         label: '初始瓦片',
+        origin: { kind: 'generated' as const },
+      },
+      'sprite.demo.ghost': {
+        kind: 'sprite' as const,
+        path: 'assets/generated/sprites/ghost.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: 0,
+        sha256: '1'.repeat(64),
+        label: '游魂资源',
         origin: { kind: 'generated' as const },
       },
     },
@@ -179,13 +194,14 @@ describe('assembleProject(纯核)', () => {
       assembleProject(manifest, { ...baseJsons, actors: [{ id: 'a', name: 'n' }] }),
     ).toThrow('spriteId')
   })
-  test('sprites 可选:不传 → spritesById 为空 {}(向后兼容)', () => {
-    const p = assembleProject(manifest, baseJsons)
-    expect(p.spritesById).toEqual({})
+  test('sprites 必需:缺失时 canonical v3 fail-loud', () => {
+    expect(() => assembleProject(manifest, { ...baseJsons, sprites: undefined })).toThrow(
+      'sprites: 期望数组',
+    )
   })
   test('sprites 传入 → 按 id 索引到 spritesById(含 layout)', () => {
     const p = assembleProject(manifest, { ...baseJsons, sprites: spritesJson })
-    expect(p.spritesById.ghost?.spriteNum).toBe(16)
+    expect(p.spritesById.ghost?.asset).toBe('sprite.demo.ghost')
     expect(p.spritesById.ghost?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
   })
   test('poisons 可选:不传 → poisonsById 空;传入 → 按 id 索引(P2)', () => {
@@ -249,6 +265,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
     'content/skills.json': skillsJson,
     'content/items.json': itemsJson,
     'content/locale.json': localeJson,
+    'content/sprites.json': spritesJson,
     'content/maps/index.json': baseJsons.maps,
     'content/maps/home.json': projectMapJson,
     'content/tilesets.json': baseJsons.tilesets,

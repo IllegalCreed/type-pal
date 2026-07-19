@@ -280,6 +280,31 @@ A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和�
 [`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。A7-3T 已完成三方 `accept` 与用户验收；
 这里只表示 tileset 单族闭包完成，不能据此把仍有四个 legacy family 的 A7/R7 总体标记为 done。
 
+### 3.12 A7-3W 大世界精灵闭包实现证据（2026-07-19，待三方 review）
+
+- `SpriteDef` 已收敛为 `{id,asset,label,layout,poses?}`；角色、实体和脚本引用定义 id，定义再指向
+  AssetId。21 条共享关系被保留，定义标签与资产标签可独立修改。
+- PAL 迁移登记 `sprite.pal.001..636` 并逐字节物化到 `assets/migrated/sprites/NNN.rle`。
+  636 个 gzip 文件共 **1,332,725 B / 4,133 有效帧**；tuple digest 为
+  `c92c14b5dac5abc39006d94fdefaa699eb0bffddb925447ceb4070c32bb45d03`。
+  580 个定义引用 559 个唯一二进制，21 个定义共享边保持，精确 77 个未引用记录只报 warning。
+- 606 个源通过 canonical 严格解析；30 个历史坏尾源只在 `legacy-migrated` profile 下通过，逐帧结果与
+  宽松原版真值一致。相同字节在 authored/generated 的 canonical profile 下 fail-loud；运行时代码不含
+  30 个 AssetId 特判。
+- 13 条历史 directional layout 债保留原声明；运行时和编辑器所有取帧入口均传实际解码帧数，真实帧数
+  冻结为 `627:4, 361:5, 242:5, 273:4, 394:2, 385:2, 379:5, 550:2, 541:1,
+  630:4, 631:7, 632:7, 236:1`，越界候选统一回第 0 帧。
+- `setFollowers` 与存档 followers 已改为 SpriteDef.id；PAL s102 精确迁为 `[]` 和 `["sprite-82"]`。
+  旧本地 v3/旧存档只在输入边界确定性映射，数字多义时拒绝，运行时没有数字旁路。
+- clone、FSA、Save As、ZIP、pending blob 和 MG2 复用 A7-3T 的完整 SHA 与两阶段 catalog 协议；
+  authored 同 AssetId 接管后保留作者字节、清理旧源，二次打开/迁移均零计划。
+- 正式迁移写后 dry-run 为 `writes=0 deletes=0 conflicts=0`，PAL manifest 的 legacy families 已移除
+  `sprite`，只剩 `battle-sprite/effect-sprite/image`。受保护的 `projects/pal/assets/migrated/**` 按
+  仓库策略由本地提取源确定性重建，不提交原版二进制副本。
+
+本节记录 build 证据；三方 `review -> done` 签字和视觉验收以
+[`A7-3W 任务卡`](../../ops/tasks/A7-3W-world-sprite-asset-closure.md) 为准，不能提前宣称 A7/R7 总体完成。
+
 ## 4. 终态数据契约
 
 ### 4.1 单一物理资产注册表

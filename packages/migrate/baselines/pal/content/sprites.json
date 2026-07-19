@@ -1,7 +1,7 @@
 [
   {
     "id": "li-xiaoyao",
-    "spriteNum": 2,
+    "asset": "sprite.pal.002",
     "label": "李逍遥(大世界)",
     "layout": {
       "kind": "directional",
@@ -10,7 +10,7 @@
   },
   {
     "id": "zhao-linger",
-    "spriteNum": 3,
+    "asset": "sprite.pal.003",
     "label": "赵灵儿(大世界)",
     "layout": {
       "kind": "directional",
@@ -19,7 +19,7 @@
   },
   {
     "id": "lin-yueru",
-    "spriteNum": 7,
+    "asset": "sprite.pal.007",
     "label": "林月如(大世界)",
     "layout": {
       "kind": "directional",
@@ -28,7 +28,7 @@
   },
   {
     "id": "wu-hou",
-    "spriteNum": 525,
+    "asset": "sprite.pal.525",
     "label": "巫后(大世界)",
     "layout": {
       "kind": "directional",
@@ -37,7 +37,7 @@
   },
   {
     "id": "anu",
-    "spriteNum": 5,
+    "asset": "sprite.pal.005",
     "label": "阿奴(大世界)",
     "layout": {
       "kind": "directional",
@@ -46,7 +46,7 @@
   },
   {
     "id": "gai-luojiao",
-    "spriteNum": 26,
+    "asset": "sprite.pal.026",
     "label": "盖罗娇(大世界)",
     "layout": {
       "kind": "directional",
@@ -55,7 +55,7 @@
   },
   {
     "id": "sprite-193",
-    "spriteNum": 193,
+    "asset": "sprite.pal.193",
     "label": "原精灵 193(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -64,7 +64,7 @@
   },
   {
     "id": "sprite-55",
-    "spriteNum": 55,
+    "asset": "sprite.pal.055",
     "label": "原精灵 55",
     "layout": {
       "kind": "static"
@@ -72,7 +72,7 @@
   },
   {
     "id": "sprite-21",
-    "spriteNum": 21,
+    "asset": "sprite.pal.021",
     "label": "原精灵 21",
     "layout": {
       "kind": "directional",
@@ -81,7 +81,7 @@
   },
   {
     "id": "sprite-628",
-    "spriteNum": 628,
+    "asset": "sprite.pal.628",
     "label": "原精灵 628",
     "layout": {
       "kind": "static"
@@ -89,7 +89,7 @@
   },
   {
     "id": "sprite-57",
-    "spriteNum": 57,
+    "asset": "sprite.pal.057",
     "label": "原精灵 57",
     "layout": {
       "kind": "static"
@@ -97,7 +97,7 @@
   },
   {
     "id": "sprite-207",
-    "spriteNum": 207,
+    "asset": "sprite.pal.207",
     "label": "原精灵 207",
     "layout": {
       "kind": "directional",
@@ -106,7 +106,7 @@
   },
   {
     "id": "sprite-29",
-    "spriteNum": 29,
+    "asset": "sprite.pal.029",
     "label": "原精灵 29",
     "layout": {
       "kind": "directional",
@@ -115,7 +115,7 @@
   },
   {
     "id": "sprite-30",
-    "spriteNum": 30,
+    "asset": "sprite.pal.030",
     "label": "原精灵 30",
     "layout": {
       "kind": "directional",
@@ -124,7 +124,7 @@
   },
   {
     "id": "sprite-210",
-    "spriteNum": 210,
+    "asset": "sprite.pal.210",
     "label": "原精灵 210",
     "layout": {
       "kind": "static"
@@ -132,7 +132,7 @@
   },
   {
     "id": "sprite-398",
-    "spriteNum": 398,
+    "asset": "sprite.pal.398",
     "label": "原精灵 398",
     "layout": {
       "kind": "directional",
@@ -141,7 +141,7 @@
   },
   {
     "id": "sprite-211",
-    "spriteNum": 211,
+    "asset": "sprite.pal.211",
     "label": "原精灵 211",
     "layout": {
       "kind": "static"
@@ -149,7 +149,7 @@
   },
   {
     "id": "sprite-239",
-    "spriteNum": 239,
+    "asset": "sprite.pal.239",
     "label": "原精灵 239",
     "layout": {
       "kind": "static"
@@ -157,7 +157,7 @@
   },
   {
     "id": "sprite-627",
-    "spriteNum": 627,
+    "asset": "sprite.pal.627",
     "label": "原精灵 627(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -166,7 +166,7 @@
   },
   {
     "id": "sprite-58",
-    "spriteNum": 58,
+    "asset": "sprite.pal.058",
     "label": "原精灵 58",
     "layout": {
       "kind": "static"
@@ -174,7 +174,7 @@
   },
   {
     "id": "sprite-31",
-    "spriteNum": 31,
+    "asset": "sprite.pal.031",
     "label": "原精灵 31",
     "layout": {
       "kind": "directional",
@@ -183,7 +183,7 @@
   },
   {
     "id": "sprite-32",
-    "spriteNum": 32,
+    "asset": "sprite.pal.032",
     "label": "原精灵 32",
     "layout": {
       "kind": "directional",
@@ -192,7 +192,7 @@
   },
   {
     "id": "sprite-232",
-    "spriteNum": 232,
+    "asset": "sprite.pal.232",
     "label": "原精灵 232(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -201,7 +201,7 @@
   },
   {
     "id": "sprite-244",
-    "spriteNum": 244,
+    "asset": "sprite.pal.244",
     "label": "原精灵 244",
     "layout": {
       "kind": "static"
@@ -209,7 +209,7 @@
   },
   {
     "id": "sprite-215",
-    "spriteNum": 215,
+    "asset": "sprite.pal.215",
     "label": "原精灵 215",
     "layout": {
       "kind": "static"
@@ -217,7 +217,7 @@
   },
   {
     "id": "sprite-54",
-    "spriteNum": 54,
+    "asset": "sprite.pal.054",
     "label": "原精灵 54",
     "layout": {
       "kind": "static"
@@ -225,7 +225,7 @@
   },
   {
     "id": "sprite-53",
-    "spriteNum": 53,
+    "asset": "sprite.pal.053",
     "label": "原精灵 53",
     "layout": {
       "kind": "static"
@@ -233,7 +233,7 @@
   },
   {
     "id": "sprite-214",
-    "spriteNum": 214,
+    "asset": "sprite.pal.214",
     "label": "原精灵 214",
     "layout": {
       "kind": "static"
@@ -241,7 +241,7 @@
   },
   {
     "id": "sprite-56",
-    "spriteNum": 56,
+    "asset": "sprite.pal.056",
     "label": "原精灵 56",
     "layout": {
       "kind": "static"
@@ -249,7 +249,7 @@
   },
   {
     "id": "sprite-3",
-    "spriteNum": 3,
+    "asset": "sprite.pal.003",
     "label": "原精灵 3",
     "layout": {
       "kind": "directional",
@@ -258,7 +258,7 @@
   },
   {
     "id": "sprite-50",
-    "spriteNum": 50,
+    "asset": "sprite.pal.050",
     "label": "原精灵 50",
     "layout": {
       "kind": "static"
@@ -266,7 +266,7 @@
   },
   {
     "id": "sprite-35",
-    "spriteNum": 35,
+    "asset": "sprite.pal.035",
     "label": "原精灵 35",
     "layout": {
       "kind": "static"
@@ -274,7 +274,7 @@
   },
   {
     "id": "sprite-20",
-    "spriteNum": 20,
+    "asset": "sprite.pal.020",
     "label": "原精灵 20",
     "layout": {
       "kind": "directional",
@@ -283,7 +283,7 @@
   },
   {
     "id": "sprite-4",
-    "spriteNum": 4,
+    "asset": "sprite.pal.004",
     "label": "原精灵 4",
     "layout": {
       "kind": "directional",
@@ -292,7 +292,7 @@
   },
   {
     "id": "sprite-48",
-    "spriteNum": 48,
+    "asset": "sprite.pal.048",
     "label": "原精灵 48",
     "layout": {
       "kind": "static"
@@ -300,7 +300,7 @@
   },
   {
     "id": "sprite-49",
-    "spriteNum": 49,
+    "asset": "sprite.pal.049",
     "label": "原精灵 49",
     "layout": {
       "kind": "static"
@@ -308,7 +308,7 @@
   },
   {
     "id": "sprite-42",
-    "spriteNum": 42,
+    "asset": "sprite.pal.042",
     "label": "原精灵 42",
     "layout": {
       "kind": "static"
@@ -316,7 +316,7 @@
   },
   {
     "id": "sprite-43",
-    "spriteNum": 43,
+    "asset": "sprite.pal.043",
     "label": "原精灵 43",
     "layout": {
       "kind": "static"
@@ -324,7 +324,7 @@
   },
   {
     "id": "sprite-44",
-    "spriteNum": 44,
+    "asset": "sprite.pal.044",
     "label": "原精灵 44",
     "layout": {
       "kind": "static"
@@ -332,7 +332,7 @@
   },
   {
     "id": "sprite-45",
-    "spriteNum": 45,
+    "asset": "sprite.pal.045",
     "label": "原精灵 45",
     "layout": {
       "kind": "static"
@@ -340,7 +340,7 @@
   },
   {
     "id": "sprite-46",
-    "spriteNum": 46,
+    "asset": "sprite.pal.046",
     "label": "原精灵 46",
     "layout": {
       "kind": "directional",
@@ -349,7 +349,7 @@
   },
   {
     "id": "sprite-47",
-    "spriteNum": 47,
+    "asset": "sprite.pal.047",
     "label": "原精灵 47",
     "layout": {
       "kind": "directional",
@@ -358,7 +358,7 @@
   },
   {
     "id": "sprite-62",
-    "spriteNum": 62,
+    "asset": "sprite.pal.062",
     "label": "原精灵 62",
     "layout": {
       "kind": "static"
@@ -366,7 +366,7 @@
   },
   {
     "id": "sprite-63",
-    "spriteNum": 63,
+    "asset": "sprite.pal.063",
     "label": "原精灵 63",
     "layout": {
       "kind": "static"
@@ -374,7 +374,7 @@
   },
   {
     "id": "sprite-64",
-    "spriteNum": 64,
+    "asset": "sprite.pal.064",
     "label": "原精灵 64",
     "layout": {
       "kind": "static"
@@ -382,7 +382,7 @@
   },
   {
     "id": "sprite-65",
-    "spriteNum": 65,
+    "asset": "sprite.pal.065",
     "label": "原精灵 65",
     "layout": {
       "kind": "static"
@@ -390,7 +390,7 @@
   },
   {
     "id": "sprite-34",
-    "spriteNum": 34,
+    "asset": "sprite.pal.034",
     "label": "原精灵 34",
     "layout": {
       "kind": "static"
@@ -398,7 +398,7 @@
   },
   {
     "id": "sprite-68",
-    "spriteNum": 68,
+    "asset": "sprite.pal.068",
     "label": "原精灵 68",
     "layout": {
       "kind": "static"
@@ -406,7 +406,7 @@
   },
   {
     "id": "sprite-69",
-    "spriteNum": 69,
+    "asset": "sprite.pal.069",
     "label": "原精灵 69",
     "layout": {
       "kind": "static"
@@ -414,7 +414,7 @@
   },
   {
     "id": "sprite-163",
-    "spriteNum": 163,
+    "asset": "sprite.pal.163",
     "label": "原精灵 163",
     "layout": {
       "kind": "directional",
@@ -423,7 +423,7 @@
   },
   {
     "id": "sprite-164",
-    "spriteNum": 164,
+    "asset": "sprite.pal.164",
     "label": "原精灵 164",
     "layout": {
       "kind": "static"
@@ -431,7 +431,7 @@
   },
   {
     "id": "sprite-196",
-    "spriteNum": 196,
+    "asset": "sprite.pal.196",
     "label": "原精灵 196",
     "layout": {
       "kind": "static"
@@ -439,7 +439,7 @@
   },
   {
     "id": "sprite-197",
-    "spriteNum": 197,
+    "asset": "sprite.pal.197",
     "label": "原精灵 197",
     "layout": {
       "kind": "static"
@@ -447,7 +447,7 @@
   },
   {
     "id": "sprite-36",
-    "spriteNum": 36,
+    "asset": "sprite.pal.036",
     "label": "原精灵 36",
     "layout": {
       "kind": "static"
@@ -455,7 +455,7 @@
   },
   {
     "id": "sprite-37",
-    "spriteNum": 37,
+    "asset": "sprite.pal.037",
     "label": "原精灵 37",
     "layout": {
       "kind": "static"
@@ -463,7 +463,7 @@
   },
   {
     "id": "sprite-1",
-    "spriteNum": 1,
+    "asset": "sprite.pal.001",
     "label": "原精灵 1",
     "layout": {
       "kind": "directional",
@@ -472,7 +472,7 @@
   },
   {
     "id": "sprite-52",
-    "spriteNum": 52,
+    "asset": "sprite.pal.052",
     "label": "原精灵 52",
     "layout": {
       "kind": "directional",
@@ -481,7 +481,7 @@
   },
   {
     "id": "sprite-13",
-    "spriteNum": 13,
+    "asset": "sprite.pal.013",
     "label": "原精灵 13",
     "layout": {
       "kind": "directional",
@@ -490,7 +490,7 @@
   },
   {
     "id": "sprite-41",
-    "spriteNum": 41,
+    "asset": "sprite.pal.041",
     "label": "原精灵 41",
     "layout": {
       "kind": "directional",
@@ -499,7 +499,7 @@
   },
   {
     "id": "sprite-40",
-    "spriteNum": 40,
+    "asset": "sprite.pal.040",
     "label": "原精灵 40",
     "layout": {
       "kind": "directional",
@@ -508,7 +508,7 @@
   },
   {
     "id": "sprite-231",
-    "spriteNum": 231,
+    "asset": "sprite.pal.231",
     "label": "原精灵 231",
     "layout": {
       "kind": "static"
@@ -516,7 +516,7 @@
   },
   {
     "id": "sprite-51",
-    "spriteNum": 51,
+    "asset": "sprite.pal.051",
     "label": "原精灵 51",
     "layout": {
       "kind": "directional",
@@ -525,7 +525,7 @@
   },
   {
     "id": "sprite-127",
-    "spriteNum": 127,
+    "asset": "sprite.pal.127",
     "label": "原精灵 127",
     "layout": {
       "kind": "directional",
@@ -534,7 +534,7 @@
   },
   {
     "id": "sprite-90",
-    "spriteNum": 90,
+    "asset": "sprite.pal.090",
     "label": "原精灵 90",
     "layout": {
       "kind": "directional",
@@ -543,7 +543,7 @@
   },
   {
     "id": "sprite-317",
-    "spriteNum": 317,
+    "asset": "sprite.pal.317",
     "label": "原精灵 317",
     "layout": {
       "kind": "directional",
@@ -552,7 +552,7 @@
   },
   {
     "id": "sprite-140",
-    "spriteNum": 140,
+    "asset": "sprite.pal.140",
     "label": "原精灵 140",
     "layout": {
       "kind": "directional",
@@ -561,7 +561,7 @@
   },
   {
     "id": "sprite-11",
-    "spriteNum": 11,
+    "asset": "sprite.pal.011",
     "label": "原精灵 11",
     "layout": {
       "kind": "static"
@@ -569,7 +569,7 @@
   },
   {
     "id": "sprite-60",
-    "spriteNum": 60,
+    "asset": "sprite.pal.060",
     "label": "原精灵 60",
     "layout": {
       "kind": "static"
@@ -577,7 +577,7 @@
   },
   {
     "id": "sprite-462",
-    "spriteNum": 462,
+    "asset": "sprite.pal.462",
     "label": "原精灵 462",
     "layout": {
       "kind": "static"
@@ -585,7 +585,7 @@
   },
   {
     "id": "sprite-473",
-    "spriteNum": 473,
+    "asset": "sprite.pal.473",
     "label": "原精灵 473",
     "layout": {
       "kind": "directional",
@@ -594,7 +594,7 @@
   },
   {
     "id": "sprite-466",
-    "spriteNum": 466,
+    "asset": "sprite.pal.466",
     "label": "原精灵 466",
     "layout": {
       "kind": "static"
@@ -602,7 +602,7 @@
   },
   {
     "id": "sprite-423",
-    "spriteNum": 423,
+    "asset": "sprite.pal.423",
     "label": "原精灵 423",
     "layout": {
       "kind": "directional",
@@ -611,7 +611,7 @@
   },
   {
     "id": "sprite-443",
-    "spriteNum": 443,
+    "asset": "sprite.pal.443",
     "label": "原精灵 443",
     "layout": {
       "kind": "directional",
@@ -620,7 +620,7 @@
   },
   {
     "id": "sprite-75",
-    "spriteNum": 75,
+    "asset": "sprite.pal.075",
     "label": "原精灵 75",
     "layout": {
       "kind": "static"
@@ -628,7 +628,7 @@
   },
   {
     "id": "sprite-33",
-    "spriteNum": 33,
+    "asset": "sprite.pal.033",
     "label": "原精灵 33",
     "layout": {
       "kind": "directional",
@@ -637,7 +637,7 @@
   },
   {
     "id": "sprite-144",
-    "spriteNum": 144,
+    "asset": "sprite.pal.144",
     "label": "原精灵 144",
     "layout": {
       "kind": "directional",
@@ -646,7 +646,7 @@
   },
   {
     "id": "sprite-355",
-    "spriteNum": 355,
+    "asset": "sprite.pal.355",
     "label": "原精灵 355",
     "layout": {
       "kind": "directional",
@@ -655,7 +655,7 @@
   },
   {
     "id": "sprite-121",
-    "spriteNum": 121,
+    "asset": "sprite.pal.121",
     "label": "原精灵 121",
     "layout": {
       "kind": "directional",
@@ -664,7 +664,7 @@
   },
   {
     "id": "sprite-16",
-    "spriteNum": 16,
+    "asset": "sprite.pal.016",
     "label": "原精灵 16",
     "layout": {
       "kind": "directional",
@@ -673,7 +673,7 @@
   },
   {
     "id": "sprite-96",
-    "spriteNum": 96,
+    "asset": "sprite.pal.096",
     "label": "原精灵 96",
     "layout": {
       "kind": "static"
@@ -681,7 +681,7 @@
   },
   {
     "id": "sprite-163-f0",
-    "spriteNum": 163,
+    "asset": "sprite.pal.163",
     "label": "原精灵 163",
     "layout": {
       "kind": "static"
@@ -689,7 +689,7 @@
   },
   {
     "id": "sprite-158",
-    "spriteNum": 158,
+    "asset": "sprite.pal.158",
     "label": "原精灵 158",
     "layout": {
       "kind": "directional",
@@ -698,7 +698,7 @@
   },
   {
     "id": "sprite-468",
-    "spriteNum": 468,
+    "asset": "sprite.pal.468",
     "label": "原精灵 468",
     "layout": {
       "kind": "static"
@@ -706,7 +706,7 @@
   },
   {
     "id": "sprite-361",
-    "spriteNum": 361,
+    "asset": "sprite.pal.361",
     "label": "原精灵 361(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -715,7 +715,7 @@
   },
   {
     "id": "sprite-338",
-    "spriteNum": 338,
+    "asset": "sprite.pal.338",
     "label": "原精灵 338",
     "layout": {
       "kind": "static"
@@ -723,7 +723,7 @@
   },
   {
     "id": "sprite-67",
-    "spriteNum": 67,
+    "asset": "sprite.pal.067",
     "label": "原精灵 67",
     "layout": {
       "kind": "static"
@@ -731,7 +731,7 @@
   },
   {
     "id": "sprite-339",
-    "spriteNum": 339,
+    "asset": "sprite.pal.339",
     "label": "原精灵 339",
     "layout": {
       "kind": "static"
@@ -739,7 +739,7 @@
   },
   {
     "id": "sprite-362",
-    "spriteNum": 362,
+    "asset": "sprite.pal.362",
     "label": "原精灵 362",
     "layout": {
       "kind": "static"
@@ -747,7 +747,7 @@
   },
   {
     "id": "sprite-363",
-    "spriteNum": 363,
+    "asset": "sprite.pal.363",
     "label": "原精灵 363",
     "layout": {
       "kind": "static"
@@ -755,7 +755,7 @@
   },
   {
     "id": "sprite-66",
-    "spriteNum": 66,
+    "asset": "sprite.pal.066",
     "label": "原精灵 66",
     "layout": {
       "kind": "static"
@@ -763,7 +763,7 @@
   },
   {
     "id": "sprite-84",
-    "spriteNum": 84,
+    "asset": "sprite.pal.084",
     "label": "原精灵 84",
     "layout": {
       "kind": "static"
@@ -771,7 +771,7 @@
   },
   {
     "id": "sprite-233",
-    "spriteNum": 233,
+    "asset": "sprite.pal.233",
     "label": "原精灵 233",
     "layout": {
       "kind": "static"
@@ -779,7 +779,7 @@
   },
   {
     "id": "sprite-10",
-    "spriteNum": 10,
+    "asset": "sprite.pal.010",
     "label": "原精灵 10",
     "layout": {
       "kind": "static"
@@ -787,7 +787,7 @@
   },
   {
     "id": "sprite-88",
-    "spriteNum": 88,
+    "asset": "sprite.pal.088",
     "label": "原精灵 88",
     "layout": {
       "kind": "static"
@@ -795,7 +795,7 @@
   },
   {
     "id": "sprite-87",
-    "spriteNum": 87,
+    "asset": "sprite.pal.087",
     "label": "原精灵 87",
     "layout": {
       "kind": "static"
@@ -803,7 +803,7 @@
   },
   {
     "id": "sprite-224",
-    "spriteNum": 224,
+    "asset": "sprite.pal.224",
     "label": "原精灵 224",
     "layout": {
       "kind": "static"
@@ -811,7 +811,7 @@
   },
   {
     "id": "sprite-86",
-    "spriteNum": 86,
+    "asset": "sprite.pal.086",
     "label": "原精灵 86",
     "layout": {
       "kind": "static"
@@ -819,7 +819,7 @@
   },
   {
     "id": "sprite-367",
-    "spriteNum": 367,
+    "asset": "sprite.pal.367",
     "label": "原精灵 367",
     "layout": {
       "kind": "static"
@@ -827,7 +827,7 @@
   },
   {
     "id": "sprite-223",
-    "spriteNum": 223,
+    "asset": "sprite.pal.223",
     "label": "原精灵 223",
     "layout": {
       "kind": "directional",
@@ -836,7 +836,7 @@
   },
   {
     "id": "sprite-222",
-    "spriteNum": 222,
+    "asset": "sprite.pal.222",
     "label": "原精灵 222",
     "layout": {
       "kind": "static"
@@ -844,7 +844,7 @@
   },
   {
     "id": "sprite-166",
-    "spriteNum": 166,
+    "asset": "sprite.pal.166",
     "label": "原精灵 166",
     "layout": {
       "kind": "directional",
@@ -853,7 +853,7 @@
   },
   {
     "id": "sprite-165",
-    "spriteNum": 165,
+    "asset": "sprite.pal.165",
     "label": "原精灵 165",
     "layout": {
       "kind": "directional",
@@ -862,7 +862,7 @@
   },
   {
     "id": "sprite-161",
-    "spriteNum": 161,
+    "asset": "sprite.pal.161",
     "label": "原精灵 161",
     "layout": {
       "kind": "directional",
@@ -871,7 +871,7 @@
   },
   {
     "id": "sprite-160",
-    "spriteNum": 160,
+    "asset": "sprite.pal.160",
     "label": "原精灵 160",
     "layout": {
       "kind": "directional",
@@ -880,7 +880,7 @@
   },
   {
     "id": "sprite-162",
-    "spriteNum": 162,
+    "asset": "sprite.pal.162",
     "label": "原精灵 162",
     "layout": {
       "kind": "directional",
@@ -889,7 +889,7 @@
   },
   {
     "id": "sprite-365",
-    "spriteNum": 365,
+    "asset": "sprite.pal.365",
     "label": "原精灵 365",
     "layout": {
       "kind": "directional",
@@ -898,7 +898,7 @@
   },
   {
     "id": "sprite-2",
-    "spriteNum": 2,
+    "asset": "sprite.pal.002",
     "label": "原精灵 2",
     "layout": {
       "kind": "directional",
@@ -907,7 +907,7 @@
   },
   {
     "id": "sprite-366",
-    "spriteNum": 366,
+    "asset": "sprite.pal.366",
     "label": "原精灵 366",
     "layout": {
       "kind": "static"
@@ -915,7 +915,7 @@
   },
   {
     "id": "sprite-193-f0",
-    "spriteNum": 193,
+    "asset": "sprite.pal.193",
     "label": "原精灵 193",
     "layout": {
       "kind": "static"
@@ -923,7 +923,7 @@
   },
   {
     "id": "sprite-364",
-    "spriteNum": 364,
+    "asset": "sprite.pal.364",
     "label": "原精灵 364",
     "layout": {
       "kind": "static"
@@ -931,7 +931,7 @@
   },
   {
     "id": "sprite-18",
-    "spriteNum": 18,
+    "asset": "sprite.pal.018",
     "label": "原精灵 18",
     "layout": {
       "kind": "directional",
@@ -940,7 +940,7 @@
   },
   {
     "id": "sprite-212",
-    "spriteNum": 212,
+    "asset": "sprite.pal.212",
     "label": "原精灵 212",
     "layout": {
       "kind": "static"
@@ -948,7 +948,7 @@
   },
   {
     "id": "sprite-213",
-    "spriteNum": 213,
+    "asset": "sprite.pal.213",
     "label": "原精灵 213",
     "layout": {
       "kind": "static"
@@ -956,7 +956,7 @@
   },
   {
     "id": "sprite-226",
-    "spriteNum": 226,
+    "asset": "sprite.pal.226",
     "label": "原精灵 226",
     "layout": {
       "kind": "static"
@@ -964,7 +964,7 @@
   },
   {
     "id": "sprite-227",
-    "spriteNum": 227,
+    "asset": "sprite.pal.227",
     "label": "原精灵 227",
     "layout": {
       "kind": "static"
@@ -972,7 +972,7 @@
   },
   {
     "id": "sprite-225",
-    "spriteNum": 225,
+    "asset": "sprite.pal.225",
     "label": "原精灵 225",
     "layout": {
       "kind": "static"
@@ -980,7 +980,7 @@
   },
   {
     "id": "sprite-8",
-    "spriteNum": 8,
+    "asset": "sprite.pal.008",
     "label": "原精灵 8",
     "layout": {
       "kind": "static"
@@ -988,7 +988,7 @@
   },
   {
     "id": "sprite-9",
-    "spriteNum": 9,
+    "asset": "sprite.pal.009",
     "label": "原精灵 9",
     "layout": {
       "kind": "static"
@@ -996,7 +996,7 @@
   },
   {
     "id": "sprite-194",
-    "spriteNum": 194,
+    "asset": "sprite.pal.194",
     "label": "原精灵 194",
     "layout": {
       "kind": "static"
@@ -1004,7 +1004,7 @@
   },
   {
     "id": "sprite-228",
-    "spriteNum": 228,
+    "asset": "sprite.pal.228",
     "label": "原精灵 228(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -1013,7 +1013,7 @@
   },
   {
     "id": "sprite-229",
-    "spriteNum": 229,
+    "asset": "sprite.pal.229",
     "label": "原精灵 229",
     "layout": {
       "kind": "static"
@@ -1021,7 +1021,7 @@
   },
   {
     "id": "sprite-7",
-    "spriteNum": 7,
+    "asset": "sprite.pal.007",
     "label": "原精灵 7",
     "layout": {
       "kind": "directional",
@@ -1030,7 +1030,7 @@
   },
   {
     "id": "sprite-230",
-    "spriteNum": 230,
+    "asset": "sprite.pal.230",
     "label": "原精灵 230",
     "layout": {
       "kind": "static"
@@ -1038,7 +1038,7 @@
   },
   {
     "id": "sprite-195",
-    "spriteNum": 195,
+    "asset": "sprite.pal.195",
     "label": "原精灵 195",
     "layout": {
       "kind": "static"
@@ -1046,7 +1046,7 @@
   },
   {
     "id": "sprite-110",
-    "spriteNum": 110,
+    "asset": "sprite.pal.110",
     "label": "原精灵 110",
     "layout": {
       "kind": "directional",
@@ -1055,7 +1055,7 @@
   },
   {
     "id": "sprite-148",
-    "spriteNum": 148,
+    "asset": "sprite.pal.148",
     "label": "原精灵 148",
     "layout": {
       "kind": "directional",
@@ -1064,7 +1064,7 @@
   },
   {
     "id": "sprite-76",
-    "spriteNum": 76,
+    "asset": "sprite.pal.076",
     "label": "原精灵 76",
     "layout": {
       "kind": "static"
@@ -1072,7 +1072,7 @@
   },
   {
     "id": "sprite-79",
-    "spriteNum": 79,
+    "asset": "sprite.pal.079",
     "label": "原精灵 79",
     "layout": {
       "kind": "directional",
@@ -1081,7 +1081,7 @@
   },
   {
     "id": "sprite-156",
-    "spriteNum": 156,
+    "asset": "sprite.pal.156",
     "label": "原精灵 156",
     "layout": {
       "kind": "directional",
@@ -1090,7 +1090,7 @@
   },
   {
     "id": "sprite-105",
-    "spriteNum": 105,
+    "asset": "sprite.pal.105",
     "label": "原精灵 105",
     "layout": {
       "kind": "directional",
@@ -1099,7 +1099,7 @@
   },
   {
     "id": "sprite-313",
-    "spriteNum": 313,
+    "asset": "sprite.pal.313",
     "label": "原精灵 313",
     "layout": {
       "kind": "directional",
@@ -1108,7 +1108,7 @@
   },
   {
     "id": "sprite-602",
-    "spriteNum": 602,
+    "asset": "sprite.pal.602",
     "label": "原精灵 602",
     "layout": {
       "kind": "static"
@@ -1116,7 +1116,7 @@
   },
   {
     "id": "sprite-601",
-    "spriteNum": 601,
+    "asset": "sprite.pal.601",
     "label": "原精灵 601",
     "layout": {
       "kind": "static"
@@ -1124,7 +1124,7 @@
   },
   {
     "id": "sprite-446",
-    "spriteNum": 446,
+    "asset": "sprite.pal.446",
     "label": "原精灵 446",
     "layout": {
       "kind": "directional",
@@ -1133,7 +1133,7 @@
   },
   {
     "id": "sprite-151",
-    "spriteNum": 151,
+    "asset": "sprite.pal.151",
     "label": "原精灵 151",
     "layout": {
       "kind": "directional",
@@ -1142,7 +1142,7 @@
   },
   {
     "id": "sprite-407",
-    "spriteNum": 407,
+    "asset": "sprite.pal.407",
     "label": "原精灵 407",
     "layout": {
       "kind": "directional",
@@ -1151,7 +1151,7 @@
   },
   {
     "id": "sprite-153",
-    "spriteNum": 153,
+    "asset": "sprite.pal.153",
     "label": "原精灵 153",
     "layout": {
       "kind": "directional",
@@ -1160,7 +1160,7 @@
   },
   {
     "id": "sprite-122",
-    "spriteNum": 122,
+    "asset": "sprite.pal.122",
     "label": "原精灵 122",
     "layout": {
       "kind": "directional",
@@ -1169,7 +1169,7 @@
   },
   {
     "id": "sprite-129",
-    "spriteNum": 129,
+    "asset": "sprite.pal.129",
     "label": "原精灵 129",
     "layout": {
       "kind": "directional",
@@ -1178,7 +1178,7 @@
   },
   {
     "id": "sprite-159",
-    "spriteNum": 159,
+    "asset": "sprite.pal.159",
     "label": "原精灵 159",
     "layout": {
       "kind": "directional",
@@ -1187,7 +1187,7 @@
   },
   {
     "id": "sprite-149",
-    "spriteNum": 149,
+    "asset": "sprite.pal.149",
     "label": "原精灵 149",
     "layout": {
       "kind": "directional",
@@ -1196,7 +1196,7 @@
   },
   {
     "id": "sprite-142",
-    "spriteNum": 142,
+    "asset": "sprite.pal.142",
     "label": "原精灵 142",
     "layout": {
       "kind": "directional",
@@ -1205,7 +1205,7 @@
   },
   {
     "id": "sprite-321",
-    "spriteNum": 321,
+    "asset": "sprite.pal.321",
     "label": "原精灵 321",
     "layout": {
       "kind": "directional",
@@ -1214,7 +1214,7 @@
   },
   {
     "id": "sprite-111",
-    "spriteNum": 111,
+    "asset": "sprite.pal.111",
     "label": "原精灵 111",
     "layout": {
       "kind": "directional",
@@ -1223,7 +1223,7 @@
   },
   {
     "id": "sprite-442",
-    "spriteNum": 442,
+    "asset": "sprite.pal.442",
     "label": "原精灵 442",
     "layout": {
       "kind": "directional",
@@ -1232,7 +1232,7 @@
   },
   {
     "id": "sprite-102",
-    "spriteNum": 102,
+    "asset": "sprite.pal.102",
     "label": "原精灵 102",
     "layout": {
       "kind": "directional",
@@ -1241,7 +1241,7 @@
   },
   {
     "id": "sprite-100",
-    "spriteNum": 100,
+    "asset": "sprite.pal.100",
     "label": "原精灵 100",
     "layout": {
       "kind": "directional",
@@ -1250,7 +1250,7 @@
   },
   {
     "id": "sprite-104",
-    "spriteNum": 104,
+    "asset": "sprite.pal.104",
     "label": "原精灵 104",
     "layout": {
       "kind": "directional",
@@ -1259,7 +1259,7 @@
   },
   {
     "id": "sprite-374",
-    "spriteNum": 374,
+    "asset": "sprite.pal.374",
     "label": "原精灵 374",
     "layout": {
       "kind": "directional",
@@ -1268,7 +1268,7 @@
   },
   {
     "id": "sprite-373",
-    "spriteNum": 373,
+    "asset": "sprite.pal.373",
     "label": "原精灵 373",
     "layout": {
       "kind": "directional",
@@ -1277,7 +1277,7 @@
   },
   {
     "id": "sprite-279",
-    "spriteNum": 279,
+    "asset": "sprite.pal.279",
     "label": "原精灵 279",
     "layout": {
       "kind": "static"
@@ -1285,7 +1285,7 @@
   },
   {
     "id": "sprite-292",
-    "spriteNum": 292,
+    "asset": "sprite.pal.292",
     "label": "原精灵 292",
     "layout": {
       "kind": "static"
@@ -1293,7 +1293,7 @@
   },
   {
     "id": "sprite-294",
-    "spriteNum": 294,
+    "asset": "sprite.pal.294",
     "label": "原精灵 294",
     "layout": {
       "kind": "static"
@@ -1301,7 +1301,7 @@
   },
   {
     "id": "sprite-307",
-    "spriteNum": 307,
+    "asset": "sprite.pal.307",
     "label": "原精灵 307",
     "layout": {
       "kind": "directional",
@@ -1310,7 +1310,7 @@
   },
   {
     "id": "sprite-410",
-    "spriteNum": 410,
+    "asset": "sprite.pal.410",
     "label": "原精灵 410",
     "layout": {
       "kind": "directional",
@@ -1319,7 +1319,7 @@
   },
   {
     "id": "sprite-117",
-    "spriteNum": 117,
+    "asset": "sprite.pal.117",
     "label": "原精灵 117",
     "layout": {
       "kind": "directional",
@@ -1328,7 +1328,7 @@
   },
   {
     "id": "sprite-72",
-    "spriteNum": 72,
+    "asset": "sprite.pal.072",
     "label": "原精灵 72",
     "layout": {
       "kind": "static"
@@ -1336,7 +1336,7 @@
   },
   {
     "id": "sprite-74",
-    "spriteNum": 74,
+    "asset": "sprite.pal.074",
     "label": "原精灵 74",
     "layout": {
       "kind": "static"
@@ -1344,7 +1344,7 @@
   },
   {
     "id": "sprite-179",
-    "spriteNum": 179,
+    "asset": "sprite.pal.179",
     "label": "原精灵 179",
     "layout": {
       "kind": "static"
@@ -1352,7 +1352,7 @@
   },
   {
     "id": "sprite-173",
-    "spriteNum": 173,
+    "asset": "sprite.pal.173",
     "label": "原精灵 173",
     "layout": {
       "kind": "static"
@@ -1360,7 +1360,7 @@
   },
   {
     "id": "sprite-183",
-    "spriteNum": 183,
+    "asset": "sprite.pal.183",
     "label": "原精灵 183",
     "layout": {
       "kind": "static"
@@ -1368,7 +1368,7 @@
   },
   {
     "id": "sprite-185",
-    "spriteNum": 185,
+    "asset": "sprite.pal.185",
     "label": "原精灵 185",
     "layout": {
       "kind": "static"
@@ -1376,7 +1376,7 @@
   },
   {
     "id": "sprite-175",
-    "spriteNum": 175,
+    "asset": "sprite.pal.175",
     "label": "原精灵 175",
     "layout": {
       "kind": "static"
@@ -1384,7 +1384,7 @@
   },
   {
     "id": "sprite-178",
-    "spriteNum": 178,
+    "asset": "sprite.pal.178",
     "label": "原精灵 178",
     "layout": {
       "kind": "static"
@@ -1392,7 +1392,7 @@
   },
   {
     "id": "sprite-181",
-    "spriteNum": 181,
+    "asset": "sprite.pal.181",
     "label": "原精灵 181",
     "layout": {
       "kind": "static"
@@ -1400,7 +1400,7 @@
   },
   {
     "id": "sprite-106",
-    "spriteNum": 106,
+    "asset": "sprite.pal.106",
     "label": "原精灵 106",
     "layout": {
       "kind": "directional",
@@ -1409,7 +1409,7 @@
   },
   {
     "id": "sprite-235",
-    "spriteNum": 235,
+    "asset": "sprite.pal.235",
     "label": "原精灵 235",
     "layout": {
       "kind": "static"
@@ -1417,7 +1417,7 @@
   },
   {
     "id": "sprite-237",
-    "spriteNum": 237,
+    "asset": "sprite.pal.237",
     "label": "原精灵 237",
     "layout": {
       "kind": "static"
@@ -1425,7 +1425,7 @@
   },
   {
     "id": "sprite-405",
-    "spriteNum": 405,
+    "asset": "sprite.pal.405",
     "label": "原精灵 405",
     "layout": {
       "kind": "directional",
@@ -1434,7 +1434,7 @@
   },
   {
     "id": "sprite-95",
-    "spriteNum": 95,
+    "asset": "sprite.pal.095",
     "label": "原精灵 95",
     "layout": {
       "kind": "directional",
@@ -1443,7 +1443,7 @@
   },
   {
     "id": "sprite-408",
-    "spriteNum": 408,
+    "asset": "sprite.pal.408",
     "label": "原精灵 408",
     "layout": {
       "kind": "directional",
@@ -1452,7 +1452,7 @@
   },
   {
     "id": "sprite-402",
-    "spriteNum": 402,
+    "asset": "sprite.pal.402",
     "label": "原精灵 402",
     "layout": {
       "kind": "static"
@@ -1460,7 +1460,7 @@
   },
   {
     "id": "sprite-131",
-    "spriteNum": 131,
+    "asset": "sprite.pal.131",
     "label": "原精灵 131",
     "layout": {
       "kind": "directional",
@@ -1469,7 +1469,7 @@
   },
   {
     "id": "sprite-6",
-    "spriteNum": 6,
+    "asset": "sprite.pal.006",
     "label": "原精灵 6",
     "layout": {
       "kind": "directional",
@@ -1478,7 +1478,7 @@
   },
   {
     "id": "sprite-234",
-    "spriteNum": 234,
+    "asset": "sprite.pal.234",
     "label": "原精灵 234",
     "layout": {
       "kind": "static"
@@ -1486,7 +1486,7 @@
   },
   {
     "id": "sprite-14",
-    "spriteNum": 14,
+    "asset": "sprite.pal.014",
     "label": "原精灵 14",
     "layout": {
       "kind": "directional",
@@ -1495,7 +1495,7 @@
   },
   {
     "id": "sprite-107",
-    "spriteNum": 107,
+    "asset": "sprite.pal.107",
     "label": "原精灵 107",
     "layout": {
       "kind": "directional",
@@ -1504,7 +1504,7 @@
   },
   {
     "id": "sprite-315",
-    "spriteNum": 315,
+    "asset": "sprite.pal.315",
     "label": "原精灵 315",
     "layout": {
       "kind": "directional",
@@ -1513,7 +1513,7 @@
   },
   {
     "id": "sprite-92",
-    "spriteNum": 92,
+    "asset": "sprite.pal.092",
     "label": "原精灵 92",
     "layout": {
       "kind": "directional",
@@ -1522,7 +1522,7 @@
   },
   {
     "id": "sprite-240",
-    "spriteNum": 240,
+    "asset": "sprite.pal.240",
     "label": "原精灵 240",
     "layout": {
       "kind": "static"
@@ -1530,7 +1530,7 @@
   },
   {
     "id": "sprite-241",
-    "spriteNum": 241,
+    "asset": "sprite.pal.241",
     "label": "原精灵 241",
     "layout": {
       "kind": "static"
@@ -1538,7 +1538,7 @@
   },
   {
     "id": "sprite-242",
-    "spriteNum": 242,
+    "asset": "sprite.pal.242",
     "label": "原精灵 242(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -1547,7 +1547,7 @@
   },
   {
     "id": "sprite-247",
-    "spriteNum": 247,
+    "asset": "sprite.pal.247",
     "label": "原精灵 247",
     "layout": {
       "kind": "directional",
@@ -1556,7 +1556,7 @@
   },
   {
     "id": "sprite-125",
-    "spriteNum": 125,
+    "asset": "sprite.pal.125",
     "label": "原精灵 125",
     "layout": {
       "kind": "directional",
@@ -1565,7 +1565,7 @@
   },
   {
     "id": "sprite-342",
-    "spriteNum": 342,
+    "asset": "sprite.pal.342",
     "label": "原精灵 342",
     "layout": {
       "kind": "directional",
@@ -1574,7 +1574,7 @@
   },
   {
     "id": "sprite-113",
-    "spriteNum": 113,
+    "asset": "sprite.pal.113",
     "label": "原精灵 113",
     "layout": {
       "kind": "directional",
@@ -1583,7 +1583,7 @@
   },
   {
     "id": "sprite-124",
-    "spriteNum": 124,
+    "asset": "sprite.pal.124",
     "label": "原精灵 124",
     "layout": {
       "kind": "directional",
@@ -1592,7 +1592,7 @@
   },
   {
     "id": "sprite-147",
-    "spriteNum": 147,
+    "asset": "sprite.pal.147",
     "label": "原精灵 147",
     "layout": {
       "kind": "directional",
@@ -1601,7 +1601,7 @@
   },
   {
     "id": "sprite-438",
-    "spriteNum": 438,
+    "asset": "sprite.pal.438",
     "label": "原精灵 438",
     "layout": {
       "kind": "directional",
@@ -1610,7 +1610,7 @@
   },
   {
     "id": "sprite-248",
-    "spriteNum": 248,
+    "asset": "sprite.pal.248",
     "label": "原精灵 248",
     "layout": {
       "kind": "directional",
@@ -1619,7 +1619,7 @@
   },
   {
     "id": "sprite-146",
-    "spriteNum": 146,
+    "asset": "sprite.pal.146",
     "label": "原精灵 146",
     "layout": {
       "kind": "directional",
@@ -1628,7 +1628,7 @@
   },
   {
     "id": "sprite-141",
-    "spriteNum": 141,
+    "asset": "sprite.pal.141",
     "label": "原精灵 141",
     "layout": {
       "kind": "directional",
@@ -1637,7 +1637,7 @@
   },
   {
     "id": "sprite-245",
-    "spriteNum": 245,
+    "asset": "sprite.pal.245",
     "label": "原精灵 245(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -1646,7 +1646,7 @@
   },
   {
     "id": "sprite-246",
-    "spriteNum": 246,
+    "asset": "sprite.pal.246",
     "label": "原精灵 246",
     "layout": {
       "kind": "static"
@@ -1654,7 +1654,7 @@
   },
   {
     "id": "sprite-353",
-    "spriteNum": 353,
+    "asset": "sprite.pal.353",
     "label": "原精灵 353",
     "layout": {
       "kind": "directional",
@@ -1663,7 +1663,7 @@
   },
   {
     "id": "sprite-143",
-    "spriteNum": 143,
+    "asset": "sprite.pal.143",
     "label": "原精灵 143",
     "layout": {
       "kind": "directional",
@@ -1672,7 +1672,7 @@
   },
   {
     "id": "sprite-472",
-    "spriteNum": 472,
+    "asset": "sprite.pal.472",
     "label": "原精灵 472",
     "layout": {
       "kind": "directional",
@@ -1681,7 +1681,7 @@
   },
   {
     "id": "sprite-261",
-    "spriteNum": 261,
+    "asset": "sprite.pal.261",
     "label": "原精灵 261",
     "layout": {
       "kind": "static"
@@ -1689,7 +1689,7 @@
   },
   {
     "id": "sprite-260",
-    "spriteNum": 260,
+    "asset": "sprite.pal.260",
     "label": "原精灵 260",
     "layout": {
       "kind": "static"
@@ -1697,7 +1697,7 @@
   },
   {
     "id": "sprite-262",
-    "spriteNum": 262,
+    "asset": "sprite.pal.262",
     "label": "原精灵 262",
     "layout": {
       "kind": "static"
@@ -1705,7 +1705,7 @@
   },
   {
     "id": "sprite-251",
-    "spriteNum": 251,
+    "asset": "sprite.pal.251",
     "label": "原精灵 251",
     "layout": {
       "kind": "static"
@@ -1713,7 +1713,7 @@
   },
   {
     "id": "sprite-263",
-    "spriteNum": 263,
+    "asset": "sprite.pal.263",
     "label": "原精灵 263",
     "layout": {
       "kind": "static"
@@ -1721,7 +1721,7 @@
   },
   {
     "id": "sprite-11-f2",
-    "spriteNum": 11,
+    "asset": "sprite.pal.011",
     "label": "原精灵 11",
     "layout": {
       "kind": "directional",
@@ -1730,7 +1730,7 @@
   },
   {
     "id": "sprite-389",
-    "spriteNum": 389,
+    "asset": "sprite.pal.389",
     "label": "原精灵 389",
     "layout": {
       "kind": "static"
@@ -1738,7 +1738,7 @@
   },
   {
     "id": "sprite-255",
-    "spriteNum": 255,
+    "asset": "sprite.pal.255",
     "label": "原精灵 255",
     "layout": {
       "kind": "static"
@@ -1746,7 +1746,7 @@
   },
   {
     "id": "sprite-252",
-    "spriteNum": 252,
+    "asset": "sprite.pal.252",
     "label": "原精灵 252",
     "layout": {
       "kind": "static"
@@ -1754,7 +1754,7 @@
   },
   {
     "id": "sprite-267",
-    "spriteNum": 267,
+    "asset": "sprite.pal.267",
     "label": "原精灵 267",
     "layout": {
       "kind": "directional",
@@ -1763,7 +1763,7 @@
   },
   {
     "id": "sprite-139",
-    "spriteNum": 139,
+    "asset": "sprite.pal.139",
     "label": "原精灵 139",
     "layout": {
       "kind": "directional",
@@ -1772,7 +1772,7 @@
   },
   {
     "id": "sprite-266",
-    "spriteNum": 266,
+    "asset": "sprite.pal.266",
     "label": "原精灵 266",
     "layout": {
       "kind": "directional",
@@ -1781,7 +1781,7 @@
   },
   {
     "id": "sprite-268",
-    "spriteNum": 268,
+    "asset": "sprite.pal.268",
     "label": "原精灵 268",
     "layout": {
       "kind": "static"
@@ -1789,7 +1789,7 @@
   },
   {
     "id": "sprite-343",
-    "spriteNum": 343,
+    "asset": "sprite.pal.343",
     "label": "原精灵 343",
     "layout": {
       "kind": "directional",
@@ -1798,7 +1798,7 @@
   },
   {
     "id": "sprite-150",
-    "spriteNum": 150,
+    "asset": "sprite.pal.150",
     "label": "原精灵 150",
     "layout": {
       "kind": "directional",
@@ -1807,7 +1807,7 @@
   },
   {
     "id": "sprite-250",
-    "spriteNum": 250,
+    "asset": "sprite.pal.250",
     "label": "原精灵 250",
     "layout": {
       "kind": "static"
@@ -1815,7 +1815,7 @@
   },
   {
     "id": "sprite-256",
-    "spriteNum": 256,
+    "asset": "sprite.pal.256",
     "label": "原精灵 256",
     "layout": {
       "kind": "directional",
@@ -1824,7 +1824,7 @@
   },
   {
     "id": "sprite-257",
-    "spriteNum": 257,
+    "asset": "sprite.pal.257",
     "label": "原精灵 257",
     "layout": {
       "kind": "directional",
@@ -1833,7 +1833,7 @@
   },
   {
     "id": "sprite-39",
-    "spriteNum": 39,
+    "asset": "sprite.pal.039",
     "label": "原精灵 39",
     "layout": {
       "kind": "directional",
@@ -1842,7 +1842,7 @@
   },
   {
     "id": "sprite-119",
-    "spriteNum": 119,
+    "asset": "sprite.pal.119",
     "label": "原精灵 119",
     "layout": {
       "kind": "directional",
@@ -1851,7 +1851,7 @@
   },
   {
     "id": "sprite-395",
-    "spriteNum": 395,
+    "asset": "sprite.pal.395",
     "label": "原精灵 395",
     "layout": {
       "kind": "static"
@@ -1859,7 +1859,7 @@
   },
   {
     "id": "sprite-276",
-    "spriteNum": 276,
+    "asset": "sprite.pal.276",
     "label": "原精灵 276",
     "layout": {
       "kind": "static"
@@ -1867,7 +1867,7 @@
   },
   {
     "id": "sprite-157",
-    "spriteNum": 157,
+    "asset": "sprite.pal.157",
     "label": "原精灵 157",
     "layout": {
       "kind": "directional",
@@ -1876,7 +1876,7 @@
   },
   {
     "id": "sprite-265",
-    "spriteNum": 265,
+    "asset": "sprite.pal.265",
     "label": "原精灵 265",
     "layout": {
       "kind": "static"
@@ -1884,7 +1884,7 @@
   },
   {
     "id": "sprite-238",
-    "spriteNum": 238,
+    "asset": "sprite.pal.238",
     "label": "原精灵 238",
     "layout": {
       "kind": "static"
@@ -1892,7 +1892,7 @@
   },
   {
     "id": "sprite-91",
-    "spriteNum": 91,
+    "asset": "sprite.pal.091",
     "label": "原精灵 91",
     "layout": {
       "kind": "directional",
@@ -1901,7 +1901,7 @@
   },
   {
     "id": "sprite-393",
-    "spriteNum": 393,
+    "asset": "sprite.pal.393",
     "label": "原精灵 393",
     "layout": {
       "kind": "static"
@@ -1909,7 +1909,7 @@
   },
   {
     "id": "sprite-138",
-    "spriteNum": 138,
+    "asset": "sprite.pal.138",
     "label": "原精灵 138",
     "layout": {
       "kind": "directional",
@@ -1918,7 +1918,7 @@
   },
   {
     "id": "sprite-15",
-    "spriteNum": 15,
+    "asset": "sprite.pal.015",
     "label": "原精灵 15",
     "layout": {
       "kind": "directional",
@@ -1927,7 +1927,7 @@
   },
   {
     "id": "sprite-191",
-    "spriteNum": 191,
+    "asset": "sprite.pal.191",
     "label": "原精灵 191",
     "layout": {
       "kind": "static"
@@ -1935,7 +1935,7 @@
   },
   {
     "id": "sprite-189",
-    "spriteNum": 189,
+    "asset": "sprite.pal.189",
     "label": "原精灵 189",
     "layout": {
       "kind": "static"
@@ -1943,7 +1943,7 @@
   },
   {
     "id": "sprite-346",
-    "spriteNum": 346,
+    "asset": "sprite.pal.346",
     "label": "原精灵 346",
     "layout": {
       "kind": "static"
@@ -1951,7 +1951,7 @@
   },
   {
     "id": "sprite-190",
-    "spriteNum": 190,
+    "asset": "sprite.pal.190",
     "label": "原精灵 190",
     "layout": {
       "kind": "static"
@@ -1959,7 +1959,7 @@
   },
   {
     "id": "sprite-192",
-    "spriteNum": 192,
+    "asset": "sprite.pal.192",
     "label": "原精灵 192",
     "layout": {
       "kind": "static"
@@ -1967,7 +1967,7 @@
   },
   {
     "id": "sprite-344",
-    "spriteNum": 344,
+    "asset": "sprite.pal.344",
     "label": "原精灵 344",
     "layout": {
       "kind": "directional",
@@ -1976,7 +1976,7 @@
   },
   {
     "id": "sprite-345",
-    "spriteNum": 345,
+    "asset": "sprite.pal.345",
     "label": "原精灵 345",
     "layout": {
       "kind": "static"
@@ -1984,7 +1984,7 @@
   },
   {
     "id": "sprite-188",
-    "spriteNum": 188,
+    "asset": "sprite.pal.188",
     "label": "原精灵 188",
     "layout": {
       "kind": "static"
@@ -1992,7 +1992,7 @@
   },
   {
     "id": "sprite-59",
-    "spriteNum": 59,
+    "asset": "sprite.pal.059",
     "label": "原精灵 59",
     "layout": {
       "kind": "directional",
@@ -2001,7 +2001,7 @@
   },
   {
     "id": "sprite-258",
-    "spriteNum": 258,
+    "asset": "sprite.pal.258",
     "label": "原精灵 258",
     "layout": {
       "kind": "static"
@@ -2009,7 +2009,7 @@
   },
   {
     "id": "sprite-341",
-    "spriteNum": 341,
+    "asset": "sprite.pal.341",
     "label": "原精灵 341",
     "layout": {
       "kind": "directional",
@@ -2018,7 +2018,7 @@
   },
   {
     "id": "sprite-220",
-    "spriteNum": 220,
+    "asset": "sprite.pal.220",
     "label": "原精灵 220",
     "layout": {
       "kind": "directional",
@@ -2027,7 +2027,7 @@
   },
   {
     "id": "sprite-360",
-    "spriteNum": 360,
+    "asset": "sprite.pal.360",
     "label": "原精灵 360",
     "layout": {
       "kind": "directional",
@@ -2036,7 +2036,7 @@
   },
   {
     "id": "sprite-357",
-    "spriteNum": 357,
+    "asset": "sprite.pal.357",
     "label": "原精灵 357",
     "layout": {
       "kind": "directional",
@@ -2045,7 +2045,7 @@
   },
   {
     "id": "sprite-132",
-    "spriteNum": 132,
+    "asset": "sprite.pal.132",
     "label": "原精灵 132",
     "layout": {
       "kind": "directional",
@@ -2054,7 +2054,7 @@
   },
   {
     "id": "sprite-135",
-    "spriteNum": 135,
+    "asset": "sprite.pal.135",
     "label": "原精灵 135",
     "layout": {
       "kind": "directional",
@@ -2063,7 +2063,7 @@
   },
   {
     "id": "sprite-356",
-    "spriteNum": 356,
+    "asset": "sprite.pal.356",
     "label": "原精灵 356",
     "layout": {
       "kind": "directional",
@@ -2072,7 +2072,7 @@
   },
   {
     "id": "sprite-413",
-    "spriteNum": 413,
+    "asset": "sprite.pal.413",
     "label": "原精灵 413",
     "layout": {
       "kind": "static"
@@ -2080,7 +2080,7 @@
   },
   {
     "id": "sprite-396",
-    "spriteNum": 396,
+    "asset": "sprite.pal.396",
     "label": "原精灵 396",
     "layout": {
       "kind": "static"
@@ -2088,7 +2088,7 @@
   },
   {
     "id": "sprite-397",
-    "spriteNum": 397,
+    "asset": "sprite.pal.397",
     "label": "原精灵 397",
     "layout": {
       "kind": "directional",
@@ -2097,7 +2097,7 @@
   },
   {
     "id": "sprite-400",
-    "spriteNum": 400,
+    "asset": "sprite.pal.400",
     "label": "原精灵 400",
     "layout": {
       "kind": "directional",
@@ -2106,7 +2106,7 @@
   },
   {
     "id": "sprite-298",
-    "spriteNum": 298,
+    "asset": "sprite.pal.298",
     "label": "原精灵 298",
     "layout": {
       "kind": "static"
@@ -2114,7 +2114,7 @@
   },
   {
     "id": "sprite-271",
-    "spriteNum": 271,
+    "asset": "sprite.pal.271",
     "label": "原精灵 271",
     "layout": {
       "kind": "static"
@@ -2122,7 +2122,7 @@
   },
   {
     "id": "sprite-299",
-    "spriteNum": 299,
+    "asset": "sprite.pal.299",
     "label": "原精灵 299",
     "layout": {
       "kind": "static"
@@ -2130,7 +2130,7 @@
   },
   {
     "id": "sprite-372",
-    "spriteNum": 372,
+    "asset": "sprite.pal.372",
     "label": "原精灵 372",
     "layout": {
       "kind": "static"
@@ -2138,7 +2138,7 @@
   },
   {
     "id": "sprite-254",
-    "spriteNum": 254,
+    "asset": "sprite.pal.254",
     "label": "原精灵 254",
     "layout": {
       "kind": "static"
@@ -2146,7 +2146,7 @@
   },
   {
     "id": "sprite-272",
-    "spriteNum": 272,
+    "asset": "sprite.pal.272",
     "label": "原精灵 272",
     "layout": {
       "kind": "static"
@@ -2154,7 +2154,7 @@
   },
   {
     "id": "sprite-273",
-    "spriteNum": 273,
+    "asset": "sprite.pal.273",
     "label": "原精灵 273(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -2163,7 +2163,7 @@
   },
   {
     "id": "sprite-270",
-    "spriteNum": 270,
+    "asset": "sprite.pal.270",
     "label": "原精灵 270",
     "layout": {
       "kind": "static"
@@ -2171,7 +2171,7 @@
   },
   {
     "id": "sprite-269",
-    "spriteNum": 269,
+    "asset": "sprite.pal.269",
     "label": "原精灵 269",
     "layout": {
       "kind": "static"
@@ -2179,7 +2179,7 @@
   },
   {
     "id": "sprite-474",
-    "spriteNum": 474,
+    "asset": "sprite.pal.474",
     "label": "原精灵 474",
     "layout": {
       "kind": "directional",
@@ -2188,7 +2188,7 @@
   },
   {
     "id": "sprite-264",
-    "spriteNum": 264,
+    "asset": "sprite.pal.264",
     "label": "原精灵 264",
     "layout": {
       "kind": "static"
@@ -2196,7 +2196,7 @@
   },
   {
     "id": "sprite-253",
-    "spriteNum": 253,
+    "asset": "sprite.pal.253",
     "label": "原精灵 253",
     "layout": {
       "kind": "static"
@@ -2204,7 +2204,7 @@
   },
   {
     "id": "sprite-394",
-    "spriteNum": 394,
+    "asset": "sprite.pal.394",
     "label": "原精灵 394(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -2213,7 +2213,7 @@
   },
   {
     "id": "sprite-351",
-    "spriteNum": 351,
+    "asset": "sprite.pal.351",
     "label": "原精灵 351",
     "layout": {
       "kind": "directional",
@@ -2222,7 +2222,7 @@
   },
   {
     "id": "sprite-619",
-    "spriteNum": 619,
+    "asset": "sprite.pal.619",
     "label": "原精灵 619",
     "layout": {
       "kind": "static"
@@ -2230,7 +2230,7 @@
   },
   {
     "id": "sprite-618",
-    "spriteNum": 618,
+    "asset": "sprite.pal.618",
     "label": "原精灵 618",
     "layout": {
       "kind": "static"
@@ -2238,7 +2238,7 @@
   },
   {
     "id": "sprite-300",
-    "spriteNum": 300,
+    "asset": "sprite.pal.300",
     "label": "原精灵 300",
     "layout": {
       "kind": "static"
@@ -2246,7 +2246,7 @@
   },
   {
     "id": "sprite-548",
-    "spriteNum": 548,
+    "asset": "sprite.pal.548",
     "label": "原精灵 548",
     "layout": {
       "kind": "directional",
@@ -2255,7 +2255,7 @@
   },
   {
     "id": "sprite-549",
-    "spriteNum": 549,
+    "asset": "sprite.pal.549",
     "label": "原精灵 549",
     "layout": {
       "kind": "directional",
@@ -2264,7 +2264,7 @@
   },
   {
     "id": "sprite-617",
-    "spriteNum": 617,
+    "asset": "sprite.pal.617",
     "label": "原精灵 617",
     "layout": {
       "kind": "static"
@@ -2272,7 +2272,7 @@
   },
   {
     "id": "sprite-112",
-    "spriteNum": 112,
+    "asset": "sprite.pal.112",
     "label": "原精灵 112",
     "layout": {
       "kind": "directional",
@@ -2281,7 +2281,7 @@
   },
   {
     "id": "sprite-82",
-    "spriteNum": 82,
+    "asset": "sprite.pal.082",
     "label": "原精灵 82",
     "layout": {
       "kind": "directional",
@@ -2290,7 +2290,7 @@
   },
   {
     "id": "sprite-97",
-    "spriteNum": 97,
+    "asset": "sprite.pal.097",
     "label": "原精灵 97",
     "layout": {
       "kind": "directional",
@@ -2299,7 +2299,7 @@
   },
   {
     "id": "sprite-414",
-    "spriteNum": 414,
+    "asset": "sprite.pal.414",
     "label": "原精灵 414",
     "layout": {
       "kind": "directional",
@@ -2308,7 +2308,7 @@
   },
   {
     "id": "sprite-382",
-    "spriteNum": 382,
+    "asset": "sprite.pal.382",
     "label": "原精灵 382",
     "layout": {
       "kind": "static"
@@ -2316,7 +2316,7 @@
   },
   {
     "id": "sprite-98",
-    "spriteNum": 98,
+    "asset": "sprite.pal.098",
     "label": "原精灵 98",
     "layout": {
       "kind": "directional",
@@ -2325,7 +2325,7 @@
   },
   {
     "id": "sprite-137",
-    "spriteNum": 137,
+    "asset": "sprite.pal.137",
     "label": "原精灵 137",
     "layout": {
       "kind": "directional",
@@ -2334,7 +2334,7 @@
   },
   {
     "id": "sprite-134",
-    "spriteNum": 134,
+    "asset": "sprite.pal.134",
     "label": "原精灵 134",
     "layout": {
       "kind": "directional",
@@ -2343,7 +2343,7 @@
   },
   {
     "id": "sprite-390",
-    "spriteNum": 390,
+    "asset": "sprite.pal.390",
     "label": "原精灵 390",
     "layout": {
       "kind": "static"
@@ -2351,7 +2351,7 @@
   },
   {
     "id": "sprite-391",
-    "spriteNum": 391,
+    "asset": "sprite.pal.391",
     "label": "原精灵 391",
     "layout": {
       "kind": "static"
@@ -2359,7 +2359,7 @@
   },
   {
     "id": "sprite-392",
-    "spriteNum": 392,
+    "asset": "sprite.pal.392",
     "label": "原精灵 392",
     "layout": {
       "kind": "static"
@@ -2367,7 +2367,7 @@
   },
   {
     "id": "sprite-386",
-    "spriteNum": 386,
+    "asset": "sprite.pal.386",
     "label": "原精灵 386",
     "layout": {
       "kind": "static"
@@ -2375,7 +2375,7 @@
   },
   {
     "id": "sprite-385",
-    "spriteNum": 385,
+    "asset": "sprite.pal.385",
     "label": "原精灵 385(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -2384,7 +2384,7 @@
   },
   {
     "id": "sprite-309",
-    "spriteNum": 309,
+    "asset": "sprite.pal.309",
     "label": "原精灵 309",
     "layout": {
       "kind": "static"
@@ -2392,7 +2392,7 @@
   },
   {
     "id": "sprite-310",
-    "spriteNum": 310,
+    "asset": "sprite.pal.310",
     "label": "原精灵 310",
     "layout": {
       "kind": "static"
@@ -2400,7 +2400,7 @@
   },
   {
     "id": "sprite-370",
-    "spriteNum": 370,
+    "asset": "sprite.pal.370",
     "label": "原精灵 370",
     "layout": {
       "kind": "static"
@@ -2408,7 +2408,7 @@
   },
   {
     "id": "sprite-371",
-    "spriteNum": 371,
+    "asset": "sprite.pal.371",
     "label": "原精灵 371",
     "layout": {
       "kind": "static"
@@ -2416,7 +2416,7 @@
   },
   {
     "id": "sprite-26",
-    "spriteNum": 26,
+    "asset": "sprite.pal.026",
     "label": "原精灵 26",
     "layout": {
       "kind": "directional",
@@ -2425,7 +2425,7 @@
   },
   {
     "id": "sprite-167",
-    "spriteNum": 167,
+    "asset": "sprite.pal.167",
     "label": "原精灵 167",
     "layout": {
       "kind": "directional",
@@ -2434,7 +2434,7 @@
   },
   {
     "id": "sprite-323",
-    "spriteNum": 323,
+    "asset": "sprite.pal.323",
     "label": "原精灵 323",
     "layout": {
       "kind": "directional",
@@ -2443,7 +2443,7 @@
   },
   {
     "id": "sprite-369",
-    "spriteNum": 369,
+    "asset": "sprite.pal.369",
     "label": "原精灵 369",
     "layout": {
       "kind": "directional",
@@ -2452,7 +2452,7 @@
   },
   {
     "id": "sprite-350",
-    "spriteNum": 350,
+    "asset": "sprite.pal.350",
     "label": "原精灵 350",
     "layout": {
       "kind": "directional",
@@ -2461,7 +2461,7 @@
   },
   {
     "id": "sprite-380",
-    "spriteNum": 380,
+    "asset": "sprite.pal.380",
     "label": "原精灵 380",
     "layout": {
       "kind": "static"
@@ -2469,7 +2469,7 @@
   },
   {
     "id": "sprite-348",
-    "spriteNum": 348,
+    "asset": "sprite.pal.348",
     "label": "原精灵 348",
     "layout": {
       "kind": "directional",
@@ -2478,7 +2478,7 @@
   },
   {
     "id": "sprite-349",
-    "spriteNum": 349,
+    "asset": "sprite.pal.349",
     "label": "原精灵 349",
     "layout": {
       "kind": "directional",
@@ -2487,7 +2487,7 @@
   },
   {
     "id": "sprite-347",
-    "spriteNum": 347,
+    "asset": "sprite.pal.347",
     "label": "原精灵 347",
     "layout": {
       "kind": "directional",
@@ -2496,7 +2496,7 @@
   },
   {
     "id": "sprite-326",
-    "spriteNum": 326,
+    "asset": "sprite.pal.326",
     "label": "原精灵 326",
     "layout": {
       "kind": "directional",
@@ -2505,7 +2505,7 @@
   },
   {
     "id": "sprite-324",
-    "spriteNum": 324,
+    "asset": "sprite.pal.324",
     "label": "原精灵 324",
     "layout": {
       "kind": "directional",
@@ -2514,7 +2514,7 @@
   },
   {
     "id": "sprite-381",
-    "spriteNum": 381,
+    "asset": "sprite.pal.381",
     "label": "原精灵 381",
     "layout": {
       "kind": "static"
@@ -2522,7 +2522,7 @@
   },
   {
     "id": "sprite-376",
-    "spriteNum": 376,
+    "asset": "sprite.pal.376",
     "label": "原精灵 376",
     "layout": {
       "kind": "static"
@@ -2530,7 +2530,7 @@
   },
   {
     "id": "sprite-377",
-    "spriteNum": 377,
+    "asset": "sprite.pal.377",
     "label": "原精灵 377",
     "layout": {
       "kind": "static"
@@ -2538,7 +2538,7 @@
   },
   {
     "id": "sprite-378",
-    "spriteNum": 378,
+    "asset": "sprite.pal.378",
     "label": "原精灵 378",
     "layout": {
       "kind": "static"
@@ -2546,7 +2546,7 @@
   },
   {
     "id": "sprite-375",
-    "spriteNum": 375,
+    "asset": "sprite.pal.375",
     "label": "原精灵 375",
     "layout": {
       "kind": "static"
@@ -2554,7 +2554,7 @@
   },
   {
     "id": "sprite-19",
-    "spriteNum": 19,
+    "asset": "sprite.pal.019",
     "label": "原精灵 19",
     "layout": {
       "kind": "directional",
@@ -2563,7 +2563,7 @@
   },
   {
     "id": "sprite-172",
-    "spriteNum": 172,
+    "asset": "sprite.pal.172",
     "label": "原精灵 172",
     "layout": {
       "kind": "static"
@@ -2571,7 +2571,7 @@
   },
   {
     "id": "sprite-293",
-    "spriteNum": 293,
+    "asset": "sprite.pal.293",
     "label": "原精灵 293",
     "layout": {
       "kind": "static"
@@ -2579,7 +2579,7 @@
   },
   {
     "id": "sprite-297",
-    "spriteNum": 297,
+    "asset": "sprite.pal.297",
     "label": "原精灵 297",
     "layout": {
       "kind": "static"
@@ -2587,7 +2587,7 @@
   },
   {
     "id": "sprite-284",
-    "spriteNum": 284,
+    "asset": "sprite.pal.284",
     "label": "原精灵 284",
     "layout": {
       "kind": "static"
@@ -2595,7 +2595,7 @@
   },
   {
     "id": "sprite-275",
-    "spriteNum": 275,
+    "asset": "sprite.pal.275",
     "label": "原精灵 275",
     "layout": {
       "kind": "static"
@@ -2603,7 +2603,7 @@
   },
   {
     "id": "sprite-274",
-    "spriteNum": 274,
+    "asset": "sprite.pal.274",
     "label": "原精灵 274",
     "layout": {
       "kind": "static"
@@ -2611,7 +2611,7 @@
   },
   {
     "id": "sprite-459",
-    "spriteNum": 459,
+    "asset": "sprite.pal.459",
     "label": "原精灵 459",
     "layout": {
       "kind": "static"
@@ -2619,7 +2619,7 @@
   },
   {
     "id": "sprite-319",
-    "spriteNum": 319,
+    "asset": "sprite.pal.319",
     "label": "原精灵 319",
     "layout": {
       "kind": "directional",
@@ -2628,7 +2628,7 @@
   },
   {
     "id": "sprite-368",
-    "spriteNum": 368,
+    "asset": "sprite.pal.368",
     "label": "原精灵 368",
     "layout": {
       "kind": "static"
@@ -2636,7 +2636,7 @@
   },
   {
     "id": "sprite-379",
-    "spriteNum": 379,
+    "asset": "sprite.pal.379",
     "label": "原精灵 379(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -2645,7 +2645,7 @@
   },
   {
     "id": "sprite-171",
-    "spriteNum": 171,
+    "asset": "sprite.pal.171",
     "label": "原精灵 171",
     "layout": {
       "kind": "static"
@@ -2653,7 +2653,7 @@
   },
   {
     "id": "sprite-155",
-    "spriteNum": 155,
+    "asset": "sprite.pal.155",
     "label": "原精灵 155",
     "layout": {
       "kind": "directional",
@@ -2662,7 +2662,7 @@
   },
   {
     "id": "sprite-81",
-    "spriteNum": 81,
+    "asset": "sprite.pal.081",
     "label": "原精灵 81",
     "layout": {
       "kind": "directional",
@@ -2671,7 +2671,7 @@
   },
   {
     "id": "sprite-401",
-    "spriteNum": 401,
+    "asset": "sprite.pal.401",
     "label": "原精灵 401",
     "layout": {
       "kind": "directional",
@@ -2680,7 +2680,7 @@
   },
   {
     "id": "sprite-440",
-    "spriteNum": 440,
+    "asset": "sprite.pal.440",
     "label": "原精灵 440",
     "layout": {
       "kind": "static"
@@ -2688,7 +2688,7 @@
   },
   {
     "id": "sprite-441",
-    "spriteNum": 441,
+    "asset": "sprite.pal.441",
     "label": "原精灵 441",
     "layout": {
       "kind": "static"
@@ -2696,7 +2696,7 @@
   },
   {
     "id": "sprite-327",
-    "spriteNum": 327,
+    "asset": "sprite.pal.327",
     "label": "原精灵 327",
     "layout": {
       "kind": "directional",
@@ -2705,7 +2705,7 @@
   },
   {
     "id": "sprite-94",
-    "spriteNum": 94,
+    "asset": "sprite.pal.094",
     "label": "原精灵 94",
     "layout": {
       "kind": "directional",
@@ -2714,7 +2714,7 @@
   },
   {
     "id": "sprite-476",
-    "spriteNum": 476,
+    "asset": "sprite.pal.476",
     "label": "原精灵 476",
     "layout": {
       "kind": "static"
@@ -2722,7 +2722,7 @@
   },
   {
     "id": "sprite-616",
-    "spriteNum": 616,
+    "asset": "sprite.pal.616",
     "label": "原精灵 616",
     "layout": {
       "kind": "directional",
@@ -2731,7 +2731,7 @@
   },
   {
     "id": "sprite-312",
-    "spriteNum": 312,
+    "asset": "sprite.pal.312",
     "label": "原精灵 312",
     "layout": {
       "kind": "static"
@@ -2739,7 +2739,7 @@
   },
   {
     "id": "sprite-311",
-    "spriteNum": 311,
+    "asset": "sprite.pal.311",
     "label": "原精灵 311",
     "layout": {
       "kind": "static"
@@ -2747,7 +2747,7 @@
   },
   {
     "id": "sprite-622",
-    "spriteNum": 622,
+    "asset": "sprite.pal.622",
     "label": "原精灵 622",
     "layout": {
       "kind": "static"
@@ -2755,7 +2755,7 @@
   },
   {
     "id": "sprite-387",
-    "spriteNum": 387,
+    "asset": "sprite.pal.387",
     "label": "原精灵 387",
     "layout": {
       "kind": "static"
@@ -2763,7 +2763,7 @@
   },
   {
     "id": "sprite-145",
-    "spriteNum": 145,
+    "asset": "sprite.pal.145",
     "label": "原精灵 145",
     "layout": {
       "kind": "static"
@@ -2771,7 +2771,7 @@
   },
   {
     "id": "sprite-591",
-    "spriteNum": 591,
+    "asset": "sprite.pal.591",
     "label": "原精灵 591",
     "layout": {
       "kind": "directional",
@@ -2780,7 +2780,7 @@
   },
   {
     "id": "sprite-625",
-    "spriteNum": 625,
+    "asset": "sprite.pal.625",
     "label": "原精灵 625",
     "layout": {
       "kind": "directional",
@@ -2789,7 +2789,7 @@
   },
   {
     "id": "sprite-626",
-    "spriteNum": 626,
+    "asset": "sprite.pal.626",
     "label": "原精灵 626",
     "layout": {
       "kind": "directional",
@@ -2798,7 +2798,7 @@
   },
   {
     "id": "sprite-83",
-    "spriteNum": 83,
+    "asset": "sprite.pal.083",
     "label": "原精灵 83",
     "layout": {
       "kind": "directional",
@@ -2807,7 +2807,7 @@
   },
   {
     "id": "sprite-444",
-    "spriteNum": 444,
+    "asset": "sprite.pal.444",
     "label": "原精灵 444",
     "layout": {
       "kind": "static"
@@ -2815,7 +2815,7 @@
   },
   {
     "id": "sprite-485",
-    "spriteNum": 485,
+    "asset": "sprite.pal.485",
     "label": "原精灵 485",
     "layout": {
       "kind": "static"
@@ -2823,7 +2823,7 @@
   },
   {
     "id": "sprite-419",
-    "spriteNum": 419,
+    "asset": "sprite.pal.419",
     "label": "原精灵 419",
     "layout": {
       "kind": "static"
@@ -2831,7 +2831,7 @@
   },
   {
     "id": "sprite-418",
-    "spriteNum": 418,
+    "asset": "sprite.pal.418",
     "label": "原精灵 418",
     "layout": {
       "kind": "static"
@@ -2839,7 +2839,7 @@
   },
   {
     "id": "sprite-422",
-    "spriteNum": 422,
+    "asset": "sprite.pal.422",
     "label": "原精灵 422",
     "layout": {
       "kind": "static"
@@ -2847,7 +2847,7 @@
   },
   {
     "id": "sprite-432",
-    "spriteNum": 432,
+    "asset": "sprite.pal.432",
     "label": "原精灵 432",
     "layout": {
       "kind": "static"
@@ -2855,7 +2855,7 @@
   },
   {
     "id": "sprite-424",
-    "spriteNum": 424,
+    "asset": "sprite.pal.424",
     "label": "原精灵 424",
     "layout": {
       "kind": "static"
@@ -2863,7 +2863,7 @@
   },
   {
     "id": "sprite-425",
-    "spriteNum": 425,
+    "asset": "sprite.pal.425",
     "label": "原精灵 425",
     "layout": {
       "kind": "static"
@@ -2871,7 +2871,7 @@
   },
   {
     "id": "sprite-436",
-    "spriteNum": 436,
+    "asset": "sprite.pal.436",
     "label": "原精灵 436",
     "layout": {
       "kind": "static"
@@ -2879,7 +2879,7 @@
   },
   {
     "id": "sprite-388",
-    "spriteNum": 388,
+    "asset": "sprite.pal.388",
     "label": "原精灵 388",
     "layout": {
       "kind": "static"
@@ -2887,7 +2887,7 @@
   },
   {
     "id": "sprite-634",
-    "spriteNum": 634,
+    "asset": "sprite.pal.634",
     "label": "原精灵 634",
     "layout": {
       "kind": "directional",
@@ -2896,7 +2896,7 @@
   },
   {
     "id": "sprite-23",
-    "spriteNum": 23,
+    "asset": "sprite.pal.023",
     "label": "原精灵 23",
     "layout": {
       "kind": "directional",
@@ -2905,7 +2905,7 @@
   },
   {
     "id": "sprite-445",
-    "spriteNum": 445,
+    "asset": "sprite.pal.445",
     "label": "原精灵 445",
     "layout": {
       "kind": "static"
@@ -2913,7 +2913,7 @@
   },
   {
     "id": "sprite-457",
-    "spriteNum": 457,
+    "asset": "sprite.pal.457",
     "label": "原精灵 457",
     "layout": {
       "kind": "static"
@@ -2921,7 +2921,7 @@
   },
   {
     "id": "sprite-445-f1",
-    "spriteNum": 445,
+    "asset": "sprite.pal.445",
     "label": "原精灵 445",
     "layout": {
       "kind": "directional",
@@ -2930,7 +2930,7 @@
   },
   {
     "id": "sprite-451",
-    "spriteNum": 451,
+    "asset": "sprite.pal.451",
     "label": "原精灵 451",
     "layout": {
       "kind": "static"
@@ -2938,7 +2938,7 @@
   },
   {
     "id": "sprite-308",
-    "spriteNum": 308,
+    "asset": "sprite.pal.308",
     "label": "原精灵 308",
     "layout": {
       "kind": "static"
@@ -2946,7 +2946,7 @@
   },
   {
     "id": "sprite-431",
-    "spriteNum": 431,
+    "asset": "sprite.pal.431",
     "label": "原精灵 431",
     "layout": {
       "kind": "static"
@@ -2954,7 +2954,7 @@
   },
   {
     "id": "sprite-428",
-    "spriteNum": 428,
+    "asset": "sprite.pal.428",
     "label": "原精灵 428",
     "layout": {
       "kind": "static"
@@ -2962,7 +2962,7 @@
   },
   {
     "id": "sprite-430",
-    "spriteNum": 430,
+    "asset": "sprite.pal.430",
     "label": "原精灵 430",
     "layout": {
       "kind": "static"
@@ -2970,7 +2970,7 @@
   },
   {
     "id": "sprite-429",
-    "spriteNum": 429,
+    "asset": "sprite.pal.429",
     "label": "原精灵 429",
     "layout": {
       "kind": "static"
@@ -2978,7 +2978,7 @@
   },
   {
     "id": "sprite-437",
-    "spriteNum": 437,
+    "asset": "sprite.pal.437",
     "label": "原精灵 437",
     "layout": {
       "kind": "static"
@@ -2986,7 +2986,7 @@
   },
   {
     "id": "sprite-435",
-    "spriteNum": 435,
+    "asset": "sprite.pal.435",
     "label": "原精灵 435",
     "layout": {
       "kind": "static"
@@ -2994,7 +2994,7 @@
   },
   {
     "id": "sprite-433",
-    "spriteNum": 433,
+    "asset": "sprite.pal.433",
     "label": "原精灵 433",
     "layout": {
       "kind": "static"
@@ -3002,7 +3002,7 @@
   },
   {
     "id": "sprite-434",
-    "spriteNum": 434,
+    "asset": "sprite.pal.434",
     "label": "原精灵 434",
     "layout": {
       "kind": "static"
@@ -3010,7 +3010,7 @@
   },
   {
     "id": "sprite-198",
-    "spriteNum": 198,
+    "asset": "sprite.pal.198",
     "label": "原精灵 198",
     "layout": {
       "kind": "directional",
@@ -3019,7 +3019,7 @@
   },
   {
     "id": "sprite-199",
-    "spriteNum": 199,
+    "asset": "sprite.pal.199",
     "label": "原精灵 199",
     "layout": {
       "kind": "directional",
@@ -3028,7 +3028,7 @@
   },
   {
     "id": "sprite-421",
-    "spriteNum": 421,
+    "asset": "sprite.pal.421",
     "label": "原精灵 421",
     "layout": {
       "kind": "static"
@@ -3036,7 +3036,7 @@
   },
   {
     "id": "sprite-420",
-    "spriteNum": 420,
+    "asset": "sprite.pal.420",
     "label": "原精灵 420",
     "layout": {
       "kind": "static"
@@ -3044,7 +3044,7 @@
   },
   {
     "id": "sprite-209",
-    "spriteNum": 209,
+    "asset": "sprite.pal.209",
     "label": "原精灵 209",
     "layout": {
       "kind": "static"
@@ -3052,7 +3052,7 @@
   },
   {
     "id": "sprite-285",
-    "spriteNum": 285,
+    "asset": "sprite.pal.285",
     "label": "原精灵 285",
     "layout": {
       "kind": "static"
@@ -3060,7 +3060,7 @@
   },
   {
     "id": "sprite-177",
-    "spriteNum": 177,
+    "asset": "sprite.pal.177",
     "label": "原精灵 177",
     "layout": {
       "kind": "static"
@@ -3068,7 +3068,7 @@
   },
   {
     "id": "sprite-169",
-    "spriteNum": 169,
+    "asset": "sprite.pal.169",
     "label": "原精灵 169",
     "layout": {
       "kind": "static"
@@ -3076,7 +3076,7 @@
   },
   {
     "id": "sprite-289",
-    "spriteNum": 289,
+    "asset": "sprite.pal.289",
     "label": "原精灵 289",
     "layout": {
       "kind": "static"
@@ -3084,7 +3084,7 @@
   },
   {
     "id": "sprite-295",
-    "spriteNum": 295,
+    "asset": "sprite.pal.295",
     "label": "原精灵 295",
     "layout": {
       "kind": "static"
@@ -3092,7 +3092,7 @@
   },
   {
     "id": "sprite-281",
-    "spriteNum": 281,
+    "asset": "sprite.pal.281",
     "label": "原精灵 281",
     "layout": {
       "kind": "static"
@@ -3100,7 +3100,7 @@
   },
   {
     "id": "sprite-154",
-    "spriteNum": 154,
+    "asset": "sprite.pal.154",
     "label": "原精灵 154",
     "layout": {
       "kind": "directional",
@@ -3109,7 +3109,7 @@
   },
   {
     "id": "sprite-325",
-    "spriteNum": 325,
+    "asset": "sprite.pal.325",
     "label": "原精灵 325",
     "layout": {
       "kind": "directional",
@@ -3118,7 +3118,7 @@
   },
   {
     "id": "sprite-502",
-    "spriteNum": 502,
+    "asset": "sprite.pal.502",
     "label": "原精灵 502",
     "layout": {
       "kind": "static"
@@ -3126,7 +3126,7 @@
   },
   {
     "id": "sprite-301",
-    "spriteNum": 301,
+    "asset": "sprite.pal.301",
     "label": "原精灵 301",
     "layout": {
       "kind": "directional",
@@ -3135,7 +3135,7 @@
   },
   {
     "id": "sprite-456",
-    "spriteNum": 456,
+    "asset": "sprite.pal.456",
     "label": "原精灵 456",
     "layout": {
       "kind": "static"
@@ -3143,7 +3143,7 @@
   },
   {
     "id": "sprite-383",
-    "spriteNum": 383,
+    "asset": "sprite.pal.383",
     "label": "原精灵 383",
     "layout": {
       "kind": "static"
@@ -3151,7 +3151,7 @@
   },
   {
     "id": "sprite-384",
-    "spriteNum": 384,
+    "asset": "sprite.pal.384",
     "label": "原精灵 384",
     "layout": {
       "kind": "static"
@@ -3159,7 +3159,7 @@
   },
   {
     "id": "sprite-458",
-    "spriteNum": 458,
+    "asset": "sprite.pal.458",
     "label": "原精灵 458",
     "layout": {
       "kind": "static"
@@ -3167,7 +3167,7 @@
   },
   {
     "id": "sprite-306",
-    "spriteNum": 306,
+    "asset": "sprite.pal.306",
     "label": "原精灵 306",
     "layout": {
       "kind": "directional",
@@ -3176,7 +3176,7 @@
   },
   {
     "id": "sprite-449",
-    "spriteNum": 449,
+    "asset": "sprite.pal.449",
     "label": "原精灵 449",
     "layout": {
       "kind": "static"
@@ -3184,7 +3184,7 @@
   },
   {
     "id": "sprite-249",
-    "spriteNum": 249,
+    "asset": "sprite.pal.249",
     "label": "原精灵 249",
     "layout": {
       "kind": "directional",
@@ -3193,7 +3193,7 @@
   },
   {
     "id": "sprite-136",
-    "spriteNum": 136,
+    "asset": "sprite.pal.136",
     "label": "原精灵 136",
     "layout": {
       "kind": "directional",
@@ -3202,7 +3202,7 @@
   },
   {
     "id": "sprite-232-f0",
-    "spriteNum": 232,
+    "asset": "sprite.pal.232",
     "label": "原精灵 232",
     "layout": {
       "kind": "static"
@@ -3210,7 +3210,7 @@
   },
   {
     "id": "sprite-454",
-    "spriteNum": 454,
+    "asset": "sprite.pal.454",
     "label": "原精灵 454",
     "layout": {
       "kind": "static"
@@ -3218,7 +3218,7 @@
   },
   {
     "id": "sprite-455",
-    "spriteNum": 455,
+    "asset": "sprite.pal.455",
     "label": "原精灵 455",
     "layout": {
       "kind": "static"
@@ -3226,7 +3226,7 @@
   },
   {
     "id": "sprite-450",
-    "spriteNum": 450,
+    "asset": "sprite.pal.450",
     "label": "原精灵 450",
     "layout": {
       "kind": "static"
@@ -3234,7 +3234,7 @@
   },
   {
     "id": "sprite-452",
-    "spriteNum": 452,
+    "asset": "sprite.pal.452",
     "label": "原精灵 452",
     "layout": {
       "kind": "static"
@@ -3242,7 +3242,7 @@
   },
   {
     "id": "sprite-453",
-    "spriteNum": 453,
+    "asset": "sprite.pal.453",
     "label": "原精灵 453",
     "layout": {
       "kind": "static"
@@ -3250,7 +3250,7 @@
   },
   {
     "id": "sprite-123",
-    "spriteNum": 123,
+    "asset": "sprite.pal.123",
     "label": "原精灵 123",
     "layout": {
       "kind": "directional",
@@ -3259,7 +3259,7 @@
   },
   {
     "id": "sprite-95-f0",
-    "spriteNum": 95,
+    "asset": "sprite.pal.095",
     "label": "原精灵 95",
     "layout": {
       "kind": "static"
@@ -3267,7 +3267,7 @@
   },
   {
     "id": "sprite-408-f0",
-    "spriteNum": 408,
+    "asset": "sprite.pal.408",
     "label": "原精灵 408",
     "layout": {
       "kind": "static"
@@ -3275,7 +3275,7 @@
   },
   {
     "id": "sprite-330",
-    "spriteNum": 330,
+    "asset": "sprite.pal.330",
     "label": "原精灵 330",
     "layout": {
       "kind": "static"
@@ -3283,7 +3283,7 @@
   },
   {
     "id": "sprite-331",
-    "spriteNum": 331,
+    "asset": "sprite.pal.331",
     "label": "原精灵 331",
     "layout": {
       "kind": "static"
@@ -3291,7 +3291,7 @@
   },
   {
     "id": "sprite-334",
-    "spriteNum": 334,
+    "asset": "sprite.pal.334",
     "label": "原精灵 334",
     "layout": {
       "kind": "static"
@@ -3299,7 +3299,7 @@
   },
   {
     "id": "sprite-333",
-    "spriteNum": 333,
+    "asset": "sprite.pal.333",
     "label": "原精灵 333",
     "layout": {
       "kind": "static"
@@ -3307,7 +3307,7 @@
   },
   {
     "id": "sprite-332",
-    "spriteNum": 332,
+    "asset": "sprite.pal.332",
     "label": "原精灵 332",
     "layout": {
       "kind": "static"
@@ -3315,7 +3315,7 @@
   },
   {
     "id": "sprite-335",
-    "spriteNum": 335,
+    "asset": "sprite.pal.335",
     "label": "原精灵 335",
     "layout": {
       "kind": "static"
@@ -3323,7 +3323,7 @@
   },
   {
     "id": "sprite-336",
-    "spriteNum": 336,
+    "asset": "sprite.pal.336",
     "label": "原精灵 336",
     "layout": {
       "kind": "static"
@@ -3331,7 +3331,7 @@
   },
   {
     "id": "sprite-337",
-    "spriteNum": 337,
+    "asset": "sprite.pal.337",
     "label": "原精灵 337",
     "layout": {
       "kind": "static"
@@ -3339,7 +3339,7 @@
   },
   {
     "id": "sprite-329",
-    "spriteNum": 329,
+    "asset": "sprite.pal.329",
     "label": "原精灵 329",
     "layout": {
       "kind": "directional",
@@ -3348,7 +3348,7 @@
   },
   {
     "id": "sprite-409",
-    "spriteNum": 409,
+    "asset": "sprite.pal.409",
     "label": "原精灵 409",
     "layout": {
       "kind": "directional",
@@ -3357,7 +3357,7 @@
   },
   {
     "id": "sprite-439",
-    "spriteNum": 439,
+    "asset": "sprite.pal.439",
     "label": "原精灵 439",
     "layout": {
       "kind": "static"
@@ -3365,7 +3365,7 @@
   },
   {
     "id": "sprite-314",
-    "spriteNum": 314,
+    "asset": "sprite.pal.314",
     "label": "原精灵 314",
     "layout": {
       "kind": "directional",
@@ -3374,7 +3374,7 @@
   },
   {
     "id": "sprite-322",
-    "spriteNum": 322,
+    "asset": "sprite.pal.322",
     "label": "原精灵 322",
     "layout": {
       "kind": "directional",
@@ -3383,7 +3383,7 @@
   },
   {
     "id": "sprite-416",
-    "spriteNum": 416,
+    "asset": "sprite.pal.416",
     "label": "原精灵 416",
     "layout": {
       "kind": "static"
@@ -3391,7 +3391,7 @@
   },
   {
     "id": "sprite-318",
-    "spriteNum": 318,
+    "asset": "sprite.pal.318",
     "label": "原精灵 318",
     "layout": {
       "kind": "directional",
@@ -3400,7 +3400,7 @@
   },
   {
     "id": "sprite-415",
-    "spriteNum": 415,
+    "asset": "sprite.pal.415",
     "label": "原精灵 415",
     "layout": {
       "kind": "static"
@@ -3408,7 +3408,7 @@
   },
   {
     "id": "sprite-354",
-    "spriteNum": 354,
+    "asset": "sprite.pal.354",
     "label": "原精灵 354",
     "layout": {
       "kind": "directional",
@@ -3417,7 +3417,7 @@
   },
   {
     "id": "sprite-114",
-    "spriteNum": 114,
+    "asset": "sprite.pal.114",
     "label": "原精灵 114",
     "layout": {
       "kind": "directional",
@@ -3426,7 +3426,7 @@
   },
   {
     "id": "sprite-27",
-    "spriteNum": 27,
+    "asset": "sprite.pal.027",
     "label": "原精灵 27",
     "layout": {
       "kind": "directional",
@@ -3435,7 +3435,7 @@
   },
   {
     "id": "sprite-480",
-    "spriteNum": 480,
+    "asset": "sprite.pal.480",
     "label": "原精灵 480",
     "layout": {
       "kind": "static"
@@ -3443,7 +3443,7 @@
   },
   {
     "id": "sprite-487",
-    "spriteNum": 487,
+    "asset": "sprite.pal.487",
     "label": "原精灵 487",
     "layout": {
       "kind": "static"
@@ -3451,7 +3451,7 @@
   },
   {
     "id": "sprite-481",
-    "spriteNum": 481,
+    "asset": "sprite.pal.481",
     "label": "原精灵 481",
     "layout": {
       "kind": "static"
@@ -3459,7 +3459,7 @@
   },
   {
     "id": "sprite-488",
-    "spriteNum": 488,
+    "asset": "sprite.pal.488",
     "label": "原精灵 488",
     "layout": {
       "kind": "directional",
@@ -3468,7 +3468,7 @@
   },
   {
     "id": "sprite-489",
-    "spriteNum": 489,
+    "asset": "sprite.pal.489",
     "label": "原精灵 489",
     "layout": {
       "kind": "static"
@@ -3476,7 +3476,7 @@
   },
   {
     "id": "sprite-80",
-    "spriteNum": 80,
+    "asset": "sprite.pal.080",
     "label": "原精灵 80",
     "layout": {
       "kind": "directional",
@@ -3485,7 +3485,7 @@
   },
   {
     "id": "sprite-524",
-    "spriteNum": 524,
+    "asset": "sprite.pal.524",
     "label": "原精灵 524",
     "layout": {
       "kind": "static"
@@ -3493,7 +3493,7 @@
   },
   {
     "id": "sprite-532",
-    "spriteNum": 532,
+    "asset": "sprite.pal.532",
     "label": "原精灵 532(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3502,7 +3502,7 @@
   },
   {
     "id": "sprite-534",
-    "spriteNum": 534,
+    "asset": "sprite.pal.534",
     "label": "原精灵 534(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3511,7 +3511,7 @@
   },
   {
     "id": "sprite-533",
-    "spriteNum": 533,
+    "asset": "sprite.pal.533",
     "label": "原精灵 533(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3520,7 +3520,7 @@
   },
   {
     "id": "sprite-500",
-    "spriteNum": 500,
+    "asset": "sprite.pal.500",
     "label": "原精灵 500",
     "layout": {
       "kind": "static"
@@ -3528,7 +3528,7 @@
   },
   {
     "id": "sprite-484",
-    "spriteNum": 484,
+    "asset": "sprite.pal.484",
     "label": "原精灵 484",
     "layout": {
       "kind": "static"
@@ -3536,7 +3536,7 @@
   },
   {
     "id": "sprite-505",
-    "spriteNum": 505,
+    "asset": "sprite.pal.505",
     "label": "原精灵 505",
     "layout": {
       "kind": "static"
@@ -3544,7 +3544,7 @@
   },
   {
     "id": "sprite-109",
-    "spriteNum": 109,
+    "asset": "sprite.pal.109",
     "label": "原精灵 109",
     "layout": {
       "kind": "static"
@@ -3552,7 +3552,7 @@
   },
   {
     "id": "sprite-25",
-    "spriteNum": 25,
+    "asset": "sprite.pal.025",
     "label": "原精灵 25",
     "layout": {
       "kind": "directional",
@@ -3561,7 +3561,7 @@
   },
   {
     "id": "sprite-464",
-    "spriteNum": 464,
+    "asset": "sprite.pal.464",
     "label": "原精灵 464",
     "layout": {
       "kind": "static"
@@ -3569,7 +3569,7 @@
   },
   {
     "id": "sprite-470",
-    "spriteNum": 470,
+    "asset": "sprite.pal.470",
     "label": "原精灵 470",
     "layout": {
       "kind": "directional",
@@ -3578,7 +3578,7 @@
   },
   {
     "id": "sprite-491",
-    "spriteNum": 491,
+    "asset": "sprite.pal.491",
     "label": "原精灵 491",
     "layout": {
       "kind": "static"
@@ -3586,7 +3586,7 @@
   },
   {
     "id": "sprite-12",
-    "spriteNum": 12,
+    "asset": "sprite.pal.012",
     "label": "原精灵 12",
     "layout": {
       "kind": "directional",
@@ -3595,7 +3595,7 @@
   },
   {
     "id": "sprite-506",
-    "spriteNum": 506,
+    "asset": "sprite.pal.506",
     "label": "原精灵 506",
     "layout": {
       "kind": "static"
@@ -3603,7 +3603,7 @@
   },
   {
     "id": "sprite-495",
-    "spriteNum": 495,
+    "asset": "sprite.pal.495",
     "label": "原精灵 495",
     "layout": {
       "kind": "directional",
@@ -3612,7 +3612,7 @@
   },
   {
     "id": "sprite-460",
-    "spriteNum": 460,
+    "asset": "sprite.pal.460",
     "label": "原精灵 460",
     "layout": {
       "kind": "static"
@@ -3620,7 +3620,7 @@
   },
   {
     "id": "sprite-494",
-    "spriteNum": 494,
+    "asset": "sprite.pal.494",
     "label": "原精灵 494",
     "layout": {
       "kind": "directional",
@@ -3629,7 +3629,7 @@
   },
   {
     "id": "sprite-492",
-    "spriteNum": 492,
+    "asset": "sprite.pal.492",
     "label": "原精灵 492",
     "layout": {
       "kind": "directional",
@@ -3638,7 +3638,7 @@
   },
   {
     "id": "sprite-358",
-    "spriteNum": 358,
+    "asset": "sprite.pal.358",
     "label": "原精灵 358",
     "layout": {
       "kind": "directional",
@@ -3647,7 +3647,7 @@
   },
   {
     "id": "sprite-620",
-    "spriteNum": 620,
+    "asset": "sprite.pal.620",
     "label": "原精灵 620",
     "layout": {
       "kind": "directional",
@@ -3656,7 +3656,7 @@
   },
   {
     "id": "sprite-621",
-    "spriteNum": 621,
+    "asset": "sprite.pal.621",
     "label": "原精灵 621",
     "layout": {
       "kind": "directional",
@@ -3665,7 +3665,7 @@
   },
   {
     "id": "sprite-512",
-    "spriteNum": 512,
+    "asset": "sprite.pal.512",
     "label": "原精灵 512",
     "layout": {
       "kind": "directional",
@@ -3674,7 +3674,7 @@
   },
   {
     "id": "sprite-504",
-    "spriteNum": 504,
+    "asset": "sprite.pal.504",
     "label": "原精灵 504",
     "layout": {
       "kind": "static"
@@ -3682,7 +3682,7 @@
   },
   {
     "id": "sprite-490",
-    "spriteNum": 490,
+    "asset": "sprite.pal.490",
     "label": "原精灵 490",
     "layout": {
       "kind": "static"
@@ -3690,7 +3690,7 @@
   },
   {
     "id": "sprite-623",
-    "spriteNum": 623,
+    "asset": "sprite.pal.623",
     "label": "原精灵 623",
     "layout": {
       "kind": "directional",
@@ -3699,7 +3699,7 @@
   },
   {
     "id": "sprite-624",
-    "spriteNum": 624,
+    "asset": "sprite.pal.624",
     "label": "原精灵 624",
     "layout": {
       "kind": "directional",
@@ -3708,7 +3708,7 @@
   },
   {
     "id": "sprite-18-f0",
-    "spriteNum": 18,
+    "asset": "sprite.pal.018",
     "label": "原精灵 18",
     "layout": {
       "kind": "static"
@@ -3716,7 +3716,7 @@
   },
   {
     "id": "sprite-365-f0",
-    "spriteNum": 365,
+    "asset": "sprite.pal.365",
     "label": "原精灵 365",
     "layout": {
       "kind": "static"
@@ -3724,7 +3724,7 @@
   },
   {
     "id": "sprite-523",
-    "spriteNum": 523,
+    "asset": "sprite.pal.523",
     "label": "原精灵 523",
     "layout": {
       "kind": "static"
@@ -3732,7 +3732,7 @@
   },
   {
     "id": "sprite-608",
-    "spriteNum": 608,
+    "asset": "sprite.pal.608",
     "label": "原精灵 608",
     "layout": {
       "kind": "static"
@@ -3740,7 +3740,7 @@
   },
   {
     "id": "sprite-5",
-    "spriteNum": 5,
+    "asset": "sprite.pal.005",
     "label": "原精灵 5",
     "layout": {
       "kind": "directional",
@@ -3749,7 +3749,7 @@
   },
   {
     "id": "sprite-552",
-    "spriteNum": 552,
+    "asset": "sprite.pal.552",
     "label": "原精灵 552",
     "layout": {
       "kind": "directional",
@@ -3758,7 +3758,7 @@
   },
   {
     "id": "sprite-609",
-    "spriteNum": 609,
+    "asset": "sprite.pal.609",
     "label": "原精灵 609",
     "layout": {
       "kind": "directional",
@@ -3767,7 +3767,7 @@
   },
   {
     "id": "sprite-515",
-    "spriteNum": 515,
+    "asset": "sprite.pal.515",
     "label": "原精灵 515",
     "layout": {
       "kind": "static"
@@ -3775,7 +3775,7 @@
   },
   {
     "id": "sprite-551",
-    "spriteNum": 551,
+    "asset": "sprite.pal.551",
     "label": "原精灵 551",
     "layout": {
       "kind": "static"
@@ -3783,7 +3783,7 @@
   },
   {
     "id": "sprite-550",
-    "spriteNum": 550,
+    "asset": "sprite.pal.550",
     "label": "原精灵 550(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3792,7 +3792,7 @@
   },
   {
     "id": "sprite-516",
-    "spriteNum": 516,
+    "asset": "sprite.pal.516",
     "label": "原精灵 516",
     "layout": {
       "kind": "static"
@@ -3800,7 +3800,7 @@
   },
   {
     "id": "sprite-539",
-    "spriteNum": 539,
+    "asset": "sprite.pal.539",
     "label": "原精灵 539",
     "layout": {
       "kind": "static"
@@ -3808,7 +3808,7 @@
   },
   {
     "id": "sprite-399",
-    "spriteNum": 399,
+    "asset": "sprite.pal.399",
     "label": "原精灵 399",
     "layout": {
       "kind": "directional",
@@ -3817,7 +3817,7 @@
   },
   {
     "id": "sprite-538",
-    "spriteNum": 538,
+    "asset": "sprite.pal.538",
     "label": "原精灵 538(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3826,7 +3826,7 @@
   },
   {
     "id": "sprite-152",
-    "spriteNum": 152,
+    "asset": "sprite.pal.152",
     "label": "原精灵 152",
     "layout": {
       "kind": "directional",
@@ -3835,7 +3835,7 @@
   },
   {
     "id": "sprite-22",
-    "spriteNum": 22,
+    "asset": "sprite.pal.022",
     "label": "原精灵 22",
     "layout": {
       "kind": "directional",
@@ -3844,7 +3844,7 @@
   },
   {
     "id": "sprite-116",
-    "spriteNum": 116,
+    "asset": "sprite.pal.116",
     "label": "原精灵 116",
     "layout": {
       "kind": "directional",
@@ -3853,7 +3853,7 @@
   },
   {
     "id": "sprite-118",
-    "spriteNum": 118,
+    "asset": "sprite.pal.118",
     "label": "原精灵 118",
     "layout": {
       "kind": "directional",
@@ -3862,7 +3862,7 @@
   },
   {
     "id": "sprite-70",
-    "spriteNum": 70,
+    "asset": "sprite.pal.070",
     "label": "原精灵 70",
     "layout": {
       "kind": "static"
@@ -3870,7 +3870,7 @@
   },
   {
     "id": "sprite-519",
-    "spriteNum": 519,
+    "asset": "sprite.pal.519",
     "label": "原精灵 519",
     "layout": {
       "kind": "static"
@@ -3878,7 +3878,7 @@
   },
   {
     "id": "sprite-592",
-    "spriteNum": 592,
+    "asset": "sprite.pal.592",
     "label": "原精灵 592",
     "layout": {
       "kind": "static"
@@ -3886,7 +3886,7 @@
   },
   {
     "id": "sprite-473-f1",
-    "spriteNum": 473,
+    "asset": "sprite.pal.473",
     "label": "原精灵 473",
     "layout": {
       "kind": "directional",
@@ -3895,7 +3895,7 @@
   },
   {
     "id": "sprite-108",
-    "spriteNum": 108,
+    "asset": "sprite.pal.108",
     "label": "原精灵 108",
     "layout": {
       "kind": "directional",
@@ -3904,7 +3904,7 @@
   },
   {
     "id": "sprite-596",
-    "spriteNum": 596,
+    "asset": "sprite.pal.596",
     "label": "原精灵 596",
     "layout": {
       "kind": "directional",
@@ -3913,7 +3913,7 @@
   },
   {
     "id": "sprite-540",
-    "spriteNum": 540,
+    "asset": "sprite.pal.540",
     "label": "原精灵 540",
     "layout": {
       "kind": "static"
@@ -3921,7 +3921,7 @@
   },
   {
     "id": "sprite-518",
-    "spriteNum": 518,
+    "asset": "sprite.pal.518",
     "label": "原精灵 518",
     "layout": {
       "kind": "static"
@@ -3929,7 +3929,7 @@
   },
   {
     "id": "sprite-517",
-    "spriteNum": 517,
+    "asset": "sprite.pal.517",
     "label": "原精灵 517",
     "layout": {
       "kind": "static"
@@ -3937,7 +3937,7 @@
   },
   {
     "id": "sprite-448",
-    "spriteNum": 448,
+    "asset": "sprite.pal.448",
     "label": "原精灵 448",
     "layout": {
       "kind": "static"
@@ -3945,7 +3945,7 @@
   },
   {
     "id": "sprite-522",
-    "spriteNum": 522,
+    "asset": "sprite.pal.522",
     "label": "原精灵 522",
     "layout": {
       "kind": "static"
@@ -3953,7 +3953,7 @@
   },
   {
     "id": "sprite-520",
-    "spriteNum": 520,
+    "asset": "sprite.pal.520",
     "label": "原精灵 520",
     "layout": {
       "kind": "static"
@@ -3961,7 +3961,7 @@
   },
   {
     "id": "sprite-447",
-    "spriteNum": 447,
+    "asset": "sprite.pal.447",
     "label": "原精灵 447",
     "layout": {
       "kind": "static"
@@ -3969,7 +3969,7 @@
   },
   {
     "id": "sprite-61",
-    "spriteNum": 61,
+    "asset": "sprite.pal.061",
     "label": "原精灵 61",
     "layout": {
       "kind": "directional",
@@ -3978,7 +3978,7 @@
   },
   {
     "id": "sprite-514",
-    "spriteNum": 514,
+    "asset": "sprite.pal.514",
     "label": "原精灵 514",
     "layout": {
       "kind": "directional",
@@ -3987,7 +3987,7 @@
   },
   {
     "id": "sprite-521",
-    "spriteNum": 521,
+    "asset": "sprite.pal.521",
     "label": "原精灵 521(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -3996,7 +3996,7 @@
   },
   {
     "id": "sprite-541",
-    "spriteNum": 541,
+    "asset": "sprite.pal.541",
     "label": "原精灵 541(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4005,7 +4005,7 @@
   },
   {
     "id": "sprite-501",
-    "spriteNum": 501,
+    "asset": "sprite.pal.501",
     "label": "原精灵 501",
     "layout": {
       "kind": "static"
@@ -4013,7 +4013,7 @@
   },
   {
     "id": "sprite-242-f0",
-    "spriteNum": 242,
+    "asset": "sprite.pal.242",
     "label": "原精灵 242",
     "layout": {
       "kind": "static"
@@ -4021,7 +4021,7 @@
   },
   {
     "id": "sprite-228-f0",
-    "spriteNum": 228,
+    "asset": "sprite.pal.228",
     "label": "原精灵 228",
     "layout": {
       "kind": "static"
@@ -4029,7 +4029,7 @@
   },
   {
     "id": "sprite-379-f0",
-    "spriteNum": 379,
+    "asset": "sprite.pal.379",
     "label": "原精灵 379",
     "layout": {
       "kind": "static"
@@ -4037,7 +4037,7 @@
   },
   {
     "id": "sprite-511",
-    "spriteNum": 511,
+    "asset": "sprite.pal.511",
     "label": "原精灵 511",
     "layout": {
       "kind": "static"
@@ -4045,7 +4045,7 @@
   },
   {
     "id": "sprite-590",
-    "spriteNum": 590,
+    "asset": "sprite.pal.590",
     "label": "原精灵 590",
     "layout": {
       "kind": "static"
@@ -4053,7 +4053,7 @@
   },
   {
     "id": "sprite-478",
-    "spriteNum": 478,
+    "asset": "sprite.pal.478",
     "label": "原精灵 478",
     "layout": {
       "kind": "static"
@@ -4061,7 +4061,7 @@
   },
   {
     "id": "sprite-636",
-    "spriteNum": 636,
+    "asset": "sprite.pal.636",
     "label": "原精灵 636",
     "layout": {
       "kind": "static"
@@ -4069,7 +4069,7 @@
   },
   {
     "id": "sprite-471",
-    "spriteNum": 471,
+    "asset": "sprite.pal.471",
     "label": "原精灵 471",
     "layout": {
       "kind": "directional",
@@ -4078,7 +4078,7 @@
   },
   {
     "id": "sprite-206",
-    "spriteNum": 206,
+    "asset": "sprite.pal.206",
     "label": "原精灵 206",
     "layout": {
       "kind": "directional",
@@ -4087,7 +4087,7 @@
   },
   {
     "id": "sprite-205",
-    "spriteNum": 205,
+    "asset": "sprite.pal.205",
     "label": "原精灵 205",
     "layout": {
       "kind": "directional",
@@ -4096,7 +4096,7 @@
   },
   {
     "id": "sprite-427",
-    "spriteNum": 427,
+    "asset": "sprite.pal.427",
     "label": "原精灵 427",
     "layout": {
       "kind": "static"
@@ -4104,7 +4104,7 @@
   },
   {
     "id": "sprite-426",
-    "spriteNum": 426,
+    "asset": "sprite.pal.426",
     "label": "原精灵 426",
     "layout": {
       "kind": "static"
@@ -4112,7 +4112,7 @@
   },
   {
     "id": "sprite-529",
-    "spriteNum": 529,
+    "asset": "sprite.pal.529",
     "label": "原精灵 529",
     "layout": {
       "kind": "static"
@@ -4120,7 +4120,7 @@
   },
   {
     "id": "sprite-530",
-    "spriteNum": 530,
+    "asset": "sprite.pal.530",
     "label": "原精灵 530",
     "layout": {
       "kind": "static"
@@ -4128,7 +4128,7 @@
   },
   {
     "id": "sprite-24",
-    "spriteNum": 24,
+    "asset": "sprite.pal.024",
     "label": "原精灵 24",
     "layout": {
       "kind": "directional",
@@ -4137,7 +4137,7 @@
   },
   {
     "id": "sprite-412",
-    "spriteNum": 412,
+    "asset": "sprite.pal.412",
     "label": "原精灵 412",
     "layout": {
       "kind": "directional",
@@ -4146,7 +4146,7 @@
   },
   {
     "id": "sprite-217",
-    "spriteNum": 217,
+    "asset": "sprite.pal.217",
     "label": "原精灵 217",
     "layout": {
       "kind": "directional",
@@ -4155,7 +4155,7 @@
   },
   {
     "id": "sprite-219",
-    "spriteNum": 219,
+    "asset": "sprite.pal.219",
     "label": "原精灵 219",
     "layout": {
       "kind": "directional",
@@ -4164,7 +4164,7 @@
   },
   {
     "id": "sprite-369-f0",
-    "spriteNum": 369,
+    "asset": "sprite.pal.369",
     "label": "原精灵 369",
     "layout": {
       "kind": "static"
@@ -4172,7 +4172,7 @@
   },
   {
     "id": "sprite-513",
-    "spriteNum": 513,
+    "asset": "sprite.pal.513",
     "label": "原精灵 513",
     "layout": {
       "kind": "static"
@@ -4180,7 +4180,7 @@
   },
   {
     "id": "sprite-78",
-    "spriteNum": 78,
+    "asset": "sprite.pal.078",
     "label": "原精灵 78",
     "layout": {
       "kind": "static"
@@ -4188,7 +4188,7 @@
   },
   {
     "id": "sprite-77",
-    "spriteNum": 77,
+    "asset": "sprite.pal.077",
     "label": "原精灵 77",
     "layout": {
       "kind": "static"
@@ -4196,7 +4196,7 @@
   },
   {
     "id": "sprite-633",
-    "spriteNum": 633,
+    "asset": "sprite.pal.633",
     "label": "原精灵 633",
     "layout": {
       "kind": "static"
@@ -4204,7 +4204,7 @@
   },
   {
     "id": "sprite-38",
-    "spriteNum": 38,
+    "asset": "sprite.pal.038",
     "label": "原精灵 38",
     "layout": {
       "kind": "directional",
@@ -4213,7 +4213,7 @@
   },
   {
     "id": "sprite-603",
-    "spriteNum": 603,
+    "asset": "sprite.pal.603",
     "label": "原精灵 603",
     "layout": {
       "kind": "static"
@@ -4221,7 +4221,7 @@
   },
   {
     "id": "sprite-546",
-    "spriteNum": 546,
+    "asset": "sprite.pal.546",
     "label": "原精灵 546",
     "layout": {
       "kind": "static"
@@ -4229,7 +4229,7 @@
   },
   {
     "id": "sprite-594",
-    "spriteNum": 594,
+    "asset": "sprite.pal.594",
     "label": "原精灵 594",
     "layout": {
       "kind": "static"
@@ -4237,7 +4237,7 @@
   },
   {
     "id": "sprite-598",
-    "spriteNum": 598,
+    "asset": "sprite.pal.598",
     "label": "原精灵 598",
     "layout": {
       "kind": "static"
@@ -4245,7 +4245,7 @@
   },
   {
     "id": "sprite-593",
-    "spriteNum": 593,
+    "asset": "sprite.pal.593",
     "label": "原精灵 593",
     "layout": {
       "kind": "static"
@@ -4253,7 +4253,7 @@
   },
   {
     "id": "sprite-597",
-    "spriteNum": 597,
+    "asset": "sprite.pal.597",
     "label": "原精灵 597",
     "layout": {
       "kind": "static"
@@ -4261,7 +4261,7 @@
   },
   {
     "id": "sprite-567",
-    "spriteNum": 567,
+    "asset": "sprite.pal.567",
     "label": "原精灵 567",
     "layout": {
       "kind": "static"
@@ -4269,7 +4269,7 @@
   },
   {
     "id": "sprite-600",
-    "spriteNum": 600,
+    "asset": "sprite.pal.600",
     "label": "原精灵 600",
     "layout": {
       "kind": "static"
@@ -4277,7 +4277,7 @@
   },
   {
     "id": "sprite-599",
-    "spriteNum": 599,
+    "asset": "sprite.pal.599",
     "label": "原精灵 599",
     "layout": {
       "kind": "static"
@@ -4285,7 +4285,7 @@
   },
   {
     "id": "sprite-566",
-    "spriteNum": 566,
+    "asset": "sprite.pal.566",
     "label": "原精灵 566",
     "layout": {
       "kind": "static"
@@ -4293,7 +4293,7 @@
   },
   {
     "id": "sprite-544",
-    "spriteNum": 544,
+    "asset": "sprite.pal.544",
     "label": "原精灵 544",
     "layout": {
       "kind": "directional",
@@ -4302,7 +4302,7 @@
   },
   {
     "id": "sprite-610",
-    "spriteNum": 610,
+    "asset": "sprite.pal.610",
     "label": "原精灵 610",
     "layout": {
       "kind": "static"
@@ -4310,7 +4310,7 @@
   },
   {
     "id": "sprite-606",
-    "spriteNum": 606,
+    "asset": "sprite.pal.606",
     "label": "原精灵 606",
     "layout": {
       "kind": "static"
@@ -4318,7 +4318,7 @@
   },
   {
     "id": "sprite-605",
-    "spriteNum": 605,
+    "asset": "sprite.pal.605",
     "label": "原精灵 605",
     "layout": {
       "kind": "static"
@@ -4326,7 +4326,7 @@
   },
   {
     "id": "sprite-486",
-    "spriteNum": 486,
+    "asset": "sprite.pal.486",
     "label": "原精灵 486",
     "layout": {
       "kind": "static"
@@ -4334,7 +4334,7 @@
   },
   {
     "id": "sprite-513-f1",
-    "spriteNum": 513,
+    "asset": "sprite.pal.513",
     "label": "原精灵 513",
     "layout": {
       "kind": "directional",
@@ -4343,7 +4343,7 @@
   },
   {
     "id": "sprite-547",
-    "spriteNum": 547,
+    "asset": "sprite.pal.547",
     "label": "原精灵 547",
     "layout": {
       "kind": "static"
@@ -4351,7 +4351,7 @@
   },
   {
     "id": "sprite-579",
-    "spriteNum": 579,
+    "asset": "sprite.pal.579",
     "label": "原精灵 579",
     "layout": {
       "kind": "static"
@@ -4359,7 +4359,7 @@
   },
   {
     "id": "sprite-577",
-    "spriteNum": 577,
+    "asset": "sprite.pal.577",
     "label": "原精灵 577",
     "layout": {
       "kind": "static"
@@ -4367,7 +4367,7 @@
   },
   {
     "id": "sprite-581",
-    "spriteNum": 581,
+    "asset": "sprite.pal.581",
     "label": "原精灵 581",
     "layout": {
       "kind": "static"
@@ -4375,7 +4375,7 @@
   },
   {
     "id": "sprite-604",
-    "spriteNum": 604,
+    "asset": "sprite.pal.604",
     "label": "原精灵 604",
     "layout": {
       "kind": "static"
@@ -4383,7 +4383,7 @@
   },
   {
     "id": "sprite-562",
-    "spriteNum": 562,
+    "asset": "sprite.pal.562",
     "label": "原精灵 562",
     "layout": {
       "kind": "directional",
@@ -4392,7 +4392,7 @@
   },
   {
     "id": "sprite-570",
-    "spriteNum": 570,
+    "asset": "sprite.pal.570",
     "label": "原精灵 570",
     "layout": {
       "kind": "static"
@@ -4400,7 +4400,7 @@
   },
   {
     "id": "sprite-569",
-    "spriteNum": 569,
+    "asset": "sprite.pal.569",
     "label": "原精灵 569",
     "layout": {
       "kind": "static"
@@ -4408,7 +4408,7 @@
   },
   {
     "id": "sprite-563",
-    "spriteNum": 563,
+    "asset": "sprite.pal.563",
     "label": "原精灵 563(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4417,7 +4417,7 @@
   },
   {
     "id": "sprite-528",
-    "spriteNum": 528,
+    "asset": "sprite.pal.528",
     "label": "原精灵 528",
     "layout": {
       "kind": "directional",
@@ -4426,7 +4426,7 @@
   },
   {
     "id": "sprite-573",
-    "spriteNum": 573,
+    "asset": "sprite.pal.573",
     "label": "原精灵 573",
     "layout": {
       "kind": "static"
@@ -4434,7 +4434,7 @@
   },
   {
     "id": "sprite-574",
-    "spriteNum": 574,
+    "asset": "sprite.pal.574",
     "label": "原精灵 574",
     "layout": {
       "kind": "static"
@@ -4442,7 +4442,7 @@
   },
   {
     "id": "sprite-575",
-    "spriteNum": 575,
+    "asset": "sprite.pal.575",
     "label": "原精灵 575",
     "layout": {
       "kind": "directional",
@@ -4451,7 +4451,7 @@
   },
   {
     "id": "sprite-28",
-    "spriteNum": 28,
+    "asset": "sprite.pal.028",
     "label": "原精灵 28",
     "layout": {
       "kind": "directional",
@@ -4460,7 +4460,7 @@
   },
   {
     "id": "sprite-545",
-    "spriteNum": 545,
+    "asset": "sprite.pal.545",
     "label": "原精灵 545",
     "layout": {
       "kind": "directional",
@@ -4469,7 +4469,7 @@
   },
   {
     "id": "sprite-613",
-    "spriteNum": 613,
+    "asset": "sprite.pal.613",
     "label": "原精灵 613",
     "layout": {
       "kind": "static"
@@ -4477,7 +4477,7 @@
   },
   {
     "id": "sprite-582",
-    "spriteNum": 582,
+    "asset": "sprite.pal.582",
     "label": "原精灵 582",
     "layout": {
       "kind": "static"
@@ -4485,7 +4485,7 @@
   },
   {
     "id": "sprite-584",
-    "spriteNum": 584,
+    "asset": "sprite.pal.584",
     "label": "原精灵 584",
     "layout": {
       "kind": "static"
@@ -4493,7 +4493,7 @@
   },
   {
     "id": "sprite-585",
-    "spriteNum": 585,
+    "asset": "sprite.pal.585",
     "label": "原精灵 585",
     "layout": {
       "kind": "static"
@@ -4501,7 +4501,7 @@
   },
   {
     "id": "sprite-586",
-    "spriteNum": 586,
+    "asset": "sprite.pal.586",
     "label": "原精灵 586",
     "layout": {
       "kind": "static"
@@ -4509,7 +4509,7 @@
   },
   {
     "id": "sprite-583",
-    "spriteNum": 583,
+    "asset": "sprite.pal.583",
     "label": "原精灵 583",
     "layout": {
       "kind": "static"
@@ -4517,7 +4517,7 @@
   },
   {
     "id": "sprite-531",
-    "spriteNum": 531,
+    "asset": "sprite.pal.531",
     "label": "原精灵 531(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4526,7 +4526,7 @@
   },
   {
     "id": "sprite-576",
-    "spriteNum": 576,
+    "asset": "sprite.pal.576",
     "label": "原精灵 576(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4535,7 +4535,7 @@
   },
   {
     "id": "sprite-564",
-    "spriteNum": 564,
+    "asset": "sprite.pal.564",
     "label": "原精灵 564",
     "layout": {
       "kind": "directional",
@@ -4544,7 +4544,7 @@
   },
   {
     "id": "sprite-568",
-    "spriteNum": 568,
+    "asset": "sprite.pal.568",
     "label": "原精灵 568",
     "layout": {
       "kind": "static"
@@ -4552,7 +4552,7 @@
   },
   {
     "id": "sprite-611",
-    "spriteNum": 611,
+    "asset": "sprite.pal.611",
     "label": "原精灵 611",
     "layout": {
       "kind": "directional",
@@ -4561,7 +4561,7 @@
   },
   {
     "id": "sprite-203",
-    "spriteNum": 203,
+    "asset": "sprite.pal.203",
     "label": "原精灵 203",
     "layout": {
       "kind": "directional",
@@ -4570,7 +4570,7 @@
   },
   {
     "id": "sprite-202",
-    "spriteNum": 202,
+    "asset": "sprite.pal.202",
     "label": "原精灵 202",
     "layout": {
       "kind": "directional",
@@ -4579,7 +4579,7 @@
   },
   {
     "id": "sprite-204",
-    "spriteNum": 204,
+    "asset": "sprite.pal.204",
     "label": "原精灵 204",
     "layout": {
       "kind": "directional",
@@ -4588,7 +4588,7 @@
   },
   {
     "id": "sprite-201",
-    "spriteNum": 201,
+    "asset": "sprite.pal.201",
     "label": "原精灵 201",
     "layout": {
       "kind": "directional",
@@ -4597,7 +4597,7 @@
   },
   {
     "id": "sprite-200",
-    "spriteNum": 200,
+    "asset": "sprite.pal.200",
     "label": "原精灵 200",
     "layout": {
       "kind": "directional",
@@ -4606,7 +4606,7 @@
   },
   {
     "id": "sprite-216",
-    "spriteNum": 216,
+    "asset": "sprite.pal.216",
     "label": "原精灵 216",
     "layout": {
       "kind": "directional",
@@ -4615,7 +4615,7 @@
   },
   {
     "id": "sprite-218",
-    "spriteNum": 218,
+    "asset": "sprite.pal.218",
     "label": "原精灵 218",
     "layout": {
       "kind": "directional",
@@ -4624,7 +4624,7 @@
   },
   {
     "id": "sprite-578",
-    "spriteNum": 578,
+    "asset": "sprite.pal.578",
     "label": "原精灵 578",
     "layout": {
       "kind": "static"
@@ -4632,7 +4632,7 @@
   },
   {
     "id": "sprite-580",
-    "spriteNum": 580,
+    "asset": "sprite.pal.580",
     "label": "原精灵 580",
     "layout": {
       "kind": "static"
@@ -4640,7 +4640,7 @@
   },
   {
     "id": "sprite-554",
-    "spriteNum": 554,
+    "asset": "sprite.pal.554",
     "label": "原精灵 554",
     "layout": {
       "kind": "directional",
@@ -4649,7 +4649,7 @@
   },
   {
     "id": "sprite-557",
-    "spriteNum": 557,
+    "asset": "sprite.pal.557",
     "label": "原精灵 557",
     "layout": {
       "kind": "static"
@@ -4657,7 +4657,7 @@
   },
   {
     "id": "sprite-561",
-    "spriteNum": 561,
+    "asset": "sprite.pal.561",
     "label": "原精灵 561",
     "layout": {
       "kind": "static"
@@ -4665,7 +4665,7 @@
   },
   {
     "id": "sprite-555",
-    "spriteNum": 555,
+    "asset": "sprite.pal.555",
     "label": "原精灵 555",
     "layout": {
       "kind": "static"
@@ -4673,7 +4673,7 @@
   },
   {
     "id": "sprite-560",
-    "spriteNum": 560,
+    "asset": "sprite.pal.560",
     "label": "原精灵 560",
     "layout": {
       "kind": "static"
@@ -4681,7 +4681,7 @@
   },
   {
     "id": "sprite-558",
-    "spriteNum": 558,
+    "asset": "sprite.pal.558",
     "label": "原精灵 558",
     "layout": {
       "kind": "static"
@@ -4689,7 +4689,7 @@
   },
   {
     "id": "sprite-556",
-    "spriteNum": 556,
+    "asset": "sprite.pal.556",
     "label": "原精灵 556",
     "layout": {
       "kind": "static"
@@ -4697,7 +4697,7 @@
   },
   {
     "id": "sprite-559",
-    "spriteNum": 559,
+    "asset": "sprite.pal.559",
     "label": "原精灵 559",
     "layout": {
       "kind": "static"
@@ -4705,7 +4705,7 @@
   },
   {
     "id": "sprite-565",
-    "spriteNum": 565,
+    "asset": "sprite.pal.565",
     "label": "原精灵 565",
     "layout": {
       "kind": "static"
@@ -4713,7 +4713,7 @@
   },
   {
     "id": "sprite-479",
-    "spriteNum": 479,
+    "asset": "sprite.pal.479",
     "label": "原精灵 479",
     "layout": {
       "kind": "static"
@@ -4721,7 +4721,7 @@
   },
   {
     "id": "sprite-477",
-    "spriteNum": 477,
+    "asset": "sprite.pal.477",
     "label": "原精灵 477",
     "layout": {
       "kind": "static"
@@ -4729,7 +4729,7 @@
   },
   {
     "id": "sprite-482",
-    "spriteNum": 482,
+    "asset": "sprite.pal.482",
     "label": "原精灵 482",
     "layout": {
       "kind": "static"
@@ -4737,7 +4737,7 @@
   },
   {
     "id": "sprite-615",
-    "spriteNum": 615,
+    "asset": "sprite.pal.615",
     "label": "原精灵 615",
     "layout": {
       "kind": "static"
@@ -4745,7 +4745,7 @@
   },
   {
     "id": "sprite-612",
-    "spriteNum": 612,
+    "asset": "sprite.pal.612",
     "label": "原精灵 612",
     "layout": {
       "kind": "static"
@@ -4753,7 +4753,7 @@
   },
   {
     "id": "sprite-535",
-    "spriteNum": 535,
+    "asset": "sprite.pal.535",
     "label": "原精灵 535",
     "layout": {
       "kind": "directional",
@@ -4762,7 +4762,7 @@
   },
   {
     "id": "sprite-541-f0",
-    "spriteNum": 541,
+    "asset": "sprite.pal.541",
     "label": "原精灵 541",
     "layout": {
       "kind": "static"
@@ -4770,7 +4770,7 @@
   },
   {
     "id": "sprite-537",
-    "spriteNum": 537,
+    "asset": "sprite.pal.537",
     "label": "原精灵 537",
     "layout": {
       "kind": "directional",
@@ -4779,7 +4779,7 @@
   },
   {
     "id": "sprite-588",
-    "spriteNum": 588,
+    "asset": "sprite.pal.588",
     "label": "原精灵 588",
     "layout": {
       "kind": "static"
@@ -4787,7 +4787,7 @@
   },
   {
     "id": "sprite-526",
-    "spriteNum": 526,
+    "asset": "sprite.pal.526",
     "label": "原精灵 526",
     "layout": {
       "kind": "directional",
@@ -4796,7 +4796,7 @@
   },
   {
     "id": "sprite-553",
-    "spriteNum": 553,
+    "asset": "sprite.pal.553",
     "label": "原精灵 553",
     "layout": {
       "kind": "directional",
@@ -4805,7 +4805,7 @@
   },
   {
     "id": "sprite-587",
-    "spriteNum": 587,
+    "asset": "sprite.pal.587",
     "label": "原精灵 587",
     "layout": {
       "kind": "static"
@@ -4813,7 +4813,7 @@
   },
   {
     "id": "sprite-527",
-    "spriteNum": 527,
+    "asset": "sprite.pal.527",
     "label": "原精灵 527",
     "layout": {
       "kind": "directional",
@@ -4822,7 +4822,7 @@
   },
   {
     "id": "sprite-536",
-    "spriteNum": 536,
+    "asset": "sprite.pal.536",
     "label": "原精灵 536",
     "layout": {
       "kind": "directional",
@@ -4831,7 +4831,7 @@
   },
   {
     "id": "sprite-589",
-    "spriteNum": 589,
+    "asset": "sprite.pal.589",
     "label": "原精灵 589",
     "layout": {
       "kind": "static"
@@ -4839,7 +4839,7 @@
   },
   {
     "id": "sprite-630",
-    "spriteNum": 630,
+    "asset": "sprite.pal.630",
     "label": "原精灵 630(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4848,7 +4848,7 @@
   },
   {
     "id": "sprite-631",
-    "spriteNum": 631,
+    "asset": "sprite.pal.631",
     "label": "原精灵 631(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4857,7 +4857,7 @@
   },
   {
     "id": "sprite-632",
-    "spriteNum": 632,
+    "asset": "sprite.pal.632",
     "label": "原精灵 632(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4866,7 +4866,7 @@
   },
   {
     "id": "sprite-629",
-    "spriteNum": 629,
+    "asset": "sprite.pal.629",
     "label": "原精灵 629",
     "layout": {
       "kind": "static"
@@ -4874,7 +4874,7 @@
   },
   {
     "id": "sprite-614",
-    "spriteNum": 614,
+    "asset": "sprite.pal.614",
     "label": "原精灵 614",
     "layout": {
       "kind": "static"
@@ -4882,7 +4882,7 @@
   },
   {
     "id": "sprite-236",
-    "spriteNum": 236,
+    "asset": "sprite.pal.236",
     "label": "原精灵 236(0x65 换装)",
     "layout": {
       "kind": "directional",
@@ -4891,7 +4891,7 @@
   },
   {
     "id": "sprite-607",
-    "spriteNum": 607,
+    "asset": "sprite.pal.607",
     "label": "原精灵 607(0x65 换装)",
     "layout": {
       "kind": "directional",

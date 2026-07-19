@@ -51,6 +51,7 @@ export type SpriteReferenceChannel =
   | 'entities'
   | 'setActorSprite'
   | 'setActorAppearance'
+  | 'setFollowers'
 
 export interface SpriteReferenceClosureReport {
   channels: Record<SpriteReferenceChannel, { total: number; migrated: number }>
@@ -84,6 +85,7 @@ export function auditSpriteReferenceClosure(
     entities: { total: 0, migrated: 0 },
     setActorSprite: { total: 0, migrated: 0 },
     setActorAppearance: { total: 0, migrated: 0 },
+    setFollowers: { total: 0, migrated: 0 },
   }
   const definitions = new Set<string>()
   const legacy: SpriteReferenceClosureReport['legacy'] = []
@@ -148,6 +150,15 @@ export function auditSpriteReferenceClosure(
         reference('setActorSprite', record.sprite, `${pointer}/sprite`)
       if (record.kind === 'setActorAppearance' && typeof record.spriteId === 'string')
         reference('setActorAppearance', record.spriteId, `${pointer}/spriteId`)
+      if (record.kind === 'setFollowers' && Array.isArray(record.sprites))
+        record.sprites.forEach((sprite, index) => {
+          const where = `${pointer}/sprites/${index}`
+          if (typeof sprite === 'string') reference('setFollowers', sprite, where)
+          else {
+            channels.setFollowers.total++
+            unresolved.push({ where, id: String(sprite), channel: 'setFollowers' })
+          }
+        })
       for (const [key, entry] of Object.entries(record))
         walkCommands(entry, `${pointer}/${pointerSegment(key)}`)
     }
@@ -356,7 +367,7 @@ export function validatePalMigrationTarget(args: {
   const skillData = validateSkills(required(files, 'content/skills.json'))
   const items = validateItems(required(files, 'content/items.json'))
   const locale = validateLocale(required(files, 'content/locale.json'))
-  const sprites = validateSprites(required(files, 'content/sprites.json'))
+  const sprites = validateSprites(required(files, 'content/sprites.json'), assetCatalog)
   const spriteReferences = assertSpriteReferenceClosure(files)
   const sceneEntryReferences = assertSceneEntryReferenceClosure(files)
   const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
@@ -415,29 +426,6 @@ export function validatePalMigrationTarget(args: {
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
   const battleFields = validateBattleFields(required(files, 'content/battle-fields.json'))
   const enemyTeams = required(files, 'content/enemy-teams.json') as unknown as EnemyTeamDef[]
-  const issues = validateReferences({
-    scenes,
-    actors,
-    skills: skillData.skills,
-    levelUp: skillData.levelUp as never,
-    items,
-    locale,
-    sprites,
-    startWorld,
-    enemies,
-    enemyTeams,
-    battleFields,
-    poisons: required(files, 'content/poisons.json') as never,
-    shops: required(files, 'content/shops.json') as never,
-    tilesets,
-    stamps,
-    mapIndex,
-  })
-  const referenceErrors = issues.filter((issue) => issue.severity === 'error')
-  if (referenceErrors.length)
-    throw new Error(
-      `跨引用门禁失败:\n${referenceErrors.map((issue) => `${issue.where}: ${issue.message}`).join('\n')}`,
-    )
   const missingDialogLocale = findMissingDialogLocaleRefs(files, locale)
   if (missingDialogLocale.length)
     throw new Error(`对话 locale 引用缺失: ${missingDialogLocale.slice(0, 50).join(', ')}`)
@@ -473,6 +461,31 @@ export function validatePalMigrationTarget(args: {
   )
   if (orphanChunk) throw new Error(`合并结果有孤儿脚本 chunk ${orphanChunk}`)
 
+  const issues = validateReferences({
+    scenes,
+    actors,
+    skills: skillData.skills,
+    levelUp: skillData.levelUp as never,
+    items,
+    locale,
+    sprites,
+    startWorld,
+    enemies,
+    enemyTeams,
+    battleFields,
+    poisons: required(files, 'content/poisons.json') as never,
+    shops: required(files, 'content/shops.json') as never,
+    tilesets,
+    stamps,
+    mapIndex,
+    scriptChunks: chunks,
+  })
+  const referenceErrors = issues.filter((issue) => issue.severity === 'error')
+  if (referenceErrors.length)
+    throw new Error(
+      `跨引用门禁失败:\n${referenceErrors.map((issue) => `${issue.where}: ${issue.message}`).join('\n')}`,
+    )
+
   const assetReferences = collectAssetReferences({
     assets: args.assets,
     entryPoints: args.entryPoints,
@@ -484,6 +497,7 @@ export function validatePalMigrationTarget(args: {
     skills: skillData.skills,
     battleFields,
     tilesets,
+    sprites,
   })
   const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')

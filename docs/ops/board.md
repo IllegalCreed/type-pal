@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| A7-3W | 大世界精灵索引资源闭包 | build | Codex 实现与自验证 | 三方设计 agree 已齐；R1-R3、G1-G4 全部纳入 build |
+| A7-3W | 大世界精灵索引资源闭包 | review | Kimi + GLM 最终审查 | Codex 自验 accept；等待两方把 accept/counter 写回任务卡 |
 
 ## 阻塞
 

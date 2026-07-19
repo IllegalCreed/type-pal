@@ -153,7 +153,7 @@ describe('DitherTransitionController', () => {
     expect(controller.active?.source).toBe('entry')
   })
 
-  test('独立站点走命令内 snapshot；cancel 清状态并兑现 Promise', async () => {
+  test('独立站点走命令内 snapshot；cancel 清状态并以 AbortError 收敛 Promise', async () => {
     const controller = new DitherTransitionController<string>()
     const snapshot = vi.fn(() => 'same-scene-frame')
     const done = controller.beginSnapshot(snapshot, 720)
@@ -162,7 +162,32 @@ describe('DitherTransitionController', () => {
     expect(snapshot).toHaveBeenCalledOnce()
 
     controller.cancel()
-    await done
+    await expect(done).rejects.toMatchObject({ name: 'AbortError' })
     expect(controller.active).toBeNull()
+  })
+
+  test('新请求接管时旧 owner 退出，新 effect 保持活动直至正常完成', async () => {
+    const controller = new DitherTransitionController<string>()
+    const first = controller.beginEntry('first', 100)
+    const second = controller.beginSnapshot(() => 'second', 100)
+
+    await expect(first).rejects.toMatchObject({ name: 'AbortError' })
+    expect(controller.active?.backup).toBe('second')
+    controller.finish()
+    await expect(second).resolves.toBeUndefined()
+  })
+
+  test('旧事务 cleanup 不能取消较新的 dither owner', async () => {
+    const controller = new DitherTransitionController<string>()
+    const oldOwner = {}
+    const newerOwner = {}
+    const old = controller.beginEntry('first', 100, oldOwner)
+    const newer = controller.beginSnapshot(() => 'second', 100, newerOwner)
+
+    await expect(old).rejects.toMatchObject({ name: 'AbortError' })
+    expect(controller.cancelOwned(oldOwner)).toBe(false)
+    expect(controller.active?.owner).toBe(newerOwner)
+    controller.finish()
+    await expect(newer).resolves.toBeUndefined()
   })
 })

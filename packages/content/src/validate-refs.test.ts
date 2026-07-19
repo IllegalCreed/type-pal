@@ -26,10 +26,15 @@ const base: ContentBundle = {
   items: [{ id: 'i1' } as never],
   locale: { 'dlg.talk.0': '…', 'name.hero': '主角' },
   sprites: [
-    { id: 'ghost', spriteNum: 16, label: 'g', layout: { kind: 'directional', framesPerDir: 3 } },
+    {
+      id: 'ghost',
+      asset: 'sprite.ghost',
+      label: 'g',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    },
     {
       id: 'hero-sprite',
-      spriteNum: 2,
+      asset: 'sprite.hero',
       label: 'h',
       layout: { kind: 'directional', framesPerDir: 3 },
     },
@@ -97,6 +102,78 @@ test('actor.spriteId 不在 sprites 注册表 → 报 error(C0)', () => {
       (i) => i.severity === 'error' && /spriteId/.test(i.where) && /no-sheet/.test(i.message),
     ),
   ).toBe(true)
+})
+test('嵌套场景/chunk 命令中的换装与 followers 共用 SpriteDef 语义闭包', () => {
+  const b = clone(base)
+  b.scenes[0]!.onEnter = [
+    {
+      body: [
+        {
+          kind: 'branch',
+          cond: { kind: 'flag', flag: 'x', is: true },
+          then: [
+            { kind: 'setActorSprite', actor: 'hero', sprite: 'missing-costume' },
+            { kind: 'setFollowers', sprites: ['missing-follower'] },
+          ],
+        },
+      ],
+    },
+  ]
+  b.scriptChunks = {
+    shared: {
+      version: 1,
+      id: 'shared',
+      scripts: {
+        appearance: [{ kind: 'setActorAppearance', actor: 'hero', spriteId: 'missing-appearance' }],
+      },
+    },
+  }
+  const errors = validateReferences(b).filter((issue) => issue.severity === 'error')
+  expect(errors.map((issue) => issue.message)).toEqual(
+    expect.arrayContaining([
+      expect.stringContaining('missing-costume'),
+      expect.stringContaining('missing-follower'),
+      expect.stringContaining('missing-appearance'),
+    ]),
+  )
+  expect(errors.some((issue) => issue.where.includes('scriptChunks'))).toBe(true)
+})
+test('可见存档 appearance/followers/sceneScriptOverrides 也进入删除与校验引用图', () => {
+  const b = clone(base)
+  b.worlds = [
+    {
+      party: [
+        {
+          id: 'hero',
+          template: 'hero',
+          appearance: { spriteId: 'missing-save-appearance' },
+        },
+      ],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+      script: {
+        flags: {},
+        vars: {},
+        entityState: {},
+        entityStage: {},
+        followers: ['missing-save-follower'],
+        sceneScriptOverrides: {
+          s001: {
+            onEnter: [
+              {
+                body: [{ kind: 'setFollowers', sprites: ['missing-save-override'] }],
+              },
+            ],
+          },
+        },
+      },
+    } as never,
+  ]
+  const errors = validateReferences(b).filter((issue) => issue.severity === 'error')
+  expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-appearance/)
+  expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-follower/)
+  expect(errors.map((issue) => issue.message).join('\n')).toMatch(/missing-save-override/)
 })
 test('actor.battler.initialEquipment 指向不存在物品 → 报 warn', () => {
   const b = clone(base)

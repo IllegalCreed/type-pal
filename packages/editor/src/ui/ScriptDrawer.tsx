@@ -468,7 +468,7 @@ const ICON: Record<ScriptSource['kind'], string> = {
   auto: '🔁',
 }
 
-/** 稳定空 stages 引用(无活动源时喂给预览;每渲染新 [] 会破 spriteNums memo)。 */
+/** 稳定空 stages 引用(无活动源时喂给预览;每渲染新 [] 会破精灵引用 memo)。 */
 const EMPTY_STAGES: readonly ScriptStage[] = []
 const DRAWER_DEFAULT_HEIGHT = 320
 const DRAWER_MIN_HEIGHT = 180
@@ -498,7 +498,6 @@ export function ScriptDrawer(props: {
   mapIndex: MapIndexV1
   /** tileset 注册表(W7B;转发大预览)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
   session: EditSession
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
@@ -531,7 +530,6 @@ export function ScriptDrawer(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
     session,
     assetCatalog,
     audioResolver,
@@ -856,7 +854,6 @@ export function ScriptDrawer(props: {
           projectMaps={projectMaps}
           mapIndex={mapIndex}
           tilesets={tilesets}
-          tilesetBlobs={tilesetBlobs}
           locale={locale}
           playback={playback}
           layers={layers}

@@ -42,7 +42,11 @@ import {
 } from '../src/migration-transaction.js'
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
-import { materializePalAssets, type PalBinaryAssetSource } from '../src/pal-assets.js'
+import {
+  formatPalWorldSpriteReport,
+  materializePalAssets,
+  type PalBinaryAssetSource,
+} from '../src/pal-assets.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
@@ -121,6 +125,7 @@ function reportGeneration(theirs: MigrationFileSet): void {
     `[瓦片集资源] tilesets=${theirs.report.assets.tilesets} ` +
       `bytes=${theirs.report.assets.tilesetBytes} frames=${theirs.report.assets.tilesetFrames}`,
   )
+  console.log(formatPalWorldSpriteReport(theirs.report.assets))
 }
 
 function reportPlan(
@@ -145,7 +150,8 @@ function reportValidation(validation: ReturnType<typeof validatePalMigrationTarg
       `sprite-refs=entities:${refs.entities.total}/${refs.entities.migrated},` +
       `actors:${refs.actors.total}/${refs.actors.migrated},` +
       `setActorSprite:${refs.setActorSprite.total}/${refs.setActorSprite.migrated},` +
-      `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated} ` +
+      `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated},` +
+      `setFollowers:${refs.setFollowers.total}/${refs.setFollowers.migrated} ` +
       `asset-refs=${validation.assetReferences} asset-warnings=${validation.assetWarnings}`,
   )
 }
@@ -238,9 +244,11 @@ async function commitAndVerify(args: {
     manifestAfter.assets.legacy?.families.includes('sound') ||
     manifestAfter.assets.legacy?.sounds !== undefined ||
     manifestAfter.assets.legacy?.families.includes('tileset') ||
-    manifestAfter.assets.legacy?.tilesets !== undefined
+    manifestAfter.assets.legacy?.tilesets !== undefined ||
+    manifestAfter.assets.legacy?.families.includes('sprite') ||
+    manifestAfter.assets.legacy?.sprites !== undefined
   )
-    throw new Error('写盘后 manifest 仍含已闭环的 legacy sound/tileset')
+    throw new Error('写盘后 manifest 仍含已闭环的 legacy sound/tileset/sprite')
   const baselineAfter = loadPalBaseline(repo)
   if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
   sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')

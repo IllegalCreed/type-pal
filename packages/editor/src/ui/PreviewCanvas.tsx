@@ -16,7 +16,12 @@ import type {
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
 import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
-import { idleFrameIndex, renderSceneFrame, walkFrameIndex } from '@type-pal/reforge'
+import {
+  actualFrameIndex,
+  idleFrameIndex,
+  renderSceneFrame,
+  walkFrameIndex,
+} from '@type-pal/reforge'
 import { useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
 import {
@@ -29,12 +34,14 @@ import {
 
 const DEFAULT_ZOOM = 2
 
-/** 收集脚本树里 setActorSprite 引用的精灵 id(预载,防换装闪帧)。 */
-function collectActorSprites(stages: readonly ScriptStage[]): string[] {
+/** 收集脚本树里所有 world-sprite 语义 id（含换装、appearance 与编外跟随者）。 */
+function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
   const out = new Set<string>()
   const walk = (cmds: readonly Command[]): void => {
     for (const c of cmds) {
       if (c.kind === 'setActorSprite') out.add(c.sprite)
+      if (c.kind === 'setActorAppearance' && c.spriteId) out.add(c.spriteId)
+      if (c.kind === 'setFollowers') for (const sprite of c.sprites) out.add(sprite)
       if (c.kind === 'branch') {
         walk(c.then)
         if (c.else) walk(c.else)
@@ -71,8 +78,6 @@ export function PreviewCanvas(props: {
   mapIndex: MapIndexV1
   /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
-  /** 上传未保存的 tileset 字节(内存优先)。 */
-  tilesetBlobs: Record<string, ArrayBuffer>
   locale: Locale
   playback: Playback
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
@@ -97,7 +102,6 @@ export function PreviewCanvas(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
     locale,
     playback,
     layers,
@@ -124,42 +128,30 @@ export function PreviewCanvas(props: {
   }
   // 预载:全部实体(含 hidden,演出会显形)+ 玩家 + 换装表
   // biome-ignore lint/correctness/useExhaustiveDependencies: entityDef 为 spriteById/actorsById 纯派生
-  const spriteNums = useMemo(() => {
-    const nums = new Set<number>()
+  const spriteAssets = useMemo(() => {
+    const assets = new Set<string>()
     const lead = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
-    if (lead) nums.add(lead.spriteNum)
+    if (lead) assets.add(lead.asset)
     for (const e of scene.entities) {
       const d = entityDef(e)
-      if (d) nums.add(d.spriteNum)
+      if (d) assets.add(d.asset)
     }
-    for (const sid of collectActorSprites(stages)) {
+    for (const sid of collectScriptSprites(stages)) {
       const d = spriteById.get(sid)
-      if (d) nums.add(d.spriteNum)
+      if (d) assets.add(d.asset)
     }
-    return [...nums]
+    return [...assets]
   }, [scene, stages, spriteById, leaderSpriteId])
-
-  // A4 自有上传精灵源(path 双轨 + 未保存字节内存优先)
-  const spriteSources = useMemo(
-    () =>
-      new Map(
-        sprites
-          .filter((s) => s.path)
-          .map((s) => [s.spriteNum, { path: s.path, blob: tilesetBlobs?.[s.path!] }] as const),
-      ),
-    [sprites, tilesetBlobs],
-  )
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
     mapId: scene.mapId,
-    spriteNums,
+    spriteAssets,
     projectMaps,
     mapIndex,
     tilesets,
     assetCatalog,
     assetReader,
-    spriteSources,
   })
 
   // rAF:tick 演出 + 合成一帧
@@ -170,7 +162,7 @@ export function PreviewCanvas(props: {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!loaded || !canvas || !ctx) return
-    const { renderer, map, spritesByNum } = loaded
+    const { renderer, map, spritesByAsset } = loaded
     let raf = 0
     let last = performance.now()
     const leadDef = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
@@ -225,17 +217,20 @@ export function PreviewCanvas(props: {
         const ghost = hidden && !!layers?.ghosts // 透视:隐藏实体半透明可见(剧情后期出场的 NPC)
         if (hidden && !ghost) continue
         const def = entityDef(e)
-        const sp = def ? spritesByNum.get(def.spriteNum) : undefined
+        const sp = def ? spritesByAsset.get(def.asset) : undefined
         if (!def || !sp) continue
         const pos = ov?.pos ?? e.pos
         const facing = ov?.facing ?? e.facing ?? 'down'
         const fi =
           ov?.frame !== undefined
-            ? idleFrameIndex(def.layout, facing) + ov.frame
+            ? actualFrameIndex(
+                idleFrameIndex(def.layout, facing, sp.frames.length) + ov.frame,
+                sp.frames.length,
+              )
             : ov?.anim !== undefined
-              ? walkFrameIndex(def.layout, facing, ov.anim)
-              : idleFrameIndex(def.layout, facing)
-        const f = sp.frames[fi] ?? sp.frames[0]
+              ? walkFrameIndex(def.layout, facing, ov.anim, sp.frames.length)
+              : idleFrameIndex(def.layout, facing, sp.frames.length)
+        const f = sp.frames[fi]
         if (!f) continue
         const p = gridToPixel(pos)
         draws.push({
@@ -251,13 +246,16 @@ export function PreviewCanvas(props: {
       // 玩家(gesture/换装)
       const pdefBase = v.player.spriteId ? spriteById.get(v.player.spriteId) : undefined
       const pdef = pdefBase ?? leadDef
-      const psp = pdef ? spritesByNum.get(pdef.spriteNum) : undefined
+      const psp = pdef ? spritesByAsset.get(pdef.asset) : undefined
       if (pdef && psp) {
         const fi =
           v.player.gesture != null
-            ? idleFrameIndex(pdef.layout, v.player.facing) + v.player.gesture
-            : idleFrameIndex(pdef.layout, v.player.facing)
-        const f = psp.frames[fi] ?? psp.frames[0]
+            ? actualFrameIndex(
+                idleFrameIndex(pdef.layout, v.player.facing, psp.frames.length) + v.player.gesture,
+                psp.frames.length,
+              )
+            : idleFrameIndex(pdef.layout, v.player.facing, psp.frames.length)
+        const f = psp.frames[fi]
         if (f) {
           const p = gridToPixel(v.player.pos)
           draws.push({

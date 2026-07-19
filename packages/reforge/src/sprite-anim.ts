@@ -26,33 +26,50 @@ export interface WalkAnimationState {
   stepFrame: number
 }
 
+/** 声明布局只能产生候选下标；真正取帧必须以已解码帧数收口，历史布局债统一回退首帧。 */
+export function actualFrameIndex(index: number, totalFrames?: number): number {
+  if (totalFrames === undefined) return index
+  if (!Number.isInteger(index) || index < 0 || index >= totalFrames) return 0
+  return index
+}
+
 /** 剧情接管/停步：切回站立，并按 sdlpal scene.c:773-774 归整起步相位。 */
 export function settleWalkAnimation(state: WalkAnimationState): WalkAnimationState {
   return { walking: false, stepFrame: (state.stepFrame & 2) ^ 2 }
 }
 
 /** 站立帧下标:directional → dir*framesPerDir;static/loop → 0。 */
-export function idleFrameIndex(layout: SpriteLayout, facing: Facing): number {
+export function idleFrameIndex(layout: SpriteLayout, facing: Facing, totalFrames?: number): number {
   if (layout.kind !== 'directional') return 0
-  return FACING_TO_DIR[facing] * layout.framesPerDir
+  return actualFrameIndex(FACING_TO_DIR[facing] * layout.framesPerDir, totalFrames)
 }
 
 /**
  * loop 布局自循环帧(E5:火把/流水)。壁钟驱动(渲染每帧调,无状态);
  * 帧率暂不进数据(同 deriveStepCycle 哲学:要自定义时再加字段),250ms/帧。
  */
-export function loopFrameIndex(layout: SpriteLayout, nowMs: number, msPerFrame = 250): number {
+export function loopFrameIndex(
+  layout: SpriteLayout,
+  nowMs: number,
+  totalFrames: number = layout.kind === 'loop' ? layout.frameCount : 1,
+  msPerFrame = 250,
+): number {
   if (layout.kind !== 'loop') return 0
-  const n = Math.max(1, layout.frameCount)
+  const n = Math.max(1, Math.min(layout.frameCount, totalFrames))
   return Math.floor(nowMs / msPerFrame) % n
 }
 
 /** 行走帧下标:directional → dir*framesPerDir + stepCycle[step];非 directional 同站立。 */
-export function walkFrameIndex(layout: SpriteLayout, facing: Facing, step: number): number {
+export function walkFrameIndex(
+  layout: SpriteLayout,
+  facing: Facing,
+  step: number,
+  totalFrames?: number,
+): number {
   if (layout.kind !== 'directional') return 0
   const cycle = deriveStepCycle(layout.framesPerDir)
   const phase = cycle[((step % cycle.length) + cycle.length) % cycle.length] ?? 0
-  return FACING_TO_DIR[facing] * layout.framesPerDir + phase
+  return actualFrameIndex(FACING_TO_DIR[facing] * layout.framesPerDir + phase, totalFrames)
 }
 
 /**
@@ -70,7 +87,7 @@ export function animFrameIndex(
   anim: number,
   totalFrames: number,
 ): number {
-  if (layout.kind === 'directional') return walkFrameIndex(layout, facing, anim)
+  if (layout.kind === 'directional') return walkFrameIndex(layout, facing, anim, totalFrames)
   const n = Math.max(1, totalFrames)
   return ((anim % n) + n) % n
 }

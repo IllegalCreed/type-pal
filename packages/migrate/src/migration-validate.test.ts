@@ -141,8 +141,24 @@ describe('ED-4A 合并后精灵引用闭包门禁', () => {
       [
         'content/sprites.json',
         [
-          { id: 'sprite-55', spriteNum: 55, label: '迁移资源', layout: { kind: 'static' } },
-          { id: 'npc-merchant', spriteNum: 700, label: '作者资源', layout: { kind: 'static' } },
+          {
+            id: 'sprite-55',
+            asset: 'sprite.pal.055',
+            label: '迁移资源',
+            layout: { kind: 'static' },
+          },
+          {
+            id: 'sprite-82',
+            asset: 'sprite.pal.082',
+            label: '跟随者',
+            layout: { kind: 'directional', framesPerDir: 3 },
+          },
+          {
+            id: 'npc-merchant',
+            asset: 'sprite.author.merchant',
+            label: '作者资源',
+            layout: { kind: 'static' },
+          },
         ],
       ],
       ['content/actors.json', [{ id: 'guide', name: 'name.guide', spriteId: 'npc-merchant' }]],
@@ -164,6 +180,7 @@ describe('ED-4A 合并后精灵引用闭包门禁', () => {
               body: [
                 { kind: 'setActorSprite', actor: 'guide', sprite: 'sprite-55' },
                 { kind: 'setActorAppearance', actor: 'guide', spriteId: 'npc-merchant' },
+                { kind: 'setFollowers', sprites: ['sprite-82'] },
               ],
             },
           ],
@@ -175,12 +192,31 @@ describe('ED-4A 合并后精灵引用闭包门禁', () => {
     expect(report.legacy).toEqual([])
     expect(report.unresolved).toEqual([])
     expect(report.channels).toEqual({
-      definitions: { total: 2, migrated: 1 },
+      definitions: { total: 3, migrated: 2 },
       actors: { total: 1, migrated: 0 },
       entities: { total: 1, migrated: 0 },
       setActorSprite: { total: 1, migrated: 1 },
       setActorAppearance: { total: 1, migrated: 0 },
+      setFollowers: { total: 1, migrated: 1 },
     })
+  })
+
+  test('setFollowers 旧数字不会绕过闭包门禁', () => {
+    const files = new Map<string, MigrationJson>([
+      ['content/sprites.json', []],
+      [
+        'content/scripts/chunks/a.json',
+        { scripts: { a: [{ kind: 'setFollowers', sprites: [82] }] } },
+      ],
+    ])
+    expect(auditSpriteReferenceClosure(files).unresolved).toEqual([
+      {
+        where: 'content/scripts/chunks/a.json/scripts/a/0/sprites/0',
+        id: '82',
+        channel: 'setFollowers',
+      },
+    ])
+    expect(() => assertSpriteReferenceClosure(files)).toThrow(/setFollowers 引用 82/)
   })
 
   test('ours 新实体仍引用旧 id × theirs 改名时,三方合并虽无字段冲突但闭包硬阻断', () => {
@@ -192,7 +228,7 @@ describe('ED-4A 合并后精灵引用闭包门禁', () => {
     })
     const sprite = (id: string): MigrationJson => ({
       id,
-      spriteNum: 55,
+      asset: 'sprite.pal.055',
       label: '原精灵 55',
       layout: { kind: 'static' },
     })

@@ -74,7 +74,7 @@ export interface LoadedProjectCore {
   levelUp: Record<string, LevelUpSkill[]>
   items: ItemDataMap
   locale: Locale
-  /** 精灵注册表(EntityDef.sprite 语义 id → SpriteDef);无 sprites.json 时为空 {}。 */
+  /** 精灵注册表(EntityDef.sprite 语义 id → SpriteDef)。 */
   spritesById: Record<string, SpriteDef>
   /** 敌人定义(M4;无 enemies.json 时空 {})。 */
   enemiesById: Record<string, EnemyDef>
@@ -119,8 +119,8 @@ export interface ContentJsons {
   skills: unknown
   items: unknown
   locale: unknown
-  /** 精灵注册表(可选:缺 → spritesById 为空 {};向后兼容不传 sprites 的旧测)。 */
-  sprites?: unknown
+  /** 必需精灵注册表。canonical v3 不允许回落到 legacy 数字路径。 */
+  sprites: unknown
   /** 敌人/敌队(可选,M4;缺 → 空表)。 */
   enemies?: unknown
   enemyTeams?: unknown
@@ -189,7 +189,7 @@ export function assembleProject(
   // 旧作者工程可能把多行保存在一个 locale 值里；加载边界保留为单 row 软换行。
   // 新生成内容与迁移写盘仍走 validateLocale 默认严格模式，禁止新建这种形态。
   const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })
-  const sprites = jsons.sprites ? validateSprites(jsons.sprites) : []
+  const sprites = validateSprites(jsons.sprites, assetCatalog)
   const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
   const battleFields =
@@ -258,7 +258,6 @@ export function assembleProject(
     assetCatalog,
     assetBase: {
       root,
-      sprites: a?.sprites ?? 'sprites',
       palettes: a?.palettes ?? 'palettes',
       io: legacyIo ?? unavailableLegacy,
     },
@@ -284,6 +283,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 3，请先迁移`)
   validateManifestAssetConfigV3(manifest.assets)
   const content = manifest.content
+  if (!content.sprites) throw new Error(`工程 "${manifest.id}": manifest 缺 sprites 注册表`)
   const dir = scenesDir(manifest)
   const scriptDir = scriptsDir(manifest)
   const [
@@ -311,7 +311,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     source.readJson(content.skills as string),
     source.readJson(content.items as string),
     source.readJson(content.locale as string),
-    content.sprites ? source.readJson(content.sprites) : Promise.resolve(undefined),
+    source.readJson(content.sprites),
     content.enemies ? source.readJson(content.enemies) : Promise.resolve(undefined),
     content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
     content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),

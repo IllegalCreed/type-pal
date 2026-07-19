@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { decodeRle, parseSpriteChunk, parseSpriteChunkStrict } from './rle.js'
+import {
+  decodeRle,
+  parseSpriteChunk,
+  parseSpriteChunkStrict,
+  parseWorldSpriteChunk,
+} from './rle.js'
 
 describe('decodeRle', () => {
   it('2×2 实心方块', () => {
@@ -175,5 +180,89 @@ describe('parseSpriteChunkStrict', () => {
 
   it('拒绝零帧容器', () => {
     expect(() => parseSpriteChunkStrict(new Uint8Array([0, 0]))).toThrow(/不含帧/)
+  })
+})
+
+describe('parseWorldSpriteChunk', () => {
+  it('拒绝运行时传入的未知 profile，不能默认落入 legacy 宽容路径', () => {
+    expect(() =>
+      parseWorldSpriteChunk(new Uint8Array([1, 0, 1, 0, 1, 0, 1, 0x44]), 'unknown' as never),
+    ).toThrow(/未知 world sprite profile/)
+  })
+
+  it('canonical 报告正常 PAL sentinel，不把它算成坏尾', () => {
+    const buf = new Uint8Array([2, 0, 0, 0, 1, 0, 1, 0, 1, 0x44])
+    expect(parseWorldSpriteChunk(buf, 'canonical')).toMatchObject({
+      declaredSlots: 2,
+      trailingSentinel: true,
+      skippedLegacyTailSlots: 0,
+    })
+  })
+
+  it('legacy-migrated 只跳过不可解的非零尾槽', () => {
+    const buf = new Uint8Array(16)
+    const view = new DataView(buf.buffer)
+    view.setUint16(0, 2, true) // frame0 at byte 4
+    view.setUint16(2, 5, true) // 坏尾 at byte 10
+    view.setUint16(4, 1, true)
+    view.setUint16(6, 1, true)
+    buf[8] = 1
+    buf[9] = 0x33
+    view.setUint16(10, 500, true)
+    view.setUint16(12, 1, true)
+
+    expect(() => parseWorldSpriteChunk(buf, 'canonical')).toThrow()
+    const parsed = parseWorldSpriteChunk(buf, 'legacy-migrated')
+    expect(parsed.frames).toHaveLength(1)
+    expect(parsed.trailingSentinel).toBe(false)
+    expect(parsed.skippedLegacyTailSlots).toBe(1)
+  })
+
+  it('legacy-migrated 支持坏倒数第二槽 + 最后零 sentinel', () => {
+    const buf = new Uint8Array(18)
+    const view = new DataView(buf.buffer)
+    view.setUint16(0, 3, true) // frame0 at byte 6
+    view.setUint16(2, 6, true) // 坏尾 at byte 12
+    view.setUint16(4, 0, true) // 正常末尾 sentinel
+    view.setUint16(6, 1, true)
+    view.setUint16(8, 1, true)
+    buf[10] = 1
+    buf[11] = 0x55
+    view.setUint16(12, 500, true)
+    view.setUint16(14, 1, true)
+
+    const parsed = parseWorldSpriteChunk(buf, 'legacy-migrated')
+    expect(parsed.frames).toHaveLength(1)
+    expect(parsed.trailingSentinel).toBe(true)
+    expect(parsed.skippedLegacyTailSlots).toBe(1)
+  })
+
+  it('坏槽之后仍有可解帧时拒绝，不能把中间空洞伪装成坏尾', () => {
+    const buf = new Uint8Array(18)
+    const view = new DataView(buf.buffer)
+    view.setUint16(0, 3, true)
+    view.setUint16(2, 0, true)
+    view.setUint16(4, 6, true)
+    for (const offset of [6, 12]) {
+      view.setUint16(offset, 1, true)
+      view.setUint16(offset + 2, 1, true)
+      buf[offset + 4] = 1
+      buf[offset + 5] = 0x77
+    }
+    expect(() => parseWorldSpriteChunk(buf, 'legacy-migrated')).toThrow(/坏尾后仍可解/)
+  })
+
+  it('首个坏尾槽本身仍指向可解帧时拒绝，不能把重复 offset 当历史坏尾', () => {
+    const buf = new Uint8Array(12)
+    const view = new DataView(buf.buffer)
+    view.setUint16(0, 3, true) // frame0 at byte 6
+    view.setUint16(2, 3, true) // 重复指回同一可解帧
+    view.setUint16(4, 0, true)
+    view.setUint16(6, 1, true)
+    view.setUint16(8, 1, true)
+    buf[10] = 1
+    buf[11] = 0x66
+
+    expect(() => parseWorldSpriteChunk(buf, 'legacy-migrated')).toThrow(/坏尾后仍可解/)
   })
 })

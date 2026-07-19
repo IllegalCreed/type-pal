@@ -8,7 +8,7 @@
  * 即恶果。
  */
 
-import type { AssetCatalogV1, MapIndexV1, SceneDef } from '@type-pal/content'
+import type { AssetCatalogV1, AssetId, MapIndexV1, SceneDef } from '@type-pal/content'
 import { gridToPixel, mapAssetById, resolveTilesetAsset } from '@type-pal/content'
 import type {
   AssetBase,
@@ -21,15 +21,13 @@ import type {
 import {
   buildIsBlocked,
   Canvas2DRenderer,
-  decompressGzip,
   loadProjectMap,
-  loadSprite,
   loadStandardPalette,
   loadTilesetAsset,
-  parseSpriteChunk,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { loadEditorSprite } from '../core/sprite-assets.js'
 
 export const TILE_W = 32
 export const TILE_H = 16
@@ -39,7 +37,7 @@ const clamp = (v: number, lo: number, hi: number): number => (v < lo ? lo : v > 
 export interface StageAssets {
   renderer: Canvas2DRenderer
   map: SceneMapAssets['map']
-  spritesByNum: Map<number, LoadedSprite>
+  spritesByAsset: Map<AssetId, LoadedSprite>
   /** tileset 帧(索引 → RleFrame)+ 调色板 —— W7c tile 面板缩略图用。 */
   tiles: SceneMapAssets['tiles']
   palette: Palette
@@ -64,12 +62,12 @@ export function useStageSize(
   return size
 }
 
-/** 场景资产加载(map/tileset/palette + 指定精灵号)。 */
+/** 场景资产加载(map/tileset/palette + 指定 world-sprite AssetId)。 */
 export function useSceneAssets(opts: {
   canvasRef: RefObject<HTMLCanvasElement | null>
   assetBase: AssetBase
   mapId: string
-  spriteNums: number[]
+  spriteAssets: AssetId[]
   /** 编辑器实时自有地图(键 = 稳定 map id)。 */
   projectMaps?: Record<string, ProjectMap>
   /** 稳定 map id → 文件路径；实时副本缺失时用于磁盘回退。 */
@@ -78,8 +76,6 @@ export function useSceneAssets(opts: {
   tilesets: readonly TilesetDef[]
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
-  /** A4 自有上传精灵源(num → path/未保存字节);缺省全走原版号约定。 */
-  spriteSources?: ReadonlyMap<number, { path?: string; blob?: ArrayBuffer }>
 }): {
   status: 'loading' | 'ready' | 'error'
   err: string
@@ -89,18 +85,20 @@ export function useSceneAssets(opts: {
     canvasRef,
     assetBase,
     mapId,
-    spriteNums,
+    spriteAssets,
     projectMaps,
     mapIndex,
     tilesets,
     assetCatalog,
     assetReader,
-    spriteSources,
   } = opts
   const loadedRef = useRef<StageAssets | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [err, setErr] = useState('')
-  const spriteNumsKey = spriteNums.join(',')
+  const spriteAssetsKey = [...new Set(spriteAssets)]
+    .sort()
+    .map((asset) => `${asset}:${assetCatalog.assets[asset]?.sha256 ?? 'missing'}`)
+    .join(',')
   const liveMap = projectMaps?.[mapId]
   const projectMapPath = mapAssetById(mapIndex ?? { version: 1, maps: [] }, mapId)?.path ?? ''
   // 换绑 tileset 时 mapKey 不变 → 定义引用与 catalog record sha 单独进入依赖。
@@ -115,7 +113,7 @@ export function useSceneAssets(opts: {
     loadedRef.current = { ...loadedRef.current, map: liveMap }
   }, [liveMap])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: spriteNums 以稳定 key 比较。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: spriteAssets 以 AssetId+SHA 稳定 key 比较。
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
@@ -133,29 +131,15 @@ export function useSceneAssets(opts: {
           loadStandardPalette(assetBase), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
-          spriteNums.map(async (n) => {
-            const src = spriteSources?.get(n)
-            if (src?.blob) {
-              // 上传未保存:内存字节优先(磁盘尚无此文件;W7B tileset 同理)
-              const frames = parseSpriteChunk(await decompressGzip(new Blob([src.blob])))
-              const first = frames[0]
-              return [
-                n,
-                {
-                  frames,
-                  anchorX: first ? Math.floor(first.width / 2) : 0,
-                  anchorY: first?.height ?? 0,
-                },
-              ] as const
-            }
-            return [n, await loadSprite(assetBase, n, src?.path)] as const
-          }),
+          [...new Set(spriteAssets)].map(
+            async (asset) => [asset, await loadEditorSprite(assetReader, asset)] as const,
+          ),
         )
         if (!alive) return
         loadedRef.current = {
           renderer: new Canvas2DRenderer(ctx, palette, tiles),
           map,
-          spritesByNum: new Map(entries),
+          spritesByAsset: new Map(entries),
           tiles,
           palette,
         }
@@ -175,7 +159,7 @@ export function useSceneAssets(opts: {
     assetReader,
     mapId,
     projectMapPath,
-    spriteNumsKey,
+    spriteAssetsKey,
     canvasRef,
     tilesetRef,
     tilesetRevision,

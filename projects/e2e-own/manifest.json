@@ -17,11 +17,6 @@
     "catalog": "assets/index.json",
     "roles": {
       "visual.standardColorTable": "color.project-standard"
-    },
-    "legacy": {
-      "families": ["sprite"],
-      "root": "assets",
-      "sprites": "sprites"
     }
   },
   "startWorld": {

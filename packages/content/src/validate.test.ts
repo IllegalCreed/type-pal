@@ -48,44 +48,125 @@ const layout = { kind: 'directional', framesPerDir: 3 }
 describe('validateSprites(含 layout,C0)', () => {
   test('合法数组 → 原样返回', () => {
     const sprites = [
-      { id: 'ghost', spriteNum: 16, label: '游魂', layout },
-      { id: 'oldman', spriteNum: 2, label: '老者', layout: { kind: 'static' } },
-      { id: 'pool', spriteNum: 30, label: '血池', layout: { kind: 'loop', frameCount: 24 } },
+      { id: 'ghost', asset: 'sprite.ghost', label: '游魂', layout },
+      { id: 'oldman', asset: 'sprite.oldman', label: '老者', layout: { kind: 'static' } },
+      { id: 'pool', asset: 'sprite.pool', label: '血池', layout: { kind: 'loop', frameCount: 24 } },
     ]
     expect(validateSprites(sprites)).toEqual(sprites)
   })
   test('非数组 → throw', () => {
     expect(() => validateSprites({})).toThrow('期望数组')
   })
-  test('缺 spriteNum → throw', () => {
-    expect(() => validateSprites([{ id: 'ghost', label: '游魂', layout }])).toThrow(
-      '缺键 "spriteNum"',
+  test('缺 asset → throw', () => {
+    expect(() => validateSprites([{ id: 'ghost', label: '游魂', layout }])).toThrow('缺键 "asset"')
+  })
+  test('旧 spriteNum/path 与空 asset → throw', () => {
+    expect(() =>
+      validateSprites([
+        { id: 'ghost', asset: 'sprite.ghost', spriteNum: 16, label: '游魂', layout },
+      ]),
+    ).toThrow('spriteNum: 已退役')
+    expect(() =>
+      validateSprites([
+        {
+          id: 'ghost',
+          asset: 'sprite.ghost',
+          path: 'assets/sprites/ghost.rle',
+          label: '游魂',
+          layout,
+        },
+      ]),
+    ).toThrow('path: 已退役')
+    expect(() => validateSprites([{ id: 'ghost', asset: '', label: '游魂', layout }])).toThrow(
+      '期望非空 AssetId',
     )
   })
-  test('spriteNum 非数字 → throw', () => {
-    expect(() =>
-      validateSprites([{ id: 'ghost', spriteNum: '16', label: '游魂', layout }]),
-    ).toThrow('spriteNum 非number')
-  })
   test('缺 layout → throw', () => {
-    expect(() => validateSprites([{ id: 'ghost', spriteNum: 16, label: '游魂' }])).toThrow(
+    expect(() => validateSprites([{ id: 'ghost', asset: 'sprite.ghost', label: '游魂' }])).toThrow(
       '缺键 "layout"',
     )
   })
   test('layout.kind 非法 → throw', () => {
     expect(() =>
-      validateSprites([{ id: 'g', spriteNum: 1, label: 'x', layout: { kind: 'walk' } }]),
+      validateSprites([{ id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'walk' } }]),
     ).toThrow('kind 非法')
   })
   test('directional 缺 framesPerDir → throw', () => {
     expect(() =>
-      validateSprites([{ id: 'g', spriteNum: 1, label: 'x', layout: { kind: 'directional' } }]),
+      validateSprites([
+        { id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'directional' } },
+      ]),
     ).toThrow('缺 framesPerDir')
   })
   test('loop 缺 frameCount → throw', () => {
     expect(() =>
-      validateSprites([{ id: 'g', spriteNum: 1, label: 'x', layout: { kind: 'loop' } }]),
+      validateSprites([{ id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'loop' } }]),
     ).toThrow('缺 frameCount')
+  })
+  test('布局计数必须是正整数，姿势帧号与播放参数完整校验', () => {
+    for (const framesPerDir of [0, -1, 1.5])
+      expect(() =>
+        validateSprites([
+          {
+            id: 'g',
+            asset: 'sprite.g',
+            label: 'x',
+            layout: { kind: 'directional', framesPerDir },
+          },
+        ]),
+      ).toThrow(/正整数/)
+    for (const frameCount of [0, -1, 1.5])
+      expect(() =>
+        validateSprites([
+          { id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'loop', frameCount } },
+        ]),
+      ).toThrow(/正整数/)
+    expect(() =>
+      validateSprites([
+        {
+          id: 'g',
+          asset: 'sprite.g',
+          label: 'x',
+          layout: { kind: 'static' },
+          poses: { 坏动作: { frames: [], mode: 'static' } },
+        },
+      ]),
+    ).toThrow(/非空数组/)
+    expect(() =>
+      validateSprites([
+        {
+          id: 'g',
+          asset: 'sprite.g',
+          label: 'x',
+          layout: { kind: 'static' },
+          poses: { 坏动作: { frames: [0], mode: 'bad' } },
+        },
+      ]),
+    ).toThrow(/mode: 非法/)
+  })
+  test('id 唯一，且可与 catalog 的 sprite kind 交叉校验', () => {
+    const def = { id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'static' } }
+    const record = {
+      path: 'assets/authored/sprites/g.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 1,
+      sha256: 'a'.repeat(64),
+      origin: { kind: 'authored' as const },
+    }
+    expect(() => validateSprites([def, def])).toThrow('重复 id')
+    expect(() => validateSprites([def], { version: 1, assets: {} })).toThrow('不在 catalog')
+    expect(() =>
+      validateSprites([def], {
+        version: 1,
+        assets: { 'sprite.g': { ...record, kind: 'tileset' } },
+      }),
+    ).toThrow('期望 sprite')
+    expect(
+      validateSprites([def], {
+        version: 1,
+        assets: { 'sprite.g': { ...record, kind: 'sprite' } },
+      }),
+    ).toEqual([def])
   })
 })
 

@@ -108,7 +108,7 @@ describe('copyDirRecursive(另存为整树拷贝 —— 素材不丢)', () => {
     const bin = new Uint8Array([1, 2, 3, 250, 251])
     const src = tree({
       'manifest.json': '{"id":"p"}',
-      'assets/sprites/0.rle': bin,
+      'assets/generated/sprites/starter.rle': bin,
       'content/scenes/s000.json': '{"id":"s000"}',
     })
     const dst: MemDir = { kind: 'directory', name: 'dst', children: new Map() }
@@ -116,11 +116,11 @@ describe('copyDirRecursive(另存为整树拷贝 —— 素材不丢)', () => {
     expect(n).toBe(3)
     const flat = flatten(dst)
     expect(Object.keys(flat).sort()).toEqual([
-      'assets/sprites/0.rle',
+      'assets/generated/sprites/starter.rle',
       'content/scenes/s000.json',
       'manifest.json',
     ])
-    expect(flat['assets/sprites/0.rle']).toEqual(bin)
+    expect(flat['assets/generated/sprites/starter.rle']).toEqual(bin)
     expect(new TextDecoder().decode(flat['manifest.json'])).toBe('{"id":"p"}')
   })
 

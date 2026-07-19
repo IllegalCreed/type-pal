@@ -24,6 +24,24 @@ export interface RleFrame {
   opaque: Uint8Array
 }
 
+export type WorldSpriteChunkProfile = 'canonical' | 'legacy-migrated'
+
+/**
+ * 大世界精灵容器的严格解析报告。
+ *
+ * PAL MGO 有少量“声明表尾多出坏 offset”的历史数据。它们的有效帧始终是连续前缀；
+ * `legacy-migrated` 只允许跳过这个不可解尾后缀。普通作者/生成资源必须使用 canonical，
+ * 任何坏槽都直接失败。
+ */
+export interface WorldSpriteChunkResult {
+  frames: RleFrame[]
+  declaredSlots: number
+  /** PAL 正常容器末尾的零 offset；作者编码器通常没有。 */
+  trailingSentinel: boolean
+  /** 不含正常零 sentinel；仅统计 legacy profile 跳过的坏尾槽。 */
+  skippedLegacyTailSlots: number
+}
+
 /**
  * 解码一帧 RLE 精灵数据。
  * 帧头 = 宽 u16 LE + 高 u16 LE;后接指令流。
@@ -103,6 +121,45 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
  */
 const SPRITE_DIM_MAX = 400
 
+function decodeStrictSpriteFrame(
+  buf: Uint8Array,
+  view: DataView,
+  offset: number,
+  end: number,
+  index: number,
+): RleFrame {
+  if (offset + 4 > end || end > buf.byteLength)
+    throw new Error(`sprite chunk frame ${index} offset 越界`)
+  const width = view.getUint16(offset, true)
+  const height = view.getUint16(offset + 2, true)
+  if (width <= 0 || height <= 0 || width > SPRITE_DIM_MAX || height > SPRITE_DIM_MAX)
+    throw new Error(`sprite chunk frame ${index} 尺寸非法`)
+  const total = width * height
+  const pixels = new Uint8Array(total)
+  const opaque = new Uint8Array(total)
+  let source = offset + 4
+  let target = 0
+  while (target < total) {
+    if (source >= end) throw new Error(`sprite chunk frame ${index} 指令流截断`)
+    const command = buf[source++]!
+    if (command === 0) throw new Error(`sprite chunk frame ${index} 含零长度指令`)
+    if (command >= 0x80) {
+      target += command - 0x80
+      if (target > total) throw new Error(`sprite chunk frame ${index} 透明段越界`)
+      continue
+    }
+    if (source + command > end || target + command > total)
+      throw new Error(`sprite chunk frame ${index} 像素段越界`)
+    pixels.set(buf.subarray(source, source + command), target)
+    opaque.fill(1, target, target + command)
+    source += command
+    target += command
+  }
+  // offset table 是帧边界的唯一真值。PAL 原始块允许未被指令消费的对齐/历史 payload；
+  // 只要本帧在下一 offset 上界内完整解码，这些字节必须逐字节保留而不参与帧语义。
+  return { width, height, pixels, opaque }
+}
+
 export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const frameCount = view.getUint16(0, true)
@@ -147,36 +204,89 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
     offsets.push(offset)
   }
   if (offsets[0] !== tableBytes) throw new Error('sprite chunk frame 0 offset 与表长不一致')
-  return offsets.map((offset, index) => {
-    const end = offsets[index + 1] ?? buf.byteLength
-    const width = view.getUint16(offset, true)
-    const height = view.getUint16(offset + 2, true)
-    if (width <= 0 || height <= 0 || width > SPRITE_DIM_MAX || height > SPRITE_DIM_MAX)
-      throw new Error(`sprite chunk frame ${index} 尺寸非法`)
-    const total = width * height
-    const pixels = new Uint8Array(total)
-    const opaque = new Uint8Array(total)
-    let source = offset + 4
-    let target = 0
-    while (target < total) {
-      if (source >= end) throw new Error(`sprite chunk frame ${index} 指令流截断`)
-      const command = buf[source++]!
-      if (command === 0) throw new Error(`sprite chunk frame ${index} 含零长度指令`)
-      if (command >= 0x80) {
-        target += command - 0x80
-        if (target > total) throw new Error(`sprite chunk frame ${index} 透明段越界`)
-        continue
-      }
-      if (source + command > end || target + command > total)
-        throw new Error(`sprite chunk frame ${index} 像素段越界`)
-      pixels.set(buf.subarray(source, source + command), target)
-      opaque.fill(1, target, target + command)
-      source += command
-      target += command
+  return offsets.map((offset, index) =>
+    decodeStrictSpriteFrame(buf, view, offset, offsets[index + 1] ?? buf.byteLength, index),
+  )
+}
+
+/**
+ * 大世界精灵专用严格解析。
+ *
+ * canonical 直接沿用完整严格容器规则。legacy-migrated 先尝试 canonical；仅失败时才
+ * 逐槽验证连续有效前缀，并要求余下所有非零槽都不可严格解成帧。这样保留 PAL 的坏尾
+ * 历史事实，同时拒绝中间空洞后又出现有效帧的损坏容器。
+ */
+export function parseWorldSpriteChunk(
+  buf: Uint8Array,
+  profile: WorldSpriteChunkProfile,
+): WorldSpriteChunkResult {
+  if (profile !== 'canonical' && profile !== 'legacy-migrated')
+    throw new Error(`未知 world sprite profile: ${String(profile)}`)
+  if (buf.byteLength < 2) throw new Error('sprite chunk 过短')
+  const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
+  const declaredSlots = view.getUint16(0, true)
+  if (declaredSlots <= 0) throw new Error('sprite chunk 不含帧')
+  const tableBytes = declaredSlots * 2
+  if (tableBytes > buf.byteLength) throw new Error('sprite chunk offset table 越界')
+  const trailingSentinel = view.getUint16((declaredSlots - 1) * 2, true) === 0
+
+  try {
+    return {
+      frames: parseSpriteChunkStrict(buf),
+      declaredSlots,
+      trailingSentinel,
+      skippedLegacyTailSlots: 0,
     }
-    // offset table 是帧边界的唯一真值。PAL 原始 GOP 既有非零对齐字节，也有少量
-    // 未被任何 offset 引用的历史 payload；只要本帧在下一 offset 上界内完整解码，
-    // 这些保留字节不参与帧语义。迁移必须逐字节保留，不能把它们当损坏或擅自清洗。
-    return { width, height, pixels, opaque }
-  })
+  } catch (canonicalError) {
+    if (profile === 'canonical') throw canonicalError
+  }
+
+  const offsets = Array.from(
+    { length: declaredSlots },
+    (_, index) => view.getUint16(index * 2, true) << 1,
+  )
+  const frames: RleFrame[] = []
+  let previous = -1
+  let firstInvalid = declaredSlots
+  for (let index = 0; index < declaredSlots; index++) {
+    const offset = offsets[index]!
+    if (offset === 0 || offset < tableBytes || offset + 4 > buf.byteLength || offset <= previous) {
+      firstInvalid = index
+      break
+    }
+    const next = offsets[index + 1]
+    const end =
+      next !== undefined && next > offset && next <= buf.byteLength ? next : buf.byteLength
+    try {
+      frames.push(decodeStrictSpriteFrame(buf, view, offset, end, index))
+      previous = offset
+    } catch {
+      firstInvalid = index
+      break
+    }
+  }
+  if (frames.length === 0) throw new Error('sprite chunk legacy 尾槽前不含有效帧')
+  if (firstInvalid >= declaredSlots)
+    throw new Error('sprite chunk legacy profile 未找到可解释的坏尾槽')
+
+  // 后缀中若还能独立严格解出一帧，就不是“坏尾”，而是中间损坏/空洞；必须拒绝。
+  for (let index = firstInvalid; index < declaredSlots; index++) {
+    const offset = offsets[index]!
+    if (offset === 0 || offset < tableBytes || offset + 4 > buf.byteLength) continue
+    try {
+      // 这里验证“这个槽是否独立指向一帧”，不能让另一个可能损坏的后续 offset
+      // 人为截短它并把本可解帧伪装成坏尾。
+      decodeStrictSpriteFrame(buf, view, offset, buf.byteLength, index)
+    } catch {
+      continue
+    }
+    throw new Error(`sprite chunk frame ${index} 在坏尾后仍可解，拒绝中间空洞`)
+  }
+
+  const suffix = offsets.slice(firstInvalid)
+  const sentinelSlots = suffix.filter((offset) => offset === 0).length
+  const skippedLegacyTailSlots = suffix.length - sentinelSlots
+  if (skippedLegacyTailSlots <= 0)
+    throw new Error('sprite chunk 只有普通 sentinel，不应进入 legacy 坏尾兼容')
+  return { frames, declaredSlots, trailingSentinel, skippedLegacyTailSlots }
 }

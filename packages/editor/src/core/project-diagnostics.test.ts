@@ -41,7 +41,7 @@ const hero = {
 
 const heroSprite = {
   id: 'hero',
-  spriteNum: 1,
+  asset: 'sprite.test.hero',
   label: 'Hero',
   layout: { kind: 'directional', framesPerDir: 3 },
 } as SpriteDef
@@ -82,7 +82,19 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
     tilesetBlobs: {},
     stamps: [],
     scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
+    assetCatalog: {
+      version: 1,
+      assets: {
+        'sprite.test.hero': {
+          kind: 'sprite',
+          path: 'assets/generated/sprites/hero.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+      },
+    },
     assetBlobs: {},
   }
   return { ...base, ...overrides }
@@ -167,6 +179,7 @@ describe('X7 工程诊断与保存门', () => {
       ['music.unused', assetRecord('music', 'music-unused')],
       ['sound.unused', assetRecord('sound', 'sound-unused')],
       ['rng.unused', assetRecord('frame-animation', 'rng-unused')],
+      ['sprite.unused', assetRecord('sprite', 'sprite-unused')],
     ])
     const manifest: LoadedManifest = {
       ...base.manifest,
@@ -200,6 +213,39 @@ describe('X7 工程诊断与保存门', () => {
       module: 'asset',
       page: 'sound',
       objectId: 'sound.unused',
+    })
+    expect(issues.find((issue) => issue.message.includes('sprite.unused'))?.target).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: 'sprite.unused',
+    })
+  })
+
+  test('SpriteDef 的缺失/kind 错误资源跳回语义定义，未使用 sprite 仍跳资源对象', () => {
+    const base = state()
+    const missing = collectProjectIssues({
+      ...base,
+      sprites: [{ ...heroSprite, asset: 'sprite.missing' }],
+      assetCatalog: { version: 1, assets: {} },
+    })
+    expect(missing.find((issue) => issue.message.includes('sprite.missing'))?.target).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: heroSprite.id,
+    })
+
+    const wrongKind = collectProjectIssues({
+      ...base,
+      sprites: [{ ...heroSprite, asset: 'music.wrong-kind' }],
+      assetCatalog: {
+        version: 1,
+        assets: { 'music.wrong-kind': assetRecord('music', 'wrong-kind') },
+      },
+    })
+    expect(wrongKind.find((issue) => issue.code === 'asset-kind-mismatch')?.target).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: heroSprite.id,
     })
   })
 
@@ -280,7 +326,10 @@ describe('X7 工程诊断与保存门', () => {
           scripts: { 'shared/test': [{ kind: 'playSound', asset: sound }] },
         },
       },
-      assetCatalog: { version: 1, assets: { [sound]: assetRecord('sound', 'used') } },
+      assetCatalog: {
+        version: 1,
+        assets: { ...base.assetCatalog.assets, [sound]: assetRecord('sound', 'used') },
+      },
     })
     expect(
       collectProjectIssues(withEverySoundSite).some(
@@ -405,6 +454,22 @@ describe('X7 工程诊断与保存门', () => {
     }
     expect(() => assertProjectSaveValid({ ...base, manifest: brokenRole })).toThrow(
       /保存前资源角色校验失败/,
+    )
+
+    const brokenChunk: EditorState = {
+      ...base,
+      scriptChunks: {
+        c: {
+          version: 1,
+          id: 'c',
+          scripts: {
+            bad: [{ kind: 'setFollowers', sprites: ['missing-sprite'] }],
+          },
+        },
+      },
+    }
+    expect(() => assertProjectSaveValid(brokenChunk)).toThrow(
+      /保存前内容引用校验失败.*missing-sprite/,
     )
   })
 

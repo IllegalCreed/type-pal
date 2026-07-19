@@ -59,7 +59,7 @@ export interface BattlerSpec {
   leveling?: { expTable: number[] }
   /** 战斗精灵号(F.MKF 系);战斗系统落地时启用。C0 不消费。 */
   battleSpriteNum?: number
-  /** 自有上传战斗形象的 .rle 路径(A4c;同 SpriteDef.path 约定)。缺省走号约定。 */
+  /** 自有上传战斗形象的 .rle 路径(A4c；battle-sprite 族尚未 catalog 化)。缺省走号约定。 */
   battleSpritePath?: string
   /** 战斗音效(七件套;演出层经 session opts 消费,不进战斗逻辑核)。 */
   sounds?: BattlerSounds

@@ -55,4 +55,34 @@ describe('editorObjectTargetMissing', () => {
       }),
     ).toBe(false)
   })
+
+  test('精灵页同时接受语义定义 id 与 sprite AssetId，拒绝其它资源和缺失目标', () => {
+    const state = makeState({
+      sprites: [
+        {
+          id: 'hero',
+          asset: 'sprite.hero',
+          label: 'Hero',
+          layout: { kind: 'static' },
+        },
+      ],
+      assetCatalog: {
+        version: 1,
+        assets: {
+          'sprite.hero': { kind: 'sprite' } as never,
+          'sprite.unused': { kind: 'sprite' } as never,
+          'music.not-sprite': { kind: 'music' } as never,
+        },
+      },
+    })
+    const location = (objectId: string) => ({
+      module: 'asset' as const,
+      subpage: 'sprite' as const,
+      objectId,
+    })
+    expect(editorObjectTargetMissing(state, location('hero'))).toBe(false)
+    expect(editorObjectTargetMissing(state, location('sprite.unused'))).toBe(false)
+    expect(editorObjectTargetMissing(state, location('music.not-sprite'))).toBe(true)
+    expect(editorObjectTargetMissing(state, location('missing'))).toBe(true)
+  })
 })

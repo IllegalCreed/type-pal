@@ -1,4 +1,11 @@
-import type { ActorDef, EntityDef, SceneDef, ScriptStage, SpriteDef } from '@type-pal/content'
+import type {
+  ActorDef,
+  AssetRecordV1,
+  EntityDef,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
+} from '@type-pal/content'
 import { deriveScriptChunk, getScriptBody } from '@type-pal/content'
 import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
@@ -10,7 +17,6 @@ import {
   AddProjectMapLayerCommand,
   AddSceneCommand,
   AddSpriteCommand,
-  AppendSpriteFramesCommand,
   BindSceneMapCommand,
   CreateMapAssetCommand,
   CreateProjectMapCommand,
@@ -21,6 +27,7 @@ import {
   DeleteEntityCommand,
   DeleteMapAssetCommand,
   DeleteSceneEntryCommand,
+  DeleteUnusedSpriteAssetCommand,
   DuplicateMapAssetCommand,
   MapAssetInUseError,
   MoveEntityCommand,
@@ -28,9 +35,10 @@ import {
   PaintCollisionCommand,
   PaintTilesCommand,
   RemoveProjectMapLayerCommand,
-  RemoveSpriteCommand,
+  RemoveSpriteDefinitionCommand,
   RenameMapAssetCommand,
   RenameProjectCommand,
+  ReplaceSpriteAssetCommand,
   ResizeProjectMapCommand,
   SetActorBattleSpriteCommand,
   SetEnemyBattleSpriteCommand,
@@ -102,7 +110,12 @@ function st(): EditorState {
     items: [],
     locale: {},
     sprites: [
-      { id: 'li', spriteNum: 2, label: '李逍遥', layout: { kind: 'directional', framesPerDir: 3 } },
+      {
+        id: 'li',
+        asset: 'sprite.test.li',
+        label: '李逍遥',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
     ],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
@@ -427,9 +440,41 @@ describe('N6 分片脚本命令 · 原子状态 + invert', () => {
 
 describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
   const sp = (s: EditorState): SpriteDef => s.sprites[0]!
+  const withSpriteRecord = (
+    actualFrameCount = 16,
+  ): [
+    EditorState,
+    {
+      asset: string
+      sha256: string
+      actualFrameCount: number
+    },
+  ] => {
+    const base = st()
+    const sha256 = 'a'.repeat(64)
+    return [
+      {
+        ...base,
+        assetCatalog: {
+          version: 1,
+          assets: {
+            'sprite.test.li': {
+              kind: 'sprite',
+              path: 'assets/authored/sprites/li.rle',
+              mediaType: 'application/vnd.type-pal.rle',
+              bytes: 8,
+              sha256,
+              origin: { kind: 'authored' },
+            },
+          },
+        },
+      },
+      { asset: 'sprite.test.li', sha256, actualFrameCount },
+    ]
+  }
   test('UpdateSprite layout:directional → loop,invert 还原;源不变', () => {
-    const s0 = st()
-    const cmd = new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } })
+    const [s0, proof] = withSpriteRecord()
+    const cmd = new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } }, proof)
     const s1 = cmd.apply(s0)
     expect(sp(s1).layout).toEqual({ kind: 'loop', frameCount: 4 })
     expect(sp(s0).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 源不变
@@ -437,12 +482,76 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
     expect(sp(s2).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 还原
   })
   test('UpdateSprite poses:加命名姿势,invert 清回 undefined', () => {
-    const s0 = st()
-    const cmd = new UpdateSpriteCommand('li', { poses: { 摔倒: { frames: [12], mode: 'static' } } })
+    const [s0, proof] = withSpriteRecord()
+    const cmd = new UpdateSpriteCommand(
+      'li',
+      { poses: { 摔倒: { frames: [12], mode: 'static' } } },
+      proof,
+    )
     const s1 = cmd.apply(s0)
     expect(sp(s1).poses).toEqual({ 摔倒: { frames: [12], mode: 'static' } })
     expect(sp(s0).poses).toBeUndefined()
     expect(sp(cmd.invert(s1)).poses).toBeUndefined()
+  })
+  test('UpdateSprite 布局/姿势必须有当前 SHA 的实际帧证明，且历史债只能保持或缩小', () => {
+    const [base, proof] = withSpriteRecord(10)
+    const debt: EditorState = {
+      ...base,
+      sprites: [
+        {
+          ...base.sprites[0]!,
+          poses: { 旧债: { frames: [15], mode: 'static' } },
+        },
+      ],
+    }
+    expect(() =>
+      new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } }).apply(debt),
+    ).toThrow(/证明缺失/)
+    expect(() =>
+      new UpdateSpriteCommand(
+        'li',
+        { poses: { ...debt.sprites[0]!.poses, 新债: { frames: [14], mode: 'static' } } },
+        proof,
+      ).apply(debt),
+    ).toThrow(/新增越界帧 14/)
+    expect(() =>
+      new UpdateSpriteCommand(
+        'li',
+        { poses: { 旧债: { frames: [15], mode: 'static' } } },
+        proof,
+      ).apply(debt),
+    ).not.toThrow()
+    expect(() =>
+      new UpdateSpriteCommand('li', { poses: undefined }, proof).apply(debt),
+    ).not.toThrow()
+  })
+  test('共享 AssetId 下语义名称与二进制资源名称互不串改', () => {
+    const base = st()
+    const record = {
+      kind: 'sprite' as const,
+      path: 'assets/authored/sprites/shared.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 3,
+      sha256: 'a'.repeat(64),
+      label: '共享二进制',
+      origin: { kind: 'authored' as const },
+    }
+    const s0: EditorState = {
+      ...base,
+      sprites: [base.sprites[0]!, { ...base.sprites[0]!, id: 'li-alt', label: '李逍遥·另一语义' }],
+      assetCatalog: { version: 1, assets: { 'sprite.test.li': record } },
+    }
+    const semantic = new UpdateSpriteCommand('li', { label: '逍遥少侠' }).apply(s0)
+    expect(semantic.sprites.map(({ label }) => label)).toEqual(['逍遥少侠', '李逍遥·另一语义'])
+    expect(semantic.assetCatalog.assets['sprite.test.li']?.label).toBe('共享二进制')
+
+    const binary = new UpsertAssetCommand(
+      'sprite.test.li',
+      { ...record, label: '共享二进制·新名' },
+      new Uint8Array([1, 2, 3]).buffer,
+    ).apply(s0)
+    expect(binary.assetCatalog.assets['sprite.test.li']?.label).toBe('共享二进制·新名')
+    expect(binary.sprites.map(({ label }) => label)).toEqual(['李逍遥', '李逍遥·另一语义'])
   })
   test('UpdateActor name/portraits:改 + invert 还原', () => {
     const s0 = stActor()
@@ -601,57 +710,203 @@ describe('D24 战场命令(不可变 + invert)', () => {
   })
 })
 
-describe('A4 精灵上传命令(不可变 + invert;blob 暂存进 tilesetBlobs)', () => {
+describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
   const heroDef: SpriteDef = {
     id: 'my-hero',
-    spriteNum: 600,
+    asset: 'sprite.my-hero',
     label: '我的主角',
     layout: { kind: 'directional', framesPerDir: 3 },
-    path: 'assets/sprites/my-hero.rle',
   }
+  const bytes = (size: number): ArrayBuffer => {
+    const value = new Uint8Array(size)
+    value[0] = 0x1f
+    value[1] = 0x8b
+    return value.buffer
+  }
+  const record = (path: string, size: number, sha = 'a'.repeat(64)): AssetRecordV1 => ({
+    kind: 'sprite',
+    path,
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: size,
+    sha256: sha,
+    origin: { kind: 'authored' },
+  })
+  const heroRecord = record('assets/authored/sprites/a.rle', 8)
   function stS(): EditorState {
-    const base = st() as EditorState & { tilesetBlobs: Record<string, ArrayBuffer> }
-    base.tilesetBlobs = {}
-    return base
+    return { ...st(), assetCatalog: { version: 1, assets: {} }, assetBlobs: {} }
   }
-  test('AddSprite:注册表追加 + 字节暂存到 path;invert 双清;源不变', () => {
+  test('AddSprite 原子加入定义、record、pending bytes；invert 三者恢复', () => {
     const s0 = stS()
-    const blob = new ArrayBuffer(8)
-    const cmd = new AddSpriteCommand(heroDef, blob)
+    const blob = bytes(8)
+    const cmd = new AddSpriteCommand(heroDef, heroRecord, blob)
     const s1 = cmd.apply(s0)
-    expect(s1.sprites.map((s) => s.id)).toContain('my-hero')
-    expect(s1.tilesetBlobs['assets/sprites/my-hero.rle']).toBe(blob)
-    expect(s0.sprites.map((s) => s.id)).not.toContain('my-hero') // 源不变
+    expect(s1.sprites.map((sprite) => sprite.id)).toContain('my-hero')
+    expect(s1.assetCatalog.assets[heroDef.asset]).toEqual(heroRecord)
+    expect(s1.assetBlobs[heroRecord.path]).toEqual(blob)
+    expect(s0.sprites.map((sprite) => sprite.id)).not.toContain('my-hero')
     const back = cmd.invert(s1)
-    expect(back.sprites.map((s) => s.id)).not.toContain('my-hero')
-    expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeUndefined()
+    expect(back.sprites.map((sprite) => sprite.id)).not.toContain('my-hero')
+    expect(back.assetCatalog.assets[heroDef.asset]).toBeUndefined()
+    expect(back.assetBlobs[heroRecord.path]).toBeUndefined()
   })
-  test('RemoveSprite:移除 + 清暂存;invert 插回原位带字节', () => {
-    const s0 = new AddSpriteCommand(heroDef, new ArrayBuffer(8)).apply(stS())
-    const cmd = new RemoveSpriteCommand('my-hero')
+  test('删除定义不静默删资产；独立删除未使用资产可撤销', () => {
+    const blob = bytes(8)
+    const s0 = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
+    const cmd = new RemoveSpriteDefinitionCommand('my-hero')
     const s1 = cmd.apply(s0)
-    expect(s1.sprites.some((s) => s.id === 'my-hero')).toBe(false)
-    expect(s1.tilesetBlobs['assets/sprites/my-hero.rle']).toBeUndefined()
+    expect(s1.sprites.some((sprite) => sprite.id === 'my-hero')).toBe(false)
+    expect(s1.assetCatalog.assets[heroDef.asset]).toBeDefined()
+    expect(s1.assetBlobs[heroRecord.path]).toBeDefined()
+    expect(cmd.invert(s1).sprites.at(-1)?.id).toBe('my-hero')
+
+    const deleted = new DeleteUnusedSpriteAssetCommand(heroDef.asset, blob)
+    const withoutAsset = deleted.apply(s1)
+    expect(withoutAsset.assetCatalog.assets[heroDef.asset]).toBeUndefined()
+    expect(deleted.invert(withoutAsset).assetBlobs[heroRecord.path]).toEqual(blob)
+  })
+  test('删除定义复用统一语义反向索引，嵌套 chunk/appearance/followers 引用均阻断', () => {
+    const blob = bytes(8)
+    const added = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
+    const referenced: EditorState = {
+      ...added,
+      scriptChunks: {
+        c: {
+          version: 1,
+          id: 'c',
+          scripts: {
+            nested: [
+              {
+                kind: 'branch',
+                cond: { kind: 'flag', flag: 'x', is: true },
+                then: [{ kind: 'setFollowers', sprites: [heroDef.id] }],
+              },
+            ],
+          },
+        },
+      },
+    }
+    expect(() => new RemoveSpriteDefinitionCommand(heroDef.id).apply(referenced)).toThrow(
+      /仍被 1 处引用.*scriptChunks/,
+    )
+  })
+  test('替换保持 id/AssetId，校验消费者与帧数，并可恢复旧 record/bytes', () => {
+    const prev = bytes(8)
+    const merged = bytes(16)
+    const nextRecord = record('assets/authored/sprites/b.rle', 16, 'b'.repeat(64))
+    const s0 = new AddSpriteCommand(heroDef, heroRecord, prev).apply(stS())
+    const proof = {
+      asset: heroDef.asset,
+      previousSha256: heroRecord.sha256,
+      previousFrameCount: 12,
+      nextFrameCount: 13,
+      consumerIds: [heroDef.id],
+    }
+    const cmd = new ReplaceSpriteAssetCommand(
+      heroDef.id,
+      heroDef.asset,
+      nextRecord,
+      merged,
+      prev,
+      proof,
+    )
+    const s1 = cmd.apply(s0)
+    expect(s1.sprites.find((sprite) => sprite.id === heroDef.id)?.asset).toBe(heroDef.asset)
+    expect(s1.assetCatalog.assets[heroDef.asset]).toEqual(nextRecord)
+    expect(s1.assetBlobs[nextRecord.path]).toEqual(merged)
     const back = cmd.invert(s1)
-    expect(back.sprites[back.sprites.length - 1]?.id).toBe('my-hero') // 原位(末尾)
-    expect(back.tilesetBlobs['assets/sprites/my-hero.rle']).toBeInstanceOf(ArrayBuffer)
+    expect(back.assetCatalog.assets[heroDef.asset]).toEqual(heroRecord)
+    expect(back.assetBlobs[heroRecord.path]).toEqual(prev)
+
+    const shrink = new ReplaceSpriteAssetCommand(
+      heroDef.id,
+      heroDef.asset,
+      nextRecord,
+      merged,
+      prev,
+      { ...proof, nextFrameCount: 11 },
+    )
+    expect(() => shrink.apply(s0)).toThrow('不得减少有效帧')
   })
-  test('AppendSpriteFrames:替换暂存字节;invert 回旧字节;无旧暂存(帧在盘)则删键回落读盘', () => {
-    const path = 'assets/sprites/my-hero.rle'
-    const prev = new ArrayBuffer(8)
-    const merged = new ArrayBuffer(16)
-    // 有暂存(未保存过的新精灵续帧):invert 回旧字节
-    const s0 = new AddSpriteCommand(heroDef, prev).apply(stS())
-    const cmd = new AppendSpriteFramesCommand(path, prev, merged)
-    const s1 = cmd.apply(s0)
-    expect(s1.tilesetBlobs[path]).toBe(merged)
-    expect(s0.tilesetBlobs[path]).toBe(prev) // 源不变
-    expect(cmd.invert(s1).tilesetBlobs[path]).toBe(prev)
-    // 无暂存(帧在磁盘):apply 建键,invert 删键(引用回落读盘文件)
-    const cmd2 = new AppendSpriteFramesCommand(path, undefined, merged)
-    const s2 = cmd2.apply(stS())
-    expect(s2.tilesetBlobs[path]).toBe(merged)
-    expect(cmd2.invert(s2).tilesetBlobs[path]).toBeUndefined()
+  test('缩帧原子更新全部共享定义并可 undo；缺修复、过期消费者与残余越界均拒绝', () => {
+    const prev = bytes(8)
+    const next = bytes(16)
+    const nextRecord = record('assets/authored/sprites/shrunk.rle', 16, 'c'.repeat(64))
+    const base = new AddSpriteCommand(heroDef, heroRecord, prev).apply(stS())
+    const shared: EditorState = {
+      ...base,
+      sprites: [
+        heroDef,
+        {
+          ...heroDef,
+          id: 'my-hero-static',
+          label: '共享静态',
+          layout: { kind: 'static' },
+          poses: { 尾帧: { frames: [11], mode: 'static' } },
+        },
+      ],
+    }
+    const snapshots = Object.fromEntries(
+      shared.sprites.map((definition) => [
+        definition.id,
+        { layout: definition.layout, ...(definition.poses ? { poses: definition.poses } : {}) },
+      ]),
+    )
+    const repairs = {
+      'my-hero': { layout: { kind: 'directional' as const, framesPerDir: 2 } },
+      'my-hero-static': { layout: { kind: 'static' as const } },
+    }
+    const proof = {
+      asset: heroDef.asset,
+      previousSha256: heroRecord.sha256,
+      previousFrameCount: 12,
+      nextFrameCount: 8,
+      consumerIds: ['my-hero', 'my-hero-static'],
+      consumerSnapshots: snapshots,
+      repairs,
+    }
+    const cmd = new ReplaceSpriteAssetCommand(
+      heroDef.id,
+      heroDef.asset,
+      nextRecord,
+      next,
+      prev,
+      proof,
+    )
+    const changed = cmd.apply(shared)
+    expect(changed.sprites.map(({ layout }) => layout)).toEqual([
+      { kind: 'directional', framesPerDir: 2 },
+      { kind: 'static' },
+    ])
+    expect(changed.sprites[1]!.poses).toBeUndefined()
+    const restored = cmd.invert(changed)
+    expect(restored.sprites).toEqual(shared.sprites)
+    expect(restored.assetCatalog).toEqual(shared.assetCatalog)
+    expect(restored.assetBlobs[heroRecord.path]).toEqual(prev)
+
+    expect(() =>
+      new ReplaceSpriteAssetCommand(heroDef.id, heroDef.asset, nextRecord, next, prev, {
+        ...proof,
+        repairs: { 'my-hero': repairs['my-hero'] },
+      }).apply(shared),
+    ).toThrow(/全部共享/)
+    expect(() =>
+      new ReplaceSpriteAssetCommand(heroDef.id, heroDef.asset, nextRecord, next, prev, {
+        ...proof,
+        repairs: {
+          ...repairs,
+          'my-hero': { layout: { kind: 'directional', framesPerDir: 3 } },
+        },
+      }).apply(shared),
+    ).toThrow(/仍需 12 帧/)
+    const stale = {
+      ...shared,
+      sprites: shared.sprites.map((definition) =>
+        definition.id === 'my-hero-static'
+          ? { ...definition, poses: { 新动作: { frames: [2], mode: 'static' as const } } }
+          : definition,
+      ),
+    }
+    expect(() => cmd.apply(stale)).toThrow(/布局或姿势已变化/)
   })
 })
 

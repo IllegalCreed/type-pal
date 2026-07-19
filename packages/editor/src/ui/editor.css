@@ -2146,6 +2146,8 @@ html[data-panel-resize="horizontal"] * {
   cursor: pointer;
   font: inherit;
   border-left: 2px solid transparent;
+  min-width: 0;
+  overflow: hidden;
 }
 .arow:hover {
   background: var(--panel2);
@@ -2170,10 +2172,20 @@ html[data-panel-resize="horizontal"] * {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
 }
 .arow .nm b {
   font-weight: 600;
   font-size: 12px;
+}
+.arow .nm b,
+.arow .nm span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .arow .nm span {
   font-family: var(--mono);
@@ -2252,6 +2264,19 @@ html[data-panel-resize="horizontal"] * {
 }
 .fcell:disabled {
   opacity: 1;
+}
+.fcell.frame-missing {
+  border-style: dashed;
+  filter: saturate(0.45);
+  color: var(--faint);
+  cursor: not-allowed;
+}
+.fcell.frame-missing .fcell-canvas {
+  opacity: 0.42;
+}
+.sprite-layout-debt {
+  border-color: color-mix(in srgb, var(--warn) 55%, var(--line));
+  color: var(--warn);
 }
 .fcell .fidx {
   position: absolute;
@@ -4305,6 +4330,119 @@ html[data-panel-resize="horizontal"] * {
 .sprite-list {
   flex: 1;
   overflow-y: auto;
+}
+.sprite-library-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin: 0 8px 7px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel2) 75%, transparent);
+  min-inline-size: 0;
+}
+.sprite-library-switch button {
+  min-width: 0;
+  padding: 6px 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+}
+.sprite-library-switch button.on {
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
+  background: #26354e;
+  color: var(--fg);
+}
+.sprite-library-switch button:focus-visible,
+.sprite-upload-action:focus-visible,
+.sprite-delete-action:focus-visible,
+.sprite-consumer-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.sprite-upload-action {
+  margin: 0 8px 8px;
+  padding: 7px 8px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+}
+.sprite-resource-summary {
+  margin: 0 8px 8px;
+  color: var(--faint);
+  font-size: 10px;
+}
+.sprite-resource-row {
+  content-visibility: auto;
+  contain-intrinsic-size: 48px;
+}
+.sprite-unused-badge {
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--line));
+  color: var(--warn);
+}
+.sprite-resource-viewer {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  min-height: 100%;
+  gap: 18px;
+  padding: 32px;
+  text-align: center;
+}
+.sprite-resource-viewer > div {
+  display: grid;
+  gap: 7px;
+  max-width: 560px;
+}
+.sprite-resource-viewer code,
+.sprite-reference-path {
+  font-family: var(--mono);
+  color: var(--faint);
+  overflow-wrap: anywhere;
+}
+.sprite-resource-viewer span {
+  color: var(--dim);
+}
+.sprite-reference-path {
+  display: block;
+  padding: 3px 0;
+  font-size: 10px;
+}
+.sprite-delete-action {
+  width: 100%;
+  margin-top: 9px;
+  padding: 7px 8px;
+  border: 1px solid color-mix(in srgb, var(--err) 48%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--err) 7%, var(--panel2));
+  cursor: pointer;
+}
+.sprite-delete-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.sprite-consumer-link {
+  display: grid;
+  width: 100%;
+  gap: 2px;
+  margin-bottom: 5px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel2);
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+}
+.sprite-consumer-link code {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 10px;
 }
 .stat-in {
   width: 60px;

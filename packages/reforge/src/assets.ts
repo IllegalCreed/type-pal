@@ -1,6 +1,6 @@
 /**
  * 工程资源加载:ProjectMap / palette / tileset / sprite。
- * 已闭包 tileset 只经 AssetResolver；未迁移 sprite 仍临时经 legacy base。
+ * 已闭包 tileset / world sprite 只经 AssetResolver。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
 import {
@@ -13,7 +13,10 @@ import {
   type Palette,
   parseSpriteChunk,
   parseSpriteChunkStrict,
+  parseWorldSpriteChunk,
   type RleFrame,
+  type WorldSpriteChunkProfile,
+  type WorldSpriteChunkResult,
 } from '@type-pal/shared'
 import type { AssetResolver } from './asset-resolver.js'
 import type { LegacyAssetAdapter } from './file-source.js'
@@ -21,7 +24,6 @@ import type { LegacyAssetAdapter } from './file-source.js'
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
 export interface AssetBase {
   root: string // 如 `projects/<id>/assets`
-  sprites: string
   palettes: string
   /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
   io: LegacyAssetAdapter
@@ -123,29 +125,142 @@ export interface LoadedSprite {
   anchorY: number
 }
 
+export interface LoadedWorldSprite extends LoadedSprite {
+  profile: WorldSpriteChunkProfile
+  decode: Omit<WorldSpriteChunkResult, 'frames'>
+}
+
+/** 运行时 AssetResolver 与编辑器 pending-aware reader 共用的唯一 world-sprite 读取契约。 */
+export interface SpriteAssetReader {
+  record(asset: AssetId, expectedKind?: 'sprite'): AssetRecordV1
+  readBytes(asset: AssetId, expectedKind?: 'sprite'): Promise<ArrayBuffer>
+}
+
 /**
- * 大世界精灵(gzip RLE 帧组)。双轨(A4,W7B tileset 同约定):
- * - path 缺省 → 原版号约定 `{root}/{sprites}/{spriteNum}.rle`;
- * - path 有值 → `assets/` 前缀 = 工程根相对(自有上传,不拼 root —— pal 的 root 是
- *   /extracted/data,拼上必 404);其余 = assets-root 相对。
+ * 已读取字节的公共校验/解码核。profile 只能由 record.origin 决定；调用方不得按 AssetId
+ * 或文件名选择 legacy 容错。
  */
-export async function loadSprite(
-  base: AssetBase,
-  spriteNum: number,
-  path?: string,
-): Promise<LoadedSprite> {
-  const full = path
-    ? path.startsWith('assets/')
-      ? path
-      : `${base.root}/${path}`
-    : `${base.root}/${base.sprites}/${spriteNum}.rle`
-  const raw = await readAssetBytes(base, full, `sprite ${path ?? spriteNum}`)
-  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
-  const first = frames[0]
+export async function decodeWorldSpriteAssetBytes(
+  record: AssetRecordV1,
+  bytes: ArrayBuffer,
+  label = `sprite asset ${record.path}`,
+): Promise<LoadedWorldSprite> {
+  // record 可能来自编辑器实时 catalog；异步 hash/解压期间不得混读一次替换前后的字段。
+  const snapshot = {
+    kind: record.kind,
+    mediaType: record.mediaType,
+    bytes: record.bytes,
+    sha256: record.sha256,
+    path: record.path,
+    originKind: record.origin.kind,
+  }
+  if (snapshot.kind !== 'sprite')
+    throw new Error(`${label}: 期望 kind=sprite，实际 ${snapshot.kind}`)
+  if (snapshot.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error(`${label}: mediaType 非法 ${snapshot.mediaType}`)
+  if (bytes.byteLength !== snapshot.bytes)
+    throw new Error(`${label}: bytes 登记 ${snapshot.bytes}，实际 ${bytes.byteLength}`)
+  const hash = await contentSha256(bytes)
+  if (hash !== snapshot.sha256) throw new Error(`${label}: sha256 不符`)
+  const compressed = new Uint8Array(bytes)
+  if (compressed.byteLength < 2 || compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+    throw new Error(`${label}: canonical .rle 必须带 gzip 头`)
+  const profile: WorldSpriteChunkProfile =
+    snapshot.originKind === 'legacy-migrated' ? 'legacy-migrated' : 'canonical'
+  const parsed = parseWorldSpriteChunk(await decompressGzip(new Blob([bytes])), profile)
+  const first = parsed.frames[0]
   return {
-    frames,
+    frames: parsed.frames,
     anchorX: first ? Math.floor(first.width / 2) : 0,
     anchorY: first ? first.height : 0,
+    profile,
+    decode: {
+      declaredSlots: parsed.declaredSlots,
+      trailingSentinel: parsed.trailingSentinel,
+      skippedLegacyTailSlots: parsed.skippedLegacyTailSlots,
+    },
+  }
+}
+
+export async function loadSpriteAsset(
+  reader: SpriteAssetReader,
+  asset: AssetId,
+): Promise<LoadedWorldSprite> {
+  const record = structuredClone(reader.record(asset, 'sprite'))
+  const bytes = await reader.readBytes(asset, 'sprite')
+  return decodeWorldSpriteAssetBytes(record, bytes, `sprite AssetId "${asset}"`)
+}
+
+interface SpriteAssetCacheEntry {
+  signature: string
+  promise: Promise<LoadedWorldSprite>
+  value?: LoadedWorldSprite
+}
+
+function spriteRecordSignature(record: AssetRecordV1): string {
+  return [
+    record.kind,
+    record.mediaType,
+    record.bytes,
+    record.sha256,
+    record.origin.kind,
+    record.path,
+  ].join('\0')
+}
+
+/** 每个工程持有一个实例；同 AssetId 共享解码，record 变化失效，失败 promise 自动驱逐。 */
+export class SpriteAssetCache {
+  private readonly entries = new Map<AssetId, SpriteAssetCacheEntry>()
+
+  constructor(private readonly capacity = 96) {}
+
+  async load(reader: SpriteAssetReader, asset: AssetId): Promise<LoadedWorldSprite> {
+    const record = structuredClone(reader.record(asset, 'sprite'))
+    const signature = spriteRecordSignature(record)
+    const existing = this.entries.get(asset)
+    if (existing?.signature === signature) {
+      this.entries.delete(asset)
+      this.entries.set(asset, existing)
+      return existing.promise
+    }
+    if (existing) this.entries.delete(asset)
+    let entry: SpriteAssetCacheEntry
+    const promise = reader
+      .readBytes(asset, 'sprite')
+      .then((bytes) => decodeWorldSpriteAssetBytes(record, bytes, `sprite AssetId "${asset}"`))
+      .then((value) => {
+        if (this.entries.get(asset) === entry) entry.value = value
+        return value
+      })
+      .catch((error: unknown) => {
+        if (this.entries.get(asset) === entry) this.entries.delete(asset)
+        throw error
+      })
+    entry = { signature, promise }
+    this.entries.set(asset, entry)
+    return entry.promise
+  }
+
+  get(reader: SpriteAssetReader, asset: AssetId): LoadedWorldSprite | undefined {
+    const entry = this.entries.get(asset)
+    if (!entry) return undefined
+    const signature = spriteRecordSignature(reader.record(asset, 'sprite'))
+    if (entry.signature !== signature) {
+      this.entries.delete(asset)
+      return undefined
+    }
+    return entry.value
+  }
+
+  prune(protectedAssets: ReadonlySet<AssetId> = new Set()): void {
+    for (const asset of [...this.entries.keys()]) {
+      if (this.entries.size <= this.capacity) break
+      if (!protectedAssets.has(asset)) this.entries.delete(asset)
+    }
+  }
+
+  clear(): void {
+    this.entries.clear()
   }
 }
 

@@ -40,7 +40,6 @@ import {
 } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
 import {
-  type AssetBase,
   type BattleFieldEntry,
   type LoadedSprite,
   loadBattleBgFull,
@@ -49,8 +48,9 @@ import {
   loadEffectSprite,
   loadFireSprite,
   loadGlyphs,
-  loadSprite,
+  loadSpriteAsset,
   loadStandardPalette,
+  SpriteAssetCache,
 } from './assets.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { createBgmPlayer } from './audio/bgm.js'
@@ -86,6 +86,7 @@ import {
   equipMoveCursor,
   openEquipMenu,
 } from './equip-menu-state.js'
+import { type FadeOwner, SupersedingFadeDriver } from './fade-driver.js'
 import {
   computeFollowerPos,
   type FollowerFrozen,
@@ -100,6 +101,7 @@ import {
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { Keyboard } from './input.js'
+import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import {
   castOutdoorSkill,
@@ -134,16 +136,30 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { buildMeta, buildPayload, captureThumbnail, normalizePayload } from './save/ops.js'
+import {
+  buildMeta,
+  buildPayload,
+  captureThumbnail,
+  normalizePayload,
+  resolveLegacyFollowerSpriteId,
+  resolveRestoredMusic,
+} from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
 import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
+import {
+  assertSceneSwitchDependenciesCurrent,
+  captureSceneSwitchDependencies,
+  prepareAndCommitSceneSwitch,
+  type SceneSwitchDependencies,
+} from './scene-switch-transaction.js'
 import { resolveSceneSpawn } from './scene-transition.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
 import {
+  actualFrameIndex,
   animFrameIndex,
   idleFrameIndex,
   loopFrameIndex,
@@ -235,13 +251,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const DEBUG_COLLISION = new URLSearchParams(location.search).has('collision')
   document.title = `${project.manifest.name} · reforge` // 标题随工程(index.html 只是加载占位)
   const params = new URLSearchParams(location.search)
-  const savePortraitOptions = {
+  const saveNormalizeOptions = {
     legacyPortraitAsset: (legacy: number): AssetId | undefined => {
       const asset = legacyPalPortraitAssetId(legacy)
       return asset && project.assetCatalog.assets[asset]?.kind === 'portrait' ? asset : undefined
     },
     validatePortraitAsset: (asset: AssetId): void => {
       project.assetResolver.record(asset, 'portrait')
+    },
+    legacyFollowerSpriteId: (legacy: number): string | undefined => {
+      return resolveLegacyFollowerSpriteId(project.spritesById, legacy)
+    },
+    validateFollowerSpriteId: (spriteId: string): void => {
+      if (!project.spritesById[spriteId]) throw new Error(`sprites 注册表无 ${spriteId}`)
     },
   }
   const sfx = new SfxPlayer(project.assetResolver) // 应用级单例(解码缓存跨战斗复用)
@@ -334,13 +356,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     sceneDefCache.set(id, def)
     return structuredClone(def)
   }
-  /** 精灵缓存 cap(RLE 索引帧组,非烤 RGBA;切场景时 protect 本场景所需后淘汰最旧)。 */
-  const SPRITE_CACHE_CAP = 96
-  const spriteByNum = new Map<number, LoadedSprite>()
+  /** RLE 索引帧组缓存；AssetId 共享解码，record 签名变化自动失效。 */
+  const spriteCache = new SpriteAssetCache(96)
 
-  // 调试：?gallery 渲染精灵速查图（确认哪个 spriteNum 是人/物），不进场景。
+  // 调试：?gallery 渲染精灵速查图（按 SpriteDef/AssetId 确认人物与物件），不进场景。
   if (params.has('gallery')) {
-    await renderSpriteGallery(project.assetBase, await getStandardPalette())
+    await renderSpriteGallery(project, await getStandardPalette())
     return
   }
 
@@ -440,14 +461,19 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     project.actorsById['li-xiaoyao']?.portraits?.default ??
     Object.values(project.actorsById).find((actor) => actor.portraits)?.portraits?.default
   const menuAssets = await loadMenuAssets(project.items, project.imageCache, defaultPortrait)
-  const playVideoAsset = async (asset: string | undefined): Promise<void> => {
+  const playVideoAsset = async (asset: string | undefined, signal?: AbortSignal): Promise<void> => {
     if (!asset) return
-    await playVideoOverlay({ src: await project.assetResolver.urlFor(asset, 'video') })
+    if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
+    const src = await project.assetResolver.urlFor(asset, 'video')
+    if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
+    await playVideoOverlay({ src, signal })
+    if (signal?.aborted) throw asyncIntentAbortError(`视频 ${asset} 所属 runner 已取消`)
   }
   const playVideoSequence = async (
     assets: readonly (string | undefined)[] | undefined,
+    signal?: AbortSignal,
   ): Promise<void> => {
-    for (const asset of assets ?? []) await playVideoAsset(asset)
+    for (const asset of assets ?? []) await playVideoAsset(asset, signal)
   }
   // 主菜单标题屏(?menu;dev 用 ?scene/?entry 直达跳过):照原版 FBP 2(盘0)+ 竖排 entryPoints + 读取进度。
   // 选开局项 → bootEntry(其 startWorld + 场景开局);选读档 → bootLoadSlot。(正式发布可翻默认走菜单,现 ?menu opt-in。)
@@ -492,36 +518,89 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           .filter(Boolean),
       }
     : baseStartWorld
-  const leaderId = bootStartWorld.party[0]
-  const leaderActor = leaderId ? project.actorsById[leaderId] : undefined
-  if (!leaderActor) throw new Error(`reforge: 队长 "${leaderId ?? '(空)'}" 不在 actors 表`)
-  const leaderSpriteDef = requireSpriteDef(leaderActor.spriteId, `队长 ${leaderActor.id}`)
-  // E7 跟随者精灵(party[1..N]):boot 期从模板解析,与队长同源。缺 actor/精灵 → null(渲染跳过)。
-  const followerSpriteDefs = bootStartWorld.party.slice(1).map((id) => {
-    const a = project.actorsById[id]
-    return a ? requireSpriteDef(a.spriteId, `队员 ${a.id}`) : null
-  })
-  // C7:队伍精灵号单一真值集(切场景 LRU needed 并集;setParty 动态增补,防新队员被淘汰)
-  const partySpriteNums = new Set<number>([
-    leaderSpriteDef.spriteNum,
-    ...followerSpriteDefs.flatMap((d) => (d ? [d.spriteNum] : [])),
-  ])
-
   // world 须先于 switchScene 定义(switchScene 首调在 boot 时读 world.script.mapOverride;
   // 0x99 底图覆写持久层。放此前 = 避免 TDZ)。
   let world = buildWorld(bootStartWorld, project.actorsById)
+  if (!world.party[0]) throw new Error('reforge: 开局队伍不能为空')
   const worldMutationIntent = new AsyncIntentController()
+  const loadIntent = new AsyncIntentController()
+  const sceneSwitchIntent = new AsyncIntentController()
+  const scriptMutationIntent = new AsyncIntentController()
+  const partyMutationIntent = new AsyncIntentController()
+  const actorSpriteMutationIntents = new Map<string, AsyncIntentController>()
+  const actorAppearanceMutationIntents = new Map<string, AsyncIntentController>()
+  const actorSpriteOverrides = new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
+  const assertRunnerActive = (signal: AbortSignal | undefined, message: string): void => {
+    if (signal?.aborted) throw asyncIntentAbortError(message)
+  }
+  const awaitRunner = <T>(
+    promise: Promise<T>,
+    signal: AbortSignal | undefined,
+    message: string,
+  ): Promise<T> => {
+    if (!signal) return promise
+    assertRunnerActive(signal, message)
+    return new Promise<T>((resolve, reject) => {
+      let settled = false
+      const finish = (result: { value: T } | { error: unknown }): void => {
+        if (settled) return
+        settled = true
+        signal.removeEventListener('abort', abort)
+        if ('error' in result) reject(result.error)
+        else resolve(result.value)
+      }
+      const abort = (): void => finish({ error: asyncIntentAbortError(message) })
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+      void promise.then(
+        (value) => finish({ value }),
+        (error: unknown) => finish({ error }),
+      )
+    })
+  }
   const replaceWorld = (next: typeof world): void => {
     worldMutationIntent.invalidate()
     world = next
+  }
+  const actorMutationIntent = (
+    intents: Map<string, AsyncIntentController>,
+    actorId: string,
+  ): AsyncIntentController => {
+    const current = intents.get(actorId) ?? new AsyncIntentController()
+    intents.set(actorId, current)
+    return current
+  }
+  const invalidatePendingScriptMutations = (): void => {
+    scriptMutationIntent.invalidate()
+    partyMutationIntent.invalidate()
+    for (const intent of actorSpriteMutationIntents.values()) intent.invalidate()
+    for (const intent of actorAppearanceMutationIntents.values()) intent.invalidate()
+  }
+  const partySpriteDef = (character: (typeof world.party)[number]): SpriteDef => {
+    const override = actorSpriteOverrides.get(character.template)
+    if (override) return override.def
+    const actor = project.actorsById[character.template]
+    return requireSpriteDef(
+      character.appearance?.spriteId ?? actor?.spriteId,
+      `队员 ${character.template}`,
+    )
+  }
+  const partyVisual = (
+    character: (typeof world.party)[number],
+  ): { def: SpriteDef; frames: LoadedSprite } | undefined => {
+    const override = actorSpriteOverrides.get(character.template)
+    if (override) return override
+    const def = partySpriteDef(character)
+    const frames = spriteCache.get(project.assetResolver, def.asset)
+    return frames ? { def, frames } : undefined
   }
   const itemSoundAssets = (itemId: string): string[] => {
     const item = project.items[itemId]
     return [item?.use?.sound, item?.throw?.sound].filter((asset): asset is string => !!asset)
   }
   const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
-  const prepareSceneSounds = async (def: SceneDef): Promise<void> => {
-    const override = world.script?.sceneScriptOverrides?.[def.id]
+  const prepareSceneSounds = async (def: SceneDef, worldView: typeof world): Promise<void> => {
+    const override = worldView.script?.sceneScriptOverrides?.[def.id]
     const soundScene = structuredClone(def)
     const additionalRoots: unknown[] = []
     for (const slot of ['onEnter', 'onTeleport'] as const) {
@@ -530,12 +609,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (override[slot]) additionalRoots.push(override[slot])
     }
     const currentItems = new Map(
-      world.inventory.flatMap((entry) => {
+      worldView.inventory.flatMap((entry) => {
         const item = project.items[entry.itemId]
         return entry.count > 0 && item ? [[item.id, item] as const] : []
       }),
     )
-    for (const item of usableItems(world, project.items)) currentItems.set(item.id, item)
+    for (const item of usableItems(worldView, project.items)) currentItems.set(item.id, item)
     const sounds = await collectSceneSoundAssets({
       scene: soundScene,
       ...(additionalRoots.length ? { additionalRoots } : {}),
@@ -664,7 +743,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     canvas.dataset.rfDither = JSON.stringify(ditherDebugState())
     canvas.dataset.rfSceneEntry = JSON.stringify(sceneEntryDebugState())
     canvas.dataset.rfRender = JSON.stringify({
-      fadeBlack,
+      fadeBlack: fadeDriver.value,
       position: player.pos,
       facing,
       scriptRunning: !!runner,
@@ -704,8 +783,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const sceneScriptBinding = (
     def: SceneDef,
     slot: 'onEnter' | 'onTeleport',
+    worldView: typeof world,
   ): RuntimeScriptBinding | undefined => {
-    const override = world.script?.sceneScriptOverrides?.[def.id]
+    const override = worldView.script?.sceneScriptOverrides?.[def.id]
     if (override && Object.hasOwn(override, slot)) return override[slot] ?? undefined
     return def[slot]
   }
@@ -714,27 +794,50 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const bindingSceneEntry = (
     key: string,
     binding: RuntimeScriptBinding | undefined,
+    worldView: typeof world,
   ): SceneEntryPresentation | undefined => {
     if (!binding) return undefined
     const stages = runnableStages(binding)
-    const stage = stages[stageIndexFor(expectDefined(world.script), key, stages)]
+    const stage = stages[stageIndexFor(expectDefined(worldView.script), key, stages)]
     return stage?.entry
   }
 
-  /**
-   * 切场景(M2c):取场景定义 → 换图/调色板 → 重建渲染器(烤图缓存随 palette 走)→
-   * 补载缺失精灵(spriteByNum 跨场景累积)→ 落位(spawn.pos > 命名入口 > 场景缺省)→ 相机重夹。
-   * 全部资产就绪后才原子提交,避免半态渲染。boot 也走此函数(单一代码路)。
-   */
-  async function switchScene(
+  interface SceneSwitchPlan {
+    sceneId: string
+    def: SceneDef
+    assets: SceneMapAssets
+    palette: Palette
+    renderer: Canvas2DRenderer
+    entityDefs: Map<string, SpriteDef>
+    neededSprites: Set<AssetId>
+    spawn: ReturnType<typeof resolveSceneSpawn>
+    dependencies: SceneSwitchDependencies
+    useActorOverrides: boolean
+    onEnterBinding: RuntimeScriptBinding | undefined
+    onEnterEntry: SceneEntryPresentation | undefined
+  }
+
+  /** 只准备所有可能失败的场景依赖；不得改活动 world/scene/cache 工作集。 */
+  async function prepareSceneSwitch(
     sceneId: string,
+    worldView: typeof world,
     spawn?: SceneSpawn & { inheritFacing?: Facing },
-  ): Promise<void> {
+    useActorOverrides = true,
+  ): Promise<SceneSwitchPlan> {
+    // 活动 world 会被并行 auto 原地修改；预检必须只读调用瞬间的快照，并在提交前对依赖签名。
+    const dependencies = captureSceneSwitchDependencies(
+      worldView,
+      sceneId,
+      actorSpriteOverrides,
+      useActorOverrides,
+    )
+    const preparedWorld = structuredClone(worldView)
+    const preparedActorOverrides = useActorOverrides
+      ? new Map(actorSpriteOverrides)
+      : new Map<string, { def: SpriteDef; frames: LoadedSprite }>()
     const def = await getSceneDef(sceneId)
     // 0x99 底图覆写:按稳定 mapId 换底(麒麟洞岩浆),随存档持久。
-    const mapId = world.script?.mapOverride?.[sceneId] ?? def.mapId
-    const assets = await getMapAssets(mapId)
-    const pal = await getStandardPalette()
+    const mapId = preparedWorld.script?.mapOverride?.[sceneId] ?? def.mapId
     const defs = new Map<string, SpriteDef>()
     for (const e of def.entities) {
       // 隐藏实体也登记(M3a:脚本 setEntityState 可显形);zone 无视觉跳过
@@ -742,55 +845,84 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (!sid) continue
       defs.set(e.id, requireSpriteDef(sid, `实体 ${e.id}`))
     }
-    const needed = new Set([
-      ...partySpriteNums, // E7/C7 队伍精灵(含 setParty 中途入队者)一并加载/保护
-      ...[...defs.values()].map((d) => d.spriteNum),
-    ])
-    // A4 自有上传精灵按 def.path 加载(num→path;同号多 def 时任取 —— path 只有上传条目有)
-    const pathByNum = new Map<number, string>()
-    for (const d of Object.values(project.spritesById))
-      if (d.path) pathByNum.set(d.spriteNum, d.path)
-    const missing = [...needed].filter((n) => !spriteByNum.has(n))
-    await Promise.all(
-      missing.map(async (n) => {
-        spriteByNum.set(n, await loadSprite(project.assetBase, n, pathByNum.get(n)))
-      }),
+    const partyDefs = preparedWorld.party.map((character) => {
+      const override = useActorOverrides
+        ? preparedActorOverrides.get(character.template)
+        : undefined
+      if (override) return override.def
+      const actor = project.actorsById[character.template]
+      return requireSpriteDef(
+        character.appearance?.spriteId ?? actor?.spriteId,
+        `队员 ${character.template}`,
+      )
+    })
+    const extraFollowerDefs = (preparedWorld.script?.followers ?? []).map((spriteId) =>
+      requireSpriteDef(spriteId, `编外跟随者 ${spriteId}`),
     )
-    // 精灵 LRU(GLM x-shell G8.2:曾无界累积):recency touch 本场景所需 → 超 cap 淘汰
-    // 非本场景精灵(protect needed,宁超 cap;唯一活查询是实体渲染,needed 全覆盖——
-    // playerSprite/leaderSpriteOverride 均自持引用,淘汰只删表项不影响已捕获者)。
-    for (const n of needed) {
-      const s = spriteByNum.get(n)
-      if (s) {
-        spriteByNum.delete(n)
-        spriteByNum.set(n, s) // Map 插入序 = LRU 序
-      }
+    const needed = new Set<AssetId>([
+      ...[...defs.values()].map((sprite) => sprite.asset),
+      ...partyDefs.map((sprite) => sprite.asset),
+      ...extraFollowerDefs.map((sprite) => sprite.asset),
+    ])
+    const [assets, pal] = await Promise.all([
+      getMapAssets(mapId),
+      getStandardPalette(),
+      Promise.all([...needed].map((asset) => spriteCache.load(project.assetResolver, asset))),
+      // readiness 是场景事务的一部分：脚本首帧只允许同步命中已解码 buffer，绝不迟播。
+      prepareSceneSounds(def, preparedWorld),
+    ])
+    const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedWorld)
+    return {
+      sceneId,
+      def,
+      assets,
+      palette: pal,
+      renderer: new Canvas2DRenderer(ctx, pal, assets.tiles),
+      entityDefs: defs,
+      neededSprites: needed,
+      spawn: resolveSceneSpawn(sceneId, def, spawn),
+      dependencies,
+      useActorOverrides,
+      onEnterBinding,
+      onEnterEntry: bindingSceneEntry(`s:${sceneId}`, onEnterBinding, preparedWorld),
     }
-    if (spriteByNum.size > SPRITE_CACHE_CAP) {
-      for (const k of [...spriteByNum.keys()]) {
-        if (spriteByNum.size <= SPRITE_CACHE_CAP) break
-        if (!needed.has(k)) spriteByNum.delete(k)
-      }
-    }
-    // readiness 是场景原子提交的一部分：脚本首帧只允许同步命中已解码 buffer，绝不迟播。
-    await prepareSceneSounds(def)
-    // 原子提交。新场景开始即不再属于上一张 RNG 画面。
+  }
+
+  function assertSceneSwitchPlanCurrent(plan: SceneSwitchPlan, worldView: typeof world): void {
+    assertSceneSwitchDependenciesCurrent(
+      plan.dependencies,
+      captureSceneSwitchDependencies(
+        worldView,
+        plan.sceneId,
+        actorSpriteOverrides,
+        plan.useActorOverrides,
+      ),
+      `切场景 ${plan.sceneId} 的预检依赖已变化`,
+    )
+  }
+
+  /** 所有 await 已结束后的同步提交点；失败预检不会留下新 world + 旧 scene。 */
+  function commitSceneSwitch(
+    plan: SceneSwitchPlan,
+    worldView: typeof world,
+    applySceneMusic = true,
+  ): void {
+    spriteCache.prune(plan.neededSprites)
     resetFrameAnimationPresentation()
-    scene = def
-    map = assets.map
-    tiles = assets.tiles
-    palette = pal
-    renderer = new Canvas2DRenderer(ctx, palette, tiles)
+    scene = plan.def
+    map = plan.assets.map
+    tiles = plan.assets.tiles
+    palette = plan.palette
+    renderer = plan.renderer
     waveRenderer = null
-    entitySpriteDefs = defs
+    entitySpriteDefs = plan.entityDefs
     room = { col: 0, row: 0, cols: map.width, rows: map.height }
     viewMinX = room.col * TILE_W - TILE_W
     viewMinY = room.row * TILE_H - 40
     viewMaxX = (room.col + room.cols) * TILE_W + TILE_W
     viewMaxY = (room.row + room.rows) * TILE_H + 16
-    const resolvedSpawn = resolveSceneSpawn(sceneId, def, spawn)
-    player.pos = resolvedSpawn.pos
-    facing = resolvedSpawn.facing
+    player.pos = plan.spawn.pos
+    facing = plan.spawn.facing
     partyLayer = 0
     walking = false
     stepFrame = 0
@@ -802,12 +934,33 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     worldMoveAcc = 0 // 世界拍相位随场景重置
     updateCamera()
     // 场景 BGM:字段缺省 = 延续；AssetId = 切曲；null = 显式停曲。
-    if (def.music !== undefined) {
-      world.audio ??= {}
-      world.audio.currentMusic = def.music
-      if (def.music === null) bgm.stop()
-      else bgm.play(def.music)
+    if (applySceneMusic && plan.def.music !== undefined) {
+      worldView.audio ??= {}
+      worldView.audio.currentMusic = plan.def.music
+      if (plan.def.music === null) bgm.stop()
+      else bgm.play(plan.def.music)
     }
+  }
+
+  /**
+   * 切场景(M2c):先准备全部 map/palette/sprite/sound，再在一个同步点提交。boot 也走此路径。
+   */
+  async function switchScene(
+    sceneId: string,
+    spawn?: SceneSpawn & { inheritFacing?: Facing },
+    beforeCommit?: () => void,
+    useActorOverrides = true,
+  ): Promise<void> {
+    const sceneToken = sceneSwitchIntent.begin()
+    const worldToken = worldMutationIntent.capture()
+    const worldView = world
+    const plan = await prepareSceneSwitch(sceneId, worldView, spawn, useActorOverrides)
+    sceneSwitchIntent.assertCurrent(sceneToken, `切场景 ${sceneId} 已被更新请求取代`)
+    worldMutationIntent.assertCurrent(worldToken, `切场景 ${sceneId} 时所属世界已失效`)
+    if (world !== worldView) throw asyncIntentAbortError(`切场景 ${sceneId} 时活动世界已替换`)
+    assertSceneSwitchPlanCurrent(plan, worldView)
+    beforeCommit?.()
+    commitSceneSwitch(plan, worldView)
   }
 
   // 初始场景:?scene=<id> dev 直达(须在 index),否则 manifest 入口。
@@ -839,7 +992,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ? { facing: initialFacing }
       : {}
   await switchScene(initialSceneId, initialSpawn)
-  const playerSprite = expectDefined(spriteByNum.get(leaderSpriteDef.spriteNum))
   const dialogBox = new DialogBox(
     ctx,
     glyphs,
@@ -857,9 +1009,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
   let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
   let nowMs = 0 // tick 注入的时间源(driver 计时用)
-  const timers: { deadline: number; resolve: () => void }[] = []
-  let fadeFx: { dir: 'in' | 'out'; start: number; ms: number; resolve: () => void } | null = null
-  let fadeBlack = 0 // 0 透明 → 1 全黑(fade out 后保持,fade in 释放)
+  const timers: { deadline: number; settle: (error?: Error) => void }[] = []
+  const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
   let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
   // 0x35 震屏(script.c:1521 VIDEO_ShakeScreen):世界层渲染 y ±level 交替;到期/0 关自清
   let worldShake: { untilMs: number; level: number } | null = null
@@ -909,9 +1060,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
-  // ── 0x15/0x65 队长演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
+  // ── 0x15/0x65 队伍演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
-  let leaderSpriteOverride: { def: SpriteDef; frames: typeof playerSprite } | null = null // 0x65 换装
   let activeBattle: BattleSession | null = null // M4b:进行中的战斗(主循环转发 tick/render)
   // 会话创建前也有 readiness/图片加载 await；新启动或强停必须让旧启动意图失效。
   const battleLaunchIntent = new AsyncIntentController()
@@ -973,14 +1123,30 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     dir: 'in' | 'out',
     ms: number,
     color: 'black' | 'red' = 'black',
+    signal?: AbortSignal,
+    owner?: FadeOwner,
   ): Promise<void> {
     fadeCurtain = color
-    return new Promise((resolve) => {
-      fadeFx = { dir, start: nowMs, ms, resolve }
-    })
+    return fadeDriver.begin(dir === 'out' ? 1 : 0, nowMs, ms, signal, owner)
   }
 
-  async function hostSceneEntryReveal(reveal: SceneReveal): Promise<void> {
+  async function awaitOwnedDither(
+    begin: () => Promise<void>,
+    signal: AbortSignal | undefined,
+    message: string,
+  ): Promise<void> {
+    const pending = begin()
+    const owned = ditherTransition.active
+    try {
+      await awaitRunner(pending, signal, message)
+    } catch (error) {
+      if (ditherTransition.active === owned) ditherTransition.cancel()
+      throw error
+    }
+  }
+
+  async function hostSceneEntryReveal(reveal: SceneReveal, signal?: AbortSignal): Promise<void> {
+    assertRunnerActive(signal, '场景入场呈现所属 runner 已取消')
     const entry = sceneEntrySession.startReveal(scene.id, reveal)
     // boot、读档直达或 dev ?scene 没有 previous presented frame：prepare 照跑，呈现直接提交。
     if (!entry) return
@@ -989,17 +1155,22 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         case 'dither':
           ditherZeroFrameMatchesBackup = null
           ditherZeroFrameDiffersFromTarget = null
-          await ditherTransition.beginEntry(entry.sourceFrame, reveal.ms)
+          await awaitOwnedDither(
+            () => ditherTransition.beginEntry(entry.sourceFrame, reveal.ms),
+            signal,
+            '场景入场抖动呈现所属 runner 已取消',
+          )
           break
         case 'fade':
           // fade-out 已在切换逻辑世界前完成；这里先露出黑幕后的 target，再 fade-in。
           sceneEntrySession.complete(entry.token)
-          await hostFade('in', reveal.inMs)
+          await hostFade('in', reveal.inMs, 'black', signal)
           break
         case 'cut':
           sceneEntrySession.complete(entry.token)
           break
       }
+      assertRunnerActive(signal, '场景入场呈现所属 runner 已取消')
       markSceneLoad(entry.sourceSceneId, entry.targetSceneId, 'done')
     } finally {
       sceneEntrySession.complete(entry.token)
@@ -1017,54 +1188,85 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   const host: ScriptHost = {
-    dialog: async (cue: DialogueCue) => {
+    dialog: async (cue: DialogueCue, signal) => {
+      assertRunnerActive(signal, '对话所属 runner 已取消')
+      const scriptMutationToken = scriptMutationIntent.capture()
       if (cue.portrait && !portraits.has(cue.portrait.asset))
         portraits.set(
           cue.portrait.asset,
-          await project.imageCache.load(cue.portrait.asset, 'portrait'),
+          await awaitRunner(
+            project.imageCache.load(cue.portrait.asset, 'portrait'),
+            signal,
+            '对话肖像加载所属 runner 已取消',
+          ),
         )
-      return new Promise((resolve) => {
+      assertRunnerActive(signal, '对话所属 runner 已取消')
+      scriptMutationIntent.assertCurrent(scriptMutationToken, '旧场景对话加载已失效')
+      scriptDialogResolve?.()
+      scriptDialogResolve = null
+      return new Promise((resolve, reject) => {
+        let settled = false
+        const finish = (error?: Error): void => {
+          if (settled) return
+          settled = true
+          signal?.removeEventListener('abort', abort)
+          if (error) reject(error)
+          else resolve()
+        }
+        const settleDialog = (): void => finish()
+        const abort = (): void => {
+          if (scriptDialogResolve === settleDialog) {
+            scriptDialogResolve = null
+            dialogBox.close()
+          }
+          finish(asyncIntentAbortError('对话所属 runner 已取消'))
+        }
         preserveClosedDialogFrame = false
         frameAnimationPresentation.enterDialogue()
         dialogBox.open(startDialogue({ id: '__script', cues: [cue] }), nowMs)
-        scriptDialogResolve = resolve // tick 检测 dialogBox 关闭时兑现
+        scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       })
     },
     clearDialog: () => {
       preserveClosedDialogFrame = false
       dialogBox.close()
     },
-    fade: (dir, ms, color) => hostFade(dir, ms, color),
+    fade: (dir, ms, color, signal) => hostFade(dir, ms, color, signal),
     revealSceneEntry: hostSceneEntryReveal,
     // ── B8 野外遇敌 ──
-    chaseStep: async (entityId, range, speed, floating) => {
+    chaseStep: async (entityId, range, speed, floating, signal) => {
+      assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
       const e = scene.entities.find((x) => x.id === entityId)
       if (!e || e.hidden) {
-        await host.wait(200)
+        await host.wait(200, signal)
         return
       }
       const dc = player.pos.col - e.pos.col
       const dr = player.pos.row - e.pos.row
       const dist = Math.max(Math.abs(dc), Math.abs(dr))
       if (dist > range) {
-        await host.wait(240) // 出程:待机
+        await host.wait(240, signal) // 出程:待机
         return
       }
       if (dist <= 1) {
+        assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
         fireTrigger(e) // 撞上玩家 → touch 触发(通常 = 开战);演出/对话中 startScript 防重入自然挡
-        await host.wait(320)
+        await host.wait(320, signal)
         return
       }
       // 逐步逼近:长轴优先一格;floating 无视碰撞(原版 0x4C op2)
       const stepCol = Math.abs(dc) >= Math.abs(dr) ? Math.sign(dc) : 0
       const stepRow = stepCol === 0 ? Math.sign(dr) : 0
       const next = { col: e.pos.col + stepCol, row: e.pos.row + stepRow, height: e.pos.height }
+      assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
       if (floating || !isBlockedAt(map, next)) {
         e.pos = next
         e.facing = stepCol !== 0 ? (dc > 0 ? 'right' : 'left') : dr > 0 ? 'down' : 'up'
         entityAnim.set(e.id, (entityAnim.get(e.id) ?? 0) + 1) // 走帧
       }
-      await host.wait(Math.max(80, 480 / Math.max(1, speed))) // speed 4≈120ms/步,8≈80ms
+      await host.wait(Math.max(80, 480 / Math.max(1, speed)), signal) // speed 4≈120ms/步,8≈80ms
     },
     vanishEntity: (entityId, seconds) => {
       const e = scene.entities.find((x) => x.id === entityId)
@@ -1076,21 +1278,47 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         if (scene === atScene) e.hidden = false // 重生(临时态;换场景后由场景重载自然恢复)
       })()
     },
-    loadLastSave: async () => {
-      const metas = await saveStore.listMeta()
+    loadLastSave: async (signal) => {
+      const metas = await awaitRunner(
+        saveStore.listMeta(),
+        signal,
+        '读取最近存档所属 runner 已取消',
+      )
+      assertRunnerActive(signal, '读取最近存档所属 runner 已取消')
       const latest = [...metas].sort((a, b) => b.savedAt - a.savedAt)[0]
-      if (!latest || !(await doLoad(latest.slotId))) location.reload() // 无档:重开
+      if (latest && (await doLoad(latest.slotId, signal))) return
+      assertRunnerActive(signal, '读取最近存档所属 runner 已取消')
+      location.reload() // 无档:重开
     },
-    gameOver: async () => {
+    gameOver: async (signal) => {
       // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
-      await hostFade('out', 900, 'red')
-      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.1' }] })
-      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.2' }] })
-      await host.loadLastSave()
+      await hostFade('out', 900, 'red', signal)
+      assertRunnerActive(signal, '战败流程所属 runner 已取消')
+      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.1' }] }, signal)
+      assertRunnerActive(signal, '战败流程所属 runner 已取消')
+      await host.dialog({ slot: 'narration', rows: [{ text: 'gameover.2' }] }, signal)
+      assertRunnerActive(signal, '战败流程所属 runner 已取消')
+      await host.loadLastSave(signal)
     },
-    wait: (ms) =>
-      new Promise((resolve) => {
-        timers.push({ deadline: nowMs + ms, resolve })
+    wait: (ms, signal) =>
+      new Promise((resolve, reject) => {
+        let settled = false
+        const timer = {
+          deadline: nowMs + ms,
+          settle: (error?: Error): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            const index = timers.indexOf(timer)
+            if (index >= 0) timers.splice(index, 1)
+            if (error) reject(error)
+            else resolve()
+          },
+        }
+        const abort = (): void => timer.settle(asyncIntentAbortError('脚本等待所属 runner 已取消'))
+        timers.push(timer)
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       }),
     teleportParty: (pos, fc) => {
       player.pos = { ...pos }
@@ -1103,51 +1331,77 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       followerPos.length = 0
       updateCamera()
     },
-    loadScene: async (sceneId, spawn) => {
+    loadScene: async (sceneId, spawn, signal) => {
+      assertRunnerActive(signal, `脚本切场景 ${sceneId} 的 runner 已取消`)
+      const sceneToken = sceneSwitchIntent.begin()
+      const visualOwner = {}
+      const worldToken = worldMutationIntent.capture()
+      const worldView = world
+      const inheritedFacing = facing
+      const assertRequestCurrent = (): void => {
+        assertRunnerActive(signal, `脚本切场景 ${sceneId} 的 runner 已取消`)
+        sceneSwitchIntent.assertCurrent(sceneToken, `脚本切场景 ${sceneId} 已被更新请求取代`)
+        worldMutationIntent.assertCurrent(worldToken, `脚本切场景 ${sceneId} 的所属世界已失效`)
+        if (world !== worldView)
+          throw asyncIntentAbortError(`脚本切场景 ${sceneId} 时活动世界已替换`)
+      }
       // 只消费“紧随自动对话收尾”的旧帧；其他 entry 从当前 presented canvas 取 source。
       const closedDialogFrame = preserveClosedDialogFrame
         ? ctx.getImageData(0, 0, canvas.width, canvas.height)
         : null
-      preserveClosedDialogFrame = false
       const fromSceneId = scene.id
-      markSceneLoad(fromSceneId, sceneId, 'preflight')
-      ditherTransition.cancel()
-      sceneEntrySession.cancel()
-      const targetDef = await getSceneDef(sceneId)
-      const targetBinding = sceneScriptBinding(targetDef, 'onEnter')
-      const entry = bindingSceneEntry(`s:${sceneId}`, targetBinding)
-      if (entry) {
-        // 先关对话状态但不重画；source 仍是来源场景最后一张完整 presented frame。
-        dialogBox.close()
-        sceneEntrySession.begin(
-          fromSceneId,
-          sceneId,
-          closedDialogFrame ?? ctx.getImageData(0, 0, canvas.width, canvas.height),
-          entry.reveal,
-        )
-        if (entry.reveal.kind === 'fade') {
-          markSceneLoad(fromSceneId, sceneId, 'entry-fade-out')
-          await hostFade('out', entry.reveal.outMs)
-        } else {
-          markSceneLoad(fromSceneId, sceneId, 'entry-hold')
-        }
-      } else {
-        markSceneLoad(fromSceneId, sceneId, 'fade-out')
-        await hostFade('out', 260)
-      }
-      markSceneLoad(fromSceneId, sceneId, 'switch')
-      stopAutoRunners()
-      try {
-        await switchScene(sceneId, { ...spawn, inheritFacing: facing })
-      } catch (error) {
-        ditherTransition.cancel()
-        sceneEntrySession.cancel()
-        fadeFx?.resolve()
-        fadeFx = null
-        fadeBlack = 0
-        markSceneLoad(fromSceneId, sceneId, 'error')
-        throw error
-      }
+      const plan = await prepareAndCommitSceneSwitch({
+        prepare: () =>
+          prepareSceneSwitch(sceneId, worldView, {
+            ...spawn,
+            inheritFacing: inheritedFacing,
+          }),
+        assertCurrent: (prepared) => {
+          assertRequestCurrent()
+          assertSceneSwitchPlanCurrent(prepared, worldView)
+        },
+        present: async (prepared) => {
+          preserveClosedDialogFrame = false
+          markSceneLoad(fromSceneId, sceneId, 'preflight')
+          ditherTransition.cancel()
+          sceneEntrySession.cancel()
+          const entry = prepared.onEnterEntry
+          if (entry) {
+            // 先关对话状态但不重画；source 仍是来源场景最后一张完整 presented frame。
+            dialogBox.close()
+            sceneEntrySession.begin(
+              fromSceneId,
+              sceneId,
+              closedDialogFrame ?? ctx.getImageData(0, 0, canvas.width, canvas.height),
+              entry.reveal,
+            )
+            if (entry.reveal.kind === 'fade') {
+              markSceneLoad(fromSceneId, sceneId, 'entry-fade-out')
+              await hostFade('out', entry.reveal.outMs, 'black', signal, visualOwner)
+            } else {
+              markSceneLoad(fromSceneId, sceneId, 'entry-hold')
+            }
+          } else {
+            markSceneLoad(fromSceneId, sceneId, 'fade-out')
+            await hostFade('out', 260, 'black', signal, visualOwner)
+          }
+        },
+        commit: (prepared) => {
+          markSceneLoad(fromSceneId, sceneId, 'switch')
+          stopAutoRunners()
+          commitSceneSwitch(prepared, worldView)
+        },
+        shouldCleanup: () => sceneSwitchIntent.isCurrent(sceneToken) && world === worldView,
+        cleanup: () => {
+          preserveClosedDialogFrame = false
+          ditherTransition.cancelOwned(visualOwner)
+          sceneEntrySession.cancel()
+          fadeDriver.cancelOwned(visualOwner, 0)
+          markSceneLoad(fromSceneId, sceneId, 'error')
+        },
+      })
+      const targetBinding = plan.onEnterBinding
+      const entry = plan.onEnterEntry
       markSceneLoad(fromSceneId, sceneId, 'committed')
       applyWorldToScene()
       entityFrameOverride.clear()
@@ -1156,20 +1410,27 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       startAutoRunners()
       if (!entry) {
         markSceneLoad(fromSceneId, sceneId, 'fade-in')
-        await hostFade('in', 260)
+        await hostFade('in', 260, 'black', signal, visualOwner)
+        assertRequestCurrent()
         markSceneLoad(fromSceneId, sceneId, 'done')
       } else {
         markSceneLoad(fromSceneId, sceneId, 'entry-ready')
       }
     },
-    ditherScreen: (ms) => {
+    ditherScreen: (ms, signal) => {
+      assertRunnerActive(signal, '屏幕渐变所属 runner 已取消')
       // 非 entry 的独立 0x73 仍在命令现场 snapshot，不参与场景入场事务。
       dialogBox.close()
       ditherZeroFrameMatchesBackup = null
       ditherZeroFrameDiffersFromTarget = null
-      return ditherTransition.beginSnapshot(
-        () => ctx.getImageData(0, 0, canvas.width, canvas.height),
-        ms,
+      return awaitOwnedDither(
+        () =>
+          ditherTransition.beginSnapshot(
+            () => ctx.getImageData(0, 0, canvas.width, canvas.height),
+            ms,
+          ),
+        signal,
+        '屏幕渐变所属 runner 已取消',
       )
     },
     setPartyFacing: (fc, gesture, member) => {
@@ -1178,38 +1439,59 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       facing = fc
       if (!member) partyGesture = gesture ?? null
     },
-    setActorSprite: async (actorId, spriteId) => {
+    setActorSprite: async (actorId, spriteId, signal) => {
+      assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
       // 原版 0x65:rgwSpriteNum[role]=sprite,持续到下次显式切换(开场练武/疯跑后脚本自切回)。
-      // 现阶段队伍渲染只有队长;非队长角色的换装先记报告(跟随者渲染落地后接)。
-      if (actorId !== leaderActor.id) {
-        host.report(`setActorSprite: 非队长 ${actorId} 暂不渲染`)
-        return
-      }
+      const actor = project.actorsById[actorId]
+      if (!actor) throw new Error(`0x65 换装角色 ${actorId} 不在 actors 表`)
       const def = requireSpriteDef(spriteId, `0x65 换装 ${actorId}`)
-      const frames =
-        spriteByNum.get(def.spriteNum) ??
-        (await loadSprite(project.assetBase, def.spriteNum, def.path))
-      spriteByNum.set(def.spriteNum, frames)
-      // 切回本体精灵 = 撤销覆盖(严格等价:override 恒生效,但本体时置 null 让存档/调试态干净)
-      leaderSpriteOverride = def.spriteNum === leaderSpriteDef.spriteNum ? null : { def, frames }
+      const worldToken = worldMutationIntent.capture()
+      const scriptMutationToken = scriptMutationIntent.capture()
+      const intent = actorMutationIntent(actorSpriteMutationIntents, actorId)
+      const actorToken = intent.begin()
+      const frames = await awaitRunner(
+        spriteCache.load(project.assetResolver, def.asset),
+        signal,
+        `0x65 换装 ${actorId} 的 runner 已取消`,
+      )
+      assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
+      worldMutationIntent.assertCurrent(worldToken, `0x65 换装 ${actorId} 的所属世界已失效`)
+      scriptMutationIntent.assertCurrent(scriptMutationToken, `0x65 换装 ${actorId} 的脚本已失效`)
+      intent.assertCurrent(actorToken, `0x65 换装 ${actorId} 已被更新请求取代`)
+      // 切回角色本体 = 撤销临时覆盖；持久 appearance 仍按其自身优先级生效。
+      if (def.id === actor.spriteId) actorSpriteOverrides.delete(actorId)
+      else actorSpriteOverrides.set(actorId, { def, frames })
     },
     // 0x1A:持久改角色形象(成年灵儿),写 CharacterInstance.appearance 随存档。按 template 匹配队员;
     // 大世界精灵覆写要预载新精灵帧(队长/跟随者渲染每帧读 appearance.spriteId)。
-    setActorAppearance: async (actorTemplate, patch) => {
-      const c = world.party.find((m) => m.template === actorTemplate)
-      if (!c) {
+    setActorAppearance: async (actorTemplate, patch, signal) => {
+      assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
+      if (!world.party.some((member) => member.template === actorTemplate)) {
         host.report(`setActorAppearance: ${actorTemplate} 不在队伍`)
         return
       }
-      c.appearance = { ...c.appearance, ...patch }
+      const worldToken = worldMutationIntent.capture()
+      const scriptMutationToken = scriptMutationIntent.capture()
+      const intent = actorMutationIntent(actorAppearanceMutationIntents, actorTemplate)
+      const actorToken = intent.begin()
       if (patch.spriteId) {
         const def = requireSpriteDef(patch.spriteId, `0x1A 换形象 ${actorTemplate}`)
-        if (!spriteByNum.has(def.spriteNum))
-          spriteByNum.set(
-            def.spriteNum,
-            await loadSprite(project.assetBase, def.spriteNum, def.path),
-          )
+        await awaitRunner(
+          spriteCache.load(project.assetResolver, def.asset),
+          signal,
+          `0x1A 换形象 ${actorTemplate} 的 runner 已取消`,
+        )
       }
+      assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
+      worldMutationIntent.assertCurrent(worldToken, `0x1A 换形象 ${actorTemplate} 的所属世界已失效`)
+      scriptMutationIntent.assertCurrent(
+        scriptMutationToken,
+        `0x1A 换形象 ${actorTemplate} 的脚本已失效`,
+      )
+      intent.assertCurrent(actorToken, `0x1A 换形象 ${actorTemplate} 已被更新请求取代`)
+      const c = world.party.find((member) => member.template === actorTemplate)
+      if (!c) throw asyncIntentAbortError(`0x1A 换形象 ${actorTemplate} 时角色已离队`)
+      c.appearance = { ...c.appearance, ...patch }
     },
     fleeBattle: () => {
       host.report('fleeBattle: 战斗演出专用命令,大世界上下文忽略')
@@ -1273,11 +1555,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (e) e.facing = fc
     },
     setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
-    giveItem: async (itemId, count) => {
+    giveItem: async (itemId, count, signal) => {
+      assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
       const targetWorld = world
       const mutationToken = worldMutationIntent.capture()
-      await prepareItemSounds(itemId)
+      const scriptMutationToken = scriptMutationIntent.capture()
+      await awaitRunner(prepareItemSounds(itemId), signal, `giveItem(${itemId}) 的 runner 已取消`)
+      assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
       worldMutationIntent.assertCurrent(mutationToken, `giveItem(${itemId}) 的所属世界已失效`)
+      scriptMutationIntent.assertCurrent(scriptMutationToken, `giveItem(${itemId}) 的脚本已失效`)
       if (world !== targetWorld)
         throw asyncIntentAbortError(`giveItem(${itemId}) 的所属世界已被替换`)
       const entry = targetWorld.inventory.find((x) => x.itemId === itemId)
@@ -1377,39 +1663,104 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     unmountParty: () => {
       dismountParty()
     },
-    // C7 队伍变更(D22 reserve):搬实例不丢状态;新队员精灵懒加载 + 计入 LRU 保护
-    setParty: (members) => {
-      applySetParty(world, members, project.actorsById)
-      for (const c of world.party) {
-        const a = project.actorsById[c.template]
-        const def = a ? project.spritesById[a.spriteId] : undefined
-        if (!def) continue
-        partySpriteNums.add(def.spriteNum)
-        if (!spriteByNum.has(def.spriteNum)) {
-          void loadSprite(project.assetBase, def.spriteNum, def.path).then((sp) => {
-            spriteByNum.set(def.spriteNum, sp)
-          })
-        }
+    // C7 队伍变更(D22 reserve):候选世界完整解析/预载后一次提交，失败或 abort 不留半队伍。
+    setParty: async (members, signal) => {
+      assertRunnerActive(signal, 'setParty 的 runner 已取消')
+      const worldToken = worldMutationIntent.capture()
+      const scriptMutationToken = scriptMutationIntent.capture()
+      const partyToken = partyMutationIntent.begin()
+      const targetWorld = world
+      const assertCurrent = (): void => {
+        assertRunnerActive(signal, 'setParty 的 runner 已取消')
+        worldMutationIntent.assertCurrent(worldToken, 'setParty 的所属世界已失效')
+        scriptMutationIntent.assertCurrent(scriptMutationToken, 'setParty 的脚本已失效')
+        partyMutationIntent.assertCurrent(partyToken, 'setParty 已被更新请求取代')
+        if (world !== targetWorld) throw asyncIntentAbortError('setParty 的所属世界已被替换')
       }
+      await commitLatestPreparedSnapshot({
+        assertCurrent,
+        snapshot: () => structuredClone(targetWorld),
+        mutate: (candidate) => {
+          applySetParty(candidate, members, project.actorsById)
+          if (!candidate.party[0]) throw new Error('setParty: 队伍不能为空')
+        },
+        requiredResources: (candidate) =>
+          candidate.party.map((member) => partySpriteDef(member).asset),
+        prepare: (asset) =>
+          awaitRunner(
+            spriteCache.load(project.assetResolver, asset),
+            signal,
+            `setParty 预载 ${asset} 时 runner 已取消`,
+          ).then(() => undefined),
+        commit: (candidate) => {
+          targetWorld.party = candidate.party
+          targetWorld.reserve = candidate.reserve
+          trail = seedFormationTrail(player.pos, facing)
+          followerFrozen.length = 0
+          followerPos.length = 0
+          followerAuth.clear()
+          deriveFollowers()
+        },
+      })
     },
-    ride: async (entityId, to, speed) => {
+    setFollowers: async (spriteIds, signal) => {
+      assertRunnerActive(signal, 'setFollowers 的 runner 已取消')
+      const worldToken = worldMutationIntent.capture()
+      const scriptMutationToken = scriptMutationIntent.capture()
+      const defs = spriteIds.map((spriteId) =>
+        requireSpriteDef(spriteId, `0x98 编外跟随者 ${spriteId}`),
+      )
+      await awaitRunner(
+        Promise.all(defs.map((def) => spriteCache.load(project.assetResolver, def.asset))),
+        signal,
+        'setFollowers 的 runner 已取消',
+      )
+      assertRunnerActive(signal, 'setFollowers 的 runner 已取消')
+      worldMutationIntent.assertCurrent(worldToken, 'setFollowers 的所属世界已失效')
+      scriptMutationIntent.assertCurrent(scriptMutationToken, 'setFollowers 的脚本已失效')
+    },
+    ride: async (entityId, to, speed, signal) => {
+      assertRunnerActive(signal, `骑乘 ${entityId} 的 runner 已取消`)
       // 骑行 = 确保全员挂载 + 驱动载具走位(party 每 tick 派生跟随,相机随 render 帧更新)
       const a = authority.get('party')
       if (!(a?.kind === 'mount' && a.parent === entityId)) host.mountParty(entityId, 0, 0)
       takeByScript(entityId) // 载具本身按位移指令语义接管(其 auto 暂停)
-      await host.moveEntity(entityId, to, speed)
+      await host.moveEntity(entityId, to, speed, signal)
+      assertRunnerActive(signal, `骑乘 ${entityId} 的 runner 已取消`)
     },
-    moveEntity: (id, to, speed) =>
-      new Promise((resolve) => {
+    moveEntity: (id, to, speed, signal) =>
+      new Promise((resolve, reject) => {
+        assertRunnerActive(signal, `实体 ${id} 走位所属 runner 已取消`)
         const e = scene.entities.find((x) => x.id === id)
         if (!e) {
           host.report(`moveEntity: 实体 ${id} 不在场`)
           resolve()
           return
         }
+        let settled = false
+        const entry = {
+          to,
+          speed,
+          resolve: (): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            if (entityMoves.get(id) === entry) entityMoves.delete(id)
+            resolve()
+          },
+        }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          if (entityMoves.get(id) === entry) entityMoves.delete(id)
+          signal?.removeEventListener('abort', abort)
+          reject(asyncIntentAbortError(`实体 ${id} 走位所属 runner 已取消`))
+        }
         // 步进只发生在世界拍上(首步至多等 100ms;曾因预充累加器致短距走位瞬移,2026-07-03)
         entityMoves.get(id)?.resolve() // E6a 顺手修:同实体新走位覆盖旧 entry 时兑现旧 Promise(防悬挂卡死调用方)
-        entityMoves.set(id, { to, speed, resolve })
+        entityMoves.set(id, entry)
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       }),
     stepEntity: (id, dir) => {
       const e = scene.entities.find((x) => x.id === id)
@@ -1432,10 +1783,33 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const d = pixelDeltaToGridDelta(dx, dy)
       e.pos = { ...e.pos, col: e.pos.col + d.dcol, row: e.pos.row + d.drow }
     },
-    moveParty: (to, speed) =>
-      new Promise((resolve) => {
+    moveParty: (to, speed, signal) =>
+      new Promise((resolve, reject) => {
+        assertRunnerActive(signal, '队伍走位所属 runner 已取消')
         dismountParty() // 走位即下筏(原版 ride 是 op-scoped,挂载不跨走位;零持久态)
-        partyMove = { to, speed, resolve } // 世界拍推进(advanceMoves)
+        let settled = false
+        const entry = {
+          to,
+          speed,
+          resolve: (): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            if (partyMove === entry) partyMove = null
+            resolve()
+          },
+        }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          if (partyMove === entry) partyMove = null
+          signal?.removeEventListener('abort', abort)
+          reject(asyncIntentAbortError('队伍走位所属 runner 已取消'))
+        }
+        partyMove?.resolve()
+        partyMove = entry // 世界拍推进(advanceMoves)
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       }),
     nudgeParty: (dx, dy, layer) => {
       // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
@@ -1446,18 +1820,37 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       stepFrame = (stepFrame + 1) % 4 // 原版 0x6E 带走姿推进
       updateCamera()
     },
-    cameraPan: (dx, dy, frames) =>
-      new Promise((resolve) => {
+    cameraPan: (dx, dy, frames, signal) =>
+      new Promise((resolve, reject) => {
+        assertRunnerActive(signal, '相机移动所属 runner 已取消')
+        let settled = false
         // 每帧位移 (dx,dy),共 frames 帧,累积进 cameraOffset(不回正;走位期保留)
-        cameraPanFx = {
+        const entry = {
           fromX: cameraOffset.x,
           fromY: cameraOffset.y,
           dx,
           dy,
           steps: frames,
           done: 0,
-          resolve,
+          resolve: (): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            if (cameraPanFx === entry) cameraPanFx = null
+            resolve()
+          },
         }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          if (cameraPanFx === entry) cameraPanFx = null
+          signal?.removeEventListener('abort', abort)
+          reject(asyncIntentAbortError('相机移动所属 runner 已取消'))
+        }
+        cameraPanFx?.resolve()
+        cameraPanFx = entry
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       }),
     cameraSnap: (to) => {
       if (to) {
@@ -1502,13 +1895,18 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         e.pages[0] = { ...e.pages[0], trigger: { ...e.pages[0].trigger, on, range } }
       }
     },
-    startBattle: async (team, battleOpts) => {
+    startBattle: async (team, battleOpts, runnerSignal) => {
+      assertRunnerActive(runnerSignal, `team-${team} 战斗所属 runner 已取消`)
       const launchToken = battleLaunchIntent.begin()
+      const scriptMutationToken = scriptMutationIntent.capture()
       const launchWorld = world
-      const launchSignal = scriptAbort?.signal
+      // 敌对实体/dev 直开没有 runner；给它们独立的永不取消 signal，绝不借用主脚本 signal。
+      const launchSignal = runnerSignal ?? new AbortController().signal
       const assertLaunchCurrent = (): void => {
+        assertRunnerActive(launchSignal, `team-${team} 战斗所属 runner 已取消`)
         battleLaunchIntent.assertCurrent(launchToken, `team-${team} 战斗启动意图已失效`)
-        if (world !== launchWorld || launchSignal?.aborted)
+        scriptMutationIntent.assertCurrent(scriptMutationToken, `team-${team} 战斗启动脚本已失效`)
+        if (world !== launchWorld)
           throw asyncIntentAbortError(`team-${team} 战斗启动所属世界已失效`)
       }
       const teamDef = project.enemyTeamsById[`team-${team}`]
@@ -1517,7 +1915,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         .filter((e): e is NonNullable<typeof e> => !!e)
       if (enemyDefs.length === 0) {
         showToast(`遇敌 #${team} —— 敌队缺数据,桩胜(M4c)`)
-        await host.wait(400)
+        await host.wait(400, launchSignal)
         assertLaunchCurrent()
         return 'win'
       }
@@ -1629,7 +2027,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         roles: project.manifest.assets.roles,
         encounterChoreography: encounterChoreo,
         ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
-        signal: launchSignal ?? new AbortController().signal,
+        signal: launchSignal,
       }).catch((error: unknown) => {
         if (isAbortError(error)) throw error
         throw new SfxReadinessCollectionError(`team-${team} battleBase 音效闭包收集失败`, {
@@ -1861,6 +2259,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
           //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
           buildSettlement: () => {
+            assertLaunchCurrent()
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
             if (r.exp > 0) {
@@ -1897,6 +2296,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       )
       const sessionRef = session
       activeBattle = session
+      const abortBattle = (): void => {
+        if (activeBattle === session) session.cancel()
+      }
+      launchSignal.addEventListener('abort', abortBattle, { once: true })
+      if (launchSignal.aborted) abortBattle()
       // DEV 调试口(一阶段 __tpgs 先例):验收/自动化直读战斗态(phase/ui/log)
       if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
       let result: 'win' | 'lose' | 'flee'
@@ -1906,7 +2310,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         // readiness fatal 经可见错误态确认退出后，仍要归还场景工作集与曲目。
         // AbortError 则由读档/切场景流程接管，避免与新场景准备互相覆盖。
         if (!isAbortError(error)) {
-          await prepareSceneSounds(scene).catch((restoreError: unknown) => {
+          await prepareSceneSounds(scene, world).catch((restoreError: unknown) => {
             console.error('[sfx readiness] fatal 后恢复场景工作集失败', restoreError)
           })
           assertLaunchCurrent()
@@ -1914,6 +2318,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         }
         throw error
       } finally {
+        launchSignal.removeEventListener('abort', abortBattle)
         // 旧会话的异步收尾不得清掉后来启动的新会话。
         if (activeBattle === session) {
           if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = null
@@ -1940,15 +2345,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,
       // 掉落对话/剧情旗标);返回值不回写(原版同)。触发战斗的脚本 runner 正悬挂在 startBattle
-      // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);共享 scriptAbort
-      // (dev 强停/读档连带中止)。敌整场逃离(0x69)不跑(无奖励语义,同 rewards)。
+      // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);沿用发起者
+      // runner signal，auto 重启只会取消自己的战斗。敌整场逃离(0x69)不跑(无奖励语义,同 rewards)。
       if (result === 'win' && !session.enemyFled() && world.script) {
         for (const def of session.enemySlotDefs()) {
           if (!def.onDefeated?.length) continue
           const r = new ScriptRunner(
             scriptHost,
             world.script,
-            (scriptAbort ?? new AbortController()).signal,
+            launchSignal,
             Math.random,
             project.scriptStore,
           )
@@ -1961,13 +2366,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         }
       }
       // 战斗 readiness 可能淘汰场景 LRU；恢复当前（也可能被战后脚本切换过的）场景工作集。
-      await prepareSceneSounds(scene)
+      await prepareSceneSounds(scene, world)
       assertLaunchCurrent()
       // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
       if (result !== 'lose') restoreSceneMusic()
       return result
     },
-    openShop: (shopId, mode) => {
+    openShop: (shopId, mode, signal) => {
+      assertRunnerActive(signal, `商店 #${shopId} 所属 runner 已取消`)
       // 买 = 店铺货单;卖 = 背包可卖。店不存在 → 报错即回(脚本继续,不卡死)。
       const list =
         mode === 'buy'
@@ -1977,36 +2383,60 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         host.report(`openShop: 店 #${shopId} 不在 shops 表`)
         return Promise.resolve()
       }
-      return new Promise<void>((resolve) => {
-        shop = { ui: openShopUi(mode, [...list]), resolve }
+      return new Promise<void>((resolve, reject) => {
+        let settled = false
+        const entry = {
+          ui: openShopUi(mode, [...list]),
+          resolve: (): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            if (shop === entry) shop = null
+            resolve()
+          },
+        }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          if (shop === entry) shop = null
+          signal?.removeEventListener('abort', abort)
+          reject(asyncIntentAbortError(`商店 #${shopId} 所属 runner 已取消`))
+        }
+        shop?.resolve()
+        shop = entry
+        signal?.addEventListener('abort', abort, { once: true })
+        if (signal?.aborted) abort()
       })
     },
     // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
     // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
     // detached 内联跑(同 Phase E)。0x6D op2 运行时装的出口(赤鬼王血池 s059 打完才装)存
     // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
-    teleportOut: async () => {
-      const binding = sceneScriptBinding(scene, 'onTeleport')
+    teleportOut: async (signal) => {
+      assertRunnerActive(signal, '传送出口所属 runner 已取消')
+      const binding = sceneScriptBinding(scene, 'onTeleport', world)
       if (!binding || (Array.isArray(binding) && binding.length === 0)) return false
       if (world.script) {
         const r = new ScriptRunner(
           scriptHost,
           world.script,
-          (scriptAbort ?? new AbortController()).signal,
+          signal ?? new AbortController().signal,
           Math.random,
           project.scriptStore,
         )
         await r.runStages(`teleport:${scene.id}`, runnableStages(binding)).catch((err: unknown) => {
           if (!isAbortError(err)) console.error('[script] teleportOut', scene.id, err)
         })
+        assertRunnerActive(signal, '传送出口所属 runner 已取消')
       }
       return true
     },
     // 演出期 runner 活跃 → 游戏循环吞输入；视频 URL 只经 catalog resolver 获得。
-    playVideo: async (asset) => playVideoAsset(asset),
+    playVideo: async (asset, signal) => playVideoAsset(asset, signal),
     // 帧动画逐帧写 Cinematic Layer；
     // World Layer 在下、对话/UI 在上，播放与末帧保持共用同一条合成路径。
-    playFrameAnimation: async (asset, opts) => {
+    playFrameAnimation: async (asset, opts, signal) => {
+      assertRunnerActive(signal, `帧动画 ${asset} 所属 runner 已取消`)
       beginFrameAnimationPlayback()
       try {
         await playFrameAnimationOverlay({
@@ -2016,12 +2446,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           startFrame: opts?.startFrame,
           endFrame: opts?.endFrame,
           onFrame: presentFrameAnimationFrame,
+          signal,
         })
+        assertRunnerActive(signal, `帧动画 ${asset} 所属 runner 已取消`)
       } finally {
         frameAnimationPresentation.finishPlayback()
       }
     },
-    confirm: async () => {
+    confirm: async (signal) => {
+      assertRunnerActive(signal, '确认框所属 runner 已取消')
       host.report('confirm 是/否框未实现(暂按"是")')
       return true
     },
@@ -2039,19 +2472,40 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       entityInScene: (id) => scene.entities.some((x) => x.id === id),
       sceneId: () => scene.id,
     },
-    // 0x99 当前场景即时换底图:只换 map 资产(map/tiles/renderer),不动实体/坐标。
-    reloadMap: async (mapId) => {
-      const assets = await getMapAssets(mapId)
+    // 0x99 当前场景即时换底图:预载完成后在一个无 await 提交块中同时写运行态与持久 override。
+    reloadMap: async (mapId, signal) => {
+      assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
+      const scriptMutationToken = scriptMutationIntent.capture()
+      const sceneAtRequest = scene
+      const worldAtRequest = world
+      const scriptAtRequest = expectDefined(world.script)
+      const assets = await awaitRunner(
+        getMapAssets(mapId),
+        signal,
+        `reloadMap(${mapId}) 的 runner 已取消`,
+      )
+      assertRunnerActive(signal, `reloadMap(${mapId}) 的 runner 已取消`)
+      scriptMutationIntent.assertCurrent(scriptMutationToken, `reloadMap(${mapId}) 的脚本已失效`)
+      if (scene !== sceneAtRequest)
+        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属场景已失效`)
+      if (world !== worldAtRequest || world.script !== scriptAtRequest)
+        throw asyncIntentAbortError(`reloadMap(${mapId}) 的所属世界已失效`)
+      const nextRenderer = new Canvas2DRenderer(ctx, palette, assets.tiles)
+      const nextRoom = { col: 0, row: 0, cols: assets.map.width, rows: assets.map.height }
+      scriptAtRequest.mapOverride ??= {}
+      scriptAtRequest.mapOverride[sceneAtRequest.id] = mapId
       map = assets.map
       tiles = assets.tiles
-      renderer = new Canvas2DRenderer(ctx, palette, tiles)
+      renderer = nextRenderer
       waveRenderer = null
-      room = { col: 0, row: 0, cols: map.width, rows: map.height }
+      room = nextRoom
     },
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
-    quitToTitle: async (videos) => {
+    quitToTitle: async (videos, signal) => {
+      assertRunnerActive(signal, '返回标题所属 runner 已取消')
       resetFrameAnimationPresentation()
-      await playVideoSequence(videos)
+      await playVideoSequence(videos, signal)
+      assertRunnerActive(signal, '返回标题所属 runner 已取消')
       location.href = `${location.pathname}?menu&skip-startup=1`
     },
     report: (msg) => {
@@ -2067,9 +2521,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   // 主脚本视图:位移指令隐式接管目标(决策②:转向/定帧不接管);脚本链收尾统一归还。
   const scriptHost: ScriptHost = {
     ...host,
-    moveEntity: (id, to, speed) => {
+    moveEntity: (id, to, speed, signal) => {
       takeByScript(id)
-      return host.moveEntity(id, to, speed)
+      return host.moveEntity(id, to, speed, signal)
     },
     stepEntity: (id, dir) => {
       takeByScript(id)
@@ -2079,18 +2533,22 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       takeByScript(id)
       host.nudgeEntity(id, dx, dy)
     },
-    chaseStep: (id, range, speed, floating) => {
+    chaseStep: (id, range, speed, floating, signal) => {
       takeByScript(id)
-      return host.chaseStep(id, range, speed, floating)
+      return host.chaseStep(id, range, speed, floating, signal)
     },
   }
   // auto 巡逻视图:目标实体被主脚本接管 → 该指令暂停/跳过(决策①:仅被接管者暂停,
   // 其余 NPC 照常并行 —— 2026-07-03「不复刻对话冻结 NPC」拍板的精确化)。
   const autoHost: ScriptHost = {
     ...host,
-    moveEntity: async (id, to, speed) => {
-      while (authority.has(id)) await host.wait(150) // 等 release 再走(演出期整段驻留)
-      return host.moveEntity(id, to, speed)
+    loadScene: async () => {
+      throw new Error('auto 脚本禁止 loadScene，请由 trigger/onEnter 切换场景')
+    },
+    moveEntity: async (id, to, speed, signal) => {
+      while (authority.has(id)) await host.wait(150, signal) // 等 release 再走(演出期整段驻留)
+      assertRunnerActive(signal, `auto 实体 ${id} 走位所属 runner 已取消`)
+      return host.moveEntity(id, to, speed, signal)
     },
     stepEntity: (id, dir) => {
       if (authority.has(id)) return // 半格步:被接管期丢步无感
@@ -2100,12 +2558,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (authority.has(id)) return
       host.nudgeEntity(id, dx, dy)
     },
-    chaseStep: async (id, range, speed, floating) => {
+    chaseStep: async (id, range, speed, floating, signal) => {
       if (authority.has(id)) {
-        await host.wait(200)
+        await host.wait(200, signal)
         return
       }
-      return host.chaseStep(id, range, speed, floating)
+      return host.chaseStep(id, range, speed, floating, signal)
     },
     takeEntity: (id) => {
       host.report(`auto 脚本不可接管实体(${id});takeEntity 仅主脚本可用`)
@@ -2119,7 +2577,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     unmountParty: () => {
       host.report('auto 脚本不可卸载队伍;unmountParty 仅主脚本可用')
     },
-    ride: async () => {
+    ride: async (_entityId, _to, _speed, signal) => {
+      assertRunnerActive(signal, 'auto 骑乘所属 runner 已取消')
       host.report('auto 脚本不可骑乘;ride 仅主脚本可用')
     },
   }
@@ -2406,6 +2865,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     startAutoRunner(e)
   }
   function stopAutoRunners(): void {
+    // AbortSignal 只会在 host Promise 返回后被 runner 检查；先失效 host 的提交 token，
+    // 保证旧场景 auto 已经卡进资源 await 时也不能在新场景提交后反写。
+    invalidatePendingScriptMutations()
     for (const ac of autoAborts.values()) ac.abort()
     autoAborts.clear()
     for (const [, mv] of entityMoves) mv.resolve()
@@ -2477,7 +2939,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
 
   /** 强停脚本(读档/dev 切场景):abort 全树 + 兑现悬挂 driver + 清演出态。 */
   function abortScript(): void {
+    sceneSwitchIntent.invalidate()
     worldMutationIntent.invalidate()
+    invalidatePendingScriptMutations()
     battleLaunchIntent.invalidate()
     activeBattle?.cancel()
     scriptAbort?.abort()
@@ -2491,16 +2955,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     r?.()
     dismountParty() // E7:强停同样下筏(防跟随者漏挂)
     authority.clear() // E6a:强停演出同样归还全部实体
-    for (const t of timers.splice(0)) t.resolve()
-    fadeFx?.resolve()
-    fadeFx = null
+    for (const t of timers.splice(0)) t.settle()
+    fadeDriver.cancel(0)
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     resetFrameAnimationPresentation()
-    fadeBlack = 0
     entityFrameOverride.clear()
     partyGesture = null // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
-    leaderSpriteOverride = null
+    actorSpriteOverrides.clear()
     partyMove?.resolve()
     partyMove = null
     walking = false
@@ -2603,51 +3065,106 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     await refreshSaveMetas()
   }
 
-  async function doLoad(slotId: SlotId): Promise<boolean> {
-    const raw = await saveStore.getPayload(slotId)
+  function payloadBelongsToProject(p: Pick<SavePayload, 'projectId'>, where: string): boolean {
+    if (p.projectId !== project.manifest.id) {
+      console.warn(
+        `[save] ${where} 属工程 "${p.projectId}",与当前 "${project.manifest.id}" 不匹配,拒绝读档`,
+      )
+      return false
+    }
+    return true
+  }
+
+  /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
+  async function restorePayload(
+    p: SavePayload,
+    token: number,
+    where: string,
+    signal?: AbortSignal,
+  ): Promise<boolean> {
+    assertRunnerActive(signal, `${where} 的 runner 已取消`)
+    if (!payloadBelongsToProject(p, where)) return false
+    // 内容版本温和提示(不拒绝:内容工程迭代是常态,存档格式版本才做硬迁移)
+    if (p.contentVersion !== project.manifest.contentVersion) {
+      showToast('存档来自旧版内容,如有异常请重开新档')
+    }
+    const candidate = p.world
+    if (!candidate.party[0]) {
+      showToast(`${where}: 存档队伍为空`)
+      return false
+    }
+    candidate.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
+    // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
+    // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
+    for (const c of candidate.party) {
+      c.poisons = undefined
+      c.extraStatuses = undefined
+      c.extraPoisonRes = undefined
+    }
+    // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
+    // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
+    let plan: SceneSwitchPlan
+    try {
+      plan = await prepareSceneSwitch(
+        p.position.sceneId,
+        candidate,
+        { pos: p.position.pos, facing: p.position.facing },
+        false,
+      )
+      assertRunnerActive(signal, `${where} 的 runner 已取消`)
+      loadIntent.assertCurrent(token, `${where} 已被更新读档请求取代`)
+      assertSceneSwitchPlanCurrent(plan, candidate)
+    } catch (error) {
+      if (isAbortError(error)) {
+        if (signal?.aborted) throw error
+        return false
+      }
+      console.warn(`[save] ${where} 场景预检失败:`, error)
+      showToast(error instanceof Error ? error.message : '存档场景无法读取')
+      return false
+    }
+
+    // 从这里开始没有 await：强停旧演出、world 与 scene 在同一个任务中同步提交。
+    assertRunnerActive(signal, `${where} 的 runner 已取消`)
+    const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
+    abortScript()
+    stopAutoRunners()
+    replaceWorld(candidate)
+    commitSceneSwitch(plan, world, false)
+    syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
+    applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
+    world.audio ??= {}
+    if (music.currentMusic === undefined) delete world.audio.currentMusic
+    else world.audio.currentMusic = music.currentMusic
+    if (music.action === 'stop') bgm.stop()
+    else bgm.play(expectDefined(music.currentMusic))
+    startAutoRunners()
+    return true
+  }
+
+  async function doLoad(slotId: SlotId, signal?: AbortSignal): Promise<boolean> {
+    assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
+    const token = loadIntent.begin()
+    const raw = await awaitRunner(
+      saveStore.getPayload(slotId),
+      signal,
+      `存档槽 ${slotId} 的 runner 已取消`,
+    )
+    assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
+    if (!loadIntent.isCurrent(token)) return false
     if (!raw) return false
+    const where = `存档槽 ${slotId}`
+    // 工程身份先于当前工程专属的 portrait/follower 映射，错误必须稳定指向 projectId。
+    if (!payloadBelongsToProject(raw, where)) return false
     let p: SavePayload
     try {
-      p = normalizePayload(raw, { ...savePortraitOptions, where: `存档槽 ${slotId}` })
+      p = normalizePayload(raw, { ...saveNormalizeOptions, where })
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
       showToast(err instanceof Error ? err.message : '存档无法读取')
       return false
     }
-    abortScript() // 演出中读档:全树取消 + 清演出态
-    stopAutoRunners()
-    // 存档绑工程:projectId 不匹配(把 A 工程存档读进 B 工程)→ 拒绝,防世界态错乱。
-    if (p.projectId !== project.manifest.id) {
-      console.warn(
-        `[save] 槽 ${slotId} 属工程 "${p.projectId}",与当前 "${project.manifest.id}" 不匹配,拒绝读档`,
-      )
-      return false
-    }
-    // 内容版本温和提示(不拒绝:内容工程迭代是常态,存档格式版本才做硬迁移)
-    if (p.contentVersion !== project.manifest.contentVersion) {
-      showToast('存档来自旧版内容,如有异常请重开新档')
-    }
-    replaceWorld(p.world)
-    world.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
-    // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
-    // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
-    for (const c of world.party) {
-      c.poisons = undefined
-      c.extraStatuses = undefined
-      c.extraPoisonRes = undefined
-    }
-    syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
-    // 同场景也走 switchScene:场景实体运行时已被演出污染(位置/触发),读档必须回
-    // def 初态再由 applyWorldToScene 重放世界态(X1;getSceneDef 已返回 pristine 拷贝)。
-    const savedMusic = world.audio?.currentMusic
-    await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
-    world.audio ??= {}
-    world.audio.currentMusic = savedMusic
-    applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
-    if (savedMusic === null) bgm.stop()
-    else if (savedMusic) bgm.play(savedMusic)
-    startAutoRunners()
-    return true
+    return restorePayload(p, token, where, signal)
   }
 
   async function quickSave(): Promise<void> {
@@ -2677,9 +3194,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   }
 
   function drawFadeCurtain(): void {
-    if (fadeBlack <= 0.001) return
+    if (fadeDriver.value <= 0.001) return
     ctx.save()
-    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeBlack.toFixed(3)})`
+    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeDriver.value.toFixed(3)})`
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.restore()
   }
@@ -2710,23 +3227,27 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     for (const e of scene.entities) {
       if (e.hidden) continue
       const def = entitySpriteDefs.get(e.id)
-      const sp = def ? spriteByNum.get(def.spriteNum) : undefined
+      const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
       // 帧下标:演出帧覆盖(0x14/0x0F,含 0)优先且恒走 站立+override;
       // 否则移动/动画中走走路帧(anim 计数);否则站立帧
       const anim = entityAnim.get(e.id)
       const hasOv = entityFrameOverride.has(e.id)
       const fi = def
         ? hasOv
-          ? idleFrameIndex(def.layout, e.facing ?? 'down') + (entityFrameOverride.get(e.id) ?? 0)
+          ? actualFrameIndex(
+              idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length) +
+                (entityFrameOverride.get(e.id) ?? 0),
+              sp?.frames.length ?? 0,
+            )
           : def.layout.kind === 'loop'
-            ? loopFrameIndex(def.layout, performance.now()) // E5:火把/流水自循环
+            ? loopFrameIndex(def.layout, performance.now(), sp?.frames.length ?? 0) // E5:火把/流水自循环
             : anim !== undefined
               ? // 0x87/走位共用计数:directional 走步序,static 平推整条帧带(原版语义;
                 // 曾只走 walkFrameIndex → static 恒 0,原地动画 NPC 全冻结,作者报)
                 animFrameIndex(def.layout, e.facing ?? 'down', anim, sp?.frames.length ?? 1)
-              : idleFrameIndex(def.layout, e.facing ?? 'down')
+              : idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length)
         : 0
-      const f = def ? (sp?.frames[fi] ?? sp?.frames[0]) : undefined
+      const f = def ? sp?.frames[fi] : undefined
       if (!sp || !f) continue
       const p = gridToPixel(e.pos)
       // 0x7E 图层覆写:只进深度排序键(+8px/层 = 一阶段 present.ts:540 sLayer×8 真值),
@@ -2746,25 +3267,23 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         baseYBias: effectiveLayer,
       })
     }
-    // 玩家帧:脚本姿势(0x15 gesture,原版 wFrame=dir*3+gesture)优先;否则 walk/idle
-    // 走 sprite-anim。精灵本体覆盖优先级:0x65 临时换装(练武/疯跑,内存态)> 0x1A 持久形象
-    //（成年灵儿当队长;appearance.spriteId 随存档,帧 host 已预载)> 本体。
-    const leaderAppSprite = world.party[0]?.appearance?.spriteId
-    const leaderAppDef =
-      leaderAppSprite && leaderAppSprite !== leaderActor?.spriteId
-        ? project.spritesById[leaderAppSprite]
-        : undefined
-    const leaderAppFrames = leaderAppDef ? spriteByNum.get(leaderAppDef.spriteNum) : undefined
-    const ld = leaderSpriteOverride?.def ?? leaderAppDef ?? leaderSpriteDef
-    const ls = leaderSpriteOverride?.frames ?? leaderAppFrames ?? playerSprite
-    const fi =
-      partyGesture != null
-        ? idleFrameIndex(ld.layout, facing) + partyGesture
+    // 玩家帧每帧按当前 world.party[0] 解析；0x65 临时换装 > 0x1A 持久形象 > Actor 本体。
+    const leader = world.party[0]
+    const leaderVisual = leader ? partyVisual(leader) : undefined
+    const ld = leaderVisual?.def
+    const ls = leaderVisual?.frames
+    const fi = ld
+      ? partyGesture != null
+        ? actualFrameIndex(
+            idleFrameIndex(ld.layout, facing, ls?.frames.length) + partyGesture,
+            ls?.frames.length ?? 0,
+          )
         : walking
-          ? walkFrameIndex(ld.layout, facing, stepFrame)
-          : idleFrameIndex(ld.layout, facing)
-    const pf = ls.frames[fi] ?? ls.frames[0]
-    if (pf) {
+          ? walkFrameIndex(ld.layout, facing, stepFrame, ls?.frames.length)
+          : idleFrameIndex(ld.layout, facing, ls?.frames.length)
+      : 0
+    const pf = ls?.frames[fi]
+    if (ld && pf) {
       const pp = gridToPixel(player.pos)
       sprites.push({
         frame: pf,
@@ -2781,18 +3300,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     // E7 跟随者(party[1..N]):照队长那套 push sprite;walk/idle 跟队长走态
     for (let m = 1; m < world.party.length; m++) {
       const fp = followerPos[m]
-      // C7:按当前 world.party 动态解析精灵(setParty 即时生效;帧未载到先跳过,懒加载补上)。
-      // 0x1A 形象覆写优先(成年灵儿 appearance.spriteId;host 已预载其帧)。
+      // C7:按当前 world.party 动态解析精灵；0x65/0x1A 与队长走同一优先级。
       const c = world.party[m]
-      const actor = c ? project.actorsById[c.template] : undefined
-      const spriteId = c?.appearance?.spriteId ?? actor?.spriteId
-      const fd = spriteId ? project.spritesById[spriteId] : undefined
-      const fr = fd ? spriteByNum.get(fd.spriteNum) : undefined
+      const visual = c ? partyVisual(c) : undefined
+      const fd = visual?.def
+      const fr = visual?.frames
       if (!fp || !fd || !fr) continue
       const ffi = walking
-        ? walkFrameIndex(fd.layout, fp.facing, stepFrame)
-        : idleFrameIndex(fd.layout, fp.facing)
-      const ff = fr.frames[ffi] ?? fr.frames[0]
+        ? walkFrameIndex(fd.layout, fp.facing, stepFrame, fr.frames.length)
+        : idleFrameIndex(fd.layout, fp.facing, fr.frames.length)
+      const ff = fr.frames[ffi]
       if (!ff) continue
       const fpp = gridToPixel(fp.pos)
       sprites.push({
@@ -2809,12 +3326,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         baseYBias: partyLayer - 0.01 * m,
       })
     }
-    // 0x98 编外跟随者(script.c:2709 nFollower):精灵号直用(s102 书生 82/83),
-    // 排队员之后按 trail 再深一档跟走;精灵未载(书生本就是场景实体,通常已载)跳过
+    // 0x98 编外跟随者：存档/脚本保存 SpriteDef.id；定义提供各自 AssetId 与 layout。
     const extraFollowers = world.script?.followers ?? []
     for (let k = 0; k < extraFollowers.length; k++) {
-      const chunk = expectDefined(extraFollowers[k])
-      const fr = spriteByNum.get(chunk)
+      const spriteId = expectDefined(extraFollowers[k])
+      const def = project.spritesById[spriteId]
+      const fr = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
       const m = world.party.length + k
       const r = computeFollowerPos(
         { party: player.pos, trail, walking, frozenOffset: followerFrozen },
@@ -2823,11 +3340,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       )
       const pos = r?.pos ?? player.pos
       const dir = r?.dir ?? facing
-      if (!fr) continue
-      // 布局按四向行走图惯例(原版 MGO 跟随者即此;帧不够时 walkFrameIndex 回落首帧)
-      const layout = { kind: 'directional' as const, framesPerDir: 3 }
-      const ffi = walking ? walkFrameIndex(layout, dir, stepFrame) : idleFrameIndex(layout, dir)
-      const ff = fr.frames[ffi] ?? fr.frames[0]
+      if (!def || !fr) continue
+      const ffi = walking
+        ? walkFrameIndex(def.layout, dir, stepFrame, fr.frames.length)
+        : idleFrameIndex(def.layout, dir, fr.frames.length)
+      const ff = fr.frames[ffi]
       if (!ff) continue
       const fpp = gridToPixel(pos)
       sprites.push({
@@ -3142,7 +3659,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     /** dev:渲染层诊断(fade 卡黑/战斗态排查)。 */
     get renderDebug() {
       return {
-        fadeBlack,
+        fadeBlack: fadeDriver.value,
         inBattle: !!activeBattle,
         menuActive: menu.active,
         frameAnimationLayerMode: frameAnimationPresentation.mode,
@@ -3178,17 +3695,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     nowMs = t
     // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──
     for (let i = timers.length - 1; i >= 0; i--) {
-      if (t >= expectDefined(timers[i]).deadline) expectDefined(timers.splice(i, 1)[0]).resolve()
+      if (t >= expectDefined(timers[i]).deadline) expectDefined(timers.splice(i, 1)[0]).settle()
     }
-    if (fadeFx) {
-      const pr = fadeFx.ms <= 0 ? 1 : Math.min(1, (t - fadeFx.start) / fadeFx.ms)
-      fadeBlack = fadeFx.dir === 'out' ? pr : 1 - pr
-      if (pr >= 1) {
-        const f = fadeFx
-        fadeFx = null
-        f.resolve()
-      }
-    }
+    fadeDriver.advance(t)
     if (!dialogBox.active && scriptDialogResolve) {
       const r = scriptDialogResolve
       scriptDialogResolve = null
@@ -3369,7 +3878,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
               // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
               // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
               // 0x6D 运行时覆写优先于静态槽;null 表示此场景明确无出口。
-              const teleportScript = sceneScriptBinding(scene, 'onTeleport')
+              const teleportScript = sceneScriptBinding(scene, 'onTeleport', world)
               if (teleportScript && (!Array.isArray(teleportScript) || teleportScript.length > 0)) {
                 if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
                 const sound = project.items[r.itemId]?.use?.sound
@@ -3546,14 +4055,20 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           const nextId = expectDefined(
             ids[(cur + (pressed.has(']') ? 1 : ids.length - 1)) % ids.length],
           )
-          abortScript()
-          stopAutoRunners()
-          void switchScene(nextId)
+          void switchScene(
+            nextId,
+            undefined,
+            () => {
+              abortScript()
+              stopAutoRunners()
+            },
+            false,
+          )
             .then(() => {
               applyWorldToScene()
               startAutoRunners()
               showToast(`${nextId}(${ids.indexOf(nextId) + 1}/${ids.length})`)
-              const onEnter = sceneScriptBinding(scene, 'onEnter')
+              const onEnter = sceneScriptBinding(scene, 'onEnter', world)
               if (onEnter) startScript(`s:${scene.id}`, onEnter)
             })
             .catch((err: unknown) => showToast(`切场景失败: ${String(err).slice(0, 40)}`))
@@ -3609,26 +4124,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const e2eLoadUrl = params.get('e2e-load')
   if (e2eLoadUrl) {
     try {
-      const p = normalizePayload(await fetch(e2eLoadUrl).then((r) => r.json()), {
-        ...savePortraitOptions,
-        where: `E2E 存档 ${e2eLoadUrl}`,
+      const token = loadIntent.begin()
+      const raw = (await fetch(e2eLoadUrl).then((r) => r.json())) as SavePayload
+      loadIntent.assertCurrent(token, `E2E 存档 ${e2eLoadUrl} 已被更新读档请求取代`)
+      const where = `E2E 存档 ${e2eLoadUrl}`
+      if (!payloadBelongsToProject(raw, where)) throw new Error(`${where}: projectId 不匹配`)
+      const p = normalizePayload(raw, {
+        ...saveNormalizeOptions,
+        where,
       })
-      replaceWorld(p.world)
-      world.script ??= emptyWorldScriptState()
-      for (const c of world.party) {
-        c.poisons = undefined
-        c.extraStatuses = undefined
-        c.extraPoisonRes = undefined
-      }
-      syncAmbience()
-      const savedMusic = world.audio?.currentMusic
-      await switchScene(p.position.sceneId, { pos: p.position.pos, facing: p.position.facing })
-      world.audio ??= {}
-      world.audio.currentMusic = savedMusic
-      applyWorldToScene()
-      if (savedMusic === null) bgm.stop()
-      else if (savedMusic) bgm.play(savedMusic)
-      startAutoRunners()
+      if (!(await restorePayload(p, token, where))) throw new Error(`${where}: 恢复事务失败`)
       const e2eLoadScene = params.get('e2e-load-scene')
       if (import.meta.env.DEV && e2eLoadScene && project.sceneIds.includes(e2eLoadScene)) {
         const e2eLoadPosRaw = params.get('e2e-load-pos')?.split(',').map(Number)
@@ -3662,7 +4167,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       // 读档失败(槽空/归一化拒/工程不符)→ 落回默认新局:应用世界态 + 跑入口 onEnter。
       applyWorldToScene()
       startAutoRunners()
-      const onEnter = sceneScriptBinding(scene, 'onEnter')
+      const onEnter = sceneScriptBinding(scene, 'onEnter', world)
       if (onEnter) startScript(`s:${scene.id}`, onEnter)
     }
     requestAnimationFrame(tick)
@@ -3732,7 +4237,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
     showToast(`已跳至 ${scene.id} (${spawnPos.col},${spawnPos.row}) — onEnter 已跳过`)
   } else {
-    const onEnter = sceneScriptBinding(scene, 'onEnter')
+    const onEnter = sceneScriptBinding(scene, 'onEnter', world)
     if (onEnter) startScript(`s:${scene.id}`, onEnter)
   }
   requestAnimationFrame(tick)
@@ -3794,27 +4299,30 @@ async function renderBattlePreview(project: LoadedProject, params: URLSearchPara
   )
 }
 
-/** 调试速查：把 spriteNum 0..47 的第 0 帧排成网格 + 标号，肉眼分辨人 / 物。 */
-async function renderSpriteGallery(assetBase: AssetBase, palette: Palette): Promise<void> {
+/** 调试速查：按 catalog 的 sprite AssetId 浏览全部一等资源，不猜编号或物理路径。 */
+async function renderSpriteGallery(project: LoadedProject, palette: Palette): Promise<void> {
   const COLS = 8
   const CELL = 80
-  const MAX = 47
+  const assets = Object.entries(project.assetCatalog.assets)
+    .filter(([, record]) => record.kind === 'sprite')
+    .sort(([left], [right]) => left.localeCompare(right))
   canvas.width = COLS * CELL
-  canvas.height = (Math.floor(MAX / COLS) + 1) * CELL
+  canvas.height = Math.max(CELL, Math.ceil(assets.length / COLS) * CELL)
   const renderer = new Canvas2DRenderer(ctx, palette, new Map())
   renderer.clear()
-  for (let id = 0; id <= MAX; id++) {
+  for (const [index, [asset, record]] of assets.entries()) {
     let sp: LoadedSprite | undefined
     try {
-      sp = await loadSprite(assetBase, id)
+      sp = await loadSpriteAsset(project.assetResolver, asset)
     } catch {
       sp = undefined
     }
-    const col = id % COLS
-    const rowI = Math.floor(id / COLS)
+    const col = index % COLS
+    const rowI = Math.floor(index / COLS)
     ctx.fillStyle = '#7a9'
     ctx.font = '10px monospace'
-    ctx.fillText(String(id), col * CELL + 4, rowI * CELL + 12)
+    ctx.fillText(asset, col * CELL + 4, rowI * CELL + 12, CELL - 8)
+    ctx.fillText(record.label ?? '', col * CELL + 4, rowI * CELL + 23, CELL - 8)
     const f = sp?.frames[0]
     if (sp && f)
       renderer.drawSprite(
@@ -3826,7 +4334,7 @@ async function renderSpriteGallery(assetBase: AssetBase, palette: Palette): Prom
         { x: 0, y: 0 },
       )
   }
-  console.log('[reforge] sprite gallery 0..47 rendered')
+  console.log(`[reforge] sprite gallery ${assets.length} catalog assets rendered`)
 }
 
 // 页面入口壳(loadProject + bootGame + 错误画屏)在 boot.ts —— 本模块只导出可复用启动函数。

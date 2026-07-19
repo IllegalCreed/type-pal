@@ -1,6 +1,7 @@
 import type { Command, ScriptStage } from '@type-pal/content'
 import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { SupersedingFadeDriver } from './fade-driver.js'
 import { buildPayload } from './save/ops.js'
 import type { ScriptResolver } from './script-chunk-store.js'
 import type { ScriptHost } from './script-runner.js'
@@ -9,15 +10,29 @@ import { makeTestWorld } from './test-fixtures.js'
 
 /** 记录调用序的 fake host;异步项立即 resolve(顺序性由调用序断言)。 */
 function fakeHost(calls: string[]): ScriptHost {
+  const visibleArgs = (args: unknown[]): unknown[] => {
+    const last = args.at(-1)
+    return typeof AbortSignal !== 'undefined' && last instanceof AbortSignal
+      ? args.slice(0, -1)
+      : args
+  }
   const log =
     (name: string) =>
     (...args: unknown[]) => {
-      calls.push(`${name}(${args.map((a) => JSON.stringify(a)).join(',')})`)
+      calls.push(
+        `${name}(${visibleArgs(args)
+          .map((a) => JSON.stringify(a))
+          .join(',')})`,
+      )
     }
   const alog =
     (name: string) =>
     async (...args: unknown[]) => {
-      calls.push(`${name}(${args.map((a) => JSON.stringify(a)).join(',')})`)
+      calls.push(
+        `${name}(${visibleArgs(args)
+          .map((a) => JSON.stringify(a))
+          .join(',')})`,
+      )
     }
   return {
     dialog: alog('dialog'),
@@ -44,7 +59,8 @@ function fakeHost(calls: string[]): ScriptHost {
     takeEntity: log('takeEntity'),
     releaseEntity: log('releaseEntity'),
     mountParty: log('mountParty'),
-    setParty: log('setParty'),
+    setParty: async (...args: unknown[]) => log('setParty')(...args),
+    setFollowers: alog('setFollowers'),
     unmountParty: log('unmountParty'),
     ride: alog('ride'),
     moveEntity: alog('moveEntity'),
@@ -101,6 +117,14 @@ function fakeHost(calls: string[]): ScriptHost {
   }
 }
 
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((yes) => {
+    resolve = yes
+  })
+  return { promise, resolve }
+}
+
 test('场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone', async () => {
   const calls: string[] = []
   const world = emptyWorldScriptState()
@@ -123,6 +147,93 @@ test('结局命令调用宿主回标题', async () => {
   const r = new ScriptRunner(fakeHost(calls), emptyWorldScriptState(), new AbortController().signal)
   await r.run([{ kind: 'quitToTitle', videos: ['video.pal.004', 'video.pal.005'] }])
   expect(calls).toEqual(['quitToTitle(["video.pal.004","video.pal.005"])'])
+})
+
+test('setFollowers 先预载再原子提交；失败与 abort 都不污染世界', async () => {
+  const calls: string[] = []
+  const world = emptyWorldScriptState()
+  const ok = fakeHost(calls)
+  await new ScriptRunner(ok, world, new AbortController().signal).run([
+    { kind: 'setFollowers', sprites: ['sprite-82'] },
+  ])
+  expect(world.followers).toEqual(['sprite-82'])
+  expect(calls).toEqual(['setFollowers(["sprite-82"])'])
+
+  const failed = fakeHost([])
+  failed.setFollowers = async () => {
+    throw new Error('missing sprite')
+  }
+  await expect(
+    new ScriptRunner(failed, world, new AbortController().signal).run([
+      { kind: 'setFollowers', sprites: ['sprite-missing'] },
+    ]),
+  ).rejects.toThrow('missing sprite')
+  expect(world.followers).toEqual(['sprite-82'])
+
+  const controller = new AbortController()
+  const aborted = fakeHost([])
+  aborted.setFollowers = async () => {
+    controller.abort()
+  }
+  await expect(
+    new ScriptRunner(aborted, world, controller.signal).run([
+      { kind: 'setFollowers', sprites: [] },
+    ]),
+  ).rejects.toMatchObject({ name: 'AbortError' })
+  expect(world.followers).toEqual(['sprite-82'])
+})
+
+test('setParty 必须等待宿主事务完成；reject/abort 后不执行下一条命令', async () => {
+  const calls: string[] = []
+  const waiting = fakeHost(calls)
+  let release: (() => void) | undefined
+  waiting.setParty = (members) => {
+    calls.push(`setParty(${JSON.stringify(members)})`)
+    return new Promise<void>((resolve) => {
+      release = resolve
+    })
+  }
+  const pending = new ScriptRunner(
+    waiting,
+    emptyWorldScriptState(),
+    new AbortController().signal,
+  ).run([
+    { kind: 'setParty', members: ['lin-yueru'] },
+    { kind: 'giveMoney', delta: 1 },
+  ])
+  await Promise.resolve()
+  expect(calls).toEqual(['setParty(["lin-yueru"])'])
+  release?.()
+  await pending
+  expect(calls).toEqual(['setParty(["lin-yueru"])', 'giveMoney(1)'])
+
+  const rejectedCalls: string[] = []
+  const rejected = fakeHost(rejectedCalls)
+  rejected.setParty = async () => {
+    throw new Error('sprite preload failed')
+  }
+  await expect(
+    new ScriptRunner(rejected, emptyWorldScriptState(), new AbortController().signal).run([
+      { kind: 'setParty', members: ['zhao-linger'] },
+      { kind: 'giveMoney', delta: 1 },
+    ]),
+  ).rejects.toThrow('sprite preload failed')
+  expect(rejectedCalls).toEqual([])
+
+  const controller = new AbortController()
+  const abortedCalls: string[] = []
+  const aborted = fakeHost(abortedCalls)
+  aborted.setParty = async () => {
+    abortedCalls.push('setParty')
+    controller.abort()
+  }
+  await expect(
+    new ScriptRunner(aborted, emptyWorldScriptState(), controller.signal).run([
+      { kind: 'setParty', members: ['anu'] },
+      { kind: 'giveMoney', delta: 1 },
+    ]),
+  ).rejects.toMatchObject({ name: 'AbortError' })
+  expect(abortedCalls).toEqual(['setParty'])
 })
 
 test('顺序执行 + 世界状态写入(flags/vars/entityState 双写)', async () => {
@@ -305,6 +416,18 @@ describe('stages 阶段机', () => {
     expect(world.vars.ran).toBe(2)
   })
 
+  test('已取消的空 stage 不得推进阶段', async () => {
+    const world = emptyWorldScriptState()
+    const controller = new AbortController()
+    controller.abort()
+    const r = new ScriptRunner(fakeHost([]), world, controller.signal)
+
+    await expect(r.runStages('e1', [{ body: [], next: 'advance' }])).rejects.toMatchObject({
+      name: 'AbortError',
+    })
+    expect(world.entityStage.e1 ?? 0).toBe(0)
+  })
+
   test('scene onEnter 严格按 Prepare → Reveal → Body 执行', async () => {
     const calls: string[] = []
     const world = emptyWorldScriptState()
@@ -407,6 +530,165 @@ test('abort:await 间隙取消,后续命令不再执行', async () => {
     ]),
   ).rejects.toThrow(/aborted/)
   expect(calls).toEqual(['dialog']) // giveItem 未执行
+})
+
+test('并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续提交副作用', async () => {
+  const calls: string[] = []
+  const driver = new SupersedingFadeDriver(0)
+  const host = fakeHost(calls)
+  let clock = 0
+  host.fade = (dir, ms, _color, signal) => driver.begin(dir === 'out' ? 1 : 0, clock, ms, signal)
+  const first = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal).run([
+    { kind: 'fade', dir: 'out', ms: 100 },
+    { kind: 'giveMoney', delta: 1 },
+  ])
+  await Promise.resolve()
+  expect(driver.advance(40)).toBeCloseTo(0.4)
+
+  clock = 40
+  const second = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal).run([
+    { kind: 'fade', dir: 'in', ms: 60 },
+    { kind: 'giveMoney', delta: 2 },
+  ])
+  await expect(first).rejects.toMatchObject({ name: 'AbortError' })
+  expect(calls).toEqual([])
+  expect(driver.advance(100)).toBeCloseTo(0)
+  await second
+  expect(calls).toEqual(['giveMoney(2)'])
+})
+
+test('当前场景换底图只在重载成功后提交；reject/abort 均保留原 override', async () => {
+  const makeWorld = () => {
+    const world = emptyWorldScriptState()
+    world.mapOverride = { s001: 'map.original' }
+    return world
+  }
+
+  const rejectedWorld = makeWorld()
+  const rejectedHost = fakeHost([])
+  rejectedHost.query.sceneId = () => 's001'
+  rejectedHost.reloadMap = async () => {
+    throw new Error('missing map')
+  }
+  await expect(
+    new ScriptRunner(rejectedHost, rejectedWorld, new AbortController().signal).run([
+      { kind: 'setSceneMapOverride', mapId: 'map.missing' },
+    ]),
+  ).rejects.toThrow('missing map')
+  expect(rejectedWorld.mapOverride).toEqual({ s001: 'map.original' })
+
+  const abortedWorld = makeWorld()
+  const controller = new AbortController()
+  const gate = deferred<void>()
+  const abortedHost = fakeHost([])
+  abortedHost.query.sceneId = () => 's001'
+  abortedHost.reloadMap = async (_mapId, signal) => {
+    expect(signal).toBe(controller.signal)
+    await gate.promise
+  }
+  const running = new ScriptRunner(abortedHost, abortedWorld, controller.signal).run([
+    { kind: 'setSceneMapOverride', mapId: 'map.new' },
+  ])
+  controller.abort()
+  gate.resolve()
+
+  await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+  expect(abortedWorld.mapOverride).toEqual({ s001: 'map.original' })
+})
+
+test('当前场景换底图由 host 同拍提交运行态和持久态，提交后的 microtask abort 不得撕裂', async () => {
+  const world = emptyWorldScriptState()
+  world.mapOverride = { s001: 'map.original' }
+  let runtimeMap = 'map.original'
+  const controller = new AbortController()
+  const host = fakeHost([])
+  host.query.sceneId = () => 's001'
+  host.reloadMap = async (mapId, signal) => {
+    expect(signal).toBe(controller.signal)
+    runtimeMap = mapId
+    world.mapOverride ??= {}
+    world.mapOverride.s001 = mapId
+    queueMicrotask(() => controller.abort())
+  }
+
+  const running = new ScriptRunner(host, world, controller.signal).run([
+    { kind: 'setSceneMapOverride', mapId: 'map.new' },
+    { kind: 'giveMoney', delta: 1 },
+  ])
+  await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+  expect({ runtimeMap, persistedMap: world.mapOverride.s001 }).toEqual({
+    runtimeMap: 'map.new',
+    persistedMap: 'map.new',
+  })
+})
+
+test('多个 runner 只携带各自 signal；重启旧 auto 不误杀其他 runner', async () => {
+  const names = ['e1-old', 'e1-new', 'e2', 'main'] as const
+  const controllers = Object.fromEntries(
+    names.map((name) => [name, new AbortController()]),
+  ) as Record<(typeof names)[number], AbortController>
+  const gates = Object.fromEntries(names.map((name) => [name, deferred<void>()])) as Record<
+    (typeof names)[number],
+    ReturnType<typeof deferred<void>>
+  >
+  const commits: string[] = []
+  const host = fakeHost([])
+  host.giveItem = async (itemId, _count, signal) => {
+    const name = itemId as (typeof names)[number]
+    expect(signal).toBe(controllers[name].signal)
+    await gates[name].promise
+    if (signal?.aborted) {
+      const error = new Error(`${name} aborted`)
+      error.name = 'AbortError'
+      throw error
+    }
+    commits.push(name)
+  }
+  const run = (name: (typeof names)[number]) =>
+    new ScriptRunner(host, emptyWorldScriptState(), controllers[name].signal).run([
+      { kind: 'giveItem', itemId: name },
+    ])
+
+  const old = run('e1-old')
+  const e2 = run('e2')
+  const main = run('main')
+  controllers['e1-old'].abort()
+  const replacement = run('e1-new')
+  for (const name of names) gates[name].resolve()
+
+  await expect(old).rejects.toMatchObject({ name: 'AbortError' })
+  await expect(Promise.all([replacement, e2, main])).resolves.toEqual([
+    undefined,
+    undefined,
+    undefined,
+  ])
+  expect(commits.sort()).toEqual(['e1-new', 'e2', 'main'])
+})
+
+test('全局停止分别取消全部 runner，所有延迟提交均为零', async () => {
+  const controllers = [new AbortController(), new AbortController(), new AbortController()]
+  const gates = controllers.map(() => deferred<void>())
+  const commits: number[] = []
+  const runs = controllers.map((controller, index) => {
+    const host = fakeHost([])
+    host.setParty = async (_members, signal) => {
+      expect(signal).toBe(controller.signal)
+      await gates[index]!.promise
+      if (signal?.aborted) {
+        const error = new Error('aborted')
+        error.name = 'AbortError'
+        throw error
+      }
+      commits.push(index)
+    }
+    return new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
+      { kind: 'setParty', members: [`actor-${index}`] },
+    ])
+  })
+  for (const controller of controllers) controller.abort()
+  for (const gate of gates) gate.resolve()
+  for (const run of runs) await expect(run).rejects.toMatchObject({ name: 'AbortError' })
+  expect(commits).toEqual([])
 })
 
 describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
@@ -527,6 +809,19 @@ describe('M3b 分支 / 条件 / 战斗 / 确认', () => {
     const r = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
     await r.run([{ kind: 'startBattle', team: 27, fieldId: 22, music: 'music.pal.044' }])
     expect(calls).toEqual(['battle(27,f=22,m=music.pal.044)'])
+  })
+  test('startBattle 收到构造该 runner 的同一 AbortSignal', async () => {
+    const host = fakeHost([])
+    const controller = new AbortController()
+    let received: AbortSignal | undefined
+    host.startBattle = async (_team, _opts, signal) => {
+      received = signal
+      return 'win'
+    }
+    await new ScriptRunner(host, emptyWorldScriptState(), controller.signal).run([
+      { kind: 'startBattle', team: 9 },
+    ])
+    expect(received).toBe(controller.signal)
   })
   test('teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂', async () => {
     const calls: string[] = []

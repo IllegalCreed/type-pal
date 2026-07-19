@@ -14,6 +14,7 @@ import {
   validateItems,
   validateScenes,
   validateSkills,
+  validateSprites,
   validateTilesets,
 } from '@type-pal/content'
 import type { SourceMagic, SourceSpell } from './migrate-content.js'
@@ -179,6 +180,7 @@ export function auditPalSoundReferences(args: {
   const items = validateItems(required(files, 'content/items.json'))
   const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
+  const sprites = validateSprites(required(files, 'content/sprites.json'), catalog)
   const tilesets = validateTilesets(required(files, 'content/tilesets.json'), catalog)
   const sceneIds = required(files, 'content/scenes/index.json') as string[]
   const scenes = validateScenes(sceneIds.map((id) => required(files, `content/scenes/${id}.json`)))
@@ -197,6 +199,7 @@ export function auditPalSoundReferences(args: {
     items,
     skills,
     battleFields,
+    sprites,
     tilesets,
   })
   const soundReferences = references.filter((reference) => reference.expectedKind === 'sound')
@@ -433,12 +436,12 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
     },
     {
       soundEdges: 1_666,
-      allReferences: 5_899,
-      nonSoundReferences: 4_233,
+      allReferences: 6_479,
+      nonSoundReferences: 4_813,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,
-      warnings: 54,
+      warnings: 131,
       missing: 0,
       kindMismatch: 0,
       hasFake122Asset: false,

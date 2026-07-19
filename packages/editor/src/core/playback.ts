@@ -412,7 +412,8 @@ export class Playback {
     stopMusic: () => this.log('停止音乐'),
     setAmbience: (id) => this.log(`🌗 切氛围 ${id}`), // 预览画布不染(创作视图恒白天);要看夜色走引擎试玩
     takeEntity: (id) => this.log(`🔒 接管 ${id}`),
-    setParty: (members) => this.log(`👥 队伍变更 → ${members.join(', ')}`),
+    setParty: async (members) => this.log(`👥 队伍变更 → ${members.join(', ')}`),
+    setFollowers: async (sprites) => this.log(`👣 编外跟随者 → ${sprites.join(', ') || '(清空)'}`),
     mountParty: (id) => this.log(`🛶 挂载队伍 → ${id}`),
     unmountParty: () => this.log('🚶 下载具'),
     ride: async (id, to) => this.log(`🛶 骑行 ${id} → (${to.col},${to.row})`),

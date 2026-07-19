@@ -3,6 +3,7 @@ import {
   assembleProject,
   buildBlankProjectMap,
   buildProjectMapLayer,
+  compressGzip,
   insertProjectMapLayer,
   loadProjectMap,
   paintProjectMapCollision,
@@ -23,7 +24,9 @@ import {
 } from './project-io.js'
 import { buildSeedAssets } from './seed-assets.js'
 
-const canonicalTilesetBytes = (await buildSeedAssets()).tilesetRle
+const seedAssets = await buildSeedAssets()
+const canonicalTilesetBytes = seedAssets.tilesetRle
+const canonicalSpriteBytes = seedAssets.spriteRle
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
@@ -50,9 +53,8 @@ const manifest: LoadedManifest = {
     catalog: 'assets/index.json',
     roles: {},
     legacy: {
-      families: ['sprite', 'color-table'],
+      families: ['color-table'],
       root: 'assets',
-      sprites: 'sprites',
       palettes: 'palettes',
     },
   },
@@ -137,13 +139,13 @@ const localeJson = { 'menu.status': '状态', 'name.li-xiaoyao': '李逍遥', 'd
 const spritesJson = [
   {
     id: 'ghost',
-    spriteNum: 16,
+    asset: 'sprite.test.world',
     label: '游魂(占位)',
     layout: { kind: 'directional', framesPerDir: 3 },
   },
   {
     id: 'li-xiaoyao',
-    spriteNum: 2,
+    asset: 'sprite.test.world',
     label: '李逍遥(大世界)',
     layout: { kind: 'directional', framesPerDir: 3 },
   },
@@ -180,6 +182,14 @@ const assetCatalogJson = {
       bytes: 1,
       sha256: '1'.repeat(64),
       origin: { kind: 'legacy-migrated' as const, ref: 'tileset/56.rle' },
+    },
+    'sprite.test.world': {
+      kind: 'sprite' as const,
+      path: 'assets/generated/sprites/world.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 1,
+      sha256: '2'.repeat(64),
+      origin: { kind: 'generated' as const },
     },
     'sound.pal.001': {
       kind: 'sound' as const,
@@ -392,12 +402,18 @@ test('未加载 v3 地图保存时按原文本 copy-through，authoring 不解�
 
 test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash 不符 fail-loud', async () => {
   const sourceTile = canonicalTilesetBytes.slice(0)
+  const sourceSprite = canonicalSpriteBytes.slice(0)
   const pendingSound = new Uint8Array([1, 2, 3]).buffer
   const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
   const tileRecord = {
     ...assetCatalogJson.assets['tileset.pal.056'],
     bytes: sourceTile.byteLength,
     sha256: await sha256Hex(sourceTile),
+  }
+  const spriteRecord = {
+    ...assetCatalogJson.assets['sprite.test.world'],
+    bytes: sourceSprite.byteLength,
+    sha256: await sha256Hex(sourceSprite),
   }
   const soundRecord = {
     kind: 'sound' as const,
@@ -413,7 +429,7 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
     readJson: async <T>() => ({}) as T,
     readBytes: async (path: string) => {
       reads.push(path)
-      return sourceTile
+      return path === spriteRecord.path ? sourceSprite : sourceTile
     },
     urlFor: async (path: string) => path,
   }
@@ -422,7 +438,11 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
       ...state,
       assetCatalog: {
         version: 1,
-        assets: { 'tileset.pal.056': tileRecord, 'sound.pending': soundRecord },
+        assets: {
+          'tileset.pal.056': tileRecord,
+          'sprite.test.world': spriteRecord,
+          'sound.pending': soundRecord,
+        },
       },
       assetBlobs: { [soundRecord.path]: pendingSound },
     },
@@ -430,15 +450,22 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
     { includeAssetCopies: true },
   )
 
-  expect(reads).toEqual([tileRecord.path])
+  expect(reads).toEqual([tileRecord.path, spriteRecord.path])
   expect(files[tileRecord.path]).toBe(sourceTile)
+  expect(files[spriteRecord.path]).toBe(sourceSprite)
   expect(files[soundRecord.path]).toBe(pendingSound)
   await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
 
   const corrupted = await serializeProjectWithMapCopies(
     {
       ...state,
-      assetCatalog: { version: 1, assets: { 'tileset.pal.056': tileRecord } },
+      assetCatalog: {
+        version: 1,
+        assets: {
+          'tileset.pal.056': tileRecord,
+          'sprite.test.world': spriteRecord,
+        },
+      },
     },
     { ...source, readBytes: async () => new Uint8Array([7, 8, 9]).buffer },
     { includeAssetCopies: true },
@@ -474,6 +501,75 @@ test.each([
       [path]: input.bytes,
     }),
   ).rejects.toThrow(input.error)
+})
+
+test('sprite pending 统一走 origin 分级 codec：legacy 坏尾可过，authored 同字节 fail-loud', async () => {
+  const raw = new Uint8Array(16)
+  const view = new DataView(raw.buffer)
+  view.setUint16(0, 2, true)
+  view.setUint16(2, 5, true)
+  view.setUint16(4, 1, true)
+  view.setUint16(6, 1, true)
+  raw[8] = 1
+  raw[9] = 0x33
+  view.setUint16(10, 500, true)
+  view.setUint16(12, 1, true)
+  const encoded = await compressGzip(raw)
+  const bytes = encoded.buffer.slice(
+    encoded.byteOffset,
+    encoded.byteOffset + encoded.byteLength,
+  ) as ArrayBuffer
+  const record = {
+    kind: 'sprite' as const,
+    path: 'assets/migrated/sprites/023.rle',
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: bytes.byteLength,
+    sha256: await sha256Hex(bytes),
+    origin: { kind: 'legacy-migrated' as const, ref: 'sprite/23.rle' },
+  }
+  const files = {
+    'manifest.json': { assets: { catalog: 'assets/index.json' } },
+    'assets/index.json': { version: 1, assets: { 'sprite.pal.023': record } },
+    [record.path]: bytes,
+  }
+  await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
+  const authoredPath = 'assets/authored/sprites/bad-tail.rle'
+  await expect(
+    preflightProjectWriteSet({
+      'manifest.json': files['manifest.json'],
+      'assets/index.json': {
+        version: 1,
+        assets: {
+          'sprite.authored.bad': {
+            ...record,
+            path: authoredPath,
+            origin: { kind: 'authored' },
+          },
+        },
+      },
+      [authoredPath]: bytes,
+    }),
+  ).rejects.toThrow(/精灵资源 RLE 损坏/)
+})
+
+test('sprite pending 即使 bytes/hash 自洽也拒绝非 gzip 容器', async () => {
+  const path = 'assets/authored/sprites/bare.rle'
+  const bytes = new Uint8Array([1, 0, 1, 0, 1, 0x44]).buffer
+  const record = {
+    kind: 'sprite' as const,
+    path,
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: bytes.byteLength,
+    sha256: await sha256Hex(bytes),
+    origin: { kind: 'authored' as const },
+  }
+  await expect(
+    preflightProjectWriteSet({
+      'manifest.json': { assets: { catalog: 'assets/index.json' } },
+      'assets/index.json': { version: 1, assets: { 'sprite.authored.bare': record } },
+      [path]: bytes,
+    }),
+  ).rejects.toThrow(/canonical \.rle 必须带 gzip 头/)
 })
 
 test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {
@@ -675,18 +771,12 @@ test('toEditorState:丢弃运行期派生物(entryScene/assetBase)', () => {
   expect((state as unknown as Record<string, unknown>).assetBase).toBeUndefined()
 })
 
-test('serializeProject:manifest.content 缺 sprites → 不产出 sprites 文件', () => {
+test('canonical v3 manifest/content 缺 sprites 时加载边界 fail-loud', () => {
   const noSprites = { ...manifest, content: { ...manifest.content } }
   delete noSprites.content.sprites
-  const project = assembleProject(manifest, { ...JSONS, sprites: undefined })
-  // 用「无 sprites 的 manifest」替换 state.manifest(模拟工程本身没 sprites 键)
-  const state = { ...toEditorState(project, SCENES), manifest: noSprites }
-  const out = serializeProject(state)
-
-  expect(out['content/sprites.json']).toBeUndefined()
-  // 其余文件照常产出
-  expect(out['content/scenes/guijie-minju.json']).toEqual(scenesJson[0])
-  expect(out['manifest.json']).toEqual(noSprites)
+  expect(() => assembleProject(noSprites, { ...JSONS, sprites: undefined })).toThrow(
+    'sprites: 期望数组',
+  )
 })
 
 test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined/函数)', () => {
@@ -969,6 +1059,7 @@ test('W7B tileset round-trip:注册表入 state,serializeProject 产出 tilesets
     assetCatalog: {
       version: 1 as const,
       assets: {
+        'sprite.test.world': assetCatalogJson.assets['sprite.test.world'],
         'tileset.grass': {
           kind: 'tileset' as const,
           path: 'assets/authored/tilesets/grass.rle',

@@ -10,10 +10,19 @@ import {
   decodeFrameSequenceFrame,
   type LoadedManifest,
   palFrameAnimationAssetId,
+  palSpriteAssetId,
   parseFrameSequence,
+  type SpriteDef,
   validateAssetCatalog,
 } from '@type-pal/content'
-import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
+import {
+  decodeRngFrames,
+  type Palette,
+  parseSpriteChunk,
+  parseWorldSpriteChunk,
+  RNG_HEIGHT,
+  RNG_WIDTH,
+} from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
 import {
   isAtomicProjectMapPath,
@@ -35,9 +44,14 @@ import { commitMigrationTransaction } from './migration-transaction.js'
 import { validatePalMigrationTarget } from './migration-validate.js'
 import { buildMigrationTransactionChanges } from './migration-write-plan.js'
 import { auditMusicReferences } from './music-reference-audit.js'
-import { materializePalAssets, PAL_ASSET_ROLES } from './pal-assets.js'
+import {
+  materializePalAssets,
+  PAL_ASSET_ROLES,
+  PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
+  PAL_WORLD_SPRITE_TUPLE_DIGEST,
+} from './pal-assets.js'
 import { preparePalManifest } from './pal-manifest.js'
-import { buildPalMigration } from './pal-migration.js'
+import { buildPalMigration, PAL_WORLD_SPRITE_UNUSED_NUMBERS } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
 import {
@@ -161,6 +175,75 @@ async function assertFrameAnimationsMatchSource(
   }
 }
 
+const PAL_LAYOUT_DEBT = [
+  [627, 4],
+  [361, 5],
+  [242, 5],
+  [273, 4],
+  [394, 2],
+  [385, 2],
+  [379, 5],
+  [550, 2],
+  [541, 1],
+  [630, 4],
+  [631, 7],
+  [632, 7],
+  [236, 1],
+] as const
+
+function assertWorldSpriteGraph(
+  migration: ReturnType<typeof buildPalMigration>,
+  sources: ReturnType<typeof loadPalMigrationSources>,
+): void {
+  const sprites = migration.files.get('content/sprites.json') as unknown as SpriteDef[]
+  const used = new Set(sprites.map(({ asset }) => asset))
+  const generatedCatalog = validateAssetCatalog(migration.files.get('assets/index.json'))
+  const catalogIds = Object.entries(generatedCatalog.assets)
+    .filter(([, record]) => record.kind === 'sprite')
+    .map(([asset]) => asset)
+    .sort()
+  const expectedCatalogIds = Array.from({ length: 636 }, (_, index) => palSpriteAssetId(index + 1))
+  expect(sprites).toHaveLength(580)
+  expect(used.size).toBe(559)
+  expect(sprites.length - used.size).toBe(21)
+  expect(catalogIds).toEqual(expectedCatalogIds)
+  expect(expectedCatalogIds.filter((asset) => !used.has(asset))).toEqual(
+    PAL_WORLD_SPRITE_UNUSED_NUMBERS.map(palSpriteAssetId),
+  )
+
+  const sourcesById = new Map(sources.binaryAssets.map((source) => [source.id, source]))
+  const actualDebt = sprites.flatMap((definition) => {
+    if (definition.layout.kind !== 'directional') return []
+    const source = sourcesById.get(definition.asset)
+    if (!source) throw new Error(`缺 world sprite 迁移源 ${definition.asset}`)
+    const compressed = source.sourcePath
+      ? readFileSync(source.sourcePath)
+      : source.bytes
+        ? Buffer.from(source.bytes)
+        : (() => {
+            throw new Error(`缺 world sprite 字节 ${definition.asset}`)
+          })()
+    const frames = parseWorldSpriteChunk(gunzipSync(compressed), 'legacy-migrated').frames.length
+    if (definition.layout.framesPerDir * 4 <= frames) return []
+    return [[Number(definition.asset.slice(-3)), frames] as const]
+  })
+  expect(actualDebt).toEqual([...PAL_LAYOUT_DEBT])
+
+  const followerCommands: string[][] = []
+  const collectFollowers = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      for (const entry of value) collectFollowers(entry)
+      return
+    }
+    if (!value || typeof value !== 'object') return
+    const record = value as Record<string, unknown>
+    if (record.kind === 'setFollowers') followerCommands.push(record.sprites as string[])
+    for (const child of Object.values(record)) collectFollowers(child)
+  }
+  collectFollowers(migration.files.get('content/scripts/chunks/scene/s102.json'))
+  expect(followerCommands).toEqual([[], ['sprite-82']])
+}
+
 afterAll(() => {
   for (const root of tempRoots) rmSync(root, { recursive: true, force: true })
 })
@@ -169,6 +252,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
   test('闭合 bootstrap -> 同事务工程+baseline -> 二次严格空计划', () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    assertWorldSpriteGraph(theirs, sources)
     expect(theirs.report.assets).toEqual({
       videos: 6,
       frameAnimations: 12,
@@ -187,6 +271,12 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       itemIconBytes: 262_667,
       battleBackgrounds: 52,
       battleBackgroundBytes: 4_422_281,
+      sprites: 636,
+      spriteBytes: 1_332_725,
+      spriteFrames: 4_133,
+      spriteMalformedTailSlots: 30,
+      spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
+      spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     expect(auditMusicReferences(theirs.files)).toEqual({
@@ -237,8 +327,8 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(5_899)
-    expect(validation.assetWarnings).toBe(54)
+    expect(validation.assetReferences).toBe(6_479)
+    expect(validation.assetWarnings).toBe(131)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -251,6 +341,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       entities: { total: 3_695, migrated: 3_695 },
       setActorSprite: { total: 116, migrated: 69 },
       setActorAppearance: { total: 3, migrated: 2 },
+      setFollowers: { total: 1, migrated: 1 },
     })
 
     const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-mg2-real-'))
@@ -324,9 +415,49 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
 })
 
 describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () => {
+  test('636 个真实 world sprite 中仅冻结的 30 个坏尾源需要 legacy profile', () => {
+    const anomalyByNumber = new Map<
+      number,
+      (typeof PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES)[number]
+    >(PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES.map((entry) => [entry.sprite, entry]))
+    const canonicalFailures: number[] = []
+    for (let sprite = 1; sprite <= 636; sprite++) {
+      const raw = gunzipSync(
+        readFileSync(resolve(repo, `data/extracted/data/sprite/${sprite}.rle`)),
+      )
+      const legacy = parseWorldSpriteChunk(raw, 'legacy-migrated')
+      const expectedAnomaly = anomalyByNumber.get(sprite)
+      expect(legacy.frames.length, `sprite ${sprite} legacy/loose frame count`).toBe(
+        parseSpriteChunk(raw).length,
+      )
+      if (expectedAnomaly) {
+        expect(
+          {
+            sprite,
+            frames: legacy.frames.length,
+            malformedTailSlots: legacy.skippedLegacyTailSlots,
+            trailingSentinel: legacy.trailingSentinel,
+          },
+          `sprite ${sprite} anomaly shape`,
+        ).toEqual(expectedAnomaly)
+      } else {
+        expect(legacy.skippedLegacyTailSlots, `sprite ${sprite} unexpected legacy debt`).toBe(0)
+      }
+      try {
+        parseWorldSpriteChunk(raw, 'canonical')
+      } catch {
+        canonicalFailures.push(sprite)
+      }
+    }
+    expect(canonicalFailures).toEqual(
+      PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES.map(({ sprite }) => sprite),
+    )
+  })
+
   test('当前工程 + baseline + 纯生成必须是严格空计划', async () => {
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
+    assertWorldSpriteGraph(theirs, sources)
     expect(theirs.report.assets).toEqual({
       videos: 6,
       frameAnimations: 12,
@@ -345,6 +476,12 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       tilesets: 223,
       tilesetBytes: 6_501_041,
       tilesetFrames: 67_715,
+      sprites: 636,
+      spriteBytes: 1_332_725,
+      spriteFrames: 4_133,
+      spriteMalformedTailSlots: 30,
+      spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
+      spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     await assertFrameAnimationsMatchSource(sources)
@@ -397,8 +534,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(5_899)
-    expect(validation.assetWarnings).toBe(54)
+    expect(validation.assetReferences).toBe(6_479)
+    expect(validation.assetWarnings).toBe(131)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -411,6 +548,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       entities: { total: 3_695, migrated: 3_695 },
       setActorSprite: { total: 116, migrated: 69 },
       setActorAppearance: { total: 3, migrated: 2 },
+      setFollowers: { total: 1, migrated: 1 },
     })
   }, 120_000)
 })

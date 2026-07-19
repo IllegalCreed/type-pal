@@ -74,8 +74,6 @@ export function SceneCanvas(props: {
   mapIndex: MapIndexV1
   /** tileset 注册表。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
-  /** 上传未保存的 tileset 字节(内存优先)。 */
-  tilesetBlobs: Record<string, ArrayBuffer>
   selectedEntityId: string | null
   selectedAnchor?: SceneAnchorSelection | null
   tool: Tool
@@ -108,7 +106,6 @@ export function SceneCanvas(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
     selectedEntityId,
     selectedAnchor,
     tool,
@@ -160,32 +157,25 @@ export function SceneCanvas(props: {
     return sid ? spriteById.get(sid) : undefined
   }
   const leaderDef = leaderSpriteId ? spriteById.get(leaderSpriteId) : undefined
-  const spriteNums = [
+  const spriteAssets = [
     ...new Set(
       [
-        layers.entries ? leaderDef?.spriteNum : undefined,
+        layers.entries ? leaderDef?.asset : undefined,
         // 全量含 hidden:显隐透视要画幽灵 —— 曾 filter(!hidden) 致幽灵素材未载、画了个寂寞
-        ...scene.entities.map((e) => entitySpriteDef(e)?.spriteNum),
-      ].filter((n): n is number => n != null),
+        ...scene.entities.map((e) => entitySpriteDef(e)?.asset),
+      ].filter((asset): asset is string => asset != null),
     ),
   ]
-  // A4 自有上传精灵源(path 双轨 + 未保存字节内存优先)
-  const spriteSources = new Map(
-    sprites
-      .filter((s) => s.path)
-      .map((s) => [s.spriteNum, { path: s.path, blob: tilesetBlobs?.[s.path!] }] as const),
-  )
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
     mapId: scene.mapId,
-    spriteNums,
+    spriteAssets,
     projectMaps,
     mapIndex,
     tilesets,
     assetCatalog,
     assetReader,
-    spriteSources,
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: canvas 重绘由列出的状态触发；ref 与派生值始终读取当前值。
@@ -194,7 +184,7 @@ export function SceneCanvas(props: {
     const loaded = loadedRef.current
     const ctx = canvasRef.current?.getContext('2d')
     if (!loaded || !ctx) return
-    const { renderer, map, spritesByNum } = loaded
+    const { renderer, map, spritesByAsset } = loaded
 
     // M2a:视窗可选 —— 缺省整张图(迁移场景无 room;demo 保留)。整图编辑:room 决定 tile
     // 遍历范围,相机(camera)= 用户平移,worldScale = 用户缩放(renderScene 不夹相机)。
@@ -257,9 +247,9 @@ export function SceneCanvas(props: {
     // 默认落点额外画半透明玩家身高参照；命名落点只画轻量锚点，避免误认成实体。
     const defaultCell = anchorCell({ kind: 'default' }, scene.entry)
     const defaultPoint = gridToPixel(defaultCell)
-    const ps = leaderDef ? spritesByNum.get(leaderDef.spriteNum) : undefined
+    const ps = leaderDef ? spritesByAsset.get(leaderDef.asset) : undefined
     const pf = leaderDef
-      ? (ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing)] ?? ps?.frames[0])
+      ? ps?.frames[idleFrameIndex(leaderDef.layout, scene.entry.facing, ps.frames.length)]
       : undefined
     if (layers.entries && ps && pf) {
       // 每帧自锚(sdlpal 按当前帧宽高 blit;引擎侧同款,防变尺寸帧组错位)
@@ -305,9 +295,9 @@ export function SceneCanvas(props: {
         continue
       }
       const def = entitySpriteDef(e)
-      const sp = def ? spritesByNum.get(def.spriteNum) : undefined
+      const sp = def ? spritesByAsset.get(def.asset) : undefined
       const f = def
-        ? (sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down')] ?? sp?.frames[0])
+        ? sp?.frames[idleFrameIndex(def.layout, e.facing ?? 'down', sp.frames.length)]
         : undefined
       if (!sp || !f) continue
       const p = gridToPixel(pos)

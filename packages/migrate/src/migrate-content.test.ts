@@ -16,6 +16,7 @@ import { describe, expect, test } from 'vitest'
 import {
   buildLabelIndex,
   type MigrateSources,
+  mapRoleSpriteIdsByNumber,
   mapScenesStatic,
   mergeExtras,
   mergeSceneScriptBindings,
@@ -146,9 +147,39 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
 })
 
 describe('M1a · 精灵表', () => {
-  test('6 张,号=player-roles.spriteNum,布局 directional×(walkFrames||3)', () => {
-    expect(out.sprites.map((s) => s.spriteNum)).toEqual([2, 3, 7, 525, 5, 26])
+  test('6 张,asset=player-roles.spriteNum 对应 AssetId,布局 directional×(walkFrames||3)', () => {
+    expect(out.sprites.map((s) => s.asset)).toEqual([
+      'sprite.pal.002',
+      'sprite.pal.003',
+      'sprite.pal.007',
+      'sprite.pal.525',
+      'sprite.pal.005',
+      'sprite.pal.026',
+    ])
     for (const s of out.sprites) expect(s.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
+  })
+
+  test('旧编号到角色语义 id 显式映射，错误资源与一号多义都 fail-loud', () => {
+    expect([...mapRoleSpriteIdsByNumber(src.roles, out.sprites)]).toEqual([
+      [2, 'li-xiaoyao'],
+      [3, 'zhao-linger'],
+      [7, 'lin-yueru'],
+      [525, 'wu-hou'],
+      [5, 'anu'],
+      [26, 'gai-luojiao'],
+    ])
+    expect(() =>
+      mapRoleSpriteIdsByNumber(src.roles, [
+        { ...out.sprites[0]!, asset: 'sprite.pal.999' },
+        ...out.sprites.slice(1),
+      ]),
+    ).toThrow(/资源应为 sprite\.pal\.002/)
+    expect(() =>
+      mapRoleSpriteIdsByNumber(
+        [{ ...src.roles[0]!, spriteNum: src.roles[1]!.spriteNum }, ...src.roles.slice(1)],
+        [{ ...out.sprites[0]!, asset: out.sprites[1]!.asset }, ...out.sprites.slice(1)],
+      ),
+    ).toThrow(/同时对应 li-xiaoyao 与 zhao-linger/)
   })
 })
 
@@ -647,7 +678,9 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     const visible = src1.eventObjects.filter((o) => o.spriteNum > 0)
     for (const eo of visible) {
       const def = out2.sprites.find(
-        (d) => d.spriteNum === eo.spriteNum && d.id.startsWith(`sprite-${eo.spriteNum}`),
+        (d) =>
+          d.asset === `sprite.pal.${String(eo.spriteNum).padStart(3, '0')}` &&
+          d.id.startsWith(`sprite-${eo.spriteNum}`),
       )!
       expect(def, `sprite-${eo.spriteNum}`).toBeDefined()
       if ((eo.nSpriteFrames ?? 0) > 0)

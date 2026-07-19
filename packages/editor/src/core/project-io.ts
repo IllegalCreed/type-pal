@@ -25,6 +25,7 @@ import {
   validateMapIndex,
 } from '@type-pal/content'
 import {
+  decodeWorldSpriteAssetBytes,
   decompressGzip,
   type FileSource,
   type LoadedProjectCore,
@@ -475,7 +476,7 @@ export async function preflightProjectWriteSet(files: Record<string, unknown>): 
     for (const [rel, value] of Object.entries(files)) {
       if (!(value instanceof ArrayBuffer)) continue
       const records = recordsByPath.get(rel)
-      if (!records) continue // 尚未闭环的 legacy sprite 等二进制。
+      if (!records) continue // 尚未闭环的 battle/effect/image 等 legacy 二进制。
       const hash = await sha256Hex(value)
       for (const record of records)
         if (record.bytes !== value.byteLength || record.sha256 !== hash)
@@ -492,6 +493,16 @@ export async function preflightProjectWriteSet(files: Record<string, unknown>): 
           )
         }
       }
+      for (const record of records)
+        if (record.kind === 'sprite') {
+          try {
+            await decodeWorldSpriteAssetBytes(record, value, `精灵资源 ${rel}`)
+          } catch (cause) {
+            throw new Error(
+              `精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+            )
+          }
+        }
     }
   }
 }

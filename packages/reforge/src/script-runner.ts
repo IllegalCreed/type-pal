@@ -30,46 +30,53 @@ export type ScriptBinding = RuntimeScriptBinding
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {
-  dialog(cue: DialogueCue): Promise<void>
+  dialog(cue: DialogueCue, signal?: AbortSignal): Promise<void>
   clearDialog(): void
-  /** 0x99 当前场景即时换底图(mapId 已写入 world.script.mapOverride;host 重载 map 资产,不动实体)。 */
-  reloadMap?(mapId: string): Promise<void>
+  /** 0x99 当前场景即时换底图；host 原子提交运行时 map 与当前场景 mapOverride。 */
+  reloadMap?(mapId: string, signal?: AbortSignal): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
-  quitToTitle?(videos?: readonly AssetId[]): void | Promise<void>
-  fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red'): Promise<void>
+  quitToTitle?(videos?: readonly AssetId[], signal?: AbortSignal): void | Promise<void>
+  fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red', signal?: AbortSignal): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
-  ditherScreen(ms: number): Promise<void>
+  ditherScreen(ms: number, signal?: AbortSignal): Promise<void>
   /** scene onEnter entry 的显式提交边界；普通脚本不得调用。 */
-  revealSceneEntry?(reveal: SceneReveal): Promise<void>
+  revealSceneEntry?(reveal: SceneReveal, signal?: AbortSignal): Promise<void>
   /** B8:实体向玩家追一步(auto 循环内 = 持续追逐;撞上玩家由 host 触发 touch)。 */
-  chaseStep(entityId: string, range: number, speed: number, floating: boolean): Promise<void>
+  chaseStep(
+    entityId: string,
+    range: number,
+    speed: number,
+    floating: boolean,
+    signal?: AbortSignal,
+  ): Promise<void>
   /** B8:实体消失 seconds 秒后重现(临时态)。 */
   vanishEntity(entityId: string, seconds: number): void
   /** B8:读最近存档(无档 = 重开)。 */
-  loadLastSave(): Promise<void>
+  loadLastSave(signal?: AbortSignal): Promise<void>
   /** B8:战败流程(渐红 + 文案 + 读最近档)。 */
-  gameOver(): Promise<void>
-  wait(ms: number): Promise<void>
+  gameOver(signal?: AbortSignal): Promise<void>
+  wait(ms: number, signal?: AbortSignal): Promise<void>
   teleportParty(pos: GridPos, facing?: Facing): void
-  loadScene(scene: string, spawn: SceneSpawn): Promise<void>
+  loadScene(scene: string, spawn: SceneSpawn, signal?: AbortSignal): Promise<void>
   /**
    * 0x15:朝向 + 脚本姿势帧。gesture 缺省 = 清姿势(站立);>0 = 姿势帧
    * (渲染 = dir*framesPerDir + gesture,走路/传送时清)。member 0 = 队长。
    */
   setPartyFacing(facing: Facing, gesture?: number, member?: number): void
   /** 0x65:换角色大世界精灵(异步:精灵可能需加载)。持续到下一次显式切换。 */
-  setActorSprite(actor: string, sprite: string): Promise<void>
+  setActorSprite(actor: string, sprite: string, signal?: AbortSignal): Promise<void>
   /** 0x1A:持久改角色形象(写 CharacterInstance.appearance,随存档;成年灵儿)。缺 = 该 host 不支持。 */
   setActorAppearance?(
     actor: string,
     patch: { spriteId?: string; portrait?: AssetId; battleSprite?: number },
+    signal?: AbortSignal,
   ): Promise<void>
   /** 战斗演出:敌逃离战场(choreography 专用;大世界 host 打日志跳过)。 */
   fleeBattle(): void
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
   setEntityFrame(entity: string, frame: number): void
-  giveItem(itemId: string, count: number): void | Promise<void>
+  giveItem(itemId: string, count: number, signal?: AbortSignal): void | Promise<void>
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
   playSound(asset: AssetId): void
@@ -83,18 +90,20 @@ export interface ScriptHost {
   /** E7 载具:party 挂上/下载具;ride = 骑行走位(阻塞)。 */
   mountParty(entityId: string, dx: number, dy: number): void
   unmountParty(): void
-  ride(entityId: string, to: GridPos, speed: WalkSpeed): Promise<void>
+  ride(entityId: string, to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   /** C7 队伍变更(D22 reserve):members = 角色模板 id 有序表。 */
-  setParty(members: string[]): void
+  setParty(members: readonly string[], signal?: AbortSignal): Promise<void>
+  /** 0x98:全部 SpriteDef/资产预载成功后 runner 才原子提交 followers。 */
+  setFollowers(sprites: readonly string[], signal?: AbortSignal): Promise<void>
   // ── M3b 走位 / 演出(阻塞项返回 Promise,须响应 signal)──
-  moveEntity(entity: string, to: GridPos, speed: WalkSpeed): Promise<void>
+  moveEntity(entity: string, to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   stepEntity(entity: string, dir: Facing): void
   animEntity(entity: string): void
   nudgeEntity(entity: string, dx: number, dy: number): void
-  moveParty(to: GridPos, speed: WalkSpeed): Promise<void>
+  moveParty(to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   nudgeParty(dx: number, dy: number, layer: number): void
   // ── M3c 相机 / 页切换 ──
-  cameraPan(dx: number, dy: number, frames: number): Promise<void>
+  cameraPan(dx: number, dy: number, frames: number, signal?: AbortSignal): Promise<void>
   cameraSnap(to?: GridPos): void
   setEntityAuto(entity: string, script: ScriptBinding): void
   setEntityTrigger(entity: string, script: ScriptBinding): void
@@ -114,19 +123,21 @@ export interface ScriptHost {
       /** 遭遇专属战斗演出(startBattle.choreography;对话绑遭遇而非敌种)。 */
       choreography?: import('@type-pal/content').BattleChoreography[]
     },
+    signal?: AbortSignal,
   ): Promise<'win' | 'lose' | 'flee'>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
-  teleportOut(): Promise<boolean>
+  teleportOut(signal?: AbortSignal): Promise<boolean>
   /** 过场编排:按稳定 AssetId 播视频，阻塞至播完或跳过。 */
-  playVideo(asset: AssetId): Promise<void>
+  playVideo(asset: AssetId, signal?: AbortSignal): Promise<void>
   /** 过场编排:按稳定 AssetId 播真彩帧动画，阻塞至播完或跳过。 */
   playFrameAnimation(
     asset: AssetId,
     opts?: { frameRate?: number; startFrame?: number; endFrame?: number },
+    signal?: AbortSignal,
   ): Promise<void>
   /** 商店/当铺(阻塞脚本至关店;店不存在须立即 resolve 防卡死)。 */
-  openShop(shop: number, mode: 'buy' | 'sell'): Promise<void>
-  confirm(): Promise<boolean>
+  openShop(shop: number, mode: 'buy' | 'sell', signal?: AbortSignal): Promise<void>
+  confirm(signal?: AbortSignal): Promise<boolean>
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
   query: {
     hasItem(itemId: string, atLeast: number): boolean
@@ -297,7 +308,7 @@ export class ScriptRunner {
       await this.exec(cmd, cur)
       throwIfAborted(this.signal)
       if (this.paceMs > 0) {
-        await this.host.wait(this.paceMs)
+        await this.host.wait(this.paceMs, this.signal)
         throwIfAborted(this.signal)
       }
     }
@@ -411,10 +422,11 @@ export class ScriptRunner {
           throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
         await this.run(stage.entry.prepare, [idx, 'entry', 'prepare'])
         throwIfAborted(this.signal)
-        await this.host.revealSceneEntry(stage.entry.reveal)
+        await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
         throwIfAborted(this.signal)
       }
       await this.run(stage.body, [idx])
+      throwIfAborted(this.signal)
       applyStageNext(this.world, key, idx, stage.next)
     } catch (err) {
       // 跳转臂终止(stopScript):本次运行干净结束,**阶段不转移**(原版命中跳 0 号 END 退出,
@@ -429,41 +441,55 @@ export class ScriptRunner {
     const h = this.host
     switch (cmd.kind) {
       case 'dialog':
-        return h.dialog(cmd.cue)
+        return h.dialog(cmd.cue, this.signal)
       case 'clearDialog':
         return h.clearDialog()
       case 'fade':
-        return h.fade(cmd.dir, cmd.ms ?? 300, cmd.color)
+        return h.fade(cmd.dir, cmd.ms ?? 300, cmd.color, this.signal)
       case 'ditherScreen':
-        return h.ditherScreen(cmd.ms ?? 720)
+        return h.ditherScreen(cmd.ms ?? 720, this.signal)
       case 'chasePlayer':
-        return h.chaseStep(this.selfId ?? '', cmd.range ?? 8, cmd.speed ?? 4, cmd.floating ?? false)
+        return h.chaseStep(
+          this.selfId ?? '',
+          cmd.range ?? 8,
+          cmd.speed ?? 4,
+          cmd.floating ?? false,
+          this.signal,
+        )
       case 'vanishEntity':
         return h.vanishEntity(cmd.entity ?? this.selfId ?? '', cmd.seconds ?? 2)
       case 'loadLastSave':
-        return h.loadLastSave()
+        return h.loadLastSave(this.signal)
       case 'gameOver':
-        return h.gameOver()
+        return h.gameOver(this.signal)
       case 'wait':
-        return h.wait(cmd.ms)
+        return h.wait(cmd.ms, this.signal)
       case 'teleportParty':
         return h.teleportParty(cmd.pos, cmd.facing)
       case 'loadScene':
-        return h.loadScene(cmd.scene, {
-          ...(cmd.entryId !== undefined ? { entryId: cmd.entryId } : {}),
-          ...(cmd.pos !== undefined ? { pos: cmd.pos } : {}),
-          ...(cmd.facing !== undefined ? { facing: cmd.facing } : {}),
-        } as SceneSpawn)
+        return h.loadScene(
+          cmd.scene,
+          {
+            ...(cmd.entryId !== undefined ? { entryId: cmd.entryId } : {}),
+            ...(cmd.pos !== undefined ? { pos: cmd.pos } : {}),
+            ...(cmd.facing !== undefined ? { facing: cmd.facing } : {}),
+          } as SceneSpawn,
+          this.signal,
+        )
       case 'setPartyFacing':
         return h.setPartyFacing(cmd.facing, cmd.gesture, cmd.member)
       case 'setActorSprite':
-        return h.setActorSprite(cmd.actor, cmd.sprite)
+        return h.setActorSprite(cmd.actor, cmd.sprite, this.signal)
       case 'setActorAppearance':
-        return h.setActorAppearance?.(cmd.actor, {
-          ...(cmd.spriteId !== undefined ? { spriteId: cmd.spriteId } : {}),
-          ...(cmd.portrait !== undefined ? { portrait: cmd.portrait } : {}),
-          ...(cmd.battleSprite !== undefined ? { battleSprite: cmd.battleSprite } : {}),
-        })
+        return h.setActorAppearance?.(
+          cmd.actor,
+          {
+            ...(cmd.spriteId !== undefined ? { spriteId: cmd.spriteId } : {}),
+            ...(cmd.portrait !== undefined ? { portrait: cmd.portrait } : {}),
+            ...(cmd.battleSprite !== undefined ? { battleSprite: cmd.battleSprite } : {}),
+          },
+          this.signal,
+        )
       case 'fleeBattle':
         return h.fleeBattle()
       case 'setEntityState':
@@ -515,17 +541,26 @@ export class ScriptRunner {
       case 'toggleDayNight':
         h.toggleDayNight?.(cmd.ms)
         return
-      case 'setFollowers':
-        this.world.followers = cmd.sprites.length ? cmd.sprites : undefined
+      case 'setFollowers': {
+        const sprites = [...cmd.sprites]
+        await h.setFollowers(sprites, this.signal)
+        throwIfAborted(this.signal)
+        this.world.followers = sprites.length ? sprites : undefined
         return
+      }
       case 'setSceneMapOverride':
         if (cmd.scene === undefined) {
           const cur = h.query.sceneId?.()
           if (cur) {
-            this.world.mapOverride ??= {}
-            this.world.mapOverride[cur] = cmd.mapId
+            if (h.reloadMap) {
+              await h.reloadMap(cmd.mapId, this.signal)
+              throwIfAborted(this.signal)
+            } else {
+              this.world.mapOverride ??= {}
+              this.world.mapOverride[cur] = cmd.mapId
+            }
           }
-          return h.reloadMap?.(cmd.mapId)
+          return
         }
         this.world.mapOverride ??= {}
         this.world.mapOverride[cmd.scene] = cmd.mapId
@@ -540,7 +575,7 @@ export class ScriptRunner {
       case 'setEntityFrame':
         return h.setEntityFrame(cmd.entity, cmd.frame)
       case 'giveItem':
-        return h.giveItem(cmd.itemId, cmd.count ?? 1)
+        return h.giveItem(cmd.itemId, cmd.count ?? 1, this.signal)
       case 'loseItem':
         return h.loseItem(cmd.itemId, cmd.count ?? 1)
       case 'giveMoney':
@@ -571,13 +606,15 @@ export class ScriptRunner {
       case 'unmountParty':
         return h.unmountParty()
       case 'ride':
-        return h.ride(cmd.entity, cmd.to, cmd.speed)
+        return h.ride(cmd.entity, cmd.to, cmd.speed, this.signal)
       case 'setParty':
-        return h.setParty(cmd.members)
+        await h.setParty([...cmd.members], this.signal)
+        throwIfAborted(this.signal)
+        return
       case 'stopScript':
         throw new ScriptStopped() // 跳转臂终止(见类注;runStages 收口)
       case 'quitToTitle':
-        return h.quitToTitle?.(cmd.videos) // 0xA0 通关退出 → 回标题屏
+        return h.quitToTitle?.(cmd.videos, this.signal) // 0xA0 通关退出 → 回标题屏
 
       case 'branch':
         return evalCondition(cmd.cond, this.world, h.query, this.random)
@@ -586,7 +623,7 @@ export class ScriptRunner {
             ? this.runBody(cmd.else, [...path, 'else'])
             : undefined
       case 'moveEntity':
-        return h.moveEntity(cmd.entity, cmd.to, cmd.speed)
+        return h.moveEntity(cmd.entity, cmd.to, cmd.speed, this.signal)
       case 'stepEntity':
         return h.stepEntity(cmd.entity, cmd.dir)
       case 'animEntity':
@@ -594,40 +631,52 @@ export class ScriptRunner {
       case 'nudgeEntity':
         return h.nudgeEntity(cmd.entity, cmd.dx, cmd.dy)
       case 'moveParty':
-        return h.moveParty(cmd.to, cmd.speed)
+        return h.moveParty(cmd.to, cmd.speed, this.signal)
       case 'nudgeParty':
         return h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0)
       case 'startBattle': {
-        const r = await h.startBattle(cmd.team, {
-          auto: cmd.auto,
-          boss: cmd.boss,
-          fieldId: cmd.fieldId,
-          ...(cmd.music !== undefined ? { music: cmd.music } : {}),
-          ...(cmd.choreography ? { choreography: cmd.choreography } : {}),
-        })
+        const r = await h.startBattle(
+          cmd.team,
+          {
+            auto: cmd.auto,
+            boss: cmd.boss,
+            fieldId: cmd.fieldId,
+            ...(cmd.music !== undefined ? { music: cmd.music } : {}),
+            ...(cmd.choreography ? { choreography: cmd.choreography } : {}),
+          },
+          this.signal,
+        )
+        throwIfAborted(this.signal)
         if (r === 'lose' && cmd.onLose) return this.runBody(cmd.onLose, [...path, 'onLose'])
         if (r === 'flee' && cmd.onFlee) return this.runBody(cmd.onFlee, [...path, 'onFlee'])
         return
       }
       case 'teleportOut': {
-        const ok = await h.teleportOut()
+        const ok = await h.teleportOut(this.signal)
+        throwIfAborted(this.signal)
         if (!ok && cmd.onFail) return this.runBody(cmd.onFail, [...path, 'onFail'])
         return
       }
       case 'playVideo':
-        return h.playVideo(cmd.asset)
+        return h.playVideo(cmd.asset, this.signal)
       case 'playFrameAnimation':
-        return h.playFrameAnimation(cmd.asset, {
-          frameRate: cmd.frameRate,
-          startFrame: cmd.startFrame,
-          endFrame: cmd.endFrame,
-        })
+        return h.playFrameAnimation(
+          cmd.asset,
+          {
+            frameRate: cmd.frameRate,
+            startFrame: cmd.startFrame,
+            endFrame: cmd.endFrame,
+          },
+          this.signal,
+        )
       case 'openShop':
-        return h.openShop(cmd.shop, cmd.mode)
+        return h.openShop(cmd.shop, cmd.mode, this.signal)
       case 'confirm':
-        return (await h.confirm()) ? undefined : this.runBody(cmd.onNo, [...path, 'onNo'])
+        if (await h.confirm(this.signal)) return
+        throwIfAborted(this.signal)
+        return this.runBody(cmd.onNo, [...path, 'onNo'])
       case 'cameraPan':
-        return h.cameraPan(cmd.dx, cmd.dy, cmd.frames)
+        return h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
       case 'cameraSnap':
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':

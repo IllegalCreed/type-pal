@@ -176,3 +176,30 @@ pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/
 
 完整生命周期与 review 门禁见
 [`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。
+
+## 12. A7-3W 大世界精灵索引资源物化（2026-07-19，待三方 review）
+
+大世界精灵沿用 indexed RLE，不转 RGBA、不重编码 PAL 源：
+
+```text
+用户本地 PAL 提取源 sprite/1..636.rle
+  -> tuple/结构门禁
+  -> sprite.pal.NNN catalog record
+  -> projects/pal/assets/migrated/sprites/NNN.rle（逐字节物化）
+```
+
+- tuple 行固定为 `number + NUL + compressedBytes + NUL + sha256`，按 1..636 数字顺序、行间 LF、末尾无
+  LF；冻结 digest 为 `c92c14b5dac5abc39006d94fdefaa699eb0bffddb925447ceb4070c32bb45d03`。
+- 写前同时冻结 636 文件 / 1,332,725 B / 4,133 帧 / 30 个 legacy 坏尾、580 defs / 559 used /
+  21 shared / 77 unused，以及 s102 followers `[]`、`["sprite-82"]`。任一集合漂移都先审计，不能直接写盘。
+- 物化逐文件校验 id、path、kind、mediaType、origin、bytes、SHA、gzip 头和源/目标字节；非 authored 记录的
+  origin 也参与零写入判定。全部 636 文件写入临时工程后必须 byte-exact，第二次物化 `written=0`。
+- `legacy-migrated` parser 只容忍连续有效前缀后的不可解尾槽；606 个 canonical 源与 30 个异常源均与宽松
+  真值逐帧对比。author/generated 使用 canonical profile，不能借 PAL 兼容吞掉损坏。
+- MG2 先完成 JSON 冲突计划与全部字节预检，再物化二进制并提交 catalog/content/manifest。已有 authored
+  同 AssetId 是明确作者接管：作者记录与字节获胜，迁移源不覆盖；二次运行必须零计划。
+- `projects/pal/assets/migrated/**` 属受保护原版字节，继续由 `.gitignore` 排除；工程在本地物化后是运行时
+  自包含，仓库只提交确定性生成器、catalog/内容结果与门禁，不分发原版二进制副本。
+
+本轮唯一一次正式写入后，物化统计为 `writes=636 unchanged=1071`，事务随后报告二次迁移
+`writes=0 deletes=0 conflicts=0`；再次 dry-run 仍严格为 0/0/0。

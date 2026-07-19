@@ -248,3 +248,21 @@ A7-0 起，v3 工程新增唯一物理资产链：
   e2e-own/blank 使用 generated color，三者都只保留尚未迁移的 sprite legacy。
 - A7-3T 已完成三方审查和用户验收。`sprite`、`battle-sprite`、`effect-sprite`、`image` 四项、全量断外链、
   contentVersion 4 与删除 LegacyAssetAdapter 仍归后续切片/A7-4；A7/R7 总体仍未完成。
+
+## 14. A7-3W 大世界精灵生命周期更新（2026-07-19，待三方 review）
+
+- 唯一读取链为 `SpriteDef.id -> SpriteDef.asset -> assets/index.json -> AssetResolver/FileSource`；
+  canonical 工程不再保存 `SpriteDef.spriteNum/path`、`legacy.sprites` 或 sprite root fallback。
+- PAL、demo、e2e-own 和 blank seed 都使用 catalog SpriteDef。作者导入在一个可撤销事务内创建定义、
+  authored AssetRecord 和 `assetBlobs`；路径是 `assets/authored/sprites/<content-hash>.rle`，不从定义 id 推导。
+- 替换保留定义 id 与 AssetId，按完整 SHA 刷新预览/运行时缓存；共享 AssetId 先列出全部消费者。
+  删除定义与删除最后一份二进制是两个动作，默认禁止缩短有效帧数。
+- 本地 v3 工程在打开边界先读取并校验全部旧数字/路径字节，再原子发布 binary/catalog/content/manifest；
+  close 中断可重试，authored 同 AssetId 接管不被重迁覆盖，二次打开零写入。
+- HTTP clone、FSA、Save As 与 ZIP 对 catalog `.rle` 原样复制，不能按扩展名解压或重编码。PAL 本地开发工程
+  的 migrated 二进制由受保护提取源确定性物化且不入 git；克隆得到的用户工程则把这些文件完整写入目标目录，
+  离线运行不再请求 extracted sprite。
+- 存档与脚本中的编外跟随者保存 SpriteDef.id；旧数字只在本地升级和存档归一化边界出现，多义映射拒绝。
+
+本轮移除 legacy `sprite` 后，PAL 仍有 `battle-sprite/effect-sprite/image` 三族；catalog-only 总门禁、
+contentVersion 4 与 LegacyAssetAdapter 总删除仍归 A7-4，A7/R7 总体不能提前标 done。

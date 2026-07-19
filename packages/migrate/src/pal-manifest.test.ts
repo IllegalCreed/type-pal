@@ -50,5 +50,7 @@ describe('PAL sound manifest closure', () => {
     expect(next.content.stamps).toBe('content/stamps.json')
     expect(next.contentVersion).toBe(3)
     expect(current.content.stamps).toBeUndefined()
+    expect(next.assets.legacy).toBeUndefined()
+    expect(current.assets.legacy?.families).toEqual(['sound', 'sprite'])
   })
 })

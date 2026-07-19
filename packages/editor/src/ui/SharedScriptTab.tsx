@@ -101,7 +101,6 @@ export function SharedScriptTab(props: {
   projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
   tilesets: readonly TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
   projectId: string
   focusScriptId?: string
   focusScriptRevision?: number
@@ -126,7 +125,6 @@ export function SharedScriptTab(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
     projectId,
     focusScriptId,
     onOpenSound,
@@ -367,7 +365,6 @@ export function SharedScriptTab(props: {
                 projectMaps={projectMaps}
                 mapIndex={mapIndex}
                 tilesets={tilesets}
-                tilesetBlobs={tilesetBlobs}
                 locale={locale}
                 playback={playback}
                 sceneFraming={!testEntityId}

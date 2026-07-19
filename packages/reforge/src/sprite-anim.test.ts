@@ -1,6 +1,8 @@
 import type { SpriteLayout } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
+  actualFrameIndex,
+  animFrameIndex,
   deriveStepCycle,
   idleFrameIndex,
   loopFrameIndex,
@@ -48,6 +50,38 @@ describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+
     expect(walkFrameIndex(d4, 'down', 3)).toBe(3)
     expect(walkFrameIndex({ kind: 'static' }, 'down', 3)).toBe(0)
   })
+  test('实际解码帧数收口历史 layout 债，任何越界候选统一回首帧', () => {
+    expect(actualFrameIndex(7, 7)).toBe(0)
+    expect(actualFrameIndex(-1, 7)).toBe(0)
+    expect(idleFrameIndex(d3, 'right', 9)).toBe(0)
+    expect(walkFrameIndex(d3, 'right', 3, 10)).toBe(0)
+    expect(animFrameIndex(d3, 'up', 1, 5)).toBe(0)
+    expect(idleFrameIndex(d3, 'left', 12)).toBe(3)
+  })
+
+  test.each([
+    [627, 4],
+    [361, 5],
+    [242, 5],
+    [273, 4],
+    [394, 2],
+    [385, 2],
+    [379, 5],
+    [550, 2],
+    [541, 1],
+    [630, 4],
+    [631, 7],
+    [632, 7],
+    [236, 1],
+  ] as const)('PAL layout 债 #%i 的真实 %i 帧在所有方向/步相均不越界', (_number, frames) => {
+    for (const facing of ['down', 'left', 'up', 'right'] as const) {
+      expect(idleFrameIndex(d3, facing, frames)).toBeLessThan(frames)
+      for (let phase = 0; phase < 8; phase++) {
+        expect(walkFrameIndex(d3, facing, phase, frames)).toBeLessThan(frames)
+        expect(animFrameIndex(d3, facing, phase, frames)).toBeLessThan(frames)
+      }
+    }
+  })
 })
 
 describe('loopFrameIndex(E5 环境动画自循环)', () => {
@@ -61,5 +95,9 @@ describe('loopFrameIndex(E5 环境动画自循环)', () => {
   test('非 loop 布局恒 0;frameCount 0 防除零', () => {
     expect(loopFrameIndex({ kind: 'static' }, 5000)).toBe(0)
     expect(loopFrameIndex({ kind: 'loop', frameCount: 0 }, 5000)).toBe(0)
+  })
+  test('声明循环帧数大于实际帧数时只在实际帧内循环', () => {
+    expect(loopFrameIndex({ kind: 'loop', frameCount: 20 }, 750, 2)).toBe(1)
+    expect(loopFrameIndex({ kind: 'loop', frameCount: 20 }, 1000, 2)).toBe(0)
   })
 })

@@ -18,7 +18,10 @@ import {
 } from './translate-events.js'
 
 /** 手搓链 → labelAt(单段,L_1 起步,end 收尾;raw 命令补 op:'raw' 判别)。 */
-function ctxOf(cmds: SourceCmd[], spriteIdForNum?: (num: number) => string): TranslateCtx {
+function ctxOf(
+  cmds: SourceCmd[],
+  spriteIdForNum?: (num: number) => string | undefined,
+): TranslateCtx {
   const raws = cmds.map((c) => ({ op: 'raw', ...c }))
   const chain: SourceCmd[] = [{ ...raws[0]!, label: 'L_1' }, ...raws.slice(1), { op: 'end' }]
   const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
@@ -95,6 +98,28 @@ describe('0x65 换角色大世界精灵(script.c: rgwSpriteNum[role]=sprite)', (
     const ctx = ctxOf([{ opcode: 0x65, operands: [0, 627, 0xffff] }])
     expect(bodyOf(ctx)).toEqual([])
     expect(ctx.report.gaps[0]).toMatchObject({ opcode: 0x65, owner: 'e0' })
+  })
+})
+
+describe('0x98 编外跟随者(spriteNum → SpriteDef.id)', () => {
+  test('两个非零旧编号保序解析，零槽滤除', () => {
+    expect(
+      bodyOf(ctxOf([{ opcode: 0x98, operands: [82, 83, 0] }], (num) => `sprite-${num}`)),
+    ).toEqual([{ kind: 'setFollowers', sprites: ['sprite-82', 'sprite-83'] }])
+  })
+
+  test('全零仍生成清除命令，不要求注册回调', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0x98, operands: [0, 0, 0] }]))).toEqual([
+      { kind: 'setFollowers', sprites: [] },
+    ])
+  })
+
+  test('任一非零编号无法解析时整条命令进入 MigrationGap，不产生部分结果', () => {
+    const ctx = ctxOf([{ opcode: 0x98, operands: [82, 83, 0] }], (num) =>
+      num === 82 ? 'sprite-82' : undefined,
+    )
+    expect(bodyOf(ctx)).toEqual([])
+    expect(ctx.report.gaps[0]).toMatchObject({ opcode: 0x98, owner: 'e0' })
   })
 })
 

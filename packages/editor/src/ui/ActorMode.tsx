@@ -176,7 +176,12 @@ export function ActorMode(props: {
             onClose={() => setEditingCurve(false)}
           />
         ) : actor && sprite ? (
-          <SpriteFrames sprite={sprite} assetBase={assetBase} session={session} />
+          <SpriteFrames
+            sprite={sprite}
+            assetBase={assetBase}
+            assetReader={assetReader}
+            session={session}
+          />
         ) : (
           <div className="insp-empty" style={{ padding: 40 }}>
             {actor ? `精灵 "${actor.spriteId}" 不在注册表` : '无角色'}
@@ -208,7 +213,7 @@ export function ActorMode(props: {
                 <span className="field-label">精灵</span>
                 <div className="in pick linked-value">
                   <span>{sprite?.label ?? actor.spriteId}</span>
-                  <span className="meta">#{sprite?.spriteNum ?? '?'}</span>
+                  <span className="meta">{sprite?.asset ?? '缺资源'}</span>
                   <button
                     type="button"
                     className="linked-value-open"

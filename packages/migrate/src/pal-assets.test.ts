@@ -2,12 +2,18 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { AssetCatalogV1 } from '@type-pal/content'
+import { gunzipSync } from 'node:zlib'
+import { type AssetCatalogV1, palSpriteAssetId } from '@type-pal/content'
+import { parseSpriteChunk, parseWorldSpriteChunk } from '@type-pal/shared'
 import { afterEach, describe, expect, test } from 'vitest'
 import { sha256 } from './migration-baseline.js'
 import {
+  formatPalWorldSpriteReport,
   loadPalSoundAssets,
+  loadPalWorldSprites,
   materializePalAssets,
+  PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
+  PAL_WORLD_SPRITE_TUPLE_DIGEST,
   type PalBinaryAssetSource,
 } from './pal-assets.js'
 
@@ -156,6 +162,37 @@ describe('PAL 二进制资源所有权物化', () => {
     )
   })
 
+  test('非 authored 记录不得漂移迁移器控制的 origin', () => {
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-assets-origin-'))
+    roots.push(temp)
+    const bytes = Uint8Array.from([1, 2])
+    const source: PalBinaryAssetSource = {
+      id: 'video.pal.001',
+      bytes,
+      record: {
+        kind: 'video',
+        path: 'assets/migrated/videos/001.mp4',
+        mediaType: 'video/mp4',
+        bytes: bytes.byteLength,
+        sha256: sha256(bytes),
+        origin: { kind: 'legacy-migrated', ref: 'video/1.avi' },
+      },
+    }
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: {
+        [source.id]: {
+          ...source.record,
+          origin: { kind: 'legacy-migrated', ref: 'video/wrong.avi' },
+        },
+      },
+    }
+    expect(() => materializePalAssets({ repo: temp, catalog, binaries: [source] })).toThrow(
+      '.origin 被非 authored 记录改写',
+    )
+    expect(existsSync(resolve(temp, 'projects/pal/assets/migrated/videos/001.mp4'))).toBe(false)
+  })
+
   test('全部迁移源预检通过前不写任何目标', () => {
     const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-assets-'))
     roots.push(temp)
@@ -222,6 +259,110 @@ describe('PAL 二进制资源所有权物化', () => {
     )
     expect(existsSync(resolve(temp, 'projects/pal/assets/migrated/videos/shared.mp4'))).toBe(false)
   })
+})
+
+describe('PAL 大世界精灵全源门禁', () => {
+  test('真实 606 个 canonical 与 30 个坏尾源逐帧对齐宽松真值', () => {
+    const loaded = loadPalWorldSprites(repo)
+    const anomalies = new Set<number>(
+      PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES.map(({ sprite }) => sprite),
+    )
+    let canonical = 0
+    let legacyTail = 0
+    for (const source of loaded.binaries) {
+      const number = Number(source.id.slice(source.id.lastIndexOf('.') + 1))
+      if (!source.sourcePath) throw new Error(`${source.id} 缺文件来源`)
+      const raw = gunzipSync(readFileSync(source.sourcePath))
+      const looseTruth = parseSpriteChunk(raw)
+      const legacy = parseWorldSpriteChunk(raw, 'legacy-migrated')
+      if (legacy.frames.length !== looseTruth.length)
+        throw new Error(`${source.id}: legacy/loose 帧数不一致`)
+      for (let frame = 0; frame < looseTruth.length; frame++) {
+        const actual = legacy.frames[frame]!
+        const expected = looseTruth[frame]!
+        if (
+          actual.width !== expected.width ||
+          actual.height !== expected.height ||
+          !Buffer.from(actual.pixels).equals(expected.pixels) ||
+          !Buffer.from(actual.opaque).equals(expected.opaque)
+        )
+          throw new Error(`${source.id}: frame ${frame} 与宽松真值不一致`)
+      }
+      if (anomalies.has(number)) {
+        legacyTail++
+        expect(legacy.skippedLegacyTailSlots, source.id).toBeGreaterThan(0)
+        expect(() => parseWorldSpriteChunk(raw, 'canonical'), source.id).toThrow()
+      } else {
+        canonical++
+        expect(legacy.skippedLegacyTailSlots, source.id).toBe(0)
+        const strict = parseWorldSpriteChunk(raw, 'canonical').frames
+        if (strict.length !== looseTruth.length)
+          throw new Error(`${source.id}: canonical/loose 帧数不一致`)
+      }
+    }
+    expect({ canonical, legacyTail }).toEqual({ canonical: 606, legacyTail: 30 })
+  }, 20_000)
+
+  test('636 tuple/字节/帧/坏尾清单与 CLI 证据精确冻结', () => {
+    const loaded = loadPalWorldSprites(repo)
+    expect(loaded.report).toEqual({
+      sprites: 636,
+      spriteBytes: 1_332_725,
+      spriteFrames: 4_133,
+      spriteMalformedTailSlots: 30,
+      spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
+      spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
+    })
+    expect(formatPalWorldSpriteReport(loaded.report)).toBe(
+      `[大世界精灵资源] sprites=636 bytes=1332725 frames=4133 ` +
+        `malformed-tail-slots=30 tuple-digest=${PAL_WORLD_SPRITE_TUPLE_DIGEST}`,
+    )
+  })
+
+  test('全 636 源逐文件物化 byte-exact，二次物化零写入', () => {
+    const loaded = loadPalWorldSprites(repo)
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-world-sprites-'))
+    roots.push(temp)
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: Object.fromEntries(loaded.binaries.map((source) => [source.id, source.record])),
+    }
+
+    expect(materializePalAssets({ repo: temp, catalog, binaries: loaded.binaries })).toEqual({
+      written: 636,
+      unchanged: 0,
+      authored: 0,
+      files: 636,
+      bytes: 1_332_725,
+    })
+    for (let number = 1; number <= 636; number++) {
+      const asset = palSpriteAssetId(number)
+      const source = loaded.binaries[number - 1]!
+      const record = catalog.assets[asset]!
+      if (!source.sourcePath) throw new Error(`${asset} 缺文件来源`)
+      expect(source.id).toBe(asset)
+      expect(record).toMatchObject({
+        kind: 'sprite',
+        path: `assets/migrated/sprites/${String(number).padStart(3, '0')}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        origin: { kind: 'legacy-migrated', ref: `sprite/${number}.rle` },
+      })
+      const sourceBytes = readFileSync(source.sourcePath)
+      const targetBytes = readFileSync(resolve(temp, 'projects/pal', record.path))
+      expect(targetBytes.equals(sourceBytes)).toBe(true)
+      expect(targetBytes[0]).toBe(0x1f)
+      expect(targetBytes[1]).toBe(0x8b)
+      expect(targetBytes.byteLength).toBe(record.bytes)
+      expect(sha256(targetBytes)).toBe(record.sha256)
+    }
+    expect(materializePalAssets({ repo: temp, catalog, binaries: loaded.binaries })).toEqual({
+      written: 0,
+      unchanged: 636,
+      authored: 0,
+      files: 636,
+      bytes: 1_332_725,
+    })
+  }, 20_000)
 })
 
 describe('PAL sound 提取闭包', () => {

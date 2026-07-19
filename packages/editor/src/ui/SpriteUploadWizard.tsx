@@ -5,9 +5,9 @@
  *   (接在 4×N 帧之后平铺;入库后到「精灵帧」面板框选命名姿势,poses 体系 C1d)。
  * - 帧级编辑(替换某帧/追加帧带)**不在这里** —— 在「精灵帧」面板就地做
  *   (作者:「替换一帧还要回上传选追加?动线太复杂」)。
- * 量化贴盘 0 预览(所见即入库);保存工程时落盘 assets/sprites/<id>.rle。
+ * 量化贴盘 0 预览(所见即入库);保存工程时落盘 assets/authored/sprites/<content-hash>.rle。
  */
-import type { SpriteDef, SpriteLayout } from '@type-pal/content'
+import type { AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -18,6 +18,7 @@ import {
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { sha256Hex } from '../core/binary-signature.js'
 import { AddSpriteCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
@@ -169,12 +170,26 @@ export function SpriteUploadWizard(props: {
           : kind === 'loop'
             ? { kind, frameCount: Math.max(1, frameCount) }
             : { kind: 'static' }
-      const spriteNum = sprites.reduce((m, s) => Math.max(m, s.spriteNum), -1) + 1
+      const hash = await sha256Hex(buf)
+      const state = session.getState()
+      const shared = Object.entries(state.assetCatalog.assets).find(
+        ([, record]) => record.kind === 'sprite' && record.sha256 === hash,
+      )
+      let asset = shared?.[0] ?? `sprite.${id}`
+      if (!shared)
+        for (let suffix = 2; state.assetCatalog.assets[asset]; suffix++)
+          asset = `sprite.${id}.${suffix}`
+      const record: AssetRecordV1 = shared?.[1] ?? {
+        kind: 'sprite',
+        path: `assets/authored/sprites/${hash}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: buf.byteLength,
+        sha256: hash,
+        label: `精灵资源 ${newLabel.trim() || id}`,
+        origin: { kind: 'authored' },
+      }
       session.dispatch(
-        new AddSpriteCommand(
-          { id, spriteNum, label: newLabel.trim() || id, layout, path: `assets/sprites/${id}.rle` },
-          buf,
-        ),
+        new AddSpriteCommand({ id, asset, label: newLabel.trim() || id, layout }, record, buf),
       )
       onDone(id)
     } catch (e) {

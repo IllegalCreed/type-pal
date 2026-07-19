@@ -18,6 +18,7 @@ import {
 } from './upgrade-local-v2.js'
 import { upgradeLocalProjectV3StaticImages } from './upgrade-local-v3-images.js'
 import { upgradeLocalProjectV3Sounds } from './upgrade-local-v3-sounds.js'
+import { upgradeLocalProjectV3Sprites } from './upgrade-local-v3-sprites.js'
 import { upgradeLocalProjectV3Tilesets } from './upgrade-local-v3-tilesets.js'
 
 export interface OpenedProject {
@@ -51,6 +52,11 @@ export async function openLocalProject(
       rawManifest = await source.readJson<unknown>('manifest.json')
     }
     if (await upgradeLocalProjectV3Tilesets(dir, source, rawManifest)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV3Sprites(dir, source, rawManifest)) {
       source.dispose?.()
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')

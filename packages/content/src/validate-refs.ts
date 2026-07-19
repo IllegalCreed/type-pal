@@ -5,7 +5,7 @@
  * 这是编辑器的核心价值:不让坏数据越积越多。loader 也能用来告警。
  *
  * 系统未落地的字段(poisonId / triggerScript.scriptId / teleport.target)跳过 ——
- * 待对应系统落地后再加(注释标明)。资产号是否有对应文件(icon/spriteNum)
+ * 待对应系统落地后再加(注释标明)。资产记录是否有对应物理文件
  * 不在此校验 —— 那是 loader/资产层的事。
  *
  * 见 docs/phase2/editor/editor-design.md §6。
@@ -24,12 +24,14 @@ import type {
   MapIndexV1,
   PoisonDef,
   SceneDef,
+  ScriptChunkV1,
   ShopDef,
   SkillData,
   SpriteDef,
   StampTemplateV1,
   StartWorld,
   TilesetDef,
+  WorldState,
 } from './index.js'
 
 /** 一条校验问题。severity: error=会让游戏崩/逻辑错;warn=有降级(如显 id)但不崩。 */
@@ -67,6 +69,120 @@ export interface ContentBundle {
   shops?: ShopDef[]
   /** 工程唯一地图发现真值。 */
   mapIndex: MapIndexV1
+  /** 分片脚本正文；编辑器保存门传入后与场景 inline 脚本走同一语义引用扫描。 */
+  scriptChunks?: Readonly<Record<string, ScriptChunkV1>>
+  /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
+  worlds?: readonly WorldState[]
+}
+
+/** 一条 SpriteDef 语义引用；删除保护、保存门和引用面板共用。 */
+export interface SpriteDefinitionReference {
+  sprite: string
+  where: string
+  site: string
+}
+
+function collectCommandSpriteReferences(
+  node: unknown,
+  where: string,
+  site: string,
+  out: SpriteDefinitionReference[],
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((value, index) => {
+      collectCommandSpriteReferences(value, `${where}[${index}]`, site, out)
+    })
+    return
+  }
+  if (!node || typeof node !== 'object') return
+  const record = node as Record<string, unknown>
+  if (record.kind === 'setActorSprite' && typeof record.sprite === 'string')
+    out.push({ sprite: record.sprite, where: `${where}.sprite`, site })
+  if (record.kind === 'setActorAppearance' && typeof record.spriteId === 'string')
+    out.push({ sprite: record.spriteId, where: `${where}.spriteId`, site })
+  if (record.kind === 'setFollowers' && Array.isArray(record.sprites)) {
+    record.sprites.forEach((sprite, index) => {
+      if (typeof sprite === 'string')
+        out.push({ sprite, where: `${where}.sprites[${index}]`, site })
+    })
+  }
+  for (const [key, value] of Object.entries(record))
+    collectCommandSpriteReferences(value, `${where}.${key}`, site, out)
+}
+
+/** 递归收集 Actor/Entity/appearance/followers 与所有 inline/chunk 命令中的 SpriteDef.id 边。 */
+export function collectSpriteDefinitionReferences(
+  source: Pick<ContentBundle, 'actors' | 'scenes' | 'scriptChunks' | 'enemies' | 'worlds'>,
+): SpriteDefinitionReference[] {
+  const references: SpriteDefinitionReference[] = []
+  source.actors.forEach((actor, index) => {
+    references.push({
+      sprite: actor.spriteId,
+      where: `actors[${index}](${actor.id}).spriteId`,
+      site: `actor:${actor.id}`,
+    })
+  })
+  source.scenes.forEach((scene, sceneIndex) => {
+    scene.entities.forEach((entity, entityIndex) => {
+      if (!isActorEntity(entity) && 'sprite' in entity)
+        references.push({
+          sprite: entity.sprite,
+          where: `scenes[${sceneIndex}].entities[${entityIndex}].sprite`,
+          site: `scene:${scene.id}:entity:${entity.id}`,
+        })
+    })
+    collectCommandSpriteReferences(scene, `scenes[${sceneIndex}]`, `scene:${scene.id}`, references)
+  })
+  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
+    for (const [scriptId, body] of Object.entries(chunk.scripts))
+      collectCommandSpriteReferences(
+        body,
+        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        `script:${chunkId}:${scriptId}`,
+        references,
+      )
+  }
+  source.enemies?.forEach((enemy, index) => {
+    collectCommandSpriteReferences(
+      enemy.choreography,
+      `enemies[${index}](${enemy.id}).choreography`,
+      `enemy:${enemy.id}:choreography`,
+      references,
+    )
+    collectCommandSpriteReferences(
+      enemy.onDefeated,
+      `enemies[${index}](${enemy.id}).onDefeated`,
+      `enemy:${enemy.id}:onDefeated`,
+      references,
+    )
+  })
+  source.worlds?.forEach((world, worldIndex) => {
+    for (const collection of ['party', 'reserve'] as const) {
+      ;(world[collection] ?? []).forEach((character, characterIndex) => {
+        const sprite = character.appearance?.spriteId
+        if (sprite)
+          references.push({
+            sprite,
+            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.spriteId`,
+            site: `world:${worldIndex}:character:${character.id}:appearance`,
+          })
+      })
+    }
+    world.script?.followers?.forEach((sprite, index) => {
+      references.push({
+        sprite,
+        where: `worlds[${worldIndex}].script.followers[${index}]`,
+        site: `world:${worldIndex}:followers`,
+      })
+    })
+    collectCommandSpriteReferences(
+      world.script?.sceneScriptOverrides,
+      `worlds[${worldIndex}].script.sceneScriptOverrides`,
+      `world:${worldIndex}:sceneScriptOverrides`,
+      references,
+    )
+  })
+  return references
 }
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
@@ -113,14 +229,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
             where: `${where}.actor`,
             message: `角色 "${e.actor}" 不在 actors 表`,
           })
-      } else if ('sprite' in e && !spriteIds.has(e.sprite)) {
-        // prop 的 sprite → sprites 注册表(缺 = error:引擎 loadSprite 会 throw)
-        issues.push({
-          severity: 'error',
-          where: `${where}.sprite`,
-          message: `精灵 "${e.sprite}" 不在 sprites 注册表`,
-        })
-      } // zone:true 无视觉引用,无需校验
+      } // zone:true 无视觉引用,无需校验；prop sprite 由统一语义引用表校验
     })
   })
 
@@ -182,13 +291,6 @@ export function validateReferences(b: ContentBundle): Issue[] {
         where: `${where}.name`,
         message: `角色名 id "${a.name}" 不在 locale`,
       })
-    // spriteId → sprites 注册表(缺 = error:引擎解析会 throw)
-    if (!spriteIds.has(a.spriteId))
-      issues.push({
-        severity: 'error',
-        where: `${where}.spriteId`,
-        message: `精灵 "${a.spriteId}" 不在 sprites 注册表`,
-      })
     const battler = a.battler
     if (battler) {
       // battler.initialEquipment 值 → items(缺 = warn)
@@ -211,6 +313,16 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
     }
   })
+
+  // ── SpriteDef 语义边（Actor/Entity/appearance/followers/所有嵌套脚本）──
+  for (const reference of collectSpriteDefinitionReferences(b)) {
+    if (!spriteIds.has(reference.sprite))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `精灵 "${reference.sprite}" 不在 sprites 注册表`,
+      })
+  }
 
   // ── startWorld ──────────────────────────────────────────
   b.startWorld.party.forEach((actorId, pi) => {

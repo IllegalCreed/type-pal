@@ -25,6 +25,7 @@ import {
   palMusicAssetId,
   palPortraitAssetId,
   palSoundAssetId,
+  palSpriteAssetId,
   palTilesetAssetId,
   palVideoAssetId,
   validateAssetCatalog,
@@ -33,6 +34,7 @@ import {
   decodeRngFrames,
   type Palette,
   parseSpriteChunkStrict,
+  parseWorldSpriteChunk,
   RNG_HEIGHT,
   RNG_WIDTH,
 } from '@type-pal/shared'
@@ -77,8 +79,74 @@ export interface PalAssetMigrationReport {
   tilesets: number
   tilesetBytes: number
   tilesetFrames: number
+  sprites: number
+  spriteBytes: number
+  spriteFrames: number
+  spriteMalformedTailSlots: number
+  spriteTupleDigest: string
+  spriteLegacyTailAnomalies: PalWorldSpriteLegacyTailAnomaly[]
   /** 迁移边界审计字段；项目内容、运行时和编辑器不得消费这些旧编号。 */
   legacyPaletteByFrameAnimation: Record<string, number>
+}
+
+export interface PalWorldSpriteLegacyTailAnomaly {
+  sprite: number
+  frames: number
+  malformedTailSlots: number
+  trailingSentinel: boolean
+}
+
+/**
+ * PAL 源数据的历史坏尾事实只冻结在迁移门禁；运行时不得按这些资源 id 特判。
+ * 571 的正常零 sentinel 不计入 malformedTailSlots。
+ */
+export const PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES = [
+  { sprite: 23, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 35, frames: 5, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 79, frames: 16, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 110, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 112, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 114, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 116, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 133, frames: 4, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 139, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 141, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 143, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 241, frames: 7, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 360, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 384, frames: 24, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 414, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 418, frames: 1, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 419, frames: 1, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 422, frames: 1, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 442, frames: 4, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 450, frames: 23, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 483, frames: 2, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 509, frames: 4, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 510, frames: 4, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 538, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 552, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 571, frames: 1, malformedTailSlots: 1, trailingSentinel: true },
+  { sprite: 575, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 579, frames: 6, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 609, frames: 12, malformedTailSlots: 1, trailingSentinel: false },
+  { sprite: 631, frames: 7, malformedTailSlots: 1, trailingSentinel: false },
+] as const satisfies readonly PalWorldSpriteLegacyTailAnomaly[]
+
+export const PAL_WORLD_SPRITE_TUPLE_DIGEST =
+  'c92c14b5dac5abc39006d94fdefaa699eb0bffddb925447ceb4070c32bb45d03'
+
+export function formatPalWorldSpriteReport(
+  report: Pick<
+    PalAssetMigrationReport,
+    'sprites' | 'spriteBytes' | 'spriteFrames' | 'spriteMalformedTailSlots' | 'spriteTupleDigest'
+  >,
+): string {
+  return (
+    `[大世界精灵资源] sprites=${report.sprites} bytes=${report.spriteBytes} ` +
+    `frames=${report.spriteFrames} malformed-tail-slots=${report.spriteMalformedTailSlots} ` +
+    `tuple-digest=${report.spriteTupleDigest}`
+  )
 }
 
 const PAL_FACE_ACTORS = [
@@ -521,6 +589,95 @@ function loadPalFrameAnimations(repo: string): {
   }
 }
 
+export function loadPalWorldSprites(repo: string): {
+  binaries: PalBinaryAssetSource[]
+  report: Pick<
+    PalAssetMigrationReport,
+    | 'sprites'
+    | 'spriteBytes'
+    | 'spriteFrames'
+    | 'spriteMalformedTailSlots'
+    | 'spriteTupleDigest'
+    | 'spriteLegacyTailAnomalies'
+  >
+} {
+  const root = resolve(repo, 'data/extracted/data/sprite')
+  const expectedFiles = Array.from({ length: 636 }, (_, index) => `${index + 1}.rle`)
+  const actualFiles = readdirSync(root)
+    .filter((file) => file.endsWith('.rle'))
+    .sort((left, right) => Number.parseInt(left, 10) - Number.parseInt(right, 10))
+  if (
+    actualFiles.length !== expectedFiles.length ||
+    actualFiles.some((file, index) => file !== expectedFiles[index])
+  )
+    throw new Error('PAL 大世界精灵源集合期望完整 1..636')
+
+  const binaries: PalBinaryAssetSource[] = []
+  const spriteLegacyTailAnomalies: PalWorldSpriteLegacyTailAnomaly[] = []
+  let spriteBytes = 0
+  let spriteFrames = 0
+  let spriteMalformedTailSlots = 0
+  const spriteTuples: string[] = []
+  for (let sprite = 1; sprite <= 636; sprite++) {
+    const sourcePath = resolve(root, `${sprite}.rle`)
+    const compressed = readFileSync(sourcePath)
+    if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+      throw new Error(`PAL 大世界精灵 ${sprite} 必须是 gzip RLE`)
+    const parsed = parseWorldSpriteChunk(gunzipSync(compressed), 'legacy-migrated')
+    if (parsed.frames.length === 0) throw new Error(`PAL 大世界精灵 ${sprite} 不含有效帧`)
+    spriteBytes += compressed.byteLength
+    spriteFrames += parsed.frames.length
+    spriteMalformedTailSlots += parsed.skippedLegacyTailSlots
+    spriteTuples.push(`${sprite}\0${compressed.byteLength}\0${sha256(compressed)}`)
+    if (parsed.skippedLegacyTailSlots > 0)
+      spriteLegacyTailAnomalies.push({
+        sprite,
+        frames: parsed.frames.length,
+        malformedTailSlots: parsed.skippedLegacyTailSlots,
+        trailingSentinel: parsed.trailingSentinel,
+      })
+
+    const padded = String(sprite).padStart(3, '0')
+    binaries.push(
+      fileSource(palSpriteAssetId(sprite), sourcePath, {
+        kind: 'sprite',
+        path: `assets/migrated/sprites/${padded}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        label: `PAL 大世界精灵 ${padded}`,
+        origin: { kind: 'legacy-migrated', ref: `sprite/${sprite}.rle` },
+      }),
+    )
+  }
+
+  if (spriteBytes !== 1_332_725)
+    throw new Error(`PAL 大世界精灵字节期望 1332725，收到 ${spriteBytes}`)
+  if (spriteFrames !== 4_133) throw new Error(`PAL 大世界精灵帧数期望 4133，收到 ${spriteFrames}`)
+  if (spriteMalformedTailSlots !== 30)
+    throw new Error(`PAL 大世界精灵坏尾槽期望 30，收到 ${spriteMalformedTailSlots}`)
+  const spriteTupleDigest = sha256(spriteTuples.join('\n'))
+  if (spriteTupleDigest !== PAL_WORLD_SPRITE_TUPLE_DIGEST)
+    throw new Error(
+      `PAL 大世界精灵 tuple digest 漂移，期望 ${PAL_WORLD_SPRITE_TUPLE_DIGEST}，收到 ${spriteTupleDigest}`,
+    )
+  if (
+    JSON.stringify(spriteLegacyTailAnomalies) !==
+    JSON.stringify(PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES)
+  )
+    throw new Error('PAL 大世界精灵 legacy 坏尾集合或结构发生漂移')
+
+  return {
+    binaries,
+    report: {
+      sprites: binaries.length,
+      spriteBytes,
+      spriteFrames,
+      spriteMalformedTailSlots,
+      spriteTupleDigest,
+      spriteLegacyTailAnomalies,
+    },
+  }
+}
+
 /** PAL 工程一等资源的唯一生成入口；所有 hash 均取自提取源或确定性 TPFS 输出。 */
 export function loadPalAssets(
   repo: string,
@@ -582,6 +739,8 @@ export function loadPalAssets(
   binaries.push(...sounds.binaries)
   const staticImages = loadPalStaticImages(repo)
   binaries.push(...staticImages.binaries)
+  const worldSprites = loadPalWorldSprites(repo)
+  binaries.push(...worldSprites.binaries)
 
   let tilesetBytes = 0
   let tilesetFrames = 0
@@ -642,6 +801,7 @@ export function loadPalAssets(
       ...frameAnimations.report,
       ...sounds.report,
       ...staticImages.report,
+      ...worldSprites.report,
       tilesets: uniqueMapNums.length,
       tilesetBytes,
       tilesetFrames,
@@ -716,6 +876,8 @@ export function materializePalAssets(args: {
       if (target[key] !== source.record[key])
         throw new Error(`迁移资源 ${source.id}.${key} 被非 authored 记录改写`)
     }
+    if (JSON.stringify(target.origin) !== JSON.stringify(source.record.origin))
+      throw new Error(`迁移资源 ${source.id}.origin 被非 authored 记录改写`)
     assertSourceBytes(source)
   }
   for (const [id, record] of Object.entries(catalog.assets)) {

@@ -78,6 +78,9 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
   const tilesetAsset = 'tileset.generated.starter'
   const tilesetPath = 'assets/generated/tilesets/starter.rle'
   const tilesetHash = await sha256Hex(tilesetRle)
+  const spriteAsset = 'sprite.generated.starter'
+  const spritePath = 'assets/generated/sprites/starter.rle'
+  const spriteHash = await sha256Hex(spriteRle)
   // 房间中心 = 菱形轴 ((W+H)/2, (H−W)/2)(方形 → (W,0));落逻辑格中心,不卡边界(gap #7)。
   const entryCol = Math.floor((SEED_W + SEED_H) / 2)
   const entryRow = Math.floor((SEED_H - SEED_W) / 2)
@@ -109,7 +112,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/sprites.json': [
       {
         id: 'hero',
-        spriteNum: 0,
+        asset: spriteAsset,
         label: '占位主角',
         layout: { kind: 'directional', framesPerDir: 3 },
       },
@@ -154,11 +157,20 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
           label: '起始地形',
           origin: { kind: 'generated' },
         },
+        [spriteAsset]: {
+          kind: 'sprite',
+          path: spritePath,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: spriteRle.byteLength,
+          sha256: spriteHash,
+          label: '占位主角',
+          origin: { kind: 'generated' },
+        },
       },
     },
     [colorPath]: palette,
     [tilesetPath]: tilesetRle,
-    'assets/sprites/0.rle': spriteRle,
+    [spritePath]: spriteRle,
     'manifest.json': {
       id,
       name: name.trim() || '新工程',
@@ -178,11 +190,6 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       assets: {
         catalog: 'assets/index.json',
         roles: { 'visual.standardColorTable': colorAsset },
-        legacy: {
-          families: ['sprite'],
-          root: 'assets',
-          sprites: 'sprites',
-        },
       },
       startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
     },
@@ -268,10 +275,11 @@ export function enumerateSeedFiles(
       commitPhase: 'binary',
       catalogAsset: { id, kind: record.kind, bytes: record.bytes, sha256: record.sha256 },
     })
-  // 尚未 catalog 化的 legacy 素材仍从 extracted 复制；四类静态图只来自上面的 catalog records。
+  // 尚未 catalog 化的 battle/effect/image 仍从 extracted 复制；已闭环族只来自上面的 catalog records。
   const legacyFamilies = new Set(manifest.assets.legacy?.families ?? [])
   for (const f of assetManifest.files) {
     if (!legacyFamilies.has('tileset') && /^data\/tileset\//.test(f.path)) continue
+    if (!legacyFamilies.has('sprite') && /^data\/sprite\//.test(f.path)) continue
     out.push({
       rel: `assets/extracted/${f.path}`,
       src: `/extracted/${f.path}`,

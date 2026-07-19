@@ -36,7 +36,7 @@ function Harness(props: { sha256: string }) {
     canvasRef,
     assetBase,
     mapId: 'map-a',
-    spriteNums: [],
+    spriteAssets: [],
     projectMaps: { 'map-a': projectMap },
     tilesets,
     assetCatalog: {

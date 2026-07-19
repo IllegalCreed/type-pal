@@ -6,6 +6,7 @@ import {
   collectCommandAssetReferences,
   groupAssetReferencesBySite,
   legacyPalPortraitAssetId,
+  legacyWorldSpriteNumberFromAsset,
   type ManifestAssetConfigV3,
   palBattleBackgroundAssetId,
   palFaceAssetId,
@@ -14,6 +15,7 @@ import {
   palMusicAssetId,
   palPortraitAssetId,
   palSoundAssetId,
+  palSpriteAssetId,
   palTilesetAssetId,
   palVideoAssetId,
   validateAssetCatalog,
@@ -269,6 +271,10 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palItemIconAssetId(12)).toBe('item-icon.pal.012')
   expect(palBattleBackgroundAssetId(6)).toBe('battle-background.pal.006')
   expect(palTilesetAssetId(225)).toBe('tileset.pal.225')
+  expect(palSpriteAssetId(82)).toBe('sprite.pal.082')
+  expect(legacyWorldSpriteNumberFromAsset('sprite.pal.082')).toBe(82)
+  expect(legacyWorldSpriteNumberFromAsset('sprite.authored.legacy-900.custom')).toBe(900)
+  expect(legacyWorldSpriteNumberFromAsset('sprite.authored.custom')).toBeUndefined()
   expect(() => palMusicAssetId(0)).toThrow('正整数')
   expect(() => palSoundAssetId(0)).toThrow('正整数')
   expect(() => palVideoAssetId(0)).toThrow('正整数')
@@ -279,6 +285,7 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(() => palItemIconAssetId(0)).toThrow('正整数')
   expect(() => palBattleBackgroundAssetId(-1)).toThrow('非负整数')
   expect(() => palTilesetAssetId(0)).toThrow('正整数')
+  expect(() => palSpriteAssetId(0)).toThrow('正整数')
 })
 
 test('项目 schema 不再接受幽灵 glyph/ui 资源族', () => {
@@ -622,6 +629,34 @@ describe('typed 资源引用与文件闭包', () => {
     expect(validateAssetReferenceClosure(catalog, refs)).toContainEqual(
       expect.objectContaining({ code: 'missing-asset', severity: 'error' }),
     )
+  })
+
+  test('walker 从 SpriteDef.asset 收集唯一 sprite 二进制边，不穿透语义引用', () => {
+    const refs = collectAssetReferences({
+      sprites: [
+        { id: 'hero', asset: 'sprite.pal.002', label: '主角', layout: { kind: 'static' } },
+        {
+          id: 'hero-alt-layout',
+          asset: 'sprite.pal.002',
+          label: '主角另一布局',
+          layout: { kind: 'directional', framesPerDir: 3 },
+        },
+      ],
+    })
+    expect(refs).toEqual([
+      {
+        asset: 'sprite.pal.002',
+        expectedKind: 'sprite',
+        where: 'sprites[0].asset',
+        site: 'sprite:hero:asset',
+      },
+      {
+        asset: 'sprite.pal.002',
+        expectedKind: 'sprite',
+        where: 'sprites[1].asset',
+        site: 'sprite:hero-alt-layout:asset',
+      },
+    ])
   })
 
   test('文件缺失、大小与 hash 不符均有独立错误', async () => {

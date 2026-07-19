@@ -1,5 +1,5 @@
 import { normalizeScriptLibrary, type ScriptChunkV1 } from '@type-pal/content'
-import { decompressGzip } from '@type-pal/reforge'
+import { compressGzip, decompressGzip } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
   DeleteAssetCommand,
@@ -123,13 +123,42 @@ async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
 
 const seedAssets = await buildSeedAssets()
 const tilesetBytes = seedAssets.tilesetRle
-const alternateTilesetBytes = seedAssets.spriteRle
+const spriteBytes = seedAssets.spriteRle
+const alternateTilesetBytes = spriteBytes
 const bareTilesetView = await decompressGzip(new Blob([tilesetBytes]))
 const bareTilesetBytes = bareTilesetView.buffer.slice(
   bareTilesetView.byteOffset,
   bareTilesetView.byteOffset + bareTilesetView.byteLength,
 ) as ArrayBuffer
+const bareSpriteView = await decompressGzip(new Blob([spriteBytes]))
+const bareSpriteBytes = bareSpriteView.buffer.slice(
+  bareSpriteView.byteOffset,
+  bareSpriteView.byteOffset + bareSpriteView.byteLength,
+) as ArrayBuffer
+
+function changeFirstSpritePixel(bytes: ArrayBuffer): Uint8Array {
+  const changed = new Uint8Array(bytes.slice(0))
+  const view = new DataView(changed.buffer)
+  const firstFrameOffset = view.getUint16(0, true) * 2
+  let cursor = firstFrameOffset + 4
+  while (cursor < changed.byteLength) {
+    const command = changed[cursor++]!
+    if (command >= 0x80) continue
+    if (command > 0) {
+      changed[cursor] = (changed[cursor]! + 1) & 0xff
+      return changed
+    }
+  }
+  throw new Error('测试精灵没有可修改的 opaque 像素')
+}
+
+const alternateSpriteView = await compressGzip(changeFirstSpritePixel(bareSpriteBytes))
+const alternateSpriteBytes = alternateSpriteView.buffer.slice(
+  alternateSpriteView.byteOffset,
+  alternateSpriteView.byteOffset + alternateSpriteView.byteLength,
+) as ArrayBuffer
 const tilesetHash = await sha256Hex(tilesetBytes)
+const spriteHash = await sha256Hex(spriteBytes)
 const tilesetRecord = {
   kind: 'tileset' as const,
   path: 'assets/generated/tilesets/starter.rle',
@@ -137,6 +166,15 @@ const tilesetRecord = {
   bytes: tilesetBytes.byteLength,
   sha256: tilesetHash,
   label: '瓦片集 1',
+  origin: { kind: 'generated' as const },
+}
+const spriteRecord = {
+  kind: 'sprite' as const,
+  path: 'assets/generated/sprites/gs.rle',
+  mediaType: 'application/vnd.type-pal.rle',
+  bytes: spriteBytes.byteLength,
+  sha256: spriteHash,
+  label: '测试精灵',
   origin: { kind: 'generated' as const },
 }
 
@@ -151,7 +189,7 @@ function soundFamilyManifest(): {
   }
   manifest.assets.legacy = {
     ...manifest.assets.legacy,
-    families: ['sound', 'sprite', 'color-table'],
+    families: ['sound', 'color-table'],
     sounds: 'assets/extracted/sounds',
   }
   return { manifest, text: J(manifest) }
@@ -171,14 +209,14 @@ const fullProject: Record<string, string | ArrayBuffer> = {
       scenes: 'content/scenes/',
       maps: 'content/maps/index.json',
       tilesets: 'content/tilesets.json',
+      sprites: 'content/sprites.json',
     },
     assets: {
       catalog: 'assets/index.json',
       roles: {},
       legacy: {
-        families: ['sprite', 'color-table'],
+        families: ['color-table'],
         root: 'assets/extracted/data',
-        sprites: 'sprite',
         palettes: 'palette',
       },
     },
@@ -188,6 +226,14 @@ const fullProject: Record<string, string | ArrayBuffer> = {
   'content/skills.json': J({ skills: [], levelUp: {} }),
   'content/items.json': J([]),
   'content/locale.json': J({}),
+  'content/sprites.json': J([
+    {
+      id: 'gs',
+      asset: 'sprite.generated.gs',
+      label: '测试精灵',
+      layout: { kind: 'static' },
+    },
+  ]),
   'content/scenes/index.json': J(['s1']),
   'content/scenes/s1.json': J({
     id: 's1',
@@ -209,9 +255,13 @@ const fullProject: Record<string, string | ArrayBuffer> = {
   ]),
   'assets/index.json': J({
     version: 1,
-    assets: { 'tileset.generated.starter': tilesetRecord },
+    assets: {
+      'tileset.generated.starter': tilesetRecord,
+      'sprite.generated.gs': spriteRecord,
+    },
   }),
   [tilesetRecord.path]: tilesetBytes,
+  [spriteRecord.path]: spriteBytes,
 }
 
 function legacyTilesetProject(options: { bytes?: ArrayBuffer; id?: string; path?: string } = {}): {
@@ -235,13 +285,72 @@ function legacyTilesetProject(options: { bytes?: ArrayBuffer; id?: string; path?
   const sourcePath = path.startsWith('assets/') ? path : `assets/extracted/data/${path}`
   const manifestText = J(manifest)
   const definitionsText = J([{ id, name: '旧瓦片集', category: 'builtin', path }])
-  const catalogText = J({ version: 1, assets: {} })
+  const catalogText = J({
+    version: 1,
+    assets: { 'sprite.generated.gs': spriteRecord },
+  })
   files['manifest.json'] = manifestText
   files['content/tilesets.json'] = definitionsText
   files['assets/index.json'] = catalogText
   delete files[tilesetRecord.path]
   files[sourcePath] = options.bytes ?? tilesetBytes
   return { files, sourcePath, manifestText, definitionsText, catalogText }
+}
+
+function legacySpriteProject(
+  options: {
+    definitions?: Record<string, unknown>[]
+    sources?: Record<string, ArrayBuffer>
+    followers?: unknown[]
+  } = {},
+): {
+  files: Record<string, string | ArrayBuffer>
+  manifestText: string
+  definitionsText: string
+  sourcePath: string
+} {
+  const files = { ...fullProject }
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    assets: { legacy: { families: string[]; root?: string; sprites?: string } }
+  }
+  manifest.assets.legacy = {
+    ...manifest.assets.legacy,
+    families: [
+      'sprite',
+      ...manifest.assets.legacy.families.filter((family) => family !== 'sprite'),
+    ],
+    root: 'assets/extracted/data',
+    sprites: 'sprite',
+  }
+  const definitions = options.definitions ?? [
+    {
+      id: 'legacy-follower',
+      spriteNum: 82,
+      label: '旧跟随者',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    },
+  ]
+  const sourcePath = 'assets/extracted/data/sprite/82.rle'
+  const manifestText = J(manifest)
+  const definitionsText = J(definitions)
+  files['manifest.json'] = manifestText
+  files['content/sprites.json'] = definitionsText
+  files['assets/index.json'] = J({
+    version: 1,
+    assets: { 'tileset.generated.starter': tilesetRecord },
+  })
+  delete files[spriteRecord.path]
+  Object.assign(files, options.sources ?? { [sourcePath]: spriteBytes })
+  if (options.followers) {
+    files['content/scenes/s1.json'] = J({
+      id: 's1',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+      onEnter: [{ id: 'followers', body: [{ kind: 'setFollowers', sprites: options.followers }] }],
+    })
+  }
+  return { files, manifestText, definitionsText, sourcePath }
 }
 
 function staticPortraitFamilyProject(): {
@@ -255,7 +364,7 @@ function staticPortraitFamilyProject(): {
   }
   manifest.assets.legacy = {
     ...manifest.assets.legacy,
-    families: ['sprite', 'color-table', 'portrait'],
+    families: ['color-table', 'portrait'],
     portraits: 'assets/legacy/portraits',
   }
   const manifestText = J(manifest)
@@ -299,6 +408,7 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
       version: 1,
       assets: {
         'tileset.generated.starter': tilesetRecord,
+        'sprite.generated.gs': spriteRecord,
         ...musicAssets,
         'soundfont.default': {
           kind: 'soundfont',
@@ -320,6 +430,260 @@ describe('openLocalProject', () => {
     expect(project.entryScene.id).toBe('s1')
     expect(scenes.map((s) => s.id)).toEqual(['s1'])
     expect(project.source).toBeDefined()
+  })
+
+  test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
+    const unusedSource = 'assets/extracted/data/sprite/83.rle'
+    const fixture = legacySpriteProject({
+      followers: [82, 0],
+      sources: { 'assets/extracted/data/sprite/82.rle': spriteBytes, [unusedSource]: spriteBytes },
+    })
+    const writes: string[] = []
+    const dir = mockDir('legacy-sprite', fixture.files, writes)
+    const opened = await openLocalProject(dir)
+    const definition = opened.project.spritesById['legacy-follower']!
+    const record = opened.project.assetCatalog.assets[definition.asset]!
+
+    expect(definition).toEqual({
+      id: 'legacy-follower',
+      asset: 'sprite.pal.082',
+      label: '旧跟随者',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    })
+    expect(record).toMatchObject({
+      kind: 'sprite',
+      path: 'assets/migrated/sprites/082.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      origin: { kind: 'legacy-migrated', ref: 'sprite/82.rle' },
+    })
+    expect(new Uint8Array(fixture.files[record.path] as ArrayBuffer)).toEqual(
+      new Uint8Array(spriteBytes),
+    )
+    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
+      { kind: 'setFollowers', sprites: ['legacy-follower'] },
+    ])
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('sprite')
+    expect(opened.project.assetCatalog.assets['sprite.pal.083']).toMatchObject({
+      kind: 'sprite',
+      path: 'assets/migrated/sprites/083.rle',
+      label: 'PAL 大世界精灵 083',
+    })
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+    expect(fixture.files[unusedSource]).toBeUndefined()
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('旧 v3 工程自有 sprite path → authored 内容哈希路径，严格接收 canonical 裸 RLE', async () => {
+    const sourcePath = 'assets/legacy/custom-sprite.rle'
+    const fixture = legacySpriteProject({
+      definitions: [
+        {
+          id: 'custom',
+          spriteNum: 900,
+          path: sourcePath,
+          label: '自有精灵',
+          layout: { kind: 'static' },
+        },
+      ],
+      sources: { [sourcePath]: bareSpriteBytes },
+    })
+    const opened = await openLocalProject(mockDir('authored-sprite', fixture.files))
+    const definition = opened.project.spritesById.custom!
+    const record = opened.project.assetCatalog.assets[definition.asset]!
+    expect(definition.asset).toBe('sprite.authored.legacy-900.custom')
+    expect(record.path).toMatch(/^assets\/authored\/sprites\/legacy-900-[a-f0-9]{64}\.rle$/)
+    expect(record.origin).toEqual({ kind: 'authored', ref: sourcePath })
+    expect([...new Uint8Array(fixture.files[record.path] as ArrayBuffer).slice(0, 2)]).toEqual([
+      0x1f, 0x8b,
+    ])
+    expect(fixture.files[sourcePath]).toBeUndefined()
+  })
+
+  test('旧 v3 authored SpriteDef id 分配对中文、规范化和大小写碰撞均无损且确定', async () => {
+    const definitions = [
+      ['中文甲', 'a', spriteBytes],
+      ['中文乙', 'b', alternateSpriteBytes],
+      ['foo bar', 'c', spriteBytes],
+      ['foo_bar', 'd', alternateSpriteBytes],
+      ['Foo', 'e', spriteBytes],
+      ['foo', 'f', alternateSpriteBytes],
+      ['u-466f6f', 'g', spriteBytes],
+    ] as const
+    const fixture = legacySpriteProject({
+      definitions: definitions.map(([id, stem], index) => ({
+        id,
+        spriteNum: 900 + index,
+        path: `assets/legacy/${stem}.rle`,
+        label: id,
+        layout: { kind: 'static' },
+      })),
+      sources: Object.fromEntries(
+        definitions.map(([, stem, bytes]) => [`assets/legacy/${stem}.rle`, bytes]),
+      ),
+    })
+    const first = await openLocalProject(mockDir('authored-id-escaping', fixture.files))
+    const ids = Object.values(first.project.spritesById).map((definition) => definition.asset)
+    expect(new Set(ids).size).toBe(definitions.length)
+    expect(ids).toEqual(expect.arrayContaining([expect.stringContaining('e4b8ade69687')]))
+    expect(ids.find((asset) => asset.startsWith('sprite.authored.legacy-904.'))).not.toBe(
+      ids.find((asset) => asset.startsWith('sprite.authored.legacy-905.')),
+    )
+    const snapshot = [...ids]
+    const second = await openLocalProject(mockDir('authored-id-escaping-reopen', fixture.files))
+    expect(Object.values(second.project.spritesById).map((definition) => definition.asset)).toEqual(
+      snapshot,
+    )
+  })
+
+  test('旧 v3 authored 转义域与原样域在同 spriteNum 下不碰撞', async () => {
+    const fixture = legacySpriteProject({
+      definitions: [
+        {
+          id: 'Foo',
+          spriteNum: 900,
+          path: 'assets/legacy/upper.rle',
+          label: '转义域',
+          layout: { kind: 'static' },
+        },
+        {
+          id: 'u-466f6f',
+          spriteNum: 900,
+          path: 'assets/legacy/plain.rle',
+          label: '原样域前缀反例',
+          layout: { kind: 'static' },
+        },
+      ],
+      sources: {
+        'assets/legacy/upper.rle': spriteBytes,
+        'assets/legacy/plain.rle': alternateSpriteBytes,
+      },
+    })
+
+    const opened = await openLocalProject(mockDir('authored-id-domain-separation', fixture.files))
+    const escaped = opened.project.spritesById.Foo!.asset
+    const prefixLookalike = opened.project.spritesById['u-466f6f']!.asset
+
+    expect(escaped).toBe('sprite.authored.legacy-900.u-466f6f')
+    expect(prefixLookalike).toBe('sprite.authored.legacy-900.u-752d343636663666')
+    expect(escaped).not.toBe(prefixLookalike)
+    expect(opened.project.assetCatalog.assets[escaped]!.sha256).not.toBe(
+      opened.project.assetCatalog.assets[prefixLookalike]!.sha256,
+    )
+  })
+
+  test('旧 v3 authored 目标 AssetId 已存在但字节不同则写前 fail-loud', async () => {
+    const sourcePath = 'assets/legacy/custom-sprite.rle'
+    const fixture = legacySpriteProject({
+      definitions: [
+        {
+          id: 'custom',
+          spriteNum: 900,
+          path: sourcePath,
+          label: '自有精灵',
+          layout: { kind: 'static' },
+        },
+      ],
+      sources: { [sourcePath]: alternateSpriteBytes },
+    })
+    const keptPath = 'assets/authored/sprites/kept.rle'
+    fixture.files[keptPath] = spriteBytes
+    fixture.files['assets/index.json'] = J({
+      version: 1,
+      assets: {
+        'tileset.generated.starter': tilesetRecord,
+        'sprite.authored.legacy-900.custom': {
+          ...spriteRecord,
+          path: keptPath,
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('authored-sprite-conflict', fixture.files, writes)),
+    ).rejects.toThrow(/已有 authored 记录但字节不同/)
+    expect(writes).toEqual([])
+    expect(fixture.files[sourcePath]).toBeDefined()
+  })
+
+  test('legacy sprite AssetId 已由 authored 内容接管时保留接管内容，二次打开零写入', async () => {
+    const fixture = legacySpriteProject({
+      sources: { 'assets/extracted/data/sprite/82.rle': alternateSpriteBytes },
+    })
+    const authoredPath = 'assets/authored/sprites/taken.rle'
+    fixture.files[authoredPath] = spriteBytes
+    fixture.files['assets/index.json'] = J({
+      version: 1,
+      assets: {
+        'tileset.generated.starter': tilesetRecord,
+        'sprite.pal.082': {
+          ...spriteRecord,
+          path: authoredPath,
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+    const writes: string[] = []
+    const dir = mockDir('taken-pal-sprite', fixture.files, writes)
+
+    const opened = await openLocalProject(dir)
+
+    expect(opened.project.spritesById['legacy-follower']?.asset).toBe('sprite.pal.082')
+    expect(opened.project.assetCatalog.assets['sprite.pal.082']).toMatchObject({
+      path: authoredPath,
+      sha256: spriteHash,
+      origin: { kind: 'authored' },
+    })
+    expect(fixture.files[authoredPath]).toBe(spriteBytes)
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('旧数字 follower 遇同 spriteNum 多定义时写前 fail-loud，不任取 primary', async () => {
+    const fixture = legacySpriteProject({
+      definitions: [
+        { id: 'a', spriteNum: 82, label: 'A', layout: { kind: 'static' } },
+        { id: 'b', spriteNum: 82, label: 'B', layout: { kind: 'static' } },
+      ],
+      followers: [82],
+    })
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('ambiguous-follower', fixture.files, writes)),
+    ).rejects.toThrow(/对应多个 SpriteDef\.id/)
+    expect(writes).toEqual([])
+    expect(fixture.files['manifest.json']).toBe(fixture.manifestText)
+    expect(fixture.files['content/sprites.json']).toBe(fixture.definitionsText)
+    expect(fixture.files[fixture.sourcePath]).toBeDefined()
+  })
+
+  test('旧 v3 sprite manifest-last 中断保持旧源，重试单调前滚并清理', async () => {
+    const fixture = legacySpriteProject({ followers: [82] })
+    const writes: string[] = []
+    const dir = mockDir('retry-sprite-upgrade', fixture.files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(fixture.files['manifest.json']).toBe(fixture.manifestText)
+    expect(fixture.files[fixture.sourcePath]).toBeDefined()
+    expect(JSON.parse(String(fixture.files['content/sprites.json']))[0]).toHaveProperty('asset')
+
+    writes.length = 0
+    const opened = await openLocalProject(dir)
+    expect(opened.project.spritesById['legacy-follower']?.asset).toBe('sprite.pal.082')
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
   })
 
   test.each([
@@ -387,7 +751,10 @@ describe('openLocalProject', () => {
     }
     fixture.files['assets/index.json'] = J({
       version: 1,
-      assets: { 'tileset.pal.001': authoredRecord },
+      assets: {
+        'sprite.generated.gs': spriteRecord,
+        'tileset.pal.001': authoredRecord,
+      },
     })
     fixture.files[authoredPath] = alternateTilesetBytes
 
@@ -422,6 +789,7 @@ describe('openLocalProject', () => {
     fixture.files['assets/index.json'] = J({
       version: 1,
       assets: {
+        'sprite.generated.gs': spriteRecord,
         'tileset.pal.001': {
           kind: 'tileset',
           path: collision.path,
@@ -450,6 +818,7 @@ describe('openLocalProject', () => {
     fixture.files['assets/index.json'] = J({
       version: 1,
       assets: {
+        'sprite.generated.gs': spriteRecord,
         'tileset.authored.existing': {
           kind: 'tileset',
           path: sourcePath,
@@ -496,6 +865,7 @@ describe('openLocalProject', () => {
       fixture.files['assets/index.json'] = J({
         version: 1,
         assets: {
+          'sprite.generated.gs': spriteRecord,
           'tileset.pal.001': {
             kind: 'sound',
             path: 'assets/migrated/sounds/001.wav',
@@ -510,6 +880,7 @@ describe('openLocalProject', () => {
       fixture.files['assets/index.json'] = J({
         version: 1,
         assets: {
+          'sprite.generated.gs': spriteRecord,
           'portrait.conflict': {
             kind: 'portrait',
             path: 'assets/migrated/tilesets/001.rle',
@@ -603,7 +974,7 @@ describe('openLocalProject', () => {
     manifest.content.battleFields = 'content/battle-fields.json'
     manifest.assets.legacy = {
       ...manifest.assets.legacy,
-      families: ['sprite', 'color-table', 'portrait', 'face', 'item-icon', 'battle-background'],
+      families: ['color-table', 'portrait', 'face', 'item-icon', 'battle-background'],
       portraits: 'assets/legacy/portraits',
       faces: 'assets/legacy/faces',
       itemIcons: 'assets/legacy/items',
@@ -666,7 +1037,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('static-v3', files, writes)
     const opened = await openLocalProject(dir, { validateStaticImage: async () => undefined })
 
-    expect(opened.project.manifest.assets.legacy?.families).toEqual(['sprite', 'color-table'])
+    expect(opened.project.manifest.assets.legacy?.families).toEqual(['color-table'])
     expect(opened.project.actorsById.a?.portraits?.default).toBe('portrait.pal.001')
     expect(opened.project.actorsById.a?.face).toBe('face.pal.a')
     expect(opened.project.items['with-icon']?.icon).toBe('item-icon.pal.007')
@@ -688,6 +1059,7 @@ describe('openLocalProject', () => {
       'item-icon.pal.007',
       'portrait.pal.001',
       'portrait.pal.002',
+      'sprite.generated.gs',
       'tileset.generated.starter',
     ])
     expect(files['assets/migrated/portraits/001.png']).toEqual(
@@ -718,6 +1090,7 @@ describe('openLocalProject', () => {
       version: 1,
       assets: {
         'tileset.generated.starter': tilesetRecord,
+        'sprite.generated.gs': spriteRecord,
         'portrait.pal.001': authoredRecord,
       },
     })
@@ -750,6 +1123,7 @@ describe('openLocalProject', () => {
       version: 1,
       assets: {
         'tileset.generated.starter': tilesetRecord,
+        'sprite.generated.gs': spriteRecord,
         'portrait.pal.001': {
           kind: 'portrait',
           path: authoredPath,
@@ -838,7 +1212,7 @@ describe('openLocalProject', () => {
     }
     manifest.assets.legacy = {
       ...manifest.assets.legacy,
-      families: ['sound', 'sprite', 'color-table'],
+      families: ['sound', 'color-table'],
       sounds: 'assets/extracted/sounds',
     }
     manifest.content.scripts = 'content/scripts/'
@@ -972,6 +1346,7 @@ describe('openLocalProject', () => {
         version: 1,
         assets: {
           'tileset.generated.starter': tilesetRecord,
+          'sprite.generated.gs': spriteRecord,
           'sound.pal.045': {
             kind: 'sound',
             path: authoredPath,
@@ -1010,6 +1385,7 @@ describe('openLocalProject', () => {
           version: 1,
           assets: {
             'tileset.generated.starter': tilesetRecord,
+            'sprite.generated.gs': spriteRecord,
             'sound.pal.045': {
               kind: 'sound',
               path: authoredPath,
@@ -1098,6 +1474,7 @@ describe('openLocalProject', () => {
           scenes: 'content/scenes/',
           maps: 'content/maps/index.json',
           tilesets: 'content/tilesets.json',
+          sprites: 'content/sprites.json',
           music: 'content/music.json',
         },
         assets: {
@@ -1114,6 +1491,14 @@ describe('openLocalProject', () => {
       'content/tilesets.json': J([
         { id: 'tileset-001', name: '瓦片集 1', category: 'builtin', path: 'tileset/1.rle' },
       ]),
+      'content/sprites.json': J([
+        {
+          id: 'gs',
+          spriteNum: 2,
+          label: '旧精灵',
+          layout: { kind: 'static' },
+        },
+      ]),
       'content/scenes/s1.json': J({
         id: 's1',
         mapId: 'map-001',
@@ -1125,6 +1510,7 @@ describe('openLocalProject', () => {
       'assets/extracted/music/001.mid': midi,
       'assets/extracted/sounds/45.wav': waveBytes(1),
       'assets/extracted/data/tileset/1.rle': tilesetBytes,
+      'assets/extracted/data/sprite/2.rle': spriteBytes,
     }
     const opened = await openLocalProject(mockDir('old', files), {
       readSoundfont: async () => soundfont,
@@ -1138,11 +1524,15 @@ describe('openLocalProject', () => {
     ])
     expect(opened.project.assetCatalog.assets['music.pal.001']?.label).toBe('蝶恋')
     expect(opened.project.assetCatalog.assets['sound.pal.045']?.kind).toBe('sound')
+    expect(opened.project.spritesById.gs?.asset).toBe('sprite.pal.002')
+    expect(opened.project.assetCatalog.assets['sprite.pal.002']?.kind).toBe('sprite')
     expect(opened.project.assetCatalog.assets['music.pal.001']?.bytes).toBe(4)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.001')
     expect(files['content/music.json']).toBeUndefined()
     expect(files['assets/migrated/music/001.mid']).toEqual(midi)
     expect(files['assets/migrated/sounds/045.wav']).toEqual(files['assets/extracted/sounds/45.wav'])
+    expect(files['assets/migrated/sprites/002.rle']).toEqual(spriteBytes)
+    expect(files['assets/extracted/data/sprite/2.rle']).toBeUndefined()
     expect(files['assets/runtime/soundfont.sf3']).toEqual(soundfont)
   })
 
@@ -1192,6 +1582,7 @@ describe('openLocalProject', () => {
         version: 1,
         assets: {
           'tileset.generated.starter': tilesetRecord,
+          'sprite.generated.gs': spriteRecord,
           [removableAsset]: removableRecord,
         },
       }),
@@ -1260,6 +1651,7 @@ describe('openLocalProject', () => {
         version: 1,
         assets: {
           'tileset.generated.starter': tilesetRecord,
+          'sprite.generated.gs': spriteRecord,
           [assetId]: {
             kind: 'sound',
             path,
@@ -1424,7 +1816,11 @@ describe('openLocalProject', () => {
       ...fullProject,
       'assets/index.json': J({
         version: 1,
-        assets: { 'tileset.generated.starter': tilesetRecord, [assetId]: oldRecord },
+        assets: {
+          'tileset.generated.starter': tilesetRecord,
+          'sprite.generated.gs': spriteRecord,
+          [assetId]: oldRecord,
+        },
       }),
       [oldPath]: oldBytes,
     }

@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { checkCommands, checkStages, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
+import {
+  checkCommands,
+  checkEntityPages,
+  checkStages,
+  SCENE_ENTRY_PREPARE_SAFETY,
+} from './script.js'
 import {
   AUTHORED_SCRIPT_PREFIX,
   checkScriptIndex,
@@ -18,6 +23,43 @@ import {
 const shards = { shared: 16, global: { items: 4 } }
 
 describe('script library schema', () => {
+  it('auto stages 递归拒绝 loadScene，trigger stages 仍允许剧情切场', () => {
+    expect(() =>
+      checkEntityPages(
+        [
+          {
+            auto: {
+              stages: [
+                {
+                  body: [
+                    {
+                      kind: 'branch',
+                      then: [{ kind: 'loadScene', scene: 's002' }],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+        'entity.pages',
+      ),
+    ).toThrow(/auto 脚本禁止 loadScene/)
+    expect(() =>
+      checkEntityPages(
+        [
+          {
+            trigger: {
+              on: 'interact',
+              stages: [{ body: [{ kind: 'loadScene', scene: 's002' }] }],
+            },
+          },
+        ],
+        'entity.pages',
+      ),
+    ).not.toThrow()
+  })
+
   it('按稳定 id 重算 scene/shared/global chunk', () => {
     expect(deriveScriptChunk('scene/s001/on-enter/0', shards)).toBe('scene/s001')
     expect(deriveScriptChunk('shared/L_123/default', shards)).toMatch(/^shared\/c\d{2}$/)
@@ -282,6 +324,21 @@ describe('script library schema', () => {
     expect(() => checkCommands([{ kind: 'playSound', asset: '' }], 'script')).toThrow(
       /期望非空 AssetId/,
     )
+  })
+
+  it('setFollowers 只接受稳定 SpriteDef.id，拒绝旧数字精灵号', () => {
+    expect(() =>
+      checkCommands([{ kind: 'setFollowers', sprites: ['sprite-82'] }], 'script'),
+    ).not.toThrow()
+    expect(() => checkCommands([{ kind: 'setFollowers', sprites: [82] }], 'legacy-script')).toThrow(
+      /期望非空 SpriteDef\.id/,
+    )
+    expect(() =>
+      checkCommands(
+        [{ kind: 'setFollowers', sprites: ['sprite-1', 'sprite-2', 'sprite-3'] }],
+        'script',
+      ),
+    ).toThrow(/最多允许 2/)
   })
 
   it('对话与持久形象只接受立绘 AssetId，拒绝旧数字字段', () => {

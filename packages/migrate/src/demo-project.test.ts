@@ -8,6 +8,7 @@ import {
   buildWorld,
   effectiveStat,
   validateActors,
+  validateAssetCatalog,
   validateItems,
   validateLocale,
   validateScenes,
@@ -23,7 +24,8 @@ const manifest = read('manifest.json') as { id: string; entryScene: string; star
 const sceneIds = read('content/scenes/index.json') as string[]
 const scenes = validateScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
-const sprites = validateSprites(read('content/sprites.json'))
+const assetCatalog = validateAssetCatalog(read('assets/index.json'))
+const sprites = validateSprites(read('content/sprites.json'), assetCatalog)
 const { skills } = validateSkills(read('content/skills.json'))
 const items = validateItems(read('content/items.json'))
 const locale = validateLocale(read('content/locale.json'))
@@ -47,7 +49,7 @@ describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
     expect(locale['name.li-xiaoyao']).toBe('李逍遥')
     // C0:actor→sprite 链可解析(引擎玩家精灵走此路径,替代写死 2)
     expect(actorsById['li-xiaoyao']?.spriteId).toBe('li-xiaoyao')
-    expect(spritesById['li-xiaoyao']?.spriteNum).toBe(2)
+    expect(spritesById['li-xiaoyao']?.asset).toBe('sprite.pal.002')
     expect(spritesById.ghost?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
     expect(actorsById.youhun?.battler).toBeUndefined() // NPC 无 battler
   })
