@@ -207,10 +207,34 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   world-sprite strict parser，以及共享替换/保守缩帧/一次性 v3 升级。保留 D25 索引着色和一阶段锚点真值，
   不把 13 条 C2 布局债或 battle/effect/image 冒领进本卡。方案可实现；build 必须等待 Kimi/GLM 独立签字。
 - Kimi: **pending**（负责架构/schema/跨包、parser 边界、编辑器共享资产事务和视觉风险压力测试）。
-- GLM: **pending**（负责数据独立复算、迁移/MG2、引用覆盖、存档升级和测试矩阵审查）。
-- counter / 分歧处理: pending
-- 缺签豁免: N/A
-- build 准入结论: **blocked（Codex/Kimi/GLM 三方 agree 未齐；不得修改实现文件）**
+- GLM: **agree（2026-07-19;附 G1-G4 build 必落,见下）**。独立复算全部基线 + 代码逻辑审查（读源码逐路径推演 sprite.ts/asset.ts/script.ts/migrate-content.ts）。
+
+  **基线独立复算** ✅：
+  - sprite RLE 源文件 **636** / **1,332,725 B**（编号 1..636 连续无缺）✅
+  - SpriteDef **580** / unique spriteNum **559** / 共享定义 **21**（4 actor-id 对 + 17 directional-static 对）/ 未引用源 **77**（636−559）✅
+  - catalog **1,071** / sprite records **0** ✅
+  - sprite 在 legacy families（共 4: sprite/battle-sprite/effect-sprite/image）✅
+  - **30 坏尾源** 全 30 文件存在（23,35,79,...,631）✅
+  - **13 layout 债** 全 13 spriteNum 在定义中存在（其中 242/379/541 有双定义扩展到 16 行）✅
+
+  **语义消费者覆盖** ✅：
+  - actors **6** sprite refs（全有效）；entities **549 unique** sprite refs / 3,695 entities 携带 sprite
+  - setActorSprite **116** / setActorAppearance **9** / setFollowers **2** ✅
+  - **0x98**：translate-events.ts:973 当前直接写两个裸精灵号；PAL 产物中 setFollowers 2 条（1 清空 + 1 `[82]`）✅
+
+  **代码逻辑审查** ✅：
+  - **SpriteDef**（sprite.ts:35-53）：当前 `{id, spriteNum, label, layout, poses?, path?}`——无 `asset` 字段；`spriteNum` 是必填二进制身份，`path?` 是 A4 自定义上传路径。A7-3T 先例已证 `path→asset` 迁移可行。✅ 缺口确认。
+  - **walker**（asset.ts:346-360）：AssetReferenceSource **无 `sprites` 槽**；collectAssetReferences 无 sprite 分支。`ASSET_KINDS` 已含 `'sprite'`（:18）。✅ 缺口确认。
+  - **setFollowers.sprites**（script.ts:109）：`number[]`——裸精灵号。**WorldScriptState.followers**（script.ts:362）：`number[]`——进存档。**这是隐藏物理旁路**，若不迁移，A7-3W 仍有裸数字绕过 AssetId 链。✅ 已识别。
+  - **setActorAppearance.battleSprite**（script.ts:124）：`number`——也是裸数字，但属 battle-sprite 族（A7-3B 范围），本卡不动。✅ 边界正确。
+
+  **G1-G4 build 必落（非阻塞，纳入 build 范围）**：
+  - **G1（关键）**：**setFollowers.sprites / WorldScriptState.followers 从 number[] 迁移为 string[]（SpriteDef.id）**——这是 Codex 已识别的隐藏物理旁路。迁移器须在边界做 `spriteNum → SpriteDef.id` 确定性映射（PAL 82 → `sprite-82`）；第三方旧工程若同 spriteNum 对应多个 SpriteDef 且无显式引用语境 → fail-loud。卡内 §5/§116 已指出，须有专测。
+  - **G2**：**来源分级 strict parser**——30 个坏尾源须在 `legacy-migrated` profile 下容忍（有效帧连续前缀 + 尾槽无可用帧），但 authored/generated profile 下 fail-loud。不能用通用 strict parser（会拒 30 个历史源）也不能用宽松 parser（会吞 authored 损坏）。卡内 §3/§109 已详述。
+  - **G3**：walker 扩展 `AssetReferenceSource` 增加 `sprites?: readonly SpriteDef[]`——确认 collectAssetReferences 遍历每个 `SpriteDef.asset` 收集 `{asset, expectedKind:'sprite', where:'sprites[N].asset', site}`。语义引用（actor/entity/appearance）继续引用 SpriteDef.id 不改为 AssetId——walker 只收集定义层 asset 边，不穿透 actor/entity 引用。
+  - **G4**：**全 636 源登记而非只 559 已引用**——catalog 须登记全部 636 个 `sprite.pal.NNN` record（77 未引用 = warning 非 error）；这与 A7-3T tileset 全 223 登记策略一致（A7-3T 中 0 unused 但此处 77 unused 因 sprite 源比定义多）。卡内 §4 已说明。
+
+  **总结**：636/580/559/21/77/1,332,725B/30/13 全独立冻结；语义消费者（6+549+116+9+2）全覆盖；walker 无 sprites 槽缺口定位；setFollowers/followers number[] 隐藏旁路确认；SpriteDef 无 asset 字段确认；来源分级 parser + 全 636 登记 + followers 语义 id 迁移 三项 build 必落。**agree。**
 
 ### 进入 done 前:审查签字
 
@@ -270,7 +294,7 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 - Codex: 推荐显式 `SpriteDef.asset` 分层、全 636 源登记、来源分级 strict parser、followers 语义 id、
   shared-aware 编辑器事务和 byte-exact 生命周期；13 条布局债保留为 C2 欠账而非本卡迁移阻断。
 - Kimi: pending
-- GLM: pending
+- GLM: **agree**。独立复算全部基线精确匹配(636 源/1,332,725B + 580 定义/559 unique/21 共享/77 未引用 + catalog 1,071/0 sprite + 30 坏尾 + 13 layout 债)；代码逻辑审查确认 SpriteDef 无 asset/walker 无 sprites 槽/setFollowers.sprites+followers = number[] 隐藏旁路。G1(followers number[]→id 迁移)/G2(来源分级 parser)/G3(walker sprites 槽)/G4(全 636 登记非仅 559) build 必落。
 - 用户拍板: 用户于 2026-07-19 同意按建议先修 A7-2 P2，再正式推进 A7-3W；实现仍受三方设计签字门禁。
 
 ## 额度 / 代班记录(如适用)
@@ -328,6 +352,7 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   4,133 帧、30 个 legacy 坏尾源和 13 条 C2 布局债；发现 `setFollowers`/存档裸数字是隐藏物理旁路。
   Codex 设计签 agree。Evidence: 本卡上下文锚点、数据基线与验收矩阵。Next: Kimi/GLM 分别完成架构与
   数据设计审查并写回 agree/counter；三签未齐不得进入 build 或修改实现。
+- 2026-07-19 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。独立复算全部基线：sprite RLE 636 源/1,332,725B（编号 1..636 连续）；SpriteDef 580/unique spriteNum 559/共享 21(4 actor-id 对+17 directional-static 对)/未引用 77(636-559)；catalog 1,071/0 sprite records；sprite 在 legacy(4 families)；30 坏尾源全 30 文件存在；13 layout 债全 13 spriteNum 存在(其中 242/379/541 双定义扩展 16 行)。语义消费者：actors 6+entities 549 unique+setActorSprite 116+setActorAppearance 9+setFollowers 2 全覆盖。代码逻辑审查（读源码逐路径推演）：SpriteDef(sprite.ts:35-53) 当前 `{id,spriteNum,label,layout,poses?,path?}` 无 asset；walker(asset.ts:346-360) 无 sprites 槽(ASSET_KINDS 已含 sprite)；setFollowers.sprites(script.ts:109)=number[] + WorldScriptState.followers(script.ts:362)=number[] = 隐藏物理旁路（进存档）；setActorAppearance.battleSprite=number 属 A7-3B 范围。**G1 关键**：followers number[]→SpriteDef.id 迁移(PAL 82→sprite-82，第三方多义 fail-loud)；G2 来源分级 strict parser(legacy 容忍 30 坏尾，authored/generated fail-loud)；G3 walker sprites 槽扩展；G4 全 636 登记非仅 559(77 unused=warning)。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
 
