@@ -1,6 +1,6 @@
 # A7-3W - 大世界精灵索引资源闭包
 
-Status: draft
+Status: build
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / C2
 Coding Owner: Codex
@@ -206,7 +206,12 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   `SpriteDef.id -> asset -> catalog` 分层、AssetId 缓存 + record SHA 失效、全 636 源逐字节迁移、来源分级
   world-sprite strict parser，以及共享替换/保守缩帧/一次性 v3 升级。保留 D25 索引着色和一阶段锚点真值，
   不把 13 条 C2 布局债或 battle/effect/image 冒领进本卡。方案可实现；build 必须等待 Kimi/GLM 独立签字。
-- Kimi: **pending**（负责架构/schema/跨包、parser 边界、编辑器共享资产事务和视觉风险压力测试）。
+- Kimi: **agree（2026-07-19;附 R1-R3 build 必落钉,见「主审立场」）**。逐项核对并抽查代码/数据:
+  分层被 21 共享定义实证为必需(580 defs/559 unique spriteNum,`TilesetDef.asset` 同构先例);
+  来源分级 strict 结构性 fail-closed 成立;`setFollowers.sprites`(script.ts:109)与
+  `WorldScriptState.followers`(script.ts:362)双 number[] 物理旁路实证;共享事务/缩帧保守/13 条
+  布局债边界成立;A7-3T 原语复用成立;D25 与 E2/E5/MG5 锚点成立;B/E/X3/A7-4 分界诚实。
+  基线抽点:636 源、580 defs、559 unique、77 未引用,与 GLM 冻结一致。无架构 counter。
 - GLM: **agree（2026-07-19;附 G1-G4 build 必落,见下）**。独立复算全部基线 + 代码逻辑审查（读源码逐路径推演 sprite.ts/asset.ts/script.ts/migrate-content.ts）。
 
   **基线独立复算** ✅：
@@ -235,6 +240,15 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   - **G4**：**全 636 源登记而非只 559 已引用**——catalog 须登记全部 636 个 `sprite.pal.NNN` record（77 未引用 = warning 非 error）；这与 A7-3T tileset 全 223 登记策略一致（A7-3T 中 0 unused 但此处 77 unused 因 sprite 源比定义多）。卡内 §4 已说明。
 
   **总结**：636/580/559/21/77/1,332,725B/30/13 全独立冻结；语义消费者（6+549+116+9+2）全覆盖；walker 无 sprites 槽缺口定位；setFollowers/followers number[] 隐藏旁路确认；SpriteDef 无 asset 字段确认；来源分级 parser + 全 636 登记 + followers 语义 id 迁移 三项 build 必落。**agree。**
+
+- counter / 分歧处理: 当前无未决分歧;GLM G1-G4 与 Kimi R1-R3 互不冲突,G1-G2 与 Kimi 主审立场同项。
+  Codex 在 build 准入复算时补两处**口径勘误（不改变总数或签字结论）**：21 个共享二进制组精确拆分为
+  **5 个主角语义定义对 + 16 个布局变体对**，不是审查记录中的 4+17；`setActorAppearance` 共 9 条命令，
+  其中只有 **3 条 `spriteId`** 属本卡大世界精灵语义引用，另 3 条 portrait 已闭环、3 条 battleSprite
+  属 A7-3B。build 的引用冻结与测试必须采用 3 条 spriteId 口径，历史审查原文保留以供追踪。
+- 缺签豁免: N/A
+- build 准入结论: **allowed（Codex agree + Kimi agree + GLM agree,三签齐,2026-07-19）**;
+  Status 翻转 draft→build 与看板更新由 Codex 执行;R1-R3 与 G1-G4 纳入 build 范围。
 
 ### 进入 done 前:审查签字
 
@@ -285,17 +299,52 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 ### 主审立场
 
 - Reviewer: Kimi（主审架构/schema/跨包边界）+ GLM（独立数据/迁移/测试覆盖）
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-07-19）**——逐项成立,无阻塞;附 R1-R3 build 必落钉。
+  1. **SpriteDef/AssetId 分层**:成立且必需。580 定义 → 559 唯一二进制(21 组共享,GLM 细分为
+     4 actor-id 对 + 17 directional-static 对)证明 id 不能兼任 AssetId;与 `TilesetDef.asset`
+     (A7-3T) 同构,语义引用(actor/entity/appearance/脚本/存档)继续只认 SpriteDef.id。
+  2. **30 尾槽兼容 fail-closed**:成立。兼容条件是**结构性**的——origin 必须 `legacy-migrated`、
+     有效帧必须构成连续前缀、前缀之后不得再出现可解帧;authored/generated 全严格;30 个异常源由
+     迁移报告冻结,运行时不得按 id 写特判。宽松 parser 吞 authored 损坏与通用 strict 误杀历史源
+     两条死路都避开了(G2 同项)。
+  3. **setFollowers/存档升级**:成立。`setFollowers.sprites`(script.ts:109)与
+     `WorldScriptState.followers`(:362) 双 number[] 旁路实证;0x98 在迁移边界确定映射
+     (PAL 82 → `sprite-82`),第三方同号多定义无显式语境 fail-loud 不猜 primary(G1 同项);
+     存档只在 save-load 边界过一次映射,核心模型拒数字。
+  4. **共享替换/删除/缩帧**:成立。定义←角色/实体/appearance/脚本/存档、资产←定义两层引用分别
+     检查;替换先列全部消费者;删除定义与删除共享二进制是两个动作,零其他定义引用才连带
+     record/文件;undo 恢复三元组。缩帧默认禁止(不得少于旧有效帧),只在同事务显式修齐全部
+     layout/poses 消费者时允许;13 条 C2 布局债保持可载入、不静默修、不扩大。
+  5. **A7-3T 原语复用**:成立。assetBlobs、`bin:<bytes>:<sha256>`、union→final 两阶段 catalog、
+     byte-exact clone/ZIP、MG2 authored 保护全部沿用;`tilesetBlobs` 只移走 world sprite 消费,
+     最终删除留给 B/E 闭环后,不提前误伤。
+  6. **D25/一阶段锚点**:成立。索引 RLE + 场景色彩运行时着色,不烘 RGBA 无 palette UI;
+     脚底中心/逐帧自锚/blit +7(E5,render.ts:177-187)不动;`nSpriteFramesAuto` 教训(E2)要求
+     渲染与 idle 用**实际解码帧数**,不用 layout 声明覆盖数——本卡不动渲染,视觉差异即回归。
+  7. **B/E/X3/A7-4 边界**:诚实。本卡只删 legacy `sprite` 族;battle-sprite/effect-sprite/image
+     原样保留;`setActorAppearance.battleSprite`(script.ts:124)属 A7-3B 不碰;X3 generic image
+     不冒领;A7-4 保留适配器删除/v4/总门禁。
+- 必落钉(R,不阻塞签字,build 验收核对):
+  - **R1 名称域规则**:`SpriteDef.label` 是唯一定义层标签,`AssetRecord.label` 只作资源页诊断,
+    不反向覆盖定义标签(沿用 A7-3T 钉)。
+  - **R2 30 源兼容实现必须按 origin+结构判定**:运行时代码不得出现 30 个源 id 的特判清单;
+    迁移报告冻结集合,新增异常源 = 迁移失败。
+  - **R3 渲染/idle 用实际解码帧数**:视觉验收须含 idle 动画实体与 13 条布局债相关定义,
+    证明实际帧驱动、无越界帧。
+- 是否建议进入 build: **是——Codex/Kimi/GLM 三签齐,build allowed**;Status 翻转与看板更新由
+  Codex 执行。G1-G4 按 GLM 行纳入 build;A7-2 OFL P2 跟进项另行收口(与本卡无关)。
 
 ### 三方争议记录(按需)
 
 - Codex: 推荐显式 `SpriteDef.asset` 分层、全 636 源登记、来源分级 strict parser、followers 语义 id、
   shared-aware 编辑器事务和 byte-exact 生命周期；13 条布局债保留为 C2 欠账而非本卡迁移阻断。
-- Kimi: pending
+- Kimi: **agree**。分层被 21 组共享实证必需;30 尾槽兼容=origin+结构判定 fail-closed;
+  followers 双 number[] 旁路(script.ts:109/:362)必须边界映射且歧义 fail-loud;共享两层引用与
+  保守缩帧成立;A7-3T 原语复用成立;D25/E2/E5 锚点成立;B/E/X3/A7-4 分界诚实。
+  R1(名称域)/R2(30 源无 id 特判)/R3(渲染用实际帧数) build 必落。
 - GLM: **agree**。独立复算全部基线精确匹配(636 源/1,332,725B + 580 定义/559 unique/21 共享/77 未引用 + catalog 1,071/0 sprite + 30 坏尾 + 13 layout 债)；代码逻辑审查确认 SpriteDef 无 asset/walker 无 sprites 槽/setFollowers.sprites+followers = number[] 隐藏旁路。G1(followers number[]→id 迁移)/G2(来源分级 parser)/G3(walker sprites 槽)/G4(全 636 登记非仅 559) build 必落。
-- 用户拍板: 用户于 2026-07-19 同意按建议先修 A7-2 P2，再正式推进 A7-3W；实现仍受三方设计签字门禁。
+- 用户拍板: 用户于 2026-07-19 同意按建议先修 A7-2 P2，再正式推进 A7-3W；现三方设计 agree 已齐，
+  由 Codex 作为唯一 Coding Owner 进入 build。
 
 ## 额度 / 代班记录(如适用)
 
@@ -309,7 +358,7 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex（尚未获 build 准入）
+- Coding Owner: Codex（三方设计 agree 已齐，允许开始实现）
 - 修改文件: pending
 - 实现摘要: pending
 - 运行命令: pending
@@ -352,11 +401,27 @@ manifest.assets.legacy.sprites + LegacyAssetAdapter` 双轨收敛为工程内 ca
   4,133 帧、30 个 legacy 坏尾源和 13 条 C2 布局债；发现 `setFollowers`/存档裸数字是隐藏物理旁路。
   Codex 设计签 agree。Evidence: 本卡上下文锚点、数据基线与验收矩阵。Next: Kimi/GLM 分别完成架构与
   数据设计审查并写回 agree/counter；三签未齐不得进入 build 或修改实现。
+- 2026-07-19 Kimi: 架构/schema/跨包设计主审完成,签 **agree**(R1-R3 build 必落钉)。逐项核对:
+  分层被 21 组共享定义(4 actor-id 对 + 17 directional-static 对)实证为必需;30 尾槽兼容须按
+  origin=legacy-migrated + 结构(连续前缀+尾无有效帧)判定,运行时不许写源 id 特判;
+  followers 双 number[] 旁路(script.ts:109/:362)边界确定映射(PAL 82→sprite-82),歧义 fail-loud;
+  共享两层引用检查与缩帧默认禁止;A7-3T 原语(assetBlobs/完整 SHA/两阶段 catalog/byte-exact)复用;
+  tilesetBlobs 只移 world sprite;D25/E2/E5 锚点成立(渲染用实际解码帧数);B/E/X3/A7-4 分界诚实。
+  锚点抽点:636 源、580 defs、559 unique、77 未引用与 GLM 冻结一致。R1(名称域)/R2(30 源结构判定)/
+  R3(渲染用实际帧数)必落。Evidence:本卡主审立场、签字区、争议记录。三签齐 build 准入 allowed,
+  Status 翻转与看板由 Codex 执行。未改实现文件。
 - 2026-07-19 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。独立复算全部基线：sprite RLE 636 源/1,332,725B（编号 1..636 连续）；SpriteDef 580/unique spriteNum 559/共享 21(4 actor-id 对+17 directional-static 对)/未引用 77(636-559)；catalog 1,071/0 sprite records；sprite 在 legacy(4 families)；30 坏尾源全 30 文件存在；13 layout 债全 13 spriteNum 存在(其中 242/379/541 双定义扩展 16 行)。语义消费者：actors 6+entities 549 unique+setActorSprite 116+setActorAppearance 9+setFollowers 2 全覆盖。代码逻辑审查（读源码逐路径推演）：SpriteDef(sprite.ts:35-53) 当前 `{id,spriteNum,label,layout,poses?,path?}` 无 asset；walker(asset.ts:346-360) 无 sprites 槽(ASSET_KINDS 已含 sprite)；setFollowers.sprites(script.ts:109)=number[] + WorldScriptState.followers(script.ts:362)=number[] = 隐藏物理旁路（进存档）；setActorAppearance.battleSprite=number 属 A7-3B 范围。**G1 关键**：followers number[]→SpriteDef.id 迁移(PAL 82→sprite-82，第三方多义 fail-loud)；G2 来源分级 strict parser(legacy 容忍 30 坏尾，authored/generated fail-loud)；G3 walker sprites 槽扩展；G4 全 636 登记非仅 559(77 unused=warning)。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
+- 2026-07-19 Codex: 核对 Codex/Kimi/GLM 三方均签 agree 且无 counter；R1-R3、G1-G4 全部纳入 build。
+  准入复算补正两处审查分项口径：共享组为 5+16，`setActorAppearance` 9 条命令中仅 3 条含 spriteId。
+  将任务从 draft 推进到 build 并同步看板。Evidence: `projects/pal/content/sprites.json` 全量分组与 9 条命令
+  字段检查。Next: Codex 单一 Coding Owner 实现；进入 review 前不得标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（架构/schema/跨包主审）
+无下一位 Agent 提示词；三方设计签字已齐，由 Codex 作为唯一 Coding Owner 连续推进 build。以下两段为
+draft 阶段已经执行完毕的历史交接提示词，仅保留审计记录。
+
+### 历史：给 Kimi（架构/schema/跨包主审）
 
 ```text
 接手任务: A7-3W 大世界精灵索引资源闭包的 draft 设计审查
@@ -378,7 +443,7 @@ followers 语义 id、AssetId+record SHA 缓存和 shared-aware editor transacti
 三方 agree 未齐不得开始实现。
 ```
 
-### 给 GLM（数据/schema/迁移/测试矩阵审查）
+### 历史：给 GLM（数据/schema/迁移/测试矩阵审查）
 
 ```text
 接手任务: A7-3W 大世界精灵索引资源闭包的 draft 数据与迁移设计审查
