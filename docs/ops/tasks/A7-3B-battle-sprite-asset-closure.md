@@ -265,7 +265,12 @@ Branch: main
   二进制；全 172 源 byte-exact 进入 catalog；按 AssetId + record signature 缓存；origin+结构分级 codec；
   迁移/保存/编辑器/transport 一次收口。直接 AssetId 方案已评估，但不能为 effect-index 与可复用动作布局提供
   独立归属。方案可实现；build 必须等待 Kimi/GLM 独立签字。
-- Kimi: pending
+- Kimi: **agree（2026-07-19;附 R1-R4 build 必落钉,见「主审立场」）**。六项压测逐项核对并抽查
+  代码/数据/一阶段真值:profile 分层必需(effect-index 表与敌区段无独立归属,AssetRecord 只物理);
+  字段边界干净(yPosOffset/skill 参数留消费者);active 优先级与 global.c:1978-2009 一致;
+  梦蛇 sprite 不被复活清(game-mechanics:1234-1248 实证);预载含装备授技;A7-3E/X3/A7-4 分界诚实。
+  基线抽点:19 player + 153 enemy 文件;skill.ts:65-66 summon godId+speed/tint/sound 归属实证。
+  无架构 counter。
 - GLM: **agree（2026-07-19;附 G1-G4 build 必落,见下）**。独立复算全部基线 + 代码逻辑审查（读源码逐路径推演 actor.ts/enemy.ts/skill.ts/asset.ts/battle-effect-index）。
 
   **基线独立复算** ✅：
@@ -297,7 +302,10 @@ Branch: main
 
   **总结**：172/900,973B + 153/152/1/1 + 6+153+9+1+3 = 179 refs + 3 digest 全独立冻结；schema 全数字双轨确认；player 0/同号隔离/装备 pending/effect-index/battle-effect-index 五项 build 必落。**agree。**
 
-### 进入 done 前:审查签字
+- counter / 分歧处理: 当前无未决分歧;GLM G1-G4 与 Kimi R1-R4 互不冲突。
+- 缺签豁免: N/A
+- build 准入结论: **allowed（Codex agree + Kimi agree + GLM agree,三签齐,2026-07-19）**;
+  Status 翻转 draft→build 与看板更新由 Codex 执行;R1-R4 与 G1-G4 纳入 build 范围。
 
 - Codex: pending
 - Kimi: pending
@@ -341,15 +349,49 @@ Branch: main
 ### 主审立场
 
 - Reviewer: Kimi
-- 结论: pending
-- 必改项: pending
-- 是否建议进入 build: pending
+- 结论: **agree（2026-07-19）**——六项压测逐项成立,无阻塞;附 R1-R4 build 必落钉。
+  1. **BattleSpriteDef{profile,asset} vs direct AssetId**:分层必需。`battle-effect-index` 的 10×2
+     表(effect base 属表现绑定)和 enemy idle/magic/attack 区段(动画 ABI)在 direct AssetId 下
+     无家可归——AssetRecord 只许物理;同二进制多布局的未来形态也要求定义可复数。
+     与 TilesetDef/SpriteDef 的 A7-3T/W 先例同构;`{id,label,asset,profile}` 是正解。
+  2. **profile 字段归属**:边界干净。player-fighter 只收命名帧 + cast/attackEffectBase;enemy 只收
+     区段与播放速度,`yPosOffset` 留 EnemyDef(战场位置,非精灵属性);summon 只声明用途,
+     speed/tint/sound 留 Skill 调用(skill.ts:65 实证现就在技能上)。AI/数值/参数不进资源定义。
+  3. **active appearance 优先级**:与 global.c:1978-2009 一致(base→persistent→装备槽序末位胜出→
+     transient 最高),且图像/帧 ABI/effect profile 必须读同一个 active def——这正是当前
+     trance 只写值不换图(battle-core.ts:91-92 渲染恒画启动 playerSprites)的修复形态。
+     装备与 transient live 派生不烙回 ActorDef。
+  4. **梦蛇真值**:0x31 sprite 不经复活清(game-mechanics:1234-1248 实证,被清的只有 rgPlayerStatus
+     系如 DualAttack),战后三件套才全清——卡内生命周期(闪色 6×40ms→72×16ms 过渡→战后恢复
+     effective base)与之一致;死亡/复活保持的结论方向正确。
+  5. **preload/cache/事务**:effectiveSkills 含装备授技是硬要求(土灵珠 267→山神 336→summon 13
+     会被 learnedSkills 漏掉);敌 transform/summon 递归闭包 + 会话内同步换 + abort 后无迟到写
+     (修 battle-session.ts:1463-1515 异步回写);readiness fail-loud 取代 catch→undefined 隐形人;
+     共享 enemy81 缩帧取两消费者并集;undo 恢复三元组。
+  6. **A7-3E/X3/A7-4 分界**:诚实。本卡只物化 player effect frame base 数值,E 负责 effect clip/
+     二进制与 SkillAnimation.effectSprite;X3 image 不动;A7-4 留适配器/v4/总门禁,
+     contentVersion 保持 3;tilesetBlobs 只移 battle-sprite 消费,容器留给 E。
+- 必落钉(R,不阻塞签字,build 验收核对):
+  - **R1 梦蛇时序必须有 phase-1 golden**:6×40ms 色移序列(0/2/4/6/8/10)与 72×16ms 过渡在
+    测试注释写明一阶段出处行号,不靠感觉重现;死亡→复活保持与战后恢复各一条 runtime 测试。
+  - **R2 active def 单真源**:渲染、effect profile、编辑器 preview 必须经同一个 effective
+    appearance 派生函数读取;静态扫描禁止出现第二条"只换图"旁路(当前 trance bug 的形态)。
+  - **R3 预载闭包专测**:effectiveSkills(含装备授技)+合体技+敌 transform/summon 递归;
+    土灵珠→山神→summon 13 必须有端到端测试;readiness 失败必须 fail-loud 且消息带 AssetId。
+  - **R4 effect base 只进定义不进 runtime 公式**:cast/attackEffectBase 物化后,删除
+    `spriteNum*2` 寻址;静态扫描该公式归零,防止数字旁路复活。
+- 是否建议进入 build: **是——Codex/Kimi/GLM 三签齐,build allowed**;Status 翻转与看板更新由
+  Codex 执行。G1-G4 按 GLM 行纳入 build。
 
 ### 三方争议记录(按需)
 
 - Codex: 建议采用带 profile 的 BattleSpriteDef；认为 direct AssetId 无法正确承接同二进制多布局与
   battle-effect-index 的表现语义。
-- Kimi: pending
+- Kimi: **agree**。profile 分层必需(effect-index 与敌区段无独立归属);字段边界干净(yPosOffset/skill
+  参数留消费者);active 优先级=global.c 顺序且图像/ABI/effects 同读一个 active def(正对 trance bug);
+  梦蛇 sprite 不被复活清(phase1 实证);预载含装备授技;A7-3E/X3/A7-4 分界诚实。
+  R1(梦蛇时序 phase-1 golden)/R2(active def 单真源)/R3(预载闭包与 readiness 专测)/
+  R4(effect base 删除 spriteNum*2 寻址) build 必落。
 - GLM: **agree**。172 源/900,973B + 153 enemies→152 unique/1 unused(enemy98)/1 shared(spriteNum81) + Actor6+Enemy153+summon9+trance1+appearance3+equip7=179 refs/171 used/5 shared 全独立冻结；schema 全数字双轨确认(actor.battleSpriteNum/enemy.spriteNum/summon.godId/trance.sprite)；battle-effect-index 20 值确认。G1(player0合法+channel隔离)/G2(7装备上游翻译)/G3(summon godId→id映射)/G4(effect-index profile物化) build 必落。
 - 用户拍板: pending（仅发生 counter 时需要）
 
@@ -408,6 +450,15 @@ Branch: main
   171 defs、179 refs/171 used/5 shared/1 unused，以及 7 equip + 3 appearance + 1 trance + 9 summon 的完整
   语义面。确认梦蛇未换图、effectiveSkills 召唤漏预载、敌换图迟到写与 equal-Y 遮挡差异。Evidence: 本卡
   上下文锚点、数据基线与验收矩阵。Next: Kimi/GLM 独立设计审查并写 agree/counter；签字不齐不得实现。
+- 2026-07-19 Kimi: 架构/UX 设计主审完成,签 **agree**(R1-R4 build 必落钉)。六项压测逐项核对:
+  profile 分层必需(effect-index 表与敌区段在 direct AssetId 下无归属);字段边界干净(yPosOffset 留
+  EnemyDef、skill speed/tint/sound 留 Skill,skill.ts:65 实证);active 优先级=global.c:1978-2009 且
+  图像/ABI/effects 须同读一个 active def(正对当前 trance 只写值不换图);梦蛇 sprite 不被复活清
+  (game-mechanics:1234-1248 实证);预载须含 effectiveSkills 装备授技(土灵珠→山神→summon 13);
+  A7-3E(只物化 frame base 数值)/X3/A7-4 分界诚实,contentVersion 保持 3。锚点抽点:19 player +
+  153 enemy 文件与基线一致。R1(梦蛇时序 phase-1 golden)/R2(active def 单真源)/R3(预载闭包与
+  readiness 专测)/R4(删 spriteNum*2 寻址)必落。Evidence:本卡主审立场、签字区、争议记录。
+  三签齐 build 准入 allowed,Status 翻转与看板由 Codex 执行。未改实现文件。
 - 2026-07-19 GLM: 数据/迁移/测试矩阵设计审查签 **agree**。独立复算：player 19 源/137,531B(0..18) + enemy 153 源/763,442B(1..153) = 172 files/900,973 gzip B 全精确；catalog 1,707/0 battle-sprite；battle-sprite 在 legacy(3 families)。153 enemies→152 unique spriteNum/1 unused(enemy 98)/1 shared(spriteNum 81=enemy-478+479)；Actor battleSprite 全 6=None(经 setActorAppearance 解析)；setActorAppearance battleSprite=3(值 5/1/9 全 zhao-linger s145/s174/s233)；summon 9 godId 0..8(player 10..18)；trance 1 skill 295 sprite=5。代码逻辑审查（读源码逐路径推演）：actor.battleSpriteNum?:number + battleSpritePath?:string 双轨；enemy.spriteNum:number(必填)+spritePath? 双轨；summon.godId:number 隐式+10；trance.sprite:number 裸数字；battle-effect-index 20 值 [0,0,...,3,3] runtime 按 spriteNum*2 查表。**G1 关键**：player 0 合法(李逍遥 fighter)+player/enemy 同号隔离须 channel 前缀 AssetId；G2：7 装备 row=1 必须上游翻译(migrate-content.ts:742-753 pending=7)不在 local-v3 按 item id 猜注入；G3：summon godId→BattleSpriteDef.id 确定性映射(godId 0..8→player 10..18)；G4：battle-effect-index profile 物化(10×2 表→castEffectBase/attackEffectBase)。0x1A row=1 口径=原始 PAL 源 10 条(3 剧情已迁+7 装备 pending)，不矛盾。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
 
 ## 下一位 Agent 提示词
