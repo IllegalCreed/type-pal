@@ -574,4 +574,9 @@ Codex 当前**不采纳**，原因是 0-5 已被现编辑器和源用途识别�
   待用户验收后由收口方标 done(A7/R7 不标 done),P3 是否开跟进小卡由用户拍板。未改实现文件。
 - 2026-07-18 GLM: 数据与覆盖终审签 **accept**。独立复算 catalog 848/59,704,628B（四族 379/5,464,181B = portrait 88/768,841 + face 6/10,392 + item-icon 233/262,667 + battle-bg 52/4,422,281）；0 missing/0 kind mismatch；20/20 sampled hash+bytes 全匹配；MG2 writes=0/deletes=0/conflicts=0 asset-refs=5676 asset-warnings=54（5 legacy families pinned baseline）；schema 全 AssetId（actor.face/item.icon/enemy.background/script.portrait/dialogue.portrait.asset + 稳定 id 构造器）；walker 7 消费方全覆盖（actors portraits/face + dialogue cue + appearance + world + item icon + battle field bg）；legacy 5 保留(tileset/sprite/battle-sprite/effect-sprite/image) 6 退出(4 target + glyph-table + ui-image)；/baked/portraits.json/'/ui 静态归零；capability-map A7/R7 未提前标 done。四包 content 241/reforge 431/editor 421/migrate 223+1skip = 1316 pass。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 - 2026-07-19 User:确认 Codex / Kimi / GLM 三方签字齐全并验收 A7-2。
+- 2026-07-19 Codex:完成 post-close P2 勘误。官方 Unifont 15.1.05 source tar 逐字节核验表明，
+  `engine-chrome-assets.test.ts` 冻结 hash 正确，仓库内 `OFL-1.1.txt` / `COPYING` 在首次引入时被
+  换行与尾随空格规范化，违背 provenance 的 verbatim 承诺；现已恢复官方原文、补 source archive
+  URL 与双 hash，并以 `.gitattributes` `binary` 防止 Git 再次归一化。Evidence:官方 tar `cmp` 零差异；
+  migrate 全套复跑记录见本次修复提交。Next:A7-2 保持 `done`，不重开产品验收。
 - 2026-07-19 Codex:复核三方均为 `accept`、无返工项；将任务转 `done`，移出进行中看板并同步能力地图、审计与结果报告。A7/R7 仍保持进行中。

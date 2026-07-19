@@ -8,11 +8,15 @@ project asset catalog.
 - Runtime source: `data/raw/unifont-cn.bdf`
 - Upstream artifact: `unifont_jp-15.1.05.bdf.gz`
 - Upstream URL: `https://unifoundry.com/pub/unifont/unifont-15.1.05/font-builds/unifont_jp-15.1.05.bdf.gz`
+- Upstream source archive: `https://unifoundry.com/pub/unifont/unifont-15.1.05/unifont-15.1.05.tar.gz`
 - SHA-256 of the decompressed BDF: `1ab843ec8d2540a702974044f9a4a3acb8bb91bb9dfc1ec10605c7ce813f02bd`
 - Copyright: see the BDF `COPYRIGHT` property.
 - License: GNU Unifont fonts are dual-licensed under SIL Open Font License 1.1 or GPL-2.0-or-later
   with the GNU font embedding exception. Verbatim upstream texts are bundled as
   `licenses/OFL-1.1.txt` and `licenses/COPYING`.
+- SHA-256 of the verbatim source-archive texts: `OFL-1.1.txt`
+  `869692af094c57fb7258c57fe26820c759319603321d0ffeb278de3651763ded`; `COPYING`
+  `5a65797606332f2f63057fd81ea0ff35f74043583515bf900ee9b42efa8176a6`.
 
 ## PAL-derived default chrome
 
