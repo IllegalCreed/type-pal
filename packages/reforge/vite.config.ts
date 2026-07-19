@@ -20,7 +20,14 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
 function serveDir(urlPrefix: string, fsDir: string): Plugin {
   // dev + preview 同款中间件:dev 服务源码、preview 服务 dist;两者都要把 /projects、/extracted 映射到仓库根。
-  const mw = (req: { url?: string }, res: NodeJS.WritableStream, next: () => void): void => {
+  const mw = (
+    req: { url?: string },
+    res: NodeJS.WritableStream & {
+      setHeader?: (key: string, value: string) => void
+      removeHeader?: (key: string) => void
+    },
+    next: () => void,
+  ): void => {
     const url = req.url ?? ''
     if (!url.startsWith(urlPrefix)) {
       next()
@@ -52,7 +59,15 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
       next() // 不存在 → 交回 vite(返 404)
       return
     }
-    // 流式返回;不设 Content-Type,让 vite/浏览器按扩展名嗅探(.json/.rle/.png)
+    res.setHeader?.('Cache-Control', 'no-cache, no-transform')
+    res.removeHeader?.('Content-Encoding')
+    if (file.endsWith('.rle')) {
+      res.setHeader?.('Content-Type', 'application/vnd.type-pal.rle')
+      res.setHeader?.('X-Content-Type-Options', 'nosniff')
+    } else if (file.endsWith('.gz')) {
+      res.setHeader?.('Content-Type', 'application/gzip')
+      res.setHeader?.('X-Content-Type-Options', 'nosniff')
+    }
     createReadStream(file).pipe(res)
   }
   return {

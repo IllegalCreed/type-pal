@@ -4,15 +4,14 @@ import type { AssetBase } from './assets.js'
 
 vi.mock('./assets.js', () => ({
   loadProjectMap: vi.fn(),
-  loadTilesetByPath: vi.fn(),
+  loadTileset: vi.fn(),
 }))
 
-import { loadProjectMap, loadTilesetByPath } from './assets.js'
+import { loadProjectMap, loadTileset } from './assets.js'
 import { loadSceneMap } from './scene-map.js'
 
 const base: AssetBase = {
   root: '/proj/data',
-  tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
   io: {
@@ -42,20 +41,20 @@ const mapIndex = {
   version: 1 as const,
   maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
 }
-const tilesets = [{ id: 'tileset-056', name: '室内', category: 'indoor', path: 'tileset/56.rle' }]
+const tilesets = [{ id: 'tileset-056', name: '室内', category: 'indoor', asset: 'tileset.pal.056' }]
 const fakeTiles = new Map()
 
 beforeEach(() => {
   vi.clearAllMocks()
   vi.mocked(loadProjectMap).mockResolvedValue(fakeMap)
-  vi.mocked(loadTilesetByPath).mockResolvedValue(fakeTiles)
+  vi.mocked(loadTileset).mockResolvedValue(fakeTiles)
 })
 
 describe('loadSceneMap 唯一地图链', () => {
   test('稳定 mapId → map index path → ProjectMapV2.tilesetId → tileset registry', async () => {
     const result = await loadSceneMap(base, 'home', tilesets, mapIndex)
     expect(loadProjectMap).toHaveBeenCalledWith(base, 'content/maps/home.json')
-    expect(loadTilesetByPath).toHaveBeenCalledWith(base, 'tileset/56.rle')
+    expect(loadTileset).toHaveBeenCalledWith(base, 'tileset.pal.056')
     expect(result).toEqual({ map: fakeMap, tiles: fakeTiles })
   })
 

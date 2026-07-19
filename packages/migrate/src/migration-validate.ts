@@ -360,7 +360,7 @@ export function validatePalMigrationTarget(args: {
   const spriteReferences = assertSpriteReferenceClosure(files)
   const sceneEntryReferences = assertSceneEntryReferenceClosure(files)
   const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
-  const tilesets = validateTilesets(required(files, 'content/tilesets.json'))
+  const tilesets = validateTilesets(required(files, 'content/tilesets.json'), assetCatalog)
   const tilesetIds = new Set(tilesets.map((tileset) => tileset.id))
   const stamps = validateStampTemplates(required(files, 'content/stamps.json'))
   for (const stamp of stamps) {
@@ -483,6 +483,7 @@ export function validatePalMigrationTarget(args: {
     items,
     skills: skillData.skills,
     battleFields,
+    tilesets,
   })
   const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')

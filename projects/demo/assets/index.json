@@ -1,4 +1,23 @@
 {
   "version": 1,
-  "assets": {}
+  "assets": {
+    "color.project-standard": {
+      "kind": "color-table",
+      "path": "assets/migrated/colors/project-standard.json",
+      "mediaType": "application/json",
+      "bytes": 22117,
+      "sha256": "c07d1ae9d6dede23379aeda7cfc04ee37663abb7b8cb9069a6e3d00d9f6cfca9",
+      "label": "工程标准色彩",
+      "origin": { "kind": "legacy-migrated", "ref": "palette/0.json" }
+    },
+    "tileset.pal.056": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/056.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "bytes": 43349,
+      "sha256": "652e5c1c5739a7a805bc0a8d6204a5e25bcd1eb76bd98630892e686518600de2",
+      "label": "鬼界民居瓦片集",
+      "origin": { "kind": "legacy-migrated", "ref": "tileset/56.rle" }
+    }
+  }
 }

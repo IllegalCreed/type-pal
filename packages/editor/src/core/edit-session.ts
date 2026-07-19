@@ -36,8 +36,8 @@ export interface EditorState extends ContentBundle {
   /** 地图资产发现真值；包含零场景引用地图。 */
   mapIndex: MapIndexV1
   /**
-   * 上传 tileset 的 .rle 字节暂存(W7B):键 = 资产相对路径(assets/tilesets/<id>.rle)。
-   * 保存时并进文件集(ArrayBuffer → FSA Blob);已在磁盘的旧资产不回读,只存新上传。
+   * 历史名称：非 catalog 的 legacy sprite / battle-sprite 等 RLE 上传暂存。
+   * A7-3T 起 tileset 已迁到 assetCatalog + assetBlobs，不得再消费此字段。
    */
   tilesetBlobs: Record<string, ArrayBuffer>
   /** 分片脚本工作副本；普通 inline 工程均为空/undefined。 */

@@ -1,5 +1,5 @@
 /** 地图模式：ProjectMap 的 N 视觉层、实例高度与独立碰撞层编辑器。 */
-import type { MapIndexV1, SceneDef, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, SceneDef, StampTemplateV1 } from '@type-pal/content'
 import { mapInstanceHeight, nextMapAssetIdentity } from '@type-pal/content'
 import type {
   AssetBase,
@@ -50,6 +50,7 @@ import {
   UpdateProjectMapLayerCommand,
 } from '../core/commands.js'
 import type { EditorState, EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import { ProjectMapPatchError } from '../core/map-patch.js'
 import {
@@ -273,6 +274,8 @@ export function MapMode(props: {
   scenes: SceneDef[]
   session: EditSession
   assetBase: AssetBase
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   projectMaps: EditorState['maps']
   mapIndex: MapIndexV1
   selectedMapId?: string
@@ -280,8 +283,6 @@ export function MapMode(props: {
   onOpenScene: (id: string) => void
   /** tileset 注册表(W7B:绑定下拉 + ProjectMap.tilesetId 解析)。 */
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
-  /** 上传未保存的 tileset 字节(内存优先)。 */
-  tilesetBlobs: Record<string, ArrayBuffer>
   stamps: readonly StampTemplateV1[]
   onOpenStampLibrary?: (id?: string) => void
   onStampSelectionChange?: (
@@ -296,13 +297,14 @@ export function MapMode(props: {
     scenes,
     session,
     assetBase,
+    assetCatalog,
+    assetReader,
     projectMaps,
     mapIndex,
     selectedMapId,
     onSelectMap,
     onOpenScene,
     tilesets,
-    tilesetBlobs,
     stamps,
     onOpenStampLibrary,
     onStampSelectionChange,
@@ -507,7 +509,8 @@ export function MapMode(props: {
     projectMaps: currentProjectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
   })
   const loadedAssets = status === 'ready' ? loadedRef.current : null
   const activeTool: MapTool = liveMap ? tool : 'pan'
@@ -3801,7 +3804,8 @@ export function MapMode(props: {
                   stamps={stamps}
                   tilesetId={liveMap.tilesetId}
                   tilesets={tilesets}
-                  tilesetBlobs={tilesetBlobs}
+                  assetCatalog={assetCatalog}
+                  assetReader={assetReader}
                   assetBase={assetBase}
                   activeStampId={activeStampId}
                   recentStampIds={recentStampIds}

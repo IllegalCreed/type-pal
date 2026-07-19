@@ -64,6 +64,8 @@ export function PreviewCanvas(props: {
   actorsById: Record<string, ActorDef>
   leaderSpriteId: string | undefined
   assetBase: AssetBase
+  assetCatalog: import('@type-pal/content').AssetCatalogV1
+  assetReader: import('../core/editor-asset-reader.js').EditorAssetReader
   /** 自有地图实时副本(键 = 稳定 map id);own 场景从此渲染(不落磁盘)。 */
   projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
@@ -90,6 +92,8 @@ export function PreviewCanvas(props: {
     actorsById,
     leaderSpriteId,
     assetBase,
+    assetCatalog,
+    assetReader,
     projectMaps,
     mapIndex,
     tilesets,
@@ -153,7 +157,8 @@ export function PreviewCanvas(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     spriteSources,
   })
 

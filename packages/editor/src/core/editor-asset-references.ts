@@ -17,6 +17,7 @@ export function editorAssetReferenceSource(state: EditorState): AssetReferenceSo
     items: state.items,
     skills: state.skills,
     battleFields: state.battleFields,
+    tilesets: state.tilesets,
   }
 }
 

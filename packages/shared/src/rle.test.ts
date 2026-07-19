@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decodeRle, parseSpriteChunk } from './rle.js'
+import { decodeRle, parseSpriteChunk, parseSpriteChunkStrict } from './rle.js'
 
 describe('decodeRle', () => {
   it('2×2 实心方块', () => {
@@ -137,5 +137,43 @@ describe('parseSpriteChunk', () => {
     const frames = parseSpriteChunk(buf)
     expect(frames).toHaveLength(1) // 病态尾帧被 guard 跳过
     expect(frames[0]!.width).toBe(1)
+  })
+})
+
+describe('parseSpriteChunkStrict', () => {
+  it('接受作者编码的无 sentinel 单帧容器', () => {
+    const buf = new Uint8Array([1, 0, 1, 0, 1, 0, 1, 0xbb])
+    expect(parseSpriteChunkStrict(buf)).toHaveLength(1)
+  })
+
+  it('接受 PAL 末尾唯一 0 sentinel，并且不把 sentinel 计为帧', () => {
+    const buf = new Uint8Array([
+      2,
+      0, // declaredCount=2，同时 frame0 word offset=2(byte 4)
+      0,
+      0, // 唯一末尾 sentinel
+      1,
+      0,
+      1,
+      0,
+      1,
+      0x44,
+    ])
+    const frames = parseSpriteChunkStrict(buf)
+    expect(frames).toHaveLength(1)
+    expect([...frames[0]!.pixels]).toEqual([0x44])
+  })
+
+  it('拒绝中间 0 offset 空洞', () => {
+    const buf = new Uint8Array(16)
+    const view = new DataView(buf.buffer)
+    view.setUint16(0, 3, true)
+    view.setUint16(2, 0, true)
+    view.setUint16(4, 6, true)
+    expect(() => parseSpriteChunkStrict(buf)).toThrow(/frame 1 offset 越界/)
+  })
+
+  it('拒绝零帧容器', () => {
+    expect(() => parseSpriteChunkStrict(new Uint8Array([0, 0]))).toThrow(/不含帧/)
   })
 })

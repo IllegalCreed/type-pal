@@ -39,13 +39,33 @@ function state(maps: Record<string, ProjectMap>, stamps: StampTemplateV1[] = [])
     maps,
     mapIndex,
     tilesets: [
-      { id: 'tiles-a', name: '瓦片 A', category: 'test', path: 'assets/a.rle' },
-      { id: 'tiles-b', name: '瓦片 B', category: 'test', path: 'assets/b.rle' },
+      { id: 'tiles-a', name: '瓦片 A', category: 'test', asset: 'tileset.a' },
+      { id: 'tiles-b', name: '瓦片 B', category: 'test', asset: 'tileset.b' },
     ],
-    tilesetBlobs: { 'assets/a.rle': new Uint8Array([1, 2]).buffer },
+    tilesetBlobs: {},
     stamps,
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
+    assetCatalog: {
+      version: 1,
+      assets: {
+        'tileset.a': {
+          kind: 'tileset',
+          path: 'assets/authored/tilesets/a.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 2,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+        'tileset.b': {
+          kind: 'tileset',
+          path: 'assets/authored/tilesets/b.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 2,
+          sha256: 'b'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
+    },
+    assetBlobs: { 'assets/authored/tilesets/a.rle': new Uint8Array([1, 2]).buffer },
     scriptChunks: {},
   } as unknown as EditorState
 }
@@ -125,10 +145,13 @@ describe('W7G-E tileset 删除引用扫描', () => {
     const command = new RemoveTilesetCommand('tiles-a', proof)
     const removed = command.apply(before)
     expect(removed.tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])
-    expect(removed.tilesetBlobs['assets/a.rle']).toBeUndefined()
+    expect(removed.assetBlobs['assets/authored/tilesets/a.rle']).toBeUndefined()
+    expect(removed.assetCatalog.assets['tileset.a']).toBeUndefined()
     const restored = command.invert(removed)
     expect(restored.tilesets?.map(({ id }) => id)).toEqual(['tiles-a', 'tiles-b'])
-    expect(new Uint8Array(restored.tilesetBlobs['assets/a.rle']!)).toEqual(new Uint8Array([1, 2]))
+    expect(new Uint8Array(restored.assetBlobs['assets/authored/tilesets/a.rle']!)).toEqual(
+      new Uint8Array([1, 2]),
+    )
     expect(command.apply(restored).tilesets?.map(({ id }) => id)).toEqual(['tiles-b'])
   })
 })

@@ -10,6 +10,7 @@ import {
   validateMapIndex,
 } from '@type-pal/content'
 import { decompressGzip, type FileSource } from '@type-pal/reforge'
+import { sha256Hex } from './binary-signature.js'
 import { writeFile } from './project-io.js'
 import {
   enumerateSeedFiles,
@@ -20,16 +21,32 @@ import {
 } from './seed.js'
 
 /**
- * 素材字节:.rle 是 gzip 压缩(1f8b)—— Chrome(尤其增强保护)会把 gzip 当压缩包**深扫下载**
- * 并批量拦截("Blocked by Safe Browsing")。下载后**解压写原始字节**去掉 gzip 头,Chrome 不再当
- * 压缩包扫;加载器 decompressGzip 对"无 gzip 头"直接透传,零副作用。其余(png/mid/wav/mp4/json)
- * 是 Chrome 认得的良性类型、不深扫,原样写。
+ * catalog 资源必须逐字节复制，record.bytes/sha256 描述的就是落盘字节。
+ * 仅历史 `/extracted/**.rle` 属于未闭环 legacy family，保留既有裸字节 workaround；
+ * catalog tileset 已退出该路径，绝不能因扩展名被传输层改码。
  */
-async function assetBytes(seed: FileSource, src: string, rel: string): Promise<ArrayBuffer> {
-  const buf = await seed.readBytes(src)
-  if (!rel.endsWith('.rle')) return buf
-  const u8 = await decompressGzip(new Blob([buf]))
-  return u8.buffer.slice(u8.byteOffset, u8.byteOffset + u8.byteLength) as ArrayBuffer
+async function assetBytes(
+  seed: FileSource,
+  file: import('./seed.js').SeedFile,
+): Promise<ArrayBuffer> {
+  const reader = file.sourceLane === 'legacy' ? (seed.legacy ?? seed) : seed
+  const bytes = await reader.readBytes(file.src)
+  if (file.catalogAsset) {
+    const meta = file.catalogAsset
+    if (bytes.byteLength !== meta.bytes || (await sha256Hex(bytes)) !== meta.sha256)
+      throw new Error(`克隆资源 ${meta.id} 的 bytes/sha256 与 catalog 不符`)
+    if (meta.kind === 'tileset') {
+      const view = new Uint8Array(bytes)
+      if (view[0] !== 0x1f || view[1] !== 0x8b)
+        throw new Error(`克隆 tileset ${meta.id} 不是 canonical gzip`)
+    }
+    return bytes
+  }
+  if (file.sourceLane === 'legacy' && file.rel.endsWith('.rle')) {
+    const raw = await decompressGzip(new Blob([bytes]))
+    return raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength) as ArrayBuffer
+  }
+  return bytes
 }
 
 export async function cloneFromPal(
@@ -39,7 +56,8 @@ export async function cloneFromPal(
 ): Promise<void> {
   const manifest = await seed.readJson<LoadedManifest>('manifest.json')
   const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
-  const assetManifest = await seed.readJson<FileList>('/extracted/asset-manifest.json')
+  if (!seed.legacy) throw new Error('PAL clone 缺 LegacyAssetAdapter，无法读取 extracted 清单')
+  const assetManifest = await seed.legacy.readJson<FileList>('/extracted/asset-manifest.json')
   const scriptDir = scriptsDir(manifest)
   const scriptIndex = scriptDir
     ? await seed.readJson<ScriptIndexV1>(`${scriptDir}index.json`)
@@ -58,15 +76,19 @@ export async function cloneFromPal(
   )
   const total = files.reduce((s, f) => s + f.size, 0)
 
-  // 相对化 manifest 单独写(assets 指向本地 assets/**)
-  await writeFile(dir, 'manifest.json', relativizeManifest(manifest))
-
   let done = 0
-  for (const f of files) {
+  for (const f of [...files].sort((left, right) => {
+    const order = { binary: 0, content: 1, catalog: 2 } as const
+    return order[left.commitPhase] - order[right.commitPhase]
+  })) {
     const value =
-      f.kind === 'json' ? await seed.readJson(f.src) : await assetBytes(seed, f.src, f.rel)
+      f.kind === 'json'
+        ? await (f.sourceLane === 'legacy' ? seed.legacy! : seed).readJson(f.src)
+        : await assetBytes(seed, f)
     await writeFile(dir, f.rel, value)
     done += f.size
     onProgress(done, total)
   }
+  // 工程提交点最后写；此前任一素材失败都不会发布指向半批文件的新 manifest。
+  await writeFile(dir, 'manifest.json', relativizeManifest(manifest))
 }

@@ -47,6 +47,7 @@ import {
   removeAuthoredScript,
   upsertAuthoredScript,
   validateMapIndex,
+  validateProjectRelativePath,
 } from '@type-pal/content'
 import type {
   MapLayerV2,
@@ -83,7 +84,12 @@ import {
   type StampStructureResolutionOptions,
 } from './stamp-lifecycle.js'
 import { inheritStampPlacementIndex } from './stamp-ownership.js'
-import { assertTilesetRemovalAllowed, type TilesetRemovalProof } from './tileset-references.js'
+import {
+  assertTilesetRemovalAllowed,
+  assertTilesetReplacementAllowed,
+  type TilesetRemovalProof,
+  type TilesetReplacementProof,
+} from './tileset-references.js'
 
 /**
  * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
@@ -93,6 +99,30 @@ export interface Command {
   readonly label: string
   apply(s: EditorState): EditorState
   invert(s: EditorState): EditorState
+}
+
+function sameAssetRecord(left: AssetRecordV1, right: AssetRecordV1): boolean {
+  return (
+    left.kind === right.kind &&
+    left.path === right.path &&
+    left.mediaType === right.mediaType &&
+    left.bytes === right.bytes &&
+    left.sha256 === right.sha256 &&
+    left.label === right.label &&
+    left.origin.kind === right.origin.kind &&
+    left.origin.ref === right.origin.ref
+  )
+}
+
+function assertTilesetRecord(record: AssetRecordV1, bytes: ArrayBuffer): void {
+  if (record.kind !== 'tileset') throw new Error('瓦片集资源 kind 必须是 tileset')
+  if (record.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error('瓦片集资源 mediaType 必须是 application/vnd.type-pal.rle')
+  validateProjectRelativePath(record.path, '瓦片集资源路径')
+  if (record.bytes !== bytes.byteLength) throw new Error('瓦片集资源 bytes 与二进制长度不一致')
+  if (!/^[a-f0-9]{64}$/.test(record.sha256)) throw new Error('瓦片集资源 sha256 非法')
+  const view = new Uint8Array(bytes)
+  if (view[0] !== 0x1f || view[1] !== 0x8b) throw new Error('瓦片集资源必须是 canonical gzip')
 }
 
 // ── 不可变更新工具 ──────────────────────────────────────────
@@ -1073,51 +1103,81 @@ export class SetProjectMapTilesetCommand implements Command {
 }
 
 /**
- * 上传 tileset 入库(W7B):注册表条目 + .rle 字节暂存原子加入;invert 同时移除。
- * blob 键 = def.path(资产相对路径);保存时 serializeProject 并入文件集。
+ * 上传 tileset 入库：定义 + catalog record + pending gzip 字节原子加入。
  */
 export class AddTilesetCommand implements Command {
   readonly label = '上传瓦片集'
   private readonly def: TilesetDef
+  private readonly record: AssetRecordV1
   private readonly blob: ArrayBuffer
+  private createdAsset = false
 
-  constructor(def: TilesetDef, blob: ArrayBuffer) {
+  constructor(def: TilesetDef, record: AssetRecordV1, blob: ArrayBuffer) {
     this.def = structuredClone(def)
+    this.record = structuredClone(record)
     this.blob = blob
   }
 
   apply(state: EditorState): EditorState {
-    if ((state.tilesets ?? []).some((t) => t.id === this.def.id)) return state
+    if ((state.tilesets ?? []).some((t) => t.id === this.def.id))
+      throw new Error(`瓦片集定义 id 已存在: ${this.def.id}`)
+    assertTilesetRecord(this.record, this.blob)
+    if (!this.def.asset) throw new Error('瓦片集定义缺 AssetId')
+    const existing = state.assetCatalog.assets[this.def.asset]
+    if (existing && !sameAssetRecord(existing, this.record))
+      throw new Error(`瓦片集 AssetId 已存在且记录不同: ${this.def.asset}`)
+    const pathOwner = Object.entries(state.assetCatalog.assets).find(
+      ([id, record]) => id !== this.def.asset && record.path === this.record.path,
+    )
+    if (pathOwner) throw new Error(`瓦片集资源路径已由 ${pathOwner[0]} 登记`)
+    this.createdAsset = !existing
     return {
       ...state,
       tilesets: [...(state.tilesets ?? []), this.def],
-      tilesetBlobs: { ...state.tilesetBlobs, [this.def.path]: this.blob },
+      assetCatalog: existing
+        ? state.assetCatalog
+        : {
+            ...state.assetCatalog,
+            assets: { ...state.assetCatalog.assets, [this.def.asset]: this.record },
+          },
+      assetBlobs: existing
+        ? state.assetBlobs
+        : { ...state.assetBlobs, [this.record.path]: this.blob.slice(0) },
     }
   }
 
   invert(state: EditorState): EditorState {
-    const { [this.def.path]: _drop, ...restBlobs } = state.tilesetBlobs
+    const assets = { ...state.assetCatalog.assets }
+    if (this.createdAsset) delete assets[this.def.asset]
+    const assetBlobs = { ...state.assetBlobs }
+    if (
+      this.createdAsset &&
+      !Object.values(assets).some((record) => record.path === this.record.path)
+    )
+      delete assetBlobs[this.record.path]
     return {
       ...state,
       tilesets: (state.tilesets ?? []).filter((t) => t.id !== this.def.id),
-      tilesetBlobs: restBlobs,
+      assetCatalog: { ...state.assetCatalog, assets },
+      assetBlobs,
     }
   }
 }
 
 /**
- * 移除 tileset 条目(W7B):捕获条目与暂存字节(若有)供 invert 还原。
- * 已落盘的 .rle 文件不删(可能被旧存档/其他地图引用;孤儿清理是后续维护活)。
+ * 移除定义；只有零其它定义引用时才连带移除 catalog record/pending bytes。
  */
 export class RemoveTilesetCommand implements Command {
   readonly label = '移除瓦片集'
   private removed: TilesetDef | undefined
   private removedIndex: number | undefined
-  private removedBlob: ArrayBuffer | undefined
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
 
   constructor(
     private readonly tilesetId: string,
     private readonly proof?: TilesetRemovalProof,
+    private readonly persistedBytes?: ArrayBuffer,
   ) {}
 
   apply(state: EditorState): EditorState {
@@ -1128,13 +1188,24 @@ export class RemoveTilesetCommand implements Command {
     if (!this.removed) {
       this.removed = structuredClone(list[index])
       this.removedIndex = index
-      this.removedBlob = state.tilesetBlobs[list[index]!.path]
+      this.oldCatalog = state.assetCatalog
+      this.oldBlobs = state.assetBlobs
     }
-    const { [list[index]!.path]: _drop, ...restBlobs } = state.tilesetBlobs
+    const removed = list[index]!
+    const nextTilesets = list.filter((t) => t.id !== this.tilesetId)
+    if (nextTilesets.some((candidate) => candidate.asset === removed.asset))
+      return { ...state, tilesets: nextTilesets }
+    const assets = { ...state.assetCatalog.assets }
+    const record = assets[removed.asset]
+    delete assets[removed.asset]
+    const assetBlobs = { ...state.assetBlobs }
+    if (record && !Object.values(assets).some((candidate) => candidate.path === record.path))
+      delete assetBlobs[record.path]
     return {
       ...state,
-      tilesets: list.filter((t) => t.id !== this.tilesetId),
-      tilesetBlobs: restBlobs,
+      tilesets: nextTilesets,
+      assetCatalog: { ...state.assetCatalog, assets },
+      assetBlobs,
     }
   }
 
@@ -1145,11 +1216,110 @@ export class RemoveTilesetCommand implements Command {
     return {
       ...state,
       tilesets: list,
-      tilesetBlobs:
-        this.removedBlob !== undefined
-          ? { ...state.tilesetBlobs, [this.removed.path]: this.removedBlob }
-          : state.tilesetBlobs,
+      assetCatalog: this.oldCatalog ?? state.assetCatalog,
+      assetBlobs: (() => {
+        const blobs = { ...(this.oldBlobs ?? state.assetBlobs) }
+        const record = this.oldCatalog?.assets[this.removed.asset]
+        if (record && this.persistedBytes) blobs[record.path] = this.persistedBytes.slice(0)
+        return blobs
+      })(),
     }
+  }
+}
+
+/** 改名/分类只改领域定义，不触碰资源诊断 label。 */
+export class UpdateTilesetMetadataCommand implements Command {
+  readonly label = '修改瓦片集信息'
+  private previous: Pick<TilesetDef, 'name' | 'category'> | undefined
+
+  constructor(
+    private readonly id: string,
+    private readonly patch: Partial<Pick<TilesetDef, 'name' | 'category'>>,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const current = (state.tilesets ?? []).find((entry) => entry.id === this.id)
+    if (!current) return state
+    if (this.patch.name !== undefined && !this.patch.name.trim())
+      throw new Error('瓦片集名称不能为空')
+    if (this.patch.category !== undefined && !this.patch.category.trim())
+      throw new Error('瓦片集分类不能为空')
+    this.previous ??= { name: current.name, category: current.category }
+    return {
+      ...state,
+      tilesets: (state.tilesets ?? []).map((entry) =>
+        entry.id === this.id ? { ...entry, ...this.patch } : entry,
+      ),
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.previous) return state
+    return {
+      ...state,
+      tilesets: (state.tilesets ?? []).map((entry) =>
+        entry.id === this.id ? { ...entry, ...this.previous } : entry,
+      ),
+    }
+  }
+}
+
+/** 替换保持 TilesetDef.id 与 AssetId，仅更新该共享二进制的 record/bytes。 */
+export class ReplaceTilesetAssetCommand implements Command {
+  readonly label = '替换瓦片集图像'
+  private oldCatalog: EditorState['assetCatalog'] | undefined
+  private oldBlobs: EditorState['assetBlobs'] | undefined
+
+  constructor(
+    private readonly tilesetId: string,
+    private readonly asset: AssetId,
+    private readonly record: AssetRecordV1,
+    private readonly bytes: ArrayBuffer,
+    private readonly previousBytes?: ArrayBuffer,
+    private readonly proof?: TilesetReplacementProof,
+  ) {}
+
+  apply(state: EditorState): EditorState {
+    const previous = state.assetCatalog.assets[this.asset]
+    if (!previous) return state
+    assertTilesetRecord(this.record, this.bytes)
+    if (previous.kind !== 'tileset') throw new Error('瓦片集替换只能更新 kind=tileset 的资源')
+    const pathOwner = Object.entries(state.assetCatalog.assets).find(
+      ([id, candidate]) => id !== this.asset && candidate.path === this.record.path,
+    )
+    if (pathOwner) throw new Error(`瓦片集替换路径已由 ${pathOwner[0]} 登记`)
+    const target = (state.tilesets ?? []).find((entry) => entry.id === this.tilesetId)
+    if (!target || target.asset !== this.asset) throw new Error('瓦片集定义与待替换 AssetId 不一致')
+    assertTilesetReplacementAllowed(state, this.tilesetId, this.asset, this.proof)
+    if (!this.oldCatalog) {
+      this.oldCatalog = state.assetCatalog
+      this.oldBlobs = state.assetBlobs
+    }
+    const assetBlobs = { ...state.assetBlobs }
+    if (
+      previous.path !== this.record.path &&
+      !Object.entries(state.assetCatalog.assets).some(
+        ([id, candidate]) => id !== this.asset && candidate.path === previous.path,
+      )
+    )
+      delete assetBlobs[previous.path]
+    assetBlobs[this.record.path] = this.bytes.slice(0)
+    return {
+      ...state,
+      assetCatalog: {
+        ...state.assetCatalog,
+        assets: { ...state.assetCatalog.assets, [this.asset]: structuredClone(this.record) },
+      },
+      assetBlobs,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.oldCatalog || !this.oldBlobs) return state
+    const blobs = { ...this.oldBlobs }
+    const record = this.oldCatalog.assets[this.asset]
+    if (record && this.previousBytes) blobs[record.path] = this.previousBytes.slice(0)
+    return { ...state, assetCatalog: this.oldCatalog, assetBlobs: blobs }
   }
 }
 
@@ -2502,7 +2672,7 @@ export class UpdatePoisonCommand implements Command {
   }
 }
 
-// ── A4 自有精灵上传(镜像 W7B tileset:def 入注册表 + 字节暂存 tilesetBlobs)──
+// ── A4 尚未 catalog 化的自有精灵上传（历史 pending store 名为 tilesetBlobs）──
 // tilesetBlobs 名字是 W7B 起的,现泛化为「一切上传二进制」(键 = 工程相对路径);
 // serializeProject 对它一视同仁产出文件,不区分素材种类。
 

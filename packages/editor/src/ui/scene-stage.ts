@@ -8,8 +8,8 @@
  * 即恶果。
  */
 
-import type { MapIndexV1, SceneDef } from '@type-pal/content'
-import { gridToPixel, mapAssetById, resolveTilesetPath } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, SceneDef } from '@type-pal/content'
+import { gridToPixel, mapAssetById, resolveTilesetAsset } from '@type-pal/content'
 import type {
   AssetBase,
   LoadedSprite,
@@ -22,14 +22,14 @@ import {
   buildIsBlocked,
   Canvas2DRenderer,
   decompressGzip,
-  loadSceneMap,
+  loadProjectMap,
   loadSprite,
   loadStandardPalette,
-  loadTilesetByPath,
+  loadTilesetAsset,
   parseSpriteChunk,
-  tilesFromChunkBytes,
 } from '@type-pal/reforge'
 import { type RefObject, useEffect, useRef, useState } from 'react'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 
 export const TILE_W = 32
 export const TILE_H = 16
@@ -76,8 +76,8 @@ export function useSceneAssets(opts: {
   mapIndex?: MapIndexV1
   /** tileset 注册表；ProjectMap 只保存稳定 tilesetId。 */
   tilesets: readonly TilesetDef[]
-  /** 上传未保存的 tileset 字节(键 = 资产路径);命中则内存解码,不读磁盘。 */
-  tilesetBlobs?: Record<string, ArrayBuffer>
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   /** A4 自有上传精灵源(num → path/未保存字节);缺省全走原版号约定。 */
   spriteSources?: ReadonlyMap<number, { path?: string; blob?: ArrayBuffer }>
 }): {
@@ -93,7 +93,8 @@ export function useSceneAssets(opts: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     spriteSources,
   } = opts
   const loadedRef = useRef<StageAssets | null>(null)
@@ -102,8 +103,12 @@ export function useSceneAssets(opts: {
   const spriteNumsKey = spriteNums.join(',')
   const liveMap = projectMaps?.[mapId]
   const projectMapPath = mapAssetById(mapIndex ?? { version: 1, maps: [] }, mapId)?.path ?? ''
-  // 换绑 tileset 时 mapKey 不变 → 引用单独入依赖(W7B);注册表经 resolveTilesetPath 解析 id/路径
+  // 换绑 tileset 时 mapKey 不变 → 定义引用与 catalog record sha 单独进入依赖。
   const tilesetRef = liveMap?.tilesetId ?? ''
+  const tilesetAsset = liveMap ? resolveTilesetAsset(liveMap.tilesetId, tilesets) : undefined
+  const tilesetRevision = tilesetAsset
+    ? (assetCatalog.assets[tilesetAsset]?.sha256 ?? 'missing')
+    : 'unloaded'
   // 已加载地图的编辑态更新只换 map 引用，不重读 tileset/精灵资产。
   useEffect(() => {
     if (!liveMap || !loadedRef.current) return
@@ -120,16 +125,11 @@ export function useSceneAssets(opts: {
       try {
         const [{ map, tiles }, palette] = await Promise.all([
           // 有实时副本 → 直接用它；否则按 mapId 从磁盘懒加载。
-          liveMap
-            ? (async () => {
-                const path = resolveTilesetPath(liveMap.tilesetId, tilesets)
-                const mem = tilesetBlobs?.[path] // 上传未保存:内存字节优先(磁盘尚无此文件)
-                const tiles = mem
-                  ? await tilesFromChunkBytes(mem)
-                  : await loadTilesetByPath(assetBase, path)
-                return { map: liveMap, tiles }
-              })()
-            : loadSceneMap(assetBase, mapId, tilesets, mapIndex ?? { version: 1, maps: [] }),
+          (async () => {
+            const map = liveMap ?? (await loadProjectMap(assetBase, projectMapPath))
+            const asset = resolveTilesetAsset(map.tilesetId, tilesets)
+            return { map, tiles: await loadTilesetAsset(assetReader, asset) }
+          })(),
           loadStandardPalette(assetBase), // 只留盘 0(W7a-3:调色板概念退役)
         ])
         const entries = await Promise.all(
@@ -170,7 +170,16 @@ export function useSceneAssets(opts: {
     return () => {
       alive = false
     }
-  }, [assetBase, mapId, projectMapPath, spriteNumsKey, canvasRef, tilesetRef])
+  }, [
+    assetBase,
+    assetReader,
+    mapId,
+    projectMapPath,
+    spriteNumsKey,
+    canvasRef,
+    tilesetRef,
+    tilesetRevision,
+  ])
   return { status, err, loadedRef }
 }
 

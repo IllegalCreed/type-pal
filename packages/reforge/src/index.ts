@@ -25,7 +25,8 @@ import {
   loadProjectMap,
   loadSprite,
   loadStandardPalette,
-  loadTilesetByPath,
+  loadTileset,
+  loadTilesetAsset,
 } from './assets.js'
 
 export type { AssetBase, LoadedSprite }
@@ -38,7 +39,8 @@ export {
   loadProjectMap,
   loadSprite,
   loadStandardPalette,
-  loadTilesetByPath,
+  loadTileset,
+  loadTilesetAsset,
 }
 
 import type { SceneMapAssets } from './scene-map.js'
@@ -80,7 +82,7 @@ export {
   isProjectMapV2,
   isProjectMapV3,
   mapInstanceHeight,
-  resolveTilesetPath,
+  resolveTilesetAsset,
   validateProjectMap,
   validateProjectMapV2,
   validateProjectMapV3,
@@ -89,7 +91,7 @@ export {
 } from '@type-pal/content'
 export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
-export { encodeSpriteChunk, parseSpriteChunk } from '@type-pal/shared'
+export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
 export { tilesFromChunkBytes } from './assets.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)

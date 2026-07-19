@@ -1,9 +1,17 @@
 import { normalizeScriptLibrary, type ScriptChunkV1 } from '@type-pal/content'
+import { decompressGzip } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
-import { DeleteAssetCommand, UpsertAssetCommand } from './commands.js'
+import {
+  DeleteAssetCommand,
+  RemoveTilesetCommand,
+  UpdateManifestAssetRolesCommand,
+  UpsertAssetCommand,
+} from './commands.js'
 import { EditSession } from './edit-session.js'
 import { openLocalProject } from './open-local.js'
 import { serializeProject, toEditorState, writeProject } from './project-io.js'
+import { buildSeedAssets } from './seed-assets.js'
+import { scanTilesetReferences, TilesetRemovalProof } from './tileset-references.js'
 import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
 
 /** 内存 mock 目录句柄:覆盖 FSA 读、写、删，供 v2 一次性升级集成测试。 */
@@ -11,9 +19,13 @@ function mockDir(
   name: string,
   files: Record<string, string | ArrayBuffer>,
   writes: string[] = [],
-  mockOptions: { failClose?: (path: string, attempt: number) => boolean } = {},
+  mockOptions: {
+    failClose?: (path: string, attempt: number) => boolean
+    failRemove?: (path: string, attempt: number) => boolean
+  } = {},
 ): FileSystemDirectoryHandle {
   const closeAttempts = new Map<string, number>()
+  const removeAttempts = new Map<string, number>()
   const make = (prefix: string): FileSystemDirectoryHandle =>
     ({
       name: prefix ? prefix.split('/').pop() : name,
@@ -74,6 +86,10 @@ function mockDir(
       async removeEntry(n: string) {
         const full = prefix ? `${prefix}/${n}` : n
         if (!(full in files)) throw new DOMException(`NotFound ${full}`, 'NotFoundError')
+        const attempt = (removeAttempts.get(full) ?? 0) + 1
+        removeAttempts.set(full, attempt)
+        if (mockOptions.failRemove?.(full, attempt))
+          throw new DOMException(`Injected remove failure ${full}`, 'InvalidStateError')
         delete files[full]
       },
     }) as unknown as FileSystemDirectoryHandle
@@ -105,6 +121,25 @@ async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
+const seedAssets = await buildSeedAssets()
+const tilesetBytes = seedAssets.tilesetRle
+const alternateTilesetBytes = seedAssets.spriteRle
+const bareTilesetView = await decompressGzip(new Blob([tilesetBytes]))
+const bareTilesetBytes = bareTilesetView.buffer.slice(
+  bareTilesetView.byteOffset,
+  bareTilesetView.byteOffset + bareTilesetView.byteLength,
+) as ArrayBuffer
+const tilesetHash = await sha256Hex(tilesetBytes)
+const tilesetRecord = {
+  kind: 'tileset' as const,
+  path: 'assets/generated/tilesets/starter.rle',
+  mediaType: 'application/vnd.type-pal.rle',
+  bytes: tilesetBytes.byteLength,
+  sha256: tilesetHash,
+  label: '瓦片集 1',
+  origin: { kind: 'generated' as const },
+}
+
 function soundFamilyManifest(): {
   manifest: Record<string, unknown> & {
     assets: { roles: Record<string, string>; legacy: Record<string, unknown> }
@@ -116,7 +151,7 @@ function soundFamilyManifest(): {
   }
   manifest.assets.legacy = {
     ...manifest.assets.legacy,
-    families: ['sound', 'tileset', 'sprite', 'color-table'],
+    families: ['sound', 'sprite', 'color-table'],
     sounds: 'assets/extracted/sounds',
   }
   return { manifest, text: J(manifest) }
@@ -141,9 +176,8 @@ const fullProject: Record<string, string | ArrayBuffer> = {
       catalog: 'assets/index.json',
       roles: {},
       legacy: {
-        families: ['tileset', 'sprite', 'color-table'],
+        families: ['sprite', 'color-table'],
         root: 'assets/extracted/data',
-        tilesets: 'tileset',
         sprites: 'sprite',
         palettes: 'palette',
       },
@@ -166,9 +200,48 @@ const fullProject: Record<string, string | ArrayBuffer> = {
     maps: [{ id: 'map-001', name: '地图 1', path: 'content/maps/map-001.json' }],
   }),
   'content/tilesets.json': J([
-    { id: 'tileset-001', name: '瓦片集 1', category: 'builtin', path: 'tileset/1.rle' },
+    {
+      id: 'tileset-001',
+      name: '瓦片集 1',
+      category: 'builtin',
+      asset: 'tileset.generated.starter',
+    },
   ]),
-  'assets/index.json': J({ version: 1, assets: {} }),
+  'assets/index.json': J({
+    version: 1,
+    assets: { 'tileset.generated.starter': tilesetRecord },
+  }),
+  [tilesetRecord.path]: tilesetBytes,
+}
+
+function legacyTilesetProject(options: { bytes?: ArrayBuffer; id?: string; path?: string } = {}): {
+  files: Record<string, string | ArrayBuffer>
+  sourcePath: string
+  manifestText: string
+  definitionsText: string
+  catalogText: string
+} {
+  const files = { ...fullProject }
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    assets: { legacy: { families: string[]; tilesets?: string } }
+  }
+  manifest.assets.legacy = {
+    ...manifest.assets.legacy,
+    families: ['tileset', ...manifest.assets.legacy.families],
+    tilesets: 'tileset',
+  }
+  const id = options.id ?? 'tileset-001'
+  const path = options.path ?? 'tileset/1.rle'
+  const sourcePath = path.startsWith('assets/') ? path : `assets/extracted/data/${path}`
+  const manifestText = J(manifest)
+  const definitionsText = J([{ id, name: '旧瓦片集', category: 'builtin', path }])
+  const catalogText = J({ version: 1, assets: {} })
+  files['manifest.json'] = manifestText
+  files['content/tilesets.json'] = definitionsText
+  files['assets/index.json'] = catalogText
+  delete files[tilesetRecord.path]
+  files[sourcePath] = options.bytes ?? tilesetBytes
+  return { files, sourcePath, manifestText, definitionsText, catalogText }
 }
 
 function staticPortraitFamilyProject(): {
@@ -182,7 +255,7 @@ function staticPortraitFamilyProject(): {
   }
   manifest.assets.legacy = {
     ...manifest.assets.legacy,
-    families: ['tileset', 'sprite', 'color-table', 'portrait'],
+    families: ['sprite', 'color-table', 'portrait'],
     portraits: 'assets/legacy/portraits',
   }
   const manifestText = J(manifest)
@@ -225,6 +298,7 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
     'assets/index.json': J({
       version: 1,
       assets: {
+        'tileset.generated.starter': tilesetRecord,
         ...musicAssets,
         'soundfont.default': {
           kind: 'soundfont',
@@ -248,6 +322,278 @@ describe('openLocalProject', () => {
     expect(project.source).toBeDefined()
   })
 
+  test.each([
+    { label: 'legacy-root gzip', bytes: tilesetBytes, byteExact: true },
+    { label: '历史 clone 裸 RLE', bytes: bareTilesetBytes, byteExact: false },
+  ])('旧 v3 tileset $label → canonical catalog gzip，二次打开零写入', async (input) => {
+    const { files, sourcePath } = legacyTilesetProject({ bytes: input.bytes })
+    const writes: string[] = []
+    const dir = mockDir(`tileset-${input.label}`, files, writes)
+    const opened = await openLocalProject(dir)
+    const definition = opened.project.tilesets[0]!
+    const record = opened.project.assetCatalog.assets[definition.asset]!
+    const stored = files[record.path] as ArrayBuffer
+
+    expect(definition).toEqual({
+      id: 'tileset-001',
+      name: '旧瓦片集',
+      category: 'builtin',
+      asset: 'tileset.pal.001',
+    })
+    expect(record).toMatchObject({
+      kind: 'tileset',
+      path: 'assets/migrated/tilesets/001.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      origin: { kind: 'legacy-migrated', ref: 'tileset/1.rle' },
+    })
+    expect([...new Uint8Array(stored).slice(0, 2)]).toEqual([0x1f, 0x8b])
+    expect(record.bytes).toBe(stored.byteLength)
+    expect(record.sha256).toBe(await sha256Hex(stored))
+    if (input.byteExact) expect(new Uint8Array(stored)).toEqual(new Uint8Array(input.bytes))
+    expect(files[sourcePath]).toBeUndefined()
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('tileset')
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('旧 v3 工程自有 tileset path → authored 内容哈希路径', async () => {
+    const { files, sourcePath } = legacyTilesetProject({
+      id: 'custom-set',
+      path: 'assets/legacy/custom.rle',
+      bytes: bareTilesetBytes,
+    })
+    const opened = await openLocalProject(mockDir('custom-tileset', files))
+    const definition = opened.project.tilesets[0]!
+    const record = opened.project.assetCatalog.assets[definition.asset]!
+    expect(definition.asset).toBe('tileset.authored.custom-set')
+    expect(record.path).toMatch(/^assets\/authored\/tilesets\/[a-f0-9]{64}\.rle$/)
+    expect(record.origin).toEqual({ kind: 'authored', ref: sourcePath })
+    expect(files[sourcePath]).toBeUndefined()
+  })
+
+  test('旧 v3 tileset 已有 authored AssetId 时保留作者资产，只退役旧源', async () => {
+    const fixture = legacyTilesetProject()
+    const authoredPath = 'assets/authored/tilesets/kept.rle'
+    const authoredRecord = {
+      kind: 'tileset' as const,
+      path: authoredPath,
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: alternateTilesetBytes.byteLength,
+      sha256: await sha256Hex(alternateTilesetBytes),
+      origin: { kind: 'authored' as const },
+    }
+    fixture.files['assets/index.json'] = J({
+      version: 1,
+      assets: { 'tileset.pal.001': authoredRecord },
+    })
+    fixture.files[authoredPath] = alternateTilesetBytes
+
+    const opened = await openLocalProject(mockDir('authored-tileset-takeover', fixture.files))
+    expect(opened.project.tilesets[0]?.asset).toBe('tileset.pal.001')
+    expect(opened.project.assetCatalog.assets['tileset.pal.001']).toEqual(authoredRecord)
+    expect(fixture.files[authoredPath]).toBe(alternateTilesetBytes)
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+  })
+
+  test.each([
+    {
+      label: 'generated',
+      path: 'assets/generated/tilesets/collision.rle',
+      origin: { kind: 'generated' },
+      bytes: tilesetBytes,
+    },
+    {
+      label: 'licensed',
+      path: 'assets/runtime/tilesets/collision.rle',
+      origin: { kind: 'licensed' },
+      bytes: tilesetBytes,
+    },
+    {
+      label: '过期 legacy-migrated',
+      path: 'assets/migrated/tilesets/001.rle',
+      origin: { kind: 'legacy-migrated', ref: 'tileset/2.rle' },
+      bytes: alternateTilesetBytes,
+    },
+  ])('旧 v3 tileset 遇 $label 同 AssetId 占用时写前拒绝', async (collision) => {
+    const fixture = legacyTilesetProject()
+    fixture.files['assets/index.json'] = J({
+      version: 1,
+      assets: {
+        'tileset.pal.001': {
+          kind: 'tileset',
+          path: collision.path,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: collision.bytes.byteLength,
+          sha256: await sha256Hex(collision.bytes),
+          origin: collision.origin,
+        },
+      },
+    })
+    fixture.files[collision.path] = collision.bytes
+    const writes: string[] = []
+
+    await expect(
+      openLocalProject(mockDir(`occupied-${collision.label}`, fixture.files, writes)),
+    ).rejects.toThrow(/AssetId tileset\.pal\.001/)
+    expect(writes).toEqual([])
+    expect(fixture.files['manifest.json']).toBe(fixture.manifestText)
+    expect(fixture.files['content/tilesets.json']).toBe(fixture.definitionsText)
+    expect(fixture.files[fixture.sourcePath]).toBeDefined()
+  })
+
+  test('旧 v3 tileset 源路径被另一 AssetId 共享时不删除源文件', async () => {
+    const sourcePath = 'assets/authored/tilesets/shared-source.rle'
+    const fixture = legacyTilesetProject({ id: 'custom-set', path: sourcePath })
+    fixture.files['assets/index.json'] = J({
+      version: 1,
+      assets: {
+        'tileset.authored.existing': {
+          kind: 'tileset',
+          path: sourcePath,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: tilesetBytes.byteLength,
+          sha256: await sha256Hex(tilesetBytes),
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+
+    const opened = await openLocalProject(mockDir('shared-tileset-source', fixture.files))
+    expect(opened.project.tilesets[0]?.asset).toBe('tileset.authored.custom-set')
+    expect(fixture.files[sourcePath]).toBe(tilesetBytes)
+    expect(opened.project.assetCatalog.assets['tileset.authored.existing']?.path).toBe(sourcePath)
+  })
+
+  test('legacy.tilesets 孤儿字段也会触发一次升级并被清理', async () => {
+    const fixture = legacyTilesetProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      assets: { legacy: { families: string[]; tilesets?: string } }
+    }
+    manifest.assets.legacy.families = manifest.assets.legacy.families.filter(
+      (family) => family !== 'tileset',
+    )
+    fixture.files['manifest.json'] = J(manifest)
+
+    const opened = await openLocalProject(mockDir('orphan-legacy-tilesets', fixture.files))
+    expect(opened.project.tilesets[0]?.asset).toBe('tileset.pal.001')
+    expect(opened.project.manifest.assets.legacy).not.toHaveProperty('tilesets')
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+  })
+
+  test.each([
+    'missing',
+    'bad-rle',
+    'kind-collision',
+    'path-collision',
+  ] as const)('旧 v3 tileset %s 在写前失败，零写入', async (scenario) => {
+    const fixture = legacyTilesetProject()
+    if (scenario === 'missing') delete fixture.files[fixture.sourcePath]
+    if (scenario === 'bad-rle') fixture.files[fixture.sourcePath] = new Uint8Array([1, 2]).buffer
+    if (scenario === 'kind-collision')
+      fixture.files['assets/index.json'] = J({
+        version: 1,
+        assets: {
+          'tileset.pal.001': {
+            kind: 'sound',
+            path: 'assets/migrated/sounds/001.wav',
+            mediaType: 'audio/wav',
+            bytes: 0,
+            sha256: '0'.repeat(64),
+            origin: { kind: 'legacy-migrated' },
+          },
+        },
+      })
+    if (scenario === 'path-collision')
+      fixture.files['assets/index.json'] = J({
+        version: 1,
+        assets: {
+          'portrait.conflict': {
+            kind: 'portrait',
+            path: 'assets/migrated/tilesets/001.rle',
+            mediaType: 'image/png',
+            bytes: 0,
+            sha256: '0'.repeat(64),
+            origin: { kind: 'legacy-migrated' },
+          },
+        },
+      })
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir(`bad-tileset-${scenario}`, fixture.files, writes)),
+    ).rejects.toThrow()
+    expect(writes).toEqual([])
+    expect(fixture.files['manifest.json']).toBe(fixture.manifestText)
+    expect(fixture.files['content/tilesets.json']).toBe(fixture.definitionsText)
+    if (scenario === 'missing') expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+    else expect(fixture.files[fixture.sourcePath]).toBeDefined()
+  })
+
+  test.each([
+    'assets/index.json',
+    'content/tilesets.json',
+  ] as const)('旧 v3 tileset 在 %s close 中断后不发布坏引用，重试可完成', async (failedPath) => {
+    const fixture = legacyTilesetProject()
+    const writes: string[] = []
+    const dir = mockDir(`retry-${failedPath}`, fixture.files, writes, {
+      failClose: (path, attempt) => path === failedPath && attempt === 1,
+    })
+
+    await expect(openLocalProject(dir)).rejects.toThrow(`Injected close failure ${failedPath}`)
+    expect(fixture.files[fixture.sourcePath]).toBeDefined()
+    expect(fixture.files['manifest.json']).toBe(fixture.manifestText)
+    expect(fixture.files['content/tilesets.json']).toBe(fixture.definitionsText)
+    const interruptedCatalog = JSON.parse(String(fixture.files['assets/index.json'])) as {
+      assets: Record<string, unknown>
+    }
+    if (failedPath === 'assets/index.json') {
+      expect(interruptedCatalog.assets['tileset.pal.001']).toBeUndefined()
+      expect(writes).not.toContain('assets/index.json')
+    } else {
+      expect(interruptedCatalog.assets['tileset.pal.001']).toBeDefined()
+      expect(writes).toContain('assets/index.json')
+    }
+    expect(writes).not.toContain('manifest.json')
+
+    writes.length = 0
+    const opened = await openLocalProject(dir)
+    expect(opened.project.tilesets[0]?.asset).toBe('tileset.pal.001')
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('tileset')
+    expect(fixture.files[fixture.sourcePath]).toBeUndefined()
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('旧 v3 tileset manifest-last 中断可校验滚前并清理旧源', async () => {
+    const { files, sourcePath } = legacyTilesetProject()
+    const writes: string[] = []
+    const dir = mockDir('retry-tileset-upgrade', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(files[sourcePath]).toBeDefined()
+    expect(writes).not.toContain('manifest.json')
+    expect(JSON.parse(String(files['content/tilesets.json']))[0]).toHaveProperty(
+      'asset',
+      'tileset.pal.001',
+    )
+
+    writes.length = 0
+    const opened = await openLocalProject(dir)
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('tileset')
+    expect(files[sourcePath]).toBeUndefined()
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
   test('旧 v3 四类静态图像一次闭包：内容/脚本/catalog/bytes/manifest-last，重复打开零写入', async () => {
     const files: Record<string, string | ArrayBuffer> = { ...fullProject }
     const manifest = JSON.parse(String(files['manifest.json'])) as {
@@ -257,15 +603,7 @@ describe('openLocalProject', () => {
     manifest.content.battleFields = 'content/battle-fields.json'
     manifest.assets.legacy = {
       ...manifest.assets.legacy,
-      families: [
-        'tileset',
-        'sprite',
-        'color-table',
-        'portrait',
-        'face',
-        'item-icon',
-        'battle-background',
-      ],
+      families: ['sprite', 'color-table', 'portrait', 'face', 'item-icon', 'battle-background'],
       portraits: 'assets/legacy/portraits',
       faces: 'assets/legacy/faces',
       itemIcons: 'assets/legacy/items',
@@ -328,11 +666,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('static-v3', files, writes)
     const opened = await openLocalProject(dir, { validateStaticImage: async () => undefined })
 
-    expect(opened.project.manifest.assets.legacy?.families).toEqual([
-      'tileset',
-      'sprite',
-      'color-table',
-    ])
+    expect(opened.project.manifest.assets.legacy?.families).toEqual(['sprite', 'color-table'])
     expect(opened.project.actorsById.a?.portraits?.default).toBe('portrait.pal.001')
     expect(opened.project.actorsById.a?.face).toBe('face.pal.a')
     expect(opened.project.items['with-icon']?.icon).toBe('item-icon.pal.007')
@@ -354,6 +688,7 @@ describe('openLocalProject', () => {
       'item-icon.pal.007',
       'portrait.pal.001',
       'portrait.pal.002',
+      'tileset.generated.starter',
     ])
     expect(files['assets/migrated/portraits/001.png']).toEqual(
       files['assets/legacy/portraits/1.png'],
@@ -381,7 +716,10 @@ describe('openLocalProject', () => {
     files[authoredPath] = authoredBytes
     files['assets/index.json'] = J({
       version: 1,
-      assets: { 'portrait.pal.001': authoredRecord },
+      assets: {
+        'tileset.generated.starter': tilesetRecord,
+        'portrait.pal.001': authoredRecord,
+      },
     })
     const writes: string[] = []
     const dir = mockDir('static-authored', files, writes)
@@ -411,6 +749,7 @@ describe('openLocalProject', () => {
     const catalogText = J({
       version: 1,
       assets: {
+        'tileset.generated.starter': tilesetRecord,
         'portrait.pal.001': {
           kind: 'portrait',
           path: authoredPath,
@@ -499,7 +838,7 @@ describe('openLocalProject', () => {
     }
     manifest.assets.legacy = {
       ...manifest.assets.legacy,
-      families: ['sound', 'tileset', 'sprite', 'color-table'],
+      families: ['sound', 'sprite', 'color-table'],
       sounds: 'assets/extracted/sounds',
     }
     manifest.content.scripts = 'content/scripts/'
@@ -632,6 +971,7 @@ describe('openLocalProject', () => {
       'assets/index.json': J({
         version: 1,
         assets: {
+          'tileset.generated.starter': tilesetRecord,
           'sound.pal.045': {
             kind: 'sound',
             path: authoredPath,
@@ -669,6 +1009,7 @@ describe('openLocalProject', () => {
         'assets/index.json': J({
           version: 1,
           assets: {
+            'tileset.generated.starter': tilesetRecord,
             'sound.pal.045': {
               kind: 'sound',
               path: authoredPath,
@@ -770,6 +1111,9 @@ describe('openLocalProject', () => {
         startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
       }),
       'content/music.json': J([{ id: 1, name: '蝶恋' }]),
+      'content/tilesets.json': J([
+        { id: 'tileset-001', name: '瓦片集 1', category: 'builtin', path: 'tileset/1.rle' },
+      ]),
       'content/scenes/s1.json': J({
         id: 's1',
         mapId: 'map-001',
@@ -780,6 +1124,7 @@ describe('openLocalProject', () => {
       }),
       'assets/extracted/music/001.mid': midi,
       'assets/extracted/sounds/45.wav': waveBytes(1),
+      'assets/extracted/data/tileset/1.rle': tilesetBytes,
     }
     const opened = await openLocalProject(mockDir('old', files), {
       readSoundfont: async () => soundfont,
@@ -799,6 +1144,258 @@ describe('openLocalProject', () => {
     expect(files['assets/migrated/music/001.mid']).toEqual(midi)
     expect(files['assets/migrated/sounds/045.wav']).toEqual(files['assets/extracted/sounds/45.wav'])
     expect(files['assets/runtime/soundfont.sf3']).toEqual(soundfont)
+  })
+
+  test.each([
+    {
+      label: 'tilesets 内容 close',
+      failClose: (path: string, attempt: number) =>
+        path === 'content/tilesets.json' && attempt === 1,
+    },
+    {
+      label: '最终 catalog 收缩 close',
+      failClose: (path: string, attempt: number) => path === 'assets/index.json' && attempt === 2,
+    },
+    {
+      label: 'manifest close',
+      failClose: (path: string, attempt: number) => path === 'manifest.json' && attempt === 1,
+    },
+  ])('删除最后一个 tileset 定义的 $label 中断态仍可重开与重试', async (failure) => {
+    const removableId = 'unused-tileset'
+    const removableAsset = 'tileset.authored.unused'
+    const removablePath = 'assets/authored/tilesets/unused.rle'
+    const removableRecord = {
+      kind: 'tileset' as const,
+      path: removablePath,
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: tilesetBytes.byteLength,
+      sha256: await sha256Hex(tilesetBytes),
+      origin: { kind: 'authored' as const },
+    }
+    const files: Record<string, string | ArrayBuffer> = {
+      ...fullProject,
+      'content/tilesets.json': J([
+        {
+          id: 'tileset-001',
+          name: '瓦片集 1',
+          category: 'builtin',
+          asset: 'tileset.generated.starter',
+        },
+        {
+          id: removableId,
+          name: '待删瓦片集',
+          category: 'authored',
+          asset: removableAsset,
+        },
+      ]),
+      'assets/index.json': J({
+        version: 1,
+        assets: {
+          'tileset.generated.starter': tilesetRecord,
+          [removableAsset]: removableRecord,
+        },
+      }),
+      'content/maps/map-001.json': J({
+        version: 2,
+        width: 1,
+        height: 1,
+        tilesetId: 'tileset-001',
+        layers: [{ id: 'floor', name: '地板', depthMode: 'flat', tiles: [[0], [null]] }],
+        collision: [[0], [0]],
+      }),
+      [removablePath]: tilesetBytes,
+    }
+    const writes: string[] = []
+    const dir = mockDir(`remove-${failure.label}`, files, writes, {
+      failClose: failure.failClose,
+    })
+    const opened = await openLocalProject(dir)
+    const session = new EditSession(
+      toEditorState(opened.project, opened.scenes, {}, opened.scriptChunks, opened.stamps),
+      { loadMap: (mapId) => opened.project.source.readJson(`content/maps/${mapId}.json`) },
+    )
+    const scan = await scanTilesetReferences({
+      tilesetId: removableId,
+      mapIndex: session.getState().mapIndex,
+      stamps: session.getState().stamps,
+      loadMap: (mapId) => session.ensureMapLoaded(mapId),
+    })
+    session.dispatch(
+      new RemoveTilesetCommand(
+        removableId,
+        TilesetRemovalProof.fromScan(scan, session.getState().mapIndex),
+        tilesetBytes,
+      ),
+    )
+    const nextFiles = serializeProject(session.getState())
+    const removePaths = session.getDeletedAssetPaths()
+
+    await expect(writeProject(dir, nextFiles, { removePaths })).rejects.toThrow(
+      /Injected close failure/,
+    )
+    await expect(openLocalProject(dir)).resolves.toBeDefined()
+    expect(files[removablePath]).toBeDefined()
+
+    writes.length = 0
+    await writeProject(dir, nextFiles, { removePaths })
+    expect(files[removablePath]).toBeUndefined()
+    const reopened = await openLocalProject(dir)
+    expect(reopened.project.tilesets.some(({ id }) => id === removableId)).toBe(false)
+    expect(reopened.project.assetCatalog.assets[removableAsset]).toBeUndefined()
+    expect(writes.indexOf('manifest.json')).toBeLessThan(writes.lastIndexOf('assets/index.json'))
+  })
+
+  test('删除 manifest role 资产时 manifest close 中断保留旧 catalog/字节，重试后再清理', async () => {
+    const assetId = 'sound.role-test'
+    const path = 'assets/authored/sounds/role-test.wav'
+    const bytes = waveBytes(19)
+    const manifest = JSON.parse(String(fullProject['manifest.json'])) as {
+      assets: { roles: Record<string, string> }
+    }
+    manifest.assets.roles['audio.battleItemUseSound'] = assetId
+    const files: Record<string, string | ArrayBuffer> = {
+      ...fullProject,
+      'manifest.json': J(manifest),
+      'assets/index.json': J({
+        version: 1,
+        assets: {
+          'tileset.generated.starter': tilesetRecord,
+          [assetId]: {
+            kind: 'sound',
+            path,
+            mediaType: 'audio/wav',
+            bytes: bytes.byteLength,
+            sha256: await sha256Hex(bytes),
+            origin: { kind: 'authored' },
+          },
+        },
+      }),
+      [path]: bytes,
+    }
+    const dir = mockDir('remove-role-manifest-failure', files, [], {
+      failClose: (candidate, attempt) => candidate === 'manifest.json' && attempt === 1,
+    })
+    const opened = await openLocalProject(dir)
+    const session = new EditSession(toEditorState(opened.project, opened.scenes))
+    session.dispatch(new UpdateManifestAssetRolesCommand({ 'audio.battleItemUseSound': undefined }))
+    session.dispatch(new DeleteAssetCommand(assetId, bytes))
+    const nextFiles = serializeProject(session.getState())
+    const removePaths = session.getDeletedAssetPaths()
+
+    await expect(writeProject(dir, nextFiles, { removePaths })).rejects.toThrow(
+      'Injected close failure manifest.json',
+    )
+    const interrupted = await openLocalProject(dir)
+    expect(interrupted.project.manifest.assets.roles['audio.battleItemUseSound']).toBe(assetId)
+    expect(interrupted.project.assetCatalog.assets[assetId]?.path).toBe(path)
+    expect(files[path]).toBeDefined()
+
+    await writeProject(dir, nextFiles, { removePaths })
+    const reopened = await openLocalProject(dir)
+    expect(reopened.project.manifest.assets.roles['audio.battleItemUseSound']).toBeUndefined()
+    expect(reopened.project.assetCatalog.assets[assetId]).toBeUndefined()
+    expect(files[path]).toBeUndefined()
+  })
+
+  test('多文件删除中断后撤销：同一快照按成功 IO 更新，再保存会恢复已删二进制', async () => {
+    const entries = [
+      { id: 'sound.undo-a', path: 'assets/authored/sounds/undo-a.wav', bytes: waveBytes(21) },
+      { id: 'sound.undo-b', path: 'assets/authored/sounds/undo-b.wav', bytes: waveBytes(22) },
+    ]
+    const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+    const dir = mockDir('remove-undo-snapshot', files, [], {
+      failRemove: (path, attempt) => path === entries[1]!.path && attempt === 1,
+    })
+    const opened = await openLocalProject(dir)
+    const session = new EditSession(toEditorState(opened.project, opened.scenes))
+    for (const entry of entries) {
+      session.dispatch(
+        new UpsertAssetCommand(
+          entry.id,
+          {
+            kind: 'sound',
+            path: entry.path,
+            mediaType: 'audio/wav',
+            bytes: entry.bytes.byteLength,
+            sha256: await sha256Hex(entry.bytes),
+            origin: { kind: 'authored' },
+          },
+          entry.bytes,
+        ),
+      )
+    }
+    const snapshot = await writeProject(dir, serializeProject(session.getState()))
+    session.markSaved()
+
+    for (const entry of entries) session.dispatch(new DeleteAssetCommand(entry.id, entry.bytes))
+    await expect(
+      writeProject(dir, serializeProject(session.getState()), {
+        prevSnapshot: snapshot,
+        removePaths: session.getDeletedAssetPaths(),
+      }),
+    ).rejects.toThrow(`Injected remove failure ${entries[1]!.path}`)
+    expect(snapshot.size).toBeGreaterThan(0)
+    expect(snapshot.has(entries[0]!.path)).toBe(false)
+    expect(snapshot.has(entries[1]!.path)).toBe(true)
+    expect(files[entries[0]!.path]).toBeUndefined()
+    expect(files[entries[1]!.path]).toBeDefined()
+    await expect(openLocalProject(dir)).resolves.toBeDefined()
+
+    expect(session.undo()).toBe(true)
+    expect(session.undo()).toBe(true)
+    await writeProject(dir, serializeProject(session.getState()), {
+      // 故意传同一个 Map：失败路径已按每个成功 IO 将它更新为真实磁盘快照。
+      prevSnapshot: snapshot,
+      removePaths: session.getDeletedAssetPaths(),
+    })
+    const reopened = await openLocalProject(dir)
+    for (const entry of entries) {
+      expect(reopened.project.assetCatalog.assets[entry.id]?.path).toBe(entry.path)
+      expect(new Uint8Array(files[entry.path] as ArrayBuffer)).toEqual(new Uint8Array(entry.bytes))
+    }
+  })
+
+  test('新导入 blob 已 close、catalog close 失败后撤销：恢复快照会清理孤儿', async () => {
+    const assetId = 'sound.interrupted-import'
+    const path = 'assets/authored/sounds/interrupted-import.wav'
+    const bytes = waveBytes(23)
+    const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+    const dir = mockDir('interrupted-import-undo', files, [], {
+      failClose: (candidate, attempt) => candidate === 'assets/index.json' && attempt === 1,
+    })
+    const opened = await openLocalProject(dir)
+    const session = new EditSession(toEditorState(opened.project, opened.scenes))
+    session.dispatch(
+      new UpsertAssetCommand(
+        assetId,
+        {
+          kind: 'sound',
+          path,
+          mediaType: 'audio/wav',
+          bytes: bytes.byteLength,
+          sha256: await sha256Hex(bytes),
+          origin: { kind: 'authored' },
+        },
+        bytes,
+      ),
+    )
+    const recoverySnapshot = new Map<string, string>()
+    await expect(
+      writeProject(dir, serializeProject(session.getState()), {
+        prevSnapshot: recoverySnapshot,
+      }),
+    ).rejects.toThrow('Injected close failure assets/index.json')
+    expect(files[path]).toBeDefined()
+    expect(recoverySnapshot.has(path)).toBe(true)
+
+    expect(session.undo()).toBe(true)
+    await writeProject(dir, serializeProject(session.getState()), {
+      prevSnapshot: recoverySnapshot,
+      removePaths: session.getDeletedAssetPaths(),
+    })
+    expect(files[path]).toBeUndefined()
+    const reopened = await openLocalProject(dir)
+    expect(reopened.project.assetCatalog.assets[assetId]).toBeUndefined()
   })
 
   test('mock FSA：资源替换/删除在保存后撤销，再保存重开仍恢复 catalog 与原字节', async () => {
@@ -825,7 +1422,10 @@ describe('openLocalProject', () => {
     }
     const files: Record<string, string | ArrayBuffer> = {
       ...fullProject,
-      'assets/index.json': J({ version: 1, assets: { [assetId]: oldRecord } }),
+      'assets/index.json': J({
+        version: 1,
+        assets: { 'tileset.generated.starter': tilesetRecord, [assetId]: oldRecord },
+      }),
       [oldPath]: oldBytes,
     }
     const dir = mockDir('asset-save-undo', files)

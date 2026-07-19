@@ -8,7 +8,7 @@ import {
   loadProjectMap,
   loadSprite,
   loadStandardPalette,
-  loadTilesetByPath,
+  loadTileset,
 } from './assets.js'
 import { type FileSource, projectRelativeLegacyAdapter } from './file-source.js'
 
@@ -28,7 +28,6 @@ const paletteCatalog: AssetCatalogV1 = {
 
 const base = (source: FileSource): AssetBase => ({
   root: '/extracted/data',
-  tilesets: 'tileset',
   sprites: 'sprite',
   palettes: 'palette',
   io: source.legacy ?? projectRelativeLegacyAdapter(source),
@@ -109,27 +108,44 @@ describe('assets.ts 经 FileSource 读', () => {
   })
 })
 
-describe('loadTilesetByPath 路径约定(W7B)', () => {
+describe('loadTileset AssetId 唯一链', () => {
   const gz = async (): Promise<ArrayBuffer> => {
-    // 最小合法 gzip(空 chunk):frameCount=0 → parseSpriteChunk []。用浏览器原生 gzip
-    // (compressGzip,与被测模块同源),不引 node zlib/Buffer(reforge 是浏览器包,tsc 无 node 类型)。
-    const out = await compressGzip(new Uint8Array([0, 0]))
+    const out = await compressGzip(new Uint8Array([1, 0, 1, 0, 1, 0, 1, 5]))
     return out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
   }
-  test('assets/ 前缀 = 工程根相对,不拼 root;其余拼 assets root(原版借用)', async () => {
+  test('只按 catalog path 读取并校验 hash', async () => {
     const seen: string[] = []
+    const bytes = await gz()
+    const digest = await crypto.subtle.digest('SHA-256', bytes)
+    const sha256 = [...new Uint8Array(digest)]
+      .map((value) => value.toString(16).padStart(2, '0'))
+      .join('')
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: {
+        tiles: {
+          kind: 'tileset',
+          path: 'assets/migrated/tilesets/020.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: bytes.byteLength,
+          sha256,
+          origin: { kind: 'legacy-migrated' },
+        },
+      },
+    }
     const src: FileSource = {
       readText: async () => '',
       readJson: async <T>() => ({}) as T,
       readBytes: async (rel: string) => {
         seen.push(rel)
-        return gz()
+        return bytes
       },
       urlFor: async (rel: string) => rel,
     }
-    await loadTilesetByPath(base(src), 'assets/tilesets/grass.rle')
-    await loadTilesetByPath(base(src), 'tileset/20.rle')
-    expect(seen).toEqual(['assets/tilesets/grass.rle', '/extracted/data/tileset/20.rle'])
+    const assetBase = base(src)
+    assetBase.assetResolver = new AssetResolver('test', catalog, {}, src)
+    await expect(loadTileset(assetBase, 'tiles')).resolves.toHaveProperty('size', 1)
+    expect(seen).toEqual(['assets/migrated/tilesets/020.rle'])
   })
 })
 

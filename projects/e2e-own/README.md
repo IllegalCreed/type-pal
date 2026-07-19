@@ -2,8 +2,8 @@
 
 模拟「作者从空白工程配好最小内容存盘」的产物:自有 16×16 双层地图(草地棋盘 +
 h=2 occlude 矮墙带门)、自造量化 tileset(4 菱形瓦,原版同构 .rle)、独立碰撞层、
-最小主角(battler 必填,缝隙 #5)。**不含任何原版地图/tileset 依赖**(仅借
-palette/0.json 主色盘与 sprite/2.rle 当占位精灵)。
+最小主角(battler 必填,缝隙 #5)。**不含任何原版地图/tileset 依赖**；工程标准色表由工程自己生成并以
+`color.project-standard` 登记 catalog，目前仅借 `sprite/2.rle` 作为尚未闭包的占位精灵。
 
 跑法:`VITE_PROJECT_ID=e2e-own pnpm --filter @type-pal/reforge exec vite --port 6052 --strictPort`
 验证点:自有瓦渲染 / 行走 / 碰撞(墙+边界)/ 穿门 / h=2 墙前人盖墙、墙后墙盖脚。

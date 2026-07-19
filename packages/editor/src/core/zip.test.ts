@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { collectProjectZipEntries } from './export-zip.js'
+import { sha256Hex } from './binary-signature.js'
+import { collectProjectZipEntries, validateProjectZipEntries } from './export-zip.js'
+import { buildSeedAssets } from './seed-assets.js'
 import { buildZip, crc32 } from './zip.js'
 
 function projectDir(files: Record<string, string>): FileSystemDirectoryHandle {
@@ -158,5 +160,60 @@ describe('zip 打包器(A5 工程导出)', () => {
   test('导出可复现:同内容两次打包字节全等(DOS 时间恒 1980)', async () => {
     const entries = [{ path: 'x.json', data: new TextEncoder().encode('{"v":1}') }]
     expect(await buildZip(entries)).toEqual(await buildZip(entries))
+  })
+
+  test('catalog tileset 必须逐字节闭包，拒绝篡改、裸 RLE 与 extracted 重复副本', async () => {
+    const gzip = new Uint8Array((await buildSeedAssets()).tilesetRle)
+    const enc = new TextEncoder()
+    const entriesFor = async (bytes: Uint8Array) => {
+      const record = {
+        kind: 'tileset',
+        path: 'assets/generated/tilesets/starter.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: bytes.byteLength,
+        sha256: await sha256Hex(bytes),
+        origin: { kind: 'generated' },
+      }
+      return [
+        {
+          path: 'manifest.json',
+          data: enc.encode(
+            JSON.stringify({
+              assets: {
+                catalog: 'assets/index.json',
+                roles: {},
+                legacy: { families: ['sprite'] },
+              },
+            }),
+          ),
+        },
+        {
+          path: 'assets/index.json',
+          data: enc.encode(
+            JSON.stringify({ version: 1, assets: { 'tileset.generated.starter': record } }),
+          ),
+        },
+        { path: record.path, data: bytes },
+      ]
+    }
+
+    const valid = await entriesFor(gzip)
+    await expect(validateProjectZipEntries(valid)).resolves.toBeUndefined()
+
+    const tampered = valid.map((entry) => ({ ...entry, data: new Uint8Array(entry.data) }))
+    tampered[2]!.data[2] = (tampered[2]!.data[2] ?? 0) ^ 0xff
+    await expect(validateProjectZipEntries(tampered)).rejects.toThrow(/bytes\/sha256/)
+
+    const bare = gzip.slice(2)
+    await expect(validateProjectZipEntries(await entriesFor(bare))).rejects.toThrow(
+      /非 canonical gzip/,
+    )
+
+    await expect(
+      validateProjectZipEntries([
+        ...valid,
+        { path: 'assets/extracted/data/tileset/1.rle', data: gzip },
+      ]),
+    ).rejects.toThrow(/已退役/)
   })
 })

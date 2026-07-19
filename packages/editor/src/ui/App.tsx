@@ -90,6 +90,7 @@ import {
   normalizeEditorLocation,
   sameEditorLocation,
 } from './editor-navigation.js'
+import { editorObjectTargetMissing } from './editor-target.js'
 import { MapMode } from './MapMode.js'
 import { ModuleNav, ModuleSubnav } from './ModuleNav.js'
 import { MusicPicker } from './MusicPicker.js'
@@ -357,6 +358,8 @@ export function App(props: {
     interact: DEFAULT_ZONE_RANGE.interact,
   })
   const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
+  /** 首存中断时尚未升级为工程句柄；保留尝试目录，重选同一目录时才能续用实际磁盘恢复快照。 */
+  const saveAttemptDirRef = useRef<FileSystemDirectoryHandle | null>(props.initialDir ?? null)
   // 上次落盘快照(rel → 内容字符串):增量保存只写变化文件(P3)。首存后建立。
   const snapshotRef = useRef<Map<string, string> | null>(null)
   const [saveErr, setSaveErr] = useState('')
@@ -565,55 +568,20 @@ export function App(props: {
     applyEditorLocation({ ...current, ...(objectId ? { objectId } : {}) }, 'replace')
   }
   const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
-  const objectTargetMissing = (() => {
-    if (!location.objectId || !activeSubpage.acceptsObject) return false
-    if (activeSubpage.kind === 'scene') {
-      return !state.scenes.some((candidate) => candidate.id === location.objectId)
+  const objectTargetMissing = editorObjectTargetMissing(state, location)
+
+  const reconcileLocationAfterHistory = useCallback((): void => {
+    const current = locationRef.current
+    if (editorObjectTargetMissing(session.getState(), current)) {
+      applyEditorLocation({ module: current.module, subpage: current.subpage }, 'replace')
     }
-    if (activeSubpage.kind === 'map')
-      return !state.mapIndex.maps.some((candidate) => candidate.id === location.objectId)
-    if (activeSubpage.kind === 'actor') {
-      return !state.actors.some((candidate) => candidate.id === location.objectId)
-    }
-    if (activeSubpage.dataPage === 'sprite') {
-      return !state.sprites.some((candidate) => candidate.id === location.objectId)
-    }
-    if (activeSubpage.dataPage === 'music') {
-      return state.assetCatalog.assets[location.objectId]?.kind !== 'music'
-    }
-    if (activeSubpage.dataPage === 'sound') {
-      return state.assetCatalog.assets[location.objectId]?.kind !== 'sound'
-    }
-    if (activeSubpage.dataPage === 'image') {
-      const kind = state.assetCatalog.assets[location.objectId]?.kind
-      return (
-        kind !== 'portrait' &&
-        kind !== 'face' &&
-        kind !== 'item-icon' &&
-        kind !== 'battle-background'
-      )
-    }
-    if (activeSubpage.dataPage === 'cutscene') {
-      const kind = state.assetCatalog.assets[location.objectId]?.kind
-      return kind !== 'video' && kind !== 'frame-animation'
-    }
-    if (activeSubpage.dataPage === 'stamp') {
-      return !state.stamps.some((candidate) => candidate.id === location.objectId)
-    }
-    if (activeSubpage.dataPage === 'tileset') {
-      return !(state.tilesets ?? []).some((candidate) => candidate.id === location.objectId)
-    }
-    if (activeSubpage.dataPage === 'scripts') {
-      return !state.scriptIndex?.library?.[location.objectId]
-    }
-    if (activeSubpage.kind === 'project' && activeSubpage.projectPage === 'entrypoint') {
-      const entries = state.manifest.entryPoints ?? [
-        { id: 'new-game', label: '开始游戏', scene: state.manifest.entryScene },
-      ]
-      return !entries.some((entry) => entry.id === location.objectId)
-    }
-    return false
-  })()
+  }, [applyEditorLocation, session])
+  const undo = useCallback((): void => {
+    if (session.undo()) reconcileLocationAfterHistory()
+  }, [reconcileLocationAfterHistory, session])
+  const redo = useCallback((): void => {
+    if (session.redo()) reconcileLocationAfterHistory()
+  }, [reconcileLocationAfterHistory, session])
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
@@ -654,13 +622,13 @@ export function App(props: {
       // undo/redo 快捷键(⌘/Ctrl+Z,+Shift=redo;输入框内不劫持)
       if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z') && !typing) {
         e.preventDefault()
-        if (e.shiftKey) session.redo()
-        else session.undo()
+        if (e.shiftKey) redo()
+        else undo()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [session, scene, selEntity, activeSubpage.kind])
+  }, [session, scene, selEntity, activeSubpage.kind, redo, undo])
 
   if (!scene && activeSubpage.kind !== 'project') {
     return (
@@ -734,8 +702,12 @@ export function App(props: {
       if (!dir) {
         dir = await pickDir()
         if (!dir) return
-        dirHandleRef.current = dir
-        snapshotRef.current = null // 新目录 → 快照作废,首存全写
+        const previousAttempt = saveAttemptDirRef.current
+        const resumesInterruptedAttempt = previousAttempt
+          ? await dir.isSameEntry(previousAttempt)
+          : false
+        if (!resumesInterruptedAttempt) snapshotRef.current = null
+        saveAttemptDirRef.current = dir
         rememberDirectory = true
       }
       const savedState = session.getState()
@@ -744,11 +716,19 @@ export function App(props: {
       setSaveActivity({ phase: 'preparing' })
       // 先让原生 modal 进入 top layer，再开始可能较重的全工程序列化。
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      const files = await serializeProjectWithMapCopies(savedState, project.source)
+      const files = await serializeProjectWithMapCopies(savedState, project.source, {
+        // HTTP 工程第一次选择本地目录时没有可复制的源目录，必须从 FileSource
+        // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
+        includeAssetCopies: rememberDirectory,
+      })
       let lastPercent = -1
       setSaveActivity({ phase: 'writing', completed: 0, total: 0 })
+      // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
+      // 中断后该 Map 留在 ref 中，下次保存/撤销才能清理已写但未发布的新 blob。
+      const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
+      snapshotRef.current = recoverySnapshot
       snapshotRef.current = await writeProject(dir, files, {
-        ...(snapshotRef.current ? { prevSnapshot: snapshotRef.current } : {}),
+        prevSnapshot: recoverySnapshot,
         removePaths,
         onProgress: ({ completed, total }) => {
           const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
@@ -760,12 +740,17 @@ export function App(props: {
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
       if (session.getState() === savedState) session.markSaved()
       if (rememberDirectory) {
+        // 只有完整 writeProject 成功后才把目录升级为后续增量保存目标。若素材 fetch /
+        // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包工程。
+        dirHandleRef.current = dir
+        saveAttemptDirRef.current = dir
         void saveHandle(savedState.manifest.id, dir.name, dir).catch((error: unknown) =>
           console.warn('[project] 工程已保存，但最近工程句柄登记失败', error),
         )
       }
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return // 用户取消选择器
+      // writeProject 已原地更新恢复快照；保留它供下次恢复/清理。
       setSaveErr(e instanceof Error ? e.message : String(e))
     } finally {
       saveInFlightRef.current = false
@@ -793,10 +778,14 @@ export function App(props: {
     try {
       const savedState = session.getState()
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
+      const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
-        () => serializeProjectWithMapCopies(savedState, project.source),
-        dirHandleRef.current ?? undefined,
+        () =>
+          serializeProjectWithMapCopies(savedState, project.source, {
+            includeAssetCopies: !sourceDir,
+          }),
+        sourceDir,
         removePaths,
       )
       const opened = await operation
@@ -904,7 +893,7 @@ export function App(props: {
           type="button"
           className="tbtn"
           disabled={!session.canUndo()}
-          onClick={() => session.undo()}
+          onClick={undo}
           title="撤销"
         >
           ↺ 撤销
@@ -913,7 +902,7 @@ export function App(props: {
           type="button"
           className="tbtn"
           disabled={!session.canRedo()}
-          onClick={() => session.redo()}
+          onClick={redo}
           title="重做"
         >
           ↻ 重做
@@ -957,6 +946,8 @@ export function App(props: {
             scenes={state.scenes}
             session={session}
             assetBase={project.assetBase}
+            assetCatalog={state.assetCatalog}
+            assetReader={assetReader}
             projectMaps={state.maps}
             mapIndex={state.mapIndex}
             selectedMapId={defaultMapId}
@@ -971,7 +962,6 @@ export function App(props: {
               applyEditorLocation(editorLinks.scene(id))
             }}
             tilesets={state.tilesets ?? []}
-            tilesetBlobs={state.tilesetBlobs}
             stamps={state.stamps}
             onOpenStampLibrary={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onStampSelectionChange={captureStampSelection}
@@ -1315,6 +1305,8 @@ export function App(props: {
                   actorsById={actorsById}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
+                  assetCatalog={state.assetCatalog}
+                  assetReader={assetReader}
                   projectMaps={state.maps}
                   mapIndex={state.mapIndex}
                   tilesets={state.tilesets ?? []}

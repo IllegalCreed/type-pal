@@ -1,6 +1,6 @@
 # A7-3T - 瓦片集索引资源闭包
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / A4
 Coding Owner: Codex
@@ -95,9 +95,9 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
   - `data/extracted/data/tileset/*.rle` 为 223 个 gzip 文件，源字节合计 6,501,041 B，严格有效帧
     合计 67,715。每个 PAL GOP 容器有且仅有一个末尾 `0` offset sentinel；作者编码器无 sentinel 的
     容器也合法。
-  - build 前 PAL catalog 为 848 records / 0 tileset；review 产物为 1,071 records /
+  - build 前 PAL catalog 为 848 records / 0 tileset；done 产物为 1,071 records /
     223 tileset records，定义、record 和 map refs 均为 223。
-  - build 前 PAL 工程目录没有 tileset `.rle`，HTTP 完全依赖 extracted；review 产物已物化
+  - build 前 PAL 工程目录没有 tileset `.rle`，HTTP 完全依赖 extracted；done 产物已物化
     `projects/pal/assets/migrated/tilesets/*.rle` 223 个（受保护字节按仓库策略不纳入提交）。
   - demo/e2e-own/blank 原有 tileset 与标准颜色表 legacy fixture。本轮分别登记 tileset 和
     `color.project-standard`，绑定 `visual.standardColorTable`；demo 使用 migrated 来源，
@@ -254,7 +254,14 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 ### 进入 done 前:审查签字
 
 - Codex: **accept（2026-07-19）**。实现与自验证证据见 Build、视觉验证记录；任务仅推进到 review。
-- Kimi: pending
+- Kimi: **accept（2026-07-19）**。架构/代码/视觉独立复审,无 P0/P1 阻塞;一处 A7-2 既有测试失败已精确定位为**非本卡**问题(见末尾非阻塞记录)。证据:
+  1. **catalog-only 链**:`TilesetDef {id,name,category,asset}`(tileset.ts:8-16),`path`/`tiles` 退役 fail,catalog 交叉校验存在性与 kind(:42-47);walker 新增 `source.tilesets` 槽按 expectedKind 收集(asset.ts);PAL 产物抽点:223 defs 全 `asset`/0 `path`,223 records,首/中/末 3 条 def→record→文件 bytes/sha256/gzip 魔数全对,manifest legacy families 仅剩 sprite/battle-sprite/effect-sprite/image。
+  2. **strict RLE**:`parseSpriteChunkStrict`(shared/rle.ts:126-183)拒绝空帧/坏 offset/中间空洞/零长指令/截断,仅接受 PAL 单末尾 sentinel 与作者无 sentinel 容器,未引用保留字节不参与语义(迁移逐字节保留)。
+  3. **共享引用/缩帧**:`tileset-references.ts` fail-closed 全扫 map+stamp 的 maxTileId,缩帧替换越界即阻断并列可跳转引用者(:192-198),共享影响范围/AssetId 一致性/过期扫描三重守卫(:203-236)。
+  4. **保存事务**:`binarySnapshotSignature`=`bin:<bytes>:<sha256>`(binary-signature.ts,G2/R1 落地);两阶段提交:二进制→union catalog→内容→manifest(最后引用表)→final catalog 收缩+物理删除,后段失败只留安全超集;`prevSnapshot` 兼作落盘日志,未触及旧条目保留、成功 close/remove 逐条更新,中断即真实磁盘快照;磁盘与快照偏差时强制重写 catalog+内容(首存中断恢复);preflight 校验 pending bytes 的 hash 与 gzip 魔数。
+  5. **clone/ZIP 字节一致**:clone 对 catalog 资源逐字节复制并校验 bytes/sha256,tileset 必须是 canonical gzip;旧解压 workaround 已收窄到未闭环 legacy lane(clone.ts),G1 按裁定 (b) 落地。
+  6. **视觉**:editor 瓦片库 223/223、tileset-001 预览 452 帧真实索引渲染、删除需先检查引用;reforge s001 场景完整(瓦片/精灵/立绘),瓦片经 `projects/pal/assets/migrated/tilesets/012.rle` 加载;全程 console error 0、无 /baked、无根 /ui。
+  7. **独立复跑**:`pnpm --filter @type-pal/migrate test` 222 passed / **1 failed**——`engine-chrome-assets.test.ts:48` OFL-1.1.txt 期望 `869…` 实得 `ddd180…`。**非本卡**:该文件与测试同出自 A7-2 提交 `58c3150f`(git show 实证提交内容即 ddd180,与冻结期望不一致),A7-3T 全部 diff 不触碰 engine-chrome;按卡内验收条款精确记录,建议作为 P2 跟进(修正冻结 hash 或恢复正确 OFL 文本)单独收口,不阻塞本卡 done。根 `pnpm check` 其余包全绿(content 241/shared 115/reforge 431/editor 462/migrate 定向 19)。
 - GLM: **accept（2026-07-19;见下）**。独立复算全部产物数字 + 逐文件 SHA 验证 + 代码逻辑审查。
 
   **产物独立复算** ✅：
@@ -281,7 +288,12 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 
 - counter / 返工处理: N/A（migrate 1 fail 是 A7-2 engine-chrome scope 非本卡）
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
+- done 准入结论: **allowed 并已完成（2026-07-19）**。Codex/Kimi/GLM 三方 `accept`，用户按
+  `223/223`、代表瓦片预览、catalog 工程路径、缺号集合、引用阻断及 Reforge `s066`/Network 路径完成
+  手工验收并确认“都没问题”；Status 已转 `done`。遗留一项**非本卡** P2 跟进:A7-2 提交 `58c3150f`
+  引入的 `engine-chrome-assets.test.ts` OFL 冻结 hash 与 vendored 文件不一致(869… vs ddd180…)，与
+  A7-3T 无关，须单独收口修正(更新冻结 hash 或恢复正确 OFL 文本)，期间
+  `pnpm --filter @type-pal/migrate test` 保持 1 failed。
 
 ## Draft: 设计与风险
 
@@ -479,18 +491,21 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 - 截图 / 像素检查路径: 临时截图由 Codex 用本地 image viewer 检查后已删除，不把测试图片留在仓库。
 - 结论: Codex 视觉检查通过；PAL/demo/e2e 预览和 Reforge 画面均从 catalog 工程文件加载，未见黑图、旧像素
   或 legacy 请求；新导入和撤销交互闭环。
-- 未完成项: Kimi 的独立视觉复验与真实 FSA 目录句柄抽验尚未签字；三方 accept 前保持 review。
+- 未完成项: 无；Codex/Kimi 视觉复验与用户手工验收均通过。真实 FSA 失败事务由自动化矩阵覆盖。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自验证 accept；等待 Kimi/GLM 独立审查。
-- 必须返工项: pending
-- Accept / rework: review
+- 审查结论: Codex 自验证 accept;GLM accept(数据/迁移/测试独立复算);Kimi accept(架构/代码/视觉,
+  catalog 链/strict RLE/缩帧守卫/保存两阶段/clone 字节/双端视觉全过)。三签齐,无返工项。
+  非本卡遗留:A7-2 `58c3150f` 的 OFL 冻结 hash 失败,转 P2 跟进小项单独收口(不阻塞本卡)。
+- 必须返工项: 无。
+- Accept / rework: **done（三方 accept + 用户验收，2026-07-19）**。
 
 ## 用户验收
 
-- 用户结论: 2026-07-19 同意开始 draft；尚未验收实现。
+- 用户结论: **accept（2026-07-19）**。按编辑器 223/223、代表瓦片预览与工程内路径、真实缺号、引用检查，
+  以及 Reforge `s066` 与 Network 无 extracted tileset 请求完成手工验收，明确反馈“都没问题”。
 - 后续任务: A7-3W world sprite -> A7-3B battle sprite -> A7-3E effect sprite -> A7-4 总门禁。
 
 ## 交接日志
@@ -521,11 +536,26 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 - 2026-07-19 Codex: 保存事务最终只读复核无阻断、无新增 P0/P1/P2；同目录首存重试保留恢复快照，换目录
   才重置；快照保留未触及磁盘条目并逐个记录成功 close/remove。定向 73 tests、editor 全量 57 files /
   462 tests、typecheck、build、Biome 767 files 与 `git diff --check` 均通过。Next 仍为 Kimi/GLM 独立验收。
+- 2026-07-19 Kimi: 架构/代码/视觉 done 复审签 **accept**,三签齐。逐项核实:catalog-only 链(223 defs
+  全 asset/0 path、抽点 def→record→文件 bytes/sha/gzip 全对、legacy families 退 tileset)、
+  `parseSpriteChunkStrict` 严格容器语义、缩帧 fail-closed 三重守卫、`bin:<bytes>:<sha256>` 与
+  二进制→union catalog→内容→manifest→final catalog→删除的两阶段提交、prevSnapshot 落盘日志与
+  首存中断恢复、clone 逐字节+hash 校验+canonical gzip(旧解压收窄到 legacy lane);editor 瓦片库
+  223/223 真实索引预览、reforge s001 全场景渲染、console 0 error。独立复跑发现
+  `engine-chrome-assets.test.ts` OFL 冻结 hash 失败(869… vs ddd180…),经 git show 实证源自 A7-2
+  提交 `58c3150f`、与本卡无关,按验收条款精确记录为**非本卡 P2 跟进**(修冻结 hash 或恢复 OFL 文本),
+  不阻塞本卡 done。Evidence:done 准入 Kimi 行+上述实测。Next:无下一位审查 Agent;待用户验收后
+  由收口方标 done,OFL 跟进项由用户安排。未改实现文件。
 - 2026-07-19 GLM: 数据/迁移/测试/文档终审签 **accept**。独立复算：catalog 1,071/223 tileset records/6,501,041B（mapNum 1..225 缺 [168,171]）；全 223 文件 SHA256+bytes 逐项零 mismatch（全量非抽样）；223 TilesetDef 全有 asset 零 path；223 map refs 全有效零悬空；MG2 writes=0/deletes=0/conflicts=0 tilesets=223 bytes=6501041 frames=67715。代码逻辑审查：TilesetDef {id,name,category,asset} 无 path + validateTilesets 拒绝 path 要求非空 asset + catalog 交叉校验 kind=tileset；palTilesetAssetId→tileset.pal.NNN；loadTilesetByPath/legacy.tilesets 全仓零命中。tileset 退出 legacy families（保留 4）；capability-map A7/R7 未提前 done。测试 content 241/reforge 431/editor 462 全 pass；migrate 222 pass + 1 fail(engine-chrome OFL hash=A7-2 scope) + 1 skip。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-19 User + Codex: 用户按产品验收清单检查编辑器与 Reforge，反馈“都没问题”。Codex 核对三方
+  done 签字已齐，将任务卡转 `done` 并从进行中看板移除；A7 总体仍保留四个 legacy family 与 A7-4
+  总门禁，不提前标完成。Next: 无下一位 Agent；等待用户安排 A7-3W 或先收口 A7-2 OFL P2。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（架构、代码与视觉主审）
+无下一位 Agent 提示词；A7-3T 已完成三方审查和用户验收。以下内容是 review 阶段已经执行完毕的历史交接提示词，仅保留审计记录。
+
+### 历史：给 Kimi（架构、代码与视觉主审）
 
 ```text
 请审查 /Users/zhangxu/illegal/type-pal 的 A7-3T 实现。任务卡：
@@ -549,7 +579,7 @@ docs/phase2/foundation/a7-resource-closure-audit.md 和本任务卡（含 build 
 file:line、复现命令、影响与最小返工项。同步更新 Review 区。三方 accept 未齐不得标 done。
 ```
 
-### 给 GLM（数据、迁移、测试与文档审查）
+### 历史：给 GLM（数据、迁移、测试与文档审查）
 
 ```text
 请独立审查 /Users/zhangxu/illegal/type-pal 的 A7-3T 数据与迁移闭包。任务卡：

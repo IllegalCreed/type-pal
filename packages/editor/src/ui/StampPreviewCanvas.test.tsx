@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import type { StampTemplateV1 } from '@type-pal/content'
+import { loadTilesetAsset } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -19,7 +20,7 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
       colors: Array.from({ length: 256 }, () => [0, 0, 0]),
       cycles: [],
     })),
-    loadTilesetByPath: vi.fn(async () => new Map([[0, frame]])),
+    loadTilesetAsset: vi.fn(async () => new Map([[0, frame]])),
     bakeFrame: vi.fn(() => document.createElement('canvas')),
   }
 })
@@ -38,6 +39,7 @@ let host: HTMLDivElement
 let root: ReturnType<typeof createRoot>
 
 beforeEach(() => {
+  vi.clearAllMocks()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -73,8 +75,21 @@ describe('StampPreviewCanvas', () => {
       root.render(
         <StampPreviewCanvas
           template={template}
-          tilesets={[{ id: 'tiles-a', name: 'A', category: 'test', path: 'tiles/a.rle' }]}
-          tilesetBlobs={{}}
+          tilesets={[{ id: 'tiles-a', name: 'A', category: 'test', asset: 'tileset.a' }]}
+          assetCatalog={{
+            version: 1,
+            assets: {
+              'tileset.a': {
+                kind: 'tileset',
+                path: 'assets/authored/tilesets/a.rle',
+                mediaType: 'application/vnd.type-pal.rle',
+                bytes: 1,
+                sha256: 'a'.repeat(64),
+                origin: { kind: 'authored' },
+              },
+            },
+          }}
+          assetReader={{} as never}
           assetBase={{} as never}
         />,
       )
@@ -96,5 +111,40 @@ describe('StampPreviewCanvas', () => {
     await act(async () => layer.click())
     expect(layer.getAttribute('aria-pressed')).toBe('false')
     expect(host.textContent).toContain('0 个可见成员')
+  })
+
+  test('同 AssetId/path 但 record sha 改变时重新载入图章预览帧', async () => {
+    const assetReader = {} as never
+    const assetBase = {} as never
+    const render = async (sha256: string): Promise<void> => {
+      await act(async () => {
+        root.render(
+          <StampPreviewCanvas
+            template={template}
+            tilesets={[{ id: 'tiles-a', name: 'A', category: 'test', asset: 'tileset.a' }]}
+            assetCatalog={{
+              version: 1,
+              assets: {
+                'tileset.a': {
+                  kind: 'tileset',
+                  path: 'assets/authored/tilesets/a.rle',
+                  mediaType: 'application/vnd.type-pal.rle',
+                  bytes: 1,
+                  sha256,
+                  origin: { kind: 'authored' },
+                },
+              },
+            }}
+            assetReader={assetReader}
+            assetBase={assetBase}
+          />,
+        )
+        await Promise.resolve()
+      })
+    }
+    await render('a'.repeat(64))
+    expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(1)
+    await render('b'.repeat(64))
+    expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(2)
   })
 })

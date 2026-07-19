@@ -117,6 +117,10 @@ function reportGeneration(theirs: MigrationFileSet): void {
       `frame-animations=${theirs.report.assets.frameAnimations} frames=${theirs.report.assets.frames} ` +
       `legacy-palette-map=${JSON.stringify(theirs.report.assets.legacyPaletteByFrameAnimation)}`,
   )
+  console.log(
+    `[瓦片集资源] tilesets=${theirs.report.assets.tilesets} ` +
+      `bytes=${theirs.report.assets.tilesetBytes} frames=${theirs.report.assets.tilesetFrames}`,
+  )
 }
 
 function reportPlan(
@@ -232,9 +236,11 @@ async function commitAndVerify(args: {
   validateManifestAssetConfigV3(manifestAfter.assets, catalog, '写盘后 manifest.assets')
   if (
     manifestAfter.assets.legacy?.families.includes('sound') ||
-    manifestAfter.assets.legacy?.sounds !== undefined
+    manifestAfter.assets.legacy?.sounds !== undefined ||
+    manifestAfter.assets.legacy?.families.includes('tileset') ||
+    manifestAfter.assets.legacy?.tilesets !== undefined
   )
-    throw new Error('写盘后 manifest 仍含 legacy sound')
+    throw new Error('写盘后 manifest 仍含已闭环的 legacy sound/tileset')
   const baselineAfter = loadPalBaseline(repo)
   if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
   sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')

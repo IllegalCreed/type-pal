@@ -1,7 +1,8 @@
-import type { MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   DeleteStampTemplateCommand,
   DuplicateStampTemplateCommand,
@@ -26,7 +27,8 @@ const STAMP_PAGE_SIZE = 100
 export function StampLibraryTab(props: {
   stamps: readonly StampTemplateV1[]
   tilesets: readonly TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   assetBase: AssetBase
   session: EditSession
   mapIndex: MapIndexV1
@@ -41,7 +43,8 @@ export function StampLibraryTab(props: {
   const {
     stamps,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     assetBase,
     session,
     mapIndex,
@@ -404,7 +407,8 @@ export function StampLibraryTab(props: {
                 <StampMiniPreview
                   template={template}
                   tilesets={tilesets}
-                  tilesetBlobs={tilesetBlobs}
+                  assetCatalog={assetCatalog}
+                  assetReader={assetReader}
                   assetBase={assetBase}
                 />
               </span>
@@ -459,7 +463,8 @@ export function StampLibraryTab(props: {
             <StampPreviewCanvas
               template={selected}
               tilesets={tilesets}
-              tilesetBlobs={tilesetBlobs}
+              assetCatalog={assetCatalog}
+              assetReader={assetReader}
               assetBase={assetBase}
             />
             <section className="stamp-composition-card">

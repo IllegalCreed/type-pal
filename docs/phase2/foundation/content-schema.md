@@ -320,12 +320,18 @@ content/
 - 多层地图的角色跨层行走 → P1 引擎。
 - 演出 action 词汇表的完整清单 → P1 / P2。
 
-## tileset 注册表(W7B,2026-07-10 落地)
+## tileset 注册表（W7B；A7-3T done，2026-07-19）
 
-`manifest.content.tilesets` → `content/tilesets.json`:数组,条目 `{id, name, category, path}`。
-- `id` 稳定身份(不含 `/`);`path` = 资产相对路径(`.rle` = gzip GOP 索引帧组,与原版 tileset 同构)。
-- 上传管线:PNG → 网格切片 → **量化贴盘 0**(D25 第 4 条;最近邻,alpha<128 透明)→
+`manifest.content.tilesets` → `content/tilesets.json`:数组,条目精确为
+`{id, name, category, asset}`。
+- `id` 是地图/组合模板引用的稳定语义身份(不含 `/`)；`asset` 是不透明 AssetId，必须指向 catalog 中
+  `kind=tileset` 的记录。物理路径只允许出现在该 AssetRecord，禁止从任一 id 或原版编号推导。
+- 唯一加载链为 `ProjectMap.tilesetId -> TilesetDef.id -> TilesetDef.asset -> AssetRecord.path ->
+  AssetResolver -> FileSource`；canonical 文件是 gzip 包裹的 GOP 索引帧组，bytes/SHA 描述保存的 gzip 字节。
+- `path` 只允许在旧 contentVersion 3 本地工程的一次性升级输入中出现；canonical content、运行时和编辑器
+  工作态均拒绝 `path | asset` 双轨。
+- 上传管线:PNG → 网格切片 → **量化到工程标准色彩**(D25 第 4 条;最近邻,alpha<128 透明)→
   `encodeSpriteChunk` + gzip 落盘 —— 存索引 1B/px,不烘 RGBA(D25 第 2 条),渲染与
-  原版同一条「索引帧 + 盘 0 → bake」单路。
+  原版同一条「索引帧 + 标准色彩 → bake」单路。tileset 不保存 `paletteId`，编辑器不暴露颜色表选择器。
 - `ProjectMapV2.tilesetId` 必须引用注册表稳定 id，不允许路径直通。
 - tileset 只描述图像资源，不拥有地图放置实例的高度；禁止恢复 `tileId -> height` 映射。

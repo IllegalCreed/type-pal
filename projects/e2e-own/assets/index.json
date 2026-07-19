@@ -1,4 +1,23 @@
 {
   "version": 1,
-  "assets": {}
+  "assets": {
+    "color.project-standard": {
+      "kind": "color-table",
+      "path": "assets/generated/colors/project-standard.json",
+      "mediaType": "application/json",
+      "bytes": 22117,
+      "sha256": "c07d1ae9d6dede23379aeda7cfc04ee37663abb7b8cb9069a6e3d00d9f6cfca9",
+      "label": "工程标准色彩",
+      "origin": { "kind": "generated" }
+    },
+    "tileset.generated.e2e-kit": {
+      "kind": "tileset",
+      "path": "assets/generated/tilesets/e2e-kit.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "bytes": 257,
+      "sha256": "3f6135c8deced3f8c4f41b66f68ddea7cb8db74e721e8f63fbe61cac26d851eb",
+      "label": "烟测套件",
+      "origin": { "kind": "generated" }
+    }
+  }
 }

@@ -39,14 +39,12 @@
     },
     "legacy": {
       "families": [
-        "tileset",
         "sprite",
         "battle-sprite",
         "effect-sprite",
         "image"
       ],
       "root": "/extracted/data",
-      "tilesets": "tileset",
       "sprites": "sprite",
       "palettes": "palette"
     }

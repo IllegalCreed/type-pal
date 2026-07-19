@@ -46,7 +46,7 @@ test('干净 bundle → 无 issue', () => {
 })
 test('图章模板 tilesetId 悬空 → 报 error(W7G)', () => {
   const b = clone(base)
-  b.tilesets = [{ id: 'known', name: '已知', category: 'test', path: 'known.rle' }]
+  b.tilesets = [{ id: 'known', name: '已知', category: 'test', asset: 'tileset.known' }]
   b.stamps = [
     {
       id: 'tree',

@@ -21,7 +21,10 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
   // dev + preview 同款中间件(见 reforge/vite.config.ts;⚠ 去前导斜杠 bug 已修,照抄)。
   const mw = (
     req: { url?: string },
-    res: NodeJS.WritableStream & { setHeader?: (k: string, v: string) => void },
+    res: NodeJS.WritableStream & {
+      setHeader?: (k: string, v: string) => void
+      removeHeader?: (k: string) => void
+    },
     next: () => void,
   ): void => {
     const url = req.url ?? ''
@@ -52,6 +55,16 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
     } catch {
       next()
       return
+    }
+    // canonical .rle 的 gzip 是文件内容，不是 HTTP Content-Encoding；代理也不得 transform。
+    res.setHeader?.('Cache-Control', 'no-cache, no-transform')
+    res.removeHeader?.('Content-Encoding')
+    if (file.endsWith('.rle')) {
+      res.setHeader?.('Content-Type', 'application/vnd.type-pal.rle')
+      res.setHeader?.('X-Content-Type-Options', 'nosniff')
+    } else if (file.endsWith('.gz')) {
+      res.setHeader?.('Content-Type', 'application/gzip')
+      res.setHeader?.('X-Content-Type-Options', 'nosniff')
     }
     // .js 必须带 JS MIME:audioWorklet.addModule 严格校验 Content-Type(fetch 不挑,worklet 挑)
     if (file.endsWith('.js') || file.endsWith('.mjs'))

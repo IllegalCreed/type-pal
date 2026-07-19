@@ -36,9 +36,8 @@ function baseState(): EditorState {
         catalog: 'assets/index.json',
         roles: {},
         legacy: {
-          families: ['tileset', 'sprite', 'color-table'],
+          families: ['sprite', 'color-table'],
           root: 'assets',
-          tilesets: 'tilesets',
           sprites: 'sprites',
           palettes: 'palettes',
         },

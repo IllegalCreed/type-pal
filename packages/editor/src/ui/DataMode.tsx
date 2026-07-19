@@ -247,7 +247,8 @@ export function DataMode(props: {
     return (
       <TilesetTab
         tilesets={tilesets}
-        tilesetBlobs={tilesetBlobs}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
         assetBase={assetBase}
         session={session}
         mapIndex={mapIndex}
@@ -265,7 +266,8 @@ export function DataMode(props: {
       <StampLibraryTab
         stamps={stamps}
         tilesets={tilesets}
-        tilesetBlobs={tilesetBlobs}
+        assetCatalog={assetCatalog}
+        assetReader={assetReader}
         assetBase={assetBase}
         session={session}
         mapIndex={mapIndex}

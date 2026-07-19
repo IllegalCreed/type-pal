@@ -10,14 +10,20 @@ import {
   withProjectMapStampPlacements,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import { DeleteMapAssetCommand } from './commands.js'
 import { createPlacedEntity } from './entity-placement.js'
 import {
   diffFiles,
+  preflightProjectWriteSet,
   serializeProject,
   serializeProjectWithMapCopies,
   toEditorState,
+  writeProject,
 } from './project-io.js'
+import { buildSeedAssets } from './seed-assets.js'
+
+const canonicalTilesetBytes = (await buildSeedAssets()).tilesetRle
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
@@ -44,9 +50,8 @@ const manifest: LoadedManifest = {
     catalog: 'assets/index.json',
     roles: {},
     legacy: {
-      families: ['tileset', 'sprite', 'color-table'],
+      families: ['sprite', 'color-table'],
       root: 'assets',
-      tilesets: 'tilesets',
       sprites: 'sprites',
       palettes: 'palettes',
     },
@@ -162,12 +167,20 @@ const tilesetsJson = [
     id: 'tileset-056',
     name: '瓦片集 56',
     category: 'builtin',
-    path: 'tileset/56.rle',
+    asset: 'tileset.pal.056',
   },
 ]
 const assetCatalogJson = {
   version: 1 as const,
   assets: {
+    'tileset.pal.056': {
+      kind: 'tileset' as const,
+      path: 'assets/migrated/tilesets/056.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 1,
+      sha256: '1'.repeat(64),
+      origin: { kind: 'legacy-migrated' as const, ref: 'tileset/56.rle' },
+    },
     'sound.pal.001': {
       kind: 'sound' as const,
       path: 'assets/migrated/sounds/001.wav',
@@ -375,6 +388,92 @@ test('未加载 v3 地图保存时按原文本 copy-through，authoring 不解�
 
   expect(reads).toEqual(['content/maps/map-056.json'])
   expect(files['content/maps/map-056.json']).toBe(raw)
+})
+
+test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash 不符 fail-loud', async () => {
+  const sourceTile = canonicalTilesetBytes.slice(0)
+  const pendingSound = new Uint8Array([1, 2, 3]).buffer
+  const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  const tileRecord = {
+    ...assetCatalogJson.assets['tileset.pal.056'],
+    bytes: sourceTile.byteLength,
+    sha256: await sha256Hex(sourceTile),
+  }
+  const soundRecord = {
+    kind: 'sound' as const,
+    path: 'assets/authored/sounds/pending.wav',
+    mediaType: 'audio/wav',
+    bytes: pendingSound.byteLength,
+    sha256: await sha256Hex(pendingSound),
+    origin: { kind: 'authored' as const },
+  }
+  const reads: string[] = []
+  const source = {
+    readText: async () => '{}',
+    readJson: async <T>() => ({}) as T,
+    readBytes: async (path: string) => {
+      reads.push(path)
+      return sourceTile
+    },
+    urlFor: async (path: string) => path,
+  }
+  const files = await serializeProjectWithMapCopies(
+    {
+      ...state,
+      assetCatalog: {
+        version: 1,
+        assets: { 'tileset.pal.056': tileRecord, 'sound.pending': soundRecord },
+      },
+      assetBlobs: { [soundRecord.path]: pendingSound },
+    },
+    source,
+    { includeAssetCopies: true },
+  )
+
+  expect(reads).toEqual([tileRecord.path])
+  expect(files[tileRecord.path]).toBe(sourceTile)
+  expect(files[soundRecord.path]).toBe(pendingSound)
+  await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
+
+  const corrupted = await serializeProjectWithMapCopies(
+    {
+      ...state,
+      assetCatalog: { version: 1, assets: { 'tileset.pal.056': tileRecord } },
+    },
+    { ...source, readBytes: async () => new Uint8Array([7, 8, 9]).buffer },
+    { includeAssetCopies: true },
+  )
+  await expect(preflightProjectWriteSet(corrupted)).rejects.toThrow(/catalog 不符/)
+})
+
+test.each([
+  {
+    label: '裸 RLE',
+    bytes: new Uint8Array([1, 0, 1, 0]).buffer,
+    error: /canonical gzip/,
+  },
+  {
+    label: '损坏 gzip',
+    bytes: new Uint8Array([0x1f, 0x8b, 0]).buffer,
+    error: /RLE 损坏/,
+  },
+])('tileset pending $label 即使 bytes/hash 自洽也在写前 fail-loud', async (input) => {
+  const path = 'assets/authored/tilesets/bad.rle'
+  const record = {
+    kind: 'tileset' as const,
+    path,
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: input.bytes.byteLength,
+    sha256: await sha256Hex(input.bytes),
+    origin: { kind: 'authored' as const },
+  }
+  await expect(
+    preflightProjectWriteSet({
+      'manifest.json': { assets: { catalog: 'assets/index.json' } },
+      'assets/index.json': { version: 1, assets: { 'tileset.bad': record } },
+      [path]: input.bytes,
+    }),
+  ).rejects.toThrow(input.error)
 })
 
 test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {
@@ -622,6 +721,7 @@ test('A7 资源注册表与待写二进制 round-trip，不再产出 content/mus
   const assetCatalog = {
     version: 1 as const,
     assets: {
+      ...assetCatalogJson.assets,
       'music.demo.theme': {
         kind: 'music' as const,
         path: 'assets/authored/theme.mid',
@@ -716,25 +816,83 @@ test('W6 氛围表:manifest 声明 ambiences → round-trip;未声明不产出',
 })
 
 describe('diffFiles(增量-diff)', () => {
-  test('只挑内容变了的写;快照有、现无的删', () => {
+  test('只挑内容变了的写;快照有、现无的删', async () => {
     const prev = new Map<string, string>([
       ['a.json', `${JSON.stringify({ v: 1 }, null, 2)}\n`],
       ['b.json', `${JSON.stringify({ v: 2 }, null, 2)}\n`],
       ['old.json', `${JSON.stringify({ v: 3 }, null, 2)}\n`],
     ])
     const next = { 'a.json': { v: 1 }, 'b.json': { v: 99 }, 'c.json': { v: 4 } }
-    const { write, remove } = diffFiles(prev, next)
+    const { write, remove } = await diffFiles(prev, next)
     expect(write.sort()).toEqual(['b.json', 'c.json']) // a 未变跳过;b 变;c 新
     expect(remove).toEqual(['old.json']) // old 消失 → 删
   })
 
-  test('全未变 → 写空、删空(打开未改立即存 = 零写)', () => {
+  test('全未变 → 写空、删空(打开未改立即存 = 零写)', async () => {
     const files = { 'a.json': { v: 1 } }
     const snap = new Map([['a.json', `${JSON.stringify({ v: 1 }, null, 2)}\n`]])
-    expect(diffFiles(snap, files)).toEqual({ write: [], remove: [] })
+    await expect(diffFiles(snap, files)).resolves.toEqual({ write: [], remove: [] })
   })
 
-  test('删除未引用地图会改写 index，并把地图 JSON 列入 remove', () => {
+  test('同路径同长度但内容变化仍写二进制，签名使用完整 sha256', async () => {
+    const before = new Uint8Array([1, 2, 3]).buffer
+    const after = new Uint8Array([3, 2, 1]).buffer
+    const snapshot = new Map([['assets/a.rle', await binarySnapshotSignature(before)]])
+    expect(await diffFiles(snapshot, { 'assets/a.rle': after })).toEqual({
+      write: ['assets/a.rle'],
+      remove: [],
+    })
+    expect(snapshot.get('assets/a.rle')).toMatch(/^bin:3:[a-f0-9]{64}$/)
+  })
+
+  test('写盘提交顺序固定为二进制 → catalog → 内容 → manifest', async () => {
+    const bytes = canonicalTilesetBytes.slice(0)
+    const events: string[] = []
+    const makeDir = (prefix: string): FileSystemDirectoryHandle =>
+      ({
+        async getDirectoryHandle(name: string) {
+          return makeDir(prefix ? `${prefix}/${name}` : name)
+        },
+        async getFileHandle(name: string, options?: { create?: boolean }) {
+          const path = prefix ? `${prefix}/${name}` : name
+          if (!options?.create) throw new DOMException(`NotFound ${path}`, 'NotFoundError')
+          return {
+            async createWritable() {
+              return {
+                async write() {},
+                async close() {
+                  events.push(path)
+                },
+              }
+            },
+          }
+        },
+      }) as unknown as FileSystemDirectoryHandle
+    const record = {
+      kind: 'tileset' as const,
+      path: 'assets/authored/tilesets/a.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: bytes.byteLength,
+      sha256: await sha256Hex(bytes),
+      origin: { kind: 'authored' as const },
+    }
+    await writeProject(makeDir(''), {
+      'manifest.json': {
+        assets: { catalog: 'assets/index.json' },
+      },
+      'assets/index.json': { version: 1, assets: { 'tileset.a': record } },
+      'content/tilesets.json': [],
+      [record.path]: bytes,
+    })
+    expect(events).toEqual([
+      record.path,
+      'assets/index.json',
+      'content/tilesets.json',
+      'manifest.json',
+    ])
+  })
+
+  test('删除未引用地图会改写 index，并把地图 JSON 列入 remove', async () => {
     const ownManifest: LoadedManifest = {
       ...manifest,
       contentVersion: 3,
@@ -765,7 +923,7 @@ describe('diffFiles(增量-diff)', () => {
       ]),
     )
     const after = serializeProject(new DeleteMapAssetCommand('unused').apply(state))
-    const diff = diffFiles(snapshot, after)
+    const diff = await diffFiles(snapshot, after)
     expect(diff.write).toContain('content/maps/index.json')
     expect(diff.remove).toContain('content/maps/unused.json')
     expect(diff.remove).not.toContain('content/maps/used.json')
@@ -804,14 +962,31 @@ test('W7B tileset round-trip:注册表入 state,serializeProject 产出 tilesets
     ...manifest,
     content: { ...manifest.content, tilesets: 'content/tilesets.json' },
   } as typeof manifest
-  const reg = [
-    { id: 'grass', name: '草地', category: 'outdoor', path: 'assets/tilesets/grass.rle' },
-  ]
-  const project = { ...assembleProject(withTilesets, JSONS), tilesets: reg }
+  const reg = [{ id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' }]
+  const project = {
+    ...assembleProject(withTilesets, JSONS),
+    tilesets: reg,
+    assetCatalog: {
+      version: 1 as const,
+      assets: {
+        'tileset.grass': {
+          kind: 'tileset' as const,
+          path: 'assets/authored/tilesets/grass.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 8,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' as const },
+        },
+      },
+    },
+  }
   const state = toEditorState(project, SCENES)
   expect(state.tilesets).toEqual(reg)
   const buf = new ArrayBuffer(8)
-  const out = serializeProject({ ...state, tilesetBlobs: { 'assets/tilesets/grass.rle': buf } })
+  const out = serializeProject({
+    ...state,
+    assetBlobs: { 'assets/authored/tilesets/grass.rle': buf },
+  })
   expect(out['content/tilesets.json']).toEqual(reg)
-  expect(out['assets/tilesets/grass.rle']).toBe(buf) // ArrayBuffer 原样入文件集(writeFile 走 Blob)
+  expect(out['assets/authored/tilesets/grass.rle']).toBe(buf)
 })

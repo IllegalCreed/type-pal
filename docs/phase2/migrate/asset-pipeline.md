@@ -61,7 +61,8 @@ export function bakeIndexedRgba(
 
 ## 6. 后续
 
-- 世界 sprite / tiles RGBA 化（RleFrame 版 bake，撤 reforge 运行时 `bakeFrame`）。
+- ~~世界 sprite / tiles RGBA 化~~ 已被 D25 否决：sprite/tiles 保持 gzip 索引 RLE，运行时按工程标准色彩
+  着色，不烘 RGBA。
 - 内容工程独立目录（数据迁移切片时落地，D-d 路径迁移）。
 - migrate 数据迁移（脚本 / 对话 / 数据表 → content schema，③ 阶段）。
 
@@ -73,8 +74,8 @@ export function bakeIndexedRgba(
   `content/maps/<map-id>.json` 的 `ProjectMapV2`，并生成 `content/maps/index.json`。
 - 场景与脚本换图指令只保存稳定 map id；content、reforge、editor 不读取旧 word、mapNum 或
   `reuseOriginalMap`。
-- tileset 图像暂时仍可保持 `.rle` 索引帧资产，但通过 `content/tilesets.json` 的稳定 id 登记；
-  地图不直通资产路径，也不把实例高度放进 tileset 元数据。
+- A7-3T 后 tileset 图像保持 gzip `.rle` 索引帧资产；`content/tilesets.json` 用稳定语义 id 登记并以
+  `asset: AssetId` 指向 catalog。地图不直通 AssetId/资产路径，也不把实例高度放进 tileset 元数据。
 - 迁移输出使用 content 公共包的确定性行紧凑格式化器；单张地图是 MG2 原子合并单元，第二次同源
   迁移必须零写入、零删除、零冲突。
 
@@ -146,6 +147,32 @@ pnpm --filter @type-pal/migrate run migrate:content -- --write
 pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/0/0
 ```
 
-`data/baked` 已退役；`bake` 不是修复工程资源 404 的命令。当前 `data/extracted` 仍作为迁移输入，并为
-`tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五个 A7-4 之前的 legacy family 提供过渡源。
-A7-2 完成静态图切片不等于 A7/R7 总体完成。
+`data/baked` 已退役；`bake` 不是修复工程资源 404 的命令。当前 `data/extracted` 仍作为迁移输入；A7-3T
+已让 tileset 退出 runtime legacy，尚为 `sprite`、`battle-sprite`、`effect-sprite` 与 generic `image`
+四项提供过渡源。A7-2/A7-3T 的单族切片不等于 A7/R7 总体完成。
+
+## 11. A7-3T 瓦片集索引资源物化（2026-07-19，done）
+
+瓦片集不走 RGBA bake。现行四层固定为：
+
+```text
+用户本地原始数据
+  -> pal-extract 的 extracted gzip indexed RLE（迁移输入）
+  -> migrate 确定性登记/逐字节物化
+  -> 工程 assets/migrated/tilesets/** + assets/index.json
+```
+
+- 权威源集合是 `mapNum 1..225 \ {168,171}`，共 223 个文件；迁移生成
+  `tileset-xxx -> tileset.pal.xxx` 显式映射，不能用 ordinal 补缺口。冻结总量为 **6,501,041 B** 与
+  **67,715** 个严格有效帧。
+- `AssetRecord.bytes/sha256` 描述工程路径实际保存的 gzip 字节。物化逐文件校验源/目标大小、完整 SHA、gzip
+  头与严格 RLE 结构；`origin=authored` 的同 AssetId 由 MG2 保护，不被重迁覆盖。
+- runtime/editor 只按 `TilesetDef.asset -> AssetResolver/FileSource` 读取。extracted tileset 是迁移输入，
+  不再是 PAL、demo、e2e-own 或空白工程的运行时后备目录。
+- HTTP/FSA/Save As/ZIP 禁止按 `.rle` 后缀解压或重编码；服务端不得设置 `Content-Encoding`，并声明
+  `no-transform`。旧本地 clone 的裸 RLE 只在一次性升级边界解码、重新 gzip 后登记。
+- 正式 `--write` 后的最终 dry-run 为 `writes=0 deletes=0 conflicts=0`，报告为
+  `tilesets=223 bytes=6501041 frames=67715`。
+
+完整生命周期与 review 门禁见
+[`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。

@@ -3,29 +3,35 @@
  *
  * 上传流(终案):选 PNG → 网格切片参数 → 量化贴盘 0 预览(D25:量化是内部机制,
  * UI 文案不出现「调色板」)→ 命名/分类 → 入库(编码原版同构 .rle + gzip,保存时落盘)。
- * 预览分流:新上传未保存的条目从内存字节解码;已落盘的走 loadTilesetByPath。
+ * 新上传与已落盘资源统一经 EditorAssetReader + AssetId 读取；record.sha256 驱动缓存失效。
  */
 
-import type { MapIndexV1, StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, AssetRecordV1, MapIndexV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
   compressGzip,
-  decompressGzip,
   encodeSpriteChunk,
   loadStandardPalette,
-  loadTilesetByPath,
-  parseSpriteChunk,
+  loadTilesetAsset,
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
-import { AddTilesetCommand, RemoveTilesetCommand } from '../core/commands.js'
-import type { EditorState, EditSession } from '../core/edit-session.js'
+import { sha256Hex } from '../core/binary-signature.js'
+import {
+  AddTilesetCommand,
+  RemoveTilesetCommand,
+  ReplaceTilesetAssetCommand,
+  UpdateTilesetMetadataCommand,
+} from '../core/commands.js'
+import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   scanTilesetReferences,
   type TilesetReferenceScan,
   TilesetRemovalProof,
+  TilesetReplacementProof,
 } from '../core/tileset-references.js'
 
 const FRAME_PAGE_SIZE = 128
@@ -144,7 +150,8 @@ interface Draft {
 
 export function TilesetTab(props: {
   tilesets: TilesetDef[]
-  tilesetBlobs: EditorState['tilesetBlobs']
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   assetBase: AssetBase
   session: EditSession
   mapIndex: MapIndexV1
@@ -157,7 +164,8 @@ export function TilesetTab(props: {
 }) {
   const {
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     assetBase,
     session,
     mapIndex,
@@ -172,6 +180,7 @@ export function TilesetTab(props: {
     focusObjectId ?? tilesets[0]?.id ?? null,
   )
   const [uploading, setUploading] = useState(false)
+  const [replaceTargetId, setReplaceTargetId] = useState<string>()
   const [filter, setFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [draft, setDraft] = useState<Draft | null>(null)
@@ -180,8 +189,11 @@ export function TilesetTab(props: {
   const [newId, setNewId] = useState('')
   const [newName, setNewName] = useState('')
   const [newCategory, setNewCategory] = useState('outdoor')
+  const [editName, setEditName] = useState('')
+  const [editCategory, setEditCategory] = useState('')
   const [err, setErr] = useState('')
   const [removalScan, setRemovalScan] = useState<TilesetReferenceScan>()
+  const [replacementScan, setReplacementScan] = useState<TilesetReferenceScan>()
   const [removalScanning, setRemovalScanning] = useState(false)
   const removalScanTokenRef = useRef(0)
   const [palette, setPalette] = useState<Palette | null>(null)
@@ -221,6 +233,15 @@ export function TilesetTab(props: {
     )
   }, [categoryFilter, filter, tilesets])
   const selected = tilesets.find((t) => t.id === selectedId) ?? null
+  const selectedRecord = selected ? assetCatalog.assets[selected.asset] : undefined
+  const sharedDefinitions = selected
+    ? tilesets.filter((candidate) => candidate.asset === selected.asset)
+    : []
+
+  useEffect(() => {
+    setEditName(selected?.name ?? '')
+    setEditCategory(selected?.category ?? '')
+  }, [selected])
 
   useEffect(() => {
     if (focusObjectId === undefined) return
@@ -257,9 +278,14 @@ export function TilesetTab(props: {
       return []
     }
   }, [draft, palette, tileW, tileH])
+  const replacementOutOfRangeMaps =
+    replacementScan?.mapReferences.filter((entry) => entry.maxTileId >= quantized.length) ?? []
+  const replacementOutOfRangeStamps =
+    replacementScan?.stampReferences.filter((entry) => entry.maxTileId >= quantized.length) ?? []
 
   const pickFile = async (file: File): Promise<void> => {
     setErr('')
+    setReplacementScan(undefined)
     try {
       const bitmap = await createImageBitmap(file)
       const cvs = document.createElement('canvas')
@@ -290,12 +316,15 @@ export function TilesetTab(props: {
 
   const submit = async (): Promise<void> => {
     if (!draft || quantized.length === 0) return
-    const id = newId.trim()
+    const replaceTarget = replaceTargetId
+      ? tilesets.find((entry) => entry.id === replaceTargetId)
+      : undefined
+    const id = replaceTarget?.id ?? newId.trim()
     if (!id || id.includes('/')) {
       setErr("id 不能为空且不得含 '/'")
       return
     }
-    if (tilesets.some((t) => t.id === id)) {
+    if (!replaceTargetId && tilesets.some((t) => t.id === id)) {
       setErr(`id "${id}" 已存在`)
       return
     }
@@ -303,18 +332,75 @@ export function TilesetTab(props: {
       const chunk = encodeSpriteChunk(quantized)
       const gz = await compressGzip(chunk)
       const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength) as ArrayBuffer
-      session.dispatch(
-        new AddTilesetCommand(
-          {
-            id,
-            name: newName.trim() || id,
-            category: newCategory.trim() || 'misc',
-            path: `assets/tilesets/${id}.rle`,
-          },
-          buf,
-        ),
-      )
+      const hash = await sha256Hex(buf)
+      const path = `assets/authored/tilesets/${hash}.rle`
+      if (replaceTargetId) {
+        const target = replaceTarget
+        if (!target) throw new Error('待替换瓦片集已不存在')
+        const oldRecord = assetCatalog.assets[target.asset]
+        if (!oldRecord || oldRecord.kind !== 'tileset') throw new Error('待替换资源不在 catalog')
+        const scan = await scanTilesetReferences({
+          tilesetId: target.id,
+          tilesetIds: tilesets
+            .filter((entry) => entry.asset === target.asset)
+            .map((entry) => entry.id),
+          mapIndex,
+          stamps,
+          loadMap: (mapId) => session.ensureMapLoaded(mapId),
+        })
+        setReplacementScan(scan)
+        const proof = TilesetReplacementProof.fromScan(scan, mapIndex, quantized.length, {
+          asset: target.asset,
+          previousSha256: oldRecord.sha256,
+          definitions: tilesets.filter((entry) => entry.asset === target.asset),
+        })
+        const previousBytes = await assetReader.readBytes(target.asset, 'tileset')
+        const record: AssetRecordV1 = {
+          ...oldRecord,
+          path,
+          bytes: buf.byteLength,
+          sha256: hash,
+          mediaType: 'application/vnd.type-pal.rle',
+          origin: { kind: 'authored' },
+        }
+        session.dispatch(
+          new ReplaceTilesetAssetCommand(
+            target.id,
+            target.asset,
+            record,
+            buf,
+            previousBytes,
+            proof,
+          ),
+        )
+      } else {
+        let asset = `tileset.${id}`
+        for (let suffix = 2; assetCatalog.assets[asset]; suffix++) asset = `tileset.${id}.${suffix}`
+        const record: AssetRecordV1 = {
+          kind: 'tileset',
+          path,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: buf.byteLength,
+          sha256: hash,
+          label: `瓦片集 ${id}`,
+          origin: { kind: 'authored' },
+        }
+        session.dispatch(
+          new AddTilesetCommand(
+            {
+              id,
+              name: newName.trim() || id,
+              category: newCategory.trim() || 'misc',
+              asset,
+            },
+            record,
+            buf,
+          ),
+        )
+      }
       setUploading(false)
+      setReplaceTargetId(undefined)
+      setReplacementScan(undefined)
       setDraft(null)
       setSelectedId(id)
       onObjectFocus?.(id)
@@ -344,12 +430,16 @@ export function TilesetTab(props: {
     setRemovalScanning(false)
   }
 
-  const removeSelected = (): void => {
+  const removeSelected = async (): Promise<void> => {
     if (!selected || !removalScan) return
     try {
       const proof = TilesetRemovalProof.fromScan(removalScan, mapIndex)
       const nextId = tilesets.find((candidate) => candidate.id !== selected.id)?.id
-      session.dispatch(new RemoveTilesetCommand(selected.id, proof))
+      const bytes =
+        selectedRecord && sharedDefinitions.length === 1
+          ? await assetReader.readBytes(selected.asset, 'tileset')
+          : undefined
+      session.dispatch(new RemoveTilesetCommand(selected.id, proof, bytes))
       setSelectedId(nextId ?? null)
       onObjectFocus?.(nextId)
       setRemovalScan(undefined)
@@ -385,6 +475,8 @@ export function TilesetTab(props: {
             title="上传 PNG、WebP 或 GIF 图集"
             onClick={() => {
               setUploading(true)
+              setReplaceTargetId(undefined)
+              setReplacementScan(undefined)
               setDraft(null)
               setErr('')
             }}
@@ -524,10 +616,10 @@ export function TilesetTab(props: {
           </div>
         ) : selected && palette ? (
           <TilesetPreview
-            key={selected.id}
+            key={`${selected.asset}:${selectedRecord?.sha256 ?? 'missing'}`}
             def={selected}
-            blob={tilesetBlobs[selected.path]}
-            assetBase={assetBase}
+            revision={selectedRecord?.sha256 ?? 'missing'}
+            assetReader={assetReader}
             palette={palette}
           />
         ) : (
@@ -563,7 +655,10 @@ export function TilesetTab(props: {
                   inputMode="numeric"
                   autoComplete="off"
                   value={tileW}
-                  onChange={(event) => setTileW(Math.floor(event.target.valueAsNumber) || 0)}
+                  onChange={(event) => {
+                    setTileW(Math.floor(event.target.valueAsNumber) || 0)
+                    setReplacementScan(undefined)
+                  }}
                 />
               </div>
               <div className="field">
@@ -579,13 +674,62 @@ export function TilesetTab(props: {
                   inputMode="numeric"
                   autoComplete="off"
                   value={tileH}
-                  onChange={(event) => setTileH(Math.floor(event.target.valueAsNumber) || 0)}
+                  onChange={(event) => {
+                    setTileH(Math.floor(event.target.valueAsNumber) || 0)
+                    setReplacementScan(undefined)
+                  }}
                 />
               </div>
               <div className="tileset-cut-summary">
                 {draft ? `将切出 ${quantized.length} 块瓦片` : '选择文件后显示切片结果'}
               </div>
             </section>
+            {replaceTargetId &&
+            replacementScan &&
+            (replacementOutOfRangeMaps.length > 0 || replacementOutOfRangeStamps.length > 0) ? (
+              <section className="section tileset-removal-check" aria-label="替换越界引用">
+                <h4>无法缩减帧数</h4>
+                <p className="tileset-removal-warning" role="alert">
+                  新图集只有 {quantized.length} 帧。以下对象仍引用更大的瓦片编号，请先修正后重试。
+                </p>
+                {replacementOutOfRangeMaps.length > 0 ? (
+                  <div className="tileset-removal-refs">
+                    <span>引用地图</span>
+                    {replacementOutOfRangeMaps.map((reference) => (
+                      <button
+                        type="button"
+                        key={reference.mapId}
+                        onClick={() => onOpenMap?.(reference.mapId)}
+                        disabled={!onOpenMap}
+                      >
+                        <strong>{reference.mapName}</strong>
+                        <span className="mono">
+                          {reference.mapId} · #{reference.maxTileId}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                {replacementOutOfRangeStamps.length > 0 ? (
+                  <div className="tileset-removal-refs">
+                    <span>引用组合模板</span>
+                    {replacementOutOfRangeStamps.map((reference) => (
+                      <button
+                        type="button"
+                        key={reference.id}
+                        onClick={() => onOpenStamp?.(reference.id)}
+                        disabled={!onOpenStamp}
+                      >
+                        <strong>{reference.name}</strong>
+                        <span className="mono">
+                          {reference.id} · #{reference.maxTileId}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+              </section>
+            ) : null}
             <section className="section">
               <h4>登记</h4>
               <div className="field">
@@ -637,13 +781,15 @@ export function TilesetTab(props: {
                 disabled={!draft || quantized.length === 0 || !palette}
                 onClick={() => void submit()}
               >
-                入库瓦片集
+                {replaceTargetId ? '替换瓦片集图像' : '入库瓦片集'}
               </button>
               <button
                 type="button"
                 className="tileset-secondary-action"
                 onClick={() => {
                   setUploading(false)
+                  setReplaceTargetId(undefined)
+                  setReplacementScan(undefined)
                   setDraft(null)
                   setErr('')
                 }}
@@ -665,18 +811,45 @@ export function TilesetTab(props: {
                 <div className="in mono tileset-readonly">{selected.id}</div>
               </div>
               <div className="field">
+                <span className="field-label">名称</span>
+                <input
+                  className="in"
+                  value={editName}
+                  onChange={(event) => setEditName(event.target.value)}
+                />
+              </div>
+              <div className="field">
                 <span className="field-label">分类</span>
-                <div className="in tileset-readonly">{categoryLabel(selected.category)}</div>
+                <input
+                  className="in"
+                  value={editCategory}
+                  onChange={(event) => setEditCategory(event.target.value)}
+                />
               </div>
               <div className="field tileset-path-field">
                 <span className="field-label">文件</span>
-                <div className="in mono tileset-readonly" title={selected.path}>
-                  {selected.path}
+                <div className="in mono tileset-readonly" title={selectedRecord?.path}>
+                  {selectedRecord?.path ?? 'catalog 缺失'}
                 </div>
               </div>
-              {tilesetBlobs[selected.path] && (
+              {selectedRecord && session.getState().assetBlobs[selectedRecord.path] && (
                 <div className="tileset-source-note">尚未保存；保存工程后写入资产目录。</div>
               )}
+              <button
+                type="button"
+                className="tileset-secondary-action"
+                disabled={!editName.trim() || !editCategory.trim()}
+                onClick={() =>
+                  session.dispatch(
+                    new UpdateTilesetMetadataCommand(selected.id, {
+                      name: editName.trim(),
+                      category: editCategory.trim(),
+                    }),
+                  )
+                }
+              >
+                保存名称与分类
+              </button>
             </section>
             <section className="section">
               <h4>组合地物</h4>
@@ -685,6 +858,31 @@ export function TilesetTab(props: {
               </p>
             </section>
             <section className="section tileset-inspector-actions">
+              <button
+                type="button"
+                className="tileset-secondary-action"
+                disabled={!selectedRecord}
+                onClick={() => {
+                  if (
+                    sharedDefinitions.length > 1 &&
+                    !window.confirm(
+                      `这份图像由 ${sharedDefinitions.map((entry) => entry.name).join('、')} 共同使用。替换会同时更新全部定义，是否继续？`,
+                    )
+                  )
+                    return
+                  setReplaceTargetId(selected.id)
+                  setReplacementScan(undefined)
+                  setUploading(true)
+                  setDraft(null)
+                  setNewId(selected.id)
+                  setNewName(selected.name)
+                  setNewCategory(selected.category)
+                  setErr('')
+                }}
+              >
+                替换图像
+                {sharedDefinitions.length > 1 ? `（影响 ${sharedDefinitions.length} 个定义）` : ''}
+              </button>
               {removalScan ? (
                 <div className="tileset-removal-check" aria-live="off">
                   <div className="tileset-removal-progress">
@@ -734,8 +932,8 @@ export function TilesetTab(props: {
                   ) : null}
                   {removalComplete && !removalHasReferences ? (
                     <p className="tileset-removal-safe">
-                      全部地图与组合模板均未引用此瓦片集。移除只删除登记与未保存字节，不清理已落盘的
-                      .rle 文件。
+                      全部地图与组合模板均未引用此瓦片集。若没有其它定义共享其资源，将同时删除
+                      catalog 记录和工程文件；操作可撤销。
                     </p>
                   ) : null}
                 </div>
@@ -751,7 +949,7 @@ export function TilesetTab(props: {
                 disabled={removalScanning}
                 onClick={() =>
                   removalComplete && !removalHasReferences
-                    ? removeSelected()
+                    ? void removeSelected()
                     : void scanRemovalReferences()
                 }
               >
@@ -795,24 +993,23 @@ export function TilesetTab(props: {
 /** 条目预览:瓦片网格(内存字节优先,已落盘走资产加载)。 */
 function TilesetPreview(props: {
   def: TilesetDef
-  blob: ArrayBuffer | undefined
-  assetBase: AssetBase
+  revision: string
+  assetReader: EditorAssetReader
   palette: Palette
 }) {
-  const { def, blob, assetBase, palette } = props
+  const { def, revision, assetReader, palette } = props
   const [frames, setFrames] = useState<RleFrame[] | null>(null)
   const [err, setErr] = useState('')
   useEffect(() => {
     let alive = true
+    const loadRevision = revision
+    setFrames(null)
+    setErr('')
     void (async () => {
       try {
-        if (blob) {
-          const raw = await decompressGzip(new Blob([blob]))
-          if (alive) setFrames(parseSpriteChunk(raw))
-        } else {
-          const map = await loadTilesetByPath(assetBase, def.path)
-          if (alive) setFrames([...map.values()])
-        }
+        const map = await loadTilesetAsset(assetReader, def.asset)
+        if (alive && assetReader.record(def.asset, 'tileset').sha256 === loadRevision)
+          setFrames([...map.values()])
       } catch (e) {
         if (alive) setErr(e instanceof Error ? e.message : String(e))
       }
@@ -820,7 +1017,7 @@ function TilesetPreview(props: {
     return () => {
       alive = false
     }
-  }, [def.path, blob, assetBase])
+  }, [assetReader, def.asset, revision])
   return (
     <div className="tileset-workspace-scroll">
       <header className="tileset-workspace-head">

@@ -176,6 +176,9 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       sounds: 363,
       emptySounds: 142,
       soundBytes: 18_110_864,
+      tilesets: 223,
+      tilesetBytes: 6_501_041,
+      tilesetFrames: 67_715,
       portraits: 88,
       portraitBytes: 768_841,
       faces: 6,
@@ -234,7 +237,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(5_676)
+    expect(validation.assetReferences).toBe(5_899)
     expect(validation.assetWarnings).toBe(54)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
@@ -339,6 +342,9 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       itemIconBytes: 262_667,
       battleBackgrounds: 52,
       battleBackgroundBytes: 4_422_281,
+      tilesets: 223,
+      tilesetBytes: 6_501_041,
+      tilesetFrames: 67_715,
       legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
     })
     await assertFrameAnimationsMatchSource(sources)
@@ -391,7 +397,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(5_676)
+    expect(validation.assetReferences).toBe(5_899)
     expect(validation.assetWarnings).toBe(54)
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({

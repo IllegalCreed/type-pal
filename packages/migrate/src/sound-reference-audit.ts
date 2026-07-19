@@ -14,6 +14,7 @@ import {
   validateItems,
   validateScenes,
   validateSkills,
+  validateTilesets,
 } from '@type-pal/content'
 import type { SourceMagic, SourceSpell } from './migrate-content.js'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
@@ -178,6 +179,7 @@ export function auditPalSoundReferences(args: {
   const items = validateItems(required(files, 'content/items.json'))
   const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
+  const tilesets = validateTilesets(required(files, 'content/tilesets.json'), catalog)
   const sceneIds = required(files, 'content/scenes/index.json') as string[]
   const scenes = validateScenes(sceneIds.map((id) => required(files, `content/scenes/${id}.json`)))
   const scriptIndex = required(files, 'content/scripts/index.json') as ScriptIndexV1
@@ -195,6 +197,7 @@ export function auditPalSoundReferences(args: {
     items,
     skills,
     battleFields,
+    tilesets,
   })
   const soundReferences = references.filter((reference) => reference.expectedKind === 'sound')
   const channels: PalSoundReferenceAudit['target']['channels'] = {
@@ -430,8 +433,8 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
     },
     {
       soundEdges: 1_666,
-      allReferences: 5_676,
-      nonSoundReferences: 4_010,
+      allReferences: 5_899,
+      nonSoundReferences: 4_233,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,

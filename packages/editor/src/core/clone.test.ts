@@ -1,9 +1,10 @@
 import type { FileSource } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { cloneFromPal } from './clone.js'
+import { buildSeedAssets } from './seed-assets.js'
 
 function memSource(files: Record<string, unknown>): FileSource {
-  return {
+  const lane: NonNullable<FileSource['legacy']> = {
     readText: async (rel) => JSON.stringify(files[rel]),
     readJson: async <T>(rel: string) => {
       if (!(rel in files)) throw new Error(`memSource 404 ${rel}`)
@@ -15,6 +16,12 @@ function memSource(files: Record<string, unknown>): FileSource {
     },
     urlFor: async (rel) => rel,
   }
+  return { ...lane, legacy: lane }
+}
+
+async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
 /** 录写 mock 目录句柄:createWritable 的 write→close 把内容记进 written(全路径为键)。 */
@@ -46,6 +53,8 @@ function recordingDir(): { dir: FileSystemDirectoryHandle; written: Map<string, 
 }
 
 describe('cloneFromPal', () => {
+  const portraitBytes = new ArrayBuffer(50)
+  const portraitSha = 'cc2786e1f9910a9d811400edcddaf7075195f7a16b216dcbefba3bc7c4f2ae51'
   const manifest = {
     id: 'pal',
     name: 'PAL',
@@ -79,13 +88,13 @@ describe('cloneFromPal', () => {
           path: 'assets/migrated/portraits/001.png',
           mediaType: 'image/png',
           bytes: 50,
-          sha256: 'a'.repeat(64),
+          sha256: portraitSha,
           origin: { kind: 'legacy-migrated' },
         },
       },
     },
     '/extracted/data/tileset/1.rle': new ArrayBuffer(100),
-    'assets/migrated/portraits/001.png': new ArrayBuffer(50),
+    'assets/migrated/portraits/001.png': portraitBytes,
   }
 
   test('写相对化 manifest + 全部内容/素材文件;进度累计到满', async () => {
@@ -105,6 +114,59 @@ describe('cloneFromPal', () => {
     expect(written.has('assets/migrated/portraits/001.png')).toBe(true)
     // 进度:末次 = 满(100 + 50)
     expect(prog.at(-1)).toEqual([150, 150])
+  })
+
+  test('canonical PAL clone 逐字节复制 catalog tileset，并过滤 extracted 重复项', async () => {
+    const tileBytes = (await buildSeedAssets()).tilesetRle
+    const tileHash = await sha256Hex(tileBytes)
+    const canonicalManifest = {
+      ...manifest,
+      content: { ...manifest.content, tilesets: 'content/tilesets.json' },
+      assets: {
+        ...manifest.assets,
+        legacy: {
+          ...manifest.assets.legacy,
+          families: ['sprite', 'color-table'],
+          tilesets: undefined,
+        },
+      },
+    }
+    const source = memSource({
+      'manifest.json': canonicalManifest,
+      'content/scenes/index.json': ['s1'],
+      'content/scenes/s1.json': { id: 's1' },
+      'content/actors.json': [],
+      'content/tilesets.json': [
+        { id: 'tileset-001', name: '瓦片集 1', category: 'builtin', asset: 'tileset.pal.001' },
+      ],
+      '/extracted/asset-manifest.json': {
+        files: [{ path: 'data/tileset/1.rle', size: tileBytes.byteLength }],
+      },
+      '/extracted/data/tileset/1.rle': tileBytes,
+      'assets/index.json': {
+        version: 1,
+        assets: {
+          'tileset.pal.001': {
+            kind: 'tileset',
+            path: 'assets/migrated/tilesets/001.rle',
+            mediaType: 'application/vnd.type-pal.rle',
+            bytes: tileBytes.byteLength,
+            sha256: tileHash,
+            origin: { kind: 'legacy-migrated' },
+          },
+        },
+      },
+      'assets/migrated/tilesets/001.rle': tileBytes,
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(source, dir, () => {})
+
+    const copied = written.get('assets/migrated/tilesets/001.rle') as Blob
+    expect(new Uint8Array(await copied.arrayBuffer())).toEqual(new Uint8Array(tileBytes))
+    expect(written.has('assets/extracted/data/tileset/1.rle')).toBe(false)
+    expect(JSON.parse(written.get('manifest.json') as string).assets.legacy.families).not.toContain(
+      'tileset',
+    )
   })
 
   test('.rle 下载后解压再写(去 gzip 头,避 Safe Browsing 深扫)', async () => {

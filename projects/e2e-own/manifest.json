@@ -15,13 +15,13 @@
   },
   "assets": {
     "catalog": "assets/index.json",
-    "roles": {},
+    "roles": {
+      "visual.standardColorTable": "color.project-standard"
+    },
     "legacy": {
-      "families": ["tileset", "sprite", "color-table"],
+      "families": ["sprite"],
       "root": "assets",
-      "tilesets": "tilesets",
-      "sprites": "sprites",
-      "palettes": "palettes"
+      "sprites": "sprites"
     }
   },
   "startWorld": {

@@ -1,5 +1,6 @@
 import type { LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { sha256Hex } from './binary-signature.js'
 import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './seed.js'
 
 const manifest = {
@@ -135,7 +136,11 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       contentVersion: number
       entryScene: string
       startWorld: { party: string[] }
-      assets: { catalog: string; legacy?: { root?: string } }
+      assets: {
+        catalog: string
+        roles: Record<string, string>
+        legacy?: { root?: string; families?: string[]; palettes?: string }
+      }
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
@@ -144,7 +149,10 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])
     expect(m.assets.catalog).toBe('assets/index.json')
+    expect(m.assets.roles['visual.standardColorTable']).toBe('color.project-standard')
     expect(m.assets.legacy?.root).toBe('assets')
+    expect(m.assets.legacy?.families).toEqual(['sprite'])
+    expect(m.assets.legacy?.palettes).toBeUndefined()
     expect(m.content.sprites).toBe('content/sprites.json')
     expect(m.content.tilesets).toBe('content/tilesets.json')
     expect(m.content.stamps).toBe('content/stamps.json')
@@ -174,11 +182,30 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
 
   test('占位素材:合成色盘 JSON + 瓦片集/精灵 .rle 二进制(ArrayBuffer)', async () => {
     const files = await buildBlankProject('g')
-    const pal = files['assets/palettes/0.json'] as { colors: [number, number, number][] }
+    const colorPath = 'assets/generated/colors/project-standard.json'
+    const pal = files[colorPath] as { colors: [number, number, number][] }
     expect(pal.colors.length).toBe(256)
-    expect(files['assets/tilesets/starter.rle']).toBeInstanceOf(ArrayBuffer)
+    const colorBytes = new TextEncoder().encode(`${JSON.stringify(pal, null, 2)}\n`)
+    const catalog = files['assets/index.json'] as {
+      assets: Record<
+        string,
+        { kind: string; path: string; bytes: number; sha256: string; origin: { kind: string } }
+      >
+    }
+    expect(catalog.assets['color.project-standard']).toEqual({
+      kind: 'color-table',
+      path: colorPath,
+      mediaType: 'application/json',
+      bytes: colorBytes.byteLength,
+      sha256: await sha256Hex(colorBytes),
+      label: '工程标准色彩',
+      origin: { kind: 'generated' },
+    })
+    expect(files['assets/generated/tilesets/starter.rle']).toBeInstanceOf(ArrayBuffer)
     expect(files['assets/sprites/0.rle']).toBeInstanceOf(ArrayBuffer)
-    expect((files['assets/tilesets/starter.rle'] as ArrayBuffer).byteLength).toBeGreaterThan(0)
+    expect(
+      (files['assets/generated/tilesets/starter.rle'] as ArrayBuffer).byteLength,
+    ).toBeGreaterThan(0)
   })
 
   test('空名 → 兜底 id new-project', async () => {

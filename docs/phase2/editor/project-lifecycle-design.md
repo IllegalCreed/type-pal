@@ -222,5 +222,29 @@ A7-0 起，v3 工程新增唯一物理资产链：
   bundler；UI/标题/许可与来源记录位于其 `assets/**`。它们不进入工程 catalog、FSA 工程目录或 A5 ZIP，
   A8 发行包负责携带这部分引擎壳。
 - 当前 clone/seed 已不读取 `data/baked` 或 `baked-manifest.json`，但仍需从 extracted 清单复制
-  `tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五个尚未迁移的 legacy family。
+  `sprite`、`battle-sprite`、`effect-sprite`、`image` 四个尚未迁移的 legacy 条目；A7-3T 后 tileset 已由
+  catalog 逐字节复制，不再重复携带 extracted tileset。
   catalog-only 克隆、导出前全量闭包门禁和 contentVersion 4 仍归 A7-4；A7/R7 不能提前标完成。
+
+## 13. A7-3T 瓦片集生命周期更新（2026-07-19，done）
+
+- `ProjectMap.tilesetId -> TilesetDef.id -> TilesetDef.asset -> assets/index.json ->
+  AssetResolver/EditorAssetReader -> FileSource` 是唯一工作链；canonical 工程不再保存
+  `TilesetDef.path`、`legacy.tilesets` 或 tileset root fallback。
+- catalog `.rle` 在 HTTP clone、FSA、首次 Save As、普通保存和 ZIP 中逐字节复制。文件保持 gzip；
+  transport 不得按扩展名解压，也不得用 `Content-Encoding` 改写 record 所描述的字节。
+- pending 二进制先与 catalog record 做完整 bytes/SHA-256 预检，tileset 还必须通过 gzip 与
+  strict RLE 校验。写盘先发布 old/new 并集 catalog，再写普通内容 JSON 与作为最后引用表的 manifest；
+  删除方向然后收缩为目标 catalog，并清理旧文件。这样新增不会留下“新定义 + 旧 catalog”，
+  删除也不会留下“旧定义 + 新 catalog”；同路径同长度不同内容通过
+  `bin:<bytes>:<sha256>` 识别，不再漏写替换。
+- 传入的增量快照在真实 IO 期间兼作实际磁盘恢复日志：未触及的旧条目继续保留，成功 close 即覆盖真实签名，
+  成功或确认不存在的 remove 即删除记录。这样中断后撤销新导入时，下次 diff 仍能删掉已写但未发布的孤儿
+  blob，多文件删除中断后也不会忘记尚未触及的旧文件；首存重选同一目录时必须保留同一恢复快照。
+- PAL review 产物为 223 definitions / 223 records / 223 map refs；真实 mapNum 集合是
+  `1..225 \ {168,171}`，gzip 总字节 6,501,041，严格有效帧 67,715。
+- demo、e2e-own 和 blank seed 原先把工程标准颜色表留在 legacy fixture；本轮改为
+  `visual.standardColorTable -> color.project-standard` catalog role。demo 使用 migrated color，
+  e2e-own/blank 使用 generated color，三者都只保留尚未迁移的 sprite legacy。
+- A7-3T 已完成三方审查和用户验收。`sprite`、`battle-sprite`、`effect-sprite`、`image` 四项、全量断外链、
+  contentVersion 4 与删除 LegacyAssetAdapter 仍归后续切片/A7-4；A7/R7 总体仍未完成。

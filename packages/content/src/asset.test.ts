@@ -14,6 +14,7 @@ import {
   palMusicAssetId,
   palPortraitAssetId,
   palSoundAssetId,
+  palTilesetAssetId,
   palVideoAssetId,
   validateAssetCatalog,
   validateAssetFileClosure,
@@ -267,6 +268,7 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(palFaceAssetId('li-xiaoyao')).toBe('face.pal.li-xiaoyao')
   expect(palItemIconAssetId(12)).toBe('item-icon.pal.012')
   expect(palBattleBackgroundAssetId(6)).toBe('battle-background.pal.006')
+  expect(palTilesetAssetId(225)).toBe('tileset.pal.225')
   expect(() => palMusicAssetId(0)).toThrow('正整数')
   expect(() => palSoundAssetId(0)).toThrow('正整数')
   expect(() => palVideoAssetId(0)).toThrow('正整数')
@@ -276,6 +278,7 @@ test('PAL 数字号只在迁移边界确定性映射', () => {
   expect(() => palFaceAssetId('')).toThrow('非空字符串')
   expect(() => palItemIconAssetId(0)).toThrow('正整数')
   expect(() => palBattleBackgroundAssetId(-1)).toThrow('非负整数')
+  expect(() => palTilesetAssetId(0)).toThrow('正整数')
 })
 
 test('项目 schema 不再接受幽灵 glyph/ui 资源族', () => {

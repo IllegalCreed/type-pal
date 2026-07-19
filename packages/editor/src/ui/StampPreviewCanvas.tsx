@@ -1,15 +1,14 @@
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame, TilesetDef } from '@type-pal/reforge'
 import {
   bakeFrame,
-  decompressGzip,
   latticeCenter,
   loadStandardPalette,
-  loadTilesetByPath,
-  parseSpriteChunk,
+  loadTilesetAsset,
   projectMapTileBlitRect,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { resolveRelativeLatticeOffset } from '../core/map-transform.js'
 
 interface PreviewAssets {
@@ -18,8 +17,7 @@ interface PreviewAssets {
 }
 
 const paletteCache = new WeakMap<AssetBase, Promise<Palette>>()
-const diskFrameCache = new WeakMap<AssetBase, Map<string, Promise<Map<number, RleFrame>>>>()
-const blobFrameCache = new WeakMap<ArrayBuffer, Promise<Map<number, RleFrame>>>()
+const frameCache = new WeakMap<EditorAssetReader, Map<string, Promise<Map<number, RleFrame>>>>()
 
 function cachedPalette(assetBase: AssetBase): Promise<Palette> {
   const existing = paletteCache.get(assetBase)
@@ -30,36 +28,29 @@ function cachedPalette(assetBase: AssetBase): Promise<Palette> {
 }
 
 function cachedFrames(
-  assetBase: AssetBase,
+  assetReader: EditorAssetReader,
   tileset: TilesetDef,
-  blob: ArrayBuffer | undefined,
+  revision: string,
 ): Promise<Map<number, RleFrame>> {
-  if (blob) {
-    const existing = blobFrameCache.get(blob)
-    if (existing) return existing
-    const pending = decompressGzip(new Blob([blob])).then(
-      (raw) => new Map(parseSpriteChunk(raw).map((frame, index) => [index, frame] as const)),
-    )
-    blobFrameCache.set(blob, pending)
-    return pending
-  }
-  const byPath = diskFrameCache.get(assetBase) ?? new Map()
-  diskFrameCache.set(assetBase, byPath)
-  const existing = byPath.get(tileset.path)
+  const byRevision = frameCache.get(assetReader) ?? new Map()
+  frameCache.set(assetReader, byRevision)
+  const key = `${tileset.asset}:${revision}`
+  const existing = byRevision.get(key)
   if (existing) return existing
-  const pending = loadTilesetByPath(assetBase, tileset.path)
-  byPath.set(tileset.path, pending)
+  const pending = loadTilesetAsset(assetReader, tileset.asset)
+  byRevision.set(key, pending)
   return pending
 }
 
 async function loadPreviewAssets(
   assetBase: AssetBase,
+  assetReader: EditorAssetReader,
   tileset: TilesetDef,
-  blob: ArrayBuffer | undefined,
+  revision: string,
 ): Promise<PreviewAssets> {
   const [palette, frames] = await Promise.all([
     cachedPalette(assetBase),
-    cachedFrames(assetBase, tileset, blob),
+    cachedFrames(assetReader, tileset, revision),
   ])
   return { palette, frames }
 }
@@ -69,16 +60,18 @@ const PREVIEW_ANCHOR = { row: 0, col: 0 }
 export function StampPreviewCanvas(props: {
   template: StampTemplateV1
   tilesets: readonly TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
+  assetReader: EditorAssetReader
+  assetCatalog: AssetCatalogV1
   assetBase: AssetBase
 }) {
-  const { template, tilesets, tilesetBlobs, assetBase } = props
+  const { template, tilesets, assetReader, assetCatalog, assetBase } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [assets, setAssets] = useState<PreviewAssets>()
   const [error, setError] = useState('')
   const [hiddenSlots, setHiddenSlots] = useState<Set<string>>(() => new Set())
   const [showCollision, setShowCollision] = useState(true)
   const tileset = tilesets.find((candidate) => candidate.id === template.tilesetId)
+  const revision = tileset ? (assetCatalog.assets[tileset.asset]?.sha256 ?? 'missing') : 'missing'
 
   useEffect(() => {
     void template.id
@@ -94,8 +87,7 @@ export function StampPreviewCanvas(props: {
     }
     void (async () => {
       try {
-        const blob = tilesetBlobs[tileset.path]
-        const next = await loadPreviewAssets(assetBase, tileset, blob)
+        const next = await loadPreviewAssets(assetBase, assetReader, tileset, revision)
         if (alive) setAssets(next)
       } catch (cause) {
         if (alive) setError(cause instanceof Error ? cause.message : String(cause))
@@ -104,7 +96,7 @@ export function StampPreviewCanvas(props: {
     return () => {
       alive = false
     }
-  }, [assetBase, template.tilesetId, tileset, tilesetBlobs])
+  }, [assetBase, assetReader, template.tilesetId, tileset, revision])
 
   const visibleMembers = useMemo(() => {
     const slotOrder = new Map(template.layerSlots.map((slot, index) => [slot.id, index] as const))
@@ -295,18 +287,20 @@ export function StampPreviewCanvas(props: {
 export function StampMiniPreview(props: {
   template: StampTemplateV1
   tilesets: readonly TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
+  assetReader: EditorAssetReader
+  assetCatalog: AssetCatalogV1
   assetBase: AssetBase
 }) {
-  const { template, tilesets, tilesetBlobs, assetBase } = props
+  const { template, tilesets, assetReader, assetCatalog, assetBase } = props
   const ref = useRef<HTMLCanvasElement>(null)
   const tileset = tilesets.find((candidate) => candidate.id === template.tilesetId)
+  const revision = tileset ? (assetCatalog.assets[tileset.asset]?.sha256 ?? 'missing') : 'missing'
   useEffect(() => {
     let alive = true
     const canvas = ref.current
     const context = canvas?.getContext('2d')
     if (!canvas || !context || !tileset) return
-    void loadPreviewAssets(assetBase, tileset, tilesetBlobs[tileset.path]).then(
+    void loadPreviewAssets(assetBase, assetReader, tileset, revision).then(
       ({ palette, frames }) => {
         if (!alive) return
         const slotOrder = new Map(
@@ -347,7 +341,7 @@ export function StampMiniPreview(props: {
     return () => {
       alive = false
     }
-  }, [assetBase, template, tileset, tilesetBlobs])
+  }, [assetBase, assetReader, template, tileset, revision])
   return (
     <canvas ref={ref} width={34} height={34} role="img" aria-label={`${template.name} 缩略图`}>
       {template.name} 缩略图

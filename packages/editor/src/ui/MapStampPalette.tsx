@@ -1,6 +1,7 @@
-import type { StampTemplateV1 } from '@type-pal/content'
+import type { AssetCatalogV1, StampTemplateV1 } from '@type-pal/content'
 import type { AssetBase, TilesetDef } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { StampMiniPreview } from './StampPreviewCanvas.js'
 
 const INITIAL_LIMIT = 60
@@ -9,7 +10,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
   stamps: readonly StampTemplateV1[]
   tilesetId: string
   tilesets: readonly TilesetDef[]
-  tilesetBlobs: Record<string, ArrayBuffer>
+  assetCatalog: AssetCatalogV1
+  assetReader: EditorAssetReader
   assetBase: AssetBase
   activeStampId?: string
   recentStampIds: readonly string[]
@@ -20,7 +22,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
     stamps,
     tilesetId,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     assetBase,
     activeStampId,
     recentStampIds,
@@ -114,7 +117,8 @@ export const MapStampPalette = memo(function MapStampPalette(props: {
                   <StampMiniPreview
                     template={stamp}
                     tilesets={tilesets}
-                    tilesetBlobs={tilesetBlobs}
+                    assetCatalog={assetCatalog}
+                    assetReader={assetReader}
                     assetBase={assetBase}
                   />
                 </span>

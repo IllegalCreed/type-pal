@@ -851,6 +851,8 @@ export function ScriptDrawer(props: {
           actorsById={actorsById}
           leaderSpriteId={leaderSpriteId}
           assetBase={assetBase}
+          assetCatalog={assetCatalog}
+          assetReader={assetReader}
           projectMaps={projectMaps}
           mapIndex={mapIndex}
           tilesets={tilesets}

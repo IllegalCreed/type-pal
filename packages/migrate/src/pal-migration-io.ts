@@ -87,7 +87,11 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     repo,
     'data/extracted/data/music-manifest.json',
   ).midi
-  const assets = loadPalAssets(repo, musicMidi)
+  const assets = loadPalAssets(
+    repo,
+    musicMidi,
+    tilemaps.map(({ mapNum }) => mapNum),
+  )
   return {
     migrate,
     allJson,

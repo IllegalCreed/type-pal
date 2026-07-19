@@ -1,21 +1,23 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-16；最近收口:2026-07-19（A7-2 三方审查与用户验收完成）
+> 审计日期: 2026-07-16；最近更新:2026-07-19（A7-3T 瓦片集完成三方审查和用户验收）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
-> 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX、A7-2 四类静态图/engine chrome 与 A7-3 视频/完整帧动画已实现；本文件同时保留实现前基线和 A7 总体剩余缺口。
+> 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX、A7-2 四类静态图/engine chrome、A7-3 视频/完整帧动画
+> 已完成；A7-3T 瓦片集也已完成三方审查和用户验收。本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
 A7 总体**还没有形成全资源闭包**。当前已经闭合音乐/MIDI soundfont、SFX、视频/完整帧动画以及
 portrait/face/item-icon/battle-background 四类静态图；默认标题、字形、光标和游戏 UI 已进入引擎 chrome。
-仍未迁移的 `tileset`、`sprite`、`battle-sprite`、`effect-sprite`、`image` 五族可继续经隔离的 legacy adapter
-读取 `/extracted`，catalog-only clone/ZIP 和 v4 总门禁也尚未完成。因此不能据此宣称整个工程已断开全部外部资源依赖。
+A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和用户验收。仍未迁移的 legacy 条目为
+`sprite`、`battle-sprite`、`effect-sprite` 与 generic `image` 四项；catalog-only 总门禁和 v4 也尚未完成。
+因此不能据此宣称整个工程已断开全部外部资源依赖。
 
 问题由四层共同造成:
 
 1. `manifest.assets` 声明的是目录约定,不是“稳定资源 id -> 明确文件”的注册表。
-2. 五个剩余 legacy family 仍保留数字/目录约定，尚未进入单一 catalog 链。
+2. 四个剩余 legacy 条目仍保留数字/目录约定，尚未进入单一 catalog 链。
 3. 克隆虽然已退出 `data/baked`，仍按 extracted 清单复制未迁 legacy，尚未完全从 catalog 派生闭包。
 4. 迁移器可核验全 catalog 文件，保存/导出/显式“检查工程”的统一重哈希门禁仍待 A7-4 接线。
 
@@ -134,6 +136,10 @@ portrait/face/item-icon/battle-background 四类静态图；默认标题、字�
 
 `packages/reforge/src/assets.ts:102-144` 是精灵/战斗精灵双轨的集中证据；同类模式还散落在多个加载器。
 
+> 上表是 A7-0 前历史证据，不代表当前工作态。A7-3T done 产物已有 223 个
+> `TilesetDef.asset` 和 223 个 `kind=tileset` catalog record；真实 source mapNum 集合为
+> `1..225` 且仅缺 `168/171`，不是连续 `1..223`。
+
 ### 3.5 绕过 `FileSource` 的主要读取点
 
 | 位置 | 当前行为 | 应收敛到 |
@@ -236,12 +242,43 @@ portrait/face/item-icon/battle-background 四类静态图；默认标题、字�
 - `data/baked` 与 `baked-manifest.json` 已无消费者，PAL 资源使用
   `pnpm --filter @type-pal/migrate run migrate:content -- --write` 物化。正式迁移后二跑为
   `writes=0 deletes=0 conflicts=0`。
-- 全 catalog 物理复核为 848 文件记录、59,704,628 B，missing file、bytes mismatch 与 hash mismatch 均为 0。
-  当前 clone/seed 仍需 extracted 清单承载五个未迁 legacy family；统一保存/导出闭包门禁留 A7-4。
+- A7-2 当时的全 catalog 物理复核为 848 文件记录、59,704,628 B，missing file、bytes mismatch 与 hash
+  mismatch 均为 0；当时 clone/seed 仍由 extracted 承载五个 legacy 条目。A7-3T 已从该集合移除 tileset，
+  现余四项，统一保存/导出闭包总门禁仍留 A7-4。
 
 完整实现与验证矩阵见
 [`A7-2 结果报告`](a7-2-static-images-engine-chrome-report.md) 和
 [`A7-2 任务卡`](../../ops/tasks/A7-2-static-images-engine-chrome.md)。
+
+### 3.11 A7-3T 瓦片集闭包实现证据（2026-07-19，done）
+
+- `TilesetDef` 已收敛为 `{id,name,category,asset}`；地图和组合模板只引用定义 id，定义只引用 AssetId，
+  catalog 的 `path` 是唯一物理地址。canonical runtime/editor 不再接受 `TilesetDef.path`、
+  `legacy.tilesets` 或按编号拼路径。
+- PAL 的真实集合是 `mapNum 1..225` 去掉 `168/171`，不是连续 `1..223`：223 个 definitions、223 个
+  `kind=tileset` records、223 个 map references。物化 gzip 字节共 **6,501,041 B**，严格有效帧共
+  **67,715**；catalog 路径为 `assets/migrated/tilesets/NNN.rle`，逐文件 bytes/SHA 与源 gzip 一致。
+- PAL catalog 因本切片从 848 增至 **1,071** 条；tileset 已退出 PAL/demo/e2e-own/空白种子的 legacy
+  families。示例与空白种子的标准色表也补齐为显式角色与 catalog 文件，预览不再依赖旧 palette 目录。
+- RLE parser 只允许真实 PAL chunk 的末尾零 sentinel，同时兼容作者编码器的无 sentinel 形态；中间零、
+  坏 offset、损坏 gzip 和非 sprite chunk 均 fail-loud。canonical 输出始终保留 gzip 头。
+- clone、首次 Save As、普通保存和 ZIP 对 catalog `.rle` 逐字节处理；二进制签名包含完整 SHA-256，写盘顺序
+  固定为二进制 → old/new 并集 catalog → 内容 JSON → manifest（最后引用表）→ 目标 catalog 收缩 →
+  旧文件清理，
+  并覆盖新增与删除方向各个 close 中断的可重试回归。
+  同路径同长度替换不再被长度快照漏掉。
+- 中断保存复用原快照作为实际磁盘恢复日志：保留未触及条目、逐次记录成功 close/remove；撤销新导入后
+  重存可删除已写但未登记成功的孤儿二进制，多文件删除中断后撤销也能恢复尚未触及与已删除的文件。
+- 编辑器导入/改名/替换/删除、共享 AssetId 影响、缩帧阻断、引用跳转与 undo/redo 使用同一可逆命令链；
+  瓦片工作台、地图和组合预览均以 AssetRecord SHA 失效缓存。
+- 最终迁移 dry-run 为 `writes=0 deletes=0 conflicts=0`；报告冻结
+  `tilesets=223 bytes=6501041 frames=67715`。真实 HTTP 检查确认 `.rle` 无 `Content-Encoding`，声明
+  `application/vnd.type-pal.rle` 与 `Cache-Control: no-transform`；临时断开 extracted tileset 请求后，
+  PAL 编辑器和 Reforge 仍能读取工程内文件。
+
+实现与完整验证矩阵见
+[`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。A7-3T 已完成三方 `accept` 与用户验收；
+这里只表示 tileset 单族闭包完成，不能据此把仍有四个 legacy family 的 A7/R7 总体标记为 done。
 
 ## 4. 终态数据契约
 
@@ -461,8 +498,15 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 | **A7-0** | 公共 catalog/guard/resolver/闭包地基 + 音乐/MIDI soundfont 首切片 | 音乐引用、试听、运行、保存、重迁全部只走 AssetId；`music.json` 与数字文件名推断归零 |
 | **A7-1** | SFX 与音频剩余资源 | **done（2026-07-18）**：音效引用、角色/敌人/技能/召唤音效、导入替换全部只走 AssetId |
 | **A7-2** | 四类静态图 + engine chrome + 颜色表 | **done（2026-07-19）**：三方审查与用户验收完成；379 records / 2,656 edges；项目静态图无旁路，默认 UI/字形/光标/标题走 bundler registry |
-| **A7-3** | 瓦片、精灵、战斗/法术动画、RNG、视频 | **RNG/视频部分已完成**：稳定 AssetId + TPFS + resolver + 作者工作台；瓦片/精灵/战斗动画剩余族继续收口 |
+| **A7-3** | RNG、视频与完整帧动画 | **对应切片已完成**：稳定 AssetId + TPFS + resolver + 作者工作台 |
+| **A7-3T** | 瓦片集索引资源闭包 | **done（2026-07-19）**：三方审查与用户验收完成；223 definitions / 223 records / 223 map refs；mapNum=`1..225 \ {168,171}`；gzip 6,501,041 B / 严格有效帧 67,715 |
 | **A7-4** | 克隆/另存/zip/闭包总门禁 + v4 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
+
+A7-3T 同时修复了 canonical fixture 的颜色表欠账：demo 使用
+`assets/migrated/colors/project-standard.json`，e2e-own 与 blank seed 使用
+`assets/generated/colors/project-standard.json`；三者都以 `color.project-standard` catalog record
+绑定 `visual.standardColorTable` role，并退出 legacy `color-table/palettes`。这是夹具闭包修复，不是恢复
+`paletteId` 或颜色表 UI。
 
 A7-0/A7-1 等单一切片不得把 A7/R7 标为 done；全量剩余缺口报告只能减少，不能用 allowlist 隐藏。
 

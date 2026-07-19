@@ -10176,6 +10176,2682 @@
       },
       "bytes": 94880,
       "sha256": "8b13937abe515e1a40a0aa3557e6675c1b56f33603e833e062bff8cfae57e57b"
+    },
+    "tileset.pal.001": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/001.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/1.rle"
+      },
+      "bytes": 39864,
+      "sha256": "beacbdf0abca55bf4c63c7e3e3a132aa8601c5b26a1b763fef6b3dfe6d6e3751"
+    },
+    "tileset.pal.002": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/002.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/2.rle"
+      },
+      "bytes": 46641,
+      "sha256": "6271d540c02fb0ab44e5e2e44d457adb545e644cb96811643aea7222eb0c0304"
+    },
+    "tileset.pal.003": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/003.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/3.rle"
+      },
+      "bytes": 55113,
+      "sha256": "4031cf6da49103837600684c9d30472c1e9659eb15a121ef7ad14ecab9c48684"
+    },
+    "tileset.pal.004": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/004.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/4.rle"
+      },
+      "bytes": 16539,
+      "sha256": "c40fafe7851cb77cb49a5ea53f4a8ea295ea9e2dbeb242cffa688e7b6a1cf498"
+    },
+    "tileset.pal.005": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/005.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/5.rle"
+      },
+      "bytes": 41147,
+      "sha256": "6438f2fa898b26fc50613a28080e7d01b9cbe469db0046d54b23d8f23e58e6b9"
+    },
+    "tileset.pal.006": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/006.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/6.rle"
+      },
+      "bytes": 18388,
+      "sha256": "f1de11df560cbde4467bccae5924aef83a59f7f91796dd55921f5df13cecf6cf"
+    },
+    "tileset.pal.007": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/007.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/7.rle"
+      },
+      "bytes": 36341,
+      "sha256": "1e5d509fd955978de14709ebe46499178b88f1cbd4c12704100f6c6ffde36b1e"
+    },
+    "tileset.pal.008": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/008.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/8.rle"
+      },
+      "bytes": 25723,
+      "sha256": "79e06467c73d44c7aafad826d8f9d902bfaa60a4fcc6960c1eccecd4ea2d5b45"
+    },
+    "tileset.pal.009": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/009.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/9.rle"
+      },
+      "bytes": 32814,
+      "sha256": "5dad0b5a2d7a5f468345a0350207750ccb5e6e14f36f305976471a39a986b791"
+    },
+    "tileset.pal.010": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/010.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/10.rle"
+      },
+      "bytes": 16049,
+      "sha256": "283a13a59a1e5ca56321df1715463f9f956e6ec5d145eed980ee6ba19935413c"
+    },
+    "tileset.pal.011": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/011.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/11.rle"
+      },
+      "bytes": 29326,
+      "sha256": "177f642f01a15aac30c96bc9eb30584cacb90eaf3098402f4b91bcfd7c2eccac"
+    },
+    "tileset.pal.012": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/012.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/12.rle"
+      },
+      "bytes": 25756,
+      "sha256": "9d738a0cbbcf83491634365a73c297be141b272cd1651beb3fb271aa87e1974b"
+    },
+    "tileset.pal.013": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/013.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/13.rle"
+      },
+      "bytes": 33678,
+      "sha256": "88d4ca42c81024230c709736b96a73807ed6271c9f9bc417726095ee37ec24fd"
+    },
+    "tileset.pal.014": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/014.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/14.rle"
+      },
+      "bytes": 26681,
+      "sha256": "50734ec2a39ff1418392c885934930c795c2b6617548342894bb7f9373481017"
+    },
+    "tileset.pal.015": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/015.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/15.rle"
+      },
+      "bytes": 31421,
+      "sha256": "f93eefa4af048b561b7e9a872c584abaa5fbaa613545b586bf699814584ede9b"
+    },
+    "tileset.pal.016": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/016.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/16.rle"
+      },
+      "bytes": 27287,
+      "sha256": "38259364cb54724cca602d530628ceb0c471631532aac3cf2c2c31d05e36518d"
+    },
+    "tileset.pal.017": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/017.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/17.rle"
+      },
+      "bytes": 13074,
+      "sha256": "a38f9f5d73b6c938e01093212332a832c812438f3ea25346c56c71f92bf5f894"
+    },
+    "tileset.pal.018": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/018.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/18.rle"
+      },
+      "bytes": 33109,
+      "sha256": "fb0f18bf661b5d59816b04183d567e9362eceb1f2223d40088afeb8aa9fc7c9e"
+    },
+    "tileset.pal.019": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/019.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/19.rle"
+      },
+      "bytes": 28072,
+      "sha256": "097c4de80f9737da4e23497a0720839deb7075ddd682754ad46b8e53a623ef4d"
+    },
+    "tileset.pal.020": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/020.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/20.rle"
+      },
+      "bytes": 1437,
+      "sha256": "024fc07692dfc51071efbd980cfa45d1264d264af24f8f61fe3a3ec0fbf39cea"
+    },
+    "tileset.pal.021": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/021.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/21.rle"
+      },
+      "bytes": 22816,
+      "sha256": "9e2a4cca8b7758fcfc6517c389b9d8c9b03e9c8d1f46103e2e3141baf9d036d3"
+    },
+    "tileset.pal.022": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/022.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/22.rle"
+      },
+      "bytes": 14696,
+      "sha256": "3627c44300bcb9b01db1b7396ae31c6e515913ad00174920be434c4069fb7d92"
+    },
+    "tileset.pal.023": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/023.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/23.rle"
+      },
+      "bytes": 33148,
+      "sha256": "bcbfeab930caea08b23d40c7cf89e8238b1c4cce05d1d99127e17690cbb94fcd"
+    },
+    "tileset.pal.024": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/024.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/24.rle"
+      },
+      "bytes": 23276,
+      "sha256": "17b9b7ce773e01b0662f40273b0b1acc6b8761b0f038d614fe7802e4ae46b310"
+    },
+    "tileset.pal.025": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/025.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/25.rle"
+      },
+      "bytes": 18397,
+      "sha256": "1773e680294ae18168d022f263f3558d6dace63c05a3f30ccaf6d34626ffa242"
+    },
+    "tileset.pal.026": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/026.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/26.rle"
+      },
+      "bytes": 15631,
+      "sha256": "5c91ec3b439d934e9747067003ad59c359bcdcf5f1092317b9ca4890743fdb3c"
+    },
+    "tileset.pal.027": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/027.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/27.rle"
+      },
+      "bytes": 13216,
+      "sha256": "73624297bf15b57479a0e7bba070b7c5f163c395a182b155ed2b4e8e6305abb9"
+    },
+    "tileset.pal.028": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/028.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/28.rle"
+      },
+      "bytes": 16918,
+      "sha256": "870dc3adadb831551232b98e6b6cb9a03a26ebb16008a5b55235d83badce7882"
+    },
+    "tileset.pal.029": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/029.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/29.rle"
+      },
+      "bytes": 15521,
+      "sha256": "19d0f8ef2188ac46dfdf4f101b66442ff521850065569951666c9f752b5236a2"
+    },
+    "tileset.pal.030": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/030.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/30.rle"
+      },
+      "bytes": 10378,
+      "sha256": "857a0995194c00a3fd74d5fcfc53042068c2e0957de290e88530b5124f17ad4b"
+    },
+    "tileset.pal.031": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/031.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/31.rle"
+      },
+      "bytes": 44218,
+      "sha256": "14658eaba542354f8b908aa76e5ef156120a03b68c235893a479c44eea179a70"
+    },
+    "tileset.pal.032": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/032.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/32.rle"
+      },
+      "bytes": 26409,
+      "sha256": "82803efacbdef12dbe944320ab2b7f22793c0bda398ee736762ed3a5ffbed645"
+    },
+    "tileset.pal.033": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/033.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/33.rle"
+      },
+      "bytes": 26092,
+      "sha256": "af5d8371fa914717e826b12156fe3551613dda6fcf3696061b3148b713b751b6"
+    },
+    "tileset.pal.034": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/034.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/34.rle"
+      },
+      "bytes": 26817,
+      "sha256": "556587ad57164300b881dc3bdd812701dcae811d4f6505e426ccb9b06b7c3a49"
+    },
+    "tileset.pal.035": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/035.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/35.rle"
+      },
+      "bytes": 37176,
+      "sha256": "9d141063fba417b85b5a72db46f37ee6caaecaa9ee90a7c1ed45d9b97822129e"
+    },
+    "tileset.pal.036": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/036.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/36.rle"
+      },
+      "bytes": 20865,
+      "sha256": "b08619c490987b99c447b6b6a41a064da97ba25cb73ddace10e3533b7d04c823"
+    },
+    "tileset.pal.037": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/037.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/37.rle"
+      },
+      "bytes": 11475,
+      "sha256": "36bceae72735cff4b67010e884c0cc0805f7051a058ad6c94bcc0074c9dba2f7"
+    },
+    "tileset.pal.038": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/038.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/38.rle"
+      },
+      "bytes": 27217,
+      "sha256": "8417a9b876f16305dc80488e907dc33417131dcf62adf0458b0926f131a8b7ac"
+    },
+    "tileset.pal.039": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/039.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/39.rle"
+      },
+      "bytes": 34227,
+      "sha256": "477d54b31208c2e923893a5a344ce287054c93dfce5449e7bb26900c5a13987c"
+    },
+    "tileset.pal.040": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/040.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/40.rle"
+      },
+      "bytes": 11638,
+      "sha256": "c79c3b7e4f469b8d58f5e6a3be4828cefee8d684fbf1ef2617720d808ddfd66f"
+    },
+    "tileset.pal.041": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/041.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/41.rle"
+      },
+      "bytes": 15530,
+      "sha256": "bfacf665e8354112960557b13a830eeb984ff9f6b2bc6518afe3491a8d534a3c"
+    },
+    "tileset.pal.042": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/042.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/42.rle"
+      },
+      "bytes": 18232,
+      "sha256": "4c940768a0697df54ce768dcdc19169c2984555e4045f3661916eaec35807fc8"
+    },
+    "tileset.pal.043": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/043.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/43.rle"
+      },
+      "bytes": 25446,
+      "sha256": "17ab300f6fff4975b778b4d992026a07b4e09ddbe4e7bea749c7d04c6a66b189"
+    },
+    "tileset.pal.044": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/044.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/44.rle"
+      },
+      "bytes": 9711,
+      "sha256": "bb848703c48c5b6c0fc367912e7156f02bb93498e24c2fe2628a543cd4f039a1"
+    },
+    "tileset.pal.045": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/045.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/45.rle"
+      },
+      "bytes": 46051,
+      "sha256": "512d31debef53985360536e28ed346798f6f818420aeb5ae3352f6f18d6f3f41"
+    },
+    "tileset.pal.046": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/046.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/46.rle"
+      },
+      "bytes": 48892,
+      "sha256": "cbaedfebb6e53130682e1ed8e08f5375d81a662b72b8997787c254a180b0b415"
+    },
+    "tileset.pal.047": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/047.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/47.rle"
+      },
+      "bytes": 28595,
+      "sha256": "a689e5366be2c2c01e327dbba0ca097ad11a43f91dfc44d037635897f2cc5bff"
+    },
+    "tileset.pal.048": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/048.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/48.rle"
+      },
+      "bytes": 23175,
+      "sha256": "807f024c40e390ff5d0f7a0f6213518ff30646328431b2f51ccef9fd771bd79c"
+    },
+    "tileset.pal.049": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/049.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/49.rle"
+      },
+      "bytes": 23945,
+      "sha256": "0ec659b0b3cb8eb7b6c61dd4d37dd84e9f76b60a7ba849b5f0af17fbde05e26a"
+    },
+    "tileset.pal.050": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/050.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/50.rle"
+      },
+      "bytes": 31792,
+      "sha256": "80d4e545bd28f916e3d9d270f78caa362151e7916dcab61783101a7cc3cb80ad"
+    },
+    "tileset.pal.051": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/051.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/51.rle"
+      },
+      "bytes": 24320,
+      "sha256": "3f0d7c26f96e222359055c17d3c15a6a857509547074679dafa0b048258a7b49"
+    },
+    "tileset.pal.052": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/052.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/52.rle"
+      },
+      "bytes": 29362,
+      "sha256": "d7d6723919343eefaa2d894f793dd49a9b4b14283462862c8b812ab3aebf0470"
+    },
+    "tileset.pal.053": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/053.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/53.rle"
+      },
+      "bytes": 24614,
+      "sha256": "455f657e13627ca5ef42aad3c10b86276a8b276b6d5a5542e9a6d6c5b78a145a"
+    },
+    "tileset.pal.054": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/054.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/54.rle"
+      },
+      "bytes": 33822,
+      "sha256": "9fbaadc30f0aea8d5349734ee47fb2b50d6d9eba0082eb099d32930838a1b77e"
+    },
+    "tileset.pal.055": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/055.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/55.rle"
+      },
+      "bytes": 17030,
+      "sha256": "a775753a32e3e52af7c068c4e31feaa10aa619c79537b5f38e005e285ba33fd1"
+    },
+    "tileset.pal.056": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/056.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/56.rle"
+      },
+      "bytes": 43349,
+      "sha256": "652e5c1c5739a7a805bc0a8d6204a5e25bcd1eb76bd98630892e686518600de2"
+    },
+    "tileset.pal.057": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/057.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/57.rle"
+      },
+      "bytes": 17811,
+      "sha256": "3e6ef28eca24b4dfb1761e5bf0b021a9eea61b67f695b39190577ad4eefd3265"
+    },
+    "tileset.pal.058": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/058.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/58.rle"
+      },
+      "bytes": 13082,
+      "sha256": "5e517a7eeb76f002babdd41b9323e1705387074a989408e5252fbefc3b3c4360"
+    },
+    "tileset.pal.059": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/059.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/59.rle"
+      },
+      "bytes": 46962,
+      "sha256": "18360635ea57c17f854e5dbf810eb784efe06d7ff87a2a17e5d98cf8c3e66734"
+    },
+    "tileset.pal.060": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/060.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/60.rle"
+      },
+      "bytes": 35211,
+      "sha256": "289b8bddec22a0e1104afca43b230e3d898e3bf19cbcbcc282fa8c126cdd9343"
+    },
+    "tileset.pal.061": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/061.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/61.rle"
+      },
+      "bytes": 31839,
+      "sha256": "c46ff85510cfc959f1f5ef7e16f21443c0cb65ea488141bb03ceacb23dfcff7f"
+    },
+    "tileset.pal.062": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/062.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/62.rle"
+      },
+      "bytes": 34023,
+      "sha256": "bfde54df58234b9ca3cf2559b71d5507b259939e8ab9d35e39370654ff16ff7c"
+    },
+    "tileset.pal.063": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/063.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/63.rle"
+      },
+      "bytes": 40061,
+      "sha256": "f938d9f6286d86d789ded2e74f25fa37af43671a5e4dd04c0ed760571f1b1142"
+    },
+    "tileset.pal.064": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/064.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/64.rle"
+      },
+      "bytes": 34423,
+      "sha256": "4afec391730a9a98ef91a75f5ea4dd93e1c0a2c0ec0e818fc15d65e89e072135"
+    },
+    "tileset.pal.065": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/065.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/65.rle"
+      },
+      "bytes": 30594,
+      "sha256": "ec14d324c0b02c1ce4ea2f18edc3621537bce55241401114b40d5c17d44f4cda"
+    },
+    "tileset.pal.066": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/066.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/66.rle"
+      },
+      "bytes": 36073,
+      "sha256": "2d13992f650890f5e7e4f9fc66dfb34cdb659b84f43b7ea218509dd246bd1984"
+    },
+    "tileset.pal.067": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/067.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/67.rle"
+      },
+      "bytes": 37337,
+      "sha256": "0a60c9be8bdd0ebb59764340ec3ee007fed5b465f576d8d5de860524385dbb83"
+    },
+    "tileset.pal.068": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/068.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/68.rle"
+      },
+      "bytes": 36228,
+      "sha256": "26c7525363fc883ada551317db8421f455d16b7342a34184a2bdb0b28cf2ceed"
+    },
+    "tileset.pal.069": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/069.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/69.rle"
+      },
+      "bytes": 33325,
+      "sha256": "ef04415b228f0590e8b6a0312d17f4677bbaf82b59aa885a975b94dfd8346437"
+    },
+    "tileset.pal.070": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/070.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/70.rle"
+      },
+      "bytes": 11269,
+      "sha256": "2fa4d1a9b7db165b4e180f3f9aedb87cfa56fc27600af89816b7e002639d1937"
+    },
+    "tileset.pal.071": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/071.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/71.rle"
+      },
+      "bytes": 36404,
+      "sha256": "332febbb73f0937c177d05e7274eee7734608a215bfff3002d04fb3a03861c10"
+    },
+    "tileset.pal.072": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/072.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/72.rle"
+      },
+      "bytes": 5010,
+      "sha256": "4853328bd17a2bbb22d1351dfd01d727466800daaefe39b63c2ff30d405502c0"
+    },
+    "tileset.pal.073": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/073.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/73.rle"
+      },
+      "bytes": 22424,
+      "sha256": "6d5665120b0698f74c0ba1375ccfb4cc76ee67d3eb7117ba424f1807a4d4e828"
+    },
+    "tileset.pal.074": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/074.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/74.rle"
+      },
+      "bytes": 23476,
+      "sha256": "737b49cbed2158bc7da138a636565f6f4823eb88efb2e5a2c3764d277356e97c"
+    },
+    "tileset.pal.075": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/075.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/75.rle"
+      },
+      "bytes": 8477,
+      "sha256": "83e70e5ec7ef56e9d9c522128978cb6a653f2067811fdc19b6e6dbc526d79fb0"
+    },
+    "tileset.pal.076": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/076.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/76.rle"
+      },
+      "bytes": 25509,
+      "sha256": "878d4c4802b31ad19a5615511ce8ef71765964cf1f89273617b3f3d8fa723162"
+    },
+    "tileset.pal.077": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/077.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 077",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/77.rle"
+      },
+      "bytes": 43334,
+      "sha256": "bbc1f48bb164a6ef31fe4f329c4757bbbcf79fcd60d4b49c8572951a8aab78de"
+    },
+    "tileset.pal.078": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/078.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 078",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/78.rle"
+      },
+      "bytes": 38243,
+      "sha256": "191f3554b6ee5b3d792fb92a82b1442b299b2423245ebe31d04bab0759adb36f"
+    },
+    "tileset.pal.079": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/079.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 079",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/79.rle"
+      },
+      "bytes": 42613,
+      "sha256": "7050ca171c8a54c1afdbd4ebdda739f31902b9aa247a233774f286d16a8cd814"
+    },
+    "tileset.pal.080": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/080.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/80.rle"
+      },
+      "bytes": 50422,
+      "sha256": "54369a21b1a4379bda0f6aa1ce64f502a5432469cbaa3efa61ba96a6dfa40228"
+    },
+    "tileset.pal.081": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/081.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/81.rle"
+      },
+      "bytes": 25330,
+      "sha256": "8e48a3494f7899a03aea2d92505b8c0489d4631078d6f80e2135780c320dccde"
+    },
+    "tileset.pal.082": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/082.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/82.rle"
+      },
+      "bytes": 17429,
+      "sha256": "b67c68c5d4787911291a17d0d3ee3a38a54d32f0ad4818f5b95971bf0a8faeb6"
+    },
+    "tileset.pal.083": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/083.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/83.rle"
+      },
+      "bytes": 13833,
+      "sha256": "8a4adf56ec7ec6b5b19abcbb28ae7798442b2603332fc4d0df3ddc7dcaf61c18"
+    },
+    "tileset.pal.084": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/084.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/84.rle"
+      },
+      "bytes": 14585,
+      "sha256": "8d675108b708cb183b9834b46fe18360c07da7f7030747b44d625e49993ccab7"
+    },
+    "tileset.pal.085": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/085.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/85.rle"
+      },
+      "bytes": 10466,
+      "sha256": "ef701787794069a740fa515fae3b6129c8696167ad462dc91309df8f1ff2cf77"
+    },
+    "tileset.pal.086": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/086.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/86.rle"
+      },
+      "bytes": 20421,
+      "sha256": "faf914d2cde64e04be21460237e84abd6a46547f52b52e15aa359d37301b113e"
+    },
+    "tileset.pal.087": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/087.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/87.rle"
+      },
+      "bytes": 7875,
+      "sha256": "464a68d206ff7dad06a41bf9573e916f91f7b1a1034959a02b533c252b1d88c5"
+    },
+    "tileset.pal.088": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/088.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 088",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/88.rle"
+      },
+      "bytes": 12345,
+      "sha256": "e72a90f3ab01b8d0d442a092a5c7a43899284311983c72117e514048cfec8b26"
+    },
+    "tileset.pal.089": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/089.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 089",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/89.rle"
+      },
+      "bytes": 33875,
+      "sha256": "4c2b2b6c9edabdd8fc95142a9ed7caf6562d617aa514f0537f4900ea7cffa0a1"
+    },
+    "tileset.pal.090": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/090.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 090",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/90.rle"
+      },
+      "bytes": 21188,
+      "sha256": "b8d097c36c09de440742de839657b1120bfe96d9f1813190d5b86b0d7d5a9208"
+    },
+    "tileset.pal.091": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/091.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 091",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/91.rle"
+      },
+      "bytes": 3213,
+      "sha256": "9cf3121ddbc6d6f44bdfa6c4f2111ff8821c229af986fbcd34ed86d25efab483"
+    },
+    "tileset.pal.092": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/092.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 092",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/92.rle"
+      },
+      "bytes": 36226,
+      "sha256": "08f1445f00b0aea1df73bd99fb1482cd2254e2c3f5e8e7b130f3b955c6e7f3f5"
+    },
+    "tileset.pal.093": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/093.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 093",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/93.rle"
+      },
+      "bytes": 40412,
+      "sha256": "042f8710d67e314b2f6867bccedc0c60153bb4c2e1f72e41b5150080f6f3a955"
+    },
+    "tileset.pal.094": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/094.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 094",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/94.rle"
+      },
+      "bytes": 26820,
+      "sha256": "9846d2a0dbb646b9ddae3c4a4078f698655ed100fcb395c5e7654684883473bc"
+    },
+    "tileset.pal.095": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/095.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 095",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/95.rle"
+      },
+      "bytes": 41717,
+      "sha256": "59fb9d50fae7a1eaff1466cce394539c00a5f73e30be0659e515d39aba6bf305"
+    },
+    "tileset.pal.096": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/096.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 096",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/96.rle"
+      },
+      "bytes": 53819,
+      "sha256": "ab560050da911239848ead6d2664a54985ac18bbed3cd231afbcdd3da9c7fd36"
+    },
+    "tileset.pal.097": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/097.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 097",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/97.rle"
+      },
+      "bytes": 48442,
+      "sha256": "effea8e80a6162c11faeeb21c5295d8aa5f313168cf54d25d464b9d1cd2150b2"
+    },
+    "tileset.pal.098": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/098.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 098",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/98.rle"
+      },
+      "bytes": 45151,
+      "sha256": "7963732dc978cff44775656ca25a580fc192dccc82b46da4933ef56ceee124b8"
+    },
+    "tileset.pal.099": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/099.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 099",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/99.rle"
+      },
+      "bytes": 32742,
+      "sha256": "3c7c7faec5c0863dcb8760d173a536c85199807187855647be35494cb63b2424"
+    },
+    "tileset.pal.100": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/100.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 100",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/100.rle"
+      },
+      "bytes": 29458,
+      "sha256": "99023072eacaf5fa7b7ee3de8a9ef3edb735abf099ef2ee3603dc80f29cf8b0a"
+    },
+    "tileset.pal.101": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/101.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 101",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/101.rle"
+      },
+      "bytes": 43224,
+      "sha256": "9816534ed938be6b953dbb84b079d7c774aec315b9458d6a3952e2738e8b3087"
+    },
+    "tileset.pal.102": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/102.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 102",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/102.rle"
+      },
+      "bytes": 39932,
+      "sha256": "82a539bddc87ea3535a6e24220ea59bda462ec41defd0dd671271a4ea81abfd2"
+    },
+    "tileset.pal.103": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/103.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 103",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/103.rle"
+      },
+      "bytes": 33491,
+      "sha256": "1aee94fb6906df69ff2a9f8fc441ff786706282f0fd25fea7236adf17d5476ed"
+    },
+    "tileset.pal.104": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/104.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 104",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/104.rle"
+      },
+      "bytes": 28154,
+      "sha256": "a0e57cb3d283d5aa0ed45bd6a1ce694340f1cb986dda448ebbcca0c41f142235"
+    },
+    "tileset.pal.105": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/105.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 105",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/105.rle"
+      },
+      "bytes": 50372,
+      "sha256": "21c5d242f1dd67e13d8a48ba0222200f3f47825492d4d49842480338919af887"
+    },
+    "tileset.pal.106": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/106.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 106",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/106.rle"
+      },
+      "bytes": 46334,
+      "sha256": "cc18aca89ed1918828b438d2210014765c1d5738d6c40cdf6d2d6988d9dc3d9e"
+    },
+    "tileset.pal.107": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/107.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 107",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/107.rle"
+      },
+      "bytes": 36183,
+      "sha256": "cb1e03b94dcab9f84f967b734ccdb1332d6f1e2d1565376ba08172178573c139"
+    },
+    "tileset.pal.108": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/108.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 108",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/108.rle"
+      },
+      "bytes": 42573,
+      "sha256": "36788b0827300d29965ac05a5e60db5b4db7c454768a33bc744e5006d52fc0c7"
+    },
+    "tileset.pal.109": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/109.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 109",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/109.rle"
+      },
+      "bytes": 41390,
+      "sha256": "c1e26d3cfa9dfbe88505b995db68c2c6985441eca254f05281cad26fce2d0800"
+    },
+    "tileset.pal.110": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/110.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 110",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/110.rle"
+      },
+      "bytes": 22623,
+      "sha256": "b88bbe3c2035e5034a9984e33a9a451bc6b0267345ff1fa2c8c4c9f639726b16"
+    },
+    "tileset.pal.111": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/111.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 111",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/111.rle"
+      },
+      "bytes": 23254,
+      "sha256": "eb3a01bc1ec148f2190ba94b2fcefb29bc4b077259804be96c490a016af9eeb1"
+    },
+    "tileset.pal.112": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/112.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 112",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/112.rle"
+      },
+      "bytes": 24402,
+      "sha256": "5274311fed3de5ecdf1ed7ff7af5d5ddfd23df6afb7411ecb5c51db2c5895f41"
+    },
+    "tileset.pal.113": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/113.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 113",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/113.rle"
+      },
+      "bytes": 24402,
+      "sha256": "5274311fed3de5ecdf1ed7ff7af5d5ddfd23df6afb7411ecb5c51db2c5895f41"
+    },
+    "tileset.pal.114": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/114.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 114",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/114.rle"
+      },
+      "bytes": 13228,
+      "sha256": "d6b4d9ff6972f7c1a43ac7aa0bb6ae62a95751f11112a5f100334e5a43056464"
+    },
+    "tileset.pal.115": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/115.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 115",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/115.rle"
+      },
+      "bytes": 16164,
+      "sha256": "f34787bae49330ae83d8ccfa2fb65638e1c793a6472e75613dace6ee661613f7"
+    },
+    "tileset.pal.116": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/116.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 116",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/116.rle"
+      },
+      "bytes": 16468,
+      "sha256": "5f159953f39359a6f19a058d4fbfd60a1fe54e5e2d91674bba3d2c22ef2c6ca0"
+    },
+    "tileset.pal.117": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/117.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 117",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/117.rle"
+      },
+      "bytes": 30389,
+      "sha256": "165475ebceeb380150d3c5c1ef94e1783c9eb5f252f4a7678cad1052dca3ad25"
+    },
+    "tileset.pal.118": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/118.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 118",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/118.rle"
+      },
+      "bytes": 19384,
+      "sha256": "fff7a08f8aa88079836f9f4052661be4ac19295986c39b834e55c46d7d19de2b"
+    },
+    "tileset.pal.119": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/119.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 119",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/119.rle"
+      },
+      "bytes": 26796,
+      "sha256": "1f69e24f337caf384c72b694401c62a0b4dc9a01f17612236b4d971df1b97261"
+    },
+    "tileset.pal.120": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/120.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 120",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/120.rle"
+      },
+      "bytes": 13835,
+      "sha256": "59cb1fe91c0408fca060eb50c1e2d23c92c5544dd095d3b1e4dcde405be4c9e2"
+    },
+    "tileset.pal.121": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/121.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 121",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/121.rle"
+      },
+      "bytes": 25031,
+      "sha256": "e0e3a76f37b35fea09e96cfe36cc5ca4f9e28b4c2824a304a66401de25292937"
+    },
+    "tileset.pal.122": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/122.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 122",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/122.rle"
+      },
+      "bytes": 12336,
+      "sha256": "deee09cdad9ce5cd0b84bb756de3a60488ee84372b7f3e37a9ad46bd88f8e429"
+    },
+    "tileset.pal.123": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/123.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 123",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/123.rle"
+      },
+      "bytes": 20150,
+      "sha256": "6d794c50894e67717235b8895a630a582e884985ff4fa586352cb87b46427af5"
+    },
+    "tileset.pal.124": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/124.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 124",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/124.rle"
+      },
+      "bytes": 18282,
+      "sha256": "2808c1ea3698531a9c90dbfcd066c34d32cc33300ac90ab8e103d37778bb1b5e"
+    },
+    "tileset.pal.125": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/125.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 125",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/125.rle"
+      },
+      "bytes": 27966,
+      "sha256": "24f580ada2d88f8ade569db51328d8e2ba710c86e6f57b1d69e4e67052c79b05"
+    },
+    "tileset.pal.126": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/126.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 126",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/126.rle"
+      },
+      "bytes": 14275,
+      "sha256": "b5f96b06d0c0ee4f4cde19cb69a6e8d12114deb7305ceba2b1524122900f51e9"
+    },
+    "tileset.pal.127": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/127.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 127",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/127.rle"
+      },
+      "bytes": 21078,
+      "sha256": "f97bfcc1b6aa977400e53335230508f8cfd6645fdd6a98a54640025224368bea"
+    },
+    "tileset.pal.128": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/128.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 128",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/128.rle"
+      },
+      "bytes": 18491,
+      "sha256": "f922b6726ebbb35d659fb66690dd08959335da9a56f35b5bdde5a6e47c8224ca"
+    },
+    "tileset.pal.129": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/129.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 129",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/129.rle"
+      },
+      "bytes": 37638,
+      "sha256": "67ad90c60c2de1251c3b86ace60f9b5258165f9d1abf64627341c648be01c295"
+    },
+    "tileset.pal.130": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/130.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 130",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/130.rle"
+      },
+      "bytes": 27963,
+      "sha256": "28192dbc45d8cd11fa21cefadce27dce29a7f0001f46d67ee161faae3d0a1b09"
+    },
+    "tileset.pal.131": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/131.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 131",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/131.rle"
+      },
+      "bytes": 18296,
+      "sha256": "a5d842b90ef55c47b913680ea612bf7bd9046af8492e93d03b5078a4d75a6bd2"
+    },
+    "tileset.pal.132": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/132.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 132",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/132.rle"
+      },
+      "bytes": 49352,
+      "sha256": "86a4a4e8a4a9350a843d2a7ef749709f2b24a148d3f8f175a0c4f7ecc8c0c7a6"
+    },
+    "tileset.pal.133": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/133.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 133",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/133.rle"
+      },
+      "bytes": 56443,
+      "sha256": "74b0b5a1e64df7f71cf7f397cd1dcd787dd9fa989a9cea0251d031834dac27d7"
+    },
+    "tileset.pal.134": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/134.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 134",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/134.rle"
+      },
+      "bytes": 31690,
+      "sha256": "efab3d60d5252daf5479d99732d0e490793a6fa33617c04f47a4e96e8c2dc3c7"
+    },
+    "tileset.pal.135": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/135.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 135",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/135.rle"
+      },
+      "bytes": 24505,
+      "sha256": "8ee899202ecdb47193f82bb044553a47fdfc1a15aaaa7951acc77b90410c7deb"
+    },
+    "tileset.pal.136": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/136.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 136",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/136.rle"
+      },
+      "bytes": 22857,
+      "sha256": "122f1616ae5959ee341a970e5be7064a5a1ca870108913df6faa864654c8f823"
+    },
+    "tileset.pal.137": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/137.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 137",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/137.rle"
+      },
+      "bytes": 59615,
+      "sha256": "f0efefffd8c5cc17883b90bfd3cdfc5459707112b24f081114518336eb685fe3"
+    },
+    "tileset.pal.138": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/138.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 138",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/138.rle"
+      },
+      "bytes": 56287,
+      "sha256": "5cbc3773278fc410e386e70ed20e60a358bb3356f975e18560289e1702c5f87c"
+    },
+    "tileset.pal.139": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/139.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 139",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/139.rle"
+      },
+      "bytes": 56851,
+      "sha256": "045dbdca8a2095747cba7181030478fc550407ca1e54810fd2dc8a6d274c9fa4"
+    },
+    "tileset.pal.140": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/140.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 140",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/140.rle"
+      },
+      "bytes": 25064,
+      "sha256": "3a909968b94633b1bd8fed86230cc6d7ef8272472b9bb0fe178dd66416ea2a2a"
+    },
+    "tileset.pal.141": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/141.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 141",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/141.rle"
+      },
+      "bytes": 20414,
+      "sha256": "fa70d4895cfb9aacc0de382e8f14332f0b21d69b159fa307588f1c2214c79a0b"
+    },
+    "tileset.pal.142": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/142.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 142",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/142.rle"
+      },
+      "bytes": 35129,
+      "sha256": "bed05f60934e4c957de769abd1ebe20ff6416490c54007ae24ce49521af1f086"
+    },
+    "tileset.pal.143": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/143.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 143",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/143.rle"
+      },
+      "bytes": 27391,
+      "sha256": "20bcbf9251568748c4df81f36eae4a3fcd519dd3a4b3872a6ed5c9b014e2a3c2"
+    },
+    "tileset.pal.144": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/144.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 144",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/144.rle"
+      },
+      "bytes": 25532,
+      "sha256": "f2eb1da61329af8aaf8d0548384c10f26040dd9d7c20ea27c3b4dee9996e43cd"
+    },
+    "tileset.pal.145": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/145.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 145",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/145.rle"
+      },
+      "bytes": 24050,
+      "sha256": "4e95e8ff71d2d3b70172b0f39cabe0f6afdd96d141e8e3b6dd64d2af597968e1"
+    },
+    "tileset.pal.146": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/146.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 146",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/146.rle"
+      },
+      "bytes": 26095,
+      "sha256": "222c6cb04c4473017a2bc2f8c5a8848189e0f886d6ea0b7675dd3b8a598125a2"
+    },
+    "tileset.pal.147": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/147.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 147",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/147.rle"
+      },
+      "bytes": 18908,
+      "sha256": "74457a745190c157832ebecde6a46529c8c48fd4d52a37a7028837e94a437e2a"
+    },
+    "tileset.pal.148": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/148.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 148",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/148.rle"
+      },
+      "bytes": 33772,
+      "sha256": "8e4bd523825b19fae884793e7b6c5813d5efd786469c0b117de848603cece255"
+    },
+    "tileset.pal.149": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/149.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 149",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/149.rle"
+      },
+      "bytes": 50576,
+      "sha256": "823bfe3d54a40a18ee24d25342044706eafa113904118ed879126f3d816d3eae"
+    },
+    "tileset.pal.150": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/150.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 150",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/150.rle"
+      },
+      "bytes": 54033,
+      "sha256": "6ad497a215dde21a450ddcf6a055a5fce3f83c20a63cb9a94eaee6e4212f5b3c"
+    },
+    "tileset.pal.151": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/151.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 151",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/151.rle"
+      },
+      "bytes": 53160,
+      "sha256": "4f9c6dd7eb0de1577714dc03f0360b68045645e62973e723cc282df996c4973a"
+    },
+    "tileset.pal.152": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/152.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 152",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/152.rle"
+      },
+      "bytes": 37651,
+      "sha256": "985b014456cba85d0eade78a5ebf65b05616cce0bf5375b0dfc767575f556d35"
+    },
+    "tileset.pal.153": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/153.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 153",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/153.rle"
+      },
+      "bytes": 46462,
+      "sha256": "e322c718c5f07c916fc3d3ebdf87b6a6bbc6351ff0e9fa53b7daf90dacf013a0"
+    },
+    "tileset.pal.154": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/154.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 154",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/154.rle"
+      },
+      "bytes": 46100,
+      "sha256": "26857635f61628d0272c21634acce39c15c3e5d2b1f9d2d6aadc2db894059dcb"
+    },
+    "tileset.pal.155": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/155.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 155",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/155.rle"
+      },
+      "bytes": 30680,
+      "sha256": "aebec5194ab3ae0126e0dd4e80d21d2adc4e123eeeebbe749ee5f8cf67763bec"
+    },
+    "tileset.pal.156": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/156.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 156",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/156.rle"
+      },
+      "bytes": 13503,
+      "sha256": "f29683e1aa352ac1c1c25f249516134ef06778d4ba44436f788d80fb706d133f"
+    },
+    "tileset.pal.157": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/157.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 157",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/157.rle"
+      },
+      "bytes": 57476,
+      "sha256": "3514fe051bc9ef50125cb3a476906725a889fc2aaa85b8b2a08137a8cd4838cf"
+    },
+    "tileset.pal.158": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/158.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 158",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/158.rle"
+      },
+      "bytes": 22301,
+      "sha256": "bbc6f64685855e12fffb9950d02cabc2d999d3c1fa6a5afc9f294cfa9de8cde8"
+    },
+    "tileset.pal.159": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/159.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 159",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/159.rle"
+      },
+      "bytes": 56993,
+      "sha256": "4fe53694c4e6893c470d8b3ca9d9b21e76f2dd0b01efbe018c0e5cd2f2aa1198"
+    },
+    "tileset.pal.160": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/160.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 160",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/160.rle"
+      },
+      "bytes": 17570,
+      "sha256": "b0a580475348c2358bd255278a5f8121d620222fbdb228d2c68a80d3243e109a"
+    },
+    "tileset.pal.161": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/161.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 161",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/161.rle"
+      },
+      "bytes": 18330,
+      "sha256": "711bd9bfd5e63b00fb43271c422c063cb69426896d2c00bea6023214d78e2c7e"
+    },
+    "tileset.pal.162": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/162.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 162",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/162.rle"
+      },
+      "bytes": 36930,
+      "sha256": "a4e0eb3f1690035662bfb6bbb2a9fb04bac46105b49b657ab209f5243da3aac0"
+    },
+    "tileset.pal.163": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/163.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 163",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/163.rle"
+      },
+      "bytes": 34226,
+      "sha256": "84af1b113216933a2d7b52bd0784a8d6c3aeb192a5b51ec75d54303e27b0e671"
+    },
+    "tileset.pal.164": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/164.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 164",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/164.rle"
+      },
+      "bytes": 30968,
+      "sha256": "2879d27c96a8d15fe2037739945b178b240e69b1147c4d5aa8d8f8d6a3ab1fae"
+    },
+    "tileset.pal.165": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/165.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 165",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/165.rle"
+      },
+      "bytes": 29076,
+      "sha256": "dbcadad23c03e2c22ff36a7d534ee9a5a7bfcf9186fe80a01ffb780ebe5fe43f"
+    },
+    "tileset.pal.166": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/166.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 166",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/166.rle"
+      },
+      "bytes": 25553,
+      "sha256": "7c15ec609747285dd76c894478568cbb989914c5e9aaa5f616314e373f8a53da"
+    },
+    "tileset.pal.167": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/167.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 167",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/167.rle"
+      },
+      "bytes": 31044,
+      "sha256": "2fe41193d77b75af2cf81e071e5cd84bbb900d0dceade2dff73a40cd4b17ba57"
+    },
+    "tileset.pal.169": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/169.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 169",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/169.rle"
+      },
+      "bytes": 23967,
+      "sha256": "145f653855a9f85e6e2b7da851097fd8dc63acefcb95e6432dbc8fb8be0043cd"
+    },
+    "tileset.pal.170": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/170.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 170",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/170.rle"
+      },
+      "bytes": 28335,
+      "sha256": "4276ec9f0ef19996c0273d1efe56aaaf20fae3bc19c3b48fa9450f9893e20731"
+    },
+    "tileset.pal.172": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/172.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 172",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/172.rle"
+      },
+      "bytes": 16464,
+      "sha256": "ad99c57d73f21c398c12896e18afa65fad757a29c0e0d91fd4182cb6aa804ddf"
+    },
+    "tileset.pal.173": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/173.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 173",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/173.rle"
+      },
+      "bytes": 26957,
+      "sha256": "f66195cdd45a12081c3bbf9c2f1c941ed990ef0594c6140a19ab8b7909ecf53a"
+    },
+    "tileset.pal.174": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/174.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 174",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/174.rle"
+      },
+      "bytes": 30156,
+      "sha256": "bee3a7484a2b6d9241ea586eb7903cc8f771e1d877a91d01b2dfcb431bf46144"
+    },
+    "tileset.pal.175": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/175.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 175",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/175.rle"
+      },
+      "bytes": 32366,
+      "sha256": "de89bf250130341e435319eb55557836022c9563029dec522b89fa301f0da3ae"
+    },
+    "tileset.pal.176": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/176.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 176",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/176.rle"
+      },
+      "bytes": 46343,
+      "sha256": "4eb140eb0076ed76e8075dffb875c803a20b8cb47b0b3d8186988504e07c08db"
+    },
+    "tileset.pal.177": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/177.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 177",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/177.rle"
+      },
+      "bytes": 37096,
+      "sha256": "89f0204afa3b18626a59338ef23140f87ad3a4d09b3f6115bd5dce8b6c239803"
+    },
+    "tileset.pal.178": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/178.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 178",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/178.rle"
+      },
+      "bytes": 36651,
+      "sha256": "53f3f9a424b51d2a91fd740173ff2e083e4506843b29dab090a940d227d4d1d5"
+    },
+    "tileset.pal.179": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/179.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 179",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/179.rle"
+      },
+      "bytes": 17823,
+      "sha256": "c2ce14ed164f0295adf91775f4a3bf1ab1b5946388085910f2eaa7791ff091ae"
+    },
+    "tileset.pal.180": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/180.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 180",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/180.rle"
+      },
+      "bytes": 12034,
+      "sha256": "1ad5a52adf3f67c3c96d4d102b67b298c4593991b9daf9a97e9abbfd2bb71ff7"
+    },
+    "tileset.pal.181": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/181.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 181",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/181.rle"
+      },
+      "bytes": 16804,
+      "sha256": "616dc437038d4270f0604f1721e85e3cb48c372d29be439c218893fb2801b50c"
+    },
+    "tileset.pal.182": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/182.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 182",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/182.rle"
+      },
+      "bytes": 11751,
+      "sha256": "992c37ab5f29ead469fa55ff5b6f70929d5bff3573c624d4008a835e9a0ca043"
+    },
+    "tileset.pal.183": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/183.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 183",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/183.rle"
+      },
+      "bytes": 23730,
+      "sha256": "00a5a3fe984385de2d790275fdcab2dfb1be0232423330ae070ba778e0622864"
+    },
+    "tileset.pal.184": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/184.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 184",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/184.rle"
+      },
+      "bytes": 9390,
+      "sha256": "62624817dcf644c9febb6ff1105393d87da28073d06aeb3c2af32728c553eea8"
+    },
+    "tileset.pal.185": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/185.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 185",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/185.rle"
+      },
+      "bytes": 12989,
+      "sha256": "ec2e2e01fe64e9d03e61c58d1a164f1530137b4ff8f8171032baf00f28fe3ace"
+    },
+    "tileset.pal.186": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/186.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 186",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/186.rle"
+      },
+      "bytes": 41635,
+      "sha256": "97e913855c74e1a90e6dd0d2f9e5a873211b9936d9865f302b5139773ee86c2a"
+    },
+    "tileset.pal.187": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/187.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 187",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/187.rle"
+      },
+      "bytes": 39090,
+      "sha256": "700316fd91f6fc738a26c2736bc1da42902fb3275966c807d4c9f5ce02a677bf"
+    },
+    "tileset.pal.188": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/188.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 188",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/188.rle"
+      },
+      "bytes": 35238,
+      "sha256": "d7f2323683ff4260eedc1fbee3560482de65bed8864142e021a6cbdb26099c92"
+    },
+    "tileset.pal.189": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/189.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 189",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/189.rle"
+      },
+      "bytes": 38752,
+      "sha256": "823f474ad3db6851ad1b49c2bba56e78bc1c11306bbb37b6064f50547b946796"
+    },
+    "tileset.pal.190": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/190.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 190",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/190.rle"
+      },
+      "bytes": 32795,
+      "sha256": "ffe23ce27331e9d9e5b7c1f289b888cc578c335dbcbf490c08b9c1beee4e1687"
+    },
+    "tileset.pal.191": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/191.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 191",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/191.rle"
+      },
+      "bytes": 32375,
+      "sha256": "1cdb553a1ceb3738b609fafea0e34fc1d4b536d7469716090447dee293f07bbe"
+    },
+    "tileset.pal.192": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/192.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 192",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/192.rle"
+      },
+      "bytes": 22248,
+      "sha256": "5e668b8f41dba590a41bc1064d6f12fcc8489636d749ff8511319ec9929b03c2"
+    },
+    "tileset.pal.193": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/193.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 193",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/193.rle"
+      },
+      "bytes": 25983,
+      "sha256": "1f8fcaaf17adc8668dcbde50e285e7de16a69d31e4ae9fcf4c11b862f6683887"
+    },
+    "tileset.pal.194": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/194.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 194",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/194.rle"
+      },
+      "bytes": 30883,
+      "sha256": "667578dca0161a85f37eafb225fff26128a1a9db61c3cf08f668a4cf259ec0d3"
+    },
+    "tileset.pal.195": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/195.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 195",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/195.rle"
+      },
+      "bytes": 48148,
+      "sha256": "b335ebf635072c7168a860ee70e53313b87b72e7685c8f4760fbb82f8f11bc3d"
+    },
+    "tileset.pal.196": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/196.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 196",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/196.rle"
+      },
+      "bytes": 36423,
+      "sha256": "60cef42cebd90a417a8866e04a73098fe40138de81f6bca0a497c56f14e6ffdc"
+    },
+    "tileset.pal.197": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/197.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 197",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/197.rle"
+      },
+      "bytes": 12406,
+      "sha256": "38e31f1886766f7bbe3535d3fcc875ebe7fbe4d403adee0a1f390480efc78187"
+    },
+    "tileset.pal.198": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/198.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 198",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/198.rle"
+      },
+      "bytes": 26837,
+      "sha256": "409908fd8acc9d8f1cc8eb1a02e9fb81e4666d68456c2910eeaaa2f91b3209b3"
+    },
+    "tileset.pal.199": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/199.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 199",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/199.rle"
+      },
+      "bytes": 28571,
+      "sha256": "87761f44fcc2a9775581c8c422310103782dd598b2143fe22da96025ec4c7e00"
+    },
+    "tileset.pal.200": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/200.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 200",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/200.rle"
+      },
+      "bytes": 54914,
+      "sha256": "0ba92706a8d401925990efc9bd490602437f1ac9588a223e3206c966b51a7f32"
+    },
+    "tileset.pal.201": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/201.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 201",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/201.rle"
+      },
+      "bytes": 45804,
+      "sha256": "37c4b933693fd4f5d55b2fd099eddd689b959de303dc6a387cf0c25a79e54e61"
+    },
+    "tileset.pal.202": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/202.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 202",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/202.rle"
+      },
+      "bytes": 17393,
+      "sha256": "6c4f307b2d4e073b7bcf1667ed387fcd7be21f0c4d192a801576e83e96a678db"
+    },
+    "tileset.pal.203": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/203.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 203",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/203.rle"
+      },
+      "bytes": 12636,
+      "sha256": "999a6c480cdc2378a867f0000f73a2ddd2b1ad9e100c421b94c32738037cef44"
+    },
+    "tileset.pal.204": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/204.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 204",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/204.rle"
+      },
+      "bytes": 5366,
+      "sha256": "27ab32c1eb83f02d98f005e329865f8f6ae8d292c71d4cb0a254c13170a8e5be"
+    },
+    "tileset.pal.205": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/205.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 205",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/205.rle"
+      },
+      "bytes": 10118,
+      "sha256": "4ae439868d466a7ce83168af1e70b6d0c53aa105825f8c38a2cd9c24f2d6f3d3"
+    },
+    "tileset.pal.206": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/206.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 206",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/206.rle"
+      },
+      "bytes": 8400,
+      "sha256": "c66febb32506eb104492f127d9f1fcae0d35cfbed79d369881299a3fe204f605"
+    },
+    "tileset.pal.207": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/207.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 207",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/207.rle"
+      },
+      "bytes": 17203,
+      "sha256": "c250a6dcd2d4cbd96157e916291a7d4cb5e57b4d20f313d5fd9115d696bf19f5"
+    },
+    "tileset.pal.208": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/208.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 208",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/208.rle"
+      },
+      "bytes": 10630,
+      "sha256": "31a0161f4f7f0d07aa3bc3c698d8f16bdc834afa204912f5be52f3aeedbc30fd"
+    },
+    "tileset.pal.209": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/209.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 209",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/209.rle"
+      },
+      "bytes": 7977,
+      "sha256": "0cf5d70c7892cdff8e5e27cf28fa1a98bac15b621b7b2446ad5bea957faa6d86"
+    },
+    "tileset.pal.210": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/210.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 210",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/210.rle"
+      },
+      "bytes": 18023,
+      "sha256": "9c647607ac6e3ac1cc8a3ac7d4b570f6f75fdc4b86108bc635c4ac18a574d718"
+    },
+    "tileset.pal.211": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/211.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 211",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/211.rle"
+      },
+      "bytes": 34504,
+      "sha256": "1214a993e5143b5215ca48c49d7710c542e12550d65b029df3d6f54844a97518"
+    },
+    "tileset.pal.212": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/212.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 212",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/212.rle"
+      },
+      "bytes": 39036,
+      "sha256": "4d2bdd7923c169ed91e1ebc5c58ac644d7172fdec3017eeb79a5fb71e6584a2e"
+    },
+    "tileset.pal.213": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/213.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 213",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/213.rle"
+      },
+      "bytes": 36177,
+      "sha256": "520684d054e934d89c1c7075279f86215c2c6de67fd6f908ee82a41aadc9a70a"
+    },
+    "tileset.pal.214": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/214.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 214",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/214.rle"
+      },
+      "bytes": 50554,
+      "sha256": "b7e00bfbe12236f900529449ca954740960867a48f6b004278c3b3e3f99fabdc"
+    },
+    "tileset.pal.215": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/215.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 215",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/215.rle"
+      },
+      "bytes": 41952,
+      "sha256": "5331142bd87d112064f93e54c64535f064c231ccf424d5274a182ab8e6b81ff0"
+    },
+    "tileset.pal.216": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/216.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 216",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/216.rle"
+      },
+      "bytes": 23360,
+      "sha256": "64c45ee5396d5cb75f9fc11895ace49f3418d34cbfe05d19cea622d6ec8e564b"
+    },
+    "tileset.pal.217": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/217.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 217",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/217.rle"
+      },
+      "bytes": 38401,
+      "sha256": "63dcab769b93a24e37c71a59ed9f38fe5b56fd888c0bbfe309e539c6b33be757"
+    },
+    "tileset.pal.218": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/218.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 218",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/218.rle"
+      },
+      "bytes": 44486,
+      "sha256": "5c7937d9a8d29a21cb3331947ad39ecd2ecbff52bdd5df9b3fbe5875f48d4b21"
+    },
+    "tileset.pal.219": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/219.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 219",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/219.rle"
+      },
+      "bytes": 46347,
+      "sha256": "b157b975b14f3b74e4f70a6079d8914795e08083e9f58b00cd2117ef1d9a8d35"
+    },
+    "tileset.pal.220": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/220.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 220",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/220.rle"
+      },
+      "bytes": 26759,
+      "sha256": "b30ebdcbe7ce5e0d3df8b5414234a307aa4c00a7b9c47bf985ec81daea2cacba"
+    },
+    "tileset.pal.221": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/221.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 221",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/221.rle"
+      },
+      "bytes": 46288,
+      "sha256": "91ea86b9a7b2a1c49dc5aaebf5c7ec3fffb3bccbd1b49d13f65e2f751a282353"
+    },
+    "tileset.pal.222": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/222.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 222",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/222.rle"
+      },
+      "bytes": 41692,
+      "sha256": "5488d6082ea5c6f030711fdfb955af17af7234893e51cfb2bcf0b68fa98abcf7"
+    },
+    "tileset.pal.223": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/223.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 223",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/223.rle"
+      },
+      "bytes": 26295,
+      "sha256": "c8d9354cbedfd0f7bc8e0aa1610cc114e765819e31df08f5bde4c5acf9800e73"
+    },
+    "tileset.pal.224": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/224.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 224",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/224.rle"
+      },
+      "bytes": 53236,
+      "sha256": "1413c13889026bc4d63e61dfecc224dc85844848e37f36f0d610e9a0296b6e22"
+    },
+    "tileset.pal.225": {
+      "kind": "tileset",
+      "path": "assets/migrated/tilesets/225.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 瓦片集 225",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "tileset/225.rle"
+      },
+      "bytes": 46605,
+      "sha256": "901a3200bc592d5a6c8692babafc9b9ebc46d9f4b43dd32a827262dc1e610440"
     }
   }
 }

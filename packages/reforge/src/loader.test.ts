@@ -23,9 +23,8 @@ const manifest: LoadedManifest = {
     catalog: 'assets/index.json',
     roles: {},
     legacy: {
-      families: ['tileset', 'sprite', 'color-table'],
+      families: ['sprite', 'color-table'],
       root: 'assets',
-      tilesets: 'tilesets',
       sprites: 'sprites',
       palettes: 'palettes',
     },
@@ -114,8 +113,28 @@ const baseJsons = {
     version: 1 as const,
     maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
   },
-  tilesets: [{ id: 'starter', name: '初始瓦片', category: 'indoor', path: 'tilesets/starter.rle' }],
-  assetCatalog: { version: 1 as const, assets: {} },
+  tilesets: [
+    {
+      id: 'starter',
+      name: '初始瓦片',
+      category: 'indoor',
+      asset: 'tileset.generated.starter',
+    },
+  ],
+  assetCatalog: {
+    version: 1 as const,
+    assets: {
+      'tileset.generated.starter': {
+        kind: 'tileset' as const,
+        path: 'assets/generated/tilesets/starter.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: 0,
+        sha256: '0'.repeat(64),
+        label: '初始瓦片',
+        origin: { kind: 'generated' as const },
+      },
+    },
+  },
 }
 
 const projectMapJson = {

@@ -1,18 +1,26 @@
 /**
  * 工程资源加载:ProjectMap / palette / tileset / sprite。
- * base 由调用方注入(来自 manifest.assets.root,如 `projects/<id>/assets`);
- * 子目录用 manifest.assets 的 tilesets/sprites/palettes(见 AssetBase)。
+ * 已闭包 tileset 只经 AssetResolver；未迁移 sprite 仍临时经 legacy base。
  * 解码逻辑复用 @type-pal/shared(parseSpriteChunk + 类型);decompressGzip 端口自 game。
  */
-import { type AssetId, type ProjectMap, validateProjectMap } from '@type-pal/content'
-import { type Palette, parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import {
+  type AssetId,
+  type AssetRecordV1,
+  type ProjectMap,
+  validateProjectMap,
+} from '@type-pal/content'
+import {
+  type Palette,
+  parseSpriteChunk,
+  parseSpriteChunkStrict,
+  type RleFrame,
+} from '@type-pal/shared'
 import type { AssetResolver } from './asset-resolver.js'
 import type { LegacyAssetAdapter } from './file-source.js'
 
 /** 工程资源根 + 子目录(由 loader 从 manifest.assets 解析,main 注入给 load*)。 */
 export interface AssetBase {
   root: string // 如 `projects/<id>/assets`
-  tilesets: string
   sprites: string
   palettes: string
   /** 仅供 contentVersion 3 未迁移资源族使用；音乐等 catalog 资源不得经此读取。 */
@@ -70,24 +78,42 @@ export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
 }
 
 /**
- * tileset(.rle = gzip GOP chunk)→ 解压 → parseSpriteChunk → 按 tile 下标索引的帧。
- * 路径来自 tileset registry 条目，相对 assets root（如 `tileset/56.rle`）。
+ * tileset(.rle = gzip GOP chunk)→ AssetResolver → 解压 → parseSpriteChunk。
+ * AssetId 是唯一输入；物理路径只能由 catalog 解析。
  */
-export async function loadTilesetByPath(
-  base: AssetBase,
-  tilesetPath: string,
+export async function loadTileset(base: AssetBase, asset: AssetId): Promise<Map<number, RleFrame>> {
+  if (!base.assetResolver) throw new Error('工程未挂载 AssetResolver，无法读取瓦片集')
+  return loadTilesetAsset(base.assetResolver, asset)
+}
+
+/** 运行时 AssetResolver 与编辑器 pending-aware reader 共用的唯一 tileset 解码入口。 */
+export interface TilesetAssetReader {
+  record(asset: AssetId, expectedKind?: 'tileset'): AssetRecordV1
+  readBytes(asset: AssetId, expectedKind?: 'tileset'): Promise<ArrayBuffer>
+}
+
+async function contentSha256(bytes: ArrayBuffer): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', bytes)
+  return [...new Uint8Array(digest)].map((value) => value.toString(16).padStart(2, '0')).join('')
+}
+
+export async function loadTilesetAsset(
+  reader: TilesetAssetReader,
+  asset: AssetId,
 ): Promise<Map<number, RleFrame>> {
-  // 路径约定(W7B):`assets/` 前缀 = 工程根相对(上传条目,FSA/httpSource 直达,不拼 root
-  // —— pal 的 root 是 /extracted/data,拼上必 404;e2e 烟测钓出);其余 = assets-root 相对
-  // (原版借用 `tileset/<n>.rle`)。
-  const full = tilesetPath.startsWith('assets/') ? tilesetPath : `${base.root}/${tilesetPath}`
-  const raw = await readAssetBytes(base, full, `tileset ${tilesetPath}`)
-  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
-  const map = new Map<number, RleFrame>()
-  frames.forEach((f, i) => {
-    map.set(i, f)
+  const record = reader.record(asset, 'tileset')
+  if (record.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error(`tileset AssetId "${asset}": mediaType 非法 ${record.mediaType}`)
+  const bytes = await reader.readBytes(asset, 'tileset')
+  if (bytes.byteLength !== record.bytes)
+    throw new Error(
+      `tileset AssetId "${asset}": bytes 登记 ${record.bytes}，实际 ${bytes.byteLength}`,
+    )
+  const hash = await contentSha256(bytes)
+  if (hash !== record.sha256) throw new Error(`tileset AssetId "${asset}": sha256 不符`)
+  return tilesFromChunkBytes(bytes, {
+    label: `tileset AssetId "${asset}"`,
   })
-  return map
 }
 
 export interface LoadedSprite {
@@ -294,9 +320,16 @@ export async function loadBattleBg(
  * 浏览器原生 gzip 解压（端口自 game/assets/tileset-blob.ts）。
  * 含 Content-Encoding 双解压防御：无 gzip 魔数(1f 8b) = 上游已解，直接返回。
  */
-/** gzip 的 sprite chunk 字节 → 瓦片帧表(W7B:上传未落盘的内存态与磁盘态共用解码)。 */
-export async function tilesFromChunkBytes(gz: ArrayBuffer): Promise<Map<number, RleFrame>> {
-  const frames = parseSpriteChunk(await decompressGzip(new Blob([gz])))
+/** canonical gzip sprite chunk 字节 → 瓦片帧表；裸 RLE 只允许一次性升级器处理。 */
+export async function tilesFromChunkBytes(
+  gz: ArrayBuffer,
+  options: { label?: string } = {},
+): Promise<Map<number, RleFrame>> {
+  const compressed = new Uint8Array(gz)
+  if (compressed.byteLength < 2 || compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+    throw new Error(`${options.label ?? 'tileset'}: canonical .rle 必须带 gzip 头`)
+  const frames = parseSpriteChunkStrict(await decompressGzip(new Blob([gz])))
+  if (frames.length === 0) throw new Error(`${options.label ?? 'tileset'}: 瓦片帧组不能为空`)
   const map = new Map<number, RleFrame>()
   frames.forEach((f, i) => {
     map.set(i, f)

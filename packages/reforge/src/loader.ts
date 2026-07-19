@@ -195,7 +195,7 @@ export function assembleProject(
   const battleFields =
     jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   if (!jsons.tilesets) throw new Error(`工程 "${manifest.id}": manifest 缺 tilesets 注册表`)
-  const tilesets = validateTilesets(jsons.tilesets)
+  const tilesets = validateTilesets(jsons.tilesets, assetCatalog)
   const poisonList = Array.isArray(jsons.poisons) ? (jsons.poisons as PoisonDef[]) : []
   const poisonsById: Record<number, PoisonDef> = {}
   for (const p of poisonList) poisonsById[p.id] = p
@@ -258,7 +258,6 @@ export function assembleProject(
     assetCatalog,
     assetBase: {
       root,
-      tilesets: a?.tilesets ?? 'tilesets',
       sprites: a?.sprites ?? 'sprites',
       palettes: a?.palettes ?? 'palettes',
       io: legacyIo ?? unavailableLegacy,

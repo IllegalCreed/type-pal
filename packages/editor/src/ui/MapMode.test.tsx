@@ -178,6 +178,8 @@ async function mountMapMode(
         scenes={options.referenceSelectedMap === false ? [] : [scene]}
         session={renderSession}
         assetBase={{} as never}
+        assetCatalog={{ version: 1, assets: {} }}
+        assetReader={{} as never}
         projectMaps={renderState.maps}
         mapIndex={renderState.mapIndex}
         selectedMapId="map-a"
@@ -185,10 +187,9 @@ async function mountMapMode(
         onOpenScene={vi.fn()}
         tilesets={
           options.tilesets ?? [
-            { id: 'tiles', name: '测试瓦片', category: 'test', path: 'tiles/test.rle' },
+            { id: 'tiles', name: '测试瓦片', category: 'test', asset: 'tileset.test' },
           ]
         }
-        tilesetBlobs={{}}
         stamps={renderStamps}
         onRequestInspectorOpen={onRequestInspectorOpen}
         onWorkspaceNotice={onWorkspaceNotice}
@@ -1423,8 +1424,8 @@ describe('MapMode 地图内容选择交互', () => {
     const { host, session } = await mountMapMode({
       map: placementMap(true),
       tilesets: [
-        { id: 'tiles', name: '瓦片 A', category: 'test', path: 'tiles/a.rle' },
-        { id: 'tiles-b', name: '瓦片 B', category: 'test', path: 'tiles/b.rle' },
+        { id: 'tiles', name: '瓦片 A', category: 'test', asset: 'tileset.a' },
+        { id: 'tiles-b', name: '瓦片 B', category: 'test', asset: 'tileset.b' },
       ],
     })
     const height = host.querySelector<HTMLInputElement>('[title*="高(格)"]')!

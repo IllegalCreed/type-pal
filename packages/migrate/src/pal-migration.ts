@@ -6,7 +6,7 @@ import type {
   SceneDef,
   TilesetDef,
 } from '@type-pal/content'
-import { palBattleBackgroundAssetId, palSoundAssetId } from '@type-pal/content'
+import { palBattleBackgroundAssetId, palSoundAssetId, palTilesetAssetId } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapScenesStatic, migrateAll } from './migrate-content.js'
 import {
@@ -189,7 +189,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       id: tilesetIdFromSourceNumber(mapNum),
       name: `PAL 瓦片集 ${mapNum}`,
       category: 'builtin',
-      path: source.tileset,
+      asset: palTilesetAssetId(mapNum),
     }
   })
   put('content/maps/index.json', mapIndex)

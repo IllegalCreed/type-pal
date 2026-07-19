@@ -120,3 +120,63 @@ export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
   }
   return frames
 }
+
+/**
+ * 工程 catalog 的 canonical tileset 使用严格解析：每个登记帧都必须可达且完整，
+ * 不能沿用旧 PAL sprite 容错解析器的“跳坏帧后压缩下标”行为。
+ */
+export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
+  if (buf.byteLength < 2) throw new Error('sprite chunk 过短')
+  const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
+  const declaredCount = view.getUint16(0, true)
+  if (declaredCount <= 0) throw new Error('sprite chunk 不含帧')
+  const tableBytes = declaredCount * 2
+  if (tableBytes > buf.byteLength) throw new Error('sprite chunk offset table 越界')
+  // PAL GOP/MAP 原始块的 imagecount 包含一个且仅一个末尾 0 sentinel；作者编码器则
+  // 不写 sentinel。两者都是可逆的合法容器，但绝不接受中间空洞或多个空帧。
+  const hasTrailingSentinel = view.getUint16((declaredCount - 1) * 2, true) === 0
+  const frameCount = declaredCount - (hasTrailingSentinel ? 1 : 0)
+  if (frameCount <= 0) throw new Error('sprite chunk 只有 sentinel，不含有效帧')
+  const offsets: number[] = []
+  for (let index = 0; index < frameCount; index++) {
+    const offset = view.getUint16(index * 2, true) << 1
+    if (offset < tableBytes || offset + 4 > buf.byteLength)
+      throw new Error(`sprite chunk frame ${index} offset 越界`)
+    if (index > 0 && offset <= offsets[index - 1]!)
+      throw new Error(`sprite chunk frame ${index} offset 非递增`)
+    offsets.push(offset)
+  }
+  if (offsets[0] !== tableBytes) throw new Error('sprite chunk frame 0 offset 与表长不一致')
+  return offsets.map((offset, index) => {
+    const end = offsets[index + 1] ?? buf.byteLength
+    const width = view.getUint16(offset, true)
+    const height = view.getUint16(offset + 2, true)
+    if (width <= 0 || height <= 0 || width > SPRITE_DIM_MAX || height > SPRITE_DIM_MAX)
+      throw new Error(`sprite chunk frame ${index} 尺寸非法`)
+    const total = width * height
+    const pixels = new Uint8Array(total)
+    const opaque = new Uint8Array(total)
+    let source = offset + 4
+    let target = 0
+    while (target < total) {
+      if (source >= end) throw new Error(`sprite chunk frame ${index} 指令流截断`)
+      const command = buf[source++]!
+      if (command === 0) throw new Error(`sprite chunk frame ${index} 含零长度指令`)
+      if (command >= 0x80) {
+        target += command - 0x80
+        if (target > total) throw new Error(`sprite chunk frame ${index} 透明段越界`)
+        continue
+      }
+      if (source + command > end || target + command > total)
+        throw new Error(`sprite chunk frame ${index} 像素段越界`)
+      pixels.set(buf.subarray(source, source + command), target)
+      opaque.fill(1, target, target + command)
+      source += command
+      target += command
+    }
+    // offset table 是帧边界的唯一真值。PAL 原始 GOP 既有非零对齐字节，也有少量
+    // 未被任何 offset 引用的历史 payload；只要本帧在下一 offset 上界内完整解码，
+    // 这些保留字节不参与帧语义。迁移必须逐字节保留，不能把它们当损坏或擅自清洗。
+    return { width, height, pixels, opaque }
+  })
+}

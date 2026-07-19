@@ -25,10 +25,17 @@ import {
   palMusicAssetId,
   palPortraitAssetId,
   palSoundAssetId,
+  palTilesetAssetId,
   palVideoAssetId,
   validateAssetCatalog,
 } from '@type-pal/content'
-import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
+import {
+  decodeRngFrames,
+  type Palette,
+  parseSpriteChunkStrict,
+  RNG_HEIGHT,
+  RNG_WIDTH,
+} from '@type-pal/shared'
 import { PNG } from 'pngjs'
 import { bakeIndexedRgba } from './bake-indexed-rgba.js'
 import { sha256 } from './migration-baseline.js'
@@ -67,6 +74,9 @@ export interface PalAssetMigrationReport {
   itemIconBytes: number
   battleBackgrounds: number
   battleBackgroundBytes: number
+  tilesets: number
+  tilesetBytes: number
+  tilesetFrames: number
   /** 迁移边界审计字段；项目内容、运行时和编辑器不得消费这些旧编号。 */
   legacyPaletteByFrameAnimation: Record<string, number>
 }
@@ -515,6 +525,7 @@ function loadPalFrameAnimations(repo: string): {
 export function loadPalAssets(
   repo: string,
   midiIds: readonly number[],
+  mapNums: readonly number[],
 ): {
   catalog: AssetCatalogV1
   binaries: PalBinaryAssetSource[]
@@ -572,6 +583,44 @@ export function loadPalAssets(
   const staticImages = loadPalStaticImages(repo)
   binaries.push(...staticImages.binaries)
 
+  let tilesetBytes = 0
+  let tilesetFrames = 0
+  const uniqueMapNums = [...new Set(mapNums)].sort((left, right) => left - right)
+  if (uniqueMapNums.length !== mapNums.length) throw new Error('PAL tileset 迁移收到重复 mapNum')
+  for (const mapNum of uniqueMapNums) {
+    if (!Number.isInteger(mapNum) || mapNum <= 0)
+      throw new Error(`PAL tileset mapNum 非法: ${mapNum}`)
+    const sourcePath = resolve(repo, `data/extracted/data/tileset/${mapNum}.rle`)
+    const compressed = readFileSync(sourcePath)
+    if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+      throw new Error(`PAL tileset ${mapNum} 必须是 gzip RLE`)
+    const frames = parseSpriteChunkStrict(gunzipSync(compressed))
+    if (frames.length === 0) throw new Error(`PAL tileset ${mapNum} 不含帧`)
+    tilesetBytes += compressed.byteLength
+    tilesetFrames += frames.length
+    const padded = String(mapNum).padStart(3, '0')
+    binaries.push(
+      fileSource(palTilesetAssetId(mapNum), sourcePath, {
+        kind: 'tileset',
+        path: `assets/migrated/tilesets/${padded}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        label: `PAL 瓦片集 ${padded}`,
+        origin: { kind: 'legacy-migrated', ref: `tileset/${mapNum}.rle` },
+      }),
+    )
+  }
+  const expectedMapNums = Array.from({ length: 225 }, (_, index) => index + 1).filter(
+    (mapNum) => mapNum !== 168 && mapNum !== 171,
+  )
+  if (
+    uniqueMapNums.length !== expectedMapNums.length ||
+    uniqueMapNums.some((mapNum, index) => mapNum !== expectedMapNums[index])
+  )
+    throw new Error('PAL tileset mapNum 集合期望 1..225 且仅缺 168/171')
+  if (tilesetBytes !== 6_501_041)
+    throw new Error(`PAL tileset 字节期望 6501041，收到 ${tilesetBytes}`)
+  if (tilesetFrames !== 67_715) throw new Error(`PAL tileset 帧数期望 67715，收到 ${tilesetFrames}`)
+
   const ids = new Set<string>()
   for (const source of binaries) {
     if (ids.has(source.id)) throw new Error(`PAL 资源 AssetId 重复: ${source.id}`)
@@ -589,7 +638,14 @@ export function loadPalAssets(
     catalog,
     binaries,
     roles: { ...PAL_ASSET_ROLES },
-    report: { ...frameAnimations.report, ...sounds.report, ...staticImages.report },
+    report: {
+      ...frameAnimations.report,
+      ...sounds.report,
+      ...staticImages.report,
+      tilesets: uniqueMapNums.length,
+      tilesetBytes,
+      tilesetFrames,
+    },
   }
 }
 

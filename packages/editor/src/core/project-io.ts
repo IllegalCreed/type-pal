@@ -14,6 +14,7 @@
  */
 
 import {
+  type AssetCatalogV1,
   formatProjectMap,
   formatStampTemplates,
   type ProjectMap,
@@ -23,7 +24,13 @@ import {
   validateAssetCatalog,
   validateMapIndex,
 } from '@type-pal/content'
-import type { FileSource, LoadedProjectCore } from '@type-pal/reforge'
+import {
+  decompressGzip,
+  type FileSource,
+  type LoadedProjectCore,
+  parseSpriteChunkStrict,
+} from '@type-pal/reforge'
+import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import { assertScriptProjectValid } from './script-references.js'
@@ -192,9 +199,12 @@ export function serializeProject(
     if (rel !== undefined) addFile(rel, byKey[key], `内容表 ${key}`)
   }
 
-  addFile(state.manifest.assets.catalog, validateAssetCatalog(state.assetCatalog), '资源注册表')
-  for (const [rel, bytes] of Object.entries(state.assetBlobs))
+  for (const [rel, bytes] of Object.entries(state.assetBlobs)) {
+    if (!Object.values(state.assetCatalog.assets).some((record) => record.path === rel))
+      throw new Error(`serializeProject: pending 资源未登记 catalog: ${rel}`)
     addFile(rel, bytes, `资源二进制 ${rel}`)
+  }
+  addFile(state.manifest.assets.catalog, validateAssetCatalog(state.assetCatalog), '资源注册表')
 
   // manifest.json:整体还原(state.manifest 自带 startWorld,无需重组)。
   addFile('manifest.json', state.manifest, '工程清单')
@@ -209,6 +219,7 @@ export function serializeProject(
 export async function serializeProjectWithMapCopies(
   state: EditorState,
   source: FileSource,
+  opts?: { includeAssetCopies?: boolean },
 ): Promise<Record<string, unknown>> {
   const mapCopies: Record<string, string> = {}
   await Promise.all(
@@ -216,7 +227,26 @@ export async function serializeProjectWithMapCopies(
       if (!state.maps[asset.id]) mapCopies[asset.path] = await source.readText(asset.path)
     }),
   )
-  return serializeProject(state, { mapCopies })
+  const files = serializeProject(state, { mapCopies })
+  if (opts?.includeAssetCopies) {
+    for (const record of Object.values(state.assetCatalog.assets)) {
+      if (files[record.path] instanceof ArrayBuffer) continue
+      files[record.path] = await source.readBytes(record.path)
+    }
+    // preserve commit order after dynamically materializing binaries
+    return Object.fromEntries([
+      ...Object.entries(files).filter(([, value]) => value instanceof ArrayBuffer),
+      ...Object.entries(files).filter(
+        ([rel, value]) =>
+          !(value instanceof ArrayBuffer) &&
+          rel !== state.manifest.assets.catalog &&
+          rel !== 'manifest.json',
+      ),
+      [state.manifest.assets.catalog, files[state.manifest.assets.catalog]],
+      ['manifest.json', files['manifest.json']],
+    ])
+  }
+  return files
 }
 
 /** 序列化单文件为落盘字符串(与 writeProject 写盘同规格,便于快照比对)。字符串值原样。 */
@@ -226,15 +256,18 @@ function serializeOne(value: unknown): string {
 
 /**
  * 增量-diff(纯核,可测):next 中内容与快照不同 → write;快照有而 next 无 → remove。
- * 快照 = Map<rel, 上次落盘字符串>;二进制在快照记占位标记,内容不比对(素材罕改)。
+ * 快照 = Map<rel, 上次落盘签名>;二进制使用完整 `bin:<bytes>:<sha256>`，同长度替换也必须写盘。
  */
-export function diffFiles(
+export async function diffFiles(
   prev: Map<string, string>,
   next: Record<string, unknown>,
-): { write: string[]; remove: string[] } {
+  computedSignatures?: Map<string, string>,
+): Promise<{ write: string[]; remove: string[] }> {
   const write: string[] = []
   for (const [rel, value] of Object.entries(next)) {
-    const cur = value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value)
+    const cur =
+      value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)
+    computedSignatures?.set(rel, cur)
     if (prev.get(rel) !== cur) write.push(rel)
   }
   const remove = [...prev.keys()].filter((rel) => !(rel in next))
@@ -257,6 +290,36 @@ export async function writeFile(
   await w.close()
 }
 
+async function readTextFileIfPresent(
+  dir: FileSystemDirectoryHandle,
+  rel: string,
+): Promise<string | undefined> {
+  const segs = rel.split('/')
+  const fileName = segs.pop()!
+  let d = dir
+  try {
+    for (const seg of segs) d = await d.getDirectoryHandle(seg)
+    const fh = await d.getFileHandle(fileName)
+    return await (await fh.getFile()).text()
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'NotFoundError') return undefined
+    throw error
+  }
+}
+
+function unionAssetCatalog(
+  previous: AssetCatalogV1 | undefined,
+  next: AssetCatalogV1,
+): AssetCatalogV1 {
+  if (!previous) return next
+  return {
+    version: 1,
+    // 同 AssetId 更新时选 next；定义只引用稳定 AssetId，因此旧/新内容都能解析。
+    // 被删除的旧 AssetId 暂留到内容 JSON 提交完成，再由 final catalog 收缩。
+    assets: { ...previous.assets, ...next.assets },
+  }
+}
+
 /**
  * FSA 落盘壳(增量 + 二进制):按 diffFiles 只写变化、删已删,返回新快照。
  * rel 逐段 getDirectoryHandle({create:true});二进制值(ArrayBuffer)写 Blob,其余序列化。
@@ -271,10 +334,41 @@ export async function writeProject(
     onProgress?: (progress: { completed: number; total: number }) => void
   },
 ): Promise<Map<string, string>> {
+  await preflightProjectWriteSet(files)
+  const rawManifest = files['manifest.json'] as { assets?: { catalog?: string } } | undefined
+  const catalogPath = rawManifest?.assets?.catalog
   const prev = opts?.prevSnapshot
-  const { write, remove: diffRemove } = prev
-    ? diffFiles(prev, files)
+  const desiredSignatures = new Map<string, string>()
+  const diff = prev
+    ? await diffFiles(prev, files, desiredSignatures)
     : { write: Object.keys(files), remove: [] as string[] }
+  const write = [...diff.write]
+  const diffRemove = diff.remove
+  let stagedCatalog: AssetCatalogV1 | undefined
+  let finalCatalog: AssetCatalogV1 | undefined
+  if (catalogPath && files[catalogPath]) {
+    finalCatalog = validateAssetCatalog(files[catalogPath], catalogPath)
+    const diskText = await readTextFileIfPresent(dir, catalogPath)
+    const diskCatalog =
+      diskText === undefined || diskText.trim() === ''
+        ? undefined
+        : validateAssetCatalog(JSON.parse(diskText) as unknown, `${catalogPath}（当前磁盘）`)
+    // close 中断后磁盘可能已经前滚，而内存快照仍是旧态。发现偏差时强制重写 catalog
+    // 和内容，不能只相信 prevSnapshot 后误跳过用户的重试或撤销结果。
+    if (diskCatalog && serializeOne(diskCatalog) !== serializeOne(finalCatalog)) {
+      if (!write.includes(catalogPath)) write.push(catalogPath)
+      for (const [rel, value] of Object.entries(files)) {
+        if (
+          !(value instanceof ArrayBuffer) &&
+          rel !== catalogPath &&
+          rel !== 'manifest.json' &&
+          !write.includes(rel)
+        )
+          write.push(rel)
+      }
+    }
+    if (write.includes(catalogPath)) stagedCatalog = unionAssetCatalog(diskCatalog, finalCatalog)
+  }
   const remove = [...new Set([...diffRemove, ...(opts?.removePaths ?? [])])].filter(
     (rel) => !(rel in files),
   )
@@ -282,14 +376,69 @@ export async function writeProject(
   const byteLength = (value: unknown): number =>
     value instanceof ArrayBuffer ? value.byteLength : encoder.encode(serializeOne(value)).byteLength
   const sizes = new Map(write.map((rel) => [rel, byteLength(files[rel])]))
-  const total = [...sizes.values()].reduce((sum, size) => sum + size, 0)
+  const needsCatalogShrink =
+    stagedCatalog !== undefined &&
+    finalCatalog !== undefined &&
+    serializeOne(stagedCatalog) !== serializeOne(finalCatalog)
+  const stagedCatalogSize = needsCatalogShrink ? byteLength(stagedCatalog) : 0
+  const total = [...sizes.values()].reduce((sum, size) => sum + size, stagedCatalogSize)
   let completed = 0
   opts?.onProgress?.({ completed, total })
-  for (const rel of write) {
-    await writeFile(dir, rel, files[rel])
-    completed += sizes.get(rel) ?? 0
+  // prev 在真实 IO 期间兼作落盘日志：未触及的旧条目仍代表真实文件，只在成功
+  // close 后覆盖签名、成功/已不存在的 remove 后删条目。中断时同一 Map 因而是完整的实际磁盘快照。
+  const rememberWrite = async (
+    rel: string,
+    value: unknown,
+    signature = desiredSignatures.get(rel),
+  ): Promise<void> => {
+    if (!prev) return
+    prev.set(
+      rel,
+      signature ??
+        (value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value)),
+    )
+  }
+  const advance = (size: number): void => {
+    completed += size
     // 100% 只在删除也落定后报告；避免 manifest close 后、函数返回前 UI 先宣告完成。
     if (completed < total) opts?.onProgress?.({ completed, total })
+  }
+  for (const rel of write.filter((candidate) => files[candidate] instanceof ArrayBuffer)) {
+    await writeFile(dir, rel, files[rel])
+    await rememberWrite(rel, files[rel])
+    advance(sizes.get(rel) ?? 0)
+  }
+  if (catalogPath && stagedCatalog) {
+    await writeFile(dir, catalogPath, stagedCatalog)
+    await rememberWrite(
+      catalogPath,
+      stagedCatalog,
+      needsCatalogShrink ? serializeOne(stagedCatalog) : desiredSignatures.get(catalogPath),
+    )
+    advance(needsCatalogShrink ? stagedCatalogSize : (sizes.get(catalogPath) ?? 0))
+  }
+  for (const rel of write.filter(
+    (candidate) =>
+      !(files[candidate] instanceof ArrayBuffer) &&
+      candidate !== catalogPath &&
+      candidate !== 'manifest.json',
+  )) {
+    await writeFile(dir, rel, files[rel])
+    await rememberWrite(rel, files[rel])
+    advance(sizes.get(rel) ?? 0)
+  }
+  // manifest 是最后一张引用表：旧 manifest 可能仍指向旧 catalog role 或旧 content path，
+  // 因此 final catalog 收缩与物理删除都必须等新 manifest close 成功后再做。其后失败只会
+  // 留下安全的 catalog 超集或孤儿文件，不会让任一已发布引用悬空。
+  if (write.includes('manifest.json')) {
+    await writeFile(dir, 'manifest.json', files['manifest.json'])
+    await rememberWrite('manifest.json', files['manifest.json'])
+    advance(sizes.get('manifest.json') ?? 0)
+  }
+  if (catalogPath && finalCatalog && needsCatalogShrink) {
+    await writeFile(dir, catalogPath, finalCatalog)
+    await rememberWrite(catalogPath, finalCatalog)
+    advance(sizes.get(catalogPath) ?? 0)
   }
   for (const rel of remove) {
     const segs = rel.split('/')
@@ -298,17 +447,51 @@ export async function writeProject(
     try {
       for (const seg of segs) d = await d.getDirectoryHandle(seg)
       await d.removeEntry(fileName)
-    } catch {
-      /* 已不在 = 目标态达成,忽略 */
+    } catch (error) {
+      if (!(error instanceof DOMException) || error.name !== 'NotFoundError') throw error
     }
+    prev?.delete(rel)
   }
   opts?.onProgress?.({ completed: total, total })
   const snapshot = new Map<string, string>()
   for (const [rel, value] of Object.entries(files)) {
     snapshot.set(
       rel,
-      value instanceof ArrayBuffer ? ` bin:${value.byteLength}` : serializeOne(value),
+      value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value),
     )
   }
   return snapshot
+}
+
+/** 写目标前的纯预检；Save As 必须在复制源树前调用，避免坏 pending 污染目标。 */
+export async function preflightProjectWriteSet(files: Record<string, unknown>): Promise<void> {
+  const rawManifest = files['manifest.json'] as { assets?: { catalog?: string } } | undefined
+  const catalogPath = rawManifest?.assets?.catalog
+  if (catalogPath && files[catalogPath]) {
+    const catalog = validateAssetCatalog(files[catalogPath])
+    const recordsByPath = new Map<string, (typeof catalog.assets)[string][]>()
+    for (const record of Object.values(catalog.assets))
+      recordsByPath.set(record.path, [...(recordsByPath.get(record.path) ?? []), record])
+    for (const [rel, value] of Object.entries(files)) {
+      if (!(value instanceof ArrayBuffer)) continue
+      const records = recordsByPath.get(rel)
+      if (!records) continue // 尚未闭环的 legacy sprite 等二进制。
+      const hash = await sha256Hex(value)
+      for (const record of records)
+        if (record.bytes !== value.byteLength || record.sha256 !== hash)
+          throw new Error(`资源二进制与 catalog 不符: ${rel}`)
+      if (records.some((record) => record.kind === 'tileset')) {
+        const bytes = new Uint8Array(value)
+        if (bytes[0] !== 0x1f || bytes[1] !== 0x8b)
+          throw new Error(`瓦片集资源不是 canonical gzip: ${rel}`)
+        try {
+          parseSpriteChunkStrict(await decompressGzip(new Blob([value])))
+        } catch (cause) {
+          throw new Error(
+            `瓦片集资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+          )
+        }
+      }
+    }
+  }
 }

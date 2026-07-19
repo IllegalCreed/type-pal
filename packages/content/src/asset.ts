@@ -5,6 +5,7 @@ import type { SceneDef } from './index.js'
 import type { ItemData } from './item.js'
 import type { ScriptChunkV1 } from './script-library.js'
 import type { SkillData } from './skill.js'
+import type { TilesetDef } from './tileset.js'
 
 export type AssetId = string
 
@@ -320,6 +321,12 @@ export function palBattleBackgroundAssetId(chunk: number): AssetId {
   return `battle-background.pal.${String(chunk).padStart(3, '0')}`
 }
 
+export function palTilesetAssetId(mapNum: number): AssetId {
+  if (!Number.isInteger(mapNum) || mapNum <= 0)
+    throw new Error(`PAL 瓦片集号必须是正整数，收到 ${String(mapNum)}`)
+  return `tileset.pal.${String(mapNum).padStart(3, '0')}`
+}
+
 export interface AssetReference {
   asset: AssetId
   expectedKind: AssetKind
@@ -346,6 +353,8 @@ export interface AssetReferenceSource {
   items?: readonly ItemData[]
   skills?: readonly SkillData[]
   battleFields?: readonly BattleFieldDef[]
+  /** 瓦片集领域定义到二进制资产的唯一 typed 边。 */
+  tilesets?: readonly TilesetDef[]
   /** 存档/运行态删除保护可选输入；工程内容闭包本身不传此槽。 */
   worlds?: readonly WorldState[]
 }
@@ -642,6 +651,14 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
         where: `battleFields[${index}].background`,
         site: `battleField:${field.id}:background`,
       })
+  })
+  source.tilesets?.forEach((tileset, index) => {
+    references.push({
+      asset: tileset.asset,
+      expectedKind: 'tileset',
+      where: `tilesets[${index}].asset`,
+      site: `tileset:${tileset.id}:asset`,
+    })
   })
   source.worlds?.forEach((world, worldIndex) => {
     for (const [collection, characters] of [

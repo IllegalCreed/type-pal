@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import type { MapIndexV1, ProjectMap, StampTemplateV1 } from '@type-pal/content'
-import { buildBlankProjectMap, type TilesetDef } from '@type-pal/reforge'
+import { buildBlankProjectMap, loadTilesetAsset, type TilesetDef } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -16,14 +16,38 @@ vi.mock('@type-pal/reforge', async (importOriginal) => {
       colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
       cycles: [],
     })),
-    loadTilesetByPath: vi.fn(async () => new Map()),
+    loadTilesetAsset: vi.fn(async () => new Map()),
   }
 })
 
 const tilesets: TilesetDef[] = [
-  { id: 'tiles-a', name: '待删瓦片', category: 'test', path: 'assets/a.rle' },
-  { id: 'tiles-b', name: '保留瓦片', category: 'test', path: 'assets/b.rle' },
+  { id: 'tiles-a', name: '待删瓦片', category: 'test', asset: 'tileset.a' },
+  { id: 'tiles-b', name: '保留瓦片', category: 'test', asset: 'tileset.b' },
 ]
+
+const assetCatalog = {
+  version: 1 as const,
+  assets: Object.fromEntries(
+    ['a', 'b'].map((id) => [
+      `tileset.${id}`,
+      {
+        kind: 'tileset' as const,
+        path: `assets/authored/tilesets/${id}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: 1,
+        sha256: id.repeat(64),
+        origin: { kind: 'authored' as const },
+      },
+    ]),
+  ),
+}
+const assetReader = {
+  projectId: 'test',
+  record: (asset: string) => assetCatalog.assets[asset]!,
+  readBytes: async () => new ArrayBuffer(1),
+  readRoleBytes: async () => new ArrayBuffer(0),
+  urlFor: async () => '',
+}
 
 const mapIndex: MapIndexV1 = {
   version: 1,
@@ -60,7 +84,7 @@ function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorSta
     mapIndex,
     tilesets,
     tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
+    assetCatalog,
     assetBlobs: {},
     stamps,
     scriptChunks: {},
@@ -91,22 +115,26 @@ async function mountTilesetTab(input: {
   document.body.append(host)
   const root = createRoot(host)
   mounted.push({ root, host })
-  await act(async () => {
-    root.render(
-      <TilesetTab
-        tilesets={tilesets}
-        tilesetBlobs={{}}
-        assetBase={{} as never}
-        session={session}
-        mapIndex={mapIndex}
-        stamps={input.stamps ?? []}
-        onOpenMap={input.onOpenMap}
-        onOpenStamp={input.onOpenStamp}
-      />,
-    )
-    await Promise.resolve()
-  })
-  return { host, session, loadMap }
+  const render = async (catalog = assetCatalog): Promise<void> => {
+    await act(async () => {
+      root.render(
+        <TilesetTab
+          tilesets={tilesets}
+          assetCatalog={catalog}
+          assetReader={assetReader}
+          assetBase={{} as never}
+          session={session}
+          mapIndex={mapIndex}
+          stamps={input.stamps ?? []}
+          onOpenMap={input.onOpenMap}
+          onOpenStamp={input.onOpenStamp}
+        />,
+      )
+      await Promise.resolve()
+    })
+  }
+  await render()
+  return { host, session, loadMap, rerenderCatalog: render }
 }
 
 function button(host: HTMLElement, text: string): HTMLButtonElement {
@@ -145,6 +173,21 @@ afterEach(async () => {
 })
 
 describe('TilesetTab 全工程引用删除', () => {
+  test('同 AssetId/path 但 record sha 改变时重新载入工作台预览', async () => {
+    const mounted = await mountTilesetTab({ mapB: buildBlankProjectMap(1, 1, 'tiles-b') })
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(1)
+    await mounted.rerenderCatalog({
+      ...assetCatalog,
+      assets: {
+        ...assetCatalog.assets,
+        'tileset.a': { ...assetCatalog.assets['tileset.a']!, sha256: 'c'.repeat(64) },
+      },
+    })
+    await act(async () => new Promise((resolve) => window.setTimeout(resolve, 0)))
+    expect(vi.mocked(loadTilesetAsset)).toHaveBeenCalledTimes(2)
+  })
+
   test('扫描未加载地图和组合模板，列出可跳转引用并保持删除禁用', async () => {
     const onOpenMap = vi.fn()
     const onOpenStamp = vi.fn()

@@ -87,7 +87,8 @@ function Harness(props: {
     <StampLibraryTab
       stamps={current.stamps}
       tilesets={[]}
-      tilesetBlobs={{}}
+      assetCatalog={{ version: 1, assets: {} }}
+      assetReader={{} as never}
       assetBase={{} as never}
       session={session}
       mapIndex={current.mapIndex}

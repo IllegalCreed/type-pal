@@ -67,6 +67,8 @@ export function SceneCanvas(props: {
   /** 进场点预览用的玩家精灵(party[0] → ActorDef.spriteId;App 解析)。 */
   leaderSpriteId: string | undefined
   assetBase: AssetBase
+  assetCatalog: import('@type-pal/content').AssetCatalogV1
+  assetReader: import('../core/editor-asset-reader.js').EditorAssetReader
   /** 自有地图实时副本(键 = 稳定 map id);own 场景从此渲染(不落磁盘)。 */
   projectMaps: Record<string, ProjectMap>
   mapIndex: MapIndexV1
@@ -101,6 +103,8 @@ export function SceneCanvas(props: {
     actorsById,
     leaderSpriteId,
     assetBase,
+    assetCatalog,
+    assetReader,
     projectMaps,
     mapIndex,
     tilesets,
@@ -179,7 +183,8 @@ export function SceneCanvas(props: {
     projectMaps,
     mapIndex,
     tilesets,
-    tilesetBlobs,
+    assetCatalog,
+    assetReader,
     spriteSources,
   })
 
