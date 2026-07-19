@@ -29,6 +29,7 @@ const actor = (expTable: number[]): ActorDef =>
     name: 'name.li-xiaoyao',
     spriteId: 'li-xiaoyao',
     battler: {
+      battleSprite: 'li-xiaoyao-battle-sprite',
       baseStats: {} as never,
       initialEquipment: {},
       initialMagic: [],

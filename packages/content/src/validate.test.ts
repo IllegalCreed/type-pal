@@ -171,7 +171,12 @@ describe('validateSprites(含 layout,C0)', () => {
 })
 
 describe('validateActors(C0)', () => {
-  const battler = { baseStats: {}, initialEquipment: {}, initialMagic: [] }
+  const battler = {
+    battleSprite: 'hero-battle-sprite',
+    baseStats: {},
+    initialEquipment: {},
+    initialMagic: [],
+  }
   test('合法(带/不带 battler)→ 原样返回', () => {
     const actors = [
       { id: 'youhun', name: 'name.youhun', spriteId: 'ghost' },
@@ -270,9 +275,10 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
       {
         id: 'enemy-1',
         name: 'name.enemy-1',
+        battleSprite: 'enemy-battle-1',
+        yPosOffset: 0,
         stats: {},
         ai: {},
-        anim: {},
         sounds: { magic: -47 },
       },
     ]),

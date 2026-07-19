@@ -24,7 +24,9 @@ export interface RleFrame {
   opaque: Uint8Array
 }
 
-export type WorldSpriteChunkProfile = 'canonical' | 'legacy-migrated'
+export type IndexedRleChunkProfile = 'canonical' | 'legacy-migrated'
+/** @deprecated 使用 IndexedRleChunkProfile；保留给 A7-3W 调用方源码兼容。 */
+export type WorldSpriteChunkProfile = IndexedRleChunkProfile
 
 /**
  * 大世界精灵容器的严格解析报告。
@@ -33,7 +35,7 @@ export type WorldSpriteChunkProfile = 'canonical' | 'legacy-migrated'
  * `legacy-migrated` 只允许跳过这个不可解尾后缀。普通作者/生成资源必须使用 canonical，
  * 任何坏槽都直接失败。
  */
-export interface WorldSpriteChunkResult {
+export interface IndexedRleChunkResult {
   frames: RleFrame[]
   declaredSlots: number
   /** PAL 正常容器末尾的零 offset；作者编码器通常没有。 */
@@ -41,6 +43,8 @@ export interface WorldSpriteChunkResult {
   /** 不含正常零 sentinel；仅统计 legacy profile 跳过的坏尾槽。 */
   skippedLegacyTailSlots: number
 }
+/** @deprecated 使用 IndexedRleChunkResult；保留给 A7-3W 调用方源码兼容。 */
+export type WorldSpriteChunkResult = IndexedRleChunkResult
 
 /**
  * 解码一帧 RLE 精灵数据。
@@ -216,10 +220,10 @@ export function parseSpriteChunkStrict(buf: Uint8Array): RleFrame[] {
  * 逐槽验证连续有效前缀，并要求余下所有非零槽都不可严格解成帧。这样保留 PAL 的坏尾
  * 历史事实，同时拒绝中间空洞后又出现有效帧的损坏容器。
  */
-export function parseWorldSpriteChunk(
+export function parseIndexedRleChunk(
   buf: Uint8Array,
-  profile: WorldSpriteChunkProfile,
-): WorldSpriteChunkResult {
+  profile: IndexedRleChunkProfile,
+): IndexedRleChunkResult {
   if (profile !== 'canonical' && profile !== 'legacy-migrated')
     throw new Error(`未知 world sprite profile: ${String(profile)}`)
   if (buf.byteLength < 2) throw new Error('sprite chunk 过短')
@@ -290,3 +294,6 @@ export function parseWorldSpriteChunk(
     throw new Error('sprite chunk 只有普通 sentinel，不应进入 legacy 坏尾兼容')
   return { frames, declaredSlots, trailingSentinel, skippedLegacyTailSlots }
 }
+
+/** A7-3W 兼容别名；world/battle/tileset 的 indexed-RLE 结构校验只允许这一份实现。 */
+export const parseWorldSpriteChunk = parseIndexedRleChunk

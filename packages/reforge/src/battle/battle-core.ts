@@ -89,7 +89,7 @@ export interface BattlePlayerState {
    *  'battle' 整场有效,随战斗态销毁天然失效(战斗属性每战重派生,红线不外泄)。 */
   statBuffs?: { stat: BuffableStat; delta: number; turnsLeft: number | 'battle' }[]
   /** 変身精灵(trance 效果,梦蛇换战斗外观)。纯 presentation:表现层读;gameplay 增益走 buffStat。 */
-  tranceSprite?: number
+  tranceBattleSprite?: string
 }
 
 /** buffStat 可增益属性 → BattlePlayerState 字段映射(0x30;magic=法力,dexterity=身法)。 */
@@ -267,7 +267,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       firedRules: new Set<number>(),
       poisons: [],
       // 站位一次定死(按开战敌数;yPosOffset 是敌种属性一并烙进)
-      basePos: getEnemyBasePos(input.enemies.length, i, def.anim.yPosOffset) ?? { x: 100, y: 110 },
+      basePos: getEnemyBasePos(input.enemies.length, i, def.yPosOffset) ?? { x: 100, y: 110 },
     })),
     pendingActions: new Map(),
     coopThisTurn: false,
@@ -313,7 +313,7 @@ function spawnIntoSlot(s: BattleState, spawn: Omit<BattleEnemyState, 'basePos'>)
   }
   s.enemies.push({
     ...spawn,
-    basePos: getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.anim.yPosOffset) ?? {
+    basePos: getEnemyBasePos(s.enemies.length + 1, s.enemies.length, spawn.def.yPosOffset) ?? {
       x: 100,
       y: 110,
     },
@@ -834,7 +834,7 @@ function applyPlayerSkill(
       }
       case 'trance': {
         // 変身(梦蛇):纯外观换精灵;属性增益由链上 buffStat 生效
-        p.tranceSprite = eff.sprite
+        p.tranceBattleSprite = eff.battleSprite
         s.log.push(`${p.roleId} 变身!`)
         break
       }

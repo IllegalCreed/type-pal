@@ -114,7 +114,7 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     expect(li.portraits).toEqual({ default: 'portrait.pal.001' })
     expect(li.face).toBe('face.pal.li-xiaoyao')
   })
-  test('6 角色齐 + expTable 100 级 + 战斗精灵号', () => {
+  test('6 角色齐 + expTable 100 级 + 战斗精灵定义引用', () => {
     expect(out.actors.map((a) => a.id)).toEqual([
       'li-xiaoyao',
       'zhao-linger',
@@ -125,7 +125,7 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     ])
     for (const a of out.actors) {
       expect(a.battler!.leveling!.expTable).toHaveLength(100)
-      expect(typeof a.battler!.battleSpriteNum).toBe('number')
+      expect(a.battler!.battleSprite).toMatch(/^player-fighter-\d+$/)
     }
     expect(out.localeNames['name.li-xiaoyao']).toBe('李逍遥')
     expect(out.localeNames['name.anu']).toBe('阿奴') // roleId 4 = 阿奴(3/4 对调 parser 已修的确认)
@@ -238,11 +238,19 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
     expect(effs.filter((e) => e.kind === 'attackAll')).toHaveLength(4)
     expect(effs.filter((e) => e.kind === 'grantSkill')).toHaveLength(7)
   })
-  test('pending 恰为已知系统缺口:战斗精灵切换 ×7(寿葫芦 0x29 已正名为 regen 词条,不再 pending)', () => {
+  test('7 条装备战斗形象已从上游脚本闭环，装备翻译不再有 pending', () => {
     const ops = out.report.pendingEquip.flatMap((p) => p.ops)
-    expect(ops.filter((o) => o.reason.includes('战斗精灵'))).toHaveLength(7)
-    expect(ops.filter((o) => o.reason.includes('授毒'))).toHaveLength(0) // 563/564 → regenHp/regenMp
-    expect(ops).toHaveLength(7)
+    expect(ops).toEqual([])
+    for (const [itemId, sprite] of [
+      ['163', 'player-fighter-6'],
+      ['164', 'player-fighter-6'],
+      ['165', 'player-fighter-6'],
+      ['179', 'player-fighter-7'],
+      ['185', 'player-fighter-7'],
+      ['187', 'player-fighter-7'],
+      ['188', 'player-fighter-7'],
+    ] as const)
+      expect(byId.get(itemId)?.equip?.effects).toContainEqual({ kind: 'battleSprite', sprite })
   })
   test('寿葫芦(269)0x29 回补伪毒 → clean regen 词条(+20 HP/+20 MP;不借毒系统)', () => {
     expect(byId.get('269')!.equip!.effects).toEqual([
@@ -336,7 +344,7 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
     expect(byId.get('377')?.effects).toEqual([{ kind: 'steal', rate: 6 }])
     expect(byId.get('377')?.animation.sound).toBe('sound.pal.174') // 飞龙探云手 0x47 恢复
     expect(byId.get('295')?.effects).toEqual([
-      { kind: 'trance', sprite: 5 },
+      { kind: 'trance', battleSprite: 'player-fighter-5' },
       { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
       { kind: 'buffStat', stat: 'dexterity', percent: 100, duration: 'battle' },
     ]) // 梦蛇

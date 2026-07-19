@@ -65,6 +65,7 @@ function state(stamps: StampTemplateV1[] = []): EditorState {
     items: [],
     locale: {},
     sprites: [],
+    battleSprites: [],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },

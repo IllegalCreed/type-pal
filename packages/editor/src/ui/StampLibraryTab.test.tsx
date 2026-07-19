@@ -53,6 +53,7 @@ function state(stamps: StampTemplateV1[], maps: Record<string, ProjectMap>): Edi
     items: [],
     locale: {},
     sprites: [],
+    battleSprites: [],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps,
     mapIndex: {

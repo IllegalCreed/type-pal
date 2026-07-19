@@ -3,19 +3,29 @@ import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gunzipSync } from 'node:zlib'
-import { type AssetCatalogV1, palSpriteAssetId } from '@type-pal/content'
-import { parseSpriteChunk, parseWorldSpriteChunk } from '@type-pal/shared'
+import { type AssetCatalogV1, palBattleSpriteAssetId, palSpriteAssetId } from '@type-pal/content'
+import { parseIndexedRleChunk, parseSpriteChunk, parseWorldSpriteChunk } from '@type-pal/shared'
 import { afterEach, describe, expect, test } from 'vitest'
 import { sha256 } from './migration-baseline.js'
 import {
+  formatPalBattleSpriteReport,
   formatPalWorldSpriteReport,
+  loadPalBattleSprites,
   loadPalSoundAssets,
   loadPalWorldSprites,
   materializePalAssets,
+  PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
+  PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES,
+  PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
+  PAL_BATTLE_SPRITE_TUPLE_DIGEST,
   PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
   type PalBinaryAssetSource,
 } from './pal-assets.js'
+import {
+  PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
+  PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
+} from './pal-battle-sprites.js'
 
 const roots: string[] = []
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
@@ -361,6 +371,113 @@ describe('PAL 大世界精灵全源门禁', () => {
       authored: 0,
       files: 636,
       bytes: 1_332_725,
+    })
+  }, 20_000)
+})
+
+describe('PAL 战斗精灵资源闭包', () => {
+  test('player 19 全 canonical；enemy 147 canonical + 6 个 legacy 坏尾，同号跨 channel 不冲突', () => {
+    const loaded = loadPalBattleSprites(repo)
+    expect(loaded.binaries).toHaveLength(172)
+    expect(new Set(loaded.binaries.map(({ id }) => id)).size).toBe(172)
+    expect(loaded.binaries.some(({ id }) => id === palBattleSpriteAssetId('player', 1))).toBe(true)
+    expect(loaded.binaries.some(({ id }) => id === palBattleSpriteAssetId('enemy', 1))).toBe(true)
+    const canonicalFailures: Array<{ channel: 'player' | 'enemy'; sprite: number }> = []
+    for (const source of loaded.binaries) {
+      if (!source.sourcePath) throw new Error(`${source.id} 缺文件来源`)
+      const match = /^battle-sprite\.pal\.(player|enemy)\.(\d{3})$/.exec(source.id)
+      if (!match) throw new Error(`非法 battle AssetId ${source.id}`)
+      const channel = match[1] as 'player' | 'enemy'
+      const sprite = Number(match[2])
+      const raw = gunzipSync(readFileSync(source.sourcePath))
+      try {
+        parseIndexedRleChunk(raw, 'canonical')
+      } catch {
+        canonicalFailures.push({ channel, sprite })
+      }
+      const decoded = parseIndexedRleChunk(raw, 'legacy-migrated')
+      const expectedFrames =
+        channel === 'player'
+          ? PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS[sprite]
+          : PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS[sprite - 1]
+      expect(decoded.frames.length, source.id).toBe(expectedFrames)
+    }
+    expect(canonicalFailures).toEqual(
+      PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES.map(({ channel, sprite }) => ({
+        channel,
+        sprite,
+      })),
+    )
+  })
+
+  test('172 资源数/字节/帧/坏尾/digest 与 CLI 证据精确冻结', () => {
+    const loaded = loadPalBattleSprites(repo)
+    expect(loaded.report).toEqual({
+      battleSprites: 172,
+      battleSpriteBytes: 900_973,
+      battleSpriteRawBytes: 2_313_598,
+      battleSpriteFrames: 775,
+      battleSpriteMalformedTailSlots: 6,
+      battleSpritePlayerTupleDigest: PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
+      battleSpriteEnemyTupleDigest: PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
+      battleSpriteTupleDigest: PAL_BATTLE_SPRITE_TUPLE_DIGEST,
+      battleSpritePlayerFrameCounts: [...PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS],
+      battleSpriteEnemyFrameCounts: [...PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS],
+      battleSpriteLegacyTailAnomalies: [...PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES],
+    })
+    expect(formatPalBattleSpriteReport(loaded.report)).toBe(
+      `[战斗精灵资源] sprites=172 bytes=900973 raw-bytes=2313598 frames=775 ` +
+        `malformed-tail-slots=6 player-digest=${PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST} ` +
+        `enemy-digest=${PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST} ` +
+        `tuple-digest=${PAL_BATTLE_SPRITE_TUPLE_DIGEST}`,
+    )
+  })
+
+  test('全 172 源逐文件物化 byte-exact，二次物化零写入', () => {
+    const loaded = loadPalBattleSprites(repo)
+    const temp = mkdtempSync(resolve(tmpdir(), 'type-pal-battle-sprites-'))
+    roots.push(temp)
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: Object.fromEntries(loaded.binaries.map((source) => [source.id, source.record])),
+    }
+    expect(materializePalAssets({ repo: temp, catalog, binaries: loaded.binaries })).toEqual({
+      written: 172,
+      unchanged: 0,
+      authored: 0,
+      files: 172,
+      bytes: 900_973,
+    })
+    for (const source of loaded.binaries) {
+      if (!source.sourcePath) throw new Error(`${source.id} 缺文件来源`)
+      const record = catalog.assets[source.id]!
+      const match = /^battle-sprite\.pal\.(player|enemy)\.(\d{3})$/.exec(source.id)
+      if (!match) throw new Error(`非法 battle AssetId ${source.id}`)
+      const channel = match[1]!
+      const padded = match[2]!
+      const number = Number(padded)
+      expect(record).toMatchObject({
+        kind: 'battle-sprite',
+        path: `assets/migrated/battle-sprites/${channel}/${padded}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        origin: {
+          kind: 'legacy-migrated',
+          ref: `battle-sprite/${channel}/${number}.rle`,
+        },
+      })
+      const sourceBytes = readFileSync(source.sourcePath)
+      const targetBytes = readFileSync(resolve(temp, 'projects/pal', record.path))
+      expect(targetBytes.equals(sourceBytes), source.id).toBe(true)
+      expect(targetBytes.subarray(0, 2)).toEqual(Buffer.from([0x1f, 0x8b]))
+      expect(targetBytes.byteLength).toBe(record.bytes)
+      expect(sha256(targetBytes)).toBe(record.sha256)
+    }
+    expect(materializePalAssets({ repo: temp, catalog, binaries: loaded.binaries })).toEqual({
+      written: 0,
+      unchanged: 172,
+      authored: 0,
+      files: 172,
+      bytes: 900_973,
     })
   }, 20_000)
 })

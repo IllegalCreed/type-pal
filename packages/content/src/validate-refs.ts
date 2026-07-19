@@ -15,6 +15,8 @@ import type {
   ActorDef,
   AmbienceDef,
   BattleFieldDef,
+  BattleSpriteDef,
+  BattleSpriteProfileKind,
   EnemyDef,
   EnemyTeamDef,
   ItemData,
@@ -51,6 +53,8 @@ export interface ContentBundle {
   items: ItemData[]
   locale: Locale
   sprites: SpriteDef[]
+  /** 战斗精灵定义表；canonical 工程必有，旧升级边界组装 bundle 前先补齐。 */
+  battleSprites: BattleSpriteDef[]
   startWorld: StartWorld
   /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
   enemies?: EnemyDef[]
@@ -80,6 +84,149 @@ export interface SpriteDefinitionReference {
   sprite: string
   where: string
   site: string
+}
+
+/** 一条 BattleSpriteDef 语义引用；expectedProfile 同时阻止 player/enemy 同号串线。 */
+export interface BattleSpriteDefinitionReference {
+  battleSprite: string
+  expectedProfile: BattleSpriteProfileKind
+  where: string
+  site: string
+}
+
+function collectCommandBattleSpriteReferences(
+  node: unknown,
+  where: string,
+  site: string,
+  out: BattleSpriteDefinitionReference[],
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((value, index) => {
+      collectCommandBattleSpriteReferences(value, `${where}[${index}]`, site, out)
+    })
+    return
+  }
+  if (!node || typeof node !== 'object') return
+  const record = node as Record<string, unknown>
+  if (record.kind === 'setActorAppearance' && typeof record.battleSprite === 'string')
+    out.push({
+      battleSprite: record.battleSprite,
+      expectedProfile: 'player-fighter',
+      where: `${where}.battleSprite`,
+      site,
+    })
+  for (const [key, value] of Object.entries(record))
+    collectCommandBattleSpriteReferences(value, `${where}.${key}`, site, out)
+}
+
+/**
+ * 递归收集 Actor/Enemy/Equip/Skill/Script/World 对 BattleSpriteDef.id 的全部持久边。
+ * battle transient 不落 content；运行时 readiness 以同一 reference 形状追加后再解析。
+ */
+export function collectBattleSpriteDefinitionReferences(
+  source: Pick<
+    ContentBundle,
+    'actors' | 'enemies' | 'items' | 'skills' | 'scenes' | 'scriptChunks' | 'worlds'
+  >,
+): BattleSpriteDefinitionReference[] {
+  const references: BattleSpriteDefinitionReference[] = []
+  source.actors.forEach((actor, index) => {
+    const battleSprite = actor.battler?.battleSprite
+    if (battleSprite)
+      references.push({
+        battleSprite,
+        expectedProfile: 'player-fighter',
+        where: `actors[${index}](${actor.id}).battler.battleSprite`,
+        site: `actor:${actor.id}:battler`,
+      })
+  })
+  source.enemies?.forEach((enemy, index) => {
+    references.push({
+      battleSprite: enemy.battleSprite,
+      expectedProfile: 'enemy',
+      where: `enemies[${index}](${enemy.id}).battleSprite`,
+      site: `enemy:${enemy.id}:battleSprite`,
+    })
+    collectCommandBattleSpriteReferences(
+      enemy.choreography,
+      `enemies[${index}](${enemy.id}).choreography`,
+      `enemy:${enemy.id}:choreography`,
+      references,
+    )
+    collectCommandBattleSpriteReferences(
+      enemy.onDefeated,
+      `enemies[${index}](${enemy.id}).onDefeated`,
+      `enemy:${enemy.id}:onDefeated`,
+      references,
+    )
+  })
+  source.items.forEach((item, itemIndex) => {
+    item.equip?.effects.forEach((effect, effectIndex) => {
+      if (effect.kind === 'battleSprite')
+        references.push({
+          battleSprite: effect.sprite,
+          expectedProfile: 'player-fighter',
+          where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].sprite`,
+          site: `item:${item.id}:equip`,
+        })
+    })
+  })
+  source.skills.forEach((skill, skillIndex) => {
+    ;(skill.effects ?? []).forEach((effect, effectIndex) => {
+      if (effect.kind === 'summon')
+        references.push({
+          battleSprite: effect.battleSprite,
+          expectedProfile: 'summon',
+          where: `skills[${skillIndex}](${skill.id}).effects[${effectIndex}].battleSprite`,
+          site: `skill:${skill.id}:effects`,
+        })
+      if (effect.kind === 'trance')
+        references.push({
+          battleSprite: effect.battleSprite,
+          expectedProfile: 'player-fighter',
+          where: `skills[${skillIndex}](${skill.id}).effects[${effectIndex}].battleSprite`,
+          site: `skill:${skill.id}:effects`,
+        })
+    })
+  })
+  source.scenes.forEach((scene, sceneIndex) => {
+    collectCommandBattleSpriteReferences(
+      scene,
+      `scenes[${sceneIndex}]`,
+      `scene:${scene.id}`,
+      references,
+    )
+  })
+  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
+    for (const [scriptId, body] of Object.entries(chunk.scripts))
+      collectCommandBattleSpriteReferences(
+        body,
+        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
+        `script:${chunkId}:${scriptId}`,
+        references,
+      )
+  }
+  source.worlds?.forEach((world, worldIndex) => {
+    for (const collection of ['party', 'reserve'] as const) {
+      ;(world[collection] ?? []).forEach((character, characterIndex) => {
+        const battleSprite = character.appearance?.battleSprite
+        if (battleSprite)
+          references.push({
+            battleSprite,
+            expectedProfile: 'player-fighter',
+            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.battleSprite`,
+            site: `world:${worldIndex}:character:${character.id}:appearance`,
+          })
+      })
+    }
+    collectCommandBattleSpriteReferences(
+      world.script?.sceneScriptOverrides,
+      `worlds[${worldIndex}].script.sceneScriptOverrides`,
+      `world:${worldIndex}:sceneScriptOverrides`,
+      references,
+    )
+  })
+  return references
 }
 
 function collectCommandSpriteReferences(
@@ -198,6 +345,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const actorIds = new Set(b.actors.map((a) => a.id))
   const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
+  const battleSpritesById = new Map(b.battleSprites.map((sprite) => [sprite.id, sprite]))
   const localeKeys = new Set(Object.keys(b.locale))
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
   const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
@@ -321,6 +469,23 @@ export function validateReferences(b: ContentBundle): Issue[] {
         severity: 'error',
         where: reference.where,
         message: `精灵 "${reference.sprite}" 不在 sprites 注册表`,
+      })
+  }
+
+  // ── BattleSpriteDef 语义边（profile 同时做 channel/usage 门禁）──
+  for (const reference of collectBattleSpriteDefinitionReferences(b)) {
+    const definition = battleSpritesById.get(reference.battleSprite)
+    if (!definition)
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `战斗精灵 "${reference.battleSprite}" 不在 battleSprites 注册表`,
+      })
+    else if (definition.profile.kind !== reference.expectedProfile)
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `战斗精灵 "${reference.battleSprite}" profile 期望 ${reference.expectedProfile}，实际 ${definition.profile.kind}`,
       })
   }
 

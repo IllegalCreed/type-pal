@@ -124,10 +124,13 @@ export async function buildSeedAssets(): Promise<{
   palette: Palette
   tilesetRle: ArrayBuffer
   spriteRle: ArrayBuffer
+  battleSpriteRle: ArrayBuffer
 }> {
   return {
     palette: SEED_PALETTE,
     tilesetRle: await toGzBuffer(TILE_FRAMES),
     spriteRle: await toGzBuffer(HERO_FRAMES),
+    // 空白工程保留可战斗能力时必须显式自包含；10 帧对应 player-fighter 命名 ABI。
+    battleSpriteRle: await toGzBuffer(HERO_FRAMES.slice(0, 10)),
   }
 }

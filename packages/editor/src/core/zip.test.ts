@@ -216,4 +216,65 @@ describe('zip 打包器(A5 工程导出)', () => {
       ]),
     ).rejects.toThrow(/已退役/)
   })
+
+  test('catalog battle-sprite ZIP 拒绝缺失/篡改/非 RLE 与退役 extracted 双副本', async () => {
+    const gzip = new Uint8Array((await buildSeedAssets()).battleSpriteRle)
+    const enc = new TextEncoder()
+    const entriesFor = async (bytes: Uint8Array) => {
+      const record = {
+        kind: 'battle-sprite',
+        path: 'assets/generated/battle-sprites/starter.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: bytes.byteLength,
+        sha256: await sha256Hex(bytes),
+        origin: { kind: 'generated' },
+      }
+      return [
+        {
+          path: 'manifest.json',
+          data: enc.encode(
+            JSON.stringify({
+              assets: {
+                catalog: 'assets/index.json',
+                roles: {},
+                legacy: { families: ['effect-sprite'] },
+              },
+            }),
+          ),
+        },
+        {
+          path: 'assets/index.json',
+          data: enc.encode(
+            JSON.stringify({ version: 1, assets: { 'battle-sprite.generated.starter': record } }),
+          ),
+        },
+        { path: record.path, data: bytes },
+      ]
+    }
+
+    const valid = await entriesFor(gzip)
+    await expect(validateProjectZipEntries(valid)).resolves.toBeUndefined()
+    await expect(validateProjectZipEntries(valid.slice(0, 2))).rejects.toThrow(/资源缺失/)
+
+    const tampered = valid.map((entry) => ({ ...entry, data: new Uint8Array(entry.data) }))
+    tampered[2]!.data[3] = (tampered[2]!.data[3] ?? 0) ^ 0xff
+    await expect(validateProjectZipEntries(tampered)).rejects.toThrow(/bytes\/sha256/)
+
+    const junkGzip = new Uint8Array(
+      await new Response(
+        new Blob([new Uint8Array([1, 2, 3])]).stream().pipeThrough(new CompressionStream('gzip')),
+      ).arrayBuffer(),
+    )
+    await expect(validateProjectZipEntries(await entriesFor(junkGzip))).rejects.toThrow(
+      /battle-sprite 非 canonical/,
+    )
+
+    await expect(
+      validateProjectZipEntries([
+        ...valid,
+        { path: 'assets/extracted/data/battle-sprites.json', data: enc.encode('{}') },
+        { path: 'assets/extracted/data/battle-sprite/player/0.rle', data: gzip },
+      ]),
+    ).rejects.toThrow(/extracted battle-sprite/)
+  })
 })

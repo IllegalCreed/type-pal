@@ -119,6 +119,22 @@
 3. **ACT_MS=240ms** 全局动作间隔 hack 去留（原版无此常量，是"一帧全算看不清"的节奏垫；接入完整演出后可能不再需要）。
 4. 敌方全体术逐队员落点（§2-5）优先级。
 
+## 8. A7-3B 战斗精灵资源化落地（2026-07-19，待三方 review）
+
+A7-3B 没有重写本审计的演出真值，只把“当前画哪套战斗精灵、用哪套动作 ABI”收敛为可验证的工程内容：
+
+- `BattleSpriteDef.profile` 承接玩家命名帧、敌 idle/magic/attack 区段与速度、召唤逐帧用途；运行时不再按
+  player/enemy 数字、`godId + 10`、`spriteNum * 2` 或路径猜动画语义。
+- 玩家 active appearance 的唯一优先级是 base -> persistent -> 装备槽序最后覆写 -> battle transient trance。
+  图像、动作帧与 effect base 同读 active 定义，避免“梦蛇逻辑已换但画面/特效仍读旧精灵”。
+- 梦蛇 295 直接复用一阶段真值：施法前摇后 6×40ms 色移 `0/2/4/6/8/10`，再做 72×16ms 旧图到新图
+  过渡；死亡/复活不清 trance，战斗结束才恢复战前 effective appearance。该时序、保持与战后恢复均有
+  phase-1 golden 回归。
+- 敌 transform/summon 的全部可达 BattleSpriteDef 在战前 readiness 递归准备，会话内同步切换，旧 session
+  不能接收迟到 IO；equal-Y 绘制恢复一阶段 X 降序 tie-break，逐帧仍使用独立 bottom-center 锚点。
+- `?scene=s189&battle=217` 与 `?scene=s166&battle=175` 已完成 PAL 实机初始上屏烟测，console 无错误；
+  完整变身、召唤、装备、梦蛇生命周期以确定性 core/session/presentation 测试作为审查门禁。
+
 ---
 
 **方法论沉淀**：重实现一阶段打磨密集的子系统（战斗/演出/动画/菜单）前，先 harvest 一阶段代码注释 + git 修复史 + engineering-notes 成审计清单，不 reimplement-then-等作者报 bug。（已入 READ-FIRST 语境与 memory 再犯史；场景演出与菜单的同型审计另文跟进。）

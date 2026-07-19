@@ -15,6 +15,7 @@ import {
   visitScriptRefs,
 } from '@type-pal/content'
 import type { BattleAction } from '../battle/battle-core.js'
+import { collectReachableEnemyDefs } from '../battle/enemy-closure.js'
 import type { ScriptResolver } from '../script-chunk-store.js'
 
 function add(out: Set<AssetId>, asset: AssetId | undefined): void {
@@ -220,13 +221,8 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
   for (const role of Object.keys(SOUND_ASSET_ROLES) as Array<keyof typeof SOUND_ASSET_ROLES>)
     add(closure.sounds, input.roles[role])
 
-  const enemyQueue = [...input.enemyDefs]
-  const seenEnemies = new Set<string>()
   const scriptRoots: unknown[] = [...(input.encounterChoreography ?? [])]
-  while (enemyQueue.length) {
-    const enemy = enemyQueue.shift()
-    if (!enemy || seenEnemies.has(enemy.id)) continue
-    seenEnemies.add(enemy.id)
+  for (const enemy of collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)) {
     add(closure.sounds, enemy.sounds.attack)
     add(closure.sounds, enemy.sounds.action)
     add(closure.sounds, enemy.sounds.magic)
@@ -249,14 +245,6 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
           skill,
           skill?.target === 'oneEnemy' || skill?.target === 'allEnemies' ? 'player' : undefined,
         )
-      }
-      if (rule.do.kind === 'transform') {
-        const target = input.enemiesById[rule.do.enemyId]
-        if (target) enemyQueue.push(target)
-      }
-      if (rule.do.kind === 'summon' && rule.do.enemyId) {
-        const target = input.enemiesById[rule.do.enemyId]
-        if (target) enemyQueue.push(target)
       }
     }
   }

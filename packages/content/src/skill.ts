@@ -62,8 +62,14 @@ export type SkillEffect =
   // sound=召唤自身音(召唤 magic 自己的 wSound,301-349 段神将威严音;变亮首帧播一次,
   // WIN95 语义 fight.c:3112 + 一阶段 9ab63b6d;二级法术段 fSummon 不重复播音 —— 曾漏迁
   // 致武神/天剑全程静默、剑神只闻二级刀剑声)。
-  | { kind: 'summon'; godId: number; speed?: number; tint?: number; sound?: AssetId }
-  | { kind: 'trance'; sprite: number } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
+  | {
+      kind: 'summon'
+      battleSprite: string
+      speed?: number
+      tint?: number
+      sound?: AssetId
+    }
+  | { kind: 'trance'; battleSprite: string } // type=trance 変身:换战斗精灵(梦蛇);属性提升另走 buffStat
   // 0x3A(金蝉脱壳 scriptOnUse):全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离」臂)
   | { kind: 'fleeBattle' }
   // 0x88(乾坤一掷 scriptOnUse):消耗 min(金钱, maxSpend) 文,基伤 = 消耗 × num/den

@@ -43,7 +43,13 @@ export interface ProjectIssue {
   message: string
   path: string
   /** 深链接目标；只提供稳定 id，不把数组位置作为身份。 */
-  target?: { module: 'scene' | 'asset' | 'project'; page: string; objectId?: string }
+  target?: {
+    module: 'scene' | 'asset' | 'project'
+    page: string
+    objectId?: string
+    domain?: 'world' | 'battle'
+    view?: 'definition' | 'asset'
+  }
 }
 
 /** 缺省 entryPoints 只在 UI/runtime 中合成，绝不直接写回 manifest。 */
@@ -347,6 +353,13 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
       spriteDefinitionIndex === undefined
         ? undefined
         : state.sprites[Number(spriteDefinitionIndex)]?.id
+    const battleSpriteDefinitionIndex = reference
+      ? /^battleSprites\[(\d+)\]\.asset$/.exec(reference.where)?.[1]
+      : undefined
+    const battleSpriteDefinitionId =
+      battleSpriteDefinitionIndex === undefined
+        ? undefined
+        : state.battleSprites[Number(battleSpriteDefinitionIndex)]?.id
     const actualKind = assetId ? state.assetCatalog.assets[assetId]?.kind : undefined
     const targetKind = actualKind ?? expectedKind
     const assetPage =
@@ -356,14 +369,16 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
           ? 'sound'
           : targetKind === 'sprite'
             ? 'sprite'
-            : targetKind === 'portrait' ||
-                targetKind === 'face' ||
-                targetKind === 'item-icon' ||
-                targetKind === 'battle-background'
-              ? 'image'
-              : targetKind === 'video' || targetKind === 'frame-animation'
-                ? 'cutscene'
-                : undefined
+            : targetKind === 'battle-sprite'
+              ? 'sprite'
+              : targetKind === 'portrait' ||
+                  targetKind === 'face' ||
+                  targetKind === 'item-icon' ||
+                  targetKind === 'battle-background'
+                ? 'image'
+                : targetKind === 'video' || targetKind === 'frame-animation'
+                  ? 'cutscene'
+                  : undefined
     issues.push({
       severity: closure.severity,
       code,
@@ -373,15 +388,34 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
         ? { module: 'project', page: 'entrypoint', ...(entryId ? { objectId: entryId } : {}) }
         : isRole
           ? { module: 'project', page: 'startup' }
-          : spriteDefinitionId
-            ? { module: 'asset', page: 'sprite', objectId: spriteDefinitionId }
-            : assetId && assetPage
+          : battleSpriteDefinitionId
+            ? {
+                module: 'asset',
+                page: 'sprite',
+                objectId: battleSpriteDefinitionId,
+                domain: 'battle',
+                view: 'definition',
+              }
+            : spriteDefinitionId
               ? {
                   module: 'asset',
-                  page: assetPage,
-                  objectId: assetId,
+                  page: 'sprite',
+                  objectId: spriteDefinitionId,
+                  domain: 'world',
+                  view: 'definition',
                 }
-              : { module: 'project', page: 'advanced' },
+              : assetId && assetPage
+                ? {
+                    module: 'asset',
+                    page: assetPage,
+                    objectId: assetId,
+                    ...(targetKind === 'battle-sprite'
+                      ? { domain: 'battle' as const, view: 'asset' as const }
+                      : targetKind === 'sprite'
+                        ? { domain: 'world' as const, view: 'asset' as const }
+                        : {}),
+                  }
+                : { module: 'project', page: 'advanced' },
     })
   }
 

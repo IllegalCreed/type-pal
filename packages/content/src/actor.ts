@@ -5,7 +5,7 @@
  * 可战斗/可入队的多带 `battler` 块(普通村民 NPC 不带)。
  * 场景实体(EntityDef)引用 actor(角色实例)或直接引用 sprite(纯静物 prop),二选一。
  *
- * 与 content-schema §9「外观解耦」对齐:spriteId/battleSpriteNum = 基础造型层;
+ * 与 content-schema §9「外观解耦」对齐:spriteId/battleSprite = 基础造型层;
  * 装备驱动的外观覆盖 = 将来加字段(appearanceRules),纯加法。
  */
 import type { AssetId } from './asset.js'
@@ -57,10 +57,8 @@ export interface BattlerSpec {
   coveredBy?: string
   /** 升级曲线槽位:expTable[i] = 从 level i 升 i+1 所需 exp。属性成长表迁移一阶段时定形。C0 不消费。 */
   leveling?: { expTable: number[] }
-  /** 战斗精灵号(F.MKF 系);战斗系统落地时启用。C0 不消费。 */
-  battleSpriteNum?: number
-  /** 自有上传战斗形象的 .rle 路径(A4c；battle-sprite 族尚未 catalog 化)。缺省走号约定。 */
-  battleSpritePath?: string
+  /** 战斗精灵语义定义 id；二进制与动作 ABI 由 BattleSpriteDef 统一解析。 */
+  battleSprite: string
   /** 战斗音效(七件套;演出层经 session opts 消费,不进战斗逻辑核)。 */
   sounds?: BattlerSounds
 }

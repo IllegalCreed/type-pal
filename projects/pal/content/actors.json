@@ -136,7 +136,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 0,
+      "battleSprite": "player-fighter-0",
       "sounds": {
         "attack": "sound.pal.037",
         "critical": "sound.pal.005",
@@ -293,7 +293,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 1,
+      "battleSprite": "player-fighter-1",
       "sounds": {
         "attack": "sound.pal.038",
         "critical": "sound.pal.006",
@@ -443,7 +443,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 2,
+      "battleSprite": "player-fighter-2",
       "sounds": {
         "attack": "sound.pal.039",
         "critical": "sound.pal.007",
@@ -601,7 +601,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 3,
+      "battleSprite": "player-fighter-3",
       "sounds": {
         "attack": "sound.pal.038",
         "critical": "sound.pal.006",
@@ -758,7 +758,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 4,
+      "battleSprite": "player-fighter-4",
       "sounds": {
         "attack": "sound.pal.040",
         "critical": "sound.pal.008",
@@ -913,7 +913,7 @@
           32000
         ]
       },
-      "battleSpriteNum": 8,
+      "battleSprite": "player-fighter-8",
       "sounds": {
         "attack": "sound.pal.039",
         "critical": "sound.pal.007",

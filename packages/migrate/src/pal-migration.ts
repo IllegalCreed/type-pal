@@ -1,6 +1,7 @@
 import type {
   AssetCatalogV1,
   BattleFieldDef,
+  BattleSpriteDef,
   EnemyDef,
   MapIndexV1,
   SceneDef,
@@ -8,10 +9,12 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
+  collectBattleSpriteDefinitionReferences,
   palBattleBackgroundAssetId,
   palSoundAssetId,
   palSpriteAssetId,
   palTilesetAssetId,
+  validateBattleSprites,
 } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import { mapRoleSpriteIdsByNumber, mapScenesStatic, migrateAll } from './migrate-content.js'
@@ -22,6 +25,7 @@ import {
   PAL_RESOLVED_ITEM_USE_IDS,
   PAL_RESOLVED_SKILL_IDS,
 } from './pal-authored-overlays.js'
+import { createPalBattleSpriteDefinitions } from './pal-battle-sprites.js'
 import { applyPalBossEncounterOverlay } from './pal-boss-overlay.js'
 import {
   migratePalPoisons,
@@ -61,6 +65,7 @@ export interface PalMigrationSources {
   assetCatalog: AssetCatalogV1
   binaryAssets: import('./pal-assets.js').PalBinaryAssetSource[]
   assetReport: import('./pal-assets.js').PalAssetMigrationReport
+  battleEffectIndex: number[]
   battleFields: BattleFieldDef[]
   objectPoisons: SourceObjectPoison[]
   stores: SourceStore[]
@@ -140,6 +145,112 @@ function assertPalWorldSpriteBaseline(
     throw new Error(`PAL SpriteDef 语义投影发生漂移: ${semanticDigest}`)
 }
 
+function assertPalBattleSpriteBaseline(args: {
+  definitions: readonly BattleSpriteDef[]
+  catalog: AssetCatalogV1
+  actors: ReturnType<typeof migrateAll>['actors']
+  enemies: readonly EnemyDef[]
+  items: ReturnType<typeof migrateAll>['items']
+  skills: ReturnType<typeof migrateAll>['skills']['skills']
+  scenes: readonly SceneDef[]
+  scriptChunks: Readonly<Record<string, import('@type-pal/content').ScriptChunkV1>>
+}): void {
+  const { definitions, catalog } = args
+  validateBattleSprites(definitions, catalog)
+  const records = Object.entries(catalog.assets).filter(
+    ([, record]) => record.kind === 'battle-sprite',
+  )
+  if (records.length !== 172)
+    throw new Error(`PAL battle-sprite catalog 期望 172，收到 ${records.length}`)
+  if (definitions.length !== 171)
+    throw new Error(`PAL BattleSpriteDef 期望 171，收到 ${definitions.length}`)
+  const references = collectBattleSpriteDefinitionReferences({
+    actors: args.actors,
+    enemies: [...args.enemies],
+    items: args.items,
+    skills: args.skills,
+    scenes: [...args.scenes],
+    scriptChunks: args.scriptChunks,
+  })
+  if (references.length !== 179)
+    throw new Error(`PAL BattleSpriteDef 直接引用期望 179，收到 ${references.length}`)
+  const byId = new Map(definitions.map((definition) => [definition.id, definition]))
+  const occurrences = new Map<string, number>()
+  for (const reference of references) {
+    const definition = byId.get(reference.battleSprite)
+    if (!definition) throw new Error(`PAL 战斗精灵引用缺定义: ${reference.battleSprite}`)
+    if (definition.profile.kind !== reference.expectedProfile)
+      throw new Error(
+        `PAL 战斗精灵 ${definition.id} profile ${definition.profile.kind} 不匹配 ${reference.expectedProfile}`,
+      )
+    occurrences.set(definition.id, (occurrences.get(definition.id) ?? 0) + 1)
+  }
+  if (occurrences.size !== 171)
+    throw new Error(`PAL 已用 BattleSpriteDef 期望 171，收到 ${occurrences.size}`)
+  const shared = [...occurrences.entries()]
+    .filter(([, count]) => count > 1)
+    .sort(([left], [right]) => left.localeCompare(right))
+  const expectedShared = [
+    ['enemy-battle-81', 2],
+    ['player-fighter-1', 2],
+    ['player-fighter-5', 2],
+    ['player-fighter-6', 3],
+    ['player-fighter-7', 4],
+  ]
+  if (JSON.stringify(shared) !== JSON.stringify(expectedShared))
+    throw new Error(`PAL BattleSpriteDef 共享关系漂移: ${JSON.stringify(shared)}`)
+  const usedAssets = new Set(definitions.map((definition) => definition.asset))
+  const unused = records.map(([asset]) => asset).filter((asset) => !usedAssets.has(asset))
+  if (JSON.stringify(unused) !== JSON.stringify(['battle-sprite.pal.enemy.098']))
+    throw new Error(`PAL battle-sprite 未引用资源漂移: ${unused.join(',')}`)
+
+  const indirectEdges: Array<{ source: string; target: string; kind: 'transform' | 'summon' }> = []
+  for (const enemy of args.enemies)
+    for (const rule of enemy.ai.rules ?? []) {
+      if (rule.do.kind === 'transform')
+        indirectEdges.push({ source: enemy.id, target: rule.do.enemyId, kind: 'transform' })
+      else if (rule.do.kind === 'summon')
+        indirectEdges.push({
+          source: enemy.id,
+          target: rule.do.enemyId ?? enemy.id,
+          kind: 'summon',
+        })
+    }
+  const transforms = indirectEdges.filter(({ kind }) => kind === 'transform')
+  const summons = indirectEdges.filter(({ kind }) => kind === 'summon')
+  if (transforms.length !== 4 || summons.length !== 22 || indirectEdges.length !== 26)
+    throw new Error(
+      `PAL 敌 AI 间接边漂移: transform=${transforms.length} summon=${summons.length} total=${indirectEdges.length}`,
+    )
+  const enemiesById = new Set(args.enemies.map(({ id }) => id))
+  const missingTargets = [
+    ...new Set(
+      indirectEdges.map(({ target }) => target).filter((target) => !enemiesById.has(target)),
+    ),
+  ].sort()
+  if (missingTargets.length) throw new Error(`PAL 敌 AI 间接边缺目标: ${missingTargets.join(',')}`)
+  const uniqueTargets = [...new Set(indirectEdges.map(({ target }) => target))].sort()
+  const expectedTargets = [
+    'enemy-403',
+    'enemy-407',
+    'enemy-410',
+    'enemy-419',
+    'enemy-420',
+    'enemy-433',
+    'enemy-434',
+    'enemy-441',
+    'enemy-442',
+    'enemy-453',
+    'enemy-461',
+    'enemy-470',
+    'enemy-490',
+    'enemy-492',
+    'enemy-512',
+  ]
+  if (JSON.stringify(uniqueTargets) !== JSON.stringify(expectedTargets))
+    throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
+}
+
 /** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
   const soundAssetForNum = (sound: number) => {
@@ -191,6 +302,23 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   const scripts = normalizeScriptLibrary(sceneOutput.scriptIndex, boss.chunks)
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
   assertPalWorldSpriteBaseline(sprites, sources.assetCatalog)
+  const battleSprites = createPalBattleSpriteDefinitions(
+    sources.migrate.enemies ?? [],
+    sources.migrate.enemyObjects ?? [],
+    sources.assetReport.battleSpritePlayerFrameCounts,
+    sources.assetReport.battleSpriteEnemyFrameCounts,
+    sources.battleEffectIndex,
+  )
+  assertPalBattleSpriteBaseline({
+    definitions: battleSprites,
+    catalog: sources.assetCatalog,
+    actors: migrated.actors,
+    enemies: boss.enemies,
+    items,
+    skills: skills.skills,
+    scenes: sceneOutput.scenes,
+    scriptChunks: scripts.chunks,
+  })
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,
     sourcePrettyBytes: sources.allJsonPrettyBytes,
@@ -208,6 +336,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   }
   put('content/actors.json', migrated.actors)
   put('content/sprites.json', sprites)
+  put('content/battle-sprites.json', battleSprites)
   put('content/items.json', items)
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)

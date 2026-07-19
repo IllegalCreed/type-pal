@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest'
+import type { ActorDef } from './actor.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import {
   describeEquipEffects,
+  effectiveBattleSpriteId,
   effectiveGrantedStatuses,
   effectiveRegen,
   effectiveResistances,
@@ -84,6 +86,62 @@ function hero(hp = 100, mp = 50): CharacterInstance {
 function world(inv: { itemId: string; count: number }[], partyHp = 100, partyMp = 50): WorldState {
   return { party: [hero(partyHp, partyMp)], money: 0, learnedSkills: {}, inventory: inv }
 }
+
+describe('effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient)', () => {
+  const actor = {
+    id: 'hero',
+    name: 'hero',
+    spriteId: 'hero',
+    battler: { battleSprite: 'base', baseStats: {}, initialEquipment: {}, initialMagic: [] },
+  } as unknown as ActorDef
+  const appearanceItems: ItemDataMap = {
+    weapon: {
+      id: 'weapon',
+      name: '武器',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'weapon',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'battleSprite', sprite: 'weapon' }],
+      },
+    },
+    accessory: {
+      id: 'accessory',
+      name: '配饰',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      equip: {
+        slot: 'accessory',
+        equipableBy: ['hero'],
+        effects: [{ kind: 'battleSprite', sprite: 'accessory' }],
+      },
+    },
+  }
+
+  test('后层覆盖前层，装备严格按 EQUIP_SLOT_IDS 而非对象插入顺序', () => {
+    const character = {
+      ...hero(),
+      appearance: { battleSprite: 'persistent' },
+      equipment: { accessory: 'accessory', weapon: 'weapon' },
+    }
+    expect(effectiveBattleSpriteId(character, actor, appearanceItems)).toBe('accessory')
+    expect(effectiveBattleSpriteId(character, actor, appearanceItems, 'trance')).toBe('trance')
+  })
+
+  test('卸装/transient 结束后即时恢复下一层，不回写实例', () => {
+    const character = { ...hero(), appearance: { battleSprite: 'persistent' }, equipment: {} }
+    expect(effectiveBattleSpriteId(character, actor, appearanceItems)).toBe('persistent')
+    expect(character.appearance.battleSprite).toBe('persistent')
+    expect(
+      effectiveBattleSpriteId({ ...character, appearance: undefined }, actor, appearanceItems),
+    ).toBe('base')
+  })
+})
 
 describe('effectiveResistances(装备 live 派生;红线)', () => {
   const resItems: ItemDataMap = {

@@ -1,6 +1,7 @@
 // 物品 / 装备数据 ① 层。见 docs/phase2/foundation/item-data-design.md。
 // 阶段隔离(D18):纯 content 数据 + 类型,无 reforge/引擎依赖。
 
+import type { ActorDef } from './actor.js'
 import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
@@ -25,6 +26,7 @@ export type EquipEffect =
   | { kind: 'maxPool'; pool: 'hp' | 'mp'; delta: number } // 0x1A
   | { kind: 'grantStatus'; status: StatusId } // 0x2D 永久(仙女剑→连击)
   | { kind: 'grantSkill'; skillId: string } // 0x1A row65 授合击/召唤(土灵珠→山神 336)
+  | { kind: 'battleSprite'; sprite: string } // 0x1A row1 战斗形象覆写；按装备槽顺序 live 派生
   | { kind: 'attackAll' } // 0x1A(长鞭)
   // 战斗内每回合回血/回蓝(寿葫芦等;原版借 level99「伪毒」实现,clean 版正名为独立词条 ——
   // 不复用毒系统这个省空间拖鞋)。
@@ -41,6 +43,7 @@ export interface EquipSpec {
  *  编辑器只读预览 + 运行时详情框/装备菜单都调它,彻底杜绝「说明写 +14、实际 delta 不一定」的脱节。 */
 export interface EquipDescribeCtx {
   skillName?: (skillId: string) => string | undefined // grantSkill 授技能:id→名,缺省回退 id
+  battleSpriteName?: (spriteId: string) => string | undefined
 }
 const STAT_LABEL: Record<CombatStat, string> = {
   attack: '武术',
@@ -91,6 +94,9 @@ export function describeEquipEffects(
         break
       case 'grantSkill':
         extraLines.push(`习得·${ctx?.skillName?.(e.skillId) ?? e.skillId}`)
+        break
+      case 'battleSprite':
+        extraLines.push(`战斗形象·${ctx?.battleSpriteName?.(e.sprite) ?? e.sprite}`)
         break
       case 'regenHp':
         extraLines.push(`每回合回体力${signed(e.amount)}`)
@@ -235,6 +241,27 @@ export function effectiveSkills(
     }
   }
   return out
+}
+
+/**
+ * 当前战斗形象的唯一派生口：Actor 基础 → 持久 appearance → 固定装备槽顺序 → 战斗 transient。
+ * 装备与 transient 都是 live 计算，绝不烙回 ActorDef/CharacterInstance。
+ */
+export function effectiveBattleSpriteId(
+  char: CharacterInstance,
+  actor: ActorDef | undefined,
+  items: Record<string, ItemData>,
+  transient?: string,
+): string | undefined {
+  let battleSprite = actor?.battler?.battleSprite
+  if (char.appearance?.battleSprite) battleSprite = char.appearance.battleSprite
+  for (const slot of EQUIP_SLOT_IDS) {
+    const itemId = char.equipment[slot]
+    if (!itemId) continue
+    for (const effect of items[itemId]?.equip?.effects ?? [])
+      if (effect.kind === 'battleSprite') battleSprite = effect.sprite
+  }
+  return transient ?? battleSprite
 }
 
 /**

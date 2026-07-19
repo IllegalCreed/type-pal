@@ -110,6 +110,32 @@ describe('mergeManagedFile', () => {
     ])
   })
 
+  test('battle-sprites 按稳定定义 id 三方合并，不退回整数组原子冲突', () => {
+    const result = mergeManagedFile(
+      'content/battle-sprites.json',
+      jsonPresent([
+        { id: 'fighter', label: '旧', asset: 'battle.old', profile: { kind: 'player-fighter' } },
+      ]),
+      jsonPresent([
+        {
+          id: 'fighter',
+          label: '作者名',
+          asset: 'battle.old',
+          profile: { kind: 'player-fighter' },
+        },
+        { id: 'local', label: '本地', asset: 'battle.local', profile: { kind: 'summon' } },
+      ]),
+      jsonPresent([
+        { id: 'fighter', label: '旧', asset: 'battle.new', profile: { kind: 'player-fighter' } },
+      ]),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toEqual([
+      { id: 'fighter', label: '作者名', asset: 'battle.new', profile: { kind: 'player-fighter' } },
+      { id: 'local', label: '本地', asset: 'battle.local', profile: { kind: 'summon' } },
+    ])
+  })
+
   test('G2：stamps 按稳定 id 合并，authored 接管后整项归作者', () => {
     const base = [{ id: 'tree', origin: 'migrated', name: '旧树', tilesetId: 'tiles', visual: [1] }]
     const ours = [

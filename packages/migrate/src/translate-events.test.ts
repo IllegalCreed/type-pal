@@ -556,7 +556,7 @@ describe('0x1A 改角色形象(SoA 字段 → setActorAppearance)', () => {
   })
   test('字段1=战斗精灵 → battleSprite', () => {
     expect(body1a([1, 9, 2])).toEqual([
-      { kind: 'setActorAppearance', actor: 'zhao-linger', battleSprite: 9 },
+      { kind: 'setActorAppearance', actor: 'zhao-linger', battleSprite: 'player-fighter-9' },
     ])
   })
   test('字段2=大世界精灵 → spriteId(经 spriteIdForNum)', () => {

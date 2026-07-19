@@ -17809,6 +17809,2070 @@
       "bytes": 1365,
       "sha256": "633bdea3a7710aff60faa0b62ba5e60329b68abf8adb9fea82b6c7837518f29e"
     },
+    "battle-sprite.pal.player.000": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/000.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 000",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/0.rle"
+      },
+      "bytes": 5682,
+      "sha256": "d0023ab8035d6dcf0ff8d6aedb5d18953b042ebab65f27b1aba5c39c33e213d9"
+    },
+    "battle-sprite.pal.player.001": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/001.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/1.rle"
+      },
+      "bytes": 5190,
+      "sha256": "fda751ec5efb7435df39b4eeb61256f2a7b1a82f25126d66a5300d1c452b61fc"
+    },
+    "battle-sprite.pal.player.002": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/002.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/2.rle"
+      },
+      "bytes": 4693,
+      "sha256": "e0609f3ff020d794af0703199fbfbf9cb323fb815372fc86c0e2bad9db53eb33"
+    },
+    "battle-sprite.pal.player.003": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/003.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/3.rle"
+      },
+      "bytes": 8483,
+      "sha256": "73fd5adb57beea7416c2290d037ab6abeb125cd793f7ab9e9a0abb890943c07a"
+    },
+    "battle-sprite.pal.player.004": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/004.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/4.rle"
+      },
+      "bytes": 6479,
+      "sha256": "36f472e63f65616d994f0bea976249187ca56f58261d4285ff0735fcff017d58"
+    },
+    "battle-sprite.pal.player.005": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/005.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/5.rle"
+      },
+      "bytes": 7145,
+      "sha256": "b15226c75470781930637ae6561da7483ad422c38fd0d4c7da7007bb3e41390e"
+    },
+    "battle-sprite.pal.player.006": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/006.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/6.rle"
+      },
+      "bytes": 5222,
+      "sha256": "dd67cbfcfcce833fde6b568cf7eb5ced41d129bb292e18000e990fd337288d6b"
+    },
+    "battle-sprite.pal.player.007": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/007.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/7.rle"
+      },
+      "bytes": 5512,
+      "sha256": "950e28fc2bb6f091c15e3152c9e4a965761389b469a20c241584551416aed148"
+    },
+    "battle-sprite.pal.player.008": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/008.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/8.rle"
+      },
+      "bytes": 2877,
+      "sha256": "ebbf2562144067638a424596dff22fa1f36acef413df611bcccd7e9ac3496c18"
+    },
+    "battle-sprite.pal.player.009": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/009.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/9.rle"
+      },
+      "bytes": 8187,
+      "sha256": "3461f0fb0ef7cc76dd27f1b5c3caa3922c5466c852abcaed822770eabac7f4f6"
+    },
+    "battle-sprite.pal.player.010": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/010.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/10.rle"
+      },
+      "bytes": 14859,
+      "sha256": "b409a1f70421f100a419d47018e8394d462490f8534559992f677a5d558244b7"
+    },
+    "battle-sprite.pal.player.011": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/011.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/11.rle"
+      },
+      "bytes": 6513,
+      "sha256": "7616af023aef69f38ecf86d3c5b91185ea8645fffbcdd49e10aad6c5d0c97fb1"
+    },
+    "battle-sprite.pal.player.012": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/012.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/12.rle"
+      },
+      "bytes": 5602,
+      "sha256": "6ad9eefd6c4886f3e6d329925f478aeccde2022bf13ad0f7f675fd54266eff50"
+    },
+    "battle-sprite.pal.player.013": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/013.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/13.rle"
+      },
+      "bytes": 14560,
+      "sha256": "7c55decdbf5dacfb18a6b880d3e51b2fe39bef174b67654ba4e1fcc64a395968"
+    },
+    "battle-sprite.pal.player.014": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/014.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/14.rle"
+      },
+      "bytes": 7359,
+      "sha256": "4bc8be53dd4b9dc7059010d774676febc03a8c367406d642dedb51dea5db6a50"
+    },
+    "battle-sprite.pal.player.015": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/015.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/15.rle"
+      },
+      "bytes": 10783,
+      "sha256": "92133bf18189897b96f0be9a09f8e4ae9dc6c2cb9404f5209307a1913369aa06"
+    },
+    "battle-sprite.pal.player.016": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/016.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/16.rle"
+      },
+      "bytes": 6382,
+      "sha256": "6f02f876f30b68de341e11a6d13afee37ab7eb46d1759ff75e50cf93bc79845f"
+    },
+    "battle-sprite.pal.player.017": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/017.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/17.rle"
+      },
+      "bytes": 6148,
+      "sha256": "ebd889545a185ca0b094f890fd5f573ca1f2d66855c71135f9866dccc376ea48"
+    },
+    "battle-sprite.pal.player.018": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/player/018.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 我方战斗精灵 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/player/18.rle"
+      },
+      "bytes": 5855,
+      "sha256": "47da3c53b60bbc7363ad6e0780ebffdf1aaa9cc9e966c84d53f528682088e341"
+    },
+    "battle-sprite.pal.enemy.001": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/001.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 001",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/1.rle"
+      },
+      "bytes": 1525,
+      "sha256": "0aef29612dfc5fbde5d94713348d65b8c89f8f66839499b4914bad5e1dcf2707"
+    },
+    "battle-sprite.pal.enemy.002": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/002.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 002",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/2.rle"
+      },
+      "bytes": 869,
+      "sha256": "a9cedc12056cb73911ee34ea06b2be6090711a6cd2c27a2b99c1598bb5b0b3ce"
+    },
+    "battle-sprite.pal.enemy.003": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/003.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 003",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/3.rle"
+      },
+      "bytes": 2114,
+      "sha256": "6bf0e01c5d0e40f1d3ed589160e5d3aaf0b450b5b3d5a455a0a5cdea5e70cc22"
+    },
+    "battle-sprite.pal.enemy.004": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/004.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 004",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/4.rle"
+      },
+      "bytes": 913,
+      "sha256": "35a8ce708cc0150ef71f19f98b25382fddb6fc8f81b3b8518619a5aa900c030f"
+    },
+    "battle-sprite.pal.enemy.005": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/005.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 005",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/5.rle"
+      },
+      "bytes": 1296,
+      "sha256": "46ff8e4b0c3ca37e0b701539c5beb9831596218704eee0fb59e2facf7e9181e7"
+    },
+    "battle-sprite.pal.enemy.006": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/006.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 006",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/6.rle"
+      },
+      "bytes": 656,
+      "sha256": "a186eb1b96bb6b21ead5b60ce06b04b1181f209c49aedef5b56a0571a0794d07"
+    },
+    "battle-sprite.pal.enemy.007": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/007.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 007",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/7.rle"
+      },
+      "bytes": 1037,
+      "sha256": "17b77c51adc1a35c63fae8db2fac6b5afea107bf5e68c8c22ba9c87908fb765d"
+    },
+    "battle-sprite.pal.enemy.008": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/008.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 008",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/8.rle"
+      },
+      "bytes": 1692,
+      "sha256": "7718183e4b9d57cf2d40ca62d089c40047e2e9dd36258a33af443c0c21344e6a"
+    },
+    "battle-sprite.pal.enemy.009": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/009.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 009",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/9.rle"
+      },
+      "bytes": 2018,
+      "sha256": "a9516df13f788641346f9c115e740a35b5999fdb0dfa6a6ec8bd796948b24fc6"
+    },
+    "battle-sprite.pal.enemy.010": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/010.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 010",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/10.rle"
+      },
+      "bytes": 2918,
+      "sha256": "c3469778bd0d6841d1921db77b51147d7562b3e47dba2c55b3edb2a7b31f22aa"
+    },
+    "battle-sprite.pal.enemy.011": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/011.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 011",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/11.rle"
+      },
+      "bytes": 4270,
+      "sha256": "e8bd9693f825de121d7cfe8842acad101c67b8043bd0496d5bd31a1824fe7afa"
+    },
+    "battle-sprite.pal.enemy.012": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/012.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 012",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/12.rle"
+      },
+      "bytes": 3218,
+      "sha256": "65f8fa348c5fc2dcbabb4bfef4b10c9ffedfb695fd030150c0c2e09359a24aee"
+    },
+    "battle-sprite.pal.enemy.013": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/013.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 013",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/13.rle"
+      },
+      "bytes": 1145,
+      "sha256": "e5bcd4c56c7252d2820d34dc3951fe4be05841f61b28ed248c2dbba7f042233d"
+    },
+    "battle-sprite.pal.enemy.014": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/014.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 014",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/14.rle"
+      },
+      "bytes": 698,
+      "sha256": "b4f5b5215dfbfb3ff3cb718319cf625a71f62a2d5efcd876410abecef798cecb"
+    },
+    "battle-sprite.pal.enemy.015": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/015.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 015",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/15.rle"
+      },
+      "bytes": 1554,
+      "sha256": "8249763fcaca8b9d9c15c06c86d9871486de1c833b6c1e851ce0d2b3a163b34d"
+    },
+    "battle-sprite.pal.enemy.016": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/016.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 016",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/16.rle"
+      },
+      "bytes": 1275,
+      "sha256": "06752b64ee6be417f0d6f91e452fa904ba5d255544794b69f5e9f9cd6b9ac9b5"
+    },
+    "battle-sprite.pal.enemy.017": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/017.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 017",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/17.rle"
+      },
+      "bytes": 4389,
+      "sha256": "8529797f7c96c8f769d03ff9b63645422d4b748e44d38cb35ac46d40ee14901e"
+    },
+    "battle-sprite.pal.enemy.018": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/018.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 018",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/18.rle"
+      },
+      "bytes": 1132,
+      "sha256": "28ac9cf65f0bbb05543c42fe39c2bfff60dc723363f14e256f9c9e5648185ce1"
+    },
+    "battle-sprite.pal.enemy.019": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/019.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 019",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/19.rle"
+      },
+      "bytes": 5495,
+      "sha256": "852ff4c129fe659d0581cb88671fce1894d29a15a2c840bcc01ad5f21222acc7"
+    },
+    "battle-sprite.pal.enemy.020": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/020.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 020",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/20.rle"
+      },
+      "bytes": 6163,
+      "sha256": "1f7c2f6b49bfc90838138c1820e41aa676d536ab251d4b89fbf6e61096ba5e83"
+    },
+    "battle-sprite.pal.enemy.021": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/021.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 021",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/21.rle"
+      },
+      "bytes": 6663,
+      "sha256": "e9bf9fa3afe40998f2c4ad3926ba4f827e0b4dabf7b10cde47c785e899ecd32c"
+    },
+    "battle-sprite.pal.enemy.022": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/022.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 022",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/22.rle"
+      },
+      "bytes": 3943,
+      "sha256": "24025c9ee3a2d971e46537e92aa6bc537788175a24293e1bcc0b372a48ed6b18"
+    },
+    "battle-sprite.pal.enemy.023": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/023.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 023",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/23.rle"
+      },
+      "bytes": 2693,
+      "sha256": "e4119252937aa68183f94e5a0de8475f472a205230b1ff9d8314809b7d4ffba0"
+    },
+    "battle-sprite.pal.enemy.024": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/024.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 024",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/24.rle"
+      },
+      "bytes": 2583,
+      "sha256": "37465d3083722e925e45cef36cf6c61371bf7fb757f3bd93ae1df5c1c930e476"
+    },
+    "battle-sprite.pal.enemy.025": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/025.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 025",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/25.rle"
+      },
+      "bytes": 3648,
+      "sha256": "8f3240f9bd1c976636a15ed5aaa54187eb7e486317d48e21ed5fd608d0992724"
+    },
+    "battle-sprite.pal.enemy.026": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/026.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 026",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/26.rle"
+      },
+      "bytes": 1562,
+      "sha256": "df6a6ca4a1840e64a5b07e33d3cbb064650c3afbc4154d18909b4a35f89136d9"
+    },
+    "battle-sprite.pal.enemy.027": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/027.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 027",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/27.rle"
+      },
+      "bytes": 836,
+      "sha256": "e127924a230561cdf1db4d4f065baf279eb30251502b2636f67033889ac34118"
+    },
+    "battle-sprite.pal.enemy.028": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/028.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 028",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/28.rle"
+      },
+      "bytes": 2132,
+      "sha256": "0172934b253e666476091ab77f770cba2d34cc99f341ca4a7f5570e43785ec72"
+    },
+    "battle-sprite.pal.enemy.029": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/029.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 029",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/29.rle"
+      },
+      "bytes": 1810,
+      "sha256": "271cb2eb33d5048092dd95fa76171f4aa367bc3be46f6dede5565329f945fda9"
+    },
+    "battle-sprite.pal.enemy.030": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/030.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 030",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/30.rle"
+      },
+      "bytes": 4013,
+      "sha256": "45d78f76217ff1061608a601458b959befd5df857d8714b521e53ed90a55ee2f"
+    },
+    "battle-sprite.pal.enemy.031": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/031.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 031",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/31.rle"
+      },
+      "bytes": 3165,
+      "sha256": "733756bc02a66a695862972d5114c139fdc981149cafab58f294f7aa8451af8b"
+    },
+    "battle-sprite.pal.enemy.032": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/032.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 032",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/32.rle"
+      },
+      "bytes": 4625,
+      "sha256": "02ddf84791906fcee2927e65d2cf5e1b192f38f95d0d9435a6c647ee5abf875b"
+    },
+    "battle-sprite.pal.enemy.033": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/033.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 033",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/33.rle"
+      },
+      "bytes": 4549,
+      "sha256": "81636dab076f1b9c3e3190cc367e4f9c3c72ff74877086f7a45a95845ad6bbdd"
+    },
+    "battle-sprite.pal.enemy.034": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/034.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 034",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/34.rle"
+      },
+      "bytes": 2072,
+      "sha256": "4d48516fcdb2f717169acfdf304997b907c9ffb79f5674a7a6ca19c2f8e43aaa"
+    },
+    "battle-sprite.pal.enemy.035": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/035.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 035",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/35.rle"
+      },
+      "bytes": 2842,
+      "sha256": "fe52e48dc11ba844d76316c1eef497c0bdc9f150d49c22a8e31774dfa3a72a89"
+    },
+    "battle-sprite.pal.enemy.036": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/036.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 036",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/36.rle"
+      },
+      "bytes": 2227,
+      "sha256": "884638447fb9f7e74e48bfea6218b7f95ee940a9a4a3efc0d86b7c01e33fc764"
+    },
+    "battle-sprite.pal.enemy.037": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/037.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 037",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/37.rle"
+      },
+      "bytes": 5217,
+      "sha256": "02d3d86f844b58fd98bd6ca05086701c4b5932bea6aeaa814d1766da71ca6937"
+    },
+    "battle-sprite.pal.enemy.038": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/038.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 038",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/38.rle"
+      },
+      "bytes": 8917,
+      "sha256": "db0fa30b70c41af248cf2bc6b3472c0e63cefa21e7eb0a1ac52a3cd8fd30a7e7"
+    },
+    "battle-sprite.pal.enemy.039": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/039.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 039",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/39.rle"
+      },
+      "bytes": 3103,
+      "sha256": "e1db416eebd9346487cc24c04bd6403b637478dfc07c92e951e90e991831b662"
+    },
+    "battle-sprite.pal.enemy.040": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/040.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 040",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/40.rle"
+      },
+      "bytes": 10030,
+      "sha256": "b896a94d28e44557d3b2cc92d1b82e25a4f372618aa9d4d4c9757b056bdd8f0c"
+    },
+    "battle-sprite.pal.enemy.041": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/041.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 041",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/41.rle"
+      },
+      "bytes": 9312,
+      "sha256": "27b91f74057cab5d06d0ada6840215c605aa80c0c0baf88de0ab6cd716ccc3fb"
+    },
+    "battle-sprite.pal.enemy.042": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/042.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 042",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/42.rle"
+      },
+      "bytes": 9017,
+      "sha256": "ac1ce0910602ef3a355079c4f6bd37138a966da582c16f7b0b92438f9f262b76"
+    },
+    "battle-sprite.pal.enemy.043": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/043.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 043",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/43.rle"
+      },
+      "bytes": 5284,
+      "sha256": "e4a2b1c9da12d0be41e64d675504210b1e20dc481bd742981b9632f0c36993f1"
+    },
+    "battle-sprite.pal.enemy.044": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/044.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 044",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/44.rle"
+      },
+      "bytes": 5339,
+      "sha256": "961fe4b3703e1d638f2005d69cdb17d441dea70179be8dd498735a219352debd"
+    },
+    "battle-sprite.pal.enemy.045": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/045.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 045",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/45.rle"
+      },
+      "bytes": 1858,
+      "sha256": "282e5f3e5c070debf4dc8529ce8004ca2781a2dd9ae3d761a11c3440b9967377"
+    },
+    "battle-sprite.pal.enemy.046": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/046.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 046",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/46.rle"
+      },
+      "bytes": 2552,
+      "sha256": "b90bb8950aacefab5fbe28b42b176545d1d81e0ffbc9cd98cdc45e150dfe9f82"
+    },
+    "battle-sprite.pal.enemy.047": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/047.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 047",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/47.rle"
+      },
+      "bytes": 3877,
+      "sha256": "f9f71b489137618413249716854c9cbd5651756984c9a75dc9d178588de2f187"
+    },
+    "battle-sprite.pal.enemy.048": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/048.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 048",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/48.rle"
+      },
+      "bytes": 3024,
+      "sha256": "b60631a6ce4d6136d63fdd04e650188bfd1d4d59910dfc08a3a836f2991551d4"
+    },
+    "battle-sprite.pal.enemy.049": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/049.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 049",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/49.rle"
+      },
+      "bytes": 3312,
+      "sha256": "f6f283185aed7af7b8363886cc8254ae002edfac8083a107a56aa638842a3488"
+    },
+    "battle-sprite.pal.enemy.050": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/050.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 050",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/50.rle"
+      },
+      "bytes": 4255,
+      "sha256": "44baa1d84b78e303c1ae03350a9046dfc3bc86275abfdfd1c583deb443c70fc5"
+    },
+    "battle-sprite.pal.enemy.051": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/051.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 051",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/51.rle"
+      },
+      "bytes": 3325,
+      "sha256": "de335d340adf448a89cb24215ebe257c99f87cc6ba9464168d63cbe898a20fb6"
+    },
+    "battle-sprite.pal.enemy.052": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/052.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 052",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/52.rle"
+      },
+      "bytes": 4860,
+      "sha256": "0361372b66eb9ce0bb43ffb5eec179d046ad631b76129e3365b6f7bc8db141f4"
+    },
+    "battle-sprite.pal.enemy.053": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/053.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 053",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/53.rle"
+      },
+      "bytes": 3645,
+      "sha256": "aee8abacba66fe4ea33b2c2a7c42363449ff97320277f5be75aa5370ec8e6792"
+    },
+    "battle-sprite.pal.enemy.054": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/054.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 054",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/54.rle"
+      },
+      "bytes": 3766,
+      "sha256": "546be381f7e40ffe141a1ead771a0c6550e0cd2afba8797ccaf59bd051b26bf4"
+    },
+    "battle-sprite.pal.enemy.055": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/055.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 055",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/55.rle"
+      },
+      "bytes": 3607,
+      "sha256": "2464c0bc2649af10ce46c924c7453ea74f8a4da1ed9c8456a5375aee59b7f7f7"
+    },
+    "battle-sprite.pal.enemy.056": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/056.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 056",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/56.rle"
+      },
+      "bytes": 2357,
+      "sha256": "6e48f7b2398a5bef37ad4c8607c76823528e235a40ee362ecc54e4b4a01f3546"
+    },
+    "battle-sprite.pal.enemy.057": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/057.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 057",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/57.rle"
+      },
+      "bytes": 2812,
+      "sha256": "6359cd76934ac34ecd59764389f523a1cfd3181742a917d1aa3cf8c45ed25a48"
+    },
+    "battle-sprite.pal.enemy.058": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/058.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 058",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/58.rle"
+      },
+      "bytes": 3679,
+      "sha256": "40d3079bfd01fe7ff903aa4b8d979b11ffcb71246c5b2c1b67e9e3653e99ddb8"
+    },
+    "battle-sprite.pal.enemy.059": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/059.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 059",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/59.rle"
+      },
+      "bytes": 5120,
+      "sha256": "1d055a0c696ee1333b0cae58ae30840fa98260a6dc3bef3b2b0eb3035cce7e36"
+    },
+    "battle-sprite.pal.enemy.060": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/060.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 060",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/60.rle"
+      },
+      "bytes": 7041,
+      "sha256": "35918ae5744e73d23342b39df0fc087fd377013378d2541e58c6330ef1696a55"
+    },
+    "battle-sprite.pal.enemy.061": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/061.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 061",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/61.rle"
+      },
+      "bytes": 2340,
+      "sha256": "db72d10fc96c1587bb84386ebd6165123b5586128f2e2c1d2ec87463bb4fe387"
+    },
+    "battle-sprite.pal.enemy.062": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/062.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 062",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/62.rle"
+      },
+      "bytes": 3384,
+      "sha256": "86e99a8ad532aeba994f7d336b973df195c6e0baedfc36effc7e1133a308e50e"
+    },
+    "battle-sprite.pal.enemy.063": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/063.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 063",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/63.rle"
+      },
+      "bytes": 4286,
+      "sha256": "0aeabb433bdbf4813aa9c4b955cf0927b8be4318a4a662c4b68e4521ada6dbf7"
+    },
+    "battle-sprite.pal.enemy.064": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/064.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 064",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/64.rle"
+      },
+      "bytes": 10106,
+      "sha256": "6619cbfb723f2ec67e4845b212ab7ce0107273d4e535e4b439936c1da587fcba"
+    },
+    "battle-sprite.pal.enemy.065": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/065.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 065",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/65.rle"
+      },
+      "bytes": 14235,
+      "sha256": "d363d5adf38fc00a4d1c55f5fb4cae3e9331f65e94a05a1dda89bdbff4942840"
+    },
+    "battle-sprite.pal.enemy.066": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/066.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 066",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/66.rle"
+      },
+      "bytes": 6013,
+      "sha256": "8e8382c0f1ee70de9272e789ee91901ef06da3fefd134790c8c314acb74b6263"
+    },
+    "battle-sprite.pal.enemy.067": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/067.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 067",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/67.rle"
+      },
+      "bytes": 11727,
+      "sha256": "11fb619aa66b9cf5321be08acdb0f4dd2cd183c0cd5dbe069f18a7a1a1aa6157"
+    },
+    "battle-sprite.pal.enemy.068": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/068.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 068",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/68.rle"
+      },
+      "bytes": 15792,
+      "sha256": "99d9674bbc085ba8de122484daa654a87348a4586b37a9ca695d809cd9cdc537"
+    },
+    "battle-sprite.pal.enemy.069": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/069.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 069",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/69.rle"
+      },
+      "bytes": 13879,
+      "sha256": "7ac1162ea129f31ba5ce87525b9ee50c889c1b7d2f5b20def4e3e3eca0a20f4f"
+    },
+    "battle-sprite.pal.enemy.070": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/070.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 070",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/70.rle"
+      },
+      "bytes": 9772,
+      "sha256": "daf97f6e3c2b99cb317b8e88f897f4d28e68567f8b5e0a3a51437ab627233901"
+    },
+    "battle-sprite.pal.enemy.071": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/071.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 071",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/71.rle"
+      },
+      "bytes": 9878,
+      "sha256": "2e6994617085bac229b4e5b282736baafea46326b4ef8f3b8743a44dd835ee3a"
+    },
+    "battle-sprite.pal.enemy.072": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/072.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 072",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/72.rle"
+      },
+      "bytes": 2480,
+      "sha256": "eb220f13b1909fc8e6b2e7ec72c511dca3a45eb33460d35d0e3f98ddf819654e"
+    },
+    "battle-sprite.pal.enemy.073": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/073.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 073",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/73.rle"
+      },
+      "bytes": 7665,
+      "sha256": "9fd5f293bde06fa2b9d5dbf000f8e9fe5cbf97e0cbf78817401cd1900c602cf4"
+    },
+    "battle-sprite.pal.enemy.074": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/074.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 074",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/74.rle"
+      },
+      "bytes": 7507,
+      "sha256": "9d14a3117f0959c2d74587e9f53ca166fb301fda36cd5af3c4688b1d37b01491"
+    },
+    "battle-sprite.pal.enemy.075": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/075.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 075",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/75.rle"
+      },
+      "bytes": 11033,
+      "sha256": "a507ed677c99e6b4e648147b632e426be72398082cf72316e8d38e08bcc1c5d4"
+    },
+    "battle-sprite.pal.enemy.076": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/076.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 076",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/76.rle"
+      },
+      "bytes": 6959,
+      "sha256": "9a4a7d431eb5fae3d8a0fceb2c680d4e27d448a6b0615b8377db8f5df1a942a5"
+    },
+    "battle-sprite.pal.enemy.077": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/077.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 077",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/77.rle"
+      },
+      "bytes": 6308,
+      "sha256": "ce7ea86e3d0cda3a383419740b9e1a49eb3d64a88c97c97723474762cbaaab51"
+    },
+    "battle-sprite.pal.enemy.078": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/078.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 078",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/78.rle"
+      },
+      "bytes": 6577,
+      "sha256": "00c69f27b3f69575b056481cc8757d03f1a414f2a165d85c2411d76feeb25a85"
+    },
+    "battle-sprite.pal.enemy.079": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/079.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 079",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/79.rle"
+      },
+      "bytes": 3538,
+      "sha256": "d94379725273c77efc2ab071dbc3df4a520a4792ba609aed1417d54784c2ef82"
+    },
+    "battle-sprite.pal.enemy.080": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/080.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 080",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/80.rle"
+      },
+      "bytes": 4217,
+      "sha256": "ef0fa557af54d9d2f39fa0d4b48911f2e9333c56bea987d5b15b3be9f12d5342"
+    },
+    "battle-sprite.pal.enemy.081": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/081.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 081",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/81.rle"
+      },
+      "bytes": 4097,
+      "sha256": "a8bc4d1d3ad9d808f32e2c434e861739aa5ad08cbb4d9e0a147a12ebdfaa17ca"
+    },
+    "battle-sprite.pal.enemy.082": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/082.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 082",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/82.rle"
+      },
+      "bytes": 4718,
+      "sha256": "c9d887018644a919681ecef70c1d03f71b97479ddebbc6a5295d22aac8c273d3"
+    },
+    "battle-sprite.pal.enemy.083": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/083.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 083",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/83.rle"
+      },
+      "bytes": 3066,
+      "sha256": "5f8d21a70ae1817e8c4f9e0420d3bb448de770d6162f2e4ca620c4d1a37e64d4"
+    },
+    "battle-sprite.pal.enemy.084": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/084.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 084",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/84.rle"
+      },
+      "bytes": 8914,
+      "sha256": "d9276d349ef160156fc0d1893a9012b3b622d8cb0bbf3886fbe1d00e7e53215f"
+    },
+    "battle-sprite.pal.enemy.085": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/085.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 085",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/85.rle"
+      },
+      "bytes": 4263,
+      "sha256": "78114be7029558b705f3a0e6682ffffd732836862924d847de2ac4e7969658bc"
+    },
+    "battle-sprite.pal.enemy.086": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/086.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 086",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/86.rle"
+      },
+      "bytes": 4883,
+      "sha256": "699306d63e9bdc17a10a5a982785cd00f59ca1ced2a55baa71ccf554616e3894"
+    },
+    "battle-sprite.pal.enemy.087": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/087.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 087",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/87.rle"
+      },
+      "bytes": 5590,
+      "sha256": "4cf0b137b421b14c3b84c069bb0d4be73785f973c10ed8da77d658af60f13c2c"
+    },
+    "battle-sprite.pal.enemy.088": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/088.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 088",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/88.rle"
+      },
+      "bytes": 11456,
+      "sha256": "9ed15f038d658f7879f7755215605dc48275b46976cdced1f23d796baf858d92"
+    },
+    "battle-sprite.pal.enemy.089": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/089.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 089",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/89.rle"
+      },
+      "bytes": 709,
+      "sha256": "ef531acc70f054deb54b1bfb540cfdbad63f5f83cde54685cdf2273ef26a843a"
+    },
+    "battle-sprite.pal.enemy.090": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/090.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 090",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/90.rle"
+      },
+      "bytes": 675,
+      "sha256": "2a2ea8f4f902a8d52064f13756be718af9b35c937cb9a09b90d3a004a754c4f1"
+    },
+    "battle-sprite.pal.enemy.091": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/091.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 091",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/91.rle"
+      },
+      "bytes": 2774,
+      "sha256": "eaf2ee179719472e99e9454c11b799840f0ab7f6fd1e106f4c3969665ed5af9c"
+    },
+    "battle-sprite.pal.enemy.092": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/092.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 092",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/92.rle"
+      },
+      "bytes": 5046,
+      "sha256": "883516508bdca01936d29c24c91f2674f17a7709c3497cdf8e729cab5bf0f13e"
+    },
+    "battle-sprite.pal.enemy.093": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/093.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 093",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/93.rle"
+      },
+      "bytes": 4069,
+      "sha256": "4038193d2d5e297ef1536b0b6594182bf6af64b1e195f682f18a3d1692ebf37c"
+    },
+    "battle-sprite.pal.enemy.094": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/094.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 094",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/94.rle"
+      },
+      "bytes": 7616,
+      "sha256": "d05490c12be4b57dd4a3d752d56091e6e02152f289564d5a349115c7dba247b2"
+    },
+    "battle-sprite.pal.enemy.095": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/095.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 095",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/95.rle"
+      },
+      "bytes": 5892,
+      "sha256": "eb746edbe0e167129e821b44fce02ba0b6da021f2f983452f0eccb71cd064f47"
+    },
+    "battle-sprite.pal.enemy.096": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/096.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 096",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/96.rle"
+      },
+      "bytes": 7058,
+      "sha256": "f468b2a79094db7b28657a9f8f5ff935da933cea28fa73b5115bb5c493038ebd"
+    },
+    "battle-sprite.pal.enemy.097": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/097.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 097",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/97.rle"
+      },
+      "bytes": 2182,
+      "sha256": "c1638764f788093c8222756f94ad3be6e039971e54d7b3a5ed79e21672832966"
+    },
+    "battle-sprite.pal.enemy.098": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/098.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 098",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/98.rle"
+      },
+      "bytes": 10005,
+      "sha256": "3c4401622a99554205fb4ce9b2628cf80d6d555547ba4972a4a64cc7af8022c3"
+    },
+    "battle-sprite.pal.enemy.099": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/099.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 099",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/99.rle"
+      },
+      "bytes": 5565,
+      "sha256": "3eec054b46e667dede708f2dde675312f94142cb0349d387dce1993e860b98a6"
+    },
+    "battle-sprite.pal.enemy.100": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/100.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 100",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/100.rle"
+      },
+      "bytes": 2315,
+      "sha256": "1184cb8bc29c9cc5e1809e4ece6c2ff649f93b68bf6d8d5e8d8879de711df6ba"
+    },
+    "battle-sprite.pal.enemy.101": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/101.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 101",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/101.rle"
+      },
+      "bytes": 7399,
+      "sha256": "a4bed7ca21a7b088d0b86878adc9787221fd982fd321c35eed7ca50ad7d7dacf"
+    },
+    "battle-sprite.pal.enemy.102": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/102.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 102",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/102.rle"
+      },
+      "bytes": 2139,
+      "sha256": "d97a3217d2fdf9545e6197b600dfd5bff529ef83811f32478bd50b23afbe15ca"
+    },
+    "battle-sprite.pal.enemy.103": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/103.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 103",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/103.rle"
+      },
+      "bytes": 1651,
+      "sha256": "7a6f8a3b96f62d0e9d7e0afa36fb5e227e5324b9317736f881e54f545747161f"
+    },
+    "battle-sprite.pal.enemy.104": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/104.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 104",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/104.rle"
+      },
+      "bytes": 6928,
+      "sha256": "2a03594ef2059e8bcafcdb0624e619119dd5bc588d5f8815fdf110c5a8862031"
+    },
+    "battle-sprite.pal.enemy.105": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/105.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 105",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/105.rle"
+      },
+      "bytes": 1933,
+      "sha256": "a0d5f97b4d5b323510fcf303df0c41476d35c346b369ced77e4fb5f7eb312f61"
+    },
+    "battle-sprite.pal.enemy.106": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/106.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 106",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/106.rle"
+      },
+      "bytes": 2335,
+      "sha256": "39bb6a47ae00492b2189c37a4298a9dcd177675b7a82ee761ce0e1614d3f124d"
+    },
+    "battle-sprite.pal.enemy.107": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/107.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 107",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/107.rle"
+      },
+      "bytes": 4150,
+      "sha256": "b1e272f5d9537b2ce93b867bb44f2ef93994718e214ae90daa31566e9513de9b"
+    },
+    "battle-sprite.pal.enemy.108": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/108.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 108",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/108.rle"
+      },
+      "bytes": 3798,
+      "sha256": "6975d959edd6de0a8fc99e032064d9b24afd91868a7f85da6606ffd935594daa"
+    },
+    "battle-sprite.pal.enemy.109": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/109.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 109",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/109.rle"
+      },
+      "bytes": 2848,
+      "sha256": "12509e1208ef340fd20ef3636ef036a192f3c72f0f8083f3fdc3f58dee5fce64"
+    },
+    "battle-sprite.pal.enemy.110": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/110.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 110",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/110.rle"
+      },
+      "bytes": 4934,
+      "sha256": "d04e80d0e798280b51b5abf47d19df73c942d27ba9e74283357e9a8ed77a57ba"
+    },
+    "battle-sprite.pal.enemy.111": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/111.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 111",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/111.rle"
+      },
+      "bytes": 4695,
+      "sha256": "1bcd7471ff252895fb21e66d5421a0a3d2fe3672bb6bbcd2274f87ab54267c3a"
+    },
+    "battle-sprite.pal.enemy.112": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/112.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 112",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/112.rle"
+      },
+      "bytes": 5525,
+      "sha256": "b3997104243252035169d592106f37f58e824f4ef87ac1f82d7337a7f7f38dbd"
+    },
+    "battle-sprite.pal.enemy.113": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/113.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 113",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/113.rle"
+      },
+      "bytes": 7529,
+      "sha256": "146bca01e3c1def5ff1202116c2638a2bbf2f579525ecda06611e5a758f12aa6"
+    },
+    "battle-sprite.pal.enemy.114": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/114.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 114",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/114.rle"
+      },
+      "bytes": 4198,
+      "sha256": "a3d37aac8feb09b1e934b19129f0be6d15da2226bebe4db282dfe1f0d4dcb03f"
+    },
+    "battle-sprite.pal.enemy.115": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/115.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 115",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/115.rle"
+      },
+      "bytes": 2991,
+      "sha256": "6e5a49ab7650664ae2ab485afa728697dbe6244ab36efb2eb4051cb95130c006"
+    },
+    "battle-sprite.pal.enemy.116": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/116.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 116",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/116.rle"
+      },
+      "bytes": 4096,
+      "sha256": "e8731d0f89a9d659262cff3660b44cf99f3f40ab4e67bef7f83014f2b61bd4d9"
+    },
+    "battle-sprite.pal.enemy.117": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/117.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 117",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/117.rle"
+      },
+      "bytes": 1844,
+      "sha256": "0b11381af2ce99b2ebc0db4b14420952fb2241f928af5b1e92cf6c0746f5d6be"
+    },
+    "battle-sprite.pal.enemy.118": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/118.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 118",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/118.rle"
+      },
+      "bytes": 2650,
+      "sha256": "eb822e3cbf3d74268dafa692b9dc0261c0a0d704cda765a9318116b8590f3a75"
+    },
+    "battle-sprite.pal.enemy.119": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/119.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 119",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/119.rle"
+      },
+      "bytes": 8730,
+      "sha256": "fb08ab5213f302fe4d8492bb87e42e0adb6793b0062c2f858b9a9437bef93a1c"
+    },
+    "battle-sprite.pal.enemy.120": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/120.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 120",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/120.rle"
+      },
+      "bytes": 6934,
+      "sha256": "4f3bd1cf2c30eaed47e26bb20c5b0d3e7e48ef72f8ad28876d4836786bd0d94e"
+    },
+    "battle-sprite.pal.enemy.121": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/121.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 121",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/121.rle"
+      },
+      "bytes": 13070,
+      "sha256": "fb11e642d85b103a5c0886742b47c8cbb2a692798aa95cf8a001111647560d69"
+    },
+    "battle-sprite.pal.enemy.122": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/122.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 122",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/122.rle"
+      },
+      "bytes": 8499,
+      "sha256": "f6ed8583bade92e3896473e1312b1ee5cca54a311dadf58fbcb1c2b5e61d144f"
+    },
+    "battle-sprite.pal.enemy.123": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/123.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 123",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/123.rle"
+      },
+      "bytes": 4460,
+      "sha256": "5fd1bf1ccfd675ebfb3f7b65e277c4b299a777857a82795c199530ec545d49a8"
+    },
+    "battle-sprite.pal.enemy.124": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/124.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 124",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/124.rle"
+      },
+      "bytes": 2916,
+      "sha256": "7417c4f12ee0876ac03f121625571303da755a0fac6034f541c6feab1498b480"
+    },
+    "battle-sprite.pal.enemy.125": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/125.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 125",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/125.rle"
+      },
+      "bytes": 8545,
+      "sha256": "ed3698834c89907e5364d42c754003a9e99699fa7a0e205639316bbda2bca913"
+    },
+    "battle-sprite.pal.enemy.126": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/126.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 126",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/126.rle"
+      },
+      "bytes": 5759,
+      "sha256": "4811f60f0e9fe08e6210c2caec46357a7313315ad9f7e0002a00b6ca892fd4ed"
+    },
+    "battle-sprite.pal.enemy.127": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/127.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 127",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/127.rle"
+      },
+      "bytes": 6534,
+      "sha256": "6cde23d826e8e304ba3505b94e0e3bf41244c8ea6c65b7df446f73652fcc703a"
+    },
+    "battle-sprite.pal.enemy.128": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/128.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 128",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/128.rle"
+      },
+      "bytes": 1598,
+      "sha256": "7c26e0fcee9fb8513f6e59cd31e9b4f2b40f3c22c92d0697487182891545c020"
+    },
+    "battle-sprite.pal.enemy.129": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/129.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 129",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/129.rle"
+      },
+      "bytes": 3372,
+      "sha256": "470a635ef7e22c0b6b07c0c7105732edb5ae936b8bb4e6d661683b3e0da2ab50"
+    },
+    "battle-sprite.pal.enemy.130": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/130.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 130",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/130.rle"
+      },
+      "bytes": 9171,
+      "sha256": "373615133b8da7e49532772c6c4a0d2d12fcb53626979300220d7891a8618d2e"
+    },
+    "battle-sprite.pal.enemy.131": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/131.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 131",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/131.rle"
+      },
+      "bytes": 11234,
+      "sha256": "e553a321de1364286519cb3089501ca5004a96daf007bf514c76c9dc45445f8d"
+    },
+    "battle-sprite.pal.enemy.132": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/132.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 132",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/132.rle"
+      },
+      "bytes": 2872,
+      "sha256": "b7b13c15a435d7aecdc418b7889e3352fc8614e0e090bf88aeaa3e0b4a2f40fb"
+    },
+    "battle-sprite.pal.enemy.133": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/133.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 133",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/133.rle"
+      },
+      "bytes": 9013,
+      "sha256": "df327fef069a00e958509a59290829a3154b54ade57a7f6b1b1db27dab8d1d20"
+    },
+    "battle-sprite.pal.enemy.134": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/134.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 134",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/134.rle"
+      },
+      "bytes": 9146,
+      "sha256": "d2f3efc59ee0437f5b0c6aaba6a5067bb31cb64b5e89b32e52c18b69aff4e370"
+    },
+    "battle-sprite.pal.enemy.135": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/135.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 135",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/135.rle"
+      },
+      "bytes": 5365,
+      "sha256": "97d3179df3811acc0fc3bbda282b59d234e15e07fa6632e7450aa9d71964e56a"
+    },
+    "battle-sprite.pal.enemy.136": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/136.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 136",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/136.rle"
+      },
+      "bytes": 1387,
+      "sha256": "f99bc5870bec402462ef1f6acf02be77bd06e3dc0d1b79ddbe2e851547483d8a"
+    },
+    "battle-sprite.pal.enemy.137": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/137.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 137",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/137.rle"
+      },
+      "bytes": 6020,
+      "sha256": "b11ae3453c846b688f8ef9cfeced6f4b541475eae444a4741837d368a11928ae"
+    },
+    "battle-sprite.pal.enemy.138": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/138.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 138",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/138.rle"
+      },
+      "bytes": 3087,
+      "sha256": "b01fe3276b2a3db17df9e90b16f529a1743095db9274e9737c2d7c2d9909a6e3"
+    },
+    "battle-sprite.pal.enemy.139": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/139.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 139",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/139.rle"
+      },
+      "bytes": 4545,
+      "sha256": "a36eb671b5a0b0fa9b350ed39ae3186bdb09b2fc95bd648c25cef4054c5ed101"
+    },
+    "battle-sprite.pal.enemy.140": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/140.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 140",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/140.rle"
+      },
+      "bytes": 5874,
+      "sha256": "7db73218042d92ef00bb42898a0d65c4e82d72043d758a221dcb6acf1fc9869f"
+    },
+    "battle-sprite.pal.enemy.141": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/141.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 141",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/141.rle"
+      },
+      "bytes": 6022,
+      "sha256": "ba8ec10cfa06ac1af68097315437b253d6767981e1b5d393cf2cd0fa2e2a17bd"
+    },
+    "battle-sprite.pal.enemy.142": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/142.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 142",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/142.rle"
+      },
+      "bytes": 6031,
+      "sha256": "bb46e71b0bdda044e87e68dff5e6798bf33f0b3c1e2b5fc4106999b3d254543a"
+    },
+    "battle-sprite.pal.enemy.143": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/143.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 143",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/143.rle"
+      },
+      "bytes": 6274,
+      "sha256": "fe5c009151db856d47d4fb11b9f3b9b70cd5af22e27ba841fb8a316d957f4862"
+    },
+    "battle-sprite.pal.enemy.144": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/144.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 144",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/144.rle"
+      },
+      "bytes": 6184,
+      "sha256": "f6d70dd3616f359db19f562c155f00c15041ec94806e20d14e7ac695782b18da"
+    },
+    "battle-sprite.pal.enemy.145": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/145.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 145",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/145.rle"
+      },
+      "bytes": 5281,
+      "sha256": "be90d0250f209c75d475fa85d4ccafa96521874b063bcb9d355f6339196cebcb"
+    },
+    "battle-sprite.pal.enemy.146": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/146.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 146",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/146.rle"
+      },
+      "bytes": 5558,
+      "sha256": "3ada292f847c4b306f1dffbc9f67d2cc569546dab30950046b67792ba0400844"
+    },
+    "battle-sprite.pal.enemy.147": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/147.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 147",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/147.rle"
+      },
+      "bytes": 6068,
+      "sha256": "c8d31c41a9e5cc64240805b9af88988d4ecddb9cc50edbf862b31bcc65ef738c"
+    },
+    "battle-sprite.pal.enemy.148": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/148.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 148",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/148.rle"
+      },
+      "bytes": 8740,
+      "sha256": "def480c4a963f0d3ae8cd778c57d898049910bc60a6f9aff533154f3dc04bfbf"
+    },
+    "battle-sprite.pal.enemy.149": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/149.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 149",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/149.rle"
+      },
+      "bytes": 9133,
+      "sha256": "914d0c6fbfcd9f81e6ab6d4d84d597b3bdc430298e194906cb5945907e69c688"
+    },
+    "battle-sprite.pal.enemy.150": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/150.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 150",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/150.rle"
+      },
+      "bytes": 12816,
+      "sha256": "149c905a886724999894be8886db661a18a6b3739f9b5aa71cc65fb38f4bbcd9"
+    },
+    "battle-sprite.pal.enemy.151": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/151.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 151",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/151.rle"
+      },
+      "bytes": 2031,
+      "sha256": "e85460010d36f5c45d32fc285b8a5e7e151c5a2e3daa353089f030004fbf79f2"
+    },
+    "battle-sprite.pal.enemy.152": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/152.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 152",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/152.rle"
+      },
+      "bytes": 3334,
+      "sha256": "6ce92b491ba8485eab077c2a1e44fda584dec3c4ef4477476a0a9dbb06801e72"
+    },
+    "battle-sprite.pal.enemy.153": {
+      "kind": "battle-sprite",
+      "path": "assets/migrated/battle-sprites/enemy/153.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "label": "PAL 敌方战斗精灵 153",
+      "origin": {
+        "kind": "legacy-migrated",
+        "ref": "battle-sprite/enemy/153.rle"
+      },
+      "bytes": 8558,
+      "sha256": "95be5b460bd0da89ae588e552915b49f348ba18d930da31b4720a2410df59b29"
+    },
     "tileset.pal.001": {
       "kind": "tileset",
       "path": "assets/migrated/tilesets/001.rle",

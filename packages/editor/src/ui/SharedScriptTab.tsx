@@ -1,6 +1,7 @@
 import {
   type ActorDef,
   type AssetCatalogV1,
+  type BattleSpriteDef,
   type Command,
   getScriptBody,
   type Locale,
@@ -94,6 +95,7 @@ export function SharedScriptTab(props: {
   locale: Locale
   sprites: SpriteDef[]
   actors: ActorDef[]
+  battleSprites: readonly BattleSpriteDef[]
   assetBase: AssetBase
   assetCatalog: AssetCatalogV1
   audioResolver: AudioAssetReader
@@ -108,6 +110,7 @@ export function SharedScriptTab(props: {
   onSelectedScriptId?: (id: string | undefined) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
 }) {
   const {
     tabBar,
@@ -459,6 +462,7 @@ export function SharedScriptTab(props: {
                       scenes={scenes}
                       assetBase={assetBase}
                       actors={actorsById}
+                      battleSprites={props.battleSprites}
                       ambiences={session.getState().ambiences ?? []}
                       shops={session.getState().shops ?? []}
                       scriptIndex={scriptIndex}
@@ -468,6 +472,7 @@ export function SharedScriptTab(props: {
                       }
                       onOpenSound={onOpenSound}
                       onOpenImage={onOpenImage}
+                      onOpenBattleSprite={props.onOpenBattleSprite}
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)

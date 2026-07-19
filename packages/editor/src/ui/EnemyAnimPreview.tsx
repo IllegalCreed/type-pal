@@ -1,239 +1,374 @@
-/**
- * 敌人外观/动作预览(数据模式·敌人页)。
- * 帧序列公式与引擎战斗时间线**同源**(reforge battle-anim/render):
- *   待机 = [0..idleFrames) 循环,帧时 max(1,idleAnimSpeed)×40ms
- *   施法 = [idleFrames..idleFrames+magicFrames) 循环,80ms(时间线 Delay(2))
- *   攻击 = [idleFrames+magicFrames−1 .. +attackFrames](i=0..attackFrames),帧时 max(1,actWaitFrames)×40ms
- *          attackFrames=0 → 单帧 idleFrames−1(引擎同分支)
- * anim 参数就地可编,预览即时反映;越界帧红色警示(数据配错一眼可见)。
- */
-import type { EnemyDef } from '@type-pal/content'
-import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
+import type { BattleSpriteDef, EnemyBattleSpriteProfile, EnemyDef } from '@type-pal/content'
+import { collectBattleSpriteDefinitionReferences } from '@type-pal/content'
+import type { AssetBase } from '@type-pal/reforge'
 import {
+  BattleSpriteAssetCache,
   bakeFrame,
-  decompressGzip,
-  loadBattleSprite,
+  loadBattleSpriteDefinition,
   loadStandardPalette,
-  parseSpriteChunk,
 } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { SetEnemyBattleSpriteCommand, UpdateEnemyCommand } from '../core/commands.js'
+import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
+import {
+  AddBattleSpriteCommand,
+  CompositeCommand,
+  SetEnemyBattleSpriteCommand,
+  UpdateBattleSpriteDefinitionCommand,
+  UpdateEnemyCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 
 type Mode = 'idle' | 'magic' | 'attack'
-const MODES: { id: Mode; label: string }[] = [
+const MODES: readonly { id: Mode; label: string }[] = [
   { id: 'idle', label: '待机' },
   { id: 'magic', label: '施法' },
   { id: 'attack', label: '攻击' },
 ]
 
-/** 模式 → 帧下标序列 + 每帧毫秒(引擎公式)。 */
-function frameSeq(anim: EnemyDef['anim'], mode: Mode): { seq: number[]; ms: number } {
-  const { idleFrames, magicFrames, attackFrames, actWaitFrames, idleAnimSpeed } = anim
-  if (mode === 'idle') {
-    const n = Math.max(1, idleFrames)
-    return { seq: Array.from({ length: n }, (_, i) => i), ms: Math.max(1, idleAnimSpeed) * 40 }
-  }
-  if (mode === 'magic') {
+function frameSequence(
+  profile: EnemyBattleSpriteProfile,
+  mode: Mode,
+): { frames: number[]; ms: number } {
+  if (mode === 'idle')
     return {
-      seq: Array.from({ length: Math.max(0, magicFrames) }, (_, i) => idleFrames + i),
-      ms: 80,
+      frames: Array.from({ length: profile.idle.count }, (_, index) => profile.idle.start + index),
+      ms: profile.idleTicksPerFrame * 40,
+    }
+  if (mode === 'magic') {
+    if (profile.magic.count === 0)
+      return { frames: [profile.idle.start + profile.idle.count - 1], ms: 40 }
+    if (profile.actTicksPerFrame === 0)
+      return { frames: [profile.magic.start + profile.magic.count - 1], ms: 40 }
+    return {
+      frames: Array.from(
+        { length: profile.magic.count },
+        (_, index) => profile.magic.start + index,
+      ),
+      ms: profile.actTicksPerFrame * 40,
     }
   }
-  if (attackFrames <= 0) return { seq: [Math.max(0, idleFrames - 1)], ms: 80 }
+  if (profile.attack.count === 0)
+    return {
+      frames: [profile.idle.start + profile.idle.count - 1],
+      ms: 40,
+    }
+  if (profile.actTicksPerFrame === 0)
+    return { frames: [profile.attack.start + profile.attack.count - 1], ms: 40 }
   return {
-    seq: Array.from({ length: attackFrames + 1 }, (_, i) => idleFrames + magicFrames + i - 1),
-    ms: Math.max(1, actWaitFrames) * 40,
+    frames: Array.from(
+      { length: profile.attack.count + 1 },
+      (_, index) => profile.attack.start + index - 1,
+    ),
+    ms: profile.actTicksPerFrame * 40,
   }
 }
 
-/** 数字输入(滚轮误改防护:wheel 时失焦,同 EnemyTab 规则行)。 */
-function NumIn(props: { v: number; on: (n: number) => void; w?: number; min?: number }) {
+function NumberInput(props: {
+  value: number
+  min?: number
+  max?: number
+  onChange: (value: number) => void
+}) {
   return (
     <input
-      className="in"
+      className="in mono"
       type="number"
-      style={{ width: props.w ?? 52 }}
-      value={props.v}
+      value={props.value}
       min={props.min ?? 0}
-      onChange={(e) => props.on(Number(e.target.value))}
-      onWheel={(e) => (e.target as HTMLInputElement).blur()}
+      max={props.max}
+      onWheel={(event) => event.currentTarget.blur()}
+      onChange={(event) => props.onChange(Math.floor(event.target.valueAsNumber || 0))}
     />
   )
 }
 
 export function EnemyAnimPreview(props: {
   enemy: EnemyDef
+  definitions: readonly BattleSpriteDef[]
   assetBase: AssetBase
+  assetReader: EditorAssetReader
   session: EditSession
-  /** 上传未保存的外观字节(A4c;键 = enemy.spritePath,内存解码优先)。 */
-  blob?: ArrayBuffer
+  onOpenDefinition?: (id: string) => void
 }) {
-  const { enemy, assetBase, session, blob } = props
-  const [baked, setBaked] = useState<HTMLCanvasElement[]>([])
-  const [err, setErr] = useState('')
+  const { enemy, definitions, assetBase, assetReader, session } = props
+  const definition = definitions.find((entry) => entry.id === enemy.battleSprite)
+  const profile = definition?.profile.kind === 'enemy' ? definition.profile : undefined
+  const cacheRef = useRef(new BattleSpriteAssetCache(12))
+  const [loadedFrames, setLoadedFrames] = useState<{
+    asset: string
+    sha256: string
+    frames: HTMLCanvasElement[]
+  }>()
+  const [loadError, setLoadError] = useState('')
+  const [editError, setEditError] = useState('')
+  const referenceCount = definition
+    ? collectBattleSpriteDefinitionReferences(session.getState()).filter(
+        (reference) => reference.battleSprite === definition.id,
+      ).length
+    : 0
   const [mode, setMode] = useState<Mode>('idle')
-  const [uploading, setUploading] = useState(false)
   const [tick, setTick] = useState(0)
+  const [uploading, setUploading] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  let revision: string | undefined
+  if (definition) {
+    try {
+      revision = assetReader.record(definition.asset, 'battle-sprite').sha256
+    } catch {
+      revision = undefined
+    }
+  }
+  const frames =
+    definition &&
+    revision &&
+    loadedFrames?.asset === definition.asset &&
+    loadedFrames.sha256 === revision
+      ? loadedFrames.frames
+      : []
 
-  // 加载战斗精灵 + palette → 预烘全帧
   useEffect(() => {
     let alive = true
-    setBaked([])
-    setErr('')
-    void (async () => {
-      try {
-        const [sp, pal]: [LoadedSprite, Awaited<ReturnType<typeof loadStandardPalette>>] =
-          await Promise.all([
-            blob
-              ? decompressGzip(new Blob([blob]))
-                  .then(parseSpriteChunk)
-                  .then((frames) => ({ frames, anchorX: 0, anchorY: 0 }))
-              : loadBattleSprite(assetBase, 'enemy', enemy.spriteNum, enemy.spritePath),
-            loadStandardPalette(assetBase),
-          ])
-        if (!alive) return
-        setBaked(sp.frames.map((f) => bakeFrame(f, pal)))
-      } catch (e) {
-        if (alive) setErr(e instanceof Error ? e.message : String(e))
+    setLoadedFrames(undefined)
+    setLoadError('')
+    if (!definition || definition.profile.kind !== 'enemy') {
+      setLoadError(`战斗精灵定义“${enemy.battleSprite}”不存在或不是 enemy profile`)
+      return () => {
+        alive = false
       }
-    })()
+    }
+    if (!revision) {
+      setLoadError(`战斗精灵定义“${definition.id}”的 AssetId “${definition.asset}”不存在`)
+      return () => {
+        alive = false
+      }
+    }
+    const expectedAsset = definition.asset
+    const expectedRevision = revision
+    void Promise.all([
+      loadBattleSpriteDefinition(cacheRef.current, assetReader, definition, 'enemy'),
+      loadStandardPalette(assetBase),
+    ])
+      .then(([loaded, palette]) => {
+        if (alive)
+          setLoadedFrames({
+            asset: expectedAsset,
+            sha256: expectedRevision,
+            frames: loaded.sprite.frames.map((frame) => bakeFrame(frame, palette)),
+          })
+      })
+      .catch((reason: unknown) => {
+        if (alive) setLoadError(reason instanceof Error ? reason.message : String(reason))
+      })
     return () => {
       alive = false
     }
-  }, [assetBase, enemy.spriteNum, enemy.spritePath, blob])
+  }, [assetBase, assetReader, definition, enemy.battleSprite, revision])
 
-  const { seq, ms } = useMemo(() => frameSeq(enemy.anim, mode), [enemy.anim, mode])
-  const outOfRange = useMemo(
-    () => (baked.length ? seq.filter((i) => i < 0 || i >= baked.length) : []),
-    [seq, baked.length],
+  const sequence = useMemo(
+    () => (profile ? frameSequence(profile, mode) : { frames: [], ms: 200 }),
+    [mode, profile],
   )
 
-  // 动画推进
   useEffect(() => {
-    if (!seq.length) return
-    const t = setInterval(() => setTick((x) => x + 1), ms)
-    return () => clearInterval(t)
-  }, [ms, seq.length])
+    if (!sequence.frames.length) return
+    const timer = window.setInterval(() => setTick((value) => value + 1), sequence.ms)
+    return () => window.clearInterval(timer)
+  }, [sequence.frames.length, sequence.ms])
 
-  // 绘制当前帧(底对齐居中;全帧最大包围盒定画布)
   useEffect(() => {
-    const c = canvasRef.current
-    const ctx = c?.getContext('2d')
-    if (!c || !ctx || !baked.length || !seq.length) return
-    const maxW = Math.max(...baked.map((b) => b.width))
-    const maxH = Math.max(...baked.map((b) => b.height))
+    const canvas = canvasRef.current
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context || !frames.length || !sequence.frames.length) return
+    const maxWidth = Math.max(...frames.map((frame) => frame.width))
+    const maxHeight = Math.max(...frames.map((frame) => frame.height))
     const scale = 2
-    c.width = maxW * scale
-    c.height = maxH * scale
-    ctx.imageSmoothingEnabled = false
-    ctx.clearRect(0, 0, c.width, c.height)
-    const fi = seq[tick % seq.length]!
-    const img = baked[fi]
-    if (!img) return
-    const w = img.width * scale
-    const h = img.height * scale
-    ctx.drawImage(img, (c.width - w) / 2, c.height - h, w, h)
-  }, [baked, seq, tick])
+    canvas.width = maxWidth * scale
+    canvas.height = maxHeight * scale
+    context.imageSmoothingEnabled = false
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    const image = frames[sequence.frames[tick % sequence.frames.length] ?? 0]
+    if (!image) return
+    context.drawImage(
+      image,
+      (canvas.width - image.width * scale) / 2,
+      canvas.height - image.height * scale,
+      image.width * scale,
+      image.height * scale,
+    )
+  }, [frames, sequence.frames, tick])
 
-  const patchAnim = (k: keyof EnemyDef['anim'], v: number): void => {
-    session.dispatch(new UpdateEnemyCommand(enemy.id, { anim: { ...enemy.anim, [k]: v } }))
+  const patchProfile = (next: EnemyBattleSpriteProfile): void => {
+    if (!definition || !revision || !frames.length) return
+    if (
+      referenceCount > 1 &&
+      !window.confirm(`该定义被 ${referenceCount} 处内容共享，修改动作 ABI 会同时生效。继续吗？`)
+    )
+      return
+    try {
+      session.dispatch(
+        new UpdateBattleSpriteDefinitionCommand(
+          definition.id,
+          { profile: next },
+          { asset: definition.asset, sha256: revision, actualFrameCount: frames.length },
+        ),
+      )
+      setEditError('')
+    } catch (reason) {
+      setEditError(reason instanceof Error ? reason.message : String(reason))
+    }
   }
-  const animFields: { k: keyof EnemyDef['anim']; l: string; hint: string }[] = [
-    { k: 'idleFrames', l: '待机帧', hint: '帧 0 起循环' },
-    { k: 'magicFrames', l: '施法帧', hint: '接在待机后' },
-    { k: 'attackFrames', l: '攻击帧', hint: '接在施法后' },
-    { k: 'actWaitFrames', l: '攻速', hint: '每攻击帧 ×40ms' },
-    { k: 'idleAnimSpeed', l: '待机速', hint: '每待机帧 ×40ms' },
-    { k: 'yPosOffset', l: 'Y 偏移', hint: '站位微调' },
-  ]
+
+  const patchCounts = (key: 'idle' | 'magic' | 'attack', count: number): void => {
+    if (!profile) return
+    const counts = {
+      idle: profile.idle.count,
+      magic: profile.magic.count,
+      attack: profile.attack.count,
+      [key]: Math.max(key === 'idle' ? 1 : 0, count),
+    }
+    patchProfile({
+      ...profile,
+      idle: { start: 0, count: counts.idle },
+      magic: { start: counts.idle, count: counts.magic },
+      attack: { start: counts.idle + counts.magic, count: counts.attack },
+    })
+  }
 
   return (
     <div className="enemy-anim">
       <div className="ea-head">
         <span className="t">外观 · 战斗精灵</span>
-        <span className="hint">精灵 #</span>
-        <NumIn
-          v={enemy.spriteNum}
-          w={64}
-          on={(n) => session.dispatch(new UpdateEnemyCommand(enemy.id, { spriteNum: n }))}
+        <BattleSpritePicker
+          value={enemy.battleSprite}
+          definitions={definitions}
+          kind="enemy"
+          onChange={(id) => session.dispatch(new SetEnemyBattleSpriteCommand(enemy.id, id))}
+          onOpenDefinition={props.onOpenDefinition}
+          ariaLabel="敌人战斗精灵"
         />
-        <span className="hint">{baked.length ? `${baked.length} 帧` : ''}</span>
-        {enemy.spritePath && (
-          <span className="hint2" title={enemy.spritePath}>
-            自有外观{blob ? '(未保存)' : ''}
-          </span>
-        )}
-        <button
-          type="button"
-          className="mini-txt"
-          title="上传 PNG 帧带(横排逐行切),自动贴合工程主色"
-          onClick={() => setUploading((v) => !v)}
-        >
-          ⬆ 上传外观
+        <span className="hint">{frames.length ? `${frames.length} 帧` : ''}</span>
+        {referenceCount > 1 && <span className="hint2">共享定义 · {referenceCount} 处引用</span>}
+        <button type="button" className="mini-txt" onClick={() => setUploading((value) => !value)}>
+          ⬆ 上传新定义
         </button>
       </div>
       {uploading && (
         <BattleSpriteUploader
           assetBase={assetBase}
-          onApply={(buf) => {
+          onApply={async (bytes, frameCount) => {
+            const prepared = await prepareBattleSpriteImport(session.getState(), {
+              hint: enemy.id,
+              label: `${enemy.id} 战斗精灵`,
+              kind: 'enemy',
+              bytes,
+              frameCount,
+              reader: assetReader,
+            })
             session.dispatch(
-              new SetEnemyBattleSpriteCommand(
-                enemy.id,
-                `assets/battle-sprites/enemy/${enemy.id}.rle`,
-                buf,
-              ),
+              new CompositeCommand('上传并设置敌人战斗精灵', [
+                new AddBattleSpriteCommand(
+                  prepared.definition,
+                  prepared.record,
+                  prepared.bytes,
+                  prepared.frameCount,
+                ),
+                new SetEnemyBattleSpriteCommand(enemy.id, prepared.definition.id),
+              ]),
             )
             setUploading(false)
           }}
           onCancel={() => setUploading(false)}
         />
       )}
-      {err ? (
-        <div className="hint" style={{ color: 'var(--err)' }}>
-          精灵加载失败: {err}
-        </div>
-      ) : (
-        <div className="ea-body">
-          <div className="ea-stage">
-            <canvas ref={canvasRef} style={{ imageRendering: 'pixelated' }} />
-            <div className="ea-modes">
-              {MODES.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  className={`tool${mode === m.id ? ' active' : ''}`}
-                  onClick={() => setMode(m.id)}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
-            {mode === 'magic' && enemy.anim.magicFrames <= 0 ? (
-              <span className="hint">（无施法帧:magicFrames = 0）</span>
-            ) : null}
-            {outOfRange.length ? (
-              <span className="hint" style={{ color: 'var(--err)' }}>
-                ⚠ 帧 {outOfRange.join(',')} 超出精灵范围(共 {baked.length} 帧)——检查下方帧数配置
-              </span>
-            ) : null}
-          </div>
-          <div className="ea-fields">
-            {animFields.map((f) => (
-              <label key={f.k} className="ea-field" title={f.hint}>
-                <span>{f.l}</span>
-                <NumIn
-                  v={enemy.anim[f.k]}
-                  min={f.k === 'yPosOffset' ? -200 : 0}
-                  on={(n) => patchAnim(f.k, n)}
-                />
-              </label>
-            ))}
-          </div>
+      {loadError && (
+        <div className="err" role="status" aria-live="polite">
+          精灵加载失败：{loadError}
         </div>
       )}
+      <div className="ea-body">
+        <div className="ea-stage">
+          <canvas
+            ref={canvasRef}
+            style={{ imageRendering: 'pixelated' }}
+            role="img"
+            aria-label={`${enemy.id}敌人战斗动画预览`}
+          />
+          <div className="ea-modes">
+            {MODES.map((entry) => (
+              <button
+                key={entry.id}
+                type="button"
+                className={`tool${mode === entry.id ? ' active' : ''}`}
+                onClick={() => setMode(entry.id)}
+              >
+                {entry.label}
+              </button>
+            ))}
+          </div>
+          {mode === 'magic' && profile?.magic.count === 0 && (
+            <span className="hint">（该定义无施法帧）</span>
+          )}
+          {mode !== 'idle' && profile?.actTicksPerFrame === 0 && (
+            <span className="hint">（0 tick：瞬时显示该动作末帧）</span>
+          )}
+        </div>
+        {profile && (
+          <div className="ea-fields">
+            <div className="ea-field">
+              <span>待机帧</span>
+              <NumberInput
+                value={profile.idle.count}
+                min={1}
+                onChange={(n) => patchCounts('idle', n)}
+              />
+            </div>
+            <div className="ea-field">
+              <span>施法帧</span>
+              <NumberInput value={profile.magic.count} onChange={(n) => patchCounts('magic', n)} />
+            </div>
+            <div className="ea-field">
+              <span>攻击帧</span>
+              <NumberInput
+                value={profile.attack.count}
+                onChange={(n) => patchCounts('attack', n)}
+              />
+            </div>
+            <div className="ea-field">
+              <span>待机速</span>
+              <NumberInput
+                value={profile.idleTicksPerFrame}
+                min={1}
+                onChange={(idleTicksPerFrame) => patchProfile({ ...profile, idleTicksPerFrame })}
+              />
+            </div>
+            <div className="ea-field">
+              <span>行动速</span>
+              <NumberInput
+                value={profile.actTicksPerFrame}
+                onChange={(actTicksPerFrame) => patchProfile({ ...profile, actTicksPerFrame })}
+              />
+            </div>
+            <div className="ea-field">
+              <span>Y 偏移</span>
+              <NumberInput
+                value={enemy.yPosOffset}
+                min={-200}
+                onChange={(yPosOffset) =>
+                  session.dispatch(new UpdateEnemyCommand(enemy.id, { yPosOffset }))
+                }
+              />
+            </div>
+            {editError && (
+              <div className="err" aria-live="polite">
+                {editError}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

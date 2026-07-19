@@ -44,7 +44,7 @@ import {
   type LoadedSprite,
   loadBattleBgFull,
   loadBattleFields,
-  loadBattleSprite,
+  loadBattleSpriteDefinition,
   loadEffectSprite,
   loadFireSprite,
   loadGlyphs,
@@ -63,6 +63,7 @@ import {
 import { curePoisons } from './battle/battle-core.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
 import { BattleSession } from './battle/battle-session.js'
+import { prepareBattleSpriteReadiness } from './battle/battle-sprite-readiness.js'
 import { type BattleSpriteDraw, renderBattleScene } from './battle/present-battle.js'
 import { buildSettlementScreens } from './battle/settlement.js'
 import { isBlockedAt, sameGrid } from './collision.js'
@@ -142,6 +143,7 @@ import {
   captureThumbnail,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
+  resolveLegacyPlayerBattleSpriteId,
   resolveRestoredMusic,
 } from './save/ops.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
@@ -265,6 +267,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     validateFollowerSpriteId: (spriteId: string): void => {
       if (!project.spritesById[spriteId]) throw new Error(`sprites 注册表无 ${spriteId}`)
     },
+    legacyPlayerBattleSpriteId: (legacy: number): string | undefined =>
+      resolveLegacyPlayerBattleSpriteId(project.battleSpritesById, legacy),
+    validatePlayerBattleSpriteId: (definitionId: string): void => {
+      const definition = project.battleSpritesById[definitionId]
+      if (!definition) throw new Error(`battleSprites 注册表无 ${definitionId}`)
+      if (definition.profile.kind !== 'player-fighter')
+        throw new Error(`期望 player-fighter，实际 ${definition.profile.kind}`)
+    },
   }
   const sfx = new SfxPlayer(project.assetResolver) // 应用级单例(解码缓存跨战斗复用)
   const bgm = createBgmPlayer(project.assetResolver)
@@ -297,13 +307,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   const loadEffectOnce = () => {
     effectSpriteP ??= loadEffectSprite(project.assetBase).catch(() => undefined)
     return effectSpriteP
-  }
-  let effectIndexP: Promise<number[] | null> | null = null
-  const loadEffectIndexOnce = () => {
-    effectIndexP ??= fetch(`${project.assetBase.root}/battle-effect-index.json`)
-      .then((r) => (r.ok ? (r.json() as Promise<number[]>) : null))
-      .catch(() => null)
-    return effectIndexP
   }
 
   // ── 引擎 chrome(跨场景不变)──
@@ -1474,14 +1477,31 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       const scriptMutationToken = scriptMutationIntent.capture()
       const intent = actorMutationIntent(actorAppearanceMutationIntents, actorTemplate)
       const actorToken = intent.begin()
+      const readiness: Promise<unknown>[] = []
       if (patch.spriteId) {
         const def = requireSpriteDef(patch.spriteId, `0x1A 换形象 ${actorTemplate}`)
-        await awaitRunner(
-          spriteCache.load(project.assetResolver, def.asset),
-          signal,
-          `0x1A 换形象 ${actorTemplate} 的 runner 已取消`,
+        readiness.push(spriteCache.load(project.assetResolver, def.asset))
+      }
+      if (patch.battleSprite) {
+        const def = project.battleSpritesById[patch.battleSprite]
+        if (!def)
+          throw new Error(
+            `0x1A 换形象 ${actorTemplate}: BattleSpriteDef "${patch.battleSprite}" 不存在`,
+          )
+        readiness.push(
+          loadBattleSpriteDefinition(
+            project.battleSpriteCache,
+            project.assetResolver,
+            def,
+            'player-fighter',
+          ),
         )
       }
+      await awaitRunner(
+        Promise.all(readiness),
+        signal,
+        `0x1A 换形象 ${actorTemplate} 的 runner 已取消`,
+      )
       assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
       worldMutationIntent.assertCurrent(worldToken, `0x1A 换形象 ${actorTemplate} 的所属世界已失效`)
       scriptMutationIntent.assertCurrent(
@@ -2040,14 +2060,22 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         reportBattleReadiness(team, 'battleBase', error, false)
       })
       assertLaunchCurrent()
-      // 资产:战场背景(sys:battleField 记账 → 当前场景 palette 着色)+ 敌我战斗精灵 + 队员小头像
-      // B5 召唤:扫队伍已学技能的 summon godId,预载神将精灵(F.MKF player 通道 chunk godId+10)
-      const summonGodIds = new Set<number>()
-      for (const c of world.party)
-        for (const sid of world.learnedSkills[c.id] ?? []) {
-          for (const eff of project.skills[sid]?.effects ?? [])
-            if (eff.kind === 'summon') summonGodIds.add(eff.godId)
-        }
+      // 视觉第一屏障：基础/装备/持久形象、effective skills、合击及敌 transform/summon BFS
+      // 全部在 session 提交前解析。动作期不得迟到写入或再发战斗精灵 IO。
+      const battleSpriteReadiness = await prepareBattleSpriteReadiness({
+        cache: project.battleSpriteCache,
+        reader: project.assetResolver,
+        definitionsById: project.battleSpritesById,
+        party: world.party,
+        actorsById: project.actorsById,
+        itemsById: project.items,
+        playerSkillIds: players.map((player) => player.skills),
+        cooperativeSkillIds,
+        skillsById: project.skills,
+        enemyDefs,
+        enemiesById: project.enemiesById,
+      })
+      assertLaunchCurrent()
       const fieldId = battleOpts?.fieldId ?? scene.battleFieldId ?? 24
       // 战场常驻波(battle.c:1559 进战斗设 field.screenWave;#18/22/32/35/50 水下/幻境)
       // + 五灵加成(lprgBattleField.rgsMagicEffect,fight.c:244 双向乘入法术伤害)。
@@ -2070,52 +2098,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       assertLaunchCurrent()
       const fieldDef = fields.get(Number(fieldId))
       const fieldWave = fieldDef?.screenWave ?? 0
-      const [
-        bgFull,
-        summonSprites,
-        enemySprites,
-        playerSprites,
-        faceList,
-        effectSprite,
-        effectIndex,
-      ] = await Promise.all([
+      const [bgFull, faceList, effectSprite] = await Promise.all([
         fieldDef?.background
           ? loadBattleBgFull(project.assetBase, fieldDef.background, palette)
           : Promise.resolve(undefined),
-        Promise.all(
-          [...summonGodIds].map(
-            async (g) =>
-              [
-                g,
-                await loadBattleSprite(project.assetBase, 'player', g + 10).catch(() => undefined),
-              ] as const,
-          ),
-        ).then((entries) =>
-          Object.fromEntries(entries.filter((e): e is [number, LoadedSprite] => !!e[1])),
-        ),
-        Promise.all(
-          enemyDefs.map((e) =>
-            loadBattleSprite(project.assetBase, 'enemy', e.spriteNum, e.spritePath).catch(
-              () => undefined,
-            ),
-          ),
-        ),
-        Promise.all(
-          world.party.map((c) =>
-            loadBattleSprite(
-              project.assetBase,
-              'player',
-              // 0x1A 战斗精灵覆写优先(成年灵儿 appearance.battleSprite);缺 = 模板
-              c.appearance?.battleSprite ??
-                project.actorsById[c.template]?.battler?.battleSpriteNum ??
-                0,
-              // 覆写走原版号 → 无自有 path(loadBattleSprite 回落原版 F.MKF 提取图)
-              c.appearance?.battleSprite !== undefined
-                ? undefined
-                : project.actorsById[c.template]?.battler?.battleSpritePath,
-            ).catch(() => undefined),
-          ),
-        ),
         Promise.resolve(
           world.party.map((character) => {
             const asset = project.actorsById[character.template]?.face
@@ -2123,30 +2109,12 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           }),
         ),
         loadEffectOnce(),
-        loadEffectIndexOnce(),
       ])
       assertLaunchCurrent()
-      // 各队员命中/施法前摇特效帧基(fight.c:2055 攻击 [1]*3;2387 施法 [0]*10+15;表缺 → −1)
-      const playerEffectBase = world.party.map((c) => {
-        const sn =
-          c.appearance?.battleSprite ??
-          project.actorsById[c.template]?.battler?.battleSpriteNum ??
-          0
-        const v = effectIndex?.[sn * 2 + 1]
-        return v === undefined ? -1 : v * 3
-      })
-      const playerCastBase = world.party.map((c) => {
-        const sn =
-          c.appearance?.battleSprite ??
-          project.actorsById[c.template]?.battler?.battleSpriteNum ??
-          0
-        const v = effectIndex?.[sn * 2]
-        return v === undefined ? -1 : v * 10 + 15
-      })
       // 本场可能施放的法术 → 预载 fire 特效精灵(玩家已学 + 敌 AI cast 规则;M4d-2b)
       const fireChunks = new Set<number>()
-      for (const c of world.party) {
-        for (const sid of world.learnedSkills[c.id] ?? []) {
+      for (const [index, c] of world.party.entries()) {
+        for (const sid of players[index]?.skills ?? []) {
           const sp = project.skills[sid]?.animation.effectSprite
           if (sp !== undefined && sp >= 0) fireChunks.add(sp)
         }
@@ -2155,7 +2123,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         const coopSp = coopId ? project.skills[coopId]?.animation.effectSprite : undefined
         if (coopSp !== undefined && coopSp >= 0) fireChunks.add(coopSp)
       }
-      for (const e of enemyDefs) {
+      for (const e of battleSpriteReadiness.reachableEnemyDefs) {
         for (const r of e.ai.rules ?? []) {
           if (r.do.kind === 'cast') {
             const sp = project.skills[r.do.skillId]?.animation.effectSprite
@@ -2190,15 +2158,14 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
           palette,
           glyphs,
-          enemySprites,
-          playerSprites,
+          battleSprites: battleSpriteReadiness.byDefinitionId,
+          playerBaseDefinitionIds: battleSpriteReadiness.playerBaseDefinitionIds,
           ui: menuAssets,
           faces,
           battleIcons: menuAssets.battleIcons,
           sfx,
           effectSprite,
           fireSprites,
-          summonSprites,
           dialogBox, // 战斗内对话 = 大世界同款对话框叠战斗上(一阶段真值)
         },
         (roleId) => {
@@ -2216,8 +2183,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           auto: battleOpts?.auto,
           boss: battleOpts?.boss,
           locale: project.locale,
-          playerEffectBase,
-          playerCastBase,
           fieldWave,
           fieldEffect: fieldDef?.magicEffect,
           poisonDefs: project.poisonsById,
@@ -2229,11 +2194,6 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           // 战斗音效七件套(BattlerSpec.sounds;出招/挥击/吟唱已接,其余随对应演出落地)
           playerSounds,
           soundRoles: project.manifest.assets.roles,
-          // 变身换形/异种召唤的中场精灵重载(原版 PAL_LoadBattleSprites)
-          loadEnemySprite: (def) =>
-            loadBattleSprite(project.assetBase, 'enemy', def.spriteNum, def.spritePath).catch(
-              () => undefined,
-            ),
           prepareTurnSounds: async (snapshot) => {
             let turnSounds: ReturnType<typeof collectTurnActionSounds>
             try {
@@ -4267,30 +4227,54 @@ async function renderBattlePreview(project: LoadedProject, params: URLSearchPara
         (loaded) => loaded.canvas,
       )
     : undefined
-  const load = async (kind: 'enemy' | 'player', id: number): Promise<LoadedSprite | undefined> =>
-    loadBattleSprite(project.assetBase, kind, id).catch((e: unknown) => {
-      console.warn(`[battle] ${kind} 精灵 ${id} 加载失败:`, e)
-      return undefined
-    })
-
-  const enemyIds = (params.get('enemies') ?? '1,2,3')
+  const enemyIds = (params.get('enemies') ?? Object.keys(project.enemiesById).slice(0, 3).join(','))
     .split(',')
-    .map(Number)
-    .filter((n) => n >= 0)
+    .map((id) => id.trim())
+    .filter(Boolean)
   const enemies: BattleSpriteDraw[] = []
-  for (const [i, id] of enemyIds.entries()) {
-    const sprite = await load('enemy', id)
-    const pos = getEnemyBasePos(enemyIds.length, i) ?? { x: 160, y: 80 }
-    if (sprite) enemies.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+  for (const [i, enemyId] of enemyIds.entries()) {
+    const enemy = project.enemiesById[enemyId]
+    const definitionId = enemy?.battleSprite ?? enemyId
+    const definition = project.battleSpritesById[definitionId]
+    if (!definition) throw new Error(`battle preview 敌人/战斗精灵定义 "${enemyId}" 不存在`)
+    const loaded = await loadBattleSpriteDefinition(
+      project.battleSpriteCache,
+      project.assetResolver,
+      definition,
+      'enemy',
+    )
+    if (loaded.definition.profile.kind !== 'enemy') throw new Error('enemy preview profile 漂移')
+    const pos = getEnemyBasePos(enemyIds.length, i, enemy?.yPosOffset ?? 0) ?? { x: 160, y: 80 }
+    enemies.push({
+      sprite: loaded.sprite,
+      x: pos.x,
+      y: pos.y,
+      frame: loaded.definition.profile.idle.start,
+    })
   }
 
   const party = project.manifest.startWorld.party.slice(0, 3)
   const players: BattleSpriteDraw[] = []
   for (const [i, aid] of party.entries()) {
-    const bsn = project.actorsById[aid]?.battler?.battleSpriteNum ?? 0
-    const sprite = await load('player', bsn)
+    const definitionId = project.actorsById[aid]?.battler?.battleSprite
+    if (!definitionId) throw new Error(`battle preview 队员 "${aid}" 没有 battleSprite`)
+    const definition = project.battleSpritesById[definitionId]
+    if (!definition) throw new Error(`battle preview 战斗精灵定义 "${definitionId}" 不存在`)
+    const loaded = await loadBattleSpriteDefinition(
+      project.battleSpriteCache,
+      project.assetResolver,
+      definition,
+      'player-fighter',
+    )
+    if (loaded.definition.profile.kind !== 'player-fighter')
+      throw new Error('player preview profile 漂移')
     const pos = getPlayerBasePos(party.length, i) ?? { x: 240, y: 170 }
-    if (sprite) players.push({ sprite, x: pos.x, y: pos.y, frame: 0 })
+    players.push({
+      sprite: loaded.sprite,
+      x: pos.x,
+      y: pos.y,
+      frame: loaded.definition.profile.frames.idle,
+    })
   }
 
   renderBattleScene(ctx, { bg, enemies, players, palette }, WORLD_SCALE)

@@ -1,0 +1,3640 @@
+[
+  {
+    "id": "player-fighter-0",
+    "label": "PAL 我方战斗精灵 0",
+    "asset": "battle-sprite.pal.player.000",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9,
+        "steal": 10
+      },
+      "castEffectBase": 15,
+      "attackEffectBase": 0
+    }
+  },
+  {
+    "id": "player-fighter-1",
+    "label": "PAL 我方战斗精灵 1",
+    "asset": "battle-sprite.pal.player.001",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 25,
+      "attackEffectBase": 3
+    }
+  },
+  {
+    "id": "player-fighter-2",
+    "label": "PAL 我方战斗精灵 2",
+    "asset": "battle-sprite.pal.player.002",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 35,
+      "attackEffectBase": 6
+    }
+  },
+  {
+    "id": "player-fighter-3",
+    "label": "PAL 我方战斗精灵 3",
+    "asset": "battle-sprite.pal.player.003",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 45,
+      "attackEffectBase": 9
+    }
+  },
+  {
+    "id": "player-fighter-4",
+    "label": "PAL 我方战斗精灵 4",
+    "asset": "battle-sprite.pal.player.004",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 55,
+      "attackEffectBase": 12
+    }
+  },
+  {
+    "id": "player-fighter-5",
+    "label": "PAL 我方战斗精灵 5",
+    "asset": "battle-sprite.pal.player.005",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 65,
+      "attackEffectBase": 9
+    }
+  },
+  {
+    "id": "player-fighter-6",
+    "label": "PAL 我方战斗精灵 6",
+    "asset": "battle-sprite.pal.player.006",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 35,
+      "attackEffectBase": 6
+    }
+  },
+  {
+    "id": "player-fighter-7",
+    "label": "PAL 我方战斗精灵 7",
+    "asset": "battle-sprite.pal.player.007",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 55,
+      "attackEffectBase": 0
+    }
+  },
+  {
+    "id": "player-fighter-8",
+    "label": "PAL 我方战斗精灵 8",
+    "asset": "battle-sprite.pal.player.008",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 75,
+      "attackEffectBase": 12
+    }
+  },
+  {
+    "id": "player-fighter-9",
+    "label": "PAL 我方战斗精灵 9",
+    "asset": "battle-sprite.pal.player.009",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9,
+        "steal": 10
+      },
+      "castEffectBase": 45,
+      "attackEffectBase": 9
+    }
+  },
+  {
+    "id": "player-summon-10",
+    "label": "PAL 召唤战斗精灵 10",
+    "asset": "battle-sprite.pal.player.010",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-11",
+    "label": "PAL 召唤战斗精灵 11",
+    "asset": "battle-sprite.pal.player.011",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-12",
+    "label": "PAL 召唤战斗精灵 12",
+    "asset": "battle-sprite.pal.player.012",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-13",
+    "label": "PAL 召唤战斗精灵 13",
+    "asset": "battle-sprite.pal.player.013",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-14",
+    "label": "PAL 召唤战斗精灵 14",
+    "asset": "battle-sprite.pal.player.014",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-15",
+    "label": "PAL 召唤战斗精灵 15",
+    "asset": "battle-sprite.pal.player.015",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-16",
+    "label": "PAL 召唤战斗精灵 16",
+    "asset": "battle-sprite.pal.player.016",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-17",
+    "label": "PAL 召唤战斗精灵 17",
+    "asset": "battle-sprite.pal.player.017",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "player-summon-18",
+    "label": "PAL 召唤战斗精灵 18",
+    "asset": "battle-sprite.pal.player.018",
+    "profile": {
+      "kind": "summon"
+    }
+  },
+  {
+    "id": "enemy-battle-1",
+    "label": "PAL 敌方战斗精灵 1",
+    "asset": "battle-sprite.pal.enemy.001",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-2",
+    "label": "PAL 敌方战斗精灵 2",
+    "asset": "battle-sprite.pal.enemy.002",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-3",
+    "label": "PAL 敌方战斗精灵 3",
+    "asset": "battle-sprite.pal.enemy.003",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-4",
+    "label": "PAL 敌方战斗精灵 4",
+    "asset": "battle-sprite.pal.enemy.004",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-5",
+    "label": "PAL 敌方战斗精灵 5",
+    "asset": "battle-sprite.pal.enemy.005",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-6",
+    "label": "PAL 敌方战斗精灵 6",
+    "asset": "battle-sprite.pal.enemy.006",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 0
+      },
+      "idleTicksPerFrame": 1,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-7",
+    "label": "PAL 敌方战斗精灵 7",
+    "asset": "battle-sprite.pal.enemy.007",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-8",
+    "label": "PAL 敌方战斗精灵 8",
+    "asset": "battle-sprite.pal.enemy.008",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-9",
+    "label": "PAL 敌方战斗精灵 9",
+    "asset": "battle-sprite.pal.enemy.009",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-10",
+    "label": "PAL 敌方战斗精灵 10",
+    "asset": "battle-sprite.pal.enemy.010",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-11",
+    "label": "PAL 敌方战斗精灵 11",
+    "asset": "battle-sprite.pal.enemy.011",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-12",
+    "label": "PAL 敌方战斗精灵 12",
+    "asset": "battle-sprite.pal.enemy.012",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-13",
+    "label": "PAL 敌方战斗精灵 13",
+    "asset": "battle-sprite.pal.enemy.013",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-14",
+    "label": "PAL 敌方战斗精灵 14",
+    "asset": "battle-sprite.pal.enemy.014",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-15",
+    "label": "PAL 敌方战斗精灵 15",
+    "asset": "battle-sprite.pal.enemy.015",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-16",
+    "label": "PAL 敌方战斗精灵 16",
+    "asset": "battle-sprite.pal.enemy.016",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-17",
+    "label": "PAL 敌方战斗精灵 17",
+    "asset": "battle-sprite.pal.enemy.017",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-18",
+    "label": "PAL 敌方战斗精灵 18",
+    "asset": "battle-sprite.pal.enemy.018",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-19",
+    "label": "PAL 敌方战斗精灵 19",
+    "asset": "battle-sprite.pal.enemy.019",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-20",
+    "label": "PAL 敌方战斗精灵 20",
+    "asset": "battle-sprite.pal.enemy.020",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-21",
+    "label": "PAL 敌方战斗精灵 21",
+    "asset": "battle-sprite.pal.enemy.021",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 2
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-22",
+    "label": "PAL 敌方战斗精灵 22",
+    "asset": "battle-sprite.pal.enemy.022",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-23",
+    "label": "PAL 敌方战斗精灵 23",
+    "asset": "battle-sprite.pal.enemy.023",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-24",
+    "label": "PAL 敌方战斗精灵 24",
+    "asset": "battle-sprite.pal.enemy.024",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-25",
+    "label": "PAL 敌方战斗精灵 25",
+    "asset": "battle-sprite.pal.enemy.025",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 4
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-26",
+    "label": "PAL 敌方战斗精灵 26",
+    "asset": "battle-sprite.pal.enemy.026",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-27",
+    "label": "PAL 敌方战斗精灵 27",
+    "asset": "battle-sprite.pal.enemy.027",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-28",
+    "label": "PAL 敌方战斗精灵 28",
+    "asset": "battle-sprite.pal.enemy.028",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-29",
+    "label": "PAL 敌方战斗精灵 29",
+    "asset": "battle-sprite.pal.enemy.029",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-30",
+    "label": "PAL 敌方战斗精灵 30",
+    "asset": "battle-sprite.pal.enemy.030",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-31",
+    "label": "PAL 敌方战斗精灵 31",
+    "asset": "battle-sprite.pal.enemy.031",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-32",
+    "label": "PAL 敌方战斗精灵 32",
+    "asset": "battle-sprite.pal.enemy.032",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-33",
+    "label": "PAL 敌方战斗精灵 33",
+    "asset": "battle-sprite.pal.enemy.033",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 7,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-34",
+    "label": "PAL 敌方战斗精灵 34",
+    "asset": "battle-sprite.pal.enemy.034",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-35",
+    "label": "PAL 敌方战斗精灵 35",
+    "asset": "battle-sprite.pal.enemy.035",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-36",
+    "label": "PAL 敌方战斗精灵 36",
+    "asset": "battle-sprite.pal.enemy.036",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-37",
+    "label": "PAL 敌方战斗精灵 37",
+    "asset": "battle-sprite.pal.enemy.037",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-38",
+    "label": "PAL 敌方战斗精灵 38",
+    "asset": "battle-sprite.pal.enemy.038",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-39",
+    "label": "PAL 敌方战斗精灵 39",
+    "asset": "battle-sprite.pal.enemy.039",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-40",
+    "label": "PAL 敌方战斗精灵 40",
+    "asset": "battle-sprite.pal.enemy.040",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 2
+      },
+      "idleTicksPerFrame": 7,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-41",
+    "label": "PAL 敌方战斗精灵 41",
+    "asset": "battle-sprite.pal.enemy.041",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-42",
+    "label": "PAL 敌方战斗精灵 42",
+    "asset": "battle-sprite.pal.enemy.042",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 2
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-43",
+    "label": "PAL 敌方战斗精灵 43",
+    "asset": "battle-sprite.pal.enemy.043",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 2
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-44",
+    "label": "PAL 敌方战斗精灵 44",
+    "asset": "battle-sprite.pal.enemy.044",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 3
+      },
+      "attack": {
+        "start": 5,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-45",
+    "label": "PAL 敌方战斗精灵 45",
+    "asset": "battle-sprite.pal.enemy.045",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-46",
+    "label": "PAL 敌方战斗精灵 46",
+    "asset": "battle-sprite.pal.enemy.046",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-47",
+    "label": "PAL 敌方战斗精灵 47",
+    "asset": "battle-sprite.pal.enemy.047",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-48",
+    "label": "PAL 敌方战斗精灵 48",
+    "asset": "battle-sprite.pal.enemy.048",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-49",
+    "label": "PAL 敌方战斗精灵 49",
+    "asset": "battle-sprite.pal.enemy.049",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 7,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-50",
+    "label": "PAL 敌方战斗精灵 50",
+    "asset": "battle-sprite.pal.enemy.050",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-51",
+    "label": "PAL 敌方战斗精灵 51",
+    "asset": "battle-sprite.pal.enemy.051",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-52",
+    "label": "PAL 敌方战斗精灵 52",
+    "asset": "battle-sprite.pal.enemy.052",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-53",
+    "label": "PAL 敌方战斗精灵 53",
+    "asset": "battle-sprite.pal.enemy.053",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-54",
+    "label": "PAL 敌方战斗精灵 54",
+    "asset": "battle-sprite.pal.enemy.054",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-55",
+    "label": "PAL 敌方战斗精灵 55",
+    "asset": "battle-sprite.pal.enemy.055",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-56",
+    "label": "PAL 敌方战斗精灵 56",
+    "asset": "battle-sprite.pal.enemy.056",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-57",
+    "label": "PAL 敌方战斗精灵 57",
+    "asset": "battle-sprite.pal.enemy.057",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-58",
+    "label": "PAL 敌方战斗精灵 58",
+    "asset": "battle-sprite.pal.enemy.058",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-59",
+    "label": "PAL 敌方战斗精灵 59",
+    "asset": "battle-sprite.pal.enemy.059",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-60",
+    "label": "PAL 敌方战斗精灵 60",
+    "asset": "battle-sprite.pal.enemy.060",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 2,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-61",
+    "label": "PAL 敌方战斗精灵 61",
+    "asset": "battle-sprite.pal.enemy.061",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-62",
+    "label": "PAL 敌方战斗精灵 62",
+    "asset": "battle-sprite.pal.enemy.062",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-63",
+    "label": "PAL 敌方战斗精灵 63",
+    "asset": "battle-sprite.pal.enemy.063",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-64",
+    "label": "PAL 敌方战斗精灵 64",
+    "asset": "battle-sprite.pal.enemy.064",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-65",
+    "label": "PAL 敌方战斗精灵 65",
+    "asset": "battle-sprite.pal.enemy.065",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-66",
+    "label": "PAL 敌方战斗精灵 66",
+    "asset": "battle-sprite.pal.enemy.066",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-67",
+    "label": "PAL 敌方战斗精灵 67",
+    "asset": "battle-sprite.pal.enemy.067",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 3
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-68",
+    "label": "PAL 敌方战斗精灵 68",
+    "asset": "battle-sprite.pal.enemy.068",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-69",
+    "label": "PAL 敌方战斗精灵 69",
+    "asset": "battle-sprite.pal.enemy.069",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-70",
+    "label": "PAL 敌方战斗精灵 70",
+    "asset": "battle-sprite.pal.enemy.070",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 1,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-71",
+    "label": "PAL 敌方战斗精灵 71",
+    "asset": "battle-sprite.pal.enemy.071",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-72",
+    "label": "PAL 敌方战斗精灵 72",
+    "asset": "battle-sprite.pal.enemy.072",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-73",
+    "label": "PAL 敌方战斗精灵 73",
+    "asset": "battle-sprite.pal.enemy.073",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-74",
+    "label": "PAL 敌方战斗精灵 74",
+    "asset": "battle-sprite.pal.enemy.074",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-75",
+    "label": "PAL 敌方战斗精灵 75",
+    "asset": "battle-sprite.pal.enemy.075",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 8,
+      "actTicksPerFrame": 4
+    }
+  },
+  {
+    "id": "enemy-battle-76",
+    "label": "PAL 敌方战斗精灵 76",
+    "asset": "battle-sprite.pal.enemy.076",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-77",
+    "label": "PAL 敌方战斗精灵 77",
+    "asset": "battle-sprite.pal.enemy.077",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 3
+    }
+  },
+  {
+    "id": "enemy-battle-78",
+    "label": "PAL 敌方战斗精灵 78",
+    "asset": "battle-sprite.pal.enemy.078",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 5
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-79",
+    "label": "PAL 敌方战斗精灵 79",
+    "asset": "battle-sprite.pal.enemy.079",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 2,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-80",
+    "label": "PAL 敌方战斗精灵 80",
+    "asset": "battle-sprite.pal.enemy.080",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 4
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-81",
+    "label": "PAL 敌方战斗精灵 81",
+    "asset": "battle-sprite.pal.enemy.081",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 5
+      },
+      "idleTicksPerFrame": 2,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-82",
+    "label": "PAL 敌方战斗精灵 82",
+    "asset": "battle-sprite.pal.enemy.082",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 4
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-83",
+    "label": "PAL 敌方战斗精灵 83",
+    "asset": "battle-sprite.pal.enemy.083",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 4
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-84",
+    "label": "PAL 敌方战斗精灵 84",
+    "asset": "battle-sprite.pal.enemy.084",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 6
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-85",
+    "label": "PAL 敌方战斗精灵 85",
+    "asset": "battle-sprite.pal.enemy.085",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 2
+      },
+      "attack": {
+        "start": 6,
+        "count": 4
+      },
+      "idleTicksPerFrame": 2,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-86",
+    "label": "PAL 敌方战斗精灵 86",
+    "asset": "battle-sprite.pal.enemy.086",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 2
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-87",
+    "label": "PAL 敌方战斗精灵 87",
+    "asset": "battle-sprite.pal.enemy.087",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-88",
+    "label": "PAL 敌方战斗精灵 88",
+    "asset": "battle-sprite.pal.enemy.088",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-89",
+    "label": "PAL 敌方战斗精灵 89",
+    "asset": "battle-sprite.pal.enemy.089",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-90",
+    "label": "PAL 敌方战斗精灵 90",
+    "asset": "battle-sprite.pal.enemy.090",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-91",
+    "label": "PAL 敌方战斗精灵 91",
+    "asset": "battle-sprite.pal.enemy.091",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-92",
+    "label": "PAL 敌方战斗精灵 92",
+    "asset": "battle-sprite.pal.enemy.092",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-93",
+    "label": "PAL 敌方战斗精灵 93",
+    "asset": "battle-sprite.pal.enemy.093",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-94",
+    "label": "PAL 敌方战斗精灵 94",
+    "asset": "battle-sprite.pal.enemy.094",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-95",
+    "label": "PAL 敌方战斗精灵 95",
+    "asset": "battle-sprite.pal.enemy.095",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-96",
+    "label": "PAL 敌方战斗精灵 96",
+    "asset": "battle-sprite.pal.enemy.096",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 3
+      },
+      "magic": {
+        "start": 3,
+        "count": 2
+      },
+      "attack": {
+        "start": 5,
+        "count": 1
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-97",
+    "label": "PAL 敌方战斗精灵 97",
+    "asset": "battle-sprite.pal.enemy.097",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-99",
+    "label": "PAL 敌方战斗精灵 99",
+    "asset": "battle-sprite.pal.enemy.099",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-100",
+    "label": "PAL 敌方战斗精灵 100",
+    "asset": "battle-sprite.pal.enemy.100",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 7
+      },
+      "attack": {
+        "start": 9,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-101",
+    "label": "PAL 敌方战斗精灵 101",
+    "asset": "battle-sprite.pal.enemy.101",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 3
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-102",
+    "label": "PAL 敌方战斗精灵 102",
+    "asset": "battle-sprite.pal.enemy.102",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 3
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-103",
+    "label": "PAL 敌方战斗精灵 103",
+    "asset": "battle-sprite.pal.enemy.103",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-104",
+    "label": "PAL 敌方战斗精灵 104",
+    "asset": "battle-sprite.pal.enemy.104",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 2
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-105",
+    "label": "PAL 敌方战斗精灵 105",
+    "asset": "battle-sprite.pal.enemy.105",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-106",
+    "label": "PAL 敌方战斗精灵 106",
+    "asset": "battle-sprite.pal.enemy.106",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-107",
+    "label": "PAL 敌方战斗精灵 107",
+    "asset": "battle-sprite.pal.enemy.107",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 2
+      },
+      "attack": {
+        "start": 3,
+        "count": 4
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-108",
+    "label": "PAL 敌方战斗精灵 108",
+    "asset": "battle-sprite.pal.enemy.108",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-109",
+    "label": "PAL 敌方战斗精灵 109",
+    "asset": "battle-sprite.pal.enemy.109",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-110",
+    "label": "PAL 敌方战斗精灵 110",
+    "asset": "battle-sprite.pal.enemy.110",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-111",
+    "label": "PAL 敌方战斗精灵 111",
+    "asset": "battle-sprite.pal.enemy.111",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-112",
+    "label": "PAL 敌方战斗精灵 112",
+    "asset": "battle-sprite.pal.enemy.112",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-113",
+    "label": "PAL 敌方战斗精灵 113",
+    "asset": "battle-sprite.pal.enemy.113",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 8
+      },
+      "attack": {
+        "start": 9,
+        "count": 1
+      },
+      "idleTicksPerFrame": 88,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-114",
+    "label": "PAL 敌方战斗精灵 114",
+    "asset": "battle-sprite.pal.enemy.114",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 3
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-115",
+    "label": "PAL 敌方战斗精灵 115",
+    "asset": "battle-sprite.pal.enemy.115",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 9
+      },
+      "attack": {
+        "start": 11,
+        "count": 5
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-116",
+    "label": "PAL 敌方战斗精灵 116",
+    "asset": "battle-sprite.pal.enemy.116",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 0
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-117",
+    "label": "PAL 敌方战斗精灵 117",
+    "asset": "battle-sprite.pal.enemy.117",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-118",
+    "label": "PAL 敌方战斗精灵 118",
+    "asset": "battle-sprite.pal.enemy.118",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 2
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-119",
+    "label": "PAL 敌方战斗精灵 119",
+    "asset": "battle-sprite.pal.enemy.119",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 6
+      },
+      "attack": {
+        "start": 7,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-120",
+    "label": "PAL 敌方战斗精灵 120",
+    "asset": "battle-sprite.pal.enemy.120",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 5
+      },
+      "magic": {
+        "start": 5,
+        "count": 3
+      },
+      "attack": {
+        "start": 8,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-121",
+    "label": "PAL 敌方战斗精灵 121",
+    "asset": "battle-sprite.pal.enemy.121",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 2
+      },
+      "attack": {
+        "start": 4,
+        "count": 1
+      },
+      "idleTicksPerFrame": 10,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-122",
+    "label": "PAL 敌方战斗精灵 122",
+    "asset": "battle-sprite.pal.enemy.122",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-123",
+    "label": "PAL 敌方战斗精灵 123",
+    "asset": "battle-sprite.pal.enemy.123",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-124",
+    "label": "PAL 敌方战斗精灵 124",
+    "asset": "battle-sprite.pal.enemy.124",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 6,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-125",
+    "label": "PAL 敌方战斗精灵 125",
+    "asset": "battle-sprite.pal.enemy.125",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-126",
+    "label": "PAL 敌方战斗精灵 126",
+    "asset": "battle-sprite.pal.enemy.126",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 8
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-127",
+    "label": "PAL 敌方战斗精灵 127",
+    "asset": "battle-sprite.pal.enemy.127",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 3
+      },
+      "attack": {
+        "start": 4,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-128",
+    "label": "PAL 敌方战斗精灵 128",
+    "asset": "battle-sprite.pal.enemy.128",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-129",
+    "label": "PAL 敌方战斗精灵 129",
+    "asset": "battle-sprite.pal.enemy.129",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-130",
+    "label": "PAL 敌方战斗精灵 130",
+    "asset": "battle-sprite.pal.enemy.130",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 6
+      },
+      "attack": {
+        "start": 7,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-131",
+    "label": "PAL 敌方战斗精灵 131",
+    "asset": "battle-sprite.pal.enemy.131",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 2
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-132",
+    "label": "PAL 敌方战斗精灵 132",
+    "asset": "battle-sprite.pal.enemy.132",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 12
+      },
+      "attack": {
+        "start": 14,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-133",
+    "label": "PAL 敌方战斗精灵 133",
+    "asset": "battle-sprite.pal.enemy.133",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-134",
+    "label": "PAL 敌方战斗精灵 134",
+    "asset": "battle-sprite.pal.enemy.134",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-135",
+    "label": "PAL 敌方战斗精灵 135",
+    "asset": "battle-sprite.pal.enemy.135",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 4
+      },
+      "magic": {
+        "start": 4,
+        "count": 0
+      },
+      "attack": {
+        "start": 4,
+        "count": 0
+      },
+      "idleTicksPerFrame": 3,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-136",
+    "label": "PAL 敌方战斗精灵 136",
+    "asset": "battle-sprite.pal.enemy.136",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 2
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-137",
+    "label": "PAL 敌方战斗精灵 137",
+    "asset": "battle-sprite.pal.enemy.137",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 1
+      },
+      "attack": {
+        "start": 3,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-138",
+    "label": "PAL 敌方战斗精灵 138",
+    "asset": "battle-sprite.pal.enemy.138",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 5,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-139",
+    "label": "PAL 敌方战斗精灵 139",
+    "asset": "battle-sprite.pal.enemy.139",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 5
+      },
+      "magic": {
+        "start": 5,
+        "count": 0
+      },
+      "attack": {
+        "start": 5,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-140",
+    "label": "PAL 敌方战斗精灵 140",
+    "asset": "battle-sprite.pal.enemy.140",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 5
+      },
+      "magic": {
+        "start": 5,
+        "count": 3
+      },
+      "attack": {
+        "start": 8,
+        "count": 1
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-141",
+    "label": "PAL 敌方战斗精灵 141",
+    "asset": "battle-sprite.pal.enemy.141",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-142",
+    "label": "PAL 敌方战斗精灵 142",
+    "asset": "battle-sprite.pal.enemy.142",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-143",
+    "label": "PAL 敌方战斗精灵 143",
+    "asset": "battle-sprite.pal.enemy.143",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-144",
+    "label": "PAL 敌方战斗精灵 144",
+    "asset": "battle-sprite.pal.enemy.144",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-145",
+    "label": "PAL 敌方战斗精灵 145",
+    "asset": "battle-sprite.pal.enemy.145",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-146",
+    "label": "PAL 敌方战斗精灵 146",
+    "asset": "battle-sprite.pal.enemy.146",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-147",
+    "label": "PAL 敌方战斗精灵 147",
+    "asset": "battle-sprite.pal.enemy.147",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 0
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-148",
+    "label": "PAL 敌方战斗精灵 148",
+    "asset": "battle-sprite.pal.enemy.148",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 6
+      },
+      "attack": {
+        "start": 7,
+        "count": 2
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-149",
+    "label": "PAL 敌方战斗精灵 149",
+    "asset": "battle-sprite.pal.enemy.149",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 5
+      },
+      "attack": {
+        "start": 6,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-150",
+    "label": "PAL 敌方战斗精灵 150",
+    "asset": "battle-sprite.pal.enemy.150",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 0
+      },
+      "attack": {
+        "start": 1,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-151",
+    "label": "PAL 敌方战斗精灵 151",
+    "asset": "battle-sprite.pal.enemy.151",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 1
+    }
+  },
+  {
+    "id": "enemy-battle-152",
+    "label": "PAL 敌方战斗精灵 152",
+    "asset": "battle-sprite.pal.enemy.152",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 1
+      },
+      "magic": {
+        "start": 1,
+        "count": 1
+      },
+      "attack": {
+        "start": 2,
+        "count": 1
+      },
+      "idleTicksPerFrame": 99,
+      "actTicksPerFrame": 2
+    }
+  },
+  {
+    "id": "enemy-battle-153",
+    "label": "PAL 敌方战斗精灵 153",
+    "asset": "battle-sprite.pal.enemy.153",
+    "profile": {
+      "kind": "enemy",
+      "idle": {
+        "start": 0,
+        "count": 2
+      },
+      "magic": {
+        "start": 2,
+        "count": 0
+      },
+      "attack": {
+        "start": 2,
+        "count": 0
+      },
+      "idleTicksPerFrame": 4,
+      "actTicksPerFrame": 2
+    }
+  }
+]

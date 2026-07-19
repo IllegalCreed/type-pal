@@ -3,7 +3,7 @@ import {
   type EditorLocation,
   type EditorModuleId,
   editorModule,
-  objectIdForSubpageNavigation,
+  locationForSubpageNavigation,
 } from './editor-navigation.js'
 
 export function ModuleNav(props: {
@@ -73,15 +73,7 @@ export function ModuleSubnav(props: {
           key={subpage.id}
           className={`module-subnav-item${subpage.id === location.subpage ? ' active' : ''}`}
           aria-selected={subpage.id === location.subpage}
-          onClick={() =>
-            onNavigate({
-              module: module.id,
-              subpage: subpage.id,
-              ...(objectIdForSubpageNavigation(location, subpage)
-                ? { objectId: objectIdForSubpageNavigation(location, subpage) }
-                : {}),
-            })
-          }
+          onClick={() => onNavigate(locationForSubpageNavigation(location, subpage))}
         >
           <span aria-hidden="true">{subpage.icon}</span>
           <span>{subpage.label}</span>

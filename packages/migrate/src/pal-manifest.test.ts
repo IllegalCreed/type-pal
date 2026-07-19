@@ -13,7 +13,7 @@ const manifest = (): LoadedManifest => ({
     catalog: 'assets/index.json',
     roles: { 'audio.battleEscapeSound': 'sound.authored.escape' },
     legacy: {
-      families: ['sound', 'sprite'],
+      families: ['sound', 'sprite', 'battle-sprite', 'effect-sprite'],
       root: '/extracted/data',
       sounds: '/extracted/sounds',
       sprites: 'sprite',
@@ -27,13 +27,18 @@ describe('PAL sound manifest closure', () => {
     const current = manifest()
     const next = closePalSoundManifest(current)
     expect(next).not.toBe(current)
-    expect(current.assets.legacy?.families).toEqual(['sound', 'sprite'])
+    expect(current.assets.legacy?.families).toEqual([
+      'sound',
+      'sprite',
+      'battle-sprite',
+      'effect-sprite',
+    ])
     expect(next.assets.roles).toEqual({
       ...PAL_ASSET_ROLES,
       'audio.battleEscapeSound': 'sound.authored.escape',
     })
     expect(next.assets.legacy).toEqual({
-      families: ['sprite'],
+      families: ['sprite', 'battle-sprite', 'effect-sprite'],
       root: '/extracted/data',
       sprites: 'sprite',
     })
@@ -48,9 +53,18 @@ describe('PAL sound manifest closure', () => {
     const current = manifest()
     const next = preparePalManifest(current)
     expect(next.content.stamps).toBe('content/stamps.json')
+    expect(next.content.battleSprites).toBe('content/battle-sprites.json')
     expect(next.contentVersion).toBe(3)
     expect(current.content.stamps).toBeUndefined()
-    expect(next.assets.legacy).toBeUndefined()
-    expect(current.assets.legacy?.families).toEqual(['sound', 'sprite'])
+    expect(next.assets.legacy).toEqual({
+      families: ['effect-sprite'],
+      root: '/extracted/data',
+    })
+    expect(current.assets.legacy?.families).toEqual([
+      'sound',
+      'sprite',
+      'battle-sprite',
+      'effect-sprite',
+    ])
   })
 })

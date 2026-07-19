@@ -37,7 +37,7 @@ function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
 export function BattleSpriteUploader(props: {
   assetBase: AssetBase
   /** 应用:调用方 dispatch 复合命令(path 由调用方按 id 定死)。 */
-  onApply: (blob: ArrayBuffer, frameCount: number) => void
+  onApply: (blob: ArrayBuffer, frameCount: number) => void | Promise<void>
   onCancel: () => void
 }) {
   const { assetBase, onApply, onCancel } = props
@@ -47,6 +47,7 @@ export function BattleSpriteUploader(props: {
   const [frameW, setFrameW] = useState(64)
   const [frameH, setFrameH] = useState(64)
   const [err, setErr] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [palette, setPalette] = useState<Palette | null>(null)
 
   useEffect(() => {
@@ -100,13 +101,16 @@ export function BattleSpriteUploader(props: {
   }
 
   const apply = async (): Promise<void> => {
-    if (quantized.length === 0) return
+    if (quantized.length === 0 || submitting) return
+    setSubmitting(true)
     try {
       const gz = await compressGzip(encodeSpriteChunk(quantized))
       const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength) as ArrayBuffer
-      onApply(buf, quantized.length)
+      await onApply(buf, quantized.length)
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -115,8 +119,10 @@ export function BattleSpriteUploader(props: {
       <div className="field">
         <span className="field-label">图片</span>
         <input
+          aria-label="选择战斗精灵图片"
           type="file"
           accept="image/png,image/webp,image/gif"
+          disabled={submitting}
           onChange={(e) => {
             const f = e.target.files?.[0]
             if (f) void pickFile(f)
@@ -131,6 +137,8 @@ export function BattleSpriteUploader(props: {
               <input
                 className="in mono"
                 type="number"
+                aria-label="战斗精灵帧宽"
+                disabled={submitting}
                 min={1}
                 max={640}
                 value={frameW}
@@ -140,6 +148,8 @@ export function BattleSpriteUploader(props: {
               <input
                 className="in mono"
                 type="number"
+                aria-label="战斗精灵帧高"
+                disabled={submitting}
                 min={1}
                 max={640}
                 value={frameH}
@@ -163,18 +173,22 @@ export function BattleSpriteUploader(props: {
             <button
               type="button"
               className="tool"
-              disabled={quantized.length === 0}
+              disabled={quantized.length === 0 || submitting}
               onClick={() => void apply()}
             >
-              ✓ 应用外观
+              {submitting ? '处理中…' : '✓ 应用外观'}
             </button>
-            <button type="button" className="tool" onClick={onCancel}>
+            <button type="button" className="tool" disabled={submitting} onClick={onCancel}>
               取消
             </button>
           </div>
         </>
       )}
-      {err && <div className="err">{err}</div>}
+      {err && (
+        <div className="err" aria-live="polite">
+          {err}
+        </div>
+      )}
     </div>
   )
 }

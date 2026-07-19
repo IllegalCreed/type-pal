@@ -11,6 +11,7 @@
 import type {
   AmbienceDef,
   AssetCatalogV1,
+  BattleSpriteDef,
   Command,
   Facing,
   GridPos,
@@ -26,6 +27,7 @@ import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
 import { SoundPicker } from './SoundPicker.js'
@@ -184,6 +186,7 @@ export function CommandForm(props: {
   assetBase?: AssetBase
   /** 角色表(setParty 队伍编辑下拉;C7)。缺省退化 JSON 兜底。 */
   actors?: Record<string, ActorDef>
+  battleSprites: readonly BattleSpriteDef[]
   /** 氛围表(setAmbience 下拉;W6)。缺省退化文本输入。 */
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
@@ -196,6 +199,7 @@ export function CommandForm(props: {
   onOpenScript?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
   onChange: (next: Command) => void
 }) {
   const {
@@ -207,6 +211,7 @@ export function CommandForm(props: {
     assetReader,
     scenes,
     actors,
+    battleSprites,
     ambiences,
     shops,
     scriptIndex,
@@ -214,6 +219,7 @@ export function CommandForm(props: {
     onOpenScript,
     onOpenSound,
     onOpenImage,
+    onOpenBattleSprite,
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
@@ -573,18 +579,15 @@ export function CommandForm(props: {
               onChange={(portrait) => set({ portrait })}
             />
           </Row>
-          <Row label="战斗精灵号">
-            <input
-              className="in cf-num"
-              type="number"
-              value={cmd.battleSprite ?? ''}
-              placeholder="不修改"
-              onChange={(event) =>
-                set({
-                  battleSprite: event.target.value === '' ? undefined : Number(event.target.value),
-                })
-              }
-              onWheel={(event) => event.currentTarget.blur()}
+          <Row label="战斗形象">
+            <BattleSpritePicker
+              value={cmd.battleSprite}
+              definitions={battleSprites}
+              kind="player-fighter"
+              allowUnset
+              onChange={(battleSprite) => set({ battleSprite: battleSprite || undefined })}
+              onOpenDefinition={onOpenBattleSprite}
+              ariaLabel="剧情角色战斗形象"
             />
           </Row>
         </>

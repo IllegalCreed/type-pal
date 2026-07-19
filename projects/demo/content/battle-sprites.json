@@ -1,0 +1,24 @@
+[
+  {
+    "id": "battle-sprite.demo.player-fighter",
+    "label": "Demo 占位战斗精灵",
+    "asset": "battle-sprite.generated.demo-player-fighter",
+    "profile": {
+      "kind": "player-fighter",
+      "frames": {
+        "idle": 0,
+        "dying": 1,
+        "dead": 2,
+        "defend": 3,
+        "hurt": 4,
+        "preMagic": 5,
+        "magic": 6,
+        "attackWindup": 7,
+        "attackRush": 8,
+        "attackStrike": 9
+      },
+      "castEffectBase": 0,
+      "attackEffectBase": 0
+    }
+  }
+]

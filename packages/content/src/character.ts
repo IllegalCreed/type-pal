@@ -120,9 +120,9 @@ export interface CharacterInstance {
    * 缺省 = 用模板(ActorDef)的形象。与 0x65 的临时演出换精灵(内存态、脚本内切回)不同 —— 此为持久。
    * - spriteId:大世界精灵(覆写 ActorDef.spriteId;migrate 已把原版精灵号解析成 id)
    * - portrait:状态板/对话立绘 AssetId(覆写 ActorDef.portraits.default)
-   * - battleSprite:战斗精灵号(覆写 ActorDef.battler.battleSpriteNum)
+   * - battleSprite:BattleSpriteDef.id(覆写 ActorDef.battler.battleSprite)
    */
-  appearance?: { spriteId?: string; portrait?: AssetId; battleSprite?: number }
+  appearance?: { spriteId?: string; portrait?: AssetId; battleSprite?: string }
 }
 
 /** 隐藏经验池键(= 可被隐藏成长的属性;顺序 = 原版 CHECK_HIDDEN_EXP 分配序)。 */

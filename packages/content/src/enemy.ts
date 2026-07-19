@@ -61,19 +61,6 @@ export interface BattleChoreography {
   body: Command[]
 }
 
-/** 战斗动画帧数 + 播放参数（enemies.json;帧位图从 RLE 解,非此）。 */
-export interface EnemyAnim {
-  idleFrames: number
-  magicFrames: number
-  attackFrames: number
-  /** idle 轮播速度（tick/帧）。 */
-  idleAnimSpeed: number
-  /** 行动前摇帧。 */
-  actWaitFrames: number
-  /** 战斗精灵 y 落点偏移。 */
-  yPosOffset: number
-}
-
 /** 敌人音效；字段缺席表示无声。 */
 export interface EnemySounds {
   attack?: AssetId
@@ -90,14 +77,12 @@ export interface EnemyDef {
   id: string
   /** 名字 textId。 */
   name: TextId
-  /** 战斗精灵 RLE chunk（enemyId → battle-sprite/enemy/N.rle）。 */
-  spriteNum: number
-  /** 自有上传战斗外观的 .rle 路径(A4c；`assets/` 前缀 = 工程根相对，battle-sprite 族尚未 catalog 化)。
-   *  缺省走原版号约定 battle-sprite/enemy/<spriteNum>.rle。 */
-  spritePath?: string
+  /** 敌人 profile 的 BattleSpriteDef.id。 */
+  battleSprite: string
+  /** 战场落点 y 偏移；属于敌人实例语义，不属于可共享精灵定义。 */
+  yPosOffset: number
   stats: EnemyStats
   ai: EnemyAI
-  anim: EnemyAnim
   sounds: EnemySounds
   /** 偷取物品（飞龙探云手目标;可选）。 */
   steal?: { itemId: string; count: number }

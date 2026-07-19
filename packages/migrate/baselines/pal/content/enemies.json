@@ -2,7 +2,8 @@
   {
     "id": "enemy-398",
     "name": "name.enemy-398",
-    "spriteNum": 1,
+    "battleSprite": "enemy-battle-1",
+    "yPosOffset": 0,
     "stats": {
       "health": 28,
       "level": 0,
@@ -28,14 +29,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.351",
       "death": "sound.pal.246",
@@ -45,7 +38,8 @@
   {
     "id": "enemy-399",
     "name": "name.enemy-399",
-    "spriteNum": 2,
+    "battleSprite": "enemy-battle-2",
+    "yPosOffset": 0,
     "stats": {
       "health": 30,
       "level": 1,
@@ -71,14 +65,6 @@
     "ai": {
       "resistanceToSorcery": 10
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.050",
       "death": "sound.pal.032",
@@ -88,7 +74,8 @@
   {
     "id": "enemy-400",
     "name": "name.enemy-400",
-    "spriteNum": 3,
+    "battleSprite": "enemy-battle-3",
+    "yPosOffset": 0,
     "stats": {
       "health": 42,
       "level": 2,
@@ -143,14 +130,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.353",
       "magic": "sound.pal.071",
@@ -165,7 +144,8 @@
   {
     "id": "enemy-401",
     "name": "name.enemy-401",
-    "spriteNum": 4,
+    "battleSprite": "enemy-battle-4",
+    "yPosOffset": 0,
     "stats": {
       "health": 750,
       "level": 30,
@@ -220,14 +200,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.504",
       "death": "sound.pal.246"
@@ -244,7 +216,8 @@
   {
     "id": "enemy-402",
     "name": "name.enemy-402",
-    "spriteNum": 5,
+    "battleSprite": "enemy-battle-5",
+    "yPosOffset": 0,
     "stats": {
       "health": 1750,
       "level": 28,
@@ -388,14 +361,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.354",
       "magic": "sound.pal.219",
@@ -410,7 +375,8 @@
   {
     "id": "enemy-403",
     "name": "name.enemy-403",
-    "spriteNum": 6,
+    "battleSprite": "enemy-battle-6",
+    "yPosOffset": 0,
     "stats": {
       "health": 32,
       "level": 1,
@@ -465,14 +431,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 1,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.355",
       "death": "sound.pal.030",
@@ -486,7 +444,8 @@
   {
     "id": "enemy-404",
     "name": "name.enemy-404",
-    "spriteNum": 7,
+    "battleSprite": "enemy-battle-7",
+    "yPosOffset": 0,
     "stats": {
       "health": 28,
       "level": 1,
@@ -541,14 +500,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.050",
       "death": "sound.pal.216",
@@ -562,7 +513,8 @@
   {
     "id": "enemy-405",
     "name": "name.enemy-405",
-    "spriteNum": 8,
+    "battleSprite": "enemy-battle-8",
+    "yPosOffset": 0,
     "stats": {
       "health": 1100,
       "level": 35,
@@ -588,14 +540,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.356",
       "death": "sound.pal.183",
@@ -605,7 +549,8 @@
   {
     "id": "enemy-406",
     "name": "name.enemy-406",
-    "spriteNum": 9,
+    "battleSprite": "enemy-battle-9",
+    "yPosOffset": 0,
     "stats": {
       "health": 310,
       "level": 12,
@@ -631,14 +576,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.357",
       "death": "sound.pal.216",
@@ -656,7 +593,8 @@
   {
     "id": "enemy-407",
     "name": "name.enemy-407",
-    "spriteNum": 10,
+    "battleSprite": "enemy-battle-10",
+    "yPosOffset": 0,
     "stats": {
       "health": 450,
       "level": 7,
@@ -682,14 +620,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.358",
       "death": "sound.pal.185"
@@ -706,7 +636,8 @@
   {
     "id": "enemy-408",
     "name": "name.enemy-408",
-    "spriteNum": 11,
+    "battleSprite": "enemy-battle-11",
+    "yPosOffset": 6,
     "stats": {
       "health": 1250,
       "level": 10,
@@ -745,14 +676,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 6
-    },
     "sounds": {
       "attack": "sound.pal.359",
       "death": "sound.pal.246"
@@ -765,7 +688,8 @@
   {
     "id": "enemy-409",
     "name": "name.enemy-409",
-    "spriteNum": 12,
+    "battleSprite": "enemy-battle-12",
+    "yPosOffset": 0,
     "stats": {
       "health": 860,
       "level": 8,
@@ -1008,14 +932,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.360",
       "death": "sound.pal.182",
@@ -1029,7 +945,8 @@
   {
     "id": "enemy-410",
     "name": "name.enemy-410",
-    "spriteNum": 13,
+    "battleSprite": "enemy-battle-13",
+    "yPosOffset": 0,
     "stats": {
       "health": 650,
       "level": 10,
@@ -1200,14 +1117,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.361",
       "magic": "sound.pal.362",
@@ -1222,7 +1131,8 @@
   {
     "id": "enemy-411",
     "name": "name.enemy-411",
-    "spriteNum": 14,
+    "battleSprite": "enemy-battle-14",
+    "yPosOffset": 0,
     "stats": {
       "health": 586,
       "level": 20,
@@ -1248,14 +1158,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.364",
       "death": "sound.pal.183",
@@ -1265,7 +1167,8 @@
   {
     "id": "enemy-412",
     "name": "name.enemy-412",
-    "spriteNum": 15,
+    "battleSprite": "enemy-battle-15",
+    "yPosOffset": 0,
     "stats": {
       "health": 625,
       "level": 24,
@@ -1291,14 +1194,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.365",
       "death": "sound.pal.183",
@@ -1316,7 +1211,8 @@
   {
     "id": "enemy-413",
     "name": "name.enemy-413",
-    "spriteNum": 16,
+    "battleSprite": "enemy-battle-16",
+    "yPosOffset": 0,
     "stats": {
       "health": 936,
       "level": 33,
@@ -1355,14 +1251,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.366",
       "magic": "sound.pal.367",
@@ -1377,7 +1265,8 @@
   {
     "id": "enemy-414",
     "name": "name.enemy-414",
-    "spriteNum": 17,
+    "battleSprite": "enemy-battle-17",
+    "yPosOffset": 0,
     "stats": {
       "health": 710,
       "level": 24,
@@ -1416,14 +1305,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.368",
       "magic": "sound.pal.369",
@@ -1438,7 +1319,8 @@
   {
     "id": "enemy-415",
     "name": "name.enemy-415",
-    "spriteNum": 18,
+    "battleSprite": "enemy-battle-18",
+    "yPosOffset": 0,
     "stats": {
       "health": 31,
       "level": 2,
@@ -1464,14 +1346,6 @@
     "ai": {
       "resistanceToSorcery": 10
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.370",
       "death": "sound.pal.032"
@@ -1484,7 +1358,8 @@
   {
     "id": "enemy-416",
     "name": "name.enemy-416",
-    "spriteNum": 19,
+    "battleSprite": "enemy-battle-19",
+    "yPosOffset": 12,
     "stats": {
       "health": 1080,
       "level": 28,
@@ -1523,14 +1398,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 12
-    },
     "sounds": {
       "attack": "sound.pal.371",
       "magic": "sound.pal.372",
@@ -1545,7 +1412,8 @@
   {
     "id": "enemy-417",
     "name": "name.enemy-417",
-    "spriteNum": 20,
+    "battleSprite": "enemy-battle-20",
+    "yPosOffset": 10,
     "stats": {
       "health": 750,
       "level": 22,
@@ -1571,14 +1439,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 10
-    },
     "sounds": {
       "attack": "sound.pal.373",
       "death": "sound.pal.184",
@@ -1588,7 +1448,8 @@
   {
     "id": "enemy-418",
     "name": "name.enemy-418",
-    "spriteNum": 21,
+    "battleSprite": "enemy-battle-21",
+    "yPosOffset": 5,
     "stats": {
       "health": 450,
       "level": 20,
@@ -1627,14 +1488,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 5
-    },
     "sounds": {
       "attack": "sound.pal.375",
       "magic": "sound.pal.374",
@@ -1649,7 +1502,8 @@
   {
     "id": "enemy-419",
     "name": "name.enemy-419",
-    "spriteNum": 22,
+    "battleSprite": "enemy-battle-22",
+    "yPosOffset": 0,
     "stats": {
       "health": 310,
       "level": 7,
@@ -1675,14 +1529,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.376",
       "magic": "sound.pal.376",
@@ -1701,7 +1547,8 @@
   {
     "id": "enemy-420",
     "name": "name.enemy-420",
-    "spriteNum": 23,
+    "battleSprite": "enemy-battle-23",
+    "yPosOffset": 0,
     "stats": {
       "health": 780,
       "level": 26,
@@ -1793,14 +1640,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.377",
       "magic": "sound.pal.219",
@@ -1814,7 +1653,8 @@
   {
     "id": "enemy-421",
     "name": "name.enemy-421",
-    "spriteNum": 24,
+    "battleSprite": "enemy-battle-24",
+    "yPosOffset": 0,
     "stats": {
       "health": 500,
       "level": 29,
@@ -1918,14 +1758,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.378",
       "death": "sound.pal.030"
@@ -1934,7 +1766,8 @@
   {
     "id": "enemy-422",
     "name": "name.enemy-422",
-    "spriteNum": 25,
+    "battleSprite": "enemy-battle-25",
+    "yPosOffset": 0,
     "stats": {
       "health": 440,
       "level": 18,
@@ -1988,14 +1821,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 4,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.379",
       "death": "sound.pal.186",
@@ -2009,7 +1834,8 @@
   {
     "id": "enemy-423",
     "name": "name.enemy-423",
-    "spriteNum": 26,
+    "battleSprite": "enemy-battle-26",
+    "yPosOffset": 0,
     "stats": {
       "health": 640,
       "level": 30,
@@ -2035,14 +1861,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.380",
       "death": "sound.pal.030",
@@ -2056,7 +1874,8 @@
   {
     "id": "enemy-424",
     "name": "name.enemy-424",
-    "spriteNum": 27,
+    "battleSprite": "enemy-battle-27",
+    "yPosOffset": 0,
     "stats": {
       "health": 700,
       "level": 31,
@@ -2095,14 +1914,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.381",
       "magic": "sound.pal.381",
@@ -2113,7 +1924,8 @@
   {
     "id": "enemy-425",
     "name": "name.enemy-425",
-    "spriteNum": 28,
+    "battleSprite": "enemy-battle-28",
+    "yPosOffset": 0,
     "stats": {
       "health": 450,
       "level": 11,
@@ -2152,14 +1964,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.383",
       "magic": "sound.pal.384",
@@ -2170,7 +1974,8 @@
   {
     "id": "enemy-426",
     "name": "name.enemy-426",
-    "spriteNum": 29,
+    "battleSprite": "enemy-battle-29",
+    "yPosOffset": 0,
     "stats": {
       "health": 210,
       "level": 6,
@@ -2196,14 +2001,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.385",
       "death": "sound.pal.183"
@@ -2212,7 +2009,8 @@
   {
     "id": "enemy-427",
     "name": "name.enemy-427",
-    "spriteNum": 30,
+    "battleSprite": "enemy-battle-30",
+    "yPosOffset": 4,
     "stats": {
       "health": 450,
       "level": 12,
@@ -2251,14 +2049,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "attack": "sound.pal.386",
       "magic": "sound.pal.387",
@@ -2269,7 +2059,8 @@
   {
     "id": "enemy-428",
     "name": "name.enemy-428",
-    "spriteNum": 31,
+    "battleSprite": "enemy-battle-31",
+    "yPosOffset": 0,
     "stats": {
       "health": 776,
       "level": 20,
@@ -2295,14 +2086,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.388",
       "magic": "sound.pal.417",
@@ -2316,7 +2099,8 @@
   {
     "id": "enemy-429",
     "name": "name.enemy-429",
-    "spriteNum": 32,
+    "battleSprite": "enemy-battle-32",
+    "yPosOffset": 0,
     "stats": {
       "health": 1886,
       "level": 37,
@@ -2414,14 +2198,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.389",
       "magic": "sound.pal.219",
@@ -2435,7 +2211,8 @@
   {
     "id": "enemy-430",
     "name": "name.enemy-430",
-    "spriteNum": 33,
+    "battleSprite": "enemy-battle-33",
+    "yPosOffset": 0,
     "stats": {
       "health": 1065,
       "level": 34,
@@ -2461,14 +2238,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 7,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.391",
       "death": "sound.pal.186"
@@ -2481,7 +2250,8 @@
   {
     "id": "enemy-431",
     "name": "name.enemy-431",
-    "spriteNum": 34,
+    "battleSprite": "enemy-battle-34",
+    "yPosOffset": 0,
     "stats": {
       "health": 845,
       "level": 30,
@@ -2507,14 +2277,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.392",
       "death": "sound.pal.030",
@@ -2524,7 +2286,8 @@
   {
     "id": "enemy-432",
     "name": "name.enemy-432",
-    "spriteNum": 35,
+    "battleSprite": "enemy-battle-35",
+    "yPosOffset": 0,
     "stats": {
       "health": 1354,
       "level": 33,
@@ -2563,14 +2326,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.393",
       "magic": "sound.pal.394",
@@ -2584,7 +2339,8 @@
   {
     "id": "enemy-433",
     "name": "name.enemy-433",
-    "spriteNum": 36,
+    "battleSprite": "enemy-battle-36",
+    "yPosOffset": 0,
     "stats": {
       "health": 360,
       "level": 7,
@@ -2610,14 +2366,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.395",
       "magic": "sound.pal.202",
@@ -2628,7 +2376,8 @@
   {
     "id": "enemy-434",
     "name": "name.enemy-434",
-    "spriteNum": 37,
+    "battleSprite": "enemy-battle-37",
+    "yPosOffset": 5,
     "stats": {
       "health": 440,
       "level": 18,
@@ -2654,14 +2403,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 5
-    },
     "sounds": {
       "attack": "sound.pal.396",
       "magic": "sound.pal.420",
@@ -2671,7 +2412,8 @@
   {
     "id": "enemy-435",
     "name": "name.enemy-435",
-    "spriteNum": 38,
+    "battleSprite": "enemy-battle-38",
+    "yPosOffset": 8,
     "stats": {
       "health": 32767,
       "level": 19,
@@ -2778,14 +2520,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.397",
       "magic": "sound.pal.204",
@@ -2803,7 +2537,8 @@
   {
     "id": "enemy-436",
     "name": "name.enemy-436",
-    "spriteNum": 39,
+    "battleSprite": "enemy-battle-39",
+    "yPosOffset": 0,
     "stats": {
       "health": 340,
       "level": 10,
@@ -2857,14 +2592,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.398",
       "magic": "sound.pal.399",
@@ -2879,7 +2606,8 @@
   {
     "id": "enemy-437",
     "name": "name.enemy-437",
-    "spriteNum": 40,
+    "battleSprite": "enemy-battle-40",
+    "yPosOffset": 0,
     "stats": {
       "health": 1930,
       "level": 35,
@@ -2918,14 +2646,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 7,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.400",
       "magic": "sound.pal.401",
@@ -2940,7 +2660,8 @@
   {
     "id": "enemy-438",
     "name": "name.enemy-438",
-    "spriteNum": 41,
+    "battleSprite": "enemy-battle-41",
+    "yPosOffset": 14,
     "stats": {
       "health": 4000,
       "level": 44,
@@ -2979,14 +2700,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 14
-    },
     "sounds": {
       "attack": "sound.pal.403",
       "magic": "sound.pal.402",
@@ -3000,7 +2713,8 @@
   {
     "id": "enemy-439",
     "name": "name.enemy-439",
-    "spriteNum": 42,
+    "battleSprite": "enemy-battle-42",
+    "yPosOffset": 0,
     "stats": {
       "health": 400,
       "level": 12,
@@ -3039,14 +2753,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.404",
       "death": "sound.pal.216",
@@ -3061,7 +2767,8 @@
   {
     "id": "enemy-440",
     "name": "name.enemy-440",
-    "spriteNum": 43,
+    "battleSprite": "enemy-battle-43",
+    "yPosOffset": 0,
     "stats": {
       "health": 880,
       "level": 22,
@@ -3100,14 +2807,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.405",
       "magic": "sound.pal.406",
@@ -3121,7 +2820,8 @@
   {
     "id": "enemy-441",
     "name": "name.enemy-441",
-    "spriteNum": 44,
+    "battleSprite": "enemy-battle-44",
+    "yPosOffset": 0,
     "stats": {
       "health": 230,
       "level": 15,
@@ -3147,14 +2847,6 @@
     "ai": {
       "resistanceToSorcery": 10
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 3,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.407",
       "death": "sound.pal.186"
@@ -3163,7 +2855,8 @@
   {
     "id": "enemy-442",
     "name": "name.enemy-442",
-    "spriteNum": 45,
+    "battleSprite": "enemy-battle-45",
+    "yPosOffset": 0,
     "stats": {
       "health": 330,
       "level": 7,
@@ -3189,14 +2882,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.408",
       "death": "sound.pal.190",
@@ -3206,7 +2891,8 @@
   {
     "id": "enemy-443",
     "name": "name.enemy-443",
-    "spriteNum": 46,
+    "battleSprite": "enemy-battle-46",
+    "yPosOffset": 0,
     "stats": {
       "health": 420,
       "level": 4,
@@ -3232,14 +2918,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.409",
       "magic": "sound.pal.418",
@@ -3249,7 +2927,8 @@
   {
     "id": "enemy-444",
     "name": "name.enemy-444",
-    "spriteNum": 47,
+    "battleSprite": "enemy-battle-47",
+    "yPosOffset": 0,
     "stats": {
       "health": 540,
       "level": 24,
@@ -3275,14 +2954,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.410",
       "magic": "sound.pal.265",
@@ -3296,7 +2967,8 @@
   {
     "id": "enemy-445",
     "name": "name.enemy-445",
-    "spriteNum": 48,
+    "battleSprite": "enemy-battle-48",
+    "yPosOffset": 4,
     "stats": {
       "health": 1200,
       "level": 10,
@@ -3345,14 +3017,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "action": "sound.pal.411",
       "magic": "sound.pal.419",
@@ -3362,7 +3026,8 @@
   {
     "id": "enemy-446",
     "name": "name.enemy-446",
-    "spriteNum": 49,
+    "battleSprite": "enemy-battle-49",
+    "yPosOffset": 0,
     "stats": {
       "health": 550,
       "level": 22,
@@ -3401,14 +3066,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 7,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.412",
       "magic": "sound.pal.265",
@@ -3422,7 +3079,8 @@
   {
     "id": "enemy-447",
     "name": "name.enemy-447",
-    "spriteNum": 50,
+    "battleSprite": "enemy-battle-50",
+    "yPosOffset": 0,
     "stats": {
       "health": 900,
       "level": 23,
@@ -3460,14 +3118,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.413",
       "death": "sound.pal.266"
@@ -3480,7 +3130,8 @@
   {
     "id": "enemy-448",
     "name": "name.enemy-448",
-    "spriteNum": 51,
+    "battleSprite": "enemy-battle-51",
+    "yPosOffset": 8,
     "stats": {
       "health": 600,
       "level": 20,
@@ -3506,14 +3157,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.414",
       "death": "sound.pal.190"
@@ -3522,7 +3165,8 @@
   {
     "id": "enemy-449",
     "name": "name.enemy-449",
-    "spriteNum": 52,
+    "battleSprite": "enemy-battle-52",
+    "yPosOffset": 4,
     "stats": {
       "health": 650,
       "level": 25,
@@ -3560,14 +3204,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "attack": "sound.pal.415",
       "death": "sound.pal.266"
@@ -3580,7 +3216,8 @@
   {
     "id": "enemy-450",
     "name": "name.enemy-450",
-    "spriteNum": 53,
+    "battleSprite": "enemy-battle-53",
+    "yPosOffset": 0,
     "stats": {
       "health": 450,
       "level": 12,
@@ -3606,14 +3243,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.424",
       "death": "sound.pal.190"
@@ -3622,7 +3251,8 @@
   {
     "id": "enemy-451",
     "name": "name.enemy-451",
-    "spriteNum": 54,
+    "battleSprite": "enemy-battle-54",
+    "yPosOffset": 0,
     "stats": {
       "health": 800,
       "level": 7,
@@ -3648,14 +3278,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.425",
       "death": "sound.pal.190"
@@ -3668,7 +3290,8 @@
   {
     "id": "enemy-452",
     "name": "name.enemy-452",
-    "spriteNum": 55,
+    "battleSprite": "enemy-battle-55",
+    "yPosOffset": 4,
     "stats": {
       "health": 300,
       "level": 8,
@@ -3707,14 +3330,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "attack": "sound.pal.426",
       "magic": "sound.pal.427",
@@ -3729,7 +3344,8 @@
   {
     "id": "enemy-453",
     "name": "name.enemy-453",
-    "spriteNum": 56,
+    "battleSprite": "enemy-battle-56",
+    "yPosOffset": 6,
     "stats": {
       "health": 800,
       "level": 7,
@@ -3755,14 +3371,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 6
-    },
     "sounds": {
       "attack": "sound.pal.428",
       "death": "sound.pal.266"
@@ -3775,7 +3383,8 @@
   {
     "id": "enemy-454",
     "name": "name.enemy-454",
-    "spriteNum": 57,
+    "battleSprite": "enemy-battle-57",
+    "yPosOffset": 0,
     "stats": {
       "health": 420,
       "level": 4,
@@ -3814,14 +3423,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.238",
       "magic": "sound.pal.248",
@@ -3831,7 +3432,8 @@
   {
     "id": "enemy-455",
     "name": "name.enemy-455",
-    "spriteNum": 58,
+    "battleSprite": "enemy-battle-58",
+    "yPosOffset": 0,
     "stats": {
       "health": 900,
       "level": 21,
@@ -3857,14 +3459,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.431",
       "death": "sound.pal.185"
@@ -3873,7 +3467,8 @@
   {
     "id": "enemy-456",
     "name": "name.enemy-456",
-    "spriteNum": 59,
+    "battleSprite": "enemy-battle-59",
+    "yPosOffset": 8,
     "stats": {
       "health": 800,
       "level": 27,
@@ -3912,14 +3507,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 3,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.432",
       "magic": "sound.pal.433",
@@ -3934,7 +3521,8 @@
   {
     "id": "enemy-457",
     "name": "name.enemy-457",
-    "spriteNum": 60,
+    "battleSprite": "enemy-battle-60",
+    "yPosOffset": 12,
     "stats": {
       "health": 2760,
       "level": 40,
@@ -3973,14 +3561,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 2,
-      "actWaitFrames": 2,
-      "yPosOffset": 12
-    },
     "sounds": {
       "attack": "sound.pal.434",
       "magic": "sound.pal.435",
@@ -3991,7 +3571,8 @@
   {
     "id": "enemy-458",
     "name": "name.enemy-458",
-    "spriteNum": 61,
+    "battleSprite": "enemy-battle-61",
+    "yPosOffset": 0,
     "stats": {
       "health": 1600,
       "level": 42,
@@ -4017,14 +3598,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.436",
       "death": "sound.pal.026"
@@ -4037,7 +3610,8 @@
   {
     "id": "enemy-459",
     "name": "name.enemy-459",
-    "spriteNum": 62,
+    "battleSprite": "enemy-battle-62",
+    "yPosOffset": 0,
     "stats": {
       "health": 2460,
       "level": 46,
@@ -4076,14 +3650,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "death": "sound.pal.190",
@@ -4097,7 +3663,8 @@
   {
     "id": "enemy-460",
     "name": "name.enemy-460",
-    "spriteNum": 63,
+    "battleSprite": "enemy-battle-63",
+    "yPosOffset": 0,
     "stats": {
       "health": 1650,
       "level": 40,
@@ -4136,14 +3703,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.438",
       "death": "sound.pal.026",
@@ -4157,7 +3716,8 @@
   {
     "id": "enemy-461",
     "name": "name.enemy-461",
-    "spriteNum": 64,
+    "battleSprite": "enemy-battle-64",
+    "yPosOffset": 22,
     "stats": {
       "health": 2250,
       "level": 44,
@@ -4196,14 +3756,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 22
-    },
     "sounds": {
       "attack": "sound.pal.439",
       "magic": "sound.pal.439",
@@ -4217,7 +3769,8 @@
   {
     "id": "enemy-462",
     "name": "name.enemy-462",
-    "spriteNum": 65,
+    "battleSprite": "enemy-battle-65",
+    "yPosOffset": 20,
     "stats": {
       "health": 11180,
       "level": 52,
@@ -4256,14 +3809,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 20
-    },
     "sounds": {
       "attack": "sound.pal.441",
       "magic": "sound.pal.442",
@@ -4278,7 +3823,8 @@
   {
     "id": "enemy-463",
     "name": "name.enemy-463",
-    "spriteNum": 66,
+    "battleSprite": "enemy-battle-66",
+    "yPosOffset": 20,
     "stats": {
       "health": 4400,
       "level": 37,
@@ -4316,14 +3862,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 20
-    },
     "sounds": {
       "attack": "sound.pal.443",
       "magic": "sound.pal.443",
@@ -4338,7 +3876,8 @@
   {
     "id": "enemy-464",
     "name": "name.enemy-464",
-    "spriteNum": 67,
+    "battleSprite": "enemy-battle-67",
+    "yPosOffset": 16,
     "stats": {
       "health": 3000,
       "level": 33,
@@ -4377,14 +3916,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 3,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.447",
       "magic": "sound.pal.449",
@@ -4399,7 +3930,8 @@
   {
     "id": "enemy-465",
     "name": "name.enemy-465",
-    "spriteNum": 68,
+    "battleSprite": "enemy-battle-68",
+    "yPosOffset": 14,
     "stats": {
       "health": 3800,
       "level": 14,
@@ -4442,14 +3974,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 14
-    },
     "sounds": {
       "attack": "sound.pal.450",
       "death": "sound.pal.181"
@@ -4466,7 +3990,8 @@
   {
     "id": "enemy-466",
     "name": "name.enemy-466",
-    "spriteNum": 69,
+    "battleSprite": "enemy-battle-69",
+    "yPosOffset": 24,
     "stats": {
       "health": 4670,
       "level": 45,
@@ -4505,14 +4030,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 24
-    },
     "sounds": {
       "attack": "sound.pal.451",
       "magic": "sound.pal.452",
@@ -4527,7 +4044,8 @@
   {
     "id": "enemy-467",
     "name": "name.enemy-467",
-    "spriteNum": 70,
+    "battleSprite": "enemy-battle-70",
+    "yPosOffset": 28,
     "stats": {
       "health": 5280,
       "level": 43,
@@ -4566,14 +4084,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 1,
-      "actWaitFrames": 2,
-      "yPosOffset": 28
-    },
     "sounds": {
       "attack": "sound.pal.453",
       "magic": "sound.pal.455",
@@ -4593,7 +4103,8 @@
   {
     "id": "enemy-468",
     "name": "name.enemy-468",
-    "spriteNum": 71,
+    "battleSprite": "enemy-battle-71",
+    "yPosOffset": 31,
     "stats": {
       "health": 2090,
       "level": 16,
@@ -4799,14 +4310,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 31
-    },
     "sounds": {
       "magic": "sound.pal.457",
       "death": "sound.pal.026",
@@ -4820,7 +4323,8 @@
   {
     "id": "enemy-469",
     "name": "name.enemy-469",
-    "spriteNum": 72,
+    "battleSprite": "enemy-battle-72",
+    "yPosOffset": 14,
     "stats": {
       "health": 1500,
       "level": 5,
@@ -5070,14 +4574,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 14
-    },
     "sounds": {
       "attack": "sound.pal.458",
       "magic": "sound.pal.459",
@@ -5092,7 +4588,8 @@
   {
     "id": "enemy-470",
     "name": "name.enemy-470",
-    "spriteNum": 73,
+    "battleSprite": "enemy-battle-73",
+    "yPosOffset": 24,
     "stats": {
       "health": 1800,
       "level": 30,
@@ -5131,14 +4628,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 24
-    },
     "sounds": {
       "attack": "sound.pal.462",
       "magic": "sound.pal.463",
@@ -5154,7 +4643,8 @@
   {
     "id": "enemy-471",
     "name": "name.enemy-471",
-    "spriteNum": 74,
+    "battleSprite": "enemy-battle-74",
+    "yPosOffset": 20,
     "stats": {
       "health": 6000,
       "level": 46,
@@ -5193,14 +4683,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 20
-    },
     "sounds": {
       "attack": "sound.pal.464",
       "magic": "sound.pal.465",
@@ -5219,7 +4701,8 @@
   {
     "id": "enemy-472",
     "name": "name.enemy-472",
-    "spriteNum": 75,
+    "battleSprite": "enemy-battle-75",
+    "yPosOffset": 32,
     "stats": {
       "health": 5000,
       "level": 11,
@@ -5578,14 +5061,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 8,
-      "actWaitFrames": 4,
-      "yPosOffset": 32
-    },
     "sounds": {
       "attack": "sound.pal.466",
       "magic": "sound.pal.469",
@@ -5603,7 +5078,8 @@
   {
     "id": "enemy-473",
     "name": "name.enemy-473",
-    "spriteNum": 76,
+    "battleSprite": "enemy-battle-76",
+    "yPosOffset": 22,
     "stats": {
       "health": 5500,
       "level": 11,
@@ -5838,14 +5314,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 22
-    },
     "sounds": {
       "attack": "sound.pal.470",
       "magic": "sound.pal.470",
@@ -5860,7 +5328,8 @@
   {
     "id": "enemy-474",
     "name": "name.enemy-474",
-    "spriteNum": 77,
+    "battleSprite": "enemy-battle-77",
+    "yPosOffset": 16,
     "stats": {
       "health": 6600,
       "level": 35,
@@ -6615,14 +6084,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 3,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "death": "sound.pal.190",
@@ -6640,7 +6101,8 @@
   {
     "id": "enemy-475",
     "name": "name.enemy-475",
-    "spriteNum": 78,
+    "battleSprite": "enemy-battle-78",
+    "yPosOffset": 24,
     "stats": {
       "health": 500,
       "level": 3,
@@ -6666,14 +6128,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 5,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 24
-    },
     "sounds": {
       "attack": "sound.pal.475",
       "death": "sound.pal.190",
@@ -6683,7 +6137,8 @@
   {
     "id": "enemy-476",
     "name": "name.enemy-476",
-    "spriteNum": 79,
+    "battleSprite": "enemy-battle-79",
+    "yPosOffset": 0,
     "stats": {
       "health": 540,
       "level": 3,
@@ -6709,14 +6164,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 2,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.240",
       "death": "sound.pal.187",
@@ -6730,7 +6177,8 @@
   {
     "id": "enemy-477",
     "name": "name.enemy-477",
-    "spriteNum": 80,
+    "battleSprite": "enemy-battle-80",
+    "yPosOffset": 0,
     "stats": {
       "health": 500,
       "level": 3,
@@ -6756,14 +6204,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 4,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.476",
       "death": "sound.pal.189",
@@ -6777,7 +6217,8 @@
   {
     "id": "enemy-478",
     "name": "name.enemy-478",
-    "spriteNum": 81,
+    "battleSprite": "enemy-battle-81",
+    "yPosOffset": 0,
     "stats": {
       "health": 1250,
       "level": 15,
@@ -6816,14 +6257,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 5,
-      "idleAnimSpeed": 2,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.477",
       "death": "sound.pal.264"
@@ -6836,7 +6269,8 @@
   {
     "id": "enemy-479",
     "name": "name.enemy-479",
-    "spriteNum": 81,
+    "battleSprite": "enemy-battle-81",
+    "yPosOffset": 0,
     "stats": {
       "health": 1250,
       "level": 15,
@@ -6875,14 +6309,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 5,
-      "idleAnimSpeed": 2,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.477",
       "death": "sound.pal.264"
@@ -6895,7 +6321,8 @@
   {
     "id": "enemy-480",
     "name": "name.enemy-480",
-    "spriteNum": 82,
+    "battleSprite": "enemy-battle-82",
+    "yPosOffset": 28,
     "stats": {
       "health": 600,
       "level": 5,
@@ -7032,14 +6459,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 4,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 28
-    },
     "sounds": {
       "action": "sound.pal.039",
       "magic": "sound.pal.011",
@@ -7049,7 +6468,8 @@
   {
     "id": "enemy-481",
     "name": "name.enemy-481",
-    "spriteNum": 83,
+    "battleSprite": "enemy-battle-83",
+    "yPosOffset": 0,
     "stats": {
       "health": 500,
       "level": 3,
@@ -7088,14 +6508,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 4,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "magic": "sound.pal.478",
       "death": "sound.pal.242",
@@ -7109,7 +6521,8 @@
   {
     "id": "enemy-482",
     "name": "name.enemy-482",
-    "spriteNum": 84,
+    "battleSprite": "enemy-battle-84",
+    "yPosOffset": 0,
     "stats": {
       "health": 1100,
       "level": 7,
@@ -7135,14 +6548,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 6,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "death": "sound.pal.190"
@@ -7155,7 +6560,8 @@
   {
     "id": "enemy-483",
     "name": "name.enemy-483",
-    "spriteNum": 85,
+    "battleSprite": "enemy-battle-85",
+    "yPosOffset": 0,
     "stats": {
       "health": 450,
       "level": 5,
@@ -7327,14 +6733,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 2,
-      "attackFrames": 4,
-      "idleAnimSpeed": 2,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.039",
       "magic": "sound.pal.011",
@@ -7345,7 +6743,8 @@
   {
     "id": "enemy-484",
     "name": "name.enemy-484",
-    "spriteNum": 86,
+    "battleSprite": "enemy-battle-86",
+    "yPosOffset": 0,
     "stats": {
       "health": 2200,
       "level": 40,
@@ -7371,14 +6770,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.003",
       "death": "sound.pal.184",
@@ -7392,7 +6783,8 @@
   {
     "id": "enemy-485",
     "name": "name.enemy-485",
-    "spriteNum": 87,
+    "battleSprite": "enemy-battle-87",
+    "yPosOffset": 16,
     "stats": {
       "health": 800,
       "level": 4,
@@ -7431,14 +6823,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.482",
       "magic": "sound.pal.483",
@@ -7453,7 +6837,8 @@
   {
     "id": "enemy-486",
     "name": "name.enemy-486",
-    "spriteNum": 88,
+    "battleSprite": "enemy-battle-88",
+    "yPosOffset": 10,
     "stats": {
       "health": 1800,
       "level": 5,
@@ -7563,14 +6948,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 10
-    },
     "sounds": {
       "attack": "sound.pal.484",
       "magic": "sound.pal.485",
@@ -7585,7 +6962,8 @@
   {
     "id": "enemy-487",
     "name": "name.enemy-487",
-    "spriteNum": 89,
+    "battleSprite": "enemy-battle-89",
+    "yPosOffset": 0,
     "stats": {
       "health": 80,
       "level": 3,
@@ -7611,14 +6989,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.486",
       "death": "sound.pal.183"
@@ -7635,7 +7005,8 @@
   {
     "id": "enemy-488",
     "name": "name.enemy-488",
-    "spriteNum": 90,
+    "battleSprite": "enemy-battle-90",
+    "yPosOffset": 0,
     "stats": {
       "health": 100,
       "level": 3,
@@ -7661,14 +7032,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.487",
       "death": "sound.pal.184"
@@ -7681,7 +7044,8 @@
   {
     "id": "enemy-489",
     "name": "name.enemy-489",
-    "spriteNum": 91,
+    "battleSprite": "enemy-battle-91",
+    "yPosOffset": 0,
     "stats": {
       "health": 900,
       "level": 7,
@@ -7707,14 +7071,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.488",
       "death": "sound.pal.192"
@@ -7723,7 +7079,8 @@
   {
     "id": "enemy-490",
     "name": "name.enemy-490",
-    "spriteNum": 92,
+    "battleSprite": "enemy-battle-92",
+    "yPosOffset": 0,
     "stats": {
       "health": 2700,
       "level": 39,
@@ -7779,14 +7136,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.489",
       "magic": "sound.pal.490",
@@ -7805,7 +7154,8 @@
   {
     "id": "enemy-491",
     "name": "name.enemy-491",
-    "spriteNum": 93,
+    "battleSprite": "enemy-battle-93",
+    "yPosOffset": 0,
     "stats": {
       "health": 650,
       "level": 4,
@@ -7844,14 +7194,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.491",
       "magic": "sound.pal.492",
@@ -7870,7 +7212,8 @@
   {
     "id": "enemy-492",
     "name": "name.enemy-492",
-    "spriteNum": 94,
+    "battleSprite": "enemy-battle-94",
+    "yPosOffset": 0,
     "stats": {
       "health": 2850,
       "level": 40,
@@ -7926,14 +7269,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.493",
       "magic": "sound.pal.494",
@@ -7952,7 +7287,8 @@
   {
     "id": "enemy-493",
     "name": "name.enemy-493",
-    "spriteNum": 95,
+    "battleSprite": "enemy-battle-95",
+    "yPosOffset": 2,
     "stats": {
       "health": 1900,
       "level": 44,
@@ -7991,14 +7327,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 2
-    },
     "sounds": {
       "attack": "sound.pal.495",
       "magic": "sound.pal.496",
@@ -8013,7 +7341,8 @@
   {
     "id": "enemy-494",
     "name": "name.enemy-494",
-    "spriteNum": 96,
+    "battleSprite": "enemy-battle-96",
+    "yPosOffset": 6,
     "stats": {
       "health": 2100,
       "level": 28,
@@ -8392,14 +7721,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 3,
-      "magicFrames": 2,
-      "attackFrames": 1,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 1,
-      "yPosOffset": 6
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -8414,7 +7735,8 @@
   {
     "id": "enemy-495",
     "name": "name.enemy-495",
-    "spriteNum": 97,
+    "battleSprite": "enemy-battle-97",
+    "yPosOffset": 0,
     "stats": {
       "health": 350,
       "level": 2,
@@ -8440,14 +7762,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.499",
       "magic": "sound.pal.265",
@@ -8457,7 +7771,8 @@
   {
     "id": "enemy-496",
     "name": "name.enemy-496",
-    "spriteNum": 119,
+    "battleSprite": "enemy-battle-119",
+    "yPosOffset": 10,
     "stats": {
       "health": 32767,
       "level": 36,
@@ -8496,14 +7811,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 6,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 10
-    },
     "sounds": {
       "magic": "sound.pal.501",
       "death": "sound.pal.190",
@@ -8518,7 +7825,8 @@
   {
     "id": "enemy-497",
     "name": "name.enemy-497",
-    "spriteNum": 148,
+    "battleSprite": "enemy-battle-148",
+    "yPosOffset": 10,
     "stats": {
       "health": 3000,
       "level": 38,
@@ -8557,14 +7865,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 6,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 10
-    },
     "sounds": {
       "magic": "sound.pal.500",
       "call": "sound.pal.092",
@@ -8574,7 +7874,8 @@
   {
     "id": "enemy-498",
     "name": "name.enemy-498",
-    "spriteNum": 99,
+    "battleSprite": "enemy-battle-99",
+    "yPosOffset": 0,
     "stats": {
       "health": 2450,
       "level": 15,
@@ -8630,14 +7931,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.502",
       "magic": "sound.pal.503",
@@ -8656,7 +7949,8 @@
   {
     "id": "enemy-499",
     "name": "name.enemy-499",
-    "spriteNum": 100,
+    "battleSprite": "enemy-battle-100",
+    "yPosOffset": 0,
     "stats": {
       "health": 40,
       "level": 0,
@@ -8777,14 +8071,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 7,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.219",
       "magic": "sound.pal.219",
@@ -8795,7 +8081,8 @@
   {
     "id": "enemy-500",
     "name": "name.enemy-500",
-    "spriteNum": 101,
+    "battleSprite": "enemy-battle-101",
+    "yPosOffset": 0,
     "stats": {
       "health": 2000,
       "level": 14,
@@ -9163,14 +8450,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 3,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.270",
       "magic": "sound.pal.270",
@@ -9185,7 +8464,8 @@
   {
     "id": "enemy-501",
     "name": "name.enemy-501",
-    "spriteNum": 102,
+    "battleSprite": "enemy-battle-102",
+    "yPosOffset": 0,
     "stats": {
       "health": 7000,
       "level": 40,
@@ -9286,14 +8566,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 3,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.011",
       "magic": "sound.pal.011",
@@ -9308,7 +8580,8 @@
   {
     "id": "enemy-502",
     "name": "name.enemy-502",
-    "spriteNum": 103,
+    "battleSprite": "enemy-battle-103",
+    "yPosOffset": 0,
     "stats": {
       "health": 32767,
       "level": 0,
@@ -9407,20 +8680,13 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {}
   },
   {
     "id": "enemy-503",
     "name": "name.enemy-503",
-    "spriteNum": 104,
+    "battleSprite": "enemy-battle-104",
+    "yPosOffset": 24,
     "stats": {
       "health": 590,
       "level": 29,
@@ -9459,14 +8725,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 24
-    },
     "sounds": {
       "attack": "sound.pal.071",
       "action": "sound.pal.004",
@@ -9482,7 +8740,8 @@
   {
     "id": "enemy-504",
     "name": "name.enemy-504",
-    "spriteNum": 105,
+    "battleSprite": "enemy-battle-105",
+    "yPosOffset": 0,
     "stats": {
       "health": 330,
       "level": 8,
@@ -9508,14 +8767,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.003",
       "death": "sound.pal.184",
@@ -9529,7 +8780,8 @@
   {
     "id": "enemy-505",
     "name": "name.enemy-505",
-    "spriteNum": 106,
+    "battleSprite": "enemy-battle-106",
+    "yPosOffset": 0,
     "stats": {
       "health": 400,
       "level": 8,
@@ -9555,14 +8807,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.001",
       "death": "sound.pal.183",
@@ -9576,7 +8820,8 @@
   {
     "id": "enemy-506",
     "name": "name.enemy-506",
-    "spriteNum": 107,
+    "battleSprite": "enemy-battle-107",
+    "yPosOffset": 0,
     "stats": {
       "health": 340,
       "level": 8,
@@ -9602,14 +8847,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 2,
-      "attackFrames": 4,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.004",
       "death": "sound.pal.185",
@@ -9623,7 +8860,8 @@
   {
     "id": "enemy-507",
     "name": "name.enemy-507",
-    "spriteNum": 108,
+    "battleSprite": "enemy-battle-108",
+    "yPosOffset": 0,
     "stats": {
       "health": 800,
       "level": 32,
@@ -9662,14 +8900,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "death": "sound.pal.185",
@@ -9683,7 +8913,8 @@
   {
     "id": "enemy-508",
     "name": "name.enemy-508",
-    "spriteNum": 109,
+    "battleSprite": "enemy-battle-109",
+    "yPosOffset": 0,
     "stats": {
       "health": 700,
       "level": 26,
@@ -9709,14 +8940,6 @@
     "ai": {
       "resistanceToSorcery": 10
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "death": "sound.pal.186",
       "call": "sound.pal.092"
@@ -9729,7 +8952,8 @@
   {
     "id": "enemy-509",
     "name": "name.enemy-509",
-    "spriteNum": 110,
+    "battleSprite": "enemy-battle-110",
+    "yPosOffset": 0,
     "stats": {
       "health": 900,
       "level": 33,
@@ -9755,14 +8979,6 @@
     "ai": {
       "resistanceToSorcery": 10
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "action": "sound.pal.051",
       "death": "sound.pal.184",
@@ -9776,7 +8992,8 @@
   {
     "id": "enemy-510",
     "name": "name.enemy-510",
-    "spriteNum": 111,
+    "battleSprite": "enemy-battle-111",
+    "yPosOffset": 16,
     "stats": {
       "health": 2480,
       "level": 40,
@@ -9815,14 +9032,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -9837,7 +9046,8 @@
   {
     "id": "enemy-511",
     "name": "name.enemy-511",
-    "spriteNum": 112,
+    "battleSprite": "enemy-battle-112",
+    "yPosOffset": 0,
     "stats": {
       "health": 3100,
       "level": 42,
@@ -9876,14 +9086,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "action": "sound.pal.004",
@@ -9899,7 +9101,8 @@
   {
     "id": "enemy-512",
     "name": "name.enemy-512",
-    "spriteNum": 113,
+    "battleSprite": "enemy-battle-113",
+    "yPosOffset": 0,
     "stats": {
       "health": 1400,
       "level": 30,
@@ -9938,14 +9141,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 8,
-      "attackFrames": 1,
-      "idleAnimSpeed": 88,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.241",
       "magic": "sound.pal.241",
@@ -9964,7 +9159,8 @@
   {
     "id": "enemy-513",
     "name": "name.enemy-513",
-    "spriteNum": 114,
+    "battleSprite": "enemy-battle-114",
+    "yPosOffset": 0,
     "stats": {
       "health": 752,
       "level": 30,
@@ -10005,14 +9201,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 3,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.397",
       "magic": "sound.pal.397",
@@ -10027,7 +9215,8 @@
   {
     "id": "enemy-514",
     "name": "name.enemy-514",
-    "spriteNum": 115,
+    "battleSprite": "enemy-battle-115",
+    "yPosOffset": 0,
     "stats": {
       "health": 500,
       "level": 14,
@@ -10053,14 +9242,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 9,
-      "attackFrames": 5,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "death": "sound.pal.183",
       "call": "sound.pal.092"
@@ -10077,7 +9258,8 @@
   {
     "id": "enemy-515",
     "name": "name.enemy-515",
-    "spriteNum": 116,
+    "battleSprite": "enemy-battle-116",
+    "yPosOffset": 0,
     "stats": {
       "health": 610,
       "level": 28,
@@ -10103,14 +9285,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.071",
       "magic": "sound.pal.071",
@@ -10125,7 +9299,8 @@
   {
     "id": "enemy-516",
     "name": "name.enemy-516",
-    "spriteNum": 117,
+    "battleSprite": "enemy-battle-117",
+    "yPosOffset": 0,
     "stats": {
       "health": 280,
       "level": 11,
@@ -10151,14 +9326,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "death": "sound.pal.184",
       "call": "sound.pal.092"
@@ -10175,7 +9342,8 @@
   {
     "id": "enemy-517",
     "name": "name.enemy-517",
-    "spriteNum": 118,
+    "battleSprite": "enemy-battle-118",
+    "yPosOffset": 0,
     "stats": {
       "health": 280,
       "level": 11,
@@ -10214,14 +9382,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 2,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.246",
       "magic": "sound.pal.246",
@@ -10240,7 +9400,8 @@
   {
     "id": "enemy-518",
     "name": "name.enemy-518",
-    "spriteNum": 120,
+    "battleSprite": "enemy-battle-120",
+    "yPosOffset": 0,
     "stats": {
       "health": 290,
       "level": 12,
@@ -10371,14 +9532,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 5,
-      "magicFrames": 3,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.075",
       "magic": "sound.pal.075",
@@ -10397,7 +9550,8 @@
   {
     "id": "enemy-519",
     "name": "name.enemy-519",
-    "spriteNum": 121,
+    "battleSprite": "enemy-battle-121",
+    "yPosOffset": 14,
     "stats": {
       "health": 12000,
       "level": 28,
@@ -11012,14 +10166,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 2,
-      "attackFrames": 1,
-      "idleAnimSpeed": 10,
-      "actWaitFrames": 2,
-      "yPosOffset": 14
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -11034,7 +10180,8 @@
   {
     "id": "enemy-520",
     "name": "name.enemy-520",
-    "spriteNum": 122,
+    "battleSprite": "enemy-battle-122",
+    "yPosOffset": 4,
     "stats": {
       "health": 500,
       "level": 5,
@@ -11073,14 +10220,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "death": "sound.pal.182",
       "call": "sound.pal.093"
@@ -11097,7 +10236,8 @@
   {
     "id": "enemy-521",
     "name": "name.enemy-521",
-    "spriteNum": 123,
+    "battleSprite": "enemy-battle-123",
+    "yPosOffset": 0,
     "stats": {
       "health": 1100,
       "level": 33,
@@ -11136,14 +10276,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.236",
       "magic": "sound.pal.236",
@@ -11158,7 +10290,8 @@
   {
     "id": "enemy-522",
     "name": "name.enemy-522",
-    "spriteNum": 124,
+    "battleSprite": "enemy-battle-124",
+    "yPosOffset": 0,
     "stats": {
       "health": 2400,
       "level": 46,
@@ -11323,14 +10456,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 6,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.244",
       "magic": "sound.pal.244",
@@ -11349,7 +10474,8 @@
   {
     "id": "enemy-523",
     "name": "name.enemy-523",
-    "spriteNum": 125,
+    "battleSprite": "enemy-battle-125",
+    "yPosOffset": 8,
     "stats": {
       "health": 4500,
       "level": 50,
@@ -11526,14 +10652,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "death": "sound.pal.266",
       "call": "sound.pal.091"
@@ -11546,7 +10664,8 @@
   {
     "id": "enemy-524",
     "name": "name.enemy-524",
-    "spriteNum": 126,
+    "battleSprite": "enemy-battle-126",
+    "yPosOffset": 0,
     "stats": {
       "health": 1050,
       "level": 6,
@@ -11954,14 +11073,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 8,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.244",
       "magic": "sound.pal.244",
@@ -11976,7 +11087,8 @@
   {
     "id": "enemy-525",
     "name": "name.enemy-525",
-    "spriteNum": 127,
+    "battleSprite": "enemy-battle-127",
+    "yPosOffset": 16,
     "stats": {
       "health": 10000,
       "level": 18,
@@ -12290,14 +11402,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 3,
-      "attackFrames": 2,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -12311,7 +11415,8 @@
   {
     "id": "enemy-526",
     "name": "name.enemy-526",
-    "spriteNum": 128,
+    "battleSprite": "enemy-battle-128",
+    "yPosOffset": 0,
     "stats": {
       "health": 290,
       "level": 12,
@@ -12350,14 +11455,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.252",
       "action": "sound.pal.251",
@@ -12373,7 +11470,8 @@
   {
     "id": "enemy-527",
     "name": "name.enemy-527",
-    "spriteNum": 129,
+    "battleSprite": "enemy-battle-129",
+    "yPosOffset": 0,
     "stats": {
       "health": 1800,
       "level": 12,
@@ -12399,14 +11497,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -12417,7 +11507,8 @@
   {
     "id": "enemy-528",
     "name": "name.enemy-528",
-    "spriteNum": 130,
+    "battleSprite": "enemy-battle-130",
+    "yPosOffset": 20,
     "stats": {
       "health": 4450,
       "level": 50,
@@ -12456,14 +11547,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 6,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 20
-    },
     "sounds": {
       "attack": "sound.pal.239",
       "magic": "sound.pal.265",
@@ -12482,7 +11565,8 @@
   {
     "id": "enemy-529",
     "name": "name.enemy-529",
-    "spriteNum": 131,
+    "battleSprite": "enemy-battle-131",
+    "yPosOffset": 22,
     "stats": {
       "health": 5000,
       "level": 19,
@@ -12721,14 +11805,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 2,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 22
-    },
     "sounds": {
       "death": "sound.pal.266",
       "call": "sound.pal.092"
@@ -12741,7 +11817,8 @@
   {
     "id": "enemy-530",
     "name": "name.enemy-530",
-    "spriteNum": 132,
+    "battleSprite": "enemy-battle-132",
+    "yPosOffset": 0,
     "stats": {
       "health": 40,
       "level": 0,
@@ -12793,14 +11870,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 12,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.258",
       "magic": "sound.pal.258",
@@ -12811,7 +11880,8 @@
   {
     "id": "enemy-531",
     "name": "name.enemy-531",
-    "spriteNum": 133,
+    "battleSprite": "enemy-battle-133",
+    "yPosOffset": 22,
     "stats": {
       "health": 1750,
       "level": 36,
@@ -12850,14 +11920,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 22
-    },
     "sounds": {
       "attack": "sound.pal.179",
       "action": "sound.pal.059",
@@ -12873,7 +11935,8 @@
   {
     "id": "enemy-532",
     "name": "name.enemy-532",
-    "spriteNum": 134,
+    "battleSprite": "enemy-battle-134",
+    "yPosOffset": 22,
     "stats": {
       "health": 1250,
       "level": 21,
@@ -12912,14 +11975,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 22
-    },
     "sounds": {
       "attack": "sound.pal.179",
       "action": "sound.pal.059",
@@ -12935,7 +11990,8 @@
   {
     "id": "enemy-533",
     "name": "name.enemy-533",
-    "spriteNum": 135,
+    "battleSprite": "enemy-battle-135",
+    "yPosOffset": 0,
     "stats": {
       "health": 1400,
       "level": 33,
@@ -12961,14 +12017,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 4,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 3,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.071",
       "magic": "sound.pal.071",
@@ -12983,7 +12031,8 @@
   {
     "id": "enemy-534",
     "name": "name.enemy-534",
-    "spriteNum": 136,
+    "battleSprite": "enemy-battle-136",
+    "yPosOffset": 0,
     "stats": {
       "health": 110,
       "level": 3,
@@ -13023,14 +12072,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 2,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.050",
       "death": "sound.pal.186",
@@ -13040,7 +12081,8 @@
   {
     "id": "enemy-535",
     "name": "name.enemy-535",
-    "spriteNum": 137,
+    "battleSprite": "enemy-battle-137",
+    "yPosOffset": 2,
     "stats": {
       "health": 850,
       "level": 29,
@@ -13079,14 +12121,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 1,
-      "yPosOffset": 2
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -13101,7 +12135,8 @@
   {
     "id": "enemy-536",
     "name": "name.enemy-536",
-    "spriteNum": 138,
+    "battleSprite": "enemy-battle-138",
+    "yPosOffset": 0,
     "stats": {
       "health": 3050,
       "level": 40,
@@ -13157,14 +12192,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 5,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.246",
       "death": "sound.pal.233",
@@ -13182,7 +12209,8 @@
   {
     "id": "enemy-537",
     "name": "name.enemy-537",
-    "spriteNum": 139,
+    "battleSprite": "enemy-battle-139",
+    "yPosOffset": 0,
     "stats": {
       "health": 400,
       "level": 13,
@@ -13208,14 +12236,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 5,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.075",
       "magic": "sound.pal.075",
@@ -13230,7 +12250,8 @@
   {
     "id": "enemy-538",
     "name": "name.enemy-538",
-    "spriteNum": 140,
+    "battleSprite": "enemy-battle-140",
+    "yPosOffset": 0,
     "stats": {
       "health": 320,
       "level": 13,
@@ -13332,14 +12353,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 5,
-      "magicFrames": 3,
-      "attackFrames": 1,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.075",
       "magic": "sound.pal.075",
@@ -13354,7 +12367,8 @@
   {
     "id": "enemy-539",
     "name": "name.enemy-539",
-    "spriteNum": 141,
+    "battleSprite": "enemy-battle-141",
+    "yPosOffset": 8,
     "stats": {
       "health": 6350,
       "level": 29,
@@ -13455,14 +12469,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.236",
       "magic": "sound.pal.230",
@@ -13477,7 +12483,8 @@
   {
     "id": "enemy-540",
     "name": "name.enemy-540",
-    "spriteNum": 142,
+    "battleSprite": "enemy-battle-142",
+    "yPosOffset": 8,
     "stats": {
       "health": 9000,
       "level": 34,
@@ -13516,14 +12523,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.230",
       "magic": "sound.pal.230",
@@ -13538,7 +12537,8 @@
   {
     "id": "enemy-541",
     "name": "name.enemy-541",
-    "spriteNum": 143,
+    "battleSprite": "enemy-battle-143",
+    "yPosOffset": 8,
     "stats": {
       "health": 7550,
       "level": 32,
@@ -13577,14 +12577,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.230",
       "magic": "sound.pal.230",
@@ -13599,7 +12591,8 @@
   {
     "id": "enemy-542",
     "name": "name.enemy-542",
-    "spriteNum": 144,
+    "battleSprite": "enemy-battle-144",
+    "yPosOffset": 8,
     "stats": {
       "health": 8350,
       "level": 30,
@@ -13638,14 +12631,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 8
-    },
     "sounds": {
       "attack": "sound.pal.236",
       "magic": "sound.pal.230",
@@ -13660,7 +12645,8 @@
   {
     "id": "enemy-543",
     "name": "name.enemy-543",
-    "spriteNum": 145,
+    "battleSprite": "enemy-battle-145",
+    "yPosOffset": 12,
     "stats": {
       "health": 7250,
       "level": 30,
@@ -13699,14 +12685,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 12
-    },
     "sounds": {
       "attack": "sound.pal.059",
       "magic": "sound.pal.230",
@@ -13721,7 +12699,8 @@
   {
     "id": "enemy-544",
     "name": "name.enemy-544",
-    "spriteNum": 146,
+    "battleSprite": "enemy-battle-146",
+    "yPosOffset": 12,
     "stats": {
       "health": 6950,
       "level": 30,
@@ -13760,14 +12739,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 12
-    },
     "sounds": {
       "attack": "sound.pal.230",
       "magic": "sound.pal.230",
@@ -13782,7 +12753,8 @@
   {
     "id": "enemy-545",
     "name": "name.enemy-545",
-    "spriteNum": 147,
+    "battleSprite": "enemy-battle-147",
+    "yPosOffset": 12,
     "stats": {
       "health": 7250,
       "level": 33,
@@ -13821,14 +12793,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 12
-    },
     "sounds": {
       "attack": "sound.pal.059",
       "magic": "sound.pal.230",
@@ -13843,7 +12807,8 @@
   {
     "id": "enemy-546",
     "name": "name.enemy-546",
-    "spriteNum": 149,
+    "battleSprite": "enemy-battle-149",
+    "yPosOffset": 10,
     "stats": {
       "health": 22220,
       "level": 50,
@@ -13953,14 +12918,6 @@
         ]
       }
     ],
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 5,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 10
-    },
     "sounds": {
       "death": "sound.pal.190",
       "call": "sound.pal.091"
@@ -13977,7 +12934,8 @@
   {
     "id": "enemy-547",
     "name": "name.enemy-547",
-    "spriteNum": 150,
+    "battleSprite": "enemy-battle-150",
+    "yPosOffset": 16,
     "stats": {
       "health": 7800,
       "level": 40,
@@ -14016,14 +12974,6 @@
         }
       ]
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 0,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 16
-    },
     "sounds": {
       "attack": "sound.pal.236",
       "magic": "sound.pal.236",
@@ -14042,7 +12992,8 @@
   {
     "id": "enemy-548",
     "name": "name.enemy-548",
-    "spriteNum": 151,
+    "battleSprite": "enemy-battle-151",
+    "yPosOffset": 0,
     "stats": {
       "health": 1360,
       "level": 37,
@@ -14068,14 +13019,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 1,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.238",
       "magic": "sound.pal.248",
@@ -14086,7 +13029,8 @@
   {
     "id": "enemy-549",
     "name": "name.enemy-549",
-    "spriteNum": 152,
+    "battleSprite": "enemy-battle-152",
+    "yPosOffset": 0,
     "stats": {
       "health": 1800,
       "level": 40,
@@ -14112,14 +13056,6 @@
     "ai": {
       "resistanceToSorcery": 0
     },
-    "anim": {
-      "idleFrames": 1,
-      "magicFrames": 1,
-      "attackFrames": 1,
-      "idleAnimSpeed": 99,
-      "actWaitFrames": 2,
-      "yPosOffset": 0
-    },
     "sounds": {
       "attack": "sound.pal.265",
       "magic": "sound.pal.265",
@@ -14130,7 +13066,8 @@
   {
     "id": "enemy-550",
     "name": "name.enemy-550",
-    "spriteNum": 153,
+    "battleSprite": "enemy-battle-153",
+    "yPosOffset": 4,
     "stats": {
       "health": 3600,
       "level": 38,
@@ -14186,14 +13123,6 @@
         }
       }
     ],
-    "anim": {
-      "idleFrames": 2,
-      "magicFrames": 0,
-      "attackFrames": 0,
-      "idleAnimSpeed": 4,
-      "actWaitFrames": 2,
-      "yPosOffset": 4
-    },
     "sounds": {
       "death": "sound.pal.182",
       "call": "sound.pal.093"

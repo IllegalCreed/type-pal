@@ -104,6 +104,7 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     assetCatalog: assets.catalog,
     binaryAssets: assets.binaries,
     assetReport: assets.report,
+    battleEffectIndex: readJson<number[]>(repo, 'data/extracted/data/battle-effect-index.json'),
     battleFields: readJson<BattleFieldDef[]>(repo, 'data/extracted/data/battle-fields.json'),
     objectPoisons: readJson(repo, 'data/extracted/data/object-poisons.json'),
     stores: readJson(repo, 'data/extracted/data/stores.json'),

@@ -81,6 +81,21 @@ describe('script library schema', () => {
     }
     expect(() => checkScriptIndex(index)).not.toThrow()
     expect(() => checkScriptIndex({ ...index, shards: { ...shards, shared: 0 } })).toThrow(/正整数/)
+    expect(() =>
+      checkScriptIndex({
+        ...index,
+        chunks: {
+          'scene/s001': { path: 'chunks/shared.json', bytes: 1 },
+          'scene/s002': { path: 'chunks/shared.json', bytes: 2 },
+        },
+      }),
+    ).toThrow(/重复使用 chunks\/shared\.json/)
+    expect(() =>
+      checkScriptIndex({
+        ...index,
+        chunks: { 'scene/s001': { path: '../outside.json', bytes: 1 } },
+      }),
+    ).toThrow(/禁止空段、\. 或 \.\./)
   })
 
   it('作者目录只接受 shared/user 稳定 id 与合法 self 契约', () => {

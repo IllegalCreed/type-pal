@@ -36,6 +36,7 @@ const hero = {
     },
     initialEquipment: {},
     initialMagic: [],
+    battleSprite: 'battle-sprite.test.hero',
   },
 } as ActorDef
 
@@ -52,7 +53,10 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
     name: 'Test',
     contentVersion: 3,
     entryScene: 's000',
-    content: { maps: 'content/maps/index.json' },
+    content: {
+      maps: 'content/maps/index.json',
+      battleSprites: 'content/battle-sprites.json',
+    },
     assets: { catalog: 'assets/index.json', roles: {} },
     startWorld: { party: ['hero'], money: 0, learnedSkills: {}, inventory: [] },
   }
@@ -73,6 +77,30 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
     items: [],
     locale: { 'name.hero': '主角' },
     sprites: [heroSprite],
+    battleSprites: [
+      {
+        id: 'battle-sprite.test.hero',
+        label: 'Hero Battle',
+        asset: 'battle-sprite.test.hero',
+        profile: {
+          kind: 'player-fighter',
+          frames: {
+            idle: 0,
+            dying: 1,
+            dead: 2,
+            defend: 3,
+            hurt: 4,
+            preMagic: 5,
+            magic: 6,
+            attackWindup: 7,
+            attackRush: 8,
+            attackStrike: 9,
+          },
+          castEffectBase: 0,
+          attackEffectBase: 0,
+        },
+      },
+    ],
     startWorld: manifest.startWorld,
     maps: {},
     mapIndex: {
@@ -91,6 +119,14 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
           mediaType: 'application/vnd.type-pal.rle',
           bytes: 1,
           sha256: 'a'.repeat(64),
+          origin: { kind: 'generated' },
+        },
+        'battle-sprite.test.hero': {
+          kind: 'battle-sprite',
+          path: 'assets/generated/battle-sprites/hero.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 1,
+          sha256: 'b'.repeat(64),
           origin: { kind: 'generated' },
         },
       },
@@ -218,6 +254,8 @@ describe('X7 工程诊断与保存门', () => {
       module: 'asset',
       page: 'sprite',
       objectId: 'sprite.unused',
+      domain: 'world',
+      view: 'asset',
     })
   })
 
@@ -232,6 +270,8 @@ describe('X7 工程诊断与保存门', () => {
       module: 'asset',
       page: 'sprite',
       objectId: heroSprite.id,
+      domain: 'world',
+      view: 'definition',
     })
 
     const wrongKind = collectProjectIssues({
@@ -246,6 +286,77 @@ describe('X7 工程诊断与保存门', () => {
       module: 'asset',
       page: 'sprite',
       objectId: heroSprite.id,
+      domain: 'world',
+      view: 'definition',
+    })
+  })
+
+  test('BattleSpriteDef 缺失/kind 错误跳语义定义，未使用资产跳 battle asset 视图', () => {
+    const base = state()
+    const definition = base.battleSprites[0]!
+    const missing = collectProjectIssues({
+      ...base,
+      battleSprites: [{ ...definition, asset: 'battle-sprite.missing' }],
+      assetCatalog: {
+        version: 1,
+        assets: { 'sprite.test.hero': base.assetCatalog.assets['sprite.test.hero']! },
+      },
+    })
+    expect(
+      missing.find((issue) => issue.message.includes('battle-sprite.missing'))?.target,
+    ).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: definition.id,
+      domain: 'battle',
+      view: 'definition',
+    })
+
+    const wrongKind = collectProjectIssues({
+      ...base,
+      battleSprites: [{ ...definition, asset: 'music.wrong-battle-kind' }],
+      assetCatalog: {
+        version: 1,
+        assets: {
+          'sprite.test.hero': base.assetCatalog.assets['sprite.test.hero']!,
+          'music.wrong-battle-kind': assetRecord('music', 'wrong-battle-kind'),
+        },
+      },
+    })
+    expect(
+      wrongKind.find((issue) => issue.message.includes('music.wrong-battle-kind'))?.target,
+    ).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: definition.id,
+      domain: 'battle',
+      view: 'definition',
+    })
+
+    const unusedAsset = 'battle-sprite.unused'
+    const unused = collectProjectIssues({
+      ...base,
+      assetCatalog: {
+        version: 1,
+        assets: {
+          ...base.assetCatalog.assets,
+          [unusedAsset]: {
+            ...base.assetCatalog.assets['battle-sprite.test.hero']!,
+            path: 'assets/authored/battle-sprites/unused.rle',
+            origin: { kind: 'authored' },
+          },
+        },
+      },
+    })
+    expect(
+      unused.find((issue) => issue.code === 'unused-asset' && issue.message.includes(unusedAsset))
+        ?.target,
+    ).toEqual({
+      module: 'asset',
+      page: 'sprite',
+      objectId: unusedAsset,
+      domain: 'battle',
+      view: 'asset',
     })
   })
 
@@ -259,7 +370,8 @@ describe('X7 工程诊断与保存门', () => {
     const enemy = {
       id: 'enemy',
       name: 'enemy',
-      spriteNum: 1,
+      battleSprite: 'battle-sprite.test.enemy',
+      yPosOffset: 0,
       stats: {
         health: 1,
         level: 1,
@@ -277,19 +389,27 @@ describe('X7 工程诊断与保存门', () => {
         collectValue: 0,
       },
       ai: { resistanceToSorcery: 0 },
-      anim: {
-        idleFrames: 1,
-        magicFrames: 1,
-        attackFrames: 1,
-        idleAnimSpeed: 1,
-        actWaitFrames: 1,
-        yPosOffset: 0,
-      },
       sounds: { action: sound },
     }
     const withEverySoundSite = state({
       actors: [actor],
       enemies: [enemy],
+      battleSprites: [
+        ...base.battleSprites,
+        {
+          id: 'battle-sprite.test.enemy',
+          label: 'Enemy Battle',
+          asset: 'battle-sprite.test.enemy',
+          profile: {
+            kind: 'enemy',
+            idle: { start: 0, count: 1 },
+            magic: { start: 1, count: 1 },
+            attack: { start: 2, count: 1 },
+            idleTicksPerFrame: 1,
+            actTicksPerFrame: 1,
+          },
+        },
+      ],
       items: [
         {
           id: 'item',
@@ -328,7 +448,18 @@ describe('X7 工程诊断与保存门', () => {
       },
       assetCatalog: {
         version: 1,
-        assets: { ...base.assetCatalog.assets, [sound]: assetRecord('sound', 'used') },
+        assets: {
+          ...base.assetCatalog.assets,
+          'battle-sprite.test.enemy': {
+            kind: 'battle-sprite',
+            path: 'assets/generated/battle-sprites/enemy.rle',
+            mediaType: 'application/vnd.type-pal.rle',
+            bytes: 1,
+            sha256: 'c'.repeat(64),
+            origin: { kind: 'generated' },
+          },
+          [sound]: assetRecord('sound', 'used'),
+        },
       },
     })
     expect(

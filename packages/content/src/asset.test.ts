@@ -522,7 +522,7 @@ describe('typed 资源引用与文件闭包', () => {
         target: 'allEnemies',
         effects: [
           { kind: 'damage', power: 1, elemental: 0 },
-          { kind: 'summon', godId: 1, sound: 'sound.pal.301' },
+          { kind: 'summon', battleSprite: 'player-summon-11', sound: 'sound.pal.301' },
         ],
         animation: { effectSprite: 1, sound: 'sound.pal.174' },
       },

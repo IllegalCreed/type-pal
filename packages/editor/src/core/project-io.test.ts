@@ -27,6 +27,7 @@ import { buildSeedAssets } from './seed-assets.js'
 const seedAssets = await buildSeedAssets()
 const canonicalTilesetBytes = seedAssets.tilesetRle
 const canonicalSpriteBytes = seedAssets.spriteRle
+const canonicalBattleSpriteBytes = seedAssets.battleSpriteRle
 
 /**
  * L3 round-trip 钉真值:toEditorState(读入)→ serializeProject(落盘)应还原各 content JSON。
@@ -45,6 +46,7 @@ const manifest: LoadedManifest = {
     items: 'content/items.json',
     locale: 'content/locale.json',
     sprites: 'content/sprites.json',
+    battleSprites: 'content/battle-sprites.json',
     battleFields: 'content/battle-fields.json',
     maps: 'content/maps/index.json',
     tilesets: 'content/tilesets.json',
@@ -87,6 +89,7 @@ const actorsJson = [
       },
       initialEquipment: { weapon: '166' },
       initialMagic: ['296'],
+      battleSprite: 'battle-sprite.test.hero',
     },
   },
   { id: 'youhun', name: 'name.youhun', spriteId: 'ghost' },
@@ -150,6 +153,30 @@ const spritesJson = [
     layout: { kind: 'directional', framesPerDir: 3 },
   },
 ]
+const battleSpritesJson = [
+  {
+    id: 'battle-sprite.test.hero',
+    label: '测试主角',
+    asset: 'battle-sprite.test.hero',
+    profile: {
+      kind: 'player-fighter' as const,
+      frames: {
+        idle: 0,
+        dying: 1,
+        dead: 2,
+        defend: 3,
+        hurt: 4,
+        preMagic: 5,
+        magic: 6,
+        attackWindup: 7,
+        attackRush: 8,
+        attackStrike: 9,
+      },
+      castEffectBase: 0,
+      attackEffectBase: 0,
+    },
+  },
+]
 
 const battleFieldsJson = [
   {
@@ -191,6 +218,14 @@ const assetCatalogJson = {
       sha256: '2'.repeat(64),
       origin: { kind: 'generated' as const },
     },
+    'battle-sprite.test.hero': {
+      kind: 'battle-sprite' as const,
+      path: 'assets/generated/battle-sprites/hero.rle',
+      mediaType: 'application/vnd.type-pal.rle',
+      bytes: 1,
+      sha256: '3'.repeat(64),
+      origin: { kind: 'generated' as const },
+    },
     'sound.pal.001': {
       kind: 'sound' as const,
       path: 'assets/migrated/sounds/001.wav',
@@ -209,6 +244,7 @@ const JSONS = {
   items: itemsJson,
   locale: localeJson,
   sprites: spritesJson,
+  battleSprites: battleSpritesJson,
   battleFields: battleFieldsJson,
   maps: mapsJson,
   tilesets: tilesetsJson,
@@ -228,6 +264,7 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
   expect(out['content/items.json']).toEqual(itemsJson)
   expect(out['content/locale.json']).toEqual(localeJson)
   expect(out['content/sprites.json']).toEqual(spritesJson)
+  expect(out['content/battle-sprites.json']).toEqual(battleSpritesJson)
   // skills.json 是 { skills, levelUp } 包一层
   expect(out['content/skills.json']).toEqual({
     skills: skillsJson.skills,
@@ -403,6 +440,7 @@ test('未加载 v3 地图保存时按原文本 copy-through，authoring 不解�
 test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash 不符 fail-loud', async () => {
   const sourceTile = canonicalTilesetBytes.slice(0)
   const sourceSprite = canonicalSpriteBytes.slice(0)
+  const sourceBattleSprite = canonicalBattleSpriteBytes.slice(0)
   const pendingSound = new Uint8Array([1, 2, 3]).buffer
   const state = toEditorState(assembleProject(manifest, JSONS), SCENES)
   const tileRecord = {
@@ -423,13 +461,20 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
     sha256: await sha256Hex(pendingSound),
     origin: { kind: 'authored' as const },
   }
+  const battleSpriteRecord = {
+    ...assetCatalogJson.assets['battle-sprite.test.hero'],
+    bytes: sourceBattleSprite.byteLength,
+    sha256: await sha256Hex(sourceBattleSprite),
+  }
   const reads: string[] = []
   const source = {
     readText: async () => '{}',
     readJson: async <T>() => ({}) as T,
     readBytes: async (path: string) => {
       reads.push(path)
-      return path === spriteRecord.path ? sourceSprite : sourceTile
+      if (path === spriteRecord.path) return sourceSprite
+      if (path === battleSpriteRecord.path) return sourceBattleSprite
+      return sourceTile
     },
     urlFor: async (path: string) => path,
   }
@@ -441,6 +486,7 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
         assets: {
           'tileset.pal.056': tileRecord,
           'sprite.test.world': spriteRecord,
+          'battle-sprite.test.hero': battleSpriteRecord,
           'sound.pending': soundRecord,
         },
       },
@@ -450,9 +496,10 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
     { includeAssetCopies: true },
   )
 
-  expect(reads).toEqual([tileRecord.path, spriteRecord.path])
+  expect(reads).toEqual([tileRecord.path, spriteRecord.path, battleSpriteRecord.path])
   expect(files[tileRecord.path]).toBe(sourceTile)
   expect(files[spriteRecord.path]).toBe(sourceSprite)
+  expect(files[battleSpriteRecord.path]).toBe(sourceBattleSprite)
   expect(files[soundRecord.path]).toBe(pendingSound)
   await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
 
@@ -464,6 +511,7 @@ test('HTTP 首次保存物化全部 catalog 二进制，pending 优先且 hash �
         assets: {
           'tileset.pal.056': tileRecord,
           'sprite.test.world': spriteRecord,
+          'battle-sprite.test.hero': battleSpriteRecord,
         },
       },
     },
@@ -570,6 +618,43 @@ test('sprite pending 即使 bytes/hash 自洽也拒绝非 gzip 容器', async ()
       [path]: bytes,
     }),
   ).rejects.toThrow(/canonical \.rle 必须带 gzip 头/)
+})
+
+test('battle-sprite pending 统一走 origin 分级 codec，写前验证完整 bytes/hash/RLE', async () => {
+  const path = 'assets/authored/battle-sprites/hero.rle'
+  const bytes = canonicalBattleSpriteBytes.slice(0)
+  const record = {
+    kind: 'battle-sprite' as const,
+    path,
+    mediaType: 'application/vnd.type-pal.rle',
+    bytes: bytes.byteLength,
+    sha256: await sha256Hex(bytes),
+    origin: { kind: 'authored' as const },
+  }
+  const files = {
+    'manifest.json': { assets: { catalog: 'assets/index.json' } },
+    'assets/index.json': { version: 1, assets: { 'battle-sprite.authored.hero': record } },
+    [path]: bytes,
+  }
+  await expect(preflightProjectWriteSet(files)).resolves.toBeUndefined()
+
+  const bad = new Uint8Array([0x1f, 0x8b, 0]).buffer
+  await expect(
+    preflightProjectWriteSet({
+      ...files,
+      'assets/index.json': {
+        version: 1,
+        assets: {
+          'battle-sprite.authored.hero': {
+            ...record,
+            bytes: bad.byteLength,
+            sha256: await sha256Hex(bad),
+          },
+        },
+      },
+      [path]: bad,
+    }),
+  ).rejects.toThrow(/战斗精灵资源 RLE 损坏/)
 })
 
 test('M3 scripts 目录 round-trip:index + chunk 路径与内容原样保留', () => {
@@ -790,6 +875,7 @@ test('serializeProject:返回值为纯 JSON 值(可 JSON.stringify,无 undefined
     [
       'content/actors.json',
       'content/battle-fields.json',
+      'content/battle-sprites.json',
       'content/items.json',
       'content/locale.json',
       'content/maps/index.json',
@@ -1060,6 +1146,7 @@ test('W7B tileset round-trip:注册表入 state,serializeProject 产出 tilesets
       version: 1 as const,
       assets: {
         'sprite.test.world': assetCatalogJson.assets['sprite.test.world'],
+        'battle-sprite.test.hero': assetCatalogJson.assets['battle-sprite.test.hero'],
         'tileset.grass': {
           kind: 'tileset' as const,
           path: 'assets/authored/tilesets/grass.rle',

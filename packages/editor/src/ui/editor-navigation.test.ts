@@ -6,6 +6,7 @@ import {
   EDITOR_MODULES,
   editorLinks,
   editorLocationHref,
+  locationForSubpageNavigation,
   normalizeEditorLocation,
   objectIdForSubpageNavigation,
   PROJECT_PAGE_IDS,
@@ -77,7 +78,12 @@ describe('EditorLocation URL 契约', () => {
       subpage: 'sprite',
       objectId: '   ',
     })
-    expect(normalized).toEqual({ module: 'asset', subpage: 'sprite' })
+    expect(normalized).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      domain: 'world',
+      view: 'definition',
+    })
     expect(sameEditorLocation(normalized, { module: 'asset', subpage: 'sprite' })).toBe(true)
   })
 
@@ -104,6 +110,30 @@ describe('EditorLocation URL 契约', () => {
     expect(objectIdForSubpageNavigation(current, sound)).toBeUndefined()
     expect(objectIdForSubpageNavigation(current, cutscene)).toBeUndefined()
   })
+
+  it('重点当前精灵库 tab 保留 battle/asset 显式路由真值', () => {
+    const sprite = EDITOR_MODULES.find((module) => module.id === 'asset')!.subpages.find(
+      (subpage) => subpage.id === 'sprite',
+    )!
+    expect(
+      locationForSubpageNavigation(
+        {
+          module: 'asset',
+          subpage: 'sprite',
+          objectId: 'battle-sprite.pal.enemy.001',
+          domain: 'battle',
+          view: 'asset',
+        },
+        sprite,
+      ),
+    ).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'battle-sprite.pal.enemy.001',
+      domain: 'battle',
+      view: 'asset',
+    })
+  })
 })
 
 describe('跨模块唯一链接', () => {
@@ -117,6 +147,22 @@ describe('跨模块唯一链接', () => {
       module: 'asset',
       subpage: 'sprite',
       objectId: 'sprite-li',
+      domain: 'world',
+      view: 'definition',
+    })
+    expect(editorLinks.battleSpriteDefinition('enemy-001')).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'enemy-001',
+      domain: 'battle',
+      view: 'definition',
+    })
+    expect(editorLinks.battleSpriteAsset('battle-sprite.pal.enemy.001')).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'battle-sprite.pal.enemy.001',
+      domain: 'battle',
+      view: 'asset',
     })
     expect(editorLinks.map('map-home')).toEqual({
       module: 'map',

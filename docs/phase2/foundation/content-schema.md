@@ -296,8 +296,44 @@ interface SpriteDef {
   实际解码帧数收口；越界候选回到第 0 帧，不能依赖数组访问的隐式 `undefined` 回退。
 
 PAL 冻结基线为 636 个 catalog 文件、580 个定义、559 个已用二进制、21 条共享关系和 77 个未引用
-warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。`sprite` 已退出 legacy，当前只剩
-`battle-sprite`、`effect-sprite` 与 generic `image` 等待后续切片。
+warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。`sprite` 已退出 legacy；随后 A7-3B
+实现候选也移除了 `battle-sprite`，当前只剩 `effect-sprite` 与 generic `image`。
+
+### 6.7 战斗精灵索引资源(A7-3B,2026-07-19，待三方 review)
+
+战斗精灵同样区分业务定义与物理资产，但定义不是 `{id,asset}` 薄壳：动作帧和播放区段属于战斗表现 ABI，
+必须与二进制文件登记分开保存。
+
+```ts
+interface BattleSpriteDef {
+  id: string
+  label: string
+  asset: AssetId
+  profile:
+    | PlayerFighterBattleSpriteProfile
+    | EnemyBattleSpriteProfile
+    | SummonBattleSpriteProfile
+}
+```
+
+- `player-fighter` profile 保存待机、濒死、死亡、防御、受伤、施法、攻击等命名帧，以及暂待 A7-3E
+  语义化的 `castEffectBase/attackEffectBase`；`enemy` profile 保存连续 idle/magic/attack 区段与 40ms tick
+  速度；`summon` 只声明“按全部帧现身”，技能自己的 speed/tint/sound 不进入定义。
+- Actor、Enemy、装备效果、持久 appearance、summon、trance 和相关脚本只保存 `BattleSpriteDef.id`。
+  `BattleSpriteDef.asset` 是到 `kind=battle-sprite` catalog 记录的唯一物理边；裸数字、path、`godId + 10`
+  和按 id 反解路径只允许在 migrate、旧本地工程或旧存档输入边界出现一次。
+- 玩家运行时 active appearance 的优先级固定为 base -> persistent -> `EQUIP_SLOT_IDS` 槽序最后覆写 ->
+  battle transient trance。图像、动作 ABI 与 effect base 始终读取同一个 active 定义；trance 不因死亡/复活
+  清除，战斗结束才恢复战前有效定义。
+- 同一 AssetId 可以由多个定义共享；定义删除、二进制删除、替换缩帧和消费者修复是独立且可撤销的生命周期。
+  authored/generated 必须通过 canonical indexed-RLE 严格解码；只有 `legacy-migrated` 可容忍 PAL 连续有效
+  前缀后的全坏尾槽。
+- 工程内容版本仍为 3；存档格式独立升到 v4，把 party/reserve 的持久战斗外观收敛为定义 id。
+
+PAL 冻结结果为 172 个物理文件、171 个定义、179 条直接语义引用、171 个已用定义、5 个共享定义和唯一
+未引用资源 enemy 98；压缩源 900,973 B、有效帧 775、历史坏尾槽 6，combined tuple digest 为
+`ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。本切片实现后 `battle-sprite`
+退出 legacy，剩余 `effect-sprite` 与 generic `image`。
 
 ## 7. 内容工程目录结构
 

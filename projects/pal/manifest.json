@@ -19,7 +19,8 @@
     "shops": "content/shops.json",
     "maps": "content/maps/index.json",
     "scripts": "content/scripts/",
-    "stamps": "content/stamps.json"
+    "stamps": "content/stamps.json",
+    "battleSprites": "content/battle-sprites.json"
   },
   "assets": {
     "catalog": "assets/index.json",
@@ -39,7 +40,6 @@
     },
     "legacy": {
       "families": [
-        "battle-sprite",
         "effect-sprite",
         "image"
       ],

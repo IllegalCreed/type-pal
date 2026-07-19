@@ -11,6 +11,7 @@ import {
   type AmbienceDef,
   type AssetCatalogV1,
   type AssetId,
+  type BattleSpriteDef,
   type Command,
   type Facing,
   getScriptBody,
@@ -491,6 +492,7 @@ export function ScriptDrawer(props: {
   focusInternalScriptId?: string | null
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
+  battleSprites: readonly BattleSpriteDef[]
   leaderSpriteId: string | undefined
   assetBase: AssetBase
   /** 自有地图实时副本(键 = 稳定 map id);传给大预览渲染 own 场景。 */
@@ -514,6 +516,7 @@ export function ScriptDrawer(props: {
   onOpenScript?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
   onClose: () => void
 }) {
   const {
@@ -525,6 +528,7 @@ export function ScriptDrawer(props: {
     focusInternalScriptId,
     sprites,
     actorsById,
+    battleSprites,
     leaderSpriteId,
     assetBase,
     projectMaps,
@@ -541,6 +545,7 @@ export function ScriptDrawer(props: {
     onOpenScript,
     onOpenSound,
     onOpenImage,
+    onOpenBattleSprite,
     onClose,
   } = props
   const scriptWorkRef = useRef<HTMLDivElement>(null)
@@ -1236,6 +1241,7 @@ export function ScriptDrawer(props: {
                   </h4>
                   <CommandForm
                     actors={actorsById}
+                    battleSprites={battleSprites}
                     cmd={selCmd}
                     scene={scene}
                     locale={locale}
@@ -1251,6 +1257,7 @@ export function ScriptDrawer(props: {
                     onOpenScript={openScriptTarget}
                     onOpenSound={onOpenSound}
                     onOpenImage={onOpenImage}
+                    onOpenBattleSprite={onOpenBattleSprite}
                     onChange={(next) => {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]

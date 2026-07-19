@@ -1,4 +1,5 @@
 import type { ActorDef } from './actor.js'
+import type { BattleSpriteDef } from './battle-sprite.js'
 import type { EntryPoint, WorldState } from './character.js'
 import type { BattleFieldDef, EnemyDef } from './enemy.js'
 import type { SceneDef } from './index.js'
@@ -334,6 +335,21 @@ export function palSpriteAssetId(spriteNum: number): AssetId {
   return `sprite.pal.${String(spriteNum).padStart(3, '0')}`
 }
 
+export type PalBattleSpriteChannel = 'player' | 'enemy'
+
+/** PAL 战斗精灵的物理 AssetId；player 0 合法，channel 是身份的一部分。 */
+export function palBattleSpriteAssetId(
+  channel: PalBattleSpriteChannel,
+  spriteNum: number,
+): AssetId {
+  const minimum = channel === 'player' ? 0 : 1
+  if (!Number.isInteger(spriteNum) || spriteNum < minimum)
+    throw new Error(
+      `PAL ${channel} 战斗精灵号必须是 ${minimum === 0 ? '非负' : '正'}整数，收到 ${String(spriteNum)}`,
+    )
+  return `battle-sprite.pal.${channel}.${String(spriteNum).padStart(3, '0')}`
+}
+
 /**
  * 只供旧 content/save 升级边界恢复大世界精灵号。
  * canonical PAL 资源和本地 v3 工程自有资源都把旧号持久编码进 AssetId；运行时加载绝不调用它猜路径。
@@ -377,6 +393,8 @@ export interface AssetReferenceSource {
   tilesets?: readonly TilesetDef[]
   /** 大世界精灵领域定义到二进制资产的唯一 typed 边。 */
   sprites?: readonly SpriteDef[]
+  /** 战斗精灵领域定义到二进制资产的唯一 typed 边。 */
+  battleSprites?: readonly BattleSpriteDef[]
   /** 存档/运行态删除保护可选输入；工程内容闭包本身不传此槽。 */
   worlds?: readonly WorldState[]
 }
@@ -688,6 +706,14 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       expectedKind: 'sprite',
       where: `sprites[${index}].asset`,
       site: `sprite:${sprite.id}:asset`,
+    })
+  })
+  source.battleSprites?.forEach((sprite, index) => {
+    references.push({
+      asset: sprite.asset,
+      expectedKind: 'battle-sprite',
+      where: `battleSprites[${index}].asset`,
+      site: `battleSprite:${sprite.id}:asset`,
     })
   })
   source.worlds?.forEach((world, worldIndex) => {

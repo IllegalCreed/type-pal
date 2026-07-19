@@ -10,6 +10,7 @@ import {
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateBattleSprites,
   validateEnemies,
   validateItems,
   validateScenes,
@@ -182,6 +183,10 @@ export function auditPalSoundReferences(args: {
   const skills = validateSkills(required(files, 'content/skills.json')).skills
   const sprites = validateSprites(required(files, 'content/sprites.json'), catalog)
   const tilesets = validateTilesets(required(files, 'content/tilesets.json'), catalog)
+  const battleSprites = validateBattleSprites(
+    required(files, 'content/battle-sprites.json'),
+    catalog,
+  )
   const sceneIds = required(files, 'content/scenes/index.json') as string[]
   const scenes = validateScenes(sceneIds.map((id) => required(files, `content/scenes/${id}.json`)))
   const scriptIndex = required(files, 'content/scripts/index.json') as ScriptIndexV1
@@ -199,6 +204,7 @@ export function auditPalSoundReferences(args: {
     items,
     skills,
     battleFields,
+    battleSprites,
     sprites,
     tilesets,
   })
@@ -436,12 +442,12 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
     },
     {
       soundEdges: 1_666,
-      allReferences: 6_479,
-      nonSoundReferences: 4_813,
+      allReferences: 6_650,
+      nonSoundReferences: 4_984,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,
-      warnings: 131,
+      warnings: 132,
       missing: 0,
       kindMismatch: 0,
       hasFake122Asset: false,

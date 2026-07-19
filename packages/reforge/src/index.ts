@@ -14,14 +14,25 @@ import { bakeFrame, Canvas2DRenderer, spriteBlitRect } from './render.js'
 export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 
-import type { AssetBase, LoadedSprite, LoadedWorldSprite, SpriteAssetReader } from './assets.js'
+import type {
+  AssetBase,
+  BattleSpriteAssetReader,
+  LoadedBattleSprite,
+  LoadedBattleSpriteDefinition,
+  LoadedSprite,
+  LoadedWorldSprite,
+  SpriteAssetReader,
+} from './assets.js'
 // 资产加载(ProjectMapV2/工程标准色彩/tileset/sprite + gzip 解压)
 import {
+  BattleSpriteAssetCache,
   compressGzip,
+  decodeBattleSpriteAssetBytes,
   decodeWorldSpriteAssetBytes,
   decompressGzip,
   loadBattleBg,
-  loadBattleSprite,
+  loadBattleSpriteAsset,
+  loadBattleSpriteDefinition,
   loadFireSprite,
   loadProjectMap,
   loadSpriteAsset,
@@ -31,13 +42,24 @@ import {
   SpriteAssetCache,
 } from './assets.js'
 
-export type { AssetBase, LoadedSprite, LoadedWorldSprite, SpriteAssetReader }
+export type {
+  AssetBase,
+  BattleSpriteAssetReader,
+  LoadedBattleSprite,
+  LoadedBattleSpriteDefinition,
+  LoadedSprite,
+  LoadedWorldSprite,
+  SpriteAssetReader,
+}
 export {
+  BattleSpriteAssetCache,
   compressGzip,
+  decodeBattleSpriteAssetBytes,
   decodeWorldSpriteAssetBytes,
   decompressGzip,
   loadBattleBg,
-  loadBattleSprite,
+  loadBattleSpriteAsset,
+  loadBattleSpriteDefinition,
   loadFireSprite,
   loadProjectMap,
   loadSpriteAsset,

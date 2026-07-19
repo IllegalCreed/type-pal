@@ -19,6 +19,7 @@ import {
   FRAME_SEQUENCE_MEDIA_TYPE,
   type ManifestAssetConfigV3,
   palBattleBackgroundAssetId,
+  palBattleSpriteAssetId,
   palFaceAssetId,
   palFrameAnimationAssetId,
   palItemIconAssetId,
@@ -33,6 +34,7 @@ import {
 import {
   decodeRngFrames,
   type Palette,
+  parseIndexedRleChunk,
   parseSpriteChunkStrict,
   parseWorldSpriteChunk,
   RNG_HEIGHT,
@@ -85,6 +87,17 @@ export interface PalAssetMigrationReport {
   spriteMalformedTailSlots: number
   spriteTupleDigest: string
   spriteLegacyTailAnomalies: PalWorldSpriteLegacyTailAnomaly[]
+  battleSprites: number
+  battleSpriteBytes: number
+  battleSpriteRawBytes: number
+  battleSpriteFrames: number
+  battleSpriteMalformedTailSlots: number
+  battleSpritePlayerTupleDigest: string
+  battleSpriteEnemyTupleDigest: string
+  battleSpriteTupleDigest: string
+  battleSpritePlayerFrameCounts: number[]
+  battleSpriteEnemyFrameCounts: number[]
+  battleSpriteLegacyTailAnomalies: PalBattleSpriteLegacyTailAnomaly[]
   /** 迁移边界审计字段；项目内容、运行时和编辑器不得消费这些旧编号。 */
   legacyPaletteByFrameAnimation: Record<string, number>
 }
@@ -92,6 +105,15 @@ export interface PalAssetMigrationReport {
 export interface PalWorldSpriteLegacyTailAnomaly {
   sprite: number
   frames: number
+  malformedTailSlots: number
+  trailingSentinel: boolean
+}
+
+export interface PalBattleSpriteLegacyTailAnomaly {
+  channel: 'player' | 'enemy'
+  sprite: number
+  frames: number
+  declaredSlots: number
   malformedTailSlots: number
   trailingSentinel: boolean
 }
@@ -136,6 +158,64 @@ export const PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES = [
 export const PAL_WORLD_SPRITE_TUPLE_DIGEST =
   'c92c14b5dac5abc39006d94fdefaa699eb0bffddb925447ceb4070c32bb45d03'
 
+export const PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST =
+  '163f7282309fce5699c1c9a15e4142c219f692de97ac0d2e6d20e941c8dcd7b5'
+export const PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST =
+  'dd3b00f6f925c78ff5a3aa60cc7909fbee3924375c07a2c661bcb0bcf75f4302'
+export const PAL_BATTLE_SPRITE_TUPLE_DIGEST =
+  'ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685'
+
+export const PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES = [
+  {
+    channel: 'enemy',
+    sprite: 24,
+    frames: 4,
+    declaredSlots: 5,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+  {
+    channel: 'enemy',
+    sprite: 25,
+    frames: 5,
+    declaredSlots: 6,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+  {
+    channel: 'enemy',
+    sprite: 30,
+    frames: 3,
+    declaredSlots: 4,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+  {
+    channel: 'enemy',
+    sprite: 59,
+    frames: 4,
+    declaredSlots: 5,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+  {
+    channel: 'enemy',
+    sprite: 71,
+    frames: 2,
+    declaredSlots: 3,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+  {
+    channel: 'enemy',
+    sprite: 86,
+    frames: 5,
+    declaredSlots: 6,
+    malformedTailSlots: 1,
+    trailingSentinel: false,
+  },
+] as const satisfies readonly PalBattleSpriteLegacyTailAnomaly[]
+
 export function formatPalWorldSpriteReport(
   report: Pick<
     PalAssetMigrationReport,
@@ -146,6 +226,29 @@ export function formatPalWorldSpriteReport(
     `[大世界精灵资源] sprites=${report.sprites} bytes=${report.spriteBytes} ` +
     `frames=${report.spriteFrames} malformed-tail-slots=${report.spriteMalformedTailSlots} ` +
     `tuple-digest=${report.spriteTupleDigest}`
+  )
+}
+
+export function formatPalBattleSpriteReport(
+  report: Pick<
+    PalAssetMigrationReport,
+    | 'battleSprites'
+    | 'battleSpriteBytes'
+    | 'battleSpriteRawBytes'
+    | 'battleSpriteFrames'
+    | 'battleSpriteMalformedTailSlots'
+    | 'battleSpritePlayerTupleDigest'
+    | 'battleSpriteEnemyTupleDigest'
+    | 'battleSpriteTupleDigest'
+  >,
+): string {
+  return (
+    `[战斗精灵资源] sprites=${report.battleSprites} bytes=${report.battleSpriteBytes} ` +
+    `raw-bytes=${report.battleSpriteRawBytes} frames=${report.battleSpriteFrames} ` +
+    `malformed-tail-slots=${report.battleSpriteMalformedTailSlots} ` +
+    `player-digest=${report.battleSpritePlayerTupleDigest} ` +
+    `enemy-digest=${report.battleSpriteEnemyTupleDigest} ` +
+    `tuple-digest=${report.battleSpriteTupleDigest}`
   )
 }
 
@@ -678,6 +781,135 @@ export function loadPalWorldSprites(repo: string): {
   }
 }
 
+/**
+ * F.MKF/ABC.MKF 提取后的战斗精灵逐字节登记。player 0 是合法资源，player/enemy
+ * 同号必须保留 channel；只有 legacy-migrated 允许连续有效前缀后的历史坏尾。
+ */
+export function loadPalBattleSprites(repo: string): {
+  binaries: PalBinaryAssetSource[]
+  report: Pick<
+    PalAssetMigrationReport,
+    | 'battleSprites'
+    | 'battleSpriteBytes'
+    | 'battleSpriteRawBytes'
+    | 'battleSpriteFrames'
+    | 'battleSpriteMalformedTailSlots'
+    | 'battleSpritePlayerTupleDigest'
+    | 'battleSpriteEnemyTupleDigest'
+    | 'battleSpriteTupleDigest'
+    | 'battleSpritePlayerFrameCounts'
+    | 'battleSpriteEnemyFrameCounts'
+    | 'battleSpriteLegacyTailAnomalies'
+  >
+} {
+  const manifest = JSON.parse(
+    readFileSync(resolve(repo, 'data/extracted/data/battle-sprites.json'), 'utf8'),
+  ) as { sprites?: Array<{ kind?: unknown; id?: unknown }> }
+  if (!Array.isArray(manifest.sprites)) throw new Error('PAL battle-sprites.json 期望 sprites 数组')
+  const expected = [
+    ...Array.from({ length: 19 }, (_, id) => ({ kind: 'player' as const, id })),
+    ...Array.from({ length: 153 }, (_, index) => ({ kind: 'enemy' as const, id: index + 1 })),
+  ]
+  if (
+    manifest.sprites.length !== expected.length ||
+    manifest.sprites.some(
+      (entry, index) => entry.kind !== expected[index]?.kind || entry.id !== expected[index]?.id,
+    )
+  )
+    throw new Error('PAL battle-sprites 源集合期望 player 0..18 后接 enemy 1..153')
+
+  for (const [kind, ids] of [
+    ['player', Array.from({ length: 19 }, (_, id) => id)],
+    ['enemy', Array.from({ length: 153 }, (_, index) => index + 1)],
+  ] as const) {
+    const actualFiles = readdirSync(
+      resolve(repo, `data/extracted/data/battle-sprite/${kind}`),
+    ).sort((left, right) => left.localeCompare(right, 'en', { numeric: true }))
+    const expectedFiles = ids.map((id) => `${id}.rle`)
+    if (JSON.stringify(actualFiles) !== JSON.stringify(expectedFiles))
+      throw new Error(`PAL battle-sprite/${kind} 目录集合发生漂移`)
+  }
+
+  const binaries: PalBinaryAssetSource[] = []
+  const anomalies: PalBattleSpriteLegacyTailAnomaly[] = []
+  const tuples: Record<'player' | 'enemy', string[]> = { player: [], enemy: [] }
+  const frameCounts: Record<'player' | 'enemy', number[]> = { player: [], enemy: [] }
+  let battleSpriteBytes = 0
+  let battleSpriteRawBytes = 0
+  let battleSpriteFrames = 0
+  let battleSpriteMalformedTailSlots = 0
+  for (const { kind, id } of expected) {
+    const sourceRef = `battle-sprite/${kind}/${id}.rle`
+    const sourcePath = resolve(repo, `data/extracted/data/${sourceRef}`)
+    const compressed = readFileSync(sourcePath)
+    if (compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+      throw new Error(`PAL ${kind} 战斗精灵 ${id} 必须是 gzip RLE`)
+    const raw = gunzipSync(compressed)
+    const parsed = parseIndexedRleChunk(raw, kind === 'player' ? 'canonical' : 'legacy-migrated')
+    battleSpriteBytes += compressed.byteLength
+    battleSpriteRawBytes += raw.byteLength
+    battleSpriteFrames += parsed.frames.length
+    frameCounts[kind].push(parsed.frames.length)
+    battleSpriteMalformedTailSlots += parsed.skippedLegacyTailSlots
+    tuples[kind].push(`${kind}\0${id}\0${compressed.byteLength}\0${sha256(compressed)}`)
+    if (parsed.skippedLegacyTailSlots > 0)
+      anomalies.push({
+        channel: kind,
+        sprite: id,
+        frames: parsed.frames.length,
+        declaredSlots: parsed.declaredSlots,
+        malformedTailSlots: parsed.skippedLegacyTailSlots,
+        trailingSentinel: parsed.trailingSentinel,
+      })
+    const padded = String(id).padStart(3, '0')
+    binaries.push(
+      fileSource(palBattleSpriteAssetId(kind, id), sourcePath, {
+        kind: 'battle-sprite',
+        path: `assets/migrated/battle-sprites/${kind}/${padded}.rle`,
+        mediaType: 'application/vnd.type-pal.rle',
+        label: `PAL ${kind === 'player' ? '我方' : '敌方'}战斗精灵 ${padded}`,
+        origin: { kind: 'legacy-migrated', ref: sourceRef },
+      }),
+    )
+  }
+  if (
+    battleSpriteBytes !== 900_973 ||
+    battleSpriteRawBytes !== 2_313_598 ||
+    battleSpriteFrames !== 775 ||
+    battleSpriteMalformedTailSlots !== 6
+  )
+    throw new Error(
+      `PAL 战斗精灵基线漂移: bytes=${battleSpriteBytes} raw=${battleSpriteRawBytes} frames=${battleSpriteFrames} bad-tail=${battleSpriteMalformedTailSlots}`,
+    )
+  if (JSON.stringify(anomalies) !== JSON.stringify(PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES))
+    throw new Error('PAL 战斗精灵 legacy 坏尾集合或结构发生漂移')
+  const battleSpritePlayerTupleDigest = sha256(tuples.player.join('\n'))
+  const battleSpriteEnemyTupleDigest = sha256(tuples.enemy.join('\n'))
+  const battleSpriteTupleDigest = sha256([...tuples.player, ...tuples.enemy].join('\n'))
+  if (
+    battleSpritePlayerTupleDigest !== PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST ||
+    battleSpriteEnemyTupleDigest !== PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST ||
+    battleSpriteTupleDigest !== PAL_BATTLE_SPRITE_TUPLE_DIGEST
+  )
+    throw new Error('PAL 战斗精灵 tuple digest 漂移')
+  return {
+    binaries,
+    report: {
+      battleSprites: binaries.length,
+      battleSpriteBytes,
+      battleSpriteRawBytes,
+      battleSpriteFrames,
+      battleSpriteMalformedTailSlots,
+      battleSpritePlayerTupleDigest,
+      battleSpriteEnemyTupleDigest,
+      battleSpriteTupleDigest,
+      battleSpritePlayerFrameCounts: frameCounts.player,
+      battleSpriteEnemyFrameCounts: frameCounts.enemy,
+      battleSpriteLegacyTailAnomalies: anomalies,
+    },
+  }
+}
+
 /** PAL 工程一等资源的唯一生成入口；所有 hash 均取自提取源或确定性 TPFS 输出。 */
 export function loadPalAssets(
   repo: string,
@@ -741,6 +973,8 @@ export function loadPalAssets(
   binaries.push(...staticImages.binaries)
   const worldSprites = loadPalWorldSprites(repo)
   binaries.push(...worldSprites.binaries)
+  const battleSprites = loadPalBattleSprites(repo)
+  binaries.push(...battleSprites.binaries)
 
   let tilesetBytes = 0
   let tilesetFrames = 0
@@ -790,6 +1024,11 @@ export function loadPalAssets(
     assets: Object.fromEntries(binaries.map((asset) => [asset.id, asset.record])),
   }
   validateAssetCatalog(catalog)
+  const catalogBytes = Object.values(catalog.assets).reduce((sum, record) => sum + record.bytes, 0)
+  if (Object.keys(catalog.assets).length !== 1_879 || catalogBytes !== 68_439_367)
+    throw new Error(
+      `PAL 物理 catalog 基线漂移: records=${Object.keys(catalog.assets).length} bytes=${catalogBytes}`,
+    )
   for (const [role, id] of Object.entries(PAL_ASSET_ROLES)) {
     if (!catalog.assets[id]) throw new Error(`PAL 资源角色 ${role} 引用缺失: ${id}`)
   }
@@ -802,6 +1041,7 @@ export function loadPalAssets(
       ...sounds.report,
       ...staticImages.report,
       ...worldSprites.report,
+      ...battleSprites.report,
       tilesets: uniqueMapNums.length,
       tilesetBytes,
       tilesetFrames,

@@ -28,14 +28,14 @@ describe('M4a 敌人迁移(enemies + enemy-objects 合并)', () => {
     const src = enemies.find((e) => e.id === 1)!
     expect(slime.name).toBe('name.enemy-398')
     expect(out.localeNames['name.enemy-398']).toBe('史莱姆')
-    expect(slime.spriteNum).toBe(1) // = enemyId
+    expect(slime.battleSprite).toBe('enemy-battle-1') // = enemyId 对应定义
+    expect(slime.yPosOffset).toBe(src.yPosOffset)
     expect(slime.stats.health).toBe(src.health)
     expect(slime.stats.attackStrength).toBe(src.attackStrength)
     expect(slime.stats.defense).toBe(src.defense)
     expect(slime.stats.exp).toBe(src.exp)
     expect(slime.stats.elemResistance).toEqual(src.elemResistance)
     expect(slime.stats.dualMove).toBe(src.dualMove !== 0)
-    expect(slime.anim.attackFrames).toBe(src.attackFrames)
     expect(slime.sounds.death).toBe(`sound.pal.${String(src.deathSound).padStart(3, '0')}`)
   })
   test('AI(M4c):fallback 施法翻成规则([chance rate×10] cast/pass + 缺省普攻);抗异常在 object 侧', () => {

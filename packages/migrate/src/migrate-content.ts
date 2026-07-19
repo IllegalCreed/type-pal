@@ -23,6 +23,10 @@ import {
   palPortraitAssetId,
   palSpriteAssetId,
 } from '@type-pal/content'
+import {
+  palPlayerBattleSpriteDefinitionId,
+  palSummonBattleSpriteDefinitionId,
+} from './pal-battle-sprites.js'
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
@@ -281,7 +285,7 @@ export function mapActor(
         ? { cooperativeMagicSkillId: String(role.cooperativeMagic) }
         : {}),
       leveling: { expTable: [...expTable] },
-      battleSpriteNum: role.spriteNumInBattle,
+      battleSprite: palPlayerBattleSpriteDefinitionId(role.spriteNumInBattle),
       // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
       sounds: Object.fromEntries(
         [
@@ -511,7 +515,7 @@ export function translateSkillScript(
         out.effects.push({ kind: 'steal', rate: a })
         break
       case 0x31:
-        out.effects.push({ kind: 'trance', sprite: a })
+        out.effects.push({ kind: 'trance', battleSprite: palPlayerBattleSpriteDefinitionId(a) })
         break
       case 0x30: {
         const stat = BUFF_STAT_BY_ROW[a]
@@ -585,6 +589,9 @@ export function mapSkills(
           name: s._name,
           notes: ['summon 伤害=按饮酒动态(原版公式);暂按 baseDamage=3 直译'],
         })
+      if (m.special === undefined)
+        throw new Error(`召唤技能 ${s.id}(${s._name}) 缺 magic.special(godId)`)
+      const summonBattleSprite = palSummonBattleSpriteDefinitionId(m.special)
       skills.push({
         id: String(s.id),
         name: s._name,
@@ -597,7 +604,7 @@ export function mapSkills(
           // tint = 背景染色量(召唤**自己的** wEffectTimes SHORT,fight.c:3145;负=暗/正=亮)
           {
             kind: 'summon',
-            godId: m.special ?? 0,
+            battleSprite: summonBattleSprite,
             speed: m.speed,
             ...(signedI16(m.effectTimes ?? 0) !== 0 ? { tint: signedI16(m.effectTimes ?? 0) } : {}),
             // 召唤自身音(m.sound;变亮首帧播,fight.c:3112;animation.sound 是二级的)
@@ -745,13 +752,19 @@ export function translateEquipScript(
           out.effects.push({ kind: 'grantSkill', skillId: String(b) }) // COOPERATIVE_MAGIC → 授合击/召唤(土灵珠 336)
         else if (a === 4)
           out.effects.push({ kind: 'attackAll' }) // ATTACK_ALL(长鞭系)
-        else if (a === 1)
-          out.pending.push({
-            opcode: 0x1a,
-            operands: [a, b, cc],
-            reason: '战斗精灵切换(battleSpriteNum 覆盖)—— 战斗系统期',
-          })
-        else out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: `未知 row ${a}` })
+        else if (a === 1) {
+          if (b < 0 || b > 9)
+            out.pending.push({
+              opcode: 0x1a,
+              operands: [a, b, cc],
+              reason: `装备战斗精灵号 ${b} 不在 player fighter 0..9`,
+            })
+          else
+            out.effects.push({
+              kind: 'battleSprite',
+              sprite: palPlayerBattleSpriteDefinitionId(b),
+            })
+        } else out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: `未知 row ${a}` })
         break
       }
       case 0x2d: {

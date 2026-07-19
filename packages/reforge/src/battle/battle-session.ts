@@ -9,15 +9,22 @@
 import type {
   ActivePoison,
   AssetId,
+  BattleSpriteProfileKind,
   BattleStatus,
   Command,
   EnemyDef,
+  PlayerFighterFrames,
   SkillData,
   SoundAssetRole,
 } from '@type-pal/content'
 import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
-import { bakeBgImageData, type GlyphTable, type LoadedSprite } from '../assets.js'
+import {
+  bakeBgImageData,
+  type GlyphTable,
+  type LoadedBattleSpriteDefinition,
+  type LoadedSprite,
+} from '../assets.js'
 import { type SfxPlayer, SfxReadinessFatalError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
@@ -41,6 +48,7 @@ import {
   buildPlayerAttackAll,
   buildPlayerCast,
   buildPlayerCoop,
+  buildPlayerTrance,
   buildSteal,
   buildUseItem,
   type CastFxParams,
@@ -132,10 +140,10 @@ export interface BattleSessionAssets {
   bgIndexed?: { indices: Uint8Array; w: number; h: number }
   palette: Palette
   glyphs: GlyphTable
-  /** 敌人战斗精灵(与 enemies 数组同序)。 */
-  enemySprites: (LoadedSprite | undefined)[]
-  /** 队员战斗精灵(与 players 同序)。 */
-  playerSprites: (LoadedSprite | undefined)[]
+  /** 本场完整视觉 readiness；key = BattleSpriteDef.id。 */
+  battleSprites: ReadonlyMap<string, LoadedBattleSpriteDefinition>
+  /** 队员基础有效形象（已应用持久 appearance 与装备覆写），与 players 同序。 */
+  playerBaseDefinitionIds: readonly string[]
   /** 菜单基建资产(九宫格框/数字/手指;M4d-1)。缺 → 文字兜底渲染(单测)。 */
   ui?: MenuAssets
   /** 队员战斗小头像,键 = roleId(与 players 的 roleId 同源)。 */
@@ -148,8 +156,6 @@ export interface BattleSessionAssets {
   effectSprite?: LoadedSprite
   /** 法术特效精灵表(fire chunk → sprite;main 预载本场可能用到的;M4d-2b)。 */
   fireSprites?: Record<number, LoadedSprite>
-  /** 召唤神精灵表(godId → F.MKF player 通道 chunk godId+10;main 按队伍召唤技预载;B5)。 */
-  summonSprites?: Record<number, LoadedSprite>
   /**
    * 战斗内对话框(= 大世界同款 DialogBox,叠在战斗场景上;一阶段真值:战斗对话复用
    * gs.dialogBox 渲染,text.c:1687 box 不擦底)。缺 → 文字兜底(单测)。
@@ -232,6 +238,8 @@ export class BattleSession {
   private deathFades = new Map<number, number>()
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
   private pendingDeaths: number[] = []
+  /** 梦蛇/敌变身的旧→新 dither 状态；动作收尾统一清除。 */
+  private appearanceTransitions = new Map<string, NonNullable<AnimFrame['appearanceTransition']>>()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
   /** 波动背景缓存(仅相位/波幅变化时重卷)。 */
   private readonly wavedBg = new WavedBgCache()
@@ -280,10 +288,6 @@ export class BattleSession {
       /** 遭遇专属战斗演出(startBattle.choreography;二阶段 clean:对话绑这一场遭遇而非敌种。
        *  boss 战由 scene 脚本传入,杂兵遭遇缺省无)。 */
       encounterChoreo?: import('@type-pal/content').BattleChoreography[]
-      /** 各队员命中特效帧基(battle-effect-index[spriteNum*2+1]*3;与 players 同序;缺 = 无特效)。 */
-      playerEffectBase?: number[]
-      /** 各队员施法前摇特效帧基(battle-effect-index[spriteNum*2]*10+15;缺 = 跳过前摇特效)。 */
-      playerCastBase?: number[]
       /** 各队员战斗音效(BattlerSpec.sounds;与 players 同序。演出数据走 opts 通道,不进逻辑核)。 */
       playerSounds?: Array<import('@type-pal/content').BattlerSounds | undefined>
       /** 工程级战斗提示音角色；演出层只消费 AssetId，不认识 PAL 数字槽。 */
@@ -306,9 +310,6 @@ export class BattleSession {
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
-      /** 按敌 def 加载战斗精灵(变身换形/异种召唤时中场重载 —— 原版 PAL_LoadBattleSprites;
-       *  缺 = 沿用槽位旧精灵,分裂/同种召唤不受影响)。 */
-      loadEnemySprite?: (def: EnemyDef) => Promise<LoadedSprite | undefined>
       /** 全员交招后的第二级音效屏障；缺省保持 headless/旧单测的同步行为。 */
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
@@ -333,7 +334,44 @@ export class BattleSession {
       this.rejectDone = rej
     })
     stepBattle(this.state, this.rng) // preBattle → selectAction
+    if (assets.playerBaseDefinitionIds.length !== players.length)
+      throw new Error(
+        `BattleSession playerBaseDefinitionIds 长度 ${assets.playerBaseDefinitionIds.length} != players ${players.length}`,
+      )
     this.resetVisual()
+  }
+
+  private requireAppearance(
+    id: string,
+    expected: BattleSpriteProfileKind,
+  ): LoadedBattleSpriteDefinition {
+    const loaded = this.assets.battleSprites.get(id)
+    if (!loaded) throw new Error(`本场 battle sprite readiness 缺定义 "${id}"`)
+    if (loaded.definition.profile.kind !== expected)
+      throw new Error(
+        `BattleSpriteDef "${id}" profile 期望 ${expected}，实际 ${loaded.definition.profile.kind}`,
+      )
+    return loaded
+  }
+
+  private playerAppearance(index: number): LoadedBattleSpriteDefinition {
+    const player = expectDefined(this.state.players[index])
+    const id =
+      player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index])
+    return this.requireAppearance(id, 'player-fighter')
+  }
+
+  private playerFrames(index: number): PlayerFighterFrames {
+    const profile = this.playerAppearance(index).definition.profile
+    if (profile.kind !== 'player-fighter') throw new Error('player appearance profile 漂移')
+    return profile.frames
+  }
+
+  private enemyAppearance(index: number): LoadedBattleSpriteDefinition {
+    return this.requireAppearance(
+      expectDefined(this.state.enemies[index]).def.battleSprite,
+      'enemy',
+    )
   }
 
   /** 召唤染色背景(bgIndexed 调色板级 nibble 重烤;shift 键缓存)。缺索引/零染色 = null。 */
@@ -379,6 +417,7 @@ export class BattleSession {
   private resetPlayersVisual(): void {
     const s = this.state
     this.visual.players = s.players.map((p, i) => {
+      const frames = this.playerFrames(i)
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
       return {
@@ -387,13 +426,13 @@ export class BattleSession {
         frame:
           p.hp <= 0
             ? p.status.puppet > 0
-              ? 0
-              : 2
+              ? frames.idle
+              : frames.dead
             : p.status.sleep > 0 || p.hp < Math.min(100, Math.floor(p.maxHp / 5))
-              ? 1
+              ? frames.dying
               : p.defending
-                ? 3
-                : 0,
+                ? frames.defend
+                : frames.idle,
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -409,10 +448,19 @@ export class BattleSession {
     this.visual.enemies = s.enemies.map((e, i) => {
       const pos = e.basePos
       const prev = this.visual.enemies[i]
-      return { x: pos.x, y: pos.y, frame: 0, colorShift: 0, displayHp: prev?.displayHp ?? e.hp }
+      const profile = this.enemyAppearance(i).definition.profile
+      if (profile.kind !== 'enemy') throw new Error('enemy appearance profile 漂移')
+      return {
+        x: pos.x,
+        y: pos.y,
+        frame: profile.idle.start,
+        colorShift: 0,
+        displayHp: prev?.displayHp ?? e.hp,
+      }
     })
     this.overlays = null
     this.currentFire = null
+    this.appearanceTransitions.clear()
   }
 
   /** 当前待选指令的队员下标;全填 → undefined。眠/定/疯/死者不出菜单
@@ -1074,6 +1122,11 @@ export class BattleSession {
       const pHp = s.players.map((p) => p.hp)
       const pMp = s.players.map((p) => p.mp)
       const eHp = s.enemies.map((e) => e.hp)
+      const playerAppearanceBefore = s.players.map(
+        (player, index) =>
+          player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
+      )
+      const enemyAppearanceBefore = s.enemies.map((enemy) => enemy.def.battleSprite)
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
@@ -1103,7 +1156,13 @@ export class BattleSession {
         if (dh > 0)
           this.pendingGains.push({ target: { side: 'enemy', idx: i }, value: dh, tone: 'yellow' })
       })
-      const timeline = this.buildStepTimeline(la, pHp, eHp)
+      const timeline = this.buildStepTimeline(
+        la,
+        pHp,
+        eHp,
+        playerAppearanceBefore,
+        enemyAppearanceBefore,
+      )
       if (timeline) {
         this.anim = new AnimPlayer(timeline, {
           onFighter: (d) => this.applyDelta(d),
@@ -1132,6 +1191,9 @@ export class BattleSession {
           // 法术屏波叠加(fight.c:2666;收尾 finishStepVisuals 还原)
           onWaveAdd: (w) => {
             this.frameWaveAdd = w
+          },
+          onAppearanceTransition: (transition) => {
+            this.appearanceTransitions.set(`${transition.side}:${transition.idx}`, transition)
           },
           // keepEffect 烙背景(末帧一次;屏波门在 burnToBg 内)
           onBurnBg: (marks) => this.burnToBg(marks),
@@ -1209,10 +1271,12 @@ export class BattleSession {
     const a = skill.animation
     const fire = this.assets.fireSprites?.[a.effectSprite]
     this.currentFire = fire ?? null
-    // B5 召唤:effects 首个 summon → 神将精灵 + 时间线召唤段
+    // 召唤：effect 直接引用 summon profile 定义，资源已在进战 readiness 完整预载。
     const summonEff = skill.effects.find((e) => e.kind === 'summon')
     const summonSprite =
-      summonEff?.kind === 'summon' ? (this.assets.summonSprites?.[summonEff.godId] ?? null) : null
+      summonEff?.kind === 'summon'
+        ? this.requireAppearance(summonEff.battleSprite, 'summon').sprite
+        : null
     this.currentSummon = summonSprite
     const fx: CastFxParams = {
       placement: a.placement ?? 'normal',
@@ -1227,6 +1291,8 @@ export class BattleSession {
     }
     const damageNums = this.diffDamageNums(pHp, eHp)
     if (la.side === 'player') {
+      const playerProfile = this.playerAppearance(la.idx).definition.profile
+      if (playerProfile.kind !== 'player-fighter') throw new Error('player profile 漂移')
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
       // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
@@ -1246,6 +1312,7 @@ export class BattleSession {
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
         return buildPlayerCoop({
+          framesByPlayer: s.players.map((_, index) => this.playerFrames(index)),
           casterIdx: la.idx,
           contributorIdxs: la.coopContributors,
           partySize: s.players.length,
@@ -1261,6 +1328,7 @@ export class BattleSession {
         })
       }
       return buildPlayerCast({
+        casterFrames: playerProfile.frames,
         casterIdx: la.idx,
         casterPos,
         // 施法吟唱音(rgwMagicSound;挂 PreMagic frame5 姿势帧,一阶段真值)
@@ -1269,9 +1337,7 @@ export class BattleSession {
           : {}),
         // fSummon 语义(fight.c:2380):召唤跳过施法者自身前摇特效
         castEffectBase:
-          !summonSprite && this.assets.effectSprite
-            ? (this.opts.playerCastBase?.[la.idx] ?? -1)
-            : -1,
+          !summonSprite && this.assets.effectSprite ? playerProfile.castEffectBase : -1,
         partyIdxs: s.players.map((_, i) => i),
         fireFrames: fire?.frames.length ?? 0,
         fx,
@@ -1303,13 +1369,16 @@ export class BattleSession {
     }
     const def = s.enemies[la.idx]?.def
     if (!def) return null
+    const enemyProfile = this.enemyAppearance(la.idx).definition.profile
+    if (enemyProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
     const targetPos =
       la.target !== undefined ? getPlayerBasePos(s.players.length, la.target) : undefined
     const enemyFx = { ...fx }
     if (def.sounds.suppressMagicEffectSound) delete enemyFx.sound
     return buildEnemyCast({
       enemyIdx: la.idx,
-      anim: { idleFrames: def.anim.idleFrames, magicFrames: def.anim.magicFrames },
+      anim: enemyProfile,
+      playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       magicSound: def.sounds.magic,
       fireFrames: fire?.frames.length ?? 0,
       fx: enemyFx,
@@ -1349,10 +1418,38 @@ export class BattleSession {
     } | null,
     pHp: number[],
     eHp: number[],
+    playerAppearanceBefore: readonly string[],
+    enemyAppearanceBefore: readonly string[],
   ): AnimFrame[] | null {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') {
+      const trance = la.skillId
+        ? s.skills[la.skillId]?.effects.find((effect) => effect.kind === 'trance')
+        : undefined
+      if (la.side === 'player' && trance?.kind === 'trance') {
+        const oldDefinitionId = expectDefined(playerAppearanceBefore[la.idx])
+        const oldAppearance = this.requireAppearance(oldDefinitionId, 'player-fighter')
+        const newAppearance = this.requireAppearance(trance.battleSprite, 'player-fighter')
+        const oldProfile = oldAppearance.definition.profile
+        const newProfile = newAppearance.definition.profile
+        if (oldProfile.kind !== 'player-fighter' || newProfile.kind !== 'player-fighter')
+          throw new Error('trance profile 漂移')
+        const casterPos = getPlayerBasePos(s.players.length, la.idx)
+        if (!casterPos) return null
+        return buildPlayerTrance({
+          casterIdx: la.idx,
+          casterPos,
+          oldDefinitionId,
+          newDefinitionId: trance.battleSprite,
+          oldFrames: oldProfile.frames,
+          newFrames: newProfile.frames,
+          castEffectBase: this.assets.effectSprite ? oldProfile.castEffectBase : -1,
+          ...(this.opts.playerSounds?.[la.idx]?.magic
+            ? { magicSound: expectDefined(this.opts.playerSounds[la.idx]).magic }
+            : {}),
+        })
+      }
       // 偷窃技(飞龙探云手):专用冲刺时间线(一阶段 buildStealTimeline;技能 effectSprite=65535
       // 本就无特效,generic cast 会打空气)—— 冲到敌前 5 步滑步 + 敌闪白
       const sk = la.skillId ? s.skills[la.skillId] : undefined
@@ -1362,7 +1459,18 @@ export class BattleSession {
         sk?.effects.some((e) => e.kind === 'steal')
       ) {
         const pos = s.enemies[la.target]?.basePos
-        if (pos) return buildSteal({ casterIdx: la.idx, targetIdx: la.target, enemyPos: pos })
+        const stealFrame = this.playerFrames(la.idx).steal
+        if (pos && stealFrame !== undefined)
+          return buildSteal({
+            casterIdx: la.idx,
+            targetIdx: la.target,
+            enemyPos: pos,
+            stealFrame,
+          })
+        if (pos)
+          throw new Error(
+            `BattleSpriteDef "${this.playerAppearance(la.idx).definition.id}" 缺 steal 命名帧`,
+          )
       }
       // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
       // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
@@ -1374,6 +1482,7 @@ export class BattleSession {
           .map((i) => ({
             idx: i,
             pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
+            idleFrame: this.playerFrames(i).idle,
           }))
         if (!alive.length) return null
         this.skipNextReset = true
@@ -1403,6 +1512,7 @@ export class BattleSession {
       this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
       // oneAlly 点名队友时呼吸落在目标身上(还魂香喂尸体);缺省施己
       return buildUseItem({
+        casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
         casterPos,
         targetIdxs: [la.targetAllyIdx ?? la.idx],
@@ -1426,6 +1536,7 @@ export class BattleSession {
           .map((i) => ({
             idx: i,
             pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
+            idleFrame: this.playerFrames(i).idle,
           }))
         if (!alive.length) return null
         this.skipNextReset = true
@@ -1437,7 +1548,7 @@ export class BattleSession {
         })
       }
       const pos = getPlayerBasePos(s.players.length, la.idx)
-      return pos ? buildFleeFail({ idx: la.idx, pos }) : null
+      return pos ? buildFleeFail({ idx: la.idx, pos, frames: this.playerFrames(la.idx) }) : null
     }
     // 敌整场逃离(battle.c:1376 0x69):全体 10ms/x−5 滑出左屏 + 停 500ms;
     // hp 已被 core 清零 → fleeingEnemies 渲染豁免,收尾不复位
@@ -1448,7 +1559,7 @@ export class BattleSession {
         .map(({ e, i }) => ({
           idx: i,
           pos: e.basePos,
-          width: this.assets.enemySprites[i]?.frames[0]?.width ?? 80,
+          width: this.enemyAppearance(i).sprite.frames[0]?.width ?? 80,
         }))
       if (!fleeing.length) return null
       this.fleeingEnemies = fleeing.map((f) => f.idx)
@@ -1460,16 +1571,20 @@ export class BattleSession {
           : {}),
       })
     }
-    // 敌变身现形(script.c:2954 0x9F):colorShift 0→5 染白 + 音 47;def 已换(保 HP),
-    // 精灵异步重载(原版 PAL_LoadBattleSprites;同精灵号变身 = 立即命中缓存)
+    // 敌变身现形：资源已由开战前 BFS readiness 同步备妥，动作期严禁再发 IO。
     if (la.kind === 'transform' && la.side === 'enemy') {
-      const def = s.enemies[la.idx]?.def
-      if (def)
-        this.opts.loadEnemySprite?.(def).then((sp) => {
-          if (sp) this.assets.enemySprites[la.idx] = sp
-        })
+      const oldDefinitionId = expectDefined(enemyAppearanceBefore[la.idx])
+      const oldProfile = this.requireAppearance(oldDefinitionId, 'enemy').definition.profile
+      const next = this.enemyAppearance(la.idx)
+      const newProfile = next.definition.profile
+      if (oldProfile.kind !== 'enemy' || newProfile.kind !== 'enemy')
+        throw new Error('enemy transform profile 漂移')
       return buildEnemyTransform({
         idx: la.idx,
+        oldDefinitionId,
+        newDefinitionId: next.definition.id,
+        oldIdleFrame: oldProfile.idle.start,
+        newIdleFrame: newProfile.idle.start,
         ...(this.opts.soundRoles?.['audio.battleEnemyTransformSound']
           ? { sound: this.opts.soundRoles['audio.battleEnemyTransformSound'] }
           : {}),
@@ -1484,45 +1599,43 @@ export class BattleSession {
         this.visual.enemies[si] = {
           x: mother.basePos.x,
           y: mother.basePos.y,
-          frame: 0,
+          frame: (() => {
+            const profile = this.enemyAppearance(si).definition.profile
+            if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+            return profile.idle.start
+          })(),
           colorShift: 0,
           displayHp: s.enemies[si]?.hp ?? 0,
         }
-        if (!this.assets.enemySprites[si])
-          this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
       }
       return buildEnemyDivide({
         motherPos: mother.basePos,
         spawns: la.spawnedIdxs.map((si) => ({
           idx: si,
           target: s.enemies[si]?.basePos ?? mother.basePos,
+          idleFrame: (() => {
+            const profile = this.enemyAppearance(si).definition.profile
+            if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+            return profile.idle.start
+          })(),
         })),
       })
     }
-    // 敌召唤(script.c:2871 0x9E):本体 magic 帧起手;新怪精灵播种(同种共用本体精灵,
-    // 异种走 loadEnemySprite 重载),现身在收尾 resetVisual(原版 FadeScene 交叉淡的简化)
+    // 敌召唤：本体 magic 段起手；所有可达新怪已由 readiness 预载。
     if (la.kind === 'summon' && la.side === 'enemy') {
-      for (const si of la.spawnedIdxs ?? []) {
-        const def = s.enemies[si]?.def
-        if (!def) continue
-        if (def.spriteNum === s.enemies[la.idx]?.def.spriteNum) {
-          if (!this.assets.enemySprites[si])
-            this.assets.enemySprites[si] = this.assets.enemySprites[la.idx]
-        } else {
-          this.opts.loadEnemySprite?.(def).then((sp) => {
-            if (sp) this.assets.enemySprites[si] = sp
-          })
-        }
-      }
-      const anim = s.enemies[la.idx]?.def.anim
-      if (!anim || anim.magicFrames <= 0) return null
+      const profile = this.enemyAppearance(la.idx).definition.profile
+      if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+      if (profile.magic.count <= 0) return null
       const frames: AnimFrame[] = []
-      for (let i = 0; i < anim.magicFrames; i++)
+      for (let i = 0; i < profile.magic.count; i++)
         frames.push({
-          durationMs: 40 * Math.max(1, anim.actWaitFrames),
-          fighters: [{ side: 'enemy', idx: la.idx, frame: anim.idleFrames + i }],
+          durationMs: 40 * profile.actTicksPerFrame,
+          fighters: [{ side: 'enemy', idx: la.idx, frame: profile.magic.start + i }],
         })
-      frames.push({ durationMs: 40, fighters: [{ side: 'enemy', idx: la.idx, frame: 0 }] })
+      frames.push({
+        durationMs: 40,
+        fighters: [{ side: 'enemy', idx: la.idx, frame: profile.idle.start }],
+      })
       return frames
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
@@ -1530,17 +1643,18 @@ export class BattleSession {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
       const throwSound = la.itemId ? s.items[la.itemId]?.throw?.sound : undefined
+      const pose = this.playerFrames(la.idx)
       return [
         {
           durationMs: 120,
-          fighters: [{ side: 'player', idx: la.idx, frame: 5 }],
+          fighters: [{ side: 'player', idx: la.idx, frame: pose.preMagic }],
           ...(throwSound ? { sound: throwSound } : {}),
         },
         { durationMs: 200, fighters: [{ side: 'enemy', idx: la.target, colorShift: 6 }] },
         {
           durationMs: 160,
           fighters: [
-            { side: 'player', idx: la.idx, frame: 0 },
+            { side: 'player', idx: la.idx, frame: pose.idle },
             { side: 'enemy', idx: la.target, colorShift: 0 },
           ],
         },
@@ -1552,6 +1666,8 @@ export class BattleSession {
       const matePos = getPlayerBasePos(s.players.length, la.target)
       if (!attackerPos || !matePos) return null
       return buildMateAttack({
+        attackerFrames: this.playerFrames(la.idx),
+        mateFrames: this.playerFrames(la.target),
         attackerIdx: la.idx,
         attackerPos,
         mateIdx: la.target,
@@ -1576,6 +1692,7 @@ export class BattleSession {
       if (!hits.length) return null
       const snd = this.opts.playerSounds?.[la.idx]
       return buildPlayerAttackAll({
+        frames: this.playerFrames(la.idx),
         attackerIdx: la.idx,
         attackerPos,
         centerPos: expectDefined(hits[Math.floor(hits.length / 2)]).pos, // 中心敌落点挥击
@@ -1596,13 +1713,18 @@ export class BattleSession {
       const firstDmg = totalDmg - (second ?? 0)
       const snd = this.opts.playerSounds?.[la.idx]
       const attackInput = (damage: number, windup: boolean) => ({
+        frames: this.playerFrames(la.idx),
         attackerIdx: la.idx,
         attackerPos,
         targetIdx: t,
         targetPos,
-        targetHeight: this.assets.enemySprites[t]?.frames[0]?.height ?? 40,
+        targetHeight: this.enemyAppearance(t).sprite.frames[0]?.height ?? 40,
         effectFrameBase: this.assets.effectSprite
-          ? (this.opts.playerEffectBase?.[la.idx] ?? -1)
+          ? (() => {
+              const profile = this.playerAppearance(la.idx).definition.profile
+              if (profile.kind !== 'player-fighter') throw new Error('player profile 漂移')
+              return profile.attackEffectBase
+            })()
           : -1,
         damage,
         windup,
@@ -1631,7 +1753,12 @@ export class BattleSession {
       enemyPos,
       targetIdx: t,
       targetPos,
-      anim: def.anim,
+      anim: (() => {
+        const profile = this.enemyAppearance(la.idx).definition.profile
+        if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+        return profile
+      })(),
+      playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       sounds: { action: def.sounds.action, call: def.sounds.call },
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
@@ -1893,7 +2020,8 @@ export class BattleSession {
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
-      const sprite = this.assets.enemySprites[i]
+      const appearance = this.enemyAppearance(i)
+      const sprite = appearance.sprite
       const v = this.visual.enemies[i]
       if (!sprite || !v) return
       const fade = this.deathFades.get(i)
@@ -1913,28 +2041,51 @@ export class BattleSession {
         }
       }
       // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
-      const anim = e.def.anim
+      const anim = appearance.definition.profile
+      if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
       const frame =
-        v.frame === 0 && anim && anim.idleFrames > 1 && e.hp > 0
-          ? Math.floor(now / (Math.max(1, anim.idleAnimSpeed) * 40)) % anim.idleFrames
+        v.frame === anim.idle.start && anim.idle.count > 1 && e.hp > 0
+          ? anim.idle.start + (Math.floor(now / (anim.idleTicksPerFrame * 40)) % anim.idle.count)
           : v.frame
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx =
         e.hp > 0 && e.status.confused > 0 && e.status.sleep <= 0 && e.status.paralyzed <= 0
           ? Math.floor(Math.random() * 3) - 1
           : 0
-      enemies.push({
-        sprite,
-        x: v.x + jx,
-        y: v.y,
-        frame,
-        colorShift: i === highlightEnemy ? 6 : v.colorShift,
-        ...(alpha < 1 ? { alpha } : {}),
-      })
+      const transition = this.appearanceTransitions.get(`enemy:${i}`)
+      if (transition) {
+        const progress = transition.step / transition.total
+        enemies.push(
+          {
+            sprite: this.requireAppearance(transition.oldDefinitionId, 'enemy').sprite,
+            x: v.x + jx,
+            y: v.y,
+            frame: transition.oldFrame,
+            colorShift: i === highlightEnemy ? 6 : v.colorShift,
+            dissolve: progress,
+          },
+          {
+            sprite: this.requireAppearance(transition.newDefinitionId, 'enemy').sprite,
+            x: v.x + jx,
+            y: v.y,
+            frame: transition.newFrame,
+            colorShift: i === highlightEnemy ? 6 : v.colorShift,
+            dissolve: 1 - progress,
+          },
+        )
+      } else
+        enemies.push({
+          sprite,
+          x: v.x + jx,
+          y: v.y,
+          frame,
+          colorShift: i === highlightEnemy ? 6 : v.colorShift,
+          ...(alpha < 1 ? { alpha } : {}),
+        })
     })
     const players: BattleSpriteDraw[] = []
     s.players.forEach((p, i) => {
-      const sprite = this.assets.playerSprites[i]
+      const sprite = this.playerAppearance(i).sprite
       const v = this.visual.players[i]
       if (!sprite || !v) return
       // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
@@ -1954,14 +2105,36 @@ export class BattleSession {
           ? Math.floor(Math.random() * 3) - 1
           : 0
       const alpha = (1 - summonShow) * (v.colorShift !== 0 ? 1 : 1 - hideVis)
-      players.push({
-        sprite,
-        x: v.x,
-        y: v.y + jy,
-        frame: v.frame,
-        colorShift: v.colorShift,
-        ...(alpha < 1 ? { alpha } : {}),
-      })
+      const transition = this.appearanceTransitions.get(`player:${i}`)
+      if (transition) {
+        const progress = transition.step / transition.total
+        players.push(
+          {
+            sprite: this.requireAppearance(transition.oldDefinitionId, 'player-fighter').sprite,
+            x: v.x,
+            y: v.y + jy,
+            frame: transition.oldFrame,
+            colorShift: v.colorShift,
+            dissolve: progress,
+          },
+          {
+            sprite: this.requireAppearance(transition.newDefinitionId, 'player-fighter').sprite,
+            x: v.x,
+            y: v.y + jy,
+            frame: transition.newFrame,
+            colorShift: v.colorShift,
+            dissolve: 1 - progress,
+          },
+        )
+      } else
+        players.push({
+          sprite,
+          x: v.x,
+          y: v.y + jy,
+          frame: v.frame,
+          colorShift: v.colorShift,
+          ...(alpha < 1 ? { alpha } : {}),
+        })
     })
     // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
     // (层序铁律,一阶段 2deb52bd:放精灵后 = boss 边缘撕裂)。缓存仅相位变化时重卷。

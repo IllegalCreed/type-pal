@@ -68,7 +68,7 @@ export interface ScriptHost {
   /** 0x1A:持久改角色形象(写 CharacterInstance.appearance,随存档;成年灵儿)。缺 = 该 host 不支持。 */
   setActorAppearance?(
     actor: string,
-    patch: { spriteId?: string; portrait?: AssetId; battleSprite?: number },
+    patch: { spriteId?: string; portrait?: AssetId; battleSprite?: string },
     signal?: AbortSignal,
   ): Promise<void>
   /** 战斗演出:敌逃离战场(choreography 专用;大世界 host 打日志跳过)。 */

@@ -13,6 +13,7 @@ import type {
   AiTarget,
   AssetCatalogV1,
   AssetId,
+  BattleSpriteDef,
   EnemyDef,
   EnemySounds,
   EnemyTeamDef,
@@ -20,9 +21,10 @@ import type {
   SkillData,
 } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   AddEnemyCommand,
+  CompositeCommand,
   DeleteEnemyCommand,
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
@@ -48,11 +50,12 @@ const ENEMY_SOUND_FIELDS: readonly {
 // 同源试玩页(本地工程 FSA 句柄跨不了源;?project= 由调用处拼)
 
 /** 新敌人模板(史莱姆级;id 用 c 前缀避开迁移 objectIndex 空间)。 */
-function newEnemy(id: string): EnemyDef {
+function newEnemy(id: string, battleSprite: string): EnemyDef {
   return {
     id,
     name: `name.${id}`,
-    spriteNum: 1,
+    battleSprite,
+    yPosOffset: 0,
     stats: {
       health: 50,
       level: 1,
@@ -70,14 +73,6 @@ function newEnemy(id: string): EnemyDef {
       collectValue: 0,
     },
     ai: { resistanceToSorcery: 5 },
-    anim: {
-      idleFrames: 2,
-      magicFrames: 0,
-      attackFrames: 2,
-      idleAnimSpeed: 5,
-      actWaitFrames: 1,
-      yPosOffset: 0,
-    },
     sounds: {},
   }
 }
@@ -353,13 +348,15 @@ export function EnemyTab(props: {
   session: EditSession
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  battleSprites: readonly BattleSpriteDef[]
   onOpenSound?: (id: string) => void
   /** 资产根(外观预览加载战斗精灵;缺省不渲预览)。 */
   assetBase?: import('@type-pal/reforge').AssetBase
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
-  /** 上传未保存的二进制暂存(A4c 敌人外观内存预览)。 */
-  tilesetBlobs?: Record<string, ArrayBuffer>
+  onOpenBattleSprite?: (id: string) => void
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
   /** DataMode 的标签栏(渲染在左栏顶部,保持标签切换)。 */
   tabBar?: React.ReactNode
 }) {
@@ -371,15 +368,23 @@ export function EnemyTab(props: {
     session,
     assetCatalog,
     assetReader,
+    battleSprites,
     onOpenSound,
     tabBar,
     assetBase,
     projectId = 'pal',
-    tilesetBlobs,
+    onOpenBattleSprite,
+    focusObjectId,
+    onObjectFocus,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(enemies[0]?.id ?? '')
   const [selTeam, setSelTeam] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (focusObjectId && enemies.some((entry) => entry.id === focusObjectId))
+      setSelId(focusObjectId)
+  }, [enemies, focusObjectId])
 
   const shown = useMemo(
     () =>
@@ -419,12 +424,19 @@ export function EnemyTab(props: {
   }
 
   const addEnemy = (): void => {
+    const defaultBattleSprite = battleSprites.find((entry) => entry.profile.kind === 'enemy')?.id
+    if (!defaultBattleSprite) return
     let n = 1
     while (enemies.some((e) => e.id === `enemy-c${n}`)) n++
     const id = `enemy-c${n}`
-    session.dispatch(new AddEnemyCommand(newEnemy(id)))
-    session.dispatch(new UpdateLocaleCommand(`name.${id}`, `新敌人 ${n}`))
+    session.dispatch(
+      new CompositeCommand('新建敌人', [
+        new AddEnemyCommand(newEnemy(id, defaultBattleSprite)),
+        new UpdateLocaleCommand(`name.${id}`, `新敌人 ${n}`),
+      ]),
+    )
     setSelId(id)
+    onObjectFocus?.(id)
   }
 
   const rules = enemy?.ai.rules ?? []
@@ -453,7 +465,17 @@ export function EnemyTab(props: {
           <span className="k">
             {shown.length}/{enemies.length}
           </span>
-          <button type="button" className="pv-btn" title="新建敌人" onClick={addEnemy}>
+          <button
+            type="button"
+            className="pv-btn"
+            title={
+              battleSprites.some((entry) => entry.profile.kind === 'enemy')
+                ? '新建敌人'
+                : '请先在战斗精灵库创建 enemy 定义'
+            }
+            disabled={!battleSprites.some((entry) => entry.profile.kind === 'enemy')}
+            onClick={addEnemy}
+          >
             ＋
           </button>
         </div>
@@ -470,13 +492,16 @@ export function EnemyTab(props: {
               type="button"
               key={e.id}
               className={`arow${e.id === enemy?.id ? ' sel' : ''}`}
-              onClick={() => setSelId(e.id)}
+              onClick={() => {
+                setSelId(e.id)
+                onObjectFocus?.(e.id)
+              }}
             >
               <span className="face">👹</span>
               <span className="nm">
                 <b>{nameOf(e)}</b>
                 <span>
-                  {e.id} · 精灵#{e.spriteNum}
+                  {e.id} · {e.battleSprite}
                 </span>
               </span>
               {e.ai.rules?.length ? (
@@ -504,22 +529,6 @@ export function EnemyTab(props: {
                     }
                   />
                 </label>
-                <label>
-                  <span className="lb">战斗精灵#</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    value={enemy.spriteNum}
-                    onWheel={(e) => e.currentTarget.blur()}
-                    onChange={(e) =>
-                      session.dispatch(
-                        new UpdateEnemyCommand(enemy.id, {
-                          spriteNum: Math.max(0, Math.floor(e.target.valueAsNumber || 0)),
-                        }),
-                      )
-                    }
-                  />
-                </label>
                 <label className="cf-inline">
                   <input
                     type="checkbox"
@@ -534,9 +543,11 @@ export function EnemyTab(props: {
               <div className="section">
                 <EnemyAnimPreview
                   enemy={enemy}
+                  definitions={battleSprites}
                   assetBase={assetBase}
+                  assetReader={assetReader}
                   session={session}
-                  blob={enemy.spritePath ? tilesetBlobs?.[enemy.spritePath] : undefined}
+                  onOpenDefinition={onOpenBattleSprite}
                 />
               </div>
             ) : null}
@@ -656,8 +667,13 @@ export function EnemyTab(props: {
                   type="button"
                   className="pv-btn del"
                   onClick={() => {
-                    if (confirm(`删除敌人 ${nameOf(enemy)}(${enemy.id})?`))
+                    if (confirm(`删除敌人 ${nameOf(enemy)}(${enemy.id})?`)) {
+                      const index = enemies.findIndex((entry) => entry.id === enemy.id)
+                      const next = enemies[index + 1] ?? enemies[index - 1]
                       session.dispatch(new DeleteEnemyCommand(enemy.id))
+                      setSelId(next?.id ?? '')
+                      onObjectFocus?.(next?.id)
+                    }
                   }}
                 >
                   🗑 删除此敌

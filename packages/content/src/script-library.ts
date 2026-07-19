@@ -1,3 +1,4 @@
+import { validateProjectRelativePath } from './asset.js'
 import { type Command, checkCommands } from './script.js'
 
 export const AUTHORED_SCRIPT_PREFIX = 'shared/user/'
@@ -167,11 +168,17 @@ export function checkScriptIndex(
   }
   if (typeof index.chunks !== 'object' || index.chunks === null)
     throw new Error(`${path}.chunks: 期望对象`)
+  const chunkPaths = new Map<string, string>()
   for (const [id, raw] of Object.entries(index.chunks)) {
     if (typeof raw !== 'object' || raw === null) throw new Error(`${path}.chunks.${id}: 期望对象`)
     const meta = raw as Partial<ScriptChunkMetaV1>
     if (typeof meta.path !== 'string' || meta.path.length === 0)
       throw new Error(`${path}.chunks.${id}.path: 期望非空字符串`)
+    validateProjectRelativePath(meta.path, `${path}.chunks.${id}.path`)
+    const previousOwner = chunkPaths.get(meta.path)
+    if (previousOwner)
+      throw new Error(`${path}.chunks.${id}.path: 与 chunk ${previousOwner} 重复使用 ${meta.path}`)
+    chunkPaths.set(meta.path, id)
     if (typeof meta.bytes !== 'number' || !Number.isInteger(meta.bytes) || meta.bytes < 0)
       throw new Error(`${path}.chunks.${id}.bytes: 期望非负整数`)
   }

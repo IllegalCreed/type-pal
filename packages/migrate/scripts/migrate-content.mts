@@ -43,6 +43,7 @@ import {
 import { validatePalMigrationTarget } from '../src/migration-validate.js'
 import { buildMigrationTransactionChanges } from '../src/migration-write-plan.js'
 import {
+  formatPalBattleSpriteReport,
   formatPalWorldSpriteReport,
   materializePalAssets,
   type PalBinaryAssetSource,
@@ -126,6 +127,7 @@ function reportGeneration(theirs: MigrationFileSet): void {
       `bytes=${theirs.report.assets.tilesetBytes} frames=${theirs.report.assets.tilesetFrames}`,
   )
   console.log(formatPalWorldSpriteReport(theirs.report.assets))
+  console.log(formatPalBattleSpriteReport(theirs.report.assets))
 }
 
 function reportPlan(
@@ -144,6 +146,7 @@ function reportPlan(
 
 function reportValidation(validation: ReturnType<typeof validatePalMigrationTarget>): void {
   const refs = validation.spriteReferences.channels
+  const battle = validation.battleSpriteReferences
   console.log(
     `[写前门禁] scenes=${validation.scenes} ref-warnings=${validation.referenceWarnings} script-issues=0 ` +
       `sprite-defs=${refs.definitions.total}/${refs.definitions.migrated} ` +
@@ -152,6 +155,9 @@ function reportValidation(validation: ReturnType<typeof validatePalMigrationTarg
       `setActorSprite:${refs.setActorSprite.total}/${refs.setActorSprite.migrated},` +
       `setActorAppearance:${refs.setActorAppearance.total}/${refs.setActorAppearance.migrated},` +
       `setFollowers:${refs.setFollowers.total}/${refs.setFollowers.migrated} ` +
+      `battle-defs=${battle.definitions} battle-refs=${battle.references} ` +
+      `battle-used=${battle.usedDefinitions} battle-shared=${battle.sharedDefinitions} ` +
+      `battle-unused-assets=${battle.unusedAssets} ` +
       `asset-refs=${validation.assetReferences} asset-warnings=${validation.assetWarnings}`,
   )
 }
@@ -246,9 +252,10 @@ async function commitAndVerify(args: {
     manifestAfter.assets.legacy?.families.includes('tileset') ||
     manifestAfter.assets.legacy?.tilesets !== undefined ||
     manifestAfter.assets.legacy?.families.includes('sprite') ||
-    manifestAfter.assets.legacy?.sprites !== undefined
+    manifestAfter.assets.legacy?.sprites !== undefined ||
+    manifestAfter.assets.legacy?.families.includes('battle-sprite')
   )
-    throw new Error('写盘后 manifest 仍含已闭环的 legacy sound/tileset/sprite')
+    throw new Error('写盘后 manifest 仍含已闭环的 legacy sound/tileset/sprite/battle-sprite')
   const baselineAfter = loadPalBaseline(repo)
   if (!baselineAfter) throw new Error('事务完成后 baseline 缺失')
   sameSnapshot(nextBaseline, baselineAfter, 'baseline 与纯 theirs')

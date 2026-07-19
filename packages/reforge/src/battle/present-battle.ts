@@ -127,7 +127,9 @@ export function renderBattleScene(
     ctx.fillRect(0, 0, VIEW_W, VIEW_H)
   }
   // 精灵:y 升序画(靠上的先,后画的盖前 → 近处遮远处)
-  const all = [...scene.enemies, ...scene.players].sort((a, b) => a.y - b.y)
+  const all = [...scene.enemies, ...scene.players].sort((a, b) =>
+    a.y !== b.y ? a.y - b.y : b.x - a.x,
+  )
   for (const d of all) {
     const f = d.sprite.frames[d.frame] ?? d.sprite.frames[0]
     if (!f) continue

@@ -31,6 +31,7 @@ const hero: ActorDef = {
     },
     initialEquipment: { weapon: '166', accessory: '249' },
     initialMagic: ['296'],
+    battleSprite: 'battle-sprite.li-xiaoyao',
   },
 }
 

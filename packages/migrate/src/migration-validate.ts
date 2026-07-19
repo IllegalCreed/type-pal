@@ -11,11 +11,13 @@ import type {
 import {
   checkScriptIndex,
   collectAssetReferences,
+  collectBattleSpriteDefinitionReferences,
   stableScriptHash,
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleFields,
+  validateBattleSprites,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -41,8 +43,17 @@ export interface MigrationValidationReport {
   assetReferences: number
   assetWarnings: number
   spriteReferences: SpriteReferenceClosureReport
+  battleSpriteReferences: BattleSpriteReferenceClosureReport
   sceneEntryReferences: SceneEntryReferenceClosureReport
   scriptAudit: ReturnType<typeof auditScriptLibrary>
+}
+
+export interface BattleSpriteReferenceClosureReport {
+  definitions: number
+  references: number
+  usedDefinitions: number
+  sharedDefinitions: number
+  unusedAssets: number
 }
 
 export type SpriteReferenceChannel =
@@ -368,6 +379,10 @@ export function validatePalMigrationTarget(args: {
   const items = validateItems(required(files, 'content/items.json'))
   const locale = validateLocale(required(files, 'content/locale.json'))
   const sprites = validateSprites(required(files, 'content/sprites.json'), assetCatalog)
+  const battleSprites = validateBattleSprites(
+    required(files, 'content/battle-sprites.json'),
+    assetCatalog,
+  )
   const spriteReferences = assertSpriteReferenceClosure(files)
   const sceneEntryReferences = assertSceneEntryReferenceClosure(files)
   const mapIndex = validateMapIndex(required(files, 'content/maps/index.json'))
@@ -469,6 +484,7 @@ export function validatePalMigrationTarget(args: {
     items,
     locale,
     sprites,
+    battleSprites,
     startWorld,
     enemies,
     enemyTeams,
@@ -486,6 +502,33 @@ export function validatePalMigrationTarget(args: {
       `跨引用门禁失败:\n${referenceErrors.map((issue) => `${issue.where}: ${issue.message}`).join('\n')}`,
     )
 
+  const battleSpriteDefinitionReferences = collectBattleSpriteDefinitionReferences({
+    actors,
+    enemies,
+    items,
+    skills: skillData.skills,
+    scenes,
+    scriptChunks: chunks,
+  })
+  const battleSpriteReferenceCounts = new Map<string, number>()
+  for (const reference of battleSpriteDefinitionReferences)
+    battleSpriteReferenceCounts.set(
+      reference.battleSprite,
+      (battleSpriteReferenceCounts.get(reference.battleSprite) ?? 0) + 1,
+    )
+  const battleSpriteDefinitionAssets = new Set(battleSprites.map(({ asset }) => asset))
+  const battleSpriteReferences: BattleSpriteReferenceClosureReport = {
+    definitions: battleSprites.length,
+    references: battleSpriteDefinitionReferences.length,
+    usedDefinitions: battleSpriteReferenceCounts.size,
+    sharedDefinitions: [...battleSpriteReferenceCounts.values()].filter((count) => count > 1)
+      .length,
+    unusedAssets: Object.entries(assetCatalog.assets).filter(
+      ([asset, record]) =>
+        record.kind === 'battle-sprite' && !battleSpriteDefinitionAssets.has(asset),
+    ).length,
+  }
+
   const assetReferences = collectAssetReferences({
     assets: args.assets,
     entryPoints: args.entryPoints,
@@ -498,6 +541,7 @@ export function validatePalMigrationTarget(args: {
     battleFields,
     tilesets,
     sprites,
+    battleSprites,
   })
   const assetIssues = validateAssetReferenceClosure(assetCatalog, assetReferences)
   const assetErrors = assetIssues.filter((issue) => issue.severity === 'error')
@@ -526,6 +570,7 @@ export function validatePalMigrationTarget(args: {
     assetReferences: assetReferences.length,
     assetWarnings: assetIssues.length - assetErrors.length,
     spriteReferences,
+    battleSpriteReferences,
     sceneEntryReferences,
     scriptAudit,
   }

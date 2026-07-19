@@ -8,6 +8,7 @@ function makeState(overrides: Partial<EditorState> = {}): EditorState {
     scenes: [],
     actors: [],
     sprites: [],
+    battleSprites: [],
     tilesets: [],
     stamps: [],
     mapIndex: { version: 1, maps: [] },
@@ -75,14 +76,55 @@ describe('editorObjectTargetMissing', () => {
         },
       },
     })
-    const location = (objectId: string) => ({
+    const definitionLocation = (objectId: string) => ({
       module: 'asset' as const,
       subpage: 'sprite' as const,
       objectId,
+      domain: 'world' as const,
+      view: 'definition' as const,
     })
-    expect(editorObjectTargetMissing(state, location('hero'))).toBe(false)
-    expect(editorObjectTargetMissing(state, location('sprite.unused'))).toBe(false)
-    expect(editorObjectTargetMissing(state, location('music.not-sprite'))).toBe(true)
-    expect(editorObjectTargetMissing(state, location('missing'))).toBe(true)
+    const assetLocation = (objectId: string) => ({
+      ...definitionLocation(objectId),
+      view: 'asset' as const,
+    })
+    expect(editorObjectTargetMissing(state, definitionLocation('hero'))).toBe(false)
+    expect(editorObjectTargetMissing(state, definitionLocation('sprite.unused'))).toBe(true)
+    expect(editorObjectTargetMissing(state, assetLocation('sprite.unused'))).toBe(false)
+    expect(editorObjectTargetMissing(state, assetLocation('music.not-sprite'))).toBe(true)
+    expect(editorObjectTargetMissing(state, definitionLocation('missing'))).toBe(true)
+  })
+
+  test('同名 object 完全由 domain + view 决定语义，不按 id 推断', () => {
+    const state = makeState({
+      sprites: [
+        { id: 'shared', asset: 'sprite.world', label: 'World', layout: { kind: 'static' } },
+      ],
+      battleSprites: [
+        {
+          id: 'shared',
+          asset: 'shared',
+          label: 'Battle',
+          profile: { kind: 'summon' },
+        },
+      ],
+      assetCatalog: {
+        version: 1,
+        assets: {
+          'sprite.world': { kind: 'sprite' } as never,
+          shared: { kind: 'battle-sprite' } as never,
+        },
+      },
+    })
+    const base = { module: 'asset' as const, subpage: 'sprite' as const, objectId: 'shared' }
+    expect(editorObjectTargetMissing(state, { ...base, domain: 'world', view: 'definition' })).toBe(
+      false,
+    )
+    expect(
+      editorObjectTargetMissing(state, { ...base, domain: 'battle', view: 'definition' }),
+    ).toBe(false)
+    expect(editorObjectTargetMissing(state, { ...base, domain: 'battle', view: 'asset' })).toBe(
+      false,
+    )
+    expect(editorObjectTargetMissing(state, { ...base, domain: 'world', view: 'asset' })).toBe(true)
   })
 })

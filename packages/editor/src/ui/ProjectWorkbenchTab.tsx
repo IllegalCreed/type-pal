@@ -135,6 +135,8 @@ function issueTarget(issue: ProjectIssue): EditorLocation | undefined {
     module: issue.target.module,
     subpage: issue.target.page,
     ...(issue.target.objectId ? { objectId: issue.target.objectId } : {}),
+    ...(issue.target.domain ? { domain: issue.target.domain } : {}),
+    ...(issue.target.view ? { view: issue.target.view } : {}),
   } as EditorLocation
 }
 

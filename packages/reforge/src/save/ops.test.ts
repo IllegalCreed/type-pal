@@ -6,6 +6,7 @@ import {
   buildPayload,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
+  resolveLegacyPlayerBattleSpriteId,
   resolveRestoredMusic,
 } from './ops.js'
 import { SAVE_VERSION } from './types.js'
@@ -291,6 +292,210 @@ describe('save ops（纯）', () => {
         82,
       ),
     ).toBeUndefined()
+  })
+
+  test.each([
+    1, 2, 3,
+  ])('normalizePayload:v%i party/reserve 数字战斗外观原子升级为 BattleSpriteDef.id 且二次幂等', (version) => {
+    const payload = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      3,
+    )
+    payload.version = version
+    payload.world.reserve = [structuredClone(payload.world.party[0]!)]
+    payload.world.party[0]!.appearance = { battleSprite: 0 as unknown as string }
+    payload.world.reserve[0]!.appearance = { battleSprite: 9 as unknown as string }
+    const options = {
+      where: `存档 v${version}`,
+      legacyPlayerBattleSpriteId: (legacy: number) =>
+        legacy === 0
+          ? 'battle-sprite.pal.player-000.fighter'
+          : legacy === 9
+            ? 'battle-sprite.pal.player-009.fighter'
+            : undefined,
+      validatePlayerBattleSpriteId: (id: string) => {
+        if (!id.endsWith('.fighter')) throw new Error('非 player-fighter')
+      },
+    }
+
+    expect(normalizePayload(payload, options)).toBe(payload)
+    expect(payload.version).toBe(SAVE_VERSION)
+    expect(payload.world.party[0]?.appearance?.battleSprite).toBe(
+      'battle-sprite.pal.player-000.fighter',
+    )
+    expect(payload.world.reserve[0]?.appearance?.battleSprite).toBe(
+      'battle-sprite.pal.player-009.fighter',
+    )
+    expect(normalizePayload(payload, options)).toBe(payload)
+  })
+
+  test('normalizePayload:v4 数字、旧档混合类型、缺失映射和错误 profile 均 fail-loud 且原子', () => {
+    const make = (version: number, party: unknown, reserve?: unknown) => {
+      const payload = buildPayload(
+        makeTestWorld(),
+        { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+        'pal',
+        3,
+      )
+      payload.version = version
+      payload.world.party[0]!.appearance = { battleSprite: party as string }
+      if (reserve !== undefined) {
+        payload.world.reserve = [structuredClone(payload.world.party[0]!)]
+        payload.world.reserve[0]!.appearance = { battleSprite: reserve as string }
+      }
+      return payload
+    }
+
+    const currentNumeric = make(4, 0)
+    const currentNumericBefore = structuredClone(currentNumeric)
+    expect(() => normalizePayload(currentNumeric, { where: '存档槽 quick' })).toThrow(
+      /world\.party\[0\]\.appearance\.battleSprite.*v4.*拒绝数字/,
+    )
+    expect(currentNumeric).toEqual(currentNumericBefore)
+
+    expect(() => normalizePayload(make(3, 0, 'battle-sprite.hero'))).toThrow(
+      /battleSprite.*不允许数字与定义 id 混合/,
+    )
+    expect(() => normalizePayload(make(3, 7), { where: 'URL old-save.json' })).toThrow(
+      /URL old-save\.json.*数字战斗精灵 7 无定义 id 转换规则/,
+    )
+
+    const wrongProfile = make(3, 7)
+    const wrongProfileBefore = structuredClone(wrongProfile)
+    expect(() =>
+      normalizePayload(wrongProfile, {
+        legacyPlayerBattleSpriteId: () => 'battle-sprite.enemy-007',
+        validatePlayerBattleSpriteId: () => {
+          throw new Error('期望 player-fighter，实际 enemy')
+        },
+      }),
+    ).toThrow(/battle-sprite\.enemy-007.*期望 player-fighter，实际 enemy/)
+    expect(wrongProfile).toEqual(wrongProfileBefore)
+  })
+
+  test('normalizePayload:v4 字符串战斗外观须经当前工程闭包验证', () => {
+    const payload = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'authored',
+      3,
+    )
+    payload.world.party[0]!.appearance = { battleSprite: 'battle-sprite.authored.hero' }
+    expect(
+      normalizePayload(payload, {
+        validatePlayerBattleSpriteId: (id) => {
+          if (id !== 'battle-sprite.authored.hero') throw new Error('missing')
+        },
+      }).world.party[0]?.appearance?.battleSprite,
+    ).toBe('battle-sprite.authored.hero')
+
+    const unvalidated = structuredClone(payload)
+    const before = structuredClone(unvalidated)
+    expect(() => normalizePayload(unvalidated)).toThrow(/缺少当前工程 player-fighter 定义闭包/)
+    expect(unvalidated).toEqual(before)
+  })
+
+  test('normalizePayload:reserve 晚失败也不会提交 party 映射或前置容器默认', () => {
+    const payload = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's102', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'pal',
+      3,
+    )
+    payload.version = 3
+    payload.world.reserve = [structuredClone(payload.world.party[0]!)]
+    payload.world.party[0]!.appearance = { battleSprite: 0 as unknown as string }
+    payload.world.reserve[0]!.appearance = { battleSprite: 9 as unknown as string }
+    const party = payload.world.party[0]! as unknown as Record<string, unknown>
+    delete party.tags
+    delete party.hiddenExp
+    delete party.luck
+    ;(payload.world as unknown as Record<string, unknown>).money = undefined
+    const before = structuredClone(payload)
+
+    expect(() =>
+      normalizePayload(payload, {
+        legacyPlayerBattleSpriteId: (legacy) => `fighter-${legacy}`,
+        validatePlayerBattleSpriteId: (id) => {
+          if (id === 'fighter-9') throw new Error('reserve profile 实际 summon')
+        },
+      }),
+    ).toThrow(/world\.reserve\[0\].*reserve profile 实际 summon/)
+    expect(payload).toEqual(before)
+    expect(payload.version).toBe(3)
+  })
+
+  test('旧 player battle resolver 只按 player 通道唯一 AssetId 反查，0 合法且歧义拒绝', () => {
+    const fighter = {
+      kind: 'player-fighter' as const,
+      frames: {
+        idle: 0,
+        dying: 1,
+        dead: 2,
+        defend: 3,
+        hurt: 4,
+        preMagic: 5,
+        magic: 6,
+        attackWindup: 7,
+        attackRush: 8,
+        attackStrike: 9,
+      },
+      castEffectBase: 0,
+      attackEffectBase: 0,
+    }
+    const enemy = {
+      kind: 'enemy' as const,
+      idle: { start: 0, count: 1 },
+      magic: { start: 1, count: 0 },
+      attack: { start: 1, count: 0 },
+      idleTicksPerFrame: 1,
+      actTicksPerFrame: 0,
+    }
+    expect(
+      resolveLegacyPlayerBattleSpriteId(
+        {
+          hero: {
+            id: 'hero',
+            label: 'hero',
+            asset: 'battle-sprite.pal.player.000',
+            profile: fighter,
+          },
+        },
+        0,
+      ),
+    ).toBe('hero')
+    expect(
+      resolveLegacyPlayerBattleSpriteId(
+        {
+          player: {
+            id: 'player',
+            label: 'player',
+            asset: 'battle-sprite.pal.player.001',
+            profile: fighter,
+          },
+          sameNumberEnemyChannel: {
+            id: 'sameNumberEnemyChannel',
+            label: 'enemy',
+            asset: 'battle-sprite.pal.enemy.001',
+            profile: enemy,
+          },
+        },
+        1,
+      ),
+    ).toBe('player')
+    expect(
+      resolveLegacyPlayerBattleSpriteId(
+        {
+          a: { id: 'a', label: 'a', asset: 'battle-sprite.pal.player.001', profile: fighter },
+          b: { id: 'b', label: 'b', asset: 'battle-sprite.pal.player.001', profile: fighter },
+        },
+        1,
+      ),
+    ).toBeUndefined()
+    expect(resolveLegacyPlayerBattleSpriteId({}, -1)).toBeUndefined()
+    expect(resolveLegacyPlayerBattleSpriteId({}, 1.5)).toBeUndefined()
   })
   test('读档音乐三态不继承旧活动世界：存档优先，其次场景，双缺省明确停止', () => {
     expect(resolveRestoredMusic('music.saved', 'music.scene')).toEqual({

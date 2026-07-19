@@ -52,6 +52,7 @@ export function preparePalManifest(
       'sound',
       'tileset',
       'sprite',
+      'battle-sprite',
     ])
     const families = legacy.families.filter((family) => !retired.has(family))
     assets = families.length
@@ -61,7 +62,11 @@ export function preparePalManifest(
   validateManifestAssetConfigV3(assets, catalog, 'PAL 升级后 manifest.assets')
   return {
     ...soundClosed,
-    content: { ...soundClosed.content, stamps: 'content/stamps.json' },
+    content: {
+      ...soundClosed.content,
+      stamps: 'content/stamps.json',
+      battleSprites: 'content/battle-sprites.json',
+    },
     assets,
   }
 }

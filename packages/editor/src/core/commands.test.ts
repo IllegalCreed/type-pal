@@ -11,6 +11,7 @@ import { buildBlankProjectMap, buildProjectMapLayer, paintProjectMapTiles } from
 import { describe, expect, test } from 'vitest'
 import {
   AddAmbienceCommand,
+  AddBattleSpriteCommand,
   AddEnemyCommand,
   AddEntityCommand,
   AddPoisonCommand,
@@ -18,6 +19,7 @@ import {
   AddSceneCommand,
   AddSpriteCommand,
   BindSceneMapCommand,
+  CompositeCommand,
   CreateMapAssetCommand,
   CreateProjectMapCommand,
   CreateScriptSourceCommand,
@@ -27,6 +29,7 @@ import {
   DeleteEntityCommand,
   DeleteMapAssetCommand,
   DeleteSceneEntryCommand,
+  DeleteUnusedBattleSpriteAssetCommand,
   DeleteUnusedSpriteAssetCommand,
   DuplicateMapAssetCommand,
   MapAssetInUseError,
@@ -34,10 +37,12 @@ import {
   MoveProjectMapLayerCommand,
   PaintCollisionCommand,
   PaintTilesCommand,
+  RemoveBattleSpriteDefinitionCommand,
   RemoveProjectMapLayerCommand,
   RemoveSpriteDefinitionCommand,
   RenameMapAssetCommand,
   RenameProjectCommand,
+  ReplaceBattleSpriteAssetCommand,
   ReplaceSpriteAssetCommand,
   ResizeProjectMapCommand,
   SetActorBattleSpriteCommand,
@@ -47,6 +52,7 @@ import {
   UpdateAmbienceCommand,
   UpdateAssetLabelCommand,
   UpdateBattleFieldCommand,
+  UpdateBattleSpriteDefinitionCommand,
   UpdateEnemyCommand,
   UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
@@ -117,6 +123,7 @@ function st(): EditorState {
         layout: { kind: 'directional', framesPerDir: 3 },
       },
     ],
+    battleSprites: [],
     startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
     maps: {},
     mapIndex: { version: 1, maps: [] },
@@ -621,7 +628,8 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
   const mkE = (id: string): import('@type-pal/content').EnemyDef => ({
     id,
     name: `name.${id}`,
-    spriteNum: 1,
+    battleSprite: `battle-sprite.${id}`,
+    yPosOffset: 0,
     stats: {
       health: 10,
       level: 1,
@@ -639,14 +647,6 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
       collectValue: 0,
     },
     ai: { resistanceToSorcery: 5 },
-    anim: {
-      idleFrames: 1,
-      magicFrames: 0,
-      attackFrames: 1,
-      idleAnimSpeed: 5,
-      actWaitFrames: 0,
-      yPosOffset: 0,
-    },
     sounds: {},
   })
   function stE(): EditorState {
@@ -910,22 +910,57 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
   })
 })
 
-describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
+describe('A7-3B 战斗外观命令(只写 BattleSpriteDef.id)', () => {
   function stB(): EditorState {
     const base = st() as EditorState & {
       enemies: import('@type-pal/content').EnemyDef[]
-      tilesetBlobs: Record<string, ArrayBuffer>
       actors: ActorDef[]
     }
-    base.tilesetBlobs = {}
+    base.battleSprites = [
+      {
+        id: 'battle.enemy.slime',
+        label: '史莱姆',
+        asset: 'battle-sprite.test.slime',
+        profile: {
+          kind: 'enemy',
+          idle: { start: 0, count: 1 },
+          magic: { start: 1, count: 0 },
+          attack: { start: 1, count: 0 },
+          idleTicksPerFrame: 1,
+          actTicksPerFrame: 0,
+        },
+      },
+      {
+        id: 'battle.player.hero',
+        label: '主角',
+        asset: 'battle-sprite.test.hero',
+        profile: {
+          kind: 'player-fighter',
+          frames: {
+            idle: 0,
+            dying: 1,
+            dead: 2,
+            defend: 3,
+            hurt: 4,
+            preMagic: 5,
+            magic: 6,
+            attackWindup: 7,
+            attackRush: 8,
+            attackStrike: 9,
+          },
+          castEffectBase: 0,
+          attackEffectBase: 0,
+        },
+      },
+    ]
     base.enemies = [
       {
         id: 'slime',
         name: 'n.slime',
-        spriteNum: 42,
+        battleSprite: 'battle.enemy.slime',
+        yPosOffset: 0,
         stats: {} as never,
         ai: {} as never,
-        anim: {} as never,
         sounds: {} as never,
       },
     ]
@@ -934,61 +969,449 @@ describe('A4c 战斗外观命令(patch path + blob 一步 undo)', () => {
         id: 'hero',
         name: 'n.hero',
         spriteId: 'hero',
-        battler: { baseStats: {} as never, initialEquipment: {}, initialMagic: [] },
+        battler: {
+          baseStats: {} as never,
+          initialEquipment: {},
+          initialMagic: [],
+          battleSprite: 'battle.player.hero',
+        },
       },
       { id: 'npc', name: 'n.npc', spriteId: 'npc' }, // 无 battler
     ]
     return base
   }
-  test('SetEnemyBattleSprite:spritePath + blob 双写;invert 双清(原无 path)', () => {
+  test('SetEnemyBattleSprite:只切换 enemy profile 定义并可撤销', () => {
     const s0 = stB()
-    const blob = new ArrayBuffer(4)
-    const cmd = new SetEnemyBattleSpriteCommand(
-      'slime',
-      'assets/battle-sprites/enemy/slime.rle',
-      blob,
-    )
+    s0.battleSprites.push({
+      ...structuredClone(s0.battleSprites[0]!),
+      id: 'battle.enemy.slime-alt',
+    })
+    const cmd = new SetEnemyBattleSpriteCommand('slime', 'battle.enemy.slime-alt')
     const s1 = cmd.apply(s0)
-    expect(s1.enemies![0]!.spritePath).toBe('assets/battle-sprites/enemy/slime.rle')
-    expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(blob)
-    expect(s0.enemies![0]!.spritePath).toBeUndefined() // 源不变
+    expect(s1.enemies![0]!.battleSprite).toBe('battle.enemy.slime-alt')
+    expect(s0.enemies![0]!.battleSprite).toBe('battle.enemy.slime')
     const back = cmd.invert(s1)
-    expect('spritePath' in back.enemies![0]!).toBe(false)
-    expect(back.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBeUndefined()
+    expect(back.enemies![0]!.battleSprite).toBe('battle.enemy.slime')
   })
-  test('重传覆盖:invert 还原旧字节(同路径)', () => {
-    const old = new ArrayBuffer(2)
+  test('SetActorBattleSprite:只切换 player-fighter 定义；无 battler 角色 no-op', () => {
     const s0 = stB()
-    s0.enemies![0]!.spritePath = 'assets/battle-sprites/enemy/slime.rle'
-    s0.tilesetBlobs['assets/battle-sprites/enemy/slime.rle'] = old
-    const nw = new ArrayBuffer(8)
-    const cmd = new SetEnemyBattleSpriteCommand(
-      'slime',
-      'assets/battle-sprites/enemy/slime.rle',
-      nw,
-    )
+    s0.battleSprites.push({
+      ...structuredClone(s0.battleSprites[1]!),
+      id: 'battle.player.hero-alt',
+    })
+    const cmd = new SetActorBattleSpriteCommand('hero', 'battle.player.hero-alt')
     const s1 = cmd.apply(s0)
-    expect(s1.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(nw)
-    const back = cmd.invert(s1)
-    expect(back.tilesetBlobs['assets/battle-sprites/enemy/slime.rle']).toBe(old)
-    expect(back.enemies![0]!.spritePath).toBe('assets/battle-sprites/enemy/slime.rle')
-  })
-  test('SetActorBattleSprite:battler.battleSpritePath;无 battler 角色 no-op', () => {
-    const s0 = stB()
-    const blob = new ArrayBuffer(4)
-    const cmd = new SetActorBattleSpriteCommand(
-      'hero',
-      'assets/battle-sprites/player/hero.rle',
-      blob,
-    )
-    const s1 = cmd.apply(s0)
-    expect(s1.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBe(
-      'assets/battle-sprites/player/hero.rle',
+    expect(s1.actors.find((a) => a.id === 'hero')?.battler?.battleSprite).toBe(
+      'battle.player.hero-alt',
     )
     const back = cmd.invert(s1)
-    expect(back.actors.find((a) => a.id === 'hero')?.battler?.battleSpritePath).toBeUndefined()
+    expect(back.actors.find((a) => a.id === 'hero')?.battler?.battleSprite).toBe(
+      'battle.player.hero',
+    )
     // 无 battler → no-op 同引用
-    expect(new SetActorBattleSpriteCommand('npc', 'x.rle', blob).apply(s0)).toBe(s0)
+    expect(new SetActorBattleSpriteCommand('npc', 'battle.player.hero').apply(s0)).toBe(s0)
+    expect(() => new SetActorBattleSpriteCommand('hero', 'battle.enemy.slime').apply(s0)).toThrow(
+      /player-fighter/,
+    )
+  })
+})
+
+describe('A7-3B 战斗精灵定义/资产生命周期', () => {
+  async function fixture() {
+    const blank = await buildBlankProject('battle-command')
+    const definition = structuredClone(
+      (blank['content/battle-sprites.json'] as import('@type-pal/content').BattleSpriteDef[])[0]!,
+    )
+    const record = structuredClone(
+      (blank['assets/index.json'] as import('@type-pal/content').AssetCatalogV1).assets[
+        definition.asset
+      ]!,
+    )
+    const bytes = (blank[record.path] as ArrayBuffer).slice(0)
+    const actor = structuredClone(
+      (blank['content/actors.json'] as import('@type-pal/content').ActorDef[])[0]!,
+    )
+    return { definition, record, bytes, actor }
+  }
+
+  test('上传定义+物理资源原子进入 session，单次撤销/重做不留孤儿', async () => {
+    const { definition, record, bytes } = await fixture()
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    expect(session.getState().battleSprites).toEqual([definition])
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(record)
+    expect(session.getState().assetBlobs[record.path]).toEqual(bytes)
+    session.undo()
+    expect(session.getState().battleSprites).toEqual([])
+    expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
+    expect(session.getState().assetBlobs[record.path]).toBeUndefined()
+    session.redo()
+    expect(session.getState().battleSprites[0]?.id).toBe(definition.id)
+  })
+
+  test('定义草稿一次提交只占一个 undo；证明须绑定 AssetId+SHA', async () => {
+    const { definition, record, bytes } = await fixture()
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    session.markSaved()
+    session.dispatch(
+      new UpdateBattleSpriteDefinitionCommand(
+        definition.id,
+        { label: '一次应用', profile: structuredClone(definition.profile) },
+        { asset: definition.asset, sha256: record.sha256, actualFrameCount: 10 },
+      ),
+    )
+    expect(session.getState().battleSprites[0]?.label).toBe('一次应用')
+    session.undo()
+    expect(session.getState().battleSprites[0]?.label).toBe(definition.label)
+    expect(() =>
+      new UpdateBattleSpriteDefinitionCommand(
+        definition.id,
+        { profile: structuredClone(definition.profile) },
+        { asset: definition.asset, sha256: 'f'.repeat(64), actualFrameCount: 10 },
+      ).apply(session.getState()),
+    ).toThrow(/证明缺失或已过期/)
+  })
+
+  test('共享定义分开删除；物理资源仅在零消费者时显式删除且可撤销', async () => {
+    const { definition, record, bytes } = await fixture()
+    const second = {
+      ...structuredClone(definition),
+      id: `${definition.id}-summon`,
+      label: '共享召唤',
+      profile: { kind: 'summon' as const },
+    }
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    session.dispatch(new AddBattleSpriteCommand(second, record, bytes, 10))
+    expect(() =>
+      new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes).apply(session.getState()),
+    ).toThrow(/仍被定义引用/)
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(second.id))
+    session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
+    expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
+    session.undo()
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(record)
+  })
+
+  test('替换拒绝过期证明和默认缩帧，不静默伪造 ABI repairs', async () => {
+    const { definition, record, bytes } = await fixture()
+    const state = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
+    const nextRecord = {
+      ...record,
+      path: 'assets/authored/battle-sprites/replacement.rle',
+    }
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        {
+          asset: definition.asset,
+          previousSha256: 'f'.repeat(64),
+          previousFrameCount: 10,
+          nextFrameCount: 10,
+          consumerIds: [definition.id],
+        },
+      ).apply(state),
+    ).toThrow(/证明已过期/)
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        {
+          asset: definition.asset,
+          previousSha256: record.sha256,
+          previousFrameCount: 10,
+          nextFrameCount: 9,
+          consumerIds: [definition.id],
+        },
+      ).apply(state),
+    ).toThrow(/不得减少有效帧/)
+  })
+
+  test('替换成功后 undo/redo 精确恢复 catalog、路径字节与保存删除集', async () => {
+    const { definition, record, bytes } = await fixture()
+    const nextBytes = bytes.slice(0)
+    const nextRecord: AssetRecordV1 = {
+      ...record,
+      path: 'assets/authored/battle-sprites/replacement.rle',
+      sha256: 'b'.repeat(64),
+    }
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    session.markSaved()
+    const command = new ReplaceBattleSpriteAssetCommand(
+      definition.id,
+      definition.asset,
+      nextRecord,
+      nextBytes,
+      bytes,
+      {
+        asset: definition.asset,
+        previousSha256: record.sha256,
+        previousFrameCount: 10,
+        nextFrameCount: 10,
+        consumerIds: [definition.id],
+      },
+    )
+
+    session.dispatch(command)
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(nextRecord)
+    expect(session.getState().assetBlobs[record.path]).toBeUndefined()
+    expect(session.getState().assetBlobs[nextRecord.path]).toEqual(nextBytes)
+    expect(session.getDeletedAssetPaths()).toEqual([record.path])
+    session.markSaved()
+
+    session.undo()
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(record)
+    expect(session.getState().assetBlobs[record.path]).toEqual(bytes)
+    expect(session.getState().assetBlobs[nextRecord.path]).toBeUndefined()
+    expect(session.getDeletedAssetPaths()).toEqual([nextRecord.path])
+    session.markSaved()
+
+    session.redo()
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(nextRecord)
+    expect(session.getState().assetBlobs[record.path]).toBeUndefined()
+    expect(session.getState().assetBlobs[nextRecord.path]).toEqual(nextBytes)
+    expect(session.getDeletedAssetPaths()).toEqual([record.path])
+  })
+
+  test('替换在目标路径碰撞或共享消费者变化时 fail-loud', async () => {
+    const { definition, record, bytes } = await fixture()
+    const nextRecord: AssetRecordV1 = {
+      ...record,
+      path: 'assets/authored/battle-sprites/collision.rle',
+      sha256: 'c'.repeat(64),
+    }
+    const base = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
+    const proof = {
+      asset: definition.asset,
+      previousSha256: record.sha256,
+      previousFrameCount: 10,
+      nextFrameCount: 10,
+      consumerIds: [definition.id],
+    }
+    const collision: EditorState = {
+      ...base,
+      assetCatalog: {
+        ...base.assetCatalog,
+        assets: {
+          ...base.assetCatalog.assets,
+          'battle-sprite.other': { ...record, path: nextRecord.path },
+        },
+      },
+    }
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        proof,
+      ).apply(collision),
+    ).toThrow(/路径已由 battle-sprite\.other 登记/)
+
+    const shared: EditorState = {
+      ...base,
+      battleSprites: [
+        ...base.battleSprites,
+        { ...structuredClone(definition), id: `${definition.id}-shared` },
+      ],
+    }
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        proof,
+      ).apply(shared),
+    ).toThrow(/消费者已变化/)
+  })
+
+  test('显式缩帧修复可原子撤销；缺修复、过期快照、残余越界和改 profile 类型均拒绝', async () => {
+    const { definition, record, bytes } = await fixture()
+    const base = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
+    const nextRecord: AssetRecordV1 = {
+      ...record,
+      path: 'assets/authored/battle-sprites/shrunk.rle',
+      sha256: 'd'.repeat(64),
+    }
+    if (definition.profile.kind !== 'player-fighter') throw new Error('测试夹具 profile 非 fighter')
+    const repairedProfile = structuredClone(definition.profile)
+    repairedProfile.frames.attackStrike = 8
+    const proof = {
+      asset: definition.asset,
+      previousSha256: record.sha256,
+      previousFrameCount: 10,
+      nextFrameCount: 9,
+      consumerIds: [definition.id],
+      consumerSnapshots: { [definition.id]: { profile: structuredClone(definition.profile) } },
+      repairs: { [definition.id]: { profile: repairedProfile } },
+    }
+    const command = new ReplaceBattleSpriteAssetCommand(
+      definition.id,
+      definition.asset,
+      nextRecord,
+      bytes,
+      bytes,
+      proof,
+    )
+    const changed = command.apply(base)
+    expect(changed.battleSprites[0]?.profile).toEqual(repairedProfile)
+    expect(command.invert(changed).battleSprites).toEqual(base.battleSprites)
+
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        { ...proof, repairs: undefined },
+      ).apply(base),
+    ).toThrow(/缩帧需使用显式 ABI 修复事务/)
+    const staleProfile = structuredClone(definition.profile)
+    staleProfile.frames.attackStrike = 8
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        {
+          ...proof,
+          consumerSnapshots: { [definition.id]: { profile: staleProfile } },
+        },
+      ).apply(base),
+    ).toThrow(/profile 已变化/)
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        {
+          ...proof,
+          repairs: { [definition.id]: { profile: structuredClone(definition.profile) } },
+        },
+      ).apply(base),
+    ).toThrow(/需要 10 帧/)
+    expect(() =>
+      new ReplaceBattleSpriteAssetCommand(
+        definition.id,
+        definition.asset,
+        nextRecord,
+        bytes,
+        bytes,
+        {
+          ...proof,
+          repairs: { [definition.id]: { profile: { kind: 'summon' } } },
+        },
+      ).apply(base),
+    ).toThrow(/不得改变.*profile 类型/)
+  })
+
+  test('仍有语义引用的定义不可删除；定义与物理资产完整删除可双向 undo/redo', async () => {
+    const { definition, record, bytes, actor } = await fixture()
+    const added = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
+    const referenced: EditorState = { ...added, actors: [actor] }
+    expect(() => new RemoveBattleSpriteDefinitionCommand(definition.id).apply(referenced)).toThrow(
+      /仍被 1 处引用.*actors/,
+    )
+
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    session.markSaved()
+    session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
+    session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(definition.asset, bytes))
+    expect(session.getState().battleSprites).toEqual([])
+    expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
+    expect(session.getDeletedAssetPaths()).toEqual([record.path])
+    session.undo()
+    expect(session.getState().assetCatalog.assets[definition.asset]).toEqual(record)
+    session.undo()
+    expect(session.getState().battleSprites).toEqual([definition])
+    session.redo()
+    session.redo()
+    expect(session.getState().battleSprites).toEqual([])
+    expect(session.getState().assetCatalog.assets[definition.asset]).toBeUndefined()
+  })
+
+  test('Actor/Enemy 上传新定义并设置引用均为单个 Composite undo 单元', async () => {
+    const { definition, record, bytes, actor } = await fixture()
+    const session = new EditSession(st())
+    session.dispatch(new AddBattleSpriteCommand(definition, record, bytes, 10))
+    const enemyDefinition: import('@type-pal/content').BattleSpriteDef = {
+      id: 'starter-enemy',
+      label: '占位敌人',
+      asset: definition.asset,
+      profile: {
+        kind: 'enemy',
+        idle: { start: 0, count: 1 },
+        magic: { start: 1, count: 0 },
+        attack: { start: 1, count: 1 },
+        idleTicksPerFrame: 1,
+        actTicksPerFrame: 1,
+      },
+    }
+    session.dispatch(new AddBattleSpriteCommand(enemyDefinition, record, bytes, 10))
+    const seeded = session.getState()
+    const enemy: import('@type-pal/content').EnemyDef = {
+      id: 'enemy',
+      name: 'name.enemy',
+      battleSprite: enemyDefinition.id,
+      yPosOffset: 0,
+      stats: {} as never,
+      ai: {} as never,
+      sounds: {} as never,
+    }
+    const withConsumers: EditorState = { ...seeded, actors: [actor], enemies: [enemy] }
+
+    const actorSession = new EditSession(withConsumers)
+    const actorAlt = { ...structuredClone(definition), id: 'starter-fighter-alt' }
+    actorSession.dispatch(
+      new CompositeCommand('上传并设置角色战斗精灵', [
+        new AddBattleSpriteCommand(actorAlt, record, bytes, 10),
+        new SetActorBattleSpriteCommand(actor.id, actorAlt.id),
+      ]),
+    )
+    expect(actorSession.getState().actors[0]?.battler?.battleSprite).toBe(actorAlt.id)
+    actorSession.undo()
+    expect(actorSession.getState().actors[0]?.battler?.battleSprite).toBe(definition.id)
+    expect(actorSession.getState().battleSprites.some((entry) => entry.id === actorAlt.id)).toBe(
+      false,
+    )
+    actorSession.redo()
+    expect(actorSession.getState().actors[0]?.battler?.battleSprite).toBe(actorAlt.id)
+
+    const enemySession = new EditSession(withConsumers)
+    const enemyAlt = { ...structuredClone(enemyDefinition), id: 'starter-enemy-alt' }
+    enemySession.dispatch(
+      new CompositeCommand('上传并设置敌人战斗精灵', [
+        new AddBattleSpriteCommand(enemyAlt, record, bytes, 10),
+        new SetEnemyBattleSpriteCommand(enemy.id, enemyAlt.id),
+      ]),
+    )
+    expect(enemySession.getState().enemies?.[0]?.battleSprite).toBe(enemyAlt.id)
+    enemySession.undo()
+    expect(enemySession.getState().enemies?.[0]?.battleSprite).toBe(enemyDefinition.id)
+    expect(enemySession.getState().battleSprites.some((entry) => entry.id === enemyAlt.id)).toBe(
+      false,
+    )
+    enemySession.redo()
+    expect(enemySession.getState().enemies?.[0]?.battleSprite).toBe(enemyAlt.id)
   })
 })
 

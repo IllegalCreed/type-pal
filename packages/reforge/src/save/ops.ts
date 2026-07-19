@@ -1,11 +1,13 @@
 import {
   type AssetId,
+  type BattleSpriteDef,
   type CharacterInstance,
   checkStages,
   type Facing,
   type GridPos,
   isMapAssetId,
   legacyWorldSpriteNumberFromAsset,
+  palBattleSpriteAssetId,
   palMusicAssetId,
   type SpriteDef,
   type WorldState,
@@ -42,7 +44,7 @@ export function buildPayload(
 
 /**
  * 读档运行时归一化(GLM x-shell G10.1:曾直用 payload,引擎加字段后旧档缺字段运行时崩):
- * · version 闸:新于引擎 → 抛(宁拒不猜);旧于当前 → 逐版本升级挂点(现仅 v1,占位)。
+ * · version 闸:新于引擎 → 抛(宁拒不猜);旧于当前 → 逐版本升级并验证当前工程闭包。
  * · 结构补默认:引擎演进新增的**容器**字段旧档缺失 → 补空值(?? 语义,不动既有值)。
  *   只补结构不钳数值 —— 数值修复 = "旧档复原",按方针不做(新档干净即可)。
  * 在隔离副本上完成全部验证后才一次提交并返回原顶层对象；任何失败都不污染输入。
@@ -56,6 +58,10 @@ export interface NormalizePayloadOptions {
   legacyFollowerSpriteId?: (spriteNum: number) => string | undefined
   /** 当前工程 SpriteDef.id 闭包；旧映射和新字符串都必须验证。 */
   validateFollowerSpriteId?: (spriteId: string) => void
+  /** v1-v3 角色外观旧玩家战斗精灵号到当前工程唯一 BattleSpriteDef.id。 */
+  legacyPlayerBattleSpriteId?: (spriteNum: number) => string | undefined
+  /** 当前工程 player-fighter 定义闭包；旧映射和已有字符串都必须验证。 */
+  validatePlayerBattleSpriteId?: (definitionId: string) => void
   /** 槽位、URL 或文件名；升级失败时必须能指向用户可处理的存档。 */
   where?: string
 }
@@ -75,6 +81,7 @@ export function normalizePayload(
   w.inventory ??= []
   normalizeAudioState(p, options)
   normalizeAppearancePortraits(p, options)
+  normalizeAppearanceBattleSprites(p, options)
   for (const c of [...w.party, ...(w.reserve ?? [])]) {
     c.equipment ??= {}
     c.tags ??= []
@@ -108,6 +115,19 @@ export function resolveLegacyFollowerSpriteId(
   return candidate.layout.kind === 'directional' && candidate.layout.framesPerDir === 3
     ? candidate.id
     : undefined
+}
+
+/** 旧数字只按 player 物理通道 AssetId 反查；0 合法，共享多定义视为歧义。 */
+export function resolveLegacyPlayerBattleSpriteId(
+  definitionsById: Readonly<Record<string, BattleSpriteDef>>,
+  spriteNum: number,
+): string | undefined {
+  if (!Number.isInteger(spriteNum) || spriteNum < 0) return undefined
+  const asset = palBattleSpriteAssetId('player', spriteNum)
+  const candidates = Object.values(definitionsById).filter(
+    (definition) => definition.asset === asset,
+  )
+  return candidates.length === 1 ? candidates[0]?.id : undefined
 }
 
 export interface RestoredMusicDecision {
@@ -182,7 +202,7 @@ function normalizeAppearancePortraits(p: SavePayload, options: NormalizePayloadO
   ] as const) {
     characters.forEach((character, index) => {
       const appearance = character.appearance as
-        | { spriteId?: string; portrait?: unknown; battleSprite?: number }
+        | { spriteId?: string; portrait?: unknown; battleSprite?: unknown }
         | undefined
       const raw = appearance?.portrait
       if (!appearance || raw === undefined) return
@@ -217,6 +237,72 @@ function normalizeAppearancePortraits(p: SavePayload, options: NormalizePayloadO
       if (appearance && Object.keys(appearance).length === 0) delete character.appearance
     })
   }
+}
+
+function normalizeAppearanceBattleSprites(p: SavePayload, options: NormalizePayloadOptions): void {
+  const where = options.where ?? `工程 ${JSON.stringify(p.projectId)} 的存档`
+  const entries: Array<{
+    appearance: { battleSprite?: unknown }
+    raw: unknown
+    path: string
+  }> = []
+  for (const [collection, characters] of [
+    ['party', p.world.party ?? []],
+    ['reserve', p.world.reserve ?? []],
+  ] as const) {
+    characters.forEach((character, index) => {
+      const appearance = character.appearance as { battleSprite?: unknown } | undefined
+      if (!appearance || appearance.battleSprite === undefined) return
+      entries.push({
+        appearance,
+        raw: appearance.battleSprite,
+        path: `${where}: world.${collection}[${index}].appearance.battleSprite`,
+      })
+    })
+  }
+  const hasString = entries.some(({ raw }) => typeof raw === 'string')
+  const hasNumber = entries.some(({ raw }) => typeof raw === 'number')
+  if (hasString && hasNumber)
+    throw new Error(`${where}: world party/reserve 的 battleSprite 不允许数字与定义 id 混合`)
+  const invalid = entries.find(({ raw }) => typeof raw !== 'string' && typeof raw !== 'number')
+  if (invalid)
+    throw new Error(`${invalid.path}: 只允许 BattleSpriteDef.id${p.version < 4 ? ' 或旧数字' : ''}`)
+  if (p.version >= 4 && hasNumber) {
+    const numeric = entries.find(({ raw }) => typeof raw === 'number')
+    if (!numeric) throw new Error(`${where}: 数字 battleSprite 扫描状态不一致`)
+    throw new Error(`${numeric.path}: v${p.version} 只允许 BattleSpriteDef.id，拒绝数字`)
+  }
+
+  const planned = entries.map(({ raw, path }) => {
+    let definitionId: string | undefined
+    if (typeof raw === 'string') {
+      if (!raw) throw new Error(`${path}: BattleSpriteDef.id 不能为空`)
+      definitionId = raw
+    } else {
+      if (!Number.isInteger(raw) || (raw as number) < 0)
+        throw new Error(`${path}: 旧玩家战斗精灵号必须是非负整数，收到 ${String(raw)}`)
+      if (!options.legacyPlayerBattleSpriteId)
+        throw new Error(`${path}: 数字战斗精灵 ${String(raw)} 无定义 id 转换规则，拒绝猜测`)
+      definitionId = options.legacyPlayerBattleSpriteId(raw as number)
+      if (!definitionId)
+        throw new Error(
+          `${path}: 数字战斗精灵 ${String(raw)} 在当前工程中缺少唯一 BattleSpriteDef.id 映射`,
+        )
+    }
+    if (!options.validatePlayerBattleSpriteId)
+      throw new Error(`${path}: 缺少当前工程 player-fighter 定义闭包，拒绝未验证的 id`)
+    try {
+      options.validatePlayerBattleSpriteId(definitionId)
+    } catch (cause) {
+      throw new Error(
+        `${path}: BattleSpriteDef.id "${definitionId}" 在当前工程中不可用；${cause instanceof Error ? cause.message : String(cause)}`,
+      )
+    }
+    return definitionId
+  })
+  entries.forEach((entry, index) => {
+    entry.appearance.battleSprite = planned[index]
+  })
 }
 
 function normalizeAudioState(p: SavePayload, options: NormalizePayloadOptions): void {

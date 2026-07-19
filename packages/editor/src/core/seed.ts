@@ -7,6 +7,7 @@
  */
 import {
   type AssetCatalogV1,
+  type AssetRecordV1,
   formatProjectMapV2,
   type LoadedManifest,
   type MapIndexV1,
@@ -45,7 +46,13 @@ export interface SeedFile {
   size: number
   sourceLane: 'project' | 'legacy'
   commitPhase: 'binary' | 'content' | 'catalog'
-  catalogAsset?: { id: string; kind: string; bytes: number; sha256: string }
+  catalogAsset?: {
+    id: string
+    kind: string
+    bytes: number
+    sha256: string
+    record: AssetRecordV1
+  }
 }
 
 export interface FileList {
@@ -70,7 +77,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       .toLowerCase()
       .replace(/[^a-z0-9-]+/g, '-')
       .replace(/^-+|-+$/g, '') || 'new-project'
-  const { palette, tilesetRle, spriteRle } = await buildSeedAssets()
+  const { palette, tilesetRle, spriteRle, battleSpriteRle } = await buildSeedAssets()
   const colorAsset = 'color.project-standard'
   const colorPath = 'assets/generated/colors/project-standard.json'
   const colorBytes = new TextEncoder().encode(`${JSON.stringify(palette, null, 2)}\n`)
@@ -81,6 +88,9 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
   const spriteAsset = 'sprite.generated.starter'
   const spritePath = 'assets/generated/sprites/starter.rle'
   const spriteHash = await sha256Hex(spriteRle)
+  const battleSpriteAsset = 'battle-sprite.generated.starter'
+  const battleSpritePath = 'assets/generated/battle-sprites/starter.rle'
+  const battleSpriteHash = await sha256Hex(battleSpriteRle)
   // 房间中心 = 菱形轴 ((W+H)/2, (H−W)/2)(方形 → (W,0));落逻辑格中心,不卡边界(gap #7)。
   const entryCol = Math.floor((SEED_W + SEED_H) / 2)
   const entryRow = Math.floor((SEED_H - SEED_W) / 2)
@@ -106,6 +116,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
           },
           initialEquipment: {},
           initialMagic: [],
+          battleSprite: 'starter-fighter',
         },
       },
     ],
@@ -115,6 +126,30 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         asset: spriteAsset,
         label: '占位主角',
         layout: { kind: 'directional', framesPerDir: 3 },
+      },
+    ],
+    'content/battle-sprites.json': [
+      {
+        id: 'starter-fighter',
+        label: '占位主角战斗形象',
+        asset: battleSpriteAsset,
+        profile: {
+          kind: 'player-fighter',
+          frames: {
+            idle: 0,
+            dying: 1,
+            dead: 2,
+            defend: 3,
+            hurt: 4,
+            preMagic: 5,
+            magic: 6,
+            attackWindup: 7,
+            attackRush: 8,
+            attackStrike: 9,
+          },
+          castEffectBase: 15,
+          attackEffectBase: 0,
+        },
       },
     ],
     'content/tilesets.json': [
@@ -166,11 +201,21 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
           label: '占位主角',
           origin: { kind: 'generated' },
         },
+        [battleSpriteAsset]: {
+          kind: 'battle-sprite',
+          path: battleSpritePath,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: battleSpriteRle.byteLength,
+          sha256: battleSpriteHash,
+          label: '占位主角战斗形象',
+          origin: { kind: 'generated' },
+        },
       },
     },
     [colorPath]: palette,
     [tilesetPath]: tilesetRle,
     [spritePath]: spriteRle,
+    [battleSpritePath]: battleSpriteRle,
     'manifest.json': {
       id,
       name: name.trim() || '新工程',
@@ -182,6 +227,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         items: 'content/items.json',
         locale: 'content/locale.json',
         sprites: 'content/sprites.json',
+        battleSprites: 'content/battle-sprites.json',
         tilesets: 'content/tilesets.json',
         stamps: 'content/stamps.json',
         scenes: 'content/scenes/',
@@ -273,13 +319,24 @@ export function enumerateSeedFiles(
       size: record.bytes,
       sourceLane: 'project',
       commitPhase: 'binary',
-      catalogAsset: { id, kind: record.kind, bytes: record.bytes, sha256: record.sha256 },
+      catalogAsset: {
+        id,
+        kind: record.kind,
+        bytes: record.bytes,
+        sha256: record.sha256,
+        record,
+      },
     })
   // 尚未 catalog 化的 battle/effect/image 仍从 extracted 复制；已闭环族只来自上面的 catalog records。
   const legacyFamilies = new Set(manifest.assets.legacy?.families ?? [])
   for (const f of assetManifest.files) {
     if (!legacyFamilies.has('tileset') && /^data\/tileset\//.test(f.path)) continue
     if (!legacyFamilies.has('sprite') && /^data\/sprite\//.test(f.path)) continue
+    if (
+      !legacyFamilies.has('battle-sprite') &&
+      (/^data\/battle-sprite\//.test(f.path) || f.path === 'data/battle-sprites.json')
+    )
+      continue
     out.push({
       rel: `assets/extracted/${f.path}`,
       src: `/extracted/${f.path}`,

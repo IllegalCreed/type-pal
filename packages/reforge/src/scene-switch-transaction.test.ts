@@ -42,6 +42,7 @@ function worldFixture(): WorldState {
           },
           initialEquipment: {},
           initialMagic: [],
+          battleSprite: 'battle-sprite.hero',
         },
       },
     },

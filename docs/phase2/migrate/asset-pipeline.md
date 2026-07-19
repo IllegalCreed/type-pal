@@ -148,8 +148,8 @@ pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/
 ```
 
 `data/baked` 已退役；`bake` 不是修复工程资源 404 的命令。当前 `data/extracted` 仍作为迁移输入；A7-3T
-已让 tileset 退出 runtime legacy，尚为 `sprite`、`battle-sprite`、`effect-sprite` 与 generic `image`
-四项提供过渡源。A7-2/A7-3T 的单族切片不等于 A7/R7 总体完成。
+让 tileset 退出 runtime legacy，随后 A7-3W 已完成 sprite，A7-3B 实现候选已完成 battle-sprite。
+现只为 `effect-sprite` 与 generic `image` 提供过渡源。任一单族切片都不等于 A7/R7 总体完成。
 
 ## 11. A7-3T 瓦片集索引资源物化（2026-07-19，done）
 
@@ -177,7 +177,7 @@ pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/
 完整生命周期与 review 门禁见
 [`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。
 
-## 12. A7-3W 大世界精灵索引资源物化（2026-07-19，待三方 review）
+## 12. A7-3W 大世界精灵索引资源物化（2026-07-19，done）
 
 大世界精灵沿用 indexed RLE，不转 RGBA、不重编码 PAL 源：
 
@@ -203,3 +203,33 @@ pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/
 
 本轮唯一一次正式写入后，物化统计为 `writes=636 unchanged=1071`，事务随后报告二次迁移
 `writes=0 deletes=0 conflicts=0`；再次 dry-run 仍严格为 0/0/0。
+
+## 13. A7-3B 战斗精灵索引资源物化（2026-07-19，待三方 review）
+
+PAL 的 `F.MKF` 玩家/召唤通道与 `ABC.MKF` 敌人通道按独立稳定身份物化，不能因数字重叠合并：
+
+```text
+F.MKF 0..18   -> battle-sprite.pal.player.NNN
+ABC.MKF 1..153 -> battle-sprite.pal.enemy.NNN
+                 -> assets/migrated/battle-sprites/{player|enemy}/NNN.rle
+```
+
+- 冻结 19 player + 153 enemy = **172 files / 900,973 gzip B / 2,313,598 raw B / 775 有效帧**；
+  19 player 与 147 enemy 通过 canonical strict，6 个 enemy 只在 `legacy-migrated` 的连续前缀坏尾规则下通过。
+  combined tuple digest 为 `ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。
+- 迁移器生成 **172 catalog records + 171 BattleSpriteDef**。enemy 98 保留为唯一未引用物理资源；
+  直接语义引用精确为 **179 occurrences / 171 used / 5 shared / 1 unused**。最终 PAL catalog 为
+  **1,879 records / 68,439,367 B**。
+- 上游翻译把 7 条装备 row 1、3 条剧情 appearance、1 条 trance 和 9 条 summon 全部改成定义 id；
+  player 0 是合法李逍遥精灵，summon 的 godId 0..8 确定性映射 player 10..18，不能套“0 表示缺席”的 helper。
+- 旧 `battle-effect-index` 的 10×2 表在迁移期物化为 player-fighter profile 的 effect base，运行时不再按
+  `spriteNum * 2` 查表。物理 effect-sprite 本身仍归 A7-3E。
+- 写盘沿用 MG2：完整 JSON 冲突计划与所有源/目标字节预检 -> battle binary -> union catalog ->
+  battle-sprites/content/scripts -> manifest -> final catalog -> legacy removals。author-owned 同 AssetId/路径
+  接管不被迁移覆盖；二次迁移为 `writes=0 deletes=0 conflicts=0`。
+- PAL 原版 battle RLE 与 world sprite 一样由本地提取源确定性重建，`projects/pal/assets/migrated/**` 不入 git；
+  demo/e2e-own 使用提交的 generated placeholder，避免暗借 PAL player 0。
+
+实现后 manifest 只剩 `effect-sprite/image` 两个 legacy family。全 legacy 归零、contentVersion 4 和总闭包门禁
+仍属于 A7-4；实现与审查证据见
+[`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。

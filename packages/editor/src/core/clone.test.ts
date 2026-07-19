@@ -169,6 +169,63 @@ describe('cloneFromPal', () => {
     )
   })
 
+  test('canonical battle-sprite clone 全结构校验、逐字节复制并过滤旧目录与描述清单', async () => {
+    const battleBytes = (await buildSeedAssets()).battleSpriteRle
+    const battleHash = await sha256Hex(battleBytes)
+    const battlePath = 'assets/migrated/battle-sprites/player/000.rle'
+    const canonicalManifest = {
+      ...manifest,
+      content: { ...manifest.content, battleSprites: 'content/battle-sprites.json' },
+      assets: {
+        ...manifest.assets,
+        legacy: { ...manifest.assets.legacy, families: ['sprite', 'color-table'] },
+      },
+    }
+    const source = memSource({
+      'manifest.json': canonicalManifest,
+      'content/scenes/index.json': ['s1'],
+      'content/scenes/s1.json': { id: 's1' },
+      'content/actors.json': [],
+      'content/battle-sprites.json': [
+        {
+          id: 'fighter-0',
+          label: '李逍遥',
+          asset: 'battle-sprite.pal.player.000',
+          profile: { kind: 'summon' },
+        },
+      ],
+      '/extracted/asset-manifest.json': {
+        files: [
+          { path: 'data/battle-sprites.json', size: 10 },
+          { path: 'data/battle-sprite/player/0.rle', size: battleBytes.byteLength },
+        ],
+      },
+      '/extracted/data/battle-sprites.json': new ArrayBuffer(10),
+      '/extracted/data/battle-sprite/player/0.rle': battleBytes,
+      'assets/index.json': {
+        version: 1,
+        assets: {
+          'battle-sprite.pal.player.000': {
+            kind: 'battle-sprite',
+            path: battlePath,
+            mediaType: 'application/vnd.type-pal.rle',
+            bytes: battleBytes.byteLength,
+            sha256: battleHash,
+            origin: { kind: 'legacy-migrated', ref: 'battle-sprite/player/0.rle' },
+          },
+        },
+      },
+      [battlePath]: battleBytes,
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(source, dir, () => {})
+    expect(new Uint8Array(await (written.get(battlePath) as Blob).arrayBuffer())).toEqual(
+      new Uint8Array(battleBytes),
+    )
+    expect(written.has('assets/extracted/data/battle-sprites.json')).toBe(false)
+    expect(written.has('assets/extracted/data/battle-sprite/player/0.rle')).toBe(false)
+  })
+
   test('.rle 下载后解压再写(去 gzip 头,避 Safe Browsing 深扫)', async () => {
     const raw = new Uint8Array([9, 8, 7, 6, 5])
     const gz = await new Response(

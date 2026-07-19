@@ -39,7 +39,8 @@ const play = (asset: string): Command => ({ kind: 'playSound', asset })
 const enemy = (id: string, rules: EnemyDef['ai']['rules'] = []): EnemyDef => ({
   id,
   name: id,
-  spriteNum: 1,
+  battleSprite: `battle-sprite.${id}`,
+  yPosOffset: 0,
   stats: {
     health: 10,
     level: 1,
@@ -57,14 +58,6 @@ const enemy = (id: string, rules: EnemyDef['ai']['rules'] = []): EnemyDef => ({
     collectValue: 0,
   },
   ai: { resistanceToSorcery: 0, rules },
-  anim: {
-    idleFrames: 1,
-    magicFrames: 1,
-    attackFrames: 1,
-    idleAnimSpeed: 1,
-    actWaitFrames: 1,
-    yPosOffset: 0,
-  },
   sounds: { action: `sound.${id}` },
 })
 
@@ -79,7 +72,9 @@ const skill = (
   cost: {},
   usableOutsideBattle: false,
   target: overrides.target ?? 'oneEnemy',
-  effects: overrides.effects ?? [{ kind: 'summon', godId: 1, sound: `${sound}.summon` }],
+  effects: overrides.effects ?? [
+    { kind: 'summon', battleSprite: 'battle-sprite.summon.001', sound: `${sound}.summon` },
+  ],
   animation: { effectSprite: 1, sound },
 })
 
@@ -270,7 +265,11 @@ describe('SFX readiness 收集', () => {
     const dart = item('dart', 'sound.dart', { use: 'unused', throw: '803' })
     const cast = skill('cast', 'sound.cast', {
       effects: [
-        { kind: 'summon', godId: 1, sound: 'sound.cast.summon' },
+        {
+          kind: 'summon',
+          battleSprite: 'battle-sprite.summon.001',
+          sound: 'sound.cast.summon',
+        },
         { kind: 'applyPoison', poisonId: '801' },
       ],
     })

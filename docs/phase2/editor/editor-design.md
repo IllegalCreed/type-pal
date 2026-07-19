@@ -167,7 +167,25 @@ interface EditorMode {
 完整格式、边界与验证矩阵见
 [`cutscene-asset-workbench-design.md`](cutscene-asset-workbench-design.md)。
 
-### 5.5 manifest 工程工作台（X7-1，2026-07-16）
+### 5.5 战斗精灵资源库(A7-3B,2026-07-19，待三方 review)
+
+“资源 -> 精灵库”先按“大世界 / 战斗”切资源域；战斗域内再按“语义定义 / 二进制资源”切生命周期，
+URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费者跳转必须落到具体域、视图和对象。
+
+- 左侧列表提供搜索、profile 过滤、共享/未引用状态和稳定选择回退；定义切到资源视图时聚焦当前定义实际引用的
+  AssetId，不能回落到排序首项。中间面板复用运行时 indexed-RLE 解码，展示动画、逐帧尺寸与 profile 命名动作；
+  右侧编辑标签、动作 ABI、来源/SHA、typed 引用与独立删除动作。
+- Actor、Enemy、召唤、梦蛇、脚本 appearance 和装备 effect 使用 profile-aware picker；就地上传是
+  `import asset + create definition + assign consumer` 的单一可撤销命令，不暴露 number/path 输入。
+- 替换共享二进制前显示全部消费者，默认 no-shrink；stale SHA、路径冲突、消费者变化和越界 profile 均
+  fail-closed。删除定义与删除未使用二进制是两个命令，save/undo/save/redo 保持 record、bytes 和引用一致。
+- 长 AssetId/path 使用可换行或省略布局；窄面板不允许按钮文字溢出。输入框、视图切换和命名动作均提供
+  accessible name/pressed state，键盘焦点与现有蓝色控件风格一致。
+
+完整实现与验证见
+[`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。
+
+### 5.6 manifest 工程工作台（X7-1，2026-07-16）
 
 “工程”模块固定为四个权威子页：概览、全局资源与启动、入口与开局、问题与高级。不得再把
 `startWorld` 暴露成与入口点并列的独立作者模块。

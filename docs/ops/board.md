@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| A7-3B | 战斗精灵索引资源闭包 | build | Codex 实现与自验证 | 设计三签已齐；按 R1-R4/G1-G4 收口内容、迁移、runtime、editor/save/transport |
+| A7-3B | 战斗精灵索引资源闭包 | review | Kimi + GLM 正式实现审查 | Codex accept；五包 1641 tests 与视觉自验完成，待 Kimi/GLM 两签，不提前标 done |
 
 ## 阻塞
 

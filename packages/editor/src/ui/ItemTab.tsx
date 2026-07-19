@@ -11,6 +11,7 @@ import type {
   ActorDef,
   AssetCatalogV1,
   AssetId,
+  BattleSpriteDef,
   CombatStat,
   EquipEffect,
   EquipSlot,
@@ -23,11 +24,12 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { describeEquipEffects, lookupText } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { UpdateItemCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { RefEntry } from '../core/ref-index.js'
+import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetPicker, ImageAssetThumbnail } from './ImageAssetPicker.js'
 import { SoundPicker } from './SoundPicker.js'
 import { RefList } from './VarsTab.js'
@@ -88,10 +90,14 @@ const EFFECT_KINDS: { v: EquipEffect['kind']; label: string }[] = [
   { v: 'attackAll', label: '攻击全体' },
   { v: 'regenHp', label: '回合回体力' },
   { v: 'regenMp', label: '回合回真气' },
+  { v: 'battleSprite', label: '战斗形象覆写' },
 ]
 
 /** kind 切换的缺省效果体。 */
-function defaultEquipEffect(kind: EquipEffect['kind']): EquipEffect {
+function defaultEquipEffect(
+  kind: EquipEffect['kind'],
+  battleSprites: readonly BattleSpriteDef[],
+): EquipEffect {
   switch (kind) {
     case 'statBonus':
       return { kind, stat: 'attack', delta: 10 }
@@ -109,6 +115,15 @@ function defaultEquipEffect(kind: EquipEffect['kind']): EquipEffect {
       return { kind, amount: 20 }
     case 'regenMp':
       return { kind, amount: 10 }
+    case 'battleSprite':
+      return {
+        kind,
+        sprite:
+          battleSprites.find((entry) => entry.profile.kind === 'player-fighter')?.id ??
+          (() => {
+            throw new Error('请先在战斗精灵库创建 player-fighter 定义')
+          })(),
+      }
   }
 }
 
@@ -131,9 +146,11 @@ function Num(props: { v: number; on: (n: number) => void; w?: number }) {
 function EquipEffectFields(props: {
   e: EquipEffect
   skills: SkillData[]
+  battleSprites: readonly BattleSpriteDef[]
   on: (next: EquipEffect) => void
+  onOpenBattleSprite?: (id: string) => void
 }) {
-  const { e, skills, on } = props
+  const { e, skills, battleSprites, on, onOpenBattleSprite } = props
   switch (e.kind) {
     case 'statBonus':
       return (
@@ -244,6 +261,19 @@ function EquipEffectFields(props: {
           <Num v={e.amount} on={(n) => on({ ...e, amount: n })} />
         </label>
       )
+    case 'battleSprite':
+      return (
+        <div className="sound-effect-field">
+          <span>战斗形象</span>
+          <BattleSpritePicker
+            value={e.sprite}
+            definitions={battleSprites}
+            kind="player-fighter"
+            onChange={(sprite) => on({ ...e, sprite })}
+            onOpenDefinition={onOpenBattleSprite}
+          />
+        </div>
+      )
     default:
       return <span className="hint2">(无参数)</span>
   }
@@ -257,8 +287,13 @@ export function ItemTab(props: {
   session: EditSession
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  battleSprites: readonly BattleSpriteDef[]
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   tabBar?: React.ReactNode
   /** N5:物品 → 引用它的事件(give/lose/hasItem);剧情道具的编辑入口。 */
   itemRefs?: Map<string, RefEntry[]>
@@ -272,14 +307,23 @@ export function ItemTab(props: {
     session,
     assetCatalog,
     assetReader,
+    battleSprites,
     onOpenSound,
     onOpenImage,
+    onOpenBattleSprite,
+    focusObjectId,
+    onObjectFocus,
+    onStatusNotice,
     tabBar,
     itemRefs,
     onJumpToEvent,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(items[0]?.id ?? '')
+
+  useEffect(() => {
+    if (focusObjectId && items.some((entry) => entry.id === focusObjectId)) setSelId(focusObjectId)
+  }, [focusObjectId, items])
 
   const shown = useMemo(
     () => items.filter((i) => !filter || i.id.includes(filter) || i.name.includes(filter)),
@@ -302,7 +346,11 @@ export function ItemTab(props: {
     effects[i] = next
     patchEquip({ ...equip, effects })
   }
-  const derived = equip ? describeEquipEffects(equip.effects, { skillName }) : []
+  const battleSpriteName = useMemo(() => {
+    const names = new Map(battleSprites.map((entry) => [entry.id, entry.label]))
+    return (id: string): string | undefined => names.get(id)
+  }, [battleSprites])
+  const derived = equip ? describeEquipEffects(equip.effects, { skillName, battleSpriteName }) : []
 
   return (
     <>
@@ -329,7 +377,10 @@ export function ItemTab(props: {
               type="button"
               key={i.id}
               className={`arow${i.id === item?.id ? ' sel' : ''}`}
-              onClick={() => setSelId(i.id)}
+              onClick={() => {
+                setSelId(i.id)
+                onObjectFocus?.(i.id)
+              }}
             >
               <span className="face">
                 <ImageAssetThumbnail
@@ -507,9 +558,23 @@ export function ItemTab(props: {
                         <select
                           className="in ef-kind"
                           value={e.kind}
-                          onChange={(ev) =>
-                            setEffect(i, defaultEquipEffect(ev.target.value as EquipEffect['kind']))
-                          }
+                          onChange={(ev) => {
+                            try {
+                              setEffect(
+                                i,
+                                defaultEquipEffect(
+                                  ev.target.value as EquipEffect['kind'],
+                                  battleSprites,
+                                ),
+                              )
+                              onStatusNotice?.(undefined)
+                            } catch (reason) {
+                              onStatusNotice?.({
+                                kind: 'error',
+                                message: reason instanceof Error ? reason.message : String(reason),
+                              })
+                            }
+                          }}
                         >
                           {EFFECT_KINDS.map((k) => (
                             <option key={k.v} value={k.v}>
@@ -521,7 +586,9 @@ export function ItemTab(props: {
                           <EquipEffectFields
                             e={e}
                             skills={skills}
+                            battleSprites={battleSprites}
                             on={(next) => setEffect(i, next)}
+                            onOpenBattleSprite={onOpenBattleSprite}
                           />
                         </div>
                         <span className="ef-ops">
@@ -577,7 +644,10 @@ export function ItemTab(props: {
                       onClick={() =>
                         patchEquip({
                           ...equip,
-                          effects: [...equip.effects, defaultEquipEffect('statBonus')],
+                          effects: [
+                            ...equip.effects,
+                            defaultEquipEffect('statBonus', battleSprites),
+                          ],
                         })
                       }
                     >

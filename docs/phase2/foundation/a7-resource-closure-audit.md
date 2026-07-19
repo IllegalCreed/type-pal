@@ -1,23 +1,25 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-16；最近更新:2026-07-19（A7-3T 瓦片集完成三方审查和用户验收）
+> 审计日期: 2026-07-16；最近更新:2026-07-19（A7-3W done；A7-3B 实现完成，待三方 review）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
 > 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX、A7-2 四类静态图/engine chrome、A7-3 视频/完整帧动画
-> 已完成；A7-3T 瓦片集也已完成三方审查和用户验收。本文件同时保留实现前基线和 A7 总体剩余缺口。
+> 已完成；A7-3T 瓦片集与 A7-3W 大世界精灵也已 done。A7-3B 战斗精灵已完成实现与 Codex 自验证，
+> 正等待 Kimi/GLM 正式 review。本文件同时保留实现前基线和 A7 总体剩余缺口。
 
 ## 1. 结论
 
 A7 总体**还没有形成全资源闭包**。当前已经闭合音乐/MIDI soundfont、SFX、视频/完整帧动画以及
 portrait/face/item-icon/battle-background 四类静态图；默认标题、字形、光标和游戏 UI 已进入引擎 chrome。
-A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和用户验收。仍未迁移的 legacy 条目为
-`sprite`、`battle-sprite`、`effect-sprite` 与 generic `image` 四项；catalog-only 总门禁和 v4 也尚未完成。
+A7-3T 与 A7-3W 已把 `tileset`、`sprite` 收敛为 catalog-only 单链并完成审查；A7-3B 的实现候选也已让
+`battle-sprite` 退出 legacy，正在等待正式审查。当前仍未迁移的 legacy 条目为 `effect-sprite` 与 generic
+`image` 两项；catalog-only 总门禁和 v4 也尚未完成。
 因此不能据此宣称整个工程已断开全部外部资源依赖。
 
 问题由四层共同造成:
 
 1. `manifest.assets` 声明的是目录约定,不是“稳定资源 id -> 明确文件”的注册表。
-2. 四个剩余 legacy 条目仍保留数字/目录约定，尚未进入单一 catalog 链。
+2. 两个剩余 legacy 条目仍保留数字/目录约定，尚未进入单一 catalog 链。
 3. 克隆虽然已退出 `data/baked`，仍按 extracted 清单复制未迁 legacy，尚未完全从 catalog 派生闭包。
 4. 迁移器可核验全 catalog 文件，保存/导出/显式“检查工程”的统一重哈希门禁仍待 A7-4 接线。
 
@@ -138,7 +140,7 @@ A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和�
 
 > 上表是 A7-0 前历史证据，不代表当前工作态。A7-3T done 产物已有 223 个
 > `TilesetDef.asset` 和 223 个 `kind=tileset` catalog record；真实 source mapNum 集合为
-> `1..225` 且仅缺 `168/171`，不是连续 `1..223`。
+> `1..225` 且仅缺 `168/171`，不是连续 `1..223`。A7-3W 与 A7-3B 的当前证据分别见 §3.12/§3.13。
 
 ### 3.5 绕过 `FileSource` 的主要读取点
 
@@ -244,7 +246,8 @@ A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和�
   `writes=0 deletes=0 conflicts=0`。
 - A7-2 当时的全 catalog 物理复核为 848 文件记录、59,704,628 B，missing file、bytes mismatch 与 hash
   mismatch 均为 0；当时 clone/seed 仍由 extracted 承载五个 legacy 条目。A7-3T 已从该集合移除 tileset，
-  现余四项，统一保存/导出闭包总门禁仍留 A7-4。
+  A7-3W 又移除 sprite，A7-3B 实现候选再移除 battle-sprite；当前候选余 `effect-sprite/image` 两项，
+  统一保存/导出闭包总门禁仍留 A7-4。
 
 完整实现与验证矩阵见
 [`A7-2 结果报告`](a7-2-static-images-engine-chrome-report.md) 和
@@ -278,9 +281,9 @@ A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和�
 
 实现与完整验证矩阵见
 [`A7-3T 任务卡`](../../ops/tasks/A7-3T-tileset-asset-closure.md)。A7-3T 已完成三方 `accept` 与用户验收；
-这里只表示 tileset 单族闭包完成，不能据此把仍有四个 legacy family 的 A7/R7 总体标记为 done。
+这里只表示 tileset 单族闭包完成；当时仍有四个 legacy family，后续 A7-3W/A7-3B 的进展见 §3.12/§3.13。
 
-### 3.12 A7-3W 大世界精灵闭包实现证据（2026-07-19，待三方 review）
+### 3.12 A7-3W 大世界精灵闭包实现证据（2026-07-19，done）
 
 - `SpriteDef` 已收敛为 `{id,asset,label,layout,poses?}`；角色、实体和脚本引用定义 id，定义再指向
   AssetId。21 条共享关系被保留，定义标签与资产标签可独立修改。
@@ -298,12 +301,40 @@ A7-3T 已把 `tileset` 实现为 catalog-only 单链，并完成三方审查和�
   旧本地 v3/旧存档只在输入边界确定性映射，数字多义时拒绝，运行时没有数字旁路。
 - clone、FSA、Save As、ZIP、pending blob 和 MG2 复用 A7-3T 的完整 SHA 与两阶段 catalog 协议；
   authored 同 AssetId 接管后保留作者字节、清理旧源，二次打开/迁移均零计划。
-- 正式迁移写后 dry-run 为 `writes=0 deletes=0 conflicts=0`，PAL manifest 的 legacy families 已移除
-  `sprite`，只剩 `battle-sprite/effect-sprite/image`。受保护的 `projects/pal/assets/migrated/**` 按
+- 正式迁移写后 dry-run 为 `writes=0 deletes=0 conflicts=0`；A7-3W 完成当时 PAL manifest 已移除
+  `sprite`，仍有 `battle-sprite/effect-sprite/image`。A7-3B 实现候选随后移除了 `battle-sprite`。受保护的
+  `projects/pal/assets/migrated/**` 按
   仓库策略由本地提取源确定性重建，不提交原版二进制副本。
 
-本节记录 build 证据；三方 `review -> done` 签字和视觉验收以
-[`A7-3W 任务卡`](../../ops/tasks/A7-3W-world-sprite-asset-closure.md) 为准，不能提前宣称 A7/R7 总体完成。
+三方 `review -> done` 签字和用户验收见
+[`A7-3W 任务卡`](../../ops/tasks/A7-3W-world-sprite-asset-closure.md)。A7-3W 单族已 done，不能据此宣称
+A7/R7 总体完成。
+
+### 3.13 A7-3B 战斗精灵闭包实现证据（2026-07-19，待三方 review）
+
+- `BattleSpriteDef` 已收敛为 `{id,label,asset,profile}`；Actor、Enemy、EquipEffect、summon、trance、持久
+  appearance 与脚本只引用定义 id。player/enemy 同号由 AssetId channel 隔离，player 0 保持合法。
+- PAL 逐字节物化 19 player + 153 enemy = **172 files / 900,973 gzip B / 2,313,598 raw B /
+  775 有效帧**。19 player + 147 enemy canonical strict，6 个历史坏尾只在 `legacy-migrated` 通过；
+  combined tuple digest 为 `ecbec106c6540de74adeec799bad19a22e7198272245c98b130522b0ac37a685`。
+- 生成 **172 catalog records / 171 definitions / 179 direct refs / 171 used / 5 shared / 1 unused**；
+  enemy 98 是唯一未引用 warning。PAL catalog 达 **1,879 records / 68,439,367 B**，manifest legacy 只剩
+  `effect-sprite/image`。
+- 7 条装备 row 1 在 migrate 上游翻译；3 appearance、1 trance、9 summon 全改语义 id。
+  玩家 active appearance 统一按 base -> persistent -> equipment slot order -> trance 派生，图像、动作 ABI 与
+  effect base 同读一个定义。梦蛇使用一阶段 6×40ms 色移 + 72×16ms 过渡，死亡/复活保持，战后清理。
+- 战前 readiness 覆盖 effective/cooperative skills、装备授技 summon 以及敌 transform/summon 递归闭包；
+  session 内同步换已准备精灵，不再有 fire-and-forget 迟到写。渲染按 Y 升序、equal-Y X 降序。
+- 编辑器提供定义/资产双视图、逐帧/命名动作、typed 引用深链、导入/分配/替换/独立删除、共享/no-shrink、
+  undo/redo 与 pending blob。local-v3 journal、save v4、HTTP/FSA/Save As/clone/ZIP 均走完整 SHA 和两阶段
+  catalog 协议，mixed/ambiguous/tamper/interruption fail-closed。
+- PAL 原版 battle RLE 仍按仓库政策由本地提取源确定性重建且不入 git；demo/e2e-own 的 generated placeholder
+  自包含提交。迁移二跑为 `writes=0 deletes=0 conflicts=0`，正式路径的 number/path/godId、`g+10`、
+  `spriteNum*2` 与旧 loader 调用均归零。
+
+本节只登记实现和 Codex 自验证；Kimi/GLM `accept` 仍以
+[`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md) 为准。正式签字前不标 done，
+A7/R7 总体也仍有 effect-sprite、generic image 与 A7-4。
 
 ## 4. 终态数据契约
 
@@ -525,6 +556,8 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 | **A7-2** | 四类静态图 + engine chrome + 颜色表 | **done（2026-07-19）**：三方审查与用户验收完成；379 records / 2,656 edges；项目静态图无旁路，默认 UI/字形/光标/标题走 bundler registry |
 | **A7-3** | RNG、视频与完整帧动画 | **对应切片已完成**：稳定 AssetId + TPFS + resolver + 作者工作台 |
 | **A7-3T** | 瓦片集索引资源闭包 | **done（2026-07-19）**：三方审查与用户验收完成；223 definitions / 223 records / 223 map refs；mapNum=`1..225 \ {168,171}`；gzip 6,501,041 B / 严格有效帧 67,715 |
+| **A7-3W** | 大世界精灵索引资源闭包 | **done（2026-07-19）**：636 records / 580 definitions / 559 used / 21 shared / 77 unused；1,332,725 gzip B / 4,133 帧 / 30 legacy 坏尾 |
+| **A7-3B** | 战斗精灵索引资源闭包 | **review（2026-07-19）**：实现与 Codex 自验证完成；172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused；900,973 gzip B / 775 帧 / 6 legacy 坏尾，待 Kimi/GLM 正式审查 |
 | **A7-4** | 克隆/另存/zip/闭包总门禁 + v4 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
 
 A7-3T 同时修复了 canonical fixture 的颜色表欠账：demo 使用

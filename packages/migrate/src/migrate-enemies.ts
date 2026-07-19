@@ -3,6 +3,7 @@
  * 纯函数,golden 钉真值。AI/演出/战后 = translate-enemy-scripts 翻译(M4c-2)。
  */
 import type { EnemyDef, EnemySounds, EnemyTeamDef } from '@type-pal/content'
+import { palEnemyBattleSpriteDefinitionId } from './pal-battle-sprites.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import { translateEnemyScripts } from './translate-enemy-scripts.js'
 import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
@@ -109,7 +110,8 @@ export function mapEnemies(
     out.push({
       id,
       name: `name.${id}`,
-      spriteNum: eo.enemyId, // 战斗精灵 = enemyId(→ battle-sprite/enemy/N.rle)
+      battleSprite: palEnemyBattleSpriteDefinitionId(eo.enemyId),
+      yPosOffset: stats.yPosOffset,
       stats: {
         health: stats.health,
         level: stats.level,
@@ -155,14 +157,6 @@ export function mapEnemies(
           ...(t.onDefeated?.length ? { onDefeated: t.onDefeated } : {}),
         }
       })(),
-      anim: {
-        idleFrames: stats.idleFrames,
-        magicFrames: stats.magicFrames,
-        attackFrames: stats.attackFrames,
-        idleAnimSpeed: stats.idleAnimSpeed,
-        actWaitFrames: stats.actWaitFrames,
-        yPosOffset: stats.yPosOffset,
-      },
       sounds,
       ...(stats.stealItem
         ? { steal: { itemId: String(stats.stealItem), count: Math.max(1, stats.stealItemCount) } }

@@ -9,7 +9,7 @@ import {
   validateAssetCatalog,
   validateMapIndex,
 } from '@type-pal/content'
-import { decompressGzip, type FileSource } from '@type-pal/reforge'
+import { decodeBattleSpriteAssetBytes, decompressGzip, type FileSource } from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
 import { writeFile } from './project-io.js'
 import {
@@ -35,11 +35,13 @@ async function assetBytes(
     const meta = file.catalogAsset
     if (bytes.byteLength !== meta.bytes || (await sha256Hex(bytes)) !== meta.sha256)
       throw new Error(`克隆资源 ${meta.id} 的 bytes/sha256 与 catalog 不符`)
-    if (meta.kind === 'tileset') {
+    if (meta.kind === 'tileset' || meta.kind === 'battle-sprite') {
       const view = new Uint8Array(bytes)
       if (view[0] !== 0x1f || view[1] !== 0x8b)
-        throw new Error(`克隆 tileset ${meta.id} 不是 canonical gzip`)
+        throw new Error(`克隆 ${meta.kind} ${meta.id} 不是 canonical gzip`)
     }
+    if (meta.kind === 'battle-sprite')
+      await decodeBattleSpriteAssetBytes(meta.record, bytes, `克隆 battle-sprite ${meta.id}`)
     return bytes
   }
   if (file.sourceLane === 'legacy' && file.rel.endsWith('.rle')) {

@@ -25,6 +25,7 @@ import {
   validateMapIndex,
 } from '@type-pal/content'
 import {
+  decodeBattleSpriteAssetBytes,
   decodeWorldSpriteAssetBytes,
   decompressGzip,
   type FileSource,
@@ -68,6 +69,7 @@ export function toEditorState(
     skills: Object.values(project.skills),
     items: Object.values(project.items),
     sprites: Object.values(project.spritesById),
+    battleSprites: Object.values(project.battleSpritesById),
     // M4c-3:敌人/敌队(by-id → 数组)
     enemies: Object.values(project.enemiesById ?? {}),
     enemyTeams: Object.values(project.enemyTeamsById ?? {}),
@@ -98,6 +100,7 @@ type ContentKey =
   | 'items'
   | 'locale'
   | 'sprites'
+  | 'battleSprites'
   | 'enemies'
   | 'enemyTeams'
   | 'battleFields'
@@ -184,6 +187,7 @@ export function serializeProject(
     items: state.items,
     locale: state.locale,
     sprites: state.sprites,
+    battleSprites: state.battleSprites,
     enemies: state.enemies ?? [],
     enemyTeams: state.enemyTeams ?? [],
     battleFields: state.battleFields ?? [],
@@ -500,6 +504,16 @@ export async function preflightProjectWriteSet(files: Record<string, unknown>): 
           } catch (cause) {
             throw new Error(
               `精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+            )
+          }
+        }
+      for (const record of records)
+        if (record.kind === 'battle-sprite') {
+          try {
+            await decodeBattleSpriteAssetBytes(record, value, `战斗精灵资源 ${rel}`)
+          } catch (cause) {
+            throw new Error(
+              `战斗精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
             )
           }
         }

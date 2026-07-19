@@ -166,7 +166,15 @@ export function validateActors(json: unknown): ActorDef[] {
     const battler = (a as { battler?: unknown }).battler
     if (battler !== undefined) {
       const bo = assertObject(battler, `actors[${i}].battler`) as Record<string, unknown>
-      requireKeys(bo, ['baseStats', 'initialEquipment', 'initialMagic'], `actors[${i}].battler`)
+      requireKeys(
+        bo,
+        ['baseStats', 'initialEquipment', 'initialMagic', 'battleSprite'],
+        `actors[${i}].battler`,
+      )
+      if ('battleSpriteNum' in bo || 'battleSpritePath' in bo)
+        throw new Error(`actors[${i}].battler: 旧 battleSpriteNum/battleSpritePath 已退役`)
+      if (typeof bo.battleSprite !== 'string' || bo.battleSprite.length === 0)
+        throw new Error(`actors[${i}].battler.battleSprite: 期望非空 BattleSpriteDef.id`)
       if (bo.sounds !== undefined)
         validateSoundFields(
           bo.sounds,
@@ -199,8 +207,27 @@ export function validateSkills(json: unknown): {
         string,
         unknown
       >
-      if (eo.kind === 'summon')
+      if (eo.kind === 'summon') {
+        if ('godId' in eo)
+          throw new Error(
+            `skills.skills[${i}].effects[${effectIndex}].godId: 已退役；请使用 battleSprite`,
+          )
+        if (typeof eo.battleSprite !== 'string' || eo.battleSprite.length === 0)
+          throw new Error(
+            `skills.skills[${i}].effects[${effectIndex}].battleSprite: 期望非空 BattleSpriteDef.id`,
+          )
         validateOptionalAssetId(eo, 'sound', `skills.skills[${i}].effects[${effectIndex}]`)
+      }
+      if (eo.kind === 'trance') {
+        if ('sprite' in eo)
+          throw new Error(
+            `skills.skills[${i}].effects[${effectIndex}].sprite: 已退役；请使用 battleSprite`,
+          )
+        if (typeof eo.battleSprite !== 'string' || eo.battleSprite.length === 0)
+          throw new Error(
+            `skills.skills[${i}].effects[${effectIndex}].battleSprite: 期望非空 BattleSpriteDef.id`,
+          )
+      }
     })
   })
   assertObject((json as { levelUp: unknown }).levelUp, 'skills.levelUp')
@@ -219,6 +246,20 @@ export function validateItems(json: unknown): ItemData[] {
       if (record[field] === undefined) continue
       const spec = assertObject(record[field], `items[${i}].${field}`) as Record<string, unknown>
       validateOptionalAssetId(spec, 'sound', `items[${i}].${field}`)
+    }
+    if (record.equip !== undefined) {
+      const equip = assertObject(record.equip, `items[${i}].equip`) as Record<string, unknown>
+      const effects = assertArray<Record<string, unknown>>(
+        equip.effects,
+        `items[${i}].equip.effects`,
+      )
+      effects.forEach((effect, effectIndex) => {
+        if (effect.kind !== 'battleSprite') return
+        if (typeof effect.sprite !== 'string' || effect.sprite.length === 0)
+          throw new Error(
+            `items[${i}].equip.effects[${effectIndex}].sprite: 期望非空 BattleSpriteDef.id`,
+          )
+      })
     }
   })
   return arr
@@ -257,9 +298,17 @@ export function validateEnemies(json: unknown): EnemyDef[] {
   arr.forEach((enemy, index) => {
     const ctx = `enemies[${index}]`
     const record = assertObject(enemy, ctx) as Record<string, unknown>
-    requireKeys(record, ['id', 'name', 'stats', 'ai', 'anim', 'sounds'], ctx)
+    requireKeys(record, ['id', 'name', 'battleSprite', 'yPosOffset', 'stats', 'ai', 'sounds'], ctx)
     if (typeof record.id !== 'string' || record.id.length === 0)
       throw new Error(`${ctx}.id: 期望非空 string`)
+    if ('spriteNum' in record || 'spritePath' in record || 'anim' in record)
+      throw new Error(
+        `${ctx}: 旧 spriteNum/spritePath/anim 已退役；请使用 battleSprite + yPosOffset`,
+      )
+    if (typeof record.battleSprite !== 'string' || record.battleSprite.length === 0)
+      throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
+    if (typeof record.yPosOffset !== 'number' || !Number.isFinite(record.yPosOffset))
+      throw new Error(`${ctx}.yPosOffset: 期望有限数`)
     const sounds = validateSoundFields(
       record.sounds,
       ['attack', 'action', 'magic', 'death', 'call'],

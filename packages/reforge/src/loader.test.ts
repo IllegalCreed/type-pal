@@ -19,6 +19,7 @@ const manifest: LoadedManifest = {
     maps: 'content/maps/index.json',
     tilesets: 'content/tilesets.json',
     sprites: 'content/sprites.json',
+    battleSprites: 'content/battle-sprites.json',
   },
   assets: {
     catalog: 'assets/index.json',
@@ -58,6 +59,7 @@ const actorsJson = [
       },
       initialEquipment: { weapon: '166' },
       initialMagic: ['296'],
+      battleSprite: 'battle-sprite.player',
     },
   },
   { id: 'youhun', name: 'name.youhun', spriteId: 'ghost' },
@@ -107,6 +109,31 @@ const spritesJson = [
     layout: { kind: 'directional', framesPerDir: 3 },
   },
 ]
+const battleSpritesJson = [
+  {
+    id: 'battle-sprite.player',
+    label: '李逍遥战斗精灵',
+    asset: 'battle-sprite.generated.player',
+    profile: {
+      kind: 'player-fighter' as const,
+      frames: {
+        idle: 0,
+        dying: 1,
+        dead: 2,
+        defend: 3,
+        hurt: 4,
+        preMagic: 5,
+        magic: 6,
+        attackWindup: 7,
+        attackRush: 8,
+        attackStrike: 9,
+        steal: 10,
+      },
+      castEffectBase: 0,
+      attackEffectBase: 0,
+    },
+  },
+]
 const baseJsons = {
   actors: actorsJson,
   sceneIds: ['guijie-minju'],
@@ -115,6 +142,7 @@ const baseJsons = {
   items: itemsJson,
   locale: localeJson,
   sprites: spritesJson,
+  battleSprites: battleSpritesJson,
   maps: {
     version: 1 as const,
     maps: [{ id: 'home', name: '民居', path: 'content/maps/home.json' }],
@@ -146,6 +174,15 @@ const baseJsons = {
         bytes: 0,
         sha256: '1'.repeat(64),
         label: '游魂资源',
+        origin: { kind: 'generated' as const },
+      },
+      'battle-sprite.generated.player': {
+        kind: 'battle-sprite' as const,
+        path: 'assets/generated/battle-sprites/player.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: 0,
+        sha256: '2'.repeat(64),
+        label: '李逍遥战斗精灵',
         origin: { kind: 'generated' as const },
       },
     },
@@ -266,6 +303,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
     'content/items.json': itemsJson,
     'content/locale.json': localeJson,
     'content/sprites.json': spritesJson,
+    'content/battle-sprites.json': battleSpritesJson,
     'content/maps/index.json': baseJsons.maps,
     'content/maps/home.json': projectMapJson,
     'content/tilesets.json': baseJsons.tilesets,

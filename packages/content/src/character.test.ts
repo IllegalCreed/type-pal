@@ -14,6 +14,7 @@ const hero: ActorDef = {
   name: 'name.test-hero',
   spriteId: 'hero-sprite',
   battler: {
+    battleSprite: 'hero-battle-sprite',
     baseStats: {
       level: 1,
       hp: 150,

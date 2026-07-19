@@ -121,7 +121,7 @@ export type Command =
       actor: string
       spriteId?: string
       portrait?: AssetId
-      battleSprite?: number
+      battleSprite?: string
     }
   // 0x69:敌人逃离战场(战斗演出 choreography 专用;终止战斗无奖励)。大世界 host 打日志跳过。
   | { kind: 'fleeBattle' }
@@ -481,9 +481,15 @@ export function checkCommands(
         throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
     }
     if (k === 'setActorAppearance') {
-      const portrait = (c as { portrait?: unknown }).portrait
+      const command = c as { portrait?: unknown; battleSprite?: unknown }
+      const portrait = command.portrait
       if (portrait !== undefined && (typeof portrait !== 'string' || portrait.length === 0))
         throw new Error(`${path}[${i}].portrait: 期望非空 AssetId`)
+      if (
+        command.battleSprite !== undefined &&
+        (typeof command.battleSprite !== 'string' || command.battleSprite.length === 0)
+      )
+        throw new Error(`${path}[${i}].battleSprite: 期望非空 BattleSpriteDef.id`)
     }
     if (k === 'setFollowers') {
       const sprites = (c as { sprites?: unknown }).sprites

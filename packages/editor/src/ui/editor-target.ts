@@ -21,11 +21,22 @@ export function editorObjectTargetMissing(state: EditorState, location: EditorLo
     return !state.actors.some((candidate) => candidate.id === objectId)
   }
   if (subpage.dataPage === 'sprite') {
-    return (
-      !state.sprites.some((candidate) => candidate.id === objectId) &&
-      state.assetCatalog.assets[objectId]?.kind !== 'sprite'
-    )
+    const domain = location.domain ?? 'world'
+    const view = location.view ?? 'definition'
+    if (domain === 'battle')
+      return view === 'asset'
+        ? state.assetCatalog.assets[objectId]?.kind !== 'battle-sprite'
+        : !(state.battleSprites ?? []).some((candidate) => candidate.id === objectId)
+    return view === 'asset'
+      ? state.assetCatalog.assets[objectId]?.kind !== 'sprite'
+      : !state.sprites.some((candidate) => candidate.id === objectId)
   }
+  if (subpage.dataPage === 'item')
+    return !state.items.some((candidate) => candidate.id === objectId)
+  if (subpage.dataPage === 'skill')
+    return !state.skills.some((candidate) => candidate.id === objectId)
+  if (subpage.dataPage === 'enemy')
+    return !(state.enemies ?? []).some((candidate) => candidate.id === objectId)
   if (subpage.dataPage === 'music') {
     return state.assetCatalog.assets[objectId]?.kind !== 'music'
   }

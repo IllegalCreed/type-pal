@@ -19,7 +19,8 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
   return {
     id,
     name: `name.${id}`,
-    spriteNum: 1,
+    battleSprite: `battle-sprite.${id}`,
+    yPosOffset: 0,
     stats: {
       health: 30,
       level: 1,
@@ -38,14 +39,6 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
       ...o,
     },
     ai: { resistanceToSorcery: 5 },
-    anim: {
-      idleFrames: 2,
-      magicFrames: 0,
-      attackFrames: 2,
-      idleAnimSpeed: 5,
-      actWaitFrames: 1,
-      yPosOffset: 0,
-    },
     sounds: {},
   }
 }
@@ -2141,11 +2134,11 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(pendingItemUses(s).get('yao')).toBeUndefined() // 改选后自动释放(动态计算)
   })
 
-  test('変身(trance):tranceSprite 落施法者;链上 buffStat 同步生效', () => {
+  test('変身(trance):tranceBattleSprite 落施法者;链上 buffStat 同步生效', () => {
     const mengshe = mkSkill('ms', {
       target: 'self',
       effects: [
-        { kind: 'trance', sprite: 5 },
+        { kind: 'trance', battleSprite: 'battle-sprite.player.005' },
         { kind: 'buffStat', stat: 'attack', percent: 100, duration: 'battle' },
       ],
     })
@@ -2155,7 +2148,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       skills: { ms: mengshe },
     })
     turn(s, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'ms' }))
-    expect(s.players[0]!.tranceSprite).toBe(5)
+    expect(s.players[0]!.tranceBattleSprite).toBe('battle-sprite.player.005')
     expect(s.players[0]!.attackStrength).toBe(60)
   })
 })

@@ -1,10 +1,11 @@
-import type { AssetCatalogV1 } from '@type-pal/content'
+import type { AssetCatalogV1, BattleSpriteDef } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { AssetResolver } from './asset-resolver.js'
 import type { AssetBase } from './assets.js'
 import {
+  BattleSpriteAssetCache,
   compressGzip,
-  loadBattleSprite,
+  loadBattleSpriteDefinition,
   loadProjectMap,
   loadSpriteAsset,
   loadStandardPalette,
@@ -280,29 +281,105 @@ describe('loadSpriteAsset AssetId 唯一链', () => {
   })
 })
 
-describe('loadBattleSprite 双轨路径(A4c 战斗外观上传)', () => {
-  const gz = async (): Promise<ArrayBuffer> => {
-    const out = await compressGzip(new Uint8Array([0, 0]))
-    return out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
+describe('BattleSpriteDef + catalog loader/cache 唯一链', () => {
+  const fixture = async (pixel = 0x44) => {
+    const raw = new Uint8Array([1, 0, 1, 0, 1, 0, 1, pixel])
+    const out = await compressGzip(raw)
+    const bytes = out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer
+    const digest = await crypto.subtle.digest('SHA-256', bytes)
+    const sha256 = [...new Uint8Array(digest)]
+      .map((value) => value.toString(16).padStart(2, '0'))
+      .join('')
+    return { bytes, sha256 }
   }
-  test('缺 path = 原版号约定;assets/ 前缀 path = 工程根相对', async () => {
-    const seen: string[] = []
-    const src: FileSource = {
-      readText: async () => '',
-      readJson: async <T>() => ({}) as T,
-      readBytes: async (rel: string) => {
-        seen.push(rel)
-        return gz()
+  const definition = (asset = 'battle.shared'): BattleSpriteDef => ({
+    id: 'fighter',
+    label: '战士',
+    asset,
+    profile: {
+      kind: 'player-fighter',
+      frames: {
+        idle: 0,
+        dying: 0,
+        dead: 0,
+        defend: 0,
+        hurt: 0,
+        preMagic: 0,
+        magic: 0,
+        attackWindup: 0,
+        attackRush: 0,
+        attackStrike: 0,
       },
-      urlFor: async (rel: string) => rel,
+      castEffectBase: 0,
+      attackEffectBase: 0,
+    },
+  })
+
+  test('并发共享 promise，完整 record 变化失效，失败驱逐后可重试', async () => {
+    const first = await fixture(0x11)
+    const second = await fixture(0x22)
+    let current = first
+    let path = 'assets/authored/battle/first.rle'
+    let label = 'first'
+    const readBytes = vi.fn(async () => current.bytes)
+    const reader = {
+      record: () => ({
+        kind: 'battle-sprite' as const,
+        path,
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: current.bytes.byteLength,
+        sha256: current.sha256,
+        label,
+        origin: { kind: 'authored' as const },
+      }),
+      readBytes,
     }
-    await loadBattleSprite(base(src), 'enemy', 42) // 原版号
-    await loadBattleSprite(base(src), 'enemy', 900, 'assets/battle-sprites/slime.rle') // 自有上传
-    await loadBattleSprite(base(src), 'player', 3) // 玩家侧原版号
-    expect(seen).toEqual([
-      '/extracted/data/battle-sprite/enemy/42.rle',
-      'assets/battle-sprites/slime.rle',
-      '/extracted/data/battle-sprite/player/3.rle',
+    const cache = new BattleSpriteAssetCache()
+    const [left, right] = await Promise.all([
+      cache.load(reader, 'battle.shared'),
+      cache.load(reader, 'battle.shared'),
     ])
+    expect(left).toBe(right)
+    expect(readBytes).toHaveBeenCalledTimes(1)
+
+    current = second
+    path = 'assets/authored/battle/second.rle'
+    expect((await cache.load(reader, 'battle.shared')).frames[0]?.pixels[0]).toBe(0x22)
+    expect(readBytes).toHaveBeenCalledTimes(2)
+    label = 'second-label'
+    await cache.load(reader, 'battle.shared')
+    expect(readBytes).toHaveBeenCalledTimes(3)
+
+    const failed = { ...reader, readBytes: vi.fn(async () => new ArrayBuffer(1)) }
+    await expect(cache.load(failed, 'battle.failed')).rejects.toThrow()
+    await expect(cache.load(reader, 'battle.failed')).resolves.toBeDefined()
+  })
+
+  test('definition profile/kind/帧越界在 readiness fail-loud', async () => {
+    const current = await fixture()
+    const reader = {
+      record: () => ({
+        kind: 'battle-sprite' as const,
+        path: 'assets/generated/battle.rle',
+        mediaType: 'application/vnd.type-pal.rle',
+        bytes: current.bytes.byteLength,
+        sha256: current.sha256,
+        origin: { kind: 'generated' as const },
+      }),
+      readBytes: async () => current.bytes,
+    }
+    const cache = new BattleSpriteAssetCache()
+    await expect(
+      loadBattleSpriteDefinition(cache, reader, definition(), 'player-fighter'),
+    ).resolves.toMatchObject({ definition: { id: 'fighter' } })
+    await expect(loadBattleSpriteDefinition(cache, reader, definition(), 'enemy')).rejects.toThrow(
+      'profile 期望 enemy',
+    )
+    const outOfRange = definition()
+    if (outOfRange.profile.kind !== 'player-fighter') throw new Error('fixture profile')
+    outOfRange.profile.frames.attackStrike = 1
+    await expect(
+      loadBattleSpriteDefinition(cache, reader, outOfRange, 'player-fighter'),
+    ).rejects.toThrow(/AssetId.*只有 1 帧/)
   })
 })

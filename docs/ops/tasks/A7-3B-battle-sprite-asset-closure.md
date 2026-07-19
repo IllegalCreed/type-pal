@@ -1,6 +1,6 @@
 # A7-3B - 战斗精灵索引资源闭包
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / B5 / X4
 Coding Owner: Codex
@@ -309,12 +309,15 @@ Branch: main
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-19）**。实现与自验证完成：PAL 172 records / 171 defs / 179 refs / 171 used /
+  5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾，最终 catalog 1,879 records /
+  68,439,367 B；R1-R4、G1-G4 全落。五包 typecheck + 1641 tests passed / 1 existing skip、editor/reforge
+  production build、Biome、`git diff --check` 全绿；编辑器与 PAL 两组战斗浏览器烟测无 console 错误。
 - Kimi: pending
 - GLM: pending
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **blocked（等待 Kimi/GLM 正式实现审查；内部只读 audit 不代签）**
 
 ## Draft: 设计与风险
 
@@ -410,36 +413,72 @@ Branch: main
 ## Build: 实现与自测
 
 - Coding Owner: Codex（三签齐，2026-07-19 进入 build）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - content：`battle-sprite.ts`、Actor/Enemy/Character/Item/Skill/Script、typed asset/reference validator；
+  - migrate：`pal-battle-sprites.ts`、PAL asset/manifest/migration、raw content/enemy/event 翻译与确定性 fixture；
+  - reforge：catalog loader/cache/readiness、active appearance、battle core/session/animation/presentation、save v4；
+  - editor：定义/资产资源库与预览/picker/import，commands/session/diagnostics/local-v3 journal/save/clone/zip；
+  - projects：PAL/baseline 的 catalog/content/manifest，demo/e2e-own generated placeholder；本卡所列阶段文档。
+- 实现摘要:
+  - 新增带判别 profile 的 `BattleSpriteDef`，所有业务消费者只引用定义 id；`battle-sprite` 退出 legacy。
+  - PAL 172 个 gzip RLE 全量登记并 byte-exact 物化；7 装备、3 appearance、1 trance、9 summon 在上游
+    迁移为语义引用，effect-index 物化到 fighter profile，迁移二跑 0/0/0。
+  - runtime 使用每工程 catalog cache/readiness 与递归敌闭包；active appearance 同时驱动图像/ABI/effect，
+    梦蛇一阶段时序与生命周期、session ownership、equal-Y X 降序都已回归。
+  - editor 完成定义/资产双视图、逐帧/命名动作、typed 深链、导入/赋值/替换/独立删除、共享/no-shrink、
+    可逆修复与保存；local-v3 journal 和 save v4 fail-closed。
+  - 浏览器实测发现并修复“从当前定义切资源视图却落到排序首项”的深链 bug，并增加回归与输入 aria label。
+- 运行命令:
+  - `pnpm --filter @type-pal/content check` -> 23 files / 255 tests；
+  - `pnpm --filter @type-pal/shared check` -> 13 files / 121 tests；
+  - `pnpm --filter @type-pal/reforge check` -> 54 files / 500 tests；
+  - `pnpm --filter @type-pal/editor check` -> 58 files / 528 tests；
+  - `pnpm --filter @type-pal/migrate check` -> 32 files / 237 passed + 1 existing skip；
+  - `pnpm --filter @type-pal/editor build`、`pnpm --filter @type-pal/reforge build`、`pnpm lint`、
+    `git diff --check`；正式路径静态扫描旧 loader、number/path/godId、`g+10`、`spriteNum*2` 均为 0。
+- 浏览器 / 手工检查:
+  - 编辑器 `http://127.0.0.1:6010/?module=asset&page=sprite&domain=battle&view=definition&object=player-fighter-0`：
+    171/172、定义/资源路由、逐帧、命名动作、标签输入、引用与窄栏布局通过；console 0 warning/error。
+  - PAL `http://localhost:6051/?scene=s189&battle=217` 与 `?scene=s166&battle=175`：真实 fighter/enemy
+    初始帧、bottom-center 锚点、场景着色正常；console 0 warning/error。
+  - 梦蛇完整时序/死复活/战后恢复、装备形象、土灵珠召唤和敌变身/召唤由 phase-1 golden + deterministic
+    core/session/readiness tests 验证，避免用肉眼计 40ms/16ms 帧。
+- 跳过的检查及原因: 未要求用户承担例行验证；Kimi 正式视觉主审和 Kimi/GLM task-card accept 尚未执行，
+  因此只推进 review，不标 done。
 
 ## 资源生成记录(如适用)
 
 - Generation Owner: N/A（PAL 只做确定性 byte-exact 迁移；blank placeholder 为代码生成 fixture，不是 AI 生图）
-- 生成目的 / 替换对象: pending
+- 生成目的 / 替换对象: 让 demo/e2e-own/blank 显式拥有可解码战斗形象，避免默认借用 PAL player 0；
+  PAL 原版字节仅由本地合法提取源确定性物化。
 - 提示词要点 / 风格约束: N/A
-- 输出路径: pending
+- 输出路径: `projects/demo/assets/generated/battle-sprites/**`、
+  `projects/e2e-own/assets/generated/battle-sprites/**`；PAL 本地输出为
+  `projects/pal/assets/migrated/battle-sprites/{player,enemy}/**`（受保护且 gitignore）。
 - 尺寸 / 格式 / 透明背景 / 调色约束: gzip indexed RLE + 工程标准色彩
-- 资源登记位置: pending
-- 验证方式: pending
+- 资源登记位置: 各工程 `assets/index.json` + `content/battle-sprites.json` + `manifest.content.battleSprites`
+- 验证方式: placeholder 确定性生成测试；PAL 逐文件 path/media/origin/bytes/SHA/gzip/source byte-exact，
+  172 files / 900,973 B / 775 frames / 6 tail slots 与三个 tuple digest 冻结。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: Codex 使用本地 dev server + in-app browser 做编辑器和 PAL Reforge 实机 smoke；动画毫秒时序、
+  session 生命周期、递归 readiness 和层序用 phase-1 golden/确定性测试逐帧断言。
+- 截图 / 像素检查路径: 浏览器会话即时截图已检查，不向仓库提交测试图片；实现证据由 URL、console 记录与
+  `BattleSpriteLibrary.test.tsx` / `battle-anim.test.ts` / `battle-session.test.ts` /
+  `present-battle.test.ts` 固化。
+- 结论: Codex **accept**；资源库三栏布局无按钮溢出，定义/资源 deep-link 修复后保持当前 AssetId；
+  s189/team217、s166/team175 初始战斗帧正常，console 无 warning/error。
+- 未完成项: Kimi 正式视觉主审签字 pending；不转嫁给用户。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: 三个内部只读压力审计均 accept（runtime、editor、data/local-upgrader），未发现 blocker；它们仅作为
+  Codex 自验证增强证据，不替代 Kimi/GLM 订阅席位正式签字。
+- 必须返工项: 当前无；正式 reviewer 若发现问题按 counter/rework 处理。
+- Accept / rework: **pending formal Kimi + GLM review**
 
 ## 用户验收
 
@@ -467,12 +506,62 @@ Branch: main
   正式将任务从 draft 推进至 build。R1-R4 与 G1-G4 全部并入实现和验收范围，Coding Owner 仅 Codex；
   其他 Agent 只允许只读审计。Next: 先完成内容模型、确定性迁移与工程自包含，再收口 runtime、editor、save
   和 transport，完成自验证后进入三方 review。
+- 2026-07-19 Codex: A7-3B 实现与自验证完成，签 **accept** 并推进至 review。冻结结果 172 records /
+  171 defs / 179 refs / 171 used / 5 shared / 1 unused、900,973 B / 775 frames / 6 bad tails、catalog
+  1,879 / 68,439,367 B；R1-R4/G1-G4、MG2/local-v3/save v4/transport/editor 双生命周期全部落地。
+  五包 1641 tests passed + 1 existing skip、两个 production build、lint/diff/static scan 全绿；编辑器定义/资源
+  深链和 PAL s189/team217、s166/team175 实机 smoke 无 console 错误。内部 runtime/editor/data 三路只读审计
+  accept，但不代签 Kimi/GLM。Next: Kimi 做架构/runtime/editor/视觉正式 review，GLM 做数据/migration/IO/
+  测试矩阵正式 review；两方都只能改任务卡审查记录，不得改实现或提前标 done。
 
 ## 下一位 Agent 提示词
 
-当前无下一位 Agent 提示词；Codex 正在 build。以下为已经执行完毕的 draft 历史提示词，仅保留审计轨迹。
+### Kimi（当前正式 review）
 
-### Kimi
+```text
+接手任务: A7-3B 战斗精灵索引资源闭包的正式实现/视觉审查
+任务卡: docs/ops/tasks/A7-3B-battle-sprite-asset-closure.md
+当前状态: review；Codex=accept，Kimi/GLM=pending，done blocked
+你的角色: 架构/schema/跨包接口、runtime 战斗表现、editor UX 与视觉主审
+先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全部内容、
+docs/phase2/foundation/content-schema.md §6.7、docs/phase2/foundation/a7-resource-closure-audit.md §3.13、
+docs/phase2/battle-presentation-audit-2026-07-05.md §8、docs/phase1/game-mechanics.md:1234-1248。
+已完成: Codex 已实现并自验 BattleSpriteDef/catalog 单链、active appearance、梦蛇一阶段时序、递归 readiness、
+equal-Y 层序、save v4/local-v3、编辑器定义/资产双生命周期；五包 1641 tests passed + 1 existing skip，
+editor/reforge build 与 lint 全绿。浏览器实测资源库和 PAL s189/team217、s166/team175 无 console 错误。
+请你做: 独立审实现，不采信摘要代替源码；重点核对 R1-R4、profile 字段归属、图像/ABI/effect 同一 active def、
+trance 死亡复活/战后清理、effectiveSkills+合体+敌递归闭包、session ownership、bottom-center/equal-Y 层序；
+审编辑器定义/资产切换、具体资源深链、共享/no-shrink/undo/delete、长名窄栏与可访问性。可复跑测试和本地浏览器。
+输出要求: 若无 blocker，只修改任务卡，把 Kimi 审查签写为 accept，补证据、视觉结论和交接日志；若有问题签
+counter，列出可复现步骤、文件/行、必须返工项与是否需用户拍板。明确 accept 或 counter。
+不要做: 不得修改实现文件，不得代签 GLM，不得把 Status 改 done，不得把 effect-sprite/image/A7-4 冒领为完成。
+```
+
+### GLM（当前正式 review）
+
+```text
+接手任务: A7-3B 战斗精灵索引资源闭包的数据/迁移/IO/测试正式审查
+任务卡: docs/ops/tasks/A7-3B-battle-sprite-asset-closure.md
+当前状态: review；Codex=accept，Kimi/GLM=pending，done blocked
+你的角色: 数据/schema、迁移/MG2、local-v3/save、引用闭包和测试矩阵主审
+先读: AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本任务卡全部内容、
+docs/phase2/foundation/content-schema.md §6.7、docs/phase2/migrate/asset-pipeline.md §13、
+docs/phase2/editor/project-lifecycle-design.md §15、docs/phase2/foundation/a7-resource-closure-audit.md §3.13。
+已完成: Codex 已实现并自验；目标冻结为 172 files / 900,973 gzip B / 2,313,598 raw B / 775 frames /
+6 tails，171 defs / 179 refs / 171 used / 5 shared / 1 unused，catalog 1,879 / 68,439,367 B；
+五包 1641 tests passed + 1 existing skip，migration 二跑 0/0/0，正式旧字段静态扫描为 0。
+请你做: 独立复算 G1-G4 和全部数据门禁；核对 player0/channel、19+153 byte/SHA/digest、enemy98、
+7 equip+3 appearance+1 trance+9 summon、effect-index 物化；审 typed walker/validator、MG2 author ownership、
+local-v3 journal read-set/目录 inventory/路径冲突/中断恢复、save v4 party+reserve、HTTP/FSA/Save As/clone/ZIP、
+demo/e2e placeholder 与 PAL ignored 原版字节边界。复跑你认为必要的测试。
+输出要求: 若无 blocker，只修改任务卡，把 GLM 审查签写为 accept，补独立数字、测试和交接日志；若有差异签
+counter，给出命令/数字/文件/行、必须返工项与是否需用户拍板。明确 accept 或 counter。
+不要做: 不得修改实现文件，不得代签 Kimi，不得把 Status 改 done，不得手改 projects/pal 生成产物。
+```
+
+以下为已经执行完毕的 draft 历史提示词，仅保留审计轨迹。
+
+### Kimi（历史 draft）
 
 ```text
 接手任务: A7-3B 战斗精灵索引资源闭包的 draft 架构/UX 设计审查
@@ -494,7 +583,7 @@ docs/phase2/foundation/a7-resource-closure-audit.md、A7-3T/A7-3W 任务卡和�
 输出要求: 在任务卡落签/意见/证据/交接日志；回复明确 agree 或 counter、必须返工项、是否建议进入 build。
 ```
 
-### GLM
+### GLM（历史 draft）
 
 ```text
 接手任务: A7-3B 战斗精灵索引资源闭包的 draft 数据/迁移/测试设计审查

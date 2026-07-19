@@ -6,11 +6,17 @@
 import {
   type AssetId,
   type AssetRecordV1,
+  type BattleSpriteDef,
+  type BattleSpriteProfileKind,
+  battleSpriteDefinitionFrameIndices,
   type ProjectMap,
   validateProjectMap,
 } from '@type-pal/content'
 import {
+  type IndexedRleChunkProfile,
+  type IndexedRleChunkResult,
   type Palette,
+  parseIndexedRleChunk,
   parseSpriteChunk,
   parseSpriteChunkStrict,
   parseWorldSpriteChunk,
@@ -264,30 +270,161 @@ export class SpriteAssetCache {
   }
 }
 
-/**
- * 战斗精灵(M4b):{root}/battle-sprite/{kind}/{id}.rle(gzip RLE 帧组;kind=enemy/player)。
- * 帧格式同大世界精灵(parseSpriteChunk),故复用 LoadedSprite。
- * A4c 双轨:path 有值 = 自有上传(`assets/` 前缀工程根相对,同 loadSprite/tileset 约定)。
- */
-export async function loadBattleSprite(
-  base: AssetBase,
-  kind: 'enemy' | 'player',
-  id: number,
-  path?: string,
-): Promise<LoadedSprite> {
-  const full = path
-    ? path.startsWith('assets/')
-      ? path
-      : `${base.root}/${path}`
-    : `${base.root}/battle-sprite/${kind}/${id}.rle`
-  const raw = await readAssetBytes(base, full, `battle sprite ${path ?? `${kind}/${id}`}`)
-  const frames = parseSpriteChunk(await decompressGzip(new Blob([raw])))
-  const first = frames[0]
+/** AssetResolver 与编辑器 pending-aware reader 共用的 battle-sprite 读取契约。 */
+export interface BattleSpriteAssetReader {
+  record(asset: AssetId, expectedKind?: 'battle-sprite'): AssetRecordV1
+  readBytes(asset: AssetId, expectedKind?: 'battle-sprite'): Promise<ArrayBuffer>
+}
+
+export interface LoadedBattleSprite extends LoadedSprite {
+  profile: IndexedRleChunkProfile
+  decode: Omit<IndexedRleChunkResult, 'frames'>
+}
+
+/** record + bytes 的唯一 battle-sprite 校验/解码核；兼容只由 origin 决定。 */
+export async function decodeBattleSpriteAssetBytes(
+  record: AssetRecordV1,
+  bytes: ArrayBuffer,
+  label = `battle-sprite asset ${record.path}`,
+): Promise<LoadedBattleSprite> {
+  const snapshot = structuredClone(record)
+  if (snapshot.kind !== 'battle-sprite')
+    throw new Error(`${label}: 期望 kind=battle-sprite，实际 ${snapshot.kind}`)
+  if (snapshot.mediaType !== 'application/vnd.type-pal.rle')
+    throw new Error(`${label}: mediaType 非法 ${snapshot.mediaType}`)
+  if (bytes.byteLength !== snapshot.bytes)
+    throw new Error(`${label}: bytes 登记 ${snapshot.bytes}，实际 ${bytes.byteLength}`)
+  const hash = await contentSha256(bytes)
+  if (hash !== snapshot.sha256) throw new Error(`${label}: sha256 不符`)
+  const compressed = new Uint8Array(bytes)
+  if (compressed.byteLength < 2 || compressed[0] !== 0x1f || compressed[1] !== 0x8b)
+    throw new Error(`${label}: .rle 必须带 gzip 头`)
+  const profile: IndexedRleChunkProfile =
+    snapshot.origin.kind === 'legacy-migrated' ? 'legacy-migrated' : 'canonical'
+  const parsed = parseIndexedRleChunk(await decompressGzip(new Blob([bytes])), profile)
+  const first = parsed.frames[0]
+  if (!first) throw new Error(`${label}: 至少需要 1 个有效帧`)
   return {
-    frames,
-    anchorX: first ? Math.floor(first.width / 2) : 0,
-    anchorY: first ? first.height : 0,
+    frames: parsed.frames,
+    anchorX: Math.floor(first.width / 2),
+    anchorY: first.height,
+    profile,
+    decode: {
+      declaredSlots: parsed.declaredSlots,
+      trailingSentinel: parsed.trailingSentinel,
+      skippedLegacyTailSlots: parsed.skippedLegacyTailSlots,
+    },
   }
+}
+
+export async function loadBattleSpriteAsset(
+  reader: BattleSpriteAssetReader,
+  asset: AssetId,
+): Promise<LoadedBattleSprite> {
+  const record = structuredClone(reader.record(asset, 'battle-sprite'))
+  const bytes = await reader.readBytes(asset, 'battle-sprite')
+  return decodeBattleSpriteAssetBytes(record, bytes, `battle-sprite AssetId "${asset}"`)
+}
+
+function completeRecordSignature(record: AssetRecordV1): string {
+  return JSON.stringify({
+    kind: record.kind,
+    path: record.path,
+    mediaType: record.mediaType,
+    bytes: record.bytes,
+    sha256: record.sha256,
+    label: record.label ?? null,
+    origin: { kind: record.origin.kind, ref: record.origin.ref ?? null },
+  })
+}
+
+interface BattleSpriteAssetCacheEntry {
+  signature: string
+  promise: Promise<LoadedBattleSprite>
+  value?: LoadedBattleSprite
+}
+
+/** 每工程实例缓存；共享并发 Promise、失败驱逐、完整 record 变化自动失效。 */
+export class BattleSpriteAssetCache {
+  private readonly entries = new Map<AssetId, BattleSpriteAssetCacheEntry>()
+
+  constructor(private readonly capacity = 192) {}
+
+  async load(reader: BattleSpriteAssetReader, asset: AssetId): Promise<LoadedBattleSprite> {
+    const record = structuredClone(reader.record(asset, 'battle-sprite'))
+    const signature = completeRecordSignature(record)
+    const existing = this.entries.get(asset)
+    if (existing?.signature === signature) {
+      this.entries.delete(asset)
+      this.entries.set(asset, existing)
+      return existing.promise
+    }
+    if (existing) this.entries.delete(asset)
+    let entry: BattleSpriteAssetCacheEntry
+    const promise = reader
+      .readBytes(asset, 'battle-sprite')
+      .then((bytes) =>
+        decodeBattleSpriteAssetBytes(record, bytes, `battle-sprite AssetId "${asset}"`),
+      )
+      .then((value) => {
+        if (this.entries.get(asset) === entry) entry.value = value
+        return value
+      })
+      .catch((error: unknown) => {
+        if (this.entries.get(asset) === entry) this.entries.delete(asset)
+        throw error
+      })
+    entry = { signature, promise }
+    this.entries.set(asset, entry)
+    return entry.promise
+  }
+
+  get(reader: BattleSpriteAssetReader, asset: AssetId): LoadedBattleSprite | undefined {
+    const entry = this.entries.get(asset)
+    if (!entry) return undefined
+    if (entry.signature !== completeRecordSignature(reader.record(asset, 'battle-sprite'))) {
+      this.entries.delete(asset)
+      return undefined
+    }
+    return entry.value
+  }
+
+  prune(protectedAssets: ReadonlySet<AssetId> = new Set()): void {
+    for (const asset of [...this.entries.keys()]) {
+      if (this.entries.size <= this.capacity) break
+      if (!protectedAssets.has(asset)) this.entries.delete(asset)
+    }
+  }
+
+  clear(): void {
+    this.entries.clear()
+  }
+}
+
+export interface LoadedBattleSpriteDefinition {
+  definition: BattleSpriteDef
+  sprite: LoadedBattleSprite
+}
+
+/** profile 与实际帧 ABI 的 readiness 门；缺资源/错 profile/越界都 fail-loud。 */
+export async function loadBattleSpriteDefinition(
+  cache: BattleSpriteAssetCache,
+  reader: BattleSpriteAssetReader,
+  definition: BattleSpriteDef,
+  expected: BattleSpriteProfileKind,
+): Promise<LoadedBattleSpriteDefinition> {
+  if (definition.profile.kind !== expected)
+    throw new Error(
+      `BattleSpriteDef "${definition.id}" (AssetId "${definition.asset}") profile 期望 ${expected}，实际 ${definition.profile.kind}`,
+    )
+  const sprite = await cache.load(reader, definition.asset)
+  const indices = battleSpriteDefinitionFrameIndices(definition, sprite.frames.length)
+  for (const frame of indices)
+    if (!sprite.frames[frame])
+      throw new Error(
+        `BattleSpriteDef "${definition.id}" 引用帧 ${frame}，AssetId "${definition.asset}" 只有 ${sprite.frames.length} 帧`,
+      )
+  return { definition, sprite }
 }
 
 /** 物理命中特效精灵(chunk 10 = {root}/magic/effect.rle,gzip RLE;M4d-2)。 */

@@ -37,6 +37,7 @@ import {
   type LegacyDialogueState,
   putLegacyDialogueText,
 } from './legacy-dialog.js'
+import { palPlayerBattleSpriteDefinitionId } from './pal-battle-sprites.js'
 import type { SoundAssetForNum } from './sound-migration.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
@@ -1096,7 +1097,11 @@ function walkBody(
               : undefined,
           )
         else if (actor && field === 1)
-          push({ kind: 'setActorAppearance', actor, battleSprite: val })
+          push({
+            kind: 'setActorAppearance',
+            actor,
+            battleSprite: palPlayerBattleSpriteDefinitionId(val),
+          })
         else if (actor && field === 2) {
           const sprite = ctx.spriteIdForNum?.(val)
           if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })

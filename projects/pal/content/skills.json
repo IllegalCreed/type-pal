@@ -558,7 +558,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 4,
+          "battleSprite": "player-summon-14",
           "speed": 0,
           "tint": -1,
           "sound": "sound.pal.349"
@@ -710,7 +710,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 6,
+          "battleSprite": "player-summon-16",
           "speed": 1,
           "sound": "sound.pal.322"
         },
@@ -861,7 +861,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 2,
+          "battleSprite": "player-summon-12",
           "speed": 0,
           "tint": 5,
           "sound": "sound.pal.336"
@@ -1129,7 +1129,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 3,
+          "battleSprite": "player-summon-13",
           "speed": 0,
           "sound": "sound.pal.329"
         },
@@ -1429,7 +1429,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 1,
+          "battleSprite": "player-summon-11",
           "speed": 0,
           "sound": "sound.pal.304"
         },
@@ -1520,7 +1520,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 0,
+          "battleSprite": "player-summon-10",
           "speed": 2,
           "tint": -2,
           "sound": "sound.pal.303"
@@ -1816,7 +1816,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 7,
+          "battleSprite": "player-summon-17",
           "speed": 4,
           "sound": "sound.pal.343"
         },
@@ -2025,7 +2025,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 5,
+          "battleSprite": "player-summon-15",
           "speed": 1,
           "sound": "sound.pal.301"
         },
@@ -2446,7 +2446,7 @@
       "effects": [
         {
           "kind": "summon",
-          "godId": 8,
+          "battleSprite": "player-summon-18",
           "speed": 0,
           "tint": 5,
           "sound": "sound.pal.302"
@@ -2655,7 +2655,7 @@
       "effects": [
         {
           "kind": "trance",
-          "sprite": 5
+          "battleSprite": "player-fighter-5"
         },
         {
           "kind": "buffStat",

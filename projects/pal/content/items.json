@@ -2225,6 +2225,10 @@
         },
         {
           "kind": "attackAll"
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-6"
         }
       ]
     }
@@ -2258,6 +2262,10 @@
         },
         {
           "kind": "attackAll"
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-6"
         }
       ]
     }
@@ -2291,6 +2299,10 @@
         },
         {
           "kind": "attackAll"
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-6"
         }
       ]
     }
@@ -2751,6 +2763,10 @@
           "kind": "statBonus",
           "stat": "speed",
           "delta": 32
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-7"
         }
       ]
     }
@@ -2993,6 +3009,10 @@
           "kind": "statBonus",
           "stat": "luck",
           "delta": -9
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-7"
         }
       ]
     }
@@ -3077,6 +3097,10 @@
           "delta": 98
         },
         {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-7"
+        },
+        {
           "kind": "attackAll"
         },
         {
@@ -3128,6 +3152,10 @@
           "kind": "statBonus",
           "stat": "luck",
           "delta": 36
+        },
+        {
+          "kind": "battleSprite",
+          "sprite": "player-fighter-7"
         }
       ]
     }

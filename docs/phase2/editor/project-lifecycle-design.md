@@ -246,10 +246,11 @@ A7-0 起，v3 工程新增唯一物理资产链：
 - demo、e2e-own 和 blank seed 原先把工程标准颜色表留在 legacy fixture；本轮改为
   `visual.standardColorTable -> color.project-standard` catalog role。demo 使用 migrated color，
   e2e-own/blank 使用 generated color，三者都只保留尚未迁移的 sprite legacy。
-- A7-3T 已完成三方审查和用户验收。`sprite`、`battle-sprite`、`effect-sprite`、`image` 四项、全量断外链、
-  contentVersion 4 与删除 LegacyAssetAdapter 仍归后续切片/A7-4；A7/R7 总体仍未完成。
+- A7-3T 已完成三方审查和用户验收。该切片完成时尚有 `sprite`、`battle-sprite`、`effect-sprite`、`image`
+  四项；随后 A7-3W 已完成 sprite，A7-3B 实现候选已完成 battle-sprite。全量断外链、contentVersion 4 与
+  删除 LegacyAssetAdapter 仍归 A7-4；A7/R7 总体仍未完成。
 
-## 14. A7-3W 大世界精灵生命周期更新（2026-07-19，待三方 review）
+## 14. A7-3W 大世界精灵生命周期更新（2026-07-19，done）
 
 - 唯一读取链为 `SpriteDef.id -> SpriteDef.asset -> assets/index.json -> AssetResolver/FileSource`；
   canonical 工程不再保存 `SpriteDef.spriteNum/path`、`legacy.sprites` 或 sprite root fallback。
@@ -264,5 +265,25 @@ A7-0 起，v3 工程新增唯一物理资产链：
   离线运行不再请求 extracted sprite。
 - 存档与脚本中的编外跟随者保存 SpriteDef.id；旧数字只在本地升级和存档归一化边界出现，多义映射拒绝。
 
-本轮移除 legacy `sprite` 后，PAL 仍有 `battle-sprite/effect-sprite/image` 三族；catalog-only 总门禁、
-contentVersion 4 与 LegacyAssetAdapter 总删除仍归 A7-4，A7/R7 总体不能提前标 done。
+A7-3W 完成当时，PAL 仍有 `battle-sprite/effect-sprite/image` 三族；A7-3B 实现候选随后移除了
+`battle-sprite`。catalog-only 总门禁、contentVersion 4 与 LegacyAssetAdapter 总删除仍归 A7-4，
+A7/R7 总体不能提前标 done。
+
+## 15. A7-3B 战斗精灵生命周期更新（2026-07-19，待三方 review）
+
+- 唯一读取链为 `BattleSpriteDef.id -> BattleSpriteDef.asset -> assets/index.json -> AssetResolver/FileSource`；
+  canonical 工程不再保存 player/enemy number、path、summon godId 或 `legacy.battle-sprite`。
+- 编辑器把“语义定义”和“二进制资源”做成同一战斗精灵库的两个视图。作者导入可原子创建 authored record、
+  二进制 blob、定义并赋给 Actor/Enemy/Skill/Script/Item；定义与资产分别显示引用、共享、删除条件和深链。
+- 替换保留 AssetId，预读并验证持久旧字节，使用完整 SHA + 全消费者 proof；默认禁止缩短有效帧数。
+  显式修复式缩帧必须在同一可撤销命令里修复所有定义/消费者，undo/redo 恢复定义、record、bytes 与引用。
+- 本地 v3 升级器以 journal 和完整 read-set 做 crash recovery：先验证旧 number/path、源别名、目录 inventory、
+  catalog ownership 和所有目标路径，再按 binary -> union catalog -> content/scripts -> manifest -> final catalog
+  -> removals 单调前滚。mixed/ambiguous/missing/tamper 均零写入拒绝，重试与二次打开零计划。
+- HTTP clone、FSA、Save As、ZIP 和 pending blob 对 `.rle` 原字节复制，并校验 media/bytes/SHA/gzip/origin；
+  battle-sprite 不再经过 `tilesetBlobs` 或 extracted descriptor。PAL 本地原版二进制受保护不入 git，克隆出的
+  用户工程则完整持有所有 catalog 文件。
+- 存档格式独立升至 v4，只把旧 party/reserve 持久 battle appearance 在输入边界映射为定义 id；工程
+  `contentVersion` 仍是 3，留给 A7-4 统一升 4。
+
+本轮移除 legacy `battle-sprite` 后，PAL 只剩 `effect-sprite/image` 两族。A7/R7 总体仍未完成。

@@ -124,7 +124,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     icon: '🎒',
     defaultSubpage: 'item',
     subpages: [
-      { id: 'item', label: '物品', icon: '🎒', kind: 'data', dataPage: 'item' },
+      {
+        id: 'item',
+        label: '物品',
+        icon: '🎒',
+        kind: 'data',
+        dataPage: 'item',
+        acceptsObject: true,
+      },
       { id: 'shop', label: '商店', icon: '🏪', kind: 'data', dataPage: 'shop' },
     ],
   },
@@ -134,8 +141,22 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     icon: '⚔️',
     defaultSubpage: 'skill',
     subpages: [
-      { id: 'skill', label: '技能', icon: '✨', kind: 'data', dataPage: 'skill' },
-      { id: 'enemy', label: '敌人', icon: '👹', kind: 'data', dataPage: 'enemy' },
+      {
+        id: 'skill',
+        label: '技能',
+        icon: '✨',
+        kind: 'data',
+        dataPage: 'skill',
+        acceptsObject: true,
+      },
+      {
+        id: 'enemy',
+        label: '敌人',
+        icon: '👹',
+        kind: 'data',
+        dataPage: 'enemy',
+        acceptsObject: true,
+      },
       { id: 'poison', label: '毒', icon: '☠️', kind: 'data', dataPage: 'poison' },
       {
         id: 'battlefield',
@@ -226,6 +247,9 @@ export interface EditorLocation {
   module: EditorModuleId
   subpage: string
   objectId?: string
+  /** 精灵库唯一深链维度；只在 asset/sprite 保留。 */
+  domain?: 'world' | 'battle'
+  view?: 'definition' | 'asset'
 }
 
 export function editorModule(id: EditorModuleId): EditorModuleDefinition {
@@ -250,6 +274,23 @@ export function objectIdForSubpageNavigation(
   return location.subpage === destination.id && destination.acceptsObject
     ? location.objectId
     : undefined
+}
+
+/** 子页 tab 导航的完整位置；留在精灵库时必须同时保留资源域与定义/二进制视图。 */
+export function locationForSubpageNavigation(
+  location: EditorLocation,
+  destination: EditorSubpageDefinition,
+): EditorLocation {
+  const objectId = objectIdForSubpageNavigation(location, destination)
+  const preserveSpriteLocation =
+    location.module === 'asset' && location.subpage === 'sprite' && destination.id === 'sprite'
+  return {
+    module: location.module,
+    subpage: destination.id,
+    ...(objectId ? { objectId } : {}),
+    ...(preserveSpriteLocation && location.domain ? { domain: location.domain } : {}),
+    ...(preserveSpriteLocation && location.view ? { view: location.view } : {}),
+  }
 }
 
 export function editorSubpageForDataPage(page: DataPageId): EditorSubpageDefinition {
@@ -278,7 +319,15 @@ export function normalizeEditorLocation(
     ? (requestedSubpage as string)
     : module.defaultSubpage
   const objectId = typeof input?.objectId === 'string' ? input.objectId.trim() : ''
-  return { module: moduleId, subpage, ...(objectId ? { objectId } : {}) }
+  const spriteLocation = moduleId === 'asset' && subpage === 'sprite'
+  const domain = spriteLocation && input?.domain === 'battle' ? 'battle' : 'world'
+  const view = spriteLocation && input?.view === 'asset' ? 'asset' : 'definition'
+  return {
+    module: moduleId,
+    subpage,
+    ...(objectId ? { objectId } : {}),
+    ...(spriteLocation ? { domain, view } : {}),
+  }
 }
 
 export function decodeEditorLocation(search: string): EditorLocation {
@@ -287,6 +336,8 @@ export function decodeEditorLocation(search: string): EditorLocation {
     module: (params.get('module') as EditorModuleId | null) ?? undefined,
     subpage: params.get('page') ?? undefined,
     objectId: params.get('object') ?? undefined,
+    domain: (params.get('domain') as EditorLocation['domain'] | null) ?? undefined,
+    view: (params.get('view') as EditorLocation['view'] | null) ?? undefined,
   })
 }
 
@@ -297,14 +348,22 @@ export function editorLocationHref(location: EditorLocation, currentHref: string
   url.searchParams.set('page', normalized.subpage)
   if (normalized.objectId) url.searchParams.set('object', normalized.objectId)
   else url.searchParams.delete('object')
+  if (normalized.domain) url.searchParams.set('domain', normalized.domain)
+  else url.searchParams.delete('domain')
+  if (normalized.view) url.searchParams.set('view', normalized.view)
+  else url.searchParams.delete('view')
   return `${url.pathname}${url.search}${url.hash}`
 }
 
 export function sameEditorLocation(left: EditorLocation, right: EditorLocation): boolean {
+  const normalizedLeft = normalizeEditorLocation(left)
+  const normalizedRight = normalizeEditorLocation(right)
   return (
-    left.module === right.module &&
-    left.subpage === right.subpage &&
-    left.objectId === right.objectId
+    normalizedLeft.module === normalizedRight.module &&
+    normalizedLeft.subpage === normalizedRight.subpage &&
+    normalizedLeft.objectId === normalizedRight.objectId &&
+    normalizedLeft.domain === normalizedRight.domain &&
+    normalizedLeft.view === normalizedRight.view
   )
 }
 
@@ -338,6 +397,44 @@ export const editorLinks = {
     module: 'asset',
     subpage: 'sprite',
     objectId: spriteId,
+    domain: 'world',
+    view: 'definition',
+  }),
+  battleSpriteDefinition: (definitionId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sprite',
+    objectId: definitionId,
+    domain: 'battle',
+    view: 'definition',
+  }),
+  battleSpriteAsset: (assetId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sprite',
+    objectId: assetId,
+    domain: 'battle',
+    view: 'asset',
+  }),
+  battleSprite: (definitionId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sprite',
+    objectId: definitionId,
+    domain: 'battle',
+    view: 'definition',
+  }),
+  item: (itemId: string): EditorLocation => ({
+    module: 'item',
+    subpage: 'item',
+    objectId: itemId,
+  }),
+  skill: (skillId: string): EditorLocation => ({
+    module: 'battle',
+    subpage: 'skill',
+    objectId: skillId,
+  }),
+  enemy: (enemyId: string): EditorLocation => ({
+    module: 'battle',
+    subpage: 'enemy',
+    objectId: enemyId,
   }),
   sound: (assetId: string): EditorLocation => ({
     module: 'asset',

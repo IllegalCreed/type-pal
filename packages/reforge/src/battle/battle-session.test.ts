@@ -2,9 +2,15 @@
  * BattleSession 表现层钩子测试(M4d-3)—— headless tick 驱动,假 SfxPlayer 记录调用。
  * 只验「时机 → play(id)」接线;真实解码/发声浏览器验。
  */
-import type { ActivePoison, EnemyDef } from '@type-pal/content'
+import type {
+  ActivePoison,
+  BattleSpriteDef,
+  EnemyBattleSpriteProfile,
+  EnemyDef,
+  PlayerFighterBattleSpriteProfile,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { GlyphTable } from '../assets.js'
+import type { GlyphTable, LoadedBattleSpriteDefinition } from '../assets.js'
 import { type SfxPlayer, SfxReadinessBudgetError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { collectTurnActionSounds } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
@@ -24,7 +30,8 @@ function mkEnemy(
   return {
     id,
     name: `name.${id}`,
-    spriteNum: 1,
+    battleSprite: `battle-sprite.${id}`,
+    yPosOffset: 0,
     stats: {
       health: 30,
       level: 1,
@@ -43,14 +50,6 @@ function mkEnemy(
       ...o,
     },
     ai: { resistanceToSorcery: 5 },
-    anim: {
-      idleFrames: 2,
-      magicFrames: 0,
-      attackFrames: 2,
-      idleAnimSpeed: 5,
-      actWaitFrames: 1,
-      yPosOffset: 0,
-    },
     sounds: {
       attack: 'sound.pal.355',
       action: 'sound.pal.300',
@@ -77,6 +76,72 @@ const player = (roleId: string, o: Partial<BattlePlayerState> = {}): CreatePlaye
 
 const stubGlyphs = { has: () => false, get: () => undefined } as unknown as GlyphTable
 
+const PLAYER_PROFILE: PlayerFighterBattleSpriteProfile = {
+  kind: 'player-fighter',
+  frames: {
+    idle: 0,
+    dying: 1,
+    dead: 2,
+    defend: 3,
+    hurt: 4,
+    preMagic: 5,
+    magic: 6,
+    attackWindup: 7,
+    attackRush: 8,
+    attackStrike: 9,
+    steal: 10,
+  },
+  castEffectBase: -1,
+  attackEffectBase: -1,
+}
+
+function enemyProfile(definitionId: string): EnemyBattleSpriteProfile {
+  const magicCount = definitionId.endsWith('.magic') ? 1 : 0
+  return {
+    kind: 'enemy',
+    idle: { start: 0, count: 2 },
+    magic: { start: 2, count: magicCount },
+    attack: { start: 2 + magicCount, count: 2 },
+    idleTicksPerFrame: 5,
+    actTicksPerFrame: 1,
+  }
+}
+
+function loadedBattleSprite(
+  id: string,
+  profile: BattleSpriteDef['profile'],
+): LoadedBattleSpriteDefinition {
+  return {
+    definition: { id, label: id, asset: `asset.${id}`, profile },
+    sprite: {
+      frames: Array.from({ length: 11 }, () => ({})),
+      anchorX: 0,
+      anchorY: 0,
+      profile: 'canonical',
+      decode: { declaredSlots: 11, trailingSentinel: false, skippedLegacyTailSlots: 0 },
+    },
+  } as unknown as LoadedBattleSpriteDefinition
+}
+
+function mockBattleAssets(
+  enemies: readonly EnemyDef[],
+  playerCount: number,
+): Pick<BattleSessionAssets, 'battleSprites' | 'playerBaseDefinitionIds'> {
+  const playerId = 'battle-sprite.player'
+  const entries: Array<[string, LoadedBattleSpriteDefinition]> = [
+    [playerId, loadedBattleSprite(playerId, PLAYER_PROFILE)],
+  ]
+  for (const enemy of enemies)
+    entries.push([
+      enemy.battleSprite,
+      loadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
+    ])
+  return {
+    battleSprites: new Map(entries),
+    playerBaseDefinitionIds: Array.from({ length: playerCount }, () => playerId),
+  }
+}
+
 function makeSession(
   enemy: EnemyDef,
   playerOverrides: Partial<BattlePlayerState> = {},
@@ -88,8 +153,7 @@ function makeSession(
   const assets: BattleSessionAssets = {
     palette: { colors: [], cycles: [] } as unknown as import('@type-pal/shared').Palette,
     glyphs: stubGlyphs,
-    enemySprites: [undefined],
-    playerSprites: [undefined],
+    ...mockBattleAssets([enemy], 1),
     sfx,
     ...extraAssets,
   }
@@ -112,8 +176,7 @@ function makePlayersSession(
   const assets: BattleSessionAssets = {
     palette: { colors: [], cycles: [] } as unknown as import('@type-pal/shared').Palette,
     glyphs: stubGlyphs,
-    enemySprites: [undefined],
-    playerSprites: players.map(() => undefined),
+    ...mockBattleAssets([enemy], players.length),
   }
   return new BattleSession(
     players,
@@ -146,6 +209,100 @@ async function flushPromises(): Promise<void> {
   await Promise.resolve()
   await Promise.resolve()
 }
+
+describe('梦蛇 active BattleSpriteDef 生命周期', () => {
+  test('施放后图与 profile 同源，死亡→复活保持，新战斗恢复基础形象', async () => {
+    // 一阶段真值：docs/phase1/game-mechanics.md:1234-1248。
+    const enemy = mkEnemy('trance-lifecycle', {
+      health: 999,
+      defense: 999,
+      attackStrength: 0,
+    })
+    const tranceId = 'battle-sprite.player.dream-snake'
+    const tranceProfile: PlayerFighterBattleSpriteProfile = {
+      kind: 'player-fighter',
+      frames: {
+        idle: 10,
+        dying: 9,
+        dead: 8,
+        defend: 7,
+        hurt: 6,
+        preMagic: 5,
+        magic: 4,
+        attackWindup: 3,
+        attackRush: 2,
+        attackStrike: 1,
+        steal: 0,
+      },
+      castEffectBase: 123,
+      attackEffectBase: 456,
+    }
+    const tranceSkill = {
+      id: 'dream-snake',
+      name: '梦蛇',
+      desc: '',
+      cost: { mp: 0 },
+      usableOutsideBattle: false,
+      target: 'self' as const,
+      effects: [{ kind: 'trance' as const, battleSprite: tranceId }],
+      animation: { effectSprite: 0 },
+    }
+    const baseAssets = mockBattleAssets([enemy], 1)
+    const battleSprites = new Map(baseAssets.battleSprites)
+    battleSprites.set(tranceId, loadedBattleSprite(tranceId, tranceProfile))
+    const extraAssets = { ...baseAssets, battleSprites }
+    const extraOpts = { skills: { [tranceSkill.id]: tranceSkill } }
+    const { session } = makeSession(
+      enemy,
+      { skills: [tranceSkill.id], attackStrength: 0 },
+      extraOpts,
+      extraAssets,
+    )
+    const internal = session as unknown as {
+      state: { players: BattlePlayerState[] }
+      visual: { players: Array<{ frame: number }> }
+      playerAppearance(index: number): LoadedBattleSpriteDefinition
+      resetVisual(): void
+    }
+
+    session.tick(16, new Set(['ArrowLeft']))
+    session.tick(16, new Set(['Enter']))
+    session.tick(16, new Set(['Enter']))
+    session.tick(16, new Set())
+    await flushPromises()
+    for (let i = 0; i < 160 && !internal.state.players[0]?.tranceBattleSprite; i++) {
+      session.tick(500, new Set())
+      await flushPromises()
+    }
+
+    expect(internal.state.players[0]?.tranceBattleSprite).toBe(tranceId)
+    expect(internal.playerAppearance(0).definition.id).toBe(tranceId)
+    expect(internal.playerAppearance(0).definition.profile).toEqual(tranceProfile)
+
+    internal.state.players[0]!.hp = 0
+    internal.resetVisual()
+    expect(internal.playerAppearance(0).definition.id).toBe(tranceId)
+    expect(internal.visual.players[0]?.frame).toBe(tranceProfile.frames.dead)
+    internal.state.players[0]!.hp = internal.state.players[0]!.maxHp
+    internal.resetVisual()
+    expect(internal.playerAppearance(0).definition.id).toBe(tranceId)
+    expect(internal.visual.players[0]?.frame).toBe(tranceProfile.frames.idle)
+
+    const { session: fresh } = makeSession(
+      enemy,
+      { skills: [tranceSkill.id], attackStrength: 0 },
+      extraOpts,
+      extraAssets,
+    )
+    const freshInternal = fresh as unknown as {
+      state: { players: BattlePlayerState[] }
+      playerAppearance(index: number): LoadedBattleSpriteDefinition
+    }
+    expect(freshInternal.state.players[0]?.tranceBattleSprite).toBeUndefined()
+    expect(freshInternal.playerAppearance(0).definition.id).toBe('battle-sprite.player')
+    expect(freshInternal.playerAppearance(0).definition.profile).toEqual(PLAYER_PROFILE)
+  })
+})
 
 /** 默认攻击提交完成；第三拍命中唯一的“全填”屏障插点。 */
 function submitDefaultAttack(session: BattleSession): void {
@@ -648,14 +805,7 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
           resistanceToSorcery: 5,
           rules: [{ at: 'act', do: { kind: 'cast', skillId: magic.id } }],
         },
-        anim: {
-          idleFrames: 2,
-          magicFrames: 1,
-          attackFrames: 0,
-          idleAnimSpeed: 5,
-          actWaitFrames: 1,
-          yPosOffset: 0,
-        },
+        battleSprite: 'battle-sprite.enemy.magic',
         sounds,
       },
     )
@@ -798,13 +948,13 @@ describe('P2 库存预占(原版 nAmountInUse,fight.c:1900-1916)', () => {
     const assets: BattleSessionAssets = {
       palette: { colors: [], cycles: [] } as unknown as import('@type-pal/shared').Palette,
       glyphs: stubGlyphs,
-      enemySprites: [undefined],
-      playerSprites: [undefined, undefined],
+      ...mockBattleAssets([mkEnemy('slime', { attackStrength: 0, health: 9999 })], 2),
       sfx,
     }
+    const enemy = mkEnemy('slime', { attackStrength: 0, health: 9999 })
     const session = new BattleSession(
       [player('li'), player('ling')],
-      [mkEnemy('slime', { attackStrength: 0, health: 9999 })],
+      [enemy],
       assets,
       (id) => id,
       () => 0,

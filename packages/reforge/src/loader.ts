@@ -11,6 +11,7 @@ import type {
   AmbienceDef,
   AssetCatalogV1,
   BattleFieldDef,
+  BattleSpriteDef,
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
@@ -35,6 +36,7 @@ import {
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
+  validateBattleSprites,
   validateEnemies,
   validateItems,
   validateLocale,
@@ -48,7 +50,7 @@ import {
 } from '@type-pal/content'
 import { AssetResolver } from './asset-resolver.js'
 import type { AssetBase } from './assets.js'
-import { loadProjectMap } from './assets.js'
+import { BattleSpriteAssetCache, loadProjectMap } from './assets.js'
 import {
   type FileSource,
   httpSource,
@@ -76,6 +78,8 @@ export interface LoadedProjectCore {
   locale: Locale
   /** 精灵注册表(EntityDef.sprite 语义 id → SpriteDef)。 */
   spritesById: Record<string, SpriteDef>
+  /** 战斗精灵语义定义；运行时按 id 解析 profile + AssetId。 */
+  battleSpritesById: Record<string, BattleSpriteDef>
   /** 敌人定义(M4;无 enemies.json 时空 {})。 */
   enemiesById: Record<string, EnemyDef>
   /** 敌队表(M4;startBattle team-<n> 查;无时空 {})。 */
@@ -106,6 +110,7 @@ export interface LoadedProject extends LoadedProjectCore {
   source: FileSource
   assetResolver: AssetResolver
   imageCache: ProjectImageCache
+  battleSpriteCache: BattleSpriteAssetCache
   scriptStore?: ScriptChunkStore
 }
 
@@ -121,6 +126,8 @@ export interface ContentJsons {
   locale: unknown
   /** 必需精灵注册表。canonical v3 不允许回落到 legacy 数字路径。 */
   sprites: unknown
+  /** 必需战斗精灵注册表。 */
+  battleSprites: unknown
   /** 敌人/敌队(可选,M4;缺 → 空表)。 */
   enemies?: unknown
   enemyTeams?: unknown
@@ -190,6 +197,7 @@ export function assembleProject(
   // 新生成内容与迁移写盘仍走 validateLocale 默认严格模式，禁止新建这种形态。
   const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })
   const sprites = validateSprites(jsons.sprites, assetCatalog)
+  const battleSprites = validateBattleSprites(jsons.battleSprites, assetCatalog)
   const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? (jsons.enemyTeams as EnemyTeamDef[]) : []
   const battleFields =
@@ -246,6 +254,7 @@ export function assembleProject(
     items: indexById(items),
     locale,
     spritesById: indexById(sprites),
+    battleSpritesById: indexById(battleSprites),
     enemiesById: indexById(enemies),
     enemyTeamsById: indexById(enemyTeams),
     battleFields,
@@ -284,6 +293,8 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
   validateManifestAssetConfigV3(manifest.assets)
   const content = manifest.content
   if (!content.sprites) throw new Error(`工程 "${manifest.id}": manifest 缺 sprites 注册表`)
+  if (!content.battleSprites)
+    throw new Error(`工程 "${manifest.id}": manifest 缺 battleSprites 注册表`)
   const dir = scenesDir(manifest)
   const scriptDir = scriptsDir(manifest)
   const [
@@ -294,6 +305,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     items,
     locale,
     sprites,
+    battleSprites,
     enemies,
     enemyTeams,
     battleFields,
@@ -312,6 +324,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     source.readJson(content.items as string),
     source.readJson(content.locale as string),
     source.readJson(content.sprites),
+    source.readJson(content.battleSprites),
     content.enemies ? source.readJson(content.enemies) : Promise.resolve(undefined),
     content.enemyTeams ? source.readJson(content.enemyTeams) : Promise.resolve(undefined),
     content.battleFields ? source.readJson(content.battleFields) : Promise.resolve(undefined),
@@ -333,6 +346,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       items,
       locale,
       sprites,
+      battleSprites,
       enemies,
       enemyTeams,
       battleFields,
@@ -353,12 +367,14 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     source,
   )
   const imageCache = new ProjectImageCache(assetResolver)
+  const battleSpriteCache = new BattleSpriteAssetCache()
   return {
     ...core,
     assetBase: { ...core.assetBase, assetResolver },
     source,
     assetResolver,
     imageCache,
+    battleSpriteCache,
     ...(scriptDir && core.scriptIndex
       ? { scriptStore: new ScriptChunkStore(source, scriptDir, core.scriptIndex) }
       : {}),

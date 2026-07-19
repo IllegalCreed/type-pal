@@ -10,6 +10,7 @@ import type {
   AssetId,
   BattlerSounds,
   BattlerSpec,
+  BattleSpriteDef,
   ItemDataMap,
   LevelUpSkill,
   Locale,
@@ -19,9 +20,16 @@ import type {
 import { lookupText } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { useEffect, useMemo, useState } from 'react'
-import { SetActorBattleSpriteCommand, UpdateActorCommand } from '../core/commands.js'
+import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
+import {
+  AddBattleSpriteCommand,
+  CompositeCommand,
+  SetActorBattleSpriteCommand,
+  UpdateActorCommand,
+} from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { LevelCurveEditor } from './LevelCurveEditor.js'
@@ -52,6 +60,7 @@ const BATTLER_SOUND_FIELDS: readonly { key: keyof BattlerSounds; label: string }
 export function ActorMode(props: {
   actors: ActorDef[]
   sprites: SpriteDef[]
+  battleSprites: readonly BattleSpriteDef[]
   items: ItemDataMap
   skills: SkillDataMap
   locale: Locale
@@ -67,6 +76,7 @@ export function ActorMode(props: {
   focusActorId?: string
   onActorFocus?: (id: string) => void
   onOpenSprite?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenStartSettings?: () => void
@@ -74,6 +84,7 @@ export function ActorMode(props: {
   const {
     actors,
     sprites,
+    battleSprites,
     items,
     skills,
     locale,
@@ -87,6 +98,7 @@ export function ActorMode(props: {
     focusActorId,
     onActorFocus,
     onOpenSprite,
+    onOpenBattleSprite,
     onOpenSound,
     onOpenImage,
     onOpenStartSettings,
@@ -303,13 +315,6 @@ export function ActorMode(props: {
                 <div className="section">
                   <h4>
                     战斗形象
-                    <span className="hint2">
-                      {actor.battler.battleSpritePath
-                        ? ' 自有形象 ✓(保存后战斗可见)'
-                        : actor.battler.battleSpriteNum != null
-                          ? ` 原版 #${actor.battler.battleSpriteNum}`
-                          : ' 未设置(战斗中隐形)'}
-                    </span>
                     <button
                       type="button"
                       className="mini-txt"
@@ -320,16 +325,41 @@ export function ActorMode(props: {
                       ⬆ 上传
                     </button>
                   </h4>
+                  <div className="field">
+                    <span className="field-label">定义</span>
+                    <BattleSpritePicker
+                      value={actor.battler.battleSprite}
+                      definitions={battleSprites}
+                      kind="player-fighter"
+                      onChange={(id) =>
+                        session.dispatch(new SetActorBattleSpriteCommand(actor.id, id))
+                      }
+                      onOpenDefinition={onOpenBattleSprite}
+                      ariaLabel="角色战斗精灵"
+                    />
+                  </div>
                   {battleUpload && (
                     <BattleSpriteUploader
                       assetBase={assetBase}
-                      onApply={(buf) => {
+                      onApply={async (buf, frameCount) => {
+                        const prepared = await prepareBattleSpriteImport(session.getState(), {
+                          hint: actor.id,
+                          label: `${nm(actor.name)} 战斗精灵`,
+                          kind: 'player-fighter',
+                          bytes: buf,
+                          frameCount,
+                          reader: assetReader,
+                        })
                         session.dispatch(
-                          new SetActorBattleSpriteCommand(
-                            actor.id,
-                            `assets/battle-sprites/player/${actor.id}.rle`,
-                            buf,
-                          ),
+                          new CompositeCommand('上传并设置角色战斗精灵', [
+                            new AddBattleSpriteCommand(
+                              prepared.definition,
+                              prepared.record,
+                              prepared.bytes,
+                              prepared.frameCount,
+                            ),
+                            new SetActorBattleSpriteCommand(actor.id, prepared.definition.id),
+                          ]),
                         )
                         setBattleUpload(false)
                       }}

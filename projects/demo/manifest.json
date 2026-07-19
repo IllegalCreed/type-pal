@@ -11,7 +11,8 @@
     "locale": "content/locale.json",
     "sprites": "content/sprites.json",
     "maps": "content/maps/index.json",
-    "tilesets": "content/tilesets.json"
+    "tilesets": "content/tilesets.json",
+    "battleSprites": "content/battle-sprites.json"
   },
   "assets": {
     "catalog": "assets/index.json",

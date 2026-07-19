@@ -9,6 +9,7 @@
 import type {
   ActorDef,
   AssetCatalogV1,
+  BattleSpriteDefinitionReference,
   EnemyTeamDef,
   EntityDef,
   GridPos,
@@ -420,6 +421,27 @@ export function App(props: {
     )
     setDrawer({ open: true, src: srcKey, internalScriptId: null })
   }
+  const jumpToBattleSpriteReference = (reference: BattleSpriteDefinitionReference): void => {
+    const [domain, id] = reference.site.split(':')
+    if (!id) return
+    if (domain === 'actor') applyEditorLocation(editorLinks.actor(id))
+    else if (domain === 'enemy') applyEditorLocation(editorLinks.enemy(id))
+    else if (domain === 'item') applyEditorLocation(editorLinks.item(id))
+    else if (domain === 'skill') applyEditorLocation(editorLinks.skill(id))
+    else if (domain === 'scene') {
+      setPlaceSceneId(id)
+      applyEditorLocation(editorLinks.scene(id))
+    } else if (domain === 'script') {
+      const payload = reference.site.slice('script:'.length)
+      const separator = payload.indexOf(':')
+      const scriptId = separator >= 0 ? payload.slice(separator + 1) : ''
+      if (scriptId) openScriptReference(scriptId)
+    } else
+      setWorkspaceNotice({
+        kind: 'info',
+        message: `引用位置 ${reference.where} 当前没有可编辑的持久内容页。`,
+      })
+  }
   const openSharedScript = (id: string): void => {
     if (!state.scriptIndex?.library?.[id]) return
     applyEditorLocation(editorLinks.sharedScript(id))
@@ -561,11 +583,11 @@ export function App(props: {
     )
   }
   const focusCurrentObject = (objectId: string | undefined): void => {
-    const current = {
-      module: locationRef.current.module,
-      subpage: locationRef.current.subpage,
-    }
-    applyEditorLocation({ ...current, ...(objectId ? { objectId } : {}) }, 'replace')
+    const current = locationRef.current
+    const next = { ...current }
+    if (objectId) next.objectId = objectId
+    else delete next.objectId
+    applyEditorLocation(next, 'replace')
   }
   const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
   const objectTargetMissing = editorObjectTargetMissing(state, location)
@@ -573,7 +595,9 @@ export function App(props: {
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current
     if (editorObjectTargetMissing(session.getState(), current)) {
-      applyEditorLocation({ module: current.module, subpage: current.subpage }, 'replace')
+      const next = { ...current }
+      delete next.objectId
+      applyEditorLocation(next, 'replace')
     }
   }, [applyEditorLocation, session])
   const undo = useCallback((): void => {
@@ -973,6 +997,7 @@ export function App(props: {
           <ActorMode
             actors={state.actors}
             sprites={state.sprites}
+            battleSprites={state.battleSprites}
             items={Object.fromEntries(state.items.map((i) => [i.id, i]))}
             skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))}
             locale={state.locale}
@@ -984,6 +1009,7 @@ export function App(props: {
             focusActorId={location.objectId}
             onActorFocus={(id) => focusCurrentObject(id)}
             onOpenSprite={(id) => applyEditorLocation(editorLinks.actorSprite(id))}
+            onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
             assetCatalog={state.assetCatalog}
             assetReader={assetReader}
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
@@ -1014,6 +1040,7 @@ export function App(props: {
           <DataMode
             itemList={state.items}
             sprites={state.sprites}
+            battleSprites={state.battleSprites}
             skills={Object.fromEntries(state.skills.map((sk) => [sk.id, sk]))}
             items={Object.fromEntries(state.items.map((i) => [i.id, i]))}
             locale={state.locale}
@@ -1045,11 +1072,27 @@ export function App(props: {
             tab={activeSubpage.dataPage}
             focusObjectId={location.objectId}
             onObjectFocus={focusCurrentObject}
+            spriteDomain={location.domain}
+            spriteView={location.view}
+            onSpriteLocation={(domain, view, objectId) =>
+              applyEditorLocation(
+                {
+                  module: 'asset',
+                  subpage: 'sprite',
+                  domain,
+                  view,
+                  ...(objectId ? { objectId } : {}),
+                },
+                'replace',
+              )
+            }
             onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
             onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
             onOpenMap={(id) => applyEditorLocation(editorLinks.map(id))}
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
+            onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
+            onJumpBattleSpriteReference={jumpToBattleSpriteReference}
           />
         ) : (
           <>
@@ -1356,6 +1399,7 @@ export function App(props: {
                   focusInternalScriptId={drawer.internalScriptId}
                   sprites={state.sprites}
                   actorsById={actorsById}
+                  battleSprites={state.battleSprites}
                   leaderSpriteId={leaderSpriteId}
                   assetBase={project.assetBase}
                   projectMaps={state.maps}
@@ -1376,6 +1420,7 @@ export function App(props: {
                   onOpenScript={openSharedScript}
                   onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
                   onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
+                  onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
                   onClose={() => setDrawer({ open: false, src: null, internalScriptId: null })}
                 />
               )}
@@ -1512,8 +1557,7 @@ export function App(props: {
         {workspaceNotice ? (
           <span className="valbar-status" role="status" aria-live="polite">
             <span className={`pill${workspaceNotice.kind === 'error' ? ' warn' : ''}`}>
-              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'}{' '}
-              {activeSubpage.dataPage === 'stamp' ? '组合库' : '地图工作区'}
+              {workspaceNotice.kind === 'error' ? '⚠' : 'ⓘ'} {activeSubpage.label}
             </span>
             <span className="msg">{workspaceNotice.message}</span>
           </span>

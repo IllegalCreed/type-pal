@@ -3,6 +3,8 @@
 import type {
   AssetCatalogV1,
   BattleFieldDef,
+  BattleSpriteDef,
+  BattleSpriteDefinitionReference,
   EnemyDef,
   EnemyTeamDef,
   ItemDataMap,
@@ -26,6 +28,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
+import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EntryPointTab } from './EntryPointTab.js'
@@ -84,6 +87,7 @@ function defaultLayout(
 
 export function DataMode(props: {
   sprites: SpriteDef[]
+  battleSprites: readonly BattleSpriteDef[]
   skills: SkillDataMap
   items: ItemDataMap
   /** 物品数组(ItemTab 编辑;= session state.items)。 */
@@ -129,15 +133,25 @@ export function DataMode(props: {
   tab: DataTab
   focusObjectId?: string
   onObjectFocus?: (id: string | undefined) => void
+  spriteDomain?: 'world' | 'battle'
+  spriteView?: 'definition' | 'asset'
+  onSpriteLocation?: (
+    domain: 'world' | 'battle',
+    view: 'definition' | 'asset',
+    objectId?: string,
+  ) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenMap?: (id: string) => void
   onOpenTileset?: (id: string) => void
   onOpenStamp?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
+  onJumpBattleSpriteReference?: (reference: BattleSpriteDefinitionReference) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
 }) {
   const {
     sprites,
+    battleSprites,
     assetBase,
     session,
     enemies,
@@ -167,16 +181,30 @@ export function DataMode(props: {
     tab,
     focusObjectId,
     onObjectFocus,
+    spriteDomain: controlledSpriteDomain,
+    spriteView: controlledSpriteView,
+    onSpriteLocation,
     onOpenSound,
     onOpenImage,
     onOpenMap,
     onOpenTileset,
     onOpenStamp,
+    onOpenBattleSprite,
+    onJumpBattleSpriteReference,
     onStatusNotice,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
   const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
   const [filter, setFilter] = useState('')
+  const [spriteDomain, setSpriteDomain] = useState<'world' | 'battle'>(
+    () =>
+      controlledSpriteDomain ??
+      (focusObjectId &&
+      (battleSprites.some((entry) => entry.id === focusObjectId) ||
+        assetCatalog.assets[focusObjectId]?.kind === 'battle-sprite')
+        ? 'battle'
+        : 'world'),
+  )
   const [kindFilter, setKindFilter] = useState<'all' | SpriteDef['layout']['kind']>('all')
   const spriteAssets = useMemo(
     () =>
@@ -191,8 +219,12 @@ export function DataMode(props: {
       result.set(definition.asset, [...(result.get(definition.asset) ?? []), definition])
     return result
   }, [sprites])
-  const [libraryView, setLibraryView] = useState<'definition' | 'asset'>(() =>
-    focusObjectId && assetCatalog.assets[focusObjectId]?.kind === 'sprite' ? 'asset' : 'definition',
+  const [libraryView, setLibraryView] = useState<'definition' | 'asset'>(
+    () =>
+      controlledSpriteView ??
+      (focusObjectId && assetCatalog.assets[focusObjectId]?.kind === 'sprite'
+        ? 'asset'
+        : 'definition'),
   )
   const [selId, setSelId] = useState(focusObjectId ?? sprites[0]?.id ?? '')
   const [selAssetId, setSelAssetId] = useState(
@@ -208,15 +240,45 @@ export function DataMode(props: {
   )
 
   useEffect(() => {
+    if (tab !== 'sprite') return
+    if (controlledSpriteDomain) setSpriteDomain(controlledSpriteDomain)
+    if (controlledSpriteView) setLibraryView(controlledSpriteView)
+  }, [controlledSpriteDomain, controlledSpriteView, tab])
+
+  useEffect(() => {
     if (tab !== 'sprite' || focusObjectId === undefined) return
-    if (sprites.some((candidate) => candidate.id === focusObjectId)) {
+    if (controlledSpriteDomain !== undefined || controlledSpriteView !== undefined) {
+      const domain = controlledSpriteDomain ?? 'world'
+      const view = controlledSpriteView ?? 'definition'
+      setSpriteDomain(domain)
+      setLibraryView(view)
+      if (domain === 'world' && view === 'definition') setSelId(focusObjectId)
+      if (domain === 'world' && view === 'asset') setSelAssetId(focusObjectId)
+      return
+    }
+    if (
+      battleSprites.some((candidate) => candidate.id === focusObjectId) ||
+      assetCatalog.assets[focusObjectId]?.kind === 'battle-sprite'
+    ) {
+      setSpriteDomain('battle')
+    } else if (sprites.some((candidate) => candidate.id === focusObjectId)) {
+      setSpriteDomain('world')
       setLibraryView('definition')
       setSelId(focusObjectId)
     } else if (assetCatalog.assets[focusObjectId]?.kind === 'sprite') {
+      setSpriteDomain('world')
       setLibraryView('asset')
       setSelAssetId(focusObjectId)
     }
-  }, [assetCatalog, focusObjectId, sprites, tab])
+  }, [
+    assetCatalog,
+    battleSprites,
+    controlledSpriteDomain,
+    controlledSpriteView,
+    focusObjectId,
+    sprites,
+    tab,
+  ])
 
   const shown = useMemo(
     () =>
@@ -329,6 +391,10 @@ export function DataMode(props: {
         session={session}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
+        battleSprites={battleSprites}
+        onOpenBattleSprite={onOpenBattleSprite}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
         onOpenSound={onOpenSound}
         tabBar={tabBar}
       />
@@ -345,6 +411,11 @@ export function DataMode(props: {
         session={session}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
+        battleSprites={battleSprites}
+        onOpenBattleSprite={onOpenBattleSprite}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
         itemRefs={refIndex.items}
@@ -363,6 +434,11 @@ export function DataMode(props: {
         projectId={manifest.id}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
+        battleSprites={battleSprites}
+        onOpenBattleSprite={onOpenBattleSprite}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
         tabBar={tabBar}
       />
@@ -524,6 +600,7 @@ export function DataMode(props: {
         locale={locale}
         sprites={sprites}
         actors={actors}
+        battleSprites={battleSprites}
         assetBase={assetBase}
         assetCatalog={assetCatalog}
         audioResolver={audioResolver}
@@ -538,9 +615,34 @@ export function DataMode(props: {
         onSelectedScriptId={onObjectFocus}
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
+        onOpenBattleSprite={onOpenBattleSprite}
       />
     )
   }
+
+  if (tab === 'sprite' && spriteDomain === 'battle')
+    return (
+      <BattleSpriteLibrary
+        definitions={battleSprites}
+        catalog={assetCatalog}
+        assetBase={assetBase}
+        assetReader={assetReader}
+        session={session}
+        tabBar={tabBar}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        view={controlledSpriteView ?? 'definition'}
+        onViewChange={(view, objectId) => onSpriteLocation?.('battle', view, objectId)}
+        onWorldDomain={() => {
+          setSpriteDomain('world')
+          const id = sprites[0]?.id
+          onSpriteLocation?.('world', 'definition', id)
+          if (!onSpriteLocation && id) onObjectFocus?.(id)
+        }}
+        onJumpReference={onJumpBattleSpriteReference}
+        onStatusNotice={onStatusNotice}
+      />
+    )
 
   return (
     <>
@@ -558,6 +660,22 @@ export function DataMode(props: {
                   : `${shownAssets.length}/${spriteAssets.length}`}
               </span>
             </div>
+            <fieldset className="sprite-domain-switch" aria-label="精灵资源域">
+              <button type="button" className="on" aria-pressed="true">
+                大世界
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSpriteDomain('battle')
+                  const id = battleSprites[0]?.id
+                  onSpriteLocation?.('battle', 'definition', id)
+                  if (!onSpriteLocation && id) onObjectFocus?.(id)
+                }}
+              >
+                战斗
+              </button>
+            </fieldset>
             <fieldset className="sprite-library-switch" aria-label="精灵库视图">
               <button
                 type="button"
@@ -566,7 +684,9 @@ export function DataMode(props: {
                 onClick={() => {
                   setLibraryView('definition')
                   setUploadingSprite(false)
-                  if (sprite) onObjectFocus?.(sprite.id)
+                  const id = sprite?.id ?? sprites[0]?.id
+                  onSpriteLocation?.('world', 'definition', id)
+                  if (!onSpriteLocation && id) onObjectFocus?.(id)
                 }}
               >
                 语义定义 <b>{sprites.length}</b>
@@ -578,7 +698,9 @@ export function DataMode(props: {
                 onClick={() => {
                   setLibraryView('asset')
                   setUploadingSprite(false)
-                  if (selAssetId) onObjectFocus?.(selAssetId)
+                  const id = selAssetId || spriteAssets[0]?.[0]
+                  onSpriteLocation?.('world', 'asset', id)
+                  if (!onSpriteLocation && id) onObjectFocus?.(id)
                 }}
               >
                 二进制资源 <b>{spriteAssets.length}</b>
@@ -638,7 +760,8 @@ export function DataMode(props: {
                       onClick={() => {
                         setSelId(s.id)
                         setUploadingSprite(false)
-                        onObjectFocus?.(s.id)
+                        onSpriteLocation?.('world', 'definition', s.id)
+                        if (!onSpriteLocation) onObjectFocus?.(s.id)
                       }}
                     >
                       <span className="face">{KIND_ICON[s.layout.kind]}</span>
@@ -661,7 +784,8 @@ export function DataMode(props: {
                         onClick={() => {
                           setSelAssetId(asset)
                           setUploadingSprite(false)
-                          onObjectFocus?.(asset)
+                          onSpriteLocation?.('world', 'asset', asset)
+                          if (!onSpriteLocation) onObjectFocus?.(asset)
                         }}
                       >
                         <span className="face">📦</span>
@@ -701,7 +825,8 @@ export function DataMode(props: {
                 if (id) {
                   setLibraryView('definition')
                   setSelId(id)
-                  onObjectFocus?.(id)
+                  onSpriteLocation?.('world', 'definition', id)
+                  if (!onSpriteLocation) onObjectFocus?.(id)
                 }
               }}
             />
@@ -905,7 +1030,8 @@ export function DataMode(props: {
                   onClick={() => {
                     setLibraryView('definition')
                     setSelId(definition.id)
-                    onObjectFocus?.(definition.id)
+                    onSpriteLocation?.('world', 'definition', definition.id)
+                    if (!onSpriteLocation) onObjectFocus?.(definition.id)
                   }}
                 >
                   <b>{definition.label}</b>

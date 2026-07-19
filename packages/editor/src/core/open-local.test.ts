@@ -10,6 +10,7 @@ import {
 import { EditSession } from './edit-session.js'
 import { openLocalProject } from './open-local.js'
 import { serializeProject, toEditorState, writeProject } from './project-io.js'
+import { buildBlankProject } from './seed.js'
 import { buildSeedAssets } from './seed-assets.js'
 import { scanTilesetReferences, TilesetRemovalProof } from './tileset-references.js'
 import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
@@ -124,6 +125,7 @@ async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
 const seedAssets = await buildSeedAssets()
 const tilesetBytes = seedAssets.tilesetRle
 const spriteBytes = seedAssets.spriteRle
+const battleSpriteBytes = seedAssets.battleSpriteRle
 const alternateTilesetBytes = spriteBytes
 const bareTilesetView = await decompressGzip(new Blob([tilesetBytes]))
 const bareTilesetBytes = bareTilesetView.buffer.slice(
@@ -159,6 +161,7 @@ const alternateSpriteBytes = alternateSpriteView.buffer.slice(
 ) as ArrayBuffer
 const tilesetHash = await sha256Hex(tilesetBytes)
 const spriteHash = await sha256Hex(spriteBytes)
+const battleSpriteHash = await sha256Hex(battleSpriteBytes)
 const tilesetRecord = {
   kind: 'tileset' as const,
   path: 'assets/generated/tilesets/starter.rle',
@@ -175,6 +178,15 @@ const spriteRecord = {
   bytes: spriteBytes.byteLength,
   sha256: spriteHash,
   label: '测试精灵',
+  origin: { kind: 'generated' as const },
+}
+const battleSpriteRecord = {
+  kind: 'battle-sprite' as const,
+  path: 'assets/generated/battle-sprites/starter.rle',
+  mediaType: 'application/vnd.type-pal.rle',
+  bytes: battleSpriteBytes.byteLength,
+  sha256: battleSpriteHash,
+  label: '测试战斗精灵',
   origin: { kind: 'generated' as const },
 }
 
@@ -210,6 +222,7 @@ const fullProject: Record<string, string | ArrayBuffer> = {
       maps: 'content/maps/index.json',
       tilesets: 'content/tilesets.json',
       sprites: 'content/sprites.json',
+      battleSprites: 'content/battle-sprites.json',
     },
     assets: {
       catalog: 'assets/index.json',
@@ -234,6 +247,7 @@ const fullProject: Record<string, string | ArrayBuffer> = {
       layout: { kind: 'static' },
     },
   ]),
+  'content/battle-sprites.json': J([]),
   'content/scenes/index.json': J(['s1']),
   'content/scenes/s1.json': J({
     id: 's1',
@@ -353,6 +367,124 @@ function legacySpriteProject(
   return { files, manifestText, definitionsText, sourcePath }
 }
 
+function legacyBattleProject(options: { descriptorId?: number; targetCollision?: boolean } = {}): {
+  files: Record<string, string | ArrayBuffer>
+  sourcePath: string
+  targetPath: string
+} {
+  const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    content: Record<string, string>
+    assets: { legacy: { families: string[]; root: string } }
+  }
+  manifest.assets.legacy.families = [
+    'battle-sprite',
+    ...manifest.assets.legacy.families.filter((family) => family !== 'battle-sprite'),
+  ]
+  delete manifest.content.battleSprites
+  files['manifest.json'] = J(manifest)
+  delete files['content/battle-sprites.json']
+  files['content/skills.json'] = J({
+    skills: [
+      {
+        id: 'summon',
+        name: 'name.summon',
+        cost: { mp: 0 },
+        target: 'self',
+        effects: [{ kind: 'summon', godId: 0 }],
+        animation: {},
+      },
+    ],
+    levelUp: {},
+  })
+  const sourcePath = 'assets/extracted/data/battle-sprite/player/10.rle'
+  const targetPath = 'assets/migrated/battle-sprites/player/010.rle'
+  files['assets/extracted/data/battle-sprites.json'] = J({
+    sprites: [{ kind: 'player', id: options.descriptorId ?? 10 }],
+  })
+  files[sourcePath] = battleSpriteBytes
+  if (options.targetCollision) files[targetPath] = new Uint8Array([1, 2, 3]).buffer
+  return { files, sourcePath, targetPath }
+}
+
+async function exactOldBlankBattleProject(
+  options: { corruptActor?: boolean; emptyJournal?: boolean } = {},
+) {
+  const target = await buildBlankProject('旧空白工程')
+  const manifest = structuredClone(target['manifest.json']) as Record<string, unknown> & {
+    content: Record<string, string>
+  }
+  const definitions = target['content/battle-sprites.json'] as Array<{ asset: string }>
+  const asset = definitions[0]!.asset
+  const catalog = structuredClone(target['assets/index.json']) as {
+    assets: Record<string, { path: string }>
+  }
+  const battlePath = catalog.assets[asset]!.path
+  delete manifest.content.battleSprites
+  delete catalog.assets[asset]
+  const actors = structuredClone(target['content/actors.json']) as Array<{
+    name: string
+    battler?: { battleSprite?: string }
+  }>
+  delete actors[0]?.battler?.battleSprite
+  if (options.corruptActor) actors[0]!.name = 'name.user-edited'
+  const files: Record<string, string | ArrayBuffer> = {}
+  for (const [path, value] of Object.entries(target)) {
+    if (path === 'content/battle-sprites.json' || path === battlePath) continue
+    const next =
+      path === 'manifest.json'
+        ? manifest
+        : path === 'assets/index.json'
+          ? catalog
+          : path === 'content/actors.json'
+            ? actors
+            : value
+    files[path] = next instanceof ArrayBuffer ? next : typeof next === 'string' ? next : J(next)
+  }
+  if (options.emptyJournal) files['.type-pal/upgrade-local-v3-battle-sprites.json'] = ''
+  return files
+}
+
+function legacyActorPathOnlyBattleProject(): Record<string, string | ArrayBuffer> {
+  const { files } = legacyBattleProject()
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    assets: { legacy: { root: string } }
+  }
+  files['content/skills.json'] = J({ skills: [], levelUp: {} })
+  files['content/actors.json'] = J([
+    {
+      id: 'hero',
+      name: 'name.hero',
+      spriteId: 'gs',
+      battler: {
+        baseStats: {
+          level: 1,
+          hp: 100,
+          maxHP: 100,
+          mp: 0,
+          maxMP: 0,
+          attack: 10,
+          defense: 5,
+          magicAttack: 5,
+          speed: 10,
+          luck: 10,
+        },
+        initialEquipment: {},
+        initialMagic: [],
+        battleSpritePath: 'custom/hero.rle',
+      },
+    },
+  ])
+  delete files['assets/extracted/data/battle-sprite/player/10.rle']
+  files['assets/extracted/data/battle-sprites.json'] = J({
+    sprites: [{ kind: 'player', id: 0 }],
+  })
+  files['assets/extracted/data/battle-sprite/player/0.rle'] = battleSpriteBytes
+  files[`${manifest.assets.legacy.root}/custom/hero.rle`] = battleSpriteBytes
+  files['assets/extracted/data/battle-effect-index.json'] = J([0, 0])
+  return files
+}
+
 function staticPortraitFamilyProject(): {
   files: Record<string, string | ArrayBuffer>
   manifestText: string
@@ -424,6 +556,664 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
 }
 
 describe('openLocalProject', () => {
+  test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
+    const { files, sourcePath, targetPath } = legacyBattleProject()
+    const writes: string[] = []
+    const opened = await openLocalProject(mockDir('legacy-battle', files, writes))
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('battle-sprite')
+    expect(opened.project.skills.summon?.effects).toEqual([
+      { kind: 'summon', battleSprite: 'player-summon-10' },
+    ])
+    expect(opened.project.battleSpritesById['player-summon-10']).toMatchObject({
+      asset: 'battle-sprite.pal.player.010',
+      profile: { kind: 'summon' },
+    })
+    expect(opened.project.assetCatalog.assets['battle-sprite.pal.player.010']).toMatchObject({
+      path: targetPath,
+      kind: 'battle-sprite',
+      origin: { kind: 'legacy-migrated', ref: 'battle-sprite/player/10.rle' },
+    })
+    expect(files[sourcePath]).toBeUndefined()
+    expect(files['assets/extracted/data/battle-sprites.json']).toBeUndefined()
+    expect(files[targetPath]).toBeInstanceOf(ArrayBuffer)
+    expect(writes.at(-1)).toBe('manifest.json')
+
+    writes.length = 0
+    await openLocalProject(mockDir('legacy-battle', files, writes))
+    expect(writes).toEqual([])
+  })
+
+  test('battle-sprite journal 在 manifest close 中断后只接受 old/target 前缀并可恢复', async () => {
+    const { files, sourcePath } = legacyBattleProject()
+    const writes: string[] = []
+    const dir = mockDir('retry-battle', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+    expect(files[sourcePath]).toBeDefined()
+    await openLocalProject(dir)
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeUndefined()
+    expect(files[sourcePath]).toBeUndefined()
+  })
+
+  test('manifest close 中断后 scene index 被用户修改时零写拒绝并保留 journal/旧源', async () => {
+    const { files, sourcePath } = legacyBattleProject()
+    const writes: string[] = []
+    const dir = mockDir('retry-battle-scene-index-tamper', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+
+    files['content/scenes/index.json'] = J(['s1', 's2'])
+    files['content/scenes/s2.json'] = J({
+      id: 's2',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+      onEnter: [
+        {
+          id: 'appearance',
+          body: [{ kind: 'setActorAppearance', actor: 'hero', battleSprite: 5 }],
+        },
+      ],
+    })
+    writes.length = 0
+    await expect(openLocalProject(dir)).rejects.toThrow(
+      'battle-sprite 升级恢复发现用户修改或未知中间态: content/scenes/index.json',
+    )
+    expect(writes).toEqual([])
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+    expect(files[sourcePath]).toBeDefined()
+  })
+
+  test('manifest close 中断后 legacy 目录新增 RLE 时零写拒绝并保留 journal/旧源', async () => {
+    const { files, sourcePath } = legacyBattleProject()
+    const writes: string[] = []
+    const dir = mockDir('retry-battle-inventory-tamper', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+
+    const unexpected = 'assets/extracted/data/battle-sprite/player/11.rle'
+    files[unexpected] = battleSpriteBytes.slice(0)
+    writes.length = 0
+    await expect(openLocalProject(dir)).rejects.toThrow(
+      `battle-sprite 升级恢复发现 player 目录新增或未知 RLE: ${unexpected}`,
+    )
+    expect(writes).toEqual([])
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+    expect(files[sourcePath]).toBeDefined()
+  })
+
+  test.each([
+    {
+      label: 'journal close',
+      kind: 'close',
+      path: '.type-pal/upgrade-local-v3-battle-sprites.json',
+    },
+    { label: '新二进制 close', kind: 'close', path: 'target' },
+    { label: '新定义表 close', kind: 'close', path: 'content/battle-sprites.json' },
+    { label: 'consumer close', kind: 'close', path: 'content/skills.json' },
+    { label: 'catalog close', kind: 'close', path: 'assets/index.json' },
+    { label: 'manifest close', kind: 'close', path: 'manifest.json' },
+    { label: '旧二进制 remove', kind: 'remove', path: 'source' },
+    {
+      label: '旧 descriptor remove',
+      kind: 'remove',
+      path: 'assets/extracted/data/battle-sprites.json',
+    },
+    {
+      label: 'journal remove',
+      kind: 'remove',
+      path: '.type-pal/upgrade-local-v3-battle-sprites.json',
+    },
+  ])('battle-sprite 升级在 $label 中断后单调恢复，再次打开 no-op', async (failure) => {
+    const { files, sourcePath, targetPath } = legacyBattleProject()
+    const failedPath =
+      failure.path === 'target' ? targetPath : failure.path === 'source' ? sourcePath : failure.path
+    const writes: string[] = []
+    const dir = mockDir(`retry-battle-${failure.label}`, files, writes, {
+      failClose:
+        failure.kind === 'close'
+          ? (path, attempt) => path === failedPath && attempt === 1
+          : undefined,
+      failRemove:
+        failure.kind === 'remove'
+          ? (path, attempt) => path === failedPath && attempt === 1
+          : undefined,
+    })
+
+    await expect(openLocalProject(dir)).rejects.toThrow(`Injected ${failure.kind} failure`)
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+
+    await openLocalProject(dir)
+    expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeUndefined()
+    expect(files[sourcePath]).toBeUndefined()
+    expect(files['assets/extracted/data/battle-sprites.json']).toBeUndefined()
+    expect(files[targetPath]).toBeInstanceOf(ArrayBuffer)
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('battle-sprite 升级在跨 chunk 重复 script id 时于 journal 前零写', async () => {
+    const fixture = legacyBattleProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      content: Record<string, string>
+    }
+    manifest.content.scripts = 'content/scripts/'
+    fixture.files['manifest.json'] = J(manifest)
+    const chunks = {
+      'scene/s1': {
+        version: 1 as const,
+        id: 'scene/s1',
+        scripts: { 'shared/duplicate': [] },
+      },
+      'scene/s2': {
+        version: 1 as const,
+        id: 'scene/s2',
+        scripts: { 'shared/duplicate': [] },
+      },
+    }
+    const normalized = normalizeScriptLibrary(
+      {
+        version: 1,
+        shards: { shared: 16, global: {} },
+        chunks: {
+          'scene/s1': { path: 'chunks/scene/s1.json', bytes: 0 },
+          'scene/s2': { path: 'chunks/scene/s2.json', bytes: 0 },
+        },
+      },
+      chunks,
+    )
+    fixture.files['content/scripts/index.json'] = J(normalized.index)
+    fixture.files['content/scripts/chunks/scene/s1.json'] = J(chunks['scene/s1'])
+    fixture.files['content/scripts/chunks/scene/s2.json'] = J(chunks['scene/s2'])
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-script-duplicate', fixture.files, writes)),
+    ).rejects.toThrow('脚本 id 重复')
+    expect(writes).toEqual([])
+  })
+
+  test('battle-sprite 升级在两个 chunk 复用同一路径时于 journal 前零写', async () => {
+    const fixture = legacyBattleProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      content: Record<string, string>
+    }
+    manifest.content.scripts = 'content/scripts/'
+    fixture.files['manifest.json'] = J(manifest)
+    fixture.files['content/scripts/index.json'] = J({
+      version: 1,
+      shards: { shared: 16, global: {} },
+      chunks: {
+        'scene/s1': { path: 'chunks/shared.json', bytes: 0 },
+        'scene/s2': { path: 'chunks/shared.json', bytes: 0 },
+      },
+    })
+    fixture.files['content/scripts/chunks/shared.json'] = J({
+      version: 1,
+      id: 'scene/s1',
+      scripts: {},
+    })
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-script-path-duplicate', fixture.files, writes)),
+    ).rejects.toThrow(/重复使用 chunks\/shared\.json/)
+    expect(writes).toEqual([])
+  })
+
+  test('深层 script 旧 setActorAppearance 改写后重算 metadata，二开 no-op', async () => {
+    const fixture = legacyBattleProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      content: Record<string, string>
+    }
+    manifest.content.scripts = 'content/scripts/'
+    fixture.files['manifest.json'] = J(manifest)
+    fixture.files['assets/extracted/data/battle-effect-index.json'] = J(Array(22).fill(0))
+    const chunk = {
+      version: 1 as const,
+      id: 'scene/s1',
+      scripts: {
+        'scene/s1/test': [
+          {
+            kind: 'branch',
+            cond: { kind: 'flag', flag: 'test', is: true },
+            then: [{ kind: 'setActorAppearance', actor: 'a', battleSprite: 10 }],
+          },
+        ],
+      },
+    }
+    const normalized = normalizeScriptLibrary(
+      {
+        version: 1,
+        shards: { shared: 16, global: {} },
+        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 0 } },
+      },
+      { 'scene/s1': chunk as unknown as ScriptChunkV1 },
+    )
+    fixture.files['content/scripts/index.json'] = J(normalized.index)
+    fixture.files['content/scripts/chunks/scene/s1.json'] = J(chunk)
+    const writes: string[] = []
+    const dir = mockDir('battle-script-positive', fixture.files, writes)
+    const opened = await openLocalProject(dir)
+    expect(opened.scriptChunks['scene/s1']?.scripts['scene/s1/test']).toEqual([
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'test', is: true },
+        then: [{ kind: 'setActorAppearance', actor: 'a', battleSprite: 'player-fighter-10' }],
+      },
+    ])
+    const storedIndex = JSON.parse(String(fixture.files['content/scripts/index.json']))
+    const storedChunk = JSON.parse(
+      String(fixture.files['content/scripts/chunks/scene/s1.json']),
+    ) as ScriptChunkV1
+    expect(normalizeScriptLibrary(storedIndex, { 'scene/s1': storedChunk }).index).toEqual(
+      storedIndex,
+    )
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('battle-sprite descriptor/目录不一致与未登记目标碰撞都在 journal 前零写失败', async () => {
+    const mismatch = legacyBattleProject({ descriptorId: 11 })
+    const mismatchWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('bad-battle-inventory', mismatch.files, mismatchWrites)),
+    ).rejects.toThrow('登记集合')
+    expect(mismatchWrites).toEqual([])
+
+    const collision = legacyBattleProject({ targetCollision: true })
+    const collisionWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-path-collision', collision.files, collisionWrites)),
+    ).rejects.toThrow('目标路径已有未登记或不同字节')
+    expect(collisionWrites).toEqual([])
+  })
+
+  test.each([
+    'battle-sprites.json',
+    'battle-effect-index.json',
+  ])('legacy 元数据 %s 与 catalog 路径双重所有时 journal 前零写拒绝', async (file) => {
+    const fixture = legacyBattleProject()
+    const oldRoot = 'assets/extracted/data'
+    const root = 'assets/migrated/legacy-data'
+    for (const [path, value] of Object.entries(fixture.files)) {
+      if (!path.startsWith(`${oldRoot}/`)) continue
+      fixture.files[`${root}/${path.slice(oldRoot.length + 1)}`] = value
+      delete fixture.files[path]
+    }
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      assets: { legacy: { root: string } }
+    }
+    manifest.assets.legacy.root = root
+    fixture.files['manifest.json'] = J(manifest)
+    const catalog = JSON.parse(String(fixture.files['assets/index.json'])) as {
+      assets: Record<string, unknown>
+    }
+    catalog.assets[`sprite.metadata-owner.${file}`] = {
+      ...spriteRecord,
+      path: `${root}/${file}`,
+      origin: { kind: 'legacy-migrated', ref: `legacy-data/${file}` },
+    }
+    fixture.files['assets/index.json'] = J(catalog)
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir(`battle-metadata-owner-${file}`, fixture.files, writes)),
+    ).rejects.toThrow(/旧元数据.*同时由 catalog AssetId.*持有.*双重所有权/)
+    expect(writes).toEqual([])
+  })
+
+  test('待升级 consumer JSON 与 catalog 资产路径双重所有时 journal 前零写拒绝', async () => {
+    const fixture = legacyBattleProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      content: Record<string, string>
+    }
+    const path = 'assets/authored/metadata/skills.json'
+    fixture.files[path] = fixture.files['content/skills.json']!
+    delete fixture.files['content/skills.json']
+    manifest.content.skills = path
+    fixture.files['manifest.json'] = J(manifest)
+    const catalog = JSON.parse(String(fixture.files['assets/index.json'])) as {
+      assets: Record<string, unknown>
+    }
+    catalog.assets['sprite.consumer-owner'] = {
+      ...spriteRecord,
+      path,
+      mediaType: 'application/json',
+      origin: { kind: 'authored' },
+    }
+    fixture.files['assets/index.json'] = J(catalog)
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-consumer-json-owner', fixture.files, writes)),
+    ).rejects.toThrow(/升级目标 JSON.*同时由 catalog AssetId sprite\.consumer-owner 持有/)
+    expect(writes).toEqual([])
+  })
+
+  test('legacy family 与已登记 battle asset，或旧引用与 canonical equip 混用时零写拒绝', async () => {
+    const catalogMixed = legacyBattleProject()
+    const catalog = JSON.parse(String(catalogMixed.files['assets/index.json'])) as {
+      assets: Record<string, unknown>
+    }
+    catalog.assets['battle-sprite.generated.starter'] = battleSpriteRecord
+    catalogMixed.files['assets/index.json'] = J(catalog)
+    catalogMixed.files[battleSpriteRecord.path] = battleSpriteBytes
+    const catalogWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-mixed-catalog', catalogMixed.files, catalogWrites)),
+    ).rejects.toThrow(/battle-sprite|legacy/i)
+    expect(catalogWrites).toEqual([])
+
+    const referenceMixed = legacyBattleProject()
+    referenceMixed.files['content/items.json'] = J([
+      {
+        id: 'equip',
+        name: 'Equip',
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: { consuming: false, effects: [] },
+        equip: {
+          slot: 'weapon',
+          effects: [{ kind: 'battleSprite', sprite: 'player-summon-10' }],
+        },
+      },
+    ])
+    const referenceWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-mixed-reference', referenceMixed.files, referenceWrites)),
+    ).rejects.toThrow('同时含旧数字/path 与 BattleSpriteDef.id')
+    expect(referenceWrites).toEqual([])
+
+    const sameNode = legacyBattleProject()
+    sameNode.files['content/skills.json'] = J({
+      skills: [
+        {
+          id: 'mixed-summon',
+          name: 'Mixed',
+          cost: { mp: 0 },
+          target: 'self',
+          effects: [{ kind: 'summon', godId: 0, battleSprite: 'player-summon-10' }],
+          animation: {},
+        },
+      ],
+      levelUp: {},
+    })
+    const sameNodeWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('battle-mixed-node', sameNode.files, sameNodeWrites)),
+    ).rejects.toThrow('同时含 godId 与 canonical battleSprite')
+    expect(sameNodeWrites).toEqual([])
+  })
+
+  test('same-node mixed 按字段存在性 fail-loud，不会用 legacy 值覆盖坏 canonical 值', async () => {
+    const cases: Array<{
+      label: string
+      mutate: (files: Record<string, string | ArrayBuffer>) => void
+      message: RegExp
+    }> = [
+      {
+        label: 'summon',
+        mutate: (files) => {
+          files['content/skills.json'] = J({
+            skills: [
+              {
+                id: 'mixed-summon',
+                name: 'Mixed',
+                cost: { mp: 0 },
+                target: 'self',
+                effects: [{ kind: 'summon', godId: 0, battleSprite: 123 }],
+                animation: {},
+              },
+            ],
+            levelUp: {},
+          })
+        },
+        message: /summon 同时含 godId 与 canonical battleSprite/,
+      },
+      {
+        label: 'trance',
+        mutate: (files) => {
+          files['content/skills.json'] = J({
+            skills: [
+              {
+                id: 'mixed-trance',
+                name: 'Mixed',
+                cost: { mp: 0 },
+                target: 'self',
+                effects: [{ kind: 'trance', sprite: 0, battleSprite: 123 }],
+                animation: {},
+              },
+            ],
+            levelUp: {},
+          })
+        },
+        message: /trance 同时含旧 sprite 与 canonical battleSprite/,
+      },
+      {
+        label: 'actor',
+        mutate: (files) => {
+          const actors = JSON.parse(String(files['content/actors.json'])) as Array<
+            Record<string, unknown>
+          >
+          actors[0]!.battler = { battleSpriteNum: 10, battleSprite: 123 }
+          files['content/actors.json'] = J(actors)
+        },
+        message: /同时含旧 battleSpriteNum\/path 与 canonical battleSprite/,
+      },
+      {
+        label: 'enemy',
+        mutate: (files) => {
+          const manifest = JSON.parse(String(files['manifest.json'])) as {
+            content: Record<string, string>
+          }
+          manifest.content.enemies = 'content/enemies.json'
+          files['manifest.json'] = J(manifest)
+          files['content/enemies.json'] = J([
+            {
+              id: 'mixed-enemy',
+              name: 'Mixed',
+              hp: 1,
+              exp: 0,
+              cash: 0,
+              spriteNum: 1,
+              battleSprite: 123,
+              anim: { idleFrames: 1, idleSpeed: 1, magicFrames: 0, attackFrames: 0, yPosOffset: 0 },
+            },
+          ])
+        },
+        message: /同时含旧 spriteNum\/path\/anim 与 canonical battleSprite/,
+      },
+    ]
+
+    for (const entry of cases) {
+      const fixture = legacyBattleProject()
+      entry.mutate(fixture.files)
+      const writes: string[] = []
+      await expect(
+        openLocalProject(mockDir(`battle-mixed-presence-${entry.label}`, fixture.files, writes)),
+      ).rejects.toThrow(entry.message)
+      expect(writes, entry.label).toEqual([])
+    }
+  })
+
+  test('battle 升级不被稍后可补的 openingMenuMusic 缺口阻断', async () => {
+    const fixture = legacyBattleProject()
+    const audio = v3MusicProject(['music.pal.004'])
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      assets: { roles: Record<string, string> }
+    }
+    const audioManifest = JSON.parse(String(audio['manifest.json'])) as {
+      assets: { roles: Record<string, string> }
+    }
+    manifest.assets.roles = { ...audioManifest.assets.roles }
+    delete manifest.assets.roles['audio.openingMenuMusic']
+    fixture.files['manifest.json'] = J(manifest)
+    fixture.files['assets/index.json'] = audio['assets/index.json']!
+
+    const opened = await openLocalProject(
+      mockDir('battle-before-audio-role-completion', fixture.files),
+    )
+    expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.004')
+    expect(opened.project.manifest.assets.legacy?.families).not.toContain('battle-sprite')
+  })
+
+  test.each([
+    { label: 'unknown command', body: [{ kind: 'definitelyUnknownCommand' }] },
+    {
+      label: 'orphan ScriptRef',
+      body: [
+        { kind: 'setEntityAuto', entity: 'e1', script: { chunk: 'missing', id: 'missing/id' } },
+      ],
+    },
+  ])('battle-sprite 升级在 script library 完整校验发现 $label 时零写', async ({ label, body }) => {
+    const fixture = legacyBattleProject()
+    const manifest = JSON.parse(String(fixture.files['manifest.json'])) as {
+      content: Record<string, string>
+    }
+    manifest.content.scripts = 'content/scripts/'
+    fixture.files['manifest.json'] = J(manifest)
+    const chunk = { version: 1 as const, id: 'scene/s1', scripts: { 'scene/s1/test': body } }
+    const normalized = normalizeScriptLibrary(
+      {
+        version: 1,
+        shards: { shared: 16, global: {} },
+        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 0 } },
+      },
+      { 'scene/s1': chunk as unknown as ScriptChunkV1 },
+    )
+    fixture.files['content/scripts/index.json'] = J(normalized.index)
+    fixture.files['content/scripts/chunks/scene/s1.json'] = J(chunk)
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir(`battle-script-${label}`, fixture.files, writes)),
+    ).rejects.toThrow()
+    expect(writes).toEqual([])
+  })
+
+  test('battle-sprite 恢复会拒绝被改写或后来新建的旧元数据', async () => {
+    for (const mode of ['descriptor', 'created-effect'] as const) {
+      const { files } = legacyBattleProject()
+      const dir = mockDir(`battle-cleanup-${mode}`, files, [], {
+        failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+      })
+      await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure')
+      if (mode === 'descriptor')
+        files['assets/extracted/data/battle-sprites.json'] = J({ sprites: [] })
+      else files['assets/extracted/data/battle-effect-index.json'] = J([0, 0])
+      await expect(openLocalProject(dir)).rejects.toThrow('旧清理源被修改或后来新建')
+      expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeDefined()
+    }
+
+    const existingEffect = legacyActorPathOnlyBattleProject()
+    const existingEffectDir = mockDir('battle-cleanup-existing-effect', existingEffect, [], {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(existingEffectDir)).rejects.toThrow('Injected close failure')
+    existingEffect['assets/extracted/data/battle-effect-index.json'] = J([9, 9])
+    await expect(openLocalProject(existingEffectDir)).rejects.toThrow('旧清理源被修改')
+
+    const deletedBeforePublish = legacyBattleProject()
+    const deletedDir = mockDir(
+      'battle-cleanup-deleted-before-publish',
+      deletedBeforePublish.files,
+      [],
+      {
+        failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+      },
+    )
+    await expect(openLocalProject(deletedDir)).rejects.toThrow('Injected close failure')
+    delete deletedBeforePublish.files['assets/extracted/data/battle-sprites.json']
+    await expect(openLocalProject(deletedDir)).rejects.toThrow('manifest 发布前丢失')
+  })
+
+  test('custom 同字节多源合并为单资产，别名被篡改时恢复 fail-loud', async () => {
+    const successful = legacyActorPathOnlyBattleProject()
+    const actors = JSON.parse(String(successful['content/actors.json'])) as Array<
+      Record<string, unknown>
+    >
+    actors.push({
+      ...structuredClone(actors[0]!),
+      id: 'clone',
+      name: 'name.clone',
+      battler: {
+        ...(structuredClone(actors[0]!.battler) as Record<string, unknown>),
+        battleSpritePath: 'custom/clone.rle',
+      },
+    })
+    successful['content/actors.json'] = J(actors)
+    successful['assets/extracted/data/custom/clone.rle'] = battleSpriteBytes
+    const opened = await openLocalProject(mockDir('battle-custom-alias', successful))
+    const customAssets = Object.entries(opened.project.assetCatalog.assets).filter(([id]) =>
+      id.startsWith('battle-sprite.legacy.'),
+    )
+    expect(customAssets).toHaveLength(1)
+    expect(successful['assets/extracted/data/custom/hero.rle']).toBeUndefined()
+    expect(successful['assets/extracted/data/custom/clone.rle']).toBeUndefined()
+
+    const interrupted = legacyActorPathOnlyBattleProject()
+    const interruptedActors = JSON.parse(String(interrupted['content/actors.json'])) as Array<
+      Record<string, unknown>
+    >
+    interruptedActors.push({
+      ...structuredClone(interruptedActors[0]!),
+      id: 'clone',
+      name: 'name.clone',
+      battler: {
+        ...(structuredClone(interruptedActors[0]!.battler) as Record<string, unknown>),
+        battleSpritePath: 'custom/clone.rle',
+      },
+    })
+    interrupted['content/actors.json'] = J(interruptedActors)
+    interrupted['assets/extracted/data/custom/clone.rle'] = battleSpriteBytes
+    const dir = mockDir('battle-custom-alias-tamper', interrupted, [], {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure')
+    interrupted['assets/extracted/data/custom/clone.rle'] = new Uint8Array([1, 2, 3]).buffer
+    await expect(openLocalProject(dir)).rejects.toThrow('旧清理源被修改')
+  })
+
+  test('严格旧空白工程可补齐 starter battle 资源，空 journal 也能从未动旧态重建', async () => {
+    for (const emptyJournal of [false, true]) {
+      const files = await exactOldBlankBattleProject({ emptyJournal })
+      const opened = await openLocalProject(mockDir(`old-blank-${emptyJournal}`, files))
+      expect(opened.project.manifest.content.battleSprites).toBe('content/battle-sprites.json')
+      expect(opened.project.battleSpritesById['starter-fighter']?.profile.kind).toBe(
+        'player-fighter',
+      )
+      expect(files['.type-pal/upgrade-local-v3-battle-sprites.json']).toBeUndefined()
+    }
+  })
+
+  test('缺 battleSprites 但已改动的旧空白工程 fail-loud，不借用 player 0', async () => {
+    const files = await exactOldBlankBattleProject({ corruptActor: true })
+    const writes: string[] = []
+    await expect(openLocalProject(mockDir('edited-old-blank', files, writes))).rejects.toThrow(
+      '不是未修改的旧空白工程',
+    )
+    expect(writes).toEqual([])
+  })
+
+  test('旧 Actor 仅有 path 时只在升级边界采用 player 0，bare path 按 legacy.root 解析', async () => {
+    const files = legacyActorPathOnlyBattleProject()
+    const opened = await openLocalProject(mockDir('legacy-actor-path', files))
+    const actor = opened.project.actorsById.hero!
+    const definition = opened.project.battleSpritesById[actor.battler!.battleSprite]!
+    expect(definition.profile).toMatchObject({
+      kind: 'player-fighter',
+      castEffectBase: 15,
+      attackEffectBase: 0,
+    })
+    expect(definition.asset).toMatch(/^battle-sprite\.legacy\.[0-9a-f]{64}$/)
+    expect(files['assets/extracted/data/custom/hero.rle']).toBeUndefined()
+  })
   test('有效工程夹 → 装配 project + 全量场景', async () => {
     const { project, scenes } = await openLocalProject(mockDir('my-proj', fullProject))
     expect(project.manifest.id).toBe('proj')
@@ -1234,6 +2024,26 @@ describe('openLocalProject', () => {
     const files: Record<string, string | ArrayBuffer> = {
       ...fullProject,
       'manifest.json': J(manifest),
+      'assets/index.json': J({
+        version: 1,
+        assets: {
+          ...(
+            JSON.parse(String(fullProject['assets/index.json'])) as {
+              assets: Record<string, unknown>
+            }
+          ).assets,
+          'battle-sprite.generated.starter': battleSpriteRecord,
+        },
+      }),
+      'content/battle-sprites.json': J([
+        {
+          id: 'starter-summon',
+          label: '测试召唤精灵',
+          asset: 'battle-sprite.generated.starter',
+          profile: { kind: 'summon' },
+        },
+      ]),
+      [battleSpriteRecord.path]: battleSpriteBytes,
       'content/actors.json': J([{ id: 'a', name: 'name.a', spriteId: 'gs' }]),
       'content/skills.json': J({
         skills: [
@@ -1242,7 +2052,7 @@ describe('openLocalProject', () => {
             name: 'S',
             cost: { mp: 0 },
             target: 'self',
-            effects: [{ kind: 'summon', godId: 1, sound: 5 }],
+            effects: [{ kind: 'summon', battleSprite: 'starter-summon', sound: 5 }],
             animation: { sound: 4 },
           },
         ],
@@ -1511,6 +2321,10 @@ describe('openLocalProject', () => {
       'assets/extracted/sounds/45.wav': waveBytes(1),
       'assets/extracted/data/tileset/1.rle': tilesetBytes,
       'assets/extracted/data/sprite/2.rle': spriteBytes,
+      'assets/extracted/data/battle-sprites.json': J({
+        sprites: [{ kind: 'player', id: 0 }],
+      }),
+      'assets/extracted/data/battle-sprite/player/0.rle': battleSpriteBytes,
     }
     const opened = await openLocalProject(mockDir('old', files), {
       readSoundfont: async () => soundfont,

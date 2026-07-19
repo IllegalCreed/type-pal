@@ -7,16 +7,18 @@
 
 import type {
   AssetCatalogV1,
+  BattleSpriteDef,
   SkillAnimation,
   SkillData,
   SkillEffect,
   StatusId,
 } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SummonPreview } from './SummonPreview.js'
@@ -62,7 +64,10 @@ const EFFECT_KINDS: { v: SkillEffect['kind']; label: string }[] = [
 ]
 
 /** kind 切换的缺省效果体。 */
-function defaultEffect(kind: SkillEffect['kind']): SkillEffect {
+function defaultEffect(
+  kind: SkillEffect['kind'],
+  battleSprites: readonly BattleSpriteDef[],
+): SkillEffect {
   switch (kind) {
     case 'damage':
       return { kind, power: 10, elemental: 0 }
@@ -91,9 +96,23 @@ function defaultEffect(kind: SkillEffect['kind']): SkillEffect {
     case 'collectTreasure':
       return { kind }
     case 'summon':
-      return { kind, godId: 0 }
+      return {
+        kind,
+        battleSprite:
+          battleSprites.find((entry) => entry.profile.kind === 'summon')?.id ??
+          (() => {
+            throw new Error('请先在战斗精灵库创建 summon 定义')
+          })(),
+      }
     case 'trance':
-      return { kind, sprite: 0 }
+      return {
+        kind,
+        battleSprite:
+          battleSprites.find((entry) => entry.profile.kind === 'player-fighter')?.id ??
+          (() => {
+            throw new Error('请先在战斗精灵库创建 player-fighter 定义')
+          })(),
+      }
     case 'fleeBattle':
       return { kind }
     case 'moneyDamage':
@@ -128,9 +147,11 @@ function EffectFields(props: {
   on: (next: SkillEffect) => void
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  battleSprites: readonly BattleSpriteDef[]
   onOpenSound?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
 }) {
-  const { e, on, assetCatalog, assetReader, onOpenSound } = props
+  const { e, on, assetCatalog, assetReader, battleSprites, onOpenSound, onOpenBattleSprite } = props
   switch (e.kind) {
     case 'damage':
       return (
@@ -321,10 +342,16 @@ function EffectFields(props: {
     case 'summon':
       return (
         <>
-          <label>
-            <span>神将号</span>
-            <N v={e.godId} on={(n) => on({ ...e, godId: n ?? 0 })} />
-          </label>
+          <div className="sound-effect-field">
+            <span>召唤形象</span>
+            <BattleSpritePicker
+              value={e.battleSprite}
+              definitions={battleSprites}
+              kind="summon"
+              onChange={(battleSprite) => on({ ...e, battleSprite })}
+              onOpenDefinition={onOpenBattleSprite}
+            />
+          </div>
           <label>
             <span>现身帧速</span>
             <N v={e.speed} on={(n) => on({ ...e, speed: n ?? undefined })} ph="0" />
@@ -348,10 +375,16 @@ function EffectFields(props: {
       )
     case 'trance':
       return (
-        <label>
-          <span>变身精灵</span>
-          <N v={e.sprite} on={(n) => on({ ...e, sprite: n ?? 0 })} />
-        </label>
+        <div className="sound-effect-field">
+          <span>变身形象</span>
+          <BattleSpritePicker
+            value={e.battleSprite}
+            definitions={battleSprites}
+            kind="player-fighter"
+            onChange={(battleSprite) => on({ ...e, battleSprite })}
+            onOpenDefinition={onOpenBattleSprite}
+          />
+        </div>
       )
     case 'moneyDamage':
       return (
@@ -385,7 +418,12 @@ export function SkillTab(props: {
   assetBase: AssetBase
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  battleSprites: readonly BattleSpriteDef[]
   onOpenSound?: (id: string) => void
+  onOpenBattleSprite?: (id: string) => void
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
+  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   /** 工程 id(同源试玩页;缺省 pal 兼容旧调用)。 */
   projectId?: string
   tabBar?: React.ReactNode
@@ -396,12 +434,20 @@ export function SkillTab(props: {
     assetBase,
     assetCatalog,
     assetReader,
+    battleSprites,
     onOpenSound,
+    onOpenBattleSprite,
+    focusObjectId,
+    onObjectFocus,
+    onStatusNotice,
     projectId = 'pal',
     tabBar,
   } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState(skills[0]?.id ?? '')
+  useEffect(() => {
+    if (focusObjectId && skills.some((entry) => entry.id === focusObjectId)) setSelId(focusObjectId)
+  }, [focusObjectId, skills])
   const shown = useMemo(
     () => skills.filter((s) => !filter || s.id.includes(filter) || s.name.includes(filter)),
     [skills, filter],
@@ -444,7 +490,10 @@ export function SkillTab(props: {
               type="button"
               key={s.id}
               className={`arow${s.id === skill?.id ? ' sel' : ''}`}
-              onClick={() => setSelId(s.id)}
+              onClick={() => {
+                setSelId(s.id)
+                onObjectFocus?.(s.id)
+              }}
             >
               <span className="nm">
                 {s.name}
@@ -464,6 +513,7 @@ export function SkillTab(props: {
             while (skills.some((s) => s.id === String(n))) n++
             session.dispatch(new AddSkillCommand(String(n), name))
             setSelId(String(n))
+            onObjectFocus?.(String(n))
           }}
         >
           ＋ 新建技能
@@ -571,9 +621,20 @@ export function SkillTab(props: {
                     <select
                       className="in ef-kind"
                       value={e.kind}
-                      onChange={(ev) =>
-                        setEffect(i, defaultEffect(ev.target.value as SkillEffect['kind']))
-                      }
+                      onChange={(ev) => {
+                        try {
+                          setEffect(
+                            i,
+                            defaultEffect(ev.target.value as SkillEffect['kind'], battleSprites),
+                          )
+                          onStatusNotice?.(undefined)
+                        } catch (reason) {
+                          onStatusNotice?.({
+                            kind: 'error',
+                            message: reason instanceof Error ? reason.message : String(reason),
+                          })
+                        }
+                      }}
                     >
                       {EFFECT_KINDS.map((k) => (
                         <option key={k.v} value={k.v}>
@@ -587,7 +648,9 @@ export function SkillTab(props: {
                         on={(next) => setEffect(i, next)}
                         assetCatalog={assetCatalog}
                         assetReader={assetReader}
+                        battleSprites={battleSprites}
                         onOpenSound={onOpenSound}
+                        onOpenBattleSprite={onOpenBattleSprite}
                       />
                     </div>
                     <span className="ef-ops">
@@ -633,12 +696,21 @@ export function SkillTab(props: {
                   </div>
                   {e.kind === 'summon' && (
                     <div className="ef-preview-row">
-                      <SummonPreview assetBase={assetBase} godId={e.godId} speed={e.speed} />
+                      <SummonPreview
+                        assetBase={assetBase}
+                        definition={battleSprites.find((entry) => entry.id === e.battleSprite)}
+                        assetReader={assetReader}
+                        speed={e.speed}
+                      />
                     </div>
                   )}
                   {e.kind === 'trance' && (
                     <div className="ef-preview-row">
-                      <TrancePreview assetBase={assetBase} sprite={e.sprite} />
+                      <TrancePreview
+                        assetBase={assetBase}
+                        definition={battleSprites.find((entry) => entry.id === e.battleSprite)}
+                        assetReader={assetReader}
+                      />
                     </div>
                   )}
                 </div>
@@ -646,7 +718,9 @@ export function SkillTab(props: {
               <button
                 type="button"
                 className="tool"
-                onClick={() => patch({ effects: [...skill.effects, defaultEffect('damage')] })}
+                onClick={() =>
+                  patch({ effects: [...skill.effects, defaultEffect('damage', battleSprites)] })
+                }
               >
                 ＋ 添加效果
               </button>

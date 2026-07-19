@@ -36,6 +36,15 @@
       "sha256": "53a0a3687f899238dc7e22e318b33c612c7afbebdaef40dda39da721748cf14f",
       "label": "PAL 大世界精灵 002",
       "origin": { "kind": "legacy-migrated", "ref": "sprite/2.rle" }
+    },
+    "battle-sprite.generated.demo-player-fighter": {
+      "kind": "battle-sprite",
+      "path": "assets/generated/battle-sprites/player-fighter.rle",
+      "mediaType": "application/vnd.type-pal.rle",
+      "bytes": 107,
+      "sha256": "56e2e1e55a4d12ae291839480ca7a82eff82271283688755c5a0a43cb780b3df",
+      "label": "Demo 占位战斗精灵",
+      "origin": { "kind": "generated" }
     }
   }
 }

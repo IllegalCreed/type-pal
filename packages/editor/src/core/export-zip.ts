@@ -4,6 +4,7 @@
  */
 
 import { validateAssetCatalog } from '@type-pal/content'
+import { decodeBattleSpriteAssetBytes } from '@type-pal/reforge'
 import { sha256Hex } from './binary-signature.js'
 import { buildZip, type ZipEntry } from './zip.js'
 
@@ -32,6 +33,19 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
       )
         throw new Error(`ZIP tileset 非 canonical gzip: ${id}`)
     }
+    if (record.kind === 'battle-sprite') {
+      const arrayBuffer = bytes.buffer.slice(
+        bytes.byteOffset,
+        bytes.byteOffset + bytes.byteLength,
+      ) as ArrayBuffer
+      try {
+        await decodeBattleSpriteAssetBytes(record, arrayBuffer, `ZIP battle-sprite ${id}`)
+      } catch (cause) {
+        throw new Error(
+          `ZIP battle-sprite 非 canonical: ${id}（${cause instanceof Error ? cause.message : String(cause)}）`,
+        )
+      }
+    }
   }
   const legacyFamilies = manifest.assets?.legacy?.families
   if (
@@ -39,6 +53,15 @@ export async function validateProjectZipEntries(entries: readonly ZipEntry[]): P
     entries.some((entry) => entry.path.startsWith('assets/extracted/data/tileset/'))
   )
     throw new Error('ZIP 含已退役的 extracted tileset 副本')
+  if (
+    (!Array.isArray(legacyFamilies) || !legacyFamilies.includes('battle-sprite')) &&
+    entries.some(
+      (entry) =>
+        entry.path.startsWith('assets/extracted/data/battle-sprite/') ||
+        entry.path === 'assets/extracted/data/battle-sprites.json',
+    )
+  )
+    throw new Error('ZIP 含已退役的 extracted battle-sprite 副本')
 }
 
 /** 递归收集 FSA 目录全部文件(路径正斜杠,相对工程根)。 */

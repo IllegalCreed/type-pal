@@ -1,3 +1,4 @@
+import type { EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
@@ -12,9 +13,40 @@ import {
   buildPartyFlee,
   buildPlayerAttack,
   buildPlayerCast,
+  buildPlayerTrance,
   buildSteal,
   buildUseItem,
 } from './battle-anim.js'
+
+const PLAYER_FRAMES: PlayerFighterFrames = {
+  idle: 0,
+  dying: 1,
+  dead: 2,
+  defend: 3,
+  hurt: 4,
+  preMagic: 5,
+  magic: 6,
+  attackWindup: 7,
+  attackRush: 8,
+  attackStrike: 9,
+  steal: 10,
+}
+
+function enemyProfile(
+  idleFrames = 4,
+  magicFrames = 0,
+  attackFrames = 2,
+  actTicksPerFrame = 1,
+): EnemyBattleSpriteProfile {
+  return {
+    kind: 'enemy',
+    idle: { start: 0, count: idleFrames },
+    magic: { start: idleFrames, count: magicFrames },
+    attack: { start: idleFrames + magicFrames, count: attackFrames },
+    idleTicksPerFrame: 1,
+    actTicksPerFrame,
+  }
+}
 
 function record(frames: AnimFrame[]) {
   const events: string[] = []
@@ -33,6 +65,7 @@ function record(frames: AnimFrame[]) {
 describe('M4d-2 战斗动画时间线', () => {
   test('玩家物攻:冲刺(+64,+20)→挥击9+敌染色+伤害数字→敌抖动(−8/−4/−6)', () => {
     const frames = buildPlayerAttack({
+      frames: PLAYER_FRAMES,
       attackerIdx: 0,
       attackerPos: { x: 240, y: 170 },
       targetIdx: 1,
@@ -63,6 +96,7 @@ describe('M4d-2 战斗动画时间线', () => {
 
   test('玩家施法:吟唱音挂 frame5 姿势帧(rgwMagicSound,非起手即播)', () => {
     const frames = buildPlayerCast({
+      casterFrames: PLAYER_FRAMES,
       casterIdx: 0,
       casterPos: { x: 240, y: 170 },
       magicSound: 'sound.pal.009',
@@ -93,7 +127,8 @@ describe('M4d-2 战斗动画时间线', () => {
   test('敌施法:受伤队员受击反应(frame4+前3帧红闪+递减击退 8>>i,4>>i)', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,
-      anim: { idleFrames: 4, magicFrames: 2 },
+      anim: enemyProfile(4, 2, 0),
+      playerFrames: [PLAYER_FRAMES],
       fireFrames: 0, // 无特效资产也要有受击反应
       fx: {
         placement: 'normal',
@@ -121,7 +156,8 @@ describe('M4d-2 战斗动画时间线', () => {
     const mk = (autoDefendPlayers?: number[]) =>
       buildEnemyCast({
         enemyIdx: 0,
-        anim: { idleFrames: 4, magicFrames: 2 },
+        anim: enemyProfile(4, 2, 0),
+        playerFrames: [PLAYER_FRAMES, PLAYER_FRAMES, PLAYER_FRAMES],
         fireFrames: 3,
         fx: {
           placement: 'normal',
@@ -154,6 +190,8 @@ describe('M4d-2 战斗动画时间线', () => {
 
   test('疯魔打友:抽搐2轮→瞬移队友旁(+30,+12)→frame9+武器音→击退(−12,−6)+红闪+数字→双方复位', () => {
     const frames = buildMateAttack({
+      attackerFrames: PLAYER_FRAMES,
+      mateFrames: PLAYER_FRAMES,
       attackerIdx: 0,
       attackerPos: { x: 200, y: 170 },
       mateIdx: 1,
@@ -183,7 +221,8 @@ describe('M4d-2 战斗动画时间线', () => {
       enemyPos: { x: 100, y: 100 },
       targetIdx: 0,
       targetPos: { x: 240, y: 170 },
-      anim: { idleFrames: 4, magicFrames: 0, attackFrames: 2, actWaitFrames: 1 },
+      anim: enemyProfile(4, 0, 2, 1),
+      playerFrames: [PLAYER_FRAMES],
       sounds: { action: 'sound.pal.355', call: 'sound.pal.002' },
       damage: 7,
       targetDied: false,
@@ -203,6 +242,7 @@ describe('M4d-2 战斗动画时间线', () => {
 
   test('使用物品:举物(-15,-7)frame5+音28 → 目标 colorShift 0..6..0 呼吸 → 复位(fight.c:2266)', () => {
     const frames = buildUseItem({
+      casterFrames: PLAYER_FRAMES,
       casterIdx: 1,
       casterPos: { x: 240, y: 170 },
       targetIdxs: [1], // v1 施己
@@ -246,8 +286,8 @@ describe('M4d-2 战斗动画时间线', () => {
     const frames = buildPartyFlee({
       sound: 'sound.pal.045',
       players: [
-        { idx: 0, pos: { x: 200, y: 160 } },
-        { idx: 1, pos: { x: 240, y: 170 } },
+        { idx: 0, pos: { x: 200, y: 160 }, idleFrame: PLAYER_FRAMES.idle },
+        { idx: 1, pos: { x: 240, y: 170 }, idleFrame: PLAYER_FRAMES.idle },
       ],
     })
     expect(frames.length).toBe(16)
@@ -264,7 +304,12 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('偷窃冲刺(fight.c:5218,一阶段 buildStealTimeline 1:1):敌前瞬移 frame10 → 5 步滑步 → 末步敌闪白', () => {
-    const frames = buildSteal({ casterIdx: 0, targetIdx: 1, enemyPos: { x: 100, y: 100 } })
+    const frames = buildSteal({
+      casterIdx: 0,
+      targetIdx: 1,
+      enemyPos: { x: 100, y: 100 },
+      stealFrame: 10,
+    })
     expect(frames.length).toBe(7)
     // offset=(1−0)×8=8 → 起点 (100+64−8, 100+22+8) = (156,130)
     expect(frames[0]!.fighters![0]).toEqual({
@@ -286,7 +331,7 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('逃跑失败(fight.c:4152):3 帧 (+4,+2) 挪步 → frame1 定格 320ms + 「逃跑失败」banner', () => {
-    const frames = buildFleeFail({ idx: 1, pos: { x: 240, y: 170 } })
+    const frames = buildFleeFail({ idx: 1, pos: { x: 240, y: 170 }, frames: PLAYER_FRAMES })
     expect(frames.length).toBe(4)
     expect(frames[0]!.fighters![0]).toEqual({
       side: 'player',
@@ -316,18 +361,53 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(frames[30]).toEqual({ durationMs: 500 })
   })
 
-  test('变身现形(script.c:2954 0x9F):colorShift 0→5 六帧染白 → 归 0 + 音效 47', () => {
-    const frames = buildEnemyTransform({ idx: 2, sound: 'sound.pal.047' })
-    expect(frames.length).toBe(7)
+  test('变身现形:旧图 colorShift 0→5 六帧染白 → 72帧 dither 过渡至新图', () => {
+    const frames = buildEnemyTransform({
+      idx: 2,
+      oldDefinitionId: 'battle-sprite.enemy.001',
+      newDefinitionId: 'battle-sprite.enemy.002',
+      oldIdleFrame: 0,
+      newIdleFrame: 3,
+      sound: 'sound.pal.047',
+    })
+    expect(frames.length).toBe(78)
     expect(frames.slice(0, 6).map((f) => f.fighters![0]!.colorShift)).toEqual([0, 1, 2, 3, 4, 5])
-    expect(frames[6]!.fighters![0]!.colorShift).toBe(0)
+    expect(frames.slice(0, 6).map((f) => f.appearanceTransition?.step)).toEqual([0, 0, 0, 0, 0, 0])
+    expect(frames.slice(6).map((f) => f.appearanceTransition?.step)).toEqual(
+      Array.from({ length: 72 }, (_, i) => i + 1),
+    )
+    expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
+    expect(frames[6]!.fighters![0]!.frame).toBe(3)
     expect(frames[6]!.sound).toBe('sound.pal.047')
+  })
+
+  test('梦蛇:旧图施法后 0/2/4/6/8/10 闪色，再 72×16ms 切换到新图', () => {
+    // 一阶段 golden：packages/game/src/core/battle/actions/magic.ts:751-809。
+    const frames = buildPlayerTrance({
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      oldDefinitionId: 'battle-sprite.player.000',
+      newDefinitionId: 'battle-sprite.player.005',
+      oldFrames: PLAYER_FRAMES,
+      newFrames: { ...PLAYER_FRAMES, idle: 2 },
+      castEffectBase: -1,
+      magicSound: 'sound.pal.009',
+    })
+    const flash = frames.slice(7, 13)
+    expect(flash.map((f) => f.fighters![0]!.colorShift)).toEqual([0, 2, 4, 6, 8, 10])
+    expect(flash.every((f) => f.durationMs === 40)).toBe(true)
+    expect(flash.every((f) => f.appearanceTransition?.step === 0)).toBe(true)
+    const fade = frames.slice(-72)
+    expect(fade.map((f) => f.appearanceTransition?.step)).toEqual(
+      Array.from({ length: 72 }, (_, i) => i + 1),
+    )
+    expect(fade.every((f) => f.durationMs === 16 && f.fighters![0]!.frame === 2)).toBe(true)
   })
 
   test('分裂滑开(script.c:2853 0x9C):10 帧整数二分逼近 + 终帧精确落位', () => {
     const frames = buildEnemyDivide({
       motherPos: { x: 100, y: 100 },
-      spawns: [{ idx: 3, target: { x: 180, y: 120 } }],
+      spawns: [{ idx: 3, target: { x: 180, y: 120 }, idleFrame: 0 }],
     })
     expect(frames.length).toBe(11)
     const xs = frames.map((f) => f.fighters![0]!.pos!.x)
@@ -342,7 +422,8 @@ describe('M4d-2 战斗动画时间线', () => {
       enemyPos: { x: 100, y: 100 },
       targetIdx: 1,
       targetPos: { x: 240, y: 170 },
-      anim: { idleFrames: 4, magicFrames: 0, attackFrames: 2, actWaitFrames: 1 },
+      anim: enemyProfile(4, 0, 2, 1),
+      playerFrames: [PLAYER_FRAMES, PLAYER_FRAMES],
       sounds: { call: 'sound.pal.002' },
       damage: 0,
       targetDied: false,
@@ -366,7 +447,8 @@ describe('M4d-2 战斗动画时间线', () => {
       enemyPos: { x: 100, y: 100 },
       targetIdx: 0,
       targetPos: { x: 240, y: 170 },
-      anim: { idleFrames: 2, magicFrames: 0, attackFrames: 3, actWaitFrames: 0 },
+      anim: enemyProfile(2, 0, 3, 0),
+      playerFrames: [PLAYER_FRAMES],
       sounds: {},
       damage: 1,
       targetDied: true,

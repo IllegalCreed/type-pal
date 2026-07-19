@@ -47,9 +47,17 @@ import { auditMusicReferences } from './music-reference-audit.js'
 import {
   materializePalAssets,
   PAL_ASSET_ROLES,
+  PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
+  PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES,
+  PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
+  PAL_BATTLE_SPRITE_TUPLE_DIGEST,
   PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES,
   PAL_WORLD_SPRITE_TUPLE_DIGEST,
 } from './pal-assets.js'
+import {
+  PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS,
+  PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
+} from './pal-battle-sprites.js'
 import { preparePalManifest } from './pal-manifest.js'
 import { buildPalMigration, PAL_WORLD_SPRITE_UNUSED_NUMBERS } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
@@ -74,6 +82,43 @@ const expectedLegacyPaletteByFrameAnimation = Object.fromEntries(
     index === 3 ? 2 : index === 6 ? 3 : index === 7 ? 6 : 0,
   ]),
 )
+const expectedPalAssetReport = {
+  videos: 6,
+  frameAnimations: 12,
+  frames: 1_464,
+  sounds: 363,
+  emptySounds: 142,
+  soundBytes: 18_110_864,
+  portraits: 88,
+  portraitBytes: 768_841,
+  faces: 6,
+  faceBytes: 10_392,
+  itemIcons: 233,
+  itemIconBytes: 262_667,
+  battleBackgrounds: 52,
+  battleBackgroundBytes: 4_422_281,
+  battleSprites: 172,
+  battleSpriteBytes: 900_973,
+  battleSpriteRawBytes: 2_313_598,
+  battleSpriteFrames: 775,
+  battleSpriteMalformedTailSlots: 6,
+  battleSpritePlayerTupleDigest: PAL_BATTLE_SPRITE_PLAYER_TUPLE_DIGEST,
+  battleSpriteEnemyTupleDigest: PAL_BATTLE_SPRITE_ENEMY_TUPLE_DIGEST,
+  battleSpriteTupleDigest: PAL_BATTLE_SPRITE_TUPLE_DIGEST,
+  battleSpritePlayerFrameCounts: [...PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS],
+  battleSpriteEnemyFrameCounts: [...PAL_ENEMY_BATTLE_SPRITE_FRAME_COUNTS],
+  battleSpriteLegacyTailAnomalies: [...PAL_BATTLE_SPRITE_LEGACY_TAIL_ANOMALIES],
+  tilesets: 223,
+  tilesetBytes: 6_501_041,
+  tilesetFrames: 67_715,
+  sprites: 636,
+  spriteBytes: 1_332_725,
+  spriteFrames: 4_133,
+  spriteMalformedTailSlots: 30,
+  spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
+  spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
+  legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
+}
 
 function assertSameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot): void {
   const paths = new Set([...expected.managedFiles, ...actual.managedFiles])
@@ -244,6 +289,40 @@ function assertWorldSpriteGraph(
   expect(followerCommands).toEqual([[], ['sprite-82']])
 }
 
+function assertEarthPearlSummonChain(migration: ReturnType<typeof buildPalMigration>): void {
+  const items = migration.files.get('content/items.json') as unknown as Array<{
+    id: string
+    equip?: { effects: unknown[] }
+  }>
+  const skills = migration.files.get('content/skills.json') as unknown as {
+    skills: Array<{ id: string; effects?: unknown[] }>
+  }
+  const definitions = migration.files.get('content/battle-sprites.json') as unknown as Array<{
+    id: string
+    asset: string
+    profile: { kind: string }
+  }>
+  const catalog = validateAssetCatalog(migration.files.get('assets/index.json'))
+
+  expect(items.find(({ id }) => id === '267')?.equip?.effects).toContainEqual({
+    kind: 'grantSkill',
+    skillId: '336',
+  })
+  expect(skills.skills.find(({ id }) => id === '336')?.effects).toContainEqual(
+    expect.objectContaining({ kind: 'summon', battleSprite: 'player-summon-13' }),
+  )
+  expect(definitions.find(({ id }) => id === 'player-summon-13')).toEqual(
+    expect.objectContaining({
+      asset: 'battle-sprite.pal.player.013',
+      profile: { kind: 'summon' },
+    }),
+  )
+  expect(catalog.assets['battle-sprite.pal.player.013']).toMatchObject({
+    kind: 'battle-sprite',
+    path: 'assets/migrated/battle-sprites/player/013.rle',
+  })
+}
+
 afterAll(() => {
   for (const root of tempRoots) rmSync(root, { recursive: true, force: true })
 })
@@ -253,32 +332,8 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
     assertWorldSpriteGraph(theirs, sources)
-    expect(theirs.report.assets).toEqual({
-      videos: 6,
-      frameAnimations: 12,
-      frames: 1_464,
-      sounds: 363,
-      emptySounds: 142,
-      soundBytes: 18_110_864,
-      tilesets: 223,
-      tilesetBytes: 6_501_041,
-      tilesetFrames: 67_715,
-      portraits: 88,
-      portraitBytes: 768_841,
-      faces: 6,
-      faceBytes: 10_392,
-      itemIcons: 233,
-      itemIconBytes: 262_667,
-      battleBackgrounds: 52,
-      battleBackgroundBytes: 4_422_281,
-      sprites: 636,
-      spriteBytes: 1_332_725,
-      spriteFrames: 4_133,
-      spriteMalformedTailSlots: 30,
-      spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
-      spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
-      legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
-    })
+    assertEarthPearlSummonChain(theirs)
+    expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     expect(auditMusicReferences(theirs.files)).toEqual({
       musicAssets: 86,
       playMusic: 1_174,
@@ -327,8 +382,15 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_479)
-    expect(validation.assetWarnings).toBe(131)
+    expect(validation.assetReferences).toBe(6_650)
+    expect(validation.assetWarnings).toBe(132)
+    expect(validation.battleSpriteReferences).toEqual({
+      definitions: 171,
+      references: 179,
+      usedDefinitions: 171,
+      sharedDefinitions: 5,
+      unusedAssets: 1,
+    })
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
@@ -458,32 +520,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const sources = loadPalMigrationSources(repo)
     const theirs = buildPalMigration(sources)
     assertWorldSpriteGraph(theirs, sources)
-    expect(theirs.report.assets).toEqual({
-      videos: 6,
-      frameAnimations: 12,
-      frames: 1_464,
-      sounds: 363,
-      emptySounds: 142,
-      soundBytes: 18_110_864,
-      portraits: 88,
-      portraitBytes: 768_841,
-      faces: 6,
-      faceBytes: 10_392,
-      itemIcons: 233,
-      itemIconBytes: 262_667,
-      battleBackgrounds: 52,
-      battleBackgroundBytes: 4_422_281,
-      tilesets: 223,
-      tilesetBytes: 6_501_041,
-      tilesetFrames: 67_715,
-      sprites: 636,
-      spriteBytes: 1_332_725,
-      spriteFrames: 4_133,
-      spriteMalformedTailSlots: 30,
-      spriteTupleDigest: PAL_WORLD_SPRITE_TUPLE_DIGEST,
-      spriteLegacyTailAnomalies: [...PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES],
-      legacyPaletteByFrameAnimation: expectedLegacyPaletteByFrameAnimation,
-    })
+    assertEarthPearlSummonChain(theirs)
+    expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     await assertFrameAnimationsMatchSource(sources)
     expect(auditMusicReferences(theirs.files)).toEqual({
       musicAssets: 86,
@@ -534,8 +572,15 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_479)
-    expect(validation.assetWarnings).toBe(131)
+    expect(validation.assetReferences).toBe(6_650)
+    expect(validation.assetWarnings).toBe(132)
+    expect(validation.battleSpriteReferences).toEqual({
+      definitions: 171,
+      references: 179,
+      usedDefinitions: 171,
+      sharedDefinitions: 5,
+      unusedAssets: 1,
+    })
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
       commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
