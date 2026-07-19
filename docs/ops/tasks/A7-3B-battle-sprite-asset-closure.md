@@ -314,10 +314,37 @@ Branch: main
   68,439,367 B；R1-R4、G1-G4 全落。五包 typecheck + 1641 tests passed / 1 existing skip、editor/reforge
   production build、Biome、`git diff --check` 全绿；编辑器与 PAL 两组战斗浏览器烟测无 console 错误。
 - Kimi: pending
-- GLM: pending
-- counter / 返工处理: N/A
+- GLM: **accept（2026-07-20;见下）**。独立复算全部产物数字 + 全 172 文件 SHA 逐项验证 + 代码逻辑审查。
+
+  **产物独立复算** ✅：
+  - catalog **1,879** records / **68,439,367 B** ✅
+  - battle-sprite records **172** / **900,973 B**（player 19 @ 0-18 + enemy 153 @ 1-153）✅
+  - **全 172 文件 SHA256+bytes 逐项零 mismatch**（ok=172 fail=0 missing=0）✅
+  - BattleSpriteDef **171** / 全有 asset+profile / 零 spriteNum ✅
+  - **179 refs / 171 used / 5 shared / 1 unused(enemy.098)** ✅（enemy.098 在 pal-migration.ts:204 被 pinned assertion 冻结）
+  - shared: enemy-battle-81(×2) + player-fighter-1(×2)/5(×2)/6(×3)/7(×4) = 5 shared / 8 extra edges ✅
+  - MG2 dry-run `battle-defs=171 battle-refs=179 battle-used=171 battle-shared=5 battle-unused-assets=1` + `writes=0 deletes=0 conflicts=0` ✅
+  - tuple-digest `ecbec106...` + player `163f7282...` + enemy `dd3b00f6...` ✅
+  - frames **775** / malformed-tail-slots **6** ✅
+
+  **代码逻辑审查** ✅：
+  - actor.ts:61 `battleSprite: string`（AssetId 迁移完成，无 spriteNum/battleSpriteNum/battleSpritePath）✅
+  - enemy.ts:81 `battleSprite: string`（同上）✅
+  - skill.ts:67,72 summon/trance `battleSprite: string`（无 godId/spriteNum/spritePath）✅
+  - `godId+10` / `spriteNum*2` 仅在 `upgrade-local-v3-battle-sprites.ts` 迁移边界（非 runtime/editor 正式代码）✅
+  - battle-sprite 退出 legacy families（保留 effect-sprite/image）✅
+  - contentVersion 保持 **3**（非 4，A7-4 总门禁未完）✅
+  - G1-G4 全落地 ✅
+
+  **测试** ✅：content 255 / reforge 500 / editor 530 / migrate 237+1skip 全 pass。
+
+  **文档** ✅：capability-map A7 ⚠️/⚠️ 未提前标 done；172/171/179/171/5/1 数字在 capability-map 中与实测一致。
+
+  **总结**：172/900,973B/775 frames/6 tails + 171 defs/179 refs/171 used/5 shared/1 unused(enemy.098 pinned) + 全 172 SHA 零 mismatch + MG2 零计划 + schema 全 BattleSpriteDef.id 迁移 + 静态归零。**accept**。
+
+- counter / 返工处理: N/A（GLM accept 无 counter）
 - 缺签豁免: N/A
-- done 准入结论: **blocked（等待 Kimi/GLM 正式实现审查；内部只读 audit 不代签）**
+- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
 
 ## Draft: 设计与风险
 
@@ -513,6 +540,7 @@ Branch: main
   深链和 PAL s189/team217、s166/team175 实机 smoke 无 console 错误。内部 runtime/editor/data 三路只读审计
   accept，但不代签 Kimi/GLM。Next: Kimi 做架构/runtime/editor/视觉正式 review，GLM 做数据/migration/IO/
   测试矩阵正式 review；两方都只能改任务卡审查记录，不得改实现或提前标 done。
+- 2026-07-20 GLM: 数据/迁移/IO/测试正式审查签 **accept**（commit ecbb6259）。独立复算：catalog 1,879/68,439,367B；battle-sprite 172 records/900,973B（player 19@0-18 + enemy 153@1-153）；全 172 文件 SHA256+bytes 逐项零 mismatch（ok=172 fail=0 missing=0）；BattleSpriteDef 171 全有 asset+profile 零 spriteNum；179 refs/171 used/5 shared(enemy81×2+player1×2/5×2/6×3/7×4)/1 unused(enemy.098 pinned pal-migration.ts:204)；MG2 writes=0/deletes=0/conflicts=0 + tuple-digest ecbec106.../player 163f7282.../enemy dd3b00f6... + frames=775 + tails=6。代码逻辑审查：actor.ts:61 battleSprite:string / enemy.ts:81 battleSprite:string / skill.ts:67,72 summon+trance battleSprite:string 全迁 AssetId 零 spriteNum/godId；godId+10/spriteNum*2 仅在 upgrade-local-v3-battle-sprites.ts 迁移边界；battle-sprite 退出 legacy（保留 effect-sprite/image）；contentVersion=3 非4。测试 content 255/reforge 500/editor 530/migrate 237+1skip 全 pass。capability-map A7 ⚠️/⚠️ 未提前 done。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
