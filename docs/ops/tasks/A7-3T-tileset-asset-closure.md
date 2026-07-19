@@ -1,6 +1,6 @@
 # A7-3T - 瓦片集索引资源闭包
 
-Status: build
+Status: review
 Phase: phase2
 Capability: A7 / R3 / R7 / A4
 Coding Owner: Codex
@@ -26,7 +26,8 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
   - `ProjectMap.tilesetId -> TilesetDef.id -> TilesetDef.asset ->
     assets/index.json[asset](kind=tileset) -> project-relative path -> AssetResolver -> FileSource ->
     indexed RLE bytes` 单链。语义对象与二进制各有稳定身份，不构成两个加载真值。
-  - PAL 223 个瓦片集的确定性登记和项目内物化；保留 gzip GOP/RLE 字节语义与运行时按工程标准色彩着色。
+  - PAL 真实 `mapNum` 集合 `1..225 \ {168,171}` 的 223 个瓦片集确定性登记和项目内物化；gzip 源字节
+    6,501,041 B、严格有效帧 67,715；禁止按连续 `1..223` ordinal 枚举。
   - PAL、demo、e2e-own、空白工程种子以及旧本地 contentVersion 3 工程的升级与回归。
   - 作者瓦片集导入、改名、替换、引用检查、删除、undo/redo、pending blob、保存重开和预览。
   - 该族退出 `manifest.assets.legacy.families`，删除 tileset 专用 root/path fallback；旧形态只允许在
@@ -87,14 +88,20 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
     无过滤复制整个 extracted manifest。
   - `packages/editor/src/core/clone.ts:22-68`：legacy `.rle` 克隆会解 gzip 后落盘；catalog 资源不能沿用。
 - 已知数据基线:
-  - PAL `content/tilesets.json`：223 条、223 个唯一 id、223 个唯一 legacy path。
-  - PAL `content/maps/index.json`：223 张地图；每张地图都有 `tilesetId`，合计 223 个唯一 tilesetId。
-  - `data/extracted/data/tileset/*.rle`：223 文件、gzip 源字节合计 6,501,041 B。
-  - 当前 PAL catalog：848 records，其中 `kind=tileset` 为 0；本卡完成后应为 1,071 records、
-    223 个 tileset records（若上游其它已签任务改变基线，须在 build 前重算并写明差异）。
-  - 当前 PAL 工程目录内 `.rle` 为 0，HTTP 运行完全依赖 `/extracted/data`。
-  - demo/e2e-own 各有 1 个工程内 gzip tileset，但仍在 legacy、catalog 为 0；空白种子同样生成
-    `assets/tilesets/starter.rle` 而未登记 catalog。
+  - PAL 的权威集合来自 `data/extracted/data/tilemap/*.json` 的真实 `mapNum`：`1..225` 且仅缺
+    `168/171`，共 223 个；tileset 定义、map 引用、AssetId 和文件名必须使用同一集合。
+  - build 前 PAL `content/tilesets.json` 为 223 条 legacy path 定义；`content/maps/index.json` 为
+    223 张地图、223 个唯一 tilesetId。
+  - `data/extracted/data/tileset/*.rle` 为 223 个 gzip 文件，源字节合计 6,501,041 B，严格有效帧
+    合计 67,715。每个 PAL GOP 容器有且仅有一个末尾 `0` offset sentinel；作者编码器无 sentinel 的
+    容器也合法。
+  - build 前 PAL catalog 为 848 records / 0 tileset；review 产物为 1,071 records /
+    223 tileset records，定义、record 和 map refs 均为 223。
+  - build 前 PAL 工程目录没有 tileset `.rle`，HTTP 完全依赖 extracted；review 产物已物化
+    `projects/pal/assets/migrated/tilesets/*.rle` 223 个（受保护字节按仓库策略不纳入提交）。
+  - demo/e2e-own/blank 原有 tileset 与标准颜色表 legacy fixture。本轮分别登记 tileset 和
+    `color.project-standard`，绑定 `visual.standardColorTable`；demo 使用 migrated 来源，
+    e2e-own/blank 使用 generated 来源，三者只保留 sprite legacy。
 - 已知坑 / 审计文档:
   - `docs/phase2/foundation/a7-resource-closure-audit.md`：catalog、resolver、文件闭包、MG2 与 A7-4 总闸。
   - `docs/phase2/migrate/asset-pipeline.md:149-150`：`data/baked` 已退役；当前 extracted 只是迁移输入。
@@ -147,23 +154,28 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
   - PAL/demo/e2e-own/空白工程的 canonical 工作态均不含 tileset legacy family、`legacy.tilesets` 或
     `TilesetDef.path`；其它尚未迁 legacy family 保持原样。
   - 旧本地 v3 工程支持 legacy-root gzip、历史 clone 裸 RLE、工程自有 path 三种输入；完整预检、解码、
-    规范化、hash、冲突检查成功后才写二进制/catalog/tilesets，manifest 最后提交；任一步失败零写入。
+    规范化、hash、冲突检查成功后才写二进制/catalog/tilesets，manifest 最后提交；写前失败零写入，
+    close 中断只留可重试的单调前滚态，新增不得发布“新定义 + 旧 catalog”，删除不得
+    发布“旧定义 + 已收缩 catalog”。
   - MG2 同 AssetId authored 接管后重迁不覆盖；迁移连续第二次 `writes=0 deletes=0 conflicts=0`。
   - catalog `.rle` 在 clone/另存/保存/ZIP 中逐字节保持；克隆结果全 catalog hash/bytes 一致，不重复携带
     `assets/extracted/data/tileset/**`。`FileSource.readBytes()` 返回值就是 record 所描述的 gzip 字节，
     传输层不得按扩展名或 HTTP Content-Encoding 改码。
   - 二进制增量快照至少等价于 `bin:<bytes>:<sha256>`；同路径同长度不同内容的二次保存必须写 blob。
-    全部 pending bytes 在写盘前与 catalog 预验，二进制先写、catalog 后写、manifest 最后提交。
+    全部 pending bytes 在写盘前与 catalog 预验，固定按二进制 → old/new 并集 catalog → 内容 JSON →
+    manifest（最后引用表）→ 目标 catalog 收缩（如有删除）→ 旧文件清理。
 - 测试:
   - schema/guard：缺 catalog、kind mismatch、重复定义 id、空/坏 AssetId、旧 path、`path + asset`、
     map/stamp 悬空定义、catalog+legacy 同族全部 fail-loud；合法 metadata round-trip 稳定。
   - RLE：gzip 与旧裸输入均能在升级边界解析；空帧、坏 offset、损坏 gzip、非 sprite chunk 拒绝；canonical
     输出带 gzip 头且保存重开帧逐像素一致。
-  - PAL 数据门禁：223 definitions / 223 records / 223 map refs / 6,501,041 source bytes；逐文件 hash、大小、
-    解码帧数和首尾样本一致。
+  - PAL 数据门禁：223 definitions / 223 records / 223 map refs；mapNum 集合精确为
+    `1..225 \ {168,171}`；6,501,041 source gzip bytes / 67,715 严格有效帧；逐文件 hash、大小、
+    gzip header 与跨缺口样本 `167 -> 169 -> 170 -> 172`、尾部 `223/224/225` 一致。
   - typed walker 从 `TilesetDef.asset` 收集 expected kind；闭包诊断、两层受引用删除、共享资产不误删、
     导入/替换/删除各自 undo/redo、pending blob、保存重开有专测。
-  - 本地升级覆盖三类输入、id/kind/path collision、缺文件、坏 RLE、写盘失败、二次打开零写入。
+  - 本地升级覆盖三类输入、id/kind/path/origin collision、共享源路径、孤儿
+    `legacy.tilesets`、缺文件、坏 RLE、catalog/content/manifest close 中断及重试、二次打开零写入。
   - HTTP clone、FSA、Save As 与 ZIP 解包证明 catalog gzip 字节未被 transport 改写；覆盖 gzip header、篡改
     1 byte、截断、canonical 裸 RLE、错误 `Content-Encoding`、同长度替换；Chrome Safe Browsing 实测记录。
   - 替换缓存专项：相同帧数、相同文件长度但不同像素时，瓦片工作台、地图、图章预览均按 record sha 刷新；
@@ -234,15 +246,42 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 - 缺签豁免: N/A
 - build 准入结论: **allowed（Codex agree + Kimi agree + GLM agree,三签齐,2026-07-19）**;
   已由 Codex 翻转 draft→build 并同步看板;R1-R3 与 G1-G4 纳入 build 范围。
+- build 数据纠正（Codex，2026-07-19）：GLM 设计签字和早期交接日志把 223 条误写成连续
+  `tileset-001..223 / tileset/1.rle..223.rle`。权威集合应为 `1..225` 且仅缺 `168/171`；223 个 GOP
+  末尾各有一个零 offset sentinel，严格有效帧总数为 67,715。该纠正不改变已签的分层/catalog/gzip
+  架构结论，但 Kimi/GLM 在 done 审查中必须按纠正后的集合和帧数重新独立核验。
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
+- Codex: **accept（2026-07-19）**。实现与自验证证据见 Build、视觉验证记录；任务仅推进到 review。
 - Kimi: pending
-- GLM: **agree**。基线 223/223/223/6,501,041B 全独立冻结；map→tileset→path 零悬空；schema/walker/migration 三处缺口定位；clone gzip 解压 workaround + 同长度替换 bug 两项确定性风险识别（G1/G2）。G1(clone gzip 决策须选定口径)/G2(binary snapshot 须加 sha)/G3(walker tilesets 槽)/G4(palTilesetAssetId 确定性) build 必落。
-- counter / 返工处理: N/A
+- GLM: **accept（2026-07-19;见下）**。独立复算全部产物数字 + 逐文件 SHA 验证 + 代码逻辑审查。
+
+  **产物独立复算** ✅：
+  - catalog **1,071** entries / **223 tileset records** / **6,501,041B** ✅
+  - tileset id range 1..225 缺 [168,171] = 223 ✅
+  - **全 223 文件 SHA256+bytes 逐项匹配**（not sampled—全量核验 ok=223 fail=0）✅
+  - mediaType 统一 `application/vnd.type-pal.rle` / origin `legacy-migrated` ✅
+  - **223 TilesetDef** 全有 `asset` 字段、零 `path` ✅
+  - **223 map tilesetId refs** 全有效零悬空 ✅
+  - MG2 dry-run `tilesets=223 bytes=6501041 frames=67715` + `writes=0 deletes=0 conflicts=0` ✅
+
+  **代码逻辑审查** ✅：
+  - TilesetDef（tileset.ts:8-16）= `{id,name,category,asset:AssetId}` 无 path；validateTilesets（:37）拒绝 path + 要求非空 asset + 有 catalog 时交叉校验 kind=tileset（:42-47）；resolveTilesetAsset（:58-62）返回 t.asset ✅
+  - palTilesetAssetId（asset.ts:327）→ `tileset.pal.NNN` 确定性格式 ✅
+  - loadTilesetByPath 全仓零命中（退役）✅
+  - legacy.tilesets 零命中（退役）✅
+  - tilesetBlobs 历史名称现为通用 pending blob（commands.ts:2675-2676），tileset 不消费 ✅
+
+  **Legacy/status** ✅：tileset 退出 families（保留 sprite/battle-sprite/effect-sprite/image）；capability-map A7/R7 未提前标 done；task Status=review 非 done ✅
+
+  **测试** ✅：content 241 / reforge 431 / editor 462 全 pass；migrate 222 pass + 1 fail（engine-chrome OFL hash drift = A7-2 scope 非本卡）+ 1 skip ✅
+
+  **总结**：223/223/223/6,501,041B/67,715 frames 全独立冻结；全 223 文件 SHA 零 mismatch；MG2 零计划；schema `{id,name,category,asset}` 无 path 退役彻底；tileset 退出 legacy；静态归零；A7/R7 未提前 done。**accept**。
+
+- counter / 返工处理: N/A（migrate 1 fail 是 A7-2 engine-chrome scope 非本卡）
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
 
 ## Draft: 设计与风险
 
@@ -264,7 +303,8 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
    A7-4 只负责剩余 family 全归零后的公共适配器与总门禁。
 7. **传输不改资产**：catalog 文件永远 byte-for-byte copy。clone/Save As/ZIP 不按 `.rle` 后缀解码，
    HTTP 不加 `Content-Encoding` 且声明 `no-transform`；codec 只在消费端。旧裸 RLE 只能在升级边界处理。
-8. **提交与缓存按 hash**：pending bytes 必须与 record 预验；写二进制、再写 catalog、最后 manifest。
+8. **提交与缓存按 hash**：pending bytes 必须与 record 预验；先发布 old/new 并集 catalog，再写内容和
+   manifest 这张最后引用表，删除方向然后收缩 catalog/清理文件。任一 close 中断都不得产生悬空引用。
    保存快照和三个预览缓存都纳入 sha，不能只看路径/id/长度。
 9. **替换 fail-closed**：同 AssetId 替换会影响所有共享定义，UI 先列影响；新帧数不足以覆盖地图/组合最大
    tileId 时阻断并提供跳转。
@@ -350,11 +390,76 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 ## Build: 实现与自测
 
 - Coding Owner: Codex（三方设计签字已齐，允许开始实现）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - schema / codec / runtime：`packages/content/src/{asset,tileset,validate-refs}*`、
+    `packages/shared/src/rle*`、`packages/reforge/src/{assets,loader,scene-map}*`。
+  - migrate / 生成真值：`packages/migrate/src/**`、`packages/migrate/scripts/migrate-content.mts`、
+    PAL baseline 与 `projects/pal/{assets/index.json,content/tilesets.json,manifest.json}`。
+  - editor 生命周期：`packages/editor/src/core/{binary-signature,clone,commands,edit-session,
+    editor-asset-references,export-zip,open-actions,open-local,project-io,seed,tileset-references,
+    upgrade-local-v3-tilesets}*` 与相应测试。
+  - editor UI / 预览：`TilesetTab`、`MapMode`、`MapStampPalette`、`StampLibraryTab`、
+    `StampPreviewCanvas`、`scene-stage`、`App`、`editor-target` 及测试。
+  - fixture / transport：demo、e2e-own 的 tileset/标准色表/catalog/manifest，三包 Vite 配置、
+    `scripts/nginx-type-pal.conf`。
+  - 文档：content schema、A7 审计、asset pipeline、project lifecycle、roadmap、capability map、看板与本卡。
+- 实现摘要:
+  - content/schema 将 `TilesetDef` 收敛为 `{id,name,category,asset}`，typed walker 与校验器按
+    `expectedKind=tileset` 收集/验证。
+  - shared/reforge 新增 canonical gzip + strict sprite chunk 加载；严格接受 PAL 唯一末尾 sentinel 和作者
+    无 sentinel 容器，拒绝中间空洞、坏 offset、损坏 gzip、bytes/hash/kind/media mismatch。
+  - migrate 按真实 mapNum 集合物化 223 个 PAL record/文件，冻结 6,501,041 B / 67,715 帧；tileset
+    退出 legacy，MG2 authored 所有权不被覆盖。
+  - editor 导入、改名、共享替换、缩帧引用证明、删除、undo/redo、pending blob、保存重开和三处预览
+    全部改走 AssetId/catalog/EditorAssetReader；撤销新导入时同步修复 URL 对象定位，不留下失效深链。
+  - clone、Save As、普通保存和 ZIP 对 catalog 二进制逐字节复制；二进制完整 SHA 签名和
+    binary → union catalog → content → manifest → final catalog → removals 两阶段提交顺序共用。写前还对
+    tileset pending bytes 做 gzip 魔数、解压与 strict RLE 校验。
+  - 最终内部代码审计发现并返工：保存改为 union/final 两阶段 catalog，同时封住新增与删除方向；
+    同 AssetId 只允许 authored
+    接管或与当次迁移完全一致的 legacy-migrated 中断恢复；删旧源前检查其他 AssetId 的路径所有权；
+    `legacy.tilesets` 孤儿字段也会触发退役。
+  - 二次内部终审又把 manifest 引用与失败快照纳入事务：manifest 作为最后引用表先于
+    final catalog 收缩/物理删除提交；`prevSnapshot` 在真实 IO 期间保留未触及的旧条目，并在每个成功
+    close/remove 后原地更新，因而异常返回时仍是实际磁盘快照。UI 首存也传空 Map，中断后重选同一目录保留
+    该恢复快照。回归覆盖 role 删除时
+    manifest close、多文件删除中断→undo 恢复，以及新 blob close→catalog close 失败→undo 后清理孤儿。
+  - 最终只读代码复核确认两个保存 P2 均闭环：`saveAttemptDirRef + isSameEntry` 只在换目录时重置首存恢复
+    快照；快照 Map 不再清空未触及旧条目，成功 close 覆盖签名、成功或 NotFound remove 删除条目。
+    复核未发现新增 P0/P1/P2。
+  - PAL/demo/e2e-own/blank canonical fixture 全部退出 tileset legacy；demo/e2e/blank 同时把工程标准颜色表
+    修复为 `visual.standardColorTable -> color.project-standard` catalog role，不恢复 palette schema/UI。
+  - HTTP/Vite/nginx 为 `.rle` 声明固定 media type、`Cache-Control: no-transform`，且不设置
+    `Content-Encoding`。
+- 运行命令:
+  - 测试：content **22 files / 241 tests**；shared **13 / 115**；reforge **49 / 431**；editor 最终
+    **57 / 462** 全绿。migrate 的 A7-3T 定向矩阵 **3 files / 19 passed / 1 skipped**。
+  - migrate 全套为 **222 passed / 1 failed / 1 skipped**；唯一失败是既有
+    `engine-chrome-assets.test.ts` 的 OFL hash 期望 `869…`、实际 `ddd…`，与 tileset 资源链无关。
+  - content/shared/reforge/editor/migrate 五包 `typecheck` 全绿。
+  - editor/reforge/game 三个 production build 全绿；只有既有 Vite chunk-size warning。
+  - `pnpm exec biome check .`：**767 files**，零问题；`git diff --check` 通过。
+  - `pnpm --filter @type-pal/migrate migrate:content`：
+    `tilesets=223 bytes=6501041 frames=67715`，随后
+    `writes=0 deletes=0 conflicts=0`，`ref-warnings=0`。
+  - 独立数据复算：definitions/catalog/map refs/project files/source files 五个集合均精确为
+    `1..225 \ {168,171}`；逐文件 path/bytes/SHA/gzip/media/origin/source bytes/strict parse 零 mismatch，
+    223 行 tuple digest 为 `3e959fd788e09d77eaffd90edd165cd084769d4698ea035829e715316e94e82c`。
+- 浏览器 / 手工检查:
+  - 本地 HTTP 同时验证 editor/reforge/game：代表文件 `001.rle` 三端字节 SHA 均为
+    `beacbdf…e3751`，响应为 `application/vnd.type-pal.rle`、`no-transform`、无 Content-Encoding。
+  - PAL editor 瓦片库显示 223/223 并渲染索引帧；Reforge `s066` 正常渲染。把
+    `**/extracted/data/tileset/**` 路由强制为 503 后两者仍工作，实际请求只命中
+    `projects/pal/assets/migrated/tilesets/**`，console 0 warning/error。
+  - demo 显示 1/1、463 帧；e2e-own 显示 1/1、4 帧。上传现有 32×32 PNG 后预览切出 2 帧、入库变
+    2/2；撤销恢复 1/1，并自动回到仍存在的 `e2e-kit`，不再进入“目标不存在”。console 0 error。
+  - 临时浏览器 snapshot/截图与测试工作目录已全部删除；未把测试图片写入仓库。
+- 跳过的检查及原因:
+  - Playwright CLI 无法接管 Chromium 原生 `showDirectoryPicker`，因此 blank/FSA 的真实目录选择没有在此
+    自动化会话重复；blank seed 的 catalog role/bytes/hash/legacy 退出由 `seed.test.ts` 与 editor 全套覆盖，
+    HTTP clone/FSA/Save As/ZIP 的字节、hash 与提交顺序由 core 测试覆盖。Kimi review 仍可独立做真句柄抽验。
+  - 未保留视觉截图：遵守用户“测试图片记得删掉”的要求；任务卡保留可复现 URL、数据与浏览器结论。
+  - 用户无关脏文件 `projects/pal/content/ambiences.json` 未修改、未纳入本卡结论。
 
 ## 资源生成记录(如适用)
 
@@ -369,17 +474,19 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex + Kimi
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: 真实 Chromium + Playwright CLI；PAL/demo/e2e-own 瓦片工作台、PNG 导入/撤销、Reforge
+  `s066`、extracted tileset 请求 503、三端 HTTP header/SHA 对照。
+- 截图 / 像素检查路径: 临时截图由 Codex 用本地 image viewer 检查后已删除，不把测试图片留在仓库。
+- 结论: Codex 视觉检查通过；PAL/demo/e2e 预览和 Reforge 画面均从 catalog 工程文件加载，未见黑图、旧像素
+  或 legacy 请求；新导入和撤销交互闭环。
+- 未完成项: Kimi 的独立视觉复验与真实 FSA 目录句柄抽验尚未签字；三方 accept 前保持 review。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
+- 审查结论: Codex 自验证 accept；等待 Kimi/GLM 独立审查。
 - 必须返工项: pending
-- Accept / rework: pending
+- Accept / rework: review
 
 ## 用户验收
 
@@ -406,8 +513,60 @@ LegacyAssetAdapter` 双轨收敛为工程内 catalog 资源：地图和图章继
 - 2026-07-19 GLM: 数据覆盖/迁移/测试矩阵设计审查签 **agree**。独立复算：tilesets.json 223 definitions/223 unique ids/223 unique paths(`tileset-001`..`tileset-223`/`tileset/1.rle`..`tileset/223.rle`)；RLE 223 files/6,501,041B 精确匹配；223 maps 全引用有效 tilesetId 零悬空；catalog 848/0 tileset；tileset 在 legacy families；stamps.json 空(0 refs)。代码逻辑审查（读源码逐路径推演）：TilesetDef(tileset.ts:6-14) 当前 `{id,name,category,path}` 无 asset/validateTilesets 逐字段重建丢弃未知；walker(asset.ts:472-664) 无 tileset 槽无分支（ASSET_KINDS 已含 tileset）；pal-migration.ts:184-201 path-only 生成须加 asset + palTilesetAssetId（全仓零命中须新建）；clone.ts:28-33 `.rle` decompressGzip 后落盘裸 RLE（catalog 若记 gzip bytes 会 mismatch）；project-io.ts:237 binary snapshot 只 `bin:<byteLength>` 无 hash（同长度不同内容静默漏写）。**G1 关键**：clone gzip 决策须显式选定口径（catalog 记解压裸 RLE vs gzip+Chrome 风险）；**G2**：binary snapshot 须加 sha（`bin:<bytes>:<sha8>`）；**G3**：walker 扩展 tilesets 槽；**G4**：palTilesetAssetId 确定性格式。Evidence: 设计签字 GLM 行。Next: 待 Kimi 签后三齐 build allowed。未改实现文件。
 - 2026-07-19 Codex: 核对 Codex / Kimi / GLM 三方设计签均为 **agree**，无未决 counter；按门禁把任务
   从 draft 推进到 build 并同步看板。R1-R3、G1-G4 均为实现必落项；尚未修改 A7-3T 实现，也不得标 done。
+- 2026-07-19 Codex: A7-3T build 与自验证完成，状态推进到 review。PAL 产物冻结为
+  223 definitions / 223 records / 223 map refs，真实 mapNum `1..225 \ {168,171}`，
+  6,501,041 gzip bytes / 67,715 严格有效帧；修正了早期连续 `1..223` 的错误记录。
+  demo/e2e-own/blank 的标准颜色表 fixture 已登记 catalog role，未恢复 palette 概念。
+  Next: Kimi 主审架构/代码/视觉，GLM 独立核验数据/迁移/测试/文档；三方 accept 前不得标 done。
+- 2026-07-19 Codex: 保存事务最终只读复核无阻断、无新增 P0/P1/P2；同目录首存重试保留恢复快照，换目录
+  才重置；快照保留未触及磁盘条目并逐个记录成功 close/remove。定向 73 tests、editor 全量 57 files /
+  462 tests、typecheck、build、Biome 767 files 与 `git diff --check` 均通过。Next 仍为 Kimi/GLM 独立验收。
+- 2026-07-19 GLM: 数据/迁移/测试/文档终审签 **accept**。独立复算：catalog 1,071/223 tileset records/6,501,041B（mapNum 1..225 缺 [168,171]）；全 223 文件 SHA256+bytes 逐项零 mismatch（全量非抽样）；223 TilesetDef 全有 asset 零 path；223 map refs 全有效零悬空；MG2 writes=0/deletes=0/conflicts=0 tilesets=223 bytes=6501041 frames=67715。代码逻辑审查：TilesetDef {id,name,category,asset} 无 path + validateTilesets 拒绝 path 要求非空 asset + catalog 交叉校验 kind=tileset；palTilesetAssetId→tileset.pal.NNN；loadTilesetByPath/legacy.tilesets 全仓零命中。tileset 退出 legacy families（保留 4）；capability-map A7/R7 未提前 done。测试 content 241/reforge 431/editor 462 全 pass；migrate 222 pass + 1 fail(engine-chrome OFL hash=A7-2 scope) + 1 skip。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词。三方设计签字已齐，当前由 Codex 负责 build；完成实现与自验证后，再生成供
-Kimi / GLM 审查验收的提示词。三方 done 签字未齐前不得标记 `done`。
+### 给 Kimi（架构、代码与视觉主审）
+
+```text
+请审查 /Users/zhangxu/illegal/type-pal 的 A7-3T 实现。任务卡：
+docs/ops/tasks/A7-3T-tileset-asset-closure.md，当前 Status=review；你负责架构/schema/跨包边界、代码与视觉主审。
+
+必须先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/decisions.md 的 D25、
+docs/phase2/foundation/a7-resource-closure-audit.md 和本任务卡（含 build 数据纠正与验证证据）。
+本轮只读审查，禁止修改实现文件，禁止标记 done。
+
+重点复核：
+1. TilesetDef 语义 id 与 AssetId 分层、catalog-only 单链及 strict PAL 末尾 sentinel / 作者无 sentinel 规则；
+2. 共享 AssetId 的两层引用、缩帧证明、Add/Replace/Remove/undo 原子性及撤销后的 URL 定位；
+3. HTTP/FSA/clone/Save As/ZIP 的 gzip byte-exact、完整 SHA 签名和
+   binary→union catalog→content→manifest→final catalog→removals 两阶段顺序；新增与删除方向的
+   catalog/content/manifest close 中断是否都可重试且不发布悬空定义；恢复快照是否保留未触及条目，
+   首存失败后重选同一目录是否保留日志、换目录才重置；
+4. 工作台/地图/组合三处只按 AssetRecord.sha256 刷新；PAL/demo/e2e/blank 与 s066 视觉无旧路径/旧像素；
+5. A7-3T 与 A7-4 边界，不能把 palette 概念或剩余 legacy 冒充已完成。
+
+请把结论直接写回任务卡“进入 done 前:审查签字”的 Kimi 行：无阻断签 accept；有问题签 counter，并给
+file:line、复现命令、影响与最小返工项。同步更新 Review 区。三方 accept 未齐不得标 done。
+```
+
+### 给 GLM（数据、迁移、测试与文档审查）
+
+```text
+请独立审查 /Users/zhangxu/illegal/type-pal 的 A7-3T 数据与迁移闭包。任务卡：
+docs/ops/tasks/A7-3T-tileset-asset-closure.md，当前 Status=review；你负责数据/schema、MG2、测试矩阵和文档口径。
+
+必须先读 AGENTS.md、docs/phase2/READ-FIRST.md、docs/phase2/decisions.md 的 D25、
+docs/phase2/foundation/a7-resource-closure-audit.md 和本任务卡（特别是早期连续 1..223 假设的 build 数据纠正）。
+本轮只读审查，禁止修改实现文件，禁止标记 done。
+
+请独立复算并核对：
+1. definitions/records/map refs/project/source 五个集合都精确等于 1..225 缺 168/171，各 223；
+2. 逐文件 path/bytes/SHA/gzip/kind/media/origin/source byte-exact，合计 6,501,041 B / 67,715 严格有效帧，
+   并检查跨缺口 167→169→170→172 与尾部 223/224/225；
+3. MG2 authored 不覆盖、正式重迁后二跑 0/0/0、本地升级三输入/冲突/坏文件/失败零写/二开零写；
+4. typed walker、两层引用、clone/save/ZIP/FSA、同长度替换、三预览 SHA 测试与静态残留扫描；
+5. content schema、A7 审计、asset pipeline、lifecycle、roadmap、capability map 的 review/四项剩余口径一致。
+
+请把结论直接写回任务卡“进入 done 前:审查签字”的 GLM 行：无阻断签 accept；有问题签 counter，并给
+file:line、复算命令、差异和返工清单。同步更新 Review 区。三方 accept 未齐不得标 done。
+```
