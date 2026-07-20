@@ -41,7 +41,7 @@ export type MapSelection =
 
 export type StampGroupCellSelection = Extract<MapSelection, { kind: 'none' } | { kind: 'cells' }>
 
-export type SelectionChangeMode = 'replace' | 'add' | 'subtract'
+export type SelectionChangeMode = 'replace' | 'add' | 'subtract' | 'toggle'
 
 export interface SelectionModifierState {
   shiftKey: boolean
@@ -247,7 +247,7 @@ function cellsOrEmpty(selection: MapSelection): MapCellSelectionInput {
   }
 }
 
-/** replace/add/subtract 表驱动 reducer；stamp 分支只作 W7G 扩展点，不猜成员。 */
+/** replace/add/subtract/toggle 表驱动 reducer；stamp 分支只作 W7G 扩展点，不猜成员。 */
 export function changeMapSelection(
   current: MapSelection,
   input: MapCellSelectionInput,
@@ -257,14 +257,23 @@ export function changeMapSelection(
   // cells / placement 是互斥 domain；跨 domain 的修饰键点击仍按 replace 处理。
   if (current.kind === 'stamp-placements') return normalizeCellSelection(input)
   const before = cellsOrEmpty(current)
-  if (mode === 'add') {
+  const beforeVisualKeys = new Set(before.visualSlots.map(visualSlotKey))
+  const beforePointKeys = new Set(before.gridPoints.map(gridPointKey))
+  const resolvedMode =
+    mode === 'toggle'
+      ? input.visualSlots.every((ref) => beforeVisualKeys.has(visualSlotKey(ref))) &&
+        input.gridPoints.every((ref) => beforePointKeys.has(gridPointKey(ref)))
+        ? 'subtract'
+        : 'add'
+      : mode
+  if (resolvedMode === 'add') {
     return normalizeCellSelection({
       visualSlots: [...before.visualSlots, ...input.visualSlots],
       gridPoints: [...before.gridPoints, ...input.gridPoints],
       hitScope: input.hitScope,
     })
   }
-  if (mode === 'subtract') {
+  if (resolvedMode === 'subtract') {
     const visualKeys = new Set(input.visualSlots.map(visualSlotKey))
     const pointKeys = new Set(input.gridPoints.map(gridPointKey))
     return normalizeCellSelection({
@@ -273,7 +282,7 @@ export function changeMapSelection(
       hitScope: before.hitScope,
     })
   }
-  const unreachable: never = mode
+  const unreachable: never = resolvedMode
   return unreachable
 }
 
@@ -285,7 +294,13 @@ export function changeStampPlacementSelection(
   const incoming = [...new Set(placementIds)]
   if (mode === 'replace' || current.kind !== 'stamp-placements')
     return normalizeStampPlacementSelection(incoming)
-  if (mode === 'add')
+  const resolvedMode =
+    mode === 'toggle' && incoming.every((id) => current.placementIds.includes(id))
+      ? 'subtract'
+      : mode === 'toggle'
+        ? 'add'
+        : mode
+  if (resolvedMode === 'add')
     return normalizeStampPlacementSelection([...current.placementIds, ...incoming])
   const removed = new Set(incoming)
   return normalizeStampPlacementSelection(
@@ -293,9 +308,9 @@ export function changeStampPlacementSelection(
   )
 }
 
-/** Ctrl/Cmd 减选优先于 Shift 增选；两者同时按减选处理，避免平台差异。 */
+/** Ctrl/Cmd 切换优先于 Shift 纯追加；同时按键时也按切换处理。 */
 export function selectionModeFromModifiers(modifiers: SelectionModifierState): SelectionChangeMode {
-  if (modifiers.ctrlKey || modifiers.metaKey) return 'subtract'
+  if (modifiers.ctrlKey || modifiers.metaKey) return 'toggle'
   if (modifiers.shiftKey) return 'add'
   return 'replace'
 }

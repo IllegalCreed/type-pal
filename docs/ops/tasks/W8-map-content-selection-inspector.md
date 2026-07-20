@@ -136,6 +136,11 @@ type MapSelection =
 | Alt/Option + 单击 | 打开/循环当前位置候选（层、坐标、tile、遮挡高度、未来图章组），用户确认后才可切活动层 |
 | 双击图章成员或 Enter | W7G 中进入组内格编辑；普通单击仍保持整组选择 |
 
+> 2026-07-20 用户后续 UX 裁定覆写：`Ctrl/Cmd + 单击/拖拽` 改为集合级 toggle——
+> incoming 尚未全部入选时整批追加，已全部入选时整批移除；`Shift` 仍为纯追加。
+> 本表原“Ctrl/Cmd 减选”与本卡下方测试/浏览器记录保留 2026-07-18 当时的三签历史事实；
+> 当前产品真值以 `docs/phase2/editor/editor-design.md` §5.2.1 为准。
+
 拖拽期间必须捕获指针并禁用页面文本选择；Esc/失焦/pointercancel 均能干净回滚预览。工具按钮要有语义按钮、可见 focus、`aria-label`/快捷键提示；不能只靠颜色表达选中。
 
 ### 3. 图层与命中规则
@@ -504,6 +509,7 @@ W8 的 `MapSelection` 和原子 patch 必须能由这个未来 `stamp-placement`
 - 2026-07-18 Kimi: 交互/架构/代码/视觉复审签 **accept**，三签齐。独立复跑 editor 34 files/267、reforge 46 files/411、根 `pnpm check`（typecheck+全测+biome 709）全绿。R1-R5 逐项核实：像素命中优先级与渲染计划序一致（projectMapTilesInView 行主序、height 只进 sprite 遮挡 pass）、跨层显式开关保留选区、全选收窄（103% 截图 16384+377 实证）、候选面板序+行列序+锁定灰显+焦点返还、换层冲突=粘贴语义。命令/history：全量预检零写、双 prev 往返、no-op 不入 history/不清 redo、抛错不丢栈。键盘/a11y：Esc 四级回退、预览期破坏性键锁定、底栏唯一 live region、App Delete 收窄 scene 防串页。性能：双 canvas 缓存、可见裁剪、Path2D 批量、latticeInMapRect 先裁后枚举。W7G：stamp-placement 仅 never 兜底 dead branch，零 schema 越界。视觉复核 w8-final-27.png/w8-high-zoom.png 叠加对齐与双反馈。无 P0/P1；P2×3+P3×3 非阻塞观察记录在签字行（与 GLM O1/O2 互不冲突）。Evidence: done 准入 Kimi 行、上述复跑输出、截图复核。Next: 无下一位审查 Agent；待用户验收后由收口方标 done 并把 capability-map W8 改 ✅，P2/O1/O2 是否开跟进小卡由用户拍板。未改实现文件。
 - 2026-07-18 Kimi（补记）: 应用户要求补做 **Playwright MCP 端到端浏览器验证**（6010 既有实例，map-031，全程未点保存，`projects/` 零写入）。逐项实测通过：单击选区 → Inspector「1 视觉实例·1 格点」；框选 1080 → Shift 增选不相交第二块精确翻倍 2160 → Meta 单击减选 −1 且底栏通知正确；Esc 清空。Inspector 高度混合 → 设 3（「选区高度设为 3；可撤销。」）→ Meta+Z 撤销高度回 0 → Meta+Shift+Z 重做后框内格复测为 3（一次用户动作一笔 undo/redo）。Alt 单击出候选菜单：面板序「上层·空槽·逻辑格 / 下层·#206 H0·像素」，首项自动聚焦，Enter 确认后活动层切到上层、选区落上层空槽、焦点返还 canvas。Meta+A 全选 = 16384 非空视觉槽 + 377 非零碰撞格（与 Codex 数据一致，R3）。复制 → 粘贴预览（锚点 r156:c47·仅视觉）→ 目标非空触发「1 处覆盖冲突」、提交禁用、仅「覆盖并提交」可点 → 提交后选区跟随 → undo 恢复。Ctrl+滚轮 21%→102%，102% 下框选 66 格叠加菱形与网格精确对齐（`output/playwright/w8-kimi-e2e-102.png`）。全程 Console 仅既有 favicon 404，零新增错误。审查结论维持 **accept** 不变。未改实现文件。
 - 2026-07-18 User/Codex: 用户确认三方签字“齐了”，执行 W8 收口：`Status review → done`、capability-map W8 编辑器列 `❌ → ✅`、从进行中看板移除。Kimi P2/P3 与 GLM O1/O2 作为非阻塞后续候选保留，不另开卡；W7G 仍须另开三签卡。Next: 无，W8 已完成。
+- 2026-07-20 User/Codex: 后续地图 UX 将 Ctrl/Cmd 从“纯减选”改为“未全选则追加、全选则移除”的集合级 toggle，用于组出不规则 tile/placement 集合；不回改 2026-07-18 已签测试与浏览器历史证据。Evidence: `editor-design.md` §5.2.1、`map-selection.ts`、对应 reducer/MapMode 测试。
 
 ## 下一位 Agent 提示词
 

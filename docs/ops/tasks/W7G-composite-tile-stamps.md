@@ -288,6 +288,10 @@ build 必落钉（不阻塞签字，W7G-A→F 各段验收时核对）：
 | 整组选择 | Alt/Option 单击重叠位置 | 候选列出普通实例与 placement;显示层、组名、锁定状态 |
 | 单个整组选择 | Enter 或双击成员 | 进入 `stampGroupEditContext`,活动层只呈现该组在本层的成员 |
 | 组内编辑 | 切换活动层 | 只切换本次逐层目标;不修改其他层 |
+
+> 2026-07-20 用户后续 UX 裁定：上表“Shift/Ctrl/Cmd 增加/减少”中，`Shift` 仍是纯追加；
+> `Ctrl/Cmd` 改为集合级 toggle，未全选的 placement 整批追加，已全选的 placement 整批移除。
+> 原表保留 W7G 已三签设计的历史表述；当前真值见 `docs/phase2/editor/editor-design.md` §5.2.1。
 | 组内编辑 | Esc | 先退出组内,恢复外层整组选择 |
 | 外层整组选择 | Esc | 清空 placement 选择 |
 | 任一整组选择 | “解组” | 一笔命令仅删除 group identity;普通 tile/height/collision 保持原值 |

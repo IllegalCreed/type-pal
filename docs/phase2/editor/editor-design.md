@@ -117,7 +117,8 @@ interface EditorMode {
 ### 5.2.1 地图内容选择、Inspector 与可逆变换（W8，2026-07-18）
 
 - 地图工作区的四条状态轴必须正交：瓦片面板素材、待盖图章模板、地图已有内容选区、活动图层不可复用同一状态。`MapSelection` 以稳定 `VisualSlotRef {layerId,row,col}` 和去重 `GridPointRef {row,col}` 分别表示视觉槽/独立碰撞格，按 mapId 存于临时 `MapWorkspaceState`，不进 `EditorState`、JSON、URL 或 undo 栈。
-- 专用 select 工具支持 replace/Shift-add/Ctrl-or-Cmd-subtract/Esc/`Ctrl|Cmd+A`。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。
+- 专用 select 工具支持 replace/Shift-add/Ctrl-or-Cmd-toggle/Esc/`Ctrl|Cmd+A`。`Ctrl|Cmd`
+  命中的内容尚未全部入选时整批追加，已全部入选时整批移除；因此既能逐次组出不规则集合，又不会在框选部分重叠时意外反选旧成员。默认只命中活动层，“跨层选择”是显式 scope 开关且不改已有选区。全选只收集活动层非空视觉槽和非零碰撞格，不枚举无内容空格。
 - 单击命中与渲染共用 `projectMapTileBlitRect` 和 `RleFrame.opaque`：活动层内高大 tile 的不透明像素源格优先于光标逻辑格；跨层像素只进 Alt 候选。候选固定按面板层自上而下，同层按 row/col；键盘可导航，Esc 返回 canvas。选区叠加同时画源格菱形与实际图像边界。
 - 隐藏层不可见/不可命中/不可写，锁定层可见但普通命中和所有写入均禁止；聚焦/淡化和碰撞叠加显隐仅影响显示，不影响 hit policy 或“变换含碰撞”开关。活动层隐藏/锁定时不偷换层，而是显式进入只读并给出原因。
 - Inspector 把 tileId、实例 height 和 collision 分通道呈现/写入，多值显示“混合”。height 只处理非空 `depthMode=height` 实例，对 null/flat 显示跳过数或拒绝非法值；字段旁与全局底栏都有精确反馈，但只由底栏承担 live region，避免辅助技术重复播报。

@@ -39,7 +39,7 @@ const cells = (
 ): MapSelection => ({ kind: 'cells', visualSlots, gridPoints, hitScope: 'active-layer' })
 
 describe('W8 selection reducer', () => {
-  test('placement 复数选区增减去重，且与 cells domain 永不混合', () => {
+  test('placement 复数选区增减与集合切换去重，且与 cells domain 永不混合', () => {
     const selected = changeStampPlacementSelection({ kind: 'none' }, ['a', 'a'], 'replace')
     expect(selected).toEqual({ kind: 'stamp-placements', placementIds: ['a'] })
     const added = changeStampPlacementSelection(selected, ['b'], 'add')
@@ -49,6 +49,20 @@ describe('W8 selection reducer', () => {
       placementIds: ['b'],
     })
     expect(changeStampPlacementSelection(added, ['a', 'b'], 'subtract')).toEqual({ kind: 'none' })
+    expect(changeStampPlacementSelection(selected, ['b'], 'toggle')).toEqual({
+      kind: 'stamp-placements',
+      placementIds: ['a', 'b'],
+    })
+    expect(changeStampPlacementSelection(added, ['a'], 'toggle')).toEqual({
+      kind: 'stamp-placements',
+      placementIds: ['b'],
+    })
+    const expanded = changeStampPlacementSelection(added, ['b', 'c'], 'toggle')
+    expect(expanded).toEqual({ kind: 'stamp-placements', placementIds: ['a', 'b', 'c'] })
+    expect(changeStampPlacementSelection(expanded, ['b', 'c'], 'toggle')).toEqual({
+      kind: 'stamp-placements',
+      placementIds: ['a'],
+    })
 
     const cellInput = {
       visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
@@ -121,6 +135,68 @@ describe('W8 selection reducer', () => {
     ).toEqual({ kind: 'none' })
   })
 
+  test('toggle 对未全选 incoming 整批追加，全选时整批移除', () => {
+    const original = cells(
+      [
+        { layerId: 'floor', row: 0, col: 0 },
+        { layerId: 'floor', row: 0, col: 1 },
+      ],
+      [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
+    )
+    const incoming = {
+      visualSlots: [
+        { layerId: 'floor', row: 0, col: 1 },
+        { layerId: 'floor', row: 1, col: 0 },
+      ],
+      gridPoints: [
+        { row: 0, col: 1 },
+        { row: 1, col: 0 },
+      ],
+      hitScope: 'active-layer' as const,
+    }
+    const expanded = changeMapSelection(original, incoming, 'toggle')
+    expect(expanded).toEqual(
+      cells(
+        [
+          { layerId: 'floor', row: 0, col: 0 },
+          { layerId: 'floor', row: 0, col: 1 },
+          { layerId: 'floor', row: 1, col: 0 },
+        ],
+        [
+          { row: 0, col: 0 },
+          { row: 0, col: 1 },
+          { row: 1, col: 0 },
+        ],
+      ),
+    )
+    expect(changeMapSelection(expanded, incoming, 'toggle')).toEqual(
+      cells([{ layerId: 'floor', row: 0, col: 0 }], [{ row: 0, col: 0 }]),
+    )
+
+    expect(
+      changeMapSelection(
+        cells([{ layerId: 'floor', row: 0, col: 0 }], [{ row: 0, col: 0 }]),
+        {
+          visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
+          gridPoints: [{ row: 0, col: 0 }],
+          hitScope: 'visible-unlocked-layers',
+        },
+        'toggle',
+      ),
+    ).toEqual({
+      kind: 'cells',
+      visualSlots: [
+        { layerId: 'floor', row: 0, col: 0 },
+        { layerId: 'objects', row: 0, col: 0 },
+      ],
+      gridPoints: [{ row: 0, col: 0 }],
+      hitScope: 'visible-unlocked-layers',
+    })
+  })
+
   test('active 与跨层作用域保留空槽；跨层同格 collision 仍只有一份', () => {
     const map = twoLayerMap()
     expect(
@@ -181,8 +257,17 @@ describe('W8 selection reducer', () => {
     expect(selectionModeFromModifiers({ shiftKey: true, ctrlKey: false, metaKey: false })).toBe(
       'add',
     )
+    expect(selectionModeFromModifiers({ shiftKey: false, ctrlKey: true, metaKey: false })).toBe(
+      'toggle',
+    )
+    expect(selectionModeFromModifiers({ shiftKey: false, ctrlKey: false, metaKey: true })).toBe(
+      'toggle',
+    )
     expect(selectionModeFromModifiers({ shiftKey: true, ctrlKey: true, metaKey: false })).toBe(
-      'subtract',
+      'toggle',
+    )
+    expect(selectionModeFromModifiers({ shiftKey: true, ctrlKey: false, metaKey: true })).toBe(
+      'toggle',
     )
     expect(isMapSelectionDrag({ x: 10, y: 10 }, { x: 12, y: 12 })).toBe(false)
     expect(isMapSelectionDrag({ x: 10, y: 10 }, { x: 14, y: 10 })).toBe(true)

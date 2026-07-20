@@ -117,7 +117,7 @@ function stampTemplates(count: number): StampTemplateV1[] {
 
 function editorState(map: ProjectMap, stamps: StampTemplateV1[] = []): EditorState {
   return {
-    manifest: {} as never,
+    manifest: { content: {} } as never,
     scenes: [],
     actors: [],
     skills: [],
@@ -395,7 +395,20 @@ beforeEach(() => {
         canvas: this,
         clearRect: vi.fn(),
         drawImage: vi.fn(),
+        setTransform: vi.fn(),
       }
+    },
+  })
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.setAttribute('open', '')
+    },
+  })
+  Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.removeAttribute('open')
     },
   })
   Object.defineProperty(HTMLCanvasElement.prototype, 'setPointerCapture', {
@@ -458,6 +471,54 @@ describe('MapMode 地图内容选择交互', () => {
     expect(session.getMapRevision('map-a')).toBe(0)
     expect(session.isDirty()).toBe(false)
     expect(button(host, '选择').classList).toContain('active')
+  })
+
+  test('Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合', async () => {
+    const map = paintProjectMapTiles(fixtureMap(), [
+      { layerId: 'floor', row: 0, col: 1, tileId: 1, height: 0 },
+      { layerId: 'floor', row: 2, col: 0, tileId: 1, height: 0 },
+    ])
+    const { host, canvas, session } = await mountMapMode({ map })
+    await act(async () => button(host, '选择').click())
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1 })
+    })
+    expect(host.querySelector('.map-content-selection-preview')?.textContent).toContain(
+      '所选瓦片 #1',
+    )
+    expect(host.querySelector('.map-content-selection-preview canvas')).not.toBeNull()
+
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 33, clientY: 1, ctrlKey: true })
+      pointer(canvas, 'pointerup', { clientX: 33, clientY: 1, ctrlKey: true })
+    })
+    expect(host.querySelector('.map-selection-head')?.textContent).toContain('2 个视觉实例')
+    expect(host.querySelector('.map-content-selection-preview')?.textContent).toContain(
+      '所选内容 · 2 个瓦片实例',
+    )
+
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 17, ctrlKey: true })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 17, ctrlKey: true })
+    })
+    expect(host.querySelector('.map-selection-head')?.textContent).toContain('3 个视觉实例')
+
+    await act(async () => button(host, '保存为组合…').click())
+    expect(document.body.querySelector('.stamp-template-dialog')).not.toBeNull()
+    await act(async () => button(document.body, '创建组合').click())
+    expect(session.getState().stamps[0]?.visual.map(({ offset }) => offset)).toEqual([
+      { dRow: 0, du: 0 },
+      { dRow: 0, du: 2 },
+      { dRow: 2, du: 0 },
+    ])
+    expect(document.body.querySelector('.stamp-template-dialog')).toBeNull()
+
+    await act(async () => {
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, ctrlKey: true })
+      pointer(canvas, 'pointerup', { clientX: 1, clientY: 1, ctrlKey: true })
+    })
+    expect(host.querySelector('.map-selection-head')?.textContent).toContain('2 个视觉实例')
   })
 
   test('左侧承载层高控件，瓦片/组合在右栏按需挂载，中央画布无 DOM 遮挡', async () => {
@@ -557,6 +618,10 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => pointer(canvas, 'pointerdown'))
     expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('2 个视觉成员')
     expect(host.querySelector('.stamp-group-summary')?.textContent).toContain('tree-a')
+    expect(host.querySelector('.map-content-selection-preview')?.textContent).toContain(
+      '所选组合 · 树屋 A',
+    )
+    expect(host.querySelector('.map-content-selection-preview canvas')).not.toBeNull()
 
     await act(async () =>
       canvas.dispatchEvent(
@@ -592,12 +657,12 @@ describe('MapMode 地图内容选择交互', () => {
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.id).toBe('tree-a')
   })
 
-  test('Shift/Ctrl 对完整放置组增减，相邻同款按 placementId 不串组', async () => {
+  test('Ctrl 对完整放置组追加或移除，相邻同款按 placementId 不串组', async () => {
     const { host, canvas } = await mountMapMode({ map: placementMap(true) })
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
     await act(async () =>
-      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 17, shiftKey: true }),
+      pointer(canvas, 'pointerdown', { clientX: 1, clientY: 17, ctrlKey: true }),
     )
     expect(host.querySelector('.stamp-group-selection-head')?.textContent).toContain('2 组')
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1, ctrlKey: true }))

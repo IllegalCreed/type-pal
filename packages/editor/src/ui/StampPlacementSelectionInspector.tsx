@@ -1,8 +1,9 @@
-import { mapInstanceHeight, type ProjectMap } from '@type-pal/reforge'
+import { mapInstanceHeight, type Palette, type ProjectMap, type RleFrame } from '@type-pal/reforge'
 import { useMemo } from 'react'
 import type { ProjectMapPatch } from '../core/map-patch.js'
 import type { GridPointRef, StampGroupCellSelection, VisualSlotRef } from '../core/map-selection.js'
 import { buildStampPlacementIndex } from '../core/stamp-ownership.js'
+import { MapContentSelectionPreview } from './MapContentSelectionPreview.js'
 
 export interface StampPlacementSelectionInspectorProps {
   map: ProjectMap
@@ -10,6 +11,8 @@ export interface StampPlacementSelectionInspectorProps {
   activeLayerId: string
   hiddenLayerIds: ReadonlySet<string>
   lockedLayerIds: ReadonlySet<string>
+  tiles?: ReadonlyMap<number, RleFrame>
+  palette?: Palette
   editingPlacementId?: string
   editingSelection?: StampGroupCellSelection
   editingBlockedReason?: string
@@ -39,6 +42,8 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
     activeLayerId,
     hiddenLayerIds,
     lockedLayerIds,
+    tiles,
+    palette,
     editingPlacementId,
     editingSelection,
     editingBlockedReason,
@@ -136,6 +141,20 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
             {placements.length} 组 · {visualCount} 个视觉成员 · {collisionCount} 个碰撞成员
           </div>
         </div>
+        <div className="section map-selection-preview-section">
+          <MapContentSelectionPreview
+            map={map}
+            visualSlots={placements.flatMap((placement) => placement.visualSlots)}
+            tiles={tiles}
+            palette={palette}
+            title={
+              single
+                ? `所选组合 · ${single.sourceStampName ?? '未命名放置组'}`
+                : `已选 ${placements.length} 个组合`
+            }
+            subtitle="当前地图实际值，不从来源模板重建"
+          />
+        </div>
         <div className="section stamp-group-summary">
           <h4>{single?.sourceStampName ?? (single ? '未命名放置组' : '多组选择')}</h4>
           {single ? (
@@ -230,6 +249,16 @@ export function StampPlacementSelectionInspector(props: StampPlacementSelectionI
         <button type="button" className="mini" onClick={onExitEdit}>
           退出组内
         </button>
+      </div>
+      <div className="section map-selection-preview-section">
+        <MapContentSelectionPreview
+          map={map}
+          visualSlots={editing.visualSlots}
+          tiles={tiles}
+          palette={palette}
+          title={`正在编辑 · ${editing.sourceStampName ?? editing.id}`}
+          subtitle={`完整放置组 · 当前层 ${activeLayer?.name ?? activeLayerId}`}
+        />
       </div>
       <div className="section stamp-group-edit-summary">
         <h4>当前层成员</h4>

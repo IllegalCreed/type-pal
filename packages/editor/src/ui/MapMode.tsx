@@ -2679,7 +2679,7 @@ export function MapMode(props: {
         : activeLayerReadOnly
           ? `${activeLayerName} · ${activeLayerHidden ? '已隐藏' : '已锁定'} · 只读`
           : activeTool === 'select'
-            ? `${activeLayerName} · ${workspaceMap.hitScope === 'active-layer' ? '活动层选择' : '跨层选择'} · Shift 增选 / Ctrl⌘ 减选 / Alt 候选`
+            ? `${activeLayerName} · ${workspaceMap.hitScope === 'active-layer' ? '活动层选择' : '跨层选择'} · Shift 追加 / Ctrl⌘ 切换追加或移除 / Alt 候选`
             : activeTool === 'eyedropper'
               ? `${activeLayerName} · 取样瓦片与实例高度`
               : activeTool === 'collision'
@@ -2948,7 +2948,7 @@ export function MapMode(props: {
                 activateMapTool('select')
               }}
               disabled={!liveMap}
-              title="选择地图已有内容 (V)；Shift 增选，Ctrl/⌘ 减选，Alt 候选"
+              title="选择地图已有内容 (V)；Shift 追加，Ctrl/⌘ 切换追加或移除，Alt 候选"
               aria-label="选择地图内容"
               aria-pressed={activeTool === 'select'}
             >
@@ -3475,6 +3475,8 @@ export function MapMode(props: {
               activeLayerId={activeLayerId}
               hiddenLayerIds={hiddenLayerIds}
               lockedLayerIds={lockedLayerIds}
+              tiles={loaded?.tiles}
+              palette={loaded?.palette}
               editingBlockedReason={
                 transformIntent ? '正在预览地图变换；请先提交或取消后再修改选区。' : undefined
               }
@@ -3497,6 +3499,8 @@ export function MapMode(props: {
               activeLayerId={activeLayerId}
               hiddenLayerIds={hiddenLayerIds}
               lockedLayerIds={lockedLayerIds}
+              tiles={loaded?.tiles}
+              palette={loaded?.palette}
               editingPlacementId={stampGroupEditPlacementId}
               editingSelection={stampGroupEditSelection}
               editingBlockedReason={
