@@ -1,6 +1,6 @@
 # C2-PAL - PAL 大世界特殊精灵布局清洗
 
-Status: draft
+Status: review
 Phase: phase2
 Capability: C2 / MG2
 Coding Owner: Codex（设计三签齐后）
@@ -123,12 +123,58 @@ Branch: 当前工作分支
 
 ### 进入 done 前:审查签字
 
-- Codex: pending
-- Kimi: pending
-- GLM: pending
-- counter / 返工处理:
+- Codex: **accept（2026-07-20）**。实现、自测、真实 PAL MG2 重迁和编辑器抽查均满足本卡验收条件：布局注册不再依赖遍历顺序；13 条确定债全部收敛；541 稳定 id/两类消费者归一；245/534 等有证据的真实四向布局得到保留；二跑和独立 dry-run 均为 `writes=0/deletes=0/conflicts=0`。进入 review，等待 Kimi/GLM 独立验收。
+- Kimi: **accept（2026-07-20）**。架构/迁移/确定性独立复审,无 P0/P1/P2 阻塞;R1-R3 全部满足。证据:
+  1. **确定性注册表**:输入先规范化(scene 按 sceneId、event source 按 rank 排序),预扫描
+   `sceneEvidenceBySprite` 确定性 tie-break,overlay 优先级高于场景证据;注册表只读,
+   `registrationsBySprite` 与 `sceneRegistrationByKey` 双索引;registry 测试覆盖脚本先消费场景后声明、
+   场景数组乱序、无证据 fail-loud、多布局歧义 fail-loud(:54/:81/:123/:187)。
+  2. **unknown/ambiguous fail-loud**:`spriteIdForNum` 无注册即 `缺布局证据;禁止从脚本资源号猜布局`,
+   多场景布局无 overlay 即 `无法消歧;需要逐项 PAL overlay`;旧 `directional/3` 默认值已整段删除,
+   运行时无任何按号猜布局分支。
+  3. **R1(541 稳定 id)**:产物仅一个 `sprite-541` static 定义,s266/e4659 与 s192 脚本(2 处)统一引用,
+   `sprite-541-f0` 不存在;overlay 与场景证据合并为同一 stable base。
+  4. **R2(overlay)**:26 项逐项含 layout/expectedFrameCount/usage/evidence 出处;
+   `assertPalWorldSpriteLayoutOverlaySources` 校验 636 帧表完整、无重复、逐项帧漂移、布局需求≤物理帧;
+   无任何启发式推断器混入注册表或 fallback。
+  5. **R3(13 条债)**:产物 13 条全部 `static` 且无 `-f0` 残留;每条在 overlay/场景声明中带来源证据,
+   `report.layoutEvidence` 输出审计轨迹;245 依三场景 nSpriteFrames=3 保留 directional/3、
+   534 依 0x1A field64=4 修正为 directional/4、193/228/232 真实双布局保留 base+`-f0` 变体;
+   总定义 580→577(仅删 3 个错误变体,9 个真实变体保留)。
+  6. **MG2/复跑**:`projects/pal/content/sprites.json` 与 baseline 逐字节一致;独立执行
+   `migrate:content` dry-run 得 `writes=0 deletes=0 conflicts=0`;`pnpm --filter @type-pal/migrate check`
+   34 files/251 tests 全过(+1 条件 skip)。
+- GLM: **accept（2026-07-21;见下）**。独立复算全部产物数据 + 代码逻辑审查 + MG2 零计划验证。
+
+  **13 条确定债收敛** ✅：`236,242,273,361,379,385,394,541,550,627,630,631,632` 全 13 项当前 sprites.json 均为 `static`——逐项确认 ✅
+
+  **541 单定义** ✅：`sprite-541` 仅 1 个定义（static），无 `sprite-541-f0`；`sprite-242-f0` / `sprite-379-f0` 同样已删除 ✅
+
+  **9 个 `-f0` 真实变体保留** ✅：`sprite-{18,95,163,193,228,232,365,369,408}-f0` = 9 个（G3 满足——只删 242/379/541 三个错误 fallback 伴生，其余 9 个真实多语义保留）✅
+
+  **245/534 directional 保留** ✅：245 `directional/framesPerDir=3`（场景 nSpriteFrames=3 证据）；534 `directional/framesPerDir=4`（L_24772/L_24774 证据）✅
+
+  **总数** ✅：SpriteDef **577**（从 580 减 3 个错误 -f0 合并） / unique assets **559** / shared **18**（含 9 个 -f0 + actor-id 对等合法共享）✅
+
+  **G1-G3 全落地** ✅：
+  - **G1 sprite-511 遍历旁路**：pal-world-sprite-layouts.ts 中 511 有显式 overlay 条目（唯一静态场景证据 s199/e3349），预扫描覆盖 ✅
+  - **G2 sprite-245 场景证据分类**：245 保留 directional/3（3 场景 nSpriteFrames=3 证据）✅
+  - **G3 12 个 -f0 伴生**：3 个错误删除（242/379/541）+ 9 个真实保留 ✅
+
+  **代码逻辑审查** ✅：
+  - `migrate-content.ts:1843 spriteIdForNum` = **fail-loud 表解析器**（缺注册 throw `禁止从脚本资源号猜布局`，不再硬编 directional/3）✅
+  - `pal-world-sprite-layouts.ts` 存在，含 26 项 PAL overlay + 13 项 debt audit ✅
+  - `migrate-content.ts:1708` 注释明确禁止脚本路径创建 directional/3 默认值 ✅
+
+  **MG2** ✅：dry-run `writes=0 deletes=0 conflicts=0` + `sprite-defs=577/571` + `sprite-refs=entities:3695/3695,actors:6/0,setActorSprite:116/69,setActorAppearance:3/2,setFollowers:1/1` + tuple-digest `c92c14b5...` 匹配 ✅
+
+  **测试** ✅：migrate 34 files / 251 tests passed + 1 skip ✅
+
+  **总结**：13 条债全 static + 3 个错误 -f0 删除 + 9 个真实保留 + 245/534 directional 保留 + 577/559/18 总数 + G1-G3 全落地 + spriteIdForNum fail-loud + MG2 零计划。**accept**。
+
+- counter / 返工处理: 无（GLM accept 无 counter）
 - 缺签豁免: N/A
-- done 准入结论: blocked
+- done 准入结论: **Codex accept + Kimi accept + GLM accept,三签齐(2026-07-20);待用户验收后由收口方把 Status 转 `done`。** 无遗留阻塞项。
 
 ## Draft: 设计与风险
 
@@ -194,26 +240,48 @@ Branch: 当前工作分支
 ## Build: 实现与自测
 
 - Coding Owner: Codex（三签后）
-- 修改文件: pending
-- 实现摘要: pending
-- 运行命令: pending
-- 浏览器 / 手工检查: pending
-- 跳过的检查及原因: pending
+- 修改文件:
+  - 上游实现：`packages/migrate/src/migrate-content.ts`、`pal-world-sprite-layouts.ts`、`pal-assets.ts`、`pal-migration-io.ts`、`pal-migration.ts`、`sound-reference-audit.ts`。
+  - 回归：`migrate-content.test.ts`、`world-sprite-layout-registry.test.ts`、`pal-world-sprite-layouts.test.ts`、`pal-migration-integration.test.ts`、`migration-plan.test.ts`。
+  - MG2 生成结果：`projects/pal/content/sprites.json`、`scenes/s193.json`、`s197.json`、`s266.json` 及对应 baseline 四文件与 `_state.json`。未改 manifest，未改任何资源二进制。
+- 实现摘要:
+  - 在任何脚本翻译前，按 `sceneId` 与规范化 event-object 顺序预扫描全部场景声明，建立确定性的 `spriteNum -> layout evidence[]` 注册表；输入为 Array/Map 或遍历顺序打乱时产物一致。
+  - numeric `0x65` / `0x1A field=2` / `0x98` 依次从角色语义、集中 PAL overlay、唯一场景证据解析；未知目标与多布局歧义均 fail-loud，不再存在动态 `directional/3` fallback。
+  - 新增 26 项集中 PAL overlay；每项固定 `spriteNum/layout/expected physical frames/usage/evidence`，加载时校验 636 项完整物理帧表、逐项帧数漂移和布局容量。迁移报告输出 `layoutEvidence`，PAL 集成测试对 13 条债的 `spriteNum/definitionId/source/evidence` 做 exact-set 断言。
+  - 13 条确定债全部改为 `static`；`sprite-541` 保留稳定 base id，删除错误 `sprite-541-f0`，s266/e4659 与 s192 脚本统一引用 `sprite-541`。同理归并 242/379；其余 9 个真实 `-f0` 多语义定义保持不变。
+  - 真实多布局继续使用稳定 base + `-f<n>`：193/228/232 保留 directional base 与场景 static 变体；245 依据 s35/s37/s195 的 `nSpriteFrames=3` 保留 directional/3；534 依据 `L_24772` 换装 + `L_24774 field64=4` 与 16 个物理帧修正为 directional/4；511 依据 s199/e3349 唯一静态场景证据稳定解析。
+  - 为避免纯布局修复与作者改名产生无意义 MG2 冲突，保留历史 base label；新增 merge 回归覆盖作者改名与废弃 `-f0` delete-modify 冲突边界。
+- 设计期证据更正/收敛:
+  - 保留 GLM 原始签字作为历史事实，但其“7 个有场景声明且全部 `nSpriteFrames=0`”并不准确：193/228/232/242/379/541 为 0，245 在三个场景均为 3；实现按真实证据保留 245 directional/3。
+  - G3 的 12 个历史 `-f0` 中只删除由错误 fallback 造成的 242/379/541；18/95/163/193/228/232/365/369/408 九个真实变体全部保留。
+- 运行命令与结果:
+  - `pnpm --filter @type-pal/migrate check`：34 个测试文件通过，251 tests passed，1 个条件性 skip；TypeScript 通过。
+  - `pnpm --filter @type-pal/content typecheck`：通过。
+  - `pnpm exec biome check <本卡 11 个 migrate 实现/测试文件>`：通过。
+  - `git diff --check`：通过。
+  - 真实 MG2 写入前 plan：`writes=4/deletes=0/conflicts=0`；事务提交 9 项操作（工程 4 + baseline 4 + `_state.json`），1879 个二进制均 unchanged、0 written。
+  - 写入流程内二跑及写后独立 `pnpm --filter @type-pal/migrate run migrate:content`：均为 `writes=0/deletes=0/conflicts=0`。
+- 浏览器 / 手工检查: 见下方视觉验证记录。
+- 跳过的检查及原因: 未把工作树中另一任务尚未提交的 `packages/editor` / `packages/content` 改动纳入本卡全仓测试；本卡相关 migrate 全套、content 类型检查、格式检查、真实迁移与浏览器验收均已完成。
 
 ## 视觉验证记录(如适用)
 
 - Visual Verification Owner: Codex
-- 验证方式: pending
-- 截图 / 像素检查路径: pending
-- 结论: pending
-- 未完成项: pending
+- 验证方式: 在已运行的 `http://localhost:6010/` 编辑器加载 `pal`，逐项筛选并检查用途定义、原始帧与动态预览。
+- 截图 / 像素检查路径: 使用应用内浏览器做实时 DOM + 视觉检查；未落测试截图文件，避免把临时图片留在仓库。
+- 结论:
+  - 541：仅一个 `sprite-541`“默认定格”用途定义，只显示物理帧 #0（18×52）；无 `sprite-541-f0`、无四向缺帧槽。
+  - 245：保留 4 个方向、每向 3 帧（#0-#11），动态预览正常，未被误清洗为静态。
+  - 534：显示 4 个方向、每向 4 帧（#0-#15），与 16 个源帧和 field64=4 证据一致。
+  - 632：源容器有 7 帧，但用途定义是唯一 `sprite-632`“默认定格”，只消费 #0（160×119）；其余帧仍可由场景脚本切换，不再伪造四向槽位。
+- 未完成项: 无本卡视觉阻塞；场景自动脚本的通用安全预览仍属于编辑器另一任务，不在本卡范围内。
 
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: pending
-- 必须返工项: pending
-- Accept / rework: pending
+- 审查结论: Codex 自验 accept；**GLM accept（2026-07-21，13 债全 static + 3 个 -f0 删除 + G1-G3 全落地）**；Kimi pending。
+- 必须返工项: 无（GLM 视角）。
+- Accept / rework: **Codex accept + GLM accept；等待 Kimi。**
 
 ## 用户验收
 
@@ -222,6 +290,8 @@ Branch: 当前工作分支
 
 ## 交接日志
 
+- 2026-07-20 Codex: build 完成并自审签 **accept**，任务推进至 `review`。实现确定性预扫描 registry、26 项证据化 PAL overlay、unknown/ambiguous fail-loud；清洗 13 条确定债，保留 245 directional/3、修正 534 directional/4、覆盖 511 遍历旁路与真实多布局。真实 MG2 plan 4/0/0 后事务提交 9 项，二跑/独立 dry-run 均 0/0/0；migrate check 251 tests + typecheck、content typecheck、Biome、diff-check 全绿；编辑器抽查 541/245/534/632 通过。Next: Kimi 做架构/merge/生成 diff 审查，GLM 做 13 条数据、测试矩阵与 MG2 门禁审查；两方不得改实现，分别回写 accept 或 counter。
+- 2026-07-20 Codex: 核对三方设计签均为 `agree`、无 `counter`，Kimi R1-R3 与 GLM G1-G3 已列入 build 必落项；任务由 `draft` 推进至 `build`，Codex 继续担任唯一 Coding Owner。固定循环 auto 脚本动作化仍属范围外议题 16。
 - 2026-07-20 Codex: 只读审计确认 541 与同类 13 条布局债根因在 `spriteIdForNum` 的 0x65 默认四向和遍历顺序；建立本卡、冻结范围/验收并签 agree。Evidence: 本卡锚点及 PAL 26/13 统计。Next: Kimi + GLM 分别完成设计签字；两签未齐不得修改 migrate 实现。
 - 2026-07-20 Kimi: 架构/稳定 id/多定义边界主审完成,签 **agree**(R1-R3 build 必落钉)。根因实证:
   `spriteIdForNum`(migrate-content.ts:1703-1717)对未登记 0x65 目标无证据硬写 directional/3,
@@ -233,6 +303,7 @@ Branch: 当前工作分支
   R3(逐条证据+新债零增长)必落。Evidence:本卡主审立场、签字区、争议记录。Next:GLM 数据证据复核;
   两签未齐不得修改 migrate 实现或 projects/pal。未改实现文件。
 - 2026-07-20 GLM: 数据/测试矩阵设计审查签 **agree**。独立复算：26 个 0x65 补定义（label `原精灵 N(0x65 换装)` directional 全量 grep = 26）；13 条确定债物理帧逐行 gzip 解码（236=1/242=5/273=4/361=5/379=5/385=2/394=2/541=1/550=2/627=4/630=4/631=7/632=7）与 PAL_LAYOUT_DEBT 基线逐行匹配；13 个容量候选全 ≥12（193=14/228=20/232=64/245=13/521=24/531=12/532=12/533=12/534=16/538=12/563=12/576=13/607=12）；541 物理 1 帧 + scene 266 nSpriteFrames=0 + 双定义确认。代码逻辑审查（读 migrate-content.ts:1703-1717 spriteIdForNum 硬编 directional/3 根因 + :1677-1696 spriteRef 遍历顺序决定 + translate-events.ts:1074 0x65 无布局信息）。**G1 关键**：sprite-511 是第 27 个 numeric 0x65 目标但因场景先注册为 static 而漏入 26 计数——遍历顺序 bug 活例，预扫描须覆盖；**G2**：245 有 3 场景 nSpriteFrames=3 可能合法 directional，建议标注；**G3**：12 个 -f0 static 伴生合并时保留。Evidence: 设计签字 GLM 行。Next: 三签齐 build allowed，交 Codex build。未改实现文件。
+- 2026-07-21 GLM: done 数据/测试矩阵审查签 **accept**。独立复算：13 条确定债（236/242/273/361/379/385/394/541/550/627/630/631/632）全 13 项当前 sprites.json 均为 static ✅；541 仅 1 个定义无 -f0 ✅；242-f0/379-f0 已删除 ✅；9 个真实 -f0 保留（18/95/163/193/228/232/365/369/408）✅；245 directional/3 + 534 directional/4 保留 ✅；SpriteDef 577/unique 559/shared 18 ✅。G1（511 overlay 覆盖）✅ G2（245 场景证据保留 directional）✅ G3（3 删+9 保）✅ 全落地。代码逻辑审查：spriteIdForNum（:1843）= fail-loud 表解析器不再硬编 directional/3 ✅；pal-world-sprite-layouts.ts 存在含 26 overlay + 13 debt audit ✅。MG2 dry-run writes=0/deletes=0/conflicts=0 + sprite-defs=577/571 + tuple-digest 匹配 ✅。migrate 34 files/251 tests pass + 1 skip ✅。Evidence: done 准入 GLM 行 + Review 段。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
 
 ## 下一位 Agent 提示词
 
@@ -241,13 +312,14 @@ Branch: 当前工作分支
 ```text
 接手任务: C2-PAL PAL 大世界特殊精灵布局清洗
 任务卡: docs/ops/tasks/C2-PAL-world-sprite-layout-cleanup.md
-当前状态: draft；Codex=agree，Kimi/GLM=pending，build blocked
-你的角色: Kimi，负责架构、稳定 id、多 definition/共享 asset 边界与迁移顺序压力测试
+当前状态: review；Codex review=accept，Kimi/GLM review=pending，done blocked
+你的角色: Kimi，负责实现架构、稳定 id、多 definition 边界、MG2 merge 与生成 diff 的独立代码审查
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/ops/tasks/A7-3W-world-sprite-asset-closure.md:101-116、docs/phase2/capability-map.md:82
-已完成: Codex 只读复现 541（物理1帧、源场景 nSpriteFrames=0）与 0x65 默认 directional/3 根因，冻结 13 条确定 layout 债和“预扫描 registry + 证据化 overlay”方案；未改 migrate 实现。
-请你做: 审查 registry 构建时点、541 稳定 id 合并、0x65-only overlay 边界、其余13个容量足够候选是否应纳入；把 agree 或 counter（含必改项和证据）直接写回任务卡的 Kimi 设计签、主审立场、争议记录和交接日志。
-不要做: 不得开始实现、不得手改 projects/pal、不得拿 A7-3W 历史签字代替本卡签字。
-输出要求: agree 或 counter + 理由；明确是否建议 build。Kimi/GLM 两签未齐不得推进。
+重点代码: packages/migrate/src/migrate-content.ts、pal-world-sprite-layouts.ts、pal-migration.ts、migration-plan.test.ts、world-sprite-layout-registry.test.ts
+已完成: 三方设计签后 Codex 实现并自审 accept；确定性预扫描 registry + 26 项 PAL overlay + fail-loud；13 条债归零；541 稳定 id 归一；245 d3/534 d4/511 static 证据闭合；真实 MG2 写入并二跑 0/0/0。完整证据、命令和视觉抽查见任务卡 Build/视觉段。
+请你做: 独立审查 registry 构建时点和顺序不变性、unknown/ambiguous 边界、541 稳定 id、真实多 definition 保留、作者改名与 delete-modify merge 回归，以及生成 sprites/scenes diff 是否严格限于声明范围。把 accept 或 counter（含严重度、代码锚点、必改项）写回“进入 done 前”Kimi 行、Review 和交接日志。
+不要做: 本轮只审查，不得修改实现或生成产物；发现问题签 counter 并退回 rework。不得提前标记 done。
+输出要求: accept 或 counter + 证据；若 accept，明确 R1-R3 是否全部满足。Kimi/GLM review 两签齐前 done blocked。
 ```
 
 ### 给 GLM
@@ -255,11 +327,11 @@ Branch: 当前工作分支
 ```text
 接手任务: C2-PAL PAL 大世界特殊精灵布局清洗
 任务卡: docs/ops/tasks/C2-PAL-world-sprite-layout-cleanup.md
-当前状态: draft；Codex=agree，Kimi/GLM=pending，build blocked
-你的角色: GLM，负责 13 条数据证据、26 个 0x65 补定义覆盖、测试矩阵和 MG2 重迁门禁
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/ops/tasks/A7-3W-world-sprite-asset-closure.md:101-116、packages/migrate/src/pal-migration-integration.test.ts:232-246
-已完成: Codex 只读复现 541 与遍历顺序根因，冻结 13 条确定 layout 债、另外13个容量足够待考证候选和上游重迁验收；未改 migrate 实现。
-请你做: 独立复算 26/13 清单，逐项给出 13 条的场景声明/物理帧/脚本用途证据，压力测试“预扫描 registry + 显式 overlay”，补足回归与产物白名单；把 agree 或 counter（含必改项和证据）直接写回任务卡的 GLM 设计签、争议记录和交接日志。
-不要做: 不得开始实现、不得直接修改生成产物、不得以物理帧数启发式猜布局。
-输出要求: agree 或 counter + 理由；明确测试矩阵与 build 建议。Kimi/GLM 两签未齐不得推进。
+当前状态: review；Codex review=accept，Kimi/GLM review=pending，done blocked
+你的角色: GLM，负责 13 条数据证据、26 项 overlay、测试矩阵、生成计数与 MG2 二跑门禁的独立验收
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/ops/tasks/A7-3W-world-sprite-asset-closure.md:101-116、packages/migrate/src/pal-world-sprite-layouts.ts、pal-world-sprite-layouts.test.ts、pal-migration-integration.test.ts
+已完成: 三方设计签后 Codex 实现并自审 accept；13 条债全部 static，245 按三个场景的 nSpriteFrames=3 保留 d3，534 依脚本 field64=4 修 d4，511 场景静态证据纳入；仅删除错误 242/379/541-f0，九个真实 f0 保留；真实 MG2 写入与二跑完成。完整证据、计数和视觉抽查见任务卡 Build/视觉段。
+请你做: 独立复算 13 条债、26 项 overlay 与 636 项帧数闭包；核对 577 defs/559 used assets/18 shared relations、13 条 debt exact、三项 f0 删除和九项保留；审查测试是否覆盖顺序、未知、歧义、511、245、534、541 和 MG2 作者修改边界；复核 plan/二跑 0/0/0。把 accept 或 counter（含严重度、文件锚点、必改项）写回“进入 done 前”GLM 行、Review 和交接日志。
+不要做: 本轮只审查，不得修改实现或生成产物；发现问题签 counter 并退回 rework。不得提前标记 done。
+输出要求: accept 或 counter + 证据；若 accept，明确 G1-G3 与数据/测试/MG2 门禁是否全部满足。Kimi/GLM review 两签齐前 done blocked。
 ```
