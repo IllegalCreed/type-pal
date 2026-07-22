@@ -867,7 +867,6 @@ export function MapMode(props: {
           drawStampPlacementSelectionOverlay(overlayContext, {
             map,
             placementIds: selection.placementIds,
-            tiles: loaded.tiles,
             view,
             hiddenLayerIds,
             lockedLayerIds,
@@ -880,24 +879,14 @@ export function MapMode(props: {
             activeLayerId,
           })
         else if (selectionPreview)
-          drawMapSelectionOverlay(overlayContext, map, selectionPreview, loaded.tiles, view, {
+          drawMapSelectionOverlay(overlayContext, selectionPreview, view, {
             tone: 'preview',
-            dashed: true,
-            showImageBounds: true,
           })
-        else
-          drawMapSelectionOverlay(overlayContext, map, selection, loaded.tiles, view, {
-            showImageBounds: true,
-          })
+        else drawMapSelectionOverlay(overlayContext, selection, view)
         if (transformPlan) {
-          drawMapSelectionOverlay(
-            overlayContext,
-            map,
-            transformPlan.nextSelection,
-            loaded.tiles,
-            view,
-            { tone: 'preview', dashed: true, showImageBounds: true },
-          )
+          drawMapSelectionOverlay(overlayContext, transformPlan.nextSelection, view, {
+            tone: 'preview',
+          })
           if (transformPlan.conflicts.length > 0) {
             const visualSlots = transformPlan.conflicts.flatMap((conflict) =>
               conflict.channel === 'visual' && 'layerId' in conflict.ref ? [conflict.ref] : [],
@@ -908,16 +897,14 @@ export function MapMode(props: {
             }))
             drawMapSelectionOverlay(
               overlayContext,
-              map,
               {
                 kind: 'cells',
                 visualSlots,
                 gridPoints,
                 hitScope: workspaceMap.hitScope,
               },
-              loaded.tiles,
               view,
-              { tone: 'conflict', dashed: true },
+              { tone: 'conflict' },
             )
           }
         }

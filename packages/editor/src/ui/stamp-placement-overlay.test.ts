@@ -187,6 +187,6 @@ describe('stamp placement ghost overlay', () => {
     expect(fills).toContain('rgba(255, 76, 83, 0.24)')
     expect(fills).toContain('rgba(255, 54, 74, 0.18)')
     expect(fills.at(-1)).toBe('#ff5364')
-    expect(vi.mocked(ctx.setLineDash)).toHaveBeenCalled()
+    expect(vi.mocked(ctx.setLineDash)).not.toHaveBeenCalled()
   })
 })

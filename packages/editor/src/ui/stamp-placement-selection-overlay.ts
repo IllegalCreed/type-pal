@@ -1,4 +1,4 @@
-import type { ProjectMap, RleFrame } from '@type-pal/reforge'
+import type { ProjectMap } from '@type-pal/reforge'
 import { latticeCenter } from '@type-pal/reforge'
 import type { MapSelection, StampGroupCellSelection } from '../core/map-selection.js'
 import { buildStampPlacementIndex } from '../core/stamp-ownership.js'
@@ -7,7 +7,6 @@ import { drawMapSelectionOverlay, type MapOverlayView } from './map-selection-ov
 export interface StampPlacementSelectionOverlayOptions {
   map: ProjectMap
   placementIds: readonly string[]
-  tiles: ReadonlyMap<number, RleFrame>
   view: MapOverlayView
   hiddenLayerIds: ReadonlySet<string>
   lockedLayerIds: ReadonlySet<string>
@@ -55,14 +54,9 @@ export function drawStampPlacementSelectionOverlay(
           ? options.editingSelection.gridPoints.map((ref) => `${ref.row}:${ref.col}`)
           : gridPoints.map((ref) => `${ref.row}:${ref.col}`),
       )
-      drawMapSelectionOverlay(ctx, options.map, outer, options.tiles, options.view, {
-        tone: 'preview',
-        dashed: true,
-        showImageBounds: false,
-      })
+      drawMapSelectionOverlay(ctx, outer, options.view, { tone: 'preview' })
       drawMapSelectionOverlay(
         ctx,
-        options.map,
         cells(
           visibleVisual
             .filter(
@@ -73,14 +67,11 @@ export function drawStampPlacementSelectionOverlay(
             .map((ref) => ({ ...ref })),
           gridPoints.filter((ref) => selectedGridKeys.has(`${ref.row}:${ref.col}`)),
         ),
-        options.tiles,
         options.view,
-        { showImageBounds: true },
       )
     } else {
-      drawMapSelectionOverlay(ctx, options.map, outer, options.tiles, options.view, {
-        dashed: hasLockedMember,
-        showImageBounds: true,
+      drawMapSelectionOverlay(ctx, outer, options.view, {
+        tone: hasLockedMember ? 'locked' : 'selected',
       })
     }
 

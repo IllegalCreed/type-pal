@@ -53,7 +53,6 @@ describe('stamp placement selection overlay', () => {
     drawStampPlacementSelectionOverlay(ctx, {
       map,
       placementIds: ['tree-1'],
-      tiles: new Map(),
       view: { zoom: 1, panX: 0, panY: 0 },
       hiddenLayerIds: new Set(['objects']),
       lockedLayerIds: new Set(),
@@ -62,12 +61,10 @@ describe('stamp placement selection overlay', () => {
     })
     expect(vi.mocked(drawMapSelectionOverlay)).toHaveBeenCalledWith(
       ctx,
-      map,
       expect.objectContaining({
         visualSlots: [{ layerId: 'floor', row: 0, col: 0 }],
         gridPoints: [{ row: 0, col: 0 }],
       }),
-      expect.any(Map),
       expect.anything(),
       expect.anything(),
     )
@@ -80,7 +77,6 @@ describe('stamp placement selection overlay', () => {
     drawStampPlacementSelectionOverlay(ctx, {
       map,
       placementIds: ['tree-1'],
-      tiles: new Map(),
       view: { zoom: 1, panX: 0, panY: 0 },
       hiddenLayerIds: new Set(),
       lockedLayerIds: new Set(),
@@ -89,7 +85,7 @@ describe('stamp placement selection overlay', () => {
       activeLayerId: 'objects',
     })
     expect(vi.mocked(drawMapSelectionOverlay)).toHaveBeenCalledTimes(2)
-    expect(vi.mocked(drawMapSelectionOverlay).mock.calls[1]?.[2]).toMatchObject({
+    expect(vi.mocked(drawMapSelectionOverlay).mock.calls[1]?.[1]).toMatchObject({
       visualSlots: [{ layerId: 'objects', row: 0, col: 0 }],
       gridPoints: [{ row: 0, col: 0 }],
     })

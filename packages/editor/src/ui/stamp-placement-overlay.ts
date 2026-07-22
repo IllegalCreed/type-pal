@@ -34,7 +34,6 @@ function drawDiamond(
   point: GridPointRef,
   view: MapOverlayView,
   colors: { fill: string; stroke: string },
-  dashed = false,
 ): void {
   const center = latticeCenter(point)
   const cx = (center.x - view.panX) * view.zoom
@@ -42,7 +41,6 @@ function drawDiamond(
   const rx = 16 * view.zoom
   const ry = 8 * view.zoom
   ctx.save()
-  if (dashed) ctx.setLineDash([Math.max(2, 5 * view.zoom), Math.max(2, 3 * view.zoom)])
   ctx.beginPath()
   ctx.moveTo(cx, cy - ry)
   ctx.lineTo(cx + rx, cy)
@@ -97,7 +95,6 @@ export function drawStampPlacementOverlay(
       member.value === 0
         ? { fill: 'rgba(67, 151, 255, 0.16)', stroke: '#72b7ff' }
         : { fill: 'rgba(255, 137, 79, 0.24)', stroke: '#ff9b67' },
-      true,
     )
 
   const conflictPoints = new Map<string, GridPointRef>()
@@ -107,7 +104,7 @@ export function drawStampPlacementOverlay(
       col: conflict.ref.col,
     })
   for (const point of conflictPoints.values())
-    drawDiamond(ctx, point, view, { fill: 'rgba(255, 76, 83, 0.24)', stroke: '#ff6870' }, true)
+    drawDiamond(ctx, point, view, { fill: 'rgba(255, 76, 83, 0.24)', stroke: '#ff6870' })
 
   const issuePoints = new Map<string, GridPointRef>()
   for (const item of plan.issues) {
@@ -116,7 +113,7 @@ export function drawStampPlacementOverlay(
     issuePoints.set(gridPointKey(ref), { row: ref.row, col: ref.col })
   }
   for (const point of issuePoints.values())
-    drawDiamond(ctx, point, view, { fill: 'rgba(255, 54, 74, 0.18)', stroke: '#ff5364' }, true)
+    drawDiamond(ctx, point, view, { fill: 'rgba(255, 54, 74, 0.18)', stroke: '#ff5364' })
 
   const anchor = latticeCenter(plan.anchor)
   const anchorX = (anchor.x - view.panX) * view.zoom
