@@ -1,6 +1,6 @@
 # C2-PAL - PAL 大世界特殊精灵布局清洗
 
-Status: review
+Status: done
 Phase: phase2
 Capability: C2 / MG2
 Coding Owner: Codex（设计三签齐后）
@@ -279,33 +279,37 @@ Branch: 当前工作分支
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: Codex 自验 accept；**GLM accept（2026-07-21，13 债全 static + 3 个 -f0 删除 + G1-G3 全落地）**；Kimi pending。
-- 必须返工项: 无（GLM 视角）。
-- Accept / rework: **Codex accept + GLM accept；等待 Kimi。**
+- 审查结论: Codex 自验 accept;GLM accept(13 债全 static + 3 个 -f0 删除 + G1-G3 全落地);Kimi accept(注册表
+  确定性/fail-loud/541 稳定 id/多定义边界/MG2 与产物 diff 全过,R1-R3 全满足)。三签齐,无返工项。
+- 必须返工项: 无。
+- Accept / rework: **accept(三方,2026-07-20);待用户验收后收口标 done**。
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: pending
+- 用户结论: **accept（2026-07-21）**。用户确认三方验收签已齐，授权收口并开始精灵预制动作能力。
+- 后续任务: C2-ACT 精灵预制动作消费闭环
 
 ## 交接日志
 
 - 2026-07-20 Codex: build 完成并自审签 **accept**，任务推进至 `review`。实现确定性预扫描 registry、26 项证据化 PAL overlay、unknown/ambiguous fail-loud；清洗 13 条确定债，保留 245 directional/3、修正 534 directional/4、覆盖 511 遍历旁路与真实多布局。真实 MG2 plan 4/0/0 后事务提交 9 项，二跑/独立 dry-run 均 0/0/0；migrate check 251 tests + typecheck、content typecheck、Biome、diff-check 全绿；编辑器抽查 541/245/534/632 通过。Next: Kimi 做架构/merge/生成 diff 审查，GLM 做 13 条数据、测试矩阵与 MG2 门禁审查；两方不得改实现，分别回写 accept 或 counter。
 - 2026-07-20 Codex: 核对三方设计签均为 `agree`、无 `counter`，Kimi R1-R3 与 GLM G1-G3 已列入 build 必落项；任务由 `draft` 推进至 `build`，Codex 继续担任唯一 Coding Owner。固定循环 auto 脚本动作化仍属范围外议题 16。
 - 2026-07-20 Codex: 只读审计确认 541 与同类 13 条布局债根因在 `spriteIdForNum` 的 0x65 默认四向和遍历顺序；建立本卡、冻结范围/验收并签 agree。Evidence: 本卡锚点及 PAL 26/13 统计。Next: Kimi + GLM 分别完成设计签字；两签未齐不得修改 migrate 实现。
-- 2026-07-20 Kimi: 架构/稳定 id/多定义边界主审完成,签 **agree**(R1-R3 build 必落钉)。根因实证:
-  `spriteIdForNum`(migrate-content.ts:1703-1717)对未登记 0x65 目标无证据硬写 directional/3,
-  遍历顺序使默认布局抢占 primaryLayout 产生"错误 directional(脚本引)+正确 static(场景引)"双定义;
-  scene/266.json:78-93 的 541 声明 nSpriteFrames=0 静态实证。预扫描注册表、541 稳定 id 合并
-  (语义 id 不变/布局修证据 static/两消费者归一)、共享 asset 多定义仅保留真实布局分歧、
-  0x65-only 逐项注释 overlay 均成立;13 条确定债(声明需求>物理帧,可证伪)先收敛、其余 13 个
-  保持加新债零增长门禁的保守分界正确。R1(541 id 稳定+消费者测试)/R2(overlay 逐项编号注释)/
-  R3(逐条证据+新债零增长)必落。Evidence:本卡主审立场、签字区、争议记录。Next:GLM 数据证据复核;
-  两签未齐不得修改 migrate 实现或 projects/pal。未改实现文件。
+- 2026-07-20 Kimi: 架构/迁移/确定性 done 复审签 **accept**,三签齐。逐项核实:输入规范化+预扫描
+  `sceneEvidenceBySprite` 确定性 tie-break + overlay 优先(注册表与遍历顺序无关);`spriteIdForNum`
+  无证据/歧义双 fail-loud,旧 directional/3 默认值整段删除;541 仅一个 static 定义、场景与 s192 脚本
+  统一引用、`-f0` 不存在(R1);26 项 overlay 逐项含帧数/用途/证据出处且经 636 帧表/重复/漂移/需求
+  四重校验(R2);13 条债产物全 static 且 `report.layoutEvidence` 留审计轨迹,245 依三场景证据保留
+  directional/3、534 依 field64=4 修正 directional/4、193/228/232 真实双布局保留 base+`-f0`,
+  定义 580→577 仅删 3 个错误变体(R3);sprites.json 与 baseline 逐字节一致,独立 dry-run
+  `writes=0 deletes=0 conflicts=0`,migrate check 34 files/251 tests 全过。Evidence:done 准入 Kimi 行+
+  上述实测。Next:无下一位审查 Agent;待用户验收后由收口方标 done。未改实现文件与生成产物。
 - 2026-07-20 GLM: 数据/测试矩阵设计审查签 **agree**。独立复算：26 个 0x65 补定义（label `原精灵 N(0x65 换装)` directional 全量 grep = 26）；13 条确定债物理帧逐行 gzip 解码（236=1/242=5/273=4/361=5/379=5/385=2/394=2/541=1/550=2/627=4/630=4/631=7/632=7）与 PAL_LAYOUT_DEBT 基线逐行匹配；13 个容量候选全 ≥12（193=14/228=20/232=64/245=13/521=24/531=12/532=12/533=12/534=16/538=12/563=12/576=13/607=12）；541 物理 1 帧 + scene 266 nSpriteFrames=0 + 双定义确认。代码逻辑审查（读 migrate-content.ts:1703-1717 spriteIdForNum 硬编 directional/3 根因 + :1677-1696 spriteRef 遍历顺序决定 + translate-events.ts:1074 0x65 无布局信息）。**G1 关键**：sprite-511 是第 27 个 numeric 0x65 目标但因场景先注册为 static 而漏入 26 计数——遍历顺序 bug 活例，预扫描须覆盖；**G2**：245 有 3 场景 nSpriteFrames=3 可能合法 directional，建议标注；**G3**：12 个 -f0 static 伴生合并时保留。Evidence: 设计签字 GLM 行。Next: 三签齐 build allowed，交 Codex build。未改实现文件。
 - 2026-07-21 GLM: done 数据/测试矩阵审查签 **accept**。独立复算：13 条确定债（236/242/273/361/379/385/394/541/550/627/630/631/632）全 13 项当前 sprites.json 均为 static ✅；541 仅 1 个定义无 -f0 ✅；242-f0/379-f0 已删除 ✅；9 个真实 -f0 保留（18/95/163/193/228/232/365/369/408）✅；245 directional/3 + 534 directional/4 保留 ✅；SpriteDef 577/unique 559/shared 18 ✅。G1（511 overlay 覆盖）✅ G2（245 场景证据保留 directional）✅ G3（3 删+9 保）✅ 全落地。代码逻辑审查：spriteIdForNum（:1843）= fail-loud 表解析器不再硬编 directional/3 ✅；pal-world-sprite-layouts.ts 存在含 26 overlay + 13 debt audit ✅。MG2 dry-run writes=0/deletes=0/conflicts=0 + sprite-defs=577/571 + tuple-digest 匹配 ✅。migrate 34 files/251 tests pass + 1 skip ✅。Evidence: done 准入 GLM 行 + Review 段。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-21 Codex: 核对三方 done 签均为 accept、无 counter；用户确认三签齐并授权继续，任务转 `done`。Evidence: 本卡 done 准入与用户验收。Next: C2-ACT；本卡不再承载动作化范围。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；任务已完成。以下内容仅保留历史审计轨迹。
 
 ### 给 Kimi
 

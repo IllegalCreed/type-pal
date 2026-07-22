@@ -106,4 +106,22 @@
 
 > ⚠ 不阻塞切片 1。静态 NPC 碰撞是切片 1 基础(已单独 plan);本议题(会动的 NPC)等真有巡逻 NPC 的场景再立项 brainstorm + plan。别夹进切片 1 收口顺手做(避免范围蔓延)。
 
+### 精灵命名动作消费闭环（议题 16）
+
+> 2026-07-20 用户要求记录；2026-07-21 用户确认立项。它是独立高风险能力，不并入
+> [`C2-PAL`](../ops/tasks/C2-PAL-world-sprite-layout-cleanup.md) 的 541/特殊布局清洗，现由
+> [`C2-ACT`](../ops/tasks/C2-ACT-sprite-action-playback.md) 承接。
+
+| # | 议题 | 当前缺口 | 第二阶段方向 | 归属 | 状态 |
+|---|---|---|---|---|---|
+| 16 | 固定循环 auto 脚本提升为预制动作 | `SpriteDef.poses` 能登记帧序/循环，但脚本与 Reforge 没有动作消费闭环；PAL 仍靠 `setEntityFrame`/`animEntity` auto 脚本逐帧驱动。`layout.loop` 是定义级全局壁钟相位，不能表达同资源静态/循环混用、实例错相、非均匀帧时长或运行中 `setEntityAuto` 切换 | 演进现有 `poses`，不另造平行体系：精灵库定义稳定动作、帧时间线与受限关键帧事件；场景脚本只以语义命令引用动作并选择单次/循环，动作播放器持有实例级游标与起始相位；迁移器仅对可证明等价的循环做“严格识别 → 动作去重 → 引用重写”，其余保留实例脚本 | C2 精灵动画与姿势 + E5 实体动画 + P0 schema/P1/P2/migrate | **done（2026-07-22）**：G2 v2 冻结并迁移 387 个实例 / 54 场景 / 32 个动作；差分 oracle、MG2 二跑 0/0/0、全包与浏览器验收通过，三方 accept 与用户验收齐。 |
+
+边界与验收锚点：
+
+- 当前编辑器投影出的 `506` 个 cycle 实例只是候选上界，不是可批量迁移结论；随机、移动、声音、显隐/状态、跨实体写等脚本必须保留。
+- 蜡烛类相同循环的多实例应共用一个动作，并以实例 `startFrame/phaseOffset` 保留错相；不得复制三份动作或强制整份资源全局同步。
+- `sprite-76` 的纯 `animEntity` 是直接候选；`sprite-72`/`sprite-490` 含随机分支，不能折成固定动作；`sprite-35` 有非均匀等待、启动 stage 和运行中 auto 切换，只有动作模型覆盖逐帧时长与动态切换后才可迁。
+- 必须以旧 `ScriptRunner` 与新动作播放器做差分轨迹验收：首帧、逐帧时长、至少两轮、隐藏再显示、场景重入、脚本定帧覆盖、`0x24/setEntityAuto` 切换、共享 asset 多定义/同定义多动作。
+- 落地会触碰 schema/contentVersion、公共类型、Reforge、编辑器、迁移器和 capability-map，必须新开高风险任务卡、三方设计签字、全量重迁与 MG2 二跑零差异；禁止直接手改 `projects/pal`。
+
 （后续议题继续往下登；玩法 / 世界观 / MMO 设想统一去 [docs/phase3](../phase3/future-gameplay-and-mmo-backlog.md)）

@@ -168,7 +168,7 @@ interface EditorMode {
 完整格式、边界与验证矩阵见
 [`cutscene-asset-workbench-design.md`](cutscene-asset-workbench-design.md)。
 
-### 5.5 战斗精灵资源库(A7-3B,2026-07-19，待三方 review)
+### 5.5 战斗精灵资源库(A7-3B,2026-07-21，done)
 
 “资源 -> 精灵库”先按“大世界 / 战斗”切资源域；战斗域内再按“语义定义 / 二进制资源”切生命周期，
 URL 使用 `domain=battle&view=definition|asset&object=<id>`，诊断和消费者跳转必须落到具体域、视图和对象。

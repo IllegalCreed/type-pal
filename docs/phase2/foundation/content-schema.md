@@ -297,9 +297,9 @@ interface SpriteDef {
 
 PAL 冻结基线为 636 个 catalog 文件、580 个定义、559 个已用二进制、21 条共享关系和 77 个未引用
 warning；压缩源共 1,332,725 B、有效帧 4,133，30 个历史坏尾槽。`sprite` 已退出 legacy；随后 A7-3B
-实现候选也移除了 `battle-sprite`，当前只剩 `effect-sprite` 与 generic `image`。
+正式落地并移除了 `battle-sprite`，当前只剩 `effect-sprite` 与 generic `image`。
 
-### 6.7 战斗精灵索引资源(A7-3B,2026-07-19，待三方 review)
+### 6.7 战斗精灵索引资源(A7-3B,2026-07-21，done)
 
 战斗精灵同样区分业务定义与物理资产，但定义不是 `{id,asset}` 薄壳：动作帧和播放区段属于战斗表现 ABI，
 必须与二进制文件登记分开保存。

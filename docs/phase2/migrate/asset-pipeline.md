@@ -204,7 +204,7 @@ pnpm --filter @type-pal/migrate run migrate:content # 可选 dry-run，期望 0/
 本轮唯一一次正式写入后，物化统计为 `writes=636 unchanged=1071`，事务随后报告二次迁移
 `writes=0 deletes=0 conflicts=0`；再次 dry-run 仍严格为 0/0/0。
 
-## 13. A7-3B 战斗精灵索引资源物化（2026-07-19，待三方 review）
+## 13. A7-3B 战斗精灵索引资源物化（2026-07-21，done）
 
 PAL 的 `F.MKF` 玩家/召唤通道与 `ABC.MKF` 敌人通道按独立稳定身份物化，不能因数字重叠合并：
 
@@ -230,6 +230,7 @@ ABC.MKF 1..153 -> battle-sprite.pal.enemy.NNN
 - PAL 原版 battle RLE 与 world sprite 一样由本地提取源确定性重建，`projects/pal/assets/migrated/**` 不入 git；
   demo/e2e-own 使用提交的 generated placeholder，避免暗借 PAL player 0。
 
-实现后 manifest 只剩 `effect-sprite/image` 两个 legacy family。全 legacy 归零、contentVersion 4 和总闭包门禁
+实现后 manifest 只剩 `effect-sprite/image` 两个 legacy family。C2-ACT 已把工程升级到
+`contentVersion 4`（精灵预制动作语义）；全 legacy 归零、升级 `contentVersion 5` 和总闭包门禁
 仍属于 A7-4；实现与审查证据见
 [`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。

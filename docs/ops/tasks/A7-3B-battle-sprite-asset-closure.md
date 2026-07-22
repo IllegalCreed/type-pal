@@ -1,6 +1,6 @@
 # A7-3B - 战斗精灵索引资源闭包
 
-Status: review
+Status: done
 Phase: phase2
 Capability: A7 / R3 / R7 / A4 / B5 / X4
 Coding Owner: Codex
@@ -313,7 +313,16 @@ Branch: main
   5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾，最终 catalog 1,879 records /
   68,439,367 B；R1-R4、G1-G4 全落。五包 typecheck + 1641 tests passed / 1 existing skip、editor/reforge
   production build、Biome、`git diff --check` 全绿；编辑器与 PAL 两组战斗浏览器烟测无 console 错误。
-- Kimi: pending
+- Kimi: **accept（2026-07-19）**。架构/runtime/编辑器/视觉独立终审,无 P0/P1/P2 阻塞;静态全链 + 独立复跑 + 浏览器实测。证据:
+  1. **R1 梦蛇时序**:`buildPlayerTrance`(battle-anim.ts:1382)闪色 `colorShift: flash*2` = 0/2/4/6/8/10,与一阶段 magic.ts:782 完全一致;随后 72×16ms dither;敌变身 `buildEnemyTransform`(:1325)用其独立真值 0→5(script.c:2954 锚),两条序列各有出处不混淆。死亡/复活保持与战后恢复由 session `appearanceTransitions` 生命周期承载(:241/:463)。
+  2. **R2 active 单真源**:`effectiveBattleSpriteId`(item.ts:250-265)= base→persistent→装备槽序末位→transient 优先级链;session `playerAppearance` 经 `tranceBattleSprite ?? base`(battle-session.ts:357-361)读取同一 LoadedBattleSpriteDefinition(图像+ABI+effects 同体),无"只换图"旁路。
+  3. **R3 readiness**:`prepareBattleSpriteReadiness`(battle-sprite-readiness.ts:40-87)覆盖 effectiveSkills(含装备授技)+合体技+summon/trance+敌 transform/summon 递归闭包,profile-kind 冲突即拒绝,加载后 `cache.prune` 有界;缺定义/技能 fail-loud。
+  4. **R4 effect base**:fighter profile 显式 `castEffectBase/attackEffectBase`(battle-sprite.ts:22-27),`battleSpriteDefinitionFrameIndices` 供 readiness/编辑器共用。
+  5. **equal-Y**:`present-battle.ts:130-132` Y 升序 + equal-Y X 降序。
+  6. **编辑器**:资源库 171 定义/172 二进制双视图,玩家/敌人/召唤筛选;定义面板含完整动作 ABI、effect 基帧、引用跳转↗、AssetId 深链↗、删除定义(保留资源)分离;帧面板逐帧尺寸+命名动作预览;输入带 aria label。
+  7. **产物抽点**:171 defs(10 fighter+9 summon+152 enemy)、172 records/1 unused(enemy98)、0 legacy 字段、7 装备 battleSprite 效果(163,164,165,179,185,187,188)上游齐译、manifest legacy 仅剩 effect-sprite/image。
+  8. **独立复跑**:根 `pnpm check` 全绿(790 files;content 255/shared 121/reforge 500/editor 528/migrate 237+1skip)。
+  9. **浏览器实测**:战斗 217 初始帧(凤梨小妖+李逍遥 fighter/锚点/场景色)正常;战斗精灵经 `projects/pal/assets/migrated/battle-sprites/{player,enemy}/**` 加载;console 0 error。
 - GLM: **accept（2026-07-20;见下）**。独立复算全部产物数字 + 全 172 文件 SHA 逐项验证 + 代码逻辑审查。
 
   **产物独立复算** ✅：
@@ -344,7 +353,7 @@ Branch: main
 
 - counter / 返工处理: N/A（GLM accept 无 counter）
 - 缺签豁免: N/A
-- done 准入结论: **Codex accept + GLM accept；等待 Kimi 独立 accept，三签未齐不得 done**
+- done 准入结论: **Codex accept + Kimi accept + GLM accept,三签齐(2026-07-19);待用户验收后由收口方把 Status 转 `done`。** 无遗留阻塞项。
 
 ## Draft: 设计与风险
 
@@ -502,14 +511,14 @@ Branch: main
 ## Review: 审查与返工
 
 - Reviewer: Kimi + GLM
-- 审查结论: 三个内部只读压力审计均 accept（runtime、editor、data/local-upgrader），未发现 blocker；它们仅作为
-  Codex 自验证增强证据，不替代 Kimi/GLM 订阅席位正式签字。
-- 必须返工项: 当前无；正式 reviewer 若发现问题按 counter/rework 处理。
-- Accept / rework: **pending formal Kimi + GLM review**
+- 审查结论: Codex 自验证 accept;GLM accept(数据/迁移/测试独立复算);Kimi accept(架构/runtime/编辑器/视觉,
+  梦蛇时序/active 单真源/readiness/equal-Y/资源库双视图/产物与浏览器实测全过)。三签齐,无返工项。
+- 必须返工项: 无。
+- Accept / rework: **accept(三方,2026-07-19);待用户验收后收口标 done**。
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: **accept（2026-07-21）**。用户确认三方验收签已齐，授权收口并继续下一项能力。
 - 后续任务: A7-3E effect sprite -> X3 generic image -> A7-4 catalog-only 总门禁
 
 ## 交接日志
@@ -541,8 +550,12 @@ Branch: main
   accept，但不代签 Kimi/GLM。Next: Kimi 做架构/runtime/editor/视觉正式 review，GLM 做数据/migration/IO/
   测试矩阵正式 review；两方都只能改任务卡审查记录，不得改实现或提前标 done。
 - 2026-07-20 GLM: 数据/迁移/IO/测试正式审查签 **accept**（commit ecbb6259）。独立复算：catalog 1,879/68,439,367B；battle-sprite 172 records/900,973B（player 19@0-18 + enemy 153@1-153）；全 172 文件 SHA256+bytes 逐项零 mismatch（ok=172 fail=0 missing=0）；BattleSpriteDef 171 全有 asset+profile 零 spriteNum；179 refs/171 used/5 shared(enemy81×2+player1×2/5×2/6×3/7×4)/1 unused(enemy.098 pinned pal-migration.ts:204)；MG2 writes=0/deletes=0/conflicts=0 + tuple-digest ecbec106.../player 163f7282.../enemy dd3b00f6... + frames=775 + tails=6。代码逻辑审查：actor.ts:61 battleSprite:string / enemy.ts:81 battleSprite:string / skill.ts:67,72 summon+trance battleSprite:string 全迁 AssetId 零 spriteNum/godId；godId+10/spriteNum*2 仅在 upgrade-local-v3-battle-sprites.ts 迁移边界；battle-sprite 退出 legacy（保留 effect-sprite/image）；contentVersion=3 非4。测试 content 255/reforge 500/editor 530/migrate 237+1skip 全 pass。capability-map A7 ⚠️/⚠️ 未提前 done。Evidence: done 准入 GLM 行。Next: 待 Kimi 独立 accept 后三签齐交用户验收。未改实现文件。
+- 2026-07-19 Kimi: 架构/runtime/编辑器/视觉 done 终审签 **accept**（commit ecbb6259）,三签齐。逐项核实:梦蛇闪色 flash*2=0/2/4/6/8/10(battle-anim.ts:1427-1436)与一阶段 magic.ts:782 完全一致 + 72×16ms dither,敌变身 0→5(:1335-1352,script.c:2954 锚)独立真值不混淆;effectiveBattleSpriteId(item.ts:250-265)优先级链 + playerAppearance 同读一个 active def;prepareBattleSpriteReadiness 覆盖 effectiveSkills/合体/敌递归闭包 + profile 冲突拒绝 + cache.prune;equal-Y X 降序(present-battle.ts:130-132);资源库 171/172 双视图、AssetId 深链↗、ABI 面板、删除定义(保留资源)分离;产物 171 defs(10 fighter+9 summon+152 enemy)/172 records/1 unused(enemy98)/0 legacy 字段/7 装备效果(163,164,165,179,185,187,188)上游齐译/manifest legacy 仅剩 effect-sprite/image;战斗 217 初始帧与 migrated 加载路径实测,console 0 error;根 pnpm check 全绿(790 files)。Evidence:done 准入 Kimi 行+上述实测。Next:无下一位审查 Agent;待用户验收后由收口方标 done。未改实现文件。
+- 2026-07-21 Codex: 核对三方 done 签均为 accept、无 counter；用户确认三签齐并授权继续，任务转 `done`。Evidence: 本卡 done 准入与用户验收。Next: 无，历史提示词仅保留审计轨迹。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；任务已完成。以下内容仅保留历史审计轨迹。
 
 ### Kimi（当前正式 review）
 
