@@ -278,6 +278,16 @@ const fullProject: Record<string, string | ArrayBuffer> = {
   [spriteRecord.path]: spriteBytes,
 }
 
+function currentProjectFiles(): Record<string, string | ArrayBuffer> {
+  const files = { ...fullProject }
+  const manifest = JSON.parse(String(files['manifest.json'])) as Record<string, unknown> & {
+    contentVersion: number
+  }
+  manifest.contentVersion = 4
+  files['manifest.json'] = J(manifest)
+  return files
+}
+
 function legacyTilesetProject(options: { bytes?: ArrayBuffer; id?: string; path?: string } = {}): {
   files: Record<string, string | ArrayBuffer>
   sourcePath: string
@@ -412,8 +422,10 @@ async function exactOldBlankBattleProject(
 ) {
   const target = await buildBlankProject('旧空白工程')
   const manifest = structuredClone(target['manifest.json']) as Record<string, unknown> & {
+    contentVersion: number
     content: Record<string, string>
   }
+  manifest.contentVersion = 3
   const definitions = target['content/battle-sprites.json'] as Array<{ asset: string }>
   const asset = definitions[0]!.asset
   const catalog = structuredClone(target['assets/index.json']) as {
@@ -1215,7 +1227,7 @@ describe('openLocalProject', () => {
     expect(files['assets/extracted/data/custom/hero.rle']).toBeUndefined()
   })
   test('有效工程夹 → 装配 project + 全量场景', async () => {
-    const { project, scenes } = await openLocalProject(mockDir('my-proj', fullProject))
+    const { project, scenes } = await openLocalProject(mockDir('my-proj', currentProjectFiles()))
     expect(project.manifest.id).toBe('proj')
     expect(project.entryScene.id).toBe('s1')
     expect(scenes.map((s) => s.id)).toEqual(['s1'])
@@ -1972,7 +1984,8 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(writes.filter((path) => path === 'manifest.json')).toHaveLength(1)
+    expect(opened.project.manifest.contentVersion).toBe(4)
+    expect(writes.filter((path) => path === 'manifest.json')).toHaveLength(2)
 
     writes.length = 0
     await openLocalProject(dir)
@@ -1984,13 +1997,23 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(customWrites).toEqual([])
+    expect(opened.project.manifest.contentVersion).toBe(4)
+    expect(customWrites).toEqual([
+      'content/sprites.json',
+      'content/scenes/s1.json',
+      'manifest.json',
+    ])
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silentWrites).toEqual([])
+    expect(silent.project.manifest.contentVersion).toBe(4)
+    expect(silentWrites).toEqual([
+      'content/sprites.json',
+      'content/scenes/s1.json',
+      'manifest.json',
+    ])
   })
 
   test('旧 v3 sound family 复制登记、改写引用并以 manifest 最后发布', async () => {
@@ -2330,7 +2353,7 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(3)
+    expect(opened.project.manifest.contentVersion).toBe(4)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
@@ -2377,7 +2400,7 @@ describe('openLocalProject', () => {
       origin: { kind: 'authored' as const },
     }
     const files: Record<string, string | ArrayBuffer> = {
-      ...fullProject,
+      ...currentProjectFiles(),
       'content/tilesets.json': J([
         {
           id: 'tileset-001',
@@ -2454,12 +2477,13 @@ describe('openLocalProject', () => {
     const assetId = 'sound.role-test'
     const path = 'assets/authored/sounds/role-test.wav'
     const bytes = waveBytes(19)
-    const manifest = JSON.parse(String(fullProject['manifest.json'])) as {
+    const current = currentProjectFiles()
+    const manifest = JSON.parse(String(current['manifest.json'])) as {
       assets: { roles: Record<string, string> }
     }
     manifest.assets.roles['audio.battleItemUseSound'] = assetId
     const files: Record<string, string | ArrayBuffer> = {
-      ...fullProject,
+      ...current,
       'manifest.json': J(manifest),
       'assets/index.json': J({
         version: 1,
@@ -2508,7 +2532,7 @@ describe('openLocalProject', () => {
       { id: 'sound.undo-a', path: 'assets/authored/sounds/undo-a.wav', bytes: waveBytes(21) },
       { id: 'sound.undo-b', path: 'assets/authored/sounds/undo-b.wav', bytes: waveBytes(22) },
     ]
-    const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+    const files: Record<string, string | ArrayBuffer> = currentProjectFiles()
     const dir = mockDir('remove-undo-snapshot', files, [], {
       failRemove: (path, attempt) => path === entries[1]!.path && attempt === 1,
     })
@@ -2565,7 +2589,7 @@ describe('openLocalProject', () => {
     const assetId = 'sound.interrupted-import'
     const path = 'assets/authored/sounds/interrupted-import.wav'
     const bytes = waveBytes(23)
-    const files: Record<string, string | ArrayBuffer> = { ...fullProject }
+    const files: Record<string, string | ArrayBuffer> = currentProjectFiles()
     const dir = mockDir('interrupted-import-undo', files, [], {
       failClose: (candidate, attempt) => candidate === 'assets/index.json' && attempt === 1,
     })
@@ -2627,7 +2651,7 @@ describe('openLocalProject', () => {
       label: '替换音效',
     }
     const files: Record<string, string | ArrayBuffer> = {
-      ...fullProject,
+      ...currentProjectFiles(),
       'assets/index.json': J({
         version: 1,
         assets: {

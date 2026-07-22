@@ -273,7 +273,19 @@ function describe(
     case 'stepEntity':
       return { icon: '👣', label: `${cmd.entity} 走一步 ${cmd.dir}` }
     case 'animEntity':
-      return { icon: '🎞', label: `${cmd.entity} 推进动画` }
+      return { icon: '🎞', label: `${cmd.entity} 推进 PAL 兼容实例帧` }
+    case 'playEntityAction':
+      return {
+        icon: '▶',
+        label: `${cmd.entity} 播放预制动作`,
+        detail: `${cmd.sprite} / ${cmd.action} · ${cmd.loop ? '循环' : '单次'}${cmd.loop ? '' : cmd.wait === false ? ' · 后台' : ' · 等待完成'}${cmd.startAtMs ? ` · 起始 ${cmd.startAtMs}ms` : ''}`,
+      }
+    case 'stopEntityAction':
+      return {
+        icon: '⏹',
+        label: `${cmd.entity} 停止预制动作`,
+        detail: cmd.reset ? '页面默认动作从头恢复' : '恢复冻结的页面默认动作',
+      }
     case 'nudgeEntity':
       return { icon: '↔', label: `${cmd.entity} 位移`, detail: `(${cmd.dx},${cmd.dy})px` }
     case 'moveParty':
@@ -386,6 +398,8 @@ interface RowCtx {
   scenes?: readonly SceneDef[]
   activePath: string | null
   selectedPath: string | null
+  /** 精确引用重复跳到同一行时也要重新滚回；路径本身未变化不足以触发 effect。 */
+  focusRevision?: number
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
   onStageAction?: (stageIdx: number, action: StageAction) => void
@@ -398,8 +412,9 @@ function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: Row
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (active) rowRef.current?.scrollIntoView({ block: 'nearest' })
-  }, [active])
+    void ctx.focusRevision
+    if (active || selected) rowRef.current?.scrollIntoView({ block: 'nearest' })
+  }, [active, ctx.focusRevision, selected])
   return (
     <>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 树行点选(v1;键盘导航后续) */}
@@ -638,6 +653,8 @@ export function ScriptTree(props: {
   scenes?: readonly SceneDef[]
   activePath?: string | null
   selectedPath?: string | null
+  /** 一次精确定位的 token；允许同一路径被重复定位。 */
+  focusRevision?: number
   onSelect?: (path: string, cmd: Command) => void
   onRowAction?: (path: string, action: RowAction) => void
   onStageAction?: (stageIdx: number, action: StageAction) => void
@@ -651,6 +668,7 @@ export function ScriptTree(props: {
     scenes,
     activePath = null,
     selectedPath = null,
+    focusRevision,
     onSelect,
     onRowAction,
     onStageAction,
@@ -663,6 +681,7 @@ export function ScriptTree(props: {
     scenes,
     activePath,
     selectedPath,
+    focusRevision,
     onSelect,
     onRowAction,
   }

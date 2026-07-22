@@ -88,6 +88,9 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      '@type-pal/reforge':
+        specifier: workspace:*
+        version: link:../reforge
       '@types/node':
         specifier: ^25.9.1
         version: 25.9.1

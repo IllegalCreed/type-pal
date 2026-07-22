@@ -160,8 +160,7 @@
     "asset": "sprite.pal.627",
     "label": "原精灵 627(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -270,6 +269,35 @@
     "label": "原精灵 35",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-9923bcc34d4284e3": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 420
+          },
+          {
+            "frame": 3,
+            "durationMs": 480
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -435,6 +463,27 @@
     "label": "原精灵 196",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-08679dac4d0551b2": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 780
+          },
+          {
+            "frame": 0,
+            "durationMs": 1020
+          },
+          {
+            "frame": 1,
+            "durationMs": 660
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -451,6 +500,31 @@
     "label": "原精灵 36",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-3184bfed119790e6": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -459,6 +533,31 @@
     "label": "原精灵 37",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-918a20e9e5ac98b4": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 660
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -677,6 +776,45 @@
     "label": "原精灵 96",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-f22619b09a66b2f6": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 460
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 380,
+            "cues": [
+              {
+                "kind": "sound",
+                "asset": "sound.pal.135"
+              }
+            ]
+          },
+          {
+            "frame": 3,
+            "durationMs": 560
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -709,8 +847,7 @@
     "asset": "sprite.pal.361",
     "label": "原精灵 361(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -775,6 +912,43 @@
     "label": "原精灵 233",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-d1bd68d3b84b78cd": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 0,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 3,
+            "durationMs": 340
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -984,6 +1158,31 @@
     "label": "原精灵 8",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-06f5a00e1f6d5d04": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 200
+          },
+          {
+            "frame": 2,
+            "durationMs": 200
+          },
+          {
+            "frame": 3,
+            "durationMs": 200
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -992,6 +1191,31 @@
     "label": "原精灵 9",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-47e35d5d733ff36b": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 200
+          },
+          {
+            "frame": 2,
+            "durationMs": 200
+          },
+          {
+            "frame": 3,
+            "durationMs": 200
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -1068,6 +1292,31 @@
     "label": "原精灵 76",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-81995fd3c098696d": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1112,6 +1361,43 @@
     "label": "原精灵 602",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-d077a8b1528a0000": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 0,
+            "durationMs": 620
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 1100
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -1120,6 +1406,31 @@
     "label": "原精灵 601",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-8fe01ce4c2fc5cd7": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1456,6 +1767,23 @@
     "label": "原精灵 402",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-843d53e8d0b7d0da": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1541,8 +1869,64 @@
     "asset": "sprite.pal.242",
     "label": "原精灵 242(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-0cea4891241e76a8": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 420
+          },
+          {
+            "frame": 3,
+            "durationMs": 500
+          },
+          {
+            "frame": 4,
+            "durationMs": 340
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -1685,6 +2069,115 @@
     "label": "原精灵 261",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-1c62d446cac4e468": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          },
+          {
+            "frame": 10,
+            "durationMs": 100
+          },
+          {
+            "frame": 11,
+            "durationMs": 100
+          },
+          {
+            "frame": 12,
+            "durationMs": 100
+          },
+          {
+            "frame": 13,
+            "durationMs": 100
+          },
+          {
+            "frame": 14,
+            "durationMs": 100
+          },
+          {
+            "frame": 15,
+            "durationMs": 100
+          },
+          {
+            "frame": 16,
+            "durationMs": 100
+          },
+          {
+            "frame": 17,
+            "durationMs": 100
+          },
+          {
+            "frame": 18,
+            "durationMs": 100
+          },
+          {
+            "frame": 19,
+            "durationMs": 100
+          },
+          {
+            "frame": 20,
+            "durationMs": 100
+          },
+          {
+            "frame": 21,
+            "durationMs": 100
+          },
+          {
+            "frame": 22,
+            "durationMs": 100
+          },
+          {
+            "frame": 23,
+            "durationMs": 100
+          },
+          {
+            "frame": 24,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1693,6 +2186,115 @@
     "label": "原精灵 260",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-ac0be32fbdcf359c": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          },
+          {
+            "frame": 10,
+            "durationMs": 100
+          },
+          {
+            "frame": 11,
+            "durationMs": 100
+          },
+          {
+            "frame": 12,
+            "durationMs": 100
+          },
+          {
+            "frame": 13,
+            "durationMs": 100
+          },
+          {
+            "frame": 14,
+            "durationMs": 100
+          },
+          {
+            "frame": 15,
+            "durationMs": 100
+          },
+          {
+            "frame": 16,
+            "durationMs": 100
+          },
+          {
+            "frame": 17,
+            "durationMs": 100
+          },
+          {
+            "frame": 18,
+            "durationMs": 100
+          },
+          {
+            "frame": 19,
+            "durationMs": 100
+          },
+          {
+            "frame": 20,
+            "durationMs": 100
+          },
+          {
+            "frame": 21,
+            "durationMs": 100
+          },
+          {
+            "frame": 22,
+            "durationMs": 100
+          },
+          {
+            "frame": 23,
+            "durationMs": 100
+          },
+          {
+            "frame": 24,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1701,6 +2303,31 @@
     "label": "原精灵 262",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-39956cf73a6ee7c7": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -1717,6 +2344,31 @@
     "label": "原精灵 263",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-4d539b9ca243cd50": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2134,6 +2786,31 @@
     "label": "原精灵 372",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-1e0868439c7319e6": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2150,6 +2827,111 @@
     "label": "原精灵 272",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-5caf92d546489972": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          },
+          {
+            "frame": 10,
+            "durationMs": 100
+          },
+          {
+            "frame": 11,
+            "durationMs": 100
+          },
+          {
+            "frame": 12,
+            "durationMs": 100
+          },
+          {
+            "frame": 13,
+            "durationMs": 100
+          },
+          {
+            "frame": 14,
+            "durationMs": 100
+          },
+          {
+            "frame": 15,
+            "durationMs": 100
+          },
+          {
+            "frame": 16,
+            "durationMs": 100
+          },
+          {
+            "frame": 17,
+            "durationMs": 100
+          },
+          {
+            "frame": 18,
+            "durationMs": 100
+          },
+          {
+            "frame": 19,
+            "durationMs": 100
+          },
+          {
+            "frame": 20,
+            "durationMs": 100
+          },
+          {
+            "frame": 21,
+            "durationMs": 100
+          },
+          {
+            "frame": 22,
+            "durationMs": 100
+          },
+          {
+            "frame": 23,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2157,8 +2939,7 @@
     "asset": "sprite.pal.273",
     "label": "原精灵 273(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -2207,8 +2988,7 @@
     "asset": "sprite.pal.394",
     "label": "原精灵 394(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -2226,6 +3006,47 @@
     "label": "原精灵 619",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-d0ed1968696a0efd": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2234,6 +3055,59 @@
     "label": "原精灵 618",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-2ad3831850128082": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          },
+          {
+            "frame": 10,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2242,6 +3116,35 @@
     "label": "原精灵 300",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-3b661e352cd3e61c": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          },
+          {
+            "frame": 4,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2268,6 +3171,59 @@
     "label": "原精灵 617",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-fcc9418cdaac4dad": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          },
+          {
+            "frame": 10,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2378,8 +3334,7 @@
     "asset": "sprite.pal.385",
     "label": "原精灵 385(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -2632,6 +3587,23 @@
     "label": "原精灵 368",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-8f177ccaeb5ae162": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -2639,8 +3611,7 @@
     "asset": "sprite.pal.379",
     "label": "原精灵 379(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -3361,6 +4332,163 @@
     "label": "原精灵 439",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-dc0f05226493868f": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 0,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 3,
+            "durationMs": 340
+          },
+          {
+            "frame": 4,
+            "durationMs": 340
+          },
+          {
+            "frame": 5,
+            "durationMs": 340
+          },
+          {
+            "frame": 0,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 3,
+            "durationMs": 340
+          },
+          {
+            "frame": 4,
+            "durationMs": 340
+          },
+          {
+            "frame": 5,
+            "durationMs": 340
+          },
+          {
+            "frame": 0,
+            "durationMs": 340
+          },
+          {
+            "frame": 1,
+            "durationMs": 340
+          },
+          {
+            "frame": 2,
+            "durationMs": 340
+          },
+          {
+            "frame": 3,
+            "durationMs": 340
+          },
+          {
+            "frame": 4,
+            "durationMs": 340
+          },
+          {
+            "frame": 5,
+            "durationMs": 340
+          },
+          {
+            "frame": 6,
+            "durationMs": 340
+          },
+          {
+            "frame": 7,
+            "durationMs": 340
+          },
+          {
+            "frame": 8,
+            "durationMs": 340
+          },
+          {
+            "frame": 9,
+            "durationMs": 340
+          },
+          {
+            "frame": 10,
+            "durationMs": 340
+          },
+          {
+            "frame": 11,
+            "durationMs": 340
+          },
+          {
+            "frame": 6,
+            "durationMs": 340
+          },
+          {
+            "frame": 7,
+            "durationMs": 340
+          },
+          {
+            "frame": 8,
+            "durationMs": 340
+          },
+          {
+            "frame": 9,
+            "durationMs": 340
+          },
+          {
+            "frame": 10,
+            "durationMs": 340
+          },
+          {
+            "frame": 11,
+            "durationMs": 340
+          },
+          {
+            "frame": 6,
+            "durationMs": 340
+          },
+          {
+            "frame": 7,
+            "durationMs": 340
+          },
+          {
+            "frame": 8,
+            "durationMs": 340
+          },
+          {
+            "frame": 9,
+            "durationMs": 340
+          },
+          {
+            "frame": 10,
+            "durationMs": 340
+          },
+          {
+            "frame": 11,
+            "durationMs": 480
+          }
+        ],
+        "loopFrom": 1
+      }
     }
   },
   {
@@ -3506,7 +4634,7 @@
     "label": "原精灵 534(0x65 换装)",
     "layout": {
       "kind": "directional",
-      "framesPerDir": 3
+      "framesPerDir": 4
     }
   },
   {
@@ -3786,8 +4914,7 @@
     "asset": "sprite.pal.550",
     "label": "原精灵 550(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -3999,8 +5126,7 @@
     "asset": "sprite.pal.541",
     "label": "原精灵 541(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -4012,25 +5138,9 @@
     }
   },
   {
-    "id": "sprite-242-f0",
-    "asset": "sprite.pal.242",
-    "label": "原精灵 242",
-    "layout": {
-      "kind": "static"
-    }
-  },
-  {
     "id": "sprite-228-f0",
     "asset": "sprite.pal.228",
     "label": "原精灵 228",
-    "layout": {
-      "kind": "static"
-    }
-  },
-  {
-    "id": "sprite-379-f0",
-    "asset": "sprite.pal.379",
-    "label": "原精灵 379",
     "layout": {
       "kind": "static"
     }
@@ -4184,6 +5294,31 @@
     "label": "原精灵 78",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-7a51cc59d95d3a88": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4192,6 +5327,31 @@
     "label": "原精灵 77",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-164f35fd7bd36b14": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 240
+          },
+          {
+            "frame": 1,
+            "durationMs": 240
+          },
+          {
+            "frame": 2,
+            "durationMs": 240
+          },
+          {
+            "frame": 3,
+            "durationMs": 240
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4306,6 +5466,55 @@
     "label": "原精灵 610",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-d29756dcf3e79a05": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          },
+          {
+            "frame": 4,
+            "durationMs": 100
+          },
+          {
+            "frame": 5,
+            "durationMs": 100
+          },
+          {
+            "frame": 6,
+            "durationMs": 100
+          },
+          {
+            "frame": 7,
+            "durationMs": 100
+          },
+          {
+            "frame": 8,
+            "durationMs": 100
+          },
+          {
+            "frame": 9,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4314,6 +5523,47 @@
     "label": "原精灵 606",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-2b1a3ba71d0d6c62": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 4,
+            "durationMs": 380
+          },
+          {
+            "frame": 5,
+            "durationMs": 380
+          },
+          {
+            "frame": 6,
+            "durationMs": 380
+          },
+          {
+            "frame": 7,
+            "durationMs": 380
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4322,6 +5572,47 @@
     "label": "原精灵 605",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-fd4d0cb939df0362": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 4,
+            "durationMs": 380
+          },
+          {
+            "frame": 5,
+            "durationMs": 380
+          },
+          {
+            "frame": 6,
+            "durationMs": 380
+          },
+          {
+            "frame": 7,
+            "durationMs": 380
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4330,6 +5621,43 @@
     "label": "原精灵 486",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-2898ab1f6e18d521": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 380
+          },
+          {
+            "frame": 1,
+            "durationMs": 380
+          },
+          {
+            "frame": 2,
+            "durationMs": 380
+          },
+          {
+            "frame": 3,
+            "durationMs": 380
+          },
+          {
+            "frame": 4,
+            "durationMs": 380
+          },
+          {
+            "frame": 5,
+            "durationMs": 380
+          },
+          {
+            "frame": 6,
+            "durationMs": 380
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4497,6 +5825,31 @@
     "label": "原精灵 585",
     "layout": {
       "kind": "static"
+    },
+    "poses": {
+      "pal-auto-v1-e7353292865689a1": {
+        "label": "PAL 自动循环",
+        "order": 0,
+        "steps": [
+          {
+            "frame": 0,
+            "durationMs": 100
+          },
+          {
+            "frame": 1,
+            "durationMs": 100
+          },
+          {
+            "frame": 2,
+            "durationMs": 100
+          },
+          {
+            "frame": 3,
+            "durationMs": 100
+          }
+        ],
+        "loopFrom": 0
+      }
     }
   },
   {
@@ -4761,14 +6114,6 @@
     }
   },
   {
-    "id": "sprite-541-f0",
-    "asset": "sprite.pal.541",
-    "label": "原精灵 541",
-    "layout": {
-      "kind": "static"
-    }
-  },
-  {
     "id": "sprite-537",
     "asset": "sprite.pal.537",
     "label": "原精灵 537",
@@ -4842,8 +6187,7 @@
     "asset": "sprite.pal.630",
     "label": "原精灵 630(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -4851,8 +6195,7 @@
     "asset": "sprite.pal.631",
     "label": "原精灵 631(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -4860,8 +6203,7 @@
     "asset": "sprite.pal.632",
     "label": "原精灵 632(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {
@@ -4885,8 +6227,7 @@
     "asset": "sprite.pal.236",
     "label": "原精灵 236(0x65 换装)",
     "layout": {
-      "kind": "directional",
-      "framesPerDir": 3
+      "kind": "static"
     }
   },
   {

@@ -12,29 +12,73 @@ import type { AssetId } from './asset.js'
 /**
  * 帧布局 = 这张精灵图的结构(开放联合;战斗类 kind 留待战斗系统落地时加)。
  * - directional:4 向固定序 down/left/up/right;站立 = dir*framesPerDir(原版通式 dir*nSpriteFrames+frame)。
- * - static:单帧静物(恒画 frame 0)。
- * - loop:无方向环境自循环(血池/火盆;nSpriteFramesAuto 语义)。C0 只定义,自循环播放留后。
+ * - static:无方向的默认定格布局；缺少实例覆写时画 frame 0，同一 asset 仍可包含并由脚本使用其它帧。
+ * v3 的定义级 `loop` 已在 v3 -> v4 升级边界折叠为动作；v4 不再保留第二套动画真值。
  */
 export type SpriteLayout =
   | { kind: 'directional'; framesPerDir: number }
   | { kind: 'static' }
+  /** @deprecated contentVersion 3 读取/升级及 legacy 预览专用；v4 validator 拒绝新写入。 */
   | { kind: 'loop'; frameCount: number; ticksPerFrame?: number }
 
+/** contentVersion 3 的旧布局；只允许升级器读取。 */
+export type LegacySpriteLayoutV3 = SpriteLayout
+
 /**
- * 命名姿势(C1)= 精灵图里一组绝对帧号组成的特殊动作(摔倒/虚弱/坐下/施法…)。
- * 移动帧有共性(directional 布局公式取帧);特殊动作每精灵不同、无共性,故命名 + 绝对帧号。
- * ⚠ 绝对帧号(不分方向)—— 用户确认(2026-07-03)原版无分方向的特殊动作;脚本按名字引用,不记裸帧号。
+ * ActionId 只在一个 SpriteDef 内稳定；持久引用必须同时保存 sprite + action，不能保存显示序号。
  */
-export interface PoseDef {
-  /** 帧号序列(绝对下标)。static 取 frames[0];loop 循环全序列。 */
+export type SpriteActionId = string
+
+/** contentVersion 3 的旧命名姿势；只允许升级器读取。 */
+export interface LegacyPoseDefV3 {
   frames: number[]
-  /** static=定格单帧;loop=循环播放。 */
   mode: 'static' | 'loop'
-  /** loop 每帧 tick 数(缺省 1)。 */
   ticksPerFrame?: number
 }
 
-/** 精灵注册表项:语义 id → 二进制 AssetId + 人读标签 + 帧布局 + 命名姿势。 */
+/** v4 首期受限关键帧事件；动作不是第二套剧情脚本语言。 */
+export type SpriteActionCue = { kind: 'sound'; asset: AssetId }
+
+/** 动作时间线中的一个绝对源帧。 */
+export interface SpriteActionStep {
+  frame: number
+  durationMs: number
+  cues?: SpriteActionCue[]
+}
+
+/** 精灵库中可复用的预制动作。缺少 loopFrom 表示单次动作。 */
+export interface SpriteActionDef {
+  /** 作者可改的人读名；Record key 才是稳定 ActionId。 */
+  label: string
+  /** 只决定编辑器排序和显示编号，不参与引用。 */
+  order?: number
+  steps: SpriteActionStep[]
+  /** 循环回到的 step 下标；允许保留一次性启动段。 */
+  loopFrom?: number
+}
+
+/** 场景页的声明式默认动作绑定。 */
+export interface SpriteActionBinding {
+  sprite: string
+  action: SpriteActionId
+  loop: boolean
+  /**
+   * 循环相位（毫秒）。动作有 loopFrom>0 时，一次性启动段仍从 step 0 完整播放，随后才按此相位
+   * 进入循环段；单次动作或 loopFrom=0 时则是整条时间线的起始偏移。
+   */
+  startAtMs?: number
+}
+
+/** contentVersion 3 的旧 SpriteDef；只允许升级器读取。 */
+export interface LegacySpriteDefV3 {
+  id: string
+  asset: AssetId
+  label: string
+  layout: LegacySpriteLayoutV3
+  poses?: Record<string, LegacyPoseDefV3>
+}
+
+/** 精灵注册表项:语义 id → 二进制 AssetId + 人读标签 + 帧布局 + 预制动作。 */
 export interface SpriteDef {
   /** 语义 id;实体(prop)与 ActorDef.spriteId 引用它。稳定身份,非裸数字。 */
   id: string
@@ -44,8 +88,8 @@ export interface SpriteDef {
   label: string
   /** 帧布局(编辑器帧标注的产物;引擎据此算帧下标,去 WALK_FRAMES 硬编码)。 */
   layout: SpriteLayout
-  /** 命名姿势(C1;名字 → 帧序列 + 播放方式)。脚本按名字引用(不记裸帧号)。 */
-  poses?: Record<string, PoseDef>
+  /** 唯一动作容器。字段名为旧 schema 的稳定容器名，UI 与新代码统一称“动作”。 */
+  poses?: Record<SpriteActionId, SpriteActionDef>
 }
 
 /**
@@ -63,8 +107,8 @@ export function spriteDefinitionFrameDemand(sprite: Pick<SpriteDef, 'layout' | '
         ? sprite.layout.frameCount
         : 1
   let poseDemand = 0
-  for (const pose of Object.values(sprite.poses ?? {})) {
-    for (const frame of pose.frames) poseDemand = Math.max(poseDemand, frame + 1)
+  for (const action of Object.values(sprite.poses ?? {})) {
+    for (const step of action.steps) poseDemand = Math.max(poseDemand, step.frame + 1)
   }
   return Math.max(layoutDemand, poseDemand)
 }
@@ -81,7 +125,7 @@ export function spriteDefinitionFrameIndices(
         ? sprite.layout.frameCount
         : 1
   for (let index = 0; index < layoutCount; index++) indices.add(index)
-  for (const pose of Object.values(sprite.poses ?? {}))
-    for (const frame of pose.frames) indices.add(frame)
+  for (const action of Object.values(sprite.poses ?? {}))
+    for (const step of action.steps) indices.add(step.frame)
   return indices
 }

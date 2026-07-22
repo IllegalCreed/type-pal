@@ -167,20 +167,11 @@
       "hidden": true,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s250",
-                      "id": "scene/s250/root/entity-e4413/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-585",
+            "action": "pal-auto-v1-e7353292865689a1",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

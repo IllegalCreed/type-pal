@@ -40,6 +40,7 @@ import {
 } from '../core/script-edit.js'
 import { buildScriptReferenceIndex, type ScriptReferenceEntry } from '../core/script-references.js'
 import { createAuthoredScriptCall, createAuthoredScriptId } from '../core/shared-script.js'
+import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { type RowAction, ScriptTree } from './ScriptTree.js'
@@ -106,11 +107,13 @@ export function SharedScriptTab(props: {
   projectId: string
   focusScriptId?: string
   focusScriptRevision?: number
+  focusCommandPath?: string
   onJumpToEvent: (sceneId: string, sourceKey: string) => void
   onSelectedScriptId?: (id: string | undefined) => void
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenSpriteAction?: (spriteId: string, actionId: string) => void
 }) {
   const {
     tabBar,
@@ -130,6 +133,7 @@ export function SharedScriptTab(props: {
     tilesets,
     projectId,
     focusScriptId,
+    focusCommandPath,
     onOpenSound,
     onOpenImage,
     focusScriptRevision,
@@ -143,6 +147,7 @@ export function SharedScriptTab(props: {
     focusScriptId && library[focusScriptId] ? focusScriptId : (authoredIds[0] ?? ''),
   )
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
+  const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   const [insertFor, setInsertFor] = useState<string | null>(null)
   const [message, setMessage] = useState('')
   const [references, setReferences] = useState<ScriptReferenceEntry[] | null>(null)
@@ -182,6 +187,19 @@ export function SharedScriptTab(props: {
     ? (getScriptBody(scriptIndex, scriptChunks, selectedId) ?? EMPTY_BODY)
     : EMPTY_BODY
   const stages = useMemo<ScriptStage[]>(() => [{ body: [...body] }], [body])
+  useEffect(() => {
+    if (
+      focusScriptRevision == null ||
+      lastAppliedFocusRevisionRef.current === focusScriptRevision ||
+      !focusCommandPath ||
+      selectedId !== focusScriptId ||
+      !getCommandAt(stages, parsePath(focusCommandPath))
+    )
+      return
+    lastAppliedFocusRevisionRef.current = focusScriptRevision
+    setSelectedPath(focusCommandPath)
+    setInsertFor(null)
+  }, [focusCommandPath, focusScriptId, focusScriptRevision, selectedId, stages])
   const selectedCommand = selectedPath ? getCommandAt(stages, parsePath(selectedPath)) : undefined
   const selectedTargetId = commandScriptTargetId(selectedCommand)
   const actorsById = useMemo(
@@ -190,6 +208,10 @@ export function SharedScriptTab(props: {
   )
   const leaderSpriteId = actorsById[session.getState().manifest.startWorld.party[0] ?? '']?.spriteId
   const testScene = scenes.find((scene) => scene.id === testSceneId) ?? scenes[0]
+  const selectedTestEntity = testScene?.entities.find(
+    (entity) => entity.id === (testEntityId || testScene.entities[0]?.id),
+  )
+  const firstActionTarget = defaultActionTargetForEntity(selectedTestEntity, actorsById, sprites)
 
   useEffect(() => {
     if (!testScene) return
@@ -382,6 +404,7 @@ export function SharedScriptTab(props: {
                   scenes={scenes}
                   activePath={playback.activePath ?? null}
                   selectedPath={selectedPath}
+                  focusRevision={focusScriptRevision}
                   onSelect={(path) => {
                     setSelectedPath(path)
                     setInsertFor(null)
@@ -420,7 +443,50 @@ export function SharedScriptTab(props: {
                           🔊 播放音效
                         </button>
                       ) : null}
+                      {firstActionTarget && testScene.entities.length ? (
+                        <>
+                          <button
+                            type="button"
+                            className="pv-btn"
+                            onClick={() =>
+                              insertCommands([
+                                {
+                                  kind: 'playEntityAction',
+                                  entity: testEntityId || testScene.entities[0]!.id,
+                                  sprite: firstActionTarget.sprite.id,
+                                  action: firstActionTarget.action.id,
+                                  loop: true,
+                                  wait: false,
+                                },
+                              ])
+                            }
+                          >
+                            ▶️ 播放预制动作
+                          </button>
+                          <button
+                            type="button"
+                            className="pv-btn"
+                            onClick={() =>
+                              insertCommands([
+                                {
+                                  kind: 'stopEntityAction',
+                                  entity: testEntityId || testScene.entities[0]!.id,
+                                  reset: true,
+                                },
+                              ])
+                            }
+                          >
+                            ⏹️ 停止预制动作
+                          </button>
+                        </>
+                      ) : null}
                     </div>
+                    {firstActionTarget && selectedTestEntity ? (
+                      <p className="cf-warn">
+                        共享脚本会保存固定实体 {selectedTestEntity.id}
+                        ；它不会自动改写为其它场景的“自身”。
+                      </p>
+                    ) : null}
                     {authoredIds.filter((id) => id !== selectedId).length ? (
                       <>
                         <div className="cf-group">调用共享脚本</div>
@@ -463,6 +529,7 @@ export function SharedScriptTab(props: {
                       assetBase={assetBase}
                       actors={actorsById}
                       battleSprites={props.battleSprites}
+                      sprites={sprites}
                       ambiences={session.getState().ambiences ?? []}
                       shops={session.getState().shops ?? []}
                       scriptIndex={scriptIndex}
@@ -473,6 +540,7 @@ export function SharedScriptTab(props: {
                       onOpenSound={onOpenSound}
                       onOpenImage={onOpenImage}
                       onOpenBattleSprite={props.onOpenBattleSprite}
+                      onOpenSpriteAction={props.onOpenSpriteAction}
                       onChange={(next) => {
                         const out = updateCommandAt(stages, parsePath(selectedPath), next)
                         if (out !== stages) dispatchBody(out)

@@ -15,6 +15,9 @@ import {
   upgradeLegacyStaticImageCommands,
   upgradeLegacyWorldPortraits,
   upgradeManifestV2ToV3,
+  upgradeManifestV3ToV4,
+  upgradeSceneDefinitionsV3ToV4,
+  upgradeSpriteDefinitionsV3ToV4,
   upgradeV2MusicReferences,
 } from './project-upgrade.js'
 
@@ -177,6 +180,158 @@ test('v2 manifest 的旧 UI 目录不会被静默丢弃', () => {
       catalog: { version: 1, assets: {} },
     }),
   ).toThrow('manifest.assets.ui')
+})
+
+describe('contentVersion 3 -> 4 精灵动作升级', () => {
+  test('旧 pose 保留 static 首帧语义，loop 变逐帧动作且输入不变', () => {
+    const old = [
+      {
+        id: 'hero',
+        asset: 'sprite.hero',
+        label: '主角',
+        layout: { kind: 'static' },
+        poses: {
+          定格: { frames: [3, 4], mode: 'static' },
+          施法: { frames: [5, 6, 5], mode: 'loop', ticksPerFrame: 2 },
+        },
+      },
+    ]
+    expect(upgradeSpriteDefinitionsV3ToV4(old)).toEqual({
+      sprites: [
+        {
+          id: 'hero',
+          asset: 'sprite.hero',
+          label: '主角',
+          layout: { kind: 'static' },
+          poses: {
+            定格: {
+              label: '定格',
+              order: 0,
+              steps: [{ frame: 3, durationMs: 250 }],
+            },
+            施法: {
+              label: '施法',
+              order: 1,
+              steps: [
+                { frame: 5, durationMs: 500 },
+                { frame: 6, durationMs: 500 },
+                { frame: 5, durationMs: 500 },
+              ],
+              loopFrom: 0,
+            },
+          },
+        },
+      ],
+      legacyLayoutActions: {},
+    })
+    expect(old[0]?.poses.定格.frames).toEqual([3, 4])
+  })
+
+  test('旧 layout.loop 折叠为默认动作并登记每个 direct entity 页', () => {
+    const result = upgradeSpriteDefinitionsV3ToV4([
+      {
+        id: 'candle',
+        asset: 'sprite.candle',
+        label: '蜡烛',
+        layout: { kind: 'loop', frameCount: 3, ticksPerFrame: 2 },
+      },
+    ])
+    expect(result.sprites[0]).toMatchObject({
+      layout: { kind: 'static' },
+      poses: {
+        'legacy-layout-loop': {
+          label: '默认循环',
+          steps: [
+            { frame: 0, durationMs: 500 },
+            { frame: 1, durationMs: 500 },
+            { frame: 2, durationMs: 500 },
+          ],
+          loopFrom: 0,
+        },
+      },
+    })
+    const scenes = upgradeSceneDefinitionsV3ToV4({
+      scenes: [
+        {
+          id: 's',
+          mapId: 'm',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e',
+              sprite: 'candle',
+              pos: { col: 0, row: 0, height: 0 },
+              pages: [{ state: 1 }, { state: 2 }],
+            },
+          ],
+        },
+      ],
+      actors: [],
+      legacyLayoutActions: result.legacyLayoutActions,
+    })
+    expect(scenes[0]?.entities[0]?.pages).toEqual([
+      {
+        state: 1,
+        animation: { sprite: 'candle', action: 'legacy-layout-loop', loop: true },
+      },
+      {
+        state: 2,
+        animation: { sprite: 'candle', action: 'legacy-layout-loop', loop: true },
+      },
+    ])
+  })
+
+  test('旧 loop 的 actor/动态换装引用不能被静默降级', () => {
+    const legacyLayoutActions = { candle: 'legacy-layout-loop' as const }
+    expect(() =>
+      upgradeSceneDefinitionsV3ToV4({
+        scenes: [],
+        actors: [{ id: 'hero', spriteId: 'candle' }],
+        legacyLayoutActions,
+      }),
+    ).toThrow(/角色\/玩家动态消费/)
+    expect(() =>
+      upgradeSceneDefinitionsV3ToV4({
+        scenes: [
+          {
+            id: 's',
+            entities: [],
+            onEnter: [{ body: [{ kind: 'setActorSprite', actor: 'hero', sprite: 'candle' }] }],
+          },
+        ],
+        actors: [],
+        legacyLayoutActions,
+      }),
+    ).toThrow(/动态引用旧 layout\.loop/)
+  })
+
+  test('旧/新 pose 混写与未知字段 fail-loud；manifest 最后只升内容版本', () => {
+    expect(() =>
+      upgradeSpriteDefinitionsV3ToV4([
+        {
+          id: 'x',
+          asset: 'sprite.x',
+          label: 'x',
+          layout: { kind: 'static' },
+          poses: { idle: { label: '新字段', steps: [] } },
+        },
+      ]),
+    ).toThrow(/label: 未知字段/)
+    const manifest = {
+      id: 'p',
+      name: 'P',
+      contentVersion: 3,
+      entryScene: 's',
+      content: {},
+      assets: { catalog: 'assets/index.json', roles: {} },
+      startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+    }
+    expect(upgradeManifestV3ToV4(manifest)).toEqual({ ...manifest, contentVersion: 4 })
+    expect(manifest.contentVersion).toBe(3)
+    expect(() => upgradeManifestV3ToV4({ ...manifest, contentVersion: 4 })).toThrow(
+      /contentVersion 3/,
+    )
+  })
 })
 
 describe('v2 音乐引用升级', () => {

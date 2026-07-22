@@ -9,6 +9,7 @@ import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
 import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
+import type { SpriteActionBinding } from './sprite.js'
 
 type ScriptBinding =
   | { stages: ScriptStage[]; script?: never }
@@ -111,6 +112,19 @@ export type Command =
   | { kind: 'halveMoney' } // 0x8F 金钱减半(酒剑仙赌局;运行时算 delta)
   | { kind: 'setEntityFacing'; entity: string; facing: Facing } // 0x0F/0x16
   | { kind: 'setEntityFrame'; entity: string; frame: number } // 0x14/0x0F op1
+  /** 播放目标实体当前精灵中的预制动作。sprite+action 是持久、可诊断的复合引用。 */
+  | {
+      kind: 'playEntityAction'
+      entity: string
+      sprite: string
+      action: string
+      loop: boolean
+      startAtMs?: number
+      /** 单次动作缺省阻塞至完成；循环动作不得等待。 */
+      wait?: boolean
+    }
+  /** 停止剧情临时动作；reset=true 时页默认动作从自身 startAtMs 重新开始。 */
+  | { kind: 'stopEntityAction'; entity: string; reset: boolean }
   // 0x65:换角色大世界精灵(id 引用,非下标)。原版写 PlayerRoles.rgwSpriteNum[role],
   // 持续到下一次显式切换(开场练武 627/疯跑 193 后脚本自行切回)。
   | { kind: 'setActorSprite'; actor: string; sprite: string }
@@ -263,6 +277,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   nudgeParty: 'safe',
   openShop: 'blocked',
   playMusic: 'safe',
+  playEntityAction: 'blocked',
   stopMusic: 'safe',
   playFrameAnimation: 'blocked',
   playSound: 'safe',
@@ -297,6 +312,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   startBattle: 'blocked',
   stepEntity: 'safe',
   stopScript: 'blocked',
+  stopEntityAction: 'safe',
   takeEntity: 'safe',
   teleportOut: 'blocked',
   teleportParty: 'safe',
@@ -339,6 +355,8 @@ export interface EntityPage {
   /** 匹配 world.entityState(迁移内容);M3b 增 when?: ScriptCondition(手工内容)。 */
   state?: number
   trigger?: TriggerSpec
+  /** 当前页的声明式默认动作；与 auto 行为脚本并列，不把纯动画伪装成脚本。 */
+  animation?: SpriteActionBinding
   /** autoScript(M3b):巡逻/环境动画;循环跑 stages(段间 1 tick 让步,主脚本期间暂停)。 */
   auto?: { stages: ScriptStage[] }
 }
@@ -474,6 +492,38 @@ export function checkCommands(
         throw new Error(`${path}[${i}].soundId: 旧数字音效字段已退役，请升级为 asset`)
       if (typeof command.asset !== 'string' || command.asset.length === 0)
         throw new Error(`${path}[${i}].asset: 期望非空 AssetId`)
+    }
+    if (k === 'playEntityAction') {
+      const command = c as {
+        entity?: unknown
+        sprite?: unknown
+        action?: unknown
+        loop?: unknown
+        startAtMs?: unknown
+        wait?: unknown
+      }
+      for (const field of ['entity', 'sprite', 'action'] as const) {
+        if (typeof command[field] !== 'string' || command[field].length === 0)
+          throw new Error(`${path}[${i}].${field}: 期望非空 id`)
+      }
+      if (typeof command.loop !== 'boolean') throw new Error(`${path}[${i}].loop: 期望 boolean`)
+      if (
+        command.startAtMs !== undefined &&
+        (typeof command.startAtMs !== 'number' ||
+          !Number.isFinite(command.startAtMs) ||
+          command.startAtMs < 0)
+      )
+        throw new Error(`${path}[${i}].startAtMs: 期望非负有限数`)
+      if (command.wait !== undefined && typeof command.wait !== 'boolean')
+        throw new Error(`${path}[${i}].wait: 期望 boolean`)
+      if (command.loop === true && command.wait === true)
+        throw new Error(`${path}[${i}]: 循环动作不得 wait`)
+    }
+    if (k === 'stopEntityAction') {
+      const command = c as { entity?: unknown; reset?: unknown }
+      if (typeof command.entity !== 'string' || command.entity.length === 0)
+        throw new Error(`${path}[${i}].entity: 期望非空实体 id`)
+      if (typeof command.reset !== 'boolean') throw new Error(`${path}[${i}].reset: 期望 boolean`)
     }
     if (k === 'playVideo' || k === 'playFrameAnimation') {
       const asset = (c as { asset?: unknown }).asset
@@ -657,6 +707,28 @@ export function checkStages(stages: unknown, path: string, options: CheckStagesO
 export function checkEntityPages(pages: unknown, path: string): void {
   if (!Array.isArray(pages)) throw new Error(`${path}: 期望 EntityPage[]`)
   pages.forEach((p, i) => {
+    const animation = (p as { animation?: unknown } | null)?.animation
+    if (animation !== undefined) {
+      if (!animation || typeof animation !== 'object' || Array.isArray(animation))
+        throw new Error(`${path}[${i}].animation: 期望对象`)
+      const binding = animation as Record<string, unknown>
+      const allowed = new Set(['sprite', 'action', 'loop', 'startAtMs'])
+      for (const key of Object.keys(binding))
+        if (!allowed.has(key)) throw new Error(`${path}[${i}].animation.${key}: 未知字段`)
+      for (const field of ['sprite', 'action'] as const) {
+        if (typeof binding[field] !== 'string' || binding[field].length === 0)
+          throw new Error(`${path}[${i}].animation.${field}: 期望非空 id`)
+      }
+      if (typeof binding.loop !== 'boolean')
+        throw new Error(`${path}[${i}].animation.loop: 期望 boolean`)
+      if (
+        binding.startAtMs !== undefined &&
+        (typeof binding.startAtMs !== 'number' ||
+          !Number.isFinite(binding.startAtMs) ||
+          binding.startAtMs < 0)
+      )
+        throw new Error(`${path}[${i}].animation.startAtMs: 期望非负有限数`)
+    }
     const t = (p as { trigger?: { on?: unknown; stages?: unknown } })?.trigger
     if (t) {
       if (t.on !== 'interact' && t.on !== 'touch')

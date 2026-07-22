@@ -30,6 +30,9 @@ describe('场景私有分片脚本的编辑视图', () => {
     expect(sceneRootScriptId('s001', { kind: 'auto', entityId: 'e2' }, 0)).toBe(
       'scene/s001/root/entity-e2/page-0/auto/stage-0',
     )
+    expect(sceneRootScriptId('s001', { kind: 'trigger', entityId: 'e2', pageIndex: 1 }, 2)).toBe(
+      'scene/s001/root/entity-e2/page-1/trigger/stage-2',
+    )
   })
 
   test('透明展开精确匹配的 M3 根绑定，并保留段转移', () => {

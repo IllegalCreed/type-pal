@@ -103,6 +103,7 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     musicMidi,
     assetCatalog: assets.catalog,
     binaryAssets: assets.binaries,
+    worldSpriteFrameCounts: assets.worldSpriteFrameCounts,
     assetReport: assets.report,
     battleEffectIndex: readJson<number[]>(repo, 'data/extracted/data/battle-effect-index.json'),
     battleFields: readJson<BattleFieldDef[]>(repo, 'data/extracted/data/battle-fields.json'),

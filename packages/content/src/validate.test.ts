@@ -50,7 +50,23 @@ describe('validateSprites(含 layout,C0)', () => {
     const sprites = [
       { id: 'ghost', asset: 'sprite.ghost', label: '游魂', layout },
       { id: 'oldman', asset: 'sprite.oldman', label: '老者', layout: { kind: 'static' } },
-      { id: 'pool', asset: 'sprite.pool', label: '血池', layout: { kind: 'loop', frameCount: 24 } },
+      {
+        id: 'pool',
+        asset: 'sprite.pool',
+        label: '血池',
+        layout: { kind: 'static' },
+        poses: {
+          ripple: {
+            label: '水波',
+            order: 0,
+            steps: [
+              { frame: 0, durationMs: 100 },
+              { frame: 1, durationMs: 200 },
+            ],
+            loopFrom: 0,
+          },
+        },
+      },
     ]
     expect(validateSprites(sprites)).toEqual(sprites)
   })
@@ -98,12 +114,12 @@ describe('validateSprites(含 layout,C0)', () => {
       ]),
     ).toThrow('缺 framesPerDir')
   })
-  test('loop 缺 frameCount → throw', () => {
+  test('v4 拒绝旧 layout.loop 第二真值', () => {
     expect(() =>
       validateSprites([{ id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'loop' } }]),
-    ).toThrow('缺 frameCount')
+    ).toThrow('kind 非法')
   })
-  test('布局计数必须是正整数，姿势帧号与播放参数完整校验', () => {
+  test('布局计数必须是正整数，动作时间线完整校验', () => {
     for (const framesPerDir of [0, -1, 1.5])
       expect(() =>
         validateSprites([
@@ -115,12 +131,6 @@ describe('validateSprites(含 layout,C0)', () => {
           },
         ]),
       ).toThrow(/正整数/)
-    for (const frameCount of [0, -1, 1.5])
-      expect(() =>
-        validateSprites([
-          { id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'loop', frameCount } },
-        ]),
-      ).toThrow(/正整数/)
     expect(() =>
       validateSprites([
         {
@@ -128,7 +138,7 @@ describe('validateSprites(含 layout,C0)', () => {
           asset: 'sprite.g',
           label: 'x',
           layout: { kind: 'static' },
-          poses: { 坏动作: { frames: [], mode: 'static' } },
+          poses: { 坏动作: { label: '坏动作', steps: [] } },
         },
       ]),
     ).toThrow(/非空数组/)
@@ -139,10 +149,43 @@ describe('validateSprites(含 layout,C0)', () => {
           asset: 'sprite.g',
           label: 'x',
           layout: { kind: 'static' },
-          poses: { 坏动作: { frames: [0], mode: 'bad' } },
+          poses: { 坏动作: { label: '坏动作', steps: [{ frame: 0, durationMs: 0 }] } },
         },
       ]),
-    ).toThrow(/mode: 非法/)
+    ).toThrow(/durationMs: 期望正整数/)
+    expect(() =>
+      validateSprites([
+        {
+          id: 'g',
+          asset: 'sprite.g',
+          label: 'x',
+          layout: { kind: 'static' },
+          poses: {
+            坏动作: {
+              label: '坏动作',
+              steps: [{ frame: 0, durationMs: 100, cues: [{ kind: 'dialog', asset: 'x' }] }],
+            },
+          },
+        },
+      ]),
+    ).toThrow(/只允许 sound/)
+    expect(() =>
+      validateSprites([
+        {
+          id: 'g',
+          asset: 'sprite.g',
+          label: 'x',
+          layout: { kind: 'static' },
+          poses: {
+            坏动作: {
+              label: '坏动作',
+              steps: [{ frame: 0, durationMs: 100 }],
+              mode: 'loop',
+            },
+          },
+        },
+      ]),
+    ).toThrow(/mode: 未知字段/)
   })
   test('id 唯一，且可与 catalog 的 sprite kind 交叉校验', () => {
     const def = { id: 'g', asset: 'sprite.g', label: 'x', layout: { kind: 'static' } }

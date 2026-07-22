@@ -1,6 +1,7 @@
 import {
   type AssetCatalogV1,
   exitLegacySoundFamily,
+  type LegacyManifestV3,
   type LoadedManifest,
   validateManifestAssetConfigV3,
 } from '@type-pal/content'
@@ -19,9 +20,9 @@ export function closePalSoundManifest(
   return exitLegacySoundFamily({ manifest: current, roles: PAL_ASSET_ROLES, catalog })
 }
 
-/** PAL 迁移事务的综合 manifest 目标；contentVersion 保持 3。 */
+/** PAL 迁移事务的综合 manifest 目标；C2-ACT 在同一事务把 v3 升为规范 v4。 */
 export function preparePalManifest(
-  current: LoadedManifest,
+  current: LoadedManifest | LegacyManifestV3,
   catalog?: AssetCatalogV1,
 ): LoadedManifest {
   // 既有 PAL manifest 含已退役的 ghost family，不能先交给当前 schema 的逐步 validator；
@@ -62,6 +63,7 @@ export function preparePalManifest(
   validateManifestAssetConfigV3(assets, catalog, 'PAL 升级后 manifest.assets')
   return {
     ...soundClosed,
+    contentVersion: 4,
     content: {
       ...soundClosed.content,
       stamps: 'content/stamps.json',

@@ -40,6 +40,7 @@ import {
   battleSpriteDefinitionFrameDemand,
   checkCommands,
   collectBattleSpriteDefinitionReferences,
+  collectSpriteActionReferences,
   collectSpriteDefinitionReferences,
   createScriptIndex,
   findScriptOwnerChunk,
@@ -55,6 +56,7 @@ import {
   validateBattleSprites,
   validateMapIndex,
   validateProjectRelativePath,
+  validateSprites,
 } from '@type-pal/content'
 import type {
   MapLayerV2,
@@ -338,10 +340,12 @@ export class DeleteEntityCommand implements Command {
   }
 }
 
-/** UpdateEntity 的 patch 范围(collide / interact / facing / hostile)。
+/** UpdateEntity 的 patch 范围(collide / facing / hostile / hidden / pages)。
  *  C0:'sprite' 移出——实体引用(actor⊕sprite)切换是 C1 的专门命令/UI,patch 不表达联合切换。
  *  B9:hostile 整对象替换(非深合并);传 undefined = 撤销敌对。 */
-export type EntityPatch = Partial<Pick<EntityDef, 'collide' | 'facing' | 'hostile' | 'hidden'>>
+export type EntityPatch = Partial<
+  Pick<EntityDef, 'collide' | 'facing' | 'hostile' | 'hidden' | 'pages'>
+>
 
 /**
  * 改实体字段(collide/interact/facing/hostile)。apply 记下**被 patch 覆盖的旧值**,
@@ -359,8 +363,9 @@ export class UpdateEntityCommand implements Command {
     this.sceneId = sceneId
     this.entityId = entityId
     this.patch = { ...patch }
-    // hostile 是嵌套对象,深拷贝防外部入参回写(同 UpdateSceneCommand entry)
+    // 嵌套对象深拷贝，防外部入参回写（同 UpdateSceneCommand entry）。
     if (this.patch.hostile) this.patch.hostile = structuredClone(this.patch.hostile)
+    if (this.patch.pages) this.patch.pages = structuredClone(this.patch.pages)
   }
 
   apply(state: EditorState): EditorState {
@@ -385,6 +390,7 @@ export class UpdateEntityCommand implements Command {
     if ('hidden' in this.patch) old.hidden = entity.hidden
     if ('hostile' in this.patch)
       old.hostile = entity.hostile ? structuredClone(entity.hostile) : undefined
+    if ('pages' in this.patch) old.pages = entity.pages ? structuredClone(entity.pages) : undefined
     return old
   }
 
@@ -1398,21 +1404,31 @@ export interface SpriteLayoutEditProof {
 
 function assertSpriteEditShape(sprite: Pick<SpriteDef, 'id' | 'layout' | 'poses'>): void {
   if (
+    sprite.layout.kind === 'loop' ||
     (sprite.layout.kind === 'directional' &&
-      (!Number.isInteger(sprite.layout.framesPerDir) || sprite.layout.framesPerDir <= 0)) ||
-    (sprite.layout.kind === 'loop' &&
-      (!Number.isInteger(sprite.layout.frameCount) || sprite.layout.frameCount <= 0))
+      (!Number.isInteger(sprite.layout.framesPerDir) || sprite.layout.framesPerDir <= 0))
   )
-    throw new Error(`精灵 ${sprite.id} 的布局帧数必须是正整数`)
-  for (const [name, pose] of Object.entries(sprite.poses ?? {})) {
+    throw new Error(`精灵 ${sprite.id} 的布局非法；自动循环请创建预制动作`)
+  for (const [actionId, action] of Object.entries(sprite.poses ?? {})) {
     if (
-      (pose.mode !== 'static' && pose.mode !== 'loop') ||
-      pose.frames.length === 0 ||
-      pose.frames.some((frame) => !Number.isInteger(frame) || frame < 0) ||
-      (pose.ticksPerFrame !== undefined &&
-        (!Number.isInteger(pose.ticksPerFrame) || pose.ticksPerFrame <= 0))
+      !actionId ||
+      !action.label.trim() ||
+      action.steps.length === 0 ||
+      action.steps.some(
+        (step) =>
+          !Number.isInteger(step.frame) ||
+          step.frame < 0 ||
+          !Number.isInteger(step.durationMs) ||
+          step.durationMs <= 0 ||
+          step.cues?.some((cue) => cue.kind !== 'sound' || !cue.asset),
+      ) ||
+      (action.order !== undefined && (!Number.isInteger(action.order) || action.order < 0)) ||
+      (action.loopFrom !== undefined &&
+        (!Number.isInteger(action.loopFrom) ||
+          action.loopFrom < 0 ||
+          action.loopFrom >= action.steps.length))
     )
-      throw new Error(`精灵 ${sprite.id} 的命名姿势 ${name} 非法`)
+      throw new Error(`精灵 ${sprite.id} 的预制动作 ${actionId} 非法`)
   }
 }
 
@@ -1452,6 +1468,21 @@ export class UpdateSpriteCommand implements Command {
         throw new Error('精灵布局证明的实际帧数非法')
       const next = { ...sp, ...this.patch }
       assertSpriteEditShape(next)
+      if ('poses' in this.patch) {
+        const removedActionIds = Object.keys(sp.poses ?? {}).filter(
+          (actionId) => !next.poses?.[actionId],
+        )
+        if (removedActionIds.length) {
+          const blocking = collectSpriteActionReferences(state).filter(
+            (reference) =>
+              reference.sprite === sp.id && removedActionIds.includes(reference.action),
+          )
+          if (blocking.length)
+            throw new Error(
+              `动作 ${blocking[0]!.action} 仍被 ${blocking[0]!.where} 引用，不能删除或更换 ActionId`,
+            )
+        }
+      }
       const previousMissing = new Set(
         [...spriteDefinitionFrameIndices(sp)].filter((frame) => frame >= proof.actualFrameCount),
       )
@@ -1488,12 +1519,12 @@ export class UpdateSpriteCommand implements Command {
 // C-track v1 脚本编辑命令(事件模式:改/插/删/移命令 → 整 stages 替换)
 // ════════════════════════════════════════════════════════════════════
 
-/** 脚本源定位:场景 onEnter,或实体 pages[0] 的 trigger/auto。 */
+/** 脚本源定位:场景 onEnter/onTeleport，或实体指定页的 trigger/auto。 */
 export type ScriptSourceRef =
   | { kind: 'onEnter' }
   | { kind: 'onTeleport' }
-  | { kind: 'trigger'; entityId: string }
-  | { kind: 'auto'; entityId: string }
+  | { kind: 'trigger'; entityId: string; pageIndex?: number }
+  | { kind: 'auto'; entityId: string; pageIndex?: number }
 
 /** 取脚本源当前 stages(不存在 → undefined)。 */
 export function getScriptStages(
@@ -1503,7 +1534,7 @@ export function getScriptStages(
   if (ref.kind === 'onEnter') return scene.onEnter
   if (ref.kind === 'onTeleport') return scene.onTeleport
   const e = scene.entities.find((x) => x.id === ref.entityId)
-  const page = e?.pages?.[0]
+  const page = e?.pages?.[ref.pageIndex ?? 0]
   return ref.kind === 'trigger' ? page?.trigger?.stages : page?.auto?.stages
 }
 
@@ -1513,7 +1544,8 @@ function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptS
   if (ref.kind === 'onTeleport') return { ...scene, onTeleport: stages }
   const entities = scene.entities.map((e) => {
     if (e.id !== ref.entityId) return e
-    const page = e.pages?.[0]
+    const pageIndex = ref.pageIndex ?? 0
+    const page = e.pages?.[pageIndex]
     if (!page) return e
     const newPage =
       ref.kind === 'trigger'
@@ -1524,18 +1556,22 @@ function withScriptStages(scene: SceneDef, ref: ScriptSourceRef, stages: ScriptS
           ? { ...page, auto: { ...page.auto, stages } }
           : page
     if (newPage === page) return e
-    return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+    return {
+      ...e,
+      pages: e.pages?.map((candidate, index) => (index === pageIndex ? newPage : candidate)),
+    }
   })
   return { ...scene, entities }
 }
 
-/** 改实体触发方式(交互/触碰 + 距离)。数据位:pages[0].trigger.on/range。 */
+/** 改实体指定页的触发方式(交互/触碰 + 距离)。 */
 export class UpdateTriggerModeCommand implements Command {
   readonly label = '改触发方式'
   private readonly sceneId: string
   private readonly entityId: string
   private readonly on: 'interact' | 'touch'
   private readonly range: number | undefined
+  private readonly pageIndex: number
   private old: { on: 'interact' | 'touch'; range: number | undefined } | undefined
 
   constructor(
@@ -1543,11 +1579,13 @@ export class UpdateTriggerModeCommand implements Command {
     entityId: string,
     on: 'interact' | 'touch',
     range: number | undefined,
+    pageIndex = 0,
   ) {
     this.sceneId = sceneId
     this.entityId = entityId
     this.on = on
     this.range = range
+    this.pageIndex = pageIndex
   }
 
   private write(
@@ -1559,12 +1597,17 @@ export class UpdateTriggerModeCommand implements Command {
     if (!scene) return state
     const entities = scene.entities.map((e) => {
       if (e.id !== this.entityId) return e
-      const page = e.pages?.[0]
+      const page = e.pages?.[this.pageIndex]
       if (!page?.trigger) return e
       const trigger = { ...page.trigger, on }
       if (range === undefined) delete (trigger as { range?: number }).range
       else trigger.range = range
-      return { ...e, pages: [{ ...page, trigger }, ...(e.pages?.slice(1) ?? [])] }
+      return {
+        ...e,
+        pages: e.pages?.map((candidate, index) =>
+          index === this.pageIndex ? { ...page, trigger } : candidate,
+        ),
+      }
     })
     return withEntities(state, this.sceneId, entities)
   }
@@ -1572,7 +1615,7 @@ export class UpdateTriggerModeCommand implements Command {
   apply(state: EditorState): EditorState {
     if (!this.old) {
       const t = findScene(state, this.sceneId)?.entities.find((e) => e.id === this.entityId)
-        ?.pages?.[0]?.trigger
+        ?.pages?.[this.pageIndex]?.trigger
       if (!t) return state
       this.old = { on: t.on ?? 'interact', range: t.range }
     }
@@ -1610,15 +1653,19 @@ export class DeleteScriptSourceCommand implements Command {
     }
     const entityId = this.ref.entityId
     const kind = this.ref.kind
+    const pageIndex = this.ref.pageIndex ?? 0
     const entities = scene.entities.map((e) => {
       if (e.id !== entityId) return e
-      const page = e.pages?.[0]
+      const page = e.pages?.[pageIndex]
       const slot = kind === 'trigger' ? page?.trigger : page?.auto
       if (!page || !slot) return e
       if (this.old === undefined) this.old = structuredClone(slot)
       const newPage = { ...page }
       delete (newPage as Record<string, unknown>)[kind]
-      return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+      return {
+        ...e,
+        pages: e.pages?.map((candidate, index) => (index === pageIndex ? newPage : candidate)),
+      }
     })
     return withEntities(state, this.sceneId, entities)
   }
@@ -1635,12 +1682,16 @@ export class DeleteScriptSourceCommand implements Command {
     }
     const entityId = this.ref.entityId
     const kind = this.ref.kind
+    const pageIndex = this.ref.pageIndex ?? 0
     const entities = scene.entities.map((e) => {
       if (e.id !== entityId) return e
-      const page = e.pages?.[0] ?? {}
+      const pages = [...(e.pages ?? [])]
+      while (pages.length <= pageIndex) pages.push({})
+      const page = pages[pageIndex] ?? {}
+      pages[pageIndex] = { ...page, [kind]: structuredClone(this.old) }
       return {
         ...e,
-        pages: [{ ...page, [kind]: structuredClone(this.old) }, ...(e.pages?.slice(1) ?? [])],
+        pages,
       }
     })
     return withEntities(state, this.sceneId, entities)
@@ -2324,6 +2375,8 @@ export class CreateScriptSourceCommand implements Command {
   private readonly ref: ScriptSourceRef
   private readonly triggerOn: 'interact' | 'touch'
   private created = false
+  private capturedEntityPages = false
+  private oldEntityPages: EntityDef['pages']
 
   constructor(sceneId: string, ref: ScriptSourceRef, triggerOn: 'interact' | 'touch' = 'interact') {
     this.sceneId = sceneId
@@ -2343,14 +2396,22 @@ export class CreateScriptSourceCommand implements Command {
       return withScene(state, this.sceneId, { ...scene, onTeleport: empty })
     const entityId = this.ref.entityId
     const kind = this.ref.kind
+    const pageIndex = this.ref.pageIndex ?? 0
     const entities = scene.entities.map((e) => {
       if (e.id !== entityId) return e
-      const page = e.pages?.[0] ?? {}
+      if (!this.capturedEntityPages) {
+        this.capturedEntityPages = true
+        this.oldEntityPages = e.pages ? structuredClone(e.pages) : undefined
+      }
+      const pages = [...(e.pages ?? [])]
+      while (pages.length <= pageIndex) pages.push({})
+      const page = pages[pageIndex] ?? {}
       const newPage =
         kind === 'trigger'
           ? { ...page, trigger: { on: this.triggerOn, stages: empty } }
           : { ...page, auto: { stages: empty } }
-      return { ...e, pages: [newPage, ...(e.pages?.slice(1) ?? [])] }
+      pages[pageIndex] = newPage
+      return { ...e, pages }
     })
     return withScene(state, this.sceneId, { ...scene, entities })
   }
@@ -2370,23 +2431,12 @@ export class CreateScriptSourceCommand implements Command {
       return withScene(state, this.sceneId, next)
     }
     const entityId = this.ref.entityId
-    const kind = this.ref.kind
     const entities = scene.entities.map((e) => {
       if (e.id !== entityId) return e
-      const page = e.pages?.[0]
-      if (!page) return e
-      const newPage = { ...page }
-      if (kind === 'trigger') delete (newPage as { trigger?: unknown }).trigger
-      else delete (newPage as { auto?: unknown }).auto
-      // 页空了(无 trigger/auto/state)→ 整个 pages 键删回(落盘干净)
-      const pageEmpty = !newPage.trigger && !newPage.auto && newPage.state === undefined
-      const rest = e.pages?.slice(1) ?? []
-      if (pageEmpty && rest.length === 0) {
-        const ne = { ...e }
-        delete (ne as { pages?: unknown }).pages
-        return ne
-      }
-      return { ...e, pages: [newPage, ...rest] }
+      const restored = { ...e }
+      if (this.oldEntityPages) restored.pages = structuredClone(this.oldEntityPages)
+      else delete (restored as { pages?: unknown }).pages
+      return restored
     })
     return withScene(state, this.sceneId, { ...scene, entities })
   }
@@ -2850,7 +2900,12 @@ export interface SpriteReplacementProof {
   consumerSnapshots?: Record<string, Pick<SpriteDef, 'layout' | 'poses'>>
 }
 
-/** 保持 SpriteDef.id / AssetId，只替换该共享 AssetId 的 record 与 gzip 字节。 */
+/**
+ * 保持 AssetId，只替换该共享资源的 record 与 gzip 字节。
+ *
+ * `spriteId` 只用于在存在语义消费者时锁定一个已确认的入口；未配置资源没有
+ * SpriteDef，允许显式传 `undefined`，但此时消费者必须仍为空，避免绕过共享影响确认。
+ */
 export class ReplaceSpriteAssetCommand implements Command {
   readonly label: string
   private oldCatalog: EditorState['assetCatalog'] | undefined
@@ -2858,7 +2913,7 @@ export class ReplaceSpriteAssetCommand implements Command {
   private oldSprites: EditorState['sprites'] | undefined
 
   constructor(
-    private readonly spriteId: string,
+    private readonly spriteId: string | undefined,
     private readonly asset: AssetId,
     private readonly record: AssetRecordV1,
     private readonly bytes: ArrayBuffer,
@@ -2870,8 +2925,11 @@ export class ReplaceSpriteAssetCommand implements Command {
   }
 
   apply(state: EditorState): EditorState {
-    const target = state.sprites.find((sprite) => sprite.id === this.spriteId)
-    if (!target || target.asset !== this.asset) throw new Error('精灵定义与待替换 AssetId 不一致')
+    const target = this.spriteId
+      ? state.sprites.find((sprite) => sprite.id === this.spriteId)
+      : undefined
+    if (this.spriteId && (!target || target.asset !== this.asset))
+      throw new Error('精灵定义与待替换 AssetId 不一致')
     const previous = state.assetCatalog.assets[this.asset]
     if (!previous || previous.kind !== 'sprite') throw new Error('待替换精灵资源不在 catalog')
     assertSpriteRecord(this.record, this.bytes)
@@ -2888,6 +2946,8 @@ export class ReplaceSpriteAssetCommand implements Command {
       .filter((sprite) => sprite.asset === this.asset)
       .map((sprite) => sprite.id)
       .sort()
+    if (!this.spriteId && consumers.length)
+      throw new Error('待替换精灵资源已有语义消费者，请重新确认影响范围')
     if (consumers.join('\0') !== [...this.proof.consumerIds].sort().join('\0'))
       throw new Error('共享精灵消费者已变化，请重新确认影响范围')
     let nextSprites = state.sprites
@@ -2966,6 +3026,55 @@ export class ReplaceSpriteAssetCommand implements Command {
       sprites: this.oldSprites ?? state.sprites,
       assetCatalog: this.oldCatalog,
       assetBlobs,
+    }
+  }
+}
+
+/**
+ * 给已经入库的帧资源增加一种语义用途。
+ *
+ * 与 AddSpriteCommand 不同，这里不创建或重写 catalog/blob；实际帧数证明把新用途
+ * 约束在已经成功解码的资源事实内，避免给项目新增越界布局债。
+ */
+export class AddSpriteDefinitionCommand implements Command {
+  readonly label = '新增精灵用途'
+  private readonly definition: SpriteDef
+  private added = false
+
+  constructor(
+    definition: SpriteDef,
+    private readonly proof: SpriteLayoutEditProof,
+  ) {
+    this.definition = structuredClone(definition)
+  }
+
+  apply(state: EditorState): EditorState {
+    if (state.sprites.some((sprite) => sprite.id === this.definition.id))
+      throw new Error(`精灵定义 id 已存在: ${this.definition.id}`)
+    const record = state.assetCatalog.assets[this.definition.asset]
+    if (
+      record?.kind !== 'sprite' ||
+      this.proof.asset !== this.definition.asset ||
+      this.proof.sha256 !== record.sha256
+    )
+      throw new Error('精灵布局证明缺失或已过期，请等待帧资源重新载入')
+    if (!Number.isInteger(this.proof.actualFrameCount) || this.proof.actualFrameCount <= 0)
+      throw new Error('精灵布局证明的实际帧数非法')
+    validateSprites([this.definition], state.assetCatalog)
+    const demand = spriteDefinitionFrameDemand(this.definition)
+    if (demand > this.proof.actualFrameCount)
+      throw new Error(
+        `精灵用途 ${this.definition.id} 需要 ${demand} 帧，资源实际只有 ${this.proof.actualFrameCount} 帧`,
+      )
+    this.added = true
+    return { ...state, sprites: [...state.sprites, structuredClone(this.definition)] }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.added) return state
+    return {
+      ...state,
+      sprites: state.sprites.filter((sprite) => sprite.id !== this.definition.id),
     }
   }
 }
@@ -3251,7 +3360,10 @@ export interface BattleSpriteReplacementProof {
   consumerSnapshots?: Record<string, Pick<BattleSpriteDef, 'profile'>>
 }
 
-/** 保持定义 id / AssetId，只替换共享物理字节；缩帧必须显式修复全部消费者。 */
+/**
+ * 保持 AssetId，只替换共享物理字节；缩帧必须显式修复全部消费者。
+ * 未配置的原始帧源可以传 `undefined` definitionId，但命令会确保消费者仍为空。
+ */
 export class ReplaceBattleSpriteAssetCommand implements Command {
   readonly label = '替换战斗精灵资源'
   private oldCatalog: EditorState['assetCatalog'] | undefined
@@ -3259,7 +3371,7 @@ export class ReplaceBattleSpriteAssetCommand implements Command {
   private oldDefinitions: EditorState['battleSprites'] | undefined
 
   constructor(
-    private readonly definitionId: string,
+    private readonly definitionId: string | undefined,
     private readonly asset: AssetId,
     private readonly record: AssetRecordV1,
     private readonly bytes: ArrayBuffer,
@@ -3268,8 +3380,10 @@ export class ReplaceBattleSpriteAssetCommand implements Command {
   ) {}
 
   apply(state: EditorState): EditorState {
-    const target = state.battleSprites.find((entry) => entry.id === this.definitionId)
-    if (!target || target.asset !== this.asset)
+    const target = this.definitionId
+      ? state.battleSprites.find((entry) => entry.id === this.definitionId)
+      : undefined
+    if (this.definitionId && (!target || target.asset !== this.asset))
       throw new Error('战斗精灵定义与待替换 AssetId 不一致')
     const previous = state.assetCatalog.assets[this.asset]
     if (!previous || previous.kind !== 'battle-sprite')
@@ -3288,6 +3402,8 @@ export class ReplaceBattleSpriteAssetCommand implements Command {
       .filter((entry) => entry.asset === this.asset)
       .map((entry) => entry.id)
       .sort()
+    if (!this.definitionId && consumers.length)
+      throw new Error('待替换战斗精灵资源已有语义消费者，请重新确认影响范围')
     if (consumers.join('\0') !== [...this.proof.consumerIds].sort().join('\0'))
       throw new Error('共享战斗精灵消费者已变化，请重新确认影响范围')
     let definitions = state.battleSprites

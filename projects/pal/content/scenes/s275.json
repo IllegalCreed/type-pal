@@ -68,21 +68,10 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s275",
-                      "id": "scene/s275/root/entity-e4732/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-96",
+            "action": "pal-auto-v1-f22619b09a66b2f6",
+            "loop": true
           }
         }
       ]

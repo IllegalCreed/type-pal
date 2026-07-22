@@ -170,6 +170,31 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     origin: '0x14/0x0F',
   },
   {
+    kind: 'playEntityAction',
+    icon: '▶️',
+    name: '播放预制动作',
+    group: '实体',
+    params: [
+      ['entity', '目标实体 id'],
+      ['sprite/action', '精灵定义 id + 稳定 ActionId'],
+      ['loop', '单次 / 循环'],
+      ['startAtMs', '可选起始相位'],
+      ['wait', '单次动作是否阻塞脚本'],
+    ],
+    desc: '播放精灵库中集中定义的动作；场景脚本只保存动作引用和播放策略。',
+  },
+  {
+    kind: 'stopEntityAction',
+    icon: '⏹️',
+    name: '停止预制动作',
+    group: '实体',
+    params: [
+      ['entity', '目标实体 id'],
+      ['reset', '是否从头恢复页面默认动作'],
+    ],
+    desc: '停止剧情临时动作，并按当前场景页决定是否恢复默认动作。',
+  },
+  {
     kind: 'setActorSprite',
     icon: '👤',
     name: '换角色精灵',
@@ -327,10 +352,10 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
   {
     kind: 'animEntity',
     icon: '🎞',
-    name: '实体动画帧',
+    name: '推进 PAL 兼容实例帧',
     group: '走位/相机',
     params: [['entity', '实体 id']],
-    desc: '只推动画帧不位移(原地踏步/施法感)。',
+    desc: '旧 PAL 实例脚本逐次推进一帧；新内容应优先使用“播放预制动作”。',
     origin: '0x87',
   },
   {

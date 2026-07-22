@@ -20,33 +20,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4145/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4145/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -61,33 +39,11 @@
       "sprite": "sprite-605",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4146/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4146/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -102,33 +58,11 @@
       "sprite": "sprite-605",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4147/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4147/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -143,33 +77,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4148/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4148/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -184,33 +96,11 @@
       "sprite": "sprite-605",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4149/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4149/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -225,33 +115,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4150/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4150/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -266,33 +134,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4151/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4151/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -307,33 +153,11 @@
       "sprite": "sprite-605",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4152/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4152/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -348,33 +172,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4153/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4153/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -389,33 +191,11 @@
       "sprite": "sprite-605",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4154/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4154/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-605",
+            "action": "pal-auto-v1-fd4d0cb939df0362",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -430,33 +210,11 @@
       "sprite": "sprite-606",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4155/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4155/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-606",
+            "action": "pal-auto-v1-2b1a3ba71d0d6c62",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]
@@ -812,33 +570,11 @@
       "zBias": -3,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4167/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s231",
-                      "id": "scene/s231/root/entity-e4167/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-486",
+            "action": "pal-auto-v1-2898ab1f6e18d521",
+            "loop": true,
+            "startAtMs": 380
           }
         }
       ]

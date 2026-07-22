@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { jsonAbsent, jsonPresent, mergeManagedFile } from './migration-merge.js'
+import type { MigrationJson } from './pal-migration.js'
 
 describe('mergeManagedFile', () => {
   test('执行 primitive 与对象递归三方真值表', () => {
@@ -133,6 +134,71 @@ describe('mergeManagedFile', () => {
     expect(result.value.value).toEqual([
       { id: 'fighter', label: '作者名', asset: 'battle.new', profile: { kind: 'player-fighter' } },
       { id: 'local', label: '本地', asset: 'battle.local', profile: { kind: 'summon' } },
+    ])
+  })
+
+  test('SpriteDef poses 按 ActionId 合并，但单条动作记录保持原子', () => {
+    const sprite = (poses?: Record<string, MigrationJson>): MigrationJson => [
+      {
+        id: 'sprite-1',
+        asset: 'sprite.pal.001',
+        label: '精灵',
+        layout: { kind: 'static' },
+        ...(poses ? { poses } : {}),
+      },
+    ]
+    const authored = {
+      label: '作者动作',
+      steps: [{ frame: 2, durationMs: 90 }],
+    }
+    const generated = {
+      label: 'PAL 自动循环',
+      steps: [{ frame: 0, durationMs: 100 }],
+      loopFrom: 0,
+    }
+    const first = mergeManagedFile(
+      'content/sprites.json',
+      jsonPresent(sprite()),
+      jsonPresent(sprite({ authored })),
+      jsonPresent(sprite({ 'pal-auto-v1-generated': generated })),
+    )
+    expect(first.conflicts).toEqual([])
+    expect(first.value.value).toEqual(sprite({ 'pal-auto-v1-generated': generated, authored }))
+
+    const base = sprite({ action: generated })
+    const collision = mergeManagedFile(
+      'content/sprites.json',
+      jsonPresent(base),
+      jsonPresent(sprite({ action: { ...generated, steps: [{ frame: 1, durationMs: 100 }] } })),
+      jsonPresent(sprite({ action: { ...generated, label: '迁移新名' } })),
+    )
+    expect(collision.conflicts).toMatchObject([
+      { path: expect.stringContaining('/poses/action'), type: 'value' },
+    ])
+    // 冲突粒度必须停在整条 action，不能继续落到 /steps 或 /label。
+    expect(collision.conflicts).toHaveLength(1)
+  })
+
+  test('双方首跑新增同一 ActionId 的不同定义产生 add-add，不静默重定向', () => {
+    const base = [
+      { id: 'sprite-1', asset: 'sprite.pal.001', label: '精灵', layout: { kind: 'static' } },
+    ]
+    const withAction = (label: string) => [
+      {
+        ...base[0],
+        poses: {
+          collision: { label, steps: [{ frame: 0, durationMs: 100 }] },
+        },
+      },
+    ]
+    const result = mergeManagedFile(
+      'content/sprites.json',
+      jsonPresent(base),
+      jsonPresent(withAction('作者')),
+      jsonPresent(withAction('迁移')),
+    )
+    expect(result.conflicts).toMatchObject([
+      { path: expect.stringContaining('/poses/collision'), type: 'add-add' },
     ])
   })
 

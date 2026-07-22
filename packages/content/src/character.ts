@@ -61,11 +61,14 @@ export interface EntryPoint {
   startWorld?: StartWorld
 }
 
-/** manifest.json 的形状(loader 解析、main.ts 消费)。工程清单 = 一整套游戏的入口描述。 */
-export interface LoadedManifest {
+/** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
+export const CONTENT_VERSION = 4 as const
+
+/** manifest.json 的版本化公共形状。规范 loader 只向运行时交付 LoadedManifest(v4)。 */
+export interface ProjectManifest<V extends number> {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
-  contentVersion: 3 // 工程内容数据版本(与存档 SAVE_VERSION 是两个轴)
+  contentVersion: V
   entryScene: string // 入口场景 id(= scenes.json 里的 scene.id)。多入口时 = 默认(无菜单/无 ?entry)开局的场景。
   /** 入口点列表(主菜单开局/DLC 入口)。缺省 = 从 entryScene+startWorld 合成一条 'new-game'(兼容)。 */
   entryPoints?: EntryPoint[]
@@ -73,6 +76,12 @@ export interface LoadedManifest {
   assets: ManifestAssetConfigV3
   startWorld: StartWorld
 }
+
+/** contentVersion 3 只允许项目升级边界读取。 */
+export type LegacyManifestV3 = ProjectManifest<3>
+
+/** loader 解析、main.ts 消费的规范工程清单。 */
+export type LoadedManifest = ProjectManifest<typeof CONTENT_VERSION>
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
 export interface CharacterInstance {

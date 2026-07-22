@@ -111,21 +111,11 @@
       "zBias": 3,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s069",
-                      "id": "scene/s069/root/entity-e1373/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]
@@ -141,21 +131,11 @@
       "zBias": 3,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s069",
-                      "id": "scene/s069/root/entity-e1374/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-300",
+            "action": "pal-auto-v1-3b661e352cd3e61c",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]

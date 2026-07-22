@@ -79,6 +79,39 @@ interface MergeContext {
   conflicts: MergeConflict[]
 }
 
+function isSpritePosesPath(file: string, path: string): boolean {
+  return file === 'content/sprites.json' && /^\/@(?:string|number):[^/]+\/poses$/.test(path)
+}
+
+function isSpriteActionPath(file: string, path: string): boolean {
+  return file === 'content/sprites.json' && /^\/@(?:string|number):[^/]+\/poses\/[^/]+$/.test(path)
+}
+
+function mergeAtomicNode(
+  base: Node,
+  ours: Node,
+  theirs: Node,
+  path: string,
+  ctx: MergeContext,
+): Node {
+  if (same(ours, base)) return cloneNode(theirs)
+  if (same(theirs, base)) return cloneNode(ours)
+  if (same(ours, theirs)) return cloneNode(ours)
+
+  if (!ours.present || !theirs.present) {
+    ctx.conflicts.push(
+      conflict(ctx.file, path, base.present ? 'delete-modify' : 'add-add', base, ours, theirs),
+    )
+    return cloneNode(ours)
+  }
+  if (!base.present) {
+    ctx.conflicts.push(conflict(ctx.file, path, 'add-add', base, ours, theirs))
+    return cloneNode(ours)
+  }
+  ctx.conflicts.push(conflict(ctx.file, path, 'value', base, ours, theirs))
+  return cloneNode(ours)
+}
+
 function mergeObject(base: Node, ours: Node, theirs: Node, path: string, ctx: MergeContext): Node {
   const baseObject = isObject(base) ? base.value : {}
   const oursObject = (ours.value ?? {}) as Record<string, MigrationJson>
@@ -276,6 +309,11 @@ function mergePages(
 }
 
 function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: MergeContext): Node {
+  // ActionId 是 SpriteDef 内的稳定记录身份。poses 容器按 key 合并，但每条动作时间线必须
+  // 原子三方合并，禁止把作者 steps 与迁移器 loopFrom/label 逐字段杂交成不存在的动作。
+  if (isSpriteActionPath(ctx.file, path)) return mergeAtomicNode(base, ours, theirs, path, ctx)
+  if (isSpritePosesPath(ctx.file, path) && !base.present && isObject(ours) && isObject(theirs))
+    return mergeObject(present({}), ours, theirs, path, ctx)
   if (
     ctx.file === 'content/stamps.json' &&
     /^\/@(?:string|number):[^/]+$/.test(path) &&
@@ -311,22 +349,7 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
   if (isObject(base) && isObject(ours) && isObject(theirs))
     return mergeObject(base, ours, theirs, path, ctx)
 
-  if (same(ours, base)) return cloneNode(theirs)
-  if (same(theirs, base)) return cloneNode(ours)
-  if (same(ours, theirs)) return cloneNode(ours)
-
-  if (!ours.present || !theirs.present) {
-    ctx.conflicts.push(
-      conflict(ctx.file, path, base.present ? 'delete-modify' : 'add-add', base, ours, theirs),
-    )
-    return cloneNode(ours)
-  }
-  if (!base.present) {
-    ctx.conflicts.push(conflict(ctx.file, path, 'add-add', base, ours, theirs))
-    return cloneNode(ours)
-  }
-  ctx.conflicts.push(conflict(ctx.file, path, 'value', base, ours, theirs))
-  return cloneNode(ours)
+  return mergeAtomicNode(base, ours, theirs, path, ctx)
 }
 
 export function mergeManagedFile(

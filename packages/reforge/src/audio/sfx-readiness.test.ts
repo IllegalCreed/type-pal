@@ -1,4 +1,11 @@
-import type { Command, EnemyDef, ItemData, ScriptRef, SkillData } from '@type-pal/content'
+import type {
+  Command,
+  EnemyDef,
+  ItemData,
+  ScriptRef,
+  SkillData,
+  SpriteDef,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { BattleAction } from '../battle/battle-core.js'
 import type { ResolvedScript, ScriptResolver } from '../script-chunk-store.js'
@@ -177,6 +184,130 @@ describe('SFX readiness 收集', () => {
       'sound.override',
       'sound.scene',
     ])
+  })
+
+  test('只递归准备当前场景页绑定与可达动作命令的 cue 音效', async () => {
+    const spritesById: Record<string, SpriteDef> = {
+      'sprite-8': {
+        id: 'sprite-8',
+        asset: 'sprite.pal.008',
+        label: '蜡烛',
+        layout: { kind: 'static' },
+        poses: {
+          flicker: {
+            label: '闪烁',
+            steps: [
+              {
+                frame: 0,
+                durationMs: 80,
+                cues: [{ kind: 'sound', asset: 'sound.flicker' }],
+              },
+            ],
+          },
+          unused: {
+            label: '未引用',
+            steps: [
+              {
+                frame: 1,
+                durationMs: 80,
+                cues: [{ kind: 'sound', asset: 'sound.unused' }],
+              },
+            ],
+          },
+        },
+      },
+    }
+    const resolver = new Resolver({
+      nested: [
+        {
+          kind: 'playEntityAction',
+          entity: 'e8',
+          sprite: 'sprite-8',
+          action: 'flicker',
+          loop: true,
+        },
+      ],
+    })
+    const sounds = await collectSceneSoundAssets({
+      scene: {
+        id: 's',
+        mapId: 'm',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [
+          {
+            id: 'e8',
+            sprite: 'sprite-8',
+            pos: { col: 0, row: 0, height: 0 },
+            facing: 'down',
+            pages: [
+              {
+                animation: {
+                  sprite: 'sprite-8',
+                  action: 'flicker',
+                  loop: true,
+                },
+              },
+            ],
+          },
+        ],
+        onEnter: [{ body: [{ kind: 'callScript', ref: ref('nested') }] }],
+      },
+      spritesById,
+      resolver,
+      signal: new AbortController().signal,
+    })
+
+    expect([...sounds]).toEqual(['sound.flicker'])
+    expect(resolver.active).toBe(0)
+  })
+
+  test('动作 cue readiness 对缺失复合引用 fail-loud', async () => {
+    await expect(
+      collectSceneSoundAssets({
+        scene: {
+          id: 's',
+          mapId: 'm',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+          onEnter: [
+            {
+              body: [
+                {
+                  kind: 'playEntityAction',
+                  entity: 'e',
+                  sprite: 'missing',
+                  action: 'idle',
+                  loop: true,
+                },
+              ],
+            },
+          ],
+        },
+        spritesById: {},
+        signal: new AbortController().signal,
+      }),
+    ).rejects.toThrow('SpriteDef "missing" 不存在')
+  })
+
+  test('页默认动作只预取运行时当前支持的 pages[0]，不误读未激活页', async () => {
+    const sounds = await collectSceneSoundAssets({
+      scene: {
+        id: 's',
+        mapId: 'm',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [
+          {
+            id: 'e',
+            sprite: 'sprite-8',
+            pos: { col: 0, row: 0, height: 0 },
+            pages: [{}, { animation: { sprite: 'missing', action: 'missing', loop: true } }],
+          },
+        ],
+      },
+      spritesById: {},
+      signal: new AbortController().signal,
+    })
+    expect([...sounds]).toEqual([])
   })
 
   test('battleBase 递归敌变身/召唤、AI、演出脚本并保留 ScriptRef lease=0', async () => {

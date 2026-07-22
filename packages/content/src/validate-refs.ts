@@ -17,6 +17,7 @@ import type {
   BattleFieldDef,
   BattleSpriteDef,
   BattleSpriteProfileKind,
+  Command,
   EnemyDef,
   EnemyTeamDef,
   ItemData,
@@ -27,6 +28,8 @@ import type {
   PoisonDef,
   SceneDef,
   ScriptChunkV1,
+  ScriptIndexV1,
+  ScriptStage,
   ShopDef,
   SkillData,
   SpriteDef,
@@ -75,6 +78,8 @@ export interface ContentBundle {
   mapIndex: MapIndexV1
   /** 分片脚本正文；编辑器保存门传入后与场景 inline 脚本走同一语义引用扫描。 */
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>>
+  /** 作者共享脚本目录；仅登记项与 scene 私有根拥有可编辑的精确命令定位。 */
+  scriptIndex?: ScriptIndexV1
   /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
   worlds?: readonly WorldState[]
 }
@@ -85,6 +90,36 @@ export interface SpriteDefinitionReference {
   where: string
   site: string
 }
+
+/** 一条限定到 SpriteDef 内稳定 ActionId 的复合引用。 */
+export interface SpriteActionReference extends SpriteDefinitionReference {
+  action: string
+  /** 可编辑来源的精确定位；只读兼容来源允许缺省，UI 不得猜跳转目标。 */
+  locator?: SpriteActionReferenceLocator
+}
+
+export type SpriteActionReferenceLocator =
+  | {
+      kind: 'page-animation'
+      sceneId: string
+      entityId: string
+      pageIndex: number
+    }
+  | {
+      kind: 'scene-command'
+      sceneId: string
+      sourceKey: '__onEnter__' | '__onTeleport__' | `${string}:trigger` | `${string}:auto`
+      entityId?: string
+      pageIndex?: number
+      /** ScriptTree 路径，例如 `0/1/then/0`。 */
+      path: string
+    }
+  | {
+      kind: 'script-command'
+      scriptId: string
+      /** 共享/内部脚本以虚拟 stage 0 开头，例如 `0/2/onNo/0`。 */
+      path: string
+    }
 
 /** 一条 BattleSpriteDef 语义引用；expectedProfile 同时阻止 player/enemy 同号串线。 */
 export interface BattleSpriteDefinitionReference {
@@ -253,8 +288,263 @@ function collectCommandSpriteReferences(
         out.push({ sprite, where: `${where}.sprites[${index}]`, site })
     })
   }
+  if (record.kind === 'playEntityAction' && typeof record.sprite === 'string')
+    out.push({ sprite: record.sprite, where: `${where}.sprite`, site })
   for (const [key, value] of Object.entries(record))
     collectCommandSpriteReferences(value, `${where}.${key}`, site, out)
+}
+
+function collectUnlocatedCommandSpriteActionReferences(
+  node: unknown,
+  where: string,
+  site: string,
+  out: SpriteActionReference[],
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((value, index) => {
+      collectUnlocatedCommandSpriteActionReferences(value, `${where}[${index}]`, site, out)
+    })
+    return
+  }
+  if (!node || typeof node !== 'object') return
+  const record = node as Record<string, unknown>
+  if (
+    record.kind === 'playEntityAction' &&
+    typeof record.sprite === 'string' &&
+    typeof record.action === 'string'
+  )
+    out.push({
+      sprite: record.sprite,
+      action: record.action,
+      where: `${where}.action`,
+      site,
+    })
+  for (const [key, value] of Object.entries(record))
+    collectUnlocatedCommandSpriteActionReferences(value, `${where}.${key}`, site, out)
+}
+
+function commandArms(command: Command): Array<[string, readonly Command[] | undefined]> {
+  switch (command.kind) {
+    case 'branch':
+      return [
+        ['then', command.then],
+        ['else', command.else],
+      ]
+    case 'confirm':
+      return [['onNo', command.onNo]]
+    case 'startBattle':
+      return [
+        ['onLose', command.onLose],
+        ['onFlee', command.onFlee],
+      ]
+    case 'teleportOut':
+      return [['onFail', command.onFail]]
+    default:
+      return []
+  }
+}
+
+type ActionLocatorFactory = (path: string) => SpriteActionReferenceLocator
+
+function inlineBindingStages(command: Command): readonly ScriptStage[] | undefined {
+  switch (command.kind) {
+    case 'setEntityAuto':
+    case 'setEntityTrigger':
+    case 'setSceneOnEnter':
+    case 'setSceneOnTeleport':
+      return command.stages
+    default:
+      return undefined
+  }
+}
+
+function collectActionCommandBody(
+  body: readonly Command[],
+  where: string,
+  pathPrefix: string,
+  site: string,
+  locator: ActionLocatorFactory,
+  out: SpriteActionReference[],
+): void {
+  body.forEach((command, index) => {
+    const path = `${pathPrefix}/${index}`
+    const commandWhere = `${where}[${index}]`
+    if (command.kind === 'playEntityAction')
+      out.push({
+        sprite: command.sprite,
+        action: command.action,
+        where: `${commandWhere}.action`,
+        site,
+        locator: locator(path),
+      })
+    const inlineStages = inlineBindingStages(command)
+    if (inlineStages)
+      collectUnlocatedCommandSpriteActionReferences(
+        inlineStages,
+        `${commandWhere}.stages`,
+        site,
+        out,
+      )
+    for (const [arm, nested] of commandArms(command)) {
+      if (!nested?.length) continue
+      collectActionCommandBody(
+        nested,
+        `${commandWhere}.${arm}`,
+        `${path}/${arm}`,
+        site,
+        locator,
+        out,
+      )
+    }
+  })
+}
+
+function collectActionStages(
+  stages: readonly ScriptStage[],
+  where: string,
+  site: string,
+  locator: ActionLocatorFactory,
+  out: SpriteActionReference[],
+): void {
+  stages.forEach((stage, stageIndex) => {
+    if (stage.entry?.prepare.length)
+      collectActionCommandBody(
+        stage.entry.prepare,
+        `${where}[${stageIndex}].entry.prepare`,
+        `${stageIndex}/entry/prepare`,
+        site,
+        locator,
+        out,
+      )
+    collectActionCommandBody(
+      stage.body,
+      `${where}[${stageIndex}].body`,
+      `${stageIndex}`,
+      site,
+      locator,
+      out,
+    )
+  })
+}
+
+/** 收集场景页默认绑定和全部嵌套脚本中的 `(sprite, action)` 复合引用。 */
+export function collectSpriteActionReferences(
+  source: Pick<ContentBundle, 'scenes' | 'scriptChunks' | 'scriptIndex' | 'enemies' | 'worlds'>,
+): SpriteActionReference[] {
+  const references: SpriteActionReference[] = []
+  source.scenes.forEach((scene, sceneIndex) => {
+    scene.entities.forEach((entity, entityIndex) => {
+      entity.pages?.forEach((page, pageIndex) => {
+        if (page.animation)
+          references.push({
+            sprite: page.animation.sprite,
+            action: page.animation.action,
+            where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.action`,
+            site: `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}`,
+            locator: {
+              kind: 'page-animation',
+              sceneId: scene.id,
+              entityId: entity.id,
+              pageIndex,
+            },
+          })
+        if (page.trigger)
+          collectActionStages(
+            page.trigger.stages,
+            `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].trigger.stages`,
+            `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:trigger`,
+            (path) => ({
+              kind: 'scene-command',
+              sceneId: scene.id,
+              sourceKey: `${entity.id}:trigger`,
+              entityId: entity.id,
+              pageIndex,
+              path,
+            }),
+            references,
+          )
+        if (page.auto)
+          collectActionStages(
+            page.auto.stages,
+            `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].auto.stages`,
+            `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:auto`,
+            (path) => ({
+              kind: 'scene-command',
+              sceneId: scene.id,
+              sourceKey: `${entity.id}:auto`,
+              entityId: entity.id,
+              pageIndex,
+              path,
+            }),
+            references,
+          )
+      })
+    })
+    if (scene.onEnter)
+      collectActionStages(
+        scene.onEnter,
+        `scenes[${sceneIndex}].onEnter`,
+        `scene:${scene.id}:onEnter`,
+        (path) => ({
+          kind: 'scene-command',
+          sceneId: scene.id,
+          sourceKey: '__onEnter__',
+          path,
+        }),
+        references,
+      )
+    if (scene.onTeleport)
+      collectActionStages(
+        scene.onTeleport,
+        `scenes[${sceneIndex}].onTeleport`,
+        `scene:${scene.id}:onTeleport`,
+        (path) => ({
+          kind: 'scene-command',
+          sceneId: scene.id,
+          sourceKey: '__onTeleport__',
+          path,
+        }),
+        references,
+      )
+  })
+  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {}))
+    for (const [scriptId, body] of Object.entries(chunk.scripts)) {
+      const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`
+      const site = `script:${chunkId}:${scriptId}`
+      if (scriptId.startsWith('scene/') || source.scriptIndex?.library?.[scriptId])
+        collectActionCommandBody(
+          body,
+          where,
+          '0',
+          site,
+          (path) => ({ kind: 'script-command', scriptId, path }),
+          references,
+        )
+      else collectUnlocatedCommandSpriteActionReferences(body, where, site, references)
+    }
+  source.enemies?.forEach((enemy, index) => {
+    collectUnlocatedCommandSpriteActionReferences(
+      enemy.choreography,
+      `enemies[${index}](${enemy.id}).choreography`,
+      `enemy:${enemy.id}:choreography`,
+      references,
+    )
+    collectUnlocatedCommandSpriteActionReferences(
+      enemy.onDefeated,
+      `enemies[${index}](${enemy.id}).onDefeated`,
+      `enemy:${enemy.id}:onDefeated`,
+      references,
+    )
+  })
+  source.worlds?.forEach((world, worldIndex) => {
+    collectUnlocatedCommandSpriteActionReferences(
+      world.script?.sceneScriptOverrides,
+      `worlds[${worldIndex}].script.sceneScriptOverrides`,
+      `world:${worldIndex}:sceneScriptOverrides`,
+      references,
+    )
+  })
+  return references
 }
 
 /** 递归收集 Actor/Entity/appearance/followers 与所有 inline/chunk 命令中的 SpriteDef.id 边。 */
@@ -277,6 +567,14 @@ export function collectSpriteDefinitionReferences(
           where: `scenes[${sceneIndex}].entities[${entityIndex}].sprite`,
           site: `scene:${scene.id}:entity:${entity.id}`,
         })
+      entity.pages?.forEach((page, pageIndex) => {
+        if (!page.animation) return
+        references.push({
+          sprite: page.animation.sprite,
+          where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.sprite`,
+          site: `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:animation`,
+        })
+      })
     })
     collectCommandSpriteReferences(scene, `scenes[${sceneIndex}]`, `scene:${scene.id}`, references)
   })
@@ -345,6 +643,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const actorIds = new Set(b.actors.map((a) => a.id))
   const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
+  const spritesById = new Map(b.sprites.map((sprite) => [sprite.id, sprite]))
   const battleSpritesById = new Map(b.battleSprites.map((sprite) => [sprite.id, sprite]))
   const localeKeys = new Set(Object.keys(b.locale))
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
@@ -469,6 +768,17 @@ export function validateReferences(b: ContentBundle): Issue[] {
         severity: 'error',
         where: reference.where,
         message: `精灵 "${reference.sprite}" 不在 sprites 注册表`,
+      })
+  }
+
+  for (const reference of collectSpriteActionReferences(b)) {
+    const sprite = spritesById.get(reference.sprite)
+    if (!sprite) continue // SpriteDef 缺失已由上一层统一语义边报告。
+    if (!Object.hasOwn(sprite.poses ?? {}, reference.action))
+      issues.push({
+        severity: 'error',
+        where: reference.where,
+        message: `精灵 "${reference.sprite}" 不存在动作 "${reference.action}"`,
       })
   }
 

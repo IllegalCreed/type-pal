@@ -107,21 +107,11 @@
       "zBias": -9,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s014",
-                      "id": "scene/s014/root/entity-e203/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
           }
         }
       ]

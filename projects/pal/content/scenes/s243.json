@@ -539,20 +539,11 @@
       "zBias": 10,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s243",
-                      "id": "scene/s243/root/entity-e4311/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-610",
+            "action": "pal-auto-v1-d29756dcf3e79a05",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

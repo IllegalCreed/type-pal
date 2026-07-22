@@ -81,20 +81,11 @@
       "zBias": -9,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s152",
-                      "id": "scene/s152/root/entity-e2475/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-372",
+            "action": "pal-auto-v1-1e0868439c7319e6",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

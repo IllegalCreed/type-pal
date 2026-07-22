@@ -5,7 +5,7 @@
  * 帧级编辑仅自有精灵(有 path);原版号约定精灵只读展示。
  */
 
-import type { AssetRecordV1, PoseDef, SpriteDef } from '@type-pal/content'
+import type { AssetRecordV1, SpriteActionDef, SpriteDef } from '@type-pal/content'
 import type { AssetBase, LoadedSprite, Palette, RleFrame } from '@type-pal/reforge'
 import {
   actualFrameIndex,
@@ -147,7 +147,7 @@ export function SpriteFrames(props: {
   // 命名姿势框选:选中的未分配帧 + 待建姿势名/播放方式
   const [selFrames, setSelFrames] = useState<Set<number>>(new Set())
   const [poseName, setPoseName] = useState('')
-  const [poseMode, setPoseMode] = useState<PoseDef['mode']>('static')
+  const [poseMode, setPoseMode] = useState<'once' | 'loop'>('once')
   // 帧级编辑(自有精灵):点帧选中待替换;追加帧草稿(选图后给切帧网格确认)
   const [replaceIdx, setReplaceIdx] = useState<number | null>(null)
   const [appendDraft, setAppendDraft] = useState<{
@@ -185,11 +185,15 @@ export function SpriteFrames(props: {
                 }
               : candidate.layout
         const poses = Object.fromEntries(
-          Object.entries(candidate.poses ?? {}).flatMap(([name, pose]) => {
-            const frames = pose.frames.filter((frame) => frame < nextCount)
-            return frames.length ? [[name, { ...pose, frames }]] : []
+          Object.entries(candidate.poses ?? {}).flatMap(([actionId, action]) => {
+            const steps = action.steps.filter((step) => step.frame < nextCount)
+            if (!steps.length) return []
+            const nextAction: SpriteActionDef = { ...action, steps }
+            if (nextAction.loopFrom !== undefined && nextAction.loopFrom >= steps.length)
+              delete nextAction.loopFrom
+            return [[actionId, nextAction]]
           }),
-        ) as Record<string, PoseDef>
+        ) as Record<string, SpriteActionDef>
         return [candidate.id, { layout, ...(Object.keys(poses).length ? { poses } : {}) }]
       }),
     )
@@ -323,7 +327,14 @@ export function SpriteFrames(props: {
       new UpdateSpriteCommand(
         sprite.id,
         {
-          poses: { ...sprite.poses, [name]: { frames, mode: poseMode } },
+          poses: {
+            ...sprite.poses,
+            [name]: {
+              label: name,
+              steps: frames.map((frame) => ({ frame, durationMs: 250 })),
+              ...(poseMode === 'loop' ? { loopFrom: 0 } : {}),
+            },
+          },
         },
         layoutProof,
       ),
@@ -401,11 +412,14 @@ export function SpriteFrames(props: {
       : layout.kind === 'loop'
         ? layout.frameCount
         : 1,
-    ...Object.values(sprite.poses ?? {}).flatMap((pose) => pose.frames.map((frame) => frame + 1)),
+    ...Object.values(sprite.poses ?? {}).flatMap((action) =>
+      action.steps.map((step) => step.frame + 1),
+    ),
   )
   // 命名姿势用到的帧(高亮"已分配")
   const posedFrames = new Set<number>()
-  for (const p of Object.values(sprite.poses ?? {})) for (const fi of p.frames) posedFrames.add(fi)
+  for (const action of Object.values(sprite.poses ?? {}))
+    for (const step of action.steps) posedFrames.add(step.frame)
   // 未分配帧 = 非移动帧、非姿势帧
   const unassigned: number[] = []
   for (let i = walkCount; i < total; i++) if (!posedFrames.has(i)) unassigned.push(i)
@@ -703,15 +717,15 @@ export function SpriteFrames(props: {
             <span className="why">绝对帧号(无分方向)· 脚本按名字引用 · 点下方帧框选新建</span>
           </div>
           <div className="poselist">
-            {Object.entries(sprite.poses ?? {}).map(([name, pose]) => (
-              <div key={name} className="posecard">
+            {Object.entries(sprite.poses ?? {}).map(([actionId, action]) => (
+              <div key={actionId} className="posecard">
                 <div className="pc-head">
-                  <b>{name}</b>
+                  <b>{action.label}</b>
                   <button
                     type="button"
                     className="pc-del"
-                    title="删除姿势"
-                    onClick={() => deletePose(name)}
+                    title="删除动作"
+                    onClick={() => deletePose(actionId)}
                   >
                     ×
                   </button>
@@ -719,16 +733,16 @@ export function SpriteFrames(props: {
                 <div className="pf">
                   <AnimCell
                     canvases={baked}
-                    order={pose.frames}
-                    msPerFrame={pose.mode === 'loop' ? 250 : 400}
+                    order={action.steps.map((step) => step.frame)}
+                    msPerFrame={action.steps[0]?.durationMs ?? 250}
                     maxW={maxW}
                     maxH={maxH}
                     scale={1.3}
                   />
-                  {pose.frames.map((fi) => (
+                  {action.steps.map((step, index) => (
                     <FrameCell
-                      key={fi}
-                      canvas={baked[actualFrameIndex(fi, total)]}
+                      key={`${index}:${step.frame}`}
+                      canvas={baked[actualFrameIndex(step.frame, total)]}
                       maxW={maxW}
                       maxH={maxH}
                       scale={1.3}
@@ -736,7 +750,8 @@ export function SpriteFrames(props: {
                   ))}
                 </div>
                 <span className="pmode">
-                  ▶ {pose.mode === 'loop' ? '循环' : '静态'} · 帧 {pose.frames.join(',')}
+                  ▶ {action.loopFrom === undefined ? '单次' : '循环'} · 帧{' '}
+                  {action.steps.map((step) => step.frame).join(',')}
                 </span>
               </div>
             ))}
@@ -778,9 +793,9 @@ export function SpriteFrames(props: {
               <select
                 className="in"
                 value={poseMode}
-                onChange={(e) => setPoseMode(e.target.value as PoseDef['mode'])}
+                onChange={(e) => setPoseMode(e.target.value as 'once' | 'loop')}
               >
-                <option value="static">静态</option>
+                <option value="once">单次</option>
                 <option value="loop">循环</option>
               </select>
               <button
@@ -805,5 +820,5 @@ export function SpriteFrames(props: {
 function layoutDesc(l: SpriteDef['layout']): string {
   if (l.kind === 'directional') return `行走 4 向 × ${l.framesPerDir}`
   if (l.kind === 'loop') return `循环 ${l.frameCount} 帧`
-  return '静物单帧'
+  return '默认定格 #0'
 }

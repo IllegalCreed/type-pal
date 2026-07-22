@@ -290,20 +290,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4633/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -319,20 +310,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4634/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -348,20 +330,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4635/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -377,20 +350,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4636/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -406,20 +370,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4637/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -435,20 +390,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4638/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -464,20 +410,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4639/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -493,20 +430,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4640/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -522,20 +450,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s264",
-                      "id": "scene/s264/root/entity-e4641/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

@@ -217,20 +217,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2656/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ]
@@ -246,20 +237,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2657/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -275,20 +257,10 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2658/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -304,20 +276,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2659/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -333,20 +296,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2660/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ]
@@ -362,20 +316,10 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2661/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -391,20 +335,10 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2662/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -420,20 +354,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2663/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -449,20 +374,10 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2664/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -478,20 +393,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2665/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ]
@@ -507,20 +413,10 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2666/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -536,20 +432,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2667/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -565,20 +452,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2668/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ]
@@ -594,20 +472,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2669/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -623,20 +492,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2670/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 200
           }
         }
       ]
@@ -652,20 +512,10 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2671/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]
@@ -681,20 +531,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2672/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]
@@ -710,20 +551,10 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s159",
-                      "id": "scene/s159/root/entity-e2673/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-8",
+            "action": "pal-auto-v1-06f5a00e1f6d5d04",
+            "loop": true
           }
         }
       ]

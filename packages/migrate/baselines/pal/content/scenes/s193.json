@@ -144,23 +144,13 @@
         "row": 11,
         "height": 0
       },
-      "sprite": "sprite-242-f0",
+      "sprite": "sprite-242",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s193",
-                      "id": "scene/s193/root/entity-e3331/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-242",
+            "action": "pal-auto-v1-0cea4891241e76a8",
+            "loop": true
           }
         }
       ]

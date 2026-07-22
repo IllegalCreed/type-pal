@@ -333,20 +333,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4820/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -362,20 +353,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4821/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -391,20 +373,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4822/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -420,20 +393,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4823/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -449,20 +413,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4824/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]
@@ -478,20 +433,11 @@
       "zBias": 6,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s285",
-                      "id": "scene/s285/root/entity-e4825/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-619",
+            "action": "pal-auto-v1-d0ed1968696a0efd",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

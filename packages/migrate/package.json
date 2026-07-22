@@ -8,6 +8,7 @@
     "test": "vitest run --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "audit:maps": "tsx scripts/audit-project-maps.mts",
+    "audit:sprite-actions": "tsx scripts/audit-pal-sprite-actions.mts",
     "audit:a7-sound-diff": "tsx scripts/audit-a7-sound-diff.mts",
     "audit:sounds": "tsx scripts/audit-pal-sounds.mts",
     "bake": "tsx scripts/bake-assets.mts",
@@ -18,6 +19,7 @@
     "@type-pal/shared": "workspace:*"
   },
   "devDependencies": {
+    "@type-pal/reforge": "workspace:*",
     "@types/node": "^25.9.1",
     "@types/pngjs": "^6.0.5",
     "pngjs": "^7.0.0",

@@ -82,21 +82,11 @@
       "zBias": -9,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s100",
-                      "id": "scene/s100/root/entity-e1802/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
           }
         }
       ]
@@ -111,21 +101,11 @@
       "sprite": "sprite-196",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s100",
-                      "id": "scene/s100/root/entity-e1803/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
           }
         }
       ]
@@ -140,21 +120,11 @@
       "sprite": "sprite-196",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s100",
-                      "id": "scene/s100/root/entity-e1804/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true,
+            "startAtMs": 1020
           }
         }
       ]
@@ -1370,21 +1340,11 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s100",
-                      "id": "scene/s100/root/entity-e1832/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-402",
+            "action": "pal-auto-v1-843d53e8d0b7d0da",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]

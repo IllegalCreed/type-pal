@@ -27,6 +27,11 @@ import {
   palPlayerBattleSpriteDefinitionId,
   palSummonBattleSpriteDefinitionId,
 } from './pal-battle-sprites.js'
+import {
+  assertPalWorldSpriteLayoutOverlaySources,
+  PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
+  type PalWorldSpriteLayoutOverlay,
+} from './pal-world-sprite-layouts.js'
 import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 
 // ── 源数据形状(结构最小化;字段名 2026-07-02 对 data/extracted 实测钉死)──
@@ -1392,6 +1397,13 @@ export interface SceneMigrationResult {
     entryFallback: string[]
     /** 同 spriteNum 不同 nSpriteFrames 的布局冲突(拆成 sprite-<num>-f<n>)。 */
     layoutConflicts: string[]
+    /** 已消费的 PAL 逐项布局证据；用于审计 0x65/0x1A 不再靠默认值猜布局。 */
+    layoutEvidence: Array<{
+      spriteNum: number
+      definitionId: string
+      source: 'scene' | 'pal-overlay'
+      evidence: string
+    }>
     /** nSpriteFramesAuto>0 的环境自循环候选(布局先保守,C1 标注工具人工修)。 */
     autoLoopCandidates: number
     /** 朝向被 autoScript 链首覆盖(≠数据字段)的实体数。 */
@@ -1410,6 +1422,11 @@ export interface SceneMigrationResult {
     /** W4-1:最终脚本树中的静态坐标归一化统计。 */
     entryNormalization?: SceneEntryNormalizationReport
   }
+}
+
+export interface SceneMigrationOptions {
+  /** PAL 物理源帧数；只验证明示 overlay，不参与布局推断。 */
+  worldSpriteFrameCounts?: readonly number[]
 }
 
 /**
@@ -1479,6 +1496,7 @@ export function mapScenesStatic(
   globalRoots: readonly ScriptRoot[] = [],
   /** 生产迁移按 catalog 过滤空 sound chunk。 */
   soundAssetForNum?: SoundAssetForNum,
+  options: SceneMigrationOptions = {},
 ): SceneMigrationResult {
   const report: SceneMigrationResult['report'] = {
     scenes: 0,
@@ -1490,12 +1508,26 @@ export function mapScenesStatic(
     scenesWithMusic: 0,
     entryFallback: [],
     layoutConflicts: [],
+    layoutEvidence: [],
     autoLoopCandidates: 0,
     facingFromAuto: 0,
     zonesMigrated: 0,
     hostilesFolded: 0,
     sceneEntriesLifted: [],
   }
+
+  if (options.worldSpriteFrameCounts)
+    assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
+
+  // 所有会影响“首见”语义的输入先规范化。PAL 生产输入本来就是该顺序；显式排序让
+  // 测试切片、调用方 Map 插入顺序与未来读盘实现都不能再左右布局 id 或 label 归属。
+  const orderedScenes = [...srcScenes].sort((left, right) => left.sceneId - right.sceneId)
+  const eventSourceRank = (sceneId: number): number =>
+    sceneId >= 0 ? 0 : sceneId === -1 ? 1 : sceneId === -2 ? 2 : 3
+  const orderedEventSources = [...eventsByScene].sort(([left], [right]) => {
+    const rank = eventSourceRank(left) - eventSourceRank(right)
+    return rank || (left >= 0 && right >= 0 ? left - right : right - left)
+  })
 
   // ── 入口扫描:setPartyPos(raw70)在 loadScene 前 ≤4 步内。
   // ⚠ 实测(2026-07-02 gap 分布:806 个 loadScene,gap≤4 共 488):主流模式是
@@ -1506,7 +1538,7 @@ export function mapScenesStatic(
   // all.json(-2) 只作为全局控制流索引，为“无 start、无具体来源”的场景提供默认落点兜底；
   // 它不进入 arrivals、来源计数或任何命名落点定义。
   const indexedArrivals = new Map<number, ReturnType<typeof partyPosToGrid>[]>()
-  for (const [srcId, cmds] of eventsByScene) {
+  for (const [srcId, cmds] of orderedEventSources) {
     let last: { pos: ReturnType<typeof partyPosToGrid>; at: number } | null = null
     cmds.forEach((c, i) => {
       if (c.op === 'raw' && c.opcode === 70) {
@@ -1577,14 +1609,14 @@ export function mapScenesStatic(
   const labelScene = new Map<string, string | undefined>()
   const explicitLabels = new Set<string>()
   const addressesByCommands = new Map<readonly SourceCmd[], Array<number | undefined>>()
-  for (const [sourceScene, cmds] of eventsByScene)
+  for (const [sourceScene, cmds] of orderedEventSources)
     cmds.forEach((c, i) => {
       if (c.label && !labelAt.has(c.label)) {
         labelAt.set(c.label, { cmds, idx: i })
         labelScene.set(c.label, sourceScene >= 0 ? sceneSlug(sourceScene) : undefined)
       }
     })
-  for (const [, cmds] of eventsByScene) {
+  for (const [, cmds] of orderedEventSources) {
     const addresses: Array<number | undefined> = []
     let address: number | undefined
     cmds.forEach((command, index) => {
@@ -1611,7 +1643,7 @@ export function mapScenesStatic(
     )
   }
   const ownerScene = new Map<string, string>()
-  for (const sourceScene of srcScenes)
+  for (const sourceScene of orderedScenes)
     for (const entity of sourceScene.eventObjects)
       ownerScene.set(`e${entity.id}`, sceneSlug(sourceScene.sceneId))
   const addressOf = (label: string | undefined): number | undefined => {
@@ -1619,7 +1651,7 @@ export function mapScenesStatic(
     return match?.[1] === undefined ? undefined : Number(match[1])
   }
   const graphRoots: ScriptRoot[] = []
-  for (const sourceScene of srcScenes) {
+  for (const sourceScene of orderedScenes) {
     const owner = sceneSlug(sourceScene.sceneId)
     for (const label of [sourceScene.onEnterLabel, sourceScene.onTeleportLabel]) {
       const entry = addressOf(label)
@@ -1671,49 +1703,159 @@ export function mapScenesStatic(
     return dir
   }
 
-  // ── 精灵登记(去重 + 布局冲突拆分)──
-  const spriteDefs = new Map<string, SpriteDef>() // key = defId
-  const primaryLayout = new Map<number, number>() // spriteNum → 首见 nSpriteFrames
-  const spriteRef = (eo: SourceEventObject): string => {
-    const n = eo.nSpriteFrames ?? 0
-    const first = primaryLayout.get(eo.spriteNum)
-    let defId = migratedSpriteId(eo.spriteNum)
-    if (first === undefined) {
-      primaryLayout.set(eo.spriteNum, n)
-    } else if (first !== n) {
-      defId = migratedSpriteId(eo.spriteNum, n) // 同图不同布局:逃生口(设计 §2)
-      if (!spriteDefs.has(defId)) report.layoutConflicts.push(defId)
+  // ── 精灵布局注册表(预扫描 + 只读解析)──
+  // 0x65/0x1A 只携带资源号，没有布局信息。先扫描全部 scene 声明，再叠加逐项 PAL
+  // 证据；翻译脚本时只查表，绝不在引用路径上创建 directional/3 默认值。
+  type LayoutRegistration = {
+    spriteNum: number
+    nSpriteFrames?: number
+    id: string
+    layout: SpriteDef['layout']
+    source: 'scene' | 'pal-overlay'
+    evidence: string
+    label: string
+  }
+  const layoutKey = (layout: SpriteDef['layout']): string =>
+    layout.kind === 'directional'
+      ? `directional:${layout.framesPerDir}`
+      : layout.kind === 'loop'
+        ? `loop:${layout.frameCount}:${layout.ticksPerFrame ?? ''}`
+        : 'static'
+  const sceneLayout = (nSpriteFrames: number): SpriteDef['layout'] =>
+    nSpriteFrames > 0 ? { kind: 'directional', framesPerDir: nSpriteFrames } : { kind: 'static' }
+  type SceneLayoutEvidence = {
+    nSpriteFrames: number
+    sceneId: number
+    entityId: number
+  }
+  const sceneEvidenceBySprite = new Map<number, Map<number, SceneLayoutEvidence>>()
+  for (const sourceScene of orderedScenes) {
+    for (const entity of [...sourceScene.eventObjects].sort((left, right) => left.id - right.id)) {
+      if (entity.spriteNum <= 0) continue
+      const nSpriteFrames = entity.nSpriteFrames ?? 0
+      const layouts = sceneEvidenceBySprite.get(entity.spriteNum) ?? new Map()
+      const existing = layouts.get(nSpriteFrames)
+      if (
+        !existing ||
+        sourceScene.sceneId < existing.sceneId ||
+        (sourceScene.sceneId === existing.sceneId && entity.id < existing.entityId)
+      )
+        layouts.set(nSpriteFrames, {
+          nSpriteFrames,
+          sceneId: sourceScene.sceneId,
+          entityId: entity.id,
+        })
+      sceneEvidenceBySprite.set(entity.spriteNum, layouts)
     }
-    if (!spriteDefs.has(defId)) {
-      spriteDefs.set(defId, {
-        id: defId,
-        asset: palSpriteAssetId(eo.spriteNum),
-        label: `原精灵 ${eo.spriteNum}`,
-        layout: n > 0 ? { kind: 'directional', framesPerDir: n } : { kind: 'static' },
-      })
-    }
-    return defId
   }
 
-  /**
-   * 0x65(换角色精灵)的 spriteNum → 精灵 id:角色本体精灵优先(切回本体 = 角色 id),
-   * 其余复用/补登记 sprite-<num>。补登记按玩家精灵定式 directional 3 帧/向
-   * (原版 rgwSpriteNum 全是 3 帧/向大世界精灵;0x15 的 wFrame=dir*3+gesture 同源)。
-   */
+  const overlaysBySprite = new Map<number, PalWorldSpriteLayoutOverlay>(
+    PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.map((overlay) => [overlay.spriteNum, overlay] as const),
+  )
+  if (overlaysBySprite.size !== PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.length)
+    throw new Error('PAL 大世界精灵布局 overlay 含重复 spriteNum')
+
+  const registrationsBySprite = new Map<number, Map<string, LayoutRegistration>>()
+  const sceneRegistrationByKey = new Map<string, LayoutRegistration>()
+  const allSpriteNums = new Set([...sceneEvidenceBySprite.keys(), ...overlaysBySprite.keys()])
+  for (const spriteNum of [...allSpriteNums].sort((left, right) => left - right)) {
+    const sceneEvidence = [...(sceneEvidenceBySprite.get(spriteNum)?.values() ?? [])].sort(
+      (left, right) =>
+        left.sceneId - right.sceneId ||
+        left.entityId - right.entityId ||
+        left.nSpriteFrames - right.nSpriteFrames,
+    )
+    const overlay = overlaysBySprite.get(spriteNum)
+    const primaryLayout = overlay?.layout ?? sceneLayout(sceneEvidence[0]?.nSpriteFrames ?? 0)
+    const primaryKey = layoutKey(primaryLayout)
+    const layouts = new Map<string, LayoutRegistration>()
+    if (overlay) {
+      layouts.set(primaryKey, {
+        spriteNum,
+        id: migratedSpriteId(spriteNum),
+        layout: overlay.layout,
+        source: 'pal-overlay',
+        evidence: overlay.evidence,
+        label: `原精灵 ${spriteNum}(0x65 换装)`,
+      })
+    }
+    for (const evidence of sceneEvidence) {
+      const layout = sceneLayout(evidence.nSpriteFrames)
+      const key = layoutKey(layout)
+      const matchesPrimary = key === primaryKey
+      // overlay 与场景证据相同 = 同一个 stable base；保留历史人读 label，避免纯布局修复
+      // 与作者改名形成无意义 MG2 冲突。不同布局才建立 scene -f<n> 变体。
+      const registration: LayoutRegistration =
+        matchesPrimary && layouts.has(key)
+          ? layouts.get(key)!
+          : {
+              spriteNum,
+              nSpriteFrames: evidence.nSpriteFrames,
+              id: matchesPrimary
+                ? migratedSpriteId(spriteNum)
+                : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
+              layout,
+              source: 'scene',
+              evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
+              label: `原精灵 ${spriteNum}`,
+            }
+      layouts.set(key, registration)
+      sceneRegistrationByKey.set(`${spriteNum}:${evidence.nSpriteFrames}`, registration)
+    }
+    registrationsBySprite.set(spriteNum, layouts)
+    for (const registration of layouts.values())
+      if (registration.id !== migratedSpriteId(spriteNum))
+        report.layoutConflicts.push(registration.id)
+  }
+  report.layoutConflicts.sort()
+
+  const spriteDefs = new Map<string, SpriteDef>()
+  const recordedLayoutEvidence = new Set<string>()
+  const ensureSpriteDefinition = (registration: LayoutRegistration): string => {
+    if (!spriteDefs.has(registration.id))
+      spriteDefs.set(registration.id, {
+        id: registration.id,
+        asset: palSpriteAssetId(registration.spriteNum),
+        label: registration.label,
+        layout: registration.layout,
+      })
+    const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
+    if (!recordedLayoutEvidence.has(evidenceKey)) {
+      recordedLayoutEvidence.add(evidenceKey)
+      report.layoutEvidence.push({
+        spriteNum: registration.spriteNum,
+        definitionId: registration.id,
+        source: registration.source,
+        evidence: registration.evidence,
+      })
+    }
+    return registration.id
+  }
+  const spriteRef = (entity: SourceEventObject): string => {
+    const nSpriteFrames = entity.nSpriteFrames ?? 0
+    const registration = sceneRegistrationByKey.get(`${entity.spriteNum}:${nSpriteFrames}`)
+    if (!registration)
+      throw new Error(`sprite ${entity.spriteNum} 缺场景布局注册: nSpriteFrames=${nSpriteFrames}`)
+    return ensureSpriteDefinition(registration)
+  }
+
+  /** 0x65 / 0x1A field=2 / 0x98 共用的只读旧号解析器。 */
   const spriteIdForNum = (num: number): string => {
     const roleSpriteId = roleSpriteIdsByNum.get(num)
     if (roleSpriteId) return roleSpriteId
-    const defId = migratedSpriteId(num)
-    if (!spriteDefs.has(defId)) {
-      primaryLayout.set(num, 3)
-      spriteDefs.set(defId, {
-        id: defId,
-        asset: palSpriteAssetId(num),
-        label: `原精灵 ${num}(0x65 换装)`,
-        layout: { kind: 'directional', framesPerDir: 3 },
-      })
+    const layouts = registrationsBySprite.get(num)
+    if (!layouts?.size) throw new Error(`sprite ${num} 缺布局证据；禁止从脚本资源号猜布局`)
+    const overlay = overlaysBySprite.get(num)
+    if (overlay) {
+      const registration = layouts.get(layoutKey(overlay.layout))
+      if (!registration) throw new Error(`sprite ${num} 的 PAL overlay 未进入布局注册表`)
+      return ensureSpriteDefinition(registration)
     }
-    return defId
+    if (layouts.size !== 1)
+      throw new Error(
+        `sprite ${num} 有 ${layouts.size} 种场景布局，脚本资源号无法消歧；需要逐项 PAL overlay`,
+      )
+    return ensureSpriteDefinition([...layouts.values()][0]!)
   }
 
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
@@ -1820,7 +1962,7 @@ export function mapScenesStatic(
     }
   }
 
-  const migratableScenes = srcScenes.filter((scene) => {
+  const migratableScenes = orderedScenes.filter((scene) => {
     if (scene.mapNum !== 0) return true
     const exactStub =
       scene.sceneId === 294 &&

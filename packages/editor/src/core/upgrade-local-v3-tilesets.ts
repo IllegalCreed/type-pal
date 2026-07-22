@@ -1,7 +1,7 @@
 import {
   type AssetCatalogV1,
   type AssetRecordV1,
-  type LoadedManifest,
+  type LegacyManifestV3,
   palTilesetAssetId,
   type TilesetDef,
   validateAssetCatalog,
@@ -33,7 +33,7 @@ function joinPath(...parts: string[]): string {
 
 function legacySourcePath(
   path: string,
-  legacy: NonNullable<LoadedManifest['assets']['legacy']>,
+  legacy: NonNullable<LegacyManifestV3['assets']['legacy']>,
 ): string {
   if (path.startsWith('assets/')) return validateProjectRelativePath(path, '旧 tileset.path')
   const root = legacy.root
@@ -91,7 +91,7 @@ async function validateCanonicalRecord(
 function recoveryCleanupPaths(
   definitions: readonly TilesetDef[],
   catalog: AssetCatalogV1,
-  legacy: NonNullable<LoadedManifest['assets']['legacy']>,
+  legacy: NonNullable<LegacyManifestV3['assets']['legacy']>,
 ): string[] {
   const paths = new Set<string>()
   for (const definition of definitions) {
@@ -113,7 +113,7 @@ function recoveryCleanupPaths(
   return [...paths]
 }
 
-function exitTilesetLegacy(manifest: LoadedManifest): LoadedManifest {
+function exitTilesetLegacy(manifest: LegacyManifestV3): LegacyManifestV3 {
   const next = structuredClone(manifest)
   const legacy = next.assets.legacy
   if (!legacy) return next
@@ -134,7 +134,7 @@ export async function upgradeLocalProjectV3Tilesets(
   source: FileSource,
   rawManifest: unknown,
 ): Promise<boolean> {
-  const manifest = objectAt(rawManifest, 'manifest') as unknown as LoadedManifest
+  const manifest = objectAt(rawManifest, 'manifest') as unknown as LegacyManifestV3
   const legacy = manifest.assets.legacy
   const hasTilesetLegacy =
     legacy?.families.includes('tileset') || typeof legacy?.tilesets === 'string'

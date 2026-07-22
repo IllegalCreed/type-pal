@@ -50,6 +50,20 @@ describe('getCommandAt', () => {
     expect(getCommandAt(s, [1, 0])).toEqual(dlg('s1-0'))
     expect(getCommandAt(s, [0, 9])).toBeUndefined()
   })
+  test('teleportOut.onFail 可精确寻址和编辑', () => {
+    const source: ScriptStage[] = [
+      { body: [{ kind: 'teleportOut', onFail: [{ kind: 'wait', ms: 80 }] }] },
+    ]
+    expect(getCommandAt(source, [0, 0, 'onFail', 0])).toEqual({ kind: 'wait', ms: 80 })
+    expect(
+      getCommandAt(updateCommandAt(source, [0, 0, 'onFail', 0], { kind: 'wait', ms: 160 }), [
+        0,
+        0,
+        'onFail',
+        0,
+      ]),
+    ).toEqual({ kind: 'wait', ms: 160 })
+  })
 })
 
 describe('updateCommandAt(不可变)', () => {

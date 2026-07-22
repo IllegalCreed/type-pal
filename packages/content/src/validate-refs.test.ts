@@ -1,5 +1,9 @@
 import { expect, test } from 'vitest'
-import { type ContentBundle, validateReferences } from './validate-refs.js'
+import {
+  type ContentBundle,
+  collectSpriteActionReferences,
+  validateReferences,
+} from './validate-refs.js'
 
 // 深拷贝(content 是纯逻辑包,tsconfig 无 DOM lib → 不用 structuredClone;JSON 法对这些纯数据 fixture 足够)。
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T
@@ -60,6 +64,9 @@ const base: ContentBundle = {
       asset: 'sprite.ghost',
       label: 'g',
       layout: { kind: 'directional', framesPerDir: 3 },
+      poses: {
+        idle: { label: '待机', steps: [{ frame: 0, durationMs: 100 }], loopFrom: 0 },
+      },
     },
     {
       id: 'hero-sprite',
@@ -166,6 +173,214 @@ test('嵌套场景/chunk 命令中的换装与 followers 共用 SpriteDef 语义
     ]),
   )
   expect(errors.some((issue) => issue.where.includes('scriptChunks'))).toBe(true)
+})
+test('页绑定与嵌套命令按 (sprite, action) 复合引用校验', () => {
+  const clean = clone(base)
+  clean.scenes[0]!.entities[0]!.pages = [
+    { animation: { sprite: 'ghost', action: 'idle', loop: true } },
+  ]
+  clean.scenes[0]!.onEnter = [
+    {
+      body: [
+        {
+          kind: 'playEntityAction',
+          entity: 'e',
+          sprite: 'ghost',
+          action: 'idle',
+          loop: false,
+        },
+      ],
+    },
+  ]
+  expect(validateReferences(clean)).toEqual([])
+
+  clean.scenes[0]!.entities[0]!.pages![0]!.animation!.action = 'missing-page-action'
+  ;(
+    clean.scenes[0]!.onEnter![0]!.body[0] as Extract<
+      import('./script.js').Command,
+      { kind: 'playEntityAction' }
+    >
+  ).action = 'missing-command-action'
+  const errors = validateReferences(clean).filter((issue) => issue.severity === 'error')
+  expect(errors.map((issue) => issue.message)).toEqual(
+    expect.arrayContaining([
+      expect.stringContaining('missing-page-action'),
+      expect.stringContaining('missing-command-action'),
+    ]),
+  )
+  expect(errors.some((issue) => issue.where.includes('.pages[0].animation.action'))).toBe(true)
+  expect(errors.some((issue) => issue.where.includes('.onEnter'))).toBe(true)
+})
+test('动作引用保留场景页与 ScriptTree 精确路径', () => {
+  const b = clone(base)
+  b.scenes[0]!.entities[0]!.pages = [
+    {},
+    {
+      animation: { sprite: 'ghost', action: 'idle', loop: true },
+      trigger: {
+        on: 'interact',
+        stages: [
+          {
+            body: [
+              {
+                kind: 'branch',
+                cond: { kind: 'flag', flag: 'x', is: true },
+                then: [
+                  {
+                    kind: 'playEntityAction',
+                    entity: 'e',
+                    sprite: 'ghost',
+                    action: 'idle',
+                    loop: false,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ]
+  b.scenes[0]!.onEnter = [
+    {
+      entry: {
+        prepare: [
+          {
+            kind: 'playEntityAction',
+            entity: 'e',
+            sprite: 'ghost',
+            action: 'idle',
+            loop: true,
+          },
+        ],
+        reveal: { kind: 'cut' },
+      },
+      body: [],
+    },
+  ]
+  b.scriptChunks = {
+    shared: {
+      version: 1,
+      id: 'shared',
+      scripts: {
+        wave: [
+          {
+            kind: 'confirm',
+            onNo: [
+              {
+                kind: 'playEntityAction',
+                entity: 'e',
+                sprite: 'ghost',
+                action: 'idle',
+                loop: false,
+              },
+            ],
+          },
+        ],
+      },
+    },
+  }
+  b.scriptIndex = {
+    version: 1,
+    shards: { shared: 1, global: {} },
+    chunks: { shared: { path: 'content/scripts/shared.json', bytes: 1 } },
+    library: { wave: { name: '测试动作', self: 'none' } },
+  }
+
+  expect(collectSpriteActionReferences(b).map((reference) => reference.locator)).toEqual(
+    expect.arrayContaining([
+      { kind: 'page-animation', sceneId: 's', entityId: 'e', pageIndex: 1 },
+      {
+        kind: 'scene-command',
+        sceneId: 's',
+        sourceKey: 'e:trigger',
+        entityId: 'e',
+        pageIndex: 1,
+        path: '0/0/then/0',
+      },
+      {
+        kind: 'scene-command',
+        sceneId: 's',
+        sourceKey: '__onEnter__',
+        path: '0/entry/prepare/0',
+      },
+      { kind: 'script-command', scriptId: 'wave', path: '0/0/onNo/0' },
+    ]),
+  )
+})
+test('未登记的内部共享脚本动作引用保持只读，不伪造不可达定位', () => {
+  const b = clone(base)
+  b.scriptChunks = {
+    shared: {
+      version: 1,
+      id: 'shared',
+      scripts: {
+        internal: [
+          {
+            kind: 'playEntityAction',
+            entity: 'e',
+            sprite: 'ghost',
+            action: 'idle',
+            loop: true,
+          },
+        ],
+      },
+    },
+  }
+  const references = collectSpriteActionReferences(b)
+  expect(references).toEqual([expect.objectContaining({ action: 'idle' })])
+  expect(references[0]?.locator).toBeUndefined()
+})
+test('动态脚本绑定内联 stages 的动作仍进入校验与删除保护，但不伪造 ScriptTree 路径', () => {
+  const b = clone(base)
+  b.scenes[0]!.onEnter = [
+    {
+      body: [
+        {
+          kind: 'setEntityAuto',
+          entity: 'e',
+          stages: [
+            {
+              body: [
+                {
+                  kind: 'playEntityAction',
+                  entity: 'e',
+                  sprite: 'ghost',
+                  action: 'missing-inline-action',
+                  loop: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ]
+  const references = collectSpriteActionReferences(b)
+  expect(references).toEqual([
+    expect.objectContaining({ action: 'missing-inline-action', sprite: 'ghost' }),
+  ])
+  expect(references[0]?.locator).toBeUndefined()
+  expect(validateReferences(b)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ message: expect.stringContaining('missing-inline-action') }),
+    ]),
+  )
+})
+test('页动作声明的 sprite 也进入定义级引用门禁', () => {
+  const b = clone(base)
+  b.scenes[0]!.entities[0]!.pages = [
+    { animation: { sprite: 'missing-page-sprite', action: 'idle', loop: true } },
+  ]
+  const errors = validateReferences(b).filter((issue) => issue.severity === 'error')
+  expect(errors).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        where: expect.stringContaining('.animation.sprite'),
+        message: expect.stringContaining('missing-page-sprite'),
+      }),
+    ]),
+  )
 })
 test('可见存档 appearance/followers/sceneScriptOverrides 也进入删除与校验引用图', () => {
   const b = clone(base)

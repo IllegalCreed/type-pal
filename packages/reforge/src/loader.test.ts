@@ -13,7 +13,7 @@ import {
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 3,
+  contentVersion: 4,
   entryScene: 'guijie-minju',
   content: {
     maps: 'content/maps/index.json',
@@ -426,7 +426,7 @@ describe('loadProjectFrom(经 FileSource)', () => {
         contentVersion: 1,
       },
     }
-    await expect(loadProjectFrom(memSource(v1Files))).rejects.toThrow('仅支持 contentVersion 3')
+    await expect(loadProjectFrom(memSource(v1Files))).rejects.toThrow('仅支持 contentVersion 4')
 
     const legacySceneFiles: Record<string, unknown> = {
       ...files,

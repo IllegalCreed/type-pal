@@ -1217,81 +1217,10 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-3"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-4"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s017",
-                      "id": "scene/s017/root/entity-e262/page-0/auto/stage-5"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-233",
+            "action": "pal-auto-v1-d1bd68d3b84b78cd",
+            "loop": true
           }
         }
       ]

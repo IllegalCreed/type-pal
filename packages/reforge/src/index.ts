@@ -11,6 +11,14 @@ import type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw } from './
 // 渲染器(D10:Canvas2D blitter + Y 深度遮挡)
 import { bakeFrame, Canvas2DRenderer, spriteBlitRect } from './render.js'
 
+export {
+  EntityActionPlayer,
+  type EntityActionSeed,
+  type ResolvedEntityAction,
+  resolveSpriteActionBinding,
+  resolveSpriteActionPosition,
+  type SpriteActionPosition,
+} from './entity-action-player.js'
 export type { Camera, CellRect, Renderer, RenderLayerOpts, SpriteDraw }
 export { bakeFrame, Canvas2DRenderer, spriteBlitRect }
 

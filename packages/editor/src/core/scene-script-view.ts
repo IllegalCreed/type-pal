@@ -18,7 +18,7 @@ function sceneRootScriptPrefix(sceneId: string, source: ScriptSourceRef): string
       ? 'on-enter'
       : source.kind === 'onTeleport'
         ? 'on-teleport'
-        : `entity-${source.entityId}/page-0/${source.kind}`
+        : `entity-${source.entityId}/page-${source.pageIndex ?? 0}/${source.kind}`
   return `scene/${sceneId}/root/${root}/stage-`
 }
 

@@ -8,6 +8,7 @@ import type {
   PoisonDef,
   SceneDef,
   SkillData,
+  SpriteDef,
 } from '@type-pal/content'
 import {
   collectCommandAssetReferences,
@@ -44,6 +45,49 @@ function addItemSounds(out: Set<AssetId>, item: ItemData | undefined): void {
   add(out, item?.throw?.sound)
 }
 
+function addSpriteActionSounds(
+  out: Set<AssetId>,
+  spritesById: Readonly<Record<string, SpriteDef>> | undefined,
+  spriteId: string,
+  actionId: string,
+  where: string,
+): void {
+  if (!spritesById) throw new Error(`SFX readiness ${where}: 无 sprites 注册表，无法解析动作音效`)
+  const sprite = spritesById[spriteId]
+  if (!sprite) throw new Error(`SFX readiness ${where}: SpriteDef "${spriteId}" 不存在`)
+  const action = sprite.poses?.[actionId]
+  if (!action) throw new Error(`SFX readiness ${where}: 动作 "${spriteId}/${actionId}" 不存在`)
+  for (const step of action.steps)
+    for (const cue of step.cues ?? []) if (cue.kind === 'sound') out.add(cue.asset)
+}
+
+/** 只找命令树中的语义动作引用；页默认 binding 由场景 collector 显式加入。 */
+function collectActionCommandSounds(
+  node: unknown,
+  out: Set<AssetId>,
+  spritesById: Readonly<Record<string, SpriteDef>> | undefined,
+  where: string,
+): void {
+  const stack: unknown[] = [node]
+  const seen = new WeakSet<object>()
+  while (stack.length) {
+    const current = stack.pop()
+    if (!current || typeof current !== 'object') continue
+    if (seen.has(current)) continue
+    seen.add(current)
+    if (!Array.isArray(current)) {
+      const record = current as Record<string, unknown>
+      if (
+        record.kind === 'playEntityAction' &&
+        typeof record.sprite === 'string' &&
+        typeof record.action === 'string'
+      )
+        addSpriteActionSounds(out, spritesById, record.sprite, record.action, where)
+      stack.push(...Object.values(record))
+    } else stack.push(...current)
+  }
+}
+
 /**
  * 收集命令树及其 ScriptRef 闭包中的音效。所有 lease 都在返回/抛错前释放；ref.id 是
  * 稳定身份，既用于环检测，也避免同一脚本因不同 chunk hint 被重复加载。
@@ -52,6 +96,7 @@ export async function collectScriptSoundAssets(
   roots: readonly unknown[],
   resolver: ScriptResolver | undefined,
   signal: AbortSignal,
+  spritesById?: Readonly<Record<string, SpriteDef>>,
 ): Promise<Set<AssetId>> {
   const sounds = new Set<AssetId>()
   const seen = new Set<string>()
@@ -59,6 +104,7 @@ export async function collectScriptSoundAssets(
   const visit = async (node: unknown, where: string): Promise<void> => {
     for (const reference of collectCommandAssetReferences(node, where))
       if (reference.expectedKind === 'sound') sounds.add(reference.asset)
+    collectActionCommandSounds(node, sounds, spritesById, where)
 
     const refs: import('@type-pal/content').ScriptRef[] = []
     visitScriptRefs(node, (ref) => refs.push(ref))
@@ -85,6 +131,7 @@ export async function collectSceneSoundAssets(input: {
   /** 存档中的场景脚本覆写等动态命令根。 */
   additionalRoots?: readonly unknown[]
   inventoryItems?: readonly ItemData[]
+  spritesById?: Readonly<Record<string, SpriteDef>>
   resolver?: ScriptResolver
   signal: AbortSignal
 }): Promise<Set<AssetId>> {
@@ -92,7 +139,19 @@ export async function collectSceneSoundAssets(input: {
     [input.scene, ...(input.additionalRoots ?? [])],
     input.resolver,
     input.signal,
+    input.spritesById,
   )
+  for (const entity of input.scene.entities) {
+    const binding = entity.pages?.[0]?.animation
+    if (binding)
+      addSpriteActionSounds(
+        sounds,
+        input.spritesById,
+        binding.sprite,
+        binding.action,
+        `scene:${input.scene.id}:entity:${entity.id}:pages[0].animation`,
+      )
+  }
   for (const item of input.inventoryItems ?? []) addItemSounds(sounds, item)
   return sounds
 }

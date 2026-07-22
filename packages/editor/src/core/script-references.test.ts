@@ -25,7 +25,7 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 3,
+      contentVersion: 4,
       entryScene: 's1',
       content: {
         scenes: 'content/scenes/',

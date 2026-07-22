@@ -18,7 +18,9 @@ import type {
   MapAssetDefV1,
   SceneDef,
   SceneEntryPoint,
+  SpriteActionReference,
   SpriteDef,
+  SpriteDefinitionReference,
 } from '@type-pal/content'
 import {
   isActorEntity,
@@ -48,6 +50,7 @@ import {
   AddSceneCommand,
   BindSceneMapCommand,
   CreateMapAssetCommand,
+  CreateScriptSourceCommand,
   DeleteEntityCommand,
   DeleteSceneEntryCommand,
   DuplicateMapAssetCommand,
@@ -77,8 +80,10 @@ import {
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
+import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
 import { DataMode } from './DataMode.js'
+import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
 import {
   decodeEditorLocation,
   defaultEditorLocation,
@@ -398,20 +403,51 @@ export function App(props: {
     open: boolean
     src: string | null
     internalScriptId: string | null
+    commandPath: string | null
+    focusRevision: number
   }>({
     open: false,
     src: null,
     internalScriptId: null,
+    commandPath: null,
+    focusRevision: 0,
   })
+  const preciseFocusRevisionRef = useRef(0)
+  const nextPreciseFocusRevision = (): number => {
+    preciseFocusRevisionRef.current += 1
+    return preciseFocusRevisionRef.current
+  }
+  const [sharedScriptFocus, setSharedScriptFocus] = useState<{
+    id: string
+    path: string
+    revision: number
+  }>()
+  const [entityPageFocus, setEntityPageFocus] = useState<{
+    sceneId: string
+    entityId: string
+    pageIndex: number
+    revision: number
+  }>()
   const selectSceneEntry = (
     selection: Extract<SceneSelection, { kind: 'default-entry' | 'named-entry' }>,
   ): void => {
     setSelected(selection)
     setTool('select')
-    setDrawer({ open: false, src: null, internalScriptId: null })
+    setDrawer({
+      open: false,
+      src: null,
+      internalScriptId: null,
+      commandPath: null,
+      focusRevision: drawer.focusRevision,
+    })
   }
   /** 「去编辑脚本」统一入口(检查器按钮/数据模式引用跳转):回场景模式+定位场景+展开抽屉。 */
-  const jumpToEvent = (sceneId: string, srcKey: string): void => {
+  const jumpToEvent = (
+    sceneId: string,
+    srcKey: string,
+    commandPath?: string,
+    pageIndex = 0,
+  ): void => {
     setPlaceSceneId(sceneId)
     applyEditorLocation(editorLinks.scene(sceneId))
     // 源列跟随选中 → 跳转须同步选中目标(实体源选实体,场景级源选场景节点)
@@ -419,7 +455,15 @@ export function App(props: {
     setSelected(
       srcKey.startsWith('__') || !entityId ? SCENE_SELECTION : { kind: 'entity', id: entityId },
     )
-    setDrawer({ open: true, src: srcKey, internalScriptId: null })
+    const drawerSource =
+      pageIndex > 0 && /:(trigger|auto)$/.test(srcKey) ? `${srcKey}@${pageIndex}` : srcKey
+    setDrawer({
+      open: true,
+      src: drawerSource,
+      internalScriptId: null,
+      commandPath: commandPath ?? null,
+      focusRevision: nextPreciseFocusRevision(),
+    })
   }
   const jumpToBattleSpriteReference = (reference: BattleSpriteDefinitionReference): void => {
     const [domain, id] = reference.site.split(':')
@@ -442,19 +486,93 @@ export function App(props: {
         message: `引用位置 ${reference.where} 当前没有可编辑的持久内容页。`,
       })
   }
+  const jumpToWorldSpriteReference = (reference: SpriteDefinitionReference): void => {
+    const [domain, id, entityKind, entityId] = reference.site.split(':')
+    if (!id) return
+    if (domain === 'actor') applyEditorLocation(editorLinks.actor(id))
+    else if (domain === 'enemy') applyEditorLocation(editorLinks.enemy(id))
+    else if (domain === 'scene') {
+      setPlaceSceneId(id)
+      applyEditorLocation(editorLinks.scene(id))
+      setSelected(
+        entityKind === 'entity' && entityId ? { kind: 'entity', id: entityId } : SCENE_SELECTION,
+      )
+      setTool('select')
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: drawer.focusRevision,
+      })
+    } else if (domain === 'script') {
+      const payload = reference.site.slice('script:'.length)
+      const separator = payload.indexOf(':')
+      const scriptId = separator >= 0 ? payload.slice(separator + 1) : ''
+      if (scriptId) openScriptReference(scriptId)
+    } else
+      setWorkspaceNotice({
+        kind: 'info',
+        message: `使用位置 ${reference.where} 当前没有可编辑的持久内容页。`,
+      })
+  }
+  const jumpToWorldSpriteActionReference = (reference: SpriteActionReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({
+        kind: 'info',
+        message: `动作引用 ${reference.where} 来自只读兼容数据，当前没有可编辑的精确位置。`,
+      })
+      return
+    }
+    if (locator.kind === 'page-animation') {
+      const revision = nextPreciseFocusRevision()
+      setPlaceSceneId(locator.sceneId)
+      applyEditorLocation(editorLinks.scene(locator.sceneId))
+      setSelected({ kind: 'entity', id: locator.entityId })
+      setTool('select')
+      setInspectorCollapsed(false)
+      setEntityPageFocus({ ...locator, revision })
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
+      return
+    }
+    if (locator.kind === 'scene-command') {
+      jumpToEvent(locator.sceneId, locator.sourceKey, locator.path, locator.pageIndex ?? 0)
+      return
+    }
+    openScriptReference(locator.scriptId, locator.path)
+  }
+  const jumpToWorldSpriteAutomaticScriptInstance = (
+    site: SpriteAutomaticScriptInstanceSite,
+  ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
   const openSharedScript = (id: string): void => {
     if (!state.scriptIndex?.library?.[id]) return
+    setSharedScriptFocus(undefined)
     applyEditorLocation(editorLinks.sharedScript(id))
   }
-  const openScriptReference = (id: string): void => {
+  const openScriptReference = (id: string, commandPath?: string): void => {
     if (state.scriptIndex?.library?.[id]) {
-      openSharedScript(id)
+      if (commandPath)
+        setSharedScriptFocus({
+          id,
+          path: commandPath,
+          revision: nextPreciseFocusRevision(),
+        })
+      else setSharedScriptFocus(undefined)
+      applyEditorLocation(editorLinks.sharedScript(id))
       return
     }
     const sceneId = /^scene\/([^/]+)\//.exec(id)?.[1]
     const targetScene = state.scenes.find((candidate) => candidate.id === sceneId)
     if (!sceneId || !targetScene) return
-    const entityId = id.split('/').find((part) => /^e\d+$/.test(part))
+    const entityRoot = /\/entity-([^/]+)\/page-(\d+)\/(trigger|auto)(?:\/|$)/.exec(id)
+    const entityId = entityRoot?.[1] ?? id.split('/').find((part) => /^e\d+$/.test(part))
     setPlaceSceneId(sceneId)
     applyEditorLocation(editorLinks.scene(sceneId))
     setSelected(
@@ -463,7 +581,13 @@ export function App(props: {
         : SCENE_SELECTION,
     )
     setTool('select')
-    setDrawer({ open: true, src: null, internalScriptId: id })
+    setDrawer({
+      open: true,
+      src: null,
+      internalScriptId: id,
+      commandPath: commandPath ?? null,
+      focusRevision: nextPreciseFocusRevision(),
+    })
   }
   const statusIssues = useMemo(() => collectEditorStatusIssues(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -1067,14 +1191,24 @@ export function App(props: {
             skillList={state.skills}
             onJumpToEvent={jumpToEvent}
             focusScriptId={activeSubpage.dataPage === 'scripts' ? location.objectId : undefined}
-            focusScriptRevision={0}
+            focusScriptRevision={
+              sharedScriptFocus && sharedScriptFocus.id === location.objectId
+                ? sharedScriptFocus.revision
+                : 0
+            }
+            focusScriptCommandPath={
+              sharedScriptFocus && sharedScriptFocus.id === location.objectId
+                ? sharedScriptFocus.path
+                : undefined
+            }
             tabBar={moduleSubnav}
             tab={activeSubpage.dataPage}
             focusObjectId={location.objectId}
+            focusActionId={location.actionId}
             onObjectFocus={focusCurrentObject}
             spriteDomain={location.domain}
             spriteView={location.view}
-            onSpriteLocation={(domain, view, objectId) =>
+            onSpriteLocation={(domain, view, objectId, actionId) =>
               applyEditorLocation(
                 {
                   module: 'asset',
@@ -1082,6 +1216,7 @@ export function App(props: {
                   domain,
                   view,
                   ...(objectId ? { objectId } : {}),
+                  ...(actionId ? { actionId } : {}),
                 },
                 'replace',
               )
@@ -1092,6 +1227,9 @@ export function App(props: {
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
+            onJumpWorldSpriteReference={jumpToWorldSpriteReference}
+            onJumpWorldSpriteActionReference={jumpToWorldSpriteActionReference}
+            onJumpWorldSpriteAutomaticScriptInstance={jumpToWorldSpriteAutomaticScriptInstance}
             onJumpBattleSpriteReference={jumpToBattleSpriteReference}
           />
         ) : (
@@ -1330,6 +1468,8 @@ export function App(props: {
                       open: !drawerState.open,
                       src: drawerState.src,
                       internalScriptId: null,
+                      commandPath: null,
+                      focusRevision: drawerState.focusRevision,
                     }))
                   }
                   title="底部脚本抽屉:本场景 onEnter/实体触发/巡逻 就地编 + 预览"
@@ -1397,6 +1537,8 @@ export function App(props: {
                   selectedEntityId={selEntity?.id ?? null}
                   focusSrcKey={drawer.src}
                   focusInternalScriptId={drawer.internalScriptId}
+                  focusCommandPath={drawer.commandPath}
+                  focusCommandRevision={drawer.focusRevision}
                   sprites={state.sprites}
                   actorsById={actorsById}
                   battleSprites={state.battleSprites}
@@ -1421,7 +1563,18 @@ export function App(props: {
                   onOpenSound={(id) => applyEditorLocation(editorLinks.sound(id))}
                   onOpenImage={(id) => applyEditorLocation(editorLinks.image(id))}
                   onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
-                  onClose={() => setDrawer({ open: false, src: null, internalScriptId: null })}
+                  onOpenSpriteAction={(spriteId, actionId) =>
+                    applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
+                  }
+                  onClose={() =>
+                    setDrawer({
+                      open: false,
+                      src: null,
+                      internalScriptId: null,
+                      commandPath: null,
+                      focusRevision: drawer.focusRevision,
+                    })
+                  }
                 />
               )}
             </div>
@@ -1457,6 +1610,26 @@ export function App(props: {
                   assetBase={project.assetBase}
                   assetReader={assetReader}
                   onJumpToEvent={jumpToEvent}
+                  focusPageIndex={
+                    entityPageFocus?.sceneId === scene.id &&
+                    entityPageFocus.entityId === selEntity.id
+                      ? entityPageFocus.pageIndex
+                      : undefined
+                  }
+                  focusPageRevision={
+                    entityPageFocus?.sceneId === scene.id &&
+                    entityPageFocus.entityId === selEntity.id
+                      ? entityPageFocus.revision
+                      : undefined
+                  }
+                  onPageFocusConsumed={(revision) =>
+                    setEntityPageFocus((current) =>
+                      current?.revision === revision ? undefined : current,
+                    )
+                  }
+                  onOpenSpriteAction={(spriteId, actionId) =>
+                    applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
+                  }
                   onDelete={deleteSelected}
                 />
               ) : selected.kind === 'default-entry' ? (
@@ -1839,6 +2012,11 @@ function EntityInspector(props: {
   assetReader: EditorAssetReader
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
+  /** 从动作引用跳转时精确打开对应实体页。 */
+  focusPageIndex?: number
+  focusPageRevision?: number
+  onPageFocusConsumed?: (revision: number) => void
+  onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onDelete: () => void
 }) {
   const {
@@ -1852,9 +2030,14 @@ function EntityInspector(props: {
     assetBase,
     assetReader,
     onJumpToEvent,
+    focusPageIndex,
+    focusPageRevision,
+    onPageFocusConsumed,
+    onOpenSpriteAction,
     onDelete,
   } = props
   const [spriteViewerOpen, setSpriteViewerOpen] = useState(false)
+  const [pageIndex, setPageIndex] = useState(0)
   // 实体的中文显示名:actor 实体解引用到角色名(entity.actor 是 id 引用),否则回落实体 id。
   const actorName =
     isActorEntity(entity) && actorsById[entity.actor]
@@ -1865,6 +2048,33 @@ function EntityInspector(props: {
   }
   const spriteId = resolveEntitySpriteId(entity, actorsById)
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
+  const pageCount = Math.max(1, entity.pages?.length ?? 0)
+  useEffect(() => {
+    if (!entity.id) return
+    setPageIndex((current) =>
+      current >= 0 && current < Math.max(1, entity.pages?.length ?? 0) ? current : 0,
+    )
+  }, [entity.id, entity.pages?.length])
+  useEffect(() => {
+    if (focusPageRevision == null || focusPageIndex == null) return
+    if (focusPageIndex < 0 || focusPageIndex >= Math.max(1, entity.pages?.length ?? 0)) return
+    setPageIndex(focusPageIndex)
+    onPageFocusConsumed?.(focusPageRevision)
+  }, [entity.pages?.length, focusPageIndex, focusPageRevision, onPageFocusConsumed])
+  const setPageAnimation = (
+    animation: NonNullable<EntityDef['pages']>[number]['animation'],
+  ): void => {
+    const pages = structuredClone(entity.pages ?? [])
+    while (pages.length <= pageIndex) pages.push({})
+    const page = { ...pages[pageIndex] }
+    if (animation) page.animation = animation
+    else delete page.animation
+    pages[pageIndex] = page
+    const nextPages = pages.every((candidate) => Object.keys(candidate).length === 0)
+      ? undefined
+      : pages
+    session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { pages: nextPages }))
+  }
   const facing = entity.facing ?? 'down'
   const dispatchHostile = (h: HostileBehavior | undefined): void => {
     session.dispatch(new UpdateEntityCommand(sceneId, entity.id, { hostile: h }))
@@ -1886,6 +2096,38 @@ function EntityInspector(props: {
           {actorName ?? entity.id}
           {actorName && <code style={{ color: 'var(--faint)', fontSize: 11 }}> {entity.id}</code>}
         </div>
+      </div>
+      <div className="section">
+        <h4>
+          页面默认动作 <span className="hint2">动作资产在精灵库定义</span>
+        </h4>
+        {pageCount > 1 ? (
+          <div className="field">
+            <span className="field-label">实体页</span>
+            <select
+              className="in"
+              aria-label="选择实体页"
+              value={pageIndex}
+              onChange={(event) => setPageIndex(Number(event.target.value))}
+            >
+              {Array.from({ length: pageCount }, (_, index) => (
+                <option key={index} value={index}>
+                  第 {index + 1} 页
+                  {entity.pages?.[index]?.state === undefined
+                    ? ''
+                    : ` · state=${entity.pages[index]!.state}`}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
+        <EntityPageAnimationEditor
+          page={entity.pages?.[pageIndex]}
+          pageIndex={pageIndex}
+          sprite={spriteDef}
+          onChange={setPageAnimation}
+          onOpenAction={onOpenSpriteAction}
+        />
       </div>
       <div className="section">
         <h4>外观 / 交互</h4>
@@ -2193,28 +2435,73 @@ function EntityInspector(props: {
         {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
         <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
           <span style={{ color: 'var(--dim)', fontSize: 12 }}>
-            {entity.pages?.[0]?.trigger
-              ? `🔗 ${entity.pages[0].trigger.on === 'interact' ? '交互' : '触碰'}·${entity.pages[0].trigger.stages.length}段`
+            {entity.pages?.[pageIndex]?.trigger
+              ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
               : null}
-            {entity.pages?.[0]?.auto ? ` 🔁 巡逻·${entity.pages[0].auto.stages.length}段` : null}
-            {!entity.pages?.[0]?.trigger && !entity.pages?.[0]?.auto ? '(无脚本)' : null}
+            {entity.pages?.[pageIndex]?.auto
+              ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
+              : null}
+            {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
+              ? '(无脚本)'
+              : null}
           </span>
-          <button
-            type="button"
-            className="mini-txt"
-            onClick={() =>
-              onJumpToEvent(
-                sceneId,
-                entity.pages?.[0]?.trigger
-                  ? `${entity.id}:trigger`
-                  : entity.pages?.[0]?.auto
-                    ? `${entity.id}:auto`
-                    : `${entity.id}:trigger`,
-              )
-            }
-          >
-            📜 编辑脚本
-          </button>
+          {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
+            <button
+              type="button"
+              className="mini-txt"
+              onClick={() =>
+                onJumpToEvent(
+                  sceneId,
+                  entity.pages?.[pageIndex]?.trigger
+                    ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
+                    : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                )
+              }
+            >
+              📜 编辑脚本
+            </button>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => {
+                  session.dispatch(
+                    new CreateScriptSourceCommand(sceneId, {
+                      kind: 'trigger',
+                      entityId: entity.id,
+                      ...(pageIndex === 0 ? {} : { pageIndex }),
+                    }),
+                  )
+                  onJumpToEvent(
+                    sceneId,
+                    `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                  )
+                }}
+              >
+                ＋触发
+              </button>
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => {
+                  session.dispatch(
+                    new CreateScriptSourceCommand(sceneId, {
+                      kind: 'auto',
+                      entityId: entity.id,
+                      ...(pageIndex === 0 ? {} : { pageIndex }),
+                    }),
+                  )
+                  onJumpToEvent(
+                    sceneId,
+                    `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                  )
+                }}
+              >
+                ＋巡逻
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div className="section" style={{ borderBottom: 0 }}>

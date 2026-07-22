@@ -21,6 +21,12 @@ function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
   }
 }
 
+function requireOnlyKeys(obj: object, keys: readonly string[], ctx: string): void {
+  const allowed = new Set(keys)
+  for (const key of Object.keys(obj))
+    if (!allowed.has(key)) throw new Error(`${ctx}.${key}: 未知字段`)
+}
+
 function assertArray<T>(x: unknown, ctx: string): T[] {
   if (!Array.isArray(x)) throw new Error(`${ctx}: 期望数组`)
   return x as T[]
@@ -123,10 +129,10 @@ export function validateScenes(json: unknown): SceneDef[] {
   return validateSceneArray(json)
 }
 
-/** 运行时/编辑器只接受 contentVersion 3；v2 只能在项目升级边界读取。 */
+/** 运行时/编辑器只接受规范 contentVersion 4；v2/v3 只能在项目升级边界读取。 */
 export function validateScenesForContentVersion(json: unknown, contentVersion: number): SceneDef[] {
-  if (contentVersion !== 3)
-    throw new Error(`scenes: 仅支持 contentVersion 3，收到 ${contentVersion}；请先迁移工程`)
+  if (contentVersion !== 4)
+    throw new Error(`scenes: 仅支持 contentVersion 4，收到 ${contentVersion}；请先迁移工程`)
   return validateSceneArray(json)
 }
 
@@ -367,46 +373,71 @@ export function validateSprites(json: unknown, catalog?: AssetCatalogV1): Sprite
     const layout = assertObject((sp as { layout: unknown }).layout, `sprites[${i}].layout`)
     const kind = (layout as { kind?: unknown }).kind
     if (kind === 'directional') {
+      requireOnlyKeys(layout, ['kind', 'framesPerDir'], `sprites[${i}].layout`)
       const framesPerDir = (layout as { framesPerDir?: unknown }).framesPerDir
       if (framesPerDir === undefined)
         throw new Error(`sprites[${i}].layout: directional 缺 framesPerDir(number)`)
       if (!Number.isInteger(framesPerDir) || (framesPerDir as number) <= 0)
         throw new Error(`sprites[${i}].layout: directional framesPerDir 期望正整数`)
-    } else if (kind === 'loop') {
-      const frameCount = (layout as { frameCount?: unknown }).frameCount
-      if (frameCount === undefined)
-        throw new Error(`sprites[${i}].layout: loop 缺 frameCount(number)`)
-      if (!Number.isInteger(frameCount) || (frameCount as number) <= 0)
-        throw new Error(`sprites[${i}].layout: loop frameCount 期望正整数`)
-    } else if (kind !== 'static') {
+    } else if (kind === 'static') {
+      requireOnlyKeys(layout, ['kind'], `sprites[${i}].layout`)
+    } else {
       throw new Error(`sprites[${i}].layout: kind 非法("${String(kind)}")`)
     }
     if (o.poses !== undefined) {
       const poses = assertObject(o.poses, `sprites[${i}].poses`)
-      for (const [name, rawPose] of Object.entries(poses)) {
-        const pose = assertObject(
-          rawPose,
-          `sprites[${i}].poses[${JSON.stringify(name)}]`,
-        ) as Record<string, unknown>
-        const frames = assertArray<unknown>(
-          pose.frames,
-          `sprites[${i}].poses[${JSON.stringify(name)}].frames`,
-        )
-        if (!frames.length)
-          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].frames: 期望非空数组`)
-        frames.forEach((frame, frameIndex) => {
-          if (typeof frame !== 'number' || !Number.isInteger(frame) || frame < 0)
-            throw new Error(
-              `sprites[${i}].poses[${JSON.stringify(name)}].frames[${frameIndex}]: 期望非负整数`,
-            )
-        })
-        if (pose.mode !== 'static' && pose.mode !== 'loop')
-          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].mode: 非法`)
+      for (const [actionId, rawAction] of Object.entries(poses)) {
+        const actionPath = `sprites[${i}].poses[${JSON.stringify(actionId)}]`
+        if (actionId.trim().length === 0) throw new Error(`${actionPath}: ActionId 不能为空`)
+        const action = assertObject(rawAction, actionPath) as Record<string, unknown>
+        requireOnlyKeys(action, ['label', 'order', 'steps', 'loopFrom'], actionPath)
+        if (typeof action.label !== 'string' || action.label.trim().length === 0)
+          throw new Error(`${actionPath}.label: 期望非空 string`)
         if (
-          pose.ticksPerFrame !== undefined &&
-          (!Number.isInteger(pose.ticksPerFrame) || (pose.ticksPerFrame as number) <= 0)
+          action.order !== undefined &&
+          (!Number.isInteger(action.order) || (action.order as number) < 0)
         )
-          throw new Error(`sprites[${i}].poses[${JSON.stringify(name)}].ticksPerFrame: 期望正整数`)
+          throw new Error(`${actionPath}.order: 期望非负整数`)
+        const steps = assertArray<unknown>(action.steps, `${actionPath}.steps`)
+        if (steps.length === 0) throw new Error(`${actionPath}.steps: 期望非空数组`)
+        steps.forEach((rawStep, stepIndex) => {
+          const stepPath = `${actionPath}.steps[${stepIndex}]`
+          const step = assertObject(rawStep, stepPath) as Record<string, unknown>
+          requireOnlyKeys(step, ['frame', 'durationMs', 'cues'], stepPath)
+          requireKeys(step, ['frame', 'durationMs'], stepPath)
+          if (!Number.isInteger(step.frame) || (step.frame as number) < 0)
+            throw new Error(`${stepPath}.frame: 期望非负整数`)
+          if (!Number.isInteger(step.durationMs) || (step.durationMs as number) <= 0)
+            throw new Error(`${stepPath}.durationMs: 期望正整数`)
+          if (step.cues !== undefined) {
+            const cues = assertArray<unknown>(step.cues, `${stepPath}.cues`)
+            cues.forEach((rawCue, cueIndex) => {
+              const cuePath = `${stepPath}.cues[${cueIndex}]`
+              const cue = assertObject(rawCue, cuePath) as Record<string, unknown>
+              requireOnlyKeys(cue, ['kind', 'asset'], cuePath)
+              requireKeys(cue, ['kind', 'asset'], cuePath)
+              if (cue.kind !== 'sound') throw new Error(`${cuePath}.kind: 首期只允许 sound`)
+              if (typeof cue.asset !== 'string' || cue.asset.trim().length === 0)
+                throw new Error(`${cuePath}.asset: 期望非空 AssetId`)
+              if (catalog) {
+                const record = catalog.assets[cue.asset]
+                if (!record)
+                  throw new Error(`${cuePath}.asset: AssetId "${cue.asset}" 不在 catalog`)
+                if (record.kind !== 'sound')
+                  throw new Error(
+                    `${cuePath}.asset: AssetId "${cue.asset}" 期望 sound，实际 ${record.kind}`,
+                  )
+              }
+            })
+          }
+        })
+        if (
+          action.loopFrom !== undefined &&
+          (!Number.isInteger(action.loopFrom) ||
+            (action.loopFrom as number) < 0 ||
+            (action.loopFrom as number) >= steps.length)
+        )
+          throw new Error(`${actionPath}.loopFrom: 期望小于 steps.length 的非负整数`)
       }
     }
   })

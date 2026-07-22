@@ -13,6 +13,7 @@ import {
   palSpriteAssetId,
   parseFrameSequence,
   type SpriteDef,
+  spriteDefinitionFrameDemand,
   validateAssetCatalog,
 } from '@type-pal/content'
 import {
@@ -61,6 +62,10 @@ import {
 import { preparePalManifest } from './pal-manifest.js'
 import { buildPalMigration, PAL_WORLD_SPRITE_UNUSED_NUMBERS } from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
+import {
+  PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT,
+  PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
+} from './pal-world-sprite-layouts.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
 import {
   assertPalSoundReferenceBaseline,
@@ -220,22 +225,6 @@ async function assertFrameAnimationsMatchSource(
   }
 }
 
-const PAL_LAYOUT_DEBT = [
-  [627, 4],
-  [361, 5],
-  [242, 5],
-  [273, 4],
-  [394, 2],
-  [385, 2],
-  [379, 5],
-  [550, 2],
-  [541, 1],
-  [630, 4],
-  [631, 7],
-  [632, 7],
-  [236, 1],
-] as const
-
 function assertWorldSpriteGraph(
   migration: ReturnType<typeof buildPalMigration>,
   sources: ReturnType<typeof loadPalMigrationSources>,
@@ -248,31 +237,87 @@ function assertWorldSpriteGraph(
     .map(([asset]) => asset)
     .sort()
   const expectedCatalogIds = Array.from({ length: 636 }, (_, index) => palSpriteAssetId(index + 1))
-  expect(sprites).toHaveLength(580)
+  expect(sprites).toHaveLength(577)
   expect(used.size).toBe(559)
-  expect(sprites.length - used.size).toBe(21)
+  expect(sprites.length - used.size).toBe(18)
   expect(catalogIds).toEqual(expectedCatalogIds)
   expect(expectedCatalogIds.filter((asset) => !used.has(asset))).toEqual(
     PAL_WORLD_SPRITE_UNUSED_NUMBERS.map(palSpriteAssetId),
   )
 
-  const sourcesById = new Map(sources.binaryAssets.map((source) => [source.id, source]))
   const actualDebt = sprites.flatMap((definition) => {
-    if (definition.layout.kind !== 'directional') return []
-    const source = sourcesById.get(definition.asset)
-    if (!source) throw new Error(`缺 world sprite 迁移源 ${definition.asset}`)
-    const compressed = source.sourcePath
-      ? readFileSync(source.sourcePath)
-      : source.bytes
-        ? Buffer.from(source.bytes)
-        : (() => {
-            throw new Error(`缺 world sprite 字节 ${definition.asset}`)
-          })()
-    const frames = parseWorldSpriteChunk(gunzipSync(compressed), 'legacy-migrated').frames.length
-    if (definition.layout.framesPerDir * 4 <= frames) return []
-    return [[Number(definition.asset.slice(-3)), frames] as const]
+    const spriteNum = Number(definition.asset.slice(-3))
+    const frames = sources.worldSpriteFrameCounts[spriteNum - 1]
+    if (frames === undefined) throw new Error(`缺 world sprite 帧数 ${definition.asset}`)
+    const demand = spriteDefinitionFrameDemand(definition)
+    return demand > frames ? [{ id: definition.id, spriteNum, demand, frames }] : []
   })
-  expect(actualDebt).toEqual([...PAL_LAYOUT_DEBT])
+  expect(actualDebt).toEqual([])
+
+  const definitionsById = new Map(sprites.map((definition) => [definition.id, definition]))
+  for (const audit of PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT) {
+    expect(definitionsById.get(`sprite-${audit.spriteNum}`), audit.evidence).toMatchObject({
+      asset: palSpriteAssetId(audit.spriteNum),
+      layout: { kind: 'static' },
+    })
+    expect(sources.worldSpriteFrameCounts[audit.spriteNum - 1], audit.evidence).toBe(
+      audit.expectedFrameCount,
+    )
+  }
+  const debtSpriteNums = new Set<number>(
+    PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT.map(({ spriteNum }) => spriteNum),
+  )
+  expect(
+    migration.report.scenes.layoutEvidence
+      .filter(({ spriteNum }) => debtSpriteNums.has(spriteNum))
+      .sort((left, right) => left.spriteNum - right.spriteNum),
+  ).toEqual(
+    PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.filter(({ spriteNum }) => debtSpriteNums.has(spriteNum))
+      .map(({ spriteNum, evidence }) => ({
+        spriteNum,
+        definitionId: `sprite-${spriteNum}`,
+        source: 'pal-overlay',
+        evidence,
+      }))
+      .sort((left, right) => left.spriteNum - right.spriteNum),
+  )
+  for (const spriteNum of [193, 228, 232, 245, 521, 531, 532, 533, 538, 563, 576, 607])
+    expect(definitionsById.get(`sprite-${spriteNum}`)?.layout, `sprite-${spriteNum}`).toEqual({
+      kind: 'directional',
+      framesPerDir: 3,
+    })
+  expect(definitionsById.get('sprite-534')?.layout).toEqual({
+    kind: 'directional',
+    framesPerDir: 4,
+  })
+  expect(definitionsById.get('sprite-511')?.layout).toEqual({ kind: 'static' })
+  for (const removed of ['sprite-242-f0', 'sprite-379-f0', 'sprite-541-f0'])
+    expect(definitionsById.has(removed), removed).toBe(false)
+  for (const preserved of [18, 95, 163, 193, 228, 232, 365, 369, 408])
+    expect(definitionsById.get(`sprite-${preserved}-f0`)?.layout, `sprite-${preserved}-f0`).toEqual(
+      {
+        kind: 'static',
+      },
+    )
+
+  const entitySprite = (scene: string, entity: string): string | undefined => {
+    const definition = migration.files.get(`content/scenes/${scene}.json`) as unknown as {
+      entities: Array<{ id: string; sprite?: string }>
+    }
+    return definition.entities.find(({ id }) => id === entity)?.sprite
+  }
+  expect(entitySprite('s266', 'e4659')).toBe('sprite-541')
+  expect(entitySprite('s199', 'e3349')).toBe('sprite-511')
+  expect(
+    JSON.stringify(migration.files.get('content/scripts/chunks/scene/s192.json')).match(
+      /sprite-541/g,
+    ),
+  ).toHaveLength(2)
+  expect(
+    JSON.stringify(migration.files.get('content/scripts/chunks/scene/s145.json')).match(
+      /sprite-511/g,
+    ),
+  ).toHaveLength(1)
 
   const followerCommands: string[][] = []
   const collectFollowers = (value: unknown): void => {
@@ -369,7 +414,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     const soundAudit = auditSounds(sources, theirs, manifest)
-    expect(soundAudit.report.target.soundEdges).toBe(1_666)
+    expect(soundAudit.report.target.soundEdges).toBe(1_667)
     expect(soundAudit.nextManifest.content.stamps).toBe('content/stamps.json')
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
@@ -382,7 +427,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_650)
+    expect(validation.assetReferences).toBe(6_648)
     expect(validation.assetWarnings).toBe(132)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,
@@ -398,7 +443,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       issues: [],
     })
     expect(validation.spriteReferences.channels).toEqual({
-      definitions: { total: 580, migrated: 574 },
+      definitions: { total: 577, migrated: 571 },
       actors: { total: 6, migrated: 0 },
       entities: { total: 3_695, migrated: 3_695 },
       setActorSprite: { total: 116, migrated: 69 },
@@ -557,7 +602,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     const soundAudit = auditSounds(sources, theirs, manifest)
-    expect(soundAudit.report.target.soundEdges).toBe(1_666)
+    expect(soundAudit.report.target.soundEdges).toBe(1_667)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
     expect(manifest.assets.legacy?.families).not.toContain('sound')
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
@@ -572,7 +617,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_650)
+    expect(validation.assetReferences).toBe(6_648)
     expect(validation.assetWarnings).toBe(132)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,
@@ -588,7 +633,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       issues: [],
     })
     expect(validation.spriteReferences.channels).toEqual({
-      definitions: { total: 580, migrated: 574 },
+      definitions: { total: 577, migrated: 571 },
       actors: { total: 6, migrated: 0 },
       entities: { total: 3_695, migrated: 3_695 },
       setActorSprite: { total: 116, migrated: 69 },

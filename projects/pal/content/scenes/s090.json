@@ -81,20 +81,10 @@
       "zBias": 10,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s090",
-                      "id": "scene/s090/root/entity-e1664/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
           }
         }
       ]

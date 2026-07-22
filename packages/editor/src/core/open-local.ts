@@ -16,6 +16,7 @@ import {
   type UpgradeLocalV2Options,
   upgradeLocalProjectV2,
 } from './upgrade-local-v2.js'
+import { upgradeLocalProjectV3Actions } from './upgrade-local-v3-actions.js'
 import { upgradeLocalProjectV3BattleSprites } from './upgrade-local-v3-battle-sprites.js'
 import { upgradeLocalProjectV3StaticImages } from './upgrade-local-v3-images.js'
 import { upgradeLocalProjectV3Sounds } from './upgrade-local-v3-sounds.js'
@@ -70,6 +71,12 @@ export async function openLocalProject(
     if (await completeLocalProjectV3AudioRoles(dir, source, rawManifest)) {
       source.dispose?.()
       source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV3Actions(dir, source, rawManifest)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
     }
     project = await loadProjectFrom(source)
   } catch (e) {

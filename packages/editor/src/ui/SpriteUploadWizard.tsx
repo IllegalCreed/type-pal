@@ -1,9 +1,9 @@
 /**
  * 精灵上传向导(A4;2026-07-11 按作者反馈两轮收口):
- * - **只管新建**,类型先行:先选素材类型(行走图/循环动画/静物),再选文件。
+ * - **只管新建**:导入源帧容器，并同时建立一个初始用途定义；用途不是源资源分类。
  * - 行走图支持**动作帧行**:4 行走路(下/左/上/右)之后可另加 K 行特殊动作帧
- *   (接在 4×N 帧之后平铺;入库后到「精灵帧」面板框选命名姿势,poses 体系 C1d)。
- * - 帧级编辑(替换某帧/追加帧带)**不在这里** —— 在「精灵帧」面板就地做
+ *   (接在 4×N 帧之后平铺;入库后到中间帧工作区框选命名姿势,poses 体系 C1d)。
+ * - 帧级编辑(替换某帧/追加帧带)**不在这里** —— 在中间帧工作区就地做
  *   (作者:「替换一帧还要回上传选追加?动线太复杂」)。
  * 量化贴盘 0 预览(所见即入库);保存工程时落盘 assets/authored/sprites/<content-hash>.rle。
  */
@@ -57,11 +57,15 @@ const DIR_LABELS = ['下', '左', '上', '右'] // 行走图 4 行序(FACING_TO_
 const KIND_META: { v: SpriteLayout['kind']; label: string; hint: string }[] = [
   {
     v: 'directional',
-    label: '🚶 行走图',
-    hint: '4 行 = 下/左/上/右 × 每向 N 帧;可另加动作帧行(挥手/施法等,入库后在「精灵帧」面板框选命名)',
+    label: '🚶 四向行走',
+    hint: '4 行 = 下/左/上/右 × 每向 N 帧;可另加动作帧行(挥手/施法等,入库后在中间帧工作区框选命名)',
   },
-  { v: 'loop', label: '🔥 循环动画', hint: '单行 N 帧自循环(火把/流水/旗帜这类环境动画)' },
-  { v: 'static', label: '🪑 静物', hint: '整图一帧(桌椅/罐子/招牌这类不动的物件)' },
+  { v: 'loop', label: '🔥 自动循环', hint: '建立定义级自动循环；单行 N 帧依次播放' },
+  {
+    v: 'static',
+    label: '📌 默认定格',
+    hint: '建立默认显示 #0 的用途；之后仍可向源容器追加帧，供命名动作或场景脚本使用',
+  },
 ]
 
 export function SpriteUploadWizard(props: {
@@ -76,10 +80,14 @@ export function SpriteUploadWizard(props: {
   const [framesPerDir, setFramesPerDir] = useState(3)
   const [actionRows, setActionRows] = useState(0)
   const [frameCount, setFrameCount] = useState(4)
+  const [sourceCols, setSourceCols] = useState(1)
+  const [sourceRows, setSourceRows] = useState(1)
   const [newId, setNewId] = useState('')
   const [newLabel, setNewLabel] = useState('')
   const [err, setErr] = useState('')
   const [palette, setPalette] = useState<Palette | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+  const submittingRef = useRef(false)
 
   useEffect(() => {
     let alive = true
@@ -96,7 +104,13 @@ export function SpriteUploadWizard(props: {
   // 帧网格推导(布局 → 行列数);整除不了报错提示
   const grid = useMemo(() => {
     if (!draft) return null
-    if (kind === 'static') return { cols: 1, rows: 1, w: draft.imgW, h: draft.imgH }
+    if (kind === 'static') {
+      const cols = Math.max(1, sourceCols)
+      const rows = Math.max(1, sourceRows)
+      return draft.imgW % cols === 0 && draft.imgH % rows === 0
+        ? { cols, rows, w: draft.imgW / cols, h: draft.imgH / rows }
+        : null
+    }
     if (kind === 'loop') {
       const n = Math.max(1, frameCount)
       return draft.imgW % n === 0 ? { cols: n, rows: 1, w: draft.imgW / n, h: draft.imgH } : null
@@ -106,7 +120,7 @@ export function SpriteUploadWizard(props: {
     return draft.imgW % n === 0 && draft.imgH % rows === 0
       ? { cols: n, rows, w: draft.imgW / n, h: draft.imgH / rows }
       : null
-  }, [draft, kind, framesPerDir, actionRows, frameCount])
+  }, [draft, kind, framesPerDir, actionRows, frameCount, sourceCols, sourceRows])
 
   const quantized = useMemo(() => {
     if (!draft || !palette || !grid) return []
@@ -120,6 +134,7 @@ export function SpriteUploadWizard(props: {
   }, [draft, palette, grid])
 
   const pickFile = async (file: File): Promise<void> => {
+    if (submittingRef.current) return
     setErr('')
     try {
       const bitmap = await createImageBitmap(file)
@@ -150,7 +165,7 @@ export function SpriteUploadWizard(props: {
   }
 
   const submit = async (): Promise<void> => {
-    if (!draft || quantized.length === 0) return
+    if (submittingRef.current || !draft || quantized.length === 0) return
     const id = newId.trim()
     if (!id || id.includes('/')) {
       setErr("id 不能为空且不得含 '/'")
@@ -160,6 +175,9 @@ export function SpriteUploadWizard(props: {
       setErr(`id "${id}" 已存在`)
       return
     }
+    submittingRef.current = true
+    setSubmitting(true)
+    setErr('')
     try {
       const chunk = encodeSpriteChunk(quantized)
       const gz = await compressGzip(chunk)
@@ -194,22 +212,29 @@ export function SpriteUploadWizard(props: {
       onDone(id)
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e))
+    } finally {
+      submittingRef.current = false
+      setSubmitting(false)
     }
   }
 
   const kindMeta = KIND_META.find((k) => k.v === kind)
 
   return (
-    <div className="dscroll" style={{ padding: '14px 18px' }}>
-      <h3>上传精灵</h3>
+    <div className="dscroll sprite-upload-wizard" aria-busy={submitting}>
+      <h3>导入大世界精灵</h3>
+      <p className="sprite-upload-intro">
+        导入一组源帧，并建立一个初始用途定义。同一源帧资源之后可以继续添加其它用途。
+      </p>
       <div className="field">
-        <span className="field-label">类型</span>
-        <div style={{ display: 'flex', gap: 6 }}>
+        <span className="field-label">初始用途</span>
+        <div className="sprite-upload-kind-options">
           {KIND_META.map((k) => (
             <button
               type="button"
               key={k.v}
               className={kind === k.v ? 'tool active' : 'tool'}
+              disabled={submitting}
               onClick={() => setKind(k.v)}
             >
               {k.label}
@@ -218,18 +243,24 @@ export function SpriteUploadWizard(props: {
         </div>
       </div>
       {kindMeta && <p className="hint2">{kindMeta.hint}</p>}
-      <p className="hint2">替换某一帧 / 给已有精灵补帧 → 选中精灵后在「精灵帧」面板就地做。</p>
+      <p className="hint2">替换某一帧 / 给已有精灵补帧 → 选中精灵后在中间帧工作区就地做。</p>
 
       <div className="field">
         <span className="field-label">图片文件</span>
-        <input
-          type="file"
-          accept="image/png,image/webp,image/gif"
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) void pickFile(f)
-          }}
-        />
+        <label className="sprite-file-picker">
+          <span>选择图片…</span>
+          <small>PNG / WebP / GIF</small>
+          <input
+            className="sprite-file-input"
+            type="file"
+            accept="image/png,image/webp,image/gif"
+            disabled={submitting}
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) void pickFile(f)
+            }}
+          />
+        </label>
       </div>
 
       {draft && (
@@ -250,6 +281,7 @@ export function SpriteUploadWizard(props: {
                   type="number"
                   min={1}
                   max={16}
+                  disabled={submitting}
                   value={framesPerDir}
                   onChange={(e) => setFramesPerDir(Math.floor(e.target.valueAsNumber) || 1)}
                 />
@@ -262,6 +294,7 @@ export function SpriteUploadWizard(props: {
                   type="number"
                   min={0}
                   max={12}
+                  disabled={submitting}
                   value={actionRows}
                   onChange={(e) =>
                     setActionRows(Math.max(0, Math.floor(e.target.valueAsNumber) || 0))
@@ -279,15 +312,49 @@ export function SpriteUploadWizard(props: {
                 type="number"
                 min={1}
                 max={64}
+                disabled={submitting}
                 value={frameCount}
                 onChange={(e) => setFrameCount(Math.floor(e.target.valueAsNumber) || 1)}
               />
             </div>
           )}
-          {!grid ? (
-            <div className="err">
-              图片尺寸切不开:宽须整除每向帧数/帧数,高须整除行数(行走图行数 = 4 + 动作帧行)。
+          {kind === 'static' && (
+            <div className="sprite-source-grid-fields">
+              <label>
+                <span>源帧列数</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  min={1}
+                  max={64}
+                  disabled={submitting}
+                  value={sourceCols}
+                  onChange={(event) =>
+                    setSourceCols(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
+                  }
+                />
+              </label>
+              <label>
+                <span>源帧行数</span>
+                <input
+                  className="in mono"
+                  type="number"
+                  min={1}
+                  max={64}
+                  disabled={submitting}
+                  value={sourceRows}
+                  onChange={(event) =>
+                    setSourceRows(Math.max(1, Math.floor(event.target.valueAsNumber) || 1))
+                  }
+                />
+              </label>
+              <p className="hint2">
+                这里只决定原图如何切成源帧；初始用途仍默认显示 #0，其它帧可交给动作或场景脚本。
+              </p>
             </div>
+          )}
+          {!grid ? (
+            <div className="err">图片尺寸无法按当前行列切分；请调整帧数、列数或行数。</div>
           ) : (
             <div className="field">
               <span className="field-label">切帧</span>
@@ -336,6 +403,7 @@ export function SpriteUploadWizard(props: {
             <span className="field-label">ID</span>
             <input
               className="in mono"
+              disabled={submitting}
               value={newId}
               onChange={(e) => setNewId(e.target.value)}
               placeholder="kebab-case,唯一"
@@ -343,19 +411,31 @@ export function SpriteUploadWizard(props: {
           </div>
           <div className="field">
             <span className="field-label">标签</span>
-            <input className="in" value={newLabel} onChange={(e) => setNewLabel(e.target.value)} />
+            <input
+              className="in"
+              disabled={submitting}
+              value={newLabel}
+              onChange={(e) => setNewLabel(e.target.value)}
+            />
           </div>
           <button
             type="button"
-            className="tool"
-            disabled={!grid || quantized.length === 0}
+            className="tool sprite-upload-submit"
+            disabled={submitting || !grid || quantized.length === 0}
             onClick={() => void submit()}
           >
-            ✓ 入库
+            {submitting ? '处理中…' : '✓ 入库'}
           </button>
         </>
       )}
-      <button type="button" className="tool" style={{ marginTop: 8 }} onClick={() => onDone(null)}>
+      <button
+        type="button"
+        className="tool sprite-upload-cancel"
+        disabled={submitting}
+        onClick={() => {
+          if (!submittingRef.current) onDone(null)
+        }}
+      >
         取消
       </button>
       {err && <div className="err">{err}</div>}

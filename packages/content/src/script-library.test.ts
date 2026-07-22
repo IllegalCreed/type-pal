@@ -423,4 +423,62 @@ describe('script library schema', () => {
       checkCommands([{ kind: 'loadScene', scene: 's001', entryId: '' }], 'script'),
     ).toThrow(/非空命名落点 id/)
   })
+
+  it('动作命令与页默认绑定 fail-loud，循环动作不能等待', () => {
+    expect(() =>
+      checkCommands(
+        [
+          {
+            kind: 'playEntityAction',
+            entity: 'e1',
+            sprite: 'sprite-8',
+            action: 'idle',
+            loop: false,
+            startAtMs: 200,
+          },
+          { kind: 'stopEntityAction', entity: 'e1', reset: true },
+        ],
+        'script',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkCommands(
+        [
+          {
+            kind: 'playEntityAction',
+            entity: 'e1',
+            sprite: 'sprite-8',
+            action: 'idle',
+            loop: true,
+            wait: true,
+          },
+        ],
+        'script',
+      ),
+    ).toThrow(/循环动作不得 wait/)
+    expect(() => checkCommands([{ kind: 'stopEntityAction', entity: 'e1' }], 'script')).toThrow(
+      /reset: 期望 boolean/,
+    )
+
+    expect(() =>
+      checkEntityPages(
+        [
+          {
+            animation: { sprite: 'sprite-8', action: 'idle', loop: true, startAtMs: 100 },
+          },
+        ],
+        'entity.pages',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkEntityPages(
+        [
+          {
+            animation: { sprite: 'sprite-8', action: 'idle', loop: true, index: 0 },
+          },
+        ],
+        'entity.pages',
+      ),
+    ).toThrow(/index: 未知字段/)
+  })
 })

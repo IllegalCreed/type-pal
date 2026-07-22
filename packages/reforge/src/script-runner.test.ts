@@ -49,6 +49,8 @@ function fakeHost(calls: string[]): ScriptHost {
     setEntityState: log('setEntityState'),
     setEntityFacing: log('setEntityFacing'),
     setEntityFrame: log('setEntityFrame'),
+    playEntityAction: alog('playEntityAction'),
+    stopEntityAction: log('stopEntityAction'),
     giveItem: log('giveItem'),
     loseItem: log('loseItem'),
     giveMoney: log('giveMoney'),
@@ -321,6 +323,80 @@ test('setAmbience(W6 昼夜)→ host 分发氛围 id', async () => {
     { kind: 'setAmbience', ambience: 'day' },
   ])
   expect(calls).toEqual(['setAmbience("night")', 'setAmbience("day")'])
+})
+
+describe('精灵预制动作命令', () => {
+  test('单次缺省阻塞至 host 完成，并完整透传复合引用与相位', async () => {
+    const calls: string[] = []
+    const host = fakeHost(calls)
+    let release!: () => void
+    host.playEntityAction = (entity, binding) => {
+      calls.push(`action:${entity}:${binding.sprite}:${binding.action}:${binding.startAtMs}`)
+      return new Promise<void>((resolve) => {
+        release = resolve
+      })
+    }
+    const runner = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    let finished = false
+    const running = runner
+      .run([
+        {
+          kind: 'playEntityAction',
+          entity: 'e77',
+          sprite: 'sprite-77',
+          action: 'whip',
+          loop: false,
+          startAtMs: 40,
+        },
+        { kind: 'giveMoney', delta: 1 },
+      ])
+      .then(() => {
+        finished = true
+      })
+    await Promise.resolve()
+
+    expect(finished).toBe(false)
+    expect(calls).toEqual(['action:e77:sprite-77:whip:40'])
+    release()
+    await running
+    expect(calls).toEqual(['action:e77:sprite-77:whip:40', 'giveMoney(1)'])
+  })
+
+  test('后台单次与循环不阻塞后续命令，stop 显式透传 reset', async () => {
+    const calls: string[] = []
+    const host = fakeHost(calls)
+    host.playEntityAction = (...args) => {
+      calls.push(`play:${args[0]}:${args[1].action}:${args[1].loop}`)
+      return new Promise<void>(() => {})
+    }
+    const runner = new ScriptRunner(host, emptyWorldScriptState(), new AbortController().signal)
+    await runner.run([
+      {
+        kind: 'playEntityAction',
+        entity: 'e77',
+        sprite: 'sprite-77',
+        action: 'wave',
+        loop: false,
+        wait: false,
+      },
+      {
+        kind: 'playEntityAction',
+        entity: 'e77',
+        sprite: 'sprite-77',
+        action: 'idle',
+        loop: true,
+      },
+      { kind: 'stopEntityAction', entity: 'e77', reset: true },
+      { kind: 'giveMoney', delta: 2 },
+    ])
+
+    expect(calls).toEqual([
+      'play:e77:wave:false',
+      'play:e77:idle:true',
+      'stopEntityAction("e77",true)',
+      'giveMoney(2)',
+    ])
+  })
 })
 
 describe('演出预览钩子(编辑器):onStep 路径上报 + 单步门', () => {

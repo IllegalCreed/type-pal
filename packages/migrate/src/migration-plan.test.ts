@@ -119,6 +119,201 @@ describe('createMigrationPlan', () => {
     expect(plan.deletes).toEqual(['content/old.json'])
   })
 
+  test('精灵双定义合并时保留 base 作者字段，并接受上游布局修正与未改变变体删除', () => {
+    const path = 'content/sprites.json'
+    const legacyBase: MigrationJson = [
+      {
+        id: 'sprite-541',
+        asset: 'sprite.pal.541',
+        label: '原精灵 541(0x65 换装)',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
+      {
+        id: 'sprite-541-f0',
+        asset: 'sprite.pal.541',
+        label: '原精灵 541',
+        layout: { kind: 'static' },
+      },
+    ]
+    const ours = structuredClone(legacyBase)
+    ;(ours[0] as { label: string }).label = '作者命名：乘船李逍遥'
+    const theirs: MigrationJson = [
+      {
+        id: 'sprite-541',
+        asset: 'sprite.pal.541',
+        label: '原精灵 541(0x65 换装)',
+        layout: { kind: 'static' },
+      },
+    ]
+    const plan = createMigrationPlan(
+      snapshot({ [path]: legacyBase }),
+      snapshot({ [path]: ours }),
+      generated({ [path]: theirs }),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get(path)).toEqual([
+      {
+        id: 'sprite-541',
+        asset: 'sprite.pal.541',
+        label: '作者命名：乘船李逍遥',
+        layout: { kind: 'static' },
+      },
+    ])
+  })
+
+  test('作者修改待删除的错误精灵变体时必须 delete-modify 冲突且零写盘', () => {
+    const path = 'content/sprites.json'
+    const legacyBase: MigrationJson = [
+      {
+        id: 'sprite-541',
+        asset: 'sprite.pal.541',
+        label: '原精灵 541(0x65 换装)',
+        layout: { kind: 'directional', framesPerDir: 3 },
+      },
+      {
+        id: 'sprite-541-f0',
+        asset: 'sprite.pal.541',
+        label: '原精灵 541',
+        layout: { kind: 'static' },
+      },
+    ]
+    const ours = structuredClone(legacyBase)
+    ;(ours[1] as { label: string }).label = '作者仍在使用的变体'
+    const plan = createMigrationPlan(
+      snapshot({ [path]: legacyBase }),
+      snapshot({ [path]: ours }),
+      generated({
+        [path]: [
+          {
+            id: 'sprite-541',
+            asset: 'sprite.pal.541',
+            label: '原精灵 541',
+            layout: { kind: 'static' },
+          },
+        ],
+      }),
+    )
+    expect(plan.conflicts).toEqual([
+      expect.objectContaining({
+        file: path,
+        path: '/@string:sprite-541-f0',
+        type: 'delete-modify',
+      }),
+    ])
+    expect(plan.writes.size).toBe(0)
+    expect(plan.deletes).toEqual([])
+  })
+
+  test('动作迁移可与作者新增动作、场景 trigger 修改独立合并', () => {
+    const spritesPath = 'content/sprites.json'
+    const scenePath = 'content/scenes/s001.json'
+    const baseSprite: MigrationJson = [
+      { id: 'sprite-1', asset: 'sprite.pal.001', label: '精灵', layout: { kind: 'static' } },
+    ]
+    const baseScene: MigrationJson = {
+      id: 's001',
+      entities: [
+        {
+          id: 'e1',
+          sprite: 'sprite-1',
+          pages: [
+            {
+              auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
+              trigger: { on: 'interact', stages: [{ body: [{ kind: 'wait', ms: 1 }] }] },
+            },
+          ],
+        },
+      ],
+    }
+    const oursSprite = structuredClone(baseSprite)
+    ;(oursSprite[0] as Record<string, MigrationJson>).poses = {
+      authored: { label: '作者动作', steps: [{ frame: 2, durationMs: 90 }] },
+    }
+    const oursScene = structuredClone(baseScene)
+    ;(
+      (oursScene as { entities: Array<{ pages: Array<{ trigger: unknown }> }> }).entities[0]!
+        .pages[0]!.trigger as { stages: Array<{ body: MigrationJson[] }> }
+    ).stages[0]!.body = [{ kind: 'wait', ms: 2 }]
+    const theirsSprite = structuredClone(baseSprite)
+    ;(theirsSprite[0] as Record<string, MigrationJson>).poses = {
+      'pal-auto-v1-generated': {
+        label: 'PAL 自动循环',
+        steps: [{ frame: 0, durationMs: 100 }],
+        loopFrom: 0,
+      },
+    }
+    const theirsScene = structuredClone(baseScene) as {
+      id: string
+      entities: Array<{ pages: Array<Record<string, MigrationJson>> }>
+    }
+    delete theirsScene.entities[0]!.pages[0]!.auto
+    theirsScene.entities[0]!.pages[0]!.animation = {
+      sprite: 'sprite-1',
+      action: 'pal-auto-v1-generated',
+      loop: true,
+    }
+
+    const plan = createMigrationPlan(
+      snapshot({ [spritesPath]: baseSprite, [scenePath]: baseScene }),
+      snapshot({ [spritesPath]: oursSprite, [scenePath]: oursScene }),
+      generated({ [spritesPath]: theirsSprite, [scenePath]: theirsScene as MigrationJson }),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get(spritesPath)).toMatchObject([
+      {
+        poses: {
+          'pal-auto-v1-generated': expect.any(Object),
+          authored: expect.any(Object),
+        },
+      },
+    ])
+    expect(plan.target.get(scenePath)).toMatchObject({
+      entities: [
+        {
+          pages: [
+            {
+              animation: { action: 'pal-auto-v1-generated' },
+              trigger: { stages: [{ body: [{ kind: 'wait', ms: 2 }] }] },
+            },
+          ],
+        },
+      ],
+    })
+  })
+
+  test('作者修改待动作化 auto 时必须 delete-modify 冲突且整批零写盘', () => {
+    const path = 'content/scenes/s001.json'
+    const scene = (ms: number, animation = false): MigrationJson => ({
+      id: 's001',
+      entities: [
+        {
+          id: 'e1',
+          pages: [
+            animation
+              ? {
+                  animation: {
+                    sprite: 'sprite-1',
+                    action: 'pal-auto-v1-generated',
+                    loop: true,
+                  },
+                }
+              : { auto: { stages: [{ body: [{ kind: 'wait', ms }] }] } },
+          ],
+        },
+      ],
+    })
+    const plan = createMigrationPlan(
+      snapshot({ [path]: scene(100) }),
+      snapshot({ [path]: scene(200) }),
+      generated({ [path]: scene(0, true) }),
+    )
+    expect(plan.conflicts).toMatchObject([
+      { file: path, path: expect.stringContaining('/pages/0/auto'), type: 'delete-modify' },
+    ])
+    expect(plan.writes.size).toBe(0)
+    expect(plan.deletes).toEqual([])
+  })
+
   test('当前 index 引用的 ours-only 文件会保留', () => {
     const base = snapshot({})
     const ours = snapshot({ 'content/scripts/chunks/manual.json': { id: 'manual' } })

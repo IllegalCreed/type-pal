@@ -631,10 +631,29 @@ describe('typed 资源引用与文件闭包', () => {
     )
   })
 
-  test('walker 从 SpriteDef.asset 收集唯一 sprite 二进制边，不穿透语义引用', () => {
+  test('walker 收集 SpriteDef 二进制与动作音效 cue 的 typed 资产边', () => {
     const refs = collectAssetReferences({
       sprites: [
-        { id: 'hero', asset: 'sprite.pal.002', label: '主角', layout: { kind: 'static' } },
+        {
+          id: 'hero',
+          asset: 'sprite.pal.002',
+          label: '主角',
+          layout: { kind: 'static' },
+          poses: {
+            'forge/loop': {
+              label: '打铁',
+              steps: [
+                { frame: 0, durationMs: 100 },
+                {
+                  frame: 1,
+                  durationMs: 80,
+                  cues: [{ kind: 'sound', asset: 'sound.pal.135' }],
+                },
+              ],
+              loopFrom: 0,
+            },
+          },
+        },
         {
           id: 'hero-alt-layout',
           asset: 'sprite.pal.002',
@@ -649,6 +668,12 @@ describe('typed 资源引用与文件闭包', () => {
         expectedKind: 'sprite',
         where: 'sprites[0].asset',
         site: 'sprite:hero:asset',
+      },
+      {
+        asset: 'sound.pal.135',
+        expectedKind: 'sound',
+        where: 'sprites[0].poses["forge/loop"].steps[1].cues[0].asset',
+        site: 'sprite:hero:action:forge/loop',
       },
       {
         asset: 'sprite.pal.002',

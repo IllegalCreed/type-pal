@@ -1,3 +1,4 @@
+import type { ActorDef } from './actor.js'
 import type {
   AssetCatalogV1,
   AssetId,
@@ -13,17 +14,27 @@ import {
   validateAssetCatalog,
   validateManifestAssetConfigV3,
 } from './asset.js'
-import type { LoadedManifest, WorldState } from './character.js'
+import type { LegacyManifestV3, LoadedManifest, ProjectManifest, WorldState } from './character.js'
+import type { SceneDef } from './index.js'
+import type { LegacyPoseDefV3, SpriteActionDef, SpriteDef } from './sprite.js'
+
+export const LEGACY_LAYOUT_LOOP_ACTION_ID = 'legacy-layout-loop' as const
+
+export interface SpriteDefinitionsV3ToV4Result {
+  sprites: SpriteDef[]
+  /** 旧 layout.loop 被折叠出的默认动作；场景升级器据此登记 direct entity 页绑定。 */
+  legacyLayoutActions: Readonly<Record<string, typeof LEGACY_LAYOUT_LOOP_ACTION_ID>>
+}
 
 interface ManifestV2 {
   id: string
   name: string
   contentVersion: 2
   entryScene: string
-  entryPoints?: LoadedManifest['entryPoints']
+  entryPoints?: LegacyManifestV3['entryPoints']
   content: Record<string, string>
   assets?: Record<string, unknown>
-  startWorld: LoadedManifest['startWorld']
+  startWorld: LegacyManifestV3['startWorld']
 }
 
 function object(value: unknown, where: string): Record<string, unknown> {
@@ -34,6 +45,32 @@ function object(value: unknown, where: string): Record<string, unknown> {
 
 function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
+}
+
+function exactKeys(
+  value: Record<string, unknown>,
+  allowed: readonly string[],
+  where: string,
+): void {
+  const allowedKeys = new Set(allowed)
+  for (const key of Object.keys(value))
+    if (!allowedKeys.has(key)) throw new Error(`${where}.${key}: 未知字段`)
+}
+
+function nonEmptyString(value: unknown, where: string): string {
+  if (typeof value !== 'string' || value.trim().length === 0)
+    throw new Error(`${where}: 期望非空 string`)
+  return value
+}
+
+function positiveInteger(value: unknown, where: string): number {
+  if (!Number.isInteger(value) || (value as number) <= 0) throw new Error(`${where}: 期望正整数`)
+  return value as number
+}
+
+function nonNegativeInteger(value: unknown, where: string): number {
+  if (!Number.isInteger(value) || (value as number) < 0) throw new Error(`${where}: 期望非负整数`)
+  return value as number
 }
 
 function legacyPositiveAsset(
@@ -245,7 +282,7 @@ export function upgradeManifestV2ToV3(args: {
   catalog: AssetCatalogV1
   roles?: Partial<Record<AssetRole, AssetId>>
   catalogPath?: string
-}): LoadedManifest {
+}): LegacyManifestV3 {
   const raw = object(args.manifest, 'manifest') as unknown as ManifestV2
   if (raw.contentVersion !== 2) throw new Error(`manifest: 期望 contentVersion 2`)
   const oldAssets = object(raw.assets ?? {}, 'manifest.assets')
@@ -290,6 +327,208 @@ export function upgradeManifestV2ToV3(args: {
     assets,
     startWorld: cloneJson(raw.startWorld),
   }
+}
+
+function upgradeLegacyPoseV3(
+  raw: unknown,
+  actionId: string,
+  order: number,
+  where: string,
+): SpriteActionDef {
+  const pose = object(raw, where)
+  exactKeys(pose, ['frames', 'mode', 'ticksPerFrame'], where)
+  if (!Array.isArray(pose.frames) || pose.frames.length === 0)
+    throw new Error(`${where}.frames: 期望非空数组`)
+  const frames = pose.frames.map((frame, index) =>
+    nonNegativeInteger(frame, `${where}.frames[${index}]`),
+  )
+  if (pose.mode !== 'static' && pose.mode !== 'loop')
+    throw new Error(`${where}.mode: 期望 static|loop`)
+  const ticksPerFrame =
+    pose.ticksPerFrame === undefined
+      ? 1
+      : positiveInteger(pose.ticksPerFrame, `${where}.ticksPerFrame`)
+  const actionFrames = pose.mode === 'static' ? frames.slice(0, 1) : frames
+  return {
+    label: actionId,
+    order,
+    steps: actionFrames.map((frame) => ({ frame, durationMs: ticksPerFrame * 250 })),
+    ...(pose.mode === 'loop' ? { loopFrom: 0 } : {}),
+  }
+}
+
+/**
+ * contentVersion 3 SpriteDef -> v4 动作模型的纯变换。
+ *
+ * 旧 static pose 的既有语义只显示 frames[0]；升级时不得把其余帧擅自解释为一次性动画。
+ * 旧 layout.loop 会变成一个默认循环动作，场景页绑定由 upgradeSceneDefinitionsV3ToV4 补齐。
+ */
+export function upgradeSpriteDefinitionsV3ToV4(input: unknown): SpriteDefinitionsV3ToV4Result {
+  if (!Array.isArray(input)) throw new Error('sprites: 期望数组')
+  const legacyLayoutActions: Record<string, typeof LEGACY_LAYOUT_LOOP_ACTION_ID> = {}
+  const ids = new Set<string>()
+  const sprites = input.map((raw, index): SpriteDef => {
+    const where = `sprites[${index}]`
+    const sprite = object(raw, where)
+    exactKeys(sprite, ['id', 'asset', 'label', 'layout', 'poses'], where)
+    const id = nonEmptyString(sprite.id, `${where}.id`)
+    if (ids.has(id)) throw new Error(`${where}.id: 重复 id ${JSON.stringify(id)}`)
+    ids.add(id)
+    const asset = nonEmptyString(sprite.asset, `${where}.asset`)
+    if (typeof sprite.label !== 'string') throw new Error(`${where}.label: 期望 string`)
+
+    const rawLayout = object(sprite.layout, `${where}.layout`)
+    const kind = rawLayout.kind
+    let layout: SpriteDef['layout']
+    let legacyLoop: { frameCount: number; ticksPerFrame: number } | undefined
+    if (kind === 'directional') {
+      exactKeys(rawLayout, ['kind', 'framesPerDir'], `${where}.layout`)
+      layout = {
+        kind,
+        framesPerDir: positiveInteger(rawLayout.framesPerDir, `${where}.layout.framesPerDir`),
+      }
+    } else if (kind === 'static') {
+      exactKeys(rawLayout, ['kind'], `${where}.layout`)
+      layout = { kind }
+    } else if (kind === 'loop') {
+      exactKeys(rawLayout, ['kind', 'frameCount', 'ticksPerFrame'], `${where}.layout`)
+      legacyLoop = {
+        frameCount: positiveInteger(rawLayout.frameCount, `${where}.layout.frameCount`),
+        ticksPerFrame:
+          rawLayout.ticksPerFrame === undefined
+            ? 1
+            : positiveInteger(rawLayout.ticksPerFrame, `${where}.layout.ticksPerFrame`),
+      }
+      layout = { kind: 'static' }
+    } else {
+      throw new Error(`${where}.layout.kind: 期望 directional|static|loop`)
+    }
+
+    const poses: Record<string, SpriteActionDef> = {}
+    if (sprite.poses !== undefined) {
+      const rawPoses = object(sprite.poses, `${where}.poses`)
+      for (const [actionId, rawPose] of Object.entries(rawPoses)) {
+        nonEmptyString(actionId, `${where}.poses ActionId`)
+        poses[actionId] = upgradeLegacyPoseV3(
+          rawPose as LegacyPoseDefV3,
+          actionId,
+          Object.keys(poses).length,
+          `${where}.poses[${JSON.stringify(actionId)}]`,
+        )
+      }
+    }
+    if (legacyLoop) {
+      if (Object.hasOwn(poses, LEGACY_LAYOUT_LOOP_ACTION_ID))
+        throw new Error(
+          `${where}.poses[${JSON.stringify(LEGACY_LAYOUT_LOOP_ACTION_ID)}]: 与升级器保留 ActionId 冲突`,
+        )
+      poses[LEGACY_LAYOUT_LOOP_ACTION_ID] = {
+        label: '默认循环',
+        order: Object.keys(poses).length,
+        steps: Array.from({ length: legacyLoop.frameCount }, (_, frame) => ({
+          frame,
+          durationMs: legacyLoop.ticksPerFrame * 250,
+        })),
+        loopFrom: 0,
+      }
+      legacyLayoutActions[id] = LEGACY_LAYOUT_LOOP_ACTION_ID
+    }
+    return {
+      id,
+      asset,
+      label: sprite.label,
+      layout,
+      ...(Object.keys(poses).length ? { poses } : {}),
+    }
+  })
+  return { sprites, legacyLayoutActions }
+}
+
+function rejectDynamicLegacyLoopReferences(
+  node: unknown,
+  where: string,
+  legacyLoopIds: ReadonlySet<string>,
+): void {
+  if (Array.isArray(node)) {
+    node.forEach((child, index) => {
+      rejectDynamicLegacyLoopReferences(child, `${where}[${index}]`, legacyLoopIds)
+    })
+    return
+  }
+  if (!node || typeof node !== 'object') return
+  const record = node as Record<string, unknown>
+  const references: unknown[] = []
+  if (record.kind === 'setActorSprite') references.push(record.sprite)
+  if (record.kind === 'setActorAppearance') references.push(record.spriteId)
+  if (record.kind === 'setFollowers' && Array.isArray(record.sprites))
+    references.push(...record.sprites)
+  for (const reference of references)
+    if (typeof reference === 'string' && legacyLoopIds.has(reference))
+      throw new Error(
+        `${where}: 动态引用旧 layout.loop 精灵 ${JSON.stringify(reference)}，无法无损登记 EntityPage.animation；请在编辑器中人工升级`,
+      )
+  for (const [key, child] of Object.entries(record))
+    rejectDynamicLegacyLoopReferences(child, `${where}.${key}`, legacyLoopIds)
+}
+
+/** 把旧 layout.loop 的 direct entity 消费点登记为页默认动作。 */
+export function upgradeSceneDefinitionsV3ToV4(args: {
+  scenes: unknown
+  actors: readonly Pick<ActorDef, 'id' | 'spriteId'>[]
+  legacyLayoutActions: Readonly<Record<string, typeof LEGACY_LAYOUT_LOOP_ACTION_ID>>
+}): SceneDef[] {
+  if (!Array.isArray(args.scenes)) throw new Error('scenes: 期望数组')
+  const scenes = cloneJson(args.scenes) as unknown[]
+  const legacyLoopIds = new Set(Object.keys(args.legacyLayoutActions))
+  if (legacyLoopIds.size === 0) return scenes as SceneDef[]
+
+  const actorSprites = new Map(args.actors.map((actor) => [actor.id, actor.spriteId]))
+  for (const [actorId, spriteId] of actorSprites)
+    if (legacyLoopIds.has(spriteId))
+      throw new Error(
+        `actors[${JSON.stringify(actorId)}].spriteId: 旧 layout.loop 经角色/玩家动态消费，无法无损登记实体页动作`,
+      )
+  rejectDynamicLegacyLoopReferences(scenes, 'scenes', legacyLoopIds)
+
+  scenes.forEach((rawScene, sceneIndex) => {
+    const scene = object(rawScene, `scenes[${sceneIndex}]`)
+    if (!Array.isArray(scene.entities)) throw new Error(`scenes[${sceneIndex}].entities: 期望数组`)
+    scene.entities.forEach((rawEntity, entityIndex) => {
+      const entity = object(rawEntity, `scenes[${sceneIndex}].entities[${entityIndex}]`)
+      const sprite = typeof entity.sprite === 'string' ? entity.sprite : undefined
+      if (!sprite || !legacyLoopIds.has(sprite)) return
+      const action = args.legacyLayoutActions[sprite]
+      const binding = { sprite, action, loop: true as const }
+      if (entity.pages === undefined) {
+        entity.pages = [{ animation: binding }]
+        return
+      }
+      if (!Array.isArray(entity.pages))
+        throw new Error(`scenes[${sceneIndex}].entities[${entityIndex}].pages: 期望数组`)
+      if (entity.pages.length === 0) entity.pages.push({ animation: binding })
+      else
+        entity.pages.forEach((rawPage, pageIndex) => {
+          const page = object(
+            rawPage,
+            `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}]`,
+          )
+          if (page.animation !== undefined) {
+            if (JSON.stringify(page.animation) !== JSON.stringify(binding))
+              throw new Error(
+                `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation: 与旧 layout.loop 升级目标冲突`,
+              )
+          } else page.animation = binding
+        })
+    })
+  })
+  return scenes as SceneDef[]
+}
+
+/** 清单版本只在 sprites/scenes 已成功升级并落盘后最后提交。 */
+export function upgradeManifestV3ToV4(manifest: unknown): LoadedManifest {
+  const raw = object(manifest, 'manifest')
+  if (raw.contentVersion !== 3) throw new Error('manifest: 期望 contentVersion 3')
+  return { ...(cloneJson(raw) as unknown as LegacyManifestV3), contentVersion: 4 }
 }
 
 function numericTrack(value: unknown): number | undefined {
@@ -522,11 +761,11 @@ export function upgradeLegacyItemSounds<T>(input: T, resolveSound: LegacySoundAs
 }
 
 /** 只退出 sound family；调用方负责先建好 catalog 和二进制，再把此 manifest 最后落盘。 */
-export function exitLegacySoundFamily(args: {
-  manifest: LoadedManifest
+export function exitLegacySoundFamily<V extends number>(args: {
+  manifest: ProjectManifest<V>
   roles?: Partial<Record<AssetRole, AssetId>>
   catalog?: AssetCatalogV1
-}): LoadedManifest {
+}): ProjectManifest<V> {
   const next = cloneJson(args.manifest)
   next.assets.roles = { ...args.roles, ...args.manifest.assets.roles }
   if (args.manifest.assets.legacy) {

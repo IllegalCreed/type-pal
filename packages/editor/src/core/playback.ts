@@ -141,6 +141,8 @@ export class Playback {
       case 'animEntity':
       case 'setEntityFacing':
       case 'setEntityFrame':
+      case 'playEntityAction':
+      case 'stopEntityAction':
       case 'setEntityState':
         return cmd.entity ? { kind: 'entity', id: cmd.entity } : undefined
       case 'moveParty':
@@ -403,6 +405,15 @@ export class Playback {
     },
     setEntityFrame: (id, frame) => {
       this.ov(id).frame = frame
+    },
+    playEntityAction: async (id, binding) => {
+      this.ov(id).frame = undefined
+      this.log(
+        `▶ ${id} 播放动作 ${binding.sprite}/${binding.action}${binding.loop ? '（循环）' : '（单次）'}`,
+      )
+    },
+    stopEntityAction: (id, reset) => {
+      this.log(`■ ${id} 停止动作${reset ? '并重置默认动作' : ''}`)
     },
     giveItem: (itemId, count) => this.log(`🎁 得 ${itemId} ×${count}`),
     loseItem: (itemId, count) => this.log(`📤 失 ${itemId} ×${count}`),

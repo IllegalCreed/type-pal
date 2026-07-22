@@ -51,21 +51,11 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s022",
-                      "id": "scene/s022/root/entity-e407/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-76",
+            "action": "pal-auto-v1-81995fd3c098696d",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]
@@ -635,33 +625,10 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s022",
-                      "id": "scene/s022/root/entity-e416/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s022",
-                      "id": "scene/s022/root/entity-e416/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-602",
+            "action": "pal-auto-v1-d077a8b1528a0000",
+            "loop": true
           }
         }
       ]
@@ -706,20 +673,11 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s022",
-                      "id": "scene/s022/root/entity-e417/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-601",
+            "action": "pal-auto-v1-8fe01ce4c2fc5cd7",
+            "loop": true,
+            "startAtMs": 100
           }
         }
       ]

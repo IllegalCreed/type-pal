@@ -694,6 +694,8 @@ function loadPalFrameAnimations(repo: string): {
 
 export function loadPalWorldSprites(repo: string): {
   binaries: PalBinaryAssetSource[]
+  /** 1-based spriteNum 对应下标 spriteNum-1；复用本次严格解码结果，禁止按容量猜布局。 */
+  frameCounts: number[]
   report: Pick<
     PalAssetMigrationReport,
     | 'sprites'
@@ -717,6 +719,7 @@ export function loadPalWorldSprites(repo: string): {
 
   const binaries: PalBinaryAssetSource[] = []
   const spriteLegacyTailAnomalies: PalWorldSpriteLegacyTailAnomaly[] = []
+  const frameCounts: number[] = []
   let spriteBytes = 0
   let spriteFrames = 0
   let spriteMalformedTailSlots = 0
@@ -728,6 +731,7 @@ export function loadPalWorldSprites(repo: string): {
       throw new Error(`PAL 大世界精灵 ${sprite} 必须是 gzip RLE`)
     const parsed = parseWorldSpriteChunk(gunzipSync(compressed), 'legacy-migrated')
     if (parsed.frames.length === 0) throw new Error(`PAL 大世界精灵 ${sprite} 不含有效帧`)
+    frameCounts.push(parsed.frames.length)
     spriteBytes += compressed.byteLength
     spriteFrames += parsed.frames.length
     spriteMalformedTailSlots += parsed.skippedLegacyTailSlots
@@ -770,6 +774,7 @@ export function loadPalWorldSprites(repo: string): {
 
   return {
     binaries,
+    frameCounts,
     report: {
       sprites: binaries.length,
       spriteBytes,
@@ -918,6 +923,7 @@ export function loadPalAssets(
 ): {
   catalog: AssetCatalogV1
   binaries: PalBinaryAssetSource[]
+  worldSpriteFrameCounts: number[]
   roles: ManifestAssetConfigV3['roles']
   report: PalAssetMigrationReport
 } {
@@ -1035,6 +1041,7 @@ export function loadPalAssets(
   return {
     catalog,
     binaries,
+    worldSpriteFrameCounts: worldSprites.frameCounts,
     roles: { ...PAL_ASSET_ROLES },
     report: {
       ...frameAnimations.report,

@@ -59,6 +59,7 @@ import {
   updateCommandAt,
 } from '../core/script-edit.js'
 import { createAuthoredScriptCall } from '../core/shared-script.js'
+import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
 import { musicAssets } from './MusicPicker.js'
 import {
@@ -77,6 +78,7 @@ interface InsertCtx {
   ownerId: string | undefined
   musicAsset?: AssetId
   soundAsset?: AssetId
+  actionTarget?: { sprite: string; action: string }
 }
 const selfOf = (c: InsertCtx): string => c.ownerId ?? c.scene.entities[0]?.id ?? 'e0'
 
@@ -88,6 +90,7 @@ const INSERT_GROUPS: {
     label: string
     requiresMusic?: boolean
     requiresSound?: boolean
+    requiresAction?: boolean
     make: (c: InsertCtx) => Command[]
   }[]
 }[] = [
@@ -121,6 +124,24 @@ const INSERT_GROUPS: {
       {
         label: '🧭 实体转向',
         make: (c) => [{ kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' }],
+      },
+      {
+        label: '▶️ 播放预制动作',
+        requiresAction: true,
+        make: (c) => [
+          {
+            kind: 'playEntityAction',
+            entity: selfOf(c),
+            sprite: c.actionTarget!.sprite,
+            action: c.actionTarget!.action,
+            loop: true,
+            wait: false,
+          },
+        ],
+      },
+      {
+        label: '⏹️ 停止预制动作',
+        make: (c) => [{ kind: 'stopEntityAction', entity: selfOf(c), reset: true }],
       },
       { label: '🌓 淡入/淡出', make: () => [{ kind: 'fade', dir: 'out', ms: 300 }] },
       {
@@ -350,13 +371,20 @@ interface ScriptSource {
 }
 
 function sourceRefOf(key: string): ScriptSourceRef {
-  return key === '__onEnter__'
-    ? { kind: 'onEnter' }
-    : key === '__onTeleport__'
-      ? { kind: 'onTeleport' }
-      : key.endsWith(':trigger')
-        ? { kind: 'trigger', entityId: key.slice(0, -':trigger'.length) }
-        : { kind: 'auto', entityId: key.slice(0, -':auto'.length) }
+  if (key === '__onEnter__') return { kind: 'onEnter' }
+  if (key === '__onTeleport__') return { kind: 'onTeleport' }
+  const match = /^(.*):(trigger|auto)(?:@(\d+))?$/.exec(key)
+  if (!match?.[1] || !match[2]) throw new Error(`未知场景脚本源 ${key}`)
+  const pageIndex = match[3] === undefined ? 0 : Number(match[3])
+  return {
+    kind: match[2] as 'trigger' | 'auto',
+    entityId: match[1],
+    ...(pageIndex === 0 ? {} : { pageIndex }),
+  }
+}
+
+function entitySourceKey(entityId: string, kind: 'trigger' | 'auto', pageIndex: number): string {
+  return `${entityId}:${kind}${pageIndex === 0 ? '' : `@${pageIndex}`}`
 }
 
 function materializedSource(
@@ -418,39 +446,40 @@ function collectSources(
       ),
     )
   for (const e of scene.entities) {
-    const page = e.pages?.[0]
-    if (page?.trigger) {
-      const on = page.trigger.on === 'interact' ? '交互' : '触碰'
-      out.push(
-        materializedSource(
-          scene,
-          {
-            key: `${e.id}:trigger`,
-            label: e.id,
-            kind: 'trigger',
-            sub: `${on}触发`,
-            stages: page.trigger.stages,
-          },
-          index,
-          chunks,
-        ),
-      )
-    }
-    if (page?.auto)
-      out.push(
-        materializedSource(
-          scene,
-          {
-            key: `${e.id}:auto`,
-            label: e.id,
-            kind: 'auto',
-            sub: '巡逻/动画',
-            stages: page.auto.stages,
-          },
-          index,
-          chunks,
-        ),
-      )
+    e.pages?.forEach((page, pageIndex) => {
+      if (page.trigger) {
+        const on = page.trigger.on === 'interact' ? '交互' : '触碰'
+        out.push(
+          materializedSource(
+            scene,
+            {
+              key: entitySourceKey(e.id, 'trigger', pageIndex),
+              label: e.id,
+              kind: 'trigger',
+              sub: `${on}触发 · 第 ${pageIndex + 1} 页`,
+              stages: page.trigger.stages,
+            },
+            index,
+            chunks,
+          ),
+        )
+      }
+      if (page.auto)
+        out.push(
+          materializedSource(
+            scene,
+            {
+              key: entitySourceKey(e.id, 'auto', pageIndex),
+              label: e.id,
+              kind: 'auto',
+              sub: `巡逻/实例行为 · 第 ${pageIndex + 1} 页`,
+              stages: page.auto.stages,
+            },
+            index,
+            chunks,
+          ),
+        )
+    })
   }
   return out
 }
@@ -490,6 +519,9 @@ export function ScriptDrawer(props: {
   focusSrcKey?: string | null
   /** 从引用面板直接打开场景内部子脚本；共享脚本仍走独立模块。 */
   focusInternalScriptId?: string | null
+  /** 精确定位到 ScriptTree 中的命令路径；revision 允许重复点击同一引用时再次聚焦。 */
+  focusCommandPath?: string | null
+  focusCommandRevision?: number
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
@@ -517,6 +549,7 @@ export function ScriptDrawer(props: {
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onClose: () => void
 }) {
   const {
@@ -526,6 +559,8 @@ export function ScriptDrawer(props: {
     selectedEntityId,
     focusSrcKey,
     focusInternalScriptId,
+    focusCommandPath,
+    focusCommandRevision,
     sprites,
     actorsById,
     battleSprites,
@@ -546,6 +581,7 @@ export function ScriptDrawer(props: {
     onOpenSound,
     onOpenImage,
     onOpenBattleSprite,
+    onOpenSpriteAction,
     onClose,
   } = props
   const scriptWorkRef = useRef<HTMLDivElement>(null)
@@ -607,6 +643,11 @@ export function ScriptDrawer(props: {
     setSrcKey(sources[0]?.key ?? null)
   }, [sources, srcKey])
   const active = sources.find((s) => s.key === srcKey) ?? sources[0]
+  const activeSourceRef = active ? sourceRefOf(active.key) : undefined
+  const activePageIndex =
+    activeSourceRef?.kind === 'trigger' || activeSourceRef?.kind === 'auto'
+      ? (activeSourceRef.pageIndex ?? 0)
+      : 0
   const [internalTrail, setInternalTrail] = useState<string[]>(() =>
     focusInternalScriptId ? [focusInternalScriptId] : [],
   )
@@ -642,6 +683,7 @@ export function ScriptDrawer(props: {
   // ── 脚本编辑:选中行 → 右栏表单;行按钮 插/移/删;整 stages 经指令落 session ──
   const [selPath, setSelPath] = useState<string | null>(null)
   const [insertFor, setInsertFor] = useState<string | null>(null)
+  const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   // biome-ignore lint/correctness/useExhaustiveDependencies: 切场景/切源即回到该场景源并清临时选择
   useEffect(() => {
     setSelPath(null)
@@ -649,11 +691,31 @@ export function ScriptDrawer(props: {
     setInternalTrail([])
   }, [scene.id, active?.key])
   useEffect(() => {
-    if (!focusInternalScriptId) return
-    setInternalTrail([focusInternalScriptId])
+    if (focusInternalScriptId) setInternalTrail([focusInternalScriptId])
+    else if (focusCommandRevision != null) setInternalTrail([])
+    else return
     setSelPath(null)
     setInsertFor(null)
-  }, [focusInternalScriptId])
+  }, [focusCommandRevision, focusInternalScriptId])
+  useEffect(() => {
+    if (!focusCommandPath || focusCommandRevision == null) return
+    if (lastAppliedFocusRevisionRef.current === focusCommandRevision) return
+    if (focusInternalScriptId) {
+      if (internalScriptId !== focusInternalScriptId) return
+    } else if (focusSrcKey && active?.key !== focusSrcKey) return
+    if (!getCommandAt(editingStages, parsePath(focusCommandPath))) return
+    lastAppliedFocusRevisionRef.current = focusCommandRevision
+    setSelPath(focusCommandPath)
+    setInsertFor(null)
+  }, [
+    active?.key,
+    editingStages,
+    focusCommandPath,
+    focusCommandRevision,
+    focusInternalScriptId,
+    focusSrcKey,
+    internalScriptId,
+  ])
 
   const dispatchEdited = (
     stages: readonly ScriptStage[],
@@ -775,30 +837,41 @@ export function ScriptDrawer(props: {
   const activeInsertContext: InsertCtx | undefined = active
     ? (() => {
         const ref = sourceRefOf(active.key)
+        const ownerId =
+          ref.kind === 'onEnter' || ref.kind === 'onTeleport' ? undefined : ref.entityId
+        const target = defaultActionTargetForEntity(
+          scene.entities.find((entity) => entity.id === (ownerId ?? scene.entities[0]?.id)),
+          actorsById,
+          sprites,
+        )
         return {
           scene,
-          ownerId: ref.kind === 'onEnter' || ref.kind === 'onTeleport' ? undefined : ref.entityId,
+          ownerId,
           musicAsset: musicAssets(assetCatalog)[0]?.id,
           soundAsset: soundAssets(assetCatalog)[0]?.id,
+          actionTarget: target ? { sprite: target.sprite.id, action: target.action.id } : undefined,
         }
       })()
     : undefined
   const visibleInsertGroups = activeInsertContext
-    ? INSERT_GROUPS.map((group) => ({
-        ...group,
-        items: (insertingEntryPrepare
-          ? group.items.filter((item) =>
-              item
-                .make(activeInsertContext)
-                .every((command) => sceneEntryPrepareSafety(command) === 'safe'),
-            )
-          : group.items
-        ).filter(
+    ? INSERT_GROUPS.map((group) => {
+        const available = group.items.filter(
           (item) =>
             (!item.requiresMusic || activeInsertContext.musicAsset) &&
-            (!item.requiresSound || activeInsertContext.soundAsset),
-        ),
-      })).filter((group) => group.items.length > 0)
+            (!item.requiresSound || activeInsertContext.soundAsset) &&
+            (!item.requiresAction || activeInsertContext.actionTarget),
+        )
+        return {
+          ...group,
+          items: insertingEntryPrepare
+            ? available.filter((item) =>
+                item
+                  .make(activeInsertContext)
+                  .every((command) => sceneEntryPrepareSafety(command) === 'safe'),
+              )
+            : available,
+        }
+      }).filter((group) => group.items.length > 0)
     : []
   const measuredWorkHeight = scriptWorkHeight || 720
   const drawerMaxHeight = Math.max(
@@ -923,7 +996,8 @@ export function ScriptDrawer(props: {
             ))}
             {selectedEntityId ? (
               <>
-                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.trigger && (
+                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[activePageIndex]
+                  ?.trigger && (
                   <button
                     type="button"
                     className="mini-txt"
@@ -933,15 +1007,17 @@ export function ScriptDrawer(props: {
                         new CreateScriptSourceCommand(scene.id, {
                           kind: 'trigger',
                           entityId: selectedEntityId,
+                          ...(activePageIndex === 0 ? {} : { pageIndex: activePageIndex }),
                         }),
                       )
-                      setSrcKey(`${selectedEntityId}:trigger`)
+                      setSrcKey(entitySourceKey(selectedEntityId, 'trigger', activePageIndex))
                     }}
                   >
                     ＋触发
                   </button>
                 )}
-                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]?.auto && (
+                {!scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[activePageIndex]
+                  ?.auto && (
                   <button
                     type="button"
                     className="mini-txt"
@@ -951,9 +1027,10 @@ export function ScriptDrawer(props: {
                         new CreateScriptSourceCommand(scene.id, {
                           kind: 'auto',
                           entityId: selectedEntityId,
+                          ...(activePageIndex === 0 ? {} : { pageIndex: activePageIndex }),
                         }),
                       )
-                      setSrcKey(`${selectedEntityId}:auto`)
+                      setSrcKey(entitySourceKey(selectedEntityId, 'auto', activePageIndex))
                     }}
                   >
                     ＋巡逻
@@ -1012,8 +1089,14 @@ export function ScriptDrawer(props: {
           ) : null}
           {!internalScriptId && active?.kind === 'trigger' && selectedEntityId
             ? (() => {
-                const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[0]
-                  ?.trigger
+                const activeRef = sourceRefOf(active.key)
+                const pageIndex =
+                  activeRef.kind === 'trigger' || activeRef.kind === 'auto'
+                    ? (activeRef.pageIndex ?? 0)
+                    : 0
+                const trig = scene.entities.find((e) => e.id === selectedEntityId)?.pages?.[
+                  pageIndex
+                ]?.trigger
                 if (!trig) return null
                 return (
                   <span className="drawer-tabs" title="触发方式与距离(格)">
@@ -1031,6 +1114,7 @@ export function ScriptDrawer(props: {
                             selectedEntityId,
                             e.target.value as 'interact' | 'touch',
                             trig.range,
+                            pageIndex,
                           ),
                         )
                       }
@@ -1055,6 +1139,7 @@ export function ScriptDrawer(props: {
                             selectedEntityId,
                             trig.on ?? 'interact',
                             Math.max(0, Number(e.target.value) || 0),
+                            pageIndex,
                           ),
                         )
                       }
@@ -1109,6 +1194,7 @@ export function ScriptDrawer(props: {
                 scenes={scenes}
                 activePath={playback.activePath ?? null}
                 selectedPath={selPath}
+                focusRevision={focusCommandRevision}
                 onSelect={(path) => {
                   setSelPath(path)
                   setInsertFor(null)
@@ -1242,6 +1328,7 @@ export function ScriptDrawer(props: {
                   <CommandForm
                     actors={actorsById}
                     battleSprites={battleSprites}
+                    sprites={sprites}
                     cmd={selCmd}
                     scene={scene}
                     locale={locale}
@@ -1258,6 +1345,7 @@ export function ScriptDrawer(props: {
                     onOpenSound={onOpenSound}
                     onOpenImage={onOpenImage}
                     onOpenBattleSprite={onOpenBattleSprite}
+                    onOpenSpriteAction={onOpenSpriteAction}
                     onChange={(next) => {
                       const path = parsePath(selPath)
                       const stageIndex = path[0]

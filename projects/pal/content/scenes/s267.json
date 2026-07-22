@@ -231,33 +231,10 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s267",
-                      "id": "scene/s267/root/entity-e4669/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s267",
-                      "id": "scene/s267/root/entity-e4669/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-35",
+            "action": "pal-auto-v1-9923bcc34d4284e3",
+            "loop": true
           }
         }
       ]

@@ -19,6 +19,7 @@ import type {
   ScriptCondition,
   ScriptRef,
   ScriptStage,
+  SpriteActionBinding,
   WalkSpeed,
   WorldScriptState,
 } from '@type-pal/content'
@@ -76,6 +77,14 @@ export interface ScriptHost {
   setEntityState(entity: string, state: number): void
   setEntityFacing(entity: string, facing: Facing): void
   setEntityFrame(entity: string, frame: number): void
+  /** 播放实体当前精灵的预制动作；单次 Promise 在动作完成/被替换/停止时兑现。 */
+  playEntityAction(
+    entity: string,
+    binding: SpriteActionBinding,
+    signal?: AbortSignal,
+  ): Promise<void>
+  /** 清除剧情覆盖动作；reset=true 令页默认动作从自己的 startAtMs 重启。 */
+  stopEntityAction(entity: string, reset: boolean): void
   giveItem(itemId: string, count: number, signal?: AbortSignal): void | Promise<void>
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
@@ -574,6 +583,29 @@ export class ScriptRunner {
         return h.setEntityFacing(cmd.entity, cmd.facing)
       case 'setEntityFrame':
         return h.setEntityFrame(cmd.entity, cmd.frame)
+      case 'playEntityAction': {
+        const pending = h.playEntityAction(
+          cmd.entity,
+          {
+            sprite: cmd.sprite,
+            action: cmd.action,
+            loop: cmd.loop,
+            ...(cmd.startAtMs !== undefined ? { startAtMs: cmd.startAtMs } : {}),
+          },
+          this.signal,
+        )
+        if (cmd.wait ?? !cmd.loop) return pending
+        void pending.catch((error: unknown) => {
+          if (this.signal.aborted || (error instanceof DOMException && error.name === 'AbortError'))
+            return
+          h.report(
+            `playEntityAction(${cmd.entity},${cmd.sprite},${cmd.action}) 后台播放失败: ${error instanceof Error ? error.message : String(error)}`,
+          )
+        })
+        return
+      }
+      case 'stopEntityAction':
+        return h.stopEntityAction(cmd.entity, cmd.reset)
       case 'giveItem':
         return h.giveItem(cmd.itemId, cmd.count ?? 1, this.signal)
       case 'loseItem':
@@ -720,6 +752,12 @@ export class ScriptRunner {
         return this.callScript(cmd.ref, cmd.self ?? this.selfId, [...path, `call:${cmd.ref.id}`])
       case 'jumpScript':
         throw new ScriptJump(cmd.ref, cmd.self ?? this.selfId)
+      case 'endBattle':
+        throw new Error('ScriptRunner: endBattle 只能用于战斗演出脚本')
+      default: {
+        const unhandled: never = cmd
+        throw new Error(`ScriptRunner: 未实现命令 ${(unhandled as Command).kind}`)
+      }
     }
   }
 }

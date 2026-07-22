@@ -8,6 +8,7 @@
 import {
   type AssetCatalogV1,
   type AssetRecordV1,
+  CONTENT_VERSION,
   formatProjectMapV2,
   type LoadedManifest,
   type MapIndexV1,
@@ -219,7 +220,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'manifest.json': {
       id,
       name: name.trim() || '新工程',
-      contentVersion: 3,
+      contentVersion: CONTENT_VERSION,
       entryScene: 'start',
       content: {
         actors: 'content/actors.json',

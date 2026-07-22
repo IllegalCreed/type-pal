@@ -134,6 +134,64 @@ describe('EditorLocation URL 契约', () => {
       view: 'asset',
     })
   })
+
+  it('大世界精灵动作深链往返保留稳定 ActionId', () => {
+    const location = editorLinks.worldSpriteAction('sprite-77', 'whip/loop #1')
+    const href = editorLocationHref(location, 'http://localhost:6010/editor?project=pal')
+
+    expect(decodeEditorLocation(new URL(href, 'http://localhost:6010').search)).toEqual(location)
+    expect(href).toContain('action=whip%2Floop+%231')
+  })
+
+  it('动作深链只属于大世界定义视图，并参与位置比较', () => {
+    expect(
+      normalizeEditorLocation({
+        module: 'asset',
+        subpage: 'sprite',
+        objectId: 'battle-sprite.pal.enemy.001',
+        domain: 'battle',
+        view: 'definition',
+        actionId: 'idle',
+      }),
+    ).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'battle-sprite.pal.enemy.001',
+      domain: 'battle',
+      view: 'definition',
+    })
+    expect(
+      normalizeEditorLocation({
+        module: 'asset',
+        subpage: 'sprite',
+        objectId: 'sprite-77',
+        domain: 'world',
+        view: 'asset',
+        actionId: 'idle',
+      }),
+    ).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'sprite-77',
+      domain: 'world',
+      view: 'asset',
+    })
+    expect(
+      sameEditorLocation(
+        editorLinks.worldSpriteAction('sprite-77', 'idle'),
+        editorLinks.worldSpriteAction('sprite-77', 'whip'),
+      ),
+    ).toBe(false)
+  })
+
+  it('留在精灵库子页时动作深链不丢失', () => {
+    const sprite = EDITOR_MODULES.find((module) => module.id === 'asset')!.subpages.find(
+      (subpage) => subpage.id === 'sprite',
+    )!
+    const location = editorLinks.worldSpriteAction('sprite-77', 'whip')
+
+    expect(locationForSubpageNavigation(location, sprite)).toEqual(location)
+  })
 })
 
 describe('跨模块唯一链接', () => {
@@ -149,6 +207,14 @@ describe('跨模块唯一链接', () => {
       objectId: 'sprite-li',
       domain: 'world',
       view: 'definition',
+    })
+    expect(editorLinks.worldSpriteAction('sprite-77', 'whip')).toEqual({
+      module: 'asset',
+      subpage: 'sprite',
+      objectId: 'sprite-77',
+      domain: 'world',
+      view: 'definition',
+      actionId: 'whip',
     })
     expect(editorLinks.battleSpriteDefinition('enemy-001')).toEqual({
       module: 'asset',

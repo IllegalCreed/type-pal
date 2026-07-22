@@ -58,7 +58,7 @@ describe('cloneFromPal', () => {
   const manifest = {
     id: 'pal',
     name: 'PAL',
-    contentVersion: 3,
+    contentVersion: 4,
     entryScene: 's1',
     content: { actors: 'content/actors.json', scenes: 'content/scenes/' },
     assets: {
@@ -278,7 +278,7 @@ describe('cloneFromPal', () => {
   test('地图注册表与零场景引用地图也会完整克隆', async () => {
     const mapsManifest = {
       ...manifest,
-      contentVersion: 3,
+      contentVersion: 4,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const mapIndex = {

@@ -18,6 +18,7 @@ import {
   AddProjectMapLayerCommand,
   AddSceneCommand,
   AddSpriteCommand,
+  AddSpriteDefinitionCommand,
   BindSceneMapCommand,
   CompositeCommand,
   CreateMapAssetCommand,
@@ -66,6 +67,7 @@ import {
   UpdateScriptCommand,
   UpdateSpriteCommand,
   UpdateStartWorldCommand,
+  UpdateTriggerModeCommand,
   UpsertAssetCommand,
   UpsertAuthoredScriptCommand,
   UpsertSceneEntryCommand,
@@ -87,7 +89,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 3,
+      contentVersion: 4,
       entryScene: 's',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -250,6 +252,27 @@ describe('布置命令集 · 不可变 + invert', () => {
     const cmd = new UpdateEntityCommand('s', 'a', { collide: true })
     const s1 = cmd.apply(s0)
     expect(ent0(s1).pos).toEqual({ col: 1, row: 1, height: 0 })
+  })
+
+  test('UpdateEntity:页默认动作深拷贝落盘并可撤销', () => {
+    const s0 = st()
+    const pages = [
+      {
+        animation: {
+          sprite: 'sprite-77',
+          action: 'idle-loop',
+          loop: true,
+          startAtMs: 240,
+        },
+      },
+    ]
+    const cmd = new UpdateEntityCommand('s', 'a', { pages })
+    const s1 = cmd.apply(s0)
+    pages[0]!.animation!.startAtMs = 999
+
+    expect(ent0(s1).pages?.[0]?.animation?.startAtMs).toBe(240)
+    expect(ent0(s0).pages).toBeUndefined()
+    expect(cmd.invert(s1).scenes[0]!.entities[0]!.pages).toBeUndefined()
   })
 
   // ── UpdateSceneCommand ─────────────────────────────────────
@@ -479,24 +502,29 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
       { asset: 'sprite.test.li', sha256, actualFrameCount },
     ]
   }
-  test('UpdateSprite layout:directional → loop,invert 还原;源不变', () => {
+  test('UpdateSprite layout:directional → static,invert 还原;v4 拒绝定义级 loop', () => {
     const [s0, proof] = withSpriteRecord()
-    const cmd = new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } }, proof)
+    const cmd = new UpdateSpriteCommand('li', { layout: { kind: 'static' } }, proof)
     const s1 = cmd.apply(s0)
-    expect(sp(s1).layout).toEqual({ kind: 'loop', frameCount: 4 })
+    expect(sp(s1).layout).toEqual({ kind: 'static' })
     expect(sp(s0).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 源不变
     const s2 = cmd.invert(s1)
     expect(sp(s2).layout).toEqual({ kind: 'directional', framesPerDir: 3 }) // 还原
+    expect(() =>
+      new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } }, proof).apply(s0),
+    ).toThrow(/自动循环请创建预制动作/)
   })
-  test('UpdateSprite poses:加命名姿势,invert 清回 undefined', () => {
+  test('UpdateSprite poses:加预制动作,invert 清回 undefined', () => {
     const [s0, proof] = withSpriteRecord()
     const cmd = new UpdateSpriteCommand(
       'li',
-      { poses: { 摔倒: { frames: [12], mode: 'static' } } },
+      { poses: { fall: { label: '摔倒', steps: [{ frame: 12, durationMs: 250 }] } } },
       proof,
     )
     const s1 = cmd.apply(s0)
-    expect(sp(s1).poses).toEqual({ 摔倒: { frames: [12], mode: 'static' } })
+    expect(sp(s1).poses).toEqual({
+      fall: { label: '摔倒', steps: [{ frame: 12, durationMs: 250 }] },
+    })
     expect(sp(s0).poses).toBeUndefined()
     expect(sp(cmd.invert(s1)).poses).toBeUndefined()
   })
@@ -507,24 +535,29 @@ describe('C1 命令 · UpdateSprite / UpdateActor(不可变 + invert)', () => {
       sprites: [
         {
           ...base.sprites[0]!,
-          poses: { 旧债: { frames: [15], mode: 'static' } },
+          poses: { debt: { label: '旧债', steps: [{ frame: 15, durationMs: 250 }] } },
         },
       ],
     }
-    expect(() =>
-      new UpdateSpriteCommand('li', { layout: { kind: 'loop', frameCount: 4 } }).apply(debt),
-    ).toThrow(/证明缺失/)
+    expect(() => new UpdateSpriteCommand('li', { layout: { kind: 'static' } }).apply(debt)).toThrow(
+      /证明缺失/,
+    )
     expect(() =>
       new UpdateSpriteCommand(
         'li',
-        { poses: { ...debt.sprites[0]!.poses, 新债: { frames: [14], mode: 'static' } } },
+        {
+          poses: {
+            ...debt.sprites[0]!.poses,
+            newDebt: { label: '新债', steps: [{ frame: 14, durationMs: 250 }] },
+          },
+        },
         proof,
       ).apply(debt),
     ).toThrow(/新增越界帧 14/)
     expect(() =>
       new UpdateSpriteCommand(
         'li',
-        { poses: { 旧债: { frames: [15], mode: 'static' } } },
+        { poses: { debt: { label: '旧债', steps: [{ frame: 15, durationMs: 250 }] } } },
         proof,
       ).apply(debt),
     ).not.toThrow()
@@ -615,6 +648,32 @@ describe('C-track v1 · UpdateScript(整 stages 替换 + invert)', () => {
     expect((s2.scenes[0]!.entities[0] as EntityDef).pages?.[0]?.auto?.stages).toEqual(
       stg('auto-old'),
     )
+  })
+
+  test('实体第 2 页脚本与触发方式只修改目标页，invert 原样还原', () => {
+    const s0 = stScript()
+    const entity = s0.scenes[0]!.entities[0]!
+    entity.pages = [
+      entity.pages![0]!,
+      {
+        state: 2,
+        trigger: { on: 'interact', range: 1, stages: stg('page-2-old') },
+      },
+    ]
+    const update = new UpdateScriptCommand(
+      's',
+      { kind: 'trigger', entityId: 'a', pageIndex: 1 },
+      stg('page-2-new'),
+    )
+    const s1 = update.apply(s0)
+    expect(ent0(s1).pages?.[0]?.auto?.stages).toEqual(stg('auto-old'))
+    expect(ent0(s1).pages?.[1]?.trigger?.stages).toEqual(stg('page-2-new'))
+
+    const mode = new UpdateTriggerModeCommand('s', 'a', 'touch', 3, 1)
+    const s2 = mode.apply(s1)
+    expect(ent0(s2).pages?.[1]?.trigger).toMatchObject({ on: 'touch', range: 3 })
+    expect(ent0(mode.invert(s2)).pages?.[1]?.trigger).toMatchObject({ on: 'interact', range: 1 })
+    expect(ent0(update.invert(s1)).pages?.[1]?.trigger?.stages).toEqual(stg('page-2-old'))
   })
 
   test('源不存在(实体无 trigger 页)= no-op', () => {
@@ -764,6 +823,68 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
     expect(withoutAsset.assetCatalog.assets[heroDef.asset]).toBeUndefined()
     expect(deleted.invert(withoutAsset).assetBlobs[heroRecord.path]).toEqual(blob)
   })
+  test('已有帧资源可新增用途；catalog/blob 保持同引用且 undo 只移除新用途', () => {
+    const blob = bytes(8)
+    const base = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
+    const legacyDebt: SpriteDef = {
+      ...heroDef,
+      id: 'legacy-debt',
+      layout: { kind: 'directional', framesPerDir: 99 },
+    }
+    const stateWithDebt = { ...base, sprites: [legacyDebt] }
+    const definition: SpriteDef = {
+      id: 'shared-static',
+      asset: heroDef.asset,
+      label: '共享静物用途',
+      layout: { kind: 'static' },
+    }
+    const cmd = new AddSpriteDefinitionCommand(definition, {
+      asset: heroDef.asset,
+      sha256: heroRecord.sha256,
+      actualFrameCount: 1,
+    })
+
+    const added = cmd.apply(stateWithDebt)
+    expect(added.sprites.at(-1)).toEqual(definition)
+    expect(added.assetCatalog).toBe(stateWithDebt.assetCatalog)
+    expect(added.assetBlobs).toBe(stateWithDebt.assetBlobs)
+    expect(cmd.invert(added).sprites).toEqual([legacyDebt])
+  })
+  test('新增用途拒绝重复 id、过期证明与任何新增越界布局', () => {
+    const blob = bytes(8)
+    const base = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
+    const definition: SpriteDef = {
+      id: 'shared-walk',
+      asset: heroDef.asset,
+      label: '共享行走用途',
+      layout: { kind: 'directional', framesPerDir: 3 },
+    }
+    const proof = {
+      asset: heroDef.asset,
+      sha256: heroRecord.sha256,
+      actualFrameCount: 12,
+    }
+
+    expect(() =>
+      new AddSpriteDefinitionCommand({ ...definition, id: heroDef.id }, proof).apply(base),
+    ).toThrow('id 已存在')
+    expect(() =>
+      new AddSpriteDefinitionCommand(definition, { ...proof, sha256: 'b'.repeat(64) }).apply(base),
+    ).toThrow('证明缺失或已过期')
+    expect(() =>
+      new AddSpriteDefinitionCommand(definition, { ...proof, actualFrameCount: 11 }).apply(base),
+    ).toThrow('需要 12 帧')
+    expect(() =>
+      new AddSpriteDefinitionCommand(
+        {
+          ...definition,
+          layout: { kind: 'static' },
+          poses: { last: { label: '末帧', steps: [{ frame: 12, durationMs: 250 }] } },
+        },
+        proof,
+      ).apply(base),
+    ).toThrow('需要 13 帧')
+  })
   test('删除定义复用统一语义反向索引，嵌套 chunk/appearance/followers 引用均阻断', () => {
     const blob = bytes(8)
     const added = new AddSpriteCommand(heroDef, heroRecord, blob).apply(stS())
@@ -827,6 +948,64 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
     )
     expect(() => shrink.apply(s0)).toThrow('不得减少有效帧')
   })
+  test('未配置原始精灵资源可独立替换、缩帧并完整撤销重做', () => {
+    const previousBytes = bytes(8)
+    const seeded = new AddSpriteCommand(heroDef, heroRecord, previousBytes).apply(stS())
+    const rawOnly = {
+      ...seeded,
+      sprites: seeded.sprites.filter((entry) => entry.id !== heroDef.id),
+    }
+    const nextBytes = bytes(12)
+    const nextRecord = record('assets/authored/sprites/raw-only.rle', 12, 'd'.repeat(64))
+    const session = new EditSession(rawOnly)
+    session.dispatch(
+      new ReplaceSpriteAssetCommand(
+        undefined,
+        heroDef.asset,
+        nextRecord,
+        nextBytes,
+        previousBytes,
+        {
+          asset: heroDef.asset,
+          previousSha256: heroRecord.sha256,
+          previousFrameCount: 3,
+          nextFrameCount: 2,
+          consumerIds: [],
+          repairs: {},
+          consumerSnapshots: {},
+        },
+      ),
+    )
+    expect(session.getState().assetCatalog.assets[heroDef.asset]).toEqual(nextRecord)
+    expect(session.getState().assetBlobs[nextRecord.path]).toEqual(nextBytes)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().assetCatalog.assets[heroDef.asset]).toEqual(heroRecord)
+    expect(session.getState().assetBlobs[heroRecord.path]).toEqual(previousBytes)
+    expect(session.redo()).toBe(true)
+    expect(session.getState().assetCatalog.assets[heroDef.asset]).toEqual(nextRecord)
+  })
+  test('未配置入口不能绕过临时新增的语义消费者', () => {
+    const previousBytes = bytes(8)
+    const seeded = new AddSpriteCommand(heroDef, heroRecord, previousBytes).apply(stS())
+    const nextBytes = bytes(12)
+    const nextRecord = record('assets/authored/sprites/raw-stale.rle', 12, 'e'.repeat(64))
+    expect(() =>
+      new ReplaceSpriteAssetCommand(
+        undefined,
+        heroDef.asset,
+        nextRecord,
+        nextBytes,
+        previousBytes,
+        {
+          asset: heroDef.asset,
+          previousSha256: heroRecord.sha256,
+          previousFrameCount: 3,
+          nextFrameCount: 4,
+          consumerIds: [],
+        },
+      ).apply(seeded),
+    ).toThrow(/已有语义消费者/)
+  })
   test('缩帧原子更新全部共享定义并可 undo；缺修复、过期消费者与残余越界均拒绝', () => {
     const prev = bytes(8)
     const next = bytes(16)
@@ -841,7 +1020,7 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
           id: 'my-hero-static',
           label: '共享静态',
           layout: { kind: 'static' },
-          poses: { 尾帧: { frames: [11], mode: 'static' } },
+          poses: { tail: { label: '尾帧', steps: [{ frame: 11, durationMs: 250 }] } },
         },
       ],
     }
@@ -902,7 +1081,12 @@ describe('A7-3W 精灵 catalog 命令(共享安全 + undo)', () => {
       ...shared,
       sprites: shared.sprites.map((definition) =>
         definition.id === 'my-hero-static'
-          ? { ...definition, poses: { 新动作: { frames: [2], mode: 'static' as const } } }
+          ? {
+              ...definition,
+              poses: {
+                newAction: { label: '新动作', steps: [{ frame: 2, durationMs: 250 }] },
+              },
+            }
           : definition,
       ),
     }
@@ -1134,6 +1318,40 @@ describe('A7-3B 战斗精灵定义/资产生命周期', () => {
         },
       ).apply(state),
     ).toThrow(/不得减少有效帧/)
+  })
+
+  test('未配置战斗帧源也可资源级缩帧，但新增消费者后必须重新确认', async () => {
+    const { definition, record, bytes } = await fixture()
+    const seeded = new AddBattleSpriteCommand(definition, record, bytes, 10).apply(st())
+    const rawOnly = {
+      ...seeded,
+      battleSprites: seeded.battleSprites.filter((entry) => entry.id !== definition.id),
+    }
+    const nextRecord: AssetRecordV1 = {
+      ...record,
+      path: 'assets/authored/battle-sprites/raw-only.rle',
+      sha256: '9'.repeat(64),
+    }
+    const command = new ReplaceBattleSpriteAssetCommand(
+      undefined,
+      definition.asset,
+      nextRecord,
+      bytes,
+      bytes,
+      {
+        asset: definition.asset,
+        previousSha256: record.sha256,
+        previousFrameCount: 10,
+        nextFrameCount: 9,
+        consumerIds: [],
+        repairs: {},
+        consumerSnapshots: {},
+      },
+    )
+    const changed = command.apply(rawOnly)
+    expect(changed.assetCatalog.assets[definition.asset]).toEqual(nextRecord)
+    expect(command.invert(changed).assetCatalog.assets[definition.asset]).toEqual(record)
+    expect(() => command.apply(seeded)).toThrow(/已有语义消费者/)
   })
 
   test('替换成功后 undo/redo 精确恢复 catalog、路径字节与保存删除集', async () => {
@@ -1745,6 +1963,25 @@ describe('CreateScriptSourceCommand(断点 #5:空态创建)', () => {
     expect(ent0(back).pages?.[0]?.auto).toBeUndefined()
     expect(ent0(back).pages?.[0]?.trigger).toBeTruthy()
   })
+  test('指定页创建脚本，undo 精确保留动作页和空的中间页', () => {
+    const s0 = st()
+    ent0(s0).pages = [
+      {
+        animation: { sprite: 'ghost', action: 'idle', loop: true },
+      },
+      {},
+      { state: 2 },
+    ]
+    const before = structuredClone(ent0(s0).pages)
+    const c = new CreateScriptSourceCommand('s', {
+      kind: 'auto',
+      entityId: 'a',
+      pageIndex: 1,
+    })
+    const s1 = c.apply(s0)
+    expect(ent0(s1).pages?.[1]?.auto).toEqual({ stages: [{ body: [] }] })
+    expect(ent0(c.invert(s1)).pages).toEqual(before)
+  })
 })
 
 describe('CreateProjectMapCommand', () => {
@@ -1819,13 +2056,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(3)
+    expect(s1.manifest.contentVersion).toBe(4)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(3)
+    expect(back.manifest.contentVersion).toBe(4)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 

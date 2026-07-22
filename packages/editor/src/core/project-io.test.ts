@@ -37,7 +37,7 @@ const canonicalBattleSpriteBytes = seedAssets.battleSpriteRle
 const manifest: LoadedManifest = {
   id: 'demo',
   name: '鬼界·民居(验证 demo)',
-  contentVersion: 3,
+  contentVersion: 4,
   entryScene: 'guijie-minju',
   content: {
     scenes: 'content/scenes/',
@@ -733,7 +733,7 @@ test('N6 保存门禁:作者脚本孤儿 ref fail-loud', () => {
 test('ProjectMapV2 serialize → loadProjectMap 重开闭环', async () => {
   const ownManifest: LoadedManifest = {
     ...manifest,
-    contentVersion: 3,
+    contentVersion: 4,
     content: { ...manifest.content, maps: 'content/maps/index.json' },
   }
   const rel = 'content/maps/guijie-minju.json'
@@ -1071,7 +1071,7 @@ describe('diffFiles(增量-diff)', () => {
   test('删除未引用地图会改写 index，并把地图 JSON 列入 remove', async () => {
     const ownManifest: LoadedManifest = {
       ...manifest,
-      contentVersion: 3,
+      contentVersion: 4,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'used' }
@@ -1108,7 +1108,7 @@ describe('diffFiles(增量-diff)', () => {
   test('地图路径与其他工程输出碰撞时 fail-loud，不静默覆盖', () => {
     const ownManifest: LoadedManifest = {
       ...manifest,
-      contentVersion: 3,
+      contentVersion: 4,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const scene: SceneDef = { ...(scenesJson[0] as SceneDef), mapId: 'bad' }

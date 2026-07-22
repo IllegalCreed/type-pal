@@ -1,4 +1,4 @@
-import type { AssetCatalogV1, LoadedManifest } from '@type-pal/content'
+import type { AssetCatalogV1, LegacyManifestV3, LoadedManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
 import { closePalSoundManifest, preparePalManifest } from './pal-manifest.js'
@@ -6,7 +6,7 @@ import { closePalSoundManifest, preparePalManifest } from './pal-manifest.js'
 const manifest = (): LoadedManifest => ({
   id: 'pal',
   name: 'PAL',
-  contentVersion: 3,
+  contentVersion: 4,
   entryScene: 's000',
   content: {},
   assets: {
@@ -20,6 +20,11 @@ const manifest = (): LoadedManifest => ({
     },
   },
   startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+})
+
+const legacyManifest = (): LegacyManifestV3 => ({
+  ...manifest(),
+  contentVersion: 3,
 })
 
 describe('PAL sound manifest closure', () => {
@@ -49,12 +54,13 @@ describe('PAL sound manifest closure', () => {
     expect(() => closePalSoundManifest(manifest(), catalog)).toThrow('不存在')
   })
 
-  test('综合迁移 manifest 登记 stamps，保持 contentVersion 3 且不改输入', () => {
-    const current = manifest()
+  test('综合迁移 manifest 登记 stamps，把 contentVersion 3 升为 4 且不改输入', () => {
+    const current = legacyManifest()
     const next = preparePalManifest(current)
     expect(next.content.stamps).toBe('content/stamps.json')
     expect(next.content.battleSprites).toBe('content/battle-sprites.json')
-    expect(next.contentVersion).toBe(3)
+    expect(next.contentVersion).toBe(4)
+    expect(current.contentVersion).toBe(3)
     expect(current.content.stamps).toBeUndefined()
     expect(next.assets.legacy).toEqual({
       families: ['effect-sprite'],

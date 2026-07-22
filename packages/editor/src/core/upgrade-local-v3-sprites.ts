@@ -2,13 +2,16 @@ import {
   type AssetCatalogV1,
   type AssetId,
   type AssetRecordV1,
-  type LoadedManifest,
+  type LegacyManifestV3,
+  type LegacyPoseDefV3,
+  type LegacySpriteDefV3,
+  type LegacySpriteLayoutV3,
   legacyWorldSpriteNumberFromAsset,
   normalizeScriptLibrary,
   palSpriteAssetId,
   type ScriptChunkV1,
   type ScriptIndexV1,
-  type SpriteDef,
+  upgradeSpriteDefinitionsV3ToV4,
   validateAssetCatalog,
   validateManifestAssetConfigV3,
   validateProjectRelativePath,
@@ -22,8 +25,8 @@ interface LegacySpriteDef {
   id: string
   spriteNum: number
   label: string
-  layout: SpriteDef['layout']
-  poses?: SpriteDef['poses']
+  layout: LegacySpriteLayoutV3
+  poses?: Record<string, LegacyPoseDefV3>
   path?: string
 }
 
@@ -63,7 +66,7 @@ function stableId(value: string): string {
 
 function legacySource(
   definition: LegacySpriteDef,
-  legacy: NonNullable<LoadedManifest['assets']['legacy']>,
+  legacy: NonNullable<LegacyManifestV3['assets']['legacy']>,
 ): { path: string; ref: string; legacy: boolean } {
   if (definition.path?.startsWith('assets/')) {
     return {
@@ -122,7 +125,7 @@ async function validateExistingRecord(
   return bytes
 }
 
-function exitSpriteLegacy(manifest: LoadedManifest): LoadedManifest {
+function exitSpriteLegacy(manifest: LegacyManifestV3): LegacyManifestV3 {
   const next = structuredClone(manifest)
   const legacy = next.assets.legacy
   if (!legacy) return next
@@ -189,7 +192,7 @@ function upgradeFollowerCommands(
 
 async function collectFollowerFiles(
   source: FileSource,
-  manifest: LoadedManifest,
+  manifest: LegacyManifestV3,
   resolve: (value: unknown, where: string) => string[],
 ): Promise<Record<string, unknown>> {
   const files: Record<string, unknown> = {}
@@ -243,7 +246,7 @@ function cleanupPaths(plans: readonly PlannedSource[], catalog: AssetCatalogV1):
 
 async function listLegacyFamilySources(
   dir: FileSystemDirectoryHandle,
-  legacy: NonNullable<LoadedManifest['assets']['legacy']>,
+  legacy: NonNullable<LegacyManifestV3['assets']['legacy']>,
 ): Promise<{ sourcePath: string; sourceRef: string; spriteNum: number }[]> {
   const root = legacy.root
   if (typeof root !== 'string') throw new Error('legacy sprite 缺 assets.legacy.root')
@@ -291,7 +294,7 @@ async function listLegacyFamilySources(
 
 function recoveryPlans(
   catalog: AssetCatalogV1,
-  legacy: NonNullable<LoadedManifest['assets']['legacy']>,
+  legacy: NonNullable<LegacyManifestV3['assets']['legacy']>,
 ): PlannedSource[] {
   const plans: PlannedSource[] = []
   for (const [asset, record] of Object.entries(catalog.assets)) {
@@ -323,7 +326,7 @@ export async function upgradeLocalProjectV3Sprites(
   source: FileSource,
   rawManifest: unknown,
 ): Promise<boolean> {
-  const manifest = objectAt(rawManifest, 'manifest') as unknown as LoadedManifest
+  const manifest = objectAt(rawManifest, 'manifest') as unknown as LegacyManifestV3
   const legacy = manifest.assets.legacy
   const hasSpriteLegacy = legacy?.families.includes('sprite') || typeof legacy?.sprites === 'string'
   if (manifest.contentVersion !== 3 || !legacy || !hasSpriteLegacy) return false
@@ -349,7 +352,9 @@ export async function upgradeLocalProjectV3Sprites(
   )
 
   if (canonicalInput) {
-    const definitions = validateSprites(rawDefs, catalog)
+    const definitions = rawDefs as LegacySpriteDefV3[]
+    const canonicalForValidation = upgradeSpriteDefinitionsV3ToV4(definitions).sprites
+    validateSprites(canonicalForValidation, catalog)
     for (const [asset, record] of Object.entries(catalog.assets))
       if (record.kind === 'sprite') await validateExistingRecord(source, asset, record)
     const byNumber = new Map<number, string[]>()
@@ -398,15 +403,17 @@ export async function upgradeLocalProjectV3Sprites(
       id: value.id,
       spriteNum: value.spriteNum as number,
       label: value.label,
-      layout: value.layout as SpriteDef['layout'],
-      ...(value.poses === undefined ? {} : { poses: value.poses as SpriteDef['poses'] }),
+      layout: value.layout as LegacySpriteLayoutV3,
+      ...(value.poses === undefined
+        ? {}
+        : { poses: value.poses as Record<string, LegacyPoseDefV3> }),
       ...(value.path === undefined ? {} : { path: value.path as string }),
     }
   })
   if (new Set(legacyDefs.map(({ id }) => id)).size !== legacyDefs.length)
     throw new Error('sprites: 重复 id')
 
-  const definitions: SpriteDef[] = []
+  const definitions: LegacySpriteDefV3[] = []
   const plansBySource = new Map<string, PlannedSource>()
   const plansByAsset = new Map<AssetId, PlannedSource>()
   const plannedByHash = new Map<string, PlannedSource>()
@@ -565,7 +572,7 @@ export async function upgradeLocalProjectV3Sprites(
     })
   }
 
-  validateSprites(definitions, catalog)
+  validateSprites(upgradeSpriteDefinitionsV3ToV4(definitions).sprites, catalog)
   const resolve = buildFollowerResolver(
     byNumber,
     new Set(definitions.map(({ id }) => id)),

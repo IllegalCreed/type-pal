@@ -1,7 +1,7 @@
 import {
   type AssetRecordV1,
   exitLegacySoundFamily,
-  type LoadedManifest,
+  type LegacyManifestV3,
   normalizeScriptLibrary,
   palSoundAssetId,
   type ScriptChunkV1,
@@ -89,7 +89,7 @@ export async function upgradeLocalProjectV3Sounds(
   rawManifest: unknown,
   options: UpgradeLocalV2Options = {},
 ): Promise<boolean> {
-  const manifest = asObject(rawManifest, 'manifest') as unknown as LoadedManifest
+  const manifest = asObject(rawManifest, 'manifest') as unknown as LegacyManifestV3
   if (manifest.contentVersion !== 3 || !manifest.assets.legacy?.families.includes('sound'))
     return false
   const legacyRoot = manifest.assets.legacy.sounds

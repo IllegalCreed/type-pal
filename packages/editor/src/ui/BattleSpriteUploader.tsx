@@ -118,16 +118,20 @@ export function BattleSpriteUploader(props: {
     <div className="bsu">
       <div className="field">
         <span className="field-label">图片</span>
-        <input
-          aria-label="选择战斗精灵图片"
-          type="file"
-          accept="image/png,image/webp,image/gif"
-          disabled={submitting}
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) void pickFile(f)
-          }}
-        />
+        <label className="sprite-file-picker bsu-file-picker">
+          <span>选择图片…</span>
+          <small>PNG / WebP / GIF</small>
+          <input
+            aria-label="选择战斗精灵图片"
+            type="file"
+            accept="image/png,image/webp,image/gif"
+            disabled={submitting}
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) void pickFile(f)
+            }}
+          />
+        </label>
       </div>
       {rgba && (
         <>
@@ -163,27 +167,29 @@ export function BattleSpriteUploader(props: {
             </span>
           </div>
           {palette && quantized.length > 0 && (
-            <div className="tile-grid" style={{ maxHeight: 180 }}>
+            <div className="tile-grid bsu-frame-grid">
               {quantized.map((f, i) => (
                 <FrameThumb key={`f${i}`} frame={f} palette={palette} idx={i} />
               ))}
             </div>
           )}
-          <div className="field">
-            <button
-              type="button"
-              className="tool"
-              disabled={quantized.length === 0 || submitting}
-              onClick={() => void apply()}
-            >
-              {submitting ? '处理中…' : '✓ 应用外观'}
-            </button>
-            <button type="button" className="tool" disabled={submitting} onClick={onCancel}>
-              取消
-            </button>
-          </div>
         </>
       )}
+      <div className="field bsu-actions">
+        {rgba && (
+          <button
+            type="button"
+            className="tool"
+            disabled={quantized.length === 0 || submitting}
+            onClick={() => void apply()}
+          >
+            {submitting ? '处理中…' : '✓ 应用外观'}
+          </button>
+        )}
+        <button type="button" className="tool" disabled={submitting} onClick={onCancel}>
+          取消
+        </button>
+      </div>
       {err && (
         <div className="err" aria-live="polite">
           {err}

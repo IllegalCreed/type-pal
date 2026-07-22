@@ -83,9 +83,10 @@ describe('SceneDef 地图边界', () => {
     expect(() => validateScenes([scene({ legacyMapId: 'home' })])).toThrow('合法稳定地图 id')
   })
 
-  test('contentVersion 2 fail-loud，版本 3 正常', () => {
+  test('contentVersion 2/3 fail-loud，版本 4 正常', () => {
     expect(() => validateScenesForContentVersion([scene('home')], 1)).toThrow('请先迁移工程')
     expect(() => validateScenesForContentVersion([scene('home')], 2)).toThrow('请先迁移工程')
-    expect(validateScenesForContentVersion([scene('home')], 3)[0]?.mapId).toBe('home')
+    expect(() => validateScenesForContentVersion([scene('home')], 3)).toThrow('请先迁移工程')
+    expect(validateScenesForContentVersion([scene('home')], 4)[0]?.mapId).toBe('home')
   })
 })

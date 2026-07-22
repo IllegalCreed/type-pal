@@ -21,12 +21,19 @@ import type {
   ScriptIndexV1,
   SharedScriptMetaV1,
   ShopDef,
+  SpriteDef,
   WalkSpeed,
 } from '@type-pal/content'
-import { type ActorDef, deriveScriptChunk, lookupText } from '@type-pal/content'
+import {
+  type ActorDef,
+  deriveScriptChunk,
+  lookupText,
+  resolveEntitySpriteId,
+} from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
@@ -187,6 +194,8 @@ export function CommandForm(props: {
   /** 角色表(setParty 队伍编辑下拉;C7)。缺省退化 JSON 兜底。 */
   actors?: Record<string, ActorDef>
   battleSprites: readonly BattleSpriteDef[]
+  /** 大世界精灵与预制动作；playEntityAction 使用稳定 sprite/action 复合引用。 */
+  sprites?: readonly SpriteDef[]
   /** 氛围表(setAmbience 下拉;W6)。缺省退化文本输入。 */
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
@@ -200,6 +209,7 @@ export function CommandForm(props: {
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenSpriteAction?: (spriteId: string, actionId: string) => void
   onChange: (next: Command) => void
 }) {
   const {
@@ -212,6 +222,7 @@ export function CommandForm(props: {
     scenes,
     actors,
     battleSprites,
+    sprites = [],
     ambiences,
     shops,
     scriptIndex,
@@ -220,6 +231,7 @@ export function CommandForm(props: {
     onOpenSound,
     onOpenImage,
     onOpenBattleSprite,
+    onOpenSpriteAction,
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
@@ -495,6 +507,123 @@ export function CommandForm(props: {
           <Row label="帧">
             <Num value={cmd.frame} onChange={(n) => set({ frame: n })} />
           </Row>
+        </>
+      )
+    case 'playEntityAction': {
+      const actionSprites = sprites.filter((sprite) => Object.keys(sprite.poses ?? {}).length > 0)
+      const selectedSprite = sprites.find((sprite) => sprite.id === cmd.sprite)
+      const actions = sortedSpriteActions(selectedSprite)
+      const selectedAction = actions.find((entry) => entry.id === cmd.action)
+      const selectedEntity = scene.entities.find((entity) => entity.id === cmd.entity)
+      const baselineSpriteId = selectedEntity
+        ? resolveEntitySpriteId(selectedEntity, actors ?? {})
+        : undefined
+      const mismatch = !!baselineSpriteId && baselineSpriteId !== cmd.sprite
+      const setEntityTarget = (entityId: string): void => {
+        const entity = scene.entities.find((entry) => entry.id === entityId)
+        const target = defaultActionTargetForEntity(entity, actors ?? {}, sprites)
+        if (target) {
+          set({ entity: entityId, sprite: target.sprite.id, action: target.action.id })
+          return
+        }
+        const spriteId = entity ? resolveEntitySpriteId(entity, actors ?? {}) : undefined
+        set({ entity: entityId, sprite: spriteId ?? '', action: '' })
+      }
+      const setSprite = (spriteId: string): void => {
+        const sprite = sprites.find((entry) => entry.id === spriteId)
+        set({ sprite: spriteId, action: sortedSpriteActions(sprite)[0]?.id ?? '' })
+      }
+      return (
+        <>
+          <Row label="实体">
+            <EntitySel value={cmd.entity} scene={scene} onChange={setEntityTarget} />
+          </Row>
+          <Row label="精灵">
+            <select className="in" value={cmd.sprite} onChange={(e) => setSprite(e.target.value)}>
+              {actionSprites.map((sprite) => (
+                <option key={sprite.id} value={sprite.id}>
+                  {sprite.label} · {sprite.id}
+                </option>
+              ))}
+              {actionSprites.some((sprite) => sprite.id === cmd.sprite) ? null : (
+                <option value={cmd.sprite}>{cmd.sprite}(缺失或没有动作)</option>
+              )}
+            </select>
+          </Row>
+          <Row label="动作">
+            <select
+              className="in"
+              value={cmd.action}
+              onChange={(e) => set({ action: e.target.value })}
+            >
+              {actions.map(({ id, action, index }) => (
+                <option key={id} value={id}>
+                  #{index} {action.label} · {id}
+                </option>
+              ))}
+              {selectedAction ? null : <option value={cmd.action}>{cmd.action}(动作不存在)</option>}
+            </select>
+          </Row>
+          {mismatch ? (
+            <p className="cf-warn">
+              当前实体的基准精灵是 {baselineSpriteId}；此命令仅在之前已换装为 {cmd.sprite}{' '}
+              时有效，否则运行时会明确报错。
+            </p>
+          ) : null}
+          {!selectedAction ? (
+            <p className="cf-warn">当前精灵中找不到所引用的动作，请修复引用。</p>
+          ) : null}
+          <Row label="播放方式">
+            <Sel
+              value={cmd.loop ? 'loop' : 'once'}
+              options={['once', 'loop'] as const}
+              labels={['单次', '循环']}
+              onChange={(mode) =>
+                set({ loop: mode === 'loop', wait: mode === 'loop' ? false : (cmd.wait ?? true) })
+              }
+            />
+          </Row>
+          <Row label="起始偏移(ms)">
+            <Num
+              value={cmd.startAtMs ?? 0}
+              onChange={(value) => set({ startAtMs: value > 0 ? value : undefined })}
+            />
+          </Row>
+          <label className="cf-inline">
+            <input
+              type="checkbox"
+              checked={cmd.loop ? false : (cmd.wait ?? true)}
+              disabled={cmd.loop}
+              onChange={(event) => set({ wait: event.target.checked })}
+            />
+            单次动作播放完再继续脚本
+          </label>
+          <p className="hint">循环动作在后台持续播放；停止或被更高优先级动作替换前不会结束。</p>
+          <button
+            type="button"
+            className="pv-btn"
+            disabled={!onOpenSpriteAction || !selectedSprite}
+            onClick={() => onOpenSpriteAction?.(cmd.sprite, cmd.action)}
+          >
+            {selectedAction ? '在精灵库编辑此动作 ↗' : '打开精灵并修复引用 ↗'}
+          </button>
+        </>
+      )
+    }
+    case 'stopEntityAction':
+      return (
+        <>
+          <Row label="实体">
+            <EntitySel value={cmd.entity} scene={scene} onChange={(id) => set({ entity: id })} />
+          </Row>
+          <label className="cf-inline">
+            <input
+              type="checkbox"
+              checked={cmd.reset}
+              onChange={(event) => set({ reset: event.target.checked })}
+            />
+            停止后从头恢复当前页面的默认动作
+          </label>
         </>
       )
     case 'stepEntity':

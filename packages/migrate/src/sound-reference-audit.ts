@@ -284,7 +284,13 @@ export function auditPalSoundReferences(args: {
   })
   const sourceSkills = sourceSkillSounds(skills, sources.migrate.spells, sources.migrate.magic)
   const targetPlaySoundValues = soundReferences
-    .filter((reference) => targetChannel(reference) === 'playSound')
+    .filter(
+      (reference) =>
+        targetChannel(reference) === 'playSound' &&
+        // PAL 源没有 SpriteAction cue；这些边由已计数的 legacy playSound 物化而来。
+        // 目标闭包必须保留 cue 边，但重建源 site 时不能把同一命令重复算第二次。
+        !/^sprites\[\d+\]\.poses\[.+\]\.steps\[\d+\]\.cues\[\d+\]\.asset$/.test(reference.where),
+    )
     .map((reference) => legacySoundNumber(reference.asset))
   const droppedEmptySounds = args.translationReport.knownNoOpDetails
     .filter((detail) => detail.key === 'playSound.emptyChunk')
@@ -420,7 +426,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: 479,
       skillAnimation: 98,
       skillSummon: 9,
-      playSound: 1_033,
+      playSound: 1_034,
       itemUse: 1,
       itemThrow: 0,
       roles: 4,
@@ -441,9 +447,10 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       hasFake122Asset: report.target.hasFake122Asset,
     },
     {
-      soundEdges: 1_666,
-      allReferences: 6_650,
-      nonSoundReferences: 4_984,
+      soundEdges: 1_667,
+      // C2-PAL 合并 242/379/541 三个伪 -f0 SpriteDef，恰好移除 3 条非 sound AssetId 边。
+      allReferences: 6_648,
+      nonSoundReferences: 4_981,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,

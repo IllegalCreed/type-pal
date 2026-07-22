@@ -482,6 +482,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     readJson<{ segments: { commands: SourceCmd[] }[] }>(
       'data/extracted/events/shared.json',
     ).segments.flatMap((s) => s.commands)
+  const roleSpriteIdsByNum = mapRoleSpriteIdsByNumber(src.roles, out.sprites)
   const out2 = mapScenesStatic(
     [readScene(1), readScene(3), readScene(4), readScene(5)],
     new Map([
@@ -491,6 +492,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
       [5, readEvents(5)],
       [-1, readShared()], // 共享段:s005 的 autoLabel(L_35636/L_35639)在此
     ]),
+    roleSpriteIdsByNum,
   )
   const byId = new Map(out2.scenes.map((s) => [s.id, s]))
   const expandedScenes = materializeScenes(out2.scenes, out2.scriptChunks)
@@ -652,6 +654,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
         [7, readEvents(7)],
         [-1, readShared()],
       ]),
+      roleSpriteIdsByNum,
     )
     const s7 = materializeScenes(out.scenes, out.scriptChunks)[0]!
     expect(s7.onTeleport?.length).toBeGreaterThan(0)

@@ -707,6 +707,18 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       where: `sprites[${index}].asset`,
       site: `sprite:${sprite.id}:asset`,
     })
+    for (const [actionId, action] of Object.entries(sprite.poses ?? {})) {
+      action.steps.forEach((step, stepIndex) => {
+        step.cues?.forEach((cue, cueIndex) => {
+          references.push({
+            asset: cue.asset,
+            expectedKind: 'sound',
+            where: `sprites[${index}].poses[${JSON.stringify(actionId)}].steps[${stepIndex}].cues[${cueIndex}].asset`,
+            site: `sprite:${sprite.id}:action:${actionId}`,
+          })
+        })
+      })
+    }
   })
   source.battleSprites?.forEach((sprite, index) => {
     references.push({

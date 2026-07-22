@@ -8,12 +8,31 @@ import type {
   PlayerFighterFrames,
 } from '@type-pal/content'
 import { collectBattleSpriteDefinitionReferences } from '@type-pal/content'
-import { type AssetBase, decodeBattleSpriteAssetBytes } from '@type-pal/reforge'
-import { useEffect, useMemo, useState } from 'react'
-import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
+import {
+  type AssetBase,
+  compressGzip,
+  decodeBattleSpriteAssetBytes,
+  encodeSpriteChunk,
+  quantizeToRleFrame,
+  type RleFrame,
+  sliceAtlasGrid,
+} from '@type-pal/reforge'
+import {
+  type DragEvent as ReactDragEvent,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import {
+  defaultBattleSpriteProfile,
+  prepareBattleSpriteImport,
+} from '../core/battle-sprite-import.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import {
   AddBattleSpriteCommand,
+  type BattleSpriteReplacementProof,
   DeleteUnusedBattleSpriteAssetCommand,
   RemoveBattleSpriteDefinitionCommand,
   ReplaceBattleSpriteAssetCommand,
@@ -24,8 +43,10 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
   BattleSpriteInlinePreview,
   type BattleSpritePreviewProof,
+  type BattleSpriteResourceSnapshot,
 } from './BattleSpriteInlinePreview.js'
 import { BattleSpriteUploader } from './BattleSpriteUploader.js'
+import { type SemanticFrameGroup, SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 const PROFILE_LABEL: Record<BattleSpriteProfileKind, string> = {
   'player-fighter': '玩家战斗',
@@ -33,19 +54,262 @@ const PROFILE_LABEL: Record<BattleSpriteProfileKind, string> = {
   summon: '召唤现身',
 }
 
-const PLAYER_FRAME_FIELDS: readonly { key: keyof PlayerFighterFrames; label: string }[] = [
-  { key: 'idle', label: '待机' },
-  { key: 'dying', label: '濒死' },
-  { key: 'dead', label: '死亡' },
-  { key: 'defend', label: '防御' },
-  { key: 'hurt', label: '受伤' },
-  { key: 'preMagic', label: '施法前' },
-  { key: 'magic', label: '施法' },
-  { key: 'attackWindup', label: '攻击蓄力' },
-  { key: 'attackRush', label: '攻击冲刺' },
-  { key: 'attackStrike', label: '攻击命中' },
-  { key: 'steal', label: '偷窃（可选）' },
+const RAW_FRAME_MIME = 'application/x-type-pal-battle-raw-frame'
+const RAW_FRAME_TEXT_PREFIX = 'type-pal-battle-raw-frame:'
+
+type InspectorTab = 'actions' | 'references' | 'source'
+type KindFilter = BattleSpriteProfileKind | 'all' | 'unconfigured'
+
+interface PlayerActionSpec {
+  key: string
+  label: string
+  slots: readonly { key: keyof PlayerFighterFrames; label: string; optional?: boolean }[]
+  returnToIdle?: boolean
+  frameMs: number
+  timing?: string
+}
+
+interface NamedAction {
+  key: string
+  label: string
+  frames: number[]
+  frameMs: number
+  timing?: string
+}
+
+const PLAYER_ACTIONS: readonly PlayerActionSpec[] = [
+  { key: 'idle', label: '待机', slots: [{ key: 'idle', label: '姿势' }], frameMs: 200 },
+  {
+    key: 'attack',
+    label: '普通攻击',
+    slots: [
+      { key: 'attackWindup', label: '蓄力' },
+      { key: 'attackRush', label: '冲刺' },
+      { key: 'attackStrike', label: '命中' },
+    ],
+    returnToIdle: true,
+    frameMs: 140,
+    timing: '姿势序列；实战还包含冲刺、位移与命中特效',
+  },
+  {
+    key: 'cast',
+    label: '施法',
+    slots: [
+      { key: 'preMagic', label: '施法前' },
+      { key: 'magic', label: '释放' },
+    ],
+    returnToIdle: true,
+    frameMs: 180,
+    timing: '姿势序列；实战节奏由具体技能与特效决定',
+  },
+  { key: 'defend', label: '防御', slots: [{ key: 'defend', label: '姿势' }], frameMs: 200 },
+  {
+    key: 'hurt',
+    label: '受伤',
+    slots: [{ key: 'hurt', label: '姿势' }],
+    returnToIdle: true,
+    frameMs: 160,
+  },
+  { key: 'dying', label: '濒死', slots: [{ key: 'dying', label: '姿势' }], frameMs: 200 },
+  { key: 'dead', label: '死亡', slots: [{ key: 'dead', label: '姿势' }], frameMs: 200 },
+  {
+    key: 'steal',
+    label: '偷窃',
+    slots: [{ key: 'steal', label: '偷窃动作', optional: true }],
+    returnToIdle: true,
+    frameMs: 160,
+    timing: '专属姿势；实战还包含冲刺与敌方闪白',
+  },
 ]
+
+const INSPECTOR_TABS: readonly { id: InspectorTab; label: string }[] = [
+  { id: 'actions', label: '动作' },
+  { id: 'references', label: '引用' },
+  { id: 'source', label: '源文件' },
+]
+
+function actionsForProfile(
+  profile: BattleSpriteProfile | undefined,
+  actualFrameCount: number,
+): NamedAction[] {
+  const actions: NamedAction[] = []
+  if (profile?.kind === 'player-fighter') {
+    for (const spec of PLAYER_ACTIONS) {
+      const slotFrames = spec.slots
+        .map((slot) => profile.frames[slot.key])
+        .filter((frame): frame is number => frame !== undefined)
+      actions.push({
+        key: spec.key,
+        label: spec.label,
+        frames:
+          slotFrames.length && spec.returnToIdle
+            ? [...slotFrames, profile.frames.idle]
+            : slotFrames,
+        frameMs: spec.frameMs,
+        timing: spec.timing,
+      })
+    }
+  } else if (profile?.kind === 'enemy') {
+    for (const [label, section] of [
+      ['待机', profile.idle],
+      ['施法', profile.magic],
+      ['攻击', profile.attack],
+    ] as const) {
+      const frames =
+        section.count === 0
+          ? []
+          : label !== '待机' && profile.actTicksPerFrame === 0
+            ? [section.start + section.count - 1]
+            : label === '攻击'
+              ? Array.from({ length: section.count + 1 }, (_, index) => section.start + index - 1)
+              : Array.from({ length: section.count }, (_, index) => section.start + index)
+      actions.push({
+        key: label,
+        label,
+        frames,
+        frameMs:
+          label === '待机'
+            ? profile.idleTicksPerFrame * 40
+            : Math.max(1, profile.actTicksPerFrame) * 40,
+        timing:
+          label === '待机'
+            ? `${profile.idleTicksPerFrame * 40} 毫秒/帧`
+            : profile.actTicksPerFrame === 0
+              ? '零时长：直接落到末帧'
+              : `${profile.actTicksPerFrame * 40} 毫秒/帧`,
+      })
+    }
+  } else if (profile?.kind === 'summon' && actualFrameCount) {
+    actions.push({
+      key: 'summon-all',
+      label: '召唤现身',
+      frames: Array.from({ length: actualFrameCount }, (_, index) => index),
+      frameMs: 200,
+      timing: '这里只预览帧序；实际播放节奏由技能决定',
+    })
+  }
+  return actions
+}
+
+export interface BattleSpriteFrameDeletionPlan {
+  repairs: NonNullable<BattleSpriteReplacementProof['repairs']>
+  consumerSnapshots: NonNullable<BattleSpriteReplacementProof['consumerSnapshots']>
+  changes: string[]
+}
+
+function remapDeletedFrame(index: number, deletedIndex: number, nextFrameCount: number): number {
+  if (index < deletedIndex) return index
+  if (index > deletedIndex) return index - 1
+  return Math.min(deletedIndex, nextFrameCount - 1)
+}
+
+export function planBattleSpriteFrameDeletion(
+  consumers: readonly BattleSpriteDef[],
+  deletedIndex: number,
+  previousFrameCount: number,
+): BattleSpriteFrameDeletionPlan {
+  if (!Number.isInteger(deletedIndex) || deletedIndex < 0 || deletedIndex >= previousFrameCount)
+    throw new Error('待删除的战斗精灵帧不存在')
+  if (previousFrameCount <= 1) throw new Error('战斗精灵至少必须保留 1 帧')
+  const nextFrameCount = previousFrameCount - 1
+  const repairs: NonNullable<BattleSpriteReplacementProof['repairs']> = {}
+  const consumerSnapshots: NonNullable<BattleSpriteReplacementProof['consumerSnapshots']> = {}
+  const changes: string[] = []
+  for (const consumer of consumers) {
+    consumerSnapshots[consumer.id] = { profile: structuredClone(consumer.profile) }
+    const profile = consumer.profile
+    if (profile.kind === 'player-fighter') {
+      const map = (index: number): number => remapDeletedFrame(index, deletedIndex, nextFrameCount)
+      const frames: PlayerFighterFrames = {
+        idle: map(profile.frames.idle),
+        dying: map(profile.frames.dying),
+        dead: map(profile.frames.dead),
+        defend: map(profile.frames.defend),
+        hurt: map(profile.frames.hurt),
+        preMagic: map(profile.frames.preMagic),
+        magic: map(profile.frames.magic),
+        attackWindup: map(profile.frames.attackWindup),
+        attackRush: map(profile.frames.attackRush),
+        attackStrike: map(profile.frames.attackStrike),
+        ...(profile.frames.steal === undefined ? {} : { steal: map(profile.frames.steal) }),
+      }
+      repairs[consumer.id] = { profile: { ...profile, frames } }
+      const affected = Object.entries(profile.frames)
+        .filter(([, frame]) => frame === deletedIndex || frame > deletedIndex)
+        .map(([key]) => key)
+      if (affected.length) changes.push(`${consumer.label}：重排 ${affected.length} 个动作槽位`)
+    } else if (profile.kind === 'enemy') {
+      let idleCount = profile.idle.count
+      let magicCount = profile.magic.count
+      let attackCount = profile.attack.count
+      const magicEnd = idleCount + magicCount
+      const attackEnd = magicEnd + attackCount
+      if (deletedIndex < idleCount) {
+        if (idleCount > 1) idleCount--
+        else if (magicCount > 0) magicCount--
+        else if (attackCount > 0) attackCount--
+      } else if (deletedIndex < magicEnd) magicCount--
+      else if (deletedIndex < attackEnd) attackCount--
+      const nextProfile: BattleSpriteProfile = {
+        ...profile,
+        idle: { start: 0, count: idleCount },
+        magic: { start: idleCount, count: magicCount },
+        attack: { start: idleCount + magicCount, count: attackCount },
+      }
+      repairs[consumer.id] = { profile: nextProfile }
+      if (
+        idleCount !== profile.idle.count ||
+        magicCount !== profile.magic.count ||
+        attackCount !== profile.attack.count
+      )
+        changes.push(
+          `${consumer.label}：动作分段 ${profile.idle.count}/${profile.magic.count}/${profile.attack.count} → ${idleCount}/${magicCount}/${attackCount}`,
+        )
+    } else repairs[consumer.id] = { profile: structuredClone(profile) }
+  }
+  return { repairs, consumerSnapshots, changes }
+}
+
+async function imageFileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
+  const bitmap = await createImageBitmap(file)
+  const canvas = document.createElement('canvas')
+  canvas.width = bitmap.width
+  canvas.height = bitmap.height
+  const context = canvas.getContext('2d')
+  if (!context) throw new Error('2d context 不可用')
+  context.drawImage(bitmap, 0, 0)
+  bitmap.close()
+  const image = context.getImageData(0, 0, canvas.width, canvas.height)
+  return {
+    rgba: new Uint8Array(image.data.buffer.slice(0)),
+    w: canvas.width,
+    h: canvas.height,
+  }
+}
+
+function referenceLabel(reference: BattleSpriteDefinitionReference): string {
+  const [kind, id, detail] = reference.site.split(':')
+  const kindLabel: Record<string, string> = {
+    actor: '角色',
+    enemy: '敌人',
+    item: '物品',
+    skill: '技能',
+    scene: '场景',
+    script: '剧情脚本',
+    world: '开局',
+  }
+  return `${kindLabel[kind ?? ''] ?? '内容'} ${id ?? reference.site}${detail ? ` · ${detail}` : ''}`
+}
+
+function definitionIdStem(value: string): string {
+  return (
+    value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'battle-sprite'
+  )
+}
 
 function NumberField(props: {
   label: string
@@ -78,28 +342,15 @@ function NumberField(props: {
 
 function ProfileEditor(props: {
   profile: BattleSpriteProfile
+  actualFrameCount: number
   onChange: (profile: BattleSpriteProfile) => void
 }) {
   const profile = props.profile
   if (profile.kind === 'summon')
-    return <p className="hint2">召唤定义按资源顺序播放全部帧，没有额外动作 ABI。</p>
+    return <p className="hint2">召唤现身按源帧顺序播放；速度、染色和声音由引用它的技能设置。</p>
   if (profile.kind === 'player-fighter')
     return (
-      <div className="battle-profile-grid">
-        {PLAYER_FRAME_FIELDS.map(({ key, label }) => (
-          <NumberField
-            key={key}
-            label={label}
-            value={profile.frames[key]}
-            optional={key === 'steal'}
-            onChange={(value) => {
-              const frames = { ...profile.frames }
-              if (value === undefined) delete frames.steal
-              else frames[key] = value
-              props.onChange({ ...profile, frames })
-            }}
-          />
-        ))}
+      <div className="battle-profile-grid battle-profile-advanced">
         <NumberField
           label="施法特效基帧"
           value={profile.castEffectBase}
@@ -116,53 +367,83 @@ function ProfileEditor(props: {
         />
       </div>
     )
-  const setCount = (key: 'idle' | 'magic' | 'attack', count: number): void => {
-    const counts = {
-      idle: profile.idle.count,
-      magic: profile.magic.count,
-      attack: profile.attack.count,
-      [key]: Math.max(key === 'idle' ? 1 : 0, count),
-    }
+
+  const total = Math.max(
+    1,
+    props.actualFrameCount || profile.idle.count + profile.magic.count + profile.attack.count,
+  )
+  const idleEnd = Math.min(total, Math.max(1, profile.idle.count))
+  const magicEnd = Math.min(total, Math.max(idleEnd, profile.magic.start + profile.magic.count))
+  const setBoundaries = (nextIdleEnd: number, nextMagicEnd: number): void => {
+    const idleBoundary = Math.min(total, Math.max(1, nextIdleEnd))
+    const magicBoundary = Math.min(total, Math.max(idleBoundary, nextMagicEnd))
     props.onChange({
       ...profile,
-      idle: { start: 0, count: counts.idle },
-      magic: { start: counts.idle, count: counts.magic },
-      attack: { start: counts.idle + counts.magic, count: counts.attack },
+      idle: { start: 0, count: idleBoundary },
+      magic: { start: idleBoundary, count: magicBoundary - idleBoundary },
+      attack: { start: magicBoundary, count: total - magicBoundary },
     })
   }
   return (
-    <div className="battle-profile-grid">
-      <NumberField
-        label="待机帧数"
-        value={profile.idle.count}
-        min={1}
-        onChange={(value) => setCount('idle', value ?? 1)}
-      />
-      <NumberField
-        label="施法帧数"
-        value={profile.magic.count}
-        onChange={(value) => setCount('magic', value ?? 0)}
-      />
-      <NumberField
-        label="攻击帧数"
-        value={profile.attack.count}
-        onChange={(value) => setCount('attack', value ?? 0)}
-      />
-      <NumberField
-        label="待机 tick/帧"
-        value={profile.idleTicksPerFrame}
-        min={1}
-        onChange={(idleTicksPerFrame) =>
-          props.onChange({ ...profile, idleTicksPerFrame: idleTicksPerFrame ?? 1 })
-        }
-      />
-      <NumberField
-        label="行动 tick/帧"
-        value={profile.actTicksPerFrame}
-        onChange={(actTicksPerFrame) =>
-          props.onChange({ ...profile, actTicksPerFrame: actTicksPerFrame ?? 0 })
-        }
-      />
+    <div className="battle-enemy-profile-editor">
+      <section className="battle-enemy-timeline" aria-label="敌人动作分段">
+        <span>
+          待机 #{profile.idle.start}–{idleEnd - 1}
+        </span>
+        {profile.magic.count ? (
+          <span>
+            施法 #{profile.magic.start}–{magicEnd - 1}
+          </span>
+        ) : null}
+        {profile.attack.count ? (
+          <span>
+            攻击 #{profile.attack.start}–{total - 1}
+          </span>
+        ) : null}
+      </section>
+      <label className="battle-boundary-field">
+        <span>待机结束：#{idleEnd - 1}</span>
+        <input
+          type="range"
+          min={1}
+          max={total}
+          value={idleEnd}
+          onChange={(event) => setBoundaries(Number(event.target.value), magicEnd)}
+        />
+      </label>
+      <label className="battle-boundary-field">
+        <span>施法结束：{magicEnd === idleEnd ? '无施法段' : `#${magicEnd - 1}`}</span>
+        <input
+          type="range"
+          min={idleEnd}
+          max={total}
+          value={magicEnd}
+          onChange={(event) => setBoundaries(idleEnd, Number(event.target.value))}
+        />
+      </label>
+      <div className="battle-profile-grid">
+        <NumberField
+          label="待机毫秒/帧"
+          value={profile.idleTicksPerFrame * 40}
+          min={40}
+          onChange={(milliseconds) =>
+            props.onChange({
+              ...profile,
+              idleTicksPerFrame: Math.max(1, Math.round((milliseconds ?? 40) / 40)),
+            })
+          }
+        />
+        <NumberField
+          label="行动毫秒/帧"
+          value={profile.actTicksPerFrame * 40}
+          onChange={(milliseconds) =>
+            props.onChange({
+              ...profile,
+              actTicksPerFrame: Math.max(0, Math.round((milliseconds ?? 0) / 40)),
+            })
+          }
+        />
+      </div>
     </div>
   )
 }
@@ -173,7 +454,7 @@ export function BattleSpriteLibrary(props: {
   assetBase: AssetBase
   assetReader: EditorAssetReader
   session: EditSession
-  tabBar: React.ReactNode
+  tabBar: ReactNode
   focusObjectId?: string
   view: 'definition' | 'asset'
   onViewChange: (view: 'definition' | 'asset', objectId?: string) => void
@@ -195,115 +476,158 @@ export function BattleSpriteLibrary(props: {
       result.set(definition.asset, [...(result.get(definition.asset) ?? []), definition])
     return result
   }, [props.definitions])
-  const focusedIsAsset = props.view === 'asset'
+  const initialDefinition =
+    props.view === 'definition'
+      ? (props.definitions.find((entry) => entry.id === props.focusObjectId) ??
+        props.definitions[0])
+      : undefined
+  const initialAsset =
+    props.view === 'asset' &&
+    props.catalog.assets[props.focusObjectId ?? '']?.kind === 'battle-sprite'
+      ? (props.focusObjectId ?? '')
+      : (initialDefinition?.asset ?? assets[0]?.[0] ?? '')
+  const [selectedAsset, setSelectedAsset] = useState(initialAsset)
   const [selectedId, setSelectedId] = useState(
-    !focusedIsAsset && props.focusObjectId ? props.focusObjectId : (props.definitions[0]?.id ?? ''),
-  )
-  const [selectedAsset, setSelectedAsset] = useState(
-    focusedIsAsset && props.focusObjectId ? props.focusObjectId : (assets[0]?.[0] ?? ''),
+    initialDefinition?.id ?? definitionsByAsset.get(initialAsset)?.[0]?.id ?? '',
   )
   const [filter, setFilter] = useState('')
-  const [kind, setKind] = useState<BattleSpriteProfileKind | 'all'>('all')
+  const [kind, setKind] = useState<KindFilter>('all')
   const [uploading, setUploading] = useState(false)
   const [replacing, setReplacing] = useState(false)
   const [uploadKind, setUploadKind] = useState<BattleSpriteProfileKind>('player-fighter')
   const [uploadId, setUploadId] = useState('authored')
   const [uploadLabel, setUploadLabel] = useState('新战斗精灵')
   const [previewProof, setPreviewProof] = useState<BattleSpritePreviewProof | undefined>()
+  const [resourceSnapshot, setResourceSnapshot] = useState<
+    BattleSpriteResourceSnapshot | undefined
+  >()
+  const [rawEditorBusy, setRawEditorBusy] = useState(false)
+  const [rawEditorMessage, setRawEditorMessage] = useState('')
+  const [rawEditorMessageKind, setRawEditorMessageKind] = useState<'info' | 'error'>('info')
+  const [rawAppendDraft, setRawAppendDraft] = useState<{
+    rgba: Uint8Array
+    w: number
+    h: number
+    cols: number
+    rows: number
+  }>()
+  const rawReplaceIndex = useRef(0)
+  const rawReplaceFileRef = useRef<HTMLInputElement>(null)
+  const rawAppendFileRef = useRef<HTMLInputElement>(null)
   const [draftLabel, setDraftLabel] = useState('')
   const [draftProfile, setDraftProfile] = useState<BattleSpriteProfile | undefined>()
   const [draftDefinitionId, setDraftDefinitionId] = useState<string>()
+  const [creatingUsage, setCreatingUsage] = useState(false)
+  const [showUsageMenu, setShowUsageMenu] = useState(false)
   const [showAllReferences, setShowAllReferences] = useState(false)
   const [selectedAction, setSelectedAction] = useState<string>()
-
-  useEffect(() => {
-    const objectId = props.focusObjectId
-    if (!objectId) return
-    if (props.view === 'definition' && props.definitions.some((entry) => entry.id === objectId)) {
-      setSelectedId(objectId)
-    } else if (props.view === 'asset' && props.catalog.assets[objectId]?.kind === 'battle-sprite') {
-      setSelectedAsset(objectId)
-    }
-  }, [props.catalog, props.definitions, props.focusObjectId, props.view])
-
-  useEffect(() => {
-    if (
-      props.view === 'definition' &&
-      !props.definitions.some((entry) => entry.id === selectedId)
-    ) {
-      const next = props.definitions[0]?.id
-      if (selectedId === (next ?? '')) return
-      setSelectedId(next ?? '')
-      props.onViewChange('definition', next)
-      props.onObjectFocus?.(next)
-    }
-    if (props.view === 'asset' && props.catalog.assets[selectedAsset]?.kind !== 'battle-sprite') {
-      const next = assets[0]?.[0]
-      if (selectedAsset === (next ?? '')) return
-      setSelectedAsset(next ?? '')
-      props.onViewChange('asset', next)
-      props.onObjectFocus?.(next)
-    }
-  }, [
-    assets,
-    props.catalog,
-    props.definitions,
-    props.onObjectFocus,
-    props.onViewChange,
-    props.view,
-    selectedAsset,
-    selectedId,
-  ])
-
-  const shownDefinitions = props.definitions.filter(
-    (entry) =>
-      (kind === 'all' || entry.profile.kind === kind) &&
-      (!filter ||
-        entry.id.includes(filter) ||
-        entry.label.includes(filter) ||
-        entry.asset.includes(filter)),
+  const [selectedPlayerSlot, setSelectedPlayerSlot] = useState<keyof PlayerFighterFrames>()
+  const [dragOverPlayerSlot, setDragOverPlayerSlot] = useState<keyof PlayerFighterFrames>()
+  const [selectedRawFrame, setSelectedRawFrame] = useState(0)
+  const [inspectorTab, setInspectorTab] = useState<InspectorTab>(
+    props.view === 'asset' ? 'source' : 'actions',
   )
-  const shownAssets = assets.filter(
-    ([asset, record]) =>
-      !filter ||
-      asset.includes(filter) ||
-      record.path.includes(filter) ||
-      record.label?.includes(filter),
-  )
-  const definition = props.definitions.find((entry) => entry.id === selectedId)
-  const record = props.catalog.assets[selectedAsset]
+
   const consumers = definitionsByAsset.get(selectedAsset) ?? []
+  const definition = consumers.find((entry) => entry.id === selectedId) ?? consumers[0]
+  const record = props.catalog.assets[selectedAsset]
   const allReferences = collectBattleSpriteDefinitionReferences(props.session.getState())
   const references = definition
     ? allReferences.filter((reference) => reference.battleSprite === definition.id)
     : []
-  const referenceCounts = new Map<string, number>()
-  for (const reference of allReferences)
-    referenceCounts.set(
-      reference.battleSprite,
-      (referenceCounts.get(reference.battleSprite) ?? 0) + 1,
-    )
-  const currentAsset = props.view === 'definition' ? definition?.asset : selectedAsset
-  const currentRecord = currentAsset ? props.catalog.assets[currentAsset] : undefined
   const proofReady =
-    !!currentAsset &&
-    currentRecord?.kind === 'battle-sprite' &&
-    previewProof?.asset === currentAsset &&
-    previewProof.sha256 === currentRecord.sha256
+    record?.kind === 'battle-sprite' &&
+    previewProof?.asset === selectedAsset &&
+    previewProof.sha256 === record.sha256
   const actualFrameCount = proofReady ? previewProof.actualFrameCount : 0
-  const actionContext = `${props.view}\0${definition?.id ?? ''}\0${currentAsset ?? ''}`
 
   useEffect(() => {
+    const objectId = props.focusObjectId
+    if (!objectId) return
+    if (props.view === 'definition') {
+      const focusedDefinition = props.definitions.find((entry) => entry.id === objectId)
+      if (!focusedDefinition) return
+      setSelectedAsset(focusedDefinition.asset)
+      setSelectedId(focusedDefinition.id)
+      setInspectorTab('actions')
+    } else if (props.catalog.assets[objectId]?.kind === 'battle-sprite') {
+      setSelectedAsset(objectId)
+      setSelectedId(definitionsByAsset.get(objectId)?.[0]?.id ?? '')
+      setInspectorTab('source')
+    }
+    setCreatingUsage(false)
+    setUploading(false)
+    setReplacing(false)
+  }, [definitionsByAsset, props.catalog, props.definitions, props.focusObjectId, props.view])
+
+  useEffect(() => {
+    if (record?.kind === 'battle-sprite') return
+    const nextAsset = assets[0]?.[0] ?? ''
+    if (!nextAsset || nextAsset === selectedAsset) return
+    const nextDefinition = definitionsByAsset.get(nextAsset)?.[0]
+    setSelectedAsset(nextAsset)
+    setSelectedId(nextDefinition?.id ?? '')
+    props.onViewChange(nextDefinition ? 'definition' : 'asset', nextDefinition?.id ?? nextAsset)
+    props.onObjectFocus?.(nextDefinition?.id ?? nextAsset)
+  }, [assets, definitionsByAsset, props.onObjectFocus, props.onViewChange, record, selectedAsset])
+
+  useEffect(() => {
+    if (creatingUsage) return
     setDraftDefinitionId(definition?.id)
     setDraftLabel(definition?.label ?? '')
     setDraftProfile(definition ? structuredClone(definition.profile) : undefined)
     setShowAllReferences(false)
-  }, [definition])
+  }, [creatingUsage, definition])
 
   useEffect(() => {
-    if (!actionContext) return
+    if (creatingUsage || consumers.some((entry) => entry.id === selectedId)) return
+    const nextDefinition = consumers[0]
+    if (!nextDefinition && !selectedId) return
+    setSelectedId(nextDefinition?.id ?? '')
+    props.onViewChange(nextDefinition ? 'definition' : 'asset', nextDefinition?.id ?? selectedAsset)
+    props.onObjectFocus?.(nextDefinition?.id ?? selectedAsset)
+  }, [consumers, creatingUsage, props.onObjectFocus, props.onViewChange, selectedAsset, selectedId])
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 切换用途、profile 或资源时必须主动重置动作槽位。
+  useEffect(() => {
     setSelectedAction(undefined)
-  }, [actionContext])
+    setSelectedPlayerSlot(undefined)
+    setDragOverPlayerSlot(undefined)
+  }, [draftDefinitionId, draftProfile?.kind, selectedAsset])
+
+  useEffect(() => {
+    void selectedAsset
+    setResourceSnapshot(undefined)
+    setRawAppendDraft(undefined)
+    setRawEditorMessage('')
+    setSelectedRawFrame(0)
+  }, [selectedAsset])
+
+  const resourceFrameCount = resourceSnapshot?.frames.length
+  useEffect(() => {
+    if (!resourceFrameCount) return
+    setSelectedRawFrame((current) => Math.min(current, resourceFrameCount - 1))
+  }, [resourceFrameCount])
+
+  const shownAssets = assets.filter(([asset, assetRecord]) => {
+    const entries = definitionsByAsset.get(asset) ?? []
+    const matchesKind =
+      kind === 'all' ||
+      (kind === 'unconfigured'
+        ? entries.length === 0
+        : entries.some((entry) => entry.profile.kind === kind))
+    if (!matchesKind) return false
+    const query = filter.trim().toLocaleLowerCase()
+    if (!query) return true
+    return [
+      asset,
+      assetRecord.label,
+      assetRecord.path,
+      ...entries.flatMap((entry) => [entry.id, entry.label]),
+    ]
+      .filter((value): value is string => !!value)
+      .some((value) => value.toLocaleLowerCase().includes(query))
+  })
 
   const reportError = (reason: unknown): void =>
     props.onStatusNotice?.({
@@ -311,203 +635,527 @@ export function BattleSpriteLibrary(props: {
       message: reason instanceof Error ? reason.message : String(reason),
     })
 
-  const applyDefinitionDraft = (): void => {
+  const focusResource = (asset: string): void => {
+    const nextDefinition = definitionsByAsset.get(asset)?.[0]
+    setSelectedAsset(asset)
+    setSelectedId(nextDefinition?.id ?? '')
+    setCreatingUsage(false)
+    setShowUsageMenu(false)
+    setUploading(false)
+    setReplacing(false)
+    setInspectorTab('actions')
+    props.onViewChange(nextDefinition ? 'definition' : 'asset', nextDefinition?.id ?? asset)
+    props.onObjectFocus?.(nextDefinition?.id ?? asset)
+  }
+
+  const focusDefinition = (next: BattleSpriteDef): void => {
+    setSelectedAsset(next.asset)
+    setSelectedId(next.id)
+    setCreatingUsage(false)
+    setShowUsageMenu(false)
+    setInspectorTab('actions')
+    props.onViewChange('definition', next.id)
+    props.onObjectFocus?.(next.id)
+  }
+
+  const beginUsage = (profileKind: BattleSpriteProfileKind): void => {
+    if (!record || record.kind !== 'battle-sprite' || !proofReady || !actualFrameCount) {
+      reportError(new Error('帧源尚未完成解码校验，请稍后再新增用途。'))
+      return
+    }
+    try {
+      const base = `${definitionIdStem(record.label ?? selectedAsset)}-${profileKind}`
+      const ids = new Set(props.session.getState().battleSprites.map((entry) => entry.id))
+      let id = base
+      for (let suffix = 2; ids.has(id); suffix++) id = `${base}-${suffix}`
+      setDraftDefinitionId(id)
+      setDraftLabel(`${record.label ?? selectedAsset} · ${PROFILE_LABEL[profileKind]}`)
+      setDraftProfile(defaultBattleSpriteProfile(profileKind, actualFrameCount))
+      setCreatingUsage(true)
+      setShowUsageMenu(false)
+      setInspectorTab('actions')
+    } catch (reason) {
+      reportError(reason)
+    }
+  }
+
+  const discardDraft = (): void => {
+    setCreatingUsage(false)
+    setDraftDefinitionId(definition?.id)
+    setDraftLabel(definition?.label ?? '')
+    setDraftProfile(definition ? structuredClone(definition.profile) : undefined)
+    setShowUsageMenu(false)
+  }
+
+  const applyDefinitionDraft = async (): Promise<void> => {
     if (
-      !definition ||
-      draftDefinitionId !== definition.id ||
+      !record ||
+      record.kind !== 'battle-sprite' ||
+      !draftDefinitionId ||
+      !draftLabel.trim() ||
       !draftProfile ||
       !proofReady ||
       !previewProof
     ) {
-      reportError(new Error('战斗精灵尚未完成当前资源的解码校验，不能应用修改。'))
+      reportError(new Error('战斗精灵尚未完成当前帧源的解码校验，不能应用修改。'))
       return
     }
-    const profileChanged = JSON.stringify(draftProfile) !== JSON.stringify(definition.profile)
-    if (
-      profileChanged &&
-      references.length > 1 &&
-      !window.confirm(
-        `当前语义定义被 ${references.length} 处内容引用，修改动作 ABI 会同时影响这些引用。继续吗？`,
-      )
-    )
-      return
     try {
-      props.session.dispatch(
-        new UpdateBattleSpriteDefinitionCommand(
-          definition.id,
-          { label: draftLabel.trim(), profile: draftProfile },
-          {
-            asset: definition.asset,
-            sha256: previewProof.sha256,
-            actualFrameCount: previewProof.actualFrameCount,
-          },
-        ),
-      )
+      if (creatingUsage) {
+        const nextDefinition: BattleSpriteDef = {
+          id: draftDefinitionId,
+          label: draftLabel.trim(),
+          asset: selectedAsset,
+          profile: structuredClone(draftProfile),
+        }
+        const bytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
+        props.session.dispatch(
+          new AddBattleSpriteCommand(nextDefinition, record, bytes, previewProof.actualFrameCount),
+        )
+        setCreatingUsage(false)
+        setSelectedId(nextDefinition.id)
+        props.onViewChange('definition', nextDefinition.id)
+        props.onObjectFocus?.(nextDefinition.id)
+      } else if (definition && draftDefinitionId === definition.id) {
+        const profileChanged = JSON.stringify(draftProfile) !== JSON.stringify(definition.profile)
+        if (
+          profileChanged &&
+          references.length > 1 &&
+          !window.confirm(
+            `当前用途被 ${references.length} 处内容引用，修改动作会同时影响这些引用。继续吗？`,
+          )
+        )
+          return
+        props.session.dispatch(
+          new UpdateBattleSpriteDefinitionCommand(
+            definition.id,
+            { label: draftLabel.trim(), profile: draftProfile },
+            {
+              asset: selectedAsset,
+              sha256: previewProof.sha256,
+              actualFrameCount: previewProof.actualFrameCount,
+            },
+          ),
+        )
+      }
       props.onStatusNotice?.(undefined)
     } catch (reason) {
       reportError(reason)
     }
   }
 
-  const openView = (view: 'definition' | 'asset', objectId?: string): void => {
-    if (view === 'definition' && objectId) setSelectedId(objectId)
-    if (view === 'asset' && objectId) setSelectedAsset(objectId)
-    setUploading(false)
-    setReplacing(false)
-    props.onViewChange(view, objectId)
-  }
-
   const deleteDefinition = (): void => {
-    if (!definition || references.length) return
-    if (!window.confirm(`删除定义“${definition.label}”？物理资源会保留。`)) return
+    if (!definition || references.length || creatingUsage) return
+    if (!window.confirm(`删除用途“${definition.label}”？源文件会保留。`)) return
     try {
-      const asset = definition.asset
       props.session.dispatch(new RemoveBattleSpriteDefinitionCommand(definition.id))
-      openView('asset', asset)
+      const nextDefinition = consumers.find((entry) => entry.id !== definition.id)
+      setSelectedId(nextDefinition?.id ?? '')
+      setInspectorTab(nextDefinition ? 'actions' : 'source')
+      props.onViewChange(
+        nextDefinition ? 'definition' : 'asset',
+        nextDefinition?.id ?? selectedAsset,
+      )
+      props.onObjectFocus?.(nextDefinition?.id ?? selectedAsset)
     } catch (reason) {
       reportError(reason)
     }
   }
 
   const deleteAsset = async (): Promise<void> => {
-    if (!record || consumers.length) return
-    if (!window.confirm(`永久移除未使用战斗精灵资源“${selectedAsset}”？`)) return
+    if (!record || record.kind !== 'battle-sprite' || consumers.length) return
+    if (!window.confirm(`永久移除未使用帧源“${record.label ?? selectedAsset}”？`)) return
     try {
       const bytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
       await decodeBattleSpriteAssetBytes(record, bytes, `删除前校验 ${selectedAsset}`)
       props.session.dispatch(new DeleteUnusedBattleSpriteAssetCommand(selectedAsset, bytes))
       const next = assets.find(([asset]) => asset !== selectedAsset)?.[0] ?? ''
+      const nextDefinition = definitionsByAsset.get(next)?.[0]
       setSelectedAsset(next)
-      props.onViewChange('asset', next || undefined)
+      setSelectedId(nextDefinition?.id ?? '')
+      props.onViewChange(nextDefinition ? 'definition' : 'asset', nextDefinition?.id ?? next)
+      props.onObjectFocus?.(nextDefinition?.id ?? next)
     } catch (reason) {
       reportError(reason)
     }
   }
 
   const replaceAsset = async (bytes: ArrayBuffer, frameCount: number): Promise<void> => {
-    if (!record || !consumers.length || !proofReady || !previewProof) return
+    if (
+      !record ||
+      record.kind !== 'battle-sprite' ||
+      !consumers.length ||
+      !proofReady ||
+      !previewProof
+    )
+      return
     if (frameCount < previewProof.actualFrameCount) {
       reportError(
         new Error(
-          `替换文件只有 ${frameCount} 帧，少于当前 ${previewProof.actualFrameCount} 帧；默认禁止缩帧。受影响定义：${consumers.map((entry) => entry.id).join('、')}`,
+          `替换文件只有 ${frameCount} 帧，少于当前 ${previewProof.actualFrameCount} 帧；默认禁止缩帧。受影响用途：${consumers.map((entry) => entry.id).join('、')}`,
         ),
       )
       return
     }
-    if (!window.confirm(`替换共享资源会影响 ${consumers.length} 个定义。继续吗？`)) return
-    const sha256 = await sha256Hex(bytes)
-    const nextRecord: AssetRecordV1 = {
-      ...record,
-      path: `assets/authored/battle-sprites/${sha256}.rle`,
-      bytes: bytes.byteLength,
-      sha256,
-      origin: { kind: 'authored' },
+    if (!window.confirm(`替换共享帧源会影响 ${consumers.length} 个用途。继续吗？`)) return
+    try {
+      const sha256 = await sha256Hex(bytes)
+      const nextRecord: AssetRecordV1 = {
+        ...record,
+        path: `assets/authored/battle-sprites/${sha256}.rle`,
+        bytes: bytes.byteLength,
+        sha256,
+        origin: { kind: 'authored' },
+      }
+      const previousBytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
+      await decodeBattleSpriteAssetBytes(record, previousBytes, `替换前校验 ${selectedAsset}`)
+      props.session.dispatch(
+        new ReplaceBattleSpriteAssetCommand(
+          consumers[0]!.id,
+          selectedAsset,
+          nextRecord,
+          bytes,
+          previousBytes,
+          {
+            asset: selectedAsset,
+            previousSha256: record.sha256,
+            previousFrameCount: previewProof.actualFrameCount,
+            nextFrameCount: frameCount,
+            consumerIds: consumers.map((entry) => entry.id),
+          },
+        ),
+      )
+      setReplacing(false)
+    } catch (reason) {
+      reportError(reason)
     }
-    const previousBytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
-    await decodeBattleSpriteAssetBytes(record, previousBytes, `替换前校验 ${selectedAsset}`)
-    props.session.dispatch(
-      new ReplaceBattleSpriteAssetCommand(
-        consumers[0]!.id,
-        selectedAsset,
-        nextRecord,
-        bytes,
-        previousBytes,
-        {
-          asset: selectedAsset,
-          previousSha256: record.sha256,
-          previousFrameCount: previewProof.actualFrameCount,
-          nextFrameCount: frameCount,
-          consumerIds: consumers.map((entry) => entry.id),
-        },
-      ),
-    )
-    setReplacing(false)
   }
 
-  const previewDefinition = useMemo(
-    () =>
-      props.view === 'definition'
-        ? definition
-        : record?.kind === 'battle-sprite'
-          ? ({
-              id: `asset-preview-${selectedAsset}`,
-              label: record.label ?? selectedAsset,
-              asset: selectedAsset,
-              profile: { kind: 'summon' },
-            } satisfies BattleSpriteDef)
-          : undefined,
-    [definition, props.view, record, selectedAsset],
-  )
-  const draftIsCurrent = draftDefinitionId === definition?.id
-  const actionProfile =
-    props.view === 'definition'
-      ? draftIsCurrent
-        ? (draftProfile ?? definition?.profile)
-        : definition?.profile
-      : undefined
-  const namedActions: Array<{
-    key: string
-    label: string
-    frames: number[]
-    frameMs: number
-    timing?: string
-  }> = []
-  if (actionProfile?.kind === 'player-fighter') {
-    for (const { key, label } of PLAYER_FRAME_FIELDS) {
-      const frame = actionProfile.frames[key]
-      if (frame !== undefined) namedActions.push({ key, label, frames: [frame], frameMs: 200 })
-    }
-  } else if (actionProfile?.kind === 'enemy') {
-    for (const [label, section] of [
-      ['待机', actionProfile.idle],
-      ['施法', actionProfile.magic],
-      ['攻击', actionProfile.attack],
-    ] as const) {
-      const frames =
-        section.count === 0
-          ? []
-          : label !== '待机' && actionProfile.actTicksPerFrame === 0
-            ? [section.start + section.count - 1]
-            : label === '攻击'
-              ? Array.from({ length: section.count + 1 }, (_, index) => section.start + index - 1)
-              : Array.from({ length: section.count }, (_, index) => section.start + index)
-      namedActions.push({
-        key: label,
-        label,
-        frames,
-        frameMs:
-          label === '待机'
-            ? actionProfile.idleTicksPerFrame * 40
-            : Math.max(1, actionProfile.actTicksPerFrame) * 40,
-        timing:
-          label === '待机'
-            ? `${actionProfile.idleTicksPerFrame} tick/帧`
-            : actionProfile.actTicksPerFrame === 0
-              ? '0 tick：瞬时落到末帧'
-              : `${actionProfile.actTicksPerFrame} tick/帧`,
-      })
-    }
-  } else if (actionProfile?.kind === 'summon' && actualFrameCount) {
-    namedActions.push({
-      key: 'summon-all',
-      label: '召唤现身（全部帧）',
-      frames: Array.from({ length: actualFrameCount }, (_, index) => index),
-      frameMs: 200,
-    })
+  const reportRawError = (reason: unknown): void => {
+    const message = reason instanceof Error ? reason.message : String(reason)
+    setRawEditorMessage(message)
+    setRawEditorMessageKind('error')
+    reportError(reason)
   }
-  const activeAction = namedActions.find((action) => action.key === selectedAction)
+
+  const commitRawFrames = async (
+    frames: RleFrame[],
+    label: string,
+    deletionPlan?: BattleSpriteFrameDeletionPlan,
+  ): Promise<void> => {
+    if (!resourceSnapshot || !record || record.kind !== 'battle-sprite') return
+    setRawEditorBusy(true)
+    setRawEditorMessage('')
+    try {
+      const currentState = props.session.getState()
+      const currentRecord = currentState.assetCatalog.assets[selectedAsset]
+      if (!currentRecord || currentRecord.kind !== 'battle-sprite')
+        throw new Error('当前战斗精灵源文件已不在 catalog')
+      const currentConsumers = currentState.battleSprites.filter(
+        (entry) => entry.asset === selectedAsset,
+      )
+      const gzip = await compressGzip(encodeSpriteChunk(frames))
+      const bytes = gzip.buffer.slice(
+        gzip.byteOffset,
+        gzip.byteOffset + gzip.byteLength,
+      ) as ArrayBuffer
+      const sha256 = await sha256Hex(bytes)
+      const previousBytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
+      const nextRecord: AssetRecordV1 = {
+        ...currentRecord,
+        path: `assets/authored/battle-sprites/${sha256}.rle`,
+        bytes: bytes.byteLength,
+        sha256,
+        origin: { kind: 'authored' },
+      }
+      const shrinking = frames.length < resourceSnapshot.frames.length
+      const proof: BattleSpriteReplacementProof = {
+        asset: selectedAsset,
+        previousSha256: currentRecord.sha256,
+        previousFrameCount: resourceSnapshot.frames.length,
+        nextFrameCount: frames.length,
+        consumerIds: currentConsumers.map((entry) => entry.id),
+        ...(shrinking
+          ? {
+              repairs: deletionPlan?.repairs ?? {},
+              consumerSnapshots: deletionPlan?.consumerSnapshots ?? {},
+            }
+          : {}),
+      }
+      props.session.dispatch(
+        new ReplaceBattleSpriteAssetCommand(
+          currentConsumers[0]?.id,
+          selectedAsset,
+          nextRecord,
+          bytes,
+          previousBytes,
+          proof,
+        ),
+      )
+      setRawEditorMessage(`${label}；可使用撤销恢复。`)
+      setRawEditorMessageKind('info')
+      props.onStatusNotice?.({ kind: 'info', message: `${label}；可撤销。` })
+    } catch (reason) {
+      reportRawError(reason)
+    } finally {
+      setRawEditorBusy(false)
+    }
+  }
+
+  const replaceRawFrame = async (file: File, index: number): Promise<void> => {
+    if (!resourceSnapshot || index < 0 || index >= resourceSnapshot.frames.length) return
+    try {
+      const image = await imageFileToRgba(file)
+      const replacement = quantizeToRleFrame(image.rgba, image.w, image.h, resourceSnapshot.palette)
+      if (
+        consumers.length &&
+        !window.confirm(`替换原始帧 #${index} 会同时影响 ${consumers.length} 个用途。继续吗？`)
+      )
+        return
+      await commitRawFrames(
+        resourceSnapshot.frames.map((frame, frameIndex) =>
+          frameIndex === index ? replacement : frame,
+        ),
+        `替换战斗精灵原始帧 #${index}`,
+      )
+    } catch (reason) {
+      reportRawError(reason)
+    }
+  }
+
+  const appendRawFrames = async (): Promise<void> => {
+    if (!resourceSnapshot || !rawAppendDraft) return
+    if (
+      rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
+      rawAppendDraft.h % rawAppendDraft.rows !== 0
+    )
+      return
+    try {
+      const appended = sliceAtlasGrid(
+        rawAppendDraft.rgba,
+        rawAppendDraft.w,
+        rawAppendDraft.h,
+        rawAppendDraft.w / rawAppendDraft.cols,
+        rawAppendDraft.h / rawAppendDraft.rows,
+      ).map((frame) =>
+        quantizeToRleFrame(frame.rgba, frame.width, frame.height, resourceSnapshot.palette),
+      )
+      if (
+        consumers.length &&
+        !window.confirm(
+          `追加 ${appended.length} 帧会更新 ${consumers.length} 个用途共享的原始帧容器。继续吗？`,
+        )
+      )
+        return
+      await commitRawFrames(
+        [...resourceSnapshot.frames, ...appended],
+        `追加战斗精灵原始帧 ×${appended.length}`,
+      )
+      setRawAppendDraft(undefined)
+    } catch (reason) {
+      reportRawError(reason)
+    }
+  }
+
+  const deleteRawFrame = async (index: number): Promise<void> => {
+    if (!resourceSnapshot || resourceSnapshot.frames.length <= 1) return
+    try {
+      const currentConsumers = props.session
+        .getState()
+        .battleSprites.filter((entry) => entry.asset === selectedAsset)
+      const plan = planBattleSpriteFrameDeletion(
+        currentConsumers,
+        index,
+        resourceSnapshot.frames.length,
+      )
+      const impact = plan.changes.length
+        ? `\n\n同步修复：\n${plan.changes.map((change) => `• ${change}`).join('\n')}`
+        : ''
+      if (
+        !window.confirm(
+          `删除战斗精灵原始帧 #${index}？后续帧号会前移，动作槽位与分段会在同一次可撤销修改中修复。${impact}`,
+        )
+      )
+        return
+      await commitRawFrames(
+        resourceSnapshot.frames.filter((_, frameIndex) => frameIndex !== index),
+        `删除战斗精灵原始帧 #${index}`,
+        plan,
+      )
+    } catch (reason) {
+      reportRawError(reason)
+    }
+  }
+
+  const draftIsCurrent = creatingUsage || draftDefinitionId === definition?.id
+  const actionProfile = draftIsCurrent ? draftProfile : definition?.profile
+  const namedActions = actionsForProfile(actionProfile, actualFrameCount)
+  const semanticSources: BattleSpriteDef[] = consumers.map((entry) =>
+    entry.id === draftDefinitionId && draftProfile
+      ? { ...entry, label: draftLabel || entry.label, profile: draftProfile }
+      : entry,
+  )
+  if (creatingUsage && draftDefinitionId && draftProfile)
+    semanticSources.push({
+      id: draftDefinitionId,
+      label: draftLabel || '新用途',
+      asset: selectedAsset,
+      profile: draftProfile,
+    })
+  const semanticGroups: SemanticFrameGroup[] = semanticSources.map((entry) => ({
+    id: entry.id,
+    label: entry.label,
+    typeLabel: PROFILE_LABEL[entry.profile.kind],
+    active: entry.id === (draftDefinitionId ?? definition?.id),
+    rows: actionsForProfile(entry.profile, actualFrameCount).map((action) => ({
+      id: `${entry.id}:${action.key}`,
+      label: action.label,
+      frames: action.frames,
+      playbackFrames: action.frames,
+      frameMs: action.frameMs,
+      note: action.timing,
+    })),
+  }))
+  const effectiveAction = namedActions.some((action) => action.key === selectedAction)
+    ? selectedAction
+    : namedActions[0]?.key
+  const activeAction = namedActions.find((action) => action.key === effectiveAction)
+  const activePlayerSpec =
+    actionProfile?.kind === 'player-fighter'
+      ? PLAYER_ACTIONS.find((action) => action.key === effectiveAction)
+      : undefined
+  const effectivePlayerSlot =
+    activePlayerSpec?.slots.find((slot) => slot.key === selectedPlayerSlot)?.key ??
+    activePlayerSpec?.slots[0]?.key
+  const assignPlayerStage = (slot: keyof PlayerFighterFrames, frame: number): void => {
+    if (actionProfile?.kind !== 'player-fighter') return
+    setDraftProfile({
+      ...actionProfile,
+      frames: { ...actionProfile.frames, [slot]: frame },
+    })
+    setSelectedPlayerSlot(slot)
+  }
+
+  const clearOptionalPlayerStage = (slot: keyof PlayerFighterFrames): void => {
+    if (actionProfile?.kind !== 'player-fighter') return
+    const frames = { ...actionProfile.frames }
+    delete frames[slot]
+    setDraftProfile({ ...actionProfile, frames })
+  }
+
+  const onPlayerStageDrop = (
+    event: ReactDragEvent<HTMLElement>,
+    slot: keyof PlayerFighterFrames,
+  ): void => {
+    event.preventDefault()
+    setDragOverPlayerSlot(undefined)
+    const typedPayload = event.dataTransfer.getData(RAW_FRAME_MIME)
+    const plainPayload = event.dataTransfer.getData('text/plain')
+    const rawPayload =
+      typedPayload ||
+      (plainPayload.startsWith(RAW_FRAME_TEXT_PREFIX)
+        ? plainPayload.slice(RAW_FRAME_TEXT_PREFIX.length)
+        : '')
+    const rawFrame = Number(rawPayload)
+    const frameCount = resourceSnapshot?.frames.length ?? actualFrameCount
+    if (rawPayload !== '' && Number.isInteger(rawFrame) && rawFrame >= 0 && rawFrame < frameCount)
+      assignPlayerStage(slot, rawFrame)
+  }
+
+  const draftChanged =
+    creatingUsage ||
+    (!!definition &&
+      (draftLabel !== definition.label ||
+        JSON.stringify(draftProfile) !== JSON.stringify(definition.profile)))
+  const displayLabel = record?.label ?? definition?.label ?? selectedAsset
+  const rawAppendPanel = rawAppendDraft ? (
+    <div className="sprite-raw-append-panel">
+      <span>
+        将 {rawAppendDraft.w}×{rawAppendDraft.h} 图片切为
+      </span>
+      <label>
+        列
+        <input
+          className="in mono"
+          type="number"
+          min={1}
+          max={16}
+          value={rawAppendDraft.cols}
+          onChange={(event) =>
+            setRawAppendDraft({
+              ...rawAppendDraft,
+              cols: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
+            })
+          }
+        />
+      </label>
+      <span>×</span>
+      <label>
+        行
+        <input
+          className="in mono"
+          type="number"
+          min={1}
+          max={16}
+          value={rawAppendDraft.rows}
+          onChange={(event) =>
+            setRawAppendDraft({
+              ...rawAppendDraft,
+              rows: Math.max(1, Math.floor(event.target.valueAsNumber) || 1),
+            })
+          }
+        />
+      </label>
+      <span className="hint2">
+        {rawAppendDraft.w % rawAppendDraft.cols === 0 &&
+        rawAppendDraft.h % rawAppendDraft.rows === 0
+          ? `${rawAppendDraft.cols * rawAppendDraft.rows} 帧，每帧 ${rawAppendDraft.w / rawAppendDraft.cols}×${rawAppendDraft.h / rawAppendDraft.rows}`
+          : '图片宽高必须能被行列整除'}
+      </span>
+      <span className="spacer" />
+      <button type="button" className="tool" onClick={() => setRawAppendDraft(undefined)}>
+        取消
+      </button>
+      <button
+        type="button"
+        className="tool primary"
+        disabled={
+          rawEditorBusy ||
+          rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
+          rawAppendDraft.h % rawAppendDraft.rows !== 0
+        }
+        onClick={() => void appendRawFrames()}
+      >
+        确认追加
+      </button>
+    </div>
+  ) : null
+
+  const selectInspectorTab = (tab: InspectorTab): void => setInspectorTab(tab)
+  const onInspectorTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>): void => {
+    const current = INSPECTOR_TABS.findIndex((tab) => tab.id === inspectorTab)
+    let next = current
+    if (event.key === 'ArrowRight') next = (current + 1) % INSPECTOR_TABS.length
+    else if (event.key === 'ArrowLeft')
+      next = (current - 1 + INSPECTOR_TABS.length) % INSPECTOR_TABS.length
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = INSPECTOR_TABS.length - 1
+    else return
+    event.preventDefault()
+    const tab = INSPECTOR_TABS[next]!
+    setInspectorTab(tab.id)
+    document.getElementById(`battle-sprite-tab-${tab.id}`)?.focus()
+  }
 
   return (
     <>
-      <div className="outliner data-outliner">
+      <div className="outliner data-outliner battle-sprite-outliner">
         {props.tabBar}
         <div className="pane-h">
           <span className="t">精灵库</span>
           <span className="spacer" />
           <span className="k">
-            {props.view === 'definition'
-              ? `${shownDefinitions.length}/${props.definitions.length}`
-              : `${shownAssets.length}/${assets.length}`}
+            {shownAssets.length}/{assets.length}
           </span>
         </div>
         <fieldset className="sprite-domain-switch" aria-label="精灵资源域">
@@ -518,346 +1166,502 @@ export function BattleSpriteLibrary(props: {
             战斗
           </button>
         </fieldset>
-        <fieldset className="sprite-library-switch" aria-label="战斗精灵库视图">
-          <button
-            type="button"
-            className={props.view === 'definition' ? 'on' : ''}
-            aria-pressed={props.view === 'definition'}
-            onClick={() => openView('definition', selectedId || props.definitions[0]?.id)}
-          >
-            语义定义 <b>{props.definitions.length}</b>
-          </button>
-          <button
-            type="button"
-            className={props.view === 'asset' ? 'on' : ''}
-            aria-pressed={props.view === 'asset'}
-            onClick={() =>
-              openView(
-                'asset',
-                props.view === 'definition' ? definition?.asset : selectedAsset || assets[0]?.[0],
-              )
-            }
-          >
-            二进制资源 <b>{assets.length}</b>
-          </button>
-        </fieldset>
+        <button type="button" className="sprite-upload-action" onClick={() => setUploading(true)}>
+          ＋ 导入精灵
+        </button>
         <input
-          className="in"
+          className="in battle-sprite-filter"
           aria-label="过滤战斗精灵库"
-          placeholder="过滤 id / 标签 / AssetId…"
+          placeholder="名称 / id"
           value={filter}
           onChange={(event) => setFilter(event.target.value)}
-          style={{ margin: '0 8px 6px' }}
         />
-        {props.view === 'definition' && (
-          <>
-            <div className="kind-filter">
-              {(['all', 'player-fighter', 'enemy', 'summon'] as const).map((entry) => (
-                <button
-                  type="button"
-                  key={entry}
-                  className={`kchip${kind === entry ? ' on' : ''}`}
-                  onClick={() => setKind(entry)}
-                >
-                  {entry === 'all' ? '全部' : PROFILE_LABEL[entry]}
-                </button>
-              ))}
-            </div>
+        <fieldset className="kind-filter" aria-label="用途筛选">
+          {(['all', 'player-fighter', 'enemy', 'summon', 'unconfigured'] as const).map((entry) => (
             <button
               type="button"
-              className="sprite-upload-action"
-              onClick={() => setUploading(true)}
+              key={entry}
+              className={`kchip${kind === entry ? ' on' : ''}`}
+              aria-pressed={kind === entry}
+              onClick={() => setKind(entry)}
             >
-              ＋ 上传并创建定义
+              {entry === 'all'
+                ? '全部'
+                : entry === 'unconfigured'
+                  ? '未配置'
+                  : PROFILE_LABEL[entry]}
             </button>
-          </>
-        )}
+          ))}
+        </fieldset>
         <div className="sprite-list">
-          {props.view === 'definition'
-            ? shownDefinitions.map((entry) => (
-                <button
-                  type="button"
-                  key={entry.id}
-                  className={`arow sprite-resource-row${entry.id === selectedId ? ' sel' : ''}`}
-                  onClick={() => {
-                    setSelectedId(entry.id)
-                    setUploading(false)
-                    props.onViewChange('definition', entry.id)
-                  }}
-                >
-                  <span className="face">⚔️</span>
-                  <span className="nm">
-                    <b>{entry.label}</b>
-                    <span>
-                      {entry.id} · {entry.asset}
-                    </span>
+          {shownAssets.map(([asset, assetRecord]) => {
+            const entries = definitionsByAsset.get(asset) ?? []
+            const tags = (['player-fighter', 'enemy', 'summon'] as const).filter((profileKind) =>
+              entries.some((entry) => entry.profile.kind === profileKind),
+            )
+            return (
+              <button
+                type="button"
+                key={asset}
+                className={`arow battle-sprite-resource-row sprite-resource-row${asset === selectedAsset ? ' sel' : ''}`}
+                aria-pressed={asset === selectedAsset}
+                title={asset}
+                onClick={() => focusResource(asset)}
+              >
+                <span className="nm">
+                  <b>{assetRecord.label ?? entries[0]?.label ?? asset}</b>
+                  <span className="sprite-resource-tags">
+                    {tags.length ? (
+                      tags.map((tag) => <em key={tag}>{PROFILE_LABEL[tag]}</em>)
+                    ) : (
+                      <em className="unconfigured">未配置</em>
+                    )}
                   </span>
-                  <span className="abadge npc">
-                    {(referenceCounts.get(entry.id) ?? 0) > 1
-                      ? `共享 ${referenceCounts.get(entry.id)} 处`
-                      : referenceCounts.get(entry.id) === 1
-                        ? '引用 1'
-                        : '未引用'}
-                  </span>
-                </button>
-              ))
-            : shownAssets.map(([asset, assetRecord]) => {
-                const count = definitionsByAsset.get(asset)?.length ?? 0
-                return (
-                  <button
-                    type="button"
-                    key={asset}
-                    className={`arow sprite-resource-row${asset === selectedAsset ? ' sel' : ''}`}
-                    onClick={() => {
-                      setSelectedAsset(asset)
-                      props.onViewChange('asset', asset)
-                    }}
-                  >
-                    <span className="face">📦</span>
-                    <span className="nm">
-                      <b>{assetRecord.label ?? asset}</b>
-                      <span title={`${asset} · ${assetRecord.path}`}>
-                        {asset} · {assetRecord.path}
-                      </span>
-                    </span>
-                    <span className={`abadge${count ? ' npc' : ' sprite-unused-badge'}`}>
-                      {count ? `${count} 个定义` : '未使用'}
-                    </span>
-                  </button>
-                )
-              })}
+                </span>
+              </button>
+            )
+          })}
+          {!shownAssets.length ? <div className="insp-empty">没有匹配的精灵。</div> : null}
         </div>
       </div>
 
-      <div className="center actor-center">
-        {uploading ? (
-          <div className="battle-sprite-upload-panel">
-            <h3>创建战斗精灵定义</h3>
-            <label>
-              <span>定义 id 前缀</span>
-              <input
-                className="in"
-                value={uploadId}
-                onChange={(event) => setUploadId(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>显示名</span>
-              <input
-                className="in"
-                value={uploadLabel}
-                onChange={(event) => setUploadLabel(event.target.value)}
-              />
-            </label>
-            <label>
-              <span>用途 profile</span>
-              <select
-                className="in"
-                value={uploadKind}
-                onChange={(event) => setUploadKind(event.target.value as BattleSpriteProfileKind)}
-              >
-                <option value="player-fighter">玩家战斗</option>
-                <option value="enemy">敌人</option>
-                <option value="summon">召唤现身</option>
-              </select>
-            </label>
-            <BattleSpriteUploader
-              assetBase={props.assetBase}
-              onApply={async (bytes, frameCount) => {
-                try {
-                  const prepared = await prepareBattleSpriteImport(props.session.getState(), {
-                    hint: uploadId,
-                    label: uploadLabel,
-                    kind: uploadKind,
-                    bytes,
-                    frameCount,
-                    reader: props.assetReader,
-                  })
-                  props.session.dispatch(
-                    new AddBattleSpriteCommand(
-                      prepared.definition,
-                      prepared.record,
-                      prepared.bytes,
-                      prepared.frameCount,
-                    ),
-                  )
-                  setUploading(false)
-                  setSelectedId(prepared.definition.id)
-                  props.onViewChange('definition', prepared.definition.id)
-                } catch (reason) {
-                  reportError(reason)
-                  throw reason
-                }
-              }}
-              onCancel={() => setUploading(false)}
-            />
-          </div>
-        ) : previewDefinition ? (
-          <BattleSpriteInlinePreview
-            definition={previewDefinition}
-            expected={previewDefinition.profile.kind}
-            assetBase={props.assetBase}
-            assetReader={props.assetReader}
-            playAllFrames
-            frameSequence={activeAction?.frames}
-            frameMs={activeAction?.frameMs}
-            sequenceKey={selectedAction ?? 'all'}
-            onLoaded={setPreviewProof}
-          />
-        ) : (
-          <div className="insp-empty">没有可预览的战斗精灵。</div>
-        )}
-        {!uploading && proofReady && namedActions.length ? (
-          <section className="battle-named-actions" aria-label="命名动作预览">
-            <h4>命名动作</h4>
-            <button
-              type="button"
-              className={`battle-named-action${selectedAction === undefined ? ' on' : ''}`}
-              aria-pressed={selectedAction === undefined}
-              onClick={() => setSelectedAction(undefined)}
-            >
-              <b>全部帧循环</b>
-              <span>选择下方动作可按 ABI 速度预览</span>
-            </button>
-            {namedActions.map((action) => (
-              <button
-                type="button"
-                className={`battle-named-action${selectedAction === action.key ? ' on' : ''}`}
-                aria-pressed={selectedAction === action.key}
-                disabled={!action.frames.length}
-                key={action.key}
-                onClick={() => setSelectedAction(action.key)}
-              >
-                <b>{action.label}</b>
-                <code>
-                  {action.frames.length
-                    ? action.frames.length === 1
-                      ? `#${action.frames[0]}`
-                      : `#${action.frames[0]}–${action.frames.at(-1)}`
-                    : '无帧'}
-                </code>
-                {action.timing ? <span>{action.timing}</span> : null}
-              </button>
-            ))}
-          </section>
-        ) : null}
-        {replacing && record?.kind === 'battle-sprite' && (
-          <div className="battle-replace-panel">
-            <h4>替换当前共享二进制</h4>
-            <BattleSpriteUploader
-              assetBase={props.assetBase}
-              onApply={replaceAsset}
-              onCancel={() => setReplacing(false)}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="inspector">
-        {props.view === 'definition' && definition ? (
-          <>
-            <div className="insp-head">
-              <div className="what">战斗精灵定义</div>
-              <div className="who">{definition.label}</div>
-            </div>
-            <div className="section">
-              <h4>登记</h4>
-              <div className="field">
-                <span className="field-label">id</span>
-                <div className="in mono">{definition.id}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">AssetId</span>
-                <button
-                  type="button"
-                  className="in mono sprite-asset-link"
-                  onClick={() => openView('asset', definition.asset)}
-                >
-                  {definition.asset} ↗
-                </button>
-              </div>
-              <div className="field">
-                <span className="field-label">标签</span>
+      <div className="center actor-center battle-sprite-center">
+        <div className="battle-sprite-workspace-scroll">
+          {uploading ? (
+            <div className="battle-sprite-upload-panel">
+              <h3>导入战斗精灵</h3>
+              <label>
+                <span>配置 id 前缀</span>
                 <input
                   className="in"
-                  aria-label="战斗精灵定义标签"
-                  value={draftIsCurrent ? draftLabel : definition.label}
-                  onChange={(event) => {
-                    setDraftDefinitionId(definition.id)
-                    setDraftLabel(event.target.value)
-                    if (!draftIsCurrent) setDraftProfile(structuredClone(definition.profile))
-                  }}
+                  value={uploadId}
+                  onChange={(event) => setUploadId(event.target.value)}
                 />
-              </div>
-              <div className="hint2">
-                {PROFILE_LABEL[definition.profile.kind]} · 实际 {actualFrameCount || '…'} 帧
-              </div>
+              </label>
+              <label>
+                <span>显示名</span>
+                <input
+                  className="in"
+                  value={uploadLabel}
+                  onChange={(event) => setUploadLabel(event.target.value)}
+                />
+              </label>
+              <label>
+                <span>用途</span>
+                <select
+                  className="in"
+                  value={uploadKind}
+                  onChange={(event) => setUploadKind(event.target.value as BattleSpriteProfileKind)}
+                >
+                  <option value="player-fighter">玩家战斗</option>
+                  <option value="enemy">敌人</option>
+                  <option value="summon">召唤现身</option>
+                </select>
+              </label>
+              <BattleSpriteUploader
+                assetBase={props.assetBase}
+                onApply={async (bytes, frameCount) => {
+                  try {
+                    const prepared = await prepareBattleSpriteImport(props.session.getState(), {
+                      hint: uploadId,
+                      label: uploadLabel,
+                      kind: uploadKind,
+                      bytes,
+                      frameCount,
+                      reader: props.assetReader,
+                    })
+                    props.session.dispatch(
+                      new AddBattleSpriteCommand(
+                        prepared.definition,
+                        prepared.record,
+                        prepared.bytes,
+                        prepared.frameCount,
+                      ),
+                    )
+                    setUploading(false)
+                    setSelectedAsset(prepared.definition.asset)
+                    setSelectedId(prepared.definition.id)
+                    props.onViewChange('definition', prepared.definition.id)
+                    props.onObjectFocus?.(prepared.definition.id)
+                  } catch (reason) {
+                    reportError(reason)
+                    throw reason
+                  }
+                }}
+                onCancel={() => setUploading(false)}
+              />
             </div>
-            <div className="section">
-              <h4>动作 ABI</h4>
-              {draftIsCurrent && draftProfile ? (
-                <ProfileEditor profile={draftProfile} onChange={setDraftProfile} />
-              ) : (
-                <ProfileEditor
-                  profile={definition.profile}
-                  onChange={(profile) => {
-                    setDraftDefinitionId(definition.id)
-                    setDraftLabel(definition.label)
-                    setDraftProfile(profile)
-                  }}
-                />
-              )}
-              <div className="battle-profile-actions">
+          ) : record?.kind === 'battle-sprite' ? (
+            <>
+              <input
+                ref={rawReplaceFileRef}
+                className="sprite-hidden-file-input"
+                type="file"
+                accept="image/png,image/webp,image/gif"
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  event.target.value = ''
+                  if (file) void replaceRawFrame(file, rawReplaceIndex.current)
+                }}
+              />
+              <input
+                ref={rawAppendFileRef}
+                className="sprite-hidden-file-input"
+                type="file"
+                accept="image/png,image/webp,image/gif"
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  event.target.value = ''
+                  if (!file) return
+                  void imageFileToRgba(file)
+                    .then((image) => setRawAppendDraft({ ...image, cols: 1, rows: 1 }))
+                    .catch(reportRawError)
+                }}
+              />
+              <BattleSpriteInlinePreview
+                asset={selectedAsset}
+                label={displayLabel}
+                assetBase={props.assetBase}
+                assetReader={props.assetReader}
+                layout="library"
+                semanticGroups={semanticGroups}
+                activeDefinitionId={draftDefinitionId ?? definition?.id}
+                consumerCount={consumers.length}
+                onDefinitionSelect={(id) => {
+                  const next = consumers.find((entry) => entry.id === id)
+                  if (next) focusDefinition(next)
+                }}
+                onFrameSelect={setSelectedRawFrame}
+                onLoaded={setPreviewProof}
+                onResourceLoaded={setResourceSnapshot}
+                onRawAppend={() => rawAppendFileRef.current?.click()}
+                onRawReplace={(index) => {
+                  rawReplaceIndex.current = index
+                  rawReplaceFileRef.current?.click()
+                }}
+                onRawDelete={(index) => void deleteRawFrame(index)}
+                onRawFrameDragStart={(event, index) => {
+                  setSelectedRawFrame(index)
+                  event.dataTransfer.effectAllowed = 'copy'
+                  event.dataTransfer.setData(RAW_FRAME_MIME, String(index))
+                  event.dataTransfer.setData('text/plain', `${RAW_FRAME_TEXT_PREFIX}${index}`)
+                }}
+                rawEditorBusy={rawEditorBusy}
+                rawEditorMessage={rawEditorMessage}
+                rawEditorMessageKind={rawEditorMessageKind}
+                rawEditorPanel={rawAppendPanel}
+              />
+              {replacing ? (
+                <div className="battle-replace-panel">
+                  <h4>替换当前共享帧源</h4>
+                  <BattleSpriteUploader
+                    assetBase={props.assetBase}
+                    onApply={replaceAsset}
+                    onCancel={() => setReplacing(false)}
+                  />
+                </div>
+              ) : null}
+            </>
+          ) : (
+            <div className="insp-empty">没有可预览的战斗精灵。</div>
+          )}
+        </div>
+      </div>
+
+      <div className="inspector battle-sprite-inspector">
+        <div className="insp-head">
+          <div className="what">战斗精灵</div>
+          <div className="who">{displayLabel || '未选择'}</div>
+        </div>
+        <div className="battle-inspector-tabs" role="tablist" aria-label="战斗精灵检查器">
+          {INSPECTOR_TABS.map((tab) => (
+            <button
+              type="button"
+              id={`battle-sprite-tab-${tab.id}`}
+              key={tab.id}
+              role="tab"
+              aria-selected={inspectorTab === tab.id}
+              aria-controls={`battle-sprite-panel-${tab.id}`}
+              className={inspectorTab === tab.id ? 'on' : ''}
+              onClick={() => selectInspectorTab(tab.id)}
+              onKeyDown={onInspectorTabKeyDown}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {inspectorTab === 'actions' ? (
+          <div
+            id="battle-sprite-panel-actions"
+            role="tabpanel"
+            aria-labelledby="battle-sprite-tab-actions"
+          >
+            <div className="section battle-usage-section">
+              <div className="battle-section-head">
+                <h4>用途</h4>
                 <button
                   type="button"
                   className="tool"
-                  onClick={() => {
-                    setDraftDefinitionId(definition.id)
-                    setDraftLabel(definition.label)
-                    setDraftProfile(structuredClone(definition.profile))
-                  }}
+                  onClick={() => setShowUsageMenu((value) => !value)}
                 >
-                  还原草稿
-                </button>
-                <button
-                  type="button"
-                  className="tool primary"
-                  disabled={
-                    !proofReady ||
-                    !draftIsCurrent ||
-                    !draftLabel.trim() ||
-                    !draftProfile ||
-                    (draftLabel === definition.label &&
-                      JSON.stringify(draftProfile) === JSON.stringify(definition.profile))
-                  }
-                  onClick={applyDefinitionDraft}
-                >
-                  应用定义修改
+                  ＋ 新增用途
                 </button>
               </div>
+              {consumers.length > 1 && !creatingUsage ? (
+                <fieldset className="battle-usage-switch" aria-label="切换用途">
+                  {consumers.map((entry) => (
+                    <button
+                      type="button"
+                      key={entry.id}
+                      className={entry.id === definition?.id ? 'on' : ''}
+                      aria-pressed={entry.id === definition?.id}
+                      onClick={() => focusDefinition(entry)}
+                    >
+                      {entry.label}
+                    </button>
+                  ))}
+                </fieldset>
+              ) : null}
+              {showUsageMenu ? (
+                <fieldset className="battle-new-usage-menu" aria-label="新增用途类型">
+                  {(['player-fighter', 'enemy', 'summon'] as const).map((entry) => (
+                    <button type="button" key={entry} onClick={() => beginUsage(entry)}>
+                      {PROFILE_LABEL[entry]}
+                    </button>
+                  ))}
+                </fieldset>
+              ) : null}
+              {creatingUsage ? (
+                <p className="hint2">新用途尚未写入工程；应用后才会成为一次可撤销修改。</p>
+              ) : null}
+              {!definition && !creatingUsage ? (
+                <p className="hint2">这组源帧尚未设置用途。点击“新增用途”开始配置。</p>
+              ) : null}
             </div>
-            <div className="section sprite-definition-lifecycle">
-              <h4>引用与生命周期 · {references.length}</h4>
-              {references.slice(0, showAllReferences ? undefined : 12).map((reference) =>
-                props.onJumpReference ? (
+
+            {draftProfile ? (
+              <>
+                <div className="section">
+                  <label className="battle-usage-label-field">
+                    <span>名称</span>
+                    <input
+                      className="in"
+                      aria-label="战斗精灵用途名称"
+                      value={draftLabel}
+                      onChange={(event) => setDraftLabel(event.target.value)}
+                    />
+                  </label>
+                  <div className="hint2">
+                    {PROFILE_LABEL[draftProfile.kind]} · <code>{draftDefinitionId}</code>
+                  </div>
+                </div>
+                <div className="section">
+                  <h4>动作</h4>
+                  <fieldset className="battle-action-list" aria-label="动作列表">
+                    {namedActions.map((action) => (
+                      <button
+                        type="button"
+                        key={action.key}
+                        className={effectiveAction === action.key ? 'on' : ''}
+                        aria-pressed={effectiveAction === action.key}
+                        onClick={() => {
+                          setSelectedAction(action.key)
+                          setDragOverPlayerSlot(undefined)
+                          const spec = PLAYER_ACTIONS.find((entry) => entry.key === action.key)
+                          setSelectedPlayerSlot(spec?.slots[0]?.key)
+                        }}
+                      >
+                        <b>{action.label}</b>
+                        <span>
+                          {action.frames.length
+                            ? action.frames.map((frame) => `#${frame}`).join(' → ')
+                            : '未设置'}
+                        </span>
+                      </button>
+                    ))}
+                  </fieldset>
+
+                  {actionProfile?.kind === 'player-fighter' && activePlayerSpec ? (
+                    <div className="battle-action-stage-editor">
+                      <div className="battle-action-stage-head">
+                        <div>
+                          <h5>{activeAction?.label} · 原版动作阶段</h5>
+                          <p className="hint2">
+                            阶段顺序与行为由 PAL
+                            战斗逻辑固定。将中间的原始帧拖到某个阶段，只会替换该阶段姿势。
+                          </p>
+                        </div>
+                        <span className="battle-action-stage-mode">
+                          原版兼容 · 固定 {activePlayerSpec.slots.length} 槽
+                        </span>
+                      </div>
+                      <ol className="battle-action-stage-list" aria-label="原版动作阶段">
+                        {activePlayerSpec.slots.map((slot, index) => {
+                          const frame = actionProfile.frames[slot.key]
+                          const selected = slot.key === effectivePlayerSlot
+                          const dropTarget = slot.key === dragOverPlayerSlot
+                          return (
+                            <li
+                              key={`${slot.key}:${index}`}
+                              className={`${selected ? 'selected' : ''}${dropTarget ? ' drop-target' : ''}`}
+                              onDragEnter={(event) => {
+                                if (!Array.from(event.dataTransfer.types).includes(RAW_FRAME_MIME))
+                                  return
+                                setDragOverPlayerSlot(slot.key)
+                              }}
+                              onDragLeave={(event) => {
+                                const related = event.relatedTarget
+                                if (
+                                  related instanceof Node &&
+                                  event.currentTarget.contains(related)
+                                )
+                                  return
+                                if (dragOverPlayerSlot === slot.key)
+                                  setDragOverPlayerSlot(undefined)
+                              }}
+                              onDragOver={(event) => {
+                                if (!Array.from(event.dataTransfer.types).includes(RAW_FRAME_MIME))
+                                  return
+                                event.preventDefault()
+                                event.dataTransfer.dropEffect = 'copy'
+                                setDragOverPlayerSlot(slot.key)
+                              }}
+                              onDrop={(event) => {
+                                event.stopPropagation()
+                                onPlayerStageDrop(event, slot.key)
+                              }}
+                            >
+                              <button
+                                type="button"
+                                className="battle-action-stage-select"
+                                aria-pressed={selected}
+                                aria-label={
+                                  frame === undefined
+                                    ? `选中${slot.label}，当前未设置`
+                                    : `选中${slot.label}，当前为原始帧 ${frame}`
+                                }
+                                onClick={() => setSelectedPlayerSlot(slot.key)}
+                              >
+                                <span className="battle-action-stage-number" aria-hidden="true">
+                                  {index + 1}
+                                </span>
+                                <SpriteFrameCanvas
+                                  source={
+                                    frame === undefined ? undefined : resourceSnapshot?.baked[frame]
+                                  }
+                                  width={54}
+                                  height={54}
+                                  maxScale={2}
+                                />
+                                <span className="battle-action-stage-meta">
+                                  <b>{slot.label}</b>
+                                  {frame === undefined ? (
+                                    <small>未设置</small>
+                                  ) : (
+                                    <code>#{frame}</code>
+                                  )}
+                                </span>
+                              </button>
+                              <span className="battle-action-stage-controls">
+                                <button
+                                  type="button"
+                                  aria-label={`用已选 #${selectedRawFrame} 替换${slot.label}`}
+                                  onClick={() => assignPlayerStage(slot.key, selectedRawFrame)}
+                                >
+                                  用已选 #{selectedRawFrame}
+                                </button>
+                                {slot.optional && frame !== undefined ? (
+                                  <button
+                                    type="button"
+                                    aria-label={`清除${slot.label}`}
+                                    onClick={() => clearOptionalPlayerStage(slot.key)}
+                                  >
+                                    清除
+                                  </button>
+                                ) : null}
+                              </span>
+                              {dropTarget ? (
+                                <span className="battle-action-stage-drop-hint">
+                                  释放以将“{slot.label}”替换为 #{selectedRawFrame}
+                                </span>
+                              ) : null}
+                            </li>
+                          )
+                        })}
+                      </ol>
+                      {activePlayerSpec.returnToIdle ? (
+                        <div className="battle-action-end-behavior">
+                          <span className="battle-action-end-lock" aria-hidden="true">
+                            🔒
+                          </span>
+                          <SpriteFrameCanvas
+                            source={resourceSnapshot?.baked[actionProfile.frames.idle]}
+                            width={54}
+                            height={54}
+                            maxScale={2}
+                          />
+                          <span className="battle-action-stage-meta">
+                            <b>结束行为：回到待机</b>
+                            <code>#{actionProfile.frames.idle}</code>
+                            <small>由待机动作派生，不占用当前动作槽位</small>
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  <ProfileEditor
+                    profile={draftProfile}
+                    actualFrameCount={actualFrameCount}
+                    onChange={setDraftProfile}
+                  />
+                </div>
+                <div className="section battle-draft-actions">
+                  <button type="button" className="tool" onClick={discardDraft}>
+                    放弃修改
+                  </button>
                   <button
                     type="button"
-                    className="sprite-reference-link"
-                    key={`${reference.site}:${reference.where}`}
-                    onClick={() => props.onJumpReference?.(reference)}
+                    className="tool primary"
+                    disabled={!proofReady || !draftLabel.trim() || !draftChanged}
+                    onClick={() => void applyDefinitionDraft()}
                   >
-                    <code>{reference.where}</code>
-                    <span>跳转 ↗</span>
+                    应用修改
                   </button>
-                ) : (
-                  <div
-                    className="sprite-reference-link is-static"
-                    key={`${reference.site}:${reference.where}`}
-                  >
+                </div>
+              </>
+            ) : null}
+          </div>
+        ) : null}
+
+        {inspectorTab === 'references' ? (
+          <div
+            id="battle-sprite-panel-references"
+            role="tabpanel"
+            aria-labelledby="battle-sprite-tab-references"
+          >
+            <div className="section sprite-definition-lifecycle">
+              <h4>引用 · {references.length}</h4>
+              {!definition ? <p className="hint2">尚无用途，因此没有内容引用。</p> : null}
+              {definition && !references.length ? (
+                <p className="hint2">当前用途尚未被使用。</p>
+              ) : null}
+              {references.slice(0, showAllReferences ? undefined : 12).map((reference) => (
+                <button
+                  type="button"
+                  className="sprite-reference-link"
+                  key={`${reference.site}:${reference.where}`}
+                  disabled={!props.onJumpReference}
+                  onClick={() => props.onJumpReference?.(reference)}
+                >
+                  <span>
+                    <b>{referenceLabel(reference)}</b>
                     <code>{reference.where}</code>
-                  </div>
-                ),
-              )}
+                  </span>
+                  <span>打开 ↗</span>
+                </button>
+              ))}
               {references.length > 12 ? (
                 <button
                   type="button"
@@ -867,85 +1671,83 @@ export function BattleSpriteLibrary(props: {
                   {showAllReferences ? '收起引用' : `展开其余 ${references.length - 12} 处引用`}
                 </button>
               ) : null}
-              <button
-                type="button"
-                className="tool danger-action"
-                disabled={references.length > 0}
-                onClick={deleteDefinition}
-              >
-                删除定义（保留资源）
-              </button>
-            </div>
-          </>
-        ) : props.view === 'asset' && record?.kind === 'battle-sprite' ? (
-          <>
-            <div className="insp-head">
-              <div className="what">战斗精灵资产</div>
-              <div className="who">{record.label ?? selectedAsset}</div>
-            </div>
-            <div className="section sprite-resource-meta">
-              <h4>资源登记</h4>
-              <div className="field">
-                <span className="field-label">AssetId</span>
-                <div className="in mono">{selectedAsset}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">路径</span>
-                <div className="in mono">{record.path}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">帧数</span>
-                <div className="in mono">{actualFrameCount || '…'}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">字节</span>
-                <div className="in mono">{record.bytes.toLocaleString()}</div>
-              </div>
-              <div className="field">
-                <span className="field-label">SHA-256</span>
-                <div className="in mono" title={record.sha256}>
-                  {record.sha256.slice(0, 16)}…
-                </div>
-              </div>
-              <div className="field">
-                <span className="field-label">来源</span>
-                <div className="in mono">{record.origin.kind}</div>
-              </div>
-            </div>
-            <div className="section">
-              <h4>语义定义 · {consumers.length}</h4>
-              {consumers.map((entry) => (
+              {definition ? (
                 <button
                   type="button"
-                  className="sprite-consumer-link"
-                  key={entry.id}
-                  onClick={() => openView('definition', entry.id)}
+                  className="tool danger-action"
+                  disabled={references.length > 0}
+                  onClick={deleteDefinition}
                 >
-                  <b>{entry.label}</b>
-                  <code>{entry.id}</code>
+                  删除用途（保留源文件）
                 </button>
-              ))}
-              <button
-                type="button"
-                className="tool"
-                disabled={!consumers.length || !proofReady}
-                onClick={() => setReplacing(true)}
-              >
-                替换共享二进制…
-              </button>
-              <button
-                type="button"
-                className="tool danger-action"
-                disabled={consumers.length > 0}
-                onClick={() => void deleteAsset()}
-              >
-                删除未使用资源
-              </button>
+              ) : null}
             </div>
-          </>
-        ) : (
-          <div className="insp-empty">从左侧选择定义或资源。</div>
-        )}
+          </div>
+        ) : null}
+
+        {inspectorTab === 'source' ? (
+          <div
+            id="battle-sprite-panel-source"
+            role="tabpanel"
+            aria-labelledby="battle-sprite-tab-source"
+          >
+            {record?.kind === 'battle-sprite' ? (
+              <>
+                <div className="section sprite-resource-meta">
+                  <h4>源文件</h4>
+                  <div className="field">
+                    <span className="field-label">AssetId</span>
+                    <div className="in mono">{selectedAsset}</div>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">路径</span>
+                    <div className="in mono">{record.path}</div>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">实际帧数</span>
+                    <div className="in mono">{actualFrameCount || '读取中…'}</div>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">字节</span>
+                    <div className="in mono">{record.bytes.toLocaleString()}</div>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">SHA-256</span>
+                    <div className="in mono" title={record.sha256}>
+                      {record.sha256.slice(0, 16)}…
+                    </div>
+                  </div>
+                  <div className="field">
+                    <span className="field-label">来源</span>
+                    <div className="in mono">{record.origin.kind}</div>
+                  </div>
+                </div>
+                <div className="section battle-source-actions">
+                  {consumers.length ? (
+                    <button
+                      type="button"
+                      className="tool"
+                      disabled={!proofReady}
+                      onClick={() => setReplacing(true)}
+                    >
+                      替换共享源文件…
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="tool danger-action"
+                    disabled={consumers.length > 0}
+                    onClick={() => void deleteAsset()}
+                  >
+                    删除未使用源文件
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="insp-empty">未选择源文件。</div>
+            )}
+          </div>
+        ) : null}
       </div>
     </>
   )

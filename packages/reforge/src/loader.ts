@@ -30,6 +30,7 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
+  CONTENT_VERSION,
   checkScriptIndex,
   mapAssetById,
   upgradeLegacyDialogues,
@@ -124,7 +125,7 @@ export interface ContentJsons {
   skills: unknown
   items: unknown
   locale: unknown
-  /** 必需精灵注册表。canonical v3 不允许回落到 legacy 数字路径。 */
+  /** 必需精灵注册表。canonical v4 不允许回落到 legacy 数字路径。 */
   sprites: unknown
   /** 必需战斗精灵注册表。 */
   battleSprites: unknown
@@ -183,8 +184,8 @@ export function assembleProject(
   legacyIo?: LegacyAssetAdapter,
 ): LoadedProjectCore {
   const sceneIds = validateSceneIds(jsons.sceneIds)
-  if (manifest.contentVersion !== 3)
-    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 3，请先迁移`)
+  if (manifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion ${CONTENT_VERSION}，请先迁移`)
   const assetCatalog = validateAssetCatalog(jsons.assetCatalog)
   validateManifestAssetConfigV3(manifest.assets, assetCatalog)
   if (!manifest.content.maps) throw new Error(`工程 "${manifest.id}": manifest 缺地图索引路径`)
@@ -288,8 +289,8 @@ function scriptsDir(manifest: LoadedManifest): string | undefined {
 /** 真加载核:经 FileSource 读 manifest + 表域 + 场景 index + 入口场景 → assembleProject + 挂 source。 */
 export async function loadProjectFrom(source: FileSource): Promise<LoadedProject> {
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
-  if (manifest.contentVersion !== 3)
-    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion 3，请先迁移`)
+  if (manifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion ${CONTENT_VERSION}，请先迁移`)
   validateManifestAssetConfigV3(manifest.assets)
   const content = manifest.content
   if (!content.sprites) throw new Error(`工程 "${manifest.id}": manifest 缺 sprites 注册表`)

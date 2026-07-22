@@ -79,6 +79,11 @@ import {
 } from './dither-transition.js'
 import { assertEngineChromeComplete, loadEngineChromeImage } from './engine-chrome/registry.js'
 import {
+  EntityActionPlayer,
+  type EntityActionSeed,
+  resolveSpriteActionBinding,
+} from './entity-action-player.js'
+import {
   closeEquipMenu,
   type EquipMenuState,
   equipApply,
@@ -394,6 +399,10 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let viewMaxX = 0
   let viewMaxY = 0
   let entitySpriteDefs = new Map<string, SpriteDef>()
+  // 首次 switchScene 前建立，boot/重入/读档都由 commitSceneSwitch 原子重建页动作。
+  const entityActions = new EntityActionPlayer((_entity, cue) => {
+    if (cue.kind === 'sound') sfx.play(cue.asset)
+  })
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
   // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
@@ -623,6 +632,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ...(additionalRoots.length ? { additionalRoots } : {}),
       inventoryItems: [...currentItems.values()],
       ...(project.scriptStore ? { resolver: project.scriptStore } : {}),
+      spritesById: project.spritesById,
       signal: new AbortController().signal,
     })
     await sfx.prepare(sounds)
@@ -812,6 +822,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     palette: Palette
     renderer: Canvas2DRenderer
     entityDefs: Map<string, SpriteDef>
+    pageActions: EntityActionSeed[]
     neededSprites: Set<AssetId>
     spawn: ReturnType<typeof resolveSceneSpawn>
     dependencies: SceneSwitchDependencies
@@ -867,13 +878,35 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       ...partyDefs.map((sprite) => sprite.asset),
       ...extraFollowerDefs.map((sprite) => sprite.asset),
     ])
-    const [assets, pal] = await Promise.all([
+    const neededAssets = [...needed]
+    const [assets, pal, loadedSprites] = await Promise.all([
       getMapAssets(mapId),
       getStandardPalette(),
-      Promise.all([...needed].map((asset) => spriteCache.load(project.assetResolver, asset))),
+      Promise.all(neededAssets.map((asset) => spriteCache.load(project.assetResolver, asset))),
       // readiness 是场景事务的一部分：脚本首帧只允许同步命中已解码 buffer，绝不迟播。
       prepareSceneSounds(def, preparedWorld),
     ])
+    const loadedByAsset = new Map(
+      neededAssets.map((asset, index) => [asset, expectDefined(loadedSprites[index])] as const),
+    )
+    const pageActions: EntityActionSeed[] = []
+    for (const entity of def.entities) {
+      const binding = entity.pages?.[0]?.animation
+      if (!binding) continue
+      const sprite = defs.get(entity.id)
+      if (!sprite)
+        throw new Error(
+          `reforge: 场景 ${def.id} 实体 ${entity.id} 声明页动作但没有可解析的大世界精灵`,
+        )
+      const loaded = loadedByAsset.get(sprite.asset)
+      const resolved = resolveSpriteActionBinding(
+        sprite,
+        binding,
+        loaded?.frames.length,
+        `reforge: 场景 ${def.id} 实体 ${entity.id} pages[0].animation`,
+      )
+      pageActions.push({ entity: entity.id, ...resolved })
+    }
     const onEnterBinding = sceneScriptBinding(def, 'onEnter', preparedWorld)
     return {
       sceneId,
@@ -882,6 +915,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       palette: pal,
       renderer: new Canvas2DRenderer(ctx, pal, assets.tiles),
       entityDefs: defs,
+      pageActions,
       neededSprites: needed,
       spawn: resolveSceneSpawn(sceneId, def, spawn),
       dependencies,
@@ -919,6 +953,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     renderer = plan.renderer
     waveRenderer = null
     entitySpriteDefs = plan.entityDefs
+    entityActions.replaceScene(plan.pageActions)
     room = { col: 0, row: 0, cols: map.width, rows: map.height }
     viewMinX = room.col * TILE_W - TILE_W
     viewMinY = room.row * TILE_H - 40
@@ -1575,6 +1610,25 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (e) e.facing = fc
     },
     setEntityFrame: (id, frame) => entityFrameOverride.set(id, frame),
+    playEntityAction: (id, binding, signal) => {
+      assertRunnerActive(signal, `实体 ${id} 动作所属 runner 已取消`)
+      const entity = scene.entities.find((candidate) => candidate.id === id)
+      if (!entity) throw new Error(`playEntityAction: 实体 "${id}" 不在当前场景 ${scene.id}`)
+      const sprite = entitySpriteDefs.get(id)
+      if (!sprite) throw new Error(`playEntityAction: 实体 "${id}" 没有可解析的大世界精灵`)
+      const loaded = spriteCache.get(project.assetResolver, sprite.asset)
+      const resolved = resolveSpriteActionBinding(
+        sprite,
+        binding,
+        loaded?.frames.length,
+        `playEntityAction: 场景 ${scene.id} 实体 ${id}`,
+      )
+      // 新动作接管外观时清掉 legacy 定帧；移动中的走帧仍保留并以更高优先级暂停动作。
+      entityFrameOverride.delete(id)
+      if (!entityMoves.has(id)) entityAnim.delete(id)
+      return entityActions.play(id, resolved, signal)
+    },
+    stopEntityAction: (id, reset) => entityActions.stop(id, reset),
     giveItem: async (itemId, count, signal) => {
       assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
       const targetWorld = world
@@ -1888,6 +1942,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     setEntityAuto: (id, binding) => {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) return
+      entityActions.stop(id, false)
       const stages = Array.isArray(binding)
         ? binding
         : [{ body: [{ kind: 'callScript' as const, ref: binding }] }]
@@ -3188,10 +3243,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       if (e.hidden) continue
       const def = entitySpriteDefs.get(e.id)
       const sp = def ? spriteCache.get(project.assetResolver, def.asset) : undefined
-      // 帧下标:演出帧覆盖(0x14/0x0F,含 0)优先且恒走 站立+override;
-      // 否则移动/动画中走走路帧(anim 计数);否则站立帧
+      // 帧优先级:legacy 定帧 > 移动/legacy anim > 语义动作 > v3 layout.loop > 站立。
+      // 动作步骤已经是绝对源帧，不得再叠方向站立基址。
       const anim = entityAnim.get(e.id)
       const hasOv = entityFrameOverride.has(e.id)
+      const actionFrame = entityActions.frame(e.id)
       const fi = def
         ? hasOv
           ? actualFrameIndex(
@@ -3199,13 +3255,15 @@ export async function bootGame(project: LoadedProject): Promise<void> {
                 (entityFrameOverride.get(e.id) ?? 0),
               sp?.frames.length ?? 0,
             )
-          : def.layout.kind === 'loop'
-            ? loopFrameIndex(def.layout, performance.now(), sp?.frames.length ?? 0) // E5:火把/流水自循环
-            : anim !== undefined
-              ? // 0x87/走位共用计数:directional 走步序,static 平推整条帧带(原版语义;
-                // 曾只走 walkFrameIndex → static 恒 0,原地动画 NPC 全冻结,作者报)
-                animFrameIndex(def.layout, e.facing ?? 'down', anim, sp?.frames.length ?? 1)
-              : idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length)
+          : anim !== undefined
+            ? // 0x87/走位共用计数:directional 走步序,static 平推整条帧带(原版语义;
+              // 曾只走 walkFrameIndex → static 恒 0,原地动画 NPC 全冻结,作者报)
+              animFrameIndex(def.layout, e.facing ?? 'down', anim, sp?.frames.length ?? 1)
+            : actionFrame !== undefined
+              ? actualFrameIndex(actionFrame, sp?.frames.length ?? 0)
+              : def.layout.kind === 'loop'
+                ? loopFrameIndex(def.layout, performance.now(), sp?.frames.length ?? 0)
+                : idleFrameIndex(def.layout, e.facing ?? 'down', sp?.frames.length)
         : 0
       const f = def ? sp?.frames[fi] : undefined
       if (!sp || !f) continue
@@ -3668,6 +3726,16 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         preserveClosedDialogFrame = false
       })
     }
+    entityActions.advance(dt, (id) => {
+      const entity = scene.entities.find((candidate) => candidate.id === id)
+      return (
+        !entity ||
+        entity.hidden === true ||
+        entityFrameOverride.has(id) ||
+        entityMoves.has(id) ||
+        entityAnim.has(id)
+      )
+    })
     advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
     deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
     tickHostiles(dt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)

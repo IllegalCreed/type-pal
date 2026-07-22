@@ -184,20 +184,10 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s038",
-                      "id": "scene/s038/root/entity-e625/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true
           }
         }
       ]
@@ -213,20 +203,11 @@
       "zBias": 4,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s038",
-                      "id": "scene/s038/root/entity-e626/page-0/auto/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-9",
+            "action": "pal-auto-v1-47e35d5d733ff36b",
+            "loop": true,
+            "startAtMs": 400
           }
         }
       ]

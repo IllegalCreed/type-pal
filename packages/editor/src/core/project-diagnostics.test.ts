@@ -51,7 +51,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState {
   const manifest: LoadedManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 3,
+    contentVersion: 4,
     entryScene: 's000',
     content: {
       maps: 'content/maps/index.json',

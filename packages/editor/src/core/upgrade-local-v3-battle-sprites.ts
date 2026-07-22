@@ -7,7 +7,7 @@ import {
   battleSpriteDefinitionFrameDemand,
   checkScriptLibrary,
   collectBattleSpriteDefinitionReferences,
-  type LoadedManifest,
+  type LegacyManifestV3,
   normalizeScriptLibrary,
   palBattleSpriteAssetId,
   type ScriptChunkV1,
@@ -219,7 +219,7 @@ async function canonicalize(
   return { bytes, sha256, frameCount: loaded.frames.length }
 }
 
-function exitBattleSpriteLegacy(manifest: LoadedManifest, tablePath: string): LoadedManifest {
+function exitBattleSpriteLegacy(manifest: LegacyManifestV3, tablePath: string): LegacyManifestV3 {
   const next = structuredClone(manifest)
   next.content.battleSprites = tablePath
   const legacy = next.assets.legacy
@@ -236,7 +236,7 @@ function exitBattleSpriteLegacy(manifest: LoadedManifest, tablePath: string): Lo
  * 其余 role/kind/family 错误仍由完整 validator fail-loud。
  */
 function validateAssetConfigAtBattleBoundary(
-  assets: LoadedManifest['assets'],
+  assets: LegacyManifestV3['assets'],
   catalog: AssetCatalogV1,
 ): void {
   const openingRole = 'audio.openingMenuMusic'
@@ -377,12 +377,13 @@ function enemyProfile(animValue: unknown, where: string): BattleSpriteProfile {
 
 async function exactOldBlank(
   source: FileSource,
-  manifest: LoadedManifest,
+  manifest: LegacyManifestV3,
 ): Promise<Record<string, unknown> | undefined> {
   const target = await buildBlankProject(manifest.name)
-  const targetManifest = structuredClone(target['manifest.json']) as LoadedManifest
+  const targetManifest = structuredClone(target['manifest.json']) as unknown as LegacyManifestV3
   targetManifest.id = manifest.id
   targetManifest.name = manifest.name
+  targetManifest.contentVersion = 3
   target['manifest.json'] = targetManifest
 
   const old = structuredClone(target)
@@ -397,7 +398,7 @@ async function exactOldBlank(
   const actors = old['content/actors.json'] as Array<Record<string, unknown>>
   const battler = actors[0]?.battler as Record<string, unknown> | undefined
   if (battler) delete battler.battleSprite
-  const oldManifest = old['manifest.json'] as LoadedManifest
+  const oldManifest = old['manifest.json'] as LegacyManifestV3
   delete oldManifest.content.battleSprites
 
   for (const [path, expected] of Object.entries(old)) {
@@ -423,7 +424,7 @@ async function exactOldBlank(
 
 async function buildBlankJournal(
   source: FileSource,
-  manifest: LoadedManifest,
+  manifest: LegacyManifestV3,
 ): Promise<UpgradeJournal | undefined> {
   const target = await exactOldBlank(source, manifest)
   if (!target) return undefined
@@ -446,7 +447,7 @@ async function buildBlankJournal(
 async function buildLegacyJournal(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
-  manifest: LoadedManifest,
+  manifest: LegacyManifestV3,
 ): Promise<UpgradeJournal> {
   const legacy = manifest.assets.legacy
   if (!legacy) throw new Error('battle-sprite legacy 配置缺失')
@@ -1005,8 +1006,8 @@ async function buildLegacyJournal(
 
 async function validateUpgradeJournal(
   raw: unknown,
-  currentManifest: LoadedManifest,
-): Promise<{ journal: UpgradeJournal; manifest: LoadedManifest; catalog: AssetCatalogV1 }> {
+  currentManifest: LegacyManifestV3,
+): Promise<{ journal: UpgradeJournal; manifest: LegacyManifestV3; catalog: AssetCatalogV1 }> {
   const value = objectAt(raw, 'battle-sprite upgrade journal')
   if (value.version !== 1 || (value.mode !== 'legacy' && value.mode !== 'blank'))
     throw new Error('battle-sprite 升级 journal 版本或模式非法')
@@ -1035,7 +1036,7 @@ async function validateUpgradeJournal(
       throw new Error(`battle-sprite journal 源摘要非法: ${path}`)
   }
   const targetManifestValue = objectAt(nextJson['manifest.json'], 'journal manifest')
-  const targetManifest = targetManifestValue as unknown as LoadedManifest
+  const targetManifest = targetManifestValue as unknown as LegacyManifestV3
   if (
     targetManifest.id !== value.projectId ||
     targetManifest.name !== value.projectName ||
@@ -1281,7 +1282,7 @@ async function verifyReplayJsonState(
 async function materializeJournal(
   source: FileSource,
   journal: UpgradeJournal,
-  targetManifest: LoadedManifest,
+  targetManifest: LegacyManifestV3,
   recovery: boolean,
 ): Promise<Record<string, unknown>> {
   const binaries: Record<string, ArrayBuffer> = {}
@@ -1355,7 +1356,7 @@ async function commitJournal(
   source: FileSource,
   candidate: UpgradeJournal,
   writeJournal: boolean,
-  currentManifest: LoadedManifest,
+  currentManifest: LegacyManifestV3,
 ): Promise<void> {
   const { journal, manifest } = await validateUpgradeJournal(candidate, currentManifest)
   await verifyReplayJsonState(dir, source, journal)
@@ -1374,7 +1375,7 @@ export async function upgradeLocalProjectV3BattleSprites(
   source: FileSource,
   rawManifest: unknown,
 ): Promise<boolean> {
-  const manifest = objectAt(rawManifest, 'manifest') as unknown as LoadedManifest
+  const manifest = objectAt(rawManifest, 'manifest') as unknown as LegacyManifestV3
   if (manifest.contentVersion !== 3) return false
   const rawJournal = await readTextIfPresent(source, JOURNAL_PATH)
   if (rawJournal !== undefined) {

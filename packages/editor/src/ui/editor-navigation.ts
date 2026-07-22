@@ -250,6 +250,8 @@ export interface EditorLocation {
   /** 精灵库唯一深链维度；只在 asset/sprite 保留。 */
   domain?: 'world' | 'battle'
   view?: 'definition' | 'asset'
+  /** 仅 world/definition 精灵深链使用；稳定 ActionId，不是显示编号。 */
+  actionId?: string
 }
 
 export function editorModule(id: EditorModuleId): EditorModuleDefinition {
@@ -290,6 +292,7 @@ export function locationForSubpageNavigation(
     ...(objectId ? { objectId } : {}),
     ...(preserveSpriteLocation && location.domain ? { domain: location.domain } : {}),
     ...(preserveSpriteLocation && location.view ? { view: location.view } : {}),
+    ...(preserveSpriteLocation && location.actionId ? { actionId: location.actionId } : {}),
   }
 }
 
@@ -322,11 +325,15 @@ export function normalizeEditorLocation(
   const spriteLocation = moduleId === 'asset' && subpage === 'sprite'
   const domain = spriteLocation && input?.domain === 'battle' ? 'battle' : 'world'
   const view = spriteLocation && input?.view === 'asset' ? 'asset' : 'definition'
+  const actionId = typeof input?.actionId === 'string' ? input.actionId.trim() : ''
   return {
     module: moduleId,
     subpage,
     ...(objectId ? { objectId } : {}),
     ...(spriteLocation ? { domain, view } : {}),
+    ...(spriteLocation && domain === 'world' && view === 'definition' && objectId && actionId
+      ? { actionId }
+      : {}),
   }
 }
 
@@ -338,6 +345,7 @@ export function decodeEditorLocation(search: string): EditorLocation {
     objectId: params.get('object') ?? undefined,
     domain: (params.get('domain') as EditorLocation['domain'] | null) ?? undefined,
     view: (params.get('view') as EditorLocation['view'] | null) ?? undefined,
+    actionId: params.get('action') ?? undefined,
   })
 }
 
@@ -352,6 +360,8 @@ export function editorLocationHref(location: EditorLocation, currentHref: string
   else url.searchParams.delete('domain')
   if (normalized.view) url.searchParams.set('view', normalized.view)
   else url.searchParams.delete('view')
+  if (normalized.actionId) url.searchParams.set('action', normalized.actionId)
+  else url.searchParams.delete('action')
   return `${url.pathname}${url.search}${url.hash}`
 }
 
@@ -363,7 +373,8 @@ export function sameEditorLocation(left: EditorLocation, right: EditorLocation):
     normalizedLeft.subpage === normalizedRight.subpage &&
     normalizedLeft.objectId === normalizedRight.objectId &&
     normalizedLeft.domain === normalizedRight.domain &&
-    normalizedLeft.view === normalizedRight.view
+    normalizedLeft.view === normalizedRight.view &&
+    normalizedLeft.actionId === normalizedRight.actionId
   )
 }
 
@@ -399,6 +410,14 @@ export const editorLinks = {
     objectId: spriteId,
     domain: 'world',
     view: 'definition',
+  }),
+  worldSpriteAction: (spriteId: string, actionId: string): EditorLocation => ({
+    module: 'asset',
+    subpage: 'sprite',
+    objectId: spriteId,
+    domain: 'world',
+    view: 'definition',
+    actionId,
   }),
   battleSpriteDefinition: (definitionId: string): EditorLocation => ({
     module: 'asset',

@@ -25,7 +25,7 @@ const put = (repo: string, path: string, content: string): void => {
 const manifest = (): LoadedManifest => ({
   id: 'pal',
   name: 'PAL',
-  contentVersion: 3,
+  contentVersion: 4,
   entryScene: 's000',
   content: {},
   assets: { catalog: 'assets/index.json', roles: {} },

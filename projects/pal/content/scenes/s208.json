@@ -288,21 +288,11 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s208",
-                      "id": "scene/s208/root/entity-e3554/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-78",
+            "action": "pal-auto-v1-7a51cc59d95d3a88",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]
@@ -335,21 +325,11 @@
               }
             ]
           },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s208",
-                      "id": "scene/s208/root/entity-e3555/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+          "animation": {
+            "sprite": "sprite-77",
+            "action": "pal-auto-v1-164f35fd7bd36b14",
+            "loop": true,
+            "startAtMs": 240
           }
         }
       ]

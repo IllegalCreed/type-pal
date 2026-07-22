@@ -14,10 +14,16 @@ import {
   palSoundAssetId,
   palSpriteAssetId,
   palTilesetAssetId,
+  spriteDefinitionFrameDemand,
   validateBattleSprites,
 } from '@type-pal/content'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
-import { mapRoleSpriteIdsByNumber, mapScenesStatic, migrateAll } from './migrate-content.js'
+import {
+  mapRoleSpriteIdsByNumber,
+  mapScenesStatic,
+  migrateAll,
+  migratedSpriteId,
+} from './migrate-content.js'
 import { sha256 } from './migration-baseline.js'
 import {
   applyPalItemOverlays,
@@ -33,6 +39,9 @@ import {
   type SourceObjectPoison,
   type SourceStore,
 } from './pal-derived-content.js'
+import { auditPalSpriteActions } from './pal-sprite-action-census.js'
+import { materializePalSpriteActions } from './pal-sprite-action-materialize.js'
+import { PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT } from './pal-world-sprite-layouts.js'
 import {
   auditAndConvertSourceMaps,
   type ProjectMapAuditReport,
@@ -64,6 +73,7 @@ export interface PalMigrationSources {
   musicMidi: number[]
   assetCatalog: AssetCatalogV1
   binaryAssets: import('./pal-assets.js').PalBinaryAssetSource[]
+  worldSpriteFrameCounts: number[]
   assetReport: import('./pal-assets.js').PalAssetMigrationReport
   battleEffectIndex: number[]
   battleFields: BattleFieldDef[]
@@ -82,6 +92,8 @@ export interface MigrationFileSet {
     scripts: ReturnType<typeof mapScenesStatic>['scriptReport']
     graph: ReturnType<typeof mapScenesStatic>['scriptGraphReport']
     audit: ReturnType<typeof auditScriptLibrary>
+    spriteActions: ReturnType<typeof auditPalSpriteActions>
+    spriteActionMaterialization: ReturnType<typeof materializePalSpriteActions>['report']
     bossOverlay: { attached: number; clearedEnemies: string[] }
     maps: ProjectMapAuditReport
     assets: import('./pal-assets.js').PalAssetMigrationReport
@@ -112,12 +124,15 @@ export const PAL_WORLD_SPRITE_UNUSED_NUMBERS = [
 ] as const
 
 export const PAL_WORLD_SPRITE_SEMANTIC_DIGEST =
-  'a45887f9e22c00c6afc95704945e52d24f7f60a1e2c0a85f5a32102c3b55902f'
+  '1e432a3bfe109e1174f796cf3c77861fe9f6f32dbcc966132922c6526387af01'
 
 function assertPalWorldSpriteBaseline(
   sprites: readonly SpriteDef[],
   catalog: AssetCatalogV1,
+  frameCounts: readonly number[],
 ): void {
+  if (frameCounts.length !== 636)
+    throw new Error(`PAL 大世界精灵帧数表期望 636 项，收到 ${frameCounts.length}`)
   const expectedCatalogIds = Array.from({ length: 636 }, (_, index) => palSpriteAssetId(index + 1))
   const catalogIds = Object.entries(catalog.assets)
     .filter(([, record]) => record.kind === 'sprite')
@@ -133,16 +148,43 @@ function assertPalWorldSpriteBaseline(
       ),
     ),
   )
-  if (sprites.length !== 580) throw new Error(`PAL SpriteDef 期望 580，收到 ${sprites.length}`)
+  if (sprites.length !== 577) throw new Error(`PAL SpriteDef 期望 577，收到 ${sprites.length}`)
   if (used.size !== 559) throw new Error(`PAL 已用 sprite AssetId 期望 559，收到 ${used.size}`)
-  if (sprites.length - used.size !== 21)
-    throw new Error(`PAL 共享 SpriteDef 关系期望 21，收到 ${sprites.length - used.size}`)
+  if (sprites.length - used.size !== 18)
+    throw new Error(`PAL 共享 SpriteDef 关系期望 18，收到 ${sprites.length - used.size}`)
   if (JSON.stringify(catalogIds) !== JSON.stringify(expectedCatalogIds))
     throw new Error('PAL sprite catalog AssetId 集合不是精确 1..636')
   if (JSON.stringify(unused) !== JSON.stringify(expectedUnused))
     throw new Error('PAL 未引用 sprite AssetId 集合发生漂移')
   if (semanticDigest !== PAL_WORLD_SPRITE_SEMANTIC_DIGEST)
     throw new Error(`PAL SpriteDef 语义投影发生漂移: ${semanticDigest}`)
+  const definitionsById = new Map(sprites.map((definition) => [definition.id, definition]))
+  const frameDebt = sprites.flatMap((definition) => {
+    const match = /^sprite\.pal\.(\d{3})$/.exec(definition.asset)
+    if (!match?.[1]) return []
+    const spriteNum = Number(match[1])
+    const physical = frameCounts[spriteNum - 1]
+    if (physical === undefined) throw new Error(`PAL 大世界精灵 ${spriteNum} 缺物理帧数`)
+    const demand = spriteDefinitionFrameDemand(definition)
+    return demand > physical ? [{ id: definition.id, spriteNum, demand, physical }] : []
+  })
+  if (frameDebt.length)
+    throw new Error(`PAL 大世界 SpriteDef 帧越界债未归零: ${JSON.stringify(frameDebt)}`)
+  for (const audit of PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT) {
+    const definition = definitionsById.get(migratedSpriteId(audit.spriteNum))
+    if (!definition || definition.layout.kind !== 'static')
+      throw new Error(`PAL 大世界精灵 ${audit.spriteNum} 确定债未收敛为 stable static 定义`)
+    if (frameCounts[audit.spriteNum - 1] !== audit.expectedFrameCount)
+      throw new Error(`PAL 大世界精灵 ${audit.spriteNum} 审计物理帧发生漂移`)
+  }
+  const sprite245 = definitionsById.get('sprite-245')
+  if (!sprite245 || sprite245.layout.kind !== 'directional' || sprite245.layout.framesPerDir !== 3)
+    throw new Error('PAL 大世界精灵 245 必须保持场景支持的 directional/3')
+  const sprite534 = definitionsById.get('sprite-534')
+  if (!sprite534 || sprite534.layout.kind !== 'directional' || sprite534.layout.framesPerDir !== 4)
+    throw new Error('PAL 大世界精灵 534 必须采用脚本证据支持的 directional/4')
+  for (const id of ['sprite-242-f0', 'sprite-379-f0', 'sprite-541-f0'])
+    if (definitionsById.has(id)) throw new Error(`PAL 错误遍历顺序伴生定义仍存在: ${id}`)
 }
 
 function assertPalBattleSpriteBaseline(args: {
@@ -293,6 +335,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     mapRoleSpriteIdsByNumber(sources.migrate.roles, migrated.sprites),
     globalRoots,
     soundAssetForNum,
+    { worldSpriteFrameCounts: sources.worldSpriteFrameCounts },
   )
   const boss = applyPalBossEncounterOverlay(
     migrated.enemies,
@@ -301,7 +344,23 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   )
   const scripts = normalizeScriptLibrary(sceneOutput.scriptIndex, boss.chunks)
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
-  assertPalWorldSpriteBaseline(sprites, sources.assetCatalog)
+  const spriteActions = auditPalSpriteActions({
+    scenes: sceneOutput.scenes,
+    actors: migrated.actors,
+    sprites,
+    scriptIndex: scripts.index,
+    scriptChunks: scripts.chunks,
+    frameCountByAsset: new Map(
+      sources.worldSpriteFrameCounts.map((count, index) => [palSpriteAssetId(index + 1), count]),
+    ),
+    extraRoots: enemyCommandRoots(boss.enemies),
+  })
+  assertPalWorldSpriteBaseline(sprites, sources.assetCatalog, sources.worldSpriteFrameCounts)
+  const spriteActionMaterialization = materializePalSpriteActions({
+    scenes: sceneOutput.scenes,
+    sprites,
+    census: spriteActions,
+  })
   const battleSprites = createPalBattleSpriteDefinitions(
     sources.migrate.enemies ?? [],
     sources.migrate.enemyObjects ?? [],
@@ -316,14 +375,14 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     enemies: boss.enemies,
     items,
     skills: skills.skills,
-    scenes: sceneOutput.scenes,
+    scenes: spriteActionMaterialization.scenes,
     scriptChunks: scripts.chunks,
   })
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,
     sourcePrettyBytes: sources.allJsonPrettyBytes,
     sourceCommandCount: sources.migrate.commands.length,
-    scenes: sceneOutput.scenes,
+    scenes: spriteActionMaterialization.scenes,
     index: scripts.index,
     chunks: scripts.chunks,
     extraRoots: enemyCommandRoots(boss.enemies),
@@ -335,7 +394,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     files.set(path, asJson(value))
   }
   put('content/actors.json', migrated.actors)
-  put('content/sprites.json', sprites)
+  put('content/sprites.json', spriteActionMaterialization.sprites)
   put('content/battle-sprites.json', battleSprites)
   put('content/items.json', items)
   put('content/skills.json', skills)
@@ -383,9 +442,10 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/stamps.json', [])
   put(
     'content/scenes/index.json',
-    sceneOutput.scenes.map((scene) => scene.id),
+    spriteActionMaterialization.scenes.map((scene) => scene.id),
   )
-  for (const scene of sceneOutput.scenes) put(`content/scenes/${scene.id}.json`, scene)
+  for (const scene of spriteActionMaterialization.scenes)
+    put(`content/scenes/${scene.id}.json`, scene)
   put('content/scripts/index.json', scripts.index)
   for (const id of Object.keys(scripts.chunks).sort()) {
     const meta = scripts.index.chunks[id]
@@ -412,6 +472,8 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       scripts: sceneOutput.scriptReport,
       graph: sceneOutput.scriptGraphReport,
       audit,
+      spriteActions,
+      spriteActionMaterialization: spriteActionMaterialization.report,
       bossOverlay: { attached: boss.attached, clearedEnemies: boss.clearedEnemies },
       maps: convertedMaps.report,
       assets: structuredClone(sources.assetReport),

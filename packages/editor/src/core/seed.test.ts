@@ -6,7 +6,7 @@ import { buildBlankProject, enumerateSeedFiles, relativizeManifest } from './see
 const manifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 3,
+  contentVersion: 4,
   entryScene: 's1',
   content: {
     actors: 'content/actors.json',
@@ -115,7 +115,7 @@ describe('enumerateSeedFiles', () => {
   test('map index 登记的零引用地图也进入克隆文件集', () => {
     const withMaps: LoadedManifest = {
       ...manifest,
-      contentVersion: 3,
+      contentVersion: 4,
       content: { ...manifest.content, maps: 'content/maps/index.json' },
     }
     const files = enumerateSeedFiles(withMaps, ['s1'], { files: [] }, undefined, {
@@ -162,7 +162,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(3)
+    expect(m.contentVersion).toBe(4)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])

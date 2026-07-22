@@ -2,7 +2,7 @@
  * 脚本路径编辑纯函数(C-track v1)。
  *
  * 路径与 ScriptRunner.onStep 上报同一编码:[stageIdx, cmdIdx, 臂名, cmdIdx, ...],
- * 臂名 ∈ then/else/onNo/onLose/onFlee(v1 不进 setEntityAuto/Trigger 的嵌套 stages,
+ * 臂名 ∈ then/else/onNo/onLose/onFlee/onFail(v1 不进 setEntityAuto/Trigger 的嵌套 stages,
  * 那两类整命令走 JSON 兜底编辑)。全部不可变:只重建命中路径,旁支同引用。
  */
 import type { Command, ScriptStage } from '@type-pal/content'
@@ -28,6 +28,8 @@ function armOf(cmd: Command, seg: string): readonly Command[] | undefined {
       return cmd.kind === 'startBattle' ? cmd.onLose : undefined
     case 'onFlee':
       return cmd.kind === 'startBattle' ? cmd.onFlee : undefined
+    case 'onFail':
+      return cmd.kind === 'teleportOut' ? cmd.onFail : undefined
     default:
       return undefined
   }
