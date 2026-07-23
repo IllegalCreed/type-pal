@@ -416,43 +416,60 @@ function ItemIconBrowser(props: {
   catalog: AssetCatalogV1
   reader: EditorAssetReader
   onSelect: (id: AssetId | undefined) => void
-  onOpenAsset?: (id: string) => void
 }) {
   const [open, setOpen] = useState(false)
   const [filter, setFilter] = useState('')
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const filterRef = useRef<HTMLInputElement>(null)
   const options = useMemo(() => imageAssets(props.catalog, 'item-icon'), [props.catalog])
   const shown = options.filter((option) => {
     const needle = filter.trim().toLowerCase()
     return !needle || imageAssetLabel(option).toLowerCase().includes(needle)
   })
+
+  useEffect(() => {
+    if (open) filterRef.current?.focus()
+  }, [open])
+
+  const close = (): void => {
+    setOpen(false)
+    triggerRef.current?.focus()
+  }
+
   return (
     <div className="item-icon-browser">
       <button
         ref={triggerRef}
         type="button"
-        className="tool"
+        className="item-action-button item-action-button-primary"
         aria-expanded={open}
         aria-controls="item-icon-browser-panel"
         onClick={() => setOpen((value) => !value)}
       >
         🖼️ 选择已有图标…
       </button>
-      {props.value && props.onOpenAsset ? (
-        <button type="button" className="mini" onClick={() => props.onOpenAsset?.(props.value!)}>
-          在图像库打开 ↗
-        </button>
-      ) : null}
       {open ? (
-        <div id="item-icon-browser-panel" className="item-icon-browser-panel">
+        <div
+          id="item-icon-browser-panel"
+          className="item-icon-browser-panel"
+          role="dialog"
+          aria-label="选择物品图标"
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape') return
+            event.preventDefault()
+            close()
+          }}
+        >
           <div className="item-icon-browser-toolbar">
             <label className="visually-hidden" htmlFor="item-icon-filter">
               搜索物品图标
             </label>
             <input
+              ref={filterRef}
               id="item-icon-filter"
               className="in"
               placeholder="搜索图标名称或 AssetId…"
+              autoComplete="off"
               value={filter}
               onChange={(event) => setFilter(event.target.value)}
             />
@@ -465,8 +482,7 @@ function ItemIconBrowser(props: {
               className={`item-icon-option${!props.value ? ' selected' : ''}`}
               onClick={() => {
                 props.onSelect(undefined)
-                setOpen(false)
-                triggerRef.current?.focus()
+                close()
               }}
             >
               <span className="item-icon-unset">无</span>
@@ -481,8 +497,7 @@ function ItemIconBrowser(props: {
                 title={imageAssetLabel(option)}
                 onClick={() => {
                   props.onSelect(option.id)
-                  setOpen(false)
-                  triggerRef.current?.focus()
+                  close()
                 }}
               >
                 <ImageAssetThumbnail
@@ -811,17 +826,12 @@ export function ItemTab(props: {
             {shown.length}/{items.length}
           </span>
           <span className="item-catalog-actions">
-            <button type="button" className="mini" title="新建物品" onClick={createItem}>
-              ＋ 新建
-            </button>
             <button
               type="button"
-              className="mini"
-              title="复制当前物品"
-              disabled={!item}
-              onClick={duplicateItem}
+              className="item-action-button item-action-button-primary item-catalog-create"
+              onClick={createItem}
             >
-              ⧉ 复制
+              ＋ 新建
             </button>
           </span>
         </div>
@@ -830,6 +840,8 @@ export function ItemTab(props: {
             aria-label="搜索物品名称或稳定 ID"
             className="in"
             placeholder="搜索名称或 id…"
+            name="item-search"
+            autoComplete="off"
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
           />
@@ -948,18 +960,26 @@ export function ItemTab(props: {
                 </div>
               </div>
               <div className="item-title-actions">
-                <button type="button" className="tool" onClick={duplicateItem}>
+                <button
+                  type="button"
+                  className="item-action-button item-action-button-compact"
+                  onClick={duplicateItem}
+                >
                   ⧉ 复制
                 </button>
                 {confirmDeleteId === item.id ? (
                   <span className="item-delete-confirm">
                     <span>确定删除？</span>
-                    <button type="button" className="tool danger" onClick={deleteItem}>
+                    <button
+                      type="button"
+                      className="item-action-button item-action-button-danger item-action-button-compact"
+                      onClick={deleteItem}
+                    >
                       确认
                     </button>
                     <button
                       type="button"
-                      className="tool"
+                      className="item-action-button item-action-button-compact"
                       onClick={() => setConfirmDeleteId(undefined)}
                     >
                       取消
@@ -968,7 +988,7 @@ export function ItemTab(props: {
                 ) : (
                   <button
                     type="button"
-                    className="tool danger"
+                    className="item-action-button item-action-button-danger item-action-button-compact"
                     onClick={() => setConfirmDeleteId(item.id)}
                   >
                     删除
@@ -979,14 +999,19 @@ export function ItemTab(props: {
 
             {itemDiagnostics.length ? (
               <section className="item-migration-alert" aria-label="待迁移能力">
-                <strong>有 {itemDiagnostics.length} 项旧版能力尚未结构化</strong>
-                {itemDiagnostics.map((diagnostic) => (
-                  <div key={diagnostic.id}>
-                    <span>{diagnostic.target.label}</span>
-                    <span>{diagnostic.reason}</span>
-                    <code>{diagnostic.source.label}</code>
-                  </div>
-                ))}
+                <div>
+                  <strong>有 {itemDiagnostics.length} 项旧版能力尚未结构化</strong>
+                  <span>
+                    {itemDiagnostics[0]?.target.label}：{itemDiagnostics[0]?.reason}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="item-action-button item-action-button-warning item-action-button-compact"
+                  onClick={() => setInspectorTab('overview')}
+                >
+                  查看迁移来源 ↗
+                </button>
               </section>
             ) : null}
 
@@ -996,118 +1021,179 @@ export function ItemTab(props: {
                   <h3>基础信息</h3>
                   <p>名称、价格与图标会直接出现在游戏菜单；稳定 ID 创建后不随改名变化。</p>
                 </div>
-                <span className="item-capability-summary">
-                  {abilityTags(item).join(' · ') || '尚未配置能力'}
-                </span>
               </div>
-              <div className="item-base-grid">
-                <div className="item-icon-editor">
-                  <ImageAssetThumbnail
-                    asset={item.icon}
-                    kind="item-icon"
-                    reader={assetReader}
-                    revision={item.icon ? assetCatalog.assets[item.icon]?.sha256 : undefined}
-                    className="item-icon-preview"
-                    alt={`${item.name}图标`}
-                  />
-                  <div className="item-icon-actions">
-                    <ItemIconBrowser
-                      value={item.icon}
-                      catalog={assetCatalog}
+              <div className="item-base-layout">
+                <section className="item-base-section item-icon-section">
+                  <div className="item-base-section-heading">
+                    <div>
+                      <h4>图标资源</h4>
+                      <p>从工程资源选择，或导入新的 PNG；修改会立即反映到物品列表。</p>
+                    </div>
+                    {item.icon ? <code>{item.icon}</code> : <span>未绑定</span>}
+                  </div>
+                  <div className="item-icon-editor">
+                    <ImageAssetThumbnail
+                      asset={item.icon}
+                      kind="item-icon"
                       reader={assetReader}
-                      onOpenAsset={onOpenImage}
-                      onSelect={(icon) => patch({ icon })}
+                      revision={item.icon ? assetCatalog.assets[item.icon]?.sha256 : undefined}
+                      className="item-icon-preview"
+                      alt={`${item.name}图标`}
                     />
-                    <input
-                      ref={iconInputRef}
-                      className="visually-hidden"
-                      type="file"
-                      accept="image/png"
-                      aria-label="导入 PNG 并设置为物品图标"
-                      onChange={(event) => {
-                        const file = event.currentTarget.files?.[0]
-                        if (file) void importIcon(file)
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className="mini"
-                      onClick={() => iconInputRef.current?.click()}
-                    >
-                      导入 PNG 并使用…
-                    </button>
-                    {item.icon ? (
+                    <div className="item-icon-actions">
+                      <ItemIconBrowser
+                        value={item.icon}
+                        catalog={assetCatalog}
+                        reader={assetReader}
+                        onSelect={(icon) => patch({ icon })}
+                      />
+                      <input
+                        ref={iconInputRef}
+                        className="visually-hidden"
+                        type="file"
+                        accept="image/png"
+                        aria-label="导入 PNG 并设置为物品图标"
+                        onChange={(event) => {
+                          const file = event.currentTarget.files?.[0]
+                          if (file) void importIcon(file)
+                        }}
+                      />
                       <button
                         type="button"
-                        className="mini"
-                        onClick={() => patch({ icon: undefined })}
+                        className="item-action-button"
+                        onClick={() => iconInputRef.current?.click()}
                       >
-                        解除绑定
+                        导入 PNG…
                       </button>
-                    ) : null}
+                      {item.icon && onOpenImage ? (
+                        <button
+                          type="button"
+                          className="item-action-button"
+                          onClick={() => onOpenImage(item.icon!)}
+                        >
+                          在图像库打开 ↗
+                        </button>
+                      ) : null}
+                      {item.icon ? (
+                        <button
+                          type="button"
+                          className="item-action-button item-action-button-danger"
+                          onClick={() => patch({ icon: undefined })}
+                        >
+                          解除绑定
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-                <label className="item-field item-field-name">
-                  <span>名称</span>
-                  <input
-                    className="in"
-                    value={item.name}
-                    onChange={(event) => patch({ name: event.target.value })}
-                  />
-                </label>
-                <label className="item-field">
-                  <span>买价</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    min={0}
-                    value={item.buyPrice}
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
-                      patch({
-                        buyPrice: Math.max(0, Math.floor(event.currentTarget.valueAsNumber || 0)),
-                      })
-                    }
-                  />
-                </label>
-                <label className="item-field">
-                  <span>卖价</span>
-                  <input
-                    className="in mono"
-                    type="number"
-                    min={0}
-                    value={item.sellPrice}
-                    onWheel={(event) => event.currentTarget.blur()}
-                    onChange={(event) =>
-                      patch({
-                        sellPrice: Math.max(0, Math.floor(event.currentTarget.valueAsNumber || 0)),
-                      })
-                    }
-                  />
-                </label>
-                <label className="item-inline-check item-sellable">
-                  <input
-                    type="checkbox"
-                    checked={item.sellable}
-                    onChange={(event) => patch({ sellable: event.target.checked })}
-                  />
-                  商店可收购
-                </label>
-                <label className="item-field item-field-description">
-                  <span>介绍</span>
-                  <textarea
-                    className="in cf-ta"
-                    value={descriptionDraft}
-                    onChange={(event) => setDescriptionDraft(event.target.value)}
-                    onBlur={(event) =>
-                      patch({
-                        desc: event.target.value.split('\n').filter((line) => line.trim() !== ''),
-                      })
-                    }
-                    spellCheck={false}
-                  />
-                  <small>这里只写风味；装备数值由能力卡自动生成。</small>
-                </label>
+                </section>
+
+                <section className="item-base-section item-identity-section">
+                  <div className="item-base-section-heading">
+                    <div>
+                      <h4>身份信息</h4>
+                      <p>名称可随时修改；稳定 ID 用于脚本、商店与存档引用。</p>
+                    </div>
+                  </div>
+                  <div className="item-identity-fields">
+                    <label className="item-field">
+                      <span>名称</span>
+                      <input
+                        className="in"
+                        name="item-name"
+                        autoComplete="off"
+                        value={item.name}
+                        onChange={(event) => patch({ name: event.target.value })}
+                      />
+                    </label>
+                    <div className="item-readonly-field">
+                      <span>稳定 ID</span>
+                      <code>{item.id}</code>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="item-base-section item-trade-section">
+                  <div className="item-base-section-heading">
+                    <div>
+                      <h4>交易信息</h4>
+                      <p>价格为 0 也可保留；是否可收购决定商店回购能力。</p>
+                    </div>
+                  </div>
+                  <div className="item-trade-fields">
+                    <label className="item-field">
+                      <span>买价</span>
+                      <input
+                        className="in mono"
+                        name="item-buy-price"
+                        type="number"
+                        min={0}
+                        value={item.buyPrice}
+                        onWheel={(event) => event.currentTarget.blur()}
+                        onChange={(event) =>
+                          patch({
+                            buyPrice: Math.max(
+                              0,
+                              Math.floor(event.currentTarget.valueAsNumber || 0),
+                            ),
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="item-field">
+                      <span>卖价</span>
+                      <input
+                        className="in mono"
+                        name="item-sell-price"
+                        type="number"
+                        min={0}
+                        value={item.sellPrice}
+                        onWheel={(event) => event.currentTarget.blur()}
+                        onChange={(event) =>
+                          patch({
+                            sellPrice: Math.max(
+                              0,
+                              Math.floor(event.currentTarget.valueAsNumber || 0),
+                            ),
+                          })
+                        }
+                      />
+                    </label>
+                    <label className="item-inline-check item-sellable">
+                      <input
+                        className="item-checkbox"
+                        type="checkbox"
+                        checked={item.sellable}
+                        onChange={(event) => patch({ sellable: event.target.checked })}
+                      />
+                      商店可收购
+                    </label>
+                  </div>
+                </section>
+
+                <section className="item-base-section item-description-section">
+                  <div className="item-base-section-heading">
+                    <div>
+                      <h4>显示文本</h4>
+                      <p>只写玩家能看到的风味说明；装备与使用效果由下方能力卡生成。</p>
+                    </div>
+                  </div>
+                  <label className="item-field item-field-description">
+                    <span>介绍</span>
+                    <textarea
+                      className="in cf-ta"
+                      name="item-description"
+                      autoComplete="off"
+                      value={descriptionDraft}
+                      onChange={(event) => setDescriptionDraft(event.target.value)}
+                      onBlur={(event) =>
+                        patch({
+                          desc: event.target.value.split('\n').filter((line) => line.trim() !== ''),
+                        })
+                      }
+                      spellCheck={false}
+                    />
+                  </label>
+                </section>
               </div>
             </section>
 
@@ -1542,7 +1628,11 @@ export function ItemTab(props: {
                       {diagnostic.source.label} · 0x{diagnostic.source.address.toString(16)}
                     </code>
                     {onOpenProjectIssues ? (
-                      <button type="button" className="mini" onClick={onOpenProjectIssues}>
+                      <button
+                        type="button"
+                        className="item-action-button item-action-button-compact"
+                        onClick={onOpenProjectIssues}
+                      >
                         在问题面板查看 ↗
                       </button>
                     ) : (

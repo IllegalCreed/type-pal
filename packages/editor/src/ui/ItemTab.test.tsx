@@ -128,6 +128,18 @@ describe('ItemTab', () => {
     expect(session.getState().items[0]).toMatchObject({ id: 'item-001', name: '新物品' })
     expect(host.querySelector('.item-workbench-title code')?.textContent).toBe('item-001')
     expect(host.textContent).toContain('基础信息')
+    expect(
+      [...host.querySelectorAll('.item-base-section-heading h4')].map(
+        (heading) => heading.textContent,
+      ),
+    ).toEqual(['图标资源', '身份信息', '交易信息', '显示文本'])
+    expect(host.querySelector('.item-catalog-head')?.textContent).not.toContain('复制')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('.item-icon-actions button')].every(
+        (action) =>
+          action.classList.contains('item-action-button') && !action.classList.contains('mini'),
+      ),
+    ).toBe(true)
   })
 
   test('目录可新建、复制并阻止删除仍在商店中的物品', async () => {
@@ -227,6 +239,16 @@ describe('ItemTab', () => {
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
     const iconTrigger = button('选择已有图标', host)
+    await act(async () => iconTrigger.click())
+    expect(document.activeElement).toBe(host.querySelector<HTMLInputElement>('#item-icon-filter'))
+    await act(async () => {
+      host
+        .querySelector('#item-icon-browser-panel')!
+        .dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
+    })
+    expect(host.querySelector('#item-icon-browser-panel')).toBeNull()
+    expect(document.activeElement).toBe(iconTrigger)
+
     await act(async () => iconTrigger.click())
     const group = host.querySelector<HTMLFieldSetElement>('fieldset[aria-label="物品图标"]')!
     expect(group).not.toBeNull()

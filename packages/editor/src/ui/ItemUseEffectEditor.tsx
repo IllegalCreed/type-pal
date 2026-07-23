@@ -189,6 +189,7 @@ function ItemAmountList(props: {
         <button
           type="button"
           className="mini"
+          aria-label={`添加${props.label}`}
           disabled={!items.length}
           onClick={() => {
             if (!items.length) return
@@ -328,7 +329,7 @@ function RecipeEditor(props: {
               </button>
               <button
                 type="button"
-                className="mini danger item-recipe-delete"
+                className="item-action-button item-action-button-danger item-action-button-compact item-recipe-delete"
                 disabled={recipes.length <= 1}
                 onClick={() => onChange(recipes.filter((_, current) => current !== index))}
               >
@@ -352,7 +353,7 @@ function RecipeEditor(props: {
       ))}
       <button
         type="button"
-        className="tool"
+        className="item-action-button item-action-button-primary"
         disabled={!ingredientItems.length || !items.length}
         onClick={() => {
           const ingredientId = ingredientItems[0]?.id
@@ -605,13 +606,17 @@ function EffectFields(props: {
           </label>
           <button
             type="button"
-            className="mini"
+            className="item-action-button item-action-button-compact"
             disabled={!effect.script.id || !props.onOpenScript}
             onClick={() => props.onOpenScript?.(effect.script.id)}
           >
             打开脚本 ↗
           </button>
-          <button type="button" className="mini" onClick={() => props.onCreateAndBindScript?.()}>
+          <button
+            type="button"
+            className="item-action-button item-action-button-primary item-action-button-compact"
+            onClick={() => props.onCreateAndBindScript?.()}
+          >
             ＋ 新建并绑定
           </button>
         </div>
@@ -715,7 +720,7 @@ function EffectFields(props: {
                 <span>默认开局初始值</span>
                 <button
                   type="button"
-                  className="mini"
+                  className="item-action-button item-action-button-compact"
                   disabled={!resourceName || !props.onSetWorldResource}
                   onClick={() => props.onSetWorldResource?.(resourceName, 0)}
                 >
@@ -972,7 +977,7 @@ export function ItemEffectChainEditor(props: {
           <span>当前投掷数据包含非“施毒”效果，无法保存。</span>
           <button
             type="button"
-            className="mini"
+            className="item-action-button item-action-button-danger item-action-button-compact"
             disabled={!poisons.length}
             onClick={() => {
               try {
@@ -994,6 +999,7 @@ export function ItemEffectChainEditor(props: {
             <span className="item-effect-index">效果 {index + 1}</span>
             <select
               className="in item-effect-kind"
+              aria-label={`效果 ${index + 1} 类型`}
               value={effect.kind}
               onChange={(event) => changeKind(index, event.target.value as ItemUseEffect['kind'])}
             >
@@ -1063,7 +1069,7 @@ export function ItemEffectChainEditor(props: {
 
       <button
         type="button"
-        className="tool item-add-effect"
+        className="item-action-button item-action-button-primary item-add-effect"
         disabled={
           spec.effects.some((effect) => EXCLUSIVE_EFFECTS.has(effect.kind)) ||
           firstAppendableKind() === undefined
