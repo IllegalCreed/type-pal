@@ -87,6 +87,25 @@ function referenceKey(entry: ScriptReferenceEntry): string {
   return `${caller}:${entry.path}:${entry.kind}:${entry.target.id}`
 }
 
+function transparentInternalEntry(
+  id: string,
+  scriptIndex: ScriptIndexV1 | undefined,
+  scriptChunks: Record<string, ScriptChunkV1>,
+  library: Record<string, SharedScriptMetaV1>,
+): string | undefined {
+  if (!id || !scriptIndex) return undefined
+  const body = getScriptBody(scriptIndex, scriptChunks, id)
+  if (body?.length !== 1) return undefined
+  const command = body[0]
+  if (
+    (command?.kind !== 'callScript' && command?.kind !== 'jumpScript') ||
+    library[command.ref.id] ||
+    !getScriptBody(scriptIndex, scriptChunks, command.ref.id)
+  )
+    return undefined
+  return command.ref.id
+}
+
 export function SharedScriptTab(props: {
   tabBar: React.ReactNode
   session: EditSession
@@ -143,10 +162,19 @@ export function SharedScriptTab(props: {
   const library = scriptIndex?.library ?? EMPTY_LIBRARY
   const authoredIds = useMemo(() => Object.keys(library).sort(), [library])
   const [filter, setFilter] = useState('')
-  const [selectedId, setSelectedId] = useState(
-    focusScriptId && library[focusScriptId] ? focusScriptId : (authoredIds[0] ?? ''),
-  )
+  const initialSelectedId =
+    focusScriptId && library[focusScriptId] ? focusScriptId : (authoredIds[0] ?? '')
+  const [selectedId, setSelectedId] = useState(initialSelectedId)
+  const [internalTrail, setInternalTrail] = useState<string[]>(() => {
+    const target = focusCommandPath
+      ? undefined
+      : transparentInternalEntry(initialSelectedId, scriptIndex, scriptChunks, library)
+    return target ? [target] : []
+  })
+  const internalScriptId = internalTrail.at(-1)
+  const editingScriptId = internalScriptId ?? selectedId
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
+  const lastAppliedScriptFocusRef = useRef<string | undefined>(undefined)
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   const [insertFor, setInsertFor] = useState<string | null>(null)
   const [message, setMessage] = useState('')
@@ -156,25 +184,42 @@ export function SharedScriptTab(props: {
   const [testEntityId, setTestEntityId] = useState('')
   const selectScript = (id: string): void => {
     setSelectedId(id)
+    const target = transparentInternalEntry(id, scriptIndex, scriptChunks, library)
+    setInternalTrail(target ? [target] : [])
     onSelectedScriptId?.(id || undefined)
   }
 
   useEffect(() => {
     if (focusScriptRevision == null) return
-    if (focusScriptId && library[focusScriptId]) setSelectedId(focusScriptId)
-  }, [focusScriptId, focusScriptRevision, library])
+    if (focusScriptId && library[focusScriptId]) {
+      const token = `${focusScriptId}\u0000${focusScriptRevision}\u0000${focusCommandPath ?? ''}`
+      if (lastAppliedScriptFocusRef.current === token) return
+      lastAppliedScriptFocusRef.current = token
+      setSelectedId(focusScriptId)
+      const target = focusCommandPath
+        ? undefined
+        : transparentInternalEntry(focusScriptId, scriptIndex, scriptChunks, library)
+      setInternalTrail(target ? [target] : [])
+      setSelectedPath(null)
+      setInsertFor(null)
+    }
+  }, [focusCommandPath, focusScriptId, focusScriptRevision, library, scriptChunks, scriptIndex])
   useEffect(() => {
     if (selectedId && library[selectedId]) return
-    setSelectedId(authoredIds[0] ?? '')
-  }, [authoredIds, library, selectedId])
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 选中稳定 id 改变时必须清空对应的临时面板状态。
+    const id = authoredIds[0] ?? ''
+    setSelectedId(id)
+    const target = transparentInternalEntry(id, scriptIndex, scriptChunks, library)
+    setInternalTrail(target ? [target] : [])
+    onSelectedScriptId?.(id || undefined)
+  }, [authoredIds, library, onSelectedScriptId, scriptChunks, scriptIndex, selectedId])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 编辑目标改变时必须清空对应的临时面板状态。
   useEffect(() => {
     setSelectedPath(null)
     setInsertFor(null)
     setReferences(null)
     setDiagnosticWarnings([])
     setMessage('')
-  }, [selectedId])
+  }, [editingScriptId, selectedId])
 
   const shownIds = authoredIds.filter((id) => {
     const meta = library[id]
@@ -183,8 +228,11 @@ export function SharedScriptTab(props: {
     return !needle || id.toLowerCase().includes(needle) || meta.name.toLowerCase().includes(needle)
   })
   const meta = library[selectedId]
-  const body = scriptIndex
+  const rootBody = scriptIndex
     ? (getScriptBody(scriptIndex, scriptChunks, selectedId) ?? EMPTY_BODY)
+    : EMPTY_BODY
+  const body = scriptIndex
+    ? (getScriptBody(scriptIndex, scriptChunks, editingScriptId) ?? EMPTY_BODY)
     : EMPTY_BODY
   const stages = useMemo<ScriptStage[]>(() => [{ body: [...body] }], [body])
   useEffect(() => {
@@ -237,10 +285,14 @@ export function SharedScriptTab(props: {
     if (playback) playback.onUi = () => setUiTick((tick) => tick + 1)
     return () => playback?.stop()
   }, [playback])
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 钻取目标切换时必须停止仍指向旧脚本的预览。
+  useEffect(() => {
+    previousPlayback.current?.stop()
+  }, [editingScriptId])
 
   const dispatchBody = (nextStages: readonly ScriptStage[]): void => {
-    if (!selectedId) return
-    session.dispatch(new UpdateScriptBodyCommand(selectedId, nextStages[0]?.body ?? []))
+    if (!editingScriptId) return
+    session.dispatch(new UpdateScriptBodyCommand(editingScriptId, nextStages[0]?.body ?? []))
   }
   const insertCommands = (commands: readonly Command[]): void => {
     if (!insertFor || !selectedId) return
@@ -299,7 +351,24 @@ export function SharedScriptTab(props: {
       setMessage('显示名不能为空')
       return
     }
-    session.dispatch(new UpsertAuthoredScriptCommand(selectedId, next, body))
+    session.dispatch(new UpsertAuthoredScriptCommand(selectedId, next, rootBody))
+  }
+  const openScriptTarget = (id: string): void => {
+    if (library[id]) {
+      selectScript(id)
+      return
+    }
+    if (!scriptIndex || !getScriptBody(scriptIndex, scriptChunks, id)) {
+      setMessage(`脚本目标不存在或尚未载入：${id}`)
+      return
+    }
+    setInternalTrail((current) => {
+      const existing = current.indexOf(id)
+      return existing >= 0 ? current.slice(0, existing + 1) : [...current, id]
+    })
+    setSelectedPath(null)
+    setInsertFor(null)
+    setMessage('')
   }
 
   return (
@@ -373,12 +442,30 @@ export function SharedScriptTab(props: {
                   ))}
                 </select>
               ) : null}
+              {internalScriptId ? (
+                <span className="drawer-internal-nav">
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    title="返回上一级脚本"
+                    onClick={() => {
+                      setInternalTrail((current) => current.slice(0, -1))
+                      setSelectedPath(null)
+                      setInsertFor(null)
+                    }}
+                  >
+                    ← 返回
+                  </button>
+                  <strong className="shared-internal-label">已迁移内容</strong>
+                  <code title={`${selectedId} → ${internalScriptId}`}>{internalScriptId}</code>
+                </span>
+              ) : null}
             </div>
             <div className="shared-preview">
               <PreviewCanvas
                 scene={testScene}
                 stages={stages}
-                sourceKey={`shared:${selectedId}`}
+                sourceKey={`shared:${editingScriptId}`}
                 projectId={projectId}
                 focusEntityId={meta?.self === 'none' ? undefined : testEntityId || undefined}
                 sprites={sprites}
@@ -534,9 +621,7 @@ export function SharedScriptTab(props: {
                       shops={session.getState().shops ?? []}
                       scriptIndex={scriptIndex}
                       hasImplicitSelf={meta?.self === 'required'}
-                      onOpenScript={
-                        selectedTargetId && library[selectedTargetId] ? selectScript : undefined
-                      }
+                      onOpenScript={selectedTargetId ? openScriptTarget : undefined}
                       onOpenSound={onOpenSound}
                       onOpenImage={onOpenImage}
                       onOpenBattleSprite={props.onOpenBattleSprite}
@@ -609,7 +694,7 @@ export function SharedScriptTab(props: {
                     type="button"
                     className="mini-txt"
                     title="复制共享脚本"
-                    onClick={() => createScript({ meta, body })}
+                    onClick={() => createScript({ meta, body: rootBody })}
                   >
                     ⧉ 复制
                   </button>

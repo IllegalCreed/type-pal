@@ -10445,6 +10445,13 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.shared-internal-label {
+  flex: none;
+  color: #72c894;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
 .mini-txt:disabled {
   opacity: 0.4;
   cursor: default;
