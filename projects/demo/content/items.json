@@ -230,10 +230,11 @@
       "consuming": false,
       "effects": [
         {
-          "kind": "triggerScript",
-          "scriptId": "lingzhu-tu"
+          "kind": "runSceneHook",
+          "hook": "onTeleport"
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   }
 ]

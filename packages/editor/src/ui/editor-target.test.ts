@@ -127,4 +127,23 @@ describe('editorObjectTargetMissing', () => {
     )
     expect(editorObjectTargetMissing(state, { ...base, domain: 'world', view: 'asset' })).toBe(true)
   })
+
+  test('物品引用可深链到具体商店和毒定义', () => {
+    const state = makeState({
+      shops: [{ id: 7, items: [] }],
+      poisons: [{ id: 13, name: '赤毒', color: 0, curability: 'common' }],
+    })
+    expect(
+      editorObjectTargetMissing(state, { module: 'item', subpage: 'shop', objectId: '7' }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, { module: 'item', subpage: 'shop', objectId: '8' }),
+    ).toBe(true)
+    expect(
+      editorObjectTargetMissing(state, { module: 'battle', subpage: 'poison', objectId: '13' }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, { module: 'battle', subpage: 'poison', objectId: '99' }),
+    ).toBe(true)
+  })
 })

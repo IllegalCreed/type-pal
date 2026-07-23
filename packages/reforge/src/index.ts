@@ -212,6 +212,7 @@ import type { ScriptHost, StepEvent } from './script-runner.js'
 // 脚本解释器(编辑器演出预览:注入画布 host 播演出;onStep/gate = 高亮/单步钩子)
 import { evalCondition, ScriptRunner } from './script-runner.js'
 
+export * from './item-use-executor.js'
 export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
 export type { ScriptHost, StepEvent }

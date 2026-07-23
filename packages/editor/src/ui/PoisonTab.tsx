@@ -5,7 +5,7 @@
  * 序列/关系);右侧全局关系总览(致死对对称性校验 + 相克链推导,数据错一眼看出)。
  */
 import type { ItemData, PoisonCurability, PoisonDef, PoisonTick } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AddPoisonCommand, UpdatePoisonCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
@@ -273,9 +273,11 @@ export function PoisonTab(props: {
   poisons: PoisonDef[]
   items: ItemData[]
   session: EditSession
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
   tabBar?: React.ReactNode
 }) {
-  const { poisons, items, session, tabBar } = props
+  const { poisons, items, session, focusObjectId, onObjectFocus, tabBar } = props
   const [filter, setFilter] = useState('')
   const [selId, setSelId] = useState<number>(poisons[0]?.id ?? 0)
   const shown = useMemo(
@@ -285,6 +287,16 @@ export function PoisonTab(props: {
   )
   const poison = poisons.find((p) => p.id === selId) ?? shown[0]
   const others = poisons.filter((p) => p.id !== poison?.id)
+  const selectPoison = (id: number): void => {
+    setSelId(id)
+    onObjectFocus?.(String(id))
+  }
+
+  useEffect(() => {
+    const id = Number(focusObjectId)
+    if (focusObjectId && Number.isInteger(id) && poisons.some((candidate) => candidate.id === id))
+      setSelId(id)
+  }, [focusObjectId, poisons])
 
   const patch = (p: Partial<Omit<PoisonDef, 'id'>>): void => {
     if (poison) session.dispatch(new UpdatePoisonCommand(poison.id, p))
@@ -315,7 +327,7 @@ export function PoisonTab(props: {
               type="button"
               key={p.id}
               className={`arow${p.id === poison?.id ? ' sel' : ''}`}
-              onClick={() => setSelId(p.id)}
+              onClick={() => selectPoison(p.id)}
             >
               <span className="nm">
                 {p.name}
@@ -336,7 +348,7 @@ export function PoisonTab(props: {
             let n = 1000
             while (poisons.some((p) => p.id === n)) n++
             session.dispatch(new AddPoisonCommand(n, name))
-            setSelId(n)
+            selectPoison(n)
           }}
         >
           ＋ 新建毒
@@ -460,7 +472,7 @@ export function PoisonTab(props: {
           递进毒多格递增,末格勾「自解」= 暴扣后自除/寄生到期。致死/相克吃数据,改完立即
           反映到右下总览 —— 致死对不对称会标 ⚠。
         </div>
-        <RelationOverview poisons={poisons} onPick={setSelId} />
+        <RelationOverview poisons={poisons} onPick={selectPoison} />
       </div>
     </>
   )

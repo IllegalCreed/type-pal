@@ -58,7 +58,11 @@ const testItems: ItemDataMap = {
       equipableBy: ['li-xiaoyao'],
       effects: [{ kind: 'resistance', element: 'earth', percent: 50 }],
     },
-    use: { target: 'scene', consuming: false, effects: [{ kind: 'triggerScript', scriptId: 'x' }] },
+    use: {
+      target: 'scene',
+      consuming: false,
+      effects: [{ kind: 'runScript', script: { chunk: 'shared/0', id: 'x' } }],
+    },
   },
   '61': {
     id: '61',

@@ -10,9 +10,17 @@ import type {
   SceneDef,
   SkillData,
   SpriteDef,
+  StartWorld,
 } from './index.js'
+import type { ItemUseEffect } from './item.js'
+import {
+  ITEM_USE_EFFECT_KINDS,
+  itemUseEffectSupportsContext,
+  itemUseSupportsContext,
+} from './item.js'
 import { isMapAssetId } from './map-index.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
+import { checkScriptRef } from './script-library.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -35,6 +43,27 @@ function assertArray<T>(x: unknown, ctx: string): T[] {
 function assertObject(x: unknown, ctx: string): object {
   if (typeof x !== 'object' || x === null || Array.isArray(x)) throw new Error(`${ctx}: 期望对象`)
   return x as object
+}
+
+function assertNever(value: never, ctx: string): never {
+  throw new Error(`${ctx}: 未处理的判别值 ${String(value)}`)
+}
+
+/** manifest/入口点共用的资源池边界；collectValue 保持历史专用字段，禁止双份真相。 */
+export function validateStartWorldResources(startWorld: unknown, ctx = 'startWorld'): void {
+  const world = assertObject(startWorld, ctx) as Partial<StartWorld> & {
+    resources?: unknown
+  }
+  if (world.resources === undefined) return
+  const resources = assertObject(world.resources, `${ctx}.resources`) as Record<string, unknown>
+  for (const [key, value] of Object.entries(resources)) {
+    if (key.trim().length === 0) throw new Error(`${ctx}.resources: 资源键不能为空`)
+    if (key !== key.trim()) throw new Error(`${ctx}.resources.${key}: 资源键不得包含首尾空格`)
+    if (key === 'collectValue')
+      throw new Error(`${ctx}.resources.collectValue: 保留资源必须使用专用世界字段`)
+    if (!Number.isSafeInteger(value) || Number(value) < 0)
+      throw new Error(`${ctx}.resources.${key}: 必须是非负安全整数`)
+  }
 }
 
 function validateOptionalAssetId(record: Record<string, unknown>, key: string, ctx: string): void {
@@ -240,6 +269,170 @@ export function validateSkills(json: unknown): {
   return { skills, levelUp: (json as { levelUp: Record<string, unknown> }).levelUp }
 }
 
+const ITEM_STATUS_IDS = new Set([
+  'confused',
+  'paralyzed',
+  'sleep',
+  'silence',
+  'puppet',
+  'bravery',
+  'protect',
+  'haste',
+  'dualAttack',
+])
+
+function requireFiniteNumber(
+  value: unknown,
+  ctx: string,
+  opts?: { positive?: boolean; nonzero?: boolean; integer?: boolean },
+): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`${ctx}: 期望有限数`)
+  if (opts?.integer && !Number.isInteger(value)) throw new Error(`${ctx}: 期望整数`)
+  if (opts?.positive && value <= 0) throw new Error(`${ctx}: 期望正数`)
+  if (opts?.nonzero && value === 0) throw new Error(`${ctx}: 不得为 0`)
+  return value
+}
+
+function validateOptionalUnavailableMessage(effect: Record<string, unknown>, ctx: string): void {
+  if (
+    effect.unavailableMessage !== undefined &&
+    (typeof effect.unavailableMessage !== 'string' || effect.unavailableMessage.length === 0)
+  )
+    throw new Error(`${ctx}.unavailableMessage: 期望非空 string`)
+}
+
+function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): void {
+  if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期望 string`)
+  if (!(effect.kind in ITEM_USE_EFFECT_KINDS))
+    throw new Error(`${ctx}.kind: 未知物品效果 ${effect.kind}`)
+  const kind = effect.kind as ItemUseEffect['kind']
+  switch (kind) {
+    case 'healHp':
+    case 'healMp':
+      requireFiniteNumber(effect.amount, `${ctx}.amount`, { nonzero: true, integer: true })
+      break
+    case 'extraPoisonRes':
+      requireFiniteNumber(effect.amount, `${ctx}.amount`, { positive: true, integer: true })
+      break
+    case 'revive': {
+      const percent = requireFiniteNumber(effect.hpPercent, `${ctx}.hpPercent`, { positive: true })
+      if (percent > 100) throw new Error(`${ctx}.hpPercent: 不得大于 100`)
+      break
+    }
+    case 'applyStatus':
+      if (typeof effect.status !== 'string' || !ITEM_STATUS_IDS.has(effect.status))
+        throw new Error(`${ctx}.status: 未知状态 ${String(effect.status)}`)
+      requireFiniteNumber(effect.turns, `${ctx}.turns`, { positive: true, integer: true })
+      break
+    case 'removeStatus': {
+      const statuses = assertArray<unknown>(effect.statuses, `${ctx}.statuses`)
+      if (statuses.length === 0) throw new Error(`${ctx}.statuses: 不得为空`)
+      const seen = new Set<string>()
+      statuses.forEach((status, index) => {
+        if (typeof status !== 'string' || !ITEM_STATUS_IDS.has(status))
+          throw new Error(`${ctx}.statuses[${index}]: 未知状态 ${String(status)}`)
+        if (seen.has(status)) throw new Error(`${ctx}.statuses[${index}]: 状态 ${status} 重复`)
+        seen.add(status)
+      })
+      break
+    }
+    case 'applyPoison':
+      if (typeof effect.poisonId !== 'string' || effect.poisonId.length === 0)
+        throw new Error(`${ctx}.poisonId: 期望非空稳定 id`)
+      break
+    case 'curePoison':
+      if (
+        effect.curesTier !== undefined &&
+        !['common', 'severe', 'incurable'].includes(String(effect.curesTier))
+      )
+        throw new Error(`${ctx}.curesTier: 期望 common/severe/incurable`)
+      if (
+        effect.poisonId !== undefined &&
+        (typeof effect.poisonId !== 'string' || effect.poisonId.length === 0)
+      )
+        throw new Error(`${ctx}.poisonId: 期望非空稳定 id`)
+      if (effect.curesTier === undefined && effect.poisonId === undefined)
+        throw new Error(`${ctx}: curesTier/poisonId 至少需要一个`)
+      break
+    case 'permanentStatBoost':
+      if (
+        !['attack', 'magicAttack', 'defense', 'speed', 'luck', 'maxHP', 'maxMP'].includes(
+          String(effect.stat),
+        )
+      )
+        throw new Error(`${ctx}.stat: 未知永久属性 ${String(effect.stat)}`)
+      requireFiniteNumber(effect.delta, `${ctx}.delta`, { nonzero: true, integer: true })
+      break
+    case 'gate': {
+      const chance =
+        effect.chance === undefined
+          ? 100
+          : requireFiniteNumber(effect.chance, `${ctx}.chance`, {
+              positive: true,
+              integer: true,
+            })
+      if (chance > 100) throw new Error(`${ctx}.chance: 不得大于 100`)
+      break
+    }
+    case 'runScript':
+      checkScriptRef(effect.script, `${ctx}.script`)
+      break
+    case 'runSceneHook':
+      if (effect.hook !== 'onTeleport') throw new Error(`${ctx}.hook: 当前只支持 onTeleport`)
+      validateOptionalUnavailableMessage(effect, ctx)
+      break
+    case 'craftRecipe': {
+      validateOptionalUnavailableMessage(effect, ctx)
+      const recipes = assertArray<Record<string, unknown>>(effect.recipes, `${ctx}.recipes`)
+      if (recipes.length === 0) throw new Error(`${ctx}.recipes: 至少需要一条配方`)
+      for (const [recipeIndex, recipe] of recipes.entries()) {
+        for (const field of ['ingredients', 'products'] as const) {
+          const entries = assertArray<Record<string, unknown>>(
+            recipe[field],
+            `${ctx}.recipes[${recipeIndex}].${field}`,
+          )
+          if (entries.length === 0)
+            throw new Error(`${ctx}.recipes[${recipeIndex}].${field}: 不得为空`)
+          for (const [entryIndex, entry] of entries.entries()) {
+            const path = `${ctx}.recipes[${recipeIndex}].${field}[${entryIndex}]`
+            if (typeof entry.itemId !== 'string' || entry.itemId.length === 0)
+              throw new Error(`${path}.itemId: 期望非空 string`)
+            requireFiniteNumber(entry.count, `${path}.count`, { positive: true, integer: true })
+          }
+        }
+      }
+      break
+    }
+    case 'drawFromResourcePool': {
+      validateOptionalUnavailableMessage(effect, ctx)
+      if (typeof effect.resource !== 'string' || effect.resource.trim().length === 0)
+        throw new Error(`${ctx}.resource: 期望非空稳定 id`)
+      if (effect.resource !== effect.resource.trim())
+        throw new Error(`${ctx}.resource: 稳定 id 不得包含首尾空白`)
+      const maxRoll = requireFiniteNumber(effect.maxRoll, `${ctx}.maxRoll`, {
+        positive: true,
+        integer: true,
+      })
+      const rewards = assertArray<Record<string, unknown>>(effect.rewards, `${ctx}.rewards`)
+      if (rewards.length < maxRoll) throw new Error(`${ctx}.rewards: 至少覆盖 maxRoll 档`)
+      rewards.forEach((entry, rewardIndex) => {
+        const path = `${ctx}.rewards[${rewardIndex}]`
+        if (typeof entry.itemId !== 'string' || entry.itemId.length === 0)
+          throw new Error(`${path}.itemId: 期望非空 string`)
+        requireFiniteNumber(entry.count, `${path}.count`, { positive: true, integer: true })
+      })
+      break
+    }
+    case 'hideParty':
+      requireFiniteNumber(effect.turns, `${ctx}.turns`, { positive: true, integer: true })
+      break
+    case 'dieIfNotPoisoned':
+      break
+    default:
+      assertNever(kind, `${ctx}.kind`)
+  }
+}
+
 export function validateItems(json: unknown): ItemData[] {
   const arr = assertArray<ItemData>(json, 'items')
   arr.forEach((it, i) => {
@@ -252,6 +445,86 @@ export function validateItems(json: unknown): ItemData[] {
       if (record[field] === undefined) continue
       const spec = assertObject(record[field], `items[${i}].${field}`) as Record<string, unknown>
       validateOptionalAssetId(spec, 'sound', `items[${i}].${field}`)
+    }
+    if (record.use !== undefined) {
+      const use = assertObject(record.use, `items[${i}].use`) as Record<string, unknown>
+      if (typeof use.consuming !== 'boolean')
+        throw new Error(`items[${i}].use.consuming: 期望 boolean`)
+      if (!['oneAlly', 'allAllies', 'self', 'scene'].includes(String(use.target)))
+        throw new Error(`items[${i}].use.target: 期望 oneAlly/allAllies/self/scene`)
+      if (use.battleOnly !== undefined && typeof use.battleOnly !== 'boolean')
+        throw new Error(`items[${i}].use.battleOnly: 期望 boolean`)
+      if (use.menuAfterUse !== undefined && !['keep', 'close'].includes(String(use.menuAfterUse)))
+        throw new Error(`items[${i}].use.menuAfterUse: 期望 keep/close`)
+      const effects = assertArray<Record<string, unknown>>(use.effects, `items[${i}].use.effects`)
+      if (effects.length === 0) throw new Error(`items[${i}].use.effects: 不得为空`)
+      const external = effects.filter(
+        (effect) => effect.kind === 'runScript' || effect.kind === 'runSceneHook',
+      )
+      if (external.length > 0 && (external.length !== 1 || effects.length !== 1))
+        throw new Error(
+          `items[${i}].use.effects: 外部脚本/场景钩子必须作为唯一效果；复杂编排请放入被引用脚本，以免失败时提交半套世界修改`,
+        )
+      effects.forEach((effect, effectIndex) => {
+        validateItemUseEffect(effect, `items[${i}].use.effects[${effectIndex}]`)
+      })
+      const typedUse = use as unknown as import('./item.js').UseSpec
+      const supportsWorld = itemUseSupportsContext(typedUse, 'world')
+      const supportsBattle = itemUseSupportsContext(typedUse, 'battle')
+      if (use.battleOnly === true && !supportsBattle)
+        throw new Error(`items[${i}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
+      if (!supportsWorld && !supportsBattle)
+        throw new Error(`items[${i}].use.effects: 效果组合不存在可执行的世界/战斗上下文`)
+      const sceneKinds = new Set([
+        'runScript',
+        'runSceneHook',
+        'craftRecipe',
+        'drawFromResourcePool',
+      ])
+      const hasSceneEffect = effects.some((effect) => sceneKinds.has(String(effect.kind)))
+      const hasCharacterOrBattleEffect = effects.some(
+        (effect) => !sceneKinds.has(String(effect.kind)) && effect.kind !== 'gate',
+      )
+      if (hasSceneEffect && hasCharacterOrBattleEffect)
+        throw new Error(`items[${i}].use.effects: 场景/剧情效果不能与角色或战斗效果混合`)
+      if (hasSceneEffect && use.target !== 'scene')
+        throw new Error(`items[${i}].use.target: 场景/剧情效果必须使用 scene`)
+      if (use.target === 'scene' && !hasSceneEffect)
+        throw new Error(`items[${i}].use.target: scene 目标必须包含场景/剧情效果`)
+      if (effects.some((effect) => effect.kind === 'hideParty') && use.target !== 'allAllies')
+        throw new Error(`items[${i}].use.target: hideParty 必须使用 allAllies`)
+      if (use.consuming === true) {
+        for (const [effectIndex, effect] of effects.entries()) {
+          if (effect.kind !== 'craftRecipe') continue
+          const recipes = effect.recipes as Record<string, unknown>[]
+          for (const [recipeIndex, recipe] of recipes.entries()) {
+            const ingredients = recipe.ingredients as Record<string, unknown>[]
+            if (ingredients.some((entry) => entry.itemId === record.id))
+              throw new Error(
+                `items[${i}].use.effects[${effectIndex}].recipes[${recipeIndex}]: consuming 工具不能同时作为自身配方材料`,
+              )
+          }
+        }
+      }
+    }
+    if (record.throw !== undefined) {
+      const thrown = assertObject(record.throw, `items[${i}].throw`) as Record<string, unknown>
+      const effects = assertArray<Record<string, unknown>>(
+        thrown.effects,
+        `items[${i}].throw.effects`,
+      )
+      if (effects.length === 0) throw new Error(`items[${i}].throw.effects: 不得为空`)
+      effects.forEach((effect, effectIndex) => {
+        const ctx = `items[${i}].throw.effects[${effectIndex}]`
+        validateItemUseEffect(effect, ctx)
+        if (
+          !itemUseEffectSupportsContext(
+            effect as unknown as import('./item.js').ItemUseEffect,
+            'throw',
+          )
+        )
+          throw new Error(`${ctx}: ${String(effect.kind)} 不可用于投掷上下文`)
+      })
     }
     if (record.equip !== undefined) {
       const equip = assertObject(record.equip, `items[${i}].equip`) as Record<string, unknown>

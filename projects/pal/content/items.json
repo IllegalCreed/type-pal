@@ -2026,9 +2026,12 @@
       "consuming": true,
       "effects": [
         {
-          "kind": "teleportOut"
+          "kind": "runSceneHook",
+          "hook": "onTeleport",
+          "unavailableMessage": "无任何效果"
         }
       ],
+      "menuAfterUse": "close",
       "sound": "sound.pal.045"
     }
   },
@@ -5577,6 +5580,19 @@
           "skillId": "325"
         }
       ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c02",
+            "id": "shared/user/pal-item-use/265"
+          }
+        }
+      ]
     }
   },
   {
@@ -5608,6 +5624,19 @@
         {
           "kind": "grantSkill",
           "skillId": "389"
+        }
+      ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c15",
+            "id": "shared/user/pal-item-use/266"
+          }
         }
       ]
     }
@@ -5643,6 +5672,19 @@
           "skillId": "336"
         }
       ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c12",
+            "id": "shared/user/pal-item-use/267"
+          }
+        }
+      ]
     }
   },
   {
@@ -5655,7 +5697,88 @@
     "icon": "item-icon.pal.009",
     "buyPrice": 1000,
     "sellPrice": 500,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "craftRecipe",
+          "recipes": [
+            {
+              "ingredients": [
+                {
+                  "itemId": "117",
+                  "count": 1
+                }
+              ],
+              "products": [
+                {
+                  "itemId": "148",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "ingredients": [
+                {
+                  "itemId": "118",
+                  "count": 1
+                }
+              ],
+              "products": [
+                {
+                  "itemId": "148",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "ingredients": [
+                {
+                  "itemId": "119",
+                  "count": 1
+                }
+              ],
+              "products": [
+                {
+                  "itemId": "148",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "ingredients": [
+                {
+                  "itemId": "120",
+                  "count": 1
+                }
+              ],
+              "products": [
+                {
+                  "itemId": "148",
+                  "count": 1
+                }
+              ]
+            },
+            {
+              "ingredients": [
+                {
+                  "itemId": "121",
+                  "count": 1
+                }
+              ],
+              "products": [
+                {
+                  "itemId": "148",
+                  "count": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "269",
@@ -5698,7 +5821,56 @@
     "icon": "item-icon.pal.021",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "drawFromResourcePool",
+          "resource": "collectValue",
+          "maxRoll": 9,
+          "rewards": [
+            {
+              "itemId": "100",
+              "count": 1
+            },
+            {
+              "itemId": "105",
+              "count": 1
+            },
+            {
+              "itemId": "95",
+              "count": 1
+            },
+            {
+              "itemId": "112",
+              "count": 1
+            },
+            {
+              "itemId": "72",
+              "count": 1
+            },
+            {
+              "itemId": "131",
+              "count": 1
+            },
+            {
+              "itemId": "97",
+              "count": 1
+            },
+            {
+              "itemId": "102",
+              "count": 1
+            },
+            {
+              "itemId": "111",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     "id": "271",
@@ -5849,7 +6021,20 @@
     "icon": "item-icon.pal.022",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c07",
+            "id": "shared/user/pal-item-use/280"
+          }
+        }
+      ]
+    }
   },
   {
     "id": "281",
@@ -5959,7 +6144,20 @@
     "icon": "item-icon.pal.243",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c14",
+            "id": "shared/user/pal-item-use/290"
+          }
+        }
+      ]
+    }
   },
   {
     "id": "291",
@@ -5993,7 +6191,20 @@
     "icon": "item-icon.pal.231",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "runScript",
+          "script": {
+            "chunk": "shared/c11",
+            "id": "shared/user/pal-item-use/293"
+          }
+        }
+      ]
+    }
   },
   {
     "id": "294",

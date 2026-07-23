@@ -1,4 +1,10 @@
-import { type LoadedManifest, normalizeScriptLibrary, type SceneDef } from '@type-pal/content'
+import {
+  type AssetRecordV1,
+  type ItemData,
+  type LoadedManifest,
+  normalizeScriptLibrary,
+  type SceneDef,
+} from '@type-pal/content'
 import {
   assembleProject,
   buildBlankProjectMap,
@@ -12,8 +18,17 @@ import {
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
-import { DeleteMapAssetCommand } from './commands.js'
+import {
+  AddItemCommand,
+  CompositeCommand,
+  DeleteItemCommand,
+  DeleteMapAssetCommand,
+  UpdateItemCommand,
+  UpsertAssetCommand,
+} from './commands.js'
+import { EditSession } from './edit-session.js'
 import { createPlacedEntity } from './entity-placement.js'
+import { cloneItemForAuthoring, createBlankItem } from './item-authoring.js'
 import {
   diffFiles,
   preflightProjectWriteSet,
@@ -275,6 +290,141 @@ test('round-trip:toEditorState → serializeProject 还原各 content JSON', () 
 
   // manifest.json 整体还原(startWorld 含 seedStats)
   expect(out['manifest.json']).toEqual(manifest)
+})
+
+test('C8 迁移诊断 sidecar 保存重开；能力补齐后自动消解旧诊断', () => {
+  const withDiagnostics: LoadedManifest = {
+    ...manifest,
+    content: {
+      ...manifest.content,
+      migrationDiagnostics: 'content/migration-diagnostics.json',
+    },
+  }
+  const diagnostic = {
+    version: 1 as const,
+    diagnostics: [
+      {
+        id: 'item-use:166',
+        severity: 'warn' as const,
+        target: {
+          domain: 'item' as const,
+          objectId: '166',
+          capability: 'use' as const,
+          label: '木剑',
+        },
+        category: 'manual-review' as const,
+        reason: '待人工迁移',
+        source: { kind: 'legacy-script' as const, label: 'L_100', address: 100 },
+      },
+    ],
+  }
+  const state = toEditorState(
+    assembleProject(withDiagnostics, { ...JSONS, migrationDiagnostics: diagnostic }),
+    SCENES,
+  )
+  const out = serializeProject(state)
+  expect(out['content/migration-diagnostics.json']).toEqual(diagnostic)
+
+  const completed = serializeProject({
+    ...state,
+    items: state.items.map((item) =>
+      item.id === '166'
+        ? {
+            ...item,
+            use: {
+              target: 'oneAlly' as const,
+              consuming: true,
+              effects: [{ kind: 'healHp' as const, amount: 1 }],
+            },
+          }
+        : item,
+    ),
+  })
+  expect(completed['content/migration-diagnostics.json']).toEqual({ version: 1, diagnostics: [] })
+})
+
+test('ED-5I 物品 CRUD、图标与结构化用途保存关闭重开保持资产闭包', () => {
+  const session = new EditSession(toEditorState(assembleProject(manifest, JSONS), SCENES))
+  const authored: ItemData = {
+    ...createBlankItem(session.getState().items),
+    name: '作者物品',
+    desc: ['用于保存重开验收'],
+    equip: { slot: 'accessory', equipableBy: ['li-xiaoyao'], effects: [] },
+    use: {
+      target: 'scene',
+      consuming: false,
+      menuAfterUse: 'close',
+      effects: [
+        {
+          kind: 'runSceneHook',
+          hook: 'onTeleport',
+          unavailableMessage: '此处无法使用。',
+        },
+      ],
+    },
+  }
+  session.dispatch(new AddItemCommand(authored))
+  const copy = cloneItemForAuthoring(authored, session.getState().items)
+  session.dispatch(new AddItemCommand(copy))
+  session.dispatch(new UpdateItemCommand(copy.id, { name: '临时副本' }))
+  session.dispatch(new DeleteItemCommand(copy.id))
+  expect(session.undo()).toBe(true)
+  expect(session.getState().items.find((item) => item.id === copy.id)?.name).toBe('临时副本')
+  expect(session.redo()).toBe(true)
+
+  const bytes = new Uint8Array([137, 80, 78, 71]).buffer
+  const icon: AssetRecordV1 = {
+    kind: 'item-icon',
+    path: 'assets/authored/item-icons/authoring-roundtrip.png',
+    mediaType: 'image/png',
+    bytes: bytes.byteLength,
+    sha256: 'f'.repeat(64),
+    label: '作者物品图标',
+    origin: { kind: 'authored', ref: 'authoring-roundtrip.png' },
+  }
+  session.dispatch(
+    new CompositeCommand('导入并绑定作者物品图标', [
+      new UpsertAssetCommand('item-icon.authoring-roundtrip', icon, bytes),
+      new UpdateItemCommand(authored.id, {
+        icon: 'item-icon.authoring-roundtrip',
+        buyPrice: 88,
+      }),
+    ]),
+  )
+
+  const saved = serializeProject(session.getState())
+  expect(saved[icon.path]).toEqual(bytes)
+  const reopened = toEditorState(
+    assembleProject(saved['manifest.json'] as LoadedManifest, {
+      ...JSONS,
+      items: saved['content/items.json'],
+      assetCatalog: saved['assets/index.json'],
+    }),
+    SCENES,
+  )
+
+  expect(reopened.items.find((item) => item.id === authored.id)).toEqual({
+    ...authored,
+    icon: 'item-icon.authoring-roundtrip',
+    buyPrice: 88,
+  })
+  expect(reopened.items.some((item) => item.id === copy.id)).toBe(false)
+  expect(reopened.assetCatalog.assets['item-icon.authoring-roundtrip']).toEqual(icon)
+})
+
+test('ED-5I 保存边界拒绝非法投掷效果，不生成无法重开的工程', () => {
+  const current = toEditorState(assembleProject(manifest, JSONS), SCENES)
+  current.items.push({
+    id: 'bad-throw',
+    name: '坏投掷物',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    throw: { effects: [{ kind: 'healHp', amount: 10 }] },
+  } as never)
+
+  expect(() => serializeProject(current)).toThrow(/保存前物品数据校验失败.*不可用于投掷上下文/)
 })
 
 test('X7 缺省入口契约:未编辑即保存不物化 entryPoints，也不添加 startWorld 可选字段', () => {

@@ -320,6 +320,44 @@ describe('loadProjectFrom(经 FileSource)', () => {
     expect(p.source).toBeDefined()
   })
 
+  test('显式迁移诊断 sidecar 经 manifest 加载；未声明时返回空表', async () => {
+    const diagnostics = {
+      version: 1 as const,
+      diagnostics: [
+        {
+          id: 'item-use:166',
+          severity: 'warn' as const,
+          target: {
+            domain: 'item' as const,
+            objectId: '166',
+            capability: 'use' as const,
+            label: '木剑',
+          },
+          category: 'manual-review' as const,
+          reason: '待人工迁移',
+          source: { kind: 'legacy-script' as const, label: 'L_100', address: 100 },
+        },
+      ],
+    }
+    const withDiagnostics = {
+      ...files,
+      'manifest.json': {
+        ...(files['manifest.json'] as LoadedManifest),
+        content: {
+          ...(files['manifest.json'] as LoadedManifest).content,
+          migrationDiagnostics: 'content/migration-diagnostics.json',
+        },
+      },
+      'content/migration-diagnostics.json': diagnostics,
+    }
+    await expect(loadProjectFrom(memSource(withDiagnostics))).resolves.toMatchObject({
+      migrationDiagnostics: diagnostics,
+    })
+    await expect(loadProjectFrom(memSource(files))).resolves.toMatchObject({
+      migrationDiagnostics: { version: 1, diagnostics: [] },
+    })
+  })
+
   test('图章模板只在编辑器显式请求时读取，运行时主 loader 不形成作者态依赖', async () => {
     const stampFiles = {
       ...files,

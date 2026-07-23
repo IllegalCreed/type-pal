@@ -75,6 +75,7 @@ import {
 } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { createEmptyScriptStages } from './entity-placement.js'
+import { blockingItemReferences } from './item-references.js'
 import {
   applyPreparedProjectMapPatch,
   cloneMapPatchPermission,
@@ -1941,6 +1942,95 @@ function withItem(state: EditorState, itemId: string, next: ItemData): EditorSta
     return next
   })
   return hit ? { ...state, items } : state
+}
+
+/** 新增物品；id 冲突必须 fail-loud，避免复制/异步导入覆盖既有定义。 */
+export class AddItemCommand implements Command {
+  readonly label = '新增物品'
+  private readonly item: ItemData
+  private readonly index: number | undefined
+
+  constructor(item: ItemData, index?: number) {
+    this.item = structuredClone(item)
+    this.index = index
+  }
+
+  apply(state: EditorState): EditorState {
+    if (state.items.some((item) => item.id === this.item.id))
+      throw new Error(`物品 id 已存在：${this.item.id}`)
+    const index = Math.min(Math.max(0, this.index ?? state.items.length), state.items.length)
+    const items = [...state.items]
+    items.splice(index, 0, structuredClone(this.item))
+    return { ...state, items }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!state.items.some((item) => item.id === this.item.id)) return state
+    return { ...state, items: state.items.filter((item) => item.id !== this.item.id) }
+  }
+}
+
+/** 删除前每次从当前 EditorState 重算完整引用闭包；任何外部引用都拒绝删除。 */
+export class DeleteItemCommand implements Command {
+  readonly label = '删除物品'
+  private removed: ItemData | undefined
+  private index = -1
+  private migrationDiagnosticsBeforeDelete: EditorState['migrationDiagnostics'] | undefined
+  private capturedMigrationDiagnostics = false
+
+  constructor(private readonly itemId: string) {}
+
+  apply(state: EditorState): EditorState {
+    const index = state.items.findIndex((item) => item.id === this.itemId)
+    if (index < 0) return state
+    const blockers = blockingItemReferences(state, this.itemId)
+    if (blockers.length)
+      throw new Error(
+        `物品 ${this.itemId} 仍被 ${blockers.length} 处引用：\n${blockers
+          .slice(0, 20)
+          .map((reference) => `${reference.label} · ${reference.detail}`)
+          .join('\n')}`,
+      )
+    if (!this.removed) {
+      this.removed = structuredClone(state.items[index]!)
+      this.index = index
+    }
+    if (!this.capturedMigrationDiagnostics) {
+      this.migrationDiagnosticsBeforeDelete = state.migrationDiagnostics
+        ? structuredClone(state.migrationDiagnostics)
+        : undefined
+      this.capturedMigrationDiagnostics = true
+    }
+    const migrationDiagnostics = state.migrationDiagnostics
+      ? {
+          ...state.migrationDiagnostics,
+          diagnostics: state.migrationDiagnostics.diagnostics.filter(
+            (diagnostic) =>
+              !(diagnostic.target.domain === 'item' && diagnostic.target.objectId === this.itemId),
+          ),
+        }
+      : undefined
+    return {
+      ...state,
+      items: state.items.filter((item) => item.id !== this.itemId),
+      migrationDiagnostics,
+    }
+  }
+
+  invert(state: EditorState): EditorState {
+    if (!this.removed) return state
+    if (state.items.some((item) => item.id === this.itemId))
+      throw new Error(`无法撤销删除：物品 id 已被占用 ${this.itemId}`)
+    const items = [...state.items]
+    items.splice(Math.min(Math.max(0, this.index), items.length), 0, structuredClone(this.removed))
+    return {
+      ...state,
+      items,
+      migrationDiagnostics: this.migrationDiagnosticsBeforeDelete
+        ? structuredClone(this.migrationDiagnosticsBeforeDelete)
+        : undefined,
+    }
+  }
 }
 
 /** 修改物品字段(undo 恢复旧值;undefined 值 = 删键,如清空 use)。 */

@@ -2,6 +2,25 @@
   "version": 1,
   "id": "shared/c01",
   "scripts": {
+    "shared/scc-L-39753/L-39753/global/items/d-0a386828": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12558"
+            }
+          ],
+          "portrait": {
+            "asset": "portrait.pal.069",
+            "side": "right"
+          }
+        }
+      }
+    ],
     "shared/scc-L-41075/L-41075/none/d-4037dfb1": [
       {
         "kind": "playMusic",

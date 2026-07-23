@@ -255,5 +255,20 @@ describe('跨模块唯一链接', () => {
       subpage: 'image',
       objectId: 'portrait.pal.001',
     })
+    expect(editorLinks.shop(7)).toEqual({
+      module: 'item',
+      subpage: 'shop',
+      objectId: '7',
+    })
+    expect(editorLinks.poison(13)).toEqual({
+      module: 'battle',
+      subpage: 'poison',
+      objectId: '13',
+    })
+    expect(editorLinks.entryPoint('chapter-2')).toEqual({
+      module: 'project',
+      subpage: 'entrypoint',
+      objectId: 'chapter-2',
+    })
   })
 })

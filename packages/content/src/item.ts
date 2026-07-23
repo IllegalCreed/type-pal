@@ -6,6 +6,7 @@ import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import { applyPoisonSelf, poisonCurableBy } from './poison.js'
+import type { ScriptRef } from './script-library.js'
 import type { StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
@@ -113,6 +114,17 @@ export function describeEquipEffects(
 }
 
 /** 使用效果 = 独立联合(≠ SkillEffect):回复类概念重叠 + 脚本/剧情/场景类。本期起步几个 kind,做使用菜单时扩充。 */
+export interface ItemAmount {
+  itemId: string
+  count: number
+}
+
+export interface ItemRecipe {
+  /** 满足多条配方时按数组顺序采用第一条；材料与产物均使用稳定 ItemData.id。 */
+  ingredients: ItemAmount[]
+  products: ItemAmount[]
+}
+
 export type ItemUseEffect =
   | { kind: 'healHp'; amount: number }
   | { kind: 'healMp'; amount: number }
@@ -124,22 +136,101 @@ export type ItemUseEffect =
   | { kind: 'permanentStatBoost'; stat: CombatStat | 'maxHP' | 'maxMP'; delta: number } // 0x19(舍利子/雪蛤蟆——永久成长)
   | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
   | { kind: 'dieIfNotPoisoned' } // 0x61(毒龙胆/九阴散):没中毒则秒杀自己,否则续跑后效(解毒/回血)
-  | { kind: 'triggerScript'; scriptId: string } // 桂花酒/玉佩剧情;风灵珠场景互动
-  | { kind: 'teleportOut' } // 0x38(引路蜂/土灵珠):跑当前场景 onTeleport 出口(无出口=不灵)
+  /** 长剧情仍是一等共享脚本；引用必须完整、可校验、可反跳。 */
+  | { kind: 'runScript'; script: ScriptRef }
+  /** 调用当前场景的命名钩子；目的地与前置清理由场景数据决定，物品不写死场景。 */
+  | { kind: 'runSceneHook'; hook: 'onTeleport'; unavailableMessage?: string }
+  /** 按顺序选择第一条材料充足的配方，原子扣材料并给产物。 */
+  | { kind: 'craftRecipe'; recipes: ItemRecipe[]; unavailableMessage?: string }
+  /** 从世界资源池抽取 1..value，封顶后扣值，并按档位给奖励。 */
+  | {
+      kind: 'drawFromResourcePool'
+      resource: string
+      maxRoll: number
+      rewards: ItemAmount[]
+      unavailableMessage?: string
+    }
   | { kind: 'extraPoisonRes'; amount: number } // 0x17(大蒜):临时毒抗 Extra,带入战斗、三件套清
   // 0x5C(隐蛊):全队隐身 turns 回合 —— 敌整轮跳过(连 turnStart choreo 都不跑)、队员画面消失。
   // CLASSIC 语义(一阶段 iHidingTime 三函数):存负值待激活 → 行动步前取反激活 → 轮末 −1
   | { kind: 'hideParty'; turns: number }
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
+/** 所有用途效果 kind 的编译期完整表；validator 与编辑器不得各维护一份漂移名单。 */
+export const ITEM_USE_EFFECT_KINDS = {
+  healHp: true,
+  healMp: true,
+  revive: true,
+  applyStatus: true,
+  removeStatus: true,
+  applyPoison: true,
+  curePoison: true,
+  permanentStatBoost: true,
+  gate: true,
+  dieIfNotPoisoned: true,
+  runScript: true,
+  runSceneHook: true,
+  craftRecipe: true,
+  drawFromResourcePool: true,
+  extraPoisonRes: true,
+  hideParty: true,
+} satisfies Record<ItemUseEffect['kind'], true>
+
 export interface UseSpec {
-  target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'
+  /** 显式目标；禁止缺省，避免大世界与战斗把同一用途分别解释成队长/施用者。 */
+  target: 'oneAlly' | 'allAllies' | 'self' | 'scene'
   consuming: boolean
   effects: ItemUseEffect[]
   /** 本物品使用链自带的表现音；缺席时由战斗物品提示音 role 决定。 */
   sound?: AssetId
   /** 战斗专用(原版 wFlags 只带 UsableInBattle,如隐蛊):大世界使用菜单不列。缺省 = 两边可用。 */
   battleOnly?: boolean
+  /** 成功后菜单去向；缺省保留当前菜单，场景切换类通常为 close。 */
+  menuAfterUse?: 'keep' | 'close'
+}
+
+export type ItemUseContext = 'world' | 'battle' | 'throw'
+
+function assertNever(value: never, context: string): never {
+  throw new Error(`${context}: 未处理的物品效果 ${JSON.stringify(value)}`)
+}
+
+/** effect×context 的唯一真源；菜单过滤、校验与运行时都消费它。 */
+export function itemUseEffectSupportsContext(
+  effect: ItemUseEffect,
+  context: ItemUseContext,
+): boolean {
+  switch (effect.kind) {
+    case 'runScript':
+    case 'runSceneHook':
+    case 'craftRecipe':
+    case 'drawFromResourcePool':
+      return context === 'world'
+    case 'hideParty':
+      return context === 'battle'
+    case 'permanentStatBoost':
+      // 永久成长要写回 CharacterInstance；战斗临时态没有这条持久写回通道。
+      return context === 'world'
+    case 'applyPoison':
+      return true
+    case 'healHp':
+    case 'healMp':
+    case 'revive':
+    case 'applyStatus':
+    case 'removeStatus':
+    case 'curePoison':
+    case 'gate':
+    case 'dieIfNotPoisoned':
+    case 'extraPoisonRes':
+      return context !== 'throw'
+    default:
+      return assertNever(effect, 'itemUseEffectSupportsContext')
+  }
+}
+
+export function itemUseSupportsContext(use: UseSpec, context: ItemUseContext): boolean {
+  if (context === 'world' && use.battleOnly) return false
+  return use.effects.every((effect) => itemUseEffectSupportsContext(effect, context))
 }
 
 /** 战斗投掷,phase3 细化。 */
@@ -386,54 +477,462 @@ export function usableItems(world: WorldState, items: ItemDataMap): ItemData[] {
   const invUsable = world.inventory
     .filter((e) => e.count > 0)
     .map((e) => items[e.itemId])
-    .filter((it): it is ItemData => it?.use != null && !it.use.battleOnly)
+    .filter((it): it is ItemData => it?.use != null && itemUseSupportsContext(it.use, 'world'))
   const invIds = new Set(invUsable.map((it) => it.id))
   const equippedUsable: ItemData[] = []
   for (const id of equippedItemIds(world)) {
     const it = items[id]
-    if (it?.use != null && !it.use.battleOnly && !invIds.has(id)) equippedUsable.push(it)
+    if (it?.use != null && itemUseSupportsContext(it.use, 'world') && !invIds.has(id))
+      equippedUsable.push(it)
   }
   return [...invUsable, ...equippedUsable]
 }
 
-/** 对 targetCharId 施 itemId 的 use.effects;consuming 则 -1。返回新 WorldState;非法原样返回。
- *  本期实现 healHp/healMp(夹 max);其余 kind 留桩(见 switch default)。 */
-export function useItem(
+export type ExternalItemUseEffect = Extract<ItemUseEffect, { kind: 'runScript' | 'runSceneHook' }>
+
+/** 单个用途效果的结构化执行记录；数组顺序与 UseSpec.effects 完全一致。 */
+export interface WorldItemUseEffectResult {
+  index: number
+  kind: ItemUseEffect['kind']
+  changed: boolean
+  targetCharIds?: string[]
+  gate?: { chance: number; roll: number; passed: boolean }
+  recipe?: {
+    recipeIndex: number
+    ingredients: ItemAmount[]
+    products: ItemAmount[]
+  }
+  resourceDraw?: {
+    resource: string
+    valueBefore: number
+    rolled: number
+    tier: number
+    spent: number
+    valueAfter: number
+    reward: ItemAmount
+  }
+}
+
+/** 交给 Reforge 表现层的数据；内容层不决定框的位置、停留时间或输入方式。 */
+export interface WorldItemUsePresentation {
+  kind: 'item-result'
+  source: 'craftRecipe' | 'drawFromResourcePool'
+  items: ItemAmount[]
+}
+
+export interface WorldItemUseOutcome {
+  status: 'success' | 'failure' | 'external'
+  world: WorldState
+  consumed: boolean
+  changed: boolean
+  /** 已执行/尝试的效果结果；成功时完整且严格保序。 */
+  effectResults: WorldItemUseEffectResult[]
+  /** 需要独立结果框呈现的产物；不靠具体 PAL itemId 判断。 */
+  presentations: WorldItemUsePresentation[]
+  /** 只有 status=external 时存在；reforge 必须逐项执行并据真实结果决定是否消耗。 */
+  externalEffects?: ExternalItemUseEffect[]
+  reason?:
+    | 'unknown-item'
+    | 'missing-target'
+    | 'not-owned'
+    | 'wrong-context'
+    | 'invalid-effect-chain'
+    | 'gate-failed'
+    | 'missing-materials'
+    | 'empty-resource-pool'
+    | 'external-unavailable'
+  message?: string
+  menu: 'keep' | 'close'
+}
+
+function cloneWorldForItemUse(world: WorldState): WorldState {
+  return {
+    ...world,
+    party: world.party.map((character) => ({
+      ...character,
+      equipment: { ...character.equipment },
+      poisons: character.poisons?.map((poison) => ({ ...poison })),
+      extraStatuses: character.extraStatuses?.map((status) => ({ ...status })),
+    })),
+    inventory: world.inventory.map((entry) => ({ ...entry })),
+    ...(world.resources ? { resources: { ...world.resources } } : {}),
+  }
+}
+
+function inventoryCount(world: WorldState, itemId: string): number {
+  return world.inventory.find((entry) => entry.itemId === itemId)?.count ?? 0
+}
+
+/**
+ * 世界物品持有数：背包 + 当前队伍装备。脚本条件、配方与实际扣除必须共用这一口径，
+ * 否则会出现“条件判断有材料，真正结算却扣不到”的双真相。
+ */
+export function ownedItemCount(world: WorldState, itemId: string): number {
+  return (
+    inventoryCount(world, itemId) +
+    world.party.reduce(
+      (count, character) =>
+        count + Object.values(character.equipment).filter((equipped) => equipped === itemId).length,
+      0,
+    )
+  )
+}
+
+/**
+ * 背包优先、装备兜底地扣除物品。装备槽使用显式稳定顺序，不能依赖对象键插入顺序；
+ * 该顺序也固定了迁移 PAL 内容时的兼容结果。
+ */
+const EQUIPMENT_REMOVAL_ORDER = ['head', 'body', 'cloak', 'weapon', 'feet', 'accessory'] as const
+
+export function removeOwnedItems(world: WorldState, itemId: string, count: number): number {
+  let remaining = Math.max(0, Math.floor(count))
+  const entry = world.inventory.find((candidate) => candidate.itemId === itemId)
+  if (entry && remaining > 0) {
+    const removed = Math.min(entry.count, remaining)
+    entry.count -= removed
+    remaining -= removed
+    if (entry.count <= 0) world.inventory.splice(world.inventory.indexOf(entry), 1)
+  }
+  for (const character of world.party) {
+    if (remaining <= 0) break
+    for (const slot of EQUIPMENT_REMOVAL_ORDER) {
+      if (character.equipment[slot] !== itemId) continue
+      const equipment = { ...character.equipment }
+      delete equipment[slot]
+      character.equipment = equipment
+      remaining--
+      if (remaining <= 0) break
+    }
+  }
+  return Math.max(0, Math.floor(count)) - remaining
+}
+
+function aggregateItemAmounts(entries: readonly ItemAmount[]): Map<string, number> {
+  const totals = new Map<string, number>()
+  for (const entry of entries)
+    totals.set(entry.itemId, (totals.get(entry.itemId) ?? 0) + entry.count)
+  return totals
+}
+
+function normalizedItemAmounts(entries: readonly ItemAmount[]): ItemAmount[] {
+  return [...aggregateItemAmounts(entries)].map(([itemId, count]) => ({ itemId, count }))
+}
+
+/** 世界资源访问唯一入口；历史 `collectValue` 在这里兼容，不复制进 resources。 */
+export function worldResourceValue(world: WorldState, key: string): number {
+  if (key.trim().length === 0) throw new Error('worldResourceValue: 资源键不能为空')
+  const value = key === 'collectValue' ? (world.collectValue ?? 0) : (world.resources?.[key] ?? 0)
+  if (!Number.isSafeInteger(value) || value < 0)
+    throw new Error(`worldResourceValue: 资源 "${key}" 必须是非负安全整数`)
+  return value
+}
+
+function setWorldResourceValue(world: WorldState, key: string, value: number): void {
+  if (!Number.isSafeInteger(value) || value < 0)
+    throw new Error(`setWorldResourceValue: 资源 "${key}" 必须是非负安全整数`)
+  const next = value
+  if (key === 'collectValue') world.collectValue = next
+  else world.resources = { ...(world.resources ?? {}), [key]: next }
+}
+
+function changeInventory(world: WorldState, itemId: string, delta: number): void {
+  world.inventory =
+    delta >= 0
+      ? addToInventory(world.inventory, itemId, delta)
+      : removeFromInventory(world.inventory, itemId, -delta)
+}
+
+function consumeItem(world: WorldState, itemId: string, shouldConsume: boolean): boolean {
+  if (!shouldConsume) return false
+  return removeOwnedItems(world, itemId, 1) === 1
+}
+
+/**
+ * 大世界用途纯执行器。所有纯效果按数组顺序执行并返回结构化 outcome；脚本/场景钩子
+ * 不在 content 层假执行，而以 `external` 交给 reforge host。外部效果为保证事务边界，
+ * 当前必须独占效果链（校验器也执行同一规则）。
+ */
+export function resolveWorldItemUse(
   world: WorldState,
   targetCharId: string,
   itemId: string,
   items: ItemDataMap,
   poisonDefs?: Record<number, import('./poison.js').PoisonDef>,
-): WorldState {
+  rng: () => number = Math.random,
+): WorldItemUseOutcome {
   const item = items[itemId]
-  const target = world.party.find((c) => c.id === targetCharId)
-  if (!item?.use || !target) return world
-  const useSpec = item.use // 守卫后非空;局部常量收窄,免 non-null 断言(biome)
+  const menu = item?.use?.menuAfterUse ?? 'keep'
+  if (!item?.use)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'unknown-item',
+      menu,
+    }
+  const useSpec = item.use
+  if (!itemUseSupportsContext(useSpec, 'world'))
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'wrong-context',
+      menu,
+    }
   const inInventory = world.inventory.some((e) => e.itemId === itemId && e.count > 0)
   const equipped = equippedItemIds(world).has(itemId)
-  if (!inInventory && !equipped) return world // 背包没有 且 没穿戴 → 不能用
+  if (!inInventory && !equipped)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'not-owned',
+      menu,
+    }
 
+  const external = useSpec.effects.filter(
+    (effect): effect is ExternalItemUseEffect =>
+      effect.kind === 'runScript' || effect.kind === 'runSceneHook',
+  )
+  if (external.length > 0) {
+    if (external.length !== 1 || useSpec.effects.length !== 1)
+      return {
+        status: 'failure',
+        world,
+        consumed: false,
+        changed: false,
+        effectResults: [],
+        presentations: [],
+        reason: 'invalid-effect-chain',
+        menu,
+      }
+    return {
+      status: 'external',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: external.map((effect, index) => ({
+        index,
+        kind: effect.kind,
+        changed: false,
+      })),
+      presentations: [],
+      externalEffects: external,
+      menu,
+    }
+  }
+
+  const needsTarget = useSpec.effects.some((effect) =>
+    [
+      'healHp',
+      'healMp',
+      'revive',
+      'applyStatus',
+      'removeStatus',
+      'applyPoison',
+      'curePoison',
+      'permanentStatBoost',
+      'dieIfNotPoisoned',
+      'extraPoisonRes',
+    ].includes(effect.kind),
+  )
+  const selectedTarget = world.party.find((character) => character.id === targetCharId)
+  if (needsTarget && useSpec.target !== 'allAllies' && !selectedTarget)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'missing-target',
+      menu,
+    }
+
+  const nextWorld = cloneWorldForItemUse(world)
+  const targetIds =
+    useSpec.target === 'allAllies'
+      ? new Set(nextWorld.party.map((character) => character.id))
+      : new Set(selectedTarget ? [selectedTarget.id] : [])
   let changed = false
-  const party = world.party.map((c) => {
-    if (c.id !== targetCharId) return c
-    const next = { ...c }
-    for (const eff of useSpec.effects) {
+  const stoppedTargets = new Set<string>()
+  const effectResults: WorldItemUseEffectResult[] = []
+  const presentations: WorldItemUsePresentation[] = []
+
+  for (const [effectIndex, eff] of useSpec.effects.entries()) {
+    if (eff.kind === 'gate') {
+      const chance = Math.max(0, Math.min(100, eff.chance ?? 100))
+      const roll = 1 + Math.floor(Math.max(0, Math.min(0.999999999, rng())) * 100)
+      const passed = roll < chance
+      effectResults.push({
+        index: effectIndex,
+        kind: eff.kind,
+        changed: false,
+        gate: { chance, roll, passed },
+      })
+      // 原版 0x06: RandomLong(1,100) < threshold 才通过，因此阈值 N 的成功率是 N-1%。
+      if (!passed)
+        return {
+          status: 'failure',
+          world,
+          consumed: false,
+          changed: false,
+          effectResults,
+          presentations: [],
+          reason: 'gate-failed',
+          menu,
+        }
+      continue
+    }
+    if (eff.kind === 'craftRecipe') {
+      const recipeIndex = eff.recipes.findIndex((candidate) =>
+        [...aggregateItemAmounts(candidate.ingredients)].every(
+          ([itemId, count]) => ownedItemCount(nextWorld, itemId) >= count,
+        ),
+      )
+      const recipe = eff.recipes[recipeIndex]
+      if (!recipe)
+        return {
+          status: 'failure',
+          world,
+          consumed: false,
+          changed: false,
+          effectResults: [...effectResults, { index: effectIndex, kind: eff.kind, changed: false }],
+          presentations: [],
+          reason: 'missing-materials',
+          message: eff.unavailableMessage,
+          menu,
+        }
+      const ingredients = normalizedItemAmounts(recipe.ingredients)
+      const products = normalizedItemAmounts(recipe.products)
+      for (const ingredient of ingredients)
+        removeOwnedItems(nextWorld, ingredient.itemId, ingredient.count)
+      for (const product of products) changeInventory(nextWorld, product.itemId, product.count)
+      changed = true
+      effectResults.push({
+        index: effectIndex,
+        kind: eff.kind,
+        changed: true,
+        recipe: { recipeIndex, ingredients, products },
+      })
+      presentations.push({ kind: 'item-result', source: eff.kind, items: products })
+      continue
+    }
+    if (eff.kind === 'drawFromResourcePool') {
+      const value = worldResourceValue(nextWorld, eff.resource)
+      if (value <= 0 || eff.rewards.length === 0 || eff.maxRoll <= 0)
+        return {
+          status: 'failure',
+          world,
+          consumed: false,
+          changed: false,
+          effectResults: [...effectResults, { index: effectIndex, kind: eff.kind, changed: false }],
+          presentations: [],
+          reason: 'empty-resource-pool',
+          message: eff.unavailableMessage,
+          menu,
+        }
+      const rolled = Math.min(
+        value,
+        1 + Math.floor(Math.max(0, Math.min(0.999999999, rng())) * value),
+      )
+      const tier = Math.min(rolled, eff.maxRoll)
+      const reward = eff.rewards[tier - 1]
+      if (!reward)
+        return {
+          status: 'failure',
+          world,
+          consumed: false,
+          changed: false,
+          effectResults: [...effectResults, { index: effectIndex, kind: eff.kind, changed: false }],
+          presentations: [],
+          reason: 'empty-resource-pool',
+          message: eff.unavailableMessage,
+          menu,
+        }
+      setWorldResourceValue(nextWorld, eff.resource, value - tier)
+      changeInventory(nextWorld, reward.itemId, reward.count)
+      changed = true
+      const rewardResult = { ...reward }
+      effectResults.push({
+        index: effectIndex,
+        kind: eff.kind,
+        changed: true,
+        resourceDraw: {
+          resource: eff.resource,
+          valueBefore: value,
+          rolled,
+          tier,
+          spent: tier,
+          valueAfter: value - tier,
+          reward: rewardResult,
+        },
+      })
+      presentations.push({
+        kind: 'item-result',
+        source: eff.kind,
+        items: [rewardResult],
+      })
+      continue
+    }
+
+    let effectChanged = false
+    const targetCharIds: string[] = []
+    for (const next of nextWorld.party) {
+      if (!targetIds.has(next.id)) continue
+      if (stoppedTargets.has(next.id)) continue
+      targetCharIds.push(next.id)
       switch (eff.kind) {
         case 'healHp':
-          next.hp = Math.min(next.maxHP, next.hp + eff.amount)
-          changed = true
+          {
+            if (next.hp <= 0) break
+            const before = next.hp
+            next.hp = Math.max(0, Math.min(next.maxHP, next.hp + eff.amount))
+            effectChanged ||= next.hp !== before
+          }
           break
         case 'healMp':
-          next.mp = Math.min(next.maxMP, next.mp + eff.amount)
-          changed = true
+          {
+            if (next.hp <= 0) break
+            const before = next.mp
+            next.mp = Math.max(0, Math.min(next.maxMP, next.mp + eff.amount))
+            effectChanged ||= next.mp !== before
+          }
+          break
+        case 'revive':
+          if (next.hp <= 0) {
+            next.hp = Math.max(1, Math.floor((next.maxHP * eff.hpPercent) / 100))
+            next.extraStatuses = []
+            effectChanged = true
+          }
           break
         case 'applyPoison': {
           // 大世界自毒(毒蛇卵/尸腐肉)或对己 use 毒药(相克/致死)—— 毒态随存档、带入战斗
+          const beforeHp = next.hp
+          const beforePoisons = (next.poisons ?? []).map((poison) => ({ ...poison }))
           applyPoisonSelf(next, Number(eff.poisonId), poisonDefs)
-          changed = true
+          const afterPoisons = next.poisons ?? []
+          effectChanged ||=
+            next.hp !== beforeHp ||
+            beforePoisons.length !== afterPoisons.length ||
+            beforePoisons.some(
+              (poison, index) =>
+                poison.poisonId !== afterPoisons[index]?.poisonId ||
+                poison.tickIndex !== afterPoisons[index]?.tickIndex,
+            )
           break
         }
-        case 'curePoison':
+        case 'curePoison': {
+          const before = next.poisons?.length ?? 0
           if (eff.poisonId !== undefined)
             next.poisons = (next.poisons ?? []).filter((ap) => ap.poisonId !== Number(eff.poisonId))
           else if (poisonDefs)
@@ -441,41 +940,133 @@ export function useItem(
               const d = poisonDefs[ap.poisonId]
               return !d || !poisonCurableBy(d, eff.curesTier ?? 'common')
             })
-          changed = true
+          effectChanged ||= (next.poisons?.length ?? 0) !== before
+          break
+        }
+        case 'removeStatus': {
+          const remove = new Set(eff.statuses)
+          const before = next.extraStatuses?.length ?? 0
+          next.extraStatuses = (next.extraStatuses ?? []).filter(
+            (status) => !remove.has(status.status),
+          )
+          effectChanged ||= next.extraStatuses.length !== before
+          break
+        }
+        case 'permanentStatBoost': {
+          const before =
+            eff.stat === 'maxHP' ? next.maxHP : eff.stat === 'maxMP' ? next.maxMP : next[eff.stat]
+          if (eff.stat === 'maxHP') next.maxHP = Math.max(1, next.maxHP + eff.delta)
+          else if (eff.stat === 'maxMP') next.maxMP = Math.max(0, next.maxMP + eff.delta)
+          else next[eff.stat] = Math.max(0, next[eff.stat] + eff.delta)
+          const after =
+            eff.stat === 'maxHP' ? next.maxHP : eff.stat === 'maxMP' ? next.maxMP : next[eff.stat]
+          effectChanged ||= after !== before
+          break
+        }
+        case 'dieIfNotPoisoned':
+          if ((next.poisons?.length ?? 0) === 0) {
+            const before = next.hp
+            next.hp = 0
+            effectChanged ||= next.hp !== before
+            stoppedTargets.add(next.id)
+          }
           break
         case 'extraPoisonRes':
           // 大蒜:临时毒抗 Extra,随存档,建态并入战斗 poisonRes(缩敌附毒门)、战后三件套清。刷新取高。
-          next.extraPoisonRes = Math.max(next.extraPoisonRes ?? 0, eff.amount)
-          changed = true
+          {
+            const before = next.extraPoisonRes ?? 0
+            next.extraPoisonRes = Math.max(before, eff.amount)
+            effectChanged ||= next.extraPoisonRes !== before
+          }
           break
         case 'applyStatus': {
           // 大世界护体符/金刚符(护体等):写入 extraStatuses,随存档,建态注入下一场战斗、战后三件套清。
           // 纯更新(新数组 + 新条目):同状态刷新回合数,否则追加。
           const prev = next.extraStatuses ?? []
+          const beforeTurns = prev.find((status) => status.status === eff.status)?.turns
           next.extraStatuses = prev.some((s) => s.status === eff.status)
             ? prev.map((s) =>
                 s.status === eff.status ? { status: s.status, turns: eff.turns } : s,
               )
             : [...prev, { status: eff.status, turns: eff.turns }]
-          changed = true
+          effectChanged ||= beforeTurns !== eff.turns
           break
         }
-        // 留桩(归宿见 docs):triggerScript→剧情脚本系统;
-        // teleportOut→reforge 层 useConfirm 拦截跑 host.teleportOut(content 纯函数不碰场景运行时)
-        case 'triggerScript':
-        case 'teleportOut':
-          break
+        case 'hideParty':
+        case 'runScript':
+        case 'runSceneHook':
+          throw new Error(`resolveWorldItemUse: effect ${eff.kind} 通过了错误的上下文分支`)
+        default:
+          assertNever(eff, 'resolveWorldItemUse')
       }
     }
-    return next
-  })
-  if (!changed && !useSpec.consuming) return world // 纯桩效果且不消耗 → 无变化
-  // 消耗只从背包扣;穿戴中的件(灵珠)用了不从背包扣(它在装备槽,不在背包)
-  const inventory =
-    useSpec.consuming && inInventory
-      ? world.inventory
-          .map((e) => (e.itemId === itemId ? { ...e, count: e.count - 1 } : e))
-          .filter((e) => e.count > 0)
-      : world.inventory
-  return { ...world, party, inventory }
+    changed ||= effectChanged
+    effectResults.push({
+      index: effectIndex,
+      kind: eff.kind,
+      changed: effectChanged,
+      ...(targetCharIds.length > 0 ? { targetCharIds } : {}),
+    })
+  }
+  const consumed = consumeItem(nextWorld, itemId, useSpec.consuming)
+  const committedChanged = changed || consumed
+  return {
+    status: 'success',
+    world: committedChanged ? nextWorld : world,
+    consumed,
+    changed: committedChanged,
+    effectResults,
+    presentations,
+    menu,
+  }
+}
+
+/** external host 成功后唯一提交口；脚本已产生的世界变化会先被保留，再按 use.consuming 扣物品。 */
+export function completeExternalWorldItemUse(
+  world: WorldState,
+  itemId: string,
+  items: ItemDataMap,
+): WorldItemUseOutcome {
+  const item = items[itemId]
+  const menu = item?.use?.menuAfterUse ?? 'keep'
+  if (!item?.use)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'unknown-item',
+      menu,
+    }
+  const nextWorld = cloneWorldForItemUse(world)
+  const consumed = consumeItem(nextWorld, itemId, item.use.consuming)
+  return {
+    status: 'success',
+    world: consumed ? nextWorld : world,
+    consumed,
+    // 外部脚本/场景钩子已经成功执行；即使 host 原地修改对象，也属于已提交变化。
+    changed: true,
+    effectResults: item.use.effects.map((effect, index) => ({
+      index,
+      kind: effect.kind,
+      changed: true,
+    })),
+    presentations: [],
+    menu,
+  }
+}
+
+/** 兼容纯逻辑调用方：外部效果不会在 content 层伪执行，返回原世界。 */
+export function useItem(
+  world: WorldState,
+  targetCharId: string,
+  itemId: string,
+  items: ItemDataMap,
+  poisonDefs?: Record<number, import('./poison.js').PoisonDef>,
+  rng?: () => number,
+): WorldState {
+  const outcome = resolveWorldItemUse(world, targetCharId, itemId, items, poisonDefs, rng)
+  return outcome.status === 'success' ? outcome.world : world
 }

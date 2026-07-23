@@ -18,6 +18,7 @@ import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { ItemReference } from '../core/item-references.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { AmbienceTab } from './AmbienceTab.js'
@@ -107,6 +108,9 @@ export function DataMode(props: {
   onOpenTileset?: (id: string) => void
   onOpenStamp?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
+  onOpenScript?: (id: string) => void
+  onOpenItemReference?: (reference: ItemReference) => void
+  onOpenProjectIssues?: () => void
   onJumpWorldSpriteReference?: (reference: SpriteDefinitionReference) => void
   onJumpWorldSpriteActionReference?: (
     reference: import('@type-pal/content').SpriteActionReference,
@@ -158,6 +162,9 @@ export function DataMode(props: {
     onOpenTileset,
     onOpenStamp,
     onOpenBattleSprite,
+    onOpenScript,
+    onOpenItemReference,
+    onOpenProjectIssues,
     onJumpWorldSpriteReference,
     onJumpWorldSpriteActionReference,
     onJumpWorldSpriteAutomaticScriptInstance,
@@ -226,6 +233,7 @@ export function DataMode(props: {
         items={itemList}
         actors={actors}
         skills={skillList}
+        poisons={poisons}
         locale={locale}
         session={session}
         assetCatalog={assetCatalog}
@@ -237,8 +245,9 @@ export function DataMode(props: {
         onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
-        itemRefs={refIndex.items}
-        onJumpToEvent={onJumpToEvent}
+        onOpenScript={onOpenScript}
+        onOpenItemReference={onOpenItemReference}
+        onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
       />
     )
@@ -265,7 +274,16 @@ export function DataMode(props: {
   }
 
   if (tab === 'poison') {
-    return <PoisonTab poisons={poisons} items={itemList} session={session} tabBar={tabBar} />
+    return (
+      <PoisonTab
+        poisons={poisons}
+        items={itemList}
+        session={session}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'ambience') {
@@ -273,7 +291,16 @@ export function DataMode(props: {
   }
 
   if (tab === 'shop') {
-    return <ShopTab shops={shops} items={itemList} session={session} tabBar={tabBar} />
+    return (
+      <ShopTab
+        shops={shops}
+        items={itemList}
+        session={session}
+        focusObjectId={focusObjectId}
+        onObjectFocus={onObjectFocus}
+        tabBar={tabBar}
+      />
+    )
   }
 
   if (tab === 'tileset') {

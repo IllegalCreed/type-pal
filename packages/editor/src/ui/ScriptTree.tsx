@@ -42,8 +42,12 @@ function describeCondition(c: ScriptCondition, locale: Locale): string {
       return `${c.percent}% 概率`
     case 'hasItem':
       return `持有物品 ${c.itemId}${c.atLeast ? `≥${c.atLeast}` : ''}`
+    case 'ownsItem':
+      return `拥有物品 ${c.itemId}${c.atLeast ? `≥${c.atLeast}` : ''}（背包与装备合计）`
     case 'itemEquipped':
       return `装备物品 ${c.itemId}${c.atLeast && c.atLeast > 1 ? `≥${c.atLeast}` : ''}`
+    case 'facingEntity':
+      return `面向实体 ${c.entity}${c.range !== undefined ? `（${c.range} 格内）` : ''}`
     case 'allFullHp':
       return '全队满血'
     case 'hasMoney':

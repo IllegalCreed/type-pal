@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "shared/c04",
+  "scripts": {
+    "shared/scc-L-39835/L-39835/global/items/d-0a386828": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12560"
+            },
+            {
+              "text": "dlg.12561"
+            }
+          ],
+          "speaker": "spk.手卷上记载著"
+        }
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12563"
+            },
+            {
+              "text": "dlg.12564"
+            },
+            {
+              "text": "dlg.12565"
+            },
+            {
+              "text": "dlg.12566"
+            },
+            {
+              "text": "dlg.12567"
+            }
+          ],
+          "speaker": "spk.信上写著"
+        }
+      },
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "377"
+      },
+      {
+        "kind": "learnSkill",
+        "role": 0,
+        "skill": "307"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12568"
+            },
+            {
+              "text": "dlg.12569"
+            }
+          ],
+          "slot": "center"
+        }
+      }
+    ]
+  }
+}

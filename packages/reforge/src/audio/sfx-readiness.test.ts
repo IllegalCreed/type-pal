@@ -97,6 +97,7 @@ const item = (
   sellPrice: 0,
   sellable: false,
   use: {
+    target: 'oneAlly',
     consuming: true,
     effects: poisons.use ? [{ kind: 'applyPoison', poisonId: poisons.use }] : [],
     sound: `${sound}.use`,
@@ -172,7 +173,7 @@ describe('SFX readiness 收集', () => {
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,
-          use: { consuming: true, effects: [], sound: 'sound.item-use' },
+          use: { target: 'oneAlly', consuming: true, effects: [], sound: 'sound.item-use' },
           throw: { effects: [], sound: 'sound.item-throw' },
         },
       ],

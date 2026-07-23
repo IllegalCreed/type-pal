@@ -4,8 +4,8 @@
  * `validate.ts` 只查形状(单表字段在不在);本层查**跨表引用**是否悬空 ——
  * 这是编辑器的核心价值:不让坏数据越积越多。loader 也能用来告警。
  *
- * 系统未落地的字段(poisonId / triggerScript.scriptId / teleport.target)跳过 ——
- * 待对应系统落地后再加(注释标明)。资产记录是否有对应物理文件
+ * 尚无稳定可编辑目标的运行时瞬态边跳过；已数据化的物品/毒/脚本等引用必须闭环。
+ * 资产记录是否有对应物理文件
  * 不在此校验 —— 那是 loader/资产层的事。
  *
  * 见 docs/phase2/editor/editor-design.md §6。
@@ -25,6 +25,7 @@ import type {
   LoadedManifest,
   Locale,
   MapIndexV1,
+  MigrationDiagnosticsV1,
   PoisonDef,
   SceneDef,
   ScriptChunkV1,
@@ -82,6 +83,8 @@ export interface ContentBundle {
   scriptIndex?: ScriptIndexV1
   /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
   worlds?: readonly WorldState[]
+  /** 迁移工具显式写出的作者待处理 sidecar；空白/纯作者工程缺省为空。 */
+  migrationDiagnostics?: MigrationDiagnosticsV1
 }
 
 /** 一条 SpriteDef 语义引用；删除保护、保存门和引用面板共用。 */
@@ -648,6 +651,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const localeKeys = new Set(Object.keys(b.locale))
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
   const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
+  const poisonIds = new Set((b.poisons ?? []).map((poison) => String(poison.id)))
 
   ;(b.stamps ?? []).forEach((stamp, index) => {
     if (!tilesetIds.has(stamp.tilesetId))
@@ -709,6 +713,12 @@ export function validateReferences(b: ContentBundle): Issue[] {
         severity: 'warn',
         where: `${where}.steal`,
         message: `可偷物品 "${e.steal.itemId}" 不在 items`,
+      })
+    if (e.attackEquivItem && !itemIds.has(e.attackEquivItem.itemId))
+      issues.push({
+        severity: 'error',
+        where: `${where}.attackEquivItem.itemId`,
+        message: `普攻附带物品 "${e.attackEquivItem.itemId}" 不在 items`,
       })
   })
   ;(b.enemyTeams ?? []).forEach((t, ti) => {
@@ -859,6 +869,79 @@ export function validateReferences(b: ContentBundle): Issue[] {
           })
       })
     }
+    for (const [capability, effects] of [
+      ['use', item.use?.effects],
+      ['throw', item.throw?.effects],
+    ] as const) {
+      effects?.forEach((effect, effectIndex) => {
+        const effectWhere = `${where}.${capability}.effects[${effectIndex}]`
+        if (effect.kind === 'craftRecipe')
+          effect.recipes.forEach((recipe, recipeIndex) => {
+            for (const [field, entries] of [
+              ['ingredients', recipe.ingredients],
+              ['products', recipe.products],
+            ] as const)
+              entries.forEach((entry, entryIndex) => {
+                if (!itemIds.has(entry.itemId))
+                  issues.push({
+                    severity: 'error',
+                    where: `${effectWhere}.recipes[${recipeIndex}].${field}[${entryIndex}].itemId`,
+                    message: `配方物品 "${entry.itemId}" 不在 items`,
+                  })
+              })
+          })
+        if (effect.kind === 'drawFromResourcePool')
+          effect.rewards.forEach((reward, rewardIndex) => {
+            if (!itemIds.has(reward.itemId))
+              issues.push({
+                severity: 'error',
+                where: `${effectWhere}.rewards[${rewardIndex}].itemId`,
+                message: `资源池奖励物品 "${reward.itemId}" 不在 items`,
+              })
+          })
+        if (
+          b.poisons !== undefined &&
+          (effect.kind === 'applyPoison' || effect.kind === 'curePoison') &&
+          effect.poisonId !== undefined &&
+          !poisonIds.has(effect.poisonId)
+        )
+          issues.push({
+            severity: 'error',
+            where: `${effectWhere}.poisonId`,
+            message: `毒 "${effect.poisonId}" 不在 poisons`,
+          })
+        if (effect.kind === 'runScript') {
+          const chunk = b.scriptChunks?.[effect.script.chunk]
+          if (!chunk?.scripts[effect.script.id])
+            issues.push({
+              severity: 'error',
+              where: `${effectWhere}.script`,
+              message: `共享脚本 "${effect.script.id}" 不在脚本库`,
+            })
+        }
+      })
+    }
+  })
+
+  ;(b.migrationDiagnostics?.diagnostics ?? []).forEach((diagnostic, index) => {
+    if (!itemIds.has(diagnostic.target.objectId))
+      issues.push({
+        severity: 'error',
+        where: `migrationDiagnostics.diagnostics[${index}].target.objectId`,
+        message: `待迁移诊断指向的物品 "${diagnostic.target.objectId}" 不在 items`,
+      })
+  })
+
+  // ── shops ──────────────────────────────────────────────
+  ;(b.shops ?? []).forEach((shop, shopIndex) => {
+    shop.items.forEach((itemId, itemIndex) => {
+      if (!itemIds.has(itemId))
+        issues.push({
+          severity: 'error',
+          where: `shops[${shopIndex}](${shop.id}).items[${itemIndex}]`,
+          message: `商店物品 "${itemId}" 不在 items`,
+        })
+    })
   })
 
   // ── skills ──────────────────────────────────────────────

@@ -100,7 +100,7 @@ export type ItemUseEffect =
 // 待扩充:giveItems / giveMoney / learnSkill / scenePlace / transform / permanentStatBoost …(使用菜单时)
 
 export interface UseSpec {
-  target?: 'oneAlly' | 'allAllies' | 'self' | 'scene'
+  target: 'oneAlly' | 'allAllies' | 'self' | 'scene'
   consuming: boolean
   effects: ItemUseEffect[]
 }

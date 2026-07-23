@@ -20,7 +20,8 @@
     "maps": "content/maps/index.json",
     "scripts": "content/scripts/",
     "stamps": "content/stamps.json",
-    "battleSprites": "content/battle-sprites.json"
+    "battleSprites": "content/battle-sprites.json",
+    "migrationDiagnostics": "content/migration-diagnostics.json"
   },
   "assets": {
     "catalog": "assets/index.json",

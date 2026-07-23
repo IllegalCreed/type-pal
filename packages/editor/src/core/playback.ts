@@ -513,11 +513,13 @@ export class Playback {
     },
     query: {
       hasItem: () => false,
+      ownsItem: () => false,
       money: () => 0,
       inParty: () => false,
       allFullHp: () => true,
       itemEquipped: () => false,
       entityInScene: () => true,
+      facingEntity: () => false,
     },
     report: (msg) => this.log(`⚠ ${msg}`),
     // B8 遇敌(预览语义:追逐记日志;消失走 overlay;读档/战败不真执行)

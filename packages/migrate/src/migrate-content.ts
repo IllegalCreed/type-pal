@@ -14,10 +14,14 @@ import type {
   HostileBehavior,
   ItemData,
   LevelUpSkill,
+  MigrationDiagnosticCategory,
+  ScriptRef,
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
 import {
+  DEFAULT_SCRIPT_SHARDS,
+  deriveScriptChunk,
   palFaceAssetId,
   palItemIconAssetId,
   palPortraitAssetId,
@@ -835,6 +839,121 @@ export interface UseScriptTranslation {
   pendingReason?: string
 }
 
+function unsupportedItemUseReason(opcode: number): string {
+  switch (opcode) {
+    case 0x20:
+      return 'op 0x20（按材料数量分支）尚未转换为结构化物品用途'
+    case 0x34:
+      return 'op 0x34（灵葫资源炼丹）尚未转换为结构化物品用途'
+    case 0x5a:
+      return 'op 0x5a（无影毒令目标生命减半）尚未转换为结构化物品用途'
+    case 0x5c:
+      return 'op 0x5c（队伍隐身回合）尚未转换为结构化物品用途'
+    case 0x62:
+      return 'op 0x62（驱魔香暂停敌人追逐）尚未转换为结构化物品用途'
+    case 0x63:
+      return 'op 0x63（十里香加速敌人追逐）尚未转换为结构化物品用途'
+    case 0x81:
+      return 'op 0x81（面向场景对象触发剧情）需迁移为稳定共享脚本'
+    case 0x84:
+      return 'op 0x84（把使用物放置为场景对象）需迁移为稳定场景脚本'
+    case 0x8d:
+      return 'op 0x8d（金蚕王令目标角色升级）尚未转换为结构化物品用途'
+    default:
+      return `op 0x${opcode.toString(16)} 尚未转换为结构化物品用途`
+  }
+}
+
+/** 迁移生成的物品用途脚本拥有稳定别名；底层 legacy target/SCC 如何重分片不外泄给物品。 */
+export function migratedItemUseScriptRef(itemId: number | string): ScriptRef {
+  // 迁移完成后这是作者可继续维护的一等共享脚本，而不是只能由运行时读取的内部别名。
+  // 放进 shared/user 命名空间后，脚本库才能登记元数据，物品工作台也能可靠反跳并编辑。
+  const id = `shared/user/pal-item-use/${itemId}`
+  const chunk = deriveScriptChunk(id, DEFAULT_SCRIPT_SHARDS)
+  if (!chunk) throw new Error(`物品用途脚本无法推导 chunk: ${id}`)
+  return { chunk, id }
+}
+
+/**
+ * 识别 0x20 “有任一材料就扣除并跳到同一产物段”的有序配方形状。
+ * PAL 炼蛊皿只是该形状的一条源数据；产物、材料和优先级全部从命令流提取。
+ */
+export function translateCraftRecipeScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): NonNullable<ItemData['use']>['effects'][number] | undefined {
+  let cursor = labelIndex.get(`L_${ip}`)
+  if (cursor === undefined) return undefined
+  const seen = new Set<number>()
+  const ingredients: Array<{ itemId: string; count: number }> = []
+  let productStart: number | undefined
+
+  while (cursor !== undefined && !seen.has(cursor)) {
+    seen.add(cursor)
+    const command = commands[cursor]
+    if (command?.op !== 'raw' || command.opcode !== 0x20) break
+    const [itemId = 0, rawCount = 0, failureAddress = 0] = command.operands ?? []
+    if (itemId <= 0 || failureAddress <= 0) return undefined
+    const next = commands[cursor + 1] as (SourceCmd & { to?: string }) | undefined
+    const successStart = next?.op === 'goto' && next.to ? labelIndex.get(next.to) : cursor + 1
+    if (successStart === undefined) return undefined
+    if (productStart === undefined) productStart = successStart
+    else if (productStart !== successStart) return undefined
+    ingredients.push({ itemId: String(itemId), count: Math.max(1, rawCount) })
+
+    const failure = labelIndex.get(`L_${failureAddress}`)
+    const failureCommand = failure === undefined ? undefined : commands[failure]
+    if (failureCommand?.op === 'raw' && failureCommand.opcode === 0x20) cursor = failure
+    else break
+  }
+
+  if (!ingredients.length || productStart === undefined) return undefined
+  const products: Array<{ itemId: string; count: number }> = []
+  for (let index = productStart; index < commands.length; index++) {
+    const command = commands[index] as (SourceCmd & { itemId?: number; count?: number }) | undefined
+    if (command?.op !== 'giveItem') break
+    if ((command.itemId ?? 0) <= 0) return undefined
+    products.push({
+      itemId: String(command.itemId),
+      count: command.count === 0 ? 1 : (command.count ?? 1),
+    })
+  }
+  if (!products.length) return undefined
+  return {
+    kind: 'craftRecipe',
+    recipes: ingredients.map((ingredient) => ({ ingredients: [ingredient], products })),
+  }
+}
+
+/** 当前完整脚本翻译器可安全承接的物品长用途根；其余继续显式诊断，不生成半截脚本。 */
+export function shouldMigrateUseAsSharedScript(
+  commands: readonly SourceCmd[],
+  labelIndex: Map<string, number>,
+  ip: number,
+): boolean {
+  let index = labelIndex.get(`L_${ip}`)
+  if (index === undefined) return false
+  while (index < commands.length) {
+    const command = commands[index]!
+    if (command.op === 'raw' && (command.opcode === 0x05 || command.opcode === 167)) {
+      index++
+      continue
+    }
+    if (command.op === 'raw' && command.opcode === 0x81) {
+      // 场景祭坛式用途：面向实体门后还会检查多个实体状态并切场景。普通“拿道具对
+      // NPC 使用”的 0x81 链可能换装到未登记资源，仍保留诊断，不能生成半截脚本。
+      const window = commands.slice(index + 1, index + 32)
+      return (
+        window.some((next) => next.op === 'raw' && next.opcode === 0x94) &&
+        window.some((next) => next.op === 'loadScene')
+      )
+    }
+    return command.op === 'showDialog' || command.op?.startsWith('setDialogStyle') === true
+  }
+  return false
+}
+
 /**
  * 静态翻译一条 scriptOnUse 链(线性数据 op → ItemUseEffect[])。
  * 支持:0x1B/0x1C 回血蓝、0x1D 双回(茶叶蛋)、0x22 复活、0x2D applyStatus、0x2F removeStatus、
@@ -920,8 +1039,12 @@ export function translateUseScript(
       case 0x61: // 毒龙胆/九阴散:没中毒则秒杀自己(gate 效果;后接解毒/回血续跑)
         out.effects.push({ kind: 'dieIfNotPoisoned' })
         break
-      case 0x38: // 引路蜂/土灵珠:传送出口(跑当前场景 onTeleport;无出口→operand[0] 不灵消息=reforge report)
-        out.effects.push({ kind: 'teleportOut' })
+      case 0x38: // 引路蜂:调用当前场景具名出口；目的地/前置判断属于 SceneDef.onTeleport。
+        out.effects.push({
+          kind: 'runSceneHook',
+          hook: 'onTeleport',
+          unavailableMessage: '无任何效果',
+        })
         break
       case 0x17: {
         // SetPlayerExtraAttribute(仅大蒜用):operand[0]=17→Extra 层 6,operand[1]=22=毒抗行
@@ -951,7 +1074,7 @@ export function translateUseScript(
       default:
         return {
           ...out,
-          pendingReason: `op 0x${(c.opcode ?? 0).toString(16)}(灵珠剧情/毒杀/遇敌香/蛊系等)→ 对应系统落地后`,
+          pendingReason: unsupportedItemUseReason(c.opcode ?? 0),
         }
     }
   }
@@ -1052,6 +1175,8 @@ export interface MigrateSources {
   enemies?: SourceEnemy[]
   enemyObjects?: SourceEnemyObject[]
   enemyTeams?: SourceEnemyTeam[]
+  /** 资源池用途的奖励表来源；PAL 生产迁移注入 stores.json，窄 fixture 可缺省。 */
+  stores?: Array<{ id: number; items: number[] }>
   /** 生产迁移由 sound catalog 注入；fixture 缺省按正整数确定性映射。 */
   soundAssetForNum?: SoundAssetForNum
 }
@@ -1075,7 +1200,14 @@ export interface MigrateOutput {
     /** M1b:装备链里翻不动的 op(战斗精灵切换/毒疗等)。 */
     pendingEquip: { itemId: number; name: string; ops: EquipTranslation['pending'] }[]
     /** M1d:使用链整件翻不动的(灵珠剧情/毒杀/遇敌香/蛊系等)。 */
-    pendingUse: { itemId: number; name: string; reason: string }[]
+    pendingUse: {
+      itemId: number
+      name: string
+      reason: string
+      category: MigrationDiagnosticCategory
+      sourceLabel: string
+      sourceAddress: number
+    }[]
     /** M1d 投掷链翻不动的(相生相克/致死 → 相克数据层)。 */
     pendingThrow: { itemId: number; name: string; reason: string }[]
     /** M1d:使用链有损点(战斗分支头)。 */
@@ -1117,6 +1249,27 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   // 物品:表字段(M1a)+ 装备效果(M1b)+ 使用效果(M1d)
   const pendingEquip: MigrateOutput['report']['pendingEquip'] = []
   const pendingUse: MigrateOutput['report']['pendingUse'] = []
+  const recordPendingUse = (item: SourceItem, reason: string): void => {
+    const opcode = /^op 0x([0-9a-f]+)/i.exec(reason)?.[1]
+    const isStoryOpcode = opcode === '81' || opcode === '84'
+    const category: MigrationDiagnosticCategory = reason.includes('Store')
+      ? 'missing-source-data'
+      : isStoryOpcode || reason.includes('剧情') || reason.includes('B2')
+        ? 'story-script'
+        : reason.includes('空链')
+          ? 'empty-script'
+          : /(?:opcode|op\s*0x|0x[0-9a-f]+)/i.test(reason)
+            ? 'unsupported-command'
+            : 'manual-review'
+    pendingUse.push({
+      itemId: item.id,
+      name: item._name,
+      reason,
+      category,
+      sourceLabel: `L_${item.scriptOnUse}`,
+      sourceAddress: item.scriptOnUse,
+    })
+  }
   const pendingThrow: MigrateOutput['report']['pendingThrow'] = []
   const lossyUse: MigrateOutput['report']['lossyUse'] = []
   const itemsTable = mapItemsTable(src.items, descOf('item'))
@@ -1139,6 +1292,16 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       }
     }
     if (srcItem.flags.usable) {
+      const recipeEffect = translateCraftRecipeScript(src.commands, labelIndex, srcItem.scriptOnUse)
+      const useStart = labelIndex.get(`L_${srcItem.scriptOnUse}`)
+      const useHead = useStart === undefined ? undefined : src.commands[useStart]
+      const poolRewards = src.stores?.find((store) => store.id === 0)?.items ?? []
+      const isResourcePool = useHead?.op === 'raw' && useHead.opcode === 0x34
+      const useSharedScript = shouldMigrateUseAsSharedScript(
+        src.commands,
+        labelIndex,
+        srcItem.scriptOnUse,
+      )
       const u = translateUseScript(
         src.commands,
         labelIndex,
@@ -1157,13 +1320,52 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
             effects: [{ kind: 'applyPoison', poisonId: String(selfPoison) }],
           },
         }
+      } else if (recipeEffect) {
+        out = {
+          ...out,
+          use: {
+            target: 'scene',
+            consuming: srcItem.flags.consuming,
+            effects: [recipeEffect],
+          },
+        }
+      } else if (isResourcePool && poolRewards.length > 0) {
+        out = {
+          ...out,
+          use: {
+            target: 'scene',
+            consuming: srcItem.flags.consuming,
+            effects: [
+              {
+                kind: 'drawFromResourcePool',
+                resource: 'collectValue',
+                maxRoll: poolRewards.length,
+                rewards: poolRewards.map((itemId) => ({ itemId: String(itemId), count: 1 })),
+              },
+            ],
+          },
+        }
+      } else if (useSharedScript) {
+        out = {
+          ...out,
+          use: {
+            target: 'scene',
+            consuming: srcItem.flags.consuming,
+            effects: [{ kind: 'runScript', script: migratedItemUseScriptRef(srcItem.id) }],
+          },
+        }
       } else if (u.pendingReason) {
-        pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: u.pendingReason })
+        recordPendingUse(
+          srcItem,
+          isResourcePool && poolRewards.length === 0
+            ? '资源池用途缺 Store[0] 奖励表'
+            : u.pendingReason,
+        )
       } else if (u.effects.length) {
         if (u.lossyNotes.length)
           lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
-        // 传送出口(引路蜂/土灵珠)作用于场景非队友 → target 'scene'(reforge useConfirm 按此不进选目标)
-        const target = u.effects.some((e) => e.kind === 'teleportOut')
+        // 场景钩子作用于当前场景而非队友；菜单不进入选目标。
+        const target = u.effects.some((e) => e.kind === 'runSceneHook')
           ? ('scene' as const)
           : srcItem.flags.applyToAll
             ? ('allAllies' as const)
@@ -1174,11 +1376,12 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
             target,
             consuming: srcItem.flags.consuming,
             effects: u.effects,
+            ...(target === 'scene' ? { menuAfterUse: 'close' as const } : {}),
             ...(u.sound ? { sound: u.sound } : {}),
           },
         }
       } else {
-        pendingUse.push({ itemId: srcItem.id, name: srcItem._name, reason: 'scriptOnUse 空链' })
+        recordPendingUse(srcItem, 'scriptOnUse 空链')
       }
     }
     if (srcItem.flags.throwable && srcItem.scriptOnThrow !== 0) {
@@ -1427,6 +1630,12 @@ export interface SceneMigrationResult {
 export interface SceneMigrationOptions {
   /** PAL 物理源帧数；只验证明示 overlay，不参与布局推断。 */
   worldSpriteFrameCounts?: readonly number[]
+  /** 非场景内容持有的 legacy 执行根；翻译成稳定别名后进入同一脚本库。 */
+  globalScriptAliases?: ReadonlyArray<{
+    id: string
+    entry: number
+    owner?: string
+  }>
 }
 
 /**
@@ -1875,6 +2084,13 @@ export function mapScenesStatic(
     mapIdForNum: mapIdFromSourceNumber,
     soundAssetForNum,
     registry,
+  }
+  for (const alias of [...(options.globalScriptAliases ?? [])].sort((left, right) =>
+    left.id.localeCompare(right.id),
+  )) {
+    if (!Number.isInteger(alias.entry) || alias.entry <= 0)
+      throw new Error(`全局脚本别名 ${alias.id} 的入口无效: ${alias.entry}`)
+    registry.registerLegacyAlias(alias.id, `L_${alias.entry}`, alias.owner, tctx)
   }
   /** 原版 triggerMode → 触发口:1-3 = 按键交互(range=mode),4-8 = 走近自动(range=mode-4)。 */
   const triggerOf = (eo: SourceEventObject) => {

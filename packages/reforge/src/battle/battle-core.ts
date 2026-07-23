@@ -35,6 +35,8 @@ import {
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
+  itemUseEffectSupportsContext,
+  itemUseSupportsContext,
   magicDefenseDivisor,
   pickAiTarget,
   poisonCurableBy,
@@ -42,6 +44,10 @@ import {
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import { getEnemyBasePos } from './battle-positions.js'
+
+function assertNever(value: never, context: string): never {
+  throw new Error(`${context}: 未处理的物品效果 ${JSON.stringify(value)}`)
+}
 
 export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'won' | 'lost' | 'fled'
 
@@ -70,6 +76,8 @@ export interface BattlePlayerState {
   elemRes?: ElementVec
   /** 毒抗(装备 live 派生;缺省 0)。减毒系伤害 + 降中毒率(fight.c:5141)。 */
   poisonRes?: number
+  /** 物品提供的临时毒抗层；重复使用只刷新取高，不无限叠加。 */
+  itemPoisonResBonus?: number
   /** 攻击全体(长鞭装备 live 派生;物攻扫全场,伤害逐敌减半,fight.c:3683-3730)。 */
   attackAll?: boolean
   /** 每回合回血(寿葫芦等 regenHp 词条;live 派生。clean 版正名,不借毒系统)。 */
@@ -1213,10 +1221,15 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
     }
   } else if (a.kind === 'item') {
     const itemId = a.itemId
+    const use = s.items[itemId]?.use
     const slot = s.inventory.find((x) => x.itemId === itemId)
-    if (!slot || slot.count <= 0) {
+    if (!use || !itemUseSupportsContext(use, 'battle') || !slot || slot.count <= 0) {
       a = { kind: 'defend' }
-      s.log.push(`${p.roleId} 的 ${itemId} 已耗尽,降级防御`)
+      s.log.push(
+        !use || !itemUseSupportsContext(use, 'battle')
+          ? `${p.roleId} 的 ${itemId} 不能在战斗中使用,降级防御`
+          : `${p.roleId} 的 ${itemId} 已耗尽,降级防御`,
+      )
     }
   }
   if (a.kind === 'attack') {
@@ -1333,75 +1346,105 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       s.log.push(`${p.roleId} 使用 ${act.itemId} 失败(缺数据/无库存)`)
       return
     }
+    if (!itemUseSupportsContext(item.use, 'battle')) {
+      s.log.push(`${p.roleId} 使用 ${item.name} 失败(该用途不能在战斗中执行)`)
+      return
+    }
     if (item.use.consuming) slot.count -= 1
-    // 目标路由:oneAlly 可点名队友(还魂香喂尸体/灵心符解队友),缺省施于自己
-    const t = s.players[act.targetAllyIdx ?? idx] ?? p
-    const who = t === p ? p.roleId : `${p.roleId} 对 ${t.roleId}`
+    // 目标路由:allAllies 必须逐个结算；oneAlly 可点名队友，self 始终锁施用者。
+    const selected = item.use.target === 'self' ? p : (s.players[act.targetAllyIdx ?? idx] ?? p)
+    const targets = item.use.target === 'allAllies' ? s.players : [selected]
+    const stoppedTargets = new Set<BattlePlayerState>()
     for (const eff of item.use.effects) {
-      switch (eff.kind) {
-        case 'healHp':
-          if (t.hp <= 0) break // PAL_IncreaseHPMP 仅活人(global.c:1287);死人用药无效果
-          t.hp = Math.min(t.maxHp, t.hp + eff.amount)
-          s.log.push(`${who} 使用 ${item.name} 回复 ${eff.amount}`)
-          break
-        case 'healMp':
-          if (t.hp <= 0) break
-          t.mp = Math.min(t.maxMp, t.mp + eff.amount)
-          s.log.push(`${who} 使用 ${item.name} 回蓝 ${eff.amount}`)
-          break
-        case 'revive':
-          // 0x22 全语义:仅死者;回 max×% + 解重毒 + 清定时状态(曾对活人当保底奶,偏离原版)
-          if (reviveBattlePlayer(s, t, eff.hpPercent))
-            s.log.push(`${who} 使用 ${item.name},死而复生`)
-          else s.log.push(`${item.name} 对 ${t.roleId} 无任何效果`)
-          break
-        case 'applyStatus': {
-          // 对己方上状态(金刚符护体/忘魂花催眠队友):0x2D 无抗掷,PAL_SetPlayerStatus 规则
-          const ok = applyPlayerStatus(t.status, eff.status, eff.turns, t.hp > 0)
-          if (ok) s.log.push(`${who} 使用 ${item.name},获得 ${eff.status}`)
-          break
+      if (eff.kind === 'gate') {
+        // 0x06 掷 1..100，严格小于阈值才成功；失败仍消耗战斗道具（fight.c 真值）。
+        const chance = Math.max(0, Math.min(100, eff.chance ?? 100))
+        const roll = 1 + Math.floor(Math.max(0, Math.min(0.999999999, _rng())) * 100)
+        if (!(roll < chance)) {
+          s.log.push(`${item.name} 无任何效果`)
+          return
         }
-        case 'removeStatus':
-          if (t.hp <= 0) break
-          for (const st of eff.statuses) t.status[st] = 0
-          s.log.push(`${who} 使用 ${item.name},恢复神智`)
-          break
-        case 'applyPoison': {
-          // 毒药对己 use:相克(以毒攻毒自解)/致死(暴毙)/否则自毒(毒蛇卵等自毒食同路)
-          const r = applyPoisonToPlayer(t, Number(eff.poisonId), s.poisonDefs)
-          s.log.push(
-            `${who} 使用 ${item.name}${r === 'cured' ? ',以毒攻毒解毒' : r === 'lethal' ? ',双毒相冲暴毙' : ''}`,
-          )
-          break
+        continue
+      }
+      if (eff.kind === 'hideParty') {
+        // 0x5C 隐蛊是队伍全局态，不因 allAllies 目标数重复执行。
+        s.hidingTime = -eff.turns
+        s.log.push(`全队隐匿形迹`)
+        continue
+      }
+      if (
+        eff.kind === 'permanentStatBoost' ||
+        eff.kind === 'runScript' ||
+        eff.kind === 'runSceneHook' ||
+        eff.kind === 'craftRecipe' ||
+        eff.kind === 'drawFromResourcePool'
+      ) {
+        // 上面的 context guard 应在扣库存前拒绝这些世界专用效果；这里保留显式穷尽兜底。
+        s.log.push(`${item.name} 的 ${eff.kind} 不能在战斗中执行`)
+        return
+      }
+      for (const t of targets) {
+        if (stoppedTargets.has(t)) continue
+        const who = t === p ? p.roleId : `${p.roleId} 对 ${t.roleId}`
+        switch (eff.kind) {
+          case 'healHp':
+            if (t.hp <= 0) break // PAL_IncreaseHPMP 仅活人(global.c:1287);死人用药无效果
+            t.hp = Math.max(0, Math.min(t.maxHp, t.hp + eff.amount))
+            s.log.push(`${who} 使用 ${item.name} 回复 ${eff.amount}`)
+            break
+          case 'healMp':
+            if (t.hp <= 0) break
+            t.mp = Math.max(0, Math.min(t.maxMp, t.mp + eff.amount))
+            s.log.push(`${who} 使用 ${item.name} 回蓝 ${eff.amount}`)
+            break
+          case 'revive':
+            // 0x22 全语义:仅死者;回 max×% + 解重毒 + 清定时状态。
+            if (reviveBattlePlayer(s, t, eff.hpPercent))
+              s.log.push(`${who} 使用 ${item.name},死而复生`)
+            else s.log.push(`${item.name} 对 ${t.roleId} 无任何效果`)
+            break
+          case 'applyStatus': {
+            const ok = applyPlayerStatus(t.status, eff.status, eff.turns, t.hp > 0)
+            if (ok) s.log.push(`${who} 使用 ${item.name},获得 ${eff.status}`)
+            break
+          }
+          case 'removeStatus':
+            if (t.hp <= 0) break
+            for (const st of eff.statuses) t.status[st] = 0
+            s.log.push(`${who} 使用 ${item.name},恢复神智`)
+            break
+          case 'applyPoison': {
+            const r = applyPoisonToPlayer(t, Number(eff.poisonId), s.poisonDefs)
+            s.log.push(
+              `${who} 使用 ${item.name}${r === 'cured' ? ',以毒攻毒解毒' : r === 'lethal' ? ',双毒相冲暴毙' : ''}`,
+            )
+            break
+          }
+          case 'curePoison':
+            if (eff.poisonId !== undefined)
+              t.poisons = t.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
+            else curePoisons(t, s.poisonDefs, eff.curesTier ?? 'common')
+            s.log.push(`${who} 使用 ${item.name} 解毒`)
+            break
+          case 'dieIfNotPoisoned':
+            if (t.poisons.length === 0) {
+              t.hp = 0
+              stoppedTargets.add(t)
+              s.log.push(`${who} 使用 ${item.name},未中毒反噬暴毙`)
+            }
+            break
+          case 'extraPoisonRes':
+            {
+              const before = t.itemPoisonResBonus ?? 0
+              const after = Math.max(before, eff.amount)
+              t.itemPoisonResBonus = after
+              t.poisonRes = Math.max(0, (t.poisonRes ?? 0) + after - before)
+            }
+            s.log.push(`${who} 使用 ${item.name},毒抗提高 ${eff.amount}`)
+            break
+          default:
+            assertNever(eff, 'battle item use')
         }
-        case 'curePoison':
-          if (eff.poisonId !== undefined)
-            t.poisons = t.poisons.filter((ap) => ap.poisonId !== Number(eff.poisonId))
-          else curePoisons(t, s.poisonDefs, eff.curesTier ?? 'common')
-          s.log.push(`${who} 使用 ${item.name} 解毒`)
-          break
-        case 'dieIfNotPoisoned':
-          // 毒龙胆/九阴散(0x61):没中毒 → 秒杀目标 + 截断后效;中毒 → 续跑解毒/回血
-          if (t.poisons.length === 0) {
-            t.hp = 0
-            s.log.push(`${who} 使用 ${item.name},未中毒反噬暴毙`)
-            return
-          }
-          break
-        case 'gate':
-          // 概率门(0x06;物品效果链):失败截断其后,显「无任何效果」。物品施于己方,只掷概率位
-          if (eff.chance !== undefined && !(1 + Math.floor(_rng() * 100) < eff.chance)) {
-            s.log.push(`${item.name} 无任何效果`)
-            return
-          }
-          break
-        case 'hideParty':
-          // 0x5C 隐蛊:存负值待激活(一阶段 CLASSIC:行动步前取反 → 同轮后续敌立即跳过)
-          s.hidingTime = -eff.turns
-          s.log.push(`全队隐匿形迹`)
-          break
-        default:
-          s.log.push(`物品效果 ${eff.kind} 未接(战斗期陆续)`)
       }
     }
     return
@@ -1464,6 +1507,10 @@ function performThrow(
     s.log.push(`${p.roleId} 投掷 ${itemId} 失败(缺数据/无库存/目标已死)`)
     return
   }
+  if (!item.throw.effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))) {
+    s.log.push(`${p.roleId} 投掷 ${item.name} 失败(包含不能投掷的效果)`)
+    return
+  }
   slot.count -= 1 // 投掷必消耗
   for (const eff of item.throw.effects) {
     switch (eff.kind) {
@@ -1482,11 +1529,26 @@ function performThrow(
         } else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
         break
       }
-      case 'healHp': // 对敌"回血"= 反效果,原版罕见;直接扣(负 heal 语义留数据层)
-        s.log.push(`${p.roleId} 投掷 ${item.name}(对敌无效果)`)
-        break
+      case 'healHp':
+      case 'healMp':
+      case 'revive':
+      case 'applyStatus':
+      case 'removeStatus':
+      case 'curePoison':
+      case 'permanentStatBoost':
+      case 'gate':
+      case 'dieIfNotPoisoned':
+      case 'runScript':
+      case 'runSceneHook':
+      case 'craftRecipe':
+      case 'drawFromResourcePool':
+      case 'extraPoisonRes':
+      case 'hideParty':
+        // 上面的 context guard 应在扣库存前拒绝；显式列出以免新增 kind 静默落入 default。
+        s.log.push(`投掷效果 ${eff.kind} 不允许在投掷上下文执行`)
+        return
       default:
-        s.log.push(`投掷效果 ${eff.kind} 未接(战斗期陆续)`)
+        assertNever(eff, 'battle item throw')
     }
   }
 }

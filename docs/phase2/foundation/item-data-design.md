@@ -99,7 +99,7 @@ CharacterInstance.equipment: Record<EquipSlot, string>      // slot → itemId
 
 ```ts
 interface UseSpec {
-  target?: 'oneAlly'|'allAllies'|'self'|'scene'   // 部分是对场景/无目标
+  target: 'oneAlly'|'allAllies'|'self'|'scene'    // 场景用途显式使用 scene
   consuming: boolean                               // 用后消耗(原 consuming flag)
   effects: ItemUseEffect[]
 }

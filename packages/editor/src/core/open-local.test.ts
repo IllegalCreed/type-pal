@@ -930,7 +930,6 @@ describe('openLocalProject', () => {
         buyPrice: 0,
         sellPrice: 0,
         sellable: false,
-        use: { consuming: false, effects: [] },
         equip: {
           slot: 'weapon',
           effects: [{ kind: 'battleSprite', sprite: 'player-summon-10' }],
@@ -2088,7 +2087,12 @@ describe('openLocalProject', () => {
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,
-          use: { target: 'self', consuming: false, effects: [], sound: 6 },
+          use: {
+            target: 'self',
+            consuming: false,
+            effects: [{ kind: 'healHp', amount: 1 }],
+            sound: 6,
+          },
         },
       ]),
       'content/scenes/s1.json': J({

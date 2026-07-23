@@ -147,6 +147,93 @@ function assetRecord(kind: AssetKind, stem: string): AssetRecordV1 {
   }
 }
 
+test('C8 迁移诊断进入统一问题面板并精确跳到物品；能力已补齐时不再提示', () => {
+  const diagnostic = {
+    version: 1 as const,
+    diagnostics: [
+      {
+        id: 'item-use:story',
+        severity: 'warn' as const,
+        target: {
+          domain: 'item' as const,
+          objectId: 'story',
+          capability: 'use' as const,
+          label: '剧情物品',
+        },
+        category: 'story-script' as const,
+        reason: '需要现代化剧情脚本',
+        source: { kind: 'legacy-script' as const, label: 'L_99', address: 99 },
+      },
+    ],
+  }
+  const item = {
+    id: 'story',
+    name: '剧情物品',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+  }
+  const pending = collectProjectIssues(
+    state({ items: [item], migrationDiagnostics: diagnostic }),
+  ).find((issue) => issue.code === 'migration-pending')
+  expect(pending).toMatchObject({
+    severity: 'warn',
+    path: 'migrationDiagnostics.diagnostics[0]',
+    target: { module: 'item', page: 'item', objectId: 'story' },
+  })
+  expect(pending?.message).toContain('L_99')
+
+  expect(
+    collectProjectIssues(
+      state({
+        items: [
+          {
+            ...item,
+            use: {
+              target: 'scene',
+              consuming: false,
+              effects: [
+                {
+                  kind: 'runScript',
+                  script: { chunk: 'shared/c00', id: 'shared/item/story' },
+                },
+              ],
+            },
+          },
+        ],
+        migrationDiagnostics: diagnostic,
+      }),
+    ).some((issue) => issue.code === 'migration-pending'),
+  ).toBe(false)
+})
+
+test('非法投掷效果进入问题面板并被保存门拒绝', () => {
+  const invalid = state({
+    items: [
+      {
+        id: 'bad-throw',
+        name: '坏投掷物',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        throw: { effects: [{ kind: 'healHp', amount: 10 }] },
+      } as never,
+    ],
+  })
+  expect(collectProjectIssues(invalid)).toContainEqual(
+    expect.objectContaining({
+      severity: 'error',
+      code: 'invalid-item-data',
+      target: { module: 'item', page: 'item', objectId: 'bad-throw' },
+    }),
+  )
+  expect(() => assertProjectSaveValid(invalid)).toThrow(
+    /保存前物品数据校验失败.*不可用于投掷上下文/,
+  )
+})
+
 describe('X7 工程入口不变式', () => {
   test('缺省 entryPoints 只合成 UI 入口，不改 manifest，也不重复报告缺场景', () => {
     const manifest = { ...state().manifest, entryScene: 'missing' }
@@ -418,7 +505,12 @@ describe('X7 工程诊断与保存门', () => {
           buyPrice: 0,
           sellPrice: 0,
           sellable: false,
-          use: { consuming: false, effects: [], sound },
+          use: {
+            target: 'oneAlly' as const,
+            consuming: false,
+            effects: [{ kind: 'healHp' as const, amount: 1 }],
+            sound,
+          },
         },
       ],
       skills: [
@@ -474,7 +566,12 @@ describe('X7 工程诊断与保存门', () => {
       items: [
         {
           ...withEverySoundSite.items[0]!,
-          use: { consuming: false, effects: [], sound: 'sound.missing' },
+          use: {
+            target: 'oneAlly' as const,
+            consuming: false,
+            effects: [{ kind: 'healHp' as const, amount: 1 }],
+            sound: 'sound.missing',
+          },
         },
       ],
     }

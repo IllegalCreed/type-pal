@@ -1,8 +1,9 @@
-import type { ItemDataMap, WorldState } from '@type-pal/content'
+import { type ItemDataMap, resolveWorldItemUse, type WorldState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestItems, makeTestWorld } from './test-fixtures.js'
 import {
   closeUseMenu,
+  finishUseExecution,
   openUseMenu,
   useApply,
   useBackFromTarget,
@@ -33,11 +34,11 @@ describe('使用菜单状态机', () => {
       expect(oneAlly.state.phase).toBe('pick-target')
       expect(oneAlly.state.selectedItemId).toBe('61')
     }
-    const script = useConfirm(openUseMenu(w, makeTestItems()), w, makeTestItems()) // idx0 土灵珠(scene/triggerScript)
-    expect(script.kind).toBe('direct')
-    if (script.kind === 'direct') expect(script.state.phase).toBe('pick-item') // 不进选目标
+    const script = useConfirm(openUseMenu(w, makeTestItems()), w, makeTestItems()) // idx0 土灵珠(scene/runScript)
+    expect(script.kind).toBe('execute')
+    if (script.kind === 'execute') expect(script.request.origin).toBe('pick-item') // 不进选目标
   })
-  test('useConfirm:传送出口道具(引路蜂)→ teleportOut 信号,不进选目标/不执行 content', () => {
+  test('useConfirm:场景钩子道具(引路蜂)→ 统一 execute 请求,菜单层不再识别 effect kind', () => {
     const items: ItemDataMap = {
       '151': {
         id: '151',
@@ -46,7 +47,11 @@ describe('使用菜单状态机', () => {
         buyPrice: 0,
         sellPrice: 0,
         sellable: true,
-        use: { target: 'scene', consuming: true, effects: [{ kind: 'teleportOut' }] },
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [{ kind: 'runSceneHook', hook: 'onTeleport' }],
+        },
       },
     }
     const world: WorldState = {
@@ -56,8 +61,8 @@ describe('使用菜单状态机', () => {
       inventory: [{ itemId: '151', count: 1 }],
     }
     const r = useConfirm(openUseMenu(world, items), world, items)
-    expect(r.kind).toBe('teleportOut')
-    if (r.kind === 'teleportOut') expect(r.itemId).toBe('151')
+    expect(r.kind).toBe('execute')
+    if (r.kind === 'execute') expect(r.request.itemId).toBe('151')
   })
   test('useApply:单体用完留 pick-target 可连用,用光才回 pick-item', () => {
     const w0 = makeTestWorld()
@@ -67,11 +72,23 @@ describe('使用菜单状态机', () => {
       makeTestItems(),
     ) // 观音符 count2
     if (c.kind !== 'pick-target') throw new Error('expected pick-target')
-    const r1 = useApply(c.state, w0, 'li-xiaoyao', makeTestItems()) // 用 1 颗 2→1
-    expect(r1.world.party[0]?.hp).toBe(150) // 100+150 夹满
-    expect(r1.state.phase).toBe('pick-target') // 还有 → 留选目标
-    const r2 = useApply(r1.state, r1.world, 'li-xiaoyao', makeTestItems()) // 用第 2 颗 1→0
-    expect(r2.state.phase).toBe('pick-item') // 用光 → 回列表
+    const request1 = useApply(c.state, w0, 'li-xiaoyao', makeTestItems())
+    if (!request1) throw new Error('expected execution request')
+    const outcome1 = resolveWorldItemUse(w0, 'li-xiaoyao', request1.itemId, makeTestItems())
+    expect(outcome1.world.party[0]?.hp).toBe(150) // 100+150 夹满
+    const state1 = finishUseExecution(request1, outcome1, makeTestItems())
+    expect(state1.phase).toBe('pick-target') // 还有 → 留选目标
+
+    const request2 = useApply(state1, outcome1.world, 'li-xiaoyao', makeTestItems())
+    if (!request2) throw new Error('expected execution request')
+    const outcome2 = resolveWorldItemUse(
+      outcome1.world,
+      'li-xiaoyao',
+      request2.itemId,
+      makeTestItems(),
+    )
+    const state2 = finishUseExecution(request2, outcome2, makeTestItems())
+    expect(state2.phase).toBe('pick-item') // 用光 → 回列表
   })
   test('useBackFromTarget:pick-target → pick-item', () => {
     const w = makeTestWorld()
@@ -85,5 +102,41 @@ describe('使用菜单状态机', () => {
   })
   test('closeUseMenu:active false', () => {
     expect(closeUseMenu().active).toBe(false)
+  })
+
+  test('finishUseExecution:失败保持原位；成功且 menu=close 关闭整个使用菜单', () => {
+    const world = makeTestWorld()
+    const confirmed = useConfirm(openUseMenu(world, makeTestItems()), world, makeTestItems())
+    if (confirmed.kind !== 'execute') throw new Error('expected execute')
+    const failure = finishUseExecution(
+      confirmed.request,
+      {
+        status: 'failure',
+        world,
+        consumed: false,
+        changed: false,
+        effectResults: [],
+        presentations: [],
+        reason: 'external-unavailable',
+        menu: 'keep',
+      },
+      makeTestItems(),
+    )
+    expect(failure).toBe(confirmed.request.state)
+
+    const success = finishUseExecution(
+      confirmed.request,
+      {
+        status: 'success',
+        world,
+        consumed: true,
+        changed: true,
+        effectResults: [],
+        presentations: [],
+        menu: 'close',
+      },
+      makeTestItems(),
+    )
+    expect(success).toEqual(closeUseMenu())
   })
 })

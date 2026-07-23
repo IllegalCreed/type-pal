@@ -5,7 +5,7 @@
  * 脚本「商店」指令(openShop)按店号引用。
  */
 import type { ItemData, ShopDef } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AddShopCommand, UpdateShopCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 
@@ -13,13 +13,25 @@ export function ShopTab(props: {
   shops: ShopDef[]
   items: ItemData[]
   session: EditSession
+  focusObjectId?: string
+  onObjectFocus?: (id: string | undefined) => void
   tabBar?: React.ReactNode
 }) {
-  const { shops, items, session, tabBar } = props
+  const { shops, items, session, focusObjectId, onObjectFocus, tabBar } = props
   const [selId, setSelId] = useState<number>(shops[0]?.id ?? 0)
   const [pick, setPick] = useState('')
   const shop = shops.find((x) => x.id === selId) ?? shops[0]
   const itemsById = useMemo(() => new Map(items.map((i) => [i.id, i])), [items])
+  const selectShop = (id: number): void => {
+    setSelId(id)
+    onObjectFocus?.(String(id))
+  }
+
+  useEffect(() => {
+    const id = Number(focusObjectId)
+    if (focusObjectId && Number.isInteger(id) && shops.some((candidate) => candidate.id === id))
+      setSelId(id)
+  }, [focusObjectId, shops])
 
   const setItems = (next: string[]): void => {
     if (shop) session.dispatch(new UpdateShopCommand(shop.id, next))
@@ -40,7 +52,7 @@ export function ShopTab(props: {
               type="button"
               key={x.id}
               className={`arow${x.id === shop?.id ? ' sel' : ''}`}
-              onClick={() => setSelId(x.id)}
+              onClick={() => selectShop(x.id)}
             >
               <span className="nm">
                 店 {x.id}
@@ -56,7 +68,7 @@ export function ShopTab(props: {
           onClick={() => {
             const id = shops.reduce((m, x) => Math.max(m, x.id), -1) + 1
             session.dispatch(new AddShopCommand(id))
-            setSelId(id)
+            selectShop(id)
           }}
         >
           ＋ 新建店铺

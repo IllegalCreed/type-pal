@@ -47,6 +47,7 @@ function walkCond(
       push(idx.vars, cond.var, { ...at, access: 'read', detail: `${cond.op} ${cond.value}` })
       return
     case 'hasItem':
+    case 'ownsItem':
       push(idx.items, cond.itemId, { ...at, access: 'read', detail: `≥${cond.atLeast ?? 1}` })
       return
     case 'all':
@@ -57,7 +58,7 @@ function walkCond(
       walkCond(cond.cond, idx, at)
       return
     default:
-      return // entityState/chance/hasMoney/inParty:非 flag/var/item,不进索引
+      return // entityState/facingEntity/chance/hasMoney/inParty:非 flag/var/item,不进索引
   }
 }
 

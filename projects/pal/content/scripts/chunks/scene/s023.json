@@ -922,7 +922,7 @@
         "cond": {
           "kind": "not",
           "cond": {
-            "kind": "hasItem",
+            "kind": "ownsItem",
             "itemId": "76",
             "atLeast": 1
           }
@@ -977,7 +977,7 @@
         "cond": {
           "kind": "not",
           "cond": {
-            "kind": "hasItem",
+            "kind": "ownsItem",
             "itemId": "80",
             "atLeast": 1
           }
@@ -1026,7 +1026,7 @@
         "cond": {
           "kind": "not",
           "cond": {
-            "kind": "hasItem",
+            "kind": "ownsItem",
             "itemId": "78",
             "atLeast": 1
           }

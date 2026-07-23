@@ -6,12 +6,18 @@ import { isDeepStrictEqual } from 'node:util'
 import { gunzipSync, inflateSync } from 'node:zlib'
 import {
   type AssetCatalogV1,
+  type Command,
   decodeFrameSequenceBlock,
   decodeFrameSequenceFrame,
+  type ItemData,
   type LoadedManifest,
+  type MigrationDiagnosticsV1,
   palFrameAnimationAssetId,
   palSpriteAssetId,
   parseFrameSequence,
+  type ScriptChunkV1,
+  type ScriptIndexV1,
+  type ScriptRef,
   type SpriteDef,
   spriteDefinitionFrameDemand,
   validateAssetCatalog,
@@ -25,6 +31,7 @@ import {
   RNG_WIDTH,
 } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
+import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
@@ -335,10 +342,7 @@ function assertWorldSpriteGraph(
 }
 
 function assertEarthPearlSummonChain(migration: ReturnType<typeof buildPalMigration>): void {
-  const items = migration.files.get('content/items.json') as unknown as Array<{
-    id: string
-    equip?: { effects: unknown[] }
-  }>
+  const items = migration.files.get('content/items.json') as unknown as ItemData[]
   const skills = migration.files.get('content/skills.json') as unknown as {
     skills: Array<{ id: string; effects?: unknown[] }>
   }
@@ -366,6 +370,118 @@ function assertEarthPearlSummonChain(migration: ReturnType<typeof buildPalMigrat
     kind: 'battle-sprite',
     path: 'assets/migrated/battle-sprites/player/013.rle',
   })
+
+  const earthPearl = items.find(({ id }) => id === '267')
+  expect(earthPearl?.use).toEqual({
+    target: 'scene',
+    consuming: false,
+    effects: [
+      {
+        kind: 'runScript',
+        script: migratedItemUseScriptRef(267),
+      },
+    ],
+  })
+  const rootEffect = earthPearl!.use!.effects[0]!
+  if (rootEffect.kind !== 'runScript') throw new Error('土灵珠用途不是稳定共享脚本')
+  const scriptIndex = migration.files.get('content/scripts/index.json') as unknown as ScriptIndexV1
+  expect(scriptIndex.library?.[rootEffect.script.id]).toMatchObject({
+    name: '土灵珠使用',
+    self: 'none',
+  })
+  const reachable = collectReachableCommands(migration, rootEffect.script)
+  expect(reachable).toContainEqual({
+    kind: 'branch',
+    cond: { kind: 'not', cond: { kind: 'facingEntity', entity: 'e4285' } },
+    then: [expect.objectContaining({ kind: 'jumpScript' })],
+  })
+  expect(reachable).toContainEqual(expect.objectContaining({ kind: 'teleportOut' }))
+  expect(reachable).toContainEqual({ kind: 'playSound', asset: 'sound.pal.045' })
+  expect(reachable).toContainEqual({ kind: 'setEntityState', entity: 'e4285', state: 3 })
+  expect(reachable).toContainEqual({ kind: 'setEntityFacing', entity: 'e4285', facing: 'down' })
+  expect(reachable).toContainEqual({ kind: 'setEntityFrame', entity: 'e4285', frame: 5 })
+  expect(reachable).toContainEqual({ kind: 'loseItem', itemId: '267' })
+  expect(
+    reachable.flatMap((command) =>
+      command.kind === 'branch' && command.cond.kind === 'entityState' ? [command.cond] : [],
+    ),
+  ).toEqual(
+    [0, 2].flatMap((state) =>
+      ['e4282', 'e4283', 'e4284', 'e4285', 'e4286'].map((entity) => ({
+        kind: 'entityState',
+        entity,
+        is: state,
+      })),
+    ),
+  )
+  expect(reachable).toContainEqual({ kind: 'fade', dir: 'out', ms: 600 })
+  expect(reachable).toContainEqual({ kind: 'loadScene', scene: 's227' })
+  expect(reachable).not.toContainEqual({ kind: 'mountParty', entity: 'global/items' })
+  const locale = migration.files.get('content/locale.json') as Record<string, string>
+  expect(locale['dlg.12538']).toBe('无任何效果')
+}
+
+function scriptBody(
+  migration: ReturnType<typeof buildPalMigration>,
+  ref: ScriptRef,
+): readonly Command[] {
+  const chunk = migration.files.get(`content/scripts/chunks/${ref.chunk}.json`) as unknown as
+    | ScriptChunkV1
+    | undefined
+  const body = chunk?.scripts[ref.id]
+  if (!body) throw new Error(`测试找不到脚本 ${ref.chunk}:${ref.id}`)
+  return body
+}
+
+function collectReachableCommands(
+  migration: ReturnType<typeof buildPalMigration>,
+  root: ScriptRef,
+): Command[] {
+  const output: Command[] = []
+  const seen = new Set<string>([`${root.chunk}:${root.id}`])
+  const walk = (body: readonly Command[]): void => {
+    for (const command of body) {
+      output.push(command)
+      if (command.kind === 'callScript' || command.kind === 'jumpScript') {
+        const key = `${command.ref.chunk}:${command.ref.id}`
+        if (!seen.has(key)) {
+          seen.add(key)
+          walk(scriptBody(migration, command.ref))
+        }
+      } else if (command.kind === 'branch') {
+        walk(command.then)
+        if (command.else) walk(command.else)
+      } else if (command.kind === 'teleportOut' && command.onFail) walk(command.onFail)
+    }
+  }
+  walk(scriptBody(migration, root))
+  return output
+}
+
+function assertItemUseCensus(migration: ReturnType<typeof buildPalMigration>): void {
+  const items = migration.files.get('content/items.json') as unknown as ItemData[]
+  const diagnostics = migration.files.get(
+    'content/migration-diagnostics.json',
+  ) as unknown as MigrationDiagnosticsV1
+  expect(items.filter((item) => item.use)).toHaveLength(80)
+  expect(items.filter((item) => item.use && !item.use.target)).toEqual([])
+  expect(diagnostics.diagnostics.map((entry) => Number(entry.target.objectId))).toEqual([
+    90, 91, 137, 150, 260, 263, 264, 271, 272, 273, 279, 284, 285, 286, 287, 288, 289, 291, 292,
+    294,
+  ])
+  expect(
+    diagnostics.diagnostics
+      .filter((entry) => ['90', '91', '137', '150'].includes(entry.target.objectId))
+      .map((entry) => [entry.target.objectId, entry.category]),
+  ).toEqual([
+    ['90', 'unsupported-command'],
+    ['91', 'unsupported-command'],
+    ['137', 'unsupported-command'],
+    ['150', 'unsupported-command'],
+  ])
+  expect(diagnostics.diagnostics.filter((entry) => entry.category === 'story-script')).toHaveLength(
+    16,
+  )
 }
 
 afterAll(() => {
@@ -378,6 +494,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     const theirs = buildPalMigration(sources)
     assertWorldSpriteGraph(theirs, sources)
     assertEarthPearlSummonChain(theirs)
+    assertItemUseCensus(theirs)
     expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     expect(auditMusicReferences(theirs.files)).toEqual({
       musicAssets: 86,
@@ -414,7 +531,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     const soundAudit = auditSounds(sources, theirs, manifest)
-    expect(soundAudit.report.target.soundEdges).toBe(1_667)
+    expect(soundAudit.report.target.soundEdges).toBe(1_668)
     expect(soundAudit.nextManifest.content.stamps).toBe('content/stamps.json')
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
@@ -427,7 +544,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_648)
+    expect(validation.assetReferences).toBe(6_650)
     expect(validation.assetWarnings).toBe(132)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,
@@ -438,7 +555,7 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     })
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
-      commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
+      commands: { total: 967, default: 170, named: 797, explicitPos: 0 },
       generatedEntries: 701,
       issues: [],
     })
@@ -566,6 +683,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const theirs = buildPalMigration(sources)
     assertWorldSpriteGraph(theirs, sources)
     assertEarthPearlSummonChain(theirs)
+    assertItemUseCensus(theirs)
     expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     await assertFrameAnimationsMatchSource(sources)
     expect(auditMusicReferences(theirs.files)).toEqual({
@@ -602,7 +720,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
     const soundAudit = auditSounds(sources, theirs, manifest)
-    expect(soundAudit.report.target.soundEdges).toBe(1_667)
+    expect(soundAudit.report.target.soundEdges).toBe(1_668)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
     expect(manifest.assets.legacy?.families).not.toContain('sound')
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
@@ -617,7 +735,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_648)
+    expect(validation.assetReferences).toBe(6_650)
     expect(validation.assetWarnings).toBe(132)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,
@@ -628,7 +746,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scriptAudit.issues).toEqual([])
     expect(validation.sceneEntryReferences).toEqual({
-      commands: { total: 966, default: 169, named: 797, explicitPos: 0 },
+      commands: { total: 967, default: 170, named: 797, explicitPos: 0 },
       generatedEntries: 701,
       issues: [],
     })

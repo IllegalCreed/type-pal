@@ -398,7 +398,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: { sites: 765, nonzero: 479, positive: 454, zero: 286, negative: 25 },
       skillAnimation: { sites: 103, nonzero: 97, positive: 97, zero: 6, negative: 0 },
       skillSummon: { sites: 9, nonzero: 9, positive: 9, zero: 0, negative: 0 },
-      playSound: { sites: 1_034, nonzero: 1_034, positive: 1_034, zero: 0, negative: 0 },
+      playSound: { sites: 1_035, nonzero: 1_035, positive: 1_035, zero: 0, negative: 0 },
     },
     'source.channels',
   )
@@ -411,11 +411,11 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       playSound45Occurrences: report.source.playSound45Occurrences,
     },
     {
-      sites: 1_953,
-      nonzero: 1_661,
+      sites: 1_954,
+      nonzero: 1_662,
       uniqueAbsoluteIds: 325,
       empty122Occurrences: 1,
-      playSound45Occurrences: 2,
+      playSound45Occurrences: 3,
     },
     'source.total',
   )
@@ -426,7 +426,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: 479,
       skillAnimation: 98,
       skillSummon: 9,
-      playSound: 1_034,
+      playSound: 1_035,
       itemUse: 1,
       itemThrow: 0,
       roles: 4,
@@ -447,10 +447,10 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       hasFake122Asset: report.target.hasFake122Asset,
     },
     {
-      soundEdges: 1_667,
-      // C2-PAL 合并 242/379/541 三个伪 -f0 SpriteDef，恰好移除 3 条非 sound AssetId 边。
-      allReferences: 6_648,
-      nonSoundReferences: 4_981,
+      soundEdges: 1_668,
+      // C8 恢复共享用途根：物品 266 新增 portrait.pal.069，土灵珠出口 fallback 新增 sound.pal.045。
+      allReferences: 6_650,
+      nonSoundReferences: 4_982,
       catalogSounds: 363,
       referencedSounds: 328,
       unusedSounds: 35,
@@ -468,7 +468,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
         portrait: {
           records: 88,
           bytes: 768_841,
-          edges: 2_365,
+          edges: 2_366,
           referenced: 84,
           unused: 4,
           unusedIds: [
@@ -505,7 +505,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       },
       records: 379,
       bytes: 5_464_181,
-      edges: 2_656,
+      edges: 2_657,
       referenced: 375,
       unused: 4,
       unusedIds: ['portrait.pal.050', 'portrait.pal.068', 'portrait.pal.072', 'portrait.pal.089'],

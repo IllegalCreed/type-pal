@@ -4,6 +4,7 @@ import type {
   BattleSpriteDef,
   EnemyDef,
   MapIndexV1,
+  MigrationDiagnosticsV1,
   SceneDef,
   SpriteDef,
   TilesetDef,
@@ -17,6 +18,7 @@ import {
   spriteDefinitionFrameDemand,
   validateBattleSprites,
 } from '@type-pal/content'
+import { itemScriptCommandRoots } from './item-script-roots.js'
 import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
 import {
   mapRoleSpriteIdsByNumber,
@@ -28,7 +30,6 @@ import { sha256 } from './migration-baseline.js'
 import {
   applyPalItemOverlays,
   applyPalSkillOverlays,
-  PAL_RESOLVED_ITEM_USE_IDS,
   PAL_RESOLVED_SKILL_IDS,
 } from './pal-authored-overlays.js'
 import { createPalBattleSpriteDefinitions } from './pal-battle-sprites.js'
@@ -301,7 +302,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
   }
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
-  const migrated = migrateAll({ ...sources.migrate, soundAssetForNum })
+  const migrated = migrateAll({ ...sources.migrate, stores: sources.stores, soundAssetForNum })
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,
@@ -329,20 +330,71 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       actor.scriptOnDying,
     ]),
   })
+  const sourceItemById = new Map(sources.migrate.items.map((item) => [String(item.id), item]))
+  const itemUseScriptAliases = migrated.items.flatMap((item) => {
+    const source = sourceItemById.get(item.id)
+    if (!source) return []
+    return (item.use?.effects ?? []).flatMap((effect) =>
+      effect.kind === 'runScript'
+        ? [
+            {
+              id: effect.script.id,
+              entry: source.scriptOnUse,
+              owner: 'global/items',
+            },
+          ]
+        : [],
+    )
+  })
+  const itemUseScriptLibrary = Object.fromEntries(
+    migrated.items.flatMap((item) =>
+      (item.use?.effects ?? []).flatMap((effect) =>
+        effect.kind === 'runScript'
+          ? [
+              [
+                effect.script.id,
+                {
+                  name: `${item.name}使用`,
+                  description: `由 PAL 物品「${item.name}」的使用脚本迁移，可在剧情编辑器继续维护。`,
+                  self: 'none' as const,
+                },
+              ] as const,
+            ]
+          : [],
+      ),
+    ),
+  )
   const sceneOutput = mapScenesStatic(
     sources.scenes,
     sources.eventsByScene,
     mapRoleSpriteIdsByNumber(sources.migrate.roles, migrated.sprites),
     globalRoots,
     soundAssetForNum,
-    { worldSpriteFrameCounts: sources.worldSpriteFrameCounts },
+    {
+      worldSpriteFrameCounts: sources.worldSpriteFrameCounts,
+      globalScriptAliases: itemUseScriptAliases,
+    },
   )
   const boss = applyPalBossEncounterOverlay(
     migrated.enemies,
     migrated.enemyTeams,
     sceneOutput.scriptChunks,
   )
-  const scripts = normalizeScriptLibrary(sceneOutput.scriptIndex, boss.chunks)
+  const scripts = normalizeScriptLibrary(
+    {
+      ...sceneOutput.scriptIndex,
+      ...(Object.keys(itemUseScriptLibrary).length
+        ? {
+            library: {
+              ...(sceneOutput.scriptIndex.library ?? {}),
+              ...itemUseScriptLibrary,
+            },
+          }
+        : {}),
+    },
+    boss.chunks,
+  )
+  const extraCommandRoots = [...enemyCommandRoots(boss.enemies), ...itemScriptCommandRoots(items)]
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
   const spriteActions = auditPalSpriteActions({
     scenes: sceneOutput.scenes,
@@ -353,7 +405,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     frameCountByAsset: new Map(
       sources.worldSpriteFrameCounts.map((count, index) => [palSpriteAssetId(index + 1), count]),
     ),
-    extraRoots: enemyCommandRoots(boss.enemies),
+    extraRoots: extraCommandRoots,
   })
   assertPalWorldSpriteBaseline(sprites, sources.assetCatalog, sources.worldSpriteFrameCounts)
   const spriteActionMaterialization = materializePalSpriteActions({
@@ -385,7 +437,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     scenes: spriteActionMaterialization.scenes,
     index: scripts.index,
     chunks: scripts.chunks,
-    extraRoots: enemyCommandRoots(boss.enemies),
+    extraRoots: extraCommandRoots,
   })
   assertScriptLibraryAudit(audit)
 
@@ -397,6 +449,31 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   put('content/sprites.json', spriteActionMaterialization.sprites)
   put('content/battle-sprites.json', battleSprites)
   put('content/items.json', items)
+  const finalItemsById = new Map(items.map((item) => [item.id, item]))
+  const unresolvedPendingUse = migrated.report.pendingUse.filter(
+    (item) => !finalItemsById.get(String(item.itemId))?.use,
+  )
+  const migrationDiagnostics: MigrationDiagnosticsV1 = {
+    version: 1,
+    diagnostics: unresolvedPendingUse.map((item) => ({
+      id: `item-use:${item.itemId}`,
+      severity: 'warn',
+      target: {
+        domain: 'item',
+        objectId: String(item.itemId),
+        capability: 'use',
+        label: item.name,
+      },
+      category: item.category,
+      reason: item.reason,
+      source: {
+        kind: 'legacy-script',
+        label: item.sourceLabel,
+        address: item.sourceAddress,
+      },
+    })),
+  }
+  put('content/migration-diagnostics.json', migrationDiagnostics)
   put('content/skills.json', skills)
   put('content/enemies.json', boss.enemies)
   put('content/enemy-teams.json', migrated.enemyTeams)
@@ -462,9 +539,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
         pendingSkills: migrated.report.pendingSkills.filter(
           (item) => !PAL_RESOLVED_SKILL_IDS.has(item.id),
         ),
-        pendingUse: migrated.report.pendingUse.filter(
-          (item) => !PAL_RESOLVED_ITEM_USE_IDS.has(item.itemId),
-        ),
+        pendingUse: unresolvedPendingUse,
       },
       enemies: migrated.enemyReport,
       enemyTeams: migrated.enemyTeamReport,

@@ -13,6 +13,13 @@ import {
   equippableItems,
   equippedItemIds,
   type ItemDataMap,
+  type ItemUseContext,
+  type ItemUseEffect,
+  itemUseEffectSupportsContext,
+  itemUseSupportsContext,
+  ownedItemCount,
+  removeOwnedItems,
+  resolveWorldItemUse,
   usableItems,
   useItem,
 } from './item.js'
@@ -401,6 +408,394 @@ describe('usableItems + useItem', () => {
     const w = equipItem(world([{ itemId: 'bead', count: 1 }]), 'hero', 'bead', items)
     expect(equippedItemIds(w).has('bead')).toBe(true)
     expect(useItem(w, 'hero', 'bead', items)).toBe(w) // bead 无 use,原样
+  })
+})
+
+describe('C8 · 用途上下文与结构化 world outcome', () => {
+  test('16 种 effect × world/battle/throw 的消费矩阵完整且唯一', () => {
+    const effects = {
+      healHp: { kind: 'healHp', amount: 1 },
+      healMp: { kind: 'healMp', amount: 1 },
+      revive: { kind: 'revive', hpPercent: 50 },
+      applyStatus: { kind: 'applyStatus', status: 'protect', turns: 1 },
+      removeStatus: { kind: 'removeStatus', statuses: ['protect'] },
+      applyPoison: { kind: 'applyPoison', poisonId: '551' },
+      curePoison: { kind: 'curePoison', curesTier: 'common' },
+      permanentStatBoost: { kind: 'permanentStatBoost', stat: 'attack', delta: 1 },
+      gate: { kind: 'gate', chance: 50 },
+      dieIfNotPoisoned: { kind: 'dieIfNotPoisoned' },
+      runScript: {
+        kind: 'runScript',
+        script: { chunk: 'shared/c00', id: 'shared/user/demo' },
+      },
+      runSceneHook: { kind: 'runSceneHook', hook: 'onTeleport' },
+      craftRecipe: {
+        kind: 'craftRecipe',
+        recipes: [
+          {
+            ingredients: [{ itemId: 'a', count: 1 }],
+            products: [{ itemId: 'b', count: 1 }],
+          },
+        ],
+      },
+      drawFromResourcePool: {
+        kind: 'drawFromResourcePool',
+        resource: 'collectValue',
+        maxRoll: 1,
+        rewards: [{ itemId: 'reward', count: 1 }],
+      },
+      extraPoisonRes: { kind: 'extraPoisonRes', amount: 1 },
+      hideParty: { kind: 'hideParty', turns: 3 },
+    } satisfies Record<ItemUseEffect['kind'], ItemUseEffect>
+    const allowed = {
+      healHp: ['world', 'battle'],
+      healMp: ['world', 'battle'],
+      revive: ['world', 'battle'],
+      applyStatus: ['world', 'battle'],
+      removeStatus: ['world', 'battle'],
+      applyPoison: ['world', 'battle', 'throw'],
+      curePoison: ['world', 'battle'],
+      permanentStatBoost: ['world'],
+      gate: ['world', 'battle'],
+      dieIfNotPoisoned: ['world', 'battle'],
+      runScript: ['world'],
+      runSceneHook: ['world'],
+      craftRecipe: ['world'],
+      drawFromResourcePool: ['world'],
+      extraPoisonRes: ['world', 'battle'],
+      hideParty: ['battle'],
+    } satisfies Record<ItemUseEffect['kind'], ItemUseContext[]>
+    const contexts: ItemUseContext[] = ['world', 'battle', 'throw']
+    for (const [kind, effect] of Object.entries(effects) as [
+      ItemUseEffect['kind'],
+      ItemUseEffect,
+    ][]) {
+      for (const context of contexts)
+        expect(itemUseEffectSupportsContext(effect, context), `${kind} @ ${context}`).toBe(
+          (allowed[kind] as readonly ItemUseContext[]).includes(context),
+        )
+    }
+    expect(
+      itemUseSupportsContext(
+        {
+          target: 'oneAlly',
+          consuming: false,
+          battleOnly: true,
+          effects: [{ kind: 'healHp', amount: 1 }],
+        },
+        'world',
+      ),
+    ).toBe(false)
+  })
+
+  test('有序配方选择第一条充足材料；失败不扣工具或材料', () => {
+    const craftItems: ItemDataMap = {
+      vessel: {
+        id: 'vessel',
+        name: '炼制器',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'craftRecipe',
+              recipes: [
+                {
+                  ingredients: [{ itemId: 'a', count: 1 }],
+                  products: [{ itemId: 'reward-a', count: 1 }],
+                },
+                {
+                  ingredients: [{ itemId: 'b', count: 1 }],
+                  products: [{ itemId: 'reward-b', count: 1 }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    }
+    const initial = world([
+      { itemId: 'vessel', count: 1 },
+      { itemId: 'a', count: 1 },
+      { itemId: 'b', count: 1 },
+    ])
+    const success = resolveWorldItemUse(initial, 'hero', 'vessel', craftItems)
+    expect(success.status).toBe('success')
+    expect(success.world.inventory).toEqual([
+      { itemId: 'vessel', count: 1 },
+      { itemId: 'b', count: 1 },
+      { itemId: 'reward-a', count: 1 },
+    ])
+    expect(success.effectResults).toEqual([
+      {
+        index: 0,
+        kind: 'craftRecipe',
+        changed: true,
+        recipe: {
+          recipeIndex: 0,
+          ingredients: [{ itemId: 'a', count: 1 }],
+          products: [{ itemId: 'reward-a', count: 1 }],
+        },
+      },
+    ])
+    expect(success.presentations).toEqual([
+      {
+        kind: 'item-result',
+        source: 'craftRecipe',
+        items: [{ itemId: 'reward-a', count: 1 }],
+      },
+    ])
+    expect(initial.inventory).toHaveLength(3)
+
+    const missing = world([{ itemId: 'vessel', count: 1 }])
+    const failure = resolveWorldItemUse(missing, 'hero', 'vessel', craftItems)
+    expect(failure).toMatchObject({
+      status: 'failure',
+      reason: 'missing-materials',
+      world: missing,
+    })
+  })
+
+  test('材料计数覆盖背包与装备，扣除顺序固定为背包→队伍→槽位', () => {
+    const w = world([{ itemId: 'mat', count: 1 }])
+    w.party = [
+      {
+        ...hero(),
+        id: 'first',
+        equipment: { head: 'mat', body: 'mat', accessory: 'mat' },
+      },
+      { ...hero(), id: 'second', equipment: { weapon: 'mat' } },
+    ]
+    expect(ownedItemCount(w, 'mat')).toBe(5)
+    expect(removeOwnedItems(w, 'mat', 3)).toBe(3)
+    expect(w.inventory).toEqual([])
+    expect(w.party[0]!.equipment).toEqual({ accessory: 'mat' })
+    expect(w.party[1]!.equipment).toEqual({ weapon: 'mat' })
+  })
+
+  test.each([
+    { value: 0, rng: 0, status: 'failure', tier: 0, left: 0 },
+    { value: 1, rng: 0.9, status: 'success', tier: 1, left: 0 },
+    { value: 9, rng: 0.999, status: 'success', tier: 9, left: 0 },
+    { value: 18, rng: 0.999, status: 'success', tier: 9, left: 9 },
+  ])('资源池 value=$value 按 1..value 掷后封顶', ({ value, rng, status, tier, left }) => {
+    const rewards = Array.from({ length: 9 }, (_, index) => ({
+      itemId: `reward-${index + 1}`,
+      count: 1,
+    }))
+    const poolItems: ItemDataMap = {
+      gourd: {
+        id: 'gourd',
+        name: '炼丹葫芦',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 9,
+              rewards,
+            },
+          ],
+        },
+      },
+    }
+    const initial = { ...world([{ itemId: 'gourd', count: 1 }]), collectValue: value }
+    const outcome = resolveWorldItemUse(initial, 'hero', 'gourd', poolItems, undefined, () => rng)
+    expect(outcome.status).toBe(status)
+    expect(outcome.world.collectValue ?? 0).toBe(left)
+    if (tier > 0) {
+      expect(outcome.world.inventory).toContainEqual({ itemId: `reward-${tier}`, count: 1 })
+      expect(outcome.effectResults[0]?.resourceDraw).toEqual({
+        resource: 'collectValue',
+        valueBefore: value,
+        rolled: value,
+        tier,
+        spent: tier,
+        valueAfter: left,
+        reward: { itemId: `reward-${tier}`, count: 1 },
+      })
+      expect(outcome.presentations).toEqual([
+        {
+          kind: 'item-result',
+          source: 'drawFromResourcePool',
+          items: [{ itemId: `reward-${tier}`, count: 1 }],
+        },
+      ])
+    } else {
+      expect(outcome.world).toBe(initial)
+      expect(outcome.presentations).toEqual([])
+    }
+  })
+
+  test('allAllies 不依赖已选角色 id，仍对全队执行', () => {
+    const initial = world([{ itemId: 'meal', count: 1 }], 10)
+    initial.party.push({ ...hero(20), id: 'friend' })
+    const allItems: ItemDataMap = {
+      meal: {
+        id: 'meal',
+        name: '全体药',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'allAllies',
+          consuming: true,
+          effects: [{ kind: 'healHp', amount: 5 }],
+        },
+      },
+    }
+    const outcome = resolveWorldItemUse(initial, 'missing-character', 'meal', allItems)
+    expect(outcome.status).toBe('success')
+    expect(outcome.world.party.map((member) => member.hp)).toEqual([15, 25])
+    expect(outcome.effectResults[0]).toMatchObject({
+      kind: 'healHp',
+      changed: true,
+      targetCharIds: ['hero', 'friend'],
+    })
+  })
+
+  test('外部脚本只返回待执行请求，content 不伪执行也不提前消耗', () => {
+    const scriptItems: ItemDataMap = {
+      letter: {
+        id: 'letter',
+        name: '信物',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: 'shared/c00', id: 'shared/user/letter-use' },
+            },
+          ],
+        },
+      },
+    }
+    const initial = world([{ itemId: 'letter', count: 1 }])
+    const outcome = resolveWorldItemUse(initial, 'hero', 'letter', scriptItems)
+    expect(outcome).toMatchObject({
+      status: 'external',
+      world: initial,
+      consumed: false,
+      changed: false,
+      externalEffects: scriptItems.letter!.use!.effects,
+    })
+  })
+
+  test('allAllies 逐个结算；普通回复跳过死亡队员且不会把负数扣成负 HP', () => {
+    const party = world([{ itemId: 'meal', count: 1 }])
+    party.party = [hero(10, 5), { ...hero(0, 9), id: 'dead' }]
+    const allItems: ItemDataMap = {
+      meal: {
+        id: 'meal',
+        name: '全体药',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'allAllies',
+          consuming: true,
+          effects: [
+            { kind: 'healHp', amount: 20 },
+            { kind: 'healMp', amount: -999 },
+          ],
+        },
+      },
+    }
+    const outcome = resolveWorldItemUse(party, 'hero', 'meal', allItems)
+    expect(outcome).toMatchObject({ status: 'success', consumed: true })
+    expect(outcome.world.party.map((member) => [member.hp, member.mp])).toEqual([
+      [30, 0],
+      [0, 9],
+    ])
+  })
+
+  test.each([
+    {
+      name: '重复施加同一种毒',
+      effect: { kind: 'applyPoison', poisonId: '551' } as const,
+      prepare: (target: CharacterInstance) => {
+        target.poisons = [{ poisonId: 551, tickIndex: 0 }]
+      },
+    },
+    {
+      name: '刷新为相同回合数的状态',
+      effect: { kind: 'applyStatus', status: 'protect', turns: 7 } as const,
+      prepare: (target: CharacterInstance) => {
+        target.extraStatuses = [{ status: 'protect', turns: 7 }]
+      },
+    },
+    {
+      name: '已经死亡时再次执行未中毒致死',
+      effect: { kind: 'dieIfNotPoisoned' } as const,
+      prepare: (target: CharacterInstance) => {
+        target.hp = 0
+        target.poisons = []
+      },
+    },
+  ])('$name 不误报世界变化', ({ effect, prepare }) => {
+    const probe: ItemDataMap = {
+      probe: {
+        id: 'probe',
+        name: '探针',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: { target: 'oneAlly', consuming: false, effects: [effect] },
+      },
+    }
+    const initial = world([{ itemId: 'probe', count: 1 }])
+    prepare(initial.party[0]!)
+    const outcome = resolveWorldItemUse(initial, 'hero', 'probe', probe)
+    expect(outcome).toMatchObject({ status: 'success', changed: false, consumed: false })
+    expect(outcome.world).toBe(initial)
+    expect(outcome.effectResults[0]).toMatchObject({ kind: effect.kind, changed: false })
+  })
+
+  test('0x06 概率门严格按 1..100 < N；世界失败保持原 world 且不消耗', () => {
+    const gated: ItemDataMap = {
+      salt: {
+        id: 'salt',
+        name: '盐巴',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [
+            { kind: 'gate', chance: 50 },
+            { kind: 'healHp', amount: 1 },
+          ],
+        },
+      },
+    }
+    const initial = world([{ itemId: 'salt', count: 1 }], 10)
+    expect(resolveWorldItemUse(initial, 'hero', 'salt', gated, undefined, () => 0.48).status).toBe(
+      'success',
+    ) // roll 49
+    const failure = resolveWorldItemUse(initial, 'hero', 'salt', gated, undefined, () => 0.49) // roll 50
+    expect(failure).toMatchObject({ status: 'failure', reason: 'gate-failed', consumed: false })
+    expect(failure.world).toBe(initial)
+    expect(initial.inventory).toEqual([{ itemId: 'salt', count: 1 }])
   })
 })
 

@@ -1,6 +1,9 @@
+import type { ItemData, MigrationDiagnosticsV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import type { SourceItem } from './migrate-content.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 import {
+  assertItemUseMigrationClosure,
   assertSceneEntryReferenceClosure,
   assertSpriteReferenceClosure,
   auditSceneEntryReferenceClosure,
@@ -8,6 +11,90 @@ import {
   findMissingDialogLocaleRefs,
 } from './migration-validate.js'
 import type { MigrationJson } from './pal-migration.js'
+
+describe('C8 · legacy usable 用途反向闭包', () => {
+  const item = (id: string, withUse: boolean): ItemData => ({
+    id,
+    name: id,
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    ...(withUse
+      ? {
+          use: {
+            target: 'oneAlly' as const,
+            consuming: true,
+            effects: [{ kind: 'healHp' as const, amount: 1 }],
+          },
+        }
+      : {}),
+  })
+  const source = (id: number, usable = true): SourceItem => ({
+    id,
+    _name: `源物品${id}`,
+    bitmap: 0,
+    price: 0,
+    scriptOnUse: id,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: {
+      usable,
+      equipable: false,
+      throwable: false,
+      consuming: true,
+      applyToAll: false,
+      sellable: false,
+      equipableBy: [],
+    },
+  })
+  const diagnostics = (ids: number[]): MigrationDiagnosticsV1 => ({
+    version: 1,
+    diagnostics: ids.map((id) => ({
+      id: `item-use:${id}`,
+      severity: 'warn',
+      target: { domain: 'item', objectId: String(id), capability: 'use', label: `源物品${id}` },
+      category: 'manual-review',
+      reason: '待翻译',
+      source: { kind: 'legacy-script', label: `L_${id}`, address: id },
+    })),
+  })
+
+  test('每个 usable 恰好落到 use 或显式诊断', () => {
+    expect(() =>
+      assertItemUseMigrationClosure({
+        items: [item('1', true), item('2', false)],
+        diagnostics: diagnostics([2]),
+        sourceItems: [source(1), source(2)],
+      }),
+    ).not.toThrow()
+  })
+
+  test('用途丢失、重复落账和非 usable 伪诊断均 fail-loud', () => {
+    expect(() =>
+      assertItemUseMigrationClosure({
+        items: [item('1', false)],
+        diagnostics: diagnostics([]),
+        sourceItems: [source(1)],
+      }),
+    ).toThrow(/use=0 diagnostics=0/)
+    expect(() =>
+      assertItemUseMigrationClosure({
+        items: [item('1', true)],
+        diagnostics: diagnostics([1]),
+        sourceItems: [source(1)],
+      }),
+    ).toThrow(/use=1 diagnostics=1/)
+    expect(() =>
+      assertItemUseMigrationClosure({
+        items: [item('1', false)],
+        diagnostics: diagnostics([1]),
+        sourceItems: [source(1, false)],
+      }),
+    ).toThrow(/不是源 usable/)
+  })
+})
 
 describe('迁移合并后 locale 引用门禁', () => {
   test('遍历嵌套脚本的 text/speaker 且去重', () => {

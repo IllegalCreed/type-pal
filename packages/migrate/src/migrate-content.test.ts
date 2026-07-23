@@ -21,6 +21,7 @@ import {
   mergeExtras,
   mergeSceneScriptBindings,
   migrateAll,
+  migratedItemUseScriptRef,
   type SourceCmd,
   type SourceScene,
   sceneSlug,
@@ -82,6 +83,7 @@ const src: MigrateSources = {
   spells: readJson('data/extracted/data/spells.json'),
   magic: readJson('data/extracted/data/magic.json'),
   items: readJson('data/extracted/data/items.json'),
+  stores: readJson('data/extracted/data/stores.json'),
   commands: allJson.segments.flatMap((s) => s.commands),
 }
 const out = migrateAll(src)
@@ -389,7 +391,7 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
 
 describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
   const byId = new Map(out.items.map((i) => [i.id, i]))
-  test('demo 手作使用件 oracle:观音符(61)/茶叶蛋(78)deep-equal;土灵珠(267)灵珠剧情 → pending', () => {
+  test('观音符/茶叶蛋保持数据效果；土灵珠迁成稳定共享脚本引用', () => {
     expect(byId.get('61')!.use).toEqual({
       target: 'oneAlly',
       consuming: true,
@@ -403,8 +405,17 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
         { kind: 'healMp', amount: 15 },
       ],
     })
-    expect(byId.get('267')!.use).toBeUndefined()
-    expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
+    expect(byId.get('267')!.use).toEqual({
+      target: 'scene',
+      consuming: false,
+      effects: [
+        {
+          kind: 'runScript',
+          script: migratedItemUseScriptRef(267),
+        },
+      ],
+    })
+    expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(false)
   })
   test('新 kind spot:舍利子 maxMP+3 / 雪蛤蟆三永久成长 / 盐巴概率门 / 尸腐肉下毒 / 还魂香复活10%', () => {
     expect(byId.get('72')!.use!.effects).toEqual([
@@ -435,16 +446,46 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
     expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(136)
     expect(out.report.lossyUse.map((l) => l.itemId)).not.toContain(278)
   })
-  test('引路蜂(151):0x38 传送出口 → teleportOut(target scene, 消耗);土灵珠(267)0x81 场景交互仍 pending', () => {
+  test('引路蜂(151):0x38 → 当前场景 onTeleport 钩子，不写死目的地', () => {
     expect(byId.get('151')!.use).toEqual({
       target: 'scene',
       consuming: true,
-      effects: [{ kind: 'teleportOut' }],
+      effects: [{ kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '无任何效果' }],
+      menuAfterUse: 'close',
       sound: 'sound.pal.045',
     })
-    // 土灵珠 use 脚本以 0x81(是否面对指定 event object)开头 = 场景交互,系统未落地 → 保持 pending
-    expect(byId.get('267')!.use).toBeUndefined()
-    expect(out.report.pendingUse.some((p) => p.itemId === 267)).toBe(true)
+  })
+  test('炼蛊皿(268)有序一选一配方；紫金葫芦(270)参数化资源池；剧情用途持有脚本', () => {
+    const craft = byId.get('268')!.use!.effects[0]
+    expect(craft).toEqual({
+      kind: 'craftRecipe',
+      recipes: ['117', '118', '119', '120', '121'].map((itemId) => ({
+        ingredients: [{ itemId, count: 1 }],
+        products: [{ itemId: '148', count: 1 }],
+      })),
+    })
+    expect(byId.get('270')!.use).toEqual({
+      target: 'scene',
+      consuming: false,
+      effects: [
+        {
+          kind: 'drawFromResourcePool',
+          resource: 'collectValue',
+          maxRoll: 9,
+          rewards: [100, 105, 95, 112, 72, 131, 97, 102, 111].map((itemId) => ({
+            itemId: String(itemId),
+            count: 1,
+          })),
+        },
+      ],
+    })
+    for (const id of ['280', '293']) {
+      const effect = byId.get(id)!.use!.effects[0]
+      expect(effect).toEqual({
+        kind: 'runScript',
+        script: migratedItemUseScriptRef(id),
+      })
+    }
   })
   test('大蒜(84):0x17 SetPlayerExtraAttribute(层6 行22=毒抗)→ extraPoisonRes(临时毒抗)', () => {
     expect(byId.get('84')!.use).toEqual({
@@ -453,11 +494,35 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
       effects: [{ kind: 'extraPoisonRes', amount: 30 }],
     })
   })
-  test('总账:100 usable 全有下落(use 块 + pendingUse = 100),pending 原因均指向未落地系统', () => {
+  test('纯表迁移总账:100 usable = 79 个 use + 21 个显式诊断（141 由最终 PAL overlay 闭合）', () => {
     const withUse = out.items.filter((i) => i.use).length
+    expect(withUse).toBe(79)
+    expect(out.report.pendingUse).toHaveLength(21)
     expect(withUse + out.report.pendingUse.length).toBe(100)
-    expect(withUse).toBeGreaterThanOrEqual(60)
-    for (const p of out.report.pendingUse) expect(p.reason).toMatch(/系统|B2|剧情|空链/)
+    expect(out.items.filter((item) => item.use && !item.use.target)).toEqual([])
+    expect(out.report.pendingUse.map((item) => item.itemId).sort((a, b) => a - b)).toEqual([
+      90, 91, 137, 141, 150, 260, 263, 264, 271, 272, 273, 279, 284, 285, 286, 287, 288, 289, 291,
+      292, 294,
+    ])
+    expect(
+      out.report.pendingUse
+        .filter((item) => [90, 91, 137, 150].includes(item.itemId))
+        .map(({ itemId, category }) => [itemId, category]),
+    ).toEqual([
+      [90, 'unsupported-command'],
+      [91, 'unsupported-command'],
+      [137, 'unsupported-command'],
+      [150, 'unsupported-command'],
+    ])
+    expect(out.report.pendingUse.find((item) => item.itemId === 90)?.reason).toContain(
+      '暂停敌人追逐',
+    )
+    expect(out.report.pendingUse.find((item) => item.itemId === 91)?.reason).toContain(
+      '加速敌人追逐',
+    )
+    expect(out.report.pendingUse.find((item) => item.itemId === 137)?.reason).toContain('生命减半')
+    expect(out.report.pendingUse.find((item) => item.itemId === 150)?.reason).toContain('角色升级')
+    for (const p of out.report.pendingUse) expect(p.reason).toMatch(/转换|迁移|B2|空链|Store/)
   })
 })
 

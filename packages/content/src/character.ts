@@ -28,6 +28,11 @@ export interface WorldState {
   ambience?: string
   /** 收妖值(原版 wCollectValue:灵葫咒 0x33 收妖累计,酒仙处兑换)。缺省/旧档 → 0。 */
   collectValue?: number
+  /**
+   * 可扩展世界资源池。键是工程稳定 id，物品机制可按数据读写任意资源；
+   * `collectValue` 由兼容访问器映射到上面的历史字段，避免存档出现两份真相。
+   */
+  resources?: Record<string, number>
   /** 持久 BGM。缺字段 = 尚未建立音乐状态；null = 显式静音；AssetId = 当前世界曲。 */
   audio?: { currentMusic?: AssetId | null }
 }
@@ -40,6 +45,8 @@ export interface StartWorld {
    *    多人工程实例 id 会带实例化区分,届时 key 约定需调整;A 期单人 demo 不受影响。 */
   learnedSkills: Record<string, string[]>
   inventory: { itemId: string; count: number }[]
+  /** 可扩展世界资源池初值；`collectValue` 等历史专用字段仍由各自兼容访问器管理。 */
+  resources?: Record<string, number>
   /** demo 低 HP/MP 播种(覆盖模板 baseStats.hp/mp);可选,缺省则用模板值。 */
   seedStats?: Record<string, { hp?: number; mp?: number }>
 }
@@ -220,5 +227,6 @@ export function buildWorld(
       Object.entries(startWorld.learnedSkills).map(([id, ids]) => [id, [...ids]]),
     ),
     inventory: startWorld.inventory.map((e) => ({ ...e })),
+    ...(startWorld.resources ? { resources: { ...startWorld.resources } } : {}),
   }
 }

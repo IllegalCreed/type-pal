@@ -95,11 +95,13 @@ function fakeHost(calls: string[]): ScriptHost {
     setEntityTriggerMode: log('setEntityTriggerMode'),
     query: {
       hasItem: () => false,
+      ownsItem: () => false,
       money: () => 50,
       inParty: (id: string) => id === 'li-xiaoyao',
       allFullHp: () => true,
       itemEquipped: () => false,
       entityInScene: (id: string) => id === 'e100',
+      facingEntity: (id: string, range: number) => id === 'e100' && range === 1,
     },
     report: log('report'),
     chaseStep: alog('chaseStep'),

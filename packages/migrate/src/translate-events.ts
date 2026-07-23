@@ -16,6 +16,7 @@
 import {
   type AssetId,
   type Command,
+  DEFAULT_SCRIPT_SHARDS,
   type DialogueCue,
   deriveScriptChunk,
   palFrameAnimationAssetId,
@@ -183,7 +184,7 @@ export class ScriptRegistry {
 
   constructor(
     private readonly sceneFor: (label: string, owner: string | undefined) => string | undefined,
-    readonly shards = { shared: 16, global: {} as Record<string, number> },
+    readonly shards = DEFAULT_SCRIPT_SHARDS,
     private readonly sharedGroupFor: (label: string) => string = (label) =>
       label.replace(/^L_/, 'L-'),
   ) {}
@@ -260,6 +261,21 @@ export class ScriptRegistry {
     return ref
   }
 
+  /**
+   * 把一个 legacy 地址翻译成稳定、显式命名的共享脚本根。物品等非场景内容需要持有
+   * 可长期保存的 ScriptRef，不能引用由 SCC/对话入口态派生出的内部 target id；因此
+   * 先复用 registerTarget 完成真实翻译，再以一层 callScript 建立稳定别名。
+   */
+  registerLegacyAlias(
+    id: string,
+    label: string,
+    owner: string | undefined,
+    ctx: TranslateCtx,
+  ): ScriptRef {
+    const target = this.registerTarget(label, owner, {}, ctx)
+    return this.registerRoot(id, [{ kind: 'callScript', ref: target }])
+  }
+
   commandBodies(): Command[][] {
     return [...this.scripts.values()].map((x) => x.body)
   }
@@ -323,8 +339,7 @@ export class ScriptRegistry {
 /** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/83/86/94)。
  * 命中即截断本段,不猜控制流。 */
 const JUMP_FAMILY = new Set([
-  0x2e, 0x33, 0x34, 0x38, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x81, 0x84, 0x91, 0x95, 0x9c, 0x9e,
-  0xa2,
+  0x2e, 0x33, 0x34, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x84, 0x91, 0x95, 0x9c, 0x9e, 0xa2,
 ])
 /** 原版速度码 → WalkSpeed。 */
 const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
@@ -1151,7 +1166,11 @@ function walkBody(
         push({ kind: 'setParty', members: [...members] })
       } else if (oc === 0xa1) {
         // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
-        if (owner) push({ kind: 'mountParty', entity: owner })
+        // 共享物品用途的 owner 只是脚本命名空间，不是地图实体。传送后的 trail 收拢在
+        // detached 用途执行结束时已有统一队形收口，不能把 "global/items" 当成伪载具。
+        if (owner?.startsWith('global/'))
+          knownNoOp(ctx, '0xA1.globalTrail', sourceAddressAt(ctx, at.cmds, at.idx))
+        else if (owner) push({ kind: 'mountParty', entity: owner })
         else gap('聚拢无属主')
       } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
         // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
@@ -1271,10 +1290,16 @@ function walkBody(
         const cnt = Math.max(1, o[1] ?? 1)
         body.push({
           kind: 'branch',
-          cond: { kind: 'not', cond: { kind: 'hasItem', itemId: String(o[0]), atLeast: cnt } },
+          cond: { kind: 'not', cond: { kind: 'ownsItem', itemId: String(o[0]), atLeast: cnt } },
           then: inlineArm(o[2]),
         })
         body.push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt > 1 ? { count: cnt } : {}) })
+      } else if (oc === 0x38) {
+        // 当前场景传送出口。失败地址是“本场景无出口/禁止脱离”臂；作为脚本命令保留，
+        // 由运行时 SceneDef.onTeleport 决定是否成功，不能在迁移时拍平为固定目的地。
+        flush()
+        const onFail = (o[0] ?? 0) > 0 ? inlineArm(o[0]) : undefined
+        body.push({ kind: 'teleportOut', ...(onFail?.length ? { onFail } : {}) })
       } else if (oc === 0x58 && (o[2] ?? 0) !== 0) {
         // 0x58(script.c:1864)物品数 < op1 → jump op2。纯判定不消耗(区别 0x20 检查即扣)。
         // then=不足段(inlineArm 自带 stopScript);够则 fall-through 继续主线。
@@ -1321,6 +1346,24 @@ function walkBody(
           cond: { kind: 'not', cond: { kind: 'entityInScene', entity: `e${(o[0] ?? 0) - 1}` } },
           then: inlineArm(o[2]),
         })
+      } else if (oc === 0x81 && (o[2] ?? 0) !== 0) {
+        // 0x81(script.c:2390):目标不在本场景、隐藏或不在队伍正前方 range 内时跳走。
+        // 命中且 range>0 时把对象改成 touch(range)，使其下一帧可自动触发。
+        flush()
+        const entity = entRef(o[0] ?? 0)
+        if (!entity) gap('jumpIfNotFacingObj 无目标实体')
+        else {
+          const range = Math.max(0, o[1] ?? 0)
+          body.push({
+            kind: 'branch',
+            cond: {
+              kind: 'not',
+              cond: { kind: 'facingEntity', entity, ...(range ? { range } : {}) },
+            },
+            then: inlineArm(o[2]),
+          })
+          if (range > 0) body.push({ kind: 'setEntityTriggerMode', entity, on: 'touch', range })
+        }
       } else if (oc === 0x94) {
         flush()
         const ent = entRef(o[0] ?? 0)

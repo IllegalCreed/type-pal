@@ -3,7 +3,9 @@ import type {
   EnemyDef,
   EnemyTeamDef,
   EntryPoint,
+  ItemData,
   ManifestAssetConfigV3,
+  MigrationDiagnosticsV1,
   ScriptChunkV1,
   ScriptIndexV1,
   StartWorld,
@@ -23,6 +25,7 @@ import {
   validateLocale,
   validateManifestAssetConfigV3,
   validateMapIndex,
+  validateMigrationDiagnostics,
   validateProjectMap,
   validateReferences,
   validateScenes,
@@ -31,6 +34,8 @@ import {
   validateStampTemplates,
   validateTilesets,
 } from '@type-pal/content'
+import { itemScriptCommandRoots } from './item-script-roots.js'
+import type { SourceItem } from './migrate-content.js'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
 import { MIGRATED_SCENE_ENTRY_PREFIX } from './scene-entry-normalize.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
@@ -362,6 +367,38 @@ function enemyCommandRoots(enemies: readonly EnemyDef[]): Array<{ id: string; bo
   ])
 }
 
+/**
+ * 反向核对 legacy usable 真值：每个源用途必须且只能落到 clean use 或显式待处理诊断。
+ * 只从最终合并 target 计算，作者 overlay 完成 use 后不能继续残留旧诊断。
+ */
+export function assertItemUseMigrationClosure(args: {
+  items: readonly ItemData[]
+  diagnostics: MigrationDiagnosticsV1
+  sourceItems: readonly SourceItem[]
+}): void {
+  const finalById = new Map(args.items.map((item) => [item.id, item]))
+  const sourceById = new Map(args.sourceItems.map((item) => [String(item.id), item]))
+  const pendingCounts = new Map<string, number>()
+  for (const diagnostic of args.diagnostics.diagnostics) {
+    if (diagnostic.target.capability !== 'use') continue
+    const id = diagnostic.target.objectId
+    const source = sourceById.get(id)
+    if (!source?.flags.usable)
+      throw new Error(`content/migration-diagnostics.json: ${diagnostic.id} 不是源 usable 物品用途`)
+    pendingCounts.set(id, (pendingCounts.get(id) ?? 0) + 1)
+  }
+  for (const source of args.sourceItems) {
+    if (!source.flags.usable) continue
+    const id = String(source.id)
+    const generated = finalById.get(id)?.use ? 1 : 0
+    const diagnostics = pendingCounts.get(id) ?? 0
+    if (generated + diagnostics !== 1)
+      throw new Error(
+        `PAL usable 物品 ${id}(${source._name}) 必须且只能有一个 use 或待处理诊断，当前 use=${generated} diagnostics=${diagnostics}`,
+      )
+  }
+}
+
 /** 所有校验都是纯读内存目标，必须在事务 journal 创建前完成。 */
 export function validatePalMigrationTarget(args: {
   files: ReadonlyMap<string, MigrationJson>
@@ -377,6 +414,28 @@ export function validatePalMigrationTarget(args: {
   const actors = validateActors(required(files, 'content/actors.json'))
   const skillData = validateSkills(required(files, 'content/skills.json'))
   const items = validateItems(required(files, 'content/items.json'))
+  const migrationDiagnostics = validateMigrationDiagnostics(
+    required(files, 'content/migration-diagnostics.json'),
+  )
+  const itemIds = new Set(items.map((item) => item.id))
+  for (const diagnostic of migrationDiagnostics.diagnostics) {
+    if (!itemIds.has(diagnostic.target.objectId))
+      throw new Error(
+        `content/migration-diagnostics.json: ${diagnostic.id} 指向不存在物品 ${diagnostic.target.objectId}`,
+      )
+    if (diagnostic.target.capability === 'use') {
+      const item = items.find((candidate) => candidate.id === diagnostic.target.objectId)
+      if (item?.use)
+        throw new Error(
+          `content/migration-diagnostics.json: ${diagnostic.id} 已有 use，不应保留待处理诊断`,
+        )
+    }
+  }
+  assertItemUseMigrationClosure({
+    items,
+    diagnostics: migrationDiagnostics,
+    sourceItems: sources.migrate.items,
+  })
   const locale = validateLocale(required(files, 'content/locale.json'))
   const sprites = validateSprites(required(files, 'content/sprites.json'), assetCatalog)
   const battleSprites = validateBattleSprites(
@@ -495,6 +554,7 @@ export function validatePalMigrationTarget(args: {
     stamps,
     mapIndex,
     scriptChunks: chunks,
+    migrationDiagnostics,
   })
   const referenceErrors = issues.filter((issue) => issue.severity === 'error')
   if (referenceErrors.length)
@@ -559,7 +619,7 @@ export function validatePalMigrationTarget(args: {
     scenes,
     index,
     chunks,
-    extraRoots: enemyCommandRoots(enemies),
+    extraRoots: [...enemyCommandRoots(enemies), ...itemScriptCommandRoots(items)],
   })
   assertScriptLibraryAudit(scriptAudit)
   return {

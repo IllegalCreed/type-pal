@@ -10,6 +10,8 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| C8 | 物品用途机制、运行时与迁移闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；100 usable = 80 runnable + 20 显式诊断，待三方 done 签字 |
+| ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；三栏工作台、CRUD、图标、用途与引用闭环待审 |
 
 ## 阻塞
 

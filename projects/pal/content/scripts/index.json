@@ -144,8 +144,8 @@
     },
     "scene/s023": {
       "path": "chunks/scene/s023.json",
-      "bytes": 23122,
-      "hash": "e2f4319d"
+      "bytes": 23125,
+      "hash": "44ab2534"
     },
     "scene/s024": {
       "path": "chunks/scene/s024.json",
@@ -1459,8 +1459,8 @@
     },
     "scene/s266": {
       "path": "chunks/scene/s266.json",
-      "bytes": 10641,
-      "hash": "3a2d3261",
+      "bytes": 10642,
+      "hash": "e6765c02",
       "imports": [
         "scene/s203"
       ]
@@ -1602,18 +1602,127 @@
     },
     "shared/c01": {
       "path": "chunks/shared/c01.json",
-      "bytes": 729,
-      "hash": "53248497"
+      "bytes": 918,
+      "hash": "7e6940fc"
+    },
+    "shared/c02": {
+      "path": "chunks/shared/c02.json",
+      "bytes": 210,
+      "hash": "e2bfd0c1",
+      "imports": [
+        "shared/c13"
+      ]
     },
     "shared/c03": {
       "path": "chunks/shared/c03.json",
       "bytes": 1135,
       "hash": "19482449"
     },
+    "shared/c04": {
+      "path": "chunks/shared/c04.json",
+      "bytes": 631,
+      "hash": "2882d151"
+    },
+    "shared/c05": {
+      "path": "chunks/shared/c05.json",
+      "bytes": 356,
+      "hash": "cace0194",
+      "imports": [
+        "shared/c12"
+      ]
+    },
+    "shared/c06": {
+      "path": "chunks/shared/c06.json",
+      "bytes": 1798,
+      "hash": "34d26d20"
+    },
+    "shared/c07": {
+      "path": "chunks/shared/c07.json",
+      "bytes": 210,
+      "hash": "cea23569",
+      "imports": [
+        "shared/c06"
+      ]
+    },
     "shared/c08": {
       "path": "chunks/shared/c08.json",
       "bytes": 194,
       "hash": "568475aa"
+    },
+    "shared/c11": {
+      "path": "chunks/shared/c11.json",
+      "bytes": 210,
+      "hash": "31d85590",
+      "imports": [
+        "shared/c04"
+      ]
+    },
+    "shared/c12": {
+      "path": "chunks/shared/c12.json",
+      "bytes": 340,
+      "hash": "c6b0863b",
+      "imports": [
+        "shared/c15"
+      ]
+    },
+    "shared/c13": {
+      "path": "chunks/shared/c13.json",
+      "bytes": 696,
+      "hash": "1d354ced",
+      "imports": [
+        "shared/c06",
+        "shared/c12"
+      ]
+    },
+    "shared/c14": {
+      "path": "chunks/shared/c14.json",
+      "bytes": 210,
+      "hash": "f840273e",
+      "imports": [
+        "shared/c01"
+      ]
+    },
+    "shared/c15": {
+      "path": "chunks/shared/c15.json",
+      "bytes": 1466,
+      "hash": "4863bf2d",
+      "imports": [
+        "shared/c05",
+        "shared/c06",
+        "shared/c12"
+      ]
+    }
+  },
+  "library": {
+    "shared/user/pal-item-use/265": {
+      "name": "水灵珠使用",
+      "description": "由 PAL 物品「水灵珠」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
+    },
+    "shared/user/pal-item-use/266": {
+      "name": "火灵珠使用",
+      "description": "由 PAL 物品「火灵珠」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
+    },
+    "shared/user/pal-item-use/267": {
+      "name": "土灵珠使用",
+      "description": "由 PAL 物品「土灵珠」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
+    },
+    "shared/user/pal-item-use/280": {
+      "name": "包袱使用",
+      "description": "由 PAL 物品「包袱」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
+    },
+    "shared/user/pal-item-use/290": {
+      "name": "天书使用",
+      "description": "由 PAL 物品「天书」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
+    },
+    "shared/user/pal-item-use/293": {
+      "name": "手卷使用",
+      "description": "由 PAL 物品「手卷」的使用脚本迁移，可在剧情编辑器继续维护。",
+      "self": "none"
     }
   }
 }

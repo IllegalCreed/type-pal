@@ -150,6 +150,7 @@ export interface ScriptHost {
   // ── 条件查询(hasItem/hasMoney/inParty 的数据源)──
   query: {
     hasItem(itemId: string, atLeast: number): boolean
+    ownsItem(itemId: string, atLeast: number): boolean
     money(): number
     inParty(actorId: string): boolean
     /** 0x74 洪大夫治伤门:全队活人 HP 均满(满则不触发治疗对白/加血)。 */
@@ -158,6 +159,7 @@ export interface ScriptHost {
     itemEquipped(itemId: string, atLeast: number): boolean
     /** 0x83:实体 id 是否属于当前场景(取代原版 EventObject 下标区间判定)。 */
     entityInScene(id: string): boolean
+    facingEntity(id: string, range: number): boolean
     /** 当前场景 id(0x99 当前场景换图的 override 键;缺省实现可返回空串 = 不落 override)。 */
     sceneId?(): string
   }
@@ -223,10 +225,14 @@ export function evalCondition(
       return (world.entityState[cond.entity] ?? Number.NaN) === cond.is
     case 'entityInScene':
       return query.entityInScene(cond.entity)
+    case 'facingEntity':
+      return query.facingEntity(cond.entity, cond.range ?? 0)
     case 'chance':
       return random() * 100 < cond.percent
     case 'hasItem':
       return query.hasItem(cond.itemId, cond.atLeast ?? 1)
+    case 'ownsItem':
+      return query.ownsItem(cond.itemId, cond.atLeast ?? 1)
     case 'itemEquipped':
       return query.itemEquipped(cond.itemId, cond.atLeast ?? 1)
     case 'allFullHp':

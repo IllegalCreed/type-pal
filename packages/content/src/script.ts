@@ -35,8 +35,12 @@ export type ScriptCondition =
   | { kind: 'var'; var: string; op: '==' | '!=' | '>=' | '<=' | '>' | '<'; value: number }
   | { kind: 'entityState'; entity: string; is: number }
   | { kind: 'entityInScene'; entity: string } // 原版 0x83:对象是否属于当前场景(取代下标区间判定)
+  /** 原版 0x81：目标实体在当前场景可见，且位于队伍朝向前方的指定格距内。 */
+  | { kind: 'facingEntity'; entity: string; range?: number }
   | { kind: 'chance'; percent: number } // 原版 0x06 jumpByRate
   | { kind: 'hasItem'; itemId: string; atLeast?: number }
+  /** 背包与当前队伍装备合计；原版 PAL_CountItem / 0x20 的真值。 */
+  | { kind: 'ownsItem'; itemId: string; atLeast?: number }
   | { kind: 'itemEquipped'; itemId: string; atLeast?: number } // 原版 0x86:全队装备该物件数 ≥ atLeast(默认1)
   | { kind: 'allFullHp' } // 原版 0x74:全队 HP 均满(洪大夫治伤门)
   | { kind: 'hasMoney'; atLeast: number }

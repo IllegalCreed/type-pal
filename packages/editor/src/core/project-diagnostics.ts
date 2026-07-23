@@ -11,8 +11,10 @@ import {
   type SceneDef,
   validateAssetCatalog,
   validateAssetReferenceClosure,
+  validateItems,
   validateManifestAssetConfigV3,
   validateReferences,
+  validateStartWorldResources,
 } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
@@ -36,6 +38,8 @@ export type ProjectIssueCode =
   | 'invalid-start-world'
   | 'asset-catalog-invalid'
   | 'manifest-assets-invalid'
+  | 'invalid-item-data'
+  | 'migration-pending'
 
 export interface ProjectIssue {
   severity: ProjectIssueSeverity
@@ -44,7 +48,7 @@ export interface ProjectIssue {
   path: string
   /** 深链接目标；只提供稳定 id，不把数组位置作为身份。 */
   target?: {
-    module: 'scene' | 'asset' | 'project'
+    module: 'scene' | 'asset' | 'item' | 'project'
     page: string
     objectId?: string
     domain?: 'world' | 'battle'
@@ -187,6 +191,27 @@ function validateSeedStats(
   return issues
 }
 
+function validateStartWorldResourceIssues(
+  startWorld: LoadedManifest['startWorld'],
+  pathPrefix: string,
+  target: ProjectIssue['target'] = { module: 'project', page: 'entrypoint' },
+): ProjectIssue[] {
+  try {
+    validateStartWorldResources(startWorld, pathPrefix)
+    return []
+  } catch (error) {
+    return [
+      {
+        severity: 'error',
+        code: 'invalid-start-world',
+        message: error instanceof Error ? error.message : String(error),
+        path: `${pathPrefix}.resources`,
+        target,
+      },
+    ]
+  }
+}
+
 function validateStartWorldUniqueness(
   startWorld: LoadedManifest['startWorld'],
   pathPrefix: string,
@@ -243,8 +268,27 @@ function validateStartWorldUniqueness(
 export function collectProjectIssues(state: EditorState): ProjectIssue[] {
   const issues = validateManifestEntryPoints(state.manifest, state.scenes)
   let catalogValid = true
+  try {
+    validateItems(state.items)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    const itemIndex = Number(/^items\[(\d+)\]/.exec(message)?.[1])
+    const item = Number.isInteger(itemIndex) ? state.items[itemIndex] : undefined
+    issues.push({
+      severity: 'error',
+      code: 'invalid-item-data',
+      message,
+      path: Number.isInteger(itemIndex) ? `items[${itemIndex}]` : 'items',
+      target: {
+        module: 'item',
+        page: 'item',
+        ...(item ? { objectId: item.id } : {}),
+      },
+    })
+  }
   issues.push(...validateSeedStats(state.manifest.startWorld, state.actors, 'startWorld'))
   issues.push(...validateStartWorldUniqueness(state.manifest.startWorld, 'startWorld'))
+  issues.push(...validateStartWorldResourceIssues(state.manifest.startWorld, 'startWorld'))
   for (const issue of validateReferences(state)) {
     if (!issue.where.startsWith('startWorld')) continue
     issues.push({
@@ -277,6 +321,7 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
       issues.push(
         ...validateSeedStats(entry.startWorld, state.actors, pathPrefix, target),
         ...validateStartWorldUniqueness(entry.startWorld, pathPrefix, target),
+        ...validateStartWorldResourceIssues(entry.startWorld, pathPrefix, target),
       )
       const overrideIssues = validateReferences({ ...state, startWorld: entry.startWorld })
       for (const issue of overrideIssues) {
@@ -419,6 +464,22 @@ export function collectProjectIssues(state: EditorState): ProjectIssue[] {
     })
   }
 
+  for (const [index, diagnostic] of (state.migrationDiagnostics?.diagnostics ?? []).entries()) {
+    const item = state.items.find((candidate) => candidate.id === diagnostic.target.objectId)
+    if (item?.[diagnostic.target.capability]) continue
+    issues.push({
+      severity: 'warn',
+      code: 'migration-pending',
+      message: `${diagnostic.target.label}的${diagnostic.target.capability}能力尚待迁移：${diagnostic.reason}（来源 ${diagnostic.source.label}）`,
+      path: `migrationDiagnostics.diagnostics[${index}]`,
+      target: {
+        module: 'item',
+        page: 'item',
+        objectId: diagnostic.target.objectId,
+      },
+    })
+  }
+
   // 去掉 collector 与 manifest 角色/入口点专门检查造成的重复行。
   const unique = new Map<string, ProjectIssue>()
   for (const issue of issues) unique.set(`${issue.code}:${issue.path}:${issue.message}`, issue)
@@ -465,6 +526,14 @@ export function assertProjectSaveValid(state: EditorState): void {
   )
   if (errors.length) throw new Error(`保存前工程校验失败：${errors[0]!.message}`)
 
+  try {
+    validateItems(state.items)
+  } catch (error) {
+    throw new Error(
+      `保存前物品数据校验失败：${error instanceof Error ? error.message : String(error)}`,
+    )
+  }
+
   const referenceErrors = [
     ...validateReferences(state),
     ...Array.from(
@@ -485,6 +554,7 @@ export function assertProjectSaveValid(state: EditorState): void {
   const startWorldInvariantErrors = [
     ...validateSeedStats(state.manifest.startWorld, state.actors, 'startWorld'),
     ...validateStartWorldUniqueness(state.manifest.startWorld, 'startWorld'),
+    ...validateStartWorldResourceIssues(state.manifest.startWorld, 'startWorld'),
     ...(state.manifest.entryPoints ?? []).flatMap((entry, index) =>
       entry.startWorld
         ? [
@@ -494,6 +564,10 @@ export function assertProjectSaveValid(state: EditorState): void {
               `entryPoints[${index}].startWorld`,
             ),
             ...validateStartWorldUniqueness(entry.startWorld, `entryPoints[${index}].startWorld`),
+            ...validateStartWorldResourceIssues(
+              entry.startWorld,
+              `entryPoints[${index}].startWorld`,
+            ),
           ]
         : [],
     ),

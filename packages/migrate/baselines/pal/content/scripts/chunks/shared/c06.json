@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "id": "shared/c06",
+  "scripts": {
+    "shared/scc-L-39811/L-39811/global/items/d-0a386828": [
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4282",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4283",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4284",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4285",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4286",
+          "is": 0
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4282",
+          "is": 2
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4283",
+          "is": 2
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4284",
+          "is": 2
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4285",
+          "is": 2
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "branch",
+        "cond": {
+          "kind": "entityState",
+          "entity": "e4286",
+          "is": 2
+        },
+        "then": [
+          {
+            "kind": "stopScript"
+          }
+        ]
+      },
+      {
+        "kind": "fade",
+        "dir": "out",
+        "ms": 600
+      },
+      {
+        "kind": "loadScene",
+        "scene": "s227"
+      }
+    ],
+    "shared/scc-L-39613/L-39613/global/items/d-0a386828": [
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12543"
+            },
+            {
+              "text": "dlg.12544"
+            },
+            {
+              "text": "dlg.12545"
+            },
+            {
+              "text": "dlg.12546"
+            }
+          ],
+          "slot": "center"
+        }
+      },
+      {
+        "kind": "giveMoney",
+        "delta": 500
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "101",
+        "count": 2
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "105",
+        "count": 2
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "238"
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "253"
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "168"
+      },
+      {
+        "kind": "giveItem",
+        "itemId": "293"
+      },
+      {
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "dialog",
+        "cue": {
+          "rows": [
+            {
+              "text": "dlg.12547"
+            },
+            {
+              "text": "dlg.12548"
+            },
+            {
+              "text": "dlg.12549"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

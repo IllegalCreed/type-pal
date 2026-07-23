@@ -17,7 +17,14 @@ import type {
   SkillData,
   SoundAssetRole,
 } from '@type-pal/content'
-import { evalAiCond, isPlayerDying, lookupText, POISON_CURE_RANK } from '@type-pal/content'
+import {
+  evalAiCond,
+  isPlayerDying,
+  itemUseEffectSupportsContext,
+  itemUseSupportsContext,
+  lookupText,
+  POISON_CURE_RANK,
+} from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import {
   bakeBgImageData,
@@ -580,7 +587,10 @@ export class BattleSession {
     const used = pendingItemUses(this.state)
     return this.state.inventory
       .map((x) => ({ itemId: x.itemId, count: x.count - (used.get(x.itemId) ?? 0) }))
-      .filter((x) => x.count > 0 && this.state.items[x.itemId]?.use)
+      .filter((x) => {
+        const use = this.state.items[x.itemId]?.use
+        return x.count > 0 && use != null && itemUseSupportsContext(use, 'battle')
+      })
   }
 
   /** 可投掷道具(有 throw 能力块;毒药/蛊)。数量同扣预占(投掷无条件占,fight.c:1900)。 */
@@ -588,7 +598,14 @@ export class BattleSession {
     const used = pendingItemUses(this.state)
     return this.state.inventory
       .map((x) => ({ itemId: x.itemId, count: x.count - (used.get(x.itemId) ?? 0) }))
-      .filter((x) => x.count > 0 && this.state.items[x.itemId]?.throw)
+      .filter((x) => {
+        const effects = this.state.items[x.itemId]?.throw?.effects
+        return (
+          x.count > 0 &&
+          effects != null &&
+          effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))
+        )
+      })
   }
 
   /** 主菜单 4 项可用性(0攻击/3杂项恒可;1法术=有技能且未封;2合击=有合体技+本人healthy+≥2人healthy)。 */

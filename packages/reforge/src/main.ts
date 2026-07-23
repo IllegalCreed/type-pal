@@ -21,9 +21,11 @@ import {
   legacyPalPortraitAssetId,
   lerpTint,
   lookupText,
+  ownedItemCount,
   pixelDeltaToGridDelta,
   pixelToGrid,
   type RuntimeScriptBinding,
+  removeOwnedItems,
   resolveAmbienceTint,
   resolveEntitySpriteId,
   type SceneDef,
@@ -107,6 +109,7 @@ import {
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { Keyboard } from './input.js'
+import { executeWorldItemUse } from './item-use-executor.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import { type LoadedProject, loadSceneDef } from './loader.js'
 import {
@@ -122,6 +125,11 @@ import {
   openMagicMenu,
 } from './magic-menu-state.js'
 import { drawEquipMenu } from './menu/equip-box.js'
+import {
+  buildItemUseResultEntries,
+  drawItemUseResult,
+  type ItemUseResultEntry,
+} from './menu/item-use-result.js'
 import { drawMagicMenu } from './menu/magic-box.js'
 import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
@@ -186,7 +194,9 @@ import {
 import { renderSpans } from './text/text-render.js'
 import {
   closeUseMenu,
+  finishUseExecution,
   openUseMenu,
+  type UseExecutionRequest,
   type UseMenuState,
   useApply,
   useBackFromTarget,
@@ -1044,6 +1054,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   /** X1 自动存档:本次演出链切过场景 → 整链(含排队 onEnter)收尾后静默写 auto 槽。 */
   let sceneChangedByScript = false
   let scriptAbort: AbortController | null = null
+  let itemUseAbort: AbortController | null = null
   // loadScene preflight 已选定的目标 onEnter 绑定；与 entry 契约同批冻结，当前脚本收尾后再跑。
   let pendingOnEnter: { sceneId: string; binding: RuntimeScriptBinding } | null = null
   let nowMs = 0 // tick 注入的时间源(driver 计时用)
@@ -1645,10 +1656,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       else targetWorld.inventory.push({ itemId, count })
     },
     loseItem: (itemId, count) => {
-      const entry = world.inventory.find((x) => x.itemId === itemId)
-      if (!entry) return
-      entry.count -= count
-      if (entry.count <= 0) world.inventory.splice(world.inventory.indexOf(entry), 1)
+      removeOwnedItems(world, itemId, count)
     },
     giveMoney: (delta) => {
       world.money = Math.max(0, world.money + delta)
@@ -2064,6 +2072,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           elemRes: res.elemRes,
           // 毒抗 = 装备 live 派生 + 大世界大蒜临时 Extra(缩敌附毒门;战后三件套清 extraPoisonRes)
           poisonRes: res.poisonRes + (c.extraPoisonRes ?? 0),
+          ...(c.extraPoisonRes ? { itemPoisonResBonus: c.extraPoisonRes } : {}),
           // 大世界带入的毒(自毒食/装备咒;战斗内副本,战后三件套清)
           ...(c.poisons?.length ? { poisons: c.poisons.map((x) => ({ ...x })) } : {}),
           // 大世界护体符/金刚符定时状态(护体等;建态注入 status,战后三件套 ClearAllStatus 清)
@@ -2431,19 +2440,11 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
       const binding = sceneScriptBinding(scene, 'onTeleport', world)
       if (!binding || (Array.isArray(binding) && binding.length === 0)) return false
-      if (world.script) {
-        const r = new ScriptRunner(
-          scriptHost,
-          world.script,
-          signal ?? new AbortController().signal,
-          Math.random,
-          project.scriptStore,
+      if (world.script)
+        await runDetachedScriptChain(signal, (child) =>
+          child.runStages(`teleport:${scene.id}`, runnableStages(binding)),
         )
-        await r.runStages(`teleport:${scene.id}`, runnableStages(binding)).catch((err: unknown) => {
-          if (!isAbortError(err)) console.error('[script] teleportOut', scene.id, err)
-        })
-        assertRunnerActive(signal, '传送出口所属 runner 已取消')
-      }
+      assertRunnerActive(signal, '传送出口所属 runner 已取消')
       return true
     },
     // 演出期 runner 活跃 → 游戏循环吞输入；视频 URL 只经 catalog resolver 获得。
@@ -2476,6 +2477,7 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     query: {
       hasItem: (itemId, atLeast) =>
         (world.inventory.find((x) => x.itemId === itemId)?.count ?? 0) >= atLeast,
+      ownsItem: (itemId, atLeast) => ownedItemCount(world, itemId) >= atLeast,
       money: () => world.money,
       inParty: (actorId) => world.party.some((c) => c.id === actorId || c.template === actorId),
       allFullHp: () => world.party.every((c) => c.hp >= c.maxHP),
@@ -2485,6 +2487,17 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           0,
         ) >= atLeast,
       entityInScene: (id) => scene.entities.some((x) => x.id === id),
+      facingEntity: (id, range) => {
+        const entity = scene.entities.find((candidate) => candidate.id === id)
+        if (!entity || entity.hidden) return false
+        const step = WALK_STEP[facing]
+        const front = {
+          col: player.pos.col + step.dcol,
+          row: player.pos.row + step.drow,
+          height: player.pos.height,
+        }
+        return gridDist(front, entity.pos) <= Math.max(0, range)
+      },
       sceneId: () => scene.id,
     },
     // 0x99 当前场景即时换底图:预载完成后在一个无 await 提交块中同时写运行态与持久 override。
@@ -2894,6 +2907,58 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     cameraOffset.y = 0
   }
 
+  /**
+   * 在当前主 runner 内调用时作为同步子链执行；从物品菜单独立发起时临时占用全局 runner，
+   * 并完整接续目标场景 onEnter。这样外部用途不会留下“已切场景但入场脚本没跑”的半状态。
+   */
+  async function runDetachedScriptChain(
+    signal: AbortSignal | undefined,
+    invoke: (child: ScriptRunner) => Promise<void>,
+  ): Promise<void> {
+    const ownsRunnerSlot = runner === null
+    const runSignal = signal ?? new AbortController().signal
+    let activeChild: ScriptRunner | null = null
+    const makeChild = (): ScriptRunner => {
+      const child = new ScriptRunner(
+        scriptHost,
+        expectDefined(world.script),
+        runSignal,
+        Math.random,
+        project.scriptStore,
+      )
+      activeChild = child
+      if (ownsRunnerSlot) runner = child
+      return child
+    }
+    try {
+      await invoke(makeChild())
+      if (!ownsRunnerSlot) return
+      while (pendingOnEnter) {
+        const pending = pendingOnEnter
+        pendingOnEnter = null
+        if (scene.id !== pending.sceneId) {
+          sceneEntrySession.cancel()
+          continue
+        }
+        await makeChild().runStages(`s:${pending.sceneId}`, runnableStages(pending.binding), {
+          allowSceneEntry: true,
+        })
+      }
+    } finally {
+      if (ownsRunnerSlot) {
+        if (runner === activeChild) runner = null
+        dismountParty()
+        authority.clear()
+        if (sceneChangedByScript) {
+          sceneChangedByScript = false
+          void captureThumbnail(canvas)
+            .then((blob) => doSave('auto', blob))
+            .catch(() => undefined)
+        }
+      }
+    }
+  }
+
   /** 起一段触发/进场脚本(单脚本槽;收尾后接排队的 onEnter)。 */
   function startScript(key: string, binding: RuntimeScriptBinding, selfId?: string): void {
     if (runner) return
@@ -2960,6 +3025,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
     battleLaunchIntent.invalidate()
     activeBattle?.cancel()
     scriptAbort?.abort()
+    itemUseAbort?.abort()
+    itemUseAbort = null
     runner = null
     scriptAbort = null
     pendingOnEnter = null
@@ -3027,6 +3094,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
   let magicMenu: MagicMenuState = closeMagicMenu()
   let equipMenu: EquipMenuState = closeEquipMenu()
   let useMenu: UseMenuState = closeUseMenu()
+  let itemUsePending = false
+  let itemUseResult: ItemUseResultEntry | undefined
   let lastUseCursor = 0 // 使用面板光标记忆(原版 iCurInvMenuItem;跨开关恢复)
   let lastMagicCaster = 0 // 仙术施法人光标记忆(原版 uigame.c:674 static w;确认时写,DL22)
   let lastMainCursor = 0 // 主菜单光标记忆(原版 iCurMainMenuItem;确认时写)
@@ -3047,6 +3116,104 @@ export async function bootGame(project: LoadedProject): Promise<void> {
 
   function showToast(text: string): void {
     toast = { text, until: performance.now() + 1500 }
+  }
+
+  async function showItemUseResults(
+    entries: readonly ItemUseResultEntry[],
+    signal: AbortSignal,
+  ): Promise<void> {
+    try {
+      for (const entry of entries) {
+        itemUseResult = entry
+        await awaitRunner(
+          new Promise<void>((resolve) => setTimeout(resolve, 1400)),
+          signal,
+          '物品结果框所属用途已取消',
+        )
+      }
+    } finally {
+      itemUseResult = undefined
+    }
+  }
+
+  const itemUseFailureText = (reason: string | undefined, message: string | undefined): string => {
+    if (message) return message
+    switch (reason) {
+      case 'not-owned':
+        return '物品已经不在背包或装备中'
+      case 'missing-target':
+        return '没有可作用的目标'
+      case 'wrong-context':
+        return '这个物品不能在大世界使用'
+      case 'gate-failed':
+        return '没有产生效果'
+      case 'missing-materials':
+        return '材料不足'
+      case 'empty-resource-pool':
+        return '当前没有可用资源'
+      case 'external-unavailable':
+        return '当前场景无法执行这个用途'
+      case 'invalid-effect-chain':
+        return '物品用途配置不完整'
+      default:
+        return '现在无法使用这个物品'
+    }
+  }
+
+  /**
+   * 物品用途的唯一异步入口。执行期间暂时收起物品菜单，让剧情对话、商店和切场景
+   * 能接管输入；执行结束后再由结构化 outcome 决定恢复原位、重算列表或保持关闭。
+   */
+  async function dispatchItemUse(request: UseExecutionRequest): Promise<void> {
+    if (itemUsePending) return
+    itemUsePending = true
+    const controller = new AbortController()
+    itemUseAbort = controller
+    const menuBefore = menu
+    const sceneBefore = scene.id
+    lastUseCursor = request.state.cursor
+    useMenu = closeUseMenu()
+    menu = CLOSED
+    try {
+      let outcome = await executeWorldItemUse({
+        world,
+        targetCharId: request.targetCharId,
+        itemId: request.itemId,
+        items: project.items,
+        poisonDefs: project.poisonsById,
+        host: {
+          currentWorld: () => world,
+          runScript: (ref, signal) =>
+            runDetachedScriptChain(signal, (child) => child.run([{ kind: 'callScript', ref }])),
+          runSceneHook: (_hook, signal) => host.teleportOut(signal),
+        },
+        signal: controller.signal,
+      })
+      if (controller.signal.aborted) return
+      if (outcome.status === 'success') {
+        if (scene.id !== sceneBefore) outcome = { ...outcome, menu: 'close' }
+        replaceWorld(outcome.world)
+        const sound = project.items[request.itemId]?.use?.sound
+        if (sound) sfx.play(sound)
+        const results = buildItemUseResultEntries(outcome.presentations, project.items)
+        if (results.length > 0) await showItemUseResults(results, controller.signal)
+      } else {
+        const message = itemUseFailureText(outcome.reason, outcome.message)
+        showToast(message)
+        host.report(`itemUse(${request.itemId}): ${message}`)
+      }
+      useMenu = finishUseExecution(request, outcome, project.items)
+      if (useMenu.active) menu = menuBefore
+    } catch (error) {
+      if (isAbortError(error)) return
+      console.error('[item-use]', request.itemId, error)
+      showToast('物品用途执行失败，请检查脚本或配置')
+      useMenu = request.state
+      menu = menuBefore
+    } finally {
+      if (itemUseAbort === controller) itemUseAbort = null
+      itemUsePending = false
+    }
   }
 
   /** 读 metas + 解码缩略图(开界面/存档后刷新)。 */
@@ -3518,6 +3685,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
       }
       ctx.restore()
     }
+    if (itemUseResult) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      drawItemUseResult(ctx, itemUseResult, project.items, menuAssets, glyphs)
+      ctx.restore()
+    }
     // 快速存读短提示(置顶,~1.5s)
     if (toast && performance.now() < toast.until) {
       ctx.save()
@@ -3761,6 +3935,8 @@ export async function bootGame(project: LoadedProject): Promise<void> {
         shop.resolve()
         shop = null
       }
+    } else if (itemUseResult) {
+      // 结果框是真正模态表现：不允许移动、互动、开菜单或快速存读落回探索态。
     } else if (menu.active) {
       if (saveBrowser.active) {
         // 存档浏览界面(全屏,优先于菜单输入)
@@ -3875,21 +4051,13 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           }
         }
       } else if (menu.openPanel === 'use') {
-        if (useMenu.phase === 'pick-target') {
+        if (itemUsePending) {
+          // 用途脚本/场景钩子正在接管输入；完成后 dispatchItemUse 会恢复或关闭本菜单。
+        } else if (useMenu.phase === 'pick-target') {
           // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
           if (interact) {
-            const itemId = useMenu.selectedItemId
-            const r = useApply(
-              useMenu,
-              world,
-              world.party[0]?.id ?? '',
-              project.items,
-              project.poisonsById,
-            )
-            replaceWorld(r.world)
-            useMenu = r.state
-            const sound = itemId ? project.items[itemId]?.use?.sound : undefined
-            if (sound) sfx.play(sound)
+            const request = useApply(useMenu, world, world.party[0]?.id ?? '', project.items)
+            if (request) void dispatchItemUse(request)
           } else if (esc) {
             useMenu = useBackFromTarget(useMenu)
           }
@@ -3900,32 +4068,9 @@ export async function bootGame(project: LoadedProject): Promise<void> {
           if (pressed.has('ArrowLeft')) useMenu = useMoveCursor(useMenu, 'left')
           if (pressed.has('ArrowRight')) useMenu = useMoveCursor(useMenu, 'right')
           if (interact) {
-            const selectedItemId = useMenu.items[useMenu.cursor]?.id
-            const r = useConfirm(useMenu, world, project.items, project.poisonsById)
-            if (r.kind === 'teleportOut') {
-              // 引路蜂/土灵珠:当前场景有 onTeleport → 消耗道具、关菜单回大世界、跑出口;
-              // 无出口 = 「引路蜂不灵」(不消耗、留菜单)。同步查 onTeleport 决定,避开 world 异步竞态。
-              // 0x6D 运行时覆写优先于静态槽;null 表示此场景明确无出口。
-              const teleportScript = sceneScriptBinding(scene, 'onTeleport', world)
-              if (teleportScript && (!Array.isArray(teleportScript) || teleportScript.length > 0)) {
-                if (project.items[r.itemId]?.use?.consuming) host.loseItem(r.itemId, 1) // 引路蜂消耗;土灵珠宝珠不消耗
-                const sound = project.items[r.itemId]?.use?.sound
-                if (sound) sfx.play(sound)
-                lastUseCursor = useMenu.cursor
-                useMenu = closeUseMenu()
-                menu = CLOSED
-                void host.teleportOut()
-              } else {
-                host.report('引路蜂不灵(当前场景无传送出口)')
-              }
-            } else {
-              if (r.kind === 'direct') {
-                replaceWorld(r.world) // 脚本/全体类:已直接执行,回写 world
-                const sound = selectedItemId ? project.items[selectedItemId]?.use?.sound : undefined
-                if (sound) sfx.play(sound)
-              }
-              useMenu = r.state
-            }
+            const result = useConfirm(useMenu, world, project.items)
+            if (result.kind === 'execute') void dispatchItemUse(result.request)
+            else useMenu = result.state
           }
           if (esc) {
             lastUseCursor = useMenu.cursor // 记忆光标,重开恢复(原版 iCurInvMenuItem)

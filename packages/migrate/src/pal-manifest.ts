@@ -68,6 +68,7 @@ export function preparePalManifest(
       ...soundClosed.content,
       stamps: 'content/stamps.json',
       battleSprites: 'content/battle-sprites.json',
+      migrationDiagnostics: 'content/migration-diagnostics.json',
     },
     assets,
   }

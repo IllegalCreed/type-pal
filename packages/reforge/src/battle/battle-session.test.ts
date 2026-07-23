@@ -655,6 +655,7 @@ describe('A7-1 战斗回合 SFX readiness 屏障', () => {
       sellPrice: 0,
       sellable: false,
       use: {
+        target: 'self' as const,
         consuming: true,
         effects: [],
         sound: 'sound.cocoon',
@@ -834,6 +835,7 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
       sellPrice: 0,
       sellable: false,
       use: {
+        target: 'self' as const,
         consuming: true,
         effects: [{ kind: 'healHp' as const, amount: 1 }],
         sound: 'sound.item-explicit',
@@ -967,14 +969,14 @@ describe('P2 库存预占(原版 nAmountInUse,fight.c:1900-1916)', () => {
             buyPrice: 0,
             sellPrice: 0,
             sellable: false,
-            use: { consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
+            use: { target: 'self', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
           },
         },
         inventory: [{ itemId: 'yao', count: 1 }],
       },
     )
     session.tick(16, new Set()) // battleStart choreo
-    // 队员0:E 开用品 → Enter 提交最后一件药(target 缺省 = 直接提交)
+    // 队员0:E 开用品 → Enter 提交最后一件药(self = 直接提交)
     session.tick(16, new Set(['e']))
     session.tick(16, new Set(['Enter']))
     // 队员1:E 应打不开(剩余 0 已被预占)→ Enter Enter 走的是主菜单普攻路径

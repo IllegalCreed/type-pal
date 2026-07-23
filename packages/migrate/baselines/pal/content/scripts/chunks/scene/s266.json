@@ -970,7 +970,7 @@
         "cond": {
           "kind": "not",
           "cond": {
-            "kind": "hasItem",
+            "kind": "ownsItem",
             "itemId": "166",
             "atLeast": 1
           }

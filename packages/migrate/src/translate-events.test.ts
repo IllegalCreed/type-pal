@@ -64,6 +64,19 @@ describe('0x47 音效迁移', () => {
   })
 })
 
+describe('0xA1 队伍聚拢的 owner 边界', () => {
+  test('实体脚本挂载实体；共享物品用途只收拢 trail，不生成 global/items 伪载具', () => {
+    expect(bodyOf(ctxOf([{ opcode: 0xa1, operands: [0, 0, 0] }]))).toEqual([
+      { kind: 'mountParty', entity: 'e0' },
+    ])
+
+    const ctx = ctxOf([{ opcode: 0xa1, operands: [0, 0, 0] }])
+    const stages = translateStages('L_1', 'global/items', ctx)
+    expect(stages?.[0]?.body).toEqual([])
+    expect(ctx.report.knownNoOps['0xA1.globalTrail']).toBe(1)
+  })
+})
+
 describe('0x15 队员方向+姿势(script.c: wFrame = dir*3 + gesture)', () => {
   test('gesture>0 → setPartyFacing 带 gesture(开场练武 [0,9,0])', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x15, operands: [0, 9, 0] }]))

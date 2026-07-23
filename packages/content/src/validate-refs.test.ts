@@ -470,3 +470,124 @@ test('SkillCost.items[].itemId 不在 items → 报 warn', () => {
   ;(b.skills[0] as { cost?: unknown }).cost = { items: [{ itemId: 'no-wine', amount: 1 }] }
   expect(validateReferences(b).some((i) => /no-wine/.test(i.where + i.message))).toBe(true)
 })
+
+test('C8 use/throw 的配方、奖励、毒与共享脚本引用全部进入闭包', () => {
+  const b = clone(base)
+  b.poisons = [{ id: 551, name: '赤毒', curability: 'common', color: 1 }]
+  b.scriptChunks = {
+    shared: {
+      version: 1,
+      id: 'shared',
+      scripts: { existing: [] },
+    },
+  }
+  b.items = [
+    {
+      id: 'tool',
+      name: '工具',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [
+          {
+            kind: 'craftRecipe',
+            recipes: [
+              {
+                ingredients: [{ itemId: 'missing-material', count: 1 }],
+                products: [{ itemId: 'missing-product', count: 1 }],
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      id: 'pool',
+      name: '资源池',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [
+          {
+            kind: 'drawFromResourcePool',
+            resource: 'value',
+            maxRoll: 1,
+            rewards: [{ itemId: 'missing-reward', count: 1 }],
+          },
+        ],
+      },
+    },
+    {
+      id: 'scripted',
+      name: '剧情',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [{ kind: 'runScript', script: { chunk: 'shared', id: 'missing-script' } }],
+      },
+    },
+    {
+      id: 'poison',
+      name: '毒物',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      throw: { effects: [{ kind: 'applyPoison', poisonId: '999' }] },
+    },
+  ]
+  const joined = validateReferences(b)
+    .map((issue) => `${issue.where} ${issue.message}`)
+    .join('\n')
+  for (const missing of [
+    'missing-material',
+    'missing-product',
+    'missing-reward',
+    'missing-script',
+    '999',
+  ])
+    expect(joined).toContain(missing)
+  expect(joined).toContain('.throw.effects[0].poisonId')
+})
+
+test('迁移诊断 target.item 也必须存在', () => {
+  const b = clone(base)
+  b.migrationDiagnostics = {
+    version: 1,
+    diagnostics: [
+      {
+        id: 'item-use:missing',
+        severity: 'warn',
+        target: {
+          domain: 'item',
+          objectId: 'missing',
+          capability: 'use',
+          label: '失踪物品',
+        },
+        category: 'manual-review',
+        reason: '待处理',
+        source: { kind: 'legacy-script', label: 'L_1', address: 1 },
+      },
+    ],
+  }
+  expect(validateReferences(b)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        severity: 'error',
+        where: 'migrationDiagnostics.diagnostics[0].target.objectId',
+      }),
+    ]),
+  )
+})

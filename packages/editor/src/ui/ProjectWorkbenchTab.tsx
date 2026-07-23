@@ -377,7 +377,7 @@ function numberOrZero(value: string): number {
   return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0
 }
 
-function StartWorldFields(props: {
+export function StartWorldFields(props: {
   value: StartWorld
   actors: ActorDef[]
   items: ItemData[]
@@ -387,6 +387,7 @@ function StartWorldFields(props: {
   onChange: (next: StartWorld) => void
 }) {
   const { value, actors, items, skills, locale, readOnly = false, onChange } = props
+  const [newResourceKey, setNewResourceKey] = useState('')
   const patch = (next: Partial<StartWorld>): void => onChange({ ...value, ...next })
   const partyActors = actors.filter((actor) => actor.battler)
   const seedActorIds = Array.from(new Set([...value.party, ...Object.keys(value.seedStats ?? {})]))
@@ -421,6 +422,18 @@ function StartWorldFields(props: {
     if (Object.keys(stats).length) seedStats[actorId] = stats
     else delete seedStats[actorId]
     patch({ seedStats: Object.keys(seedStats).length ? seedStats : undefined })
+  }
+  const patchResource = (key: string, nextValue: number | undefined): void => {
+    const resources = { ...(value.resources ?? {}) }
+    if (nextValue === undefined) delete resources[key]
+    else resources[key] = Math.max(0, Math.floor(nextValue))
+    patch({ resources: Object.keys(resources).length ? resources : undefined })
+  }
+  const addResource = (): void => {
+    const key = newResourceKey.trim()
+    if (!key || key === 'collectValue' || Object.hasOwn(value.resources ?? {}, key)) return
+    patchResource(key, 0)
+    setNewResourceKey('')
   }
 
   return (
@@ -657,6 +670,73 @@ function StartWorldFields(props: {
         {skillActorIds.length === 0 ? (
           <PageHint>先选择队伍成员，再配置其初始技能。</PageHint>
         ) : null}
+      </section>
+
+      <section className="project-card">
+        <h4>
+          初始世界资源 <span className="b2">（物品炼化等机制按稳定键读写）</span>
+        </h4>
+        <div className="project-list-stack">
+          {Object.entries(value.resources ?? {})
+            .sort(([left], [right]) => left.localeCompare(right))
+            .map(([key, initialValue]) => (
+              <div className="project-inline-row project-resource-row" key={key}>
+                <code>{key}</code>
+                <label>
+                  初始值{' '}
+                  <input
+                    className="in project-count"
+                    type="number"
+                    min={0}
+                    value={initialValue}
+                    disabled={readOnly}
+                    aria-label={`${key} 初始值`}
+                    onChange={(event) => patchResource(key, numberOrZero(event.target.value))}
+                  />
+                </label>
+                <button
+                  type="button"
+                  className="btn"
+                  disabled={readOnly}
+                  onClick={() => patchResource(key, undefined)}
+                >
+                  删除
+                </button>
+              </div>
+            ))}
+          <div className="project-inline-row project-resource-create">
+            <input
+              className="in mono"
+              value={newResourceKey}
+              disabled={readOnly}
+              aria-label="新世界资源稳定键"
+              placeholder="新资源键，如 alchemyEnergy"
+              onChange={(event) => setNewResourceKey(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
+                  addResource()
+                }
+              }}
+            />
+            <button
+              type="button"
+              className="btn"
+              disabled={
+                readOnly ||
+                !newResourceKey.trim() ||
+                newResourceKey.trim() === 'collectValue' ||
+                Object.hasOwn(value.resources ?? {}, newResourceKey.trim())
+              }
+              onClick={addResource}
+            >
+              ＋ 添加资源
+            </button>
+          </div>
+          <PageHint>
+            collectValue 是内建收妖值，不在此处重复定义。独立入口可以保存自己的资源初值。
+          </PageHint>
+        </div>
       </section>
 
       <section className="project-card">

@@ -19,6 +19,7 @@ import type {
   LoadedManifest,
   Locale,
   MapIndexV1,
+  MigrationDiagnosticsV1,
   PoisonDef,
   ProjectMap,
   SceneDef,
@@ -43,10 +44,12 @@ import {
   validateLocale,
   validateManifestAssetConfigV3,
   validateMapIndex,
+  validateMigrationDiagnostics,
   validateScenesForContentVersion,
   validateSkills,
   validateSprites,
   validateStampTemplates,
+  validateStartWorldResources,
   validateTilesets,
 } from '@type-pal/content'
 import { AssetResolver } from './asset-resolver.js'
@@ -104,6 +107,8 @@ export interface LoadedProjectCore {
   assetCatalog: AssetCatalogV1
   /** 可选分片脚本索引；不含 Command[]。 */
   scriptIndex?: ScriptIndexV1
+  /** 编辑器消费的迁移待处理 sidecar；运行时不从字段缺席猜测。 */
+  migrationDiagnostics: MigrationDiagnosticsV1
 }
 
 /** 运行期工程对象(main.ts / 编辑器消费):数据核 + 读取源(loadSceneDef/素材加载经它)。 */
@@ -145,6 +150,7 @@ export interface ContentJsons {
   /** 必需地图索引。 */
   maps: unknown
   scripts?: unknown
+  migrationDiagnostics?: unknown
   assetCatalog: unknown
 }
 
@@ -186,6 +192,11 @@ export function assembleProject(
   const sceneIds = validateSceneIds(jsons.sceneIds)
   if (manifest.contentVersion !== CONTENT_VERSION)
     throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion ${CONTENT_VERSION}，请先迁移`)
+  validateStartWorldResources(manifest.startWorld)
+  for (const [index, entry] of (manifest.entryPoints ?? []).entries()) {
+    if (entry.startWorld)
+      validateStartWorldResources(entry.startWorld, `entryPoints[${index}].startWorld`)
+  }
   const assetCatalog = validateAssetCatalog(jsons.assetCatalog)
   validateManifestAssetConfigV3(manifest.assets, assetCatalog)
   if (!manifest.content.maps) throw new Error(`工程 "${manifest.id}": manifest 缺地图索引路径`)
@@ -217,6 +228,10 @@ export function assembleProject(
           checkScriptIndex(jsons.scripts)
           return jsons.scripts
         })()
+  const migrationDiagnostics =
+    jsons.migrationDiagnostics === undefined
+      ? ({ version: 1, diagnostics: [] } satisfies MigrationDiagnosticsV1)
+      : validateMigrationDiagnostics(jsons.migrationDiagnostics)
 
   if (!entryScene || entryScene.id !== manifest.entryScene)
     throw new Error(
@@ -265,6 +280,7 @@ export function assembleProject(
     shops,
     tilesets,
     scriptIndex,
+    migrationDiagnostics,
     assetCatalog,
     assetBase: {
       root,
@@ -316,6 +332,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     tilesets,
     mapIndexJson,
     scripts,
+    migrationDiagnostics,
     assetCatalog,
   ] = await Promise.all([
     source.readJson(content.actors as string),
@@ -335,6 +352,9 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
     content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
     content.maps ? source.readJson(content.maps) : Promise.resolve(undefined),
     scriptDir ? source.readJson(`${scriptDir}index.json`) : Promise.resolve(undefined),
+    content.migrationDiagnostics
+      ? source.readJson(content.migrationDiagnostics)
+      : Promise.resolve(undefined),
     source.readJson(manifest.assets.catalog),
   ])
   const core = assembleProject(
@@ -357,6 +377,7 @@ export async function loadProjectFrom(source: FileSource): Promise<LoadedProject
       tilesets,
       maps: mapIndexJson,
       scripts,
+      migrationDiagnostics,
       assetCatalog,
     },
     source.legacy ?? projectRelativeLegacyAdapter(source),

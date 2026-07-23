@@ -72,6 +72,7 @@ import {
 } from '../core/entity-placement.js'
 import { exportProjectZip } from '../core/export-zip.js'
 import { saveHandle } from '../core/handle-store.js'
+import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
@@ -588,6 +589,45 @@ export function App(props: {
       commandPath: commandPath ?? null,
       focusRevision: nextPreciseFocusRevision(),
     })
+  }
+  const openItemReference = (reference: ItemReference): void => {
+    const locator = reference.locator
+    if (!locator) {
+      setWorkspaceNotice({
+        kind: 'info',
+        message: reference.unavailableReason ?? `${reference.where} 当前没有可编辑的精确位置。`,
+      })
+      return
+    }
+    switch (locator.kind) {
+      case 'scene-script':
+        jumpToEvent(locator.sceneId, locator.sourceKey, locator.commandPath, locator.pageIndex ?? 0)
+        return
+      case 'shared-script':
+        openScriptReference(locator.scriptId, locator.commandPath)
+        return
+      case 'shop':
+        applyEditorLocation(editorLinks.shop(locator.shopId))
+        return
+      case 'actor':
+        applyEditorLocation(editorLinks.actor(locator.actorId))
+        return
+      case 'skill':
+        applyEditorLocation(editorLinks.skill(locator.skillId))
+        return
+      case 'enemy':
+        applyEditorLocation(editorLinks.enemy(locator.enemyId))
+        return
+      case 'poison':
+        applyEditorLocation(editorLinks.poison(locator.poisonId))
+        return
+      case 'entry-point':
+        applyEditorLocation(editorLinks.entryPoint(locator.entryPointId))
+        return
+      case 'item':
+        applyEditorLocation(editorLinks.item(locator.itemId))
+        return
+    }
   }
   const statusIssues = useMemo(() => collectEditorStatusIssues(state), [state])
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
@@ -1227,6 +1267,11 @@ export function App(props: {
             onOpenTileset={(id) => applyEditorLocation(editorLinks.tileset(id))}
             onOpenStamp={(id) => applyEditorLocation(editorLinks.stamp(id))}
             onOpenBattleSprite={(id) => applyEditorLocation(editorLinks.battleSprite(id))}
+            onOpenScript={openScriptReference}
+            onOpenItemReference={openItemReference}
+            onOpenProjectIssues={() =>
+              applyEditorLocation({ module: 'project', subpage: 'advanced' })
+            }
             onJumpWorldSpriteReference={jumpToWorldSpriteReference}
             onJumpWorldSpriteActionReference={jumpToWorldSpriteActionReference}
             onJumpWorldSpriteAutomaticScriptInstance={jumpToWorldSpriteAutomaticScriptInstance}

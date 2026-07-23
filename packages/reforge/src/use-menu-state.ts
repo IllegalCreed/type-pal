@@ -9,7 +9,7 @@ import {
   type ItemData,
   type ItemDataMap,
   usableItems,
-  useItem,
+  type WorldItemUseOutcome,
   type WorldState,
 } from '@type-pal/content'
 
@@ -56,30 +56,36 @@ export function useMoveCursor(
 /** pick-item 确认结果:单体回复/buff → 进选目标;脚本/全体类 → 已直接执行(返回新 world)。 */
 export type UseConfirmResult =
   | { kind: 'pick-target'; state: UseMenuState }
-  | { kind: 'direct'; world: WorldState; state: UseMenuState }
-  | { kind: 'teleportOut'; itemId: string; state: UseMenuState } // 引路蜂/土灵珠:reforge 层跑场景出口
+  | { kind: 'execute'; request: UseExecutionRequest }
+
+export interface UseExecutionRequest {
+  itemId: string
+  targetCharId: string
+  origin: 'pick-item' | 'pick-target'
+  state: UseMenuState
+}
 
 /** pick-item Enter:单体(oneAlly)进选目标面板;脚本/全体类直接执行(不选目标)。 */
 export function useConfirm(
   s: UseMenuState,
   world: WorldState,
-  items: ItemDataMap,
-  poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>,
+  _items: ItemDataMap,
 ): UseConfirmResult {
   if (s.phase !== 'pick-item') return { kind: 'pick-target', state: s }
   const sel = s.items[s.cursor]
   if (!sel) return { kind: 'pick-target', state: s }
-  // 引路蜂/土灵珠:teleportOut 效果 → 交 reforge 层跑当前场景 onTeleport(content 不碰场景运行时)
-  if (sel.use?.effects.some((e) => e.kind === 'teleportOut')) {
-    return { kind: 'teleportOut', itemId: sel.id, state: s }
-  }
   if (sel.use?.target === 'oneAlly') {
     return { kind: 'pick-target', state: { ...s, phase: 'pick-target', selectedItemId: sel.id } }
   }
-  // 脚本/全体类:直接执行(脱离洞窟等脚本 / 全体回复)。demo:triggerScript 为桩 → 无视觉变化;
-  // 真脚本系统建好后由 triggerScript 实跑(可能换场景/关菜单)。光标留原处(记忆)。
-  const next = useItem(world, world.party[0]?.id ?? '', sel.id, items, poisonDefs)
-  return { kind: 'direct', world: next, state: openUseMenu(next, items, s.cursor) }
+  return {
+    kind: 'execute',
+    request: {
+      itemId: sel.id,
+      targetCharId: world.party[0]?.id ?? '',
+      origin: 'pick-item',
+      state: s,
+    },
+  }
 }
 
 /** pick-target Esc → 回 pick-item(光标留在该物上)。 */
@@ -92,15 +98,25 @@ export function useBackFromTarget(s: UseMenuState): UseMenuState {
  *  用光(该物从 usableItems 消失)才回 pick-item。只有 oneAlly 能到 pick-target,故恒为单体物。 */
 export function useApply(
   s: UseMenuState,
-  world: WorldState,
+  _world: WorldState,
   targetCharId: string,
+  _items: ItemDataMap,
+): UseExecutionRequest | undefined {
+  if (s.phase !== 'pick-target' || !s.selectedItemId) return undefined
+  return { itemId: s.selectedItemId, targetCharId, origin: 'pick-target', state: s }
+}
+
+/** 异步执行完成后的唯一菜单归并；失败保持原位，成功再按来源/配置决定留菜单或关闭。 */
+export function finishUseExecution(
+  request: UseExecutionRequest,
+  outcome: WorldItemUseOutcome,
   items: ItemDataMap,
-  poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>,
-): { world: WorldState; state: UseMenuState } {
-  if (s.phase !== 'pick-target' || !s.selectedItemId) return { world, state: s }
-  const next = useItem(world, targetCharId, s.selectedItemId, items, poisonDefs)
-  const stillUsable = usableItems(next, items).some((it) => it.id === s.selectedItemId)
-  return stillUsable
-    ? { world: next, state: s } // 还有 → 留选目标连用(选中/光标不变)
-    : { world: next, state: openUseMenu(next, items, 0) } // 用光 → 回列表重算
+): UseMenuState {
+  if (outcome.status !== 'success') return request.state
+  if (outcome.menu === 'close') return closeUseMenu()
+  if (request.origin === 'pick-target') {
+    const stillUsable = usableItems(outcome.world, items).some((it) => it.id === request.itemId)
+    return stillUsable ? request.state : openUseMenu(outcome.world, items, 0)
+  }
+  return openUseMenu(outcome.world, items, request.state.cursor)
 }

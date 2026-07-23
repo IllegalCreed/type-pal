@@ -8,6 +8,7 @@ import {
   validateScenes,
   validateSkills,
   validateSprites,
+  validateStartWorldResources,
 } from './validate.js'
 
 const mkScene = (over: Record<string, unknown> = {}): unknown => ({
@@ -309,7 +310,7 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
         buyPrice: 1,
         sellPrice: 1,
         sellable: true,
-        use: { consuming: true, effects: [], sound: 45 },
+        use: { target: 'oneAlly', consuming: true, effects: [], sound: 45 },
       },
     ]),
   ).toThrow('期望非空 AssetId')
@@ -359,6 +360,232 @@ test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合�
       },
     ]),
   ).toThrow('期望非空 AssetId')
+})
+
+describe('validateItems · C8 用途能力契约', () => {
+  const item = (use: unknown) => ({
+    id: 'item',
+    name: '测试物品',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    use,
+  })
+
+  test('合法的世界、战斗和剧情用途均通过，gate 缺省 chance 表示原版 100 阈值', () => {
+    expect(() =>
+      validateItems([
+        item({
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'gate' }, { kind: 'healHp', amount: 10 }],
+        }),
+        {
+          ...item({
+            target: 'allAllies',
+            consuming: true,
+            battleOnly: true,
+            effects: [{ kind: 'hideParty', turns: 3 }],
+          }),
+          id: 'battle',
+        },
+        {
+          ...item({
+            target: 'scene',
+            consuming: false,
+            menuAfterUse: 'close',
+            effects: [
+              { kind: 'runSceneHook', hook: 'onTeleport', unavailableMessage: '这里不能使用' },
+            ],
+          }),
+          id: 'scene',
+        },
+      ]),
+    ).not.toThrow()
+  })
+
+  test.each([
+    [{ consuming: true, effects: [{ kind: 'healHp', amount: 1 }] }, /target: 期望/],
+    [{ target: 'oneAlly', consuming: true, effects: [] }, /effects: 不得为空/],
+    [
+      { target: 'oneAlly', consuming: 'yes', effects: [{ kind: 'healHp', amount: 1 }] },
+      /consuming: 期望 boolean/,
+    ],
+    [
+      { target: 'enemy', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
+      /target: 期望/,
+    ],
+    [{ target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 0 }] }, /不得为 0/],
+    [
+      { target: 'oneAlly', consuming: true, effects: [{ kind: 'revive', hpPercent: 101 }] },
+      /不得大于 100/,
+    ],
+    [
+      { target: 'oneAlly', consuming: true, effects: [{ kind: 'removeStatus', statuses: [] }] },
+      /不得为空/,
+    ],
+    [{ target: 'oneAlly', consuming: true, effects: [{ kind: 'curePoison' }] }, /至少需要一个/],
+    [{ target: 'oneAlly', consuming: true, effects: [{ kind: 'gate', chance: 0 }] }, /期望正数/],
+    [
+      { target: 'oneAlly', consuming: true, effects: [{ kind: 'hideParty', turns: 1 }] },
+      /必须使用 allAllies/,
+    ],
+    [
+      {
+        target: 'scene',
+        consuming: true,
+        battleOnly: true,
+        effects: [{ kind: 'runSceneHook', hook: 'onTeleport' }],
+      },
+      /battleOnly 用途包含不可用于战斗/,
+    ],
+    [
+      {
+        target: 'oneAlly',
+        consuming: true,
+        effects: [{ kind: 'runScript', script: { chunk: 'c', id: 's' } }],
+      },
+      /必须使用 scene/,
+    ],
+    [
+      {
+        target: 'scene',
+        consuming: true,
+        effects: [
+          { kind: 'runSceneHook', hook: 'onTeleport' },
+          { kind: 'healHp', amount: 1 },
+        ],
+      },
+      /必须作为唯一效果/,
+    ],
+    [
+      { target: 'scene', consuming: true, effects: [{ kind: 'healHp', amount: 1 }] },
+      /scene 目标必须包含/,
+    ],
+    [
+      {
+        target: 'scene',
+        consuming: false,
+        effects: [
+          {
+            kind: 'craftRecipe',
+            recipes: [
+              {
+                ingredients: [{ itemId: 'in', count: 1 }],
+                products: [{ itemId: 'out', count: 1 }],
+              },
+            ],
+          },
+          { kind: 'healHp', amount: 1 },
+        ],
+      },
+      /不能与角色或战斗效果混合/,
+    ],
+  ] as const)('拒绝非法用途 %#', (use, expected) => {
+    expect(() => validateItems([item(use)])).toThrow(expected)
+  })
+
+  test('配方与资源池完整校验，投掷拒绝世界专用效果', () => {
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'craftRecipe',
+              recipes: [{ ingredients: [], products: [{ itemId: 'out', count: 1 }] }],
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/ingredients: 不得为空/)
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: false,
+          effects: [
+            {
+              kind: 'drawFromResourcePool',
+              resource: 'collectValue',
+              maxRoll: 2,
+              rewards: [{ itemId: 'one', count: 1 }],
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/至少覆盖 maxRoll 档/)
+    expect(() =>
+      validateItems([
+        {
+          ...item(undefined),
+          throw: {
+            effects: [
+              {
+                kind: 'craftRecipe',
+                recipes: [
+                  {
+                    ingredients: [{ itemId: 'in', count: 1 }],
+                    products: [{ itemId: 'out', count: 1 }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ]),
+    ).toThrow(/不可用于投掷上下文/)
+  })
+
+  test('消耗型配方工具不能又把自身列为材料', () => {
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'craftRecipe',
+              recipes: [
+                {
+                  ingredients: [{ itemId: 'item', count: 1 }],
+                  products: [{ itemId: 'out', count: 1 }],
+                },
+              ],
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/不能同时作为自身配方材料/)
+  })
+})
+
+describe('validateStartWorldResources', () => {
+  const startWorld = (resources?: unknown): unknown => ({
+    party: [],
+    money: 0,
+    learnedSkills: {},
+    inventory: [],
+    ...(resources === undefined ? {} : { resources }),
+  })
+
+  test('允许零值与自定义非负安全整数', () => {
+    expect(() => validateStartWorldResources(startWorld({ herb: 0, essence: 9 }))).not.toThrow()
+  })
+
+  test.each([
+    [{ '': 1 }, /资源键不能为空/],
+    [{ ' herb': 1 }, /不得包含首尾空格/],
+    [{ 'herb ': 1 }, /不得包含首尾空格/],
+    [{ collectValue: 1 }, /保留资源/],
+    [{ herb: -1 }, /非负安全整数/],
+    [{ herb: 1.5 }, /非负安全整数/],
+    [{ herb: Number.POSITIVE_INFINITY }, /非负安全整数/],
+  ])('拒绝非法资源池 %#', (resources, expected) => {
+    expect(() => validateStartWorldResources(startWorld(resources))).toThrow(expected)
+  })
 })
 
 describe('validateLocale · 对话行边界', () => {

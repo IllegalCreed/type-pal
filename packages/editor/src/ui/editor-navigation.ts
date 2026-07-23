@@ -132,7 +132,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         dataPage: 'item',
         acceptsObject: true,
       },
-      { id: 'shop', label: '商店', icon: '🏪', kind: 'data', dataPage: 'shop' },
+      {
+        id: 'shop',
+        label: '商店',
+        icon: '🏪',
+        kind: 'data',
+        dataPage: 'shop',
+        acceptsObject: true,
+      },
     ],
   },
   {
@@ -157,7 +164,14 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
         dataPage: 'enemy',
         acceptsObject: true,
       },
-      { id: 'poison', label: '毒', icon: '☠️', kind: 'data', dataPage: 'poison' },
+      {
+        id: 'poison',
+        label: '毒',
+        icon: '☠️',
+        kind: 'data',
+        dataPage: 'poison',
+        acceptsObject: true,
+      },
       {
         id: 'battlefield',
         label: '战场',
@@ -455,6 +469,16 @@ export const editorLinks = {
     subpage: 'enemy',
     objectId: enemyId,
   }),
+  poison: (poisonId: number): EditorLocation => ({
+    module: 'battle',
+    subpage: 'poison',
+    objectId: String(poisonId),
+  }),
+  shop: (shopId: number): EditorLocation => ({
+    module: 'item',
+    subpage: 'shop',
+    objectId: String(shopId),
+  }),
   sound: (assetId: string): EditorLocation => ({
     module: 'asset',
     subpage: 'sound',
@@ -474,5 +498,10 @@ export const editorLinks = {
     module: 'project',
     subpage: page,
     ...(objectId ? { objectId } : {}),
+  }),
+  entryPoint: (entryPointId?: string): EditorLocation => ({
+    module: 'project',
+    subpage: 'entrypoint',
+    ...(entryPointId ? { objectId: entryPointId } : {}),
   }),
 }

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "id": "shared/c14",
+  "imports": [
+    "shared/c01"
+  ],
+  "scripts": {
+    "shared/user/pal-item-use/290": [
+      {
+        "kind": "callScript",
+        "ref": {
+          "chunk": "shared/c01",
+          "id": "shared/scc-L-39753/L-39753/global/items/d-0a386828"
+        }
+      }
+    ]
+  }
+}

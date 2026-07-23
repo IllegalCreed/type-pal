@@ -64,6 +64,7 @@ export function toEditorState(
     tilesetBlobs: {},
     scriptIndex: project.scriptIndex,
     scriptChunks,
+    migrationDiagnostics: structuredClone(project.migrationDiagnostics),
     // by-id Record → 数组(Object.values 保序:indexById 按原数组序插入)
     actors: Object.values(project.actorsById),
     skills: Object.values(project.skills),
@@ -107,6 +108,7 @@ type ContentKey =
   | 'poisons'
   | 'ambiences'
   | 'shops'
+  | 'migrationDiagnostics'
 
 /**
  * 工作副本 → {相对路径: JSON 值} 文件集。按 manifest.content 的路径键映射;
@@ -196,6 +198,13 @@ export function serializeProject(
     poisons: state.poisons ?? [],
     ambiences: state.ambiences ?? [],
     shops: state.shops ?? [],
+    migrationDiagnostics: {
+      version: 1,
+      diagnostics: (state.migrationDiagnostics?.diagnostics ?? []).filter((diagnostic) => {
+        const item = state.items.find((candidate) => candidate.id === diagnostic.target.objectId)
+        return !item?.[diagnostic.target.capability]
+      }),
+    },
   }
 
   // 只产出 manifest.content 里**声明了路径**的文件(sprites 缺则不产出 sprites.json)。
