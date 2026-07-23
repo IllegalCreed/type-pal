@@ -99,6 +99,24 @@ export function resolveRelativeLatticeOffset(
   return { row, col: (u - (row & 1)) / 2 }
 }
 
+export type IsometricNudgeDirection = 'up' | 'down' | 'left' | 'right'
+
+const ISOMETRIC_NUDGE_OFFSETS: Readonly<Record<IsometricNudgeDirection, RelativeLatticeOffset>> = {
+  // PAL 的四向沿菱形边移动：上/下分别是屏幕右上/左下，左/右分别是左上/右下。
+  up: { dRow: -1, du: 1 },
+  down: { dRow: 1, du: -1 },
+  left: { dRow: -1, du: -1 },
+  right: { dRow: 1, du: 1 },
+}
+
+/** 沿错排菱形 lattice 的一个相邻格微调，不能用朴素 dRow/dCol 造成跨格或奇偶行漂移。 */
+export function nudgeIsometricLattice(
+  anchor: GridPointRef,
+  direction: IsometricNudgeDirection,
+): GridPointRef {
+  return resolveRelativeLatticeOffset(anchor, ISOMETRIC_NUDGE_OFFSETS[direction])
+}
+
 function selectionAnchor(
   selection: Extract<MapSelection, { kind: 'cells' }>,
 ): GridPointRef | undefined {

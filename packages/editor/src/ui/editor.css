@@ -7666,6 +7666,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   max-height: calc(100vh - 40px);
   padding: 18px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   border: 1px solid color-mix(in srgb, var(--warn) 48%, var(--line));
   border-radius: 8px;
   background: var(--panel);
@@ -7681,6 +7682,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 11px;
   line-height: 1.55;
+}
+.map-transform-conflict-dialog {
+  width: min(480px, 100%);
 }
 .stamp-lifecycle-list {
   display: grid;

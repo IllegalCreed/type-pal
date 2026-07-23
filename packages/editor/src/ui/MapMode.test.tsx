@@ -396,6 +396,13 @@ beforeEach(() => {
         clearRect: vi.fn(),
         drawImage: vi.fn(),
         setTransform: vi.fn(),
+        save: vi.fn(),
+        restore: vi.fn(),
+        beginPath: vi.fn(),
+        moveTo: vi.fn(),
+        lineTo: vi.fn(),
+        closePath: vi.fn(),
+        stroke: vi.fn(),
       }
     },
   })
@@ -471,6 +478,23 @@ describe('MapMode 地图内容选择交互', () => {
     expect(session.getMapRevision('map-a')).toBe(0)
     expect(session.isDirty()).toBe(false)
     expect(button(host, '选择').classList).toContain('active')
+  })
+
+  test('组合工具只负责放置已选模板，不冒充右栏组合 Tab', async () => {
+    const { host } = await mountMapMode({ stamps: [stampTemplate()] })
+    const placeStamp = button(host, '◆ 放置组合')
+    expect(placeStamp.disabled).toBe(true)
+    expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
+
+    await activateStamp(host)
+    expect(placeStamp.disabled).toBe(false)
+    await act(async () => button(host, '退出组合工具').click())
+    await act(async () => inspectorTab(host, '属性').click())
+    await act(async () => placeStamp.click())
+
+    expect(placeStamp.classList).toContain('active')
+    expect(inspectorTab(host, '属性').getAttribute('aria-selected')).toBe('true')
+    expect(inspectorTab(host, '组合').getAttribute('aria-selected')).toBe('false')
   })
 
   test('Ctrl/⌘ 可追加不规则瓦片选区、再次命中移除，并可直接提取组合', async () => {
@@ -677,27 +701,87 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown'))
     await act(async () => button(host, '移动…').click())
-    expect(button(host.querySelector('.map-transform-bar')!, '提交').disabled).toBe(true)
-    await act(async () => button(host.querySelector('.map-transform-nudge')!, '→').click())
-    await act(async () => button(host.querySelector('.map-transform-bar')!, '提交').click())
+    expect(button(host.querySelector('.map-transform-bar')!, '确认位置').disabled).toBe(true)
+    await act(async () => button(host.querySelector('.map-transform-nudge')!, '↘').click())
+    await act(async () => button(host.querySelector('.map-transform-bar')!, '确认位置').click())
 
     const moved = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(1)
     expect(projectMapStampPlacements(moved)).toEqual([
-      expect.objectContaining({ id: 'tree-a', anchor: { row: 0, col: 1 } }),
+      expect.objectContaining({ id: 'tree-a', anchor: { row: 1, col: 0 } }),
     ])
     expect(moved.layers[0]?.tiles[0]?.[0]).toBeNull()
-    expect(moved.layers[0]?.tiles[0]?.[1]).toBe(1)
+    expect(moved.layers[0]?.tiles[1]?.[0]).toBe(1)
     expect(moved.layers[1]?.tiles[0]?.[0]).toBeNull()
-    expect(moved.layers[1]?.tiles[0]?.[1]).toBe(1)
-    expect(moved.layers[1]?.heights?.[0]?.[1]).toBe(2)
+    expect(moved.layers[1]?.tiles[1]?.[0]).toBe(1)
+    expect(moved.layers[1]?.heights?.[1]?.[0]).toBe(2)
     expect(moved.collision[0]?.[0]).toBe(0)
-    expect(moved.collision[0]?.[1]).toBe(5)
+    expect(moved.collision[1]?.[0]).toBe(5)
 
     await act(async () => session.undo())
     expect(session.getState().maps['map-a']).toBe(before)
     await act(async () => session.redo())
     expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.id).toBe('tree-a')
+  })
+
+  test('画布点击即冻结并放下移动目标，无冲突时不再要求去右栏二次提交', async () => {
+    const { host, canvas, session } = await mountMapMode({ map: placementMap() })
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '移动…').click())
+    await act(async () => pointer(canvas, 'pointermove', { clientX: 17, clientY: 1 }))
+
+    expect(host.querySelector('.map-transform-bar')?.textContent).toContain('锚点 r1:c0')
+    expect(session.getMapRevision('map-a')).toBe(0)
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 17, clientY: 1 }))
+
+    expect(host.querySelector('.map-transform-bar')).toBeNull()
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.anchor).toEqual({
+      row: 1,
+      col: 0,
+    })
+  })
+
+  test('普通冲突在落点冻结后弹窗确认，移出画布不漂移，返回调整零写且覆盖可撤销', async () => {
+    let map = placementMap()
+    map = paintProjectMapTiles(map, [
+      { layerId: 'floor', row: 2, col: 1, tileId: 1, height: 0 },
+      { layerId: 'objects', row: 2, col: 1, tileId: 1, height: 2 },
+    ])
+    const { host, canvas, session } = await mountMapMode({ map })
+    const before = session.getState().maps['map-a']!
+    await act(async () => button(host, '选择').click())
+    await act(async () => pointer(canvas, 'pointerdown'))
+    await act(async () => button(host, '移动…').click())
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
+
+    let dialog = host.querySelector<HTMLElement>('[role="alertdialog"]')!
+    expect(dialog.textContent).toContain('目标位置已有地图内容')
+    expect(session.getMapRevision('map-a')).toBe(0)
+    expect(document.activeElement).toBe(button(dialog, '返回调整'))
+    expect(host.querySelector('.map-transform-bar')?.textContent).toContain('锚点 r2:c1')
+
+    await act(async () => pointer(canvas, 'pointermove', { clientX: 17, clientY: 17 }))
+    expect(host.querySelector('.map-transform-bar')?.textContent).toContain('锚点 r2:c1')
+    await act(async () => button(dialog, '返回调整').click())
+    expect(host.querySelector('[role="alertdialog"]')).toBeNull()
+    expect(document.activeElement).toBe(canvas)
+    expect(session.getState().maps['map-a']).toBe(before)
+    expect(session.getMapRevision('map-a')).toBe(0)
+
+    await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
+    dialog = host.querySelector<HTMLElement>('[role="alertdialog"]')!
+    await act(async () => button(dialog, '覆盖并移动').click())
+    expect(host.querySelector('[role="alertdialog"]')).toBeNull()
+    expect(session.getMapRevision('map-a')).toBe(1)
+    expect(projectMapStampPlacements(session.getState().maps['map-a']!)[0]?.anchor).toEqual({
+      row: 2,
+      col: 1,
+    })
+
+    await act(async () => session.undo())
+    expect(session.getState().maps['map-a']).toBe(before)
   })
 
   test('整组复制粘贴保留来源并生成新 ID，显式 collision 始终同行', async () => {
@@ -712,16 +796,16 @@ describe('MapMode 地图内容选择交互', () => {
         new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
       ),
     )
-    await act(async () => button(host.querySelector('.map-transform-bar')!, '提交').click())
+    await act(async () => button(host.querySelector('.map-transform-bar')!, '确认位置').click())
 
     const pasted = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(1)
     expect(projectMapStampPlacements(pasted).map(({ id }) => id)).toEqual(['tree-a', 'tree-a-copy'])
     expect(pasted.layers[0]?.tiles[0]?.[0]).toBe(1)
-    expect(pasted.layers[0]?.tiles[0]?.[1]).toBe(1)
-    expect(pasted.layers[1]?.heights?.[0]?.[1]).toBe(2)
+    expect(pasted.layers[0]?.tiles[1]?.[0]).toBe(1)
+    expect(pasted.layers[1]?.heights?.[1]?.[0]).toBe(2)
     expect(pasted.collision[0]?.[0]).toBe(4)
-    expect(pasted.collision[0]?.[1]).toBe(4)
+    expect(pasted.collision[1]?.[0]).toBe(4)
   })
 
   test('整组重复自动建立相邻预览，碰撞通道不可排除且提交仍是一条历史', async () => {
@@ -739,7 +823,7 @@ describe('MapMode 地图内容选择交互', () => {
       ?.querySelector<HTMLInputElement>('input')
     expect(collisionToggle?.checked).toBe(true)
     expect(collisionToggle?.disabled).toBe(true)
-    await act(async () => button(bar, '提交').click())
+    await act(async () => button(bar, '确认位置').click())
 
     const repeated = session.getState().maps['map-a']!
     expect(session.getMapRevision('map-a')).toBe(1)
@@ -784,13 +868,12 @@ describe('MapMode 地图内容选择交互', () => {
     await act(async () => button(host, '选择').click())
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 1, clientY: 1 }))
     await act(async () => button(host, '移动…').click())
-    await act(async () => button(host.querySelector('.map-transform-nudge')!, '↓').click())
+    await act(async () => button(host.querySelector('.map-transform-nudge')!, '↘').click())
+    await act(async () => button(host.querySelector('.map-transform-nudge')!, '↙').click())
     const bar = host.querySelector<HTMLElement>('.map-transform-bar')!
     expect(bar.textContent).toContain('属于另一放置组')
-    expect(
-      [...bar.querySelectorAll('button')].some((item) => item.textContent === '覆盖并提交'),
-    ).toBe(false)
-    expect(button(bar, '提交').disabled).toBe(true)
+    expect(host.querySelector('[role="alertdialog"]')).toBeNull()
+    expect(button(bar, '确认位置').disabled).toBe(true)
     expect(session.getMapRevision('map-a')).toBe(0)
   })
 
@@ -1343,7 +1426,7 @@ describe('MapMode 地图内容选择交互', () => {
     await selectFloor(host, canvas)
     await activateStamp(host)
 
-    expect(button(host, '◆ 组合').classList).toContain('active')
+    expect(button(host, '◆ 放置组合').classList).toContain('active')
     const mappings = [...host.querySelectorAll<HTMLSelectElement>('.stamp-mapping-list select')]
     expect(mappings).toHaveLength(2)
     expect(mappings.map((select) => select.value)).toEqual(['', ''])
@@ -1361,11 +1444,11 @@ describe('MapMode 地图内容选择交互', () => {
     await mapStampSlots(host)
     await act(async () => pointer(canvas, 'pointerdown', { clientX: 33, clientY: 17 }))
     expect(host.querySelector('.map-stamp-recent')).not.toBeNull()
-    expect(button(host, '◆ 组合').classList).toContain('active')
+    expect(button(host, '◆ 放置组合').classList).toContain('active')
 
     const nextSession = new EditSession(editorState(fixtureMap(), [template]))
     await rerenderWithSession(nextSession, [template])
-    expect(button(host, '◆ 组合').classList).not.toContain('active')
+    expect(button(host, '◆ 放置组合').classList).not.toContain('active')
     expect(host.querySelector('.stamp-placement-inspector')).toBeNull()
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(

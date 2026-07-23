@@ -2,6 +2,7 @@ import {
   buildBlankProjectMap,
   buildProjectMapLayer,
   insertProjectMapLayer,
+  latticeCenter,
   paintProjectMapCollision,
   paintProjectMapTiles,
   withProjectMapStampPlacements,
@@ -11,6 +12,7 @@ import { applyPreparedProjectMapPatch, prepareProjectMapPatch } from './map-patc
 import type { MapSelection } from './map-selection.js'
 import {
   captureMapClipboard,
+  nudgeIsometricLattice,
   planMapDelete,
   planMapMove,
   planMapPaste,
@@ -57,6 +59,23 @@ function ownedMap() {
 }
 
 describe('W8 structured clipboard / lattice geometry', () => {
+  test.each([
+    ['left', { row: 2, col: 3 }, { row: 1, col: 2 }, { x: -16, y: -8 }],
+    ['up', { row: 2, col: 3 }, { row: 1, col: 3 }, { x: 16, y: -8 }],
+    ['down', { row: 2, col: 3 }, { row: 3, col: 2 }, { x: -16, y: 8 }],
+    ['right', { row: 2, col: 3 }, { row: 3, col: 3 }, { x: 16, y: 8 }],
+    ['left', { row: 3, col: 3 }, { row: 2, col: 3 }, { x: -16, y: -8 }],
+    ['up', { row: 3, col: 3 }, { row: 2, col: 4 }, { x: 16, y: -8 }],
+    ['down', { row: 3, col: 3 }, { row: 4, col: 3 }, { x: -16, y: 8 }],
+    ['right', { row: 3, col: 3 }, { row: 4, col: 4 }, { x: 16, y: 8 }],
+  ] as const)('沿 %s 从奇偶行只移动一个相邻菱形格', (direction, anchor, expected, pixelDelta) => {
+    const actual = nudgeIsometricLattice(anchor, direction)
+    expect(actual).toEqual(expected)
+    const from = latticeCenter(anchor)
+    const to = latticeCenter(actual)
+    expect({ x: to.x - from.x, y: to.y - from.y }).toEqual(pixelDelta)
+  })
+
   test('visual-only 与 include-collision payload 分形，collision=0 仍保留', () => {
     const map = mapFixture()
     const visual = captureMapClipboard('map-a', map, selection, false)!
