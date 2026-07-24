@@ -29,6 +29,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { Playback } from '../core/playback.js'
+import { analyzeScriptContext } from '../core/script-context.js'
 import {
   getCommandAt,
   insertAfterAt,
@@ -38,6 +39,11 @@ import {
   removeAt,
   updateCommandAt,
 } from '../core/script-edit.js'
+import {
+  buildInternalScriptCatalog,
+  type InternalScriptCatalogEntry,
+} from '../core/script-library-catalog.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { buildScriptReferenceIndex, type ScriptReferenceEntry } from '../core/script-references.js'
 import { createAuthoredScriptCall, createAuthoredScriptId } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
@@ -49,7 +55,11 @@ import { soundAssets } from './SoundPicker.js'
 const EMPTY_BODY: readonly Command[] = []
 const EMPTY_LIBRARY: Record<string, SharedScriptMetaV1> = {}
 
-const BASE_INSERTS: { label: string; make: () => Command }[] = [
+const BASE_INSERTS: {
+  label: string
+  requiresItem?: boolean
+  make: (defaultItemId?: string) => Command
+}[] = [
   {
     label: '💬 对话',
     make: () => ({ kind: 'dialog', cue: { rows: [{ text: '(新对话)' }] } }),
@@ -57,7 +67,11 @@ const BASE_INSERTS: { label: string; make: () => Command }[] = [
   { label: '⏱ 等待', make: () => ({ kind: 'wait', ms: 200 }) },
   { label: '🚩 设开关', make: () => ({ kind: 'setFlag', flag: 'my-flag', value: true }) },
   { label: '🔢 设数值', make: () => ({ kind: 'setVar', var: 'my-var', value: 1 }) },
-  { label: '🎁 给物品', make: () => ({ kind: 'giveItem', itemId: '0' }) },
+  {
+    label: '🎁 获得物品',
+    requiresItem: true,
+    make: (defaultItemId) => ({ kind: 'giveItem', itemId: defaultItemId! }),
+  },
 ]
 
 function commandScriptTargetId(command: Command | undefined): string | undefined {
@@ -87,23 +101,12 @@ function referenceKey(entry: ScriptReferenceEntry): string {
   return `${caller}:${entry.path}:${entry.kind}:${entry.target.id}`
 }
 
-function transparentInternalEntry(
-  id: string,
-  scriptIndex: ScriptIndexV1 | undefined,
-  scriptChunks: Record<string, ScriptChunkV1>,
-  library: Record<string, SharedScriptMetaV1>,
-): string | undefined {
-  if (!id || !scriptIndex) return undefined
-  const body = getScriptBody(scriptIndex, scriptChunks, id)
-  if (body?.length !== 1) return undefined
-  const command = body[0]
-  if (
-    (command?.kind !== 'callScript' && command?.kind !== 'jumpScript') ||
-    library[command.ref.id] ||
-    !getScriptBody(scriptIndex, scriptChunks, command.ref.id)
-  )
-    return undefined
-  return command.ref.id
+export function resolveSharedScriptEditingId(
+  internalTrail: readonly string[],
+  selectedInternalId: string,
+  selectedAuthoredId: string,
+): string {
+  return internalTrail.at(-1) || selectedInternalId || selectedAuthoredId
 }
 
 export function SharedScriptTab(props: {
@@ -159,20 +162,62 @@ export function SharedScriptTab(props: {
     onJumpToEvent,
     onSelectedScriptId,
   } = props
+  const editorState = session.getState()
+  const items = editorState.items
+  const scriptReferences = useMemo(
+    () =>
+      createScriptReferenceCatalog({
+        locale,
+        items,
+        skills: editorState.skills,
+        actors,
+        sprites,
+        battleSprites: props.battleSprites,
+        ambiences: editorState.ambiences ?? [],
+        mapIndex,
+        assetCatalog,
+        scriptIndex,
+      }),
+    [
+      actors,
+      assetCatalog,
+      editorState.ambiences,
+      editorState.skills,
+      items,
+      locale,
+      mapIndex,
+      props.battleSprites,
+      scriptIndex,
+      sprites,
+    ],
+  )
   const library = scriptIndex?.library ?? EMPTY_LIBRARY
   const authoredIds = useMemo(() => Object.keys(library).sort(), [library])
+  const internalCatalog = useMemo(
+    () => buildInternalScriptCatalog(scriptChunks, library),
+    [library, scriptChunks],
+  )
+  const internalById = useMemo(
+    () =>
+      Object.fromEntries(internalCatalog.map((entry) => [entry.id, entry])) as Record<
+        string,
+        InternalScriptCatalogEntry
+      >,
+    [internalCatalog],
+  )
+  const [catalogMode, setCatalogMode] = useState<'authored' | 'internal'>('authored')
   const [filter, setFilter] = useState('')
   const initialSelectedId =
     focusScriptId && library[focusScriptId] ? focusScriptId : (authoredIds[0] ?? '')
   const [selectedId, setSelectedId] = useState(initialSelectedId)
-  const [internalTrail, setInternalTrail] = useState<string[]>(() => {
-    const target = focusCommandPath
-      ? undefined
-      : transparentInternalEntry(initialSelectedId, scriptIndex, scriptChunks, library)
-    return target ? [target] : []
-  })
-  const internalScriptId = internalTrail.at(-1)
-  const editingScriptId = internalScriptId ?? selectedId
+  const [selectedInternalId, setSelectedInternalId] = useState('')
+  const [internalTrail, setInternalTrail] = useState<string[]>([])
+  const editingScriptId = resolveSharedScriptEditingId(
+    internalTrail,
+    selectedInternalId,
+    selectedId,
+  )
+  const editingInternalEntry = editingScriptId ? internalById[editingScriptId] : undefined
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
   const lastAppliedScriptFocusRef = useRef<string | undefined>(undefined)
   const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
@@ -180,13 +225,21 @@ export function SharedScriptTab(props: {
   const [message, setMessage] = useState('')
   const [references, setReferences] = useState<ScriptReferenceEntry[] | null>(null)
   const [diagnosticWarnings, setDiagnosticWarnings] = useState<string[]>([])
-  const [testSceneId, setTestSceneId] = useState(scenes[0]?.id ?? '')
+  const [testSceneId, setTestSceneId] = useState('')
   const [testEntityId, setTestEntityId] = useState('')
   const selectScript = (id: string): void => {
+    setCatalogMode('authored')
     setSelectedId(id)
-    const target = transparentInternalEntry(id, scriptIndex, scriptChunks, library)
-    setInternalTrail(target ? [target] : [])
+    setSelectedInternalId('')
+    setInternalTrail([])
     onSelectedScriptId?.(id || undefined)
+  }
+  const selectInternalScript = (id: string): void => {
+    setCatalogMode('internal')
+    setSelectedInternalId(id)
+    setInternalTrail([])
+    setSelectedPath(null)
+    setInsertFor(null)
   }
 
   useEffect(() => {
@@ -195,23 +248,24 @@ export function SharedScriptTab(props: {
       const token = `${focusScriptId}\u0000${focusScriptRevision}\u0000${focusCommandPath ?? ''}`
       if (lastAppliedScriptFocusRef.current === token) return
       lastAppliedScriptFocusRef.current = token
+      setCatalogMode('authored')
       setSelectedId(focusScriptId)
-      const target = focusCommandPath
-        ? undefined
-        : transparentInternalEntry(focusScriptId, scriptIndex, scriptChunks, library)
-      setInternalTrail(target ? [target] : [])
+      setSelectedInternalId('')
+      setInternalTrail([])
       setSelectedPath(null)
       setInsertFor(null)
     }
-  }, [focusCommandPath, focusScriptId, focusScriptRevision, library, scriptChunks, scriptIndex])
+  }, [focusCommandPath, focusScriptId, focusScriptRevision, library])
   useEffect(() => {
     if (selectedId && library[selectedId]) return
     const id = authoredIds[0] ?? ''
     setSelectedId(id)
-    const target = transparentInternalEntry(id, scriptIndex, scriptChunks, library)
-    setInternalTrail(target ? [target] : [])
-    onSelectedScriptId?.(id || undefined)
-  }, [authoredIds, library, onSelectedScriptId, scriptChunks, scriptIndex, selectedId])
+    if (!selectedInternalId) onSelectedScriptId?.(id || undefined)
+  }, [authoredIds, library, onSelectedScriptId, selectedId, selectedInternalId])
+  useEffect(() => {
+    if (!selectedInternalId || internalById[selectedInternalId]) return
+    setSelectedInternalId(internalCatalog[0]?.id ?? '')
+  }, [internalById, internalCatalog, selectedInternalId])
   // biome-ignore lint/correctness/useExhaustiveDependencies: 编辑目标改变时必须清空对应的临时面板状态。
   useEffect(() => {
     setSelectedPath(null)
@@ -226,6 +280,15 @@ export function SharedScriptTab(props: {
     if (!meta) return false
     const needle = filter.trim().toLowerCase()
     return !needle || id.toLowerCase().includes(needle) || meta.name.toLowerCase().includes(needle)
+  })
+  const shownInternal = internalCatalog.filter((entry) => {
+    const needle = filter.trim().toLowerCase()
+    return (
+      !needle ||
+      entry.id.toLowerCase().includes(needle) ||
+      entry.title.toLowerCase().includes(needle) ||
+      entry.callers.some((caller) => caller.toLowerCase().includes(needle))
+    )
   })
   const meta = library[selectedId]
   const rootBody = scriptIndex
@@ -254,8 +317,16 @@ export function SharedScriptTab(props: {
     () => Object.fromEntries(actors.map((actor) => [actor.id, actor])) as Record<string, ActorDef>,
     [actors],
   )
-  const leaderSpriteId = actorsById[session.getState().manifest.startWorld.party[0] ?? '']?.spriteId
-  const testScene = scenes.find((scene) => scene.id === testSceneId) ?? scenes[0]
+  const leaderSpriteId = actorsById[editorState.manifest.startWorld.party[0] ?? '']?.spriteId
+  const contextRootId = selectedInternalId || selectedId
+  const contextAnalysis = useMemo(
+    () => analyzeScriptContext(scriptIndex, scriptChunks, contextRootId),
+    [contextRootId, scriptChunks, scriptIndex],
+  )
+  const needsSceneContext =
+    contextAnalysis.needsScene || Boolean(!selectedInternalId && meta && meta.self !== 'none')
+  const testScene = testSceneId ? scenes.find((scene) => scene.id === testSceneId) : undefined
+  const formScene = testScene ?? scenes[0]
   const selectedTestEntity = testScene?.entities.find(
     (entity) => entity.id === (testEntityId || testScene.entities[0]?.id),
   )
@@ -266,17 +337,12 @@ export function SharedScriptTab(props: {
     if (testEntityId && testScene.entities.some((entity) => entity.id === testEntityId)) return
     setTestEntityId(testScene.entities[0]?.id ?? '')
   }, [testEntityId, testScene])
-  useEffect(() => {
-    if (meta?.self !== 'required' || testScene?.entities.length) return
-    const usable = scenes.find((scene) => scene.entities.length)
-    if (usable) setTestSceneId(usable.id)
-  }, [meta?.self, scenes, testScene])
 
   const playback = useMemo(() => {
-    if (!testScene) return null
+    if (!needsSceneContext || !testScene) return null
     const resolver = scriptIndex ? new MemoryScriptResolver(scriptIndex, scriptChunks) : undefined
-    return new Playback(testScene, resolver)
-  }, [scriptChunks, scriptIndex, testScene])
+    return new Playback(testScene, resolver, new Map(items.map((item) => [item.id, item.name])))
+  }, [items, needsSceneContext, scriptChunks, scriptIndex, testScene])
   const previousPlayback = useRef<Playback | null>(null)
   const [, setUiTick] = useState(0)
   useEffect(() => {
@@ -295,7 +361,7 @@ export function SharedScriptTab(props: {
     session.dispatch(new UpdateScriptBodyCommand(editingScriptId, nextStages[0]?.body ?? []))
   }
   const insertCommands = (commands: readonly Command[]): void => {
-    if (!insertFor || !selectedId) return
+    if (!insertFor || !editingScriptId) return
     let next = stages
     let at = parsePath(insertFor)
     for (const command of commands) {
@@ -326,10 +392,11 @@ export function SharedScriptTab(props: {
     dispatchBody(next)
     setSelectedPath(null)
   }
-  const openReferences = (): void => {
+  const openReferences = (targetId = editingScriptId): void => {
+    if (!targetId) return
     const diagnostics = buildScriptReferenceIndex(session.getState())
-    setReferences(diagnostics.references.get(selectedId) ?? [])
-    setDiagnosticWarnings(diagnostics.warnings.filter((warning) => warning.includes(selectedId)))
+    setReferences(diagnostics.references.get(targetId) ?? [])
+    setDiagnosticWarnings(diagnostics.warnings.filter((warning) => warning.includes(targetId)))
     if (diagnostics.errors.length) setMessage(`工程另有 ${diagnostics.errors.length} 个脚本错误`)
   }
   const createScript = (source?: { meta: SharedScriptMetaV1; body: readonly Command[] }): void => {
@@ -376,120 +443,206 @@ export function SharedScriptTab(props: {
       <div className="outliner data-outliner shared-outliner">
         {tabBar}
         <div className="pane-h">
-          <span className="t">共享脚本</span>
+          <span className="t">脚本库</span>
           <span className="spacer" />
+          {catalogMode === 'authored' ? (
+            <button
+              type="button"
+              className="mini"
+              title="新建可复用脚本"
+              onClick={() => createScript()}
+            >
+              ＋
+            </button>
+          ) : null}
+        </div>
+        <div className="shared-catalog-tabs" role="tablist" aria-label="脚本类型">
           <button
             type="button"
-            className="mini"
-            title="新建共享脚本"
-            onClick={() => createScript()}
+            role="tab"
+            aria-selected={catalogMode === 'authored'}
+            className={catalogMode === 'authored' ? 'active' : ''}
+            onClick={() => {
+              const id = selectedId || authoredIds[0]
+              if (id) selectScript(id)
+              else setCatalogMode('authored')
+            }}
           >
-            ＋
+            可复用脚本 <span>{authoredIds.length}</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={catalogMode === 'internal'}
+            className={catalogMode === 'internal' ? 'active' : ''}
+            onClick={() => {
+              const id = selectedInternalId || internalCatalog[0]?.id
+              if (id) selectInternalScript(id)
+              else setCatalogMode('internal')
+            }}
+          >
+            迁移内部实现 <span>{internalCatalog.length}</span>
           </button>
         </div>
         <input
           className="in"
-          placeholder="搜索名称或 id…"
+          placeholder={catalogMode === 'authored' ? '搜索名称或 id…' : '搜索地址、调用方或 id…'}
           value={filter}
           onChange={(event) => setFilter(event.target.value)}
         />
+        <p className="shared-catalog-note">
+          {catalogMode === 'authored'
+            ? '这里只列可命名、可独立调用的项目脚本；结构化物品能力留在物品工作台。'
+            : '迁移器为旧版跳转与回环生成的控制流片段；可审查实现，但不是作者公共 API。'}
+        </p>
         <div className="sprite-list">
-          {shownIds.map((id) => (
-            <button
-              type="button"
-              key={id}
-              className={`arow${selectedId === id ? ' sel' : ''}`}
-              onClick={() => selectScript(id)}
-            >
-              <span className="face shared-script-icon">↪</span>
-              <span className="nm">
-                {library[id]?.name ?? id}
-                <small>{id.slice('shared/user/'.length)}</small>
-              </span>
-            </button>
-          ))}
-          {!shownIds.length ? <div className="insp-empty">没有匹配的作者脚本</div> : null}
+          {catalogMode === 'authored'
+            ? shownIds.map((id) => (
+                <button
+                  type="button"
+                  key={id}
+                  className={`arow${!selectedInternalId && selectedId === id ? ' sel' : ''}`}
+                  onClick={() => selectScript(id)}
+                >
+                  <span className="face shared-script-icon">↪</span>
+                  <span className="nm">
+                    {library[id]?.name ?? id}
+                    <small>{id.slice('shared/user/'.length)}</small>
+                  </span>
+                </button>
+              ))
+            : shownInternal.map((entry) => (
+                <button
+                  type="button"
+                  key={entry.id}
+                  className={`arow${selectedInternalId === entry.id ? ' sel' : ''}`}
+                  onClick={() => selectInternalScript(entry.id)}
+                >
+                  <span className="face shared-script-icon internal">⌘</span>
+                  <span className="nm">
+                    {entry.title}
+                    <small>
+                      {entry.scope === 'item' ? '物品控制流' : '场景控制流'} ·{' '}
+                      {entry.callers.length} 个直接调用方
+                    </small>
+                  </span>
+                </button>
+              ))}
+          {catalogMode === 'authored' && !shownIds.length ? (
+            <div className="insp-empty">没有匹配的可复用脚本</div>
+          ) : null}
+          {catalogMode === 'internal' && !shownInternal.length ? (
+            <div className="insp-empty">没有匹配的迁移内部实现</div>
+          ) : null}
         </div>
       </div>
 
-      <div className="canvas-wrap data-body shared-script-main">
-        {selectedId && testScene && playback ? (
+      <div
+        className={`canvas-wrap data-body shared-script-main${
+          needsSceneContext && testScene && playback ? ' with-preview' : ''
+        }`}
+      >
+        {editingScriptId && formScene ? (
           <>
-            <div className="shared-context toolbar">
-              <span className="t">测试上下文</span>
-              <select
-                className="in"
-                value={testScene.id}
-                onChange={(event) => setTestSceneId(event.target.value)}
-              >
-                {scenes.map((scene) => (
-                  <option key={scene.id} value={scene.id}>
-                    {scene.id}
-                  </option>
-                ))}
-              </select>
-              {meta?.self !== 'none' ? (
-                <select
-                  className="in"
-                  value={testEntityId}
-                  onChange={(event) => setTestEntityId(event.target.value)}
+            <div className="shared-workbench-head">
+              <div className="shared-workbench-title">
+                <span className={`shared-kind-badge${editingInternalEntry ? ' internal' : ''}`}>
+                  {editingInternalEntry ? '迁移内部实现' : '可复用脚本'}
+                </span>
+                <strong>{editingInternalEntry?.title ?? meta?.name ?? editingScriptId}</strong>
+                <code title={editingScriptId}>{editingScriptId}</code>
+              </div>
+              {internalTrail.length ? (
+                <button
+                  type="button"
+                  className="mini-txt"
+                  title="返回调用方"
+                  onClick={() => {
+                    setInternalTrail((current) => current.slice(0, -1))
+                    setSelectedPath(null)
+                    setInsertFor(null)
+                  }}
                 >
-                  <option value="">不指定 self</option>
-                  {testScene.entities.map((entity) => (
-                    <option key={entity.id} value={entity.id}>
-                      {entity.id}
-                    </option>
-                  ))}
-                </select>
+                  ← 返回调用方
+                </button>
               ) : null}
-              {internalScriptId ? (
-                <span className="drawer-internal-nav">
-                  <button
-                    type="button"
-                    className="mini-txt"
-                    title="返回上一级脚本"
-                    onClick={() => {
-                      setInternalTrail((current) => current.slice(0, -1))
-                      setSelectedPath(null)
-                      setInsertFor(null)
+              <span className="spacer" />
+              {needsSceneContext ? (
+                <label className="shared-scene-context">
+                  <span>场景分支预览</span>
+                  <select
+                    className="in"
+                    value={testSceneId}
+                    onChange={(event) => {
+                      setTestSceneId(event.target.value)
+                      setTestEntityId('')
                     }}
                   >
-                    ← 返回
-                  </button>
-                  <strong className="shared-internal-label">已迁移内容</strong>
-                  <code title={`${selectedId} → ${internalScriptId}`}>{internalScriptId}</code>
-                </span>
+                    <option value="">选择实际场景后显示地图…</option>
+                    {scenes.map((scene) => (
+                      <option key={scene.id} value={scene.id}>
+                        {scene.id}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : (
+                <span className="shared-context-free">位置无关脚本 · 无需地图预览</span>
+              )}
+              {needsSceneContext && testScene && !selectedInternalId && meta?.self !== 'none' ? (
+                <label className="shared-scene-context entity">
+                  <span>self</span>
+                  <select
+                    className="in"
+                    value={testEntityId}
+                    onChange={(event) => setTestEntityId(event.target.value)}
+                  >
+                    <option value="">不指定</option>
+                    {testScene.entities.map((entity) => (
+                      <option key={entity.id} value={entity.id}>
+                        {entity.id}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               ) : null}
             </div>
-            <div className="shared-preview">
-              <PreviewCanvas
-                scene={testScene}
-                stages={stages}
-                sourceKey={`shared:${editingScriptId}`}
-                projectId={projectId}
-                focusEntityId={meta?.self === 'none' ? undefined : testEntityId || undefined}
-                sprites={sprites}
-                actorsById={actorsById}
-                leaderSpriteId={leaderSpriteId}
-                assetBase={assetBase}
-                assetCatalog={assetCatalog}
-                assetReader={assetReader}
-                projectMaps={projectMaps}
-                mapIndex={mapIndex}
-                tilesets={tilesets}
-                locale={locale}
-                playback={playback}
-                sceneFraming={!testEntityId}
-              />
-            </div>
+            {needsSceneContext && !testScene ? (
+              <div className="shared-context-callout">
+                此脚本的完整调用链包含实体、坐标、面向判断或场景切换。选择一个真实场景后才显示地图；不选择时仍可编辑全部逻辑。
+              </div>
+            ) : null}
+            {needsSceneContext && testScene && playback ? (
+              <div className="shared-preview">
+                <PreviewCanvas
+                  scene={testScene}
+                  stages={stages}
+                  sourceKey={`shared:${editingScriptId}`}
+                  projectId={projectId}
+                  focusEntityId={meta?.self === 'none' ? undefined : testEntityId || undefined}
+                  sprites={sprites}
+                  actorsById={actorsById}
+                  leaderSpriteId={leaderSpriteId}
+                  assetBase={assetBase}
+                  assetCatalog={assetCatalog}
+                  assetReader={assetReader}
+                  projectMaps={projectMaps}
+                  mapIndex={mapIndex}
+                  tilesets={tilesets}
+                  locale={locale}
+                  playback={playback}
+                  sceneFraming={!testEntityId}
+                />
+              </div>
+            ) : null}
             <div className="shared-edit-row">
               <div className="shared-tree">
                 <ScriptTree
                   stages={stages}
                   locale={locale}
-                  scriptIndex={scriptIndex}
                   scenes={scenes}
-                  activePath={playback.activePath ?? null}
+                  references={scriptReferences}
+                  activePath={playback?.activePath ?? null}
                   selectedPath={selectedPath}
                   focusRevision={focusScriptRevision}
                   onSelect={(path) => {
@@ -504,16 +657,18 @@ export function SharedScriptTab(props: {
                   <div className="section">
                     <h4>插入指令</h4>
                     <div className="cf-insert">
-                      {BASE_INSERTS.map((entry) => (
-                        <button
-                          type="button"
-                          className="pv-btn"
-                          key={entry.label}
-                          onClick={() => insertCommands([entry.make()])}
-                        >
-                          {entry.label}
-                        </button>
-                      ))}
+                      {BASE_INSERTS.filter((entry) => !entry.requiresItem || items.length).map(
+                        (entry) => (
+                          <button
+                            type="button"
+                            className="pv-btn"
+                            key={entry.label}
+                            onClick={() => insertCommands([entry.make(items[0]?.id)])}
+                          >
+                            {entry.label}
+                          </button>
+                        ),
+                      )}
                       {soundAssets(assetCatalog)[0] ? (
                         <button
                           type="button"
@@ -530,7 +685,7 @@ export function SharedScriptTab(props: {
                           🔊 播放音效
                         </button>
                       ) : null}
-                      {firstActionTarget && testScene.entities.length ? (
+                      {firstActionTarget && testScene?.entities.length ? (
                         <>
                           <button
                             type="button"
@@ -576,7 +731,7 @@ export function SharedScriptTab(props: {
                     ) : null}
                     {authoredIds.filter((id) => id !== selectedId).length ? (
                       <>
-                        <div className="cf-group">调用共享脚本</div>
+                        <div className="cf-group">调用可复用脚本</div>
                         <div className="cf-insert">
                           {authoredIds
                             .filter((id) => id !== selectedId)
@@ -607,7 +762,7 @@ export function SharedScriptTab(props: {
                     </h4>
                     <CommandForm
                       cmd={selectedCommand}
-                      scene={testScene}
+                      scene={formScene}
                       locale={locale}
                       assetCatalog={assetCatalog}
                       audioResolver={audioResolver}
@@ -619,8 +774,9 @@ export function SharedScriptTab(props: {
                       sprites={sprites}
                       ambiences={session.getState().ambiences ?? []}
                       shops={session.getState().shops ?? []}
+                      references={scriptReferences}
                       scriptIndex={scriptIndex}
-                      hasImplicitSelf={meta?.self === 'required'}
+                      hasImplicitSelf={!selectedInternalId && meta?.self === 'required'}
                       onOpenScript={selectedTargetId ? openScriptTarget : undefined}
                       onOpenSound={onOpenSound}
                       onOpenImage={onOpenImage}
@@ -639,20 +795,55 @@ export function SharedScriptTab(props: {
             </div>
           </>
         ) : (
-          <div className="insp-empty">新建共享脚本后即可编辑和预览</div>
+          <div className="insp-empty">新建可复用脚本，或从“迁移内部实现”查看旧版控制流</div>
         )}
       </div>
 
       <div className="inspector shared-script-inspector">
-        {selectedId ? (
+        {editingScriptId ? (
           <>
             <div className="insp-head">
               <div className="who">
-                <strong>{meta?.name ?? '共享脚本'}</strong>
-                <code>{selectedId}</code>
+                <strong>{editingInternalEntry?.title ?? meta?.name ?? '脚本'}</strong>
+                <code>{editingScriptId}</code>
               </div>
             </div>
-            {meta ? (
+            {editingInternalEntry ? (
+              <div className="section shared-internal-meta">
+                <h4>迁移内部实现</h4>
+                <dl className="shared-facts">
+                  <div>
+                    <dt>类型</dt>
+                    <dd>
+                      {editingInternalEntry.scope === 'item' ? '物品脚本控制流' : '场景脚本控制流'}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>原版入口</dt>
+                    <dd>
+                      {editingInternalEntry.sourceAddress === undefined
+                        ? '未解析'
+                        : `L_${editingInternalEntry.sourceAddress}`}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>直接调用方</dt>
+                    <dd>{editingInternalEntry.callers.length}</dd>
+                  </div>
+                </dl>
+                <p className="shared-internal-explain">
+                  这是迁移器为旧版跳转或回环保留的实现片段，不是可独立命名和复用的作者公共
+                  API。命令体可维护；稳定 id、归属与删除权由迁移管线管理。
+                </p>
+                {editingInternalEntry.callers.length ? (
+                  <div className="shared-caller-list">
+                    {editingInternalEntry.callers.map((caller) => (
+                      <span key={caller}>{caller}</span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : meta ? (
               <div className="section shared-meta">
                 <h4>作者元数据</h4>
                 <label className="v-field">
@@ -708,7 +899,7 @@ export function SharedScriptTab(props: {
                         selectScript('')
                       } catch (error) {
                         setMessage(error instanceof Error ? error.message : String(error))
-                        openReferences()
+                        openReferences(selectedId)
                       }
                     }}
                   >
@@ -718,9 +909,13 @@ export function SharedScriptTab(props: {
               </div>
             ) : null}
             <div className="section">
-              <h4>引用</h4>
-              <button type="button" className="mini-txt" onClick={openReferences}>
-                ↻ 刷新引用
+              <h4>调用位置</h4>
+              <button
+                type="button"
+                className="mini-txt"
+                onClick={() => openReferences(editingScriptId)}
+              >
+                ↻ 扫描调用位置
               </button>
               {references?.length === 0 ? <p className="hint">没有直接调用方</p> : null}
               {references?.map((entry) => (
@@ -730,11 +925,15 @@ export function SharedScriptTab(props: {
                   key={referenceKey(entry)}
                   disabled={
                     entry.caller.type === 'global' ||
-                    (entry.caller.type === 'script' && !library[entry.caller.scriptId])
+                    (entry.caller.type === 'script' &&
+                      !library[entry.caller.scriptId] &&
+                      !internalById[entry.caller.scriptId])
                   }
                   onClick={() => {
                     if (entry.caller.type === 'script') {
                       if (library[entry.caller.scriptId]) selectScript(entry.caller.scriptId)
+                      else if (internalById[entry.caller.scriptId])
+                        selectInternalScript(entry.caller.scriptId)
                       return
                     }
                     if (entry.caller.type === 'scene')
@@ -757,7 +956,7 @@ export function SharedScriptTab(props: {
             ) : null}
           </>
         ) : (
-          <div className="insp-empty">选择或新建共享脚本</div>
+          <div className="insp-empty">选择或新建脚本</div>
         )}
       </div>
     </>

@@ -6532,6 +6532,23 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: 1;
   min-width: 0;
 }
+.cf-named-ref-picker {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+.cf-named-ref-input {
+  width: 100%;
+}
+.cf-named-ref-input.missing {
+  border-color: color-mix(in srgb, var(--warn) 58%, var(--line));
+  color: var(--warn);
+}
+.cf-readonly {
+  flex: 1;
+  min-width: 0;
+  color: var(--dim);
+}
 .cf-num {
   max-width: 110px;
 }
@@ -10051,6 +10068,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 8px;
 }
+.item-access.lose,
 .item-access.consume {
   border-color: color-mix(in srgb, var(--err) 35%, var(--line));
   color: color-mix(in srgb, var(--err) 75%, white);
@@ -10457,22 +10475,127 @@ button.sprite-frame-cell[draggable="true"]:active {
   cursor: default;
 }
 
-/* N6 共享脚本：左库 / 中预览+命令编辑 / 右元数据与引用。 */
+/* N6 脚本库：作者公共 API 与迁移内部实现分层；地图只为有场景依赖的脚本出现。 */
 .canvas-wrap.data-body.shared-script-main {
-  display: grid;
-  grid-template-rows: auto minmax(180px, 46%) minmax(180px, 1fr);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   background: #090b10;
 }
-.shared-context .t {
-  color: var(--dim);
-  font-size: 11px;
-  font-weight: 600;
+.shared-catalog-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 10px 0;
 }
-.shared-context .in {
-  flex: 0 1 190px;
-  width: min(190px, 100%);
+.shared-catalog-tabs button {
+  min-width: 0;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel2);
+  color: var(--dim);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.shared-catalog-tabs button:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.shared-catalog-tabs button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, var(--panel2));
+  color: var(--fg);
+}
+.shared-catalog-tabs button span {
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.shared-outliner > .in {
+  width: calc(100% - 20px);
+  margin: 10px 10px 0;
+}
+.shared-catalog-note {
+  margin: 8px 11px 10px;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.45;
+}
+.shared-workbench-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.shared-workbench-title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+}
+.shared-workbench-title strong {
+  flex: none;
+  font-size: 12px;
+}
+.shared-workbench-title code {
+  overflow: hidden;
+  max-width: 300px;
+  color: var(--faint);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shared-kind-badge {
+  flex: none;
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, var(--line));
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.shared-kind-badge.internal {
+  border-color: #997d37;
+  color: #d3ad4d;
+}
+.shared-scene-context {
+  display: flex;
+  min-width: min(280px, 100%);
+  align-items: center;
+  gap: 7px;
+  color: var(--dim);
+  font-size: 10px;
+}
+.shared-scene-context .in {
+  width: min(260px, 36vw);
+}
+.shared-scene-context.entity {
+  min-width: min(190px, 100%);
+}
+.shared-scene-context.entity .in {
+  width: min(150px, 24vw);
+}
+.shared-context-free {
+  color: #72c894;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.shared-context-callout {
+  flex: none;
+  padding: 7px 12px;
+  border-bottom: 1px solid #6a572a;
+  background: rgba(117, 91, 31, 0.16);
+  color: #cdb46f;
+  font-size: 10px;
+  line-height: 1.45;
 }
 .shared-preview {
+  flex: 0 1 40%;
   min-height: 0;
   display: flex;
   overflow: hidden;
@@ -10485,6 +10608,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .shared-edit-row {
   display: grid;
+  flex: 1 1 auto;
   grid-template-columns: minmax(220px, 1fr) minmax(250px, 42%);
   min-height: 0;
   overflow: hidden;
@@ -10512,8 +10636,52 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--accent);
   font-size: 18px;
 }
+.shared-script-icon.internal {
+  color: #c5a14c;
+  font-size: 15px;
+}
 .shared-meta .v-field {
   margin-bottom: 9px;
+}
+.shared-facts {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+.shared-facts > div {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px;
+}
+.shared-facts dt {
+  color: var(--faint);
+}
+.shared-facts dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--fg);
+  overflow-wrap: anywhere;
+}
+.shared-internal-explain {
+  margin: 12px 0 0;
+  color: var(--dim);
+  font-size: 10px;
+  line-height: 1.55;
+}
+.shared-caller-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+.shared-caller-list span {
+  max-width: 100%;
+  padding: 3px 6px;
+  border: 1px solid #6d5a2c;
+  border-radius: 999px;
+  color: #cdb46f;
+  font-size: 9px;
+  overflow-wrap: anywhere;
 }
 .shared-actions {
   display: flex;
@@ -10567,9 +10735,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 
 @media (max-width: 1050px) {
-  .shared-script-main {
-    grid-template-rows: auto minmax(150px, 38%) minmax(230px, 1fr);
-  }
   .shared-edit-row {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(110px, 1fr) minmax(120px, 1fr);

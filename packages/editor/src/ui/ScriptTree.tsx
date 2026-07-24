@@ -12,11 +12,11 @@ import type {
   SceneEntryPresentation,
   SceneReveal,
   ScriptCondition,
-  ScriptIndexV1,
   ScriptStage,
 } from '@type-pal/content'
 import { lookupText, parseRichText } from '@type-pal/content'
 import { useEffect, useRef } from 'react'
+import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 
 /** locale 查文本;缺失回落显 id(不崩)。 */
 export function scriptTreeText(id: string | undefined, locale: Locale): string {
@@ -28,7 +28,11 @@ export function scriptTreeText(id: string | undefined, locale: Locale): string {
     .join('')
 }
 
-function describeCondition(c: ScriptCondition, locale: Locale): string {
+function describeCondition(
+  c: ScriptCondition,
+  locale: Locale,
+  references: ScriptReferenceCatalog,
+): string {
   switch (c.kind) {
     case 'flag':
       return `旗标 ${c.flag} ${c.is ? '为真' : '为假'}`
@@ -41,11 +45,11 @@ function describeCondition(c: ScriptCondition, locale: Locale): string {
     case 'chance':
       return `${c.percent}% 概率`
     case 'hasItem':
-      return `持有物品 ${c.itemId}${c.atLeast ? `≥${c.atLeast}` : ''}`
+      return `持有物品 ${references.label('item', c.itemId)}${c.atLeast ? `≥${c.atLeast}` : ''}`
     case 'ownsItem':
-      return `拥有物品 ${c.itemId}${c.atLeast ? `≥${c.atLeast}` : ''}（背包与装备合计）`
+      return `拥有物品 ${references.label('item', c.itemId)}${c.atLeast ? `≥${c.atLeast}` : ''}（背包与装备合计）`
     case 'itemEquipped':
-      return `装备物品 ${c.itemId}${c.atLeast && c.atLeast > 1 ? `≥${c.atLeast}` : ''}`
+      return `装备物品 ${references.label('item', c.itemId)}${c.atLeast && c.atLeast > 1 ? `≥${c.atLeast}` : ''}`
     case 'facingEntity':
       return `面向实体 ${c.entity}${c.range !== undefined ? `（${c.range} 格内）` : ''}`
     case 'allFullHp':
@@ -53,13 +57,13 @@ function describeCondition(c: ScriptCondition, locale: Locale): string {
     case 'hasMoney':
       return `钱 ≥ ${c.atLeast}`
     case 'inParty':
-      return `队伍含 ${c.actorId}`
+      return `队伍含 ${references.label('actor', c.actorId)}`
     case 'all':
-      return c.of.map((x) => describeCondition(x, locale)).join(' 且 ')
+      return c.of.map((x) => describeCondition(x, locale, references)).join(' 且 ')
     case 'any':
-      return c.of.map((x) => describeCondition(x, locale)).join(' 或 ')
+      return c.of.map((x) => describeCondition(x, locale, references)).join(' 或 ')
     case 'not':
-      return `非(${describeCondition(c.cond, locale)})`
+      return `非(${describeCondition(c.cond, locale, references)})`
   }
 }
 
@@ -77,8 +81,8 @@ interface Described {
 function describe(
   cmd: Command,
   locale: Locale,
-  scriptIndex?: ScriptIndexV1,
-  scenes?: readonly SceneDef[],
+  scenes: readonly SceneDef[] | undefined,
+  references: ScriptReferenceCatalog,
 ): Described {
   switch (cmd.kind) {
     case 'chasePlayer':
@@ -106,7 +110,9 @@ function describe(
       return {
         icon: '💬',
         label: `${who}${text}`,
-        detail: cmd.cue.portrait ? `${slot}·立绘 ${cmd.cue.portrait.asset}` : slot,
+        detail: cmd.cue.portrait
+          ? `${slot}·立绘 ${references.label('asset', cmd.cue.portrait.asset)}`
+          : slot,
       }
     }
     case 'clearDialog':
@@ -116,11 +122,11 @@ function describe(
     case 'ditherScreen':
       return { icon: '▦', label: `逐像素渐变 ${cmd.ms ?? 720}ms` }
     case 'playVideo':
-      return { icon: '🎬', label: `播放视频 ${cmd.asset}` }
+      return { icon: '🎬', label: `播放视频 ${references.label('asset', cmd.asset)}` }
     case 'playFrameAnimation':
       return {
         icon: '🎞',
-        label: `播放帧动画 ${cmd.asset}`,
+        label: `播放帧动画 ${references.label('asset', cmd.asset)}`,
         detail: `${cmd.startFrame ?? 0}..${cmd.endFrame ?? '末帧'}${cmd.frameRate ? ` · ${cmd.frameRate}fps` : ''}`,
       }
     case 'wait':
@@ -152,7 +158,11 @@ function describe(
         detail: cmd.member ? `队员 ${cmd.member}` : undefined,
       }
     case 'setActorSprite':
-      return { icon: '🎭', label: `${cmd.actor} 换精灵`, detail: cmd.sprite }
+      return {
+        icon: '🎭',
+        label: `${references.label('actor', cmd.actor)} 换精灵`,
+        detail: references.label('sprite', cmd.sprite),
+      }
     case 'fleeBattle':
       return { icon: '🏃', label: '敌人逃离战场' }
     case 'endBattle':
@@ -198,7 +208,10 @@ function describe(
     case 'revivePartyAll':
       return { icon: '✨', label: `全队复活(HP=max×${cmd.tenths}/10)` }
     case 'learnSkill':
-      return { icon: '📖', label: `角色 ${cmd.role} 习得仙术 ${cmd.skill}` }
+      return {
+        icon: '📖',
+        label: `原版角色槽位 ${cmd.role} 习得 ${references.label('skill', cmd.skill)}`,
+      }
     case 'unequip':
       return {
         icon: '🔓',
@@ -209,10 +222,16 @@ function describe(
     case 'setFollowers':
       return {
         icon: '👥',
-        label: cmd.sprites.length ? `编外跟随者 ${cmd.sprites.join('/')}` : '清跟随者',
+        label: cmd.sprites.length
+          ? `编外跟随者 ${cmd.sprites.map((id) => references.label('sprite', id)).join(' / ')}`
+          : '清跟随者',
       }
     case 'setSceneMapOverride':
-      return { icon: '🗺', label: `换地图 → ${cmd.mapId}`, detail: cmd.scene ?? '当前场景' }
+      return {
+        icon: '🗺',
+        label: `换地图 → ${references.label('map', cmd.mapId)}`,
+        detail: cmd.scene ?? '当前场景',
+      }
     case 'halveMoney':
       return { icon: '💸', label: '金钱减半' }
     case 'setEntityFacing':
@@ -221,21 +240,25 @@ function describe(
       return { icon: '🎞', label: `${cmd.entity} 定帧 ${cmd.frame}` }
     case 'setActorAppearance': {
       const parts = [
-        cmd.spriteId ? `精灵 ${cmd.spriteId}` : '',
-        cmd.portrait !== undefined ? `立绘 ${cmd.portrait}` : '',
-        cmd.battleSprite !== undefined ? `战斗精灵 ${cmd.battleSprite}` : '',
+        cmd.spriteId ? references.label('sprite', cmd.spriteId) : '',
+        cmd.portrait !== undefined ? `立绘 ${references.label('asset', cmd.portrait)}` : '',
+        cmd.battleSprite !== undefined ? references.label('battleSprite', cmd.battleSprite) : '',
       ].filter(Boolean)
-      return { icon: '🎭', label: `${cmd.actor} 换形象`, detail: parts.join(' · ') }
+      return {
+        icon: '🎭',
+        label: `${references.label('actor', cmd.actor)} 换形象`,
+        detail: parts.join(' · '),
+      }
     }
     case 'giveItem':
       return {
         icon: '🎁',
-        label: `获得物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
+        label: `获得物品 ${references.label('item', cmd.itemId)}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
       }
     case 'loseItem':
       return {
         icon: '📤',
-        label: `失去物品 ${cmd.itemId}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
+        label: `失去物品 ${references.label('item', cmd.itemId)}${cmd.count && cmd.count > 1 ? ` ×${cmd.count}` : ''}`,
       }
     case 'giveMoney':
       return { icon: '💰', label: `${cmd.delta >= 0 ? '获得' : '扣除'} ${Math.abs(cmd.delta)} 钱` }
@@ -246,9 +269,12 @@ function describe(
     case 'addVar':
       return { icon: '🔢', label: `变量 ${cmd.var} ${cmd.delta >= 0 ? '+' : ''}${cmd.delta}` }
     case 'playSound':
-      return { icon: '🔊', label: `音效 ${cmd.asset}` }
+      return { icon: '🔊', label: `音效 ${references.label('asset', cmd.asset)}` }
     case 'setParty':
-      return { icon: '👥', label: `队伍变更 → ${cmd.members.join(', ')}` }
+      return {
+        icon: '👥',
+        label: `队伍变更 → ${cmd.members.map((id) => references.label('actor', id)).join('、')}`,
+      }
     case 'mountParty':
       return { icon: '🛶', label: `挂载 → ${cmd.entity}` }
     case 'unmountParty':
@@ -260,13 +286,13 @@ function describe(
     case 'releaseEntity':
       return { icon: '🔓', label: `归还 ${cmd.entity ?? '(全部)'}` }
     case 'playMusic':
-      return { icon: '🎵', label: `播放音乐 ${cmd.asset}` }
+      return { icon: '🎵', label: `播放音乐 ${references.label('asset', cmd.asset)}` }
     case 'stopMusic':
       return { icon: '⏹', label: '停止音乐' }
     case 'setAmbience':
       return {
         icon: '🌗',
-        label: `切氛围 ${cmd.ambience === 'night' ? '夜晚' : cmd.ambience === 'day' ? '白天' : cmd.ambience}`,
+        label: `切氛围 ${references.label('ambience', cmd.ambience)}`,
       }
     case 'moveEntity':
       return {
@@ -282,7 +308,7 @@ function describe(
       return {
         icon: '▶',
         label: `${cmd.entity} 播放预制动作`,
-        detail: `${cmd.sprite} / ${cmd.action} · ${cmd.loop ? '循环' : '单次'}${cmd.loop ? '' : cmd.wait === false ? ' · 后台' : ' · 等待完成'}${cmd.startAtMs ? ` · 起始 ${cmd.startAtMs}ms` : ''}`,
+        detail: `${references.label('sprite', cmd.sprite)} / ${cmd.action} · ${cmd.loop ? '循环' : '单次'}${cmd.loop ? '' : cmd.wait === false ? ' · 后台' : ' · 等待完成'}${cmd.startAtMs ? ` · 起始 ${cmd.startAtMs}ms` : ''}`,
       }
     case 'stopEntityAction':
       return {
@@ -326,7 +352,7 @@ function describe(
     case 'branch':
       return {
         icon: '🔀',
-        label: `如果 ${describeCondition(cmd.cond, locale)}`,
+        label: `如果 ${describeCondition(cmd.cond, locale, references)}`,
         blocks: [
           { title: '则', seg: 'then', body: cmd.then },
           ...(cmd.else ? [{ title: '否则', seg: 'else', body: cmd.else }] : []),
@@ -341,7 +367,9 @@ function describe(
         icon: '🔁',
         label: `${cmd.entity} 换巡逻脚本`,
         detail: cmd.script
-          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
+          ? references.has('authorScript', cmd.script.id)
+            ? references.label('authorScript', cmd.script.id)
+            : `迁移内部实现（${cmd.script.id}）`
           : cmd.stages.length
             ? `${cmd.stages.length} 段`
             : '停用',
@@ -351,7 +379,9 @@ function describe(
         icon: '🔗',
         label: `${cmd.entity} 换触发脚本`,
         detail: cmd.script
-          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
+          ? references.has('authorScript', cmd.script.id)
+            ? references.label('authorScript', cmd.script.id)
+            : `迁移内部实现（${cmd.script.id}）`
           : cmd.stages.length
             ? `${cmd.stages.length} 段`
             : '停用',
@@ -362,7 +392,9 @@ function describe(
         icon: cmd.kind === 'setSceneOnEnter' ? '📜' : '🌀',
         label: `${cmd.scene} 换${cmd.kind === 'setSceneOnEnter' ? '进场脚本' : '传送出口'}`,
         detail: cmd.script
-          ? `${scriptIndex?.library?.[cmd.script.id] ? '共享' : '内部'}引用 ${cmd.script.id}`
+          ? references.has('authorScript', cmd.script.id)
+            ? references.label('authorScript', cmd.script.id)
+            : `迁移内部实现（${cmd.script.id}）`
           : `${cmd.stages.length} 段`,
       }
     case 'clearSceneScripts':
@@ -370,14 +402,18 @@ function describe(
     case 'callScript':
       return {
         icon: '↪',
-        label: scriptIndex?.library?.[cmd.ref.id] ? '调用共享脚本' : '调用内部子脚本',
-        detail: `${cmd.ref.chunk} · ${cmd.ref.id}`,
+        label: references.has('authorScript', cmd.ref.id) ? '调用可复用脚本' : '调用迁移内部实现',
+        detail: references.has('authorScript', cmd.ref.id)
+          ? references.label('authorScript', cmd.ref.id)
+          : `${cmd.ref.chunk} · ${cmd.ref.id}`,
       }
     case 'jumpScript':
       return {
         icon: '→',
-        label: scriptIndex?.library?.[cmd.ref.id] ? '跳转共享脚本' : '跳转内部子脚本',
-        detail: `${cmd.ref.chunk} · ${cmd.ref.id}`,
+        label: references.has('authorScript', cmd.ref.id) ? '跳转可复用脚本' : '跳转迁移内部实现',
+        detail: references.has('authorScript', cmd.ref.id)
+          ? references.label('authorScript', cmd.ref.id)
+          : `${cmd.ref.chunk} · ${cmd.ref.id}`,
       }
     case 'setEntityTriggerMode':
       return {
@@ -398,8 +434,8 @@ export type StageAction =
 
 interface RowCtx {
   locale: Locale
-  scriptIndex?: ScriptIndexV1
   scenes?: readonly SceneDef[]
+  references: ScriptReferenceCatalog
   activePath: string | null
   selectedPath: string | null
   /** 精确引用重复跳到同一行时也要重新滚回；路径本身未变化不足以触发 effect。 */
@@ -411,7 +447,7 @@ interface RowCtx {
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
   const { cmd, depth, path, ctx } = props
-  const d = describe(cmd, ctx.locale, ctx.scriptIndex, ctx.scenes)
+  const d = describe(cmd, ctx.locale, ctx.scenes, ctx.references)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)
@@ -653,8 +689,8 @@ function SceneEntrySections(props: {
 export function ScriptTree(props: {
   stages: readonly ScriptStage[]
   locale: Locale
-  scriptIndex?: ScriptIndexV1
   scenes?: readonly SceneDef[]
+  references: ScriptReferenceCatalog
   activePath?: string | null
   selectedPath?: string | null
   /** 一次精确定位的 token；允许同一路径被重复定位。 */
@@ -668,8 +704,8 @@ export function ScriptTree(props: {
   const {
     stages,
     locale,
-    scriptIndex,
     scenes,
+    references,
     activePath = null,
     selectedPath = null,
     focusRevision,
@@ -681,8 +717,8 @@ export function ScriptTree(props: {
   } = props
   const ctx: RowCtx = {
     locale,
-    scriptIndex,
     scenes,
+    references,
     activePath,
     selectedPath,
     focusRevision,

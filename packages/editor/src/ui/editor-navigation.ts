@@ -99,7 +99,7 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     subpages: [
       {
         id: 'scripts',
-        label: '共享脚本',
+        label: '脚本库',
         icon: '↪',
         kind: 'data',
         dataPage: 'scripts',

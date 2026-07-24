@@ -58,6 +58,7 @@ import {
   setStageNext,
   updateCommandAt,
 } from '../core/script-edit.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { createAuthoredScriptCall } from '../core/shared-script.js'
 import { defaultActionTargetForEntity } from '../core/sprite-actions.js'
 import { CommandForm } from './CommandForm.js'
@@ -76,6 +77,7 @@ import { soundAssets } from './SoundPicker.js'
 interface InsertCtx {
   scene: SceneDef
   ownerId: string | undefined
+  itemId?: string
   musicAsset?: AssetId
   soundAsset?: AssetId
   actionTarget?: { sprite: string; action: string }
@@ -88,6 +90,7 @@ const INSERT_GROUPS: {
   title: string
   items: {
     label: string
+    requiresItem?: boolean
     requiresMusic?: boolean
     requiresSound?: boolean
     requiresAction?: boolean
@@ -187,29 +190,32 @@ const INSERT_GROUPS: {
         // 435 例:宝箱 —— 开盖帧**持久**(状态切换);防重复 = 原版全部走多段
         // (段0 给物 next=1,段1「空箱」提示)。v1 插的是段内指令组,第 2 段请手动补。
         label: '📦 宝箱(开盖给物)',
+        requiresItem: true,
         make: (c) => [
           { kind: 'setEntityFacing', entity: selfOf(c), facing: 'down' },
           { kind: 'setEntityFrame', entity: selfOf(c), frame: 1 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
-          { kind: 'giveItem', itemId: '0' },
+          { kind: 'giveItem', itemId: c.itemId ?? '0' },
         ],
       },
       {
         // 145 例:地上道具(有精灵)—— 给完**末尾自隐**(玩家看着捡走);触发随实体灭
         label: '🌿 地上道具(捡走消失)',
+        requiresItem: true,
         make: (c) => [
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
-          { kind: 'giveItem', itemId: '0' },
+          { kind: 'giveItem', itemId: c.itemId ?? '0' },
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
         ],
       },
       {
         // 76 例:柜中搜刮(无精灵 zone)—— **首条自灭**防重入(看不见,先关触发再给物)
         label: '🗄 柜中搜刮(无精灵)',
+        requiresItem: true,
         make: (c) => [
           { kind: 'setEntityState', entity: selfOf(c), state: 0 },
           { kind: 'dialog', cue: { rows: [{ text: '(得到○○!)' }] } },
-          { kind: 'giveItem', itemId: '0' },
+          { kind: 'giveItem', itemId: c.itemId ?? '0' },
         ],
       },
       {
@@ -625,6 +631,33 @@ export function ScriptDrawer(props: {
   const editorState = session.getState()
   const scriptIndex = editorState.scriptIndex
   const scriptChunks = editorState.scriptChunks
+  const scriptReferences = useMemo(
+    () =>
+      createScriptReferenceCatalog({
+        locale,
+        items: editorState.items,
+        skills: editorState.skills,
+        actors: Object.values(actorsById),
+        sprites,
+        battleSprites,
+        ambiences: ambiences ?? [],
+        mapIndex,
+        assetCatalog,
+        scriptIndex,
+      }),
+    [
+      actorsById,
+      ambiences,
+      assetCatalog,
+      battleSprites,
+      editorState.items,
+      editorState.skills,
+      locale,
+      mapIndex,
+      scriptIndex,
+      sprites,
+    ],
+  )
   // 源列**跟随选中**(作者:全场景源列和左大纲重复):实体选中 → 该实体源;场景节点 → 场景级源
   const allSources = useMemo(
     () => collectSources(scene, scriptIndex, scriptChunks),
@@ -665,8 +698,12 @@ export function ScriptDrawer(props: {
   // 演出预览控制器:随场景重建;切场景/切源/卸载时停播丢弃演出态
   const playback = useMemo(() => {
     const resolver = scriptIndex ? new MemoryScriptResolver(scriptIndex, scriptChunks) : undefined
-    return new Playback(scene, resolver)
-  }, [scene, scriptChunks, scriptIndex])
+    return new Playback(
+      scene,
+      resolver,
+      new Map(editorState.items.map((item) => [item.id, item.name])),
+    )
+  }, [editorState.items, scene, scriptChunks, scriptIndex])
   const [, setUiTick] = useState(0)
   const prevRef = useRef<Playback | null>(null)
   useEffect(() => {
@@ -799,6 +836,7 @@ export function ScriptDrawer(props: {
     if (!editingStages.length || !insertFor) return
     let stages = editingStages
     let at = parsePath(insertFor)
+    let preferredSelection: ReturnType<typeof parsePath> | undefined
     const stageIndex = at[0]
     if (typeof stageIndex !== 'number') return
     if (
@@ -823,10 +861,11 @@ export function ScriptDrawer(props: {
         stages = insertAfterAt(stages, at, command)
         at = [...at.slice(0, -1), last + 1]
       }
+      if (command.kind === 'giveItem' || command.kind === 'loseItem') preferredSelection = [...at]
     }
     if (stages !== editingStages) {
       dispatchEdited(stages, stageIndex, at[1] === 'entry')
-      setSelPath(at.join('/'))
+      setSelPath((preferredSelection ?? at).join('/'))
     }
     setInsertFor(null)
   }
@@ -847,6 +886,7 @@ export function ScriptDrawer(props: {
         return {
           scene,
           ownerId,
+          itemId: editorState.items[0]?.id,
           musicAsset: musicAssets(assetCatalog)[0]?.id,
           soundAsset: soundAssets(assetCatalog)[0]?.id,
           actionTarget: target ? { sprite: target.sprite.id, action: target.action.id } : undefined,
@@ -857,6 +897,7 @@ export function ScriptDrawer(props: {
     ? INSERT_GROUPS.map((group) => {
         const available = group.items.filter(
           (item) =>
+            (!item.requiresItem || activeInsertContext.itemId) &&
             (!item.requiresMusic || activeInsertContext.musicAsset) &&
             (!item.requiresSound || activeInsertContext.soundAsset) &&
             (!item.requiresAction || activeInsertContext.actionTarget),
@@ -1190,8 +1231,8 @@ export function ScriptDrawer(props: {
               <ScriptTree
                 stages={editingStages}
                 locale={locale}
-                scriptIndex={scriptIndex}
                 scenes={scenes}
+                references={scriptReferences}
                 activePath={playback.activePath ?? null}
                 selectedPath={selPath}
                 focusRevision={focusCommandRevision}
@@ -1276,7 +1317,7 @@ export function ScriptDrawer(props: {
                   <h4>{insertingEntryPrepare ? '添加入场准备指令' : '插入(到选中行之后)'}</h4>
                   {authoredScripts.length && !insertingEntryPrepare ? (
                     <div>
-                      <div className="cf-group">调用共享脚本</div>
+                      <div className="cf-group">调用可复用脚本</div>
                       <div className="cf-insert">
                         {authoredScripts.map(([id, meta]) => (
                           <button
@@ -1339,6 +1380,7 @@ export function ScriptDrawer(props: {
                     assetBase={assetBase}
                     ambiences={ambiences}
                     shops={shops}
+                    references={scriptReferences}
                     scriptIndex={scriptIndex}
                     hasImplicitSelf={active?.kind === 'trigger' || active?.kind === 'auto'}
                     onOpenScript={openScriptTarget}

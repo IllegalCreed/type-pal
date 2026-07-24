@@ -33,10 +33,12 @@ import {
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { defaultActionTargetForEntity, sortedSpriteActions } from '../core/sprite-actions.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetPicker } from './ImageAssetPicker.js'
 import { MusicPicker } from './MusicPicker.js'
+import { NamedIdPicker } from './NamedIdPicker.js'
 import { SoundPicker } from './SoundPicker.js'
 
 const FACINGS: Facing[] = ['down', 'left', 'up', 'right']
@@ -200,6 +202,8 @@ export function CommandForm(props: {
   ambiences?: AmbienceDef[]
   /** 店铺表(openShop 店下拉)。缺省退化数字输入。 */
   shops?: ShopDef[]
+  /** 所有已有名称表的稳定引用；树、条件摘要与表单共用同一真值。 */
+  references: ScriptReferenceCatalog
   /** N6 作者共享脚本目录；用于区分作者共享目标与场景内部目标。 */
   scriptIndex?: ScriptIndexV1
   /** 当前执行上下文是否保证有可继承 self。 */
@@ -225,6 +229,7 @@ export function CommandForm(props: {
     sprites = [],
     ambiences,
     shops,
+    references,
     scriptIndex,
     hasImplicitSelf,
     onOpenScript,
@@ -235,6 +240,8 @@ export function CommandForm(props: {
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
+  const actorChoices = references.choices('actor')
+  const spriteChoices = references.choices('sprite')
 
   switch (cmd.kind) {
     case 'dialog': {
@@ -675,10 +682,30 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="角色">
-            <Txt value={cmd.actor} onChange={(s) => set({ actor: s })} />
+            {actorChoices.length ? (
+              <NamedIdPicker
+                value={cmd.actor}
+                choices={actorChoices}
+                kindLabel="角色"
+                inputName="script-actor"
+                onChange={(actor) => set({ actor })}
+              />
+            ) : (
+              <Txt value={cmd.actor} onChange={(actor) => set({ actor })} />
+            )}
           </Row>
-          <Row label="精灵 id">
-            <Txt value={cmd.sprite} onChange={(s) => set({ sprite: s })} />
+          <Row label="大世界精灵">
+            {spriteChoices.length ? (
+              <NamedIdPicker
+                value={cmd.sprite}
+                choices={spriteChoices}
+                kindLabel="大世界精灵"
+                inputName="script-world-sprite"
+                onChange={(sprite) => set({ sprite })}
+              />
+            ) : (
+              <Txt value={cmd.sprite} onChange={(sprite) => set({ sprite })} />
+            )}
           </Row>
         </>
       )
@@ -686,14 +713,52 @@ export function CommandForm(props: {
       return (
         <>
           <Row label="角色">
-            <Txt value={cmd.actor} onChange={(actor) => set({ actor })} />
+            {actorChoices.length ? (
+              <NamedIdPicker
+                value={cmd.actor}
+                choices={actorChoices}
+                kindLabel="角色"
+                inputName="script-actor"
+                onChange={(actor) => set({ actor })}
+              />
+            ) : (
+              <Txt value={cmd.actor} onChange={(actor) => set({ actor })} />
+            )}
           </Row>
           <Row label="大世界精灵">
-            <Txt
-              value={cmd.spriteId ?? ''}
-              placeholder="(不修改)"
-              onChange={(spriteId) => set({ spriteId: spriteId || undefined })}
-            />
+            {cmd.spriteId !== undefined && spriteChoices.length ? (
+              <span className="cf-ref-row">
+                <NamedIdPicker
+                  value={cmd.spriteId}
+                  choices={spriteChoices}
+                  kindLabel="大世界精灵"
+                  inputName="script-world-sprite"
+                  onChange={(spriteId) => set({ spriteId })}
+                />
+                <button
+                  type="button"
+                  className="mini-txt"
+                  onClick={() => set({ spriteId: undefined })}
+                >
+                  不修改
+                </button>
+              </span>
+            ) : (
+              <select
+                className="in"
+                value={cmd.spriteId ?? ''}
+                onChange={(event) =>
+                  set({ spriteId: event.target.value ? event.target.value : undefined })
+                }
+              >
+                <option value="">不修改</option>
+                {spriteChoices.map((sprite) => (
+                  <option key={sprite.id} value={sprite.id}>
+                    {sprite.name}（{sprite.id}）
+                  </option>
+                ))}
+              </select>
+            )}
           </Row>
           <Row label="对话立绘">
             <ImageAssetPicker
@@ -922,7 +987,7 @@ export function CommandForm(props: {
               >
                 {battlers.map((a) => (
                   <option key={a.id} value={a.id}>
-                    {lookupText(a.name, locale)}
+                    {references.label('actor', a.id)}
                   </option>
                 ))}
               </select>
@@ -1012,6 +1077,8 @@ export function CommandForm(props: {
       )
     case 'branch': {
       const c = cmd.cond
+      const itemCondition =
+        c.kind === 'hasItem' || c.kind === 'ownsItem' || c.kind === 'itemEquipped' ? c : undefined
       return (
         <>
           {c.kind === 'flag' ? (
@@ -1028,6 +1095,40 @@ export function CommandForm(props: {
                   value={c.is ? 'true' : 'false'}
                   options={['true', 'false']}
                   onChange={(v) => set({ cond: { ...c, is: v === 'true' } })}
+                />
+              </Row>
+            </>
+          ) : itemCondition ? (
+            <>
+              <Row label="条件">
+                <span className="cf-readonly">
+                  {itemCondition.kind === 'hasItem'
+                    ? '背包持有'
+                    : itemCondition.kind === 'ownsItem'
+                      ? '背包与装备合计'
+                      : '当前已装备'}
+                </span>
+              </Row>
+              <Row label="物品">
+                <NamedIdPicker
+                  value={itemCondition.itemId}
+                  choices={references.choices('item')}
+                  kindLabel="物品"
+                  inputName="script-condition-item"
+                  onChange={(itemId) => set({ cond: { ...itemCondition, itemId } })}
+                />
+              </Row>
+              <Row label="至少">
+                <Num
+                  value={itemCondition.atLeast ?? 1}
+                  onChange={(atLeast) =>
+                    set({
+                      cond: {
+                        ...itemCondition,
+                        atLeast: atLeast > 1 ? atLeast : undefined,
+                      },
+                    })
+                  }
                 />
               </Row>
             </>
@@ -1096,11 +1197,12 @@ export function CommandForm(props: {
       return (
         <Row label="氛围">
           {ambiences?.length ? (
-            <Sel
+            <NamedIdPicker
               value={cmd.ambience}
-              options={ambiences.map((a) => a.id)}
-              labels={ambiences.map((a) => a.name)}
-              onChange={(v) => set({ ambience: v })}
+              choices={references.choices('ambience')}
+              kindLabel="氛围"
+              inputName="script-ambience"
+              onChange={(ambience) => set({ ambience })}
             />
           ) : (
             <Txt value={cmd.ambience} onChange={(s) => set({ ambience: s })} />
@@ -1113,12 +1215,38 @@ export function CommandForm(props: {
           <Num value={cmd.delta} onChange={(n) => set({ delta: n })} />
         </Row>
       )
+    case 'learnSkill':
+      return (
+        <>
+          <Row label="原版角色槽位">
+            <Num value={cmd.role} onChange={(role) => set({ role })} />
+          </Row>
+          <Row label="仙术">
+            <NamedIdPicker
+              value={cmd.skill}
+              choices={references.choices('skill')}
+              kindLabel="仙术"
+              inputName="script-skill"
+              onChange={(skill) => set({ skill })}
+            />
+          </Row>
+          <p className="cf-warn">
+            角色仍使用原版数字槽位；它不是新工程可用的稳定角色引用，已纳入脚本模型现代化整改。
+          </p>
+        </>
+      )
     case 'giveItem':
     case 'loseItem':
       return (
         <>
-          <Row label="物品 id">
-            <Txt value={cmd.itemId} onChange={(s) => set({ itemId: s })} />
+          <Row label="物品">
+            <NamedIdPicker
+              value={cmd.itemId}
+              choices={references.choices('item')}
+              kindLabel="物品"
+              inputName="script-item"
+              onChange={(itemId) => set({ itemId })}
+            />
           </Row>
           <Row label="数量">
             <Num value={cmd.count ?? 1} onChange={(n) => set({ count: n > 1 ? n : undefined })} />
@@ -1134,14 +1262,16 @@ export function CommandForm(props: {
       return (
         <>
           {targetId ? (
-            <Row label={targetMeta ? '共享目标' : '内部目标'}>
+            <Row label={targetMeta ? '可复用脚本' : '迁移内部实现'}>
               <span className="cf-ref-row">
-                <code className="cf-ref-target">{targetId}</code>
+                <code className="cf-ref-target">
+                  {targetMeta ? references.label('authorScript', targetId) : targetId}
+                </code>
                 {onOpenScript ? (
                   <button
                     type="button"
                     className="mini"
-                    title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
+                    title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                     onClick={() => onOpenScript(targetId)}
                   >
                     ↗
@@ -1160,14 +1290,16 @@ export function CommandForm(props: {
       const selfValue = cmd.self ?? ''
       return (
         <>
-          <Row label={targetMeta ? '共享目标' : '内部目标'}>
+          <Row label={targetMeta ? '可复用脚本' : '迁移内部实现'}>
             <span className="cf-ref-row">
-              <code className="cf-ref-target">{cmd.ref.id}</code>
+              <code className="cf-ref-target">
+                {targetMeta ? references.label('authorScript', cmd.ref.id) : cmd.ref.id}
+              </code>
               {onOpenScript ? (
                 <button
                   type="button"
                   className="mini"
-                  title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
+                  title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                   onClick={() => onOpenScript(cmd.ref.id)}
                 >
                   ↗
@@ -1220,7 +1352,9 @@ export function CommandForm(props: {
               >
                 {options.map(([id, meta]) => (
                   <option key={id} value={id}>
-                    {meta.name}
+                    {references.has('authorScript', id)
+                      ? references.label('authorScript', id)
+                      : meta.name}
                   </option>
                 ))}
               </select>
@@ -1228,7 +1362,7 @@ export function CommandForm(props: {
                 <button
                   type="button"
                   className="mini"
-                  title={targetMeta ? '打开共享脚本' : '在当前场景脚本中打开内部目标'}
+                  title={targetMeta ? '打开可复用脚本' : '打开迁移内部实现'}
                   onClick={() => onOpenScript(cmd.ref.id)}
                 >
                   ↗
