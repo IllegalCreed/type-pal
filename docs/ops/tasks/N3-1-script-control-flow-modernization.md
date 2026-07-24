@@ -5,9 +5,9 @@ Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: Kimi + GLM
+Reviewer: GLM（P3 架构 + 数据合并代审）
 Visual Verification Owner: Codex + User
-Unavailable Agents: none
+Unavailable Agents: Kimi（额度耗尽；P3 缺签经用户豁免）
 Branch: TBD
 
 ## 目标
@@ -776,8 +776,8 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 - P3 未做事项:
   - 622 call owner、455 entity binding、38 跨 caller join 与 1 个混合入口只完成显式重分类，
     归属/具名行为吸收属于 P4；433 cyclic bodies 属于 P5，14 author roots 属于 P6。
-  - P3 Codex 自验完成，现进入 Kimi / GLM 独立只读批次审查；两席均 `accept` 前不得进入 P4，
-    更不得把 N3-1、C8 或 ED-5I 标记 done。
+  - P3 Codex 自验完成，现进入 GLM 架构、控制流语义、数据守恒与测试矩阵合并只读代审；
+    GLM `accept` 前不得进入 P4，更不得把 N3-1、C8 或 ED-5I 标记 done。
 
 ## 视觉验证记录
 
@@ -789,7 +789,7 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 
 ## Review: 审查与返工
 
-- Reviewer: Kimi + GLM
+- Reviewer: GLM（P3 架构 + 数据合并代审；Kimi 额度耗尽）
 - Codex 内部只读红队（2026-07-23）:
   - 首轮发现 overlay `structuredClone` 丢 WeakMap provenance，导致 119 个 scene root 无直接
     源地址，且“全源唯一目标反推”可误配；已改为深克隆时转交审计旁路、删除反推并补反误配测试。
@@ -821,11 +821,19 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 | Agent | 结论 | 日期 | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **accept** | 2026-07-24 | Coding Owner 自验；1,715 全分类、599 bodies / 655 sites 结构化、8,102/8,102 可逆、RNG/pendingAuto/self/dialogue/size 全门禁、累计 transition/repeat plan 与 migrate 46 files / 343 passed + 1 skipped 均通过。 |
-| Kimi | pending | - | 待独立只读审查结构化语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系和 P4 重分类。 |
-| GLM | pending | - | 待独立复核 1,715 守恒、599/655、P3→0/P4→7,055、context/size gates、PAL golden 与作者冲突矩阵。 |
+| Kimi | **absent（用户豁免）** | 2026-07-24 | 额度耗尽，本批不再单独审查；原架构/语义席位由 GLM 合并代审。额度恢复后补审，但不阻塞本次 P3 → P4；若 N3-1 最终验收时仍未补签，须再由用户决定是否延续豁免。 |
+| GLM | pending（合并代审） | - | 同时承接 Kimi 的结构化语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系与 P4 重分类，以及原 GLM 的 1,715 守恒、599/655、P3→0/P4→7,055、context/size gates、PAL golden 与作者冲突矩阵复核。 |
 
-- counter / 返工: 当前无；任一方 `counter` 时 P3 留在 build，禁止进入 P4。
-- P3 -> P4 准入: **blocked（等待 Kimi + GLM 两席 accept）**。
+- 额度与代班记录（用户裁决，2026-07-24）:
+  - 缺席 Agent: Kimi；原因：订阅额度耗尽。
+  - 代班 Agent / 范围: GLM 合并承接 P3 架构、控制流语义、generated/canonical 边界、
+    transition ledger 原子关系、数据守恒、覆盖清单和测试矩阵独立审查；Codex 仅保留已完成的
+    Coding Owner 自验，不冒充独立审查席。
+  - 风险: 外部独立审查由两席缩为一席，架构视角多样性下降；以 GLM 一次合并审查和可复跑
+    证据补偿，但仍登记 Kimi 后续补审债务。
+  - 豁免: 用户明确批准本批 Kimi 缺签豁免；GLM `accept` 后可进入 P4，不因 Kimi 本批缺签阻塞。
+- counter / 返工: 当前无；GLM `counter` 时 P3 留在 build，禁止进入 P4。
+- P3 -> P4 准入: **blocked（仅等待 GLM 合并代审 `accept`）**。
 - 本表是 N3-1 内部批次门禁；即使 P3 三签齐，也不等于整个 N3-1、C8 或 ED-5I 已完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
@@ -2298,60 +2306,50 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   `packages/migrate/.shadow/N3-1/v5/p3/`。Next: Kimi / GLM 独立只读审查并在 P3 阶段表签
   `accept` 或 `counter`；两席 accept 前不得进入 P4。未改 canonical/runtime/editor/project/
   baseline。
+- 2026-07-24 User: Kimi 额度耗尽，批准 P3 批次 Kimi 缺签豁免；原 Kimi 架构/控制流语义
+  审查与原 GLM 数据/覆盖审查合并交给 GLM 一次完成。GLM 是唯一剩余独立审查门禁：
+  `accept` 后 P3 → P4 allowed，`counter` 则留在 P3 返工。Kimi 恢复额度后补审；若 N3-1
+  最终验收时仍未补签，再请用户决定是否延续豁免。未授权开始 P4 或标记 N3-1/C8/ED-5I done。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（P3 架构与控制流语义复审）
+### 给 GLM（P3 架构、控制流语义、数据守恒与测试矩阵合并代审）
 
 ```text
-复审任务: N3-1 P3 无环控制流结构化——架构/语义主审
+复审任务: N3-1 P3 无环控制流结构化——架构 + 数据合并代审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P3 Codex 自验 accept，Kimi/GLM pending，P3→P4 blocked。
-你的职责: 独立只读复审，不得修改实现文件，不得开始 P4。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P1-1、P1-5、P1-7、P1-8、
-  「P3 无环控制流影子实现与自测」和 P3 签字表；
+当前状态: build；P3 Codex 自验 accept。Kimi 额度耗尽，用户已批准本批 Kimi 缺签豁免，
+  并把原 Kimi 架构/语义审查与原 GLM 数据/覆盖审查合成一份交给你。你的 accept 是
+  P3→P4 唯一剩余门禁。
+你的职责: 独立只读完成合并代审；不得修改实现文件，不得开始 P4。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P0 baseline 事实、P1-1、P1-5、P1-7、
+  P1-8、「P3 无环控制流影子实现与自测」、P3 签字表和额度与代班记录；
   packages/migrate/src/experimental/script-v5/{types,p3-control-flow,p3-validate,
   p3-transition-plan,shadow-harness,source-v4}.ts 及 P3 tests；
+  packages/migrate/baselines/script-control-flow/pal-v1.json；
   packages/reforge/src/script-runner.ts 的 call/jump/pace 现行语义。
 重点复审:
-  1. 579 unique tail 与 20 same-caller conditional join 是否真实保留 non-returning、
+  1. 架构/语义：579 unique tail 与 20 same-caller conditional join 是否真实保留 non-returning、
      macroTask、self、对话与 auto pace，不把 622 call 机械改成 jump/inline；
   2. n3P3FlowExit 是否严格停留 generated shadow，未泄漏为 AuthorCommand/canonical/save/runtime id；
   3. 38 cross-caller join、455 binding、622 call、1 mixed 转 P4 的边界是否诚实且无漏域；
   4. 599 个原子 group 的 target+incoming cell、dependsOn、作者修改/新增引用零写和 rechunk
      非身份规则是否封闭；
-  5. P3 完成后是否仍应阻止进入 P4，或给出具体 counter 反例。
+  5. 数据/覆盖：1,715 = 579+20+622+455+38+1、599 bodies、655 sites、
+     8,102=7,503+599、
+     pending P3:0/P4:7,055/P5:433/P6:14 是否从真源独立重算成立；
+  6. dialogue/self/RNG 0x36/0x37/pendingAuto 0x8A/0x07 与 conditional-arm coverage 是否全量；
+  7. AST/target/chunk 门限 512/65,536/1,048,576 与观测 318/2,354/313,528 是否可复现；
+  8. ledger 4,601 entries/600 groups/3,945 evidence、657/3,945/0 与 repeat 0/0/0、
+     target/ref 修改、新增引用、rechunk、篡改反例是否 fail-loud；
+  9. P3 完成后是否可以进入 P4；若不可，给出可定位的 counter 反例。
 建议复跑: pnpm --filter @type-pal/migrate typecheck；
   pnpm --filter @type-pal/migrate test；
-  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check。
-输出要求: 在本卡「P3 阶段审查推进签字」与交接日志签 accept，或写 counter 的具体文件、
-  数据反例、风险和返工项。签字前不得进入 P4，不得标记 N3-1/C8/ED-5I done。
-```
-
-### 给 GLM（P3 数据守恒与测试矩阵复审）
-
-```text
-复审任务: N3-1 P3 无环控制流结构化——数据/覆盖主审
-任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P3 Codex 自验 accept，Kimi/GLM pending，P3→P4 blocked。
-你的职责: 独立只读复核 PAL census、ledger、context/size gates 和测试矩阵；不得改实现文件。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P0 baseline 事实、P1-7/P1-8、
-  「P3 无环控制流影子实现与自测」和 P3 签字表；
-  packages/migrate/src/experimental/script-v5/ 的 P3 transform/validator/planner/harness/tests；
-  packages/migrate/baselines/script-control-flow/pal-v1.json。
-重点复核:
-  1. 1,715 = 579+20+622+455+38+1、599 bodies、655 sites、8,102=7,503+599、
-     pending P3:0/P4:7,055/P5:433/P6:14 是否从真源独立重算成立；
-  2. dialogue/self/RNG 0x36/0x37/pendingAuto 0x8A/0x07 与 conditional-arm coverage 是否全量；
-  3. AST/target/chunk 门限 512/65,536/1,048,576 与观测 318/2,354/313,528 是否可复现；
-  4. ledger 4,601 entries/600 groups/3,945 evidence、657/3,945/0 与 repeat 0/0/0、
-     target/ref 修改、新增引用、rechunk、篡改反例是否 fail-loud；
-  5. 622 call、455 binding、38 shared join、1 mixed 的 P4 reason 是否无 unknown/重叠/遗漏。
-建议复跑: pnpm --filter @type-pal/migrate test；
   pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check；
   pnpm --filter @type-pal/migrate audit:script-control-flow -- --check。
-输出要求: 在本卡「P3 阶段审查推进签字」与交接日志签 accept，或写 counter 的精确计数、
-  body/site 清单与返工要求。两席 accept 前不得进入 P4，不得标记 N3-1/C8/ED-5I done。
+输出要求: 在本卡「P3 阶段审查推进签字」GLM 行与交接日志签 accept；或写 counter 的具体
+  文件、数据反例、精确计数、风险和返工项。GLM accept 前不得进入 P4，不得标记
+  N3-1/C8/ED-5I done；不需要等待本批 Kimi 签字。
 ```
 
 ## 历史 Agent 提示词（P1-P3 已完成批次，勿再执行）
