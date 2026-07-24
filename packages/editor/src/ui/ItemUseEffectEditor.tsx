@@ -34,7 +34,7 @@ const EFFECT_KINDS: { value: ItemUseEffect['kind']; label: string }[] = [
   { value: 'permanentStatBoost', label: '永久成长' },
   { value: 'gate', label: '概率门槛' },
   { value: 'dieIfNotPoisoned', label: '未中毒则死亡' },
-  { value: 'runScript', label: '运行共享脚本' },
+  { value: 'runScript', label: '运行可复用脚本' },
   { value: 'runSceneHook', label: '调用场景钩子' },
   { value: 'craftRecipe', label: '合成配方' },
   { value: 'drawFromResourcePool', label: '资源池抽取' },
@@ -77,7 +77,7 @@ function firstPoison(poisons: readonly PoisonDef[]): string {
 
 function firstScript(scripts: readonly ItemScriptOption[]): ScriptRef {
   const script = scripts[0]
-  if (!script) throw new Error('工程没有共享脚本；请使用“新建并绑定脚本”')
+  if (!script) throw new Error('工程没有可复用脚本；请使用“新建并绑定脚本”')
   return script.ref
 }
 
@@ -587,7 +587,7 @@ function EffectFields(props: {
       return (
         <div className="item-script-binding">
           <label className="item-effect-field">
-            <span>共享脚本</span>
+            <span>可复用脚本</span>
             <select
               className="in"
               value={effect.script.id}

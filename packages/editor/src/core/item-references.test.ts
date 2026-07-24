@@ -364,7 +364,7 @@ describe('collectItemReferences', () => {
     {
       name: '场景传送出口',
       source: 'scene',
-      access: 'consume',
+      access: 'lose',
       where: 'scenes[0](s).onTeleport0/0.itemId',
       locator: {
         kind: 'scene-script',
@@ -389,7 +389,7 @@ describe('collectItemReferences', () => {
     {
       name: '页切换内联脚本',
       source: 'scene',
-      access: 'consume',
+      access: 'lose',
       where: 'scenes[0](s).entities[0].pages[0].trigger.stages0/1/stages/0/body/0.itemId',
       locator: undefined,
     },
@@ -479,7 +479,7 @@ describe('collectItemReferences', () => {
     {
       name: '敌人战后剧情',
       source: 'enemy',
-      access: 'consume',
+      access: 'lose',
       where: 'enemies[0](enemy).onDefeated/0.itemId',
       locator: undefined,
     },
@@ -554,7 +554,7 @@ describe('collectItemReferences', () => {
     ],
     [
       'confirm.onNo',
-      'consume',
+      'lose',
       'scriptChunks["recursive"].scripts["shared/recursive"]0/1/onNo/0.itemId',
     ],
     [
@@ -564,7 +564,7 @@ describe('collectItemReferences', () => {
     ],
     [
       'startBattle.onFlee',
-      'consume',
+      'lose',
       'scriptChunks["recursive"].scripts["shared/recursive"]0/2/onFlee/0.itemId',
     ],
     [
@@ -667,7 +667,7 @@ describe('collectItemReferences', () => {
     expect(references).toEqual([
       expect.objectContaining({
         source: 'save',
-        access: 'consume',
+        access: 'lose',
         where: 'worlds[0].script.sceneScriptOverrides["s"].onEnter0/0.itemId',
         locator: undefined,
         unavailableReason: expect.stringContaining('只读'),

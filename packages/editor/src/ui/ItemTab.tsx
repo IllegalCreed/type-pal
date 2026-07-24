@@ -330,8 +330,9 @@ const SOURCE_LABEL: Record<ItemReference['source'], string> = {
 
 const ACCESS_LABEL: Record<ItemReference['access'], string> = {
   read: '判断',
+  lose: '失去',
   consume: '消耗',
-  reward: '给出',
+  reward: '获得',
   hold: '持有',
   configure: '配置',
 }
@@ -1702,7 +1703,7 @@ export function ItemTab(props: {
               </section>
             ))}
             {!itemReferences.length ? (
-              <div className="insp-empty">全工程没有读取、消耗、给出、持有或配置此物品。</div>
+              <div className="insp-empty">全工程没有判断、获得、失去、消耗、持有或配置此物品。</div>
             ) : null}
           </div>
         ) : (

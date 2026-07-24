@@ -90,6 +90,7 @@ export class Playback {
   constructor(
     scene: SceneDef,
     private readonly resolver?: ScriptResolver,
+    private readonly itemNames: ReadonlyMap<string, string> = new Map(),
   ) {
     this.scene = scene
     this.view = this.freshView()
@@ -130,6 +131,11 @@ export class Playback {
   private log(msg: string): void {
     this.view.logs.push(msg)
     this.onUi?.()
+  }
+
+  private itemLabel(itemId: string): string {
+    const name = this.itemNames.get(itemId)
+    return name ? `${name}（${itemId}）` : `未知物品（${itemId}）`
   }
 
   /** cmd → 镜头兴趣点(不涉及位置的命令返回 undefined = 镜头不动)。 */
@@ -415,8 +421,8 @@ export class Playback {
     stopEntityAction: (id, reset) => {
       this.log(`■ ${id} 停止动作${reset ? '并重置默认动作' : ''}`)
     },
-    giveItem: (itemId, count) => this.log(`🎁 得 ${itemId} ×${count}`),
-    loseItem: (itemId, count) => this.log(`📤 失 ${itemId} ×${count}`),
+    giveItem: (itemId, count) => this.log(`🎁 得 ${this.itemLabel(itemId)} ×${count}`),
+    loseItem: (itemId, count) => this.log(`📤 失 ${this.itemLabel(itemId)} ×${count}`),
     giveMoney: (delta) => this.log(`💰 ${delta >= 0 ? '+' : ''}${delta} 钱`),
     playSound: (id) => this.log(`🔊 音效 ${id}`),
     playMusic: (id) => this.log(`🎵 音乐 ${id}`),

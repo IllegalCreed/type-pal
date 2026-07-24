@@ -1,7 +1,7 @@
 import type { Command, ScriptCondition, ScriptStage } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
-export type ItemReferenceAccess = 'read' | 'consume' | 'reward' | 'hold' | 'configure'
+export type ItemReferenceAccess = 'read' | 'lose' | 'consume' | 'reward' | 'hold' | 'configure'
 
 export type ItemReferenceLocator =
   | {
@@ -147,11 +147,11 @@ function scanCommands(
       })
     else if (command.kind === 'loseItem')
       add(out, command.itemId, {
-        access: 'consume',
+        access: 'lose',
         source: context.source,
         label: context.label,
         where: `${context.where}${path}.itemId`,
-        detail: `收走 ×${command.count ?? 1}`,
+        detail: `失去 ×${command.count ?? 1}`,
         locator,
         unavailableReason: context.unavailableReason,
       })
