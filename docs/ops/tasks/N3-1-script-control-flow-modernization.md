@@ -240,7 +240,8 @@ entity.behaviors.auto['巡逻'] = AutoBehavior
 ### 5. 真正共享脚本
 
 - 共享的判据是业务语义与作者意图，不是“有多个前驱”“被多个分片引用”或“Tarjan 分到同一组”。
-- 6 个现有 `shared/user/*` 根应直接拥有 canonical 业务 body；不能再以空壳 call 到匿名内部目标。
+- 6 个现有 `shared/user/*` 根必须逐个重判归属：能回归领域模块的直接结构化，只有真正跨调用方
+  复用的剩余根才直接拥有 canonical 业务 body；不能再以空壳 call 到匿名内部目标。
 - 共享脚本保留 N6 的稳定 id、元数据、self 契约、引用保护和 lazy load；参数系统不在本卡凭空扩张。
 
 ## 分批策略
@@ -282,6 +283,12 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 7. **P6 共享脚本收口与旧模型退役**
    - 识别 532 个共享尾部中的真实业务复用；其余归回局部结构/状态机。
    - 6 个作者根直接拥有 body；共享库不再列迁移/存储实现。
+   - **共享脚本判据回归“通用函数”本义（用户 2026-07-24 裁决）**：共享脚本只服务真正跨
+     调用方复用的业务演出逻辑，不是“逻辑复杂就放共享”。当前 6 个 `shared/user/pal-item-use/*`
+     中，268 炼蛊皿已迁为 `craftRecipe`、270 紫金葫芦已迁为 `drawFromResourcePool`——这两个
+     已回归物品模块结构化编辑，不再放共享脚本。P6 审计时应优先把剩余 runScript 物品中能
+     结构化的（如灵珠场景交互若能抽象为通用机制）也回归物品模块；只保留真正无法结构化
+     且跨处复用的才留在共享脚本。共享脚本的最终数量应远少于当前 532 个“共享尾部”。
    - 从 canonical schema、插入菜单、编辑器、运行时和存档升级链移除作者可见
      `jumpScript`、匿名 binding 和“迁移内部实现”。
 8. **P7 全量重迁、验收与文档**
@@ -299,7 +306,8 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 - e2493/e2495 的换触发流程完整闭环，无内部 target；保存、重开、undo/redo 与运行时切换一致。
 - onEnter/onTeleport 变体可在场景内完整编辑；简单出口无需创建脚本，复杂 hook 可具名引用。
 - 所有 runtime reachable 循环均归为结构化 loop、领域行为或具名状态机；不存在匿名 fallback 私有块。
-- 共享脚本库只含作者具名业务脚本；6 个现有作者根拥有真实 body，不再桥接内部块。
+- 共享脚本库只含作者具名且真正跨调用方复用的业务脚本；6 个现有作者根完成逐个归属，
+  可结构化者回归领域模块，剩余共享根拥有真实 body，不再桥接内部块。
 - 运行时可选编译/分片产物完全可再生，删除后可由 canonical content 重建并得到相同语义 hash。
 
 ### 审计 / 迁移
@@ -822,7 +830,105 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 |---|---|---|---|
 | Codex | **accept** | 2026-07-24 | Coding Owner 自验；1,715 全分类、599 bodies / 655 sites 结构化、8,102/8,102 可逆、RNG/pendingAuto/self/dialogue/size 全门禁、累计 transition/repeat plan 与 migrate 46 files / 343 passed + 1 skipped 均通过。 |
 | Kimi | **absent（用户豁免）** | 2026-07-24 | 额度耗尽，本批不再单独审查；原架构/语义席位由 GLM 合并代审。额度恢复后补审，但不阻塞本次 P3 → P4；若 N3-1 最终验收时仍未补签，须再由用户决定是否延续豁免。 |
-| GLM | pending（合并代审） | - | 同时承接 Kimi 的结构化语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系与 P4 重分类，以及原 GLM 的 1,715 守恒、599/655、P3→0/P4→7,055、context/size gates、PAL golden 与作者冲突矩阵复核。 |
+| GLM | **accept（合并代审）** | 2026-07-24 | 同时承接 Kimi 的结构化语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系与 P4 重分类，以及原 GLM 的数据/覆盖席位；独立复跑 9 项门禁，无 counter/rework。见「GLM P3 合并代审」。 |
+
+### GLM P3 合并代审（2026-07-24）
+
+**方法**：只读合并代审（架构 + 数据），不改实现文件。读 p3-control-flow.ts / p3-validate.ts / p3-transition-plan.ts 全部源码 + 独立复跑 `migrate:script-v5:shadow --through p3 --check` + P3 PAL golden + 全 migrate + P0 audit + script-runner.ts call/jump/pace 语义。
+
+#### 重点 1：579 unique tail + 20 conditional join 控制流语义 ✅
+
+**分类逻辑**（p3-control-flow.ts:103-134 `classifyP3ReferenceShape`）：
+- **579 tail-inline**：单 caller 单 jumpScript execution 边 → 原位吸收到唯一 caller。语义正确：原版 jumpScript 是尾转移（script-runner.ts:757-760 `ScriptJump`），吸收后用 `n3P3FlowExit { scheduling: macroTask, worldClockAdvanceMs: 0, continuation: terminate-current-activation }` 表达，保持"不返回 + 至少一次宏任务让步"（P1-5 调度规则）。
+- **20 branch-switch-join**：同一 caller 的多个 conditional arm（`then/else/onNo/onLose/onFlee/onFail`）jump 到同一 target → 恢复为共享 branch/switch continuation，不复制 shared tail。语义正确：diamond/join 不膨胀正文，原版多臂汇合到同一地址的 clean 表达。
+
+**守恒**：`1,715 = 579 + 20 + 622 + 455 + 38 + 1`，census 函数（:229-265）硬断言精确值。GLM 独立复跑确认。
+
+#### 重点 2：n3P3FlowExit 严格隔离在 generated shadow ✅
+
+- `n3P3FlowExit` **不在 AuthorCommand 联合**（content/src/script.ts AuthorCommand 不含此 kind）。
+- IR 标记 `canonical: false, runtimeConsumable: false`（:738-739）。
+- shadow 根固定 `packages/migrate/.shadow/N3-1/v5/p3/`（gitignored）。
+- CLI `--through p3` 只产出 shadow IR/ledger，不改 `CONTENT_VERSION`/v4 validator/runtime/editor loader/projects/pal/baseline。
+- GLM 验证：retained bodies 中 `n3P3FlowExit` 出现 610 次（599 tail/branch 结构的 owner body + 部分 target body 内引用其他结构），全部在 shadow 内；无 canonical/runtime 污染。
+
+#### 重点 3：622 call / 455 binding / 38 cross-caller / 1 mixed P4 分类完整 ✅
+
+- **622 deferred-call-owner**：所有 incoming 都是 `callScript` → 转入 P4 owner allocation。call 正常/stop 返回契约不变（P1-5）。
+- **455 deferred-entity-binding-owner**：所有 incoming 是 `setEntityAuto`/`setEntityTrigger` deferred binding → 转入 P4。不冒充执行前驱。
+- **38 deferred-multi-owner-join**：跨 caller shared join，单 owner 结构化证据不足 → 显式转 P4，**禁止复制**（防止指数膨胀）。
+- **1 deferred-mixed-flow-binding**：jump + auto binding 混合入口 → 绑定与执行必须同组归属，显式转 P4。
+
+GLM 独立复跑 census 确认：`{tailInline:579, branchSwitchJoin:20, deferredCallOwner:622, deferredEntityBindingOwner:455, deferredMultiOwnerJoin:38, deferredMixedFlowBinding:1, unknown:0}`。
+
+#### 重点 4：599 atomic group + dependsOn + 作者冲突保护 ✅
+
+- **599 flow-absorption-group**：每个 group `editPolicy: 'conflict-if-modified'`，锁定 target body + 全部 incoming cell（:506-521）。
+- **dependsOn**：9 个 group 有 dependsOn（target body 内含指向其他 structure 的 n3P3FlowExit）；依赖显式登记，排序稳定（:528）。
+- **作者冲突保护**：作者修改 target body / 修改入站 jump / 删除或新增入站引用 → 整批零写冲突（P3 PAL test 2-7 覆盖）；纯 ScriptRef.chunk 变化不算冲突。
+- **ledger entries 互不重叠**（:571-574 `transitionEntryKey` 去重断言）：P2 3,347 + P3 1,254（599 target + 655 incoming）= 4,601 entries，source key 无碰撞。
+
+#### 重点 5：1,715 分类 / 599 bodies / 655 sites / 8,102 可逆 + P3→P6 守恒 ✅
+
+GLM 独立复跑确认：
+
+| 口径 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---:|---:|---|
+| P3 candidates | 1,715 | **1,715** | ✅ |
+| absorbed bodies (flowStructures) | 599 | **599** | ✅ |
+| rewritten jump sites | 655 | **655** | ✅ |
+| retained bodies | 7,503 | **7,503** | ✅ |
+| retained + structured | 8,102 | **7,503 + 599 = 8,102** | ✅ 守恒 |
+| reversible bodies | 8,102 | **8,102**（validate reverseP3Body 零语义变化） | ✅ |
+| pendingByPhase | P3:0 P4:7,055 P5:433 P6:14 | **完全一致** | ✅ P3→0 |
+| pending sum | 7,502 | **7,502** | ✅（8,102 - 599 structured - 1 s018 resolved） |
+
+#### 重点 6：dialogue/self/RNG/pendingAuto/conditional-arm 覆盖 ✅
+
+GLM 独立验证全部 599 个结构：
+- **dialogue**：全部 `context.dialogue.registryIdentityMatched: true` + `legacyScriptId.endsWith('/d-' + dialogue.hash)` 断言（:343-345）。
+- **self**：全部 `context.self.allIncomingMatched: true` + 逐 site `actualSelf === audit.source.owner` 断言（:329-331）。
+- **RNG (lastRngChunk)**：全部 `context.rng.inheritedConsumer: false`——0x37（继承消费）不存在于任何结构化 target 的 source addresses（:350-353）。
+- **pendingAuto (0x07/0x8A)**：全部 `context.pendingBattleAuto.inheritedConsumer: false`（:354-357）。
+- **conditional-arm**：20 branch-switch-join 的全部 incoming 路径匹配 `/then|else|onNo|onLose|onFlee|onFail/`（:99-101,113-116）。
+
+#### 重点 7：AST/target/chunk 体积门禁 ✅
+
+| 门禁 | 限制 | PAL 观测最大 | 结论 |
+|---|---:|---:|---|
+| materialized AST nodes | 512 | **318** | ✅ |
+| target bytes | 65,536 | **2,354** | ✅ |
+| projected chunk bytes | 1,048,576 | **313,528** | ✅ |
+| violations | 0 | **[]** | ✅ |
+
+跨 caller join（38）不靠复制绕过门禁——显式 deferred 到 P4。
+
+#### 重点 8：ledger / 迁移计划 / 重复运行 / fail-loud 反例 ✅
+
+**ledger**：4,601 entries / 600 groups（1 s018 + 599 flow）/ 3,945 evidence（3,346 P2 + 599 P3）/ 7,502 pending。digest `7444c3ac…`。
+
+**迁移计划**：首次 v4→累计 P3 = `657 writes / 3,945 deletes / 0 conflicts`（含 P2 2/3,346 + P3 655/599）；P3→P3 repeat = `0/0/0`。
+
+**重复运行**：shadow `--through p3 --check` → 854 artifacts, first=854/0/0, second=0/0/0；固定根写入后 first=0/0/0, second=0/0/0。
+
+**fail-loud 反例**（PAL test 2-8）：作者修改 absorbed target body → `identity-flow-group-modify` 零写；新增指向 absorbed target 的引用 → 冲突零写；纯 rechunk 不误报；ledger 关系篡改零写。
+
+**全包门禁**：typecheck pass；migrate 46 files / 343 passed + 1 skipped；P0 audit digest 不变；bundle digest `eee18a78…`。
+
+#### 结论
+
+**GLM P3 合并代审 accept**。架构（tail-inline/branch-switch-join 语义 + n3P3FlowExit 隔离 + call/jump 边界）+ 数据
+（1,715 全分类守恒 / 599 bodies / 655 sites / 8,102 可逆 / P3→0 P4→7,055 / ledger 4,601+600+3,945 / context 全覆盖 /
+size 门禁零违规 / 迁移计划双跑 0/0/0 / fail-loud 反例）逐项成立。validateP3ScriptMigrationIR 从 corpus 独立重算
+（reverseP3Body 零语义变化 + visitScriptRefs 零悬空 + callSitesChanged=0）。无 counter/rework。
+**P3 准入 P4**。
+
+#### Kimi 补审债务登记
+
+Kimi 额度耗尽，本批 P3 缺签经用户豁免。GLM 合并代审同时承接了原 Kimi 的架构/语义席位（tail-inline/branch-switch-join
+控制流语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系）和原 GLM 的数据/覆盖席位。Kimi 额度恢复后
+应补审 P3 架构视角（尤其 callScript 622 deferred 的 P4 owner allocation 边界和 38 cross-caller join 的复制禁令设计），
+但**不阻塞 P3→P4**。若 N3-1 最终验收时 Kimi 仍未补签，须再由用户决定是否延续豁免。
 
 - 额度与代班记录（用户裁决，2026-07-24）:
   - 缺席 Agent: Kimi；原因：订阅额度耗尽。
@@ -832,8 +938,8 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   - 风险: 外部独立审查由两席缩为一席，架构视角多样性下降；以 GLM 一次合并审查和可复跑
     证据补偿，但仍登记 Kimi 后续补审债务。
   - 豁免: 用户明确批准本批 Kimi 缺签豁免；GLM `accept` 后可进入 P4，不因 Kimi 本批缺签阻塞。
-- counter / 返工: 当前无；GLM `counter` 时 P3 留在 build，禁止进入 P4。
-- P3 -> P4 准入: **blocked（仅等待 GLM 合并代审 `accept`）**。
+- counter / 返工: 当前无；GLM 无返工。
+- P3 -> P4 准入: **allowed（2026-07-24；GLM 合并代审 `accept`，Kimi 用户豁免）**。
 - 本表是 N3-1 内部批次门禁；即使 P3 三签齐，也不等于整个 N3-1、C8 或 ED-5I 已完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
@@ -2310,46 +2416,52 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   审查与原 GLM 数据/覆盖审查合并交给 GLM 一次完成。GLM 是唯一剩余独立审查门禁：
   `accept` 后 P3 → P4 allowed，`counter` 则留在 P3 返工。Kimi 恢复额度后补审；若 N3-1
   最终验收时仍未补签，再请用户决定是否延续豁免。未授权开始 P4 或标记 N3-1/C8/ED-5I done。
+- 2026-07-24 GLM: P3 架构 + 数据合并代审签 **accept**。只读审查不改实现：读 p3-control-flow.ts /
+  p3-validate.ts / p3-transition-plan.ts 全部源码 + 独立复跑 `migrate:script-v5:shadow --through p3 --check`
+  （854 artifacts / 0/0/0）+ P3 PAL golden + 全 migrate（46/343+1skip）+ P0 audit `--check`（digest 不变）+
+  script-runner.ts call/jump/pace 语义。
+  9 项重点逐项对账：①579 tail-inline（单 caller 尾转移→n3P3FlowExit macroTask/0ms/terminate）+
+  20 branch-switch-join（同 caller conditional arm→共享 continuation 不复制）；②n3P3FlowExit 严格隔离
+  shadow（canonical=false/runtimeConsumable=false、不在 AuthorCommand 联合）；③622 call/455 binding/
+  38 cross-caller/1 mixed P4 deferred 分类完整；④599 atomic group conflict-if-modified + 9 dependsOn +
+  作者修改/删除/新增引用零写冲突；⑤1,715=579+20+622+455+38+1 / 599 bodies / 655 sites /
+  8,102=7,503+599 可逆 / P3:0 P4:7,055 P5:433 P6:14；⑥dialogue+self+RNG+pendingAuto+conditional-arm
+  全覆盖（599/599 通过）；⑦AST 318/512 + target 2,354/65,536 + chunk 313,528/1,048,576 violations=0；
+  ⑧ledger 4,601+600+3,945 / 首跑 657/3,945/0 重复 0/0/0 / fail-loud 反例（作者修改/新增引用/rechunk/
+  篡改）；⑨validateP3ScriptMigrationIR 从 corpus 重算（reverseP3Body 零语义变化 + 零悬空 +
+  callSitesChanged=0）。
+  Evidence: P3 签字表 GLM 行 + GLM P3 合并代审节。Next: **P3→P4 allowed**；Codex 可启动 P4；
+  Kimi 额度恢复后补审 P3 架构（不阻塞）。未改实现文件。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P3 架构、控制流语义、数据守恒与测试矩阵合并代审）
+### 给 Codex（P4 实体/场景具名行为影子迁移）
 
 ```text
-复审任务: N3-1 P3 无环控制流结构化——架构 + 数据合并代审
+接手任务: N3-1 P4 实体/场景具名行为迁移（shadow 形态）
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P3 Codex 自验 accept。Kimi 额度耗尽，用户已批准本批 Kimi 缺签豁免，
-  并把原 Kimi 架构/语义审查与原 GLM 数据/覆盖审查合成一份交给你。你的 accept 是
-  P3→P4 唯一剩余门禁。
-你的职责: 独立只读完成合并代审；不得修改实现文件，不得开始 P4。
+当前状态: build；P3 Codex + GLM 合并代审 accept，Kimi 本批经用户豁免，P3→P4 allowed。
+你的角色: Coding Owner——P4 build 阶段唯一实现文件修改者。
 先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P0 baseline 事实、P1-1、P1-5、P1-7、
-  P1-8、「P3 无环控制流影子实现与自测」、P3 签字表和额度与代班记录；
+  P1-8、「P3 无环控制流影子实现与自测」及「GLM P3 合并代审」；
   packages/migrate/src/experimental/script-v5/{types,p3-control-flow,p3-validate,
-  p3-transition-plan,shadow-harness,source-v4}.ts 及 P3 tests；
+  p3-transition-plan,shadow-harness,source-v4}.ts 及全部 P3 tests；
   packages/migrate/baselines/script-control-flow/pal-v1.json；
-  packages/reforge/src/script-runner.ts 的 call/jump/pace 现行语义。
-重点复审:
-  1. 架构/语义：579 unique tail 与 20 same-caller conditional join 是否真实保留 non-returning、
-     macroTask、self、对话与 auto pace，不把 622 call 机械改成 jump/inline；
-  2. n3P3FlowExit 是否严格停留 generated shadow，未泄漏为 AuthorCommand/canonical/save/runtime id；
-  3. 38 cross-caller join、455 binding、622 call、1 mixed 转 P4 的边界是否诚实且无漏域；
-  4. 599 个原子 group 的 target+incoming cell、dependsOn、作者修改/新增引用零写和 rechunk
-     非身份规则是否封闭；
-  5. 数据/覆盖：1,715 = 579+20+622+455+38+1、599 bodies、655 sites、
-     8,102=7,503+599、
-     pending P3:0/P4:7,055/P5:433/P6:14 是否从真源独立重算成立；
-  6. dialogue/self/RNG 0x36/0x37/pendingAuto 0x8A/0x07 与 conditional-arm coverage 是否全量；
-  7. AST/target/chunk 门限 512/65,536/1,048,576 与观测 318/2,354/313,528 是否可复现；
-  8. ledger 4,601 entries/600 groups/3,945 evidence、657/3,945/0 与 repeat 0/0/0、
-     target/ref 修改、新增引用、rechunk、篡改反例是否 fail-loud；
-  9. P3 完成后是否可以进入 P4；若不可，给出可定位的 counter 反例。
-建议复跑: pnpm --filter @type-pal/migrate typecheck；
-  pnpm --filter @type-pal/migrate test；
-  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check；
-  pnpm --filter @type-pal/migrate audit:script-control-flow -- --check。
-输出要求: 在本卡「P3 阶段审查推进签字」GLM 行与交接日志签 accept；或写 counter 的具体
-  文件、数据反例、精确计数、风险和返工项。GLM accept 前不得进入 P4，不得标记
-  N3-1/C8/ED-5I done；不需要等待本批 Kimi 签字。
+  packages/content/src/script.ts 与 packages/reforge/src/script-runner.ts 的现行 binding 语义。
+本批必须:
+  1. 继续只产出 canonical=false/runtimeConsumable=false 的累计 P4 shadow IR/ledger；
+  2. 按全 command-site 口径覆盖 388 setEntityAuto、202 setEntityTrigger、60 onEnter、
+     1 onTeleport，并迁移 inline stages、setEntityTriggerMode 与 clearSceneScripts；
+  3. 为实体 Page/trigger/auto behavior 和 scene hook variant 分配稳定、非地址/hash 推导的
+     author identity；callScript 保留返回契约，38 cross-caller join 禁止复制；
+  4. 把 P3 deferred call/binding/mixed owner 归属与 transition group 原子写入累计 ledger；
+  5. 保持 P1 的 Selection 三态、复合 EntityAddress、FlowCursor、MG2 作者冲突及 save alias
+     契约；本批仍不得发布 canonical v5、改 CONTENT_VERSION 或接 runtime/editor；
+  6. 增加 PAL golden、逆变换、计数守恒、悬空引用、确定性、重复运行 0/0/0 和 fail-loud 测试。
+用户新增方向: 共享脚本按真正跨调用方复用判断；268/270 已回归物品领域结构，不得在 P4/P6
+  又重新分配成共享脚本。脚本蓝图视图只登记 backlog，P7 后另立项，不进入 P4。
+输出要求: 完成实现、自测、任务卡 P4 证据和独立提交；随后交 GLM 合并只读审查。
+P4 审查 accept 前不得进入 P5，不得标记 N3-1/C8/ED-5I done。
 ```
 
 ## 历史 Agent 提示词（P1-P3 已完成批次，勿再执行）
