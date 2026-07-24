@@ -1,6 +1,6 @@
 # C8 - 物品用途机制、运行时与迁移闭环
 
-Status: review
+Status: blocked
 Phase: phase2
 Capability: C8（物品用途与机制）/ MG2
 Coding Owner: Codex
@@ -20,6 +20,8 @@ Branch: main
 - 2026-07-22：炼蛊皿、紫金葫芦等带特殊效果的物品不能只剩说明文字或空 `{}`。
 - 2026-07-22：剧情道具被脚本判断、给出、收走的位置必须可见且可跳转。
 - 2026-07-22：编辑器不能用 raw JSON 代替主要创作流程；作者配置出来的能力必须被引擎真实执行。
+- 2026-07-24：C8 引出了 N3-1 脚本系统重构；在 N3-1 完成、脚本作者模型收口并完成下游回归前，
+  C8 不得最终验收。现有三方 `accept` 只作为 N3-1 前实现审查的历史证据，不构成最终 done 准入。
 - 既有裁决：机制道具必须抽象为通用机制 + 参数，道具数据引用机制，禁止写死 PAL 物品 id。
 
 ## 范围
@@ -163,7 +165,10 @@ Branch: main
   G1-G6 逐项通过(见「GLM done 审查」节)。无 counter/rework。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: **Codex+Kimi+GLM 三签齐(2026-07-22);待用户验收后由收口方标 done。**
+- done 准入结论: **blocked（2026-07-24 用户裁决）**。Codex/Kimi/GLM 于 2026-07-22
+  完成的三方 `accept` 保留为 N3-1 前实现审查证据；N3-1 完成并落地后，必须重新核对稳定作者
+  脚本引用、土灵珠用途脚本、迁移诊断与运行时调用链，再由三方补记回归结论并交用户验收。
+- N3-1 后回归签字: Codex pending / Kimi pending / GLM pending。
 
 ## Draft: 设计与风险
 
@@ -418,8 +423,11 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: `ED-5I-item-workbench.md`
+- 用户结论: **blocked（2026-07-24）**。N3-1 未完成前无法验收 C8。
+- 解锁条件: N3-1 完成作者脚本模型、内部脚本退役与全量重迁；随后复验 267 稳定脚本引用及
+  祭坛/teleportOut 两路、268/270 用途、80+20 总账、MG2 零计划、保存重载和编辑器反跳。
+- 后续任务: 先完成 `N3-1-script-control-flow-modernization.md`；再与
+  `ED-5I-item-workbench.md` 一起做下游回归和用户验收。
 
 ## 交接日志
 
@@ -458,8 +466,16 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   content 309/reforge 535/migrate 283+1skip 均过),`migrate:content` dry-run 0/0/0。
   R1-R3 全部满足。Evidence: 本卡 done 签字区 Kimi 行。Next: 三签齐(Codex/GLM/Kimi),待用户验收后
   由收口方标 done。未改实现文件。
+- 2026-07-24 User: 裁决 C8 与 ED-5I 的最终验收依赖 N3-1；脚本作者模型和内部脚本未完成退役前，
+  两卡不得 done。既有三方 accept 作为前置实现审查保留，但 N3-1 落地后必须补下游回归签字。
+  Evidence: 本卡用户裁决、done 准入结论与 N3-1 下游验收依赖。Next: 先推进 N3-1，C8 转 blocked。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；C8 当前等待 N3-1 完成。N3-1 收口后再由 Codex 发起 C8 下游回归，
+随后交 Kimi / GLM 补审，签字齐后交用户验收。
+
+## 历史 Agent 提示词（N3-1 依赖裁决前，勿再执行）
 
 ### 给 Kimi
 

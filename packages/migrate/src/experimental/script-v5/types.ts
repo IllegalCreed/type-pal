@@ -296,3 +296,298 @@ export interface P2TransitionPlan {
   }
   conflicts: P2TransitionConflict[]
 }
+
+export type P3DeferredReason =
+  | 'p3-call-owner-resolution'
+  | 'p3-entity-binding-owner-resolution'
+  | 'p3-multi-owner-join'
+  | 'p3-mixed-flow-binding'
+
+export interface P3FlowExitCommand {
+  /**
+   * Shadow-only generated node. It is never an AuthorCommand and cannot be consumed by runtime.
+   */
+  kind: 'n3P3FlowExit'
+  structureId: string
+  sourcePath: string
+  scheduling: {
+    kind: 'macroTask'
+    worldClockAdvanceMs: 0
+  }
+  continuation: 'terminate-current-activation'
+}
+
+export interface P3FlowReferenceSite {
+  callerLegacyScriptId: string
+  callerHandle: LegacyBodyHandle
+  path: string
+  baseCellSha256: string
+  sourceCommand: Command
+}
+
+export interface P3FlowContextEvidence {
+  dialogue: {
+    entryHash: string
+    exitStateSha256?: string
+    registryIdentityMatched: true
+  }
+  self: {
+    targetOwner?: string
+    allIncomingMatched: true
+  }
+  rng: {
+    firstRelevantOpcode: 'none' | 'set-before-use'
+    inheritedConsumer: false
+  }
+  pendingBattleAuto: {
+    firstRelevantOpcode: 'none' | 'set-before-use'
+    inheritedConsumer: false
+  }
+  incomingShape: 'single-predecessor' | 'same-caller-conditional-arms'
+}
+
+export interface P3FlowSizeEvidence {
+  callerAstNodes: number
+  targetAstNodes: number
+  materializedAstNodes: number
+  targetBytes: number
+  ownerChunk: string
+  targetChunk: string
+}
+
+export interface P3FlowStructure {
+  kind: 'tail-inline' | 'branch-switch-join'
+  id: string
+  target: {
+    handle: LegacyBodyHandle
+    legacyScriptId: string
+    activeRefId: string
+    baseCellSha256: string
+    /**
+     * P3 shadow command tree after downstream acyclic exits are rewritten.
+     */
+    body: unknown[]
+  }
+  ownerLegacyScriptId: string
+  incoming: P3FlowReferenceSite[]
+  context: P3FlowContextEvidence
+  size: P3FlowSizeEvidence
+  evidenceId: string
+}
+
+export interface P3FlowCensus {
+  input: 1715
+  tailInline: 579
+  branchSwitchJoin: 20
+  deferredCallOwner: 622
+  deferredEntityBindingOwner: 455
+  deferredMultiOwnerJoin: 38
+  deferredMixedFlowBinding: 1
+  unknown: 0
+}
+
+export interface P3SizeGateReport {
+  limits: {
+    materializedAstNodes: 512
+    targetBytes: 65536
+    projectedChunkBytes: 1048576
+  }
+  observed: {
+    materializedAstNodes: number
+    targetBytes: number
+    projectedChunkBytes: number
+  }
+  projectedChunks: Array<{
+    chunk: string
+    bytes: number
+  }>
+  violations: string[]
+}
+
+export type P3FutureWork =
+  | {
+      phase: Exclude<ScriptMigrationPhase, 'P2' | 'P3'>
+      reason: P2PendingTransition['reason']
+    }
+  | {
+      phase: 'P4' | 'P6'
+      reason: P3DeferredReason
+    }
+
+export interface P3RetainedBody extends Omit<P2RetainedBody, 'body' | 'status'> {
+  body: unknown[]
+  status:
+    | {
+        kind: 'future'
+        work: P3FutureWork
+      }
+    | {
+        kind: 'pending-owner'
+        ownerKind: P2PendingOwnerKind
+        work: P3FutureWork
+      }
+    | {
+        kind: 'resolved-entity-behavior'
+        target: EntityBehaviorIdentity
+        label: string
+      }
+}
+
+export interface P3LegacyScriptCellIdentity {
+  kind: 'legacy-script-cell'
+  scriptId: string
+  pointer: string
+}
+
+export type P3TransitionEntry =
+  | P2TransitionEntry
+  | {
+      from: LegacyScriptIdentity | P3LegacyScriptCellIdentity
+      baseCellSha256: string
+      outcome: {
+        kind: 'group'
+        groupId: string
+      }
+    }
+
+export interface P3FlowTransitionGroup {
+  kind: 'flow-absorption-group'
+  id: string
+  transformId: 'inline-acyclic-tail-v1' | 'restore-branch-switch-join-v1'
+  editPolicy: 'conflict-if-modified'
+  sources: Array<{
+    identity: LegacyScriptIdentity | P3LegacyScriptCellIdentity
+    baseCellSha256: string
+  }>
+  outcome: {
+    kind: 'absorbed-into-structured-flow'
+    structure: 'tail-inline' | 'branch-switch-join'
+  }
+  evidenceId: string
+  dependsOn: string[]
+}
+
+export interface P3FlowTransitionEvidence {
+  id: string
+  kind: 'acyclic-tail-inline' | 'branch-switch-join'
+  sourceAuditDigest: string
+  legacyScriptIds: string[]
+  sourceCells: string[]
+  contextCompatible: true
+  sizeGatesPassed: true
+}
+
+export interface P3PendingTransition {
+  legacyScriptId: string
+  handle: LegacyBodyHandle
+  phase: 'P4' | 'P5' | 'P6'
+  reason: P2PendingTransition['reason'] | P3DeferredReason
+}
+
+export interface ScriptTransitionLedgerDraftP3 {
+  kind: 'script-transition-ledger-draft'
+  version: 1
+  projectId: 'pal'
+  transitionId: 'script-v4-v5'
+  generatorEpoch: 'n3-script-v5-p3-v1'
+  throughPhase: 'P3'
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  completed: Array<
+    | 'folded-body-pruning'
+    | 'misleading-scc-retirement'
+    | 's018-owner-resolution'
+    | 'acyclic-flow-structure'
+  >
+  entries: P3TransitionEntry[]
+  groups: Array<P2TransitionGroup | P3FlowTransitionGroup>
+  evidence: Array<P2TransitionEvidence | P3FlowTransitionEvidence>
+  pending: P3PendingTransition[]
+  digest: string
+}
+
+export interface ScriptMigrationIRP3 {
+  kind: 'script-migration-ir'
+  version: 1
+  throughPhase: 'P3'
+  generatorEpoch: 'n3-script-v5-p3-v1'
+  canonical: false
+  runtimeConsumable: false
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  source: P2SourceSummary
+  commandCensus: P2LegacyCommandCensus
+  commandSites: P2LegacyCommandSite[]
+  commandTransition: P2CommandTransitionSummary
+  retainedBodies: P3RetainedBody[]
+  tombstones: P2Tombstone[]
+  ownerResolutions: [P2OwnerResolution]
+  flowStructures: P3FlowStructure[]
+  flowCensus: P3FlowCensus
+  sizeGates: P3SizeGateReport
+  pendingByPhase: Record<'P3' | 'P4' | 'P5' | 'P6', number>
+  digest: string
+}
+
+export interface P3ValidationReport {
+  kind: 'script-migration-phase-validation'
+  version: 1
+  throughPhase: 'P3'
+  sourceAuditDigest: string
+  checks: {
+    sourceAuditFrozen: true
+    previousPhaseFrozen: true
+    candidateBodies: number
+    structuredBodies: number
+    rewrittenJumpSites: number
+    retainedBodies: number
+    reversibleBodies: number
+    danglingFlowStructures: number
+    activeAbsorbedJumpRefs: number
+    callSitesChanged: number
+    contextViolations: number
+    sizeViolations: number
+    pendingP3: number
+    pendingUnknown: number
+  }
+  digest: string
+}
+
+export type P3TransitionConflict =
+  | P2TransitionConflict
+  | {
+      kind: 'flow-target-modify' | 'flow-reference-modify' | 'flow-reference-inventory-modify'
+      source: string
+      expected?: string
+      actual?: string
+    }
+
+export interface P3TransitionPlan {
+  kind: 'script-transition-phase-plan'
+  version: 1
+  throughPhase: 'P3'
+  dryOnly: true
+  summary: {
+    cellWrites: number
+    cellDeletes: number
+    conflicts: number
+    tombstones: number
+    transitionGroups: number
+    installerRewrites: number
+    flowAbsorptions: number
+    flowReferenceRewrites: number
+  }
+  conflicts: P3TransitionConflict[]
+}

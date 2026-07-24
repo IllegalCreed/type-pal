@@ -10,14 +10,14 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| C8 | 物品用途机制、运行时与迁移闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；100 usable = 80 runnable + 20 显式诊断，待三方 done 签字 |
-| ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；三栏工作台、CRUD、图标、用途与引用闭环待审 |
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P3 无环控制流结构化 | P2 三方 accept 齐；继续 shadow-only，P3 批次审查通过前不进 P4 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Kimi + GLM：P3 独立只读审查 | P3 Codex 自验 accept：1,715 全分类、599 bodies/655 sites 结构化；两席 accept 前不进 P4 |
 
 ## 阻塞
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| C8 | 物品用途机制、运行时与迁移闭环 | blocked | N3-1 完成后 Codex + Kimi + GLM 回归复验 | 三方前置审查已 accept；用户裁决脚本系统未收口前不得最终验收 |
+| ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | blocked | N3-1 完成后 Codex + Kimi + GLM 回归复验 | 三方前置审查已 accept；脚本反跳/引用闭包须按 N3-1 终态重验 |
 
 ## 看板规则
 

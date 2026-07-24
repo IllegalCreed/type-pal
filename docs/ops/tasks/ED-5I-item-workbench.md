@@ -1,6 +1,6 @@
 # ED-5I - 物品工作台 CRUD、图标、用途与引用闭环
 
-Status: review
+Status: blocked
 Phase: phase2
 Capability: ED-5 / C3 / C8（依赖）/ A4
 Coding Owner: Codex
@@ -21,12 +21,16 @@ Branch: main
 - 2026-07-22：必须有明确的新增物品、修改/导入图标和删除闭环。
 - 2026-07-22：剧情物品必须显示所有引用来源并能跳到具体位置。
 - 2026-07-22：土灵珠“可装备 + 可使用”、返回地图入口；炼蛊皿、紫金葫芦等特殊用途必须被明确展示和结构化编辑。
+- 2026-07-24：ED-5I 的脚本反跳、剧情物品引用闭包和特殊用途编辑依赖 N3-1 的最终作者脚本模型；
+  N3-1 未完成前不得验收 ED-5I。现有三方 `accept` 只作为重构前实现审查的历史证据。
 - 既有裁决：说明只写风味，数值/机制以结构化数据为唯一真相源。
 
 ## 依赖
 
 - `C8-item-use-mechanisms.md` 必须先确定 schema、上下文合法性和运行时消费矩阵。
 - ED-5I 可以先搭 CRUD、布局、图标、引用与现有 effect 编辑器，但在 C8 build 完成前不得声称特殊用途闭环，也不得为未定 schema 造临时 UI 字段。
+- 最终验收依赖 `N3-1-script-control-flow-modernization.md`：作者可见内部脚本、`shared/scc-*`、
+  `jumpScript` 和匿名 binding 退役后，必须按终态重新验证脚本选择、反跳、引用分组和删除守卫。
 
 ## 范围
 
@@ -165,7 +169,11 @@ Branch: main
   G1-G5 逐项通过(见「GLM done 审查」节)。无 counter/rework。
 - counter / 返工处理: N/A
 - 缺签豁免: N/A
-- done 准入结论: **Codex+Kimi+GLM 三签齐(2026-07-22);待用户验收后由收口方标 done。**
+- done 准入结论: **blocked（2026-07-24 用户裁决）**。Codex/Kimi/GLM 于 2026-07-22
+  完成的三方 `accept` 保留为 N3-1 前实现审查证据；N3-1 完成并落地后，必须按 canonical 作者
+  脚本模型重新验证物品用途选择、具体脚本反跳、剧情引用闭包、删除 fail-closed 与保存重开，
+  再由三方补记回归结论并交用户验收。
+- N3-1 后回归签字: Codex pending / Kimi pending / GLM pending。
 
 ## Draft: 设计与风险
 
@@ -405,8 +413,11 @@ choreography/sceneScriptOverrides/非法投掷保存门/键盘 ARIA 进一步加
 
 ## 用户验收
 
-- 用户结论: pending
-- 后续任务: ED-5S 商店工作台（不阻塞本卡物品引用闭环）
+- 用户结论: **blocked（2026-07-24）**。N3-1 未完成前无法验收 ED-5I。
+- 解锁条件: N3-1 完成作者脚本模型、内部脚本退役与全量重迁；随后复验 267/268/270 结构化用途、
+  canonical 脚本选择与反跳、剧情物品引用分组、删除守卫、FSA 保存重开及三档视觉。
+- 后续任务: 先完成 `N3-1-script-control-flow-modernization.md`；ED-5S 商店工作台仍不阻塞本卡，
+  但 ED-5I 本身须在 N3-1 后回归验收。
 
 ## 交接日志
 
@@ -446,8 +457,17 @@ choreography/sceneScriptOverrides/非法投掷保存门/键盘 ARIA 进一步加
   editor 677/content 309),PAL 三档无横向溢出、console 0/0。R1-R3 全部满足。
   Evidence: 本卡 done 签字区 Kimi 行。Next: 三签齐(Codex/GLM/Kimi),待用户验收后由收口方标 done。
   未改实现文件。
+- 2026-07-24 User: 裁决 C8 与 ED-5I 的最终验收依赖 N3-1；作者脚本模型和内部脚本未完成退役前，
+  两卡不得 done。既有三方 accept 作为前置实现审查保留，但 N3-1 落地后必须补脚本选择/反跳/
+  引用闭包/删除守卫与保存重开的下游回归签字。Evidence: 本卡用户裁决、done 准入结论与 N3-1
+  下游验收依赖。Next: 先推进 N3-1，ED-5I 转 blocked。
 
 ## 下一位 Agent 提示词
+
+无下一位 Agent 提示词；ED-5I 当前等待 N3-1 完成。N3-1 收口后再由 Codex 发起 ED-5I 下游回归，
+随后交 Kimi / GLM 补审，签字齐后交用户验收。
+
+## 历史 Agent 提示词（N3-1 依赖裁决前，勿再执行）
 
 ### 给 Kimi
 

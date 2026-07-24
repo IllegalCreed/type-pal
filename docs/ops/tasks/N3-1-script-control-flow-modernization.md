@@ -21,6 +21,14 @@ Branch: TBD
 `scene/s154/L-...` 内部脚本”；也不需要先找到一个没有创建、命名、删除闭环的“迁移内部实现”
 才能理解 NPC 后续会做什么。
 
+## 下游验收依赖（用户裁决）
+
+- 2026-07-24：C8 与 ED-5I 虽已完成 N3-1 前的实现和三方审查，但其稳定脚本引用、物品用途脚本、
+  脚本选择/反跳和剧情物品引用闭包仍依赖本卡终态。N3-1 未完成前，两卡不得最终验收或标 done。
+- N3-1 完成后必须把 C8/ED-5I 作为下游回归门禁：复验 267/268/270 用途、canonical 脚本选择与
+  反跳、剧情物品引用分组、删除 fail-closed、保存重开、MG2 零计划和代表运行时流程；Codex /
+  Kimi / GLM 补记回归结论后再交用户验收。
+
 ## 范围
 
 - 范围内:
@@ -315,6 +323,8 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 - editor：行为 CRUD 的 apply/invert、名称选择、引用跳转、受引用删除、保存重开、项目导入导出。
 - PAL 金丝雀至少覆盖 e2493/e2495、一个 onTeleport 动态 hook、一个 auto 自环、一个多状态 NPC、
   一个 item author root 和一个真正共享业务脚本。
+- 下游回归：C8/ED-5I 的 267/268/270 用途、canonical 脚本选择/反跳、剧情物品引用闭包、
+  删除守卫、保存重开与 MG2 零计划全部通过；结果写回两张任务卡的 N3-1 后回归签字。
 - `pnpm check`、`pnpm lint`、editor build、migrate 全量门禁全部通过。
 
 ### 文档
@@ -695,13 +705,87 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   - 仍未进入 P3，不生成 canonical v5，不发布 runtime/editor/save 接线，不更新 capability map。
   - P2 代码与证据现进入 Kimi / GLM 独立只读审查；三方 P2 `accept` 前不得进入 P3。
 
+### P3 无环控制流影子实现与自测（2026-07-24）
+
+- P3 边界:
+  - 继续只产出 `canonical=false`、`runtimeConsumable=false` 的累计 shadow IR / ledger；
+    `n3P3FlowExit` 是带来源证据的 generated lowering 节点，不是 `AuthorCommand`、作者身份、
+    save key 或 runtime 输入。
+  - 未改 `CONTENT_VERSION`、v4 schema/validator/runtime/editor loader、`projects/pal/**`、
+    P0 权威 baseline 或 P2 固定根；CLI 默认最新 `--through p3`，同时保留
+    `--through p2` 的历史批次复跑入口。
+- 1,715 个 P3 candidate 全量分类，无 unknown:
+
+  | 分类 | body | 入站处理 | P3 结论 |
+  |---|---:|---:|---|
+  | 唯一 jump tail | 579 | 579 sites | 原位吸收到唯一 caller，保留 non-returning + `macroTask`、世界钟 +0 |
+  | 同 caller 条件臂 diamond/join | 20 | 76 sites | 恢复为共享 branch/switch continuation，不复制 shared tail |
+  | call boundary | 622 | 原样保留 | call 正常/stop 返回契约不变，转 P4 owner allocation |
+  | entity auto/trigger binding | 455 | 原样保留 | deferred binding 不冒充执行前驱，转 P4 |
+  | 跨 caller shared join | 38 | 原样保留 | 单 owner 结构化证据不足，显式转 P4，禁止复制 |
+  | jump + auto binding 混合入口 | 1 | 原样保留 | 绑定与执行必须同组归属，显式转 P4 |
+
+  守恒为 `1,715 = 579 + 20 + 622 + 455 + 38 + 1`。P3 共吸收 599 bodies、把 655 个
+  active `jumpScript` site 改写为 generated flow exit；P2 的 8,102 retained 表示为
+  `7,503 retained + 599 structured`，反向恢复 8,102/8,102，dangling=0，
+  absorbed target active jump ref=0，`callScript` site change=0。
+- 相容性与体积门禁:
+  - 每个结构化目标都重新核对 registry `d-<hash>` 入口身份、target self 与全部 incoming
+    command self；599/599 通过。
+  - 按 P0 source addresses 检查 `lastRngChunk` 的 0x36/0x37 与 `pendingAuto` 的
+    0x8A/0x07：所有 599 个目标均无“先消费继承态再定义”的入口，RNG / pending battle-auto
+    violation 均为 0；同 caller diamond 的全部入口都位于 `then/else/onNo/onLose/onFlee/onFail`
+    条件臂。
+  - 门限固定为 materialized AST 512、单 target 65,536 bytes、projected chunk 1,048,576
+    bytes；PAL 观测最大分别为 **318 / 2,354 / 313,528**，violations=0。跨 caller join 不靠
+    复制绕过门禁。
+- 累计 ledger / MG2 作者保护:
+  - P3 ledger 有 4,601 entries：P2 的 3,347 entries 原样保留，再加 599 target body cell +
+    655 incoming jump cell；共有 600 groups（P2 s018 组 + 599 flow absorption groups）和
+    3,945 evidence（P2 3,346 + P3 599）。
+  - 每个 flow group 使用 `conflict-if-modified`，同时锁定 target body 与全部 incoming cell；
+    依赖另一结构化 tail 的组显式登记 `dependsOn`。作者修改 target、修改入站 jump、删除或
+    新增入站引用均整批零写冲突；纯 `ScriptRef.chunk` 变化仍不算作者身份/正文变化。
+  - 首次 v4 -> 累计 P3 dry plan 为 **657 writes / 3,945 deletes / 0 conflicts**
+    （含 P2 2/3,346，再加 655/599）；P3 -> 同一 P3 repeat plan 为 **0/0/0**。
+  - pending 由 P2 的 `P3:1,715 / P4:5,939 / P5:433 / P6:14` 收口为
+    **`P3:0 / P4:7,055 / P5:433 / P6:14`**；P4 增量 1,116 全部有枚举 reason，不把
+    call、binding 或多 owner join 静默当作已完成。
+- P3 验证证据:
+  - `pnpm --filter @type-pal/migrate typecheck` → pass。
+  - migrate 全量测试 → **46 files passed，343 passed / 1 skipped**；新增 P3 单元与 PAL
+    golden 覆盖分类、RNG/pendingAuto 反例、8,102 全量可逆、599/655 守恒、作者 body/ref
+    修改、新增入站引用、rechunk 非冲突、ledger 关系篡改、deterministic bundle 与完整
+    manifest 闭包。
+  - 仓库根 `pnpm check` → 7 个 workspace package 的 typecheck/test 全通过，随后
+    `biome check .` 检查 870 files 通过；其中 editor 81 files / 691 passed，
+    migrate 46 files / 343 passed + 1 skipped，其余包门禁亦无失败。
+  - `pnpm --filter @type-pal/migrate audit:script-control-flow -- --check` → P0 baseline
+    digest `97d3a22a…61bdbc` 一致，issues=0。
+  - `pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check` →
+    **854 artifacts，first=854/0/0，second=0/0/0**，bundle digest
+    `eee18a789d88c68bbd350dd5b813b5e45414991edf1003592218e64bc3b0d7d3`。
+    IR / ledger / validation digest 分别为
+    `3af213880ccd41ba49b22c3c80c395a1232f4d8924933a617e3f6548159c14ef` /
+    `7444c3ac2e89297acd4650ccf3278b633584418fb9e8d0d3fd02095f3651a574` /
+    `f18f91d6403493e2532720ad2c82daff1fa623ec03a02dac0edbc092497051a1`。
+  - 固定根 `packages/migrate/.shadow/N3-1/v5/p3/` 写入后再次运行 →
+    **first=0/0/0，second=0/0/0**。
+  - `git diff --check` → pass；P3 范围审计确认未触碰 canonical/runtime/editor/project/
+    baseline。
+- P3 未做事项:
+  - 622 call owner、455 entity binding、38 跨 caller join 与 1 个混合入口只完成显式重分类，
+    归属/具名行为吸收属于 P4；433 cyclic bodies 属于 P5，14 author roots 属于 P6。
+  - P3 Codex 自验完成，现进入 Kimi / GLM 独立只读批次审查；两席均 `accept` 前不得进入 P4，
+    更不得把 N3-1、C8 或 ED-5I 标记 done。
+
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex + User
-- 验证方式: P0/P2 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
+- 验证方式: P0/P2/P3 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
 - 截图 / 像素检查路径: N/A
 - 结论: 无适用视觉检查；以 PAL 真源、字节确定性、作者保护与零计划门禁替代。
-- 未完成项: P3+ 若开始改 editor/runtime，必须重新登记视觉验证。
+- 未完成项: P4+ 若开始改 editor/runtime，必须重新登记视觉验证。
 
 ## Review: 审查与返工
 
@@ -731,6 +815,18 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   P1-1 影子纪律与 P1-8 矩阵，P3 完成后同样需三方批次审查。
 - 本表只控制 P2 内部分批推进，不替代整个 N3-1 进入 `done` 前的三方最终验收门禁；任务状态仍为
   `build`。
+
+### P3 阶段审查推进签字
+
+| Agent | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-24 | Coding Owner 自验；1,715 全分类、599 bodies / 655 sites 结构化、8,102/8,102 可逆、RNG/pendingAuto/self/dialogue/size 全门禁、累计 transition/repeat plan 与 migrate 46 files / 343 passed + 1 skipped 均通过。 |
+| Kimi | pending | - | 待独立只读审查结构化语义、call/jump 边界、generated/canonical 隔离、ledger 原子关系和 P4 重分类。 |
+| GLM | pending | - | 待独立复核 1,715 守恒、599/655、P3→0/P4→7,055、context/size gates、PAL golden 与作者冲突矩阵。 |
+
+- counter / 返工: 当前无；任一方 `counter` 时 P3 留在 build，禁止进入 P4。
+- P3 -> P4 准入: **blocked（等待 Kimi + GLM 两席 accept）**。
+- 本表是 N3-1 内部批次门禁；即使 P3 三签齐，也不等于整个 N3-1、C8 或 ED-5I 已完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
 
@@ -2036,7 +2132,8 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 ## 用户验收
 
 - 用户结论: pending
-- 后续任务: pending
+- 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
+  `ED-5I-item-workbench.md`。
 
 ## 交接日志
 
@@ -2191,10 +2288,75 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   门禁与验证完成后立即做独立 git 提交，避免跨功能长期堆积未提交改动。Evidence: 本卡
   「P2 阶段审查推进签字」与 P2 全套自测。Next: 先提交 P0-P2 已验收实现，再由 Codex 按
   下方提示词开始 P3；P3 审查三签齐前不得进入 P4。
+- 2026-07-24 Codex: 完成 P3 shadow-only 无环控制流结构化并签阶段 `accept`。1,715 candidates
+  精确分类为 579 unique tail + 20 same-caller diamond + 622 call + 455 binding +
+  38 cross-caller join + 1 mixed；吸收 599 bodies、改写 655 jump cells，8,102/8,102 可逆，
+  call change/dangling/context/size violation/P3 pending 均为 0。累计 ledger 4,601 entries /
+  600 groups，v4→P3 plan 657/3,945/0、repeat 0/0/0；migrate 46 files / 343 passed +
+  1 skipped，CLI `--through p3 --check` 854 artifacts / second 0/0/0。Evidence: 本卡
+  「P3 无环控制流影子实现与自测」、P3 PAL golden 与
+  `packages/migrate/.shadow/N3-1/v5/p3/`。Next: Kimi / GLM 独立只读审查并在 P3 阶段表签
+  `accept` 或 `counter`；两席 accept 前不得进入 P4。未改 canonical/runtime/editor/project/
+  baseline。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（P3 准入实现：无环控制流结构化）
+### 给 Kimi（P3 架构与控制流语义复审）
+
+```text
+复审任务: N3-1 P3 无环控制流结构化——架构/语义主审
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态: build；P3 Codex 自验 accept，Kimi/GLM pending，P3→P4 blocked。
+你的职责: 独立只读复审，不得修改实现文件，不得开始 P4。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P1-1、P1-5、P1-7、P1-8、
+  「P3 无环控制流影子实现与自测」和 P3 签字表；
+  packages/migrate/src/experimental/script-v5/{types,p3-control-flow,p3-validate,
+  p3-transition-plan,shadow-harness,source-v4}.ts 及 P3 tests；
+  packages/reforge/src/script-runner.ts 的 call/jump/pace 现行语义。
+重点复审:
+  1. 579 unique tail 与 20 same-caller conditional join 是否真实保留 non-returning、
+     macroTask、self、对话与 auto pace，不把 622 call 机械改成 jump/inline；
+  2. n3P3FlowExit 是否严格停留 generated shadow，未泄漏为 AuthorCommand/canonical/save/runtime id；
+  3. 38 cross-caller join、455 binding、622 call、1 mixed 转 P4 的边界是否诚实且无漏域；
+  4. 599 个原子 group 的 target+incoming cell、dependsOn、作者修改/新增引用零写和 rechunk
+     非身份规则是否封闭；
+  5. P3 完成后是否仍应阻止进入 P4，或给出具体 counter 反例。
+建议复跑: pnpm --filter @type-pal/migrate typecheck；
+  pnpm --filter @type-pal/migrate test；
+  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check。
+输出要求: 在本卡「P3 阶段审查推进签字」与交接日志签 accept，或写 counter 的具体文件、
+  数据反例、风险和返工项。签字前不得进入 P4，不得标记 N3-1/C8/ED-5I done。
+```
+
+### 给 GLM（P3 数据守恒与测试矩阵复审）
+
+```text
+复审任务: N3-1 P3 无环控制流结构化——数据/覆盖主审
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态: build；P3 Codex 自验 accept，Kimi/GLM pending，P3→P4 blocked。
+你的职责: 独立只读复核 PAL census、ledger、context/size gates 和测试矩阵；不得改实现文件。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P0 baseline 事实、P1-7/P1-8、
+  「P3 无环控制流影子实现与自测」和 P3 签字表；
+  packages/migrate/src/experimental/script-v5/ 的 P3 transform/validator/planner/harness/tests；
+  packages/migrate/baselines/script-control-flow/pal-v1.json。
+重点复核:
+  1. 1,715 = 579+20+622+455+38+1、599 bodies、655 sites、8,102=7,503+599、
+     pending P3:0/P4:7,055/P5:433/P6:14 是否从真源独立重算成立；
+  2. dialogue/self/RNG 0x36/0x37/pendingAuto 0x8A/0x07 与 conditional-arm coverage 是否全量；
+  3. AST/target/chunk 门限 512/65,536/1,048,576 与观测 318/2,354/313,528 是否可复现；
+  4. ledger 4,601 entries/600 groups/3,945 evidence、657/3,945/0 与 repeat 0/0/0、
+     target/ref 修改、新增引用、rechunk、篡改反例是否 fail-loud；
+  5. 622 call、455 binding、38 shared join、1 mixed 的 P4 reason 是否无 unknown/重叠/遗漏。
+建议复跑: pnpm --filter @type-pal/migrate test；
+  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p3 --check；
+  pnpm --filter @type-pal/migrate audit:script-control-flow -- --check。
+输出要求: 在本卡「P3 阶段审查推进签字」与交接日志签 accept，或写 counter 的精确计数、
+  body/site 清单与返工要求。两席 accept 前不得进入 P4，不得标记 N3-1/C8/ED-5I done。
+```
+
+## 历史 Agent 提示词（P1-P3 已完成批次，勿再执行）
+
+### 给 Codex（P3 准入实现：无环控制流结构化；已完成）
 
 ```text
 接手任务: N3-1 P3 无环控制流结构化（shadow 形态）
@@ -2214,7 +2376,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   不得进入 P4；遇设计钉子不成立时留 build 或转 blocked 并写清原因。
 ```
 
-## 历史 Agent 提示词（P1/P2 已完成，勿再执行）
+### P1/P2 既有历史提示词
 
 ### 给 Kimi（P1 架构/schema/runtime/compiler 设计复审）
 

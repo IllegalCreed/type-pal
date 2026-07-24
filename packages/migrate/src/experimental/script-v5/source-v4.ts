@@ -289,10 +289,11 @@ export function inboundReferenceInventory(
   migration: V4MigrationSnapshotLike,
   corpus: V4ScriptCorpus,
   targets: ReadonlySet<string>,
+  options: { includeTargetBodies?: boolean } = {},
 ): V4InboundReferenceSite[] {
   const sites: V4InboundReferenceSite[] = []
   for (const body of corpus.bodies) {
-    if (targets.has(body.id)) continue
+    if (!options.includeTargetBodies && targets.has(body.id)) continue
     collectInboundReferenceSites(body.body, `legacy-script:${body.id}`, '', targets, sites)
   }
   for (const [path, value] of [...migration.files]
