@@ -591,3 +591,375 @@ export interface P3TransitionPlan {
   }
   conflicts: P3TransitionConflict[]
 }
+
+export interface EntityPageIdentity {
+  kind: 'entity-page'
+  sceneId: string
+  entityId: string
+  pageId: string
+}
+
+export interface SceneHookIdentity {
+  kind: 'scene-hook'
+  sceneId: string
+  slot: 'onEnter' | 'onTeleport'
+  hookId: string
+}
+
+export type P4AuthorOwnerIdentity = EntityBehaviorIdentity | SceneHookIdentity
+
+export interface P4SourceCell {
+  identity: SourceCellIdentity | P3LegacyScriptCellIdentity
+  baseCellSha256: string
+}
+
+export interface P4EntityPageAllocation {
+  kind: 'entity-page-allocation'
+  identity: EntityPageIdentity
+  label: string
+  legacyPageIndex: number
+  initial: true
+  triggerBehaviorId?: string
+  autoBehaviorId?: string
+  triggerActivation?: {
+    on: 'interact' | 'touch'
+    range?: number
+  }
+  source: P4SourceCell
+  groupId: string
+}
+
+export interface P4StageAllocation {
+  stageId: string
+  legacyStageIndex: number
+  entryLegacyScriptId: string
+  entryHandle: LegacyBodyHandle
+}
+
+export interface P4EntityBehaviorAllocation {
+  kind: 'entity-behavior-allocation'
+  identity: EntityBehaviorIdentity
+  label: string
+  order: number
+  origin: 'static-page' | 'dynamic-binding' | 'p2-special'
+  pageId?: string
+  stages: P4StageAllocation[]
+  sourceCells: P4SourceCell[]
+  groupId: string
+}
+
+export interface P4SceneHookAllocation {
+  kind: 'scene-hook-allocation'
+  identity: SceneHookIdentity
+  label: string
+  order: number
+  origin: 'static-scene' | 'dynamic-binding'
+  stages: P4StageAllocation[]
+  sourceCells: P4SourceCell[]
+  groupId: string
+}
+
+export type P4AuthorOwnerAllocation = P4EntityBehaviorAllocation | P4SceneHookAllocation
+
+export interface P4OwnerFragment {
+  handle: LegacyBodyHandle
+  legacyScriptId: string
+  activeRefId: string
+  baseCellSha256: string
+  body: unknown[]
+  owner: P4AuthorOwnerIdentity
+  evidenceId: string
+}
+
+export interface P4PendingOwnerLink {
+  legacyScriptId: string
+  handle: LegacyBodyHandle
+  phase: 'P5' | 'P6'
+  owners: P4AuthorOwnerIdentity[]
+}
+
+export type P4SelectionCommand =
+  | {
+      kind: 'selectEntityBehavior'
+      scene: string
+      entity: string
+      channel: 'trigger' | 'auto'
+      selection: { kind: 'disabled' } | { kind: 'use'; value: string }
+    }
+  | {
+      kind: 'setEntityTriggerActivation'
+      scene: string
+      entity: string
+      selection:
+        | { kind: 'disabled' }
+        | { kind: 'use'; value: { on: 'interact' | 'touch'; range?: number } }
+    }
+  | {
+      kind: 'selectSceneHooks'
+      scene: string
+      selection: Partial<
+        Record<'onEnter' | 'onTeleport', { kind: 'disabled' } | { kind: 'use'; value: string }>
+      >
+    }
+
+export interface P4CommandRewrite {
+  source: P4SourceCell
+  legacyKind: P2LegacyCommandKind
+  transitionedIn: 'P2' | 'P4'
+  before: unknown
+  after: P4SelectionCommand
+  groupId: string
+}
+
+export interface P4CommandTransitionSummary {
+  input: 844
+  legacyPending: 0
+  transitionedP2: 1
+  transitionedP4: 843
+  byKind: Record<
+    P2LegacyCommandKind,
+    {
+      input: number
+      legacyPending: 0
+      transitionedP2: number
+      transitionedP4: number
+    }
+  >
+}
+
+export interface P4OwnerCensus {
+  pages: 3616
+  entityBehaviors: {
+    staticTrigger: 2834
+    staticAuto: 987
+    dynamicTrigger: 172
+    dynamicAuto: 307
+    total: 4300
+  }
+  sceneHooks: {
+    staticOnEnter: 160
+    staticOnTeleport: 67
+    dynamicOnEnter: 56
+    dynamicOnTeleport: 1
+    total: 284
+  }
+  stages: {
+    staticEntity: 5664
+    dynamicEntity: 479
+    staticSceneHook: 271
+    dynamicSceneHook: 88
+    total: 6502
+  }
+  commandRewrites: 844
+  resolvedFragments: 7039
+  deferredCrossOwner: 17
+  unknown: 0
+}
+
+export type P4FutureWork =
+  | {
+      phase: 'P5'
+      reason: P2PendingTransition['reason']
+    }
+  | {
+      phase: 'P6'
+      reason: P2PendingTransition['reason'] | P3DeferredReason | 'p4-cross-owner-reuse'
+    }
+
+export interface P4RetainedBody extends Omit<P3RetainedBody, 'status'> {
+  status:
+    | {
+        kind: 'future'
+        work: P4FutureWork
+      }
+    | {
+        kind: 'pending-owner'
+        ownerKind: P2PendingOwnerKind
+        work: P4FutureWork
+      }
+}
+
+export type P4TransitionEntry =
+  | P3TransitionEntry
+  | {
+      from: LegacyScriptIdentity | SourceCellIdentity | P3LegacyScriptCellIdentity
+      baseCellSha256: string
+      outcome: {
+        kind: 'group'
+        groupId: string
+      }
+    }
+
+export interface P4OwnerTransitionGroup {
+  kind:
+    | 'page-owner-allocation-group'
+    | 'entity-behavior-allocation-group'
+    | 'scene-hook-allocation-group'
+    | 'selection-command-rewrite-group'
+  id: string
+  transformId:
+    | 'allocate-entity-page-v1'
+    | 'allocate-entity-behavior-v1'
+    | 'allocate-scene-hook-v1'
+    | 'rewrite-selection-command-v1'
+  editPolicy: 'conflict-if-modified'
+  sources: Array<{
+    identity: LegacyScriptIdentity | SourceCellIdentity | P3LegacyScriptCellIdentity
+    baseCellSha256: string
+  }>
+  targets: Array<
+    | EntityPageIdentity
+    | EntityBehaviorIdentity
+    | SceneHookIdentity
+    | SourceCellIdentity
+    | P3LegacyScriptCellIdentity
+  >
+  outcome: {
+    kind: 'allocated-to-named-owner' | 'rewritten-to-stable-selection'
+    ownerCount: number
+    fragmentCount: number
+    commandRewriteCount: number
+  }
+  evidenceId: string
+  dependsOn: string[]
+}
+
+export interface P4OwnerTransitionEvidence {
+  id: string
+  kind: 'named-owner-allocation' | 'stable-selection-rewrite'
+  sourceAuditDigest: string
+  legacyScriptIds: string[]
+  sourceCells: string[]
+  stableIdsExplicit: true
+  crossOwnerCopies: 0
+}
+
+export interface P4PendingTransition {
+  legacyScriptId: string
+  handle: LegacyBodyHandle
+  phase: 'P5' | 'P6'
+  reason: P2PendingTransition['reason'] | P3DeferredReason | 'p4-cross-owner-reuse'
+}
+
+export interface ScriptTransitionLedgerDraftP4 {
+  kind: 'script-transition-ledger-draft'
+  version: 1
+  projectId: 'pal'
+  transitionId: 'script-v4-v5'
+  generatorEpoch: 'n3-script-v5-p4-v1'
+  throughPhase: 'P4'
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  completed: Array<
+    | 'folded-body-pruning'
+    | 'misleading-scc-retirement'
+    | 's018-owner-resolution'
+    | 'acyclic-flow-structure'
+    | 'named-owner-allocation'
+    | 'legacy-selection-rewrite'
+  >
+  entries: P4TransitionEntry[]
+  groups: Array<P2TransitionGroup | P3FlowTransitionGroup | P4OwnerTransitionGroup>
+  evidence: Array<P2TransitionEvidence | P3FlowTransitionEvidence | P4OwnerTransitionEvidence>
+  pending: P4PendingTransition[]
+  digest: string
+}
+
+export interface ScriptMigrationIRP4 {
+  kind: 'script-migration-ir'
+  version: 1
+  throughPhase: 'P4'
+  generatorEpoch: 'n3-script-v5-p4-v1'
+  canonical: false
+  runtimeConsumable: false
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  source: P2SourceSummary
+  commandCensus: P2LegacyCommandCensus
+  commandSites: P2LegacyCommandSite[]
+  commandTransition: P4CommandTransitionSummary
+  commandRewrites: P4CommandRewrite[]
+  retainedBodies: P4RetainedBody[]
+  tombstones: P2Tombstone[]
+  ownerResolutions: [P2OwnerResolution]
+  flowStructures: P3FlowStructure[]
+  flowCensus: P3FlowCensus
+  sizeGates: P3SizeGateReport
+  pages: P4EntityPageAllocation[]
+  owners: P4AuthorOwnerAllocation[]
+  ownerFragments: P4OwnerFragment[]
+  pendingOwnerLinks: P4PendingOwnerLink[]
+  ownerCensus: P4OwnerCensus
+  pendingByPhase: Record<'P4' | 'P5' | 'P6', number>
+  digest: string
+}
+
+export interface P4ValidationReport {
+  kind: 'script-migration-phase-validation'
+  version: 1
+  throughPhase: 'P4'
+  sourceAuditDigest: string
+  checks: {
+    sourceAuditFrozen: true
+    previousPhaseFrozen: true
+    pages: number
+    owners: number
+    stages: number
+    commandRewrites: number
+    resolvedFragments: number
+    retainedBodies: number
+    reversibleBodies: number
+    danglingOwnerEntries: number
+    duplicateStableIds: number
+    legacySelectionCommands: number
+    crossOwnerCopies: number
+    deferredCrossOwner: number
+    pendingP4: number
+    pendingUnknown: number
+  }
+  digest: string
+}
+
+export type P4TransitionConflict =
+  | P3TransitionConflict
+  | {
+      kind: 'owner-source-modify' | 'owner-source-inventory-modify' | 'selection-command-modify'
+      source: string
+      expected?: string
+      actual?: string
+    }
+
+export interface P4TransitionPlan {
+  kind: 'script-transition-phase-plan'
+  version: 1
+  throughPhase: 'P4'
+  dryOnly: true
+  summary: {
+    cellWrites: number
+    cellDeletes: number
+    conflicts: number
+    tombstones: number
+    transitionGroups: number
+    installerRewrites: number
+    flowAbsorptions: number
+    flowReferenceRewrites: number
+    pageAllocations: number
+    ownerAllocations: number
+    ownerFragments: number
+    selectionCommandRewrites: number
+    deferredCrossOwner: number
+  }
+  conflicts: P4TransitionConflict[]
+}

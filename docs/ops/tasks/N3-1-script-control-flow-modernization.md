@@ -5,9 +5,9 @@ Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: GLM（P3 架构 + 数据合并代审）
+Reviewer: GLM（P4 架构 + 数据合并代审）
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（额度耗尽；P3 缺签经用户豁免）
+Unavailable Agents: Kimi（额度耗尽；P3 已豁免，P4 继续由 GLM 合并代审）
 Branch: TBD
 
 ## 目标
@@ -569,13 +569,17 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 
 ## 额度 / 代班记录
 
-- 缺席 Agent: none
-- 缺席原因: N/A
-- 代班 Agent: N/A
-- 代班范围: N/A
-- 风险: N/A
-- 是否需要补审: N/A
-- 用户裁决: N/A
+- 缺席 Agent: Kimi
+- 缺席原因: 订阅额度耗尽
+- 代班 Agent: GLM
+- 代班范围: 在 Kimi 缺席期间，把原 Kimi 的架构/语义审查与原 GLM 的数据/覆盖/测试矩阵审查
+  合并为一次只读审查；Codex 仍只负责实现和自验，不冒充独立审查席。
+- 风险: 独立外部视角由两席缩为一席；以可复跑的全量 shadow、ledger、MG2 反例和根检查补偿，
+  并保留 Kimi 补审债务。
+- 是否需要补审: 额度恢复后补审；当前批次不因该债务阻塞。N3-1 最终验收时若仍未补签，须再次
+  请用户决定是否延续豁免。
+- 用户裁决: 2026-07-24 用户明确说明“Kimi 没有额度了，合成一个都让 GLM 审核”；P3 已按此
+  完成，P4 继续采用同一代班方式。P4 仍须 GLM `accept` 才能进入 P5。
 
 ## Build: 实现与自测
 
@@ -787,17 +791,87 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   - P3 Codex 自验完成，现进入 GLM 架构、控制流语义、数据守恒与测试矩阵合并只读代审；
     GLM `accept` 前不得进入 P4，更不得把 N3-1、C8 或 ED-5I 标记 done。
 
+### P4 实体/场景具名行为影子实现与自测（2026-07-24）
+
+- P4 边界:
+  - 继续只生成 `canonical=false`、`runtimeConsumable=false` 的累计 shadow IR / ledger；
+    新增 Page、EntityBehavior、SceneHook 的显式升级分配，但没有把它们接入现行 v4
+    schema/validator/runtime/editor/save。
+  - 未改 `CONTENT_VERSION`、`projects/pal/**`、P0 权威 baseline 或现行 loader；固定影子根为
+    `packages/migrate/.shadow/N3-1/v5/p4/`。CLI 默认最新 `--through p4`，仍可复跑 P2/P3。
+- 稳定作者身份与 stage 分配:
+  - 3,616 个单页实体获得显式 Page identity；4,300 个实体行为 owner 精确分为
+    `2,834 static trigger + 987 static auto + 172 dynamic trigger + 307 dynamic auto`。
+  - 284 个场景 hook owner 精确分为
+    `160 static onEnter + 67 static onTeleport + 56 dynamic onEnter + 1 dynamic onTeleport`。
+    作者 owner 合计 4,584；Page 与 owner 是不同身份层，不能用位置、地址、hash 或 chunk 派生。
+  - 6,502 个 stage 分配精确分为
+    `5,664 static entity + 479 dynamic entity + 271 static hook + 88 dynamic hook`。
+    升级器只显式分配 `default`、金丝雀 `enter-s018`、`legacy-###` 和 stage
+    `initial` / `legacy-###`；同一输入顺序变化不改变 id。
+- P4 owner 收口与用户方向:
+  - 7,055 个 P4 candidate 全量归属：7,038 个单作者 owner 直接吸收，P2 已迁的 s018 与其 owner
+    fragment 汇合，累计得到 7,039 个 owner fragment；17 个真正跨作者 owner 的复用体不复制、
+    不猜唯一 owner，以 `p4-cross-owner-reuse` 明确转交 P6。
+  - pending 收口为 **`P3:0 / P4:0 / P5:433 / P6:31`**；P6 从 14 增至 31，增量恰为上述
+    17 个跨作者复用体，零 body copy。
+  - 按用户裁决，“shared”只表示真正跨调用方复用的业务逻辑，不表示复杂。物品 268
+    `craftRecipe`、270 `drawFromResourcePool` 已属于领域模型，P4 没有把它们重新分配成共享
+    脚本；剩余 item `runScript` 的领域化判断留给 P6。蓝图编辑视图只保留在
+    `docs/phase2/design-backlog.md` 议题 17，N3-1 P7 后另开卡。
+- legacy 选择命令归零计划:
+  - 累计 844 个 legacy mutation site 全部有具名选择 rewrite：P2 s018 1 个 + P4 843 个；
+    目标命令精确为 `590 selectEntityBehavior + 192 setEntityTriggerActivation +
+    62 selectSceneHooks`。
+  - 这组 844 与 P2 冻结的
+    `388 auto + 202 trigger + 192 triggerMode + 60 onEnter + 1 onTeleport + 1 clear`
+    一一守恒；P4 owner body 中遗留 legacy selection command=0。
+- 累计 ledger / MG2 作者保护:
+  - ledger 为 **16,325 entries / 5,220 groups / 8,565 evidence / 464 pending**；
+    P4 新增 4,620 个原子 group，重算 owner source、全部 inbound 引用和 command inventory，
+    不是只比较自带摘要。
+  - 首次 v4 -> 累计 P4 dry plan 为
+    **5,343 writes / 10,983 deletes / 0 conflicts**，包含 5,220 groups、3,345 tombstone、
+    3,616 Page、4,584 owner、7,039 fragment、843 个 P4 selection rewrite，并保留
+    P3 的 599 bodies / 655 sites；P4 -> P4 repeat plan 为 **0/0/0**。
+  - 作者修改 body/Page/command、删除或新增 P4 fragment 入站引用、owner inventory 漂移、
+    ledger 关系篡改都会整组冲突且零写；纯 ScriptRef rechunk 不制造假冲突。
+- P4 验证证据:
+  - `pnpm --filter @type-pal/migrate typecheck` → pass。
+  - P4 单元、PAL 真源和 CLI 测试覆盖 owner/stage cardinality、e2493/e2495/s018、844 全命令
+    rewrite、17 个跨 owner 零复制、268/270 领域方向、8,102 可逆、deterministic bundle、
+    作者修改/新增引用/rechunk/ledger 篡改和重复运行。
+  - `pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p4 --check` →
+    **854 artifacts，first=854/0/0，second=0/0/0**，bundle digest
+    `28c118af64963694bcbe89fdac5b6f3edba0566fafbfa11cefa141af3d376a82`。
+    manifest core / IR / ledger / validation digest 分别为
+    `90a061318a1e0db0c769ce904b77b2cd132131118fb263f38d36c642835be874` /
+    `a3f238d937e3a28ef6e349c0741ceb0194813870dd72a72600d800066cf701ac` /
+    `cf995a372ad4bb3214e00ef2e348c95d3faba3ce30ffb94f3c8055779ad60635` /
+    `060ff7fac9d791b8bd302fcb3eb0b06e0b65dc75da4af15ec6212d16078dc42`。
+  - 固定 P4 根首次写入为 `first=854/0/0, second=0/0/0`，再次运行两次均为 `0/0/0`。
+  - 仓库根 `pnpm check` → 7 个 workspace package typecheck/test 全通过；migrate
+    **48 files / 354 passed + 1 skipped**，editor **81 files / 691 passed**，随后 Biome
+    检查 **875 files** 无问题。既有 sprite-action PAL census 在新增重 PAL 用例并发时曾触及
+    默认 30 秒上限，独立复跑 16.29 秒通过；只把该既有测试预算显式设为 120 秒，未改断言。
+  - 范围审计与 `git diff --check` 通过；未触碰 canonical/runtime/editor/project/baseline。
+- P4 未做事项:
+  - P4 只冻结影子 author allocation 与可执行迁移关系，不发布 canonical v5，不修改 runtime、
+    editor、save 或 capability map。433 个循环体属于 P5，31 个作者/跨作者共享候选属于 P6。
+  - Codex P4 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM `accept` 前不得进入 P5，
+    更不得把 N3-1、C8 或 ED-5I 标记 done。
+
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex + User
-- 验证方式: P0/P2/P3 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
+- 验证方式: P0/P2/P3/P4 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
 - 截图 / 像素检查路径: N/A
 - 结论: 无适用视觉检查；以 PAL 真源、字节确定性、作者保护与零计划门禁替代。
-- 未完成项: P4+ 若开始改 editor/runtime，必须重新登记视觉验证。
+- 未完成项: 后续批次若开始改 editor/runtime，必须重新登记视觉验证。
 
 ## Review: 审查与返工
 
-- Reviewer: GLM（P3 架构 + 数据合并代审；Kimi 额度耗尽）
+- Reviewer: GLM（P4 架构 + 数据合并代审；Kimi 额度耗尽）
 - Codex 内部只读红队（2026-07-23）:
   - 首轮发现 overlay `structuredClone` 丢 WeakMap provenance，导致 119 个 scene root 无直接
     源地址，且“全源唯一目标反推”可误配；已改为深克隆时转交审计旁路、删除反推并补反误配测试。
@@ -941,6 +1015,19 @@ Kimi 额度耗尽，本批 P3 缺签经用户豁免。GLM 合并代审同时承�
 - counter / 返工: 当前无；GLM 无返工。
 - P3 -> P4 准入: **allowed（2026-07-24；GLM 合并代审 `accept`，Kimi 用户豁免）**。
 - 本表是 N3-1 内部批次门禁；即使 P3 三签齐，也不等于整个 N3-1、C8 或 ED-5I 已完成最终验收。
+
+### P4 阶段审查推进签字
+
+| Agent | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-24 | Coding Owner 自验；3,616 Page、4,584 owner、6,502 stage、7,039 fragment、844 selection rewrite、17 cross-owner 零复制、8,102 可逆、累计/repeat plan 与根 `pnpm check` 全部通过。 |
+| Kimi | **absent（用户豁免）** | 2026-07-24 | 额度仍耗尽；依用户“合成一个都让 GLM 审核”的裁决，本批原架构/schema/owner identity 席位继续由 GLM 合并代审。额度恢复后补审，但不阻塞 GLM `accept` 后的 P4 → P5；最终验收时若仍缺签须再请用户裁决。 |
+| GLM | **pending（合并代审）** | - | 须同时审稳定 author identity、Page/Behavior/Hook 分层、跨 owner 零复制、generated/canonical 隔离、ledger/MG2 关系，以及数据守恒、全命令覆盖、测试矩阵与用户 268/270 方向。 |
+
+- counter / 返工: 当前无；GLM 若签 `counter`，P4 留在 build 并按反例返工。
+- P4 -> P5 准入: **blocked，仅等待 GLM 合并代审 `accept`**。Codex 不在审查期间提前实现 P5。
+- Kimi 补审债务: P3/P4 两批均登记；不阻塞当前内部批次，但不自动等于 N3-1 最终缺签豁免。
+- 本表只控制 P4 内部分批推进；N3-1、C8、ED-5I 仍未完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
 
@@ -2432,39 +2519,69 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   callSitesChanged=0）。
   Evidence: P3 签字表 GLM 行 + GLM P3 合并代审节。Next: **P3→P4 allowed**；Codex 可启动 P4；
   Kimi 额度恢复后补审 P3 架构（不阻塞）。未改实现文件。
+- 2026-07-24 User: 确认 GLM P3 已审完，并补充两项产品方向。其一，共享脚本按真正跨调用方
+  复用判断，不能因逻辑复杂就归 shared；268 `craftRecipe` 与 270
+  `drawFromResourcePool` 已回归物品领域模型，不得退回共享脚本，剩余 item `runScript`
+  在 P6 优先评估领域结构化。其二，脚本蓝图/节点连线视图进入
+  `docs/phase2/design-backlog.md` 议题 17，待 N3-1 P7 后另开卡，不阻塞本任务。
+- 2026-07-24 Codex: 完成 P4 shadow-only 实体/场景具名行为分配并签阶段 **accept**。
+  显式分配 3,616 Page、4,300 EntityBehavior、284 SceneHook、6,502 stage；7,055 个 P4
+  candidate 收口为 7,039 owner fragment + 17 个 `p4-cross-owner-reuse` 转 P6，零复制；
+  844 个 legacy selection site 全部改写，pending 为 P4:0/P5:433/P6:31。累计 ledger
+  16,325 entries / 5,220 groups / 8,565 evidence，v4→P4 plan 5,343/10,983/0、
+  repeat 0/0/0；根 `pnpm check` 通过（migrate 48 files / 354 passed + 1 skipped，
+  Biome 875 files）。Evidence:「P4 实体/场景具名行为影子实现与自测」及
+  `packages/migrate/.shadow/N3-1/v5/p4/`。Next: GLM 按下方提示词做一次架构 + 数据合并
+  只读代审并签 `accept` 或 `counter`；P4 accept 前不得进入 P5。未改 canonical/runtime/
+  editor/project/baseline。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（P4 实体/场景具名行为影子迁移）
+### 给 GLM（P4 架构 + 数据合并代审）
 
 ```text
-接手任务: N3-1 P4 实体/场景具名行为迁移（shadow 形态）
+接手任务: N3-1 P4 实体/场景具名行为影子迁移合并代审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P3 Codex + GLM 合并代审 accept，Kimi 本批经用户豁免，P3→P4 allowed。
-你的角色: Coding Owner——P4 build 阶段唯一实现文件修改者。
-先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P0 baseline 事实、P1-1、P1-5、P1-7、
-  P1-8、「P3 无环控制流影子实现与自测」及「GLM P3 合并代审」；
-  packages/migrate/src/experimental/script-v5/{types,p3-control-flow,p3-validate,
-  p3-transition-plan,shadow-harness,source-v4}.ts 及全部 P3 tests；
-  packages/migrate/baselines/script-control-flow/pal-v1.json；
-  packages/content/src/script.ts 与 packages/reforge/src/script-runner.ts 的现行 binding 语义。
-本批必须:
-  1. 继续只产出 canonical=false/runtimeConsumable=false 的累计 P4 shadow IR/ledger；
-  2. 按全 command-site 口径覆盖 388 setEntityAuto、202 setEntityTrigger、60 onEnter、
-     1 onTeleport，并迁移 inline stages、setEntityTriggerMode 与 clearSceneScripts；
-  3. 为实体 Page/trigger/auto behavior 和 scene hook variant 分配稳定、非地址/hash 推导的
-     author identity；callScript 保留返回契约，38 cross-caller join 禁止复制；
-  4. 把 P3 deferred call/binding/mixed owner 归属与 transition group 原子写入累计 ledger；
-  5. 保持 P1 的 Selection 三态、复合 EntityAddress、FlowCursor、MG2 作者冲突及 save alias
-     契约；本批仍不得发布 canonical v5、改 CONTENT_VERSION 或接 runtime/editor；
-  6. 增加 PAL golden、逆变换、计数守恒、悬空引用、确定性、重复运行 0/0/0 和 fail-loud 测试。
-用户新增方向: 共享脚本按真正跨调用方复用判断；268/270 已回归物品领域结构，不得在 P4/P6
-  又重新分配成共享脚本。脚本蓝图视图只登记 backlog，P7 后另立项，不进入 P4。
-输出要求: 完成实现、自测、任务卡 P4 证据和独立提交；随后交 GLM 合并只读审查。
-P4 审查 accept 前不得进入 P5，不得标记 N3-1/C8/ED-5I done。
+当前状态: build；P4 Codex 自验 accept，Kimi 额度耗尽且经用户批准继续由 GLM 一次合并代审；
+  P4→P5 只等待你的 accept。你不得修改实现文件或开始 P5。
+你的角色: 同时承接原 Kimi 的架构/schema/语义席位和原 GLM 的数据/覆盖/测试矩阵席位。
+先读: AGENTS.md；docs/phase2/READ-FIRST.md；本卡 P1-2、P1-3、P1-4、P1-6、P1-7、P1-8；
+  「P3 无环控制流影子实现与自测」「GLM P3 合并代审」
+  「P4 实体/场景具名行为影子实现与自测」「P4 阶段审查推进签字」；
+  packages/migrate/src/experimental/script-v5/{types,p4-owner-allocation,p4-validate,
+  p4-transition-plan,shadow-harness,shadow-cli}.ts 及 P4 tests。
+必须独立核对:
+  1. P4 仍严格 shadow-only；显式 Page/Behavior/Hook/Stage id 不由地址、hash、位置或 chunk
+     推导，Page 与 owner 身份层没有混淆，s018/e2493/e2495 分配正确；
+  2. 3,616 Page；4,300 EntityBehavior（2,834+987+172+307）；284 SceneHook
+     （160+67+56+1）；6,502 stage（5,664+479+271+88）逐项可从 PAL 真源重算；
+  3. 7,055 candidate = 7,038 单 owner + 17 cross-owner，累计 7,039 fragment；
+     17 个只转 P6、不复制正文；P4:0/P5:433/P6:31 守恒；
+  4. 累计 844 rewrite = 590 selectEntityBehavior + 192 setEntityTriggerActivation +
+     62 selectSceneHooks，P4 owner body 遗留 legacy selection=0；
+  5. 用户方向得到遵守：268 craftRecipe、270 drawFromResourcePool 不退回 shared；
+     17 cross-owner 也只是 P6 候选，不提前宣称共享；蓝图 backlog 不进入本批；
+  6. ledger 16,325 entries / 5,220 groups / 8,565 evidence / 464 pending；
+     v4→P4 plan 5,343/10,983/0、repeat 0/0/0；作者改 body/Page/command、owner inventory
+     漂移、新增引用、ledger 篡改均 conflict 零写，rechunk 不误报；
+  7. 逆变换 8,102/8,102、P3 flow 599/655、call 语义、deterministic bundle、固定根双跑、
+     P0 audit 和根测试均无回归。
+建议复跑:
+  pnpm --filter @type-pal/migrate typecheck
+  pnpm --filter @type-pal/migrate exec vitest run \
+    src/experimental/script-v5/p4-owner-allocation.test.ts \
+    src/experimental/script-v5/p4-shadow.pal.test.ts \
+    src/experimental/script-v5/shadow-cli.test.ts
+  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p4 --check
+  pnpm --filter @type-pal/migrate audit:script-control-flow -- --check
+  pnpm --filter @type-pal/migrate test
+输出要求: 把独立复跑数字、架构/数据结论、风险与 `accept` 或 `counter` 直接写回本卡
+  「P4 阶段审查推进签字」并追加交接日志；不要改实现文件。
+若 accept: 明确 P4→P5 allowed，并给 Codex 可复制的 P5 提示词。
+若 counter: 写清最小反例与返工项，P4 保持 build。不得标记 N3-1/C8/ED-5I done。
 ```
 
-## 历史 Agent 提示词（P1-P3 已完成批次，勿再执行）
+## 历史 Agent 提示词（P1-P4 build 已完成批次，勿再执行）
 
 ### 给 Codex（P3 准入实现：无环控制流结构化；已完成）
 

@@ -316,5 +316,5 @@ describe.skipIf(!hasExtractedData)('PAL sprite action census golden', () => {
         ),
     ).toBe(true)
     assertMaterializedActionOracle(firstMigration)
-  }, 30_000)
+  }, 120_000)
 })

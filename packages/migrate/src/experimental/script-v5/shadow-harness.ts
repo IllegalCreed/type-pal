@@ -9,9 +9,12 @@ import { planP2ScriptTransition } from './p2-transition-plan.js'
 import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
 import { planP3ScriptTransition } from './p3-transition-plan.js'
 import { validateP3ScriptMigrationIR } from './p3-validate.js'
+import { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
+import { planP4ScriptTransition } from './p4-transition-plan.js'
+import { validateP4ScriptMigrationIR } from './p4-validate.js'
 import { readV4ScriptCorpus } from './source-v4.js'
 import { formatStableJson, stableStringCompare } from './stable-json.js'
-import type { ScriptMigrationIRP3 } from './types.js'
+import type { ScriptMigrationIRP3, ScriptMigrationIRP4 } from './types.js'
 import { validateScriptMigrationIR } from './validate-ir.js'
 
 export interface P2ShadowBundle {
@@ -20,6 +23,11 @@ export interface P2ShadowBundle {
 }
 
 export interface P3ShadowBundle {
+  files: ReadonlyMap<string, string>
+  digest: string
+}
+
+export interface P4ShadowBundle {
   files: ReadonlyMap<string, string>
   digest: string
 }
@@ -657,4 +665,355 @@ export function assertP3ShadowBundle(bundle: P3ShadowBundle): void {
     actualPaths.some((path, index) => path !== declaredPaths[index])
   )
     throw new Error('P3 shadow bundle manifest closure mismatch')
+}
+
+interface P4ShadowBuildArgs extends P3ShadowBuildArgs {}
+
+function buildP4Core(args: P4ShadowBuildArgs): Map<string, string> {
+  const p2 = buildP2ScriptMigrationIR(args)
+  validateScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    ir: p2.ir,
+    ledger: p2.ledger,
+    throughPhase: 'P2',
+  })
+  const p3 = buildP3ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+  })
+  validateP3ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    ir: p3.ir,
+    ledger: p3.ledger,
+    throughPhase: 'P3',
+  })
+  const transformed = buildP4ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+  })
+  const validation = validateP4ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    ir: transformed.ir,
+    ledger: transformed.ledger,
+    throughPhase: 'P4',
+  })
+  const transitionPlan = planP4ScriptTransition({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    base: args.base,
+    ours: { kind: 'v4', migration: args.ours },
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    target: transformed.ir,
+    ledger: transformed.ledger,
+  })
+  if (
+    transitionPlan.summary.conflicts !== 0 ||
+    transitionPlan.summary.cellWrites !== 5_343 ||
+    transitionPlan.summary.cellDeletes !== 10_983 ||
+    transitionPlan.summary.pageAllocations !== 3_616 ||
+    transitionPlan.summary.ownerAllocations !== 4_584 ||
+    transitionPlan.summary.ownerFragments !== 7_039 ||
+    transitionPlan.summary.selectionCommandRewrites !== 843 ||
+    transitionPlan.summary.deferredCrossOwner !== 17
+  )
+    throw new Error(`P4 transition plan drift: ${JSON.stringify(transitionPlan.summary)}`)
+  const repeatPlan = planP4ScriptTransition({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    base: args.migration,
+    ours: {
+      kind: 'p4-ir',
+      ir: transformed.ir,
+      ledger: transformed.ledger,
+    },
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    target: transformed.ir,
+    ledger: transformed.ledger,
+  })
+  if (
+    repeatPlan.summary.cellWrites !== 0 ||
+    repeatPlan.summary.cellDeletes !== 0 ||
+    repeatPlan.summary.conflicts !== 0
+  )
+    throw new Error(`P4 repeat transition is not zero: ${JSON.stringify(repeatPlan.summary)}`)
+
+  const v4MergePlan = createMigrationPlan(args.base, args.ours, args.migration)
+  if (v4MergePlan.conflicts.length)
+    throw new Error(`P4 author-preservation preflight conflicts: ${v4MergePlan.conflicts.length}`)
+  const fullTarget = fullTargetArtifacts(v4MergePlan.target)
+  const baseCorpus = readV4ScriptCorpus(args.base)
+  const oursCorpus = readV4ScriptCorpus(args.ours)
+  const files = new Map<string, string>()
+  for (const [path, body] of fullTarget.files) files.set(path, body)
+  files.set('ir/script-migration-ir.json', formatStableJson(transformed.ir))
+  files.set('transitions/script-v4-v5.draft.json', formatStableJson(transformed.ledger))
+  files.set('reports/phase-validation.json', formatStableJson(validation))
+  files.set('reports/transition-plan.json', formatStableJson(transitionPlan))
+  files.set('reports/repeat-transition-plan.json', formatStableJson(repeatPlan))
+  files.set(
+    'reports/p4-owner-inventory.json',
+    formatStableJson({
+      kind: 'script-v5-p4-owner-inventory',
+      version: 1,
+      throughPhase: 'P4',
+      canonical: false,
+      runtimeConsumable: false,
+      census: transformed.ir.ownerCensus,
+      pages: transformed.ir.pages.length,
+      owners: transformed.ir.owners.length,
+      fragments: transformed.ir.ownerFragments.length,
+      commandTransition: transformed.ir.commandTransition,
+      pendingByPhase: transformed.ir.pendingByPhase,
+      deferredCrossOwner: transformed.ir.pendingOwnerLinks
+        .filter(
+          (link) =>
+            transformed.ir.retainedBodies.find(
+              (body) => body.legacyScriptId === link.legacyScriptId,
+            )?.status.work.reason === 'p4-cross-owner-reuse',
+        )
+        .map((link) => ({
+          legacyScriptId: link.legacyScriptId,
+          owners: link.owners,
+        })),
+    }),
+  )
+  files.set(
+    'reports/v4-author-merge-preflight.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-v4-author-merge-preflight',
+      version: 1,
+      canonical: false,
+      runtimeConsumable: false,
+      summary: v4MergePlan.summary,
+      conflicts: v4MergePlan.conflicts,
+      baseSourceSnapshotSha256: baseCorpus.sourceSnapshotSha256,
+      oursSourceSnapshotSha256: oursCorpus.sourceSnapshotSha256,
+      generatedSourceSnapshotSha256: transformed.ir.source.sourceSnapshotSha256,
+      fullMergedV4TargetDigest: fullTarget.state.digest,
+    }),
+  )
+  files.set('target/project-state.json', formatStableJson(fullTarget.state))
+  files.set(
+    'target/reconstruction.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-reconstruction',
+      version: 1,
+      throughPhase: 'P4',
+      canonical: false,
+      runtimeConsumable: false,
+      layers: [
+        {
+          kind: 'full-merged-v4-project',
+          root: 'target/project/',
+          state: 'target/project-state.json',
+          digest: fullTarget.state.digest,
+        },
+        {
+          kind: 'p4-cumulative-transition-overlay',
+          ir: 'ir/script-migration-ir.json',
+          ledger: 'transitions/script-v4-v5.draft.json',
+          plan: 'reports/transition-plan.json',
+          previousPhase: transformed.ir.previousPhase,
+          apply:
+            'apply P2/P3, then allocate stable Page/Behavior/Hook identities, absorb 7,039 owner fragments, and rewrite all 844 legacy selection commands; defer 17 cross-owner bodies to P6 without copying',
+        },
+      ],
+      contract:
+        'The complete merged v4 layer preserves author files; the cumulative P4 IR and ledger are lossless experimental owner-allocation evidence. They are not canonical v5, save data, editor input, or runtime input.',
+    }),
+  )
+  files.set(
+    'target/summary.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-target-summary',
+      version: 1,
+      throughPhase: 'P4',
+      canonical: false,
+      runtimeConsumable: false,
+      sourceAuditDigest: args.frozenAudit.digest,
+      sourceRawGeneratorSnapshotSha256: readV4ScriptCorpus(args.migration)
+        .rawGeneratorSnapshotSha256,
+      previousPhase: transformed.ir.previousPhase,
+      irDigest: transformed.ir.digest,
+      ledgerDigest: transformed.ledger.digest,
+      fullMergedV4TargetDigest: fullTarget.state.digest,
+      fullMergedV4Files: fullTarget.state.files.length,
+      v4AuthorMerge: v4MergePlan.summary,
+      retainedBodies: transformed.ir.retainedBodies.length,
+      tombstones: transformed.ir.tombstones.length,
+      flowStructures: transformed.ir.flowStructures.length,
+      pages: transformed.ir.pages.length,
+      owners: transformed.ir.owners.length,
+      ownerFragments: transformed.ir.ownerFragments.length,
+      ownerCensus: transformed.ir.ownerCensus,
+      commandTransition: transformed.ir.commandTransition,
+      pendingByPhase: transformed.ir.pendingByPhase,
+    }),
+  )
+  return files
+}
+
+/**
+ * P4 仍从同一权威 v4 输入独立构建两次，不读取任何已有 shadow 目录。
+ */
+export function buildDeterministicP4ShadowBundle(args: P4ShadowBuildArgs): P4ShadowBundle {
+  const first = buildP4Core(args)
+  const second = buildP4Core({
+    ...args,
+    migration: {
+      ...args.migration,
+      files: new Map([...args.migration.files].reverse()),
+      managedFiles: new Set([...args.migration.managedFiles].reverse()),
+    },
+    base: {
+      ...args.base,
+      files: new Map([...args.base.files].reverse()),
+      managedFiles: new Set([...args.base.managedFiles].reverse()),
+      ...(args.base.hashes ? { hashes: new Map([...args.base.hashes].reverse()) } : {}),
+    },
+    ours: {
+      ...args.ours,
+      files: new Map([...args.ours.files].reverse()),
+      managedFiles: new Set([...args.ours.managedFiles].reverse()),
+      ...(args.ours.hashes ? { hashes: new Map([...args.ours.hashes].reverse()) } : {}),
+    },
+  })
+  if (!sameFiles(first, second)) throw new Error('P4 shadow transform is not deterministic')
+  const coreDigest = digestShadowBundle(first)
+  first.set(
+    'reports/determinism.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-determinism',
+      version: 1,
+      throughPhase: 'P4',
+      independentBuilds: 2,
+      identical: true,
+      coreDigest,
+    }),
+  )
+  const artifacts = [...first]
+    .sort(([left], [right]) => stableStringCompare(left, right))
+    .map(([path, body]) => ({ path, sha256: sha256(body) }))
+  first.set(
+    'shadow.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-manifest',
+      version: 1,
+      projectId: 'pal',
+      throughPhase: 'P4',
+      generatorEpoch: 'n3-script-v5-p4-v1',
+      canonical: false,
+      runtimeConsumable: false,
+      source: 'author-preserving-v4-merge-plus-cumulative-p4-overlay',
+      sourceAuditDigest: args.frozenAudit.digest,
+      artifacts,
+      coreDigest,
+    }),
+  )
+  return Object.freeze({ files: first, digest: digestShadowBundle(first) })
+}
+
+export function assertP4ShadowBundle(bundle: P4ShadowBundle): void {
+  if (digestShadowBundle(bundle.files) !== bundle.digest)
+    throw new Error('P4 shadow bundle digest mismatch')
+  const manifestBody = bundle.files.get('shadow.json')
+  if (!manifestBody) throw new Error('P4 shadow bundle manifest missing')
+  const manifest = JSON.parse(manifestBody) as {
+    kind?: unknown
+    version?: unknown
+    throughPhase?: unknown
+    generatorEpoch?: unknown
+    canonical?: unknown
+    runtimeConsumable?: unknown
+    coreDigest?: unknown
+    artifacts?: Array<{ path?: unknown; sha256?: unknown }>
+  }
+  if (
+    manifest.kind !== 'script-v5-shadow-manifest' ||
+    manifest.version !== 1 ||
+    manifest.throughPhase !== 'P4' ||
+    manifest.generatorEpoch !== 'n3-script-v5-p4-v1' ||
+    manifest.canonical !== false ||
+    manifest.runtimeConsumable !== false ||
+    typeof manifest.coreDigest !== 'string' ||
+    !Array.isArray(manifest.artifacts)
+  )
+    throw new Error('P4 shadow bundle manifest invalid')
+  const coreFiles = new Map(
+    [...bundle.files].filter(
+      ([path]) => path !== 'shadow.json' && path !== 'reports/determinism.json',
+    ),
+  )
+  if (digestShadowBundle(coreFiles) !== manifest.coreDigest)
+    throw new Error('P4 shadow bundle core digest mismatch')
+  const determinismBody = bundle.files.get('reports/determinism.json')
+  if (!determinismBody) throw new Error('P4 shadow determinism report missing')
+  const determinism = JSON.parse(determinismBody) as {
+    identical?: unknown
+    independentBuilds?: unknown
+    coreDigest?: unknown
+  }
+  if (
+    determinism.identical !== true ||
+    determinism.independentBuilds !== 2 ||
+    determinism.coreDigest !== manifest.coreDigest
+  )
+    throw new Error('P4 shadow determinism report invalid')
+  const inventory = JSON.parse(bundle.files.get('reports/p4-owner-inventory.json') ?? '{}') as {
+    census?: ScriptMigrationIRP4['ownerCensus']
+    pages?: unknown
+    owners?: unknown
+    fragments?: unknown
+  }
+  if (
+    inventory.census?.pages !== 3_616 ||
+    inventory.census.entityBehaviors.total !== 4_300 ||
+    inventory.census.sceneHooks.total !== 284 ||
+    inventory.census.deferredCrossOwner !== 17 ||
+    inventory.pages !== 3_616 ||
+    inventory.owners !== 4_584 ||
+    inventory.fragments !== 7_039
+  )
+    throw new Error('P4 shadow owner inventory invalid')
+  const artifactPaths = new Set<string>()
+  for (const artifact of manifest.artifacts) {
+    if (typeof artifact.path !== 'string' || typeof artifact.sha256 !== 'string')
+      throw new Error('P4 shadow bundle artifact record invalid')
+    if (artifactPaths.has(artifact.path))
+      throw new Error(`P4 shadow bundle duplicate artifact ${artifact.path}`)
+    artifactPaths.add(artifact.path)
+    const body = bundle.files.get(artifact.path)
+    if (body === undefined || sha256(body) !== artifact.sha256)
+      throw new Error(`P4 shadow bundle artifact hash mismatch ${artifact.path}`)
+  }
+  const actualPaths = [...bundle.files.keys()]
+    .filter((path) => path !== 'shadow.json')
+    .sort(stableStringCompare)
+  const declaredPaths = [...artifactPaths].sort(stableStringCompare)
+  if (
+    actualPaths.length !== declaredPaths.length ||
+    actualPaths.some((path, index) => path !== declaredPaths[index])
+  )
+    throw new Error('P4 shadow bundle manifest closure mismatch')
 }
