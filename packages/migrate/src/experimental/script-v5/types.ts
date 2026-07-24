@@ -963,3 +963,436 @@ export interface P4TransitionPlan {
   }
   conflicts: P4TransitionConflict[]
 }
+
+export interface P5RepresentationCellIdentity {
+  kind: 'p4-representation-cell'
+  representation: 'owner-fragment' | 'flow-structure'
+  scriptId: string
+  pointer: string
+}
+
+export interface P5CycleStructureIdentity {
+  kind: 'cycle-structure'
+  cycleId: string
+}
+
+export interface P5OwnerFlowIdentity {
+  kind: 'owner-flow'
+  owner: P4AuthorOwnerIdentity
+  flowId: string
+}
+
+export interface P5OwnerFlowAllocation {
+  identity: P5OwnerFlowIdentity
+  machineId?: string
+  legacyEntryAliases: Array<{
+    legacyScriptId: string
+    stateId?: string
+  }>
+}
+
+export type P5CycleKind = 'auto-runner-repeat' | 'structured-loop' | 'state-machine'
+
+export interface P5ResolvedSelf {
+  sceneId: string
+  entityId: string
+}
+
+export type P5FlowExitTarget =
+  | {
+      kind: 'cycle'
+      cycleId: string
+      legacyScriptId: string
+      stateId?: string
+      ownerFlows: P5OwnerFlowIdentity[]
+    }
+  | {
+      kind: 'owner-fragment'
+      legacyScriptId: string
+      owner: P4AuthorOwnerIdentity
+    }
+
+/**
+ * P5 shadow lowering node. It is deliberately absent from canonical AuthorCommand.
+ * P7 must compile the author loop/state-machine projection back into an executable exit.
+ */
+export interface P5GeneratedFlowExit {
+  kind: 'n3P5FlowExit'
+  target: P5FlowExitTarget
+  scheduling: 'macroTask' | 'worldTick'
+  worldClockAdvanceMs: 0
+  cancellation: 'required'
+  continuation: 'terminate-current-segment'
+  self?: P5ResolvedSelf
+}
+
+export interface P5TransitionRewrite {
+  source: {
+    representation: 'owner-fragment' | 'flow-structure' | 'cycle-body'
+    legacyScriptId: string
+    pointer: string
+    baseCellSha256: string
+  }
+  before: unknown
+  after: P5GeneratedFlowExit
+  targetLegacyScriptId: string
+  backEdge: boolean
+  groupId: string
+}
+
+export type P5AuthorTransitionTrigger =
+  | {
+      kind: 'body-end'
+    }
+  | {
+      kind: 'condition'
+      cond: unknown
+      arm: 'then'
+      fallback: 'continue'
+    }
+  | {
+      kind: 'command-outcome'
+      command: 'confirm'
+      outcome: 'no'
+      fallback: 'continue'
+    }
+
+/**
+ * P5 shadow author-facing edge. Unlike n3P5FlowExit lowering nodes, this record
+ * gives every recovered transfer an explicit, editable identity and trigger.
+ */
+export interface P5AuthorTransitionAllocation {
+  transitionId: string
+  from: {
+    legacyScriptId: string
+    stateId?: string
+  }
+  sourcePointer: string
+  trigger: P5AuthorTransitionTrigger
+  target: P5FlowExitTarget
+  scheduling: 'macroTask' | 'worldTick'
+  cancellation: 'required'
+  backEdge: boolean
+}
+
+export interface P5CycleBodyProjection {
+  handle: LegacyBodyHandle
+  legacyScriptId: string
+  sourceBodySha256: string
+  stateId?: string
+  loweredBody: unknown[]
+}
+
+export type P5AuthorCycleProjection =
+  | {
+      kind: 'auto-runner-repeat'
+      body: unknown[]
+      yield: 'worldTick'
+      lifecycle: 'auto-runner'
+      repeatTransitionId: string
+    }
+  | {
+      kind: 'structured-loop'
+      body: unknown[]
+      loop: {
+        kind: 'loop'
+        mode: 'until'
+        cond: unknown
+        body: unknown[]
+        yield: 'worldTick'
+        maxIterations: 10_000
+      }
+      loopTransitionId: string
+      exitTransitionIds: string[]
+    }
+  | {
+      kind: 'state-machine'
+      machineIds: P5OwnerFlowIdentity[]
+      initialStateId: string
+      states: Array<{
+        id: string
+        label: string
+        legacyScriptId: string
+        body: unknown[]
+        transitionIds: string[]
+      }>
+      transitionProjection: 'explicit-transition-table'
+    }
+
+export interface P5CycleStructure {
+  identity: P5CycleStructureIdentity
+  kind: P5CycleKind
+  componentOrdinal: number
+  productComponentId: number
+  owners: P4AuthorOwnerIdentity[]
+  ownerFlows: P5OwnerFlowAllocation[]
+  bodies: P5CycleBodyProjection[]
+  transitions: P5AuthorTransitionAllocation[]
+  authorProjection: P5AuthorCycleProjection
+  entryLegacyScriptIds: string[]
+  transitionRewriteCount: number
+  backEdgeCount: number
+  nestedOutcomeTransitions: number
+  bodyCopies: 0
+  evidenceId: string
+  groupId: string
+}
+
+export interface P5CycleCensus {
+  components: 331
+  bodies: 433
+  componentSizes: {
+    size1: 275
+    size2: 10
+    size3: 46
+  }
+  projections: {
+    autoRunnerRepeat: 99
+    structuredLoops: 162
+    stateMachines: 70
+    stateMachineStates: 172
+  }
+  ownerChannels: {
+    triggerComponents: 6
+    autoComponents: 323
+    sceneHookComponents: 2
+  }
+  jumpTransitions: {
+    input: 1297
+    rewrittenP5: 1286
+    cycleBody: 753
+    ownerFragment: 528
+    flowStructure: 5
+    sccBackEdges: 694
+    crossComponent: 51
+    ownerInboundToCycles: 464
+    acyclicOwnerFlow: 69
+    deferredP6: 11
+  }
+  crossOwnerStructures: 3
+  bodyCopies: 0
+  nestedOutcomeTransitions: 1
+  authorTransitions: {
+    total: 753
+    bodyEnd: 230
+    condition: 522
+    commandOutcome: 1
+  }
+  maxIterations: 10_000
+  unknown: 0
+}
+
+export interface P5SchedulingContract {
+  commandPaceMs: 100
+  stageIntervalMs: 40
+  hiddenEntityMs: 120
+  authorityMs: 150
+  chaseMs: 200
+  backEdgeYield: 'worldTick'
+  forwardTransferYield: 'macroTask'
+  cancellation: 'required'
+}
+
+export interface P5RetainedBody extends P4RetainedBody {
+  status: P4RetainedBody['status'] & {
+    work: Extract<P4FutureWork, { phase: 'P6' }>
+  }
+}
+
+export type P5TransitionEntry =
+  | P4TransitionEntry
+  | {
+      from: LegacyScriptIdentity | P5RepresentationCellIdentity
+      baseCellSha256: string
+      outcome: {
+        kind: 'group'
+        groupId: string
+      }
+    }
+
+export interface P5CycleTransitionGroup {
+  kind: 'cycle-structure-group' | 'flow-exit-rewrite-group'
+  id: string
+  transformId: 'restore-cycle-structure-v1' | 'rewrite-flow-exit-v1'
+  editPolicy: 'conflict-if-modified'
+  sources: Array<{
+    identity: LegacyScriptIdentity | P5RepresentationCellIdentity
+    baseCellSha256: string
+  }>
+  targets: Array<P5CycleStructureIdentity | P5OwnerFlowIdentity | P5RepresentationCellIdentity>
+  outcome: {
+    kind: 'restored-cycle-structure' | 'rewritten-flow-exit'
+    cycleBodyCount: number
+    transitionRewriteCount: number
+    ownerFlowCount: number
+    bodyCopies: 0
+  }
+  evidenceId: string
+  dependsOn: string[]
+}
+
+export interface P5CycleTransitionEvidence {
+  id: string
+  kind: 'cycle-structure' | 'flow-exit-rewrite'
+  sourceAuditDigest: string
+  legacyScriptIds: string[]
+  sourceCells: string[]
+  stableIdsExplicit: true
+  backEdgesYield: true
+  bodyCopies: 0
+}
+
+export interface P5PendingTransition {
+  legacyScriptId: string
+  handle: LegacyBodyHandle
+  phase: 'P6'
+  reason: P4FutureWork['reason']
+}
+
+export interface ScriptTransitionLedgerDraftP5 {
+  kind: 'script-transition-ledger-draft'
+  version: 1
+  projectId: 'pal'
+  transitionId: 'script-v4-v5'
+  generatorEpoch: 'n3-script-v5-p5-v1'
+  throughPhase: 'P5'
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  completed: Array<
+    | 'folded-body-pruning'
+    | 'misleading-scc-retirement'
+    | 's018-owner-resolution'
+    | 'acyclic-flow-structure'
+    | 'named-owner-allocation'
+    | 'legacy-selection-rewrite'
+    | 'cyclic-flow-structure'
+    | 'legacy-flow-exit-rewrite'
+  >
+  entries: P5TransitionEntry[]
+  groups: Array<
+    P2TransitionGroup | P3FlowTransitionGroup | P4OwnerTransitionGroup | P5CycleTransitionGroup
+  >
+  evidence: Array<
+    | P2TransitionEvidence
+    | P3FlowTransitionEvidence
+    | P4OwnerTransitionEvidence
+    | P5CycleTransitionEvidence
+  >
+  pending: P5PendingTransition[]
+  digest: string
+}
+
+export interface ScriptMigrationIRP5 {
+  kind: 'script-migration-ir'
+  version: 1
+  throughPhase: 'P5'
+  generatorEpoch: 'n3-script-v5-p5-v1'
+  canonical: false
+  runtimeConsumable: false
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  source: P2SourceSummary
+  commandCensus: P2LegacyCommandCensus
+  commandSites: P2LegacyCommandSite[]
+  commandTransition: P4CommandTransitionSummary
+  commandRewrites: P4CommandRewrite[]
+  retainedBodies: P5RetainedBody[]
+  tombstones: P2Tombstone[]
+  ownerResolutions: [P2OwnerResolution]
+  flowStructures: P3FlowStructure[]
+  flowCensus: P3FlowCensus
+  sizeGates: P3SizeGateReport
+  pages: P4EntityPageAllocation[]
+  owners: P4AuthorOwnerAllocation[]
+  ownerFragments: P4OwnerFragment[]
+  pendingOwnerLinks: P4PendingOwnerLink[]
+  ownerCensus: P4OwnerCensus
+  cycleStructures: P5CycleStructure[]
+  transitionRewrites: P5TransitionRewrite[]
+  cycleCensus: P5CycleCensus
+  scheduling: P5SchedulingContract
+  pendingByPhase: Record<'P5' | 'P6', number>
+  digest: string
+}
+
+export interface P5ValidationReport {
+  kind: 'script-migration-phase-validation'
+  version: 1
+  throughPhase: 'P5'
+  sourceAuditDigest: string
+  checks: {
+    sourceAuditFrozen: true
+    previousPhaseFrozen: true
+    cycleComponents: number
+    cycleBodies: number
+    autoRunnerRepeat: number
+    structuredLoops: number
+    stateMachines: number
+    stateMachineStates: number
+    transitionRewrites: number
+    backEdges: number
+    legacyJumpCommands: number
+    deferredP6JumpCommands: number
+    reversibleBodies: number
+    duplicateStableIds: number
+    danglingFlowTargets: number
+    crossOwnerCopies: number
+    nestedOutcomeTransitions: number
+    authorTransitions: number
+    pendingP5: number
+    pendingUnknown: number
+  }
+  digest: string
+}
+
+export type P5TransitionConflict =
+  | P4TransitionConflict
+  | {
+      kind: 'cycle-source-modify' | 'cycle-reference-inventory-modify'
+      source: string
+      expected?: string
+      actual?: string
+    }
+
+export interface P5TransitionPlan {
+  kind: 'script-transition-phase-plan'
+  version: 1
+  throughPhase: 'P5'
+  dryOnly: true
+  summary: {
+    cellWrites: number
+    cellDeletes: number
+    conflicts: number
+    tombstones: number
+    transitionGroups: number
+    installerRewrites: number
+    flowAbsorptions: number
+    flowReferenceRewrites: number
+    pageAllocations: number
+    ownerAllocations: number
+    ownerFragments: number
+    selectionCommandRewrites: number
+    deferredCrossOwner: number
+    cycleStructures: number
+    cycleBodies: number
+    autoRunnerRepeat: number
+    structuredLoops: number
+    stateMachines: number
+    stateMachineStates: number
+    jumpTransitionRewrites: number
+    remainingLegacyJumps: number
+  }
+  conflicts: P5TransitionConflict[]
+}

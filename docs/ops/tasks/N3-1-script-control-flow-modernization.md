@@ -798,7 +798,7 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
     新增 Page、EntityBehavior、SceneHook 的显式升级分配，但没有把它们接入现行 v4
     schema/validator/runtime/editor/save。
   - 未改 `CONTENT_VERSION`、`projects/pal/**`、P0 权威 baseline 或现行 loader；固定影子根为
-    `packages/migrate/.shadow/N3-1/v5/p4/`。CLI 默认最新 `--through p4`，仍可复跑 P2/P3。
+    `packages/migrate/.shadow/N3-1/v5/p4/`。当批 CLI 默认最新 `--through p4`，仍可复跑 P2/P3。
 - 稳定作者身份与 stage 分配:
   - 3,616 个单页实体获得显式 Page identity；4,300 个实体行为 owner 精确分为
     `2,834 static trigger + 987 static auto + 172 dynamic trigger + 307 dynamic auto`。
@@ -861,17 +861,91 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   - Codex P4 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM `accept` 前不得进入 P5，
     更不得把 N3-1、C8 或 ED-5I 标记 done。
 
+### P5 循环与状态机影子实现与自测（2026-07-25）
+
+- P5 边界:
+  - 继续只生成 `canonical=false`、`runtimeConsumable=false` 的累计 shadow IR / ledger；
+    新增的 `n3P5FlowExit` 只是 generated lowering 证据，明确不进入现行 `AuthorCommand`。
+  - 未改 `CONTENT_VERSION`、现行 v4 schema/validator/runtime/editor/save、`projects/pal/**`、
+    P0 baseline 或 capability map。固定影子根为
+    `packages/migrate/.shadow/N3-1/v5/p5/`；CLI 默认最新 `--through p5`，仍可复跑 P2-P4。
+- 331 个 runtime reachable product SCC 的完整分类:
+  - 433 个 P5 body 精确分为 331 个 component：
+    `275 size-1 + 10 size-2 + 46 size-3`；owner 通道为
+    `323 auto + 6 trigger + 2 scene hook`，unknown=0。
+  - 作者投影为
+    **99 auto-runner repeat + 162 structured until loop + 70 named state machine /
+    172 states**。auto 尾自环恢复为 auto runner lifecycle，条件自环恢复为
+    `loop mode=until`；其余多节点/复杂图完整进入显式状态机，不保留匿名 private block。
+  - 所有 flow/state/transition id 均由 owner/component 局部分配为
+    `cycle` / `legacy-cycle-###`、`initial` / `legacy-###` 与
+    `legacy-transition-###`；不含源地址、hash、chunk 或数组位置。3 个跨 owner component
+    共享同一 cycle structure，body copy=0。
+- 调度、退出与命令结果语义:
+  - 冻结 P1 调度常量
+    `command=100ms / stage=40ms / hidden=120ms / authority=150ms / chase=200ms`。
+    694 个 SCC 回边全部使用可取消 `worldTick` yield；前向 flow transfer 使用
+    `macroTask`，`worldClockAdvanceMs=0`，并显式终止当前 segment。
+  - 结构化 loop 全部具有有限 `maxIterations=10,000`；validator 独立拒绝缺少 yield、
+    cancellation、有限上限或悬空 flow/state 目标的形态。
+  - P4 表示层内 1,297 个 `jumpScript` site 中，P5 精确改写 1,286：
+    `753 cycle body + 528 owner fragment + 5 P3 flow structure`。其中
+    `694 SCC back edge + 51 cross-component + 464 owner inbound + 69 acyclic owner flow`；
+    剩余 11 个全部只指向 P6 synthetic target。
+  - 753 个 cycle-body transfer 另有一等、可编辑的 author transition allocation：
+    `230 body-end + 522 condition/then + 1 command-outcome(confirm:no)`；每条显式记录稳定 id、
+    from state/body、trigger、target、scheduling 与 cancellation，并与 generated lowering
+    一一反查，不再把状态机转移只埋在 generated body 中。
+  - `confirm.onNo` 内嵌跳转金丝雀保留为 1 个显式 command-outcome transition；
+    P7 必须把这类命令结果分支纳入 canonical transition/compiler，而不能静默丢弃。
+- 累计 ledger / MG2 作者保护:
+  - P5 新增 400 个原子 group（331 cycle structure + 69 acyclic flow-exit rewrite）；
+    累计 ledger 为 **17,291 entries / 5,620 groups / 8,965 evidence / 31 pending**，
+    pending 收口为 **`P5:0 / P6:31`**。
+  - 首次 v4 -> 累计 P5 dry plan 为
+    **6,207 writes / 11,416 deletes / 0 conflicts**；P5 -> P5 repeat plan 为
+    **0/0/0**。
+  - 作者修改任一 cycle body、修改或新增指向 cycle body 的入站引用、篡改 ledger/target
+    关系均冲突且零写；仅 ScriptRef rechunk 不产生假冲突。累计反向重建仍为
+    **8,102 / 8,102 bodies 可逆**，重复 stable id、悬空 flow target、跨 owner copy、
+    pending unknown 均为 0。
+- P5 验证证据:
+  - `pnpm --filter @type-pal/migrate typecheck` → pass。
+  - `pnpm --filter @type-pal/migrate test` →
+    **50 files passed / 364 passed + 1 skipped**；覆盖 ID 分配、分类、PAL 真源 cardinality、
+    753 个一等 author transition、调度/yield/loop cap、
+    trigger/auto/state-machine/`confirm.onNo` 金丝雀、1,286 rewrite、
+    3 个 cross-owner 零复制、8,102 可逆以及 MG2 fail-loud/rechunk/repeat。
+  - `pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p5 --check` →
+    **854 artifacts，first=854/0/0，second=0/0/0**，bundle digest
+    `e6cf5374a0e5376b88846142ec0c5f71b19cf7929ded94482c91e6b9176dd0d2`。
+    manifest core / IR / ledger / validation digest 分别为
+    `a33bd2f4c6f2aaf6aec7a4e247efced6bd4a4da493ea0ee9719f504d11f6a410` /
+    `fe27809368ef03f0d030fdba64725ec9bfaab7bc88d1d06030c0234a220fe69c` /
+    `0d9a5801e48230cff95e9693259e687d62712641c67bdd1dffb47e6495b1c868` /
+    `fc333f6007cc186a1a9e96c15deb8c5bd8eb78ce8d0cf202c3b932ffd7adc5c3`。
+  - 固定 P5 根已刷新同一 854-artifact bundle（6 个变化文件），写入后复核计划为 `0/0/0`。
+  - 仓库根 `pnpm check` → 7 个 workspace package typecheck/test 全通过；migrate
+    **50 files / 364 passed + 1 skipped**，editor **81 files / 691 passed**，随后 Biome
+    检查 **880 files** 无问题。`git diff --check` → pass。
+- P5 未做事项:
+  - P5 只冻结影子 cycle/state-machine author projection 与可执行迁移关系；canonical
+    schema/compiler/runtime/editor/save 仍由 P7 一次事务发布。
+  - 31 个 author-root / cross-owner / synthetic-target 候选仍属于 P6；P5 没有抢先宣称其
+    shared 归属。Codex P5 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM
+    `accept` 前不得进入 P6，更不得把 N3-1、C8 或 ED-5I 标记 done。
+
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex + User
-- 验证方式: P0/P2/P3/P4 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
+- 验证方式: P0/P2/P3/P4/P5 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
 - 截图 / 像素检查路径: N/A
 - 结论: 无适用视觉检查；以 PAL 真源、字节确定性、作者保护与零计划门禁替代。
 - 未完成项: 后续批次若开始改 editor/runtime，必须重新登记视觉验证。
 
 ## Review: 审查与返工
 
-- Reviewer: GLM（P4 架构 + 数据合并代审；Kimi 额度耗尽）
+- Reviewer: GLM（P5 架构 + 数据合并代审；Kimi 额度耗尽）
 - Codex 内部只读红队（2026-07-23）:
   - 首轮发现 overlay `structuredClone` 丢 WeakMap provenance，导致 119 个 scene root 无直接
     源地址，且“全源唯一目标反推”可误配；已改为深克隆时转交审计旁路、删除反推并补反误配测试。
@@ -1130,6 +1204,19 @@ legacy=0 / 268+270 领域方向 / ledger 16,325+5,220+8,565 / 8,102 守恒 / 双
 P3/P4 两批 Kimi 均缺签（额度耗尽，用户豁免）。GLM 合并代审承接了架构/schema/owner identity 席位。
 Kimi 恢复后应补审 P4 的 owner identity 分层设计（尤其动态 behavior `legacy-###` id 的 P6 收口策略和
 cross-owner 17 体的共享判据），不阻塞 P5。
+
+### P5 阶段审查推进签字
+
+| Agent | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-25 | Coding Owner 自验；331 components / 433 bodies 全分类为 99 auto repeat + 162 loop + 70 state machine / 172 states；753 个 author transition 一等分配、1,286 jump rewrite、694 回边可取消 yield、3 cross-owner 零复制、8,102 可逆、累计/repeat plan、migrate 全量与 P5 shadow 双构建均通过。 |
+| Kimi | **absent（用户豁免）** | 2026-07-25 | 额度仍耗尽；依用户“合成一个都让 GLM 审核”的裁决，本批原架构/控制流/调度语义席位继续由 GLM 合并代审。额度恢复后补审，但不阻塞 GLM `accept` 后的 P5 → P6；最终验收时若仍缺签须再请用户裁决。 |
+| GLM | **pending（合并代审）** | — | 须独立复跑 P5 shadow、PAL golden / migrate 全量，并审查结构分类、稳定 ID、回边 yield/cancellation、call-vs-jump 退出、`confirm.onNo` outcome、transition ledger 和 MG2 fail-loud。不得改实现文件。 |
+
+- counter / 返工: 当前无；等待 GLM 结论。
+- P5 -> P6 准入: **blocked（等待 GLM 合并代审 `accept`）**。
+- Kimi 补审债务: P3/P4/P5 三批均登记；不阻塞当前内部批次，但不自动等于 N3-1 最终缺签豁免。
+- 本表只控制 P5 内部分批推进；N3-1、C8、ED-5I 仍未完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
 
@@ -2652,32 +2739,70 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   正式关闭 P4 内部门禁并把看板下一步切到 P5。P3/P4 的 Kimi 补审债务继续保留，但按用户豁免
   不阻塞本批。Next: 先独立提交 P4 审查记录，再按下方提示词实现 P5；P5 GLM 合并代审
   `accept` 前不得进入 P6。
+- 2026-07-25 Codex: 完成 P5 shadow-only 循环与状态机恢复并签阶段 **accept**。
+  331 个 component / 433 个 body 精确分类为 99 auto-runner repeat + 162 structured loop +
+  70 named state machine / 172 states；753 个 cycle-body transfer 显式分配为
+  230 body-end + 522 condition + 1 command-outcome author transition；1,297 个 legacy jump
+  site 中改写 1,286，694 个 SCC 回边全部经过可取消 `worldTick` yield，11 个 synthetic
+  target 留 P6。3 个跨 owner cycle
+  零复制，`confirm.onNo` 内嵌 outcome transition 保留，8,102/8,102 可逆。累计 ledger
+  17,291 entries / 5,620 groups / 8,965 evidence / 31 pending，v4→P5 plan
+  6,207/11,416/0、repeat 0/0/0；migrate 50 files / 364 passed + 1 skipped，P5 shadow
+  `--check` 854 artifacts / second 0/0/0 / digest `e6cf5374…6dd0d2`。Evidence:
+  「P5 循环与状态机影子实现与自测」及
+  `packages/migrate/.shadow/N3-1/v5/p5/`。Next: GLM 按下方提示词做一次架构 + 数据合并
+  只读代审并签 `accept` 或 `counter`；P5 accept 前不得进入 P6。未改 canonical/runtime/
+  editor/project/baseline。仓库根 `pnpm check` 随后通过：7 个 workspace package 全绿，
+  migrate 50 files / 364 passed + 1 skipped，Biome 880 files。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（P5 循环与状态机恢复）
+### 给 GLM（P5 架构 + 数据合并代审）
 
 ```text
-接手任务: N3-1 P5 循环与状态机恢复
+接手任务: N3-1 P5 循环与状态机恢复合并代审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P0-P4 全部 accept（P3/P4 Kimi 用户豁免，GLM 合并代审）；P4→P5 已 allowed。
-你的角色: Codex，Coding Owner，继续 shadow-only 累计 IR/ledger。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-5（ScriptFlow/stateMachine/lowering）、
-  P1-8（测试矩阵）、P4 实现与签字、「GLM P4 合并代审」。
-P5 范围:
-  - 433 个 runtime reachable cyclic bodies 逐类迁为结构化 loop（while/until）、领域行为或具名状态机。
-  - 不可约图必须以完整可编辑状态机暂存（state/machine/transition 一等公民），不允许匿名 private block。
-  - 回归 auto 行为的让步/节拍（100/40/120/150/200ms）和 call-vs-jump 的退出语义。
-  - loop 节点必须有显式 worldTick yield + 有限 maxIterations；无界同步循环在 validator 拒绝。
-  - 每次 SCC 回边必须经过一种可取消让步（macroTask/worldTick）。
-P5 纪律:
-  - 继续 canonical=false / runtimeConsumable=false shadow IR；不改 CONTENT_VERSION/runtime/editor/projects/pal。
-  - 累计 ledger 继续作者保护 + conflict-if-modified + 双跑 0/0/0。
-  - P5 完成后交 GLM 合并代审（Kimi 若恢复则三方）；accept 前不进 P6。
-输出: 在任务卡写 P5 实现摘要 + P5 阶段签字 Codex 行 accept；给 GLM P5 审查提示词。
+当前状态: build；Codex P5 自验 accept；Kimi 额度耗尽且用户批准由 GLM 合并代审；
+  P5→P6 仍 blocked。
+你的角色: GLM，只读合并代审，承接架构/控制流/调度语义 + 数据/覆盖/测试矩阵；不得改实现文件。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-5、P1-8、
+  「P5 循环与状态机影子实现与自测」「P5 阶段审查推进签字」；
+  packages/migrate/src/experimental/script-v5/p5-cycle-structure.ts
+  packages/migrate/src/experimental/script-v5/p5-validate.ts
+  packages/migrate/src/experimental/script-v5/p5-transition-plan.ts
+  packages/migrate/src/experimental/script-v5/p5-shadow.pal.test.ts
+  packages/migrate/src/experimental/script-v5/shadow-harness.ts
+必须独立核对:
+  1. 331 components / 433 bodies = 275 size1 + 10 size2 + 46 size3；
+     99 auto repeat + 162 structured loop + 70 state machine / 172 states，unknown=0。
+  2. auto/trigger/scene hook 投影不混通道；不可约/多节点图完整进入一等状态机，无匿名 private block；
+     flow/state/transition id 只用显式 cycle/legacy-###/initial/legacy-transition-###，
+     不含地址/hash/chunk/位置；753 transitions = 230 body-end + 522 condition + 1 confirm:no，
+     author table 与 generated lowering 一一反查。
+  3. 1,297 jump site = 1,286 P5 rewrite + 11 P6 synthetic；694 SCC back edge 全部
+     worldTick + cancellation required，前向 transfer 为 macroTask，退出当前 segment；
+     loop cap=10,000，100/40/120/150/200ms 调度常量与 P1 一致。
+  4. call-vs-jump 尾转移无返回语义漂移；confirm.onNo 内嵌跳转保留为显式 outcome transition，
+     并判断 P7 canonical transition/compiler 是否已有足够落点。若不足请 counter 或明确列 P7 必落钉。
+  5. 3 个 cross-owner cycle bodyCopies=0；8,102/8,102 可逆；duplicate/dangling/pendingUnknown=0；
+     pending={P5:0,P6:31}，没有把复杂但不复用的逻辑误升 shared。
+  6. ledger=17,291 entries / 5,620 groups / 8,965 evidence / 31 pending；
+     首跑 6,207/11,416/0、repeat 0/0/0；作者改 cycle body、新增入站引用、篡改 ledger 均冲突零写，
+     rechunk 不误报。
+独立复跑:
+  pnpm --filter @type-pal/migrate typecheck
+  pnpm --filter @type-pal/migrate test
+  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p5 --check
+影子根: packages/migrate/.shadow/N3-1/v5/p5/
+Codex bundle digest: e6cf5374a0e5376b88846142ec0c5f71b19cf7929ded94482c91e6b9176dd0d2
+输出:
+  - 在「P5 阶段审查推进签字」GLM 行签 accept，或写 counter/rework 的精确反例。
+  - 在本卡新增「GLM P5 合并代审」和交接日志，记录独立命令、数字、风险与结论。
+  - accept 时明确 P5→P6 allowed 并给 Codex P6 提示词；counter 时保持 blocked。
+  - 不得标记 N3-1/C8/ED-5I done。
 ```
 
-无下一位 Agent 提示词给 GLM/Kimi——GLM P4 已 accept，等待 Codex 完成 P5 后再审查。
+无下一位 Agent 提示词给 Codex/Kimi——等待 GLM 完成 P5 合并代审。
 
 ## 历史 Agent 提示词（P1-P4 build 已完成批次，勿再执行）
 

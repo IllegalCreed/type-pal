@@ -12,9 +12,12 @@ import { validateP3ScriptMigrationIR } from './p3-validate.js'
 import { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
 import { planP4ScriptTransition } from './p4-transition-plan.js'
 import { validateP4ScriptMigrationIR } from './p4-validate.js'
+import { buildP5ScriptMigrationIR } from './p5-cycle-structure.js'
+import { planP5ScriptTransition } from './p5-transition-plan.js'
+import { validateP5ScriptMigrationIR } from './p5-validate.js'
 import { readV4ScriptCorpus } from './source-v4.js'
 import { formatStableJson, stableStringCompare } from './stable-json.js'
-import type { ScriptMigrationIRP3, ScriptMigrationIRP4 } from './types.js'
+import type { ScriptMigrationIRP3, ScriptMigrationIRP4, ScriptMigrationIRP5 } from './types.js'
 import { validateScriptMigrationIR } from './validate-ir.js'
 
 export interface P2ShadowBundle {
@@ -28,6 +31,11 @@ export interface P3ShadowBundle {
 }
 
 export interface P4ShadowBundle {
+  files: ReadonlyMap<string, string>
+  digest: string
+}
+
+export interface P5ShadowBundle {
   files: ReadonlyMap<string, string>
   digest: string
 }
@@ -1016,4 +1024,374 @@ export function assertP4ShadowBundle(bundle: P4ShadowBundle): void {
     actualPaths.some((path, index) => path !== declaredPaths[index])
   )
     throw new Error('P4 shadow bundle manifest closure mismatch')
+}
+
+interface P5ShadowBuildArgs extends P4ShadowBuildArgs {}
+
+function buildP5Core(args: P5ShadowBuildArgs): Map<string, string> {
+  const p2 = buildP2ScriptMigrationIR(args)
+  validateScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    ir: p2.ir,
+    ledger: p2.ledger,
+    throughPhase: 'P2',
+  })
+  const p3 = buildP3ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+  })
+  validateP3ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    ir: p3.ir,
+    ledger: p3.ledger,
+    throughPhase: 'P3',
+  })
+  const p4 = buildP4ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+  })
+  validateP4ScriptMigrationIR({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    ir: p4.ir,
+    ledger: p4.ledger,
+    throughPhase: 'P4',
+  })
+  const transformed = buildP5ScriptMigrationIR({
+    frozenAudit: args.frozenAudit,
+    p4: p4.ir,
+    p4Ledger: p4.ledger,
+  })
+  const validation = validateP5ScriptMigrationIR({
+    frozenAudit: args.frozenAudit,
+    p4: p4.ir,
+    p4Ledger: p4.ledger,
+    ir: transformed.ir,
+    ledger: transformed.ledger,
+    throughPhase: 'P5',
+  })
+  const transitionPlan = planP5ScriptTransition({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    base: args.base,
+    ours: { kind: 'v4', migration: args.ours },
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    p4: p4.ir,
+    p4Ledger: p4.ledger,
+    target: transformed.ir,
+    ledger: transformed.ledger,
+  })
+  if (
+    transitionPlan.summary.conflicts !== 0 ||
+    transitionPlan.summary.cellWrites !== 6_207 ||
+    transitionPlan.summary.cellDeletes !== 11_416 ||
+    transitionPlan.summary.transitionGroups !== 5_620 ||
+    transitionPlan.summary.cycleStructures !== 331 ||
+    transitionPlan.summary.cycleBodies !== 433 ||
+    transitionPlan.summary.jumpTransitionRewrites !== 1_286 ||
+    transitionPlan.summary.remainingLegacyJumps !== 11
+  )
+    throw new Error(`P5 transition plan drift: ${JSON.stringify(transitionPlan.summary)}`)
+  const repeatPlan = planP5ScriptTransition({
+    migration: args.migration,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: args.sourceCommands,
+    base: args.migration,
+    ours: {
+      kind: 'p5-ir',
+      ir: transformed.ir,
+      ledger: transformed.ledger,
+    },
+    p2: p2.ir,
+    p2Ledger: p2.ledger,
+    p3: p3.ir,
+    p3Ledger: p3.ledger,
+    p4: p4.ir,
+    p4Ledger: p4.ledger,
+    target: transformed.ir,
+    ledger: transformed.ledger,
+  })
+  if (
+    repeatPlan.summary.cellWrites !== 0 ||
+    repeatPlan.summary.cellDeletes !== 0 ||
+    repeatPlan.summary.conflicts !== 0
+  )
+    throw new Error(`P5 repeat transition is not zero: ${JSON.stringify(repeatPlan.summary)}`)
+
+  const v4MergePlan = createMigrationPlan(args.base, args.ours, args.migration)
+  if (v4MergePlan.conflicts.length)
+    throw new Error(`P5 author-preservation preflight conflicts: ${v4MergePlan.conflicts.length}`)
+  const fullTarget = fullTargetArtifacts(v4MergePlan.target)
+  const baseCorpus = readV4ScriptCorpus(args.base)
+  const oursCorpus = readV4ScriptCorpus(args.ours)
+  const files = new Map<string, string>()
+  for (const [path, body] of fullTarget.files) files.set(path, body)
+  files.set('ir/script-migration-ir.json', formatStableJson(transformed.ir))
+  files.set('transitions/script-v4-v5.draft.json', formatStableJson(transformed.ledger))
+  files.set('reports/phase-validation.json', formatStableJson(validation))
+  files.set('reports/transition-plan.json', formatStableJson(transitionPlan))
+  files.set('reports/repeat-transition-plan.json', formatStableJson(repeatPlan))
+  files.set(
+    'reports/p5-cycle-inventory.json',
+    formatStableJson({
+      kind: 'script-v5-p5-cycle-inventory',
+      version: 1,
+      throughPhase: 'P5',
+      canonical: false,
+      runtimeConsumable: false,
+      census: transformed.ir.cycleCensus,
+      scheduling: transformed.ir.scheduling,
+      structures: transformed.ir.cycleStructures.length,
+      bodies: transformed.ir.cycleCensus.bodies,
+      transitionRewrites: transformed.ir.transitionRewrites.length,
+      remainingLegacyJumps: transformed.ir.cycleCensus.jumpTransitions.deferredP6,
+      pendingByPhase: transformed.ir.pendingByPhase,
+    }),
+  )
+  files.set(
+    'reports/v4-author-merge-preflight.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-v4-author-merge-preflight',
+      version: 1,
+      canonical: false,
+      runtimeConsumable: false,
+      summary: v4MergePlan.summary,
+      conflicts: v4MergePlan.conflicts,
+      baseSourceSnapshotSha256: baseCorpus.sourceSnapshotSha256,
+      oursSourceSnapshotSha256: oursCorpus.sourceSnapshotSha256,
+      generatedSourceSnapshotSha256: transformed.ir.source.sourceSnapshotSha256,
+      fullMergedV4TargetDigest: fullTarget.state.digest,
+    }),
+  )
+  files.set('target/project-state.json', formatStableJson(fullTarget.state))
+  files.set(
+    'target/reconstruction.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-reconstruction',
+      version: 1,
+      throughPhase: 'P5',
+      canonical: false,
+      runtimeConsumable: false,
+      layers: [
+        {
+          kind: 'full-merged-v4-project',
+          root: 'target/project/',
+          state: 'target/project-state.json',
+          digest: fullTarget.state.digest,
+        },
+        {
+          kind: 'p5-cumulative-transition-overlay',
+          ir: 'ir/script-migration-ir.json',
+          ledger: 'transitions/script-v4-v5.draft.json',
+          plan: 'reports/transition-plan.json',
+          previousPhase: transformed.ir.previousPhase,
+          apply:
+            'apply P2/P3/P4, then restore 331 cyclic flow structures covering 433 legacy bodies and rewrite 1,286 legacy jumps into explicit yielded flow exits; defer only 11 P6 synthetic targets',
+        },
+      ],
+      contract:
+        'The complete merged v4 layer preserves author files; the cumulative P5 IR and ledger are lossless experimental cycle-restoration evidence. They are not canonical v5, save data, editor input, or runtime input.',
+    }),
+  )
+  files.set(
+    'target/summary.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-target-summary',
+      version: 1,
+      throughPhase: 'P5',
+      canonical: false,
+      runtimeConsumable: false,
+      sourceAuditDigest: args.frozenAudit.digest,
+      sourceRawGeneratorSnapshotSha256: readV4ScriptCorpus(args.migration)
+        .rawGeneratorSnapshotSha256,
+      previousPhase: transformed.ir.previousPhase,
+      irDigest: transformed.ir.digest,
+      ledgerDigest: transformed.ledger.digest,
+      fullMergedV4TargetDigest: fullTarget.state.digest,
+      fullMergedV4Files: fullTarget.state.files.length,
+      v4AuthorMerge: v4MergePlan.summary,
+      retainedBodies: transformed.ir.retainedBodies.length,
+      tombstones: transformed.ir.tombstones.length,
+      flowStructures: transformed.ir.flowStructures.length,
+      pages: transformed.ir.pages.length,
+      owners: transformed.ir.owners.length,
+      ownerFragments: transformed.ir.ownerFragments.length,
+      cycleStructures: transformed.ir.cycleStructures.length,
+      cycleCensus: transformed.ir.cycleCensus,
+      scheduling: transformed.ir.scheduling,
+      transitionRewrites: transformed.ir.transitionRewrites.length,
+      pendingByPhase: transformed.ir.pendingByPhase,
+    }),
+  )
+  return files
+}
+
+/**
+ * P5 仍从同一权威 v4 输入独立构建两次，不读取任何已有 shadow 目录。
+ */
+export function buildDeterministicP5ShadowBundle(args: P5ShadowBuildArgs): P5ShadowBundle {
+  const first = buildP5Core(args)
+  const second = buildP5Core({
+    ...args,
+    migration: {
+      ...args.migration,
+      files: new Map([...args.migration.files].reverse()),
+      managedFiles: new Set([...args.migration.managedFiles].reverse()),
+    },
+    base: {
+      ...args.base,
+      files: new Map([...args.base.files].reverse()),
+      managedFiles: new Set([...args.base.managedFiles].reverse()),
+      ...(args.base.hashes ? { hashes: new Map([...args.base.hashes].reverse()) } : {}),
+    },
+    ours: {
+      ...args.ours,
+      files: new Map([...args.ours.files].reverse()),
+      managedFiles: new Set([...args.ours.managedFiles].reverse()),
+      ...(args.ours.hashes ? { hashes: new Map([...args.ours.hashes].reverse()) } : {}),
+    },
+  })
+  if (!sameFiles(first, second)) throw new Error('P5 shadow transform is not deterministic')
+  const coreDigest = digestShadowBundle(first)
+  first.set(
+    'reports/determinism.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-determinism',
+      version: 1,
+      throughPhase: 'P5',
+      independentBuilds: 2,
+      identical: true,
+      coreDigest,
+    }),
+  )
+  const artifacts = [...first]
+    .sort(([left], [right]) => stableStringCompare(left, right))
+    .map(([path, body]) => ({ path, sha256: sha256(body) }))
+  first.set(
+    'shadow.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-manifest',
+      version: 1,
+      projectId: 'pal',
+      throughPhase: 'P5',
+      generatorEpoch: 'n3-script-v5-p5-v1',
+      canonical: false,
+      runtimeConsumable: false,
+      source: 'author-preserving-v4-merge-plus-cumulative-p5-overlay',
+      sourceAuditDigest: args.frozenAudit.digest,
+      artifacts,
+      coreDigest,
+    }),
+  )
+  return Object.freeze({ files: first, digest: digestShadowBundle(first) })
+}
+
+export function assertP5ShadowBundle(bundle: P5ShadowBundle): void {
+  if (digestShadowBundle(bundle.files) !== bundle.digest)
+    throw new Error('P5 shadow bundle digest mismatch')
+  const manifestBody = bundle.files.get('shadow.json')
+  if (!manifestBody) throw new Error('P5 shadow bundle manifest missing')
+  const manifest = JSON.parse(manifestBody) as {
+    kind?: unknown
+    version?: unknown
+    throughPhase?: unknown
+    generatorEpoch?: unknown
+    canonical?: unknown
+    runtimeConsumable?: unknown
+    coreDigest?: unknown
+    artifacts?: Array<{ path?: unknown; sha256?: unknown }>
+  }
+  if (
+    manifest.kind !== 'script-v5-shadow-manifest' ||
+    manifest.version !== 1 ||
+    manifest.throughPhase !== 'P5' ||
+    manifest.generatorEpoch !== 'n3-script-v5-p5-v1' ||
+    manifest.canonical !== false ||
+    manifest.runtimeConsumable !== false ||
+    typeof manifest.coreDigest !== 'string' ||
+    !Array.isArray(manifest.artifacts)
+  )
+    throw new Error('P5 shadow bundle manifest invalid')
+  const coreFiles = new Map(
+    [...bundle.files].filter(
+      ([path]) => path !== 'shadow.json' && path !== 'reports/determinism.json',
+    ),
+  )
+  if (digestShadowBundle(coreFiles) !== manifest.coreDigest)
+    throw new Error('P5 shadow bundle core digest mismatch')
+  const determinismBody = bundle.files.get('reports/determinism.json')
+  if (!determinismBody) throw new Error('P5 shadow determinism report missing')
+  const determinism = JSON.parse(determinismBody) as {
+    identical?: unknown
+    independentBuilds?: unknown
+    coreDigest?: unknown
+  }
+  if (
+    determinism.identical !== true ||
+    determinism.independentBuilds !== 2 ||
+    determinism.coreDigest !== manifest.coreDigest
+  )
+    throw new Error('P5 shadow determinism report invalid')
+  const inventory = JSON.parse(bundle.files.get('reports/p5-cycle-inventory.json') ?? '{}') as {
+    census?: ScriptMigrationIRP5['cycleCensus']
+    structures?: unknown
+    bodies?: unknown
+    transitionRewrites?: unknown
+    remainingLegacyJumps?: unknown
+    pendingByPhase?: unknown
+  }
+  if (
+    inventory.census?.components !== 331 ||
+    inventory.census.bodies !== 433 ||
+    inventory.census.projections.autoRunnerRepeat !== 99 ||
+    inventory.census.projections.structuredLoops !== 162 ||
+    inventory.census.projections.stateMachines !== 70 ||
+    inventory.census.projections.stateMachineStates !== 172 ||
+    inventory.census.authorTransitions.total !== 753 ||
+    inventory.census.authorTransitions.bodyEnd !== 230 ||
+    inventory.census.authorTransitions.condition !== 522 ||
+    inventory.census.authorTransitions.commandOutcome !== 1 ||
+    inventory.census.bodyCopies !== 0 ||
+    inventory.structures !== 331 ||
+    inventory.bodies !== 433 ||
+    inventory.transitionRewrites !== 1_286 ||
+    inventory.remainingLegacyJumps !== 11
+  )
+    throw new Error('P5 shadow cycle inventory invalid')
+  const artifactPaths = new Set<string>()
+  for (const artifact of manifest.artifacts) {
+    if (typeof artifact.path !== 'string' || typeof artifact.sha256 !== 'string')
+      throw new Error('P5 shadow bundle artifact record invalid')
+    if (artifactPaths.has(artifact.path))
+      throw new Error(`P5 shadow bundle duplicate artifact ${artifact.path}`)
+    artifactPaths.add(artifact.path)
+    const body = bundle.files.get(artifact.path)
+    if (body === undefined || sha256(body) !== artifact.sha256)
+      throw new Error(`P5 shadow bundle artifact hash mismatch ${artifact.path}`)
+  }
+  const actualPaths = [...bundle.files.keys()]
+    .filter((path) => path !== 'shadow.json')
+    .sort(stableStringCompare)
+  const declaredPaths = [...artifactPaths].sort(stableStringCompare)
+  if (
+    actualPaths.length !== declaredPaths.length ||
+    actualPaths.some((path, index) => path !== declaredPaths[index])
+  )
+    throw new Error('P5 shadow bundle manifest closure mismatch')
 }
