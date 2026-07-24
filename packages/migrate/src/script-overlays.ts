@@ -1,4 +1,5 @@
 import type { Command, SceneDef } from '@type-pal/content'
+import { structuredCloneWithScriptStageSourceAddressAudit } from './translate-events.js'
 
 function insertAfter(
   body: Command[],
@@ -28,7 +29,7 @@ function insertBefore(
 export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {
   return scenes.map((scene) => {
     if (scene.id === 's059') {
-      const next = structuredClone(scene)
+      const next = structuredCloneWithScriptStageSourceAddressAudit(scene)
       const body = next.onEnter?.[0]?.body
       if (!body) throw new Error('PAL script overlay: s059 缺 onEnter[0]')
       const call = body.findIndex(
@@ -47,7 +48,7 @@ export function applyPalScriptOverlays(scenes: SceneDef[]): SceneDef[] {
       return next
     }
     if (scene.id !== 's001') return scene
-    const next = structuredClone(scene)
+    const next = structuredCloneWithScriptStageSourceAddressAudit(scene)
     const body = next.onEnter?.[0]?.body
     if (!body) throw new Error('PAL script overlay: s001 缺 onEnter[0]')
     const aunt = next.entities.find((entity) => entity.id === 'e10')

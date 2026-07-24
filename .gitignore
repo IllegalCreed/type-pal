@@ -65,6 +65,9 @@ projects/pal/assets/runtime/
 # MG2 首次 baseline 的一次性逐项审查报告；可由 bootstrap + 分类器重建
 packages/migrate/bootstrap/pal.json
 
+# N3-1 P2-P6 实验性 v5 影子 target；每批由权威 v4 纯重建，不作为 canonical 内容提交
+packages/migrate/.shadow/
+
 # IDE / Agent 自动生成的知识库、索引和本地计划（非项目真值文档，真值在 docs/ 和代码注释）
 .qoder/
 .zcode/

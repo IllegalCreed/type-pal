@@ -92,6 +92,9 @@ export interface MigrationFileSet {
     scenes: ReturnType<typeof mapScenesStatic>['report']
     scripts: ReturnType<typeof mapScenesStatic>['scriptReport']
     graph: ReturnType<typeof mapScenesStatic>['scriptGraphReport']
+    scriptRegistry: ReturnType<typeof mapScenesStatic>['scriptRegistryAudit']
+    foldedHostileRoots: ReturnType<typeof mapScenesStatic>['foldedHostileRoots']
+    foldedSpriteRoots: ReturnType<typeof foldedSpriteActionRoots>
     audit: ReturnType<typeof auditScriptLibrary>
     spriteActions: ReturnType<typeof auditPalSpriteActions>
     spriteActionMaterialization: ReturnType<typeof materializePalSpriteActions>['report']
@@ -115,6 +118,43 @@ function enemyCommandRoots(enemies: readonly EnemyDef[]) {
       ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
       : []),
   ])
+}
+
+/**
+ * P0 只读折叠证据：SpriteAction 物化会从最终场景删掉 page0 auto，
+ * 所以必须在物化前保留被接管入口的命令体，才能证明随后失去运行入口的脚本闭包。
+ */
+function foldedSpriteActionRoots(
+  scenes: readonly SceneDef[],
+  census: ReturnType<typeof auditPalSpriteActions>,
+) {
+  const accepted = new Set(
+    census.instances
+      .filter((instance) => instance.reasons.length === 0 && instance.timeline)
+      .map((instance) => `${instance.sceneId}/${instance.entityId}`),
+  )
+  return scenes
+    .flatMap((scene) =>
+      scene.entities.flatMap((entity) => {
+        if (!accepted.has(`${scene.id}/${entity.id}`)) return []
+        const auto = entity.pages?.[0]?.auto
+        if (!auto) throw new Error(`sprite action audit evidence missing: ${scene.id}/${entity.id}`)
+        return [
+          {
+            sceneId: scene.id,
+            entityId: entity.id,
+            roots: auto.stages.map((stage, index) => ({
+              id: `folded/sprite-action/${scene.id}/${entity.id}/auto/stage-${index}`,
+              body: stage.body,
+            })),
+          },
+        ]
+      }),
+    )
+    .sort(
+      (left, right) =>
+        left.sceneId.localeCompare(right.sceneId) || left.entityId.localeCompare(right.entityId),
+    )
 }
 
 export const PAL_WORLD_SPRITE_UNUSED_NUMBERS = [
@@ -407,6 +447,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     ),
     extraRoots: extraCommandRoots,
   })
+  const foldedSpriteRoots = foldedSpriteActionRoots(sceneOutput.scenes, spriteActions)
   assertPalWorldSpriteBaseline(sprites, sources.assetCatalog, sources.worldSpriteFrameCounts)
   const spriteActionMaterialization = materializePalSpriteActions({
     scenes: sceneOutput.scenes,
@@ -546,6 +587,9 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       scenes: sceneOutput.report,
       scripts: sceneOutput.scriptReport,
       graph: sceneOutput.scriptGraphReport,
+      scriptRegistry: sceneOutput.scriptRegistryAudit,
+      foldedHostileRoots: sceneOutput.foldedHostileRoots,
+      foldedSpriteRoots,
       audit,
       spriteActions,
       spriteActionMaterialization: spriteActionMaterialization.report,

@@ -185,10 +185,12 @@ import type { TranslateCtx, TranslateReport } from './translate-events.js'
 import {
   asBattleCfg,
   assertNoMigrationGaps,
+  copyScriptStageSourceAddressAudit,
   emptyTranslateReport,
   foldStages,
   recordMigrationGap,
   ScriptRegistry,
+  scriptStageSourceAddresses,
   translateStages,
 } from './translate-events.js'
 export interface LevelUpMagicCell {
@@ -1539,6 +1541,7 @@ import {
   normalizeSceneEntryReferences,
   type SceneEntryNormalizationReport,
 } from './scene-entry-normalize.js'
+import type { ScriptRegistryAuditRecord } from './translate-events.js'
 
 export interface SourceEventObject {
   id: number
@@ -1587,6 +1590,14 @@ export interface SceneMigrationResult {
     ownership: { scene: number; shared: number; global: number; unreachable: number }
     topPredecessors: Array<{ entry: number; count: number }>
   }
+  /** P0 只读溯源：注册体的源 label/owner/对话入口态；不写入工程 canonical content。 */
+  scriptRegistryAudit: ScriptRegistryAuditRecord[]
+  /** P0 只读折叠证据：HostileBehavior 接管前被移除的脚本入口。 */
+  foldedHostileRoots: Array<{
+    sceneId: string
+    entityId: string
+    roots: Array<{ id: string; body: Command[] }>
+  }>
   report: {
     scenes: number
     entities: number
@@ -1724,6 +1735,7 @@ export function mapScenesStatic(
     hostilesFolded: 0,
     sceneEntriesLifted: [],
   }
+  const foldedHostileRoots: SceneMigrationResult['foldedHostileRoots'] = []
 
   if (options.worldSpriteFrameCounts)
     assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
@@ -2224,7 +2236,23 @@ export function mapScenesStatic(
       const auto = autoOf(eo)
       // B9:标准遇敌模板折叠成 hostile 数据(命中则删 auto/trigger 页,消重复脚本膨胀)
       const folded = hostileFold(trigger, auto)
-      if (folded) report.hostilesFolded = (report.hostilesFolded ?? 0) + 1
+      if (folded) {
+        report.hostilesFolded = (report.hostilesFolded ?? 0) + 1
+        foldedHostileRoots.push({
+          sceneId: slug,
+          entityId: `e${eo.id}`,
+          roots: [
+            ...(trigger?.stages ?? []).map((stage, index) => ({
+              id: `folded/hostile/${slug}/e${eo.id}/trigger/stage-${index}`,
+              body: stage.body,
+            })),
+            ...(auto?.stages ?? []).map((stage, index) => ({
+              id: `folded/hostile/${slug}/e${eo.id}/auto/stage-${index}`,
+              body: stage.body,
+            })),
+          ],
+        })
+      }
       entities.push({
         id: `e${eo.id}`,
         pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
@@ -2304,7 +2332,9 @@ export function mapScenesStatic(
     else ownership.scene++
   }
   const selfLoops = new Set(
-    (graph?.edges ?? []).filter((edge) => edge.from === edge.to).map((edge) => edge.from),
+    (graph?.edges ?? [])
+      .filter((edge) => edge.kind !== 'binding' && edge.from === edge.to)
+      .map((edge) => edge.from),
   )
   const scriptGraphReport: SceneMigrationResult['scriptGraphReport'] = {
     commands: allCommands?.length ?? 0,
@@ -2334,6 +2364,8 @@ export function mapScenesStatic(
     scriptLocale: tctx.locale,
     scriptReport: tctx.report,
     scriptGraphReport,
+    scriptRegistryAudit: registry.auditRecords(),
+    foldedHostileRoots,
     report,
   }
 }
@@ -2354,7 +2386,12 @@ function externalizeSceneScripts(
       const lifted = liftEntry ? liftEarlyDitherSceneEntry(stage) : undefined
       const output = lifted?.stage ?? stage
       if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
-      const ref = registry.registerRoot(id, output.body)
+      const sourceAddresses = scriptStageSourceAddresses(stage)
+      const ref = registry.registerRoot(id, output.body, {
+        kind: 'content-entry',
+        sources: [`scene/${scene.id}/${source}/stage-${index}`],
+        ...(sourceAddresses.length ? { sourceAddresses } : {}),
+      })
       return { ...output, body: [{ kind: 'callScript', ref }] }
     })
 
@@ -2430,7 +2467,11 @@ export function resolveSceneScriptPatches(
     if (!pend.length) return
     for (const cmd of pend) {
       const slot = cmd.kind === 'setSceneOnEnter' ? 'on-enter' : 'on-teleport'
-      const key = `${cmd.scene}|${slot}|${cmd._addr}`
+      const targetAddress = cmd._addr!
+      const installerSourceAddress = cmd._sourceAddress
+      const installerOwner = cmd._owner
+      const installerPath = cmd._path
+      const key = `${cmd.scene}|${slot}|${targetAddress}`
       let binding = bindingsByKey.get(key)
       if (!binding) {
         if (!byId.has(cmd.scene)) {
@@ -2445,7 +2486,7 @@ export function resolveSceneScriptPatches(
           finishPlaceholder(cmd)
           continue
         }
-        const stages = translateStages(`L_${cmd._addr}`, undefined, tctx)
+        const stages = translateStages(`L_${targetAddress}`, undefined, tctx)
         const folded = stages?.length ? foldStages(stages) : undefined
         if (!folded?.length) {
           recordMigrationGap(tctx, {
@@ -2454,7 +2495,7 @@ export function resolveSceneScriptPatches(
             operands: [Number(cmd.scene.slice(1)) + 1, cmd._addr ?? 0, 0],
             owner: cmd._owner ?? 'scene',
             path: cmd._path,
-            reason: `0x6D 目标脚本不可译 ${cmd.scene}:L_${cmd._addr}`,
+            reason: `0x6D 目标脚本不可译 ${cmd.scene}:L_${targetAddress}`,
           })
           finishPlaceholder(cmd)
           continue
@@ -2467,11 +2508,27 @@ export function resolveSceneScriptPatches(
         if (battleDefaults.battleMusic !== undefined)
           targetScene.battleMusic = battleDefaults.battleMusic
         binding = cleanFolded.map((stage, index) => {
-          const id = `scene/${cmd.scene}/override/${slot}/L-${cmd._addr}/stage-${index}`
+          const id = `scene/${cmd.scene}/override/${slot}/L-${targetAddress}/stage-${index}`
           const lifted = slot === 'on-enter' ? liftEarlyDitherSceneEntry(stage) : undefined
           const output = lifted?.stage ?? stage
           if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
-          const ref = tctx.registry?.registerRoot(id, output.body)
+          const sourceAddresses = scriptStageSourceAddresses(stage)
+          const ref = tctx.registry?.registerRoot(id, output.body, {
+            kind: 'scene-hook-override',
+            sources: [
+              `scene/${cmd.scene}/${slot}/L-${targetAddress}/stage-${index}`,
+              ...(installerPath ? [`installer:${installerPath}`] : []),
+            ],
+            ...(sourceAddresses.length ? { sourceAddresses } : {}),
+            sceneHook: {
+              targetScene: cmd.scene,
+              slot,
+              targetAddress,
+              ...(installerSourceAddress === undefined ? {} : { installerSourceAddress }),
+              ...(installerOwner ? { installerOwner } : {}),
+              ...(installerPath ? { installerPath } : {}),
+            },
+          })
           if (!ref) return output
           return { ...output, body: [{ kind: 'callScript', ref }] }
         })
@@ -2518,6 +2575,7 @@ function deepStripBattleCfg<T>(
   if (o && typeof o === 'object') {
     const out: Record<string, unknown> = {}
     for (const [k, v] of Object.entries(o)) out[k] = deepStripBattleCfg(v, acc)
+    copyScriptStageSourceAddressAudit(o, out)
     return out as T
   }
   return o

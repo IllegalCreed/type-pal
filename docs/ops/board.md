@@ -12,6 +12,7 @@
 |---|---|---|---|---|
 | C8 | 物品用途机制、运行时与迁移闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；100 usable = 80 runnable + 20 显式诊断，待三方 done 签字 |
 | ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | review | Kimi + GLM 审查 | Codex 自测 accept；三栏工作台、CRUD、图标、用途与引用闭环待审 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P3 无环控制流结构化 | P2 三方 accept 齐；继续 shadow-only，P3 批次审查通过前不进 P4 |
 
 ## 阻塞
 

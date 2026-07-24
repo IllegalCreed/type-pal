@@ -126,6 +126,11 @@ export interface TranslateCtx {
   explicitLabels?: ReadonlySet<string>
   /** 当前翻译引用路径,只用于诊断。 */
   pathStack?: string[]
+  /**
+   * P0 只读溯源栈。walkBody 只把当前 body 直接消费的源地址写入栈顶；
+   * 嵌套 registerTarget 会压入自己的集合，避免把 callee 地址算进 caller。
+   */
+  sourceAddressAuditStack?: Set<number>[]
   /** 报告计数按源站点去重,避免同一共享链因多个 owner 被重复翻译而虚高。 */
   knownNoOpSites?: Set<string>
   /** 分支臂记忆化(label|owner|入口对话态 → 已译体;同一游戏over/败臂被数百战斗共享,防重复走+堆爆)。 */
@@ -153,13 +158,55 @@ export interface TranslateCtx {
   registry?: ScriptRegistry
 }
 
-interface DialogueEntryState {
+export interface DialogueEntryState {
   slot?: DialogueCue['slot']
   portrait?: DialogueCue['portrait']
   activeSpeaker?: string
   speakerAwaitingBody?: boolean
   color?: LegacyDialogueState['color']
   speed?: number
+}
+
+export interface ScriptRegistryDialogueStateAudit {
+  slot: DialogueCue['slot'] | ''
+  portrait: DialogueCue['portrait'] | null
+  activeSpeaker: string
+  speakerAwaitingBody: boolean
+  color: LegacyDialogueState['color']
+  speed: number
+}
+
+export interface ScriptRegistryAuditRecord {
+  id: string
+  chunk: string
+  kind: 'translated-target' | 'registered-root' | 'legacy-alias'
+  source?: {
+    label: string
+    address?: number
+    /** 该产物 body 直接翻译过的源命令地址；不含已拆到其它 body 的 call/jump 目标。 */
+    addresses?: number[]
+    owner?: string
+  }
+  origin?: ScriptRegistryRootOriginAudit
+  dialogueEntry?: ScriptRegistryDialogueStateAudit
+  dialogueExit?: ScriptRegistryDialogueStateAudit
+  dialogueEntryHash?: string
+  aliasTargetId?: string
+}
+
+export interface ScriptRegistryRootOriginAudit {
+  kind: 'content-entry' | 'scene-hook-override'
+  sources: string[]
+  /** 场景 stage 外置为 root 前直接翻译过的源命令地址。 */
+  sourceAddresses?: number[]
+  sceneHook?: {
+    targetScene: string
+    slot: 'on-enter' | 'on-teleport'
+    targetAddress: number
+    installerSourceAddress?: number
+    installerOwner?: string
+    installerPath?: string
+  }
 }
 
 interface RegisteredScript {
@@ -178,9 +225,21 @@ function palMusicCommand(track: number): Command {
   return track <= 0 ? { kind: 'stopMusic' } : { kind: 'playMusic', asset: palMusicAssetId(track) }
 }
 
+function dialogueStateAudit(state: DialogueEntryState): ScriptRegistryDialogueStateAudit {
+  return {
+    slot: state.slot ?? '',
+    portrait: state.portrait ?? null,
+    activeSpeaker: state.activeSpeaker ?? '',
+    speakerAwaitingBody: state.speakerAwaitingBody ?? false,
+    color: state.color ?? DEFAULT_LEGACY_DIALOG_STATE.color,
+    speed: state.speed ?? DEFAULT_LEGACY_DIALOG_STATE.speed,
+  }
+}
+
 /** 翻译期图注册表：同一 label+owner+入口对话态只翻译一次，环只留下 O(1) ref。 */
 export class ScriptRegistry {
   private readonly scripts = new Map<string, RegisteredScript>()
+  private readonly audit = new Map<string, ScriptRegistryAuditRecord>()
 
   constructor(
     private readonly sceneFor: (label: string, owner: string | undefined) => string | undefined,
@@ -192,13 +251,14 @@ export class ScriptRegistry {
   private idFor(label: string, owner: string | undefined, state: DialogueEntryState): string {
     const scene = this.sceneFor(label, owner)
     const scope = scene ? `scene/${scene}` : `shared/${this.sharedGroupFor(label)}`
+    const normalized = dialogueStateAudit(state)
     const summary = JSON.stringify({
-      slot: state.slot ?? '',
-      portrait: state.portrait ?? null,
-      speaker: state.activeSpeaker ?? '',
-      awaiting: state.speakerAwaitingBody ?? false,
-      color: state.color ?? DEFAULT_LEGACY_DIALOG_STATE.color,
-      speed: state.speed ?? DEFAULT_LEGACY_DIALOG_STATE.speed,
+      slot: normalized.slot,
+      portrait: normalized.portrait,
+      speaker: normalized.activeSpeaker,
+      awaiting: normalized.speakerAwaitingBody,
+      color: normalized.color,
+      speed: normalized.speed,
     })
     const stateId = stableScriptHash(summary).toString(16).padStart(8, '0')
     return `${scope}/${label.replace(/^L_/, 'L-')}/${owner ?? 'none'}/d-${stateId}`
@@ -222,6 +282,20 @@ export class ScriptRegistry {
     const ref = this.refForId(id)
     const record: RegisteredScript = { ref, body: [], status: 'translating' }
     this.scripts.set(id, record)
+    const sourceAddress = addressFromLabel(label)
+    const dialogueEntryHash = id.match(/\/d-([0-9a-f]+)$/)?.[1]
+    this.audit.set(id, {
+      id,
+      chunk: ref.chunk,
+      kind: 'translated-target',
+      source: {
+        label,
+        ...(sourceAddress === undefined ? {} : { address: sourceAddress }),
+        ...(owner ? { owner } : {}),
+      },
+      dialogueEntry: dialogueStateAudit(state),
+      ...(dialogueEntryHash === undefined ? {} : { dialogueEntryHash }),
+    })
     const target = ctx.labelAt.get(label)
     if (!target) {
       recordGap(ctx, {
@@ -234,14 +308,24 @@ export class ScriptRegistry {
     } else {
       recordResolvedAddressTarget(ctx, label, target)
       ctx.pathStack ??= []
+      ctx.sourceAddressAuditStack ??= []
+      const sourceAddresses = new Set<number>()
       ctx.pathStack.push(`${id} -> ${label}`)
+      ctx.sourceAddressAuditStack.push(sourceAddresses)
       try {
         const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state)
         if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
           note(ctx, '引用目标含段转移(按 end 处理)')
         record.body = foldBattleConfig(foldDoorPattern(translated.body))
         record.dialogueExit = translated.dialogueState
+        const audit = this.audit.get(id)
+        if (audit) {
+          audit.dialogueExit = dialogueStateAudit(translated.dialogueState)
+          if (audit.source && sourceAddresses.size)
+            audit.source.addresses = [...sourceAddresses].sort((left, right) => left - right)
+        }
       } finally {
+        ctx.sourceAddressAuditStack.pop()
         ctx.pathStack.pop()
       }
     }
@@ -249,7 +333,7 @@ export class ScriptRegistry {
     return ref
   }
 
-  registerRoot(id: string, body: Command[]): ScriptRef {
+  registerRoot(id: string, body: Command[], origin?: ScriptRegistryRootOriginAudit): ScriptRef {
     const ref = this.refForId(id)
     const hit = this.scripts.get(id)
     if (hit) {
@@ -258,6 +342,12 @@ export class ScriptRegistry {
       return hit.ref
     }
     this.scripts.set(id, { ref, body, status: 'done' })
+    this.audit.set(id, {
+      id,
+      chunk: ref.chunk,
+      kind: 'registered-root',
+      ...(origin ? { origin: structuredClone(origin) } : {}),
+    })
     return ref
   }
 
@@ -273,7 +363,20 @@ export class ScriptRegistry {
     ctx: TranslateCtx,
   ): ScriptRef {
     const target = this.registerTarget(label, owner, {}, ctx)
-    return this.registerRoot(id, [{ kind: 'callScript', ref: target }])
+    const ref = this.registerRoot(id, [{ kind: 'callScript', ref: target }])
+    const sourceAddress = addressFromLabel(label)
+    this.audit.set(id, {
+      id,
+      chunk: ref.chunk,
+      kind: 'legacy-alias',
+      source: {
+        label,
+        ...(sourceAddress === undefined ? {} : { address: sourceAddress }),
+        ...(owner ? { owner } : {}),
+      },
+      aliasTargetId: target.id,
+    })
+    return ref
   }
 
   commandBodies(): Command[][] {
@@ -286,6 +389,12 @@ export class ScriptRegistry {
 
   dialogueExitFor(ref: ScriptRef): DialogueEntryState | undefined {
     return this.scripts.get(ref.id)?.dialogueExit
+  }
+
+  auditRecords(): ScriptRegistryAuditRecord[] {
+    return [...this.audit.values()]
+      .sort((left, right) => left.id.localeCompare(right.id))
+      .map((record) => structuredClone(record))
   }
 
   build(): ScriptRegistryOutput {
@@ -465,22 +574,37 @@ export function translateStages(
         }
         idxByLabel.set(cursor.label, stageIdx)
       }
-      const { body, term } = walkBody(cursor.cmds, cursor.idx, ownerEntity, ctx)
+      ctx.sourceAddressAuditStack ??= []
+      const stageSourceAddresses = new Set<number>()
+      ctx.sourceAddressAuditStack.push(stageSourceAddresses)
+      let translated: ReturnType<typeof walkBody>
+      try {
+        translated = walkBody(cursor.cmds, cursor.idx, ownerEntity, ctx)
+      } finally {
+        ctx.sourceAddressAuditStack.pop()
+      }
+      const { body, term } = translated
       budget -= body.length
       ctx.report.stages++
       ctx.report.commands += body.length
+      let stage: ScriptStage & { _next?: string }
       if (term.kind === 'advance' && term.nextIdx !== undefined) {
-        stages.push({ body, next: 'advance' })
+        stage = { body, next: 'advance' }
         const nextLabel = (cursor.cmds[term.nextIdx] as Cmd | undefined)?.label
         cursor = { cmds: cursor.cmds, idx: term.nextIdx, label: nextLabel }
       } else if (term.kind === 'reset' && term.resetTo) {
-        stages.push({ body, next: -1, _next: term.resetTo } as ScriptStage & { _next: string })
+        stage = { body, next: -1, _next: term.resetTo }
         if (!idxByLabel.has(term.resetTo)) queue.push(term.resetTo)
         cursor = nextFromQueue()
       } else {
-        stages.push({ body })
+        stage = { body }
         cursor = nextFromQueue()
       }
+      stages.push(stage)
+      recordScriptStageSourceAddresses(
+        stage,
+        [...stageSourceAddresses].sort((left, right) => left - right),
+      )
     }
 
     // 解析 reset 目标 → 段下标(目标已入队走过;缺 = 数据异常,回 0 并上报)
@@ -700,6 +824,7 @@ function walkBody(
 
   while (at.idx < at.cmds.length && body.length < MAX_BODY && steps++ < MAX_BODY * 4) {
     const c = at.cmds[at.idx] as Cmd
+    ctx.sourceAddressAuditStack?.at(-1)?.add(sourceAddressAt(ctx, at.cmds, at.idx))
     const op = c.op
 
     // ── end 族:段终 ──
@@ -1690,20 +1815,73 @@ export function bakeAndStripBattleCfg(
   stages: ScriptStage[],
   acc: { battleFieldId?: number; battleMusic?: AssetId | null },
 ): ScriptStage[] {
-  return stages.map((s) => ({
-    ...s,
-    body: s.body.filter((c) => {
-      const m = asBattleCfg(c)
-      if (!m) return true
-      if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
-      if (m.musicId !== undefined)
-        acc.battleMusic = m.musicId <= 0 ? null : palMusicAssetId(m.musicId)
-      return false
-    }),
-  }))
+  return stages.map((stage) => {
+    const output: ScriptStage = {
+      ...stage,
+      body: stage.body.filter((c) => {
+        const m = asBattleCfg(c)
+        if (!m) return true
+        if (m.fieldId !== undefined) acc.battleFieldId = m.fieldId
+        if (m.musicId !== undefined)
+          acc.battleMusic = m.musicId <= 0 ? null : palMusicAssetId(m.musicId)
+        return false
+      }),
+    }
+    copyScriptStageSourceAddressAudit(stage, output)
+    return output
+  })
+}
+
+/**
+ * P0 审计专用弱引用元数据；不属于 canonical ScriptStage，也不会被 JSON 序列化。
+ * 任何复制 stage 的迁移 helper 都必须显式转交，最终只进入 audit report。
+ */
+export function copyScriptStageSourceAddressAudit(source: object, target: object): void {
+  const addresses = STAGE_SOURCE_ADDRESS_AUDIT.get(source)
+  if (addresses) STAGE_SOURCE_ADDRESS_AUDIT.set(target, addresses)
+}
+
+/**
+ * `structuredClone` 不会复制 WeakMap 审计旁路；overlay 需要深克隆 canonical 内容时，
+ * 同步按对象树位置转交旁路证据。该函数不向 clone 写入任何可序列化字段。
+ */
+export function structuredCloneWithScriptStageSourceAddressAudit<T>(source: T): T {
+  const target = structuredClone(source)
+  const transfer = (from: unknown, to: unknown): void => {
+    if (!from || !to || typeof from !== 'object' || typeof to !== 'object') return
+    copyScriptStageSourceAddressAudit(from, to)
+    if (Array.isArray(from) && Array.isArray(to)) {
+      from.forEach((child, index) => {
+        transfer(child, to[index])
+      })
+      return
+    }
+    if (Array.isArray(from) || Array.isArray(to)) return
+    const targetRecord = to as Record<string, unknown>
+    for (const [key, child] of Object.entries(from)) transfer(child, targetRecord[key])
+  }
+  transfer(source, target)
+  return target
+}
+
+export function scriptStageSourceAddresses(stage: object): number[] {
+  return [...(STAGE_SOURCE_ADDRESS_AUDIT.get(stage) ?? [])]
+}
+
+const STAGE_SOURCE_ADDRESS_AUDIT = new WeakMap<object, number[]>()
+
+function recordScriptStageSourceAddresses(stage: ScriptStage, addresses: number[]): void {
+  STAGE_SOURCE_ADDRESS_AUDIT.set(stage, addresses)
 }
 
 /** 对整条 stages 应用 peephole(体内折叠;段间不跨)。 */
 export function foldStages(stages: ScriptStage[]): ScriptStage[] {
-  return stages.map((s) => ({ ...s, body: foldBattleConfig(foldDoorPattern(s.body)) }))
+  return stages.map((stage) => {
+    const output: ScriptStage = {
+      ...stage,
+      body: foldBattleConfig(foldDoorPattern(stage.body)),
+    }
+    copyScriptStageSourceAddressAudit(stage, output)
+    return output
+  })
 }
