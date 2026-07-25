@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: rework
+Status: review
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -3462,11 +3462,12 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（撤回 accept）** | 2026-07-25 | 用户验收发现 canonical v5 共享脚本仍走 legacy `SharedScriptTab`，场景 behavior 与物品私有脚本分别暴露独立 JSON textarea；“编辑器闭环”不成立。必须先以同一 canonical v5 通用脚本编辑组件接通三类 owner，再重新自验签字。 |
+| Codex | **accept（P7-R1 返工后重签）** | 2026-07-25 | `18a66216` 建立共享的 `CanonicalScriptBodyEditorV5` / `CanonicalScriptFlowEditorV5`，接通 canonical 共享脚本、物品私有脚本、实体 Behavior、场景 Hook；场景工作台保留地图、播放/单步/重置/引擎试玩。editor 87/726、root typecheck、947-file lint、editor build 全绿；Playwright 四入口与真实播放通过，console 0 error / 0 warning。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（终审暂停）** | 2026-07-25 | 独立复跑 `9a668686` 技术门禁全绿（content 28/343、reforge 66/591、editor 84/718、migrate 61/406+1skip、MG2 0/0/0、canonical 闭合 jumpScript=0/callScript=0/shared=0/item-private 6 内联）；但 Codex 已撤回 accept（看板 rework：三类脚本入口未复用同一作者编辑器），`9a668686` 不再是最终终审基线。GLM 终审暂停，等 Codex 完成统一编辑器组件 rework 并重新自验 accept 后再审。 |
+| GLM | **pending（等待 P7-R1 终审）** | 2026-07-25 | 对 `9a668686` 的独立技术门禁复跑已全绿；最终基线现为 `18a66216`，须合并承担 Kimi 架构席位与 GLM 数据/覆盖席位，重点审查统一编辑器 rework、场景地图/预览保留、四 owner 写回与保存闭环。 |
 
-- Codex 结论：**退回 rework**。`9a668686` 只作为首次发布基线，不再作为最终终审基线。
+- Codex 结论：**P7-R1 返工完成并重新 accept**。最终终审基线为 `18a66216`；
+  `9a668686` 只作为首次发布和 GLM 前轮技术复跑基线。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
   N3-1 自动完成。
@@ -3493,6 +3494,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - 新增 `CanonicalSceneScriptWorkspaceV5`：上半区保留 `PreviewCanvas` 真实地图以及播放、单步、
     重置、引擎试玩；下半区保留可调高度抽屉并切换“场景 Hook / 实体行为”。canonical flow 和
     共享调用只读投影到原预览播放器，不回写作者内容。
+  - 实现提交：`18a66216 fix(editor): unify canonical script authoring`。
 - **自验结果**：
   - editor 全量：87 files / 726 tests passed；
   - root `pnpm typecheck`：7 个 workspace package 全通过；
@@ -3519,9 +3521,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 ### 给 GLM（P7 架构 + 数据 + 测试 + 文档合并终审；当前执行）
 
 ```text
-终审任务: N3-1 P7 canonical v5 全量发布
+终审任务: N3-1 P7-R1 canonical v5 统一脚本编辑器返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-实现基线: 9a668686 feat: publish canonical script v5
+最终实现基线: 18a66216 fix(editor): unify canonical script authoring
+首次发布基线: 9a668686 feat: publish canonical script v5
+返工增量: aeb0d137..18a66216
 当前状态: review；Codex 已签 accept。Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；
   你同时承担原 Kimi 架构/调度席位和 GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3538,9 +3542,10 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - packages/reforge/src/{loader-v5,script-compiler-v5,script-runner-v5,
     script-world-v5,script-project-v5}.ts 和 save/{types,migration,ops}.ts；
   - packages/editor/src/core/{script-v5-editor,project-io-v5,
-    upgrade-local-v4-script-v5,open-local}.ts；
-  - packages/editor/src/ui/{ScriptV5BehaviorInspector,ItemUseEffectEditor,
-    SharedScriptTab,ProjectPicker}.tsx。
+    author-command-edit-v5,world-sprite-behavior,upgrade-local-v4-script-v5,open-local}.ts；
+  - packages/editor/src/ui/{CanonicalScriptEditorV5,CanonicalSharedScriptTabV5,
+    CanonicalSceneScriptWorkspaceV5,ScriptV5BehaviorInspector,
+    ScriptV5SceneHookInspector,ItemUseEffectEditor,ProjectPicker}.tsx。
 必须独立核对:
   1. canonical 内容中 jumpScript / v4 动态 binding / internal generated block 是否归零；
      shared ScriptId、item-private、Page/Behavior/Hook identity 是否唯一且引用闭合。
@@ -3553,10 +3558,16 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   5. 任意作者 v4 工程的工作台是否做到 input digest、Page/Behavior/Stage/Hook 命名、
      EntityAddress 与 broadcast/single 消歧、preview 后二次确认、local journal 前滚恢复；
      不得调用 PAL repo 事务。
-  6. editor 是否不再向 canonical v5 作者暴露“迁移内部实现”，三态 transition、物品私有脚本、
-     引用反链/删除守卫/保存重开是否闭环。
-  7. 独立复跑至少 content/reforge/editor check、migrate P7/发布/MG2 关键测试或完整 check，
-     并核对文档与 capability map 没有提前把 N3-1/C8/ED-5I 标 done。
+  6. canonical 共享脚本、物品私有脚本、实体 Behavior、场景 Hook 是否确实复用同一
+     `CanonicalScriptBodyEditorV5`；Behavior/Hook 是否复用同一 flow 编辑层，且不再暴露整段
+     body/flow JSON textarea。
+  7. 场景脚本工作台是否仍保留真实地图、播放/单步/重置/引擎试玩和可调抽屉；预览 lowering
+     是否只读、不会把 generated block 或播放状态回写 canonical。
+  8. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
+     undo/redo、保存序列化/重开和 canonical deep-link 是否闭环。
+  9. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+     content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
+     N3-1/C8/ED-5I 标 done。
 输出:
   - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的文件/断言/复现命令/返工项；
   - 在交接日志写独立复跑数字、digest、架构/数据结论；
