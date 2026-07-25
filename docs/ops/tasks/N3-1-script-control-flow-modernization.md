@@ -3384,6 +3384,9 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 #### 发布结果
 
+- **实现收口提交**：`9a668686 feat: publish canonical script v5`。该提交原子收口
+  canonical content/save v5、PAL/demo/e2e 生成产物、compiler/runtime/editor、本地 v4 → v5
+  迁移工作台、baseline/ledger/sidecar 及本卡/看板/设计文档；GLM 终审以此提交为实现基线。
 - **版本原子切换**：`CONTENT_VERSION = 5`、`SAVE_VERSION = 5`；PAL、demo、e2e 的 manifest、
   scene、item、shared scripts、baseline、完整 transition ledger、save compatibility sidecar
   同批发布。PAL sidecar bytes SHA-256 已写回 descriptor，当前发布 digest 为
@@ -3475,6 +3478,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 ```text
 终审任务: N3-1 P7 canonical v5 全量发布
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+实现基线: 9a668686 feat: publish canonical script v5
 当前状态: review；Codex 已签 accept。Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；
   你同时承担原 Kimi 架构/调度席位和 GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
