@@ -7,12 +7,36 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import type { AssetCatalogV1, LoadedManifest } from '@type-pal/content'
-import { validateAssetCatalog, validateManifestAssetConfigV3 } from '@type-pal/content'
+import type { AssetCatalogV1, LoadedManifest, ProjectManifest } from '@type-pal/content'
+import {
+  checkSharedScriptLibraryV5,
+  mapAssetById,
+  validateActors,
+  validateAssetCatalog,
+  validateBattleFields,
+  validateBattleSprites,
+  validateEnemies,
+  validateItemsV5,
+  validateLocale,
+  validateManifestAssetConfigV3,
+  validateMapIndex,
+  validateMigrationDiagnostics,
+  validateScenesV5,
+  validateSkills,
+  validateSprites,
+  validateStampTemplates,
+  validateStartWorldResources,
+  validateTilesets,
+} from '@type-pal/content'
+import type { FileSource } from '../../reforge/src/file-source.js'
+import { loadProjectMigrationRegistryV5 } from '../../reforge/src/save/migration.js'
+import { buildP7GeneratedCanonical } from '../src/experimental/script-v5/p7-generated.js'
+import { createP7V5MigrationPlan } from '../src/experimental/script-v5/p7-mg2.js'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
   type MigrationSnapshot,
+  serializeMigrationJson,
   snapshotFileHash,
   snapshotFilePresent,
 } from '../src/migration-baseline.js'
@@ -49,13 +73,23 @@ import {
   type PalBinaryAssetSource,
 } from '../src/pal-assets.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
-import { buildPalMigration, type MigrationFileSet } from '../src/pal-migration.js'
+import {
+  buildPalMigration,
+  type MigrationFileSet,
+  type MigrationJson,
+} from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
+import {
+  assertScriptControlFlowAudit,
+  auditPalScriptControlFlow,
+  type ScriptControlFlowAuditV1,
+} from '../src/script-control-flow-audit.js'
 import { normalizeMigrationScriptFiles } from '../src/script-library-normalize.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const BOOTSTRAP_REL = 'packages/migrate/bootstrap/pal.json'
 const CONFLICT_REL = '.type-pal-migrate/pal-conflicts.json'
+const SCRIPT_AUDIT_BASELINE_REL = 'packages/migrate/baselines/script-control-flow/pal-v1.json'
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
 const writeJson = (path: string, value: unknown): void => {
@@ -81,6 +115,8 @@ function usage(): void {
 }
 
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
+  if (!isDeepStrictEqual(expected.baselineMetadata, actual.baselineMetadata))
+    throw new Error(`${label} transition metadata 不符`)
   const managed = new Set([...expected.managedFiles, ...actual.managedFiles])
   for (const path of managed) {
     if (isAtomicProjectMapPath(path)) {
@@ -97,6 +133,93 @@ function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, la
     )
       throw new Error(`${label}不符: ${path}`)
   }
+}
+
+function snapshotFileSource(snapshot: MigrationSnapshot, manifest: ProjectManifest<5>): FileSource {
+  const body = (path: string): string => {
+    if (path === 'manifest.json') return `${JSON.stringify(manifest, null, 2)}\n`
+    const value = snapshot.files.get(path)
+    if (value === undefined) throw new Error(`v5 target FileSource 缺 ${path}`)
+    return serializeMigrationJson(value, path)
+  }
+  return {
+    async readText(path) {
+      return body(path)
+    },
+    async readJson<T>(path: string) {
+      return JSON.parse(body(path)) as T
+    },
+    async readBytes(path) {
+      const bytes = new TextEncoder().encode(body(path))
+      return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+    },
+    async urlFor(path) {
+      return `memory://pal/${path}`
+    },
+  }
+}
+
+async function validateP7V5Target(
+  target: MigrationSnapshot,
+  manifest: ProjectManifest<5>,
+): Promise<void> {
+  if (manifest.contentVersion !== 5 || manifest.content.scripts !== undefined)
+    throw new Error('P7 v5 target manifest 版本或 legacy scripts 字段无效')
+  if (!manifest.content.sharedScripts) throw new Error('P7 v5 target manifest 缺 sharedScripts')
+  const value = (path: string): MigrationJson => {
+    const entry = target.files.get(path)
+    if (entry === undefined) throw new Error(`P7 v5 target 缺 ${path}`)
+    return entry
+  }
+  const sceneIndex = value('content/scenes/index.json')
+  if (!Array.isArray(sceneIndex) || sceneIndex.some((id) => typeof id !== 'string'))
+    throw new Error('P7 v5 target scenes/index.json 无效')
+  const sceneIds = sceneIndex as string[]
+  const scenes = validateScenesV5(sceneIds.map((id) => value(`content/scenes/${id}.json`)))
+  if (
+    scenes.length !== sceneIds.length ||
+    scenes.some((scene, index) => scene.id !== sceneIds[index])
+  )
+    throw new Error('P7 v5 target scene index/文件身份不闭合')
+  validateStartWorldResources(manifest.startWorld)
+  for (const [index, entry] of (manifest.entryPoints ?? []).entries())
+    if (entry.startWorld)
+      validateStartWorldResources(entry.startWorld, `entryPoints[${index}].startWorld`)
+  const catalog = validateAssetCatalog(value(manifest.assets.catalog))
+  validateManifestAssetConfigV3(manifest.assets, catalog)
+  const mapsPath = manifest.content.maps
+  if (!mapsPath) throw new Error('P7 v5 target manifest 缺 maps')
+  const maps = validateMapIndex(value(mapsPath))
+  for (const scene of scenes)
+    if (!mapAssetById(maps, scene.mapId))
+      throw new Error(`P7 v5 target ${scene.id}.mapId 未命中 ${scene.mapId}`)
+  validateActors(value(manifest.content.actors as string))
+  validateSkills(value(manifest.content.skills as string))
+  validateItemsV5(value(manifest.content.items as string))
+  validateLocale(value(manifest.content.locale as string), { allowLegacySoftWrap: true })
+  validateSprites(value(manifest.content.sprites as string), catalog)
+  validateBattleSprites(value(manifest.content.battleSprites as string), catalog)
+  if (manifest.content.enemies) validateEnemies(value(manifest.content.enemies))
+  if (manifest.content.battleFields) validateBattleFields(value(manifest.content.battleFields))
+  if (manifest.content.tilesets) validateTilesets(value(manifest.content.tilesets), catalog)
+  if (manifest.content.stamps) validateStampTemplates(value(manifest.content.stamps))
+  if (manifest.content.migrationDiagnostics)
+    validateMigrationDiagnostics(value(manifest.content.migrationDiagnostics))
+  const shared = value(manifest.content.sharedScripts)
+  checkSharedScriptLibraryV5(shared)
+  const registry = await loadProjectMigrationRegistryV5({
+    manifest,
+    source: snapshotFileSource(target, manifest),
+  })
+  if (Object.keys(registry).length !== Object.keys(manifest.migrations ?? {}).length)
+    throw new Error('P7 v5 target migration registry 未完整验签')
+  console.log(
+    `[v5 写前门禁] scenes=${scenes.length} pages=${scenes.reduce(
+      (total, scene) =>
+        total + scene.entities.reduce((count, entity) => count + (entity.pages?.length ?? 0), 0),
+      0,
+    )} shared=${Object.keys(shared).length} legacy-scripts=0`,
+  )
 }
 
 function reportGeneration(theirs: MigrationFileSet): void {
@@ -293,6 +416,116 @@ async function commitAndVerify(args: {
   console.log('[幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
 }
 
+async function commitAndVerifyP7V5(args: {
+  ours: ProjectMigrationSnapshot
+  baseline: MigrationSnapshot
+  target: MigrationSnapshot
+  nextBaseline: MigrationSnapshot
+  plan: Pick<MigrationPlan, 'writes' | 'deletes'>
+  sources: ReturnType<typeof loadPalMigrationSources>
+  manifest: ProjectManifest<5>
+  currentManifestText: string
+  frozenAudit: ScriptControlFlowAuditV1
+}): Promise<void> {
+  const transactionManaged = new Set([...args.ours.managedFiles, ...args.target.managedFiles])
+  const assertManifestCurrent = (): void => {
+    if (
+      readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8') !== args.currentManifestText
+    )
+      throw new Error('v5 迁移计划后 manifest.json 已变更')
+  }
+  assertProjectSnapshotCurrent(repo, args.ours, transactionManaged)
+  assertManifestCurrent()
+  const catalog = validateAssetCatalog(
+    args.target.files.get('assets/index.json') as AssetCatalogV1,
+    'PAL v5 迁移 target assets/index.json',
+  )
+  validateManifestAssetConfigV3(args.manifest.assets, catalog, 'PAL v5 manifest.assets')
+  const materialized = materializePalAssets({
+    repo,
+    catalog,
+    binaries: args.sources.binaryAssets,
+  })
+  console.log(
+    `[资源物化] files=${materialized.files} bytes=${materialized.bytes} ` +
+      `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
+  )
+  assertProjectSnapshotCurrent(repo, args.ours, transactionManaged)
+  assertManifestCurrent()
+  const excludedFiles = new Set(['manifest.json'])
+  const unmanagedBefore = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
+  const catalogHash = snapshotFileHash(args.target, 'assets/index.json')
+  const stampsHash = snapshotFileHash(args.target, 'content/stamps.json')
+  if (!catalogHash || !stampsHash) throw new Error('PAL v5 target 缺 catalog/stamps hash')
+  const manifestPreconditions = [
+    { target: 'projects/pal/assets/index.json', hash: catalogHash },
+    { target: 'projects/pal/content/stamps.json', hash: stampsHash },
+    ...Object.values(catalog.assets).map((record) => ({
+      target: `projects/pal/${record.path}`,
+      hash: record.sha256,
+    })),
+  ]
+  const changes = buildMigrationTransactionChanges({
+    repo,
+    plan: args.plan,
+    previousBaseline: args.baseline,
+    nextBaseline: args.nextBaseline,
+    nextManifest: args.manifest,
+    manifestPreconditions,
+  })
+  if (changes.length) commitMigrationTransaction(repo, changes)
+  console.log(`[v5 事务] ${changes.length ? `已提交 ${changes.length} 项操作` : '无需写盘'}`)
+
+  const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
+  assertHashMapsEqual(unmanagedBefore, unmanagedAfter, 'v5 非托管工程文件')
+  const manifestAfterText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
+  const manifestAfter = JSON.parse(manifestAfterText) as ProjectManifest<5>
+  if (!isDeepStrictEqual(args.manifest, manifestAfter))
+    throw new Error('v5 事务完成后 manifest 发生漂移')
+
+  const baselineAfter = loadPalBaseline(repo)
+  if (!baselineAfter) throw new Error('v5 事务完成后 baseline 缺失')
+  sameSnapshot(args.nextBaseline, baselineAfter, 'v5 baseline 与纯 theirs')
+  const postManaged = discoverProjectManagedFiles(repo, args.target.managedFiles)
+  const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
+  sameSnapshot(args.target, projectAfter, 'v5 写盘工程与合并 target')
+  await validateP7V5Target(projectAfter, manifestAfter)
+
+  const sources2 = loadPalMigrationSources(repo)
+  const migration2 = buildPalMigration(sources2)
+  const currentAudit2 = auditPalScriptControlFlow(sources2, migration2)
+  assertScriptControlFlowAudit(currentAudit2)
+  const generated2 = buildP7GeneratedCanonical({
+    migration: migration2,
+    currentAudit: currentAudit2,
+    frozenAudit: args.frozenAudit,
+    sourceCommands: sources2.allJson.segments.flatMap((segment) => segment.commands),
+  })
+  const secondManaged = discoverProjectManagedFiles(
+    repo,
+    new Set([...baselineAfter.managedFiles, ...generated2.snapshot.managedFiles]),
+  )
+  const ours2 = loadProjectMigrationSnapshot(repo, secondManaged)
+  const second = createP7V5MigrationPlan({
+    base: baselineAfter,
+    ours: ours2,
+    generated: generated2.snapshot,
+  })
+  if (second.plan.writes.size || second.plan.deletes.length || second.plan.conflicts.length)
+    throw new Error(
+      `v5 二次迁移非空计划: writes=${second.plan.writes.size} ` +
+        `deletes=${second.plan.deletes.length} conflicts=${second.plan.conflicts.length}`,
+    )
+  const secondMaterialized = materializePalAssets({
+    repo,
+    catalog,
+    binaries: sources2.binaryAssets,
+  })
+  if (secondMaterialized.written !== 0)
+    throw new Error(`v5 二次资源物化非空写入: writes=${secondMaterialized.written}`)
+  console.log('[v5 幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
+}
+
 async function main(): Promise<void> {
   const flags = new Set(process.argv.slice(2).filter((flag) => flag !== '--'))
   if (flags.has('--help') || flags.has('-h')) {
@@ -316,7 +549,49 @@ async function main(): Promise<void> {
   const ours = loadProjectMigrationSnapshot(repo, managed)
   const manifestPath = resolve(repo, 'projects/pal/manifest.json')
   const manifestText = readFileSync(manifestPath, 'utf8')
-  const manifest = JSON.parse(manifestText) as LoadedManifest
+  const manifest = JSON.parse(manifestText) as LoadedManifest | ProjectManifest<5>
+
+  if (manifest.contentVersion === 5) {
+    if (bootstrap) throw new Error('canonical v5 工程不得重跑 v4 bootstrap')
+    if (!baseline) throw new Error('canonical v5 工程缺 PAL baseline v2')
+    const currentAudit = auditPalScriptControlFlow(sources, theirs)
+    assertScriptControlFlowAudit(currentAudit)
+    const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
+    const generated = buildP7GeneratedCanonical({
+      migration: theirs,
+      currentAudit,
+      frozenAudit,
+      sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
+    })
+    const v5 = createP7V5MigrationPlan({
+      base: baseline,
+      ours,
+      generated: generated.snapshot,
+    })
+    reportPlan(v5.plan)
+    if (v5.plan.conflicts.length) {
+      writeConflictReport(v5.plan)
+      process.exitCode = 1
+      return
+    }
+    await validateP7V5Target(v5.target, manifest)
+    if (!write) {
+      console.log('[v5 dry-run] 未写盘；确认 plan 后加 --write')
+      return
+    }
+    await commitAndVerifyP7V5({
+      ours,
+      baseline,
+      target: v5.target,
+      nextBaseline: v5.nextBaseline,
+      plan: v5.plan,
+      sources,
+      manifest,
+      currentManifestText: manifestText,
+      frozenAudit,
+    })
+    return
+  }
 
   if (!baseline) {
     if (!bootstrap)

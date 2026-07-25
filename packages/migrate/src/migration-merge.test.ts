@@ -384,6 +384,115 @@ describe('mergeManagedFile', () => {
     ])
   })
 
+  test('canonical v5 pages 与 stages 按稳定 id 合并作者和上游独立修改', () => {
+    const base = {
+      id: 's001',
+      entities: [
+        {
+          id: 'e1',
+          initialPage: 'default',
+          pages: [{ id: 'default', label: '默认' }],
+          behaviors: {
+            trigger: {
+              talk: {
+                label: '对话',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'start',
+                  stages: [
+                    { id: 'start', body: [{ kind: 'say', text: '旧' }], next: 'done' },
+                    { id: 'done', body: [] },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
+    }
+    const ours = structuredClone(base)
+    ours.entities[0]!.pages[0]!.label = '作者页名'
+    ours.entities[0]!.pages.push({ id: 'local', label: '本地页' })
+    const oursStages = ours.entities[0]!.behaviors.trigger.talk.flow.stages
+    oursStages[0]!.body = [{ kind: 'say', text: '作者正文' }]
+    const theirs = structuredClone(base)
+    theirs.entities[0]!.pages[0] = {
+      ...theirs.entities[0]!.pages[0]!,
+      animation: { sprite: 'sprite-1' },
+    } as (typeof theirs.entities)[number]['pages'][number]
+    const theirsStages = theirs.entities[0]!.behaviors.trigger.talk.flow.stages
+    theirsStages[1] = { ...theirsStages[1]!, next: 'start' } as (typeof theirsStages)[number]
+
+    const result = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent(base as unknown as MigrationJson),
+      jsonPresent(ours as unknown as MigrationJson),
+      jsonPresent(theirs as unknown as MigrationJson),
+    )
+    expect(result.conflicts).toEqual([])
+    expect(result.value.value).toMatchObject({
+      entities: [
+        {
+          pages: [
+            {
+              id: 'default',
+              label: '作者页名',
+              animation: { sprite: 'sprite-1' },
+            },
+            { id: 'local', label: '本地页' },
+          ],
+          behaviors: {
+            trigger: {
+              talk: {
+                flow: {
+                  stages: [
+                    { id: 'start', body: [{ kind: 'say', text: '作者正文' }] },
+                    { id: 'done', next: 'start' },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
+    })
+  })
+
+  test('canonical v5 同一 StageId 双改在作者身份路径冲突', () => {
+    const scene = (text: string) => ({
+      id: 's001',
+      entities: [
+        {
+          id: 'e1',
+          behaviors: {
+            trigger: {
+              talk: {
+                flow: {
+                  kind: 'stages',
+                  initial: 'start',
+                  stages: [{ id: 'start', body: [{ kind: 'say', text }] }],
+                },
+              },
+            },
+          },
+        },
+      ],
+    })
+    const result = mergeManagedFile(
+      'content/scenes/s001.json',
+      jsonPresent(scene('旧')),
+      jsonPresent(scene('作者')),
+      jsonPresent(scene('上游')),
+    )
+    expect(result.conflicts).toMatchObject([
+      {
+        path: expect.stringContaining('/stages/@string:start/body'),
+        type: 'value',
+      },
+    ])
+  })
+
   test('未登记有序数组整体原子冲突', () => {
     const result = mergeManagedFile(
       'content/items.json',

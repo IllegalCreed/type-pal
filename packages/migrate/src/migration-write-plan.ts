@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { LoadedManifest } from '@type-pal/content'
+import type { ProjectManifest } from '@type-pal/content'
 import {
   baselineWrites,
   type MigrationSnapshot,
@@ -22,7 +22,7 @@ export function buildMigrationTransactionChanges(args: {
   previousBaseline?: MigrationSnapshot
   nextBaseline: MigrationSnapshot
   /** 必须最后提交：新 manifest 只能在资源及其 catalog 已就绪后对运行时可见。 */
-  nextManifest?: LoadedManifest
+  nextManifest?: ProjectManifest<number>
   manifestPreconditions?: readonly TransactionPrecondition[]
 }): TransactionChange[] {
   const { repo, plan, previousBaseline, nextBaseline, nextManifest } = args

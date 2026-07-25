@@ -1411,7 +1411,13 @@ export function assertP5ShadowBundle(bundle: P5ShadowBundle): void {
 
 export interface P6ShadowBuildArgs extends P5ShadowBuildArgs {}
 
-export function buildP6ShadowCore(args: P6ShadowBuildArgs): Map<string, string> {
+export type P6TransformBuildArgs = Pick<
+  P6ShadowBuildArgs,
+  'migration' | 'currentAudit' | 'frozenAudit' | 'sourceCommands'
+>
+
+/** 从权威 v4 提取结果重建并逐阶段验证完整 P2-P6 IR；不依赖 baseline/ours 三方合并。 */
+export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
   const p2 = buildP2ScriptMigrationIR(args)
   validateScriptMigrationIR({
     migration: args.migration,
@@ -1478,6 +1484,11 @@ export function buildP6ShadowCore(args: P6ShadowBuildArgs): Map<string, string> 
     ledger: transformed.ledger,
     throughPhase: 'P6',
   })
+  return { p2, p3, p4, p5, p6: transformed, validation }
+}
+
+export function buildP6ShadowCore(args: P6ShadowBuildArgs): Map<string, string> {
+  const { p2, p3, p4, p5, p6: transformed, validation } = buildValidatedP6TransformChain(args)
   const transitionPlan = planP6ScriptTransition({
     migration: args.migration,
     frozenAudit: args.frozenAudit,

@@ -22,7 +22,7 @@ export interface FileMergeResult {
 }
 
 type Node = VersionedJson
-type ArrayMode = 'atomic' | 'id' | 'pages' | 'scene-index'
+type ArrayMode = 'atomic' | 'id' | 'pages' | 'stages' | 'scene-index'
 
 const absent = (): Node => ({ present: false })
 const present = (value: MigrationJson): Node => ({ present: true, value })
@@ -53,6 +53,7 @@ function arrayMode(file: string, path: string): ArrayMode {
   if (file === 'content/skills.json' && path === '/skills') return 'id'
   if (/^content\/scenes\/s\d+\.json$/.test(file) && path === '/entities') return 'id'
   if (/^content\/scenes\/s\d+\.json$/.test(file) && path.endsWith('/pages')) return 'pages'
+  if (/^content\/scenes\/s\d+\.json$/.test(file) && path.endsWith('/stages')) return 'stages'
   return 'atomic'
 }
 
@@ -339,12 +340,29 @@ function mergeNode(base: Node, ours: Node, theirs: Node, path: string, ctx: Merg
     const empty = present([]) as Node & { value: MigrationJson[] }
     if (mode === 'id') return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
     if (mode === 'scene-index') return mergeIdentityArray(empty, ours, theirs, path, ctx, true)
+    if (
+      (mode === 'pages' || mode === 'stages') &&
+      identityMaps(ours.value) &&
+      identityMaps(theirs.value)
+    )
+      return mergeIdentityArray(empty, ours, theirs, path, ctx, false)
   }
   if (isArray(base) && isArray(ours) && isArray(theirs)) {
     const mode = arrayMode(ctx.file, path)
     if (mode === 'id') return mergeIdentityArray(base, ours, theirs, path, ctx, false)
     if (mode === 'scene-index') return mergeIdentityArray(base, ours, theirs, path, ctx, true)
-    if (mode === 'pages') return mergePages(base, ours, theirs, path, ctx)
+    if (mode === 'pages') {
+      if (identityMaps(base.value) && identityMaps(ours.value) && identityMaps(theirs.value))
+        return mergeIdentityArray(base, ours, theirs, path, ctx, false)
+      return mergePages(base, ours, theirs, path, ctx)
+    }
+    if (
+      mode === 'stages' &&
+      identityMaps(base.value) &&
+      identityMaps(ours.value) &&
+      identityMaps(theirs.value)
+    )
+      return mergeIdentityArray(base, ours, theirs, path, ctx, false)
   }
   if (isObject(base) && isObject(ours) && isObject(theirs))
     return mergeObject(base, ours, theirs, path, ctx)
