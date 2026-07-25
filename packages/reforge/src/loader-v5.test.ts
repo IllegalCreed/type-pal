@@ -46,6 +46,7 @@ function manifest(over: Partial<ProjectManifest<5>> = {}): ProjectManifest<5> {
       battleSprites: 'content/battle-sprites.json',
       tilesets: 'content/tilesets.json',
       maps: 'content/maps/index.json',
+      sharedScripts: 'content/shared-scripts.json',
     },
     assets: { catalog: 'assets/index.json', roles: {} },
     startWorld: {
@@ -128,6 +129,17 @@ describe('canonical contentVersion 5 loader', () => {
         entryScene: { ...scene, onEnter: [] },
       }),
     ).toThrow(/onEnter.*v5/)
+    expect(() =>
+      assembleProjectV5(
+        manifest({
+          content: {
+            ...manifest().content,
+            scripts: 'content/scripts/',
+          },
+        }),
+        jsons,
+      ),
+    ).toThrow(/legacy content\.scripts/)
   })
 
   test('IO loader verifies and retains every registered migration blob byte-for-byte', async () => {
@@ -147,6 +159,7 @@ describe('canonical contentVersion 5 loader', () => {
       'content/battle-sprites.json': jsons.battleSprites,
       'content/tilesets.json': jsons.tilesets,
       'content/maps/index.json': jsons.maps,
+      'content/shared-scripts.json': {},
       'assets/index.json': jsons.assetCatalog,
     }
     const project = await loadProjectV5From(

@@ -118,6 +118,10 @@ export function assembleProjectV5(
 ): LoadedProjectV5Core {
   if (manifest.contentVersion !== 5)
     throw new Error(`工程 "${manifest.id}": v5 loader 只接受 contentVersion 5`)
+  if (manifest.content.scripts !== undefined)
+    throw new Error(`工程 "${manifest.id}": v5 禁止 legacy content.scripts`)
+  if (!manifest.content.sharedScripts)
+    throw new Error(`工程 "${manifest.id}": manifest 缺 canonical sharedScripts 路径`)
   assertRegistryClosure(manifest, migrationRegistry)
   const ids = sceneIds(jsons.sceneIds)
   validateStartWorldResources(manifest.startWorld)
@@ -245,7 +249,7 @@ export async function loadProjectV5From(source: FileSource): Promise<LoadedProje
     content.shops ? source.readJson(content.shops) : Promise.resolve(undefined),
     content.tilesets ? source.readJson(content.tilesets) : Promise.resolve(undefined),
     content.maps ? source.readJson(content.maps) : Promise.resolve(undefined),
-    content.scripts ? source.readJson(content.scripts) : Promise.resolve(undefined),
+    content.sharedScripts ? source.readJson(content.sharedScripts) : Promise.resolve(undefined),
     content.migrationDiagnostics
       ? source.readJson(content.migrationDiagnostics)
       : Promise.resolve(undefined),

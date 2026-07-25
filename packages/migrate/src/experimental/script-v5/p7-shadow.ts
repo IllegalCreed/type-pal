@@ -29,6 +29,7 @@ import type { ScriptMigrationIRP6, ScriptTransitionLedgerDraftP6 } from './types
 
 const P7_EPOCH = 'n3-script-v5-p7-v1' as const
 const P7_LEDGER_PATH = '_transitions/script-v4-v5.json' as const
+const P7_SHARED_SCRIPTS_PATH = 'content/shared-scripts.json' as const
 
 export interface P7ShadowBuildArgs extends P6ShadowBuildArgs {
   manifest: LegacyManifestV4
@@ -116,6 +117,7 @@ function canonicalTarget(
   )
   for (const scene of project.scenes) target.set(`content/scenes/${scene.id}.json`, asJson(scene))
   target.set('content/items.json', asJson(project.items))
+  target.set(P7_SHARED_SCRIPTS_PATH, asJson(project.scripts))
   target.set(SCRIPT_V4_V5_SIDECAR_PATH, asJson(sidecar))
   if (ledger) target.set(P7_LEDGER_PATH, asJson(ledger))
   return target
@@ -172,7 +174,10 @@ function buildManifest(source: LegacyManifestV4, sidecarBody: string): ProjectMa
   return {
     ...structuredClone(source),
     contentVersion: 5,
-    content,
+    content: {
+      ...content,
+      sharedScripts: P7_SHARED_SCRIPTS_PATH,
+    },
     migrations: {
       ...structuredClone(source.migrations ?? {}),
       [SCRIPT_V4_V5_TRANSITION_ID]: descriptor,
@@ -501,8 +506,14 @@ export function assertP7ShadowBundle(bundle: P7ShadowBundle): void {
     bundle.files.get('target/project/manifest.json'),
     'target/project/manifest.json',
   )
-  if (manifest.contentVersion !== 5 || manifest.content.scripts !== undefined)
+  if (
+    manifest.contentVersion !== 5 ||
+    manifest.content.scripts !== undefined ||
+    manifest.content.sharedScripts !== P7_SHARED_SCRIPTS_PATH
+  )
     throw new Error('P7 shadow canonical manifest invalid')
+  if (bundle.files.get(`target/project/${P7_SHARED_SCRIPTS_PATH}`) !== '{}\n')
+    throw new Error('P7 shadow canonical shared script library invalid')
   const descriptor = validateProjectMigrationDescriptorV1(
     manifest.migrations?.[SCRIPT_V4_V5_TRANSITION_ID],
   )
