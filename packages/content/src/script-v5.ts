@@ -840,14 +840,10 @@ export function checkScriptFlowV5(
   throw new Error(`${path}.kind: 期望 stages|stateMachine`)
 }
 
-export function checkEntityPagesV5(
-  pagesValue: unknown,
+export function checkEntityBehaviorsV5(
   behaviorsValue: unknown,
-  initialPageValue: unknown,
   path: string,
-): void {
-  if (!Array.isArray(pagesValue) || pagesValue.length === 0)
-    throw new Error(`${path}.pages: 期望非空数组`)
+): Record<'trigger' | 'auto', Set<string>> {
   const behaviors = behaviorsValue === undefined ? {} : record(behaviorsValue, `${path}.behaviors`)
   exactKeys(behaviors, ['trigger', 'auto'], `${path}.behaviors`)
   const behaviorIds: Record<'trigger' | 'auto', Set<string>> = {
@@ -870,6 +866,18 @@ export function checkEntityPagesV5(
       behaviorIds[channel].add(id)
     }
   }
+  return behaviorIds
+}
+
+export function checkEntityPagesV5(
+  pagesValue: unknown,
+  behaviorsValue: unknown,
+  initialPageValue: unknown,
+  path: string,
+): void {
+  if (!Array.isArray(pagesValue) || pagesValue.length === 0)
+    throw new Error(`${path}.pages: 期望非空数组`)
+  const behaviorIds = checkEntityBehaviorsV5(behaviorsValue, path)
   const pageIds = new Set<string>()
   pagesValue.forEach((raw, index) => {
     const page = record(raw, `${path}.pages[${index}]`)

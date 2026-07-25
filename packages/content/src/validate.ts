@@ -26,7 +26,12 @@ import {
 } from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
-import { checkAuthorCommandsV5, checkEntityPagesV5, checkSceneHooksV5 } from './script-v5.js'
+import {
+  checkAuthorCommandsV5,
+  checkEntityBehaviorsV5,
+  checkEntityPagesV5,
+  checkSceneHooksV5,
+} from './script-v5.js'
 import { checkScriptRef } from './script-library.js'
 import type { SceneDefV5 } from './scene-v5.js'
 
@@ -177,8 +182,7 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
   arr.forEach((scene, sceneIndex) => {
     const scenePath = `scenes[${sceneIndex}]`
     const sceneRecord = assertObject(scene, scenePath) as Record<string, unknown>
-    if ('onEnter' in sceneRecord)
-      throw new Error(`${scenePath}.onEnter: v5 已迁移至 hooks.onEnter`)
+    if ('onEnter' in sceneRecord) throw new Error(`${scenePath}.onEnter: v5 已迁移至 hooks.onEnter`)
     if ('onTeleport' in sceneRecord)
       throw new Error(`${scenePath}.onTeleport: v5 已迁移至 hooks.onTeleport`)
     checkSceneHooksV5(sceneRecord.hooks, `${scenePath}.hooks`)
@@ -191,8 +195,6 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
       const entityPath = `${scenePath}.entities[${entityIndex}]`
       const entityRecord = assertObject(entity, entityPath) as Record<string, unknown>
       const hasPages = entityRecord.pages !== undefined
-      const hasBehaviorModel =
-        entityRecord.behaviors !== undefined || entityRecord.initialPage !== undefined
       if (hasPages)
         checkEntityPagesV5(
           entityRecord.pages,
@@ -200,8 +202,12 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
           entityRecord.initialPage,
           entityPath,
         )
-      else if (hasBehaviorModel)
-        throw new Error(`${entityPath}: behaviors/initialPage 必须与非空 pages 一起声明`)
+      else {
+        if (entityRecord.initialPage !== undefined)
+          throw new Error(`${entityPath}.initialPage: 必须与非空 pages 一起声明`)
+        if (entityRecord.behaviors !== undefined)
+          checkEntityBehaviorsV5(entityRecord.behaviors, entityPath)
+      }
 
       if (entityRecord.hostile !== undefined) {
         const hostile = assertObject(entityRecord.hostile, `${entityPath}.hostile`) as Record<
@@ -231,7 +237,12 @@ export function validateScenesV5(json: unknown): SceneDefV5[] {
           ...entityBase,
           ...(hostile === undefined
             ? {}
-            : { hostile: { ...hostile, onLose: hostile.onLose === 'gameOver' ? 'gameOver' : undefined } }),
+            : {
+                hostile: {
+                  ...hostile,
+                  onLose: hostile.onLose === 'gameOver' ? 'gameOver' : undefined,
+                },
+              }),
         }
       }),
     }

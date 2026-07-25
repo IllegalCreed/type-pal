@@ -7,15 +7,8 @@ import type {
   SharedScriptLibraryV5,
 } from '@type-pal/content'
 import { validateItemsV5, validateScenesV5 } from '@type-pal/content'
-import {
-  p7OwnerKey,
-  projectP7AuthorCommands,
-  projectP7SimpleOwnerFlow,
-} from './p7-canonical.js'
-import {
-  type LegacyStageInput,
-  projectP7StateMachineOwnerFlow,
-} from './p7-owner-machine.js'
+import { p7OwnerKey, projectP7AuthorCommands, projectP7SimpleOwnerFlow } from './p7-canonical.js'
+import { type LegacyStageInput, projectP7StateMachineOwnerFlow } from './p7-owner-machine.js'
 import type {
   P4AuthorOwnerAllocation,
   P4EntityPageAllocation,
@@ -36,10 +29,7 @@ function sceneEntityKey(sceneId: string, entityId: string): string {
   return `${sceneId}\u0000${entityId}`
 }
 
-function comparePage(
-  left: P4EntityPageAllocation,
-  right: P4EntityPageAllocation,
-): number {
+function comparePage(left: P4EntityPageAllocation, right: P4EntityPageAllocation): number {
   return (
     left.legacyPageIndex - right.legacyPageIndex ||
     left.identity.pageId.localeCompare(right.identity.pageId)
@@ -47,9 +37,7 @@ function comparePage(
 }
 
 function stateCount(flow: ScriptFlowV5): number {
-  return flow.kind === 'stateMachine'
-    ? Object.keys(flow.machine.states).length
-    : flow.stages.length
+  return flow.kind === 'stateMachine' ? Object.keys(flow.machine.states).length : flow.stages.length
 }
 
 function legacyEntityStages(
@@ -57,8 +45,7 @@ function legacyEntityStages(
   page: P4EntityPageAllocation,
   owner: P4AuthorOwnerAllocation,
 ): LegacyStageInput[] | undefined {
-  if (owner.origin !== 'static-page' || owner.identity.kind !== 'entity-behavior')
-    return undefined
+  if (owner.origin !== 'static-page' || owner.identity.kind !== 'entity-behavior') return undefined
   const behavior = source.pages?.[page.legacyPageIndex]?.[owner.identity.channel]
   return behavior?.stages as LegacyStageInput[] | undefined
 }
@@ -67,8 +54,7 @@ function legacyHookStages(
   source: SceneDef,
   owner: P4AuthorOwnerAllocation,
 ): LegacyStageInput[] | undefined {
-  if (owner.origin !== 'static-scene' || owner.identity.kind !== 'scene-hook')
-    return undefined
+  if (owner.origin !== 'static-scene' || owner.identity.kind !== 'scene-hook') return undefined
   return source[owner.identity.slot] as LegacyStageInput[] | undefined
 }
 
@@ -139,11 +125,7 @@ export function projectP7CanonicalProject(args: {
     const pageKey = `${entityKey}\u0000${page.identity.pageId}`
     if (expectedPageKeys.has(pageKey)) throw new Error(`P7 project: 重复 page ${pageKey}`)
     expectedPageKeys.add(pageKey)
-    pushMap(
-      pagesByEntity,
-      entityKey,
-      page,
-    )
+    pushMap(pagesByEntity, entityKey, page)
   }
   for (const pages of pagesByEntity.values()) pages.sort(comparePage)
 
@@ -159,11 +141,7 @@ export function projectP7CanonicalProject(args: {
     if (owner.identity.kind === 'entity-behavior') {
       if (!sceneEntityKeys.has(sceneEntityKey(owner.identity.sceneId, owner.identity.entityId)))
         throw new Error(`P7 project: owner 指向不存在 entity ${key}`)
-      pushMap(
-        entityOwners,
-        sceneEntityKey(owner.identity.sceneId, owner.identity.entityId),
-        owner,
-      )
+      pushMap(entityOwners, sceneEntityKey(owner.identity.sceneId, owner.identity.entityId), owner)
     } else pushMap(hookOwners, owner.identity.sceneId, owner)
   }
 
@@ -266,9 +244,7 @@ export function projectP7CanonicalProject(args: {
               throw new Error(`P7 project: ${key}/${channel} owner 类型错误`)
             const page =
               owner.origin === 'static-page'
-                ? pageAllocations.find(
-                    (candidate) => candidate.identity.pageId === owner.pageId,
-                  )
+                ? pageAllocations.find((candidate) => candidate.identity.pageId === owner.pageId)
                 : undefined
             if (owner.origin === 'static-page' && !page)
               throw new Error(`P7 project: ${p7OwnerKey(owner.identity)} 缺 page allocation`)
@@ -300,9 +276,7 @@ export function projectP7CanonicalProject(args: {
           : { animation: clone(entity.pages[page.legacyPageIndex]!.animation) }),
       }))
       for (const page of pageAllocations)
-        consumedPageKeys.add(
-          `${key}\u0000${page.identity.pageId}`,
-        )
+        consumedPageKeys.add(`${key}\u0000${page.identity.pageId}`)
       const { pages: _legacyPages, hostile, ...base } = entity
       let projectedHostile: SceneDefV5['entities'][number]['hostile']
       if (hostile !== undefined) {
@@ -339,8 +313,8 @@ export function projectP7CanonicalProject(args: {
           : {
               pages,
               initialPage: initialPages[0]!.identity.pageId,
-              ...(Object.keys(behaviors).length === 0 ? {} : { behaviors }),
             }),
+        ...(Object.keys(behaviors).length === 0 ? {} : { behaviors }),
         ...(projectedHostile === undefined ? {} : { hostile: projectedHostile }),
       }
     })
@@ -362,7 +336,11 @@ export function projectP7CanonicalProject(args: {
   const items = args.items.map((source): ItemDataV5 => {
     const script = privateScripts.get(source.id)
     if (!script) return clone(source) as ItemDataV5
-    if (!source.use || source.use.effects.length !== 1 || source.use.effects[0]?.kind !== 'runScript')
+    if (
+      !source.use ||
+      source.use.effects.length !== 1 ||
+      source.use.effects[0]?.kind !== 'runScript'
+    )
       throw new Error(`P7 project: item ${source.id} 缺唯一 legacy runScript use effect`)
     consumedPrivateScripts.add(source.id)
     const base = clone(source) as unknown as ItemDataV5
@@ -425,8 +403,7 @@ export function projectP7CanonicalProject(args: {
       entityBehaviorCount: args.ir.owners.filter(
         (owner) => owner.identity.kind === 'entity-behavior',
       ).length,
-      sceneHookCount: args.ir.owners.filter((owner) => owner.identity.kind === 'scene-hook')
-        .length,
+      sceneHookCount: args.ir.owners.filter((owner) => owner.identity.kind === 'scene-hook').length,
       simpleOwnerCount,
       stateMachineOwnerCount,
       simpleStageCount,

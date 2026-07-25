@@ -20,9 +20,7 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
       ) as string[]
       const scenes = sceneIds.map(
         (sceneId) =>
-          JSON.parse(
-            readFileSync(resolve(target, `scenes/${sceneId}.json`), 'utf8'),
-          ) as SceneDef,
+          JSON.parse(readFileSync(resolve(target, `scenes/${sceneId}.json`), 'utf8')) as SceneDef,
       )
       const items = JSON.parse(readFileSync(resolve(target, 'items.json'), 'utf8')) as ItemData[]
 
@@ -44,21 +42,29 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
         sharedScriptCount: 0,
       })
       expect(projected.scripts).toEqual({})
-      expect(
-        projected.scenes.some(
-          (scene) => 'onEnter' in scene || 'onTeleport' in scene,
-        ),
-      ).toBe(false)
+      expect(projected.scenes.some((scene) => 'onEnter' in scene || 'onTeleport' in scene)).toBe(
+        false,
+      )
       expect(
         projected.scenes.some((scene) =>
           scene.entities.some((entity) =>
             entity.pages?.some(
-              (page) =>
-                typeof page.trigger === 'object' || typeof page.auto === 'object',
+              (page) => typeof page.trigger === 'object' || typeof page.auto === 'object',
             ),
           ),
         ),
       ).toBe(false)
+      const dynamicOnlyEntities = projected.scenes.flatMap((scene) =>
+        scene.entities.filter(
+          (entity) => entity.pages === undefined && entity.behaviors !== undefined,
+        ),
+      )
+      expect(dynamicOnlyEntities).toHaveLength(125)
+      expect(
+        projected.scenes
+          .find((scene) => scene.id === 's001')
+          ?.entities.find((entity) => entity.id === 'e8')?.behaviors?.trigger?.['legacy-001'],
+      ).toBeDefined()
       const privateItems = projected.items.filter((item) =>
         item.use?.effects.some((effect) => effect.kind === 'itemPrivateScript'),
       )
@@ -73,8 +79,7 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
       expect(
         projected.items.some((item) =>
           item.use?.effects.some(
-            (effect) =>
-              effect.kind === 'runScript' && typeof effect.script !== 'string',
+            (effect) => effect.kind === 'runScript' && typeof effect.script !== 'string',
           ),
         ),
       ).toBe(false)

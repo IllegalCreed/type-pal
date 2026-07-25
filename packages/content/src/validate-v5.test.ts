@@ -84,6 +84,41 @@ describe('canonical v5 scene validation', () => {
       ]),
     ).toThrow(/trigger: 期望非空字符串/)
   })
+
+  test('accepts dynamic-only behavior registries without inventing a static page', () => {
+    expect(() =>
+      validateScenesV5([
+        scene({
+          entities: [
+            {
+              id: 'e1',
+              sprite: 'npc',
+              pos: { col: 1, row: 1, height: 0 },
+              behaviors: {
+                trigger: {
+                  alternate: { label: '动态对话', order: 1, flow },
+                },
+              },
+            },
+          ],
+        }),
+      ]),
+    ).not.toThrow()
+    expect(() =>
+      validateScenesV5([
+        scene({
+          entities: [
+            {
+              id: 'e1',
+              sprite: 'npc',
+              pos: { col: 1, row: 1, height: 0 },
+              initialPage: 'default',
+            },
+          ],
+        }),
+      ]),
+    ).toThrow(/initialPage.*pages/)
+  })
 })
 
 describe('canonical v5 item script validation', () => {
@@ -108,9 +143,7 @@ describe('canonical v5 item script validation', () => {
 
   test('rejects v4 ScriptRef and malformed private ownership', () => {
     expect(() =>
-      validateItemsV5([
-        item({ kind: 'runScript', script: { chunk: 'shared/c00', id: 'legacy' } }),
-      ]),
+      validateItemsV5([item({ kind: 'runScript', script: { chunk: 'shared/c00', id: 'legacy' } })]),
     ).toThrow(/稳定 shared script id/)
     expect(() =>
       validateItemsV5([
