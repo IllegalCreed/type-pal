@@ -642,6 +642,37 @@ export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
   }
 }
 
+export class SetEntityPageBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '选择实体页行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly pageId: string,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly behaviorId: string | undefined,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const { entity } = sceneAndEntity(state, this.target)
+    const page = entity.pages?.find((candidate) => candidate.id === this.pageId)
+    if (!page)
+      throw new Error(
+        `实体页不存在 ${this.target.scene}/${this.target.entity}/${this.pageId}`,
+      )
+    if (
+      this.behaviorId !== undefined &&
+      !entity.behaviors?.[this.channel]?.[this.behaviorId]
+    )
+      throw new Error(
+        `${this.channel} behavior 不存在 ${this.target.scene}/${this.target.entity}/${this.behaviorId}`,
+      )
+    if (this.behaviorId === undefined) delete page[this.channel]
+    else page[this.channel] = this.behaviorId
+  }
+}
+
 export type SelectionPresentationV5 = {
   tone: 'inherit' | 'disabled' | 'use'
   label: string

@@ -34,6 +34,10 @@ function scriptRef(id: string): ScriptRef {
   return { chunk: V5_SCRIPT_CHUNK, id }
 }
 
+export function v5RuntimeScriptRef(id: string): ScriptRef {
+  return scriptRef(id)
+}
+
 function legacyItem(item: ItemDataMapV5[string]): ItemData {
   const convertEffects = (
     effects: NonNullable<ItemDataMapV5[string]['use']>['effects'],

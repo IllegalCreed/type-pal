@@ -252,6 +252,11 @@ describe('canonical v5 editor project IO', () => {
       name: 'Renamed',
     }
     shell.scenes[0]!.entities[0]!.pos.col = 9
+    shell.scenes[0]!.entities[0]!.pages![0]!.animation = {
+      sprite: 'npc',
+      action: 'idle',
+      loop: true,
+    }
     shell.scenes[0]!.onEnter = [{ body: [{ kind: 'setFlag', flag: 'legacy', value: true }] }]
     shell.items[0]!.name = '已改名物品'
 
@@ -260,6 +265,12 @@ describe('canonical v5 editor project IO', () => {
     expect(merged.scenes[0]!.entities[0]).toMatchObject({
       pos: { col: 9 },
       behaviors: { trigger: { talk: { label: 'canonical 交谈' } } },
+      pages: [
+        {
+          id: 'default',
+          animation: { sprite: 'npc', action: 'idle', loop: true },
+        },
+      ],
     })
     expect(merged.scenes[0]!.hooks).toBeUndefined()
     expect(merged.items[0]).toMatchObject({

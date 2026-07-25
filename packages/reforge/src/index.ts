@@ -150,6 +150,7 @@ export {
   legacyItemsFromV5,
   legacyProjectShellFromV5,
   legacySceneFromV5,
+  v5RuntimeScriptRef,
 } from './legacy-runtime-shell-v5.js'
 export type {
   LatticePos,

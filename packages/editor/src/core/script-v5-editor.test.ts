@@ -14,6 +14,7 @@ import {
   RenameEntityBehaviorV5Command,
   type ScriptEditorStateV5,
   ScriptV5EditSession,
+  SetEntityPageBehaviorV5Command,
   SetItemPrivateScriptBodyV5Command,
   stateTransitionExecutionLabelV5,
   UpdateEntityBehaviorV5Command,
@@ -377,6 +378,24 @@ describe('canonical script v5 editor commands', () => {
         body: [{ kind: 'selectEntityBehavior' }],
       },
     })
+  })
+
+  test('selects page behaviors by stable id and validates the local registry', () => {
+    const session = new ScriptV5EditSession(editorState())
+    session.dispatch(
+      new AddEntityBehaviorV5Command(target, 'trigger', 'alternate', behavior('alternate')),
+    )
+    session.dispatch(
+      new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'alternate'),
+    )
+    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('alternate')
+    session.dispatch(new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', undefined))
+    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBeUndefined()
+    expect(() =>
+      session.dispatch(
+        new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'missing'),
+      ),
+    ).toThrow(/behavior 不存在/)
   })
 })
 

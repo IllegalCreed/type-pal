@@ -230,6 +230,52 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(onError).toHaveBeenCalledWith(expect.stringMatching(/sidecar 保护/))
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toBeDefined()
   })
+
+  test('edits canonical flow bodies inline and commits through the validated command', async () => {
+    const session = new ScriptV5EditSession(editorState())
+
+    function Harness() {
+      const [state, setState] = useState(session.getState())
+      return (
+        <ScriptV5BehaviorInspector
+          state={state}
+          target={target}
+          channel="trigger"
+          onDispatch={(command) => {
+            session.dispatch(command)
+            setState(session.getState())
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    await act(async () => button(host, '编辑正文与控制流').click())
+    const textarea = host.querySelector<HTMLTextAreaElement>(
+      '[aria-label="Canonical ScriptFlow JSON"]',
+    )!
+    const flow = {
+      kind: 'stages',
+      initial: 'start',
+      stages: [
+        {
+          id: 'start',
+          body: [{ kind: 'setFlag', flag: 'edited-inline', value: true }],
+        },
+      ],
+    }
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(
+        textarea,
+        JSON.stringify(flow),
+      )
+      textarea.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    await act(async () => button(host, '应用并校验').click())
+    expect(
+      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow,
+    ).toEqual(flow)
+    expect(session.isDirty()).toBe(true)
+  })
 })
 
 describe('BehaviorSelectionEditorV5', () => {

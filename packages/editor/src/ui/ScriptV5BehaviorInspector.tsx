@@ -1,6 +1,7 @@
 import type {
   EntityAddress,
   NamedEntityBehaviorV5,
+  ScriptFlowV5,
   Selection,
   StateTransitionV5,
 } from '@type-pal/content'
@@ -138,6 +139,7 @@ export function ScriptV5BehaviorInspector(props: {
       ? props.selectedBehaviorId
       : entries[0]?.[0]) ?? ''
   const selected = registry[selectedId]
+  const selectedFlowJson = selected ? JSON.stringify(selected.flow, null, 2) : ''
   const references = selected
     ? behaviorReferencesV5(props.state, props.target, props.channel, selectedId)
     : []
@@ -146,12 +148,16 @@ export function ScriptV5BehaviorInspector(props: {
   const [renameId, setRenameId] = useState(selectedId)
   const [copyId, setCopyId] = useState(selectedId ? `${selectedId}-copy` : '')
   const [labelDraft, setLabelDraft] = useState(selected?.label ?? '')
+  const [flowEditorOpen, setFlowEditorOpen] = useState(false)
+  const [flowDraft, setFlowDraft] = useState(selectedFlowJson)
 
   useEffect(() => {
     setRenameId(selectedId)
     setCopyId(selectedId ? `${selectedId}-copy` : '')
     setLabelDraft(selected?.label ?? '')
-  }, [selectedId, selected?.label])
+    setFlowDraft(selectedFlowJson)
+    setFlowEditorOpen(false)
+  }, [selectedFlowJson, selectedId, selected?.label])
 
   const dispatch = (command: ScriptEditorCommandV5): boolean => {
     try {
@@ -326,8 +332,15 @@ export function ScriptV5BehaviorInspector(props: {
                     : `${Object.keys(selected.flow.machine.states).length} 个状态 · 初始 ${selected.flow.machine.initial}`}
                 </span>
               </div>
-              <button type="button" onClick={() => props.onOpenFlow?.(selectedId)}>
-                编辑正文与控制流 ↗
+              <button
+                type="button"
+                aria-expanded={flowEditorOpen}
+                onClick={() => {
+                  setFlowEditorOpen((open) => !open)
+                  props.onOpenFlow?.(selectedId)
+                }}
+              >
+                {flowEditorOpen ? '收起正文与控制流' : '编辑正文与控制流'}
               </button>
               {selected.flow.kind === 'stateMachine' ? (
                 <ol>
@@ -353,6 +366,56 @@ export function ScriptV5BehaviorInspector(props: {
                   ))}
                 </ol>
               )}
+              {flowEditorOpen ? (
+                <div className="script-v5-flow-editor">
+                  <label>
+                    <span className="field-label">Canonical ScriptFlow JSON</span>
+                    <textarea
+                      className="in mono"
+                      aria-label="Canonical ScriptFlow JSON"
+                      spellCheck={false}
+                      value={flowDraft}
+                      onChange={(event) => setFlowDraft(event.target.value)}
+                    />
+                  </label>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => setFlowDraft(JSON.stringify(selected.flow, null, 2))}
+                    >
+                      还原
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        try {
+                          const flow = JSON.parse(flowDraft) as ScriptFlowV5
+                          if (
+                            dispatch(
+                              new UpdateEntityBehaviorV5Command(
+                                props.target,
+                                props.channel,
+                                selectedId,
+                                { flow },
+                              ),
+                            )
+                          )
+                            setFlowDraft(JSON.stringify(flow, null, 2))
+                        } catch (error) {
+                          props.onError?.(
+                            error instanceof Error ? error.message : String(error),
+                          )
+                        }
+                      }}
+                    >
+                      应用并校验
+                    </button>
+                  </div>
+                  <small>
+                    保存前走 v5 schema、迁移 cursor 与引用完整性校验；失败时不会修改工程。
+                  </small>
+                </div>
+              ) : null}
             </div>
 
             <div className="script-v5-reference-list">

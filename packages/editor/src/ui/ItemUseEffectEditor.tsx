@@ -1,4 +1,5 @@
 import type {
+  AuthorCommandV5,
   ItemData,
   ItemRecipe,
   ItemUseEffect,
@@ -10,6 +11,7 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
+import { useEffect, useState } from 'react'
 
 const STATUSES: { value: StatusId; label: string }[] = [
   { value: 'confused', label: '混乱' },
@@ -53,6 +55,55 @@ const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
 export interface ItemScriptOption {
   ref: ScriptRef
   label: string
+}
+
+export interface ItemPrivateScriptBindingV5 {
+  label: string
+  body: AuthorCommandV5[]
+  onChange: (body: AuthorCommandV5[]) => void
+}
+
+function ItemPrivateScriptBodyEditorV5(props: {
+  binding: ItemPrivateScriptBindingV5
+  onError?: (message: string) => void
+}) {
+  const bodyJson = JSON.stringify(props.binding.body, null, 2)
+  const [draft, setDraft] = useState(bodyJson)
+  useEffect(() => setDraft(bodyJson), [bodyJson])
+  return (
+    <div className="item-private-script-v5">
+      <div>
+        <strong>{props.binding.label}</strong>
+        <span>归当前物品拥有 · 不进入共享脚本库</span>
+      </div>
+      <textarea
+        className="in mono"
+        aria-label={`${props.binding.label}正文`}
+        spellCheck={false}
+        value={draft}
+        onChange={(event) => setDraft(event.target.value)}
+      />
+      <div>
+        <button type="button" onClick={() => setDraft(bodyJson)}>
+          还原
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            try {
+              const body = JSON.parse(draft) as unknown
+              if (!Array.isArray(body)) throw new Error('物品私有脚本正文必须是指令数组')
+              props.binding.onChange(body as AuthorCommandV5[])
+            } catch (error) {
+              props.onError?.(error instanceof Error ? error.message : String(error))
+            }
+          }}
+        >
+          应用并校验
+        </button>
+      </div>
+    </div>
+  )
 }
 
 function positive(value: number, fallback = 1): number {
@@ -805,6 +856,8 @@ export function ItemEffectChainEditor(props: {
   worldResources?: Readonly<Record<string, number>>
   onSetWorldResource?: (resource: string, initialValue: number) => void
   itemId?: string
+  /** v5 item-private effect 的 canonical 正文；索引与兼容壳中的占位 runScript 对齐。 */
+  privateScriptsV5?: Readonly<Record<number, ItemPrivateScriptBindingV5>>
 }) {
   const { ability, spec, items, poisons, scripts, onChange } = props
   const use = ability === 'use' ? (spec as UseSpec) : undefined
@@ -997,27 +1050,37 @@ export function ItemEffectChainEditor(props: {
         <div className="item-effect-row" key={`${effect.kind}-${index}`}>
           <div className="item-effect-row-head">
             <span className="item-effect-index">效果 {index + 1}</span>
-            <select
-              className="in item-effect-kind"
-              aria-label={`效果 ${index + 1} 类型`}
-              value={effect.kind}
-              onChange={(event) => changeKind(index, event.target.value as ItemUseEffect['kind'])}
-            >
-              {(ability === 'throw'
-                ? EFFECT_KINDS.filter((entry) => entry.value === 'applyPoison')
-                : compatibleKindsAt(index)
-              ).map((entry) => (
-                <option key={entry.value} value={entry.value}>
-                  {entry.label}
-                </option>
-              ))}
-            </select>
+            {props.privateScriptsV5?.[index] ? (
+              <span className="in item-effect-kind item-private-script-kind">
+                物品私有脚本
+              </span>
+            ) : (
+              <select
+                className="in item-effect-kind"
+                aria-label={`效果 ${index + 1} 类型`}
+                value={effect.kind}
+                onChange={(event) => changeKind(index, event.target.value as ItemUseEffect['kind'])}
+              >
+                {(ability === 'throw'
+                  ? EFFECT_KINDS.filter((entry) => entry.value === 'applyPoison')
+                  : compatibleKindsAt(index)
+                ).map((entry) => (
+                  <option key={entry.value} value={entry.value}>
+                    {entry.label}
+                  </option>
+                ))}
+              </select>
+            )}
             <span className="spacer" />
             <button
               type="button"
               className="mini"
               aria-label={`上移效果 ${index + 1}`}
-              disabled={index === 0 || EXCLUSIVE_EFFECTS.has(effect.kind)}
+              disabled={
+                index === 0 ||
+                EXCLUSIVE_EFFECTS.has(effect.kind) ||
+                props.privateScriptsV5?.[index] !== undefined
+              }
               onClick={() => {
                 const effects = [...spec.effects]
                 ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
@@ -1030,7 +1093,11 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini"
               aria-label={`下移效果 ${index + 1}`}
-              disabled={index === spec.effects.length - 1 || EXCLUSIVE_EFFECTS.has(effect.kind)}
+              disabled={
+                index === spec.effects.length - 1 ||
+                EXCLUSIVE_EFFECTS.has(effect.kind) ||
+                props.privateScriptsV5?.[index] !== undefined
+              }
               onClick={() => {
                 const effects = [...spec.effects]
                 ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
@@ -1050,19 +1117,26 @@ export function ItemEffectChainEditor(props: {
             </button>
           </div>
           <div className="item-effect-grid">
-            <EffectFields
-              effect={effect}
-              items={items}
-              poisons={poisons}
-              scripts={scripts}
-              onChange={(next) => replaceAt(index, next)}
-              onOpenScript={props.onOpenScript}
-              onCreateAndBindScript={props.onCreateAndBindScript}
-              worldResources={props.worldResources}
-              onSetWorldResource={props.onSetWorldResource}
-              subjectItemId={props.itemId}
-              consuming={use?.consuming}
-            />
+            {props.privateScriptsV5?.[index] ? (
+              <ItemPrivateScriptBodyEditorV5
+                binding={props.privateScriptsV5[index]}
+                onError={props.onError}
+              />
+            ) : (
+              <EffectFields
+                effect={effect}
+                items={items}
+                poisons={poisons}
+                scripts={scripts}
+                onChange={(next) => replaceAt(index, next)}
+                onOpenScript={props.onOpenScript}
+                onCreateAndBindScript={props.onCreateAndBindScript}
+                worldResources={props.worldResources}
+                onSetWorldResource={props.onSetWorldResource}
+                subjectItemId={props.itemId}
+                consuming={use?.consuming}
+              />
+            )}
           </div>
         </div>
       ))}

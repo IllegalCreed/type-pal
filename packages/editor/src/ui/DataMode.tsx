@@ -21,6 +21,10 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ItemReference } from '../core/item-references.js'
 import { buildRefIndex } from '../core/ref-index.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
+import type {
+  ScriptEditorStateV5,
+  ScriptV5EditSession,
+} from '../core/script-v5-editor.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -118,6 +122,10 @@ export function DataMode(props: {
   onJumpWorldSpriteAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onJumpBattleSpriteReference?: (reference: BattleSpriteDefinitionReference) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  scriptV5?: {
+    state: ScriptEditorStateV5
+    session: ScriptV5EditSession
+  }
 }) {
   const {
     sprites,
@@ -170,6 +178,7 @@ export function DataMode(props: {
     onJumpWorldSpriteAutomaticScriptInstance,
     onJumpBattleSpriteReference,
     onStatusNotice,
+    scriptV5,
   } = props
   // N5:引用反向索引(flag/var/item ← 事件脚本);scenes 变才重算(全量扫描毫秒级)
   const refIndex = useMemo(() => buildRefIndex(scenes), [scenes])
@@ -249,6 +258,7 @@ export function DataMode(props: {
         onOpenItemReference={onOpenItemReference}
         onOpenProjectIssues={onOpenProjectIssues}
         tabBar={tabBar}
+        scriptV5={scriptV5}
       />
     )
   }

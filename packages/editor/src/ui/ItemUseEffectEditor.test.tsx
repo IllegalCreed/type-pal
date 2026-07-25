@@ -283,4 +283,62 @@ describe('ItemEffectChainEditor', () => {
     expect(onChange).toHaveBeenLastCalledWith({ effects: [{ kind: 'applyPoison', poisonId: '7' }] })
     expect(host.querySelector('[role="alert"]')).toBeNull()
   })
+
+  test('v5 物品私有脚本在物品效果内联编辑，不显示共享脚本跳转', async () => {
+    const onBodyChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <ItemEffectChainEditor
+          ability="use"
+          spec={{
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+              },
+            ],
+          }}
+          items={[item('tool')]}
+          poisons={[]}
+          scripts={[]}
+          itemId="tool"
+          onChange={() => undefined}
+          privateScriptsV5={{
+            0: {
+              label: '土灵珠使用',
+              body: [{ kind: 'setFlag', flag: 'before', value: true }],
+              onChange: onBodyChange,
+            },
+          }}
+        />,
+      ),
+    )
+    expect(host.textContent).toContain('物品私有脚本')
+    expect(host.textContent).toContain('归当前物品拥有')
+    expect(host.textContent).not.toContain('打开脚本')
+    const textarea = host.querySelector<HTMLTextAreaElement>(
+      '[aria-label="土灵珠使用正文"]',
+    )!
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(
+        HTMLTextAreaElement.prototype,
+        'value',
+      )!.set!
+      setter.call(
+        textarea,
+        JSON.stringify([{ kind: 'setFlag', flag: 'after', value: true }]),
+      )
+      textarea.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('应用并校验'))!
+        .click(),
+    )
+    expect(onBodyChange).toHaveBeenCalledWith([
+      { kind: 'setFlag', flag: 'after', value: true },
+    ])
+  })
 })

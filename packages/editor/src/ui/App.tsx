@@ -82,6 +82,7 @@ import {
 } from '../core/project-io-v5.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
+  SetEntityPageBehaviorV5Command,
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
 } from '../core/script-v5-editor.js'
@@ -368,6 +369,7 @@ export function App(props: {
   const [tool, setTool] = useState<Tool>('select')
   const [scriptV5Channel, setScriptV5Channel] = useState<'trigger' | 'auto'>('trigger')
   const [selectedBehaviorV5, setSelectedBehaviorV5] = useState<string>()
+  const [selectedPageV5, setSelectedPageV5] = useState<string>()
   // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -819,6 +821,17 @@ export function App(props: {
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
+  const canonicalEntityV5 = scriptV5State?.scenes
+    .find((candidate) => candidate.id === scene?.id)
+    ?.entities.find((candidate) => candidate.id === selEntity?.id)
+  const canonicalPageV5 =
+    canonicalEntityV5?.pages?.find((page) => page.id === selectedPageV5) ??
+    canonicalEntityV5?.pages?.find((page) => page.id === canonicalEntityV5.initialPage) ??
+    canonicalEntityV5?.pages?.[0]
+  useEffect(() => {
+    setSelectedPageV5(undefined)
+    setSelectedBehaviorV5(undefined)
+  }, [scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
@@ -1295,6 +1308,11 @@ export function App(props: {
             mapIndex={state.mapIndex}
             stampSelectionSource={stampSelectionSource}
             onStatusNotice={setWorkspaceNotice}
+            scriptV5={
+              scriptV5Session && scriptV5State
+                ? { state: scriptV5State, session: scriptV5Session }
+                : undefined
+            }
             battleFields={state.battleFields ?? []}
             poisons={state.poisons ?? []}
             ambiences={state.ambiences ?? []}
@@ -1755,6 +1773,62 @@ export function App(props: {
                   />
                   {scriptV5Session && scriptV5State ? (
                     <div className="section script-v5-entity-section">
+                      {canonicalEntityV5 && canonicalPageV5 ? (
+                        <div className="script-v5-page-binding">
+                          <label>
+                            <span className="field-label">实体页</span>
+                            <select
+                              className="in"
+                              value={canonicalPageV5.id}
+                              onChange={(event) => setSelectedPageV5(event.target.value)}
+                            >
+                              {(canonicalEntityV5.pages ?? []).map((page) => (
+                                <option key={page.id} value={page.id}>
+                                  {page.label} · {page.id}
+                                  {page.id === canonicalEntityV5.initialPage ? '（初始）' : ''}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          {(['trigger', 'auto'] as const).map((channel) => {
+                            const registry = canonicalEntityV5.behaviors?.[channel] ?? {}
+                            return (
+                              <label key={channel}>
+                                <span className="field-label">
+                                  {channel === 'trigger' ? '触发行为槽' : '自动行为槽'}
+                                </span>
+                                <select
+                                  className="in"
+                                  value={canonicalPageV5[channel] ?? ''}
+                                  onChange={(event) =>
+                                    scriptV5Session.dispatch(
+                                      new SetEntityPageBehaviorV5Command(
+                                        { scene: scene.id, entity: selEntity.id },
+                                        canonicalPageV5.id,
+                                        channel,
+                                        event.target.value || undefined,
+                                      ),
+                                    )
+                                  }
+                                >
+                                  <option value="">显式无行为</option>
+                                  {Object.entries(registry)
+                                    .sort(
+                                      ([leftId, left], [rightId, right]) =>
+                                        left.order - right.order ||
+                                        leftId.localeCompare(rightId),
+                                    )
+                                    .map(([id, behavior]) => (
+                                      <option key={id} value={id}>
+                                        {behavior.label} · {id}
+                                      </option>
+                                    ))}
+                                </select>
+                              </label>
+                            )
+                          })}
+                        </div>
+                      ) : null}
                       <div className="script-v5-channel-tabs" role="tablist" aria-label="行为通道">
                         {(['trigger', 'auto'] as const).map((channel) => (
                           <button

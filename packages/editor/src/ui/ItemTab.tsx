@@ -12,6 +12,7 @@ import type {
   EquipSlot,
   EquipSpec,
   ItemData,
+  ItemDataV5,
   ItemUseEffect,
   Locale,
   PoisonDef,
@@ -26,6 +27,7 @@ import {
   describeEquipEffects,
   lookupText,
 } from '@type-pal/content'
+import { v5RuntimeScriptRef } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   AddItemCommand,
@@ -46,6 +48,11 @@ import {
   itemReferenceMap,
 } from '../core/item-references.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
+import {
+  type ScriptEditorStateV5,
+  type ScriptV5EditSession,
+  SetItemPrivateScriptBodyV5Command,
+} from '../core/script-v5-editor.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
@@ -540,6 +547,10 @@ export function ItemTab(props: {
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   tabBar?: React.ReactNode
+  scriptV5?: {
+    state: ScriptEditorStateV5
+    session: ScriptV5EditSession
+  }
 }) {
   const {
     items,
@@ -561,6 +572,7 @@ export function ItemTab(props: {
     onObjectFocus,
     onStatusNotice,
     tabBar,
+    scriptV5,
   } = props
   const [filter, setFilter] = useState('')
   const [filterMode, setFilterMode] = useState<ItemFilter>('all')
@@ -643,6 +655,13 @@ export function ItemTab(props: {
     return (id: string): string | undefined => names.get(id)
   }, [battleSprites])
   const scriptOptions = (() => {
+    if (scriptV5)
+      return Object.entries(scriptV5.state.sharedScripts)
+        .map(([id, script]) => ({
+          ref: v5RuntimeScriptRef(id),
+          label: `${script.name} · ${id}`,
+        }))
+        .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
     const index = session.getState().scriptIndex
     if (!index) return []
     return Object.entries(index.library ?? {})
@@ -652,6 +671,34 @@ export function ItemTab(props: {
       })
       .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
   })() as ItemScriptOption[]
+  const canonicalItemV5: ItemDataV5 | undefined = scriptV5?.state.items.find(
+    (candidate) => candidate.id === item?.id,
+  )
+  const privateScriptsV5 = (slot: 'use' | 'throw') =>
+    Object.fromEntries(
+      (canonicalItemV5?.[slot]?.effects ?? []).flatMap((effect, index) =>
+        effect.kind === 'itemPrivateScript'
+          ? [
+              [
+                index,
+                {
+                  label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
+                  body: effect.script.body,
+                  onChange: (body: typeof effect.script.body) =>
+                    scriptV5?.session.dispatch(
+                      new SetItemPrivateScriptBodyV5Command(
+                        canonicalItemV5!.id,
+                        slot,
+                        index,
+                        body,
+                      ),
+                    ),
+                },
+              ] as const,
+            ]
+          : [],
+      ),
+    )
 
   const patch = (next: Partial<Omit<ItemData, 'id'>>): void => {
     if (item) session.dispatch(new UpdateItemCommand(item.id, next))
@@ -715,6 +762,13 @@ export function ItemTab(props: {
   }
   const createAndBindScript = (confirmed = false): void => {
     if (!item) return
+    if (scriptV5) {
+      onStatusNotice?.({
+        kind: 'error',
+        message: 'v5 共享脚本必须从具名共享库创建；物品私有逻辑请直接编辑当前物品内联正文。',
+      })
+      return
+    }
     const state = session.getState()
     const current = state.items.find((candidate) => candidate.id === item.id)
     if (!current) return
@@ -1472,6 +1526,7 @@ export function ItemTab(props: {
                         }),
                       )
                     }}
+                    privateScriptsV5={privateScriptsV5('use')}
                   />
                 </div>
               ) : (
@@ -1519,6 +1574,7 @@ export function ItemTab(props: {
                     scripts={scriptOptions}
                     onChange={(next) => patch({ throw: next })}
                     onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+                    privateScriptsV5={privateScriptsV5('throw')}
                   />
                 </div>
               ) : (
