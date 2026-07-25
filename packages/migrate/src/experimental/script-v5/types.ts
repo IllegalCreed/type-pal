@@ -1396,3 +1396,392 @@ export interface P5TransitionPlan {
   }
   conflicts: P5TransitionConflict[]
 }
+
+export interface P6RepresentationCellIdentity {
+  kind: 'p5-representation-cell'
+  representation: 'owner-fragment' | 'flow-structure' | 'cycle-body'
+  scriptId: string
+}
+
+export interface P6LocalFlowIdentity {
+  kind: 'owner-local-flow'
+  owner: P4AuthorOwnerIdentity
+  flowId: string
+}
+
+export interface P6ItemPrivateScriptIdentity {
+  kind: 'item-private-script'
+  itemId: string
+  scriptId: 'use'
+}
+
+export interface P6LocalSourceBody {
+  handle: LegacyBodyHandle
+  legacyScriptId: string
+  baseCellSha256: string
+  body: unknown[]
+  origin: 'p4-owner-fragment' | 'p6-retained-body'
+  groupId: string
+}
+
+export interface P6LocalFlowAllocation {
+  identity: P6LocalFlowIdentity
+  label: string
+  sourceHandle: LegacyBodyHandle
+  sourceLegacyScriptId: string
+  sourceBodySha256: string
+  authorBody: unknown[]
+  entry: 'call-inline' | 'tail-transition' | 'direct-owner-body'
+  materializedCallSites: number
+  groupId: string
+}
+
+export interface P6GeneratedFlowExit {
+  kind: 'n3P6FlowExit'
+  target: P6LocalFlowIdentity
+  scheduling: 'macroTask'
+  worldClockAdvanceMs: 0
+  cancellation: 'required'
+  continuation: 'terminate-current-segment'
+}
+
+export interface P6CallInlineRewrite {
+  source: {
+    representation: 'owner-fragment' | 'cycle-body'
+    scriptId: string
+    pointer: string
+    baseCellSha256: string
+  }
+  before: unknown
+  afterBody: unknown[]
+  targetLegacyScriptId: string
+  targetBodySha256: string
+  callReturn: 'preserved'
+  compatibilityBoundaryAfterMs: 0 | 100
+  groupId: 'p6-local-call-closure'
+}
+
+export interface P6FlowExitRewrite {
+  source: {
+    representation: 'owner-fragment'
+    scriptId: string
+    pointer: string
+    baseCellSha256: string
+  }
+  before: unknown
+  after: P6GeneratedFlowExit
+  targetLegacyScriptId: string
+  groupId: string
+}
+
+export interface P6ReversibleItemSourceBody {
+  handle: LegacyBodyHandle
+  legacyScriptId: string
+  baseCellSha256: string
+  body: unknown[]
+  origin: 'p6-retained-body' | 'p3-flow-structure'
+}
+
+export type P6ItemPrivateAnalysis =
+  | {
+      kind: 'spirit-orb-altar'
+      sceneId: string
+      placements: Array<{
+        itemId: string
+        target: { sceneId: string; entityId: string }
+        placedState: number
+        facing: string
+        frame: number
+        fallback: 'no-effect' | 'scene-teleport'
+      }>
+      noEffectBody: unknown[]
+      sceneTeleportBody: unknown[]
+      completion: {
+        targets: Array<{
+          target: { sceneId: string; entityId: string }
+          blockedStates: [0, 2]
+        }>
+        body: unknown[]
+      }
+    }
+  | {
+      kind: 'reward-bundle'
+      presentation: unknown[]
+      money: number
+      items: Array<{ itemId: string; count: number }>
+    }
+  | {
+      kind: 'narrative'
+      body: unknown[]
+    }
+  | {
+      kind: 'teach-skills'
+      presentation: unknown[]
+      skills: Array<{ role: number; skillId: string }>
+    }
+
+export interface P6ItemPrivateScript {
+  identity: P6ItemPrivateScriptIdentity
+  label: string
+  authorBody: unknown[]
+}
+
+export interface P6ItemPrivateClosure {
+  domainId: 'spirit-orb-altar' | 'reward-bundle' | 'narrative' | 'teach-skills'
+  label: string
+  scripts: P6ItemPrivateScript[]
+  sourceBodies: P6ReversibleItemSourceBody[]
+  analysis: P6ItemPrivateAnalysis
+  groupId: string
+  sharedScriptCount: 0
+}
+
+export type P6SharedTailDisposition =
+  | 'p5-cycle-structure'
+  | 'p4-named-owner'
+  | 'p6-owner-local'
+  | 'p6-item-private'
+
+export interface P6SharedTailClassification {
+  legacyScriptId: string
+  disposition: P6SharedTailDisposition
+  sharedAuthorScript: false
+}
+
+export interface P6MisleadingSccRetirement {
+  legacyScriptId: string
+  disposition: 'owner-local-flow' | 'item-private-script'
+  activeAuthorIdentities: Array<P6LocalFlowIdentity | P6ItemPrivateScriptIdentity>
+}
+
+export interface P6ClosureCensus {
+  retainedInput: 31
+  retainedOutput: 0
+  localSourceBodies: 21
+  localFlowAllocations: 42
+  localBodyCopies: 21
+  itemPrivateScripts: 6
+  itemPrivateClosures: 4
+  sharedAuthorScripts: 0
+  sharedTails: {
+    input: 532
+    p5CycleStructure: 433
+    p4NamedOwner: 80
+    p6OwnerLocal: 17
+    p6ItemPrivate: 2
+    sharedAuthorScript: 0
+    unknown: 0
+  }
+  internalCalls: {
+    input: 580
+    inlinedLocal: 574
+    absorbedItemBridges: 6
+    autoCompatibilityBoundaries: 22
+    remaining: 0
+  }
+  legacyJumps: {
+    input: 11
+    rewrittenLocal: 5
+    absorbedItemPrivate: 6
+    remaining: 0
+  }
+  misleadingScc: {
+    input: 13
+    active: 0
+    provenanceOnly: 13
+  }
+  authorRoots: {
+    input: 6
+    bridgeShells: 0
+    itemPrivate: 6
+    shared: 0
+  }
+  reversibleBodies: 8102
+  unknown: 0
+}
+
+export type P6TransitionEntry =
+  | P5TransitionEntry
+  | {
+      from: LegacyScriptIdentity | P6RepresentationCellIdentity
+      baseCellSha256: string
+      outcome: {
+        kind: 'group'
+        groupId: string
+      }
+    }
+
+export interface P6ClosureTransitionGroup {
+  kind:
+    | 'local-call-closure-group'
+    | 'local-flow-closure-group'
+    | 'item-private-script-closure-group'
+  id: string
+  transformId:
+    | 'inline-local-call-closure-v1'
+    | 'restore-owner-local-flow-v1'
+    | 'absorb-item-private-script-v1'
+  editPolicy: 'conflict-if-modified'
+  sources: Array<{
+    identity: LegacyScriptIdentity | P6RepresentationCellIdentity
+    baseCellSha256: string
+  }>
+  targets: Array<P6RepresentationCellIdentity | P6LocalFlowIdentity | P6ItemPrivateScriptIdentity>
+  outcome: {
+    kind: 'inlined-local-calls' | 'restored-owner-local-flow' | 'absorbed-item-private-script'
+    callInlineCount: number
+    flowExitRewriteCount: number
+    localSourceBodyCount: number
+    localFlowAllocationCount: number
+    itemPrivateScriptCount: number
+    bodyCopies: number
+    sharedScriptCount: 0
+  }
+  evidenceId: string
+  dependsOn: string[]
+}
+
+export interface P6ClosureTransitionEvidence {
+  id: string
+  kind: 'local-call-closure' | 'owner-local-flow' | 'item-private-script'
+  sourceAuditDigest: string
+  legacyScriptIds: string[]
+  sourceCells: string[]
+  stableIdsExplicit: true
+  genericFunctionCriterion: true
+  sharedScriptCount: 0
+}
+
+export interface ScriptTransitionLedgerDraftP6 {
+  kind: 'script-transition-ledger-draft'
+  version: 1
+  projectId: 'pal'
+  transitionId: 'script-v4-v5'
+  generatorEpoch: 'n3-script-v5-p6-v1'
+  throughPhase: 'P6'
+  sourceAudit: {
+    methodVersion: string
+    digest: string
+  }
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  completed: Array<
+    | ScriptTransitionLedgerDraftP5['completed'][number]
+    | 'local-call-closure'
+    | 'owner-local-flow'
+    | 'item-private-script'
+    | 'shared-script-closure'
+    | 'legacy-script-model-retirement'
+  >
+  entries: P6TransitionEntry[]
+  groups: Array<
+    | P2TransitionGroup
+    | P3FlowTransitionGroup
+    | P4OwnerTransitionGroup
+    | P5CycleTransitionGroup
+    | P6ClosureTransitionGroup
+  >
+  evidence: Array<
+    | P2TransitionEvidence
+    | P3FlowTransitionEvidence
+    | P4OwnerTransitionEvidence
+    | P5CycleTransitionEvidence
+    | P6ClosureTransitionEvidence
+  >
+  pending: []
+  digest: string
+}
+
+export interface ScriptMigrationIRP6
+  extends Omit<
+    ScriptMigrationIRP5,
+    | 'throughPhase'
+    | 'generatorEpoch'
+    | 'previousPhase'
+    | 'retainedBodies'
+    | 'pendingOwnerLinks'
+    | 'pendingByPhase'
+    | 'digest'
+  > {
+  throughPhase: 'P6'
+  generatorEpoch: 'n3-script-v5-p6-v1'
+  previousPhase: {
+    irDigest: string
+    ledgerDigest: string
+  }
+  retainedBodies: []
+  pendingOwnerLinks: []
+  localSourceBodies: P6LocalSourceBody[]
+  localFlows: P6LocalFlowAllocation[]
+  itemPrivateClosures: P6ItemPrivateClosure[]
+  itemPrivateScripts: P6ItemPrivateScript[]
+  sharedAuthorScripts: []
+  callInlineRewrites: P6CallInlineRewrite[]
+  flowExitRewrites: P6FlowExitRewrite[]
+  sharedTailClassifications: P6SharedTailClassification[]
+  misleadingSccRetirements: P6MisleadingSccRetirement[]
+  closureCensus: P6ClosureCensus
+  pendingByPhase: { P6: 0 }
+  digest: string
+}
+
+export interface P6ValidationReport {
+  kind: 'script-migration-phase-validation'
+  version: 1
+  throughPhase: 'P6'
+  sourceAuditDigest: string
+  checks: {
+    sourceAuditFrozen: true
+    previousPhaseFrozen: true
+    retainedBodies: 0
+    localSourceBodies: number
+    localFlowAllocations: number
+    itemPrivateScripts: number
+    sharedAuthorScripts: number
+    sharedTailsClassified: number
+    internalCallCommands: number
+    legacyJumpCommands: number
+    misleadingActiveSccIdentities: number
+    bridgeAuthorRoots: number
+    reversibleBodies: number
+    duplicateStableIds: number
+    danglingLocalFlows: number
+    pendingP6: 0
+    pendingUnknown: 0
+  }
+  digest: string
+}
+
+export type P6TransitionConflict =
+  | P5TransitionConflict
+  | {
+      kind:
+        | 'closure-source-modify'
+        | 'closure-reference-inventory-modify'
+        | 'closure-source-inventory-modify'
+      source: string
+      expected?: string
+      actual?: string
+    }
+
+export interface P6TransitionPlan {
+  kind: 'script-transition-phase-plan'
+  version: 1
+  throughPhase: 'P6'
+  dryOnly: true
+  summary: P5TransitionPlan['summary'] & {
+    localCallInlines: number
+    localSourceBodies: number
+    localFlowAllocations: number
+    localBodyCopies: number
+    itemPrivateScripts: number
+    sharedAuthorScripts: number
+    classifiedSharedTails: number
+    remainingInternalCalls: number
+    remainingLegacyJumps: 0
+    remainingPendingBodies: 0
+  }
+  conflicts: P6TransitionConflict[]
+}

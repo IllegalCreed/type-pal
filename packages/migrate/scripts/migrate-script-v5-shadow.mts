@@ -1,7 +1,7 @@
 /**
  * N3-1 experimental script-v5 shadow runner.
  *
- * 只从权威 v4 纯迁移构建累计 P2/P3/P4/P5 IR，默认构建最新 P5 并写入 gitignored shadow 根；
+ * 只从权威 v4 纯迁移构建累计 P2/P3/P4/P5/P6 IR，默认构建最新 P6 并写入 gitignored shadow 根；
  * --check 使用临时目录并验证首次写入后第二次文件计划为 0/0/0。
  */
 
@@ -15,10 +15,12 @@ import {
   assertP3ShadowBundle,
   assertP4ShadowBundle,
   assertP5ShadowBundle,
+  assertP6ShadowBundle,
   buildDeterministicP2ShadowBundle,
   buildDeterministicP3ShadowBundle,
   buildDeterministicP4ShadowBundle,
   buildDeterministicP5ShadowBundle,
+  buildDeterministicP6ShadowBundle,
 } from '../src/experimental/script-v5/shadow-harness.js'
 import {
   applyShadowFilePlan,
@@ -42,7 +44,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 const args = process.argv.slice(2).filter((argument) => argument !== '--')
 const options = parseScriptV5ShadowCliArgs(args)
-const phase = options.through.toUpperCase() as 'P2' | 'P3' | 'P4' | 'P5'
+const phase = options.through.toUpperCase() as 'P2' | 'P3' | 'P4' | 'P5' | 'P6'
 const fixedShadowRoot = resolve(repo, `packages/migrate/.shadow/N3-1/v5/${options.through}`)
 if (!existsSync(baselinePath)) throw new Error(`P0 基线不存在: ${baselinePath}`)
 
@@ -67,7 +69,9 @@ const bundle =
       ? buildDeterministicP3ShadowBundle({ ...common, sourceCommands })
       : options.through === 'p4'
         ? buildDeterministicP4ShadowBundle({ ...common, sourceCommands })
-        : buildDeterministicP5ShadowBundle({ ...common, sourceCommands })
+        : options.through === 'p5'
+          ? buildDeterministicP5ShadowBundle({ ...common, sourceCommands })
+          : buildDeterministicP6ShadowBundle({ ...common, sourceCommands })
 const assertBundle =
   options.through === 'p2'
     ? assertP2ShadowBundle
@@ -75,7 +79,9 @@ const assertBundle =
       ? assertP3ShadowBundle
       : options.through === 'p4'
         ? assertP4ShadowBundle
-        : assertP5ShadowBundle
+        : options.through === 'p5'
+          ? assertP5ShadowBundle
+          : assertP6ShadowBundle
 assertBundle(bundle)
 
 const check = options.check

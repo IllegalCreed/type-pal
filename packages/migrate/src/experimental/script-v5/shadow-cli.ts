@@ -1,12 +1,12 @@
 export interface ScriptV5ShadowCliOptions {
   check: boolean
-  through: 'p2' | 'p3' | 'p4' | 'p5'
+  through: 'p2' | 'p3' | 'p4' | 'p5' | 'p6'
 }
 
 export function parseScriptV5ShadowCliArgs(args: readonly string[]): ScriptV5ShadowCliOptions {
   let check = false
   let throughSeen = false
-  let through: ScriptV5ShadowCliOptions['through'] = 'p5'
+  let through: ScriptV5ShadowCliOptions['through'] = 'p6'
   for (let index = 0; index < args.length; index++) {
     const argument = args[index]!
     if (argument === '--check') {
@@ -17,8 +17,8 @@ export function parseScriptV5ShadowCliArgs(args: readonly string[]): ScriptV5Sha
     if (argument === '--through') {
       if (throughSeen) throw new Error('重复参数: --through')
       const value = args[index + 1]
-      if (value !== 'p2' && value !== 'p3' && value !== 'p4' && value !== 'p5')
-        throw new Error('--through 只接受 p2、p3、p4 或 p5')
+      if (value !== 'p2' && value !== 'p3' && value !== 'p4' && value !== 'p5' && value !== 'p6')
+        throw new Error('--through 只接受 p2、p3、p4、p5 或 p6')
       throughSeen = true
       through = value
       index++
@@ -27,8 +27,8 @@ export function parseScriptV5ShadowCliArgs(args: readonly string[]): ScriptV5Sha
     if (argument.startsWith('--through=')) {
       if (throughSeen) throw new Error('重复参数: --through')
       const value = argument.slice('--through='.length)
-      if (value !== 'p2' && value !== 'p3' && value !== 'p4' && value !== 'p5')
-        throw new Error('--through= 只接受 p2、p3、p4 或 p5')
+      if (value !== 'p2' && value !== 'p3' && value !== 'p4' && value !== 'p5' && value !== 'p6')
+        throw new Error('--through= 只接受 p2、p3、p4、p5 或 p6')
       throughSeen = true
       through = value
       continue
