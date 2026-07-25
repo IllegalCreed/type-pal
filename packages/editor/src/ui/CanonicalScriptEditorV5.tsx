@@ -17,7 +17,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactNode } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import {
   type AuthorCommandChildKeyV5,
   type AuthorCommandPathV5,
@@ -62,13 +62,13 @@ export interface CanonicalScriptEditorContextV5 {
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
 }
 
-export interface ScriptVersionReferencePresentationV5 {
+export interface ScriptSchemeReferencePresentationV5 {
   key: string
   label: string
   path: string
 }
 
-export function nextGeneratedScriptVersionIdV5(ids: readonly string[], prefix = 'version'): string {
+export function nextGeneratedScriptSchemeIdV5(ids: readonly string[], prefix = 'scheme'): string {
   const occupied = new Set(ids)
   let index = 1
   let id = `${prefix}-${index}`
@@ -114,124 +114,305 @@ export function CanonicalScriptDialogV5(props: {
   )
 }
 
-export function ScriptVersionManagementDialogV5(props: {
+export function CanonicalHelpTipV5(props: { label: string; children: ReactNode }) {
+  const tooltipId = useId()
+  const [dismissed, setDismissed] = useState(false)
+
+  return (
+    <span className={`canonical-help-tip${dismissed ? ' dismissed' : ''}`}>
+      <button
+        type="button"
+        aria-label={`${props.label}说明`}
+        aria-describedby={tooltipId}
+        onMouseEnter={() => setDismissed(false)}
+        onMouseLeave={() => setDismissed(false)}
+        onFocus={() => setDismissed(false)}
+        onKeyDown={(event) => {
+          if (event.key !== 'Escape') return
+          event.stopPropagation()
+          setDismissed(true)
+        }}
+      >
+        ?
+      </button>
+      <span id={tooltipId} role="tooltip">
+        {props.children}
+      </span>
+    </span>
+  )
+}
+
+export interface ScriptSchemeStripOptionV5 {
+  id: string
+  label: string
+  flow: ScriptFlowV5
+  isDefault?: boolean
+}
+
+export function ScriptSchemeStripV5(props: {
   title: string
-  selectedName?: string
-  references: readonly ScriptVersionReferencePresentationV5[]
+  options: readonly ScriptSchemeStripOptionV5[]
+  selectedId: string
+  onSelect: (id: string) => void
+  onDetails: (id: string) => void
+  onCreate: () => void
+}) {
+  return (
+    <section className="script-scheme-strip" aria-label={`${props.title}方案`}>
+      <header>
+        <div className="script-section-heading">
+          <strong className="script-section-title">脚本方案</strong>
+          <span className="script-section-count">{props.options.length} 个方案</span>
+          <CanonicalHelpTipV5 label="脚本方案">
+            同一脚本入口可以有多套方案。每套方案拥有独立的执行步骤和正文；剧情指令切换方案时，
+            会整套切换。
+          </CanonicalHelpTipV5>
+        </div>
+        <button type="button" className="mini-txt" onClick={props.onCreate}>
+          ＋ 新建方案
+        </button>
+      </header>
+      <nav aria-label="脚本方案列表">
+        {props.options.map((option) => (
+          <div
+            key={option.id}
+            className={`script-scheme-card${option.id === props.selectedId ? ' active' : ''}`}
+          >
+            <button
+              type="button"
+              className="script-scheme-card-select"
+              aria-pressed={option.id === props.selectedId}
+              onClick={() => props.onSelect(option.id)}
+            >
+              <strong>{option.label}</strong>
+              <span>
+                {option.flow.kind === 'stages'
+                  ? `${option.flow.stages.length} 个步骤`
+                  : '连续流程（高级）'}
+              </span>
+              {option.isDefault ? <small>默认方案</small> : null}
+            </button>
+            <button
+              type="button"
+              className="script-scheme-card-details"
+              aria-label={`打开“${option.label}”的方案详情`}
+              onClick={() => props.onDetails(option.id)}
+            >
+              方案详情
+            </button>
+          </div>
+        ))}
+      </nav>
+    </section>
+  )
+}
+
+export function ScriptSchemeDetailsDialogV5(props: {
+  title: string
+  selectedName: string
+  references: readonly ScriptSchemeReferencePresentationV5[]
   onClose: () => void
   onRename: (name: string) => boolean
   onCopy: () => void
   onDelete: () => void
-  onCreate: (name: string) => void
+  defaultControl?: {
+    isDefault: boolean
+    activeCopy: string
+    inactiveCopy: string
+    onSetDefault: () => void
+    onClearDefault: () => void
+  }
   onOpenReference?: (path: string) => void
 }) {
-  const [nameDraft, setNameDraft] = useState(props.selectedName ?? '')
-  const [newName, setNewName] = useState('')
+  const [nameDraft, setNameDraft] = useState(props.selectedName)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
-  useEffect(() => setNameDraft(props.selectedName ?? ''), [props.selectedName])
+  useEffect(() => setNameDraft(props.selectedName), [props.selectedName])
 
   return (
     <CanonicalScriptDialogV5
-      title={`${props.title} · 剧情版本管理`}
-      className="script-version-management-dialog"
+      title={`${props.selectedName} · 方案详情`}
+      className="script-scheme-details-dialog"
       onClose={props.onClose}
       footer={
         <button type="button" className="btn" onClick={props.onClose}>
-          完成
+          关闭
         </button>
       }
     >
-      <p className="canonical-script-modal-copy">
-        剧情版本用于保留同一对象的不同脚本方案。复制后的版本可以独立修改，不会影响原版本。
-      </p>
+      <div className="canonical-modal-context">
+        <span>所属入口：{props.title}</span>
+        <CanonicalHelpTipV5 label="脚本方案">
+          这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
+        </CanonicalHelpTipV5>
+      </div>
 
-      {props.selectedName ? (
-        <section className="script-version-management-section">
-          <h4>当前版本</h4>
-          <label>
-            <span>版本名称</span>
-            <div className="script-v5-inline-edit">
-              <input
-                className="in"
-                aria-label="剧情版本名称"
-                value={nameDraft}
-                onChange={(event) => setNameDraft(event.target.value)}
-              />
-              <button
-                type="button"
-                disabled={!nameDraft.trim() || nameDraft.trim() === props.selectedName}
-                onClick={() => props.onRename(nameDraft.trim())}
-              >
-                保存名称
+      <section className="script-scheme-details-section">
+        <label>
+          <span>方案名称</span>
+          <div className="script-v5-inline-edit">
+            <input
+              className="in"
+              name="scheme-name"
+              autoComplete="off"
+              aria-label="方案名称"
+              value={nameDraft}
+              onChange={(event) => setNameDraft(event.target.value)}
+            />
+            <button
+              type="button"
+              disabled={!nameDraft.trim() || nameDraft.trim() === props.selectedName}
+              onClick={() => props.onRename(nameDraft.trim())}
+            >
+              保存名称
+            </button>
+          </div>
+        </label>
+
+        {props.defaultControl ? (
+          <div className="script-scheme-default-control">
+            <div>
+              <strong>
+                {props.defaultControl.isDefault ? '当前是默认方案' : '当前不是默认方案'}
+              </strong>
+              <CanonicalHelpTipV5 label="默认方案">
+                {props.defaultControl.isDefault
+                  ? props.defaultControl.activeCopy
+                  : props.defaultControl.inactiveCopy}
+              </CanonicalHelpTipV5>
+            </div>
+            <button
+              type="button"
+              className="mini-txt"
+              onClick={
+                props.defaultControl.isDefault
+                  ? props.defaultControl.onClearDefault
+                  : props.defaultControl.onSetDefault
+              }
+            >
+              {props.defaultControl.isDefault ? '取消默认' : '设为默认方案'}
+            </button>
+          </div>
+        ) : null}
+
+        <div className="script-scheme-copy-row">
+          <button type="button" className="pv-btn script-scheme-copy" onClick={props.onCopy}>
+            复制此方案
+          </button>
+          <CanonicalHelpTipV5 label="复制方案">
+            创建一套内容完全相同的新方案。复制后，两套方案可以分别编辑，互不影响。
+          </CanonicalHelpTipV5>
+        </div>
+
+        <div className="script-scheme-usage">
+          <header>
+            <strong>使用位置</strong>
+            <CanonicalHelpTipV5 label="使用位置">
+              页面或脚本指令可能正在使用这套方案。先改掉这些位置，才能安全删除方案。
+            </CanonicalHelpTipV5>
+          </header>
+          {props.references.length ? (
+            <>
+              <p>当前有 {props.references.length} 处正在使用这个方案，因此暂时不能删除。</p>
+              <ul aria-label="方案使用位置">
+                {props.references.map((reference) => (
+                  <li key={reference.key}>
+                    {props.onOpenReference ? (
+                      <button type="button" onClick={() => props.onOpenReference?.(reference.path)}>
+                        打开：{reference.label}
+                      </button>
+                    ) : (
+                      <span>{reference.label}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <p>当前没有其他地方使用这个方案，可以删除。</p>
+          )}
+        </div>
+
+        {confirmDelete ? (
+          <div className="script-scheme-delete-confirm" role="alert">
+            <p>
+              删除“{props.selectedName}”及其全部执行步骤和正文？删除后仍可使用编辑器的撤销恢复。
+            </p>
+            <div>
+              <button type="button" onClick={() => setConfirmDelete(false)}>
+                取消
+              </button>
+              <button type="button" className="danger" onClick={props.onDelete}>
+                确认删除方案
               </button>
             </div>
-          </label>
-
-          <button type="button" className="pv-btn" onClick={props.onCopy}>
-            复制成独立版本
-          </button>
-
-          <div className="script-version-usage">
-            {props.references.length ? (
-              <>
-                <p>当前有 {props.references.length} 处正在使用这个版本，因此暂时不能删除。</p>
-                <ul aria-label="当前版本使用位置">
-                  {props.references.map((reference) => (
-                    <li key={reference.key}>
-                      {props.onOpenReference ? (
-                        <button
-                          type="button"
-                          onClick={() => props.onOpenReference?.(reference.path)}
-                        >
-                          打开：{reference.label}
-                        </button>
-                      ) : (
-                        <span>{reference.label}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p>当前没有其他地方使用这个版本，可以安全删除。</p>
-            )}
           </div>
-
+        ) : (
           <button
             type="button"
-            className="danger script-version-delete"
+            className="danger script-scheme-delete"
             disabled={props.references.length > 0}
-            onClick={props.onDelete}
+            onClick={() => setConfirmDelete(true)}
           >
-            删除当前版本
+            删除此方案…
           </button>
-        </section>
-      ) : null}
+        )}
+      </section>
+    </CanonicalScriptDialogV5>
+  )
+}
 
+export function ScriptSchemeCreateDialogV5(props: {
+  title: string
+  first: boolean
+  onClose: () => void
+  onCreate: (name: string) => void
+}) {
+  const [newName, setNewName] = useState('')
+
+  return (
+    <CanonicalScriptDialogV5
+      title={`${props.title} · 新建方案`}
+      className="script-scheme-create-dialog"
+      onClose={props.onClose}
+    >
       <form
-        className="script-version-management-section"
+        className="script-scheme-create-form"
         onSubmit={(event) => {
           event.preventDefault()
           const name = newName.trim()
           if (!name) return
           props.onCreate(name)
-          setNewName('')
         }}
       >
-        <h4>{props.selectedName ? '新建另一个版本' : '创建第一个版本'}</h4>
+        <div className="canonical-modal-context">
+          <span>所属入口：{props.title}</span>
+          <CanonicalHelpTipV5 label="新建脚本方案">
+            {props.first
+              ? '创建这个脚本入口的第一套方案。'
+              : '新方案从空白内容开始，已有方案不会受到影响。'}
+          </CanonicalHelpTipV5>
+        </div>
         <label>
-          <span>版本名称</span>
+          <span>方案名称</span>
           <input
             className="in"
-            aria-label="新剧情版本名称"
-            placeholder="例如：初次交谈"
+            name="new-scheme-name"
+            autoComplete="off"
+            aria-label="新方案名称"
+            placeholder="例如：初次交谈…"
             value={newName}
             onChange={(event) => setNewName(event.target.value)}
           />
         </label>
-        <button type="submit" className="pv-btn" disabled={!newName.trim()}>
-          ＋ 新建空白版本
-        </button>
+        <div className="script-scheme-create-actions">
+          <button type="button" className="btn" onClick={props.onClose}>
+            取消
+          </button>
+          <button type="submit" className="btn primary" disabled={!newName.trim()}>
+            创建空白方案
+          </button>
+        </div>
       </form>
     </CanonicalScriptDialogV5>
   )
@@ -2093,7 +2274,7 @@ function CanonicalCommandFormV5(props: {
           )
         })}
         <p className="hint">
-          分别选择该场景之后要使用的进场脚本和传送出口脚本；这里只切换版本，不复制正文。
+          分别选择该场景之后要使用的进场方案和传送出口方案；这里只切换整套方案，不复制或修改方案内容。
         </p>
       </div>
     )
@@ -2938,10 +3119,31 @@ function CanonicalFlowBodyTabsV5(props: {
   onBodyChange: (body: AuthorCommandV5[]) => void
 }) {
   const [tab, setTab] = useState<'prepare' | 'body'>('body')
+  const tabsetId = useId()
+  const prepareTabId = `${tabsetId}-prepare-tab`
+  const bodyTabId = `${tabsetId}-body-tab`
+  const panelId = `${tabsetId}-panel`
 
   useEffect(() => {
     if (props.prepare === undefined && tab === 'prepare') setTab('body')
   }, [props.prepare, tab])
+
+  const onTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>): void => {
+    const tabs = [
+      ...event.currentTarget.parentElement!.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+    ]
+    const currentIndex = tabs.indexOf(event.currentTarget)
+    let nextIndex: number | undefined
+    if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabs.length
+    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length
+    if (event.key === 'Home') nextIndex = 0
+    if (event.key === 'End') nextIndex = tabs.length - 1
+    if (nextIndex === undefined) return
+    event.preventDefault()
+    const nextTab = nextIndex === 0 ? 'prepare' : 'body'
+    setTab(nextTab)
+    tabs[nextIndex]?.focus()
+  }
 
   if (props.prepare === undefined)
     return (
@@ -2958,50 +3160,88 @@ function CanonicalFlowBodyTabsV5(props: {
     <div className="canonical-flow-body">
       <div className="canonical-flow-body-tabs" role="tablist" aria-label="脚本内容">
         <button
+          id={prepareTabId}
           type="button"
           role="tab"
           aria-selected={tab === 'prepare'}
+          aria-controls={panelId}
+          tabIndex={tab === 'prepare' ? 0 : -1}
           className={tab === 'prepare' ? 'active' : ''}
           onClick={() => setTab('prepare')}
+          onKeyDown={onTabKeyDown}
         >
           画面出现前
           <small>{props.prepare.length} 条</small>
         </button>
         <button
+          id={bodyTabId}
           type="button"
           role="tab"
           aria-selected={tab === 'body'}
+          aria-controls={panelId}
+          tabIndex={tab === 'body' ? 0 : -1}
           className={tab === 'body' ? 'active' : ''}
           onClick={() => setTab('body')}
+          onKeyDown={onTabKeyDown}
         >
           脚本正文
           <small>{props.body.length} 条</small>
         </button>
       </div>
-      {tab === 'prepare' ? (
-        <CanonicalScriptBodyEditorV5
-          label="画面出现前的准备"
-          body={props.prepare}
-          context={props.context}
-          onError={props.onError}
-          onChange={(prepare) => props.onPrepareChange?.(prepare)}
-        />
-      ) : (
-        <CanonicalScriptBodyEditorV5
-          label={props.bodyLabel}
-          body={props.body}
-          context={props.context}
-          onError={props.onError}
-          onChange={props.onBodyChange}
-        />
-      )}
+      <div
+        id={panelId}
+        className="canonical-flow-body-panel"
+        role="tabpanel"
+        aria-labelledby={tab === 'prepare' ? prepareTabId : bodyTabId}
+      >
+        {tab === 'prepare' ? (
+          <CanonicalScriptBodyEditorV5
+            label="画面出现前的准备"
+            body={props.prepare}
+            context={props.context}
+            onError={props.onError}
+            onChange={(prepare) => props.onPrepareChange?.(prepare)}
+          />
+        ) : (
+          <CanonicalScriptBodyEditorV5
+            label={props.bodyLabel}
+            body={props.body}
+            context={props.context}
+            onError={props.onError}
+            onChange={props.onBodyChange}
+          />
+        )}
+      </div>
     </div>
   )
 }
 
+type TriggerStageFlowV5 = Extract<ScriptFlowV5, { kind: 'stages' }>
+
+export function removeTriggerStageV5(
+  flow: TriggerStageFlowV5,
+  stageId: string,
+  replacementId: string,
+): TriggerStageFlowV5 {
+  if (flow.stages.length <= 1) throw new Error('分次执行至少需要保留一个步骤')
+  if (stageId === replacementId) throw new Error('接替步骤不能是待删除步骤')
+  if (!flow.stages.some((stage) => stage.id === stageId))
+    throw new Error(`待删除步骤不存在：${stageId}`)
+  if (!flow.stages.some((stage) => stage.id === replacementId))
+    throw new Error(`接替步骤不存在：${replacementId}`)
+  return {
+    ...flow,
+    initial: flow.initial === stageId ? replacementId : flow.initial,
+    stages: flow.stages
+      .filter((stage) => stage.id !== stageId)
+      .map((stage) => (stage.next === stageId ? { ...stage, next: replacementId } : stage)),
+  }
+}
+
 export function CanonicalScriptFlowEditorV5(props: {
   flow: ScriptFlowV5
-  onChange: (flow: ScriptFlowV5) => void
+  onChange: (flow: ScriptFlowV5) => boolean
+  ownerLabel?: string
   context?: CanonicalScriptEditorContextV5
   onError?: (message: string) => void
 }) {
@@ -3011,7 +3251,10 @@ export function CanonicalScriptFlowEditorV5(props: {
       : Object.keys(props.flow.machine.states)
   const initialId = props.flow.kind === 'stages' ? props.flow.initial : props.flow.machine.initial
   const [selectedId, setSelectedId] = useState(initialId)
-  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [linkNewStage, setLinkNewStage] = useState(true)
   useEffect(() => {
     if (ids.includes(selectedId)) return
     setSelectedId(initialId)
@@ -3021,45 +3264,96 @@ export function CanonicalScriptFlowEditorV5(props: {
     const flow = props.flow
     const stage = flow.stages.find((candidate) => candidate.id === selectedId) ?? flow.stages[0]
     const hasMultipleStages = flow.stages.length > 1
+    const stageIndex = stage ? flow.stages.findIndex((candidate) => candidate.id === stage.id) : -1
+    const stageLabel = (id: string): string => {
+      const index = flow.stages.findIndex((candidate) => candidate.id === id)
+      return index >= 0 ? `步骤 ${index + 1}` : id
+    }
+    const stageNextLabel = (candidate: (typeof flow.stages)[number]): string =>
+      candidate.next ? `下次进入${stageLabel(candidate.next)}` : '下次仍执行当前步骤'
+    const replacement =
+      stage && hasMultipleStages
+        ? (flow.stages[stageIndex + 1] ?? flow.stages[stageIndex - 1])
+        : undefined
     const addStage = (): void => {
       let index = flow.stages.length + 1
       let id = `stage-${index}`
       while (ids.includes(id)) id = `stage-${++index}`
-      props.onChange({
+      const stages = flow.stages.map((candidate) =>
+        linkNewStage && stage && candidate.id === stage.id ? { ...candidate, next: id } : candidate,
+      )
+      const applied = props.onChange({
         ...flow,
-        stages: [...flow.stages, { id, body: [] }],
+        stages: [...stages, { id, body: [] }],
       })
+      if (applied === false) return
       setSelectedId(id)
+      setCreateOpen(false)
+    }
+    const deleteStage = (): void => {
+      if (!stage || !replacement) return
+      const applied = props.onChange(removeTriggerStageV5(flow, stage.id, replacement.id))
+      if (applied === false) return
+      setSelectedId(replacement.id)
+      setDeleteOpen(false)
     }
     return (
       <section className="canonical-flow-editor">
         <header className="canonical-flow-explanation">
-          {hasMultipleStages ? (
-            <div>
-              <strong>分段剧情</strong>
-              <span>
-                每次触发只执行当前段，结束后可让下次触发进入另一段。例如宝箱第一次给物品，之后显示“空箱”。
-              </span>
-            </div>
-          ) : (
-            <span>当前是普通脚本；只有需要“下次触发换一段内容”时才使用分段剧情。</span>
-          )}
-          <button type="button" className="mini-txt" onClick={() => setSettingsOpen(true)}>
-            分段剧情设置…
-          </button>
+          <div className="script-section-heading">
+            <strong className="script-section-title">分次执行</strong>
+            <span className="script-section-count canonical-flow-count">
+              {flow.stages.length} 个步骤
+            </span>
+            <CanonicalHelpTipV5 label="分次执行">
+              适用于对话、宝箱等每次运行内容会变化的脚本。每次运行只执行当前步骤；完成后可指定下次从哪一步开始。
+            </CanonicalHelpTipV5>
+          </div>
+          <div className="canonical-flow-actions">
+            <button
+              type="button"
+              className="mini-txt"
+              onClick={() => {
+                setLinkNewStage(true)
+                setCreateOpen(true)
+              }}
+            >
+              ＋ 新建步骤
+            </button>
+          </div>
         </header>
         {hasMultipleStages ? (
-          <nav className="canonical-stage-tabs" aria-label="分段剧情">
+          <nav className="canonical-stage-tabs" aria-label="执行步骤">
             {flow.stages.map((candidate, index) => (
-              <button
-                type="button"
+              <div
                 key={candidate.id}
-                className={candidate.id === stage?.id ? 'active' : ''}
-                onClick={() => setSelectedId(candidate.id)}
+                className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
               >
-                <strong>第 {index + 1} 段</strong>
-                <span>{candidate.body.length} 条指令</span>
-              </button>
+                <button
+                  type="button"
+                  className="canonical-stage-card-select"
+                  aria-pressed={candidate.id === stage?.id}
+                  onClick={() => setSelectedId(candidate.id)}
+                >
+                  <strong>步骤 {index + 1}</strong>
+                  <span>{candidate.body.length} 条指令</span>
+                  <small>
+                    {candidate.id === flow.initial ? '首次运行 · ' : ''}
+                    {stageNextLabel(candidate)}
+                  </small>
+                </button>
+                <button
+                  type="button"
+                  className="canonical-stage-card-details"
+                  aria-label={`打开“${stageLabel(candidate.id)}”详情`}
+                  onClick={() => {
+                    setSelectedId(candidate.id)
+                    setDetailsOpen(true)
+                  }}
+                >
+                  步骤详情
+                </button>
+              </div>
             ))}
           </nav>
         ) : null}
@@ -3068,7 +3362,7 @@ export function CanonicalScriptFlowEditorV5(props: {
             key={stage.id}
             prepare={stage.entry?.prepare}
             body={stage.body}
-            bodyLabel={hasMultipleStages ? '本段脚本正文' : '脚本正文'}
+            bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
             context={props.context}
             onError={props.onError}
             onPrepareChange={
@@ -3094,69 +3388,152 @@ export function CanonicalScriptFlowEditorV5(props: {
             }
           />
         ) : null}
-        {settingsOpen ? (
+        {stage && detailsOpen ? (
           <CanonicalScriptDialogV5
-            title="分段剧情设置"
+            title={`${stageLabel(stage.id)} · 详情`}
             className="canonical-flow-settings-dialog"
-            onClose={() => setSettingsOpen(false)}
+            onClose={() => setDetailsOpen(false)}
             footer={
-              <button type="button" className="btn primary" onClick={() => setSettingsOpen(false)}>
-                完成
+              <button type="button" className="btn" onClick={() => setDetailsOpen(false)}>
+                关闭
               </button>
             }
           >
-            <p className="canonical-script-modal-copy">
-              分段适合宝箱、连续对话等“同一对象每次触发内容不同”的剧情。普通一次性或重复脚本不需要分段。
-            </p>
-            {hasMultipleStages && stage ? (
-              <div className="canonical-flow-settings-fields">
-                <label>
-                  <span>第一次触发时执行</span>
-                  <select
-                    className="in"
-                    value={flow.initial}
-                    onChange={(event) => props.onChange({ ...flow, initial: event.target.value })}
+            <div className="canonical-modal-context">
+              <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
+              <CanonicalHelpTipV5 label="步骤详情">
+                每次运行只执行当前步骤；完成后按“下次运行”的设置决定之后从哪个步骤开始。
+              </CanonicalHelpTipV5>
+            </div>
+            <div className="canonical-flow-settings-fields">
+              <div className="canonical-stage-initial-setting">
+                <div>
+                  <strong>
+                    {flow.initial === stage.id ? '第一次运行从这个步骤开始' : '这不是起始步骤'}
+                  </strong>
+                  <CanonicalHelpTipV5 label="起始步骤">
+                    每套脚本方案只能有一个起始步骤。切换到这套方案后，第一次运行会从这里开始。
+                  </CanonicalHelpTipV5>
+                </div>
+                {flow.initial !== stage.id ? (
+                  <button
+                    type="button"
+                    className="mini-txt"
+                    onClick={() => props.onChange({ ...flow, initial: stage.id })}
                   >
-                    {flow.stages.map((candidate, index) => (
-                      <option key={candidate.id} value={candidate.id}>
-                        第 {index + 1} 段
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>
-                    第 {flow.stages.findIndex((candidate) => candidate.id === stage.id) + 1}{' '}
-                    段执行完后
-                  </span>
-                  <select
-                    className="in"
-                    value={stage.next ?? ''}
-                    onChange={(event) => {
-                      const stages = flow.stages.map((candidate) =>
-                        candidate.id === stage.id
-                          ? {
-                              ...candidate,
-                              next: event.target.value || undefined,
-                            }
-                          : candidate,
-                      )
-                      props.onChange({ ...flow, stages })
-                    }}
-                  >
-                    <option value="">下次仍执行这一段</option>
-                    {flow.stages.map((candidate, index) => (
-                      <option key={candidate.id} value={candidate.id}>
-                        下次执行第 {index + 1} 段
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                    设为起始步骤
+                  </button>
+                ) : null}
               </div>
-            ) : null}
-            <button type="button" className="pv-btn" onClick={addStage}>
-              {hasMultipleStages ? '＋ 再新增一段剧情' : '＋ 新增第二段剧情'}
-            </button>
+              <label>
+                <span>本步骤完成后，下次运行</span>
+                <select
+                  className="in"
+                  value={stage.next ?? ''}
+                  onChange={(event) => {
+                    const stages = flow.stages.map((candidate) =>
+                      candidate.id === stage.id
+                        ? {
+                            ...candidate,
+                            next: event.target.value || undefined,
+                          }
+                        : candidate,
+                    )
+                    props.onChange({ ...flow, stages })
+                  }}
+                >
+                  <option value="">仍执行当前步骤</option>
+                  {flow.stages
+                    .filter((candidate) => candidate.id !== stage.id)
+                    .map((candidate) => (
+                      <option key={candidate.id} value={candidate.id}>
+                        进入{stageLabel(candidate.id)}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            </div>
+            <div className="canonical-stage-delete-area">
+              <button
+                type="button"
+                className="danger"
+                disabled={!hasMultipleStages}
+                onClick={() => {
+                  setDetailsOpen(false)
+                  setDeleteOpen(true)
+                }}
+              >
+                删除这个步骤…
+              </button>
+              {!hasMultipleStages ? <span>分次执行至少需要保留一个步骤。</span> : null}
+            </div>
+          </CanonicalScriptDialogV5>
+        ) : null}
+        {stage && createOpen ? (
+          <CanonicalScriptDialogV5
+            title="新建执行步骤"
+            className="canonical-stage-create-dialog"
+            onClose={() => setCreateOpen(false)}
+          >
+            <div className="canonical-stage-create-form">
+              <div className="canonical-modal-context">
+                <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
+                <CanonicalHelpTipV5 label="新建步骤">
+                  新步骤拥有独立的出现前准备和脚本正文，只会加入当前脚本方案。
+                </CanonicalHelpTipV5>
+              </div>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={linkNewStage}
+                  onChange={(event) => setLinkNewStage(event.target.checked)}
+                />
+                创建后，将“{stageLabel(stage.id)}”的下次运行改为新步骤
+              </label>
+              {linkNewStage && stage.next ? (
+                <p className="canonical-stage-create-warning">
+                  当前去向“{stageNextLabel(stage)}”会改为新步骤。
+                </p>
+              ) : null}
+              <div className="script-scheme-create-actions">
+                <button type="button" className="btn" onClick={() => setCreateOpen(false)}>
+                  取消
+                </button>
+                <button type="button" className="btn primary" onClick={addStage}>
+                  创建步骤
+                </button>
+              </div>
+            </div>
+          </CanonicalScriptDialogV5>
+        ) : null}
+        {stage && replacement && deleteOpen ? (
+          <CanonicalScriptDialogV5
+            title={`删除${stageLabel(stage.id)}？`}
+            className="canonical-stage-delete-dialog"
+            onClose={() => setDeleteOpen(false)}
+          >
+            <div className="canonical-stage-delete-confirm" role="alert">
+              <p>
+                将删除这个步骤的 {stage.body.length} 条正文指令
+                {stage.entry?.prepare.length
+                  ? `和 ${stage.entry.prepare.length} 条画面出现前准备`
+                  : ''}
+                。
+              </p>
+              <p>
+                {flow.initial === stage.id ? `起始步骤将改为${stageLabel(replacement.id)}。` : ''}
+                其他指向这个步骤的去向将改为{stageLabel(replacement.id)}。
+              </p>
+              <p>删除后仍可使用编辑器的撤销恢复。</p>
+              <div className="script-scheme-create-actions">
+                <button type="button" className="btn" onClick={() => setDeleteOpen(false)}>
+                  取消
+                </button>
+                <button type="button" className="btn danger" onClick={deleteStage}>
+                  确认删除步骤
+                </button>
+              </div>
+            </div>
           </CanonicalScriptDialogV5>
         ) : null}
       </section>
@@ -3169,13 +3546,15 @@ export function CanonicalScriptFlowEditorV5(props: {
   return (
     <section className="canonical-flow-editor">
       <header className="canonical-flow-explanation">
-        <strong>连续剧情状态：{flow.machine.label}</strong>
-        <span>
-          用于同一次剧情内按条件或选择连续切换多个状态。普通脚本和“下次触发换内容”不需要使用。
-        </span>
-        <code>{flow.machine.id}</code>
+        <div className="script-section-heading">
+          <strong className="script-section-title">连续流程（高级）</strong>
+          <span className="script-section-count canonical-flow-count">{ids.length} 个状态</span>
+          <CanonicalHelpTipV5 label="连续流程">
+            用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。
+          </CanonicalHelpTipV5>
+        </div>
         <label>
-          <span>初始状态</span>
+          <span>起始状态</span>
           <select
             className="in"
             value={flow.machine.initial}
@@ -3187,12 +3566,14 @@ export function CanonicalScriptFlowEditorV5(props: {
             }
           >
             {ids.map((id) => (
-              <option key={id}>{id}</option>
+              <option key={id} value={id}>
+                {flow.machine.states[id]?.label ?? id}
+              </option>
             ))}
           </select>
         </label>
       </header>
-      <nav aria-label="脚本状态">
+      <nav aria-label="连续流程状态">
         {Object.entries(flow.machine.states).map(([id, candidate]) => (
           <button
             type="button"
@@ -3200,7 +3581,6 @@ export function CanonicalScriptFlowEditorV5(props: {
             className={id === stateId ? 'active' : ''}
             onClick={() => setSelectedId(id)}
           >
-            <code>{id}</code>
             <span>{candidate.label}</span>
             <small>{stateTransitionExecutionLabelV5(candidate.next)}</small>
           </button>
@@ -3224,7 +3604,7 @@ export function CanonicalScriptFlowEditorV5(props: {
             setSelectedId(id)
           }}
         >
-          ＋ 状态
+          ＋ 新建状态
         </button>
       </nav>
       {state && stateId ? (

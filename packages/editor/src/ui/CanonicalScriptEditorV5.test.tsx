@@ -12,9 +12,11 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   AUTHOR_COMMAND_PRESENTATION_V5,
+  CanonicalHelpTipV5,
   CanonicalScriptBodyEditorV5,
   type CanonicalScriptEditorContextV5,
   CanonicalScriptFlowEditorV5,
+  removeTriggerStageV5,
 } from './CanonicalScriptEditorV5.js'
 
 describe('CanonicalScriptEditorV5 author presentation', () => {
@@ -43,6 +45,32 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
       expect(label).not.toBe(kind)
       expect(label).toMatch(/[\u3400-\u9fff]/)
     }
+  })
+
+  test('associates help text with its button and lets Escape dismiss it without moving focus', async () => {
+    await act(async () =>
+      root.render(
+        <CanonicalHelpTipV5 label="分次执行">每次运行只执行当前步骤。</CanonicalHelpTipV5>,
+      ),
+    )
+
+    const wrapper = host.querySelector<HTMLElement>('.canonical-help-tip')!
+    const button = host.querySelector<HTMLButtonElement>('button')!
+    const tooltip = host.querySelector<HTMLElement>('[role="tooltip"]')!
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id)
+    expect(button.hasAttribute('aria-expanded')).toBe(false)
+
+    await act(async () => button.focus())
+    expect(wrapper.classList.contains('dismissed')).toBe(false)
+    await act(async () =>
+      button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+    )
+    expect(wrapper.classList.contains('dismissed')).toBe(true)
+    expect(document.activeElement).toBe(button)
+    await act(async () => button.blur())
+    expect(wrapper.classList.contains('dismissed')).toBe(true)
+    await act(async () => button.focus())
+    expect(wrapper.classList.contains('dismissed')).toBe(false)
   })
 
   test('renders command rows in the existing Chinese script-tree language', () => {
@@ -174,7 +202,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     expect(host.textContent).not.toContain('JSON')
   })
 
-  test('switches entry preparation and body as tabs and moves stage settings into a dialog', async () => {
+  test('separates trigger-stage creation, details, and deletion while preserving body tabs', async () => {
     function Harness() {
       const [flow, setFlow] = useState<ScriptFlowV5>({
         kind: 'stages' as const,
@@ -190,10 +218,24 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
           },
         ],
       })
-      return <CanonicalScriptFlowEditorV5 flow={flow} onChange={setFlow} />
+      return (
+        <CanonicalScriptFlowEditorV5
+          ownerLabel="默认进场"
+          flow={flow}
+          onChange={(next) => {
+            setFlow(next)
+            return true
+          }}
+        />
+      )
     }
 
     await act(async () => root.render(<Harness />))
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).toContain(
+      '分次执行1 个步骤',
+    )
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('当前方案')
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('默认进场')
     expect(host.querySelector('[aria-label="脚本正文"]')).not.toBeNull()
     expect(host.querySelector('[aria-label="画面出现前的准备"]')).toBeNull()
 
@@ -203,14 +245,125 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     await act(async () => prepareTab.click())
     expect(host.querySelector('[aria-label="画面出现前的准备"]')).not.toBeNull()
     expect(host.querySelector('[aria-label="脚本正文"]')).toBeNull()
+    const bodyTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+      (candidate) => candidate.textContent?.includes('脚本正文'),
+    )!
+    const panel = host.querySelector<HTMLElement>('[role="tabpanel"]')!
+    expect(prepareTab.tabIndex).toBe(0)
+    expect(bodyTab.tabIndex).toBe(-1)
+    expect(prepareTab.getAttribute('aria-controls')).toBe(panel.id)
+    expect(panel.getAttribute('aria-labelledby')).toBe(prepareTab.id)
+
+    await act(async () =>
+      prepareTab.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })),
+    )
+    expect(document.activeElement).toBe(bodyTab)
+    expect(bodyTab.tabIndex).toBe(0)
+    expect(host.querySelector('[aria-label="脚本正文"]')).not.toBeNull()
+    expect(host.querySelector('[aria-label="画面出现前的准备"]')).toBeNull()
 
     await act(async () =>
       [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('分段剧情设置'))!
+        .find((candidate) => candidate.textContent?.includes('＋ 新建步骤'))!
         .click(),
     )
-    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('分段剧情设置')
-    expect(host.textContent).toContain('新增第二段剧情')
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('新建执行步骤')
+    expect(host.querySelector('[role="dialog"]')?.textContent).not.toContain('删除这个步骤')
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('创建步骤'))!
+        .click(),
+    )
+    expect(host.textContent).toContain('2 个步骤')
+    expect(host.textContent).toContain('步骤 2 · 脚本正文')
+    expect(host.textContent).toContain('下次进入步骤 2')
+    expect(host.querySelectorAll('.canonical-stage-card-details')).toHaveLength(2)
+    expect(host.querySelector('.canonical-flow-actions')?.textContent).not.toContain('步骤详情')
+
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>(
+          '.canonical-stage-card.active .canonical-stage-card-details',
+        )!
+        .click(),
+    )
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('步骤 2 · 详情')
+    expect(host.querySelector('[role="dialog"]')?.textContent).toContain('本步骤完成后，下次运行')
+    expect(host.querySelector('[role="dialog"]')?.textContent).not.toContain('创建步骤')
+
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('删除这个步骤'))!
+        .click(),
+    )
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('删除步骤 2？')
+    expect(host.querySelectorAll('.canonical-stage-tabs > .canonical-stage-card')).toHaveLength(2)
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('确认删除步骤'))!
+        .click(),
+    )
+    expect(host.textContent).toContain('1 个步骤')
+    expect(host.querySelector('.canonical-stage-tabs')).toBeNull()
+    expect(host.textContent).toContain('旗标 body = 真')
+    expect(host.textContent).not.toContain('分段剧情')
+  })
+
+  test('rewrites initial and incoming next links atomically when a trigger stage is removed', () => {
+    const source = {
+      kind: 'stages' as const,
+      initial: 'middle',
+      stages: [
+        { id: 'first', body: [], next: 'middle' },
+        { id: 'middle', body: [{ kind: 'setFlag' as const, flag: 'middle', value: true }] },
+        { id: 'last', body: [], next: 'middle' },
+      ],
+    }
+
+    expect(removeTriggerStageV5(source, 'middle', 'last')).toEqual({
+      kind: 'stages',
+      initial: 'last',
+      stages: [
+        { id: 'first', body: [], next: 'last' },
+        { id: 'last', body: [], next: 'last' },
+      ],
+    })
+    expect(source.stages.map((stage) => stage.id)).toEqual(['first', 'middle', 'last'])
+    expect(() =>
+      removeTriggerStageV5({ ...source, stages: [source.stages[0]!] }, 'first', 'last'),
+    ).toThrow('至少需要保留一个步骤')
+  })
+
+  test('keeps development-save protection out of author-facing stage controls', async () => {
+    const flow: ScriptFlowV5 = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        { id: 'first', body: [] },
+        { id: 'later', body: [] },
+      ],
+    }
+    await act(async () =>
+      root.render(
+        <CanonicalScriptFlowEditorV5
+          ownerLabel="开发期迁移方案"
+          flow={flow}
+          onChange={() => true}
+        />,
+      ),
+    )
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('步骤详情'))!
+        .click(),
+    )
+    expect(host.textContent).not.toContain('旧存档')
+    expect(host.textContent).not.toContain('迁移记录保护')
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+        candidate.textContent?.includes('删除这个步骤'),
+      )?.disabled,
+    ).toBe(false)
   })
 
   test('preserves the preparation tab for state-machine entries', async () => {
@@ -234,7 +387,15 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
           },
         },
       })
-      return <CanonicalScriptFlowEditorV5 flow={flow} onChange={setFlow} />
+      return (
+        <CanonicalScriptFlowEditorV5
+          flow={flow}
+          onChange={(next) => {
+            setFlow(next)
+            return true
+          }}
+        />
+      )
     }
 
     await act(async () => root.render(<Harness />))

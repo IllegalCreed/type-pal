@@ -11,10 +11,13 @@ import {
   UpdateEntityBehaviorV5Command,
 } from '../core/script-v5-editor.js'
 import {
+  CanonicalHelpTipV5,
   type CanonicalScriptEditorContextV5,
   CanonicalScriptFlowEditorV5,
-  nextGeneratedScriptVersionIdV5,
-  ScriptVersionManagementDialogV5,
+  nextGeneratedScriptSchemeIdV5,
+  ScriptSchemeCreateDialogV5,
+  ScriptSchemeDetailsDialogV5,
+  ScriptSchemeStripV5,
 } from './CanonicalScriptEditorV5.js'
 
 type BehaviorChannelV5 = 'trigger' | 'auto'
@@ -121,10 +124,12 @@ export function ScriptV5BehaviorInspector(props: {
       ? props.selectedBehaviorId
       : entries[0]?.[0]) ?? ''
   const selected = registry[selectedId]
-  const references = selected
-    ? behaviorReferencesV5(props.state, props.target, props.channel, selectedId)
+  const [detailsId, setDetailsId] = useState<string>()
+  const detailsScheme = detailsId ? registry[detailsId] : undefined
+  const detailsReferences = detailsScheme
+    ? behaviorReferencesV5(props.state, props.target, props.channel, detailsId!)
     : []
-  const [managementOpen, setManagementOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState(false)
   const title = props.channel === 'trigger' ? '交互脚本' : '自动行为'
   const description =
     props.channel === 'trigger'
@@ -141,24 +146,23 @@ export function ScriptV5BehaviorInspector(props: {
     }
   }
 
-  const createVersion = (label: string): void => {
-    const id = nextGeneratedScriptVersionIdV5(Object.keys(registry), props.channel)
+  const createScheme = (label: string): void => {
+    const id = nextGeneratedScriptSchemeIdV5(Object.keys(registry), props.channel)
     if (
       dispatch(
         new AddEntityBehaviorV5Command(props.target, props.channel, id, defaultBehavior(label)),
       )
     ) {
       props.onSelectBehavior?.(id)
-      setManagementOpen(false)
+      setCreateOpen(false)
     }
   }
 
-  const copyVersion = (): void => {
-    if (!selectedId) return
-    const id = nextGeneratedScriptVersionIdV5(Object.keys(registry), `${selectedId}-copy`)
-    if (dispatch(new CopyEntityBehaviorV5Command(props.target, props.channel, selectedId, id))) {
+  const copyScheme = (sourceId: string): void => {
+    const id = nextGeneratedScriptSchemeIdV5(Object.keys(registry), `${sourceId}-copy`)
+    if (dispatch(new CopyEntityBehaviorV5Command(props.target, props.channel, sourceId, id))) {
       props.onSelectBehavior?.(id)
-      setManagementOpen(false)
+      setDetailsId(undefined)
     }
   }
 
@@ -174,44 +178,34 @@ export function ScriptV5BehaviorInspector(props: {
   return (
     <section className="script-v5-behavior-inspector" aria-label={title}>
       <header className="script-v5-behavior-heading">
-        <div>
+        <div className="script-v5-heading-title">
           <h4>{title}</h4>
-          <p>{description}</p>
+          <CanonicalHelpTipV5 label={title}>{description}</CanonicalHelpTipV5>
         </div>
-        <span>{entries.length ? `${entries.length} 个剧情版本` : '尚未创建'}</span>
+        {!entries.length ? <span>尚未创建</span> : null}
       </header>
 
       {selected ? (
         <div className="script-v5-behavior-detail script-v5-primary-detail">
-          <div className="script-v5-version-bar">
-            {entries.length > 1 ? (
-              <label>
-                <span>正在编辑的剧情版本</span>
-                <select
-                  className="in"
-                  value={selectedId}
-                  onChange={(event) => {
-                    setManagementOpen(false)
-                    props.onSelectBehavior?.(event.target.value)
-                  }}
-                >
-                  {entries.map(([id, behavior]) => (
-                    <option key={id} value={id}>
-                      {behavior.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : (
-              <strong>{selected.label}</strong>
-            )}
-            <button type="button" className="mini-txt" onClick={() => setManagementOpen(true)}>
-              剧情版本管理…
-            </button>
-          </div>
+          <ScriptSchemeStripV5
+            title={title}
+            options={entries.map(([id, behavior]) => ({
+              id,
+              label: behavior.label,
+              flow: behavior.flow,
+            }))}
+            selectedId={selectedId}
+            onSelect={(id) => {
+              setCreateOpen(false)
+              props.onSelectBehavior?.(id)
+            }}
+            onDetails={setDetailsId}
+            onCreate={() => setCreateOpen(true)}
+          />
 
           <CanonicalScriptFlowEditorV5
             key={selectedId}
+            ownerLabel={selected.label}
             flow={selected.flow}
             context={props.editorContext}
             onError={props.onError}
@@ -228,48 +222,50 @@ export function ScriptV5BehaviorInspector(props: {
         <div className="script-v5-create-first">
           <strong>创建{title}</strong>
           <p>{description}</p>
-          <button type="button" className="pv-btn" onClick={() => setManagementOpen(true)}>
-            ＋ 创建第一个剧情版本
+          <button type="button" className="pv-btn" onClick={() => setCreateOpen(true)}>
+            ＋ 新建第一个方案
           </button>
         </div>
       )}
 
-      {managementOpen ? (
-        <ScriptVersionManagementDialogV5
+      {detailsId && detailsScheme ? (
+        <ScriptSchemeDetailsDialogV5
           title={title}
-          selectedName={selected?.label}
-          references={references.map((reference, index) => ({
+          selectedName={detailsScheme.label}
+          references={detailsReferences.map((reference, index) => ({
             key: `${reference.kind}:${reference.path}:${index}`,
             path: reference.path,
-            label:
-              reference.kind === 'page'
-                ? '当前实体的一个页面'
-                : reference.kind === 'command'
-                  ? '一条切换实体脚本的指令'
-                  : '迁移记录保护',
+            label: reference.kind === 'page' ? '当前实体的一个页面' : '一条切换实体脚本方案的指令',
           }))}
           onOpenReference={props.onOpenReference}
-          onClose={() => setManagementOpen(false)}
+          onClose={() => setDetailsId(undefined)}
           onRename={(label) =>
-            selected
-              ? dispatch(
-                  new UpdateEntityBehaviorV5Command(props.target, props.channel, selectedId, {
-                    label,
-                  }),
-                )
-              : false
+            dispatch(
+              new UpdateEntityBehaviorV5Command(props.target, props.channel, detailsId, {
+                label,
+              }),
+            )
           }
-          onCopy={copyVersion}
-          onCreate={createVersion}
+          onCopy={() => copyScheme(detailsId)}
           onDelete={() => {
             if (
-              dispatch(new DeleteEntityBehaviorV5Command(props.target, props.channel, selectedId))
+              dispatch(new DeleteEntityBehaviorV5Command(props.target, props.channel, detailsId))
             ) {
-              const next = entries.find(([id]) => id !== selectedId)?.[0]
-              if (next) props.onSelectBehavior?.(next)
-              setManagementOpen(false)
+              if (selectedId === detailsId) {
+                const next = entries.find(([id]) => id !== detailsId)?.[0]
+                if (next) props.onSelectBehavior?.(next)
+              }
+              setDetailsId(undefined)
             }
           }}
+        />
+      ) : null}
+      {createOpen ? (
+        <ScriptSchemeCreateDialogV5
+          title={title}
+          first={!entries.length}
+          onClose={() => setCreateOpen(false)}
+          onCreate={createScheme}
         />
       ) : null}
     </section>

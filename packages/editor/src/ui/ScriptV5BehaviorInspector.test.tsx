@@ -105,7 +105,7 @@ describe('ScriptV5BehaviorInspector', () => {
     host.remove()
   })
 
-  test('shows an author-facing flow with version management outside the main canvas', () => {
+  test('shows an author-facing flow with scheme ownership outside the main canvas', () => {
     const html = renderToStaticMarkup(
       <ScriptV5BehaviorInspector
         state={editorState()}
@@ -117,14 +117,23 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(html).toContain('初次交谈')
     expect(html).toContain('脚本正文')
     expect(html).toContain('1 条顶层指令')
-    expect(html).toContain('剧情版本管理')
+    expect(html).toContain('方案详情')
+    expect(html).toContain('脚本方案')
+    expect(html).toContain('初次交谈')
+    expect(html).toContain('分次执行')
+    expect(html).toContain('＋ 新建步骤')
+    expect(html).not.toContain('当前方案')
+    expect(html).not.toContain('触发阶段')
+    expect(html).not.toContain('阶段')
+    expect(html).not.toContain('<select')
     expect(html).not.toContain('高级管理')
     expect(html).not.toContain('内部识别名')
-    expect(html).not.toContain('阶段流')
     expect(html).not.toContain('内部脚本')
+    expect(html).not.toContain('剧情版本')
+    expect(html).not.toContain('分段剧情')
   })
 
-  test('renames, copies, and creates versions without exposing internal identifiers', async () => {
+  test('separates scheme details from creation and keeps internal identifiers hidden', async () => {
     const session = new ScriptV5EditSession(editorState())
 
     function Harness() {
@@ -147,27 +156,30 @@ describe('ScriptV5BehaviorInspector', () => {
     }
     await act(async () => root.render(<Harness />))
 
-    await act(async () => button(host, '剧情版本管理').click())
-    expect(host.textContent).toContain('当前有 2 处正在使用这个版本')
-    expect(button(host, '删除当前版本').disabled).toBe(true)
+    await act(async () => button(host, '方案详情').click())
+    expect(host.textContent).toContain('当前有 2 处正在使用这个方案')
+    expect(button(host, '删除此方案').disabled).toBe(true)
+    expect(host.querySelector('[aria-label="新方案名称"]')).toBeNull()
     expect(host.textContent).not.toContain('scenes[0]')
 
-    const rename = host.querySelector<HTMLInputElement>('[aria-label="剧情版本名称"]')!
+    const rename = host.querySelector<HTMLInputElement>('[aria-label="方案名称"]')!
     await act(async () => setInput(rename, '重新命名的交谈'))
     await act(async () => button(host, '保存名称').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toMatchObject({
       label: '重新命名的交谈',
     })
 
-    await act(async () => button(host, '复制成独立版本').click())
+    await act(async () => button(host, '复制此方案').click())
     expect(
       session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['talk-copy-1'],
     ).toMatchObject({ label: '重新命名的交谈 副本' })
 
-    await act(async () => button(host, '剧情版本管理').click())
-    const newLabel = host.querySelector<HTMLInputElement>('[aria-label="新剧情版本名称"]')!
+    await act(async () => button(host, '＋ 新建方案').click())
+    expect(host.querySelector('[aria-label="方案名称"]')).toBeNull()
+    expect(host.textContent).not.toContain('方案使用位置')
+    const newLabel = host.querySelector<HTMLInputElement>('[aria-label="新方案名称"]')!
     await act(async () => setInput(newLabel, '交出天书后'))
-    await act(async () => button(host, '＋ 新建空白版本').click())
+    await act(async () => button(host, '创建空白方案').click())
     expect(
       session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['trigger-1'],
     ).toMatchObject({
@@ -176,8 +188,17 @@ describe('ScriptV5BehaviorInspector', () => {
     })
   })
 
-  test('keeps migration-protected versions understandable and non-deletable', async () => {
+  test('ignores development migration metadata in author-facing scheme controls', async () => {
     const state = editorState()
+    state.scenes[0]!.entities[0]!.behaviors!.trigger!['migrated-draft'] = {
+      label: '开发期迁移方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [{ id: 'start', body: [] }],
+      },
+    }
     state.migrationSidecars = [
       {
         version: 1,
@@ -202,7 +223,7 @@ describe('ScriptV5BehaviorInspector', () => {
               sceneId: 's001',
               entityId: 'e1',
               channel: 'trigger',
-              behaviorId: 'talk',
+              behaviorId: 'migrated-draft',
             },
             identityDigest: 'a'.repeat(64),
           },
@@ -221,11 +242,160 @@ describe('ScriptV5BehaviorInspector', () => {
         />,
       ),
     )
-    await act(async () => button(host, '剧情版本管理').click())
-    expect(host.textContent).toContain('迁移记录保护')
-    expect(button(host, '删除当前版本').disabled).toBe(true)
+    expect(host.querySelector('.script-v5-scheme-bar select')).toBeNull()
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>('[aria-label="打开“开发期迁移方案”的方案详情"]')!
+        .click(),
+    )
+    expect(host.textContent).toContain('开发期迁移方案 · 方案详情')
+    expect(host.textContent).not.toContain('旧存档')
+    expect(host.textContent).not.toContain('迁移记录保护')
+    expect(button(host, '删除此方案').disabled).toBe(false)
     expect(host.querySelector('[aria-label="实体脚本内部识别名"]')).toBeNull()
-    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toBeDefined()
+    await act(async () => button(host, '删除此方案').click())
+    await act(async () => button(host, '确认删除方案').click())
+    expect(
+      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['migrated-draft'],
+    ).toBeUndefined()
+  })
+
+  test('switches the owned trigger stages together with the selected scheme', async () => {
+    const initial = editorState()
+    const registry = initial.scenes[0]!.entities[0]!.behaviors!.trigger!
+    registry.talk!.flow = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        {
+          id: 'first',
+          body: [{ kind: 'setFlag', flag: 'first-stage', value: true }],
+          next: 'later',
+        },
+        {
+          id: 'later',
+          body: [{ kind: 'setFlag', flag: 'later-stage', value: true }],
+        },
+      ],
+    }
+    registry.after = {
+      label: '交出天书后',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'only',
+        stages: [
+          {
+            id: 'only',
+            body: [{ kind: 'setFlag', flag: 'after-stage', value: true }],
+          },
+        ],
+      },
+    }
+    const session = new ScriptV5EditSession(initial)
+
+    function Harness() {
+      const [selected, setSelected] = useState('talk')
+      return (
+        <ScriptV5BehaviorInspector
+          state={session.getState()}
+          target={target}
+          channel="trigger"
+          selectedBehaviorId={selected}
+          onSelectBehavior={setSelected}
+          onDispatch={(command) => session.dispatch(command)}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    expect(
+      host.querySelector('.canonical-flow-explanation .script-section-title')?.textContent,
+    ).toBe('分次执行')
+    expect(host.querySelector('.canonical-flow-count')?.textContent).toBe('2 个步骤')
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('当前方案')
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain('初次交谈')
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('.canonical-stage-card-select')][1]!.click(),
+    )
+    expect(host.textContent).toContain('旗标 later-stage = 真')
+
+    const schemeButtons = (): HTMLButtonElement[] => [
+      ...host.querySelectorAll<HTMLButtonElement>('.script-scheme-card-select'),
+    ]
+    expect(schemeButtons().map((candidate) => candidate.textContent)).toEqual([
+      expect.stringContaining('初次交谈'),
+      expect.stringContaining('交出天书后'),
+    ])
+    await act(async () =>
+      schemeButtons()
+        .find((candidate) => candidate.textContent?.includes('交出天书后'))!
+        .click(),
+    )
+    expect(host.querySelector('.canonical-flow-count')?.textContent).toBe('1 个步骤')
+    expect(host.querySelector('.canonical-flow-explanation')?.textContent).not.toContain(
+      '交出天书后',
+    )
+    expect(host.textContent).toContain('旗标 after-stage = 真')
+    expect(host.textContent).not.toContain('旗标 later-stage = 真')
+
+    await act(async () =>
+      schemeButtons()
+        .find((candidate) => candidate.textContent?.includes('初次交谈'))!
+        .click(),
+    )
+    expect(host.querySelector('.canonical-flow-count')?.textContent).toBe('2 个步骤')
+    expect(
+      host.querySelector('.canonical-stage-card.active .canonical-stage-card-select strong')
+        ?.textContent,
+    ).toBe('步骤 1')
+    expect(host.textContent).toContain('旗标 first-stage = 真')
+  })
+
+  test('confirms deletion before removing an unreferenced scheme', async () => {
+    const initial = editorState()
+    initial.scenes[0]!.entities[0]!.behaviors!.trigger!.unused = {
+      label: '临时方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'start',
+        stages: [{ id: 'start', body: [] }],
+      },
+    }
+    const session = new ScriptV5EditSession(initial)
+
+    function Harness() {
+      const [state, setState] = useState(session.getState())
+      const [selected, setSelected] = useState('unused')
+      return (
+        <ScriptV5BehaviorInspector
+          state={state}
+          target={target}
+          channel="trigger"
+          selectedBehaviorId={selected}
+          onSelectBehavior={setSelected}
+          onDispatch={(command) => {
+            session.dispatch(command)
+            setState(session.getState())
+          }}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[aria-label="打开“临时方案”的方案详情"]')!.click(),
+    )
+    await act(async () => button(host, '删除此方案').click())
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeDefined()
+    expect(host.textContent).toContain('确认删除方案')
+    await act(async () => button(host, '取消').click())
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeDefined()
+
+    await act(async () => button(host, '删除此方案').click())
+    await act(async () => button(host, '确认删除方案').click())
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeUndefined()
   })
 
   test('uses the canonical visual editor for flow bodies and commits through validation', async () => {

@@ -1,7 +1,6 @@
 import type {
   AuthorCommandV5,
   EntityAddress,
-  FlowCursor,
   ItemDataV5,
   NamedEntityBehaviorV5,
   NamedSceneHookV5,
@@ -35,31 +34,6 @@ function clone<T>(value: T): T {
 
 function sameAddress(left: EntityAddress, right: EntityAddress): boolean {
   return left.scene === right.scene && left.entity === right.entity
-}
-
-function ownerKey(owner: ProjectMigrationSidecarV1['targetClosures'][number]['target']): string {
-  switch (owner.kind) {
-    case 'entity-behavior':
-      return `entity:${owner.sceneId}:${owner.entityId}:${owner.channel}:${owner.behaviorId}`
-    case 'scene-hook':
-      return `hook:${owner.sceneId}:${owner.hook}:${owner.hookId}`
-    case 'state-machine':
-      return ownerKey(owner.owner)
-    case 'entity-page':
-      return `page:${owner.sceneId}:${owner.entityId}:${owner.pageId}`
-    case 'shared-script':
-      return `shared:${owner.scriptId}`
-    case 'item-private-script':
-      return `item:${owner.itemId}:${owner.scriptId}`
-  }
-}
-
-function behaviorOwnerKey(
-  target: EntityAddress,
-  channel: 'trigger' | 'auto',
-  behaviorId: string,
-): string {
-  return `entity:${target.scene}:${target.entity}:${channel}:${behaviorId}`
 }
 
 export type SceneHookSlotV5 = 'onEnter' | 'onTeleport'
@@ -323,7 +297,7 @@ function mapAllCommands(
 }
 
 export interface ScriptV5Reference {
-  kind: 'page' | 'command' | 'migration'
+  kind: 'page' | 'command'
   path: string
 }
 
@@ -389,19 +363,11 @@ export function behaviorReferencesV5(
     )
       references.push({ kind: 'command', path })
   })
-  const key = behaviorOwnerKey(target, channel, behaviorId)
-  for (const [sidecarIndex, sidecar] of state.migrationSidecars.entries()) {
-    if (sidecar.targetClosures.some((closure) => ownerKey(closure.target) === key))
-      references.push({
-        kind: 'migration',
-        path: `migrationSidecars[${sidecarIndex}].targetClosures`,
-      })
-  }
   return references
 }
 
 export interface SceneHookV5Reference {
-  kind: 'initial' | 'command' | 'migration'
+  kind: 'initial' | 'command'
   path: string
 }
 
@@ -414,10 +380,6 @@ function sceneHook(
   const value = sceneById(state, sceneId).hooks?.[slot]?.variants[hookId]
   if (!value) throw new Error(`hook 不存在 ${sceneId}/${slot}/${hookId}`)
   return value
-}
-
-function sceneHookOwnerKey(sceneId: string, slot: SceneHookSlotV5, hookId: string): string {
-  return `hook:${sceneId}:${slot}:${hookId}`
 }
 
 export function sceneHookReferencesV5(
@@ -443,38 +405,7 @@ export function sceneHookReferencesV5(
     )
       references.push({ kind: 'command', path })
   })
-  const key = sceneHookOwnerKey(sceneId, slot, hookId)
-  for (const [sidecarIndex, sidecar] of state.migrationSidecars.entries()) {
-    if (sidecar.targetClosures.some((closure) => ownerKey(closure.target) === key))
-      references.push({
-        kind: 'migration',
-        path: `migrationSidecars[${sidecarIndex}].targetClosures`,
-      })
-  }
   return references
-}
-
-function cursorTargets(sidecar: Readonly<ProjectMigrationSidecarV1>, key: string): FlowCursor[] {
-  return sidecar.legacyCursors.flatMap((alias) => {
-    const targets = alias.mode === 'single' ? [alias.target] : alias.targets
-    return targets
-      .filter((target) => ownerKey(target.target) === key)
-      .flatMap((target) => target.indices.map((entry) => clone(entry.cursor)))
-  })
-}
-
-function assertFlowHasCursor(flow: ScriptFlowV5, cursor: FlowCursor, path: string): void {
-  if (cursor.kind === 'stage') {
-    if (flow.kind !== 'stages' || !flow.stages.some((stage) => stage.id === cursor.stage))
-      throw new Error(`${path}: 历史 cursor stage ${cursor.stage} 不可删除或改名`)
-    return
-  }
-  if (
-    flow.kind !== 'stateMachine' ||
-    flow.machine.id !== cursor.machine ||
-    !flow.machine.states[cursor.state]
-  )
-    throw new Error(`${path}: 历史 cursor state ${cursor.machine}/${cursor.state} 不可删除或改名`)
 }
 
 function validateState(state: ScriptEditorStateV5): void {
@@ -654,9 +585,6 @@ export class RenameEntityBehaviorV5Command extends SnapshotCommandV5 {
 
   protected transform(state: ScriptEditorStateV5): void {
     checkBehaviorId(this.to)
-    const refs = behaviorReferencesV5(state, this.target, this.channel, this.from)
-    if (refs.some((reference) => reference.kind === 'migration'))
-      throw new Error(`behavior ${this.from} 被历史迁移 sidecar 保护，不能改名`)
     const { entity } = sceneAndEntity(state, this.target)
     const registry = entity.behaviors?.[this.channel]
     const source = registry?.[this.from]
@@ -696,11 +624,6 @@ export class UpdateEntityBehaviorV5Command extends SnapshotCommandV5 {
   protected transform(state: ScriptEditorStateV5): void {
     const source = behavior(state, this.target, this.channel, this.behaviorId)
     const next = { ...clone(source), ...clone(this.patch) }
-    const key = behaviorOwnerKey(this.target, this.channel, this.behaviorId)
-    for (const [index, sidecar] of state.migrationSidecars.entries()) {
-      for (const cursor of cursorTargets(sidecar, key))
-        assertFlowHasCursor(next.flow, cursor, `migrationSidecars[${index}]`)
-    }
     const registry = behaviorRegistry(state, this.target, this.channel)
     if (!registry) throw new Error('behavior registry 缺失')
     registry[this.behaviorId] = next
@@ -804,9 +727,6 @@ export class RenameSceneHookV5Command extends SnapshotCommandV5 {
 
   protected transform(state: ScriptEditorStateV5): void {
     checkHookId(this.to)
-    const refs = sceneHookReferencesV5(state, this.sceneId, this.slot, this.from)
-    if (refs.some((reference) => reference.kind === 'migration'))
-      throw new Error(`hook ${this.from} 被历史迁移 sidecar 保护，不能改名`)
     const scene = sceneById(state, this.sceneId)
     const channel = scene.hooks?.[this.slot]
     const source = channel?.variants[this.from]
@@ -845,11 +765,6 @@ export class UpdateSceneHookV5Command extends SnapshotCommandV5 {
   protected transform(state: ScriptEditorStateV5): void {
     const source = sceneHook(state, this.sceneId, this.slot, this.hookId)
     const next = { ...clone(source), ...clone(this.patch) }
-    const key = sceneHookOwnerKey(this.sceneId, this.slot, this.hookId)
-    for (const [index, sidecar] of state.migrationSidecars.entries()) {
-      for (const cursor of cursorTargets(sidecar, key))
-        assertFlowHasCursor(next.flow, cursor, `migrationSidecars[${index}]`)
-    }
     const variants = sceneById(state, this.sceneId).hooks?.[this.slot]?.variants
     if (!variants) throw new Error('hook registry 缺失')
     variants[this.hookId] = next
@@ -974,14 +889,6 @@ export class DeleteSharedScriptV5Command extends SnapshotCommandV5 {
 
   protected transform(state: ScriptEditorStateV5): void {
     if (!state.sharedScripts[this.scriptId]) throw new Error(`共享脚本不存在 ${this.scriptId}`)
-    const protectedByMigration = state.migrationSidecars.some((sidecar) =>
-      sidecar.targetClosures.some(
-        (closure) =>
-          closure.target.kind === 'shared-script' && closure.target.scriptId === this.scriptId,
-      ),
-    )
-    if (protectedByMigration)
-      throw new Error(`共享脚本 ${this.scriptId} 被历史迁移 sidecar 保护，不能删除`)
     delete state.sharedScripts[this.scriptId]
   }
 }

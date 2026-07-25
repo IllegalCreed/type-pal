@@ -11,6 +11,7 @@ import {
   AddEntityBehaviorV5Command,
   AddSceneHookV5Command,
   AddSharedScriptV5Command,
+  behaviorReferencesV5,
   CopyEntityBehaviorV5Command,
   CopySceneHookV5Command,
   collectScriptV5ReferenceIssues,
@@ -252,8 +253,8 @@ describe('canonical script v5 editor commands', () => {
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('greet')
   })
 
-  test('protects behavior identities represented by nested state-machine closures', () => {
-    const protectedState = editorState([
+  test('does not expose migration metadata as an authoring reference', () => {
+    const migratedState = editorState([
       sidecar({
         targetClosures: [
           {
@@ -273,16 +274,51 @@ describe('canonical script v5 editor commands', () => {
         ],
       }),
     ])
-    const session = new ScriptV5EditSession(protectedState)
+    const session = new ScriptV5EditSession(migratedState)
+    session.dispatch(new RenameEntityBehaviorV5Command(target, 'trigger', 'talk', 'greet'))
+    expect(Object.keys(triggerRegistry(session.getState()))).toEqual(['greet'])
+    expect(behaviorReferencesV5(session.getState(), target, 'trigger', 'greet')).toEqual([
+      {
+        kind: 'page',
+        path: 'scenes.s001.entities.e1.pages.default.trigger',
+      },
+      {
+        kind: 'command',
+        path: 'items.private.use.effects[0].script.body[0]',
+      },
+      {
+        kind: 'command',
+        path: 'sharedScripts.shared/user/select-talk.body[0].then[0]',
+      },
+    ])
     expect(() =>
-      session.dispatch(new RenameEntityBehaviorV5Command(target, 'trigger', 'talk', 'greet')),
-    ).toThrow(/sidecar 保护/)
-    expect(() =>
-      session.dispatch(new DeleteEntityBehaviorV5Command(target, 'trigger', 'talk')),
+      session.dispatch(new DeleteEntityBehaviorV5Command(target, 'trigger', 'greet')),
     ).toThrow(/仍有 .*引用/)
   })
 
-  test('preserves every historical stage and state cursor identity while editing flow bodies', () => {
+  test('does not let development migration metadata block shared-script deletion', () => {
+    const migratedState = editorState([
+      sidecar({
+        targetClosures: [
+          {
+            target: {
+              kind: 'shared-script',
+              scriptId: 'shared/user/select-talk',
+            },
+            identityDigest: digest,
+          },
+        ],
+      }),
+    ])
+    const session = new ScriptV5EditSession(migratedState)
+
+    session.dispatch(new DeleteSharedScriptV5Command('shared/user/select-talk'))
+    expect(session.getState().sharedScripts['shared/user/select-talk']).toBeUndefined()
+    expect(session.undo()).toBe(true)
+    expect(session.getState().sharedScripts['shared/user/select-talk']).toBeDefined()
+  })
+
+  test('lets pre-release author edits replace stage and state identities despite migration cursors', () => {
     const stageCursor = sidecar({
       legacyCursors: [
         {
@@ -303,20 +339,14 @@ describe('canonical script v5 editor commands', () => {
       ],
     })
     const stageSession = new ScriptV5EditSession(editorState([stageCursor]))
-    expect(() =>
-      stageSession.dispatch(
-        new UpdateEntityBehaviorV5Command(target, 'trigger', 'talk', {
-          flow: stageFlow('renamed'),
-        }),
-      ),
-    ).toThrow(/stage start 不可删除或改名/)
     stageSession.dispatch(
       new UpdateEntityBehaviorV5Command(target, 'trigger', 'talk', {
-        flow: stageFlow('start', [{ kind: 'setFlag', flag: 'edited', value: true }]),
+        flow: stageFlow('renamed', [{ kind: 'setFlag', flag: 'edited', value: true }]),
       }),
     )
     expect(triggerRegistry(stageSession.getState()).talk!.flow).toMatchObject({
-      stages: [{ id: 'start', body: [{ flag: 'edited' }] }],
+      initial: 'renamed',
+      stages: [{ id: 'renamed', body: [{ flag: 'edited' }] }],
     })
 
     const machineFlow: ScriptFlowV5 = {
@@ -362,25 +392,30 @@ describe('canonical script v5 editor commands', () => {
     ])
     triggerRegistry(machineState).talk = behavior('talk', machineFlow)
     const machineSession = new ScriptV5EditSession(machineState)
-    expect(() =>
-      machineSession.dispatch(
-        new UpdateEntityBehaviorV5Command(target, 'trigger', 'talk', {
-          flow: {
-            ...machineFlow,
-            machine: {
-              ...machineFlow.machine,
-              states: {
-                renamed: {
-                  label: '等待',
-                  body: [],
-                  next: { kind: 'stay' },
-                },
+    machineSession.dispatch(
+      new UpdateEntityBehaviorV5Command(target, 'trigger', 'talk', {
+        flow: {
+          ...machineFlow,
+          machine: {
+            ...machineFlow.machine,
+            initial: 'renamed',
+            states: {
+              renamed: {
+                label: '等待',
+                body: [],
+                next: { kind: 'stay' },
               },
             },
           },
-        }),
-      ),
-    ).toThrow(/state dialogue\/idle 不可删除或改名/)
+        },
+      }),
+    )
+    expect(triggerRegistry(machineSession.getState()).talk!.flow).toMatchObject({
+      machine: {
+        initial: 'renamed',
+        states: { renamed: { label: '等待' } },
+      },
+    })
   })
 
   test('copies and deletes only unreferenced behaviors', () => {
