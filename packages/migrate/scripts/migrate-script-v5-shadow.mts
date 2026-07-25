@@ -1,7 +1,7 @@
 /**
  * N3-1 experimental script-v5 shadow runner.
  *
- * 只从权威 v4 纯迁移构建累计 P2/P3/P4/P5/P6 IR，默认构建最新 P6 并写入 gitignored shadow 根；
+ * 只从权威 v4 纯迁移构建累计 P2-P7，默认构建最新 P7 canonical 发布目标并写入 gitignored shadow 根；
  * --check 使用临时目录并验证首次写入后第二次文件计划为 0/0/0。
  */
 
@@ -9,6 +9,10 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  assertP7ShadowBundle,
+  buildDeterministicP7ShadowBundle,
+} from '../src/experimental/script-v5/p7-shadow.js'
 import { parseScriptV5ShadowCliArgs } from '../src/experimental/script-v5/shadow-cli.js'
 import {
   assertP2ShadowBundle,
@@ -44,7 +48,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 const args = process.argv.slice(2).filter((argument) => argument !== '--')
 const options = parseScriptV5ShadowCliArgs(args)
-const phase = options.through.toUpperCase() as 'P2' | 'P3' | 'P4' | 'P5' | 'P6'
+const phase = options.through.toUpperCase() as 'P2' | 'P3' | 'P4' | 'P5' | 'P6' | 'P7'
 const fixedShadowRoot = resolve(repo, `packages/migrate/.shadow/N3-1/v5/${options.through}`)
 if (!existsSync(baselinePath)) throw new Error(`P0 基线不存在: ${baselinePath}`)
 
@@ -62,6 +66,9 @@ assertScriptControlFlowAudit(currentAudit)
 const frozenAudit = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
 const common = { migration, base, ours, currentAudit, frozenAudit }
 const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
+const manifest = JSON.parse(
+  readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
+) as import('@type-pal/content').LegacyManifestV4
 const bundle =
   options.through === 'p2'
     ? buildDeterministicP2ShadowBundle(common)
@@ -71,7 +78,9 @@ const bundle =
         ? buildDeterministicP4ShadowBundle({ ...common, sourceCommands })
         : options.through === 'p5'
           ? buildDeterministicP5ShadowBundle({ ...common, sourceCommands })
-          : buildDeterministicP6ShadowBundle({ ...common, sourceCommands })
+          : options.through === 'p6'
+            ? buildDeterministicP6ShadowBundle({ ...common, sourceCommands })
+            : buildDeterministicP7ShadowBundle({ ...common, sourceCommands, manifest })
 const assertBundle =
   options.through === 'p2'
     ? assertP2ShadowBundle
@@ -81,7 +90,9 @@ const assertBundle =
         ? assertP4ShadowBundle
         : options.through === 'p5'
           ? assertP5ShadowBundle
-          : assertP6ShadowBundle
+          : options.through === 'p6'
+            ? assertP6ShadowBundle
+            : assertP7ShadowBundle
 assertBundle(bundle)
 
 const check = options.check

@@ -1409,9 +1409,9 @@ export function assertP5ShadowBundle(bundle: P5ShadowBundle): void {
     throw new Error('P5 shadow bundle manifest closure mismatch')
 }
 
-interface P6ShadowBuildArgs extends P5ShadowBuildArgs {}
+export interface P6ShadowBuildArgs extends P5ShadowBuildArgs {}
 
-function buildP6Core(args: P6ShadowBuildArgs): Map<string, string> {
+export function buildP6ShadowCore(args: P6ShadowBuildArgs): Map<string, string> {
   const p2 = buildP2ScriptMigrationIR(args)
   validateScriptMigrationIR({
     migration: args.migration,
@@ -1665,8 +1665,8 @@ function buildP6Core(args: P6ShadowBuildArgs): Map<string, string> {
  * P6 仍从同一权威 v4 输入独立构建两次，不读取任何已有 shadow 目录。
  */
 export function buildDeterministicP6ShadowBundle(args: P6ShadowBuildArgs): P6ShadowBundle {
-  const first = buildP6Core(args)
-  const second = buildP6Core({
+  const first = buildP6ShadowCore(args)
+  const second = buildP6ShadowCore({
     ...args,
     migration: {
       ...args.migration,
