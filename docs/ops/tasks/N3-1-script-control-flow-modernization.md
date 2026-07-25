@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending（等待验收 `51a0cf84` P7-R4 脚本方案 / 分次执行交互返工）
+- 用户结论: pending（等待验收 `e675f474` P7-R5 引用闭包、方案详情与共用编辑器收口）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3462,11 +3462,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R4 已自验，等待用户体验确认）** | 2026-07-25 | `51a0cf84` 继续按用户反馈重做脚本方案与分次执行：方案平铺、方案/步骤详情分别落在所属卡片、创建与详情分离、统一“步骤”术语和小标题、移除开发期旧存档伪约束；地图、单滚动正文、完整中文指令与真实 s001 对话预览均保持通过。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R5 已自验，等待用户体验确认）** | 2026-07-26 | `e675f474` 在 P7-R4 基础上补齐可读引用与精确反跳、canonical 物品引用闭包、方案详情原子保存和统一战败后脚本编辑；移除无明确作者场景的“复制方案”，修正引用正文层级。真实 PAL 数据、地图预览、对话播放和分隔条均已复验。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R4 后终审）** | 2026-07-25 | 当前候选基线为 `51a0cf84`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R5 后终审）** | 2026-07-26 | 当前候选基线为 `e675f474`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R4 实现与自验完成，但仍保持 rework**。`51a0cf84` 是当前用户验收候选；
+- Codex 结论：**P7-R5 实现与自验完成，但仍保持 rework**。`e675f474` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
@@ -3630,22 +3630,65 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
     P7-R3 已验证结果。
   - 截图：`output/playwright/n3-1-p7-r4-execution-steps.png`、
     `output/playwright/n3-1-p7-r4-step-details-in-card.png`。
-- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+- **P7-R4 当轮门禁（后由 P7-R5 继续返工）**：仍为 `rework`，等待用户实际体验确认；确认后
+  Codex 才重签 `accept` 并把
   `51a0cf84` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
+#### P7-R5 引用闭包、方案详情与共用编辑器收口（2026-07-26）
+
+- **用户新增验收反例**：
+  1. 方案“使用位置”只有重复的泛化文字，点击无反应；必须说明场景、实体、方案、步骤、正文和
+     第几条指令，并能真正打开到该指令。
+  2. 方案名称与默认状态相距过远且分别即时保存；弹窗 footer 应统一提供删除、取消、保存，
+     一次保存、一次撤销。
+  3. canonical 物品工作台的引用计数和条目消失；物品反链必须覆盖新脚本模型并可精确反跳。
+  4. “复制方案”没有明确作者任务，只增加认知和误操作成本；当前不应占据方案详情。
+  5. 引用条目正文不能比“使用位置”等小标题更醒目，视觉层级必须回到“标题 > 说明 > 条目”。
+- **实现**：
+  - 建立 typed canonical command locator，覆盖场景脚本方案、实体脚本方案、共享脚本、物品私有
+    脚本和敌对实体战败后脚本；引用描述使用中文业务位置，跳转前重新解析目标，失效位置
+    fail-closed，不再依赖 raw path 或只弹提示。
+  - 方案详情先关闭弹窗，再切换到真实场景/实体/owner、方案、步骤或状态、准备/正文和嵌套
+    command path；精确选中并滚动到目标指令。PAL s001 的三条引用实测可跳到
+    s003/e59、e60、e61 的第 115 条“切换场景脚本方案”。
+  - canonical 物品反链并入统一 `collectItemReferences`：覆盖 `giveItem/loseItem`、嵌套
+    all/any/not 条件、分支/循环和 state transition 的递归条件；删除和 v5 保存都再次扫描并拒绝
+    悬空引用。PAL“天书”（290）恢复 2 处真实引用，并可跳到 s151 失去物品和
+    s154/e2493 获得物品指令。
+  - 方案详情删除“复制方案”；名称和默认状态只保存在弹窗草稿，footer 的“保存”通过一个
+    command 原子提交，单次 undo 可完整恢复。删除位于 footer 左侧，取消/保存在右侧。
+  - 引用按钮正文统一为 `10px / 400 / 1.55`，小标题为 `11px / 700`；整行仍可点击并保留
+    hover/focus 状态，“打开 ↗”降为 9px 辅助文字。
+  - canonical 敌对实体“战败后脚本”改用同一个 `CanonicalScriptBodyEditorV5` 弹窗，不再让
+    precise reference 落入会被 canonical 保存覆盖的 legacy JSON textarea。
+- **验证证据**：
+  - editor 全量 **89 files / 755 tests passed**；editor typecheck 与本轮 22 个源码文件
+    Biome check 全绿。
+  - clean migrate 全量 **61 files / 406 passed + 1 skipped**；root typecheck 的 7 个 workspace
+    package 全绿；root lint **949 files clean**；editor production build 377 modules 通过，
+    仅保留既有 >500kB chunk 提示；`git diff --check` 通过。
+  - Playwright 在真实 PAL 工程复验：方案引用、物品两条反链和战败后脚本均精确打开；
+    s001 单步后实际出现“李大娘”对话；地图与演出预览保留；分隔条从 420px 拖到 480px 并写入
+    布局状态；console **0 error / 0 warning**。
+  - 方案弹窗 computed style：无复制按钮，引用正文 10px，小标题 11px；footer 删除在左、
+    取消/保存在右。截图：`output/playwright/scheme-details.png`。
+  - 实现提交：`e675f474 fix(editor): restore canonical script reference workflows`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `e675f474` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R4 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R5 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R4 canonical v5 作者脚本 UX 与真实预览返工后的合并终审
+终审任务: N3-1 P7-R5 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: 51a0cf84 fix(editor): clarify script schemes and execution steps
+当前候选基线: e675f474 fix(editor): restore canonical script reference workflows
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..51a0cf84
+本轮返工增量: 18a66216..e675f474
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R4 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+执行条件: 只有用户明确确认 P7-R5 体验可接受后才开始本终审；确认前不得执行、不得改签字。
 Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
   GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3693,7 +3736,13 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
      阻断作者 CRUD，页面与脚本指令的真实引用保护仍须 fail-closed。
   10. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
      undo/redo、保存序列化/重开和 canonical deep-link 是否闭环。
-  11. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  11. 方案/行为反链是否使用 typed locator 而非 raw path；说明是否能定位场景、实体、方案、
+      步骤/状态、准备/正文和指令序号；点击后是否精确选择目标；失效 locator 是否 fail-closed。
+      物品反链是否覆盖 canonical give/lose 与递归 condition/transition，删除和保存是否拒绝悬空；
+      战败后脚本是否使用统一正文编辑器而不是 legacy JSON。
+  12. 方案详情是否移除无明确任务的“复制方案”；名称与默认状态是否由 footer 一次原子保存，
+      一次 undo 完整恢复；删除/取消/保存位置与引用条目字号、字重、焦点态是否符合层级。
+  13. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
      content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
      N3-1/C8/ED-5I 标 done。
 输出:
@@ -3702,6 +3751,8 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   - accept 后明确“GLM 合并终审通过，可由 Codex 收口”，但不得自行标 N3-1 done；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
+
+当前无下一位 Agent 执行：等待用户验收 P7-R5；上面的 GLM 提示词仅在用户确认后启用。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
@@ -3769,8 +3820,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-当前下一位为 Codex；schema/validator 与状态机 owner canonical 投影已完成，继续 P7
-compiler/runtime/editor/SAVE 5 和全量发布。
+历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R5 用户验收门禁为准。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
