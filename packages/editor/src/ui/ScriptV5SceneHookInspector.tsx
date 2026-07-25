@@ -194,7 +194,6 @@ export function ScriptV5SceneHookInspector(props: {
 
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialogV5
-          title={copy.title}
           selectedName={detailsScheme.label}
           references={detailsReferences.map((reference, index) => ({
             key: `${reference.kind}:${reference.path}:${index}`,

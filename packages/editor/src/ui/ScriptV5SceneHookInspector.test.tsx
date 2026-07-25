@@ -122,6 +122,10 @@ describe('ScriptV5SceneHookInspector', () => {
     expect(footer.textContent).toContain('取消')
     expect(footer.textContent).toContain('保存')
     expect(host.textContent).not.toContain('保存名称')
+    expect(host.textContent).not.toContain('所属入口')
+    expect(host.querySelector('.script-scheme-name-field > header')?.textContent).toContain(
+      '方案名称',
+    )
     expect(
       host.querySelector('.script-scheme-default-control .script-scheme-default-action button'),
     ).not.toBeNull()

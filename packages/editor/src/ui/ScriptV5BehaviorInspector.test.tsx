@@ -160,6 +160,10 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(host.textContent).toContain('当前有 2 处正在使用这个方案')
     expect(button(host, '删除方案').disabled).toBe(true)
     expect(host.textContent).not.toContain('保存名称')
+    expect(host.textContent).not.toContain('所属入口')
+    expect(host.querySelector('.script-scheme-name-field > header')?.textContent).toContain(
+      '方案名称',
+    )
     expect(host.querySelector('[aria-label="新方案名称"]')).toBeNull()
     expect(host.textContent).not.toContain('scenes[0]')
 
@@ -171,6 +175,7 @@ describe('ScriptV5BehaviorInspector', () => {
     })
 
     await act(async () => button(host, '＋ 新建方案').click())
+    expect(host.textContent).not.toContain('所属入口')
     expect(host.querySelector('[aria-label="方案名称"]')).toBeNull()
     expect(host.textContent).not.toContain('方案使用位置')
     const newLabel = host.querySelector<HTMLInputElement>('[aria-label="新方案名称"]')!

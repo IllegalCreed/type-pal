@@ -213,7 +213,6 @@ export function ScriptSchemeStripV5(props: {
 }
 
 export function ScriptSchemeDetailsDialogV5(props: {
-  title: string
   selectedName: string
   references: readonly ScriptSchemeReferencePresentationV5[]
   onClose: () => void
@@ -229,6 +228,7 @@ export function ScriptSchemeDetailsDialogV5(props: {
   const [nameDraft, setNameDraft] = useState(props.selectedName)
   const [defaultDraft, setDefaultDraft] = useState(props.defaultControl?.isDefault ?? false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const nameInputId = useId()
 
   useEffect(() => setNameDraft(props.selectedName), [props.selectedName])
   useEffect(
@@ -293,17 +293,16 @@ export function ScriptSchemeDetailsDialogV5(props: {
         )
       }
     >
-      <div className="canonical-modal-context">
-        <span>所属入口：{props.title}</span>
-        <CanonicalHelpTipV5 label="脚本方案">
-          这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
-        </CanonicalHelpTipV5>
-      </div>
-
       <section className="script-scheme-details-section">
-        <label>
-          <span>方案名称</span>
+        <div className="script-scheme-name-field">
+          <header>
+            <label htmlFor={nameInputId}>方案名称</label>
+            <CanonicalHelpTipV5 label="脚本方案">
+              这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
+            </CanonicalHelpTipV5>
+          </header>
           <input
+            id={nameInputId}
             className="in"
             name="scheme-name"
             autoComplete="off"
@@ -316,7 +315,7 @@ export function ScriptSchemeDetailsDialogV5(props: {
               save()
             }}
           />
-        </label>
+        </div>
 
         {props.defaultControl ? (
           <div className="script-scheme-default-control">
@@ -390,6 +389,7 @@ export function ScriptSchemeCreateDialogV5(props: {
   onCreate: (name: string) => void
 }) {
   const [newName, setNewName] = useState('')
+  const nameInputId = useId()
 
   return (
     <CanonicalScriptDialogV5
@@ -406,17 +406,17 @@ export function ScriptSchemeCreateDialogV5(props: {
           props.onCreate(name)
         }}
       >
-        <div className="canonical-modal-context">
-          <span>所属入口：{props.title}</span>
-          <CanonicalHelpTipV5 label="新建脚本方案">
-            {props.first
-              ? '创建这个脚本入口的第一套方案。'
-              : '新方案从空白内容开始，已有方案不会受到影响。'}
-          </CanonicalHelpTipV5>
-        </div>
-        <label>
-          <span>方案名称</span>
+        <div className="script-scheme-name-field">
+          <header>
+            <label htmlFor={nameInputId}>方案名称</label>
+            <CanonicalHelpTipV5 label="新建脚本方案">
+              {props.first
+                ? '创建这个脚本入口的第一套方案。'
+                : '新方案从空白内容开始，已有方案不会受到影响。'}
+            </CanonicalHelpTipV5>
+          </header>
           <input
+            id={nameInputId}
             className="in"
             name="new-scheme-name"
             autoComplete="off"
@@ -425,7 +425,7 @@ export function ScriptSchemeCreateDialogV5(props: {
             value={newName}
             onChange={(event) => setNewName(event.target.value)}
           />
-        </label>
+        </div>
         <div className="script-scheme-create-actions">
           <button type="button" className="btn" onClick={props.onClose}>
             取消

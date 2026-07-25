@@ -13124,9 +13124,7 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 10px;
   margin-bottom: 12px;
 }
-.canonical-flow-settings-fields > label,
-.script-scheme-details-section > label,
-.script-scheme-create-form > label {
+.canonical-flow-settings-fields > label {
   display: grid;
   gap: 5px;
   color: var(--dim);
@@ -13142,6 +13140,28 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-create-form {
   display: grid;
   gap: 9px;
+  min-width: 0;
+}
+.script-scheme-name-field {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.script-scheme-name-field > header,
+.script-scheme-usage > header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.script-scheme-name-field > header label,
+.script-scheme-usage > header strong {
+  color: var(--fg);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.script-scheme-name-field > .in {
+  width: 100%;
   min-width: 0;
 }
 .script-scheme-default-control {
@@ -13173,15 +13193,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 10px;
   line-height: 1.5;
-}
-.script-scheme-usage > header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.script-scheme-usage > header strong {
-  color: var(--fg);
-  font-size: 11px;
 }
 .script-scheme-usage p {
   margin: 0;

@@ -243,7 +243,6 @@ export function ScriptV5BehaviorInspector(props: {
 
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialogV5
-          title={title}
           selectedName={detailsScheme.label}
           references={detailsReferences.map((reference, index) => ({
             key: `${reference.kind}:${reference.path}:${index}`,
