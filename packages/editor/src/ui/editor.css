@@ -13772,19 +13772,24 @@ button.sprite-frame-cell[draggable="true"]:active {
   font-size: 9px;
   text-overflow: ellipsis;
 }
-.canonical-shared-script-create {
+.canonical-shared-script-create-dialog {
+  width: min(520px, 100%);
+}
+.canonical-shared-script-create-form {
   display: grid;
-  gap: 5px;
-  margin: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--line);
+  gap: 12px;
 }
-.canonical-shared-script-create strong {
-  color: var(--dim);
-  font-size: 10px;
+.canonical-shared-script-create-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.canonical-shared-script-create .in {
+.canonical-shared-script-create-form .in {
+  width: 100%;
   min-width: 0;
+}
+.canonical-shared-script-create-form .cf-err {
+  margin: 0;
 }
 .canonical-shared-meta-edit {
   display: grid;

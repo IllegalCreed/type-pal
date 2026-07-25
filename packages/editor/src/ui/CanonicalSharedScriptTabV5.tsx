@@ -1,5 +1,5 @@
 import type { SharedAuthorScriptV5 } from '@type-pal/content'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   AddSharedScriptV5Command,
   DeleteSharedScriptV5Command,
@@ -8,7 +8,9 @@ import {
   UpdateSharedScriptV5Command,
 } from '../core/script-v5-editor.js'
 import {
+  CanonicalHelpTipV5,
   CanonicalScriptBodyEditorV5,
+  CanonicalScriptDialogV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
 
@@ -48,6 +50,17 @@ export function CanonicalSharedScriptTabV5(props: {
   )
   const [newName, setNewName] = useState('')
   const [newId, setNewId] = useState('')
+  const [newIdEdited, setNewIdEdited] = useState(false)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [createError, setCreateError] = useState('')
+  const createFormId = useId()
+  const createNameId = useId()
+  const createScriptId = useId()
+  const createErrorId = useId()
+  const createButtonRef = useRef<HTMLButtonElement>(null)
+  const createNameInputRef = useRef<HTMLInputElement>(null)
+  const createScriptIdInputRef = useRef<HTMLInputElement>(null)
+  const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
   const [nameDraft, setNameDraft] = useState(selected?.name ?? '')
   const shown = ids.filter((id) => {
@@ -68,12 +81,29 @@ export function CanonicalSharedScriptTabV5(props: {
 
   useEffect(() => setNameDraft(selected?.name ?? ''), [selected?.name])
 
-  const dispatch = (command: Parameters<ScriptV5EditSession['dispatch']>[0]): boolean => {
+  useEffect(() => {
+    if (createOpen) {
+      createWasOpenRef.current = true
+      createNameInputRef.current?.focus()
+      return
+    }
+    if (createWasOpenRef.current) {
+      createWasOpenRef.current = false
+      createButtonRef.current?.focus()
+    }
+  }, [createOpen])
+
+  const dispatch = (
+    command: Parameters<ScriptV5EditSession['dispatch']>[0],
+    onFailure?: (message: string) => void,
+  ): boolean => {
     try {
       props.session.dispatch(command)
       return true
     } catch (error) {
-      props.onError?.(error instanceof Error ? error.message : String(error))
+      const message = error instanceof Error ? error.message : String(error)
+      onFailure?.(message)
+      props.onError?.(message)
       return false
     }
   }
@@ -87,6 +117,46 @@ export function CanonicalSharedScriptTabV5(props: {
     if (selectedId) dispatch(new UpdateSharedScriptV5Command(selectedId, patch))
   }
 
+  const closeCreate = (): void => {
+    setCreateOpen(false)
+    setCreateError('')
+  }
+
+  const openCreate = (): void => {
+    setNewName('')
+    setNewId('')
+    setNewIdEdited(false)
+    setCreateError('')
+    setCreateOpen(true)
+  }
+
+  const createScript = (): void => {
+    const name = newName.trim()
+    if (!name) {
+      setCreateError('请输入脚本名称。')
+      createNameInputRef.current?.focus()
+      return
+    }
+    const id = newId.trim() || nextScriptId(name, props.state)
+    setCreateError('')
+    if (
+      dispatch(
+        new AddSharedScriptV5Command(id, {
+          name,
+          self: 'none',
+          body: [],
+        }),
+        (message) => {
+          setCreateError(message)
+          createScriptIdInputRef.current?.focus()
+        },
+      )
+    ) {
+      closeCreate()
+      select(id)
+    }
+  }
+
   return (
     <>
       <div className="outliner shared-script-outliner canonical-shared-script-outliner">
@@ -94,6 +164,17 @@ export function CanonicalSharedScriptTabV5(props: {
         <div className="pane-h">
           <span className="t">可复用脚本</span>
           <span className="count">{ids.length}</span>
+          <span className="spacer" />
+          <button
+            ref={createButtonRef}
+            type="button"
+            className="mini"
+            aria-label="新建可复用脚本"
+            title="新建可复用脚本"
+            onClick={openCreate}
+          >
+            ＋
+          </button>
         </div>
         <div className="shared-toolbar">
           <input
@@ -121,47 +202,6 @@ export function CanonicalSharedScriptTabV5(props: {
           })}
           {!shown.length ? <div className="insp-empty">没有匹配的可复用脚本</div> : null}
         </div>
-        <form
-          className="canonical-shared-script-create"
-          onSubmit={(event) => {
-            event.preventDefault()
-            const name = newName.trim() || '新共享脚本'
-            const id = newId.trim() || nextScriptId(name, props.state)
-            if (
-              dispatch(
-                new AddSharedScriptV5Command(id, {
-                  name,
-                  self: 'none',
-                  body: [],
-                }),
-              )
-            ) {
-              setNewName('')
-              setNewId('')
-              select(id)
-            }
-          }}
-        >
-          <strong>新建脚本</strong>
-          <input
-            className="in"
-            aria-label="新共享脚本名称"
-            placeholder="业务名称"
-            value={newName}
-            onChange={(event) => {
-              setNewName(event.target.value)
-              if (!newId) setNewId(nextScriptId(event.target.value, props.state))
-            }}
-          />
-          <input
-            className="in mono"
-            aria-label="新共享脚本稳定 id"
-            placeholder="shared/user/..."
-            value={newId}
-            onChange={(event) => setNewId(event.target.value)}
-          />
-          <button type="submit">＋ 新建</button>
-        </form>
       </div>
 
       <div className="canvas-wrap data-body shared-script-main canonical-shared-script-main">
@@ -272,6 +312,87 @@ export function CanonicalSharedScriptTabV5(props: {
           <div className="insp-empty">没有选中的共享脚本</div>
         )}
       </aside>
+
+      {createOpen ? (
+        <CanonicalScriptDialogV5
+          title="新建可复用脚本"
+          className="canonical-shared-script-create-dialog"
+          onClose={closeCreate}
+          footer={
+            <>
+              <button type="button" className="btn" onClick={closeCreate}>
+                取消
+              </button>
+              <button type="submit" className="btn primary" form={createFormId}>
+                创建脚本
+              </button>
+            </>
+          }
+        >
+          <form
+            id={createFormId}
+            className="canonical-shared-script-create-form"
+            onSubmit={(event) => {
+              event.preventDefault()
+              createScript()
+            }}
+          >
+            <label className="v-field" htmlFor={createNameId}>
+              <span className="lb">脚本名称</span>
+              <input
+                ref={createNameInputRef}
+                id={createNameId}
+                className="in"
+                name="shared-script-name"
+                autoComplete="off"
+                placeholder="例如：打开藏宝箱…"
+                aria-describedby={createError ? createErrorId : undefined}
+                aria-invalid={Boolean(createError && !newName.trim())}
+                value={newName}
+                onChange={(event) => {
+                  const value = event.target.value
+                  setNewName(value)
+                  setCreateError('')
+                  if (!newIdEdited) setNewId(value.trim() ? nextScriptId(value, props.state) : '')
+                }}
+              />
+            </label>
+            <div className="v-field">
+              <span className="canonical-shared-script-create-label">
+                <label className="lb" htmlFor={createScriptId}>
+                  稳定 ID
+                </label>
+                <CanonicalHelpTipV5 label="稳定 ID">
+                  用于其他脚本引用，创建后保持不变。通常保留自动生成的值即可。
+                </CanonicalHelpTipV5>
+              </span>
+              <input
+                ref={createScriptIdInputRef}
+                id={createScriptId}
+                className="in mono"
+                name="shared-script-id"
+                autoComplete="off"
+                spellCheck={false}
+                translate="no"
+                placeholder="shared/user/open-chest…"
+                aria-describedby={createError ? createErrorId : undefined}
+                aria-invalid={Boolean(createError && newName.trim())}
+                value={newId}
+                onChange={(event) => {
+                  setNewId(event.target.value)
+                  setNewIdEdited(Boolean(event.target.value))
+                  setCreateError('')
+                }}
+              />
+            </div>
+            {createError ? (
+              <p id={createErrorId} className="cf-err" role="alert">
+                {createError}
+              </p>
+            ) : null}
+          </form>
+        </CanonicalScriptDialogV5>
+      ) : null}
     </>
   )
 }

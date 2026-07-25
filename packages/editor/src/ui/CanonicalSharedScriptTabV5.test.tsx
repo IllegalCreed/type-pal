@@ -1,6 +1,10 @@
+// @vitest-environment jsdom
+
 import type { AssetCatalogV1, SceneDef } from '@type-pal/content'
+import { act, useSyncExternalStore } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
@@ -35,6 +39,21 @@ const context: CanonicalScriptEditorContextV5 = {
 }
 
 describe('CanonicalSharedScriptTabV5', () => {
+  let host: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+    host = document.createElement('div')
+    document.body.append(host)
+    root = createRoot(host)
+  })
+
+  afterEach(async () => {
+    await act(async () => root.unmount())
+    host.remove()
+  })
+
   test('reads the canonical library and mounts the shared body editor', () => {
     const html = renderToStaticMarkup(
       <CanonicalSharedScriptTabV5
@@ -50,5 +69,66 @@ describe('CanonicalSharedScriptTabV5', () => {
     expect(html).toContain('canonical-script-editor')
     expect(html).not.toContain('迁移内部实现')
     expect(html).not.toContain('Canonical ScriptFlow JSON')
+  })
+
+  test('opens creation from the list header and creates through a dedicated dialog', async () => {
+    const session = new ScriptV5EditSession(structuredClone(state))
+
+    function Harness() {
+      useSyncExternalStore(
+        (listener) => session.subscribe(listener),
+        () => session.getVersion(),
+      )
+      const editorState = session.getState()
+      return (
+        <CanonicalSharedScriptTabV5
+          tabBar={null}
+          state={editorState}
+          session={session}
+          context={{ ...context, state: editorState }}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    expect(host.querySelector('.canonical-shared-script-create-form')).toBeNull()
+
+    const open = host.querySelector<HTMLButtonElement>('[aria-label="新建可复用脚本"]')!
+    await act(async () => open.click())
+
+    const dialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    expect(dialog.getAttribute('aria-label')).toBe('新建可复用脚本')
+    expect(dialog.textContent).toContain('脚本名称')
+    expect(dialog.textContent).toContain('稳定 ID')
+    expect(document.activeElement?.getAttribute('name')).toBe('shared-script-name')
+
+    const submit = dialog.querySelector<HTMLButtonElement>('button[type="submit"]')!
+    expect(submit.disabled).toBe(false)
+    await act(async () => submit.click())
+    expect(dialog.querySelector('[role="alert"]')?.textContent).toBe('请输入脚本名称。')
+    expect(document.activeElement?.getAttribute('name')).toBe('shared-script-name')
+
+    const name = dialog.querySelector<HTMLInputElement>('[name="shared-script-name"]')!
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(
+      name,
+      '序章开场',
+    )
+    await act(async () => name.dispatchEvent(new Event('input', { bubbles: true })))
+
+    const id = dialog.querySelector<HTMLInputElement>('[name="shared-script-id"]')!
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set?.call(
+      id,
+      'shared/user/opening-story',
+    )
+    await act(async () => id.dispatchEvent(new Event('input', { bubbles: true })))
+    await act(async () => submit.click())
+
+    expect(session.getState().sharedScripts['shared/user/opening-story']).toEqual({
+      name: '序章开场',
+      self: 'none',
+      body: [],
+    })
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    expect(host.textContent).toContain('序章开场')
   })
 })
