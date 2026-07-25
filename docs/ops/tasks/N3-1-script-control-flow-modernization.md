@@ -5,9 +5,9 @@ Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: GLM（P6 完成后的架构 + 数据合并代审）
+Reviewer: GLM（P7 schema delta + 最终架构/数据合并代审）
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（额度耗尽；P3/P4/P5 已豁免，P6 继续由 GLM 合并代审）
+Unavailable Agents: Kimi（额度耗尽；用户批准 P3-P7 由 GLM 合并代审，保留补审债务）
 Branch: TBD
 
 ## 目标
@@ -1014,17 +1014,109 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
   - Codex P6 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM `accept` 前不得进入 P7，
     更不得把 N3-1、C8 或 ED-5I 标记 done。
 
+### P7 canonical 投影进度与状态机 schema delta 门禁（2026-07-25）
+
+- 已完成并独立提交的 P7 前置批次:
+  - `35f53753 feat(content): define canonical script v5 schema`：建立 v5 canonical 类型与
+    fail-loud validator，但尚未切换 `CONTENT_VERSION` 或 loader。
+  - `96e5a45e feat(save): add script v5 migration preflight`：建立 SAVE 5 预检、版本双轴和
+    sidecar 允许/拒绝矩阵地基，但尚未发布 SAVE 5。
+  - `312cd8d9 fix(migrate): preserve PAL state anchors`：修复上游迁移器误删 132 个
+    `spriteNum=0` 状态/区域锚点（至少 112 个被脚本引用，91 个带 state=2/collision），并把唯一
+    `0x9A [1051,0,0]` 反向空区间恢复为 no-op；更新 P0 baseline 后全量重建 P6 shadow，
+    digest 为 `16aedd4fd5080aaf295cfe55562cf4a1db3263f0aa52214e5e79972f45bc1857`，
+    二跑 `0/0/0`。
+  - `dbc04f4c feat(migrate): project simple script v5 owners`：完成实体复合地址、稳定选择、
+    P3/P5/P6 局部结构展开和旧 binding/jump fail-loud；PAL **4,519 个不含状态机的 owner**
+    全部通过最终 `checkScriptFlowV5`，专项 4/4、migrate typecheck 通过。
+- 状态机投影可复跑审计:
+  - 新增 `p7-state-machine-audit.ts`，从 P6 IR 重新计算而非手填数字；PAL 结果为
+    **70 cycle / 172 state / 65 owner**。
+  - owner stage 分布为 `59×1 + 1×2 + 5×9`；其中 6 个多 stage owner 合计 47 个稳定 stage
+    入口，必须保留“提交 next cursor 并结束本次激活”的 stage 语义。machine 分布为
+    `60×1 + 5×2`，P7 必须按 owner 合并多个 cycle 并显式分配无碰撞 StateId。
+  - 438 条状态机 transition 分为
+    **131 body-end + 306 condition + 1 command-outcome(confirm:no)**；306 条 condition 中只有
+    30 条位于 body 尾部，另有 **276 条中段条件退出**。136 个 state 有多条 transition。
+  - 唯一 `confirm:no` 位于 `s081` onEnter state 的中段，选择“是”后仍有后续命令；因此
+    中段条件 fallthrough 276 处 + confirm 继续路径 1 处，共 **277 处必须同步继续当前激活**。
+    若硬套现有 `to { yield:'macroTask' }`，会新增可观察的调度/并发让步；若丢弃命令结果，则
+    `confirm:no` 回环失真。
+- 由上述真源证据确认，P1 冻结的四种 `StateTransitionV5`
+  （`stay | restart | to(yield) | branch`）不足以无损承接 P5。GLM P5 历史结论
+  “compiler 消费 command-outcome、无需 schema 变更”保留为审查事实，但已被 P7 canonical
+  validator 的反证更新；不得据此静默丢字段或把迁移 IR 变成运行时旁路。
+- Codex 提交 GLM 复审的最小 schema delta 候选（**尚未修改实现**）:
+
+```ts
+type CommandId = string
+
+type AuthorConfirmCommandV5 = {
+  kind: 'confirm'
+  /** 仅被 commandOutcome 引用时必填；owner/state 内显式分配，不从地址/hash/数组位置派生。 */
+  id?: CommandId
+  onNo: AuthorCommandV5[]
+}
+
+type StateTransitionV5 =
+  | { kind: 'stay' }
+  | { kind: 'restart' }
+  /** 同步尾转移：不提交持久 cursor、不让步，继续同一次 activation；纯 continue SCC 非法。 */
+  | { kind: 'continue'; state: StateId }
+  /** stage 语义：原子提交目标 state，并结束本次 activation。 */
+  | { kind: 'advance'; state: StateId }
+  /** safe-point 尾转移：提交目标后让步，再在同一次 activation 继续。 */
+  | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
+  | { kind: 'branch'; cond: AuthorConditionV5; then: StateTransitionV5; else: StateTransitionV5 }
+  | {
+      kind: 'commandOutcome'
+      commandId: CommandId
+      command: 'confirm'
+      outcome: 'no'
+      then: StateTransitionV5
+      else: StateTransitionV5
+    }
+```
+
+- 候选语义与 lowering 约束:
+  - `continue` 只服务同一 author state 被中段 exit 切开的具名 continuation；不更新 save cursor、
+    不形成 save safe-point、不得构成无 yield 环，因而保持原命令序列的同步 fallthrough。
+  - `advance` 是 state-machine 合并多 stage 后的必要终态：提交下一个稳定 stage/state 并返回，
+    下次外部激活才执行目标；不得用 `to+macroTask` 伪装。
+  - `commandOutcome` 只能引用同一 state 顶层 body 中唯一、具名且已执行的结果命令；结果只存在于
+    当前 activation，不进 save。P7 把 s081 的 confirm 前缀与“是”分支后缀拆成两个具名 state：
+    `no -> to(initial, worldTick)`，`yes -> continue(continuation)`，不得重放 RNG/对话或执行后缀。
+  - 原 P4 StageId 作为 47 个多 stage 入口的稳定 StateId/alias 保留；cycle 内部 state 和
+    277 个 continuation 由 owner 局部显式 allocator 分配，并写入 transition ledger/sidecar，
+    不从 source address、pointer、hash、chunk 或数组位置派生。
+  - validator/compiler 必须拒绝悬空 command/state、重复 CommandId、跨 state outcome 引用、
+    `continue` SCC、无取消让步的持久循环；editor 必须把三种执行语义显示为
+    “同步继续 / 下次激活 / 让步后同次继续”，不能都渲染成“跳转”。
+
+#### P7 状态机 schema delta 推进签字
+
+| 席位 | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-25 | 4,519 simple owner canonical validator 闭环；P6 IR 可复跑审计冻结 70/172/65、277 synchronous continuation、47 multi-stage entry，并给出最小 delta 与负向 validator 约束。 |
+| Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准 P3-P7 架构席位由 GLM 合并代审；保留恢复后的非阻塞补审债务。 |
+| GLM | **pending** | - | 必须核对三项 schema delta 是否最小且足以保持 stage、同步 fallthrough、command outcome 与 save safe-point；签 `agree` 或给出 `counter`。 |
+
+- 门禁: GLM `agree` 前，Codex 可继续只读审计、测试矩阵和不依赖 transition union 的地基，
+  **不得修改 canonical transition schema/compiler/runtime/editor，不得发布 content/save v5**。
+  N3-1 仍为 `build`，C8/ED-5I 继续 blocked。
+
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex + User
-- 验证方式: P0/P2/P3/P4/P5/P6 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
+- 验证方式: P0/P2/P3/P4/P5/P6 与当前 P7 审计均为迁移审计、影子 IR/ledger 与文件事务，
+  尚未改变编辑器或游戏 UI。
 - 截图 / 像素检查路径: N/A
 - 结论: 无适用视觉检查；以 PAL 真源、字节确定性、作者保护与零计划门禁替代。
 - 未完成项: 后续批次若开始改 editor/runtime，必须重新登记视觉验证。
 
 ## Review: 审查与返工
 
-- Reviewer: GLM（P6 架构 + 数据合并代审；Kimi 额度耗尽）
+- Reviewer: GLM（P7 schema delta + 最终架构/数据合并代审；Kimi 额度耗尽）
 - Codex 内部只读红队（2026-07-23）:
   - 首轮发现 overlay `structuredClone` 丢 WeakMap provenance，导致 119 个 scene root 无直接
     源地址，且“全源唯一目标反推”可误配；已改为深克隆时转交审计旁路、删除反推并补反误配测试。
@@ -3113,19 +3205,67 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   正式关闭 P6 内部门禁并把看板下一步切到 P7。P3-P6 的 Kimi 补审债务继续保留，但按用户豁免
   不阻塞本批。Next: 先独立提交 P6 审查记录，再按下方提示词实现 P7；P7 GLM 合并代审
   `accept` 和用户验收前不得标记 N3-1 done，C8/ED-5I 仍须随后独立回归。
+- 2026-07-25 Codex: P7 前置已完成 canonical v5 schema 地基、SAVE 5 预检、PAL 状态锚点
+  上游修复与 4,519 个 simple owner canonical 投影；分别提交
+  `35f53753`、`96e5a45e`、`312cd8d9`、`dbc04f4c`。继续投影 65 个状态机 owner 时，
+  可复跑审计确认现有 transition union 无法表达 277 个同步 continuation、47 个多 stage
+  稳定入口的 next-activation 提交，以及 1 个中段 `confirm:no` outcome；直接套
+  `to+macroTask` 会改变调度，静默消费 P5 IR 会让 canonical 不自足。已在 P7 build 节提出
+  `continue / advance / commandOutcome + CommandId` 最小 delta 并签 Codex `agree`。
+  Next: GLM 按下方提示词合并代审并签 `agree/counter`；门禁前不得改 transition schema、
+  compiler/runtime/editor 或发布 content/save v5。N3-1 仍为 build，C8/ED-5I 继续 blocked。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（P7 全量重迁、验收与文档）
+### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审）
+
+```text
+复审任务: N3-1 P7 状态机 canonical schema delta
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态: build；P0-P6 已 accept，P7 simple owner 4,519/4,519 已通过 v5 validator；
+  状态机 schema delta 的 Codex=agree、Kimi=用户豁免、GLM=pending。签字前不得改 union 或发布 v5。
+你的职责: 只读合并代审原 Kimi 架构/调度语义席位 + GLM 数据/测试矩阵席位；不得修改实现文件。
+先读:
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 本卡 P1-5 frozen ScriptFlow 语义、P5 实现/GLM 历史复审、P7 canonical 投影进度与 schema delta；
+  - packages/content/src/script-v5.ts；
+  - packages/migrate/src/experimental/script-v5/{types,p5-cycle-structure,p7-canonical,p7-state-machine-audit}.ts
+    及对应测试；
+  - packages/migrate/.shadow/N3-1/v5/p6/ir/script-migration-ir.json（若本地存在）。
+必须独立核对:
+  1. 复跑 p7-state-machine-audit.test.ts，并从 P6 IR 对账
+     70 cycle / 172 state / 65 owner、stage 59×1+1×2+5×9、machine 60×1+5×2、
+     131 body-end + 306 condition（30 tail/276 mid）+ 1 command-outcome、
+     136 multi-transition state、277 synchronous continuation、47 multi-stage entry。
+  2. 证明现有 stay/restart/to(yield)/branch 是否确实不能同时表达：
+     a) 中段 false fallthrough 不新增调度让步；
+     b) stage next 只提交 cursor 并结束本次激活；
+     c) s081 confirm:no 回环且 yes 后缀只执行一次。
+     若认为无需 schema 变更，必须给出能通过最终 canonical validator、无需迁移 IR/runtime
+     side channel 且不改变调度的具体 JSON 反例，不接受只说“compiler 消费”。
+  3. 审核候选 continue / advance / commandOutcome + CommandId 是否为最小充分集：
+     continue 不提交/不让步且无环；advance 提交并结束；to 提交/让步/同次继续；
+     outcome 只引用同 state 顶层唯一命令、结果不进 save。
+  4. 审核 owner 合并多个 cycle、StageId→StateId/alias、continuation 显式 allocation、
+     transition ledger/save sidecar、editor 三种语义展示以及 validator 负向矩阵。
+输出要求:
+  - 在本卡「P7 状态机 schema delta 推进签字」GLM 行签 agree，或写 counter 的具体字段、
+    反例与返工项；
+  - 在交接日志记录独立复跑命令、数字和结论；
+  - agree 后明确 P7 schema/runtime/compiler/editor 是否 allowed；counter 时保持门禁。
+  - 不得把 N3-1/C8/ED-5I 标 done。
+```
+
+### 给 Codex（P7 全量重迁、验收与文档；schema delta 通过后继续）
 
 ```text
 接手任务: N3-1 P7 全量重迁、验收与文档
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P0-P6 全部 accept（P3-P6 Kimi 用户豁免，GLM 合并代审）；P6→P7 已 allowed。
-  pending 归零——P2-P6 累计 IR 已无未归属 body。
+当前状态: build；P0-P6 全部 accept（P3-P7 Kimi 用户豁免，GLM 合并代审）；P6→P7 已 allowed，
+  但 P7 状态机 schema delta 仍须先取得 GLM agree。pending 归零——P2-P6 累计 IR 已无未归属 body。
 你的角色: Codex，Coding Owner。P7 是 N3-1 最后一步：把影子 v5 发布为 canonical。
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-1（版本轴裁决）、P1-2..P1-8（schema/save/MG2
-  冻结设计全文）、P6 节（含用户物品私有脚本裁决）、「GLM P6 合并代审」。
+  冻结设计全文）、P6 节（含用户物品私有脚本裁决）、P7 schema delta 与 GLM 新签字。
 P7 范围:
   - 从 v4 重跑 P2-P6 全链产出最终 v5 canonical content；legacy command/binding/private block=0。
   - 通过最终 v5 validator；连续二跑零 diff；MG2 三方合并场景覆盖。
@@ -3143,7 +3283,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-无下一位 Agent 提示词给 GLM/Kimi——GLM P6 已 accept，等待 Codex 完成 P7 后再审查。
+当前下一位为 GLM；Codex 提示词待 schema delta `agree` 后恢复执行。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
