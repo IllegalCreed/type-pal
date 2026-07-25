@@ -12,7 +12,14 @@ import {
   type SpriteDef,
   type WorldState,
 } from '@type-pal/content'
-import { SAVE_VERSION, type SaveMeta, type SavePayload, type SlotId, slotKind } from './types.js'
+import {
+  SAVE_VERSION,
+  type SaveMeta,
+  type SavePayload,
+  type SavePayloadV5,
+  type SlotId,
+  slotKind,
+} from './types.js'
 
 /** 队伍显示快照：名字(已解析,nameOf 注入)+ 等级。now 注入(Date.now())。 */
 export function buildMeta(
@@ -40,6 +47,14 @@ export function buildPayload(
   contentVersion: number,
 ): SavePayload {
   return { version: SAVE_VERSION, projectId, contentVersion, world, position }
+}
+
+export function buildPayloadV5(
+  world: import('@type-pal/content').WorldStateV5,
+  position: { sceneId: string; pos: GridPos; facing: Facing },
+  projectId: string,
+): SavePayloadV5 {
+  return { version: 5, projectId, contentVersion: 5, world, position }
 }
 
 /**

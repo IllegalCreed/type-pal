@@ -14,7 +14,9 @@ import {
 } from '@type-pal/content'
 import type { FileSource } from '../file-source.js'
 import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.js'
-import type { SavePayload } from './types.js'
+import type { SavePayload, SavePayloadV5 } from './types.js'
+
+export type { SavePayloadV5 } from './types.js'
 
 /** N3-1 的目标 envelope 版本；P7 原子切换时与 SAVE_VERSION 一同成为 5。 */
 export const SCRIPT_V5_SAVE_VERSION = 5 as const
@@ -23,12 +25,6 @@ export interface SavePayloadHeader {
   version: number
   projectId: string
   contentVersion: number
-}
-
-export interface SavePayloadV5 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
-  version: 5
-  contentVersion: 5
-  world: WorldStateV5
 }
 
 export type SaveMigrationResolver =

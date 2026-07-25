@@ -1,20 +1,20 @@
-import type { SaveMeta, SavePayload, SlotId } from './types.js'
+import type { SaveMeta, SlotId, StoredSavePayload } from './types.js'
 
 /** 存档存储抽象（注入式）。三块分离：meta(浏览) / payload(还原) / thumb(图)。 */
 export interface SaveStore {
-  putSlot(meta: SaveMeta, payload: SavePayload, thumb: Blob): Promise<void> // 覆盖写
+  putSlot(meta: SaveMeta, payload: StoredSavePayload, thumb: Blob): Promise<void> // 覆盖写
   listMeta(): Promise<SaveMeta[]> // 浏览界面（不碰 payload）
-  getPayload(slotId: SlotId): Promise<SavePayload | null>
+  getPayload(slotId: SlotId): Promise<StoredSavePayload | null>
   getThumb(slotId: SlotId): Promise<Blob | null>
 }
 
 /** 内存实现（测试 / 无 IndexedDB 降级）。深拷贝防外部突变。 */
 export class MemorySaveStore implements SaveStore {
   private readonly meta = new Map<SlotId, SaveMeta>()
-  private readonly payload = new Map<SlotId, SavePayload>()
+  private readonly payload = new Map<SlotId, StoredSavePayload>()
   private readonly thumb = new Map<SlotId, Blob>()
 
-  async putSlot(meta: SaveMeta, payload: SavePayload, thumb: Blob): Promise<void> {
+  async putSlot(meta: SaveMeta, payload: StoredSavePayload, thumb: Blob): Promise<void> {
     this.meta.set(meta.slotId, structuredClone(meta))
     this.payload.set(meta.slotId, structuredClone(payload))
     this.thumb.set(meta.slotId, thumb)
@@ -22,7 +22,7 @@ export class MemorySaveStore implements SaveStore {
   async listMeta(): Promise<SaveMeta[]> {
     return [...this.meta.values()].map((m) => structuredClone(m))
   }
-  async getPayload(slotId: SlotId): Promise<SavePayload | null> {
+  async getPayload(slotId: SlotId): Promise<StoredSavePayload | null> {
     const p = this.payload.get(slotId)
     return p ? structuredClone(p) : null
   }
@@ -54,7 +54,7 @@ export class IndexedDbSaveStore implements SaveStore {
     return this.dbPromise
   }
 
-  async putSlot(meta: SaveMeta, payload: SavePayload, thumb: Blob): Promise<void> {
+  async putSlot(meta: SaveMeta, payload: StoredSavePayload, thumb: Blob): Promise<void> {
     const db = await this.open()
     await new Promise<void>((resolve, reject) => {
       const t = db.transaction(STORES, 'readwrite') // 三 store 一事务，原子
@@ -85,8 +85,8 @@ export class IndexedDbSaveStore implements SaveStore {
       req.onerror = () => reject(req.error)
     })
   }
-  getPayload(slotId: SlotId): Promise<SavePayload | null> {
-    return this.get<SavePayload>('payload', slotId)
+  getPayload(slotId: SlotId): Promise<StoredSavePayload | null> {
+    return this.get<StoredSavePayload>('payload', slotId)
   }
   getThumb(slotId: SlotId): Promise<Blob | null> {
     return this.get<Blob>('thumb', slotId)

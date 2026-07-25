@@ -1,4 +1,4 @@
-import type { Facing, GridPos, WorldState } from '@type-pal/content'
+import type { Facing, GridPos, WorldState, WorldStateV5 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
 export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
@@ -41,3 +41,11 @@ export interface SavePayload {
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
+
+export interface SavePayloadV5 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 5
+  contentVersion: 5
+  world: WorldStateV5
+}
+
+export type StoredSavePayload = SavePayload | SavePayloadV5

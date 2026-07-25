@@ -168,14 +168,23 @@ import {
 import {
   buildMeta,
   buildPayload,
+  buildPayloadV5,
   captureThumbnail,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
   resolveLegacyPlayerBattleSpriteId,
   resolveRestoredMusic,
 } from './save/ops.js'
+import { normalizePayloadV5, preflightSaveMigration } from './save/migration.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/store.js'
-import { ALL_SLOT_IDS, type SaveMeta, type SavePayload, type SlotId } from './save/types.js'
+import {
+  ALL_SLOT_IDS,
+  type SaveMeta,
+  type SavePayload,
+  type SavePayloadV5,
+  type SlotId,
+  type StoredSavePayload,
+} from './save/types.js'
 import { SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
@@ -844,6 +853,12 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   const syncLegacyScriptScratchV5 = (sceneId: string): void => {
     if (!worldScriptV5) return
     world.script = legacyWorldScriptScratchV5(worldScriptV5, sceneId)
+  }
+  const replaceWorldScriptStateV5 = (next: WorldScriptStateV5): void => {
+    if (!worldScriptV5) throw new Error('script v5 world authority 未初始化')
+    const target = worldScriptV5 as unknown as Record<string, unknown>
+    for (const key of Object.keys(target)) delete target[key]
+    Object.assign(target, structuredClone(next))
   }
   if (worldScriptV5) syncLegacyScriptScratchV5(project.entryScene.id)
   else world.script ??= emptyWorldScriptState()
@@ -2673,6 +2688,29 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     },
   }
 
+  const refreshCurrentCanonicalBindingsV5 = (): void => {
+    if (!worldScriptV5) return
+    const canonical = canonicalSceneCacheV5.get(scene.id)
+    if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
+    refreshLegacySceneBindingsV5(scene, canonical, worldScriptV5)
+    const pageActions: EntityActionSeed[] = []
+    for (const entity of scene.entities) {
+      const binding = entity.pages?.[0]?.animation
+      if (!binding) continue
+      const sprite = entitySpriteDefs.get(entity.id)
+      if (!sprite) continue
+      const loaded = spriteCache.get(project.assetResolver, sprite.asset)
+      const resolved = resolveSpriteActionBinding(
+        sprite,
+        binding,
+        loaded?.frames.length,
+        `reforge: 场景 ${scene.id} 实体 ${entity.id} canonical page animation`,
+      )
+      pageActions.push({ entity: entity.id, ...resolved })
+    }
+    entityActions.replaceScene(pageActions)
+  }
+
   const refreshRuntimeProjectionV5 = (command: RuntimeLeafCommandV5): void => {
     if (!worldScriptV5) return
     syncLegacyScriptScratchV5(scene.id)
@@ -2681,27 +2719,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       command.kind === 'selectEntityPage' ||
       command.kind === 'setEntityTriggerActivation' ||
       command.kind === 'selectSceneHooks'
-    ) {
-      const canonical = canonicalSceneCacheV5.get(scene.id)
-      if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-      refreshLegacySceneBindingsV5(scene, canonical, worldScriptV5)
-      const pageActions: EntityActionSeed[] = []
-      for (const entity of scene.entities) {
-        const binding = entity.pages?.[0]?.animation
-        if (!binding) continue
-        const sprite = entitySpriteDefs.get(entity.id)
-        if (!sprite) continue
-        const loaded = spriteCache.get(project.assetResolver, sprite.asset)
-        const resolved = resolveSpriteActionBinding(
-          sprite,
-          binding,
-          loaded?.frames.length,
-          `reforge: 场景 ${scene.id} 实体 ${entity.id} canonical page animation`,
-        )
-        pageActions.push({ entity: entity.id, ...resolved })
-      }
-      entityActions.replaceScene(pageActions)
-    }
+    )
+      refreshCurrentCanonicalBindingsV5()
     if (
       command.kind === 'setEntityState' ||
       command.kind === 'setMultiEntityState' ||
@@ -3587,28 +3606,51 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     }
   }
 
-  async function doSave(slotId: SlotId, thumb: Blob): Promise<void> {
-    // wSavedTimes 跨槽计数器(uigame.c:578-598:max(全部槽)+1;saveMetas 是槽表快照)
-    const savedTimes = saveMetas.reduce((m, x) => Math.max(m, x.savedTimes ?? 0), 0) + 1
-    const meta = buildMeta(
-      slotId,
-      world,
-      MAP_NAME,
-      (c) => lookupText(`name.${c.template}`, project.locale),
-      Date.now(),
-      savedTimes,
-    )
-    const payload = buildPayload(
+  function buildCurrentSavePayload(): StoredSavePayload {
+    if (worldScriptV5 && canonicalProjectV5) {
+      const snapshot = structuredClone(world)
+      delete snapshot.script
+      return buildPayloadV5(
+        {
+          ...snapshot,
+          script: structuredClone(worldScriptV5),
+        },
+        { sceneId: scene.id, pos: player.pos, facing },
+        canonicalProjectV5.manifest.id,
+      )
+    }
+    return buildPayload(
       world,
       { sceneId: scene.id, pos: player.pos, facing },
       project.manifest.id,
       project.manifest.contentVersion,
     )
-    await saveStore.putSlot(meta, payload, thumb)
-    await refreshSaveMetas()
   }
 
-  function payloadBelongsToProject(p: Pick<SavePayload, 'projectId'>, where: string): boolean {
+  async function doSave(slotId: SlotId, thumb: Blob): Promise<void> {
+    const persist = async (): Promise<void> => {
+      // wSavedTimes 跨槽计数器(uigame.c:578-598:max(全部槽)+1;saveMetas 是槽表快照)
+      const savedTimes = saveMetas.reduce((m, x) => Math.max(m, x.savedTimes ?? 0), 0) + 1
+      const meta = buildMeta(
+        slotId,
+        world,
+        MAP_NAME,
+        (c) => lookupText(`name.${c.template}`, project.locale),
+        Date.now(),
+        savedTimes,
+      )
+      const payload = buildCurrentSavePayload()
+      await saveStore.putSlot(meta, payload, thumb)
+      await refreshSaveMetas()
+    }
+    if (scriptRuntimeV5) await scriptRuntimeV5.withSaveBarrier(persist)
+    else await persist()
+  }
+
+  function payloadBelongsToProject(
+    p: Pick<StoredSavePayload, 'projectId'>,
+    where: string,
+  ): boolean {
     if (p.projectId !== project.manifest.id) {
       console.warn(
         `[save] ${where} 属工程 "${p.projectId}",与当前 "${project.manifest.id}" 不匹配,拒绝读档`,
@@ -3618,9 +3660,28 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     return true
   }
 
+  async function normalizeStoredPayload(
+    raw: StoredSavePayload,
+    where: string,
+    signal?: AbortSignal,
+  ): Promise<StoredSavePayload> {
+    if (!canonicalProjectV5) {
+      if (raw.version >= 5)
+        throw new Error(`${where}: v4 工程不能读取 SAVE v${raw.version}`)
+      return normalizePayload(raw as SavePayload, { ...saveNormalizeOptions, where })
+    }
+    const resolver = await preflightSaveMigration({
+      manifest: canonicalProjectV5.manifest,
+      source: canonicalProjectV5.source,
+      payload: raw,
+      signal,
+    })
+    return normalizePayloadV5(raw, resolver, { ...saveNormalizeOptions, where })
+  }
+
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
   async function restorePayload(
-    p: SavePayload,
+    p: StoredSavePayload,
     token: number,
     where: string,
     signal?: AbortSignal,
@@ -3631,12 +3692,30 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     if (p.contentVersion !== project.manifest.contentVersion) {
       showToast('存档来自旧版内容,如有异常请重开新档')
     }
-    const candidate = p.world
+    let canonicalScriptCandidate: WorldScriptStateV5 | undefined
+    const candidate =
+      canonicalProjectV5 && p.version === 5
+        ? (() => {
+            const payload = p as SavePayloadV5
+            canonicalScriptCandidate = structuredClone(
+              payload.world.script ?? emptyWorldScriptStateV5(),
+            )
+            const shell = structuredClone(payload.world)
+            delete shell.script
+            return {
+              ...shell,
+              script: legacyWorldScriptScratchV5(
+                canonicalScriptCandidate,
+                payload.position.sceneId,
+              ),
+            } as typeof world
+          })()
+        : structuredClone((p as SavePayload).world)
     if (!candidate.party[0]) {
       showToast(`${where}: 存档队伍为空`)
       return false
     }
-    candidate.script ??= emptyWorldScriptState() // 旧档缺省 → 空态
+    if (!canonicalScriptCandidate) candidate.script ??= emptyWorldScriptState()
     // 读档解毒(原版真值:毒/定时状态/装备临时抗性在 GLOBALVARS 不入 SAVEDGAME → 读档即净身;
     // reforge 全量 world 入档,故读回后主动清 runtime-only 三件)
     for (const c of candidate.party) {
@@ -3672,8 +3751,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
     abortScript()
     stopAutoRunners()
+    if (canonicalScriptCandidate) replaceWorldScriptStateV5(canonicalScriptCandidate)
     replaceWorld(candidate)
     commitSceneSwitch(plan, world, false)
+    if (canonicalScriptCandidate) {
+      syncLegacyScriptScratchV5(scene.id)
+      refreshCurrentCanonicalBindingsV5()
+    }
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
     applyWorldToScene() // 实体隐现/挡路按存档世界态重放(读档不重跑 onEnter,对齐原版)
     world.audio ??= {}
@@ -3699,9 +3783,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     const where = `存档槽 ${slotId}`
     // 工程身份先于当前工程专属的 portrait/follower 映射，错误必须稳定指向 projectId。
     if (!payloadBelongsToProject(raw, where)) return false
-    let p: SavePayload
+    let p: StoredSavePayload
     try {
-      p = normalizePayload(raw, { ...saveNormalizeOptions, where })
+      p = await normalizeStoredPayload(raw, where, signal)
     } catch (err) {
       console.warn(`[save] 槽 ${slotId} 归一化拒绝:`, err)
       showToast(err instanceof Error ? err.message : '存档无法读取')
@@ -4645,13 +4729,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   // e2e checkpoint 导出:evaluate 里 `window.__tpE2e.dumpSave()` 取当前世界 SavePayload(JSON)→ 落 e2e-checkpoints/
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {
-      dumpSave: () =>
-        buildPayload(
-          world,
-          { sceneId: scene.id, pos: player.pos, facing },
-          project.manifest.id,
-          project.manifest.contentVersion,
-        ),
+      dumpSave: buildCurrentSavePayload,
     }
   }
   // ?e2e-load=<save.json url>:从文件恢复 SavePayload(注入 world + 跳场景、跳过 onEnter 演出),秒进碎片起点(复用 doLoad 逻辑)
@@ -4659,14 +4737,11 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   if (e2eLoadUrl) {
     try {
       const token = loadIntent.begin()
-      const raw = (await fetch(e2eLoadUrl).then((r) => r.json())) as SavePayload
+      const raw = (await fetch(e2eLoadUrl).then((r) => r.json())) as StoredSavePayload
       loadIntent.assertCurrent(token, `E2E 存档 ${e2eLoadUrl} 已被更新读档请求取代`)
       const where = `E2E 存档 ${e2eLoadUrl}`
       if (!payloadBelongsToProject(raw, where)) throw new Error(`${where}: projectId 不匹配`)
-      const p = normalizePayload(raw, {
-        ...saveNormalizeOptions,
-        where,
-      })
+      const p = await normalizeStoredPayload(raw, where)
       if (!(await restorePayload(p, token, where))) throw new Error(`${where}: 恢复事务失败`)
       const e2eLoadScene = params.get('e2e-load-scene')
       if (import.meta.env.DEV && e2eLoadScene && project.sceneIds.includes(e2eLoadScene)) {
