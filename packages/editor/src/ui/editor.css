@@ -12289,3 +12289,274 @@ button.sprite-frame-cell[draggable="true"]:active {
   outline: 2px solid color-mix(in srgb, var(--accent) 76%, white);
   outline-offset: 1px;
 }
+
+/* ── N3-1 canonical v5 具名行为检查器 ───────────────────── */
+.script-v5-behavior-inspector {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.script-v5-behavior-inspector.empty {
+  padding: 14px;
+  color: var(--dim);
+}
+.script-v5-behavior-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--accent) 10%, var(--panel2)),
+    var(--panel)
+  );
+}
+.script-v5-behavior-heading > div {
+  min-width: 0;
+}
+.script-v5-behavior-heading h4 {
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+.script-v5-behavior-heading code,
+.script-v5-behavior-heading > span {
+  color: var(--dim);
+  font-size: 10px;
+}
+.script-v5-behavior-heading code {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.script-v5-behavior-layout {
+  display: grid;
+  grid-template-columns: minmax(178px, 0.7fr) minmax(280px, 1.3fr);
+  min-width: 0;
+}
+.script-v5-behavior-list {
+  min-width: 0;
+  padding: 8px;
+  border-right: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel2) 70%, var(--panel));
+}
+.script-v5-behavior-list > button {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 5px;
+  padding: 7px 8px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.script-v5-behavior-list > button:hover,
+.script-v5-behavior-list > button.active {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel2));
+}
+.script-v5-behavior-list > button code,
+.script-v5-behavior-list > button small {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.script-v5-empty-copy {
+  padding: 10px 6px 14px;
+  color: var(--dim);
+  line-height: 1.45;
+}
+.script-v5-create-behavior {
+  display: grid;
+  gap: 5px;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+.script-v5-create-behavior strong {
+  color: var(--dim);
+  font-size: 11px;
+}
+.script-v5-create-behavior .in,
+.script-v5-create-behavior button {
+  width: 100%;
+  min-width: 0;
+}
+.script-v5-behavior-detail {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+}
+.script-v5-behavior-detail.empty {
+  color: var(--dim);
+}
+.script-v5-behavior-detail .field {
+  display: grid;
+  gap: 5px;
+}
+.script-v5-inline-edit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+}
+.script-v5-inline-edit .in {
+  min-width: 0;
+}
+.script-v5-flow-summary,
+.script-v5-reference-list {
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel2) 72%, transparent);
+}
+.script-v5-flow-summary > div,
+.script-v5-reference-list > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.script-v5-flow-summary > div span,
+.script-v5-reference-list > div span,
+.script-v5-reference-list > p {
+  color: var(--dim);
+  font-size: 10px;
+}
+.script-v5-flow-summary > button {
+  width: 100%;
+  margin-top: 7px;
+}
+.script-v5-flow-summary ol {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  list-style: none;
+}
+.script-v5-flow-summary li {
+  display: grid;
+  grid-template-columns: minmax(72px, 0.4fr) minmax(88px, 0.6fr);
+  gap: 3px 8px;
+  min-width: 0;
+  padding: 5px 6px;
+  border-radius: 4px;
+  background: var(--panel);
+}
+.script-v5-flow-summary li code,
+.script-v5-flow-summary li span,
+.script-v5-flow-summary li small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.script-v5-flow-summary li small {
+  grid-column: 1 / -1;
+  color: var(--dim);
+  font-size: 10px;
+}
+.script-v5-reference-list ul {
+  display: grid;
+  gap: 4px;
+  margin-top: 7px;
+  list-style: none;
+}
+.script-v5-reference-list li button {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  padding: 5px 6px;
+  text-align: left;
+  border: 0;
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--fg);
+  cursor: pointer;
+}
+.script-v5-reference-list li button:hover {
+  background: color-mix(in srgb, var(--accent) 9%, var(--panel));
+}
+.script-v5-reference-list li code {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.script-v5-behavior-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.script-v5-behavior-actions form {
+  display: flex;
+  min-width: 0;
+  gap: 5px;
+}
+.script-v5-behavior-actions .in {
+  min-width: 0;
+}
+.script-v5-behavior-actions .danger {
+  color: #ef9a9a;
+}
+.script-v5-selection {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.script-v5-selection .in {
+  min-width: 0;
+}
+.script-v5-selection-status {
+  color: var(--dim);
+}
+.script-v5-selection-status.disabled {
+  color: var(--warn);
+}
+.script-v5-selection-status.use {
+  color: var(--ok);
+}
+
+@media (max-width: 900px) {
+  .script-v5-behavior-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .script-v5-behavior-list {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .script-v5-behavior-list > button {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 8px;
+  }
+  .script-v5-behavior-list > button small {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .script-v5-inline-edit,
+  .script-v5-behavior-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .script-v5-behavior-actions {
+    display: grid;
+  }
+  .script-v5-behavior-actions form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
