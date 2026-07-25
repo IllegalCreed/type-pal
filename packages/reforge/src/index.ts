@@ -145,6 +145,12 @@ export {
   loadSceneDefV5,
   loadStampTemplatesV5,
 } from './loader-v5.js'
+export {
+  isV5RuntimeScriptRef,
+  legacyItemsFromV5,
+  legacyProjectShellFromV5,
+  legacySceneFromV5,
+} from './legacy-runtime-shell-v5.js'
 export type {
   LatticePos,
   ProjectMapCollisionEdit,

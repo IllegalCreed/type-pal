@@ -2,6 +2,9 @@ import {
   checkSharedScriptLibraryV5,
   formatProjectMap,
   formatStampTemplates,
+  type EntityDefV5,
+  type ItemData,
+  type ItemDataV5,
   type ProjectManifest,
   type ProjectMap,
   type SceneDefV5,
@@ -11,7 +14,11 @@ import {
   validateMapIndex,
   validateScenesV5,
 } from '@type-pal/content'
-import type { FileSource, LoadedProjectV5Core } from '@type-pal/reforge'
+import {
+  isV5RuntimeScriptRef,
+  type FileSource,
+  type LoadedProjectV5Core,
+} from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorStateV5 } from './script-v5-editor.js'
 
@@ -80,6 +87,155 @@ export function toEditorStateV5(
     locale: structuredClone(project.locale),
     manifest: structuredClone(project.manifest),
     startWorld: structuredClone(project.manifest.startWorld),
+  }
+}
+
+function mergeEntityShellV5(
+  sceneId: string,
+  shell: EditorState['scenes'][number]['entities'][number],
+  canonical: EntityDefV5 | undefined,
+): EntityDefV5 {
+  const { pages: _legacyPages, hostile: shellHostile, ...shellBase } =
+    structuredClone(shell)
+  const hostile = shellHostile
+    ? {
+        ...shellHostile,
+        ...(canonical?.hostile?.onLose !== undefined
+          ? { onLose: structuredClone(canonical.hostile.onLose) }
+          : {}),
+      }
+    : undefined
+  if (
+    !canonical &&
+    shellHostile?.onLose !== undefined &&
+    shellHostile.onLose !== 'gameOver' &&
+    shellHostile.onLose.length > 0
+  )
+    throw new Error(
+      `mergeLegacyEditorShellIntoV5: 新实体 ${sceneId}/${shell.id} 含 legacy hostile.onLose，必须在 v5 脚本面板创建`,
+    )
+  return {
+    ...shellBase,
+    ...(canonical?.behaviors ? { behaviors: structuredClone(canonical.behaviors) } : {}),
+    ...(canonical?.pages ? { pages: structuredClone(canonical.pages) } : {}),
+    ...(canonical?.initialPage ? { initialPage: canonical.initialPage } : {}),
+    ...(hostile ? { hostile } : {}),
+  } as EntityDefV5
+}
+
+function mergeSceneShellV5(
+  shell: EditorState['scenes'][number],
+  canonical: SceneDefV5 | undefined,
+): SceneDefV5 {
+  const {
+    entities: shellEntities,
+    onEnter: _legacyOnEnter,
+    onTeleport: _legacyOnTeleport,
+    ...shellBase
+  } = structuredClone(shell)
+  const canonicalEntities = new Map(
+    (canonical?.entities ?? []).map((entity) => [entity.id, entity]),
+  )
+  return {
+    ...shellBase,
+    entities: shellEntities.map((entity) =>
+      mergeEntityShellV5(shell.id, entity, canonicalEntities.get(entity.id)),
+    ),
+    ...(canonical?.hooks ? { hooks: structuredClone(canonical.hooks) } : {}),
+  }
+}
+
+function mergeItemEffectsV5(
+  itemId: string,
+  slot: 'use' | 'throw',
+  shellEffects: NonNullable<ItemData[typeof slot]>['effects'],
+  canonical: ItemDataV5 | undefined,
+): NonNullable<ItemDataV5[typeof slot]>['effects'] {
+  const canonicalPrivateScripts = new Map(
+    (canonical?.[slot]?.effects ?? []).flatMap((effect) =>
+      effect.kind === 'itemPrivateScript' ? [[effect.script.id, effect] as const] : [],
+    ),
+  )
+  return shellEffects.map((effect, index) => {
+    if (effect.kind !== 'runScript') return structuredClone(effect)
+    if (!isV5RuntimeScriptRef(effect.script))
+      throw new Error(
+        `mergeLegacyEditorShellIntoV5: ${itemId}.${slot}.effects[${index}] 是 legacy ScriptRef，v5 只接受稳定 shared script id`,
+      )
+    const privatePrefix = `item:${itemId}:`
+    if (!effect.script.id.startsWith(privatePrefix))
+      return { kind: 'runScript', script: effect.script.id }
+    const privateId = effect.script.id.slice(privatePrefix.length)
+    const source = canonicalPrivateScripts.get(privateId as 'use')
+    if (!source)
+      throw new Error(
+        `mergeLegacyEditorShellIntoV5: ${itemId}.${slot}.effects[${index}] 的私有脚本 ${privateId} 不存在`,
+      )
+    return structuredClone(source)
+  })
+}
+
+function mergeItemShellV5(shell: ItemData, canonical: ItemDataV5 | undefined): ItemDataV5 {
+  const use: ItemDataV5['use'] = shell.use
+    ? {
+        ...structuredClone(shell.use),
+        effects: mergeItemEffectsV5(shell.id, 'use', shell.use.effects, canonical),
+      }
+    : undefined
+  const thrown: ItemDataV5['throw'] = shell.throw
+    ? {
+        ...structuredClone(shell.throw),
+        effects: mergeItemEffectsV5(shell.id, 'throw', shell.throw.effects, canonical),
+      }
+    : undefined
+  return {
+    ...structuredClone(shell),
+    use,
+    throw: thrown,
+  }
+}
+
+/**
+ * 当前编辑器的地图/资源/普通数据仍由 legacy EditSession 驱动；v5 脚本只存在于
+ * ScriptV5EditSession。保存边界在这里把两份作者态合并，绝不把 runtime shell 的
+ * 空 stage、占位 ScriptRef 或平面世界态写回 canonical 工程。
+ */
+export function mergeLegacyEditorShellIntoV5(
+  canonical: EditorStateV5,
+  shell: EditorState,
+): EditorStateV5 {
+  const runtimeManifest = structuredClone(
+    shell.manifest,
+  ) as unknown as ProjectManifest<5>
+  if (runtimeManifest.contentVersion !== 5)
+    throw new Error('mergeLegacyEditorShellIntoV5: shell 不是 contentVersion 5 工程')
+  if (runtimeManifest.content.scripts !== undefined)
+    throw new Error('mergeLegacyEditorShellIntoV5: v5 shell 不得重新引入 content.scripts')
+  if (!runtimeManifest.content.sharedScripts)
+    throw new Error('mergeLegacyEditorShellIntoV5: v5 shell 缺 sharedScripts 路径')
+  const canonicalScenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
+  const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
+  const {
+    manifest: _shellManifest,
+    scenes: _shellScenes,
+    items: _shellItems,
+    scriptIndex: _legacyScriptIndex,
+    scriptChunks: _legacyScriptChunks,
+    ...ordinaryState
+  } = shell
+  return {
+    ...structuredClone(ordinaryState),
+    manifest: runtimeManifest,
+    startWorld: structuredClone(runtimeManifest.startWorld),
+    scenes: shell.scenes.map((scene) =>
+      mergeSceneShellV5(scene, canonicalScenes.get(scene.id)),
+    ),
+    items: shell.items.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id))),
+    sharedScripts: structuredClone(canonical.sharedScripts),
+    migrationRegistry: cloneMigrationRegistry(canonical.migrationRegistry),
+    migrationSidecars: canonical.migrationSidecars.map((sidecar) =>
+      structuredClone(sidecar),
+    ),
   }
 }
 

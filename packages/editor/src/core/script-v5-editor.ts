@@ -398,6 +398,9 @@ export class ScriptV5EditSession {
   private past: ScriptEditorCommandV5[] = []
   private future: ScriptEditorCommandV5[] = []
   private state: ScriptEditorStateV5
+  private dirty = false
+  private version = 0
+  private readonly listeners = new Set<() => void>()
 
   constructor(state: ScriptEditorStateV5) {
     validateState(state)
@@ -408,10 +411,39 @@ export class ScriptV5EditSession {
     return clone(this.state)
   }
 
-  dispatch(command: ScriptEditorCommandV5): void {
+  isDirty(): boolean {
+    return this.dirty
+  }
+
+  markSaved(): void {
+    this.dirty = false
+    this.notify()
+  }
+
+  getVersion(): number {
+    return this.version
+  }
+
+  canUndo(): boolean {
+    return this.past.length > 0
+  }
+
+  canRedo(): boolean {
+    return this.future.length > 0
+  }
+
+  subscribe(listener: () => void): () => void {
+    this.listeners.add(listener)
+    return () => this.listeners.delete(listener)
+  }
+
+  dispatch(command: ScriptEditorCommandV5): boolean {
     this.state = command.apply(this.state)
     this.past.push(command)
     this.future = []
+    this.dirty = true
+    this.notify()
+    return true
   }
 
   undo(): boolean {
@@ -419,6 +451,8 @@ export class ScriptV5EditSession {
     if (!command) return false
     this.state = command.invert(this.state)
     this.future.push(command)
+    this.dirty = true
+    this.notify()
     return true
   }
 
@@ -427,7 +461,14 @@ export class ScriptV5EditSession {
     if (!command) return false
     this.state = command.apply(this.state)
     this.past.push(command)
+    this.dirty = true
+    this.notify()
     return true
+  }
+
+  private notify(): void {
+    this.version += 1
+    for (const listener of this.listeners) listener()
   }
 }
 

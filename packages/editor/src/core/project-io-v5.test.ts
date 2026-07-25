@@ -1,11 +1,23 @@
-import type { ProjectManifest, ProjectMigrationSidecarV1, SceneDefV5 } from '@type-pal/content'
-import { assembleProjectV5 } from '@type-pal/reforge'
+import {
+  emptyWorldScriptStateV5,
+  type ProjectManifest,
+  type ProjectMigrationSidecarV1,
+  type SceneDefV5,
+} from '@type-pal/content'
+import {
+  assembleProjectV5,
+  legacyProjectShellFromV5,
+  legacySceneFromV5,
+  type LoadedProjectV5,
+} from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
+  mergeLegacyEditorShellIntoV5,
   serializeProjectV5,
   serializeProjectV5WithCopies,
   toEditorStateV5,
 } from './project-io-v5.js'
+import { toEditorState } from './project-io.js'
 
 const scene: SceneDefV5 = {
   id: 's001',
@@ -219,5 +231,50 @@ describe('canonical v5 editor project IO', () => {
       Uint8Array.from([1, 2, 3]),
     )
     expect(Object.keys(output).at(-1)).toBe('manifest.json')
+  })
+
+  test('merges ordinary shell edits without persisting runtime script placeholders', () => {
+    const project = assembleProjectV5(manifest(), jsons)
+    const canonical = toEditorStateV5(project, [scene])
+    canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.label = 'canonical 交谈'
+    const privateEffect = canonical.items[0]!.use!.effects[0]!
+    if (privateEffect.kind !== 'itemPrivateScript') throw new Error('fixture 不是私有脚本')
+    privateEffect.script.body = [{ kind: 'setFlag', flag: 'canonical-edited', value: true }]
+
+    const world = emptyWorldScriptStateV5()
+    const shellProject = legacyProjectShellFromV5(
+      project as unknown as LoadedProjectV5,
+      world,
+    )
+    const shell = toEditorState(shellProject, [legacySceneFromV5(scene, world)])
+    shell.manifest = {
+      ...shell.manifest,
+      name: 'Renamed',
+    }
+    shell.scenes[0]!.entities[0]!.pos.col = 9
+    shell.scenes[0]!.onEnter = [{ body: [{ kind: 'setFlag', flag: 'legacy', value: true }] }]
+    shell.items[0]!.name = '已改名物品'
+
+    const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
+    expect(merged.manifest).toMatchObject({ contentVersion: 5, name: 'Renamed' })
+    expect(merged.scenes[0]!.entities[0]).toMatchObject({
+      pos: { col: 9 },
+      behaviors: { trigger: { talk: { label: 'canonical 交谈' } } },
+    })
+    expect(merged.scenes[0]!.hooks).toBeUndefined()
+    expect(merged.items[0]).toMatchObject({
+      name: '已改名物品',
+      use: {
+        effects: [
+          {
+            kind: 'itemPrivateScript',
+            script: {
+              body: [{ kind: 'setFlag', flag: 'canonical-edited', value: true }],
+            },
+          },
+        ],
+      },
+    })
+    expect(() => serializeProjectV5(merged)).not.toThrow()
   })
 })

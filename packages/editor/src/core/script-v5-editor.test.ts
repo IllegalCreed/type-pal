@@ -139,6 +139,33 @@ function triggerRegistry(state: ScriptEditorStateV5) {
 }
 
 describe('canonical script v5 editor commands', () => {
+  test('publishes dirty and history changes through the editor session contract', () => {
+    const session = new ScriptV5EditSession(editorState())
+    const versions: number[] = []
+    const unsubscribe = session.subscribe(() => versions.push(session.getVersion()))
+
+    expect(session.isDirty()).toBe(false)
+    expect(session.canUndo()).toBe(false)
+    session.dispatch(
+      new AddEntityBehaviorV5Command(target, 'trigger', 'alternate', behavior('alternate')),
+    )
+    expect(session.isDirty()).toBe(true)
+    expect(session.canUndo()).toBe(true)
+    expect(versions).toEqual([1])
+
+    session.markSaved()
+    expect(session.isDirty()).toBe(false)
+    expect(versions).toEqual([1, 2])
+    expect(session.undo()).toBe(true)
+    expect(session.isDirty()).toBe(true)
+    expect(session.canRedo()).toBe(true)
+    expect(versions).toEqual([1, 2, 3])
+
+    unsubscribe()
+    session.redo()
+    expect(versions).toEqual([1, 2, 3])
+  })
+
   test('adds a validated named behavior without mutating the source state', () => {
     const original = editorState()
     const session = new ScriptV5EditSession(original)
