@@ -13,6 +13,7 @@ import {
   assertP7ShadowBundle,
   buildDeterministicP7ShadowBundle,
 } from '../src/experimental/script-v5/p7-shadow.js'
+import { planP7ShadowReleaseTransaction } from '../src/experimental/script-v5/p7-publish.js'
 import { parseScriptV5ShadowCliArgs } from '../src/experimental/script-v5/shadow-cli.js'
 import {
   assertP2ShadowBundle,
@@ -36,6 +37,10 @@ import {
   discoverProjectManagedFiles,
   loadProjectMigrationSnapshot,
 } from '../src/migration-project-io.js'
+import {
+  commitMigrationTransaction,
+  recoverMigrationTransaction,
+} from '../src/migration-transaction.js'
 import { buildPalMigration } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
@@ -48,6 +53,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 const args = process.argv.slice(2).filter((argument) => argument !== '--')
 const options = parseScriptV5ShadowCliArgs(args)
+if (options.publish) recoverMigrationTransaction(repo)
 const phase = options.through.toUpperCase() as 'P2' | 'P3' | 'P4' | 'P5' | 'P6' | 'P7'
 const fixedShadowRoot = resolve(repo, `packages/migrate/.shadow/N3-1/v5/${options.through}`)
 if (!existsSync(baselinePath)) throw new Error(`P0 基线不存在: ${baselinePath}`)
@@ -117,6 +123,30 @@ try {
       `second=0/0/0 digest=${bundle.digest}`,
   )
   if (!check) console.log(`[shadow] ${root}`)
+  if (options.publish) {
+    if (options.through !== 'p7') throw new Error('P7 publish: 非 P7 bundle')
+    assertProjectSnapshotCurrent(repo, ours)
+    const release = planP7ShadowReleaseTransaction({
+      repo,
+      bundle: bundle as import('../src/experimental/script-v5/p7-shadow.js').P7ShadowBundle,
+      currentProjectManaged: managed,
+      currentBaselineManaged: base.managedFiles,
+    })
+    commitMigrationTransaction(repo, release.changes)
+    const repeated = planP7ShadowReleaseTransaction({
+      repo,
+      bundle: bundle as import('../src/experimental/script-v5/p7-shadow.js').P7ShadowBundle,
+      currentProjectManaged: managed,
+      currentBaselineManaged: base.managedFiles,
+    })
+    if (repeated.changes.length !== 0)
+      throw new Error(`P7 publish: 提交后二次计划非零 ${repeated.changes.length}`)
+    console.log(
+      `[N3 P7 publish] project=${release.summary.projectWrites}/${release.summary.projectDeletes} ` +
+        `baseline=${release.summary.baselineWrites}/${release.summary.baselineDeletes} ` +
+        `manifest=${release.summary.manifestWrites} repeat=0`,
+    )
+  }
 } finally {
   if (check) rmSync(root, { recursive: true, force: true })
 }

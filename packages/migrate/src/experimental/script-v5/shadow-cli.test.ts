@@ -19,7 +19,19 @@ describe('script-v5 shadow CLI parser', () => {
     [['--through=p7', '--check'], { check: true, through: 'p7' }],
     [['--check', '--through', 'p2'], { check: true, through: 'p2' }],
   ])('接受严格参数序列 %#', (args, expected) => {
-    expect(parseScriptV5ShadowCliArgs(args)).toEqual(expected)
+    expect(parseScriptV5ShadowCliArgs(args)).toEqual({ publish: false, ...expected })
+  })
+
+  test('accepts only an explicit P7 publish mode', () => {
+    expect(parseScriptV5ShadowCliArgs(['--publish'])).toEqual({
+      check: false,
+      publish: true,
+      through: 'p7',
+    })
+    expect(() =>
+      parseScriptV5ShadowCliArgs(['--publish', '--through', 'p6']),
+    ).toThrow(/只允许/)
+    expect(() => parseScriptV5ShadowCliArgs(['--publish', '--check'])).toThrow(/不能同时/)
   })
 
   test.each([
