@@ -1,7 +1,9 @@
 import type {
+  AuthorCommandV5,
   EntityAddress,
   EntityBaseV5,
   GridPos,
+  ItemDataMapV5,
   SceneDefV5,
   WorldScriptStateV5,
 } from '@type-pal/content'
@@ -27,6 +29,11 @@ export interface ProjectScriptHostOptionsV5 extends RuntimeHostServicesV5 {
     command: RuntimeLeafCommandV5,
     context: Readonly<ScriptRuntimeContextV5>,
     signal: AbortSignal,
+  ): void | Promise<void>
+  /** canonical 写入和宿主 effect 均成功后的投影刷新点。 */
+  worldChanged?(
+    command: RuntimeLeafCommandV5,
+    context: Readonly<ScriptRuntimeContextV5>,
   ): void | Promise<void>
   scene(sceneId: string): SceneDefV5
   currentSceneId(): string
@@ -125,6 +132,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
       case 'setFollowers':
         await this.options.executeEffect(command, context, signal)
         this.world.followers = command.sprites.length ? [...command.sprites] : undefined
+        await this.options.worldChanged?.(command, context)
         return
       case 'setSceneMapOverride': {
         const sceneId = command.scene ?? this.options.currentSceneId()
@@ -176,6 +184,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         break
     }
     await this.options.executeEffect(command, context, signal)
+    await this.options.worldChanged?.(command, context)
   }
 
   evalCondition(
@@ -229,6 +238,12 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
 export interface RunProjectFlowV5Options {
   signal: AbortSignal
   runSceneEntry?: boolean
+}
+
+export interface RunProjectCommandsV5Options {
+  signal: AbortSignal
+  self?: EntityAddress
+  timing?: 'auto' | 'interactive'
 }
 
 export class ScriptProjectRuntimeV5 {
@@ -303,6 +318,60 @@ export class ScriptProjectRuntimeV5 {
     } finally {
       active.lease.close()
     }
+  }
+
+  async runCommands(
+    commands: readonly AuthorCommandV5[],
+    options: RunProjectCommandsV5Options,
+  ): Promise<void> {
+    const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
+    await runner.runFlow(
+      compileScriptFlowV5(
+        {
+          kind: 'stages',
+          initial: '__transient',
+          stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
+        },
+        {
+          canonicalContentDigest: this.canonicalContentDigest,
+          timing: options.timing ?? 'interactive',
+        },
+      ),
+      {
+        cursor: { kind: 'stage', stage: '__transient' },
+        cursorController: { reachSafePoint: () => 'continue' },
+        ...(options.self ? { self: structuredClone(options.self) } : {}),
+      },
+    )
+  }
+
+  async runSharedScript(
+    script: string,
+    options: RunProjectCommandsV5Options,
+  ): Promise<void> {
+    await this.runCommands(
+      [
+        {
+          kind: 'callScript',
+          script,
+          ...(options.self ? { self: structuredClone(options.self) } : {}),
+        },
+      ],
+      options,
+    )
+  }
+
+  async runItemPrivateScript(
+    items: ItemDataMapV5,
+    itemId: string,
+    scriptId: 'use',
+    options: RunProjectCommandsV5Options,
+  ): Promise<void> {
+    const script = items[itemId]?.use?.effects
+      .filter((effect) => effect.kind === 'itemPrivateScript')
+      .find((effect) => effect.script.id === scriptId)?.script
+    if (!script) throw new Error(`item private script 不存在: ${itemId}/${scriptId}`)
+    await this.runCommands(script.body, options)
   }
 
   async withSaveBarrier<T>(snapshot: () => T | Promise<T>, timeoutMs = 10_000): Promise<T> {

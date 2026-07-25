@@ -239,4 +239,75 @@ describe('canonical script v5 project runtime', () => {
       ),
     ).rejects.toThrow(/entity 不存在/)
   })
+
+  test('runs stable shared and item-private scripts through the same v5 runner', async () => {
+    const world = emptyWorldScriptStateV5()
+    const runtime = new ScriptProjectRuntimeV5(
+      {
+        sharedScripts: {
+          'shared/test': {
+            name: '共享',
+            self: 'none',
+            body: [{ kind: 'setFlag', flag: 'shared', value: true }],
+          },
+        },
+      } as unknown as LoadedProjectV5Core,
+      world,
+      digest,
+      host(),
+    )
+    await runtime.runSharedScript('shared/test', {
+      signal: new AbortController().signal,
+    })
+    await runtime.runItemPrivateScript(
+      {
+        item: {
+          id: 'item',
+          name: '物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: {
+                  id: 'use',
+                  body: [{ kind: 'setFlag', flag: 'private', value: true }],
+                },
+              },
+            ],
+          },
+        },
+      },
+      'item',
+      'use',
+      { signal: new AbortController().signal },
+    )
+    expect(world.flags).toMatchObject({ shared: true, private: true })
+  })
+
+  test('notifies the projection only after a canonical mutation succeeds', async () => {
+    const world = emptyWorldScriptStateV5()
+    const changed: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      worldChanged: (command) => {
+        changed.push(command.kind)
+      },
+    })
+    await runtime.runCommands(
+      [
+        { kind: 'setFlag', flag: 'ready', value: true },
+        { kind: 'setFollowers', sprites: ['sprite-1'] },
+      ],
+      { signal: new AbortController().signal },
+    )
+    expect(world.flags.ready).toBe(true)
+    expect(world.followers).toEqual(['sprite-1'])
+    expect(changed).toEqual(['setFlag', 'setFollowers'])
+  })
 })
