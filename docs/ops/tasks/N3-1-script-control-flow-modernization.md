@@ -3462,11 +3462,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R6 已自验，等待用户体验确认）** | 2026-07-26 | `9010465b` 把可复用脚本创建从左侧列表常驻表单移入独立弹窗；标题栏只保留原编辑器风格的“＋”按钮，弹窗具备名称/稳定 ID、自动生成、行内错误、焦点进入与归还。P7-R5 引用闭包与预览证据继续成立。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R7 已自验，等待用户体验确认）** | 2026-07-26 | `4e24b7d4` 移除方案详情与新建方案弹窗中重复的“所属入口”，并将“方案名称”与“使用位置”统一为同一小标题层级；P7-R5 引用闭包、P7-R6 创建弹窗与预览证据继续成立。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R6 后终审）** | 2026-07-26 | 当前候选基线为 `9010465b`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R7 后终审）** | 2026-07-26 | 当前候选基线为 `4e24b7d4`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R6 实现与自验完成，但仍保持 rework**。`9010465b` 是当前用户验收候选；
+- Codex 结论：**P7-R7 实现与自验完成，但仍保持 rework**。`4e24b7d4` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
@@ -3699,19 +3699,37 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 - **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
   `9010465b` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
+#### P7-R7 方案弹窗信息层级收口（2026-07-26）
+
+- **用户验收反例**：方案详情顶部的“所属入口”重复弹窗标题已经表达的上下文；“方案名称”仍是
+  普通表单标签，与下方“使用位置”的小标题层级不一致。
+- **实现**：
+  - 方案详情和新建方案弹窗一并移除“所属入口”，避免同一入口名在标题与正文重复；
+  - “方案名称”改为带关联 `label` 的小标题，并与“使用位置”共用字号、字重、颜色和行高；
+  - 脚本方案与新建方案的解释保留在标题旁 `?` 中，不把说明文字重新铺回界面。
+- **验证证据**：
+  - editor 全量 **89 files / 756 tests passed**；editor typecheck、root lint
+    **949 files clean**、editor production build 377 modules 与 `git diff --check` 全绿；
+  - Playwright 在 PAL s001 方案详情实测：正文中无“所属入口”；“方案名称”与“使用位置”均为
+    `11px / 700 / 16.5px` 且颜色一致；console **0 error / 0 warning**；
+  - 截图：`output/playwright/n3-1-p7-r7-scheme-headings.png`；
+  - 实现提交：`4e24b7d4 fix(editor): simplify scheme details hierarchy`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `4e24b7d4` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R6 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R7 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R6 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
+终审任务: N3-1 P7-R7 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: 9010465b fix(editor): move shared script creation into dialog
+当前候选基线: 4e24b7d4 fix(editor): simplify scheme details hierarchy
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..9010465b
+本轮返工增量: 18a66216..4e24b7d4
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R6 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+执行条件: 只有用户明确确认 P7-R7 体验可接受后才开始本终审；确认前不得执行、不得改签字。
 Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
   GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3767,7 +3785,9 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
       一次 undo 完整恢复；删除/取消/保存位置与引用条目字号、字重、焦点态是否符合层级。
   13. 可复用脚本左栏是否只保留标题栏创建按钮；创建是否使用独立弹窗，名称能生成唯一稳定 ID，
       空值/冲突错误是否就地可修正，Enter/Escape/焦点进入与归还是否闭环。
-  14. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  14. 方案详情与新建方案正文是否移除重复的“所属入口”；“方案名称”是否与“使用位置”使用
+      同一小标题层级，帮助说明是否继续渐进披露在 `?` 中，且关联 label/焦点语义没有退化。
+  15. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
       content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
       N3-1/C8/ED-5I 标 done。
 输出:
@@ -3777,7 +3797,7 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前无下一位 Agent 执行：等待用户验收 P7-R6；上面的 GLM 提示词仅在用户确认后启用。
+当前无下一位 Agent 执行：等待用户验收 P7-R7；上面的 GLM 提示词仅在用户确认后启用。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
@@ -3845,7 +3865,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R6 用户验收门禁为准。
+历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R7 用户验收门禁为准。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
