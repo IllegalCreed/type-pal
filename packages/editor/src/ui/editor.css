@@ -13134,6 +13134,19 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-align: left;
   white-space: normal;
 }
+.canonical-script-insert-dialog .cf-insert .pv-btn > span,
+.canonical-script-insert-dialog .cf-insert .pv-btn > small {
+  display: block;
+}
+.canonical-script-insert-dialog .cf-insert .pv-btn > small {
+  margin-top: 3px;
+  color: var(--faint);
+  font-size: 9px;
+  line-height: 1.35;
+}
+.canonical-script-insert-dialog .cf-insert .pv-btn:disabled {
+  opacity: 0.58;
+}
 .canonical-command-form-fields,
 .canonical-condition-editor,
 .canonical-address-editor,

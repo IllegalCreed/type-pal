@@ -2138,6 +2138,8 @@ function CanonicalCommandFormV5(props: {
 interface InsertionChoiceV5 {
   label: string
   commands: AuthorCommandV5[]
+  kind?: AuthorCommandV5['kind']
+  unavailableReason?: string
 }
 
 interface InsertionGroupV5 {
@@ -2228,6 +2230,76 @@ function cleanInsertionExampleV5(
   }
   if (target && 'target' in next && next.target) next = { ...next, target } as AuthorCommandV5
   return next
+}
+
+function fallbackInsertionChoiceV5(
+  kind: AuthorCommandV5['kind'],
+  context: CanonicalScriptEditorContextV5 | undefined,
+  target: EntityAddress | undefined,
+): InsertionChoiceV5 {
+  const [icon, label] = AUTHOR_COMMAND_PRESENTATION_V5[kind]
+  const unavailable = (reason: string): InsertionChoiceV5 => ({
+    kind,
+    label: `${icon} ${label}`,
+    commands: [],
+    unavailableReason: reason,
+  })
+  const enabled = (command: AuthorCommandV5): InsertionChoiceV5 => ({
+    kind,
+    label: `${icon} ${label}`,
+    commands: [command],
+  })
+
+  switch (kind) {
+    case 'callScript': {
+      const script = Object.keys(context?.state.sharedScripts ?? {})[0]
+      return script
+        ? enabled({ kind, script })
+        : unavailable('请先在“剧情 → 脚本库”创建一个可复用脚本')
+    }
+    case 'endBattle':
+      return enabled({ kind, result: 'terminate' })
+    case 'fleeBattle':
+      return enabled({ kind })
+    case 'gameOver':
+      return enabled({ kind })
+    case 'playEntityAction': {
+      const sprite = context?.sprites?.find(
+        (candidate) => Object.keys(candidate.poses ?? {}).length > 0,
+      )
+      const action = sprite ? Object.keys(sprite.poses ?? {})[0] : undefined
+      return target && sprite && action
+        ? enabled({
+            kind,
+            target,
+            sprite: sprite.id,
+            action,
+            loop: false,
+            wait: true,
+          })
+        : unavailable('请先选择实体，并在精灵库中创建一个可播放动作')
+    }
+    case 'playVideo': {
+      const asset = Object.entries(context?.assetCatalog.assets ?? {}).find(
+        ([, record]) => record.kind === 'video',
+      )?.[0]
+      return asset ? enabled({ kind, asset }) : unavailable('请先在资源库导入一个视频')
+    }
+    case 'releaseEntity':
+      return enabled({ kind, ...(target ? { target } : {}) })
+    case 'selectEntityPage':
+      return target
+        ? enabled({ kind, target, selection: { kind: 'inherit' } })
+        : unavailable('请先选择一个场景实体')
+    case 'stopEntityAction':
+      return target ? enabled({ kind, target, reset: true }) : unavailable('请先选择一个场景实体')
+    case 'takeEntity':
+      return target ? enabled({ kind, target }) : unavailable('请先选择一个场景实体')
+    case 'unmountParty':
+      return enabled({ kind })
+    default:
+      return unavailable('当前工程没有这种指令的可复用样例')
+  }
 }
 
 function insertionGroups(context?: CanonicalScriptEditorContextV5): InsertionGroupV5[] {
@@ -2446,30 +2518,35 @@ function insertionGroups(context?: CanonicalScriptEditorContextV5): InsertionGro
       ],
     },
   ]
-  if (context) {
-    const represented = new Set(
-      groups.flatMap((group) =>
-        group.choices.flatMap((choice) => choice.commands.map((command) => command.kind)),
-      ),
-    )
-    const more = projectCommandExamplesV5(context.state)
-      .filter((command) => !represented.has(command.kind))
-      .map((command) => {
-        const [icon, label] = AUTHOR_COMMAND_PRESENTATION_V5[command.kind]
-        return {
-          label: `${icon} ${label}`,
-          commands: [
-            cleanInsertionExampleV5(command, target, currentScene?.id),
-          ] as AuthorCommandV5[],
-        }
-      })
-      .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
-    if (more.length)
-      groups.push({
-        title: '更多指令（当前工程已经使用的类型）',
-        choices: more,
-      })
-  }
+  const represented = new Set(
+    groups.flatMap((group) =>
+      group.choices.flatMap((choice) => choice.commands.map((command) => command.kind)),
+    ),
+  )
+  const examples = new Map(
+    (context ? projectCommandExamplesV5(context.state) : []).map((command) => [
+      command.kind,
+      command,
+    ]),
+  )
+  const more = (Object.keys(AUTHOR_COMMAND_PRESENTATION_V5) as AuthorCommandV5['kind'][])
+    .filter((kind) => !represented.has(kind))
+    .map((kind) => {
+      const command = examples.get(kind)
+      if (!command) return fallbackInsertionChoiceV5(kind, context, target)
+      const [icon, label] = AUTHOR_COMMAND_PRESENTATION_V5[kind]
+      return {
+        kind,
+        label: `${icon} ${label}`,
+        commands: [cleanInsertionExampleV5(command, target, currentScene?.id)] as AuthorCommandV5[],
+      }
+    })
+    .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
+  if (more.length)
+    groups.push({
+      title: '更多指令',
+      choices: more,
+    })
   return groups.filter((group) => group.choices.length > 0)
 }
 
@@ -2612,7 +2689,13 @@ export function CanonicalScriptBodyEditorV5(props: {
                       type="button"
                       className="pv-btn"
                       key={`${choice.label}:${index}`}
+                      data-command-kinds={
+                        choice.commands.map((command) => command.kind).join(',') || choice.kind
+                      }
+                      disabled={Boolean(choice.unavailableReason)}
+                      title={choice.unavailableReason}
                       onClick={() => {
+                        if (choice.unavailableReason) return
                         const result = insertCommandsAfterV5(
                           props.body,
                           parseAuthorCommandPathV5(insertPath),
@@ -2625,7 +2708,8 @@ export function CanonicalScriptBodyEditorV5(props: {
                         }
                       }}
                     >
-                      {choice.label}
+                      <span>{choice.label}</span>
+                      {choice.unavailableReason ? <small>{choice.unavailableReason}</small> : null}
                     </button>
                   ))}
                 </div>

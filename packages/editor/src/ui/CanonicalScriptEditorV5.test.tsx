@@ -111,6 +111,20 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     )
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('添加指令')
     expect(host.textContent).toContain('常用指令')
+    const insertKinds = new Set(
+      [...host.querySelectorAll<HTMLButtonElement>('[data-command-kinds]')].flatMap((button) =>
+        (button.dataset.commandKinds ?? '').split(',').filter(Boolean),
+      ),
+    )
+    const enabledKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
+      .filter(([, enabled]) => enabled)
+      .map(([kind]) => kind)
+    expect([...insertKinds].sort()).toEqual(enabledKinds.sort())
+    const unavailableShared = host.querySelector<HTMLButtonElement>(
+      '[data-command-kinds="callScript"]',
+    )
+    expect(unavailableShared?.disabled).toBe(true)
+    expect(unavailableShared?.textContent).toContain('请先在“剧情 → 脚本库”创建')
   })
 
   test('keeps raw JSON out of canonical command dialogs', async () => {
