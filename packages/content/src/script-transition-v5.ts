@@ -24,6 +24,146 @@ function descriptorRecord(value: unknown, path: string): Record<string, unknown>
   return value as Record<string, unknown>
 }
 
+function exactKeys(value: Record<string, unknown>, allowed: readonly string[], path: string): void {
+  const allowedKeys = new Set(allowed)
+  for (const key of Object.keys(value))
+    if (!allowedKeys.has(key)) throw new Error(`${path}.${key}: 未知字段`)
+}
+
+function nonEmptyString(value: unknown, path: string): string {
+  if (typeof value !== 'string' || value.trim().length === 0)
+    throw new Error(`${path}: 期望非空字符串`)
+  return value
+}
+
+function sha256(value: unknown, path: string): string {
+  if (typeof value !== 'string' || !/^[a-f0-9]{64}$/.test(value))
+    throw new Error(`${path}: 期望小写 SHA-256`)
+  return value
+}
+
+function array(value: unknown, path: string): unknown[] {
+  if (!Array.isArray(value)) throw new Error(`${path}: 期望数组`)
+  return value
+}
+
+function entityAddress(value: unknown, path: string): EntityAddress {
+  const address = descriptorRecord(value, path)
+  exactKeys(address, ['scene', 'entity'], path)
+  nonEmptyString(address.scene, `${path}.scene`)
+  nonEmptyString(address.entity, `${path}.entity`)
+  return address as unknown as EntityAddress
+}
+
+function owner(value: unknown, path: string): CanonicalScriptOwnerV5 {
+  const identity = descriptorRecord(value, path)
+  if (identity.kind === 'entity-behavior') {
+    exactKeys(identity, ['kind', 'sceneId', 'entityId', 'channel', 'behaviorId'], path)
+    nonEmptyString(identity.sceneId, `${path}.sceneId`)
+    nonEmptyString(identity.entityId, `${path}.entityId`)
+    if (identity.channel !== 'trigger' && identity.channel !== 'auto')
+      throw new Error(`${path}.channel: 期望 trigger|auto`)
+    nonEmptyString(identity.behaviorId, `${path}.behaviorId`)
+    return identity as unknown as CanonicalScriptOwnerV5
+  }
+  if (identity.kind === 'scene-hook') {
+    exactKeys(identity, ['kind', 'sceneId', 'hook', 'hookId'], path)
+    nonEmptyString(identity.sceneId, `${path}.sceneId`)
+    if (identity.hook !== 'onEnter' && identity.hook !== 'onTeleport')
+      throw new Error(`${path}.hook: 期望 onEnter|onTeleport`)
+    nonEmptyString(identity.hookId, `${path}.hookId`)
+    return identity as unknown as CanonicalScriptOwnerV5
+  }
+  throw new Error(`${path}.kind: 期望 entity-behavior|scene-hook`)
+}
+
+function authorIdentity(value: unknown, path: string): CanonicalAuthorIdentityV5 {
+  const identity = descriptorRecord(value, path)
+  if (identity.kind === 'entity-behavior' || identity.kind === 'scene-hook')
+    return owner(identity, path)
+  if (identity.kind === 'entity-page') {
+    exactKeys(identity, ['kind', 'sceneId', 'entityId', 'pageId'], path)
+    nonEmptyString(identity.sceneId, `${path}.sceneId`)
+    nonEmptyString(identity.entityId, `${path}.entityId`)
+    nonEmptyString(identity.pageId, `${path}.pageId`)
+    return identity as unknown as CanonicalAuthorIdentityV5
+  }
+  if (identity.kind === 'state-machine') {
+    exactKeys(identity, ['kind', 'owner', 'machineId'], path)
+    owner(identity.owner, `${path}.owner`)
+    nonEmptyString(identity.machineId, `${path}.machineId`)
+    return identity as unknown as CanonicalAuthorIdentityV5
+  }
+  if (identity.kind === 'shared-script') {
+    exactKeys(identity, ['kind', 'scriptId'], path)
+    nonEmptyString(identity.scriptId, `${path}.scriptId`)
+    return identity as unknown as CanonicalAuthorIdentityV5
+  }
+  if (identity.kind === 'item-private-script') {
+    exactKeys(identity, ['kind', 'itemId', 'scriptId'], path)
+    nonEmptyString(identity.itemId, `${path}.itemId`)
+    if (identity.scriptId !== 'use') throw new Error(`${path}.scriptId: 期望 use`)
+    return identity as unknown as CanonicalAuthorIdentityV5
+  }
+  throw new Error(`${path}.kind: 未知 canonical author identity`)
+}
+
+function flowCursor(value: unknown, path: string): FlowCursor {
+  const cursor = descriptorRecord(value, path)
+  if (cursor.kind === 'stage') {
+    exactKeys(cursor, ['kind', 'stage'], path)
+    nonEmptyString(cursor.stage, `${path}.stage`)
+    return cursor as unknown as FlowCursor
+  }
+  if (cursor.kind === 'state') {
+    exactKeys(cursor, ['kind', 'machine', 'state'], path)
+    nonEmptyString(cursor.machine, `${path}.machine`)
+    nonEmptyString(cursor.state, `${path}.state`)
+    return cursor as unknown as FlowCursor
+  }
+  throw new Error(`${path}.kind: 期望 stage|state`)
+}
+
+function sortedUniqueAddresses(values: unknown, path: string): EntityAddress[] {
+  const targets = array(values, path).map((target, index) =>
+    entityAddress(target, `${path}[${index}]`),
+  )
+  if (targets.length === 0) throw new Error(`${path}: broadcast-v4 targets 不得为空`)
+  const keys = targets.map((target) => `${target.scene}\u0000${target.entity}`)
+  for (let index = 0; index < keys.length; index++) {
+    if (index > 0 && keys[index - 1]! >= keys[index]!)
+      throw new Error(`${path}: targets 必须严格排序且无重复`)
+  }
+  return targets
+}
+
+function cursorTarget(value: unknown, path: string): LegacyCursorTargetV1 {
+  const target = descriptorRecord(value, path)
+  exactKeys(target, ['legacyStageCount', 'target', 'indices'], path)
+  if (!Number.isInteger(target.legacyStageCount) || Number(target.legacyStageCount) <= 0)
+    throw new Error(`${path}.legacyStageCount: 期望正整数`)
+  owner(target.target, `${path}.target`)
+  const indices = array(target.indices, `${path}.indices`)
+  if (indices.length !== target.legacyStageCount)
+    throw new Error(`${path}.indices: 必须逐项覆盖 legacyStageCount`)
+  const seen = new Set<number>()
+  indices.forEach((raw, index) => {
+    const entry = descriptorRecord(raw, `${path}.indices[${index}]`)
+    exactKeys(entry, ['index', 'cursor'], `${path}.indices[${index}]`)
+    if (
+      !Number.isInteger(entry.index) ||
+      Number(entry.index) < 0 ||
+      Number(entry.index) >= Number(target.legacyStageCount)
+    )
+      throw new Error(`${path}.indices[${index}].index: 越界`)
+    if (seen.has(Number(entry.index)))
+      throw new Error(`${path}.indices[${index}].index: 重复 ${String(entry.index)}`)
+    seen.add(Number(entry.index))
+    flowCursor(entry.cursor, `${path}.indices[${index}].cursor`)
+  })
+  return target as unknown as LegacyCursorTargetV1
+}
+
 /** manifest registry 的精确 guard；文件存在性与 bytes digest 由异步 loader/preflight 负责。 */
 export function validateProjectMigrationDescriptorV1(
   value: unknown,
@@ -157,4 +297,258 @@ export interface ProjectMigrationSidecarV1 {
   localAllocations: ProjectLocalAllocationV1[]
   targetClosures: Array<{ target: CanonicalAuthorIdentityV5; identityDigest: string }>
   digest: string
+}
+
+/**
+ * 兼容 sidecar 精确结构 guard。descriptor 的文件 bytes digest 另由异步 preflight 校验；
+ * 本函数负责 alias/lineage/closure 自身的唯一性和可执行形状。
+ */
+export function validateProjectMigrationSidecarV1(
+  value: unknown,
+  expectedProjectId?: string,
+  path = SCRIPT_V4_V5_SIDECAR_PATH,
+): ProjectMigrationSidecarV1 {
+  const sidecar = descriptorRecord(value, path)
+  exactKeys(
+    sidecar,
+    [
+      'version',
+      'projectId',
+      'transitionId',
+      'fromContentVersion',
+      'toContentVersion',
+      'sourceAuditDigest',
+      'provenance',
+      'legacyBindings',
+      'legacyCursors',
+      'legacyEntities',
+      'lineagePlans',
+      'localAllocations',
+      'targetClosures',
+      'digest',
+    ],
+    path,
+  )
+  if (sidecar.version !== 1) throw new Error(`${path}.version: 期望 1`)
+  const projectId = nonEmptyString(sidecar.projectId, `${path}.projectId`)
+  if (expectedProjectId !== undefined && projectId !== expectedProjectId)
+    throw new Error(`${path}.projectId: 期望 ${expectedProjectId}，收到 ${projectId}`)
+  if (sidecar.transitionId !== SCRIPT_V4_V5_TRANSITION_ID)
+    throw new Error(`${path}.transitionId: 期望 ${SCRIPT_V4_V5_TRANSITION_ID}`)
+  if (sidecar.fromContentVersion !== 4 || sidecar.toContentVersion !== 5)
+    throw new Error(`${path}: 期望 content transition 4 -> 5`)
+  sha256(sidecar.sourceAuditDigest, `${path}.sourceAuditDigest`)
+  sha256(sidecar.digest, `${path}.digest`)
+
+  const provenance = descriptorRecord(sidecar.provenance, `${path}.provenance`)
+  if (provenance.kind === 'pal-baseline') {
+    exactKeys(provenance, ['kind', 'fullLedgerDigest'], `${path}.provenance`)
+    sha256(provenance.fullLedgerDigest, `${path}.provenance.fullLedgerDigest`)
+  } else if (provenance.kind === 'project-local') {
+    exactKeys(provenance, ['kind', 'transformDigest'], `${path}.provenance`)
+    sha256(provenance.transformDigest, `${path}.provenance.transformDigest`)
+  } else throw new Error(`${path}.provenance.kind: 期望 pal-baseline|project-local`)
+
+  const entityKeys = new Set<string>()
+  array(sidecar.legacyEntities, `${path}.legacyEntities`).forEach((raw, index) => {
+    const aliasPath = `${path}.legacyEntities[${index}]`
+    const alias = descriptorRecord(raw, aliasPath)
+    if (alias.mode === 'single') {
+      exactKeys(alias, ['legacyId', 'mode', 'target'], aliasPath)
+      entityAddress(alias.target, `${aliasPath}.target`)
+    } else if (alias.mode === 'broadcast-v4') {
+      exactKeys(alias, ['legacyId', 'mode', 'targets'], aliasPath)
+      sortedUniqueAddresses(alias.targets, `${aliasPath}.targets`)
+    } else throw new Error(`${aliasPath}.mode: 期望 single|broadcast-v4`)
+    const legacyId = nonEmptyString(alias.legacyId, `${aliasPath}.legacyId`)
+    if (entityKeys.has(legacyId)) throw new Error(`${aliasPath}.legacyId: 重复 ${legacyId}`)
+    entityKeys.add(legacyId)
+  })
+
+  const cursorKeys = new Set<string>()
+  array(sidecar.legacyCursors, `${path}.legacyCursors`).forEach((raw, index) => {
+    const aliasPath = `${path}.legacyCursors[${index}]`
+    const alias = descriptorRecord(raw, aliasPath)
+    if (alias.mode === 'single') {
+      exactKeys(alias, ['legacyKey', 'mode', 'target'], aliasPath)
+      cursorTarget(alias.target, `${aliasPath}.target`)
+    } else if (alias.mode === 'broadcast-v4') {
+      exactKeys(alias, ['legacyKey', 'mode', 'targets'], aliasPath)
+      const targets = array(alias.targets, `${aliasPath}.targets`)
+      if (targets.length === 0) throw new Error(`${aliasPath}.targets: 不得为空`)
+      targets.forEach((target, targetIndex) =>
+        cursorTarget(target, `${aliasPath}.targets[${targetIndex}]`),
+      )
+    } else throw new Error(`${aliasPath}.mode: 期望 single|broadcast-v4`)
+    const legacyKey = nonEmptyString(alias.legacyKey, `${aliasPath}.legacyKey`)
+    if (cursorKeys.has(legacyKey)) throw new Error(`${aliasPath}.legacyKey: 重复 ${legacyKey}`)
+    cursorKeys.add(legacyKey)
+  })
+
+  const bindingKeys = new Set<string>()
+  array(sidecar.legacyBindings, `${path}.legacyBindings`).forEach((raw, index) => {
+    const aliasPath = `${path}.legacyBindings[${index}]`
+    const alias = descriptorRecord(raw, aliasPath)
+    exactKeys(alias, ['from', 'target'], aliasPath)
+    const from = descriptorRecord(alias.from, `${aliasPath}.from`)
+    exactKeys(from, ['kind', 'sceneId', 'hook', 'digest'], `${aliasPath}.from`)
+    if (from.kind !== 'scene-hook-binding')
+      throw new Error(`${aliasPath}.from.kind: 期望 scene-hook-binding`)
+    nonEmptyString(from.sceneId, `${aliasPath}.from.sceneId`)
+    if (from.hook !== 'onEnter' && from.hook !== 'onTeleport')
+      throw new Error(`${aliasPath}.from.hook: 期望 onEnter|onTeleport`)
+    sha256(from.digest, `${aliasPath}.from.digest`)
+    const target = owner(alias.target, `${aliasPath}.target`)
+    if (target.kind !== 'scene-hook') throw new Error(`${aliasPath}.target: 必须是 scene-hook`)
+    const key = `${from.sceneId}\u0000${from.hook}\u0000${from.digest}`
+    if (bindingKeys.has(key)) throw new Error(`${aliasPath}.from: 重复 binding alias`)
+    bindingKeys.add(key)
+  })
+
+  const lineagePlans = descriptorRecord(sidecar.lineagePlans, `${path}.lineagePlans`)
+  exactKeys(lineagePlans, ['pages', 'stages'], `${path}.lineagePlans`)
+  array(lineagePlans.pages, `${path}.lineagePlans.pages`).forEach((raw, index) => {
+    const planPath = `${path}.lineagePlans.pages[${index}]`
+    const plan = descriptorRecord(raw, planPath)
+    exactKeys(plan, ['owner', 'entries'], planPath)
+    entityAddress(plan.owner, `${planPath}.owner`)
+    array(plan.entries, `${planPath}.entries`).forEach((entryRaw, entryIndex) => {
+      const entryPath = `${planPath}.entries[${entryIndex}]`
+      const entry = descriptorRecord(entryRaw, entryPath)
+      exactKeys(entry, ['oursPageIndex', 'lineage'], entryPath)
+      if (!Number.isInteger(entry.oursPageIndex) || Number(entry.oursPageIndex) < 0)
+        throw new Error(`${entryPath}.oursPageIndex: 期望非负整数`)
+      const lineage = descriptorRecord(entry.lineage, `${entryPath}.lineage`)
+      if (lineage.kind === 'baseline') {
+        exactKeys(lineage, ['kind', 'baselinePageIndex'], `${entryPath}.lineage`)
+        if (!Number.isInteger(lineage.baselinePageIndex) || Number(lineage.baselinePageIndex) < 0)
+          throw new Error(`${entryPath}.lineage.baselinePageIndex: 期望非负整数`)
+      } else if (lineage.kind === 'new') {
+        exactKeys(lineage, ['kind', 'pageId'], `${entryPath}.lineage`)
+        nonEmptyString(lineage.pageId, `${entryPath}.lineage.pageId`)
+      } else throw new Error(`${entryPath}.lineage.kind: 期望 baseline|new`)
+    })
+  })
+  array(lineagePlans.stages, `${path}.lineagePlans.stages`).forEach((raw, index) => {
+    const planPath = `${path}.lineagePlans.stages[${index}]`
+    const plan = descriptorRecord(raw, planPath)
+    exactKeys(plan, ['flow', 'entries'], planPath)
+    const flow = descriptorRecord(plan.flow, `${planPath}.flow`)
+    if (flow.kind === 'canonical') {
+      exactKeys(flow, ['kind', 'flow'], `${planPath}.flow`)
+      owner(flow.flow, `${planPath}.flow.flow`)
+    } else if (flow.kind === 'legacy') {
+      exactKeys(flow, ['kind', 'flow'], `${planPath}.flow`)
+      const legacy = descriptorRecord(flow.flow, `${planPath}.flow.flow`)
+      if (legacy.kind === 'legacy-entity-flow') {
+        exactKeys(
+          legacy,
+          ['kind', 'sceneId', 'entityId', 'pageIndex', 'channel'],
+          `${planPath}.flow.flow`,
+        )
+        nonEmptyString(legacy.sceneId, `${planPath}.flow.flow.sceneId`)
+        nonEmptyString(legacy.entityId, `${planPath}.flow.flow.entityId`)
+        if (!Number.isInteger(legacy.pageIndex) || Number(legacy.pageIndex) < 0)
+          throw new Error(`${planPath}.flow.flow.pageIndex: 期望非负整数`)
+        if (legacy.channel !== 'trigger' && legacy.channel !== 'auto')
+          throw new Error(`${planPath}.flow.flow.channel: 期望 trigger|auto`)
+      } else if (legacy.kind === 'legacy-scene-hook') {
+        exactKeys(legacy, ['kind', 'sceneId', 'hook'], `${planPath}.flow.flow`)
+        nonEmptyString(legacy.sceneId, `${planPath}.flow.flow.sceneId`)
+        if (legacy.hook !== 'onEnter' && legacy.hook !== 'onTeleport')
+          throw new Error(`${planPath}.flow.flow.hook: 期望 onEnter|onTeleport`)
+      } else throw new Error(`${planPath}.flow.flow.kind: 未知 legacy flow`)
+    } else throw new Error(`${planPath}.flow.kind: 期望 legacy|canonical`)
+    array(plan.entries, `${planPath}.entries`).forEach((entryRaw, entryIndex) => {
+      const entryPath = `${planPath}.entries[${entryIndex}]`
+      const entry = descriptorRecord(entryRaw, entryPath)
+      exactKeys(entry, ['oursStageIndex', 'lineage'], entryPath)
+      if (!Number.isInteger(entry.oursStageIndex) || Number(entry.oursStageIndex) < 0)
+        throw new Error(`${entryPath}.oursStageIndex: 期望非负整数`)
+      const lineage = descriptorRecord(entry.lineage, `${entryPath}.lineage`)
+      if (lineage.kind === 'baseline') {
+        exactKeys(lineage, ['kind', 'baselineStageIndex'], `${entryPath}.lineage`)
+        if (!Number.isInteger(lineage.baselineStageIndex) || Number(lineage.baselineStageIndex) < 0)
+          throw new Error(`${entryPath}.lineage.baselineStageIndex: 期望非负整数`)
+      } else if (lineage.kind === 'new') {
+        exactKeys(lineage, ['kind', 'stageId'], `${entryPath}.lineage`)
+        nonEmptyString(lineage.stageId, `${entryPath}.lineage.stageId`)
+      } else throw new Error(`${entryPath}.lineage.kind: 期望 baseline|new`)
+    })
+  })
+
+  array(sidecar.localAllocations, `${path}.localAllocations`).forEach((raw, index) => {
+    const allocationPath = `${path}.localAllocations[${index}]`
+    const allocation = descriptorRecord(raw, allocationPath)
+    if (allocation.kind === 'author-cell') {
+      exactKeys(allocation, ['kind', 'source', 'target'], allocationPath)
+      const source = descriptorRecord(allocation.source, `${allocationPath}.source`)
+      exactKeys(source, ['path', 'sourceSha256'], `${allocationPath}.source`)
+      nonEmptyString(source.path, `${allocationPath}.source.path`)
+      sha256(source.sourceSha256, `${allocationPath}.source.sourceSha256`)
+      authorIdentity(allocation.target, `${allocationPath}.target`)
+    } else if (allocation.kind === 'page') {
+      exactKeys(allocation, ['kind', 'owner', 'oursPageIndex', 'pageId'], allocationPath)
+      entityAddress(allocation.owner, `${allocationPath}.owner`)
+      if (!Number.isInteger(allocation.oursPageIndex) || Number(allocation.oursPageIndex) < 0)
+        throw new Error(`${allocationPath}.oursPageIndex: 期望非负整数`)
+      nonEmptyString(allocation.pageId, `${allocationPath}.pageId`)
+    } else if (allocation.kind === 'stage') {
+      exactKeys(allocation, ['kind', 'flow', 'oursStageIndex', 'stageId'], allocationPath)
+      // flow 的精确验证复用一个最小 lineage plan 外壳。
+      validateProjectMigrationSidecarFlowForStageAllocation(
+        allocation.flow,
+        `${allocationPath}.flow`,
+      )
+      if (!Number.isInteger(allocation.oursStageIndex) || Number(allocation.oursStageIndex) < 0)
+        throw new Error(`${allocationPath}.oursStageIndex: 期望非负整数`)
+      nonEmptyString(allocation.stageId, `${allocationPath}.stageId`)
+    } else throw new Error(`${allocationPath}.kind: 未知 local allocation`)
+  })
+
+  const closureKeys = new Set<string>()
+  array(sidecar.targetClosures, `${path}.targetClosures`).forEach((raw, index) => {
+    const closurePath = `${path}.targetClosures[${index}]`
+    const closure = descriptorRecord(raw, closurePath)
+    exactKeys(closure, ['target', 'identityDigest'], closurePath)
+    const identity = authorIdentity(closure.target, `${closurePath}.target`)
+    sha256(closure.identityDigest, `${closurePath}.identityDigest`)
+    const key = JSON.stringify(identity)
+    if (closureKeys.has(key)) throw new Error(`${closurePath}.target: 重复 closure`)
+    closureKeys.add(key)
+  })
+  return sidecar as unknown as ProjectMigrationSidecarV1
+}
+
+function validateProjectMigrationSidecarFlowForStageAllocation(
+  value: unknown,
+  path: string,
+): void {
+  const flow = descriptorRecord(value, path)
+  if (flow.kind === 'canonical') {
+    exactKeys(flow, ['kind', 'flow'], path)
+    owner(flow.flow, `${path}.flow`)
+    return
+  }
+  if (flow.kind !== 'legacy') throw new Error(`${path}.kind: 期望 legacy|canonical`)
+  exactKeys(flow, ['kind', 'flow'], path)
+  const legacy = descriptorRecord(flow.flow, `${path}.flow`)
+  if (legacy.kind === 'legacy-entity-flow') {
+    exactKeys(legacy, ['kind', 'sceneId', 'entityId', 'pageIndex', 'channel'], `${path}.flow`)
+    nonEmptyString(legacy.sceneId, `${path}.flow.sceneId`)
+    nonEmptyString(legacy.entityId, `${path}.flow.entityId`)
+    if (!Number.isInteger(legacy.pageIndex) || Number(legacy.pageIndex) < 0)
+      throw new Error(`${path}.flow.pageIndex: 期望非负整数`)
+    if (legacy.channel !== 'trigger' && legacy.channel !== 'auto')
+      throw new Error(`${path}.flow.channel: 期望 trigger|auto`)
+    return
+  }
+  if (legacy.kind === 'legacy-scene-hook') {
+    exactKeys(legacy, ['kind', 'sceneId', 'hook'], `${path}.flow`)
+    nonEmptyString(legacy.sceneId, `${path}.flow.sceneId`)
+    if (legacy.hook !== 'onEnter' && legacy.hook !== 'onTeleport')
+      throw new Error(`${path}.flow.hook: 期望 onEnter|onTeleport`)
+    return
+  }
+  throw new Error(`${path}.flow.kind: 未知 legacy flow`)
 }

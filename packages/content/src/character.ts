@@ -1,6 +1,7 @@
 import type { ActorDef } from './actor.js'
 import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
 import type { WorldScriptState } from './script.js'
+import type { WorldScriptStateV5 } from './script-v5.js'
 import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
 import type { StatusId } from './skill.js'
 
@@ -36,6 +37,11 @@ export interface WorldState {
   resources?: Record<string, number>
   /** 持久 BGM。缺字段 = 尚未建立音乐状态；null = 显式静音；AssetId = 当前世界曲。 */
   audio?: { currentMusic?: AssetId | null }
+}
+
+/** contentVersion 5 的世界态；P7 runtime/save 只允许这一条脚本权威。 */
+export interface WorldStateV5 extends Omit<WorldState, 'script'> {
+  script?: WorldScriptStateV5
 }
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
