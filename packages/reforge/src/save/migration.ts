@@ -2,6 +2,7 @@ import {
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
   type ProjectManifest,
+  type ProjectMigrationDescriptorV1,
   type ProjectMigrationSidecarV1,
   SCRIPT_V4_V5_TRANSITION_ID,
   validateProjectMigrationDescriptorV1,
@@ -58,6 +59,80 @@ export async function sha256Bytes(bytes: Uint8Array): Promise<string> {
 
 export async function legacyBindingDigest(value: unknown): Promise<string> {
   return sha256Bytes(new TextEncoder().encode(JSON.stringify(canonicalLegacyBindingV4(value))))
+}
+
+export interface ValidatedProjectMigrationBlobV1 {
+  id: typeof SCRIPT_V4_V5_TRANSITION_ID
+  descriptor: Readonly<ProjectMigrationDescriptorV1>
+  bytes: Uint8Array
+  sidecar: Readonly<ProjectMigrationSidecarV1>
+}
+
+export type ValidatedProjectMigrationRegistryV1 = Readonly<
+  Partial<Record<typeof SCRIPT_V4_V5_TRANSITION_ID, ValidatedProjectMigrationBlobV1>>
+>
+
+async function loadScriptV4V5MigrationBlob(args: {
+  manifest: ProjectManifest<5>
+  source: Pick<FileSource, 'readBytes'>
+  descriptorValue: unknown
+  signal?: AbortSignal
+}): Promise<ValidatedProjectMigrationBlobV1> {
+  const descriptor = validateProjectMigrationDescriptorV1(args.descriptorValue)
+  const bytes = new Uint8Array(await args.source.readBytes(descriptor.path, args.signal))
+  const actualSha256 = await sha256Bytes(bytes)
+  if (actualSha256 !== descriptor.sha256)
+    throw new Error(
+      `${descriptor.path}: manifest 登记 SHA-256 ${descriptor.sha256}，实际 ${actualSha256}`,
+    )
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(new TextDecoder().decode(bytes))
+  } catch (cause) {
+    throw new Error(
+      `${descriptor.path}: JSON 解析失败；${cause instanceof Error ? cause.message : String(cause)}`,
+    )
+  }
+  const sidecar = validateProjectMigrationSidecarV1(parsed, args.manifest.id)
+  const { digest: declaredSidecarDigest, ...sidecarWithoutDigest } = sidecar
+  const actualSidecarDigest = await sha256Bytes(
+    new TextEncoder().encode(canonicalScriptTransitionJson(sidecarWithoutDigest)),
+  )
+  if (actualSidecarDigest !== declaredSidecarDigest)
+    throw new Error(
+      `${descriptor.path}: sidecar 自摘要 ${declaredSidecarDigest}，实际 ${actualSidecarDigest}`,
+    )
+  return {
+    id: SCRIPT_V4_V5_TRANSITION_ID,
+    descriptor: Object.freeze(structuredClone(descriptor)),
+    bytes: Uint8Array.from(bytes),
+    sidecar: Object.freeze(structuredClone(sidecar)),
+  }
+}
+
+/**
+ * v5 工程加载边界：registry 中实际登记的历史迁移 blob 必须逐项验签并以原始字节持有。
+ * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
+ */
+export async function loadProjectMigrationRegistryV5(args: {
+  manifest: ProjectManifest<5>
+  source: Pick<FileSource, 'readBytes'>
+  signal?: AbortSignal
+}): Promise<ValidatedProjectMigrationRegistryV1> {
+  const registry: Partial<
+    Record<typeof SCRIPT_V4_V5_TRANSITION_ID, ValidatedProjectMigrationBlobV1>
+  > = {}
+  for (const [id, descriptorValue] of Object.entries(args.manifest.migrations ?? {}).sort(
+    ([left], [right]) => left.localeCompare(right),
+  )) {
+    if (id !== SCRIPT_V4_V5_TRANSITION_ID)
+      throw new Error(`manifest.migrations.${id}: 引擎不支持该 content transition`)
+    registry[id] = await loadScriptV4V5MigrationBlob({
+      ...args,
+      descriptorValue,
+    })
+  }
+  return Object.freeze(registry)
 }
 
 async function resolveSceneHookSelections(
@@ -164,30 +239,12 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `manifest.migrations 缺 ${SCRIPT_V4_V5_TRANSITION_ID}，无法升级 contentVersion 4 存档`,
     )
-  const descriptor = validateProjectMigrationDescriptorV1(rawDescriptor)
-  const bytes = new Uint8Array(await args.source.readBytes(descriptor.path, args.signal))
-  const actualSha256 = await sha256Bytes(bytes)
-  if (actualSha256 !== descriptor.sha256)
-    throw new Error(
-      `${descriptor.path}: manifest 登记 SHA-256 ${descriptor.sha256}，实际 ${actualSha256}`,
-    )
-  let parsed: unknown
-  try {
-    parsed = JSON.parse(new TextDecoder().decode(bytes))
-  } catch (cause) {
-    throw new Error(
-      `${descriptor.path}: JSON 解析失败；${cause instanceof Error ? cause.message : String(cause)}`,
-    )
-  }
-  const sidecar = validateProjectMigrationSidecarV1(parsed, args.manifest.id)
-  const { digest: declaredSidecarDigest, ...sidecarWithoutDigest } = sidecar
-  const actualSidecarDigest = await sha256Bytes(
-    new TextEncoder().encode(canonicalScriptTransitionJson(sidecarWithoutDigest)),
-  )
-  if (actualSidecarDigest !== declaredSidecarDigest)
-    throw new Error(
-      `${descriptor.path}: sidecar 自摘要 ${declaredSidecarDigest}，实际 ${actualSidecarDigest}`,
-    )
+  const { sidecar } = await loadScriptV4V5MigrationBlob({
+    manifest: args.manifest,
+    source: args.source,
+    descriptorValue: rawDescriptor,
+    signal: args.signal,
+  })
   const sceneHookSelections = await resolveSceneHookSelections(args.payload, sidecar)
   return {
     kind: 'v4-v5',

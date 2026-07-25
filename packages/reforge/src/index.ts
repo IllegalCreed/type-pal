@@ -132,6 +132,20 @@ export { tilesFromChunkBytes } from './assets.js'
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
 export type {
+  ContentJsonsV5,
+  LoadedProjectV5,
+  LoadedProjectV5Core,
+} from './loader-v5.js'
+export {
+  assembleProjectV5,
+  loadAllProjectMapsV5,
+  loadAllScenesV5,
+  loadProjectV5,
+  loadProjectV5From,
+  loadSceneDefV5,
+  loadStampTemplatesV5,
+} from './loader-v5.js'
+export type {
   LatticePos,
   ProjectMapCollisionEdit,
   ProjectMapTileDraw,
