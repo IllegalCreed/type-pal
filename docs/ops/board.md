@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | GLM：P7 状态机 schema delta 合并代审 | 4,519 simple owner 已闭环；70 machine 暴露同步继续/阶段推进/命令结果三项 schema 缺口，签字前不改 union |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P7 schema/validator 与状态机 canonical 投影 | GLM schema delta 合并代审 `agree`；须落实 continue SCC、outcome 本 state、editor 三态约束 |
 
 ## 阻塞
 

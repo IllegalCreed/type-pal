@@ -1099,11 +1099,127 @@ type StateTransitionV5 =
 |---|---|---|---|
 | Codex | **agree** | 2026-07-25 | 4,519 simple owner canonical validator 闭环；P6 IR 可复跑审计冻结 70/172/65、277 synchronous continuation、47 multi-stage entry，并给出最小 delta 与负向 validator 约束。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准 P3-P7 架构席位由 GLM 合并代审；保留恢复后的非阻塞补审债务。 |
-| GLM | **pending** | - | 必须核对三项 schema delta 是否最小且足以保持 stage、同步 fallthrough、command outcome 与 save safe-point；签 `agree` 或给出 `counter`。 |
+| GLM | **agree（合并代审）** | 2026-07-25 | 独立复跑 p7-state-machine-audit（70/172/65 + transition 全分布逐项匹配）+ p7-canonical（6/6）+ 4519/4519 simple owner validator + s081 confirm:no 中段回环反证；continue/advance/commandOutcome+CommandId 最小必要，stay/restart/to/branch 不足以无损承接 277 同步 continuation + 47 multi-stage + 1 command-outcome。见「GLM P7 schema delta 合并代审」。 |
 
-- 门禁: GLM `agree` 前，Codex 可继续只读审计、测试矩阵和不依赖 transition union 的地基，
-  **不得修改 canonical transition schema/compiler/runtime/editor，不得发布 content/save v5**。
+- 门禁: **schema delta allowed（2026-07-25；GLM 合并代审 agree，Kimi 用户豁免）**。
+  Codex 可修改 canonical transition schema/compiler/runtime/editor 并发布 v5，但须按 GLM 指出的
+  3 条必落约束落地。
   N3-1 仍为 `build`，C8/ED-5I 继续 blocked。
+
+### GLM P7 schema delta 合并代审（2026-07-25）
+
+**方法**：只读合并代审（架构 + 数据），不改实现文件。读 p7-state-machine-audit.ts / p7-canonical.ts /
+content/src/script-v5.ts 全部源码 + 独立复跑 `auditP7StateMachineProjectionNeeds` + p7-canonical 测试 +
+4519/4519 simple owner validator + s081 confirm:no 反证分析。
+
+#### 重点 1：状态机审计逐项对账 ✅
+
+GLM 独立复跑 `auditP7StateMachineProjectionNeeds(p6ir)`：
+
+| 口径 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---:|---:|---|
+| cycles (state-machine) | 70 | **70** | ✅ |
+| states | 172 | **172** | ✅ |
+| owners | 65 | **65** | ✅ |
+| stageHistogram 1 / 2 / 9 | 59 / 1 / 5 | **59 / 1 / 5** | ✅ |
+| machineHistogram 1 / 2 | 60 / 5 | **60 / 5** | ✅ |
+| multiStageEntries | 47 | **47** | ✅ |
+| transitions.bodyEnd | 131 | **131** | ✅ |
+| transitions.condition | 306 | **306** | ✅ |
+| transitions.conditionAtBodyEnd | 30 | **30** | ✅ |
+| transitions.conditionMidBody | 276 | **276** | ✅ |
+| transitions.commandOutcome | 1 | **1** | ✅ |
+| commandOutcomeWithFollowingCommands | 1 | **1** | ✅ |
+| statesWithMultipleTransitions | 136 | **136** | ✅ |
+| synchronousContinuationSites | 277 | **277** | ✅ |
+
+审计从 P6 IR 独立重算（非手填），`synchronousContinuationSites = conditionMidBody(276) + commandOutcomeWithFollowingCommands(1)`。
+
+#### 重点 2：stay/restart/to/branch 不足以无损承接 ✅（delta 必要）
+
+**277 个同步继续点**无法用现有 `to { yield }` 表达：
+- `to + macroTask` 会新增可观察的 JS 宏任务让步——原版命令序列是同步 fallthrough（command pace 100ms
+  在每个 AuthorCommand 后，不是在状态转移后），增加 macroTask 会改变 NPC 行为节奏。
+- `to + worldTick` 会等待下一次世界拍（STEP_MS=100ms），更不可接受——等于多了一个 tick 的延迟。
+- 拆成独立 state + `stay` 会让 save cursor 停在中间状态，下次激活从中段续跑——但原版逻辑是从头跑
+  到尾的，不是"保存中间态"。
+
+**47 个 multi-stage entry**无法用 `to + macroTask` 伪装 `advance`：
+- `advance` 语义：提交目标 state cursor + 结束本次激活 + 下次外部激活才执行目标。
+- `to + macroTask` 语义：提交目标 state cursor + 让步 + **同次激活继续**执行目标——调度语义不同。
+- 6 个 multi-stage owner（s004/e93, s049/e825, s049/e828, s206/e3493, s206/e3494, s081/onEnter）
+  合计 47 个 stage 入口，必须保留"提交 next cursor 并结束本次激活"的 stage 语义。
+
+**s081 confirm:no 回环**（GLM 独立验证）：
+- confirm 位于 body index 26 of 67——**不是尾命令**。
+- 选"否" → 回环到 initial（`to(initial, worldTick)`——可取消让步，安全）。
+- 选"是" → 继续执行 index 27-66（**必须同步 continuation，不能让步**）。
+- 丢弃命令结果会让 confirm:no 回环失真；硬套 `to` 会增加调度让步。
+- `commandOutcome { commandId, command:'confirm', outcome:'no', then: to(initial, worldTick), else: continue }`
+  是唯一能同时表达"命令结果分支 + 同步继续 + 安全回环"的方式。
+
+**结论：现有 stay/restart/to/branch 不足以无损承接 P5。delta 必要。**
+
+#### 重点 3：continue / advance / commandOutcome + CommandId 最小充分集 ✅
+
+**候选 delta 三种新 kind 是否最小且充分：**
+
+| 新 kind | 服务的真源需求 | 是否最小 | 是否充分 |
+|---|---|---|---|
+| `continue { state }` | 277 处同步 fallthrough（中段条件退出 + confirm:yes 后缀） | ✅ 最小：`to` 已有让步语义，`stay` 不切 state；`continue` 唯一表达"切 state + 不让步 + 不进 save safe-point" | ✅ |
+| `advance { state }` | 47 处 multi-stage entry 的"提交 cursor + 结束激活" | ✅ 最小：`to+macroTask` 同次继续 ≠ 下次激活；`stay` 不提交 cursor | ✅ |
+| `commandOutcome { commandId, command, outcome, then, else }` | 1 处 confirm:no 中段回环 | ✅ 最小：`branch` 消费 ScriptCondition（flag/var），不消费命令执行结果 | ✅ |
+
+**CommandId 是否必要**：`commandOutcome` 必须引用"同一 state 顶层 body 中唯一、具名且已执行的结果命令"。
+没有 CommandId，compiler 无法区分同一 state 中多个 confirm 的结果分支。当前只有 1 个 command-outcome，
+但 schema 设计不应按当前数据量限缩——如果未来 PAL 有多个 confirm，没有 CommandId 就无法表达。
+**CommandId 是最小必要的。**
+
+**不接受的替代方案**：
+- ❌ 把 command-outcome 埋在 generated lowering（runtime side channel）——违反 canonical 作者可见原则。
+- ❌ 把 277 continuation 拆成独立 state——save cursor 停在中间态，破坏原版"从头跑到尾"语义。
+- ❌ 把 `advance` 伪装成 `to+macroTask`——调度语义不同（同次 vs 下次激活）。
+
+#### 负向 validator 约束审核 ✅
+
+Codex 候选已列出必要的负向约束，GLM 确认以下必须落地：
+- 悬空 command/state → 拒绝
+- 重复 CommandId（同一 state 内）→ 拒绝
+- 跨 state outcome 引用 → 拒绝（commandOutcome 只能引用本 state body 内的命令）
+- `continue` SCC（无 yield 环）→ 拒绝（continue 不形成 save safe-point，纯 continue 环永远不可中断）
+- 无取消让步的持久循环 → 拒绝（与 P5 loop `maxIterations` 门禁一致）
+- `continue` 目标 state 必须存在且属于同一 machine → 拒绝悬空
+
+**save safe-point 约束**：
+- `continue` 不进 save safe-point——它不更新 cursor、不让步，是纯同步 fallthrough。
+- `advance` 进 save safe-point——提交 cursor 并结束激活。
+- `to` 进 save safe-point——提交 cursor 并让步。
+- `commandOutcome` 本身不进 save——命令结果只存在于当前 activation；`then/else` 内的 transition
+  按 kind 决定是否进 save。
+
+#### GLM 必落约束（3 条）
+
+1. **`continue` 禁止 SCC**：validator 必须静态检查 `continue` 转移不形成环（同 machine 内的 continue
+   目标 state 不能通过 continue 链回到自身）。纯 continue 环永远不可中断，也不形成 save safe-point。
+2. **`commandOutcome` 只引用本 state body**：commandId 必须解析到同一 state 顶层 body 中唯一已执行
+   的 confirm 命令。跨 state outcome 引用必须 fail-loud。
+3. **editor 三种语义可视化**：continue/advance/to 必须在编辑器中分别显示为
+   "同步继续 / 下次激活 / 让步后同次继续"，不能都渲染成"跳转"。
+
+#### 结论
+
+**GLM P7 schema delta agree**。审计数字逐项匹配（70/172/65 + transition 全分布）；
+stay/restart/to/branch 经反证确认不足以无损承接 P5（277 同步 continuation + 47 multi-stage + 1 confirm:no）；
+continue/advance/commandOutcome+CommandId 是最小充分集；负向 validator 约束完整。
+
+**schema delta allowed**：Codex 可修改 canonical transition schema 并发布 v5。
+GLM 3 条必落约束（continue SCC 禁止 / commandOutcome 本 state 限定 / editor 三态可视化）
+必须在 v5 validator 和 editor 中落地。
+
+#### Kimi 补审债务
+
+P7 schema delta 是 N3-1 最关键的架构决策——StateTransitionV5 从 4 种扩展到 7 种，直接影响 canonical
+作者模型。Kimi 恢复后**强烈建议补审**（不阻塞当前 allowed，但 N3-1 最终验收前应补签）。
 
 ## 视觉验证记录
 
@@ -3214,10 +3330,28 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   `continue / advance / commandOutcome + CommandId` 最小 delta 并签 Codex `agree`。
   Next: GLM 按下方提示词合并代审并签 `agree/counter`；门禁前不得改 transition schema、
   compiler/runtime/editor 或发布 content/save v5。N3-1 仍为 build，C8/ED-5I 继续 blocked。
+- 2026-07-25 GLM: P7 状态机 schema delta 合并代审签 **agree**。只读审查不改实现：独立复跑
+  `auditP7StateMachineProjectionNeeds(p6ir)`（70 cycle / 172 state / 65 owner / stage 59×1+1×2+5×9 /
+  machine 60×1+5×2 / transitions 131 body-end+306 condition(30 tail+276 mid)+1 command-outcome /
+  136 multi-transition / 277 synchronous continuation——逐项匹配卡内冻结）+ p7-canonical 测试 6/6 +
+  4519/4519 simple owner validator + s081 confirm:no 中段回环反证（index 26 of 67，非尾命令）。
+  **核心判断**：stay/restart/to/branch 经反证确认不足以无损承接 P5——277 同步 continuation 不能加
+  macroTask/worldTick 让步（改变调度）；47 multi-stage 需要 advance（提交 cursor+结束激活 ≠ to+macroTask
+  同次继续）；s081 confirm:no 需要 commandOutcome（命令结果分支 ≠ ScriptCondition）。
+  continue/advance/commandOutcome+CommandId 是最小充分集。3 条必落约束：①continue 禁止 SCC；
+  ②commandOutcome 只引用本 state body；③editor 三态可视化。schema delta allowed。
+  Evidence: P7 签字表 GLM 行 + GLM P7 schema delta 合并代审节。
+  Next: **Codex 可修改 transition schema 并发布 v5**，须按 3 条必落约束落地。未改实现文件。
+- 2026-07-25 Codex: 核验 GLM P7 schema delta 签字、独立复跑证据和三条必落约束完整，
+  无 `counter/rework`，正式关闭 schema delta 门禁。同步更正审查正文的一处分支方向笔误：
+  `outcome:'no'` 命中时是 `then -> to(initial, worldTick)`，未命中（选择“是”）才是
+  `else -> continue(continuation)`；冻结候选、s081 反证和 GLM 结论的其余文字均为这一正确语义，
+  不改变审查结论。Next: 先独立提交审查记录，再由 Codex 实现 schema/validator；必须落实
+  continue SCC 禁止、commandOutcome 本 state 顶层命令限定和 editor 三态可视化。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审）
+### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
 ```text
 复审任务: N3-1 P7 状态机 canonical schema delta
@@ -3256,13 +3390,13 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - 不得把 N3-1/C8/ED-5I 标 done。
 ```
 
-### 给 Codex（P7 全量重迁、验收与文档；schema delta 通过后继续）
+### 给 Codex（P7 全量重迁、验收与文档；当前执行）
 
 ```text
 接手任务: N3-1 P7 全量重迁、验收与文档
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P0-P6 全部 accept（P3-P7 Kimi 用户豁免，GLM 合并代审）；P6→P7 已 allowed，
-  但 P7 状态机 schema delta 仍须先取得 GLM agree。pending 归零——P2-P6 累计 IR 已无未归属 body。
+当前状态: build；P0-P6 全部 accept（P3-P7 Kimi 用户豁免，GLM 合并代审）；P6→P7 allowed，
+  P7 状态机 schema delta 已取得 GLM agree。pending 归零——P2-P6 累计 IR 已无未归属 body。
 你的角色: Codex，Coding Owner。P7 是 N3-1 最后一步：把影子 v5 发布为 canonical。
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-1（版本轴裁决）、P1-2..P1-8（schema/save/MG2
   冻结设计全文）、P6 节（含用户物品私有脚本裁决）、P7 schema delta 与 GLM 新签字。
@@ -3283,7 +3417,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-当前下一位为 GLM；Codex 提示词待 schema delta `agree` 后恢复执行。
+当前下一位为 Codex；schema delta 已 allowed，继续 P7 实现。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
