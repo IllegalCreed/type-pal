@@ -10,6 +10,7 @@ import type {
   P5CycleStructure,
   ScriptMigrationIRP6,
 } from './types.js'
+import { stableJson } from './stable-json.js'
 
 function clone<T>(value: T): T {
   return structuredClone(value)
@@ -56,11 +57,32 @@ const RETIRED_AUTHOR_KINDS = new Set([
   'clearSceneScripts',
 ])
 
+const COMMAND_REWRITE_CACHE = new WeakMap<
+  ScriptMigrationIRP6,
+  ReadonlyMap<string, unknown>
+>()
+
+function commandRewriteMap(ir: ScriptMigrationIRP6): ReadonlyMap<string, unknown> {
+  const cached = COMMAND_REWRITE_CACHE.get(ir)
+  if (cached) return cached
+  const result = new Map<string, unknown>()
+  for (const rewrite of ir.commandRewrites ?? []) {
+    const key = stableJson(rewrite.before)
+    const previous = result.get(key)
+    if (previous !== undefined && stableJson(previous) !== stableJson(rewrite.after))
+      throw new Error(`P7 canonical: 同一 legacy binding command 存在多义 rewrite`)
+    result.set(key, rewrite.after)
+  }
+  COMMAND_REWRITE_CACHE.set(ir, result)
+  return result
+}
+
 class P7CommandProjector {
   private readonly flowStructures
   private readonly cycles
   private readonly localFlows
   private readonly ownerFragments
+  private readonly commandRewrites
   private readonly expansionStack = new Set<string>()
 
   constructor(private readonly context: P7CommandProjectionContext) {
@@ -82,6 +104,7 @@ class P7CommandProjector {
         fragment,
       ]),
     )
+    this.commandRewrites = commandRewriteMap(context.ir)
   }
 
   commands(value: unknown, path: string): AuthorCommandV5[] {
@@ -133,20 +156,32 @@ class P7CommandProjector {
     if (condition.kind === 'entityState') {
       return {
         kind: 'entityState',
-        target: this.address(condition.target ?? condition.entity, `${path}.target`),
+        target: this.address(
+          condition.target ?? condition.entity,
+          `${path}.target`,
+          condition.target === undefined ? condition.scene : undefined,
+        ),
         is: condition.is as number,
       }
     }
     if (condition.kind === 'entityInScene') {
       return {
         kind: 'entityInScene',
-        target: this.address(condition.target ?? condition.entity, `${path}.target`),
+        target: this.address(
+          condition.target ?? condition.entity,
+          `${path}.target`,
+          condition.target === undefined ? condition.scene : undefined,
+        ),
       }
     }
     if (condition.kind === 'facingEntity') {
       return {
         kind: 'facingEntity',
-        target: this.address(condition.target ?? condition.entity, `${path}.target`),
+        target: this.address(
+          condition.target ?? condition.entity,
+          `${path}.target`,
+          condition.target === undefined ? condition.scene : undefined,
+        ),
         ...(condition.range === undefined ? {} : { range: condition.range as number }),
       }
     }
@@ -222,8 +257,12 @@ class P7CommandProjector {
     if (command.kind === 'n3P3FlowExit') return this.generatedP3(command, path)
     if (command.kind === 'n3P5FlowExit') return this.generatedP5(command, path)
     if (command.kind === 'n3P6FlowExit') return this.generatedP6(command, path)
-    if (RETIRED_AUTHOR_KINDS.has(command.kind))
-      throw new Error(`${path}.kind: P7 canonical 禁止 ${command.kind}`)
+    if (RETIRED_AUTHOR_KINDS.has(command.kind)) {
+      const rewrite = this.commandRewrites.get(stableJson(command))
+      if (rewrite === undefined)
+        throw new Error(`${path}.kind: P7 canonical 禁止 ${command.kind}，且缺 P4 rewrite`)
+      return this.command(rewrite, `${path}<P4 rewrite>`)
+    }
 
     if (command.kind === 'branch') {
       return [
@@ -362,22 +401,34 @@ class P7CommandProjector {
     }
     if (command.kind === 'vanishEntity' || command.kind === 'releaseEntity') {
       const rawTarget = command.target ?? command.entity
-      const { entity: _entity, target: _target, ...rest } = command
+      const { entity: _entity, scene: _scene, target: _target, ...rest } = command
       return [
         {
           ...(clone(rest) as Extract<AuthorCommandV5, { kind: 'vanishEntity' | 'releaseEntity' }>),
           kind: command.kind,
-          ...(rawTarget === undefined ? {} : { target: this.address(rawTarget, `${path}.target`) }),
+          ...(rawTarget === undefined
+            ? {}
+            : {
+                target: this.address(
+                  rawTarget,
+                  `${path}.target`,
+                  command.target === undefined ? command.scene : undefined,
+                ),
+              }),
         } as AuthorCommandV5,
       ]
     }
     if (ENTITY_TARGET_KINDS.has(command.kind)) {
-      const { entity: _entity, target: _target, ...rest } = command
+      const { entity: _entity, scene: _scene, target: _target, ...rest } = command
       return [
         {
           ...clone(rest),
           kind: command.kind,
-          target: this.address(command.target ?? command.entity, `${path}.target`),
+          target: this.address(
+            command.target ?? command.entity,
+            `${path}.target`,
+            command.target === undefined ? command.scene : undefined,
+          ),
         } as AuthorCommandV5,
       ]
     }
