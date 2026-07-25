@@ -1,0 +1,242 @@
+import { emptyWorldScriptStateV5, type SceneDefV5 } from '@type-pal/content'
+import { describe, expect, test } from 'vitest'
+import type { LoadedProjectV5Core } from './loader-v5.js'
+import {
+  type ProjectScriptHostOptionsV5,
+  ProjectScriptRuntimeHostV5,
+  ScriptProjectRuntimeV5,
+} from './script-project-v5.js'
+import { FlowRuntimeCoordinatorV5 } from './script-world-v5.js'
+
+const digest = 'a'.repeat(64)
+
+const scene: SceneDefV5 = {
+  id: 's001',
+  mapId: 'map-001',
+  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+  entities: [
+    {
+      id: 'e1',
+      sprite: 'npc',
+      pos: { col: 1, row: 1, height: 0 },
+      initialPage: 'default',
+      pages: [
+        { id: 'default', label: '默认', trigger: 'talk' },
+        { id: 'quiet', label: '安静', trigger: 'alternate' },
+      ],
+      behaviors: {
+        trigger: {
+          talk: {
+            label: '交谈',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'setFlag', flag: 'talked', value: true },
+                    {
+                      kind: 'setEntityState',
+                      target: { scene: 's001', entity: 'e1' },
+                      state: 2,
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+          alternate: {
+            label: '另一段',
+            order: 1,
+            flow: {
+              kind: 'stages',
+              initial: 'alternate',
+              stages: [
+                {
+                  id: 'alternate',
+                  body: [{ kind: 'setFlag', flag: 'alternate', value: true }],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ],
+}
+
+function project(): LoadedProjectV5Core {
+  return { sharedScripts: {} } as unknown as LoadedProjectV5Core
+}
+
+function deferred<T>() {
+  let resolve!: (value: T | PromiseLike<T>) => void
+  let reject!: (reason?: unknown) => void
+  const promise = new Promise<T>((accept, decline) => {
+    resolve = accept
+    reject = decline
+  })
+  return { promise, resolve, reject }
+}
+
+function host(
+  effect: ProjectScriptHostOptionsV5['executeEffect'] = () => {},
+): ProjectScriptHostOptionsV5 {
+  return {
+    executeEffect: effect,
+    scene: (sceneId) => {
+      if (sceneId !== scene.id) throw new Error(`missing scene ${sceneId}`)
+      return scene
+    },
+    currentSceneId: () => scene.id,
+    query: {
+      hasItem: () => false,
+      ownsItem: () => false,
+      itemEquipped: () => false,
+      allFullHp: () => true,
+      money: () => 0,
+      inParty: () => false,
+      entityInScene: (target) => target.scene === scene.id,
+      facingEntity: () => false,
+    },
+    confirm: async () => true,
+    startBattle: async () => 'win',
+    teleportOut: async () => false,
+    wait: async () => {},
+    waitWorldTick: async () => {},
+    yieldMacroTask: async () => {},
+  }
+}
+
+describe('canonical script v5 project runtime', () => {
+  test('activation owns world mutations and commits a stable behavior cursor', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(
+      project(),
+      world,
+      digest,
+      host((command) => {
+        effects.push(command.kind)
+      }),
+    )
+    await expect(
+      runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+        signal: new AbortController().signal,
+      }),
+    ).resolves.toBe(true)
+    expect(world.flags.talked).toBe(true)
+    expect(world.entityState.s001?.e1).toBe(2)
+    expect(world.behaviors.entities?.s001?.e1?.trigger?.cursor).toEqual({
+      behavior: 'talk',
+      at: { kind: 'stage', stage: 'start' },
+    })
+    expect(effects).toEqual(['setFlag', 'setEntityState'])
+  })
+
+  test('selection is a named three-state write and invalidates the old activation lease', async () => {
+    const world = emptyWorldScriptStateV5()
+    let releaseWait!: () => void
+    const entered = deferred<void>()
+    const pending = new Promise<void>((resolve) => {
+      releaseWait = resolve
+    })
+    const runtime = new ScriptProjectRuntimeV5(
+      project(),
+      world,
+      digest,
+      host(async (command) => {
+        if (command.kind !== 'setFlag' || command.flag !== 'talked') return
+        entered.resolve()
+        await pending
+      }),
+    )
+    const running = runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    await entered.promise
+    await runtime.host.execute(
+      {
+        kind: 'selectEntityBehavior',
+        target: { scene: 's001', entity: 'e1' },
+        channel: 'trigger',
+        selection: { kind: 'use', value: 'alternate' },
+      },
+      {},
+      new AbortController().signal,
+    )
+    releaseWait()
+    await running
+    expect(world.behaviors.entities?.s001?.e1?.trigger).toEqual({
+      selection: { kind: 'use', value: 'alternate' },
+    })
+    await runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    expect(world.flags.alternate).toBe(true)
+    expect(world.behaviors.entities?.s001?.e1?.trigger?.cursor).toEqual({
+      behavior: 'alternate',
+      at: { kind: 'stage', stage: 'alternate' },
+    })
+  })
+
+  test('save barrier waits for a live flow safe-point before exposing the snapshot', async () => {
+    const waitingScene = structuredClone(scene)
+    const flow = waitingScene.entities[0]!.behaviors!.trigger!.talk!.flow
+    if (flow.kind !== 'stages') throw new Error('fixture flow')
+    flow.stages[0]!.body = [{ kind: 'wait', ms: 10 }]
+    const world = emptyWorldScriptStateV5()
+    const entered = deferred<void>()
+    const wait = deferred<void>()
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      scene: () => waitingScene,
+      executeEffect: async (command) => {
+        if (command.kind !== 'wait') return
+        entered.resolve()
+        await wait.promise
+      },
+    })
+    const running = runtime.runEntityBehavior(waitingScene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    await entered.promise
+    let snapped = false
+    const snapshot = runtime.withSaveBarrier(() => {
+      snapped = true
+      return structuredClone(world)
+    })
+    await Promise.resolve()
+    expect(snapped).toBe(false)
+    wait.resolve()
+    const saved = await snapshot
+    await running
+    expect(snapped).toBe(true)
+    expect(saved.behaviors.entities?.s001?.e1?.trigger?.cursor).toEqual({
+      behavior: 'talk',
+      at: { kind: 'stage', stage: 'start' },
+    })
+  })
+
+  test('standalone host rejects selection targets absent from canonical scene definitions', async () => {
+    const world = emptyWorldScriptStateV5()
+    const runtimeHost = new ProjectScriptRuntimeHostV5(
+      world,
+      new FlowRuntimeCoordinatorV5(),
+      host(),
+    )
+    await expect(
+      runtimeHost.execute(
+        {
+          kind: 'selectEntityPage',
+          target: { scene: 's001', entity: 'missing' },
+          selection: { kind: 'inherit' },
+        },
+        {},
+        new AbortController().signal,
+      ),
+    ).rejects.toThrow(/entity 不存在/)
+  })
+})
