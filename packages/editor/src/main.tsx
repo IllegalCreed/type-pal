@@ -3,19 +3,28 @@
  * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import type { LoadedProject } from '@type-pal/reforge'
+import { emptyWorldScriptStateV5 } from '@type-pal/content'
+import type { LoadedProject, LoadedProjectV5 } from '@type-pal/reforge'
 import {
+  httpSource,
+  legacyProjectShellFromV5,
+  legacySceneFromV5,
   loadAllScenes,
+  loadAllScenesV5,
   loadAllScriptChunks,
   loadProject,
+  loadProjectV5,
   loadProjectMapById,
   loadStampTemplates,
+  loadStampTemplatesV5,
 } from '@type-pal/reforge'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
 import type { Opened } from './core/open-actions.js'
+import { toEditorStateV5, type EditorStateV5 } from './core/project-io-v5.js'
 import { toEditorState } from './core/project-io.js'
+import { ScriptV5EditSession } from './core/script-v5-editor.js'
 import { App } from './ui/App.js'
 import { ProjectPicker } from './ui/ProjectPicker.js'
 import './ui/editor.css'
@@ -27,6 +36,10 @@ const DEV_AUTO = !!PROJECT_ID && !FORCE_PICKER
 interface Booted {
   session: EditSession
   project: LoadedProject
+  scriptV5?: {
+    baseState: EditorStateV5
+    session: ScriptV5EditSession
+  }
   dir?: FileSystemDirectoryHandle
 }
 /** 四态摊开:loading 只属于 dev 首次自动载入;picker 在任何模式下都是真启动屏。
@@ -40,20 +53,47 @@ function Root() {
   useEffect(() => {
     if (!DEV_AUTO || !PROJECT_ID) return
     let alive = true
-    loadProject(PROJECT_ID)
-      .then(async (project) => {
-        const [scenes, scriptChunks, stamps] = await Promise.all([
-          loadAllScenes(project),
-          loadAllScriptChunks(project),
-          loadStampTemplates(project),
+    const loadDevProject = async (): Promise<Booted> => {
+      const source = httpSource(`projects/${PROJECT_ID}`)
+      const manifest = await source.readJson<{ contentVersion?: number }>('manifest.json')
+      if (manifest.contentVersion === 5) {
+        const projectV5: LoadedProjectV5 = await loadProjectV5(PROJECT_ID)
+        const [scenesV5, stamps] = await Promise.all([
+          loadAllScenesV5(projectV5),
+          loadStampTemplatesV5(projectV5),
         ])
-        if (!alive) return
-        setBoot({
-          session: new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps), {
+        const baseState = toEditorStateV5(projectV5, scenesV5, {}, stamps)
+        const world = emptyWorldScriptStateV5()
+        const project = legacyProjectShellFromV5(projectV5, world)
+        const scenes = scenesV5.map((scene) => legacySceneFromV5(scene, world))
+        return {
+          session: new EditSession(toEditorState(project, scenes, {}, {}, stamps), {
             loadMap: (mapId) => loadProjectMapById(project, mapId),
           }),
           project,
-        })
+          scriptV5: {
+            baseState,
+            session: new ScriptV5EditSession(baseState),
+          },
+        }
+      }
+      const project = await loadProject(PROJECT_ID)
+      const [scenes, scriptChunks, stamps] = await Promise.all([
+        loadAllScenes(project),
+        loadAllScriptChunks(project),
+        loadStampTemplates(project),
+      ])
+      return {
+        session: new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps), {
+          loadMap: (mapId) => loadProjectMapById(project, mapId),
+        }),
+        project,
+      }
+    }
+    loadDevProject()
+      .then((booted) => {
+        if (!alive) return
+        setBoot(booted)
       })
       .catch((e: unknown) => {
         if (alive) setBoot({ error: e instanceof Error ? e.message : String(e) })
@@ -64,11 +104,35 @@ function Root() {
   }, [])
 
   const onOpened = (o: Opened): void => {
+    if (o.kind === 'v5') {
+      const baseState = toEditorStateV5(
+        o.canonicalV5.project,
+        o.canonicalV5.scenes,
+        {},
+        o.stamps,
+      )
+      const project = o.project
+      const scenes = o.scenes
+      setBoot({
+        session: new EditSession(toEditorState(project, scenes, {}, {}, o.stamps), {
+          loadMap: (mapId) => loadProjectMapById(project, mapId),
+        }),
+        project,
+        scriptV5: {
+          baseState,
+          session: new ScriptV5EditSession(baseState),
+        },
+        dir: o.dir,
+      })
+      return
+    }
+    const project = o.project
+    const { scenes, scriptChunks, stamps } = o
     setBoot({
-      session: new EditSession(toEditorState(o.project, o.scenes, {}, o.scriptChunks, o.stamps), {
-        loadMap: (mapId) => loadProjectMapById(o.project, mapId),
+      session: new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps), {
+        loadMap: (mapId) => loadProjectMapById(project, mapId),
       }),
-      project: o.project,
+      project,
       dir: o.dir,
     })
   }
@@ -90,6 +154,7 @@ function Root() {
       key={boot.project.manifest.id}
       session={boot.session}
       project={boot.project}
+      scriptV5={boot.scriptV5}
       initialDir={boot.dir}
       onOpened={onOpened}
       onBackToPicker={() => setBoot('picker')}

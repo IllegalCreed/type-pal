@@ -3,24 +3,17 @@
  * 每个动作 = 拿本地目录句柄(原生选夹,须用户手势)→ 操作 → openLocalProject 装配 → Opened。
  * 用户取消选夹 → 返回 null(调用方静默忽略)。
  */
-import type { SceneDef, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
-import { httpSource, type LoadedProject } from '@type-pal/reforge'
+import { httpSource } from '@type-pal/reforge'
 import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
 import { saveHandle } from './handle-store.js'
-import { openLocalProject } from './open-local.js'
+import { openLocalProject, type OpenedProject } from './open-local.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
 
-export interface Opened {
-  project: LoadedProject
-  scenes: SceneDef[]
-  scriptChunks: Record<string, ScriptChunkV1>
-  stamps: StampTemplateV1[]
-  dir: FileSystemDirectoryHandle
-}
+export type Opened = OpenedProject & { dir: FileSystemDirectoryHandle }
 
 /** 弹原生选夹(readwrite);用户取消 → null。 */
 export async function pickDir(): Promise<FileSystemDirectoryHandle | null> {

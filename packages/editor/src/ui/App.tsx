@@ -75,7 +75,16 @@ import { saveHandle } from '../core/handle-store.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
+import {
+  mergeLegacyEditorShellIntoV5,
+  serializeProjectV5WithCopies,
+  type EditorStateV5,
+} from '../core/project-io-v5.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
+import {
+  type ScriptEditorStateV5,
+  type ScriptV5EditSession,
+} from '../core/script-v5-editor.js'
 import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
@@ -111,6 +120,7 @@ import { ProjectWorkbenchTab } from './ProjectWorkbenchTab.js'
 import { clampPanelSize, fitSidePanelWidths } from './panel-layout.js'
 import { type SceneAnchorSelection, SceneCanvas, type Tool } from './SceneCanvas.js'
 import { ScriptDrawer } from './ScriptDrawer.js'
+import { ScriptV5BehaviorInspector } from './ScriptV5BehaviorInspector.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 
@@ -200,6 +210,10 @@ function scrollKey(location: EditorLocation): string {
 export function App(props: {
   session: EditSession
   project: LoadedProject
+  scriptV5?: {
+    baseState: EditorStateV5
+    session: ScriptV5EditSession
+  }
   /** 启动屏打开/克隆得到的工程目录句柄(P4):保存直接写回此夹,不再首存选夹。 */
   initialDir?: FileSystemDirectoryHandle
   /** 「工程」菜单切到别的工程(打开/另存为)→ 上抛 main 重建 session。 */
@@ -211,7 +225,19 @@ export function App(props: {
   const subscribe = useMemo(() => (cb: () => void) => session.subscribe(cb), [session])
   const getVersion = useMemo(() => () => session.getVersion(), [session])
   useSyncExternalStore(subscribe, getVersion) // 任一变化(含 markSaved / undo)都重渲染
+  const scriptV5Session = props.scriptV5?.session
+  const subscribeScriptV5 = useMemo(
+    () => (cb: () => void) => scriptV5Session?.subscribe(cb) ?? (() => undefined),
+    [scriptV5Session],
+  )
+  const getScriptV5Version = useMemo(
+    () => () => scriptV5Session?.getVersion() ?? 0,
+    [scriptV5Session],
+  )
+  useSyncExternalStore(subscribeScriptV5, getScriptV5Version)
   const state = session.getState()
+  const scriptV5State = scriptV5Session?.getState()
+  const editorDirty = session.isDirty() || (scriptV5Session?.isDirty() ?? false)
   const assetReader = useMemo(
     () => createEditorAssetReader(project.source, () => session.getState()),
     [project.source, session],
@@ -340,6 +366,8 @@ export function App(props: {
 
   const [selected, setSelected] = useState<SceneSelection>(SCENE_SELECTION)
   const [tool, setTool] = useState<Tool>('select')
+  const [scriptV5Channel, setScriptV5Channel] = useState<'trigger' | 'auto'>('trigger')
+  const [selectedBehaviorV5, setSelectedBehaviorV5] = useState<string>()
   // 布置模式左栏统一管理画布内容层与辅助叠加层的显隐。
   const [canvasLayers, setCanvasLayers] = useState({
     base: true,
@@ -755,6 +783,12 @@ export function App(props: {
   }
   const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
   const objectTargetMissing = editorObjectTargetMissing(state, location)
+  const historyOwnerRef = useRef<'legacy' | 'v5'>('legacy')
+  useEffect(() => session.subscribe(() => (historyOwnerRef.current = 'legacy')), [session])
+  useEffect(
+    () => scriptV5Session?.subscribe(() => (historyOwnerRef.current = 'v5')),
+    [scriptV5Session],
+  )
 
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current
@@ -765,11 +799,23 @@ export function App(props: {
     }
   }, [applyEditorLocation, session])
   const undo = useCallback((): void => {
-    if (session.undo()) reconcileLocationAfterHistory()
-  }, [reconcileLocationAfterHistory, session])
+    const preferred = historyOwnerRef.current
+    if (preferred === 'v5' && scriptV5Session?.undo()) return
+    if (session.undo()) {
+      reconcileLocationAfterHistory()
+      return
+    }
+    scriptV5Session?.undo()
+  }, [reconcileLocationAfterHistory, scriptV5Session, session])
   const redo = useCallback((): void => {
-    if (session.redo()) reconcileLocationAfterHistory()
-  }, [reconcileLocationAfterHistory, session])
+    const preferred = historyOwnerRef.current
+    if (preferred === 'v5' && scriptV5Session?.redo()) return
+    if (session.redo()) {
+      reconcileLocationAfterHistory()
+      return
+    }
+    scriptV5Session?.redo()
+  }, [reconcileLocationAfterHistory, scriptV5Session, session])
 
   const selEntity =
     selected.kind === 'entity' ? scene?.entities.find((e) => e.id === selected.id) : undefined
@@ -878,6 +924,25 @@ export function App(props: {
     session.dispatch(new DeleteEntityCommand(scene.id, selEntity.id))
     setSelected(SCENE_SELECTION)
   }
+  const serializeEditorSnapshot = (
+    shellState: ReturnType<EditSession['getState']>,
+    scriptState: ScriptEditorStateV5 | undefined,
+    includeAssetCopies: boolean,
+  ): Promise<Record<string, unknown>> => {
+    if (!props.scriptV5 || !scriptState)
+      return serializeProjectWithMapCopies(shellState, project.source, {
+        includeAssetCopies,
+      })
+    const canonicalState: EditorStateV5 = {
+      ...props.scriptV5.baseState,
+      ...scriptState,
+    }
+    return serializeProjectV5WithCopies(
+      mergeLegacyEditorShellIntoV5(canonicalState, shellState),
+      project.source,
+      { includeAssetCopies },
+    )
+  }
   // 保存:File System Access + 增量(快照-diff,只写变化;P3)。首次弹选文件夹并把句柄存
   // IndexedDB(工程标识 = manifest.id;将来「打开本地/最近工程」= P4 复用)。
   const save = async (): Promise<void> => {
@@ -899,16 +964,20 @@ export function App(props: {
         rememberDirectory = true
       }
       const savedState = session.getState()
+      const savedScriptState = scriptV5Session?.getState()
+      const savedScriptVersion = scriptV5Session?.getVersion()
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
       setSaveErr('')
       setSaveActivity({ phase: 'preparing' })
       // 先让原生 modal 进入 top layer，再开始可能较重的全工程序列化。
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      const files = await serializeProjectWithMapCopies(savedState, project.source, {
-        // HTTP 工程第一次选择本地目录时没有可复制的源目录，必须从 FileSource
-        // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
-        includeAssetCopies: rememberDirectory,
-      })
+      // HTTP 工程第一次选择本地目录时没有可复制的源目录，必须从 FileSource
+      // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
+      const files = await serializeEditorSnapshot(
+        savedState,
+        savedScriptState,
+        rememberDirectory,
+      )
       let lastPercent = -1
       setSaveActivity({ phase: 'writing', completed: 0, total: 0 })
       // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
@@ -927,6 +996,12 @@ export function App(props: {
       })
       // 若保存期间仍有后台 hydrate/command 生成新 state，磁盘只是开始时快照，不能误清 dirty。
       if (session.getState() === savedState) session.markSaved()
+      if (
+        scriptV5Session &&
+        savedScriptVersion !== undefined &&
+        scriptV5Session.getVersion() === savedScriptVersion
+      )
+        scriptV5Session.markSaved()
       if (rememberDirectory) {
         // 只有完整 writeProject 成功后才把目录升级为后续增量保存目标。若素材 fetch /
         // hash 校验 / 写盘中途失败，下一次仍按 HTTP 首存全量物化，不能提交半闭包工程。
@@ -965,14 +1040,13 @@ export function App(props: {
     setSaveActivity({ phase: 'saving-as' })
     try {
       const savedState = session.getState()
+      const savedScriptState = scriptV5Session?.getState()
       const removePaths = [...session.getDeletedMapPaths(), ...session.getDeletedAssetPaths()]
       const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
         () =>
-          serializeProjectWithMapCopies(savedState, project.source, {
-            includeAssetCopies: !sourceDir,
-          }),
+          serializeEditorSnapshot(savedState, savedScriptState, !sourceDir),
         sourceDir,
         removePaths,
       )
@@ -1053,7 +1127,7 @@ export function App(props: {
                     const dir = dirHandleRef.current
                     if (!dir) return
                     if (
-                      session.isDirty() &&
+                      editorDirty &&
                       !window.confirm(
                         '有未保存改动 —— 导出读的是磁盘,这些改动不会进 zip。仍要导出吗?(建议先 💾 保存)',
                       )
@@ -1080,7 +1154,7 @@ export function App(props: {
         <button
           type="button"
           className="tbtn"
-          disabled={!session.canUndo()}
+          disabled={!session.canUndo() && !(scriptV5Session?.canUndo() ?? false)}
           onClick={undo}
           title="撤销"
         >
@@ -1089,7 +1163,7 @@ export function App(props: {
         <button
           type="button"
           className="tbtn"
-          disabled={!session.canRedo()}
+          disabled={!session.canRedo() && !(scriptV5Session?.canRedo() ?? false)}
           onClick={redo}
           title="重做"
         >
@@ -1098,12 +1172,12 @@ export function App(props: {
         <button
           type="button"
           className="save"
-          disabled={!session.isDirty() || saveActivity !== null || exporting}
+          disabled={!editorDirty || saveActivity !== null || exporting}
           onClick={() => void save()}
           title="保存改动到工程文件夹(增量,只写变化;打开工程后直接写回,不再选路径)"
         >
           {saveActivity ? '💾 保存中…' : '💾 保存'}
-          {session.isDirty() && !saveActivity ? <span className="dot">●</span> : null}
+          {editorDirty && !saveActivity ? <span className="dot">●</span> : null}
         </button>
       </div>
 
@@ -1644,39 +1718,86 @@ export function App(props: {
                   }
                 />
               ) : selEntity ? (
-                <EntityInspector
-                  entity={selEntity}
-                  session={session}
-                  sceneId={scene.id}
-                  locale={state.locale}
-                  actorsById={actorsById}
-                  enemyTeams={state.enemyTeams ?? []}
-                  sprites={state.sprites}
-                  assetBase={project.assetBase}
-                  assetReader={assetReader}
-                  onJumpToEvent={jumpToEvent}
-                  focusPageIndex={
-                    entityPageFocus?.sceneId === scene.id &&
-                    entityPageFocus.entityId === selEntity.id
-                      ? entityPageFocus.pageIndex
-                      : undefined
-                  }
-                  focusPageRevision={
-                    entityPageFocus?.sceneId === scene.id &&
-                    entityPageFocus.entityId === selEntity.id
-                      ? entityPageFocus.revision
-                      : undefined
-                  }
-                  onPageFocusConsumed={(revision) =>
-                    setEntityPageFocus((current) =>
-                      current?.revision === revision ? undefined : current,
-                    )
-                  }
-                  onOpenSpriteAction={(spriteId, actionId) =>
-                    applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
-                  }
-                  onDelete={deleteSelected}
-                />
+                <>
+                  <EntityInspector
+                    entity={selEntity}
+                    session={session}
+                    sceneId={scene.id}
+                    locale={state.locale}
+                    actorsById={actorsById}
+                    enemyTeams={state.enemyTeams ?? []}
+                    sprites={state.sprites}
+                    assetBase={project.assetBase}
+                    assetReader={assetReader}
+                    canonicalScriptV5={!!scriptV5Session}
+                    onJumpToEvent={jumpToEvent}
+                    focusPageIndex={
+                      entityPageFocus?.sceneId === scene.id &&
+                      entityPageFocus.entityId === selEntity.id
+                        ? entityPageFocus.pageIndex
+                        : undefined
+                    }
+                    focusPageRevision={
+                      entityPageFocus?.sceneId === scene.id &&
+                      entityPageFocus.entityId === selEntity.id
+                        ? entityPageFocus.revision
+                        : undefined
+                    }
+                    onPageFocusConsumed={(revision) =>
+                      setEntityPageFocus((current) =>
+                        current?.revision === revision ? undefined : current,
+                      )
+                    }
+                    onOpenSpriteAction={(spriteId, actionId) =>
+                      applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId))
+                    }
+                    onDelete={deleteSelected}
+                  />
+                  {scriptV5Session && scriptV5State ? (
+                    <div className="section script-v5-entity-section">
+                      <div className="script-v5-channel-tabs" role="tablist" aria-label="行为通道">
+                        {(['trigger', 'auto'] as const).map((channel) => (
+                          <button
+                            key={channel}
+                            type="button"
+                            role="tab"
+                            aria-selected={scriptV5Channel === channel}
+                            className={scriptV5Channel === channel ? 'active' : ''}
+                            onClick={() => {
+                              setScriptV5Channel(channel)
+                              setSelectedBehaviorV5(undefined)
+                            }}
+                          >
+                            {channel === 'trigger' ? '触发行为' : '自动行为'}
+                          </button>
+                        ))}
+                      </div>
+                      <ScriptV5BehaviorInspector
+                        state={scriptV5State}
+                        target={{ scene: scene.id, entity: selEntity.id }}
+                        channel={scriptV5Channel}
+                        selectedBehaviorId={selectedBehaviorV5}
+                        onSelectBehavior={setSelectedBehaviorV5}
+                        onDispatch={(command) => scriptV5Session.dispatch(command)}
+                        onOpenReference={(path) =>
+                          setWorkspaceNotice({
+                            kind: 'info',
+                            message: `canonical 引用：${path}`,
+                          })
+                        }
+                        onOpenFlow={(behaviorId) =>
+                          setWorkspaceNotice({
+                            kind: 'info',
+                            message: `已选择 ${scriptV5Channel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
+                          })
+                        }
+                        onError={(message) =>
+                          setWorkspaceNotice({ kind: 'error', message })
+                        }
+                      />
+                    </div>
+                  ) : null}
+                </>
               ) : selected.kind === 'default-entry' ? (
                 <EntryInspector scene={scene} session={session} />
               ) : selected.kind === 'named-entry' && scene.entries?.[selected.id] ? (
@@ -1785,7 +1906,7 @@ export function App(props: {
           role={saveErr ? 'alert' : undefined}
           style={{ color: saveErr ? 'var(--err)' : 'var(--faint)', fontSize: 11 }}
         >
-          {saveErr ? `保存失败: ${saveErr}` : session.isDirty() ? '未保存改动' : '已保存'}
+          {saveErr ? `保存失败: ${saveErr}` : editorDirty ? '未保存改动' : '已保存'}
         </span>
       </div>
 
@@ -2055,6 +2176,8 @@ function EntityInspector(props: {
   sprites: SpriteDef[]
   assetBase: AssetBase
   assetReader: EditorAssetReader
+  /** v5 canonical 脚本由独立具名行为检查器编辑，禁止兼容壳重新创建 legacy stage。 */
+  canonicalScriptV5?: boolean
   /** 跳事件模式定位此实体的触发/巡逻脚本(E2)。 */
   onJumpToEvent: (sceneId: string, srcKey: string) => void
   /** 从动作引用跳转时精确打开对应实体页。 */
@@ -2074,6 +2197,7 @@ function EntityInspector(props: {
     sprites,
     assetBase,
     assetReader,
+    canonicalScriptV5,
     onJumpToEvent,
     focusPageIndex,
     focusPageRevision,
@@ -2473,82 +2597,84 @@ function EntityInspector(props: {
           </>
         )}
       </div>
-      <div className="section">
-        <h4>
-          行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
-        </h4>
-        {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
-        <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
-          <span style={{ color: 'var(--dim)', fontSize: 12 }}>
-            {entity.pages?.[pageIndex]?.trigger
-              ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
-              : null}
-            {entity.pages?.[pageIndex]?.auto
-              ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
-              : null}
-            {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
-              ? '(无脚本)'
-              : null}
-          </span>
-          {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
-            <button
-              type="button"
-              className="mini-txt"
-              onClick={() =>
-                onJumpToEvent(
-                  sceneId,
-                  entity.pages?.[pageIndex]?.trigger
-                    ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
-                    : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                )
-              }
-            >
-              📜 编辑脚本
-            </button>
-          ) : (
-            <>
+      {!canonicalScriptV5 ? (
+        <div className="section">
+          <h4>
+            行为脚本 <span className="hint2">底部抽屉就地编(E2/E4)</span>
+          </h4>
+          {/* 一眼徽标 + 单入口(创建/切换动作在抽屉头部,不重复) */}
+          <div className="lrow" style={{ gap: 8, alignItems: 'center' }}>
+            <span style={{ color: 'var(--dim)', fontSize: 12 }}>
+              {entity.pages?.[pageIndex]?.trigger
+                ? `🔗 ${entity.pages[pageIndex]!.trigger!.on === 'interact' ? '交互' : '触碰'}·${entity.pages[pageIndex]!.trigger!.stages.length}段`
+                : null}
+              {entity.pages?.[pageIndex]?.auto
+                ? ` 🔁 巡逻·${entity.pages[pageIndex]!.auto!.stages.length}段`
+                : null}
+              {!entity.pages?.[pageIndex]?.trigger && !entity.pages?.[pageIndex]?.auto
+                ? '(无脚本)'
+                : null}
+            </span>
+            {entity.pages?.[pageIndex]?.trigger || entity.pages?.[pageIndex]?.auto ? (
               <button
                 type="button"
                 className="mini-txt"
-                onClick={() => {
-                  session.dispatch(
-                    new CreateScriptSourceCommand(sceneId, {
-                      kind: 'trigger',
-                      entityId: entity.id,
-                      ...(pageIndex === 0 ? {} : { pageIndex }),
-                    }),
-                  )
+                onClick={() =>
                   onJumpToEvent(
                     sceneId,
-                    `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                    entity.pages?.[pageIndex]?.trigger
+                      ? `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`
+                      : `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
                   )
-                }}
+                }
               >
-                ＋触发
+                📜 编辑脚本
               </button>
-              <button
-                type="button"
-                className="mini-txt"
-                onClick={() => {
-                  session.dispatch(
-                    new CreateScriptSourceCommand(sceneId, {
-                      kind: 'auto',
-                      entityId: entity.id,
-                      ...(pageIndex === 0 ? {} : { pageIndex }),
-                    }),
-                  )
-                  onJumpToEvent(
-                    sceneId,
-                    `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
-                  )
-                }}
-              >
-                ＋巡逻
-              </button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="mini-txt"
+                  onClick={() => {
+                    session.dispatch(
+                      new CreateScriptSourceCommand(sceneId, {
+                        kind: 'trigger',
+                        entityId: entity.id,
+                        ...(pageIndex === 0 ? {} : { pageIndex }),
+                      }),
+                    )
+                    onJumpToEvent(
+                      sceneId,
+                      `${entity.id}:trigger${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                    )
+                  }}
+                >
+                  ＋触发
+                </button>
+                <button
+                  type="button"
+                  className="mini-txt"
+                  onClick={() => {
+                    session.dispatch(
+                      new CreateScriptSourceCommand(sceneId, {
+                        kind: 'auto',
+                        entityId: entity.id,
+                        ...(pageIndex === 0 ? {} : { pageIndex }),
+                      }),
+                    )
+                    onJumpToEvent(
+                      sceneId,
+                      `${entity.id}:auto${pageIndex === 0 ? '' : `@${pageIndex}`}`,
+                    )
+                  }}
+                >
+                  ＋巡逻
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      ) : null}
       <div className="section" style={{ borderBottom: 0 }}>
         <button type="button" className="tool" style={{ color: 'var(--err)' }} onClick={onDelete}>
           🗑 删除此实体

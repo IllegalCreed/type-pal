@@ -12298,6 +12298,41 @@ button.sprite-frame-cell[draggable="true"]:active {
   border-radius: 8px;
   background: var(--panel);
 }
+.script-v5-entity-section {
+  display: grid;
+  gap: 8px;
+}
+.script-v5-channel-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+.script-v5-channel-tabs button {
+  min-width: 0;
+}
+.script-v5-channel-tabs button.active {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel2));
+  color: var(--fg);
+}
+.inspector .script-v5-behavior-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.inspector .script-v5-behavior-list {
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
+}
+.inspector .script-v5-inline-edit,
+.inspector .script-v5-behavior-actions {
+  grid-template-columns: minmax(0, 1fr);
+}
+.inspector .script-v5-behavior-actions {
+  display: grid;
+}
+.inspector .script-v5-behavior-actions form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
 .script-v5-behavior-inspector.empty {
   padding: 14px;
   color: var(--dim);

@@ -568,6 +568,95 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
 }
 
 describe('openLocalProject', () => {
+  test('content v5 以 canonical 工程加载，并只向旧编辑器外壳投影空脚本占位', async () => {
+    const scene = {
+      id: 's1',
+      mapId: 'map-1',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [
+        {
+          id: 'npc',
+          sprite: 'missing-is-allowed-here',
+          pos: { col: 1, row: 1, height: 0 },
+          initialPage: 'default',
+          pages: [
+            {
+              id: 'default',
+              label: '默认',
+              trigger: 'talk',
+              triggerActivation: { on: 'interact' },
+            },
+          ],
+          behaviors: {
+            trigger: {
+              talk: {
+                label: '交谈',
+                order: 0,
+                flow: {
+                  kind: 'stages',
+                  initial: 'start',
+                  stages: [
+                    {
+                      id: 'start',
+                      body: [{ kind: 'setFlag', flag: 'canonical', value: true }],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      ],
+    }
+    const files: Record<string, string | ArrayBuffer> = {
+      'manifest.json': J({
+        id: 'v5-project',
+        name: 'V5',
+        contentVersion: 5,
+        entryScene: 's1',
+        content: {
+          actors: 'content/actors.json',
+          scenes: 'content/scenes/',
+          skills: 'content/skills.json',
+          items: 'content/items.json',
+          locale: 'content/locale.json',
+          sprites: 'content/sprites.json',
+          battleSprites: 'content/battle-sprites.json',
+          tilesets: 'content/tilesets.json',
+          maps: 'content/maps/index.json',
+          sharedScripts: 'content/shared-scripts.json',
+        },
+        assets: { catalog: 'assets/index.json', roles: {} },
+        startWorld: { party: [], money: 0, learnedSkills: {}, inventory: [] },
+      }),
+      'content/actors.json': '[]',
+      'content/scenes/index.json': J(['s1']),
+      'content/scenes/s1.json': J(scene),
+      'content/skills.json': J({ skills: [], levelUp: {} }),
+      'content/items.json': '[]',
+      'content/locale.json': '{}',
+      'content/sprites.json': '[]',
+      'content/battle-sprites.json': '[]',
+      'content/tilesets.json': '[]',
+      'content/maps/index.json': J({
+        version: 1,
+        maps: [{ id: 'map-1', name: '地图', path: 'content/maps/map-1.json' }],
+      }),
+      'content/shared-scripts.json': '{}',
+      'assets/index.json': J({ version: 1, assets: {} }),
+    }
+    const opened = await openLocalProject(mockDir('v5-project', files))
+    expect(opened.kind).toBe('v5')
+    if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
+    expect(opened.canonicalV5.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
+      scene.entities[0]!.behaviors.trigger.talk.flow,
+    )
+    expect(opened.scenes[0]!.entities[0]!.pages?.[0]?.trigger?.stages).toEqual([
+      { body: [] },
+    ])
+    expect(opened.scriptChunks).toEqual({})
+  })
+
   test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
     const { files, sourcePath, targetPath } = legacyBattleProject()
     const writes: string[] = []

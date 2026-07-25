@@ -95,8 +95,15 @@ function mergeEntityShellV5(
   shell: EditorState['scenes'][number]['entities'][number],
   canonical: EntityDefV5 | undefined,
 ): EntityDefV5 {
-  const { pages: _legacyPages, hostile: shellHostile, ...shellBase } =
+  const { pages: legacyPages, hostile: shellHostile, ...shellBase } =
     structuredClone(shell)
+  const pages = canonical?.pages ? structuredClone(canonical.pages) : undefined
+  const initialPage = pages?.find((page) => page.id === canonical?.initialPage)
+  if (initialPage) {
+    const animation = legacyPages?.[0]?.animation
+    if (animation) initialPage.animation = structuredClone(animation)
+    else delete initialPage.animation
+  }
   const hostile = shellHostile
     ? {
         ...shellHostile,
@@ -117,7 +124,7 @@ function mergeEntityShellV5(
   return {
     ...shellBase,
     ...(canonical?.behaviors ? { behaviors: structuredClone(canonical.behaviors) } : {}),
-    ...(canonical?.pages ? { pages: structuredClone(canonical.pages) } : {}),
+    ...(pages ? { pages } : {}),
     ...(canonical?.initialPage ? { initialPage: canonical.initialPage } : {}),
     ...(hostile ? { hostile } : {}),
   } as EntityDefV5
