@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P7 schema/validator 与状态机 canonical 投影 | GLM schema delta 合并代审 `agree`；须落实 continue SCC、outcome 本 state、editor 三态约束 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P7 compiler/runtime/editor/SAVE 5 与全量发布 | schema/validator、70 cycle 与 65 owner canonical 投影已绿；editor 三态与发布仍待完成 |
 
 ## 阻塞
 

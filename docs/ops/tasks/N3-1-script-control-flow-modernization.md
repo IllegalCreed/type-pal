@@ -1106,6 +1106,31 @@ type StateTransitionV5 =
   3 条必落约束落地。
   N3-1 仍为 `build`，C8/ED-5I 继续 blocked。
 
+#### P7 schema 与状态机 owner canonical 实现进度（2026-07-25）
+
+- `b1598e84 feat(content): extend script v5 state transitions`：
+  - canonical schema 已加入 `CommandId`、confirm 可选 `id` 与
+    `continue / advance / commandOutcome`；
+  - validator 已落实同 state 顶层 CommandId 唯一与 outcome 引用、悬空 state 拒绝、
+    纯 `continue` SCC 拒绝三类负向门禁；
+  - content **27 files / 335 tests passed**，7 个 workspace package typecheck 全绿，
+    Biome 与 `git diff --check` 通过。
+- `476d75db feat(migrate): project script v5 cycle machines`：
+  - 70 个 P5 irreducible cycle / 172 个原始 state 全部投影为 canonical machine；
+  - 生成 277 个同步 continuation 与 5 个受调度退出 state，合计 **454 state**；
+  - s081 `confirm:no` 保持“否 → worldTick 回环；是 → 同步后缀”，专项
+    **3 files / 9 tests passed**，typecheck / Biome 通过。
+- `282253ee feat(migrate): merge script v5 owner machines`：
+  - 按 owner 合并 stage root、结构化 loop、一个或多个 cycle 与退出 continuation，
+    保留稳定 StageId，并把 legacy `next` 降为真实 `advance`；
+  - PAL **65/65 state-machine owner** 全部通过最终 `checkScriptFlowV5`，合计
+    **771 canonical state**；`60×1 + 5×2` machine 分布已归并到一 owner 一 machine；
+  - simple owner / gap audit / cycle / owner 合并专项 **4 files / 12 tests passed**，
+    migrate typecheck、Biome 与 `git diff --check` 通过。
+- 当前边界：以上实现尚未接入 compiler/runtime/editor/SAVE 5，也未切换
+  `CONTENT_VERSION`、loader 或发布 canonical project；N3-1 仍为 `build`，
+  C8/ED-5I 继续 blocked。
+
 ### GLM P7 schema delta 合并代审（2026-07-25）
 
 **方法**：只读合并代审（架构 + 数据），不改实现文件。读 p7-state-machine-audit.ts / p7-canonical.ts /
@@ -3348,6 +3373,12 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   `else -> continue(continuation)`；冻结候选、s081 反证和 GLM 结论的其余文字均为这一正确语义，
   不改变审查结论。Next: 先独立提交审查记录，再由 Codex 实现 schema/validator；必须落实
   continue SCC 禁止、commandOutcome 本 state 顶层命令限定和 editor 三态可视化。
+- 2026-07-25 Codex: 完成 P7 canonical schema/validator、70 个 cycle 投影与 65 个
+  state-machine owner 合并，提交 `b1598e84`、`476d75db`、`282253ee`。validator 已落实
+  continue SCC、outcome 本 state 与悬空引用门禁；PAL owner 合并冻结为 771 state，专项
+  4 files / 12 tests、migrate typecheck、Biome、diff check 全绿。Next: 接入
+  compiler/runtime/editor/SAVE 5；editor 必须完成“同步继续 / 下次激活 / 让步后同次继续”
+  三态展示，然后才可进入全量迁移与原子发布。
 
 ## 下一位 Agent 提示词
 
@@ -3417,7 +3448,8 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-当前下一位为 Codex；schema delta 已 allowed，继续 P7 实现。
+当前下一位为 Codex；schema/validator 与状态机 owner canonical 投影已完成，继续 P7
+compiler/runtime/editor/SAVE 5 和全量发布。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
