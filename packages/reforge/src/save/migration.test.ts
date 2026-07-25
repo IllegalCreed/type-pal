@@ -1,4 +1,4 @@
-import type { ProjectManifest } from '@type-pal/content'
+import { canonicalScriptTransitionJson, type ProjectManifest } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   legacyBindingDigest,
@@ -30,8 +30,16 @@ const sidecar = {
 async function fixture(
   minimumSaveVersion?: number,
   sidecarValue: typeof sidecar | Record<string, unknown> = sidecar,
+  signSidecar = true,
 ) {
-  const bytes = encoder.encode(`${JSON.stringify(sidecarValue)}\n`)
+  const { digest: _digest, ...withoutDigest } = sidecarValue
+  const signedSidecar = signSidecar
+    ? {
+        ...sidecarValue,
+        digest: await sha256Bytes(encoder.encode(canonicalScriptTransitionJson(withoutDigest))),
+      }
+    : sidecarValue
+  const bytes = encoder.encode(`${JSON.stringify(signedSidecar)}\n`)
   const descriptorSha256 = await sha256Bytes(bytes)
   const manifest = {
     id: 'demo',
@@ -81,7 +89,9 @@ describe('save v4 -> v5 preflight matrix', () => {
     expect(reads()).toBe(0)
   })
 
-  test.each([1, 2, 3, 4])('SAVE v%i/content 4 reads and verifies the v4-v5 sidecar', async (version) => {
+  test.each([
+    1, 2, 3, 4,
+  ])('SAVE v%i/content 4 reads and verifies the v4-v5 sidecar', async (version) => {
     const { manifest, source, reads } = await fixture()
     await expect(
       preflightSaveMigration({
@@ -124,6 +134,17 @@ describe('save v4 -> v5 preflight matrix', () => {
         payload: { version: 4, contentVersion: 4, projectId: 'demo' },
       }),
     ).rejects.toThrow(/实际/)
+  })
+
+  test('valid descriptor cannot mask a stale sidecar self digest', async () => {
+    const { manifest, source } = await fixture(undefined, sidecar, false)
+    await expect(
+      preflightSaveMigration({
+        manifest,
+        source,
+        payload: { version: 4, contentVersion: 4, projectId: 'demo' },
+      }),
+    ).rejects.toThrow(/sidecar 自摘要/)
   })
 })
 
@@ -191,6 +212,35 @@ describe('save v4 -> v5 pure normalizer', () => {
             },
           ],
         },
+        {
+          legacyKey: 'teleport:s001',
+          mode: 'broadcast-v4',
+          targets: [
+            {
+              legacyStageCount: 1,
+              target: {
+                kind: 'scene-hook',
+                sceneId: 's001',
+                hook: 'onTeleport',
+                hookId: 'default',
+              },
+              indices: [{ index: 0, cursor: { kind: 'stage', stage: 'default-only' } }],
+            },
+            {
+              legacyStageCount: 2,
+              target: {
+                kind: 'scene-hook',
+                sceneId: 's001',
+                hook: 'onTeleport',
+                hookId: 'exit',
+              },
+              indices: [
+                { index: 0, cursor: { kind: 'stage', stage: 'exit-first' } },
+                { index: 1, cursor: { kind: 'stage', stage: 'exit-second' } },
+              ],
+            },
+          ],
+        },
       ],
     }
     const { manifest, source } = await fixture(undefined, migration)
@@ -209,7 +259,7 @@ describe('save v4 -> v5 pure normalizer', () => {
           entityState: { e1: 2 },
           entityPos: { e1: { col: 3, row: 4, height: 0 } },
           entityLayer: { e1: 7 },
-          entityStage: { e1: 99 },
+          entityStage: { e1: 99, 'teleport:s001': 99 },
           sceneScriptOverrides: {
             s001: {
               onTeleport: { ...binding, chunk: 'rechunked/c99' },
@@ -262,6 +312,10 @@ describe('save v4 -> v5 pure normalizer', () => {
           s001: {
             onTeleport: {
               selection: { kind: 'use', value: 'exit' },
+              cursor: {
+                hook: 'exit',
+                at: { kind: 'stage', stage: 'exit-second' },
+              },
             },
           },
         },

@@ -1,14 +1,53 @@
-import type {
-  BehaviorId,
-  EntityAddress,
-  FlowCursor,
-  HookId,
-  PageId,
-  StageId,
-} from './script-v5.js'
+import type { BehaviorId, EntityAddress, FlowCursor, HookId, PageId, StageId } from './script-v5.js'
 
 export const SCRIPT_V4_V5_TRANSITION_ID = 'script-v4-v5' as const
 export const SCRIPT_V4_V5_SIDECAR_PATH = 'content/migrations/script-v4-v5-save.json' as const
+
+function isLegacyScriptRefShape(value: Record<string, unknown>): boolean {
+  return (
+    typeof value.chunk === 'string' &&
+    value.chunk.length > 0 &&
+    typeof value.id === 'string' &&
+    value.id.length > 0
+  )
+}
+
+/**
+ * v4 scene hook binding identity projection. ScriptRef.chunk is only a loading hint;
+ * stable id and all surrounding author semantics remain in the digest input.
+ */
+export function canonicalLegacyBindingV4(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalLegacyBindingV4)
+  if (!value || typeof value !== 'object') return value
+  const record = value as Record<string, unknown>
+  return Object.fromEntries(
+    Object.entries(record)
+      .filter(([key]) => !(key === 'chunk' && isLegacyScriptRefShape(record)))
+      .sort(([left], [right]) => (left < right ? -1 : left > right ? 1 : 0))
+      .map(([key, child]) => [key, canonicalLegacyBindingV4(child)]),
+  )
+}
+
+/** Canonical JSON bytes shared by sidecar producers and async loader digest verification. */
+export function canonicalScriptTransitionJson(value: unknown): string {
+  const canonical = (child: unknown, path: string): unknown => {
+    if (child === null || typeof child === 'string' || typeof child === 'boolean') return child
+    if (typeof child === 'number') {
+      if (!Number.isFinite(child)) throw new Error(`${path}: 非有限 number`)
+      return child
+    }
+    if (Array.isArray(child))
+      return child.map((entry, index) => canonical(entry, `${path}[${index}]`))
+    if (!child || typeof child !== 'object') throw new Error(`${path}: 不是 JSON value`)
+    const record = child as Record<string, unknown>
+    return Object.fromEntries(
+      Object.entries(record)
+        .sort(([left], [right]) => (left < right ? -1 : left > right ? 1 : 0))
+        .map(([key, entry]) => [key, canonical(entry, `${path}.${key}`)]),
+    )
+  }
+  return JSON.stringify(canonical(value, 'script transition'))
+}
 
 export interface ProjectMigrationDescriptorV1 {
   version: 1
@@ -174,10 +213,8 @@ export function validateProjectMigrationDescriptorV1(
   for (const key of Object.keys(descriptor))
     if (!allowed.has(key)) throw new Error(`${path}.${key}: 未知字段`)
   if (descriptor.version !== 1) throw new Error(`${path}.version: 期望 1`)
-  if (descriptor.fromContentVersion !== 4)
-    throw new Error(`${path}.fromContentVersion: 期望 4`)
-  if (descriptor.toContentVersion !== 5)
-    throw new Error(`${path}.toContentVersion: 期望 5`)
+  if (descriptor.fromContentVersion !== 4) throw new Error(`${path}.fromContentVersion: 期望 4`)
+  if (descriptor.toContentVersion !== 5) throw new Error(`${path}.toContentVersion: 期望 5`)
   if (descriptor.path !== SCRIPT_V4_V5_SIDECAR_PATH)
     throw new Error(`${path}.path: 期望 ${SCRIPT_V4_V5_SIDECAR_PATH}`)
   if (typeof descriptor.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(descriptor.sha256))
@@ -262,9 +299,7 @@ export interface LegacyStageLineagePlanV1 {
   flow: StageLineageFlowV1
   entries: Array<{
     oursStageIndex: number
-    lineage:
-      | { kind: 'baseline'; baselineStageIndex: number }
-      | { kind: 'new'; stageId: StageId }
+    lineage: { kind: 'baseline'; baselineStageIndex: number } | { kind: 'new'; stageId: StageId }
   }>
 }
 
@@ -520,10 +555,7 @@ export function validateProjectMigrationSidecarV1(
   return sidecar as unknown as ProjectMigrationSidecarV1
 }
 
-function validateProjectMigrationSidecarFlowForStageAllocation(
-  value: unknown,
-  path: string,
-): void {
+function validateProjectMigrationSidecarFlowForStageAllocation(value: unknown, path: string): void {
   const flow = descriptorRecord(value, path)
   if (flow.kind === 'canonical') {
     exactKeys(flow, ['kind', 'flow'], path)

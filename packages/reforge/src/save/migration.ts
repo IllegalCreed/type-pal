@@ -1,14 +1,16 @@
 import {
+  canonicalLegacyBindingV4,
+  canonicalScriptTransitionJson,
   type ProjectManifest,
   type ProjectMigrationSidecarV1,
   SCRIPT_V4_V5_TRANSITION_ID,
-  type WorldScriptStateV5,
-  type WorldStateV5,
   validateProjectMigrationDescriptorV1,
   validateProjectMigrationSidecarV1,
+  type WorldScriptStateV5,
+  type WorldStateV5,
 } from '@type-pal/content'
 import type { FileSource } from '../file-source.js'
-import { normalizePayload, type NormalizePayloadOptions } from './ops.js'
+import { type NormalizePayloadOptions, normalizePayload } from './ops.js'
 import type { SavePayload } from './types.js'
 
 /** N3-1 的目标 envelope 版本；P7 原子切换时与 SAVE_VERSION 一同成为 5。 */
@@ -37,18 +39,14 @@ export type SaveMigrationResolver =
         Record<
           string,
           Partial<
-            Record<
-              'onEnter' | 'onTeleport',
-              { kind: 'disabled' } | { kind: 'use'; value: string }
-            >
+            Record<'onEnter' | 'onTeleport', { kind: 'disabled' } | { kind: 'use'; value: string }>
           >
         >
       >
     }
 
 function assertIntegerVersion(value: unknown, path: string): number {
-  if (!Number.isInteger(value) || Number(value) < 1)
-    throw new Error(`${path}: 期望正整数版本`)
+  if (!Number.isInteger(value) || Number(value) < 1) throw new Error(`${path}: 期望正整数版本`)
   return Number(value)
 }
 
@@ -58,29 +56,8 @@ export async function sha256Bytes(bytes: Uint8Array): Promise<string> {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
-function canonicalLegacyBinding(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(canonicalLegacyBinding)
-  if (!value || typeof value !== 'object') return value
-  const record = value as Record<string, unknown>
-  return Object.fromEntries(
-    Object.entries(record)
-      .filter(([key]) => !(key === 'chunk' && isScriptRefShape(record)))
-      .sort(([left], [right]) => (left < right ? -1 : left > right ? 1 : 0))
-      .map(([key, child]) => [key, canonicalLegacyBinding(child)]),
-  )
-}
-
-function isScriptRefShape(value: Record<string, unknown>): boolean {
-  return (
-    typeof value.chunk === 'string' &&
-    value.chunk.length > 0 &&
-    typeof value.id === 'string' &&
-    value.id.length > 0
-  )
-}
-
 export async function legacyBindingDigest(value: unknown): Promise<string> {
-  return sha256Bytes(new TextEncoder().encode(JSON.stringify(canonicalLegacyBinding(value))))
+  return sha256Bytes(new TextEncoder().encode(JSON.stringify(canonicalLegacyBindingV4(value))))
 }
 
 async function resolveSceneHookSelections(
@@ -89,12 +66,7 @@ async function resolveSceneHookSelections(
 ): Promise<
   Record<
     string,
-    Partial<
-      Record<
-        'onEnter' | 'onTeleport',
-        { kind: 'disabled' } | { kind: 'use'; value: string }
-      >
-    >
+    Partial<Record<'onEnter' | 'onTeleport', { kind: 'disabled' } | { kind: 'use'; value: string }>>
   >
 > {
   const world =
@@ -117,12 +89,7 @@ async function resolveSceneHookSelections(
   )
   const result: Record<
     string,
-    Partial<
-      Record<
-        'onEnter' | 'onTeleport',
-        { kind: 'disabled' } | { kind: 'use'; value: string }
-      >
-    >
+    Partial<Record<'onEnter' | 'onTeleport', { kind: 'disabled' } | { kind: 'use'; value: string }>>
   > = {}
   for (const [sceneId, rawSlots] of Object.entries(overrides)) {
     if (!rawSlots || typeof rawSlots !== 'object' || Array.isArray(rawSlots))
@@ -161,34 +128,21 @@ export async function preflightSaveMigration(args: {
   signal?: AbortSignal
 }): Promise<SaveMigrationResolver> {
   const minimum = args.manifest.minimumSaveVersion ?? 1
-  if (
-    !Number.isInteger(minimum) ||
-    minimum < 1 ||
-    minimum > SCRIPT_V5_SAVE_VERSION
-  )
-    throw new Error(
-      `manifest.minimumSaveVersion: 期望 1..${SCRIPT_V5_SAVE_VERSION} 的整数`,
-    )
+  if (!Number.isInteger(minimum) || minimum < 1 || minimum > SCRIPT_V5_SAVE_VERSION)
+    throw new Error(`manifest.minimumSaveVersion: 期望 1..${SCRIPT_V5_SAVE_VERSION} 的整数`)
   const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
   if (saveVersion < minimum)
     throw new Error(
       `存档格式 v${saveVersion} 低于工程 minimumSaveVersion v${minimum}，拒绝读取兼容 sidecar`,
     )
   if (saveVersion > SCRIPT_V5_SAVE_VERSION)
-    throw new Error(
-      `存档格式 v${saveVersion} 新于引擎支持的 v${SCRIPT_V5_SAVE_VERSION}`,
-    )
+    throw new Error(`存档格式 v${saveVersion} 新于引擎支持的 v${SCRIPT_V5_SAVE_VERSION}`)
   if (args.payload.projectId !== args.manifest.id)
-    throw new Error(
-      `存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`,
-    )
+    throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
   if (args.manifest.contentVersion !== 5)
     throw new Error(`工程 "${args.manifest.id}": 存档迁移预检只接受 contentVersion 5`)
 
-  const contentVersion = assertIntegerVersion(
-    args.payload.contentVersion,
-    'payload.contentVersion',
-  )
+  const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
   if (saveVersion === 5 && contentVersion === 5)
     return {
       kind: 'current-v5',
@@ -226,6 +180,14 @@ export async function preflightSaveMigration(args: {
     )
   }
   const sidecar = validateProjectMigrationSidecarV1(parsed, args.manifest.id)
+  const { digest: declaredSidecarDigest, ...sidecarWithoutDigest } = sidecar
+  const actualSidecarDigest = await sha256Bytes(
+    new TextEncoder().encode(canonicalScriptTransitionJson(sidecarWithoutDigest)),
+  )
+  if (actualSidecarDigest !== declaredSidecarDigest)
+    throw new Error(
+      `${descriptor.path}: sidecar 自摘要 ${declaredSidecarDigest}，实际 ${actualSidecarDigest}`,
+    )
   const sceneHookSelections = await resolveSceneHookSelections(args.payload, sidecar)
   return {
     kind: 'v4-v5',
@@ -309,6 +271,40 @@ function writeCursor(
   slot.cursor = next
 }
 
+function resolvedCursorTargets(
+  alias: ProjectMigrationSidecarV1['legacyCursors'][number],
+  resolver: Extract<SaveMigrationResolver, { kind: 'v4-v5' }>,
+  path: string,
+): import('@type-pal/content').LegacyCursorTargetV1[] {
+  const targets = alias.mode === 'single' ? [alias.target] : alias.targets
+  const hookTargets = targets.filter((target) => target.target.kind === 'scene-hook')
+  if (hookTargets.length === 0) return targets
+  if (hookTargets.length !== targets.length)
+    throw new Error(`${path}: 同一 legacy cursor 不得混合 entity behavior 与 scene hook`)
+  const firstTarget = hookTargets[0]
+  if (!firstTarget) throw new Error(`${path}: scene hook cursor targets 为空`)
+  const first = firstTarget.target
+  if (first.kind !== 'scene-hook') throw new Error(`${path}: scene hook cursor 类型错误`)
+  if (
+    hookTargets.some(
+      (target) =>
+        target.target.kind !== 'scene-hook' ||
+        target.target.sceneId !== first.sceneId ||
+        target.target.hook !== first.hook,
+    )
+  )
+    throw new Error(`${path}: scene hook cursor targets 必须属于同一 scene/slot`)
+  const selection = resolver.sceneHookSelections[first.sceneId]?.[first.hook]
+  if (selection?.kind === 'disabled') return []
+  const hookId = selection?.kind === 'use' ? selection.value : 'default'
+  const selected = hookTargets.filter(
+    (target) => target.target.kind === 'scene-hook' && target.target.hookId === hookId,
+  )
+  if (selected.length === 1) return selected
+  if (selection === undefined && hookTargets.length === 1) return hookTargets
+  throw new Error(`${path}: ${first.sceneId}.${first.hook} cursor 未唯一命中 hook ${hookId}`)
+}
+
 /**
  * 纯同步 v4 -> v5 payload normalizer。resolver 已完成所有异步 sidecar IO/digest 解析；
  * 返回隔离副本，失败或成功都不修改调用方输入。
@@ -334,8 +330,7 @@ export function normalizePayloadV5(
 
   const payload = structuredClone(input)
   normalizePayload(payload, options)
-  if (payload.version !== 4)
-    throw new Error(`v4 envelope 归一化结果错误：收到 ${payload.version}`)
+  if (payload.version !== 4) throw new Error(`v4 envelope 归一化结果错误：收到 ${payload.version}`)
   const legacyScript = record(payload.world.script ?? {}, 'payload.world.script')
   const entityAliases = new Map(
     resolver.sidecar.legacyEntities.map((alias) => [alias.legacyId, alias]),
@@ -359,23 +354,16 @@ export function normalizePayloadV5(
   const cursorAliases = new Map(
     resolver.sidecar.legacyCursors.map((alias) => [alias.legacyKey, alias]),
   )
-  const legacyStages = record(
-    legacyScript.entityStage ?? {},
-    'payload.world.script.entityStage',
-  )
+  const legacyStages = record(legacyScript.entityStage ?? {}, 'payload.world.script.entityStage')
   for (const [legacyKey, rawIndex] of Object.entries(legacyStages)) {
     if (!Number.isFinite(rawIndex) || !Number.isInteger(rawIndex))
       throw new Error(`payload.world.script.entityStage.${legacyKey}: 期望有限整数`)
     const alias = cursorAliases.get(legacyKey)
-    if (!alias) throw new Error(`payload.world.script.entityStage.${legacyKey}: 缺 LegacyCursorAlias`)
-    const targets = alias.mode === 'single' ? [alias.target] : alias.targets
-    for (const target of targets)
-      writeCursor(
-        behaviors,
-        target,
-        Number(rawIndex),
-        `payload.world.script.entityStage.${legacyKey}`,
-      )
+    if (!alias)
+      throw new Error(`payload.world.script.entityStage.${legacyKey}: 缺 LegacyCursorAlias`)
+    const path = `payload.world.script.entityStage.${legacyKey}`
+    const targets = resolvedCursorTargets(alias, resolver, path)
+    for (const target of targets) writeCursor(behaviors, target, Number(rawIndex), path)
   }
   for (const [sceneId, selections] of Object.entries(resolver.sceneHookSelections)) {
     const scene = (behaviors.scenes ??= {})[sceneId] ?? {}
@@ -388,10 +376,9 @@ export function normalizePayloadV5(
     }
   }
   const script: WorldScriptStateV5 = {
-    flags: structuredClone(record(legacyScript.flags ?? {}, 'payload.world.script.flags')) as Record<
-      string,
-      boolean
-    >,
+    flags: structuredClone(
+      record(legacyScript.flags ?? {}, 'payload.world.script.flags'),
+    ) as Record<string, boolean>,
     vars: structuredClone(record(legacyScript.vars ?? {}, 'payload.world.script.vars')) as Record<
       string,
       number
