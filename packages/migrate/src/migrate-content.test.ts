@@ -563,6 +563,66 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   const expandedScenes = materializeScenes(out2.scenes, out2.scriptChunks)
   const expandedById = new Map(expandedScenes.map((s) => [s.id, s]))
 
+  test('spriteNum=0 无入口对象仍保留为状态/碰撞锚点', () => {
+    const source: SourceScene = {
+      sceneId: 0,
+      mapNum: 1,
+      eventObjects: [
+        {
+          id: 0,
+          x: 32,
+          y: 16,
+          spriteNum: 0,
+          sState: 2,
+          sLayer: -2,
+        },
+        {
+          id: 1,
+          x: 64,
+          y: 32,
+          spriteNum: 1,
+          triggerMode: 1,
+          triggerLabel: 'L_1',
+        },
+        {
+          id: 2,
+          x: 96,
+          y: 48,
+          spriteNum: 0,
+          sState: 0,
+        },
+      ],
+    }
+    const result = mapScenesStatic(
+      [source],
+      new Map([
+        [
+          0,
+          [
+            { label: 'L_1', op: 'raw', opcode: 0x49, operands: [1, 0] },
+            { op: 'end' },
+          ],
+        ],
+      ]),
+    )
+    const scene = result.scenes[0]!
+    expect(scene.entities.find((entity) => entity.id === 'e0')).toEqual({
+      id: 'e0',
+      pos: { ...pixelToGrid(32, 16), height: 0 },
+      zone: true,
+      collide: true,
+      zBias: -2,
+    })
+    expect(scene.entities.find((entity) => entity.id === 'e2')).toEqual({
+      id: 'e2',
+      pos: { ...pixelToGrid(96, 48), height: 0 },
+      zone: true,
+      hidden: true,
+    })
+    expect(result.report.stateAnchorsMigrated).toBe(2)
+    expect(result.report.triggerZonesSkipped).toBe(0)
+  })
+
   test('s001:mapNum/实体数/坐标零换算/触发区跳过', () => {
     const s1 = byId.get('s001')!
     expect(s1.mapId).toBe('map-012')

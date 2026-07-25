@@ -110,6 +110,16 @@
           }
         }
       ]
+    },
+    {
+      "id": "e3153",
+      "pos": {
+        "col": 104,
+        "row": 16,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onEnter": [

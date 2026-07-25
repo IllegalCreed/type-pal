@@ -772,6 +772,16 @@
           }
         }
       ]
+    },
+    {
+      "id": "e2494",
+      "pos": {
+        "col": 91,
+        "row": 5,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onEnter": [

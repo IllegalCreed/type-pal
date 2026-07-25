@@ -1509,7 +1509,12 @@ function buildP6Core(args: P6ShadowBuildArgs): Map<string, string> {
     transitionPlan.summary.remainingLegacyJumps !== 0 ||
     transitionPlan.summary.remainingPendingBodies !== 0
   )
-    throw new Error(`P6 transition plan drift: ${JSON.stringify(transitionPlan.summary)}`)
+    throw new Error(
+      `P6 transition plan drift: ${JSON.stringify({
+        summary: transitionPlan.summary,
+        conflicts: transitionPlan.conflicts,
+      })}`,
+    )
   const repeatPlan = planP6ScriptTransition({
     migration: args.migration,
     frozenAudit: args.frozenAudit,

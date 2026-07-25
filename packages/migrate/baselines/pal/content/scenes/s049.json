@@ -2060,6 +2060,26 @@
           }
         }
       ]
+    },
+    {
+      "id": "e814",
+      "pos": {
+        "col": 66,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e815",
+      "pos": {
+        "col": 66,
+        "row": 8,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onEnter": [

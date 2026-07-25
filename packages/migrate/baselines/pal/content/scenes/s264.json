@@ -133,6 +133,7 @@
         "height": 0
       },
       "zone": true,
+      "collide": true,
       "pages": [
         {
           "trigger": {
@@ -195,6 +196,7 @@
         "height": 0
       },
       "zone": true,
+      "collide": true,
       "pages": [
         {
           "trigger": {
@@ -257,6 +259,7 @@
         "height": 0
       },
       "zone": true,
+      "collide": true,
       "pages": [
         {
           "trigger": {
@@ -630,6 +633,156 @@
           }
         }
       ]
+    },
+    {
+      "id": "e4608",
+      "pos": {
+        "col": 86,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4609",
+      "pos": {
+        "col": 85,
+        "row": 10,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4611",
+      "pos": {
+        "col": 108,
+        "row": 19,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4613",
+      "pos": {
+        "col": 103,
+        "row": 70,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4615",
+      "pos": {
+        "col": 116,
+        "row": 61,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4616",
+      "pos": {
+        "col": 115,
+        "row": 61,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4617",
+      "pos": {
+        "col": 115,
+        "row": 60,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4618",
+      "pos": {
+        "col": 116,
+        "row": 60,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4619",
+      "pos": {
+        "col": 117,
+        "row": 60,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4620",
+      "pos": {
+        "col": 117,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4621",
+      "pos": {
+        "col": 116,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4622",
+      "pos": {
+        "col": 115,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4624",
+      "pos": {
+        "col": 103,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4625",
+      "pos": {
+        "col": 102,
+        "row": 58,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e4626",
+      "pos": {
+        "col": 102,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onTeleport": [

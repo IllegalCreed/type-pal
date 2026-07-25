@@ -1916,6 +1916,46 @@
           }
         }
       ]
+    },
+    {
+      "id": "e78",
+      "pos": {
+        "col": 135,
+        "row": 74,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e79",
+      "pos": {
+        "col": 134,
+        "row": 74,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e80",
+      "pos": {
+        "col": 133,
+        "row": 74,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e81",
+      "pos": {
+        "col": 134,
+        "row": 75,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onEnter": [

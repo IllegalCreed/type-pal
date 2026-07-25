@@ -1030,11 +1030,16 @@ function walkBody(
       } else if (oc === 0x9a) {
         // 0x9A 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
         // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理输入。
+        // from>to 时原版循环零次；不得生成 entities=[] 的伪命令。
         const from = o[0] ?? 0
         const to = Math.min(o[1] ?? from, from + 511)
         const entities: string[] = []
         for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
-        push({ kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) })
+        push(
+          entities.length
+            ? { kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) }
+            : undefined,
+        )
       } else if (oc === 0x53) {
         push({ kind: 'setAmbience', ambience: 'day' }) // 0x53 use day palette(script.c:1803)
       } else if (oc === 0x54) {

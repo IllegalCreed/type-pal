@@ -182,6 +182,26 @@
       "sprite": "sprite-458",
       "hidden": true,
       "zBias": -2
+    },
+    {
+      "id": "e2157",
+      "pos": {
+        "col": 121,
+        "row": 89,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e2158",
+      "pos": {
+        "col": 123,
+        "row": 89,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "entries": {

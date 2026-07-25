@@ -1601,7 +1601,7 @@ export interface SceneMigrationResult {
   report: {
     scenes: number
     entities: number
-    /** spriteNum=0 纯触发区(脚本锚,M3 随脚本迁)。 */
+    /** 历史字段：不再删除无入口的 spriteNum=0 事件对象，生产迁移应恒为 0。 */
     triggerZonesSkipped: number
     hidden: number
     entriesFound: number
@@ -1624,6 +1624,8 @@ export interface SceneMigrationResult {
     facingFromAuto: number
     /** spriteNum=0 且有触发脚本 → 迁成 zone 实体的数量(M3a)。 */
     zonesMigrated: number
+    /** spriteNum=0 且无脚本入口，但仍承载状态/碰撞/稳定地址的 zone 实体。 */
+    stateAnchorsMigrated: number
     hostilesFolded?: number
     /** 战场/战斗乐 enter 链 hoist 成 SceneDef 默认的场景数。 */
     battleDefaultsHoisted?: number
@@ -1732,6 +1734,7 @@ export function mapScenesStatic(
     autoLoopCandidates: 0,
     facingFromAuto: 0,
     zonesMigrated: 0,
+    stateAnchorsMigrated: 0,
     hostilesFolded: 0,
     sceneEntriesLifted: [],
   }
@@ -2207,21 +2210,35 @@ export function mapScenesStatic(
   let scenes: SceneDef[] = migratableScenes.map((sc) => {
     const slug = sceneSlug(sc.sceneId)
     const entities = []
+    // 新补回的无入口状态锚点统一追加，避免仅因恢复缺失对象就改变既有实体数组索引；
+    // 作者身份始终用 id，但 v4 审计证据中的 JSON pointer 仍需在 P7 前保持稳定。
+    const stateAnchors: SceneDef['entities'] = []
     for (const eo of sc.eventObjects) {
       if (eo.spriteNum <= 0) {
-        // 隐形触发区(门/脚本锚):有触发/自动脚本的迁成 zone 实体;纯占位跳过
+        // spriteNum=0 不等于“无语义”：这批对象既可能是脚本触发区，也可能只承载
+        // sState/collision，或被其他脚本按稳定对象号读写。旧逻辑只保留有入口脚本者，
+        // 会删除 0x49/0x9A/entityInScene 的合法目标（PAL 全量曾丢 132 个对象）。
         const trigger = triggerOf(eo)
         const auto = autoOf(eo)
+        const state = eo.sState ?? 1
+        const zone = {
+          id: `e${eo.id}`,
+          pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
+          zone: true as const,
+          ...(state === 0 ? { hidden: true } : {}),
+          ...(state >= 2 ? { collide: true } : {}),
+          ...(eo.sLayer ? { zBias: eo.sLayer } : {}),
+          ...(trigger || auto
+            ? { pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }] }
+            : {}),
+        }
         if (trigger || auto) {
-          entities.push({
-            id: `e${eo.id}`,
-            pos: { ...pixelToGrid(eo.x, eo.y), height: 0 },
-            zone: true as const,
-            ...((eo.sState ?? 1) === 0 ? { hidden: true } : {}),
-            pages: [{ ...(trigger ? { trigger } : {}), ...(auto ? { auto } : {}) }],
-          })
+          entities.push(zone)
           report.zonesMigrated++
-        } else report.triggerZonesSkipped++
+        } else {
+          stateAnchors.push(zone)
+          report.stateAnchorsMigrated++
+        }
         continue
       }
       if ((eo.nSpriteFramesAuto ?? 0) > 0) report.autoLoopCandidates++
@@ -2267,6 +2284,7 @@ export function mapScenesStatic(
             : {})),
       })
     }
+    entities.push(...stateAnchors)
     const { start, musicId } = headScan(sc.sceneId, sc.onEnterLabel)
     if (start) {
       report.scenesWithStart++

@@ -2069,6 +2069,186 @@
           }
         }
       ]
+    },
+    {
+      "id": "e1249",
+      "pos": {
+        "col": 156,
+        "row": 69,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1251",
+      "pos": {
+        "col": 148,
+        "row": 59,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1253",
+      "pos": {
+        "col": 139,
+        "row": 64,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1255",
+      "pos": {
+        "col": 135,
+        "row": 66,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1257",
+      "pos": {
+        "col": 113,
+        "row": 43,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1259",
+      "pos": {
+        "col": 97,
+        "row": 42,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1261",
+      "pos": {
+        "col": 89,
+        "row": 42,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1263",
+      "pos": {
+        "col": 83,
+        "row": 54,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1265",
+      "pos": {
+        "col": 91,
+        "row": 62,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1267",
+      "pos": {
+        "col": 45,
+        "row": 9,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1269",
+      "pos": {
+        "col": 34,
+        "row": 14,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1271",
+      "pos": {
+        "col": 91,
+        "row": 24,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1273",
+      "pos": {
+        "col": 77,
+        "row": 20,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1275",
+      "pos": {
+        "col": 44,
+        "row": -15,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1277",
+      "pos": {
+        "col": 125,
+        "row": 21,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1279",
+      "pos": {
+        "col": 138,
+        "row": 32,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1281",
+      "pos": {
+        "col": 130,
+        "row": 36,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1283",
+      "pos": {
+        "col": 137,
+        "row": 94,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onTeleport": [

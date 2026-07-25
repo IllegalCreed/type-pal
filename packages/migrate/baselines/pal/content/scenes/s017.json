@@ -91,6 +91,7 @@
         "height": 0
       },
       "zone": true,
+      "collide": true,
       "pages": [
         {
           "trigger": {
@@ -1267,6 +1268,26 @@
           }
         }
       ]
+    },
+    {
+      "id": "e260",
+      "pos": {
+        "col": 75,
+        "row": -5,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e261",
+      "pos": {
+        "col": 77,
+        "row": -4,
+        "height": 0
+      },
+      "zone": true,
+      "hidden": true
     }
   ],
   "onEnter": [

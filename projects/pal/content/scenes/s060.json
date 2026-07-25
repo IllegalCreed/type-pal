@@ -1282,6 +1282,66 @@
           }
         }
       ]
+    },
+    {
+      "id": "e1130",
+      "pos": {
+        "col": 146,
+        "row": 50,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1132",
+      "pos": {
+        "col": 118,
+        "row": 61,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1134",
+      "pos": {
+        "col": 111,
+        "row": 63,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1136",
+      "pos": {
+        "col": 109,
+        "row": 82,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1138",
+      "pos": {
+        "col": 84,
+        "row": -18,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
+    },
+    {
+      "id": "e1140",
+      "pos": {
+        "col": 42,
+        "row": 16,
+        "height": 0
+      },
+      "zone": true,
+      "collide": true
     }
   ],
   "onEnter": [

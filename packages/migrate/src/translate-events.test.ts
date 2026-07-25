@@ -601,6 +601,10 @@ describe('0x9A 批量设实体状态(→ setMultiEntityState)', () => {
     const body = bodyOf(ctxOf([{ opcode: 0x9a, operands: [10, 10, 0] }]))
     expect(body).toEqual([{ kind: 'setMultiEntityState', entities: ['e9'], state: 0 }])
   })
+  test('反向空区间 [1051,0] 与原版一致为 no-op', () => {
+    const body = bodyOf(ctxOf([{ opcode: 0x9a, operands: [1051, 0, 0] }]))
+    expect(body).toEqual([])
+  })
 })
 
 describe('0x90 剧情侧清敌种回合演出', () => {
