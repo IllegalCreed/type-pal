@@ -48,7 +48,10 @@ class StateIdAllocator {
   private continuationOrdinal = 0
   private exitOrdinal = 0
 
-  constructor(private readonly used: Set<string>) {}
+  constructor(
+    private readonly used: Set<string>,
+    private readonly namespace = '',
+  ) {}
 
   continuation(): string {
     return this.next('continuation', 'legacy-continuation', ++this.continuationOrdinal)
@@ -61,7 +64,8 @@ class StateIdAllocator {
   private next(first: string, prefix: string, ordinal: number): string {
     let current = ordinal
     while (true) {
-      const id = current === 1 ? first : `${prefix}-${String(current).padStart(3, '0')}`
+      const local = current === 1 ? first : `${prefix}-${String(current).padStart(3, '0')}`
+      const id = `${this.namespace}${local}`
       if (!this.used.has(id)) {
         this.used.add(id)
         return id
@@ -82,6 +86,7 @@ class P7CycleStateMachineProjector {
   private readonly allocator
   private readonly exitStateByFragment = new Map<string, string>()
   private readonly ownerFragments
+  private readonly canonicalStateId
 
   constructor(
     private readonly args: {
@@ -90,6 +95,7 @@ class P7CycleStateMachineProjector {
       owner: P4AuthorOwnerIdentity
       entityScenes: ReadonlyMap<string, readonly string[]>
       completion: StateTransitionV5
+      namespace?: string
     },
   ) {
     if (args.cycle.authorProjection.kind !== 'state-machine')
@@ -100,12 +106,25 @@ class P7CycleStateMachineProjector {
       owner: args.owner,
       entityScenes: args.entityScenes,
     }
+    this.canonicalStateId = (stateId: string) =>
+      args.namespace === undefined
+        ? stateId
+        : stateId === this.projection.initialStateId
+          ? args.namespace
+          : `${args.namespace}-${stateId}`
     this.stateIdByLegacyScript = new Map(
-      this.projection.states.map((state) => [state.legacyScriptId, state.id]),
+      this.projection.states.map((state) => [
+        state.legacyScriptId,
+        this.canonicalStateId(state.id),
+      ]),
     )
-    const used = new Set(this.projection.states.map((state) => state.id))
-    this.allocator = new StateIdAllocator(used)
-    for (const state of this.projection.states) this.stateOrder.push(state.id)
+    const used = new Set(this.projection.states.map((state) => this.canonicalStateId(state.id)))
+    this.allocator = new StateIdAllocator(
+      used,
+      args.namespace === undefined ? '' : `${args.namespace}-`,
+    )
+    for (const state of this.projection.states)
+      this.stateOrder.push(this.canonicalStateId(state.id))
     this.ownerFragments = new Map(
       args.ir.ownerFragments
         .filter((fragment) => p7OwnerKey(fragment.owner) === p7OwnerKey(args.owner))
@@ -123,7 +142,7 @@ class P7CycleStateMachineProjector {
             transitionCommandIndex(right, this.args.cycle.identity.cycleId),
         )
       this.compileState(
-        sourceState.id,
+        this.canonicalStateId(sourceState.id),
         sourceState.label,
         sourceState.body.map((value, index) => ({ path: `/${index}`, value })),
         transitions,
@@ -149,7 +168,7 @@ class P7CycleStateMachineProjector {
       machine: {
         id: ownerFlow.machineId,
         label: `迁移状态机 ${ownerFlow.machineId}`,
-        initial: this.projection.initialStateId,
+        initial: this.canonicalStateId(this.projection.initialStateId),
         states,
       },
     }
@@ -320,6 +339,7 @@ export function projectP7CycleStateMachine(args: {
   owner: P4AuthorOwnerIdentity
   entityScenes: ReadonlyMap<string, readonly string[]>
   completion?: StateTransitionV5
+  namespace?: string
 }): Extract<ScriptFlowV5, { kind: 'stateMachine' }> {
   return new P7CycleStateMachineProjector({
     ...args,
