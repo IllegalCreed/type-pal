@@ -46,14 +46,8 @@ describe('script v5 canonical schema', () => {
 
   test.each([
     [{ kind: 'jumpScript', ref: { chunk: 'scene/s001', id: 'legacy' } }, 'jumpScript'],
-    [
-      { kind: 'setEntityAuto', entity: 'e1', stages: [] },
-      'setEntityAuto',
-    ],
-    [
-      { kind: 'setEntityState', entity: 'e1', state: 2 },
-      '裸实体',
-    ],
+    [{ kind: 'setEntityAuto', entity: 'e1', stages: [] }, 'setEntityAuto'],
+    [{ kind: 'setEntityState', entity: 'e1', state: 2 }, '裸实体'],
     [
       { kind: 'callScript', ref: { chunk: 'shared/c00', id: 'shared/user/x' } },
       '只存稳定 script id',
@@ -103,6 +97,170 @@ describe('script v5 canonical schema', () => {
         'flow',
       ),
     ).toThrow(/未命中 stage/)
+  })
+
+  test('validates synchronous, next-activation, and command-outcome transitions', () => {
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stateMachine',
+          machine: {
+            id: 'machine',
+            label: '状态机',
+            initial: 'initial',
+            states: {
+              initial: {
+                label: '初始',
+                body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
+                next: {
+                  kind: 'commandOutcome',
+                  commandId: 'choice',
+                  command: 'confirm',
+                  outcome: 'no',
+                  then: { kind: 'to', state: 'initial', yield: 'worldTick' },
+                  else: { kind: 'continue', state: 'after-confirm' },
+                },
+              },
+              'after-confirm': {
+                label: '确认后',
+                body: [],
+                next: { kind: 'advance', state: 'initial' },
+              },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).not.toThrow()
+  })
+
+  test('rejects duplicate, nested, and cross-state command outcome references', () => {
+    const machine = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'machine',
+        label: '状态机',
+        initial: 'initial',
+        states: {
+          initial: {
+            label: '初始',
+            body: [
+              { kind: 'confirm', id: 'choice', onNo: [] },
+              { kind: 'confirm', id: 'choice', onNo: [] },
+            ],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    expect(() => checkScriptFlowV5(machine, 'flow')).toThrow(/重复 CommandId choice/)
+
+    const outcome = {
+      kind: 'commandOutcome',
+      commandId: 'choice',
+      command: 'confirm',
+      outcome: 'no',
+      then: { kind: 'stay' },
+      else: { kind: 'stay' },
+    }
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stateMachine',
+          machine: {
+            id: 'machine',
+            label: '状态机',
+            initial: 'initial',
+            states: {
+              initial: {
+                label: '初始',
+                body: [
+                  {
+                    kind: 'branch',
+                    cond: { kind: 'flag', flag: 'nested', is: true },
+                    then: [{ kind: 'confirm', id: 'choice', onNo: [] }],
+                  },
+                ],
+                next: outcome,
+              },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).toThrow(/未命中同一 state 顶层结果命令 choice/)
+
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stateMachine',
+          machine: {
+            id: 'machine',
+            label: '状态机',
+            initial: 'initial',
+            states: {
+              initial: {
+                label: '初始',
+                body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
+                next: { kind: 'advance', state: 'other' },
+              },
+              other: { label: '其它', body: [], next: outcome },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).toThrow(/未命中同一 state 顶层结果命令 choice/)
+  })
+
+  test('rejects continue-only SCCs and dangling synchronous targets', () => {
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stateMachine',
+          machine: {
+            id: 'machine',
+            label: '状态机',
+            initial: 'a',
+            states: {
+              a: { label: 'A', body: [], next: { kind: 'continue', state: 'b' } },
+              b: {
+                label: 'B',
+                body: [],
+                next: {
+                  kind: 'branch',
+                  cond: { kind: 'flag', flag: 'again', is: true },
+                  then: { kind: 'continue', state: 'a' },
+                  else: { kind: 'stay' },
+                },
+              },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).toThrow(/continue 转移形成无让步环 a -> b -> a/)
+
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stateMachine',
+          machine: {
+            id: 'machine',
+            label: '状态机',
+            initial: 'a',
+            states: {
+              a: {
+                label: 'A',
+                body: [],
+                next: { kind: 'continue', state: 'missing' },
+              },
+            },
+          },
+        },
+        'flow',
+      ),
+    ).toThrow(/未知 state missing/)
   })
 
   test('validates pages against local behavior registries', () => {

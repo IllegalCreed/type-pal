@@ -1,12 +1,7 @@
 import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
-import type { DialogueCue, Facing } from './index.js'
-import type {
-  Command as LegacyCommandV4,
-  SceneReveal,
-  SceneSpawn,
-  WalkSpeed,
-} from './script.js'
+import type { Facing } from './index.js'
+import type { Command as LegacyCommandV4, SceneReveal, SceneSpawn, WalkSpeed } from './script.js'
 import { SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import type { SpriteActionBinding } from './sprite.js'
 
@@ -17,16 +12,14 @@ export type MachineId = string
 export type StateId = string
 export type HookId = string
 export type ScriptId = string
+export type CommandId = string
 
 export interface EntityAddress {
   scene: string
   entity: string
 }
 
-export type Selection<T> =
-  | { kind: 'inherit' }
-  | { kind: 'disabled' }
-  | { kind: 'use'; value: T }
+export type Selection<T> = { kind: 'inherit' } | { kind: 'disabled' } | { kind: 'use'; value: T }
 
 export type PageSelection = { kind: 'inherit' } | { kind: 'use'; value: PageId }
 
@@ -197,7 +190,7 @@ export type AuthorCommandV5 =
       choreography?: import('./enemy.js').BattleChoreography[]
     }
   | { kind: 'teleportOut'; onFail?: AuthorCommandV5[] }
-  | { kind: 'confirm'; onNo: AuthorCommandV5[] }
+  | { kind: 'confirm'; id?: CommandId; onNo: AuthorCommandV5[] }
   | { kind: 'branch'; cond: AuthorConditionV5; then: AuthorCommandV5[]; else?: AuthorCommandV5[] }
   | {
       kind: 'loop'
@@ -276,10 +269,20 @@ export interface AuthorStageV5 {
 export type StateTransitionV5 =
   | { kind: 'stay' }
   | { kind: 'restart' }
+  | { kind: 'continue'; state: StateId }
+  | { kind: 'advance'; state: StateId }
   | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
   | {
       kind: 'branch'
       cond: AuthorConditionV5
+      then: StateTransitionV5
+      else: StateTransitionV5
+    }
+  | {
+      kind: 'commandOutcome'
+      commandId: CommandId
+      command: 'confirm'
+      outcome: 'no'
       then: StateTransitionV5
       else: StateTransitionV5
     }
@@ -383,9 +386,7 @@ function checkSelection(
     return
   }
   if (kind !== 'use')
-    throw new Error(
-      `${path}.kind: 期望 ${allowDisabled ? 'inherit|disabled|use' : 'inherit|use'}`,
-    )
+    throw new Error(`${path}.kind: 期望 ${allowDisabled ? 'inherit|disabled|use' : 'inherit|use'}`)
   exactKeys(selection, ['kind', 'value'], path)
   checkValue(selection.value, `${path}.value`)
 }
@@ -477,7 +478,9 @@ function checkCondition(value: unknown, path: string): void {
     case 'any':
       exactKeys(condition, ['kind', 'of'], path)
       if (!Array.isArray(condition.of)) throw new Error(`${path}.of: 期望条件数组`)
-      condition.of.forEach((entry, index) => checkCondition(entry, `${path}.of[${index}]`))
+      condition.of.forEach((entry, index) => {
+        checkCondition(entry, `${path}.of[${index}]`)
+      })
       return
     case 'not':
       exactKeys(condition, ['kind', 'cond'], path)
@@ -546,9 +549,9 @@ export function checkAuthorCommandsV5(
       if ('entities' in command) throw new Error(`${commandPath}.entities: v5 禁止裸实体 id`)
       if (!Array.isArray(command.targets) || command.targets.length === 0)
         throw new Error(`${commandPath}.targets: 期望非空 EntityAddress[]`)
-      command.targets.forEach((target, targetIndex) =>
-        checkEntityAddress(target, `${commandPath}.targets[${targetIndex}]`),
-      )
+      command.targets.forEach((target, targetIndex) => {
+        checkEntityAddress(target, `${commandPath}.targets[${targetIndex}]`)
+      })
     }
     if (kind === 'branch') {
       checkCondition(command.cond, `${commandPath}.cond`)
@@ -574,7 +577,11 @@ export function checkAuthorCommandsV5(
     }
     if (kind === 'teleportOut' && command.onFail !== undefined)
       checkAuthorCommandsV5(command.onFail, `${commandPath}.onFail`, options)
-    if (kind === 'confirm') checkAuthorCommandsV5(command.onNo, `${commandPath}.onNo`, options)
+    if (kind === 'confirm') {
+      exactKeys(command, ['kind', 'id', 'onNo'], commandPath)
+      if (command.id !== undefined) nonEmptyString(command.id, `${commandPath}.id`)
+      checkAuthorCommandsV5(command.onNo, `${commandPath}.onNo`, options)
+    }
     if (kind === 'callScript') {
       if ('ref' in command) throw new Error(`${commandPath}.ref: v5 callScript 只存稳定 script id`)
       nonEmptyString(command.script, `${commandPath}.script`)
@@ -592,11 +599,7 @@ export function checkAuthorCommandsV5(
     }
     if (kind === 'setEntityTriggerActivation') {
       checkEntityAddress(command.target, `${commandPath}.target`)
-      checkSelection(
-        command.selection,
-        `${commandPath}.selection`,
-        checkTriggerActivation,
-      )
+      checkSelection(command.selection, `${commandPath}.selection`, checkTriggerActivation)
     }
     if (kind === 'selectSceneHooks') {
       nonEmptyString(command.scene, `${commandPath}.scene`)
@@ -620,16 +623,75 @@ function checkSceneEntryV5(value: unknown, path: string): void {
     throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
 }
 
-function checkStateTransition(value: unknown, path: string, stateIds: ReadonlySet<string>): void {
+interface StateCommandIds {
+  all: ReadonlySet<string>
+  topLevelResults: ReadonlyMap<string, 'confirm'>
+}
+
+function collectStateCommandIds(value: unknown, path: string): StateCommandIds {
+  if (!Array.isArray(value)) throw new Error(`${path}: 期望 AuthorCommandV5[]`)
+  const all = new Set<string>()
+  const topLevelResults = new Map<string, 'confirm'>()
+
+  const visit = (commands: unknown[], commandsPath: string, topLevel: boolean): void => {
+    commands.forEach((entry, index) => {
+      const commandPath = `${commandsPath}[${index}]`
+      const command = record(entry, commandPath)
+      const kind = nonEmptyString(command.kind, `${commandPath}.kind`)
+      if (kind === 'confirm' && command.id !== undefined) {
+        const id = nonEmptyString(command.id, `${commandPath}.id`)
+        if (all.has(id)) throw new Error(`${commandPath}.id: 同一 state 内重复 CommandId ${id}`)
+        all.add(id)
+        if (topLevel) topLevelResults.set(id, 'confirm')
+      }
+      if (kind === 'branch') {
+        visit(command.then as unknown[], `${commandPath}.then`, false)
+        if (command.else !== undefined)
+          visit(command.else as unknown[], `${commandPath}.else`, false)
+      } else if (kind === 'loop') {
+        visit(command.body as unknown[], `${commandPath}.body`, false)
+      } else if (kind === 'startBattle') {
+        if (command.onLose !== undefined)
+          visit(command.onLose as unknown[], `${commandPath}.onLose`, false)
+        if (command.onFlee !== undefined)
+          visit(command.onFlee as unknown[], `${commandPath}.onFlee`, false)
+      } else if (kind === 'teleportOut' && command.onFail !== undefined) {
+        visit(command.onFail as unknown[], `${commandPath}.onFail`, false)
+      } else if (kind === 'confirm') {
+        visit(command.onNo as unknown[], `${commandPath}.onNo`, false)
+      }
+    })
+  }
+
+  visit(value, path, true)
+  return { all, topLevelResults }
+}
+
+function checkStateTarget(value: unknown, path: string, stateIds: ReadonlySet<string>): string {
+  const state = nonEmptyString(value, path)
+  if (!stateIds.has(state)) throw new Error(`${path}: 未知 state ${state}`)
+  return state
+}
+
+function checkStateTransition(
+  value: unknown,
+  path: string,
+  stateIds: ReadonlySet<string>,
+  commands: StateCommandIds,
+): void {
   const transition = record(value, path)
   if (transition.kind === 'stay' || transition.kind === 'restart') {
     exactKeys(transition, ['kind'], path)
     return
   }
+  if (transition.kind === 'continue' || transition.kind === 'advance') {
+    exactKeys(transition, ['kind', 'state'], path)
+    checkStateTarget(transition.state, `${path}.state`, stateIds)
+    return
+  }
   if (transition.kind === 'to') {
     exactKeys(transition, ['kind', 'state', 'yield'], path)
-    const state = nonEmptyString(transition.state, `${path}.state`)
-    if (!stateIds.has(state)) throw new Error(`${path}.state: 未知 state ${state}`)
+    checkStateTarget(transition.state, `${path}.state`, stateIds)
     if (transition.yield !== 'macroTask' && transition.yield !== 'worldTick')
       throw new Error(`${path}.yield: 期望 macroTask|worldTick`)
     return
@@ -637,11 +699,60 @@ function checkStateTransition(value: unknown, path: string, stateIds: ReadonlySe
   if (transition.kind === 'branch') {
     exactKeys(transition, ['kind', 'cond', 'then', 'else'], path)
     checkCondition(transition.cond, `${path}.cond`)
-    checkStateTransition(transition.then, `${path}.then`, stateIds)
-    checkStateTransition(transition.else, `${path}.else`, stateIds)
+    checkStateTransition(transition.then, `${path}.then`, stateIds, commands)
+    checkStateTransition(transition.else, `${path}.else`, stateIds, commands)
     return
   }
-  throw new Error(`${path}.kind: 期望 stay|restart|to|branch`)
+  if (transition.kind === 'commandOutcome') {
+    exactKeys(transition, ['kind', 'commandId', 'command', 'outcome', 'then', 'else'], path)
+    const commandId = nonEmptyString(transition.commandId, `${path}.commandId`)
+    if (transition.command !== 'confirm') throw new Error(`${path}.command: 期望 confirm`)
+    if (transition.outcome !== 'no') throw new Error(`${path}.outcome: confirm 期望 no`)
+    const commandKind = commands.topLevelResults.get(commandId)
+    if (!commandKind)
+      throw new Error(`${path}.commandId: 未命中同一 state 顶层结果命令 ${commandId}`)
+    if (commandKind !== transition.command)
+      throw new Error(`${path}.command: 与 ${commandId} 的命令 kind 不匹配`)
+    checkStateTransition(transition.then, `${path}.then`, stateIds, commands)
+    checkStateTransition(transition.else, `${path}.else`, stateIds, commands)
+    return
+  }
+  throw new Error(`${path}.kind: 期望 stay|restart|continue|advance|to|branch|commandOutcome`)
+}
+
+function collectContinueTargets(value: unknown, targets: Set<string>): void {
+  const transition = value as StateTransitionV5
+  if (transition.kind === 'continue') {
+    targets.add(transition.state)
+    return
+  }
+  if (transition.kind === 'branch' || transition.kind === 'commandOutcome') {
+    collectContinueTargets(transition.then, targets)
+    collectContinueTargets(transition.else, targets)
+  }
+}
+
+function checkContinueGraph(graph: ReadonlyMap<string, ReadonlySet<string>>, path: string): void {
+  const done = new Set<string>()
+  const active = new Set<string>()
+  const stack: string[] = []
+
+  const visit = (state: string): void => {
+    if (done.has(state)) return
+    if (active.has(state)) {
+      const start = stack.indexOf(state)
+      const cycle = [...stack.slice(start), state].join(' -> ')
+      throw new Error(`${path}: continue 转移形成无让步环 ${cycle}`)
+    }
+    active.add(state)
+    stack.push(state)
+    for (const target of graph.get(state) ?? []) visit(target)
+    stack.pop()
+    active.delete(state)
+    done.add(state)
+  }
+
+  for (const state of graph.keys()) visit(state)
 }
 
 export interface CheckScriptFlowV5Options {
@@ -693,6 +804,7 @@ export function checkScriptFlowV5(
     const initial = nonEmptyString(machine.initial, `${path}.machine.initial`)
     const states = record(machine.states, `${path}.machine.states`)
     const stateIds = new Set(Object.keys(states))
+    const continueGraph = new Map<string, ReadonlySet<string>>()
     if (stateIds.size === 0) throw new Error(`${path}.machine.states: 不能为空`)
     if (!stateIds.has(initial)) throw new Error(`${path}.machine.initial: 未命中 state ${initial}`)
     for (const [stateId, raw] of Object.entries(states)) {
@@ -708,8 +820,21 @@ export function checkScriptFlowV5(
       checkAuthorCommandsV5(state.body, `${path}.machine.states.${stateId}.body`, {
         forbidLoadScene: options.forbidLoadScene,
       })
-      checkStateTransition(state.next, `${path}.machine.states.${stateId}.next`, stateIds)
+      const commandIds = collectStateCommandIds(
+        state.body,
+        `${path}.machine.states.${stateId}.body`,
+      )
+      checkStateTransition(
+        state.next,
+        `${path}.machine.states.${stateId}.next`,
+        stateIds,
+        commandIds,
+      )
+      const continueTargets = new Set<string>()
+      collectContinueTargets(state.next, continueTargets)
+      continueGraph.set(stateId, continueTargets)
     }
+    checkContinueGraph(continueGraph, `${path}.machine`)
     return
   }
   throw new Error(`${path}.kind: 期望 stages|stateMachine`)
