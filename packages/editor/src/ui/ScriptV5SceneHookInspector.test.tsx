@@ -40,7 +40,7 @@ const state: ScriptEditorStateV5 = {
 }
 
 describe('ScriptV5SceneHookInspector', () => {
-  test('edits named Hook variants through the same canonical flow editor', () => {
+  test('uses author-facing scene script language and the shared visual body editor', () => {
     const html = renderToStaticMarkup(
       <ScriptV5SceneHookInspector
         state={state}
@@ -51,9 +51,14 @@ describe('ScriptV5SceneHookInspector', () => {
     )
 
     expect(html).toContain('默认进场')
-    expect(html).toContain('默认 Hook')
-    expect(html).toContain('start · 正文')
+    expect(html).toContain('进入场景时自动运行这个版本')
+    expect(html).toContain('脚本正文')
     expect(html).toContain('canonical-script-editor')
+    expect(html).toContain('剧情版本管理')
+    expect(html).not.toContain('高级管理')
+    expect(html).not.toContain('内部识别名')
+    expect(html).not.toContain('场景 Hook')
+    expect(html).not.toContain('阶段流')
     expect(html).not.toContain('Canonical ScriptFlow JSON')
   })
 })

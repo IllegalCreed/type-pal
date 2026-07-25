@@ -214,6 +214,8 @@ export function CommandForm(props: {
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+  /** Legacy editors keep the escape-hatch JSON editor; canonical v5 authoring hides it. */
+  showRawJson?: boolean
   onChange: (next: Command) => void
 }) {
   const {
@@ -237,6 +239,7 @@ export function CommandForm(props: {
     onOpenImage,
     onOpenBattleSprite,
     onOpenSpriteAction,
+    showRawJson = true,
     onChange,
   } = props
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as Command)
@@ -388,7 +391,7 @@ export function CommandForm(props: {
               </>
             ) : null}
           </Row>
-          <JsonForm cmd={cmd} onChange={onChange} />
+          {showRawJson ? <JsonForm cmd={cmd} onChange={onChange} /> : null}
         </>
       )
     }
@@ -1280,7 +1283,7 @@ export function CommandForm(props: {
               </span>
             </Row>
           ) : null}
-          <JsonForm cmd={cmd} onChange={onChange} />
+          {showRawJson ? <JsonForm cmd={cmd} onChange={onChange} /> : null}
         </>
       )
     }
@@ -1412,11 +1415,16 @@ export function CommandForm(props: {
     case 'cameraSnap':
       return (
         <p className="hint">
-          此指令无可编参数{cmd.kind === 'cameraSnap' && cmd.to ? '(定位坐标用 JSON)' : ''}。
+          此指令无可编参数
+          {cmd.kind === 'cameraSnap' && cmd.to && showRawJson ? '(定位坐标用 JSON)' : ''}。
         </p>
       )
     default:
       // 结构类(branch/confirm/startBattle/页切换)与低频指令:JSON 兜底
-      return <JsonForm cmd={cmd} onChange={onChange} />
+      return showRawJson ? (
+        <JsonForm cmd={cmd} onChange={onChange} />
+      ) : (
+        <p className="hint">此指令请使用新版结构化属性表单编辑。</p>
+      )
   }
 }

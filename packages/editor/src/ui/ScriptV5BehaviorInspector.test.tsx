@@ -105,7 +105,7 @@ describe('ScriptV5BehaviorInspector', () => {
     host.remove()
   })
 
-  test('shows stable identities, flow summary, full references, and fail-closed deletion', () => {
+  test('shows an author-facing flow with version management outside the main canvas', () => {
     const html = renderToStaticMarkup(
       <ScriptV5BehaviorInspector
         state={editorState()}
@@ -115,16 +115,16 @@ describe('ScriptV5BehaviorInspector', () => {
       />,
     )
     expect(html).toContain('初次交谈')
-    expect(html).toContain('start')
-    expect(html).toContain('1 条指令')
-    expect(html).toContain('2 个引用')
-    expect(html).toContain('实体页')
-    expect(html).toContain('切换指令')
-    expect(html).toContain('disabled=""')
+    expect(html).toContain('脚本正文')
+    expect(html).toContain('1 条顶层指令')
+    expect(html).toContain('剧情版本管理')
+    expect(html).not.toContain('高级管理')
+    expect(html).not.toContain('内部识别名')
+    expect(html).not.toContain('阶段流')
     expect(html).not.toContain('内部脚本')
   })
 
-  test('drives add, copy, rename, and reference rewriting through immutable commands', async () => {
+  test('renames, copies, and creates versions without exposing internal identifiers', async () => {
     const session = new ScriptV5EditSession(editorState())
 
     function Harness() {
@@ -147,37 +147,36 @@ describe('ScriptV5BehaviorInspector', () => {
     }
     await act(async () => root.render(<Harness />))
 
-    const rename = host.querySelector<HTMLInputElement>('[aria-label="行为稳定 id"]')!
-    await act(async () => setInput(rename, 'greet'))
-    await act(async () => button(host, '改名并重写引用').click())
-    expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('greet')
-    expect(session.getState().sharedScripts['shared/user/route']!.body[0]).toMatchObject({
-      selection: { kind: 'use', value: 'greet' },
+    await act(async () => button(host, '剧情版本管理').click())
+    expect(host.textContent).toContain('当前有 2 处正在使用这个版本')
+    expect(button(host, '删除当前版本').disabled).toBe(true)
+    expect(host.textContent).not.toContain('scenes[0]')
+
+    const rename = host.querySelector<HTMLInputElement>('[aria-label="剧情版本名称"]')!
+    await act(async () => setInput(rename, '重新命名的交谈'))
+    await act(async () => button(host, '保存名称').click())
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toMatchObject({
+      label: '重新命名的交谈',
     })
 
-    const copy = host.querySelector<HTMLInputElement>('[aria-label="行为副本稳定 id"]')!
-    await act(async () => setInput(copy, 'greet-again'))
-    await act(async () => button(host, '复制').click())
+    await act(async () => button(host, '复制成独立版本').click())
     expect(
-      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['greet-again'],
-    ).toMatchObject({ label: '初次交谈 副本' })
+      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['talk-copy-1'],
+    ).toMatchObject({ label: '重新命名的交谈 副本' })
 
-    const newId = host.querySelector<HTMLInputElement>('[aria-label="新行为稳定 id"]')!
-    const newLabel = host.querySelector<HTMLInputElement>('[aria-label="新行为名称"]')!
-    await act(async () => {
-      setInput(newId, 'after-book')
-      setInput(newLabel, '交出天书后')
-    })
-    await act(async () => button(host, '＋ 新增').click())
+    await act(async () => button(host, '剧情版本管理').click())
+    const newLabel = host.querySelector<HTMLInputElement>('[aria-label="新剧情版本名称"]')!
+    await act(async () => setInput(newLabel, '交出天书后'))
+    await act(async () => button(host, '＋ 新建空白版本').click())
     expect(
-      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['after-book'],
+      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['trigger-1'],
     ).toMatchObject({
       label: '交出天书后',
       flow: { kind: 'stages', initial: 'start' },
     })
   })
 
-  test('reports protected rename failures without mutating the selected behavior', async () => {
+  test('keeps migration-protected versions understandable and non-deletable', async () => {
     const state = editorState()
     state.migrationSidecars = [
       {
@@ -212,7 +211,6 @@ describe('ScriptV5BehaviorInspector', () => {
       },
     ]
     const session = new ScriptV5EditSession(state)
-    const onError = vi.fn()
     await act(async () =>
       root.render(
         <ScriptV5BehaviorInspector
@@ -220,14 +218,13 @@ describe('ScriptV5BehaviorInspector', () => {
           target={target}
           channel="trigger"
           onDispatch={(command) => session.dispatch(command)}
-          onError={onError}
         />,
       ),
     )
-    const rename = host.querySelector<HTMLInputElement>('[aria-label="行为稳定 id"]')!
-    await act(async () => setInput(rename, 'greet'))
-    await act(async () => button(host, '改名并重写引用').click())
-    expect(onError).toHaveBeenCalledWith(expect.stringMatching(/sidecar 保护/))
+    await act(async () => button(host, '剧情版本管理').click())
+    expect(host.textContent).toContain('迁移记录保护')
+    expect(button(host, '删除当前版本').disabled).toBe(true)
+    expect(host.querySelector('[aria-label="实体脚本内部识别名"]')).toBeNull()
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toBeDefined()
   })
 
@@ -249,10 +246,13 @@ describe('ScriptV5BehaviorInspector', () => {
       )
     }
     await act(async () => root.render(<Harness />))
-    await act(async () => button(host, '编辑正文与控制流').click())
     expect(host.querySelector('[aria-label="Canonical ScriptFlow JSON"]')).toBeNull()
-    expect(host.textContent).toContain('start · 正文')
-    await act(async () => host.querySelector<HTMLButtonElement>('.canonical-command-row')!.click())
+    expect(host.textContent).toContain('脚本正文')
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
     const flagInput = [...host.querySelectorAll<HTMLInputElement>('input')].find(
       (candidate) => candidate.value === 'talked',
     )!
@@ -284,8 +284,8 @@ describe('BehaviorSelectionEditorV5', () => {
       />,
     )
     expect(inherit).toContain('继承静态定义')
-    expect(inherit).toContain('显式禁用')
-    expect(inherit).toContain('初次交谈 · talk')
+    expect(inherit).toContain('不运行脚本')
+    expect(inherit).toContain('初次交谈')
 
     const dangling = renderToStaticMarkup(
       <BehaviorSelectionEditorV5

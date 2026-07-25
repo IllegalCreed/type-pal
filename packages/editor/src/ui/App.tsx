@@ -2036,8 +2036,8 @@ export function App(props: {
           onToggle={() => setOutlinerCollapsed((value) => !value)}
           onReset={() => setOutlinerWidth(OUTLINER_DEFAULT_WIDTH)}
           onResize={(delta) =>
-            setOutlinerWidth(
-              clampPanelSize(visibleOutlinerWidth + delta, OUTLINER_MIN_WIDTH, outlinerResizeMax),
+            setOutlinerWidth((current) =>
+              clampPanelSize(current + delta, OUTLINER_MIN_WIDTH, outlinerResizeMax),
             )
           }
         />
@@ -2054,12 +2054,8 @@ export function App(props: {
           onToggle={() => setInspectorCollapsed((value) => !value)}
           onReset={() => setInspectorWidth(INSPECTOR_DEFAULT_WIDTH)}
           onResize={(delta) =>
-            setInspectorWidth(
-              clampPanelSize(
-                visibleInspectorWidth - delta,
-                INSPECTOR_MIN_WIDTH,
-                inspectorResizeMax,
-              ),
+            setInspectorWidth((current) =>
+              clampPanelSize(current - delta, INSPECTOR_MIN_WIDTH, inspectorResizeMax),
             )
           }
         />

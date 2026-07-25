@@ -6,6 +6,7 @@ import type {
   EntityDefV5,
   SceneDefV5,
   ScriptChunkV1,
+  ScriptCondition,
   ScriptFlowV5,
   ScriptRef,
   ScriptStage,
@@ -97,13 +98,27 @@ export interface CanonicalSpritePreviewStateV5 {
 
 export const V5_PREVIEW_SHARED_CHUNK = '__script-v5-preview/shared'
 
-function previewChance(
+function projectPreviewConditionV5(
   condition: Extract<AuthorCommandV5, { kind: 'branch' | 'loop' }>['cond'],
-): Extract<Command, { kind: 'branch' }>['cond'] | undefined {
-  if (condition.kind === 'chance') return structuredClone(condition)
-  if (condition.kind === 'not' && condition.cond.kind === 'chance')
-    return { kind: 'chance', percent: 100 - condition.cond.percent }
-  return undefined
+): ScriptCondition {
+  switch (condition.kind) {
+    case 'entityState':
+    case 'entityInScene':
+    case 'facingEntity': {
+      const { target, ...rest } = condition
+      return { ...rest, entity: target.entity } as ScriptCondition
+    }
+    case 'all':
+    case 'any':
+      return {
+        ...condition,
+        of: condition.of.map((child) => projectPreviewConditionV5(child)),
+      }
+    case 'not':
+      return { ...condition, cond: projectPreviewConditionV5(condition.cond) }
+    default:
+      return structuredClone(condition)
+  }
 }
 
 function projectPreviewCommandsV5(
@@ -124,6 +139,49 @@ function projectPreviewCommandsV5(
           frame: command.frame,
         })
         break
+      case 'vanishEntity':
+        projected.push({
+          kind: 'vanishEntity',
+          ...(command.target ? { entity: command.target.entity } : {}),
+          ...(command.seconds === undefined ? {} : { seconds: command.seconds }),
+        })
+        break
+      case 'setEntityState':
+        projected.push({
+          kind: 'setEntityState',
+          entity: command.target.entity,
+          state: command.state,
+        })
+        break
+      case 'setMultiEntityState':
+        projected.push({
+          kind: 'setMultiEntityState',
+          entities: command.targets.map((target) => target.entity),
+          state: command.state,
+        })
+        break
+      case 'setEntityPos':
+        projected.push({
+          kind: 'setEntityPos',
+          entity: command.target.entity,
+          pos: structuredClone(command.pos),
+        })
+        break
+      case 'setEntityPosRelParty':
+        projected.push({
+          kind: 'setEntityPosRelParty',
+          entity: command.target.entity,
+          dcol: command.dcol,
+          drow: command.drow,
+        })
+        break
+      case 'setEntityLayer':
+        projected.push({
+          kind: 'setEntityLayer',
+          entity: command.target.entity,
+          layer: command.layer,
+        })
+        break
       case 'setEntityFacing':
         projected.push({
           kind: 'setEntityFacing',
@@ -131,22 +189,83 @@ function projectPreviewCommandsV5(
           facing: command.facing,
         })
         break
+      case 'playEntityAction':
+        projected.push({
+          kind: 'playEntityAction',
+          entity: command.target.entity,
+          sprite: command.sprite,
+          action: command.action,
+          loop: command.loop,
+          ...(command.startAtMs === undefined ? {} : { startAtMs: command.startAtMs }),
+          ...(command.wait === undefined ? {} : { wait: command.wait }),
+        })
+        break
+      case 'stopEntityAction':
+        projected.push({
+          kind: 'stopEntityAction',
+          entity: command.target.entity,
+          reset: command.reset,
+        })
+        break
+      case 'moveEntity':
+        projected.push({
+          kind: 'moveEntity',
+          entity: command.target.entity,
+          to: structuredClone(command.to),
+          speed: command.speed,
+        })
+        break
+      case 'stepEntity':
+        projected.push({
+          kind: 'stepEntity',
+          entity: command.target.entity,
+          dir: command.dir,
+        })
+        break
       case 'animEntity':
         projected.push({ kind: 'animEntity', entity: command.target.entity })
+        break
+      case 'nudgeEntity':
+        projected.push({
+          kind: 'nudgeEntity',
+          entity: command.target.entity,
+          dx: command.dx,
+          dy: command.dy,
+        })
+        break
+      case 'takeEntity':
+        projected.push({ kind: 'takeEntity', entity: command.target.entity })
+        break
+      case 'releaseEntity':
+        projected.push({
+          kind: 'releaseEntity',
+          ...(command.target ? { entity: command.target.entity } : {}),
+        })
+        break
+      case 'mountParty':
+        projected.push({
+          kind: 'mountParty',
+          entity: command.target.entity,
+          ...(command.dx === undefined ? {} : { dx: command.dx }),
+          ...(command.dy === undefined ? {} : { dy: command.dy }),
+        })
+        break
+      case 'ride':
+        projected.push({
+          kind: 'ride',
+          entity: command.target.entity,
+          to: structuredClone(command.to),
+          speed: command.speed,
+        })
         break
       case 'wait':
       case 'stopScript':
         projected.push(structuredClone(command))
         break
       case 'branch': {
-        const cond = previewChance(command.cond)
-        if (!cond) {
-          projected.push(structuredClone(command) as unknown as Command)
-          break
-        }
         projected.push({
           kind: 'branch',
-          cond,
+          cond: projectPreviewConditionV5(command.cond),
           then: projectPreviewCommandsV5(command.then, self, sharedScripts, depth + 1),
           ...(command.else
             ? {
@@ -163,15 +282,68 @@ function projectPreviewCommandsV5(
           projected.push(...body)
           break
         }
-        const cond = previewChance(command.cond)
-        if (!cond) {
-          projected.push(structuredClone(command) as unknown as Command)
-          break
-        }
         // while 的 0/1 次代表路径足以给帧预览，且不会伪称完整概率分布。
-        projected.push({ kind: 'branch', cond, then: body })
+        projected.push({
+          kind: 'branch',
+          cond: projectPreviewConditionV5(command.cond),
+          then: body,
+        })
         break
       }
+      case 'confirm':
+        projected.push({
+          ...structuredClone(command),
+          onNo: projectPreviewCommandsV5(command.onNo, self, sharedScripts, depth + 1),
+        })
+        break
+      case 'startBattle':
+        {
+          const { onLose, onFlee, ...battle } = command
+          projected.push({
+            ...structuredClone(battle),
+            ...(onLose
+              ? {
+                  onLose: projectPreviewCommandsV5(onLose, self, sharedScripts, depth + 1),
+                }
+              : {}),
+            ...(onFlee
+              ? {
+                  onFlee: projectPreviewCommandsV5(onFlee, self, sharedScripts, depth + 1),
+                }
+              : {}),
+          })
+        }
+        break
+      case 'teleportOut':
+        projected.push({
+          kind: 'teleportOut',
+          ...(command.onFail
+            ? {
+                onFail: projectPreviewCommandsV5(command.onFail, self, sharedScripts, depth + 1),
+              }
+            : {}),
+        })
+        break
+      case 'setEntityTriggerActivation':
+        if (command.selection.kind === 'inherit') break
+        projected.push({
+          kind: 'setEntityTriggerMode',
+          entity: command.target.entity,
+          ...(command.selection.kind === 'use'
+            ? {
+                on: command.selection.value.on,
+                ...(command.selection.value.range === undefined
+                  ? {}
+                  : { range: command.selection.value.range }),
+              }
+            : {}),
+        })
+        break
+      case 'selectEntityBehavior':
+      case 'selectEntityPage':
+      case 'selectSceneHooks':
+        // 只改变 v5 后续脚本选择，不影响当前这次可视演出。
+        break
       case 'callScript': {
         const shared = sharedScripts[command.script]
         if (

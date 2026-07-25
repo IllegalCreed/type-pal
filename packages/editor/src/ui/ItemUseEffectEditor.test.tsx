@@ -320,7 +320,11 @@ describe('ItemEffectChainEditor', () => {
     expect(host.textContent).not.toContain('打开脚本')
     expect(host.querySelector('[aria-label="土灵珠使用正文"]')).toBeNull()
     expect(host.textContent).toContain('before = 真')
-    await act(async () => host.querySelector<HTMLButtonElement>('.canonical-command-row')!.click())
+    await act(async () =>
+      host
+        .querySelector<HTMLElement>('.cmd-row')!
+        .dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true })),
+    )
     const flagInput = [...host.querySelectorAll<HTMLInputElement>('input')].find(
       (candidate) => candidate.value === 'before',
     )!

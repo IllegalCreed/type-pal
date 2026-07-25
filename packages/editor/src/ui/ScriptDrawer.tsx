@@ -1000,8 +1000,8 @@ export function ScriptDrawer(props: {
         onToggle={onClose}
         onReset={() => setDrawerHeight(DRAWER_DEFAULT_HEIGHT)}
         onResize={(delta) =>
-          setDrawerHeight(
-            clampPanelSize(visibleDrawerHeight - delta, DRAWER_MIN_HEIGHT, drawerMaxHeight),
+          setDrawerHeight((current) =>
+            clampPanelSize(current - delta, DRAWER_MIN_HEIGHT, drawerMaxHeight),
           )
         }
       />
@@ -1299,12 +1299,8 @@ export function ScriptDrawer(props: {
             onToggle={() => setDrawerSideCollapsed((value) => !value)}
             onReset={() => setDrawerSideWidth(DRAWER_SIDE_DEFAULT_WIDTH)}
             onResize={(delta) =>
-              setDrawerSideWidth(
-                clampPanelSize(
-                  visibleDrawerSideWidth - delta,
-                  DRAWER_SIDE_MIN_WIDTH,
-                  drawerSideResizeMax,
-                ),
+              setDrawerSideWidth((current) =>
+                clampPanelSize(current - delta, DRAWER_SIDE_MIN_WIDTH, drawerSideResizeMax),
               )
             }
           />

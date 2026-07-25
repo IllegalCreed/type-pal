@@ -67,7 +67,7 @@ function describeCondition(
   }
 }
 
-interface Described {
+export interface ScriptCommandDescription {
   icon: string
   label: string
   /** 灰色副文本(坐标/id 等）。 */
@@ -78,12 +78,12 @@ interface Described {
   warn?: boolean
 }
 
-function describe(
+export function describeScriptCommand(
   cmd: Command,
   locale: Locale,
   scenes: readonly SceneDef[] | undefined,
   references: ScriptReferenceCatalog,
-): Described {
+): ScriptCommandDescription {
   switch (cmd.kind) {
     case 'chasePlayer':
       return {
@@ -447,7 +447,7 @@ interface RowCtx {
 
 function CommandRow(props: { cmd: Command; depth: number; path: string; ctx: RowCtx }) {
   const { cmd, depth, path, ctx } = props
-  const d = describe(cmd, ctx.locale, ctx.scenes, ctx.references)
+  const d = describeScriptCommand(cmd, ctx.locale, ctx.scenes, ctx.references)
   const active = ctx.activePath === path
   const selected = ctx.selectedPath === path
   const rowRef = useRef<HTMLDivElement>(null)

@@ -123,7 +123,9 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
   )
   const previewSourceKey =
     owner === 'scene'
-      ? `canonical:hook:${props.scene.id}:${hookSlot}:${activeHookId || 'none'}`
+      ? hookSlot === 'onEnter'
+        ? `s:${props.scene.id}:canonical:${activeHookId || 'none'}`
+        : `canonical:teleport:${props.scene.id}:${activeHookId || 'none'}`
       : `canonical:entity:${props.scene.id}:${props.selectedEntityId ?? 'none'}:${behaviorChannel}:${activeBehaviorId || 'none'}`
   const playback = useMemo(() => {
     const previewChunk = projectCanonicalSharedScriptPreviewChunkV5(props.state.sharedScripts)
@@ -184,8 +186,8 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
             activeFlow
               ? undefined
               : owner === 'scene'
-                ? `当前 ${hookSlot} 通道还没有 Hook；可在下方新建。`
-                : '当前实体通道还没有行为；可在下方新建。'
+                ? `当前${hookSlot === 'onEnter' ? '进场脚本' : '传送出口脚本'}尚未创建；可在下方新建。`
+                : `当前实体的${behaviorChannel === 'trigger' ? '交互脚本' : '自动行为'}尚未创建；可在下方新建。`
           }
         />
       </div>
@@ -202,59 +204,71 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
         onToggle={props.onClose}
         onReset={() => setDrawerHeight(DRAWER_DEFAULT_HEIGHT)}
         onResize={(delta) =>
-          setDrawerHeight(
-            clampPanelSize(visibleDrawerHeight - delta, DRAWER_MIN_HEIGHT, drawerMaxHeight),
+          setDrawerHeight((current) =>
+            clampPanelSize(current - delta, DRAWER_MIN_HEIGHT, drawerMaxHeight),
           )
         }
       />
 
       <div className="script-drawer canonical-script-drawer">
         <div className="drawer-head">
-          <span className="t">
-            📜 {props.scene.id}
-            {props.selectedEntityId ? ` · ${props.selectedEntityId}` : ''}
-          </span>
-          <span className="drawer-tabs" role="tablist" aria-label="场景脚本所有者">
+          <span className="t">📜 {props.scene.id}</span>
+          <span className="drawer-tabs" role="tablist" aria-label="脚本类型">
             <button
               type="button"
               role="tab"
-              className={`mini-txt${owner === 'scene' ? ' sel' : ''}`}
-              aria-selected={owner === 'scene'}
-              onClick={() => setOwner('scene')}
+              className={`mini-txt${owner === 'scene' && hookSlot === 'onEnter' ? ' sel' : ''}`}
+              aria-selected={owner === 'scene' && hookSlot === 'onEnter'}
+              onClick={() => {
+                setOwner('scene')
+                setHookSlot('onEnter')
+              }}
             >
-              🚩 场景 Hook
+              🎬 进场脚本
             </button>
             <button
               type="button"
               role="tab"
-              className={`mini-txt${owner === 'entity' ? ' sel' : ''}`}
-              aria-selected={owner === 'entity'}
+              className={`mini-txt${owner === 'scene' && hookSlot === 'onTeleport' ? ' sel' : ''}`}
+              aria-selected={owner === 'scene' && hookSlot === 'onTeleport'}
+              onClick={() => {
+                setOwner('scene')
+                setHookSlot('onTeleport')
+              }}
+            >
+              🚪 传送出口
+            </button>
+            <button
+              type="button"
+              role="tab"
+              className={`mini-txt${owner === 'entity' && behaviorChannel === 'trigger' ? ' sel' : ''}`}
+              aria-selected={owner === 'entity' && behaviorChannel === 'trigger'}
               disabled={!props.selectedEntityId}
-              onClick={() => setOwner('entity')}
+              title={props.selectedEntityId ? undefined : '先从左侧场景大纲选择一个实体'}
+              onClick={() => {
+                setOwner('entity')
+                setBehaviorChannel('trigger')
+              }}
             >
-              🔗 实体行为
+              💬 交互脚本
+            </button>
+            <button
+              type="button"
+              role="tab"
+              className={`mini-txt${owner === 'entity' && behaviorChannel === 'auto' ? ' sel' : ''}`}
+              aria-selected={owner === 'entity' && behaviorChannel === 'auto'}
+              disabled={!props.selectedEntityId}
+              title={props.selectedEntityId ? undefined : '先从左侧场景大纲选择一个实体'}
+              onClick={() => {
+                setOwner('entity')
+                setBehaviorChannel('auto')
+              }}
+            >
+              🔁 自动行为
             </button>
           </span>
-          {owner === 'entity' ? (
-            <span className="drawer-tabs" role="tablist" aria-label="行为通道">
-              {(['trigger', 'auto'] as const).map((channel) => (
-                <button
-                  key={channel}
-                  type="button"
-                  role="tab"
-                  className={`mini-txt${behaviorChannel === channel ? ' sel' : ''}`}
-                  aria-selected={behaviorChannel === channel}
-                  onClick={() => setBehaviorChannel(channel)}
-                >
-                  {channel === 'trigger' ? '触发' : '自动'}
-                </button>
-              ))}
-            </span>
-          ) : null}
           <span className="spacer" />
-          <span className="canonical-script-preview-note">
-            上方地图实时预览 · 下方使用统一 canonical 编辑器
-          </span>
+          <span className="canonical-script-preview-note">上方地图演出预览 · 下方编辑脚本</span>
         </div>
 
         <div className="canonical-script-drawer-body">
@@ -278,7 +292,15 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
               onDispatch={props.onDispatch}
               onOpenReference={props.onOpenReference}
               onError={props.onError}
-              editorContext={props.editorContext}
+              editorContext={
+                props.editorContext
+                  ? {
+                      ...props.editorContext,
+                      currentSceneId: props.scene.id,
+                      currentEntityId: props.selectedEntityId ?? undefined,
+                    }
+                  : undefined
+              }
             />
           ) : props.selectedEntityId ? (
             <ScriptV5BehaviorInspector
@@ -295,7 +317,15 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
               onDispatch={props.onDispatch}
               onOpenReference={props.onOpenReference}
               onError={props.onError}
-              editorContext={props.editorContext}
+              editorContext={
+                props.editorContext
+                  ? {
+                      ...props.editorContext,
+                      currentSceneId: props.scene.id,
+                      currentEntityId: props.selectedEntityId,
+                    }
+                  : undefined
+              }
             />
           ) : (
             <div className="canonical-scene-script-empty">

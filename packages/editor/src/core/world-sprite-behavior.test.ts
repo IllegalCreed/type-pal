@@ -6,6 +6,7 @@ import {
   collectAutomaticScriptSpriteInstanceSites,
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
+  projectCanonicalScriptFlowPreviewV5,
 } from './world-sprite-behavior.js'
 
 const definition: SpriteDef = {
@@ -212,6 +213,48 @@ describe('describeSpriteReferenceBehavior', () => {
     const result = describeSpriteReferenceBehavior(editorState, reference, definition, 16)
     expect(result.label).toBe('默认定格')
     expect(result.detail).not.toContain('#3')
+  })
+})
+
+describe('projectCanonicalScriptFlowPreviewV5', () => {
+  test('lowers v5 entity addresses and nested conditions for the existing map preview runner', () => {
+    const stages = projectCanonicalScriptFlowPreviewV5(
+      {
+        kind: 'stages',
+        initial: 'start',
+        stages: [
+          {
+            id: 'start',
+            body: [
+              {
+                kind: 'branch',
+                cond: {
+                  kind: 'entityState',
+                  target: { scene: 's001', entity: 'e001' },
+                  is: 1,
+                },
+                then: [
+                  {
+                    kind: 'moveEntity',
+                    target: { scene: 's001', entity: 'e001' },
+                    to: { col: 2, row: 3, height: 0 },
+                    speed: 'normal',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      { scene: 's001', entity: 'e001' },
+      {},
+    )
+
+    expect(stages[0]?.body[0]).toMatchObject({
+      kind: 'branch',
+      cond: { kind: 'entityState', entity: 'e001', is: 1 },
+      then: [{ kind: 'moveEntity', entity: 'e001' }],
+    })
   })
 })
 

@@ -214,8 +214,21 @@ export class Playback {
           this.onUi?.()
         }
       })
-      .catch(() => {
-        /* AbortError = 用户重置,静默 */
+      .catch((error: unknown) => {
+        if (
+          ac.signal.aborted ||
+          (typeof error === 'object' &&
+            error !== null &&
+            'name' in error &&
+            error.name === 'AbortError')
+        )
+          return
+        if (this.abort === ac) {
+          this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
+          this.mode = 'done'
+          this.activePath = null
+          this.onUi?.()
+        }
       })
     this.onUi?.()
   }
