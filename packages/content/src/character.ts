@@ -1,6 +1,7 @@
 import type { ActorDef } from './actor.js'
 import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
 import type { WorldScriptState } from './script.js'
+import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
 import type { StatusId } from './skill.js'
 
 /** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
@@ -71,7 +72,7 @@ export interface EntryPoint {
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
 export const CONTENT_VERSION = 4 as const
 
-/** manifest.json 的版本化公共形状。规范 loader 只向运行时交付 LoadedManifest(v4)。 */
+/** manifest.json 的版本化公共形状。 */
 export interface ProjectManifest<V extends number> {
   id: string // 工程 id(= 文件夹名;稳定身份)
   name: string // 显示名(选单/标题)
@@ -82,10 +83,17 @@ export interface ProjectManifest<V extends number> {
   content: Record<string, string> // content 文件清单(kind → 相对路径)
   assets: ManifestAssetConfigV3
   startWorld: StartWorld
+  /** 内容迁移注册表；历史存档真正需要某条 transition 时才读取并校验对应 sidecar。 */
+  migrations?: Record<string, ProjectMigrationDescriptorV1>
+  /** 缺席等于 1；高于此门槛的旧 envelope 才允许进入异步存档迁移预检。 */
+  minimumSaveVersion?: number
 }
 
 /** contentVersion 3 只允许项目升级边界读取。 */
 export type LegacyManifestV3 = ProjectManifest<3>
+
+/** contentVersion 4 只允许 P7 工程升级边界读取。 */
+export type LegacyManifestV4 = ProjectManifest<4>
 
 /** loader 解析、main.ts 消费的规范工程清单。 */
 export type LoadedManifest = ProjectManifest<typeof CONTENT_VERSION>

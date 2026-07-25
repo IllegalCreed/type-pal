@@ -18,9 +18,17 @@ import {
   itemUseEffectSupportsContext,
   itemUseSupportsContext,
 } from './item.js'
+import type { ItemDataV5, ItemUseEffectV5 } from './item-v5.js'
+import {
+  ITEM_USE_EFFECT_KINDS_V5,
+  itemUseEffectSupportsContextV5,
+  itemUseSupportsContextV5,
+} from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
+import { checkAuthorCommandsV5, checkEntityPagesV5, checkSceneHooksV5 } from './script-v5.js'
 import { checkScriptRef } from './script-library.js'
+import type { SceneDefV5 } from './scene-v5.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -158,7 +166,81 @@ export function validateScenes(json: unknown): SceneDef[] {
   return validateSceneArray(json)
 }
 
-/** 运行时/编辑器只接受规范 contentVersion 4；v2/v3 只能在项目升级边界读取。 */
+/** 迁移输入端显式 v4 guard；P7 切换后运行时不得再调用它。 */
+export function validateScenesV4(json: unknown): SceneDef[] {
+  return validateSceneArray(json)
+}
+
+/** Canonical v5 scene guard；v4 行为页与顶层场景脚本不会泄漏进正式模型。 */
+export function validateScenesV5(json: unknown): SceneDefV5[] {
+  const arr = assertArray<SceneDefV5>(json, 'scenes')
+  arr.forEach((scene, sceneIndex) => {
+    const scenePath = `scenes[${sceneIndex}]`
+    const sceneRecord = assertObject(scene, scenePath) as Record<string, unknown>
+    if ('onEnter' in sceneRecord)
+      throw new Error(`${scenePath}.onEnter: v5 已迁移至 hooks.onEnter`)
+    if ('onTeleport' in sceneRecord)
+      throw new Error(`${scenePath}.onTeleport: v5 已迁移至 hooks.onTeleport`)
+    checkSceneHooksV5(sceneRecord.hooks, `${scenePath}.hooks`)
+
+    const entities = assertArray<Record<string, unknown>>(
+      sceneRecord.entities,
+      `${scenePath}.entities`,
+    )
+    entities.forEach((entity, entityIndex) => {
+      const entityPath = `${scenePath}.entities[${entityIndex}]`
+      const entityRecord = assertObject(entity, entityPath) as Record<string, unknown>
+      const hasPages = entityRecord.pages !== undefined
+      const hasBehaviorModel =
+        entityRecord.behaviors !== undefined || entityRecord.initialPage !== undefined
+      if (hasPages)
+        checkEntityPagesV5(
+          entityRecord.pages,
+          entityRecord.behaviors,
+          entityRecord.initialPage,
+          entityPath,
+        )
+      else if (hasBehaviorModel)
+        throw new Error(`${entityPath}: behaviors/initialPage 必须与非空 pages 一起声明`)
+
+      if (entityRecord.hostile !== undefined) {
+        const hostile = assertObject(entityRecord.hostile, `${entityPath}.hostile`) as Record<
+          string,
+          unknown
+        >
+        if (hostile.onLose !== undefined && hostile.onLose !== 'gameOver')
+          checkAuthorCommandsV5(hostile.onLose, `${entityPath}.hostile.onLose`)
+      }
+    })
+  })
+
+  // 复用稳定的场景空间/资源字段 guard；v5 专属行为字段已在上方独立验证。
+  const spatialOnly = arr.map((scene) => {
+    const { hooks: _hooks, ...base } = scene
+    return {
+      ...base,
+      entities: scene.entities.map((entity) => {
+        const {
+          behaviors: _behaviors,
+          initialPage: _initialPage,
+          pages: _pages,
+          hostile,
+          ...entityBase
+        } = entity
+        return {
+          ...entityBase,
+          ...(hostile === undefined
+            ? {}
+            : { hostile: { ...hostile, onLose: hostile.onLose === 'gameOver' ? 'gameOver' : undefined } }),
+        }
+      }),
+    }
+  })
+  validateSceneArray(spatialOnly)
+  return arr
+}
+
+/** P7 发布前运行时/编辑器仍只接受规范 v4；v2/v3 只能在项目升级边界读取。 */
 export function validateScenesForContentVersion(json: unknown, contentVersion: number): SceneDef[] {
   if (contentVersion !== 4)
     throw new Error(`scenes: 仅支持 contentVersion 4，收到 ${contentVersion}；请先迁移工程`)
@@ -433,6 +515,29 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
   }
 }
 
+function validateItemUseEffectV5(effect: Record<string, unknown>, ctx: string): void {
+  if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期望 string`)
+  if (!(effect.kind in ITEM_USE_EFFECT_KINDS_V5))
+    throw new Error(`${ctx}.kind: 未知 v5 物品效果 ${effect.kind}`)
+  if (effect.kind === 'runScript') {
+    requireOnlyKeys(effect, ['kind', 'script'], ctx)
+    if (typeof effect.script !== 'string' || effect.script.trim().length === 0)
+      throw new Error(`${ctx}.script: v5 期望稳定 shared script id`)
+    return
+  }
+  if (effect.kind === 'itemPrivateScript') {
+    requireOnlyKeys(effect, ['kind', 'script'], ctx)
+    const script = assertObject(effect.script, `${ctx}.script`) as Record<string, unknown>
+    requireOnlyKeys(script, ['id', 'label', 'body'], `${ctx}.script`)
+    if (script.id !== 'use') throw new Error(`${ctx}.script.id: item-private 固定为 use`)
+    if (script.label !== undefined && typeof script.label !== 'string')
+      throw new Error(`${ctx}.script.label: 期望 string`)
+    checkAuthorCommandsV5(script.body, `${ctx}.script.body`)
+    return
+  }
+  validateItemUseEffect(effect, ctx)
+}
+
 export function validateItems(json: unknown): ItemData[] {
   const arr = assertArray<ItemData>(json, 'items')
   arr.forEach((it, i) => {
@@ -541,6 +646,56 @@ export function validateItems(json: unknown): ItemData[] {
       })
     }
   })
+  return arr
+}
+
+/** Canonical v5 item guard；shared script 使用稳定 id，物品私有脚本以内联唯一槽保存。 */
+export function validateItemsV5(json: unknown): ItemDataV5[] {
+  const arr = assertArray<ItemDataV5>(json, 'items')
+  arr.forEach((item, itemIndex) => {
+    const itemRecord = assertObject(item, `items[${itemIndex}]`) as Record<string, unknown>
+    for (const field of ['use', 'throw'] as const) {
+      if (itemRecord[field] === undefined) continue
+      const spec = assertObject(itemRecord[field], `items[${itemIndex}].${field}`) as Record<
+        string,
+        unknown
+      >
+      const effects = assertArray<ItemUseEffectV5>(
+        spec.effects,
+        `items[${itemIndex}].${field}.effects`,
+      )
+      effects.forEach((effect, effectIndex) => {
+        const ctx = `items[${itemIndex}].${field}.effects[${effectIndex}]`
+        validateItemUseEffectV5(effect as unknown as Record<string, unknown>, ctx)
+        if (field === 'throw' && !itemUseEffectSupportsContextV5(effect, 'throw'))
+          throw new Error(`${ctx}: ${effect.kind} 不可用于投掷上下文`)
+      })
+    }
+    if (item.use !== undefined) {
+      const supportsWorld = itemUseSupportsContextV5(item.use, 'world')
+      const supportsBattle = itemUseSupportsContextV5(item.use, 'battle')
+      if (item.use.battleOnly === true && !supportsBattle)
+        throw new Error(`items[${itemIndex}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
+      if (!supportsWorld && !supportsBattle)
+        throw new Error(`items[${itemIndex}].use.effects: 效果组合不存在可执行的世界/战斗上下文`)
+    }
+  })
+
+  // 复用 v4 非脚本物品规则；脚本效果只替换成等价的世界专用占位引用。
+  const commonShape = arr.map((item) => {
+    const mapSpec = (spec: ItemDataV5['use'] | ItemDataV5['throw']) => {
+      if (spec === undefined) return undefined
+      return {
+        ...spec,
+        effects: spec.effects.map((effect) => {
+          if (effect.kind !== 'runScript' && effect.kind !== 'itemPrivateScript') return effect
+          return { kind: 'runScript' as const, script: { chunk: '__v5__', id: 'script' } }
+        }),
+      }
+    }
+    return { ...item, use: mapSpec(item.use), throw: mapSpec(item.throw) }
+  })
+  validateItems(commonShape)
   return arr
 }
 
