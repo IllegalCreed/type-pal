@@ -20,25 +20,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s265",
-                      "id": "scene/s265/root/entity-e4646/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-639ce50b",
+                      "kind": "loadScene",
+                      "scene": "s263"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4647",
@@ -50,25 +65,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s265",
-                      "id": "scene/s265/root/entity-e4647/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-2bd28327",
+                      "kind": "loadScene",
+                      "scene": "s263"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4648",
@@ -81,25 +111,69 @@
       "zBias": 4,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s265",
-                      "id": "scene/s265/root/entity-e4648/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s265",
+                        "entity": "e4648"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s262",
+                        "entity": "e4568"
+                      }
+                    },
+                    {
+                      "itemId": "195",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11767"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4649",
@@ -112,6 +186,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -119,7 +195,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4650",
@@ -132,6 +209,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -139,7 +218,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4651",
@@ -152,6 +232,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -159,7 +241,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4652",
@@ -172,6 +255,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -179,7 +264,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4653",
@@ -192,6 +278,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -199,7 +287,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4654",
@@ -212,6 +301,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -219,20 +310,8 @@
             "startAtMs": 100
           }
         }
-      ]
-    }
-  ],
-  "onTeleport": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s265",
-            "id": "scene/s265/root/on-teleport/stage-0"
-          }
-        }
-      ]
+      ],
+      "initialPage": "default"
     }
   ],
   "entries": {
@@ -250,6 +329,33 @@
         "col": 104,
         "row": 34,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onTeleport": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认传送出口",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "entryId": "pal-entry-c906a860",
+                    "kind": "loadScene",
+                    "scene": "s261"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }

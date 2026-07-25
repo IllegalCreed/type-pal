@@ -20,25 +20,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4707/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-509a5c3a",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4708",
@@ -50,25 +65,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4708/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-389498e0",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4709",
@@ -80,25 +110,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4709/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-fafcad2a",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4710",
@@ -110,25 +155,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4710/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-b79ebf94",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4711",
@@ -140,25 +200,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4711/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-1ca28f2e",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4712",
@@ -170,25 +245,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s271",
-                      "id": "scene/s271/root/entity-e4712/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-4f7ccb2f",
+                      "kind": "loadScene",
+                      "scene": "s270"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "entries": {

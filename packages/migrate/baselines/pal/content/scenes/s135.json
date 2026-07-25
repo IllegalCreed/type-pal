@@ -20,25 +20,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2322/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-3049e2f4",
+                      "kind": "loadScene",
+                      "scene": "s100"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2323",
@@ -52,25 +67,74 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2323/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.5651"
+                          },
+                          {
+                            "text": "dlg.5652"
+                          },
+                          {
+                            "text": "dlg.5653"
+                          }
+                        ],
+                        "speaker": "spk.老板"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "mode": "buy",
+                      "shop": 13
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.5655"
+                          }
+                        ],
+                        "speaker": "spk.老板"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2324",
@@ -84,41 +148,83 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2324/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2324/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.5657"
+                          },
+                          {
+                            "text": "dlg.5658"
+                          }
+                        ],
+                        "speaker": "spk.顾客"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s135",
+                        "entity": "e2324"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s135",
+                        "entity": "e2324"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2325",
@@ -132,25 +238,49 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2325/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.5660"
+                          },
+                          {
+                            "text": "dlg.5661"
+                          }
+                        ],
+                        "speaker": "spk.顾客"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2326",
@@ -164,37 +294,106 @@
       "hidden": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2326/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s135",
-                      "id": "scene/s135/root/entity-e2326/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7120"
+                          },
+                          {
+                            "text": "dlg.7121"
+                          }
+                        ],
+                        "speaker": "spk.茅山道士"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7122"
+                          },
+                          {
+                            "text": "dlg.7123"
+                          },
+                          {
+                            "text": "dlg.7124"
+                          }
+                        ],
+                        "speaker": "spk.茅山道士"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7125"
+                          },
+                          {
+                            "text": "dlg.7126"
+                          }
+                        ],
+                        "speaker": "spk.茅山道士"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7128"
+                          },
+                          {
+                            "text": "dlg.7129"
+                          }
+                        ],
+                        "speaker": "spk.茅山道士"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "entries": {

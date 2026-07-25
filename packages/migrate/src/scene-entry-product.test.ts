@@ -1,86 +1,82 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type {
-  Command,
-  SceneDef,
-  ScriptChunkV1,
-  ScriptIndexV1,
-  ScriptStage,
-} from '@type-pal/content'
+import type { AuthorCommandV5, AuthorStageV5, SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
 
 const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-const scenes = sceneIds.map((id) => readJson<SceneDef>(`projects/pal/content/scenes/${id}.json`))
-const scriptIndex = readJson<ScriptIndexV1>('projects/pal/content/scripts/index.json')
-const chunks = Object.values(scriptIndex.chunks).map((meta) =>
-  readJson<ScriptChunkV1>(`projects/pal/content/scripts/${meta.path}`),
-)
+const scenes = sceneIds.map((id) => readJson<SceneDefV5>(`projects/pal/content/scenes/${id}.json`))
 
-function visitCommands(body: readonly Command[], visit: (command: Command) => void): void {
+function visitCommands(
+  body: readonly AuthorCommandV5[],
+  visit: (command: AuthorCommandV5) => void,
+): void {
   for (const command of body) {
     visit(command)
     switch (command.kind) {
       case 'branch':
         visitCommands(command.then, visit)
-        if (command.else) visitCommands(command.else, visit)
+        visitCommands(command.else ?? [], visit)
+        break
+      case 'loop':
+        visitCommands(command.body, visit)
         break
       case 'startBattle':
-        if (command.onLose) visitCommands(command.onLose, visit)
-        if (command.onFlee) visitCommands(command.onFlee, visit)
+        visitCommands(command.onLose ?? [], visit)
+        visitCommands(command.onFlee ?? [], visit)
         break
       case 'teleportOut':
-        if (command.onFail) visitCommands(command.onFail, visit)
+        visitCommands(command.onFail ?? [], visit)
         break
       case 'confirm':
         visitCommands(command.onNo, visit)
-        break
-      case 'setEntityAuto':
-      case 'setEntityTrigger':
-      case 'setSceneOnEnter':
-      case 'setSceneOnTeleport':
-        if (command.stages)
-          for (const stage of command.stages) {
-            if (stage.entry) visitCommands(stage.entry.prepare, visit)
-            visitCommands(stage.body, visit)
-          }
         break
     }
   }
 }
 
-function stageScriptId(stage: ScriptStage): string {
-  const rootCommand = stage.body[0]
-  expect(rootCommand?.kind).toBe('callScript')
-  return rootCommand?.kind === 'callScript' ? rootCommand.ref.id : '<missing-call-script>'
+function visitFlow(flow: ScriptFlowV5, visit: (command: AuthorCommandV5) => void): void {
+  if (flow.kind === 'stages') {
+    for (const stage of flow.stages) {
+      visitCommands(stage.entry?.prepare ?? [], visit)
+      visitCommands(stage.body, visit)
+    }
+    return
+  }
+  for (const state of Object.values(flow.machine.states)) {
+    visitCommands(state.entry?.prepare ?? [], visit)
+    visitCommands(state.body, visit)
+  }
+}
+
+function flowHasDither(flow: ScriptFlowV5): boolean {
+  let found = false
+  visitFlow(flow, (command) => {
+    if (command.kind === 'ditherScreen') found = true
+  })
+  return found
 }
 
 interface EntrySite {
   targetScene: string
-  scriptId: string
-  stage: ScriptStage
+  ownerPath: string
+  stage: AuthorStageV5
 }
 
 function collectEntrySites(): EntrySite[] {
   const sites: EntrySite[] = []
   for (const scene of scenes)
-    for (const stage of scene.onEnter ?? [])
-      if (stage.entry) sites.push({ targetScene: scene.id, scriptId: stageScriptId(stage), stage })
-
-  for (const chunk of chunks)
-    for (const body of Object.values(chunk.scripts))
-      visitCommands(body, (command) => {
-        if (command.kind !== 'setSceneOnEnter' || !command.stages) return
-        for (const stage of command.stages)
+    for (const [hookId, hook] of Object.entries(scene.hooks?.onEnter?.variants ?? {}))
+      if (hook.flow.kind === 'stages')
+        for (const stage of hook.flow.stages)
           if (stage.entry)
             sites.push({
-              targetScene: command.scene,
-              scriptId: stageScriptId(stage),
+              targetScene: scene.id,
+              ownerPath: `${scene.id}/onEnter/${hookId}/${stage.id}`,
               stage,
             })
-      })
   return sites
 }
 
@@ -133,21 +129,21 @@ const expectedNonEarlyOnEnterScenes = [
 ]
 
 describe('X3-1 · PAL 生成产物的显式入场分类', () => {
-  test('11 个早期 dither 站点全部提升，含 s182 override', () => {
+  test('11 个早期 dither 站点全部提升，含 s182 dynamic hook', () => {
     const sites = collectEntrySites()
     expect(sites.map((site) => site.targetScene).sort()).toEqual(expectedEntryScenes)
-    expect(sites.map((site) => site.scriptId).sort()).toEqual([
-      'scene/s001/root/on-enter/stage-0',
-      'scene/s018/root/on-enter/stage-0',
-      'scene/s057/root/on-enter/stage-0',
-      'scene/s090/root/on-enter/stage-0',
-      'scene/s151/root/on-enter/stage-0',
-      'scene/s180/root/on-enter/stage-0',
-      'scene/s182/override/on-enter/L-27448/stage-0',
-      'scene/s196/root/on-enter/stage-0',
-      'scene/s197/root/on-enter/stage-0',
-      'scene/s198/root/on-enter/stage-0',
-      'scene/s200/root/on-enter/stage-0',
+    expect(sites.map((site) => site.ownerPath).sort()).toEqual([
+      's001/onEnter/default/initial',
+      's018/onEnter/default/initial',
+      's057/onEnter/default/initial',
+      's090/onEnter/default/initial',
+      's151/onEnter/default/initial',
+      's180/onEnter/default/initial',
+      's182/onEnter/legacy-001/initial',
+      's196/onEnter/default/initial',
+      's197/onEnter/default/initial',
+      's198/onEnter/default/initial',
+      's200/onEnter/default/initial',
     ])
     for (const { stage } of sites) {
       expect(stage.entry?.reveal.kind).toBe('dither')
@@ -164,38 +160,32 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
       ],
       reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
     })
-    const chunk = chunks.find((candidate) => candidate.id === 'scene/s001')
-    const body = chunk?.scripts['scene/s001/root/on-enter/stage-0']
-    expect(body?.[0]?.kind).toBe('dialog')
-    expect(body?.some((command) => command.kind === 'ditherScreen')).toBe(false)
+    expect(site?.stage.body[0]?.kind).toBe('dialog')
+    expect(site?.stage.body.some((command) => command.kind === 'ditherScreen')).toBe(false)
   })
 
-  test('17 个独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {
-    const ditherScriptIds: string[] = []
-    for (const chunk of chunks)
-      for (const [scriptId, body] of Object.entries(chunk.scripts)) {
-        let found = false
-        visitCommands(body, (command) => {
-          if (command.kind === 'ditherScreen') found = true
-        })
-        if (found) ditherScriptIds.push(scriptId)
-      }
-
+  test('17 个实体独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {
+    const independent = scenes
+      .filter((scene) =>
+        scene.entities.some((entity) =>
+          [entity.behaviors?.trigger, entity.behaviors?.auto].some((channel) =>
+            Object.values(channel ?? {}).some((behavior) => flowHasDither(behavior.flow)),
+          ),
+        ),
+      )
+      .map((scene) => scene.id)
+      .sort()
     const entryScenes = new Set(collectEntrySites().map((site) => site.targetScene))
-    const sceneOf = (scriptId: string): string => scriptId.match(/^scene\/(s\d+)\//)?.[1] ?? ''
-    const independent = [
-      ...new Set(
-        ditherScriptIds.filter((scriptId) => !scriptId.includes('/on-enter/')).map(sceneOf),
-      ),
-    ].sort()
-    const nonEarlyOnEnter = [
-      ...new Set(
-        ditherScriptIds
-          .filter((scriptId) => scriptId.includes('/on-enter/'))
-          .map(sceneOf)
-          .filter((sceneId) => !entryScenes.has(sceneId)),
-      ),
-    ].sort()
+    const nonEarlyOnEnter = scenes
+      .filter(
+        (scene) =>
+          !entryScenes.has(scene.id) &&
+          Object.values(scene.hooks?.onEnter?.variants ?? {}).some((hook) =>
+            flowHasDither(hook.flow),
+          ),
+      )
+      .map((scene) => scene.id)
+      .sort()
 
     expect(independent).toEqual(expectedIndependentDitherScenes)
     expect(nonEarlyOnEnter).toEqual(expectedNonEarlyOnEnterScenes)

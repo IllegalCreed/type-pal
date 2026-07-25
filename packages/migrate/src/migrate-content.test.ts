@@ -595,15 +595,7 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
     }
     const result = mapScenesStatic(
       [source],
-      new Map([
-        [
-          0,
-          [
-            { label: 'L_1', op: 'raw', opcode: 0x49, operands: [1, 0] },
-            { op: 'end' },
-          ],
-        ],
-      ]),
+      new Map([[0, [{ label: 'L_1', op: 'raw', opcode: 0x49, operands: [1, 0] }, { op: 'end' }]]]),
     )
     const scene = result.scenes[0]!
     expect(scene.entities.find((entity) => entity.id === 'e0')).toEqual({

@@ -20,25 +20,44 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s063",
-                      "id": "scene/s063/root/entity-e1204/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "entryId": "pal-entry-b4b51956",
+                      "kind": "loadScene",
+                      "scene": "s061"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e1205",
@@ -50,25 +69,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s063",
-                      "id": "scene/s063/root/entity-e1205/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-b7cd456c",
+                      "kind": "loadScene",
+                      "scene": "s064"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e1206",
@@ -80,24 +114,354 @@
       "zone": true,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s063",
-                      "id": "scene/s063/root/entity-e1206/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认自动行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "initial",
+                    "body": [
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 95
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.060",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 600
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 51
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle-legacy-002",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation"
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "label": "初始状态",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 51
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle-legacy-002",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "cycle-continuation"
+                      }
+                    }
+                  },
+                  "cycle-legacy-002": {
+                    "label": "迁移状态 legacy-002",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.062",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 97
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 71
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "cycle-legacy-continuation-003"
+                      }
+                    }
+                  },
+                  "cycle-continuation": {
+                    "label": "同步继续 cycle-continuation",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.061",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 480
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.062",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 97
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 71
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "cycle-legacy-continuation-002"
+                      }
+                    }
+                  },
+                  "cycle-legacy-continuation-002": {
+                    "label": "同步继续 cycle-legacy-continuation-002",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "cycle-legacy-continuation-003": {
+                    "label": "同步继续 cycle-legacy-continuation-003",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "continuation": {
+                    "label": "同步继续 continuation",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.061",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 480
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 91
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "asset": "sound.pal.062",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 97
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 71
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-002"
+                      }
+                    }
+                  },
+                  "legacy-continuation-002": {
+                    "label": "同步继续 legacy-continuation-002",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 99
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
                     }
                   }
-                ],
-                "next": 0
+                }
               }
-            ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e1207",
@@ -298,32 +662,6 @@
       }
     }
   ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s063",
-            "id": "scene/s063/root/on-enter/stage-0"
-          }
-        }
-      ]
-    }
-  ],
-  "onTeleport": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s063",
-            "id": "scene/s063/root/on-teleport/stage-0"
-          }
-        }
-      ]
-    }
-  ],
   "battleFieldId": 30,
   "battleMusic": "music.pal.040",
   "entries": {
@@ -341,6 +679,56 @@
         "col": 67,
         "row": -31,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": []
+              }
+            ]
+          }
+        }
+      }
+    },
+    "onTeleport": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认传送出口",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "facing": "right",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "entryId": "pal-entry-b4b51956",
+                    "kind": "loadScene",
+                    "scene": "s061"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }

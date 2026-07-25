@@ -20,25 +20,39 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4826/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s285"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4827",
@@ -50,25 +64,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4827/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-f89de5d5",
+                      "kind": "loadScene",
+                      "scene": "s285"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4828",
@@ -80,25 +109,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4828/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-e507090b",
+                      "kind": "loadScene",
+                      "scene": "s285"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4829",
@@ -110,25 +154,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4829/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-f8599752",
+                      "kind": "loadScene",
+                      "scene": "s285"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4830",
@@ -357,6 +416,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -364,7 +425,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4843",
@@ -377,6 +439,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -384,7 +448,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4844",
@@ -397,6 +462,8 @@
       "zBias": 6,
       "pages": [
         {
+          "id": "default",
+          "label": "默认模式",
           "animation": {
             "sprite": "sprite-619",
             "action": "pal-auto-v1-d0ed1968696a0efd",
@@ -404,7 +471,8 @@
             "startAtMs": 100
           }
         }
-      ]
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e4845",
@@ -417,37 +485,90 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4845/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 1
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4845/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4845"
+                      }
+                    },
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4845"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12375"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "150",
+                      "kind": "giveItem"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12222"
+                          }
+                        ],
+                        "slot": "center"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4846",
@@ -460,37 +581,90 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4846/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 1
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4846/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4846"
+                      }
+                    },
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4846"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12364"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "97",
+                      "kind": "giveItem"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12222"
+                          }
+                        ],
+                        "slot": "center"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4847",
@@ -503,37 +677,90 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4847/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 1
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4847/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4847"
+                      }
+                    },
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4847"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12379"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "152",
+                      "kind": "giveItem"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12222"
+                          }
+                        ],
+                        "slot": "center"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4848",
@@ -546,37 +773,90 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4848/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 1
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4848/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4848"
+                      }
+                    },
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4848"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12359"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "131",
+                      "kind": "giveItem"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12222"
+                          }
+                        ],
+                        "slot": "center"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4849",
@@ -589,37 +869,90 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4849/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 1
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s286",
-                      "id": "scene/s286/root/entity-e4849/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4849"
+                      }
+                    },
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s286",
+                        "entity": "e4849"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12361"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "111",
+                      "kind": "giveItem"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12222"
+                          }
+                        ],
+                        "slot": "center"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "battleFieldId": 57,

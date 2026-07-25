@@ -324,7 +324,7 @@ export function ScriptV5BehaviorInspector(props: {
             </form>
 
             <div className="script-v5-flow-summary">
-              <div>
+              <div className="script-v5-section-heading">
                 <strong>{selected.flow.kind === 'stages' ? '阶段流' : '具名状态机'}</strong>
                 <span>
                   {selected.flow.kind === 'stages'
@@ -402,9 +402,7 @@ export function ScriptV5BehaviorInspector(props: {
                           )
                             setFlowDraft(JSON.stringify(flow, null, 2))
                         } catch (error) {
-                          props.onError?.(
-                            error instanceof Error ? error.message : String(error),
-                          )
+                          props.onError?.(error instanceof Error ? error.message : String(error))
                         }
                       }}
                     >
@@ -419,7 +417,7 @@ export function ScriptV5BehaviorInspector(props: {
             </div>
 
             <div className="script-v5-reference-list">
-              <div>
+              <div className="script-v5-section-heading">
                 <strong>引用</strong>
                 <span>{references.length} 处</span>
               </div>

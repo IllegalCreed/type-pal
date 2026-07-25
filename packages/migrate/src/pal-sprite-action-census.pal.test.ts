@@ -210,7 +210,7 @@ describe.skipIf(!hasExtractedData)('PAL sprite action census golden', () => {
     })
     expect(first.digests).toEqual({
       acceptedSites: 'b6ee586cefe9a5b0762279f39892ab141247fcf761f279466f648b45f87c528b',
-      rejections: 'abc4f8730acfe97dd71b979a0446aa9e6663351121553c6343e09cc42dc3fe09',
+      rejections: '393d97ab05161c96a4aa28f11d95838455a01d8fe7fdcf1d9aa276b7da347c67',
       actions: 'a6dd0657ff7476d2c37021277540c92cdc43df888f16d712c87e40d3e7585c69',
     })
 

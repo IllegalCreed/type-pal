@@ -70,7 +70,8 @@ describe('PAL 对话迁移产物', () => {
       })
     }
 
-    expect(dialogCount).toBeGreaterThan(6_700)
+    // v5 只保留 canonical owner body；v4 chunk 中被多入口重复物化的对话不再重复计数。
+    expect(dialogCount).toBeGreaterThan(6_000)
     expect(rowCount).toBeGreaterThan(dialogCount)
     for (const textId of referenced) {
       const text = locale[textId]
@@ -83,12 +84,29 @@ describe('PAL 对话迁移产物', () => {
   })
 
   test('开场三段使用明确的逐行速度和 cue 自动推进时间', () => {
-    const chunk = JSON.parse(
-      readFileSync(`${contentDir}scripts/chunks/scene/s000.json`, 'utf8'),
-    ) as {
-      scripts: Record<string, unknown[]>
+    const scene = JSON.parse(readFileSync(`${contentDir}scenes/s000.json`, 'utf8')) as {
+      hooks?: {
+        onEnter?: {
+          initial?: string
+          variants: Record<
+            string,
+            {
+              flow: {
+                kind: 'stages'
+                initial: string
+                stages: Array<{ id: string; body: unknown[] }>
+              }
+            }
+          >
+        }
+      }
     }
-    const body = chunk.scripts['scene/s000/root/on-enter/stage-0'] ?? []
+    const channel = scene.hooks?.onEnter
+    const flow = channel?.initial ? channel.variants[channel.initial]?.flow : undefined
+    const body =
+      flow?.kind === 'stages'
+        ? (flow.stages.find((stage) => stage.id === flow.initial)?.body ?? [])
+        : []
     const dialogs = body.filter(
       (command): command is { kind: 'dialog'; cue: Record<string, unknown> } =>
         Boolean(

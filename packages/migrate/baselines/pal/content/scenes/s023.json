@@ -20,25 +20,58 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e423/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s032"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "触发行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s033"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e424",
@@ -61,401 +94,592 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-3"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-4"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-5"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-6"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-7"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-8"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-9"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-10"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-11"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-12"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-13"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-14"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-15"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-16"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-17"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-18"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-19"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-20"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-21"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-22"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-23"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-24"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-25"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-26"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-27"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-28"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-29"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e425/page-0/auto/stage-30"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2211"
+                          }
+                        ],
+                        "speaker": "spk.算命仙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "触发行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2531"
+                          }
+                        ],
+                        "speaker": "spk.算命仙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-005"
+                },
+                {
+                  "id": "legacy-005",
+                  "body": [],
+                  "next": "legacy-006"
+                },
+                {
+                  "id": "legacy-006",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-007"
+                },
+                {
+                  "id": "legacy-007",
+                  "body": [],
+                  "next": "legacy-008"
+                },
+                {
+                  "id": "legacy-008",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-009"
+                },
+                {
+                  "id": "legacy-009",
+                  "body": [],
+                  "next": "legacy-010"
+                },
+                {
+                  "id": "legacy-010",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-011"
+                },
+                {
+                  "id": "legacy-011",
+                  "body": [],
+                  "next": "legacy-012"
+                },
+                {
+                  "id": "legacy-012",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-013"
+                },
+                {
+                  "id": "legacy-013",
+                  "body": [],
+                  "next": "legacy-014"
+                },
+                {
+                  "id": "legacy-014",
+                  "body": [],
+                  "next": "legacy-015"
+                },
+                {
+                  "id": "legacy-015",
+                  "body": [],
+                  "next": "legacy-016"
+                },
+                {
+                  "id": "legacy-016",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 51
+                      },
+                      "then": [
+                        {
+                          "dir": "up",
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e425"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "dir": "up",
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e425"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 80
+                        },
+                        {
+                          "dir": "up",
+                          "kind": "stepEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e425"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "next": "legacy-017"
+                },
+                {
+                  "id": "legacy-017",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 99
+                      },
+                      "then": []
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-018"
+                },
+                {
+                  "id": "legacy-018",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-019"
+                },
+                {
+                  "id": "legacy-019",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-020"
+                },
+                {
+                  "id": "legacy-020",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-021"
+                },
+                {
+                  "id": "legacy-021",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-022"
+                },
+                {
+                  "id": "legacy-022",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-023"
+                },
+                {
+                  "id": "legacy-023",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-024"
+                },
+                {
+                  "id": "legacy-024",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-025"
+                },
+                {
+                  "id": "legacy-025",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-026"
+                },
+                {
+                  "id": "legacy-026",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-027"
+                },
+                {
+                  "id": "legacy-027",
+                  "body": [
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-028"
+                },
+                {
+                  "id": "legacy-028",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-029"
+                },
+                {
+                  "id": "legacy-029",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-030"
+                },
+                {
+                  "id": "legacy-030",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "legacy-031"
+                },
+                {
+                  "id": "legacy-031",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "自动行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e425"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e426",
@@ -469,41 +693,131 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e426/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e426/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2289"
+                          },
+                          {
+                            "text": "dlg.2290"
+                          },
+                          {
+                            "text": "dlg.2291"
+                          },
+                          {
+                            "text": "dlg.2292"
+                          },
+                          {
+                            "text": "dlg.2293"
+                          },
+                          {
+                            "text": "dlg.2294"
+                          },
+                          {
+                            "text": "dlg.2295"
+                          },
+                          {
+                            "text": "dlg.2296"
+                          }
+                        ],
+                        "speaker": "spk.卖吃小贩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2297"
+                          }
+                        ],
+                        "speaker": "spk.卖吃小贩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2298"
+                          }
+                        ],
+                        "speaker": "spk.卖吃小贩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "mode": "buy",
+                      "shop": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e426"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e426"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e427",
@@ -517,101 +831,298 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/trigger/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/trigger/stage-2"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/trigger/stage-3"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e427/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "atLeast": 1,
+                          "itemId": "76",
+                          "kind": "ownsItem"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2313"
+                              }
+                            ],
+                            "speaker": "spk.小豆子"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "itemId": "76",
+                      "kind": "loseItem"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2300"
+                          },
+                          {
+                            "text": "dlg.2301"
+                          }
+                        ],
+                        "speaker": "spk.小豆子"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2303"
+                          }
+                        ],
+                        "speaker": "spk.赵灵儿"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "atLeast": 1,
+                          "itemId": "80",
+                          "kind": "ownsItem"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2313"
+                              }
+                            ],
+                            "speaker": "spk.小豆子"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "itemId": "80",
+                      "kind": "loseItem"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2305"
+                          }
+                        ],
+                        "speaker": "spk.小豆子"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2307"
+                          }
+                        ],
+                        "speaker": "spk.赵灵儿"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "atLeast": 1,
+                          "itemId": "78",
+                          "kind": "ownsItem"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2313"
+                              }
+                            ],
+                            "speaker": "spk.小豆子"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "itemId": "78",
+                      "kind": "loseItem"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2309"
+                          }
+                        ],
+                        "speaker": "spk.小豆子"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2311"
+                          }
+                        ],
+                        "speaker": "spk.赵灵儿"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2313"
+                          }
+                        ],
+                        "speaker": "spk.小豆子"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": []
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e427"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e427"
+                      }
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 93
+                      },
+                      "then": []
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e427"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e427"
+                      }
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e428",
@@ -625,25 +1136,49 @@
       "hidden": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e428/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2545"
+                          },
+                          {
+                            "text": "dlg.2546"
+                          }
+                        ],
+                        "speaker": "spk.小豆子"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e429",
@@ -656,77 +1191,368 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e429/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e429/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e429/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e429/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e429/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2256"
+                          }
+                        ],
+                        "speaker": "spk.小孩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "cue": {
+                        "portrait": {
+                          "asset": "portrait.pal.011",
+                          "side": "right"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.2258"
+                          },
+                          {
+                            "text": "dlg.2259"
+                          }
+                        ],
+                        "speaker": "spk.赵灵儿"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2261"
+                          },
+                          {
+                            "text": "dlg.2262"
+                          },
+                          {
+                            "text": "dlg.2263"
+                          },
+                          {
+                            "text": "dlg.2264"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.小孩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "portrait": {
+                          "asset": "portrait.pal.011",
+                          "side": "right"
+                        },
+                        "rows": [
+                          {
+                            "text": "dlg.2266"
+                          }
+                        ],
+                        "speaker": "spk.赵灵儿"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2268"
+                          },
+                          {
+                            "text": "dlg.2269"
+                          }
+                        ],
+                        "speaker": "spk.小孩"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 64,
+                        "height": 0,
+                        "row": -10
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 64,
+                        "height": 0,
+                        "row": -9
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 81,
+                        "height": 0,
+                        "row": -9
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 81,
+                        "height": 0,
+                        "row": -10
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": -10
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 21
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 89,
+                        "height": 0,
+                        "row": 21
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 97
+                      },
+                      "then": []
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 89,
+                        "height": 0,
+                        "row": 18
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 88,
+                        "height": 0,
+                        "row": 18
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 97
+                      },
+                      "then": []
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 88,
+                        "height": 0,
+                        "row": -3
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 83,
+                        "height": 0,
+                        "row": -3
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 84,
+                        "height": 0,
+                        "row": -8
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 55,
+                        "height": 0,
+                        "row": -8
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 55,
+                        "height": 0,
+                        "row": -1
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 55,
+                        "height": 0,
+                        "row": -10
+                      },
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e429"
+                      }
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e430",
@@ -740,41 +1566,80 @@
       "hidden": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e430/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e430/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2548"
+                          }
+                        ],
+                        "speaker": "spk.小花"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e430"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e430"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e431",
@@ -788,37 +1653,147 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e431/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e431/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2213"
+                          },
+                          {
+                            "text": "dlg.2214"
+                          },
+                          {
+                            "text": "dlg.2215"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.路人甲"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2217"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2219"
+                          },
+                          {
+                            "text": "dlg.2220"
+                          },
+                          {
+                            "text": "dlg.2221"
+                          },
+                          {
+                            "text": "dlg.2222"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.路人甲"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2223"
+                          },
+                          {
+                            "text": "dlg.2224"
+                          },
+                          {
+                            "text": "dlg.2225"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.路人甲"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2226"
+                          },
+                          {
+                            "text": "dlg.2227"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.路人甲"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2229"
+                          },
+                          {
+                            "text": "dlg.2230"
+                          }
+                        ],
+                        "speaker": "spk.路人甲"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e432",
@@ -831,54 +1806,122 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e432/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e432/page-0/trigger/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e432/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2232"
+                          },
+                          {
+                            "text": "dlg.2233"
+                          }
+                        ],
+                        "speaker": "spk.路人乙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2235"
+                          },
+                          {
+                            "text": "dlg.2236"
+                          },
+                          {
+                            "text": "dlg.2237"
+                          },
+                          {
+                            "text": "dlg.2238"
+                          },
+                          {
+                            "text": "dlg.2239"
+                          },
+                          {
+                            "text": "dlg.2240"
+                          },
+                          {
+                            "text": "dlg.2241"
+                          },
+                          {
+                            "text": "dlg.2242"
+                          }
+                        ],
+                        "speaker": "spk.路人乙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e432"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e432"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e433",
@@ -892,41 +1935,252 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e433/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e433/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "actorId": "37",
+                        "kind": "inParty"
+                      },
+                      "then": [
+                        {
+                          "kind": "branch",
+                          "cond": {
+                            "kind": "not",
+                            "cond": {
+                              "atLeast": 400,
+                              "kind": "hasMoney"
+                            }
+                          },
+                          "then": [
+                            {
+                              "cue": {
+                                "rows": [
+                                  {
+                                    "text": "dlg.2271"
+                                  }
+                                ],
+                                "speaker": "spk.杂货小贩"
+                              },
+                              "kind": "dialog"
+                            },
+                            {
+                              "kind": "openShop",
+                              "mode": "buy",
+                              "shop": 7
+                            }
+                          ]
+                        },
+                        {
+                          "delta": -400,
+                          "kind": "giveMoney"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2273"
+                              }
+                            ],
+                            "speaker": "spk.杂货小贩"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "portrait": {
+                              "asset": "portrait.pal.006",
+                              "side": "right"
+                            },
+                            "rows": [
+                              {
+                                "text": "dlg.2275"
+                              },
+                              {
+                                "text": "dlg.2276"
+                              }
+                            ],
+                            "speaker": "spk.李逍遥"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "cue": {
+                            "portrait": {
+                              "asset": "portrait.pal.011",
+                              "side": "left"
+                            },
+                            "rows": [
+                              {
+                                "text": "dlg.2277"
+                              }
+                            ],
+                            "slot": "top"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            },
+                            "rows": [
+                              {
+                                "text": "dlg.2279"
+                              },
+                              {
+                                "text": "dlg.2280"
+                              }
+                            ],
+                            "speaker": "spk.李逍遥"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "portrait": {
+                              "asset": "portrait.pal.001",
+                              "side": "right"
+                            },
+                            "rows": [
+                              {
+                                "text": "dlg.2282"
+                              }
+                            ],
+                            "speaker": "spk.李逍遥"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2284"
+                              },
+                              {
+                                "text": "dlg.2285"
+                              }
+                            ],
+                            "slot": "top",
+                            "speaker": "spk.杂货小贩"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2286"
+                              },
+                              {
+                                "text": "dlg.2287"
+                              }
+                            ],
+                            "slot": "top",
+                            "speaker": "spk.杂货小贩"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "itemId": "199",
+                          "kind": "giveItem"
+                        }
+                      ]
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2271"
+                          }
+                        ],
+                        "speaker": "spk.杂货小贩"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "mode": "buy",
+                      "shop": 7
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e433"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e433"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e434",
@@ -939,65 +2193,147 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e434/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e434/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e434/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e434/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2246"
+                          },
+                          {
+                            "text": "dlg.2247"
+                          },
+                          {
+                            "text": "dlg.2248"
+                          }
+                        ],
+                        "speaker": "spk.民女甲"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2250"
+                          },
+                          {
+                            "text": "dlg.2251"
+                          }
+                        ],
+                        "speaker": "spk.民女乙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": []
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e434"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e434"
+                      }
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 93
+                      },
+                      "then": []
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e434"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e434"
+                      }
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e435",
@@ -1010,41 +2346,80 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e435/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e435/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2244"
+                          }
+                        ],
+                        "speaker": "spk.民女乙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e435"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e435"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e436",
@@ -1058,41 +2433,83 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e436/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e436/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2253"
+                          },
+                          {
+                            "text": "dlg.2254"
+                          }
+                        ],
+                        "speaker": "spk.书生"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e436"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e436"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e437",
@@ -1105,26 +2522,86 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e437/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2679"
+                          }
+                        ]
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "atLeast": 20,
+                          "kind": "hasMoney"
+                        }
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.2681"
+                              },
+                              {
+                                "text": "dlg.2682"
+                              }
+                            ],
+                            "speaker": "spk.小贩"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "delta": -20,
+                      "kind": "giveMoney"
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": []
+                    },
+                    {
+                      "itemId": "80",
+                      "kind": "giveItem"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e439",
@@ -1138,25 +2615,46 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e439/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2176"
+                          }
+                        ],
+                        "speaker": "spk.报名者甲"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e440",
@@ -1170,41 +2668,80 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e440/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e440/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2178"
+                          }
+                        ],
+                        "speaker": "spk.报名者乙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e440"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e440"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e441",
@@ -1218,54 +2755,103 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e441/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e441/page-0/trigger/stage-1"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e441/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2180"
+                          },
+                          {
+                            "text": "dlg.2181"
+                          }
+                        ],
+                        "speaker": "spk.报名者丁"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2182"
+                          },
+                          {
+                            "text": "dlg.2183"
+                          }
+                        ]
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e441"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e441"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e442",
@@ -1342,37 +2928,68 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e448/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e448/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2185"
+                          },
+                          {
+                            "text": "dlg.2186"
+                          },
+                          {
+                            "text": "dlg.2187"
+                          }
+                        ],
+                        "speaker": "spk.报名者戊"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2188"
+                          }
+                        ]
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e449",
@@ -1386,37 +3003,136 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e449/page-0/trigger/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e449/page-0/trigger/stage-1"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2190"
+                          },
+                          {
+                            "text": "dlg.2191"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2193"
+                          },
+                          {
+                            "text": "dlg.2194"
+                          },
+                          {
+                            "text": "dlg.2195"
+                          },
+                          {
+                            "text": "dlg.2196"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.报名者丙"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2198"
+                          },
+                          {
+                            "text": "dlg.2199"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2201"
+                          },
+                          {
+                            "text": "dlg.2202"
+                          },
+                          {
+                            "text": "dlg.2203"
+                          },
+                          {
+                            "text": "dlg.2204"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.报名者丙"
+                      },
+                      "kind": "dialog"
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.2205"
+                          },
+                          {
+                            "text": "dlg.2206"
+                          },
+                          {
+                            "text": "dlg.2207"
+                          }
+                        ]
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e450",
@@ -1461,25 +3177,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e453/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-ff6330a3",
+                      "kind": "loadScene",
+                      "scene": "s025"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e454",
@@ -1491,25 +3222,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e454/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-e6e6b8f2",
+                      "kind": "loadScene",
+                      "scene": "s029"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e455",
@@ -1521,25 +3267,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e455/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-c39b4290",
+                      "kind": "loadScene",
+                      "scene": "s030"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e456",
@@ -1551,25 +3312,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e456/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-e183f6a1",
+                      "kind": "loadScene",
+                      "scene": "s031"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e457",
@@ -1581,25 +3357,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e457/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-d707a3d4",
+                      "kind": "loadScene",
+                      "scene": "s024"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e458",
@@ -1611,25 +3402,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e458/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-1d707320",
+                      "kind": "loadScene",
+                      "scene": "s024"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e459",
@@ -1641,25 +3447,39 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e459/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s022"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e460",
@@ -1673,76 +3493,211 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 3,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e460/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e460/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e460/page-0/auto/stage-1"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e460/page-0/auto/stage-2"
-                    }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s023",
-                      "id": "scene/s023/root/entity-e460/page-0/auto/stage-3"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 3
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 3
+                        }
+                      }
+                    },
+                    {
+                      "asset": "sound.pal.054",
+                      "kind": "playSound"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    }
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "frame": 1,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    }
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 69
+                      },
+                      "then": [
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e460"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    }
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 51
+                      },
+                      "then": [
+                        {
+                          "frame": 0,
+                          "kind": "setEntityFrame",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e460"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e460"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e460"
+                          }
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s023",
+                            "entity": "e460"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "touch",
+                          "range": 3
+                        }
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s023",
+                        "entity": "e460"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e438",
@@ -1802,6 +3757,335 @@
         "col": 54,
         "row": 6,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onEnter": {
+      "variants": {
+        "legacy-001": {
+          "label": "进场行为 1",
+          "order": 1,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "asset": "music.pal.050",
+                    "kind": "playMusic"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2495"
+                        },
+                        {
+                          "text": "dlg.2496"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 160
+                  },
+                  {
+                    "facing": "up",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 80
+                  },
+                  {
+                    "facing": "up",
+                    "kind": "setPartyFacing",
+                    "member": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2498"
+                        },
+                        {
+                          "text": "dlg.2499"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2501"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2503"
+                        },
+                        {
+                          "text": "dlg.2504"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2506"
+                        },
+                        {
+                          "text": "dlg.2507"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2509"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2511"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.011",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.2512"
+                        }
+                      ]
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 240
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2514"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2515"
+                        },
+                        {
+                          "text": "dlg.2516"
+                        },
+                        {
+                          "text": "dlg.2517"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2518"
+                        },
+                        {
+                          "text": "dlg.2519"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2521"
+                        },
+                        {
+                          "text": "dlg.2522"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "facing": "right",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "dx": 8,
+                    "dy": 4,
+                    "kind": "nudgeParty"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "dx": 8,
+                    "dy": 4,
+                    "kind": "nudgeParty"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2524"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "facing": "up",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2526"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s023",
+                      "entity": "e425"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "legacy-001"
+                    }
+                  },
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.2528"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.算命仙"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "facing": "right",
+                    "kind": "setPartyFacing"
+                  }
+                ],
+                "next": "legacy-002"
+              },
+              {
+                "id": "legacy-002",
+                "body": []
+              }
+            ]
+          }
+        }
       }
     }
   }

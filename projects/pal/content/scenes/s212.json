@@ -20,25 +20,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s212",
-                      "id": "scene/s212/root/entity-e3585/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-eeaa1f51",
+                      "kind": "loadScene",
+                      "scene": "s201"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e3586",
@@ -50,25 +65,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s212",
-                      "id": "scene/s212/root/entity-e3586/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-8bd062b3",
+                      "kind": "loadScene",
+                      "scene": "s206"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e3587",
@@ -423,32 +453,6 @@
       }
     }
   ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s212",
-            "id": "scene/s212/root/on-enter/stage-0"
-          }
-        }
-      ]
-    }
-  ],
-  "onTeleport": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s212",
-            "id": "scene/s212/root/on-teleport/stage-0"
-          }
-        }
-      ]
-    }
-  ],
   "battleFieldId": 35,
   "battleMusic": "music.pal.038",
   "entries": {
@@ -466,6 +470,62 @@
         "col": 109,
         "row": 92,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "setScreenWave",
+                    "level": 2,
+                    "progression": 0
+                  },
+                  {
+                    "asset": "music.pal.083",
+                    "kind": "playMusic"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "onTeleport": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认传送出口",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "entryId": "pal-entry-8bd062b3",
+                    "kind": "loadScene",
+                    "scene": "s206"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }

@@ -21,50 +21,305 @@
       "hidden": true
     }
   ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s200",
-            "id": "scene/s200/root/on-enter/stage-0"
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 80,
+                        "row": 24,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.059"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s200",
+                        "entity": "e3351"
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 3600,
+                    "source": "previousPresentedFrame"
+                  }
+                },
+                "body": [
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.010",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 56,
+                          "text": "dlg.10962"
+                        },
+                        {
+                          "speed": 56,
+                          "text": "dlg.10963"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.073",
+                        "side": "left"
+                      },
+                      "rows": [
+                        {
+                          "speed": 88,
+                          "text": "dlg.10965"
+                        },
+                        {
+                          "speed": 88,
+                          "text": "dlg.10966"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.巫后"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.003",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 16,
+                          "text": "dlg.10968"
+                        },
+                        {
+                          "speed": 16,
+                          "text": "dlg.10969"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.073",
+                        "side": "left"
+                      },
+                      "rows": [
+                        {
+                          "speed": 32,
+                          "text": "dlg.10971"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.巫后"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.001",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 32,
+                          "text": "dlg.10973"
+                        },
+                        {
+                          "speed": 32,
+                          "text": "dlg.10974"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.073",
+                        "side": "left"
+                      },
+                      "rows": [
+                        {
+                          "speed": 64,
+                          "text": "dlg.10976"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.巫后"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.001",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 32,
+                          "text": "dlg.10978"
+                        },
+                        {
+                          "speed": 32,
+                          "text": "dlg.10979"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.073",
+                        "side": "left"
+                      },
+                      "rows": [
+                        {
+                          "speed": 88,
+                          "text": "dlg.10981"
+                        },
+                        {
+                          "speed": 88,
+                          "text": "dlg.10982"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.巫后"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.001",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 16,
+                          "text": "dlg.10984"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.073",
+                        "side": "left"
+                      },
+                      "rows": [
+                        {
+                          "speed": 88,
+                          "text": "dlg.10986"
+                        },
+                        {
+                          "speed": 88,
+                          "text": "dlg.10987"
+                        }
+                      ],
+                      "slot": "top",
+                      "speaker": "spk.巫后"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "cue": {
+                      "cursorFrame": 2,
+                      "portrait": {
+                        "asset": "portrait.pal.010",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "speed": 16,
+                          "text": "dlg.10989"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 1200
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s246"
+                  }
+                ]
+              }
+            ]
           }
-        }
-      ],
-      "entry": {
-        "prepare": [
-          {
-            "kind": "teleportParty",
-            "pos": {
-              "col": 80,
-              "row": 24,
-              "height": 0
-            }
-          },
-          {
-            "kind": "setPartyFacing",
-            "facing": "up"
-          },
-          {
-            "kind": "playMusic",
-            "asset": "music.pal.059"
-          },
-          {
-            "kind": "clearDialog"
-          },
-          {
-            "kind": "setEntityState",
-            "entity": "e3351",
-            "state": 1
-          }
-        ],
-        "reveal": {
-          "kind": "dither",
-          "ms": 3600,
-          "source": "previousPresentedFrame"
         }
       }
     }
-  ]
+  }
 }

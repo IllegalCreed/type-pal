@@ -10,7 +10,6 @@ import {
   validateProjectMigrationDescriptorV1,
   validateProjectMigrationSidecarV1,
   type WorldScriptStateV5,
-  type WorldStateV5,
 } from '@type-pal/content'
 import type { FileSource } from '../file-source.js'
 import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.js'

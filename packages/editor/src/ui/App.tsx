@@ -75,21 +75,21 @@ import { saveHandle } from '../core/handle-store.js'
 import type { ItemReference } from '../core/item-references.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import { collectEditorStatusIssues } from '../core/project-diagnostics.js'
-import {
-  mergeLegacyEditorShellIntoV5,
-  serializeProjectV5WithCopies,
-  type EditorStateV5,
-} from '../core/project-io-v5.js'
 import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.js'
 import {
-  SetEntityPageBehaviorV5Command,
-  type ScriptEditorStateV5,
-  type ScriptV5EditSession,
-} from '../core/script-v5-editor.js'
+  type EditorStateV5,
+  mergeLegacyEditorShellIntoV5,
+  serializeProjectV5WithCopies,
+} from '../core/project-io-v5.js'
 import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
+import {
+  type ScriptEditorStateV5,
+  type ScriptV5EditSession,
+  SetEntityPageBehaviorV5Command,
+} from '../core/script-v5-editor.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
@@ -659,7 +659,10 @@ export function App(props: {
         return
     }
   }
-  const statusIssues = useMemo(() => collectEditorStatusIssues(state), [state])
+  const statusIssues = useMemo(
+    () => collectEditorStatusIssues(state, scriptV5State),
+    [scriptV5State, state],
+  )
   // C0:实体经 actor⊕sprite 解析;玩家精灵 = party[0] → ActorDef.spriteId(与引擎同路径)
   const actorsById = useMemo(
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
@@ -828,10 +831,12 @@ export function App(props: {
     canonicalEntityV5?.pages?.find((page) => page.id === selectedPageV5) ??
     canonicalEntityV5?.pages?.find((page) => page.id === canonicalEntityV5.initialPage) ??
     canonicalEntityV5?.pages?.[0]
+  const selectedScriptOwnerKey = `${scene?.id ?? ''}\u0000${selEntity?.id ?? ''}`
   useEffect(() => {
+    void selectedScriptOwnerKey
     setSelectedPageV5(undefined)
     setSelectedBehaviorV5(undefined)
-  }, [scene?.id, selEntity?.id])
+  }, [selectedScriptOwnerKey])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
@@ -986,11 +991,7 @@ export function App(props: {
       await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
       // HTTP 工程第一次选择本地目录时没有可复制的源目录，必须从 FileSource
       // 把 catalog 的全部二进制一并物化，不能只写本会话新增的 assetBlobs。
-      const files = await serializeEditorSnapshot(
-        savedState,
-        savedScriptState,
-        rememberDirectory,
-      )
+      const files = await serializeEditorSnapshot(savedState, savedScriptState, rememberDirectory)
       let lastPercent = -1
       setSaveActivity({ phase: 'writing', completed: 0, total: 0 })
       // 即使是首存也传空 Map：writeProject 会把每个已成功 close 的路径记进实际磁盘恢复快照。
@@ -1058,8 +1059,7 @@ export function App(props: {
       const sourceDir = dirHandleRef.current ?? undefined
       // 必须在点击调用栈内同步启动，File System Access 的目录选择器才保有用户激活。
       const operation = saveProjectAs(
-        () =>
-          serializeEditorSnapshot(savedState, savedScriptState, !sourceDir),
+        () => serializeEditorSnapshot(savedState, savedScriptState, !sourceDir),
         sourceDir,
         removePaths,
       )
@@ -1815,8 +1815,7 @@ export function App(props: {
                                   {Object.entries(registry)
                                     .sort(
                                       ([leftId, left], [rightId, right]) =>
-                                        left.order - right.order ||
-                                        leftId.localeCompare(rightId),
+                                        left.order - right.order || leftId.localeCompare(rightId),
                                     )
                                     .map(([id, behavior]) => (
                                       <option key={id} value={id}>
@@ -1865,9 +1864,7 @@ export function App(props: {
                             message: `已选择 ${scriptV5Channel} 行为 ${behaviorId}；正文编辑器将在此 canonical 槽内打开。`,
                           })
                         }
-                        onError={(message) =>
-                          setWorkspaceNotice({ kind: 'error', message })
-                        }
+                        onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                       />
                     </div>
                   ) : null}

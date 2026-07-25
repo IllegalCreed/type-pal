@@ -1,10 +1,5 @@
 import type { EntityBase, EntityRef, HostileBehavior, SceneDef } from './index.js'
-import type {
-  AuthorCommandV5,
-  EntityBehaviorsV5,
-  EntityPageV5,
-  SceneHooksV5,
-} from './script-v5.js'
+import type { AuthorCommandV5, EntityBehaviorsV5, EntityPageV5, SceneHooksV5 } from './script-v5.js'
 
 export interface HostileBehaviorV5 extends Omit<HostileBehavior, 'onLose'> {
   onLose?: 'gameOver' | AuthorCommandV5[]

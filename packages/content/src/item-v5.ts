@@ -1,10 +1,4 @@
-import type {
-  ItemData,
-  ItemUseContext,
-  ItemUseEffect,
-  ThrowSpec,
-  UseSpec,
-} from './item.js'
+import type { ItemData, ItemUseContext, ItemUseEffect, ThrowSpec, UseSpec } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseEffectSupportsContext } from './item.js'
 import type { AuthorCommandV5, ScriptId } from './script-v5.js'
 
@@ -44,8 +38,7 @@ export function itemUseEffectSupportsContextV5(
   effect: ItemUseEffectV5,
   context: ItemUseContext,
 ): boolean {
-  if (effect.kind === 'runScript' || effect.kind === 'itemPrivateScript')
-    return context === 'world'
+  if (effect.kind === 'runScript' || effect.kind === 'itemPrivateScript') return context === 'world'
   return itemUseEffectSupportsContext(effect, context)
 }
 

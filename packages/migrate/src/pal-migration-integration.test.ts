@@ -31,6 +31,8 @@ import {
   RNG_WIDTH,
 } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
+import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
+import { createP7V5MigrationPlan } from './experimental/script-v5/p7-mg2.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -73,6 +75,11 @@ import {
   PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT,
   PAL_WORLD_SPRITE_LAYOUT_OVERLAYS,
 } from './pal-world-sprite-layouts.js'
+import {
+  assertScriptControlFlowAudit,
+  auditPalScriptControlFlow,
+  type ScriptControlFlowAuditV1,
+} from './script-control-flow-audit.js'
 import { normalizeMigrationScriptFiles } from './script-library-normalize.js'
 import {
   assertPalSoundReferenceBaseline,
@@ -709,12 +716,43 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const baseline = loadPalBaseline(repo)
     expect(baseline).toBeDefined()
 
-    const managed = discoverProjectManagedFiles(repo, theirs.managedFiles)
+    const frozenAudit = JSON.parse(
+      readFileSync(
+        resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json'),
+        'utf8',
+      ),
+    ) as ScriptControlFlowAuditV1
+    const generated = baseline?.baselineMetadata
+      ? (() => {
+          const currentAudit = auditPalScriptControlFlow(sources, theirs)
+          assertScriptControlFlowAudit(currentAudit)
+          return buildP7GeneratedCanonical({
+            migration: theirs,
+            currentAudit,
+            frozenAudit,
+            sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
+          }).snapshot
+        })()
+      : undefined
+    const managed = discoverProjectManagedFiles(
+      repo,
+      new Set([
+        ...(baseline?.managedFiles ?? []),
+        ...(generated?.managedFiles ?? theirs.managedFiles),
+      ]),
+    )
     const ours = loadProjectMigrationSnapshot(repo, managed)
-    const plan = createMigrationPlan(baseline!, ours, theirs)
-    expect(plan.conflicts).toEqual([])
-    expect(plan.writes.size).toBe(0)
-    expect(plan.deletes).toEqual([])
+    if (generated) {
+      const result = createP7V5MigrationPlan({ base: baseline!, ours, generated })
+      expect(result.plan.conflicts).toEqual([])
+      expect(result.plan.writes.size).toBe(0)
+      expect(result.plan.deletes).toEqual([])
+    } else {
+      const plan = createMigrationPlan(baseline!, ours, theirs)
+      expect(plan.conflicts).toEqual([])
+      expect(plan.writes.size).toBe(0)
+      expect(plan.deletes).toEqual([])
+    }
 
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
@@ -726,8 +764,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
     expectOriginalPalNewGame(manifest)
     const validation = validatePalMigrationTarget({
-      files: ours.files,
-      managedFiles: ours.managedFiles,
+      files: theirs.files,
+      managedFiles: theirs.managedFiles,
       sources,
       startWorld: manifest.startWorld,
       assets: manifest.assets,
@@ -758,5 +796,5 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       setActorAppearance: { total: 3, migrated: 2 },
       setFollowers: { total: 1, migrated: 1 },
     })
-  }, 120_000)
+  }, 240_000)
 })

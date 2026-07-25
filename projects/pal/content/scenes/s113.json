@@ -20,25 +20,39 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2111/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s105"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2112",
@@ -50,25 +64,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2112/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-6dee930a",
+                      "kind": "loadScene",
+                      "scene": "s105"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2113",
@@ -81,60 +110,374 @@
       "facing": "right",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-1"
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-2"
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 93
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2113/page-0/auto/stage-3"
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2113"
+                      }
                     }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2114",
@@ -147,60 +490,374 @@
       "facing": "left",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-1"
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-2"
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 93
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2114/page-0/auto/stage-3"
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2114"
+                      }
                     }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2115",
@@ -213,60 +870,374 @@
       "facing": "up",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-1"
+                  ],
+                  "next": "legacy-002"
+                },
+                {
+                  "id": "legacy-002",
+                  "body": [
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-2"
+                  ],
+                  "next": "legacy-003"
+                },
+                {
+                  "id": "legacy-003",
+                  "body": [
+                    {
+                      "dir": "left",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 96
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "down",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 93
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "right",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
                     }
-                  }
-                ],
-                "next": "advance"
-              },
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s113",
-                      "id": "scene/s113/root/entity-e2115/page-0/auto/stage-3"
+                  ],
+                  "next": "legacy-004"
+                },
+                {
+                  "id": "legacy-004",
+                  "body": [
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 91
+                      },
+                      "then": [
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "dir": "up",
+                      "kind": "stepEntity",
+                      "target": {
+                        "scene": "s113",
+                        "entity": "e2115"
+                      }
                     }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+                  ],
+                  "next": "initial"
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2116",

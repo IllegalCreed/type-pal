@@ -1,8 +1,8 @@
 import {
   checkSharedScriptLibraryV5,
+  type EntityDefV5,
   formatProjectMap,
   formatStampTemplates,
-  type EntityDefV5,
   type ItemData,
   type ItemDataV5,
   type ProjectManifest,
@@ -14,13 +14,9 @@ import {
   validateMapIndex,
   validateScenesV5,
 } from '@type-pal/content'
-import {
-  isV5RuntimeScriptRef,
-  type FileSource,
-  type LoadedProjectV5Core,
-} from '@type-pal/reforge'
+import { type FileSource, isV5RuntimeScriptRef, type LoadedProjectV5Core } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
-import type { ScriptEditorStateV5 } from './script-v5-editor.js'
+import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
 
 export interface EditorStateV5
   extends Omit<EditorState, 'manifest' | 'scenes' | 'items' | 'scriptIndex' | 'scriptChunks'>,
@@ -95,8 +91,7 @@ function mergeEntityShellV5(
   shell: EditorState['scenes'][number]['entities'][number],
   canonical: EntityDefV5 | undefined,
 ): EntityDefV5 {
-  const { pages: legacyPages, hostile: shellHostile, ...shellBase } =
-    structuredClone(shell)
+  const { pages: legacyPages, hostile: shellHostile, ...shellBase } = structuredClone(shell)
   const pages = canonical?.pages ? structuredClone(canonical.pages) : undefined
   const initialPage = pages?.find((page) => page.id === canonical?.initialPage)
   if (initialPage) {
@@ -211,9 +206,7 @@ export function mergeLegacyEditorShellIntoV5(
   canonical: EditorStateV5,
   shell: EditorState,
 ): EditorStateV5 {
-  const runtimeManifest = structuredClone(
-    shell.manifest,
-  ) as unknown as ProjectManifest<5>
+  const runtimeManifest = structuredClone(shell.manifest) as unknown as ProjectManifest<5>
   if (runtimeManifest.contentVersion !== 5)
     throw new Error('mergeLegacyEditorShellIntoV5: shell 不是 contentVersion 5 工程')
   if (runtimeManifest.content.scripts !== undefined)
@@ -234,15 +227,11 @@ export function mergeLegacyEditorShellIntoV5(
     ...structuredClone(ordinaryState),
     manifest: runtimeManifest,
     startWorld: structuredClone(runtimeManifest.startWorld),
-    scenes: shell.scenes.map((scene) =>
-      mergeSceneShellV5(scene, canonicalScenes.get(scene.id)),
-    ),
+    scenes: shell.scenes.map((scene) => mergeSceneShellV5(scene, canonicalScenes.get(scene.id))),
     items: shell.items.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id))),
     sharedScripts: structuredClone(canonical.sharedScripts),
     migrationRegistry: cloneMigrationRegistry(canonical.migrationRegistry),
-    migrationSidecars: canonical.migrationSidecars.map((sidecar) =>
-      structuredClone(sidecar),
-    ),
+    migrationSidecars: canonical.migrationSidecars.map((sidecar) => structuredClone(sidecar)),
   }
 }
 
@@ -282,6 +271,8 @@ function validateEditorStateV5(state: EditorStateV5): void {
   const scenes = validateScenesV5(state.scenes)
   validateItemsV5(state.items)
   checkSharedScriptLibraryV5(state.sharedScripts)
+  const scriptIssue = collectScriptV5ReferenceIssues(state)[0]
+  if (scriptIssue) throw new Error(`${scriptIssue.path}: ${scriptIssue.message}`)
   const ids = new Set(scenes.map((scene) => scene.id))
   if (!ids.has(state.manifest.entryScene))
     throw new Error(`serializeProjectV5: 入口场景 "${state.manifest.entryScene}" 不在场景表`)

@@ -5,7 +5,7 @@ export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
 
 export const MANUAL_SLOT_COUNT = 28
 export const SLOTS_PER_PAGE = 3
-export const SAVE_VERSION = 4
+export const SAVE_VERSION = 5
 
 /** 全部槽 id（固定序）：自动、快速最前，其后 m01..m28（共 30，3/页 → 10 页）。 */
 export const ALL_SLOT_IDS: SlotId[] = [

@@ -4,7 +4,7 @@
  * manifest 单独相对化写(assets 指向本地 assets/**),使克隆后经 fsaSource 离线渲染。
  */
 import {
-  type LoadedManifest,
+  type ProjectManifest,
   type ScriptIndexV1,
   validateAssetCatalog,
   validateMapIndex,
@@ -56,7 +56,7 @@ export async function cloneFromPal(
   dir: FileSystemDirectoryHandle,
   onProgress: (done: number, total: number) => void,
 ): Promise<void> {
-  const manifest = await seed.readJson<LoadedManifest>('manifest.json')
+  const manifest = await seed.readJson<ProjectManifest<number>>('manifest.json')
   const sceneIds = await seed.readJson<string[]>(`${scenesDir(manifest)}index.json`)
   if (!seed.legacy) throw new Error('PAL clone 缺 LegacyAssetAdapter，无法读取 extracted 清单')
   const assetManifest = await seed.legacy.readJson<FileList>('/extracted/asset-manifest.json')

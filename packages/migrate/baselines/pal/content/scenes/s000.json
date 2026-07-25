@@ -10,17 +10,105 @@
     "facing": "down"
   },
   "entities": [],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s000",
-            "id": "scene/s000/root/on-enter/stage-0"
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 96,
+                      "height": 0,
+                      "row": 32
+                    }
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-193"
+                  },
+                  {
+                    "facing": "down",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
+                    ]
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "autoAdvance": 342,
+                      "rows": [
+                        {
+                          "speed": 112,
+                          "text": "dlg.0"
+                        }
+                      ],
+                      "slot": "center"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "autoAdvance": 457,
+                      "rows": [
+                        {
+                          "speed": 16,
+                          "text": "dlg.2"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "autoAdvance": 685,
+                      "rows": [
+                        {
+                          "speed": 16,
+                          "text": "dlg.3"
+                        },
+                        {
+                          "speed": 16,
+                          "text": "dlg.4"
+                        }
+                      ],
+                      "speaker": "spk.李逍遥"
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s001"
+                  }
+                ]
+              }
+            ]
           }
         }
-      ]
+      }
     }
-  ]
+  }
 }

@@ -4,10 +4,6 @@ import { fileURLToPath } from 'node:url'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import { loadPalBaseline, type MigrationSnapshot } from '../../migration-baseline.js'
-import {
-  discoverProjectManagedFiles,
-  loadProjectMigrationSnapshot,
-} from '../../migration-project-io.js'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
 import { buildPalMigration } from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
@@ -21,6 +17,7 @@ import { buildP2ScriptMigrationIR } from './p2-transform.js'
 import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
 import { planP3ScriptTransition } from './p3-transition-plan.js'
 import { validateP3ScriptMigrationIR } from './p3-validate.js'
+import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
 import { assertP3ShadowBundle, buildDeterministicP3ShadowBundle } from './shadow-harness.js'
 import { commandAtPointer, readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
@@ -100,11 +97,7 @@ describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
     const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
     const base = loadPalBaseline(repo)
     if (!base) throw new Error('PAL migration baseline missing')
-    const managed = discoverProjectManagedFiles(
-      repo,
-      new Set([...base.managedFiles, ...migration.managedFiles]),
-    )
-    const ours = loadProjectMigrationSnapshot(repo, managed)
+    const snapshots = reconstructPublishedV4TransitionSnapshots(repo, migration, base)
     const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
     const p2 = buildP2ScriptMigrationIR({
       migration,
@@ -120,8 +113,8 @@ describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
     })
     fixture = {
       migration,
-      base,
-      ours,
+      base: snapshots.base,
+      ours: snapshots.ours,
       audit,
       frozen,
       sourceCommands,

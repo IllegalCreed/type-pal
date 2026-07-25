@@ -263,7 +263,7 @@ export type ItemDataMap = Record<string, ItemData>
 export function effectiveStat(
   char: CharacterInstance,
   stat: CombatStat,
-  items: Record<string, ItemData>,
+  items: Readonly<Record<string, Pick<ItemData, 'equip'>>>,
 ): number {
   const base: Record<CombatStat, number> = {
     attack: char.attack,

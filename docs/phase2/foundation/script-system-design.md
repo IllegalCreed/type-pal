@@ -1,4 +1,110 @@
-# 剧情脚本系统 — 数据模型 shape（v0 草稿，待评审）
+# 剧情脚本系统
+
+> **当前实现（contentVersion 5，2026-07-25）**：N3-1 已把 canonical 脚本模型发布到
+> `packages/content/src/script-v5.ts`、`scene-v5.ts`、`item-v5.ts`，compiler/runtime/editor/save
+> 均消费同一模型。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和作者模型不再是当前契约。
+> 最终验收状态见
+> [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
+
+## contentVersion 5 canonical 契约
+
+### 作者身份与存储
+
+- 实体只用复合地址 `EntityAddress { scene, entity }`。命令、条件、`self` 和存档映射均不得保存
+  脱离场景的裸实体 id。
+- `SceneDefV5.entities[].pages[]` 以稳定 `PageId` 命名；Page 只选择行为、触发方式和外观，
+  不内嵌匿名脚本。
+- `behaviors.trigger/auto` 是按稳定 `BehaviorId` 登记的具名本地行为；Page 的
+  `trigger`/`auto` 只保存选择。运行时也可通过 `selectEntityPage`、
+  `selectEntityBehavior`、`setEntityTriggerActivation` 改变选择。
+- 场景 `hooks.onEnter/onTeleport` 是按稳定 `HookId` 登记的 variant registry，并各自拥有
+  `initial` 选择。运行时切换统一使用 `selectSceneHooks`。
+- 真正跨处复用的脚本只存在于 `content/shared-scripts.json`，形状为
+  `Record<ScriptId, SharedAuthorScriptV5>`。`callScript` 只保存稳定 `script` id 和可选
+  `EntityAddress self`，不保存 chunk 提示。
+- 只服务一件物品的复杂用途使用 `itemPrivateScript`，正文内联归该物品拥有；它不进入共享脚本库。
+
+### 控制流
+
+`ScriptFlowV5` 有两种 canonical 形态：
+
+```ts
+type ScriptFlowV5 =
+  | {
+      kind: 'stages'
+      initial: StageId
+      stages: Array<{
+        id: StageId
+        entry?: AuthorSceneEntryPresentationV5
+        body: AuthorCommandV5[]
+        next?: StageId
+      }>
+    }
+  | {
+      kind: 'stateMachine'
+      machine: {
+        id: MachineId
+        label: string
+        initial: StateId
+        states: Record<
+          StateId,
+          {
+            label: string
+            entry?: AuthorSceneEntryPresentationV5
+            body: AuthorCommandV5[]
+            next: StateTransitionV5
+          }
+        >
+      }
+    }
+
+type StateTransitionV5 =
+  | { kind: 'stay' }
+  | { kind: 'restart' }
+  | { kind: 'continue'; state: StateId }
+  | { kind: 'advance'; state: StateId }
+  | { kind: 'to'; state: StateId; yield: 'macroTask' | 'worldTick' }
+  | { kind: 'branch'; cond: AuthorConditionV5; then: StateTransitionV5; else: StateTransitionV5 }
+  | {
+      kind: 'commandOutcome'
+      commandId: CommandId
+      command: 'confirm'
+      outcome: 'no'
+      then: StateTransitionV5
+      else: StateTransitionV5
+    }
+```
+
+`continue` 表示同一次 invocation 内同步进入下一 state；`advance` 在 safe-point 提交 cursor；
+`to` 还显式声明宏任务或世界拍让步；`commandOutcome` 绑定稳定 `CommandId`，承接命令结果分支。
+`jumpScript`、匿名 binding 和作者可见 generated block 均不是 v5 作者命令。
+
+compiler 将 canonical flow 降成只存在于内存或可删缓存的 `ExecutableFlow`。生成块可以有内部
+地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
+或 MG2 冲突键。
+
+### 持久状态与调度
+
+- `WorldScriptStateV5` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
+  以及 Page/Behavior/Hook 选择、epoch 和 `FlowCursor`。
+- 存档只在 flow safe-point 捕获 cursor；不持久化 command index、调用栈或 wait 中间相位。
+- auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由 compiler
+  显式物化，runtime 不再靠遍历 AST 后的隐式 sleep 猜节拍。
+- Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
+  safe-point，过期 cursor 的 CAS 会被丢弃。
+
+### v4 → v5 边界
+
+- HTTP/runtime loader 只接受 current v5；旧工程只在本地编辑器 `open-local` 入口升级。
+- 唯一可证明的单页/单段工程可自动投影。多 Page/Stage、重复实体地址、重复 cursor 和动态绑定
+  会停在零写迁移工作台，由作者命名或选择 `broadcast-v4`/单一目标。
+- 选择全部解决后先显示 allocation/alias 预览；作者再次确认且 input digest 未变化时，才把新字节
+  写入 `.type-pal/migration-staging/`，发布可前滚 journal，并始终最后提交 manifest。
+- 不能无损结构化的控制流继续 fail-loud；不得套用 PAL baseline、猜数组位置或静默丢正文。
+
+---
+
+## 历史 v0 草稿（已被上文 supersede）
 
 > 第二阶段（Reforge）地基。本文**只定数据形状**，不写运行时解释器、不碰查看器/编辑器。
 > 目标：让运行时、查看器、将来的编辑器三层都吃同一个干净、可序列化的模型。

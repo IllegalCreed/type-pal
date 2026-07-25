@@ -31,7 +31,6 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
-  CONTENT_VERSION,
   checkScriptIndex,
   mapAssetById,
   upgradeLegacyDialogues,
@@ -63,6 +62,8 @@ import {
 } from './file-source.js'
 import { ProjectImageCache } from './project-image-cache.js'
 import { ScriptChunkStore } from './script-chunk-store.js'
+
+const LEGACY_CONTENT_VERSION = 4 as const
 
 /** 加载完成的工程数据核(纯组装产物,不含 IO 源;assembleProject 返回它)。 */
 export interface LoadedProjectCore {
@@ -190,8 +191,10 @@ export function assembleProject(
   legacyIo?: LegacyAssetAdapter,
 ): LoadedProjectCore {
   const sceneIds = validateSceneIds(jsons.sceneIds)
-  if (manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion ${CONTENT_VERSION}，请先迁移`)
+  if (manifest.contentVersion !== LEGACY_CONTENT_VERSION)
+    throw new Error(
+      `工程 "${manifest.id}": legacy loader 仅支持 contentVersion ${LEGACY_CONTENT_VERSION}`,
+    )
   validateStartWorldResources(manifest.startWorld)
   for (const [index, entry] of (manifest.entryPoints ?? []).entries()) {
     if (entry.startWorld)
@@ -305,8 +308,10 @@ function scriptsDir(manifest: LoadedManifest): string | undefined {
 /** 真加载核:经 FileSource 读 manifest + 表域 + 场景 index + 入口场景 → assembleProject + 挂 source。 */
 export async function loadProjectFrom(source: FileSource): Promise<LoadedProject> {
   const manifest = await source.readJson<LoadedManifest>('manifest.json')
-  if (manifest.contentVersion !== CONTENT_VERSION)
-    throw new Error(`工程 "${manifest.id}": 仅支持 contentVersion ${CONTENT_VERSION}，请先迁移`)
+  if (manifest.contentVersion !== LEGACY_CONTENT_VERSION)
+    throw new Error(
+      `工程 "${manifest.id}": legacy loader 仅支持 contentVersion ${LEGACY_CONTENT_VERSION}`,
+    )
   validateManifestAssetConfigV3(manifest.assets)
   const content = manifest.content
   if (!content.sprites) throw new Error(`工程 "${manifest.id}": manifest 缺 sprites 注册表`)

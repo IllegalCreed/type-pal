@@ -53,9 +53,23 @@ function legacyEntityStages(
 function legacyHookStages(
   source: SceneDef,
   owner: P4AuthorOwnerAllocation,
+  ir: ScriptMigrationIRP6,
 ): LegacyStageInput[] | undefined {
-  if (owner.origin !== 'static-scene' || owner.identity.kind !== 'scene-hook') return undefined
-  return source[owner.identity.slot] as LegacyStageInput[] | undefined
+  if (owner.identity.kind !== 'scene-hook') return undefined
+  if (owner.origin === 'static-scene')
+    return source[owner.identity.slot] as LegacyStageInput[] | undefined
+  const candidates = ir.commandRewrites.flatMap((rewrite) => {
+    if (rewrite.groupId !== owner.groupId || !rewrite.before || typeof rewrite.before !== 'object')
+      return []
+    const stages = (rewrite.before as { stages?: unknown }).stages
+    return Array.isArray(stages) ? [stages as LegacyStageInput[]] : []
+  })
+  if (!candidates.length)
+    throw new Error(`P7 project: dynamic hook ${p7OwnerKey(owner.identity)} 缺 legacy stages 证据`)
+  const first = JSON.stringify(candidates[0])
+  if (candidates.some((candidate) => JSON.stringify(candidate) !== first))
+    throw new Error(`P7 project: dynamic hook ${p7OwnerKey(owner.identity)} 的 stages 证据不一致`)
+  return candidates[0]
 }
 
 export interface P7ProjectReport {
@@ -208,7 +222,7 @@ export function projectP7CanonicalProject(args: {
               {
                 label: owner.label,
                 order: owner.order,
-                flow: projectOwner(owner, legacyHookStages(source, owner)),
+                flow: projectOwner(owner, legacyHookStages(source, owner, args.ir)),
               },
             ]
           }),

@@ -1,7 +1,7 @@
 import type { EntityAddress, SceneSpawn } from '@type-pal/content'
 import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
-import type { ScriptRuntimeContextV5 } from './script-runner-v5.js'
 import type { ScriptHost } from './script-runner.js'
+import type { ScriptRuntimeContextV5 } from './script-runner-v5.js'
 
 export interface LegacyScriptHostAdapterOptionsV5 {
   currentSceneId(): string
@@ -90,9 +90,7 @@ export async function executeLegacyScriptHostEffectV5(
         {
           ...(command.spriteId !== undefined ? { spriteId: command.spriteId } : {}),
           ...(command.portrait !== undefined ? { portrait: command.portrait } : {}),
-          ...(command.battleSprite !== undefined
-            ? { battleSprite: command.battleSprite }
-            : {}),
+          ...(command.battleSprite !== undefined ? { battleSprite: command.battleSprite } : {}),
         },
         signal,
       )
@@ -154,8 +152,7 @@ export async function executeLegacyScriptHostEffectV5(
       await host.setFollowers([...command.sprites], signal)
       return
     case 'setSceneMapOverride':
-      if (command.scene === undefined && host.reloadMap)
-        await host.reloadMap(command.mapId, signal)
+      if (command.scene === undefined && host.reloadMap) await host.reloadMap(command.mapId, signal)
       return
     case 'halveMoney': {
       const money = host.query.money()

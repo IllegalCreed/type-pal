@@ -1,7 +1,7 @@
 {
   "id": "pal",
   "name": "仙剑奇侠传·复刻",
-  "contentVersion": 4,
+  "contentVersion": 5,
   "entryScene": "s000",
   "content": {
     "scenes": "content/scenes/",
@@ -18,10 +18,10 @@
     "ambiences": "content/ambiences.json",
     "shops": "content/shops.json",
     "maps": "content/maps/index.json",
-    "scripts": "content/scripts/",
     "stamps": "content/stamps.json",
     "battleSprites": "content/battle-sprites.json",
-    "migrationDiagnostics": "content/migration-diagnostics.json"
+    "migrationDiagnostics": "content/migration-diagnostics.json",
+    "sharedScripts": "content/shared-scripts.json"
   },
   "assets": {
     "catalog": "assets/index.json",
@@ -67,5 +67,14 @@
       "scene": "s000",
       "introVideo": "video.pal.003"
     }
-  ]
+  ],
+  "migrations": {
+    "script-v4-v5": {
+      "version": 1,
+      "fromContentVersion": 4,
+      "toContentVersion": 5,
+      "path": "content/migrations/script-v4-v5-save.json",
+      "sha256": "30ce8717aa9f6f21e14d862cde2aa44dff8f3652833826b4506e49bc7a6a2ed0"
+    }
+  }
 }

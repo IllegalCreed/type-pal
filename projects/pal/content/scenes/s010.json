@@ -22,41 +22,321 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "auto": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 3,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s010",
-                      "id": "scene/s010/root/entity-e191/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s010",
-                      "id": "scene/s010/root/entity-e191/page-0/auto/stage-0"
-                    }
-                  }
-                ],
-                "next": 0
-              }
-            ]
+            "range": 3
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "allFullHp"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.708"
+                              },
+                              {
+                                "text": "dlg.709"
+                              },
+                              {
+                                "text": "dlg.710"
+                              }
+                            ],
+                            "speaker": "spk.洪大夫"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "delta": 9999,
+                          "kind": "increaseHpMp"
+                        },
+                        {
+                          "dir": "out",
+                          "kind": "fade",
+                          "ms": 600
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.712"
+                              }
+                            ],
+                            "speaker": "spk.洪大夫"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.705"
+                          },
+                          {
+                            "text": "dlg.706"
+                          }
+                        ],
+                        "speaker": "spk.洪大夫"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "触发行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.714"
+                          },
+                          {
+                            "text": "dlg.715"
+                          },
+                          {
+                            "text": "dlg.716"
+                          },
+                          {
+                            "text": "dlg.717"
+                          }
+                        ],
+                        "speaker": "spk.洪大夫"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "107",
+                      "kind": "giveItem"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-002": {
+            "label": "触发行为 2",
+            "order": 2,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.778"
+                          },
+                          {
+                            "text": "dlg.779"
+                          }
+                        ],
+                        "slot": "top",
+                        "speaker": "spk.洪大夫"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-003": {
+            "label": "触发行为 3",
+            "order": 3,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "allFullHp"
+                        }
+                      },
+                      "then": [
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1203"
+                              },
+                              {
+                                "text": "dlg.1204"
+                              },
+                              {
+                                "text": "dlg.1205"
+                              }
+                            ],
+                            "speaker": "spk.洪大夫"
+                          },
+                          "kind": "dialog"
+                        },
+                        {
+                          "kind": "revivePartyAll",
+                          "tenths": 10
+                        },
+                        {
+                          "delta": 9999,
+                          "kind": "increaseHpMp"
+                        },
+                        {
+                          "dir": "out",
+                          "kind": "fade",
+                          "ms": 600
+                        },
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.1207"
+                              },
+                              {
+                                "text": "dlg.1208"
+                              }
+                            ],
+                            "speaker": "spk.洪大夫"
+                          },
+                          "kind": "dialog"
+                        }
+                      ]
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1196"
+                          },
+                          {
+                            "text": "dlg.1197"
+                          },
+                          {
+                            "text": "dlg.1198"
+                          }
+                        ],
+                        "speaker": "spk.洪大夫"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1199"
+                          },
+                          {
+                            "text": "dlg.1200"
+                          },
+                          {
+                            "text": "dlg.1201"
+                          }
+                        ],
+                        "speaker": "spk.洪大夫"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "openShop",
+                      "mode": "buy",
+                      "shop": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s010",
+                        "entity": "e191"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s010",
+                        "entity": "e191"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e192",
@@ -68,25 +348,40 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s010",
-                      "id": "scene/s010/root/entity-e192/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-7c22f1a7",
+                      "kind": "loadScene",
+                      "scene": "s004"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e193",
@@ -100,25 +395,46 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 2,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s010",
-                      "id": "scene/s010/root/entity-e193/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 2
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1448"
+                          }
+                        ],
+                        "speaker": "spk.居民"
+                      },
+                      "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "entries": {

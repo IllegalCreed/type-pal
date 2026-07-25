@@ -20,17 +20,101 @@
       "sprite": "sprite-230"
     }
   ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s171",
-            "id": "scene/s171/root/on-enter/stage-0"
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 91,
+                      "height": 0,
+                      "row": 36
+                    }
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-228"
+                  },
+                  {
+                    "facing": "down",
+                    "gesture": 16,
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "ditherScreen",
+                    "ms": 5040
+                  },
+                  {
+                    "facing": "down",
+                    "gesture": 17,
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 560
+                  },
+                  {
+                    "facing": "down",
+                    "gesture": 18,
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "cue": {
+                      "autoAdvance": 800,
+                      "rows": [
+                        {
+                          "speed": 80,
+                          "text": "dlg.9184"
+                        },
+                        {
+                          "speed": 80,
+                          "text": "dlg.9185"
+                        },
+                        {
+                          "speed": 80,
+                          "text": "dlg.9186"
+                        }
+                      ]
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "facing": "down",
+                    "gesture": 19,
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s169"
+                  }
+                ]
+              }
+            ]
           }
         }
-      ]
+      }
     }
-  ]
+  }
 }

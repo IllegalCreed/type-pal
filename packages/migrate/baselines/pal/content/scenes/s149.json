@@ -21,23 +21,70 @@
       "facing": "right",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2456/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 36
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2456"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2456"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 104,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2456"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2457",
@@ -50,23 +97,81 @@
       "facing": "left",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2457/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 45
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2457"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 120
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2457"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2457"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 120
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "run",
+                      "to": {
+                        "col": 105,
+                        "height": 0,
+                        "row": 45
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2457"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2458",
@@ -79,23 +184,96 @@
       "zBias": 2,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2458/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 40
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2458"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 35
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2458"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 89,
+                        "height": 0,
+                        "row": 35
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2458"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 35
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2458"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2458"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2459",
@@ -107,23 +285,109 @@
       "sprite": "sprite-495",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2459/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 38
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 38
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 42
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 40
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 45
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 106,
+                        "height": 0,
+                        "row": 45
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2459"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2460",
@@ -136,23 +400,141 @@
       "facing": "up",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2460/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 160
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 160
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 105,
+                        "height": 0,
+                        "row": 45
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2460"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2461",
@@ -165,23 +547,148 @@
       "zBias": 10,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2461/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 41
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 94,
+                        "height": 0,
+                        "row": 41
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 94,
+                        "height": 0,
+                        "row": 42
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 43
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 94,
+                        "height": 0,
+                        "row": 44
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 44
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 49
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 50
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 107,
+                        "height": 0,
+                        "row": 50
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2461"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2462",
@@ -194,23 +701,87 @@
       "facing": "right",
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2462/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 34
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2462"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 32
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2462"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "run",
+                      "to": {
+                        "col": 92,
+                        "height": 0,
+                        "row": 35
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2462"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "run",
+                      "to": {
+                        "col": 79,
+                        "height": 0,
+                        "row": 35
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2462"
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2463",
@@ -222,36 +793,191 @@
       "sprite": "sprite-495",
       "pages": [
         {
-          "auto": {
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 104,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2463"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 46
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2463"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 33
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2463"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 93,
+                        "height": 0,
+                        "row": 34
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2463"
+                      }
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 75,
+                        "height": 0,
+                        "row": 34
+                      },
+                      "target": {
+                        "scene": "s149",
+                        "entity": "e2463"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
             "stages": [
               {
+                "id": "initial",
                 "body": [
                   {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s149",
-                      "id": "scene/s149/root/entity-e2463/page-0/auto/stage-0"
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 91,
+                      "height": 0,
+                      "row": 39
                     }
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
+                  },
+                  {
+                    "facing": "down",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao"
+                    ]
+                  },
+                  {
+                    "frames": 999,
+                    "kind": "shakeScreen",
+                    "level": 4
+                  },
+                  {
+                    "asset": "frame-animation.pal.005",
+                    "frameRate": 7,
+                    "kind": "playFrameAnimation",
+                    "startFrame": 0
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 600
+                  },
+                  {
+                    "dir": "in",
+                    "kind": "fade",
+                    "ms": 800
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 1200
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 3200
+                  },
+                  {
+                    "frames": 999,
+                    "kind": "shakeScreen",
+                    "level": 1
+                  },
+                  {
+                    "asset": "frame-animation.pal.002",
+                    "frameRate": 16,
+                    "kind": "playFrameAnimation",
+                    "startFrame": 0
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s150"
                   }
                 ]
               }
             ]
           }
         }
-      ]
+      }
     }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s149",
-            "id": "scene/s149/root/on-enter/stage-0"
-          }
-        }
-      ]
-    }
-  ]
+  }
 }

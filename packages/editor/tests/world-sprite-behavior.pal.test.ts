@@ -1,12 +1,19 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { AssetRecordV1, SceneDef, ScriptChunkV1, SpriteDef } from '@type-pal/content'
-import { decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
+import {
+  type AssetRecordV1,
+  emptyWorldScriptStateV5,
+  type SceneDefV5,
+  type SharedScriptLibraryV5,
+  type SpriteDef,
+} from '@type-pal/content'
+import { decodeWorldSpriteAssetBytes, legacySceneFromV5 } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import type { EditorState } from '../src/core/edit-session.js'
 import {
   collectSpriteAutomaticScriptBehaviors,
   describeSpriteReferenceBehavior,
+  projectCanonicalSpritePreviewStateV5,
 } from '../src/core/world-sprite-behavior.js'
 
 const root = resolve(import.meta.dirname, '../../..')
@@ -93,21 +100,25 @@ async function actualFrameCount(
   return (await decodeWorldSpriteAssetBytes(record, bytes)).frames.length
 }
 
-test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览', async () => {
+function palPreviewState(): EditorState {
   const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-  const scriptIndex = readJson<{ chunks: Record<string, { path: string }> }>(
-    'projects/pal/content/scripts/index.json',
+  const canonicalScenes = sceneIds.map((id) =>
+    readJson<SceneDefV5>(`projects/pal/content/scenes/${id}.json`),
   )
-  const state = {
+  const world = emptyWorldScriptStateV5()
+  const shell = {
     actors: readJson('projects/pal/content/actors.json'),
-    scenes: sceneIds.map((id) => readJson<SceneDef>(`projects/pal/content/scenes/${id}.json`)),
-    scriptChunks: Object.fromEntries(
-      Object.entries(scriptIndex.chunks).map(([id, record]) => [
-        id,
-        readJson<ScriptChunkV1>(`projects/pal/content/scripts/${record.path}`),
-      ]),
-    ),
+    scenes: canonicalScenes.map((scene) => legacySceneFromV5(scene, world)),
+    scriptChunks: {},
   } as unknown as EditorState
+  return projectCanonicalSpritePreviewStateV5(shell, {
+    scenes: canonicalScenes,
+    sharedScripts: readJson<SharedScriptLibraryV5>('projects/pal/content/shared-scripts.json'),
+  })
+}
+
+test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览', async () => {
+  const state = palPreviewState()
   const definitions = readJson<SpriteDef[]>('projects/pal/content/sprites.json')
   const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
   const scenesById = new Map(state.scenes.map((scene) => [scene.id, scene]))
@@ -159,20 +170,7 @@ test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览',
 }, 30_000)
 
 test('035/072 保留实例行为预览，076 只由预制动作消费', async () => {
-  const sceneIds = readJson<string[]>('projects/pal/content/scenes/index.json')
-  const scriptIndex = readJson<{ chunks: Record<string, { path: string }> }>(
-    'projects/pal/content/scripts/index.json',
-  )
-  const state = {
-    actors: readJson('projects/pal/content/actors.json'),
-    scenes: sceneIds.map((id) => readJson<SceneDef>(`projects/pal/content/scenes/${id}.json`)),
-    scriptChunks: Object.fromEntries(
-      Object.entries(scriptIndex.chunks).map(([id, record]) => [
-        id,
-        readJson<ScriptChunkV1>(`projects/pal/content/scripts/${record.path}`),
-      ]),
-    ),
-  } as unknown as EditorState
+  const state = palPreviewState()
   const definitions = readJson<SpriteDef[]>('projects/pal/content/sprites.json')
   const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
   const catalog = readJson<{ assets: Record<string, AssetRecordV1> }>(

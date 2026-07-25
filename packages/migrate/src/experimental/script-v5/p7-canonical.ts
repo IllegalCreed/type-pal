@@ -4,13 +4,13 @@ import type {
   EntityAddress,
   ScriptFlowV5,
 } from '@type-pal/content'
+import { stableJson } from './stable-json.js'
 import type {
   P4AuthorOwnerAllocation,
   P4AuthorOwnerIdentity,
   P5CycleStructure,
   ScriptMigrationIRP6,
 } from './types.js'
-import { stableJson } from './stable-json.js'
 
 function clone<T>(value: T): T {
   return structuredClone(value)
@@ -57,10 +57,7 @@ const RETIRED_AUTHOR_KINDS = new Set([
   'clearSceneScripts',
 ])
 
-const COMMAND_REWRITE_CACHE = new WeakMap<
-  ScriptMigrationIRP6,
-  ReadonlyMap<string, unknown>
->()
+const COMMAND_REWRITE_CACHE = new WeakMap<ScriptMigrationIRP6, ReadonlyMap<string, unknown>>()
 
 function commandRewriteMap(ir: ScriptMigrationIRP6): ReadonlyMap<string, unknown> {
   const cached = COMMAND_REWRITE_CACHE.get(ir)

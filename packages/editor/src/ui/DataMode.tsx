@@ -20,11 +20,8 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ItemReference } from '../core/item-references.js'
 import { buildRefIndex } from '../core/ref-index.js'
+import type { ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
-import type {
-  ScriptEditorStateV5,
-  ScriptV5EditSession,
-} from '../core/script-v5-editor.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
@@ -473,6 +470,7 @@ export function DataMode(props: {
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
         onOpenBattleSprite={onOpenBattleSprite}
+        showMigrationInternals={!scriptV5}
         onOpenSpriteAction={(spriteId, actionId) =>
           onSpriteLocation?.('world', 'definition', spriteId, actionId)
         }
@@ -541,6 +539,7 @@ export function DataMode(props: {
         onJumpActionReference={onJumpWorldSpriteActionReference}
         onJumpAutomaticScriptInstance={onJumpWorldSpriteAutomaticScriptInstance}
         onStatusNotice={onStatusNotice}
+        canonicalV5={scriptV5?.state}
       />
     )
 

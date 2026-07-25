@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: build
+Status: review
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -8,7 +8,7 @@ Generation Owner: N/A
 Reviewer: GLM（P7 schema delta + 最终架构/数据合并代审）
 Visual Verification Owner: Codex + User
 Unavailable Agents: Kimi（额度耗尽；用户批准 P3-P7 由 GLM 合并代审，保留补审债务）
-Branch: TBD
+Branch: main
 
 ## 目标
 
@@ -3380,7 +3380,142 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   compiler/runtime/editor/SAVE 5；editor 必须完成“同步继续 / 下次激活 / 让步后同次继续”
   三态展示，然后才可进入全量迁移与原子发布。
 
+### P7 canonical v5 全量发布与 Codex 自验（2026-07-25）
+
+#### 发布结果
+
+- **版本原子切换**：`CONTENT_VERSION = 5`、`SAVE_VERSION = 5`；PAL、demo、e2e 的 manifest、
+  scene、item、shared scripts、baseline、完整 transition ledger、save compatibility sidecar
+  同批发布。PAL sidecar bytes SHA-256 已写回 descriptor，当前发布 digest 为
+  `ca22f59c…af43e`。
+- **canonical 内容**：
+  - 4,519 simple owner、70 cycle、65 state-machine owner 全部进入 v5 validator；
+  - 65 machine owner 合计 771 states，`continue/advance/to/branch/commandOutcome`
+    保留 P5 调度与命令结果语义；
+  - 作者内容中 `jumpScript=0`、动态 v4 binding=0、legacy private block=0；
+  - 真正共享逻辑只在 `content/shared-scripts.json`；6 个物品私有脚本内联归物品拥有。
+- **compiler/runtime**：compiler 只从 canonical flow 生成带 digest 的 executable graph；
+  runtime 消费显式 scheduling boundary、Page/Behavior/Hook selection、epoch/CAS safe-point 和
+  `EntityAddress`，不再执行作者可见生成块。
+- **editor**：
+  - scene/entity inspector 可创建、命名、选择 Page、trigger/auto Behavior 与 Hook variant，
+    显示引用反链和删除守卫；
+  - transition 编辑器明确区分“同步继续 / 下次激活 / 让步后同次继续”，
+    `commandOutcome` 绑定本 state 的稳定 CommandId；
+  - item-private script 在物品工作台内联编辑；共享引用只保存 ScriptId；
+  - canonical v5 脚本库不再显示“迁移内部实现”；legacy tab 只对尚未升级的 v4 shell 保留。
+- **SAVE 5**：
+  - current 5/5 走空 transition chain，不要求历史 sidecar；
+  - 1..4/4 严格走 envelope → content sidecar → 5/5；
+  - 5/4、1..4/5、未来版本、project mismatch 和缺链全部 fail-loud；
+  - `minimumSaveVersion` 在 sidecar IO 前硬拒；descriptor bytes digest 和 sidecar 自身 digest
+    均校验。
+- **本地 v4 → v5 工程升级**：
+  - 唯一单页/单段工程可浏览器安全自动投影；
+  - 多 Page/Stage、重复 EntityAddress/旧 cursor 和动态 binding 停在零写迁移工作台；
+    作者可命名 Page/Behavior/Stage/Hook，选择忠实 `broadcast-v4` 或显式单一目标；
+  - 全部 resolution 通过后先展示 allocation/alias 预览；作者二次确认且 immutable input
+    digest 未变化时才创建 staging/journal，manifest 最后提交；
+  - journal 每项带 old/new digest，可幂等前滚；中断重开先恢复，PAL repo 事务与普通项目
+    local journal 路径/type 互不接受。
+- **P7 上游修正**：sprite census 预期 digest 从历史 `abc4…` 更新为
+  `393d97ab…7c67`。用 C2 历史提交 `7eeec81f` 同源复现后确认差异仅为 `312cd8d9`
+  正确移除 0 次迭代的空 `setMultiEntityState`（s052/e897、s059/e1049）；accepted/action
+  hash、计数和物化结果不变，审计记录已写入 C2 任务卡。
+
+#### 验证证据
+
+- `pnpm --filter @type-pal/migrate run check`：**61 files / 406 passed + 1 skipped**，
+  其中全量 PAL P0-P7、publish/MG2/transaction、二跑零计划均通过；耗时约 551s。
+- `pnpm --filter @type-pal/content run check`：**28 files / 343 passed**（含作者迁移工作台
+  identity resolution、动态 hook binding 与 canonical validator）。
+- `pnpm --filter @type-pal/reforge run check`：**66 files / 591 passed**。
+- `pnpm --filter @type-pal/editor run check`：**84 files / 718 passed**；包含本地迁移
+  “命名 → 预览零写 → 明确确认发布”集成测试。
+- `pnpm typecheck`：7 个 workspace package 全绿；`pnpm lint`：Biome **939 files** 全绿；
+  `git diff --check` 通过。
+- reforge/editor production build 均通过；editor 仅保留既有的 >500kB chunk 性能警告。
+- 浏览器（Playwright CLI）：
+  - 6051 PAL runtime 冷启动、开场呈现、Enter 推进对话成功，console 0 error；仅浏览器
+    Canvas `willReadFrequently` 性能提示；
+  - 6010 editor 打开 canonical v5 PAL（294 scenes），脚本引用误报由 canonical
+    `collectScriptV5ReferenceIssues` 修正后只余 327 个既有 unused-asset warning；
+  - 冷启动进入“剧情 → 脚本库”只显示“可复用脚本”，不再出现“迁移内部实现”页签，
+    Playwright console 0 error / 0 warning；
+  - s001/e25 的 Page/Behavior/Hook、引用反链、copy/delete safety、flow JSON 实测；
+    修正 flow textarea 被宽泛 flex selector 压窄的问题，冷刷新 console 0 error/0 warning。
+  - 截图：`output/playwright/n3-p7-pal-runtime.png`、
+    `output/playwright/n3-p7-pal-editor.png`。
+
+#### 已知边界
+
+- v4 图若涉及不能由稳定 identity resolution 解决的递归/不可约控制流，普通项目 upgrader
+  继续以 `structure-control-flow` fail-loud，确认前零写；不会套用 PAL baseline 或猜测正文。
+- editor 的 327 个 unused-asset 诊断属于既有 PAL 资产清理清单，不是脚本引用错误，也不阻塞
+  N3-1；A7 仍独立跟踪 effect-sprite/image 与 catalog-only 总门禁。
+- Kimi P3-P7 补审债务按用户豁免保留；本轮由 GLM 合并承担最终架构、数据、测试和文档审查。
+
+#### P7 `review -> done` 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-25 | canonical schema/compiler/runtime/editor/SAVE 5、PAL 全量发布、本地迁移事务、产品门禁与浏览器验收均完成；最终完整门禁数字见本卡后续交接日志。 |
+| Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
+| GLM | **pending（合并终审）** | — | 必须独立审查 P7 架构/数据/测试/文档，并签 `accept` 或给出可执行 `counter`。 |
+
+- Codex 结论：**进入 review**。
+- done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
+- C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
+  N3-1 自动完成。
+
 ## 下一位 Agent 提示词
+
+### 给 GLM（P7 架构 + 数据 + 测试 + 文档合并终审；当前执行）
+
+```text
+终审任务: N3-1 P7 canonical v5 全量发布
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态: review；Codex 已签 accept。Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；
+  你同时承担原 Kimi 架构/调度席位和 GLM 数据/覆盖席位。
+你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
+先读:
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 本卡 P1-1..P1-8 冻结设计、P7 schema delta、P7 canonical v5 全量发布与 Codex 自验；
+  - docs/phase2/foundation/script-system-design.md；
+  - docs/phase2/editor/shared-script-author-guide.md；
+  - docs/phase2/foundation/save-system-design.md。
+重点源码:
+  - packages/content/src/{script-v5,scene-v5,item-v5,script-transition-v5,
+    project-script-v5-upgrade,validate}.ts；
+  - packages/migrate/src/experimental/script-v5/p7-* 与 publish-script-v5.ts；
+  - packages/reforge/src/{loader-v5,script-compiler-v5,script-runner-v5,
+    script-world-v5,script-project-v5}.ts 和 save/{types,migration,ops}.ts；
+  - packages/editor/src/core/{script-v5-editor,project-io-v5,
+    upgrade-local-v4-script-v5,open-local}.ts；
+  - packages/editor/src/ui/{ScriptV5BehaviorInspector,ItemUseEffectEditor,
+    SharedScriptTab,ProjectPicker}.tsx。
+必须独立核对:
+  1. canonical 内容中 jumpScript / v4 动态 binding / internal generated block 是否归零；
+     shared ScriptId、item-private、Page/Behavior/Hook identity 是否唯一且引用闭合。
+  2. 70 cycle / 65 machine owner 与 continue/advance/to/commandOutcome 调度语义，
+     continue SCC、CommandId 本 state 限定和 safe-point/epoch-CAS 是否成立。
+  3. PAL project/baseline/full ledger/sidecar/manifest 是否同事务发布，descriptor/sidecar digest、
+     MG2 冲突零写和连续二跑零计划是否成立。
+  4. SAVE 5 双轴矩阵、minimumSaveVersion 首闸、current 5/5 无 sidecar、旧 cursor/entity/hook
+     alias 和输入不变是否成立。
+  5. 任意作者 v4 工程的工作台是否做到 input digest、Page/Behavior/Stage/Hook 命名、
+     EntityAddress 与 broadcast/single 消歧、preview 后二次确认、local journal 前滚恢复；
+     不得调用 PAL repo 事务。
+  6. editor 是否不再向 canonical v5 作者暴露“迁移内部实现”，三态 transition、物品私有脚本、
+     引用反链/删除守卫/保存重开是否闭环。
+  7. 独立复跑至少 content/reforge/editor check、migrate P7/发布/MG2 关键测试或完整 check，
+     并核对文档与 capability map 没有提前把 N3-1/C8/ED-5I 标 done。
+输出:
+  - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的文件/断言/复现命令/返工项；
+  - 在交接日志写独立复跑数字、digest、架构/数据结论；
+  - accept 后明确“可交用户验收”，但不得自行标 N3-1 done；
+  - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
+```
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 

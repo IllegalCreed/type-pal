@@ -1,12 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { describe, expect, test } from 'vitest'
 import { checkAuthorCommandsV5, checkScriptFlowV5 } from '@type-pal/content'
-import {
-  p7OwnerKey,
-  projectP7AuthorCommands,
-  projectP7SimpleOwnerFlow,
-} from './p7-canonical.js'
+import { describe, expect, test } from 'vitest'
+import { p7OwnerKey, projectP7AuthorCommands, projectP7SimpleOwnerFlow } from './p7-canonical.js'
 import type { ScriptMigrationIRP6 } from './types.js'
 
 const owner = {
@@ -151,10 +147,7 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
         readFileSync(resolve(shadowRoot, 'ir/script-migration-ir.json'), 'utf8'),
       ) as ScriptMigrationIRP6
       const sceneIndex = JSON.parse(
-        readFileSync(
-          resolve(shadowRoot, 'target/project/content/scenes/index.json'),
-          'utf8',
-        ),
+        readFileSync(resolve(shadowRoot, 'target/project/content/scenes/index.json'), 'utf8'),
       ) as string[]
       const entityScenes = new Map<string, string[]>()
       for (const sceneId of sceneIndex) {
@@ -191,8 +184,7 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
             allowSceneEntry:
               owner.identity.kind === 'scene-hook' && owner.identity.slot === 'onEnter',
             forbidLoadScene:
-              owner.identity.kind === 'entity-behavior' &&
-              owner.identity.channel === 'auto',
+              owner.identity.kind === 'entity-behavior' && owner.identity.channel === 'auto',
           }),
         ).not.toThrow()
       }

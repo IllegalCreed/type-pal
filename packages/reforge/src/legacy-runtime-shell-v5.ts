@@ -69,9 +69,7 @@ function legacyItem(item: ItemDataMapV5[string]): ItemData {
 }
 
 export function legacyItemsFromV5(items: ItemDataMapV5): ItemDataMap {
-  return Object.fromEntries(
-    Object.entries(items).map(([id, item]) => [id, legacyItem(item)]),
-  )
+  return Object.fromEntries(Object.entries(items).map(([id, item]) => [id, legacyItem(item)]))
 }
 
 function entryAtCursor(
@@ -98,9 +96,7 @@ function legacyHookBinding(
   const entry = entryAtCursor(resolved.hook.flow, resolved.cursor)
   return [
     {
-      ...(entry
-        ? { entry: { prepare: [], reveal: structuredClone(entry.reveal) } }
-        : {}),
+      ...(entry ? { entry: { prepare: [], reveal: structuredClone(entry.reveal) } } : {}),
       body: [],
     },
   ]
@@ -112,10 +108,7 @@ function legacyPage(
   world: WorldScriptStateV5,
 ): EntityPage | undefined {
   const target = { scene: sceneId, entity: entity.id }
-  const page = resolveEntityPageV5(
-    entity,
-    world.behaviors.entities?.[sceneId]?.[entity.id],
-  )
+  const page = resolveEntityPageV5(entity, world.behaviors.entities?.[sceneId]?.[entity.id])
   const trigger = resolveEntityBehaviorV5(entity, world, target, 'trigger')
   const auto = resolveEntityBehaviorV5(entity, world, target, 'auto')
   const activation = resolveEntityTriggerActivationV5(entity, world, target)
@@ -134,13 +127,13 @@ function legacyPage(
   }
 }
 
-function legacyEntity(
-  sceneId: string,
-  entity: EntityDefV5,
-  world: WorldScriptStateV5,
-): EntityDef {
-  const { behaviors: _behaviors, initialPage: _initialPage, pages: _pages, ...base } =
-    structuredClone(entity)
+function legacyEntity(sceneId: string, entity: EntityDefV5, world: WorldScriptStateV5): EntityDef {
+  const {
+    behaviors: _behaviors,
+    initialPage: _initialPage,
+    pages: _pages,
+    ...base
+  } = structuredClone(entity)
   const page = legacyPage(sceneId, entity, world)
   const hostile =
     entity.hostile?.onLose && entity.hostile.onLose !== 'gameOver'
@@ -153,10 +146,7 @@ function legacyEntity(
   } as EntityDef
 }
 
-export function legacySceneFromV5(
-  scene: SceneDefV5,
-  world: WorldScriptStateV5,
-): SceneDef {
+export function legacySceneFromV5(scene: SceneDefV5, world: WorldScriptStateV5): SceneDef {
   const { hooks: _hooks, entities: _entities, ...base } = structuredClone(scene)
   const onEnter = legacyHookBinding(scene, world, 'onEnter')
   const onTeleport = legacyHookBinding(scene, world, 'onTeleport')
@@ -218,9 +208,7 @@ export function legacyWorldScriptScratchV5(
     vars: structuredClone(world.vars),
     entityState: structuredClone(world.entityState[sceneId] ?? {}),
     entityStage: {},
-    ...(world.entityPos?.[sceneId]
-      ? { entityPos: structuredClone(world.entityPos[sceneId]) }
-      : {}),
+    ...(world.entityPos?.[sceneId] ? { entityPos: structuredClone(world.entityPos[sceneId]) } : {}),
     ...(world.entityLayer?.[sceneId]
       ? { entityLayer: structuredClone(world.entityLayer[sceneId]) }
       : {}),

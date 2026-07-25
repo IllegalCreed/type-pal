@@ -4,6 +4,7 @@ import { makeTestWorld } from '../test-fixtures.js'
 import {
   buildMeta,
   buildPayload,
+  LEGACY_SAVE_ENVELOPE_VERSION,
   normalizePayload,
   normalizePayloadV4Envelope,
   resolveLegacyFollowerSpriteId,
@@ -28,7 +29,7 @@ describe('save ops（纯）', () => {
     const w = makeTestWorld()
     const pos = { col: 1, row: 2, height: 0 }
     const p = buildPayload(w, { sceneId: 's', pos, facing: 'down' }, 'demo', 1)
-    expect(p.version).toBe(SAVE_VERSION)
+    expect(p.version).toBe(LEGACY_SAVE_ENVELOPE_VERSION)
     expect(p.projectId).toBe('demo')
     expect(p.contentVersion).toBe(1)
     expect(p.world).toBe(w)
@@ -93,7 +94,7 @@ describe('save ops（纯）', () => {
         if (asset !== 'portrait.pal.008') throw new Error('missing portrait')
       },
     })
-    expect(normalized.version).toBe(SAVE_VERSION)
+    expect(normalized.version).toBe(LEGACY_SAVE_ENVELOPE_VERSION)
     expect(normalized.world.party[0]?.appearance?.portrait).toBe('portrait.pal.008')
     expect(normalized.world.reserve?.[0]?.appearance).toBeUndefined()
     expect(
@@ -332,7 +333,7 @@ describe('save ops（纯）', () => {
     }
 
     expect(normalizePayload(payload, options)).toBe(payload)
-    expect(payload.version).toBe(SAVE_VERSION)
+    expect(payload.version).toBe(LEGACY_SAVE_ENVELOPE_VERSION)
     expect(payload.world.party[0]?.appearance?.battleSprite).toBe(
       'battle-sprite.pal.player-000.fighter',
     )

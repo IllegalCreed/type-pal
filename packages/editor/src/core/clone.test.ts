@@ -301,4 +301,36 @@ describe('cloneFromPal', () => {
       height: 1,
     })
   })
+
+  test('v5 迁移 sidecar 按原始字节复制，不经 JSON 重排', async () => {
+    const sidecarPath = 'content/migrations/script-v4-v5.json'
+    const sidecarBytes = new TextEncoder().encode(
+      '{"version":1,\n  "projectId":"pal","opaqueOrder":["keep","exact"]}\n',
+    ).buffer
+    const v5Manifest = {
+      ...manifest,
+      contentVersion: 5,
+      content: {
+        ...manifest.content,
+        sharedScripts: 'content/shared-scripts.json',
+      },
+      migrations: {
+        'script-v4-v5': {
+          version: 1,
+          path: sidecarPath,
+        },
+      },
+    }
+    const source = memSource({
+      ...seedFiles,
+      'manifest.json': v5Manifest,
+      'content/shared-scripts.json': {},
+      [sidecarPath]: sidecarBytes,
+    })
+    const { dir, written } = recordingDir()
+    await cloneFromPal(source, dir, () => {})
+
+    const copied = written.get(sidecarPath) as Blob
+    expect(new Uint8Array(await copied.arrayBuffer())).toEqual(new Uint8Array(sidecarBytes))
+  })
 })

@@ -9,11 +9,12 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { planP7ShadowReleaseTransaction } from '../src/experimental/script-v5/p7-publish.js'
 import {
   assertP7ShadowBundle,
   buildDeterministicP7ShadowBundle,
 } from '../src/experimental/script-v5/p7-shadow.js'
-import { planP7ShadowReleaseTransaction } from '../src/experimental/script-v5/p7-publish.js'
+import { reconstructPublishedV4TransitionSnapshots } from '../src/experimental/script-v5/published-v4-snapshot.js'
 import { parseScriptV5ShadowCliArgs } from '../src/experimental/script-v5/shadow-cli.js'
 import {
   assertP2ShadowBundle,
@@ -60,21 +61,43 @@ if (!existsSync(baselinePath)) throw new Error(`P0 基线不存在: ${baselinePa
 
 const sources = loadPalMigrationSources(repo)
 const migration = buildPalMigration(sources)
-const base = loadPalBaseline(repo)
-if (!base) throw new Error('PAL v4 migration baseline 不存在')
+const publishedBase = loadPalBaseline(repo)
+if (!publishedBase) throw new Error('PAL migration baseline 不存在')
 const managed = discoverProjectManagedFiles(
   repo,
-  new Set([...base.managedFiles, ...migration.managedFiles]),
+  new Set([...publishedBase.managedFiles, ...migration.managedFiles]),
 )
-const ours = loadProjectMigrationSnapshot(repo, managed)
+const publishedOurs = loadProjectMigrationSnapshot(repo, managed)
+const snapshots = options.rebuildPublished
+  ? reconstructPublishedV4TransitionSnapshots(repo, migration, publishedBase)
+  : { base: publishedBase, ours: publishedOurs }
+const { base, ours } = snapshots
 const currentAudit = auditPalScriptControlFlow(sources, migration)
 assertScriptControlFlowAudit(currentAudit)
 const frozenAudit = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
 const common = { migration, base, ours, currentAudit, frozenAudit }
 const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
-const manifest = JSON.parse(
+const currentManifest = JSON.parse(
   readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
-) as import('@type-pal/content').LegacyManifestV4
+) as import('@type-pal/content').LegacyManifestV4 | import('@type-pal/content').ProjectManifest<5>
+if (
+  options.rebuildPublished &&
+  (currentManifest.contentVersion !== 5 ||
+    !publishedBase.baselineMetadata?.transitions['script-v4-v5'])
+)
+  throw new Error('--rebuild-published 只接受已发布且带 script-v4-v5 transition 的 v5 工程')
+const manifest = options.rebuildPublished
+  ? ({
+      ...structuredClone(currentManifest),
+      contentVersion: 4,
+      content: {
+        ...structuredClone(currentManifest.content),
+        scripts: 'content/scripts/',
+        sharedScripts: undefined,
+      },
+      migrations: undefined,
+    } as unknown as import('@type-pal/content').LegacyManifestV4)
+  : (currentManifest as import('@type-pal/content').LegacyManifestV4)
 const bundle =
   options.through === 'p2'
     ? buildDeterministicP2ShadowBundle(common)
@@ -106,10 +129,10 @@ const root = check
   ? mkdtempSync(resolve(tmpdir(), `type-pal-script-v5-${options.through}-`))
   : fixedShadowRoot
 try {
-  assertProjectSnapshotCurrent(repo, ours)
+  assertProjectSnapshotCurrent(repo, publishedOurs)
   assertBundle(bundle)
   const first = planShadowFileWrite(root, bundle.files)
-  assertProjectSnapshotCurrent(repo, ours)
+  assertProjectSnapshotCurrent(repo, publishedOurs)
   assertBundle(bundle)
   applyShadowFilePlan(root, bundle.files, first)
   const second = planShadowFileWrite(root, bundle.files)
@@ -122,22 +145,41 @@ try {
       `first=${first.summary.writes}/${first.summary.deletes}/${first.summary.conflicts} ` +
       `second=0/0/0 digest=${bundle.digest}`,
   )
-  if (!check) console.log(`[shadow] ${root}`)
-  if (options.publish) {
-    if (options.through !== 'p7') throw new Error('P7 publish: 非 P7 bundle')
-    assertProjectSnapshotCurrent(repo, ours)
+  if (check && options.rebuildPublished) {
     const release = planP7ShadowReleaseTransaction({
       repo,
       bundle: bundle as import('../src/experimental/script-v5/p7-shadow.js').P7ShadowBundle,
       currentProjectManaged: managed,
-      currentBaselineManaged: base.managedFiles,
+      currentBaselineManaged: publishedBase.managedFiles,
+    })
+    console.log(
+      `[N3 P7 rebuild plan] project=${release.summary.projectWrites}/${release.summary.projectDeletes} ` +
+        `baseline=${release.summary.baselineWrites}/${release.summary.baselineDeletes} ` +
+        `manifest=${release.summary.manifestWrites} changes=${release.changes.length}`,
+    )
+    console.log(
+      `[N3 P7 rebuild targets] ${release.changes
+        .slice(0, 20)
+        .map((change) => `${change.content === undefined ? 'D' : 'W'}:${change.target}`)
+        .join(' ')}`,
+    )
+  }
+  if (!check) console.log(`[shadow] ${root}`)
+  if (options.publish) {
+    if (options.through !== 'p7') throw new Error('P7 publish: 非 P7 bundle')
+    assertProjectSnapshotCurrent(repo, publishedOurs)
+    const release = planP7ShadowReleaseTransaction({
+      repo,
+      bundle: bundle as import('../src/experimental/script-v5/p7-shadow.js').P7ShadowBundle,
+      currentProjectManaged: managed,
+      currentBaselineManaged: publishedBase.managedFiles,
     })
     commitMigrationTransaction(repo, release.changes)
     const repeated = planP7ShadowReleaseTransaction({
       repo,
       bundle: bundle as import('../src/experimental/script-v5/p7-shadow.js').P7ShadowBundle,
       currentProjectManaged: managed,
-      currentBaselineManaged: base.managedFiles,
+      currentBaselineManaged: publishedBase.managedFiles,
     })
     if (repeated.changes.length !== 0)
       throw new Error(`P7 publish: 提交后二次计划非零 ${repeated.changes.length}`)

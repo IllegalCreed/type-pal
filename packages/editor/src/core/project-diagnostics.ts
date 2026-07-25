@@ -16,8 +16,10 @@ import {
   validateReferences,
   validateStartWorldResources,
 } from '@type-pal/content'
+import { isV5RuntimeScriptRef } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import { collectEditorAssetReferences } from './editor-asset-references.js'
+import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
 
 export type ProjectIssueSeverity = 'error' | 'warn'
 
@@ -499,21 +501,42 @@ export interface EditorStatusIssue {
   path: string
 }
 
-export function collectEditorStatusIssues(state: EditorState): EditorStatusIssue[] {
+function v5RuntimeItemScriptPaths(state: EditorState): Set<string> {
+  const paths = new Set<string>()
+  for (const [itemIndex, item] of state.items.entries()) {
+    for (const slot of ['use', 'throw'] as const) {
+      for (const [effectIndex, effect] of (item[slot]?.effects ?? []).entries()) {
+        if (effect.kind === 'runScript' && isV5RuntimeScriptRef(effect.script))
+          paths.add(`items[${itemIndex}](${item.id}).${slot}.effects[${effectIndex}].script`)
+      }
+    }
+  }
+  return paths
+}
+
+export function collectEditorStatusIssues(
+  state: EditorState,
+  canonicalV5?: ScriptEditorStateV5,
+): EditorStatusIssue[] {
+  const compatibilityPaths = canonicalV5 ? v5RuntimeItemScriptPaths(state) : new Set<string>()
   const contentIssues: EditorStatusIssue[] = validateReferences(state)
     .filter((issue) => !issue.where.startsWith('startWorld'))
+    .filter((issue) => !compatibilityPaths.has(issue.where))
     .map((issue) => ({
       severity: issue.severity,
       message: issue.message,
       path: issue.where,
     }))
+  const canonicalScriptIssues: EditorStatusIssue[] = canonicalV5
+    ? collectScriptV5ReferenceIssues(canonicalV5)
+    : []
   const projectIssues: EditorStatusIssue[] = collectProjectIssues(state).map((issue) => ({
     severity: issue.severity,
     message: issue.message,
     path: issue.path,
   }))
   const unique = new Map<string, EditorStatusIssue>()
-  for (const issue of [...contentIssues, ...projectIssues]) {
+  for (const issue of [...contentIssues, ...canonicalScriptIssues, ...projectIssues]) {
     unique.set(`${issue.severity}:${issue.path}:${issue.message}`, issue)
   }
   return [...unique.values()]

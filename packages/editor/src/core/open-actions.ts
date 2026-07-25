@@ -8,10 +8,11 @@ import { cloneFromPal } from './clone.js'
 import { currentDirectoryPickerAvailability } from './file-system-access.js'
 import { copyDirRecursive } from './fsa-copy.js'
 import { saveHandle } from './handle-store.js'
-import { openLocalProject, type OpenedProject } from './open-local.js'
+import { type OpenedProject, openLocalProject } from './open-local.js'
 import { preflightProjectWriteSet, writeProject } from './project-io.js'
 import { buildBlankProject } from './seed.js'
 import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
+import type { UpgradeLocalProjectV4ScriptV5Options } from './upgrade-local-v4-script-v5.js'
 
 export type Opened = OpenedProject & { dir: FileSystemDirectoryHandle }
 
@@ -31,11 +32,12 @@ export async function pickDir(): Promise<FileSystemDirectoryHandle | null> {
 export async function finishOpen(
   dir: FileSystemDirectoryHandle,
   onSoundUpgradeProgress?: (progress: SoundUpgradeProgress) => void,
+  scriptV4V5Options: UpgradeLocalProjectV4ScriptV5Options = {},
 ): Promise<Opened> {
-  const opened = await openLocalProject(
-    dir,
-    onSoundUpgradeProgress ? { onSoundUpgradeProgress } : {},
-  )
+  const opened = await openLocalProject(dir, {
+    ...(onSoundUpgradeProgress ? { onSoundUpgradeProgress } : {}),
+    ...scriptV4V5Options,
+  })
   await saveHandle(opened.project.manifest.id, dir.name, dir)
   return { ...opened, dir }
 }

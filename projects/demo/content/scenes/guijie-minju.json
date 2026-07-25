@@ -20,66 +20,92 @@
       "actor": "youhun",
       "facing": "down",
       "collide": true,
-      "pages": [
-        {
-          "trigger": {
-            "on": "interact",
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "dialog",
-                    "cue": {
-                      "rows": [
-                        {
-                          "text": "(骑上幽魂!E7 验证垫)"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "kind": "mountParty",
-                    "entity": "wandering-ghost"
-                  },
-                  {
-                    "kind": "ride",
-                    "entity": "wandering-ghost",
-                    "to": {
-                      "col": 96,
-                      "row": 16,
-                      "height": 0
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "乘坐幽魂",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "(骑上幽魂!E7 验证垫)"
+                          }
+                        ]
+                      }
                     },
-                    "speed": "normal"
-                  },
-                  {
-                    "kind": "ride",
-                    "entity": "wandering-ghost",
-                    "to": {
-                      "col": 90,
-                      "row": 18,
-                      "height": 0
+                    {
+                      "kind": "mountParty",
+                      "target": {
+                        "scene": "guijie-minju",
+                        "entity": "wandering-ghost"
+                      }
                     },
-                    "speed": "fast"
-                  },
-                  {
-                    "kind": "unmountParty"
-                  },
-                  {
-                    "kind": "dialog",
-                    "cue": {
-                      "rows": [
-                        {
-                          "text": "(到站,下鬼。)"
-                        }
-                      ]
+                    {
+                      "kind": "ride",
+                      "target": {
+                        "scene": "guijie-minju",
+                        "entity": "wandering-ghost"
+                      },
+                      "to": {
+                        "col": 96,
+                        "row": 16,
+                        "height": 0
+                      },
+                      "speed": "normal"
+                    },
+                    {
+                      "kind": "ride",
+                      "target": {
+                        "scene": "guijie-minju",
+                        "entity": "wandering-ghost"
+                      },
+                      "to": {
+                        "col": 90,
+                        "row": 18,
+                        "height": 0
+                      },
+                      "speed": "fast"
+                    },
+                    {
+                      "kind": "unmountParty"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "(到站,下鬼。)"
+                          }
+                        ]
+                      }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
+      },
+      "pages": [
+        {
+          "id": "default",
+          "label": "默认页面",
+          "trigger": "default",
+          "triggerActivation": {
+            "on": "interact"
+          }
+        }
+      ],
+      "initialPage": "default"
     }
   ],
   "dialogues": [

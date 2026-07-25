@@ -47,12 +47,12 @@ import {
   type ItemReference,
   itemReferenceMap,
 } from '../core/item-references.js'
-import { createAuthoredScriptId } from '../core/shared-script.js'
 import {
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
   SetItemPrivateScriptBodyV5Command,
 } from '../core/script-v5-editor.js'
+import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
@@ -686,12 +686,7 @@ export function ItemTab(props: {
                   body: effect.script.body,
                   onChange: (body: typeof effect.script.body) =>
                     scriptV5?.session.dispatch(
-                      new SetItemPrivateScriptBodyV5Command(
-                        canonicalItemV5!.id,
-                        slot,
-                        index,
-                        body,
-                      ),
+                      new SetItemPrivateScriptBodyV5Command(canonicalItemV5!.id, slot, index, body),
                     ),
                 },
               ] as const,

@@ -25,15 +25,15 @@ import {
   itemUseSupportsContextV5,
 } from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
+import type { SceneDefV5 } from './scene-v5.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
+import { checkScriptRef } from './script-library.js'
 import {
   checkAuthorCommandsV5,
   checkEntityBehaviorsV5,
   checkEntityPagesV5,
   checkSceneHooksV5,
 } from './script-v5.js'
-import { checkScriptRef } from './script-library.js'
-import type { SceneDefV5 } from './scene-v5.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {

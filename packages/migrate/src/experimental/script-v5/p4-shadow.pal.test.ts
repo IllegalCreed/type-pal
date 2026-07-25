@@ -4,10 +4,6 @@ import { fileURLToPath } from 'node:url'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import { loadPalBaseline, type MigrationSnapshot } from '../../migration-baseline.js'
-import {
-  discoverProjectManagedFiles,
-  loadProjectMigrationSnapshot,
-} from '../../migration-project-io.js'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
 import { buildPalMigration } from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
@@ -22,6 +18,7 @@ import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
 import { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
 import { planP4ScriptTransition } from './p4-transition-plan.js'
 import { validateP4ScriptMigrationIR } from './p4-validate.js'
+import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
 import { assertP4ShadowBundle, buildDeterministicP4ShadowBundle } from './shadow-harness.js'
 import { commandAtPointer, readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
@@ -104,11 +101,7 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
     const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
     const base = loadPalBaseline(repo)
     if (!base) throw new Error('PAL migration baseline missing')
-    const managed = discoverProjectManagedFiles(
-      repo,
-      new Set([...base.managedFiles, ...migration.managedFiles]),
-    )
-    const ours = loadProjectMigrationSnapshot(repo, managed)
+    const snapshots = reconstructPublishedV4TransitionSnapshots(repo, migration, base)
     const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
     const p2 = buildP2ScriptMigrationIR({
       migration,
@@ -130,8 +123,8 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
     })
     fixture = {
       migration,
-      base,
-      ours,
+      base: snapshots.base,
+      ours: snapshots.ours,
       audit,
       frozen,
       sourceCommands,

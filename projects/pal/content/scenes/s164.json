@@ -10,17 +10,95 @@
     "facing": "down"
   },
   "entities": [],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s164",
-            "id": "scene/s164/root/on-enter/stage-0"
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 152,
+                      "height": 0,
+                      "row": 86
+                    }
+                  },
+                  {
+                    "dx": 0,
+                    "dy": -16,
+                    "frames": 100,
+                    "kind": "cameraPan"
+                  },
+                  {
+                    "dx": 0,
+                    "dy": -8,
+                    "frames": 20,
+                    "kind": "cameraPan"
+                  },
+                  {
+                    "dx": 0,
+                    "dy": 4,
+                    "frames": 40,
+                    "kind": "cameraPan"
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 52,
+                      "height": 0,
+                      "row": -14
+                    }
+                  },
+                  {
+                    "kind": "cameraSnap"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "li-xiaoyao"
+                  },
+                  {
+                    "kind": "setParty",
+                    "members": [
+                      "li-xiaoyao",
+                      "lin-yueru"
+                    ]
+                  },
+                  {
+                    "facing": "up",
+                    "kind": "setPartyFacing"
+                  },
+                  {
+                    "facing": "up",
+                    "kind": "setPartyFacing",
+                    "member": 1
+                  },
+                  {
+                    "kind": "ditherScreen",
+                    "ms": 720
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s146"
+                  }
+                ]
+              }
+            ]
           }
         }
-      ]
+      }
     }
-  ]
+  }
 }

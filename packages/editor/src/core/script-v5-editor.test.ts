@@ -9,6 +9,7 @@ import { describe, expect, test } from 'vitest'
 import {
   AddEntityBehaviorV5Command,
   CopyEntityBehaviorV5Command,
+  collectScriptV5ReferenceIssues,
   DeleteEntityBehaviorV5Command,
   presentSelectionV5,
   RenameEntityBehaviorV5Command,
@@ -140,6 +141,27 @@ function triggerRegistry(state: ScriptEditorStateV5) {
 }
 
 describe('canonical script v5 editor commands', () => {
+  test('validates shared ScriptId closure in item roots and nested author commands', () => {
+    const broken = editorState()
+    broken.items[0]!.use!.effects.push({ kind: 'runScript', script: 'shared/missing-item' })
+    broken.sharedScripts['shared/user/select-talk']!.body = [
+      { kind: 'callScript', script: 'shared/missing-command' },
+    ]
+
+    expect(collectScriptV5ReferenceIssues(broken)).toEqual([
+      {
+        severity: 'error',
+        path: 'items.private.use.effects[1].script',
+        message: '共享脚本 "shared/missing-item" 不在 canonical v5 脚本库',
+      },
+      {
+        severity: 'error',
+        path: 'sharedScripts.shared/user/select-talk.body[0].script',
+        message: '共享脚本 "shared/missing-command" 不在 canonical v5 脚本库',
+      },
+    ])
+  })
+
   test('publishes dirty and history changes through the editor session contract', () => {
     const session = new ScriptV5EditSession(editorState())
     const versions: number[] = []
@@ -385,16 +407,12 @@ describe('canonical script v5 editor commands', () => {
     session.dispatch(
       new AddEntityBehaviorV5Command(target, 'trigger', 'alternate', behavior('alternate')),
     )
-    session.dispatch(
-      new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'alternate'),
-    )
+    session.dispatch(new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'alternate'))
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('alternate')
     session.dispatch(new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', undefined))
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBeUndefined()
     expect(() =>
-      session.dispatch(
-        new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'missing'),
-      ),
+      session.dispatch(new SetEntityPageBehaviorV5Command(target, 'default', 'trigger', 'missing')),
     ).toThrow(/behavior 不存在/)
   })
 })

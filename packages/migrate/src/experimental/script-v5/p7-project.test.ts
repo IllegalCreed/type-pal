@@ -65,6 +65,34 @@ describe.skipIf(!existsSync(resolve(shadowRoot, 'ir/script-migration-ir.json')))
           .find((scene) => scene.id === 's001')
           ?.entities.find((entity) => entity.id === 'e8')?.behaviors?.trigger?.['legacy-001'],
       ).toBeDefined()
+      const entryStages = projected.scenes.flatMap((scene) =>
+        Object.values(scene.hooks?.onEnter?.variants ?? {}).flatMap((hook) =>
+          hook.flow.kind === 'stages'
+            ? hook.flow.stages.flatMap((stage) =>
+                stage.entry ? [{ scene: scene.id, hook, stage }] : [],
+              )
+            : [],
+        ),
+      )
+      expect(entryStages.map((entry) => entry.scene).sort()).toEqual([
+        's001',
+        's018',
+        's057',
+        's090',
+        's151',
+        's180',
+        's182',
+        's196',
+        's197',
+        's198',
+        's200',
+      ])
+      expect(
+        entryStages.find((entry) => entry.scene === 's182')?.stage.entry?.reveal,
+      ).toMatchObject({
+        kind: 'dither',
+        source: 'previousPresentedFrame',
+      })
       const privateItems = projected.items.filter((item) =>
         item.use?.effects.some((effect) => effect.kind === 'itemPrivateScript'),
       )

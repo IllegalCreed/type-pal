@@ -1,8 +1,4 @@
-import {
-  emptyWorldScriptStateV5,
-  type ItemDataMapV5,
-  type SceneDefV5,
-} from '@type-pal/content'
+import { emptyWorldScriptStateV5, type ItemDataMapV5, type SceneDefV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   isV5RuntimeScriptRef,
@@ -95,9 +91,7 @@ describe('legacy runtime shell v5', () => {
     expect(legacy.entities[0]?.pages?.[0]).toEqual({
       trigger: { on: 'interact', range: 2, stages: [{ body: [] }] },
     })
-    expect(legacy.onEnter).toEqual([
-      { entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] },
-    ])
+    expect(legacy.onEnter).toEqual([{ entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }])
 
     world.behaviors.entities = {
       s001: { e001: { page: 'moving' } },

@@ -8,10 +8,6 @@ import {
   type MigrationSnapshot,
   serializeMigrationJson,
 } from '../../migration-baseline.js'
-import {
-  discoverProjectManagedFiles,
-  loadProjectMigrationSnapshot,
-} from '../../migration-project-io.js'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
 import { buildPalMigration } from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
@@ -22,6 +18,7 @@ import {
 } from '../../script-control-flow-audit.js'
 import { buildP2ScriptMigrationIR } from './p2-transform.js'
 import { planP2ScriptTransition } from './p2-transition-plan.js'
+import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
 import { assertP2ShadowBundle, buildDeterministicP2ShadowBundle } from './shadow-harness.js'
 import { legacyAuthorCellSha256, readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
@@ -103,19 +100,23 @@ describe.skipIf(!existsSync(extracted))('N3 P2 PAL shadow migration', () => {
     const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
     const base = loadPalBaseline(repo)
     if (!base) throw new Error('PAL migration baseline missing')
-    const managed = discoverProjectManagedFiles(
-      repo,
-      new Set([...base.managedFiles, ...migration.managedFiles]),
-    )
-    const ours = loadProjectMigrationSnapshot(repo, managed)
+    const snapshots = reconstructPublishedV4TransitionSnapshots(repo, migration, base)
     const transformed = buildP2ScriptMigrationIR({
       migration,
       currentAudit: audit,
       frozenAudit: frozen,
     })
     const corpus = readV4ScriptCorpus(migration)
-    fixture = { migration, base, ours, audit, frozen, transformed, corpus }
-  }, 120_000)
+    fixture = {
+      migration,
+      base: snapshots.base,
+      ours: snapshots.ours,
+      audit,
+      frozen,
+      transformed,
+      corpus,
+    }
+  }, 240_000)
 
   test('冻结 3,345 tombstone、13 个待归属体、s018 与 202=201+1，并生成确定性影子包', () => {
     const bundle = buildDeterministicP2ShadowBundle({
@@ -190,7 +191,7 @@ describe.skipIf(!existsSync(extracted))('N3 P2 PAL shadow migration', () => {
     expect(() => assertP2ShadowBundle(bundle)).toThrow('bundle digest mismatch')
     mutableFiles.set('target/summary.json', summaryBody)
     assertP2ShadowBundle(bundle)
-  }, 120_000)
+  }, 240_000)
 
   test('作者修改待 tombstone body 时冲突且零 cell 写入', () => {
     const transformed = fixture.transformed

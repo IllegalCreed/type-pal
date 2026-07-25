@@ -306,6 +306,43 @@ export interface ScriptV5Reference {
   path: string
 }
 
+export interface ScriptV5ReferenceIssue {
+  severity: 'error'
+  path: string
+  message: string
+}
+
+/**
+ * canonical v5 共享脚本引用闭包。兼容壳里的 `__script-v5-runtime` ScriptRef 只是旧 UI/宿主投影，
+ * 不能拿旧 ScriptChunk 校验器判断；真正的作者引用必须在这里按稳定 ScriptId 对 sharedScripts 验证。
+ */
+export function collectScriptV5ReferenceIssues(
+  state: ScriptEditorStateV5,
+): ScriptV5ReferenceIssue[] {
+  const issues: ScriptV5ReferenceIssue[] = []
+  const sharedIds = new Set(Object.keys(state.sharedScripts))
+  const check = (scriptId: string, path: string): void => {
+    if (!sharedIds.has(scriptId))
+      issues.push({
+        severity: 'error',
+        path,
+        message: `共享脚本 "${scriptId}" 不在 canonical v5 脚本库`,
+      })
+  }
+  for (const item of state.items) {
+    for (const slot of ['use', 'throw'] as const) {
+      for (const [index, effect] of (item[slot]?.effects ?? []).entries()) {
+        if (effect.kind === 'runScript')
+          check(effect.script, `items.${item.id}.${slot}.effects[${index}].script`)
+      }
+    }
+  }
+  walkStateCommands(state, (command, path) => {
+    if (command.kind === 'callScript') check(command.script, `${path}.script`)
+  })
+  return issues
+}
+
 export function behaviorReferencesV5(
   state: ScriptEditorStateV5,
   target: EntityAddress,
@@ -369,6 +406,8 @@ function validateState(state: ScriptEditorStateV5): void {
   validateScenesV5(state.scenes)
   validateItemsV5(state.items)
   checkSharedScriptLibraryV5(state.sharedScripts)
+  const issue = collectScriptV5ReferenceIssues(state)[0]
+  if (issue) throw new Error(`${issue.path}: ${issue.message}`)
 }
 
 abstract class SnapshotCommandV5 implements ScriptEditorCommandV5 {
@@ -658,13 +697,8 @@ export class SetEntityPageBehaviorV5Command extends SnapshotCommandV5 {
     const { entity } = sceneAndEntity(state, this.target)
     const page = entity.pages?.find((candidate) => candidate.id === this.pageId)
     if (!page)
-      throw new Error(
-        `实体页不存在 ${this.target.scene}/${this.target.entity}/${this.pageId}`,
-      )
-    if (
-      this.behaviorId !== undefined &&
-      !entity.behaviors?.[this.channel]?.[this.behaviorId]
-    )
+      throw new Error(`实体页不存在 ${this.target.scene}/${this.target.entity}/${this.pageId}`)
+    if (this.behaviorId !== undefined && !entity.behaviors?.[this.channel]?.[this.behaviorId])
       throw new Error(
         `${this.channel} behavior 不存在 ${this.target.scene}/${this.target.entity}/${this.behaviorId}`,
       )

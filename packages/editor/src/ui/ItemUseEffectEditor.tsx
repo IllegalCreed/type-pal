@@ -1051,9 +1051,7 @@ export function ItemEffectChainEditor(props: {
           <div className="item-effect-row-head">
             <span className="item-effect-index">效果 {index + 1}</span>
             {props.privateScriptsV5?.[index] ? (
-              <span className="in item-effect-kind item-private-script-kind">
-                物品私有脚本
-              </span>
+              <span className="in item-effect-kind item-private-script-kind">物品私有脚本</span>
             ) : (
               <select
                 className="in item-effect-kind"

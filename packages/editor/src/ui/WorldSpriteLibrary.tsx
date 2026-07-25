@@ -27,8 +27,10 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import {
+  type CanonicalSpritePreviewStateV5,
   collectAutomaticScriptSpriteInstanceSites,
   describeSpriteReferenceBehavior,
+  projectCanonicalSpritePreviewStateV5,
   type SpriteAutomaticScriptInstanceSite,
 } from '../core/world-sprite-behavior.js'
 import { SpriteActionEditor } from './SpriteActionEditor.js'
@@ -137,6 +139,7 @@ export function WorldSpriteLibrary(props: {
   onJumpActionReference?: (reference: SpriteActionReference) => void
   onJumpAutomaticScriptInstance?: (site: SpriteAutomaticScriptInstanceSite) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  canonicalV5?: CanonicalSpritePreviewStateV5
 }) {
   const assets = useMemo(
     () =>
@@ -198,9 +201,16 @@ export function WorldSpriteLibrary(props: {
   }
   const record = props.catalog.assets[selectedAsset]
   const editorState = props.session.getState()
+  const spritePreviewState = useMemo(
+    () =>
+      props.canonicalV5
+        ? projectCanonicalSpritePreviewStateV5(editorState, props.canonicalV5)
+        : editorState,
+    [editorState, props.canonicalV5],
+  )
   const automaticScriptSites = useMemo(
-    () => collectAutomaticScriptSpriteInstanceSites(editorState),
-    [editorState],
+    () => collectAutomaticScriptSpriteInstanceSites(spritePreviewState),
+    [spritePreviewState],
   )
   const allReferences = useMemo(() => collectSpriteDefinitionReferences(editorState), [editorState])
   const allActionReferences = useMemo(
@@ -977,7 +987,7 @@ export function WorldSpriteLibrary(props: {
                     .slice(0, showAllReferences ? undefined : 12)
                     .map((reference) => {
                       const behavior = describeSpriteReferenceBehavior(
-                        editorState,
+                        spritePreviewState,
                         reference,
                         definition,
                         actualFrameCount,

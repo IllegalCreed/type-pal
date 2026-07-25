@@ -1,9 +1,14 @@
 import type {
   ActorDef,
+  AuthorCommandV5,
   Command,
   EntityDef,
+  EntityDefV5,
+  SceneDefV5,
+  ScriptFlowV5,
   ScriptRef,
   ScriptStage,
+  SharedScriptLibraryV5,
   SpriteDef,
   SpriteDefinitionReference,
 } from '@type-pal/content'
@@ -82,6 +87,235 @@ function actorsById(state: Pick<EditorState, 'actors'>): Record<string, ActorDef
     string,
     ActorDef
   >
+}
+
+export interface CanonicalSpritePreviewStateV5 {
+  scenes: readonly SceneDefV5[]
+  sharedScripts: SharedScriptLibraryV5
+}
+
+const V5_PREVIEW_SHARED_CHUNK = '__script-v5-preview/shared'
+
+function previewChance(
+  condition: Extract<AuthorCommandV5, { kind: 'branch' | 'loop' }>['cond'],
+): Extract<Command, { kind: 'branch' }>['cond'] | undefined {
+  if (condition.kind === 'chance') return structuredClone(condition)
+  if (condition.kind === 'not' && condition.cond.kind === 'chance')
+    return { kind: 'chance', percent: 100 - condition.cond.percent }
+  return undefined
+}
+
+function projectPreviewCommandsV5(
+  commands: readonly AuthorCommandV5[],
+  self: { scene: string; entity: string },
+  sharedScripts: SharedScriptLibraryV5,
+  depth = 0,
+): Command[] {
+  if (depth > MAX_VISUAL_CALL_DEPTH)
+    return commands.map((command) => structuredClone(command) as Command)
+  const projected: Command[] = []
+  for (const command of commands) {
+    switch (command.kind) {
+      case 'setEntityFrame':
+        projected.push({
+          kind: 'setEntityFrame',
+          entity: command.target.entity,
+          frame: command.frame,
+        })
+        break
+      case 'setEntityFacing':
+        projected.push({
+          kind: 'setEntityFacing',
+          entity: command.target.entity,
+          facing: command.facing,
+        })
+        break
+      case 'animEntity':
+        projected.push({ kind: 'animEntity', entity: command.target.entity })
+        break
+      case 'wait':
+      case 'stopScript':
+        projected.push(structuredClone(command))
+        break
+      case 'branch': {
+        const cond = previewChance(command.cond)
+        if (!cond) {
+          projected.push(structuredClone(command) as unknown as Command)
+          break
+        }
+        projected.push({
+          kind: 'branch',
+          cond,
+          then: projectPreviewCommandsV5(command.then, self, sharedScripts, depth + 1),
+          ...(command.else
+            ? {
+                else: projectPreviewCommandsV5(command.else, self, sharedScripts, depth + 1),
+              }
+            : {}),
+        })
+        break
+      }
+      case 'loop': {
+        const body = projectPreviewCommandsV5(command.body, self, sharedScripts, depth + 1)
+        if (command.mode === 'until') {
+          // until 至少执行一次；视觉投影只展开这条必然合法的首轮路径。
+          projected.push(...body)
+          break
+        }
+        const cond = previewChance(command.cond)
+        if (!cond) {
+          projected.push(structuredClone(command) as unknown as Command)
+          break
+        }
+        // while 的 0/1 次代表路径足以给帧预览，且不会伪称完整概率分布。
+        projected.push({ kind: 'branch', cond, then: body })
+        break
+      }
+      case 'callScript': {
+        const shared = sharedScripts[command.script]
+        if (
+          !shared ||
+          (command.self !== undefined &&
+            (command.self.scene !== self.scene || command.self.entity !== self.entity))
+        ) {
+          projected.push(structuredClone(command) as unknown as Command)
+          break
+        }
+        projected.push({
+          kind: 'callScript',
+          ref: { chunk: V5_PREVIEW_SHARED_CHUNK, id: command.script },
+          ...(command.self ? { self: command.self.entity } : {}),
+        })
+        break
+      }
+      default:
+        // 保留未知/有副作用命令的 kind，让既有安全图验证明确返回 unavailable。
+        projected.push(structuredClone(command) as Command)
+    }
+  }
+  return projected
+}
+
+function orderedIds(initial: string, ids: readonly string[]): string[] {
+  return [initial, ...ids.filter((id) => id !== initial)]
+}
+
+function projectPreviewFlowV5(
+  flow: ScriptFlowV5,
+  self: { scene: string; entity: string },
+  sharedScripts: SharedScriptLibraryV5,
+): ScriptStage[] {
+  if (flow.kind === 'stages') {
+    const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
+    const ids = orderedIds(
+      flow.initial,
+      flow.stages.map((stage) => stage.id),
+    )
+    return ids.flatMap((id, index) => {
+      const stage = byId.get(id)
+      if (!stage) return []
+      const target = stage.next === undefined ? index : ids.indexOf(stage.next)
+      return [
+        {
+          body: projectPreviewCommandsV5(stage.body, self, sharedScripts),
+          ...(target >= 0 && target !== index ? { next: target } : {}),
+        },
+      ]
+    })
+  }
+  const machine = flow.machine
+  const ids = orderedIds(machine.initial, Object.keys(machine.states))
+  return ids.flatMap((id, index) => {
+    const state = machine.states[id]
+    if (!state) return []
+    const next = state.next
+    const targetId =
+      next.kind === 'continue' || next.kind === 'advance' || next.kind === 'to'
+        ? next.state
+        : next.kind === 'restart'
+          ? machine.initial
+          : id
+    const target = ids.indexOf(targetId)
+    return [
+      {
+        body: projectPreviewCommandsV5(state.body, self, sharedScripts),
+        ...(target >= 0 && target !== index ? { next: target } : {}),
+      },
+    ]
+  })
+}
+
+function projectPreviewEntityV5(
+  sceneId: string,
+  shell: EntityDef,
+  canonical: EntityDefV5,
+  sharedScripts: SharedScriptLibraryV5,
+): EntityDef {
+  const page =
+    canonical.pages?.find((candidate) => candidate.id === canonical.initialPage) ??
+    canonical.pages?.[0]
+  const auto = page?.auto ? canonical.behaviors?.auto?.[page.auto] : undefined
+  if (!auto) return shell
+  const currentPage = shell.pages?.[0]
+  return {
+    ...shell,
+    pages: [
+      {
+        ...(currentPage ?? {}),
+        auto: {
+          stages: projectPreviewFlowV5(
+            auto.flow,
+            { scene: sceneId, entity: canonical.id },
+            sharedScripts,
+          ),
+        },
+      },
+    ],
+  }
+}
+
+/**
+ * canonical v5 脚本的只读视觉投影。它只为精灵实例行为预览恢复安全的帧/朝向/等待控制流，
+ * 不进入保存、运行时或编辑命令；有副作用或无法证明的分支仍由既有验证保守标为 unavailable。
+ */
+export function projectCanonicalSpritePreviewStateV5(
+  shell: EditorState,
+  canonical: CanonicalSpritePreviewStateV5,
+): EditorState {
+  const scenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
+  const scriptChunks = structuredClone(shell.scriptChunks)
+  scriptChunks[V5_PREVIEW_SHARED_CHUNK] = {
+    version: 1,
+    id: V5_PREVIEW_SHARED_CHUNK,
+    scripts: Object.fromEntries(
+      Object.entries(canonical.sharedScripts).map(([id, script]) => [
+        id,
+        projectPreviewCommandsV5(
+          script.body,
+          { scene: '__shared', entity: '__shared' },
+          canonical.sharedScripts,
+        ),
+      ]),
+    ),
+  }
+  return {
+    ...shell,
+    scenes: shell.scenes.map((scene) => {
+      const source = scenes.get(scene.id)
+      if (!source) return scene
+      const entities = new Map(source.entities.map((entity) => [entity.id, entity]))
+      return {
+        ...scene,
+        entities: scene.entities.map((entity) => {
+          const canonicalEntity = entities.get(entity.id)
+          return canonicalEntity
+            ? projectPreviewEntityV5(scene.id, entity, canonicalEntity, canonical.sharedScripts)
+            : entity
+        }),
+      }
+    }),
+    scriptChunks,
+  }
 }
 
 /** 运行时实际读取的第 0 页 auto 实例；actor 实体也生成 UI 可定位的场景引用。 */

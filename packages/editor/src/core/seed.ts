@@ -10,8 +10,8 @@ import {
   type AssetRecordV1,
   CONTENT_VERSION,
   formatProjectMapV2,
-  type LoadedManifest,
   type MapIndexV1,
+  type ProjectManifest,
   type ProjectMapV2,
   type ScriptIndexV1,
 } from '@type-pal/content'
@@ -159,6 +159,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
     'content/stamps.json': [],
     'content/skills.json': { skills: [], levelUp: {} },
     'content/items.json': [],
+    'content/shared-scripts.json': {},
     'content/locale.json': { 'name.hero': '主角' },
     'content/scenes/index.json': ['start'],
     'content/scenes/start.json': {
@@ -233,6 +234,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
         stamps: 'content/stamps.json',
         scenes: 'content/scenes/',
         maps: 'content/maps/index.json',
+        sharedScripts: 'content/shared-scripts.json',
       },
       assets: {
         catalog: 'assets/index.json',
@@ -244,16 +246,16 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
 }
 
 /** assets 各绝对路径字段相对化(子目录/相对值不变)。深拷,不改原对象。 */
-export function relativizeManifest(m: LoadedManifest): LoadedManifest {
+export function relativizeManifest<V extends number>(m: ProjectManifest<V>): ProjectManifest<V> {
   const legacy = m.assets.legacy
     ? (Object.fromEntries(
         Object.entries(m.assets.legacy).map(([key, value]) => [
           key,
           typeof value === 'string' ? relPath(value) : structuredClone(value),
         ]),
-      ) as NonNullable<LoadedManifest['assets']['legacy']>)
+      ) as NonNullable<ProjectManifest<V>['assets']['legacy']>)
     : undefined
-  const assets: LoadedManifest['assets'] = {
+  const assets: ProjectManifest<V>['assets'] = {
     ...structuredClone(m.assets),
     ...(legacy ? { legacy } : {}),
   }
@@ -261,12 +263,12 @@ export function relativizeManifest(m: LoadedManifest): LoadedManifest {
 }
 
 /** 场景目录(manifest.content.scenes;规整为以 / 结尾)。 */
-export function scenesDir(m: LoadedManifest): string {
+export function scenesDir(m: ProjectManifest<number>): string {
   const dir = m.content.scenes ?? 'content/scenes/'
   return dir.endsWith('/') ? dir : `${dir}/`
 }
 
-export function scriptsDir(m: LoadedManifest): string | undefined {
+export function scriptsDir(m: ProjectManifest<number>): string | undefined {
   const dir = m.content.scripts
   if (!dir) return undefined
   return dir.endsWith('/') ? dir : `${dir}/`
@@ -277,7 +279,7 @@ export function scriptsDir(m: LoadedManifest): string | undefined {
  * + 全部素材(catalog 精确闭包 + 尚未迁移族的 asset-manifest → assets/extracted/)。
  */
 export function enumerateSeedFiles(
-  manifest: LoadedManifest,
+  manifest: ProjectManifest<number>,
   sceneIds: string[],
   assetManifest: FileList,
   scriptIndex?: ScriptIndexV1,
@@ -301,6 +303,15 @@ export function enumerateSeedFiles(
     if (key === 'scenes' || key === 'scripts' || typeof val !== 'string') continue
     json(val)
   }
+  for (const descriptor of Object.values(manifest.migrations ?? {}))
+    out.push({
+      rel: descriptor.path,
+      src: descriptor.path,
+      kind: 'binary',
+      size: 0,
+      sourceLane: 'project',
+      commitPhase: 'content',
+    })
   // 场景 index + 每场景
   const dir = scenesDir(manifest)
   json(`${dir}index.json`)

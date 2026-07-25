@@ -46,7 +46,7 @@ export function buildPayload(
   projectId: string,
   contentVersion: number,
 ): SavePayload {
-  return { version: SAVE_VERSION, projectId, contentVersion, world, position }
+  return { version: LEGACY_SAVE_ENVELOPE_VERSION, projectId, contentVersion, world, position }
 }
 
 export function buildPayloadV5(
@@ -54,7 +54,7 @@ export function buildPayloadV5(
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
 ): SavePayloadV5 {
-  return { version: 5, projectId, contentVersion: 5, world, position }
+  return { version: SAVE_VERSION, projectId, contentVersion: 5, world, position }
 }
 
 /**

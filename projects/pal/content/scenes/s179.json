@@ -20,25 +20,70 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2949/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 84,
+                        "height": 0,
+                        "row": 4
+                      }
+                    },
+                    {
+                      "dx": 0,
+                      "dy": -4,
+                      "frames": 16,
+                      "kind": "cameraPan"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 80,
+                        "height": 0,
+                        "row": 0
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 80,
+                        "height": 0,
+                        "row": 3
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2950",
@@ -50,25 +95,70 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2950/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 80,
+                        "height": 0,
+                        "row": 0
+                      }
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 4,
+                      "frames": 16,
+                      "kind": "cameraPan"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 84,
+                        "height": 0,
+                        "row": 4
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 87,
+                        "height": 0,
+                        "row": 4
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2951",
@@ -80,25 +170,70 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2951/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 67,
+                        "height": 0,
+                        "row": 12
+                      }
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 8,
+                      "frames": 48,
+                      "kind": "cameraPan"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 36
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 94,
+                        "height": 0,
+                        "row": 36
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2952",
@@ -110,25 +245,70 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2952/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 36
+                      }
+                    },
+                    {
+                      "dx": 0,
+                      "dy": -8,
+                      "frames": 48,
+                      "kind": "cameraPan"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 67,
+                        "height": 0,
+                        "row": 12
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "moveParty",
+                      "speed": "fast",
+                      "to": {
+                        "col": 69,
+                        "height": 0,
+                        "row": 12
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2953",
@@ -140,25 +320,49 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2953/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-ca44a0c9",
+                      "kind": "loadScene",
+                      "scene": "s186"
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "dir": "out",
+                      "kind": "fade",
+                      "ms": 600
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2954",
@@ -170,25 +374,59 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2954/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-f6acbe36",
+                      "kind": "loadScene",
+                      "scene": "s202"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "触发行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s228"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2955",
@@ -210,24 +448,509 @@
       "zone": true,
       "pages": [
         {
-          "auto": {
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2956/page-0/auto/stage-0"
+          "id": "default",
+          "label": "默认模式",
+          "auto": "default"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认自动行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "initial",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 76
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 16
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation"
+                      }
+                    }
+                  },
+                  "cycle": {
+                    "label": "初始状态",
+                    "body": [
+                      {
+                        "asset": "sound.pal.063",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 480
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 31
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle-legacy-002",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "stay"
+                      }
+                    }
+                  },
+                  "cycle-legacy-002": {
+                    "label": "迁移状态 legacy-002",
+                    "body": [
+                      {
+                        "asset": "sound.pal.064",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 560
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 56
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "stay"
+                      }
+                    }
+                  },
+                  "continuation": {
+                    "label": "同步继续 continuation",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 19
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "cycle-legacy-002",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-002"
+                      }
+                    }
+                  },
+                  "legacy-continuation-002": {
+                    "label": "同步继续 legacy-continuation-002",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 21
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-002",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-003"
+                      }
+                    }
+                  },
+                  "legacy-cycle-002": {
+                    "label": "迁移流程 legacy-cycle-002",
+                    "body": [
+                      {
+                        "kind": "loop",
+                        "mode": "until",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "chance",
+                            "percent": 31
+                          }
+                        },
+                        "body": [
+                          {
+                            "asset": "sound.pal.065",
+                            "kind": "playSound"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 240
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 81
+                            },
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          }
+                        ],
+                        "yield": "worldTick",
+                        "maxIterations": 10000
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "legacy-continuation-003": {
+                    "label": "同步继续 legacy-continuation-003",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 21
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-004"
+                      }
+                    }
+                  },
+                  "legacy-cycle-003": {
+                    "label": "初始状态",
+                    "body": [
+                      {
+                        "asset": "sound.pal.068",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 26
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003-legacy-002",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "stay"
+                      }
+                    }
+                  },
+                  "legacy-cycle-003-legacy-002": {
+                    "label": "迁移状态 legacy-002",
+                    "body": [
+                      {
+                        "asset": "sound.pal.069",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 240
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 26
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003-legacy-003",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "stay"
+                      }
+                    }
+                  },
+                  "legacy-cycle-003-legacy-003": {
+                    "label": "迁移状态 legacy-003",
+                    "body": [
+                      {
+                        "asset": "sound.pal.070",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      },
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 81
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 26
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003",
+                        "yield": "worldTick"
+                      },
+                      "else": {
+                        "kind": "stay"
+                      }
+                    }
+                  },
+                  "legacy-continuation-004": {
+                    "label": "同步继续 legacy-continuation-004",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 26
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003-legacy-002",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-005"
+                      }
+                    }
+                  },
+                  "legacy-continuation-005": {
+                    "label": "同步继续 legacy-continuation-005",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 31
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "legacy-cycle-003-legacy-003",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-006"
+                      }
+                    }
+                  },
+                  "legacy-continuation-006": {
+                    "label": "同步继续 legacy-continuation-006",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 36
+                        },
+                        "then": [
+                          {
+                            "asset": "sound.pal.084",
+                            "kind": "playSound"
+                          },
+                          {
+                            "kind": "wait",
+                            "ms": 320
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 61
+                            },
+                            "then": [
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "chance",
+                              "percent": 76
+                            },
+                            "then": [
+                              {
+                                "asset": "sound.pal.083",
+                                "kind": "playSound"
+                              },
+                              {
+                                "kind": "wait",
+                                "ms": 320
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 41
+                      },
+                      "then": {
+                        "kind": "to",
+                        "state": "exit",
+                        "yield": "macroTask"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "legacy-continuation-007"
+                      }
+                    }
+                  },
+                  "exit": {
+                    "label": "退出 exit",
+                    "body": [
+                      {
+                        "asset": "sound.pal.083",
+                        "kind": "playSound"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 320
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "legacy-continuation-007": {
+                    "label": "同步继续 legacy-continuation-007",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "chance",
+                          "percent": 96
+                        },
+                        "then": [
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
                     }
                   }
-                ],
-                "next": 0
+                }
               }
-            ]
+            }
           }
         }
-      ]
+      }
     },
     {
       "id": "e2957",
@@ -240,25 +963,65 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2957/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
+            "range": 1
           }
         }
-      ]
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s179",
+                        "entity": "e2957"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12456"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "112",
+                      "kind": "giveItem"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2958",
@@ -271,38 +1034,65 @@
       "collide": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "interact",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s179",
-                      "id": "scene/s179/root/entity-e2958/page-0/trigger/stage-0"
+            "range": 1
+          }
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s179",
+                        "entity": "e2958"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "asset": "sound.pal.078",
+                      "kind": "playSound"
+                    },
+                    {
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12459"
+                          }
+                        ],
+                        "slot": "narration"
+                      },
+                      "kind": "dialog"
+                    },
+                    {
+                      "itemId": "125",
+                      "kind": "giveItem"
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            }
           }
         }
-      ]
-    }
-  ],
-  "onTeleport": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s179",
-            "id": "scene/s179/root/on-teleport/stage-0"
-          }
-        }
-      ]
+      }
     }
   ],
   "entries": {
@@ -320,6 +1110,33 @@
         "col": 119,
         "row": 10,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onTeleport": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认传送出口",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "body": [
+                  {
+                    "entryId": "pal-entry-9538a25f",
+                    "kind": "loadScene",
+                    "scene": "s176"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }

@@ -345,10 +345,7 @@ export class ScriptProjectRuntimeV5 {
     )
   }
 
-  async runSharedScript(
-    script: string,
-    options: RunProjectCommandsV5Options,
-  ): Promise<void> {
+  async runSharedScript(script: string, options: RunProjectCommandsV5Options): Promise<void> {
     await this.runCommands(
       [
         {

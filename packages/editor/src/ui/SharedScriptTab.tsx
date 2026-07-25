@@ -136,6 +136,8 @@ export function SharedScriptTab(props: {
   onOpenImage?: (id: string) => void
   onOpenBattleSprite?: (id: string) => void
   onOpenSpriteAction?: (spriteId: string, actionId: string) => void
+  /** canonical v5 工程不向作者暴露 legacy 分片/迁移内部实现。 */
+  showMigrationInternals?: boolean
 }) {
   const {
     tabBar,
@@ -161,6 +163,7 @@ export function SharedScriptTab(props: {
     focusScriptRevision,
     onJumpToEvent,
     onSelectedScriptId,
+    showMigrationInternals = true,
   } = props
   const editorState = session.getState()
   const items = editorState.items
@@ -194,8 +197,8 @@ export function SharedScriptTab(props: {
   const library = scriptIndex?.library ?? EMPTY_LIBRARY
   const authoredIds = useMemo(() => Object.keys(library).sort(), [library])
   const internalCatalog = useMemo(
-    () => buildInternalScriptCatalog(scriptChunks, library),
-    [library, scriptChunks],
+    () => (showMigrationInternals ? buildInternalScriptCatalog(scriptChunks, library) : []),
+    [library, scriptChunks, showMigrationInternals],
   )
   const internalById = useMemo(
     () =>
@@ -235,6 +238,7 @@ export function SharedScriptTab(props: {
     onSelectedScriptId?.(id || undefined)
   }
   const selectInternalScript = (id: string): void => {
+    if (!showMigrationInternals) return
     setCatalogMode('internal')
     setSelectedInternalId(id)
     setInternalTrail([])
@@ -266,6 +270,12 @@ export function SharedScriptTab(props: {
     if (!selectedInternalId || internalById[selectedInternalId]) return
     setSelectedInternalId(internalCatalog[0]?.id ?? '')
   }, [internalById, internalCatalog, selectedInternalId])
+  useEffect(() => {
+    if (showMigrationInternals) return
+    setCatalogMode('authored')
+    setSelectedInternalId('')
+    setInternalTrail([])
+  }, [showMigrationInternals])
   // biome-ignore lint/correctness/useExhaustiveDependencies: 编辑目标改变时必须清空对应的临时面板状态。
   useEffect(() => {
     setSelectedPath(null)
@@ -425,7 +435,7 @@ export function SharedScriptTab(props: {
       selectScript(id)
       return
     }
-    if (!scriptIndex || !getScriptBody(scriptIndex, scriptChunks, id)) {
+    if (!showMigrationInternals || !scriptIndex || !getScriptBody(scriptIndex, scriptChunks, id)) {
       setMessage(`脚本目标不存在或尚未载入：${id}`)
       return
     }
@@ -470,19 +480,21 @@ export function SharedScriptTab(props: {
           >
             可复用脚本 <span>{authoredIds.length}</span>
           </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={catalogMode === 'internal'}
-            className={catalogMode === 'internal' ? 'active' : ''}
-            onClick={() => {
-              const id = selectedInternalId || internalCatalog[0]?.id
-              if (id) selectInternalScript(id)
-              else setCatalogMode('internal')
-            }}
-          >
-            迁移内部实现 <span>{internalCatalog.length}</span>
-          </button>
+          {showMigrationInternals ? (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={catalogMode === 'internal'}
+              className={catalogMode === 'internal' ? 'active' : ''}
+              onClick={() => {
+                const id = selectedInternalId || internalCatalog[0]?.id
+                if (id) selectInternalScript(id)
+                else setCatalogMode('internal')
+              }}
+            >
+              迁移内部实现 <span>{internalCatalog.length}</span>
+            </button>
+          ) : null}
         </div>
         <input
           className="in"
@@ -795,7 +807,11 @@ export function SharedScriptTab(props: {
             </div>
           </>
         ) : (
-          <div className="insp-empty">新建可复用脚本，或从“迁移内部实现”查看旧版控制流</div>
+          <div className="insp-empty">
+            {showMigrationInternals
+              ? '新建可复用脚本，或从“迁移内部实现”查看旧版控制流'
+              : '新建一个可复用脚本'}
+          </div>
         )}
       </div>
 

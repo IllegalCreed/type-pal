@@ -20,53 +20,38 @@
       "zone": true,
       "pages": [
         {
-          "trigger": {
+          "id": "default",
+          "label": "默认模式",
+          "trigger": "default",
+          "triggerActivation": {
             "on": "touch",
-            "range": 1,
-            "stages": [
-              {
-                "body": [
-                  {
-                    "kind": "callScript",
-                    "ref": {
-                      "chunk": "scene/s057",
-                      "id": "scene/s057/root/entity-e944/page-0/trigger/stage-0"
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    }
-  ],
-  "onEnter": [
-    {
-      "body": [
-        {
-          "kind": "callScript",
-          "ref": {
-            "chunk": "scene/s057",
-            "id": "scene/s057/root/on-enter/stage-0"
+            "range": 1
           }
         }
       ],
-      "entry": {
-        "prepare": [
-          {
-            "kind": "teleportParty",
-            "pos": {
-              "col": 72,
-              "row": -2,
-              "height": 0
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "default": {
+            "label": "默认触发行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "entryId": "pal-entry-3c807fdd",
+                      "kind": "loadScene",
+                      "scene": "s054"
+                    }
+                  ]
+                }
+              ]
             }
           }
-        ],
-        "reveal": {
-          "kind": "dither",
-          "ms": 2160,
-          "source": "previousPresentedFrame"
         }
       }
     }
@@ -78,6 +63,75 @@
         "col": 160,
         "row": 68,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onEnter": {
+      "initial": "default",
+      "variants": {
+        "default": {
+          "label": "默认进场行为",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 72,
+                        "row": -2,
+                        "height": 0
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 2160,
+                    "source": "previousPresentedFrame"
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s054",
+                      "entity": "e926"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "legacy-001"
+                    }
+                  },
+                  {
+                    "cue": {
+                      "portrait": {
+                        "asset": "portrait.pal.002",
+                        "side": "right"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.4344"
+                        }
+                      ]
+                    },
+                    "kind": "dialog"
+                  },
+                  {
+                    "asset": "music.pal.078",
+                    "kind": "playMusic"
+                  }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }

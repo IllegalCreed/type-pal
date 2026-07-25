@@ -271,9 +271,7 @@ describe('ScriptV5BehaviorInspector', () => {
       textarea.dispatchEvent(new Event('input', { bubbles: true }))
     })
     await act(async () => button(host, '应用并校验').click())
-    expect(
-      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow,
-    ).toEqual(flow)
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(flow)
     expect(session.isDirty()).toBe(true)
   })
 })

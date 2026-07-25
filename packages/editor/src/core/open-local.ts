@@ -2,19 +2,14 @@
  * openLocalProject —— 打开本地工程夹(P4)。fsaSource → loadProjectFrom → 全量场景与脚本。
  * 无有效 manifest.json → 友好报错(不进编辑器)。素材经 fsaSource 从本地读 → 离线渲染。
  */
-import type {
-  SceneDef,
-  SceneDefV5,
-  ScriptChunkV1,
-  StampTemplateV1,
-} from '@type-pal/content'
-import { emptyWorldScriptStateV5 } from '@type-pal/content'
+import type { SceneDef, SceneDefV5, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
+import { emptyWorldScriptStateV5, ProjectScriptV4V5UpgradeError } from '@type-pal/content'
 import {
   fsaSource,
-  legacyProjectShellFromV5,
-  legacySceneFromV5,
   type LoadedProject,
   type LoadedProjectV5,
+  legacyProjectShellFromV5,
+  legacySceneFromV5,
   loadAllScenes,
   loadAllScenesV5,
   loadAllScriptChunks,
@@ -34,6 +29,12 @@ import { upgradeLocalProjectV3StaticImages } from './upgrade-local-v3-images.js'
 import { upgradeLocalProjectV3Sounds } from './upgrade-local-v3-sounds.js'
 import { upgradeLocalProjectV3Sprites } from './upgrade-local-v3-sprites.js'
 import { upgradeLocalProjectV3Tilesets } from './upgrade-local-v3-tilesets.js'
+import {
+  LocalProjectV4V5PreviewRequiredError,
+  recoverLocalProjectV4V5Migration,
+  type UpgradeLocalProjectV4ScriptV5Options,
+  upgradeLocalProjectV4ScriptV5,
+} from './upgrade-local-v4-script-v5.js'
 
 export interface OpenedProjectV4 {
   kind: 'v4'
@@ -57,10 +58,15 @@ export interface OpenedProjectV5 {
 
 export type OpenedProject = OpenedProjectV4 | OpenedProjectV5
 
+export interface OpenLocalProjectOptions
+  extends UpgradeLocalV2Options,
+    UpgradeLocalProjectV4ScriptV5Options {}
+
 export async function openLocalProject(
   dir: FileSystemDirectoryHandle,
-  options: UpgradeLocalV2Options = {},
+  options: OpenLocalProjectOptions = {},
 ): Promise<OpenedProject> {
+  await recoverLocalProjectV4V5Migration(dir)
   let source = fsaSource(dir)
   let rawManifest: unknown
   try {
@@ -105,7 +111,17 @@ export async function openLocalProject(
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')
     }
+    if (await upgradeLocalProjectV4ScriptV5(dir, source, rawManifest, options)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
   } catch (e) {
+    if (
+      e instanceof ProjectScriptV4V5UpgradeError ||
+      e instanceof LocalProjectV4V5PreviewRequiredError
+    )
+      throw e
     throw new Error(
       `打开工程失败:「${dir.name}」里没有有效的 manifest.json(${e instanceof Error ? e.message : String(e)})`,
     )

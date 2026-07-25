@@ -404,7 +404,7 @@ GLM 逐条确认：30 个 actor-backed auto 实体**全部** `zone:true`，无 s
     `fb60bc5a770ef62a0baf4c8ae482e0e963b3e18a274a4d3520a7c9c3ed017e4f`。
   - census canonical digest：accepted
     `b6ee586cefe9a5b0762279f39892ab141247fcf761f279466f648b45f87c528b`、rejections
-    `abc4f8730acfe97dd71b979a0446aa9e6663351121553c6343e09cc42dc3fe09`、actions
+    `393d97ab05161c96a4aa28f11d95838455a01d8fe7fdcf1d9aa276b7da347c67`、actions
     `a6dd0657ff7476d2c37021277540c92cdc43df888f16d712c87e40d3e7585c69`。
 - 运行命令:
   - `pnpm lint`：821 个文件全绿。
@@ -484,7 +484,14 @@ GLM 逐条确认：30 个 actor-backed auto 实体**全部** `zone:true`，无 s
 | steadyCycleFamilies | 32 | **32** | ✅ |
 | finiteIntroInstances | 4 | **4** | ✅ |
 | acceptedSites digest | b6ee586c... | **b6ee586c...** | ✅ |
-| rejections digest | abc4f873... | **abc4f873...** | ✅ |
+| rejections digest | abc4f873... | **393d97ab...** | ✅（上游语义修复后同步） |
+
+2026-07-25 摘要同步说明：`312cd8d94` 修正 PAL `0x9A` 在 `from > to`
+时应为零次循环，不再生成 `entities=[]` 的伪 `setMultiEntityState`。用 C2 原提交
+`7eeec81f` 与当前代码对同一份提取源逐实例比较，只有 `s052/e897`、`s059/e1049`
+两条既有 `external-write` 拒绝证据中的命令路径下标各前移 1；accepted sites、
+actions、全部计数和物化结果均保持不变。因此更新 rejections digest，不重开 C2
+能力结论。
 | actions digest | a6dd0657... | **a6dd0657...** | ✅ |
 | materializer digest | fb60bc5a... | **fb60bc5a...** | ✅ |
 

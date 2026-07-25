@@ -162,7 +162,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(4)
+    expect(m.contentVersion).toBe(5)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])
@@ -173,6 +173,8 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     expect(m.content.tilesets).toBe('content/tilesets.json')
     expect(m.content.stamps).toBe('content/stamps.json')
     expect(m.content.maps).toBe('content/maps/index.json')
+    expect(m.content.sharedScripts).toBe('content/shared-scripts.json')
+    expect(files['content/shared-scripts.json']).toEqual({})
     // 场景只保存稳定 mapId；entry 落房间中心(方形 12×12 → (12,0))
     const scene = files['content/scenes/start.json'] as {
       id: string

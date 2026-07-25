@@ -19,19 +19,34 @@ describe('script-v5 shadow CLI parser', () => {
     [['--through=p7', '--check'], { check: true, through: 'p7' }],
     [['--check', '--through', 'p2'], { check: true, through: 'p2' }],
   ])('接受严格参数序列 %#', (args, expected) => {
-    expect(parseScriptV5ShadowCliArgs(args)).toEqual({ publish: false, ...expected })
+    expect(parseScriptV5ShadowCliArgs(args)).toEqual({
+      publish: false,
+      rebuildPublished: false,
+      ...expected,
+    })
   })
 
   test('accepts only an explicit P7 publish mode', () => {
     expect(parseScriptV5ShadowCliArgs(['--publish'])).toEqual({
       check: false,
       publish: true,
+      rebuildPublished: false,
       through: 'p7',
     })
-    expect(() =>
-      parseScriptV5ShadowCliArgs(['--publish', '--through', 'p6']),
-    ).toThrow(/只允许/)
+    expect(() => parseScriptV5ShadowCliArgs(['--publish', '--through', 'p6'])).toThrow(/只允许/)
     expect(() => parseScriptV5ShadowCliArgs(['--publish', '--check'])).toThrow(/不能同时/)
+  })
+
+  test('published rebuild is explicit and P7-only', () => {
+    expect(parseScriptV5ShadowCliArgs(['--rebuild-published', '--check'])).toEqual({
+      check: true,
+      publish: false,
+      rebuildPublished: true,
+      through: 'p7',
+    })
+    expect(() => parseScriptV5ShadowCliArgs(['--rebuild-published', '--through', 'p6'])).toThrow(
+      /只允许/,
+    )
   })
 
   test.each([
@@ -40,6 +55,7 @@ describe('script-v5 shadow CLI parser', () => {
     ['--through', 'p8'],
     ['--through=p8'],
     ['--check', '--check'],
+    ['--rebuild-published', '--rebuild-published'],
     ['--through=p2', '--through', 'p2'],
     ['--unknown'],
   ])('拒绝歧义、重复或未知参数 %#', (...args) => {

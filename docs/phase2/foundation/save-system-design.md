@@ -1,6 +1,77 @@
 # 存档系统设计(save-system)
 
-> 第二阶段 Reforge。2026-06-30 brainstorm(Claude + 用户)。**本文件是设计,非实现**——按下方「分期」落地,不现在硬做载荷。先读 [READ-FIRST](../READ-FIRST.md)。
+> 第二阶段 Reforge。下方 2026-06-30 v1 文本保留为历史设计；当前实现契约以本节和源码为准。
+> 先读 [READ-FIRST](../READ-FIRST.md)。
+
+## 当前实现：SAVE 5 / contentVersion 5（2026-07-25）
+
+`SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。当前写出的 payload 为：
+
+```ts
+interface SavePayloadV5 {
+  version: 5
+  projectId: string
+  contentVersion: 5
+  world: WorldStateV5
+  position: { sceneId: string; pos: GridPos; facing: Facing }
+}
+```
+
+`WorldStateV5.script` 使用复合实体地址和 canonical Page/Behavior/Hook 选择，保存
+`FlowCursor`，不保存 v4 `entityStage`、匿名 `sceneScriptOverrides`、command index、调用栈或 wait
+中间相位。存档请求通过 flow safe-point barrier 后才拍快照；超时或迁移失败均不提交半成品。
+
+### 两段式读档迁移
+
+1. `preflightSaveMigration` 异步检查工程、版本矩阵、descriptor、sidecar bytes SHA-256 和 sidecar
+   自身 digest，产出只读 resolver。
+2. `normalizePayloadV5` 只在隔离副本中同步归一化；成功后一次返回 5/5，失败不污染输入。
+
+`manifest.minimumSaveVersion` 是第一道硬闸。低于它的 payload 会在读取 compatibility sidecar 前
+直接拒绝。工程 id 不匹配、未来 SAVE 版本、缺 transition 或非法版本组合同样 fail-loud。
+
+| payload `version` | payload `contentVersion` | v5 工程结果 |
+|---:|---:|---|
+| 5 | 5 | 直接跑 current validator；不要求历史 sidecar |
+| 1..4 | 4 | 先归一化 SAVE envelope 到 v4，再经 `script-v4-v5` sidecar 迁移 world，最后写 5/5 |
+| 5 | 4 | 拒绝：非法中间态 |
+| 1..4 | 5 | 拒绝：旧 envelope 不能携带新 content |
+| 其他 | 其他 | 拒绝：没有已知 transition chain |
+
+4 → 5 sidecar 由 manifest migration registry 精确登记：
+
+```ts
+manifest.migrations['script-v4-v5'] = {
+  version: 1,
+  fromContentVersion: 4,
+  toContentVersion: 5,
+  path: 'content/migrations/script-v4-v5-save.json',
+  sha256: '...'
+}
+```
+
+sidecar 显式保存：
+
+- 裸实体 id → `EntityAddress` 的 `single` 或 `broadcast-v4` alias；
+- v4 stage index → 带 stage-count guard 的 canonical `FlowCursor`；
+- `sceneScriptOverrides` binding digest → 具名 HookId；
+- Page/Stage lineage、project-local allocation 和受保护 target closure。
+
+`broadcast-v4` 会把旧 `entityState/entityPos/entityLayer` 逐地址复制；scene hook cursor 会先按旧
+binding alias 解出当前 HookId，再只写对应 variant 的 cursor。任何未映射、歧义、目标缺失或冲突
+都会拒绝迁移。
+
+### 实现锚点
+
+- `packages/reforge/src/save/types.ts`：`SAVE_VERSION = 5`、`SavePayloadV5`。
+- `packages/reforge/src/save/migration.ts`：预检矩阵、descriptor/sidecar 加载和纯 normalizer。
+- `packages/content/src/script-transition-v5.ts`：migration descriptor/sidecar schema 与 validator。
+- `packages/editor/src/core/upgrade-local-v4-script-v5.ts`：本地工程升级的 staging/journal、
+  manifest-last 发布和中断前滚恢复。
+
+---
+
+## 历史 v1 设计（字段示例已被 SAVE 5 supersede）
 
 ## 目标(用户需求)
 

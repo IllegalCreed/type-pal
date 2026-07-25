@@ -200,7 +200,7 @@ export class ScriptRunnerV5 {
         const outcomes = new Map<string, { command: 'confirm'; no: boolean }>()
         await this.runCommands(state.body, [machine.id, stateId], outcomes, true)
         throwIfAborted(this.signal)
-      const transition = this.resolveTransition(state.next, outcomes)
+        const transition = this.resolveTransition(state.next, outcomes)
         if (transition.kind === 'continue') {
           assertState(machine.states, transition.state, `${machine.id}.${stateId}.next`)
           stateId = transition.state

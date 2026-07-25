@@ -1,4 +1,8 @@
-import { normalizeScriptLibrary, type ScriptChunkV1 } from '@type-pal/content'
+import {
+  normalizeScriptLibrary,
+  ProjectScriptV4V5UpgradeError,
+  type ScriptChunkV1,
+} from '@type-pal/content'
 import { compressGzip, decompressGzip } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import {
@@ -14,6 +18,7 @@ import { buildBlankProject } from './seed.js'
 import { buildSeedAssets } from './seed-assets.js'
 import { scanTilesetReferences, TilesetRemovalProof } from './tileset-references.js'
 import type { SoundUpgradeProgress } from './upgrade-local-v2.js'
+import { LocalProjectV4V5PreviewRequiredError } from './upgrade-local-v4-script-v5.js'
 
 /** 内存 mock 目录句柄:覆盖 FSA 读、写、删，供 v2 一次性升级集成测试。 */
 function mockDir(
@@ -103,6 +108,17 @@ const hash = 'a'.repeat(64)
 function waveBytes(marker = 0): ArrayBuffer {
   return new Uint8Array([0x52, 0x49, 0x46, 0x46, 0x05, 0, 0, 0, 0x57, 0x41, 0x56, 0x45, marker])
     .buffer
+}
+
+function canonicalHookBody(
+  opened: Awaited<ReturnType<typeof openLocalProject>>,
+  slot: 'onEnter' | 'onTeleport' = 'onEnter',
+): unknown[] {
+  if (opened.kind !== 'v5') throw new Error('期望 v5 工程')
+  const channel = opened.canonicalV5.scenes[0]?.hooks?.[slot]
+  const hook = channel?.initial ? channel.variants[channel.initial] : undefined
+  if (!hook || hook.flow.kind !== 'stages') throw new Error(`期望 canonical ${slot} stages`)
+  return hook.flow.stages[0]?.body ?? []
 }
 
 /** 只供升级计划测试；真实像素解码由注入 validateStaticImage 代替。 */
@@ -651,9 +667,7 @@ describe('openLocalProject', () => {
     expect(opened.canonicalV5.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
       scene.entities[0]!.behaviors.trigger.talk.flow,
     )
-    expect(opened.scenes[0]!.entities[0]!.pages?.[0]?.trigger?.stages).toEqual([
-      { body: [] },
-    ])
+    expect(opened.scenes[0]!.entities[0]!.pages?.[0]?.trigger?.stages).toEqual([{ body: [] }])
     expect(opened.scriptChunks).toEqual({})
   })
 
@@ -878,9 +892,9 @@ describe('openLocalProject', () => {
     fixture.files['assets/extracted/data/battle-effect-index.json'] = J(Array(22).fill(0))
     const chunk = {
       version: 1 as const,
-      id: 'scene/s1',
+      id: 'shared/c07',
       scripts: {
-        'scene/s1/test': [
+        'shared/user/test': [
           {
             kind: 'branch',
             cond: { kind: 'flag', flag: 'test', is: true },
@@ -893,29 +907,28 @@ describe('openLocalProject', () => {
       {
         version: 1,
         shards: { shared: 16, global: {} },
-        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 0 } },
+        chunks: { 'shared/c07': { path: 'chunks/shared/c07.json', bytes: 0 } },
+        library: {
+          'shared/user/test': { name: '测试脚本', self: 'none' },
+        },
       },
-      { 'scene/s1': chunk as unknown as ScriptChunkV1 },
+      { 'shared/c07': chunk as unknown as ScriptChunkV1 },
     )
     fixture.files['content/scripts/index.json'] = J(normalized.index)
-    fixture.files['content/scripts/chunks/scene/s1.json'] = J(chunk)
+    fixture.files['content/scripts/chunks/shared/c07.json'] = J(chunk)
     const writes: string[] = []
     const dir = mockDir('battle-script-positive', fixture.files, writes)
     const opened = await openLocalProject(dir)
-    expect(opened.scriptChunks['scene/s1']?.scripts['scene/s1/test']).toEqual([
+    if (opened.kind !== 'v5') throw new Error('未升级为 v5')
+    expect(opened.canonicalV5.project.sharedScripts['shared/user/test']?.body).toEqual([
       {
         kind: 'branch',
         cond: { kind: 'flag', flag: 'test', is: true },
         then: [{ kind: 'setActorAppearance', actor: 'a', battleSprite: 'player-fighter-10' }],
       },
     ])
-    const storedIndex = JSON.parse(String(fixture.files['content/scripts/index.json']))
-    const storedChunk = JSON.parse(
-      String(fixture.files['content/scripts/chunks/scene/s1.json']),
-    ) as ScriptChunkV1
-    expect(normalizeScriptLibrary(storedIndex, { 'scene/s1': storedChunk }).index).toEqual(
-      storedIndex,
-    )
+    expect(fixture.files['content/scripts/index.json']).toBeUndefined()
+    expect(fixture.files['content/scripts/chunks/shared/c07.json']).toBeUndefined()
     writes.length = 0
     await openLocalProject(dir)
     expect(writes).toEqual([])
@@ -1322,6 +1335,171 @@ describe('openLocalProject', () => {
     expect(project.source).toBeDefined()
   })
 
+  test('v4 单页/单段工程经项目级 journal 原子升级到 v5，manifest-last 且重开零写', async () => {
+    const files = currentProjectFiles()
+    const scene = JSON.parse(String(files['content/scenes/s1.json'])) as {
+      entities: unknown[]
+    }
+    scene.entities = [
+      {
+        id: 'guide',
+        pos: { col: 1, row: 1, height: 0 },
+        sprite: 'gs',
+        facing: 'down',
+        pages: [
+          {
+            trigger: {
+              on: 'interact',
+              stages: [
+                {
+                  body: [{ kind: 'setEntityState', entity: 'guide', state: 2 }],
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ]
+    files['content/scenes/s1.json'] = J(scene)
+    const writes: string[] = []
+    const dir = mockDir('v4-script', files, writes)
+
+    const opened = await openLocalProject(dir)
+    expect(opened.kind).toBe('v5')
+    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(writes.at(-1)).toBe('manifest.json')
+    expect(files['content/shared-scripts.json']).toBeDefined()
+    expect(files['content/migrations/script-v4-v5-save.json']).toBeDefined()
+    expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
+    const sceneBytes = files['content/scenes/s1.json']
+    const canonicalScene = JSON.parse(
+      typeof sceneBytes === 'string' ? sceneBytes : new TextDecoder().decode(sceneBytes),
+    ) as {
+      entities: Array<{ initialPage?: string }>
+    }
+    expect(canonicalScene.entities[0]?.initialPage).toBe('default')
+
+    const writeCount = writes.length
+    const reopened = await openLocalProject(dir)
+    expect(reopened.kind).toBe('v5')
+    expect(writes).toHaveLength(writeCount)
+  })
+
+  test('v4→v5 manifest 提交中断后先按 journal 前滚，再进入 v5 loader', async () => {
+    const files = currentProjectFiles()
+    const writes: string[] = []
+    const dir = mockDir('v4-script-recover', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(files['.type-pal/journals/script-v4-v5.json']).toBeDefined()
+    expect(
+      (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(4)
+
+    const reopened = await openLocalProject(dir)
+    expect(reopened.kind).toBe('v5')
+    expect(reopened.project.manifest.contentVersion).toBe(5)
+    expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
+  })
+
+  test('v4 多页工程停在带 input digest 的迁移报告，确认前零写', async () => {
+    const files = currentProjectFiles()
+    const scene = JSON.parse(String(files['content/scenes/s1.json'])) as {
+      entities: unknown[]
+    }
+    scene.entities = [
+      {
+        id: 'guide',
+        pos: { col: 1, row: 1, height: 0 },
+        sprite: 'gs',
+        facing: 'down',
+        pages: [{}, {}],
+      },
+    ]
+    files['content/scenes/s1.json'] = J(scene)
+    const writes: string[] = []
+
+    await expect(
+      openLocalProject(mockDir('v4-script-report', files, writes)),
+    ).rejects.toMatchObject({
+      report: {
+        inputDigest: expect.stringMatching(/^[a-f0-9]{64}$/),
+        issues: [expect.objectContaining({ resolution: 'name-pages' })],
+      },
+    })
+    expect(writes).toEqual([])
+    expect(
+      (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(4)
+    expect(Object.keys(files).some((path) => path.startsWith('.type-pal/'))).toBe(false)
+  })
+
+  test('v4 多页工程经作者命名、只读预览与明确确认后才原子发布', async () => {
+    const files = currentProjectFiles()
+    const scene = JSON.parse(String(files['content/scenes/s1.json'])) as {
+      entities: unknown[]
+    }
+    scene.entities = [
+      {
+        id: 'guide',
+        pos: { col: 1, row: 1, height: 0 },
+        sprite: 'gs',
+        facing: 'down',
+        pages: [{}, {}],
+      },
+    ]
+    files['content/scenes/s1.json'] = J(scene)
+    const writes: string[] = []
+    const dir = mockDir('v4-script-resolved', files, writes)
+    let inputDigest = ''
+    try {
+      await openLocalProject(dir)
+    } catch (error) {
+      if (!(error instanceof ProjectScriptV4V5UpgradeError)) throw error
+      inputDigest = error.report.inputDigest ?? ''
+    }
+    expect(inputDigest).toMatch(/^[a-f0-9]{64}$/)
+    const resolutionPlan = {
+      inputDigest,
+      resolutions: [
+        {
+          kind: 'name-pages' as const,
+          path: 'content/scenes/s1.json#/entities/guide/pages',
+          initialPageId: 'idle',
+          pages: [
+            { pageId: 'idle', label: '待机' },
+            { pageId: 'active', label: '行动' },
+          ],
+        },
+      ],
+    }
+
+    await expect(openLocalProject(dir, { resolutionPlan })).rejects.toBeInstanceOf(
+      LocalProjectV4V5PreviewRequiredError,
+    )
+    expect(writes).toEqual([])
+
+    const opened = await openLocalProject(dir, {
+      resolutionPlan,
+      confirmInputDigest: inputDigest,
+    })
+    expect(opened.kind).toBe('v5')
+    if (opened.kind !== 'v5') throw new Error('resolved v4 project 未升级到 v5')
+    expect(opened.canonicalV5.scenes[0]?.entities[0]).toMatchObject({
+      initialPage: 'idle',
+      pages: [
+        { id: 'idle', label: '待机' },
+        { id: 'active', label: '行动' },
+      ],
+    })
+    const manifestBytes = files['manifest.json']
+    const manifestText =
+      typeof manifestBytes === 'string' ? manifestBytes : new TextDecoder().decode(manifestBytes)
+    expect((JSON.parse(manifestText) as { contentVersion: number }).contentVersion).toBe(5)
+  })
+
   test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
     const unusedSource = 'assets/extracted/data/sprite/83.rle'
     const fixture = legacySpriteProject({
@@ -1349,7 +1527,7 @@ describe('openLocalProject', () => {
     expect(new Uint8Array(fixture.files[record.path] as ArrayBuffer)).toEqual(
       new Uint8Array(spriteBytes),
     )
-    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
+    expect(canonicalHookBody(opened)).toEqual([
       { kind: 'setFollowers', sprites: ['legacy-follower'] },
     ])
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sprite')
@@ -1933,7 +2111,7 @@ describe('openLocalProject', () => {
     expect(opened.project.items['with-icon']?.icon).toBe('item-icon.pal.007')
     expect(opened.project.items['without-icon']?.icon).toBeUndefined()
     expect(opened.project.battleFields?.[0]?.background).toBe('battle-background.pal.006')
-    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
+    expect(canonicalHookBody(opened)).toEqual([
       {
         kind: 'dialog',
         cue: {
@@ -2072,8 +2250,8 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(opened.project.manifest.contentVersion).toBe(4)
-    expect(writes.filter((path) => path === 'manifest.json')).toHaveLength(2)
+    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(writes.at(-1)).toBe('manifest.json')
 
     writes.length = 0
     await openLocalProject(dir)
@@ -2085,23 +2263,15 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(opened.project.manifest.contentVersion).toBe(4)
-    expect(customWrites).toEqual([
-      'content/sprites.json',
-      'content/scenes/s1.json',
-      'manifest.json',
-    ])
+    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(customWrites.at(-1)).toBe('manifest.json')
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silent.project.manifest.contentVersion).toBe(4)
-    expect(silentWrites).toEqual([
-      'content/sprites.json',
-      'content/scenes/s1.json',
-      'manifest.json',
-    ])
+    expect(silent.project.manifest.contentVersion).toBe(5)
+    expect(silentWrites.at(-1)).toBe('manifest.json')
   })
 
   test('旧 v3 sound family 复制登记、改写引用并以 manifest 最后发布', async () => {
@@ -2119,18 +2289,21 @@ describe('openLocalProject', () => {
     manifest.content.scripts = 'content/scripts/'
     const rawChunk = {
       version: 1 as const,
-      id: 'scene/s1',
+      id: 'shared/c07',
       scripts: {
-        'scene/s1/test': [{ kind: 'playSound', soundId: 45 }],
+        'shared/user/test': [{ kind: 'playSound', soundId: 45 }],
       },
     }
     const rawScripts = normalizeScriptLibrary(
       {
         version: 1,
         shards: { shared: 16, global: {} },
-        chunks: { 'scene/s1': { path: 'chunks/scene/s1.json', bytes: 0 } },
+        chunks: { 'shared/c07': { path: 'chunks/shared/c07.json', bytes: 0 } },
+        library: {
+          'shared/user/test': { name: '测试音效脚本', self: 'none' },
+        },
       },
-      { 'scene/s1': rawChunk as unknown as ScriptChunkV1 },
+      { 'shared/c07': rawChunk as unknown as ScriptChunkV1 },
     )
     const files: Record<string, string | ArrayBuffer> = {
       ...fullProject,
@@ -2200,7 +2373,7 @@ describe('openLocalProject', () => {
         ],
       }),
       'content/scripts/index.json': J(rawScripts.index),
-      'content/scripts/chunks/scene/s1.json': J(rawChunk),
+      'content/scripts/chunks/shared/c07.json': J(rawChunk),
       ...Object.fromEntries(
         [4, 5, 6, 28, 29, 45, 47].map((id) => [`assets/extracted/sounds/${id}.wav`, wave]),
       ),
@@ -2213,12 +2386,11 @@ describe('openLocalProject', () => {
     })
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.project.manifest.assets.legacy?.sounds).toBeUndefined()
-    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
-      { kind: 'playSound', asset: 'sound.pal.045' },
-    ])
+    expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])
     expect(opened.project.skills.s?.animation.sound).toBe('sound.pal.004')
     expect(opened.project.items.i?.use?.sound).toBe('sound.pal.006')
-    expect(opened.scriptChunks['scene/s1']?.scripts['scene/s1/test']).toEqual([
+    if (opened.kind !== 'v5') throw new Error('未升级为 v5')
+    expect(opened.canonicalV5.project.sharedScripts['shared/user/test']?.body).toEqual([
       { kind: 'playSound', asset: 'sound.pal.045' },
     ])
     expect(opened.project.manifest.assets.roles).toMatchObject({
@@ -2247,13 +2419,8 @@ describe('openLocalProject', () => {
       completed: lastWrite.total,
       total: lastWrite.total,
     })
-    const storedIndex = JSON.parse(String(files['content/scripts/index.json']))
-    const storedChunk = JSON.parse(
-      String(files['content/scripts/chunks/scene/s1.json']),
-    ) as ScriptChunkV1
-    expect(normalizeScriptLibrary(storedIndex, { 'scene/s1': storedChunk }).index).toEqual(
-      storedIndex,
-    )
+    expect(files['content/scripts/index.json']).toBeUndefined()
+    expect(files['content/scripts/chunks/shared/c07.json']).toBeUndefined()
 
     writes.length = 0
     await openLocalProject(dir)
@@ -2373,9 +2540,7 @@ describe('openLocalProject', () => {
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(writes.at(-1)).toBe('manifest.json')
     expect(opened.project.assetCatalog.assets['sound.pal.045']?.kind).toBe('sound')
-    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
-      { kind: 'playSound', asset: 'sound.pal.045' },
-    ])
+    expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])
 
     writes.length = 0
     await openLocalProject(dir)
@@ -2446,12 +2611,10 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(4)
+    expect(opened.project.manifest.contentVersion).toBe(5)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
-    expect(opened.scenes[0]?.onEnter?.[0]?.body).toEqual([
-      { kind: 'playSound', asset: 'sound.pal.045' },
-    ])
+    expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])
     expect(opened.project.assetCatalog.assets['music.pal.001']?.label).toBe('蝶恋')
     expect(opened.project.assetCatalog.assets['sound.pal.045']?.kind).toBe('sound')
     expect(opened.project.spritesById.gs?.asset).toBe('sprite.pal.002')
@@ -2478,7 +2641,7 @@ describe('openLocalProject', () => {
     },
     {
       label: 'manifest close',
-      failClose: (path: string, attempt: number) => path === 'manifest.json' && attempt === 1,
+      failClose: (path: string, attempt: number) => path === 'manifest.json' && attempt === 2,
     },
   ])('删除最后一个 tileset 定义的 $label 中断态仍可重开与重试', async (failure) => {
     const removableId = 'unused-tileset'
@@ -2596,7 +2759,7 @@ describe('openLocalProject', () => {
       [path]: bytes,
     }
     const dir = mockDir('remove-role-manifest-failure', files, [], {
-      failClose: (candidate, attempt) => candidate === 'manifest.json' && attempt === 1,
+      failClose: (candidate, attempt) => candidate === 'manifest.json' && attempt === 2,
     })
     const opened = await openLocalProject(dir)
     const session = new EditSession(toEditorState(opened.project, opened.scenes))

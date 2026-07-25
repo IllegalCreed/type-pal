@@ -9,9 +9,9 @@ import {
   effectiveStat,
   validateActors,
   validateAssetCatalog,
-  validateItems,
+  validateItemsV5,
   validateLocale,
-  validateScenes,
+  validateScenesV5,
   validateSkills,
   validateSprites,
 } from '@type-pal/content'
@@ -20,14 +20,19 @@ import { describe, expect, test } from 'vitest'
 const root = fileURLToPath(new URL('../../../projects/demo/', import.meta.url))
 const read = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8'))
 
-const manifest = read('manifest.json') as { id: string; entryScene: string; startWorld: StartWorld }
+const manifest = read('manifest.json') as {
+  id: string
+  contentVersion: number
+  entryScene: string
+  startWorld: StartWorld
+}
 const sceneIds = read('content/scenes/index.json') as string[]
-const scenes = validateScenes(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
+const scenes = validateScenesV5(sceneIds.map((id) => read(`content/scenes/${id}.json`)))
 const actors = validateActors(read('content/actors.json'))
 const assetCatalog = validateAssetCatalog(read('assets/index.json'))
 const sprites = validateSprites(read('content/sprites.json'), assetCatalog)
 const { skills } = validateSkills(read('content/skills.json'))
-const items = validateItems(read('content/items.json'))
+const items = validateItemsV5(read('content/items.json'))
 const locale = validateLocale(read('content/locale.json'))
 
 const byId = <T extends { id: string }>(a: T[]): Record<string, T> =>
@@ -40,6 +45,7 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
+    expect(manifest.contentVersion).toBe(5)
     expect(scenes.find((s) => s.id === manifest.entryScene)).toBeDefined() // 入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')
     expect(skillsById['296']?.cost.mp).toBe(6)

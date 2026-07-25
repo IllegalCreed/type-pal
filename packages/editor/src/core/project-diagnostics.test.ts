@@ -6,6 +6,7 @@ import type {
   SceneDef,
   SpriteDef,
 } from '@type-pal/content'
+import { v5RuntimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
 import {
@@ -16,6 +17,7 @@ import {
   resolveProjectEntryPoints,
   validateManifestEntryPoints,
 } from './project-diagnostics.js'
+import type { ScriptEditorStateV5 } from './script-v5-editor.js'
 
 const hero = {
   id: 'hero',
@@ -607,6 +609,60 @@ describe('X7 工程诊断与保存门', () => {
       startWorld: { ...base.startWorld, party: ['ghost'] },
     })
     expect(startWorldBroken.filter((issue) => issue.message.includes('ghost')).length).toBe(1)
+  })
+
+  test('v5 状态条按 canonical ScriptId 校验，不把兼容壳内部 ScriptRef 报成悬空', () => {
+    const shell = state({
+      items: [
+        {
+          id: 'private',
+          name: '私有脚本物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [{ kind: 'runScript', script: v5RuntimeScriptRef('item:private:use') }],
+          },
+        },
+      ],
+    })
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [],
+      items: [
+        {
+          id: 'private',
+          name: '私有脚本物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: { id: 'use', body: [] },
+              },
+            ],
+          },
+        },
+      ],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+
+    expect(
+      collectEditorStatusIssues(shell).some((issue) => issue.message.includes('不在脚本库')),
+    ).toBe(true)
+    expect(
+      collectEditorStatusIssues(shell, canonical).some((issue) =>
+        issue.message.includes('不在脚本库'),
+      ),
+    ).toBe(false)
   })
 
   test('入口视频和资源角色错误跳到字段唯一作者，而不是悬空资源页', () => {

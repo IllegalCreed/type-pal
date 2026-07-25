@@ -13,8 +13,8 @@ import {
   loadAllScenesV5,
   loadAllScriptChunks,
   loadProject,
-  loadProjectV5,
   loadProjectMapById,
+  loadProjectV5,
   loadStampTemplates,
   loadStampTemplatesV5,
 } from '@type-pal/reforge'
@@ -22,8 +22,8 @@ import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { EditSession } from './core/edit-session.js'
 import type { Opened } from './core/open-actions.js'
-import { toEditorStateV5, type EditorStateV5 } from './core/project-io-v5.js'
 import { toEditorState } from './core/project-io.js'
+import { type EditorStateV5, toEditorStateV5 } from './core/project-io-v5.js'
 import { ScriptV5EditSession } from './core/script-v5-editor.js'
 import { App } from './ui/App.js'
 import { ProjectPicker } from './ui/ProjectPicker.js'
@@ -105,12 +105,7 @@ function Root() {
 
   const onOpened = (o: Opened): void => {
     if (o.kind === 'v5') {
-      const baseState = toEditorStateV5(
-        o.canonicalV5.project,
-        o.canonicalV5.scenes,
-        {},
-        o.stamps,
-      )
+      const baseState = toEditorStateV5(o.canonicalV5.project, o.canonicalV5.scenes, {}, o.stamps)
       const project = o.project
       const scenes = o.scenes
       setBoot({

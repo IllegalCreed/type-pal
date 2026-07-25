@@ -169,8 +169,10 @@ function sortedUniqueAddresses(values: unknown, path: string): EntityAddress[] {
   )
   if (targets.length === 0) throw new Error(`${path}: broadcast-v4 targets 不得为空`)
   const keys = targets.map((target) => `${target.scene}\u0000${target.entity}`)
-  for (let index = 0; index < keys.length; index++) {
-    if (index > 0 && keys[index - 1]! >= keys[index]!)
+  for (let index = 1; index < keys.length; index++) {
+    const previous = keys[index - 1]
+    const current = keys[index]
+    if (previous !== undefined && current !== undefined && previous >= current)
       throw new Error(`${path}: targets 必须严格排序且无重复`)
   }
   return targets
@@ -411,9 +413,9 @@ export function validateProjectMigrationSidecarV1(
       exactKeys(alias, ['legacyKey', 'mode', 'targets'], aliasPath)
       const targets = array(alias.targets, `${aliasPath}.targets`)
       if (targets.length === 0) throw new Error(`${aliasPath}.targets: 不得为空`)
-      targets.forEach((target, targetIndex) =>
-        cursorTarget(target, `${aliasPath}.targets[${targetIndex}]`),
-      )
+      targets.forEach((target, targetIndex) => {
+        cursorTarget(target, `${aliasPath}.targets[${targetIndex}]`)
+      })
     } else throw new Error(`${aliasPath}.mode: 期望 single|broadcast-v4`)
     const legacyKey = nonEmptyString(alias.legacyKey, `${aliasPath}.legacyKey`)
     if (cursorKeys.has(legacyKey)) throw new Error(`${aliasPath}.legacyKey: 重复 ${legacyKey}`)

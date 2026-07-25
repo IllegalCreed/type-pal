@@ -131,6 +131,13 @@ export { tilesFromChunkBytes } from './assets.js'
 // 文件源抽象(内容 + 素材统一「从哪读」;httpSource=dev/种子,fsaSource=本地工程)
 export { type FileSource, httpSource } from './file-source.js'
 export { fsaSource } from './fsa-source.js'
+export {
+  isV5RuntimeScriptRef,
+  legacyItemsFromV5,
+  legacyProjectShellFromV5,
+  legacySceneFromV5,
+  v5RuntimeScriptRef,
+} from './legacy-runtime-shell-v5.js'
 export type {
   ContentJsonsV5,
   LoadedProjectV5,
@@ -145,13 +152,6 @@ export {
   loadSceneDefV5,
   loadStampTemplatesV5,
 } from './loader-v5.js'
-export {
-  isV5RuntimeScriptRef,
-  legacyItemsFromV5,
-  legacyProjectShellFromV5,
-  legacySceneFromV5,
-  v5RuntimeScriptRef,
-} from './legacy-runtime-shell-v5.js'
 export type {
   LatticePos,
   ProjectMapCollisionEdit,

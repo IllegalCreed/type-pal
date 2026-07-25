@@ -1,8 +1,8 @@
 import type { ActorDef } from './actor.js'
 import type { AssetId, ManifestAssetConfigV3 } from './asset.js'
 import type { WorldScriptState } from './script.js'
-import type { WorldScriptStateV5 } from './script-v5.js'
 import type { ProjectMigrationDescriptorV1 } from './script-transition-v5.js'
+import type { WorldScriptStateV5 } from './script-v5.js'
 import type { StatusId } from './skill.js'
 
 /** 大世界带入战斗的临时状态(护体符/金刚符 = protect;加速符等)。原版全局 rgPlayerStatus 的一格:
@@ -76,7 +76,7 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 4 as const
+export const CONTENT_VERSION = 5 as const
 
 /** manifest.json 的版本化公共形状。 */
 export interface ProjectManifest<V extends number> {
@@ -101,8 +101,14 @@ export type LegacyManifestV3 = ProjectManifest<3>
 /** contentVersion 4 只允许 P7 工程升级边界读取。 */
 export type LegacyManifestV4 = ProjectManifest<4>
 
-/** loader 解析、main.ts 消费的规范工程清单。 */
-export type LoadedManifest = ProjectManifest<typeof CONTENT_VERSION>
+/** v5 canonical loader 解析、runtime/editor 消费的当前工程清单。 */
+export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>
+
+/**
+ * 旧 v4 loader/editor shell 的兼容名称。P7 后不得用它判断当前版本；新代码用
+ * CurrentManifest 或显式 ProjectManifest<5>。
+ */
+export type LoadedManifest = LegacyManifestV4
 
 /** 角色实例(稳定 id;运行态)。绝对值属性,非原版 modifier。 */
 export interface CharacterInstance {

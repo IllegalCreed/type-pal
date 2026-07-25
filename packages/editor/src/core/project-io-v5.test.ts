@@ -6,18 +6,18 @@ import {
 } from '@type-pal/content'
 import {
   assembleProjectV5,
+  type LoadedProjectV5,
   legacyProjectShellFromV5,
   legacySceneFromV5,
-  type LoadedProjectV5,
 } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
+import { toEditorState } from './project-io.js'
 import {
   mergeLegacyEditorShellIntoV5,
   serializeProjectV5,
   serializeProjectV5WithCopies,
   toEditorStateV5,
 } from './project-io-v5.js'
-import { toEditorState } from './project-io.js'
 
 const scene: SceneDefV5 = {
   id: 's001',
@@ -242,10 +242,7 @@ describe('canonical v5 editor project IO', () => {
     privateEffect.script.body = [{ kind: 'setFlag', flag: 'canonical-edited', value: true }]
 
     const world = emptyWorldScriptStateV5()
-    const shellProject = legacyProjectShellFromV5(
-      project as unknown as LoadedProjectV5,
-      world,
-    )
+    const shellProject = legacyProjectShellFromV5(project as unknown as LoadedProjectV5, world)
     const shell = toEditorState(shellProject, [legacySceneFromV5(scene, world)])
     shell.manifest = {
       ...shell.manifest,

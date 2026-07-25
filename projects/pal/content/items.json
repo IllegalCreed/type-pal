@@ -5586,10 +5586,237 @@
       "consuming": false,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c02",
-            "id": "shared/user/pal-item-use/265"
+            "id": "use",
+            "label": "265 灵珠祭坛用途",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4286"
+                    }
+                  }
+                },
+                "then": [
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    },
+                    "kind": "dialog"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "setEntityState",
+                    "state": 3,
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4286"
+                    }
+                  },
+                  {
+                    "facing": "down",
+                    "kind": "setEntityFacing",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4286"
+                    }
+                  },
+                  {
+                    "frame": 3,
+                    "kind": "setEntityFrame",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4286"
+                    }
+                  },
+                  {
+                    "itemId": "265",
+                    "kind": "loseItem"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s227"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -5632,10 +5859,237 @@
       "consuming": false,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c15",
-            "id": "shared/user/pal-item-use/266"
+            "id": "use",
+            "label": "266 灵珠祭坛用途",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4283"
+                    }
+                  }
+                },
+                "then": [
+                  {
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    },
+                    "kind": "dialog"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "setEntityState",
+                    "state": 3,
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4283"
+                    }
+                  },
+                  {
+                    "facing": "down",
+                    "kind": "setEntityFacing",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4283"
+                    }
+                  },
+                  {
+                    "frame": 1,
+                    "kind": "setEntityFrame",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4283"
+                    }
+                  },
+                  {
+                    "itemId": "266",
+                    "kind": "loseItem"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s227"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -5678,10 +6132,249 @@
       "consuming": false,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c12",
-            "id": "shared/user/pal-item-use/267"
+            "id": "use",
+            "label": "267 灵珠祭坛用途",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4285"
+                    }
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "teleportOut",
+                    "onFail": [
+                      {
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.12538"
+                            }
+                          ],
+                          "slot": "narration"
+                        },
+                        "kind": "dialog"
+                      }
+                    ]
+                  },
+                  {
+                    "asset": "sound.pal.045",
+                    "kind": "playSound"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "setEntityState",
+                    "state": 3,
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4285"
+                    }
+                  },
+                  {
+                    "facing": "down",
+                    "kind": "setEntityFacing",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4285"
+                    }
+                  },
+                  {
+                    "frame": 5,
+                    "kind": "setEntityFrame",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4285"
+                    }
+                  },
+                  {
+                    "itemId": "267",
+                    "kind": "loseItem"
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 0
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4282"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4283"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4284"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4285"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s241",
+                        "entity": "e4286"
+                      },
+                      "is": 2
+                    },
+                    "then": [
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "dir": "out",
+                    "kind": "fade",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s227"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -6027,10 +6720,84 @@
       "consuming": true,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c07",
-            "id": "shared/user/pal-item-use/280"
+            "id": "use",
+            "label": "礼包奖励",
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "rows": [
+                    {
+                      "text": "dlg.12543"
+                    },
+                    {
+                      "text": "dlg.12544"
+                    },
+                    {
+                      "text": "dlg.12545"
+                    },
+                    {
+                      "text": "dlg.12546"
+                    }
+                  ],
+                  "slot": "center"
+                },
+                "kind": "dialog"
+              },
+              {
+                "delta": 500,
+                "kind": "giveMoney"
+              },
+              {
+                "count": 2,
+                "itemId": "101",
+                "kind": "giveItem"
+              },
+              {
+                "count": 2,
+                "itemId": "105",
+                "kind": "giveItem"
+              },
+              {
+                "itemId": "238",
+                "kind": "giveItem"
+              },
+              {
+                "itemId": "253",
+                "kind": "giveItem"
+              },
+              {
+                "itemId": "168",
+                "kind": "giveItem"
+              },
+              {
+                "itemId": "293",
+                "kind": "giveItem"
+              },
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "rows": [
+                    {
+                      "text": "dlg.12547"
+                    },
+                    {
+                      "text": "dlg.12548"
+                    },
+                    {
+                      "text": "dlg.12549"
+                    }
+                  ]
+                },
+                "kind": "dialog"
+              }
+            ]
           }
         }
       ]
@@ -6150,10 +6917,29 @@
       "consuming": false,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c14",
-            "id": "shared/user/pal-item-use/290"
+            "id": "use",
+            "label": "天书阅读",
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "portrait": {
+                    "asset": "portrait.pal.069",
+                    "side": "right"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.12558"
+                    }
+                  ]
+                },
+                "kind": "dialog"
+              }
+            ]
           }
         }
       ]
@@ -6197,10 +6983,82 @@
       "consuming": true,
       "effects": [
         {
-          "kind": "runScript",
+          "kind": "itemPrivateScript",
           "script": {
-            "chunk": "shared/c11",
-            "id": "shared/user/pal-item-use/293"
+            "id": "use",
+            "label": "手卷授艺",
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "rows": [
+                    {
+                      "text": "dlg.12560"
+                    },
+                    {
+                      "text": "dlg.12561"
+                    }
+                  ],
+                  "speaker": "spk.手卷上记载著"
+                },
+                "kind": "dialog"
+              },
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "rows": [
+                    {
+                      "text": "dlg.12563"
+                    },
+                    {
+                      "text": "dlg.12564"
+                    },
+                    {
+                      "text": "dlg.12565"
+                    },
+                    {
+                      "text": "dlg.12566"
+                    },
+                    {
+                      "text": "dlg.12567"
+                    }
+                  ],
+                  "speaker": "spk.信上写著"
+                },
+                "kind": "dialog"
+              },
+              {
+                "kind": "learnSkill",
+                "role": 0,
+                "skill": "377"
+              },
+              {
+                "kind": "learnSkill",
+                "role": 0,
+                "skill": "307"
+              },
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "cue": {
+                  "rows": [
+                    {
+                      "text": "dlg.12568"
+                    },
+                    {
+                      "text": "dlg.12569"
+                    }
+                  ],
+                  "slot": "center"
+                },
+                "kind": "dialog"
+              }
+            ]
           }
         }
       ]
