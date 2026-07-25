@@ -283,14 +283,25 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
 7. **P6 共享脚本收口与旧模型退役**
    - 识别 532 个共享尾部中的真实业务复用；其余归回局部结构/状态机。
    - 6 个作者根直接拥有 body；共享库不再列迁移/存储实现。
-   - **共享脚本判据回归“通用函数”本义（用户 2026-07-24 裁决）**：共享脚本只服务真正跨
-     调用方复用的业务演出逻辑，不是“逻辑复杂就放共享”。当前 6 个 `shared/user/pal-item-use/*`
+   - **共享脚本判据回归”通用函数”本义（用户 2026-07-24 裁决）**：共享脚本只服务真正跨
+     调用方复用的业务演出逻辑，不是”逻辑复杂就放共享”。当前 6 个 `shared/user/pal-item-use/*`
      中，268 炼蛊皿已迁为 `craftRecipe`、270 紫金葫芦已迁为 `drawFromResourcePool`——这两个
      已回归物品模块结构化编辑，不再放共享脚本。P6 审计时应优先把剩余 runScript 物品中能
      结构化的（如灵珠场景交互若能抽象为通用机制）也回归物品模块；只保留真正无法结构化
-     且跨处复用的才留在共享脚本。共享脚本的最终数量应远少于当前 532 个“共享尾部”。
+     且跨处复用的才留在共享脚本。共享脚本的最终数量应远少于当前 532 个”共享尾部”。
+   - **物品私有脚本分层（用户 2026-07-25 裁决）**：当前 `runScript` 物品（267 土灵珠、265 水灵珠、
+     266 火灵珠、280 包袱、290 天书、293 手卷）的脚本只被对应单一物品使用，没有跨处复用。
+     语义上它们不是”共享脚本”——不应放在共享脚本库中、不应跳转到共享脚本模块编辑。
+     P6 必须引入**物品私有脚本**（item-private script）作为第三种物品用途表达方式：
+     ①结构化 effect（healHp/craftRecipe/drawFromResourcePool 等，物品工作台内联编辑）；
+     ②**物品私有脚本**（逻辑复杂但只服务该物品，在物品工作台内联编辑，不跳转共享脚本模块）；
+     ③共享脚本引用（真正跨处复用的通用演出，物品工作台选择 + 反跳共享脚本模块）。
+     上述 6 个 `shared/user/pal-item-use/*` 中只被单一物品使用的应转为物品私有脚本；
+     物品工作台的 `ItemUseEffectEditor` 对物品私有脚本应提供内联编辑入口（展开脚本正文），
+     而非”打开脚本 ↗”跳转到共享脚本模块。schema 层面需要区分物品私有脚本和共享脚本的
+     身份与存储归属——物品私有脚本归物品定义拥有，不进共享脚本库索引。
    - 从 canonical schema、插入菜单、编辑器、运行时和存档升级链移除作者可见
-     `jumpScript`、匿名 binding 和“迁移内部实现”。
+     `jumpScript`、匿名 binding 和”迁移内部实现”。
 8. **P7 全量重迁、验收与文档**
    - 全量重迁 PAL、连续二跑零 diff、MG2 三方合并场景覆盖、全仓静态扫描与代表剧情浏览器验证。
    - 更新 script model、共享脚本作者指南、存档升级说明和 capability map 的实际状态。
@@ -935,17 +946,85 @@ transition ledger、save compatibility sidecar 与最后的 manifest。
     shared 归属。Codex P5 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM
     `accept` 前不得进入 P6，更不得把 N3-1、C8 或 ED-5I 标记 done。
 
+### P6 共享脚本收口与旧模型退役影子实现与自测（2026-07-25）
+
+- P6 边界:
+  - 继续只生成 `canonical=false`、`runtimeConsumable=false` 的累计 shadow IR / ledger；
+    固定影子根为 `packages/migrate/.shadow/N3-1/v5/p6/`，CLI 默认最新
+    `--through p6`，仍可复跑 P2-P5。
+  - 未改 `CONTENT_VERSION`、现行 v4 schema/validator/runtime/editor/save、
+    `projects/pal/**`、P0 baseline 或 capability map。用户 2026-07-25 裁决的
+    item-private schema / 存储归属 / 工作台内联编辑只在 P6 影子类型和迁移投影中冻结；
+    canonical 发布仍由 P7 原子事务完成。
+- 共享判据与 532 个 shared tail 收口:
+  - 532 个 shared tail 全量、互斥分类为
+    **433 P5 cycle + 80 P4 named owner + 17 P6 owner-local flow +
+    2 P6 item-private**；真正跨使用方复用的共享作者脚本为 **0**。
+  - 13 个历史 `shared/scc-*` 误导身份在 active author output 中为 **0**；
+    `sharedAuthorScripts=[]`，迁移内部块和仅因复杂而共享的假公共库不再保留。
+  - P5 active projection 中的 580 个内部调用精确分为 **574 owner-local call +
+    6 item bridge shell**。P6 后 `callScript=0`、`jumpScript=0`、bridge author root=0；
+    574 个局部调用全部内联并保留 call-return 证据，其中 22 个 auto-owner 外层兼容边界
+    继续显式记录 100ms scheduling，其余调用不伪造等待。
+- owner-local flow 与稳定身份:
+  - 21 个唯一局部 source body 按 owner 分配为 **42 个 owner-local flow allocation**；
+    由于 2/3-owner 分裂，显式记录 **21 个 additional body copy**。
+  - 稳定 id 为 owner 局部分配的 `legacy-continuation-###`，不从地址、hash、chunk 或数组位置派生。
+    5 个历史尾转移降为 `n3P6FlowExit` shadow evidence，均为
+    `macroTask / 0ms / cancellable / terminate-current-segment`；作者层只看到 owner-local flow。
+- 六个物品私有脚本:
+  - 265/266/267/280/290/293 分配为六个显式
+    `{ kind: "item-private-script", itemId, scriptId: "use" }` 身份，脚本正文归物品定义拥有，
+    不进入共享脚本库，也不生成“打开脚本 ↗”式共享引用。
+  - 迁移证据按四个 closure family 组织：
+    `spirit-orb-altar`（265/266/267）、`reward-bundle`（280）、
+    `narrative`（290）、`teach-skills`（293）；六份 author body 均无内部 call/jump。
+  - 灵珠保留 s241 场景、e4286/e4283/e4285 placement、e4282-e4286 状态 0/2 完成守卫、
+    600ms fade 与 s227 fallback；280 保留 money 500 与
+    101x2/105x2/238/253/168/293；293 保留技能 377/307。268 `craftRecipe` 与
+    270 `drawFromResourcePool` 保持既有结构化领域用途，不回退为脚本。
+- 数据守恒、ledger 与事务计划:
+  - active author output 为 **7,035 owner fragments + 598 flow structures +
+    433 cycle bodies + 21 local source bodies + 6 item-private scripts**；
+    retained legacy body 与 P6 pending 均为 0。
+  - 反向来源守恒为
+    **7,035 + 598 + 433 + 21 + 15 = 8,102 / 8,102** 个唯一 legacy body；
+    item-private 的六份正文携带 15 个 legacy provenance，而不是按脚本数冒充 body 数。
+  - 累计 ledger 为 **18,383 entries / 5,630 groups / 8,975 evidence / 0 pending**；
+    P6 新增 10 个原子 group（1 个局部调用闭包、5 个局部 flow、4 个 item-private closure）。
+  - 首次 v4 -> 累计 P6 dry plan 为
+    **6,793 writes / 11,447 deletes / 0 conflicts**，精确退役全部 11,447 个 legacy body identity；
+    P6 -> P6 repeat plan 为 **0/0/0**。修改 item 280 源 body、伪造共享作者脚本、
+    新增引用或篡改 ledger/target 均 fail-loud 且零写。
+- P6 验证证据:
+  - P6 isolated PAL / unit：
+    **2 files / 6 tests passed**；覆盖 532 分类、局部 call/flow、六个物品私有脚本、
+    268/270 不回退、8,102 守恒、事务幂等与负向冲突。
+  - `pnpm --filter @type-pal/migrate check` →
+    **52 files / 372 passed + 1 skipped**。
+  - `pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p6 --check` →
+    **854 artifacts，first=854/0/0，second=0/0/0**，bundle digest
+    `58d5ab9778694c6ae28975c58e52bf375eb96563d21a0e755b75dda766e9f255`。
+  - 仓库根 `pnpm check` → 7 个 workspace package 全绿；migrate
+    **52 files / 372 passed + 1 skipped**，Biome **885 files** 无问题；
+    targeted Biome、typecheck 与 `git diff --check` 均通过。
+- P6 未做事项:
+  - P6 只冻结 shared/private/local 的影子 author projection、退役证据与累计事务关系；
+    canonical v5 schema/compiler/runtime/editor/save、物品工作台内联编辑和全量发布属于 P7。
+  - Codex P6 自验 `accept`；现交 GLM 做架构 + 数据合并只读代审。GLM `accept` 前不得进入 P7，
+    更不得把 N3-1、C8 或 ED-5I 标记 done。
+
 ## 视觉验证记录
 
 - Visual Verification Owner: Codex + User
-- 验证方式: P0/P2/P3/P4/P5 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
+- 验证方式: P0/P2/P3/P4/P5/P6 均为迁移审计、影子 IR/ledger 与文件事务，不改变编辑器或游戏 UI。
 - 截图 / 像素检查路径: N/A
 - 结论: 无适用视觉检查；以 PAL 真源、字节确定性、作者保护与零计划门禁替代。
 - 未完成项: 后续批次若开始改 editor/runtime，必须重新登记视觉验证。
 
 ## Review: 审查与返工
 
-- Reviewer: GLM（P5 架构 + 数据合并代审；Kimi 额度耗尽）
+- Reviewer: GLM（P6 架构 + 数据合并代审；Kimi 额度耗尽）
 - Codex 内部只读红队（2026-07-23）:
   - 首轮发现 overlay `structuredClone` 丢 WeakMap provenance，导致 119 个 scene root 无直接
     源地址，且“全源唯一目标反推”可误配；已改为深克隆时转交审计旁路、删除反推并补反误配测试。
@@ -1327,6 +1406,20 @@ loop cap + confirm:onNo author transition）+ 数据（331/433 守恒 / 753 tran
 
 P3/P4/P5 三批 Kimi 均缺签（额度耗尽，用户豁免）。Kimi 恢复后应补审 P5 的 cycle 分类语义（尤其
 state-machine 70 个的 transition 完整性和 auto-runner-repeat 99 个的 lifecycle 语义），不阻塞 P6。
+
+### P6 阶段审查推进签字
+
+| Agent | 结论 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-25 | Coding Owner 自验；532 shared tail 全分类（433 cycle + 80 named owner + 17 owner-local + 2 item-private）、0 shared author script；574 local call + 6 item bridge、11 jump 全退役；21 source / 42 owner-local allocation / 21 copy；六个物品私有脚本；8,102 可逆；ledger 18,383/5,630/8,975/0；plan 6,793/11,447/0、repeat 0/0/0；P6 shadow、全 migrate 与根门禁通过。 |
+| Kimi | **absent（用户豁免）** | 2026-07-25 | 额度仍耗尽；依用户“合成一个都让 GLM 审核”的裁决，本批原架构/共享判据/身份分层席位继续由 GLM 合并代审。额度恢复后补审，但不阻塞 GLM `accept` 后的 P6 → P7；最终验收时若仍缺签须再请用户裁决。 |
+| GLM | pending | - | 待按本卡“给 GLM（P6 共享脚本收口与旧模型退役合并代审）”独立复跑并签 `accept` / `counter`。 |
+
+- counter / 返工: 当前 Codex 自验无；以 GLM 合并代审结论为准。
+- P6 -> P7 准入: **blocked，等待 GLM `accept`**。
+- Kimi 补审债务: P3/P4/P5/P6 四批均登记；不阻塞本次 GLM 合并代审，但不自动等于
+  N3-1 最终缺签豁免。
+- 本表只控制 P6 内部分批推进；N3-1、C8、ED-5I 仍未完成最终验收。
 
 ### GLM P2 复审（2026-07-15）
 
@@ -2883,34 +2976,64 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   不改断言或实现语义。P3/P4/P5 的 Kimi 补审债务继续保留，但按用户豁免
   不阻塞本批。Next: 先独立提交 P5 审查记录与测试稳定化，再按下方提示词实现 P6；P6 GLM
   合并代审 `accept` 前不得进入 P7。
+- 2026-07-25 Codex: 完成 P6 shadow-only 共享脚本收口与旧模型退役并签阶段 **accept**。
+  532 个 shared tail 精确分类为 433 cycle + 80 named owner + 17 owner-local + 2 item-private，
+  真正共享作者脚本为 0；574 个局部调用、6 个 item bridge 与 11 个 legacy jump 全部从 active
+  author output 退役。21 个 source body 分配为 42 个 owner-local flow（21 additional copy）；
+  265/266/267/280/290/293 按用户裁决成为六个 item-private `use` 脚本，268/270 维持
+  `craftRecipe` / `drawFromResourcePool`。8,102/8,102 body 来源可逆；累计 ledger
+  18,383 entries / 5,630 groups / 8,975 evidence / 0 pending；v4→P6 plan
+  6,793/11,447/0、repeat 0/0/0。固定 P6 shadow `--check` 为 854 artifacts、
+  second 0/0/0、digest `58d5ab97…e9f255`；根 `pnpm check` 通过（migrate
+  52 files / 372 passed + 1 skipped，Biome 885 files）。实现提交 `fa10902d`。
+  Next: GLM 按下方提示词做架构 + 数据合并只读代审并签 `accept` / `counter`；GLM
+  `accept` 前不得进入 P7，N3-1/C8/ED-5I 均不得标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（P6 共享脚本收口与旧模型退役）
+### 给 GLM（P6 共享脚本收口与旧模型退役合并代审）
 
 ```text
-接手任务: N3-1 P6 共享脚本收口与旧模型退役
+复审任务: N3-1 P6 共享脚本收口与旧模型退役——架构 + 数据合并代审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；P0-P5 全部 accept（P3/P4/P5 Kimi 用户豁免，GLM 合并代审）；P5→P6 已 allowed。
-你的角色: Codex，Coding Owner，继续 shadow-only 累计 IR/ledger。
+当前状态: build；Codex P6 自验 accept，Kimi 额度耗尽且用户批准由 GLM 合并审核；
+  P6→P7 blocked，等待你的结论。
+你的角色: GLM，只读合并代审 P6 架构、共享判据、数据守恒、迁移事务和测试矩阵；
+  不得修改实现文件，不得开始 P7。
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-5（SharedAuthorScript）、P1-7（identity ledger）、
-  P6 节（含用户 2026-07-24 裁决：共享脚本回归"通用函数"本义）、P5 实现与签字、「GLM P5 合并代审」。
-P6 范围:
-  - 31 个 pending（14 author-root + 17 cross-owner）识别真正跨调用方复用的业务逻辑；其余归回局部结构/状态机。
-  - 6 个 shared/user/* 作者根直接拥有 body，不再桥接内部块（当前 bridgeOnly=true）。
-  - 按用户裁决：268 craftRecipe、270 drawFromResourcePool 已属领域模型不退 shared；剩余 item runScript
-    能结构化的回归物品模块，只保留真正无法结构化且跨处复用的才留共享脚本。
-  - 从 canonical schema 移除作者可见 jumpScript、匿名 binding 和"迁移内部实现"。
-  - 13 个 shared/scc-* 误导命名在 P2 已退役 active identity；P6 确认无引用残留。
-P6 纪律:
-  - 继续 canonical=false / runtimeConsumable=false shadow IR；不改 CONTENT_VERSION/runtime/editor/projects/pal。
-  - 累计 ledger 继续作者保护 + conflict-if-modified + 双跑 0/0/0。
-  - P6 完成后交 GLM 合并代审（Kimi 若恢复则三方）；accept 前不进 P7。
-  - 建议修复：P5 PAL test 5 timeout 从 120s 提到 180s（flaky 并行超时）。
-输出: 在任务卡写 P6 实现摘要 + P6 阶段签字 Codex 行 accept；给 GLM P6 审查提示词。
+  P6 节（含用户 2026-07-24“共享=通用函数”裁决和 2026-07-25“物品私有脚本”裁决）、
+  「P6 共享脚本收口与旧模型退役影子实现与自测」、P5/P6 签字与 GLM P5 合并代审；
+  packages/migrate/src/experimental/script-v5/{p6-shared-closure,p6-validate,p6-transition-plan,
+  shadow-harness,types}.ts 及两个 p6 测试文件；
+  packages/migrate/.shadow/N3-1/v5/p6/ 固定产物。
+重点独立核对:
+  1. 532 shared tail 是否精确、互斥分为 433 cycle + 80 named owner + 17 owner-local +
+     2 item-private，且 shared author script 真为 0；13 个 shared/scc-* active identity 为 0。
+  2. 265/266/267/280/290/293 是否为六个归物品拥有、正文可重建且 call/jump-free 的
+     item-private use script；268 craftRecipe、270 drawFromResourcePool 是否未回退。
+  3. P5 active projection 的 574 local call + 6 item bridge、11 jump 是否最终归零；
+     22 个 auto-owner 100ms compatibility boundary 是否有证据且其余调用未伪造等待。
+  4. 21 unique local source / 42 owner-local allocation / 21 additional copy 与 5 个 flow exit
+     是否完整、稳定 id 是否全部显式 owner-local 分配。
+  5. 7,035 + 598 + 433 + 21 + 15 = 8,102 的 provenance 守恒是否可从 PAL 真源独立重算。
+  6. ledger 18,383 entries / 5,630 groups / 8,975 evidence / 0 pending；
+     plan 6,793 writes / 11,447 deletes / 0 conflicts、repeat 0/0/0 是否成立。
+  7. 修改 item 280 源体、伪造 shared author script、新增引用或篡改 ledger/target 时是否
+     fail-loud 且零写；固定 bundle digest 是否为
+     58d5ab9778694c6ae28975c58e52bf375eb96563d21a0e755b75dda766e9f255。
+建议复跑:
+  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p6 --check
+  pnpm --filter @type-pal/migrate exec vitest run \
+    src/experimental/script-v5/p6-shared-closure.test.ts \
+    src/experimental/script-v5/p6-shadow.pal.test.ts --maxWorkers=1
+  pnpm --filter @type-pal/migrate typecheck
+  必要时 pnpm --filter @type-pal/migrate check 或根 pnpm check
+输出要求: 在本卡 P6 阶段签字表与 Agent 日志签 accept，或写 counter/rework 的具体源码锚点、
+  数据反例、风险与替代方案。不得改实现文件；accept 前不得进入 P7，不得标记
+  N3-1/C8/ED-5I done。Kimi 缺席与用户豁免继续登记。
 ```
 
-无下一位 Agent 提示词给 GLM/Kimi——GLM P5 已 accept，等待 Codex 完成 P6 后再审查。
+无下一位 Agent 提示词给 Codex/Kimi——等待 GLM 完成 P6 合并代审。
 
 ## 历史 Agent 提示词（P1-P5 build 已完成批次，勿再执行）
 
