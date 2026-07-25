@@ -217,6 +217,7 @@ export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
 export * from './script-compiler-v5.js'
 export * from './script-runner-v5.js'
+export * from './script-world-v5.js'
 export type { ScriptHost, StepEvent }
 export { evalCondition, ScriptRunner }
 
