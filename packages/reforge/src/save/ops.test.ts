@@ -5,6 +5,7 @@ import {
   buildMeta,
   buildPayload,
   normalizePayload,
+  normalizePayloadV4Envelope,
   resolveLegacyFollowerSpriteId,
   resolveLegacyPlayerBattleSpriteId,
   resolveRestoredMusic,
@@ -52,6 +53,16 @@ describe('save ops（纯）', () => {
     expect(n.world.party[0]!.tags).toEqual([])
     expect(n.world.party[0]!.luck).toBe(0)
     expect(n.world.party[0]!.hp).toBe(beforeHp) // 既有值不动(不做旧档数值复原)
+  })
+  test('旧 envelope 专用链固定停在 v4，不跟当前 SAVE 常量漂移', () => {
+    const p = buildPayload(
+      makeTestWorld(),
+      { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
+      'demo',
+      4,
+    )
+    p.version = 1
+    expect(normalizePayloadV4Envelope(p).version).toBe(4)
   })
   test('normalizePayload:格式新于引擎 → 抛(宁拒不猜)', () => {
     const w = makeTestWorld()

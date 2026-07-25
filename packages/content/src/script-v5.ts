@@ -950,4 +950,183 @@ export function checkSharedScriptLibraryV5(
   }
 }
 
+function checkFlowCursorV5(value: unknown, path: string): void {
+  const cursor = record(value, path)
+  if (cursor.kind === 'stage') {
+    exactKeys(cursor, ['kind', 'stage'], path)
+    nonEmptyString(cursor.stage, `${path}.stage`)
+    return
+  }
+  if (cursor.kind === 'state') {
+    exactKeys(cursor, ['kind', 'machine', 'state'], path)
+    nonEmptyString(cursor.machine, `${path}.machine`)
+    nonEmptyString(cursor.state, `${path}.state`)
+    return
+  }
+  throw new Error(`${path}.kind: 期望 stage|state`)
+}
+
+function checkPersistedSelectionV5(
+  value: unknown,
+  path: string,
+  checkValue: (value: unknown, path: string) => void,
+): void {
+  const selection = record(value, path)
+  if (selection.kind === 'disabled') {
+    exactKeys(selection, ['kind'], path)
+    return
+  }
+  if (selection.kind !== 'use') throw new Error(`${path}.kind: 持久覆写只允许 disabled|use`)
+  exactKeys(selection, ['kind', 'value'], path)
+  checkValue(selection.value, `${path}.value`)
+}
+
+function checkWorldEntityBehaviorSlotV5(value: unknown, path: string): void {
+  const slot = record(value, path)
+  exactKeys(slot, ['selection', 'cursor'], path)
+  if (slot.selection !== undefined)
+    checkPersistedSelectionV5(slot.selection, `${path}.selection`, (entry, entryPath) => {
+      nonEmptyString(entry, entryPath)
+    })
+  if (slot.cursor !== undefined) {
+    const cursor = record(slot.cursor, `${path}.cursor`)
+    exactKeys(cursor, ['behavior', 'at'], `${path}.cursor`)
+    nonEmptyString(cursor.behavior, `${path}.cursor.behavior`)
+    checkFlowCursorV5(cursor.at, `${path}.cursor.at`)
+  }
+}
+
+function checkWorldSceneHookSlotV5(value: unknown, path: string): void {
+  const slot = record(value, path)
+  exactKeys(slot, ['selection', 'cursor'], path)
+  if (slot.selection !== undefined)
+    checkPersistedSelectionV5(slot.selection, `${path}.selection`, (entry, entryPath) => {
+      nonEmptyString(entry, entryPath)
+    })
+  if (slot.cursor !== undefined) {
+    const cursor = record(slot.cursor, `${path}.cursor`)
+    exactKeys(cursor, ['hook', 'at'], `${path}.cursor`)
+    nonEmptyString(cursor.hook, `${path}.cursor.hook`)
+    checkFlowCursorV5(cursor.at, `${path}.cursor.at`)
+  }
+}
+
+function checkNestedNumberRecordV5(
+  value: unknown,
+  path: string,
+  check: (value: unknown, path: string) => void,
+): void {
+  const scenes = record(value, path)
+  for (const [sceneId, rawEntities] of Object.entries(scenes)) {
+    nonEmptyString(sceneId, `${path} scene id`)
+    const entities = record(rawEntities, `${path}.${sceneId}`)
+    for (const [entityId, entry] of Object.entries(entities)) {
+      nonEmptyString(entityId, `${path}.${sceneId} entity id`)
+      check(entry, `${path}.${sceneId}.${entityId}`)
+    }
+  }
+}
+
+/**
+ * SAVE v5 的脚本世界态严格 guard。静态 inherit 不落盘；持久层只记录显式 disabled/use，
+ * cursor 始终携带所属 behavior/hook，避免换槽后把旧位置串到新 flow。
+ */
+export function checkWorldScriptStateV5(
+  value: unknown,
+  path = 'world.script',
+): asserts value is WorldScriptStateV5 {
+  const world = record(value, path)
+  exactKeys(
+    world,
+    [
+      'flags',
+      'vars',
+      'entityState',
+      'entityPos',
+      'entityLayer',
+      'behaviors',
+      'followers',
+      'mapOverride',
+    ],
+    path,
+  )
+  const flags = record(world.flags, `${path}.flags`)
+  for (const [id, entry] of Object.entries(flags)) {
+    nonEmptyString(id, `${path}.flags id`)
+    if (typeof entry !== 'boolean') throw new Error(`${path}.flags.${id}: 期望 boolean`)
+  }
+  const vars = record(world.vars, `${path}.vars`)
+  for (const [id, entry] of Object.entries(vars)) {
+    nonEmptyString(id, `${path}.vars id`)
+    if (!Number.isFinite(entry)) throw new Error(`${path}.vars.${id}: 期望有限数`)
+  }
+  checkNestedNumberRecordV5(world.entityState, `${path}.entityState`, (entry, entryPath) => {
+    if (!Number.isFinite(entry) || !Number.isInteger(entry))
+      throw new Error(`${entryPath}: 期望有限整数`)
+  })
+  if (world.entityPos !== undefined)
+    checkNestedNumberRecordV5(world.entityPos, `${path}.entityPos`, (entry, entryPath) => {
+      const pos = record(entry, entryPath)
+      exactKeys(pos, ['col', 'row', 'height'], entryPath)
+      for (const axis of ['col', 'row', 'height'] as const)
+        if (!Number.isFinite(pos[axis])) throw new Error(`${entryPath}.${axis}: 期望有限数`)
+    })
+  if (world.entityLayer !== undefined)
+    checkNestedNumberRecordV5(world.entityLayer, `${path}.entityLayer`, (entry, entryPath) => {
+      if (!Number.isFinite(entry) || !Number.isInteger(entry))
+        throw new Error(`${entryPath}: 期望有限整数`)
+    })
+
+  const behaviors = record(world.behaviors, `${path}.behaviors`)
+  exactKeys(behaviors, ['entities', 'scenes'], `${path}.behaviors`)
+  if (behaviors.entities !== undefined) {
+    const scenes = record(behaviors.entities, `${path}.behaviors.entities`)
+    for (const [sceneId, rawEntities] of Object.entries(scenes)) {
+      nonEmptyString(sceneId, `${path}.behaviors.entities scene id`)
+      const entities = record(rawEntities, `${path}.behaviors.entities.${sceneId}`)
+      for (const [entityId, rawEntity] of Object.entries(entities)) {
+        nonEmptyString(entityId, `${path}.behaviors.entities.${sceneId} entity id`)
+        const entityPath = `${path}.behaviors.entities.${sceneId}.${entityId}`
+        const entity = record(rawEntity, entityPath)
+        exactKeys(entity, ['page', 'trigger', 'auto', 'triggerActivation'], entityPath)
+        if (entity.page !== undefined) nonEmptyString(entity.page, `${entityPath}.page`)
+        for (const channel of ['trigger', 'auto'] as const)
+          if (entity[channel] !== undefined)
+            checkWorldEntityBehaviorSlotV5(entity[channel], `${entityPath}.${channel}`)
+        if (entity.triggerActivation !== undefined)
+          checkPersistedSelectionV5(
+            entity.triggerActivation,
+            `${entityPath}.triggerActivation`,
+            checkTriggerActivation,
+          )
+      }
+    }
+  }
+  if (behaviors.scenes !== undefined) {
+    const scenes = record(behaviors.scenes, `${path}.behaviors.scenes`)
+    for (const [sceneId, rawScene] of Object.entries(scenes)) {
+      nonEmptyString(sceneId, `${path}.behaviors.scenes scene id`)
+      const scenePath = `${path}.behaviors.scenes.${sceneId}`
+      const scene = record(rawScene, scenePath)
+      exactKeys(scene, ['onEnter', 'onTeleport'], scenePath)
+      for (const hook of ['onEnter', 'onTeleport'] as const)
+        if (scene[hook] !== undefined)
+          checkWorldSceneHookSlotV5(scene[hook], `${scenePath}.${hook}`)
+    }
+  }
+  if (world.followers !== undefined) {
+    if (!Array.isArray(world.followers)) throw new Error(`${path}.followers: 期望 string[]`)
+    world.followers.forEach((entry, index) => {
+      nonEmptyString(entry, `${path}.followers[${index}]`)
+    })
+  }
+  if (world.mapOverride !== undefined) {
+    const overrides = record(world.mapOverride, `${path}.mapOverride`)
+    for (const [sceneId, mapId] of Object.entries(overrides)) {
+      nonEmptyString(sceneId, `${path}.mapOverride scene id`)
+      nonEmptyString(mapId, `${path}.mapOverride.${sceneId}`)
+    }
+  }
+}
+
 export type { SceneReveal, SceneSpawn }

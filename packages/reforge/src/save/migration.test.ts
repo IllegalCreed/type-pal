@@ -4,6 +4,7 @@ import {
   legacyBindingDigest,
   normalizePayloadV5,
   preflightSaveMigration,
+  type SavePayloadV5,
   SCRIPT_V5_SAVE_VERSION,
   sha256Bytes,
 } from './migration.js'
@@ -149,6 +150,86 @@ describe('save v4 -> v5 preflight matrix', () => {
 })
 
 describe('save v4 -> v5 pure normalizer', () => {
+  test('current 5/5 validates canonical script state without reading a historical sidecar', async () => {
+    const { manifest, source } = await fixture()
+    delete (manifest as ProjectManifest<5>).migrations
+    const payload: SavePayloadV5 = {
+      version: 5,
+      projectId: 'demo',
+      contentVersion: 5,
+      world: {
+        party: [],
+        money: 0,
+        learnedSkills: {},
+        inventory: [],
+        script: {
+          flags: {},
+          vars: {},
+          entityState: {},
+          behaviors: {
+            entities: {
+              s001: {
+                e1: {
+                  trigger: {
+                    selection: { kind: 'use', value: 'talk' },
+                    cursor: {
+                      behavior: 'talk',
+                      at: { kind: 'stage', stage: 'done' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      position: {
+        sceneId: 's001',
+        pos: { col: 0, row: 0, height: 0 },
+        facing: 'down' as const,
+      },
+    }
+    const resolver = await preflightSaveMigration({ manifest, source, payload })
+    expect(() => normalizePayloadV5(payload, resolver)).not.toThrow()
+
+    const malformed = structuredClone(payload)
+    const script = malformed.world.script
+    const trigger = script?.behaviors.entities?.s001?.e1?.trigger
+    if (!trigger) throw new Error('test fixture trigger missing')
+    ;(trigger.selection as unknown) = { kind: 'inherit' }
+    expect(() => normalizePayloadV5(malformed, resolver)).toThrow(/持久覆写只允许 disabled\|use/)
+  })
+
+  test('current 5/5 defaults a missing script container on the isolated result', async () => {
+    const { manifest, source } = await fixture()
+    delete (manifest as ProjectManifest<5>).migrations
+    const payload: SavePayloadV5 = {
+      version: 5,
+      projectId: 'demo',
+      contentVersion: 5,
+      world: {
+        party: [],
+        money: 0,
+        learnedSkills: {},
+        inventory: [],
+      },
+      position: {
+        sceneId: 's001',
+        pos: { col: 0, row: 0, height: 0 },
+        facing: 'down' as const,
+      },
+    }
+    const resolver = await preflightSaveMigration({ manifest, source, payload })
+    const normalized = normalizePayloadV5(payload, resolver)
+    expect(payload.world).not.toHaveProperty('script')
+    expect(normalized.world.script).toEqual({
+      flags: {},
+      vars: {},
+      entityState: {},
+      behaviors: {},
+    })
+  })
+
   test('broadcasts flat entity state, clamps each cursor target independently and restores hook selection', async () => {
     const binding = { chunk: 'old/c00', id: 'shared/teleport' }
     const bindingSha256 = await legacyBindingDigest(binding)

@@ -5,6 +5,7 @@ import {
   checkSceneHooksV5,
   checkScriptFlowV5,
   checkSharedScriptLibraryV5,
+  checkWorldScriptStateV5,
   emptyWorldScriptStateV5,
 } from './script-v5.js'
 
@@ -18,6 +19,113 @@ describe('script v5 canonical schema', () => {
       entityState: {},
       behaviors: {},
     })
+  })
+
+  test('validates persisted v5 behavior selections and owner-bound cursors', () => {
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: { opened: true },
+        vars: { visits: 2 },
+        entityState: { s001: { e1: 3 } },
+        entityPos: { s001: { e1: { col: 4, row: 5, height: 0 } } },
+        entityLayer: { s001: { e1: 7 } },
+        behaviors: {
+          entities: {
+            s001: {
+              e1: {
+                page: 'default',
+                trigger: {
+                  selection: { kind: 'use', value: 'talk' },
+                  cursor: {
+                    behavior: 'talk',
+                    at: { kind: 'state', machine: 'conversation', state: 'waiting' },
+                  },
+                },
+                auto: { selection: { kind: 'disabled' } },
+                triggerActivation: {
+                  kind: 'use',
+                  value: { on: 'interact', range: 2 },
+                },
+              },
+            },
+          },
+          scenes: {
+            s001: {
+              onEnter: {
+                selection: { kind: 'use', value: 'default' },
+                cursor: { hook: 'default', at: { kind: 'stage', stage: 'revealed' } },
+              },
+            },
+          },
+        },
+        followers: ['sprite-82'],
+        mapOverride: { s001: 'map-001' },
+      }),
+    ).not.toThrow()
+  })
+
+  test('rejects inherit persistence and cursors without stable owners', () => {
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: {},
+        vars: {},
+        entityState: {},
+        behaviors: {
+          entities: {
+            s001: {
+              e1: {
+                trigger: { selection: { kind: 'inherit' } },
+              },
+            },
+          },
+        },
+      }),
+    ).toThrow(/持久覆写只允许 disabled\|use/)
+
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: {},
+        vars: {},
+        entityState: {},
+        behaviors: {
+          scenes: {
+            s001: {
+              onTeleport: {
+                cursor: { at: { kind: 'stage', stage: 'next' } },
+              },
+            },
+          },
+        },
+      }),
+    ).toThrow(/未知字段|hook/)
+  })
+
+  test('rejects unknown, non-finite and flat legacy world state', () => {
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: {},
+        vars: { broken: Number.NaN },
+        entityState: {},
+        behaviors: {},
+      }),
+    ).toThrow(/期望有限数/)
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: {},
+        vars: {},
+        entityState: { e1: 2 },
+        behaviors: {},
+      }),
+    ).toThrow(/entityState\.e1: 期望对象/)
+    expect(() =>
+      checkWorldScriptStateV5({
+        flags: {},
+        vars: {},
+        entityState: {},
+        behaviors: {},
+        entityStage: {},
+      }),
+    ).toThrow(/entityStage: 未知字段/)
   })
 
   test('accepts stable entity selections, composite conditions and bounded loops', () => {

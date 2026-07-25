@@ -66,14 +66,22 @@ export interface NormalizePayloadOptions {
   where?: string
 }
 
-export function normalizePayload(
+export const LEGACY_SAVE_ENVELOPE_VERSION = 4 as const
+
+/**
+ * N3-1 后仍需保留的 SAVE 1 -> ... -> 4 纯 envelope 链。
+ * 它必须始终停在 v4，让 content v4 -> v5 transition 在最后一次写 5/5 前消费旧脚本字段。
+ */
+export function normalizePayloadV4Envelope(
   input: SavePayload,
   options: NormalizePayloadOptions = {},
 ): SavePayload {
   const p = structuredClone(input)
-  if (p.version > SAVE_VERSION)
-    throw new Error(`存档格式 v${p.version} 新于引擎支持的 v${SAVE_VERSION}`)
-  // v(n)→v(n+1) 升级链挂点:bump SAVE_VERSION 时在此逐版本迁移
+  if (p.version > LEGACY_SAVE_ENVELOPE_VERSION)
+    throw new Error(
+      `存档格式 v${p.version} 新于引擎旧 envelope 链支持的 v${LEGACY_SAVE_ENVELOPE_VERSION}`,
+    )
+  // v(n)→v(n+1) envelope 升级链挂点；content transition 不得写在这里。
   const w = p.world
   w.party ??= []
   w.money ??= 0
@@ -91,13 +99,24 @@ export function normalizePayload(
   normalizeSceneScriptOverrides(w.script)
   validateMapOverride(w.script)
   normalizeFollowers(p, options)
-  p.version = SAVE_VERSION
+  p.version = LEGACY_SAVE_ENVELOPE_VERSION
   input.version = p.version
   input.projectId = p.projectId
   input.contentVersion = p.contentVersion
   input.world = p.world
   input.position = p.position
   return input
+}
+
+/**
+ * content v4 当前入口。P7 切换后，v5 读档入口改走 preflightSaveMigration +
+ * normalizePayloadV5；此别名只保留给 v4 runtime 与旧 envelope 回归。
+ */
+export function normalizePayload(
+  input: SavePayload,
+  options: NormalizePayloadOptions = {},
+): SavePayload {
+  return normalizePayloadV4Envelope(input, options)
 }
 
 /** 旧数字只经升级边界持久映射反查定义；工程名、定义 id 与物理路径均不参与推导。 */

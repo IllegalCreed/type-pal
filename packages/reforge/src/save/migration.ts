@@ -1,6 +1,8 @@
 import {
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
+  checkWorldScriptStateV5,
+  emptyWorldScriptStateV5,
   type ProjectManifest,
   type ProjectMigrationDescriptorV1,
   type ProjectMigrationSidecarV1,
@@ -11,7 +13,7 @@ import {
   type WorldStateV5,
 } from '@type-pal/content'
 import type { FileSource } from '../file-source.js'
-import { type NormalizePayloadOptions, normalizePayload } from './ops.js'
+import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.js'
 import type { SavePayload } from './types.js'
 
 /** N3-1 的目标 envelope 版本；P7 原子切换时与 SAVE_VERSION 一同成为 5。 */
@@ -21,6 +23,12 @@ export interface SavePayloadHeader {
   version: number
   projectId: string
   contentVersion: number
+}
+
+export interface SavePayloadV5 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 5
+  contentVersion: 5
+  world: WorldStateV5
 }
 
 export type SaveMigrationResolver =
@@ -176,9 +184,13 @@ async function resolveSceneHookSelections(
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       if (!Object.hasOwn(slots, slot)) continue
       const binding = slots[slot]
-      result[sceneId] ??= {}
+      let sceneSelections = result[sceneId]
+      if (!sceneSelections) {
+        sceneSelections = {}
+        result[sceneId] = sceneSelections
+      }
       if (binding === null) {
-        result[sceneId]![slot] = { kind: 'disabled' }
+        sceneSelections[slot] = { kind: 'disabled' }
         continue
       }
       const digest = await legacyBindingDigest(binding)
@@ -187,7 +199,7 @@ async function resolveSceneHookSelections(
         throw new Error(
           `payload.world.script.sceneScriptOverrides.${sceneId}.${slot}: 未命中兼容 binding alias (${digest})`,
         )
-      result[sceneId]![slot] = { kind: 'use', value: target.hookId }
+      sceneSelections[slot] = { kind: 'use', value: target.hookId }
     }
   }
   return result
@@ -274,7 +286,11 @@ function writeNestedValue(
   value: unknown,
   path: string,
 ): void {
-  const scene = (target[address.scene] ??= {})
+  let scene = target[address.scene]
+  if (!scene) {
+    scene = {}
+    target[address.scene] = scene
+  }
   const current = scene[address.entity]
   if (current !== undefined && JSON.stringify(current) !== JSON.stringify(value))
     throw new Error(`${path}: 目标 ${address.scene}/${address.entity} 发生冲突`)
@@ -309,19 +325,39 @@ function writeCursor(
   const mapped = target.indices.find((entry) => entry.index === index)
   if (!mapped) throw new Error(`${path}: index ${index} 缺 FlowCursor alias`)
   if (target.target.kind === 'entity-behavior') {
-    const scene = (behaviors.entities ??= {})[target.target.sceneId] ?? {}
-    behaviors.entities![target.target.sceneId] = scene
-    const entity = (scene[target.target.entityId] ??= {})
-    const slot = (entity[target.target.channel] ??= {})
+    if (!behaviors.entities) behaviors.entities = {}
+    let scene = behaviors.entities[target.target.sceneId]
+    if (!scene) {
+      scene = {}
+      behaviors.entities[target.target.sceneId] = scene
+    }
+    let entity = scene[target.target.entityId]
+    if (!entity) {
+      entity = {}
+      scene[target.target.entityId] = entity
+    }
+    let slot = entity[target.target.channel]
+    if (!slot) {
+      slot = {}
+      entity[target.target.channel] = slot
+    }
     const next = { behavior: target.target.behaviorId, at: structuredClone(mapped.cursor) }
     if (slot.cursor !== undefined && JSON.stringify(slot.cursor) !== JSON.stringify(next))
       throw new Error(`${path}: entity behavior cursor 冲突`)
     slot.cursor = next
     return
   }
-  const scene = (behaviors.scenes ??= {})[target.target.sceneId] ?? {}
-  behaviors.scenes![target.target.sceneId] = scene
-  const slot = (scene[target.target.hook] ??= {})
+  if (!behaviors.scenes) behaviors.scenes = {}
+  let scene = behaviors.scenes[target.target.sceneId]
+  if (!scene) {
+    scene = {}
+    behaviors.scenes[target.target.sceneId] = scene
+  }
+  let slot = scene[target.target.hook]
+  if (!slot) {
+    slot = {}
+    scene[target.target.hook] = slot
+  }
   const next = { hook: target.target.hookId, at: structuredClone(mapped.cursor) }
   if (slot.cursor !== undefined && JSON.stringify(slot.cursor) !== JSON.stringify(next))
     throw new Error(`${path}: scene hook cursor 冲突`)
@@ -367,26 +403,25 @@ function resolvedCursorTargets(
  * 返回隔离副本，失败或成功都不修改调用方输入。
  */
 export function normalizePayloadV5(
-  input: SavePayload,
+  input: SavePayload | SavePayloadV5,
   resolver: SaveMigrationResolver,
   options: NormalizePayloadOptions = {},
-): SavePayload & { version: 5; contentVersion: 5; world: WorldStateV5 } {
+): SavePayloadV5 {
   if (input.projectId !== resolver.projectId)
     throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
   if (resolver.kind === 'current-v5') {
     if (input.version !== 5 || input.contentVersion !== 5)
       throw new Error('current-v5 resolver 只接受 version=5/contentVersion=5')
-    return structuredClone(input) as SavePayload & {
-      version: 5
-      contentVersion: 5
-      world: WorldStateV5
-    }
+    const payload = structuredClone(input) as SavePayloadV5
+    payload.world.script ??= emptyWorldScriptStateV5()
+    checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+    return payload
   }
   if (input.version >= 5 || input.contentVersion !== 4)
     throw new Error('v4-v5 resolver 只接受 SAVE 1..4/contentVersion 4')
 
-  const payload = structuredClone(input)
-  normalizePayload(payload, options)
+  const payload = structuredClone(input) as SavePayload
+  normalizePayloadV4Envelope(payload, options)
   if (payload.version !== 4) throw new Error(`v4 envelope 归一化结果错误：收到 ${payload.version}`)
   const legacyScript = record(payload.world.script ?? {}, 'payload.world.script')
   const entityAliases = new Map(
@@ -423,12 +458,20 @@ export function normalizePayloadV5(
     for (const target of targets) writeCursor(behaviors, target, Number(rawIndex), path)
   }
   for (const [sceneId, selections] of Object.entries(resolver.sceneHookSelections)) {
-    const scene = (behaviors.scenes ??= {})[sceneId] ?? {}
-    behaviors.scenes![sceneId] = scene
+    if (!behaviors.scenes) behaviors.scenes = {}
+    let scene = behaviors.scenes[sceneId]
+    if (!scene) {
+      scene = {}
+      behaviors.scenes[sceneId] = scene
+    }
     for (const slotName of ['onEnter', 'onTeleport'] as const) {
       const selection = selections[slotName]
       if (selection === undefined) continue
-      const slot = (scene[slotName] ??= {})
+      let slot = scene[slotName]
+      if (!slot) {
+        slot = {}
+        scene[slotName] = slot
+      }
       slot.selection = structuredClone(selection)
     }
   }
@@ -456,9 +499,6 @@ export function normalizePayloadV5(
   payload.world.script = script as unknown as typeof payload.world.script
   payload.version = 5
   payload.contentVersion = 5
-  return payload as SavePayload & {
-    version: 5
-    contentVersion: 5
-    world: WorldStateV5
-  }
+  checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  return payload as unknown as SavePayloadV5
 }
