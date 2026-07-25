@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | GLM：P6 架构 + 数据合并代审 | Codex P6 `accept`；P6→P7 待 GLM `accept`，C8/ED-5I 继续 blocked |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex：P7 全量重迁、验收与文档 | P6 GLM 合并代审 `accept`；P6→P7 allowed，C8/ED-5I 继续 blocked |
 
 ## 阻塞
 
