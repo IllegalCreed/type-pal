@@ -5,6 +5,7 @@ import type {
   EntityDef,
   EntityDefV5,
   SceneDefV5,
+  ScriptChunkV1,
   ScriptFlowV5,
   ScriptRef,
   ScriptStage,
@@ -94,7 +95,7 @@ export interface CanonicalSpritePreviewStateV5 {
   sharedScripts: SharedScriptLibraryV5
 }
 
-const V5_PREVIEW_SHARED_CHUNK = '__script-v5-preview/shared'
+export const V5_PREVIEW_SHARED_CHUNK = '__script-v5-preview/shared'
 
 function previewChance(
   condition: Extract<AuthorCommandV5, { kind: 'branch' | 'loop' }>['cond'],
@@ -217,6 +218,14 @@ function projectPreviewFlowV5(
       const target = stage.next === undefined ? index : ids.indexOf(stage.next)
       return [
         {
+          ...(stage.entry
+            ? {
+                entry: {
+                  prepare: projectPreviewCommandsV5(stage.entry.prepare, self, sharedScripts),
+                  reveal: structuredClone(stage.entry.reveal),
+                },
+              }
+            : {}),
           body: projectPreviewCommandsV5(stage.body, self, sharedScripts),
           ...(target >= 0 && target !== index ? { next: target } : {}),
         },
@@ -238,11 +247,48 @@ function projectPreviewFlowV5(
     const target = ids.indexOf(targetId)
     return [
       {
+        ...(state.entry
+          ? {
+              entry: {
+                prepare: projectPreviewCommandsV5(state.entry.prepare, self, sharedScripts),
+                reveal: structuredClone(state.entry.reveal),
+              },
+            }
+          : {}),
         body: projectPreviewCommandsV5(state.body, self, sharedScripts),
         ...(target >= 0 && target !== index ? { next: target } : {}),
       },
     ]
   })
+}
+
+/** 场景脚本工作台使用的只读预览 lowering；不进入保存或作者态。 */
+export function projectCanonicalScriptFlowPreviewV5(
+  flow: ScriptFlowV5,
+  self: { scene: string; entity: string },
+  sharedScripts: SharedScriptLibraryV5,
+): ScriptStage[] {
+  return projectPreviewFlowV5(flow, self, sharedScripts)
+}
+
+/** 为旧 PreviewCanvas 的内存解析器生成 canonical 共享脚本只读投影。 */
+export function projectCanonicalSharedScriptPreviewChunkV5(
+  sharedScripts: SharedScriptLibraryV5,
+): ScriptChunkV1 {
+  return {
+    version: 1,
+    id: V5_PREVIEW_SHARED_CHUNK,
+    scripts: Object.fromEntries(
+      Object.entries(sharedScripts).map(([id, script]) => [
+        id,
+        projectPreviewCommandsV5(
+          script.body,
+          { scene: '__shared', entity: '__shared' },
+          sharedScripts,
+        ),
+      ]),
+    ),
+  }
 }
 
 function projectPreviewEntityV5(
@@ -284,20 +330,9 @@ export function projectCanonicalSpritePreviewStateV5(
 ): EditorState {
   const scenes = new Map(canonical.scenes.map((scene) => [scene.id, scene]))
   const scriptChunks = structuredClone(shell.scriptChunks)
-  scriptChunks[V5_PREVIEW_SHARED_CHUNK] = {
-    version: 1,
-    id: V5_PREVIEW_SHARED_CHUNK,
-    scripts: Object.fromEntries(
-      Object.entries(canonical.sharedScripts).map(([id, script]) => [
-        id,
-        projectPreviewCommandsV5(
-          script.body,
-          { scene: '__shared', entity: '__shared' },
-          canonical.sharedScripts,
-        ),
-      ]),
-    ),
-  }
+  scriptChunks[V5_PREVIEW_SHARED_CHUNK] = projectCanonicalSharedScriptPreviewChunkV5(
+    canonical.sharedScripts,
+  )
   return {
     ...shell,
     scenes: shell.scenes.map((scene) => {

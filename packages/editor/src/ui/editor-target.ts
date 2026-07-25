@@ -7,7 +7,11 @@ import { type EditorLocation, editorSubpage } from './editor-navigation.js'
  * 普通深链保留“目标不存在”诊断；undo/redo 刚移除当前对象时，调用方用本函数把
  * object 参数收回到当前页面，避免历史操作把工作区留在一个已经撤销的临时对象上。
  */
-export function editorObjectTargetMissing(state: EditorState, location: EditorLocation): boolean {
+export function editorObjectTargetMissing(
+  state: EditorState,
+  location: EditorLocation,
+  canonicalSharedScripts?: Readonly<Record<string, unknown>>,
+): boolean {
   const objectId = location.objectId
   const subpage = editorSubpage(location)
   if (!objectId || !subpage.acceptsObject) return false
@@ -64,7 +68,7 @@ export function editorObjectTargetMissing(state: EditorState, location: EditorLo
     return !(state.tilesets ?? []).some((candidate) => candidate.id === objectId)
   }
   if (subpage.dataPage === 'scripts') {
-    return !state.scriptIndex?.library?.[objectId]
+    return !canonicalSharedScripts?.[objectId] && !state.scriptIndex?.library?.[objectId]
   }
   if (subpage.kind === 'project' && subpage.projectPage === 'entrypoint') {
     const entries = state.manifest.entryPoints ?? [

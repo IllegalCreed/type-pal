@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -3462,14 +3462,57 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **accept** | 2026-07-25 | canonical schema/compiler/runtime/editor/SAVE 5、PAL 全量发布、本地迁移事务、产品门禁与浏览器验收均完成；最终完整门禁数字见本卡后续交接日志。 |
+| Codex | **rework（撤回 accept）** | 2026-07-25 | 用户验收发现 canonical v5 共享脚本仍走 legacy `SharedScriptTab`，场景 behavior 与物品私有脚本分别暴露独立 JSON textarea；“编辑器闭环”不成立。必须先以同一 canonical v5 通用脚本编辑组件接通三类 owner，再重新自验签字。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（合并终审）** | — | 必须独立审查 P7 架构/数据/测试/文档，并签 `accept` 或给出可执行 `counter`。 |
+| GLM | **pending（终审暂停）** | 2026-07-25 | 独立复跑 `9a668686` 技术门禁全绿（content 28/343、reforge 66/591、editor 84/718、migrate 61/406+1skip、MG2 0/0/0、canonical 闭合 jumpScript=0/callScript=0/shared=0/item-private 6 内联）；但 Codex 已撤回 accept（看板 rework：三类脚本入口未复用同一作者编辑器），`9a668686` 不再是最终终审基线。GLM 终审暂停，等 Codex 完成统一编辑器组件 rework 并重新自验 accept 后再审。 |
 
-- Codex 结论：**进入 review**。
+- Codex 结论：**退回 rework**。`9a668686` 只作为首次发布基线，不再作为最终终审基线。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
   N3-1 自动完成。
+
+#### P7-R1 通用 canonical v5 脚本编辑器返工（2026-07-25）
+
+- **用户验收反例**：物品“天书”的私有脚本显示整段 JSON 和“应用并校验”，而不是脚本树、
+  指令插入与属性表单。进一步审计确认：
+  - 共享脚本页在 canonical v5 工程仍读取 legacy `EditorState.scriptIndex/scriptChunks`；
+  - 场景 `ScriptV5BehaviorInspector` 单独维护 `Canonical ScriptFlow JSON` textarea；
+  - 物品 `ItemUseEffectEditor` 又单独维护一份 `AuthorCommandV5[]` JSON textarea。
+- **根因**：P7 只统一了 canonical schema/command session，没有统一作者态编辑组件；验证只覆盖
+  “JSON 能写回”，误把数据可改等同于产品编辑闭环。
+- **用户补充验收约束**：场景脚本编辑器原有的真实地图和预览能力必须保留。通用组件只统一正文
+  与 flow 编辑层，不能把场景工作台退化成纯表单。
+- **实现**：
+  - 新增 `CanonicalScriptBodyEditorV5`，统一嵌套命令树、结构化属性表单、插入、移动和删除；
+    新增 `CanonicalScriptFlowEditorV5`，统一 stage/state/transition 外壳，正文继续复用前者。
+  - `CanonicalSharedScriptTabV5` 直接读写 `ScriptEditorStateV5.sharedScripts`；
+    `ItemUseEffectEditor`、`ScriptV5BehaviorInspector`、`ScriptV5SceneHookInspector` 仅管理各自
+    owner identity、选择、引用和元数据，不再维护整段 body/flow JSON textarea。
+  - 补齐 canonical 场景 Hook 的新建、复制、重命名、初始选择、删除守卫和引用改写；共享脚本
+    deep-link 同时识别 canonical library，修复新建后误报“目标不存在”。
+  - 新增 `CanonicalSceneScriptWorkspaceV5`：上半区保留 `PreviewCanvas` 真实地图以及播放、单步、
+    重置、引擎试玩；下半区保留可调高度抽屉并切换“场景 Hook / 实体行为”。canonical flow 和
+    共享调用只读投影到原预览播放器，不回写作者内容。
+- **自验结果**：
+  - editor 全量：87 files / 726 tests passed；
+  - root `pnpm typecheck`：7 个 workspace package 全通过；
+  - root `pnpm lint`：947 files clean；
+  - editor production build 通过，仅保留既有 >500kB chunk 警告；
+  - Playwright 逐项核验物品“天书”、共享脚本库、场景实体行为、场景 Hook；场景地图保持可见，
+    实际点击播放进入运行态并重置，console 0 error / 0 warning；
+  - 截图：`output/playwright/n3-p7-r1-item-editor.png`、
+    `output/playwright/n3-p7-r1-shared-editor.png`、
+    `output/playwright/n3-p7-r1-scene-workspace-map-preview.png`、
+    `output/playwright/n3-p7-r1-scene-hook-map-preview.png`。
+- **返工验收条件**：
+  1. 建立单一 canonical v5 命令正文编辑组件；共享脚本、场景 stage/state、物品私有脚本只提供
+     owner/保存回调，不复制指令树、插入、排序、删除和属性编辑逻辑。
+  2. canonical 共享脚本页直接读写 `ScriptEditorStateV5.sharedScripts`，不得再显示 legacy 空库。
+  3. 场景 Flow 的 stage/state/transition 外壳可结构化编辑，正文统一调用同一组件；物品私有脚本
+     不再暴露整段 JSON textarea。
+  4. 三类 owner 的修改均走 `ScriptV5EditSession`、schema/reference/cursor 校验和统一 undo/redo，
+     并覆盖保存序列化/重开测试。
+  5. Playwright 在 PAL 的共享、场景、物品三个入口逐一核验；console 0 error。
 
 ## 下一位 Agent 提示词
 

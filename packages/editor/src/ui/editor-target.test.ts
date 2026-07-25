@@ -146,4 +146,53 @@ describe('editorObjectTargetMissing', () => {
       editorObjectTargetMissing(state, { module: 'battle', subpage: 'poison', objectId: '99' }),
     ).toBe(true)
   })
+
+  test('脚本库深链同时识别 canonical v5 与旧版作者脚本', () => {
+    const state = makeState({
+      scriptIndex: {
+        version: 1,
+        shards: { shared: 16, global: {} },
+        chunks: {},
+        library: {
+          'legacy/story': {
+            name: '旧版脚本',
+            self: 'none',
+          },
+        },
+      },
+    })
+    const canonicalSharedScripts = {
+      'shared/user/canonical': {
+        name: 'Canonical 脚本',
+        self: 'none',
+        body: [],
+      },
+    }
+
+    expect(
+      editorObjectTargetMissing(
+        state,
+        {
+          module: 'story',
+          subpage: 'scripts',
+          objectId: 'shared/user/canonical',
+        },
+        canonicalSharedScripts,
+      ),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'story',
+        subpage: 'scripts',
+        objectId: 'legacy/story',
+      }),
+    ).toBe(false)
+    expect(
+      editorObjectTargetMissing(state, {
+        module: 'story',
+        subpage: 'scripts',
+        objectId: 'missing',
+      }),
+    ).toBe(true)
+  })
 })

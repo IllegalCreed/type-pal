@@ -11,7 +11,10 @@ import type {
   UseSpec,
 } from '@type-pal/content'
 import { itemUseEffectSupportsContext } from '@type-pal/content'
-import { useEffect, useState } from 'react'
+import {
+  CanonicalScriptBodyEditorV5,
+  type CanonicalScriptEditorContextV5,
+} from './CanonicalScriptEditorV5.js'
 
 const STATUSES: { value: StatusId; label: string }[] = [
   { value: 'confused', label: '混乱' },
@@ -61,47 +64,26 @@ export interface ItemPrivateScriptBindingV5 {
   label: string
   body: AuthorCommandV5[]
   onChange: (body: AuthorCommandV5[]) => void
+  editorContext?: CanonicalScriptEditorContextV5
 }
 
 function ItemPrivateScriptBodyEditorV5(props: {
   binding: ItemPrivateScriptBindingV5
   onError?: (message: string) => void
 }) {
-  const bodyJson = JSON.stringify(props.binding.body, null, 2)
-  const [draft, setDraft] = useState(bodyJson)
-  useEffect(() => setDraft(bodyJson), [bodyJson])
   return (
     <div className="item-private-script-v5">
       <div>
         <strong>{props.binding.label}</strong>
         <span>归当前物品拥有 · 不进入共享脚本库</span>
       </div>
-      <textarea
-        className="in mono"
-        aria-label={`${props.binding.label}正文`}
-        spellCheck={false}
-        value={draft}
-        onChange={(event) => setDraft(event.target.value)}
+      <CanonicalScriptBodyEditorV5
+        label={`${props.binding.label} · 正文`}
+        body={props.binding.body}
+        context={props.binding.editorContext}
+        onChange={props.binding.onChange}
+        onError={props.onError}
       />
-      <div>
-        <button type="button" onClick={() => setDraft(bodyJson)}>
-          还原
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            try {
-              const body = JSON.parse(draft) as unknown
-              if (!Array.isArray(body)) throw new Error('物品私有脚本正文必须是指令数组')
-              props.binding.onChange(body as AuthorCommandV5[])
-            } catch (error) {
-              props.onError?.(error instanceof Error ? error.message : String(error))
-            }
-          }}
-        >
-          应用并校验
-        </button>
-      </div>
     </div>
   )
 }

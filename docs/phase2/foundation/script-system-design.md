@@ -83,6 +83,21 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
 或 MG2 冲突键。
 
+### 编辑器分层与场景预览
+
+- `CanonicalScriptBodyEditorV5` 是所有 `AuthorCommandV5[]` 的唯一作者态正文组件；
+  `CanonicalScriptFlowEditorV5` 在它外层统一编辑 stage/state/transition。共享脚本、物品私有脚本、
+  实体 Behavior 和场景 Hook 只保留各自的 identity、选择、引用和元数据外壳，不各写一套正文
+  编辑器。
+- 所有修改都派发到同一个 `ScriptV5EditSession`，因此共用 schema/reference/cursor 校验以及
+  undo/redo/save 闭环。canonical v5 作者界面不以整段 JSON textarea 作为日常编辑入口。
+- 场景脚本入口仍是完整场景工作台：上半区保留真实地图和播放、单步、重置、引擎试玩，下半区
+  是可调高度的通用脚本编辑抽屉，可在“场景 Hook / 实体行为”间切换。不能因为正文组件统一而
+  降级成脱离地图的纯表单。
+- 场景预览会把当前 canonical flow 和共享调用只读降级到既有预览播放器；该投影不回写
+  canonical 内容。共享脚本库和物品工作台按所有者上下文编辑正文，需要空间语境时应从具体场景
+  调用点打开或进入场景工作台预览，不能为每种所有者复制一套地图/播放器。
+
 ### 持久状态与调度
 
 - `WorldScriptStateV5` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，

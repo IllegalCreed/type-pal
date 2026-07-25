@@ -318,17 +318,13 @@ describe('ItemEffectChainEditor', () => {
     expect(host.textContent).toContain('物品私有脚本')
     expect(host.textContent).toContain('归当前物品拥有')
     expect(host.textContent).not.toContain('打开脚本')
-    const textarea = host.querySelector<HTMLTextAreaElement>('[aria-label="土灵珠使用正文"]')!
-    await act(async () => {
-      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!
-      setter.call(textarea, JSON.stringify([{ kind: 'setFlag', flag: 'after', value: true }]))
-      textarea.dispatchEvent(new Event('input', { bubbles: true }))
-    })
-    await act(async () =>
-      [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('应用并校验'))!
-        .click(),
-    )
+    expect(host.querySelector('[aria-label="土灵珠使用正文"]')).toBeNull()
+    expect(host.textContent).toContain('before = 真')
+    await act(async () => host.querySelector<HTMLButtonElement>('.canonical-command-row')!.click())
+    const flagInput = [...host.querySelectorAll<HTMLInputElement>('input')].find(
+      (candidate) => candidate.value === 'before',
+    )!
+    await input(flagInput, 'after')
     expect(onBodyChange).toHaveBeenCalledWith([{ kind: 'setFlag', flag: 'after', value: true }])
   })
 })

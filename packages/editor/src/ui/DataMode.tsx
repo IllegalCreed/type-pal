@@ -20,11 +20,13 @@ import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ItemReference } from '../core/item-references.js'
 import { buildRefIndex } from '../core/ref-index.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import type { ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { AmbienceTab } from './AmbienceTab.js'
 import { BattleFieldTab } from './BattleFieldTab.js'
 import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
+import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
 import { CutsceneTab } from './CutsceneTab.js'
 import { EnemyTab } from './EnemyTab.js'
 import { EntryPointTab } from './EntryPointTab.js'
@@ -244,6 +246,8 @@ export function DataMode(props: {
         session={session}
         assetCatalog={assetCatalog}
         assetReader={assetReader}
+        assetBase={assetBase}
+        audioResolver={audioResolver}
         battleSprites={battleSprites}
         onOpenBattleSprite={onOpenBattleSprite}
         focusObjectId={focusObjectId}
@@ -443,6 +447,54 @@ export function DataMode(props: {
 
   if (tab === 'scripts') {
     const state = session.getState()
+    if (scriptV5) {
+      const references = createScriptReferenceCatalog({
+        locale,
+        items: itemList,
+        skills: skillList,
+        actors,
+        sprites,
+        battleSprites,
+        ambiences,
+        mapIndex,
+        assetCatalog,
+        authorScripts: Object.entries(scriptV5.state.sharedScripts).map(([id, script]) => ({
+          id,
+          name: script.name,
+        })),
+      })
+      return (
+        <CanonicalSharedScriptTabV5
+          tabBar={tabBar}
+          state={scriptV5.state}
+          session={scriptV5.session}
+          focusScriptId={focusScriptId}
+          onSelectedScriptId={onObjectFocus}
+          onError={(message) => onStatusNotice?.({ kind: 'error', message })}
+          context={{
+            state: scriptV5.state,
+            shellScenes: scenes,
+            locale,
+            assetCatalog,
+            audioResolver,
+            assetReader,
+            assetBase,
+            actors: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+            battleSprites,
+            sprites,
+            ambiences,
+            shops,
+            references,
+            onOpenScript,
+            onOpenSound,
+            onOpenImage,
+            onOpenBattleSprite,
+            onOpenSpriteAction: (spriteId, actionId) =>
+              onSpriteLocation?.('world', 'definition', spriteId, actionId),
+          }}
+        />
+      )
+    }
     return (
       <SharedScriptTab
         tabBar={tabBar}
@@ -470,7 +522,7 @@ export function DataMode(props: {
         onOpenSound={onOpenSound}
         onOpenImage={onOpenImage}
         onOpenBattleSprite={onOpenBattleSprite}
-        showMigrationInternals={!scriptV5}
+        showMigrationInternals
         onOpenSpriteAction={(spriteId, actionId) =>
           onSpriteLocation?.('world', 'definition', spriteId, actionId)
         }

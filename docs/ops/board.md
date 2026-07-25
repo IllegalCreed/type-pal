@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | review | GLM：P7 架构/数据/测试合并终审；随后用户验收 | P7 canonical v5、compiler/runtime/editor、SAVE 5、PAL 全量重迁及本地 v4→v5 事务已完成，Codex 自验 accept |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | rework | Codex：统一 canonical v5 共享/场景/物品脚本编辑组件并重验 | 用户验收发现三类脚本入口未复用同一作者编辑器，Codex 已撤回 P7 accept；GLM 终审暂停 |
 
 ## 阻塞
 

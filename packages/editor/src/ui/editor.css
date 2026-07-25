@@ -12728,6 +12728,410 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 6px;
 }
 
+/* P7-R1：共享/场景/物品共同使用的 canonical v5 脚本编辑器。 */
+.canonical-script-editor {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+.canonical-script-editor-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel2));
+}
+.canonical-script-editor-heading strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.canonical-script-editor-heading span {
+  flex: none;
+  color: var(--dim);
+  font-size: 10px;
+}
+.canonical-script-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.1fr) minmax(230px, 0.9fr);
+  min-width: 0;
+  min-height: 240px;
+}
+.canonical-script-tree,
+.canonical-script-properties {
+  min-width: 0;
+  max-height: min(560px, 58vh);
+  overflow: auto;
+}
+.canonical-script-tree {
+  padding: 8px;
+}
+.canonical-script-properties {
+  padding: 10px;
+  border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel2) 74%, var(--panel));
+}
+.canonical-script-properties h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 9px;
+}
+.canonical-script-properties h4 code {
+  color: var(--faint);
+  font-size: 9px;
+}
+.canonical-command-node {
+  position: relative;
+  min-width: 0;
+  margin-bottom: 5px;
+}
+.canonical-command-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 7px;
+  width: 100%;
+  min-width: 0;
+  padding: 7px 92px 7px 8px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--panel2) 72%, transparent);
+  color: var(--fg);
+  cursor: pointer;
+}
+.canonical-command-row:hover,
+.canonical-command-row.selected {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 11%, var(--panel2));
+}
+.canonical-command-row strong,
+.canonical-command-row small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.canonical-command-row strong {
+  font-size: 11px;
+}
+.canonical-command-row small {
+  grid-column: 2;
+  color: var(--dim);
+  font-size: 9px;
+}
+.canonical-command-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 2px;
+}
+.canonical-command-actions button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--panel);
+  color: var(--dim);
+  font-size: 10px;
+  cursor: pointer;
+}
+.canonical-command-actions button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.canonical-command-actions button.danger {
+  color: #ef9a9a;
+}
+.canonical-command-child {
+  min-width: 0;
+  margin: 4px 0 6px 16px;
+  padding-left: 8px;
+  border-left: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+.canonical-command-child > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 3px 2px;
+  color: var(--dim);
+  font-size: 9px;
+}
+.canonical-script-empty-add {
+  width: 100%;
+  padding: 8px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  color: var(--accent);
+  cursor: pointer;
+}
+.canonical-script-insert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  margin-bottom: 7px;
+}
+.canonical-script-insert-grid button {
+  min-width: 0;
+  padding: 7px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.canonical-command-form-fields,
+.canonical-condition-editor,
+.canonical-address-editor,
+.canonical-grid-editor {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.canonical-command-form-fields > label,
+.canonical-condition-editor > label,
+.canonical-address-editor > label,
+.canonical-address-editor > .canonical-address-field,
+.canonical-grid-editor > label,
+.canonical-dialog-fallback {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: var(--dim);
+  font-size: 10px;
+}
+.canonical-command-form-fields .in,
+.canonical-condition-editor .in,
+.canonical-address-editor .in,
+.canonical-grid-editor .in {
+  width: 100%;
+  min-width: 0;
+}
+.canonical-address-editor,
+.canonical-grid-editor {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.canonical-condition-editor {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+}
+.canonical-condition-nested {
+  display: grid;
+  gap: 6px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+}
+.canonical-script-editor-empty {
+  color: var(--dim);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.canonical-flow-editor {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+}
+.canonical-flow-editor > header,
+.canonical-stage-next,
+.canonical-state-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+.canonical-flow-editor > header label,
+.canonical-stage-next,
+.canonical-state-label {
+  color: var(--dim);
+  font-size: 10px;
+}
+.canonical-flow-editor > nav {
+  display: flex;
+  gap: 5px;
+  min-width: 0;
+  padding-bottom: 4px;
+  overflow-x: auto;
+}
+.canonical-flow-editor > nav button {
+  display: grid;
+  flex: none;
+  gap: 2px;
+  min-width: 84px;
+  padding: 6px 7px;
+  text-align: left;
+}
+.canonical-flow-editor > nav button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel2));
+}
+.canonical-flow-editor > nav span,
+.canonical-flow-editor > nav small {
+  color: var(--dim);
+  font-size: 9px;
+}
+.canonical-transition-editor {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel2) 72%, transparent);
+}
+.canonical-transition-editor > label {
+  display: grid;
+  gap: 3px;
+  color: var(--dim);
+  font-size: 10px;
+}
+.canonical-transition-execution {
+  justify-self: start;
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 9px;
+}
+.canonical-transition-editor .canonical-transition-editor {
+  margin-left: 8px;
+  border-left-color: var(--accent);
+}
+.canonical-shared-script-main {
+  padding: 0;
+}
+.canonical-shared-script-main > .canonical-script-editor {
+  flex: 1 1 auto;
+  margin: 10px;
+}
+.canonical-shared-script-main .canonical-script-editor-layout {
+  min-height: 0;
+  height: 100%;
+}
+.canonical-shared-script-outliner .shared-toolbar {
+  padding: 8px;
+}
+.canonical-shared-script-outliner .shared-toolbar .in {
+  width: 100%;
+}
+.canonical-shared-script-outliner .shared-list {
+  min-height: 0;
+  overflow: auto;
+}
+.canonical-shared-script-outliner .shared-list > button {
+  display: grid;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+}
+.canonical-shared-script-outliner .shared-list > button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel2));
+}
+.canonical-shared-script-outliner .shared-list code,
+.canonical-shared-script-outliner .shared-list small {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 9px;
+  text-overflow: ellipsis;
+}
+.canonical-shared-script-create {
+  display: grid;
+  gap: 5px;
+  margin: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.canonical-shared-script-create strong {
+  color: var(--dim);
+  font-size: 10px;
+}
+.canonical-shared-script-create .in {
+  min-width: 0;
+}
+.canonical-shared-meta-edit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px;
+}
+.canonical-shared-meta-edit .in {
+  min-width: 0;
+}
+.item-private-script-v5 > .canonical-script-editor {
+  margin-top: 4px;
+}
+.inspector .canonical-script-editor-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.inspector .canonical-script-properties {
+  border-top: 1px solid var(--line);
+  border-left: 0;
+}
+.canonical-script-drawer {
+  min-height: 0;
+}
+.canonical-script-drawer .drawer-head {
+  gap: 8px;
+}
+.canonical-script-drawer .drawer-head .t {
+  flex: 0 1 auto;
+}
+.canonical-script-preview-note {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.canonical-script-drawer-body {
+  min-width: 0;
+  min-height: 0;
+  padding: 8px;
+  overflow: auto;
+}
+.canonical-script-drawer-body .script-v5-behavior-layout {
+  grid-template-columns: minmax(190px, 0.42fr) minmax(430px, 1.58fr);
+}
+.script-v5-hook-initial {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--accent) 5%, var(--panel2));
+}
+.script-v5-hook-initial .in {
+  min-width: 0;
+}
+.script-v5-hook-flow > .canonical-script-flow-editor {
+  margin-top: 8px;
+}
+.canonical-scene-script-empty {
+  padding: 36px;
+  border: 1px dashed var(--line);
+  border-radius: 7px;
+  color: var(--dim);
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .script-v5-behavior-layout {
     grid-template-columns: minmax(0, 1fr);
@@ -12742,6 +13146,16 @@ button.sprite-frame-cell[draggable="true"]:active {
   }
   .script-v5-behavior-list > button small {
     grid-column: 1 / -1;
+  }
+  .canonical-script-editor-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .canonical-script-properties {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+  .canonical-script-drawer-body .script-v5-behavior-layout {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

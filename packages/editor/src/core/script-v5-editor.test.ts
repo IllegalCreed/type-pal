@@ -1,6 +1,7 @@
 import type {
   AuthorCommandV5,
   NamedEntityBehaviorV5,
+  NamedSceneHookV5,
   ProjectMigrationSidecarV1,
   SceneDefV5,
   ScriptFlowV5,
@@ -8,17 +9,27 @@ import type {
 import { describe, expect, test } from 'vitest'
 import {
   AddEntityBehaviorV5Command,
+  AddSceneHookV5Command,
+  AddSharedScriptV5Command,
   CopyEntityBehaviorV5Command,
+  CopySceneHookV5Command,
   collectScriptV5ReferenceIssues,
   DeleteEntityBehaviorV5Command,
+  DeleteSceneHookV5Command,
+  DeleteSharedScriptV5Command,
   presentSelectionV5,
   RenameEntityBehaviorV5Command,
+  RenameSceneHookV5Command,
   type ScriptEditorStateV5,
   ScriptV5EditSession,
   SetEntityPageBehaviorV5Command,
   SetItemPrivateScriptBodyV5Command,
+  SetSceneHookInitialV5Command,
+  sceneHookReferencesV5,
   stateTransitionExecutionLabelV5,
   UpdateEntityBehaviorV5Command,
+  UpdateSceneHookV5Command,
+  UpdateSharedScriptV5Command,
 } from './script-v5-editor.js'
 
 const target = { scene: 's001', entity: 'e1' }
@@ -46,6 +57,10 @@ function behavior(
   flow: ScriptFlowV5 = stageFlow(id === 'talk' ? 'start' : id),
 ): NamedEntityBehaviorV5 {
   return { label: id, order: id === 'talk' ? 0 : 1, flow }
+}
+
+function hook(label: string): NamedSceneHookV5 {
+  return { label, order: 0, flow: stageFlow() }
 }
 
 function scene(): SceneDefV5 {
@@ -400,6 +415,88 @@ describe('canonical script v5 editor commands', () => {
         body: [{ kind: 'selectEntityBehavior' }],
       },
     })
+  })
+
+  test('creates and edits canonical shared scripts and rejects referenced deletion', () => {
+    const session = new ScriptV5EditSession(editorState())
+    session.dispatch(
+      new AddSharedScriptV5Command('shared/user/book', {
+        name: '读天书',
+        self: 'none',
+        body: [],
+      }),
+    )
+    session.dispatch(
+      new UpdateSharedScriptV5Command('shared/user/book', {
+        body: [{ kind: 'setFlag', flag: 'book-read', value: true }],
+      }),
+    )
+    expect(session.getState().sharedScripts['shared/user/book']).toMatchObject({
+      name: '读天书',
+      body: [{ kind: 'setFlag', flag: 'book-read', value: true }],
+    })
+    session.dispatch(
+      new UpdateSharedScriptV5Command('shared/user/select-talk', {
+        body: [{ kind: 'callScript', script: 'shared/user/book' }],
+      }),
+    )
+    expect(() => session.dispatch(new DeleteSharedScriptV5Command('shared/user/book'))).toThrow(
+      /不在 canonical v5 脚本库/,
+    )
+    expect(session.getState().sharedScripts['shared/user/book']).toBeDefined()
+    session.dispatch(new UpdateSharedScriptV5Command('shared/user/select-talk', { body: [] }))
+    session.dispatch(new DeleteSharedScriptV5Command('shared/user/book'))
+    expect(session.getState().sharedScripts['shared/user/book']).toBeUndefined()
+  })
+
+  test('edits scene Hook variants through stable ids and rewrites selections', () => {
+    const session = new ScriptV5EditSession(editorState())
+    session.dispatch(new AddSceneHookV5Command('s001', 'onEnter', 'default', hook('默认进场')))
+    session.dispatch(new AddSceneHookV5Command('s001', 'onEnter', 'alternate', hook('备用进场')))
+    session.dispatch(
+      new UpdateSceneHookV5Command('s001', 'onEnter', 'alternate', {
+        flow: stageFlow('alternate', [{ kind: 'setFlag', flag: 'entered', value: true }]),
+      }),
+    )
+    session.dispatch(new SetSceneHookInitialV5Command('s001', 'onEnter', 'alternate'))
+    session.dispatch(
+      new UpdateSharedScriptV5Command('shared/user/select-talk', {
+        body: [
+          {
+            kind: 'selectSceneHooks',
+            scene: 's001',
+            selection: { onEnter: { kind: 'use', value: 'alternate' } },
+          },
+        ],
+      }),
+    )
+    expect(sceneHookReferencesV5(session.getState(), 's001', 'onEnter', 'alternate')).toEqual([
+      {
+        kind: 'initial',
+        path: 'scenes.s001.hooks.onEnter.initial',
+      },
+      {
+        kind: 'command',
+        path: 'sharedScripts.shared/user/select-talk.body[0]',
+      },
+    ])
+
+    session.dispatch(new RenameSceneHookV5Command('s001', 'onEnter', 'alternate', 'story-entry'))
+    const renamed = session.getState()
+    expect(renamed.scenes[0]!.hooks!.onEnter!.initial).toBe('story-entry')
+    expect(renamed.sharedScripts['shared/user/select-talk']!.body[0]).toMatchObject({
+      selection: { onEnter: { kind: 'use', value: 'story-entry' } },
+    })
+    session.dispatch(
+      new CopySceneHookV5Command('s001', 'onEnter', 'story-entry', 'story-entry-copy'),
+    )
+    session.dispatch(new DeleteSceneHookV5Command('s001', 'onEnter', 'story-entry-copy'))
+    expect(
+      session.getState().scenes[0]!.hooks!.onEnter!.variants['story-entry-copy'],
+    ).toBeUndefined()
+    expect(() =>
+      session.dispatch(new DeleteSceneHookV5Command('s001', 'onEnter', 'story-entry')),
+    ).toThrow(/仍有 .*引用/)
   })
 
   test('selects page behaviors by stable id and validates the local registry', () => {

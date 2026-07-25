@@ -52,6 +52,8 @@ export interface ScriptReferenceCatalogInput {
   mapIndex: MapIndexV1
   assetCatalog: AssetCatalogV1
   scriptIndex?: ScriptIndexV1
+  /** canonical v5 作者共享脚本；提供时替代 legacy ScriptIndexV1.library。 */
+  authorScripts?: readonly ScriptReferenceChoice[]
 }
 
 /** 与 UI 搜索控件兼容的最小选择项；core 不依赖任何 UI 组件。 */
@@ -117,10 +119,11 @@ export function createScriptReferenceCatalog(
     ),
     // library 才是一等、作者可编辑的共享脚本目录；迁移/内部块不在这里泄漏为可选目标。
     authorScript: orderedChoices(
-      Object.entries(input.scriptIndex?.library ?? {}).map(([id, script]) => ({
-        id,
-        name: script.name,
-      })),
+      input.authorScripts ??
+        Object.entries(input.scriptIndex?.library ?? {}).map(([id, script]) => ({
+          id,
+          name: script.name,
+        })),
     ),
   }
   const byKind = {} as Record<ScriptReferenceKind, ReadonlyMap<string, string>>

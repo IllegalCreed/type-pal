@@ -1,7 +1,6 @@
 import type {
   EntityAddress,
   NamedEntityBehaviorV5,
-  ScriptFlowV5,
   Selection,
   StateTransitionV5,
 } from '@type-pal/content'
@@ -18,6 +17,10 @@ import {
   stateTransitionExecutionLabelV5,
   UpdateEntityBehaviorV5Command,
 } from '../core/script-v5-editor.js'
+import {
+  type CanonicalScriptEditorContextV5,
+  CanonicalScriptFlowEditorV5,
+} from './CanonicalScriptEditorV5.js'
 
 type BehaviorChannelV5 = 'trigger' | 'auto'
 
@@ -123,6 +126,7 @@ export function ScriptV5BehaviorInspector(props: {
   onOpenReference?: (path: string) => void
   onOpenFlow?: (behaviorId: string) => void
   onError?: (message: string) => void
+  editorContext?: CanonicalScriptEditorContextV5
 }) {
   const entity = entityOf(props.state, props.target)
   const registry = entity?.behaviors?.[props.channel] ?? {}
@@ -139,7 +143,6 @@ export function ScriptV5BehaviorInspector(props: {
       ? props.selectedBehaviorId
       : entries[0]?.[0]) ?? ''
   const selected = registry[selectedId]
-  const selectedFlowJson = selected ? JSON.stringify(selected.flow, null, 2) : ''
   const references = selected
     ? behaviorReferencesV5(props.state, props.target, props.channel, selectedId)
     : []
@@ -149,15 +152,13 @@ export function ScriptV5BehaviorInspector(props: {
   const [copyId, setCopyId] = useState(selectedId ? `${selectedId}-copy` : '')
   const [labelDraft, setLabelDraft] = useState(selected?.label ?? '')
   const [flowEditorOpen, setFlowEditorOpen] = useState(false)
-  const [flowDraft, setFlowDraft] = useState(selectedFlowJson)
 
   useEffect(() => {
     setRenameId(selectedId)
     setCopyId(selectedId ? `${selectedId}-copy` : '')
     setLabelDraft(selected?.label ?? '')
-    setFlowDraft(selectedFlowJson)
     setFlowEditorOpen(false)
-  }, [selectedFlowJson, selectedId, selected?.label])
+  }, [selectedId, selected?.label])
 
   const dispatch = (command: ScriptEditorCommandV5): boolean => {
     try {
@@ -367,52 +368,18 @@ export function ScriptV5BehaviorInspector(props: {
                 </ol>
               )}
               {flowEditorOpen ? (
-                <div className="script-v5-flow-editor">
-                  <label>
-                    <span className="field-label">Canonical ScriptFlow JSON</span>
-                    <textarea
-                      className="in mono"
-                      aria-label="Canonical ScriptFlow JSON"
-                      spellCheck={false}
-                      value={flowDraft}
-                      onChange={(event) => setFlowDraft(event.target.value)}
-                    />
-                  </label>
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => setFlowDraft(JSON.stringify(selected.flow, null, 2))}
-                    >
-                      还原
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        try {
-                          const flow = JSON.parse(flowDraft) as ScriptFlowV5
-                          if (
-                            dispatch(
-                              new UpdateEntityBehaviorV5Command(
-                                props.target,
-                                props.channel,
-                                selectedId,
-                                { flow },
-                              ),
-                            )
-                          )
-                            setFlowDraft(JSON.stringify(flow, null, 2))
-                        } catch (error) {
-                          props.onError?.(error instanceof Error ? error.message : String(error))
-                        }
-                      }}
-                    >
-                      应用并校验
-                    </button>
-                  </div>
-                  <small>
-                    保存前走 v5 schema、迁移 cursor 与引用完整性校验；失败时不会修改工程。
-                  </small>
-                </div>
+                <CanonicalScriptFlowEditorV5
+                  flow={selected.flow}
+                  context={props.editorContext}
+                  onError={props.onError}
+                  onChange={(flow) =>
+                    dispatch(
+                      new UpdateEntityBehaviorV5Command(props.target, props.channel, selectedId, {
+                        flow,
+                      }),
+                    )
+                  }
+                />
               ) : null}
             </div>
 

@@ -4,10 +4,12 @@ import type {
   FlowCursor,
   ItemDataV5,
   NamedEntityBehaviorV5,
+  NamedSceneHookV5,
   ProjectMigrationSidecarV1,
   SceneDefV5,
   ScriptFlowV5,
   Selection,
+  SharedAuthorScriptV5,
   SharedScriptLibraryV5,
   StateTransitionV5,
 } from '@type-pal/content'
@@ -60,9 +62,16 @@ function behaviorOwnerKey(
   return `entity:${target.scene}:${target.entity}:${channel}:${behaviorId}`
 }
 
+export type SceneHookSlotV5 = 'onEnter' | 'onTeleport'
+
+function sceneById(state: ScriptEditorStateV5, sceneId: string): SceneDefV5 {
+  const scene = state.scenes.find((candidate) => candidate.id === sceneId)
+  if (!scene) throw new Error(`场景不存在 ${sceneId}`)
+  return scene
+}
+
 function sceneAndEntity(state: ScriptEditorStateV5, target: EntityAddress) {
-  const scene = state.scenes.find((candidate) => candidate.id === target.scene)
-  if (!scene) throw new Error(`场景不存在 ${target.scene}`)
+  const scene = sceneById(state, target.scene)
   const entity = scene.entities.find((candidate) => candidate.id === target.entity)
   if (!entity) throw new Error(`实体不存在 ${target.scene}/${target.entity}`)
   return { scene, entity }
@@ -93,6 +102,18 @@ function checkBehaviorId(id: string): void {
   if (!id.trim()) throw new Error('BehaviorId 不能为空')
   if (id.includes('/') || id.includes('\\') || id.includes('\0'))
     throw new Error(`BehaviorId 非法 ${id}`)
+}
+
+function checkHookId(id: string): void {
+  if (!id.trim()) throw new Error('HookId 不能为空')
+  if (id.includes('/') || id.includes('\\') || id.includes('\0'))
+    throw new Error(`HookId 非法 ${id}`)
+}
+
+function checkScriptId(id: string): void {
+  if (!id.trim()) throw new Error('ScriptId 不能为空')
+  if (id.includes('\\') || id.includes('\0') || id.startsWith('/') || id.endsWith('/'))
+    throw new Error(`ScriptId 非法 ${id}`)
 }
 
 function walkCommands(
@@ -369,6 +390,60 @@ export function behaviorReferencesV5(
       references.push({ kind: 'command', path })
   })
   const key = behaviorOwnerKey(target, channel, behaviorId)
+  for (const [sidecarIndex, sidecar] of state.migrationSidecars.entries()) {
+    if (sidecar.targetClosures.some((closure) => ownerKey(closure.target) === key))
+      references.push({
+        kind: 'migration',
+        path: `migrationSidecars[${sidecarIndex}].targetClosures`,
+      })
+  }
+  return references
+}
+
+export interface SceneHookV5Reference {
+  kind: 'initial' | 'command' | 'migration'
+  path: string
+}
+
+function sceneHook(
+  state: ScriptEditorStateV5,
+  sceneId: string,
+  slot: SceneHookSlotV5,
+  hookId: string,
+): NamedSceneHookV5 {
+  const value = sceneById(state, sceneId).hooks?.[slot]?.variants[hookId]
+  if (!value) throw new Error(`hook 不存在 ${sceneId}/${slot}/${hookId}`)
+  return value
+}
+
+function sceneHookOwnerKey(sceneId: string, slot: SceneHookSlotV5, hookId: string): string {
+  return `hook:${sceneId}:${slot}:${hookId}`
+}
+
+export function sceneHookReferencesV5(
+  state: ScriptEditorStateV5,
+  sceneId: string,
+  slot: SceneHookSlotV5,
+  hookId: string,
+): SceneHookV5Reference[] {
+  const references: SceneHookV5Reference[] = []
+  const scene = sceneById(state, sceneId)
+  if (scene.hooks?.[slot]?.initial === hookId)
+    references.push({
+      kind: 'initial',
+      path: `scenes.${sceneId}.hooks.${slot}.initial`,
+    })
+  walkStateCommands(state, (command, path) => {
+    const selection = command.kind === 'selectSceneHooks' ? command.selection[slot] : undefined
+    if (
+      command.kind === 'selectSceneHooks' &&
+      command.scene === sceneId &&
+      selection?.kind === 'use' &&
+      selection.value === hookId
+    )
+      references.push({ kind: 'command', path })
+  })
+  const key = sceneHookOwnerKey(sceneId, slot, hookId)
   for (const [sidecarIndex, sidecar] of state.migrationSidecars.entries()) {
     if (sidecar.targetClosures.some((closure) => ownerKey(closure.target) === key))
       references.push({
@@ -659,6 +734,181 @@ export class DeleteEntityBehaviorV5Command extends SnapshotCommandV5 {
   }
 }
 
+export class AddSceneHookV5Command extends SnapshotCommandV5 {
+  readonly label = '新增场景 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly hookId: string,
+    private readonly value: NamedSceneHookV5,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkHookId(this.hookId)
+    const scene = sceneById(state, this.sceneId)
+    scene.hooks ??= {}
+    const existing = scene.hooks[this.slot]
+    if (!existing) {
+      scene.hooks[this.slot] = {
+        initial: this.hookId,
+        variants: { [this.hookId]: clone(this.value) },
+      }
+      return
+    }
+    if (existing.variants[this.hookId]) throw new Error(`HookId 已存在 ${this.hookId}`)
+    existing.variants[this.hookId] = clone(this.value)
+  }
+}
+
+export class CopySceneHookV5Command extends SnapshotCommandV5 {
+  readonly label = '复制场景 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly sourceId: string,
+    private readonly copyId: string,
+    private readonly copyLabel?: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkHookId(this.copyId)
+    const source = sceneHook(state, this.sceneId, this.slot, this.sourceId)
+    const variants = sceneById(state, this.sceneId).hooks?.[this.slot]?.variants
+    if (!variants) throw new Error('hook registry 缺失')
+    if (variants[this.copyId]) throw new Error(`HookId 已存在 ${this.copyId}`)
+    variants[this.copyId] = {
+      ...clone(source),
+      label: this.copyLabel ?? `${source.label} 副本`,
+      order: Math.max(-1, ...Object.values(variants).map((candidate) => candidate.order)) + 1,
+    }
+  }
+}
+
+export class RenameSceneHookV5Command extends SnapshotCommandV5 {
+  readonly label = '重命名场景 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly from: string,
+    private readonly to: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkHookId(this.to)
+    const refs = sceneHookReferencesV5(state, this.sceneId, this.slot, this.from)
+    if (refs.some((reference) => reference.kind === 'migration'))
+      throw new Error(`hook ${this.from} 被历史迁移 sidecar 保护，不能改名`)
+    const scene = sceneById(state, this.sceneId)
+    const channel = scene.hooks?.[this.slot]
+    const source = channel?.variants[this.from]
+    if (!channel || !source) throw new Error(`hook 不存在 ${this.from}`)
+    if (channel.variants[this.to]) throw new Error(`HookId 已存在 ${this.to}`)
+    delete channel.variants[this.from]
+    channel.variants[this.to] = source
+    if (channel.initial === this.from) channel.initial = this.to
+    mapAllCommands(state, (command) => {
+      if (command.kind !== 'selectSceneHooks' || command.scene !== this.sceneId) return command
+      const selection = command.selection[this.slot]
+      if (selection?.kind !== 'use' || selection.value !== this.from) return command
+      return {
+        ...command,
+        selection: {
+          ...command.selection,
+          [this.slot]: { kind: 'use', value: this.to },
+        },
+      }
+    })
+  }
+}
+
+export class UpdateSceneHookV5Command extends SnapshotCommandV5 {
+  readonly label = '编辑场景 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly hookId: string,
+    private readonly patch: Partial<NamedSceneHookV5>,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const source = sceneHook(state, this.sceneId, this.slot, this.hookId)
+    const next = { ...clone(source), ...clone(this.patch) }
+    const key = sceneHookOwnerKey(this.sceneId, this.slot, this.hookId)
+    for (const [index, sidecar] of state.migrationSidecars.entries()) {
+      for (const cursor of cursorTargets(sidecar, key))
+        assertFlowHasCursor(next.flow, cursor, `migrationSidecars[${index}]`)
+    }
+    const variants = sceneById(state, this.sceneId).hooks?.[this.slot]?.variants
+    if (!variants) throw new Error('hook registry 缺失')
+    variants[this.hookId] = next
+  }
+}
+
+export class SetSceneHookInitialV5Command extends SnapshotCommandV5 {
+  readonly label = '选择场景初始 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly hookId: string | undefined,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const channel = sceneById(state, this.sceneId).hooks?.[this.slot]
+    if (!channel) throw new Error(`hook 通道不存在 ${this.sceneId}/${this.slot}`)
+    if (this.hookId && !channel.variants[this.hookId])
+      throw new Error(`hook 不存在 ${this.sceneId}/${this.slot}/${this.hookId}`)
+    if (this.hookId) channel.initial = this.hookId
+    else delete channel.initial
+  }
+}
+
+export class DeleteSceneHookV5Command extends SnapshotCommandV5 {
+  readonly label = '删除场景 Hook'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly hookId: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    sceneHook(state, this.sceneId, this.slot, this.hookId)
+    const refs = sceneHookReferencesV5(state, this.sceneId, this.slot, this.hookId)
+    if (refs.length)
+      throw new Error(
+        `hook ${this.hookId} 仍有 ${refs.length} 个引用: ${refs
+          .slice(0, 3)
+          .map((reference) => reference.path)
+          .join(', ')}`,
+      )
+    const scene = sceneById(state, this.sceneId)
+    const channel = scene.hooks?.[this.slot]
+    if (!channel) throw new Error('hook registry 缺失')
+    delete channel.variants[this.hookId]
+    if (Object.keys(channel.variants).length === 0) {
+      delete scene.hooks?.[this.slot]
+      if (scene.hooks && Object.keys(scene.hooks).length === 0) delete scene.hooks
+    }
+  }
+}
+
 export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
   readonly label = '编辑物品私有脚本'
 
@@ -678,6 +928,61 @@ export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
     if (effect?.kind !== 'itemPrivateScript')
       throw new Error(`${this.itemId}.${this.use}.effects[${this.effectIndex}] 不是物品私有脚本`)
     effect.script.body = clone(this.body)
+  }
+}
+
+export class AddSharedScriptV5Command extends SnapshotCommandV5 {
+  readonly label = '新增共享脚本'
+
+  constructor(
+    private readonly scriptId: string,
+    private readonly value: SharedAuthorScriptV5,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkScriptId(this.scriptId)
+    if (state.sharedScripts[this.scriptId]) throw new Error(`ScriptId 已存在 ${this.scriptId}`)
+    state.sharedScripts[this.scriptId] = clone(this.value)
+  }
+}
+
+export class UpdateSharedScriptV5Command extends SnapshotCommandV5 {
+  readonly label = '编辑共享脚本'
+
+  constructor(
+    private readonly scriptId: string,
+    private readonly patch: Partial<SharedAuthorScriptV5>,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const source = state.sharedScripts[this.scriptId]
+    if (!source) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    state.sharedScripts[this.scriptId] = { ...clone(source), ...clone(this.patch) }
+  }
+}
+
+export class DeleteSharedScriptV5Command extends SnapshotCommandV5 {
+  readonly label = '删除共享脚本'
+
+  constructor(private readonly scriptId: string) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    if (!state.sharedScripts[this.scriptId]) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    const protectedByMigration = state.migrationSidecars.some((sidecar) =>
+      sidecar.targetClosures.some(
+        (closure) =>
+          closure.target.kind === 'shared-script' && closure.target.scriptId === this.scriptId,
+      ),
+    )
+    if (protectedByMigration)
+      throw new Error(`共享脚本 ${this.scriptId} 被历史迁移 sidecar 保护，不能删除`)
+    delete state.sharedScripts[this.scriptId]
   }
 }
 

@@ -81,6 +81,7 @@ import {
   mergeLegacyEditorShellIntoV5,
   serializeProjectV5WithCopies,
 } from '../core/project-io-v5.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   findSceneEntryReferences,
   type SceneEntryReferenceEntry,
@@ -93,6 +94,8 @@ import {
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
+import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
+import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { DataMode } from './DataMode.js'
 import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
 import {
@@ -582,11 +585,14 @@ export function App(props: {
   const jumpToWorldSpriteAutomaticScriptInstance = (
     site: SpriteAutomaticScriptInstanceSite,
   ): void => jumpToEvent(site.sceneId, `${site.entityId}:auto`)
-  const openSharedScript = (id: string): void => {
-    if (!state.scriptIndex?.library?.[id]) return
-    setSharedScriptFocus(undefined)
-    applyEditorLocation(editorLinks.sharedScript(id))
-  }
+  const openSharedScript = useCallback(
+    (id: string): void => {
+      if (!scriptV5State?.sharedScripts[id] && !state.scriptIndex?.library?.[id]) return
+      setSharedScriptFocus(undefined)
+      applyEditorLocation(editorLinks.sharedScript(id))
+    },
+    [applyEditorLocation, scriptV5State?.sharedScripts, state.scriptIndex?.library],
+  )
   const openScriptReference = (id: string, commandPath?: string): void => {
     if (state.scriptIndex?.library?.[id]) {
       if (commandPath)
@@ -668,6 +674,66 @@ export function App(props: {
     () => Object.fromEntries(state.actors.map((a) => [a.id, a])) as Record<string, ActorDef>,
     [state.actors],
   )
+  const canonicalScriptEditorContextV5 = useMemo<CanonicalScriptEditorContextV5 | undefined>(() => {
+    if (!scriptV5State) return undefined
+    return {
+      state: scriptV5State,
+      currentSceneId: scene.id,
+      shellScenes: state.scenes,
+      locale: state.locale,
+      assetCatalog: state.assetCatalog,
+      audioResolver,
+      assetReader,
+      assetBase: project.assetBase,
+      actors: actorsById,
+      battleSprites: state.battleSprites,
+      sprites: state.sprites,
+      ambiences: state.ambiences ?? [],
+      shops: state.shops ?? [],
+      hasImplicitSelf: true,
+      references: createScriptReferenceCatalog({
+        locale: state.locale,
+        items: state.items,
+        skills: state.skills,
+        actors: state.actors,
+        sprites: state.sprites,
+        battleSprites: state.battleSprites,
+        ambiences: state.ambiences ?? [],
+        mapIndex: state.mapIndex,
+        assetCatalog: state.assetCatalog,
+        authorScripts: Object.entries(scriptV5State.sharedScripts).map(([id, script]) => ({
+          id,
+          name: script.name,
+        })),
+      }),
+      onOpenScript: openSharedScript,
+      onOpenSound: (id) => applyEditorLocation(editorLinks.sound(id)),
+      onOpenImage: (id) => applyEditorLocation(editorLinks.image(id)),
+      onOpenBattleSprite: (id) => applyEditorLocation(editorLinks.battleSprite(id)),
+      onOpenSpriteAction: (spriteId, actionId) =>
+        applyEditorLocation(editorLinks.worldSpriteAction(spriteId, actionId)),
+    }
+  }, [
+    actorsById,
+    assetReader,
+    audioResolver,
+    project.assetBase,
+    scene.id,
+    scriptV5State,
+    state.actors,
+    state.ambiences,
+    state.assetCatalog,
+    state.battleSprites,
+    state.items,
+    state.locale,
+    state.mapIndex,
+    state.scenes,
+    state.shops,
+    state.skills,
+    state.sprites,
+    applyEditorLocation,
+    openSharedScript,
+  ])
   const leaderSpriteId = actorsById[state.manifest.startWorld.party[0] ?? '']?.spriteId
   const [projMenu, setProjMenu] = useState(false)
   const [bodyWidth, setBodyWidth] = useState(0)
@@ -787,7 +853,11 @@ export function App(props: {
     applyEditorLocation(next, 'replace')
   }
   const moduleSubnav = <ModuleSubnav location={location} onNavigate={openEditorSubpage} />
-  const objectTargetMissing = editorObjectTargetMissing(state, location)
+  const objectTargetMissing = editorObjectTargetMissing(
+    state,
+    location,
+    scriptV5State?.sharedScripts,
+  )
   const historyOwnerRef = useRef<'legacy' | 'v5'>('legacy')
   useEffect(() => session.subscribe(() => (historyOwnerRef.current = 'legacy')), [session])
   useEffect(
@@ -797,12 +867,18 @@ export function App(props: {
 
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current
-    if (editorObjectTargetMissing(session.getState(), current)) {
+    if (
+      editorObjectTargetMissing(
+        session.getState(),
+        current,
+        scriptV5Session?.getState().sharedScripts,
+      )
+    ) {
       const next = { ...current }
       delete next.objectId
       applyEditorLocation(next, 'replace')
     }
-  }, [applyEditorLocation, session])
+  }, [applyEditorLocation, scriptV5Session, session])
   const undo = useCallback((): void => {
     const preferred = historyOwnerRef.current
     if (preferred === 'v5' && scriptV5Session?.undo()) return
@@ -1666,6 +1742,46 @@ export function App(props: {
                   }}
                   onAddAt={addAt}
                 />
+              ) : scriptV5Session && scriptV5State ? (
+                <CanonicalSceneScriptWorkspaceV5
+                  scene={scene}
+                  state={scriptV5State}
+                  selectedEntityId={selEntity?.id ?? null}
+                  locale={state.locale}
+                  sprites={state.sprites}
+                  actorsById={actorsById}
+                  leaderSpriteId={leaderSpriteId}
+                  assetBase={project.assetBase}
+                  projectMaps={state.maps}
+                  mapIndex={state.mapIndex}
+                  tilesets={state.tilesets ?? []}
+                  assetCatalog={state.assetCatalog}
+                  assetReader={assetReader}
+                  projectId={state.manifest.id}
+                  layers={{
+                    grid: canvasLayers.grid,
+                    blocked: canvasLayers.blocked,
+                    ghosts: canvasLayers.ghosts,
+                  }}
+                  editorContext={canonicalScriptEditorContextV5}
+                  onDispatch={(command) => scriptV5Session.dispatch(command)}
+                  onOpenReference={(path) =>
+                    setWorkspaceNotice({
+                      kind: 'info',
+                      message: `canonical 引用：${path}`,
+                    })
+                  }
+                  onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
+                  onClose={() =>
+                    setDrawer({
+                      open: false,
+                      src: null,
+                      internalScriptId: null,
+                      commandPath: null,
+                      focusRevision: drawer.focusRevision,
+                    })
+                  }
+                />
               ) : (
                 <ScriptDrawer
                   scene={scene}
@@ -1771,7 +1887,7 @@ export function App(props: {
                     }
                     onDelete={deleteSelected}
                   />
-                  {scriptV5Session && scriptV5State ? (
+                  {scriptV5Session && scriptV5State && !drawer.open ? (
                     <div className="section script-v5-entity-section">
                       {canonicalEntityV5 && canonicalPageV5 ? (
                         <div className="script-v5-page-binding">
@@ -1852,6 +1968,7 @@ export function App(props: {
                         selectedBehaviorId={selectedBehaviorV5}
                         onSelectBehavior={setSelectedBehaviorV5}
                         onDispatch={(command) => scriptV5Session.dispatch(command)}
+                        editorContext={canonicalScriptEditorContextV5}
                         onOpenReference={(path) =>
                           setWorkspaceNotice({
                             kind: 'info',

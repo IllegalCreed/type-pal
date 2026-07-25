@@ -27,7 +27,7 @@ import {
   describeEquipEffects,
   lookupText,
 } from '@type-pal/content'
-import { v5RuntimeScriptRef } from '@type-pal/reforge'
+import { type AssetBase, type AudioAssetReader, v5RuntimeScriptRef } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   AddItemCommand,
@@ -47,6 +47,7 @@ import {
   type ItemReference,
   itemReferenceMap,
 } from '../core/item-references.js'
+import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import {
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
@@ -54,6 +55,7 @@ import {
 } from '../core/script-v5-editor.js'
 import { createAuthoredScriptId } from '../core/shared-script.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
+import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { ImageAssetThumbnail, imageAssetLabel, imageAssets } from './ImageAssetPicker.js'
 import {
   defaultItemUseEffect,
@@ -536,6 +538,8 @@ export function ItemTab(props: {
   session: EditSession
   assetCatalog: AssetCatalogV1
   assetReader: EditorAssetReader
+  assetBase?: AssetBase
+  audioResolver?: AudioAssetReader
   battleSprites: readonly BattleSpriteDef[]
   onOpenSound?: (id: string) => void
   onOpenImage?: (id: string) => void
@@ -561,6 +565,8 @@ export function ItemTab(props: {
     session,
     assetCatalog,
     assetReader,
+    assetBase,
+    audioResolver,
     battleSprites,
     onOpenSound,
     onOpenImage,
@@ -674,6 +680,60 @@ export function ItemTab(props: {
   const canonicalItemV5: ItemDataV5 | undefined = scriptV5?.state.items.find(
     (candidate) => candidate.id === item?.id,
   )
+  const canonicalScriptEditorContextV5 = useMemo<CanonicalScriptEditorContextV5 | undefined>(() => {
+    if (!scriptV5) return undefined
+    const shell = session.getState()
+    const references = createScriptReferenceCatalog({
+      locale,
+      items,
+      skills,
+      actors,
+      sprites: shell.sprites,
+      battleSprites,
+      ambiences: shell.ambiences ?? [],
+      mapIndex: shell.mapIndex,
+      assetCatalog,
+      authorScripts: Object.entries(scriptV5.state.sharedScripts).map(([id, script]) => ({
+        id,
+        name: script.name,
+      })),
+    })
+    return {
+      state: scriptV5.state,
+      shellScenes: shell.scenes,
+      locale,
+      assetCatalog,
+      audioResolver: audioResolver ?? assetReader,
+      assetReader,
+      assetBase,
+      actors: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+      battleSprites,
+      sprites: shell.sprites,
+      ambiences: shell.ambiences ?? [],
+      shops: shell.shops ?? [],
+      references,
+      onOpenScript,
+      onOpenSound,
+      onOpenImage,
+      onOpenBattleSprite,
+    }
+  }, [
+    actors,
+    assetBase,
+    assetCatalog,
+    assetReader,
+    audioResolver,
+    battleSprites,
+    items,
+    locale,
+    onOpenBattleSprite,
+    onOpenImage,
+    onOpenScript,
+    onOpenSound,
+    scriptV5,
+    session,
+    skills,
+  ])
   const privateScriptsV5 = (slot: 'use' | 'throw') =>
     Object.fromEntries(
       (canonicalItemV5?.[slot]?.effects ?? []).flatMap((effect, index) =>
@@ -684,6 +744,7 @@ export function ItemTab(props: {
                 {
                   label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
                   body: effect.script.body,
+                  editorContext: canonicalScriptEditorContextV5,
                   onChange: (body: typeof effect.script.body) =>
                     scriptV5?.session.dispatch(
                       new SetItemPrivateScriptBodyV5Command(canonicalItemV5!.id, slot, index, body),

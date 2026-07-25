@@ -231,7 +231,7 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toBeDefined()
   })
 
-  test('edits canonical flow bodies inline and commits through the validated command', async () => {
+  test('uses the canonical visual editor for flow bodies and commits through validation', async () => {
     const session = new ScriptV5EditSession(editorState())
 
     function Harness() {
@@ -250,28 +250,24 @@ describe('ScriptV5BehaviorInspector', () => {
     }
     await act(async () => root.render(<Harness />))
     await act(async () => button(host, '编辑正文与控制流').click())
-    const textarea = host.querySelector<HTMLTextAreaElement>(
-      '[aria-label="Canonical ScriptFlow JSON"]',
+    expect(host.querySelector('[aria-label="Canonical ScriptFlow JSON"]')).toBeNull()
+    expect(host.textContent).toContain('start · 正文')
+    await act(async () => host.querySelector<HTMLButtonElement>('.canonical-command-row')!.click())
+    const flagInput = [...host.querySelectorAll<HTMLInputElement>('input')].find(
+      (candidate) => candidate.value === 'talked',
     )!
-    const flow = {
-      kind: 'stages',
-      initial: 'start',
-      stages: [
-        {
-          id: 'start',
-          body: [{ kind: 'setFlag', flag: 'edited-inline', value: true }],
-        },
-      ],
-    }
-    await act(async () => {
-      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set?.call(
-        textarea,
-        JSON.stringify(flow),
-      )
-      textarea.dispatchEvent(new Event('input', { bubbles: true }))
-    })
-    await act(async () => button(host, '应用并校验').click())
-    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(flow)
+    await act(async () => setInput(flagInput, 'edited-inline'))
+    expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toMatchObject(
+      {
+        kind: 'stages',
+        stages: [
+          {
+            id: 'start',
+            body: [{ kind: 'setFlag', flag: 'edited-inline', value: true }],
+          },
+        ],
+      },
+    )
     expect(session.isDirty()).toBe(true)
   })
 })
