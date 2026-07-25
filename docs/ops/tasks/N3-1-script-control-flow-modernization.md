@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending（等待验收 `f50c993a` P7-R3 作者交互返工）
+- 用户结论: pending（等待验收 `51a0cf84` P7-R4 脚本方案 / 分次执行交互返工）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3462,11 +3462,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R3 已自验，等待用户体验确认）** | 2026-07-25 | `e77456d5` + `f50c993a` 已按两轮反馈重做作者布局：准备/正文互斥 Tab、单滚动全宽正文、指令/分段/版本弹窗、74 种中文指令完整入口、隐藏原始 JSON、实时分隔条和真实 s001 对话预览均通过。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R4 已自验，等待用户体验确认）** | 2026-07-25 | `51a0cf84` 继续按用户反馈重做脚本方案与分次执行：方案平铺、方案/步骤详情分别落在所属卡片、创建与详情分离、统一“步骤”术语和小标题、移除开发期旧存档伪约束；地图、单滚动正文、完整中文指令与真实 s001 对话预览均保持通过。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R3 后终审）** | 2026-07-25 | 当前候选基线为 `f50c993a`；用户体验确认前不启动第三次终审。确认后合并代审作者 UX、统一组件、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R4 后终审）** | 2026-07-25 | 当前候选基线为 `51a0cf84`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R3 实现与自验完成，但仍保持 rework**。`f50c993a` 是当前用户验收候选；
+- Codex 结论：**P7-R4 实现与自验完成，但仍保持 rework**。`51a0cf84` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
@@ -3549,7 +3549,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   6. 保留场景地图、播放/单步/重置/引擎试玩，预览必须实际跑出对话。
 - **实现候选**：
   - `e77456d5 fix(editor): simplify canonical script authoring`：布局、弹窗、版本管理、预览与拖动。
-  - `f50c993a fix(editor): expose complete script command catalog`：当前最终候选；补齐完整指令目录。
+  - `f50c993a fix(editor): expose complete script command catalog`：P7-R3 当轮候选；补齐完整指令目录。
   - `CanonicalFlowBodyTabsV5` 同时覆盖 stage 与 state-machine entry；默认显示正文，仅挂载当前
     Tab，避免两棵命令树同时占高。
   - `CanonicalScriptBodyEditorV5` 删除常驻 50% 属性栏和内部滚动；共享/场景/物品继续复用同一
@@ -3586,22 +3586,66 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - root `pnpm lint`：**949 files clean**；`git diff --check` 通过。
   - 此前根 `pnpm check` 在并发压力下超时的两个 PAL shadow 文件已按原 timeout 隔离复跑：
     P3 **5/5**（261.61s）、P4 **7/7**（508.32s）均通过，未改实现或 timeout；确认不是断言失败。
-- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+- **P7-R3 当轮门禁（后由 P7-R4 继续返工）**：仍为 `rework`，等待用户实际体验确认；确认后
+  Codex 才重签 `accept` 并把
   `f50c993a` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
+#### P7-R4 脚本方案与分次执行交互返工（2026-07-25）
+
+- **用户新增验收约束**：
+  1. “剧情版本”改为作者可理解的“脚本方案”，方案必须平铺；每张方案卡直接提供“方案详情”，
+     不得先从下拉框选择再打开详情。
+  2. 方案详情与新建方案、步骤详情与新建步骤分别使用独立弹窗；步骤可删除，删除必须修复起始
+     步骤和所有后继去向，并可用一次撤销完整恢复。
+  3. 入口标题、当前方案徽标和当前方案名称不得在下级标题重复；“触发阶段/阶段”改成
+     “分次执行/步骤”，说明放进 `?`，两级小标题字号、字重和间距统一。
+  4. “步骤详情”属于具体步骤，必须像“方案详情”一样放进每张步骤卡，不得作为脱离对象的全局
+     按钮。
+  5. 游戏尚未发布，开发期迁移 sidecar 不得伪装成“旧存档保护”并阻断作者正常改名、编辑或删除；
+     真正发布后的 SAVE 兼容须另行设计版本迁移，不能用开发期提示文字冒充产品能力。
+- **实现**：
+  - `ScriptSchemeStripV5` 由 Scene Hook 与 Entity Behavior 共用：方案横向平铺，卡片显示业务名、
+    步骤数和默认状态，并直接进入独立的方案详情；新建方案使用单独弹窗。
+  - `CanonicalScriptFlowEditorV5` 使用“分次执行 / 步骤 N”；顶部只保留“新建步骤”，每张步骤卡
+    自带“步骤详情”。详情与创建分离，起始步骤、下次运行去向和删除只在所属步骤详情中修改。
+  - 新增纯函数 `removeTriggerStageV5`：禁止删除最后一步；一次性删除目标、重定向起始步骤及所有
+    incoming `next`，通过既有完整 flow command 形成单一 undo/redo 步。
+  - `migrationSidecars` 不再作为作者态方案引用，也不再阻断方案改名、flow 更新或共享脚本删除；
+    页面与真实脚本指令引用仍保持 fail-closed 删除保护。
+  - “脚本方案”和“分次执行”复用 `.script-section-heading/.script-section-title`，实测均为
+    `11px / 700 / 15.4px`、`gap: 7px`，帮助按钮均为 `flex: 0 0 auto`；tooltip 支持焦点与
+    `Escape` 关闭，准备/正文 Tab 支持左右方向键、Home/End、roving tabIndex 和
+    tab/tabpanel 关联。
+  - 实现提交：`51a0cf84 fix(editor): clarify script schemes and execution steps`。
+- **验证证据**：
+  - editor **89 files / 741 tests passed**；相关 core/UI 定向矩阵 **4 files / 30 tests passed**。
+  - root `pnpm typecheck`：7 个 workspace package 全通过；root `pnpm lint`：
+    **949 files clean**；editor production build 377 modules 通过（仅既有 >500kB chunk 提示）；
+    `git diff --check` 通过。
+  - Playwright 在 s001 实测：方案标题没有入口名重复；分次执行标题没有“当前方案”或方案名；
+    作者可见区域无“触发阶段/阶段”；两张步骤卡各自显示“步骤详情”，点击步骤 2 的详情会先选中
+    步骤 2 并打开对应弹窗；tooltip Esc 与准备/正文方向键切换有效；console
+    **0 error / 0 warning**。
+  - s001 播放仍实际出现“李大娘”及对话文本；唯一脚本抽屉滚动层、地图预览和实时分隔条沿用
+    P7-R3 已验证结果。
+  - 截图：`output/playwright/n3-1-p7-r4-execution-steps.png`、
+    `output/playwright/n3-1-p7-r4-step-details-in-card.png`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `51a0cf84` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R3 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R4 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R3 canonical v5 作者脚本 UX 与真实预览返工后的合并终审
+终审任务: N3-1 P7-R4 canonical v5 作者脚本 UX 与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: f50c993a fix(editor): expose complete script command catalog
+当前候选基线: 51a0cf84 fix(editor): clarify script schemes and execution steps
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..f50c993a
+本轮返工增量: 18a66216..51a0cf84
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R3 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+执行条件: 只有用户明确确认 P7-R4 体验可接受后才开始本终审；确认前不得执行、不得改签字。
 Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
   GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3636,15 +3680,20 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
      不得调用 PAL repo 事务。
   6. canonical 共享脚本、物品私有脚本、实体 Behavior、场景 Hook 是否确实复用同一
      `CanonicalScriptBodyEditorV5`；Behavior/Hook 是否复用同一 flow 编辑层；普通作者是否不再
-     暴露 raw kind、整段 body/flow JSON、内部版本 id 和 raw 引用路径。
+     暴露 raw kind、整段 body/flow JSON、内部方案 id 和 raw 引用路径；方案卡的详情目标是否
+     与当前正文选择解耦，打开未选方案详情不得误切正文。
   7. 场景脚本工作台是否仍保留真实地图、播放/单步/重置/引擎试玩和可调抽屉；预览 lowering
      是否只读、不会把 generated block 或播放状态回写 canonical；必须实际跑出 s001 对话，
      不接受只观察 running 状态。
   8. 准备/正文是否为互斥 Tab；命令树是否全宽且只有 owner 工作区一个滚动层；指令编辑/添加、
-     分段设置和版本管理是否走渐进弹窗；分隔条是否连续跟手。
-  9. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
+     方案与步骤的详情/新建是否分别走渐进弹窗；方案是否平铺、步骤详情是否归属具体步骤卡；
+     分隔条是否连续跟手。
+  9. 步骤删除是否原子修复 initial 与所有 incoming next、禁止删除最后一步且一次 undo/redo
+     完整恢复；作者态不得再出现“旧存档保护”，开发期 migration sidecar 不得冒充真实引用或
+     阻断作者 CRUD，页面与脚本指令的真实引用保护仍须 fail-closed。
+  10. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
      undo/redo、保存序列化/重开和 canonical deep-link 是否闭环。
-  10. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  11. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
      content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
      N3-1/C8/ED-5I 标 done。
 输出:
