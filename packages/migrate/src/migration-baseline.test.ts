@@ -1,6 +1,23 @@
-import { describe, expect, test } from 'vitest'
-import { serializeMigrationJson } from './migration-baseline.js'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { resolve } from 'node:path'
+import { afterEach, describe, expect, test } from 'vitest'
+import {
+  baselineState,
+  baselineWrites,
+  loadPalBaseline,
+  type MigrationSnapshot,
+  PAL_BASELINE_REL,
+  serializeMigrationJson,
+  sha256,
+} from './migration-baseline.js'
 import type { MigrationJson } from './pal-migration.js'
+
+const roots: string[] = []
+
+afterEach(() => {
+  for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true })
+})
 
 const v2 = (): MigrationJson => ({
   version: 2,
@@ -76,5 +93,77 @@ describe('serializeMigrationJson W7G', () => {
     expect(serializeMigrationJson(JSON.parse(first) as MigrationJson, 'content/stamps.json')).toBe(
       first,
     )
+  })
+})
+
+describe('PAL baseline transition metadata', () => {
+  test('v2 metadata survives load and the next ordinary baseline write', () => {
+    const root = mkdtempSync(resolve(tmpdir(), 'type-pal-baseline-v2-'))
+    roots.push(root)
+    const baselineRoot = resolve(root, PAL_BASELINE_REL)
+    mkdirSync(resolve(baselineRoot, 'content'), { recursive: true })
+    const body = '{"value":1}\n'
+    writeFileSync(resolve(baselineRoot, 'content/value.json'), body)
+    const transitionDigest = 'a'.repeat(64)
+    writeFileSync(
+      resolve(baselineRoot, '_state.json'),
+      `${JSON.stringify(
+        {
+          version: 2,
+          generatorEpoch: 'n3-script-v5-p7-v1',
+          transitions: { 'script-v4-v5': transitionDigest },
+          managedFiles: ['content/value.json'],
+          files: { 'content/value.json': sha256(body) },
+        },
+        null,
+        2,
+      )}\n`,
+    )
+
+    const loaded = loadPalBaseline(root)
+    expect(loaded?.baselineMetadata).toEqual({
+      generatorEpoch: 'n3-script-v5-p7-v1',
+      transitions: { 'script-v4-v5': transitionDigest },
+    })
+    loaded!.files.set('content/value.json', { value: 2 })
+    loaded!.hashes?.delete('content/value.json')
+    const nextState = baselineState(loaded!)
+    expect(nextState).toMatchObject({
+      version: 2,
+      generatorEpoch: 'n3-script-v5-p7-v1',
+      transitions: { 'script-v4-v5': transitionDigest },
+    })
+    const writes = baselineWrites(loaded!)
+    const stateBody = writes.get(`${PAL_BASELINE_REL}/_state.json`)
+    expect(JSON.parse(stateBody!)).toMatchObject({
+      version: 2,
+      transitions: { 'script-v4-v5': transitionDigest },
+    })
+  })
+
+  test('rejects malformed v2 transition digests before reading managed bodies', () => {
+    const root = mkdtempSync(resolve(tmpdir(), 'type-pal-baseline-v2-invalid-'))
+    roots.push(root)
+    const baselineRoot = resolve(root, PAL_BASELINE_REL)
+    mkdirSync(baselineRoot, { recursive: true })
+    writeFileSync(
+      resolve(baselineRoot, '_state.json'),
+      `${JSON.stringify({
+        version: 2,
+        generatorEpoch: 'n3-script-v5-p7-v1',
+        transitions: { 'script-v4-v5': 'bad' },
+        managedFiles: [],
+        files: {},
+      })}\n`,
+    )
+    expect(() => loadPalBaseline(root)).toThrow(/transition metadata/)
+  })
+
+  test('new snapshots remain v1 until a release explicitly attaches transition metadata', () => {
+    const snapshot: MigrationSnapshot = {
+      files: new Map([['content/value.json', { value: 1 }]]),
+      managedFiles: new Set(['content/value.json']),
+    }
+    expect(baselineState(snapshot).version).toBe(1)
   })
 })

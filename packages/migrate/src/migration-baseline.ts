@@ -16,6 +16,11 @@ export interface MigrationSnapshot {
   managedFiles: Set<string>
   /** 可在不保留正文时代表原子大文件；PAL 地图 baseline 只存此 hash。 */
   hashes?: Map<string, string>
+  /** v2 baseline 保留已经发布的 content transition，不得被后续普通 MG2 降回 v1。 */
+  baselineMetadata?: {
+    generatorEpoch: string
+    transitions: Record<string, string>
+  }
 }
 
 export interface BaselineStateV1 {
@@ -23,6 +28,16 @@ export interface BaselineStateV1 {
   managedFiles: string[]
   files: Record<string, string>
 }
+
+export interface BaselineStateV2 {
+  version: 2
+  generatorEpoch: string
+  transitions: Record<string, string>
+  managedFiles: string[]
+  files: Record<string, string>
+}
+
+export type BaselineState = BaselineStateV1 | BaselineStateV2
 
 export function isAtomicProjectMapPath(path: string): boolean {
   return /^content\/maps\/(?!index\.json$)[^/]+\.json$/.test(path)
@@ -50,7 +65,7 @@ export function snapshotFileHash(snapshot: MigrationSnapshot, path: string): str
   return value === undefined ? undefined : sha256(serializeMigrationJson(value, path))
 }
 
-export function baselineState(snapshot: MigrationSnapshot): BaselineStateV1 {
+export function baselineState(snapshot: MigrationSnapshot): BaselineState {
   const managedFiles = [...snapshot.managedFiles].sort()
   const files: Record<string, string> = {}
   for (const path of managedFiles) {
@@ -58,7 +73,15 @@ export function baselineState(snapshot: MigrationSnapshot): BaselineStateV1 {
     if (!hash) throw new Error(`baseline 托管清单缺文件或 hash ${path}`)
     files[path] = hash
   }
-  return { version: 1, managedFiles, files }
+  return snapshot.baselineMetadata
+    ? {
+        version: 2,
+        generatorEpoch: snapshot.baselineMetadata.generatorEpoch,
+        transitions: structuredClone(snapshot.baselineMetadata.transitions),
+        managedFiles,
+        files,
+      }
+    : { version: 1, managedFiles, files }
 }
 
 export function baselineWrites(snapshot: MigrationSnapshot): Map<string, string> {
@@ -82,9 +105,25 @@ export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
   const root = resolve(repo, PAL_BASELINE_REL)
   const statePath = resolve(root, '_state.json')
   if (!existsSync(statePath)) return undefined
-  const state = JSON.parse(readFileSync(statePath, 'utf8')) as BaselineStateV1
-  if (state.version !== 1 || !Array.isArray(state.managedFiles) || !state.files)
+  const state = JSON.parse(readFileSync(statePath, 'utf8')) as BaselineState
+  if (
+    (state.version !== 1 && state.version !== 2) ||
+    !Array.isArray(state.managedFiles) ||
+    !state.files
+  )
     throw new Error('PAL baseline _state.json 格式无效')
+  if (
+    state.version === 2 &&
+    (typeof state.generatorEpoch !== 'string' ||
+      state.generatorEpoch.length === 0 ||
+      !state.transitions ||
+      typeof state.transitions !== 'object' ||
+      Array.isArray(state.transitions) ||
+      Object.values(state.transitions).some(
+        (digest) => typeof digest !== 'string' || !/^[a-f0-9]{64}$/.test(digest),
+      ))
+  )
+    throw new Error('PAL baseline _state.json v2 transition metadata 无效')
   const files = new Map<string, MigrationJson>()
   const hashes = new Map<string, string>()
   for (const path of state.managedFiles) {
@@ -98,5 +137,17 @@ export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
     if (sha256(text) !== expectedHash) throw new Error(`PAL baseline 哈希不符 ${path}`)
     files.set(path, JSON.parse(text) as MigrationJson)
   }
-  return { files, managedFiles: new Set(state.managedFiles), hashes }
+  return {
+    files,
+    managedFiles: new Set(state.managedFiles),
+    hashes,
+    ...(state.version === 2
+      ? {
+          baselineMetadata: {
+            generatorEpoch: state.generatorEpoch,
+            transitions: structuredClone(state.transitions),
+          },
+        }
+      : {}),
+  }
 }
