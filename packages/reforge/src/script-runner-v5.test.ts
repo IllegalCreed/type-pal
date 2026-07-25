@@ -271,7 +271,7 @@ describe('ScriptRunnerV5 flow semantics', () => {
     expect(host.calls).toEqual(['confirm', 'execute:setFlag:-:-'])
     expect(host.execute).toHaveBeenCalledWith(
       { kind: 'setFlag', flag: expectedFlag, value: true },
-      { self: undefined },
+      { self: undefined, timing: 'interactive' },
       expect.any(AbortSignal),
     )
     expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: expectedState }])

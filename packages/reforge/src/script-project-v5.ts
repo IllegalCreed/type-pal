@@ -35,7 +35,7 @@ export interface ProjectScriptHostOptionsV5 extends RuntimeHostServicesV5 {
     command: RuntimeLeafCommandV5,
     context: Readonly<ScriptRuntimeContextV5>,
   ): void | Promise<void>
-  scene(sceneId: string): SceneDefV5
+  scene(sceneId: string): SceneDefV5 | Promise<SceneDefV5>
   currentSceneId(): string
   /** 0x12 相对队伍摆位在宿主坐标系求值后，返回应持久化的绝对格。 */
   entityPosRelativeToParty?(target: EntityAddress, dcol: number, drow: number): GridPos
@@ -142,7 +142,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         break
       }
       case 'selectEntityBehavior': {
-        const scene = this.options.scene(command.target.scene)
+        const scene = await this.options.scene(command.target.scene)
         selectEntityBehaviorV5(
           this.world,
           entityAt(scene, command.target),
@@ -154,7 +154,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         break
       }
       case 'selectEntityPage': {
-        const scene = this.options.scene(command.target.scene)
+        const scene = await this.options.scene(command.target.scene)
         selectEntityPageV5(
           this.world,
           entityAt(scene, command.target),
@@ -165,7 +165,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         break
       }
       case 'setEntityTriggerActivation': {
-        const scene = this.options.scene(command.target.scene)
+        const scene = await this.options.scene(command.target.scene)
         setEntityTriggerActivationV5(
           this.world,
           entityAt(scene, command.target),
@@ -177,7 +177,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
       case 'selectSceneHooks':
         selectSceneHooksV5(
           this.world,
-          this.options.scene(command.scene),
+          await this.options.scene(command.scene),
           command.selection,
           this.coordinator,
         )

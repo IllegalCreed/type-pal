@@ -19,6 +19,7 @@ type BattleRequestV5 = Extract<ExecutableCommandV5, { kind: 'startBattle' }>['re
 
 export interface ScriptRuntimeContextV5 {
   self?: EntityAddress
+  timing?: ScriptTimingV5
 }
 
 export interface ScriptRuntimeHostV5 {
@@ -199,7 +200,7 @@ export class ScriptRunnerV5 {
         const outcomes = new Map<string, { command: 'confirm'; no: boolean }>()
         await this.runCommands(state.body, [machine.id, stateId], outcomes, true)
         throwIfAborted(this.signal)
-        const transition = this.resolveTransition(state.next, outcomes)
+      const transition = this.resolveTransition(state.next, outcomes)
         if (transition.kind === 'continue') {
           assertState(machine.states, transition.state, `${machine.id}.${stateId}.next`)
           stateId = transition.state
@@ -234,7 +235,10 @@ export class ScriptRunnerV5 {
   ): Exclude<StateTransitionV5, { kind: 'branch' | 'commandOutcome' }> {
     if (transition.kind === 'branch')
       return this.resolveTransition(
-        this.host.evalCondition(transition.cond, { self: this.self })
+        this.host.evalCondition(transition.cond, {
+          self: this.self,
+          timing: this.runningTiming,
+        })
           ? transition.then
           : transition.else,
         outcomes,
@@ -274,13 +278,22 @@ export class ScriptRunnerV5 {
   ): Promise<void> {
     switch (command.kind) {
       case 'leaf':
-        await this.host.execute(command.command, { self: this.self }, this.signal)
+        await this.host.execute(
+          command.command,
+          { self: this.self, timing: this.runningTiming },
+          this.signal,
+        )
         return
       case 'stop':
         throw new ScriptStoppedV5()
       case 'branch':
         await this.runCommands(
-          this.host.evalCondition(command.cond, { self: this.self }) ? command.then : command.else,
+          this.host.evalCondition(command.cond, {
+            self: this.self,
+            timing: this.runningTiming,
+          })
+            ? command.then
+            : command.else,
           [...path, 'branch'],
           outcomes,
         )
@@ -320,7 +333,12 @@ export class ScriptRunnerV5 {
   ): Promise<void> {
     let iterations = 0
     if (command.mode === 'while') {
-      while (this.host.evalCondition(command.cond, { self: this.self })) {
+      while (
+        this.host.evalCondition(command.cond, {
+          self: this.self,
+          timing: this.runningTiming,
+        })
+      ) {
         if (iterations >= command.maxIterations)
           throw new Error(`ScriptRunnerV5: loop 超过 maxIterations=${command.maxIterations}`)
         iterations++
@@ -335,7 +353,13 @@ export class ScriptRunnerV5 {
         throw new Error(`ScriptRunnerV5: loop 超过 maxIterations=${command.maxIterations}`)
       iterations++
       await this.runCommands(command.body, [...path, `iteration:${iterations}`], outcomes)
-      if (this.host.evalCondition(command.cond, { self: this.self })) return
+      if (
+        this.host.evalCondition(command.cond, {
+          self: this.self,
+          timing: this.runningTiming,
+        })
+      )
+        return
       await this.host.waitWorldTick(this.signal)
       throwIfAborted(this.signal)
     }
