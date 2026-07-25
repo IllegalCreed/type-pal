@@ -1,0 +1,625 @@
+import type {
+  AuthorCommandV5,
+  EntityAddress,
+  FlowCursor,
+  ItemDataV5,
+  NamedEntityBehaviorV5,
+  ProjectMigrationSidecarV1,
+  SceneDefV5,
+  ScriptFlowV5,
+  Selection,
+  SharedScriptLibraryV5,
+  StateTransitionV5,
+} from '@type-pal/content'
+import { checkSharedScriptLibraryV5, validateItemsV5, validateScenesV5 } from '@type-pal/content'
+
+export interface ScriptEditorStateV5 {
+  scenes: SceneDefV5[]
+  items: ItemDataV5[]
+  sharedScripts: SharedScriptLibraryV5
+  /** 已验签 registry 的 parsed 只读投影；命令不得修改或重签历史兼容账。 */
+  migrationSidecars: readonly Readonly<ProjectMigrationSidecarV1>[]
+}
+
+export interface ScriptEditorCommandV5 {
+  readonly label: string
+  apply(state: ScriptEditorStateV5): ScriptEditorStateV5
+  invert(state: ScriptEditorStateV5): ScriptEditorStateV5
+}
+
+function clone<T>(value: T): T {
+  return structuredClone(value)
+}
+
+function sameAddress(left: EntityAddress, right: EntityAddress): boolean {
+  return left.scene === right.scene && left.entity === right.entity
+}
+
+function ownerKey(owner: ProjectMigrationSidecarV1['targetClosures'][number]['target']): string {
+  switch (owner.kind) {
+    case 'entity-behavior':
+      return `entity:${owner.sceneId}:${owner.entityId}:${owner.channel}:${owner.behaviorId}`
+    case 'scene-hook':
+      return `hook:${owner.sceneId}:${owner.hook}:${owner.hookId}`
+    case 'state-machine':
+      return ownerKey(owner.owner)
+    case 'entity-page':
+      return `page:${owner.sceneId}:${owner.entityId}:${owner.pageId}`
+    case 'shared-script':
+      return `shared:${owner.scriptId}`
+    case 'item-private-script':
+      return `item:${owner.itemId}:${owner.scriptId}`
+  }
+}
+
+function behaviorOwnerKey(
+  target: EntityAddress,
+  channel: 'trigger' | 'auto',
+  behaviorId: string,
+): string {
+  return `entity:${target.scene}:${target.entity}:${channel}:${behaviorId}`
+}
+
+function sceneAndEntity(state: ScriptEditorStateV5, target: EntityAddress) {
+  const scene = state.scenes.find((candidate) => candidate.id === target.scene)
+  if (!scene) throw new Error(`场景不存在 ${target.scene}`)
+  const entity = scene.entities.find((candidate) => candidate.id === target.entity)
+  if (!entity) throw new Error(`实体不存在 ${target.scene}/${target.entity}`)
+  return { scene, entity }
+}
+
+function behaviorRegistry(
+  state: ScriptEditorStateV5,
+  target: EntityAddress,
+  channel: 'trigger' | 'auto',
+) {
+  const { entity } = sceneAndEntity(state, target)
+  return entity.behaviors?.[channel]
+}
+
+function behavior(
+  state: ScriptEditorStateV5,
+  target: EntityAddress,
+  channel: 'trigger' | 'auto',
+  behaviorId: string,
+): NamedEntityBehaviorV5 {
+  const value = behaviorRegistry(state, target, channel)?.[behaviorId]
+  if (!value)
+    throw new Error(`behavior 不存在 ${target.scene}/${target.entity}/${channel}/${behaviorId}`)
+  return value
+}
+
+function checkBehaviorId(id: string): void {
+  if (!id.trim()) throw new Error('BehaviorId 不能为空')
+  if (id.includes('/') || id.includes('\\') || id.includes('\0'))
+    throw new Error(`BehaviorId 非法 ${id}`)
+}
+
+function walkCommands(
+  commands: AuthorCommandV5[],
+  visit: (command: AuthorCommandV5, path: string) => void,
+  path: string,
+): void {
+  for (const [index, command] of commands.entries()) {
+    const commandPath = `${path}[${index}]`
+    visit(command, commandPath)
+    switch (command.kind) {
+      case 'branch':
+        walkCommands(command.then, visit, `${commandPath}.then`)
+        walkCommands(command.else ?? [], visit, `${commandPath}.else`)
+        break
+      case 'loop':
+        walkCommands(command.body, visit, `${commandPath}.body`)
+        break
+      case 'confirm':
+        walkCommands(command.onNo, visit, `${commandPath}.onNo`)
+        break
+      case 'startBattle':
+        walkCommands(command.onLose ?? [], visit, `${commandPath}.onLose`)
+        walkCommands(command.onFlee ?? [], visit, `${commandPath}.onFlee`)
+        break
+      case 'teleportOut':
+        walkCommands(command.onFail ?? [], visit, `${commandPath}.onFail`)
+        break
+    }
+  }
+}
+
+function walkFlowCommands(
+  flow: ScriptFlowV5,
+  visit: (command: AuthorCommandV5, path: string) => void,
+  path: string,
+): void {
+  if (flow.kind === 'stages') {
+    for (const stage of flow.stages) {
+      walkCommands(stage.entry?.prepare ?? [], visit, `${path}.stages.${stage.id}.entry.prepare`)
+      walkCommands(stage.body, visit, `${path}.stages.${stage.id}.body`)
+    }
+    return
+  }
+  for (const [stateId, state] of Object.entries(flow.machine.states)) {
+    walkCommands(
+      state.entry?.prepare ?? [],
+      visit,
+      `${path}.machine.states.${stateId}.entry.prepare`,
+    )
+    walkCommands(state.body, visit, `${path}.machine.states.${stateId}.body`)
+  }
+}
+
+function walkStateCommands(
+  state: ScriptEditorStateV5,
+  visit: (command: AuthorCommandV5, path: string) => void,
+): void {
+  for (const scene of state.scenes) {
+    for (const entity of scene.entities) {
+      for (const channel of ['trigger', 'auto'] as const) {
+        for (const [id, value] of Object.entries(entity.behaviors?.[channel] ?? {}))
+          walkFlowCommands(
+            value.flow,
+            visit,
+            `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${id}.flow`,
+          )
+      }
+    }
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      for (const [id, value] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
+        walkFlowCommands(value.flow, visit, `scenes.${scene.id}.hooks.${slot}.variants.${id}.flow`)
+    }
+  }
+  for (const item of state.items) {
+    for (const [index, effect] of (item.use?.effects ?? []).entries()) {
+      if (effect.kind === 'itemPrivateScript')
+        walkCommands(
+          effect.script.body,
+          visit,
+          `items.${item.id}.use.effects[${index}].script.body`,
+        )
+    }
+    for (const [index, effect] of (item.throw?.effects ?? []).entries()) {
+      if (effect.kind === 'itemPrivateScript')
+        walkCommands(
+          effect.script.body,
+          visit,
+          `items.${item.id}.throw.effects[${index}].script.body`,
+        )
+    }
+  }
+  for (const [id, script] of Object.entries(state.sharedScripts))
+    walkCommands(script.body, visit, `sharedScripts.${id}.body`)
+}
+
+function mapCommands(
+  commands: AuthorCommandV5[],
+  map: (command: AuthorCommandV5) => AuthorCommandV5,
+): AuthorCommandV5[] {
+  return commands.map((raw) => {
+    let command = clone(raw)
+    switch (command.kind) {
+      case 'branch':
+        command = {
+          ...command,
+          then: mapCommands(command.then, map),
+          ...(command.else ? { else: mapCommands(command.else, map) } : {}),
+        }
+        break
+      case 'loop':
+        command = { ...command, body: mapCommands(command.body, map) }
+        break
+      case 'confirm':
+        command = { ...command, onNo: mapCommands(command.onNo, map) }
+        break
+      case 'startBattle':
+        command = {
+          ...command,
+          ...(command.onLose ? { onLose: mapCommands(command.onLose, map) } : {}),
+          ...(command.onFlee ? { onFlee: mapCommands(command.onFlee, map) } : {}),
+        }
+        break
+      case 'teleportOut':
+        command = {
+          ...command,
+          ...(command.onFail ? { onFail: mapCommands(command.onFail, map) } : {}),
+        }
+        break
+    }
+    return map(command)
+  })
+}
+
+function mapFlowCommands(
+  flow: ScriptFlowV5,
+  map: (command: AuthorCommandV5) => AuthorCommandV5,
+): ScriptFlowV5 {
+  if (flow.kind === 'stages')
+    return {
+      ...clone(flow),
+      stages: flow.stages.map((stage) => ({
+        ...clone(stage),
+        ...(stage.entry
+          ? {
+              entry: {
+                ...clone(stage.entry),
+                prepare: mapCommands(stage.entry.prepare, map),
+              },
+            }
+          : {}),
+        body: mapCommands(stage.body, map),
+      })),
+    }
+  return {
+    kind: 'stateMachine',
+    machine: {
+      ...clone(flow.machine),
+      states: Object.fromEntries(
+        Object.entries(flow.machine.states).map(([id, machineState]) => [
+          id,
+          {
+            ...clone(machineState),
+            ...(machineState.entry
+              ? {
+                  entry: {
+                    ...clone(machineState.entry),
+                    prepare: mapCommands(machineState.entry.prepare, map),
+                  },
+                }
+              : {}),
+            body: mapCommands(machineState.body, map),
+          },
+        ]),
+      ),
+    },
+  }
+}
+
+function mapAllCommands(
+  state: ScriptEditorStateV5,
+  map: (command: AuthorCommandV5) => AuthorCommandV5,
+): void {
+  for (const scene of state.scenes) {
+    for (const entity of scene.entities) {
+      for (const channel of ['trigger', 'auto'] as const) {
+        const registry = entity.behaviors?.[channel]
+        if (!registry) continue
+        for (const value of Object.values(registry)) value.flow = mapFlowCommands(value.flow, map)
+      }
+    }
+    for (const slot of ['onEnter', 'onTeleport'] as const) {
+      for (const value of Object.values(scene.hooks?.[slot]?.variants ?? {}))
+        value.flow = mapFlowCommands(value.flow, map)
+    }
+  }
+  for (const item of state.items) {
+    for (const effect of item.use?.effects ?? [])
+      if (effect.kind === 'itemPrivateScript')
+        effect.script.body = mapCommands(effect.script.body, map)
+    for (const effect of item.throw?.effects ?? [])
+      if (effect.kind === 'itemPrivateScript')
+        effect.script.body = mapCommands(effect.script.body, map)
+  }
+  for (const script of Object.values(state.sharedScripts))
+    script.body = mapCommands(script.body, map)
+}
+
+export interface ScriptV5Reference {
+  kind: 'page' | 'command' | 'migration'
+  path: string
+}
+
+export function behaviorReferencesV5(
+  state: ScriptEditorStateV5,
+  target: EntityAddress,
+  channel: 'trigger' | 'auto',
+  behaviorId: string,
+): ScriptV5Reference[] {
+  const references: ScriptV5Reference[] = []
+  const { entity } = sceneAndEntity(state, target)
+  for (const page of entity.pages ?? []) {
+    if (page[channel] === behaviorId)
+      references.push({
+        kind: 'page',
+        path: `scenes.${target.scene}.entities.${target.entity}.pages.${page.id}.${channel}`,
+      })
+  }
+  walkStateCommands(state, (command, path) => {
+    if (
+      command.kind === 'selectEntityBehavior' &&
+      sameAddress(command.target, target) &&
+      command.channel === channel &&
+      command.selection.kind === 'use' &&
+      command.selection.value === behaviorId
+    )
+      references.push({ kind: 'command', path })
+  })
+  const key = behaviorOwnerKey(target, channel, behaviorId)
+  for (const [sidecarIndex, sidecar] of state.migrationSidecars.entries()) {
+    if (sidecar.targetClosures.some((closure) => ownerKey(closure.target) === key))
+      references.push({
+        kind: 'migration',
+        path: `migrationSidecars[${sidecarIndex}].targetClosures`,
+      })
+  }
+  return references
+}
+
+function cursorTargets(sidecar: Readonly<ProjectMigrationSidecarV1>, key: string): FlowCursor[] {
+  return sidecar.legacyCursors.flatMap((alias) => {
+    const targets = alias.mode === 'single' ? [alias.target] : alias.targets
+    return targets
+      .filter((target) => ownerKey(target.target) === key)
+      .flatMap((target) => target.indices.map((entry) => clone(entry.cursor)))
+  })
+}
+
+function assertFlowHasCursor(flow: ScriptFlowV5, cursor: FlowCursor, path: string): void {
+  if (cursor.kind === 'stage') {
+    if (flow.kind !== 'stages' || !flow.stages.some((stage) => stage.id === cursor.stage))
+      throw new Error(`${path}: 历史 cursor stage ${cursor.stage} 不可删除或改名`)
+    return
+  }
+  if (
+    flow.kind !== 'stateMachine' ||
+    flow.machine.id !== cursor.machine ||
+    !flow.machine.states[cursor.state]
+  )
+    throw new Error(`${path}: 历史 cursor state ${cursor.machine}/${cursor.state} 不可删除或改名`)
+}
+
+function validateState(state: ScriptEditorStateV5): void {
+  validateScenesV5(state.scenes)
+  validateItemsV5(state.items)
+  checkSharedScriptLibraryV5(state.sharedScripts)
+}
+
+abstract class SnapshotCommandV5 implements ScriptEditorCommandV5 {
+  private before?: ScriptEditorStateV5
+  private after?: ScriptEditorStateV5
+
+  abstract readonly label: string
+  protected abstract transform(state: ScriptEditorStateV5): void
+
+  apply(state: ScriptEditorStateV5): ScriptEditorStateV5 {
+    if (this.after) return clone(this.after)
+    this.before = clone(state)
+    const next = clone(state)
+    this.transform(next)
+    validateState(next)
+    this.after = clone(next)
+    return next
+  }
+
+  invert(_state: ScriptEditorStateV5): ScriptEditorStateV5 {
+    if (!this.before) throw new Error(`${this.label}: 尚未 apply`)
+    return clone(this.before)
+  }
+}
+
+export class ScriptV5EditSession {
+  private past: ScriptEditorCommandV5[] = []
+  private future: ScriptEditorCommandV5[] = []
+  private state: ScriptEditorStateV5
+
+  constructor(state: ScriptEditorStateV5) {
+    validateState(state)
+    this.state = clone(state)
+  }
+
+  getState(): ScriptEditorStateV5 {
+    return clone(this.state)
+  }
+
+  dispatch(command: ScriptEditorCommandV5): void {
+    this.state = command.apply(this.state)
+    this.past.push(command)
+    this.future = []
+  }
+
+  undo(): boolean {
+    const command = this.past.pop()
+    if (!command) return false
+    this.state = command.invert(this.state)
+    this.future.push(command)
+    return true
+  }
+
+  redo(): boolean {
+    const command = this.future.pop()
+    if (!command) return false
+    this.state = command.apply(this.state)
+    this.past.push(command)
+    return true
+  }
+}
+
+export class AddEntityBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '新增具名行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly behaviorId: string,
+    private readonly value: NamedEntityBehaviorV5,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkBehaviorId(this.behaviorId)
+    const { entity } = sceneAndEntity(state, this.target)
+    entity.behaviors ??= {}
+    let registry = entity.behaviors[this.channel]
+    if (!registry) {
+      registry = {}
+      entity.behaviors[this.channel] = registry
+    }
+    if (registry[this.behaviorId]) throw new Error(`BehaviorId 已存在 ${this.behaviorId}`)
+    registry[this.behaviorId] = clone(this.value)
+  }
+}
+
+export class CopyEntityBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '复制具名行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly sourceId: string,
+    private readonly copyId: string,
+    private readonly copyLabel?: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkBehaviorId(this.copyId)
+    const source = behavior(state, this.target, this.channel, this.sourceId)
+    const { entity } = sceneAndEntity(state, this.target)
+    const registry = entity.behaviors?.[this.channel]
+    if (!registry) throw new Error('behavior registry 缺失')
+    if (registry[this.copyId]) throw new Error(`BehaviorId 已存在 ${this.copyId}`)
+    registry[this.copyId] = {
+      ...clone(source),
+      label: this.copyLabel ?? `${source.label} 副本`,
+      order: Math.max(-1, ...Object.values(registry).map((candidate) => candidate.order)) + 1,
+    }
+  }
+}
+
+export class RenameEntityBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '重命名具名行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly from: string,
+    private readonly to: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    checkBehaviorId(this.to)
+    const refs = behaviorReferencesV5(state, this.target, this.channel, this.from)
+    if (refs.some((reference) => reference.kind === 'migration'))
+      throw new Error(`behavior ${this.from} 被历史迁移 sidecar 保护，不能改名`)
+    const { entity } = sceneAndEntity(state, this.target)
+    const registry = entity.behaviors?.[this.channel]
+    const source = registry?.[this.from]
+    if (!registry || !source) throw new Error(`behavior 不存在 ${this.from}`)
+    if (registry[this.to]) throw new Error(`BehaviorId 已存在 ${this.to}`)
+    delete registry[this.from]
+    registry[this.to] = source
+    for (const page of entity.pages ?? [])
+      if (page[this.channel] === this.from) page[this.channel] = this.to
+    mapAllCommands(state, (command) =>
+      command.kind === 'selectEntityBehavior' &&
+      sameAddress(command.target, this.target) &&
+      command.channel === this.channel &&
+      command.selection.kind === 'use' &&
+      command.selection.value === this.from
+        ? {
+            ...command,
+            selection: { kind: 'use', value: this.to },
+          }
+        : command,
+    )
+  }
+}
+
+export class UpdateEntityBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '编辑具名行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly behaviorId: string,
+    private readonly patch: Partial<NamedEntityBehaviorV5>,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const source = behavior(state, this.target, this.channel, this.behaviorId)
+    const next = { ...clone(source), ...clone(this.patch) }
+    const key = behaviorOwnerKey(this.target, this.channel, this.behaviorId)
+    for (const [index, sidecar] of state.migrationSidecars.entries()) {
+      for (const cursor of cursorTargets(sidecar, key))
+        assertFlowHasCursor(next.flow, cursor, `migrationSidecars[${index}]`)
+    }
+    const registry = behaviorRegistry(state, this.target, this.channel)
+    if (!registry) throw new Error('behavior registry 缺失')
+    registry[this.behaviorId] = next
+  }
+}
+
+export class DeleteEntityBehaviorV5Command extends SnapshotCommandV5 {
+  readonly label = '删除具名行为'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly channel: 'trigger' | 'auto',
+    private readonly behaviorId: string,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    behavior(state, this.target, this.channel, this.behaviorId)
+    const refs = behaviorReferencesV5(state, this.target, this.channel, this.behaviorId)
+    if (refs.length)
+      throw new Error(
+        `behavior ${this.behaviorId} 仍有 ${refs.length} 个引用: ${refs
+          .slice(0, 3)
+          .map((reference) => reference.path)
+          .join(', ')}`,
+      )
+    const registry = behaviorRegistry(state, this.target, this.channel)
+    if (!registry) throw new Error('behavior registry 缺失')
+    delete registry[this.behaviorId]
+  }
+}
+
+export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
+  readonly label = '编辑物品私有脚本'
+
+  constructor(
+    private readonly itemId: string,
+    private readonly use: 'use' | 'throw',
+    private readonly effectIndex: number,
+    private readonly body: AuthorCommandV5[],
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const item = state.items.find((candidate) => candidate.id === this.itemId)
+    if (!item) throw new Error(`物品不存在 ${this.itemId}`)
+    const effect = item[this.use]?.effects[this.effectIndex]
+    if (effect?.kind !== 'itemPrivateScript')
+      throw new Error(`${this.itemId}.${this.use}.effects[${this.effectIndex}] 不是物品私有脚本`)
+    effect.script.body = clone(this.body)
+  }
+}
+
+export type SelectionPresentationV5 = {
+  tone: 'inherit' | 'disabled' | 'use'
+  label: string
+}
+
+export function presentSelectionV5<T>(
+  selection: Selection<T>,
+  valueLabel: (value: T) => string,
+): SelectionPresentationV5 {
+  if (selection.kind === 'inherit') return { tone: 'inherit', label: '继承静态定义' }
+  if (selection.kind === 'disabled') return { tone: 'disabled', label: '显式禁用' }
+  return { tone: 'use', label: `使用：${valueLabel(selection.value)}` }
+}
+
+export function stateTransitionExecutionLabelV5(
+  transition: StateTransitionV5,
+): '同步继续' | '下次激活' | '让步后同次继续' | '条件分派' {
+  if (transition.kind === 'branch' || transition.kind === 'commandOutcome') return '条件分派'
+  if (transition.kind === 'continue') return '同步继续'
+  if (transition.kind === 'to') return '让步后同次继续'
+  return '下次激活'
+}
