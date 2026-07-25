@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: review
+Status: rework
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending
+- 用户结论: pending（等待验收 `f50c993a` P7-R3 作者交互返工）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3462,12 +3462,12 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **accept（P7-R1 返工后重签）** | 2026-07-25 | `18a66216` 建立共享的 `CanonicalScriptBodyEditorV5` / `CanonicalScriptFlowEditorV5`，接通 canonical 共享脚本、物品私有脚本、实体 Behavior、场景 Hook；场景工作台保留地图、播放/单步/重置/引擎试玩。editor 87/726、root typecheck、947-file lint、editor build 全绿；Playwright 四入口与真实播放通过，console 0 error / 0 warning。 |
+| Codex | **rework（P7-R3 已自验，等待用户体验确认）** | 2026-07-25 | `e77456d5` + `f50c993a` 已按两轮反馈重做作者布局：准备/正文互斥 Tab、单滚动全宽正文、指令/分段/版本弹窗、74 种中文指令完整入口、隐藏原始 JSON、实时分隔条和真实 s001 对话预览均通过。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待 P7-R1 终审）** | 2026-07-25 | 对 `9a668686` 的独立技术门禁复跑已全绿；最终基线现为 `18a66216`，须合并承担 Kimi 架构席位与 GLM 数据/覆盖席位，重点审查统一编辑器 rework、场景地图/预览保留、四 owner 写回与保存闭环。 |
+| GLM | **pending（等待用户确认 P7-R3 后终审）** | 2026-07-25 | 当前候选基线为 `f50c993a`；用户体验确认前不启动第三次终审。确认后合并代审作者 UX、统一组件、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R1 返工完成并重新 accept**。最终终审基线为 `18a66216`；
-  `9a668686` 只作为首次发布和 GLM 前轮技术复跑基线。
+- Codex 结论：**P7-R3 实现与自验完成，但仍保持 rework**。`f50c993a` 是当前用户验收候选；
+  用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
   N3-1 自动完成。
@@ -3516,18 +3516,94 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
      并覆盖保存序列化/重开测试。
   5. Playwright 在 PAL 的共享、场景、物品三个入口逐一核验；console 0 error。
 
+#### P7-R2 作者体验与真实预览返工（2026-07-25）
+
+- **用户验收结论**：P7-R1 无法验收；不能以 schema 可编辑、按钮可点击代替作者可理解和预览
+  可工作。
+- **必须修复**：
+  1. 视觉与控件回归既有编辑器语言；按钮、Tab、指令行、选中态和插入面板不得出现浏览器默认
+     白色控件或另一套临时风格。
+  2. 每种 canonical 指令必须有中文名称、用途摘要和可理解的属性表单；不得向普通作者直接显示
+     `teleportParty`、`setPartyFacing`、`clearDialog` 等英文 kind。
+  3. 恢复完整指令分类和事件模板，不得只提供少量快捷项；无当前资源时也应显示指令并解释为何
+     暂不可用。
+  4. 普通编辑默认使用“进场脚本 / 传送出口 / 交互脚本 / 自动行为”等作者术语；`Hook`、
+     `stage/state`、稳定 id、引用和复制属于高级管理信息，须翻译、解释或渐进披露。
+  5. 消除“外层所有者 Tab + 内层通道 Tab + 默认下拉 + 变体列表 + 初始阶段下拉”的重复选择；
+     单变体/单段脚本不得暴露无意义的层级。
+  6. 地图/脚本分隔条拖动必须连续跟手；使用实时尺寸基准，不能在一次 pointer move 中反复基于
+     旧 render 值计算。
+  7. 预览必须走 canonical v5 编译/运行链路或等价完整语义，真实执行 s001 进场对话；不得再以
+     “播放按钮进入 running”作为通过证据。
+- **终审**：GLM 暂停，P7-R2 未完成前不得继续终审；N3-1、C8、ED-5I 均不得标 done。
+
+#### P7-R3 单列脚本工作区与渐进编辑返工（2026-07-25）
+
+- **用户新增验收约束**：
+  1. “画面出现前的准备”和“脚本正文”必须用 Tab 互斥显示，不能同时堆高页面。
+  2. 正文直接平铺在工作区的唯一滚动层中，不得再出现“抽屉滚动 → 脚本树再滚动”的嵌套滚动。
+  3. 脚本正文独占可用宽度；属性编辑改为双击指令弹窗，同时保留显式编辑按钮；添加指令也用弹窗。
+  4. 分段剧情的初始段、下一段和新增段收进“分段剧情设置”弹窗，不常驻挤占正文。
+  5. 原“高级管理”不得继续暴露稳定 id、raw path 等内部概念；版本管理只显示业务名称、用途和
+     删除原因。
+  6. 保留场景地图、播放/单步/重置/引擎试玩，预览必须实际跑出对话。
+- **实现候选**：
+  - `e77456d5 fix(editor): simplify canonical script authoring`：布局、弹窗、版本管理、预览与拖动。
+  - `f50c993a fix(editor): expose complete script command catalog`：当前最终候选；补齐完整指令目录。
+  - `CanonicalFlowBodyTabsV5` 同时覆盖 stage 与 state-machine entry；默认显示正文，仅挂载当前
+    Tab，避免两棵命令树同时占高。
+  - `CanonicalScriptBodyEditorV5` 删除常驻 50% 属性栏和内部滚动；共享/场景/物品继续复用同一
+    命令树。单击只选择，双击或铅笔按钮打开编辑弹窗；“添加指令”打开带搜索和分类的插入弹窗。
+  - `CanonicalScriptFlowEditorV5` 将分段初始值、当前段后继和新增段移入业务化设置弹窗；
+    单段脚本不再显示无意义阶段层级。
+  - Scene Hook 与 Entity Behavior 共用 `ScriptVersionManagementDialogV5`：作者只填写版本名称；
+    内部 id 自动生成，引用位置翻译为用途，受保护版本明确解释为何不可删除。
+  - canonical 指令弹窗默认不再展示“应用 JSON”；对话、镜头定位和低频命令补齐结构化字段。
+    插入弹窗实测 **77** 个可选项（含事件模板），覆盖全部 **74** 种 canonical 指令；当前工程
+    没有共享脚本时，“调用共享脚本”仍显示但禁用，并解释先去脚本库创建。界面未出现
+    `teleportParty` / `setPartyFacing` / `clearDialog` / `selectSceneHooks` 等 raw kind。
+  - `PanelResizeHandle` 的调用方改用函数式状态更新；实测连续向下拖动的
+    `aria-valuenow` 为 **420 → 404 → 388 → 372 → 356**，每次 pointer move 均即时响应。
+  - canonical 预览投影补齐 EntityAddress、嵌套条件、confirm/battle/teleport failure 和实体演出
+    命令；非 Abort 错误不再静默吞掉，而是写入预览日志。s001 进场脚本实际播放出“李大娘”对话，
+    Playwright console **0 error / 0 warning**。
+- **布局与视觉证据**：
+  - 场景正文树：`overflow-y: visible`，`clientHeight = scrollHeight = 4674`；
+    从正文树向上只有 `.canonical-script-drawer-body` 一个 `overflow-y: auto` 容器
+    （389 / 4937），常驻 `.canonical-script-properties` 数量为 0。
+  - 截图：
+    `output/playwright/n3-1-p7-r3-final-layout.png`、
+    `output/playwright/n3-1-p7-r3-command-dialog-no-json.png`、
+    `output/playwright/n3-1-p7-r3-insert-dialog-all-kinds.png`、
+    `output/playwright/n3-1-p7-r3-stage-settings.png`、
+    `output/playwright/n3-1-p7-r3-version-management.png`、
+    `output/playwright/n3-1-p7-r3-preview-dialog.png`。
+- **自验**：
+  - root `pnpm typecheck` 7 个 workspace package 全绿；editor production build 377 modules，
+    通过（仅既有 >500kB chunk 提示）。
+  - editor **89 files / 735 tests passed**，新增 stage/state-machine prepare Tab、弹窗编辑/插入、
+    canonical 禁止 raw JSON 和版本管理闭环回归。
+  - root `pnpm lint`：**949 files clean**；`git diff --check` 通过。
+  - 此前根 `pnpm check` 在并发压力下超时的两个 PAL shadow 文件已按原 timeout 隔离复跑：
+    P3 **5/5**（261.61s）、P4 **7/7**（508.32s）均通过，未改实现或 timeout；确认不是断言失败。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `f50c993a` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7 架构 + 数据 + 测试 + 文档合并终审；当前执行）
+### 给 GLM（P7-R3 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R1 canonical v5 统一脚本编辑器返工后的合并终审
+终审任务: N3-1 P7-R3 canonical v5 作者脚本 UX 与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-最终实现基线: 18a66216 fix(editor): unify canonical script authoring
+当前候选基线: f50c993a fix(editor): expose complete script command catalog
 首次发布基线: 9a668686 feat: publish canonical script v5
-返工增量: aeb0d137..18a66216
-当前状态: review；Codex 已签 accept。Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；
-  你同时承担原 Kimi 架构/调度席位和 GLM 数据/覆盖席位。
+统一组件基线: 18a66216 fix(editor): unify canonical script authoring
+本轮返工增量: 18a66216..f50c993a
+当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
+执行条件: 只有用户明确确认 P7-R3 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
+  GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
 先读:
   - AGENTS.md、docs/phase2/READ-FIRST.md；
@@ -3544,7 +3620,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - packages/editor/src/core/{script-v5-editor,project-io-v5,
     author-command-edit-v5,world-sprite-behavior,upgrade-local-v4-script-v5,open-local}.ts；
   - packages/editor/src/ui/{CanonicalScriptEditorV5,CanonicalSharedScriptTabV5,
-    CanonicalSceneScriptWorkspaceV5,ScriptV5BehaviorInspector,
+    CanonicalSceneScriptWorkspaceV5,CommandForm,ScriptV5BehaviorInspector,
     ScriptV5SceneHookInspector,ItemUseEffectEditor,ProjectPicker}.tsx。
 必须独立核对:
   1. canonical 内容中 jumpScript / v4 动态 binding / internal generated block 是否归零；
@@ -3559,19 +3635,22 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
      EntityAddress 与 broadcast/single 消歧、preview 后二次确认、local journal 前滚恢复；
      不得调用 PAL repo 事务。
   6. canonical 共享脚本、物品私有脚本、实体 Behavior、场景 Hook 是否确实复用同一
-     `CanonicalScriptBodyEditorV5`；Behavior/Hook 是否复用同一 flow 编辑层，且不再暴露整段
-     body/flow JSON textarea。
+     `CanonicalScriptBodyEditorV5`；Behavior/Hook 是否复用同一 flow 编辑层；普通作者是否不再
+     暴露 raw kind、整段 body/flow JSON、内部版本 id 和 raw 引用路径。
   7. 场景脚本工作台是否仍保留真实地图、播放/单步/重置/引擎试玩和可调抽屉；预览 lowering
-     是否只读、不会把 generated block 或播放状态回写 canonical。
-  8. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
+     是否只读、不会把 generated block 或播放状态回写 canonical；必须实际跑出 s001 对话，
+     不接受只观察 running 状态。
+  8. 准备/正文是否为互斥 Tab；命令树是否全宽且只有 owner 工作区一个滚动层；指令编辑/添加、
+     分段设置和版本管理是否走渐进弹窗；分隔条是否连续跟手。
+  9. 四类 owner 的 CRUD、嵌套命令修改、三态 transition、引用反链/重命名/删除守卫、
      undo/redo、保存序列化/重开和 canonical deep-link 是否闭环。
-  9. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  10. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
      content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
      N3-1/C8/ED-5I 标 done。
 输出:
   - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的文件/断言/复现命令/返工项；
   - 在交接日志写独立复跑数字、digest、架构/数据结论；
-  - accept 后明确“可交用户验收”，但不得自行标 N3-1 done；
+  - accept 后明确“GLM 合并终审通过，可由 Codex 收口”，但不得自行标 N3-1 done；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
