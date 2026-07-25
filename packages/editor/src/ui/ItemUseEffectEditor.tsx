@@ -65,6 +65,8 @@ export interface ItemPrivateScriptBindingV5 {
   body: AuthorCommandV5[]
   onChange: (body: AuthorCommandV5[]) => void
   editorContext?: CanonicalScriptEditorContextV5
+  focusCommandPath?: string
+  focusRevision?: number
 }
 
 function ItemPrivateScriptBodyEditorV5(props: {
@@ -72,7 +74,7 @@ function ItemPrivateScriptBodyEditorV5(props: {
   onError?: (message: string) => void
 }) {
   return (
-    <div className="item-private-script-v5">
+    <div className="item-private-script-v5" data-item-private-script={props.binding.label}>
       <div>
         <strong>{props.binding.label}</strong>
         <span>归当前物品拥有 · 不进入共享脚本库</span>
@@ -83,6 +85,8 @@ function ItemPrivateScriptBodyEditorV5(props: {
         context={props.binding.editorContext}
         onChange={props.binding.onChange}
         onError={props.onError}
+        focusCommandPath={props.binding.focusCommandPath}
+        focusRevision={props.binding.focusRevision}
       />
     </div>
   )

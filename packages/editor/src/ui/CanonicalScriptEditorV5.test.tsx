@@ -13,6 +13,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   AUTHOR_COMMAND_PRESENTATION_V5,
   CanonicalHelpTipV5,
+  CanonicalHostileOnLoseEditorV5,
   CanonicalScriptBodyEditorV5,
   type CanonicalScriptEditorContextV5,
   CanonicalScriptFlowEditorV5,
@@ -153,6 +154,145 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     )
     expect(unavailableShared?.disabled).toBe(true)
     expect(unavailableShared?.textContent).toContain('请先在“剧情 → 脚本库”创建')
+  })
+
+  test('focuses a referenced command once per revision and fails closed for stale paths', async () => {
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    const onError = vi.fn()
+    const body = [
+      { kind: 'setFlag' as const, flag: 'first', value: true },
+      { kind: 'setFlag' as const, flag: 'second', value: true },
+    ]
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={body}
+          onChange={() => {}}
+          onError={onError}
+          focusCommandPath="1"
+          focusRevision={1}
+        />,
+      ),
+    )
+    let rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows[1]?.classList.contains('sel')).toBe(true)
+
+    await act(async () => rows[0]!.click())
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={[...body, { kind: 'setFlag', flag: 'third', value: true }]}
+          onChange={() => {}}
+          onError={onError}
+          focusCommandPath="1"
+          focusRevision={1}
+        />,
+      ),
+    )
+    rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows[0]?.classList.contains('sel')).toBe(true)
+    expect(rows[1]?.classList.contains('sel')).toBe(false)
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={body}
+          onChange={() => {}}
+          onError={onError}
+          focusCommandPath="1"
+          focusRevision={2}
+        />,
+      ),
+    )
+    rows = host.querySelectorAll<HTMLElement>('.cmd-row')
+    expect(rows[1]?.classList.contains('sel')).toBe(true)
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={body}
+          onChange={() => {}}
+          onError={onError}
+          focusCommandPath="missing"
+          focusRevision={3}
+        />,
+      ),
+    )
+    expect(onError).toHaveBeenCalledTimes(1)
+    expect(onError).toHaveBeenLastCalledWith('引用位置已变化，请重新打开方案详情。')
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={[...body]}
+          onChange={() => {}}
+          onError={onError}
+          focusCommandPath="missing"
+          focusRevision={3}
+        />,
+      ),
+    )
+    expect(onError).toHaveBeenCalledTimes(1)
+  })
+
+  test('opens hostile battle-loss scripts in the common editor and switches modes canonically', async () => {
+    const onChange = vi.fn()
+    function Harness() {
+      const [value, setValue] = useState<
+        'gameOver' | Array<{ kind: 'setFlag'; flag: string; value: boolean }>
+      >([
+        { kind: 'setFlag', flag: 'first', value: true },
+        { kind: 'setFlag', flag: 'second', value: true },
+      ])
+      return (
+        <CanonicalHostileOnLoseEditorV5
+          value={value}
+          focusCommandPath="1"
+          focusRevision={1}
+          onChange={(next) => {
+            onChange(next)
+            setValue(next as typeof value)
+          }}
+        />
+      )
+    }
+
+    await act(async () => root.render(<Harness />))
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('战败后脚本')
+    expect(host.querySelectorAll<HTMLElement>('.cmd-row')[1]?.classList.contains('sel')).toBe(true)
+    expect(host.querySelector('textarea.cf-ta')).toBeNull()
+
+    await act(async () =>
+      [...host.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent === '完成')!
+        .click(),
+    )
+    const mode = host.querySelector<HTMLSelectElement>('[aria-label="战败后的处理"]')!
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(mode, 'gameOver')
+      mode.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(onChange).toHaveBeenLastCalledWith('gameOver')
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
+    expect(
+      [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+        candidate.textContent?.includes('编辑脚本'),
+      )?.disabled,
+    ).toBe(true)
+
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(mode, 'custom')
+      mode.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(onChange).toHaveBeenLastCalledWith([])
+    expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('战败后脚本')
+    expect(host.textContent).toContain('添加第一条指令')
   })
 
   test('keeps raw JSON out of canonical command dialogs', async () => {
@@ -307,6 +447,70 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     expect(host.querySelector('.canonical-stage-tabs')).toBeNull()
     expect(host.textContent).toContain('旗标 body = 真')
     expect(host.textContent).not.toContain('分段剧情')
+  })
+
+  test('selects the referenced execution step without pulling the author back after edits', async () => {
+    const flow: ScriptFlowV5 = {
+      kind: 'stages',
+      initial: 'first',
+      stages: [
+        {
+          id: 'first',
+          body: [{ kind: 'setFlag', flag: 'first', value: true }],
+        },
+        {
+          id: 'second',
+          body: [{ kind: 'setFlag', flag: 'second', value: true }],
+        },
+      ],
+    }
+    const focusLocator = {
+      kind: 'command' as const,
+      owner: {
+        kind: 'entity-behavior' as const,
+        sceneId: 's001',
+        entityId: 'e1',
+        channel: 'trigger' as const,
+        behaviorId: 'talk',
+      },
+      container: { kind: 'step' as const, stepId: 'second', section: 'body' as const },
+      commandPath: '0',
+    }
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptFlowEditorV5
+          flow={flow}
+          focusLocator={focusLocator}
+          focusRevision={1}
+          onChange={() => true}
+        />,
+      ),
+    )
+    expect(
+      host.querySelector<HTMLElement>('.canonical-stage-card.active strong')?.textContent,
+    ).toBe('步骤 2')
+
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>(
+          '.canonical-stage-card:first-child .canonical-stage-card-select',
+        )!
+        .click(),
+    )
+    await act(async () =>
+      root.render(
+        <CanonicalScriptFlowEditorV5
+          flow={structuredClone(flow)}
+          focusLocator={focusLocator}
+          focusRevision={1}
+          onChange={() => true}
+        />,
+      ),
+    )
+    expect(
+      host.querySelector<HTMLElement>('.canonical-stage-card.active strong')?.textContent,
+    ).toBe('步骤 1')
   })
 
   test('rewrites initial and incoming next links atomically when a trigger stage is removed', () => {

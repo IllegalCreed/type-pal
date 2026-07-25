@@ -31,6 +31,8 @@ export function CanonicalSharedScriptTabV5(props: {
   session: ScriptV5EditSession
   context: CanonicalScriptEditorContextV5
   focusScriptId?: string
+  focusCommandPath?: string
+  focusRevision?: number
   onSelectedScriptId?: (id: string | undefined) => void
   onError?: (message: string) => void
 }) {
@@ -186,6 +188,10 @@ export function CanonicalSharedScriptTabV5(props: {
               context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
               onError={props.onError}
               onChange={(body) => update({ body })}
+              focusCommandPath={
+                props.focusScriptId === selectedId ? props.focusCommandPath : undefined
+              }
+              focusRevision={props.focusScriptId === selectedId ? props.focusRevision : undefined}
             />
           </>
         ) : (

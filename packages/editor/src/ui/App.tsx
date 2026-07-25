@@ -87,15 +87,21 @@ import {
   type SceneEntryReferenceEntry,
 } from '../core/script-references.js'
 import {
+  type CanonicalScriptReferenceV5,
+  canonicalScriptReferenceDestinationExistsV5,
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
+  SetEntityHostileOnLoseV5Command,
   SetEntityPageBehaviorV5Command,
 } from '../core/script-v5-editor.js'
 import type { StampSelectionSource } from '../core/stamp-template.js'
 import type { SpriteAutomaticScriptInstanceSite } from '../core/world-sprite-behavior.js'
 import { ActorMode } from './ActorMode.js'
 import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
-import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
+import {
+  CanonicalHostileOnLoseEditorV5,
+  type CanonicalScriptEditorContextV5,
+} from './CanonicalScriptEditorV5.js'
 import { DataMode } from './DataMode.js'
 import { EntityPageAnimationEditor } from './EntityPageAnimationEditor.js'
 import {
@@ -462,6 +468,31 @@ export function App(props: {
     pageIndex: number
     revision: number
   }>()
+  const [canonicalReferenceFocus, setCanonicalReferenceFocus] = useState<{
+    reference: CanonicalScriptReferenceV5
+    revision: number
+  }>()
+  const [itemPrivateScriptFocus, setItemPrivateScriptFocus] = useState<{
+    itemId: string
+    ability: 'use' | 'throw'
+    scriptId: string
+    commandPath: string
+    revision: number
+  }>()
+  const [entityHostileFocus, setEntityHostileFocus] = useState<{
+    sceneId: string
+    entityId: string
+    commandPath: string
+    revision: number
+  }>()
+  const [canonicalPageFocus, setCanonicalPageFocus] = useState<{
+    sceneId: string
+    entityId: string
+    pageId: string
+    channel: 'trigger' | 'auto'
+    behaviorId?: string
+    revision: number
+  }>()
   const selectSceneEntry = (
     selection: Extract<SceneSelection, { kind: 'default-entry' | 'named-entry' }>,
   ): void => {
@@ -594,7 +625,7 @@ export function App(props: {
     [applyEditorLocation, scriptV5State?.sharedScripts, state.scriptIndex?.library],
   )
   const openScriptReference = (id: string, commandPath?: string): void => {
-    if (state.scriptIndex?.library?.[id]) {
+    if (scriptV5State?.sharedScripts[id] || state.scriptIndex?.library?.[id]) {
       if (commandPath)
         setSharedScriptFocus({
           id,
@@ -626,6 +657,147 @@ export function App(props: {
       focusRevision: nextPreciseFocusRevision(),
     })
   }
+  const openCanonicalReference = (reference: CanonicalScriptReferenceV5): void => {
+    if (!scriptV5State || !canonicalScriptReferenceDestinationExistsV5(scriptV5State, reference)) {
+      setWorkspaceNotice({
+        kind: 'error',
+        message: '引用位置已变化，请重新打开方案详情。',
+      })
+      return
+    }
+    const revision = nextPreciseFocusRevision()
+    const locator = reference.locator
+    setWorkspaceNotice(undefined)
+
+    if (locator.kind === 'entity-page') {
+      const targetScene = state.scenes.find((candidate) => candidate.id === locator.sceneId)
+      const targetEntity = targetScene?.entities.find(
+        (candidate) => candidate.id === locator.entityId,
+      )
+      const canonicalEntity = scriptV5State.scenes
+        .find((candidate) => candidate.id === locator.sceneId)
+        ?.entities.find((candidate) => candidate.id === locator.entityId)
+      const pageIndex =
+        canonicalEntity?.pages?.findIndex((candidate) => candidate.id === locator.pageId) ?? -1
+      const page = canonicalEntity?.pages?.[pageIndex]
+      if (!targetScene || !targetEntity || pageIndex < 0 || !page) {
+        setWorkspaceNotice({
+          kind: 'error',
+          message: '引用所在的场景、实体或页面已不存在。',
+        })
+        return
+      }
+      setPlaceSceneId(locator.sceneId)
+      applyEditorLocation(editorLinks.scene(locator.sceneId))
+      setSelected({ kind: 'entity', id: locator.entityId })
+      setTool('select')
+      setInspectorCollapsed(false)
+      setSelectedPageV5(locator.pageId)
+      setScriptV5Channel(locator.channel)
+      setSelectedBehaviorV5(page[locator.channel])
+      setCanonicalPageFocus({
+        sceneId: locator.sceneId,
+        entityId: locator.entityId,
+        pageId: locator.pageId,
+        channel: locator.channel,
+        behaviorId: page[locator.channel],
+        revision,
+      })
+      setEntityPageFocus({
+        sceneId: locator.sceneId,
+        entityId: locator.entityId,
+        pageIndex,
+        revision,
+      })
+      setCanonicalReferenceFocus(undefined)
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
+      return
+    }
+
+    if (locator.kind === 'scene-hook-initial') {
+      setPlaceSceneId(locator.sceneId)
+      applyEditorLocation(editorLinks.scene(locator.sceneId))
+      setSelected(SCENE_SELECTION)
+      setTool('select')
+      setCanonicalReferenceFocus({ reference, revision })
+      setDrawer({
+        open: true,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
+      return
+    }
+
+    const owner = locator.owner
+    if (owner.kind === 'shared-script') {
+      setCanonicalReferenceFocus(undefined)
+      setSharedScriptFocus({
+        id: owner.scriptId,
+        path: locator.commandPath,
+        revision,
+      })
+      applyEditorLocation(editorLinks.sharedScript(owner.scriptId))
+      return
+    }
+    if (owner.kind === 'item-private-script') {
+      setCanonicalReferenceFocus(undefined)
+      setItemPrivateScriptFocus({
+        itemId: owner.itemId,
+        ability: owner.ability,
+        scriptId: owner.scriptId,
+        commandPath: locator.commandPath,
+        revision,
+      })
+      applyEditorLocation(editorLinks.item(owner.itemId))
+      return
+    }
+
+    setPlaceSceneId(owner.sceneId)
+    applyEditorLocation(editorLinks.scene(owner.sceneId))
+    setTool('select')
+    if (owner.kind === 'entity-hostile-on-lose') {
+      setSelected({ kind: 'entity', id: owner.entityId })
+      setInspectorCollapsed(false)
+      setEntityHostileFocus({
+        sceneId: owner.sceneId,
+        entityId: owner.entityId,
+        commandPath: locator.commandPath,
+        revision,
+      })
+      setCanonicalReferenceFocus(undefined)
+      setDrawer({
+        open: false,
+        src: null,
+        internalScriptId: null,
+        commandPath: null,
+        focusRevision: revision,
+      })
+      setWorkspaceNotice({
+        kind: 'info',
+        message: '已打开该实体的“战败后脚本”设置。',
+      })
+      return
+    }
+    setSelected(
+      owner.kind === 'entity-behavior' ? { kind: 'entity', id: owner.entityId } : SCENE_SELECTION,
+    )
+    setCanonicalReferenceFocus({ reference, revision })
+    setDrawer({
+      open: true,
+      src: null,
+      internalScriptId: null,
+      commandPath: null,
+      focusRevision: revision,
+    })
+  }
   const openItemReference = (reference: ItemReference): void => {
     const locator = reference.locator
     if (!locator) {
@@ -636,6 +808,9 @@ export function App(props: {
       return
     }
     switch (locator.kind) {
+      case 'canonical-script':
+        openCanonicalReference(locator.reference)
+        return
       case 'scene-script':
         jumpToEvent(locator.sceneId, locator.sourceKey, locator.commandPath, locator.pageIndex ?? 0)
         return
@@ -913,6 +1088,18 @@ export function App(props: {
     setSelectedPageV5(undefined)
     setSelectedBehaviorV5(undefined)
   }, [selectedScriptOwnerKey])
+  useEffect(() => {
+    if (
+      !canonicalPageFocus ||
+      canonicalPageFocus.sceneId !== scene?.id ||
+      canonicalPageFocus.entityId !== selEntity?.id
+    )
+      return
+    setSelectedPageV5(canonicalPageFocus.pageId)
+    setScriptV5Channel(canonicalPageFocus.channel)
+    setSelectedBehaviorV5(canonicalPageFocus.behaviorId)
+    setCanonicalPageFocus(undefined)
+  }, [canonicalPageFocus, scene?.id, selEntity?.id])
   const selectedNamedEntryId = selected.kind === 'named-entry' ? selected.id : undefined
   const selectedAnchor: SceneAnchorSelection | null =
     selected.kind === 'default-entry'
@@ -1412,6 +1599,11 @@ export function App(props: {
             tabBar={moduleSubnav}
             tab={activeSubpage.dataPage}
             focusObjectId={location.objectId}
+            focusItemPrivateScript={
+              itemPrivateScriptFocus?.itemId === location.objectId
+                ? itemPrivateScriptFocus
+                : undefined
+            }
             focusActionId={location.actionId}
             onObjectFocus={focusCurrentObject}
             spriteDomain={location.domain}
@@ -1765,12 +1957,8 @@ export function App(props: {
                   }}
                   editorContext={canonicalScriptEditorContextV5}
                   onDispatch={(command) => scriptV5Session.dispatch(command)}
-                  onOpenReference={(path) =>
-                    setWorkspaceNotice({
-                      kind: 'info',
-                      message: `canonical 引用：${path}`,
-                    })
-                  }
+                  onOpenReference={openCanonicalReference}
+                  focusReference={canonicalReferenceFocus}
                   onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
                   onClose={() =>
                     setDrawer({
@@ -1889,6 +2077,40 @@ export function App(props: {
                   />
                   {scriptV5Session && scriptV5State && !drawer.open ? (
                     <div className="section script-v5-entity-section">
+                      {canonicalEntityV5?.hostile ? (
+                        <CanonicalHostileOnLoseEditorV5
+                          value={canonicalEntityV5.hostile.onLose}
+                          context={
+                            canonicalScriptEditorContextV5
+                              ? {
+                                  ...canonicalScriptEditorContextV5,
+                                  currentEntityId: selEntity.id,
+                                }
+                              : undefined
+                          }
+                          focusCommandPath={
+                            entityHostileFocus?.sceneId === scene.id &&
+                            entityHostileFocus.entityId === selEntity.id
+                              ? entityHostileFocus.commandPath
+                              : undefined
+                          }
+                          focusRevision={
+                            entityHostileFocus?.sceneId === scene.id &&
+                            entityHostileFocus.entityId === selEntity.id
+                              ? entityHostileFocus.revision
+                              : undefined
+                          }
+                          onChange={(onLose) =>
+                            scriptV5Session.dispatch(
+                              new SetEntityHostileOnLoseV5Command(
+                                { scene: scene.id, entity: selEntity.id },
+                                onLose,
+                              ),
+                            )
+                          }
+                          onError={(message) => setWorkspaceNotice({ kind: 'error', message })}
+                        />
+                      ) : null}
                       {canonicalEntityV5 && canonicalPageV5 ? (
                         <div className="script-v5-page-binding">
                           <label>
@@ -1969,12 +2191,7 @@ export function App(props: {
                         onSelectBehavior={setSelectedBehaviorV5}
                         onDispatch={(command) => scriptV5Session.dispatch(command)}
                         editorContext={canonicalScriptEditorContextV5}
-                        onOpenReference={(path) =>
-                          setWorkspaceNotice({
-                            kind: 'info',
-                            message: `canonical 引用：${path}`,
-                          })
-                        }
+                        onOpenReference={openCanonicalReference}
                         onOpenFlow={(behaviorId) =>
                           setWorkspaceNotice({
                             kind: 'info',
@@ -2748,36 +2965,40 @@ function EntityInspector(props: {
                 }
               />
             </div>
-            <div className="field">
-              <span className="field-label">战败</span>
-              <select
-                className="in"
-                value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
-                onChange={(e) =>
-                  setHostile({ onLose: e.target.value === 'custom' ? [] : undefined })
-                }
-              >
-                <option value="">游戏结束(渐红读档,默认)</option>
-                <option value="custom">自定义指令(剧情战输了也继续)</option>
-              </select>
-            </div>
-            {Array.isArray(entity.hostile.onLose) && (
-              <textarea
-                className="in cf-ta"
-                key={`${entity.id}-onlose`}
-                defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
-                placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
-                onBlur={(e) => {
-                  try {
-                    const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
-                    if (Array.isArray(v)) setHostile({ onLose: v })
-                  } catch {
-                    /* 解析失败不落盘;失焦保持原文供修 */
-                  }
-                }}
-                spellCheck={false}
-              />
-            )}
+            {!canonicalScriptV5 ? (
+              <>
+                <div className="field">
+                  <span className="field-label">战败</span>
+                  <select
+                    className="in"
+                    value={Array.isArray(entity.hostile.onLose) ? 'custom' : ''}
+                    onChange={(e) =>
+                      setHostile({ onLose: e.target.value === 'custom' ? [] : undefined })
+                    }
+                  >
+                    <option value="">游戏结束(渐红读档,默认)</option>
+                    <option value="custom">自定义指令(剧情战输了也继续)</option>
+                  </select>
+                </div>
+                {Array.isArray(entity.hostile.onLose) ? (
+                  <textarea
+                    className="in cf-ta"
+                    key={`${entity.id}-onlose`}
+                    defaultValue={JSON.stringify(entity.hostile.onLose, null, 2)}
+                    placeholder='[{ "kind": "dialog", ... }] — Command[] JSON'
+                    onBlur={(e) => {
+                      try {
+                        const v = JSON.parse(e.target.value) as HostileBehavior['onLose']
+                        if (Array.isArray(v)) setHostile({ onLose: v })
+                      } catch {
+                        /* 解析失败不落盘;失焦保持原文供修 */
+                      }
+                    }}
+                    spellCheck={false}
+                  />
+                ) : null}
+              </>
+            ) : null}
           </>
         )}
       </div>

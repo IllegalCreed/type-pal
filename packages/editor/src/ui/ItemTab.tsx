@@ -548,6 +548,13 @@ export function ItemTab(props: {
   onOpenItemReference?: (reference: ItemReference) => void
   onOpenProjectIssues?: () => void
   focusObjectId?: string
+  focusPrivateScript?: {
+    itemId: string
+    ability: 'use' | 'throw'
+    scriptId: string
+    commandPath: string
+    revision: number
+  }
   onObjectFocus?: (id: string | undefined) => void
   onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
   tabBar?: React.ReactNode
@@ -575,6 +582,7 @@ export function ItemTab(props: {
     onOpenItemReference,
     onOpenProjectIssues,
     focusObjectId,
+    focusPrivateScript,
     onObjectFocus,
     onStatusNotice,
     tabBar,
@@ -589,8 +597,12 @@ export function ItemTab(props: {
   const [descriptionDraft, setDescriptionDraft] = useState('')
   const iconInputRef = useRef<HTMLInputElement>(null)
   const deletedSelectionRef = useRef<{ id: string; sawAbsent: boolean } | undefined>(undefined)
-  const referenceMap = itemReferenceMap(session.getState())
-  const diagnostics = session.getState().migrationDiagnostics?.diagnostics ?? []
+  const editorState = session.getState()
+  const referenceMap = useMemo(
+    () => itemReferenceMap(editorState, scriptV5?.state),
+    [editorState, scriptV5?.state],
+  )
+  const diagnostics = editorState.migrationDiagnostics?.diagnostics ?? []
   const pendingIds = new Set(
     diagnostics
       .filter((diagnostic) => {
@@ -642,7 +654,7 @@ export function ItemTab(props: {
   })()
   const item = items.find((candidate) => candidate.id === selId)
   const itemReferences = item ? (referenceMap.get(item.id) ?? []) : []
-  const blockers = item ? blockingItemReferences(session.getState(), item.id) : []
+  const blockers = itemReferences.filter((reference) => reference.ownerItemId !== item?.id)
   const itemDiagnostics = item
     ? diagnostics.filter(
         (diagnostic) =>
@@ -745,6 +757,18 @@ export function ItemTab(props: {
                   label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
                   body: effect.script.body,
                   editorContext: canonicalScriptEditorContextV5,
+                  focusCommandPath:
+                    focusPrivateScript?.itemId === canonicalItemV5?.id &&
+                    focusPrivateScript?.ability === slot &&
+                    focusPrivateScript?.scriptId === effect.script.id
+                      ? focusPrivateScript?.commandPath
+                      : undefined,
+                  focusRevision:
+                    focusPrivateScript?.itemId === canonicalItemV5?.id &&
+                    focusPrivateScript?.ability === slot &&
+                    focusPrivateScript?.scriptId === effect.script.id
+                      ? focusPrivateScript?.revision
+                      : undefined,
                   onChange: (body: typeof effect.script.body) =>
                     scriptV5?.session.dispatch(
                       new SetItemPrivateScriptBodyV5Command(canonicalItemV5!.id, slot, index, body),
@@ -789,7 +813,11 @@ export function ItemTab(props: {
   }
   const deleteItem = (): void => {
     if (!item) return
-    const currentBlockers = blockingItemReferences(session.getState(), item.id)
+    const currentBlockers = blockingItemReferences(
+      session.getState(),
+      item.id,
+      scriptV5?.session.getState(),
+    )
     if (currentBlockers.length) {
       setInspectorTab('references')
       setConfirmDeleteId(undefined)
@@ -803,7 +831,9 @@ export function ItemTab(props: {
     const next = items[index + 1]?.id ?? items[index - 1]?.id ?? ''
     try {
       deletedSelectionRef.current = { id: item.id, sawAbsent: false }
-      session.dispatch(new DeleteItemCommand(item.id))
+      session.dispatch(
+        new DeleteItemCommand(item.id, scriptV5 ? () => scriptV5.session.getState() : undefined),
+      )
       setSelId(next)
       setConfirmDeleteId(undefined)
       onObjectFocus?.(next || undefined)

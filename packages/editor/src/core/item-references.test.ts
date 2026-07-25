@@ -1,7 +1,12 @@
 import type { Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
-import { blockingItemReferences, collectItemReferences } from './item-references.js'
+import {
+  blockingItemReferences,
+  collectCanonicalItemReferencesV5,
+  collectItemReferences,
+} from './item-references.js'
+import type { ScriptEditorStateV5 } from './script-v5-editor.js'
 
 function state(): EditorState {
   return {
@@ -757,5 +762,239 @@ describe('collectItemReferences', () => {
         (reference) => reference.ownerItemId === 'owner',
       ),
     ).toBe(true)
+  })
+
+  test('canonical PAL 天书引用保留作者位置与可跳转 locator', () => {
+    const filler = (count: number) =>
+      Array.from({ length: count }, (_, index) => ({
+        kind: 'setFlag' as const,
+        flag: `filler-${index}`,
+        value: true,
+      }))
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [
+        {
+          id: 's151',
+          mapId: 'm151',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+          hooks: {
+            onEnter: {
+              initial: 'default',
+              variants: {
+                default: {
+                  label: '默认进场行为',
+                  order: 0,
+                  flow: {
+                    kind: 'stages',
+                    initial: 'initial',
+                    stages: [
+                      {
+                        id: 'initial',
+                        body: [...filler(60), { kind: 'loseItem', itemId: '290', count: 1 }],
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: 's154',
+          mapId: 'm154',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e2493',
+              sprite: 'npc',
+              pos: { col: 0, row: 0, height: 0 },
+              behaviors: {
+                trigger: {
+                  'legacy-001': {
+                    label: '触发行为 1',
+                    order: 0,
+                    flow: {
+                      kind: 'stages',
+                      initial: 'initial',
+                      stages: [
+                        {
+                          id: 'initial',
+                          body: [...filler(40), { kind: 'giveItem', itemId: '290', count: 1 }],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      items: [],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+
+    const references = collectCanonicalItemReferencesV5(canonical).filter(
+      (reference) => reference.itemId === '290',
+    )
+    expect(references).toHaveLength(2)
+    expect(references).toEqual([
+      expect.objectContaining({
+        access: 'lose',
+        source: 'scene',
+        label: '场景 s151 / 进场脚本“默认进场行为” / 步骤 1 / 脚本正文 / 第 61 条指令',
+        detail: '失去 ×1',
+        locator: {
+          kind: 'canonical-script',
+          reference: expect.objectContaining({
+            locator: expect.objectContaining({
+              owner: {
+                kind: 'scene-hook',
+                sceneId: 's151',
+                slot: 'onEnter',
+                hookId: 'default',
+              },
+              container: { kind: 'step', stepId: 'initial', section: 'body' },
+              commandPath: '60',
+            }),
+          }),
+        },
+      }),
+      expect.objectContaining({
+        access: 'reward',
+        source: 'scene',
+        label: '场景 s154 / 实体 e2493 / 交互脚本“触发行为 1” / 步骤 1 / 脚本正文 / 第 41 条指令',
+        detail: '获得 ×1',
+        locator: {
+          kind: 'canonical-script',
+          reference: expect.objectContaining({
+            locator: expect.objectContaining({
+              owner: {
+                kind: 'entity-behavior',
+                sceneId: 's154',
+                entityId: 'e2493',
+                channel: 'trigger',
+                behaviorId: 'legacy-001',
+              },
+              container: { kind: 'step', stepId: 'initial', section: 'body' },
+              commandPath: '40',
+            }),
+          }),
+        },
+      }),
+    ])
+  })
+
+  test('canonical 连续流程条件参与删除守卫，物品私有脚本自有边不阻止自删除', () => {
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [
+        {
+          id: 's',
+          mapId: 'm',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e',
+              sprite: 'npc',
+              pos: { col: 0, row: 0, height: 0 },
+              behaviors: {
+                trigger: {
+                  talk: {
+                    label: '交谈',
+                    order: 0,
+                    flow: {
+                      kind: 'stateMachine',
+                      machine: {
+                        id: 'dialog',
+                        label: '连续交谈',
+                        initial: 'start',
+                        states: {
+                          start: {
+                            label: '开始',
+                            body: [{ kind: 'confirm', id: 'choice', onNo: [] }],
+                            next: {
+                              kind: 'commandOutcome',
+                              commandId: 'choice',
+                              command: 'confirm',
+                              outcome: 'no',
+                              then: {
+                                kind: 'branch',
+                                cond: { kind: 'flag', flag: 'outer', is: true },
+                                then: {
+                                  kind: 'branch',
+                                  cond: { kind: 'hasItem', itemId: 'target' },
+                                  then: { kind: 'stay' },
+                                  else: { kind: 'stay' },
+                                },
+                                else: { kind: 'stay' },
+                              },
+                              else: { kind: 'stay' },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      items: [
+        {
+          id: 'target',
+          name: '目标',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: {
+                  id: 'use',
+                  body: [{ kind: 'giveItem', itemId: 'target' }],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+
+    const references = collectCanonicalItemReferencesV5(canonical).filter(
+      (reference) => reference.itemId === 'target',
+    )
+    expect(references).toHaveLength(2)
+    expect(references).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          access: 'read',
+          label: expect.stringContaining('连续流程“连续交谈”'),
+          unavailableReason: expect.stringContaining('状态去向条件'),
+          where: expect.stringContaining('.next.then.then.cond'),
+        }),
+        expect.objectContaining({
+          access: 'reward',
+          ownerItemId: 'target',
+          locator: expect.objectContaining({ kind: 'canonical-script' }),
+        }),
+      ]),
+    )
+    expect(references.find((reference) => reference.access === 'read')?.locator).toBeUndefined()
+    expect(
+      blockingItemReferences(state(), 'target', canonical).some(
+        (reference) =>
+          reference.ownerItemId === 'target' && reference.locator?.kind === 'canonical-script',
+      ),
+    ).toBe(false)
   })
 })

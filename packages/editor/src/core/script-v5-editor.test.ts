@@ -18,11 +18,15 @@ import {
   DeleteEntityBehaviorV5Command,
   DeleteSceneHookV5Command,
   DeleteSharedScriptV5Command,
+  describeCanonicalScriptReferenceV5,
   presentSelectionV5,
   RenameEntityBehaviorV5Command,
   RenameSceneHookV5Command,
+  resolveCanonicalScriptCommandV5,
+  SaveSceneHookDetailsV5Command,
   type ScriptEditorStateV5,
   ScriptV5EditSession,
+  SetEntityHostileOnLoseV5Command,
   SetEntityPageBehaviorV5Command,
   SetItemPrivateScriptBodyV5Command,
   SetSceneHookInitialV5Command,
@@ -253,6 +257,127 @@ describe('canonical script v5 editor commands', () => {
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('greet')
   })
 
+  test('tracks and rewrites references inside an entity battle-loss script', () => {
+    const state = editorState()
+    state.scenes[0]!.entities[0]!.hostile = {
+      team: 1,
+      onLose: [selectionCommand('talk')],
+    }
+    const references = behaviorReferencesV5(state, target, 'trigger', 'talk')
+    const hostileReference = references.find(
+      (reference) =>
+        reference.kind === 'command' && reference.locator.owner.kind === 'entity-hostile-on-lose',
+    )
+    expect(hostileReference).toMatchObject({
+      kind: 'command',
+      locator: {
+        kind: 'command',
+        owner: {
+          kind: 'entity-hostile-on-lose',
+          sceneId: 's001',
+          entityId: 'e1',
+        },
+        container: { kind: 'body' },
+        commandPath: '0',
+      },
+    })
+    expect(describeCanonicalScriptReferenceV5(state, hostileReference!)).toBe(
+      '场景 s001 / 实体 e1 / 战败后脚本 / 第 1 条指令「切换实体脚本方案」',
+    )
+
+    const session = new ScriptV5EditSession(state)
+    session.dispatch(new RenameEntityBehaviorV5Command(target, 'trigger', 'talk', 'greet'))
+    expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toMatchObject([
+      { selection: { kind: 'use', value: 'greet' } },
+    ])
+  })
+
+  test('edits the canonical battle-loss script through one undoable command', () => {
+    const state = editorState()
+    state.scenes[0]!.entities[0]!.hostile = {
+      team: 1,
+      onLose: [selectionCommand('talk')],
+    }
+    const session = new ScriptV5EditSession(state)
+
+    session.dispatch(
+      new SetEntityHostileOnLoseV5Command(target, [
+        { kind: 'setFlag', flag: 'battle-lost', value: true },
+      ]),
+    )
+    expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toEqual([
+      { kind: 'setFlag', flag: 'battle-lost', value: true },
+    ])
+    expect(session.undo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toMatchObject([
+      { kind: 'selectEntityBehavior' },
+    ])
+    expect(session.redo()).toBe(true)
+    expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toEqual([
+      { kind: 'setFlag', flag: 'battle-lost', value: true },
+    ])
+    session.dispatch(new SetEntityHostileOnLoseV5Command(target, 'gameOver'))
+    expect(session.getState().scenes[0]!.entities[0]!.hostile?.onLose).toBe('gameOver')
+  })
+
+  test('locates state-machine commands and rejects an invalid command path', () => {
+    const state = editorState()
+    state.sharedScripts['shared/user/select-talk'] = {
+      name: '连续剧情',
+      self: 'none',
+      body: [],
+    }
+    state.scenes[0]!.entities[0]!.behaviors!.trigger!.source = {
+      label: '连续来源',
+      order: 1,
+      flow: {
+        kind: 'stateMachine',
+        machine: {
+          id: 'conversation',
+          label: '连续交谈',
+          initial: 'opening',
+          states: {
+            opening: {
+              label: '开场',
+              body: [selectionCommand('talk')],
+              next: { kind: 'stay' },
+            },
+          },
+        },
+      },
+    }
+    const reference = behaviorReferencesV5(state, target, 'trigger', 'talk').find(
+      (candidate) =>
+        candidate.kind === 'command' &&
+        candidate.locator.owner.kind === 'entity-behavior' &&
+        candidate.locator.owner.behaviorId === 'source',
+    )
+    expect(reference).toMatchObject({
+      locator: {
+        container: {
+          kind: 'state',
+          machineId: 'conversation',
+          stateId: 'opening',
+          section: 'body',
+        },
+        commandPath: '0',
+      },
+    })
+    expect(describeCanonicalScriptReferenceV5(state, reference!)).toBe(
+      '场景 s001 / 实体 e1 / 交互脚本“连续来源” / 连续流程“连续交谈” / 状态“开场” / 脚本正文 / 第 1 条指令「切换实体脚本方案」',
+    )
+    if (reference?.kind !== 'command') throw new Error('missing command reference')
+    expect(resolveCanonicalScriptCommandV5(state, reference.locator)?.kind).toBe(
+      'selectEntityBehavior',
+    )
+    expect(
+      resolveCanonicalScriptCommandV5(state, {
+        ...reference.locator,
+        commandPath: 'not-a-command-path',
+      }),
+    ).toBeUndefined()
+  })
+
   test('does not expose migration metadata as an authoring reference', () => {
     const migratedState = editorState([
       sidecar({
@@ -277,19 +402,53 @@ describe('canonical script v5 editor commands', () => {
     const session = new ScriptV5EditSession(migratedState)
     session.dispatch(new RenameEntityBehaviorV5Command(target, 'trigger', 'talk', 'greet'))
     expect(Object.keys(triggerRegistry(session.getState()))).toEqual(['greet'])
-    expect(behaviorReferencesV5(session.getState(), target, 'trigger', 'greet')).toEqual([
+    const references = behaviorReferencesV5(session.getState(), target, 'trigger', 'greet')
+    expect(references).toEqual([
       {
         kind: 'page',
         path: 'scenes.s001.entities.e1.pages.default.trigger',
+        locator: {
+          kind: 'entity-page',
+          sceneId: 's001',
+          entityId: 'e1',
+          pageId: 'default',
+          channel: 'trigger',
+        },
       },
       {
         kind: 'command',
         path: 'items.private.use.effects[0].script.body[0]',
+        locator: {
+          kind: 'command',
+          owner: {
+            kind: 'item-private-script',
+            itemId: 'private',
+            ability: 'use',
+            scriptId: 'use',
+          },
+          container: { kind: 'body' },
+          commandPath: '0',
+        },
       },
       {
         kind: 'command',
         path: 'sharedScripts.shared/user/select-talk.body[0].then[0]',
+        locator: {
+          kind: 'command',
+          owner: { kind: 'shared-script', scriptId: 'shared/user/select-talk' },
+          container: { kind: 'body' },
+          commandPath: '0/then/0',
+        },
       },
+    ])
+    expect(
+      references.map((reference) =>
+        describeCanonicalScriptReferenceV5(session.getState(), reference),
+      ),
+    ).toEqual([
+      '场景 s001 / 实体 e1 / 页面“默认” / 使用交互脚本',
+      '物品“私有脚本物品”（private） / 使用脚本 / 第 1 条指令「切换实体脚本方案」',
+      '可复用脚本“选择交谈” / 第 1 条指令 / 条件成立 / 第 1 条指令「切换实体脚本方案」',
     ])
     expect(() =>
       session.dispatch(new DeleteEntityBehaviorV5Command(target, 'trigger', 'greet')),
@@ -509,10 +668,22 @@ describe('canonical script v5 editor commands', () => {
       {
         kind: 'initial',
         path: 'scenes.s001.hooks.onEnter.initial',
+        locator: {
+          kind: 'scene-hook-initial',
+          sceneId: 's001',
+          slot: 'onEnter',
+          hookId: 'alternate',
+        },
       },
       {
         kind: 'command',
         path: 'sharedScripts.shared/user/select-talk.body[0]',
+        locator: {
+          kind: 'command',
+          owner: { kind: 'shared-script', scriptId: 'shared/user/select-talk' },
+          container: { kind: 'body' },
+          commandPath: '0',
+        },
       },
     ])
 
@@ -532,6 +703,33 @@ describe('canonical script v5 editor commands', () => {
     expect(() =>
       session.dispatch(new DeleteSceneHookV5Command('s001', 'onEnter', 'story-entry')),
     ).toThrow(/仍有 .*引用/)
+  })
+
+  test('saves a scene Hook name and default state as one undo unit', () => {
+    const setup = new ScriptV5EditSession(editorState())
+    setup.dispatch(new AddSceneHookV5Command('s001', 'onEnter', 'default', hook('默认进场')))
+    setup.dispatch(new AddSceneHookV5Command('s001', 'onEnter', 'alternate', hook('备用进场')))
+    const session = new ScriptV5EditSession(setup.getState())
+
+    session.dispatch(
+      new SaveSceneHookDetailsV5Command('s001', 'onEnter', 'alternate', '第二次进场', true),
+    )
+    expect(session.getState().scenes[0]!.hooks!.onEnter).toMatchObject({
+      initial: 'alternate',
+      variants: { alternate: { label: '第二次进场' } },
+    })
+
+    expect(session.undo()).toBe(true)
+    expect(session.canUndo()).toBe(false)
+    expect(session.getState().scenes[0]!.hooks!.onEnter).toMatchObject({
+      initial: 'default',
+      variants: { alternate: { label: '备用进场' } },
+    })
+    expect(session.redo()).toBe(true)
+    expect(session.getState().scenes[0]!.hooks!.onEnter).toMatchObject({
+      initial: 'alternate',
+      variants: { alternate: { label: '第二次进场' } },
+    })
   })
 
   test('selects page behaviors by stable id and validates the local registry', () => {

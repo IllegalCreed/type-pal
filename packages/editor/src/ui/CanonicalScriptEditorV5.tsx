@@ -7,6 +7,7 @@ import type {
   BattleSpriteDef,
   Command,
   EntityAddress,
+  HostileBehaviorV5,
   Locale,
   SceneDef,
   ScriptCondition,
@@ -17,7 +18,7 @@ import type {
 } from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactNode } from 'react'
-import { useEffect, useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   type AuthorCommandChildKeyV5,
   type AuthorCommandPathV5,
@@ -31,7 +32,11 @@ import {
 } from '../core/author-command-edit-v5.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js'
-import type { ScriptEditorStateV5 } from '../core/script-v5-editor.js'
+import type {
+  CanonicalScriptReferenceV5,
+  ScriptEditorStateV5,
+  ScriptV5CommandLocatorV5,
+} from '../core/script-v5-editor.js'
 import { stateTransitionExecutionLabelV5 } from '../core/script-v5-editor.js'
 import { CommandForm } from './CommandForm.js'
 import { musicAssets } from './MusicPicker.js'
@@ -65,7 +70,7 @@ export interface CanonicalScriptEditorContextV5 {
 export interface ScriptSchemeReferencePresentationV5 {
   key: string
   label: string
-  path: string
+  reference: CanonicalScriptReferenceV5
 }
 
 export function nextGeneratedScriptSchemeIdV5(ids: readonly string[], prefix = 'scheme'): string {
@@ -212,22 +217,35 @@ export function ScriptSchemeDetailsDialogV5(props: {
   selectedName: string
   references: readonly ScriptSchemeReferencePresentationV5[]
   onClose: () => void
-  onRename: (name: string) => boolean
-  onCopy: () => void
+  onSave: (name: string, isDefault: boolean | undefined) => boolean
   onDelete: () => void
   defaultControl?: {
     isDefault: boolean
     activeCopy: string
     inactiveCopy: string
-    onSetDefault: () => void
-    onClearDefault: () => void
   }
-  onOpenReference?: (path: string) => void
+  onOpenReference?: (reference: CanonicalScriptReferenceV5) => void
 }) {
   const [nameDraft, setNameDraft] = useState(props.selectedName)
+  const [defaultDraft, setDefaultDraft] = useState(props.defaultControl?.isDefault ?? false)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => setNameDraft(props.selectedName), [props.selectedName])
+  useEffect(
+    () => setDefaultDraft(props.defaultControl?.isDefault ?? false),
+    [props.defaultControl?.isDefault],
+  )
+
+  const save = (): void => {
+    const name = nameDraft.trim()
+    if (!name) return
+    const defaultValue = props.defaultControl ? defaultDraft : undefined
+    const unchanged =
+      name === props.selectedName &&
+      (!props.defaultControl || defaultDraft === props.defaultControl.isDefault)
+    if (!unchanged && !props.onSave(name, defaultValue)) return
+    props.onClose()
+  }
 
   return (
     <CanonicalScriptDialogV5
@@ -235,9 +253,44 @@ export function ScriptSchemeDetailsDialogV5(props: {
       className="script-scheme-details-dialog"
       onClose={props.onClose}
       footer={
-        <button type="button" className="btn" onClick={props.onClose}>
-          关闭
-        </button>
+        confirmDelete ? (
+          <>
+            <span className="script-scheme-footer-warning">此操作会删除全部步骤和正文。</span>
+            <span className="spacer" />
+            <button type="button" className="btn" onClick={() => setConfirmDelete(false)}>
+              取消删除
+            </button>
+            <button type="button" className="btn danger" onClick={props.onDelete}>
+              确认删除方案
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="btn danger script-scheme-delete"
+              disabled={props.references.length > 0}
+              title={
+                props.references.length ? '这套方案仍在使用中，请先处理上方列出的引用。' : undefined
+              }
+              onClick={() => setConfirmDelete(true)}
+            >
+              删除方案…
+            </button>
+            <span className="spacer" />
+            <button type="button" className="btn" onClick={props.onClose}>
+              取消
+            </button>
+            <button
+              type="button"
+              className="btn primary"
+              disabled={!nameDraft.trim()}
+              onClick={save}
+            >
+              保存
+            </button>
+          </>
+        )
       }
     >
       <div className="canonical-modal-context">
@@ -250,59 +303,39 @@ export function ScriptSchemeDetailsDialogV5(props: {
       <section className="script-scheme-details-section">
         <label>
           <span>方案名称</span>
-          <div className="script-v5-inline-edit">
-            <input
-              className="in"
-              name="scheme-name"
-              autoComplete="off"
-              aria-label="方案名称"
-              value={nameDraft}
-              onChange={(event) => setNameDraft(event.target.value)}
-            />
-            <button
-              type="button"
-              disabled={!nameDraft.trim() || nameDraft.trim() === props.selectedName}
-              onClick={() => props.onRename(nameDraft.trim())}
-            >
-              保存名称
-            </button>
-          </div>
+          <input
+            className="in"
+            name="scheme-name"
+            autoComplete="off"
+            aria-label="方案名称"
+            value={nameDraft}
+            onChange={(event) => setNameDraft(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter') return
+              event.preventDefault()
+              save()
+            }}
+          />
         </label>
 
         {props.defaultControl ? (
           <div className="script-scheme-default-control">
-            <div>
-              <strong>
-                {props.defaultControl.isDefault ? '当前是默认方案' : '当前不是默认方案'}
-              </strong>
+            <strong>{defaultDraft ? '默认方案' : '非默认方案'}</strong>
+            <div className="script-scheme-default-action">
               <CanonicalHelpTipV5 label="默认方案">
-                {props.defaultControl.isDefault
-                  ? props.defaultControl.activeCopy
-                  : props.defaultControl.inactiveCopy}
+                {defaultDraft ? props.defaultControl.activeCopy : props.defaultControl.inactiveCopy}
               </CanonicalHelpTipV5>
+              <button
+                type="button"
+                className="mini-txt"
+                aria-pressed={defaultDraft}
+                onClick={() => setDefaultDraft((current) => !current)}
+              >
+                {defaultDraft ? '取消默认' : '设为默认方案'}
+              </button>
             </div>
-            <button
-              type="button"
-              className="mini-txt"
-              onClick={
-                props.defaultControl.isDefault
-                  ? props.defaultControl.onClearDefault
-                  : props.defaultControl.onSetDefault
-              }
-            >
-              {props.defaultControl.isDefault ? '取消默认' : '设为默认方案'}
-            </button>
           </div>
         ) : null}
-
-        <div className="script-scheme-copy-row">
-          <button type="button" className="pv-btn script-scheme-copy" onClick={props.onCopy}>
-            复制此方案
-          </button>
-          <CanonicalHelpTipV5 label="复制方案">
-            创建一套内容完全相同的新方案。复制后，两套方案可以分别编辑，互不影响。
-          </CanonicalHelpTipV5>
-        </div>
 
         <div className="script-scheme-usage">
           <header>
@@ -318,8 +351,13 @@ export function ScriptSchemeDetailsDialogV5(props: {
                 {props.references.map((reference) => (
                   <li key={reference.key}>
                     {props.onOpenReference ? (
-                      <button type="button" onClick={() => props.onOpenReference?.(reference.path)}>
-                        打开：{reference.label}
+                      <button
+                        type="button"
+                        aria-label={`打开引用：${reference.label}`}
+                        onClick={() => props.onOpenReference?.(reference.reference)}
+                      >
+                        <span>{reference.label}</span>
+                        <small aria-hidden="true">打开 ↗</small>
                       </button>
                     ) : (
                       <span>{reference.label}</span>
@@ -338,25 +376,8 @@ export function ScriptSchemeDetailsDialogV5(props: {
             <p>
               删除“{props.selectedName}”及其全部执行步骤和正文？删除后仍可使用编辑器的撤销恢复。
             </p>
-            <div>
-              <button type="button" onClick={() => setConfirmDelete(false)}>
-                取消
-              </button>
-              <button type="button" className="danger" onClick={props.onDelete}>
-                确认删除方案
-              </button>
-            </div>
           </div>
-        ) : (
-          <button
-            type="button"
-            className="danger script-scheme-delete"
-            disabled={props.references.length > 0}
-            onClick={() => setConfirmDelete(true)}
-          >
-            删除此方案…
-          </button>
-        )}
+        ) : null}
       </section>
     </CanonicalScriptDialogV5>
   )
@@ -818,6 +839,8 @@ function CommandRowsV5(props: {
             {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 与既有 ScriptTree 保持同一行级交互。 */}
             <div
               className={`cmd-row${props.selectedPath === path ? ' sel' : ''}`}
+              data-command-path={path}
+              tabIndex={-1}
               onClick={() => props.onSelect(path)}
               onDoubleClick={() => props.onEdit(path)}
             >
@@ -2751,7 +2774,11 @@ export function CanonicalScriptBodyEditorV5(props: {
   context?: CanonicalScriptEditorContextV5
   onError?: (message: string) => void
   label?: string
+  focusCommandPath?: string
+  focusRevision?: number
 }) {
+  const editorRef = useRef<HTMLElement>(null)
+  const lastAppliedFocusRevisionRef = useRef<number | undefined>(undefined)
   const [selectedPath, setSelectedPath] = useState<string>()
   const [editingPath, setEditingPath] = useState<string>()
   const [insertPath, setInsertPath] = useState<string>()
@@ -2778,6 +2805,31 @@ export function CanonicalScriptBodyEditorV5(props: {
       setEditingPath(undefined)
   }, [props.body, selectedPath, editingPath])
 
+  useEffect(() => {
+    if (props.focusRevision === undefined || props.focusCommandPath === undefined) return
+    if (lastAppliedFocusRevisionRef.current === props.focusRevision) return
+    lastAppliedFocusRevisionRef.current = props.focusRevision
+    let command: AuthorCommandV5 | undefined
+    try {
+      command = getAuthorCommandAtV5(props.body, parseAuthorCommandPathV5(props.focusCommandPath))
+    } catch {
+      command = undefined
+    }
+    if (!command) {
+      props.onError?.('引用位置已变化，请重新打开方案详情。')
+      return
+    }
+    setSelectedPath(props.focusCommandPath)
+    const frame = window.requestAnimationFrame(() => {
+      const row = [
+        ...(editorRef.current?.querySelectorAll<HTMLElement>('[data-command-path]') ?? []),
+      ].find((candidate) => candidate.dataset.commandPath === props.focusCommandPath)
+      row?.scrollIntoView({ block: 'center', inline: 'nearest' })
+      row?.focus({ preventScroll: true })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [props.body, props.focusCommandPath, props.focusRevision, props.onError])
+
   const commit = (body: AuthorCommandV5[]): boolean => {
     try {
       props.onChange(body)
@@ -2789,7 +2841,11 @@ export function CanonicalScriptBodyEditorV5(props: {
   }
 
   return (
-    <section className="canonical-script-editor" aria-label={props.label ?? '脚本正文编辑器'}>
+    <section
+      ref={editorRef}
+      className="canonical-script-editor"
+      aria-label={props.label ?? '脚本正文编辑器'}
+    >
       <header className="canonical-script-editor-heading">
         <strong>{props.label ?? '脚本正文'}</strong>
         <div>
@@ -2925,6 +2981,84 @@ export function CanonicalScriptBodyEditorV5(props: {
         </CanonicalScriptDialogV5>
       ) : null}
     </section>
+  )
+}
+
+export function CanonicalHostileOnLoseEditorV5(props: {
+  value: HostileBehaviorV5['onLose']
+  onChange: (value: HostileBehaviorV5['onLose']) => void
+  context?: CanonicalScriptEditorContextV5
+  focusCommandPath?: string
+  focusRevision?: number
+  onError?: (message: string) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const body = Array.isArray(props.value) ? props.value : undefined
+  const custom = body !== undefined
+
+  useEffect(() => {
+    if (props.focusRevision !== undefined && custom) setOpen(true)
+  }, [custom, props.focusRevision])
+
+  return (
+    <>
+      <section className="canonical-hostile-script">
+        <header>
+          <strong>战败后脚本</strong>
+          <span>{body ? `${body.length} 条指令` : '游戏结束'}</span>
+        </header>
+        <div>
+          <select
+            className="in"
+            aria-label="战败后的处理"
+            value={custom ? 'custom' : 'gameOver'}
+            onChange={(event) => {
+              if (event.target.value === 'custom') {
+                props.onChange([])
+                setOpen(true)
+                return
+              }
+              props.onChange('gameOver')
+              setOpen(false)
+            }}
+          >
+            <option value="gameOver">游戏结束（默认）</option>
+            <option value="custom">运行自定义脚本</option>
+          </select>
+          <button
+            type="button"
+            className="mini-txt"
+            disabled={!custom}
+            onClick={() => setOpen(true)}
+          >
+            编辑脚本…
+          </button>
+        </div>
+      </section>
+
+      {open && body ? (
+        <CanonicalScriptDialogV5
+          title="战败后脚本"
+          className="canonical-hostile-script-dialog"
+          onClose={() => setOpen(false)}
+          footer={
+            <button type="button" className="btn primary" onClick={() => setOpen(false)}>
+              完成
+            </button>
+          }
+        >
+          <CanonicalScriptBodyEditorV5
+            label="战败后脚本正文"
+            body={body}
+            context={props.context}
+            focusCommandPath={props.focusCommandPath}
+            focusRevision={props.focusRevision}
+            onError={props.onError}
+            onChange={props.onChange}
+          />
+        </CanonicalScriptDialogV5>
+      ) : null}
+    </>
   )
 }
 
@@ -3117,6 +3251,9 @@ function CanonicalFlowBodyTabsV5(props: {
   onError?: (message: string) => void
   onPrepareChange?: (prepare: AuthorCommandV5[]) => void
   onBodyChange: (body: AuthorCommandV5[]) => void
+  focusSection?: 'prepare' | 'body'
+  focusCommandPath?: string
+  focusRevision?: number
 }) {
   const [tab, setTab] = useState<'prepare' | 'body'>('body')
   const tabsetId = useId()
@@ -3127,6 +3264,10 @@ function CanonicalFlowBodyTabsV5(props: {
   useEffect(() => {
     if (props.prepare === undefined && tab === 'prepare') setTab('body')
   }, [props.prepare, tab])
+
+  useEffect(() => {
+    if (props.focusRevision !== undefined && props.focusSection) setTab(props.focusSection)
+  }, [props.focusRevision, props.focusSection])
 
   const onTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>): void => {
     const tabs = [
@@ -3153,6 +3294,8 @@ function CanonicalFlowBodyTabsV5(props: {
         context={props.context}
         onError={props.onError}
         onChange={props.onBodyChange}
+        focusCommandPath={props.focusCommandPath}
+        focusRevision={props.focusRevision}
       />
     )
 
@@ -3201,6 +3344,8 @@ function CanonicalFlowBodyTabsV5(props: {
             context={props.context}
             onError={props.onError}
             onChange={(prepare) => props.onPrepareChange?.(prepare)}
+            focusCommandPath={props.focusSection === 'prepare' ? props.focusCommandPath : undefined}
+            focusRevision={props.focusSection === 'prepare' ? props.focusRevision : undefined}
           />
         ) : (
           <CanonicalScriptBodyEditorV5
@@ -3209,6 +3354,8 @@ function CanonicalFlowBodyTabsV5(props: {
             context={props.context}
             onError={props.onError}
             onChange={props.onBodyChange}
+            focusCommandPath={props.focusSection === 'body' ? props.focusCommandPath : undefined}
+            focusRevision={props.focusSection === 'body' ? props.focusRevision : undefined}
           />
         )}
       </div>
@@ -3244,6 +3391,8 @@ export function CanonicalScriptFlowEditorV5(props: {
   ownerLabel?: string
   context?: CanonicalScriptEditorContextV5
   onError?: (message: string) => void
+  focusLocator?: ScriptV5CommandLocatorV5
+  focusRevision?: number
 }) {
   const ids =
     props.flow.kind === 'stages'
@@ -3255,10 +3404,29 @@ export function CanonicalScriptFlowEditorV5(props: {
   const [createOpen, setCreateOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [linkNewStage, setLinkNewStage] = useState(true)
+  const lastAppliedFlowFocusRevisionRef = useRef<number | undefined>(undefined)
   useEffect(() => {
     if (ids.includes(selectedId)) return
     setSelectedId(initialId)
   }, [ids, initialId, selectedId])
+  useEffect(() => {
+    const container = props.focusLocator?.container
+    if (props.focusRevision === undefined || !container) return
+    if (lastAppliedFlowFocusRevisionRef.current === props.focusRevision) return
+    lastAppliedFlowFocusRevisionRef.current = props.focusRevision
+    if (props.flow.kind === 'stages' && container.kind === 'step') {
+      if (props.flow.stages.some((stage) => stage.id === container.stepId))
+        setSelectedId(container.stepId)
+      return
+    }
+    if (
+      props.flow.kind === 'stateMachine' &&
+      container.kind === 'state' &&
+      props.flow.machine.id === container.machineId &&
+      props.flow.machine.states[container.stateId]
+    )
+      setSelectedId(container.stateId)
+  }, [props.flow, props.focusLocator, props.focusRevision])
 
   if (props.flow.kind === 'stages') {
     const flow = props.flow
@@ -3365,6 +3533,24 @@ export function CanonicalScriptFlowEditorV5(props: {
             bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
             context={props.context}
             onError={props.onError}
+            focusSection={
+              props.focusLocator?.container.kind === 'step' &&
+              props.focusLocator.container.stepId === stage.id
+                ? props.focusLocator.container.section
+                : undefined
+            }
+            focusCommandPath={
+              props.focusLocator?.container.kind === 'step' &&
+              props.focusLocator.container.stepId === stage.id
+                ? props.focusLocator.commandPath
+                : undefined
+            }
+            focusRevision={
+              props.focusLocator?.container.kind === 'step' &&
+              props.focusLocator.container.stepId === stage.id
+                ? props.focusRevision
+                : undefined
+            }
             onPrepareChange={
               stage.entry
                 ? (prepare) =>
@@ -3635,6 +3821,27 @@ export function CanonicalScriptFlowEditorV5(props: {
             bodyLabel={`${state.label} · 正文`}
             context={props.context}
             onError={props.onError}
+            focusSection={
+              props.focusLocator?.container.kind === 'state' &&
+              props.focusLocator.container.machineId === flow.machine.id &&
+              props.focusLocator.container.stateId === stateId
+                ? props.focusLocator.container.section
+                : undefined
+            }
+            focusCommandPath={
+              props.focusLocator?.container.kind === 'state' &&
+              props.focusLocator.container.machineId === flow.machine.id &&
+              props.focusLocator.container.stateId === stateId
+                ? props.focusLocator.commandPath
+                : undefined
+            }
+            focusRevision={
+              props.focusLocator?.container.kind === 'state' &&
+              props.focusLocator.container.machineId === flow.machine.id &&
+              props.focusLocator.container.stateId === stateId
+                ? props.focusRevision
+                : undefined
+            }
             onPrepareChange={
               state.entry
                 ? (prepare) =>

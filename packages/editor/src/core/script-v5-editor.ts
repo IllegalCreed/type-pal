@@ -1,6 +1,7 @@
 import type {
   AuthorCommandV5,
   EntityAddress,
+  HostileBehaviorV5,
   ItemDataV5,
   NamedEntityBehaviorV5,
   NamedSceneHookV5,
@@ -13,6 +14,7 @@ import type {
   StateTransitionV5,
 } from '@type-pal/content'
 import { checkSharedScriptLibraryV5, validateItemsV5, validateScenesV5 } from '@type-pal/content'
+import { getAuthorCommandAtV5, parseAuthorCommandPathV5 } from './author-command-edit-v5.js'
 
 export interface ScriptEditorStateV5 {
   scenes: SceneDefV5[]
@@ -37,6 +39,67 @@ function sameAddress(left: EntityAddress, right: EntityAddress): boolean {
 }
 
 export type SceneHookSlotV5 = 'onEnter' | 'onTeleport'
+
+export type ScriptV5CommandOwnerV5 =
+  | {
+      kind: 'entity-behavior'
+      sceneId: string
+      entityId: string
+      channel: 'trigger' | 'auto'
+      behaviorId: string
+    }
+  | {
+      kind: 'scene-hook'
+      sceneId: string
+      slot: SceneHookSlotV5
+      hookId: string
+    }
+  | {
+      kind: 'entity-hostile-on-lose'
+      sceneId: string
+      entityId: string
+    }
+  | {
+      kind: 'item-private-script'
+      itemId: string
+      ability: 'use' | 'throw'
+      scriptId: string
+    }
+  | { kind: 'shared-script'; scriptId: string }
+
+export type ScriptV5CommandContainerV5 =
+  | { kind: 'step'; stepId: string; section: 'prepare' | 'body' }
+  | {
+      kind: 'state'
+      machineId: string
+      stateId: string
+      section: 'prepare' | 'body'
+    }
+  | { kind: 'body' }
+
+export interface ScriptV5CommandLocatorV5 {
+  kind: 'command'
+  owner: ScriptV5CommandOwnerV5
+  container: ScriptV5CommandContainerV5
+  /** 相对当前 prepare/body 的 canonical 指令路径，例如 `0/then/1`。 */
+  commandPath: string
+}
+
+export type ScriptV5ReferenceLocatorV5 =
+  | ScriptV5CommandLocatorV5
+  | {
+      kind: 'entity-page'
+      sceneId: string
+      entityId: string
+      pageId: string
+      channel: 'trigger' | 'auto'
+    }
+  | {
+      kind: 'scene-hook-initial'
+      sceneId: string
+      slot: SceneHookSlotV5
+      hookId: string
+    }
 
 function sceneById(state: ScriptEditorStateV5, sceneId: string): SceneDefV5 {
   const scene = state.scenes.find((candidate) => candidate.id === sceneId)
@@ -92,29 +155,59 @@ function checkScriptId(id: string): void {
 
 function walkCommands(
   commands: AuthorCommandV5[],
-  visit: (command: AuthorCommandV5, path: string) => void,
+  visit: (command: AuthorCommandV5, path: string, locator: ScriptV5CommandLocatorV5) => void,
   path: string,
+  owner: ScriptV5CommandOwnerV5,
+  container: ScriptV5CommandContainerV5,
+  parentCommandPath: readonly (number | string)[] = [],
 ): void {
   for (const [index, command] of commands.entries()) {
     const commandPath = `${path}[${index}]`
-    visit(command, commandPath)
+    const locatorPath = [...parentCommandPath, index]
+    visit(command, commandPath, {
+      kind: 'command',
+      owner,
+      container,
+      commandPath: locatorPath.join('/'),
+    })
     switch (command.kind) {
       case 'branch':
-        walkCommands(command.then, visit, `${commandPath}.then`)
-        walkCommands(command.else ?? [], visit, `${commandPath}.else`)
+        walkCommands(command.then, visit, `${commandPath}.then`, owner, container, [
+          ...locatorPath,
+          'then',
+        ])
+        walkCommands(command.else ?? [], visit, `${commandPath}.else`, owner, container, [
+          ...locatorPath,
+          'else',
+        ])
         break
       case 'loop':
-        walkCommands(command.body, visit, `${commandPath}.body`)
+        walkCommands(command.body, visit, `${commandPath}.body`, owner, container, [
+          ...locatorPath,
+          'body',
+        ])
         break
       case 'confirm':
-        walkCommands(command.onNo, visit, `${commandPath}.onNo`)
+        walkCommands(command.onNo, visit, `${commandPath}.onNo`, owner, container, [
+          ...locatorPath,
+          'onNo',
+        ])
         break
       case 'startBattle':
-        walkCommands(command.onLose ?? [], visit, `${commandPath}.onLose`)
-        walkCommands(command.onFlee ?? [], visit, `${commandPath}.onFlee`)
+        walkCommands(command.onLose ?? [], visit, `${commandPath}.onLose`, owner, container, [
+          ...locatorPath,
+          'onLose',
+        ])
+        walkCommands(command.onFlee ?? [], visit, `${commandPath}.onFlee`, owner, container, [
+          ...locatorPath,
+          'onFlee',
+        ])
         break
       case 'teleportOut':
-        walkCommands(command.onFail ?? [], visit, `${commandPath}.onFail`)
+        walkCommands(command.onFail ?? [], visit, `${commandPath}.onFail`, owner, container, [
+          ...locatorPath,
+          'onFail',
+        ])
         break
     }
   }
@@ -122,13 +215,24 @@ function walkCommands(
 
 function walkFlowCommands(
   flow: ScriptFlowV5,
-  visit: (command: AuthorCommandV5, path: string) => void,
+  visit: (command: AuthorCommandV5, path: string, locator: ScriptV5CommandLocatorV5) => void,
   path: string,
+  owner: ScriptV5CommandOwnerV5,
 ): void {
   if (flow.kind === 'stages') {
     for (const stage of flow.stages) {
-      walkCommands(stage.entry?.prepare ?? [], visit, `${path}.stages.${stage.id}.entry.prepare`)
-      walkCommands(stage.body, visit, `${path}.stages.${stage.id}.body`)
+      walkCommands(
+        stage.entry?.prepare ?? [],
+        visit,
+        `${path}.stages.${stage.id}.entry.prepare`,
+        owner,
+        { kind: 'step', stepId: stage.id, section: 'prepare' },
+      )
+      walkCommands(stage.body, visit, `${path}.stages.${stage.id}.body`, owner, {
+        kind: 'step',
+        stepId: stage.id,
+        section: 'body',
+      })
     }
     return
   }
@@ -137,14 +241,26 @@ function walkFlowCommands(
       state.entry?.prepare ?? [],
       visit,
       `${path}.machine.states.${stateId}.entry.prepare`,
+      owner,
+      {
+        kind: 'state',
+        machineId: flow.machine.id,
+        stateId,
+        section: 'prepare',
+      },
     )
-    walkCommands(state.body, visit, `${path}.machine.states.${stateId}.body`)
+    walkCommands(state.body, visit, `${path}.machine.states.${stateId}.body`, owner, {
+      kind: 'state',
+      machineId: flow.machine.id,
+      stateId,
+      section: 'body',
+    })
   }
 }
 
-function walkStateCommands(
+export function visitCanonicalScriptCommandsV5(
   state: ScriptEditorStateV5,
-  visit: (command: AuthorCommandV5, path: string) => void,
+  visit: (command: AuthorCommandV5, path: string, locator: ScriptV5CommandLocatorV5) => void,
 ): void {
   for (const scene of state.scenes) {
     for (const entity of scene.entities) {
@@ -154,12 +270,36 @@ function walkStateCommands(
             value.flow,
             visit,
             `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${id}.flow`,
+            {
+              kind: 'entity-behavior',
+              sceneId: scene.id,
+              entityId: entity.id,
+              channel,
+              behaviorId: id,
+            },
           )
       }
+      if (Array.isArray(entity.hostile?.onLose))
+        walkCommands(
+          entity.hostile.onLose,
+          visit,
+          `scenes.${scene.id}.entities.${entity.id}.hostile.onLose`,
+          {
+            kind: 'entity-hostile-on-lose',
+            sceneId: scene.id,
+            entityId: entity.id,
+          },
+          { kind: 'body' },
+        )
     }
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       for (const [id, value] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
-        walkFlowCommands(value.flow, visit, `scenes.${scene.id}.hooks.${slot}.variants.${id}.flow`)
+        walkFlowCommands(
+          value.flow,
+          visit,
+          `scenes.${scene.id}.hooks.${slot}.variants.${id}.flow`,
+          { kind: 'scene-hook', sceneId: scene.id, slot, hookId: id },
+        )
     }
   }
   for (const item of state.items) {
@@ -169,6 +309,13 @@ function walkStateCommands(
           effect.script.body,
           visit,
           `items.${item.id}.use.effects[${index}].script.body`,
+          {
+            kind: 'item-private-script',
+            itemId: item.id,
+            ability: 'use',
+            scriptId: effect.script.id,
+          },
+          { kind: 'body' },
         )
     }
     for (const [index, effect] of (item.throw?.effects ?? []).entries()) {
@@ -177,11 +324,24 @@ function walkStateCommands(
           effect.script.body,
           visit,
           `items.${item.id}.throw.effects[${index}].script.body`,
+          {
+            kind: 'item-private-script',
+            itemId: item.id,
+            ability: 'throw',
+            scriptId: effect.script.id,
+          },
+          { kind: 'body' },
         )
     }
   }
   for (const [id, script] of Object.entries(state.sharedScripts))
-    walkCommands(script.body, visit, `sharedScripts.${id}.body`)
+    walkCommands(
+      script.body,
+      visit,
+      `sharedScripts.${id}.body`,
+      { kind: 'shared-script', scriptId: id },
+      { kind: 'body' },
+    )
 }
 
 function mapCommands(
@@ -278,6 +438,8 @@ function mapAllCommands(
         if (!registry) continue
         for (const value of Object.values(registry)) value.flow = mapFlowCommands(value.flow, map)
       }
+      if (Array.isArray(entity.hostile?.onLose))
+        entity.hostile.onLose = mapCommands(entity.hostile.onLose, map)
     }
     for (const slot of ['onEnter', 'onTeleport'] as const) {
       for (const value of Object.values(scene.hooks?.[slot]?.variants ?? {}))
@@ -296,10 +458,13 @@ function mapAllCommands(
     script.body = mapCommands(script.body, map)
 }
 
-export interface ScriptV5Reference {
-  kind: 'page' | 'command'
-  path: string
-}
+export type ScriptV5Reference =
+  | {
+      kind: 'page'
+      path: string
+      locator: Extract<ScriptV5ReferenceLocatorV5, { kind: 'entity-page' }>
+    }
+  | { kind: 'command'; path: string; locator: ScriptV5CommandLocatorV5 }
 
 export interface ScriptV5ReferenceIssue {
   severity: 'error'
@@ -332,7 +497,7 @@ export function collectScriptV5ReferenceIssues(
       }
     }
   }
-  walkStateCommands(state, (command, path) => {
+  visitCanonicalScriptCommandsV5(state, (command, path) => {
     if (command.kind === 'callScript') check(command.script, `${path}.script`)
   })
   return issues
@@ -351,9 +516,16 @@ export function behaviorReferencesV5(
       references.push({
         kind: 'page',
         path: `scenes.${target.scene}.entities.${target.entity}.pages.${page.id}.${channel}`,
+        locator: {
+          kind: 'entity-page',
+          sceneId: target.scene,
+          entityId: target.entity,
+          pageId: page.id,
+          channel,
+        },
       })
   }
-  walkStateCommands(state, (command, path) => {
+  visitCanonicalScriptCommandsV5(state, (command, path, locator) => {
     if (
       command.kind === 'selectEntityBehavior' &&
       sameAddress(command.target, target) &&
@@ -361,15 +533,20 @@ export function behaviorReferencesV5(
       command.selection.kind === 'use' &&
       command.selection.value === behaviorId
     )
-      references.push({ kind: 'command', path })
+      references.push({ kind: 'command', path, locator })
   })
   return references
 }
 
-export interface SceneHookV5Reference {
-  kind: 'initial' | 'command'
-  path: string
-}
+export type SceneHookV5Reference =
+  | {
+      kind: 'initial'
+      path: string
+      locator: Extract<ScriptV5ReferenceLocatorV5, { kind: 'scene-hook-initial' }>
+    }
+  | { kind: 'command'; path: string; locator: ScriptV5CommandLocatorV5 }
+
+export type CanonicalScriptReferenceV5 = ScriptV5Reference | SceneHookV5Reference
 
 function sceneHook(
   state: ScriptEditorStateV5,
@@ -394,8 +571,9 @@ export function sceneHookReferencesV5(
     references.push({
       kind: 'initial',
       path: `scenes.${sceneId}.hooks.${slot}.initial`,
+      locator: { kind: 'scene-hook-initial', sceneId, slot, hookId },
     })
-  walkStateCommands(state, (command, path) => {
+  visitCanonicalScriptCommandsV5(state, (command, path, locator) => {
     const selection = command.kind === 'selectSceneHooks' ? command.selection[slot] : undefined
     if (
       command.kind === 'selectSceneHooks' &&
@@ -403,9 +581,219 @@ export function sceneHookReferencesV5(
       selection?.kind === 'use' &&
       selection.value === hookId
     )
-      references.push({ kind: 'command', path })
+      references.push({ kind: 'command', path, locator })
   })
   return references
+}
+
+const COMMAND_PATH_LABELS: Readonly<Record<string, string>> = {
+  then: '条件成立',
+  else: '条件不成立',
+  body: '循环内容',
+  onNo: '选择“否”',
+  onLose: '战败后',
+  onFlee: '逃跑后',
+  onFail: '失败后',
+}
+
+function commandPositionLabel(commandPath: string): string {
+  return commandPath
+    .split('/')
+    .map((segment) => {
+      const index = Number(segment)
+      return Number.isInteger(index)
+        ? `第 ${index + 1} 条指令`
+        : (COMMAND_PATH_LABELS[segment] ?? segment)
+    })
+    .join(' / ')
+}
+
+function commandOwnerFlow(
+  state: ScriptEditorStateV5,
+  owner: ScriptV5CommandOwnerV5,
+): ScriptFlowV5 | undefined {
+  if (owner.kind === 'entity-behavior')
+    return state.scenes
+      .find((scene) => scene.id === owner.sceneId)
+      ?.entities.find((entity) => entity.id === owner.entityId)?.behaviors?.[owner.channel]?.[
+      owner.behaviorId
+    ]?.flow
+  if (owner.kind === 'scene-hook')
+    return state.scenes.find((scene) => scene.id === owner.sceneId)?.hooks?.[owner.slot]?.variants[
+      owner.hookId
+    ]?.flow
+  return undefined
+}
+
+function commandLocatorBody(
+  state: ScriptEditorStateV5,
+  locator: ScriptV5CommandLocatorV5,
+): readonly AuthorCommandV5[] | undefined {
+  const { owner, container } = locator
+  if (owner.kind === 'shared-script')
+    return container.kind === 'body' ? state.sharedScripts[owner.scriptId]?.body : undefined
+  if (owner.kind === 'item-private-script') {
+    if (container.kind !== 'body') return undefined
+    const item = state.items.find((candidate) => candidate.id === owner.itemId)
+    const effect = item?.[owner.ability]?.effects.find(
+      (candidate) =>
+        candidate.kind === 'itemPrivateScript' && candidate.script.id === owner.scriptId,
+    )
+    return effect?.kind === 'itemPrivateScript' ? effect.script.body : undefined
+  }
+  if (owner.kind === 'entity-hostile-on-lose') {
+    if (container.kind !== 'body') return undefined
+    const hostile = state.scenes
+      .find((scene) => scene.id === owner.sceneId)
+      ?.entities.find((entity) => entity.id === owner.entityId)?.hostile
+    return Array.isArray(hostile?.onLose) ? hostile.onLose : undefined
+  }
+  const flow = commandOwnerFlow(state, owner)
+  if (!flow || container.kind === 'body') return undefined
+  if (container.kind === 'step') {
+    if (flow.kind !== 'stages') return undefined
+    const step = flow.stages.find((candidate) => candidate.id === container.stepId)
+    return container.section === 'prepare' ? step?.entry?.prepare : step?.body
+  }
+  if (flow.kind !== 'stateMachine' || flow.machine.id !== container.machineId) return undefined
+  const machineState = flow.machine.states[container.stateId]
+  return container.section === 'prepare' ? machineState?.entry?.prepare : machineState?.body
+}
+
+export function resolveCanonicalScriptCommandV5(
+  state: ScriptEditorStateV5,
+  locator: ScriptV5CommandLocatorV5,
+): AuthorCommandV5 | undefined {
+  const body = commandLocatorBody(state, locator)
+  if (!body) return undefined
+  try {
+    return getAuthorCommandAtV5(body, parseAuthorCommandPathV5(locator.commandPath))
+  } catch {
+    return undefined
+  }
+}
+
+export function canonicalScriptReferenceDestinationExistsV5(
+  state: ScriptEditorStateV5,
+  reference: CanonicalScriptReferenceV5,
+): boolean {
+  const locator = reference.locator
+  if (locator.kind === 'command')
+    return resolveCanonicalScriptCommandV5(state, locator) !== undefined
+  if (locator.kind === 'entity-page')
+    return Boolean(
+      state.scenes
+        .find((scene) => scene.id === locator.sceneId)
+        ?.entities.find((entity) => entity.id === locator.entityId)
+        ?.pages?.some((page) => page.id === locator.pageId),
+    )
+  return (
+    state.scenes.find((scene) => scene.id === locator.sceneId)?.hooks?.[locator.slot]?.initial ===
+    locator.hookId
+  )
+}
+
+function commandOwnerLabel(state: ScriptEditorStateV5, owner: ScriptV5CommandOwnerV5): string {
+  if (owner.kind === 'entity-behavior') {
+    const behavior = state.scenes
+      .find((scene) => scene.id === owner.sceneId)
+      ?.entities.find((entity) => entity.id === owner.entityId)?.behaviors?.[owner.channel]?.[
+      owner.behaviorId
+    ]
+    return [
+      `场景 ${owner.sceneId}`,
+      `实体 ${owner.entityId}`,
+      `${owner.channel === 'trigger' ? '交互脚本' : '自动行为'}“${behavior?.label ?? owner.behaviorId}”`,
+    ].join(' / ')
+  }
+  if (owner.kind === 'scene-hook') {
+    const hook = state.scenes.find((scene) => scene.id === owner.sceneId)?.hooks?.[owner.slot]
+      ?.variants[owner.hookId]
+    return [
+      `场景 ${owner.sceneId}`,
+      `${owner.slot === 'onEnter' ? '进场脚本' : '传送出口脚本'}“${hook?.label ?? owner.hookId}”`,
+    ].join(' / ')
+  }
+  if (owner.kind === 'entity-hostile-on-lose')
+    return [`场景 ${owner.sceneId}`, `实体 ${owner.entityId}`, '战败后脚本'].join(' / ')
+  if (owner.kind === 'item-private-script') {
+    const item = state.items.find((candidate) => candidate.id === owner.itemId)
+    return [
+      `物品“${item?.name ?? owner.itemId}”（${owner.itemId}）`,
+      `${owner.ability === 'use' ? '使用' : '投掷'}脚本`,
+    ].join(' / ')
+  }
+  const script = state.sharedScripts[owner.scriptId]
+  return `可复用脚本“${script?.name ?? owner.scriptId}”`
+}
+
+function commandContainerLabel(
+  state: ScriptEditorStateV5,
+  locator: ScriptV5CommandLocatorV5,
+): string | undefined {
+  const container = locator.container
+  if (container.kind === 'body') return undefined
+  const flow = commandOwnerFlow(state, locator.owner)
+  if (container.kind === 'step') {
+    const index =
+      flow?.kind === 'stages' ? flow.stages.findIndex((step) => step.id === container.stepId) : -1
+    return [
+      index >= 0 ? `步骤 ${index + 1}` : `步骤 ${container.stepId}`,
+      container.section === 'prepare' ? '画面出现前' : '脚本正文',
+    ].join(' / ')
+  }
+  const machineState =
+    flow?.kind === 'stateMachine' && flow.machine.id === container.machineId
+      ? flow.machine.states[container.stateId]
+      : undefined
+  return [
+    flow?.kind === 'stateMachine' && flow.machine.id === container.machineId
+      ? `连续流程“${flow.machine.label}”`
+      : `连续流程 ${container.machineId}`,
+    `状态“${machineState?.label ?? container.stateId}”`,
+    container.section === 'prepare' ? '画面出现前' : '脚本正文',
+  ].join(' / ')
+}
+
+export function describeCanonicalScriptReferenceV5(
+  state: ScriptEditorStateV5,
+  reference: CanonicalScriptReferenceV5,
+): string {
+  const locator: ScriptV5ReferenceLocatorV5 = reference.locator
+  if (locator.kind === 'entity-page') {
+    const entity = state.scenes
+      .find((scene) => scene.id === locator.sceneId)
+      ?.entities.find((candidate) => candidate.id === locator.entityId)
+    const page = entity?.pages?.find((candidate) => candidate.id === locator.pageId)
+    return [
+      `场景 ${locator.sceneId}`,
+      `实体 ${locator.entityId}`,
+      `页面“${page?.label ?? locator.pageId}”`,
+      `使用${locator.channel === 'trigger' ? '交互脚本' : '自动行为'}`,
+    ].join(' / ')
+  }
+  if (locator.kind === 'scene-hook-initial') {
+    const hook = state.scenes.find((scene) => scene.id === locator.sceneId)?.hooks?.[locator.slot]
+      ?.variants[locator.hookId]
+    return [
+      `场景 ${locator.sceneId}`,
+      `${locator.slot === 'onEnter' ? '进入场景时' : '使用传送道具时'}默认使用“${hook?.label ?? locator.hookId}”`,
+    ].join(' / ')
+  }
+
+  const container = commandContainerLabel(state, locator)
+  const command = resolveCanonicalScriptCommandV5(state, locator)
+  const commandLabel =
+    command?.kind === 'selectSceneHooks'
+      ? '切换场景脚本方案'
+      : command?.kind === 'selectEntityBehavior'
+        ? '切换实体脚本方案'
+        : undefined
+  return [
+    commandOwnerLabel(state, locator.owner),
+    ...(container ? [container] : []),
+    `${commandPositionLabel(locator.commandPath)}${commandLabel ? `「${commandLabel}」` : ''}`,
+  ].join(' / ')
 }
 
 function validateState(state: ScriptEditorStateV5): void {
@@ -771,6 +1159,32 @@ export class UpdateSceneHookV5Command extends SnapshotCommandV5 {
   }
 }
 
+/** 方案详情弹窗的一次保存：名称与默认状态共用一个撤销单元。 */
+export class SaveSceneHookDetailsV5Command extends SnapshotCommandV5 {
+  readonly label = '保存场景脚本方案详情'
+
+  constructor(
+    private readonly sceneId: string,
+    private readonly slot: SceneHookSlotV5,
+    private readonly hookId: string,
+    private readonly schemeLabel: string,
+    private readonly isDefault: boolean,
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const scene = sceneById(state, this.sceneId)
+    const channel = scene.hooks?.[this.slot]
+    const source = channel?.variants[this.hookId]
+    if (!channel || !source)
+      throw new Error(`hook 不存在 ${this.sceneId}/${this.slot}/${this.hookId}`)
+    source.label = this.schemeLabel
+    if (this.isDefault) channel.initial = this.hookId
+    else if (channel.initial === this.hookId) delete channel.initial
+  }
+}
+
 export class SetSceneHookInitialV5Command extends SnapshotCommandV5 {
   readonly label = '选择场景初始 Hook'
 
@@ -843,6 +1257,25 @@ export class SetItemPrivateScriptBodyV5Command extends SnapshotCommandV5 {
     if (effect?.kind !== 'itemPrivateScript')
       throw new Error(`${this.itemId}.${this.use}.effects[${this.effectIndex}] 不是物品私有脚本`)
     effect.script.body = clone(this.body)
+  }
+}
+
+export class SetEntityHostileOnLoseV5Command extends SnapshotCommandV5 {
+  readonly label = '编辑战败后脚本'
+
+  constructor(
+    private readonly target: EntityAddress,
+    private readonly onLose: HostileBehaviorV5['onLose'],
+  ) {
+    super()
+  }
+
+  protected transform(state: ScriptEditorStateV5): void {
+    const { entity } = sceneAndEntity(state, this.target)
+    if (!entity.hostile)
+      throw new Error(`实体不是敌对实体 ${this.target.scene}/${this.target.entity}`)
+    if (this.onLose === undefined) delete entity.hostile.onLose
+    else entity.hostile.onLose = clone(this.onLose)
   }
 }
 

@@ -43,6 +43,10 @@ const scene: SceneDefV5 = {
           },
         },
       },
+      hostile: {
+        team: 1,
+        onLose: [{ kind: 'setFlag', flag: 'battle-lost', value: true }],
+      },
     },
   ],
 }
@@ -164,6 +168,18 @@ describe('canonical v5 editor project IO', () => {
     expect(Object.keys(output).some((path) => path.startsWith('content/scripts/'))).toBe(false)
   })
 
+  test('rejects a canonical script that points at a missing item', () => {
+    const project = assembleProjectV5(manifest(), jsons)
+    const state = toEditorStateV5(project, [scene])
+    state.sharedScripts['shared/user/demo']!.body = [
+      { kind: 'giveItem', itemId: 'missing', count: 1 },
+    ]
+
+    expect(() => serializeProjectV5(state)).toThrow(
+      /sharedScripts\.shared\/user\/demo\.body\[0\]\.itemId: 引用的物品 "missing"/,
+    )
+  })
+
   test('copies every verified migration blob byte-for-byte and rejects parsed projection edits', () => {
     const migration = sidecar()
     const bytes = new TextEncoder().encode(`{"not":"reformatted","projectId":"demo"}\n`)
@@ -237,6 +253,9 @@ describe('canonical v5 editor project IO', () => {
     const project = assembleProjectV5(manifest(), jsons)
     const canonical = toEditorStateV5(project, [scene])
     canonical.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.label = 'canonical 交谈'
+    canonical.scenes[0]!.entities[0]!.hostile!.onLose = [
+      { kind: 'setFlag', flag: 'canonical-battle-lost', value: true },
+    ]
     const privateEffect = canonical.items[0]!.use!.effects[0]!
     if (privateEffect.kind !== 'itemPrivateScript') throw new Error('fixture 不是私有脚本')
     privateEffect.script.body = [{ kind: 'setFlag', flag: 'canonical-edited', value: true }]
@@ -255,6 +274,7 @@ describe('canonical v5 editor project IO', () => {
       loop: true,
     }
     shell.scenes[0]!.onEnter = [{ body: [{ kind: 'setFlag', flag: 'legacy', value: true }] }]
+    shell.scenes[0]!.entities[0]!.hostile!.onLose = []
     shell.items[0]!.name = '已改名物品'
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
@@ -262,6 +282,9 @@ describe('canonical v5 editor project IO', () => {
     expect(merged.scenes[0]!.entities[0]).toMatchObject({
       pos: { col: 9 },
       behaviors: { trigger: { talk: { label: 'canonical 交谈' } } },
+      hostile: {
+        onLose: [{ kind: 'setFlag', flag: 'canonical-battle-lost', value: true }],
+      },
       pages: [
         {
           id: 'default',

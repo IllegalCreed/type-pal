@@ -13041,10 +13041,14 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-script-modal-footer {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 7px;
   padding: 8px 12px;
   border-top: 1px solid var(--line);
+}
+.canonical-script-modal-footer > .spacer {
+  flex: 1 1 auto;
 }
 .canonical-script-modal .btn {
   min-height: 28px;
@@ -13064,6 +13068,39 @@ button.sprite-frame-cell[draggable="true"]:active {
   background: color-mix(in srgb, var(--accent) 72%, var(--panel2));
   color: var(--fg);
   font-weight: 700;
+}
+.canonical-hostile-script {
+  display: grid;
+  gap: 7px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.canonical-hostile-script > header,
+.canonical-hostile-script > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.canonical-hostile-script > header {
+  justify-content: space-between;
+}
+.canonical-hostile-script > header strong {
+  color: var(--fg);
+  font-size: 11px;
+}
+.canonical-hostile-script > header span {
+  color: var(--dim);
+  font-size: 9px;
+}
+.canonical-hostile-script > div > .in {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.canonical-hostile-script-dialog {
+  width: min(880px, 100%);
+}
+.canonical-hostile-script-dialog .canonical-script-editor {
+  min-height: 360px;
 }
 .canonical-script-modal-copy {
   margin: 0 0 12px;
@@ -13110,11 +13147,11 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-default-control {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 8px;
   padding: 8px 0;
 }
-.script-scheme-default-control > div {
+.script-scheme-default-action {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -13129,14 +13166,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   margin-bottom: 10px;
   color: var(--dim);
   font-size: 10px;
-}
-.script-scheme-copy-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.script-scheme-copy {
-  justify-self: start;
 }
 .script-scheme-usage {
   display: grid;
@@ -13172,11 +13201,38 @@ button.sprite-frame-cell[draggable="true"]:active {
   text-align: left;
 }
 .script-scheme-usage li > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   border: 0;
   border-radius: 4px;
   background: var(--panel2);
   color: var(--fg);
   cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.55;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+.script-scheme-usage li > button > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.script-scheme-usage li > button > small {
+  flex: none;
+  color: var(--dim);
+  font-size: 9px;
+}
+.script-scheme-usage li > button:hover,
+.script-scheme-usage li > button:focus-visible {
+  background: color-mix(in srgb, var(--accent) 13%, var(--panel2));
+  color: var(--accent);
+  outline: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 1px;
 }
 .script-scheme-delete {
   justify-self: start;
@@ -13191,6 +13247,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-delete:disabled {
   opacity: 0.42;
   cursor: default;
+}
+.script-scheme-footer-warning {
+  color: #ef9a9a;
+  font-size: 10px;
 }
 .script-scheme-delete-confirm {
   display: grid;

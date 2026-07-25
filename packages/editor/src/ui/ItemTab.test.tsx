@@ -8,6 +8,7 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ItemReference } from '../core/item-references.js'
+import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import { ItemTab } from './ItemTab.js'
 
 function item(id = 'item-a'): ItemData {
@@ -66,6 +67,10 @@ function Harness(props: {
   onOpenScript?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
   assetReader?: EditorAssetReader
+  scriptV5?: {
+    state: ScriptEditorStateV5
+    session: ScriptV5EditSession
+  }
 }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
@@ -86,6 +91,7 @@ function Harness(props: {
       focusObjectId={props.focusObjectId}
       onOpenScript={props.onOpenScript}
       onOpenItemReference={props.onOpenItemReference}
+      scriptV5={props.scriptV5}
     />
   )
 }
@@ -326,6 +332,121 @@ describe('ItemTab', () => {
       kind: 'runScript',
       script: { id: scriptId },
     })
+  })
+
+  test('引用页合并 canonical 脚本中的物品引用并传出精确落点', async () => {
+    const initial = state([
+      {
+        ...item('290'),
+        name: '天书',
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [
+        {
+          id: 's151',
+          mapId: 'm151',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+          hooks: {
+            onEnter: {
+              initial: 'default',
+              variants: {
+                default: {
+                  label: '默认进场行为',
+                  order: 0,
+                  flow: {
+                    kind: 'stages',
+                    initial: 'initial',
+                    stages: [
+                      {
+                        id: 'initial',
+                        body: [{ kind: 'loseItem', itemId: '290', count: 1 }],
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: 's154',
+          mapId: 'm154',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e2493',
+              sprite: 'npc',
+              pos: { col: 0, row: 0, height: 0 },
+              behaviors: {
+                trigger: {
+                  'legacy-001': {
+                    label: '触发行为 1',
+                    order: 0,
+                    flow: {
+                      kind: 'stages',
+                      initial: 'initial',
+                      stages: [
+                        {
+                          id: 'initial',
+                          body: [{ kind: 'giveItem', itemId: '290', count: 1 }],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      items: [],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+    const scriptV5 = {
+      state: canonical,
+      session: new ScriptV5EditSession(canonical),
+    }
+    const onOpenItemReference = vi.fn()
+
+    await act(async () =>
+      root.render(
+        <Harness session={session} scriptV5={scriptV5} onOpenItemReference={onOpenItemReference} />,
+      ),
+    )
+
+    expect(host.querySelector('.item-catalog-row')?.textContent).toContain('引用 2')
+    await act(async () => button('引用 2', host.querySelector('.item-inspector-tabs')!).click())
+    expect(host.textContent).toContain(
+      '场景 s151 / 进场脚本“默认进场行为” / 步骤 1 / 脚本正文 / 第 1 条指令',
+    )
+    expect(host.textContent).toContain(
+      '场景 s154 / 实体 e2493 / 交互脚本“触发行为 1” / 步骤 1 / 脚本正文 / 第 1 条指令',
+    )
+
+    const openButtons = [...host.querySelectorAll<HTMLButtonElement>('.item-reference-card button')]
+    expect(openButtons).toHaveLength(2)
+    await act(async () => openButtons[0]!.click())
+    expect(onOpenItemReference).toHaveBeenCalledWith(
+      expect.objectContaining({
+        locator: expect.objectContaining({
+          kind: 'canonical-script',
+          reference: expect.objectContaining({
+            locator: expect.objectContaining({
+              owner: expect.objectContaining({
+                kind: 'scene-hook',
+                sceneId: 's151',
+              }),
+              commandPath: '0',
+            }),
+          }),
+        }),
+      }),
+    )
   })
 
   test('检查器支持方向键切换，删除后撤销会恢复原选择', async () => {

@@ -13,6 +13,7 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { Playback } from '../core/playback.js'
 import type {
+  CanonicalScriptReferenceV5,
   SceneHookSlotV5,
   ScriptEditorCommandV5,
   ScriptEditorStateV5,
@@ -53,7 +54,8 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   editorContext?: CanonicalScriptEditorContextV5
   onDispatch: (command: ScriptEditorCommandV5) => void
-  onOpenReference?: (path: string) => void
+  onOpenReference?: (reference: CanonicalScriptReferenceV5) => void
+  focusReference?: { reference: CanonicalScriptReferenceV5; revision: number }
   onError?: (message: string) => void
   onClose: () => void
 }) {
@@ -86,6 +88,42 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
   useEffect(() => {
     if (!props.selectedEntityId && owner === 'entity') setOwner('scene')
   }, [owner, props.selectedEntityId])
+
+  useEffect(() => {
+    const focus = props.focusReference
+    if (!focus) return
+    const locator = focus.reference.locator
+    if (locator.kind === 'scene-hook-initial') {
+      if (locator.sceneId !== props.scene.id) return
+      setOwner('scene')
+      setHookSlot(locator.slot)
+      setSelectedHooks((current) => ({ ...current, [locator.slot]: locator.hookId }))
+      return
+    }
+    if (locator.kind !== 'command') return
+    const commandOwner = locator.owner
+    if (commandOwner.kind === 'scene-hook' && commandOwner.sceneId === props.scene.id) {
+      setOwner('scene')
+      setHookSlot(commandOwner.slot)
+      setSelectedHooks((current) => ({
+        ...current,
+        [commandOwner.slot]: commandOwner.hookId,
+      }))
+      return
+    }
+    if (
+      commandOwner.kind === 'entity-behavior' &&
+      commandOwner.sceneId === props.scene.id &&
+      commandOwner.entityId === props.selectedEntityId
+    ) {
+      setOwner('entity')
+      setBehaviorChannel(commandOwner.channel)
+      setSelectedBehaviors((current) => ({
+        ...current,
+        [commandOwner.channel]: commandOwner.behaviorId,
+      }))
+    }
+  }, [props.focusReference, props.scene.id, props.selectedEntityId])
 
   const canonicalScene = props.state.scenes.find((candidate) => candidate.id === props.scene.id)
   const canonicalEntity = canonicalScene?.entities.find(
@@ -291,6 +329,14 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
               }
               onDispatch={props.onDispatch}
               onOpenReference={props.onOpenReference}
+              focusCommand={
+                props.focusReference?.reference.locator.kind === 'command'
+                  ? {
+                      locator: props.focusReference.reference.locator,
+                      revision: props.focusReference.revision,
+                    }
+                  : undefined
+              }
               onError={props.onError}
               editorContext={
                 props.editorContext
@@ -316,6 +362,14 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
               }
               onDispatch={props.onDispatch}
               onOpenReference={props.onOpenReference}
+              focusCommand={
+                props.focusReference?.reference.locator.kind === 'command'
+                  ? {
+                      locator: props.focusReference.reference.locator,
+                      revision: props.focusReference.revision,
+                    }
+                  : undefined
+              }
               onError={props.onError}
               editorContext={
                 props.editorContext

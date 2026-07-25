@@ -3,11 +3,13 @@ import { useMemo, useState } from 'react'
 import {
   AddEntityBehaviorV5Command,
   behaviorReferencesV5,
-  CopyEntityBehaviorV5Command,
+  type CanonicalScriptReferenceV5,
   DeleteEntityBehaviorV5Command,
+  describeCanonicalScriptReferenceV5,
   presentSelectionV5,
   type ScriptEditorCommandV5,
   type ScriptEditorStateV5,
+  type ScriptV5CommandLocatorV5,
   UpdateEntityBehaviorV5Command,
 } from '../core/script-v5-editor.js'
 import {
@@ -104,8 +106,9 @@ export function ScriptV5BehaviorInspector(props: {
   selectedBehaviorId?: string
   onSelectBehavior?: (behaviorId: string) => void
   onDispatch: (command: ScriptEditorCommandV5) => void
-  onOpenReference?: (path: string) => void
+  onOpenReference?: (reference: CanonicalScriptReferenceV5) => void
   onOpenFlow?: (behaviorId: string) => void
+  focusCommand?: { locator: ScriptV5CommandLocatorV5; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContextV5
 }) {
@@ -158,14 +161,6 @@ export function ScriptV5BehaviorInspector(props: {
     }
   }
 
-  const copyScheme = (sourceId: string): void => {
-    const id = nextGeneratedScriptSchemeIdV5(Object.keys(registry), `${sourceId}-copy`)
-    if (dispatch(new CopyEntityBehaviorV5Command(props.target, props.channel, sourceId, id))) {
-      props.onSelectBehavior?.(id)
-      setDetailsId(undefined)
-    }
-  }
-
   if (!entity)
     return (
       <section className="script-v5-behavior-inspector empty" aria-label={title}>
@@ -209,6 +204,24 @@ export function ScriptV5BehaviorInspector(props: {
             flow={selected.flow}
             context={props.editorContext}
             onError={props.onError}
+            focusLocator={
+              props.focusCommand?.locator.owner.kind === 'entity-behavior' &&
+              props.focusCommand.locator.owner.sceneId === props.target.scene &&
+              props.focusCommand.locator.owner.entityId === props.target.entity &&
+              props.focusCommand.locator.owner.channel === props.channel &&
+              props.focusCommand.locator.owner.behaviorId === selectedId
+                ? props.focusCommand.locator
+                : undefined
+            }
+            focusRevision={
+              props.focusCommand?.locator.owner.kind === 'entity-behavior' &&
+              props.focusCommand.locator.owner.sceneId === props.target.scene &&
+              props.focusCommand.locator.owner.entityId === props.target.entity &&
+              props.focusCommand.locator.owner.channel === props.channel &&
+              props.focusCommand.locator.owner.behaviorId === selectedId
+                ? props.focusCommand.revision
+                : undefined
+            }
             onChange={(flow) =>
               dispatch(
                 new UpdateEntityBehaviorV5Command(props.target, props.channel, selectedId, {
@@ -234,19 +247,21 @@ export function ScriptV5BehaviorInspector(props: {
           selectedName={detailsScheme.label}
           references={detailsReferences.map((reference, index) => ({
             key: `${reference.kind}:${reference.path}:${index}`,
-            path: reference.path,
-            label: reference.kind === 'page' ? '当前实体的一个页面' : '一条切换实体脚本方案的指令',
+            reference,
+            label: describeCanonicalScriptReferenceV5(props.state, reference),
           }))}
-          onOpenReference={props.onOpenReference}
+          onOpenReference={(reference) => {
+            setDetailsId(undefined)
+            props.onOpenReference?.(reference)
+          }}
           onClose={() => setDetailsId(undefined)}
-          onRename={(label) =>
+          onSave={(label) =>
             dispatch(
               new UpdateEntityBehaviorV5Command(props.target, props.channel, detailsId, {
                 label,
               }),
             )
           }
-          onCopy={() => copyScheme(detailsId)}
           onDelete={() => {
             if (
               dispatch(new DeleteEntityBehaviorV5Command(props.target, props.channel, detailsId))

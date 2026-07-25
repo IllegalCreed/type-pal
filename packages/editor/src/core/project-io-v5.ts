@@ -16,6 +16,7 @@ import {
 } from '@type-pal/content'
 import { type FileSource, isV5RuntimeScriptRef, type LoadedProjectV5Core } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
+import { collectCanonicalItemReferencesV5 } from './item-references.js'
 import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './script-v5-editor.js'
 
 export interface EditorStateV5
@@ -273,6 +274,14 @@ function validateEditorStateV5(state: EditorStateV5): void {
   checkSharedScriptLibraryV5(state.sharedScripts)
   const scriptIssue = collectScriptV5ReferenceIssues(state)[0]
   if (scriptIssue) throw new Error(`${scriptIssue.path}: ${scriptIssue.message}`)
+  const itemIds = new Set(state.items.map((item) => item.id))
+  const danglingItem = collectCanonicalItemReferencesV5(state).find(
+    (reference) => !itemIds.has(reference.itemId),
+  )
+  if (danglingItem)
+    throw new Error(
+      `${danglingItem.where}: 引用的物品 "${danglingItem.itemId}" 不在 canonical v5 物品表`,
+    )
   const ids = new Set(scenes.map((scene) => scene.id))
   if (!ids.has(state.manifest.entryScene))
     throw new Error(`serializeProjectV5: 入口场景 "${state.manifest.entryScene}" 不在场景表`)

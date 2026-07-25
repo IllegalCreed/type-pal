@@ -89,6 +89,7 @@ import {
   prepareProjectMapPatch,
 } from './map-patch.js'
 import { findSceneEntryReferences, findScriptReferences } from './script-references.js'
+import type { ScriptEditorStateV5 } from './script-v5-editor.js'
 import {
   resolveStampStructureOperation,
   type StampStructureResolutionOptions,
@@ -1978,12 +1979,20 @@ export class DeleteItemCommand implements Command {
   private migrationDiagnosticsBeforeDelete: EditorState['migrationDiagnostics'] | undefined
   private capturedMigrationDiagnostics = false
 
-  constructor(private readonly itemId: string) {}
+  constructor(
+    private readonly itemId: string,
+    private readonly canonicalState:
+      | (() => ScriptEditorStateV5 | undefined)
+      | undefined = undefined,
+  ) {}
 
   apply(state: EditorState): EditorState {
     const index = state.items.findIndex((item) => item.id === this.itemId)
     if (index < 0) return state
-    const blockers = blockingItemReferences(state, this.itemId)
+    const canonicalState = this.canonicalState?.()
+    if (this.canonicalState && !canonicalState)
+      throw new Error('删除 v5 物品前无法读取 canonical 脚本引用')
+    const blockers = blockingItemReferences(state, this.itemId, canonicalState)
     if (blockers.length)
       throw new Error(
         `物品 ${this.itemId} 仍被 ${blockers.length} 处引用：\n${blockers

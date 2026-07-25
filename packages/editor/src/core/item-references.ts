@@ -1,5 +1,20 @@
-import type { Command, ScriptCondition, ScriptStage } from '@type-pal/content'
+import type {
+  AuthorCommandV5,
+  AuthorConditionV5,
+  Command,
+  ScriptCondition,
+  ScriptFlowV5,
+  ScriptStage,
+  StateTransitionV5,
+} from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
+import {
+  type CanonicalScriptReferenceV5,
+  describeCanonicalScriptReferenceV5,
+  type ScriptEditorStateV5,
+  type ScriptV5CommandLocatorV5,
+  visitCanonicalScriptCommandsV5,
+} from './script-v5-editor.js'
 
 export type ItemReferenceAccess = 'read' | 'lose' | 'consume' | 'reward' | 'hold' | 'configure'
 
@@ -19,6 +34,10 @@ export type ItemReferenceLocator =
   | { kind: 'poison'; poisonId: number }
   | { kind: 'entry-point'; entryPointId?: string }
   | { kind: 'item'; itemId: string }
+  | {
+      kind: 'canonical-script'
+      reference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }>
+    }
 
 export interface ItemReference {
   itemId: string
@@ -233,11 +252,211 @@ function scanInventory(
   })
 }
 
+function canonicalReferenceSource(
+  locator: ScriptV5CommandLocatorV5,
+): Pick<ItemReference, 'source' | 'ownerItemId'> {
+  if (locator.owner.kind === 'shared-script') return { source: 'script' }
+  if (locator.owner.kind === 'item-private-script')
+    return { source: 'item', ownerItemId: locator.owner.itemId }
+  return { source: 'scene' }
+}
+
+function scanCanonicalCondition(
+  condition: AuthorConditionV5,
+  addReference: (itemId: string, detail: string, suffix: string) => void,
+  suffix = '.cond',
+): void {
+  switch (condition.kind) {
+    case 'hasItem':
+    case 'ownsItem':
+    case 'itemEquipped':
+      addReference(
+        condition.itemId,
+        condition.kind === 'itemEquipped'
+          ? `检查装备数量 ≥ ${condition.atLeast ?? 1}`
+          : condition.kind === 'ownsItem'
+            ? `检查背包与装备总数 ≥ ${condition.atLeast ?? 1}`
+            : `检查背包数量 ≥ ${condition.atLeast ?? 1}`,
+        suffix,
+      )
+      return
+    case 'all':
+    case 'any':
+      condition.of.forEach((entry, index) => {
+        scanCanonicalCondition(entry, addReference, `${suffix}.of[${index}]`)
+      })
+      return
+    case 'not':
+      scanCanonicalCondition(condition.cond, addReference, `${suffix}.cond`)
+      return
+    default:
+      return
+  }
+}
+
+function scanCanonicalStateTransitionItemReferences(
+  transition: StateTransitionV5,
+  context: {
+    source: 'scene'
+    label: string
+    where: string
+  },
+  out: ItemReference[],
+): void {
+  switch (transition.kind) {
+    case 'branch':
+      scanCanonicalCondition(
+        transition.cond,
+        (itemId, detail, suffix) =>
+          add(out, itemId, {
+            access: 'read',
+            source: context.source,
+            label: context.label,
+            where: `${context.where}${suffix}`,
+            detail,
+            unavailableReason: '该引用位于连续流程的状态去向条件中；可打开所属方案后编辑。',
+          }),
+        '.cond',
+      )
+      scanCanonicalStateTransitionItemReferences(
+        transition.then,
+        { ...context, where: `${context.where}.then` },
+        out,
+      )
+      scanCanonicalStateTransitionItemReferences(
+        transition.else,
+        { ...context, where: `${context.where}.else` },
+        out,
+      )
+      return
+    case 'commandOutcome':
+      scanCanonicalStateTransitionItemReferences(
+        transition.then,
+        { ...context, where: `${context.where}.then` },
+        out,
+      )
+      scanCanonicalStateTransitionItemReferences(
+        transition.else,
+        { ...context, where: `${context.where}.else` },
+        out,
+      )
+      return
+    default:
+      return
+  }
+}
+
+function scanCanonicalFlowTransitionItemReferences(
+  flow: ScriptFlowV5,
+  context: { label: string; where: string },
+  out: ItemReference[],
+): void {
+  if (flow.kind !== 'stateMachine') return
+  for (const [stateId, state] of Object.entries(flow.machine.states))
+    scanCanonicalStateTransitionItemReferences(
+      state.next,
+      {
+        source: 'scene',
+        label: `${context.label} / 连续流程“${flow.machine.label}” / 状态“${state.label}”`,
+        where: `${context.where}.machine.states.${stateId}.next`,
+      },
+      out,
+    )
+}
+
+/** canonical v5 脚本中的物品读取/获得/失去引用；locator 直接复用脚本编辑器稳定定位。 */
+export function collectCanonicalItemReferencesV5(state: ScriptEditorStateV5): ItemReference[] {
+  const out: ItemReference[] = []
+
+  visitCanonicalScriptCommandsV5(state, (command: AuthorCommandV5, path, commandLocator) => {
+    const source = canonicalReferenceSource(commandLocator)
+    let reference: Extract<CanonicalScriptReferenceV5, { kind: 'command' }> | undefined
+    let label: string | undefined
+    const commandReference = (): Extract<CanonicalScriptReferenceV5, { kind: 'command' }> =>
+      (reference ??= {
+        kind: 'command',
+        path,
+        locator: commandLocator,
+      })
+    const commandLabel = (): string =>
+      (label ??= describeCanonicalScriptReferenceV5(state, commandReference()))
+    const addCommandReference = (
+      itemId: string,
+      access: ItemReferenceAccess,
+      detail: string,
+      suffix: string,
+    ): void =>
+      add(out, itemId, {
+        access,
+        source: source.source,
+        label: commandLabel(),
+        where: `${path}${suffix}`,
+        detail,
+        locator: { kind: 'canonical-script', reference: commandReference() },
+        ownerItemId: source.ownerItemId,
+      })
+
+    if (command.kind === 'giveItem')
+      addCommandReference(command.itemId, 'reward', `获得 ×${command.count ?? 1}`, '.itemId')
+    else if (command.kind === 'loseItem')
+      addCommandReference(command.itemId, 'lose', `失去 ×${command.count ?? 1}`, '.itemId')
+    else if (command.kind === 'branch' || command.kind === 'loop')
+      scanCanonicalCondition(command.cond, (itemId, detail, suffix) =>
+        addCommandReference(itemId, 'read', detail, suffix),
+      )
+
+    if (command.kind === 'startBattle')
+      command.choreography?.forEach((entry, choreographyIndex) => {
+        scanCommands(
+          entry.body,
+          {
+            source: source.source,
+            label: commandLabel(),
+            where: `${path}.choreography[${choreographyIndex}].body`,
+            locator: undefined,
+            unavailableReason: '该引用位于战斗编舞脚本中，当前只能显示来源，尚不能精确聚焦。',
+          },
+          '',
+          out,
+        )
+      })
+  })
+
+  for (const scene of state.scenes) {
+    for (const entity of scene.entities)
+      for (const channel of ['trigger', 'auto'] as const)
+        for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.[channel] ?? {}))
+          scanCanonicalFlowTransitionItemReferences(
+            behavior.flow,
+            {
+              label: `场景 ${scene.id} / 实体 ${entity.id} / ${channel === 'trigger' ? '交互脚本' : '自动行为'}“${behavior.label}”`,
+              where: `scenes.${scene.id}.entities.${entity.id}.behaviors.${channel}.${behaviorId}.flow`,
+            },
+            out,
+          )
+    for (const slot of ['onEnter', 'onTeleport'] as const)
+      for (const [hookId, hook] of Object.entries(scene.hooks?.[slot]?.variants ?? {}))
+        scanCanonicalFlowTransitionItemReferences(
+          hook.flow,
+          {
+            label: `场景 ${scene.id} / ${slot === 'onEnter' ? '进场脚本' : '传送出口脚本'}“${hook.label}”`,
+            where: `scenes.${scene.id}.hooks.${slot}.variants.${hookId}.flow`,
+          },
+          out,
+        )
+  }
+
+  return out
+}
+
 /**
  * 物品删除和右栏检查器共用的全工程闭包。这里不复用旧 RefIndex：它只覆盖场景 page[0]，
  * 也没有共享脚本、开局、商店和战斗数据，不能承担破坏性删除门禁。
  */
-export function collectItemReferences(state: EditorState): ItemReference[] {
+export function collectItemReferences(
+  state: EditorState,
+  canonicalState?: ScriptEditorStateV5,
+): ItemReference[] {
   const out: ItemReference[] = []
 
   state.scenes.forEach((scene, sceneIndex) => {
@@ -551,12 +770,16 @@ export function collectItemReferences(state: EditorState): ItemReference[] {
     }
   })
 
+  if (canonicalState) out.push(...collectCanonicalItemReferencesV5(canonicalState))
   return out
 }
 
-export function itemReferenceMap(state: EditorState): Map<string, ItemReference[]> {
+export function itemReferenceMap(
+  state: EditorState,
+  canonicalState?: ScriptEditorStateV5,
+): Map<string, ItemReference[]> {
   const result = new Map<string, ItemReference[]>()
-  for (const reference of collectItemReferences(state)) {
+  for (const reference of collectItemReferences(state, canonicalState)) {
     const list = result.get(reference.itemId) ?? []
     list.push(reference)
     result.set(reference.itemId, list)
@@ -564,8 +787,12 @@ export function itemReferenceMap(state: EditorState): Map<string, ItemReference[
   return result
 }
 
-export function blockingItemReferences(state: EditorState, itemId: string): ItemReference[] {
-  return collectItemReferences(state).filter(
+export function blockingItemReferences(
+  state: EditorState,
+  itemId: string,
+  canonicalState?: ScriptEditorStateV5,
+): ItemReference[] {
+  return collectItemReferences(state, canonicalState).filter(
     (reference) => reference.itemId === itemId && reference.ownerItemId !== itemId,
   )
 }

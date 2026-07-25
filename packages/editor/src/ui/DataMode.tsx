@@ -95,6 +95,13 @@ export function DataMode(props: {
   tabBar: ReactNode
   tab: DataTab
   focusObjectId?: string
+  focusItemPrivateScript?: {
+    itemId: string
+    ability: 'use' | 'throw'
+    scriptId: string
+    commandPath: string
+    revision: number
+  }
   focusActionId?: string
   onObjectFocus?: (id: string | undefined) => void
   spriteDomain?: 'world' | 'battle'
@@ -158,6 +165,7 @@ export function DataMode(props: {
     tabBar,
     tab,
     focusObjectId,
+    focusItemPrivateScript,
     focusActionId,
     onObjectFocus,
     spriteDomain: controlledSpriteDomain,
@@ -251,6 +259,7 @@ export function DataMode(props: {
         battleSprites={battleSprites}
         onOpenBattleSprite={onOpenBattleSprite}
         focusObjectId={focusObjectId}
+        focusPrivateScript={focusItemPrivateScript}
         onObjectFocus={onObjectFocus}
         onStatusNotice={onStatusNotice}
         onOpenSound={onOpenSound}
@@ -469,6 +478,8 @@ export function DataMode(props: {
           state={scriptV5.state}
           session={scriptV5.session}
           focusScriptId={focusScriptId}
+          focusCommandPath={focusScriptCommandPath}
+          focusRevision={focusScriptRevision}
           onSelectedScriptId={onObjectFocus}
           onError={(message) => onStatusNotice?.({ kind: 'error', message })}
           context={{

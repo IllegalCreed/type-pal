@@ -158,21 +158,17 @@ describe('ScriptV5BehaviorInspector', () => {
 
     await act(async () => button(host, '方案详情').click())
     expect(host.textContent).toContain('当前有 2 处正在使用这个方案')
-    expect(button(host, '删除此方案').disabled).toBe(true)
+    expect(button(host, '删除方案').disabled).toBe(true)
+    expect(host.textContent).not.toContain('保存名称')
     expect(host.querySelector('[aria-label="新方案名称"]')).toBeNull()
     expect(host.textContent).not.toContain('scenes[0]')
 
     const rename = host.querySelector<HTMLInputElement>('[aria-label="方案名称"]')!
     await act(async () => setInput(rename, '重新命名的交谈'))
-    await act(async () => button(host, '保存名称').click())
+    await act(async () => button(host, '保存').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.talk).toMatchObject({
       label: '重新命名的交谈',
     })
-
-    await act(async () => button(host, '复制此方案').click())
-    expect(
-      session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['talk-copy-1'],
-    ).toMatchObject({ label: '重新命名的交谈 副本' })
 
     await act(async () => button(host, '＋ 新建方案').click())
     expect(host.querySelector('[aria-label="方案名称"]')).toBeNull()
@@ -186,6 +182,42 @@ describe('ScriptV5BehaviorInspector', () => {
       label: '交出天书后',
       flow: { kind: 'stages', initial: 'start' },
     })
+  })
+
+  test('shows a useful source location and returns a structured reference when opened', async () => {
+    const onOpenReference = vi.fn()
+    await act(async () =>
+      root.render(
+        <ScriptV5BehaviorInspector
+          state={editorState()}
+          target={target}
+          channel="trigger"
+          onDispatch={() => {}}
+          onOpenReference={onOpenReference}
+        />,
+      ),
+    )
+
+    await act(async () => button(host, '方案详情').click())
+    expect(host.textContent).toContain('场景 s001 / 实体 e1 / 页面“默认” / 使用交互脚本')
+    expect(host.textContent).toContain('可复用脚本“路线” / 第 1 条指令「切换实体脚本方案」')
+    const sharedReference = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (candidate) => candidate.textContent?.includes('可复用脚本“路线”'),
+    )!
+    expect(sharedReference.textContent).toContain('打开 ↗')
+
+    await act(async () => sharedReference.click())
+    expect(onOpenReference).toHaveBeenCalledWith({
+      kind: 'command',
+      path: 'sharedScripts.shared/user/route.body[0]',
+      locator: {
+        kind: 'command',
+        owner: { kind: 'shared-script', scriptId: 'shared/user/route' },
+        container: { kind: 'body' },
+        commandPath: '0',
+      },
+    })
+    expect(host.querySelector('[role="dialog"]')).toBeNull()
   })
 
   test('ignores development migration metadata in author-facing scheme controls', async () => {
@@ -251,9 +283,9 @@ describe('ScriptV5BehaviorInspector', () => {
     expect(host.textContent).toContain('开发期迁移方案 · 方案详情')
     expect(host.textContent).not.toContain('旧存档')
     expect(host.textContent).not.toContain('迁移记录保护')
-    expect(button(host, '删除此方案').disabled).toBe(false)
+    expect(button(host, '删除方案').disabled).toBe(false)
     expect(host.querySelector('[aria-label="实体脚本内部识别名"]')).toBeNull()
-    await act(async () => button(host, '删除此方案').click())
+    await act(async () => button(host, '删除方案').click())
     await act(async () => button(host, '确认删除方案').click())
     expect(
       session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!['migrated-draft'],
@@ -387,13 +419,13 @@ describe('ScriptV5BehaviorInspector', () => {
     await act(async () =>
       host.querySelector<HTMLButtonElement>('[aria-label="打开“临时方案”的方案详情"]')!.click(),
     )
-    await act(async () => button(host, '删除此方案').click())
+    await act(async () => button(host, '删除方案').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeDefined()
     expect(host.textContent).toContain('确认删除方案')
-    await act(async () => button(host, '取消').click())
+    await act(async () => button(host, '取消删除').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeDefined()
 
-    await act(async () => button(host, '删除此方案').click())
+    await act(async () => button(host, '删除方案').click())
     await act(async () => button(host, '确认删除方案').click())
     expect(session.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.unused).toBeUndefined()
   })

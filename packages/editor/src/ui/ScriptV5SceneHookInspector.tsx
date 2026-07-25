@@ -2,12 +2,14 @@ import type { NamedSceneHookV5 } from '@type-pal/content'
 import { useMemo, useState } from 'react'
 import {
   AddSceneHookV5Command,
-  CopySceneHookV5Command,
+  type CanonicalScriptReferenceV5,
   DeleteSceneHookV5Command,
+  describeCanonicalScriptReferenceV5,
+  SaveSceneHookDetailsV5Command,
   type SceneHookSlotV5,
   type ScriptEditorCommandV5,
   type ScriptEditorStateV5,
-  SetSceneHookInitialV5Command,
+  type ScriptV5CommandLocatorV5,
   sceneHookReferencesV5,
   UpdateSceneHookV5Command,
 } from '../core/script-v5-editor.js'
@@ -62,7 +64,8 @@ export function ScriptV5SceneHookInspector(props: {
   selectedHookId?: string
   onSelectHook?: (hookId: string | undefined) => void
   onDispatch: (command: ScriptEditorCommandV5) => void
-  onOpenReference?: (path: string) => void
+  onOpenReference?: (reference: CanonicalScriptReferenceV5) => void
+  focusCommand?: { locator: ScriptV5CommandLocatorV5; revision: number }
   onError?: (message: string) => void
   editorContext?: CanonicalScriptEditorContextV5
 }) {
@@ -111,14 +114,6 @@ export function ScriptV5SceneHookInspector(props: {
     }
   }
 
-  const copyScheme = (sourceId: string): void => {
-    const id = nextGeneratedScriptSchemeIdV5(Object.keys(variants), `${sourceId}-copy`)
-    if (dispatch(new CopySceneHookV5Command(props.sceneId, props.slot, sourceId, id))) {
-      props.onSelectHook?.(id)
-      setDetailsId(undefined)
-    }
-  }
-
   if (!scene)
     return (
       <section className="script-v5-behavior-inspector empty" aria-label={copy.title}>
@@ -164,6 +159,22 @@ export function ScriptV5SceneHookInspector(props: {
             flow={selected.flow}
             context={props.editorContext}
             onError={props.onError}
+            focusLocator={
+              props.focusCommand?.locator.owner.kind === 'scene-hook' &&
+              props.focusCommand.locator.owner.sceneId === props.sceneId &&
+              props.focusCommand.locator.owner.slot === props.slot &&
+              props.focusCommand.locator.owner.hookId === selectedId
+                ? props.focusCommand.locator
+                : undefined
+            }
+            focusRevision={
+              props.focusCommand?.locator.owner.kind === 'scene-hook' &&
+              props.focusCommand.locator.owner.sceneId === props.sceneId &&
+              props.focusCommand.locator.owner.slot === props.slot &&
+              props.focusCommand.locator.owner.hookId === selectedId
+                ? props.focusCommand.revision
+                : undefined
+            }
             onChange={(flow) =>
               dispatch(
                 new UpdateSceneHookV5Command(props.sceneId, props.slot, selectedId, { flow }),
@@ -187,27 +198,30 @@ export function ScriptV5SceneHookInspector(props: {
           selectedName={detailsScheme.label}
           references={detailsReferences.map((reference, index) => ({
             key: `${reference.kind}:${reference.path}:${index}`,
-            path: reference.path,
-            label:
-              reference.kind === 'initial'
-                ? '当前场景进入时自动运行'
-                : '一条切换场景脚本方案的指令',
+            reference,
+            label: describeCanonicalScriptReferenceV5(props.state, reference),
           }))}
           defaultControl={{
             isDefault: channel?.initial === detailsId,
             activeCopy: copy.defaultActiveCopy,
             inactiveCopy: copy.defaultInactiveCopy,
-            onSetDefault: () =>
-              dispatch(new SetSceneHookInitialV5Command(props.sceneId, props.slot, detailsId)),
-            onClearDefault: () =>
-              dispatch(new SetSceneHookInitialV5Command(props.sceneId, props.slot, undefined)),
           }}
-          onOpenReference={props.onOpenReference}
+          onOpenReference={(reference) => {
+            setDetailsId(undefined)
+            props.onOpenReference?.(reference)
+          }}
           onClose={() => setDetailsId(undefined)}
-          onRename={(label) =>
-            dispatch(new UpdateSceneHookV5Command(props.sceneId, props.slot, detailsId, { label }))
+          onSave={(label, isDefault) =>
+            dispatch(
+              new SaveSceneHookDetailsV5Command(
+                props.sceneId,
+                props.slot,
+                detailsId,
+                label,
+                isDefault === true,
+              ),
+            )
           }
-          onCopy={() => copyScheme(detailsId)}
           onDelete={() => {
             if (dispatch(new DeleteSceneHookV5Command(props.sceneId, props.slot, detailsId))) {
               if (selectedId === detailsId)

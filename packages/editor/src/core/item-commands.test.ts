@@ -9,6 +9,7 @@ import {
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
+import type { ScriptEditorStateV5 } from './script-v5-editor.js'
 
 const item = (id: string): ItemData => ({
   id,
@@ -71,6 +72,27 @@ describe('物品 CRUD 命令', () => {
 
     expect(() => new DeleteItemCommand('used').apply(current)).toThrow(/默认开局/)
     expect(current.items.map((entry) => entry.id)).toEqual(['used'])
+  })
+
+  test('DeleteItem 每次从 canonical provider 重算脚本引用', () => {
+    const current = state([item('used')])
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/user/reward': {
+          name: '奖励',
+          self: 'none',
+          body: [{ kind: 'giveItem', itemId: 'used' }],
+        },
+      },
+      migrationSidecars: [],
+    }
+    const command = new DeleteItemCommand('used', () => canonical)
+
+    expect(() => command.apply(current)).toThrow(/可复用脚本“奖励”.*获得 ×1/s)
+    canonical.sharedScripts['shared/user/reward']!.body = []
+    expect(command.apply(current).items).toHaveLength(0)
   })
 
   test('EditSession 删除、撤销和重做保持原位置与内容', () => {
