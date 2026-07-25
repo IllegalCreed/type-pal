@@ -89,12 +89,9 @@ class P7CommandProjector {
     return value.flatMap((command, index) => this.command(command, `${path}[${index}]`))
   }
 
-  private withExpansion(
-    key: string,
-    path: string,
-    body: unknown,
-  ): AuthorCommandV5[] {
-    if (this.expansionStack.has(key)) throw new Error(`${path}: canonical inline expansion 环 ${key}`)
+  private withExpansion(key: string, path: string, body: unknown): AuthorCommandV5[] {
+    if (this.expansionStack.has(key))
+      throw new Error(`${path}: canonical inline expansion 环 ${key}`)
     this.expansionStack.add(key)
     try {
       return this.commands(body, `${path}<${key}>`)
@@ -103,11 +100,7 @@ class P7CommandProjector {
     }
   }
 
-  private address(
-    legacyEntity: unknown,
-    path: string,
-    explicitScene?: unknown,
-  ): EntityAddress {
+  private address(legacyEntity: unknown, path: string, explicitScene?: unknown): EntityAddress {
     if (
       legacyEntity &&
       typeof legacyEntity === 'object' &&
@@ -133,7 +126,7 @@ class P7CommandProjector {
     )
   }
 
-  private condition(value: unknown, path: string): AuthorConditionV5 {
+  condition(value: unknown, path: string): AuthorConditionV5 {
     if (!value || typeof value !== 'object' || Array.isArray(value))
       throw new Error(`${path}: 期望条件对象`)
     const condition = value as Record<string, unknown>
@@ -176,9 +169,7 @@ class P7CommandProjector {
   }
 
   private generatedP6(command: Record<string, unknown>, path: string): AuthorCommandV5[] {
-    const target = command.target as
-      | { owner?: P4AuthorOwnerIdentity; flowId?: unknown }
-      | undefined
+    const target = command.target as { owner?: P4AuthorOwnerIdentity; flowId?: unknown } | undefined
     if (!target?.owner || typeof target.flowId !== 'string')
       throw new Error(`${path}: n3P6FlowExit 目标非法`)
     const flow = this.localFlows.get(`${p7OwnerKey(target.owner)}\u0000${target.flowId}`)
@@ -220,11 +211,7 @@ class P7CommandProjector {
       throw new Error(
         `${path}: state-machine transfer ${target.cycleId} 必须由 owner flow projector 消费`,
       )
-    return this.withExpansion(
-      `cycle:${target.cycleId}`,
-      path,
-      cycle.authorProjection.body,
-    )
+    return this.withExpansion(`cycle:${target.cycleId}`, path, cycle.authorProjection.body)
   }
 
   private command(value: unknown, path: string): AuthorCommandV5[] {
@@ -287,7 +274,13 @@ class P7CommandProjector {
       ]
     }
     if (command.kind === 'confirm')
-      return [{ kind: 'confirm', onNo: this.commands(command.onNo, `${path}.onNo`) }]
+      return [
+        {
+          kind: 'confirm',
+          ...(command.id === undefined ? {} : { id: command.id as string }),
+          onNo: this.commands(command.onNo, `${path}.onNo`),
+        },
+      ]
     if (command.kind === 'setMultiEntityState') {
       const rawTargets = command.targets ?? command.entities
       if (!Array.isArray(rawTargets)) throw new Error(`${path}.targets: 期望数组`)
@@ -372,14 +365,9 @@ class P7CommandProjector {
       const { entity: _entity, target: _target, ...rest } = command
       return [
         {
-          ...(clone(rest) as Extract<
-            AuthorCommandV5,
-            { kind: 'vanishEntity' | 'releaseEntity' }
-          >),
+          ...(clone(rest) as Extract<AuthorCommandV5, { kind: 'vanishEntity' | 'releaseEntity' }>),
           kind: command.kind,
-          ...(rawTarget === undefined
-            ? {}
-            : { target: this.address(rawTarget, `${path}.target`) }),
+          ...(rawTarget === undefined ? {} : { target: this.address(rawTarget, `${path}.target`) }),
         } as AuthorCommandV5,
       ]
     }
@@ -405,6 +393,14 @@ export function projectP7AuthorCommands(
   return new P7CommandProjector(context).commands(value, path)
 }
 
+export function projectP7AuthorCondition(
+  value: unknown,
+  context: P7CommandProjectionContext,
+  path = 'condition',
+): AuthorConditionV5 {
+  return new P7CommandProjector(context).condition(value, path)
+}
+
 function directCycleForStage(
   ir: ScriptMigrationIRP6,
   owner: P4AuthorOwnerIdentity,
@@ -413,9 +409,7 @@ function directCycleForStage(
   return ir.cycleStructures.find(
     (cycle) =>
       cycle.entryLegacyScriptIds.includes(legacyScriptId) &&
-      cycle.ownerFlows.some(
-        (flow) => p7OwnerKey(flow.identity.owner) === p7OwnerKey(owner),
-      ),
+      cycle.ownerFlows.some((flow) => p7OwnerKey(flow.identity.owner) === p7OwnerKey(owner)),
   )
 }
 
@@ -439,8 +433,7 @@ export function projectP7SimpleOwnerFlow(args: {
     args.ir.localFlows
       .filter(
         (flow) =>
-          p7OwnerKey(flow.identity.owner) === ownerKey &&
-          flow.entry === 'direct-owner-body',
+          p7OwnerKey(flow.identity.owner) === ownerKey && flow.entry === 'direct-owner-body',
       )
       .map((flow) => [flow.sourceLegacyScriptId, flow]),
   )
@@ -462,9 +455,7 @@ export function projectP7SimpleOwnerFlow(args: {
         ? directCycle.authorProjection.body
         : undefined)
     if (body === undefined)
-      throw new Error(
-        `P7 owner ${ownerKey}: stage ${allocation.stageId} 缺 canonical body`,
-      )
+      throw new Error(`P7 owner ${ownerKey}: stage ${allocation.stageId} 缺 canonical body`)
     const legacy = args.legacyStages?.[allocation.legacyStageIndex]
     let next: string | undefined
     if (legacy?.next === 'advance') next = args.owner.stages[index + 1]?.stageId
