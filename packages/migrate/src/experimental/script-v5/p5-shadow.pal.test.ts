@@ -161,7 +161,7 @@ function firstJump(value: unknown): Record<string, unknown> | undefined {
 describe.skipIf(!existsSync(extracted))('N3 P5 PAL cyclic flow shadow migration', () => {
   beforeAll(() => {
     fixture = loadP5Fixture()
-  }, 120_000)
+  }, 180_000)
 
   test('433 cyclic bodies form 331 explicit cycle structures and P5 reaches zero', () => {
     const report = validateP5ScriptMigrationIR({
@@ -401,7 +401,7 @@ describe.skipIf(!existsSync(extracted))('N3 P5 PAL cyclic flow shadow migration'
         (conflict) => conflict.kind === 'cycle-reference-inventory-modify',
       ),
     ).toBe(true)
-  }, 120_000)
+  }, 180_000)
 
   test('pure rechunk is not an author conflict and target-ledger tampering is rejected', () => {
     const rechunked = cloneMigration(fixture.migration)

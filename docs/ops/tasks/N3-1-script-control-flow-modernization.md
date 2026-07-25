@@ -5,9 +5,9 @@ Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: GLM（P5 完成后的架构 + 数据合并代审）
+Reviewer: GLM（P6 完成后的架构 + 数据合并代审）
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（额度耗尽；P3/P4 已豁免，P5 继续由 GLM 合并代审）
+Unavailable Agents: Kimi（额度耗尽；P3/P4/P5 已豁免，P6 继续由 GLM 合并代审）
 Branch: TBD
 
 ## 目标
@@ -1211,12 +1211,122 @@ cross-owner 17 体的共享判据），不阻塞 P5。
 |---|---|---|---|
 | Codex | **accept** | 2026-07-25 | Coding Owner 自验；331 components / 433 bodies 全分类为 99 auto repeat + 162 loop + 70 state machine / 172 states；753 个 author transition 一等分配、1,286 jump rewrite、694 回边可取消 yield、3 cross-owner 零复制、8,102 可逆、累计/repeat plan、migrate 全量与 P5 shadow 双构建均通过。 |
 | Kimi | **absent（用户豁免）** | 2026-07-25 | 额度仍耗尽；依用户“合成一个都让 GLM 审核”的裁决，本批原架构/控制流/调度语义席位继续由 GLM 合并代审。额度恢复后补审，但不阻塞 GLM `accept` 后的 P5 → P6；最终验收时若仍缺签须再请用户裁决。 |
-| GLM | **pending（合并代审）** | — | 须独立复跑 P5 shadow、PAL golden / migrate 全量，并审查结构分类、稳定 ID、回边 yield/cancellation、call-vs-jump 退出、`confirm.onNo` outcome、transition ledger 和 MG2 fail-loud。不得改实现文件。 |
+| GLM | **accept（合并代审）** | 2026-07-25 | 独立复跑 shadow `--through p5 --check`（854/0/0, digest `e6cf5374…`）+ PAL golden（6/6 isolated pass）+ typecheck + P0 audit；331 components/433 bodies（99 auto+162 loop+70 SM/172 states）/ 753 transitions（230 body-end+522 condition+1 confirm:no）/ 1286 rewrite/694 worldTick/11 deferred P6 / 3 cross-owner 零复制 / 8,102 可逆 / pending P5:0 P6:31 / ledger 17,291+5,620+8,965 / 首跑 6,207/11,416/0 重复 0/0/0 / ID 全显式 / confirm.onNo 有充分 P7 落点。见「GLM P5 合并代审」。 |
 
-- counter / 返工: 当前无；等待 GLM 结论。
-- P5 -> P6 准入: **blocked（等待 GLM 合并代审 `accept`）**。
+- counter / 返工: 当前无；GLM 无返工。全量并行测试有 1 个 flaky timeout（P5 PAL test 5 在并行压力下 120s 超时），隔离复跑 78.6s 通过；建议 Codex 将该测试 timeout 提到 180s（Codex 后续已采纳，见交接日志）。
+- P5 -> P6 准入: **allowed（2026-07-25；GLM 合并代审 `accept`，Kimi 用户豁免）**。Codex 可启动 P6。
 - Kimi 补审债务: P3/P4/P5 三批均登记；不阻塞当前内部批次，但不自动等于 N3-1 最终缺签豁免。
 - 本表只控制 P5 内部分批推进；N3-1、C8、ED-5I 仍未完成最终验收。
+
+### GLM P5 合并代审（2026-07-25）
+
+**方法**：只读合并代审（架构 + 数据），不改实现文件。读 p5-cycle-structure.ts / p5-validate.ts /
+p5-transition-plan.ts 全部源码 + 独立复跑 `migrate:script-v5:shadow --through p5 --check` + P5 PAL golden（隔离）+
+typecheck + P0 audit。
+
+#### 重点 1：331 components / 433 bodies 分类 ✅
+
+GLM 独立复跑 cycleCensus（`isDeepStrictEqual` 硬断言）：
+
+| 口径 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---:|---:|---|
+| components | 331 | **331** | ✅ |
+| bodies | 433 | **433** | ✅ |
+| size1 / size2 / size3 | 275 / 10 / 46 | **275 / 10 / 46** | ✅ |
+| auto-runner-repeat | 99 | **99** | ✅ |
+| structured-loop | 162 | **162** | ✅ |
+| state-machine | 70 | **70** | ✅ |
+| state-machine states | 172 | **172** | ✅ |
+| owner channels (trigger/auto/hook) | 6 / 323 / 2 | **6 / 323 / 2** | ✅ |
+| cross-owner structures | 3 | **3** | ✅ |
+| body copies | 0 | **0** | ✅ |
+
+**分类逻辑**（p5-cycle-structure.ts:202-219 `classifyP5CycleShape`）：
+- size-1 + exact tail self-jump + auto channel → `auto-runner-repeat`（auto runner lifecycle 承接，不造 `while(true)`）
+- size-1 + simple conditional self-jump（`/N/then/0`）→ `structured-loop`（`loop mode=until`）
+- 其余（多节点 / 复杂图）→ `state-machine`（完整具名状态机）
+
+#### 重点 2：753 author transitions = 230 body-end + 522 condition + 1 confirm:no ✅
+
+GLM 独立验证：
+- **753 cycle-body transfer** 有一等可编辑 author transition allocation（稳定 ID + from/to/trigger/scheduling/cancellation）
+- trigger 分类：`230 body-end`（尾转移）+ `522 condition`（branch.then/0 条件臂）+ `1 command-outcome`（confirm:no）
+- **transitionId 全部 `legacy-transition-###`**（显式分配，不从地址/hash/chunk 推导）
+- generated lowering 与 author transition 一一反查（`nestedOutcomeTransitions: 1`）
+
+#### 重点 3：1,286 jump rewrite / 694 worldTick / 剩余 11 属 P6 ✅
+
+| 口径 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---:|---:|---|
+| input jumpScript | 1,297 | **1,297** | ✅（P4 表示层总量） |
+| rewrittenP5 | 1,286 | **1,286** | ✅ |
+| deferred P6 | 11 | **11** | ✅（全部只指向 P6 synthetic target） |
+| SCC back edges (worldTick) | 694 | **694** | ✅（全部可取消 worldTick yield） |
+| cross-component | 51 | **51** | ✅ |
+| owner inbound | 464 | **464** | ✅ |
+| acyclic owner flow | 69 | **69** | ✅ |
+| cycleBody / ownerFragment / flowStructure | 753 / 528 / 5 | **753 / 528 / 5** | ✅ |
+
+**调度语义**：694 SCC 回边全部 `worldTick`（可取消让步）；前向 flow transfer `macroTask`（worldClockAdvanceMs=0）。
+loop 全部 `maxIterations=10,000`（有限上限）；validator 拒绝缺少 yield/cancellation/上限/悬空目标。
+
+#### 重点 4：confirm.onNo transition 为 P7 提供充分落点 ✅
+
+GLM 独立验证 confirm:onNo transition：
+- **1 个 `command-outcome` transition**：`confirm` + `outcome: 'no'` + `fallback: 'continue'`
+- 来源：`scene/s081/L-14461/...#/26/onNo/0`（confirm 命令的 onNo 臂内嵌 jump）
+- 目标：`cycle` structure（`p5-cycle-141`）
+- transitionId `legacy-transition-001`（显式分配）
+- **P7 必须把 confirm:no 命令结果分支纳入 canonical transition/compiler**——该 transition 为 P7 提供了
+  充分的落点证据（from state + trigger + target + scheduling），不允许静默丢弃。
+- **结论**：充分。P7 compiler 只需消费该 author transition 的 `command-outcome` trigger kind，
+  在 confirm 命令执行后根据结果选择 transition，不需要额外 schema 变更。
+
+#### 重点 5：3 cross-owner 零复制 / 8,102 可逆 / pending ✅
+
+- **3 cross-owner structures**：共享同一 cycle structure，`bodyCopies: 0`（零复制，多 owner 引用同一结构）
+- **8,102 可逆**：累计反向重建 8,102/8,102 bodies（validateP5 独立重算）
+- **pending**：`{P5: 0, P6: 31}`——P5 全部收口，31 个 author-root/cross-owner/synthetic-target 属 P6
+
+#### 重点 6：ledger 17,291 / 5,620 / 8,965 + plan + 冲突零写 ✅
+
+| 口径 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---:|---:|---|
+| entries | 17,291 | **17,291** | ✅ |
+| groups | 5,620 | **5,620**（P4 5,220 + P5 400） | ✅ |
+| evidence | 8,965 | **8,965**（P4 8,565 + P5 400） | ✅ |
+| pending | 31 | **31** | ✅ |
+| 首跑 plan | 6,207 writes / 11,416 deletes / 0 conflicts | 卡内一致 | ✅ |
+| 重复 plan | 0/0/0 | shadow `--check` second=0/0/0 | ✅ |
+
+**作者保护**（PAL test 5-6）：作者修改 cycle body → 整组冲突零写；新增指向 cycle body 的入站引用 → 冲突零写；
+纯 rechunk → 不误报；ledger 关系篡改 → 零写。
+
+#### 独立复跑
+
+| 命令 | 结果 |
+|---|---|
+| typecheck | pass |
+| migrate test（隔离 P5 PAL） | **6/6 passed**（78.6s 最长 test） |
+| migrate test（全量并行） | 49/50 files passed；**1 flaky timeout**（P5 PAL test 5 并行压力下 120s 超时，隔离 78.6s 通过） |
+| shadow `--through p5 --check` | **854 artifacts, first=854/0/0, second=0/0/0** |
+| bundle digest | `e6cf5374a0e5376b88846142ec0c5f71b19cf7929ded94482c91e6b9176dd0d2` ✅ |
+| P0 audit `--check` | digest 不变 |
+
+**flaky timeout 说明**：P5 PAL test 5（'author cycle-body modifications...'）在全量并行时超 120s。
+隔离复跑 78.6s 通过，是并行 I/O 压力导致的性能 flaky，非正确性问题。建议 Codex 将 timeout 提到 180s。
+
+#### 结论
+
+**GLM P5 合并代审 accept**。架构（cycle 分类 auto/loop/state-machine + 稳定 ID + worldTick 回边 + macroTask 前向 +
+loop cap + confirm:onNo author transition）+ 数据（331/433 守恒 / 753 transitions / 1,286 rewrite / 694 worldTick /
+3 cross-owner 零复制 / 8,102 可逆 / pending P5:0 P6:31 / ledger 17,291+5,620+8,965 / 双跑 0/0/0 / fail-loud 反例）
+逐项成立。无 counter/rework。**P5 准入 P6**。
+
+#### Kimi 补审债务
+
+P3/P4/P5 三批 Kimi 均缺签（额度耗尽，用户豁免）。Kimi 恢复后应补审 P5 的 cycle 分类语义（尤其
+state-machine 70 个的 transition 完整性和 auto-runner-repeat 99 个的 lifecycle 语义），不阻塞 P6。
 
 ### GLM P2 复审（2026-07-15）
 
@@ -2754,57 +2864,55 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   只读代审并签 `accept` 或 `counter`；P5 accept 前不得进入 P6。未改 canonical/runtime/
   editor/project/baseline。仓库根 `pnpm check` 随后通过：7 个 workspace package 全绿，
   migrate 50 files / 364 passed + 1 skipped，Biome 880 files。
+- 2026-07-25 GLM: P5 架构 + 数据合并代审签 **accept**。只读审查不改实现：读 p5-cycle-structure.ts /
+  p5-validate.ts / p5-transition-plan.ts 全部源码 + 独立复跑 `migrate:script-v5:shadow --through p5 --check`
+  （854 artifacts / 0/0/0, digest `e6cf5374…` 匹配）+ P5 PAL golden 隔离 6/6 + typecheck + P0 audit。
+  6 项重点逐项对账：①331 components/433 bodies（275+10+46 size / 99 auto+162 loop+70 SM/172 states / 3 cross-owner
+  零复制 / bodyCopies=0）；②753 transitions（230 body-end+522 condition+1 confirm:no，全 `legacy-transition-###`
+  稳定 ID）；③1286 rewrite/694 worldTick 回边/11 deferred P6（input 1297=1286+11）；④confirm:onNo 1 个
+  command-outcome transition 为 P7 提供充分落点（from+trigger+target+scheduling 完整）；⑤3 cross-owner
+  零复制/8102 可逆/pending P5:0 P6:31；⑥ledger 17,291+5,620+8,965 / 首跑 6,207/11,416/0 重复 0/0/0 /
+  冲突零写/rechunk 不误报。
+  **flaky timeout**：全量并行测试 P5 PAL test 5 超时（120s），隔离 78.6s 通过；建议 Codex 提 timeout 到 180s。
+  Evidence: P5 签字表 GLM 行 + GLM P5 合并代审节。Next: **P5→P6 allowed**；Codex 可启动 P6。
+  Kimi 额度恢复后补审 P5 cycle 分类语义（不阻塞）。未改实现文件。
+- 2026-07-25 Codex: 核验 GLM P5 签字、独立复跑证据与交接记录完整，无 `counter/rework`；
+  正式关闭 P5 内部门禁并把看板下一步切到 P6。采纳非阻塞建议，将 P5 PAL
+  “author cycle-body modifications”用例及其 fixture timeout 从 120 秒提高到 180 秒；
+  隔离复跑 1 passed / 5 skipped，目标用例 76.8 秒、总计 102.93 秒。只调整并发预算，
+  不改断言或实现语义。P3/P4/P5 的 Kimi 补审债务继续保留，但按用户豁免
+  不阻塞本批。Next: 先独立提交 P5 审查记录与测试稳定化，再按下方提示词实现 P6；P6 GLM
+  合并代审 `accept` 前不得进入 P7。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P5 架构 + 数据合并代审）
+### 给 Codex（P6 共享脚本收口与旧模型退役）
 
 ```text
-接手任务: N3-1 P5 循环与状态机恢复合并代审
+接手任务: N3-1 P6 共享脚本收口与旧模型退役
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前状态: build；Codex P5 自验 accept；Kimi 额度耗尽且用户批准由 GLM 合并代审；
-  P5→P6 仍 blocked。
-你的角色: GLM，只读合并代审，承接架构/控制流/调度语义 + 数据/覆盖/测试矩阵；不得改实现文件。
-先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-5、P1-8、
-  「P5 循环与状态机影子实现与自测」「P5 阶段审查推进签字」；
-  packages/migrate/src/experimental/script-v5/p5-cycle-structure.ts
-  packages/migrate/src/experimental/script-v5/p5-validate.ts
-  packages/migrate/src/experimental/script-v5/p5-transition-plan.ts
-  packages/migrate/src/experimental/script-v5/p5-shadow.pal.test.ts
-  packages/migrate/src/experimental/script-v5/shadow-harness.ts
-必须独立核对:
-  1. 331 components / 433 bodies = 275 size1 + 10 size2 + 46 size3；
-     99 auto repeat + 162 structured loop + 70 state machine / 172 states，unknown=0。
-  2. auto/trigger/scene hook 投影不混通道；不可约/多节点图完整进入一等状态机，无匿名 private block；
-     flow/state/transition id 只用显式 cycle/legacy-###/initial/legacy-transition-###，
-     不含地址/hash/chunk/位置；753 transitions = 230 body-end + 522 condition + 1 confirm:no，
-     author table 与 generated lowering 一一反查。
-  3. 1,297 jump site = 1,286 P5 rewrite + 11 P6 synthetic；694 SCC back edge 全部
-     worldTick + cancellation required，前向 transfer 为 macroTask，退出当前 segment；
-     loop cap=10,000，100/40/120/150/200ms 调度常量与 P1 一致。
-  4. call-vs-jump 尾转移无返回语义漂移；confirm.onNo 内嵌跳转保留为显式 outcome transition，
-     并判断 P7 canonical transition/compiler 是否已有足够落点。若不足请 counter 或明确列 P7 必落钉。
-  5. 3 个 cross-owner cycle bodyCopies=0；8,102/8,102 可逆；duplicate/dangling/pendingUnknown=0；
-     pending={P5:0,P6:31}，没有把复杂但不复用的逻辑误升 shared。
-  6. ledger=17,291 entries / 5,620 groups / 8,965 evidence / 31 pending；
-     首跑 6,207/11,416/0、repeat 0/0/0；作者改 cycle body、新增入站引用、篡改 ledger 均冲突零写，
-     rechunk 不误报。
-独立复跑:
-  pnpm --filter @type-pal/migrate typecheck
-  pnpm --filter @type-pal/migrate test
-  pnpm --filter @type-pal/migrate migrate:script-v5:shadow -- --through p5 --check
-影子根: packages/migrate/.shadow/N3-1/v5/p5/
-Codex bundle digest: e6cf5374a0e5376b88846142ec0c5f71b19cf7929ded94482c91e6b9176dd0d2
-输出:
-  - 在「P5 阶段审查推进签字」GLM 行签 accept，或写 counter/rework 的精确反例。
-  - 在本卡新增「GLM P5 合并代审」和交接日志，记录独立命令、数字、风险与结论。
-  - accept 时明确 P5→P6 allowed 并给 Codex P6 提示词；counter 时保持 blocked。
-  - 不得标记 N3-1/C8/ED-5I done。
+当前状态: build；P0-P5 全部 accept（P3/P4/P5 Kimi 用户豁免，GLM 合并代审）；P5→P6 已 allowed。
+你的角色: Codex，Coding Owner，继续 shadow-only 累计 IR/ledger。
+先读: AGENTS.md、docs/phase2/READ-FIRST.md、本卡 P1-5（SharedAuthorScript）、P1-7（identity ledger）、
+  P6 节（含用户 2026-07-24 裁决：共享脚本回归"通用函数"本义）、P5 实现与签字、「GLM P5 合并代审」。
+P6 范围:
+  - 31 个 pending（14 author-root + 17 cross-owner）识别真正跨调用方复用的业务逻辑；其余归回局部结构/状态机。
+  - 6 个 shared/user/* 作者根直接拥有 body，不再桥接内部块（当前 bridgeOnly=true）。
+  - 按用户裁决：268 craftRecipe、270 drawFromResourcePool 已属领域模型不退 shared；剩余 item runScript
+    能结构化的回归物品模块，只保留真正无法结构化且跨处复用的才留共享脚本。
+  - 从 canonical schema 移除作者可见 jumpScript、匿名 binding 和"迁移内部实现"。
+  - 13 个 shared/scc-* 误导命名在 P2 已退役 active identity；P6 确认无引用残留。
+P6 纪律:
+  - 继续 canonical=false / runtimeConsumable=false shadow IR；不改 CONTENT_VERSION/runtime/editor/projects/pal。
+  - 累计 ledger 继续作者保护 + conflict-if-modified + 双跑 0/0/0。
+  - P6 完成后交 GLM 合并代审（Kimi 若恢复则三方）；accept 前不进 P7。
+  - 建议修复：P5 PAL test 5 timeout 从 120s 提到 180s（flaky 并行超时）。
+输出: 在任务卡写 P6 实现摘要 + P6 阶段签字 Codex 行 accept；给 GLM P6 审查提示词。
 ```
 
-无下一位 Agent 提示词给 Codex/Kimi——等待 GLM 完成 P5 合并代审。
+无下一位 Agent 提示词给 GLM/Kimi——GLM P5 已 accept，等待 Codex 完成 P6 后再审查。
 
-## 历史 Agent 提示词（P1-P4 build 已完成批次，勿再执行）
+## 历史 Agent 提示词（P1-P5 build 已完成批次，勿再执行）
 
 ### 给 Codex（P3 准入实现：无环控制流结构化；已完成）
 
