@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending（等待验收 `e675f474` P7-R5 引用闭包、方案详情与共用编辑器收口）
+- 用户结论: pending（等待验收 `9010465b` P7-R6 可复用脚本创建弹窗）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3462,11 +3462,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R5 已自验，等待用户体验确认）** | 2026-07-26 | `e675f474` 在 P7-R4 基础上补齐可读引用与精确反跳、canonical 物品引用闭包、方案详情原子保存和统一战败后脚本编辑；移除无明确作者场景的“复制方案”，修正引用正文层级。真实 PAL 数据、地图预览、对话播放和分隔条均已复验。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R6 已自验，等待用户体验确认）** | 2026-07-26 | `9010465b` 把可复用脚本创建从左侧列表常驻表单移入独立弹窗；标题栏只保留原编辑器风格的“＋”按钮，弹窗具备名称/稳定 ID、自动生成、行内错误、焦点进入与归还。P7-R5 引用闭包与预览证据继续成立。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R5 后终审）** | 2026-07-26 | 当前候选基线为 `e675f474`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R6 后终审）** | 2026-07-26 | 当前候选基线为 `9010465b`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R5 实现与自验完成，但仍保持 rework**。`e675f474` 是当前用户验收候选；
+- Codex 结论：**P7-R6 实现与自验完成，但仍保持 rework**。`9010465b` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
@@ -3673,22 +3673,45 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - 方案弹窗 computed style：无复制按钮，引用正文 10px，小标题 11px；footer 删除在左、
     取消/保存在右。截图：`output/playwright/scheme-details.png`。
   - 实现提交：`e675f474 fix(editor): restore canonical script reference workflows`。
-- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+- **P7-R5 当轮门禁（后由 P7-R6 继续返工）**：仍为 `rework`，等待用户实际体验确认；确认后
+  Codex 才重签 `accept` 并把
   `e675f474` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
+#### P7-R6 可复用脚本创建弹窗（2026-07-26）
+
+- **用户验收反例**：脚本库左栏把“新建脚本”的名称、稳定 ID 和提交按钮常驻铺在列表底部，
+  抢占浏览空间，也把“浏览脚本”与“创建脚本”两种任务混在同一个面板。
+- **实现**：
+  - 移除左栏常驻创建表单，在“可复用脚本”标题栏增加与原编辑器一致的“＋”按钮；
+    点击后打开独立“新建可复用脚本”弹窗。
+  - 弹窗只承载脚本名称和稳定 ID；名称输入时自动生成唯一 ID，稳定 ID 的技术说明收进 `?`；
+    footer 统一使用“取消 / 创建脚本”，支持 Enter 提交和 Escape 关闭。
+  - 打开时焦点进入名称输入框，关闭后归还标题栏“＋”；空名称提交显示关联到输入框的行内错误，
+    ID 冲突/非法时聚焦 ID 输入框，保留编辑内容供修正。
+- **验证证据**：
+  - editor 全量 **89 files / 756 tests passed**；editor typecheck、root lint
+    **949 files clean**、editor production build 377 modules、Biome 与 `git diff --check` 全绿。
+  - Playwright 在 PAL 脚本库实测：左栏无常驻创建表单；“＋”打开弹窗，名称输入自动聚焦并生成
+    `shared/user/...`，空提交显示“请输入脚本名称”，Escape 关闭后焦点回到“＋”；
+    console **0 error / 0 warning**，未创建或保存真实工程数据。
+  - 截图：`output/playwright/n3-1-p7-r6-new-shared-script.png`。
+  - 实现提交：`9010465b fix(editor): move shared script creation into dialog`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `9010465b` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R5 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R6 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R5 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
+终审任务: N3-1 P7-R6 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: e675f474 fix(editor): restore canonical script reference workflows
+当前候选基线: 9010465b fix(editor): move shared script creation into dialog
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..e675f474
+本轮返工增量: 18a66216..9010465b
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R5 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+执行条件: 只有用户明确确认 P7-R6 体验可接受后才开始本终审；确认前不得执行、不得改签字。
 Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
   GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3742,9 +3765,11 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
       战败后脚本是否使用统一正文编辑器而不是 legacy JSON。
   12. 方案详情是否移除无明确任务的“复制方案”；名称与默认状态是否由 footer 一次原子保存，
       一次 undo 完整恢复；删除/取消/保存位置与引用条目字号、字重、焦点态是否符合层级。
-  13. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
-     content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
-     N3-1/C8/ED-5I 标 done。
+  13. 可复用脚本左栏是否只保留标题栏创建按钮；创建是否使用独立弹窗，名称能生成唯一稳定 ID，
+      空值/冲突错误是否就地可修正，Enter/Escape/焦点进入与归还是否闭环。
+  14. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+      content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
+      N3-1/C8/ED-5I 标 done。
 输出:
   - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的文件/断言/复现命令/返工项；
   - 在交接日志写独立复跑数字、digest、架构/数据结论；
@@ -3752,7 +3777,7 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前无下一位 Agent 执行：等待用户验收 P7-R5；上面的 GLM 提示词仅在用户确认后启用。
+当前无下一位 Agent 执行：等待用户验收 P7-R6；上面的 GLM 提示词仅在用户确认后启用。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
@@ -3820,7 +3845,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R5 用户验收门禁为准。
+历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R6 用户验收门禁为准。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
