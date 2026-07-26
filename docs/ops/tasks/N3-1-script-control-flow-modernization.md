@@ -3462,11 +3462,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R7 已自验，等待用户体验确认）** | 2026-07-26 | `4e24b7d4` 移除方案详情与新建方案弹窗中重复的“所属入口”，并将“方案名称”与“使用位置”统一为同一小标题层级；P7-R5 引用闭包、P7-R6 创建弹窗与预览证据继续成立。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R8 已自验，等待用户体验确认）** | 2026-07-26 | `ae6d1d9c` 将步骤详情与方案详情收口到同一弹窗信息层级：移除重复“所属方案”，统一“起始步骤 / 下次运行”小标题，把删除移至 footer 左侧并保留独立二次确认；P7-R5 引用闭包、P7-R6 创建弹窗与预览证据继续成立。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R7 后终审）** | 2026-07-26 | 当前候选基线为 `4e24b7d4`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R8 后终审）** | 2026-07-26 | 当前候选基线为 `ae6d1d9c`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
 
-- Codex 结论：**P7-R7 实现与自验完成，但仍保持 rework**。`4e24b7d4` 是当前用户验收候选；
+- Codex 结论：**P7-R8 实现与自验完成，但仍保持 rework**。`ae6d1d9c` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
@@ -3717,19 +3717,43 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 - **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
   `4e24b7d4` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
+#### P7-R8 步骤详情弹窗信息层级收口（2026-07-26）
+
+- **用户验收反例**：步骤详情重复显示标题已经能够表达的“所属方案”；“这不是起始步骤”与操作
+  相距过远，下一步设置仍使用普通标签；删除按钮单独占据正文区并增加一层分隔边框，footer
+  反而只放“关闭”，与方案详情已经确定的弹窗操作层级不一致。
+- **实现**：
+  - 移除正文中的“所属方案”，保留标题“步骤 N · 详情”作为唯一上下文；
+  - 将“起始步骤”和“下次运行”改为与方案详情共用的
+    `canonical-dialog-field-heading` 小标题；状态与“设为起始步骤”放在同一设置组内，
+    下次运行标题继续通过 `label` 精确关联 select；
+  - 删除操作移至 footer 左侧，关闭放在右侧；移除正文删除专区和额外分隔边框；
+    禁止删除最后一步的约束、删除影响提示与独立二次确认均保持不变。
+- **验证证据**：
+  - editor 全量 **89 files / 756 tests passed**；editor typecheck、root lint
+    **949 files clean**、editor production build 377 modules、Biome 与 `git diff --check` 全绿；
+  - Playwright 在 PAL s001 的“步骤 2 · 详情”实测：正文无“所属方案”与删除专区；
+    “起始步骤 / 下次运行”均为 `11px / 700 / 16.5px` 且颜色一致；删除位于 footer
+    首项、关闭位于末项；点击删除仍进入独立“删除步骤 2？”确认弹窗；console
+    **0 error / 0 warning**；
+  - 截图：`output/playwright/n3-1-p7-r8-step-details.png`；
+  - 实现提交：`ae6d1d9c fix(editor): simplify step details dialog`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `ae6d1d9c` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
+
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R7 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R8 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R7 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
+终审任务: N3-1 P7-R8 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: 4e24b7d4 fix(editor): simplify scheme details hierarchy
+当前候选基线: ae6d1d9c fix(editor): simplify step details dialog
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..4e24b7d4
+本轮返工增量: 18a66216..ae6d1d9c
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R7 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+执行条件: 只有用户明确确认 P7-R8 体验可接受后才开始本终审；确认前不得执行、不得改签字。
 Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
   GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
@@ -3787,7 +3811,10 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
       空值/冲突错误是否就地可修正，Enter/Escape/焦点进入与归还是否闭环。
   14. 方案详情与新建方案正文是否移除重复的“所属入口”；“方案名称”是否与“使用位置”使用
       同一小标题层级，帮助说明是否继续渐进披露在 `?` 中，且关联 label/焦点语义没有退化。
-  15. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  15. 步骤详情是否移除重复的“所属方案”和正文删除专区；“起始步骤 / 下次运行”是否共用
+      方案详情的小标题层级，状态与操作是否相邻，删除/关闭是否分别位于 footer 左右两端；
+      下次运行 label/select 关联、最后一步禁删、删除影响提示和独立二次确认是否继续成立。
+  16. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
       content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
       N3-1/C8/ED-5I 标 done。
 输出:
@@ -3797,7 +3824,7 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前无下一位 Agent 执行：等待用户验收 P7-R7；上面的 GLM 提示词仅在用户确认后启用。
+当前无下一位 Agent 执行：等待用户验收 P7-R8；上面的 GLM 提示词仅在用户确认后启用。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
@@ -3865,7 +3892,7 @@ P7 纪律:
 输出: 在任务卡写 P7 实现摘要 + P7 阶段签字 Codex 行 accept；给 GLM P7 审查提示词。
 ```
 
-历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R7 用户验收门禁为准。
+历史状态：上面的 Codex P7 实现提示词已完成，勿再执行；当前以 P7-R8 用户验收门禁为准。
 
 ## 历史 Agent 提示词（P1-P6 build 已完成批次，勿再执行）
 
