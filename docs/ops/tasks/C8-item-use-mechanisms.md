@@ -1,6 +1,6 @@
 # C8 - 物品用途机制、运行时与迁移闭环
 
-Status: build
+Status: review
 Phase: phase2
 Capability: C8（物品用途与机制）/ MG2
 Coding Owner: Codex
@@ -401,6 +401,81 @@ ledger 级反例；R1-R8 为 build 必落钉。
 - 该更正不改变 `WorldState.hostileAwareness` 随存档、战斗/菜单期间暂停计时的冻结方案，也不
   推翻 Kimi `agree`；它移除了“有意偏离原版”的错误风险描述。review 时以本更正后的 R2 验收。
 
+## C8-R2 Build 收口（2026-07-26）
+
+- 实现候选：`88277465`（`feat(phase2): close C8 item-use migration`）。
+- Coding Owner：Codex；实现期间没有第二位 Agent 修改实现文件。
+- 当前结论：C8-R2 的 build 硬门禁全部满足，任务由 `build` 推进到 `review`。Codex 自审
+  `accept`；Kimi / GLM 最终审查仍为 `pending`，签齐前不得标记 `done`。
+
+### 实现结果
+
+- **通用能力与运行时**：
+  - 新增并接通 `modifyHostileAwareness`、`scaleCurrentHp`、`levelUp`、
+    `currentHpDamage`、`placeEntityInFront`；effect context 表仍是唯一上下文真源，运行时没有
+    PAL item id 特判。
+  - 遇敌香状态以可选 `WorldState.hostileAwareness` 保存离散剩余时长；只在大世界敌人逻辑拍
+    递减，战斗/菜单/对话期间暂停，后使用者覆盖前者。
+  - 金蚕王使用通用 battle → world pending writeback；成长 delta 只掷一次，胜/败/逃统一写回，
+    胜利路径早于经验结算，败路径早于 game-over 载档。
+  - `placeEntityInFront` 抽为独立 host 事务；错场景、受阻均不改世界且不消费，成功才写坐标/
+    状态并消费。PAL 285 → `s048/e797,state=2`，294 → `s213/e3606,state=2`。
+  - 无影毒 137 同时补齐 use 与 throw；投掷死亡目标会重选存活目标，外部脚本先消费物品时不会
+    被统一提交层误判失败，private-first 混合效果会在执行脚本前完成全链 preflight。
+- **canonical migration / MG2**：
+  - 新增 P7 后的 C8 augmentation：14 件新增剧情用途直接生成唯一
+    `itemPrivateScript(use)`，复用统一 canonical v5 编辑器；加上 P7 已有 6 件，最终 PAL 中
+    `itemPrivateScript` 用途共 20 件。
+  - C8 冻结账覆盖 20 件物品、21 个源根（额外根为 137 throw）；逐 ID deep oracle 覆盖
+    4 件通用机制、14 件剧情用途、2 件放置用途及 137 投掷。
+  - 新增 append-only `_transitions/c8-item-use-v5-v1.json`；测试钉死发布记录 digest
+    `fbdbd50f5e47b924c8bf4dcfb0700d5b08a04afa0d3cc2bff0711b4b9da627a3`。
+  - 历史 P7 full ledger 与 baseline/project compatibility sidecar 字节不变：
+    ledger SHA-256 `41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12`，
+    两份 sidecar SHA-256 均为
+    `30ce8717aa9f6f21e14d862cde2aa44dff8f3652833826b4506e49bc7a6a2ed0`。
+  - 真实写盘后独立 dry-run：
+    `writes=0 deletes=0 conflicts=0`、`generated=0 kept=1 merged=223`；
+    写前门禁 `scenes=294 pages=3616 shared=0 legacy-scripts=0`。
+- **编辑器闭环**：
+  - 物品私有脚本没有另造编辑器；仍由
+    `CanonicalScriptBodyEditorV5` / `ItemUseEffectEditor` 共用脚本组件。
+  - 现有私有脚本支持新增、删除、排序、双击编辑、undo/redo 与保存重开；history 只保存 item
+    shell，active canonical projection 随历史同步，避免删除后残留 ghost reference。
+  - Playwright 实测 290 天书：新增第二个效果时私有脚本正文保留且不再出现“外部脚本必须唯一”
+    的伪诊断；删除私有脚本效果后正文退出活动投影；undo 可恢复原正文与顺序。浏览器未保存，
+    没有污染工程文件。
+
+### 最终验证证据
+
+- PAL 产品账实测：
+  `{"runnable":100,"privateCount":20,"itemUseDiagnostics":0,"items":234}`；
+  源 `usable` ID 集与目标 runnable use ID 集严格相等，均为 100。
+- 聚焦回归：
+  - content 最终 347 tests；
+  - reforge 最终 607 tests；
+  - editor 最终 761 tests；
+  - C8 20-ID deep golden 单文件 6/6；
+  - C8 seal / P7 immutable / final-target MG2 guards 18/18。
+- 根 `pnpm check` 最终通过：shared 121、content 347、reforge 607、pal-extract 246、
+  game 2289、editor 761、migrate 432 passed + 1 历史 skip；随后 Biome 检查 957 files，
+  无修复项。
+- 真实浏览器运行时烟测：6051 加载重迁 PAL，直达 `s048` 的 `e797` 附近，场景渲染、菜单与
+  “物品 → 使用”入口正常，console 3 info / 0 error / 0 warning。dev 初始库存为空，因此没有
+  在该次烟测中真实消耗 R2 物品；放置、成长、追逐范围、投掷与 private/mixed-chain 的消费事务
+  由上述 content/reforge 集成测试覆盖。
+
+### C8-R2 进入 done 前签字
+
+| 席位 | 签字 | 日期 | 结论 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-26 | 候选 `88277465` 完成 100/0、20-ID deep oracle、统一私有脚本编辑闭环、P7 immutable + C8 append-only seal、根检查、独立 dry-run 与 6051 烟测；同意进入最终审查。 |
+| Kimi | **pending** | — | 待只读复核 schema/save/runtime、battle writeback、private/mixed-chain 事务、post-P7 augmentation 与 immutable ledger 边界。 |
+| GLM | **pending** | — | 待只读复核 20 件/21 根覆盖、逐 ID oracle、100/0 产品账、C8 seal/MG2 与完整测试矩阵。 |
+
+- 当前 done 准入：**blocked on Kimi + GLM final accept，以及 N3-1/用户联合验收**。任一方
+  `counter` 即转 `rework`，不得沿用 R1 历史 accept。
+
 ## 验收条件
 
 ### 数据与运行时
@@ -735,10 +810,10 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
 ## 用户验收
 
 - 2026-07-24 历史结论: N3-1 未完成前不能按 R1 口径验收 C8。
-- 2026-07-26 当前结论: **rework**。用户确认 20 件是真实未完成并批准启动迁移；验收口径改为
-  100 件 usable 全部可运行、0 条物品用途迁移诊断，同时补齐审计发现的无影毒投掷缺口。
-- 当前下一步: GLM 对 C8-R2 设计签 `agree/counter`；`agree` 后 Codex 开始上游实现、全量重迁、
-  编辑器与运行时验证。C8-R2 候选完成后与 N3-1、ED-5I 一起重新验收，不沿用 R1 的 80+20 签字。
+- 2026-07-26 当前结论: **review**。候选 `88277465` 已达到 100 件 usable 全部可运行、
+  0 条物品用途迁移诊断，并补齐无影毒投掷与物品私有脚本新增/删除/撤销闭环。
+- 当前下一步: Kimi 与 GLM 分别进行 C8-R2 最终只读审查并签 `accept/counter`；两方均
+  `accept` 后仍须与 N3-1、ED-5I 终态一起交用户联合验收，不沿用 R1 的 80+20 签字。
 
 ## 交接日志
 
@@ -806,52 +881,75 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   更正 Kimi R2 的单一源事实错误：sdlpal `global.c:470-486,614-615,758-759` 明确保存并恢复
   `wChaseRange/wChasespeedChangeCycles`，所以遇敌香随存档是原版一致行为，不是设计偏离。
   Evidence:「Codex 签后源证据更正」。Next: Codex 作为唯一 Coding Owner 实施 G1-G5 + R1-R8。
+- 2026-07-26 Codex: 完成 C8-R2 上游实现、真实重迁与编辑器闭环，提交候选 `88277465`；
+  最终 PAL 为 100 runnable / 0 item-use diagnostics，20 件/21 根 deep oracle、P7 immutable、
+  append-only C8 seal、独立 dry-run 0/0/0、根 `pnpm check`、290 天书私有脚本新增/删除/撤销
+  浏览器实测及 6051 PAL 烟测均通过，Codex 签 **accept**，任务转 `review`。
+  Next: Kimi + GLM 分别只读终审并签 `accept/counter`；不得自行标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 Codex（C8-R2 build 实现）
+### 给 Kimi（C8-R2 最终架构 / 运行时审查）
 
 ```text
-接手任务：C8-R2 剩余 20 件物品用途迁移 build 实现
+接手任务：C8-R2 最终架构 / 运行时只读审查
 任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
-当前状态：rework → 可进入 build；Codex / Kimi / GLM 三方设计签均为 agree（2026-07-26），
-无 counter。你是唯一 Coding Owner。
+当前状态：review；实现候选 88277465；Codex accept，Kimi / GLM pending。你是 Kimi 架构主审，
+不得修改实现文件，不得单方标 done。
 
 必须先读：
 - AGENTS.md、docs/phase2/READ-FIRST.md
-- 本卡「C8-R2 当前返工设计与门禁」全节、「源真值更正」、「GLM C8-R2 合并代审」(G1-G5)、
-  「Kimi C8-R2 架构审查」(R1-R8)——G1-G5 与 R1-R8 都是 build 必落钉，review 时逐条核对。
+- 本卡「C8-R2 当前返工设计与门禁」「Kimi C8-R2 架构审查」R1-R8、
+  「C8-R2 Build 收口」
 - docs/ops/tasks/N3-1-script-control-flow-modernization.md 的 P7 immutable ledger 约束、
   docs/ops/tasks/MG2-incremental-migration-merge.md
 
-实现要点（三方已冻结，不得自行缩水）：
-1. 4 件通用机制按 opcode/参数形状迁移：modifyHostileAwareness{0|3, 60000ms}、
-   scaleCurrentHp{1/2}、levelUp{levels:1}（PAL_PlayerLevelUp 精确语义：99 级仍成长、999 封顶、
-   经验清零、不回满 HP/MP、不学技能）、currentHpDamage{1/2,+1,cap 1000} 用于 137 throw。
-2. 14 件剧情用途走 post-P7 canonical itemPrivateScript augmentation：挂点只在
-   buildP7GeneratedCanonical 生成 items.json 之后（p7-generated.ts:70 之后），严禁侵入
-   projectP7CanonicalProject / P6 / p7-shadow（R4）；263 需新增 currentScene 条件（R5，拍板
-   双侧或 v5-only 并记录）；284 必须先补 sprite 259 static 布局 overlay 证据，禁止猜测（R6/G1）。
-3. 2 件 0x84 走 placeEntityInFront 结构化 effect + host 布尔成败，按 runSceneHook 先例接入
-   统一执行器事务；失败不改变世界不消耗。目标实体采用勘误值：e797 spriteNum=343、
-   e3606 spriteNum=0/sState=2。
-4. 金蚕王战斗回写：新建通用 pending 回写队列（非 itemId 特判），战中掷一次 delta，胜/败/逃
-   在统一收口段（main.ts:2416-2432）写回且早于 buildSettlement（R1）；败路径 oracle 钉
-   "写回发生在 gameOver 流程之前"，不得断言读档后保留。
-5. 遇敌香：WorldState.hostileAwareness 可选字段 + ?? 缺省（不 bump SAVE_VERSION）；倒计时挂
-   tickHostiles guard 同层按 dt 扣，不挂 timers 线（R2）；随存档是有意偏离原版，注释写明；
-   rangeMultiplier 作用域（是否影响 chasePlayer 剧情追逐）先在卡内拍板再实现（R3）。
-6. append-only _transitions/c8-item-use-v5-v1.json：绑定 P7 ledger digest、20 源根、
-   augmentation 后 generated theirs 的 identity/digest、生成器版本；镜像 P7 验签模式，
-   首次 seal 需显式注入 baseline _state.json transitions（R4）。不得重签 P7 ledger、
-   不得手改 projects/pal 或 baseline。
-7. throw 通道：扩 itemUseEffectSupportsContext + performThrow；context 表保持唯一真源（R7）。
-8. 运行时零 PAL item id 特判；oracle 用任意测试 item id 验证四类机制。
+重点核对：
+1. schema/context 表与 save 兼容；遇敌香只在大世界逻辑拍递减。
+2. 金蚕王通用 pending writeback 是否胜/败/逃复用同一 delta，顺序是否正确。
+3. placeEntityInFront、private-first mixed chain、外部脚本消费与死亡投掷目标的事务边界。
+4. post-P7 augmentation 是否只 digest generated theirs；P7 ledger/sidecar 是否真正 immutable；
+   C8 seal 是否 append-only。
+5. 运行时是否完全没有 PAL item id 特判；currentScene / throw / private script 是否 fail-loud。
 
-验收硬门禁：100/0（usable ID 集合严格相等 + item/use 诊断归零）、20 件逐 ID deep oracle、
-MG2 二跑与独立 dry-run 0/0/0、四包 check + 根 pnpm check 全绿。完成后按卡更新 Build 节、
-自签 accept 候选，交 Kimi + GLM done 审查；不得自行标 done。N3-1 的 GLM 终审基线需同步更新为
-包含 C8-R2 的候选。
+请输出并写回任务卡：
+- 无反例则在「C8-R2 进入 done 前签字」Kimi 行签 accept（日期、证据、复跑命令），并在交接日志
+  写结论；
+- 有问题则签 counter，列出具体文件/语义/测试反例，任务转 rework；
+- 不得修改 R1 历史签字，不得标记 done。GLM 仍须独立 accept。
+```
+
+### 给 GLM（C8-R2 最终数据 / MG2 / 测试矩阵审查）
+
+```text
+接手任务：C8-R2 最终数据 / MG2 / 测试矩阵只读审查
+任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
+当前状态：review；实现候选 88277465；Codex accept，Kimi / GLM pending。你是 GLM 数据覆盖主审，
+不得修改实现文件，不得单方标 done。
+
+必须先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md
+- 本卡「C8-R2 当前返工设计与门禁」「GLM C8-R2 合并代审」G1-G5、
+  「C8-R2 Build 收口」
+- docs/ops/tasks/N3-1-script-control-flow-modernization.md 的 P7 immutable ledger 约束
+- packages/migrate/src/experimental/script-v5/c8-item-use-augmentation.test.ts
+- packages/migrate/src/experimental/script-v5/c8-item-use-mg2.test.ts
+- packages/migrate/src/pal-migration-integration.test.ts
+
+重点核对：
+1. 20 件物品/21 个源根逐 ID 对账：4 通用 + 14 私有剧情 + 2 放置，另含 137 throw。
+2. source usable ID set === target runnable use ID set === 100；item/use diagnostics === 0。
+3. 14 个新增 private body 无 legacy/raw opcode、共享桥壳、悬空地址，消费/失败分支与源一致；
+   285/294 目标分别是 s048/e797 与 s213/e3606。
+4. C8 seal 绑定 P7 digest、源根与 augmentation 后 target；P7 ledger/sidecar 字节不变；
+   baseline/project 合并闭合且独立 dry-run 为 0/0/0。
+5. 逐机制测试矩阵、编辑器天书新增/删除/撤销闭环和根 pnpm check 证据是否足以收口。
+
+请输出并写回任务卡：
+- 无漏项则在「C8-R2 进入 done 前签字」GLM 行签 accept（日期、对账与复跑证据），并在交接日志
+  写结论；
+- 有问题则签 counter，列出具体 ID/根/digest/测试反例，任务转 rework；
+- 不得修改 R1 历史签字，不得标记 done。Kimi 仍须独立 accept。
 ```
 
 ### 已执行的审查提示词（保留备查，勿再执行）
