@@ -90,6 +90,7 @@ import {
 import {
   type CanonicalScriptReferenceV5,
   canonicalScriptReferenceDestinationExistsV5,
+  describeCanonicalScriptReferenceV5,
   type ScriptEditorStateV5,
   type ScriptV5EditSession,
   SetEntityHostileOnLoseV5Command,
@@ -672,6 +673,11 @@ export function App(props: {
     const revision = nextPreciseFocusRevision()
     const locator = reference.locator
     setWorkspaceNotice(undefined)
+    const confirmReferenceLocation = (): void =>
+      setWorkspaceNotice({
+        kind: 'info',
+        message: `已定位到：${describeCanonicalScriptReferenceV5(scriptV5State, reference)}。`,
+      })
 
     if (locator.kind === 'entity-page') {
       const targetScene = state.scenes.find((candidate) => candidate.id === locator.sceneId)
@@ -721,6 +727,7 @@ export function App(props: {
         commandPath: null,
         focusRevision: revision,
       })
+      confirmReferenceLocation()
       return
     }
 
@@ -737,6 +744,7 @@ export function App(props: {
         commandPath: null,
         focusRevision: revision,
       })
+      confirmReferenceLocation()
       return
     }
 
@@ -749,6 +757,7 @@ export function App(props: {
         revision,
       })
       applyEditorLocation(editorLinks.sharedScript(owner.scriptId))
+      confirmReferenceLocation()
       return
     }
     if (owner.kind === 'item-private-script') {
@@ -761,6 +770,7 @@ export function App(props: {
         revision,
       })
       applyEditorLocation(editorLinks.item(owner.itemId))
+      confirmReferenceLocation()
       return
     }
 
@@ -784,10 +794,7 @@ export function App(props: {
         commandPath: null,
         focusRevision: revision,
       })
-      setWorkspaceNotice({
-        kind: 'info',
-        message: '已打开该实体的“战败后脚本”设置。',
-      })
+      confirmReferenceLocation()
       return
     }
     setSelected(
@@ -801,6 +808,7 @@ export function App(props: {
       commandPath: null,
       focusRevision: revision,
     })
+    confirmReferenceLocation()
   }
   const openItemReference = (reference: ItemReference): void => {
     const locator = reference.locator

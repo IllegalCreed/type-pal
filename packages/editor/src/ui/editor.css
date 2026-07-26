@@ -6516,6 +6516,43 @@ button.sprite-frame-cell[draggable="true"]:active {
   background: rgba(148, 226, 175, 0.14);
   outline: 1px solid rgba(148, 226, 175, 0.5);
 }
+@keyframes canonical-reference-focus-even {
+  0%,
+  22% {
+    background: rgba(94, 158, 255, 0.3);
+    box-shadow:
+      0 0 0 2px rgba(94, 158, 255, 0.9),
+      0 0 18px rgba(94, 158, 255, 0.48);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(94, 158, 255, 0);
+  }
+}
+@keyframes canonical-reference-focus-odd {
+  0%,
+  22% {
+    background: rgba(94, 158, 255, 0.3);
+    box-shadow:
+      0 0 0 2px rgba(94, 158, 255, 0.9),
+      0 0 18px rgba(94, 158, 255, 0.48);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(94, 158, 255, 0);
+  }
+}
+.cmd-row.reference-focus-even {
+  animation: canonical-reference-focus-even 1.35s ease-out;
+}
+.cmd-row.reference-focus-odd {
+  animation: canonical-reference-focus-odd 1.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmd-row.reference-focus-even,
+  .cmd-row.reference-focus-odd {
+    animation: none;
+    box-shadow: 0 0 0 2px rgba(94, 158, 255, 0.9);
+  }
+}
 .cf-row {
   display: flex;
   align-items: center;

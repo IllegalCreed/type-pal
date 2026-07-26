@@ -157,6 +157,10 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
   })
 
   test('focuses a referenced command once per revision and fails closed for stale paths', async () => {
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0)
+      return 1
+    })
     const scrollIntoView = vi.fn()
     Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
       configurable: true,
@@ -181,6 +185,9 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     )
     let rows = host.querySelectorAll<HTMLElement>('.cmd-row')
     expect(rows[1]?.classList.contains('sel')).toBe(true)
+    expect(rows[1]?.classList.contains('reference-focus-odd')).toBe(true)
+    expect(document.activeElement).toBe(rows[1])
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
 
     await act(async () => rows[0]!.click())
     await act(async () =>
@@ -197,6 +204,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     rows = host.querySelectorAll<HTMLElement>('.cmd-row')
     expect(rows[0]?.classList.contains('sel')).toBe(true)
     expect(rows[1]?.classList.contains('sel')).toBe(false)
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
 
     await act(async () =>
       root.render(
@@ -211,6 +219,9 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     )
     rows = host.querySelectorAll<HTMLElement>('.cmd-row')
     expect(rows[1]?.classList.contains('sel')).toBe(true)
+    expect(rows[1]?.classList.contains('reference-focus-even')).toBe(true)
+    expect(document.activeElement).toBe(rows[1])
+    expect(scrollIntoView).toHaveBeenCalledTimes(2)
 
     await act(async () =>
       root.render(
@@ -237,6 +248,52 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
       ),
     )
     expect(onError).toHaveBeenCalledTimes(1)
+  })
+
+  test('keeps a pending reference focus when the shell rerenders before the next frame', async () => {
+    const frames: FrameRequestCallback[] = []
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      frames.push(callback)
+      return frames.length
+    })
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    const body = [
+      { kind: 'setFlag' as const, flag: 'first', value: true },
+      { kind: 'setFlag' as const, flag: 'target', value: true },
+    ]
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={body}
+          onChange={() => {}}
+          focusCommandPath="1"
+          focusRevision={11}
+        />,
+      ),
+    )
+    expect(frames).toHaveLength(1)
+
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditorV5
+          body={structuredClone(body)}
+          onChange={() => {}}
+          focusCommandPath="1"
+          focusRevision={11}
+        />,
+      ),
+    )
+    expect(frames).toHaveLength(1)
+
+    await act(async () => frames[0]!(0))
+    const target = host.querySelector<HTMLElement>('[data-command-path="1"]')!
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(target)
   })
 
   test('opens hostile battle-loss scripts in the common editor and switches modes canonically', async () => {

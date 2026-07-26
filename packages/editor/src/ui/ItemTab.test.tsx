@@ -67,6 +67,13 @@ function Harness(props: {
   focusObjectId?: string
   onOpenScript?: (id: string) => void
   onOpenItemReference?: (reference: ItemReference) => void
+  focusPrivateScript?: {
+    itemId: string
+    ability: 'use' | 'throw'
+    scriptId: string
+    commandPath: string
+    revision: number
+  }
   assetReader?: EditorAssetReader
   scriptV5?: {
     state: ScriptEditorStateV5
@@ -97,6 +104,7 @@ function Harness(props: {
       assetReader={props.assetReader ?? ({} as EditorAssetReader)}
       battleSprites={current.battleSprites}
       focusObjectId={props.focusObjectId}
+      focusPrivateScript={props.focusPrivateScript}
       onOpenScript={props.onOpenScript}
       onOpenItemReference={props.onOpenItemReference}
       scriptV5={
@@ -563,6 +571,113 @@ describe('ItemTab', () => {
     ])
     await act(async () => session.redo())
     expect(host.textContent).not.toContain('私有正文')
+  })
+
+  test('同一物品的私有脚本引用可按 revision 重复定位并明显高亮目标指令', async () => {
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0)
+      return 1
+    })
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    const initial = state([
+      {
+        ...item('private'),
+        name: '私有脚本物品',
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__script-v5-runtime', id: 'item:private:use' },
+            },
+          ],
+        },
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [],
+      items: [
+        {
+          id: 'private',
+          name: '私有脚本物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: {
+                  id: 'use',
+                  label: '私有正文',
+                  body: [
+                    { kind: 'setFlag', flag: 'first', value: true },
+                    { kind: 'setFlag', flag: 'target', value: true },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+    const scriptV5 = {
+      state: canonical,
+      session: new ScriptV5EditSession(canonical),
+    }
+    const focus = {
+      itemId: 'private',
+      ability: 'use' as const,
+      scriptId: 'use',
+      commandPath: '1',
+      revision: 1,
+    }
+
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          scriptV5={scriptV5}
+          focusObjectId="private"
+          focusPrivateScript={focus}
+        />,
+      ),
+    )
+    let target = host.querySelector<HTMLElement>('[data-command-path="1"]')!
+    expect(target.classList.contains('sel')).toBe(true)
+    expect(target.classList.contains('reference-focus-odd')).toBe(true)
+    expect(document.activeElement).toBe(target)
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
+
+    await act(async () => host.querySelector<HTMLElement>('[data-command-path="0"]')!.click())
+    expect(target.classList.contains('sel')).toBe(false)
+    await act(async () =>
+      root.render(
+        <Harness
+          session={session}
+          scriptV5={scriptV5}
+          focusObjectId="private"
+          focusPrivateScript={{ ...focus, revision: 2 }}
+        />,
+      ),
+    )
+    target = host.querySelector<HTMLElement>('[data-command-path="1"]')!
+    expect(target.classList.contains('sel')).toBe(true)
+    expect(target.classList.contains('reference-focus-even')).toBe(true)
+    expect(document.activeElement).toBe(target)
+    expect(scrollIntoView).toHaveBeenCalledTimes(2)
   })
 
   test('引用页合并 canonical 脚本中的物品引用并传出精确落点', async () => {

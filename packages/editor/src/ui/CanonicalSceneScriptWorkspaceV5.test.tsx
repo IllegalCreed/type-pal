@@ -4,7 +4,7 @@ import type { SceneDef, SceneDefV5, ScriptStage } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { ScriptEditorStateV5 } from '../core/script-v5-editor.js'
+import type { CanonicalScriptReferenceV5, ScriptEditorStateV5 } from '../core/script-v5-editor.js'
 import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspaceV5.js'
 
 type PreviewProbeProps = {
@@ -139,6 +139,14 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
       },
     )
     window.localStorage.clear()
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0)
+      return 1
+    })
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: vi.fn(),
+    })
     previewRender.mockClear()
     host = document.createElement('div')
     document.body.append(host)
@@ -162,12 +170,16 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
   const renderWorkspace = async (
     scene: SceneDef,
     selectedEntityId: string | null,
+    options?: {
+      state?: ScriptEditorStateV5
+      focusReference?: { reference: CanonicalScriptReferenceV5; revision: number }
+    },
   ): Promise<void> => {
     await act(async () =>
       root.render(
         <CanonicalSceneScriptWorkspaceV5
           scene={scene}
-          state={state}
+          state={options?.state ?? state}
           selectedEntityId={selectedEntityId}
           locale={{} as never}
           sprites={[]}
@@ -181,6 +193,7 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
           assetReader={{} as never}
           projectId="test"
           onDispatch={() => {}}
+          focusReference={options?.focusReference}
           onClose={() => {}}
         />,
       ),
@@ -222,5 +235,68 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
     await renderWorkspace(sceneA, 'e1')
     expect(scriptTab('交互脚本').getAttribute('aria-selected')).toBe('true')
     expect(host.textContent).toContain('A 交互方案')
+  })
+
+  test('引用定位会联动到目标实体方案、步骤和具体指令', async () => {
+    const focusState = structuredClone(state)
+    const targetEntity = focusState.scenes
+      .find((candidate) => candidate.id === 'sB')!
+      .entities.find((candidate) => candidate.id === 'e1')!
+    targetEntity.behaviors ??= {}
+    targetEntity.behaviors.trigger ??= {}
+    targetEntity.behaviors.trigger.target = {
+      label: '目标交互方案',
+      order: 1,
+      flow: {
+        kind: 'stages',
+        initial: 'first',
+        stages: [
+          {
+            id: 'first',
+            body: [{ kind: 'setFlag', flag: 'before-target', value: true }],
+          },
+          {
+            id: 'second',
+            body: [
+              { kind: 'setFlag', flag: 'target-command', value: true },
+              { kind: 'wait', ms: 80 },
+            ],
+          },
+        ],
+      },
+    }
+    const reference: CanonicalScriptReferenceV5 = {
+      kind: 'command',
+      path: 'scenes.sB.entities.e1.behaviors.trigger.target.flow.stages.second.body[0]',
+      locator: {
+        kind: 'command',
+        owner: {
+          kind: 'entity-behavior',
+          sceneId: 'sB',
+          entityId: 'e1',
+          channel: 'trigger',
+          behaviorId: 'target',
+        },
+        container: { kind: 'step', stepId: 'second', section: 'body' },
+        commandPath: '0',
+      },
+    }
+
+    await renderWorkspace(sceneB, 'e1', {
+      state: focusState,
+      focusReference: { reference, revision: 7 },
+    })
+
+    expect(host.querySelector<HTMLElement>('.script-scheme-card.active strong')?.textContent).toBe(
+      '目标交互方案',
+    )
+    expect(
+      host.querySelector<HTMLElement>('.canonical-stage-card.active strong')?.textContent,
+    ).toBe('步骤 2')
+    const row = host.querySelector<HTMLElement>('[data-command-path="0"]')!
+    expect(row.textContent).toContain('target-command')
+    expect(row.classList.contains('sel')).toBe(true)
+    expect(row.classList.contains('reference-focus-odd')).toBe(true)
+    expect(document.activeElement).toBe(row)
   })
 })

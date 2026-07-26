@@ -815,6 +815,8 @@ function CommandRowsV5(props: {
   parentPath: AuthorCommandPathV5
   context?: CanonicalScriptEditorContextV5
   selectedPath?: string
+  referenceFocusPath?: string
+  referenceFocusRevision?: number
   onSelect: (path: string) => void
   onEdit: (path: string) => void
   onInsert: (path: string) => void
@@ -836,11 +838,15 @@ function CommandRowsV5(props: {
       {props.body.map((command, index) => {
         const path = formatAuthorCommandPathV5([...props.parentPath, index])
         const description = describeCommand(command, props.context)
+        const referenceFocusClass =
+          props.referenceFocusPath === path && props.referenceFocusRevision !== undefined
+            ? ` reference-focus-${Math.abs(props.referenceFocusRevision) % 2 === 0 ? 'even' : 'odd'}`
+            : ''
         return (
           <div className="canonical-command-node" key={path}>
             {/* biome-ignore lint/a11y/useKeyWithClickEvents lint/a11y/noStaticElementInteractions: 与既有 ScriptTree 保持同一行级交互。 */}
             <div
-              className={`cmd-row${props.selectedPath === path ? ' sel' : ''}`}
+              className={`cmd-row${props.selectedPath === path ? ' sel' : ''}${referenceFocusClass}`}
               data-command-path={path}
               tabIndex={-1}
               onClick={() => props.onSelect(path)}
@@ -898,6 +904,8 @@ function CommandRowsV5(props: {
                   parentPath={[...props.parentPath, index, child.key]}
                   context={props.context}
                   selectedPath={props.selectedPath}
+                  referenceFocusPath={props.referenceFocusPath}
+                  referenceFocusRevision={props.referenceFocusRevision}
                   onSelect={props.onSelect}
                   onEdit={props.onEdit}
                   onInsert={props.onInsert}
@@ -2856,14 +2864,16 @@ export function CanonicalScriptBodyEditorV5(props: {
       return
     }
     setSelectedPath(props.focusCommandPath)
-    const frame = window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      if (lastAppliedFocusRevisionRef.current !== props.focusRevision) return
       const row = [
         ...(editorRef.current?.querySelectorAll<HTMLElement>('[data-command-path]') ?? []),
       ].find((candidate) => candidate.dataset.commandPath === props.focusCommandPath)
       row?.scrollIntoView({ block: 'center', inline: 'nearest' })
       row?.focus({ preventScroll: true })
     })
-    return () => window.cancelAnimationFrame(frame)
+    // 不取消这一帧：跨页面定位后，外壳可能因测量宽度立刻重渲染并替换 body 引用；
+    // editorRef 始终读取最新 DOM，revision 检查会淘汰真正过期的定位请求。
   }, [props.body, props.focusCommandPath, props.focusRevision, props.onError])
 
   const commit = (body: AuthorCommandV5[]): boolean => {
@@ -2906,6 +2916,8 @@ export function CanonicalScriptBodyEditorV5(props: {
             parentPath={[]}
             context={props.context}
             selectedPath={selectedPath}
+            referenceFocusPath={props.focusCommandPath}
+            referenceFocusRevision={props.focusRevision}
             onSelect={(path) => {
               setSelectedPath(path)
             }}
