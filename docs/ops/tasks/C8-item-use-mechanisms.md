@@ -407,9 +407,9 @@ ledger 级反例；R1-R8 为 build 必落钉。
   `88277465`（`feat(phase2): close C8 item-use migration`）包含 C8-R2 数据、迁移、运行时与
   私有脚本编辑闭环。
 - Coding Owner：Codex；实现期间没有第二位 Agent 修改实现文件。
-- 当前结论：C8-R2 的 build 硬门禁全部满足，任务保持 `review`。Codex 与 Kimi 已对最终候选
-  `accept`；GLM 已对父提交 `88277465` 的核心数据/迁移/运行时签 `accept`，但最终候选新增的
-  editor delta 仍须补审；GLM 补签前不得标记 `done`。
+- 当前结论：C8-R2 的 build 与最终审查硬门禁均已满足，任务仍保持 `review`。Codex、Kimi、
+  GLM 已对最终候选 `0d4aa48b` 全部签 `accept`；但按用户裁决，N3-1 完成与联合验收前仍不得
+  标记 `done`。
 
 ### 实现结果
 
@@ -500,9 +500,9 @@ ledger 级反例；R1-R8 为 build 必落钉。
 |---|---|---|---|
 | Codex | **accept** | 2026-07-26 | 最终候选 `0d4aa48b`（父 `88277465`）完成 100/0、20-ID deep oracle、统一私有脚本编辑闭环、P7 immutable + C8 append-only seal，并补齐引用跳转成功提示、可重复定位脉冲与跨场景真实滚动；editor 91/766、Playwright 场景/物品精确反跳及 console 0/0 通过。 |
 | Kimi | **accept** | 2026-07-26 | 只读终审通过（父候选 `88277465` + editor delta `0d4aa48b`）：R1-R8 逐钉核实、事务/seal 抽查、100/0 与 dry-run 独立复算、P7 ledger/sidecar 哈希实测不变、运行时零 PAL id 特判；migrate 超时定性为 CPU 争用（限流复跑 33/33 绿）。证据与记录项见「Kimi C8-R2 done 审查」。 |
-| GLM | **pending（editor delta）** | — | 已对父候选 `88277465` 的 100/0、20 件、C8 seal/MG2、content/reforge/editor 核心矩阵签 `accept`（证据完整保留在下节）；最终候选 `0d4aa48b` 只新增 editor 引用导航返工，仍须对该 delta 补签 `accept/counter`。 |
+| GLM | **accept（含 editor delta）** | 2026-07-26 | 已对父候选 `88277465` 的 100/0、20 件、C8 seal/MG2、content/reforge/editor 核心矩阵签 `accept`（证据完整保留在下节）；最终候选 `0d4aa48b` 的 editor 引用导航 delta 独立补审通过——同页重复定位（revision 奇偶 class）、场景跨页精确定位（scene+entity+drawer+command path）、目标滚入可视区（scrollIntoView center）、重渲染竞态（rAF revision guard 不取消帧）、reduced-motion（media query animation:none）五项逐项成立；editor 91 files / 766 tests passed，reference-navigation 25/25 isolated pass。 |
 
-- 当前 done 准入：**blocked on GLM editor delta accept + N3-1/用户联合验收**（Kimi 已 accept）。
+- 当前 done 准入：**blocked on N3-1/用户联合验收**（Kimi + GLM 均已 accept，含 editor delta）。
 
 ### GLM C8-R2 core done 前复审（`88277465`，2026-07-26）
 
@@ -963,9 +963,9 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
 - 2026-07-26 当前结论: **review**。最终候选 `0d4aa48b`（父 `88277465`）已达到 100 件
   usable 全部可运行、0 条物品用途迁移诊断，并补齐无影毒投掷、物品私有脚本新增/删除/撤销
   闭环，以及引用反跳成功提示、可重复高亮和跨场景精确滚动。
-- 当前下一步: Kimi 已对最终候选签 `accept`；GLM 对 `88277465..0d4aa48b` 的 editor delta
-  补审并签 `accept/counter`。GLM `accept` 后仍须与 N3-1、ED-5I 终态一起交用户联合验收，
-  不沿用 R1 的 80+20 签字。
+- 当前下一步: Codex / Kimi / GLM 已对最终候选全部签 `accept`。C8 保持 `review`，等待
+  N3-1 最终通过后与 ED-5I 一起交用户联合验收；不沿用 R1 的 80+20 签字，也不因三签齐而
+  自动标 `done`。
 
 ## 交接日志
 
@@ -1059,10 +1059,16 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   （load avg 7.8-20.4/11 核；`--maxWorkers=2` 复跑 7 个超时文件 33/33 绿，MG2 空计划 80s 通过），
   非代码回归。记录项 5 条（writeback switch 缺 assertNever 等，不阻塞）见「Kimi C8-R2 done 审查」。
   未修改实现文件。Next: GLM 只读补审 editor delta；其后 N3-1/用户联合验收，不得提前标 done。
+- 2026-07-26 GLM: 对 `88277465..0d4aa48b` editor 引用导航 delta 补审签 **accept**：
+  同页重复定位、场景跨页 scene/entity/drawer/command 精确传播、目标滚入可视区、rAF revision
+  guard 重渲染竞态与 reduced-motion 五项成立；editor 91 files / 766 tests、聚焦回归 25/25。
+  父候选 core accept 继续有效。Next: C8 三方最终 accept 已齐，保持 `review` 等待
+  N3-1/用户联合验收。
 
 ## 下一位 Agent 提示词
 
-当前下一位 Agent：GLM。Kimi 已完成最终审查，下方 Kimi 提示词只保留为历史交接证据。
+无下一位 Agent 提示词；C8 三方最终 `accept` 已齐，当前等待 N3-1 完成与用户联合验收。下方
+Kimi / GLM 提示词均只保留为历史交接证据，勿再执行。
 
 ### 给 Kimi（C8-R2 最终架构 / 运行时审查）——已于 2026-07-26 执行，签 accept（保留备查，勿再执行）
 
@@ -1097,7 +1103,7 @@ GLM 已 accept 父候选核心、最终 editor delta pending。你是 Kimi 架�
 - 不得修改 R1 或 GLM 父候选历史签字，不得标记 done。GLM 仍须对 editor delta 补签 accept。
 ```
 
-### 给 GLM（C8-R2 最终 editor delta 补审）
+### 给 GLM（C8-R2 最终 editor delta 补审）——已于 2026-07-26 执行，签 accept（保留备查，勿再执行）
 
 ```text
 接手任务：C8-R2 最终 editor 引用导航 delta 只读补审
