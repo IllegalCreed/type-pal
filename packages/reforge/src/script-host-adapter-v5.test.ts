@@ -69,6 +69,27 @@ function host(): ScriptHost {
 }
 
 describe('script host adapter v5', () => {
+  test('forwards canonical fade direction and duration to the runtime host', async () => {
+    const target = host()
+    const signal = new AbortController().signal
+    await executeLegacyScriptHostEffectV5(
+      target,
+      { kind: 'fade', dir: 'out', ms: 1600 },
+      {},
+      signal,
+      { currentSceneId: () => 's048' },
+    )
+    await executeLegacyScriptHostEffectV5(
+      target,
+      { kind: 'fade', dir: 'in', ms: 600 },
+      {},
+      signal,
+      { currentSceneId: () => 's048' },
+    )
+    expect(target.fade).toHaveBeenNthCalledWith(1, 'out', 1600, undefined, signal)
+    expect(target.fade).toHaveBeenNthCalledWith(2, 'in', 600, undefined, signal)
+  })
+
   test('unwraps active-scene EntityAddress and ignores transient effects for other scenes', async () => {
     const target = host()
     const signal = new AbortController().signal

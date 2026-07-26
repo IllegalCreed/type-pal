@@ -7,6 +7,10 @@ import {
   type C8ItemUseAugmentationEvidenceV1,
 } from './c8-item-use-augmentation.js'
 import { type P7CanonicalProject, projectP7CanonicalProject } from './p7-project.js'
+import {
+  type PalSceneSemanticRepairEvidenceV1,
+  repairPalSceneSemanticsAfterP7,
+} from './pal-scene-semantic-repair.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
 
 export const P7_SHARED_SCRIPTS_PATH = 'content/shared-scripts.json' as const
@@ -17,6 +21,7 @@ export interface P7GeneratedCanonical {
   ir: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ir']
   ledgerDraft: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ledger']
   c8Evidence: C8ItemUseAugmentationEvidenceV1
+  sceneSemanticRepairEvidence: PalSceneSemanticRepairEvidenceV1
 }
 
 export interface P7GeneratedCanonicalArgs extends P6TransformBuildArgs {
@@ -90,11 +95,16 @@ export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7Gen
     itemSources: args.itemSources,
     sourceCommands: args.sourceCommands,
   })
-  return {
+  const sceneSemanticRepair = repairPalSceneSemanticsAfterP7({
     snapshot: c8.snapshot,
+    sourceCommands: args.sourceCommands,
+  })
+  return {
+    snapshot: sceneSemanticRepair.snapshot,
     project,
     ir: chain.p6.ir,
     ledgerDraft: chain.p6.ledger,
     c8Evidence: c8.evidence,
+    sceneSemanticRepairEvidence: sceneSemanticRepair.evidence,
   }
 }

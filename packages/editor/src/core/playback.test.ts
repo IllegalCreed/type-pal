@@ -35,4 +35,34 @@ describe('Playback', () => {
     await vi.waitFor(() => expect(playback.mode).toBe('done'))
     expect(playback.view.logs.at(-1)).toMatch(/预览中断/)
   })
+
+  test('显式淡出后的淡入会恢复画面，并继续显示后续对话', async () => {
+    const playback = new Playback(scene)
+    playback.play('s:s001:canonical:default', [
+      {
+        body: [
+          { kind: 'fade', dir: 'out', ms: 100 },
+          { kind: 'setPartyFacing', facing: 'right' },
+          { kind: 'fade', dir: 'in', ms: 100 },
+          { kind: 'dialog', cue: { rows: [{ text: 'dlg.after-fade' }] } },
+        ],
+      },
+    ])
+
+    await vi.waitFor(() => expect(playback.activePath).not.toBeNull())
+    playback.tick(100)
+    await vi.waitFor(() => {
+      expect(playback.view.fadeBlack).toBe(1)
+      expect(playback.view.player.facing).toBe('right')
+    })
+
+    playback.tick(100)
+    await vi.waitFor(() => {
+      expect(playback.view.fadeBlack).toBe(0)
+      expect(playback.view.dialog?.cue.rows[0]?.text).toBe('dlg.after-fade')
+    })
+    playback.confirmDialog()
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.fadeBlack).toBe(0)
+  })
 })

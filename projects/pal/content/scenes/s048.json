@@ -2015,29 +2015,35 @@
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "fade",
+                    "dir": "in",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 120
+                  },
+                  {
+                    "kind": "dialog",
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.004",
-                        "side": "right"
-                      },
                       "rows": [
                         {
                           "text": "dlg.3813"
                         }
                       ],
-                      "speaker": "spk.李逍遥"
-                    },
-                    "kind": "dialog"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "asset": "portrait.pal.004",
+                        "side": "right"
+                      }
+                    }
                   },
                   {
                     "kind": "clearDialog"
                   },
                   {
+                    "kind": "dialog",
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.021",
-                        "side": "left"
-                      },
                       "rows": [
                         {
                           "text": "dlg.3815"
@@ -2046,27 +2052,35 @@
                           "text": "dlg.3816"
                         }
                       ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
-                    },
-                    "kind": "dialog"
+                      "speaker": "spk.林月如",
+                      "portrait": {
+                        "asset": "portrait.pal.021",
+                        "side": "left"
+                      },
+                      "slot": "top"
+                    }
                   },
                   {
+                    "kind": "dialog",
                     "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.004",
-                        "side": "right"
-                      },
                       "rows": [
                         {
                           "text": "dlg.3818"
                         }
                       ],
-                      "speaker": "spk.李逍遥"
-                    },
-                    "kind": "dialog"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "asset": "portrait.pal.004",
+                        "side": "right"
+                      }
+                    }
                   }
-                ]
+                ],
+                "next": "completed"
+              },
+              {
+                "id": "completed",
+                "body": []
               }
             ]
           }
