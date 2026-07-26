@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending（等待验收 `39ecad91` P7-R11 淡入恢复与 s048 重进不重播）
+- 用户结论: pending（等待验收 `c3d620a9` P7-R12 场景出口触发竞态修复；P7-R11 已被本轮候选取代）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3388,6 +3388,16 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   半修形状与 s110 首帧时序已返工，二审 accept。Evidence: 本卡 P7-R11。
   Next: 先交 Kimi 对 `39ecad91` 做架构/runtime 只读终审，再交 GLM 做数据/MG2/覆盖终审；
   两席均 accept 后仍待用户体验确认。不得改实现文件或标 N3-1/C8/ED-5I done。
+- 2026-07-26 Codex: 完成 P7-R12 场景出口触发与 SAVE activation gate 竞态返工并提交
+  `c3d620a9`。根因不是 s048/e789 的坐标或范围，而是自动存档关闭 activation gate 时，
+  落步触发只检查一次且把“暂时不能取得 lease”误判成“脚本不存在/已完成”，从而静默丢失出口。
+  本轮加入可等待的 gate-open 信号、scene session 过期守卫、同步快照边界与按请求排序的
+  snapshot/write 队列，并使外部 `teleportOut` 正确占用全局 runner。Reforge 全量
+  67 files / 619 tests、root typecheck、Biome 961 files、production build、diff check
+  全绿；真实 PAL s048 相邻格冷加载 10 次，e789 触发完成 10/10，console 0 error/warning。
+  三路内部只读红队最终均 `accept`，不替代 Kimi / GLM 正式推进签字。Evidence: 本卡 P7-R12。
+  Next: 交 Kimi / GLM 对 `c3d620a9` 分别做 runtime/save 与回归覆盖终审；两席均 accept 后
+  仍待用户体验确认。不得把 N3-1、C8 或 ED-5I 提前标 done。
 
 ### P7 canonical v5 全量发布与 Codex 自验（2026-07-25）
 
@@ -3471,11 +3481,11 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R11 已自验，等待用户体验确认及 Kimi / GLM 终审）** | 2026-07-26 | 当前实现候选 `39ecad91`：在 P7-R10 `0d4aa48b` 与已签 C8 收口基线 `df633d18` 上，补回 s048/s110/s172 的 SDLPal 隐式淡入，并把 s048 `0x08` checkpoint 显式投影为持久空完成步骤；编辑器、Reforge、SAVE 重入、MG2 三跑及全量门禁见 P7-R11。 |
-| Kimi | **pending（P7-R11 新增 migration/runtime 语义待终审）** | 2026-07-26 | Kimi 已恢复额度。P3-P7 历史豁免继续保留，但 `39ecad91` 是签字后的新增高风险 migration/runtime delta，旧签字不得覆盖本轮；只读复审后签 `accept` 或给出具体 `counter`。 |
-| GLM | **pending（P7-R11 新增数据/覆盖 delta 待终审）** | 2026-07-26 | 终审基线更新为 `39ecad91`；须复核三处生成数据、s048 SAVE cursor、post-P7 repair fail-loud、MG2 零计划及冻结账本不变，旧 P7-R10 提示词不再是当前基线。 |
+| Codex | **rework（P7-R12 已自验，等待用户体验确认及 Kimi / GLM 终审）** | 2026-07-26 | 当前实现候选 `c3d620a9`：在 P7-R11 `39ecad91` 上修复 SAVE activation gate 与单次落步触发竞态、同 ID 场景会话过期、外部 teleport runner 占用及存档请求排序；Reforge 619 项与真实 s048/e789 10/10 见 P7-R12。 |
+| Kimi | **pending（P7-R12 runtime/save 调度 delta 待终审）** | 2026-07-26 | `c3d620a9` 新增 gate-open 等待、scene session host contract、同步 snapshot barrier 与 runner 调度，旧 P7-R11 签字不得覆盖；只读复审后签 `accept` 或给出具体 `counter`。 |
+| GLM | **pending（P7-R12 竞态/存档排序覆盖待终审）** | 2026-07-26 | 终审基线更新为 `c3d620a9`；须复核触发不丢失、过期不复活、auto/hook、请求顺序、失败恢复和真实 PAL 出口验证，旧 P7-R11 提示词不再是当前基线。 |
 
-- Codex 结论：**P7-R11 实现与自验完成，但仍保持 rework**。`39ecad91` 是当前用户验收候选；
+- Codex 结论：**P7-R12 实现与自验完成，但仍保持 rework**。`c3d620a9` 是当前用户验收候选；
   用户确认且 Kimi / GLM 对新增高风险 delta 均 `accept` 后，Codex 才能重签最终 `accept`。
 - done 准入：**blocked**，等待 Kimi / GLM 终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 已进入 `review`，ED-5I 继续 `blocked`。P7 终审通过后仍须完成 C8 最终候选补审及
@@ -3889,9 +3899,146 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 - **当前门禁**：仍为 `rework`。等待用户体验确认，以及 Kimi / GLM 对 `39ecad91` 新增
   migration/runtime/data delta 分别签 `accept`；旧 P7-R10/C8 签字不能覆盖本轮。
 
+#### P7-R12 场景出口触发与 SAVE activation gate 竞态返工（2026-07-26）
+
+- **用户验收反例**：第二阶段引擎中的传送出口有较高概率不触发，玩家会一直走到屏幕边缘。
+  真实反例为 s048 的出口 e789；同一数据有时成功、有时失败，说明不是固定坐标或范围错误。
+- **根因**：
+  - 切场景后的自动存档会请求 Script V5 safe-point barrier。barrier 等待活跃 flow 收尾期间，
+    coordinator 会关闭新 activation。
+  - touch 入口只在玩家完成落步时检查一次；`fireTrigger` 已占用全局 runner，但
+    `runEntityBehavior` 在 gate 关闭、拿不到 lease 时直接返回 `false`。上层把它当作正常结束，
+    该次出口触发不会重试，也没有报错。
+  - 因此失败窗口正好落在“上一次切场景的自动存档尚在 IndexedDB/缩略图 I/O”期间；出口范围
+    加宽只能降低复现率，不能关闭竞态。
+- **实现约束与修复**：
+  - `FlowRuntimeCoordinatorV5` 的 pending barrier 新增一次性 `opened` 信号。行为或 hook
+    已确认存在但 gate 关闭时等待 reopen，等待期间不持有 lease；连续 barrier 会继续等待。
+    AbortSignal 可立即取消，取消后不会在稍后复活。
+  - 等待前捕获 `sceneId + scene session`，reopen 后再次核对。主宿主 session 绑定
+    `sceneSwitchIntent + worldMutationIntent`，所以离开场景、同 ID 重载、读档替换 world
+    均会丢弃旧触发；不会把排队出口错误执行到新场景。
+  - auto 与 scene hook 使用同一等待语义；只有确实没有绑定行为才返回 `false`。互动触发继续
+    由外层占用全局 runner，恢复后恰好执行一次。
+  - 物品或其他外部入口触发 `teleportOut` 时，经 `runDetachedV5ScriptChain` 正确占用全局
+    runner，并完整续接目标场景 `onEnter`；已有 runner 时保持内联执行。
+  - SAVE barrier 缩回为纯同步快照边界，并在运行时拒绝 thenable；IndexedDB 写入、缩略图解码
+    与 metas 刷新全部在 gate reopen 后执行，禁止用长 I/O 阻塞脚本激活。
+  - 自动、快速、手动存档按**请求发生顺序**进入 snapshot/write 两级队列；缩略图以 promise
+    同步入队，`savedTimes` 只在成功提交后单调推进，单次失败不会毒死队尾。存档已经写入而
+    浏览缓存刷新失败时只降级 UI 缓存，不反报磁盘写入失败。
+- **数据边界**：s048/e789 canonical 数据的落点、touch 范围、脚本绑定与目标 s049 均正确；
+  本轮没有手改 `projects/pal`、没有扩大触发范围，也没有新增迁移 repair。
+- **回归覆盖**：
+  - gate 关闭时互动触发等待，release 后恰好执行一次；
+  - 活跃 auto flow 抵达 save safe point 与 touch trigger 同时排队；
+  - auto/hook 无 lease 等待，行为缺席才立即返回 false；
+  - 换到不同 scene、同 ID session replacement、AbortSignal 取消时，旧触发均不复活；
+  - 异步 snapshot callback 被拒绝且 gate 必须重新打开。
+- **验证证据**：
+  - 新回归最初稳定暴露三项红灯：互动触发被返回 `false`、等待取消失效、异步 snapshot 被接受；
+    修复后 Reforge 全量 **67 files / 619 passed**。
+  - root `pnpm typecheck`：7 个 workspace package 全绿；root `pnpm lint`：
+    Biome **961 files clean**；Reforge production build 通过，仅有既有 >500kB chunk 提示；
+    `git diff --check` 通过。
+  - 真实浏览器从 s048/e789 相邻格执行 10 次独立冷加载与落步触发，e789 脚本完成
+    **10/10**，每次均进入 s049/onEnter；console **0 error / 0 warning**。
+  - 三路内部只读审查分别覆盖数据/保存顺序、runtime 竞态、回归矩阵；提出的 thumbnail
+    请求排序、auto 等待、teleport runner 与同 ID session 问题均返工后，最终三路
+    `accept`。内部审查不替代 Kimi / GLM 推进签字。
+- **实现提交**：`c3d620a9 fix(reforge): preserve scene exits across save barriers`。
+- **当前门禁**：仍为 `rework`。等待 Kimi 对 runtime/save 调度 delta、GLM 对竞态与存档
+  覆盖分别签 `accept`，并等待用户体验确认；C8 仍为 `review`，ED-5I 仍为 `blocked`，
+  两者不能随本轮自动完成。
+
 ## 下一位 Agent 提示词
 
-### 给 Kimi（P7-R11 架构、迁移边界与运行时终审；当前执行）
+### 给 Kimi（P7-R12 runtime/save 调度终审；当前执行）
+
+```text
+终审任务: N3-1 P7-R12 场景出口触发与 SAVE activation gate 竞态
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前实现基线: c3d620a9 fix(reforge): preserve scene exits across save barriers
+上一基线: 39ecad91 fix(phase2): restore PAL scene script semantics
+当前状态: rework；Codex 已完成实现、自验和三路内部只读红队，但本轮修改 runtime host contract、
+  safe-point/save 调度与全局 runner，必须重新终审，N3-1 不得标 done。
+你的职责: 只读审查 runtime 架构、竞态安全、SAVE 同步边界与 runner 所有权；不得修改实现文件，
+  不得自行标 done。
+先读:
+  - AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+  - 本卡“P7 canonical v5 全量发布”“P7-R11”“P7-R12”及 P1-5/P1-6 冻结设计；
+  - docs/phase2/foundation/phase1-knowledge-harvest.md；
+  - docs/phase2/foundation/save-system-design.md。
+重点源码:
+  - packages/reforge/src/script-world-v5.ts；
+  - packages/reforge/src/script-project-v5.ts；
+  - packages/reforge/src/script-project-v5.test.ts；
+  - packages/reforge/src/main.ts。
+必须核对:
+  1. 已解析且存在的 trigger/auto/hook 在 gate 关闭时是否等待 opened、等待期间不持 lease，
+     连续 barrier 是否继续等待；行为缺席是否仍立即返回 false。
+  2. AbortSignal、不同 scene 与同 ID scene session replacement 是否都能阻止旧 activation
+     reopen 后复活；sceneSwitchIntent/worldMutationIntent 是否足以覆盖切场景、读档和 world 替换。
+  3. interactive trigger 外层 runner 占用是否保持；外部 teleportOut 是否占用 runner 并完整续接
+     onEnter，已有 runner 时是否不会二次抢占。
+  4. withSaveBarrier 是否只允许同步快照，异常/thenable/timeout 是否总能 reopen gate；
+     IndexedDB、thumbnail、metas refresh 是否确实移出 barrier。
+  5. snapshot/write 两级队列是否保持 auto/quick/manual 请求顺序；thumbnail 早失败是否无
+     unhandledrejection；savedTimes 是否只在提交成功后推进，失败是否不毒死队尾。
+  6. 是否存在永久等待、重复执行、跨场景误执行、save UI 假失败或全局 runner 泄漏的新反例。
+建议独立复跑:
+  - pnpm --filter @type-pal/reforge exec vitest run \
+      src/script-project-v5.test.ts src/script-world-v5.test.ts \
+      src/save/save-store.test.ts src/save/save-ops.test.ts
+  - pnpm --filter @type-pal/reforge test
+  - pnpm typecheck && pnpm lint && pnpm --filter @type-pal/reforge run build
+输出:
+  - 在本卡 P7 review 签字表 Kimi 行签 `accept`，或写 `counter` 的具体 file:line、竞态交错、
+    复现命令和返工要求；
+  - 在交接日志记录独立复跑数字与结论；
+  - accept 后明确“仅 Kimi 席位通过，仍待 GLM 与用户验收”；不得修改实现，不得标
+    N3-1、C8 或 ED-5I done。
+```
+
+### 给 GLM（P7-R12 回归覆盖与存档排序终审；Kimi 完成后执行）
+
+```text
+终审任务: N3-1 P7-R12 场景出口触发竞态、存档排序与测试矩阵
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前实现基线: c3d620a9 fix(reforge): preserve scene exits across save barriers
+当前状态: rework；Codex 已自验，GLM 需对旧签字后的新增 runtime/save/coverage delta 独立终审。
+执行顺序: 等 Kimi 对同一基线完成只读架构/runtime 终审后再执行；不得修改实现文件，不得标 done。
+先读:
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 本卡“P7-R12”、P1-6/P1-8 与 P7 发布控制面；
+  - packages/reforge/src/script-project-v5.test.ts；
+  - packages/reforge/src/{script-world-v5,script-project-v5,main}.ts。
+必须核对:
+  1. 测试是否覆盖 gate 关闭时 trigger 恰好一次、真实 auto safe point 交错、auto/hook 等待、
+     行为缺席、不同 scene、同 ID session、abort 和异步 snapshot 拒绝。
+  2. 每个并发断言是否真的钉住执行时序，而非只等最终状态；旧实现是否会稳定红灯。
+  3. auto/quick/manual 的 snapshot 与 write 是否按请求发生顺序，thumbnail promise 早失败、
+     store 失败、metas refresh 失败和后续请求恢复是否有遗漏风险。
+  4. s048/e789 数据是否原本正确，本轮是否保持零 migration/零 projects/pal 手改；不得把
+     runtime 竞态错误伪装成扩大触发范围或数据修补。
+  5. Reforge 67 files / 619 passed、root typecheck、Biome 961 files、production build、
+     diff check 和真实浏览器 10/10、0 console error/warning 证据是否成立。
+  6. capability map、N3-1/C8/ED-5I 状态是否保持未完成，文档是否没有把内部红队 accept
+     冒充三贤人正式签字。
+建议独立复跑:
+  - pnpm --filter @type-pal/reforge exec vitest run \
+      src/script-project-v5.test.ts src/script-world-v5.test.ts
+  - pnpm --filter @type-pal/reforge test
+  - pnpm typecheck && pnpm lint
+输出:
+  - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的具体测试缺口、数据路径、
+    复现命令和返工项；
+  - 在交接日志记录独立数字与 runtime/data/schema 结论；
+  - accept 后明确“GLM 席位通过，可交用户体验确认与 Codex 最终收口”；不得自行标
+    N3-1、C8 或 ED-5I done。
+```
+
+### 给 Kimi（P7-R11 架构、迁移边界与运行时终审；已失效，勿再执行）
 
 ```text
 终审任务: N3-1 P7-R11 PAL 隐式淡入与 s048 进场 checkpoint 语义
@@ -3940,7 +4087,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - accept 后明确“仅 Kimi 席位通过，仍待 GLM 与用户验收”；不得修改实现、不得标 N3-1 done。
 ```
 
-### 给 GLM（P7-R11 数据、MG2、测试矩阵与文档终审；Kimi 完成后执行）
+### 给 GLM（P7-R11 数据、MG2、测试矩阵与文档终审；已失效，勿再执行）
 
 ```text
 终审任务: N3-1 P7-R11 PAL 场景语义生成数据、MG2 与覆盖矩阵
@@ -4078,8 +4225,9 @@ P3-P7 批次中 Kimi 曾额度耗尽，用户批准该批由 GLM 合并代审；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前下一步：先把 P7-R11 提交 `39ecad91` 交 Kimi 只读终审，再交 GLM 数据/MG2 终审；
-两席均 `accept` 后仍等待用户体验确认，由 Codex 最终收口。P7-R10 旧提示词不得再执行。
+当前下一步：先把 P7-R12 提交 `c3d620a9` 交 Kimi 做 runtime/save 调度只读终审，再交
+GLM 做回归覆盖与存档排序终审；两席均 `accept` 后仍等待用户体验确认，由 Codex 最终收口。
+P7-R11 及更早提示词不得再执行。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
