@@ -5,9 +5,9 @@ Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: GLM（P7 schema delta + 最终架构/数据合并代审）
+Reviewer: Kimi（架构/运行时）+ GLM（数据/schema/测试矩阵）
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（额度耗尽；用户批准 P3-P7 由 GLM 合并代审，保留补审债务）
+Unavailable Agents: 无（Kimi 已恢复额度；P3-P7 历史豁免按事实保留，不追溯重开）
 Branch: main
 
 ## 目标
@@ -3067,7 +3067,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 ## 用户验收
 
-- 用户结论: pending（等待验收 `9010465b` P7-R6 可复用脚本创建弹窗）
+- 用户结论: pending（等待验收 `39ecad91` P7-R11 淡入恢复与 s048 重进不重播）
 - 后续任务: 本卡完成后先解锁并回归验收 `C8-item-use-mechanisms.md` 与
   `ED-5I-item-workbench.md`。
 
@@ -3379,6 +3379,15 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   4 files / 12 tests、migrate typecheck、Biome、diff check 全绿。Next: 接入
   compiler/runtime/editor/SAVE 5；editor 必须完成“同步继续 / 下次激活 / 让步后同次继续”
   三态展示，然后才可进入全量迁移与原子发布。
+- 2026-07-26 Codex: 完成 P7-R11 PAL 隐式淡入与 s048 checkpoint 返工并提交
+  `39ecad91`。对齐 SDLPal/第一阶段后，在 post-P7 canonical generated 层显式修复
+  s048/s110/s172 三个淡入站点，并把 s048 首次演出推进到空 completed；半修、重复淡入、
+  source/target 漂移和截断尾部全部 fail-loud。真实 editor/Reforge s048 均重新亮屏，
+  SAVE 5 round-trip 后第二次 onEnter 零 effect；migrate 65/436+1skip、Reforge 67/610、
+  editor 91/767、MG2 三跑 0/0/0、冻结账本/sidecar digest 不变。内部红队首轮 counter 的
+  半修形状与 s110 首帧时序已返工，二审 accept。Evidence: 本卡 P7-R11。
+  Next: 先交 Kimi 对 `39ecad91` 做架构/runtime 只读终审，再交 GLM 做数据/MG2/覆盖终审；
+  两席均 accept 后仍待用户体验确认。不得改实现文件或标 N3-1/C8/ED-5I done。
 
 ### P7 canonical v5 全量发布与 Codex 自验（2026-07-25）
 
@@ -3462,13 +3471,13 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R10 已自验，等待用户体验确认）** | 2026-07-26 | 当前候选 `0d4aa48b`：在 P7-R9 `5b6bb58e` 的场景/实体 owner 同步基础上，包含 C8-R2 core `88277465`，并修复 canonical 引用跳转缺少成功反馈及跨场景目标未滚入可视区；editor 91/766 与 Playwright 精确反跳通过。用户确认前不重签 `accept`。 |
-| Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R10 后终审）** | 2026-07-26 | 当前候选基线为 `0d4aa48b`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影、C8-R2 集成和全量技术门禁。 |
+| Codex | **rework（P7-R11 已自验，等待用户体验确认及 Kimi / GLM 终审）** | 2026-07-26 | 当前实现候选 `39ecad91`：在 P7-R10 `0d4aa48b` 与已签 C8 收口基线 `df633d18` 上，补回 s048/s110/s172 的 SDLPal 隐式淡入，并把 s048 `0x08` checkpoint 显式投影为持久空完成步骤；编辑器、Reforge、SAVE 重入、MG2 三跑及全量门禁见 P7-R11。 |
+| Kimi | **pending（P7-R11 新增 migration/runtime 语义待终审）** | 2026-07-26 | Kimi 已恢复额度。P3-P7 历史豁免继续保留，但 `39ecad91` 是签字后的新增高风险 migration/runtime delta，旧签字不得覆盖本轮；只读复审后签 `accept` 或给出具体 `counter`。 |
+| GLM | **pending（P7-R11 新增数据/覆盖 delta 待终审）** | 2026-07-26 | 终审基线更新为 `39ecad91`；须复核三处生成数据、s048 SAVE cursor、post-P7 repair fail-loud、MG2 零计划及冻结账本不变，旧 P7-R10 提示词不再是当前基线。 |
 
-- Codex 结论：**P7-R10 实现与自验完成，但仍保持 rework**。`0d4aa48b` 是当前用户验收候选；
-  用户确认后才重签 `accept` 并交 GLM 合并终审。
-- done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
+- Codex 结论：**P7-R11 实现与自验完成，但仍保持 rework**。`39ecad91` 是当前用户验收候选；
+  用户确认且 Kimi / GLM 对新增高风险 delta 均 `accept` 后，Codex 才能重签最终 `accept`。
+- done 准入：**blocked**，等待 Kimi / GLM 终审 `accept` 与用户验收；不得提前标记 N3-1 done。
 - C8 已进入 `review`，ED-5I 继续 `blocked`。P7 终审通过后仍须完成 C8 最终候选补审及
   ED-5I canonical v5 下游回归和补签，不能随 N3-1 自动完成。
 
@@ -3795,9 +3804,189 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   `0d4aa48b` 交 GLM 合并终审。GLM 对 C8 core `88277465` 的 accept 不能替代 N3-1 或
   `0d4aa48b` editor delta 的最终审查。
 
+#### P7-R11 PAL 隐式淡入与进场 checkpoint 语义返工（2026-07-26）
+
+- **用户验收反例**：
+  - s048 进场演出执行“淡出（黑）”后，编辑器预览与第二阶段 Reforge 引擎都一直保持黑屏，
+    后续对话实际上仍在执行但不可见。
+  - 默认进场方案只有一个步骤，演出结束后没有进入空完成步骤；每次重新进入 s048 都会从头播放
+    救人剧情。这是第一阶段已经明确修复并留有回归测试的重入 bug。
+- **第一阶段真值复核**：
+  - `reference/sdlpal/script.c:2664-2670`：负数 `0x93` 淡出后设置
+    `fNeedToFadeIn=TRUE`；淡入不是 `0x93` 自己的对称尾部。
+  - `reference/sdlpal/script.c:3267-3293` 与 `reference/sdlpal/scene.c:500-508`：
+    `0x05` 的 `PAL_MakeScene` 消费该标记，执行 600ms 淡入，再按 operand1 执行
+    `n * 60ms` 延时。
+  - `reference/sdlpal/script.c:3343-3367`：`0x09` 先清对话框，每帧先等待 40ms，再
+    `PAL_MakeScene`；因此首帧后淡入，剩余帧继续等待。s110 的 28 帧被显式化为
+    `清对话框 → 40ms → 淡入 600ms → 1080ms`，总时长和首帧边界均保留。
+  - `reference/sdlpal/script.c:3335-3341`：`0x08` 立即把“下次激活入口”推进到下一条，但本次
+    激活继续执行尾部；`packages/game/src/core/event-system.test.ts:4231-4260` 已钉死
+    “checkpoint + 普通 0x00 收尾”重进不得回到起始地址。
+- **根因**：
+  - P7 canonical 投影把 SDLPal 的隐式运行态清理掉时，只保留了可见的 `fade out` 与原
+    `wait/clearDialog`，没有把 `PAL_MakeScene` 消费的 600ms 淡入显式写回 author command。
+    编辑器和 Reforge 都忠实执行同一份错误 canonical 数据，因此两边一起黑屏，不是单独的
+    PreviewCanvas 渲染 bug。
+  - s048 的 source `0x08@10747` 在多阶段投影中被吞掉；尾部 `battlefield 6@10748 +
+    plain end@10749` 虽执行完成，持久 cursor 却没有可落的完成步骤。
+- **上游实现**：
+  - 新增 `packages/migrate/src/experimental/script-v5/pal-scene-semantic-repair.ts:8-413`，
+    作为 C8 augmentation 之后、MG2 target 之前的确定性 post-P7 canonical repair；由
+    `p7-generated.ts:98-101` 每次从权威提取结果重建，不手改 `projects/pal`。
+  - 精确修复三个有完整 source 证据的隐式淡入站点：
+    s048 `10729→10735`、s110/e2061 `16791→16799`、s172 `28296→28305`。
+    每个站点校验 opcode、三个 operand、source label、前后对话、owner、唯一消费点及目标局部
+    形状；只接受“完全未修”或“完全正确”两种状态。半修、重复淡入、错时长、错位置、重复锚点、
+    scene path/id 漂移全部 fail-loud。
+  - s048 另校验 `0x08@10747`、`battlefield 6@10748`、普通 `end@10749`、静态
+    `battleFieldId=6` 以及末尾 `dlg.3818` 完整投影；然后把 `initial.next` 指向空的
+    `completed` 步骤。重复运行要求恰好两个步骤、完成步骤正文为空且无 next，不能形成回环。
+  - repair 克隆输入并输出 source/target digest evidence；P7 ledger、C8 seal 与 SAVE sidecar
+    均作为 immutable control，不重签、不重开 P0-P7。
+- **生成结果与运行时闭环**：
+  - s048：初始步骤 24 条命令，明确
+    `fade out 1600 → clearDialog → fade in 600 → wait 120 → dlg.3813`；
+    `initial → completed`，完成步骤 0 条命令。
+  - s110/e2061：明确
+    `clearDialog → wait 40 → fade in 600 → wait 1080 → dlg.5865`，保持 SDLPal
+    `0x09` 的首帧时序。
+  - s172：明确 `clearDialog → fade in 600 → wait 180 → dlg.10026`；原
+    `initial → legacy-002` 与 `playMusic music.pal.024` 未改变。
+  - Reforge 真实 PAL 集成测试运行 s048 onEnter，断言淡出、淡入、120ms、后续对话顺序和
+    fade 最终值 0；随后经 `buildPayloadV5 → preflightSaveMigration → normalizePayloadV5`
+    重建 runtime，第二次 onEnter 无任何 effect，cursor 仍为 `default/completed`。
+  - 另以真实 s110 canonical 片段运行 Reforge runtime + fade driver，断言
+    `out1600 / clear / 40 / in600 / 1080 / dlg.5865` 的完整顺序；editor preview 与
+    runtime host adapter 各有独立淡入回归。
+- **验证证据**：
+  - 正式写入后内部二跑及独立第三次 dry-run 均为
+    `writes=0 deletes=0 conflicts=0`；资源物化 `1879 unchanged / 0 writes`。
+  - migrate 单 worker 全量：**65 files / 436 passed + 1 skipped**；关键
+    semantic repair/product/P7-MG2/C8-MG2：**4 files / 22 passed**。
+  - Reforge 全量：**67 files / 610 passed**；editor 全量：
+    **91 files / 767 passed**。
+  - root typecheck：7 个 workspace package 全绿；root lint：Biome
+    **961 files clean**；editor/reforge production build 均通过，仅保留既有 chunk-size
+    性能提示；`git diff --check` 通过。
+  - 冻结控制面 SHA-256 未变：
+    P7 ledger `41263ba1…6b12`、C8 seal `325d52ed…3a24`、
+    baseline/project SAVE sidecar 均为 `30ce8717…2ed0`。
+  - Playwright 在真实 PAL s048：编辑器预览淡出后重新亮屏并出现
+    `dlg.3813` 后续对话；`play.html?project=pal&scene=s048` 的 Reforge 引擎试玩同样亮屏；
+    两处 console 均 **0 error / 0 warning**。截图：
+    `output/playwright/s048-editor-after-fade.png`、
+    `output/playwright/s048-reforge-after-fade.png`。
+  - 第一轮只读红队指出半修 fail-loud 与 s110 首帧时序缺口后已返工；第二轮只读复审
+    `accept`，无剩余实现阻塞。该内部复审不替代 Kimi / GLM 推进签字。
+- **明确剩余债务**：
+  - PAL source 的 `0x08` 全局 census 共 36 个站点。本轮只有 s048 同时具备用户反例、一阶段
+    回归和完整 source/target 尾部证据，因此只修 s048；只读扩展审计仍标记
+    `1575 / 10315 / 19301` 有继续体截断嫌疑。
+  - 上述 36 站点须另做高风险系统性分类与运行时抽样，不能凭 opcode 机械给所有 flow 增加空步骤，
+    也不得在本轮结论中宣称全局 checkpoint 已收口。
+- **实现提交**：`39ecad91 fix(phase2): restore PAL scene script semantics`。
+- **当前门禁**：仍为 `rework`。等待用户体验确认，以及 Kimi / GLM 对 `39ecad91` 新增
+  migration/runtime/data delta 分别签 `accept`；旧 P7-R10/C8 签字不能覆盖本轮。
+
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R10 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 Kimi（P7-R11 架构、迁移边界与运行时终审；当前执行）
+
+```text
+终审任务: N3-1 P7-R11 PAL 隐式淡入与 s048 进场 checkpoint 语义
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前实现基线: 39ecad91 fix(phase2): restore PAL scene script semantics
+上一任务卡基线: df633d18 docs(ops): record C8 final review signatures
+当前状态: rework；Codex 已完成实现、自验和两轮内部红队，但 P7-R11 是旧签字后的新增高风险
+  migration/runtime delta，Kimi / GLM 必须重新终审，N3-1 不得标 done。
+你的职责: 只读审查架构、第一阶段语义还原、post-P7 边界、Reforge runtime/SAVE cursor；
+  不得修改实现文件，不得自行标 done。
+先读:
+  - AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+  - 本卡“P7 canonical v5 全量发布”“P7-R11”与 P1-5/P1-6 冻结设计；
+  - docs/phase2/foundation/phase1-knowledge-harvest.md；
+  - reference/sdlpal/script.c:2664-2670,3267-3293,3335-3367；
+  - reference/sdlpal/scene.c:500-508；
+  - packages/game/src/core/event-system.test.ts:4231-4260。
+重点源码:
+  - packages/migrate/src/experimental/script-v5/pal-scene-semantic-repair.ts；
+  - packages/migrate/src/experimental/script-v5/p7-generated.ts；
+  - packages/reforge/src/loader-v5.pal.test.ts；
+  - packages/reforge/src/script-host-adapter-v5.test.ts；
+  - packages/editor/src/core/playback.test.ts。
+必须核对:
+  1. s048/s110/s172 的 explicit fade-in 是否精确对应 0x93 + 0x05/0x09，尤其 s110 是否保持
+     “先等首帧再淡入、剩余 27 帧”的顺序和总时长。
+  2. repair 是否位于 C8 后、MG2 target 前，只改 canonical generated snapshot；不得重签
+     P7 ledger/C8 seal/SAVE sidecar，也不得手改 projects/pal。
+  3. source opcode/三个 operand/label、owner、对话、唯一锚点与目标形状是否全部 fail-loud；
+     半修、重复淡入、错时长、截断 dlg.3818 或 completed 回环不得被静默接受。
+  4. s048 0x08 本次激活继续跑尾部、下次激活进入空 completed 的语义是否成立；真实 SAVE 5
+     round-trip 后新 runtime 第二次 onEnter 是否零 effect。
+  5. editor preview 与 Reforge 共用正确 canonical 数据，修复不是只在 UI 或 host 层打补丁。
+  6. 不得把本轮 s048 修复外推成全局 0x08 已收口；36 站点及 1575/10315/19301 嫌疑须保留
+     为独立高风险审计债务。
+建议独立复跑:
+  - pnpm --filter @type-pal/migrate exec vitest run \
+      src/experimental/script-v5/pal-scene-semantic-repair.test.ts \
+      src/pal-scene-semantic-repair-product.test.ts
+  - pnpm --filter @type-pal/reforge exec vitest run \
+      src/loader-v5.pal.test.ts src/script-host-adapter-v5.test.ts
+输出:
+  - 在本卡 P7 review 签字表 Kimi 行签 `accept`，或写 `counter` 的具体 file:line、反例、
+    复现命令和返工要求；
+  - 在交接日志记录独立复跑数字与结论；
+  - accept 后明确“仅 Kimi 席位通过，仍待 GLM 与用户验收”；不得修改实现、不得标 N3-1 done。
+```
+
+### 给 GLM（P7-R11 数据、MG2、测试矩阵与文档终审；Kimi 完成后执行）
+
+```text
+终审任务: N3-1 P7-R11 PAL 场景语义生成数据、MG2 与覆盖矩阵
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前实现基线: 39ecad91 fix(phase2): restore PAL scene script semantics
+当前状态: rework；Codex 已自验，GLM 需对旧签字后的新增 migration/data delta 独立终审。
+执行顺序: 等 Kimi 对同一基线完成只读架构/runtime 终审后再执行；不得修改实现文件，不得标 done。
+先读:
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 本卡“P7-R11”、P1-6/P1-7/P1-8 与 P7 发布控制面；
+  - packages/migrate/src/experimental/script-v5/pal-scene-semantic-repair.ts 及测试；
+  - packages/migrate/src/experimental/script-v5/p7-generated.ts；
+  - packages/migrate/src/experimental/script-v5/c8-item-use-mg2.ts；
+  - packages/reforge/src/loader-v5.pal.test.ts。
+必须核对:
+  1. project 与 baseline 的 s048/s110/s172 是否字节成对；_state 是否只更新这三份 scene hash。
+  2. s048 是否 24 条 initial + 空 completed，s110 是否 clear/40/in600/1080，s172 原
+     legacy-002/playMusic 是否保持。
+  3. repair source/target evidence、输入不变、幂等、半修/重复/截断负测是否充分；路径/id、
+     battlefield、普通 end 漂移是否 fail-loud。
+  4. 正式生成后 repeat 与独立 dry-run 是否 `0/0/0`；P7 ledger、C8 seal、baseline/project
+     SAVE sidecar SHA-256 是否分别保持
+     `41263ba1…6b12`、`325d52ed…3a24`、`30ce8717…2ed0`。
+  5. migrate 全量 65 files / 436 passed + 1 skipped、Reforge 610、editor 767、root
+     typecheck/lint/build 的记录是否可复现或有充分独立抽查。
+  6. 36 个 source 0x08 站点是否仍明确列为独立债务，没有被本轮范围或能力状态静默关闭。
+建议独立复跑:
+  - pnpm --filter @type-pal/migrate exec vitest run \
+      src/experimental/script-v5/pal-scene-semantic-repair.test.ts \
+      src/pal-scene-semantic-repair-product.test.ts \
+      src/experimental/script-v5/p7-mg2.test.ts \
+      src/experimental/script-v5/c8-item-use-mg2.test.ts
+  - pnpm --filter @type-pal/migrate run migrate:content
+  - shasum -a 256 packages/migrate/baselines/pal/_transitions/script-v4-v5.json \
+      packages/migrate/baselines/pal/_transitions/c8-item-use-v5-v1.json \
+      packages/migrate/baselines/pal/content/migrations/script-v4-v5-save.json \
+      projects/pal/content/migrations/script-v4-v5-save.json
+输出:
+  - 在本卡 P7 review 签字表 GLM 行签 `accept`，或写 `counter` 的具体数据路径、断言、命令和
+    返工项；
+  - 在交接日志记录独立数字、digest 与数据/schema 结论；
+  - accept 后明确“GLM 席位通过，可交用户体验确认与 Codex 最终收口”；不得自行标 N3-1、
+    C8 或 ED-5I done。
+```
+
+### 给 GLM（P7-R10 架构 + 数据 + 测试 + 文档合并终审；已失效，勿再执行）
 
 ```text
 终审任务: N3-1 P7-R10 canonical v5 作者脚本 UX、引用闭包、真实预览与 C8 集成后的合并终审
@@ -3889,7 +4078,8 @@ P3-P7 批次中 Kimi 曾额度耗尽，用户批准该批由 GLM 合并代审；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前无下一位 Agent 执行：等待用户验收 P7-R10；上面的 GLM 提示词仅在用户确认后启用。
+当前下一步：先把 P7-R11 提交 `39ecad91` 交 Kimi 只读终审，再交 GLM 数据/MG2 终审；
+两席均 `accept` 后仍等待用户体验确认，由 Codex 最终收口。P7-R10 旧提示词不得再执行。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
