@@ -432,6 +432,8 @@ interface PendingBarrierV5 {
   ready: boolean
   resolve: () => void
   reject: (reason?: unknown) => void
+  opened: Promise<void>
+  resolveOpened: () => void
 }
 
 export class FlowRuntimeCoordinatorV5 {
@@ -465,11 +467,15 @@ export class FlowRuntimeCoordinatorV5 {
     if (this.pending) throw new Error('save barrier 已经关闭')
     let resolve!: () => void
     let reject!: (reason?: unknown) => void
+    let resolveOpened!: () => void
     const ready = new Promise<void>((accept, decline) => {
       resolve = accept
       reject = decline
     })
-    const pending = { ready: false, resolve, reject }
+    const opened = new Promise<void>((accept) => {
+      resolveOpened = accept
+    })
+    const pending = { ready: false, resolve, reject, opened, resolveOpened }
     this.pending = pending
     this.resolveBarrierIfReady()
     return {
@@ -478,10 +484,12 @@ export class FlowRuntimeCoordinatorV5 {
         if (this.pending !== pending) throw new Error('save barrier handle 已失效')
         if (!pending.ready) throw new Error('save barrier 尚未 ready，不能 release')
         this.pending = undefined
+        pending.resolveOpened()
       },
       cancel: (reason?: unknown) => {
         if (this.pending !== pending) return
         this.pending = undefined
+        pending.resolveOpened()
         if (!pending.ready)
           pending.reject(
             reason instanceof Error
@@ -489,6 +497,30 @@ export class FlowRuntimeCoordinatorV5 {
               : new Error(reason === undefined ? 'save barrier cancelled' : String(reason)),
           )
       },
+    }
+  }
+
+  async waitForActivationGate(signal: AbortSignal): Promise<void> {
+    while (this.pending) {
+      if (signal.aborted) throw new DOMException('script activation aborted', 'AbortError')
+      const pending = this.pending
+      await new Promise<void>((resolve, reject) => {
+        let settled = false
+        const finish = (): void => {
+          if (settled) return
+          settled = true
+          signal.removeEventListener('abort', abort)
+          resolve()
+        }
+        const abort = (): void => {
+          if (settled) return
+          settled = true
+          reject(new DOMException('script activation aborted', 'AbortError'))
+        }
+        void pending.opened.then(finish)
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
+      })
     }
   }
 

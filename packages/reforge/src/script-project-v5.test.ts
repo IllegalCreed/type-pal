@@ -21,7 +21,7 @@ const scene: SceneDefV5 = {
       pos: { col: 1, row: 1, height: 0 },
       initialPage: 'default',
       pages: [
-        { id: 'default', label: '默认', trigger: 'talk' },
+        { id: 'default', label: '默认', trigger: 'talk', auto: 'idle' },
         { id: 'quiet', label: '安静', trigger: 'alternate' },
       ],
       behaviors: {
@@ -62,9 +62,46 @@ const scene: SceneDefV5 = {
             },
           },
         },
+        auto: {
+          idle: {
+            label: '待机',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [{ kind: 'setFlag', flag: 'auto-ran', value: true }],
+                },
+              ],
+            },
+          },
+        },
       },
     },
   ],
+  hooks: {
+    onEnter: {
+      initial: 'default',
+      variants: {
+        default: {
+          label: '默认进场',
+          order: 0,
+          flow: {
+            kind: 'stages',
+            initial: 'start',
+            stages: [
+              {
+                id: 'start',
+                body: [{ kind: 'setFlag', flag: 'entered', value: true }],
+              },
+            ],
+          },
+        },
+      },
+    },
+  },
 }
 
 function project(): LoadedProjectV5Core {
@@ -218,6 +255,241 @@ describe('canonical script v5 project runtime', () => {
       behavior: 'talk',
       at: { kind: 'stage', stage: 'start' },
     })
+  })
+
+  test('interactive trigger waits for a closed save gate and runs exactly once after release', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(
+      project(),
+      world,
+      digest,
+      host((command) => {
+        effects.push(command.kind)
+      }),
+    )
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+
+    const running = runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    await Promise.resolve()
+    expect(effects).toEqual([])
+    expect(world.flags.talked).toBeUndefined()
+
+    barrier.release()
+    await expect(running).resolves.toBe(true)
+    expect(effects).toEqual(['setFlag', 'setEntityState'])
+    expect(world.flags.talked).toBe(true)
+  })
+
+  test('interactive trigger waits while a live auto flow reaches the save safe-point', async () => {
+    const waitingScene = structuredClone(scene)
+    const entity = waitingScene.entities[0]!
+    const autoFlow = entity.behaviors!.auto!.idle!.flow
+    const triggerFlow = entity.behaviors!.trigger!.talk!.flow
+    if (autoFlow.kind !== 'stages' || triggerFlow.kind !== 'stages') throw new Error('fixture flow')
+    autoFlow.stages[0]!.body = [{ kind: 'wait', ms: 10 }]
+    triggerFlow.stages[0]!.body = [{ kind: 'addVar', var: 'hits', delta: 1 }]
+    const world = emptyWorldScriptStateV5()
+    const autoEntered = deferred<void>()
+    const releaseAuto = deferred<void>()
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      scene: () => waitingScene,
+      executeEffect: async (command) => {
+        if (command.kind !== 'wait') return
+        autoEntered.resolve()
+        await releaseAuto.promise
+      },
+    })
+    const auto = runtime.runEntityBehavior(waitingScene, 'e1', 'auto', {
+      signal: new AbortController().signal,
+    })
+    await autoEntered.promise
+
+    let snapshots = 0
+    const save = runtime.withSaveBarrier(() => {
+      snapshots += 1
+      return structuredClone(world)
+    })
+    const trigger = runtime.runEntityBehavior(waitingScene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    await Promise.resolve()
+    expect(snapshots).toBe(0)
+    expect(world.vars.hits).toBeUndefined()
+
+    releaseAuto.resolve()
+    await save
+    await expect(auto).resolves.toBe(true)
+    await expect(trigger).resolves.toBe(true)
+    expect(snapshots).toBe(1)
+    expect(world.vars.hits).toBe(1)
+  })
+
+  test('scene hook and auto behavior wait without a lease, then resume when the save gate opens', async () => {
+    const world = emptyWorldScriptStateV5()
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, host())
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+
+    const auto = runtime.runEntityBehavior(scene, 'e1', 'auto', {
+      signal: new AbortController().signal,
+    })
+    const hook = runtime.runSceneHook(scene, 'onEnter', {
+      signal: new AbortController().signal,
+    })
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(world.flags['auto-ran']).toBeUndefined()
+    expect(world.flags.entered).toBeUndefined()
+
+    barrier.release()
+    await expect(auto).resolves.toBe(true)
+    await expect(hook).resolves.toBe(true)
+    expect(world.flags['auto-ran']).toBe(true)
+    expect(world.flags.entered).toBe(true)
+  })
+
+  test('an absent auto behavior returns false even while the save gate is closed', async () => {
+    const noAutoScene = structuredClone(scene)
+    const entity = noAutoScene.entities[0]
+    if (!entity?.pages?.[0]?.auto || !entity.behaviors?.auto) throw new Error('fixture auto')
+    delete entity.pages[0].auto
+    delete entity.behaviors.auto
+    const runtime = new ScriptProjectRuntimeV5(project(), emptyWorldScriptStateV5(), digest, host())
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+
+    await expect(
+      runtime.runEntityBehavior(noAutoScene, 'e1', 'auto', {
+        signal: new AbortController().signal,
+      }),
+    ).resolves.toBe(false)
+    barrier.release()
+  })
+
+  test('interactive trigger is discarded when its source scene changes while waiting', async () => {
+    const world = emptyWorldScriptStateV5()
+    let currentSceneId = scene.id
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host((command) => {
+        effects.push(command.kind)
+      }),
+      currentSceneId: () => currentSceneId,
+    })
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+
+    const running = runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    currentSceneId = 's002'
+    barrier.release()
+
+    await expect(running).resolves.toBe(false)
+    expect(effects).toEqual([])
+    expect(world.flags.talked).toBeUndefined()
+  })
+
+  test('interactive trigger is discarded after a same-id scene session replacement', async () => {
+    const world = emptyWorldScriptStateV5()
+    let sceneSession = 1
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host((command) => {
+        effects.push(command.kind)
+      }),
+      currentSceneSessionId: () => sceneSession,
+    })
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+
+    const running = runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: new AbortController().signal,
+    })
+    sceneSession += 1
+    barrier.release()
+
+    await expect(running).resolves.toBe(false)
+    expect(effects).toEqual([])
+    expect(world.flags.talked).toBeUndefined()
+  })
+
+  test('auto behavior waiting for a save gate can be cancelled without running later', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(
+      project(),
+      world,
+      digest,
+      host((command) => {
+        effects.push(command.kind)
+      }),
+    )
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+    const controller = new AbortController()
+
+    const running = runtime.runEntityBehavior(scene, 'e1', 'auto', {
+      signal: controller.signal,
+    })
+    controller.abort()
+    await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    barrier.release()
+    await Promise.resolve()
+
+    expect(effects).toEqual([])
+    expect(world.flags['auto-ran']).toBeUndefined()
+  })
+
+  test('interactive trigger waiting for a save gate can be cancelled without running later', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effects: string[] = []
+    const runtime = new ScriptProjectRuntimeV5(
+      project(),
+      world,
+      digest,
+      host((command) => {
+        effects.push(command.kind)
+      }),
+    )
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+    const controller = new AbortController()
+
+    const running = runtime.runEntityBehavior(scene, 'e1', 'trigger', {
+      signal: controller.signal,
+    })
+    controller.abort()
+    await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    barrier.release()
+    await Promise.resolve()
+
+    expect(effects).toEqual([])
+    expect(world.flags.talked).toBeUndefined()
+  })
+
+  test('save barrier rejects asynchronous snapshot work and reopens the activation gate', async () => {
+    const runtime = new ScriptProjectRuntimeV5(project(), emptyWorldScriptStateV5(), digest, host())
+
+    await expect(
+      runtime.withSaveBarrier((() => Promise.resolve('disk write')) as unknown as () => string),
+    ).rejects.toThrow(/同步快照/)
+
+    const activation = runtime.coordinator.begin(
+      {
+        kind: 'entity-behavior',
+        target: { scene: 's001', entity: 'e1' },
+        channel: 'trigger',
+      },
+      () => {},
+    )
+    expect(activation).toBeDefined()
+    activation?.close()
   })
 
   test('standalone host rejects selection targets absent from canonical scene definitions', async () => {

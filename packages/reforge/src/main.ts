@@ -2541,9 +2541,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       if (scriptRuntimeV5) {
         const canonical = canonicalSceneCacheV5.get(scene.id)
         if (!canonical) throw new Error(`script v5 当前场景未缓存: ${scene.id}`)
-        const ran = await scriptRuntimeV5.runSceneHook(canonical, 'onTeleport', {
-          signal: signal ?? new AbortController().signal,
-        })
+        const ran = await runDetachedV5ScriptChain(signal, (runtime, runSignal) =>
+          runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
+        )
         assertRunnerActive(signal, '传送出口所属 runner 已取消')
         return ran
       }
@@ -2787,6 +2787,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       worldChanged: (command) => refreshRuntimeProjectionV5(command),
       scene: getCanonicalSceneDefV5,
       currentSceneId: () => scene.id,
+      currentSceneSessionId: () =>
+        `${scene.id}:${sceneSwitchIntent.capture()}:${worldMutationIntent.capture()}`,
       entityPosRelativeToParty: (target, dcol, drow) => {
         if (target.scene !== scene.id)
           throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
@@ -3189,10 +3191,10 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
    * 在当前主 runner 内调用时作为同步子链执行；从物品菜单独立发起时临时占用全局 runner，
    * 并完整接续目标场景 onEnter。这样外部用途不会留下“已切场景但入场脚本没跑”的半状态。
    */
-  async function runDetachedV5ScriptChain(
+  async function runDetachedV5ScriptChain<T>(
     signal: AbortSignal | undefined,
-    invoke: (runtime: ScriptProjectRuntimeV5, signal: AbortSignal) => Promise<void>,
-  ): Promise<void> {
+    invoke: (runtime: ScriptProjectRuntimeV5, signal: AbortSignal) => Promise<T>,
+  ): Promise<T> {
     const runtime = scriptRuntimeV5
     if (!runtime) throw new Error('script v5 runtime 未初始化')
     const ownsRunnerSlot = runner === null
@@ -3200,8 +3202,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     const active = { running: true }
     if (ownsRunnerSlot) runner = active
     try {
-      await invoke(runtime, runSignal)
-      if (!ownsRunnerSlot) return
+      const result = await invoke(runtime, runSignal)
+      if (!ownsRunnerSlot) return result
       while (pendingOnEnter) {
         const pending = pendingOnEnter
         pendingOnEnter = null
@@ -3216,6 +3218,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           runSceneEntry: true,
         })
       }
+      return result
     } finally {
       active.running = false
       if (ownsRunnerSlot) {
@@ -3224,9 +3227,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         authority.clear()
         if (sceneChangedByScript) {
           sceneChangedByScript = false
-          void captureThumbnail(canvas)
-            .then((blob) => doSave('auto', blob))
-            .catch(() => undefined)
+          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
         }
       }
     }
@@ -3272,9 +3273,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         authority.clear()
         if (sceneChangedByScript) {
           sceneChangedByScript = false
-          void captureThumbnail(canvas)
-            .then((blob) => doSave('auto', blob))
-            .catch(() => undefined)
+          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
         }
       }
     }
@@ -3349,9 +3348,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           }
           if (sceneChangedByScript) {
             sceneChangedByScript = false
-            void captureThumbnail(canvas)
-              .then((blob) => doSave('auto', blob))
-              .catch(() => undefined)
+            void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
           }
         })
       return
@@ -3398,9 +3395,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         if (sceneChangedByScript) {
           // X1 自动存档:演出链(含 onEnter)全部收尾、玩家落地 → 静默写 auto 槽
           sceneChangedByScript = false
-          void captureThumbnail(canvas)
-            .then((b) => doSave('auto', b))
-            .catch(() => undefined)
+          void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
         }
       })
   }
@@ -3496,6 +3491,11 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let lastSaveSlot: SlotId | undefined // 默认槽记忆(原版 bCurrentSaveSlot:存/读过哪槽,下次浏览默认停那)
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
+  let saveSnapshotQueue: Promise<void> = Promise.resolve()
+  let saveWriteQueue: Promise<void> = Promise.resolve()
+  let saveMetasReady: Promise<void> = Promise.resolve()
+  let saveMetasInitialized = false
+  let committedSavedTimes = 0
   let overwriteYes = false // 覆盖确认框高亮(右=是)
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
@@ -3647,15 +3647,28 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
 
   /** 读 metas + 解码缩略图(开界面/存档后刷新)。 */
   async function refreshSaveMetas(): Promise<void> {
-    saveMetas = await saveStore.listMeta()
-    saveThumbs.clear()
-    for (const m of saveMetas) {
+    const nextMetas = await saveStore.listMeta()
+    const nextThumbs = new Map<SlotId, ImageBitmap>()
+    for (const m of nextMetas) {
       const blob = await saveStore.getThumb(m.slotId)
-      if (blob) saveThumbs.set(m.slotId, await createImageBitmap(blob))
+      if (blob) nextThumbs.set(m.slotId, await createImageBitmap(blob))
     }
+    saveMetas = nextMetas
+    saveThumbs.clear()
+    for (const [slotId, thumb] of nextThumbs) saveThumbs.set(slotId, thumb)
+    committedSavedTimes = Math.max(
+      committedSavedTimes,
+      ...nextMetas.map((meta) => meta.savedTimes ?? 0),
+    )
+    saveMetasInitialized = true
   }
 
   function buildCurrentSavePayload(): StoredSavePayload {
+    const position = {
+      sceneId: scene.id,
+      pos: structuredClone(player.pos),
+      facing,
+    }
     if (worldScriptV5 && canonicalProjectV5) {
       const snapshot = structuredClone(world)
       delete snapshot.script
@@ -3664,36 +3677,85 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           ...snapshot,
           script: structuredClone(worldScriptV5),
         },
-        { sceneId: scene.id, pos: player.pos, facing },
+        position,
         canonicalProjectV5.manifest.id,
       )
     }
     return buildPayload(
-      world,
-      { sceneId: scene.id, pos: player.pos, facing },
+      structuredClone(world),
+      position,
       project.manifest.id,
       project.manifest.contentVersion,
     )
   }
 
-  async function doSave(slotId: SlotId, thumb: Blob): Promise<void> {
-    const persist = async (): Promise<void> => {
-      // wSavedTimes 跨槽计数器(uigame.c:578-598:max(全部槽)+1;saveMetas 是槽表快照)
-      const savedTimes = saveMetas.reduce((m, x) => Math.max(m, x.savedTimes ?? 0), 0) + 1
-      const meta = buildMeta(
-        slotId,
-        world,
-        MAP_NAME,
-        (c) => lookupText(`name.${c.template}`, project.locale),
-        Date.now(),
-        savedTimes,
-      )
-      const payload = buildCurrentSavePayload()
-      await saveStore.putSlot(meta, payload, thumb)
-      await refreshSaveMetas()
-    }
-    if (scriptRuntimeV5) await scriptRuntimeV5.withSaveBarrier(persist)
-    else await persist()
+  function doSave(slotId: SlotId, thumb: Blob | Promise<Blob>): Promise<void> {
+    const thumbReady = Promise.resolve(thumb)
+    // 写队列可能仍在等待前一笔事务；立刻挂 rejection handler，避免缩略图先失败时冒出
+    // unhandledrejection。scheduled 后续仍 await 原 promise，并把失败交还本次调用方。
+    void thumbReady.catch(() => undefined)
+    const snapshot = saveSnapshotQueue.then(async () => {
+      const prepareSnapshot = () => {
+        // safe-point barrier 只保护这段同步快照；IndexedDB/缩略图刷新不得阻塞互动脚本激活。
+        return structuredClone({
+          meta: buildMeta(
+            slotId,
+            world,
+            MAP_NAME,
+            (c) => lookupText(`name.${c.template}`, project.locale),
+            Date.now(),
+          ),
+          payload: buildCurrentSavePayload(),
+        })
+      }
+      return scriptRuntimeV5
+        ? await scriptRuntimeV5.withSaveBarrier(prepareSnapshot)
+        : prepareSnapshot()
+    })
+    saveSnapshotQueue = snapshot.then(
+      () => undefined,
+      () => undefined,
+    )
+
+    const scheduled = saveWriteQueue.then(async () => {
+      const prepared = await snapshot
+      await saveMetasReady
+      if (!saveMetasInitialized) {
+        const persisted = await saveStore.listMeta()
+        committedSavedTimes = Math.max(
+          committedSavedTimes,
+          ...persisted.map((meta) => meta.savedTimes ?? 0),
+        )
+        saveMetasInitialized = true
+      }
+      // wSavedTimes 跨槽单调计数；只在三 store 原子事务成功后推进，失败不消费编号。
+      const savedTimes = committedSavedTimes + 1
+      const meta = { ...prepared.meta, savedTimes }
+      const capturedThumb = await thumbReady
+      await saveStore.putSlot(meta, prepared.payload, capturedThumb)
+      committedSavedTimes = savedTimes
+      try {
+        await refreshSaveMetas()
+      } catch (error) {
+        // 三 store 已提交即视为存档成功；浏览缓存失败只降级当前 UI，不反报“存档失败”。
+        console.warn('[save] 存档已写入，但浏览缓存刷新失败:', error)
+        saveMetas = [...saveMetas.filter((entry) => entry.slotId !== slotId), structuredClone(meta)]
+        saveThumbs.delete(slotId)
+        try {
+          saveThumbs.set(slotId, await createImageBitmap(capturedThumb))
+        } catch {
+          // 缩略图解码失败不影响 payload/meta 的成功提交。
+        }
+      }
+    })
+    // auto/quick/manual 写入保持请求顺序；每个调用方仍收到自己的失败，不让一次失败毒死队尾。
+    saveWriteQueue = scheduled.catch(() => undefined)
+    return scheduled
+  }
+
+  function reportSaveFailure(error: unknown): void {
+    console.error('[save] 存档失败:', error)
+    showToast('存档失败')
   }
 
   function payloadBelongsToProject(
@@ -3843,7 +3905,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   }
 
   async function quickSave(): Promise<void> {
-    await doSave('quick', await captureThumbnail(canvas))
+    await doSave('quick', captureThumbnail(canvas))
     showToast('已快速存档')
   }
   async function quickLoad(): Promise<void> {
@@ -3854,7 +3916,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   async function browserWrite(slotId: SlotId): Promise<void> {
     const mode = saveBrowser.mode
     const cursor = saveBrowser.cursor
-    const thumb = lastGameThumb ?? (await captureThumbnail(canvas))
+    const thumb = lastGameThumb ?? captureThumbnail(canvas)
     await doSave(slotId, thumb)
     lastSaveSlot = slotId // bCurrentSaveSlot(uigame.c:718 存档选槽即记)
     if (saveBrowser.active) saveBrowser = openSaveBrowser(mode, saveMetas, cursor)
@@ -4447,7 +4509,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
               ? browserConfirmOverwriteYes(saveBrowser)
               : { state: browserConfirmOverwriteNo(saveBrowser), action: undefined }
             saveBrowser = r.state
-            if (r.action?.kind === 'write') void browserWrite(r.action.slotId)
+            if (r.action?.kind === 'write')
+              void browserWrite(r.action.slotId).catch(reportSaveFailure)
             overwriteYes = false
           } else if (esc) {
             saveBrowser = browserConfirmOverwriteNo(saveBrowser)
@@ -4461,7 +4524,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           if (interact) {
             const r = browserConfirm(saveBrowser)
             saveBrowser = r.state
-            if (r.action?.kind === 'write') void browserWrite(r.action.slotId)
+            if (r.action?.kind === 'write')
+              void browserWrite(r.action.slotId).catch(reportSaveFailure)
             else if (r.action?.kind === 'load') void browserLoad(r.action.slotId)
           }
           if (esc) saveBrowser = closeSaveBrowser() // 回系统菜单(menu 仍 active)
@@ -4700,15 +4764,19 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       // 脚本演出中(非对话等待段):吞输入,防移动/开菜单打断演出
     } else {
       if (pressed.has('F5')) {
-        void quickSave() // 快速存档(快速槽)
+        void quickSave().catch(reportSaveFailure) // 快速存档(快速槽)
       } else if (pressed.has('F9')) {
         void quickLoad() // 快速读档(快速槽)
       } else if (esc) {
         menu = openMenu(lastMainCursor)
         // 抓当前干净游戏帧(此刻菜单尚未画)→ 菜单内存档的缩略图源
-        void captureThumbnail(canvas).then((b) => {
-          lastGameThumb = b
-        })
+        void captureThumbnail(canvas)
+          .then((b) => {
+            lastGameThumb = b
+          })
+          .catch((error: unknown) => {
+            console.warn('[save] 菜单缩略图捕获失败:', error)
+          })
       } else if (interact) {
         const trig = findTrigger('interact')
         if (trig) fireTrigger(trig)
@@ -4773,7 +4841,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     render()
     requestAnimationFrame(tick)
   }
-  void refreshSaveMetas() // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
+  saveMetasReady = refreshSaveMetas().catch((error: unknown) => {
+    console.warn('[save] 初始存档浏览缓存加载失败:', error)
+  }) // 预载已有存档 metas + 缩略图(浏览界面首开即有内容)
   // e2e checkpoint 导出:evaluate 里 `window.__tpE2e.dumpSave()` 取当前世界 SavePayload(JSON)→ 落 e2e-checkpoints/
   if (import.meta.env.DEV) {
     ;(window as unknown as { __tpE2e: unknown }).__tpE2e = {

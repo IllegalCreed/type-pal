@@ -15,6 +15,8 @@ import { ScriptRunnerV5 } from './script-runner-v5.js'
 import {
   evalAuthorConditionV5,
   FlowRuntimeCoordinatorV5,
+  resolveEntityBehaviorV5,
+  resolveSceneHookV5,
   selectEntityBehaviorV5,
   selectEntityPageV5,
   selectSceneHooksV5,
@@ -37,6 +39,11 @@ export interface ProjectScriptHostOptionsV5 extends RuntimeHostServicesV5 {
   ): void | Promise<void>
   scene(sceneId: string): SceneDefV5 | Promise<SceneDefV5>
   currentSceneId(): string
+  /**
+   * 当前场景实例/世界会话的稳定身份；同 ID 重载、离开后返回或 world replacement 必须变化。
+   * 未提供时仅回退到 scene id，方便无异步换场景的独立宿主。
+   */
+  currentSceneSessionId?(): string | number
   /** 0x12 相对队伍摆位在宿主坐标系求值后，返回应持久化的绝对格。 */
   entityPosRelativeToParty?(target: EntityAddress, dcol: number, drow: number): GridPos
   query: {
@@ -80,6 +87,14 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
     private readonly coordinator: FlowRuntimeCoordinatorV5,
     private readonly options: ProjectScriptHostOptionsV5,
   ) {}
+
+  currentSceneId(): string {
+    return this.options.currentSceneId()
+  }
+
+  currentSceneSessionId(): string | number {
+    return this.options.currentSceneSessionId?.() ?? this.options.currentSceneId()
+  }
 
   async execute(
     command: RuntimeLeafCommandV5,
@@ -247,6 +262,8 @@ export interface RunProjectCommandsV5Options {
   timing?: 'auto' | 'interactive'
 }
 
+type SynchronousSnapshot<T> = T extends PromiseLike<unknown> ? never : T
+
 export class ScriptProjectRuntimeV5 {
   readonly coordinator = new FlowRuntimeCoordinatorV5()
   readonly host: ProjectScriptRuntimeHostV5
@@ -272,7 +289,20 @@ export class ScriptProjectRuntimeV5 {
   ): Promise<boolean> {
     const target = { scene: scene.id, entity: entityId }
     const entity = entityAt(scene, target)
-    const active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel)
+    const sceneSessionId = this.host.currentSceneSessionId()
+    if (this.host.currentSceneId() !== scene.id) return false
+    if (!resolveEntityBehaviorV5(entity, this.world, target, channel)) return false
+    let active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel)
+    while (!active && this.coordinator.gateClosed()) {
+      await this.coordinator.waitForActivationGate(options.signal)
+      options.signal.throwIfAborted()
+      if (
+        this.host.currentSceneId() !== scene.id ||
+        this.host.currentSceneSessionId() !== sceneSessionId
+      )
+        return false
+      active = this.coordinator.beginEntityBehavior(this.world, entity, target, channel)
+    }
     if (!active) return false
     const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
     try {
@@ -298,7 +328,20 @@ export class ScriptProjectRuntimeV5 {
     slot: 'onEnter' | 'onTeleport',
     options: RunProjectFlowV5Options,
   ): Promise<boolean> {
-    const active = this.coordinator.beginSceneHook(this.world, scene, slot)
+    const sceneSessionId = this.host.currentSceneSessionId()
+    if (this.host.currentSceneId() !== scene.id) return false
+    if (!resolveSceneHookV5(scene, this.world, slot)) return false
+    let active = this.coordinator.beginSceneHook(this.world, scene, slot)
+    while (!active && this.coordinator.gateClosed()) {
+      await this.coordinator.waitForActivationGate(options.signal)
+      options.signal.throwIfAborted()
+      if (
+        this.host.currentSceneId() !== scene.id ||
+        this.host.currentSceneSessionId() !== sceneSessionId
+      )
+        return false
+      active = this.coordinator.beginSceneHook(this.world, scene, slot)
+    }
     if (!active) return false
     const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
     try {
@@ -372,7 +415,7 @@ export class ScriptProjectRuntimeV5 {
     await this.runCommands(script.body, options)
   }
 
-  async withSaveBarrier<T>(snapshot: () => T | Promise<T>, timeoutMs = 10_000): Promise<T> {
+  async withSaveBarrier<T>(snapshot: () => SynchronousSnapshot<T>, timeoutMs = 10_000): Promise<T> {
     const barrier = this.coordinator.requestSaveBarrier()
     let timer: ReturnType<typeof setTimeout> | undefined
     try {
@@ -385,7 +428,15 @@ export class ScriptProjectRuntimeV5 {
           )
         }),
       ])
-      return await snapshot()
+      const value = snapshot()
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        'then' in value &&
+        typeof value.then === 'function'
+      )
+        throw new Error('script v5 save barrier 只允许同步快照，异步持久化必须在 release 后执行')
+      return value as T
     } catch (error) {
       barrier.cancel(error)
       throw error
