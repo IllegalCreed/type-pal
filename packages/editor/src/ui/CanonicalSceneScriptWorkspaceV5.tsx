@@ -85,9 +85,10 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
     return () => observer.disconnect()
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 跨场景可复用同一实体 ID，场景变化也必须重新跟随实体选择。
   useEffect(() => {
-    if (!props.selectedEntityId && owner === 'entity') setOwner('scene')
-  }, [owner, props.selectedEntityId])
+    setOwner(props.selectedEntityId ? 'entity' : 'scene')
+  }, [props.scene.id, props.selectedEntityId])
 
   useEffect(() => {
     const focus = props.focusReference
