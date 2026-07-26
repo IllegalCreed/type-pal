@@ -295,7 +295,7 @@ export function ScriptSchemeDetailsDialogV5(props: {
     >
       <section className="script-scheme-details-section">
         <div className="script-scheme-name-field">
-          <header>
+          <header className="canonical-dialog-field-heading">
             <label htmlFor={nameInputId}>方案名称</label>
             <CanonicalHelpTipV5 label="脚本方案">
               这是一套完整脚本。切换方案时，它拥有的执行步骤、出现前准备和正文会一起切换。
@@ -337,7 +337,7 @@ export function ScriptSchemeDetailsDialogV5(props: {
         ) : null}
 
         <div className="script-scheme-usage">
-          <header>
+          <header className="canonical-dialog-field-heading">
             <strong>使用位置</strong>
             <CanonicalHelpTipV5 label="使用位置">
               页面或脚本指令可能正在使用这套方案。先改掉这些位置，才能安全删除方案。
@@ -407,7 +407,7 @@ export function ScriptSchemeCreateDialogV5(props: {
         }}
       >
         <div className="script-scheme-name-field">
-          <header>
+          <header className="canonical-dialog-field-heading">
             <label htmlFor={nameInputId}>方案名称</label>
             <CanonicalHelpTipV5 label="新建脚本方案">
               {props.first
@@ -3404,6 +3404,7 @@ export function CanonicalScriptFlowEditorV5(props: {
   const [createOpen, setCreateOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [linkNewStage, setLinkNewStage] = useState(true)
+  const stageNextSelectId = useId()
   const lastAppliedFlowFocusRevisionRef = useRef<number | undefined>(undefined)
   useEffect(() => {
     if (ids.includes(selectedId)) return
@@ -3580,40 +3581,64 @@ export function CanonicalScriptFlowEditorV5(props: {
             className="canonical-flow-settings-dialog"
             onClose={() => setDetailsOpen(false)}
             footer={
-              <button type="button" className="btn" onClick={() => setDetailsOpen(false)}>
-                关闭
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="btn danger"
+                  disabled={!hasMultipleStages}
+                  title={hasMultipleStages ? undefined : '分次执行至少需要保留一个步骤。'}
+                  onClick={() => {
+                    setDetailsOpen(false)
+                    setDeleteOpen(true)
+                  }}
+                >
+                  删除步骤…
+                </button>
+                {!hasMultipleStages ? (
+                  <span className="canonical-stage-delete-note">
+                    分次执行至少需要保留一个步骤。
+                  </span>
+                ) : null}
+                <span className="spacer" />
+                <button type="button" className="btn" onClick={() => setDetailsOpen(false)}>
+                  关闭
+                </button>
+              </>
             }
           >
-            <div className="canonical-modal-context">
-              <span>所属方案：{props.ownerLabel ?? '当前脚本'}</span>
-              <CanonicalHelpTipV5 label="步骤详情">
-                每次运行只执行当前步骤；完成后按“下次运行”的设置决定之后从哪个步骤开始。
-              </CanonicalHelpTipV5>
-            </div>
             <div className="canonical-flow-settings-fields">
-              <div className="canonical-stage-initial-setting">
-                <div>
-                  <strong>
-                    {flow.initial === stage.id ? '第一次运行从这个步骤开始' : '这不是起始步骤'}
-                  </strong>
+              <section className="canonical-flow-setting">
+                <header className="canonical-dialog-field-heading">
+                  <strong>起始步骤</strong>
                   <CanonicalHelpTipV5 label="起始步骤">
                     每套脚本方案只能有一个起始步骤。切换到这套方案后，第一次运行会从这里开始。
                   </CanonicalHelpTipV5>
+                </header>
+                <div className="canonical-stage-initial-setting">
+                  <span>
+                    {flow.initial === stage.id ? '当前步骤是起始步骤' : '当前步骤不是起始步骤'}
+                  </span>
+                  {flow.initial !== stage.id ? (
+                    <button
+                      type="button"
+                      className="mini-txt"
+                      onClick={() => props.onChange({ ...flow, initial: stage.id })}
+                    >
+                      设为起始步骤
+                    </button>
+                  ) : null}
                 </div>
-                {flow.initial !== stage.id ? (
-                  <button
-                    type="button"
-                    className="mini-txt"
-                    onClick={() => props.onChange({ ...flow, initial: stage.id })}
-                  >
-                    设为起始步骤
-                  </button>
-                ) : null}
-              </div>
-              <label>
-                <span>本步骤完成后，下次运行</span>
+              </section>
+              <section className="canonical-flow-setting">
+                <header className="canonical-dialog-field-heading">
+                  <label htmlFor={stageNextSelectId}>下次运行</label>
+                  <CanonicalHelpTipV5 label="下次运行">
+                    当前步骤完成后，下一次运行这套方案时从哪个步骤开始。
+                  </CanonicalHelpTipV5>
+                </header>
                 <select
+                  id={stageNextSelectId}
+                  name="stage-next"
                   className="in"
                   value={stage.next ?? ''}
                   onChange={(event) => {
@@ -3637,21 +3662,7 @@ export function CanonicalScriptFlowEditorV5(props: {
                       </option>
                     ))}
                 </select>
-              </label>
-            </div>
-            <div className="canonical-stage-delete-area">
-              <button
-                type="button"
-                className="danger"
-                disabled={!hasMultipleStages}
-                onClick={() => {
-                  setDetailsOpen(false)
-                  setDeleteOpen(true)
-                }}
-              >
-                删除这个步骤…
-              </button>
-              {!hasMultipleStages ? <span>分次执行至少需要保留一个步骤。</span> : null}
+              </section>
             </div>
           </CanonicalScriptDialogV5>
         ) : null}

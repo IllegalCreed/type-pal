@@ -408,7 +408,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
         .click(),
     )
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('新建执行步骤')
-    expect(host.querySelector('[role="dialog"]')?.textContent).not.toContain('删除这个步骤')
+    expect(host.querySelector('[role="dialog"]')?.textContent).not.toContain('删除步骤')
     await act(async () =>
       [...host.querySelectorAll<HTMLButtonElement>('button')]
         .find((candidate) => candidate.textContent?.includes('创建步骤'))!
@@ -428,12 +428,25 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
         .click(),
     )
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('步骤 2 · 详情')
-    expect(host.querySelector('[role="dialog"]')?.textContent).toContain('本步骤完成后，下次运行')
+    const detailsDialog = host.querySelector<HTMLElement>('[role="dialog"]')!
+    const detailsBody = detailsDialog.querySelector('.canonical-script-modal-body')!
+    const detailsFooter = detailsDialog.querySelector('.canonical-script-modal-footer')!
+    expect(detailsDialog.textContent).not.toContain('所属方案')
+    expect(detailsBody.querySelector('.canonical-modal-context')).toBeNull()
+    expect(detailsBody.querySelector('.canonical-stage-delete-area')).toBeNull()
+    expect(
+      [...detailsBody.querySelectorAll('.canonical-dialog-field-heading')].map(
+        (heading) => heading.querySelector(':scope > strong, :scope > label')?.textContent,
+      ),
+    ).toEqual(['起始步骤', '下次运行'])
+    expect(detailsFooter.firstElementChild?.textContent).toContain('删除步骤')
+    expect(detailsFooter.querySelector('.spacer')).not.toBeNull()
+    expect(detailsFooter.textContent).toContain('关闭')
     expect(host.querySelector('[role="dialog"]')?.textContent).not.toContain('创建步骤')
 
     await act(async () =>
-      [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('删除这个步骤'))!
+      [...detailsFooter.querySelectorAll<HTMLButtonElement>('button')]
+        .find((candidate) => candidate.textContent?.includes('删除步骤'))!
         .click(),
     )
     expect(host.querySelector('[role="dialog"]')?.getAttribute('aria-label')).toBe('删除步骤 2？')
@@ -565,7 +578,7 @@ describe('CanonicalScriptEditorV5 author presentation', () => {
     expect(host.textContent).not.toContain('迁移记录保护')
     expect(
       [...host.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
-        candidate.textContent?.includes('删除这个步骤'),
+        candidate.textContent?.includes('删除步骤'),
       )?.disabled,
     ).toBe(false)
   })

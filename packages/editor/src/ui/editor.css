@@ -13122,13 +13122,15 @@ button.sprite-frame-cell[draggable="true"]:active {
 .canonical-flow-settings-fields {
   display: grid;
   gap: 10px;
-  margin-bottom: 12px;
 }
-.canonical-flow-settings-fields > label {
+.canonical-flow-setting {
   display: grid;
   gap: 5px;
-  color: var(--dim);
-  font-size: 10px;
+  min-width: 0;
+}
+.canonical-flow-setting > .in {
+  width: 100%;
+  min-width: 0;
 }
 .script-scheme-details-dialog {
   width: min(620px, 100%);
@@ -13147,14 +13149,13 @@ button.sprite-frame-cell[draggable="true"]:active {
   gap: 5px;
   min-width: 0;
 }
-.script-scheme-name-field > header,
-.script-scheme-usage > header {
+.canonical-dialog-field-heading {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.script-scheme-name-field > header label,
-.script-scheme-usage > header strong {
+.canonical-dialog-field-heading > label,
+.canonical-dialog-field-heading > strong {
   color: var(--fg);
   font-size: 11px;
   font-weight: 700;
@@ -13609,35 +13610,13 @@ button.sprite-frame-cell[draggable="true"]:active {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  min-height: 28px;
 }
-.canonical-stage-initial-setting > div {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.canonical-stage-initial-setting strong {
-  color: var(--fg);
-  font-size: 11px;
-}
-.canonical-stage-initial-setting span,
-.canonical-stage-delete-area > span {
+.canonical-stage-initial-setting > span,
+.canonical-stage-delete-note {
   color: var(--dim);
   font-size: 10px;
   line-height: 1.45;
-}
-.canonical-stage-delete-area > span:empty {
-  display: none;
-}
-.canonical-stage-delete-area {
-  display: grid;
-  justify-items: start;
-  gap: 5px;
-  padding-top: 10px;
-  border-top: 1px solid var(--line);
-}
-.canonical-stage-delete-area > button:disabled {
-  opacity: 0.42;
-  cursor: default;
 }
 .canonical-stage-create-dialog,
 .canonical-stage-delete-dialog {
