@@ -833,6 +833,7 @@ export class ScriptV5EditSession {
   private state: ScriptEditorStateV5
   private dirty = false
   private version = 0
+  private historyVersion = 0
   private readonly listeners = new Set<() => void>()
 
   constructor(state: ScriptEditorStateV5) {
@@ -857,6 +858,10 @@ export class ScriptV5EditSession {
     return this.version
   }
 
+  getHistoryVersion(): number {
+    return this.historyVersion
+  }
+
   canUndo(): boolean {
     return this.past.length > 0
   }
@@ -875,6 +880,7 @@ export class ScriptV5EditSession {
     this.past.push(command)
     this.future = []
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }
@@ -885,6 +891,7 @@ export class ScriptV5EditSession {
     this.state = command.invert(this.state)
     this.future.push(command)
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }
@@ -895,6 +902,7 @@ export class ScriptV5EditSession {
     this.state = command.apply(this.state)
     this.past.push(command)
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }

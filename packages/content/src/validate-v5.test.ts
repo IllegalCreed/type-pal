@@ -141,6 +141,51 @@ describe('canonical v5 item script validation', () => {
     ).not.toThrow()
   })
 
+  test('allows an empty authoring chain and composes item-private script with pure effects', () => {
+    const privateScript = {
+      kind: 'itemPrivateScript' as const,
+      script: {
+        id: 'use' as const,
+        label: '使用',
+        body: [{ kind: 'setFlag' as const, flag: 'used', value: true }],
+      },
+    }
+    expect(() =>
+      validateItemsV5([
+        {
+          ...item(privateScript),
+          id: 'empty',
+          use: { target: 'scene', consuming: false, effects: [] },
+        },
+        {
+          ...item(privateScript),
+          id: 'private-character',
+          use: {
+            target: 'oneAlly',
+            consuming: true,
+            effects: [privateScript, { kind: 'healHp', amount: 1 }],
+          },
+        },
+        {
+          ...item(privateScript),
+          id: 'private-scene',
+          use: {
+            target: 'scene',
+            consuming: false,
+            effects: [
+              privateScript,
+              {
+                kind: 'modifyHostileAwareness',
+                rangeMultiplier: 0,
+                durationMs: 1,
+              },
+            ],
+          },
+        },
+      ]),
+    ).not.toThrow()
+  })
+
   test('rejects v4 ScriptRef and malformed private ownership', () => {
     expect(() =>
       validateItemsV5([item({ kind: 'runScript', script: { chunk: 'shared/c00', id: 'legacy' } })]),

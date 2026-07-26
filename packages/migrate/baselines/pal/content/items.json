@@ -605,7 +605,19 @@
     "icon": "item-icon.pal.044",
     "buyPrice": 3000,
     "sellPrice": 1500,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "modifyHostileAwareness",
+          "rangeMultiplier": 0,
+          "durationMs": 60000
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "91",
@@ -617,7 +629,19 @@
     "icon": "item-icon.pal.047",
     "buyPrice": 640,
     "sellPrice": 320,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "modifyHostileAwareness",
+          "rangeMultiplier": 3,
+          "durationMs": 60000
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "92",
@@ -1194,7 +1218,23 @@
           "kind": "applyPoison",
           "poisonId": "552"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1224,7 +1264,23 @@
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1254,7 +1310,23 @@
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1284,7 +1356,23 @@
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1314,7 +1402,23 @@
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1344,7 +1448,23 @@
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1375,7 +1495,23 @@
           "kind": "applyPoison",
           "poisonId": "556"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1406,7 +1542,23 @@
           "kind": "applyPoison",
           "poisonId": "557"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1437,7 +1589,23 @@
           "kind": "applyPoison",
           "poisonId": "558"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1468,7 +1636,23 @@
           "kind": "applyPoison",
           "poisonId": "559"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1608,7 +1792,23 @@
           "kind": "applyPoison",
           "poisonId": "553"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1752,7 +1952,45 @@
     "icon": "item-icon.pal.173",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "scaleCurrentHp",
+          "numerator": 1,
+          "denominator": 2
+        }
+      ]
+    },
+    "throw": {
+      "effects": [
+        {
+          "kind": "currentHpDamage",
+          "numerator": 1,
+          "denominator": 2,
+          "bonus": 1,
+          "cap": 1000
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "138",
@@ -1782,7 +2020,23 @@
           "kind": "applyPoison",
           "poisonId": "555"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1813,7 +2067,23 @@
           "kind": "applyPoison",
           "poisonId": "560"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1908,7 +2178,23 @@
           "kind": "applyPoison",
           "poisonId": "561"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1962,7 +2248,23 @@
           "kind": "applyPoison",
           "poisonId": "562"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -2008,7 +2310,17 @@
     "icon": "item-icon.pal.121",
     "buyPrice": 9000,
     "sellPrice": 4500,
-    "sellable": true
+    "sellable": true,
+    "use": {
+      "target": "oneAlly",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "levelUp",
+          "levels": 1
+        }
+      ]
+    }
   },
   {
     "id": "151",
@@ -2160,7 +2472,23 @@
           "kind": "applyPoison",
           "poisonId": "554"
         }
-      ]
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -5425,6 +5753,144 @@
           "percent": 35
         }
       ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "圣灵珠使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4280"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4280"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "setEntityState",
+                "state": 0,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4280"
+                }
+              },
+              {
+                "kind": "setEntityState",
+                "state": 1,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4281"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "260"
+              },
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "kind": "fade",
+                "dir": "out",
+                "ms": 600
+              },
+              {
+                "kind": "cameraSnap",
+                "to": {
+                  "col": 101,
+                  "row": 31,
+                  "height": 0
+                }
+              },
+              {
+                "kind": "setMultiEntityState",
+                "targets": [
+                  {
+                    "scene": "s241",
+                    "entity": "e4282"
+                  },
+                  {
+                    "scene": "s241",
+                    "entity": "e4283"
+                  },
+                  {
+                    "scene": "s241",
+                    "entity": "e4284"
+                  },
+                  {
+                    "scene": "s241",
+                    "entity": "e4285"
+                  },
+                  {
+                    "scene": "s241",
+                    "entity": "e4286"
+                  }
+                ],
+                "state": 2
+              },
+              {
+                "kind": "playSound",
+                "asset": "sound.pal.260"
+              },
+              {
+                "kind": "ditherScreen",
+                "ms": 2160
+              },
+              {
+                "kind": "fade",
+                "dir": "out",
+                "ms": 600
+              },
+              {
+                "kind": "cameraSnap"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -5514,6 +5980,279 @@
           "skillId": "315"
         }
       ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "风灵珠使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4282"
+                    }
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "currentScene",
+                      "scene": "s178"
+                    },
+                    "then": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s186",
+                          "entity": "e3133"
+                        },
+                        "channel": "trigger",
+                        "selection": {
+                          "kind": "use",
+                          "value": "c8-ada8a05f3c2f"
+                        }
+                      },
+                      {
+                        "kind": "loadScene",
+                        "scene": "s180"
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityState",
+                "state": 3,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4282"
+                }
+              },
+              {
+                "kind": "setEntityFacing",
+                "facing": "down",
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4282"
+                }
+              },
+              {
+                "kind": "setEntityFrame",
+                "frame": 4,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4282"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "263"
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4282"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4283"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4284"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4285"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4286"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4282"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4283"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4284"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4285"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4286"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "fade",
+                "dir": "out",
+                "ms": 600
+              },
+              {
+                "kind": "loadScene",
+                "scene": "s227"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -5547,6 +6286,248 @@
           "skillId": "320"
         }
       ]
+    },
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "雷灵珠使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s241",
+                      "entity": "e4284"
+                    }
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityState",
+                "state": 3,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4284"
+                }
+              },
+              {
+                "kind": "setEntityFacing",
+                "facing": "down",
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4284"
+                }
+              },
+              {
+                "kind": "setEntityFrame",
+                "frame": 2,
+                "target": {
+                  "scene": "s241",
+                  "entity": "e4284"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "264"
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4282"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4283"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4284"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4285"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4286"
+                  },
+                  "is": 0
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4282"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4283"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4284"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4285"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "entityState",
+                  "target": {
+                    "scene": "s241",
+                    "entity": "e4286"
+                  },
+                  "is": 2
+                },
+                "then": [
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "fade",
+                "dir": "out",
+                "ms": 600
+              },
+              {
+                "kind": "loadScene",
+                "scene": "s227"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -6574,7 +7555,128 @@
     "icon": "item-icon.pal.242",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "布包使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s097",
+                      "entity": "e1782"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "facingEntity",
+                        "target": {
+                          "scene": "s137",
+                          "entity": "e2332"
+                        },
+                        "range": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.12538"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityTriggerActivation",
+                    "target": {
+                      "scene": "s137",
+                      "entity": "e2332"
+                    },
+                    "selection": {
+                      "kind": "use",
+                      "value": {
+                        "on": "touch",
+                        "range": 1
+                      }
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s137",
+                      "entity": "e2332"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "c8-33211f0dd717"
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "271"
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s097",
+                  "entity": "e1782"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s097",
+                  "entity": "e1782"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-4ddfec39e30e"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "272",
@@ -6585,7 +7687,82 @@
     "icon": "item-icon.pal.110",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "桂花酒使用",
+            "body": [
+              {
+                "kind": "clearDialog"
+              },
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s003",
+                      "entity": "e62"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s003",
+                  "entity": "e62"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s003",
+                  "entity": "e62"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-321c0a7d7de1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "273",
@@ -6596,7 +7773,79 @@
     "icon": "item-icon.pal.141",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "紫金丹使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s002",
+                      "entity": "e34"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s002",
+                  "entity": "e34"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s002",
+                  "entity": "e34"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-e5c9958448aa"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "274",
@@ -6703,7 +7952,232 @@
     "icon": "item-icon.pal.238",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "破天锤使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s017",
+                      "entity": "e237"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "facingEntity",
+                        "target": {
+                          "scene": "s017",
+                          "entity": "e238"
+                        },
+                        "range": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "facingEntity",
+                            "target": {
+                              "scene": "s017",
+                              "entity": "e239"
+                            },
+                            "range": 1
+                          }
+                        },
+                        "then": [
+                          {
+                            "kind": "branch",
+                            "cond": {
+                              "kind": "not",
+                              "cond": {
+                                "kind": "facingEntity",
+                                "target": {
+                                  "scene": "s017",
+                                  "entity": "e240"
+                                },
+                                "range": 1
+                              }
+                            },
+                            "then": [
+                              {
+                                "kind": "branch",
+                                "cond": {
+                                  "kind": "not",
+                                  "cond": {
+                                    "kind": "facingEntity",
+                                    "target": {
+                                      "scene": "s017",
+                                      "entity": "e241"
+                                    },
+                                    "range": 1
+                                  }
+                                },
+                                "then": [
+                                  {
+                                    "kind": "branch",
+                                    "cond": {
+                                      "kind": "not",
+                                      "cond": {
+                                        "kind": "facingEntity",
+                                        "target": {
+                                          "scene": "s017",
+                                          "entity": "e242"
+                                        },
+                                        "range": 1
+                                      }
+                                    },
+                                    "then": [
+                                      {
+                                        "kind": "dialog",
+                                        "cue": {
+                                          "rows": [
+                                            {
+                                              "text": "dlg.12538"
+                                            }
+                                          ],
+                                          "slot": "narration"
+                                        }
+                                      },
+                                      {
+                                        "kind": "stopScript"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "kind": "setEntityTriggerActivation",
+                                    "target": {
+                                      "scene": "s017",
+                                      "entity": "e242"
+                                    },
+                                    "selection": {
+                                      "kind": "use",
+                                      "value": {
+                                        "on": "touch",
+                                        "range": 1
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "kind": "stopScript"
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "setEntityTriggerActivation",
+                                "target": {
+                                  "scene": "s017",
+                                  "entity": "e241"
+                                },
+                                "selection": {
+                                  "kind": "use",
+                                  "value": {
+                                    "on": "touch",
+                                    "range": 1
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "stopScript"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "setEntityTriggerActivation",
+                            "target": {
+                              "scene": "s017",
+                              "entity": "e240"
+                            },
+                            "selection": {
+                              "kind": "use",
+                              "value": {
+                                "on": "touch",
+                                "range": 1
+                              }
+                            }
+                          },
+                          {
+                            "kind": "stopScript"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s017",
+                          "entity": "e239"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "touch",
+                            "range": 1
+                          }
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityTriggerActivation",
+                    "target": {
+                      "scene": "s017",
+                      "entity": "e238"
+                    },
+                    "selection": {
+                      "kind": "use",
+                      "value": {
+                        "on": "touch",
+                        "range": 1
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s017",
+                  "entity": "e237"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "280",
@@ -6845,7 +8319,79 @@
     "icon": "item-icon.pal.233",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "钓竿使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s049",
+                      "entity": "e830"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s049",
+                  "entity": "e830"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s049",
+                  "entity": "e830"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-399fa4daabe1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "285",
@@ -6856,7 +8402,23 @@
     "icon": "item-icon.pal.234",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "placeEntityInFront",
+          "target": {
+            "scene": "s048",
+            "entity": "e797"
+          },
+          "state": 2,
+          "unavailableMessage": "此处无法放置"
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "286",
@@ -6867,7 +8429,79 @@
     "icon": "item-icon.pal.236",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "六神丹使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s053",
+                      "entity": "e904"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s053",
+                  "entity": "e904"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s053",
+                  "entity": "e904"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-a962aeca50ea"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "287",
@@ -6878,7 +8512,140 @@
     "icon": "item-icon.pal.246",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "情书使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s118",
+                      "entity": "e2165"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "facingEntity",
+                        "target": {
+                          "scene": "s118",
+                          "entity": "e2167"
+                        },
+                        "range": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.12552"
+                            },
+                            {
+                              "text": "dlg.12553"
+                            },
+                            {
+                              "text": "dlg.12554"
+                            },
+                            {
+                              "text": "dlg.12555.v-68bb8f5d"
+                            }
+                          ],
+                          "speaker": "spk.书信上写著"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityTriggerActivation",
+                    "target": {
+                      "scene": "s118",
+                      "entity": "e2167"
+                    },
+                    "selection": {
+                      "kind": "use",
+                      "value": {
+                        "on": "touch",
+                        "range": 1
+                      }
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s118",
+                      "entity": "e2167"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "c8-a8371e99d252"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s118",
+                  "entity": "e2165"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s118",
+                  "entity": "e2165"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-b88cfe32b808"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "287"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "288",
@@ -6889,7 +8656,128 @@
     "icon": "item-icon.pal.241",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "玉佩使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s100",
+                      "entity": "e1817"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "facingEntity",
+                        "target": {
+                          "scene": "s100",
+                          "entity": "e1814"
+                        },
+                        "range": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.12538"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityTriggerActivation",
+                    "target": {
+                      "scene": "s100",
+                      "entity": "e1814"
+                    },
+                    "selection": {
+                      "kind": "use",
+                      "value": {
+                        "on": "touch",
+                        "range": 1
+                      }
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s100",
+                      "entity": "e1814"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "c8-111ec5fb644a"
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "288"
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s100",
+                  "entity": "e1817"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s100",
+                  "entity": "e1817"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-bbe7bfb24978"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "289",
@@ -6900,7 +8788,83 @@
     "icon": "item-icon.pal.237",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "石钥匙使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s047",
+                      "entity": "e757"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s047",
+                  "entity": "e757"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s047",
+                  "entity": "e757"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-602d89c238c1"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "289"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "290",
@@ -6954,7 +8918,132 @@
     "icon": "item-icon.pal.235",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "香蕉使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s192",
+                      "entity": "e3300"
+                    },
+                    "range": 1
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "branch",
+                    "cond": {
+                      "kind": "not",
+                      "cond": {
+                        "kind": "facingEntity",
+                        "target": {
+                          "scene": "s192",
+                          "entity": "e3301"
+                        },
+                        "range": 1
+                      }
+                    },
+                    "then": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.12538"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "stopScript"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setEntityTriggerActivation",
+                    "target": {
+                      "scene": "s192",
+                      "entity": "e3301"
+                    },
+                    "selection": {
+                      "kind": "use",
+                      "value": {
+                        "on": "touch",
+                        "range": 1
+                      }
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s192",
+                      "entity": "e3301"
+                    },
+                    "channel": "trigger",
+                    "selection": {
+                      "kind": "use",
+                      "value": "c8-ace628880e93"
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "291"
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s192",
+                  "entity": "e3300"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 1
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s192",
+                  "entity": "e3300"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-7e64ec2dc136"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "291"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "292",
@@ -6965,7 +9054,83 @@
     "icon": "item-icon.pal.251",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": false,
+      "effects": [
+        {
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "凤纹手绢使用",
+            "body": [
+              {
+                "kind": "branch",
+                "cond": {
+                  "kind": "not",
+                  "cond": {
+                    "kind": "facingEntity",
+                    "target": {
+                      "scene": "s273",
+                      "entity": "e4724"
+                    },
+                    "range": 2
+                  }
+                },
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ],
+                      "slot": "narration"
+                    }
+                  },
+                  {
+                    "kind": "stopScript"
+                  }
+                ]
+              },
+              {
+                "kind": "setEntityTriggerActivation",
+                "target": {
+                  "scene": "s273",
+                  "entity": "e4724"
+                },
+                "selection": {
+                  "kind": "use",
+                  "value": {
+                    "on": "touch",
+                    "range": 2
+                  }
+                }
+              },
+              {
+                "kind": "selectEntityBehavior",
+                "target": {
+                  "scene": "s273",
+                  "entity": "e4724"
+                },
+                "channel": "trigger",
+                "selection": {
+                  "kind": "use",
+                  "value": "c8-f4bde04ce9f0"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "292"
+              }
+            ]
+          }
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   },
   {
     "id": "293",
@@ -7073,6 +9238,22 @@
     "icon": "item-icon.pal.240",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "use": {
+      "target": "scene",
+      "consuming": true,
+      "effects": [
+        {
+          "kind": "placeEntityInFront",
+          "target": {
+            "scene": "s213",
+            "entity": "e3606"
+          },
+          "state": 2,
+          "unavailableMessage": "此处无法放置"
+        }
+      ],
+      "menuAfterUse": "close"
+    }
   }
 ]

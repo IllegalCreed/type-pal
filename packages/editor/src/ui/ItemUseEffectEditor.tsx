@@ -5,6 +5,7 @@ import type {
   ItemUseEffect,
   PoisonCurability,
   PoisonDef,
+  SceneDef,
   ScriptRef,
   StatusId,
   ThrowSpec,
@@ -45,15 +46,27 @@ const EFFECT_KINDS: { value: ItemUseEffect['kind']; label: string }[] = [
   { value: 'drawFromResourcePool', label: '资源池抽取' },
   { value: 'extraPoisonRes', label: '临时毒抗' },
   { value: 'hideParty', label: '全队隐身' },
+  { value: 'modifyHostileAwareness', label: '调整明雷感知' },
+  { value: 'scaleCurrentHp', label: '按比例调整当前体力' },
+  { value: 'levelUp', label: '提升等级' },
+  { value: 'currentHpDamage', label: '按当前体力造成伤害' },
+  { value: 'placeEntityInFront', label: '把场景实体放到玩家面前' },
 ]
 
-const EXCLUSIVE_EFFECTS = new Set<ItemUseEffect['kind']>(['runScript', 'runSceneHook'])
+const EXCLUSIVE_EFFECTS = new Set<ItemUseEffect['kind']>([
+  'runScript',
+  'runSceneHook',
+  'placeEntityInFront',
+])
 const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
   'runScript',
   'runSceneHook',
   'craftRecipe',
   'drawFromResourcePool',
+  'modifyHostileAwareness',
+  'placeEntityInFront',
 ])
+const THROW_EFFECTS = new Set<ItemUseEffect['kind']>(['applyPoison', 'currentHpDamage'])
 
 export interface ItemScriptOption {
   ref: ScriptRef
@@ -124,6 +137,7 @@ export function defaultItemUseEffect(
   poisons: readonly PoisonDef[],
   scripts: readonly ItemScriptOption[],
   excludedIngredientItemId?: string,
+  scenes: readonly SceneDef[] = [],
 ): ItemUseEffect {
   switch (kind) {
     case 'healHp':
@@ -176,6 +190,25 @@ export function defaultItemUseEffect(
       return { kind, amount: 10 }
     case 'hideParty':
       return { kind, turns: 3 }
+    case 'modifyHostileAwareness':
+      return { kind, rangeMultiplier: 0, durationMs: 60_000 }
+    case 'scaleCurrentHp':
+      return { kind, numerator: 1, denominator: 2 }
+    case 'levelUp':
+      return { kind, levels: 1 }
+    case 'currentHpDamage':
+      return { kind, numerator: 1, denominator: 2, bonus: 1, cap: 1000 }
+    case 'placeEntityInFront': {
+      const scene = scenes.find((candidate) => candidate.entities.length > 0)
+      const entity = scene?.entities[0]
+      if (!scene || !entity) throw new Error('工程没有场景实体，无法创建放置实体效果')
+      return {
+        kind,
+        target: { scene: scene.id, entity: entity.id },
+        state: 2,
+        unavailableMessage: '前方没有足够空间。',
+      }
+    }
   }
 }
 
@@ -186,6 +219,7 @@ function NumberField(props: {
   min?: number
   max?: number
   signed?: boolean
+  allowZero?: boolean
 }) {
   return (
     <label className="item-effect-field">
@@ -199,7 +233,13 @@ function NumberField(props: {
         onWheel={(event) => event.currentTarget.blur()}
         onChange={(event) => {
           const raw = event.currentTarget.valueAsNumber
-          let next = props.signed ? signed(raw) : positive(raw)
+          let next = props.allowZero
+            ? Number.isFinite(raw)
+              ? Math.trunc(raw)
+              : 0
+            : props.signed
+              ? signed(raw)
+              : positive(raw)
           if (props.min !== undefined) next = Math.max(props.min, next)
           if (props.max !== undefined) next = Math.min(props.max, next)
           props.onChange(next)
@@ -423,6 +463,7 @@ function EffectFields(props: {
   onSetWorldResource?: (resource: string, initialValue: number) => void
   subjectItemId?: string
   consuming?: boolean
+  scenes?: readonly SceneDef[]
 }) {
   const { effect, items, poisons, scripts, onChange } = props
   switch (effect.kind) {
@@ -824,6 +865,161 @@ function EffectFields(props: {
           onChange={(turns) => onChange({ ...effect, turns })}
         />
       )
+    case 'modifyHostileAwareness':
+      return (
+        <>
+          <label className="item-effect-field">
+            <span>感知范围</span>
+            <select
+              className="in"
+              value={effect.rangeMultiplier}
+              onChange={(event) =>
+                onChange({
+                  ...effect,
+                  rangeMultiplier: Number(event.target.value) as 0 | 3,
+                })
+              }
+            >
+              <option value={0}>停止追逐</option>
+              <option value={3}>扩大至 3 倍</option>
+            </select>
+          </label>
+          <NumberField
+            label="持续毫秒"
+            value={effect.durationMs}
+            onChange={(durationMs) => onChange({ ...effect, durationMs })}
+          />
+        </>
+      )
+    case 'scaleCurrentHp':
+      return (
+        <>
+          <NumberField
+            label="体力比例分子"
+            value={effect.numerator}
+            onChange={(numerator) => onChange({ ...effect, numerator })}
+          />
+          <NumberField
+            label="体力比例分母"
+            value={effect.denominator}
+            onChange={(denominator) => onChange({ ...effect, denominator })}
+          />
+        </>
+      )
+    case 'levelUp':
+      return (
+        <NumberField
+          label="提升级数"
+          value={effect.levels}
+          onChange={(levels) => onChange({ ...effect, levels })}
+        />
+      )
+    case 'currentHpDamage':
+      return (
+        <>
+          <NumberField
+            label="当前体力分子"
+            value={effect.numerator}
+            onChange={(numerator) => onChange({ ...effect, numerator })}
+          />
+          <NumberField
+            label="当前体力分母"
+            value={effect.denominator}
+            onChange={(denominator) => onChange({ ...effect, denominator })}
+          />
+          <NumberField
+            label="额外伤害"
+            value={effect.bonus}
+            allowZero
+            min={0}
+            onChange={(bonus) => onChange({ ...effect, bonus })}
+          />
+          <NumberField
+            label="伤害上限"
+            value={effect.cap}
+            onChange={(cap) => onChange({ ...effect, cap })}
+          />
+        </>
+      )
+    case 'placeEntityInFront': {
+      const scenes = props.scenes ?? []
+      const scene = scenes.find((candidate) => candidate.id === effect.target.scene)
+      const entityLabel = (entity: SceneDef['entities'][number]): string => {
+        const source =
+          'actor' in entity
+            ? `角色 ${entity.actor}`
+            : 'sprite' in entity
+              ? `精灵 ${entity.sprite}`
+              : '区域'
+        return `${entity.id} · ${source}`
+      }
+      return (
+        <>
+          <label className="item-effect-field">
+            <span>场景</span>
+            <select
+              className="in"
+              value={effect.target.scene}
+              onChange={(event) => {
+                const nextScene = scenes.find((candidate) => candidate.id === event.target.value)
+                onChange({
+                  ...effect,
+                  target: {
+                    scene: event.target.value,
+                    entity: nextScene?.entities[0]?.id ?? effect.target.entity,
+                  },
+                })
+              }}
+            >
+              {!scene ? <option value={effect.target.scene}>⚠ {effect.target.scene}</option> : null}
+              {scenes.map((candidate) => (
+                <option key={candidate.id} value={candidate.id}>
+                  {candidate.id}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="item-effect-field">
+            <span>实体</span>
+            <select
+              className="in"
+              value={effect.target.entity}
+              onChange={(event) =>
+                onChange({
+                  ...effect,
+                  target: { ...effect.target, entity: event.target.value },
+                })
+              }
+            >
+              {!scene?.entities.some((entity) => entity.id === effect.target.entity) ? (
+                <option value={effect.target.entity}>⚠ {effect.target.entity}</option>
+              ) : null}
+              {scene?.entities.map((entity) => (
+                <option key={entity.id} value={entity.id}>
+                  {entityLabel(entity)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <NumberField
+            label="放置后的状态"
+            value={effect.state}
+            allowZero
+            onChange={(state) => onChange({ ...effect, state })}
+          />
+          <label className="item-effect-field item-effect-field-wide">
+            <span>无法放置时提示</span>
+            <input
+              className="in"
+              value={effect.unavailableMessage ?? ''}
+              onChange={(event) =>
+                onChange({ ...effect, unavailableMessage: event.target.value || undefined })
+              }
+            />
+          </label>
+        </>
+      )
+    }
     case 'dieIfNotPoisoned':
       return <span className="hint2">目标没有中毒时死亡；已中毒则继续执行后续效果。</span>
   }
@@ -844,20 +1040,30 @@ export function ItemEffectChainEditor(props: {
   itemId?: string
   /** v5 item-private effect 的 canonical 正文；索引与兼容壳中的占位 runScript 对齐。 */
   privateScriptsV5?: Readonly<Record<number, ItemPrivateScriptBindingV5>>
+  scenes?: readonly SceneDef[]
 }) {
   const { ability, spec, items, poisons, scripts, onChange } = props
   const use = ability === 'use' ? (spec as UseSpec) : undefined
   const excludedIngredientItemId = use?.consuming ? props.itemId : undefined
+  const isPrivateScriptEffect = (effect: ItemUseEffect): boolean =>
+    effect.kind === 'runScript' &&
+    effect.script.chunk === '__script-v5-runtime' &&
+    effect.script.id.startsWith(`item:${props.itemId ?? ''}:`)
+  const isExclusiveEffect = (effect: ItemUseEffect): boolean =>
+    EXCLUSIVE_EFFECTS.has(effect.kind) && !isPrivateScriptEffect(effect)
+  const isSceneEffect = (effect: ItemUseEffect): boolean =>
+    SCENE_EFFECTS.has(effect.kind) && !isPrivateScriptEffect(effect)
   const createDefaultEffect = (kind: ItemUseEffect['kind']): ItemUseEffect =>
-    defaultItemUseEffect(kind, items, poisons, scripts, excludedIngredientItemId)
+    defaultItemUseEffect(kind, items, poisons, scripts, excludedIngredientItemId, props.scenes)
   const compatibleChain = (effects: readonly ItemUseEffect[]): boolean => {
-    if (!effects.length) return false
-    if (ability === 'throw') return effects.every((effect) => effect.kind === 'applyPoison')
-    const external = effects.filter((effect) => EXCLUSIVE_EFFECTS.has(effect.kind))
+    if (!effects.length) return true
+    if (ability === 'throw') return effects.every((effect) => THROW_EFFECTS.has(effect.kind))
+    const external = effects.filter(isExclusiveEffect)
     if (external.length && (external.length !== 1 || effects.length !== 1)) return false
-    const containsScene = effects.some((effect) => SCENE_EFFECTS.has(effect.kind))
+    const containsScene = effects.some(isSceneEffect)
     const containsCharacterOrBattle = effects.some(
-      (effect) => !SCENE_EFFECTS.has(effect.kind) && effect.kind !== 'gate',
+      (effect) =>
+        !isSceneEffect(effect) && !isPrivateScriptEffect(effect) && effect.kind !== 'gate',
     )
     if (containsScene && containsCharacterOrBattle) return false
     return (['world', 'battle'] as const).some((context) =>
@@ -870,18 +1076,29 @@ export function ItemEffectChainEditor(props: {
       return
     }
     if (ability === 'use') {
-      const containsScene = effects.some((effect) => SCENE_EFFECTS.has(effect.kind))
+      const containsScene = effects.some(isSceneEffect)
+      const containsPrivateScript = effects.some(isPrivateScriptEffect)
+      const containsCharacterOrBattle = effects.some(
+        (effect) =>
+          !isSceneEffect(effect) && !isPrivateScriptEffect(effect) && effect.kind !== 'gate',
+      )
+      const needsSceneTarget =
+        containsScene || (containsPrivateScript && !containsCharacterOrBattle)
       const containsHide = effects.some((effect) => effect.kind === 'hideParty')
       const next: UseSpec = {
         ...(spec as UseSpec),
         effects,
-        ...(containsScene ? { target: 'scene' as const } : {}),
-        ...(!containsScene && (spec as UseSpec).target === 'scene'
+        ...(needsSceneTarget ? { target: 'scene' as const } : {}),
+        ...(!needsSceneTarget && (spec as UseSpec).target === 'scene'
           ? { target: 'oneAlly' as const }
           : {}),
         ...(containsHide ? { target: 'allAllies' as const, battleOnly: true } : {}),
       }
-      if (containsScene) delete next.battleOnly
+      if (
+        !effects.length ||
+        !effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+      )
+        delete next.battleOnly
       onChange(next)
     } else onChange({ ...(spec as ThrowSpec), effects })
   }
@@ -917,7 +1134,7 @@ export function ItemEffectChainEditor(props: {
     })
   const firstAppendableKind = (): ItemUseEffect['kind'] | undefined =>
     (ability === 'throw'
-      ? EFFECT_KINDS.filter((entry) => entry.value === 'applyPoison')
+      ? EFFECT_KINDS.filter((entry) => THROW_EFFECTS.has(entry.value))
       : EFFECT_KINDS
     )
       .map((entry) => entry.value)
@@ -939,7 +1156,16 @@ export function ItemEffectChainEditor(props: {
               className="in"
               value={use.target}
               disabled={use.effects.some(
-                (effect) => SCENE_EFFECTS.has(effect.kind) || effect.kind === 'hideParty',
+                (effect) =>
+                  isSceneEffect(effect) ||
+                  (isPrivateScriptEffect(effect) &&
+                    !use.effects.some(
+                      (candidate) =>
+                        !isSceneEffect(candidate) &&
+                        !isPrivateScriptEffect(candidate) &&
+                        candidate.kind !== 'gate',
+                    )) ||
+                  effect.kind === 'hideParty',
               )}
               onChange={(event) =>
                 onChange({ ...use, target: event.target.value as NonNullable<UseSpec['target']> })
@@ -980,6 +1206,7 @@ export function ItemEffectChainEditor(props: {
               type="checkbox"
               checked={use.battleOnly === true}
               disabled={
+                !use.effects.length ||
                 !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
               }
               onChange={(event) =>
@@ -1007,13 +1234,13 @@ export function ItemEffectChainEditor(props: {
         </div>
       ) : (
         <div className="item-capability-note">
-          投掷当前只支持“对敌施毒”，由战斗目标选择器决定目标。
+          投掷效果由战斗目标选择器决定目标，可施毒或按敌人当前体力造成伤害。
         </div>
       )}
 
-      {ability === 'throw' && spec.effects.some((effect) => effect.kind !== 'applyPoison') ? (
+      {ability === 'throw' && spec.effects.some((effect) => !THROW_EFFECTS.has(effect.kind)) ? (
         <div className="item-effect-validation" role="alert">
-          <span>当前投掷数据包含非“施毒”效果，无法保存。</span>
+          <span>当前投掷数据包含不支持的效果，无法保存。</span>
           <button
             type="button"
             className="item-action-button item-action-button-danger item-action-button-compact"
@@ -1046,7 +1273,7 @@ export function ItemEffectChainEditor(props: {
                 onChange={(event) => changeKind(index, event.target.value as ItemUseEffect['kind'])}
               >
                 {(ability === 'throw'
-                  ? EFFECT_KINDS.filter((entry) => entry.value === 'applyPoison')
+                  ? EFFECT_KINDS.filter((entry) => THROW_EFFECTS.has(entry.value))
                   : compatibleKindsAt(index)
                 ).map((entry) => (
                   <option key={entry.value} value={entry.value}>
@@ -1060,11 +1287,7 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini"
               aria-label={`上移效果 ${index + 1}`}
-              disabled={
-                index === 0 ||
-                EXCLUSIVE_EFFECTS.has(effect.kind) ||
-                props.privateScriptsV5?.[index] !== undefined
-              }
+              disabled={index === 0 || isExclusiveEffect(effect)}
               onClick={() => {
                 const effects = [...spec.effects]
                 ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
@@ -1077,11 +1300,7 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini"
               aria-label={`下移效果 ${index + 1}`}
-              disabled={
-                index === spec.effects.length - 1 ||
-                EXCLUSIVE_EFFECTS.has(effect.kind) ||
-                props.privateScriptsV5?.[index] !== undefined
-              }
+              disabled={index === spec.effects.length - 1 || isExclusiveEffect(effect)}
               onClick={() => {
                 const effects = [...spec.effects]
                 ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
@@ -1094,7 +1313,6 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini danger"
               aria-label={`删除效果 ${index + 1}`}
-              disabled={spec.effects.length <= 1}
               onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
             >
               ×
@@ -1119,19 +1337,21 @@ export function ItemEffectChainEditor(props: {
                 onSetWorldResource={props.onSetWorldResource}
                 subjectItemId={props.itemId}
                 consuming={use?.consuming}
+                scenes={props.scenes}
               />
             )}
           </div>
         </div>
       ))}
 
+      {!spec.effects.length ? (
+        <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
+      ) : null}
+
       <button
         type="button"
         className="item-action-button item-action-button-primary item-add-effect"
-        disabled={
-          spec.effects.some((effect) => EXCLUSIVE_EFFECTS.has(effect.kind)) ||
-          firstAppendableKind() === undefined
-        }
+        disabled={spec.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
         onClick={() => {
           try {
             const kind = firstAppendableKind()

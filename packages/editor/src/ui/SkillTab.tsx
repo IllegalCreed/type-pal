@@ -8,7 +8,6 @@
 import type {
   AssetCatalogV1,
   BattleSpriteDef,
-  SkillAnimation,
   SkillData,
   SkillEffect,
   StatusId,
@@ -19,7 +18,7 @@ import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
-import { FireEffectPreview } from './FireEffectPreview.js'
+import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SummonPreview } from './SummonPreview.js'
 import { TrancePreview } from './TrancePreview.js'
@@ -462,11 +461,6 @@ export function SkillTab(props: {
     effects[i] = next
     patch({ effects })
   }
-  const setAnim = (p: Partial<SkillAnimation>): void => {
-    if (!skill) return
-    patch({ animation: { ...skill.animation, ...p } })
-  }
-
   return (
     <>
       <div className="outliner data-outliner">
@@ -730,89 +724,14 @@ export function SkillTab(props: {
               <h4>
                 动画 <span className="hint2">FIRE 特效参数;右侧预览实时反映</span>
               </h4>
-              <div className="sk-anim">
-                <div className="sk-grid">
-                  <div className="sound-effect-field">
-                    <span className="lb">特效号</span>{' '}
-                    <N
-                      v={skill.animation.effectSprite}
-                      on={(n) => setAnim({ effectSprite: n ?? 0 })}
-                    />
-                  </div>
-                  <label>
-                    <span className="lb">落点</span>
-                    <select
-                      className="in"
-                      value={skill.animation.placement ?? 'normal'}
-                      onChange={(e) =>
-                        setAnim({ placement: e.target.value as SkillAnimation['placement'] })
-                      }
-                    >
-                      <option value="normal">目标点</option>
-                      <option value="attackAll">逐敌各放</option>
-                      <option value="attackWhole">敌群中心</option>
-                      <option value="attackField">全屏</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span className="lb">X 偏移</span>{' '}
-                    <N v={skill.animation.xOffset} on={(n) => setAnim({ xOffset: n })} ph="0" />
-                  </label>
-                  <label>
-                    <span className="lb">Y 偏移</span>{' '}
-                    <N v={skill.animation.yOffset} on={(n) => setAnim({ yOffset: n })} ph="0" />
-                  </label>
-                  <label>
-                    <span className="lb">速度</span>{' '}
-                    <N v={skill.animation.speed} on={(n) => setAnim({ speed: n })} ph="0" />
-                  </label>
-                  <label>
-                    <span className="lb">循环起点</span>{' '}
-                    <N v={skill.animation.fireDelay} on={(n) => setAnim({ fireDelay: n })} ph="0" />
-                  </label>
-                  {/* 召唤技能的 animation 整段来自二次法术 → 此处 effectTimes 恒为循环次数;
-                      召唤背景染色是 summon 效果行自己的 tint 字段(曾混淆,复核纠正) */}
-                  <label>
-                    <span className="lb" title="特效命中段循环次数">
-                      循环次数
-                    </span>{' '}
-                    <N
-                      v={skill.animation.effectTimes}
-                      on={(n) => setAnim({ effectTimes: n })}
-                      ph="1"
-                    />
-                  </label>
-                  <label>
-                    <span className="lb">震屏帧</span>{' '}
-                    <N v={skill.animation.shake} on={(n) => setAnim({ shake: n })} ph="0" />
-                  </label>
-                  <label>
-                    <span
-                      className="lb"
-                      title="屏幕波幅叠加(演出期叠在战场常驻波上;原版仅炎咒/三昧真火/火灵符法=1、鬼降=8)"
-                    >
-                      屏波
-                    </span>{' '}
-                    <N v={skill.animation.wave} on={(n) => setAnim({ wave: n })} ph="0" />
-                  </label>
-                  <div className="sound-effect-field">
-                    <span className="lb">特效音</span>
-                    <SoundPicker
-                      value={skill.animation.sound}
-                      onChange={(sound) => setAnim({ sound })}
-                      catalog={assetCatalog}
-                      reader={assetReader}
-                      allowUnset
-                      onOpenAsset={onOpenSound}
-                    />
-                  </div>
-                </div>
-                <FireEffectPreview
-                  assetBase={assetBase}
-                  anim={skill.animation}
-                  assetReader={assetReader}
-                />
-              </div>
+              <SkillAnimationEditor
+                animation={skill.animation}
+                onChange={(animation) => patch({ animation })}
+                assetCatalog={assetCatalog}
+                assetReader={assetReader}
+                assetBase={assetBase}
+                onOpenSound={onOpenSound}
+              />
             </div>
           </div>
         ) : (

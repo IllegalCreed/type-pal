@@ -14,6 +14,63 @@ import type { LevelUpSkill } from './skill.js'
 const MAX_LEVEL = 99
 const STAT_CAP = 999
 
+/** 原版 PAL_PlayerLevelUp 会修改的最小持久属性集合；战斗核可用快照复用同一成长公式。 */
+export interface LevelGrowthTarget {
+  level: number
+  maxHP: number
+  maxMP: number
+  attack: number
+  magicAttack: number
+  defense: number
+  speed: number
+  luck: number
+}
+
+export interface LevelGrowthDelta {
+  level: number
+  maxHP: number
+  maxMP: number
+  attack: number
+  magicAttack: number
+  defense: number
+  speed: number
+  luck: number
+}
+
+/**
+ * 原版角色成长唯一实现。每次请求都掷一轮成长，即使角色已经 99 级也保留属性成长，
+ * 但等级本身钳在 99；本函数不处理经验、技能或 HP/MP 回满。
+ */
+export function applyLevelGrowth(
+  target: LevelGrowthTarget,
+  levels: number,
+  rng: () => number = Math.random,
+): LevelGrowthDelta {
+  const before = { ...target }
+  const count = Math.max(0, Math.floor(levels))
+  const r = (a: number, b: number): number => a + Math.floor(rng() * (b - a + 1))
+  for (let index = 0; index < count; index++) {
+    target.level = Math.min(MAX_LEVEL, target.level + 1)
+    target.maxHP = Math.min(STAT_CAP, target.maxHP + 10 + r(0, 7))
+    target.maxMP = Math.min(STAT_CAP, target.maxMP + 8 + r(0, 5))
+    target.attack = Math.min(STAT_CAP, target.attack + 4 + r(0, 1))
+    target.magicAttack = Math.min(STAT_CAP, target.magicAttack + 4 + r(0, 1))
+    target.defense = Math.min(STAT_CAP, target.defense + 2 + r(0, 1))
+    target.speed = Math.min(STAT_CAP, target.speed + 2 + r(0, 1))
+    target.luck = Math.min(STAT_CAP, target.luck + 2)
+  }
+  return {
+    level: target.level - before.level,
+    maxHP: target.maxHP - before.maxHP,
+    maxMP: target.maxMP - before.maxMP,
+    attack: target.attack - before.attack,
+    magicAttack: target.magicAttack - before.magicAttack,
+    defense: target.defense - before.defense,
+    speed: target.speed - before.speed,
+    luck: target.luck - before.luck,
+  }
+}
+
 /** 抓属性快照(升级屏 old/cur;体力/真气原版显 cur/max)。 */
 function snapshotStats(c: CharacterInstance): StatSnapshot {
   return {
@@ -137,7 +194,6 @@ export function grantBattleRewards(
   input: RewardInput,
   rng: () => number = Math.random,
 ): RewardReport {
-  const r = (a: number, b: number): number => a + Math.floor(rng() * (b - a + 1))
   const levelUps: LevelUpReport[] = []
   const hiddenUps: HiddenUpReport[] = []
   for (const c of party) {
@@ -156,15 +212,7 @@ export function grantBattleRewards(
       if (threshold === undefined || threshold <= 0 || exp < threshold) break
       exp -= threshold
       if (c.level >= MAX_LEVEL) continue // 满级:继续扣 exp 不再升(battle.c:1110)
-      c.level++
-      // PAL_PlayerLevelUp 成长(global.c:2347-2454)
-      c.maxHP = Math.min(STAT_CAP, c.maxHP + 10 + r(0, 7))
-      c.maxMP = Math.min(STAT_CAP, c.maxMP + 8 + r(0, 5))
-      c.attack = Math.min(STAT_CAP, c.attack + 4 + r(0, 1))
-      c.magicAttack = Math.min(STAT_CAP, c.magicAttack + 4 + r(0, 1))
-      c.defense = Math.min(STAT_CAP, c.defense + 2 + r(0, 1))
-      c.speed = Math.min(STAT_CAP, c.speed + 2 + r(0, 1))
-      c.luck = Math.min(STAT_CAP, c.luck + 2)
+      applyLevelGrowth(c, 1, rng)
       c.hp = c.maxHP // 升级回满(battle.c:1115-1116)
       c.mp = c.maxMP
       // 学新技能(battle.c:1300-1321):该 level 的 levelUp 条目

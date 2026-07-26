@@ -37,6 +37,11 @@ export interface WorldState {
   resources?: Record<string, number>
   /** 持久 BGM。缺字段 = 尚未建立音乐状态；null = 显式静音；AssetId = 当前世界曲。 */
   audio?: { currentMusic?: AssetId | null }
+  /**
+   * 明雷敌人的临时感知倍率（驱魔香 / 十里香）。只在大世界可交互时间推进，
+   * 跟存档持久；缺省等价于倍率 1、无剩余时间。
+   */
+  hostileAwareness?: { rangeMultiplier: 0 | 3; remainingMs: number }
 }
 
 /** contentVersion 5 的世界态；P7 runtime/save 只允许这一条脚本权威。 */

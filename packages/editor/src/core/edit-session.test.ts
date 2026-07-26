@@ -220,12 +220,15 @@ test('原子地图 patch 经 EditSession 一次 dispatch/undo/redo 恢复视觉�
 test('脏标记:初始干净;dispatch 置脏;markSaved 清脏且通知', () => {
   const sess = new EditSession(mkState())
   expect(sess.isDirty()).toBe(false)
+  expect(sess.getHistoryVersion()).toBe(0)
   sess.dispatch(new MoveEntityCommand('s', 'e', { col: 5, row: 6, height: 0 }))
   expect(sess.isDirty()).toBe(true)
+  expect(sess.getHistoryVersion()).toBe(1)
   const fn = vi.fn()
   sess.subscribe(fn)
   sess.markSaved()
   expect(sess.isDirty()).toBe(false)
+  expect(sess.getHistoryVersion()).toBe(1)
   expect(fn).toHaveBeenCalledTimes(1) // markSaved 触发订阅(保存按钮要刷新)
 })
 

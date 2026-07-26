@@ -1383,6 +1383,132 @@
                 }
               ]
             }
+          },
+          "c8-111ec5fb644a": {
+            "label": "物品剧情行为 111ec5fb644a",
+            "order": 1028,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1814"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7241"
+                          },
+                          {
+                            "text": "dlg.7242"
+                          },
+                          {
+                            "text": "dlg.7243"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿德"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7245"
+                          },
+                          {
+                            "text": "dlg.7246"
+                          },
+                          {
+                            "text": "dlg.7247"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥",
+                        "portrait": {
+                          "asset": "portrait.pal.006",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7249"
+                          },
+                          {
+                            "text": "dlg.7250"
+                          },
+                          {
+                            "text": "dlg.7251"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿德",
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2165"
+                      },
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "c8-52f500a4f853"
+                      }
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7253"
+                          },
+                          {
+                            "text": "dlg.7254"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿德"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -1847,6 +1973,118 @@
                         "speaker": "spk.守　卫"
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "c8-bbe7bfb24978": {
+            "label": "物品剧情行为 bbe7bfb24978",
+            "order": 1029,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1817"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1813"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1814"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7231"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿辉"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7233"
+                          },
+                          {
+                            "text": "dlg.7234"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7236"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿辉",
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7238"
+                          },
+                          {
+                            "text": "dlg.7239"
+                          }
+                        ],
+                        "speaker": "spk.守卫阿辉"
+                      }
                     }
                   ]
                 }

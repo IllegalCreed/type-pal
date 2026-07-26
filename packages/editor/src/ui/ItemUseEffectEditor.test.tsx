@@ -1,5 +1,13 @@
 // @vitest-environment jsdom
-import type { ItemData, ItemUseEffect, ThrowSpec, UseSpec } from '@type-pal/content'
+import {
+  type AuthorCommandV5,
+  ITEM_USE_EFFECT_KINDS,
+  type ItemData,
+  type ItemUseEffect,
+  type SceneDef,
+  type ThrowSpec,
+  type UseSpec,
+} from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -9,7 +17,11 @@ function item(id: string): ItemData {
   return { id, name: id, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }
 }
 
-function Harness(props: { initial: UseSpec; onChange?: (next: UseSpec) => void }) {
+function Harness(props: {
+  initial: UseSpec
+  onChange?: (next: UseSpec) => void
+  scenes?: readonly SceneDef[]
+}) {
   const [spec, setSpec] = useState(props.initial)
   return (
     <ItemEffectChainEditor
@@ -19,6 +31,47 @@ function Harness(props: { initial: UseSpec; onChange?: (next: UseSpec) => void }
       poisons={[]}
       scripts={[]}
       itemId="tool"
+      scenes={props.scenes}
+      onChange={(next) => {
+        const use = next as UseSpec
+        setSpec(use)
+        props.onChange?.(use)
+      }}
+    />
+  )
+}
+
+function PrivateHarness(props: {
+  initial: UseSpec
+  onChange?: (next: UseSpec) => void
+  onBodyChange?: (body: AuthorCommandV5[]) => void
+}) {
+  const [spec, setSpec] = useState(props.initial)
+  const privateIndex = spec.effects.findIndex(
+    (effect) =>
+      effect.kind === 'runScript' &&
+      effect.script.chunk === '__script-v5-runtime' &&
+      effect.script.id === 'item:tool:use',
+  )
+  return (
+    <ItemEffectChainEditor
+      ability="use"
+      spec={spec}
+      items={[item('tool'), item('material')]}
+      poisons={[]}
+      scripts={[]}
+      itemId="tool"
+      privateScriptsV5={
+        privateIndex < 0
+          ? {}
+          : {
+              [privateIndex]: {
+                label: '物品私有脚本',
+                body: [],
+                onChange: props.onBodyChange ?? (() => undefined),
+              },
+            }
+      }
       onChange={(next) => {
         const use = next as UseSpec
         setSpec(use)
@@ -58,6 +111,12 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
   })
 }
 
+function buttonByText(rootNode: ParentNode, text: string): HTMLButtonElement | undefined {
+  return [...rootNode.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
+    candidate.textContent?.includes(text),
+  )
+}
+
 beforeEach(() => {
   ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   host = document.createElement('div')
@@ -80,28 +139,22 @@ describe('ItemEffectChainEditor', () => {
         label: '物品使用脚本',
       },
     ]
-    const kinds: ItemUseEffect['kind'][] = [
-      'healHp',
-      'healMp',
-      'revive',
-      'applyStatus',
-      'removeStatus',
-      'applyPoison',
-      'curePoison',
-      'permanentStatBoost',
-      'gate',
-      'dieIfNotPoisoned',
-      'runScript',
-      'runSceneHook',
-      'craftRecipe',
-      'drawFromResourcePool',
-      'extraPoisonRes',
-      'hideParty',
+    const kinds = Object.keys(ITEM_USE_EFFECT_KINDS) as ItemUseEffect['kind'][]
+    const scenes: SceneDef[] = [
+      {
+        id: 'scene-a',
+        mapId: 'map-a',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [{ id: 'entity-a', sprite: 'npc', pos: { col: 1, row: 1, height: 0 } }],
+      },
     ]
 
     expect(
       Object.fromEntries(
-        kinds.map((kind) => [kind, defaultItemUseEffect(kind, items, poisons, scripts, 'tool')]),
+        kinds.map((kind) => [
+          kind,
+          defaultItemUseEffect(kind, items, poisons, scripts, 'tool', scenes),
+        ]),
       ),
     ).toEqual({
       healHp: { kind: 'healHp', amount: 100 },
@@ -142,7 +195,30 @@ describe('ItemEffectChainEditor', () => {
       },
       extraPoisonRes: { kind: 'extraPoisonRes', amount: 10 },
       hideParty: { kind: 'hideParty', turns: 3 },
+      modifyHostileAwareness: {
+        kind: 'modifyHostileAwareness',
+        rangeMultiplier: 0,
+        durationMs: 60_000,
+      },
+      scaleCurrentHp: { kind: 'scaleCurrentHp', numerator: 1, denominator: 2 },
+      levelUp: { kind: 'levelUp', levels: 1 },
+      currentHpDamage: {
+        kind: 'currentHpDamage',
+        numerator: 1,
+        denominator: 2,
+        bonus: 1,
+        cap: 1000,
+      },
+      placeEntityInFront: {
+        kind: 'placeEntityInFront',
+        target: { scene: 'scene-a', entity: 'entity-a' },
+        state: 2,
+        unavailableMessage: '前方没有足够空间。',
+      },
     })
+    expect(() =>
+      defaultItemUseEffect('placeEntityInFront', items, poisons, scripts, 'tool'),
+    ).toThrow('没有场景实体')
   })
 
   test('消耗型工具创建配方时不会把自身设为材料', () => {
@@ -218,7 +294,7 @@ describe('ItemEffectChainEditor', () => {
     )
   })
 
-  test('效果链支持排序和删除且始终保留至少一个效果', async () => {
+  test('效果链支持排序、删除并允许保留空效果链', async () => {
     const onChange = vi.fn()
     await act(async () =>
       root.render(
@@ -255,7 +331,136 @@ describe('ItemEffectChainEditor', () => {
       expect.objectContaining({ effects: [{ kind: 'healMp', amount: 20 }] }),
     )
     expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.disabled).toBe(
-      true,
+      false,
+    )
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.click(),
+    )
+    expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ effects: [] }))
+    expect(host.textContent).toContain('当前没有效果')
+    expect(buttonByText(host, '添加效果')?.disabled).toBe(false)
+  })
+
+  test('物品私有脚本可与其他效果组合、排序和删除，私有正文始终跟随效果', async () => {
+    const onChange = vi.fn()
+    await act(async () =>
+      root.render(
+        <PrivateHarness
+          initial={{
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+              },
+            ],
+          }}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    expect(buttonByText(host, '添加效果')?.disabled).toBe(false)
+    expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')?.disabled).toBe(
+      false,
+    )
+    await act(async () => buttonByText(host, '添加效果')!.click())
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: 'oneAlly',
+        effects: [
+          {
+            kind: 'runScript',
+            script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+          },
+          { kind: 'healHp', amount: 100 },
+        ],
+      }),
+    )
+    expect(host.textContent).toContain('归当前物品拥有')
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
+    )
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        effects: [
+          { kind: 'healHp', amount: 100 },
+          {
+            kind: 'runScript',
+            script: { chunk: '__script-v5-runtime', id: 'item:tool:use' },
+          },
+        ],
+      }),
+    )
+    expect(host.querySelector('[data-item-private-script="物品私有脚本"]')).not.toBeNull()
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click(),
+    )
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ effects: [{ kind: 'healHp', amount: 100 }] }),
+    )
+    expect(host.querySelector('[data-item-private-script]')).toBeNull()
+  })
+
+  test('场景实体效果显式保留失效引用，并在切换场景时选中该场景首个实体', async () => {
+    const onChange = vi.fn()
+    const scenes: SceneDef[] = [
+      {
+        id: 'scene-a',
+        mapId: 'map-a',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [{ id: 'entity-a', sprite: 'npc-a', pos: { col: 1, row: 1, height: 0 } }],
+      },
+      {
+        id: 'scene-b',
+        mapId: 'map-b',
+        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        entities: [{ id: 'entity-b', sprite: 'npc-b', pos: { col: 2, row: 2, height: 0 } }],
+      },
+    ]
+    await act(async () =>
+      root.render(
+        <Harness
+          initial={{
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'placeEntityInFront',
+                target: { scene: 'missing-scene', entity: 'missing-entity' },
+                state: 2,
+              },
+            ],
+          }}
+          scenes={scenes}
+          onChange={onChange}
+        />,
+      ),
+    )
+
+    const sceneSelect = [...host.querySelectorAll<HTMLSelectElement>('select')].find((candidate) =>
+      [...(candidate.closest('label')?.querySelectorAll('span') ?? [])].some(
+        (label) => label.textContent === '场景',
+      ),
+    )!
+    expect(sceneSelect.textContent).toContain('⚠ missing-scene')
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(sceneSelect, 'scene-b')
+      sceneSelect.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        effects: [
+          expect.objectContaining({
+            kind: 'placeEntityInFront',
+            target: { scene: 'scene-b', entity: 'entity-b' },
+          }),
+        ],
+      }),
     )
   })
 

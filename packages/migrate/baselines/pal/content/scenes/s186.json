@@ -204,6 +204,38 @@
                 }
               ]
             }
+          },
+          "c8-ada8a05f3c2f": {
+            "label": "物品剧情行为 ada8a05f3c2f",
+            "order": 1000,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "loadScene",
+                      "scene": "s180"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 158,
+                        "row": 54,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "out",
+                      "ms": 600
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       }

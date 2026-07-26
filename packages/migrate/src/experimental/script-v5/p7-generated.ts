@@ -1,6 +1,11 @@
 import type { ItemData, SceneDef } from '@type-pal/content'
+import type { SourceItem } from '../../migrate-content.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
+import {
+  augmentC8ItemUsesAfterP7,
+  type C8ItemUseAugmentationEvidenceV1,
+} from './c8-item-use-augmentation.js'
 import { type P7CanonicalProject, projectP7CanonicalProject } from './p7-project.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
 
@@ -11,6 +16,11 @@ export interface P7GeneratedCanonical {
   project: P7CanonicalProject
   ir: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ir']
   ledgerDraft: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ledger']
+  c8Evidence: C8ItemUseAugmentationEvidenceV1
+}
+
+export interface P7GeneratedCanonicalArgs extends P6TransformBuildArgs {
+  itemSources: readonly SourceItem[]
 }
 
 function asJson(value: unknown): MigrationJson {
@@ -38,7 +48,7 @@ function readGeneratedSource(files: ReadonlyMap<string, MigrationJson>): {
  * 发布后的 MG2 “theirs”：每次仍从权威提取结果完整重建 P2-P6，再直接投影成纯 canonical v5。
  * 历史 full ledger/compat sidecar 不在这里重签，由 v5 MG2 把已发布控制账作为 immutable input。
  */
-export function buildP7GeneratedCanonical(args: P6TransformBuildArgs): P7GeneratedCanonical {
+export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7GeneratedCanonical {
   const chain = buildValidatedP6TransformChain(args)
   const project = projectP7CanonicalProject({
     ir: chain.p6.ir,
@@ -75,10 +85,16 @@ export function buildP7GeneratedCanonical(args: P6TransformBuildArgs): P7Generat
 
   if ([...files.keys()].some((path) => path.startsWith('content/scripts/')))
     throw new Error('P7 generated: legacy script file 未归零')
-  return {
+  const c8 = augmentC8ItemUsesAfterP7({
     snapshot: { files, managedFiles },
+    itemSources: args.itemSources,
+    sourceCommands: args.sourceCommands,
+  })
+  return {
+    snapshot: c8.snapshot,
     project,
     ir: chain.p6.ir,
     ledgerDraft: chain.p6.ledger,
+    c8Evidence: c8.evidence,
   }
 }

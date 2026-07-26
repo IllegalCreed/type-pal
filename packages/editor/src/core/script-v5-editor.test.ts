@@ -189,19 +189,23 @@ describe('canonical script v5 editor commands', () => {
 
     expect(session.isDirty()).toBe(false)
     expect(session.canUndo()).toBe(false)
+    expect(session.getHistoryVersion()).toBe(0)
     session.dispatch(
       new AddEntityBehaviorV5Command(target, 'trigger', 'alternate', behavior('alternate')),
     )
     expect(session.isDirty()).toBe(true)
     expect(session.canUndo()).toBe(true)
+    expect(session.getHistoryVersion()).toBe(1)
     expect(versions).toEqual([1])
 
     session.markSaved()
     expect(session.isDirty()).toBe(false)
+    expect(session.getHistoryVersion()).toBe(1)
     expect(versions).toEqual([1, 2])
     expect(session.undo()).toBe(true)
     expect(session.isDirty()).toBe(true)
     expect(session.canRedo()).toBe(true)
+    expect(session.getHistoryVersion()).toBe(2)
     expect(versions).toEqual([1, 2, 3])
 
     unsubscribe()

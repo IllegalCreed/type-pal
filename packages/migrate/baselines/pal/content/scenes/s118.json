@@ -833,6 +833,324 @@
                 }
               ]
             }
+          },
+          "c8-52f500a4f853": {
+            "label": "物品剧情行为 52f500a4f853",
+            "order": 1027,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7256"
+                          },
+                          {
+                            "text": "dlg.7257"
+                          }
+                        ],
+                        "speaker": "spk.婢女阿香",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7258"
+                          },
+                          {
+                            "text": "dlg.7259"
+                          },
+                          {
+                            "text": "dlg.7260"
+                          },
+                          {
+                            "text": "dlg.7261"
+                          }
+                        ],
+                        "speaker": "spk.婢女阿香",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7263"
+                          },
+                          {
+                            "text": "dlg.7264"
+                          },
+                          {
+                            "text": "dlg.7265"
+                          }
+                        ],
+                        "speaker": "spk.婢女阿香",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "c8-b88cfe32b808": {
+            "label": "物品剧情行为 b88cfe32b808",
+            "order": 1026,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2165"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7206"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7207"
+                          },
+                          {
+                            "text": "dlg.7208"
+                          },
+                          {
+                            "text": "dlg.7209"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "confirm",
+                      "onNo": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "kind": "dialog",
+                          "cue": {
+                            "rows": [
+                              {
+                                "text": "dlg.7228"
+                              },
+                              {
+                                "text": "dlg.7229"
+                              }
+                            ],
+                            "speaker": "spk.婢女阿香",
+                            "slot": "top",
+                            "portrait": {
+                              "asset": "portrait.pal.076",
+                              "side": "left"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "stopScript"
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7211"
+                          },
+                          {
+                            "text": "dlg.7212"
+                          },
+                          {
+                            "text": "dlg.7213"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7215"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7217"
+                          },
+                          {
+                            "text": "dlg.7218"
+                          },
+                          {
+                            "text": "dlg.7219"
+                          },
+                          {
+                            "text": "dlg.7220"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "giveItem",
+                      "itemId": "288"
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7222"
+                          },
+                          {
+                            "text": "dlg.7223"
+                          },
+                          {
+                            "text": "dlg.7224"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7225"
+                          },
+                          {
+                            "text": "dlg.7226"
+                          }
+                        ],
+                        "speaker": "spk.阿香低声道",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.076",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -1036,6 +1354,104 @@
                         "speaker": "spk.刘夫人"
                       },
                       "kind": "dialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "c8-a8371e99d252": {
+            "label": "物品剧情行为 a8371e99d252",
+            "order": 1025,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2167"
+                      },
+                      "selection": {
+                        "kind": "use",
+                        "value": {
+                          "on": "interact",
+                          "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12557"
+                          }
+                        ],
+                        "speaker": "spk.尚书夫人",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6070"
+                          },
+                          {
+                            "text": "dlg.6071"
+                          },
+                          {
+                            "text": "dlg.6072"
+                          }
+                        ],
+                        "speaker": "spk.刘夫人",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ],
+                  "next": "stage-3"
+                },
+                {
+                  "id": "stage-3",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.6074"
+                          },
+                          {
+                            "text": "dlg.6075"
+                          }
+                        ],
+                        "speaker": "spk.刘夫人",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.067",
+                          "side": "left"
+                        }
+                      }
                     }
                   ]
                 }

@@ -35,8 +35,8 @@ describe('PAL 大世界精灵逐项布局证据', () => {
     const spriteNums = PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.map(({ spriteNum }) => spriteNum)
     expect(new Set(spriteNums).size).toBe(spriteNums.length)
     expect(spriteNums).toEqual([
-      236, 242, 273, 361, 379, 385, 394, 541, 550, 627, 630, 631, 632, 193, 228, 232, 245, 521, 531,
-      532, 533, 534, 538, 563, 576, 607,
+      236, 242, 259, 273, 361, 379, 385, 394, 541, 550, 627, 630, 631, 632, 193, 228, 232, 245, 521,
+      531, 532, 533, 534, 538, 563, 576, 607,
     ])
     for (const overlay of PAL_WORLD_SPRITE_LAYOUT_OVERLAYS) {
       expect(overlay.usage, `sprite ${overlay.spriteNum}`).not.toHaveLength(0)

@@ -221,6 +221,11 @@ export function evalCondition(
       }
       return false
     }
+    case 'currentScene': {
+      const scene = query.sceneId?.()
+      if (!scene) throw new Error('currentScene 条件缺当前场景查询')
+      return scene === cond.scene
+    }
     case 'entityState':
       return (world.entityState[cond.entity] ?? Number.NaN) === cond.is
     case 'entityInScene':

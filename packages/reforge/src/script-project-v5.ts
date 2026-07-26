@@ -193,6 +193,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
   ): boolean {
     return evalAuthorConditionV5(condition, {
       world: this.world,
+      currentSceneId: this.options.currentSceneId,
       query: this.options.query,
       random: this.options.random,
     })

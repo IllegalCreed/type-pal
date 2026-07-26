@@ -79,6 +79,7 @@ import { serializeProjectWithMapCopies, writeProject } from '../core/project-io.
 import {
   type EditorStateV5,
   mergeLegacyEditorShellIntoV5,
+  projectActiveScriptEditorStateV5,
   serializeProjectV5WithCopies,
 } from '../core/project-io-v5.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
@@ -246,7 +247,10 @@ export function App(props: {
   )
   useSyncExternalStore(subscribeScriptV5, getScriptV5Version)
   const state = session.getState()
-  const scriptV5State = scriptV5Session?.getState()
+  const storedScriptV5State = scriptV5Session?.getState()
+  const scriptV5State = storedScriptV5State
+    ? projectActiveScriptEditorStateV5(storedScriptV5State, state.items)
+    : undefined
   const editorDirty = session.isDirty() || (scriptV5Session?.isDirty() ?? false)
   const assetReader = useMemo(
     () => createEditorAssetReader(project.source, () => session.getState()),
@@ -1034,11 +1038,23 @@ export function App(props: {
     scriptV5State?.sharedScripts,
   )
   const historyOwnerRef = useRef<'legacy' | 'v5'>('legacy')
-  useEffect(() => session.subscribe(() => (historyOwnerRef.current = 'legacy')), [session])
-  useEffect(
-    () => scriptV5Session?.subscribe(() => (historyOwnerRef.current = 'v5')),
-    [scriptV5Session],
-  )
+  useEffect(() => {
+    let version = session.getHistoryVersion()
+    return session.subscribe(() => {
+      const next = session.getHistoryVersion()
+      if (next !== version) historyOwnerRef.current = 'legacy'
+      version = next
+    })
+  }, [session])
+  useEffect(() => {
+    if (!scriptV5Session) return undefined
+    let version = scriptV5Session.getHistoryVersion()
+    return scriptV5Session.subscribe(() => {
+      const next = scriptV5Session.getHistoryVersion()
+      if (next !== version) historyOwnerRef.current = 'v5'
+      version = next
+    })
+  }, [scriptV5Session])
 
   const reconcileLocationAfterHistory = useCallback((): void => {
     const current = locationRef.current

@@ -9,7 +9,7 @@
  *  - 线性直译查表;连续 showDialog 成组(尾冒号行 = speaker,后续行拼一页,文本进 locale);
  *  - 门模式:loadScene ± setPartyPos ± fadeOut(窗口 ≤3 命令)折叠成单条 loadScene{scene,pos};
  *  - end.advance/reset → 多段 stages(原版触发入口推进的 clean 版);
- *  - goto:frameDelay→wait,目标内联续走(环 → 截断);
+ *  - goto:frameDelay→wait,目标内联续走(回边 → stage reset);
  *  - 跳转族或未知 op 只写迁移期 MigrationGap;可达 gap 会在写盘前统一失败,
  *    不得生成可执行占位命令。
  */
@@ -445,10 +445,10 @@ export class ScriptRegistry {
   }
 }
 
-/** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/83/86/94)。
+/** 尚未结构化的跳转族(census 全清单减去已结构化:0x06/07/0A/1E/20/58/74/79/83/86/94/95)。
  * 命中即截断本段,不猜控制流。 */
 const JUMP_FAMILY = new Set([
-  0x2e, 0x33, 0x34, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x84, 0x91, 0x95, 0x9c, 0x9e, 0xa2,
+  0x2e, 0x33, 0x34, 0x3a, 0x5d, 0x5e, 0x61, 0x64, 0x68, 0x84, 0x91, 0x9c, 0x9e, 0xa2,
 ])
 /** 原版速度码 → WalkSpeed。 */
 const SPEED: Record<number, 'slow' | 'normal' | 'fast' | 'run'> = {
@@ -752,7 +752,9 @@ function walkBody(
   }
   /** 对话批:待成组的 showDialog 行。 */
   let batch: { msgIdx: number; text: string }[] = []
-  const visited = new Set<number>() // goto 环保护(同数组按下标;跨数组由 steps 总上限兜底)
+  // 非 registry 路径仍要保留原版循环语义：goto 回边交给外层 stages 表达为 reset，
+  // 不能把 auto 行为截断成只运行一次。跨数组病理环仍由 steps 总上限兜底。
+  const visited = new Set<number>([startIdx])
   let steps = 0
   let at = { cmds, idx: startIdx }
 
@@ -874,12 +876,20 @@ function walkBody(
         return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
       }
       const target = ctx.labelAt.get(toName)
-      if (!target || (target.cmds === at.cmds && visited.has(target.idx))) {
-        note(ctx, target ? 'goto 环截断' : `goto 目标缺失`)
+      if (!target) {
+        note(ctx, `goto 目标缺失`)
         ctx.report.flowCuts++
         return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
       }
-      visited.add(at.idx)
+      if (target.cmds === at.cmds && visited.has(target.idx)) {
+        note(ctx, 'goto 回边结构化')
+        return {
+          body,
+          term: { kind: 'reset', resetTo: toName },
+          dialogueState: dialogueSnapshot(),
+        }
+      }
+      if (target.cmds === at.cmds) visited.add(target.idx)
       at = { cmds: target.cmds, idx: target.idx }
       continue
     }
@@ -1504,6 +1514,15 @@ function walkBody(
             then: inlineArm(o[2]),
           })
         else gap('jumpIfObjState 无属主')
+      } else if (oc === 0x95 && (o[0] ?? 0) > 0 && (o[1] ?? 0) !== 0) {
+        // 0x95(script.c:2683):当前场景等于 op0(1-based)时跳到 op1。
+        // 用稳定场景 id 表达，避免把 PAL 数字场景号泄漏进 canonical 条件。
+        flush()
+        body.push({
+          kind: 'branch',
+          cond: { kind: 'currentScene', scene: sceneSlug((o[0] ?? 1) - 1) },
+          then: inlineArm(o[1]),
+        })
       } else if (oc === 0x79) {
         flush()
         body.push({

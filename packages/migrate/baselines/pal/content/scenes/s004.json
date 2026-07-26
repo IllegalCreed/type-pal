@@ -6581,6 +6581,83 @@
                 }
               ]
             }
+          },
+          "c8-f04b1ec7b076": {
+            "label": "物品剧情行为 f04b1ec7b076",
+            "order": 1017,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1314"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "right"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -8,
+                      "dy": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -8,
+                      "dy": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -8,
+                      "dy": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -8,
+                      "dy": 4
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 40
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       }
@@ -6874,6 +6951,32 @@
                 }
               ]
             }
+          },
+          "c8-18260e3b04d3": {
+            "label": "物品剧情行为 18260e3b04d3",
+            "order": 1008,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12221"
+                          }
+                        ],
+                        "slot": "center"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -6956,6 +7059,32 @@
                       "target": {
                         "scene": "s004",
                         "entity": "e102"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "c8-a49fcfb469c6": {
+            "label": "物品剧情行为 a49fcfb469c6",
+            "order": 1009,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12221"
+                          }
+                        ],
+                        "slot": "center"
                       }
                     }
                   ]
@@ -7315,6 +7444,32 @@
                 }
               ]
             }
+          },
+          "c8-96cfd20629e0": {
+            "label": "物品剧情行为 96cfd20629e0",
+            "order": 1010,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12221"
+                          }
+                        ],
+                        "slot": "center"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -7663,6 +7818,32 @@
                     {
                       "kind": "loadScene",
                       "scene": "s008"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "c8-b7ccf413fdd9": {
+            "label": "物品剧情行为 b7ccf413fdd9",
+            "order": 1011,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.12221"
+                          }
+                        ],
+                        "slot": "center"
+                      }
                     }
                   ]
                 }

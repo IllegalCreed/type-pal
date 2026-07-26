@@ -58,6 +58,99 @@
                 }
               ]
             }
+          },
+          "c8-602d89c238c1": {
+            "label": "物品剧情行为 602d89c238c1",
+            "order": 1030,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "setEntityTriggerActivation",
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      },
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.155"
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 1,
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 2,
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 80
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 3,
+                      "target": {
+                        "scene": "s047",
+                        "entity": "e757"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       }

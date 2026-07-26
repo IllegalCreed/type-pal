@@ -43,6 +43,7 @@ function addSkillSounds(out: Set<AssetId>, skill: SkillData | undefined): void {
 function addItemSounds(out: Set<AssetId>, item: ItemData | undefined): void {
   add(out, item?.use?.sound)
   add(out, item?.throw?.sound)
+  if (item?.throw?.presentation?.kind === 'magic') add(out, item.throw.presentation.animation.sound)
 }
 
 function addSpriteActionSounds(
@@ -227,6 +228,8 @@ class BattleSoundClosure {
     const capability = item?.[ability]
     if (!capability) return
     if (includeSound) add(this.sounds, capability.sound)
+    if (includeSound && ability === 'throw' && item?.throw?.presentation?.kind === 'magic')
+      add(this.sounds, item.throw.presentation.animation.sound)
     for (const effect of capability.effects)
       if (effect.kind === 'applyPoison') this.enqueuePoison(poisonSide, effect.poisonId)
   }

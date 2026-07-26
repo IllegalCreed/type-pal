@@ -6,8 +6,10 @@ import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import { applyPoisonSelf, poisonCurableBy } from './poison.js'
+import { applyLevelGrowth } from './rewards.js'
 import type { ScriptRef } from './script-library.js'
-import type { StatusId } from './skill.js'
+import type { EntityAddress } from './script-v5.js'
+import type { SkillAnimation, StatusId } from './skill.js'
 
 /** 战斗属性(对齐 CharacterInstance 的 5 项)。 */
 export type CombatStat = 'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'
@@ -154,6 +156,27 @@ export type ItemUseEffect =
   // 0x5C(隐蛊):全队隐身 turns 回合 —— 敌整轮跳过(连 turnStart choreo 都不跑)、队员画面消失。
   // CLASSIC 语义(一阶段 iHidingTime 三函数):存负值待激活 → 行动步前取反激活 → 轮末 −1
   | { kind: 'hideParty'; turns: number }
+  /** 0x62/0x63：在限定时间内关闭或放大明雷敌人的感知范围。 */
+  | { kind: 'modifyHostileAwareness'; rangeMultiplier: 0 | 3; durationMs: number }
+  /** 0x5A：按有理数缩放角色当前生命，不改变生命上限。 */
+  | { kind: 'scaleCurrentHp'; numerator: number; denominator: number }
+  /** 0x8D：执行原版角色成长；不回满生命/真气，使用后经验归零。 */
+  | { kind: 'levelUp'; levels: number }
+  /** 0x5B：投掷时按敌人当前生命计算伤害，并受固定上限约束。 */
+  | {
+      kind: 'currentHpDamage'
+      numerator: number
+      denominator: number
+      bonus: number
+      cap: number
+    }
+  /** 0x84：把稳定实体放到玩家面前；失败时不消费物品。 */
+  | {
+      kind: 'placeEntityInFront'
+      target: EntityAddress
+      state: number
+      unavailableMessage?: string
+    }
 // 待扩充(B2 剧情脚本落地后):giveItems / giveMoney / learnSkill / scenePlace / transform …
 
 /** 所有用途效果 kind 的编译期完整表；validator 与编辑器不得各维护一份漂移名单。 */
@@ -174,6 +197,11 @@ export const ITEM_USE_EFFECT_KINDS = {
   drawFromResourcePool: true,
   extraPoisonRes: true,
   hideParty: true,
+  modifyHostileAwareness: true,
+  scaleCurrentHp: true,
+  levelUp: true,
+  currentHpDamage: true,
+  placeEntityInFront: true,
 } satisfies Record<ItemUseEffect['kind'], true>
 
 export interface UseSpec {
@@ -205,14 +233,20 @@ export function itemUseEffectSupportsContext(
     case 'runSceneHook':
     case 'craftRecipe':
     case 'drawFromResourcePool':
+    case 'placeEntityInFront':
       return context === 'world'
     case 'hideParty':
       return context === 'battle'
     case 'permanentStatBoost':
       // 永久成长要写回 CharacterInstance；战斗临时态没有这条持久写回通道。
       return context === 'world'
+    case 'currentHpDamage':
+      return context === 'throw'
     case 'applyPoison':
       return true
+    case 'modifyHostileAwareness':
+    case 'scaleCurrentHp':
+    case 'levelUp':
     case 'healHp':
     case 'healMp':
     case 'revive':
@@ -230,7 +264,10 @@ export function itemUseEffectSupportsContext(
 
 export function itemUseSupportsContext(use: UseSpec, context: ItemUseContext): boolean {
   if (context === 'world' && use.battleOnly) return false
-  return use.effects.every((effect) => itemUseEffectSupportsContext(effect, context))
+  return (
+    use.effects.length > 0 &&
+    use.effects.every((effect) => itemUseEffectSupportsContext(effect, context))
+  )
 }
 
 /** 战斗投掷,phase3 细化。 */
@@ -238,6 +275,8 @@ export interface ThrowSpec {
   effects: ItemUseEffect[] // 占位:投掷效果届时可能独立联合
   /** 投掷链显式表现音；缺席表示没有物品专属音。 */
   sound?: AssetId
+  /** 与玩法效果解耦的投掷命中特效；例如无影毒 0x42 只负责 FIRE 演出。 */
+  presentation?: { kind: 'magic'; animation: SkillAnimation }
 }
 
 /** 物品基类。能力块(equip/use/throw)可叠加;菜单按能力块过滤(灵珠双重身份零特判)。 */
@@ -488,7 +527,10 @@ export function usableItems(world: WorldState, items: ItemDataMap): ItemData[] {
   return [...invUsable, ...equippedUsable]
 }
 
-export type ExternalItemUseEffect = Extract<ItemUseEffect, { kind: 'runScript' | 'runSceneHook' }>
+export type ExternalItemUseEffect = Extract<
+  ItemUseEffect,
+  { kind: 'runScript' | 'runSceneHook' | 'placeEntityInFront' }
+>
 
 /** 单个用途效果的结构化执行记录；数组顺序与 UseSpec.effects 完全一致。 */
 export interface WorldItemUseEffectResult {
@@ -545,6 +587,84 @@ export interface WorldItemUseOutcome {
   menu: 'keep' | 'close'
 }
 
+/**
+ * 大世界用途的纯静态前置检查。混合“私有脚本 + 普通效果”必须在执行第一条脚本前
+ * 先走这里，避免未持有物品或目标不存在时仍产生脚本副作用。
+ */
+export function preflightWorldItemUse(
+  world: WorldState,
+  targetCharId: string,
+  itemId: string,
+  items: ItemDataMap,
+): WorldItemUseOutcome | undefined {
+  const item = items[itemId]
+  const menu = item?.use?.menuAfterUse ?? 'keep'
+  if (!item?.use)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'unknown-item',
+      menu,
+    }
+  const useSpec = item.use
+  if (!itemUseSupportsContext(useSpec, 'world'))
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'wrong-context',
+      menu,
+    }
+  if (ownedItemCount(world, itemId) <= 0)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'not-owned',
+      menu,
+    }
+
+  const needsTarget = useSpec.effects.some((effect) =>
+    [
+      'healHp',
+      'healMp',
+      'revive',
+      'applyStatus',
+      'removeStatus',
+      'applyPoison',
+      'curePoison',
+      'permanentStatBoost',
+      'scaleCurrentHp',
+      'levelUp',
+      'dieIfNotPoisoned',
+      'extraPoisonRes',
+    ].includes(effect.kind),
+  )
+  const selectedTarget = world.party.find((character) => character.id === targetCharId)
+  if (needsTarget && useSpec.target !== 'allAllies' && !selectedTarget)
+    return {
+      status: 'failure',
+      world,
+      consumed: false,
+      changed: false,
+      effectResults: [],
+      presentations: [],
+      reason: 'missing-target',
+      menu,
+    }
+  return undefined
+}
+
 function cloneWorldForItemUse(world: WorldState): WorldState {
   return {
     ...world,
@@ -556,6 +676,7 @@ function cloneWorldForItemUse(world: WorldState): WorldState {
     })),
     inventory: world.inventory.map((entry) => ({ ...entry })),
     ...(world.resources ? { resources: { ...world.resources } } : {}),
+    ...(world.hostileAwareness ? { hostileAwareness: { ...world.hostileAwareness } } : {}),
   }
 }
 
@@ -660,48 +781,18 @@ export function resolveWorldItemUse(
   poisonDefs?: Record<number, import('./poison.js').PoisonDef>,
   rng: () => number = Math.random,
 ): WorldItemUseOutcome {
+  const preflight = preflightWorldItemUse(world, targetCharId, itemId, items)
+  if (preflight) return preflight
   const item = items[itemId]
-  const menu = item?.use?.menuAfterUse ?? 'keep'
-  if (!item?.use)
-    return {
-      status: 'failure',
-      world,
-      consumed: false,
-      changed: false,
-      effectResults: [],
-      presentations: [],
-      reason: 'unknown-item',
-      menu,
-    }
-  const useSpec = item.use
-  if (!itemUseSupportsContext(useSpec, 'world'))
-    return {
-      status: 'failure',
-      world,
-      consumed: false,
-      changed: false,
-      effectResults: [],
-      presentations: [],
-      reason: 'wrong-context',
-      menu,
-    }
-  const inInventory = world.inventory.some((e) => e.itemId === itemId && e.count > 0)
-  const equipped = equippedItemIds(world).has(itemId)
-  if (!inInventory && !equipped)
-    return {
-      status: 'failure',
-      world,
-      consumed: false,
-      changed: false,
-      effectResults: [],
-      presentations: [],
-      reason: 'not-owned',
-      menu,
-    }
+  const useSpec = item?.use
+  if (!item || !useSpec) throw new Error(`resolveWorldItemUse: 预检通过后物品用途不存在 ${itemId}`)
+  const menu = useSpec.menuAfterUse ?? 'keep'
 
   const external = useSpec.effects.filter(
     (effect): effect is ExternalItemUseEffect =>
-      effect.kind === 'runScript' || effect.kind === 'runSceneHook',
+      effect.kind === 'runScript' ||
+      effect.kind === 'runSceneHook' ||
+      effect.kind === 'placeEntityInFront',
   )
   if (external.length > 0) {
     if (external.length !== 1 || useSpec.effects.length !== 1)
@@ -731,32 +822,7 @@ export function resolveWorldItemUse(
     }
   }
 
-  const needsTarget = useSpec.effects.some((effect) =>
-    [
-      'healHp',
-      'healMp',
-      'revive',
-      'applyStatus',
-      'removeStatus',
-      'applyPoison',
-      'curePoison',
-      'permanentStatBoost',
-      'dieIfNotPoisoned',
-      'extraPoisonRes',
-    ].includes(effect.kind),
-  )
   const selectedTarget = world.party.find((character) => character.id === targetCharId)
-  if (needsTarget && useSpec.target !== 'allAllies' && !selectedTarget)
-    return {
-      status: 'failure',
-      world,
-      consumed: false,
-      changed: false,
-      effectResults: [],
-      presentations: [],
-      reason: 'missing-target',
-      menu,
-    }
 
   const nextWorld = cloneWorldForItemUse(world)
   const targetIds =
@@ -884,6 +950,22 @@ export function resolveWorldItemUse(
       })
       continue
     }
+    if (eff.kind === 'modifyHostileAwareness') {
+      const before = nextWorld.hostileAwareness
+      nextWorld.hostileAwareness = {
+        rangeMultiplier: eff.rangeMultiplier,
+        remainingMs: eff.durationMs,
+      }
+      const effectChanged =
+        before?.rangeMultiplier !== eff.rangeMultiplier || before?.remainingMs !== eff.durationMs
+      changed ||= effectChanged
+      effectResults.push({
+        index: effectIndex,
+        kind: eff.kind,
+        changed: effectChanged,
+      })
+      continue
+    }
 
     let effectChanged = false
     const targetCharIds: string[] = []
@@ -963,6 +1045,23 @@ export function resolveWorldItemUse(
           effectChanged ||= after !== before
           break
         }
+        case 'scaleCurrentHp': {
+          const before = next.hp
+          next.hp = Math.max(
+            0,
+            Math.min(next.maxHP, Math.trunc((next.hp * eff.numerator) / eff.denominator)),
+          )
+          effectChanged ||= next.hp !== before
+          break
+        }
+        case 'levelUp':
+          {
+            const delta = applyLevelGrowth(next, eff.levels, rng)
+            const beforeExp = next.exp
+            next.exp = 0
+            effectChanged ||= beforeExp !== 0 || Object.values(delta).some((amount) => amount !== 0)
+          }
+          break
         case 'dieIfNotPoisoned':
           if ((next.poisons?.length ?? 0) === 0) {
             const before = next.hp
@@ -993,8 +1092,10 @@ export function resolveWorldItemUse(
           break
         }
         case 'hideParty':
+        case 'currentHpDamage':
         case 'runScript':
         case 'runSceneHook':
+        case 'placeEntityInFront':
           throw new Error(`resolveWorldItemUse: effect ${eff.kind} 通过了错误的上下文分支`)
         default:
           assertNever(eff, 'resolveWorldItemUse')
@@ -1040,12 +1141,13 @@ export function completeExternalWorldItemUse(
       reason: 'unknown-item',
       menu,
     }
+  const consumedByExternal = item.use.consuming && ownedItemCount(world, itemId) === 0
   const nextWorld = cloneWorldForItemUse(world)
   const consumed = consumeItem(nextWorld, itemId, item.use.consuming)
   return {
     status: 'success',
     world: consumed ? nextWorld : world,
-    consumed,
+    consumed: consumed || consumedByExternal,
     // 外部脚本/场景钩子已经成功执行；即使 host 原地修改对象，也属于已提交变化。
     changed: true,
     effectResults: item.use.effects.map((effect, index) => ({

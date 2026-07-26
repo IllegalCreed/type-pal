@@ -38,6 +38,8 @@ function describeCondition(
       return `旗标 ${c.flag} ${c.is ? '为真' : '为假'}`
     case 'var':
       return `变量 ${c.var} ${c.op} ${c.value}`
+    case 'currentScene':
+      return `当前场景是 ${c.scene}`
     case 'entityState':
       return `${c.entity} 状态 = ${c.is}`
     case 'entityInScene':

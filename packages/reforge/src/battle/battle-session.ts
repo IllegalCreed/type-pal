@@ -16,6 +16,7 @@ import type {
   PlayerFighterFrames,
   SkillData,
   SoundAssetRole,
+  WorldState,
 } from '@type-pal/content'
 import {
   evalAiCond,
@@ -57,6 +58,7 @@ import {
   buildPlayerCoop,
   buildPlayerTrance,
   buildSteal,
+  buildThrowItem,
   buildUseItem,
   type CastFxParams,
   type OverlayDraw,
@@ -87,7 +89,12 @@ import {
   ITEM_GRID,
   MAGIC_GRID,
 } from './battle-ui.js'
-import { type BattleScene, type BattleSpriteDraw, renderBattleScene } from './present-battle.js'
+import {
+  type BattleDepthOverlayDraw,
+  type BattleScene,
+  type BattleSpriteDraw,
+  renderBattleScene,
+} from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
 
 /** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
@@ -277,6 +284,8 @@ export class BattleSession {
   // ── B7b 胜利结算屏(经验金钱 → 升级 → 练成;逐屏空格推进)──
   private settlement: SettlementScreen[] | null = null // null = 未构建;[] = 无屏
   private settleIdx = 0
+  /** 胜利结算前与败/逃共路均会尝试写回；一次性门防止奖励结算后被旧快照覆盖。 */
+  private persistentEffectsWritten = false
 
   constructor(
     players: CreatePlayerInput[],
@@ -603,6 +612,7 @@ export class BattleSession {
         return (
           x.count > 0 &&
           effects != null &&
+          effects.length > 0 &&
           effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))
         )
       })
@@ -1157,13 +1167,15 @@ export class BattleSession {
           i < eHp.length && expectDefined(eHp[i]) > 0 && e.hp <= 0 && !s.enemyFled ? i : -1,
         )
         .filter((i) => i >= 0)
-      // 本步涨益(回血黄字/回 MP 青字,fight.c:648-708;只显增加 :105-109。演出收尾统一弹
-      // = 原版 DisplayStatChange 在特效之后的时序)
+      // 本步数值反馈：回血黄字/回 MP 青字；物品造成的自伤按原版
+      // PAL_BattleDisplayStatChange 显示蓝字。其它伤害仍由各自攻击时间线负责，避免重复。
       this.pendingGains = []
       s.players.forEach((p, i) => {
         const dh = p.hp - (pHp[i] ?? p.hp)
         if (dh > 0)
           this.pendingGains.push({ target: { side: 'player', idx: i }, value: dh, tone: 'yellow' })
+        else if (dh < 0 && la?.kind === 'item' && la.side === 'player')
+          this.pendingGains.push({ target: { side: 'player', idx: i }, value: -dh, tone: 'blue' })
         const dm = p.mp - (pMp[i] ?? p.mp)
         if (dm > 0)
           this.pendingGains.push({ target: { side: 'player', idx: i }, value: dm, tone: 'cyan' })
@@ -1299,6 +1311,7 @@ export class BattleSession {
       placement: a.placement ?? 'normal',
       xOffset: a.xOffset ?? 0,
       yOffset: a.yOffset ?? 0,
+      layerOffset: a.layerOffset ?? 0,
       speed: a.speed ?? 0,
       fireDelay: a.fireDelay ?? 0,
       effectTimes: a.effectTimes ?? 0,
@@ -1655,27 +1668,43 @@ export class BattleSession {
       })
       return frames
     }
-    // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位;数字不显 —— 下毒无即时伤害)
+    // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位；纯施毒不显数字，即时伤害显蓝字)
     if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
-      const throwSound = la.itemId ? s.items[la.itemId]?.throw?.sound : undefined
-      const pose = this.playerFrames(la.idx)
-      return [
-        {
-          durationMs: 120,
-          fighters: [{ side: 'player', idx: la.idx, frame: pose.preMagic }],
-          ...(throwSound ? { sound: throwSound } : {}),
-        },
-        { durationMs: 200, fighters: [{ side: 'enemy', idx: la.target, colorShift: 6 }] },
-        {
-          durationMs: 160,
-          fighters: [
-            { side: 'player', idx: la.idx, frame: pose.idle },
-            { side: 'enemy', idx: la.target, colorShift: 0 },
-          ],
-        },
-      ]
+      const item = la.itemId ? s.items[la.itemId] : undefined
+      const throwSound = item?.throw?.sound
+      const presentation = item?.throw?.presentation
+      let throwPresentation: Parameters<typeof buildThrowItem>[0]['presentation']
+      if (presentation?.kind === 'magic') {
+        const a = presentation.animation
+        const fire = this.assets.fireSprites?.[a.effectSprite]
+        this.currentFire = fire ?? null
+        throwPresentation = {
+          fireFrames: fire?.frames.length ?? 0,
+          fx: {
+            placement: a.placement ?? 'normal',
+            xOffset: a.xOffset ?? 0,
+            yOffset: a.yOffset ?? 0,
+            layerOffset: a.layerOffset ?? 0,
+            speed: a.speed ?? 0,
+            fireDelay: a.fireDelay ?? 0,
+            effectTimes: a.effectTimes ?? 0,
+            shake: a.shake ?? 0,
+            wave: a.wave ?? 0,
+            ...(a.sound ? { sound: a.sound } : {}),
+          },
+          targetPos: s.enemies[la.target]?.basePos ?? { x: 160, y: 100 },
+        }
+      }
+      return buildThrowItem({
+        casterFrames: this.playerFrames(la.idx),
+        casterIdx: la.idx,
+        targetIdx: la.target,
+        damage: Math.max(0, (eHp[la.target] ?? 0) - (s.enemies[la.target]?.hp ?? 0)),
+        ...(throwSound ? { sound: throwSound } : {}),
+        ...(throwPresentation ? { presentation: throwPresentation } : {}),
+      })
     }
     // 疯魔打友(fight.c:3790-3855):瞬移到队友旁挥兵器,数字/击退/红闪全套
     if (la.kind === 'attackMate' && la.side === 'player' && la.target !== undefined) {
@@ -1896,11 +1925,11 @@ export class BattleSession {
     if (cur !== undefined) v.displayHp = cur
   }
 
-  /** 本步涨益(回血/回 MP)飘字缓冲(演出收尾统一弹 = 原版特效后时序)。 */
+  /** 本步数值反馈缓冲(回血/回 MP/用品自伤；演出收尾统一弹 = 原版特效后时序)。 */
   private pendingGains: Array<{
     target: { side: 'player' | 'enemy'; idx: number }
     value: number
-    tone: 'yellow' | 'cyan'
+    tone: 'blue' | 'yellow' | 'cyan'
   }> = []
 
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
@@ -1963,6 +1992,36 @@ export class BattleSession {
       if (w) w.count = s.count
     }
     for (let i = inv.length - 1; i >= 0; i--) if (expectDefined(inv[i]).count <= 0) inv.splice(i, 1)
+  }
+
+  /**
+   * 把战斗用品产生的持久效果写回世界。胜利必须在经验结算前调用；败/逃在 done 后调用。
+   * 方法幂等，避免胜利结算后再次用战斗快照覆盖升级奖励。
+   */
+  writeBackPersistentEffects(world: WorldState): void {
+    if (this.persistentEffectsWritten) return
+    this.persistentEffectsWritten = true
+    for (const mutation of this.state.pendingWorldMutations) {
+      switch (mutation.kind) {
+        case 'characterGrowth': {
+          const character = world.party.find((candidate) => candidate.id === mutation.characterId)
+          if (!character) break
+          character.level = Math.min(99, character.level + mutation.delta.level)
+          character.exp = mutation.expAfter
+          character.maxHP += mutation.delta.maxHP
+          character.maxMP += mutation.delta.maxMP
+          character.attack += mutation.delta.attack
+          character.magicAttack += mutation.delta.magicAttack
+          character.defense += mutation.delta.defense
+          character.speed += mutation.delta.speed
+          character.luck += mutation.delta.luck
+          break
+        }
+        case 'hostileAwareness':
+          world.hostileAwareness = { ...mutation.value }
+          break
+      }
+    }
   }
 
   /** 战后把队员 HP/MP 写回 world.party(战斗内伤害/耗蓝持久;原版同,逃跑也保留伤害)。 */
@@ -2170,10 +2229,22 @@ export class BattleSession {
         bgTag = `sm${Math.round(summonShow * 72)}`
       }
     }
+    const depthOverlays: BattleDepthOverlayDraw[] = []
+    if (this.currentFire)
+      for (const overlay of this.overlays ?? [])
+        if (overlay.sheet === 'magic' && overlay.layerOffset !== undefined)
+          depthOverlays.push({
+            sprite: this.currentFire,
+            x: overlay.x,
+            y: overlay.y,
+            frame: overlay.frameIdx,
+            layerOffset: overlay.layerOffset,
+          })
     const scene: BattleScene = {
       ...(bgSrc ? { bg: this.wavedBg.render(bgSrc, waveAmp, now, 320, 200, bgTag) } : {}),
       enemies,
       players,
+      ...(depthOverlays.length ? { depthOverlays } : {}),
       palette: this.assets.palette,
     }
     renderBattleScene(ctx, scene, worldScale)
@@ -2185,6 +2256,8 @@ export class BattleSession {
       ctx.imageSmoothingEnabled = false
       ctx.scale(worldScale, worldScale)
       for (const o of this.overlays) {
+        // MAGIC.special 有定义的法术精灵已与敌我单位在 renderBattleScene 内统一排序。
+        if (o.sheet === 'magic' && o.layerOffset !== undefined) continue
         const sheet =
           o.sheet === 'magic'
             ? this.currentFire

@@ -31,6 +31,13 @@ export const PAL_WORLD_SPRITE_LAYOUT_OVERLAYS = [
     evidence: 'scene s193/e3331 nSpriteFrames=0；events/all.json:L_7796 后使用 #0..#4',
   },
   {
+    spriteNum: 259,
+    layout: { kind: 'static' },
+    expectedFrameCount: 27,
+    usage: '钓竿剧情动作帧带；使用绝对帧 #0..#26',
+    evidence: 'events/all.json:L_9952；L_9954..L_10020 使用 #0..#26',
+  },
+  {
     spriteNum: 273,
     layout: { kind: 'static' },
     expectedFrameCount: 4,

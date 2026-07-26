@@ -5,16 +5,18 @@
 import type {
   ActivePoison,
   BattleSpriteDef,
+  CharacterInstance,
   EnemyBattleSpriteProfile,
   EnemyDef,
   PlayerFighterBattleSpriteProfile,
+  WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { GlyphTable, LoadedBattleSpriteDefinition } from '../assets.js'
 import { type SfxPlayer, SfxReadinessBudgetError, SfxReadinessResourceError } from '../audio/sfx.js'
 import { collectTurnActionSounds } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
-import type { BattlePlayerState, CreatePlayerInput } from './battle-core.js'
+import type { BattlePlayerState, BattleWorldMutation, CreatePlayerInput } from './battle-core.js'
 import {
   type BattleReadinessErrorContext,
   BattleSession,
@@ -840,7 +842,30 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
         effects: [{ kind: 'healHp' as const, amount: 1 }],
         sound: 'sound.item-explicit',
       },
-      throw: { effects: [], sound: 'sound.item-throw' },
+      throw: {
+        effects: [
+          {
+            kind: 'currentHpDamage' as const,
+            numerator: 1,
+            denominator: 2,
+            bonus: 1,
+            cap: 1000,
+          },
+        ],
+        sound: 'sound.item-throw',
+        presentation: {
+          kind: 'magic' as const,
+          animation: {
+            effectSprite: 24,
+            placement: 'normal' as const,
+            xOffset: -12,
+            layerOffset: 1,
+            speed: -1,
+            effectTimes: 0,
+            sound: 'sound.item-fire',
+          },
+        },
+      },
     }
     const opts = {
       items: { [item.id]: item },
@@ -880,6 +905,15 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
       mkEnemy('throw-target', { health: 999, defense: 999, attackStrength: 0 }),
       { attackStrength: 1 },
       opts,
+      {
+        fireSprites: {
+          24: {
+            frames: [{}],
+            anchorX: 0,
+            anchorY: 0,
+          } as unknown as import('../assets.js').LoadedSprite,
+        },
+      },
     )
     throwing.session.tick(16, new Set())
     throwing.session.tick(16, new Set(['w']))
@@ -887,6 +921,7 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
     throwing.session.tick(16, new Set(['Enter']))
     for (let i = 0; i < 30; i++) throwing.session.tick(500, new Set())
     expect(throwing.plays).toContain('sound.item-throw')
+    expect(throwing.plays).toContain('sound.item-fire')
   })
 })
 
@@ -988,5 +1023,82 @@ describe('P2 库存预占(原版 nAmountInUse,fight.c:1900-1916)', () => {
     expect(log.filter((l) => l.includes('使用 药')).length).toBe(1) // 只用了一次
     expect(log.some((l) => l.includes('已耗尽,降级防御'))).toBe(false) // 未发生重复提交兜底
     expect(log.some((l) => l.includes('攻击 slime'))).toBe(true) // 队员1 落在普攻
+  })
+})
+
+describe('C8 战斗物品持久效果写回', () => {
+  test('成长与明雷感知只写回一次，不覆盖随后发生的战后奖励', () => {
+    const { session } = makeSession(mkEnemy('dummy', { attackStrength: 0 }))
+    const mutations: BattleWorldMutation[] = [
+      {
+        kind: 'characterGrowth',
+        characterId: 'li',
+        expAfter: 0,
+        delta: {
+          level: 1,
+          maxHP: 8,
+          maxMP: 6,
+          attack: 2,
+          magicAttack: 3,
+          defense: 4,
+          speed: 1,
+          luck: 2,
+        },
+      },
+      {
+        kind: 'hostileAwareness',
+        value: { rangeMultiplier: 3, remainingMs: 60_000 },
+      },
+    ]
+    const internal = session as unknown as {
+      state: { pendingWorldMutations: BattleWorldMutation[] }
+    }
+    internal.state.pendingWorldMutations.push(...mutations)
+    const character: CharacterInstance = {
+      id: 'li',
+      template: 'li',
+      level: 10,
+      exp: 123,
+      hp: 50,
+      maxHP: 100,
+      mp: 20,
+      maxMP: 40,
+      attack: 30,
+      defense: 20,
+      magicAttack: 25,
+      speed: 15,
+      luck: 12,
+      equipment: {},
+      tags: [],
+    }
+    const world: WorldState = {
+      party: [character],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+    }
+
+    session.writeBackPersistentEffects(world)
+    expect(character).toMatchObject({
+      level: 11,
+      exp: 0,
+      maxHP: 108,
+      maxMP: 46,
+      attack: 32,
+      magicAttack: 28,
+      defense: 24,
+      speed: 16,
+      luck: 14,
+    })
+    expect(world.hostileAwareness).toEqual({ rangeMultiplier: 3, remainingMs: 60_000 })
+
+    // 模拟 writeback 之后的胜利经验结算；第二次共路调用必须完全幂等。
+    character.level += 1
+    character.exp = 42
+    character.maxHP += 5
+    session.writeBackPersistentEffects(world)
+    expect(character.level).toBe(12)
+    expect(character.exp).toBe(42)
+    expect(character.maxHP).toBe(113)
   })
 })

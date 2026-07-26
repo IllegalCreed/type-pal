@@ -756,6 +756,21 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(rejectedThrow.inventory[0]!.count).toBe(1)
     expect(rejectedThrow.log.some((line) => line.includes('包含不能投掷的效果'))).toBe(true)
 
+    const emptyThrow: ItemData = {
+      ...worldScript,
+      id: 'empty-throw',
+      name: '未完成投掷配置',
+      use: undefined,
+      throw: { effects: [] },
+    }
+    const rejectedEmptyThrow = runSingleItemAction(emptyThrow, {
+      kind: 'throw',
+      itemId: 'empty-throw',
+      targetEnemyIdx: 0,
+    })
+    expect(rejectedEmptyThrow.inventory[0]!.count).toBe(1)
+    expect(rejectedEmptyThrow.log.some((line) => line.includes('包含不能投掷的效果'))).toBe(true)
+
     const garlic: ItemData = {
       ...worldScript,
       id: 'garlic',
@@ -832,6 +847,100 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(s2.log.some((l) => l.includes('逃跑失败'))).toBe(true)
     expect(s2.phase).not.toBe('fled')
     expect(s2.players[0]!.hiddenCounts.luck).toBe(2) // 失败 → 吉运池 +2(fight.c:4170)
+  })
+
+  test('金蚕王与遇敌香写入通用持久队列；成长只加基础值且不回满血蓝', () => {
+    const genericItems: Record<string, ItemData> = {
+      level: {
+        id: 'level',
+        name: '金蚕王',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'levelUp', levels: 1 }],
+        },
+      },
+      incense: {
+        id: 'incense',
+        name: '驱魔香',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 }],
+        },
+      },
+    }
+    const persistentProgress = {
+      level: 1,
+      exp: 77,
+      maxHP: 100,
+      maxMP: 30,
+      attack: 40,
+      magicAttack: 20,
+      defense: 30,
+      speed: 50,
+      luck: 20,
+    }
+    const s = createBattleState({
+      players: [player('li', { hp: 40, mp: 9, persistentProgress })],
+      enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
+      items: genericItems,
+      inventory: [
+        { itemId: 'level', count: 1 },
+        { itemId: 'incense', count: 1 },
+      ],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'item', itemId: 'level' })
+    let guard = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && guard++ < 40)
+    expect(s.players[0]).toMatchObject({
+      hp: 40,
+      mp: 9,
+      maxHp: 110,
+      maxMp: 38,
+      attackStrength: 44,
+      magicStrength: 24,
+      defense: 32,
+      baseDexterity: 52,
+      fleeRate: 22,
+    })
+    expect(s.pendingWorldMutations[0]).toEqual({
+      kind: 'characterGrowth',
+      characterId: 'li',
+      delta: {
+        level: 1,
+        maxHP: 10,
+        maxMP: 8,
+        attack: 4,
+        magicAttack: 4,
+        defense: 2,
+        speed: 2,
+        luck: 2,
+      },
+      expAfter: 0,
+    })
+    expect(persistentProgress).toMatchObject({ level: 1, exp: 77 })
+
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'item', itemId: 'incense' })
+    guard = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && guard++ < 40)
+    expect(s.pendingWorldMutations[1]).toEqual({
+      kind: 'hostileAwareness',
+      value: { rangeMultiplier: 0, remainingMs: 60_000 },
+    })
   })
 
   test('战斗 allAllies 逐个回复活着的队员，不再只作用施用者', () => {
@@ -1483,6 +1592,31 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
       enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
     },
   }
+  test('投掷目标在出手前死亡时环扫改投下一名活敌', () => {
+    const s = createBattleState({
+      players: [player('li', { attackStrength: 0 })],
+      enemies: [
+        mkEnemy('dead', { health: 10 }),
+        mkEnemy('alive', { health: 999, attackStrength: -999 }),
+      ],
+      items: THROW_ITEMS,
+      inventory: [{ itemId: '144', count: 1 }],
+      poisonDefs: PARASITE,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0
+    s.enemies[1]!.def.ai.resistanceToSorcery = 0
+    stepBattle(s, () => 0.5)
+    s.enemies[0]!.hp = 0
+    s.enemies[1]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'throw', itemId: '144', targetEnemyIdx: 0 })
+    let guard = 0
+    do stepBattle(s, () => 0.5)
+    while (s.phase === 'performAction' && guard++ < 40)
+    expect(s.enemies[0]!.poisons).toHaveLength(0)
+    expect(s.enemies[1]!.poisons.map((poison) => poison.poisonId)).toEqual([561])
+    expect(s.inventory.find((entry) => entry.itemId === '144')?.count).toBe(0)
+  })
+
   test('投掷食妖虫 → 敌中寄生毒(巫抗门)+ 消耗;到期产灵蛊入背包(养蛊闭环)', () => {
     const s = createBattleState({
       players: [player('li', { attackStrength: 0 })],
@@ -1526,6 +1660,43 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
     while (s.phase === 'performAction' && g++ < 40)
     expect(s.enemies[0]!.poisons).toHaveLength(0) // 巫抗挡,不中
     expect(s.inventory.find((x) => x.itemId === '144')?.count).toBe(0) // 仍消耗(count 0,写回时清)
+  })
+
+  test('无影毒按敌人当前生命的一半加一扣血，并封顶 1000', () => {
+    const poison: ItemData = {
+      id: '137',
+      name: '无影毒',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      throw: {
+        effects: [
+          {
+            kind: 'currentHpDamage',
+            numerator: 1,
+            denominator: 2,
+            bonus: 1,
+            cap: 1000,
+          },
+        ],
+      },
+    }
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 3000, attackStrength: 0 })],
+      items: { '137': poison },
+      inventory: [{ itemId: '137', count: 1 }],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'throw', itemId: '137', targetEnemyIdx: 0 })
+    let guard = 0
+    do stepBattle(s, rng0)
+    while (s.phase === 'performAction' && guard++ < 40)
+    expect(s.enemies[0]!.hp).toBe(2000)
+    expect(s.inventory[0]!.count).toBe(0)
+    expect(s.log.some((line) => line.includes('受到 1000 伤害'))).toBe(true)
   })
 })
 

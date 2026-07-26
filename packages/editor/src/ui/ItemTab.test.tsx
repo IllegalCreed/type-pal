@@ -8,6 +8,7 @@ import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { ItemReference } from '../core/item-references.js'
+import { projectActiveScriptEditorStateV5 } from '../core/project-io-v5.js'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import { ItemTab } from './ItemTab.js'
 
@@ -76,7 +77,14 @@ function Harness(props: {
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
+  useSyncExternalStore(
+    (callback) => props.scriptV5?.session.subscribe(callback) ?? (() => undefined),
+    () => props.scriptV5?.session.getVersion() ?? 0,
+  )
   const current = props.session.getState()
+  const activeScriptState = props.scriptV5
+    ? projectActiveScriptEditorStateV5(props.scriptV5.session.getState(), current.items)
+    : undefined
   return (
     <ItemTab
       items={current.items}
@@ -91,7 +99,11 @@ function Harness(props: {
       focusObjectId={props.focusObjectId}
       onOpenScript={props.onOpenScript}
       onOpenItemReference={props.onOpenItemReference}
-      scriptV5={props.scriptV5}
+      scriptV5={
+        props.scriptV5 && activeScriptState
+          ? { state: activeScriptState, session: props.scriptV5.session }
+          : undefined
+      }
     />
   )
 }
@@ -100,6 +112,14 @@ function button(text: string, root: ParentNode = document): HTMLButtonElement {
   return [...root.querySelectorAll<HTMLButtonElement>('button')].find((candidate) =>
     candidate.textContent?.includes(text),
   )!
+}
+
+async function setInput(element: HTMLInputElement, value: string): Promise<void> {
+  await act(async () => {
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
+    setter.call(element, value)
+    element.dispatchEvent(new Event('input', { bubbles: true }))
+  })
 }
 
 let root: Root
@@ -332,6 +352,217 @@ describe('ItemTab', () => {
       kind: 'runScript',
       script: { id: scriptId },
     })
+  })
+
+  test('投掷法术演出使用共享结构化编辑器并可添加、编辑、移除和撤销', async () => {
+    const initial = state([
+      {
+        ...item('throw-item'),
+        name: '无影毒',
+        throw: {
+          effects: [
+            {
+              kind: 'currentHpDamage',
+              numerator: 1,
+              denominator: 2,
+              bonus: 1,
+              cap: 1000,
+            },
+          ],
+        },
+      },
+    ])
+    initial.shops = []
+    initial.assetCatalog.assets['sound.pal.157'] = {
+      kind: 'sound',
+      path: 'assets/legacy/sounds/157.wav',
+      mediaType: 'audio/wav',
+      bytes: 1,
+      sha256: '1'.repeat(64),
+      origin: { kind: 'legacy-migrated', ref: 'VOC.MKF/157' },
+    }
+    const session = new EditSession(initial)
+    await act(async () => root.render(<Harness session={session} />))
+
+    await act(async () => button('添加法术特效', host).click())
+    expect(session.getState().items[0]?.throw?.presentation).toEqual({
+      kind: 'magic',
+      animation: { effectSprite: 0, placement: 'normal' },
+    })
+
+    const presentation = host.querySelector('.item-throw-presentation')!
+    const numberField = (label: string): HTMLInputElement =>
+      [...presentation.querySelectorAll<HTMLInputElement>('input[type="number"]')].find(
+        (candidate) => candidate.closest('label')?.textContent?.includes(label),
+      )!
+    await setInput(numberField('特效号'), '24')
+    await setInput(numberField('X 偏移'), '-12')
+    await setInput(numberField('层级偏移'), '1')
+    await setInput(numberField('速度'), '-1')
+    const placement = [...presentation.querySelectorAll<HTMLSelectElement>('select')].find(
+      (candidate) => candidate.closest('label')?.textContent?.includes('落点'),
+    )!
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(placement, 'attackWhole')
+      placement.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    const sound = presentation.querySelector<HTMLSelectElement>('select[aria-label="音效"]')!
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(sound, 'sound.pal.157')
+      sound.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    await act(async () =>
+      [...presentation.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')]
+        .find((candidate) => candidate.closest('label')?.textContent?.includes('保留特效末帧'))!
+        .click(),
+    )
+
+    expect(session.getState().items[0]?.throw?.presentation).toEqual({
+      kind: 'magic',
+      animation: {
+        effectSprite: 24,
+        placement: 'attackWhole',
+        xOffset: -12,
+        layerOffset: 1,
+        speed: -1,
+        sound: 'sound.pal.157',
+        keepEffect: true,
+      },
+    })
+
+    await act(async () => button('移除演出', host).click())
+    expect(session.getState().items[0]?.throw?.presentation).toBeUndefined()
+    await act(async () => session.undo())
+    expect(session.getState().items[0]?.throw?.presentation?.animation).toMatchObject({
+      effectSprite: 24,
+      xOffset: -12,
+      layerOffset: 1,
+      sound: 'sound.pal.157',
+    })
+  })
+
+  test('物品私有脚本由 shell 原子增删排序，撤销重做保留 canonical 正文', async () => {
+    const initial = state([
+      {
+        ...item('private'),
+        name: '私有脚本物品',
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__script-v5-runtime', id: 'item:private:use' },
+            },
+          ],
+        },
+      },
+    ])
+    initial.shops = []
+    const session = new EditSession(initial)
+    const canonical: ScriptEditorStateV5 = {
+      scenes: [],
+      items: [
+        {
+          id: 'private',
+          name: '私有脚本物品',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'scene',
+            consuming: true,
+            effects: [
+              {
+                kind: 'itemPrivateScript',
+                script: {
+                  id: 'use',
+                  label: '私有正文',
+                  body: [{ kind: 'setFlag', flag: 'private-body', value: true }],
+                },
+              },
+            ],
+          },
+        },
+      ],
+      sharedScripts: {},
+      migrationSidecars: [],
+    }
+    const scriptSession = new ScriptV5EditSession(canonical)
+    await act(async () =>
+      root.render(
+        <Harness session={session} scriptV5={{ state: canonical, session: scriptSession }} />,
+      ),
+    )
+
+    expect(host.textContent).toContain('私有正文')
+    await act(async () => button('添加效果', host.querySelector('.item-effect-chain')!).click())
+    expect(session.getState().items[0]!.use).toMatchObject({
+      target: 'oneAlly',
+      effects: [{ kind: 'runScript' }, { kind: 'healHp', amount: 100 }],
+    })
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }] } },
+    ])
+    expect(
+      projectActiveScriptEditorStateV5(scriptSession.getState(), session.getState().items).items[0]!
+        .use!.effects,
+    ).toMatchObject([{ kind: 'itemPrivateScript' }, { kind: 'healHp', amount: 100 }])
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="下移效果 1"]')!.click(),
+    )
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'healHp' },
+      { kind: 'runScript' },
+    ])
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }] } },
+    ])
+    expect(host.textContent).toContain('私有正文')
+
+    await act(async () => button('添加指令', host).click())
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('[data-command-kinds="setFlag"]')!.click(),
+    )
+    const storedAfterMove = scriptSession.getState().items[0]!.use!.effects[0]
+    expect(storedAfterMove?.kind).toBe('itemPrivateScript')
+    if (storedAfterMove?.kind !== 'itemPrivateScript') throw new Error('正文未保留')
+    expect(storedAfterMove.script.body).toHaveLength(2)
+    expect(storedAfterMove.script.body[0]).toMatchObject({ flag: 'private-body' })
+
+    await act(async () => session.undo())
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'runScript' },
+      { kind: 'healHp' },
+    ])
+    expect(host.textContent).toContain('私有正文')
+    await act(async () => session.redo())
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'healHp' },
+      { kind: 'runScript' },
+    ])
+
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click(),
+    )
+    expect(session.getState().items[0]!.use!.effects).toEqual([{ kind: 'healHp', amount: 100 }])
+    expect(scriptSession.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'itemPrivateScript', script: { body: [{ flag: 'private-body' }, {}] } },
+    ])
+    expect(host.textContent).not.toContain('私有正文')
+
+    await act(async () => session.undo())
+    expect(host.textContent).toContain('私有正文')
+    expect(session.getState().items[0]!.use!.effects).toMatchObject([
+      { kind: 'healHp' },
+      { kind: 'runScript' },
+    ])
+    await act(async () => session.redo())
+    expect(host.textContent).not.toContain('私有正文')
   })
 
   test('引用页合并 canonical 脚本中的物品引用并传出精确落点', async () => {

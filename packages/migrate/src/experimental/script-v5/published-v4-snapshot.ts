@@ -6,12 +6,76 @@ import {
 } from '../../migration-project-io.js'
 import type { MigrationFileSet } from '../../pal-migration.js'
 
+const C8_ITEM_USE_SEAL_PATH = '_transitions/c8-item-use-v5-v1.json'
+
 function v4CompatibleAuthorPath(path: string): boolean {
   return (
     !path.startsWith('content/scripts/') &&
     !path.startsWith('content/scenes/') &&
-    path !== 'content/items.json'
+    path !== 'content/items.json' &&
+    path !== 'content/migration-diagnostics.json'
   )
+}
+
+function stripC8GeneratedAdditions(
+  migration: MigrationFileSet,
+  publishedBaseline: MigrationSnapshot,
+  project: MigrationSnapshot,
+): void {
+  const seal = publishedBaseline.files.get(C8_ITEM_USE_SEAL_PATH)
+  if (seal === undefined) return
+  if (
+    !seal ||
+    typeof seal !== 'object' ||
+    Array.isArray(seal) ||
+    seal.kind !== 'c8-item-use-transition' ||
+    !Array.isArray(seal.ownedTargets)
+  )
+    throw new Error('published v4 reconstruction: C8 seal 无效')
+
+  const localeKeys = new Set<string>()
+  const spriteIds = new Set<string>()
+  for (const entry of seal.ownedTargets) {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) continue
+    const identity = entry.identity
+    if (!identity || typeof identity !== 'object' || Array.isArray(identity)) continue
+    if (identity.kind === 'locale' && typeof identity.key === 'string') localeKeys.add(identity.key)
+    if (identity.kind === 'sprite' && typeof identity.spriteId === 'string')
+      spriteIds.add(identity.spriteId)
+  }
+
+  const locale = project.files.get('content/locale.json')
+  if (locale && typeof locale === 'object' && !Array.isArray(locale)) {
+    const stripped = structuredClone(locale)
+    for (const key of localeKeys) delete stripped[key]
+    project.files.set('content/locale.json', stripped)
+  }
+
+  const generatedSprites = migration.files.get('content/sprites.json')
+  const projectSprites = project.files.get('content/sprites.json')
+  if (Array.isArray(generatedSprites) && Array.isArray(projectSprites)) {
+    const generatedIds = new Set(
+      generatedSprites.flatMap((entry) =>
+        entry && typeof entry === 'object' && !Array.isArray(entry) && typeof entry.id === 'string'
+          ? [entry.id]
+          : [],
+      ),
+    )
+    project.files.set(
+      'content/sprites.json',
+      projectSprites.filter(
+        (entry) =>
+          !(
+            entry &&
+            typeof entry === 'object' &&
+            !Array.isArray(entry) &&
+            typeof entry.id === 'string' &&
+            spriteIds.has(entry.id) &&
+            !generatedIds.has(entry.id)
+          ),
+      ),
+    )
+  }
 }
 
 /**
@@ -42,6 +106,7 @@ export function reconstructPublishedV4TransitionSnapshots(
     new Set([...publishedBaseline.managedFiles, ...migration.managedFiles]),
   )
   const project = loadProjectMigrationSnapshot(repo, managed)
+  stripC8GeneratedAdditions(migration, publishedBaseline, project)
   for (const [path, value] of project.files)
     if (ours.files.has(path) && v4CompatibleAuthorPath(path))
       ours.files.set(path, structuredClone(value))

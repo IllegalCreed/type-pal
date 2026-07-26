@@ -537,6 +537,8 @@ function conditionLabel(condition: AuthorConditionV5): string {
       return `${condition.flag} ${condition.is ? '为真' : '为假'}`
     case 'var':
       return `${condition.var} ${condition.op} ${condition.value}`
+    case 'currentScene':
+      return `当前场景是 ${condition.scene}`
     case 'entityState':
       return `${addressLabel(condition.target)} 状态 = ${condition.is}`
     case 'entityInScene':
@@ -920,6 +922,8 @@ function defaultCondition(
       return { kind, flag: 'my-flag', is: true }
     case 'var':
       return { kind, var: 'my-var', op: '==', value: 0 }
+    case 'currentScene':
+      return { kind, scene: 'scene' }
     case 'entityState':
       return { kind, target: target ?? { scene: 'scene', entity: 'entity' }, is: 1 }
     case 'entityInScene':
@@ -1025,8 +1029,10 @@ function ConditionEditorV5(props: {
   references?: ScriptReferenceCatalog
   onChange: (condition: AuthorConditionV5) => void
 }) {
+  const sceneFieldId = useId()
   const patch = (value: Record<string, unknown>): void =>
     props.onChange({ ...props.value, ...value } as AuthorConditionV5)
+  const currentScene = props.value.kind === 'currentScene' ? props.value : undefined
   const target =
     props.value.kind === 'entityState' ||
     props.value.kind === 'entityInScene' ||
@@ -1057,6 +1063,7 @@ function ConditionEditorV5(props: {
         >
           <option value="flag">开关</option>
           <option value="var">数值</option>
+          <option value="currentScene">当前场景</option>
           <option value="chance">概率</option>
           <option value="hasItem">背包持有物品</option>
           <option value="ownsItem">拥有物品</option>
@@ -1131,6 +1138,35 @@ function ConditionEditorV5(props: {
             />
           </label>
         </>
+      ) : null}
+      {currentScene ? (
+        <label htmlFor={sceneFieldId}>
+          <span>场景</span>
+          {props.state?.scenes.length ? (
+            <select
+              id={sceneFieldId}
+              className="in"
+              value={currentScene.scene}
+              onChange={(event) => patch({ scene: event.target.value })}
+            >
+              {!props.state.scenes.some((scene) => scene.id === currentScene.scene) ? (
+                <option value={currentScene.scene}>{currentScene.scene}（引用失效）</option>
+              ) : null}
+              {props.state.scenes.map((scene) => (
+                <option key={scene.id} value={scene.id}>
+                  {scene.id}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              id={sceneFieldId}
+              className="in"
+              value={currentScene.scene}
+              onChange={(event) => patch({ scene: event.target.value })}
+            />
+          )}
+        </label>
       ) : null}
       {props.value.kind === 'chance' ? (
         <label>

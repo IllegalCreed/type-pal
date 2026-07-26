@@ -84,6 +84,8 @@ export interface SkillAnimation {
   /** 落点偏移(原 wXOffset/wYOffset)。 */
   xOffset?: number
   yOffset?: number
+  /** 与战斗单位统一 Y-sort 的层偏移（原 wSoundDelay/special 的非召唤表现语义）。 */
+  layerOffset?: number
   /** 帧时长 = (speed+5)×10ms(原 wSpeed)。 */
   speed?: number
   /** 帧循环起点(原 wFireDelay)。 */

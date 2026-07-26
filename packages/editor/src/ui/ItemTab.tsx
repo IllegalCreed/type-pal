@@ -12,13 +12,14 @@ import type {
   EquipSlot,
   EquipSpec,
   ItemData,
-  ItemDataV5,
   ItemUseEffect,
   Locale,
   PoisonDef,
+  SceneDef,
   ScriptRef,
   SkillData,
   StatusId,
+  ThrowSpec,
   UseSpec,
 } from '@type-pal/content'
 import {
@@ -27,7 +28,12 @@ import {
   describeEquipEffects,
   lookupText,
 } from '@type-pal/content'
-import { type AssetBase, type AudioAssetReader, v5RuntimeScriptRef } from '@type-pal/reforge'
+import {
+  type AssetBase,
+  type AudioAssetReader,
+  isV5RuntimeScriptRef,
+  v5RuntimeScriptRef,
+} from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   AddItemCommand,
@@ -62,6 +68,7 @@ import {
   ItemEffectChainEditor,
   type ItemScriptOption,
 } from './ItemUseEffectEditor.js'
+import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 
 function withSound<T extends { sound?: AssetId }>(spec: T, sound: AssetId | undefined): T {
@@ -370,6 +377,11 @@ const USE_EFFECT_LABEL: Record<ItemUseEffect['kind'], string> = {
   drawFromResourcePool: '资源池抽取',
   extraPoisonRes: '临时毒抗',
   hideParty: '全队隐身',
+  modifyHostileAwareness: '调整明雷感知',
+  scaleCurrentHp: '按比例调整当前体力',
+  levelUp: '提升等级',
+  currentHpDamage: '按当前体力造成伤害',
+  placeEntityInFront: '把场景实体放到玩家面前',
 }
 
 function abilityTags(item: ItemData): string[] {
@@ -401,6 +413,16 @@ function summarizeUse(item: ItemData, items: readonly ItemData[]): string[] {
           return `从资源 ${effect.resource} 抽取 1…当前值（封顶 ${effect.maxRoll}），按 ${effect.rewards.length} 档给出奖励并扣除点数`
         case 'permanentStatBoost':
           return `${USE_EFFECT_LABEL[effect.kind]}：${effect.stat} ${effect.delta >= 0 ? '+' : ''}${effect.delta}`
+        case 'modifyHostileAwareness':
+          return `${effect.rangeMultiplier === 0 ? '停止' : '扩大至 3 倍'}明雷感知，持续 ${effect.durationMs / 1000} 秒`
+        case 'scaleCurrentHp':
+          return `当前体力调整为 ${effect.numerator}/${effect.denominator}`
+        case 'levelUp':
+          return `提升 ${effect.levels} 级`
+        case 'currentHpDamage':
+          return `造成 当前体力×${effect.numerator}/${effect.denominator}＋${effect.bonus} 伤害，上限 ${effect.cap}`
+        case 'placeEntityInFront':
+          return `把 ${effect.target.scene}/${effect.target.entity} 放到玩家面前，状态 ${effect.state}`
         default:
           return USE_EFFECT_LABEL[effect.kind]
       }
@@ -689,9 +711,6 @@ export function ItemTab(props: {
       })
       .sort((left, right) => left.label.localeCompare(right.label, 'zh-CN'))
   })() as ItemScriptOption[]
-  const canonicalItemV5: ItemDataV5 | undefined = scriptV5?.state.items.find(
-    (candidate) => candidate.id === item?.id,
-  )
   const canonicalScriptEditorContextV5 = useMemo<CanonicalScriptEditorContextV5 | undefined>(() => {
     if (!scriptV5) return undefined
     const shell = session.getState()
@@ -746,42 +765,70 @@ export function ItemTab(props: {
     session,
     skills,
   ])
-  const privateScriptsV5 = (slot: 'use' | 'throw') =>
-    Object.fromEntries(
-      (canonicalItemV5?.[slot]?.effects ?? []).flatMap((effect, index) =>
+  const privateScriptsV5 = (slot: 'use' | 'throw') => {
+    const storedItem = scriptV5?.session
+      .getState()
+      .items.find((candidate) => candidate.id === item?.id)
+    const stored = new Map(
+      (storedItem?.[slot]?.effects ?? []).flatMap((effect, canonicalIndex) =>
         effect.kind === 'itemPrivateScript'
-          ? [
-              [
-                index,
-                {
-                  label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
-                  body: effect.script.body,
-                  editorContext: canonicalScriptEditorContextV5,
-                  focusCommandPath:
-                    focusPrivateScript?.itemId === canonicalItemV5?.id &&
-                    focusPrivateScript?.ability === slot &&
-                    focusPrivateScript?.scriptId === effect.script.id
-                      ? focusPrivateScript?.commandPath
-                      : undefined,
-                  focusRevision:
-                    focusPrivateScript?.itemId === canonicalItemV5?.id &&
-                    focusPrivateScript?.ability === slot &&
-                    focusPrivateScript?.scriptId === effect.script.id
-                      ? focusPrivateScript?.revision
-                      : undefined,
-                  onChange: (body: typeof effect.script.body) =>
-                    scriptV5?.session.dispatch(
-                      new SetItemPrivateScriptBodyV5Command(canonicalItemV5!.id, slot, index, body),
-                    ),
-                },
-              ] as const,
-            ]
+          ? [[effect.script.id, { effect, canonicalIndex }] as const]
           : [],
       ),
     )
+    const prefix = item ? `item:${item.id}:` : ''
+    return Object.fromEntries(
+      (item?.[slot]?.effects ?? []).flatMap((shellEffect, shellIndex) => {
+        if (
+          shellEffect.kind !== 'runScript' ||
+          !isV5RuntimeScriptRef(shellEffect.script) ||
+          !shellEffect.script.id.startsWith(prefix)
+        )
+          return []
+        const privateId = shellEffect.script.id.slice(prefix.length)
+        const source = stored.get(privateId as 'use')
+        if (!source) return []
+        const { effect, canonicalIndex } = source
+        return [
+          [
+            shellIndex,
+            {
+              label: effect.script.label ?? `${item?.name ?? item?.id}私有脚本`,
+              body: effect.script.body,
+              editorContext: canonicalScriptEditorContextV5,
+              focusCommandPath:
+                focusPrivateScript?.itemId === item?.id &&
+                focusPrivateScript?.ability === slot &&
+                focusPrivateScript?.scriptId === effect.script.id
+                  ? focusPrivateScript.commandPath
+                  : undefined,
+              focusRevision:
+                focusPrivateScript?.itemId === item?.id &&
+                focusPrivateScript?.ability === slot &&
+                focusPrivateScript?.scriptId === effect.script.id
+                  ? focusPrivateScript.revision
+                  : undefined,
+              onChange: (body: typeof effect.script.body) =>
+                scriptV5?.session.dispatch(
+                  new SetItemPrivateScriptBodyV5Command(storedItem!.id, slot, canonicalIndex, body),
+                ),
+            },
+          ] as const,
+        ]
+      }),
+    )
+  }
 
   const patch = (next: Partial<Omit<ItemData, 'id'>>): void => {
     if (item) session.dispatch(new UpdateItemCommand(item.id, next))
+  }
+  const patchUse = (next: UseSpec): void => {
+    if (!item) return
+    patch({ use: next })
+  }
+  const patchThrow = (next: ThrowSpec): void => {
+    if (!item) return
+    patch({ throw: next })
   }
   const equip = item?.equip
   const patchEquip = (next: EquipSpec | undefined): void => patch({ equip: next })
@@ -1597,7 +1644,7 @@ export function ItemTab(props: {
                     items={items}
                     poisons={poisons}
                     scripts={scriptOptions}
-                    onChange={(next) => patch({ use: next as UseSpec })}
+                    onChange={(next) => patchUse(next as UseSpec)}
                     onOpenScript={onOpenScript}
                     onCreateAndBindScript={createAndBindScript}
                     onError={(message) => onStatusNotice?.({ kind: 'error', message })}
@@ -1612,6 +1659,7 @@ export function ItemTab(props: {
                         }),
                       )
                     }}
+                    scenes={editorState.scenes as readonly SceneDef[]}
                     privateScriptsV5={privateScriptsV5('use')}
                   />
                 </div>
@@ -1626,7 +1674,7 @@ export function ItemTab(props: {
               <div className="item-card-heading">
                 <div>
                   <h3>投掷能力</h3>
-                  <p>用于战斗中的对敌施毒；与“使用”能力可同时存在。</p>
+                  <p>用于战斗中的投掷效果与命中特效；与“使用”能力可同时存在。</p>
                 </div>
                 <label className="item-capability-toggle">
                   <input
@@ -1652,20 +1700,74 @@ export function ItemTab(props: {
                       onOpenAsset={onOpenSound}
                     />
                   </div>
+                  <div className="item-throw-presentation">
+                    <div className="item-effect-subhead">
+                      <strong>法术特效演出</strong>
+                      {item.throw.presentation ? (
+                        <button
+                          type="button"
+                          className="item-action-button item-action-button-danger item-action-button-compact"
+                          onClick={() => {
+                            const next = { ...item.throw! }
+                            delete next.presentation
+                            patchThrow(next)
+                          }}
+                        >
+                          移除演出
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="item-action-button item-action-button-compact"
+                          onClick={() =>
+                            patchThrow({
+                              ...item.throw!,
+                              presentation: {
+                                kind: 'magic',
+                                animation: { effectSprite: 0, placement: 'normal' },
+                              },
+                            })
+                          }
+                        >
+                          ＋ 添加法术特效
+                        </button>
+                      )}
+                    </div>
+                    {item.throw.presentation ? (
+                      <SkillAnimationEditor
+                        animation={item.throw.presentation.animation}
+                        onChange={(animation) =>
+                          patchThrow({
+                            ...item.throw!,
+                            presentation: { kind: 'magic', animation },
+                          })
+                        }
+                        assetCatalog={assetCatalog}
+                        assetReader={assetReader}
+                        assetBase={assetBase}
+                        onOpenSound={onOpenSound}
+                      />
+                    ) : (
+                      <p className="item-effect-help">
+                        可选。用于配置与伤害、施毒相互独立的 FIRE 命中特效。
+                      </p>
+                    )}
+                  </div>
                   <ItemEffectChainEditor
                     ability="throw"
                     spec={item.throw}
                     items={items}
                     poisons={poisons}
                     scripts={scriptOptions}
-                    onChange={(next) => patch({ throw: next })}
+                    onChange={(next) => patchThrow(next)}
                     onError={(message) => onStatusNotice?.({ kind: 'error', message })}
                     privateScriptsV5={privateScriptsV5('throw')}
+                    scenes={editorState.scenes as readonly SceneDef[]}
                   />
                 </div>
               ) : (
                 <div className="item-capability-empty">
-                  {poisons.length ? '开启后选择投掷时施加的毒。' : '请先在“战斗 → 毒”创建毒定义。'}
+                  开启后可配置施毒或按敌人当前体力造成伤害。
                 </div>
               )}
             </section>

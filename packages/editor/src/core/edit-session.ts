@@ -83,6 +83,8 @@ export class EditSession {
   /** 每次 notify 自增。useSyncExternalStore 的 snapshot 用它 —— 因为 markSaved/undo 等
    *  「非内容态」变化不改 state 引用,单靠 getState 当 snapshot 会漏掉这些变化不重渲染。 */
   private version = 0
+  /** 只在 dispatch/undo/redo 时递增；markSaved/hydrate 不得篡改全局撤销归属。 */
+  private historyVersion = 0
   private readonly listeners = new Set<() => void>()
 
   constructor(initial: EditorState, options: EditSessionOptions = {}) {
@@ -127,6 +129,7 @@ export class EditSession {
     this.past.push(cmd)
     this.future = []
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }
@@ -142,6 +145,7 @@ export class EditSession {
     this.trackMapChanges(previous, this.state)
     this.future.push(cmd)
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }
@@ -157,6 +161,7 @@ export class EditSession {
     this.trackMapChanges(previous, this.state)
     this.past.push(cmd)
     this.dirty = true
+    this.historyVersion += 1
     this.notify()
     return true
   }
@@ -164,6 +169,10 @@ export class EditSession {
   /** 变更版本号(每次 notify 自增);useSyncExternalStore 的 getSnapshot 用它。 */
   getVersion(): number {
     return this.version
+  }
+
+  getHistoryVersion(): number {
+    return this.historyVersion
   }
 
   /** 图章 ghost / 变换预览的失效键；保存状态变化不会误增。 */

@@ -244,6 +244,32 @@
                 }
               ]
             }
+          },
+          "c8-297728a43c0a": {
+            "label": "物品剧情行为 297728a43c0a",
+            "order": 1016,
+            "flow": {
+              "kind": "stages",
+              "initial": "main",
+              "stages": [
+                {
+                  "id": "main",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.1453"
+                          }
+                        ],
+                        "speaker": "spk.学徒"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       }

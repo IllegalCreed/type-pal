@@ -25,6 +25,7 @@ import {
   type SourceCmd,
   type SourceScene,
   sceneSlug,
+  translatePlaceEntityInFrontUseScript,
   translateThrowScript,
   walkDesc,
 } from './migrate-content.js'
@@ -82,6 +83,7 @@ const src: MigrateSources = {
   levelUpMagic: readJson('data/extracted/data/level-up-magic.json'),
   spells: readJson('data/extracted/data/spells.json'),
   magic: readJson('data/extracted/data/magic.json'),
+  objectMagics: readJson('data/extracted/data/object-magics.json'),
   items: readJson('data/extracted/data/items.json'),
   stores: readJson('data/extracted/data/stores.json'),
   commands: allJson.segments.flatMap((s) => s.commands),
@@ -494,35 +496,112 @@ describe('M1d · 使用效果(scriptOnUse → UseSpec)', () => {
       effects: [{ kind: 'extraPoisonRes', amount: 30 }],
     })
   })
-  test('纯表迁移总账:100 usable = 79 个 use + 21 个显式诊断（141 由最终 PAL overlay 闭合）', () => {
+  test('驱魔香/十里香/无影毒/金蚕王迁为通用结构化效果', () => {
+    expect(byId.get('90')!.use).toEqual({
+      target: 'scene',
+      consuming: true,
+      effects: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 }],
+      menuAfterUse: 'close',
+    })
+    expect(byId.get('91')!.use).toEqual({
+      target: 'scene',
+      consuming: true,
+      effects: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 }],
+      menuAfterUse: 'close',
+    })
+    expect(byId.get('137')!.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'scaleCurrentHp', numerator: 1, denominator: 2 }],
+    })
+    expect(byId.get('137')!.throw).toEqual({
+      effects: [
+        {
+          kind: 'currentHpDamage',
+          numerator: 1,
+          denominator: 2,
+          bonus: 1,
+          cap: 1000,
+        },
+      ],
+      presentation: {
+        kind: 'magic',
+        animation: {
+          effectSprite: 24,
+          placement: 'normal',
+          xOffset: -12,
+          yOffset: 0,
+          layerOffset: 1,
+          speed: -1,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+          wave: 0,
+          sound: 'sound.pal.157',
+        },
+      },
+    })
+    expect(byId.get('150')!.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'levelUp', levels: 1 }],
+    })
+  })
+  test('纯表迁移总账:100 usable = 83 个 use + 17 个显式诊断（141 由最终 PAL overlay 闭合）', () => {
     const withUse = out.items.filter((i) => i.use).length
-    expect(withUse).toBe(79)
-    expect(out.report.pendingUse).toHaveLength(21)
+    expect(withUse).toBe(83)
+    expect(out.report.pendingUse).toHaveLength(17)
     expect(withUse + out.report.pendingUse.length).toBe(100)
     expect(out.items.filter((item) => item.use && !item.use.target)).toEqual([])
     expect(out.report.pendingUse.map((item) => item.itemId).sort((a, b) => a - b)).toEqual([
-      90, 91, 137, 141, 150, 260, 263, 264, 271, 272, 273, 279, 284, 285, 286, 287, 288, 289, 291,
-      292, 294,
+      141, 260, 263, 264, 271, 272, 273, 279, 284, 285, 286, 287, 288, 289, 291, 292, 294,
     ])
-    expect(
-      out.report.pendingUse
-        .filter((item) => [90, 91, 137, 150].includes(item.itemId))
-        .map(({ itemId, category }) => [itemId, category]),
-    ).toEqual([
-      [90, 'unsupported-command'],
-      [91, 'unsupported-command'],
-      [137, 'unsupported-command'],
-      [150, 'unsupported-command'],
-    ])
-    expect(out.report.pendingUse.find((item) => item.itemId === 90)?.reason).toContain(
-      '暂停敌人追逐',
-    )
-    expect(out.report.pendingUse.find((item) => item.itemId === 91)?.reason).toContain(
-      '加速敌人追逐',
-    )
-    expect(out.report.pendingUse.find((item) => item.itemId === 137)?.reason).toContain('生命减半')
-    expect(out.report.pendingUse.find((item) => item.itemId === 150)?.reason).toContain('角色升级')
     for (const p of out.report.pendingUse) expect(p.reason).toMatch(/转换|迁移|B2|空链|Store/)
+  })
+})
+
+describe('C8 · 0x84 场景放置用途', () => {
+  const commands: SourceCmd[] = [
+    { label: 'L_1', op: 'raw', opcode: 0x84, operands: [798, 2, 5] },
+    { op: 'end' },
+    { op: 'end' },
+    { op: 'end' },
+    { label: 'L_5', op: 'setDialogStyleNarration' },
+    { op: 'showDialog', text: '此处无法放置' },
+    { op: 'raw', opcode: 0x41, operands: [0, 0, 0] },
+    { op: 'end' },
+  ]
+
+  test('成功臂与失败提示合成一个通用事务效果', () => {
+    expect(
+      translatePlaceEntityInFrontUseScript(
+        commands,
+        buildLabelIndex(commands),
+        1,
+        new Map([[798, { scene: 's048', entity: 'e797' }]]),
+      ),
+    ).toEqual({
+      kind: 'placeEntityInFront',
+      target: { scene: 's048', entity: 'e797' },
+      state: 2,
+      unavailableMessage: '此处无法放置',
+    })
+  })
+
+  test('目标地址或严格失败臂缺失时拒绝猜测', () => {
+    expect(
+      translatePlaceEntityInFrontUseScript(commands, buildLabelIndex(commands), 1, new Map()),
+    ).toBeUndefined()
+    const malformed = structuredClone(commands)
+    malformed[6] = { op: 'raw', opcode: 0x42, operands: [0, 0, 0] }
+    expect(
+      translatePlaceEntityInFrontUseScript(
+        malformed,
+        buildLabelIndex(malformed),
+        1,
+        new Map([[798, { scene: 's048', entity: 'e797' }]]),
+      ),
+    ).toBeUndefined()
   })
 })
 
@@ -535,6 +614,46 @@ test('投掷链的 0x47 不再静默丢弃', () => {
     effects: [],
     sound: 'sound.pal.088',
   })
+})
+
+test('0x42 只在零玩法参数且魔法表证明无伤害时迁为独立投掷演出', () => {
+  const commands: SourceCmd[] = [
+    { op: 'raw', opcode: 0x42, operands: [24, 0, 0], label: 'L_1' },
+    { op: 'raw', opcode: 0x5b, operands: [1000, 0, 0] },
+    { op: 'end' },
+  ]
+  const presentation = {
+    kind: 'magic' as const,
+    animation: {
+      effectSprite: 24,
+      placement: 'normal' as const,
+      xOffset: -12,
+      layerOffset: 1,
+      sound: 'sound.pal.157',
+    },
+  }
+  expect(
+    translateThrowScript(commands, buildLabelIndex(commands), 1, undefined, (objectId) =>
+      objectId === 24 ? presentation : undefined,
+    ),
+  ).toEqual({
+    effects: [
+      {
+        kind: 'currentHpDamage',
+        numerator: 1,
+        denominator: 2,
+        bonus: 1,
+        cap: 1000,
+      },
+    ],
+    presentation,
+  })
+  const unsafe = structuredClone(commands)
+  unsafe[0] = { op: 'raw', opcode: 0x42, operands: [24, 1, 0], label: 'L_1' }
+  expect(
+    translateThrowScript(unsafe, buildLabelIndex(unsafe), 1, undefined, () => presentation)
+      .pendingReason,
+  ).toMatch(/非零玩法参数/)
 })
 
 describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切片 golden)', () => {

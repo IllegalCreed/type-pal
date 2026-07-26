@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
 import type { CharacterInstance } from './character.js'
-import { applyHiddenExp, grantBattleRewards } from './rewards.js'
+import { applyHiddenExp, applyLevelGrowth, grantBattleRewards } from './rewards.js'
 
 function mkChar(o: Partial<CharacterInstance> = {}): CharacterInstance {
   return {
@@ -40,6 +40,40 @@ const actor = (expTable: number[]): ActorDef =>
 const rng0 = () => 0 // 掷骰全取下限
 
 describe('B7a 战后结算', () => {
+  test('通用成长在 99 级仍掷上界属性并把七项钳到 999', () => {
+    const target = {
+      level: 99,
+      maxHP: 998,
+      maxMP: 998,
+      attack: 998,
+      magicAttack: 998,
+      defense: 998,
+      speed: 998,
+      luck: 998,
+    }
+    const delta = applyLevelGrowth(target, 1, () => 0.999)
+    expect(target).toEqual({
+      level: 99,
+      maxHP: 999,
+      maxMP: 999,
+      attack: 999,
+      magicAttack: 999,
+      defense: 999,
+      speed: 999,
+      luck: 999,
+    })
+    expect(delta).toEqual({
+      level: 0,
+      maxHP: 1,
+      maxMP: 1,
+      attack: 1,
+      magicAttack: 1,
+      defense: 1,
+      speed: 1,
+      luck: 1,
+    })
+  })
+
   test('升级:扣减式 exp、成长下限、HP/MP 回满、学技能', () => {
     const c = mkChar()
     const ls: Record<string, string[]> = { 'li-xiaoyao': [] }

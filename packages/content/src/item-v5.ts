@@ -44,5 +44,8 @@ export function itemUseEffectSupportsContextV5(
 
 export function itemUseSupportsContextV5(use: UseSpecV5, context: ItemUseContext): boolean {
   if (context === 'world' && use.battleOnly) return false
-  return use.effects.every((effect) => itemUseEffectSupportsContextV5(effect, context))
+  return (
+    use.effects.length > 0 &&
+    use.effects.every((effect) => itemUseEffectSupportsContextV5(effect, context))
+  )
 }

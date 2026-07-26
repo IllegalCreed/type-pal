@@ -230,6 +230,48 @@ describe('save v4 -> v5 pure normalizer', () => {
     })
   })
 
+  test('current 5/5 isolates and validates the temporary hostile-awareness timer', async () => {
+    const { manifest, source } = await fixture()
+    delete (manifest as ProjectManifest<5>).migrations
+    const payload: SavePayloadV5 = {
+      version: 5,
+      projectId: 'demo',
+      contentVersion: 5,
+      world: {
+        party: [],
+        money: 0,
+        learnedSkills: {},
+        inventory: [],
+        hostileAwareness: { rangeMultiplier: 3, remainingMs: 59_999.5 },
+      },
+      position: {
+        sceneId: 's001',
+        pos: { col: 0, row: 0, height: 0 },
+        facing: 'down',
+      },
+    }
+    const resolver = await preflightSaveMigration({ manifest, source, payload })
+    const normalized = normalizePayloadV5(payload, resolver)
+    expect(normalized.world.hostileAwareness).toEqual({
+      rangeMultiplier: 3,
+      remainingMs: 59_999.5,
+    })
+    expect(normalized.world.hostileAwareness).not.toBe(payload.world.hostileAwareness)
+
+    for (const invalid of [
+      { rangeMultiplier: 1, remainingMs: 1 },
+      { rangeMultiplier: 0, remainingMs: 0 },
+      { rangeMultiplier: 3, remainingMs: -1 },
+      { rangeMultiplier: 3, remainingMs: Number.NaN },
+      { rangeMultiplier: 3, remainingMs: 1, extra: true },
+      [],
+    ]) {
+      const malformed = structuredClone(payload) as SavePayloadV5
+      ;(malformed.world as unknown as Record<string, unknown>).hostileAwareness = invalid
+      expect(() => normalizePayloadV5(malformed, resolver)).toThrow(/hostileAwareness/)
+    }
+  })
+
   test('broadcasts flat entity state, clamps each cursor target independently and restores hook selection', async () => {
     const binding = { chunk: 'old/c00', id: 'shared/teleport' }
     const bindingSha256 = await legacyBindingDigest(binding)
@@ -334,6 +376,7 @@ describe('save v4 -> v5 pure normalizer', () => {
         money: 0,
         learnedSkills: {},
         inventory: [],
+        hostileAwareness: { rangeMultiplier: 0 as const, remainingMs: 12_345.5 },
         script: {
           flags: {},
           vars: {},
@@ -359,6 +402,10 @@ describe('save v4 -> v5 pure normalizer', () => {
     const normalized = normalizePayloadV5(payload, resolver)
     expect(payload).toEqual(before)
     expect(normalized).toMatchObject({ version: 5, contentVersion: 5 })
+    expect(normalized.world.hostileAwareness).toEqual({
+      rangeMultiplier: 0,
+      remainingMs: 12_345.5,
+    })
     expect(normalized.world.script).toMatchObject({
       entityState: { s001: { e1: 2 }, s002: { e1: 2 } },
       entityPos: {

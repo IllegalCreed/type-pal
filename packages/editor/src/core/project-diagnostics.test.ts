@@ -663,6 +663,27 @@ describe('X7 工程诊断与保存门', () => {
         issue.message.includes('不在脚本库'),
       ),
     ).toBe(false)
+
+    const mixedShell = state({
+      items: [
+        {
+          ...shell.items[0]!,
+          use: {
+            target: 'oneAlly',
+            consuming: false,
+            effects: [
+              { kind: 'runScript', script: v5RuntimeScriptRef('item:private:use') },
+              { kind: 'healHp', amount: 1 },
+            ],
+          },
+        },
+      ],
+    })
+    expect(
+      collectEditorStatusIssues(mixedShell, canonical).some((issue) =>
+        issue.message.includes('必须作为唯一效果'),
+      ),
+    ).toBe(false)
   })
 
   test('入口视频和资源角色错误跳到字段唯一作者，而不是悬空资源页', () => {

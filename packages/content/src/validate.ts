@@ -30,6 +30,7 @@ import { checkCommands, checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
 import {
   checkAuthorCommandsV5,
+  checkEntityAddress,
   checkEntityBehaviorsV5,
   checkEntityPagesV5,
   checkSceneHooksV5,
@@ -328,7 +329,7 @@ export function validateSkills(json: unknown): {
       string,
       unknown
     >
-    validateOptionalAssetId(animation, 'sound', `skills.skills[${i}].animation`)
+    validateSkillAnimation(animation, `skills.skills[${i}].animation`)
     const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
     effects.forEach((effect, effectIndex) => {
       const eo = assertObject(effect, `skills.skills[${i}].effects[${effectIndex}]`) as Record<
@@ -384,6 +385,52 @@ function requireFiniteNumber(
   if (opts?.positive && value <= 0) throw new Error(`${ctx}: 期望正数`)
   if (opts?.nonzero && value === 0) throw new Error(`${ctx}: 不得为 0`)
   return value
+}
+
+function validateSkillAnimation(animation: Record<string, unknown>, ctx: string): void {
+  requireOnlyKeys(
+    animation,
+    [
+      'effectSprite',
+      'placement',
+      'xOffset',
+      'yOffset',
+      'layerOffset',
+      'speed',
+      'fireDelay',
+      'effectTimes',
+      'shake',
+      'wave',
+      'sound',
+      'keepEffect',
+    ],
+    ctx,
+  )
+  if (!Number.isInteger(animation.effectSprite) || (animation.effectSprite as number) < 0)
+    throw new Error(`${ctx}.effectSprite: 期望非负整数`)
+  if (
+    animation.placement !== undefined &&
+    !['normal', 'attackAll', 'attackWhole', 'attackField'].includes(String(animation.placement))
+  )
+    throw new Error(`${ctx}.placement: 非法落点模式`)
+  for (const key of [
+    'xOffset',
+    'yOffset',
+    'layerOffset',
+    'speed',
+    'fireDelay',
+    'effectTimes',
+    'shake',
+    'wave',
+  ])
+    if (
+      animation[key] !== undefined &&
+      (typeof animation[key] !== 'number' || !Number.isFinite(animation[key]))
+    )
+      throw new Error(`${ctx}.${key}: 期望有限数`)
+  if (animation.keepEffect !== undefined && typeof animation.keepEffect !== 'boolean')
+    throw new Error(`${ctx}.keepEffect: 期望 boolean`)
+  validateOptionalAssetId(animation, 'sound', ctx)
 }
 
 function validateOptionalUnavailableMessage(effect: Record<string, unknown>, ctx: string): void {
@@ -519,6 +566,46 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
     case 'hideParty':
       requireFiniteNumber(effect.turns, `${ctx}.turns`, { positive: true, integer: true })
       break
+    case 'modifyHostileAwareness':
+      if (effect.rangeMultiplier !== 0 && effect.rangeMultiplier !== 3)
+        throw new Error(`${ctx}.rangeMultiplier: 期望 0 或 3`)
+      requireFiniteNumber(effect.durationMs, `${ctx}.durationMs`, {
+        positive: true,
+        integer: true,
+      })
+      break
+    case 'scaleCurrentHp':
+      requireFiniteNumber(effect.numerator, `${ctx}.numerator`, {
+        positive: true,
+        integer: true,
+      })
+      requireFiniteNumber(effect.denominator, `${ctx}.denominator`, {
+        positive: true,
+        integer: true,
+      })
+      break
+    case 'levelUp':
+      requireFiniteNumber(effect.levels, `${ctx}.levels`, { positive: true, integer: true })
+      break
+    case 'currentHpDamage': {
+      requireFiniteNumber(effect.numerator, `${ctx}.numerator`, {
+        positive: true,
+        integer: true,
+      })
+      requireFiniteNumber(effect.denominator, `${ctx}.denominator`, {
+        positive: true,
+        integer: true,
+      })
+      const bonus = requireFiniteNumber(effect.bonus, `${ctx}.bonus`, { integer: true })
+      if (bonus < 0) throw new Error(`${ctx}.bonus: 不得小于 0`)
+      requireFiniteNumber(effect.cap, `${ctx}.cap`, { positive: true, integer: true })
+      break
+    }
+    case 'placeEntityInFront':
+      checkEntityAddress(effect.target, `${ctx}.target`)
+      requireFiniteNumber(effect.state, `${ctx}.state`, { integer: true })
+      validateOptionalUnavailableMessage(effect, ctx)
+      break
     case 'dieIfNotPoisoned':
       break
     default:
@@ -549,6 +636,18 @@ function validateItemUseEffectV5(effect: Record<string, unknown>, ctx: string): 
   validateItemUseEffect(effect, ctx)
 }
 
+function isItemPrivateRuntimeEffect(
+  effect: Record<string, unknown>,
+  itemId: string,
+  slot: 'use' | 'throw',
+): boolean {
+  if (effect.kind !== 'runScript') return false
+  const script = effect.script
+  if (typeof script !== 'object' || script === null || Array.isArray(script)) return false
+  const ref = script as Record<string, unknown>
+  return ref.chunk === '__script-v5-runtime' && ref.id === `item:${itemId}:${slot}`
+}
+
 export function validateItems(json: unknown): ItemData[] {
   const arr = assertArray<ItemData>(json, 'items')
   arr.forEach((it, i) => {
@@ -573,9 +672,14 @@ export function validateItems(json: unknown): ItemData[] {
       if (use.menuAfterUse !== undefined && !['keep', 'close'].includes(String(use.menuAfterUse)))
         throw new Error(`items[${i}].use.menuAfterUse: 期望 keep/close`)
       const effects = assertArray<Record<string, unknown>>(use.effects, `items[${i}].use.effects`)
-      if (effects.length === 0) throw new Error(`items[${i}].use.effects: 不得为空`)
+      const itemId = String(record.id)
+      const isPrivateRuntime = (effect: Record<string, unknown>) =>
+        isItemPrivateRuntimeEffect(effect, itemId, 'use')
       const external = effects.filter(
-        (effect) => effect.kind === 'runScript' || effect.kind === 'runSceneHook',
+        (effect) =>
+          (effect.kind === 'runScript' && !isPrivateRuntime(effect)) ||
+          effect.kind === 'runSceneHook' ||
+          effect.kind === 'placeEntityInFront',
       )
       if (external.length > 0 && (external.length !== 1 || effects.length !== 1))
         throw new Error(
@@ -587,25 +691,40 @@ export function validateItems(json: unknown): ItemData[] {
       const typedUse = use as unknown as import('./item.js').UseSpec
       const supportsWorld = itemUseSupportsContext(typedUse, 'world')
       const supportsBattle = itemUseSupportsContext(typedUse, 'battle')
-      if (use.battleOnly === true && !supportsBattle)
+      if (effects.length > 0 && use.battleOnly === true && !supportsBattle)
         throw new Error(`items[${i}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
-      if (!supportsWorld && !supportsBattle)
+      if (effects.length > 0 && !supportsWorld && !supportsBattle)
         throw new Error(`items[${i}].use.effects: 效果组合不存在可执行的世界/战斗上下文`)
       const sceneKinds = new Set([
         'runScript',
         'runSceneHook',
         'craftRecipe',
         'drawFromResourcePool',
+        'modifyHostileAwareness',
+        'placeEntityInFront',
       ])
-      const hasSceneEffect = effects.some((effect) => sceneKinds.has(String(effect.kind)))
+      const privateScriptNeedsCharacterTarget = effects.some(
+        (effect) =>
+          !isPrivateRuntime(effect) &&
+          effect.kind !== 'gate' &&
+          !sceneKinds.has(String(effect.kind)),
+      )
+      const hasSceneEffect = effects.some((effect) =>
+        isPrivateRuntime(effect)
+          ? !privateScriptNeedsCharacterTarget
+          : sceneKinds.has(String(effect.kind)),
+      )
       const hasCharacterOrBattleEffect = effects.some(
-        (effect) => !sceneKinds.has(String(effect.kind)) && effect.kind !== 'gate',
+        (effect) =>
+          !isPrivateRuntime(effect) &&
+          !sceneKinds.has(String(effect.kind)) &&
+          effect.kind !== 'gate',
       )
       if (hasSceneEffect && hasCharacterOrBattleEffect)
         throw new Error(`items[${i}].use.effects: 场景/剧情效果不能与角色或战斗效果混合`)
-      if (hasSceneEffect && use.target !== 'scene')
+      if (effects.length > 0 && hasSceneEffect && use.target !== 'scene')
         throw new Error(`items[${i}].use.target: 场景/剧情效果必须使用 scene`)
-      if (use.target === 'scene' && !hasSceneEffect)
+      if (effects.length > 0 && use.target === 'scene' && !hasSceneEffect)
         throw new Error(`items[${i}].use.target: scene 目标必须包含场景/剧情效果`)
       if (effects.some((effect) => effect.kind === 'hideParty') && use.target !== 'allAllies')
         throw new Error(`items[${i}].use.target: hideParty 必须使用 allAllies`)
@@ -625,11 +744,26 @@ export function validateItems(json: unknown): ItemData[] {
     }
     if (record.throw !== undefined) {
       const thrown = assertObject(record.throw, `items[${i}].throw`) as Record<string, unknown>
+      if (thrown.presentation !== undefined) {
+        const presentation = assertObject(
+          thrown.presentation,
+          `items[${i}].throw.presentation`,
+        ) as Record<string, unknown>
+        requireOnlyKeys(presentation, ['kind', 'animation'], `items[${i}].throw.presentation`)
+        if (presentation.kind !== 'magic')
+          throw new Error(`items[${i}].throw.presentation.kind: 期望 magic`)
+        validateSkillAnimation(
+          assertObject(
+            presentation.animation,
+            `items[${i}].throw.presentation.animation`,
+          ) as Record<string, unknown>,
+          `items[${i}].throw.presentation.animation`,
+        )
+      }
       const effects = assertArray<Record<string, unknown>>(
         thrown.effects,
         `items[${i}].throw.effects`,
       )
-      if (effects.length === 0) throw new Error(`items[${i}].throw.effects: 不得为空`)
       effects.forEach((effect, effectIndex) => {
         const ctx = `items[${i}].throw.effects[${effectIndex}]`
         validateItemUseEffect(effect, ctx)
@@ -681,13 +815,16 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
         if (field === 'throw' && !itemUseEffectSupportsContextV5(effect, 'throw'))
           throw new Error(`${ctx}: ${effect.kind} 不可用于投掷上下文`)
       })
+      const privateScripts = effects.filter((effect) => effect.kind === 'itemPrivateScript')
+      if (privateScripts.length > 1)
+        throw new Error(`items[${itemIndex}].${field}.effects: item-private use 槽只能出现一次`)
     }
     if (item.use !== undefined) {
       const supportsWorld = itemUseSupportsContextV5(item.use, 'world')
       const supportsBattle = itemUseSupportsContextV5(item.use, 'battle')
-      if (item.use.battleOnly === true && !supportsBattle)
+      if (item.use.effects.length > 0 && item.use.battleOnly === true && !supportsBattle)
         throw new Error(`items[${itemIndex}].use.effects: battleOnly 用途包含不可用于战斗的效果`)
-      if (!supportsWorld && !supportsBattle)
+      if (item.use.effects.length > 0 && !supportsWorld && !supportsBattle)
         throw new Error(`items[${itemIndex}].use.effects: 效果组合不存在可执行的世界/战斗上下文`)
     }
   })
@@ -696,11 +833,34 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
   const commonShape = arr.map((item) => {
     const mapSpec = (spec: ItemDataV5['use'] | ItemDataV5['throw']) => {
       if (spec === undefined) return undefined
+      const sceneKinds = new Set([
+        'runScript',
+        'runSceneHook',
+        'craftRecipe',
+        'drawFromResourcePool',
+        'modifyHostileAwareness',
+        'placeEntityInFront',
+      ])
+      const privateScriptNeedsCharacterTarget = spec.effects.some(
+        (effect) =>
+          effect.kind !== 'itemPrivateScript' &&
+          effect.kind !== 'gate' &&
+          !sceneKinds.has(effect.kind),
+      )
       return {
         ...spec,
         effects: spec.effects.map((effect) => {
-          if (effect.kind !== 'runScript' && effect.kind !== 'itemPrivateScript') return effect
-          return { kind: 'runScript' as const, script: { chunk: '__v5__', id: 'script' } }
+          if (effect.kind === 'runScript')
+            return { kind: 'runScript' as const, script: { chunk: '__v5__', id: 'script' } }
+          if (effect.kind === 'itemPrivateScript')
+            return privateScriptNeedsCharacterTarget
+              ? { kind: 'gate' as const, chance: 100 }
+              : {
+                  kind: 'modifyHostileAwareness' as const,
+                  rangeMultiplier: 0 as const,
+                  durationMs: 1,
+                }
+          return effect
         }),
       }
     }

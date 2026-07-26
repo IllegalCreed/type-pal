@@ -199,6 +199,22 @@ function mergeItemShellV5(shell: ItemData, canonical: ItemDataV5 | undefined): I
 }
 
 /**
+ * 编辑中的 legacy shell 决定物品效果链的增删与顺序；canonical 只保存私有正文。
+ * UI/引用扫描必须消费这个活动投影，否则已从 shell 删除、尚未保存重开的私有正文会
+ * 继续形成幽灵引用。
+ */
+export function projectActiveScriptEditorStateV5(
+  canonical: ScriptEditorStateV5,
+  shellItems: readonly ItemData[],
+): ScriptEditorStateV5 {
+  const canonicalItems = new Map(canonical.items.map((item) => [item.id, item]))
+  return {
+    ...structuredClone(canonical),
+    items: shellItems.map((item) => mergeItemShellV5(item, canonicalItems.get(item.id))),
+  }
+}
+
+/**
  * 当前编辑器的地图/资源/普通数据仍由 legacy EditSession 驱动；v5 脚本只存在于
  * ScriptV5EditSession。保存边界在这里把两份作者态合并，绝不把 runtime shell 的
  * 空 stage、占位 ScriptRef 或平面世界态写回 canonical 工程。

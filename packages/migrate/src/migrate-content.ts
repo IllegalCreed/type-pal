@@ -11,11 +11,13 @@
 import type {
   ActorDef,
   AssetId,
+  EntityAddress,
   HostileBehavior,
   ItemData,
   LevelUpSkill,
   MigrationDiagnosticCategory,
   ScriptRef,
+  SkillAnimation,
   SkillData,
   SpriteDef,
 } from '@type-pal/content'
@@ -102,6 +104,10 @@ export interface SourceMagic {
   sound?: number
   /** wKeepEffect(0xFFFF = 特效末帧烙进战斗背景)。 */
   keepEffect?: number
+}
+export interface SourceObjectMagic {
+  id: number
+  magicNumber: number
 }
 
 /** WORD → SHORT(负值补码;xOffset/召唤染色 wEffectTimes 等)。 */
@@ -847,20 +853,12 @@ function unsupportedItemUseReason(opcode: number): string {
       return 'op 0x20（按材料数量分支）尚未转换为结构化物品用途'
     case 0x34:
       return 'op 0x34（灵葫资源炼丹）尚未转换为结构化物品用途'
-    case 0x5a:
-      return 'op 0x5a（无影毒令目标生命减半）尚未转换为结构化物品用途'
     case 0x5c:
       return 'op 0x5c（队伍隐身回合）尚未转换为结构化物品用途'
-    case 0x62:
-      return 'op 0x62（驱魔香暂停敌人追逐）尚未转换为结构化物品用途'
-    case 0x63:
-      return 'op 0x63（十里香加速敌人追逐）尚未转换为结构化物品用途'
     case 0x81:
       return 'op 0x81（面向场景对象触发剧情）需迁移为稳定共享脚本'
     case 0x84:
       return 'op 0x84（把使用物放置为场景对象）需迁移为稳定场景脚本'
-    case 0x8d:
-      return 'op 0x8d（金蚕王令目标角色升级）尚未转换为结构化物品用途'
     default:
       return `op 0x${opcode.toString(16)} 尚未转换为结构化物品用途`
   }
@@ -925,6 +923,48 @@ export function translateCraftRecipeScript(
   return {
     kind: 'craftRecipe',
     recipes: ingredients.map((ingredient) => ({ ingredients: [ingredient], products })),
+  }
+}
+
+/**
+ * 识别原版 0x84“把指定场景对象放到队伍前方”的完整事务形状。
+ * 成功直接结束；失败臂只负责旁白提示和 0x41 终止，不能把失败对白并进成功效果。
+ */
+export function translatePlaceEntityInFrontUseScript(
+  commands: readonly SourceCmd[],
+  labelIndex: ReadonlyMap<string, number>,
+  ip: number,
+  legacyEntityAddresses?: ReadonlyMap<number, EntityAddress>,
+): NonNullable<ItemData['use']>['effects'][number] | undefined {
+  const start = labelIndex.get(`L_${ip}`)
+  if (start === undefined) return undefined
+  const command = commands[start]
+  if (command?.op !== 'raw' || command.opcode !== 0x84) return undefined
+  const [legacyTarget = 0, rawState = 0, failureAddress = 0] = command.operands ?? []
+  const target = legacyEntityAddresses?.get(legacyTarget)
+  if (!target || failureAddress <= 0) return undefined
+  if (commands[start + 1]?.op !== 'end') return undefined
+  const failure = labelIndex.get(`L_${failureAddress}`)
+  if (failure === undefined) return undefined
+  const style = commands[failure]
+  const message = commands[failure + 1] as (SourceCmd & { text?: string }) | undefined
+  const stop = commands[failure + 2]
+  const end = commands[failure + 3]
+  if (
+    style?.op !== 'setDialogStyleNarration' ||
+    message?.op !== 'showDialog' ||
+    typeof message.text !== 'string' ||
+    message.text.trim().length === 0 ||
+    stop?.op !== 'raw' ||
+    stop.opcode !== 0x41 ||
+    end?.op !== 'end'
+  )
+    return undefined
+  return {
+    kind: 'placeEntityInFront',
+    target: structuredClone(target),
+    state: signExtendI16(rawState),
+    unavailableMessage: message.text.trim(),
   }
 }
 
@@ -1041,6 +1081,20 @@ export function translateUseScript(
       case 0x61: // 毒龙胆/九阴散:没中毒则秒杀自己(gate 效果;后接解毒/回血续跑)
         out.effects.push({ kind: 'dieIfNotPoisoned' })
         break
+      case 0x5a:
+        out.effects.push({ kind: 'scaleCurrentHp', numerator: 1, denominator: 2 })
+        break
+      case 0x62:
+      case 0x63:
+        out.effects.push({
+          kind: 'modifyHostileAwareness',
+          rangeMultiplier: c.opcode === 0x62 ? 0 : 3,
+          durationMs: a * 100,
+        })
+        break
+      case 0x8d:
+        out.effects.push({ kind: 'levelUp', levels: Math.max(1, a) })
+        break
       case 0x38: // 引路蜂:调用当前场景具名出口；目的地/前置判断属于 SceneDef.onTeleport。
         out.effects.push({
           kind: 'runSceneHook',
@@ -1103,32 +1157,71 @@ export function translateThrowScript(
   labelIndex: Map<string, number>,
   ip: number,
   soundAssetForNum?: SoundAssetForNum,
+  magicPresentationForObject?: (
+    objectId: number,
+  ) => NonNullable<NonNullable<ItemData['throw']>['presentation']> | undefined,
 ): {
   effects: NonNullable<ItemData['throw']>['effects']
   sound?: AssetId
+  presentation?: NonNullable<ItemData['throw']>['presentation']
   pendingReason?: string
 } {
   const effects: NonNullable<ItemData['throw']>['effects'] = []
   let sound: AssetId | undefined
+  let presentation: NonNullable<ItemData['throw']>['presentation'] | undefined
+  const complete = () => ({
+    effects,
+    ...(sound ? { sound } : {}),
+    ...(presentation ? { presentation } : {}),
+  })
   const start = ip === 0 ? undefined : labelIndex.get(`L_${ip}`)
   if (start === undefined) return { effects, pendingReason: `L_${ip} 不存在` }
   for (let i = start; i < commands.length; i++) {
     const c = commands[i]!
-    if (c.op === 'end') return { effects, ...(sound ? { sound } : {}) }
+    if (c.op === 'end') return complete()
     if (c.op !== 'raw') {
       if (c.label !== undefined && c.op === undefined) continue
       return { effects, pendingReason: `剧情类(${c.op})→ B2 脚本` }
     }
-    const [, b = 0] = c.operands ?? []
+    const [a = 0, b = 0, d = 0] = c.operands ?? []
     switch (c.opcode) {
       case 0x28: // 对敌下毒/下蛊
         effects.push({ kind: 'applyPoison', poisonId: String(b) })
         break
       case 0x5e: // 查敌是否中配对毒 —— 致死关系已数据化进 PoisonDef.lethalWith,运行时判,此处跳
       case 0x60: // 秒杀敌(致死达成)—— 同上
-      case 0x42: // 块头标记(投掷前摇)
+        break
+      case 0x42: {
+        // PAL_BattleSimulateMagic：它是与 gameplay effects 解耦的命中特效。
+        // 仅零强度/零附加参数能安全归为纯演出；其余必须留诊断，不能吞掉潜在伤害。
+        if (b !== 0 || d !== 0)
+          return {
+            ...complete(),
+            pendingReason: `0x42[${a},${b},${d}] 含非零玩法参数，拒绝降级为纯演出`,
+          }
+        const next = magicPresentationForObject?.(a)
+        // C8 只 materialize 能由 MAGIC sentinel 证明为零伤害的 OffMagic 表现。
+        // 其他 0x42 沿用既有 gameplay 翻译边界，不能因本次增加 presentation 而删掉
+        // 后续已迁移的施毒/固定伤害链；它们的通用模拟法术伤害另开能力卡处理。
+        if (magicPresentationForObject && !next) break
+        if (next) {
+          if (presentation && JSON.stringify(presentation) !== JSON.stringify(next))
+            return { ...complete(), pendingReason: '投掷链含多个不同魔法演出' }
+          presentation = next
+        }
+        break
+      }
       case 0x05:
       case 167:
+        break
+      case 0x5b:
+        effects.push({
+          kind: 'currentHpDamage',
+          numerator: 1,
+          denominator: 2,
+          bonus: 1,
+          cap: c.operands?.[0] ?? 0,
+        })
         break
       case 0x47: {
         const next = resolveSoundAsset(c.operands?.[0], soundAssetForNum)
@@ -1146,7 +1239,7 @@ export function translateThrowScript(
         }
     }
   }
-  return { effects, ...(sound ? { sound } : {}) }
+  return complete()
 }
 
 // ── 物品(M1a:表字段;M1b:equip;use/throw 留 M1d)──────────
@@ -1172,6 +1265,8 @@ export interface MigrateSources {
   levelUpMagic: LevelUpMagicCell[][]
   spells: SourceSpell[]
   magic: SourceMagic[]
+  /** PAL OBJECT 表里的魔法对象号 → MAGIC 表号；0x42 投掷演出使用。 */
+  objectMagics?: SourceObjectMagic[]
   items: SourceItem[]
   commands: SourceCmd[]
   enemies?: SourceEnemy[]
@@ -1181,6 +1276,8 @@ export interface MigrateSources {
   stores?: Array<{ id: number; items: number[] }>
   /** 生产迁移由 sound catalog 注入；fixture 缺省按正整数确定性映射。 */
   soundAssetForNum?: SoundAssetForNum
+  /** 原版 1-based EventObject 号到稳定场景实体地址；仅场景放置用途需要。 */
+  legacyEntityAddresses?: ReadonlyMap<number, EntityAddress>
 }
 export interface MigrateOutput {
   actors: ActorDef[]
@@ -1238,6 +1335,27 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       return r.lines
     }
   const magicById = new Map(src.magic.map((m) => [m.id, m]))
+  const objectMagicById = new Map((src.objectMagics ?? []).map((magic) => [magic.id, magic]))
+  const throwMagicPresentation = (
+    objectId: number,
+  ): NonNullable<NonNullable<ItemData['throw']>['presentation']> | undefined => {
+    const object = objectMagicById.get(objectId)
+    const magic = object ? magicById.get(object.magicNumber) : undefined
+    if (
+      !magic ||
+      signedI16(magic.baseDamage) >= 0 ||
+      magic.elemental !== 0 ||
+      magic.type === 'summon'
+    )
+      return undefined
+    const animation: SkillAnimation = {
+      ...mapAnimation(magic, src.soundAssetForNum),
+      ...(signedI16(magic.special ?? 0) !== 0
+        ? { layerOffset: signedI16(magic.special ?? 0) }
+        : {}),
+    }
+    return { kind: 'magic', animation }
+  }
   const actors = src.roles.map((r) => mapActor(r, src.levelUpExp, src.soundAssetForNum))
   const sprites = mapSprites(src.roles)
   const skillsRes = mapSkills(
@@ -1294,6 +1412,12 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       }
     }
     if (srcItem.flags.usable) {
+      const placementEffect = translatePlaceEntityInFrontUseScript(
+        src.commands,
+        labelIndex,
+        srcItem.scriptOnUse,
+        src.legacyEntityAddresses,
+      )
       const recipeEffect = translateCraftRecipeScript(src.commands, labelIndex, srcItem.scriptOnUse)
       const useStart = labelIndex.get(`L_${srcItem.scriptOnUse}`)
       const useHead = useStart === undefined ? undefined : src.commands[useStart]
@@ -1313,7 +1437,17 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       // 六大毒药对己 use = 相克三段链(0x5D 查我毒 + 0x2B 解 / 0x5F 秒 / 0x29 下本毒),整链 =
       // applyPoison(本毒)——相克/致死靠 PoisonDef.counters/lethalWith 数据(不硬码)。own = 投掷毒。
       const selfPoison = POISON_ITEM_SELF[srcItem.id]
-      if (selfPoison !== undefined) {
+      if (placementEffect) {
+        out = {
+          ...out,
+          use: {
+            target: 'scene',
+            consuming: srcItem.flags.consuming,
+            effects: [placementEffect],
+            menuAfterUse: 'close',
+          },
+        }
+      } else if (selfPoison !== undefined) {
         out = {
           ...out,
           use: {
@@ -1367,7 +1501,9 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         if (u.lossyNotes.length)
           lossyUse.push({ itemId: srcItem.id, name: srcItem._name, notes: u.lossyNotes })
         // 场景钩子作用于当前场景而非队友；菜单不进入选目标。
-        const target = u.effects.some((e) => e.kind === 'runSceneHook')
+        const target = u.effects.some(
+          (e) => e.kind === 'runSceneHook' || e.kind === 'modifyHostileAwareness',
+        )
           ? ('scene' as const)
           : srcItem.flags.applyToAll
             ? ('allAllies' as const)
@@ -1392,11 +1528,19 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         labelIndex,
         srcItem.scriptOnThrow,
         src.soundAssetForNum,
+        src.objectMagics ? throwMagicPresentation : undefined,
       )
       if (t.pendingReason) {
         pendingThrow.push({ itemId: srcItem.id, name: srcItem._name, reason: t.pendingReason })
-      } else if (t.effects.length || t.sound) {
-        out = { ...out, throw: { effects: t.effects, ...(t.sound ? { sound: t.sound } : {}) } }
+      } else if (t.effects.length || t.sound || t.presentation) {
+        out = {
+          ...out,
+          throw: {
+            effects: t.effects,
+            ...(t.sound ? { sound: t.sound } : {}),
+            ...(t.presentation ? { presentation: t.presentation } : {}),
+          },
+        }
       }
     }
     return out
@@ -2447,6 +2591,7 @@ export function resolveSceneScriptPatches(
   scenes: SceneDef[],
   tctx: TranslateCtx,
   sceneEntriesLifted: string[] = [],
+  additionalRoots: readonly unknown[] = [],
 ): void {
   const byId = new Map(scenes.map((s) => [s.id, s]))
   type Pending = {
@@ -2482,6 +2627,7 @@ export function resolveSceneScriptPatches(
     const pend: Pending[] = []
     for (const s of scenes) collect(s, pend)
     for (const body of tctx.registry?.commandBodies() ?? []) collect(body, pend)
+    for (const root of additionalRoots) collect(root, pend)
     if (!pend.length) return
     for (const cmd of pend) {
       const slot = cmd.kind === 'setSceneOnEnter' ? 'on-enter' : 'on-teleport'
@@ -2560,6 +2706,7 @@ export function resolveSceneScriptPatches(
   const left: Pending[] = []
   for (const s of scenes) collect(s, left)
   for (const body of tctx.registry?.commandBodies() ?? []) collect(body, left)
+  for (const root of additionalRoots) collect(root, left)
   for (const cmd of left)
     recordMigrationGap(tctx, {
       sourceAddress: cmd._sourceAddress ?? -1,

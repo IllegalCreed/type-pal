@@ -94,6 +94,7 @@ const expectedEntryScenes = [
   's200',
 ]
 const expectedIndependentDitherScenes = [
+  's003',
   's011',
   's020',
   's058',
@@ -109,6 +110,7 @@ const expectedIndependentDitherScenes = [
   's201',
   's250',
   's252',
+  's273',
   's278',
   's281',
 ]
@@ -164,7 +166,7 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
     expect(site?.stage.body.some((command) => command.kind === 'ditherScreen')).toBe(false)
   })
 
-  test('17 个实体独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {
+  test('19 个实体独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {
     const independent = scenes
       .filter((scene) =>
         scene.entities.some((entity) =>

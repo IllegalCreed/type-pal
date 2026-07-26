@@ -32,6 +32,8 @@ export interface OverlayDraw {
   frameIdx: number
   x: number
   y: number
+  /** magic 与敌我单位统一按 y + layerOffset 排序；其它 overlay 缺省仍在单位之后画。 */
+  layerOffset?: number
 }
 
 export interface AnimFrame {
@@ -350,9 +352,9 @@ export interface BuildUseItemInput {
   itemName?: string
   /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
   sound?: AssetId
-  /** 涨益数字(回血黄/回 MP 青):呼吸结束后、**归位之前**弹出(作者对照原版:
+  /** 数值数字(掉血蓝/回血黄/回 MP 青):呼吸结束后、**归位之前**弹出(作者对照原版:
    *  先显血量、后瞬移归位;不传则不弹 —— 调用方须自行防双弹)。 */
-  gains?: Array<{ idx: number; value: number; tone: 'yellow' | 'cyan' }>
+  gains?: Array<{ idx: number; value: number; tone: 'blue' | 'yellow' | 'cyan' }>
 }
 
 /**
@@ -421,6 +423,62 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle }],
   })
+  return frames
+}
+
+export interface BuildThrowItemInput {
+  casterFrames: PlayerFighterFrames
+  casterIdx: number
+  targetIdx: number
+  sound?: AssetId
+  /** 0x42 等投掷脚本的纯 OffMagic 演出；不包含玩家施法前摇。 */
+  presentation?: {
+    fireFrames: number
+    fx: CastFxParams
+    targetPos?: { x: number; y: number }
+  }
+  /** 0 表示纯施毒投掷，不显示伤害数字。 */
+  damage: number
+}
+
+/** 投掷道具：投掷姿 → 可选 OffMagic → 目标闪色/结果数字 → 双方复位。 */
+export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
+  const frames: AnimFrame[] = [
+    {
+      durationMs: 120,
+      fighters: [{ side: 'player', idx: input.casterIdx, frame: input.casterFrames.preMagic }],
+      ...(input.sound ? { sound: input.sound } : {}),
+    },
+  ]
+  if (input.presentation)
+    frames.push(
+      ...buildOffMagic({
+        fireFrames: input.presentation.fireFrames,
+        fx: input.presentation.fx,
+        ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
+      }),
+    )
+  frames.push(
+    {
+      durationMs: 200,
+      fighters: [{ side: 'enemy', idx: input.targetIdx, colorShift: 6 }],
+      ...(input.damage > 0
+        ? {
+            damageNum: {
+              target: { side: 'enemy' as const, idx: input.targetIdx },
+              value: input.damage,
+            },
+          }
+        : {}),
+    },
+    {
+      durationMs: 160,
+      fighters: [
+        { side: 'player', idx: input.casterIdx, frame: input.casterFrames.idle },
+        { side: 'enemy', idx: input.targetIdx, colorShift: 0 },
+      ],
+    },
+  )
   return frames
 }
 
@@ -591,6 +649,8 @@ export interface CastFxParams {
   placement: 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
   xOffset: number
   yOffset: number
+  /** 与敌我单位统一 Y-sort 的偏移（原 MAGIC.special 非召唤语义）。 */
+  layerOffset?: number
   speed: number
   fireDelay: number
   effectTimes: number
@@ -634,6 +694,80 @@ const ATTACK_ALL_POS = [
   { x: 100, y: 110 },
   { x: 160, y: 100 },
 ] as const
+
+export interface BuildOffMagicInput {
+  /** 本法术 fire sprite 帧数；<=0 表示没有可播资产。 */
+  fireFrames: number
+  fx: CastFxParams
+  /** normal 落点；全体型忽略。 */
+  targetPos?: { x: number; y: number }
+  /** 普通玩家施法在 fireDelay 帧切到 frame6；投掷/合击不传。 */
+  casterMagic?: FighterDelta
+  /** 召唤二次法术期间需要每帧保留的神将定格。 */
+  holdOverlays?: readonly OverlayDraw[]
+  /** 召唤二次法术期间保持队员隐藏。 */
+  holdSummon?: boolean
+  /** 召唤二次法术不重复播放自身音。 */
+  suppressSound?: boolean
+  /** 末帧烙入战斗背景。 */
+  keepEffect?: boolean
+}
+
+function magicDrops(
+  frameIdx: number,
+  fx: CastFxParams,
+  targetPos?: { x: number; y: number },
+): OverlayDraw[] {
+  const overlay = (x: number, y: number): OverlayDraw => ({
+    sheet: 'magic',
+    frameIdx,
+    x,
+    y,
+    layerOffset: fx.layerOffset ?? 0,
+  })
+  if (fx.placement === 'attackAll')
+    return ATTACK_ALL_POS.map((p) => overlay(p.x + fx.xOffset, p.y + fx.yOffset))
+  const base =
+    fx.placement === 'attackWhole'
+      ? { x: 120, y: 100 }
+      : fx.placement === 'attackField'
+        ? { x: 160, y: 200 }
+        : (targetPos ?? { x: 160, y: 100 })
+  return [overlay(base.x + fx.xOffset, base.y + fx.yOffset)]
+}
+
+/**
+ * 原版 OffMagic 主段。玩家施法、合击与投掷法术物品共用同一帧循环；调用方只决定
+ * 是否注入施法者 frame6、召唤定格和后续结果帧。
+ */
+export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
+  const { fireFrames, fx } = input
+  if (fireFrames <= 0) return []
+  const n = fireFrames
+  const fd = Math.min(fx.fireDelay, n - 1)
+  const l = (n - fd) * fx.effectTimes + n + fx.shake
+  const frameDur = (fx.speed + 5) * 10
+  const hold = input.holdOverlays ?? []
+  const frames: AnimFrame[] = []
+  for (let i = 0; i < l; i++) {
+    const inShake = l - i <= fx.shake
+    const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
+    const drop = magicDrops(k, fx, input.targetPos)
+    frames.push({
+      durationMs: frameDur,
+      overlays: [...drop, ...hold],
+      ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
+      ...(input.casterMagic && i === fd ? { fighters: [input.casterMagic] } : {}),
+      ...(!input.suppressSound && fx.sound && i >= fd && (i - fd) % n === 0
+        ? { sound: fx.sound }
+        : {}),
+      ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
+      ...(inShake ? { screenShake: true } : {}),
+      ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
+    })
+  }
+  return frames
+}
 
 /**
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
@@ -705,54 +839,28 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
 
   // —— OffMagic:fire sprite 帧循环 ——
-  if (fireFrames > 0) {
-    const n = fireFrames
-    const fd = Math.min(fx.fireDelay, n - 1)
-    const l = (n - fd) * fx.effectTimes + n + fx.shake
-    const frameDur = (fx.speed + 5) * 10
-    const drop = (k: number): OverlayDraw[] => {
-      if (fx.placement === 'attackAll') {
-        return ATTACK_ALL_POS.map((p) => ({
-          sheet: 'magic' as const,
-          frameIdx: k,
-          x: p.x + fx.xOffset,
-          y: p.y + fx.yOffset,
-        }))
-      }
-      const base =
-        fx.placement === 'attackWhole'
-          ? { x: 120, y: 100 }
-          : fx.placement === 'attackField'
-            ? { x: 160, y: 200 }
-            : (targetPos ?? { x: 160, y: 100 })
-      return [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }]
-    }
-    for (let i = 0; i < l; i++) {
-      const inShake = l - i <= fx.shake
-      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
-      frames.push({
-        durationMs: frameDur,
-        overlays: [...drop(k), ...summonHold],
-        // 召唤期二次法术:队员保持隐(神将定格在场,fight.c:3186 fSummon 语义)
-        ...(inSummon ? { summonPhase: 'hold' as const } : {}),
-        ...(!inSummon && i === fd
-          ? {
-              fighters: [
-                { side: 'player' as const, idx: casterIdx, frame: input.casterFrames.magic },
-              ],
-            }
-          : {}),
-        // 二次法术段不播二级自身音(fSummon 门,fight.c:2669 WIN95;作者报剑神段错响御剑声)
-        ...(!inSummon && fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
-        // 屏波:OffMagic 首帧设叠加值(fight.c:2666 wScreenWave += wWave;收尾还原在 session)
-        ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
-        // 震屏:末 wShake 帧逐帧触发(fight.c:2718 VIDEO_ShakeScreen(i,3))
-        ...(inShake ? { screenShake: true } : {}),
-        // keepEffect:末帧烙进背景(fight.c:2757 i==l−1;屏波门在 session 按活值判)
-        ...(i === l - 1 && input.keepEffect ? { burnBg: drop(k) } : {}),
-      })
-    }
-  }
+  frames.push(
+    ...buildOffMagic({
+      fireFrames,
+      fx,
+      ...(targetPos ? { targetPos } : {}),
+      ...(inSummon
+        ? {
+            holdOverlays: summonHold,
+            holdSummon: true,
+            // 二次法术段不播二级自身音(fSummon 门,fight.c:2669 WIN95)。
+            suppressSound: true,
+          }
+        : {
+            casterMagic: {
+              side: 'player',
+              idx: casterIdx,
+              frame: input.casterFrames.magic,
+            },
+          }),
+      ...(input.keepEffect ? { keepEffect: true } : {}),
+    }),
+  )
 
   // —— PostMagic(fight.c:3190-3240):掉血敌三轮位移抖动 x−8→−4→−6(dist 8 交替减半累积),
   //    第 2 轮 colorShift=6 闪白;末帧复位。缺 = 无目标掉血(治疗系)。召唤期神将在场时抖
@@ -922,40 +1030,13 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
   })
 
   // ⑤ OffMagic:fire 精灵帧循环(caster 已 frame6,不注入)
-  if (fireFrames > 0) {
-    const n = fireFrames
-    const fd = Math.min(fx.fireDelay, n - 1)
-    const l = (n - fd) * fx.effectTimes + n + fx.shake
-    const frameDur = (fx.speed + 5) * 10
-    const drop = (k: number): OverlayDraw[] => {
-      if (fx.placement === 'attackAll') {
-        return ATTACK_ALL_POS.map((p) => ({
-          sheet: 'magic' as const,
-          frameIdx: k,
-          x: p.x + fx.xOffset,
-          y: p.y + fx.yOffset,
-        }))
-      }
-      const base =
-        fx.placement === 'attackWhole'
-          ? { x: 120, y: 100 }
-          : fx.placement === 'attackField'
-            ? { x: 160, y: 200 }
-            : (targetPos ?? { x: 160, y: 100 })
-      return [{ sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset }]
-    }
-    for (let i = 0; i < l; i++) {
-      const inShake = l - i <= fx.shake
-      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
-      frames.push({
-        durationMs: frameDur,
-        overlays: drop(k),
-        ...(fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
-        ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
-        ...(inShake ? { screenShake: true } : {}),
-      })
-    }
-  }
+  frames.push(
+    ...buildOffMagic({
+      fireFrames,
+      fx,
+      ...(targetPos ? { targetPos } : {}),
+    }),
+  )
 
   // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
   if (postTargets?.length) {
@@ -1090,7 +1171,13 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
           ? { x: 160, y: 100 } // 敌方全体术打全队:屏中(简化;原版逐队员落点后续)
           : (targetPos ?? { x: 160, y: 130 })
       const ov: OverlayDraw[] = [
-        { sheet: 'magic', frameIdx: k, x: base.x + fx.xOffset, y: base.y + fx.yOffset },
+        {
+          sheet: 'magic',
+          frameIdx: k,
+          x: base.x + fx.xOffset,
+          y: base.y + fx.yOffset,
+          layerOffset: fx.layerOffset ?? 0,
+        },
       ]
       frames.push({
         durationMs: frameDur,

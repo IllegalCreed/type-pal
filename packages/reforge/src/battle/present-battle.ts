@@ -27,11 +27,23 @@ export interface BattleSpriteDraw {
   dissolve?: number
 }
 
+/** 与敌我单位放进同一 Y-sort 队列的法术精灵（底中锚）。 */
+export interface BattleDepthOverlayDraw {
+  sprite: LoadedSprite
+  x: number
+  y: number
+  frame: number
+  /** 排序键 = y + layerOffset；实际绘制坐标仍使用 y。 */
+  layerOffset: number
+}
+
 export interface BattleScene {
   /** FBP 背景(320×200,palette 着色后的 canvas);缺 = 纯黑底。 */
   bg?: CanvasImageSource
   enemies: BattleSpriteDraw[]
   players: BattleSpriteDraw[]
+  /** MAGIC.special 对应的法术精灵；物理命中特效等仍由调用方在单位之后绘制。 */
+  depthOverlays?: BattleDepthOverlayDraw[]
   /** 精灵着色调色板。 */
   palette: Palette
 }
@@ -126,22 +138,51 @@ export function renderBattleScene(
     ctx.fillStyle = '#000'
     ctx.fillRect(0, 0, VIEW_W, VIEW_H)
   }
-  // 精灵:y 升序画(靠上的先,后画的盖前 → 近处遮远处)
-  const all = [...scene.enemies, ...scene.players].sort((a, b) =>
-    a.y !== b.y ? a.y - b.y : b.x - a.x,
-  )
+  // 精灵 + magic overlay 统一按 y(+special) 升序；靠上的先画，近处遮远处。
+  const all: Array<
+    | { kind: 'fighter'; x: number; sortY: number; draw: BattleSpriteDraw }
+    | { kind: 'overlay'; x: number; sortY: number; draw: BattleDepthOverlayDraw }
+  > = [
+    // 同键时保持 overlay 先入列；稳定排序下单位随后覆盖，和一阶段 draw list 一致。
+    ...(scene.depthOverlays ?? []).map((draw) => ({
+      kind: 'overlay' as const,
+      x: draw.x,
+      sortY: draw.y + draw.layerOffset,
+      draw,
+    })),
+    ...scene.enemies.map((draw) => ({
+      kind: 'fighter' as const,
+      x: draw.x,
+      sortY: draw.y,
+      draw,
+    })),
+    ...scene.players.map((draw) => ({
+      kind: 'fighter' as const,
+      x: draw.x,
+      sortY: draw.y,
+      draw,
+    })),
+  ].sort((a, b) => (a.sortY !== b.sortY ? a.sortY - b.sortY : b.x - a.x))
   for (const d of all) {
-    const f = d.sprite.frames[d.frame] ?? d.sprite.frames[0]
-    if (!f) continue
-    // colorShift 直接在索引层做原版低 4 位偏移(bakeFrame 内;≠ 白色平涂,层次保留)
-    const img = bakeFrame(f, scene.palette, d.colorShift ?? 0)
-    const dx = Math.round(d.x - f.width / 2)
-    const dy = Math.round(d.y - f.height)
-    if (d.dissolve !== undefined) {
-      drawDissolved(ctx, img, dx, dy, d.dissolve) // 死亡颗粒溶解(原版 dither 形态)
+    if (d.kind === 'overlay') {
+      const f = d.draw.sprite.frames[d.draw.frame] ?? d.draw.sprite.frames[0]
+      if (!f) continue
+      const img = bakeFrame(f, scene.palette)
+      ctx.drawImage(img, Math.round(d.draw.x - f.width / 2), Math.round(d.draw.y - f.height))
       continue
     }
-    const alpha = d.alpha ?? 1
+    const draw = d.draw
+    const f = draw.sprite.frames[draw.frame] ?? draw.sprite.frames[0]
+    if (!f) continue
+    // colorShift 直接在索引层做原版低 4 位偏移(bakeFrame 内;≠ 白色平涂,层次保留)
+    const img = bakeFrame(f, scene.palette, draw.colorShift ?? 0)
+    const dx = Math.round(draw.x - f.width / 2)
+    const dy = Math.round(draw.y - f.height)
+    if (draw.dissolve !== undefined) {
+      drawDissolved(ctx, img, dx, dy, draw.dissolve) // 死亡颗粒溶解(原版 dither 形态)
+      continue
+    }
+    const alpha = draw.alpha ?? 1
     if (alpha < 1) {
       ctx.save()
       ctx.globalAlpha = Math.max(0, alpha)

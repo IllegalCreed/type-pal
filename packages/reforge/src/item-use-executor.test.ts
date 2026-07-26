@@ -37,6 +37,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       currentWorld: () => initial,
       runScript: vi.fn(async () => undefined),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     await expect(
       executeWorldItemUse({
@@ -68,6 +69,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       currentWorld: () => active,
       runScript,
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const outcome = await executeWorldItemUse({
       world: active,
@@ -82,12 +84,200 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
     expect(outcome.world.inventory).toEqual([{ itemId: 'scroll', count: 1 }])
   })
 
+  test('外部脚本已移除消费品时按已消费成功收口，不伪报 consumed false', async () => {
+    let active = world('bundle')
+    const host: ItemUseHost = {
+      currentWorld: () => active,
+      runScript: vi.fn(async () => {
+        active = { ...active, money: 12, inventory: [] }
+      }),
+      runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
+    }
+    const outcome = await executeWorldItemUse({
+      world: active,
+      targetCharId: '',
+      itemId: 'bundle',
+      items: item('bundle', {
+        kind: 'runScript',
+        script: { chunk: 'shared/c00', id: 'shared/user/consume-bundle' },
+      }),
+      host,
+    })
+    expect(outcome).toMatchObject({
+      status: 'success',
+      consumed: true,
+      changed: true,
+      world: { money: 12, inventory: [] },
+    })
+  })
+
+  test('物品私有脚本可与纯效果按原顺序执行，最后只消耗一次', async () => {
+    let active = world('book')
+    const ref: ScriptRef = { chunk: '__script-v5-runtime', id: 'item:book:use' }
+    const runScript = vi.fn(async () => {
+      expect(active.hostileAwareness).toEqual({
+        rangeMultiplier: 0,
+        remainingMs: 60_000,
+      })
+      active = { ...active, money: 77 }
+    })
+    const items: ItemDataMap = {
+      book: {
+        id: 'book',
+        name: '天书',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [
+            {
+              kind: 'modifyHostileAwareness',
+              rangeMultiplier: 0,
+              durationMs: 60_000,
+            },
+            { kind: 'runScript', script: ref },
+          ],
+        },
+      },
+    }
+    const outcome = await executeWorldItemUse({
+      world: active,
+      targetCharId: '',
+      itemId: 'book',
+      items,
+      host: {
+        currentWorld: () => active,
+        replaceWorld: (next) => {
+          active = next
+        },
+        runScript,
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: vi.fn(async () => false),
+      },
+    })
+    expect(runScript).toHaveBeenCalledWith(ref, undefined)
+    expect(outcome).toMatchObject({
+      status: 'success',
+      consumed: true,
+      world: {
+        money: 77,
+        inventory: [],
+        hostileAwareness: { rangeMultiplier: 0, remainingMs: 60_000 },
+      },
+      effectResults: [
+        { index: 0, kind: 'modifyHostileAwareness', changed: true },
+        { index: 1, kind: 'runScript', changed: true },
+      ],
+    })
+  })
+
+  test.each([
+    {
+      name: '未持有物品',
+      world: { ...world('book'), inventory: [] } satisfies WorldState,
+      targetCharId: '',
+      reason: 'not-owned',
+    },
+    {
+      name: '缺少角色目标',
+      world: world('book'),
+      targetCharId: 'missing',
+      reason: 'missing-target',
+    },
+  ] as const)('$name时私有脚本不会先产生副作用', async (row) => {
+    let active = row.world
+    const runScript = vi.fn(async () => {
+      active = { ...active, money: 999 }
+    })
+    const outcome = await executeWorldItemUse({
+      world: active,
+      targetCharId: row.targetCharId,
+      itemId: 'book',
+      items: {
+        book: {
+          id: 'book',
+          name: '测试书',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'oneAlly',
+            consuming: true,
+            effects: [
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: 'item:book:use' },
+              },
+              { kind: 'healHp', amount: 10 },
+            ],
+          },
+        },
+      },
+      host: {
+        currentWorld: () => active,
+        replaceWorld: (next) => {
+          active = next
+        },
+        runScript,
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: vi.fn(async () => false),
+      },
+    })
+    expect(outcome).toMatchObject({
+      status: 'failure',
+      reason: row.reason,
+      consumed: false,
+      changed: false,
+      world: row.world,
+    })
+    expect(runScript).not.toHaveBeenCalled()
+    expect(active.money).toBe(0)
+  })
+
+  test('空效果链不可使用且不会消耗物品', async () => {
+    const initial = world('draft')
+    const outcome = await executeWorldItemUse({
+      world: initial,
+      targetCharId: '',
+      itemId: 'draft',
+      items: {
+        draft: {
+          id: 'draft',
+          name: '未完成用途',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: { target: 'scene', consuming: true, effects: [] },
+        },
+      },
+      host: {
+        currentWorld: () => initial,
+        runScript: vi.fn(async () => undefined),
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: vi.fn(async () => false),
+      },
+    })
+    expect(outcome).toMatchObject({
+      status: 'failure',
+      reason: 'wrong-context',
+      consumed: false,
+      world: initial,
+    })
+  })
+
   test('场景没有 onTeleport 时失败、保留物品并强制保留菜单', async () => {
     const initial = world('bee')
     const host: ItemUseHost = {
       currentWorld: () => initial,
       runScript: vi.fn(async () => undefined),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const outcome = await executeWorldItemUse({
       world: initial,
@@ -119,6 +309,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
         active = { ...active, money: 88 }
         return true
       }),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const items = item('bee', { kind: 'runSceneHook', hook: 'onTeleport' })
     items.bee!.use!.menuAfterUse = 'close'
@@ -146,6 +337,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
         throw new Error('script failed')
       }),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     await expect(
       executeWorldItemUse({
@@ -173,6 +365,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       currentWorld: () => initial,
       runScript: vi.fn(async () => blocked),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const execution = executeWorldItemUse({
       world: initial,
@@ -220,6 +413,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       currentWorld: () => initial,
       runScript: vi.fn(async () => undefined),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const outcome = await executeWorldItemUse({
       world: initial,
@@ -266,6 +460,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       currentWorld: () => initial,
       runScript: vi.fn(async () => undefined),
       runSceneHook: vi.fn(async () => false),
+      placeEntityInFront: vi.fn(async () => false),
     }
     const outcome = await executeWorldItemUse({
       world: initial,
@@ -279,5 +474,51 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
     expect(outcome.world.collectValue ?? 0).toBe(row.left)
     expect(outcome.effectResults[0]?.resourceDraw?.tier).toBe(row.tier)
     expect(outcome.presentations).toHaveLength(row.tier === undefined ? 0 : 1)
+  })
+
+  test('场景放置失败不消耗，成功才从宿主最新世界提交', async () => {
+    const initial = world('trap')
+    const placeEntityInFront = vi.fn(async () => false)
+    const host: ItemUseHost = {
+      currentWorld: () => initial,
+      runScript: vi.fn(async () => undefined),
+      runSceneHook: vi.fn(async () => false),
+      placeEntityInFront,
+    }
+    const items = item('trap', {
+      kind: 'placeEntityInFront',
+      target: { scene: 's048', entity: 'e797' },
+      state: 2,
+      unavailableMessage: '此处无法放置',
+    })
+    const failed = await executeWorldItemUse({
+      world: initial,
+      targetCharId: '',
+      itemId: 'trap',
+      items,
+      host,
+    })
+    expect(failed).toMatchObject({
+      status: 'failure',
+      reason: 'external-unavailable',
+      message: '此处无法放置',
+      consumed: false,
+    })
+    expect(initial.inventory).toEqual([{ itemId: 'trap', count: 1 }])
+
+    placeEntityInFront.mockResolvedValueOnce(true)
+    const success = await executeWorldItemUse({
+      world: initial,
+      targetCharId: '',
+      itemId: 'trap',
+      items,
+      host,
+    })
+    expect(success).toMatchObject({ status: 'success', consumed: true })
+    expect(placeEntityInFront).toHaveBeenLastCalledWith(
+      { scene: 's048', entity: 'e797' },
+      2,
+      undefined,
+    )
   })
 })

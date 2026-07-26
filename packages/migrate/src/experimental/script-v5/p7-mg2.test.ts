@@ -10,11 +10,22 @@ function signed<T extends Record<string, unknown>>(value: T): T & { digest: stri
 }
 
 function controls() {
+  const sourceAuditDigest = 'a'.repeat(64)
+  const compatibility = signed({
+    legacyBindings: [],
+    legacyCursors: [],
+    legacyEntities: [],
+    lineagePlans: { pages: [], stages: [] },
+    localAllocations: [],
+    targetClosures: [],
+  })
   const ledger = signed({
     kind: 'script-identity-transition',
     version: 1,
     projectId: 'pal',
     transitionId: SCRIPT_V4_V5_TRANSITION_ID,
+    sourceAudit: { digest: sourceAuditDigest },
+    compatibility,
   })
   const sidecar = signed({
     version: 1,
@@ -22,7 +33,7 @@ function controls() {
     transitionId: SCRIPT_V4_V5_TRANSITION_ID,
     fromContentVersion: 4,
     toContentVersion: 5,
-    sourceAuditDigest: 'a'.repeat(64),
+    sourceAuditDigest,
     provenance: { kind: 'pal-baseline', fullLedgerDigest: ledger.digest },
     legacyBindings: [],
     legacyCursors: [],
@@ -155,5 +166,38 @@ describe('P7 canonical v5 MG2', () => {
     const sidecar = ours.files.get(SCRIPT_V4_V5_SIDECAR_PATH) as Record<string, MigrationJson>
     ours.files.set(SCRIPT_V4_V5_SIDECAR_PATH, { ...sidecar, sourceAuditDigest: 'b'.repeat(64) })
     expect(() => createP7V5MigrationPlan({ base, ours, generated })).toThrow(/sidecar 被修改或缺失/)
+  })
+
+  test('rejects project full-ledger pollution and a baseline/project sidecar re-sign', () => {
+    const polluted = snapshots()
+    polluted.ours.files.set(
+      P7_FULL_LEDGER_PATH,
+      structuredClone(polluted.base.files.get(P7_FULL_LEDGER_PATH)!),
+    )
+    polluted.ours.managedFiles.add(P7_FULL_LEDGER_PATH)
+    expect(() =>
+      createP7V5MigrationPlan({
+        base: polluted.base,
+        ours: polluted.ours,
+        generated: polluted.generated,
+      }),
+    ).toThrow(/project 不得携带/)
+
+    const resigned = snapshots()
+    const previous = resigned.sidecar as unknown as Record<string, MigrationJson>
+    const { digest: _digest, ...body } = previous
+    const changed = signed({ ...body, sourceAuditDigest: 'b'.repeat(64) })
+    resigned.base.files.set(SCRIPT_V4_V5_SIDECAR_PATH, changed as unknown as MigrationJson)
+    resigned.ours.files.set(
+      SCRIPT_V4_V5_SIDECAR_PATH,
+      structuredClone(changed) as unknown as MigrationJson,
+    )
+    expect(() =>
+      createP7V5MigrationPlan({
+        base: resigned.base,
+        ours: resigned.ours,
+        generated: resigned.generated,
+      }),
+    ).toThrow(/source audit/)
   })
 })

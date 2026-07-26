@@ -30,8 +30,8 @@ import {
 } from '@type-pal/content'
 import type { FileSource } from '../../reforge/src/file-source.js'
 import { loadProjectMigrationRegistryV5 } from '../../reforge/src/save/migration.js'
+import { createC8ItemUseV5MigrationPlan } from '../src/experimental/script-v5/c8-item-use-mg2.js'
 import { buildP7GeneratedCanonical } from '../src/experimental/script-v5/p7-generated.js'
-import { createP7V5MigrationPlan } from '../src/experimental/script-v5/p7-mg2.js'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
@@ -500,16 +500,18 @@ async function commitAndVerifyP7V5(args: {
     currentAudit: currentAudit2,
     frozenAudit: args.frozenAudit,
     sourceCommands: sources2.allJson.segments.flatMap((segment) => segment.commands),
+    itemSources: sources2.migrate.items,
   })
   const secondManaged = discoverProjectManagedFiles(
     repo,
     new Set([...baselineAfter.managedFiles, ...generated2.snapshot.managedFiles]),
   )
   const ours2 = loadProjectMigrationSnapshot(repo, secondManaged)
-  const second = createP7V5MigrationPlan({
+  const second = createC8ItemUseV5MigrationPlan({
     base: baselineAfter,
     ours: ours2,
     generated: generated2.snapshot,
+    evidence: generated2.c8Evidence,
   })
   if (second.plan.writes.size || second.plan.deletes.length || second.plan.conflicts.length)
     throw new Error(
@@ -562,11 +564,13 @@ async function main(): Promise<void> {
       currentAudit,
       frozenAudit,
       sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
+      itemSources: sources.migrate.items,
     })
-    const v5 = createP7V5MigrationPlan({
+    const v5 = createC8ItemUseV5MigrationPlan({
       base: baseline,
       ours,
       generated: generated.snapshot,
+      evidence: generated.c8Evidence,
     })
     reportPlan(v5.plan)
     if (v5.plan.conflicts.length) {

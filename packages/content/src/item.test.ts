@@ -412,7 +412,7 @@ describe('usableItems + useItem', () => {
 })
 
 describe('C8 · 用途上下文与结构化 world outcome', () => {
-  test('16 种 effect × world/battle/throw 的消费矩阵完整且唯一', () => {
+  test('21 种 effect × world/battle/throw 的消费矩阵完整且唯一', () => {
     const effects = {
       healHp: { kind: 'healHp', amount: 1 },
       healMp: { kind: 'healMp', amount: 1 },
@@ -446,6 +446,25 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
       },
       extraPoisonRes: { kind: 'extraPoisonRes', amount: 1 },
       hideParty: { kind: 'hideParty', turns: 3 },
+      modifyHostileAwareness: {
+        kind: 'modifyHostileAwareness',
+        rangeMultiplier: 0,
+        durationMs: 60_000,
+      },
+      scaleCurrentHp: { kind: 'scaleCurrentHp', numerator: 1, denominator: 2 },
+      levelUp: { kind: 'levelUp', levels: 1 },
+      currentHpDamage: {
+        kind: 'currentHpDamage',
+        numerator: 1,
+        denominator: 2,
+        bonus: 1,
+        cap: 1000,
+      },
+      placeEntityInFront: {
+        kind: 'placeEntityInFront',
+        target: { scene: 's001', entity: 'e1' },
+        state: 2,
+      },
     } satisfies Record<ItemUseEffect['kind'], ItemUseEffect>
     const allowed = {
       healHp: ['world', 'battle'],
@@ -464,6 +483,11 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
       drawFromResourcePool: ['world'],
       extraPoisonRes: ['world', 'battle'],
       hideParty: ['battle'],
+      modifyHostileAwareness: ['world', 'battle'],
+      scaleCurrentHp: ['world', 'battle'],
+      levelUp: ['world', 'battle'],
+      currentHpDamage: ['throw'],
+      placeEntityInFront: ['world'],
     } satisfies Record<ItemUseEffect['kind'], ItemUseContext[]>
     const contexts: ItemUseContext[] = ['world', 'battle', 'throw']
     for (const [kind, effect] of Object.entries(effects) as [
@@ -486,6 +510,81 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
         'world',
       ),
     ).toBe(false)
+  })
+
+  test('驱魔香、无影毒和金蚕王使用公共 effect；世界执行不回满 HP/MP', () => {
+    const genericItems: ItemDataMap = {
+      incense: {
+        id: 'incense',
+        name: '驱魔香',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'scene',
+          consuming: true,
+          effects: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 }],
+        },
+      },
+      poison: {
+        id: 'poison',
+        name: '无影毒',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'scaleCurrentHp', numerator: 1, denominator: 2 }],
+        },
+      },
+      level: {
+        id: 'level',
+        name: '金蚕王',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          effects: [{ kind: 'levelUp', levels: 1 }],
+        },
+      },
+    }
+    const initial = world([
+      { itemId: 'incense', count: 1 },
+      { itemId: 'poison', count: 1 },
+      { itemId: 'level', count: 1 },
+    ])
+    initial.party[0]!.exp = 77
+    const afterIncense = resolveWorldItemUse(initial, 'hero', 'incense', genericItems).world
+    expect(afterIncense.hostileAwareness).toEqual({ rangeMultiplier: 0, remainingMs: 60_000 })
+    const afterPoison = resolveWorldItemUse(afterIncense, 'hero', 'poison', genericItems).world
+    expect(afterPoison.party[0]!.hp).toBe(50)
+    const afterLevel = resolveWorldItemUse(
+      afterPoison,
+      'hero',
+      'level',
+      genericItems,
+      undefined,
+      () => 0,
+    ).world
+    expect(afterLevel.party[0]).toMatchObject({
+      level: 2,
+      exp: 0,
+      hp: 50,
+      mp: 50,
+      maxHP: 160,
+      maxMP: 108,
+      attack: 14,
+      magicAttack: 14,
+      defense: 12,
+      speed: 12,
+      luck: 12,
+    })
   })
 
   test('有序配方选择第一条充足材料；失败不扣工具或材料', () => {

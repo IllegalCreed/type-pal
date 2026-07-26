@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { itemUseSupportsContext } from './item.js'
 import {
   validateActors,
   validateBattleFields,
@@ -407,7 +408,6 @@ describe('validateItems · C8 用途能力契约', () => {
 
   test.each([
     [{ consuming: true, effects: [{ kind: 'healHp', amount: 1 }] }, /target: 期望/],
-    [{ target: 'oneAlly', consuming: true, effects: [] }, /effects: 不得为空/],
     [
       { target: 'oneAlly', consuming: 'yes', effects: [{ kind: 'healHp', amount: 1 }] },
       /consuming: 期望 boolean/,
@@ -484,6 +484,80 @@ describe('validateItems · C8 用途能力契约', () => {
     ],
   ] as const)('拒绝非法用途 %#', (use, expected) => {
     expect(() => validateItems([item(use)])).toThrow(expected)
+  })
+
+  test('允许能力开启后暂存空效果链，但空链不属于任何可执行上下文', () => {
+    expect(() =>
+      validateItems([
+        item({ target: 'scene', consuming: true, effects: [] }),
+        {
+          ...item(undefined),
+          id: 'empty-throw',
+          throw: { effects: [] },
+        },
+      ]),
+    ).not.toThrow()
+    expect(itemUseSupportsContext({ target: 'scene', consuming: true, effects: [] }, 'world')).toBe(
+      false,
+    )
+    expect(
+      itemUseSupportsContext({ target: 'oneAlly', consuming: true, effects: [] }, 'battle'),
+    ).toBe(false)
+  })
+
+  test('兼容壳允许当前物品的 v5 私有脚本与普通效果组合', () => {
+    const privateRuntime = {
+      kind: 'runScript' as const,
+      script: { chunk: '__script-v5-runtime', id: 'item:item:use' },
+    }
+    expect(() =>
+      validateItems([
+        item({
+          target: 'scene',
+          consuming: false,
+          effects: [privateRuntime],
+        }),
+        {
+          ...item(undefined),
+          id: 'mixed',
+          use: {
+            target: 'oneAlly',
+            consuming: true,
+            effects: [
+              {
+                kind: 'runScript',
+                script: { chunk: '__script-v5-runtime', id: 'item:mixed:use' },
+              },
+              { kind: 'healHp', amount: 1 },
+            ],
+          },
+        },
+      ]),
+    ).not.toThrow()
+    expect(() =>
+      validateItems([
+        item({
+          target: 'oneAlly',
+          consuming: true,
+          effects: [privateRuntime, { kind: 'healHp', amount: 1 }],
+        }),
+      ]),
+    ).not.toThrow()
+    expect(() =>
+      validateItems([
+        item({
+          target: 'oneAlly',
+          consuming: true,
+          effects: [
+            {
+              kind: 'runScript',
+              script: { chunk: '__script-v5-runtime', id: 'item:other:use' },
+            },
+            { kind: 'healHp', amount: 1 },
+          ],
+        }),
+      ]),
+    ).toThrow(/必须作为唯一效果/)
   })
 
   test('配方与资源池完整校验，投掷拒绝世界专用效果', () => {

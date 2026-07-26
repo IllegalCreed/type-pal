@@ -2703,6 +2703,143 @@
                 }
               ]
             }
+          },
+          "c8-74bc98f07f8e": {
+            "label": "物品剧情行为 74bc98f07f8e",
+            "order": 1006,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.211"
+                          },
+                          {
+                            "text": "dlg.212"
+                          },
+                          {
+                            "text": "dlg.213"
+                          },
+                          {
+                            "text": "dlg.214"
+                          }
+                        ],
+                        "speaker": "spk.李大娘",
+                        "slot": "top"
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.215"
+                          }
+                        ],
+                        "slot": "narration"
+                      }
+                    },
+                    {
+                      "kind": "giveMoney",
+                      "delta": 50
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.217"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥低声道"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.219"
+                          }
+                        ],
+                        "speaker": "spk.李大娘",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.055",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.221"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥",
+                        "portrait": {
+                          "asset": "portrait.pal.010",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.223"
+                          }
+                        ],
+                        "speaker": "spk.李大娘",
+                        "slot": "top"
+                      }
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.129"
+                          },
+                          {
+                            "text": "dlg.130"
+                          }
+                        ],
+                        "speaker": "spk.李大娘"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -5937,6 +6074,156 @@
               },
               {
                 "id": "legacy-002",
+                "body": []
+              }
+            ]
+          }
+        },
+        "c8-731fd69bc3f4": {
+          "label": "物品剧情行为 731fd69bc3f4",
+          "order": 1000,
+          "flow": {
+            "kind": "stages",
+            "initial": "stage-1",
+            "stages": [
+              {
+                "id": "stage-1",
+                "body": [
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 57,
+                      "row": -26,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 11
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 600
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.634"
+                        },
+                        {
+                          "text": "dlg.635"
+                        }
+                      ],
+                      "portrait": {
+                        "asset": "portrait.pal.008",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 400
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 10
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.636"
+                        },
+                        {
+                          "text": "dlg.637"
+                        },
+                        {
+                          "text": "dlg.638"
+                        }
+                      ],
+                      "portrait": {
+                        "asset": "portrait.pal.003",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 57,
+                      "row": -25,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 1
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 58,
+                      "row": -24,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 2
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "setActorSprite",
+                    "actor": "li-xiaoyao",
+                    "sprite": "li-xiaoyao"
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.639"
+                        },
+                        {
+                          "text": "dlg.640"
+                        }
+                      ],
+                      "portrait": {
+                        "asset": "portrait.pal.009",
+                        "side": "right"
+                      }
+                    }
+                  }
+                ],
+                "next": "stage-2"
+              },
+              {
+                "id": "stage-2",
                 "body": []
               }
             ]

@@ -18,12 +18,14 @@ import type {
   ElementVec,
   EnemyDef,
   ItemData,
+  LevelGrowthTarget,
   PoisonCurability,
   PoisonDef,
   SkillData,
 } from '@type-pal/content'
 import {
   applyEnemyStatus,
+  applyLevelGrowth,
   applyPlayerStatus,
   applyPoisonSelf,
   buildActionQueue,
@@ -98,7 +100,28 @@ export interface BattlePlayerState {
   statBuffs?: { stat: BuffableStat; delta: number; turnsLeft: number | 'battle' }[]
   /** 変身精灵(trance 效果,梦蛇换战斗外观)。纯 presentation:表现层读;gameplay 增益走 buffStat。 */
   tranceBattleSprite?: string
+  /**
+   * 角色不含装备加成的持久成长快照。金蚕王在战内修改它并排队回写；普通战斗属性仍使用上方
+   * 派生字段，避免把装备加成烙回存档。
+   */
+  persistentProgress?: BattlePersistentCharacterProgress
 }
+
+export interface BattlePersistentCharacterProgress extends LevelGrowthTarget {
+  exp: number
+}
+
+export type BattleWorldMutation =
+  | {
+      kind: 'characterGrowth'
+      characterId: string
+      delta: import('@type-pal/content').LevelGrowthDelta
+      expAfter: 0
+    }
+  | {
+      kind: 'hostileAwareness'
+      value: { rangeMultiplier: 0 | 3; remainingMs: number }
+    }
 
 /** buffStat 可增益属性 → BattlePlayerState 字段映射(0x30;magic=法力,dexterity=身法)。 */
 const STAT_BUFF_FIELD = {
@@ -204,6 +227,8 @@ export interface BattleState {
     /** divide/summon 本步新占的敌槽(演出层:分身滑开起点/新怪精灵播种)。 */
     spawnedIdxs?: number[]
   } | null
+  /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
+  pendingWorldMutations: BattleWorldMutation[]
 }
 
 export type BattleAction =
@@ -261,6 +286,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         status[cs.status] = Math.max(status[cs.status], cs.turns)
       return {
         ...p,
+        ...(p.persistentProgress ? { persistentProgress: { ...p.persistentProgress } } : {}),
         status,
         defending: false,
         hiddenCounts: {},
@@ -297,6 +323,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     moneyDelta: 0,
     money: input.money ?? 0,
     lastAction: null,
+    pendingWorldMutations: [],
   }
 }
 
@@ -1243,6 +1270,11 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
       const nt = retargetEnemy(s, t ?? 0)
       if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
     }
+  } else if (a.kind === 'throw') {
+    if ((s.enemies[a.targetEnemyIdx]?.hp ?? 0) <= 0) {
+      const nt = retargetEnemy(s, a.targetEnemyIdx)
+      if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
+    }
   }
   return a
 }
@@ -1350,10 +1382,15 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       s.log.push(`${p.roleId} 使用 ${item.name} 失败(该用途不能在战斗中执行)`)
       return
     }
-    if (item.use.consuming) slot.count -= 1
     // 目标路由:allAllies 必须逐个结算；oneAlly 可点名队友，self 始终锁施用者。
     const selected = item.use.target === 'self' ? p : (s.players[act.targetAllyIdx ?? idx] ?? p)
     const targets = item.use.target === 'allAllies' ? s.players : [selected]
+    if (
+      item.use.effects.some((effect) => effect.kind === 'levelUp') &&
+      targets.some((target) => !target.persistentProgress)
+    )
+      throw new Error('battle item levelUp: 目标缺持久成长快照')
+    if (item.use.consuming) slot.count -= 1
     const stoppedTargets = new Set<BattlePlayerState>()
     for (const eff of item.use.effects) {
       if (eff.kind === 'gate') {
@@ -1372,12 +1409,27 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
         s.log.push(`全队隐匿形迹`)
         continue
       }
+      if (eff.kind === 'modifyHostileAwareness') {
+        s.pendingWorldMutations.push({
+          kind: 'hostileAwareness',
+          value: {
+            rangeMultiplier: eff.rangeMultiplier,
+            remainingMs: eff.durationMs,
+          },
+        })
+        s.log.push(
+          `${p.roleId} 使用 ${item.name},明雷感知${eff.rangeMultiplier === 0 ? '暂时关闭' : '暂时增强'}`,
+        )
+        continue
+      }
       if (
         eff.kind === 'permanentStatBoost' ||
         eff.kind === 'runScript' ||
         eff.kind === 'runSceneHook' ||
         eff.kind === 'craftRecipe' ||
-        eff.kind === 'drawFromResourcePool'
+        eff.kind === 'drawFromResourcePool' ||
+        eff.kind === 'placeEntityInFront' ||
+        eff.kind === 'currentHpDamage'
       ) {
         // 上面的 context guard 应在扣库存前拒绝这些世界专用效果；这里保留显式穷尽兜底。
         s.log.push(`${item.name} 的 ${eff.kind} 不能在战斗中执行`)
@@ -1426,6 +1478,34 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
             else curePoisons(t, s.poisonDefs, eff.curesTier ?? 'common')
             s.log.push(`${who} 使用 ${item.name} 解毒`)
             break
+          case 'scaleCurrentHp':
+            t.hp = Math.max(
+              0,
+              Math.min(t.maxHp, Math.trunc((t.hp * eff.numerator) / eff.denominator)),
+            )
+            s.log.push(`${who} 使用 ${item.name},当前体力变为 ${t.hp}`)
+            break
+          case 'levelUp': {
+            const progress = t.persistentProgress
+            if (!progress) throw new Error(`battle item levelUp: ${t.roleId} 缺持久成长快照`)
+            const delta = applyLevelGrowth(progress, eff.levels, _rng)
+            progress.exp = 0
+            t.maxHp += delta.maxHP
+            t.maxMp += delta.maxMP
+            t.attackStrength += delta.attack
+            t.magicStrength += delta.magicAttack
+            t.defense += delta.defense
+            t.baseDexterity += delta.speed
+            t.fleeRate += delta.luck
+            s.pendingWorldMutations.push({
+              kind: 'characterGrowth',
+              characterId: t.roleId,
+              delta,
+              expAfter: 0,
+            })
+            s.log.push(`${who} 使用 ${item.name},修行提升`)
+            break
+          }
           case 'dieIfNotPoisoned':
             if (t.poisons.length === 0) {
               t.hp = 0
@@ -1507,7 +1587,10 @@ function performThrow(
     s.log.push(`${p.roleId} 投掷 ${itemId} 失败(缺数据/无库存/目标已死)`)
     return
   }
-  if (!item.throw.effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))) {
+  if (
+    item.throw.effects.length === 0 ||
+    !item.throw.effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))
+  ) {
     s.log.push(`${p.roleId} 投掷 ${item.name} 失败(包含不能投掷的效果)`)
     return
   }
@@ -1529,6 +1612,15 @@ function performThrow(
         } else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
         break
       }
+      case 'currentHpDamage': {
+        const damage = Math.min(
+          eff.cap,
+          Math.trunc((e.hp * eff.numerator) / eff.denominator) + eff.bonus,
+        )
+        e.hp = Math.max(0, e.hp - damage)
+        s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
+        break
+      }
       case 'healHp':
       case 'healMp':
       case 'revive':
@@ -1544,6 +1636,10 @@ function performThrow(
       case 'drawFromResourcePool':
       case 'extraPoisonRes':
       case 'hideParty':
+      case 'modifyHostileAwareness':
+      case 'scaleCurrentHp':
+      case 'levelUp':
+      case 'placeEntityInFront':
         // 上面的 context guard 应在扣库存前拒绝；显式列出以免新增 kind 静默落入 default。
         s.log.push(`投掷效果 ${eff.kind} 不允许在投掷上下文执行`)
         return

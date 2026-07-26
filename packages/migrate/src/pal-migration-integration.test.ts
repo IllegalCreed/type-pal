@@ -10,6 +10,7 @@ import {
   decodeFrameSequenceBlock,
   decodeFrameSequenceFrame,
   type ItemData,
+  itemUseSupportsContextV5,
   type LoadedManifest,
   type MigrationDiagnosticsV1,
   palFrameAnimationAssetId,
@@ -21,6 +22,8 @@ import {
   type SpriteDef,
   spriteDefinitionFrameDemand,
   validateAssetCatalog,
+  validateItemsV5,
+  validateMigrationDiagnostics,
 } from '@type-pal/content'
 import {
   decodeRngFrames,
@@ -31,8 +34,8 @@ import {
   RNG_WIDTH,
 } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
+import { createC8ItemUseV5MigrationPlan } from './experimental/script-v5/c8-item-use-mg2.js'
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
-import { createP7V5MigrationPlan } from './experimental/script-v5/p7-mg2.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -470,24 +473,13 @@ function assertItemUseCensus(migration: ReturnType<typeof buildPalMigration>): v
   const diagnostics = migration.files.get(
     'content/migration-diagnostics.json',
   ) as unknown as MigrationDiagnosticsV1
-  expect(items.filter((item) => item.use)).toHaveLength(80)
+  expect(items.filter((item) => item.use)).toHaveLength(86)
   expect(items.filter((item) => item.use && !item.use.target)).toEqual([])
   expect(diagnostics.diagnostics.map((entry) => Number(entry.target.objectId))).toEqual([
-    90, 91, 137, 150, 260, 263, 264, 271, 272, 273, 279, 284, 285, 286, 287, 288, 289, 291, 292,
-    294,
-  ])
-  expect(
-    diagnostics.diagnostics
-      .filter((entry) => ['90', '91', '137', '150'].includes(entry.target.objectId))
-      .map((entry) => [entry.target.objectId, entry.category]),
-  ).toEqual([
-    ['90', 'unsupported-command'],
-    ['91', 'unsupported-command'],
-    ['137', 'unsupported-command'],
-    ['150', 'unsupported-command'],
+    260, 263, 264, 271, 272, 273, 279, 284, 286, 287, 288, 289, 291, 292,
   ])
   expect(diagnostics.diagnostics.filter((entry) => entry.category === 'story-script')).toHaveLength(
-    16,
+    14,
   )
 }
 
@@ -722,7 +714,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
         'utf8',
       ),
     ) as ScriptControlFlowAuditV1
-    const generated = baseline?.baselineMetadata
+    const generatedResult = baseline?.baselineMetadata
       ? (() => {
           const currentAudit = auditPalScriptControlFlow(sources, theirs)
           assertScriptControlFlowAudit(currentAudit)
@@ -731,9 +723,11 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             currentAudit,
             frozenAudit,
             sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
-          }).snapshot
+            itemSources: sources.migrate.items,
+          })
         })()
       : undefined
+    const generated = generatedResult?.snapshot
     const managed = discoverProjectManagedFiles(
       repo,
       new Set([
@@ -742,11 +736,39 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       ]),
     )
     const ours = loadProjectMigrationSnapshot(repo, managed)
-    if (generated) {
-      const result = createP7V5MigrationPlan({ base: baseline!, ours, generated })
+    if (generated && generatedResult) {
+      const result = createC8ItemUseV5MigrationPlan({
+        base: baseline!,
+        ours,
+        generated,
+        evidence: generatedResult.c8Evidence,
+      })
       expect(result.plan.conflicts).toEqual([])
       expect(result.plan.writes.size).toBe(0)
       expect(result.plan.deletes).toEqual([])
+      const sourceUsable = sources.migrate.items
+        .filter((item) => item.flags.usable)
+        .map((item) => String(item.id))
+        .sort((left, right) => Number(left) - Number(right))
+      const targetRunnable = validateItemsV5(result.target.files.get('content/items.json'))
+        .filter(
+          (item) =>
+            item.use !== undefined &&
+            (itemUseSupportsContextV5(item.use, 'world') ||
+              itemUseSupportsContextV5(item.use, 'battle')),
+        )
+        .map((item) => item.id)
+        .sort((left, right) => Number(left) - Number(right))
+      expect(targetRunnable).toEqual(sourceUsable)
+      expect(targetRunnable).toHaveLength(100)
+      expect(
+        validateMigrationDiagnostics(
+          result.target.files.get('content/migration-diagnostics.json'),
+        ).diagnostics.filter(
+          (diagnostic) =>
+            diagnostic.target.domain === 'item' && diagnostic.target.capability === 'use',
+        ),
+      ).toEqual([])
     } else {
       const plan = createMigrationPlan(baseline!, ours, theirs)
       expect(plan.conflicts).toEqual([])

@@ -556,6 +556,7 @@ export function evalAuthorConditionV5(
   condition: AuthorConditionV5,
   args: {
     world: WorldScriptStateV5
+    currentSceneId?: () => string
     query: {
       hasItem(itemId: string, atLeast: number): boolean
       ownsItem(itemId: string, atLeast: number): boolean
@@ -590,6 +591,11 @@ export function evalAuthorConditionV5(
           return value < condition.value
       }
       return false
+    }
+    case 'currentScene': {
+      const scene = args.currentSceneId?.()
+      if (!scene) throw new Error('currentScene 条件缺当前场景查询')
+      return scene === condition.scene
     }
     case 'entityState':
       return (

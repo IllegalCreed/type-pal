@@ -84,6 +84,7 @@ export function emptyWorldScriptStateV5(): WorldScriptStateV5 {
 export type AuthorConditionV5 =
   | { kind: 'flag'; flag: string; is: boolean }
   | { kind: 'var'; var: string; op: '==' | '!=' | '>=' | '<=' | '>' | '<'; value: number }
+  | { kind: 'currentScene'; scene: string }
   | { kind: 'entityState'; target: EntityAddress; is: number }
   | { kind: 'entityInScene'; target: EntityAddress }
   | { kind: 'facingEntity'; target: EntityAddress; range?: number }
@@ -101,6 +102,7 @@ export type AuthorConditionV5 =
 export const AUTHOR_CONDITION_V5_KINDS = {
   flag: true,
   var: true,
+  currentScene: true,
   entityState: true,
   entityInScene: true,
   facingEntity: true,
@@ -420,6 +422,10 @@ function checkCondition(value: unknown, path: string): void {
       if (!['==', '!=', '>=', '<=', '>', '<'].includes(String(condition.op)))
         throw new Error(`${path}.op: 期望 ==|!=|>=|<=|>|<`)
       if (!Number.isFinite(condition.value)) throw new Error(`${path}.value: 期望有限数`)
+      return
+    case 'currentScene':
+      exactKeys(condition, ['kind', 'scene'], path)
+      nonEmptyString(condition.scene, `${path}.scene`)
       return
     case 'entityState':
       exactKeys(condition, ['kind', 'target', 'is'], path)

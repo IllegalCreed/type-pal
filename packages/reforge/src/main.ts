@@ -114,6 +114,7 @@ import {
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse } from './item-use-executor.js'
+import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
 import {
   isV5RuntimeScriptRef,
@@ -666,7 +667,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   }
   const itemSoundAssets = (itemId: string): string[] => {
     const item = project.items[itemId]
-    return [item?.use?.sound, item?.throw?.sound].filter((asset): asset is string => !!asset)
+    return [
+      item?.use?.sound,
+      item?.throw?.sound,
+      item?.throw?.presentation?.kind === 'magic'
+        ? item.throw.presentation.animation.sound
+        : undefined,
+    ].filter((asset): asset is string => !!asset)
   }
   const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
   const prepareSceneSounds = async (def: SceneDef, worldView: typeof world): Promise<void> => {
@@ -2152,6 +2159,17 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             devDualLeader === c.id && !granted.includes('dualAttack')
               ? [...granted, 'dualAttack' as const]
               : granted,
+          persistentProgress: {
+            level: c.level,
+            exp: c.exp,
+            maxHP: c.maxHP,
+            maxMP: c.maxMP,
+            attack: c.attack,
+            magicAttack: c.magicAttack,
+            defense: c.defense,
+            speed: c.speed,
+            luck: c.luck,
+          },
         }
       })
       const playerSounds = world.party.map(
@@ -2257,6 +2275,23 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             if (sp !== undefined && sp >= 0) fireChunks.add(sp)
           }
         }
+        // 偷到的物品可在后续回合投掷；与 SFX readiness 的 steal 闭包保持同一可达边界。
+        const stolenItem = e.steal ? project.items[e.steal.itemId] : undefined
+        const stolenFire =
+          stolenItem?.throw?.presentation?.kind === 'magic'
+            ? stolenItem.throw.presentation.animation.effectSprite
+            : undefined
+        if (stolenFire !== undefined && stolenFire >= 0) fireChunks.add(stolenFire)
+      }
+      // 战斗开始时实际背包中可投掷物品的 FIRE 演出；不扫描全项目，维持工作集边界。
+      for (const entry of world.inventory) {
+        if (entry.count <= 0) continue
+        const item = project.items[entry.itemId]
+        const sp =
+          item?.throw?.presentation?.kind === 'magic'
+            ? item.throw.presentation.animation.effectSprite
+            : undefined
+        if (sp !== undefined && sp >= 0) fireChunks.add(sp)
       }
       const fireSprites: Record<number, import('./assets.js').LoadedSprite> = {}
       await Promise.all(
@@ -2347,6 +2382,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
           buildSettlement: () => {
             assertLaunchCurrent()
+            sessionRef.writeBackPersistentEffects(world)
             sessionRef.writeBackHp(world.party) // 先写回战斗末 HP(原版 exp 前)
             const r = sessionRef.rewards()
             if (r.exp > 0) {
@@ -2414,6 +2450,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       }
       // done 与读档/切场景可落在相邻 microtask；任何战果写回前再次确认仍属于原世界。
       assertLaunchCurrent()
+      session.writeBackPersistentEffects(world)
       // 胜利结算路径已在 buildSettlement 里写回 HP + 入账;其余路径(败/逃/敌逃)此处写回 HP。
       if (result !== 'win' || session.enemyFled()) session.writeBackHp(world.party)
       session.writeBackInventory(world.inventory)
@@ -3058,6 +3095,13 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
   function tickHostiles(dt: number): void {
     if (hostileBusy || runner || dialogBox.active || menu !== CLOSED || activeBattle) return
+    let awarenessMultiplier = 1
+    const awareness = world.hostileAwareness
+    if (awareness) {
+      awareness.remainingMs = Math.max(0, awareness.remainingMs - dt)
+      if (awareness.remainingMs <= 0) world.hostileAwareness = undefined
+      else awarenessMultiplier = awareness.rangeMultiplier
+    }
     for (const e of scene.entities) {
       const h = e.hostile
       if (!h || e.hidden) continue
@@ -3072,7 +3116,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         return
       }
       const chase = h.chase
-      if (!chase || dist > chase.range) continue // 原地怪 / 出程:不动
+      // 感知香只影响引擎明雷追逐；剧情脚本主动 chasePlayer 属于作者演出，不受此全局态污染。
+      if (!chase || dist > chase.range * awarenessMultiplier) continue // 原地怪 / 出程:不动
       const cd = (hostileCd.get(e.id) ?? 0) + dt
       const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
       if (cd < stepMs) {
@@ -3526,6 +3571,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         poisonDefs: project.poisonsById,
         host: {
           currentWorld: () => world,
+          replaceWorld: (next) => replaceWorld(next),
           runScript: (ref, signal) => {
             if (!scriptRuntimeV5 || !canonicalProjectV5 || !isV5RuntimeScriptRef(ref))
               return runDetachedScriptChain(signal, (child) =>
@@ -3545,6 +3591,30 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             })
           },
           runSceneHook: (_hook, signal) => host.teleportOut(signal),
+          placeEntityInFront: async (target, state, signal) => {
+            signal?.throwIfAborted()
+            const step = WALK_STEP[facing]
+            const pos = planItemEntityPlacement({
+              target,
+              currentSceneId: scene.id,
+              entityIds: new Set(scene.entities.map((candidate) => candidate.id)),
+              map,
+              partyPos: player.pos,
+              step,
+            })
+            // PAL 0x84 calls PAL_CheckObstacle(..., FALSE, 0): only map geometry
+            // participates. Other event objects are deliberately ignored here.
+            if (!pos) return false
+            if (worldScriptV5) {
+              commitItemEntityPlacement({ kind: 'v5', value: worldScriptV5 }, target, state, pos)
+              syncLegacyScriptScratchV5(target.scene)
+            } else {
+              const script = expectDefined(world.script)
+              commitItemEntityPlacement({ kind: 'legacy', value: script }, target, state, pos)
+            }
+            applyWorldToScene()
+            return true
+          },
         },
         signal: controller.signal,
       })

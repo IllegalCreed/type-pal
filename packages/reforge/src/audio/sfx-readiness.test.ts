@@ -89,6 +89,7 @@ const item = (
   id: string,
   sound: string,
   poisons: { use?: string; throw?: string } = {},
+  throwPresentationSound?: string,
 ): ItemData => ({
   id,
   name: id,
@@ -105,6 +106,14 @@ const item = (
   throw: {
     effects: poisons.throw ? [{ kind: 'applyPoison', poisonId: poisons.throw }] : [],
     sound: `${sound}.throw`,
+    ...(throwPresentationSound
+      ? {
+          presentation: {
+            kind: 'magic' as const,
+            animation: { effectSprite: 24, sound: throwPresentationSound },
+          },
+        }
+      : {}),
   },
 })
 
@@ -174,12 +183,20 @@ describe('SFX readiness 收集', () => {
           sellPrice: 0,
           sellable: false,
           use: { target: 'oneAlly', consuming: true, effects: [], sound: 'sound.item-use' },
-          throw: { effects: [], sound: 'sound.item-throw' },
+          throw: {
+            effects: [],
+            sound: 'sound.item-throw',
+            presentation: {
+              kind: 'magic',
+              animation: { effectSprite: 24, sound: 'sound.item-fire' },
+            },
+          },
         },
       ],
       signal: new AbortController().signal,
     })
     expect([...sounds].sort()).toEqual([
+      'sound.item-fire',
       'sound.item-throw',
       'sound.item-use',
       'sound.override',
@@ -394,7 +411,7 @@ describe('SFX readiness 收集', () => {
     const useGrant = item('use-grant', 'sound.use-grant')
     const throwGrant = item('throw-grant', 'sound.throw-grant')
     const medicine = item('medicine', 'sound.medicine', { use: '802', throw: 'unused' })
-    const dart = item('dart', 'sound.dart', { use: 'unused', throw: '803' })
+    const dart = item('dart', 'sound.dart', { use: 'unused', throw: '803' }, 'sound.dart-fire')
     const cast = skill('cast', 'sound.cast', {
       effects: [
         {
@@ -456,6 +473,7 @@ describe('SFX readiness 收集', () => {
         'sound.cast.summon',
         'sound.medicine.use',
         'sound.dart.throw',
+        'sound.dart-fire',
         'sound.cast-grant.use',
         'sound.cast-grant.throw',
         'sound.use-grant.use',

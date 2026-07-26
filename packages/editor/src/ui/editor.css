@@ -8856,6 +8856,46 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: none;
   grid-template-columns: repeat(2, 200px);
 }
+.skill-animation-editor {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  min-width: 0;
+}
+.skill-animation-fields {
+  display: grid;
+  flex: 1 1 420px;
+  grid-template-columns: repeat(2, minmax(150px, 200px));
+  align-items: end;
+  gap: 10px 24px;
+  min-width: 0;
+}
+.skill-animation-field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: var(--dim);
+  font-size: 12px;
+}
+.skill-animation-field > .lb {
+  color: var(--faint);
+  font-size: 11px;
+}
+.skill-animation-field > .in,
+.skill-animation-field > .sound-picker,
+.skill-animation-field input.ef-num {
+  width: 100%;
+  min-width: 0;
+}
+.skill-animation-check {
+  display: inline-flex;
+  align-items: center;
+  align-self: end;
+  gap: 7px;
+  min-height: 32px;
+  color: var(--dim);
+  font-size: 11px;
+}
 .fire-preview {
   flex: none;
   display: flex;
@@ -9764,6 +9804,19 @@ button.sprite-frame-cell[draggable="true"]:active {
   min-width: 0;
   color: var(--dim);
   font-size: 11px;
+}
+.item-throw-presentation {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.item-throw-presentation .skill-animation-fields {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.item-throw-presentation .skill-animation-editor {
+  flex-wrap: wrap;
 }
 .item-script-authoring {
   display: flex;

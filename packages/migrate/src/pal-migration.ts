@@ -52,6 +52,7 @@ import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-
 import { makeGlobalScriptRoots } from './script-graph.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
 import { normalizeScriptLibrary } from './script-library-normalize.js'
+import { sceneSlug } from './source-facts.js'
 
 export type MigrationJson =
   | null
@@ -342,7 +343,23 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
   }
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
-  const migrated = migrateAll({ ...sources.migrate, stores: sources.stores, soundAssetForNum })
+  const legacyEntityAddresses = new Map<number, { scene: string; entity: string }>()
+  for (const scene of sources.scenes)
+    for (const entity of scene.eventObjects) {
+      const legacyId = entity.id + 1
+      if (legacyEntityAddresses.has(legacyId))
+        throw new Error(`PAL EventObject ${legacyId} 出现在多个场景`)
+      legacyEntityAddresses.set(legacyId, {
+        scene: sceneSlug(scene.sceneId),
+        entity: `e${entity.id}`,
+      })
+    }
+  const migrated = migrateAll({
+    ...sources.migrate,
+    stores: sources.stores,
+    soundAssetForNum,
+    legacyEntityAddresses,
+  })
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,

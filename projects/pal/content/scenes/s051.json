@@ -421,6 +421,56 @@
                 }
               ]
             }
+          },
+          "c8-c79ffa02dfec": {
+            "label": "物品剧情行为 c79ffa02dfec",
+            "order": 1019,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3462"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥"
+                      }
+                    },
+                    {
+                      "kind": "loseItem",
+                      "itemId": "284"
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3464"
+                          },
+                          {
+                            "text": "dlg.3465"
+                          }
+                        ],
+                        "speaker": "spk.村民"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       }

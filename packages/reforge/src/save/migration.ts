@@ -269,6 +269,19 @@ function record(value: unknown, path: string): Record<string, unknown> {
   return value as Record<string, unknown>
 }
 
+function validateHostileAwareness(world: unknown, path: string): void {
+  const value = record(world, path).hostileAwareness
+  if (value === undefined) return
+  const awareness = record(value, `${path}.hostileAwareness`)
+  for (const key of Object.keys(awareness))
+    if (key !== 'rangeMultiplier' && key !== 'remainingMs')
+      throw new Error(`${path}.hostileAwareness.${key}: 未知字段`)
+  if (awareness.rangeMultiplier !== 0 && awareness.rangeMultiplier !== 3)
+    throw new Error(`${path}.hostileAwareness.rangeMultiplier: 期望 0 或 3`)
+  if (!Number.isFinite(awareness.remainingMs) || Number(awareness.remainingMs) <= 0)
+    throw new Error(`${path}.hostileAwareness.remainingMs: 期望正有限毫秒`)
+}
+
 function aliasTargets(
   alias: ProjectMigrationSidecarV1['legacyEntities'][number],
 ): Array<{ scene: string; entity: string }> {
@@ -410,6 +423,7 @@ export function normalizePayloadV5(
     const payload = structuredClone(input) as SavePayloadV5
     payload.world.script ??= emptyWorldScriptStateV5()
     checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+    validateHostileAwareness(payload.world, 'payload.world')
     return payload
   }
   if (input.version >= 5 || input.contentVersion !== 4)
@@ -495,5 +509,6 @@ export function normalizePayloadV5(
   payload.version = 5
   payload.contentVersion = 5
   checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  validateHostileAwareness(payload.world, 'payload.world')
   return payload as unknown as SavePayloadV5
 }

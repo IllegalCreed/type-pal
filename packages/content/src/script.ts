@@ -33,6 +33,8 @@ export interface SceneScriptOverride {
 export type ScriptCondition =
   | { kind: 'flag'; flag: string; is: boolean }
   | { kind: 'var'; var: string; op: '==' | '!=' | '>=' | '<=' | '>' | '<'; value: number }
+  /** 原版 0x95：当前场景是否为指定场景。 */
+  | { kind: 'currentScene'; scene: string }
   | { kind: 'entityState'; entity: string; is: number }
   | { kind: 'entityInScene'; entity: string } // 原版 0x83:对象是否属于当前场景(取代下标区间判定)
   /** 原版 0x81：目标实体在当前场景可见，且位于队伍朝向前方的指定格距内。 */

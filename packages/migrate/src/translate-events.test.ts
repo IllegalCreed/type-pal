@@ -420,6 +420,35 @@ describe('0x06 概率跳转:跳走臂尾必带 stopScript(命中不落穿;script
   })
 })
 
+describe('非 registry goto 回边结构化', () => {
+  test('直接回到当前段变成 reset，不截断脚本也不增加 flow cut', () => {
+    const commands: SourceCmd[] = [
+      {
+        op: 'giveItem',
+        itemId: 5,
+        count: 1,
+        label: 'L_1',
+      } as unknown as SourceCmd,
+      { op: 'goto', to: 'L_1' } as unknown as SourceCmd,
+    ]
+    const labelAt = new Map([['L_1', { cmds: commands as readonly SourceCmd[], idx: 0 }]])
+    const ctx: TranslateCtx = {
+      labelAt,
+      locale: {},
+      report: emptyTranslateReport(),
+    }
+
+    expect(translateStages('L_1', 'global/items', ctx)).toEqual([
+      {
+        body: [{ kind: 'giveItem', itemId: '5' }],
+        next: 0,
+      },
+    ])
+    expect(ctx.report.flowCuts).toBe(0)
+    expect(ctx.report.notes['goto 回边结构化']).toBe(1)
+  })
+})
+
 describe('giveItem-0 数据 bug 烘焙(扬州宝物屋;键=前句 MSG 下标,一阶段 patchGiveItemZeroBugs 同表)', () => {
   test('「获得紫青玉蓉膏」(msg 12347) 后 giveItem 0 → 翻译期补真 id 103', () => {
     const body = bodyOf(

@@ -43,6 +43,7 @@ const SCENE_COMMAND_KINDS = new Set<Command['kind']>([
 
 function conditionNeedsScene(condition: ScriptCondition): boolean {
   if (
+    condition.kind === 'currentScene' ||
     condition.kind === 'entityState' ||
     condition.kind === 'entityInScene' ||
     condition.kind === 'facingEntity'

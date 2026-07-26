@@ -24,6 +24,7 @@ export function loadPalMigrationSources(repo: string): PalMigrationSources {
     levelUpMagic: readJson(repo, 'data/extracted/data/level-up-magic.json'),
     spells: readJson(repo, 'data/extracted/data/spells.json'),
     magic: readJson(repo, 'data/extracted/data/magic.json'),
+    objectMagics: readJson(repo, 'data/extracted/data/object-magics.json'),
     items: readJson(repo, 'data/extracted/data/items.json'),
     commands: allJson.segments.flatMap((segment) => segment.commands),
     enemies: readJson(repo, 'data/extracted/data/enemies.json'),

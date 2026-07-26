@@ -15,6 +15,7 @@ import {
   buildPlayerCast,
   buildPlayerTrance,
   buildSteal,
+  buildThrowItem,
   buildUseItem,
 } from './battle-anim.js'
 
@@ -280,6 +281,77 @@ describe('M4d-2 战斗动画时间线', () => {
     // 涨益数字先于归位(作者对照原版:先显血量、后瞬移归位)
     expect(events).toContain('dmg:player1:50')
     expect(events.indexOf('dmg:player1:50')).toBeLessThan(events.indexOf('f:player1#0@240,170'))
+  })
+
+  test('投掷物品:纯施毒不显数字；即时伤害在目标闪色帧显示蓝字', () => {
+    const poison = record(
+      buildThrowItem({
+        casterFrames: PLAYER_FRAMES,
+        casterIdx: 0,
+        targetIdx: 1,
+        damage: 0,
+      }),
+    )
+    let guard = 0
+    while (!poison.player.tick(50) && guard++ < 20) {}
+    expect(poison.events.some((event) => event.startsWith('dmg:'))).toBe(false)
+
+    const damage = record(
+      buildThrowItem({
+        casterFrames: PLAYER_FRAMES,
+        casterIdx: 0,
+        targetIdx: 1,
+        sound: 'sound.pal.028',
+        damage: 1000,
+      }),
+    )
+    guard = 0
+    while (!damage.player.tick(50) && guard++ < 20) {}
+    expect(damage.events).toContain('f:enemy1c6')
+    expect(damage.events).toContain('dmg:enemy1:1000')
+    expect(damage.events.indexOf('dmg:enemy1:1000')).toBeGreaterThan(
+      damage.events.indexOf('f:enemy1c6'),
+    )
+    expect(damage.events).toContain('f:enemy1c0')
+  })
+
+  test('投掷法术物品:投掷姿后复用 OffMagic，传递 special 层序，结果数字最后出现', () => {
+    const frames = buildThrowItem({
+      casterFrames: PLAYER_FRAMES,
+      casterIdx: 0,
+      targetIdx: 1,
+      sound: 'sound.pal.028',
+      presentation: {
+        fireFrames: 3,
+        fx: {
+          placement: 'normal',
+          xOffset: -12,
+          yOffset: 0,
+          layerOffset: 1,
+          speed: -1,
+          fireDelay: 0,
+          effectTimes: 0,
+          shake: 0,
+          wave: 0,
+          sound: 'sound.pal.157',
+        },
+        targetPos: { x: 100, y: 80 },
+      },
+      damage: 1000,
+    })
+
+    expect(frames[0]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 5 }])
+    expect(frames.slice(1, 4).map((frame) => frame.overlays?.[0])).toEqual([
+      { sheet: 'magic', frameIdx: 0, x: 88, y: 80, layerOffset: 1 },
+      { sheet: 'magic', frameIdx: 1, x: 88, y: 80, layerOffset: 1 },
+      { sheet: 'magic', frameIdx: 2, x: 88, y: 80, layerOffset: 1 },
+    ])
+    expect(frames[1]?.sound).toBe('sound.pal.157')
+    expect(frames.slice(1, 4).some((frame) => frame.fighters?.length)).toBe(false)
+    expect(frames[4]?.damageNum).toEqual({
+      target: { side: 'enemy', idx: 1 },
+      value: 1000,
+    })
   })
 
   test('逃跑成功:16 帧×40ms 全员统一 (+5,+4)(一阶段 fleeStepDelta,作者 2026-05-31 拍板);音效45首帧', () => {

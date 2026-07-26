@@ -234,6 +234,337 @@
                 }
               ]
             }
+          },
+          "c8-b3088e3c8aaf": {
+            "label": "物品剧情行为 b3088e3c8aaf",
+            "order": 1043,
+            "flow": {
+              "kind": "stages",
+              "initial": "stage-1",
+              "stages": [
+                {
+                  "id": "stage-1",
+                  "body": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4673"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4674"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4678"
+                      }
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 47,
+                        "row": 0,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "cameraPan",
+                      "dx": 26,
+                      "dy": 19,
+                      "frames": 1
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11889"
+                          }
+                        ],
+                        "speaker": "spk.灵月宫主",
+                        "portrait": {
+                          "asset": "portrait.pal.072",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "right",
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 200
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11891"
+                          }
+                        ],
+                        "speaker": "spk.小女孩",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.074",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11893"
+                          }
+                        ],
+                        "speaker": "spk.灵月宫主",
+                        "portrait": {
+                          "asset": "portrait.pal.072",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11895"
+                          }
+                        ],
+                        "speaker": "spk.小女孩",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.074",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11896"
+                          },
+                          {
+                            "text": "dlg.11897"
+                          }
+                        ],
+                        "speaker": "spk.小女孩",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.074",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11899"
+                          },
+                          {
+                            "text": "dlg.11900"
+                          },
+                          {
+                            "text": "dlg.11901"
+                          }
+                        ],
+                        "speaker": "spk.灵月宫主",
+                        "portrait": {
+                          "asset": "portrait.pal.072",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "left",
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4674"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4674"
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11903"
+                          },
+                          {
+                            "text": "dlg.11904"
+                          }
+                        ],
+                        "speaker": "spk.老妇人",
+                        "portrait": {
+                          "asset": "portrait.pal.075",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.11906"
+                          }
+                        ],
+                        "speaker": "spk.小女孩",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.074",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4674"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4675"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4678"
+                      }
+                    },
+                    {
+                      "kind": "selectSceneHooks",
+                      "scene": "s273",
+                      "selection": {
+                        "onEnter": {
+                          "kind": "use",
+                          "value": "c8-440a584eee79"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "loadScene",
+                      "scene": "s273"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "out",
+                      "ms": 600
+                    }
+                  ],
+                  "next": "stage-2"
+                },
+                {
+                  "id": "stage-2",
+                  "body": []
+                }
+              ]
+            }
           }
         }
       }
@@ -871,6 +1202,332 @@
               },
               {
                 "id": "legacy-002",
+                "body": []
+              }
+            ]
+          }
+        },
+        "c8-e8b842591a52": {
+          "label": "物品剧情行为 e8b842591a52",
+          "order": 1004,
+          "flow": {
+            "kind": "stages",
+            "initial": "stage-1",
+            "stages": [
+              {
+                "id": "stage-1",
+                "body": [
+                  {
+                    "kind": "setEntityState",
+                    "state": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4673"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "state": 1,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4674"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "state": 1,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4678"
+                    }
+                  },
+                  {
+                    "kind": "teleportParty",
+                    "pos": {
+                      "col": 47,
+                      "row": 0,
+                      "height": 0
+                    }
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "up"
+                  },
+                  {
+                    "kind": "cameraPan",
+                    "dx": 26,
+                    "dy": 19,
+                    "frames": 1
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11889"
+                        }
+                      ],
+                      "speaker": "spk.灵月宫主",
+                      "portrait": {
+                        "asset": "portrait.pal.072",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "facing": "down",
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "frame": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "facing": "right",
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "frame": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 200
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "facing": "down",
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "frame": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11891"
+                        }
+                      ],
+                      "speaker": "spk.小女孩",
+                      "slot": "top",
+                      "portrait": {
+                        "asset": "portrait.pal.074",
+                        "side": "left"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11893"
+                        }
+                      ],
+                      "speaker": "spk.灵月宫主",
+                      "portrait": {
+                        "asset": "portrait.pal.072",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11895"
+                        }
+                      ],
+                      "speaker": "spk.小女孩",
+                      "slot": "top",
+                      "portrait": {
+                        "asset": "portrait.pal.074",
+                        "side": "left"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11896"
+                        },
+                        {
+                          "text": "dlg.11897"
+                        }
+                      ],
+                      "speaker": "spk.小女孩",
+                      "slot": "top",
+                      "portrait": {
+                        "asset": "portrait.pal.074",
+                        "side": "left"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11899"
+                        },
+                        {
+                          "text": "dlg.11900"
+                        },
+                        {
+                          "text": "dlg.11901"
+                        }
+                      ],
+                      "speaker": "spk.灵月宫主",
+                      "portrait": {
+                        "asset": "portrait.pal.072",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "setEntityFacing",
+                    "facing": "left",
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4674"
+                    }
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "frame": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4674"
+                    }
+                  },
+                  {
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11903"
+                        },
+                        {
+                          "text": "dlg.11904"
+                        }
+                      ],
+                      "speaker": "spk.老妇人",
+                      "portrait": {
+                        "asset": "portrait.pal.075",
+                        "side": "right"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "rows": [
+                        {
+                          "text": "dlg.11906"
+                        }
+                      ],
+                      "speaker": "spk.小女孩",
+                      "slot": "top",
+                      "portrait": {
+                        "asset": "portrait.pal.074",
+                        "side": "left"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "state": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4674"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "state": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4675"
+                    }
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "state": 0,
+                    "target": {
+                      "scene": "s268",
+                      "entity": "e4678"
+                    }
+                  },
+                  {
+                    "kind": "selectSceneHooks",
+                    "scene": "s273",
+                    "selection": {
+                      "onEnter": {
+                        "kind": "use",
+                        "value": "c8-440a584eee79"
+                      }
+                    }
+                  },
+                  {
+                    "kind": "loadScene",
+                    "scene": "s273"
+                  }
+                ],
+                "next": "stage-2"
+              },
+              {
+                "id": "stage-2",
                 "body": []
               }
             ]

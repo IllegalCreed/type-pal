@@ -14,6 +14,7 @@ import { describe, expect, test } from 'vitest'
 import { toEditorState } from './project-io.js'
 import {
   mergeLegacyEditorShellIntoV5,
+  projectActiveScriptEditorStateV5,
   serializeProjectV5,
   serializeProjectV5WithCopies,
   toEditorStateV5,
@@ -307,5 +308,20 @@ describe('canonical v5 editor project IO', () => {
       },
     })
     expect(() => serializeProjectV5(merged)).not.toThrow()
+
+    const shellWithoutPrivate = structuredClone(shell)
+    shellWithoutPrivate.items[0]!.use!.effects = []
+    const active = projectActiveScriptEditorStateV5(canonical, shellWithoutPrivate.items)
+    expect(active.items[0]!.use!.effects).toEqual([])
+    expect(active.scenes[0]!.entities[0]!.behaviors).toEqual(
+      canonical.scenes[0]!.entities[0]!.behaviors,
+    )
+
+    const savedWithoutPrivate = mergeLegacyEditorShellIntoV5(canonical, shellWithoutPrivate)
+    expect(savedWithoutPrivate.items[0]!.use!.effects).toEqual([])
+    expect(savedWithoutPrivate.scenes[0]!.entities[0]!.behaviors).toEqual(
+      canonical.scenes[0]!.entities[0]!.behaviors,
+    )
+    expect(() => serializeProjectV5(savedWithoutPrivate)).not.toThrow()
   })
 })
