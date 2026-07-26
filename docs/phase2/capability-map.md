@@ -85,7 +85,7 @@
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
 | C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档(旧档兜底)。迁移 0x75→setParty(102 处/63 场景)。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
 | C6 | 成长/升级 | ✅ | ✅ | 升级 | 引擎:B7a 战后 exp/升级成长/学技能/半恢复(原版公式,实测);编辑器(2026-07-05):角色模式「升级」区(expTable 曲线 textarea 失焦提交·非法数字拦截 + 升级学技能行:等级/技能下拉/增删,UpdateLevelUpCommand 可 undo) |
-| C8 | 物品用途与机制 | ⚠️ | ⚠️ | 土灵珠/炼蛊皿/紫金葫芦 | **blocked（2026-07-25）**：通用用途执行器、ordered first-match 配方、计数资源池、结构化编辑器与 **100 usable = 80 runnable + 20 explicit diagnostics** 已完成 N3-1 前实现及三方审查；N3-1 P7 已发布稳定 ScriptId 与 item-private script，但本卡仍须按 canonical v5 对 267/268/270、脚本反跳、引用闭包和保存重开做独立回归，并等 N3-1 的 GLM 最终代审及用户验收后补签。完成前不得标 ✅；证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md) 任务卡。 |
+| C8 | 物品用途与机制 | ⚠️ | ⚠️ | 土灵珠/炼蛊皿/紫金葫芦 | **rework（2026-07-26）**：旧 `100 usable = 80 runnable + 20 diagnostics` 仅证明缺口有账，不代表迁移完成。用户已批准迁移剩余 20 件；当前冻结为 14 个 canonical item-private 剧情用途、2 个结构化放置用途、4 个通用机制，并补无影毒 throw。最终硬门槛是 100 个源 usable ID 与 100 个可运行 use ID 严格相等、物品用途诊断为 0；GLM 合并设计审查 agree 后由 Codex 实现。完成前不得标 ✅；证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md) 任务卡。 |
 
 ### 叙事(Narrative)— 8 格
 
@@ -222,7 +222,7 @@
 | 试炼窟芦苇漂(共乘) | ✅ | E7/E8:s213 李逍遥+阿奴逐帧重叠漂流实测(2026-07-07);s017 仙灵岛筏同过 |
 | 升级流程 | ✅ | B7a/B7b/B7c 全落(入账/成长/学技能/半恢复/结算屏/隐藏经验) |
 | 场景 BGM | ✅ | X2 播放器(audio/bgm.ts)+ W5 接线(场景槽/playMusic/战斗进出/读档),2026-07-05 |
-| 机制与剧情道具(土灵珠/炼蛊皿/紫金葫芦/遇敌香…) | ⚠️ | C8/ED-5I 的前置实现与三方审查已完成：土灵珠用途脚本、炼蛊皿 ordered first-match 配方、紫金葫芦计数资源池均可运行可编辑；最终 PAL 账为 80 件 runnable + 20 件显式诊断。用户于 2026-07-24 裁决两卡最终验收依赖 N3-1；待作者脚本终态落地、下游回归补签和用户验收后转 ✅ |
+| 机制与剧情道具(土灵珠/炼蛊皿/紫金葫芦/遇敌香…) | ⚠️ | 267/268/270 已可运行可编辑，但 PAL 仍只有 80 件 runnable use，另有 20 件真实未迁移；显式诊断不再计作完成。C8-R2 将补 14 剧情私有脚本、2 放置、4 通用机制和无影毒 throw，最终以 100 runnable / 0 item-use diagnostics、MG2 零计划及编辑器/运行时回归转 ✅ |
 | 召唤仙术(武神/天剑/雪妖/山神/风神/酒神/雷神/剑神/火神) | ✅ | 全链落地(2026-07-05):9 召唤补翻(酒神动态伤害 lossy 占位)+神将演出+战斗实测;crossfade/染色精调项记 B5 |
 | 毒系(中毒 DoT/相生相克/养蛊下毒/毒抗/大蒜临时抗) | ✅ | B10:数据化毒 tick + 致死对 + 相克环 + 毒抗门,bytecode 反汇编不硬码(2026-07-06) |
 | 合体技(多人合击) | ✅ | B3/B5:消耗健康队友 + HP 代价 + 聚拢演出照原版(2026-07-07);≤1 健康退化普攻 |
