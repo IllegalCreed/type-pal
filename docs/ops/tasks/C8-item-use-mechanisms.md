@@ -5,9 +5,9 @@ Phase: phase2
 Capability: C8（物品用途与机制）/ MG2
 Coding Owner: Codex
 Generation Owner: N/A
-Reviewer: GLM（合并代审）
+Reviewer: Kimi + GLM
 Visual Verification Owner: Codex + User
-Unavailable Agents: Kimi（额度耗尽；用户批准由 GLM 合并承担 C8-R2 架构、数据、迁移、运行时与测试审查）
+Unavailable Agents: none（Kimi 额度已于 2026-07-26 恢复）
 Branch: main
 
 ## 目标
@@ -29,6 +29,9 @@ Branch: main
 - 2026-07-26：Kimi 额度耗尽；沿用用户“合成一个都让 GLM 审核”的代班裁决，由 GLM 合并承担
   C8-R2 的 schema/save/runtime/canonical augmentation/MG2/测试审查。历史 Kimi 签字按事实保留，
   本批不等待补审；GLM 当前设计签字仍不可省略。
+- 2026-07-26：用户确认 Kimi 额度恢复，并询问是否恢复审查。C8-R2 同时触碰 schema、save、
+  runtime、canonical migration 与 MG2，恢复 Kimi 架构审查；上一条缺席豁免仅作为历史记录，
+  不再用于本批 build 准入。Kimi 与 GLM 均须对 R2 设计签 `agree`。
 - 既有裁决：机制道具必须抽象为通用机制 + 参数，道具数据引用机制，禁止写死 PAL 物品 id。
 
 ## 范围
@@ -184,11 +187,11 @@ Branch: main
 | 席位 | 签字 | 日期 | 结论 |
 |---|---|---|---|
 | Codex | **agree** | 2026-07-26 | 同意以上通用 effect、world/save 状态、战斗持久回写、P7 后 canonical augmentation、结构化放置与 100/0 硬门禁；实现前不得再把显式诊断算完成。 |
-| Kimi | **waived（额度耗尽）** | 2026-07-26 | 用户批准由 GLM 合并代审；历史签字保留，本批不等待补审。 |
-| GLM | **pending** | — | 合并审 schema/save/runtime、14 个私有脚本投影、2 个放置事务、137 throw、append-only 证据账、100/0 总账与测试矩阵。 |
+| Kimi | **pending（额度已恢复）** | — | 主审 schema/save/runtime、战斗持久回写、P7 后 canonical augmentation、immutable ledger 边界与 0x84 事务。 |
+| GLM | **pending** | — | 主审 20 件源数据覆盖、逐件 oracle、137 throw、append-only 证据账、100/0 总账、MG2 与测试矩阵。 |
 
-- 当前准入结论：**blocked on GLM design agree**。GLM 签 `agree` 前 Codex 不修改实现文件；
-  若 GLM `counter`，保持 `rework` 并按具体反例修订本节，不得自行越过。
+- 当前准入结论：**blocked on Kimi + GLM design agree**。两方均签 `agree` 前 Codex 不修改
+  实现文件；任一方 `counter`，保持 `rework` 并按具体反例修订本节，不得自行越过。
 - C8-R2 实现一旦开始，N3-1 的 GLM 最终审查基线必须从 `5b6bb58e` 更新为包含 C8-R2 的候选；
   N3-1、C8、ED-5I 均不能沿用旧候选直接标 done。
 
@@ -579,16 +582,65 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   use effect、无影毒 throw、遇敌香存档状态、金蚕王战斗持久回写，以及 immutable P7 ledger
   之外的 append-only C8 证据账。Kimi 因额度耗尽由 GLM 合并代审。未修改实现文件。
   Next: GLM 只读设计审查并签 `agree/counter`；`agree` 前不得进入 build。
+- 2026-07-26 User: 通知 Kimi 额度恢复，并提出恢复其审查。Evidence: 当前用户消息。
+  Next: C8-R2 撤销当前 build 准入中的缺席豁免，恢复 Kimi + GLM 双审。
+- 2026-07-26 Codex: 已把 Kimi 恢复为 R2 架构主审，GLM 回归数据/覆盖/测试矩阵主审；两方均
+  `agree` 前不得进入 build。此前额度耗尽与 GLM 合并代审记录按历史事实保留。
 
 ## 下一位 Agent 提示词
 
-### 给 GLM（C8-R2 schema + canonical migration + runtime + save 合并设计审查）
+### 给 Kimi（C8-R2 schema + save + runtime + canonical migration 架构审查）
+
+```text
+接手任务：C8-R2 剩余 20 件物品用途迁移架构设计审查
+任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
+当前状态：rework；Codex agree，Kimi pending，GLM pending。你的额度已恢复；此前缺席豁免仅作
+历史记录，不再用于 build 准入。Kimi 与 GLM 均 agree 前不得开始实现。
+
+必须先读：
+- AGENTS.md
+- docs/phase2/READ-FIRST.md
+- docs/ops/tasks/C8-item-use-mechanisms.md，重点是「C8-R2 当前返工设计与门禁」
+- docs/ops/tasks/N3-1-script-control-flow-modernization.md 的 P7 发布后 immutable ledger 约束
+- docs/ops/tasks/MG2-incremental-migration-merge.md
+- packages/content/src/item.ts、item-v5.ts、rewards.ts、character.ts
+- packages/reforge/src/item-use-executor.ts、battle/battle-core.ts、main.ts、save/*
+- packages/migrate/src/migrate-content.ts、migration-validate.ts、
+  experimental/script-v5/p7-generated.ts、p7-mg2.ts、p7-project.ts
+
+冻结事实：
+1. 当前 100 usable = 80 runnable use + 20 item/use diagnostics；最终必须是 100/0。
+2. 20 件 = 4 通用（90/91/137/150）+ 14 个 0x81 剧情用途
+   （260/263/264/271/272/273/279/284/286/287/288/289/291/292）
+   + 2 个 0x84 放置用途（285/294）。
+3. 137 的 throw 也未完成，必须一并补。
+4. 14 件拟走 P7 后 canonical itemPrivateScript augmentation；不得重造共享脚本或改写已发布
+   P7 full ledger、sidecar、6-item 历史 golden。
+5. 两个 0x84 拟走 host 返回成败的 placeEntityInFront effect；失败不改变世界、不消耗。
+6. 90/91 拟使用随存档的 60 秒追逐感知范围状态；150 战斗内成长必须在胜/败/逃写回且不
+   重掷 RNG；137 use/throw 是 HP 比例效果，不是毒状态。
+
+你的职责：
+- 只读压力测试 schema 公共接口、save 兼容、战斗持久回写、P7 后 augmentation 边界、
+  currentScene canonical 条件、0x84 事务和 append-only C8 证据账。
+- 重点判断该方案是否真正 generic、是否破坏 N3/P7 immutable transition、不允许运行时
+  PAL item id 特判，以及是否存在更小且闭合的架构。
+- 不得修改实现文件，不得沿用 R1 accept，不得把 diagnostics 计作完成。
+
+请输出并写回任务卡：
+- 同意则把 C8-R2 Kimi 行签为 `agree（日期）`，写明核过的架构边界与必落风险钉；
+- 不同意则签 `counter`，列出具体 schema/save/runtime/ledger 反例，保持 rework；
+- 更新交接日志并给 GLM 或 Codex 下一步提示词。只有 Kimi 与 GLM 都 agree 才可把 build
+  准入改为 allowed。不得标记 done。
+```
+
+### 给 GLM（C8-R2 数据覆盖 + MG2 + 测试矩阵设计审查）
 
 ```text
 接手任务：C8-R2 剩余 20 件物品用途迁移设计审查
 任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
-当前状态：rework；Codex 已在「C8-R2 当前返工设计与门禁」签 agree；GLM pending；
-Kimi 额度耗尽，用户批准本批由 GLM 合并代审。GLM agree 前不得开始实现。
+当前状态：rework；Codex agree，Kimi pending，GLM pending。Kimi 额度已经恢复，负责架构审查；
+你负责数据覆盖、MG2 与测试矩阵。Kimi 与 GLM 均 agree 前不得开始实现。
 
 必须先读：
 - AGENTS.md
@@ -615,15 +667,15 @@ Kimi 额度耗尽，用户批准本批由 GLM 合并代审。GLM agree 前不得
    150 是 PAL_PlayerLevelUp 精确成长；137 throw 是 min(1000,floor(HP/2)+1) 即时伤害。
 
 你的职责：
-- 只读压力测试 schema/context、save 兼容、战斗持久回写、14 私有脚本投影、0x84 事务、
-  append-only C8 证据账、100/0 写前门禁和测试矩阵。
+- 只读核对 20 件源根/名称/分类、逐件 oracle、无影毒 throw、append-only C8 证据账、
+  100/0 写前门禁、MG2 和测试矩阵；同时指出任何会让覆盖账失真的 schema/runtime 问题。
 - 特别判断：是否同意新增 currentScene canonical 条件、post-P7 augmentation 的输入/输出边界、
   遇敌香 remainingMs 持久化、金蚕王胜/败/逃写回与胜利经验结算顺序。
 - 不得修改实现文件，不得沿用 R1 accept，不得把 diagnostics 计作完成。
 
 请输出并写回任务卡：
-- 同意则把 C8-R2 GLM 行改为 `agree（日期）`，写明核过的边界与必落测试，并把 build
-  准入改为 allowed；或
+- 同意则把 C8-R2 GLM 行改为 `agree（日期）`，写明核过的数据边界与必落测试；只有 Kimi
+  与 GLM 均 agree 才把 build 准入改为 allowed；或
 - 签 `counter`，列出具体源语义、schema、事务、ledger 或测试反例，保持 rework。
 - 更新交接日志，并给 Codex 一段可直接复制的实现提示词。不得标记 done。
 ```
