@@ -16,7 +16,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| C8 | 物品用途机制、运行时与迁移闭环 | rework | Kimi 架构审查 + GLM 覆盖审查；双 agree 后 Codex 实现 | Kimi 额度已恢复；已冻结 14 剧情私有脚本、2 放置、4 通用机制及无影毒 throw，目标 100/0 |
+| C8 | 物品用途机制、运行时与迁移闭环 | build | Codex 实现剩余 20 件；完成后 Kimi + GLM done 审查 | 三方设计 agree；落实 G1-G5 + R1-R8，目标 100 runnable / 0 item-use diagnostics |
 | ED-5I | 物品工作台 CRUD、图标、用途与引用闭环 | blocked | N3-1 最终 accept 后 Codex 跑 canonical v5 回归，GLM 代审 | 三方前置审查已 accept；P7 已落地，仍须按终态重验脚本选择/反跳/引用/删除/保存 |
 
 ## 看板规则

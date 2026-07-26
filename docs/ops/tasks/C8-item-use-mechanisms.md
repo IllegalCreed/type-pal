@@ -1,6 +1,6 @@
 # C8 - 物品用途机制、运行时与迁移闭环
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: C8（物品用途与机制）/ MG2
 Coding Owner: Codex
@@ -187,13 +187,219 @@ Branch: main
 | 席位 | 签字 | 日期 | 结论 |
 |---|---|---|---|
 | Codex | **agree** | 2026-07-26 | 同意以上通用 effect、world/save 状态、战斗持久回写、P7 后 canonical augmentation、结构化放置与 100/0 硬门禁；实现前不得再把显式诊断算完成。 |
-| Kimi | **pending（额度已恢复）** | — | 主审 schema/save/runtime、战斗持久回写、P7 后 canonical augmentation、immutable ledger 边界与 0x84 事务。 |
-| GLM | **pending** | — | 主审 20 件源数据覆盖、逐件 oracle、137 throw、append-only 证据账、100/0 总账、MG2 与测试矩阵。 |
+| Kimi | **agree** | 2026-07-26 | 主审 schema/save/runtime、战斗持久回写、P7 后 canonical augmentation、immutable ledger 边界与 0x84 事务；逐项核过源语义与代码锚点，无 counter，附 R1-R8 必落风险钉（见「Kimi C8-R2 架构审查」）。 |
+| GLM | **agree（合并代审）** | 2026-07-26 | 独立核对 20 件源数据（usable ID + scriptOnUse/Throw 全匹配）、4 件通用机制 opcode 映射（0x62/0x63/0x5A/0x8D/0x42+0x5B）、14 件剧情 itemPrivateScript augmentation、2 件 placeEntityInFront 目标实体（s048/e797 + s213/e3606 已验证存在）、137 throw=39499 含 0x5B[1000] cap、immutable P7 ledger + append-only C8 证据账分层、100 runnable/0 diagnostics 硬门禁。见「GLM C8-R2 合并代审」。 |
 
-- 当前准入结论：**blocked on Kimi + GLM design agree**。两方均签 `agree` 前 Codex 不修改
-  实现文件；任一方 `counter`，保持 `rework` 并按具体反例修订本节，不得自行越过。
+- 当前准入结论：**build allowed（2026-07-26；Codex / Kimi / GLM 三方 agree，无 counter）**。
+  build 必须同时落实 GLM 的 G1-G5 与 Kimi 的 R1-R8 必落钉。
 - C8-R2 实现一旦开始，N3-1 的 GLM 最终审查基线必须从 `5b6bb58e` 更新为包含 C8-R2 的候选；
   N3-1、C8、ED-5I 均不能沿用旧候选直接标 done。
+
+### GLM C8-R2 合并代审（2026-07-26）
+
+**方法**：只读设计审查，不改实现文件。独立核对 20 件源数据 + 当前 PAL canonical 状态 + opcode 映射 +
+目标实体存在性 + ledger 分层设计。
+
+#### 重点 1：14 件剧情用途 P7 后 canonical itemPrivateScript augmentation ✅
+
+GLM 独立核对源数据：14 件全部 `flags.usable=true`，`scriptOnUse` 地址与设计清单逐条匹配。
+
+| itemId / name | scriptOnUse | 特殊处理 |
+|---|---|---|
+| 260 圣灵珠 | 39768 | — |
+| 263 风灵珠 | 39781 | 需 canonical `currentScene` 条件承接 legacy `0x95` |
+| 264 雷灵珠 | 39787 | — |
+| 271 布包 | 39715 | — |
+| 272 桂花酒 | 39647 | — |
+| 273 紫金丹 | 39644 | — |
+| 279 破天锤 | 39632 | — |
+| 284 钓竿 | 39651 | 需补齐 sprite 259 `static/27 帧` 布局证据后生成，禁止猜测 |
+| 286 六神丹 | 39660 | — |
+| 287 情书 | 39722 | — |
+| 288 玉佩 | 39742 | — |
+| 289 石钥匙 | 39749 | — |
+| 291 香蕉 | 39757 | — |
+| 292 凤纹手绢 | 39831 | — |
+
+**设计正确**：P7 后 augmentation 从权威 `scriptOnUse` 根与 legacy command graph 生成 author body，
+直接写入 `itemPrivateScript(use)`，不回灌 `runScript` 或伪共享脚本。统一编辑器复用 N3-1 的
+`CanonicalScriptBodyEditorV5`，不另造物品脚本编辑器。
+
+**G1 必落**：263 的 `0x95` 和 284 的 sprite 259 布局证据必须在 build 时按实际源数据生成，
+不能猜测或跳过。
+
+#### 重点 2：2 件 placeEntityInFront 成功/失败及消费事务 ✅
+
+- 285 捕兽夹 → `s048/e797`（GLM 确认实体存在：sprite-268，非 zone）
+- 294 芦苇漂 → `s213/e3606`（GLM 确认实体存在：sprite-84，非 zone）
+- 设计正确：`placeEntityInFront { target: EntityAddress, state: 2, unavailableMessage }` 是
+  结构化通用 effect（不是脚本命令）；host 校验目标属于当前场景 + 队伍前方落点 + 障碍；
+  成功才更新实体坐标/状态并消耗，失败显示"此处无法放置"且不改变世界不消耗。
+- **G2 必落**：统一用途执行器必须按放置成败决定事务提交——不把 placeEntityInFront 伪装成
+  返回 void 的脚本命令。
+
+#### 重点 3：遇敌香存档状态 + 金蚕王战斗持久回写 ✅
+
+- **90 驱魔香 0x62[600]** → `modifyHostileAwareness { rangeMultiplier: 0, durationMs: 60000 }`
+  （暂停追逐；`WorldState.hostileAwareness` 随存档；保存离散剩余时间不保存绝对时钟；跨场景/存读档继续）
+- **91 十里香 0x63[600]** → `modifyHostileAwareness { rangeMultiplier: 3, durationMs: 60000 }`
+  （加速追逐；后使用者覆盖前一个）
+- **150 金蚕王 0x8D[1]** → `levelUp { levels: 1 }`（99 级仍执行成长；属性按 SDL/PAL 公式封顶 999；
+  经验清零、不回满 HP/MP、不学技能、不触发升级界面）
+- **战斗持久回写**：通用效果在战斗中造成的永久变更必须带回世界；金蚕王只掷一次成长 delta，
+  在胜/败/逃三条退出路径写回；写回发生在胜利经验结算前。遇敌香状态写回世界且战斗期间不扣时。
+- **G3 必落**：胜/败/逃三路径写回必须覆盖金蚕王 delta；遇敌香战斗期间不扣时 + 写回世界。
+
+#### 重点 4：无影毒 use 与 throw ✅
+
+- **137 无影毒 use 0x5A** → `scaleCurrentHp { numerator: 1, denominator: 2 }`
+  （向下取整，1 HP 可变 0，不伪装中毒；大世界与战斗同一通用效果）
+- **137 无影毒 throw 0x42[24] + 0x5B[1000]**（scriptOnThrow=39499）
+  → `currentHpDamage { numerator: 1, denominator: 2, bonus: 1, cap: 1000 }`
+  （伤害 `min(1000, floor(enemy.hp / 2) + 1)`；GLM 验证 L_39499 含 opcode 91 (0x5B) operands [1000,0,0] = cap 1000）
+- **G4 必落**：137 的 throw 必须存在并有战斗 oracle；只补 use 不补 throw 不能声称"无影毒已迁完"。
+
+#### 重点 5：immutable P7 ledger + append-only C8 证据账 ✅
+
+- P7 `_transitions/script-v4-v5.json` + compatibility sidecar + 6-item golden 保持 **immutable**
+- 新增 `_transitions/c8-item-use-v5-v1.json`（append-only），绑定：
+  - 既有 P7 ledger digest（锚定 immutable 历史）
+  - 20 个源根（scriptOnUse/Throw 地址）
+  - canonical target identity/digest（itemPrivateScript/placeEntityInFront/通用 effect）
+  - 生成器版本
+- MG2 每次从权威提取结果重建并验签；C8 augmentation 属于 P7 后 canonical 生成层
+- **G5 必落**：不得重签历史 full ledger；不得手改 projects/pal 或 baseline。
+
+#### 重点 6：100 runnable / 0 diagnostics 硬门禁 ✅
+
+- 当前 PAL：100 usable = 80 runnable + 20 diagnostics（GLM 独立确认：80 with use, 20 without use）
+- 20 条 item-use diagnostics 全部有明确分类（4 unsupported-command + 16 story-script）
+- C8-R2 硬门禁：完成后 `source usable ID set === target runnable use ID set`（严格 ID 相等，非数量）
+  + `migration-diagnostics.json` 中 `target.domain=item && capability=use` 必须为 **0**
+- **用途诊断本身即写前失败**，不再允许 `use || diagnostic` 二选一——这是比 R1 的 `80+20=100` 更严格
+  的完成口径。
+
+#### GLM 必落项汇总
+
+| # | 必落项 | 风险 |
+|---|---|---|
+| G1 | 263 `0x95` currentScene 条件 + 284 sprite 259 布局证据按实际源数据生成 | 中——猜测会引入错误 |
+| G2 | placeEntityInFront 是结构化 effect 非脚本命令，事务按成败提交 | 高——伪装成 void 会丢事务语义 |
+| G3 | 金蚕王三路径写回 + 遇敌香战斗不扣时 | 高——漏路径丢永久成长 |
+| G4 | 137 throw 必须同时迁移并有 oracle | 中——只补 use 不完整 |
+| G5 | P7 ledger immutable，C8 只 append-only | 高——重签会破坏 N3-1 历史 |
+
+#### 结论
+
+**GLM C8-R2 合并代审 agree**。20 件源数据逐条对账成立；4 件通用机制 opcode 映射精确；
+14 件剧情 augmentation 设计正确（P7 后 canonical itemPrivateScript，统一编辑器）；2 件放置用途
+结构化 effect + 事务语义完整；137 throw 独立确认（0x5B[1000] cap）；immutable P7 ledger + append-only
+C8 证据账分层正确；100/0 硬门禁比 R1 更严格。G1-G5 必落项明确。
+
+**build 准入**：blocked on Kimi design agree（Kimi 额度已恢复，应独立审 schema/save/runtime）。
+GLM agree 后等待 Kimi；两方 agree 后 Codex 可开始实现。
+
+### Kimi C8-R2 架构审查（2026-07-26）
+
+**方法**：只读架构审查，不改实现文件。独立核对 sdlpal 源语义、content/reforge/migrate 代码锚点、
+N3-1 immutable 约束与提取数据，并对 schema/save/runtime/ledger 做压力测试。
+
+#### 源语义逐项核对（全部与冻结设计一致）
+
+- **137 无影毒**：use = `0x5A`（script.c:1887 `rgwHP /= 2`，整除向下取整）→ `scaleCurrentHp{1/2}` ✓；
+  throw = `0x42[24]`（模拟法术动画，纯表现）+ `0x5B[1000]`（script.c:1895 `w = HP/2+1; cap op0`）
+  → `currentHpDamage{1/2, bonus:1, cap:1000}` ✓。当前 items.json 中 137 的 use 与 throw **双双缺失**，
+  R2 同补 throw 的口径成立。
+- **150 金蚕王**：`0x8D[1]` → `PAL_PlayerLevelUp`（global.c:2347-2409）实证：level clamp 99 但属性
+  仍按次数成长 ✓；七项属性 999 封顶 ✓；经验清零（`:2406-2408`）✓；**不回满 HP/MP**（回满只在战后
+  经验升级循环 battle.c:1115-1116）✓；不学技能（学习在 battle.c:1300-1321）✓。冻结设计五条逐条成立。
+- **90/91 遇敌香**：`0x62/0x63[600]`（script.c:1967-1975）直接赋值 `wChaseRange=0|3` +
+  `wChasespeedChangeCycles=600`；感知判定是**乘数**（script.c:393 `wChaseRange*32*gpGlobals->wChaseRange`）
+  且 0 时整段不追（script.c:341）→ `rangeMultiplier` 语义 ✓；后使用覆盖前者=直接赋值 ✓；
+  按逻辑帧递减、到期归 1（play.c:235-237），战斗期间 GameUpdate 不跑 → "战斗中暂停"与原版一致 ✓。
+- **0x84 放置**：script.c:2473-2509 与 `placeEntityInFront` 冻结逐条吻合——校验目标属当前场景、
+  算队前格、查障碍，成功设坐标 + `sState=op1(=2)`，失败跳 op2 且 `g_fScriptSuccess=FALSE`（不消耗）✓。
+  目标实体在提取数据核实存在：798 → s048/e797、3607 → s213/e3606 ✓。
+
+#### 架构边界核对
+
+- **itemPrivateScript 承载成立**：`ItemPrivateScriptV5{id:'use'}` schema 已存在且 v5 context 表强制
+  world-only（item-v5.ts:5-14, :41），与"剧情用途显式限定 world context、战斗 fail-loud"一致；
+  P7 已闭合的同形状 6 件（265/266/267/280/290/293）证明该管线可用。
+- **统一执行器可承载放置事务**：`executeWorldItemUse`（item-use-executor.ts:41-85）的外部效果
+  模型（content 纯规划 + host 执行 + 全部成功后才 `completeExternalWorldItemUse` 提交消耗）已有
+  `runSceneHook` 布尔成败先例；`placeEntityInFront` 按同模式加 host 布尔返回即可，不需要新事务框架。
+- **append-only C8 账不触碰 P7 immutable**：N3-1:2804"控制账是 generator-owned immutable input"；
+  P7 的 6-item golden 与 ledger digest 只消费 P7 shadow 重建产物（p7-project.test.ts:41、
+  p7-shadow.ts:569-582），不读 projects/pal——post-P7 augmentation 写物品文件不会使既有校验变红；
+  `assertPublishedTransition`/`verifyDigestRecord`（p7-mg2.ts:24-59）的验签模式可镜像复用，
+  baseline `_state.json` 的 `transitions: Record<string,string>` 无需 schema 变更即可加 C8 键。
+- **save 兼容成立**：`hostileAwareness` 走 WorldState 可选字段 + 读取端 `??` 缺省（`collectValue`
+  先例，character.ts:31-32），IndexedDB 结构化克隆存储，不需 bump SAVE_VERSION。
+- **通用性成立**：四类机制参数（rangeMultiplier/durationMs、分数、cap、levels、EntityAddress、
+  奖励表）全部来自物品数据，运行时零 PAL id 分支；验收用任意测试 item id 做 oracle 的口径正确；
+  迁移侧只允许形状识别 + 显式映射表，产物为 clean 数据。
+
+#### 数据勘误（不 reopen GLM agree，build 前采用更正值）
+
+- GLM 审查节 :233/:234 写「e797 = sprite-268」「e3606 = sprite-84」。Kimi 直查提取数据：
+  源对象 798 `spriteNum=343`（scene/48.json）、3607 `spriteNum=0` 且 `sState=2`（隐藏锚点，
+  scene/213.json）。实体存在性（承重结论）成立，sprite 引用号以本勘误为准。
+
+#### 必落风险钉（R，build 验收核对，不阻塞签字）
+
+- **R1 战斗→世界永久回写通道必须通用化**：这是引擎首个战斗内永久变更回写（现状
+  permanentStatBoost 因"战斗临时态没有持久写回通道"被限 world-only，item.ts:211-213、
+  battle-core.ts:1375-1385）。实现必须是战斗态携带通用 pending 回写队列（非 itemId 特判），
+  战中掷一次成长 delta 存战斗态、三退出路径复用同一 delta，在统一收口段（main.ts:2416-2432）
+  写回且**早于胜利结算**（buildSettlement main.ts:2348-2381）。注意败路径默认 gameOver 读最近档
+  （main.ts:3114-3116）：oracle 钉"写回发生在 gameOver 流程之前"，不得断言读档后世界里仍保留，
+  也不得在重载存档上二次施加。
+- **R2 遇敌香状态必须随存档，且这是原版一致行为**：sdlpal 的 `SAVEDGAME_COMMON` 明确包含
+  `wChaseRange/wChasespeedChangeCycles`（global.c:470-486），读档在 global.c:614-615 恢复，
+  写档在 global.c:758-759 保存。倒计时必须挂在 `tickHostiles` 的 guard 同层
+  （main.ts:3060-3092，战斗/对话/菜单期不推进）按 dt 扣减；**不得**挂 timers 线
+  （战斗期间照走，main.ts:4312-4336）。
+- **R3 rangeMultiplier 作用域必须拍板**：原版乘数同时作用于明雷怪感知与脚本侧
+  `PAL_MonsterChasePlayer`（script.c:393）；reforge 剧情追逐 `chasePlayer` 是独立链路
+  （script-runner.ts:46、main.ts:1351）。build 须在卡内写明遇敌香是否影响剧情追逐——建议只作用
+  明雷怪（插点 main.ts:3075）并记录偏离，或抽共享感知判定层；不许静默只实现一半。
+- **R4 augmentation 挂点与 digest 对象**：只能在 `buildP7GeneratedCanonical` 生成 items.json
+  之后做 snapshot 级后处理（p7-generated.ts:70 之后），**严禁**侵入 `projectP7CanonicalProject`、
+  P6 IR 或 p7-shadow 管线——否则 6-item golden 与 `canonicalScriptProjectDigest` 全红。C8 账的
+  canonical target digest 必须针对 augmentation 后的 generated theirs，**不得** digest
+  projects/pal 的 ours（作者手改会导致验签漂移误爆）。C8 账享受 P7 ledger 同待遇：从三方合并
+  摘除、generated 禁含、只验签 clone；首次 seal 需显式注入 baseline `_state.json` transitions
+  （p7-mg2.ts:112 目前 verbatim clone base metadata）。
+- **R5 `currentScene` 条件是 schema 变更**：v4 `ScriptCondition` 与 v5 `AuthorConditionV5` 目前
+  都无此变体（script.ts:33-50、script-v5.ts:84-99）；host 已有 `currentSceneId()`
+  （script-project-v5.ts:39）。build 前在卡内拍板双侧同加还是 v5-only；运行时求值必须
+  fail-loud，不得在缺 host 能力时静默 false。
+- **R6 284 sprite 259 证据缺口维持硬阻塞**：27 帧物理真值已核实（259.rle 严格解码 = 27 帧），
+  但 `static` 布局 overlay 条目仍缺（migrate-content.ts:2071 会抛"禁止从脚本资源号猜布局"）。
+  无 overlay 条目不得生成 284 的 use；不得用猜测布局绕过。
+- **R7 throw 通道扩展保持单一真源**：`currentHpDamage` 需同时扩 `itemUseEffectSupportsContext`
+  与 `performThrow`（battle-core.ts:1496-1554，现仅 applyPoison 过 throw 上下文）；context 表
+  仍是唯一裁决处，assertNever 穷尽兜底不得删。`0x42[24]` 是表现 outcome，不是第二个效果；
+  137 的上下文矩阵（use=world+battle、throw=throw-only）进测试。
+- **R8 12 件"零缺口"目前只有间接证据**：16 个 story 根从未进入 v4→v5 翻译管线（P2-P6 IR 中
+  0 命中），现有把握来自 opcode 覆盖推断 + 同形状 6 件已闭合。R2 的 20-ID deep oracle 必须落成
+  直接证据（正文无 legacy opcode/悬空 EntityAddress、失败分支与消费语义与源一致），不得以
+  "同形状"推断替代逐件验收。
+
+#### 结论
+
+**Kimi agree**。七项重点（14 件 augmentation、2 件放置事务、遇敌香存档、金蚕王三路径回写、
+无影毒 use+throw、append-only C8 账、运行时零 PAL id 特判）逐项核对成立，无 schema/save/runtime/
+ledger 级反例；R1-R8 为 build 必落钉。
+
+#### Codex 签后源证据更正（2026-07-26）
+
+- Kimi 原始 R2 记录曾写“sdlpal 未保存遇敌香状态”，并引用仓库中不存在的 `savegame.c`。
+  Codex 在进入 build 前复核 `reference/sdlpal/global.c:470-486,614-615,758-759`，确认原版存档
+  **明确保存并恢复** `wChaseRange/wChasespeedChangeCycles`；上方 R2 已按源证据更正。
+- 该更正不改变 `WorldState.hostileAwareness` 随存档、战斗/菜单期间暂停计时的冻结方案，也不
+  推翻 Kimi `agree`；它移除了“有意偏离原版”的错误风险描述。review 时以本更正后的 R2 验收。
 
 ## 验收条件
 
@@ -586,10 +792,71 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   Next: C8-R2 撤销当前 build 准入中的缺席豁免，恢复 Kimi + GLM 双审。
 - 2026-07-26 Codex: 已把 Kimi 恢复为 R2 架构主审，GLM 回归数据/覆盖/测试矩阵主审；两方均
   `agree` 前不得进入 build。此前额度耗尽与 GLM 合并代审记录按历史事实保留。
+- 2026-07-26 Kimi: 完成 C8-R2 只读架构审查，签 **agree**，附 R1-R8 必落风险钉（见「Kimi C8-R2
+  架构审查」）。逐项核对 sdlpal 源语义：137 use(0x5A)/throw(0x42[24]+0x5B[1000]) 与
+  script.c:1887/1630/1895 一致且当前双双缺失；150 `PAL_PlayerLevelUp`(global.c:2347-2409)
+  实证冻结设计五条全成立；90/91 乘数语义（script.c:1967-1975/:393）与战斗中暂停（play.c:235）
+  成立；0x84 事务语义（script.c:2473-2509）与 placeEntityInFront 冻结逐条吻合；itemPrivateScript
+  v5 schema（item-v5.ts:5-14）与 executor 外部效果事务（item-use-executor.ts:41-85）可承载设计；
+  append-only C8 账不触碰 P7 immutable 控制账（N3-1:2804、p7-mg2.ts:24-59）。最大新架构面是首个
+  战斗→世界永久回写通道，必须通用化（R1）。数据勘误一处：GLM 节 :233/:234 的 sprite 号
+  （e797=343、e3606=0，非 268/84），实体存在性成立，build 以更正值为准。未修改实现文件。
+  Next: GLM 已先行 agree，三方设计签齐，build 准入改 allowed；Codex 按 G1-G5 + R1-R8 开始实现。
+- 2026-07-26 Codex: 复核三方设计签均为 `agree`、无 counter，C8-R2 正式转 `build`。进入实现前
+  更正 Kimi R2 的单一源事实错误：sdlpal `global.c:470-486,614-615,758-759` 明确保存并恢复
+  `wChaseRange/wChasespeedChangeCycles`，所以遇敌香随存档是原版一致行为，不是设计偏离。
+  Evidence:「Codex 签后源证据更正」。Next: Codex 作为唯一 Coding Owner 实施 G1-G5 + R1-R8。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（C8-R2 schema + save + runtime + canonical migration 架构审查）
+### 给 Codex（C8-R2 build 实现）
+
+```text
+接手任务：C8-R2 剩余 20 件物品用途迁移 build 实现
+任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
+当前状态：rework → 可进入 build；Codex / Kimi / GLM 三方设计签均为 agree（2026-07-26），
+无 counter。你是唯一 Coding Owner。
+
+必须先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md
+- 本卡「C8-R2 当前返工设计与门禁」全节、「源真值更正」、「GLM C8-R2 合并代审」(G1-G5)、
+  「Kimi C8-R2 架构审查」(R1-R8)——G1-G5 与 R1-R8 都是 build 必落钉，review 时逐条核对。
+- docs/ops/tasks/N3-1-script-control-flow-modernization.md 的 P7 immutable ledger 约束、
+  docs/ops/tasks/MG2-incremental-migration-merge.md
+
+实现要点（三方已冻结，不得自行缩水）：
+1. 4 件通用机制按 opcode/参数形状迁移：modifyHostileAwareness{0|3, 60000ms}、
+   scaleCurrentHp{1/2}、levelUp{levels:1}（PAL_PlayerLevelUp 精确语义：99 级仍成长、999 封顶、
+   经验清零、不回满 HP/MP、不学技能）、currentHpDamage{1/2,+1,cap 1000} 用于 137 throw。
+2. 14 件剧情用途走 post-P7 canonical itemPrivateScript augmentation：挂点只在
+   buildP7GeneratedCanonical 生成 items.json 之后（p7-generated.ts:70 之后），严禁侵入
+   projectP7CanonicalProject / P6 / p7-shadow（R4）；263 需新增 currentScene 条件（R5，拍板
+   双侧或 v5-only 并记录）；284 必须先补 sprite 259 static 布局 overlay 证据，禁止猜测（R6/G1）。
+3. 2 件 0x84 走 placeEntityInFront 结构化 effect + host 布尔成败，按 runSceneHook 先例接入
+   统一执行器事务；失败不改变世界不消耗。目标实体采用勘误值：e797 spriteNum=343、
+   e3606 spriteNum=0/sState=2。
+4. 金蚕王战斗回写：新建通用 pending 回写队列（非 itemId 特判），战中掷一次 delta，胜/败/逃
+   在统一收口段（main.ts:2416-2432）写回且早于 buildSettlement（R1）；败路径 oracle 钉
+   "写回发生在 gameOver 流程之前"，不得断言读档后保留。
+5. 遇敌香：WorldState.hostileAwareness 可选字段 + ?? 缺省（不 bump SAVE_VERSION）；倒计时挂
+   tickHostiles guard 同层按 dt 扣，不挂 timers 线（R2）；随存档是有意偏离原版，注释写明；
+   rangeMultiplier 作用域（是否影响 chasePlayer 剧情追逐）先在卡内拍板再实现（R3）。
+6. append-only _transitions/c8-item-use-v5-v1.json：绑定 P7 ledger digest、20 源根、
+   augmentation 后 generated theirs 的 identity/digest、生成器版本；镜像 P7 验签模式，
+   首次 seal 需显式注入 baseline _state.json transitions（R4）。不得重签 P7 ledger、
+   不得手改 projects/pal 或 baseline。
+7. throw 通道：扩 itemUseEffectSupportsContext + performThrow；context 表保持唯一真源（R7）。
+8. 运行时零 PAL item id 特判；oracle 用任意测试 item id 验证四类机制。
+
+验收硬门禁：100/0（usable ID 集合严格相等 + item/use 诊断归零）、20 件逐 ID deep oracle、
+MG2 二跑与独立 dry-run 0/0/0、四包 check + 根 pnpm check 全绿。完成后按卡更新 Build 节、
+自签 accept 候选，交 Kimi + GLM done 审查；不得自行标 done。N3-1 的 GLM 终审基线需同步更新为
+包含 C8-R2 的候选。
+```
+
+### 已执行的审查提示词（保留备查，勿再执行）
+
+### 给 Kimi（C8-R2 schema + save + runtime + canonical migration 架构审查）——已于 2026-07-26 执行，签 agree
 
 ```text
 接手任务：C8-R2 剩余 20 件物品用途迁移架构设计审查
@@ -634,7 +901,7 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   准入改为 allowed。不得标记 done。
 ```
 
-### 给 GLM（C8-R2 数据覆盖 + MG2 + 测试矩阵设计审查）
+### 给 GLM（C8-R2 数据覆盖 + MG2 + 测试矩阵设计审查）——已于 2026-07-26 执行，签 agree（合并代审）
 
 ```text
 接手任务：C8-R2 剩余 20 件物品用途迁移设计审查
