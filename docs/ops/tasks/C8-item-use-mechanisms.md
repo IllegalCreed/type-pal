@@ -403,10 +403,13 @@ ledger 级反例；R1-R8 为 build 必落钉。
 
 ## C8-R2 Build 收口（2026-07-26）
 
-- 实现候选：`88277465`（`feat(phase2): close C8 item-use migration`）。
+- 最终实现候选：`0d4aa48b`（`fix(editor): make reference jumps visible`），父提交
+  `88277465`（`feat(phase2): close C8 item-use migration`）包含 C8-R2 数据、迁移、运行时与
+  私有脚本编辑闭环。
 - Coding Owner：Codex；实现期间没有第二位 Agent 修改实现文件。
-- 当前结论：C8-R2 的 build 硬门禁全部满足，任务由 `build` 推进到 `review`。Codex 自审
-  `accept`；Kimi / GLM 最终审查仍为 `pending`，签齐前不得标记 `done`。
+- 当前结论：C8-R2 的 build 硬门禁全部满足，任务保持 `review`。Codex 与 Kimi 已对最终候选
+  `accept`；GLM 已对父提交 `88277465` 的核心数据/迁移/运行时签 `accept`，但最终候选新增的
+  editor delta 仍须补审；GLM 补签前不得标记 `done`。
 
 ### 实现结果
 
@@ -446,6 +449,25 @@ ledger 级反例；R1-R8 为 build 必落钉。
     的伪诊断；删除私有脚本效果后正文退出活动投影；undo 可恢复原正文与顺序。浏览器未保存，
     没有污染工程文件。
 
+### 引用跳转可感知性返工（`0d4aa48b`）
+
+- **用户验收反例**：物品 289“石钥匙”的“引用 2”中，“打开位置”点击后看起来没有任何反应；
+  同页物品私有脚本引用尤其像无效按钮。
+- **根因与修复**：
+  - 引用 locator 与回调接线本身有效，但同页跳转没有成功提示，目标行只有很弱的常驻选中态；
+    所有 canonical 引用成功后现在统一显示包含场景/实体/方案/步骤/正文/指令序号的“已定位到”
+    状态，并对目标指令行播放可重复触发的蓝色定位脉冲。
+  - 跨场景引用还有一个真实滚动缺陷：指令编辑器安排下一帧 `scrollIntoView/focus` 后，外层布局
+    测量重渲染会取消该帧，同时 revision 已被记为完成，目标虽已选中却仍留在屏幕外。现在以
+    当前 revision 守卫异步定位，不再由无关重渲染取消；过期请求会自行失效。
+  - 连续点击同一条引用会递增 focus revision，并在两组等价动画名间切换，保证第二次点击仍有
+    明确反馈；`prefers-reduced-motion` 下保留静态高亮边框。
+- **覆盖**：
+  - 新增 App 真实接缝测试，覆盖物品同页引用与场景跨页引用的路由、owner/behavior/stage/command
+    精确选择、成功提示和连续点击；
+  - Workspace、ItemTab 与统一正文编辑器分别覆盖 locator 映射、revision 传播、滚动/聚焦，以及
+    “外层先重渲染、下一帧才执行”回归。
+
 ### 最终验证证据
 
 - PAL 产品账实测：
@@ -456,7 +478,7 @@ ledger 级反例；R1-R8 为 build 必落钉。
   - reforge 最终 607 tests；
   - editor 最终 761 tests；
   - C8 20-ID deep golden 单文件 6/6；
-  - C8 seal / P7 immutable / final-target MG2 guards 18/18。
+  - C8 augmentation + MG2 两个测试文件 20/20；P7 ledger 隔离复跑 1/1。
 - 根 `pnpm check` 最终通过：shared 121、content 347、reforge 607、pal-extract 246、
   game 2289、editor 761、migrate 432 passed + 1 历史 skip；随后 Biome 检查 957 files，
   无修复项。
@@ -464,17 +486,145 @@ ledger 级反例；R1-R8 为 build 必落钉。
   “物品 → 使用”入口正常，console 3 info / 0 error / 0 warning。dev 初始库存为空，因此没有
   在该次烟测中真实消耗 R2 物品；放置、成长、追逐范围、投掷与 private/mixed-chain 的消费事务
   由上述 content/reforge 集成测试覆盖。
+- 最终 editor delta：`pnpm --filter @type-pal/editor check` 为 **91 files / 766 tests passed**
+  且 typecheck 通过；7 个变更文件 Biome 与 `git diff --check` 全绿。
+- Playwright 精确反跳：
+  - 场景引用定位到 `s047/e760` 交互脚本正文第 24 条，活动 path=`23`，目标行滚入可视区，
+    编辑区 `scrollTop=1150`，并显示完整“已定位到”状态；
+  - 物品 289 自引用连续点击两次均定位到使用脚本第 4 条，活动 path=`3`，定位脉冲
+    `odd → even` 重新播放；console **0 error / 0 warning**。
 
 ### C8-R2 进入 done 前签字
 
 | 席位 | 签字 | 日期 | 结论 |
 |---|---|---|---|
-| Codex | **accept** | 2026-07-26 | 候选 `88277465` 完成 100/0、20-ID deep oracle、统一私有脚本编辑闭环、P7 immutable + C8 append-only seal、根检查、独立 dry-run 与 6051 烟测；同意进入最终审查。 |
-| Kimi | **pending** | — | 待只读复核 schema/save/runtime、battle writeback、private/mixed-chain 事务、post-P7 augmentation 与 immutable ledger 边界。 |
-| GLM | **pending** | — | 待只读复核 20 件/21 根覆盖、逐 ID oracle、100/0 产品账、C8 seal/MG2 与完整测试矩阵。 |
+| Codex | **accept** | 2026-07-26 | 最终候选 `0d4aa48b`（父 `88277465`）完成 100/0、20-ID deep oracle、统一私有脚本编辑闭环、P7 immutable + C8 append-only seal，并补齐引用跳转成功提示、可重复定位脉冲与跨场景真实滚动；editor 91/766、Playwright 场景/物品精确反跳及 console 0/0 通过。 |
+| Kimi | **accept** | 2026-07-26 | 只读终审通过（父候选 `88277465` + editor delta `0d4aa48b`）：R1-R8 逐钉核实、事务/seal 抽查、100/0 与 dry-run 独立复算、P7 ledger/sidecar 哈希实测不变、运行时零 PAL id 特判；migrate 超时定性为 CPU 争用（限流复跑 33/33 绿）。证据与记录项见「Kimi C8-R2 done 审查」。 |
+| GLM | **pending（editor delta）** | — | 已对父候选 `88277465` 的 100/0、20 件、C8 seal/MG2、content/reforge/editor 核心矩阵签 `accept`（证据完整保留在下节）；最终候选 `0d4aa48b` 只新增 editor 引用导航返工，仍须对该 delta 补签 `accept/counter`。 |
 
-- 当前 done 准入：**blocked on Kimi + GLM final accept，以及 N3-1/用户联合验收**。任一方
-  `counter` 即转 `rework`，不得沿用 R1 历史 accept。
+- 当前 done 准入：**blocked on GLM editor delta accept + N3-1/用户联合验收**（Kimi 已 accept）。
+
+### GLM C8-R2 core done 前复审（`88277465`，2026-07-26）
+
+**方法**：只读终审，不改实现文件。独立核对 canonical PAL 100/0 闭合 + 20 件逐项 + C8 seal/MG2 + 全包 check。
+
+#### 100/0 严格闭合 ✅
+
+GLM 独立验证（`projects/pal/content/items.json` vs `data/extracted/data/items.json`）：
+
+| 口径 | 结果 |
+|---|---|
+| source usable ID 集合 | 100 件 |
+| target runnable use ID 集合 | 100 件 |
+| **严格 ID 相等** | ✅ `[...usableIds].sort() === [...useIds].sort()` |
+| item-use diagnostics | **0** |
+| missing（有 usable 无 use） | **(none)** |
+
+#### 20 件逐项核对 ✅
+
+- **4 件通用机制**：90 驱魔香 + 91 十里香（modifyHostileAwareness）+ 137 无影毒（scaleCurrentHp）+ 150 金蚕王（levelUp）
+- **14 件剧情用途**：260/263/264/271/272/273/279/284/286/287/288/289/291/292 全部 `itemPrivateScript(use)`
+- **2 件放置用途**：285 捕兽夹（placeEntityInFront→s048/e797/state=2）+ 294 芦苇漂（placeEntityInFront→s213/e3606/state=2）
+- **137 throw**：`currentHpDamage { numerator:1, denominator:2, bonus:1, cap:1000 }` 独立确认存在
+- **20 itemPrivateScript**：P7 已有 6 件（265/266/267/280/290/293）+ C8 新增 14 件 = 20
+
+#### C8 seal + P7 immutable ✅
+
+- C8 append-only seal `c8-item-use-v5-v1.json`：20 items + parent P7 ledger digest `9b01dea8…` + seal digest `fbdbd50f…`
+- P7 `_transitions/script-v4-v5.json` immutable（C8 parent 引用其 digest，不修改）
+- MG2 dry-run：`writes=0 / deletes=0 / conflicts=0, generated=0/kept=1/merged=223`
+- 写前门禁：`scenes=294 pages=3616 shared=0 legacy-scripts=0`
+
+#### 独立复跑全绿
+
+| 包 | 卡内冻结 | GLM 复跑 | 结论 |
+|---|---|---|---|
+| content | 347 | **28 files / 347 passed** | ✅ |
+| reforge | 607 | **67 files / 607 passed** | ✅ |
+| editor | 761 | **90 files / 761 passed** | ✅ |
+| migrate | 432+1skip | 全量并行有 flaky timeout（P2-P7 shadow tests I/O 压力） | ⚠️ 非正确性 |
+| C8 augmentation+MG2 | 20 | **20/20 isolated pass** | ✅ |
+| P7 ledger | 18/18 | **1/1 isolated pass（63s）** | ✅ |
+| MG2 dry-run | 0/0/0 | **0/0/0** | ✅ |
+
+**flaky timeout 说明**：全量并行 migrate 测试中，P2-P7 shadow tests 每个需要重跑完整迁移管线（60-370s），
+并行 I/O 压力下超 120s 默认 timeout。隔离复跑全部通过。这不是正确性问题——建议 Codex 把 shadow PAL
+tests 的 timeout 统一设为 300s 或用 `--maxWorkers=1` 跑。
+
+#### G1-G5 必落项核对
+
+| 必落项 | 状态 | 证据 |
+|---|---|---|
+| G1: 263 `0x95` + 284 sprite 259 | ✅ | augmentation 测试覆盖 `seals sprite 259 with its physical static layout` |
+| G2: placeEntityInFront 结构化 effect + 事务 | ✅ | 285/294 目标实体确认 + 错场景/受阻不消费 |
+| G3: 金蚕王三路径写回 + 遇敌香战斗不扣时 | ✅ | reforge 607 tests 含 battle writeback |
+| G4: 137 throw 同时迁移 | ✅ | `currentHpDamage` throw 独立确认 |
+| G5: P7 immutable + C8 append-only | ✅ | C8 seal parent 引用 P7 digest，P7 字节不变 |
+
+#### 结论
+
+**GLM C8-R2 done 前 accept**。100/0 严格 ID 闭合、20 件逐项核对、C8 seal/MG2 0/0/0、G1-G5 全部落地。
+全量并行 migrate flaky timeout 是 I/O 压力问题非正确性。无 counter/rework。
+该结论审查的是父候选 `88277465`；随后提交 `0d4aa48b` 只修改 editor 引用导航与测试，因此核心
+数据/迁移/运行时 accept 继续保留，但最终候选的 GLM 席位回到 `pending（editor delta）`。
+**done 准入 blocked on GLM editor delta accept + N3-1/用户联合验收（Kimi 已 accept）。**
+
+### Kimi C8-R2 done 审查（2026-07-26）
+
+**方法**：只读终审，不改实现文件。三路独立代码审查（reforge 运行时 / migrate augmentation 与 seal /
+content schema 与 save）+ 关键代码点一手抽查 + 独立复算与复跑。审查对象为父候选 `88277465`，
+并覆盖 `88277465..0d4aa48b` 的 editor 引用导航 delta。
+
+#### R1-R8 逐钉核对（全部落地）
+
+| 钉 | 结论 | 证据 |
+|---|---|---|
+| R1 金蚕王通用 writeback | ✅ | `BattleWorldMutation` 判别联合（battle-core.ts:114-124）+ `pendingWorldMutations`（:230），mutation 带 characterId/delta **无 itemId**；战中 `applyLevelGrowth` 只掷一次（rewards.ts:44-72）；幂等写回 `writeBackPersistentEffects`（battle-session.ts:2001-2025）；胜路径 main.ts:2385 早于经验结算 :2398，败/逃 main.ts:2453 在 gameOver 载档流程之前；oracle 未断言读档后保留。机制通用，不是只为 levelUp 开口子。 |
+| R2 遇敌香 | ✅ | 倒计时在 `tickHostiles` guard 内按 dt 扣（main.ts:3096-3104），不挂 timers 线；倍率乘入 :3120；后使用覆盖前者=直接赋值。R2 前提更正：sdlpal `SAVEDGAME_COMMON`（global.c:485-486）本就保存 `wChaseRange/wChasespeedChangeCycles`（我设计审时 grep savegame.c 不全），随存档=原版一致行为，卡内已记录更正。 |
+| R3 作用域拍板 | ✅ | main.ts:3119 注释明确感知香只影响引擎明雷追逐，剧情 chasePlayer 不受污染。 |
+| R4 augmentation 挂点 | ✅ | `augmentC8ItemUsesAfterP7`（c8-item-use-augmentation.ts:761）只在克隆 snapshot 上操作；挂点 p7-generated.ts:88 严格在 items.json 落盘（:80）后，`project` 原样透传；6-item golden（p7-project.test.ts:41、p7-shadow.ts:574）未动且有反向 pin 测试；seal digest 针对 generated theirs（augmentation.ts:713-746）。 |
+| R5 currentScene | ✅ | v4（script.ts:36-37）+ v5（script-v5.ts:87）双侧同加；求值 fail-loud（script-runner.ts:224-228、script-world-v5.ts:595-599，缺查询直接 throw）；263 产物已实际使用 `{"kind":"currentScene","scene":"s178"}`。 |
+| R6 sprite 259 | ✅ | overlay 条目 pal-world-sprite-layouts.ts:34-38（static/27 帧/证据 `all.json:L_9952;L_9954..L_10020`）；冲突即 throw + 测试钉死。 |
+| R7 throw 通道 | ✅ | context 表唯一真源（item.ts:227-263，assertNever 兜底）；performThrow `min(cap, trunc(hp*num/den)+bonus)`（battle-core.ts:1615-1622）；0x42[24] 仅为 `ThrowSpec.presentation`（item.ts:278-279），非第二效果。 |
+| R8 20-ID deep oracle | ✅ | c8-item-use-augmentation.test.ts 逐件 golden sha256 + 结构性断言（无 legacyRaw/runScript/callScript/jumpScript、EntityAddress 全解析、失败分支与消费语义）；285/294 另钉 s048/e797、s213/e3606、state=2。 |
+
+#### 事务与 seal 抽查
+
+- **placeEntityInFront 事务**：错场景/受阻 `planItemEntityPlacement` 返回 undefined（item-use-placement.ts:18-25）→ 结构化失败 `consumed:false`（item-use-executor.ts:201-220），不改世界不消费；成功才写坐标/状态并由 `completeExternalWorldItemUse` 统一提交。
+- **混合链**：`executeMixedItemPrivateUse` 先全链 preflight 再跑脚本（item-use-executor.ts:79-94）；`consumedByExternal`（item.ts:1144-1150）保证外部脚本先消费时不误判失败。当前 PAL 数据无混合链，该路径为防御性能力，有测试覆盖。
+- **C8 append-only seal**：绑定 P7 ledger digest `9b01dea8…`、20 件/21 根、generated theirs 的 target digest、生成器版本；每次 MG2 重建并验签，漂移/篡改/重签即 throw（c8-item-use-mg2.ts:102-110、:122-203、:282-284）；三方合并前摘除、generated/project 禁含、首次 seal 显式注入（:239-305）；`_state.json` 双键 digest 与卡一致。
+- **P7 immutable 实测**：`script-v4-v5.json` SHA-256 `41263ba1…`、两份 sidecar `30ce8717…`，与卡冻结值一致，字节未变。
+
+#### 独立复算与复跑
+
+- 产品账独立复算：源 `flags.usable` 100 件 == baseline runnable `use` 100 件（**ID 集严格相等**）；item/use 诊断 0（总诊断也为 0）；`itemPrivateScript` 共 20 件。
+- 独立 dry-run（`tsx scripts/migrate-content.mts`）：`writes=0 deletes=0 conflicts=0`、`generated=0 kept=1 merged=223`、写前门禁 `scenes=294 pages=3616 shared=0 legacy-scripts=0`，与卡一致。
+- 包级复跑：content / reforge / editor（含 delta，766/766）通过；migrate 全量在默认并行下多次出现重 PAL 重建测试**超时**（P2-P6 shadow、MG2 空计划回归，全部 `Test timed out`，无一条断言失败）——当时机器 load avg 7.8-20.4（11 核，Chrome 129% CPU 等）；以 `--maxWorkers=2` 复跑全部 7 个超时文件 **33 passed / 1 skipped**，其中 MG2 严格空计划 80s 通过。结论：环境 CPU 争用，非代码回归；GLM 复审结论相同。C8 两个测试文件单跑 20/20 通过。
+- 运行时 PAL id 特判 grep（reforge/content 非测试源码，90/91/137/150/260-294 等字面量）：无按物品 id 分支。
+
+#### editor delta（`0d4aa48b`）
+
+纯表现层：`App.tsx` 复用既有 workspaceNotice 报告"已定位到：…"，`CanonicalScriptEditorV5.tsx` 按
+focusRevision 奇偶交替重放定位脉冲，CSS + 352/80/57/115 行测试。不触碰数据流、schema、迁移与
+运行时；editor check 766/766 通过。架构干净，无反例。
+
+#### 记录项（不阻塞 accept）
+
+1. `writeBackPersistentEffects` 的 switch（battle-session.ts:2004-2024）无 assertNever 兜底：未来新增
+   `BattleWorldMutation` kind 漏接写回时编译期不报错。建议后续补穷尽守卫（小改）。
+2. 混合链边界：私有脚本消耗最后一件物品后，后续纯效果段 preflight 会报 not-owned 而脚本副作用已落地；
+   现数据无此链，属已记录的防御性边界。
+3. 卡内原“C8 seal / P7 immutable / final-target MG2 guards 18/18”口径已由收口方更正为
+   C8 augmentation + MG2 两文件 20/20、P7 ledger 隔离 1/1，不影响实质。
+4. validate.ts 新 5 种效果只有正向覆盖（真实数据经 validateItems 兜住），缺 rangeMultiplier=1、cap=0
+   等负向单测与专门 round-trip 测试；低风险。
+5. migrate 重型 PAL 重建测试对 CPU 争用敏感：复跑方遇超时先用 `--maxWorkers=2` 再判失败。
+
+#### 结论
+
+**Kimi accept**。schema/save 兼容、通用 battle writeback、placeEntityInFront 与混合链事务、
+post-P7 augmentation、P7 immutable/C8 append-only seal、运行时零 PAL id 特判逐项核实成立，
+R1-R8 全部落地，无 counter/rework。未修改实现文件。
 
 ## 验收条件
 
@@ -810,10 +960,12 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
 ## 用户验收
 
 - 2026-07-24 历史结论: N3-1 未完成前不能按 R1 口径验收 C8。
-- 2026-07-26 当前结论: **review**。候选 `88277465` 已达到 100 件 usable 全部可运行、
-  0 条物品用途迁移诊断，并补齐无影毒投掷与物品私有脚本新增/删除/撤销闭环。
-- 当前下一步: Kimi 与 GLM 分别进行 C8-R2 最终只读审查并签 `accept/counter`；两方均
-  `accept` 后仍须与 N3-1、ED-5I 终态一起交用户联合验收，不沿用 R1 的 80+20 签字。
+- 2026-07-26 当前结论: **review**。最终候选 `0d4aa48b`（父 `88277465`）已达到 100 件
+  usable 全部可运行、0 条物品用途迁移诊断，并补齐无影毒投掷、物品私有脚本新增/删除/撤销
+  闭环，以及引用反跳成功提示、可重复高亮和跨场景精确滚动。
+- 当前下一步: Kimi 已对最终候选签 `accept`；GLM 对 `88277465..0d4aa48b` 的 editor delta
+  补审并签 `accept/counter`。GLM `accept` 后仍须与 N3-1、ED-5I 终态一起交用户联合验收，
+  不沿用 R1 的 80+20 签字。
 
 ## 交接日志
 
@@ -886,16 +1038,40 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
   append-only C8 seal、独立 dry-run 0/0/0、根 `pnpm check`、290 天书私有脚本新增/删除/撤销
   浏览器实测及 6051 PAL 烟测均通过，Codex 签 **accept**，任务转 `review`。
   Next: Kimi + GLM 分别只读终审并签 `accept/counter`；不得自行标 done。
+- 2026-07-26 GLM: 对候选 `88277465` 完成 C8-R2 核心只读终审并签 **accept**：独立确认
+  100/0 严格闭合、20 件/21 根、P7 immutable + C8 append-only seal、MG2 0/0/0、G1-G5 与
+  content/reforge/editor 核心矩阵；全量 migrate 并行 timeout 隔离复跑通过。Evidence:
+  「GLM C8-R2 core done 前复审」。Next: Kimi final review + N3-1/用户联合验收。
+- 2026-07-26 User: 报告物品 289“石钥匙”的引用“打开位置”点击后没有可感知反应。
+  Evidence: 物品工作台截图，右栏同时包含场景引用和物品私有脚本自引用。
+- 2026-07-26 Codex: 复现并修复引用反跳的两层缺陷，提交最终候选 `0d4aa48b`：同页成功跳转
+  现在显示完整定位状态并播放可重复脉冲；跨场景定位不再被布局重渲染取消下一帧滚动。新增
+  App 真实接缝及 Workspace/ItemTab/统一正文编辑器回归；editor 91 files / 766 tests +
+  typecheck、Biome/diff 全绿；Playwright 实测场景 path 23 与物品 path 3 精确可见，console
+  0 error / 0 warning。GLM 对 `88277465` 的核心 accept 按事实保留，但最终候选席位重置为
+  `pending（editor delta）`。Next: Kimi 完整终审，GLM 只读补审 editor delta。
+- 2026-07-26 Kimi: 完成 C8-R2 最终只读终审（父候选 `88277465` + editor delta `0d4aa48b`），
+  签 **accept**。R1-R8 逐钉核实成立；placeEntityInFront/混合链/consumedByExternal 事务边界、
+  post-P7 挂点（p7-generated.ts:88 严格后置、project 未污染）、C8 seal append-only 验签与
+  generated-theirs digest、运行时零 PAL id 特判均一手抽查或三路独立审查确认。独立复算
+  100/0（ID 集严格相等、诊断 0、privateScript 20 件）、dry-run 0/0/0、P7 ledger `41263ba1…`
+  与 sidecar `30ce8717…` 字节不变；editor check 766/766。migrate 全量超时定性为 CPU 争用
+  （load avg 7.8-20.4/11 核；`--maxWorkers=2` 复跑 7 个超时文件 33/33 绿，MG2 空计划 80s 通过），
+  非代码回归。记录项 5 条（writeback switch 缺 assertNever 等，不阻塞）见「Kimi C8-R2 done 审查」。
+  未修改实现文件。Next: GLM 只读补审 editor delta；其后 N3-1/用户联合验收，不得提前标 done。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（C8-R2 最终架构 / 运行时审查）
+当前下一位 Agent：GLM。Kimi 已完成最终审查，下方 Kimi 提示词只保留为历史交接证据。
+
+### 给 Kimi（C8-R2 最终架构 / 运行时审查）——已于 2026-07-26 执行，签 accept（保留备查，勿再执行）
 
 ```text
 接手任务：C8-R2 最终架构 / 运行时只读审查
 任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
-当前状态：review；实现候选 88277465；Codex accept，Kimi / GLM pending。你是 Kimi 架构主审，
-不得修改实现文件，不得单方标 done。
+当前状态：review；最终实现候选 0d4aa48b，父候选 88277465；Codex accept，Kimi pending；
+GLM 已 accept 父候选核心、最终 editor delta pending。你是 Kimi 架构主审，不得修改实现文件，
+不得单方标 done。
 
 必须先读：
 - AGENTS.md、docs/phase2/READ-FIRST.md
@@ -911,45 +1087,50 @@ GLM 逐行核对 `item.ts:401-481`（大世界 useItem）和 `battle-core.ts:134
 4. post-P7 augmentation 是否只 digest generated theirs；P7 ledger/sidecar 是否真正 immutable；
    C8 seal 是否 append-only。
 5. 运行时是否完全没有 PAL item id 特判；currentScene / throw / private script 是否 fail-loud。
+6. 只读检查 `88277465..0d4aa48b`：物品同页与场景跨页引用是否都显示明确成功反馈、精确选中并
+   把目标指令滚入可视区；连续点击同一引用是否重新反馈；外层重渲染不得再次取消待执行滚动。
 
 请输出并写回任务卡：
 - 无反例则在「C8-R2 进入 done 前签字」Kimi 行签 accept（日期、证据、复跑命令），并在交接日志
   写结论；
 - 有问题则签 counter，列出具体文件/语义/测试反例，任务转 rework；
-- 不得修改 R1 历史签字，不得标记 done。GLM 仍须独立 accept。
+- 不得修改 R1 或 GLM 父候选历史签字，不得标记 done。GLM 仍须对 editor delta 补签 accept。
 ```
 
-### 给 GLM（C8-R2 最终数据 / MG2 / 测试矩阵审查）
+### 给 GLM（C8-R2 最终 editor delta 补审）
 
 ```text
-接手任务：C8-R2 最终数据 / MG2 / 测试矩阵只读审查
+接手任务：C8-R2 最终 editor 引用导航 delta 只读补审
 任务卡：docs/ops/tasks/C8-item-use-mechanisms.md
-当前状态：review；实现候选 88277465；Codex accept，Kimi / GLM pending。你是 GLM 数据覆盖主审，
-不得修改实现文件，不得单方标 done。
+当前状态：review；最终实现候选 0d4aa48b，父候选 88277465。你已对父候选的 100/0、20 件、
+C8 seal/MG2 和核心测试签 accept；该历史证据继续有效。最终候选仅新增 editor delta，你的最终
+签字为 pending。不得修改实现文件，不得单方标 done。
 
 必须先读：
 - AGENTS.md、docs/phase2/READ-FIRST.md
-- 本卡「C8-R2 当前返工设计与门禁」「GLM C8-R2 合并代审」G1-G5、
-  「C8-R2 Build 收口」
-- docs/ops/tasks/N3-1-script-control-flow-modernization.md 的 P7 immutable ledger 约束
-- packages/migrate/src/experimental/script-v5/c8-item-use-augmentation.test.ts
-- packages/migrate/src/experimental/script-v5/c8-item-use-mg2.test.ts
-- packages/migrate/src/pal-migration-integration.test.ts
+- 本卡「C8-R2 Build 收口」「引用跳转可感知性返工」「GLM C8-R2 core done 前复审」
+- `git diff 88277465..0d4aa48b -- packages/editor`
+- packages/editor/src/ui/App.reference-navigation.test.tsx
+- packages/editor/src/ui/CanonicalScriptEditorV5.tsx 及其测试
+- packages/editor/src/ui/CanonicalSceneScriptWorkspaceV5.test.tsx
+- packages/editor/src/ui/ItemTab.test.tsx
 
 重点核对：
-1. 20 件物品/21 个源根逐 ID 对账：4 通用 + 14 私有剧情 + 2 放置，另含 137 throw。
-2. source usable ID set === target runnable use ID set === 100；item/use diagnostics === 0。
-3. 14 个新增 private body 无 legacy/raw opcode、共享桥壳、悬空地址，消费/失败分支与源一致；
-   285/294 目标分别是 s048/e797 与 s213/e3606。
-4. C8 seal 绑定 P7 digest、源根与 augmentation 后 target；P7 ledger/sidecar 字节不变；
-   baseline/project 合并闭合且独立 dry-run 为 0/0/0。
-5. 逐机制测试矩阵、编辑器天书新增/删除/撤销闭环和根 pnpm check 证据是否足以收口。
+1. App 成功分支是否统一使用 typed locator 描述“已定位到”，失败分支是否仍 fail-closed。
+2. 物品私有脚本自引用是否即使 URL 不变也递增 revision、精确选中 command path，并让连续点击
+   重新显示定位反馈。
+3. 场景引用是否精确传播 scene/entity/owner/behavior/stage/command，切页后目标真正滚入可视区。
+4. `requestAnimationFrame` revision guard 是否能抵抗外层布局重渲染，同时阻止过期请求误聚焦。
+5. 动效是否不改变 canonical 数据/undo 历史；reduced-motion 下是否仍有静态可见反馈。
+6. 独立复跑 editor check，并确认该 editor-only delta 没有改变你已验收的 100/0、C8 seal/MG2
+   与 P7 immutable 证据。
 
 请输出并写回任务卡：
-- 无漏项则在「C8-R2 进入 done 前签字」GLM 行签 accept（日期、对账与复跑证据），并在交接日志
-  写结论；
-- 有问题则签 counter，列出具体 ID/根/digest/测试反例，任务转 rework；
-- 不得修改 R1 历史签字，不得标记 done。Kimi 仍须独立 accept。
+- 无漏项则在「C8-R2 进入 done 前签字」GLM 行把 `pending（editor delta）` 改为 accept，写明
+  父候选核心 accept 继续有效及本次 delta 复跑证据，并在交接日志写结论；
+- 有问题则签 counter，列出具体文件/locator/交互/测试反例，任务转 rework；
+- 不得重写父候选 GLM 审查原文，不得标记 done。Kimi 已独立 accept（2026-07-26，覆盖父候选 +
+  本 delta）；你 accept 后仅剩 N3-1/用户联合验收。
 ```
 
 ### 已执行的审查提示词（保留备查，勿再执行）

@@ -174,6 +174,10 @@ Branch: main
   脚本模型重新验证物品用途选择、具体脚本反跳、剧情引用闭包、删除 fail-closed 与保存重开，
   再由三方补记回归结论并交用户验收。
 - N3-1 后回归签字: Codex pending / Kimi pending / GLM pending。
+- 2026-07-26 局部回归证据（不替代上述三签）：候选 `0d4aa48b` 已修复物品引用“打开位置”
+  缺少可感知反馈及跨场景目标未滚入可视区的问题；App 真实接缝、ItemTab、场景 Workspace 和
+  统一正文编辑器均有回归，editor **91 files / 766 tests** 与 Playwright 场景/物品精确反跳、
+  连续点击、console 0/0 通过。ED-5I 仍须等待 N3-1 最终候选稳定后跑完整下游矩阵并补三签。
 
 ## Draft: 设计与风险
 
@@ -461,11 +465,18 @@ choreography/sceneScriptOverrides/非法投掷保存门/键盘 ARIA 进一步加
   两卡不得 done。既有三方 accept 作为前置实现审查保留，但 N3-1 落地后必须补脚本选择/反跳/
   引用闭包/删除守卫与保存重开的下游回归签字。Evidence: 本卡用户裁决、done 准入结论与 N3-1
   下游验收依赖。Next: 先推进 N3-1，ED-5I 转 blocked。
+- 2026-07-26 User: 报告物品 289“石钥匙”右栏引用的“打开位置”点击后没有反应。
+- 2026-07-26 Codex: 提交 `0d4aa48b` 修复引用导航可感知性与跨场景滚动竞态；物品同页引用会
+  精确选中第 4 条指令、显示完整定位提示并允许重复点击重新反馈，场景引用会切到目标实体脚本、
+  选中目标指令并滚入可视区。editor 91/766、typecheck、Biome/diff 与 Playwright console 0/0
+  通过。Evidence: C8 卡「引用跳转可感知性返工」。Next: 该证据计入 N3-1 后 ED-5I 回归，
+  但不单独解除 blocked 或替代三方最终签字。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；ED-5I 当前等待 N3-1 完成。N3-1 收口后再由 Codex 发起 ED-5I 下游回归，
-随后交 Kimi / GLM 补审，签字齐后交用户验收。
+无下一位 Agent 提示词；ED-5I 当前仍等待 N3-1 最终候选稳定。`0d4aa48b` 已关闭本次引用反跳
+反例，但 N3-1 收口后仍由 Codex 发起 ED-5I 完整下游回归，随后交 Kimi / GLM 补审，签字齐后
+交用户验收。
 
 ## 历史 Agent 提示词（N3-1 依赖裁决前，勿再执行）
 

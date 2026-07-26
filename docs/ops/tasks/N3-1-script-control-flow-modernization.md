@@ -3462,15 +3462,15 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R9 已自验，等待用户体验确认）** | 2026-07-26 | `5b6bb58e` 修复脚本面板保持打开时“切场景 → 选实体”的 owner 状态分叉：现在实体脚本、预览镜头与黄色触发范围同步切到当前实体，并补跨场景同名实体/同名方案回归测试；P7-R5 引用闭包、P7-R8 弹窗层级证据继续成立。用户确认前不重签 `accept`。 |
+| Codex | **rework（P7-R10 已自验，等待用户体验确认）** | 2026-07-26 | 当前候选 `0d4aa48b`：在 P7-R9 `5b6bb58e` 的场景/实体 owner 同步基础上，包含 C8-R2 core `88277465`，并修复 canonical 引用跳转缺少成功反馈及跨场景目标未滚入可视区；editor 91/766 与 Playwright 精确反跳通过。用户确认前不重签 `accept`。 |
 | Kimi | **waived（额度耗尽）** | 2026-07-25 | 用户已批准“合成一个都让 GLM 审核”；GLM 合并代审，Kimi 恢复后补审为非阻塞债务。 |
-| GLM | **pending（等待用户确认 P7-R9 后终审）** | 2026-07-26 | 当前候选基线为 `5b6bb58e`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影和全量技术门禁。 |
+| GLM | **pending（等待用户确认 P7-R10 后终审）** | 2026-07-26 | 当前候选基线为 `0d4aa48b`；用户体验确认前不启动终审。确认后合并代审作者 UX、统一组件、引用闭包、预览投影、C8-R2 集成和全量技术门禁。 |
 
-- Codex 结论：**P7-R9 实现与自验完成，但仍保持 rework**。`5b6bb58e` 是当前用户验收候选；
+- Codex 结论：**P7-R10 实现与自验完成，但仍保持 rework**。`0d4aa48b` 是当前用户验收候选；
   用户确认后才重签 `accept` 并交 GLM 合并终审。
 - done 准入：**blocked**，等待 GLM 合并终审 `accept` 与用户验收；不得提前标记 N3-1 done。
-- C8 / ED-5I：继续 `blocked`。P7 终审通过后再分别跑 canonical v5 下游回归和补签，不能随
-  N3-1 自动完成。
+- C8 已进入 `review`，ED-5I 继续 `blocked`。P7 终审通过后仍须完成 C8 最终候选补审及
+  ED-5I canonical v5 下游回归和补签，不能随 N3-1 自动完成。
 
 #### P7-R1 通用 canonical v5 脚本编辑器返工（2026-07-25）
 
@@ -3767,21 +3767,51 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 - **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
   `5b6bb58e` 交 GLM 合并终审。N3-1、C8、ED-5I 继续不得标 done。
 
+#### P7-R10 canonical 引用跳转可感知性与精确滚动（2026-07-26）
+
+- **用户验收反例**：物品 289“石钥匙”的右栏引用点击“打开位置”后看起来没有反应；其中一条
+  是当前物品私有脚本的同页引用，另一条需要跨到场景实体脚本。
+- **根因**：
+  - typed locator、App 路由和 command path 都已接通，但同页引用没有成功提示，目标行只有弱
+    选中态，因此 URL 不变时用户无法判断是否执行；
+  - 跨场景跳转安排下一帧滚动/聚焦后，外层布局测量引发的重渲染会取消该帧，同时 revision 已
+    被记为处理完成，导致目标虽被选中却仍在屏幕外。
+- **实现**：
+  - canonical 引用成功后统一显示包含场景/实体/方案/步骤/准备或正文/指令序号的“已定位到”
+    状态，目标行使用可重复触发的定位脉冲；连续点击同一引用会递增 revision 并重新反馈；
+  - 正文编辑器以当前 revision 守卫下一帧滚动，不再由无关重渲染取消；过期请求自行失效，
+    reduced-motion 下保留静态高亮；
+  - 新增 App 真实接缝测试及 Workspace、ItemTab、统一正文编辑器回归，覆盖同页、跨页、
+    owner/behavior/stage/command 精确传播与“外层先重渲染”的竞态。
+- **验证证据**：
+  - editor 全量 **91 files / 766 tests passed**，typecheck、7 个变更文件 Biome 与
+    `git diff --check` 全绿；
+  - Playwright 场景引用定位到 `s047/e760` 正文 path `23`，目标行在可视区且编辑器
+    `scrollTop=1150`；物品 289 自引用连续两次均定位 path `3`，脉冲 `odd → even`；
+    两者均显示完整状态，console **0 error / 0 warning**；
+  - 实现提交：`0d4aa48b fix(editor): make reference jumps visible`；其父提交
+    `88277465` 是 C8-R2 数据/迁移/运行时集成，因此 N3-1 最终审查基线一并滚到 `0d4aa48b`。
+- **当前门禁**：仍为 `rework`，等待用户实际体验确认；确认后 Codex 才重签 `accept` 并把
+  `0d4aa48b` 交 GLM 合并终审。GLM 对 C8 core `88277465` 的 accept 不能替代 N3-1 或
+  `0d4aa48b` editor delta 的最终审查。
+
 ## 下一位 Agent 提示词
 
-### 给 GLM（P7-R9 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
+### 给 GLM（P7-R10 架构 + 数据 + 测试 + 文档合并终审；等待用户确认后执行）
 
 ```text
-终审任务: N3-1 P7-R9 canonical v5 作者脚本 UX、引用闭包与真实预览返工后的合并终审
+终审任务: N3-1 P7-R10 canonical v5 作者脚本 UX、引用闭包、真实预览与 C8 集成后的合并终审
 任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
-当前候选基线: 5b6bb58e fix(editor): sync entity script selection
+当前候选基线: 0d4aa48b fix(editor): make reference jumps visible
+P7-R9 基线: 5b6bb58e fix(editor): sync entity script selection
+C8-R2 core: 88277465 feat(phase2): close C8 item-use migration
 首次发布基线: 9a668686 feat: publish canonical script v5
 统一组件基线: 18a66216 fix(editor): unify canonical script authoring
-本轮返工增量: 18a66216..5b6bb58e
+本轮返工与集成增量: 18a66216..0d4aa48b
 当前状态: rework；Codex 已完成自验，但在用户体验确认前尚未重签 accept。
-执行条件: 只有用户明确确认 P7-R9 体验可接受后才开始本终审；确认前不得执行、不得改签字。
-Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原 Kimi 架构/调度席位和
-  GLM 数据/覆盖席位。
+执行条件: 只有用户明确确认 P7-R10 体验可接受后才开始本终审；确认前不得执行、不得改签字。
+P3-P7 批次中 Kimi 曾额度耗尽，用户批准该批由 GLM 合并代审；Kimi 后续恢复并完成 C8
+  最终审查不追溯撤销这项 N3 历史豁免。你同时承担原 Kimi 架构/调度席位和 GLM 数据/覆盖席位。
 你的职责: 只读终审，不修改实现文件；输出 accept 或带具体路径/反例/严重度的 counter。
 先读:
   - AGENTS.md、docs/phase2/READ-FIRST.md；
@@ -3843,7 +3873,13 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   16. 脚本面板保持打开时，切换场景后选择或更换实体，交互脚本、地图镜头与黄色触发范围是否
       同步到当前实体；跨场景同名实体/同名方案不得残留旧正文；用户手动查看进场脚本时不得被
       无关重渲染强制弹回实体脚本。
-  17. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
+  17. 物品同页和场景跨页引用是否都显示可理解的“已定位到”反馈，精确选择并把目标指令滚入
+      可视区；连续点击同一引用是否重新反馈；布局测量重渲染不得取消待执行滚动，过期 revision
+      不得误聚焦新 owner。
+  18. C8-R2 的 20 件私有/通用/放置用途是否继续复用 canonical v5 作者模型；GLM 已对
+      `88277465` 的 100/0 与 seal/MG2 签 core accept，但本轮仍须确认 N3 final baseline 包含
+      该集成且 `88277465..0d4aa48b` 没有破坏数据账。
+  19. 独立复跑 editor check、root typecheck/lint、editor build；抽查 `9a668686` 前轮已通过的
       content/reforge/migrate 发布门禁仍未被返工破坏，并核对文档与 capability map 没有提前把
       N3-1/C8/ED-5I 标 done。
 输出:
@@ -3853,7 +3889,7 @@ Kimi 额度耗尽，用户批准 P3-P7 由 GLM 合并代审；你同时承担原
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前无下一位 Agent 执行：等待用户验收 P7-R9；上面的 GLM 提示词仅在用户确认后启用。
+当前无下一位 Agent 执行：等待用户验收 P7-R10；上面的 GLM 提示词仅在用户确认后启用。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
