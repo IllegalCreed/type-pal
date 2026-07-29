@@ -962,63 +962,75 @@
             "label": "自动行为 4",
             "order": 4,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s032-e548-legacy-004",
+                "label": "自动行为 4 · 源循环",
+                "initial": "source-9031",
+                "states": {
+                  "source-9031": {
+                    "label": "源指令 9031",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s032",
+                          "entity": "e548"
+                        },
+                        "facing": "left"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s032",
+                          "entity": "e548"
+                        },
+                        "frame": 0
                       }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
-                      }
-                    },
-                    {
-                      "dx": -8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
-                      }
-                    },
-                    {
-                      "dx": -8,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s032",
-                        "entity": "e548"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9032",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-9032": {
+                    "label": "源指令 9032",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s032",
+                          "entity": "e548"
+                        },
+                        "dx": -8,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s032",
+                          "entity": "e548"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9033",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-9033": {
+                    "label": "源指令 9033",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-9032"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -1080,7 +1092,12 @@
                         "entity": "e549"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1120,7 +1137,12 @@
                         "entity": "e549"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1144,7 +1166,12 @@
                         "entity": "e549"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

@@ -110,6 +110,193 @@
                       "selection": {
                         "kind": "use",
                         "value": "legacy-001"
+                      },
+                      "cursorHandoff": {
+                        "kind": "stateMap",
+                        "fromBehavior": "default",
+                        "cases": [
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "pre-pursuit"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "pre-reset"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-pursuit"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-route-choice"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-01"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-02"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-03"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-03"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-02"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-04"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-05"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-06"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-07"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-08"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-09"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-wait-10"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "post-cycle-reset"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          }
+                        ],
+                        "onUnmapped": "error"
                       }
                     },
                     {
@@ -168,35 +355,1329 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "floating": true,
-                      "kind": "chasePlayer",
-                      "range": 128,
-                      "speed": 2
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认自动行为",
+                "cadence": "transition",
+                "initial": "pre-pursuit",
+                "states": {
+                  "post-cycle-reset": {
+                    "label": "post-cycle-reset",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "post-pursuit"
                     }
-                  ]
+                  },
+                  "post-pursuit": {
+                    "label": "post-pursuit",
+                    "body": [
+                      {
+                        "kind": "chasePlayer",
+                        "range": 128,
+                        "speed": 4,
+                        "floating": true
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-route-choice",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-route-choice": {
+                    "label": "post-route-choice",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 97
+                      },
+                      "then": {
+                        "kind": "continue",
+                        "state": "post-pursuit"
+                      },
+                      "else": {
+                        "kind": "to",
+                        "state": "post-wait-01",
+                        "yield": "worldTick"
+                      }
+                    }
+                  },
+                  "post-wait-01": {
+                    "label": "post-wait-01",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-02": {
+                    "label": "post-wait-02",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-03": {
+                    "label": "post-wait-03",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-04": {
+                    "label": "post-wait-04",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-05": {
+                    "label": "post-wait-05",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-06": {
+                    "label": "post-wait-06",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-07": {
+                    "label": "post-wait-07",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-08": {
+                    "label": "post-wait-08",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-09": {
+                    "label": "post-wait-09",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-wait-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "post-wait-10": {
+                    "label": "post-wait-10",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "post-cycle-reset",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "pre-pursuit": {
+                    "label": "pre-pursuit",
+                    "body": [
+                      {
+                        "kind": "chasePlayer",
+                        "range": 128,
+                        "speed": 2,
+                        "floating": true
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "pre-reset",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "pre-reset": {
+                    "label": "pre-reset",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "pre-pursuit"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "legacy-001": {
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": []
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "remaining-04",
+                "states": {
+                  "entry-02": {
+                    "label": "entry-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03"
+                    }
+                  },
+                  "entry-02-phase-02": {
+                    "label": "entry-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-02"
+                    }
+                  },
+                  "entry-02-phase-03": {
+                    "label": "entry-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-03"
+                    }
+                  },
+                  "entry-02-phase-04": {
+                    "label": "entry-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-04"
+                    }
+                  },
+                  "entry-03": {
+                    "label": "entry-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04"
+                    }
+                  },
+                  "entry-03-phase-02": {
+                    "label": "entry-03-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-02"
+                    }
+                  },
+                  "entry-03-phase-03": {
+                    "label": "entry-03-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-03"
+                    }
+                  },
+                  "entry-03-phase-04": {
+                    "label": "entry-03-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-04"
+                    }
+                  },
+                  "entry-04": {
+                    "label": "entry-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05"
+                    }
+                  },
+                  "entry-04-phase-02": {
+                    "label": "entry-04-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-02"
+                    }
+                  },
+                  "entry-04-phase-03": {
+                    "label": "entry-04-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-03"
+                    }
+                  },
+                  "entry-04-phase-04": {
+                    "label": "entry-04-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-04"
+                    }
+                  },
+                  "entry-05": {
+                    "label": "entry-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06"
+                    }
+                  },
+                  "entry-05-phase-02": {
+                    "label": "entry-05-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-02"
+                    }
+                  },
+                  "entry-05-phase-03": {
+                    "label": "entry-05-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-03"
+                    }
+                  },
+                  "entry-05-phase-04": {
+                    "label": "entry-05-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-04"
+                    }
+                  },
+                  "entry-06": {
+                    "label": "entry-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07"
+                    }
+                  },
+                  "entry-06-phase-02": {
+                    "label": "entry-06-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-02"
+                    }
+                  },
+                  "entry-06-phase-03": {
+                    "label": "entry-06-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-03"
+                    }
+                  },
+                  "entry-06-phase-04": {
+                    "label": "entry-06-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-04"
+                    }
+                  },
+                  "entry-07": {
+                    "label": "entry-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08"
+                    }
+                  },
+                  "entry-07-phase-02": {
+                    "label": "entry-07-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-02"
+                    }
+                  },
+                  "entry-07-phase-03": {
+                    "label": "entry-07-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-03"
+                    }
+                  },
+                  "entry-07-phase-04": {
+                    "label": "entry-07-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-04"
+                    }
+                  },
+                  "entry-08": {
+                    "label": "entry-08",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09"
+                    }
+                  },
+                  "entry-08-phase-02": {
+                    "label": "entry-08-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-02"
+                    }
+                  },
+                  "entry-08-phase-03": {
+                    "label": "entry-08-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-03"
+                    }
+                  },
+                  "entry-08-phase-04": {
+                    "label": "entry-08-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-04"
+                    }
+                  },
+                  "entry-09": {
+                    "label": "entry-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-02": {
+                    "label": "entry-09-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-03": {
+                    "label": "entry-09-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-04": {
+                    "label": "entry-09-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10": {
+                    "label": "entry-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-02": {
+                    "label": "entry-10-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-03": {
+                    "label": "entry-10-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-04": {
+                    "label": "entry-10-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11": {
+                    "label": "entry-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-02": {
+                    "label": "entry-11-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-03": {
+                    "label": "entry-11-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-04": {
+                    "label": "entry-11-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12": {
+                    "label": "entry-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-02": {
+                    "label": "entry-12-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-03": {
+                    "label": "entry-12-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-04": {
+                    "label": "entry-12-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-13": {
+                    "label": "entry-13",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14"
+                    }
+                  },
+                  "entry-13-phase-02": {
+                    "label": "entry-13-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-02"
+                    }
+                  },
+                  "entry-13-phase-03": {
+                    "label": "entry-13-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-03"
+                    }
+                  },
+                  "entry-13-phase-04": {
+                    "label": "entry-13-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-04"
+                    }
+                  },
+                  "entry-14": {
+                    "label": "entry-14",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15"
+                    }
+                  },
+                  "entry-14-phase-02": {
+                    "label": "entry-14-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-02"
+                    }
+                  },
+                  "entry-14-phase-03": {
+                    "label": "entry-14-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-03"
+                    }
+                  },
+                  "entry-14-phase-04": {
+                    "label": "entry-14-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-04"
+                    }
+                  },
+                  "entry-15": {
+                    "label": "entry-15",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16"
+                    }
+                  },
+                  "entry-15-phase-02": {
+                    "label": "entry-15-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-02"
+                    }
+                  },
+                  "entry-15-phase-03": {
+                    "label": "entry-15-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-03"
+                    }
+                  },
+                  "entry-15-phase-04": {
+                    "label": "entry-15-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-04"
+                    }
+                  },
+                  "entry-16": {
+                    "label": "entry-16",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17"
+                    }
+                  },
+                  "entry-16-phase-02": {
+                    "label": "entry-16-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-02"
+                    }
+                  },
+                  "entry-16-phase-03": {
+                    "label": "entry-16-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-03"
+                    }
+                  },
+                  "entry-16-phase-04": {
+                    "label": "entry-16-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-04"
+                    }
+                  },
+                  "entry-17": {
+                    "label": "entry-17",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18"
+                    }
+                  },
+                  "entry-17-phase-02": {
+                    "label": "entry-17-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-02"
+                    }
+                  },
+                  "entry-17-phase-03": {
+                    "label": "entry-17-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-03"
+                    }
+                  },
+                  "entry-17-phase-04": {
+                    "label": "entry-17-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-04"
+                    }
+                  },
+                  "entry-18": {
+                    "label": "entry-18",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19"
+                    }
+                  },
+                  "entry-18-phase-02": {
+                    "label": "entry-18-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-02"
+                    }
+                  },
+                  "entry-18-phase-03": {
+                    "label": "entry-18-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-03"
+                    }
+                  },
+                  "entry-18-phase-04": {
+                    "label": "entry-18-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-04"
+                    }
+                  },
+                  "entry-19": {
+                    "label": "entry-19",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-02": {
+                    "label": "entry-19-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-03": {
+                    "label": "entry-19-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-04": {
+                    "label": "entry-19-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20": {
+                    "label": "entry-20",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-02": {
+                    "label": "entry-20-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-03": {
+                    "label": "entry-20-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-04": {
+                    "label": "entry-20-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21": {
+                    "label": "entry-21",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-02": {
+                    "label": "entry-21-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-03": {
+                    "label": "entry-21-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-04": {
+                    "label": "entry-21-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22": {
+                    "label": "entry-22",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-02": {
+                    "label": "entry-22-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-03": {
+                    "label": "entry-22-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-04": {
+                    "label": "entry-22-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "gate": {
+                    "label": "gate",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-03"
+                    }
+                  },
+                  "gate-phase-02": {
+                    "label": "gate-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-02"
+                    }
+                  },
+                  "gate-phase-03": {
+                    "label": "gate-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-01"
+                    }
+                  },
+                  "gate-phase-04": {
+                    "label": "gate-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "restore-touch"
+                    }
+                  },
+                  "remaining-01": {
+                    "label": "remaining-01",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-04"
+                    }
+                  },
+                  "remaining-02": {
+                    "label": "remaining-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-03"
+                    }
+                  },
+                  "remaining-03": {
+                    "label": "remaining-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-02"
+                    }
+                  },
+                  "remaining-04": {
+                    "label": "remaining-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02"
+                    }
+                  },
+                  "restore-touch": {
+                    "label": "restore-touch",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "touch",
+                            "range": 3
+                          }
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s252",
+                          "entity": "e4440"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "use",
+                          "value": "default"
+                        },
+                        "cursorHandoff": {
+                          "kind": "stateMap",
+                          "fromBehavior": "legacy-001",
+                          "cases": [
+                            {
+                              "from": {
+                                "kind": "state",
+                                "machine": "machine",
+                                "state": "restore-touch"
+                              },
+                              "to": {
+                                "kind": "state",
+                                "machine": "machine",
+                                "state": "post-pursuit"
+                              }
+                            }
+                          ],
+                          "onUnmapped": "error"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

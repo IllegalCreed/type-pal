@@ -44,9 +44,10 @@ export interface C8ItemUseV5MigrationPlan extends P7V5MigrationPlan {
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [path, structuredClone(value)] as const),
-    ),
+    // This shell only changes map membership/representation. P7 owns the deep copies
+    // used by the merge, and preservePublishedSnapshotRepresentation replaces map
+    // values instead of mutating their shared JSON objects.
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     ...(source.hashes ? { hashes: new Map(source.hashes) } : {}),
     ...(source.baselineMetadata
@@ -65,26 +66,23 @@ function preservePublishedRepresentation(
   published: MigrationJson,
   generated: MigrationJson,
 ): MigrationJson {
-  if (isDeepStrictEqual(published, generated)) return structuredClone(published)
+  if (isDeepStrictEqual(published, generated)) return published
   if (Array.isArray(generated)) {
-    if (!Array.isArray(published)) return structuredClone(generated)
+    if (!Array.isArray(published)) return generated
     return generated.map((entry, index) => {
       const previous = published[index]
-      return previous === undefined
-        ? structuredClone(entry)
-        : preservePublishedRepresentation(previous, entry)
+      return previous === undefined ? entry : preservePublishedRepresentation(previous, entry)
     })
   }
   if (!generated || typeof generated !== 'object') return generated
-  if (!published || typeof published !== 'object' || Array.isArray(published))
-    return structuredClone(generated)
+  if (!published || typeof published !== 'object' || Array.isArray(published)) return generated
 
   const result: Record<string, MigrationJson> = {}
   for (const key of Object.keys(published))
     if (Object.hasOwn(generated, key))
       result[key] = preservePublishedRepresentation(published[key]!, generated[key]!)
   for (const key of Object.keys(generated))
-    if (!Object.hasOwn(published, key)) result[key] = structuredClone(generated[key]!)
+    if (!Object.hasOwn(published, key)) result[key] = generated[key]!
   return result
 }
 

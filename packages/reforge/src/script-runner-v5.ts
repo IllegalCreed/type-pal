@@ -12,6 +12,7 @@ import {
   type ExecutableSharedScriptV5,
   type RuntimeLeafCommandV5,
   SCRIPT_COMPILER_V5_VERSION,
+  type ScriptBoundaryPolicyV5,
   type ScriptTimingV5,
 } from './script-compiler-v5.js'
 
@@ -42,6 +43,7 @@ export interface SharedScriptResolverV5 {
   resolve(
     id: string,
     timing: ScriptTimingV5,
+    boundaryPolicy: ScriptBoundaryPolicyV5,
     signal: AbortSignal,
   ): ExecutableSharedScriptV5 | Promise<ExecutableSharedScriptV5>
 }
@@ -86,6 +88,7 @@ function assertState(states: Readonly<Record<string, unknown>>, state: string, p
 
 export class ScriptRunnerV5 {
   private static readonly MAX_CALL_DEPTH = 128
+  private static readonly MAX_SYNCHRONOUS_STATE_TRANSITIONS = 4096
   private callDepth = 0
   private self?: EntityAddress
   running = false
@@ -103,11 +106,17 @@ export class ScriptRunnerV5 {
   ): Promise<void> {
     if (executable.compilerVersion !== SCRIPT_COMPILER_V5_VERSION)
       throw new Error(`ScriptRunnerV5: compilerVersion ${executable.compilerVersion} 不受支持`)
+    if (executable.boundaryPolicy !== 'perCommand' && executable.boundaryPolicy !== 'transition')
+      throw new Error(
+        `ScriptRunnerV5: boundaryPolicy ${String(executable.boundaryPolicy)} 不受支持`,
+      )
     const previousSelf = this.self
     const previousTiming = this.runningTiming
+    const previousBoundaryPolicy = this.runningBoundaryPolicy
     const previousDigest = this.runningDigest
     this.self = options.self === undefined ? undefined : structuredClone(options.self)
     this.runningTiming = executable.timing
+    this.runningBoundaryPolicy = executable.boundaryPolicy
     this.runningDigest = executable.canonicalContentDigest
     this.running = true
     try {
@@ -116,6 +125,7 @@ export class ScriptRunnerV5 {
     } finally {
       this.self = previousSelf
       this.runningTiming = previousTiming
+      this.runningBoundaryPolicy = previousBoundaryPolicy
       this.runningDigest = previousDigest
       this.running = false
     }
@@ -181,6 +191,7 @@ export class ScriptRunnerV5 {
             })()
     assertState(machine.states, stateId, `machine ${machine.id}`)
     let firstState = true
+    let synchronousTransitions = 0
     try {
       while (true) {
         throwIfAborted(this.signal)
@@ -203,6 +214,12 @@ export class ScriptRunnerV5 {
         const transition = this.resolveTransition(state.next, outcomes)
         if (transition.kind === 'continue') {
           assertState(machine.states, transition.state, `${machine.id}.${stateId}.next`)
+          synchronousTransitions++
+          if (synchronousTransitions > ScriptRunnerV5.MAX_SYNCHRONOUS_STATE_TRANSITIONS)
+            throw new Error(
+              `ScriptRunnerV5: machine ${machine.id} 的 continue 链超过 ` +
+                `${ScriptRunnerV5.MAX_SYNCHRONOUS_STATE_TRANSITIONS}（state ${stateId}）`,
+            )
           stateId = transition.state
           continue
         }
@@ -222,6 +239,7 @@ export class ScriptRunnerV5 {
         if (transition.yield === 'macroTask') await this.host.yieldMacroTask(this.signal)
         else await this.host.waitWorldTick(this.signal)
         throwIfAborted(this.signal)
+        synchronousTransitions = 0
         stateId = target
       }
     } catch (error) {
@@ -373,14 +391,20 @@ export class ScriptRunnerV5 {
     if (!this.resolver) throw new Error(`ScriptRunnerV5: 无 resolver，无法解析 ${command.script}`)
     if (this.callDepth >= ScriptRunnerV5.MAX_CALL_DEPTH)
       throw new Error(`ScriptRunnerV5: callScript 调用深度超过 ${ScriptRunnerV5.MAX_CALL_DEPTH}`)
-    const script = await this.resolver.resolve(command.script, this.runningTiming, this.signal)
+    const script = await this.resolver.resolve(
+      command.script,
+      this.runningTiming,
+      this.runningBoundaryPolicy,
+      this.signal,
+    )
     if (script.id !== command.script)
       throw new Error(`ScriptRunnerV5: resolver 返回错误 script id ${script.id}`)
     if (script.compilerVersion !== SCRIPT_COMPILER_V5_VERSION)
       throw new Error(`ScriptRunnerV5: shared ${script.id} compilerVersion 不匹配`)
     if (
       script.canonicalContentDigest !== this.runningDigest ||
-      script.timing !== this.runningTiming
+      script.timing !== this.runningTiming ||
+      script.boundaryPolicy !== this.runningBoundaryPolicy
     )
       throw new Error(`ScriptRunnerV5: shared ${script.id} executable cache 已过期`)
     const inherited = command.self ?? this.self
@@ -407,6 +431,7 @@ export class ScriptRunnerV5 {
   }
 
   private runningTiming: ScriptTimingV5 = 'interactive'
+  private runningBoundaryPolicy: ScriptBoundaryPolicyV5 = 'perCommand'
   private runningDigest = ''
 
   private async runBoundaries(boundaries: readonly ExecutableCommandBoundaryV5[]): Promise<void> {

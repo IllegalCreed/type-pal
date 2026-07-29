@@ -331,95 +331,123 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.3451"
-                          },
-                          {
-                            "text": "dlg.3452"
-                          }
-                        ],
-                        "speaker": "spk.村民"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "触发行为 1",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3451"
+                            },
+                            {
+                              "text": "dlg.3452"
+                            }
+                          ],
+                          "speaker": "spk.村民"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3454"
-                          },
-                          {
-                            "text": "dlg.3455"
-                          },
-                          {
-                            "text": "dlg.3456"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.3458"
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3454"
+                            },
+                            {
+                              "text": "dlg.3455"
+                            },
+                            {
+                              "text": "dlg.3456"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.村民"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s051",
-                        "entity": "e877"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3458"
+                            }
+                          ],
+                          "speaker": "spk.村民",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 0,
+                        "target": {
+                          "scene": "s051",
+                          "entity": "e877"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "giveItem",
+                        "itemId": "284"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3460"
+                            }
+                          ],
+                          "speaker": "spk.村民",
+                          "slot": "top"
+                        }
                       }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "itemId": "284",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.3460"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.村民"
-                      },
-                      "kind": "dialog"
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3460"
+                            }
+                          ],
+                          "speaker": "spk.村民",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "c8-c79ffa02dfec": {

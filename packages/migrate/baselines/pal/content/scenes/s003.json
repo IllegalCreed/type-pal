@@ -1219,295 +1219,353 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "kind": "setEntityTriggerActivation",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "触发行为 1",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
                       },
-                      "selection": {
-                        "kind": "use",
-                        "value": {
-                          "on": "interact",
-                          "range": 2
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "interact",
+                            "range": 2
+                          }
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.824"
+                            },
+                            {
+                              "text": "dlg.825"
+                            },
+                            {
+                              "text": "dlg.826"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.828"
+                            },
+                            {
+                              "text": "dlg.829"
+                            },
+                            {
+                              "text": "dlg.830"
+                            },
+                            {
+                              "text": "dlg.831"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.833"
+                            },
+                            {
+                              "text": "dlg.834"
+                            },
+                            {
+                              "text": "dlg.835"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.837"
+                            },
+                            {
+                              "text": "dlg.838"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.840"
+                            },
+                            {
+                              "text": "dlg.841"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.843"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.002",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.845"
+                            },
+                            {
+                              "text": "dlg.846"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.848"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.850"
+                            },
+                            {
+                              "text": "dlg.851"
+                            },
+                            {
+                              "text": "dlg.852"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.854"
+                            },
+                            {
+                              "text": "dlg.855"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.857"
+                            },
+                            {
+                              "text": "dlg.858"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "disabled"
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e3"
+                        },
+                        "channel": "trigger",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
                         }
                       }
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.824"
-                          },
-                          {
-                            "text": "dlg.825"
-                          },
-                          {
-                            "text": "dlg.826"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.828"
-                          },
-                          {
-                            "text": "dlg.829"
-                          },
-                          {
-                            "text": "dlg.830"
-                          },
-                          {
-                            "text": "dlg.831"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.833"
-                          },
-                          {
-                            "text": "dlg.834"
-                          },
-                          {
-                            "text": "dlg.835"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.837"
-                          },
-                          {
-                            "text": "dlg.838"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.840"
-                          },
-                          {
-                            "text": "dlg.841"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.002",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.843"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.845"
-                          },
-                          {
-                            "text": "dlg.846"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.848"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.850"
-                          },
-                          {
-                            "text": "dlg.851"
-                          },
-                          {
-                            "text": "dlg.852"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.854"
-                          },
-                          {
-                            "text": "dlg.855"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.055",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.857"
-                          },
-                          {
-                            "text": "dlg.858"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李大娘"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "disabled"
-                      }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e3"
-                      },
-                      "channel": "trigger",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.857"
+                            },
+                            {
+                              "text": "dlg.858"
+                            }
+                          ],
+                          "speaker": "spk.李大娘",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.055",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "disabled"
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e3"
+                        },
+                        "channel": "trigger",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "legacy-002": {
@@ -1934,7 +1992,12 @@
                         "entity": "e56"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1962,7 +2025,12 @@
                         "entity": "e56"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2003,7 +2071,12 @@
                         "entity": "e56"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2039,7 +2112,12 @@
                         "entity": "e56"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2067,7 +2145,12 @@
                         "entity": "e56"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2076,96 +2159,947 @@
             "label": "自动行为 6",
             "order": 6,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "setEntityTriggerActivation",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      },
-                      "selection": {
-                        "kind": "disabled"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 121,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 121,
-                        "height": 0,
-                        "row": 49
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 122,
-                        "height": 0,
-                        "row": 49
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "dx": 5,
-                      "dy": 5,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "dx": 3,
-                      "dy": 3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e56"
-                      }
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 6",
+                "cadence": "transition",
+                "initial": "intro-01",
+                "states": {
+                  "completed": {
+                    "label": "completed",
+                    "body": [],
+                    "next": {
+                      "kind": "stay"
                     }
-                  ]
+                  },
+                  "cycle-01": {
+                    "label": "cycle-01",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-02": {
+                    "label": "cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-03": {
+                    "label": "cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-04": {
+                    "label": "cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-05": {
+                    "label": "cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-06": {
+                    "label": "cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-07": {
+                    "label": "cycle-01-phase-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-08": {
+                    "label": "cycle-01-phase-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-09": {
+                    "label": "cycle-01-phase-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-10": {
+                    "label": "cycle-01-phase-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-11": {
+                    "label": "cycle-01-phase-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-12": {
+                    "label": "cycle-01-phase-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 5,
+                        "dy": 5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02": {
+                    "label": "cycle-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-02": {
+                    "label": "cycle-02-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-03": {
+                    "label": "cycle-02-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-04": {
+                    "label": "cycle-02-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-05": {
+                    "label": "cycle-02-phase-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-06": {
+                    "label": "cycle-02-phase-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-07": {
+                    "label": "cycle-02-phase-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-08": {
+                    "label": "cycle-02-phase-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-09": {
+                    "label": "cycle-02-phase-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-10": {
+                    "label": "cycle-02-phase-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-11": {
+                    "label": "cycle-02-phase-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02-phase-12": {
+                    "label": "cycle-02-phase-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "dx": 3,
+                        "dy": 3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-03-phase-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03": {
+                    "label": "cycle-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-02"
+                    }
+                  },
+                  "cycle-03-phase-02": {
+                    "label": "cycle-03-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-03"
+                    }
+                  },
+                  "cycle-03-phase-03": {
+                    "label": "cycle-03-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-04"
+                    }
+                  },
+                  "cycle-03-phase-04": {
+                    "label": "cycle-03-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-05"
+                    }
+                  },
+                  "cycle-03-phase-05": {
+                    "label": "cycle-03-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-06"
+                    }
+                  },
+                  "cycle-03-phase-06": {
+                    "label": "cycle-03-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-07"
+                    }
+                  },
+                  "cycle-03-phase-07": {
+                    "label": "cycle-03-phase-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-08"
+                    }
+                  },
+                  "cycle-03-phase-08": {
+                    "label": "cycle-03-phase-08",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-09"
+                    }
+                  },
+                  "cycle-03-phase-09": {
+                    "label": "cycle-03-phase-09",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-10"
+                    }
+                  },
+                  "cycle-03-phase-10": {
+                    "label": "cycle-03-phase-10",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-11"
+                    }
+                  },
+                  "cycle-03-phase-11": {
+                    "label": "cycle-03-phase-11",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-12"
+                    }
+                  },
+                  "cycle-03-phase-12": {
+                    "label": "cycle-03-phase-12",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "outro-01"
+                    }
+                  },
+                  "intro-01": {
+                    "label": "intro-01",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "selection": {
+                          "kind": "disabled"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "intro-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "intro-02": {
+                    "label": "intro-02",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "to": {
+                          "col": 121,
+                          "row": 45,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "intro-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "intro-03": {
+                    "label": "intro-03",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "to": {
+                          "col": 121,
+                          "row": 49,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "intro-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "intro-04": {
+                    "label": "intro-04",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "to": {
+                          "col": 122,
+                          "row": 49,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-01",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-01": {
+                    "label": "outro-01",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "interact",
+                            "range": 2
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-02": {
+                    "label": "outro-02",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "to": {
+                          "col": 137,
+                          "row": 52,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-03": {
+                    "label": "outro-03",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "to": {
+                          "col": 137,
+                          "row": 66,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-04": {
+                    "label": "outro-04",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "touch",
+                            "range": 2
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-05": {
+                    "label": "outro-05",
+                    "body": [
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e56"
+                        },
+                        "channel": "trigger",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "completed",
+                      "yield": "worldTick"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }
@@ -4567,7 +5501,12 @@
                         "entity": "e59"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -4576,57 +5515,997 @@
             "label": "自动行为 2",
             "order": 2,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 137,
-                        "height": 0,
-                        "row": 52
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 130,
-                        "height": 0,
-                        "row": 52
-                      },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "dx": -5,
-                      "dy": -5,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 2",
+                "cadence": "transition",
+                "initial": "intro-01",
+                "states": {
+                  "completed": {
+                    "label": "completed",
+                    "body": [],
+                    "next": {
+                      "kind": "stay"
                     }
-                  ]
+                  },
+                  "cycle-01": {
+                    "label": "cycle-01",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-02": {
+                    "label": "cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-03": {
+                    "label": "cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-04": {
+                    "label": "cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-05": {
+                    "label": "cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-06": {
+                    "label": "cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-07": {
+                    "label": "cycle-01-phase-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-08": {
+                    "label": "cycle-01-phase-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-09": {
+                    "label": "cycle-01-phase-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-10": {
+                    "label": "cycle-01-phase-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-11": {
+                    "label": "cycle-01-phase-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-12": {
+                    "label": "cycle-01-phase-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -5,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02": {
+                    "label": "cycle-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03"
+                    }
+                  },
+                  "cycle-02-phase-02": {
+                    "label": "cycle-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-02"
+                    }
+                  },
+                  "cycle-02-phase-03": {
+                    "label": "cycle-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-03"
+                    }
+                  },
+                  "cycle-02-phase-04": {
+                    "label": "cycle-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-04"
+                    }
+                  },
+                  "cycle-02-phase-05": {
+                    "label": "cycle-02-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-05"
+                    }
+                  },
+                  "cycle-02-phase-06": {
+                    "label": "cycle-02-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-06"
+                    }
+                  },
+                  "cycle-02-phase-07": {
+                    "label": "cycle-02-phase-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-07"
+                    }
+                  },
+                  "cycle-02-phase-08": {
+                    "label": "cycle-02-phase-08",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-08"
+                    }
+                  },
+                  "cycle-02-phase-09": {
+                    "label": "cycle-02-phase-09",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-09"
+                    }
+                  },
+                  "cycle-02-phase-10": {
+                    "label": "cycle-02-phase-10",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-10"
+                    }
+                  },
+                  "cycle-02-phase-11": {
+                    "label": "cycle-02-phase-11",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-11"
+                    }
+                  },
+                  "cycle-02-phase-12": {
+                    "label": "cycle-02-phase-12",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-03-phase-12"
+                    }
+                  },
+                  "cycle-03": {
+                    "label": "cycle-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-02": {
+                    "label": "cycle-03-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-03": {
+                    "label": "cycle-03-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-04": {
+                    "label": "cycle-03-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-05": {
+                    "label": "cycle-03-phase-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-06": {
+                    "label": "cycle-03-phase-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-07": {
+                    "label": "cycle-03-phase-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-08": {
+                    "label": "cycle-03-phase-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-09": {
+                    "label": "cycle-03-phase-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-10": {
+                    "label": "cycle-03-phase-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-11": {
+                    "label": "cycle-03-phase-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-03-phase-12": {
+                    "label": "cycle-03-phase-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "dx": -3,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-04-phase-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-04": {
+                    "label": "cycle-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-02"
+                    }
+                  },
+                  "cycle-04-phase-02": {
+                    "label": "cycle-04-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-03"
+                    }
+                  },
+                  "cycle-04-phase-03": {
+                    "label": "cycle-04-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-04"
+                    }
+                  },
+                  "cycle-04-phase-04": {
+                    "label": "cycle-04-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-05"
+                    }
+                  },
+                  "cycle-04-phase-05": {
+                    "label": "cycle-04-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-06"
+                    }
+                  },
+                  "cycle-04-phase-06": {
+                    "label": "cycle-04-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-07"
+                    }
+                  },
+                  "cycle-04-phase-07": {
+                    "label": "cycle-04-phase-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-08"
+                    }
+                  },
+                  "cycle-04-phase-08": {
+                    "label": "cycle-04-phase-08",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-09"
+                    }
+                  },
+                  "cycle-04-phase-09": {
+                    "label": "cycle-04-phase-09",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-10"
+                    }
+                  },
+                  "cycle-04-phase-10": {
+                    "label": "cycle-04-phase-10",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-11"
+                    }
+                  },
+                  "cycle-04-phase-11": {
+                    "label": "cycle-04-phase-11",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-12"
+                    }
+                  },
+                  "cycle-04-phase-12": {
+                    "label": "cycle-04-phase-12",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "outro-01"
+                    }
+                  },
+                  "intro-01": {
+                    "label": "intro-01",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "to": {
+                          "col": 137,
+                          "row": 52,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "intro-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "intro-02": {
+                    "label": "intro-02",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "to": {
+                          "col": 130,
+                          "row": 52,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-01",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-01": {
+                    "label": "outro-01",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "to": {
+                          "col": 121,
+                          "row": 46,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-02": {
+                    "label": "outro-02",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "outro-03"
+                    }
+                  },
+                  "outro-03": {
+                    "label": "outro-03",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "to": {
+                          "col": 124,
+                          "row": 46,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-04": {
+                    "label": "outro-04",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "to": {
+                          "col": 124,
+                          "row": 42,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-05": {
+                    "label": "outro-05",
+                    "body": [
+                      {
+                        "kind": "setEntityState",
+                        "target": {
+                          "scene": "s001",
+                          "entity": "e24"
+                        },
+                        "state": 2
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "outro-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "outro-06": {
+                    "label": "outro-06",
+                    "body": [
+                      {
+                        "kind": "setEntityState",
+                        "target": {
+                          "scene": "s003",
+                          "entity": "e59"
+                        },
+                        "state": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "completed",
+                      "yield": "worldTick"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "legacy-003": {
@@ -4681,7 +6560,12 @@
                         "entity": "e59"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -4717,7 +6601,12 @@
                         "entity": "e59"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -6487,7 +8376,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -6495,7 +8384,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -6503,7 +8392,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -6511,7 +8400,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -6519,7 +8408,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -6527,7 +8416,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -6559,7 +8448,12 @@
                         "entity": "e60"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -6608,7 +8502,12 @@
                         "entity": "e60"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -8444,7 +10343,12 @@
                         "entity": "e61"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -8493,7 +10397,12 @@
                         "entity": "e61"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -10118,7 +12027,12 @@
                         "entity": "e68"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -10173,7 +12087,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10181,7 +12095,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10189,7 +12103,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10197,7 +12111,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     },
                     {
@@ -10205,7 +12119,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     },
                     {
@@ -10213,7 +12127,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     }
                   ]
@@ -10262,7 +12176,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10270,7 +12184,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10278,7 +12192,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e71"
+                        "entity": "e70"
                       }
                     },
                     {
@@ -10286,7 +12200,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     },
                     {
@@ -10294,7 +12208,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     },
                     {
@@ -10302,7 +12216,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e72"
+                        "entity": "e71"
                       }
                     }
                   ]
@@ -10360,7 +12274,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10368,7 +12282,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10376,7 +12290,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10384,7 +12298,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -10392,7 +12306,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -10400,7 +12314,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     }
                   ]
@@ -10449,7 +12363,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10457,7 +12371,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10465,7 +12379,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e74"
+                        "entity": "e73"
                       }
                     },
                     {
@@ -10473,7 +12387,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -10481,7 +12395,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     },
                     {
@@ -10489,7 +12403,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
-                        "entity": "e75"
+                        "entity": "e74"
                       }
                     }
                   ]

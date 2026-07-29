@@ -197,7 +197,12 @@
                         "entity": "e623"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

@@ -71,7 +71,12 @@
                         "entity": "e3343"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -121,7 +126,12 @@
                         "entity": "e3344"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

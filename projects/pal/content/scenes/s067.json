@@ -989,7 +989,12 @@
                         "entity": "e1343"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1052,7 +1057,12 @@
                         "entity": "e1344"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1115,7 +1125,12 @@
                         "entity": "e1345"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

@@ -13,6 +13,7 @@
  *  - 跳转族或未知 op 只写迁移期 MigrationGap;可达 gap 会在写盘前统一失败,
  *    不得生成可执行占位命令。
  */
+import { createHash } from 'node:crypto'
 import {
   type AssetId,
   type Command,
@@ -44,6 +45,7 @@ import { resolveSoundAsset } from './sound-migration.js'
 import type { SourceCmd } from './source-facts.js'
 import {
   FACING_BY_DIR,
+  legacyEventObjectEntityId,
   partyPosToGrid,
   ROLE_SLUGS,
   sceneSlug,
@@ -61,6 +63,7 @@ interface Cmd extends SourceCmd {
   advance?: boolean
   reset?: boolean
   resetTo?: number
+  idleFrames?: number
   arg0?: number // 对话样式 op 的 operand[0]:top/bottom = 立绘号(wNumCharFace)
   paletteIndex?: number
 }
@@ -80,6 +83,11 @@ export interface TranslateReport {
     owner: string
     path: string
   }>
+  /**
+   * R13-0 逐源站翻译轨迹。它只证明翻译器在本次纯生成中如何处置该站点；
+   * 是否足以销账仍须与 source digest、body/product digest 和最终目标联合校验。
+   */
+  instructionOutcomes: TranslateInstructionOutcome[]
   /** 已映射为 clean 命令的原 opcode 统计。 */
   resolved: Record<string, number>
   /** 无显式 label 但已按 all.json 数组地址解析的目标。 */
@@ -92,6 +100,31 @@ export interface TranslateReport {
   sceneScriptPatches?: number
 }
 
+export interface TranslateInstructionOutcome {
+  sourceAddress: number
+  /**
+   * 直接承载该次翻译结果的迁移产物 body（canonical script 或折叠审计体）。
+   * 同一源地址/owner 可能因入口对话态或调用路径生成多个 body，不能只按地址借账。
+   */
+  bodyId?: string
+  owner: string
+  path: string
+  sourceOp: string
+  sourceOpcode?: number
+  outcome:
+    | 'emitted'
+    | 'control-flow'
+    | 'buffered-dialog'
+    | 'dialogue-state'
+    | 'stateful'
+    | 'known-noop-candidate'
+    | 'deferred'
+    | 'gap'
+    | 'dropped'
+  emittedKinds: string[]
+  emittedDigest: string
+}
+
 export function emptyTranslateReport(): TranslateReport {
   return {
     chains: 0,
@@ -100,6 +133,7 @@ export function emptyTranslateReport(): TranslateReport {
     notes: {},
     knownNoOps: {},
     knownNoOpDetails: [],
+    instructionOutcomes: [],
     resolved: {},
     resolvedAddressTargets: [],
     gaps: [],
@@ -313,7 +347,7 @@ export class ScriptRegistry {
       ctx.pathStack.push(`${id} -> ${label}`)
       ctx.sourceAddressAuditStack.push(sourceAddresses)
       try {
-        const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state)
+        const translated = walkBody(target.cmds, target.idx, owner, ctx, 0, state, id)
         if (translated.term.kind === 'advance' || translated.term.kind === 'reset')
           note(ctx, '引用目标含段转移(按 end 处理)')
         record.body = foldBattleConfig(foldDoorPattern(translated.body))
@@ -487,12 +521,105 @@ const STYLE_SLOT: Record<string, DialogueCue['slot'] | undefined> = {
 /** 说话人行:以全角/半角冒号结尾(原版约定;DialogueCue 显式 speaker 字段的来源)。 */
 const SPEAKER_RE = /[∶:：]\s*$/
 
-interface WalkTerm {
-  kind: 'end' | 'advance' | 'reset' | 'cut'
-  resetTo?: string // L_<addr>
-  /** advance:下一段起点(同数组下标)。 */
-  nextIdx?: number
+type WalkTerm =
+  | { kind: 'end' }
+  | {
+      kind: 'advance'
+      /** 下一段起点(同数组下标)。 */
+      nextIdx: number
+      nextAddress: number
+    }
+  | {
+      kind: 'reset'
+      resetTo: string
+      targetAddress: number
+      idleFrames: number
+      fallthroughAddress: number
+    }
+  | { kind: 'cut' }
+  | {
+      kind: 'checkpoint'
+      sourceAddress: number
+      resumeAddress: number
+    }
+  | {
+      kind: 'goto'
+      sourceAddress: number
+      targetAddress: number
+      frameDelay: number
+      fallthroughAddress: number
+    }
+  | {
+      kind: 'call'
+      sourceAddress: number
+      targetAddress: number
+      returnAddress: number
+      callOwner?: string
+    }
+
+export type R13ActivationControlEdgeKind = 'branch-target' | 'checkpoint' | 'goto' | 'call'
+
+export interface R13ActivationControlEdge {
+  kind: R13ActivationControlEdgeKind
+  sourceAddress: number
+  targetAddress: number
+  returnAddress?: number
+  owner?: string
+  frameDelay?: number
 }
+
+interface WalkControlStrategy {
+  externalize(edge: R13ActivationControlEdge): boolean
+}
+
+/**
+ * R13-2 迁移期控制边。它只允许在 translateActivationBlock 的 unknown body 中短暂存在，
+ * 必须由 TriggerActivationGraph 完整消费；不得加入公开 Command union 或写入工程。
+ */
+export interface R13ActivationTransferMarker {
+  kind: 'n3R13ActivationTransfer'
+  sourceAddress: number
+  targetAddress: number
+  entryState: DialogueEntryState
+}
+
+export type R13ActivationBlockTerm =
+  | { kind: 'end'; dialogueState: DialogueEntryState }
+  | {
+      kind: 'advance'
+      targetAddress: number
+      dialogueState: DialogueEntryState
+    }
+  | {
+      kind: 'reset'
+      targetAddress: number
+      idleFrames: number
+      fallthroughAddress: number
+      dialogueState: DialogueEntryState
+    }
+  | {
+      kind: 'checkpoint'
+      sourceAddress: number
+      resumeAddress: number
+      dialogueState: DialogueEntryState
+    }
+  | {
+      kind: 'goto'
+      sourceAddress: number
+      targetAddress: number
+      frameDelay: number
+      fallthroughAddress: number
+      dialogueState: DialogueEntryState
+    }
+  | {
+      kind: 'call'
+      sourceAddress: number
+      targetAddress: number
+      returnAddress: number
+      callOwner?: string
+      dialogueState: DialogueEntryState
+    }
+  | { kind: 'cut'; dialogueState: DialogueEntryState }
 
 /**
  * 翻译一条触发/进场链 → stages。
@@ -577,6 +704,7 @@ export function translateStages(
       ctx.sourceAddressAuditStack ??= []
       const stageSourceAddresses = new Set<number>()
       ctx.sourceAddressAuditStack.push(stageSourceAddresses)
+      const stageOutcomeStart = ctx.report.instructionOutcomes.length
       let translated: ReturnType<typeof walkBody>
       try {
         translated = walkBody(cursor.cmds, cursor.idx, ownerEntity, ctx)
@@ -604,6 +732,12 @@ export function translateStages(
       recordScriptStageSourceAddresses(
         stage,
         [...stageSourceAddresses].sort((left, right) => left - right),
+      )
+      recordScriptStageInstructionOutcomes(
+        stage,
+        ctx.report.instructionOutcomes
+          .slice(stageOutcomeStart)
+          .filter((outcome) => outcome.bodyId === undefined),
       )
     }
 
@@ -729,6 +863,50 @@ function resolved(ctx: TranslateCtx, key: string): void {
   ctx.report.resolved[key] = (ctx.report.resolved[key] ?? 0) + 1
 }
 
+function recordInstructionOutcome(args: {
+  ctx: TranslateCtx
+  command: Cmd
+  sourceAddress: number
+  bodyId?: string
+  owner: string | undefined
+  path: string
+  body: readonly Command[]
+  bodyStart: number
+  gapStart: number
+  knownNoOpStart: number
+}): void {
+  const emitted = args.body.slice(args.bodyStart)
+  const emittedKinds = emitted.map((command) => command.kind)
+  const directKinds =
+    args.command.op === 'raw' ? emittedKinds.filter((kind) => kind !== 'dialog') : emittedKinds
+  const opcode = args.command.op === 'raw' ? args.command.opcode : undefined
+  const operands = args.command.operands ?? []
+  const sourceNoOp =
+    opcode !== undefined && (opcode === 0x24 || opcode === 0x25) && (operands[0] ?? 0) === 0
+  let outcome: TranslateInstructionOutcome['outcome']
+  if (args.ctx.report.gaps.length > args.gapStart) outcome = 'gap'
+  else if (args.command.op === 'setPalette') outcome = 'deferred'
+  else if (args.ctx.report.knownNoOpDetails.length > args.knownNoOpStart || sourceNoOp)
+    outcome = 'known-noop-candidate'
+  else if (args.command.op === 'end' || args.command.op === 'goto') outcome = 'control-flow'
+  else if (args.command.op === 'showDialog') outcome = 'buffered-dialog'
+  else if (args.command.op && args.command.op in STYLE_SLOT) outcome = 'dialogue-state'
+  else if (directKinds.length > 0) outcome = 'emitted'
+  else if (opcode === 0x36 || opcode === 0x8a) outcome = 'stateful'
+  else outcome = 'dropped'
+  args.ctx.report.instructionOutcomes.push({
+    sourceAddress: args.sourceAddress,
+    ...(args.bodyId === undefined ? {} : { bodyId: args.bodyId }),
+    owner: args.owner ?? 'scene',
+    path: args.path,
+    sourceOp: operationOf(args.command),
+    ...(opcode === undefined ? {} : { sourceOpcode: opcode }),
+    outcome,
+    emittedKinds: directKinds,
+    emittedDigest: createHash('sha256').update(JSON.stringify(emitted)).digest('hex'),
+  })
+}
+
 /** 走一段体:从 idx 到 end 变体/流截断。 */
 function walkBody(
   cmds: readonly SourceCmd[],
@@ -737,6 +915,8 @@ function walkBody(
   ctx: TranslateCtx,
   depth = 0,
   entryState: DialogueEntryState = {},
+  bodyId?: string,
+  control?: WalkControlStrategy,
 ): { body: Command[]; term: WalkTerm; dialogueState: DialogueEntryState } {
   const body: Command[] = []
   let lastRngChunk = 0 // 0x36 只在迁移边界保存旧段号，0x37 立即映射稳定帧动画 AssetId。
@@ -826,880 +1006,1012 @@ function walkBody(
 
   while (at.idx < at.cmds.length && body.length < MAX_BODY && steps++ < MAX_BODY * 4) {
     const c = at.cmds[at.idx] as Cmd
-    ctx.sourceAddressAuditStack?.at(-1)?.add(sourceAddressAt(ctx, at.cmds, at.idx))
+    const instructionSourceAddress = sourceAddressAt(ctx, at.cmds, at.idx)
+    ctx.sourceAddressAuditStack?.at(-1)?.add(instructionSourceAddress)
     const op = c.op
-
-    // ── end 族:段终 ──
-    if (op === 'end') {
-      flush()
-      if (c.advance)
-        return {
-          body,
-          term: { kind: 'advance', nextIdx: at.idx + 1 },
-          dialogueState: dialogueSnapshot(),
-        }
-      if (c.reset)
-        return {
-          body,
-          term: { kind: 'reset', resetTo: `L_${c.resetTo}` },
-          dialogueState: dialogueSnapshot(),
-        }
-      return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
-    }
-    // ── goto:延迟 → wait;目标内联续走(环 → 截断)──
-    if (op === 'goto') {
-      flush()
-      if ((c.frameDelay ?? 0) > 0) body.push({ kind: 'wait', ms: c.frameDelay! * FRAME_MS })
-      // 跨库目标(带 "shared#" 前缀)以前显式截断(0x4C 海内联会展开 49.8 万条);
-      // B8 后 0x4C 段翻成单条 chasePlayer 即终止,海已排干 → 放开正常内联(环/超长截断兜底)。
-      // 提取器把跨场景共享目标改写为 "shared#L_X"(slice.ts rewriteJumps);索引用裸名 → 剥前缀查
-      const toName = (c.to ?? '').split('#').pop() ?? ''
-      if (ctx.registry) {
-        if (!toName) {
-          body.push({ kind: 'stopScript' })
-        } else {
-          const ref = ctx.registry.registerTarget(
-            toName,
-            owner,
-            {
-              slot,
-              portrait,
-              activeSpeaker,
-              speakerAwaitingBody,
-              color: dialogState.color,
-              speed: dialogState.speed,
-            },
-            ctx,
-          )
-          body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
-        }
-        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
-      }
-      const target = ctx.labelAt.get(toName)
-      if (!target) {
-        note(ctx, `goto 目标缺失`)
-        ctx.report.flowCuts++
-        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
-      }
-      if (target.cmds === at.cmds && visited.has(target.idx)) {
-        note(ctx, 'goto 回边结构化')
-        return {
-          body,
-          term: { kind: 'reset', resetTo: toName },
-          dialogueState: dialogueSnapshot(),
-        }
-      }
-      if (target.cmds === at.cmds) visited.add(target.idx)
-      at = { cmds: target.cmds, idx: target.idx }
-      continue
-    }
-    if (op === 'showDialog') {
-      batch.push({ msgIdx: c.messageIndex ?? -1, text: c.text ?? '' })
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
-    }
-    if (op && op in STYLE_SLOT) {
-      flush() // 先出旧批(用旧 slot/portrait),再切样式
-      if (speakerAwaitingBody) note(ctx, '悬空说话人行(无正文)')
-      activeSpeaker = undefined
-      speakerAwaitingBody = false
-      slot = STYLE_SLOT[op]
-      // PAL_StartDialog 重置当前字体色，但脚本级 iDelay 继续保留。
-      dialogState = { ...dialogState, color: 'default' }
-      // 立绘:top(0x3C)/bottom(0x3D) 的 arg0 = wNumCharFace(RGM 立绘号);sdlpal script.c:3402/3412。
-      // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
-      const face = op === 'setDialogStyleTop' || op === 'setDialogStyleBottom' ? (c.arg0 ?? 0) : 0
-      portrait =
-        face > 0
-          ? {
-              asset: palPortraitAssetId(face),
-              side: op === 'setDialogStyleTop' ? 'left' : 'right',
-            }
-          : undefined
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
-    }
-    if (op === 'loadScene') {
-      flush()
-      // loadScene operand 1-based(sdlpal rgScene[wNumScene-1])→ 0-based scene index,对齐 sceneSlug/sc.sceneId 命名
-      body.push({ kind: 'loadScene', scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)) })
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
-    }
-    if (op === 'giveItem') {
-      // 原版数据 bug 烘焙(扬州宝物屋 3 箱:「获得X」提示后 giveItem 0 给空;一阶段修在
-      // 运行时 patchGiveItemZeroBugs,reforge 无运行时 patch 层 → 翻译期按前句 MSG 下标补真 id)
-      const fix =
-        c.itemId === 0 ? GIVEITEM_ZERO_FIXUP[batch[batch.length - 1]?.msgIdx ?? -1] : undefined
-      flush()
-      const cnt = c.count && c.count > 1 ? c.count : undefined
-      body.push({
-        kind: 'giveItem',
-        itemId: String(fix ?? c.itemId),
-        ...(cnt ? { count: cnt } : {}),
-      })
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
-    }
-    if (op === 'setPalette') {
-      // 已知视觉缺口,不属于未知命令:二阶段必须用 RGBA 全屏色彩 profile 重写,严禁把
-      // paletteId/index 重新带回脚本 schema。这里只记迁移报告,不生成可执行旧节点。
-      note(ctx, `known-deferred:setPalette(${c.paletteIndex ?? 0})`)
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
+    const instructionTrace = {
+      ctx,
+      command: c,
+      sourceAddress: instructionSourceAddress,
+      bodyId,
+      owner,
+      path: ctx.pathStack?.join(' > ') ?? '',
+      body,
+      bodyStart: body.length,
+      gapStart: ctx.report.gaps.length,
+      knownNoOpStart: ctx.report.knownNoOpDetails.length,
     }
 
-    // ── raw 表 ──
-    if (op === 'raw' && typeof c.opcode === 'number') {
-      const o = c.operands ?? []
-      const oc = c.opcode
-      const push = (cmd: Command | undefined) => {
+    try {
+      // ── end 族:段终 ──
+      if (op === 'end') {
         flush()
-        if (cmd) body.push(cmd)
-      }
-      const gap = (reason: string, opcode: number | string = oc, operands = o) => {
-        flush()
-        recordGap(ctx, {
-          sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
-          opcode,
-          operands: [...operands],
-          owner: owner ?? 'scene',
-          reason,
-        })
-      }
-      // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based 全局**对象号
-      // (script.c:631 `pCurrent = &lprgEventObject[operand-1]`;一阶段 resolveGlobalEventObject
-      // 同语义)。提取的 eo.id 是 0-based 全局累加(scene1=0..31,scene2=32..),故 -1 即得
-      // e<id>。⚠ 曾直译 e${v} 全体 +1 错位(2026-07-03 用户报,考证见 opcode 缺口审计)。
-      const entRef = (v: number): string | undefined => (v === 0xffff ? owner : `e${v - 1}`)
-      // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
-      const pcRef = (v: number): string | undefined =>
-        v === 0 || v === 0xffff ? owner : `e${v - 1}`
-      /** 跳走臂内联:跳转目标链整段翻成 Command[](环/深度超限 → gap)。
-       *  臂尾一律补 stopScript:原版跳转命中后链一路跑到 END 即整个脚本结束,臂跑完
-       *  绝不落穿回父体(曾漏 → 概率门/确认门全废:then=[] 空臂照跑后续 = 21% 掉落变
-       *  100%、选"否"照办事)。addr 0/缺 = 原版跳全局 0 号 END = 当场退,臂就是一条 stop。 */
-      const inlineArm = (addr: number | undefined): Command[] => {
-        if (!addr) return [{ kind: 'stopScript' }]
-        if (ctx.registry) {
-          const ref = ctx.registry.registerTarget(
-            `L_${addr}`,
-            owner,
-            {
-              slot,
-              portrait,
-              activeSpeaker,
-              speakerAwaitingBody,
-              color: dialogState.color,
-              speed: dialogState.speed,
+        if (c.advance)
+          return {
+            body,
+            term: {
+              kind: 'advance',
+              nextIdx: at.idx + 1,
+              nextAddress: instructionSourceAddress + 1,
             },
-            ctx,
-          )
-          return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
-        }
-        const memoKey = `L_${addr}|${owner ?? ''}|${JSON.stringify(dialogueSnapshot())}`
-        ctx.armMemo ??= new Map()
-        const memo = ctx.armMemo
-        const hit = memo.get(memoKey)
-        if (hit) return hit
-        const target = ctx.labelAt.get(`L_${addr}`)
-        if (!target || depth >= MAX_ARM_DEPTH) {
-          gap(target ? '分支臂深度截断' : `分支臂目标缺失 L_${addr}`)
-          return [{ kind: 'stopScript' }]
-        }
-        memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
-        const r = walkBody(target.cmds, target.idx, owner, ctx, depth + 1, dialogueSnapshot())
-        if (r.term.kind === 'advance' || r.term.kind === 'reset')
-          note(ctx, '分支臂含段转移(按 end 处理)')
-        let arm = r.body
-        if (arm.length > MAX_ARM_BODY) {
-          // 巡逻互跳网(0x87 anim + walkOneStep + 0x06 概率环)内联爆炸:保留前段走步演出(有界),
-          // 弃尾部互跳链 —— 不丢成 opcode-0 哨兵(NPC 交互后走一段;概率循环由演出损耗吸收)
-          note(ctx, '分支臂超长截断(保留前段走步)')
-          arm = arm.slice(0, MAX_ARM_BODY)
-        }
-        arm = [...arm, { kind: 'stopScript' }]
-        memo.set(memoKey, arm)
-        return arm
+            dialogueState: dialogueSnapshot(),
+          }
+        if (c.reset)
+          return {
+            body,
+            term: {
+              kind: 'reset',
+              resetTo: `L_${c.resetTo}`,
+              targetAddress: c.resetTo ?? 0,
+              idleFrames: c.idleFrames ?? 0,
+              fallthroughAddress: instructionSourceAddress + 1,
+            },
+            dialogueState: dialogueSnapshot(),
+          }
+        return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
       }
-      if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
-      else if (oc === 0x46) {
-        push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
-      } else if (oc === 0x15) {
-        // 原版(script.c 0x0015)同时写 wPartyDirection 和 rgParty[o[2]].wFrame = dir*3 + o[1]。
-        // ⚠ 曾只译 o[0] 朝向、丢 o[1] 姿势帧 —— 全场景 775 处的脚本姿势(开场李逍遥
-        // 练武/摊手)全部不显(2026-07-03 用户实测 + 一阶段 partyScriptedFrame oracle 实锤)。
-        const gesture = o[1] ?? 0
-        const member = o[2] ?? 0
-        push({
-          kind: 'setPartyFacing',
-          facing: FACING_BY_DIR[o[0] ?? 0] ?? 'down',
-          ...(gesture ? { gesture } : {}), // 0 = 站立帧,省略 → 运行时清脚本姿势
-          ...(member ? { member } : {}),
-        })
-      } else if (oc === 0x9a) {
-        // 0x9A 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
-        // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理输入。
-        // from>to 时原版循环零次；不得生成 entities=[] 的伪命令。
-        const from = o[0] ?? 0
-        const to = Math.min(o[1] ?? from, from + 511)
-        const entities: string[] = []
-        for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
-        push(
-          entities.length
-            ? { kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) }
-            : undefined,
+      // ── goto:延迟 → wait;目标内联续走(环 → 截断)──
+      if (op === 'goto') {
+        flush()
+        // 跨库目标(带 "shared#" 前缀)以前显式截断(0x4C 海内联会展开 49.8 万条);
+        // B8 后 0x4C 段翻成单条 chasePlayer 即终止,海已排干 → 放开正常内联(环/超长截断兜底)。
+        // 提取器把跨场景共享目标改写为 "shared#L_X"(slice.ts rewriteJumps);索引用裸名 → 剥前缀查
+        const toName = (c.to ?? '').split('#').pop() ?? ''
+        const targetAddress = addressFromLabel(toName)
+        if (
+          targetAddress !== undefined &&
+          control?.externalize({
+            kind: 'goto',
+            sourceAddress: instructionSourceAddress,
+            targetAddress,
+            frameDelay: c.frameDelay ?? 0,
+          })
         )
-      } else if (oc === 0x53) {
-        push({ kind: 'setAmbience', ambience: 'day' }) // 0x53 use day palette(script.c:1803)
-      } else if (oc === 0x54) {
-        push({ kind: 'setAmbience', ambience: 'night' }) // 0x54 use night palette(script.c:1810)
-      } else if (oc === 0x9b) {
-        push(undefined) // 0x9B fade-to-scene:sdlpal 自认 FIXME wrong(script.c:2769),no-op
-      } else if (oc === 0x08) {
-        push(undefined) // 0x08 触发入口推进(script.c:3335;stage 推进体系已承担),NOP
-      } else if (oc === 0x77) {
-        push({ kind: 'stopMusic' }) // 0x77 停当前音乐(script.c:2215)
-      } else if (oc === 0xa3) {
-        push(palMusicCommand(o[1] ?? 0)) // 0xA3 CD 音轨 → 回退 RIX 曲 op1(script.c:3023)
-      } else if (oc === 0x85) {
-        push({ kind: 'wait', ms: (o[0] ?? 0) * 80 }) // 0x85 延时 op0×80ms(script.c:2511)
-      } else if (oc === 0x8c) {
-        // 0x8C 颜色渐变(script.c:2582):ms=64×(op1×10||10);fFrom(op2)=从纯色渐回场景 → fade in
-        push({
-          kind: 'fade',
-          dir: (o[2] ?? 0) !== 0 ? 'in' : 'out',
-          ms: 64 * ((o[1] ?? 0) * 10 || 10),
-        })
-      } else if (oc === 0x93) {
-        // 0x93 SceneFade(script.c:2664):step=int16(op0)||1;ms=ceil(64/|step|)×100;step<0=渐暗
-        const step = signExtendI16(o[0] ?? 0) || 1
-        push({
-          kind: 'fade',
-          dir: step < 0 ? 'out' : 'in',
-          ms: Math.ceil(64 / Math.abs(step)) * 100,
-        })
-      } else if (oc === 0x13) {
-        // 0x13 实体绝对定位(script.c:716):op0 选择器,op1/op2 原版像素 → pixelToGrid
-        const ent = pcRef(o[0] ?? 0)
-        if (ent)
-          push({
-            kind: 'setEntityPos',
-            entity: ent,
-            pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 },
-          })
-        else gap('0x13 无属主')
-      } else if (oc === 0x12) {
-        // 0x12 相对队伍摆位(script.c:706):pCurrent = 队伍绝对像素 + op1/op2 偏移。
-        // 清洁重写:偏移 → 格偏移(pixelDeltaToGridDelta 防 round 吞小位移),运行时加队伍格坐标。
-        const ent = pcRef(o[0] ?? 0)
-        if (ent) {
-          const { dcol, drow } = pixelDeltaToGridDelta(
-            signExtendI16(o[1] ?? 0),
-            signExtendI16(o[2] ?? 0),
-          )
-          push({ kind: 'setEntityPosRelParty', entity: ent, dcol, drow })
-        } else gap('0x12 无属主')
-      } else if (oc === 0x35) {
-        push({ kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }) // 0x35 震屏
-      } else if (oc === 0x71) {
-        push({ kind: 'setScreenWave', level: o[0] ?? 0, progression: signExtendI16(o[1] ?? 0) }) // 0x71 屏波
-      } else if (oc === 0x7e) {
-        const ent = pcRef(o[0] ?? 0)
-        if (ent)
-          push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
-        else gap('0x7E 无属主')
-      } else if (oc === 0x1b && (o[0] ?? 0) !== 0) {
-        // 剧情侧全队 HP 变化(镇狱明王战后灵儿恢复 999)。
-        push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0), pools: 'hp' })
-      } else if (oc === 0x1d && (o[0] ?? 0) !== 0) {
-        push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0) }) // 0x1D 全队增血蓝(op0=1)
-      } else if (oc === 0x22 && (o[0] ?? 0) !== 0) {
-        push({ kind: 'revivePartyAll', tenths: o[1] ?? 0 }) // 0x22 全队复活(op0=1)
-      } else if (oc === 0x55 && (o[1] ?? 0) > 0) {
-        push({ kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }) // 0x55 学仙术
-      } else if (oc === 0x23) {
-        push({
-          kind: 'unequip',
-          role: o[0] ?? 0,
-          slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1,
-        }) // 0x23 卸装
-      } else if (oc === 0x80) {
-        push({ kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }) // 0x80 昼夜切换
-      } else if (oc === 0x98) {
-        // 旧 spriteNum 只在迁移边界消解；空数组仍是合法的“清除跟随者”命令。
-        const sourceSprites = [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0)
-        const sprites = sourceSprites.map((spriteNum) => ctx.spriteIdForNum?.(spriteNum))
-        if (sprites.every((sprite): sprite is string => typeof sprite === 'string'))
-          push({ kind: 'setFollowers', sprites })
-        else gap('setFollowers 无精灵注册回调')
-      } else if (oc === 0x99) {
-        // 0x99 换图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
-        const mapNum = o[1] ?? 0
-        const mapId = ctx.mapIdForNum?.(mapNum) ?? `map-${String(mapNum).padStart(3, '0')}`
-        if ((o[0] ?? 0) === 0xffff) push({ kind: 'setSceneMapOverride', mapId })
-        else push({ kind: 'setSceneMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapId })
-      } else if (oc === 0x8f) {
-        push({ kind: 'halveMoney' }) // 0x8F 金钱减半
-      } else if (oc === 0x36) {
-        lastRngChunk = o[0] ?? 0 // 0x36 设当前 RNG 序列号(script.c:1537;配 0x37)
-      } else if (oc === 0x37) {
-        // 0x37 播帧动画(script.c:1544):帧区间闭合，旧 speed 映射统一 frameRate。
-        push({
-          kind: 'playFrameAnimation',
-          asset: palFrameAnimationAssetId(lastRngChunk),
-          startFrame: o[0] ?? 0,
-          ...((o[1] ?? 0) > 0 ? { endFrame: o[1] } : {}),
-          frameRate: (o[2] ?? 0) > 0 ? o[2]! : 16,
-        })
-      } else if (oc === 0x76) {
-        push(undefined) // 0x76 ShowFBP:全数据 op0=0xFFFF 填黑帧缓冲(reforge 每帧重画天然 no-op)
-      } else if (oc === 0x6f) {
-        // 0x6F 条件同步(script.c:2115):源对象(op0)状态==int16(op1) → 触发者同设该值。
-        // 用现有 branch + entityState 条件 + setEntityState,无需新命令(仙灵岛/村口双态机关门)
-        const src = pcRef(o[0] ?? 0)
-        const val = signExtendI16(o[1] ?? 0)
-        if (src && owner) {
-          flush()
-          // 条件设值,非跳转:then 跑完落穿回父体后续(不补 stopScript)
-          body.push({
-            kind: 'branch',
-            cond: { kind: 'entityState', entity: src, is: val },
-            then: [{ kind: 'setEntityState', entity: owner, state: val }],
-          })
-        } else gap('0x6F 无属主')
-      } else if (oc === 0x49) {
-        // script.c:operand0==0 是 no-op；仍 flush，保留 opcode 两侧的对话批次边界。
-        if ((o[0] ?? 0) === 0) push(undefined)
-        else {
-          const ent = entRef(o[0] ?? 0)
-          if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
-          else {
-            gap('0xFFFF 自指但无属主(onEnter)')
+          return {
+            body,
+            term: {
+              kind: 'goto',
+              sourceAddress: instructionSourceAddress,
+              targetAddress,
+              frameDelay: c.frameDelay ?? 0,
+              fallthroughAddress: instructionSourceAddress + 1,
+            },
+            dialogueState: dialogueSnapshot(),
+          }
+        if ((c.frameDelay ?? 0) > 0) body.push({ kind: 'wait', ms: c.frameDelay! * FRAME_MS })
+        if (ctx.registry) {
+          if (!toName) {
+            body.push({ kind: 'stopScript' })
+          } else {
+            const ref = ctx.registry.registerTarget(
+              toName,
+              owner,
+              {
+                slot,
+                portrait,
+                activeSpeaker,
+                speakerAwaitingBody,
+                color: dialogState.color,
+                speed: dialogState.speed,
+              },
+              ctx,
+            )
+            body.push({ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) })
+          }
+          return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
+        }
+        const target = ctx.labelAt.get(toName)
+        if (!target) {
+          note(ctx, `goto 目标缺失`)
+          ctx.report.flowCuts++
+          return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
+        }
+        if (target.cmds === at.cmds && visited.has(target.idx)) {
+          note(ctx, 'goto 回边结构化')
+          return {
+            body,
+            term: {
+              kind: 'reset',
+              resetTo: toName,
+              targetAddress: targetAddress ?? sourceAddressAt(ctx, target.cmds, target.idx),
+              idleFrames: 0,
+              fallthroughAddress: instructionSourceAddress + 1,
+            },
+            dialogueState: dialogueSnapshot(),
           }
         }
-      } else if (oc === 0x0f && owner) {
+        if (target.cmds === at.cmds) visited.add(target.idx)
+        at = { cmds: target.cmds, idx: target.idx }
+        continue
+      }
+      if (op === 'showDialog') {
+        batch.push({ msgIdx: c.messageIndex ?? -1, text: c.text ?? '' })
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
+      }
+      if (op && op in STYLE_SLOT) {
+        flush() // 先出旧批(用旧 slot/portrait),再切样式
+        if (speakerAwaitingBody) note(ctx, '悬空说话人行(无正文)')
+        activeSpeaker = undefined
+        speakerAwaitingBody = false
+        slot = STYLE_SLOT[op]
+        // PAL_StartDialog 重置当前字体色，但脚本级 iDelay 继续保留。
+        dialogState = { ...dialogState, color: 'default' }
+        // 立绘:top(0x3C)/bottom(0x3D) 的 arg0 = wNumCharFace(RGM 立绘号);sdlpal script.c:3402/3412。
+        // top→左 / bottom→右(reforge POS 已定位);center/narration 无立绘(arg0 是颜色,清)。
+        const face = op === 'setDialogStyleTop' || op === 'setDialogStyleBottom' ? (c.arg0 ?? 0) : 0
+        portrait =
+          face > 0
+            ? {
+                asset: palPortraitAssetId(face),
+                side: op === 'setDialogStyleTop' ? 'left' : 'right',
+              }
+            : undefined
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
+      }
+      if (op === 'loadScene') {
         flush()
-        if ((o[0] ?? 0xffff) !== 0xffff)
-          body.push({
-            kind: 'setEntityFacing',
-            entity: owner,
-            facing: FACING_BY_DIR[o[0]!] ?? 'down',
-          })
-        if ((o[1] ?? 0xffff) !== 0xffff)
-          body.push({ kind: 'setEntityFrame', entity: owner, frame: o[1]! })
-      } else if (oc === 0x14 && owner) {
+        // loadScene operand 1-based(sdlpal rgScene[wNumScene-1])→ 0-based scene index,对齐 sceneSlug/sc.sceneId 命名
+        body.push({ kind: 'loadScene', scene: sceneSlug(Math.max(0, (c.sceneId ?? 1) - 1)) })
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
+      }
+      if (op === 'giveItem') {
+        // 原版数据 bug 烘焙(扬州宝物屋 3 箱:「获得X」提示后 giveItem 0 给空;一阶段修在
+        // 运行时 patchGiveItemZeroBugs,reforge 无运行时 patch 层 → 翻译期按前句 MSG 下标补真 id)
+        const fix =
+          c.itemId === 0 ? GIVEITEM_ZERO_FIXUP[batch[batch.length - 1]?.msgIdx ?? -1] : undefined
         flush()
-        body.push({ kind: 'setEntityFacing', entity: owner, facing: 'down' })
-        body.push({ kind: 'setEntityFrame', entity: owner, frame: o[0] ?? 0 })
-      } else if (oc === 0x16) {
-        flush()
-        const ent16 = (o[0] ?? 0) !== 0 ? entRef(o[0]!) : undefined
-        if (ent16) {
-          body.push({
-            kind: 'setEntityFacing',
-            entity: ent16,
-            facing: FACING_BY_DIR[o[1] ?? 0] ?? 'down',
-          })
-          body.push({ kind: 'setEntityFrame', entity: ent16, frame: o[2] ?? 0 })
-        }
-      } else if (oc === 0x47) {
-        const sound = resolveSoundAsset(o[0], ctx.soundAssetForNum)
-        if (sound) push({ kind: 'playSound', asset: sound })
-        else {
+        const cnt = c.count && c.count > 1 ? c.count : undefined
+        body.push({
+          kind: 'giveItem',
+          itemId: String(fix ?? c.itemId),
+          ...(cnt ? { count: cnt } : {}),
+        })
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
+      }
+      if (op === 'setPalette') {
+        // 已知视觉缺口,不属于未知命令:二阶段必须用 RGBA 全屏色彩 profile 重写,严禁把
+        // paletteId/index 重新带回脚本 schema。这里只记迁移报告,不生成可执行旧节点。
+        note(ctx, `known-deferred:setPalette(${c.paletteIndex ?? 0})`)
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
+      }
+
+      // ── raw 表 ──
+      if (op === 'raw' && typeof c.opcode === 'number') {
+        const o = c.operands ?? []
+        const oc = c.opcode
+        const push = (cmd: Command | undefined) => {
           flush()
-          knownNoOp(ctx, 'playSound.emptyChunk', sourceAddressAt(ctx, at.cmds, at.idx), {
-            legacyId: o[0],
-            owner,
+          if (cmd) body.push(cmd)
+        }
+        const gap = (reason: string, opcode: number | string = oc, operands = o) => {
+          flush()
+          recordGap(ctx, {
+            sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
+            opcode,
+            operands: [...operands],
+            owner: owner ?? 'scene',
+            reason,
           })
         }
-      } else if (oc === 0x43) push(palMusicCommand(o[0] ?? 0))
-      // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 迁移期内部标记 BattleCfgMarker
-      // (schema overrideSceneBattle 已退役,不复活):邻战 → fold 进 startBattle 一次性参数;
-      // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
-      else if (oc === 0x45) push(battleCfgMarker({ musicId: o[0] ?? 0 }))
-      else if (oc === 0x4a) push(battleCfgMarker({ fieldId: o[0] ?? 0 }))
-      else if (oc === 0x50) push({ kind: 'fade', dir: 'out', ms: ((o[0] ?? 0) || 1) * 600 })
-      else if (oc === 0x51) {
-        const delay = signExtendI16(o[0] ?? 0)
-        push({ kind: 'fade', dir: 'in', ms: (delay > 0 ? delay : 1) * 600 })
-      } else if (oc === 0x73) {
-        // VIDEO_FadeScreen 每 speed 档 10ms、每档 72 个空间步；独立站点同样必须保留。
-        push({ kind: 'ditherScreen', ms: ((o[0] ?? 0) + 1) * 10 * 72 })
-      } else if (oc === 0x65) {
-        // 换角色大世界精灵(script.c 0x0065:rgwSpriteNum[o[0]] = o[1])。开场李逍遥
-        // 练武 627/疯跑 193 全靠它;未迁移时角色只会站桩(2026-07-03 用户实测)。
-        // o[2](即时重载 flag)不建模:clean 引擎换精灵即时生效,无"延迟到下次装载"语义。
-        const actor = ROLE_SLUGS[o[0] ?? 0]
-        const sprite = actor !== undefined ? ctx.spriteIdForNum?.(o[1] ?? 0) : undefined
-        if (actor && sprite) push({ kind: 'setActorSprite', actor, sprite })
-        else {
-          gap(sprite ? `setActorSprite 未知 roleId ${o[0]}` : 'setActorSprite 无精灵注册回调')
+        // 对象引用:操作数 0xFFFF = 脚本属主"自己";其余是 **1-based 全局**对象号
+        // (script.c:631 `pCurrent = &lprgEventObject[operand-1]`;一阶段 resolveGlobalEventObject
+        // 同语义)。提取的 eo.id 是 0-based 全局累加(scene1=0..31,scene2=32..),故 -1 即得
+        // e<id>。⚠ 曾直译 e${v} 全体 +1 错位(2026-07-03 用户报,考证见 opcode 缺口审计)。
+        const entRef = (v: number): string | undefined =>
+          v === 0xffff ? owner : legacyEventObjectEntityId(v)
+        // pCurrent 式引用:0 也是"自己"(script.c:op0==0 → pEvtObj)
+        const pcRef = (v: number): string | undefined =>
+          v === 0 || v === 0xffff ? owner : legacyEventObjectEntityId(v)
+        /** 跳走臂内联:跳转目标链整段翻成 Command[](环/深度超限 → gap)。
+         *  臂尾一律补 stopScript:原版跳转命中后链一路跑到 END 即整个脚本结束,臂跑完
+         *  绝不落穿回父体(曾漏 → 概率门/确认门全废:then=[] 空臂照跑后续 = 21% 掉落变
+         *  100%、选"否"照办事)。addr 0/缺 = 原版跳全局 0 号 END = 当场退,臂就是一条 stop。 */
+        const inlineArm = (addr: number | undefined): Command[] => {
+          if (!addr) return [{ kind: 'stopScript' }]
+          const branchEntry = dialogueSnapshot()
+          if (
+            control?.externalize({
+              kind: 'branch-target',
+              sourceAddress: instructionSourceAddress,
+              targetAddress: addr,
+              owner,
+            })
+          )
+            return [
+              {
+                kind: 'n3R13ActivationTransfer',
+                sourceAddress: instructionSourceAddress,
+                targetAddress: addr,
+                entryState: branchEntry,
+              } as unknown as Command,
+            ]
+          if (ctx.registry) {
+            const ref = ctx.registry.registerTarget(
+              `L_${addr}`,
+              owner,
+              {
+                slot,
+                portrait,
+                activeSpeaker,
+                speakerAwaitingBody,
+                color: dialogState.color,
+                speed: dialogState.speed,
+              },
+              ctx,
+            )
+            return [{ kind: 'jumpScript', ref, ...(owner ? { self: owner } : {}) }]
+          }
+          const memoKey = `L_${addr}|${owner ?? ''}|${JSON.stringify(dialogueSnapshot())}`
+          ctx.armMemo ??= new Map()
+          const memo = ctx.armMemo
+          const hit = memo.get(memoKey)
+          if (hit) return hit
+          const target = ctx.labelAt.get(`L_${addr}`)
+          if (!target || depth >= MAX_ARM_DEPTH) {
+            gap(target ? '分支臂深度截断' : `分支臂目标缺失 L_${addr}`)
+            return [{ kind: 'stopScript' }]
+          }
+          memo.set(memoKey, []) // 先占位:环(臂内再跳回自己)拿到空臂而非无限递归
+          const r = walkBody(
+            target.cmds,
+            target.idx,
+            owner,
+            ctx,
+            depth + 1,
+            dialogueSnapshot(),
+            bodyId,
+            control,
+          )
+          if (r.term.kind === 'advance' || r.term.kind === 'reset')
+            note(ctx, '分支臂含段转移(按 end 处理)')
+          let arm = r.body
+          if (arm.length > MAX_ARM_BODY) {
+            // 巡逻互跳网(0x87 anim + walkOneStep + 0x06 概率环)内联爆炸:保留前段走步演出(有界),
+            // 弃尾部互跳链 —— 不丢成 opcode-0 哨兵(NPC 交互后走一段;概率循环由演出损耗吸收)
+            note(ctx, '分支臂超长截断(保留前段走步)')
+            arm = arm.slice(0, MAX_ARM_BODY)
+          }
+          arm = [...arm, { kind: 'stopScript' }]
+          memo.set(memoKey, arm)
+          return arm
         }
-      } else if (oc === 0x1a) {
-        // 0x1A 改角色 SoA 属性(script.c:834:p[field*6 + role] = val)。全游戏 4 站点全是**形象**字段
-        // (成年灵儿 role 1):field 0=头像 / 1=战斗精灵 / 2=大世界精灵 / 64=走路帧。映射成具名
-        // setActorAppearance,杜绝下标式身份。field 2 的精灵号 → id(spriteIdForNum);64 走路帧
-        // 由新精灵 layout 自带,丢弃。o[2]=0(当前玩家,数据中未出现)→ MigrationGap。
-        const roleIdx = (o[2] ?? 0) - 1
-        const actor = roleIdx >= 0 ? ROLE_SLUGS[roleIdx] : undefined
-        const field = o[0] ?? -1
-        const val = o[1] ?? 0
-        if (actor && field === 0)
+        if (oc === 0x09) push({ kind: 'wait', ms: Math.max(1, o[0] ?? 1) * FRAME_MS })
+        else if (oc === 0x46) {
+          push({ kind: 'teleportParty', pos: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0) })
+        } else if (oc === 0x15) {
+          // 原版(script.c 0x0015)同时写 wPartyDirection 和 rgParty[o[2]].wFrame = dir*3 + o[1]。
+          // ⚠ 曾只译 o[0] 朝向、丢 o[1] 姿势帧 —— 全场景 775 处的脚本姿势(开场李逍遥
+          // 练武/摊手)全部不显(2026-07-03 用户实测 + 一阶段 partyScriptedFrame oracle 实锤)。
+          const gesture = o[1] ?? 0
+          const member = o[2] ?? 0
+          push({
+            kind: 'setPartyFacing',
+            facing: FACING_BY_DIR[o[0] ?? 0] ?? 'down',
+            ...(gesture ? { gesture } : {}), // 0 = 站立帧,省略 → 运行时清脚本姿势
+            ...(member ? { member } : {}),
+          })
+        } else if (oc === 0x9a) {
+          // 0x9A 批量设实体状态(script.c:2756):全局对象号区间 [op0,op1] 全设 sState=op2。
+          // 展开成实体 id 数组(e<号−1>;杜绝下标式身份);区间钳 512 防病理输入。
+          // from>to 时原版循环零次；不得生成 entities=[] 的伪命令。
+          const from = o[0] ?? 0
+          const to = Math.min(o[1] ?? from, from + 511)
+          const entities: string[] = []
+          for (let v = from; v <= to; v++) entities.push(`e${v - 1}`)
           push(
-            val > 0
-              ? { kind: 'setActorAppearance', actor, portrait: palPortraitAssetId(val) }
+            entities.length
+              ? { kind: 'setMultiEntityState', entities, state: signExtendI16(o[2] ?? 0) }
               : undefined,
           )
-        else if (actor && field === 1)
+        } else if (oc === 0x53) {
+          push({ kind: 'setAmbience', ambience: 'day' }) // 0x53 use day palette(script.c:1803)
+        } else if (oc === 0x54) {
+          push({ kind: 'setAmbience', ambience: 'night' }) // 0x54 use night palette(script.c:1810)
+        } else if (oc === 0x9b) {
+          push(undefined) // 0x9B fade-to-scene:sdlpal 自认 FIXME wrong(script.c:2769),no-op
+        } else if (oc === 0x08) {
+          flush()
+          if (
+            control?.externalize({
+              kind: 'checkpoint',
+              sourceAddress: instructionSourceAddress,
+              targetAddress: instructionSourceAddress + 1,
+              owner,
+            })
+          )
+            return {
+              body,
+              term: {
+                kind: 'checkpoint',
+                sourceAddress: instructionSourceAddress,
+                resumeAddress: instructionSourceAddress + 1,
+              },
+              dialogueState: dialogueSnapshot(),
+            }
+          // 旧路径保持 byte-equivalent：0x08 仍由历史 stage 体系吞掉。
+          push(undefined)
+        } else if (oc === 0x77) {
+          push({ kind: 'stopMusic' }) // 0x77 停当前音乐(script.c:2215)
+        } else if (oc === 0xa3) {
+          push(palMusicCommand(o[1] ?? 0)) // 0xA3 CD 音轨 → 回退 RIX 曲 op1(script.c:3023)
+        } else if (oc === 0x85) {
+          push({ kind: 'wait', ms: (o[0] ?? 0) * 80 }) // 0x85 延时 op0×80ms(script.c:2511)
+        } else if (oc === 0x8c) {
+          // 0x8C 颜色渐变(script.c:2582):ms=64×(op1×10||10);fFrom(op2)=从纯色渐回场景 → fade in
           push({
-            kind: 'setActorAppearance',
-            actor,
-            battleSprite: palPlayerBattleSpriteDefinitionId(val),
+            kind: 'fade',
+            dir: (o[2] ?? 0) !== 0 ? 'in' : 'out',
+            ms: 64 * ((o[1] ?? 0) * 10 || 10),
           })
-        else if (actor && field === 2) {
-          const sprite = ctx.spriteIdForNum?.(val)
-          if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })
-          else gap('0x1A setActorAppearance 无精灵注册回调')
-        } else if (actor && field === 64) {
-          push(undefined) // 走路帧:新精灵 layout 自带,clean 模型无独立帧数字段
-        } else gap(`0x1A 字段 ${field}(非形象/o2=0)`)
-      } else if (oc === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
-        // 0x90 剧情侧清 enemy scriptOnTurnStart(六脚蜘蛛 s138 酒剑仙救场后降级):原版敌种绑定的
-        // 「说一次」hack。二阶段遭遇绑定后**无需** —— 对话属于这场遭遇的 startBattle,丢弃(no-op)。
-        push(undefined)
-      } else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
-      else if (oc === 0xa7)
-        push(undefined) // noop(备份屏)
-      else if (oc === 0x1e && (o[1] ?? 0) === 0)
-        push({ kind: 'giveMoney', delta: signExtendI16(o[0] ?? 0) })
-      else if (oc === 0x20 && (o[2] ?? 0) === 0) {
-        const cnt = (o[1] ?? 0) > 1 ? o[1] : undefined
-        push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt ? { count: cnt } : {}) })
-      } else if (oc >= 0x0b && oc <= 0x0e) {
-        if (owner)
-          push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] ?? 'down' })
-        else gap('单步无属主')
-      } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
-        const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
-        if (owner)
+        } else if (oc === 0x93) {
+          // 0x93 SceneFade(script.c:2664):step=int16(op0)||1;ms=ceil(64/|step|)×100;step<0=渐暗
+          const step = signExtendI16(o[0] ?? 0) || 1
           push({
-            kind: 'moveEntity',
-            entity: owner,
+            kind: 'fade',
+            dir: step < 0 ? 'out' : 'in',
+            ms: Math.ceil(64 / Math.abs(step)) * 100,
+          })
+        } else if (oc === 0x13) {
+          // 0x13 实体绝对定位(script.c:716):op0 选择器,op1/op2 原版像素 → pixelToGrid
+          const ent = pcRef(o[0] ?? 0)
+          if (ent)
+            push({
+              kind: 'setEntityPos',
+              entity: ent,
+              pos: { ...pixelToGrid(o[1] ?? 0, o[2] ?? 0), height: 0 },
+            })
+          else gap('0x13 无属主')
+        } else if (oc === 0x12) {
+          // 0x12 相对队伍摆位(script.c:706):pCurrent = 队伍绝对像素 + op1/op2 偏移。
+          // 清洁重写:偏移 → 格偏移(pixelDeltaToGridDelta 防 round 吞小位移),运行时加队伍格坐标。
+          const ent = pcRef(o[0] ?? 0)
+          if (ent) {
+            const { dcol, drow } = pixelDeltaToGridDelta(
+              signExtendI16(o[1] ?? 0),
+              signExtendI16(o[2] ?? 0),
+            )
+            push({ kind: 'setEntityPosRelParty', entity: ent, dcol, drow })
+          } else gap('0x12 无属主')
+        } else if (oc === 0x35) {
+          push({ kind: 'shakeScreen', frames: o[0] ?? 0, level: (o[1] ?? 0) || 4 }) // 0x35 震屏
+        } else if (oc === 0x71) {
+          push({ kind: 'setScreenWave', level: o[0] ?? 0, progression: signExtendI16(o[1] ?? 0) }) // 0x71 屏波
+        } else if (oc === 0x7e) {
+          const ent = pcRef(o[0] ?? 0)
+          if (ent)
+            push({ kind: 'setEntityLayer', entity: ent, layer: signExtendI16(o[1] ?? 0) }) // 0x7E 图层
+          else gap('0x7E 无属主')
+        } else if (oc === 0x1b && (o[0] ?? 0) !== 0) {
+          // 剧情侧全队 HP 变化(镇狱明王战后灵儿恢复 999)。
+          push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0), pools: 'hp' })
+        } else if (oc === 0x1d && (o[0] ?? 0) !== 0) {
+          push({ kind: 'increaseHpMp', delta: signExtendI16(o[1] ?? 0) }) // 0x1D 全队增血蓝(op0=1)
+        } else if (oc === 0x22 && (o[0] ?? 0) !== 0) {
+          push({ kind: 'revivePartyAll', tenths: o[1] ?? 0 }) // 0x22 全队复活(op0=1)
+        } else if (oc === 0x55 && (o[1] ?? 0) > 0) {
+          push({ kind: 'learnSkill', role: (o[1] ?? 1) - 1, skill: String(o[0] ?? 0) }) // 0x55 学仙术
+        } else if (oc === 0x23) {
+          push({
+            kind: 'unequip',
+            role: o[0] ?? 0,
+            slot: (o[1] ?? 0) === 0 ? 'all' : (o[1] ?? 1) - 1,
+          }) // 0x23 卸装
+        } else if (oc === 0x80) {
+          push({ kind: 'toggleDayNight', ms: (o[0] ?? 0) === 0 ? 3200 : 800 }) // 0x80 昼夜切换
+        } else if (oc === 0x98) {
+          // 旧 spriteNum 只在迁移边界消解；空数组仍是合法的“清除跟随者”命令。
+          const sourceSprites = [o[0] ?? 0, o[1] ?? 0].filter((x) => x > 0)
+          const sprites = sourceSprites.map((spriteNum) => ctx.spriteIdForNum?.(spriteNum))
+          if (sprites.every((sprite): sprite is string => typeof sprite === 'string'))
+            push({ kind: 'setFollowers', sprites })
+          else gap('setFollowers 无精灵注册回调')
+        } else if (oc === 0x99) {
+          // 0x99 换图:op0=0xFFFF 当前场景即时重载;else 目标场景下次进场
+          const mapNum = o[1] ?? 0
+          const mapId = ctx.mapIdForNum?.(mapNum) ?? `map-${String(mapNum).padStart(3, '0')}`
+          if ((o[0] ?? 0) === 0xffff) push({ kind: 'setSceneMapOverride', mapId })
+          else push({ kind: 'setSceneMapOverride', scene: sceneSlug((o[0] ?? 1) - 1), mapId })
+        } else if (oc === 0x8f) {
+          push({ kind: 'halveMoney' }) // 0x8F 金钱减半
+        } else if (oc === 0x36) {
+          lastRngChunk = o[0] ?? 0 // 0x36 设当前 RNG 序列号(script.c:1537;配 0x37)
+        } else if (oc === 0x37) {
+          // 0x37 播帧动画(script.c:1544):帧区间闭合，旧 speed 映射统一 frameRate。
+          push({
+            kind: 'playFrameAnimation',
+            asset: palFrameAnimationAssetId(lastRngChunk),
+            startFrame: o[0] ?? 0,
+            ...((o[1] ?? 0) > 0 ? { endFrame: o[1] } : {}),
+            frameRate: (o[2] ?? 0) > 0 ? o[2]! : 16,
+          })
+        } else if (oc === 0x76) {
+          push(undefined) // 0x76 ShowFBP:全数据 op0=0xFFFF 填黑帧缓冲(reforge 每帧重画天然 no-op)
+        } else if (oc === 0x6f) {
+          // 0x6F 条件同步(script.c:2115):源对象(op0)状态==int16(op1) → 触发者同设该值。
+          // 用现有 branch + entityState 条件 + setEntityState,无需新命令(仙灵岛/村口双态机关门)
+          const src = pcRef(o[0] ?? 0)
+          const val = signExtendI16(o[1] ?? 0)
+          if (src && owner) {
+            flush()
+            // 条件设值,非跳转:then 跑完落穿回父体后续(不补 stopScript)
+            body.push({
+              kind: 'branch',
+              cond: { kind: 'entityState', entity: src, is: val },
+              then: [{ kind: 'setEntityState', entity: owner, state: val }],
+            })
+          } else gap('0x6F 无属主')
+        } else if (oc === 0x49) {
+          // script.c:operand0==0 是 no-op；仍 flush，保留 opcode 两侧的对话批次边界。
+          if ((o[0] ?? 0) === 0) push(undefined)
+          else {
+            const ent = entRef(o[0] ?? 0)
+            if (ent) push({ kind: 'setEntityState', entity: ent, state: signExtendI16(o[1] ?? 0) })
+            else {
+              gap('0xFFFF 自指但无属主(onEnter)')
+            }
+          }
+        } else if (oc === 0x0f && owner) {
+          flush()
+          if ((o[0] ?? 0xffff) !== 0xffff)
+            body.push({
+              kind: 'setEntityFacing',
+              entity: owner,
+              facing: FACING_BY_DIR[o[0]!] ?? 'down',
+            })
+          if ((o[1] ?? 0xffff) !== 0xffff)
+            body.push({ kind: 'setEntityFrame', entity: owner, frame: o[1]! })
+        } else if (oc === 0x14 && owner) {
+          flush()
+          body.push({ kind: 'setEntityFacing', entity: owner, facing: 'down' })
+          body.push({ kind: 'setEntityFrame', entity: owner, frame: o[0] ?? 0 })
+        } else if (oc === 0x16) {
+          flush()
+          const ent16 = (o[0] ?? 0) !== 0 ? entRef(o[0]!) : undefined
+          if (ent16) {
+            body.push({
+              kind: 'setEntityFacing',
+              entity: ent16,
+              facing: FACING_BY_DIR[o[1] ?? 0] ?? 'down',
+            })
+            body.push({ kind: 'setEntityFrame', entity: ent16, frame: o[2] ?? 0 })
+          }
+        } else if (oc === 0x47) {
+          const sound = resolveSoundAsset(o[0], ctx.soundAssetForNum)
+          if (sound) push({ kind: 'playSound', asset: sound })
+          else {
+            flush()
+            knownNoOp(ctx, 'playSound.emptyChunk', sourceAddressAt(ctx, at.cmds, at.idx), {
+              legacyId: o[0],
+              owner,
+            })
+          }
+        } else if (oc === 0x43) push(palMusicCommand(o[0] ?? 0))
+        // 0x45/0x4A(原版全局变量「从此以后战斗用 X」)→ 迁移期内部标记 BattleCfgMarker
+        // (schema overrideSceneBattle 已退役,不复活):邻战 → fold 进 startBattle 一次性参数;
+        // 其余 → bakeAndStrip 烘成 SceneDef 默认(打完 boss 回落场景默认;无持久态)。绝不进最终 content。
+        else if (oc === 0x45) push(battleCfgMarker({ musicId: o[0] ?? 0 }))
+        else if (oc === 0x4a) push(battleCfgMarker({ fieldId: o[0] ?? 0 }))
+        else if (oc === 0x50) push({ kind: 'fade', dir: 'out', ms: ((o[0] ?? 0) || 1) * 600 })
+        else if (oc === 0x51) {
+          const delay = signExtendI16(o[0] ?? 0)
+          push({ kind: 'fade', dir: 'in', ms: (delay > 0 ? delay : 1) * 600 })
+        } else if (oc === 0x73) {
+          // VIDEO_FadeScreen 每 speed 档 10ms、每档 72 个空间步；独立站点同样必须保留。
+          push({ kind: 'ditherScreen', ms: ((o[0] ?? 0) + 1) * 10 * 72 })
+        } else if (oc === 0x65) {
+          // 换角色大世界精灵(script.c 0x0065:rgwSpriteNum[o[0]] = o[1])。开场李逍遥
+          // 练武 627/疯跑 193 全靠它;未迁移时角色只会站桩(2026-07-03 用户实测)。
+          // o[2](即时重载 flag)不建模:clean 引擎换精灵即时生效,无"延迟到下次装载"语义。
+          const actor = ROLE_SLUGS[o[0] ?? 0]
+          const sprite = actor !== undefined ? ctx.spriteIdForNum?.(o[1] ?? 0) : undefined
+          if (actor && sprite) push({ kind: 'setActorSprite', actor, sprite })
+          else {
+            gap(sprite ? `setActorSprite 未知 roleId ${o[0]}` : 'setActorSprite 无精灵注册回调')
+          }
+        } else if (oc === 0x1a) {
+          // 0x1A 改角色 SoA 属性(script.c:834:p[field*6 + role] = val)。全游戏 4 站点全是**形象**字段
+          // (成年灵儿 role 1):field 0=头像 / 1=战斗精灵 / 2=大世界精灵 / 64=走路帧。映射成具名
+          // setActorAppearance,杜绝下标式身份。field 2 的精灵号 → id(spriteIdForNum);64 走路帧
+          // 由新精灵 layout 自带,丢弃。o[2]=0(当前玩家,数据中未出现)→ MigrationGap。
+          const roleIdx = (o[2] ?? 0) - 1
+          const actor = roleIdx >= 0 ? ROLE_SLUGS[roleIdx] : undefined
+          const field = o[0] ?? -1
+          const val = o[1] ?? 0
+          if (actor && field === 0)
+            push(
+              val > 0
+                ? { kind: 'setActorAppearance', actor, portrait: palPortraitAssetId(val) }
+                : undefined,
+            )
+          else if (actor && field === 1)
+            push({
+              kind: 'setActorAppearance',
+              actor,
+              battleSprite: palPlayerBattleSpriteDefinitionId(val),
+            })
+          else if (actor && field === 2) {
+            const sprite = ctx.spriteIdForNum?.(val)
+            if (sprite) push({ kind: 'setActorAppearance', actor, spriteId: sprite })
+            else gap('0x1A setActorAppearance 无精灵注册回调')
+          } else if (actor && field === 64) {
+            push(undefined) // 走路帧:新精灵 layout 自带,clean 模型无独立帧数字段
+          } else gap(`0x1A 字段 ${field}(非形象/o2=0)`)
+        } else if (oc === 0x90 && (o[2] ?? 0) === 0 && (o[1] ?? 0) === 0) {
+          // 0x90 剧情侧清 enemy scriptOnTurnStart(六脚蜘蛛 s138 酒剑仙救场后降级):原版敌种绑定的
+          // 「说一次」hack。二阶段遭遇绑定后**无需** —— 对话属于这场遭遇的 startBattle,丢弃(no-op)。
+          push(undefined)
+        } else if (oc === 0x05 || oc === 0x8e) push({ kind: 'clearDialog' })
+        else if (oc === 0xa7)
+          push(undefined) // noop(备份屏)
+        else if (oc === 0x1e && (o[1] ?? 0) === 0)
+          push({ kind: 'giveMoney', delta: signExtendI16(o[0] ?? 0) })
+        else if (oc === 0x20 && (o[2] ?? 0) === 0) {
+          const cnt = (o[1] ?? 0) > 1 ? o[1] : undefined
+          push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt ? { count: cnt } : {}) })
+        } else if (oc >= 0x0b && oc <= 0x0e) {
+          if (owner)
+            push({ kind: 'stepEntity', entity: owner, dir: FACING_BY_DIR[oc - 0x0b] ?? 'down' })
+          else gap('单步无属主')
+        } else if (oc === 0x10 || oc === 0x11 || oc === 0x7c || oc === 0x82) {
+          const sp = oc === 0x11 ? 2 : oc === 0x10 ? 3 : oc === 0x7c ? 4 : 8
+          if (owner)
+            push({
+              kind: 'moveEntity',
+              entity: owner,
+              to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
+              speed: SPEED[sp]!,
+            })
+          else gap('walkTo 无属主')
+        } else if (oc === 0x70 || oc === 0x7a || oc === 0x7b) {
+          const sp = oc === 0x70 ? 2 : oc === 0x7a ? 4 : 8
+          push({
+            kind: 'moveParty',
             to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
             speed: SPEED[sp]!,
           })
-        else gap('walkTo 无属主')
-      } else if (oc === 0x70 || oc === 0x7a || oc === 0x7b) {
-        const sp = oc === 0x70 ? 2 : oc === 0x7a ? 4 : 8
-        push({
-          kind: 'moveParty',
-          to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
-          speed: SPEED[sp]!,
-        })
-      } else if (oc === 0x75) {
-        // SetParty(C7/D22):operand[0..2] = roleId+1(0=空)→ 角色模板 slug 有序表
-        const members = o
-          .filter((v): v is number => typeof v === 'number' && v > 0)
-          .map((v) => ROLE_SLUGS[v - 1])
-          .filter((m): m is (typeof ROLE_SLUGS)[number] => m !== undefined)
-        push({ kind: 'setParty', members: [...members] })
-      } else if (oc === 0xa1) {
-        // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
-        // 共享物品用途的 owner 只是脚本命名空间，不是地图实体。传送后的 trail 收拢在
-        // detached 用途执行结束时已有统一队形收口，不能把 "global/items" 当成伪载具。
-        if (owner?.startsWith('global/'))
-          knownNoOp(ctx, '0xA1.globalTrail', sourceAddressAt(ctx, at.cmds, at.idx))
-        else if (owner) push({ kind: 'mountParty', entity: owner })
-        else gap('聚拢无属主')
-      } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
-        // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
-        // 引擎 moveParty 走位即下筏(dismountParty),连骑不卸、无持久态
-        const sp = oc === 0x3f ? 2 : oc === 0x44 ? 4 : 8
-        if (owner)
+        } else if (oc === 0x75) {
+          // SetParty(C7/D22):operand[0..2] = roleId+1(0=空)→ 角色模板 slug 有序表
+          const members = o
+            .filter((v): v is number => typeof v === 'number' && v > 0)
+            .map((v) => ROLE_SLUGS[v - 1])
+            .filter((m): m is (typeof ROLE_SLUGS)[number] => m !== undefined)
+          push({ kind: 'setParty', members: [...members] })
+        } else if (oc === 0xa1) {
+          // SetAllPartyPos 全员聚拢队首:骑乘链开头(E7)→ mountParty(属主=载具,全员叠上)
+          // 共享物品用途的 owner 只是脚本命名空间，不是地图实体。传送后的 trail 收拢在
+          // detached 用途执行结束时已有统一队形收口，不能把 "global/items" 当成伪载具。
+          if (owner?.startsWith('global/'))
+            knownNoOp(ctx, '0xA1.globalTrail', sourceAddressAt(ctx, at.cmds, at.idx))
+          else if (owner) push({ kind: 'mountParty', entity: owner })
+          else gap('聚拢无属主')
+        } else if (oc === 0x3f || oc === 0x44 || oc === 0x97) {
+          // PartyRideEventObject 骑当前对象走位(速 2/4/8);挂载 op-scoped:
+          // 引擎 moveParty 走位即下筏(dismountParty),连骑不卸、无持久态
+          const sp = oc === 0x3f ? 2 : oc === 0x44 ? 4 : 8
+          if (owner)
+            push({
+              kind: 'ride',
+              entity: owner,
+              to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
+              speed: SPEED[sp]!,
+            })
+          else gap('骑乘无属主')
+        } else if (oc === 0x6e) {
+          // sdlpal script.c:2091-2107:每次 0x6E 都写 wLayer = operand[2] * 8；
+          // 第三操作数不能丢，否则上桥/血池过场的人物会按地面层参与遮挡。
+          // clean schema 存逻辑层号，渲染消费端统一换算为像素深度。
           push({
-            kind: 'ride',
-            entity: owner,
-            to: partyPosToGrid(o[0] ?? 0, o[1] ?? 0, o[2] ?? 0),
-            speed: SPEED[sp]!,
+            kind: 'nudgeParty',
+            dx: signExtendI16(o[0] ?? 0),
+            dy: signExtendI16(o[1] ?? 0),
+            ...(o[2] ? { layer: signExtendI16(o[2]) } : {}),
           })
-        else gap('骑乘无属主')
-      } else if (oc === 0x6e) {
-        // sdlpal script.c:2091-2107:每次 0x6E 都写 wLayer = operand[2] * 8；
-        // 第三操作数不能丢，否则上桥/血池过场的人物会按地面层参与遮挡。
-        // clean schema 存逻辑层号，渲染消费端统一换算为像素深度。
-        push({
-          kind: 'nudgeParty',
-          dx: signExtendI16(o[0] ?? 0),
-          dy: signExtendI16(o[1] ?? 0),
-          ...(o[2] ? { layer: signExtendI16(o[2]) } : {}),
-        })
-      } else if (oc === 0x7d) {
-        const ent = pcRef(o[0] ?? 0)
-        if (ent)
-          push({
-            kind: 'nudgeEntity',
-            entity: ent,
-            dx: signExtendI16(o[1] ?? 0),
-            dy: signExtendI16(o[2] ?? 0),
-          })
-        else gap('moveObject 无属主')
-      } else if (oc === 0x6c) {
-        const ent = pcRef(o[0] ?? 0)
-        if (ent) {
+        } else if (oc === 0x7d) {
+          const ent = pcRef(o[0] ?? 0)
+          if (ent)
+            push({
+              kind: 'nudgeEntity',
+              entity: ent,
+              dx: signExtendI16(o[1] ?? 0),
+              dy: signExtendI16(o[2] ?? 0),
+            })
+          else gap('moveObject 无属主')
+        } else if (oc === 0x6c) {
+          const ent = pcRef(o[0] ?? 0)
+          if (ent) {
+            flush()
+            body.push({
+              kind: 'nudgeEntity',
+              entity: ent,
+              dx: signExtendI16(o[1] ?? 0),
+              dy: signExtendI16(o[2] ?? 0),
+            })
+            body.push({ kind: 'animEntity', entity: ent })
+          } else gap('walkOneStep 无属主')
+        } else if (oc === 0x87) {
+          if (owner) push({ kind: 'animEntity', entity: owner })
+          else gap('animate 无属主')
+        } else if (oc === 0x4c) {
+          // B8 追逐:0x4C [maxDist, speed, floating](缺省 8/4;script.c:1733-1751)。原版靠
+          // goto-self/0x06 概率环逐帧重复 —— 新引擎 auto runner 天然循环,单条声明即持续追逐,
+          // 段后骨架整体吞掉(概率停顿细节属演出损耗,可接受)。
           flush()
           body.push({
-            kind: 'nudgeEntity',
-            entity: ent,
-            dx: signExtendI16(o[1] ?? 0),
-            dy: signExtendI16(o[2] ?? 0),
+            kind: 'chasePlayer',
+            range: (o[0] ?? 0) || 8,
+            speed: (o[1] ?? 0) || 4,
+            ...((o[2] ?? 0) !== 0 ? { floating: true } : {}),
           })
-          body.push({ kind: 'animEntity', entity: ent })
-        } else gap('walkOneStep 无属主')
-      } else if (oc === 0x87) {
-        if (owner) push({ kind: 'animEntity', entity: owner })
-        else gap('animate 无属主')
-      } else if (oc === 0x4c) {
-        // B8 追逐:0x4C [maxDist, speed, floating](缺省 8/4;script.c:1733-1751)。原版靠
-        // goto-self/0x06 概率环逐帧重复 —— 新引擎 auto runner 天然循环,单条声明即持续追逐,
-        // 段后骨架整体吞掉(概率停顿细节属演出损耗,可接受)。
-        flush()
-        body.push({
-          kind: 'chasePlayer',
-          range: (o[0] ?? 0) || 8,
-          speed: (o[1] ?? 0) || 4,
-          ...((o[2] ?? 0) !== 0 ? { floating: true } : {}),
-        })
-        return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
-      } else if (oc === 0x4b) {
-        // B8:实体短暂消失(原版 sVanishTime=-15 ≈ 1.5s;野怪战胜后的重生窗)
-        push({ kind: 'vanishEntity', seconds: 2 })
-      } else if (oc === 0x52) {
-        // B8:self 长消失(script.c:1794-1800 sVanishTime=op0||800 帧,10fps ≈ 80s;野怪重生主机制)
-        push({ kind: 'vanishEntity', seconds: Math.round(((o[0] ?? 0) || 800) / 10) })
-      } else if (oc === 0x4e) {
-        push({ kind: 'loadLastSave' })
-      } else if (oc === 0x4f) {
-        push({ kind: 'fade', dir: 'out', ms: 900, color: 'red' })
-      } else if (oc === 0x8a) {
-        // B9:标记下一场战斗自动(fAutoBattle);合进紧邻的 startBattle.auto(下方消费 pendingAuto)
-        flush()
-        ctx.pendingAuto = true
-      } else if (oc === 0x07) {
-        flush()
-        const onLose = (o[1] ?? 0) !== 0 ? inlineArm(o[1]) : undefined
-        const onFlee = (o[2] ?? 0) !== 0 ? inlineArm(o[2]) : undefined
-        body.push({
-          kind: 'startBattle',
-          team: o[0] ?? 0,
-          ...(onLose?.length ? { onLose } : {}),
-          ...(onFlee?.length ? { onFlee } : {}),
-          ...(ctx.pendingAuto ? { auto: true } : {}),
-          // 原版 fIsBoss = !op2(script.c:3318):无逃跑臂 = 首领战(不可逃+胜利曲 2)
-          ...((o[2] ?? 0) === 0 ? { boss: true } : {}),
-        })
-        ctx.pendingAuto = false
-      } else if (oc === 0x06) {
-        flush()
-        // jumpByRate:random(1,100) ≥ op0 → 跳。跳走臂结构:branch{chance,then:臂},不中直走
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'chance', percent: 101 - (o[0] ?? 100) },
-          then: inlineArm(o[1]),
-        })
-      } else if (oc === 0x0a) {
-        flush()
-        body.push({ kind: 'confirm', onNo: inlineArm(o[0]) })
-      } else if (oc === 0x1e && (o[1] ?? 0) !== 0) {
-        flush()
-        const amt = signExtendI16(o[0] ?? 0)
-        if (amt < 0) {
-          // 钱不够 → 跳走臂;够 → 扣钱直走
+          return { body, term: { kind: 'end' }, dialogueState: dialogueSnapshot() }
+        } else if (oc === 0x4b) {
+          // B8:实体短暂消失(原版 sVanishTime=-15 ≈ 1.5s;野怪战胜后的重生窗)
+          push({ kind: 'vanishEntity', seconds: 2 })
+        } else if (oc === 0x52) {
+          // B8:self 长消失(script.c:1794-1800 sVanishTime=op0||800 帧,10fps ≈ 80s;野怪重生主机制)
+          push({ kind: 'vanishEntity', seconds: Math.round(((o[0] ?? 0) || 800) / 10) })
+        } else if (oc === 0x4e) {
+          push({ kind: 'loadLastSave' })
+        } else if (oc === 0x4f) {
+          push({ kind: 'fade', dir: 'out', ms: 900, color: 'red' })
+        } else if (oc === 0x8a) {
+          // B9:标记下一场战斗自动(fAutoBattle);合进紧邻的 startBattle.auto(下方消费 pendingAuto)
+          flush()
+          ctx.pendingAuto = true
+        } else if (oc === 0x07) {
+          flush()
+          const onLose = (o[1] ?? 0) !== 0 ? inlineArm(o[1]) : undefined
+          const onFlee = (o[2] ?? 0) !== 0 ? inlineArm(o[2]) : undefined
+          body.push({
+            kind: 'startBattle',
+            team: o[0] ?? 0,
+            ...(onLose?.length ? { onLose } : {}),
+            ...(onFlee?.length ? { onFlee } : {}),
+            ...(ctx.pendingAuto ? { auto: true } : {}),
+            // 原版 fIsBoss = !op2(script.c:3318):无逃跑臂 = 首领战(不可逃+胜利曲 2)
+            ...((o[2] ?? 0) === 0 ? { boss: true } : {}),
+          })
+          ctx.pendingAuto = false
+        } else if (oc === 0x06) {
+          flush()
+          // jumpByRate:random(1,100) ≥ op0 → 跳。跳走臂结构:branch{chance,then:臂},不中直走
           body.push({
             kind: 'branch',
-            cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: -amt } },
+            cond: { kind: 'chance', percent: 101 - (o[0] ?? 100) },
             then: inlineArm(o[1]),
           })
-          body.push({ kind: 'giveMoney', delta: amt })
-        } else {
-          body.push({ kind: 'giveMoney', delta: amt })
-          note(ctx, 'addCash 正数带跳(原版不可能跳)')
-        }
-      } else if (oc === 0x20 && (o[2] ?? 0) !== 0) {
-        flush()
-        const cnt = Math.max(1, o[1] ?? 1)
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'not', cond: { kind: 'ownsItem', itemId: String(o[0]), atLeast: cnt } },
-          then: inlineArm(o[2]),
-        })
-        body.push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt > 1 ? { count: cnt } : {}) })
-      } else if (oc === 0x38) {
-        // 当前场景传送出口。失败地址是“本场景无出口/禁止脱离”臂；作为脚本命令保留，
-        // 由运行时 SceneDef.onTeleport 决定是否成功，不能在迁移时拍平为固定目的地。
-        flush()
-        const onFail = (o[0] ?? 0) > 0 ? inlineArm(o[0]) : undefined
-        body.push({ kind: 'teleportOut', ...(onFail?.length ? { onFail } : {}) })
-      } else if (oc === 0x58 && (o[2] ?? 0) !== 0) {
-        // 0x58(script.c:1864)物品数 < op1 → jump op2。纯判定不消耗(区别 0x20 检查即扣)。
-        // then=不足段(inlineArm 自带 stopScript);够则 fall-through 继续主线。
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: {
-            kind: 'not',
-            cond: { kind: 'hasItem', itemId: String(o[0]), atLeast: Math.max(1, o[1] ?? 1) },
-          },
-          then: inlineArm(o[2]),
-        })
-      } else if (oc === 0x74 && (o[0] ?? 0) !== 0) {
-        // 0x74(script.c:2158)非全员满血 → jump op0(洪大夫治伤段)。then=治疗(不满血);
-        // fall-through=满血唠叨段。治疗臂自带 stopScript 不落穿,构成 if/else。
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'not', cond: { kind: 'allFullHp' } },
-          then: inlineArm(o[0]),
-        })
-      } else if (oc === 0x86 && (o[2] ?? 0) !== 0) {
-        // 0x86(script.c:2528)全队装备 op0 件数 < (op1||1) → jump op2(将军冢玉佛珠门禁)。
-        // sdlpal#324:op1==0 按 1(否则 count<0 恒假、不戴玉佛珠也破屏障;一阶段同修)。
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: {
-            kind: 'not',
-            cond: {
-              kind: 'itemEquipped',
-              itemId: String(o[0]),
-              atLeast: (o[1] ?? 0) || 1,
-            },
-          },
-          then: inlineArm(o[2]),
-        })
-      } else if (oc === 0x83 && (o[2] ?? 0) !== 0) {
-        // 0x83(script.c:2452)对象 op0 不在本场景 EventObject 下标区间 → jump op2。
-        // 清洁重写:全局对象号 → e{号−1} 场景实体 id(杜绝下标身份),判「实体是否属本场景」。
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'not', cond: { kind: 'entityInScene', entity: `e${(o[0] ?? 0) - 1}` } },
-          then: inlineArm(o[2]),
-        })
-      } else if (oc === 0x81 && (o[2] ?? 0) !== 0) {
-        // 0x81(script.c:2390):目标不在本场景、隐藏或不在队伍正前方 range 内时跳走。
-        // 命中且 range>0 时把对象改成 touch(range)，使其下一帧可自动触发。
-        flush()
-        const entity = entRef(o[0] ?? 0)
-        if (!entity) gap('jumpIfNotFacingObj 无目标实体')
-        else {
-          const range = Math.max(0, o[1] ?? 0)
+        } else if (oc === 0x0a) {
+          flush()
+          body.push({ kind: 'confirm', onNo: inlineArm(o[0]) })
+        } else if (oc === 0x1e && (o[1] ?? 0) !== 0) {
+          flush()
+          const amt = signExtendI16(o[0] ?? 0)
+          if (amt < 0) {
+            // 钱不够 → 跳走臂;够 → 扣钱直走
+            body.push({
+              kind: 'branch',
+              cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: -amt } },
+              then: inlineArm(o[1]),
+            })
+            body.push({ kind: 'giveMoney', delta: amt })
+          } else {
+            body.push({ kind: 'giveMoney', delta: amt })
+            note(ctx, 'addCash 正数带跳(原版不可能跳)')
+          }
+        } else if (oc === 0x20 && (o[2] ?? 0) !== 0) {
+          flush()
+          const cnt = Math.max(1, o[1] ?? 1)
+          body.push({
+            kind: 'branch',
+            cond: { kind: 'not', cond: { kind: 'ownsItem', itemId: String(o[0]), atLeast: cnt } },
+            then: inlineArm(o[2]),
+          })
+          body.push({ kind: 'loseItem', itemId: String(o[0]), ...(cnt > 1 ? { count: cnt } : {}) })
+        } else if (oc === 0x38) {
+          // 当前场景传送出口。失败地址是“本场景无出口/禁止脱离”臂；作为脚本命令保留，
+          // 由运行时 SceneDef.onTeleport 决定是否成功，不能在迁移时拍平为固定目的地。
+          flush()
+          const onFail = (o[0] ?? 0) > 0 ? inlineArm(o[0]) : undefined
+          body.push({ kind: 'teleportOut', ...(onFail?.length ? { onFail } : {}) })
+        } else if (oc === 0x58 && (o[2] ?? 0) !== 0) {
+          // 0x58(script.c:1864)物品数 < op1 → jump op2。纯判定不消耗(区别 0x20 检查即扣)。
+          // then=不足段(inlineArm 自带 stopScript);够则 fall-through 继续主线。
+          flush()
           body.push({
             kind: 'branch',
             cond: {
               kind: 'not',
-              cond: { kind: 'facingEntity', entity, ...(range ? { range } : {}) },
+              cond: { kind: 'hasItem', itemId: String(o[0]), atLeast: Math.max(1, o[1] ?? 1) },
             },
             then: inlineArm(o[2]),
           })
-          if (range > 0) body.push({ kind: 'setEntityTriggerMode', entity, on: 'touch', range })
-        }
-      } else if (oc === 0x94) {
-        flush()
-        const ent = entRef(o[0] ?? 0)
-        if (ent)
+        } else if (oc === 0x74 && (o[0] ?? 0) !== 0) {
+          // 0x74(script.c:2158)非全员满血 → jump op0(洪大夫治伤段)。then=治疗(不满血);
+          // fall-through=满血唠叨段。治疗臂自带 stopScript 不落穿,构成 if/else。
+          flush()
           body.push({
             kind: 'branch',
-            cond: { kind: 'entityState', entity: ent, is: signExtendI16(o[1] ?? 0) },
+            cond: { kind: 'not', cond: { kind: 'allFullHp' } },
+            then: inlineArm(o[0]),
+          })
+        } else if (oc === 0x86 && (o[2] ?? 0) !== 0) {
+          // 0x86(script.c:2528)全队装备 op0 件数 < (op1||1) → jump op2(将军冢玉佛珠门禁)。
+          // sdlpal#324:op1==0 按 1(否则 count<0 恒假、不戴玉佛珠也破屏障;一阶段同修)。
+          flush()
+          body.push({
+            kind: 'branch',
+            cond: {
+              kind: 'not',
+              cond: {
+                kind: 'itemEquipped',
+                itemId: String(o[0]),
+                atLeast: (o[1] ?? 0) || 1,
+              },
+            },
             then: inlineArm(o[2]),
           })
-        else gap('jumpIfObjState 无属主')
-      } else if (oc === 0x95 && (o[0] ?? 0) > 0 && (o[1] ?? 0) !== 0) {
-        // 0x95(script.c:2683):当前场景等于 op0(1-based)时跳到 op1。
-        // 用稳定场景 id 表达，避免把 PAL 数字场景号泄漏进 canonical 条件。
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'currentScene', scene: sceneSlug((o[0] ?? 1) - 1) },
-          then: inlineArm(o[1]),
-        })
-      } else if (oc === 0x79) {
-        flush()
-        body.push({
-          kind: 'branch',
-          cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) },
-          then: inlineArm(o[1]),
-        })
-      } else if (oc === 0x7f) {
-        flush()
-        const [a = 0, b = 0, cc = 0] = o
-        if (a === 0 && b === 0)
-          body.push({ kind: 'cameraSnap' }) // 回正
-        else if (cc === 0xffff) body.push({ kind: 'cameraSnap', to: partyPosToGrid(a, b, 0) })
-        else
+        } else if (oc === 0x83 && (o[2] ?? 0) !== 0) {
+          // 0x83(script.c:2452)对象 op0 不在本场景 EventObject 下标区间 → jump op2。
+          // 清洁重写:全局对象号 → e{号−1} 场景实体 id(杜绝下标身份),判「实体是否属本场景」。
+          flush()
           body.push({
-            kind: 'cameraPan',
-            dx: signExtendI16(a),
-            dy: signExtendI16(b),
-            frames: Math.max(1, cc),
+            kind: 'branch',
+            cond: { kind: 'not', cond: { kind: 'entityInScene', entity: `e${(o[0] ?? 0) - 1}` } },
+            then: inlineArm(o[2]),
           })
-      } else if (oc === 0x04) {
-        // callScript:目标链整段内联(owner 可被 op1 覆盖;memo 防重展)
-        flush()
-        const callOwner = (o[1] ?? 0) !== 0 ? `e${o[1]}` : owner
-        const callEntry = dialogueSnapshot()
-        if (ctx.registry) {
-          const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, callEntry, ctx)
-          body.push({ kind: 'callScript', ref, ...(callOwner ? { self: callOwner } : {}) })
-          const exit = ctx.registry.dialogueExitFor(ref)
-          if (exit) applyDialogueState(exit)
-          at = { cmds: at.cmds, idx: at.idx + 1 }
-          continue
-        }
-        const memoKey = `call:L_${o[0]}|${callOwner ?? ''}|${JSON.stringify(callEntry)}`
-        ctx.armMemo ??= new Map()
-        ctx.dialogueExitMemo ??= new Map()
-        const memo = ctx.armMemo
-        let calleeBody = memo.get(memoKey)
-        if (!calleeBody) {
-          const target = ctx.labelAt.get(`L_${o[0]}`)
-          if (!target || depth >= MAX_ARM_DEPTH) {
-            gap(target ? 'call 深度截断' : `call 目标缺失 L_${o[0]}`)
-            calleeBody = []
-            ctx.dialogueExitMemo.set(memoKey, callEntry)
-          } else {
-            memo.set(memoKey, [])
-            const r = walkBody(target.cmds, target.idx, callOwner, ctx, depth + 1, callEntry)
-            calleeBody = r.body.length > MAX_ARM_BODY ? [] : r.body
-            ctx.dialogueExitMemo.set(memoKey, r.dialogueState)
-            if (r.body.length > MAX_ARM_BODY) gap(`call 体超长(${r.body.length})`)
+        } else if (oc === 0x81 && (o[2] ?? 0) !== 0) {
+          // 0x81(script.c:2390):目标不在本场景、隐藏或不在队伍正前方 range 内时跳走。
+          // 命中且 range>0 时把对象改成 touch(range)，使其下一帧可自动触发。
+          flush()
+          const entity = entRef(o[0] ?? 0)
+          if (!entity) gap('jumpIfNotFacingObj 无目标实体')
+          else {
+            const range = Math.max(0, o[1] ?? 0)
+            body.push({
+              kind: 'branch',
+              cond: {
+                kind: 'not',
+                cond: { kind: 'facingEntity', entity, ...(range ? { range } : {}) },
+              },
+              then: inlineArm(o[2]),
+            })
+            if (range > 0) body.push({ kind: 'setEntityTriggerMode', entity, on: 'touch', range })
           }
-          memo.set(memoKey, calleeBody)
-        }
-        body.push(...calleeBody)
-        applyDialogueState(ctx.dialogueExitMemo.get(memoKey) ?? callEntry)
-      } else if (oc === 0x24 || oc === 0x25) {
-        flush()
-        if ((o[0] ?? 0) === 0) {
-          // 原版:op0==0 整条无效
-        } else {
-          const ent = entRef(o[0]!)
-          if (!ent) note(ctx, '页切换无属主')
-          else if ((o[1] ?? 0) === 0) {
-            body.push(
-              oc === 0x24
-                ? { kind: 'setEntityAuto', entity: ent, stages: [] }
-                : { kind: 'setEntityTrigger', entity: ent, stages: [] },
-            )
-          } else {
-            if (ctx.registry) {
-              const ref = ctx.registry.registerTarget(`L_${o[1]}`, ent, {}, ctx)
-              body.push(
-                oc === 0x24
-                  ? { kind: 'setEntityAuto', entity: ent, script: ref }
-                  : { kind: 'setEntityTrigger', entity: ent, script: ref },
-              )
-              at = { cmds: at.cmds, idx: at.idx + 1 }
-              continue
+        } else if (oc === 0x94) {
+          flush()
+          const ent = entRef(o[0] ?? 0)
+          if (ent)
+            body.push({
+              kind: 'branch',
+              cond: { kind: 'entityState', entity: ent, is: signExtendI16(o[1] ?? 0) },
+              then: inlineArm(o[2]),
+            })
+          else gap('jumpIfObjState 无属主')
+        } else if (oc === 0x95 && (o[0] ?? 0) > 0 && (o[1] ?? 0) !== 0) {
+          // 0x95(script.c:2683):当前场景等于 op0(1-based)时跳到 op1。
+          // 用稳定场景 id 表达，避免把 PAL 数字场景号泄漏进 canonical 条件。
+          flush()
+          body.push({
+            kind: 'branch',
+            cond: { kind: 'currentScene', scene: sceneSlug((o[0] ?? 1) - 1) },
+            then: inlineArm(o[1]),
+          })
+        } else if (oc === 0x79) {
+          flush()
+          body.push({
+            kind: 'branch',
+            cond: { kind: 'inParty', actorId: ROLE_SLUGS[o[0] ?? 0] ?? String(o[0]) },
+            then: inlineArm(o[1]),
+          })
+        } else if (oc === 0x7f) {
+          flush()
+          const [a = 0, b = 0, cc = 0] = o
+          if (a === 0 && b === 0)
+            body.push({ kind: 'cameraSnap' }) // 回正
+          else if (cc === 0xffff) body.push({ kind: 'cameraSnap', to: partyPosToGrid(a, b, 0) })
+          else
+            body.push({
+              kind: 'cameraPan',
+              dx: signExtendI16(a),
+              dy: signExtendI16(b),
+              frames: Math.max(1, cc),
+            })
+        } else if (oc === 0x04) {
+          // callScript:目标链整段内联(owner 可被 op1 覆盖;memo 防重展)
+          flush()
+          const explicitOwner = o[1] ?? 0
+          const callOwner = explicitOwner !== 0 ? legacyEventObjectEntityId(explicitOwner) : owner
+          const callEntry = dialogueSnapshot()
+          const targetAddress = o[0] ?? 0
+          if (
+            targetAddress > 0 &&
+            control?.externalize({
+              kind: 'call',
+              sourceAddress: instructionSourceAddress,
+              targetAddress,
+              returnAddress: instructionSourceAddress + 1,
+              owner: callOwner,
+            })
+          )
+            return {
+              body,
+              term: {
+                kind: 'call',
+                sourceAddress: instructionSourceAddress,
+                targetAddress,
+                returnAddress: instructionSourceAddress + 1,
+                ...(callOwner ? { callOwner } : {}),
+              },
+              dialogueState: callEntry,
             }
-            const sub = translateStages(`L_${o[1]}`, ent, ctx)
-            if (sub?.length) {
+          if (ctx.registry) {
+            const ref = ctx.registry.registerTarget(`L_${o[0]}`, callOwner, callEntry, ctx)
+            body.push({ kind: 'callScript', ref, ...(callOwner ? { self: callOwner } : {}) })
+            const exit = ctx.registry.dialogueExitFor(ref)
+            if (exit) applyDialogueState(exit)
+            at = { cmds: at.cmds, idx: at.idx + 1 }
+            continue
+          }
+          const memoKey = `call:L_${o[0]}|${callOwner ?? ''}|${JSON.stringify(callEntry)}`
+          ctx.armMemo ??= new Map()
+          ctx.dialogueExitMemo ??= new Map()
+          const memo = ctx.armMemo
+          let calleeBody = memo.get(memoKey)
+          if (!calleeBody) {
+            const target = ctx.labelAt.get(`L_${o[0]}`)
+            if (!target || depth >= MAX_ARM_DEPTH) {
+              gap(target ? 'call 深度截断' : `call 目标缺失 L_${o[0]}`)
+              calleeBody = []
+              ctx.dialogueExitMemo.set(memoKey, callEntry)
+            } else {
+              memo.set(memoKey, [])
+              const r = walkBody(
+                target.cmds,
+                target.idx,
+                callOwner,
+                ctx,
+                depth + 1,
+                callEntry,
+                bodyId,
+                control,
+              )
+              calleeBody = r.body.length > MAX_ARM_BODY ? [] : r.body
+              ctx.dialogueExitMemo.set(memoKey, r.dialogueState)
+              if (r.body.length > MAX_ARM_BODY) gap(`call 体超长(${r.body.length})`)
+            }
+            memo.set(memoKey, calleeBody)
+          }
+          body.push(...calleeBody)
+          applyDialogueState(ctx.dialogueExitMemo.get(memoKey) ?? callEntry)
+        } else if (oc === 0x24 || oc === 0x25) {
+          flush()
+          if ((o[0] ?? 0) === 0) {
+            // 原版:op0==0 整条无效
+          } else {
+            const ent = entRef(o[0]!)
+            if (!ent) note(ctx, '页切换无属主')
+            else if ((o[1] ?? 0) === 0) {
               body.push(
                 oc === 0x24
-                  ? { kind: 'setEntityAuto', entity: ent, stages: sub }
-                  : { kind: 'setEntityTrigger', entity: ent, stages: sub },
+                  ? { kind: 'setEntityAuto', entity: ent, stages: [] }
+                  : { kind: 'setEntityTrigger', entity: ent, stages: [] },
               )
             } else {
-              gap(`页目标不可译 L_${o[1]}`)
+              if (ctx.registry) {
+                const ref = ctx.registry.registerTarget(`L_${o[1]}`, ent, {}, ctx)
+                body.push(
+                  oc === 0x24
+                    ? { kind: 'setEntityAuto', entity: ent, script: ref }
+                    : { kind: 'setEntityTrigger', entity: ent, script: ref },
+                )
+                at = { cmds: at.cmds, idx: at.idx + 1 }
+                continue
+              }
+              const sub = translateStages(`L_${o[1]}`, ent, ctx)
+              if (sub?.length) {
+                body.push(
+                  oc === 0x24
+                    ? { kind: 'setEntityAuto', entity: ent, stages: sub }
+                    : { kind: 'setEntityTrigger', entity: ent, stages: sub },
+                )
+              } else {
+                gap(`页目标不可译 L_${o[1]}`)
+              }
             }
           }
-        }
-      } else if (oc === 0x40) {
-        flush()
-        if ((o[0] ?? 0) !== 0) {
-          const ent = entRef(o[0]!)
-          const mode = o[1] ?? 0
-          if (ent) {
-            body.push(
-              mode >= 1 && mode <= 3
-                ? { kind: 'setEntityTriggerMode', entity: ent, on: 'interact', range: mode }
-                : mode >= 4 && mode <= 8
-                  ? { kind: 'setEntityTriggerMode', entity: ent, on: 'touch', range: mode - 4 }
-                  : { kind: 'setEntityTriggerMode', entity: ent },
-            )
+        } else if (oc === 0x40) {
+          flush()
+          if ((o[0] ?? 0) !== 0) {
+            const ent = entRef(o[0]!)
+            const mode = o[1] ?? 0
+            if (ent) {
+              body.push(
+                mode >= 1 && mode <= 3
+                  ? { kind: 'setEntityTriggerMode', entity: ent, on: 'interact', range: mode }
+                  : mode >= 4 && mode <= 8
+                    ? { kind: 'setEntityTriggerMode', entity: ent, on: 'touch', range: mode - 4 }
+                    : { kind: 'setEntityTriggerMode', entity: ent },
+              )
+            }
           }
-        }
-      } else if (oc === 0x26 || oc === 0x27) {
-        push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
-      } else if (oc === 0x78) {
-        push(undefined)
-        knownNoOp(ctx, '0x78', sourceAddressAt(ctx, at.cmds, at.idx))
-      } else if (oc === 0xa0) {
-        push({
-          kind: 'quitToTitle',
-          videos: [palVideoAssetId(4), palVideoAssetId(5), palVideoAssetId(6)],
-        })
-        resolved(ctx, '0xa0 -> quitToTitle')
-      } else if (oc === 0x6d) {
-        flush()
-        const sourceScene = o[0] ?? 0
-        if (sourceScene <= 0) {
-          gap('0x6D 场景号必须为 1-based 正数')
-        } else {
-          const scene = sceneSlug(sourceScene - 1)
-          const onEnter = o[1] ?? 0
-          const onTeleport = o[2] ?? 0
-          if (onEnter === 0 && onTeleport === 0) {
-            body.push({ kind: 'clearSceneScripts', scene })
+        } else if (oc === 0x26 || oc === 0x27) {
+          push({ kind: 'openShop', shop: o[0] ?? 0, mode: oc === 0x26 ? 'buy' : 'sell' })
+        } else if (oc === 0x78) {
+          push(undefined)
+          knownNoOp(ctx, '0x78', sourceAddressAt(ctx, at.cmds, at.idx))
+        } else if (oc === 0xa0) {
+          push({
+            kind: 'quitToTitle',
+            videos: [palVideoAssetId(4), palVideoAssetId(5), palVideoAssetId(6)],
+          })
+          resolved(ctx, '0xa0 -> quitToTitle')
+        } else if (oc === 0x6d) {
+          flush()
+          const sourceScene = o[0] ?? 0
+          if (sourceScene <= 0) {
+            gap('0x6D 场景号必须为 1-based 正数')
           } else {
-            const sourceAddress = sourceAddressAt(ctx, at.cmds, at.idx)
-            const path = ctx.pathStack?.join(' -> ') ?? 'unknown-root'
-            if (onEnter > 0)
-              body.push({
-                kind: 'setSceneOnEnter',
-                scene,
-                stages: [],
-                _addr: onEnter,
-                _sourceAddress: sourceAddress,
-                _owner: owner ?? 'scene',
-                _path: path,
-              } as Command)
-            if (onTeleport > 0)
-              body.push({
-                kind: 'setSceneOnTeleport',
-                scene,
-                stages: [],
-                _addr: onTeleport,
-                _sourceAddress: sourceAddress,
-                _owner: owner ?? 'scene',
-                _path: path,
-              } as Command)
+            const scene = sceneSlug(sourceScene - 1)
+            const onEnter = o[1] ?? 0
+            const onTeleport = o[2] ?? 0
+            if (onEnter === 0 && onTeleport === 0) {
+              body.push({ kind: 'clearSceneScripts', scene })
+            } else {
+              const sourceAddress = sourceAddressAt(ctx, at.cmds, at.idx)
+              const path = ctx.pathStack?.join(' -> ') ?? 'unknown-root'
+              if (onEnter > 0)
+                body.push({
+                  kind: 'setSceneOnEnter',
+                  scene,
+                  stages: [],
+                  _addr: onEnter,
+                  _sourceAddress: sourceAddress,
+                  _owner: owner ?? 'scene',
+                  _path: path,
+                } as Command)
+              if (onTeleport > 0)
+                body.push({
+                  kind: 'setSceneOnTeleport',
+                  scene,
+                  stages: [],
+                  _addr: onTeleport,
+                  _sourceAddress: sourceAddress,
+                  _owner: owner ?? 'scene',
+                  _path: path,
+                } as Command)
+            }
+            ctx.report.sceneScriptPatches = (ctx.report.sceneScriptPatches ?? 0) + 1
+            resolved(ctx, '0x6d -> sceneScriptOverrides')
           }
-          ctx.report.sceneScriptPatches = (ctx.report.sceneScriptPatches ?? 0) + 1
-          resolved(ctx, '0x6d -> sceneScriptOverrides')
+        } else if (JUMP_FAMILY.has(oc)) {
+          // 未实现的跳转族:截断本段(不猜控制流)
+          gap(`jump-family 0x${oc.toString(16)}`)
+          ctx.report.flowCuts++
+          return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
+        } else {
+          gap(`未知 opcode 0x${oc.toString(16)}`)
         }
-      } else if (JUMP_FAMILY.has(oc)) {
-        // 未实现的跳转族:截断本段(不猜控制流)
-        gap(`jump-family 0x${oc.toString(16)}`)
-        ctx.report.flowCuts++
-        return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
-      } else {
-        gap(`未知 opcode 0x${oc.toString(16)}`)
+        at = { cmds: at.cmds, idx: at.idx + 1 }
+        continue
       }
-      at = { cmds: at.cmds, idx: at.idx + 1 }
-      continue
-    }
 
-    // 未知具名 op(不应出现):记阻塞 gap,继续收集诊断。
-    flush()
-    recordGap(ctx, {
-      sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
-      opcode: op ?? 'missing-op',
-      operands: [...(c.operands ?? [])],
-      owner: owner ?? 'scene',
-      reason: `未知具名 op ${String(op)}`,
-    })
-    at = { cmds: at.cmds, idx: at.idx + 1 }
+      // 未知具名 op(不应出现):记阻塞 gap,继续收集诊断。
+      flush()
+      recordGap(ctx, {
+        sourceAddress: sourceAddressAt(ctx, at.cmds, at.idx),
+        opcode: op ?? 'missing-op',
+        operands: [...(c.operands ?? [])],
+        owner: owner ?? 'scene',
+        reason: `未知具名 op ${String(op)}`,
+      })
+      at = { cmds: at.cmds, idx: at.idx + 1 }
+    } finally {
+      recordInstructionOutcome(instructionTrace)
+    }
   }
   flush()
   if (body.length >= MAX_BODY) {
@@ -1707,6 +2019,65 @@ function walkBody(
     ctx.report.flowCuts++
   }
   return { body, term: { kind: 'cut' }, dialogueState: dialogueSnapshot() }
+}
+
+/**
+ * R13-2 专用的窄翻译入口：复用生产 opcode 映射，但把跨块控制边交还给
+ * TriggerActivationGraph。返回 body 是 unknown[]，因为其中可能短暂含
+ * n3R13ActivationTransfer；调用方必须在投影 AuthorCommandV5 前消费完毕。
+ */
+export function translateActivationBlock(args: {
+  address: number
+  owner?: string
+  ctx: TranslateCtx
+  entryState?: DialogueEntryState
+}): { body: unknown[]; term: R13ActivationBlockTerm } {
+  const target = args.ctx.labelAt.get(`L_${args.address}`)
+  if (!target) throw new Error(`R13 activation block: 源地址不存在 ${args.address}`)
+  const translated = walkBody(
+    target.cmds,
+    target.idx,
+    args.owner,
+    args.ctx,
+    0,
+    args.entryState ?? {},
+    undefined,
+    { externalize: () => true },
+  )
+  const dialogueState = structuredClone(translated.dialogueState)
+  const body = foldBattleConfig(foldDoorPattern(translated.body)) as unknown[]
+  switch (translated.term.kind) {
+    case 'end':
+      return { body, term: { kind: 'end', dialogueState } }
+    case 'advance':
+      return {
+        body,
+        term: {
+          kind: 'advance',
+          targetAddress: translated.term.nextAddress,
+          dialogueState,
+        },
+      }
+    case 'reset':
+      return {
+        body,
+        term: {
+          kind: 'reset',
+          targetAddress: translated.term.targetAddress,
+          idleFrames: translated.term.idleFrames,
+          fallthroughAddress: translated.term.fallthroughAddress,
+          dialogueState,
+        },
+      }
+    case 'checkpoint':
+      return { body, term: { ...translated.term, dialogueState } }
+    case 'goto':
+      return { body, term: { ...translated.term, dialogueState } }
+    case 'call':
+      return { body, term: { ...translated.term, dialogueState } }
+    case 'cut':
+      return { body, term: { kind: 'cut', dialogueState } }
+  }
 }
 
 /**
@@ -1863,6 +2234,8 @@ export function bakeAndStripBattleCfg(
 export function copyScriptStageSourceAddressAudit(source: object, target: object): void {
   const addresses = STAGE_SOURCE_ADDRESS_AUDIT.get(source)
   if (addresses) STAGE_SOURCE_ADDRESS_AUDIT.set(target, addresses)
+  const outcomes = STAGE_INSTRUCTION_OUTCOME_AUDIT.get(source)
+  if (outcomes) STAGE_INSTRUCTION_OUTCOME_AUDIT.set(target, outcomes)
 }
 
 /**
@@ -1893,9 +2266,32 @@ export function scriptStageSourceAddresses(stage: object): number[] {
 }
 
 const STAGE_SOURCE_ADDRESS_AUDIT = new WeakMap<object, number[]>()
+const STAGE_INSTRUCTION_OUTCOME_AUDIT = new WeakMap<object, TranslateInstructionOutcome[]>()
 
 function recordScriptStageSourceAddresses(stage: ScriptStage, addresses: number[]): void {
   STAGE_SOURCE_ADDRESS_AUDIT.set(stage, addresses)
+}
+
+function recordScriptStageInstructionOutcomes(
+  stage: ScriptStage,
+  outcomes: TranslateInstructionOutcome[],
+): void {
+  if (outcomes.length) STAGE_INSTRUCTION_OUTCOME_AUDIT.set(stage, outcomes)
+}
+
+/**
+ * root stage 的最终 body id 直到外置/折叠时才确定；在该边界把逐指令结果绑定到
+ * 实际 canonical body。重复绑定只允许同一 id，避免 overlay/复制把结果串给别体。
+ */
+export function bindScriptStageInstructionOutcomeBody(stage: object, bodyId: string): void {
+  for (const outcome of STAGE_INSTRUCTION_OUTCOME_AUDIT.get(stage) ?? []) {
+    if (outcome.bodyId !== undefined && outcome.bodyId !== bodyId)
+      throw new Error(
+        `instruction outcome body 冲突 ${outcome.sourceAddress}: ` +
+          `${outcome.bodyId} != ${bodyId}`,
+      )
+    outcome.bodyId = bodyId
+  }
 }
 
 /** 对整条 stages 应用 peephole(体内折叠;段间不跨)。 */

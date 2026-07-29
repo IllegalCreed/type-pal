@@ -1458,6 +1458,37 @@
                 }
               ]
             }
+          },
+          "legacy-002": {
+            "label": "触发行为 2",
+            "order": 2,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3765"
+                          }
+                        ],
+                        "speaker": "spk.韩医仙",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.065",
+                          "side": "left"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         "auto": {
@@ -1496,54 +1527,126 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 85,
-                        "height": 0,
-                        "row": -7
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e905"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s053-e905-legacy-001",
+                "label": "自动行为 1 · 源循环",
+                "initial": "source-10156",
+                "states": {
+                  "source-10156": {
+                    "label": "源指令 10156",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s053",
+                          "entity": "e905"
+                        },
+                        "to": {
+                          "col": 85,
+                          "row": -7,
+                          "height": 0
+                        },
+                        "speed": "slow"
                       }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 85,
-                        "height": 0,
-                        "row": 8
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e905"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 77,
-                        "height": 0,
-                        "row": 8
-                      },
-                      "target": {
-                        "scene": "s053",
-                        "entity": "e905"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-10157",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-10157": {
+                    "label": "源指令 10157",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s053",
+                          "entity": "e905"
+                        },
+                        "to": {
+                          "col": 85,
+                          "row": 8,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-10158",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-10158": {
+                    "label": "源指令 10158",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s053",
+                          "entity": "e905"
+                        },
+                        "to": {
+                          "col": 77,
+                          "row": 8,
+                          "height": 0
+                        },
+                        "speed": "slow"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-10159",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-10159": {
+                    "label": "源指令 10159",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "source-35630"
+                    }
+                  },
+                  "source-35630": {
+                    "label": "源指令 35630",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s053",
+                          "entity": "e905"
+                        },
+                        "facing": "up"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s053",
+                          "entity": "e905"
+                        },
+                        "frame": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-35631",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-35631": {
+                    "label": "源指令 35631",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "source-35630"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -1957,6 +2060,37 @@
                           }
                         ],
                         "speaker": "spk.韩梦慈"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "legacy-002": {
+            "label": "触发行为 2",
+            "order": 2,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "body": [
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.3767"
+                          }
+                        ],
+                        "speaker": "spk.韩梦慈",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.050",
+                          "side": "left"
+                        }
                       }
                     }
                   ]

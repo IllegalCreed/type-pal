@@ -81,50 +81,79 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "right",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.1897"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.李逍遥"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "right"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "entryId": "pal-entry-0f0b22de",
-                      "kind": "loadScene",
-                      "scene": "s016"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.1897"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "up"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "loadScene",
+                        "scene": "s016",
+                        "pos": {
+                          "col": 61,
+                          "row": 42,
+                          "height": 0
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "loadScene",
+                        "scene": "s016",
+                        "pos": {
+                          "col": 61,
+                          "row": 42,
+                          "height": 0
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

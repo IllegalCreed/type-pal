@@ -52,6 +52,17 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
       'scene-on-teleport': 67,
       skill: 106,
     })
+    const enemyRootIds = report.source.entries.sites
+      .filter((site) => site.kind === 'enemy')
+      .map((site) => site.sourceId)
+    expect(enemyRootIds).toContain('global/enemies/400/scriptOnBattleEnd')
+    expect(enemyRootIds).not.toContain('global/enemies/2/scriptOnBattleEnd')
+    expect(
+      enemyRootIds.every((sourceId) => {
+        const identity = Number(sourceId.split('/')[2])
+        return Number.isInteger(identity) && identity >= 398
+      }),
+    ).toBe(true)
     expect(report.source.entries.duplicateGlobalSites).toBe(20)
     expect(report.source.legacyRawGraph).toMatchObject({
       edges: { execution: 39_669, binding: 763, recovery: 2_248 },
@@ -171,6 +182,30 @@ describe.skipIf(!existsSync(extracted))('PAL script control flow audit golden', 
     })
     expect(report.canaries.authorRoots).toHaveLength(6)
     expect(report.canaries.authorRoots.every((root) => root.bridgeOnly)).toBe(true)
+    const authorAliasBodies = report.product.bodies.filter(
+      (body) => body.derivation?.kind === 'legacy-alias',
+    )
+    expect(
+      authorAliasBodies.map((body) => [body.id, body.source.entryAddress, body.source.addresses]),
+    ).toEqual([
+      ['shared/user/pal-item-use/265', 39_793, []],
+      ['shared/user/pal-item-use/266', 39_799, []],
+      ['shared/user/pal-item-use/267', 39_805, []],
+      ['shared/user/pal-item-use/280', 39_613, []],
+      ['shared/user/pal-item-use/290', 39_753, []],
+      ['shared/user/pal-item-use/293', 39_835, []],
+    ])
+    const translatedTargetBodies = report.product.bodies.filter(
+      (body) => body.derivation?.kind === 'translated-target',
+    )
+    expect(translatedTargetBodies).toHaveLength(4_901)
+    expect(
+      translatedTargetBodies.every(
+        (body) =>
+          body.source.entryAddress !== undefined &&
+          body.source.addresses.includes(body.source.entryAddress),
+      ),
+    ).toBe(true)
     expect(report.canaries.misleadingSccBodies).toHaveLength(13)
     expect(
       report.canaries.misleadingSccBodies.every(

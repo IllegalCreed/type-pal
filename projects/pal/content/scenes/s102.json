@@ -1077,135 +1077,510 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "dx": 0,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 480
-                    },
-                    {
-                      "dx": 0,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 480
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认自动行为",
+                "cadence": "transition",
+                "initial": "cycle-01",
+                "states": {
+                  "completed": {
+                    "label": "completed",
+                    "body": [],
+                    "next": {
+                      "kind": "stay"
                     }
-                  ]
+                  },
+                  "cycle-01": {
+                    "label": "cycle-01",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-02": {
+                    "label": "cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-03": {
+                    "label": "cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-04": {
+                    "label": "cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-05": {
+                    "label": "cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-06": {
+                    "label": "cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-07": {
+                    "label": "cycle-01-phase-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-08": {
+                    "label": "cycle-01-phase-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-09": {
+                    "label": "cycle-01-phase-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-10": {
+                    "label": "cycle-01-phase-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-11": {
+                    "label": "cycle-01-phase-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-12": {
+                    "label": "cycle-01-phase-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 0,
+                        "dy": 8
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02": {
+                    "label": "cycle-02",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-02"
+                    }
+                  },
+                  "cycle-02-phase-02": {
+                    "label": "cycle-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-03"
+                    }
+                  },
+                  "cycle-02-phase-03": {
+                    "label": "cycle-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-04"
+                    }
+                  },
+                  "cycle-02-phase-04": {
+                    "label": "cycle-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-05"
+                    }
+                  },
+                  "cycle-02-phase-05": {
+                    "label": "cycle-02-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-06"
+                    }
+                  },
+                  "cycle-02-phase-06": {
+                    "label": "cycle-02-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-07"
+                    }
+                  },
+                  "cycle-02-phase-07": {
+                    "label": "cycle-02-phase-07",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-08"
+                    }
+                  },
+                  "cycle-02-phase-08": {
+                    "label": "cycle-02-phase-08",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-09"
+                    }
+                  },
+                  "cycle-02-phase-09": {
+                    "label": "cycle-02-phase-09",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-10"
+                    }
+                  },
+                  "cycle-02-phase-10": {
+                    "label": "cycle-02-phase-10",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-11"
+                    }
+                  },
+                  "cycle-02-phase-11": {
+                    "label": "cycle-02-phase-11",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "cycle-01-phase-12"
+                    }
+                  },
+                  "cycle-02-phase-12": {
+                    "label": "cycle-02-phase-12",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "completed",
+                      "yield": "worldTick"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "legacy-001": {
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s102-e1884-legacy-001",
+                "label": "自动行为 1 · 源循环",
+                "initial": "source-16515",
+                "states": {
+                  "source-16515": {
+                    "label": "源指令 16515",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "frame": 1
                       }
-                    },
-                    {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 6,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 12,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 16,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
-                    },
-                    {
-                      "dx": 16,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1884"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16516",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-16516": {
+                    "label": "源指令 16516",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16517",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16517": {
+                    "label": "源指令 16517",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 4,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16518",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16518": {
+                    "label": "源指令 16518",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 6,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16519",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16519": {
+                    "label": "源指令 16519",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 8,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16520",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16520": {
+                    "label": "源指令 16520",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 12,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16521",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16521": {
+                    "label": "源指令 16521",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1884"
+                        },
+                        "dx": 16,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-16522",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-16522": {
+                    "label": "源指令 16522",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-16521"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }

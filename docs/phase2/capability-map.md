@@ -85,18 +85,18 @@
 | C5 | 技能持有 | ✅ | ✅ | 仙术菜单 | 引擎 done(learnedSkills);编辑器(2026-07-05):SkillTab(90 技能列表/名字·说明·战外可用/消耗·目标·效果·动画 JSON 兜底,UpdateSkillCommand 可 undo) |
 | C7 | 队伍管理(入队/离队) | ✅ | ✅ | 0x75 setParty(隐龙窟门口) | done(2026-07-07,D22 reserve 方案):applySetParty 纯函数(在队保留原实例/reserve 搬回带状态/新人实例化/落选不清数据)+ setParty 指令 + 队伍精灵动态解析/懒加载/LRU 保护;reserve 随存档(旧档兜底)。迁移 0x75→setParty(102 处/63 场景)。编辑器:指令表单(中文名下拉有序表)。真机:隐龙窟门口全链 |
 | C6 | 成长/升级 | ✅ | ✅ | 升级 | 引擎:B7a 战后 exp/升级成长/学技能/半恢复(原版公式,实测);编辑器(2026-07-05):角色模式「升级」区(expTable 曲线 textarea 失焦提交·非法数字拦截 + 升级学技能行:等级/技能下拉/增删,UpdateLevelUpCommand 可 undo) |
-| C8 | 物品用途与机制 | ⚠️ | ⚠️ | 土灵珠/炼蛊皿/紫金葫芦 | **build（2026-07-26）**：旧 `100 usable = 80 runnable + 20 diagnostics` 仅证明缺口有账，不代表迁移完成。用户已批准迁移剩余 20 件；14 个 canonical item-private 剧情用途、2 个结构化放置用途、4 个通用机制及无影毒 throw 已获 Codex/Kimi/GLM 三方设计 agree。最终硬门槛是 100 个源 usable ID 与 100 个可运行 use ID 严格相等、物品用途诊断为 0。完成前不得标 ✅；证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md) 任务卡。 |
+| C8 | 物品用途与机制 | ⚠️ | ⚠️ | 土灵珠/炼蛊皿/紫金葫芦 | **review（2026-07-27）**：实现候选 `0d4aa48b` 已获 Codex/Kimi/GLM 三方最终 accept；100 个源 usable ID = 100 个可运行 use ID、item-use diagnostics=0，剩余 20 件/21 个源根及无影毒 throw 已由上游迁移闭合。当前 ⚠️ 不是仍有 80/20 缺口，而是用户已裁决必须等待 N3-1 终态后再做 C8/ED-5I 联合回归与最终验收；依赖解除前不得标 ✅。证据见 [C8](../ops/tasks/C8-item-use-mechanisms.md)、[ED-5I](../ops/tasks/ED-5I-item-workbench.md) 与 [N3-1](../ops/tasks/N3-1-script-control-flow-modernization.md) 任务卡。 |
 
 ### 叙事(Narrative)— 8 格
 
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
-| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 P7 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical v5，编辑器可选择、引用和回链；N3-1 最终代审中 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done(2026-07-15)**：可执行 `unmigrated` 与旧 opcode 第二解释器(`runLegacyOp`)已退役。**N3-1 P7 实现完成、待最终代审（2026-07-25）**：contentVersion 5、stages/stateMachine、7 类 transition、compiler/runtime/editor、SAVE 5 和 PAL 全量重迁已发布；作者可见 `jumpScript`、匿名 binding 和 canonical generated block 已退役 |
+| N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 P7 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical V5，编辑器可选择、引用和回链。N3-1 R13 仍在逐批关闭源语义缺口，最终验收未完成 |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done(2026-07-15)**：可执行 `unmigrated` 与旧 opcode 第二解释器(`runLegacyOp`)已退役。**N3-1 R13 build（2026-07-29）**：canonical script schema 仍为 V5；R13-1、R13-2 已通过三方审查，R13-3 已把工程升到 contentVersion 8 / SAVE 7，并完成 76 个投掷源根重建与正式重迁，当前等待本批实现审查；R13-4～R13-Z 尚未完成，不得把 N3-1 标 done |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
-| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；v5 发布 2026-07-25)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；canonical v5 作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有；N3-1 最终代审中 |
+| N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；canonical V5 发布 2026-07-25)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有。N3-1 R13 的全局源语义闭包仍在 build |
 | N7 | **演出接管** | ✅ | ✅ | 隐龙窟/试炼窟 | done(2026-07-07):显式 take/release(E6b)+ mount/follow 权威,非冻帧。两考题实测:隐龙窟门口演出全链(对话/转向/切场景/setParty)+ 试炼窟芦苇漂共乘 |
 | N8 | 过场编排(mp4/帧动画 CG) | ✅ | ✅ | 开场 CG/帧动画序列 | **done（A7-3，2026-07-17）**：视频与完整帧动画使用稳定 AssetId 和工程内文件；运行时支持全段/分段/帧率/显式预览跳过，剧情默认不可跳；编辑器支持双列表、内嵌视频、完整帧时间轴、导入/替换/量化/多选重排/时长/引用保护/保存重开。C1-C5 返工、LAN HTTPS/FSA、OPFS 真句柄 round-trip、三方审查与用户验收完成。BGM/SFX 仍由脚本编排，不绑素材 |
 
@@ -122,7 +122,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。N3-1 P7 已发布 SAVE 5 / contentVersion 5 双轴、canonical Page/Behavior/Hook cursor、minimumSaveVersion 首闸及 1..4/4→5 sidecar 迁移矩阵；实现已绿，随 N3-1 等 GLM 最终代审 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 SAVE 7 / contentVersion 8 / minimumSaveVersion 7；SAVE7/content7 只做无 sidecar identity normalization，SAVE 1..6 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor 和 WorldScriptStateV5 保持唯一真值；历史 4→5 sidecar 只留作 byte-pin 迁移证明 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ⚠️ | — | 新游戏/通关 | 引擎(2026-07-06):主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场);**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据取代运行时命令前瞻,SceneEntrySession 生命周期,编辑器三区编辑)；缺通关/结局流转(❌)。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ⚠️ | — | — | A7-2 已退役 `data/baked`：立绘/头像/物品图标由 migrate 确定性物化进工程 catalog，战场背景保留索引 PNG 与标准色量化；85 个默认 UI slot、标题、字形和光标进入 bundler-owned engine chrome。A7-3T tileset、A7-3W world sprite 与 A7-3B battle sprite 均保持 gzip indexed RLE 且已 done；当前只余 effect-sprite/image 两项，不能提前把 X4/A7 标 done |
@@ -152,7 +152,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5 已由 N3-1 P7 发布**，但 A7 待办仍有 effect-sprite/image 两项，以及 A7-4 全 legacy 归零、catalog-only 总门禁和断外链验收；版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
+| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5～8 已由 N3-1 P7/R13 占用**，A7-4 的全 legacy 归零、catalog-only 总门禁与断外链收口因此顺延到下一未占用 epoch（当前候选 contentVersion 9）；A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 
@@ -222,7 +222,7 @@
 | 试炼窟芦苇漂(共乘) | ✅ | E7/E8:s213 李逍遥+阿奴逐帧重叠漂流实测(2026-07-07);s017 仙灵岛筏同过 |
 | 升级流程 | ✅ | B7a/B7b/B7c 全落(入账/成长/学技能/半恢复/结算屏/隐藏经验) |
 | 场景 BGM | ✅ | X2 播放器(audio/bgm.ts)+ W5 接线(场景槽/playMusic/战斗进出/读档),2026-07-05 |
-| 机制与剧情道具(土灵珠/炼蛊皿/紫金葫芦/遇敌香…) | ⚠️ | 267/268/270 已可运行可编辑，但 PAL 仍只有 80 件 runnable use，另有 20 件真实未迁移；显式诊断不再计作完成。C8-R2 将补 14 剧情私有脚本、2 放置、4 通用机制和无影毒 throw，最终以 100 runnable / 0 item-use diagnostics、MG2 零计划及编辑器/运行时回归转 ✅ |
+| 机制与剧情道具(土灵珠/炼蛊皿/紫金葫芦/遇敌香…) | ⚠️ | C8 实现/三方审查候选已达到 100 runnable / 0 item-use diagnostics；20 件/21 个源根、14 剧情私有脚本、2 放置、4 通用机制和无影毒 throw 均已闭合。仍为 ⚠️ 只因 N3-1 未终态：其完成后须复跑 canonical 脚本选择、引用/删除、保存重开、MG2 与代表运行时，再交用户联合验收 |
 | 召唤仙术(武神/天剑/雪妖/山神/风神/酒神/雷神/剑神/火神) | ✅ | 全链落地(2026-07-05):9 召唤补翻(酒神动态伤害 lossy 占位)+神将演出+战斗实测;crossfade/染色精调项记 B5 |
 | 毒系(中毒 DoT/相生相克/养蛊下毒/毒抗/大蒜临时抗) | ✅ | B10:数据化毒 tick + 致死对 + 相克环 + 毒抗门,bytecode 反汇编不硬码(2026-07-06) |
 | 合体技(多人合击) | ✅ | B3/B5:消耗健康队友 + HP 代价 + 聚拢演出照原版(2026-07-07);≤1 健康退化普攻 |

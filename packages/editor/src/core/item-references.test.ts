@@ -166,7 +166,8 @@ function state(): EditorState {
         buyPrice: 0,
         sellPrice: 0,
         sellable: false,
-        throw: {
+        use: {
+          consuming: false,
           effects: [
             {
               kind: 'drawFromResourcePool',
@@ -514,7 +515,7 @@ describe('collectItemReferences', () => {
       name: '物品资源池奖励',
       source: 'item',
       access: 'reward',
-      where: 'items[1](owner).throw.effects[0].rewards[0].itemId',
+      where: 'items[1](owner).use.effects[0].rewards[0].itemId',
       locator: { kind: 'item', itemId: 'owner' },
       ownerItemId: 'owner',
     },
@@ -727,7 +728,7 @@ describe('collectItemReferences', () => {
     ).toBe(true)
   })
 
-  test('覆盖数据域、运行态、其他物品的 use 与 throw 边', () => {
+  test('覆盖数据域、运行态与其他物品的 use 边', () => {
     const refs = collectItemReferences(state()).filter((reference) => reference.itemId === 'target')
     const sources = new Set(refs.map((reference) => reference.source))
 
@@ -745,7 +746,7 @@ describe('collectItemReferences', () => {
         'save',
       ]),
     )
-    expect(refs.some((reference) => reference.where.includes('.throw.effects'))).toBe(true)
+    expect(refs.some((reference) => reference.where.includes('.use.effects'))).toBe(true)
     expect(refs.some((reference) => reference.label.includes('战斗演出'))).toBe(true)
     expect(refs.some((reference) => reference.label.includes('战后剧情'))).toBe(true)
   })

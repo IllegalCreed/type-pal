@@ -81,189 +81,225 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3247"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3247"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3249"
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3249"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.林月如"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3251"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3251"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.022",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3253"
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3253"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.022",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.林月如"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3255"
-                          },
-                          {
-                            "text": "dlg.3256"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3255"
+                            },
+                            {
+                              "text": "dlg.3256"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3258"
-                          },
-                          {
-                            "text": "dlg.3259"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3258"
+                            },
+                            {
+                              "text": "dlg.3259"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.林月如"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3261"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3261"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.3263"
-                          },
-                          {
-                            "text": "dlg.3264"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.3263"
+                            },
+                            {
+                              "text": "dlg.3264"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.林月如"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setPartyFacing"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "entryId": "pal-entry-6a8e4aa2",
-                      "kind": "loadScene",
-                      "scene": "s044"
-                    },
-                    {
-                      "kind": "setParty",
-                      "members": [
-                        "li-xiaoyao",
-                        "lin-yueru"
-                      ]
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "left"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "loadScene",
+                        "scene": "s044",
+                        "pos": {
+                          "col": 174,
+                          "row": 60,
+                          "height": 0
+                        }
+                      },
+                      {
+                        "kind": "setParty",
+                        "members": [
+                          "li-xiaoyao",
+                          "lin-yueru"
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "loadScene",
+                        "scene": "s044",
+                        "pos": {
+                          "col": 174,
+                          "row": 60,
+                          "height": 0
+                        }
+                      },
+                      {
+                        "kind": "setParty",
+                        "members": [
+                          "li-xiaoyao",
+                          "lin-yueru"
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

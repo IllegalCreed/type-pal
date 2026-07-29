@@ -22,6 +22,7 @@ import type {
   PoisonCurability,
   PoisonDef,
   SkillData,
+  ThrowEffect,
 } from '@type-pal/content'
 import {
   applyEnemyStatus,
@@ -32,12 +33,12 @@ import {
   calcMagicDamage,
   calcPhysicalAttackDamage,
   canAct,
+  checkThrowSpec,
   decideByRules,
   emptyBattleStatus,
   getEnemyDexterity,
   getPlayerActualDexterity,
   isPlayerDying,
-  itemUseEffectSupportsContext,
   itemUseSupportsContext,
   magicDefenseDivisor,
   pickAiTarget,
@@ -210,6 +211,8 @@ export interface BattleState {
     secondDamage?: number
     /** 攻击全体各敌伤害(长鞭 attackAll;present 逐敌数字+染色+击退)。 */
     attackAllHits?: { idx: number; value: number }[]
+    /** 投掷对各目标造成的实际 HP 变化；单体与全体表现共用。 */
+    throwHits?: { idx: number; value: number }[]
     /** 敌物攻被格挡(7/17 被动「闪避」:免伤,演出格挡姿+coverSound+仍击退)。 */
     blocked?: boolean
     /** 替挡守护者 idx(coveredBy 关系;blocked 且此值在 → 守护者顶身前接刀演出)。 */
@@ -236,7 +239,7 @@ export type BattleAction =
   | { kind: 'cast'; skillId: string; targetEnemyIdx?: number; targetAllyIdx?: number } // 对敌单体带敌目标;oneAlly 带己方目标(缺省=施法者)
   | { kind: 'coop'; targetEnemyIdx?: number } // 合击:发起者(pendingActions key)用其 coop 技,全 healthy 队员合力(HP 代价);全体技不带目标
   | { kind: 'item'; itemId: string; targetAllyIdx?: number } // 战斗用品(oneAlly 可点名队友,缺省施于自己;consuming 扣库存)
-  | { kind: 'throw'; itemId: string; targetEnemyIdx: number } // 投掷道具打敌(下毒/伤害;毒药/蛊)
+  | { kind: 'throw'; itemId: string; targetEnemyIdx?: number } // 单体需目标；全体由 ThrowSpec.target 直提
   | { kind: 'defend' }
   | { kind: 'flee' }
 
@@ -379,42 +382,82 @@ interface PoisonHost {
 }
 
 /**
+ * 执行一条活跃毒的当前 tick 并返回下一游标。逐回合 tick 与 0x28 成功施毒当下的
+ * enemy-script 首次执行必须共用这里，避免 HP、产物、自解或游标推进出现两套语义。
+ */
+function tickPoison(
+  s: BattleState,
+  host: PoisonHost,
+  side: 'player' | 'enemy',
+  active: ActivePoison,
+): ActivePoison | undefined {
+  const def = s.poisonDefs[active.poisonId]
+  const ticks = side === 'player' ? def?.playerTicks : def?.enemyTicks
+  if (!def || !ticks?.length) return active // 无数据 = 保留但本次无效果(不吞毒)
+  const tick = expectDefined(ticks[Math.min(active.tickIndex, ticks.length - 1)])
+  if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
+  if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
+  if (tick.halveHp)
+    host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
+  const name = def.name || `毒${def.id}`
+  if (tick.hpDelta || tick.mpDelta || tick.halveHp)
+    s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
+  // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
+  if (tick.grantItem) {
+    const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
+    if (slot) slot.count += 1
+    else s.inventory.push({ itemId: tick.grantItem, count: 1 })
+    s.log.push(`${name} 到期化作 ${tick.grantItem}`)
+  }
+  if (tick.selfCure) return undefined
+  return {
+    poisonId: active.poisonId,
+    tickIndex: Math.min(active.tickIndex + 1, ticks.length - 1),
+  }
+}
+
+/**
  * 逐回合毒 DoT(fight.c:4454;毒 = 数据化 tick 序列,见 poison-system-design.md):
  * 遍历单位 poisons,跑当前 tick(hpDelta/halveHp)→ tickIndex++(钳末项);selfCure → 移除本毒。
  * 敌走 enemyTicks、玩家走 playerTicks;缺 def 或缺该侧 ticks = 该毒本回合空过。
  */
 function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy'): void {
   if (!host.poisons.length) return
-  const survivors: ActivePoison[] = []
-  for (const ap of host.poisons) {
-    const def = s.poisonDefs[ap.poisonId]
-    const ticks = side === 'player' ? def?.playerTicks : def?.enemyTicks
-    if (!def || !ticks?.length) {
-      survivors.push(ap) // 无数据 = 保留但本回合无效果(不吞毒)
-      continue
-    }
-    const tick = expectDefined(ticks[Math.min(ap.tickIndex, ticks.length - 1)])
-    if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
-    if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
-    if (tick.halveHp)
-      host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
-    const name = def.name || `毒${def.id}`
-    if (tick.hpDelta || tick.mpDelta || tick.halveHp)
-      s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
-    // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
-    if (tick.grantItem) {
-      const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
-      if (slot) slot.count += 1
-      else s.inventory.push({ itemId: tick.grantItem, count: 1 })
-      s.log.push(`${name} 到期化作 ${tick.grantItem}`)
-    }
-    if (tick.selfCure) continue // 末回合自解:不进 survivors(移除本毒)
-    survivors.push({
-      poisonId: ap.poisonId,
-      tickIndex: Math.min(ap.tickIndex + 1, ticks.length - 1),
-    })
-  }
-  host.poisons = survivors
+  host.poisons = host.poisons.flatMap((active) => {
+    const next = tickPoison(s, host, side, active)
+    return next ? [next] : []
+  })
+}
+
+type EnemyPoisonApplication = 'resisted' | 'alreadyPresent' | 'applied'
+
+function tryApplyPoisonToEnemy(
+  enemy: BattleEnemyState,
+  poisonId: number,
+  rng: () => number,
+): EnemyPoisonApplication {
+  if (Math.floor(rng() * 10) < enemy.def.ai.resistanceToSorcery) return 'resisted'
+  if (enemy.poisons.some((poison) => poison.poisonId === poisonId)) return 'alreadyPresent'
+  enemy.poisons.push({ poisonId, tickIndex: 0 })
+  return 'applied'
+}
+
+/** 0x28 成功新增敌毒时立即执行一次 wEnemyScript 的数据化 tick，并保存推进后的游标。 */
+function applyEnemyPoisonEffect(
+  s: BattleState,
+  enemy: BattleEnemyState,
+  poisonId: number,
+  rng: () => number,
+): EnemyPoisonApplication {
+  const result = tryApplyPoisonToEnemy(enemy, poisonId, rng)
+  if (result !== 'applied') return result
+  const index = enemy.poisons.findIndex((poison) => poison.poisonId === poisonId)
+  const active = enemy.poisons[index]
+  if (!active) throw new Error(`applyEnemyPoisonEffect: 新毒 ${poisonId} 未落槽`)
+  const next = tickPoison(s, enemy, 'enemy', active)
+  if (next) enemy.poisons[index] = next
+  else enemy.poisons.splice(index, 1)
+  return result
 }
 
 /**
@@ -439,9 +482,7 @@ export function applyPoisonToEnemy(
   poisonId: number,
   rng: () => number,
 ): boolean {
-  if (Math.floor(rng() * 10) < e.def.ai.resistanceToSorcery) return false // 巫抗挡
-  if (!e.poisons.some((p) => p.poisonId === poisonId)) e.poisons.push({ poisonId, tickIndex: 0 })
-  return true
+  return tryApplyPoisonToEnemy(e, poisonId, rng) !== 'resisted'
 }
 
 /**
@@ -983,7 +1024,7 @@ function applyPlayerSkill(
         const pid = Number(eff.poisonId)
         for (const ti of enemyTargets) {
           const e = expectDefined(s.enemies[ti])
-          if (applyPoisonToEnemy(e, pid, rng))
+          if (applyEnemyPoisonEffect(s, e, pid, rng) !== 'resisted')
             s.log.push(`${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
           else s.log.push(`${e.def.id} 抵抗了下毒`)
         }
@@ -1271,9 +1312,25 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
       if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
     }
   } else if (a.kind === 'throw') {
-    if ((s.enemies[a.targetEnemyIdx]?.hp ?? 0) <= 0) {
-      const nt = retargetEnemy(s, a.targetEnemyIdx)
-      if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
+    const itemId = a.itemId
+    const item = s.items[itemId]
+    const slot = s.inventory.find((entry) => entry.itemId === itemId)
+    try {
+      if (!item?.throw) throw new Error('缺投掷能力')
+      checkThrowSpec(item.throw, `items.${itemId}.throw`)
+    } catch {
+      a = { kind: 'defend' }
+      s.log.push(`${p.roleId} 的 ${itemId} 投掷数据无效,降级防御`)
+    }
+    if (a.kind === 'throw' && (!slot || slot.count <= 0)) {
+      a = { kind: 'defend' }
+      s.log.push(`${p.roleId} 的 ${itemId} 已耗尽,降级防御`)
+    } else if (a.kind === 'throw' && item?.throw?.target === 'oneEnemy') {
+      const target = a.targetEnemyIdx
+      if (target === undefined || (s.enemies[target]?.hp ?? 0) <= 0) {
+        const nt = retargetEnemy(s, target ?? 0)
+        if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
+      }
     }
   }
   return a
@@ -1428,8 +1485,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
         eff.kind === 'runSceneHook' ||
         eff.kind === 'craftRecipe' ||
         eff.kind === 'drawFromResourcePool' ||
-        eff.kind === 'placeEntityInFront' ||
-        eff.kind === 'currentHpDamage'
+        eff.kind === 'placeEntityInFront'
       ) {
         // 上面的 context guard 应在扣库存前拒绝这些世界专用效果；这里保留显式穷尽兜底。
         s.log.push(`${item.name} 的 ${eff.kind} 不能在战斗中执行`)
@@ -1577,76 +1633,166 @@ function performThrow(
   s: BattleState,
   p: BattlePlayerState,
   itemId: string,
-  targetEnemyIdx: number,
+  targetEnemyIdx: number | undefined,
   rng: () => number,
 ): void {
   const item = s.items[itemId]
   const slot = s.inventory.find((x) => x.itemId === itemId)
-  const e = s.enemies[targetEnemyIdx]
-  if (!item?.throw || !slot || slot.count <= 0 || !e || e.hp <= 0) {
-    s.log.push(`${p.roleId} 投掷 ${itemId} 失败(缺数据/无库存/目标已死)`)
+  if (!item?.throw || !slot || slot.count <= 0) {
+    s.log.push(`${p.roleId} 投掷 ${itemId} 失败(缺数据/无库存)`)
     return
   }
-  if (
-    item.throw.effects.length === 0 ||
-    !item.throw.effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))
-  ) {
-    s.log.push(`${p.roleId} 投掷 ${item.name} 失败(包含不能投掷的效果)`)
+  try {
+    checkThrowSpec(item.throw, `items.${itemId}.throw`)
+    for (const [effectIndex, effect] of item.throw.effects.entries())
+      if (
+        effect.kind === 'applyPoison' &&
+        (!Number.isSafeInteger(Number(effect.poisonId)) || Number(effect.poisonId) <= 0)
+      )
+        throw new Error(
+          `items.${itemId}.throw.effects[${effectIndex}].poisonId: 当前毒表期望正整数 id`,
+        )
+  } catch (error) {
+    s.log.push(
+      `${p.roleId} 投掷 ${item.name} 失败(${error instanceof Error ? error.message : String(error)})`,
+    )
     return
   }
+  const targetIndices =
+    item.throw.target === 'allEnemies'
+      ? aliveEnemies(s)
+      : targetEnemyIdx !== undefined && (s.enemies[targetEnemyIdx]?.hp ?? 0) > 0
+        ? [targetEnemyIdx]
+        : []
+  if (targetIndices.length === 0) {
+    s.log.push(`${p.roleId} 投掷 ${item.name} 失败(没有有效目标)`)
+    return
+  }
+
+  const elementNumber = {
+    none: 0,
+    wind: 1,
+    thunder: 2,
+    water: 3,
+    fire: 4,
+    earth: 5,
+    poison: 6,
+  } as const
+  const resolvedStrength = new Map<ThrowEffect, number>()
+  const strengthOf = (effect: Extract<ThrowEffect, { kind: 'magicDamage' }>): number => {
+    const cached = resolvedStrength.get(effect)
+    if (cached !== undefined) return cached
+    const value =
+      effect.strength.kind === 'fixed'
+        ? effect.strength.value
+        : effect.strength.bonus +
+          p.attackStrength *
+            (effect.strength.multiplier.min +
+              Math.floor(
+                Math.max(0, Math.min(0.999999999, rng())) *
+                  (effect.strength.multiplier.max - effect.strength.multiplier.min + 1),
+              ))
+    resolvedStrength.set(effect, value)
+    return value
+  }
+
   slot.count -= 1 // 投掷必消耗
-  for (const eff of item.throw.effects) {
-    switch (eff.kind) {
-      case 'applyPoison': {
-        const pid = Number(eff.poisonId)
-        if (applyPoisonToEnemy(e, pid, rng)) {
-          s.log.push(
-            `${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`,
+  const hits: { idx: number; value: number }[] = []
+  const throwEffects: readonly ThrowEffect[] = item.throw.effects
+  for (const enemyIdx of targetIndices) {
+    const e = expectDefined(s.enemies[enemyIdx])
+    const hpBefore = e.hp
+    let stopTarget = false
+    for (let effectIndex = 0; effectIndex < throwEffects.length; effectIndex++) {
+      const eff: ThrowEffect = expectDefined(throwEffects[effectIndex])
+      switch (eff.kind) {
+        case 'magicDamage': {
+          const damage = Math.max(
+            0,
+            calcMagicDamage({
+              magStr: strengthOf(eff),
+              def: Math.max(0, ((e.def.stats.defense << 16) >> 16) + (e.def.stats.level + 6) * 4),
+              rngFactor: 1 + rng() * 0.1,
+              magicData: {
+                baseDamage: eff.baseDamage,
+                elemental: elementNumber[eff.element],
+              },
+              elemRes: e.def.stats.elemResistance,
+              poisonRes: e.def.stats.poisonResistance,
+              resistMult: 1,
+              fieldEffect: s.fieldEffect,
+            }),
           )
-          // 三对致死(数据驱动 lethalWith;仅投掷触发,fight.c 0x5E+0x60):中本毒 + 已中配对毒 → 暴毙
+          e.hp = Math.max(0, e.hp - damage)
+          s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
+          break
+        }
+        case 'fixedDamage':
+          e.hp = Math.max(0, e.hp - eff.amount)
+          s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${eff.amount} 伤害`)
+          break
+        case 'applyPoison': {
+          const pid = Number(eff.poisonId)
+          const application = applyEnemyPoisonEffect(s, e, pid, rng)
+          if (application !== 'resisted')
+            s.log.push(
+              `${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`,
+            )
+          else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
+          // 0x28 抵抗不会跳过随后的 0x5E/0x60；无论本次是否加毒，都按
+          // PoisonDef.lethalWith 检查目标已有的配对毒。
           const lethal = s.poisonDefs[pid]?.lethalWith
           if (lethal !== undefined && e.poisons.some((ap) => ap.poisonId === lethal)) {
             e.hp = 0
             s.log.push(`${e.def.id} 双毒相冲,当场暴毙`)
           }
-        } else s.log.push(`${e.def.id} 抵抗了 ${item.name}`)
-        break
+          break
+        }
+        case 'currentHpDamage': {
+          const damage = Math.min(
+            eff.cap,
+            Math.trunc((e.hp * eff.numerator) / eff.denominator) + eff.bonus,
+          )
+          e.hp = Math.max(0, e.hp - damage)
+          s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
+          break
+        }
+        case 'applyStatus':
+          if (Math.floor(rng() * 10) >= e.def.ai.resistanceToSorcery) {
+            applyEnemyStatus(e.status, eff.status, eff.turns)
+            s.log.push(`${e.def.id} 陷入 ${eff.status}`)
+          } else {
+            if (eff.onResist === 'stopTarget') {
+              s.log.push('攻击无效')
+              if (s.lastAction) s.lastAction.notice = '攻击无效'
+              stopTarget = true
+            } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
+          }
+          break
+        case 'killIfHpAtMost':
+          if (e.hp * 100 <= e.def.stats.health * eff.percent) {
+            e.hp = 0
+            s.log.push(`${e.def.id} 魂飞魄散`)
+          } else {
+            s.log.push('无任何效果')
+            if (s.lastAction) s.lastAction.notice = '无任何效果'
+          }
+          break
+        case 'damageAndHealCaster':
+          e.hp = Math.max(0, e.hp - eff.damage)
+          p.hp = Math.min(p.maxHp, p.hp + eff.heal)
+          s.log.push(
+            `${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${eff.damage} 伤害,自身回复 ${eff.heal}`,
+          )
+          break
+        default:
+          assertNever(eff, 'battle item throw')
       }
-      case 'currentHpDamage': {
-        const damage = Math.min(
-          eff.cap,
-          Math.trunc((e.hp * eff.numerator) / eff.denominator) + eff.bonus,
-        )
-        e.hp = Math.max(0, e.hp - damage)
-        s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
-        break
-      }
-      case 'healHp':
-      case 'healMp':
-      case 'revive':
-      case 'applyStatus':
-      case 'removeStatus':
-      case 'curePoison':
-      case 'permanentStatBoost':
-      case 'gate':
-      case 'dieIfNotPoisoned':
-      case 'runScript':
-      case 'runSceneHook':
-      case 'craftRecipe':
-      case 'drawFromResourcePool':
-      case 'extraPoisonRes':
-      case 'hideParty':
-      case 'modifyHostileAwareness':
-      case 'scaleCurrentHp':
-      case 'levelUp':
-      case 'placeEntityInFront':
-        // 上面的 context guard 应在扣库存前拒绝；显式列出以免新增 kind 静默落入 default。
-        s.log.push(`投掷效果 ${eff.kind} 不允许在投掷上下文执行`)
-        return
-      default:
-        assertNever(eff, 'battle item throw')
+      if (stopTarget) break
     }
+    hits.push({ idx: enemyIdx, value: Math.max(0, hpBefore - e.hp) })
   }
+  if (s.lastAction) s.lastAction.throwHits = hits
 }
 
 /**

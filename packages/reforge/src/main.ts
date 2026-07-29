@@ -2,6 +2,7 @@ import {
   type AssetId,
   applySetParty,
   buildWorld,
+  CONTENT_VERSION,
   canonicalScriptTransitionJson,
   collectCommandAssetReferences,
   type DialogueCue,
@@ -163,11 +164,11 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { normalizePayloadV5, preflightSaveMigration, sha256Bytes } from './save/migration.js'
+import { normalizePayloadV7, preflightSaveMigration, sha256Bytes } from './save/migration.js'
 import {
   buildMeta,
   buildPayload,
-  buildPayloadV5,
+  buildPayloadV7,
   captureThumbnail,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
@@ -179,7 +180,7 @@ import {
   ALL_SLOT_IDS,
   type SaveMeta,
   type SavePayload,
-  type SavePayloadV5,
+  type SavePayloadV7,
   type SlotId,
   type StoredSavePayload,
 } from './save/types.js'
@@ -286,7 +287,9 @@ let ctx!: CanvasRenderingContext2D
  */
 export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): Promise<void> {
   const canonicalProjectV5 =
-    inputProject.manifest.contentVersion === 5 ? (inputProject as LoadedProjectV5) : undefined
+    inputProject.manifest.contentVersion === CONTENT_VERSION
+      ? (inputProject as LoadedProjectV5)
+      : undefined
   let worldScriptV5: WorldScriptStateV5 | undefined
   let project: LoadedProject
   if (canonicalProjectV5) {
@@ -1207,7 +1210,15 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   /** 到点 snap 阈(px):任一轴 |offset| < 2·speed 即整体落点(script.c:101 PAL_NPCWalkTo)。 */
   const SPEED_SNAP_PX: Record<WalkSpeed, number> = { slow: 4, normal: 6, fast: 8, run: 16 }
   // (worldMoveAcc/worldTickNum/worldTicksThisFrame 声明在上方 stepFrame 处 —— switchScene TDZ)
-  const entityMoves = new Map<string, { to: GridPos; speed: WalkSpeed; resolve: () => void }>()
+  const entityMoves = new Map<
+    string,
+    {
+      to: GridPos
+      speed: WalkSpeed
+      resolve: () => void
+      cancel: (message: string) => void
+    }
+  >()
   let partyMove: { to: GridPos; speed: WalkSpeed; resolve: () => void } | null = null
   const entityAnim = new Map<string, number>() // 实体走帧计数(移动/0x87 动画共用)
   // auto 巡逻:每实体独立 runner,与主脚本**并行**(2026-07-03 拍板:不复刻对话冻结 NPC);
@@ -1886,7 +1897,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         const e = scene.entities.find((x) => x.id === id)
         if (!e) {
           host.report(`moveEntity: 实体 ${id} 不在场`)
-          resolve()
+          reject(asyncIntentAbortError(`实体 ${id} 不在场，走位未执行`))
           return
         }
         let settled = false
@@ -1900,16 +1911,19 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
             if (entityMoves.get(id) === entry) entityMoves.delete(id)
             resolve()
           },
+          cancel: (message: string): void => {
+            if (settled) return
+            settled = true
+            signal?.removeEventListener('abort', abort)
+            if (entityMoves.get(id) === entry) entityMoves.delete(id)
+            reject(asyncIntentAbortError(message))
+          },
         }
         const abort = (): void => {
-          if (settled) return
-          settled = true
-          if (entityMoves.get(id) === entry) entityMoves.delete(id)
-          signal?.removeEventListener('abort', abort)
-          reject(asyncIntentAbortError(`实体 ${id} 走位所属 runner 已取消`))
+          entry.cancel(`实体 ${id} 走位所属 runner 已取消`)
         }
         // 步进只发生在世界拍上(首步至多等 100ms;曾因预充累加器致短距走位瞬移,2026-07-03)
-        entityMoves.get(id)?.resolve() // E6a 顺手修:同实体新走位覆盖旧 entry 时兑现旧 Promise(防悬挂卡死调用方)
+        entityMoves.get(id)?.cancel(`实体 ${id} 的旧走位已被新走位替换`)
         entityMoves.set(id, entry)
         signal?.addEventListener('abort', abort, { once: true })
         if (signal?.aborted) abort()
@@ -2754,6 +2768,19 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     )
       refreshCurrentCanonicalBindingsV5()
     if (
+      (command.kind === 'selectEntityBehavior' && command.channel === 'auto') ||
+      command.kind === 'selectEntityPage'
+    ) {
+      const target = command.target
+      if (target.scene === scene.id) {
+        const entity = scene.entities.find((candidate) => candidate.id === target.entity)
+        // v5 behavior/page selection may atomically hand off a persisted cursor. Abort the
+        // previous runner before it can wake and execute one stale state body; owner epoch
+        // remains the final guard against an already-running command committing old state.
+        if (entity) restartAutoRunner(entity)
+      }
+    }
+    if (
       command.kind === 'setEntityState' ||
       command.kind === 'setMultiEntityState' ||
       command.kind === 'setEntityPos' ||
@@ -2985,8 +3012,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     for (const [id, mv] of entityMoves) {
       const e = scene.entities.find((x) => x.id === id)
       if (!e) {
-        entityMoves.delete(id)
-        mv.resolve()
+        mv.cancel(`实体 ${id} 已离场，走位未完成`)
         continue
       }
       // 0x11 慢走 = speed2 且隔拍走(script.c:688-698 的 (id&1)^(frameNum&1) 简化为全局隔拍)
@@ -3178,7 +3204,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     invalidatePendingScriptMutations()
     for (const ac of autoAborts.values()) ac.abort()
     autoAborts.clear()
-    for (const [, mv] of entityMoves) mv.resolve()
+    for (const [id, mv] of entityMoves) mv.cancel(`切换场景时取消实体 ${id} 的未完成走位`)
     entityMoves.clear()
     entityAnim.clear()
     cameraPanFx?.resolve()
@@ -3672,7 +3698,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     if (worldScriptV5 && canonicalProjectV5) {
       const snapshot = structuredClone(world)
       delete snapshot.script
-      return buildPayloadV5(
+      return buildPayloadV7(
         {
           ...snapshot,
           script: structuredClone(worldScriptV5),
@@ -3774,7 +3800,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   async function normalizeStoredPayload(
     raw: StoredSavePayload,
     where: string,
-    signal?: AbortSignal,
+    _signal?: AbortSignal,
   ): Promise<StoredSavePayload> {
     if (!canonicalProjectV5) {
       if (raw.version >= 5) throw new Error(`${where}: v4 工程不能读取 SAVE v${raw.version}`)
@@ -3782,11 +3808,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     }
     const resolver = await preflightSaveMigration({
       manifest: canonicalProjectV5.manifest,
-      source: canonicalProjectV5.source,
       payload: raw,
-      signal,
     })
-    return normalizePayloadV5(raw, resolver, { ...saveNormalizeOptions, where })
+    return normalizePayloadV7(raw, resolver)
   }
 
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
@@ -3804,9 +3828,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     }
     let canonicalScriptCandidate: WorldScriptStateV5 | undefined
     const candidate =
-      canonicalProjectV5 && p.version === 5
+      canonicalProjectV5 && p.version === 7
         ? (() => {
-            const payload = p as SavePayloadV5
+            const payload = p as SavePayloadV7
             canonicalScriptCandidate = structuredClone(
               payload.world.script ?? emptyWorldScriptStateV5(),
             )

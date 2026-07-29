@@ -88,7 +88,7 @@
                 "initial": "initial",
                 "states": {
                   "initial": {
-                    "label": "initial",
+                    "label": "首次执行",
                     "body": [
                       {
                         "kind": "moveParty",
@@ -111,39 +111,64 @@
                       {
                         "kind": "wait",
                         "ms": 40
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 120
                       }
                     ],
                     "next": {
-                      "kind": "to",
-                      "state": "cycle",
-                      "yield": "macroTask"
+                      "kind": "continue",
+                      "state": "continuation-001"
                     }
                   },
-                  "cycle": {
-                    "label": "初始状态",
+                  "continuation-001": {
+                    "label": "流程分支 001",
                     "body": [
                       {
+                        "kind": "nudgeParty",
                         "dx": 8,
-                        "dy": 8,
-                        "kind": "nudgeParty"
+                        "dy": 8
                       },
                       {
                         "kind": "wait",
                         "ms": 40
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 120
                       }
                     ],
                     "next": {
-                      "kind": "to",
-                      "state": "cycle",
-                      "yield": "worldTick"
+                      "kind": "continue",
+                      "state": "continuation-002"
+                    }
+                  },
+                  "continuation-002": {
+                    "label": "流程分支 002",
+                    "body": [
+                      {
+                        "kind": "nudgeParty",
+                        "dx": 8,
+                        "dy": 8
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "continuation-003"
+                    }
+                  },
+                  "continuation-003": {
+                    "label": "流程分支 003",
+                    "body": [
+                      {
+                        "kind": "loadScene",
+                        "scene": "s249",
+                        "pos": {
+                          "col": 54,
+                          "row": 33,
+                          "height": 0
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "restart"
                     }
                   }
                 }

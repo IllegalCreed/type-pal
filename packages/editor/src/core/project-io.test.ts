@@ -421,10 +421,10 @@ test('ED-5I 保存边界拒绝非法投掷效果，不生成无法重开的工�
     buyPrice: 0,
     sellPrice: 0,
     sellable: false,
-    throw: { effects: [{ kind: 'healHp', amount: 10 }] },
+    throw: { target: 'oneEnemy', effects: [{ kind: 'healHp', amount: 10 }] },
   } as never)
 
-  expect(() => serializeProject(current)).toThrow(/保存前物品数据校验失败.*不可用于投掷上下文/)
+  expect(() => serializeProject(current)).toThrow(/保存前物品数据校验失败.*未知投掷效果 healHp/)
 })
 
 test('X7 缺省入口契约:未编辑即保存不物化 entryPoints，也不添加 startWorld 可选字段', () => {

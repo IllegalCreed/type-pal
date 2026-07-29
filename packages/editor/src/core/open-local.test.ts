@@ -105,6 +105,26 @@ function mockDir(
 const J = (v: unknown): string => JSON.stringify(v)
 const hash = 'a'.repeat(64)
 
+async function blankCanonicalV5Files(
+  name = 'Epoch V5',
+): Promise<Record<string, string | ArrayBuffer>> {
+  const built = await buildBlankProject(name)
+  const files = Object.fromEntries(
+    Object.entries(built).map(([path, value]) => [
+      path,
+      value instanceof ArrayBuffer ? value : J(value),
+    ]),
+  ) as Record<string, string | ArrayBuffer>
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    contentVersion: number
+    minimumSaveVersion?: number
+  }
+  manifest.contentVersion = 5
+  delete manifest.minimumSaveVersion
+  files['manifest.json'] = J(manifest)
+  return files
+}
+
 function waveBytes(marker = 0): ArrayBuffer {
   return new Uint8Array([0x52, 0x49, 0x46, 0x46, 0x05, 0, 0, 0, 0x57, 0x41, 0x56, 0x45, marker])
     .buffer
@@ -584,7 +604,9 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
 }
 
 describe('openLocalProject', () => {
-  test('content v5 以 canonical 工程加载，并只向旧编辑器外壳投影空脚本占位', async () => {
+  test.each([
+    5, 6,
+  ] as const)('content v%i 以 canonical 工程加载，直接晋升 content 8 / SAVE 7', async (legacyContentVersion) => {
     const scene = {
       id: 's1',
       mapId: 'map-1',
@@ -626,9 +648,10 @@ describe('openLocalProject', () => {
     }
     const files: Record<string, string | ArrayBuffer> = {
       'manifest.json': J({
-        id: 'v5-project',
-        name: 'V5',
-        contentVersion: 5,
+        id: `v${legacyContentVersion}-project`,
+        name: `V${legacyContentVersion}`,
+        contentVersion: legacyContentVersion,
+        ...(legacyContentVersion === 6 ? { minimumSaveVersion: 6 } : {}),
         entryScene: 's1',
         content: {
           actors: 'content/actors.json',
@@ -661,14 +684,131 @@ describe('openLocalProject', () => {
       'content/shared-scripts.json': '{}',
       'assets/index.json': J({ version: 1, assets: {} }),
     }
-    const opened = await openLocalProject(mockDir('v5-project', files))
+    const writes: string[] = []
+    const dir = mockDir(`v${legacyContentVersion}-project`, files, writes)
+    const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
+    expect(opened.project.manifest).toMatchObject({
+      contentVersion: 8,
+      minimumSaveVersion: 7,
+    })
+    expect(writes).toEqual(['content/items.json', 'manifest.json'])
     expect(opened.canonicalV5.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
       scene.entities[0]!.behaviors.trigger.talk.flow,
     )
     expect(opened.scenes[0]!.entities[0]!.pages?.[0]?.trigger?.stages).toEqual([{ body: [] }])
     expect(opened.scriptChunks).toEqual({})
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('content v7 投掷工程补 target 后晋升 v8，manifest-last 且重开零写', async () => {
+    const files = await blankCanonicalV5Files('Epoch V7 Throw')
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      contentVersion: number
+      minimumSaveVersion?: number
+    }
+    manifest.contentVersion = 7
+    manifest.minimumSaveVersion = 7
+    files['manifest.json'] = J(manifest)
+    files['content/items.json'] = J([
+      {
+        id: 'poison',
+        name: '毒物',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        throw: {
+          effects: [{ kind: 'applyPoison', poisonId: '551' }],
+        },
+      },
+    ])
+    const writes: string[] = []
+    const dir = mockDir('epoch-v7-throw', files, writes)
+
+    const opened = await openLocalProject(dir)
+    expect(opened.kind).toBe('v5')
+    if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
+    expect(opened.project.manifest).toMatchObject({
+      contentVersion: 8,
+      minimumSaveVersion: 7,
+    })
+    expect(opened.project.items.poison?.throw).toEqual({
+      target: 'oneEnemy',
+      effects: [{ kind: 'applyPoison', poisonId: '551' }],
+    })
+    expect(writes).toEqual(['content/items.json', 'manifest.json'])
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test('content v7 投掷升级预检失败时零写', async () => {
+    const files = await blankCanonicalV5Files('Invalid Epoch V7 Throw')
+    const manifest = JSON.parse(String(files['manifest.json'])) as {
+      contentVersion: number
+      minimumSaveVersion?: number
+    }
+    manifest.contentVersion = 7
+    manifest.minimumSaveVersion = 7
+    files['manifest.json'] = J(manifest)
+    files['content/items.json'] = J([
+      {
+        id: 'invalid',
+        name: '非法投掷',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        throw: {
+          effects: [{ kind: 'fixedDamage', amount: 1 }],
+        },
+      },
+    ])
+    const writes: string[] = []
+    await expect(
+      openLocalProject(mockDir('invalid-epoch-v7-throw', files, writes)),
+    ).rejects.toThrow(/contentVersion 7 投掷只允许/)
+    expect(writes).toEqual([])
+    expect(
+      (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(7)
+  })
+
+  test('content v5 epoch 晋升预检失败时零写，manifest close 失败后可重试', async () => {
+    const invalid = await blankCanonicalV5Files('Invalid Epoch')
+    delete invalid['content/shared-scripts.json']
+    const invalidWrites: string[] = []
+    await expect(
+      openLocalProject(mockDir('invalid-epoch', invalid, invalidWrites)),
+    ).rejects.toThrow(/shared-scripts|sharedScripts|NotFound/)
+    expect(invalidWrites).toEqual([])
+    expect(
+      (JSON.parse(String(invalid['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(5)
+
+    const files = await blankCanonicalV5Files('Retry Epoch')
+    const writes: string[] = []
+    const dir = mockDir('retry-epoch', files, writes, {
+      failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
+    })
+    await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
+    expect(writes).toEqual(['content/items.json'])
+    expect(
+      (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(5)
+    await expect(openLocalProject(dir)).resolves.toMatchObject({ kind: 'v5' })
+    expect(writes).toEqual(['content/items.json', 'content/items.json', 'manifest.json'])
+    expect(
+      JSON.parse(String(files['manifest.json'])) as {
+        contentVersion: number
+        minimumSaveVersion: number
+      },
+    ).toMatchObject({ contentVersion: 8, minimumSaveVersion: 7 })
   })
 
   test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
@@ -1366,7 +1506,8 @@ describe('openLocalProject', () => {
 
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
-    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(opened.project.manifest.contentVersion).toBe(8)
+    expect(opened.project.manifest.minimumSaveVersion).toBe(7)
     expect(writes.at(-1)).toBe('manifest.json')
     expect(files['content/shared-scripts.json']).toBeDefined()
     expect(files['content/migrations/script-v4-v5-save.json']).toBeDefined()
@@ -1400,7 +1541,8 @@ describe('openLocalProject', () => {
 
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
-    expect(reopened.project.manifest.contentVersion).toBe(5)
+    expect(reopened.project.manifest.contentVersion).toBe(8)
+    expect(reopened.project.manifest.minimumSaveVersion).toBe(7)
     expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
   })
 
@@ -1497,7 +1639,12 @@ describe('openLocalProject', () => {
     const manifestBytes = files['manifest.json']
     const manifestText =
       typeof manifestBytes === 'string' ? manifestBytes : new TextDecoder().decode(manifestBytes)
-    expect((JSON.parse(manifestText) as { contentVersion: number }).contentVersion).toBe(5)
+    expect(
+      JSON.parse(manifestText) as {
+        contentVersion: number
+        minimumSaveVersion: number
+      },
+    ).toMatchObject({ contentVersion: 8, minimumSaveVersion: 7 })
   })
 
   test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
@@ -2250,7 +2397,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(opened.project.manifest.contentVersion).toBe(8)
     expect(writes.at(-1)).toBe('manifest.json')
 
     writes.length = 0
@@ -2263,14 +2410,14 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(opened.project.manifest.contentVersion).toBe(8)
     expect(customWrites.at(-1)).toBe('manifest.json')
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silent.project.manifest.contentVersion).toBe(5)
+    expect(silent.project.manifest.contentVersion).toBe(8)
     expect(silentWrites.at(-1)).toBe('manifest.json')
   })
 
@@ -2611,7 +2758,7 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(5)
+    expect(opened.project.manifest.contentVersion).toBe(8)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])

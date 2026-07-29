@@ -17,9 +17,8 @@ export interface UseSpecV5 extends Omit<UseSpec, 'effects'> {
   effects: ItemUseEffectV5[]
 }
 
-export interface ThrowSpecV5 extends Omit<ThrowSpec, 'effects'> {
-  effects: ItemUseEffectV5[]
-}
+/** 投掷没有 shared/private script；v5 只对使用能力做脚本引用升级。 */
+export type ThrowSpecV5 = ThrowSpec
 
 export interface ItemDataV5 extends Omit<ItemData, 'use' | 'throw'> {
   use?: UseSpecV5

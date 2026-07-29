@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "check": "pnpm -r run check && pnpm lint",
+    "check:fast": "pnpm -r run typecheck && pnpm -r run test && pnpm lint",
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm -r run test",
     "format": "biome format --write --changed --since=HEAD",

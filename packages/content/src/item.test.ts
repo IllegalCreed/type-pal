@@ -453,13 +453,6 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
       },
       scaleCurrentHp: { kind: 'scaleCurrentHp', numerator: 1, denominator: 2 },
       levelUp: { kind: 'levelUp', levels: 1 },
-      currentHpDamage: {
-        kind: 'currentHpDamage',
-        numerator: 1,
-        denominator: 2,
-        bonus: 1,
-        cap: 1000,
-      },
       placeEntityInFront: {
         kind: 'placeEntityInFront',
         target: { scene: 's001', entity: 'e1' },
@@ -472,7 +465,7 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
       revive: ['world', 'battle'],
       applyStatus: ['world', 'battle'],
       removeStatus: ['world', 'battle'],
-      applyPoison: ['world', 'battle', 'throw'],
+      applyPoison: ['world', 'battle'],
       curePoison: ['world', 'battle'],
       permanentStatBoost: ['world'],
       gate: ['world', 'battle'],
@@ -486,10 +479,9 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
       modifyHostileAwareness: ['world', 'battle'],
       scaleCurrentHp: ['world', 'battle'],
       levelUp: ['world', 'battle'],
-      currentHpDamage: ['throw'],
       placeEntityInFront: ['world'],
     } satisfies Record<ItemUseEffect['kind'], ItemUseContext[]>
-    const contexts: ItemUseContext[] = ['world', 'battle', 'throw']
+    const contexts: ItemUseContext[] = ['world', 'battle']
     for (const [kind, effect] of Object.entries(effects) as [
       ItemUseEffect['kind'],
       ItemUseEffect,

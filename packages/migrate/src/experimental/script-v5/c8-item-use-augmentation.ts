@@ -14,13 +14,11 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import {
-  itemUseEffectSupportsContextV5,
   itemUseSupportsContextV5,
   ProjectScriptV4V5UpgradeError,
   palSoundAssetId,
   palSpriteAssetId,
   projectLocalScriptV4ToV5,
-  validateItemsV5,
   validateLocale,
   validateMigrationDiagnostics,
   validateScenesV5,
@@ -34,7 +32,7 @@ import {
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationJson } from '../../pal-migration.js'
 import { mapIdFromSourceNumber } from '../../project-map-converter.js'
-import { extractScriptEdges } from '../../script-graph.js'
+import { extractLegacyScriptEdgesV1 } from '../../script-graph.js'
 import type { SourceCmd } from '../../source-facts.js'
 import {
   assertNoMigrationGaps,
@@ -43,6 +41,7 @@ import {
   type TranslateCtx,
   translateStages,
 } from '../../translate-events.js'
+import { validateR13ItemThrowParentItems } from './r13-item-throw-parent.js'
 import { stableJson, stableJsonSha256 } from './stable-json.js'
 
 export const C8_ITEM_IDS = [
@@ -88,6 +87,85 @@ export const C8_STORY_ITEM_ROOTS = [
   { itemId: 289, address: 39749 },
   { itemId: 291, address: 39757 },
   { itemId: 292, address: 39831 },
+] as const
+
+/**
+ * R13-1 独立源审计锁定的 C8 动态自动行为终止集。这里同时钉住安装目标和 PAL
+ * 源入口；生成时会重新跑 source CFG 分类，禁止靠“当前产物长得像终止”自证。
+ */
+export const C8_AUTO_TERMINAL_ORACLE = [
+  {
+    sceneId: 's003',
+    entityId: 'e59',
+    behaviorId: 'c8-9013d2e11d8c',
+    installer: 1864,
+    ownerWord: 60,
+    root: 1891,
+  },
+  {
+    sceneId: 's003',
+    entityId: 'e60',
+    behaviorId: 'c8-460397709cd4',
+    installer: 1865,
+    ownerWord: 61,
+    root: 1894,
+  },
+  {
+    sceneId: 's003',
+    entityId: 'e61',
+    behaviorId: 'c8-714c2db7894a',
+    installer: 1866,
+    ownerWord: 62,
+    root: 1898,
+  },
+  {
+    sceneId: 's097',
+    entityId: 'e1782',
+    behaviorId: 'c8-f0eb9cfbf43b',
+    installer: 14066,
+    ownerWord: 0xffff,
+    root: 14127,
+  },
+  {
+    sceneId: 's097',
+    entityId: 'e1782',
+    behaviorId: 'c8-adc3f9a19936',
+    installer: 14074,
+    ownerWord: 0xffff,
+    root: 14129,
+  },
+  {
+    sceneId: 's273',
+    entityId: 'e4724',
+    behaviorId: 'c8-a0ab54723b62',
+    installer: 34548,
+    ownerWord: 0xffff,
+    root: 34534,
+  },
+  {
+    sceneId: 's273',
+    entityId: 'e4726',
+    behaviorId: 'c8-7f025c388a79',
+    installer: 34662,
+    ownerWord: 4727,
+    root: 34639,
+  },
+  {
+    sceneId: 's273',
+    entityId: 'e4728',
+    behaviorId: 'c8-ce8bb918cff0',
+    installer: 34658,
+    ownerWord: 4729,
+    root: 34629,
+  },
+  {
+    sceneId: 's273',
+    entityId: 'e4729',
+    behaviorId: 'c8-80a10b0fd027',
+    installer: 34748,
+    ownerWord: 4730,
+    root: 34761,
+  },
 ] as const
 
 export interface C8SourceRootEvidenceV1 {
@@ -171,9 +249,9 @@ function put(snapshot: MigrationSnapshot, path: string, value: unknown): void {
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [path, structuredClone(value)] as const),
-    ),
+    // required() clones every value C8 may mutate, and put() replaces every owned
+    // output. Retained maps/assets are immutable and can stay shared.
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     ...(source.hashes ? { hashes: new Map(source.hashes) } : {}),
     ...(source.baselineMetadata
@@ -358,6 +436,7 @@ function rewriteAllocationSelections(
     const target = record.target as Partial<EntityAddress> | undefined
     const channel = record.channel
     const selection = record.selection as { kind?: unknown; value?: unknown } | undefined
+    const cursorHandoff = record.cursorHandoff as { fromBehavior?: unknown } | undefined
     if (
       typeof target?.scene === 'string' &&
       typeof target.entity === 'string' &&
@@ -369,6 +448,12 @@ function rewriteAllocationSelections(
         `${target.scene}\u0000${target.entity}\u0000${channel}\u0000${selection.value}`,
       )
       if (alias) selection.value = alias
+      if (typeof cursorHandoff?.fromBehavior === 'string') {
+        const sourceAlias = behaviorAliases.get(
+          `${target.scene}\u0000${target.entity}\u0000${channel}\u0000${cursorHandoff.fromBehavior}`,
+        )
+        if (sourceAlias) cursorHandoff.fromBehavior = sourceAlias
+      }
     }
   } else if (record.kind === 'selectSceneHooks') {
     const scene = record.scene
@@ -470,6 +555,7 @@ export function assertProjectedAllocationClosure(
       const target = record.target as Partial<EntityAddress> | undefined
       const channel = record.channel
       const selection = record.selection as { kind?: unknown; value?: unknown } | undefined
+      const cursorHandoff = record.cursorHandoff as { fromBehavior?: unknown } | undefined
       if (
         selection?.kind === 'use' &&
         typeof selection.value === 'string' &&
@@ -483,6 +569,13 @@ export function assertProjectedAllocationClosure(
         if (!entity?.behaviors?.[channel]?.[selection.value])
           throw new Error(
             `C8 item use augmentation: ${path} 悬空 behavior ${target.scene}/${target.entity}/${channel}/${selection.value}`,
+          )
+        if (
+          typeof cursorHandoff?.fromBehavior === 'string' &&
+          !entity?.behaviors?.[channel]?.[cursorHandoff.fromBehavior]
+        )
+          throw new Error(
+            `C8 item use augmentation: ${path} 悬空来源 behavior ${target.scene}/${target.entity}/${channel}/${cursorHandoff.fromBehavior}`,
           )
       }
     } else if (record.kind === 'selectSceneHooks') {
@@ -518,7 +611,7 @@ export function assertC8ItemUseFinalTargetClosure(
   const scenes = validateScenesV5(
     sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`)),
   )
-  const items = validateItemsV5(required(snapshot, 'content/items.json'))
+  const items = validateR13ItemThrowParentItems(required(snapshot, 'content/items.json'))
   const diagnostics = validateMigrationDiagnostics(
     required(snapshot, 'content/migration-diagnostics.json'),
   )
@@ -561,7 +654,9 @@ export function assertC8ItemUseFinalTargetClosure(
       if (
         !item.throw ||
         item.throw.effects.length === 0 ||
-        !item.throw.effects.every((effect) => itemUseEffectSupportsContextV5(effect, 'throw'))
+        !item.throw.effects.every(
+          (effect) => effect.kind === 'applyPoison' || effect.kind === 'currentHpDamage',
+        )
       )
         throw new Error(`C8 item use augmentation: final target ${entry.itemId}.throw 不可运行`)
     }
@@ -642,7 +737,7 @@ function mergeProjectedAllocations(
 
 function sourceClosureDigests(commands: readonly SourceCmd[]): (root: number) => string {
   const outgoing = Array.from({ length: commands.length }, () => [] as number[])
-  for (const edge of extractScriptEdges(commands)) outgoing[edge.from]?.push(edge.to)
+  for (const edge of extractLegacyScriptEdgesV1(commands)) outgoing[edge.from]?.push(edge.to)
   const cache = new Map<number, string>()
   return (root: number): string => {
     const cached = cache.get(root)
@@ -768,7 +863,7 @@ export function augmentC8ItemUsesAfterP7(args: {
   const scenes = validateScenesV5(
     sceneIds.map((id) => required(snapshot, `content/scenes/${id}.json`)),
   )
-  const items = validateItemsV5(required(snapshot, 'content/items.json'))
+  const items = validateR13ItemThrowParentItems(required(snapshot, 'content/items.json'))
   const locale = validateLocale(required(snapshot, 'content/locale.json'), {
     allowLegacySoftWrap: true,
   })
@@ -957,7 +1052,7 @@ export function augmentC8ItemUsesAfterP7(args: {
   sameStringSet(sourceUsableItemIds, targetRunnableUseItemIds, 'source usable / target runnable')
 
   validateScenesV5(scenes)
-  validateItemsV5(items)
+  validateR13ItemThrowParentItems(items)
   validateLocale(locale, { allowLegacySoftWrap: true })
   validateSprites(sprites)
   validateMigrationDiagnostics(diagnostics)

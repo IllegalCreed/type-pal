@@ -67,6 +67,7 @@ import {
   defaultItemUseEffect,
   ItemEffectChainEditor,
   type ItemScriptOption,
+  ThrowEffectChainEditor,
 } from './ItemUseEffectEditor.js'
 import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
@@ -380,7 +381,6 @@ const USE_EFFECT_LABEL: Record<ItemUseEffect['kind'], string> = {
   modifyHostileAwareness: '调整明雷感知',
   scaleCurrentHp: '按比例调整当前体力',
   levelUp: '提升等级',
-  currentHpDamage: '按当前体力造成伤害',
   placeEntityInFront: '把场景实体放到玩家面前',
 }
 
@@ -419,8 +419,6 @@ function summarizeUse(item: ItemData, items: readonly ItemData[]): string[] {
           return `当前体力调整为 ${effect.numerator}/${effect.denominator}`
         case 'levelUp':
           return `提升 ${effect.levels} 级`
-        case 'currentHpDamage':
-          return `造成 当前体力×${effect.numerator}/${effect.denominator}＋${effect.bonus} 伤害，上限 ${effect.cap}`
         case 'placeEntityInFront':
           return `把 ${effect.target.scene}/${effect.target.entity} 放到玩家面前，状态 ${effect.state}`
         default:
@@ -989,18 +987,12 @@ export function ItemTab(props: {
     }
   }
   const enableThrow = (): void => {
-    try {
-      patch({
-        throw: {
-          effects: [defaultItemUseEffect('applyPoison', items, poisons, scriptOptions)],
-        },
-      })
-    } catch (cause) {
-      onStatusNotice?.({
-        kind: 'error',
-        message: cause instanceof Error ? cause.message : String(cause),
-      })
-    }
+    patch({
+      throw: {
+        target: 'oneEnemy',
+        effects: [{ kind: 'fixedDamage', amount: 1 }],
+      },
+    })
   }
 
   return (
@@ -1753,21 +1745,16 @@ export function ItemTab(props: {
                       </p>
                     )}
                   </div>
-                  <ItemEffectChainEditor
-                    ability="throw"
+                  <ThrowEffectChainEditor
                     spec={item.throw}
-                    items={items}
                     poisons={poisons}
-                    scripts={scriptOptions}
-                    onChange={(next) => patchThrow(next)}
+                    onChange={patchThrow}
                     onError={(message) => onStatusNotice?.({ kind: 'error', message })}
-                    privateScriptsV5={privateScriptsV5('throw')}
-                    scenes={editorState.scenes as readonly SceneDef[]}
                   />
                 </div>
               ) : (
                 <div className="item-capability-empty">
-                  开启后可配置施毒或按敌人当前体力造成伤害。
+                  开启后可配置单体或全体目标，以及完整的结构化投掷效果链。
                 </div>
               )}
             </section>

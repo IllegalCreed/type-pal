@@ -545,7 +545,10 @@ test('C8 use/throw 的配方、奖励、毒与共享脚本引用全部进入闭�
       buyPrice: 0,
       sellPrice: 0,
       sellable: false,
-      throw: { effects: [{ kind: 'applyPoison', poisonId: '999' }] },
+      throw: {
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: '999' }],
+      },
     },
   ]
   const joined = validateReferences(b)

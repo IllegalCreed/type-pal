@@ -5,7 +5,7 @@ import type { SourceCmd } from './migrate-content.js'
 import type { MigrationFileSet, PalMigrationSources } from './pal-migration.js'
 import {
   analyzeScriptGraph,
-  extractScriptEdges,
+  extractLegacyScriptEdgesV1,
   makeGlobalScriptRoots,
   type ScriptEdge,
   type ScriptEdgeKind,
@@ -542,7 +542,7 @@ function tarjanStrings(nodes: readonly string[], edges: readonly SemanticEdge[])
   return { components, componentOf, cyclic }
 }
 
-function sourceEntrySites(sources: PalMigrationSources): {
+export function collectSourceEntrySites(sources: PalMigrationSources): {
   sites: SourceEntrySite[]
   emptyPointers: SourceAddressZeroSite[]
 } {
@@ -594,13 +594,16 @@ function sourceEntrySites(sources: PalMigrationSources): {
     owner: string,
     rows: ReadonlyArray<Record<string, unknown>>,
     fields: readonly string[],
+    identityOf: (row: Readonly<Record<string, unknown>>, index: number) => string = (row, index) =>
+      String(row.id ?? index),
   ): void => {
     rows.forEach((row, index) => {
+      const identity = identityOf(row, index)
       for (const field of fields) {
         const value = Number(row[field] ?? 0)
         add(value, {
           kind,
-          sourceId: `${owner}/${String(row.id ?? index)}/${field}`,
+          sourceId: `${owner}/${identity}/${field}`,
           owner,
           channel: 'trigger',
         })
@@ -624,6 +627,12 @@ function sourceEntrySites(sources: PalMigrationSources): {
     'global/enemies',
     (sources.migrate.enemyObjects ?? []) as unknown as Array<Record<string, unknown>>,
     ['scriptOnTurnStart', 'scriptOnBattleEnd', 'scriptOnReady'],
+    (row, index) => {
+      const objectIndex = row.objectIndex
+      if (typeof objectIndex !== 'number' || !Number.isSafeInteger(objectIndex) || objectIndex < 0)
+        throw new Error(`enemyObjects[${index}] 缺稳定 objectIndex`)
+      return String(objectIndex)
+    },
   )
   global(
     'actor',
@@ -648,7 +657,7 @@ function semanticSourceGraph(
   audit: SemanticSourceGraphAudit
   contextsByAddress: Map<number, Set<SourceExecutionChannel>>
 } {
-  const rawEdges = extractScriptEdges(commands)
+  const rawEdges = extractLegacyScriptEdgesV1(commands)
   const byFrom = new Map<number, ScriptEdge[]>()
   for (const edge of rawEdges) {
     const list = byFrom.get(edge.from) ?? []
@@ -1014,7 +1023,7 @@ export function auditPalScriptControlFlow(
 ): ScriptControlFlowAuditV1 {
   const issues: string[] = []
   const commands = sources.migrate.commands
-  const sourceEntries = sourceEntrySites(sources)
+  const sourceEntries = collectSourceEntrySites(sources)
   const sceneEntrySites = sourceEntries.sites.filter((site) => site.owner.startsWith('s'))
   const globalRoots = makeGlobalScriptRoots({
     items: sourceEntries.sites.filter((site) => site.kind === 'item').map((site) => site.entry),
@@ -1169,7 +1178,6 @@ export function auditPalScriptControlFlow(
     const bodyAddresses = new Set([
       ...(provenance?.source?.addresses ?? []),
       ...(provenance?.origin?.sourceAddresses ?? []),
-      ...(provenance?.source?.address === undefined ? [] : [provenance.source.address]),
     ])
     const candidates = sourceHookInstallerCandidates(
       sourcePatches,
@@ -1269,11 +1277,12 @@ export function auditPalScriptControlFlow(
     const component = productComponents.components[componentId]!
     const provenance = registryById.get(id)
     const sourceAddress = provenance?.source?.address
+    // entryAddress 是入口身份，不等于 body 直接消费过该地址。legacy-alias 只含一条
+    // callScript bridge；把入口混进 addresses 会让它冒充 translated-target 的逐指令证据。
     const sourceAddresses = [
       ...new Set([
         ...(provenance?.source?.addresses ?? []),
         ...(provenance?.origin?.sourceAddresses ?? []),
-        ...(sourceAddress === undefined ? [] : [sourceAddress]),
         ...(hookSourceAddressesByBody.get(id) ?? []),
       ]),
     ].sort((left, right) => left - right)

@@ -1,11 +1,19 @@
-import type { Facing, GridPos, WorldState, WorldStateV5 } from '@type-pal/content'
+import type {
+  Facing,
+  GridPos,
+  WorldState,
+  WorldStateV5,
+  WorldStateV6,
+  WorldStateV7,
+  WorldStateV8,
+} from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
 export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
 
 export const MANUAL_SLOT_COUNT = 28
 export const SLOTS_PER_PAGE = 3
-export const SAVE_VERSION = 5
+export const SAVE_VERSION = 7 as const
 
 /** 全部槽 id（固定序）：自动、快速最前，其后 m01..m28（共 30，3/页 → 10 页）。 */
 export const ALL_SLOT_IDS: SlotId[] = [
@@ -48,4 +56,30 @@ export interface SavePayloadV5 extends Omit<SavePayload, 'version' | 'contentVer
   world: WorldStateV5
 }
 
-export type StoredSavePayload = SavePayload | SavePayloadV5
+export interface SavePayloadV6 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 6
+  contentVersion: 6
+  world: WorldStateV6
+}
+
+/** R13-2 已发布的历史 SAVE7/content7 payload；只供 v7 byte-pin 与 v8 identity 升级。 */
+export interface LegacySavePayloadV7
+  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 7
+  contentVersion: 7
+  world: WorldStateV7
+}
+
+/** 当前 envelope 仍为 SAVE7，但内容轴已升到 content8。 */
+export interface SavePayloadV7 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 7
+  contentVersion: 8
+  world: WorldStateV8
+}
+
+export type StoredSavePayload =
+  | SavePayload
+  | SavePayloadV5
+  | SavePayloadV6
+  | LegacySavePayloadV7
+  | SavePayloadV7

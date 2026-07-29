@@ -1,32 +1,60 @@
-import type { ItemData, SceneDef } from '@type-pal/content'
-import type { SourceItem } from '../../migrate-content.js'
+import type { ItemData, SceneDef, SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
+import type { SourceItem, SourceMagic, SourceObjectMagic } from '../../migrate-content.js'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
-import type { MigrationJson } from '../../pal-migration.js'
+import { createPalR13TranslationSession, type MigrationJson } from '../../pal-migration.js'
+import type { SoundAssetForNum } from '../../sound-migration.js'
 import {
   augmentC8ItemUsesAfterP7,
   type C8ItemUseAugmentationEvidenceV1,
 } from './c8-item-use-augmentation.js'
 import { type P7CanonicalProject, projectP7CanonicalProject } from './p7-project.js'
 import {
+  type PalAutoLifecycleRepairEvidenceV1,
+  repairPalAutoLifecycleAfterC8,
+} from './pal-auto-lifecycle-repair.js'
+import {
   type PalSceneSemanticRepairEvidenceV1,
   repairPalSceneSemanticsAfterP7,
 } from './pal-scene-semantic-repair.js'
+import { augmentR13AutoIdleGates, type R13AutoIdleGateEvidenceV1 } from './r13-auto-idle-gates.js'
+import {
+  augmentR13ItemThrows,
+  type R13ItemThrowAugmentationEvidenceV1,
+} from './r13-item-throw-augmentation.js'
+import {
+  augmentR13TriggerActivations,
+  type R13TriggerActivationEvidenceV1,
+} from './r13-trigger-activation-graph.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
+import { stableJsonSha256 } from './stable-json.js'
 
 export const P7_SHARED_SCRIPTS_PATH = 'content/shared-scripts.json' as const
 
 export interface P7GeneratedCanonical {
   snapshot: MigrationSnapshot
+  /** R13-1 cadence seal 的 immutable parent；R13-2 不得反向污染。 */
+  r13CadenceParentSnapshot: MigrationSnapshot
+  /** R13-2 cross-activation seal 的 immutable parent；R13-3 不得反向污染。 */
+  r13CrossActivationParentSnapshot: MigrationSnapshot
   project: P7CanonicalProject
   ir: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ir']
   ledgerDraft: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ledger']
   c8Evidence: C8ItemUseAugmentationEvidenceV1
+  autoLifecycleRepairEvidence: PalAutoLifecycleRepairEvidenceV1
   sceneSemanticRepairEvidence: PalSceneSemanticRepairEvidenceV1
+  triggerActivationEvidence: R13TriggerActivationEvidenceV1
+  autoIdleGateEvidence: R13AutoIdleGateEvidenceV1
+  itemThrowEvidence: R13ItemThrowAugmentationEvidenceV1
 }
 
 export interface P7GeneratedCanonicalArgs extends P6TransformBuildArgs {
   itemSources: readonly SourceItem[]
+  magicSources: readonly SourceMagic[]
+  objectMagicSources: readonly SourceObjectMagic[]
+  soundAssetForNum?: SoundAssetForNum
 }
+
+export type ValidatedP6TransformChain = ReturnType<typeof buildValidatedP6TransformChain>
 
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
@@ -49,19 +77,57 @@ function readGeneratedSource(files: ReadonlyMap<string, MigrationJson>): {
   return { scenes, items: structuredClone(items) as unknown as ItemData[] }
 }
 
+function finalizedTriggerActivationEvidence(
+  evidence: R13TriggerActivationEvidenceV1,
+  snapshot: MigrationSnapshot,
+): R13TriggerActivationEvidenceV1 {
+  const result = structuredClone(evidence)
+  const flow = (ownerKey: string): ScriptFlowV5 => {
+    const entity = /^entity:([^:]+):([^:]+):(trigger|auto):(.+)$/.exec(ownerKey)
+    const hook = /^hook:([^:]+):(onEnter|onTeleport):(.+)$/.exec(ownerKey)
+    const sceneId = entity?.[1] ?? hook?.[1]
+    const scene = sceneId
+      ? (snapshot.files.get(`content/scenes/${sceneId}.json`) as unknown as SceneDefV5 | undefined)
+      : undefined
+    const value = entity
+      ? scene?.entities.find((candidate) => candidate.id === entity[2])?.behaviors?.[
+          entity[3] as 'trigger' | 'auto'
+        ]?.[entity[4]!]?.flow
+      : hook
+        ? scene?.hooks?.[hook[2] as 'onEnter' | 'onTeleport']?.variants[hook[3]!]?.flow
+        : undefined
+    if (!value) throw new Error(`P7 generated: R13 final trigger owner 缺失 ${ownerKey}`)
+    return value
+  }
+  for (const owner of [...result.owners, ...result.delayedOwners])
+    owner.flowDigest = stableJsonSha256(flow(owner.ownerKey))
+  return result
+}
+
 /**
  * 发布后的 MG2 “theirs”：每次仍从权威提取结果完整重建 P2-P6，再直接投影成纯 canonical v5。
  * 历史 full ledger/compat sidecar 不在这里重签，由 v5 MG2 把已发布控制账作为 immutable input。
  */
-export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7GeneratedCanonical {
-  const chain = buildValidatedP6TransformChain(args)
+export function buildP7GeneratedCanonicalFromValidatedChain(
+  args: P7GeneratedCanonicalArgs,
+  chain: ValidatedP6TransformChain,
+): P7GeneratedCanonical {
+  if (
+    chain.inputs.migration !== args.migration ||
+    chain.inputs.currentAudit !== args.currentAudit ||
+    chain.inputs.frozenAudit !== args.frozenAudit ||
+    chain.inputs.sourceCommands !== args.sourceCommands
+  )
+    throw new Error('P7 generated: validated P6 chain 与输入不一致')
   const project = projectP7CanonicalProject({
     ir: chain.p6.ir,
+    sourceCommands: args.sourceCommands,
+    sourceAudit: args.currentAudit,
     ...readGeneratedSource(args.migration.files),
   })
-  const files = new Map(
-    [...args.migration.files].map(([path, value]) => [path, structuredClone(value)] as const),
-  )
+  // This projection replaces every scene/script/item value it owns and never mutates
+  // retained migration JSON in place. Keep untouched assets/maps shared read-only.
+  const files = new Map(args.migration.files)
   const managedFiles = new Set(args.migration.managedFiles)
   for (const path of [...files.keys()]) {
     if (
@@ -95,16 +161,53 @@ export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7Gen
     itemSources: args.itemSources,
     sourceCommands: args.sourceCommands,
   })
-  const sceneSemanticRepair = repairPalSceneSemanticsAfterP7({
+  const autoLifecycleRepair = repairPalAutoLifecycleAfterC8({
     snapshot: c8.snapshot,
     sourceCommands: args.sourceCommands,
   })
+  const sceneSemanticRepair = repairPalSceneSemanticsAfterP7({
+    snapshot: autoLifecycleRepair.snapshot,
+    sourceCommands: args.sourceCommands,
+  })
+  const r13CadenceParentSnapshot = sceneSemanticRepair.snapshot
+  const triggerActivation = augmentR13TriggerActivations({
+    snapshot: r13CadenceParentSnapshot,
+    ir: chain.p6.ir,
+    translation: createPalR13TranslationSession(args.migration),
+  })
+  const autoIdleGate = augmentR13AutoIdleGates({
+    snapshot: triggerActivation.snapshot,
+    sourceCommands: args.sourceCommands,
+  })
+  const triggerActivationEvidence = finalizedTriggerActivationEvidence(
+    triggerActivation.evidence,
+    autoIdleGate.snapshot,
+  )
+  const r13CrossActivationParentSnapshot = autoIdleGate.snapshot
+  const itemThrows = augmentR13ItemThrows({
+    snapshot: r13CrossActivationParentSnapshot,
+    itemSources: args.itemSources,
+    magicSources: args.magicSources,
+    objectMagicSources: args.objectMagicSources,
+    sourceCommands: args.sourceCommands,
+    ...(args.soundAssetForNum ? { soundAssetForNum: args.soundAssetForNum } : {}),
+  })
   return {
-    snapshot: sceneSemanticRepair.snapshot,
+    snapshot: itemThrows.snapshot,
+    r13CadenceParentSnapshot,
+    r13CrossActivationParentSnapshot,
     project,
     ir: chain.p6.ir,
     ledgerDraft: chain.p6.ledger,
     c8Evidence: c8.evidence,
+    autoLifecycleRepairEvidence: autoLifecycleRepair.evidence,
     sceneSemanticRepairEvidence: sceneSemanticRepair.evidence,
+    triggerActivationEvidence,
+    autoIdleGateEvidence: autoIdleGate.evidence,
+    itemThrowEvidence: itemThrows.evidence,
   }
+}
+
+export function buildP7GeneratedCanonical(args: P7GeneratedCanonicalArgs): P7GeneratedCanonical {
+  return buildP7GeneratedCanonicalFromValidatedChain(args, buildValidatedP6TransformChain(args))
 }

@@ -1,31 +1,32 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { existsSync } from 'node:fs'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
-import { loadPalBaseline, type MigrationSnapshot } from '../../migration-baseline.js'
+import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
-import { buildPalMigration } from '../../pal-migration.js'
-import { loadPalMigrationSources } from '../../pal-migration-io.js'
-import {
-  assertScriptControlFlowAudit,
-  auditPalScriptControlFlow,
-  type ScriptControlFlowAuditV1,
-} from '../../script-control-flow-audit.js'
+import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
-import { buildP2ScriptMigrationIR } from './p2-transform.js'
-import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
-import { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
-import { planP4ScriptTransition } from './p4-transition-plan.js'
-import { validateP4ScriptMigrationIR } from './p4-validate.js'
-import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
-import { assertP4ShadowBundle, buildDeterministicP4ShadowBundle } from './shadow-harness.js'
-import { commandAtPointer, readV4ScriptCorpus } from './source-v4.js'
+import type { buildP2ScriptMigrationIR } from './p2-transform.js'
+import type { buildP3ScriptMigrationIR } from './p3-control-flow.js'
+import type { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
+import {
+  type PreparedP4ScriptTransition,
+  planP4ScriptTransition,
+  prepareP4ScriptTransition,
+} from './p4-transition-plan.js'
+import {
+  getPalTestPhaseFixture,
+  getPalTestPreparedP4ScriptTransition,
+  PAL_SHADOW_RELEASE_CORE_DIGEST,
+  PAL_TEST_EXTRACTED,
+  PAL_TEST_FAST_GATE,
+} from './pal-test-fixture.js'
+import {
+  assertP4ShadowBundle,
+  buildDeterministicP4ShadowBundle,
+  buildPinnedP4ShadowBundleFromValidatedChain,
+} from './shadow-harness.js'
+import { commandAtPointer, type readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
-
-const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
-const extracted = resolve(repo, 'data/extracted/events/all.json')
-const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 
 interface PalFixture {
   migration: MigrationFileSet
@@ -38,21 +39,26 @@ interface PalFixture {
   p3: ReturnType<typeof buildP3ScriptMigrationIR>
   p4: ReturnType<typeof buildP4ScriptMigrationIR>
   corpus: ReturnType<typeof readV4ScriptCorpus>
+  chain: ReturnType<typeof getPalTestPhaseFixture>['chain']
+  prepared: PreparedP4ScriptTransition
 }
 
 let fixture: PalFixture
 
 function cloneMigration(source: MigrationFileSet): MigrationFileSet {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [
-        path,
-        JSON.parse(JSON.stringify(value)) as MigrationJson,
-      ]),
-    ),
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     report: source.report,
   }
+}
+
+function cloneJsonFile<T>(migration: MigrationFileSet, path: string): T {
+  const source = migration.files.get(path)
+  if (source === undefined) throw new Error(`test migration file missing ${path}`)
+  const cloned = JSON.parse(JSON.stringify(source)) as T
+  migration.files.set(path, cloned as MigrationJson)
+  return cloned
 }
 
 function mutateScriptBody(
@@ -60,20 +66,36 @@ function mutateScriptBody(
   legacyScriptId: string,
   mutate: (body: Array<Record<string, unknown>>) => void,
 ): void {
-  const index = migration.files.get('content/scripts/index.json') as {
+  const sourceIndex = migration.files.get('content/scripts/index.json') as {
     chunks: Record<string, { path: string; bytes: number; hash?: string }>
   }
   const sourceChunk = fixture.corpus.byId.get(legacyScriptId)?.chunk
   if (!sourceChunk) throw new Error(`test script body missing ${legacyScriptId}`)
-  const meta = index.chunks[sourceChunk]!
-  const chunkPath = `content/scripts/${meta.path}`
-  const chunk = migration.files.get(chunkPath) as {
+  const sourceMeta = sourceIndex.chunks[sourceChunk]!
+  const index = {
+    ...sourceIndex,
+    chunks: {
+      ...sourceIndex.chunks,
+      [sourceChunk]: { ...sourceMeta },
+    },
+  }
+  migration.files.set('content/scripts/index.json', index as MigrationJson)
+  const chunkPath = `content/scripts/${sourceMeta.path}`
+  const sourceChunkFile = migration.files.get(chunkPath) as {
     scripts: Record<string, Array<Record<string, unknown>>>
   }
+  const chunk = {
+    ...sourceChunkFile,
+    scripts: {
+      ...sourceChunkFile.scripts,
+      [legacyScriptId]: structuredClone(sourceChunkFile.scripts[legacyScriptId]!),
+    },
+  }
+  migration.files.set(chunkPath, chunk as MigrationJson)
   mutate(chunk.scripts[legacyScriptId]!)
   const chunkJson = JSON.stringify(chunk)
-  meta.bytes = utf8ByteLength(chunkJson)
-  meta.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
+  index.chunks[sourceChunk]!.bytes = utf8ByteLength(chunkJson)
+  index.chunks[sourceChunk]!.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
 }
 
 function planWith(ours: MigrationFileSet) {
@@ -89,62 +111,45 @@ function planWith(ours: MigrationFileSet) {
     p3Ledger: fixture.p3.ledger,
     target: fixture.p4.ir,
     ledger: fixture.p4.ledger,
+    prepared: fixture.prepared,
   })
 }
 
-describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () => {
+describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P4 PAL shadow owner migration', () => {
   beforeAll(() => {
-    const sources = loadPalMigrationSources(repo)
-    const migration = buildPalMigration(sources)
-    const audit = auditPalScriptControlFlow(sources, migration)
-    assertScriptControlFlowAudit(audit)
-    const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
-    const base = loadPalBaseline(repo)
-    if (!base) throw new Error('PAL migration baseline missing')
-    const snapshots = reconstructPublishedV4TransitionSnapshots(repo, migration, base)
-    const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
-    const p2 = buildP2ScriptMigrationIR({
-      migration,
-      currentAudit: audit,
-      frozenAudit: frozen,
-    })
-    const p3 = buildP3ScriptMigrationIR({
-      migration,
-      frozenAudit: frozen,
-      sourceCommands,
-      p2: p2.ir,
-      p2Ledger: p2.ledger,
-    })
-    const p4 = buildP4ScriptMigrationIR({
-      migration,
-      frozenAudit: frozen,
-      p3: p3.ir,
-      p3Ledger: p3.ledger,
-    })
+    const shared = getPalTestPhaseFixture()
+    const prepared = PAL_TEST_FAST_GATE
+      ? getPalTestPreparedP4ScriptTransition()
+      : prepareP4ScriptTransition({
+          migration: shared.migration,
+          frozenAudit: shared.frozenAudit,
+          sourceCommands: shared.sourceCommands,
+          base: shared.migration,
+          p2: shared.chain.p2.ir,
+          p2Ledger: shared.chain.p2.ledger,
+          p3: shared.chain.p3.ir,
+          p3Ledger: shared.chain.p3.ledger,
+          target: shared.chain.p4.ir,
+          ledger: shared.chain.p4.ledger,
+        })
     fixture = {
-      migration,
-      base: snapshots.base,
-      ours: snapshots.ours,
-      audit,
-      frozen,
-      sourceCommands,
-      p2,
-      p3,
-      p4,
-      corpus: readV4ScriptCorpus(migration),
+      migration: shared.migration,
+      base: shared.publishedV4Snapshots.base,
+      ours: shared.publishedV4Snapshots.ours,
+      audit: shared.currentAudit,
+      frozen: shared.frozenAudit,
+      sourceCommands: shared.sourceCommands,
+      p2: shared.chain.p2,
+      p3: shared.chain.p3,
+      p4: shared.chain.p4,
+      corpus: shared.corpus,
+      chain: shared.chain,
+      prepared,
     }
   }, 120_000)
 
   test('Page/Behavior/Hook 全量分配，7,039 fragments 可逆且 P4 清零', () => {
-    const report = validateP4ScriptMigrationIR({
-      migration: fixture.migration,
-      frozenAudit: fixture.frozen,
-      p3: fixture.p3.ir,
-      p3Ledger: fixture.p3.ledger,
-      ir: fixture.p4.ir,
-      ledger: fixture.p4.ledger,
-      throughPhase: 'P4',
-    })
+    const report = fixture.chain.validations.p4
     expect(fixture.p4.ir.ownerCensus).toEqual({
       pages: 3_616,
       entityBehaviors: {
@@ -294,24 +299,42 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
       p3Ledger: fixture.p3.ledger,
       target: fixture.p4.ir,
       ledger: fixture.p4.ledger,
+      prepared: fixture.prepared,
     })
     expect(repeat.summary).toMatchObject({ cellWrites: 0, cellDeletes: 0, conflicts: 0 })
 
-    const bundle = buildDeterministicP4ShadowBundle({
+    const args = {
       migration: fixture.migration,
       base: fixture.base,
       ours: fixture.ours,
       currentAudit: fixture.audit,
       frozenAudit: fixture.frozen,
       sourceCommands: fixture.sourceCommands,
-    })
-    assertP4ShadowBundle(bundle)
+    }
+    const bundle = PAL_TEST_FAST_GATE
+      ? buildPinnedP4ShadowBundleFromValidatedChain(
+          args,
+          fixture.chain,
+          PAL_SHADOW_RELEASE_CORE_DIGEST.P4,
+        )
+      : buildDeterministicP4ShadowBundle(args, fixture.chain)
+    const assertBundle = () =>
+      assertP4ShadowBundle(
+        bundle,
+        PAL_TEST_FAST_GATE
+          ? {
+              verificationMode: 'pinned-release-core',
+              expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P4,
+            }
+          : undefined,
+      )
+    assertBundle()
     const mutableFiles = bundle.files as Map<string, string>
     const inventory = mutableFiles.get('reports/p4-owner-inventory.json')!
     mutableFiles.set('reports/p4-owner-inventory.json', `${inventory} `)
-    expect(() => assertP4ShadowBundle(bundle)).toThrow('bundle digest mismatch')
+    expect(assertBundle).toThrow('bundle digest mismatch')
     mutableFiles.set('reports/p4-owner-inventory.json', inventory)
-    assertP4ShadowBundle(bundle)
+    assertBundle()
   }, 360_000)
 
   test('作者修改 owner fragment、Page 或 selection command 时整批零写', () => {
@@ -329,9 +352,9 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
     )
 
     const pageEdited = cloneMigration(fixture.migration)
-    const scene = pageEdited.files.get('content/scenes/s154.json') as {
+    const scene = cloneJsonFile<{
       entities: Array<{ pages?: Array<Record<string, unknown>> }>
-    }
+    }>(pageEdited, 'content/scenes/s154.json')
     scene.entities[0]!.pages![0]!.label = '作者命名'
     const pagePlan = planWith(pageEdited)
     expect(pagePlan.summary).toMatchObject({ cellWrites: 0, cellDeletes: 0 })
@@ -363,9 +386,9 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
 
   test('新增 owner surface/fragment 引用 fail-loud，纯 rechunk 不误报', () => {
     const newPage = cloneMigration(fixture.migration)
-    const scene = newPage.files.get('content/scenes/s154.json') as {
+    const scene = cloneJsonFile<{
       entities: Array<{ pages?: Array<Record<string, unknown>> }>
-    }
+    }>(newPage, 'content/scenes/s154.json')
     scene.entities[0]!.pages!.push(JSON.parse(JSON.stringify(scene.entities[0]!.pages![0])))
     const newPagePlan = planWith(newPage)
     expect(newPagePlan.summary).toMatchObject({ cellWrites: 0, cellDeletes: 0 })
@@ -420,7 +443,10 @@ describe.skipIf(!existsSync(extracted))('N3 P4 PAL shadow owner migration', () =
   }, 240_000)
 
   test('即使重算摘要，P4 target-ledger 关系篡改仍然零写', () => {
-    const ledger = JSON.parse(JSON.stringify(fixture.p4.ledger)) as typeof fixture.p4.ledger
+    const ledger = {
+      ...fixture.p4.ledger,
+      groups: structuredClone(fixture.p4.ledger.groups),
+    } as typeof fixture.p4.ledger
     const ownerGroup = ledger.groups.find(
       (group) => group.kind === 'entity-behavior-allocation-group',
     )!

@@ -1,6 +1,7 @@
 import type {
   AuthorCommandV5,
   EntityAddress,
+  FlowCursor,
   HostileBehaviorV5,
   ItemDataV5,
   NamedEntityBehaviorV5,
@@ -318,21 +319,6 @@ export function visitCanonicalScriptCommandsV5(
           { kind: 'body' },
         )
     }
-    for (const [index, effect] of (item.throw?.effects ?? []).entries()) {
-      if (effect.kind === 'itemPrivateScript')
-        walkCommands(
-          effect.script.body,
-          visit,
-          `items.${item.id}.throw.effects[${index}].script.body`,
-          {
-            kind: 'item-private-script',
-            itemId: item.id,
-            ability: 'throw',
-            scriptId: effect.script.id,
-          },
-          { kind: 'body' },
-        )
-    }
   }
   for (const [id, script] of Object.entries(state.sharedScripts))
     walkCommands(
@@ -450,9 +436,6 @@ function mapAllCommands(
     for (const effect of item.use?.effects ?? [])
       if (effect.kind === 'itemPrivateScript')
         effect.script.body = mapCommands(effect.script.body, map)
-    for (const effect of item.throw?.effects ?? [])
-      if (effect.kind === 'itemPrivateScript')
-        effect.script.body = mapCommands(effect.script.body, map)
   }
   for (const script of Object.values(state.sharedScripts))
     script.body = mapCommands(script.body, map)
@@ -490,17 +473,67 @@ export function collectScriptV5ReferenceIssues(
       })
   }
   for (const item of state.items) {
-    for (const slot of ['use', 'throw'] as const) {
-      for (const [index, effect] of (item[slot]?.effects ?? []).entries()) {
-        if (effect.kind === 'runScript')
-          check(effect.script, `items.${item.id}.${slot}.effects[${index}].script`)
-      }
+    for (const [index, effect] of (item.use?.effects ?? []).entries()) {
+      if (effect.kind === 'runScript')
+        check(effect.script, `items.${item.id}.use.effects[${index}].script`)
     }
   }
   visitCanonicalScriptCommandsV5(state, (command, path) => {
     if (command.kind === 'callScript') check(command.script, `${path}.script`)
+    if (command.kind !== 'selectEntityBehavior') return
+    const scene = state.scenes.find((candidate) => candidate.id === command.target.scene)
+    const entity = scene?.entities.find((candidate) => candidate.id === command.target.entity)
+    if (!entity) {
+      issues.push({
+        severity: 'error',
+        path: `${path}.target`,
+        message: `实体 "${command.target.scene}/${command.target.entity}" 不存在`,
+      })
+      return
+    }
+    const registry = entity.behaviors?.[command.channel]
+    const selected =
+      command.selection.kind === 'use' ? registry?.[command.selection.value] : undefined
+    if (command.selection.kind === 'use' && !selected)
+      issues.push({
+        severity: 'error',
+        path: `${path}.selection.value`,
+        message: `${command.channel} behavior "${command.selection.value}" 不存在`,
+      })
+    if (!command.cursorHandoff) return
+    const source = registry?.[command.cursorHandoff.fromBehavior]
+    if (!source)
+      issues.push({
+        severity: 'error',
+        path: `${path}.cursorHandoff.fromBehavior`,
+        message: `${command.channel} 来源 behavior "${command.cursorHandoff.fromBehavior}" 不存在`,
+      })
+    for (const [index, mapping] of command.cursorHandoff.cases.entries()) {
+      if (source && !flowContainsCursorV5(source.flow, mapping.from))
+        issues.push({
+          severity: 'error',
+          path: `${path}.cursorHandoff.cases[${index}].from`,
+          message: '来源游标不属于来源 behavior',
+        })
+      if (selected && !flowContainsCursorV5(selected.flow, mapping.to))
+        issues.push({
+          severity: 'error',
+          path: `${path}.cursorHandoff.cases[${index}].to`,
+          message: '目标游标不属于目标 behavior',
+        })
+    }
   })
   return issues
+}
+
+function flowContainsCursorV5(flow: ScriptFlowV5, cursor: FlowCursor): boolean {
+  if (flow.kind === 'stages')
+    return cursor.kind === 'stage' && flow.stages.some((stage) => stage.id === cursor.stage)
+  return (
+    cursor.kind === 'state' &&
+    cursor.machine === flow.machine.id &&
+    Object.hasOwn(flow.machine.states, cursor.state)
+  )
 }
 
 export function behaviorReferencesV5(
@@ -527,13 +560,20 @@ export function behaviorReferencesV5(
   }
   visitCanonicalScriptCommandsV5(state, (command, path, locator) => {
     if (
-      command.kind === 'selectEntityBehavior' &&
-      sameAddress(command.target, target) &&
-      command.channel === channel &&
-      command.selection.kind === 'use' &&
-      command.selection.value === behaviorId
+      command.kind !== 'selectEntityBehavior' ||
+      !sameAddress(command.target, target) ||
+      command.channel !== channel
     )
-      references.push({ kind: 'command', path, locator })
+      return
+    const selectionMatches =
+      command.selection.kind === 'use' && command.selection.value === behaviorId
+    if (selectionMatches) references.push({ kind: 'command', path, locator })
+    if (!selectionMatches && command.cursorHandoff?.fromBehavior === behaviorId)
+      references.push({
+        kind: 'command',
+        path: `${path}.cursorHandoff.fromBehavior`,
+        locator,
+      })
   })
   return references
 }
@@ -990,18 +1030,30 @@ export class RenameEntityBehaviorV5Command extends SnapshotCommandV5 {
     registry[this.to] = source
     for (const page of entity.pages ?? [])
       if (page[this.channel] === this.from) page[this.channel] = this.to
-    mapAllCommands(state, (command) =>
-      command.kind === 'selectEntityBehavior' &&
-      sameAddress(command.target, this.target) &&
-      command.channel === this.channel &&
-      command.selection.kind === 'use' &&
-      command.selection.value === this.from
-        ? {
-            ...command,
-            selection: { kind: 'use', value: this.to },
-          }
-        : command,
-    )
+    mapAllCommands(state, (command) => {
+      if (
+        command.kind !== 'selectEntityBehavior' ||
+        !sameAddress(command.target, this.target) ||
+        command.channel !== this.channel
+      )
+        return command
+      const rewritesSelection =
+        command.selection.kind === 'use' && command.selection.value === this.from
+      const rewritesHandoff = command.cursorHandoff?.fromBehavior === this.from
+      if (!rewritesSelection && !rewritesHandoff) return command
+      return {
+        ...command,
+        ...(rewritesSelection ? { selection: { kind: 'use' as const, value: this.to } } : {}),
+        ...(rewritesHandoff
+          ? {
+              cursorHandoff: {
+                ...command.cursorHandoff!,
+                fromBehavior: this.to,
+              },
+            }
+          : {}),
+      }
+    })
   }
 }
 

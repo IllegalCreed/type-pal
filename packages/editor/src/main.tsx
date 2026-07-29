@@ -3,7 +3,7 @@
  * dev(VITE_PROJECT_ID 注入)→ 自动载入该工程(开发便利);`?picker` 强制启动屏(测试用)。
  * 生产(无 env)→ ProjectPicker 启动屏:新建(克隆/空白)/ 打开本地 / 最近工程(P4)。
  */
-import { emptyWorldScriptStateV5 } from '@type-pal/content'
+import { CONTENT_VERSION, emptyWorldScriptStateV5 } from '@type-pal/content'
 import type { LoadedProject, LoadedProjectV5 } from '@type-pal/reforge'
 import {
   httpSource,
@@ -56,7 +56,7 @@ function Root() {
     const loadDevProject = async (): Promise<Booted> => {
       const source = httpSource(`projects/${PROJECT_ID}`)
       const manifest = await source.readJson<{ contentVersion?: number }>('manifest.json')
-      if (manifest.contentVersion === 5) {
+      if (manifest.contentVersion === CONTENT_VERSION) {
         const projectV5: LoadedProjectV5 = await loadProjectV5(PROJECT_ID)
         const [scenesV5, stamps] = await Promise.all([
           loadAllScenesV5(projectV5),

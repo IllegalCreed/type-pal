@@ -664,6 +664,14 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
           site: `item:${item.id}:${field}`,
         })
     }
+    const throwAnimationSound = item.throw?.presentation?.animation.sound
+    if (typeof throwAnimationSound === 'string')
+      references.push({
+        asset: throwAnimationSound,
+        expectedKind: 'sound',
+        where: `items[${index}].throw.presentation.animation.sound`,
+        site: `item:${item.id}:throw`,
+      })
   })
   source.skills?.forEach((skill, index) => {
     if (typeof skill.animation.sound === 'string')

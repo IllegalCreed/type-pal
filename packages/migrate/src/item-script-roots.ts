@@ -10,17 +10,15 @@ export function itemScriptCommandRoots(
   items: readonly ItemData[],
 ): Array<{ id: string; body: Command[] }> {
   return items.flatMap((item) =>
-    (['use', 'throw'] as const).flatMap((capability) =>
-      (item[capability]?.effects ?? []).flatMap((effect, index) =>
-        effect.kind === 'runScript'
-          ? [
-              {
-                id: `global/items/${item.id}/${capability}-${index}`,
-                body: [{ kind: 'callScript' as const, ref: effect.script }],
-              },
-            ]
-          : [],
-      ),
+    (item.use?.effects ?? []).flatMap((effect, index) =>
+      effect.kind === 'runScript'
+        ? [
+            {
+              id: `global/items/${item.id}/use-${index}`,
+              body: [{ kind: 'callScript' as const, ref: effect.script }],
+            },
+          ]
+        : [],
     ),
   )
 }

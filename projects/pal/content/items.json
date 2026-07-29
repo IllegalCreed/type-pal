@@ -131,7 +131,37 @@
     "icon": "item-icon.pal.196",
     "buyPrice": 500,
     "sellPrice": 250,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 140,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 32,
+          "placement": "normal",
+          "xOffset": -10,
+          "yOffset": 15,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.159",
+          "layerOffset": 16
+        }
+      }
+    }
   },
   {
     "id": "67",
@@ -142,7 +172,37 @@
     "icon": "item-icon.pal.192",
     "buyPrice": 1000,
     "sellPrice": 500,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 85,
+          "element": "wind",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 0,
+          "placement": "attackAll",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 2,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.103",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "68",
@@ -153,7 +213,37 @@
     "icon": "item-icon.pal.193",
     "buyPrice": 1200,
     "sellPrice": 600,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 96,
+          "element": "thunder",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 1,
+          "placement": "attackAll",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 2,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.323",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "69",
@@ -164,7 +254,37 @@
     "icon": "item-icon.pal.194",
     "buyPrice": 1400,
     "sellPrice": 700,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 100,
+          "element": "water",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 15,
+          "placement": "attackField",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 0,
+          "fireDelay": 8,
+          "effectTimes": 3,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.338",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "70",
@@ -175,7 +295,37 @@
     "icon": "item-icon.pal.152",
     "buyPrice": 1600,
     "sellPrice": 800,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 103,
+          "element": "fire",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 7,
+          "placement": "attackAll",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 1,
+          "sound": "sound.pal.312",
+          "layerOffset": 3
+        }
+      }
+    }
   },
   {
     "id": "71",
@@ -186,7 +336,37 @@
     "icon": "item-icon.pal.144",
     "buyPrice": 1800,
     "sellPrice": 900,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 110,
+          "element": "earth",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 17,
+          "placement": "attackWhole",
+          "xOffset": -10,
+          "yOffset": 42,
+          "speed": 2,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 15,
+          "wave": 0,
+          "sound": "sound.pal.121",
+          "layerOffset": 69
+        }
+      }
+    }
   },
   {
     "id": "72",
@@ -1189,7 +1369,37 @@
     "icon": "item-icon.pal.211",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 150,
+          "element": "poison",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 16,
+          "placement": "attackField",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 4,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.133",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "116",
@@ -1234,7 +1444,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1280,7 +1491,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1326,7 +1538,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1372,7 +1585,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1418,7 +1632,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1464,7 +1679,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1511,7 +1727,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1558,7 +1775,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1605,7 +1823,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1652,7 +1871,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1681,6 +1901,37 @@
           "amount": -1
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "paralyzed",
+          "turns": 4,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 1
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1709,6 +1960,37 @@
           "amount": -1
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "sleep",
+          "turns": 3,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 1
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1736,6 +2018,37 @@
           "amount": -1
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "confused",
+          "turns": 3,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 3
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -1808,7 +2121,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -1886,10 +2200,36 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": 150,
+          "element": "poison",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "551"
         }
-      ]
+      ],
+      "target": "allEnemies",
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 25,
+          "placement": "attackAll",
+          "xOffset": -4,
+          "yOffset": -20,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.313",
+          "layerOffset": 99
+        }
+      }
     }
   },
   {
@@ -1902,7 +2242,16 @@
     "icon": "item-icon.pal.172",
     "buyPrice": 1800,
     "sellPrice": 900,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "killIfHpAtMost",
+          "percent": 5
+        }
+      ]
+    }
   },
   {
     "id": "135",
@@ -1914,7 +2263,38 @@
     "icon": "item-icon.pal.167",
     "buyPrice": 1300,
     "sellPrice": 650,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "sleep",
+          "turns": 5,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 1
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "136",
@@ -1989,7 +2369,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2036,7 +2417,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2083,7 +2465,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2111,6 +2494,37 @@
           "amount": -1
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "confused",
+          "turns": 5,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 1
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {
@@ -2147,7 +2561,37 @@
     "icon": "item-icon.pal.201",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 288,
+          "element": "water",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 15,
+          "placement": "attackField",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 8,
+          "effectTimes": 4,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.338",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "143",
@@ -2159,7 +2603,37 @@
     "icon": "item-icon.pal.124",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 245,
+          "element": "fire",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 9,
+          "placement": "normal",
+          "xOffset": 64,
+          "yOffset": 16,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 2,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.116",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "144",
@@ -2194,7 +2668,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2229,7 +2704,37 @@
     "icon": "item-icon.pal.122",
     "buyPrice": 0,
     "sellPrice": 0,
-    "sellable": false
+    "sellable": false,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 392,
+          "element": "fire",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 37,
+          "placement": "normal",
+          "xOffset": 0,
+          "yOffset": -4,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.168",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "147",
@@ -2264,7 +2769,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2380,7 +2886,32 @@
     "icon": "item-icon.pal.113",
     "buyPrice": 280,
     "sellPrice": 140,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "fixedDamage",
+          "amount": 90
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "154",
@@ -2392,7 +2923,32 @@
     "icon": "item-icon.pal.081",
     "buyPrice": 600,
     "sellPrice": 300,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "fixedDamage",
+          "amount": 170
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "155",
@@ -2405,7 +2961,32 @@
     "icon": "item-icon.pal.073",
     "buyPrice": 1100,
     "sellPrice": 550,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "fixedDamage",
+          "amount": 250
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "156",
@@ -2418,7 +2999,41 @@
     "icon": "item-icon.pal.118",
     "buyPrice": 1500,
     "sellPrice": 750,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 100,
+          "element": "fire",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 135
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 12,
+          "placement": "normal",
+          "xOffset": -2,
+          "yOffset": -10,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.117",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "157",
@@ -2431,7 +3046,45 @@
     "icon": "item-icon.pal.146",
     "buyPrice": 1200,
     "sellPrice": 600,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 205,
+          "element": "poison",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
+          "kind": "applyPoison",
+          "poisonId": "553"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 55
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 25,
+          "placement": "attackAll",
+          "xOffset": -4,
+          "yOffset": -20,
+          "speed": 1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.313",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "158",
@@ -2443,7 +3096,33 @@
     "icon": "item-icon.pal.134",
     "buyPrice": 1500,
     "sellPrice": 750,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "damageAndHealCaster",
+          "damage": 180,
+          "heal": 180
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "159",
@@ -2488,7 +3167,8 @@
           "sound": "sound.pal.157",
           "layerOffset": 1
         }
-      }
+      },
+      "target": "oneEnemy"
     }
   },
   {
@@ -2501,7 +3181,38 @@
     "icon": "item-icon.pal.207",
     "buyPrice": 900,
     "sellPrice": 450,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "applyStatus",
+          "status": "paralyzed",
+          "turns": 5,
+          "onResist": "stopTarget"
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 4
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "161",
@@ -2513,7 +3224,32 @@
     "icon": "item-icon.pal.080",
     "buyPrice": 2000,
     "sellPrice": 1000,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "fixedDamage",
+          "amount": 400
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
+    }
   },
   {
     "id": "162",
@@ -2525,7 +3261,41 @@
     "icon": "item-icon.pal.202",
     "buyPrice": 2800,
     "sellPrice": 1400,
-    "sellable": true
+    "sellable": true,
+    "throw": {
+      "target": "allEnemies",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 50,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
+          "kind": "fixedDamage",
+          "amount": 300
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 6,
+          "placement": "attackAll",
+          "xOffset": 0,
+          "yOffset": 0,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.129",
+          "layerOffset": 99
+        }
+      }
+    }
   },
   {
     "id": "163",
@@ -2562,6 +3332,41 @@
           "sprite": "player-fighter-6"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 40,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 160,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 19,
+          "placement": "normal",
+          "xOffset": -10,
+          "yOffset": -16,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.003",
+          "layerOffset": -1
+        }
+      }
     }
   },
   {
@@ -2599,6 +3404,41 @@
           "sprite": "player-fighter-6"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 40,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 575,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 19,
+          "placement": "normal",
+          "xOffset": -10,
+          "yOffset": -16,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.003",
+          "layerOffset": -1
+        }
+      }
     }
   },
   {
@@ -2636,6 +3476,41 @@
           "sprite": "player-fighter-6"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 40,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1275,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 19,
+          "placement": "normal",
+          "xOffset": -10,
+          "yOffset": -16,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.003",
+          "layerOffset": -1
+        }
+      }
     }
   },
   {
@@ -2667,6 +3542,40 @@
           "delta": 3
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 0,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2699,6 +3608,40 @@
           "delta": -5
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 50,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2731,6 +3674,40 @@
           "delta": 3
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 150,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2762,6 +3739,40 @@
           "delta": 1
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 180,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2797,6 +3808,40 @@
           "status": "dualAttack"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 220,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2824,6 +3869,40 @@
           "delta": 25
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 350,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2851,6 +3930,40 @@
           "delta": 38
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 390,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2882,6 +3995,40 @@
           "delta": 8
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 260,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2918,6 +4065,40 @@
           "delta": 10
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 650,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2960,6 +4141,40 @@
           "delta": 9
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 890,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -2995,6 +4210,40 @@
           "status": "dualAttack"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 450,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3035,6 +4284,40 @@
           "status": "dualAttack"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 725,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3066,6 +4349,40 @@
           "delta": 15
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1050,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3100,6 +4417,40 @@
           "sprite": "player-fighter-7"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 525,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3141,6 +4492,40 @@
           "delta": 16
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2400,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3181,6 +4566,40 @@
           "status": "dualAttack"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1500,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3223,6 +4642,40 @@
           "delta": 30
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2200,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3269,6 +4722,40 @@
           "delta": 3
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2200,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3306,6 +4793,40 @@
           "delta": 22
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1660,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3346,6 +4867,40 @@
           "sprite": "player-fighter-7"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2050,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3392,6 +4947,40 @@
           "delta": 7
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2300,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3439,6 +5028,40 @@
           "status": "dualAttack"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2850,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3489,6 +5112,40 @@
           "sprite": "player-fighter-7"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 3300,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3535,6 +5192,40 @@
           "delta": 32
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 3050,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3581,6 +5272,40 @@
           "delta": 33
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 3600,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3622,6 +5347,40 @@
           "delta": 33
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 4000,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3658,6 +5417,40 @@
           "delta": 6
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1600,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3695,6 +5488,40 @@
           "delta": 11
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 1250,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -3732,6 +5559,40 @@
           "delta": 22
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": 198,
+          "element": "none",
+          "strength": {
+            "kind": "casterAttack",
+            "bonus": 2000,
+            "multiplier": {
+              "kind": "uniformInt",
+              "min": 0,
+              "max": 3
+            }
+          }
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 31,
+          "placement": "normal",
+          "xOffset": 32,
+          "yOffset": 20,
+          "speed": 0,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.347"
+        }
+      }
     }
   },
   {
@@ -5588,6 +7449,31 @@
           ]
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": [
+        {
+          "kind": "fixedDamage",
+          "amount": 120
+        }
+      ],
+      "presentation": {
+        "kind": "magic",
+        "animation": {
+          "effectSprite": 24,
+          "placement": "normal",
+          "xOffset": -12,
+          "yOffset": 0,
+          "speed": -1,
+          "fireDelay": 0,
+          "effectTimes": 0,
+          "shake": 0,
+          "wave": 0,
+          "sound": "sound.pal.157",
+          "layerOffset": 1
+        }
+      }
     }
   },
   {

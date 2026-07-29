@@ -1,12 +1,15 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 5，2026-07-25）**：N3-1 已把 canonical 脚本模型发布到
+> **当前实现（contentVersion 8，canonical script schema V5，2026-07-29）**：N3-1 已把
+> canonical 脚本模型发布到
 > `packages/content/src/script-v5.ts`、`scene-v5.ts`、`item-v5.ts`，compiler/runtime/editor/save
-> 均消费同一模型。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和作者模型不再是当前契约。
+> 均消费同一模型。R13-1、R13-2、R13-3 分别占用 contentVersion 6、7、8，但都没有复制或
+> 重命名 canonical V5 脚本 schema；v8 只扩充独立的投掷能力。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和
+> 作者模型不再是当前契约。
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 5 canonical 契约
+## contentVersion 8 / canonical script V5 契约
 
 ### 作者身份与存储
 
@@ -45,6 +48,7 @@ type ScriptFlowV5 =
       machine: {
         id: MachineId
         label: string
+        cadence?: 'transition'
         initial: StateId
         states: Record<
           StateId,
@@ -79,6 +83,13 @@ type StateTransitionV5 =
 `to` 还显式声明宏任务或世界拍让步；`commandOutcome` 绑定稳定 `CommandId`，承接命令结果分支。
 `jumpScript`、匿名 binding 和作者可见 generated block 均不是 v5 作者命令。
 
+`cadence:'transition'` 是显式节拍模式：compiler 不在 state 正文及其嵌套分支、循环、战斗结果、
+共享脚本调用之间插入兼容等待，正文的多条命令视为同一条源指令在同一帧内完成，只有 state
+transition 决定是否进入下一世界拍。它主要用于忠实承载迁移后的源指令状态机；普通作者脚本
+省略该字段，继续使用既有的 per-command 节拍。PAL 的世界拍为 100ms，而源引擎 `0x09` 以
+40ms 帧计数；迁移后统一展开为每计数一个 100ms 世界拍，这是明确登记的节拍近似，不冒充
+绝对时长无损。
+
 compiler 将 canonical flow 降成只存在于内存或可删缓存的 `ExecutableFlow`。生成块可以有内部
 地址和调度节点，但必须带 compiler/content digest，且绝不能回写 canonical 内容、存档、引用索引
 或 MG2 冲突键。
@@ -103,19 +114,30 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 - `WorldScriptStateV5` 保存 flags/vars、按场景分区的 `entityState/entityPos/entityLayer`，
   以及 Page/Behavior/Hook 选择、epoch 和 `FlowCursor`。
 - 存档只在 flow safe-point 捕获 cursor；不持久化 command index、调用栈或 wait 中间相位。
-- auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由 compiler
-  显式物化，runtime 不再靠遍历 AST 后的隐式 sleep 猜节拍。
+- 默认 auto 的 100ms compatibility boundary、段间 40ms、hidden/authority 等兼容调度由
+  compiler 显式物化；`cadence:'transition'` 则只物化 transition 声明的节拍。runtime 不再靠
+  遍历 AST 后的隐式 sleep 猜节拍。
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
 
-### v4 → v5 边界
+### 历史 v4→v5、v5→v6、v6→v7 与当前 v7→v8 边界
 
-- HTTP/runtime loader 只接受 current v5；旧工程只在本地编辑器 `open-local` 入口升级。
+- HTTP/runtime loader 只接受 current contentVersion 8。
+- canonical 结构迁移只发生在历史 v4 → v5：旧工程在本地编辑器 `open-local` 入口进入
+  staging/journal 工作台；descriptor、sidecar 和 ledger 保持 byte-pin。
 - 唯一可证明的单页/单段工程可自动投影。多 Page/Stage、重复实体地址、重复 cursor 和动态绑定
   会停在零写迁移工作台，由作者命名或选择 `broadcast-v4`/单一目标。
 - 选择全部解决后先显示 allocation/alias 预览；作者再次确认且 input digest 未变化时，才把新字节
   写入 `.type-pal/migration-staging/`，发布可前滚 journal，并始终最后提交 manifest。
 - 不能无损结构化的控制流继续 fail-loud；不得套用 PAL baseline、猜数组位置或静默丢正文。
+- R13-1 的历史 v5→v6 只断开开发期存档 epoch，canonical script schema 仍是 V5。
+- R13-2 的历史 v6→v7 把 SAVE/minimum 升至 7；cursor handoff 世界语义仍由
+  `WorldScriptStateV5` 承载。
+- R13-3 的当前 v7→v8 只补齐独立投掷 schema。为避免发布无意义的中间工程，本地编辑器会把
+  content 5/6 直接合成 8/7，或把 content 7 的投掷 `target` 补齐后升到 8；两条路径都先走
+  current loader 预检，再写 items，并始终最后提交 manifest。
+- 当前存档 envelope 是 SAVE 7。SAVE7/content7 只做不读 sidecar 的 content8 identity
+  normalization；SAVE6 及更早在任何历史 sidecar I/O 前早失败。
 
 ---
 

@@ -33,162 +33,238 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 240
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 106,
-                        "height": 0,
-                        "row": 58
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 106,
-                        "height": 0,
-                        "row": 64
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 64
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 63
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 63
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 65
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 65
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 63
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 63
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 65
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 65
-                      },
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      }
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s244-e4312-default",
+                "label": "默认自动行为 · 源循环",
+                "initial": "source-31913",
+                "states": {
+                  "source-31913": {
+                    "label": "源指令 31913",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31913-wait-2",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-31914": {
+                    "label": "源指令 31914",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 106,
+                          "row": 58,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31915",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31915": {
+                    "label": "源指令 31915",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 106,
+                          "row": 64,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31916",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31916": {
+                    "label": "源指令 31916",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 107,
+                          "row": 64,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31917",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31917": {
+                    "label": "源指令 31917",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 107,
+                          "row": 63,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31918",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31918": {
+                    "label": "源指令 31918",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 105,
+                          "row": 63,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31919",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31919": {
+                    "label": "源指令 31919",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 105,
+                          "row": 65,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31920",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31920": {
+                    "label": "源指令 31920",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "to": {
+                          "col": 107,
+                          "row": 65,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31921",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31921": {
+                    "label": "源指令 31921",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-31917"
+                    }
+                  },
+                  "source-31913-wait-2": {
+                    "label": "源指令 31913 · 等待 2/6",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31913-wait-3",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31913-wait-3": {
+                    "label": "源指令 31913 · 等待 3/6",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31913-wait-4",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31913-wait-4": {
+                    "label": "源指令 31913 · 等待 4/6",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31913-wait-5",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31913-wait-5": {
+                    "label": "源指令 31913 · 等待 5/6",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31913-wait-6",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-31913-wait-6": {
+                    "label": "源指令 31913 · 等待 6/6",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-31914",
+                      "yield": "worldTick"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -354,7 +430,12 @@
                         "entity": "e4313"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -641,7 +722,12 @@
                         "entity": "e4314"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

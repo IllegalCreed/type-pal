@@ -8,6 +8,7 @@ import type {
   SceneDef,
   ScriptRef,
   StatusId,
+  ThrowEffect,
   ThrowSpec,
   UseSpec,
 } from '@type-pal/content'
@@ -49,7 +50,6 @@ const EFFECT_KINDS: { value: ItemUseEffect['kind']; label: string }[] = [
   { value: 'modifyHostileAwareness', label: '调整明雷感知' },
   { value: 'scaleCurrentHp', label: '按比例调整当前体力' },
   { value: 'levelUp', label: '提升等级' },
-  { value: 'currentHpDamage', label: '按当前体力造成伤害' },
   { value: 'placeEntityInFront', label: '把场景实体放到玩家面前' },
 ]
 
@@ -66,7 +66,6 @@ const SCENE_EFFECTS = new Set<ItemUseEffect['kind']>([
   'modifyHostileAwareness',
   'placeEntityInFront',
 ])
-const THROW_EFFECTS = new Set<ItemUseEffect['kind']>(['applyPoison', 'currentHpDamage'])
 
 export interface ItemScriptOption {
   ref: ScriptRef
@@ -196,8 +195,6 @@ export function defaultItemUseEffect(
       return { kind, numerator: 1, denominator: 2 }
     case 'levelUp':
       return { kind, levels: 1 }
-    case 'currentHpDamage':
-      return { kind, numerator: 1, denominator: 2, bonus: 1, cap: 1000 }
     case 'placeEntityInFront': {
       const scene = scenes.find((candidate) => candidate.entities.length > 0)
       const entity = scene?.entities[0]
@@ -914,33 +911,6 @@ function EffectFields(props: {
           onChange={(levels) => onChange({ ...effect, levels })}
         />
       )
-    case 'currentHpDamage':
-      return (
-        <>
-          <NumberField
-            label="当前体力分子"
-            value={effect.numerator}
-            onChange={(numerator) => onChange({ ...effect, numerator })}
-          />
-          <NumberField
-            label="当前体力分母"
-            value={effect.denominator}
-            onChange={(denominator) => onChange({ ...effect, denominator })}
-          />
-          <NumberField
-            label="额外伤害"
-            value={effect.bonus}
-            allowZero
-            min={0}
-            onChange={(bonus) => onChange({ ...effect, bonus })}
-          />
-          <NumberField
-            label="伤害上限"
-            value={effect.cap}
-            onChange={(cap) => onChange({ ...effect, cap })}
-          />
-        </>
-      )
     case 'placeEntityInFront': {
       const scenes = props.scenes ?? []
       const scene = scenes.find((candidate) => candidate.id === effect.target.scene)
@@ -1025,13 +995,12 @@ function EffectFields(props: {
   }
 }
 
-export function ItemEffectChainEditor(props: {
-  ability: 'use' | 'throw'
-  spec: UseSpec | ThrowSpec
+interface ItemUseEffectChainEditorProps {
+  spec: UseSpec
   items: readonly ItemData[]
   poisons: readonly PoisonDef[]
   scripts: readonly ItemScriptOption[]
-  onChange: (next: UseSpec | ThrowSpec) => void
+  onChange: (next: UseSpec) => void
   onOpenScript?: (id: string) => void
   onCreateAndBindScript?: () => void
   onError?: (message: string) => void
@@ -1041,10 +1010,11 @@ export function ItemEffectChainEditor(props: {
   /** v5 item-private effect 的 canonical 正文；索引与兼容壳中的占位 runScript 对齐。 */
   privateScriptsV5?: Readonly<Record<number, ItemPrivateScriptBindingV5>>
   scenes?: readonly SceneDef[]
-}) {
-  const { ability, spec, items, poisons, scripts, onChange } = props
-  const use = ability === 'use' ? (spec as UseSpec) : undefined
-  const excludedIngredientItemId = use?.consuming ? props.itemId : undefined
+}
+
+function ItemUseEffectChainEditor(props: ItemUseEffectChainEditorProps) {
+  const { spec: use, items, poisons, scripts, onChange } = props
+  const excludedIngredientItemId = use.consuming ? props.itemId : undefined
   const isPrivateScriptEffect = (effect: ItemUseEffect): boolean =>
     effect.kind === 'runScript' &&
     effect.script.chunk === '__script-v5-runtime' &&
@@ -1057,7 +1027,6 @@ export function ItemEffectChainEditor(props: {
     defaultItemUseEffect(kind, items, poisons, scripts, excludedIngredientItemId, props.scenes)
   const compatibleChain = (effects: readonly ItemUseEffect[]): boolean => {
     if (!effects.length) return true
-    if (ability === 'throw') return effects.every((effect) => THROW_EFFECTS.has(effect.kind))
     const external = effects.filter(isExclusiveEffect)
     if (external.length && (external.length !== 1 || effects.length !== 1)) return false
     const containsScene = effects.some(isSceneEffect)
@@ -1075,35 +1044,30 @@ export function ItemEffectChainEditor(props: {
       props.onError?.('这组效果没有共同的可执行上下文；请分成不同物品用途或放入共享剧情脚本。')
       return
     }
-    if (ability === 'use') {
-      const containsScene = effects.some(isSceneEffect)
-      const containsPrivateScript = effects.some(isPrivateScriptEffect)
-      const containsCharacterOrBattle = effects.some(
-        (effect) =>
-          !isSceneEffect(effect) && !isPrivateScriptEffect(effect) && effect.kind !== 'gate',
-      )
-      const needsSceneTarget =
-        containsScene || (containsPrivateScript && !containsCharacterOrBattle)
-      const containsHide = effects.some((effect) => effect.kind === 'hideParty')
-      const next: UseSpec = {
-        ...(spec as UseSpec),
-        effects,
-        ...(needsSceneTarget ? { target: 'scene' as const } : {}),
-        ...(!needsSceneTarget && (spec as UseSpec).target === 'scene'
-          ? { target: 'oneAlly' as const }
-          : {}),
-        ...(containsHide ? { target: 'allAllies' as const, battleOnly: true } : {}),
-      }
-      if (
-        !effects.length ||
-        !effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
-      )
-        delete next.battleOnly
-      onChange(next)
-    } else onChange({ ...(spec as ThrowSpec), effects })
+    const containsScene = effects.some(isSceneEffect)
+    const containsPrivateScript = effects.some(isPrivateScriptEffect)
+    const containsCharacterOrBattle = effects.some(
+      (effect) =>
+        !isSceneEffect(effect) && !isPrivateScriptEffect(effect) && effect.kind !== 'gate',
+    )
+    const needsSceneTarget = containsScene || (containsPrivateScript && !containsCharacterOrBattle)
+    const containsHide = effects.some((effect) => effect.kind === 'hideParty')
+    const next: UseSpec = {
+      ...use,
+      effects,
+      ...(needsSceneTarget ? { target: 'scene' as const } : {}),
+      ...(!needsSceneTarget && use.target === 'scene' ? { target: 'oneAlly' as const } : {}),
+      ...(containsHide ? { target: 'allAllies' as const, battleOnly: true } : {}),
+    }
+    if (
+      !effects.length ||
+      !effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+    )
+      delete next.battleOnly
+    onChange(next)
   }
   const replaceAt = (index: number, effect: ItemUseEffect): void => {
-    const effects = [...spec.effects]
+    const effects = [...use.effects]
     effects[index] = effect
     patchEffects(effects)
   }
@@ -1113,7 +1077,7 @@ export function ItemEffectChainEditor(props: {
       patchEffects(
         EXCLUSIVE_EFFECTS.has(kind)
           ? [effect]
-          : spec.effects.map((old, at) => (at === index ? effect : old)),
+          : use.effects.map((old, at) => (at === index ? effect : old)),
       )
     } catch (cause) {
       props.onError?.(cause instanceof Error ? cause.message : String(cause))
@@ -1121,145 +1085,111 @@ export function ItemEffectChainEditor(props: {
   }
   const compatibleKindsAt = (index: number): typeof EFFECT_KINDS =>
     EFFECT_KINDS.filter((entry) => {
-      if (entry.value === spec.effects[index]?.kind) return true
+      if (entry.value === use.effects[index]?.kind) return true
       if (EXCLUSIVE_EFFECTS.has(entry.value)) return true
       try {
         const candidate = createDefaultEffect(entry.value)
-        return compatibleChain(
-          spec.effects.map((effect, at) => (at === index ? candidate : effect)),
-        )
+        return compatibleChain(use.effects.map((effect, at) => (at === index ? candidate : effect)))
       } catch {
         return false
       }
     })
   const firstAppendableKind = (): ItemUseEffect['kind'] | undefined =>
-    (ability === 'throw'
-      ? EFFECT_KINDS.filter((entry) => THROW_EFFECTS.has(entry.value))
-      : EFFECT_KINDS
-    )
-      .map((entry) => entry.value)
-      .find((kind) => {
-        try {
-          return compatibleChain([...spec.effects, createDefaultEffect(kind)])
-        } catch {
-          return false
-        }
-      })
+    EFFECT_KINDS.map((entry) => entry.value).find((kind) => {
+      try {
+        return compatibleChain([...use.effects, createDefaultEffect(kind)])
+      } catch {
+        return false
+      }
+    })
 
   return (
     <div className="item-effect-chain">
-      {use ? (
-        <div className="item-use-options">
-          <label className="item-effect-field">
-            <span>目标</span>
-            <select
-              className="in"
-              value={use.target}
-              disabled={use.effects.some(
-                (effect) =>
-                  isSceneEffect(effect) ||
-                  (isPrivateScriptEffect(effect) &&
-                    !use.effects.some(
-                      (candidate) =>
-                        !isSceneEffect(candidate) &&
-                        !isPrivateScriptEffect(candidate) &&
-                        candidate.kind !== 'gate',
-                    )) ||
-                  effect.kind === 'hideParty',
-              )}
-              onChange={(event) =>
-                onChange({ ...use, target: event.target.value as NonNullable<UseSpec['target']> })
-              }
-            >
-              <option value="oneAlly">一名队友</option>
-              <option value="allAllies">全体队友</option>
-              <option value="self">使用者</option>
-              <option value="scene">当前场景</option>
-            </select>
-          </label>
-          <label className="item-inline-check">
-            <input
-              type="checkbox"
-              checked={use.consuming}
-              onChange={(event) => {
-                const consuming = event.target.checked
-                const selfIsIngredient =
-                  consuming &&
-                  use.effects.some(
-                    (effect) =>
-                      effect.kind === 'craftRecipe' &&
-                      effect.recipes.some((recipe) =>
-                        recipe.ingredients.some((entry) => entry.itemId === props.itemId),
-                      ),
-                  )
-                if (selfIsIngredient) {
-                  props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
-                  return
-                }
-                onChange({ ...use, consuming })
-              }}
-            />
-            成功后消耗
-          </label>
-          <label className="item-inline-check">
-            <input
-              type="checkbox"
-              checked={use.battleOnly === true}
-              disabled={
-                !use.effects.length ||
-                !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
-              }
-              onChange={(event) =>
-                onChange({ ...use, battleOnly: event.target.checked || undefined })
-              }
-            />
-            仅战斗可用
-          </label>
-          <label className="item-effect-field">
-            <span>成功后菜单</span>
-            <select
-              className="in"
-              value={use.menuAfterUse ?? 'keep'}
-              onChange={(event) =>
-                onChange({
-                  ...use,
-                  menuAfterUse: event.target.value as NonNullable<UseSpec['menuAfterUse']>,
-                })
-              }
-            >
-              <option value="keep">保留物品菜单</option>
-              <option value="close">关闭菜单</option>
-            </select>
-          </label>
-        </div>
-      ) : (
-        <div className="item-capability-note">
-          投掷效果由战斗目标选择器决定目标，可施毒或按敌人当前体力造成伤害。
-        </div>
-      )}
-
-      {ability === 'throw' && spec.effects.some((effect) => !THROW_EFFECTS.has(effect.kind)) ? (
-        <div className="item-effect-validation" role="alert">
-          <span>当前投掷数据包含不支持的效果，无法保存。</span>
-          <button
-            type="button"
-            className="item-action-button item-action-button-danger item-action-button-compact"
-            disabled={!poisons.length}
-            onClick={() => {
-              try {
-                patchEffects([createDefaultEffect('applyPoison')])
-              } catch (cause) {
-                props.onError?.(cause instanceof Error ? cause.message : String(cause))
-              }
-            }}
+      <div className="item-use-options">
+        <label className="item-effect-field">
+          <span>目标</span>
+          <select
+            className="in"
+            value={use.target}
+            disabled={use.effects.some(
+              (effect) =>
+                isSceneEffect(effect) ||
+                (isPrivateScriptEffect(effect) &&
+                  !use.effects.some(
+                    (candidate) =>
+                      !isSceneEffect(candidate) &&
+                      !isPrivateScriptEffect(candidate) &&
+                      candidate.kind !== 'gate',
+                  )) ||
+                effect.kind === 'hideParty',
+            )}
+            onChange={(event) =>
+              onChange({ ...use, target: event.target.value as NonNullable<UseSpec['target']> })
+            }
           >
-            重置为施毒
-          </button>
-          {!poisons.length ? <span>请先创建至少一种毒。</span> : null}
-        </div>
-      ) : null}
+            <option value="oneAlly">一名队友</option>
+            <option value="allAllies">全体队友</option>
+            <option value="self">使用者</option>
+            <option value="scene">当前场景</option>
+          </select>
+        </label>
+        <label className="item-inline-check">
+          <input
+            type="checkbox"
+            checked={use.consuming}
+            onChange={(event) => {
+              const consuming = event.target.checked
+              const selfIsIngredient =
+                consuming &&
+                use.effects.some(
+                  (effect) =>
+                    effect.kind === 'craftRecipe' &&
+                    effect.recipes.some((recipe) =>
+                      recipe.ingredients.some((entry) => entry.itemId === props.itemId),
+                    ),
+                )
+              if (selfIsIngredient) {
+                props.onError?.('先从配方材料中移除当前工具，再开启“成功后消耗”。')
+                return
+              }
+              onChange({ ...use, consuming })
+            }}
+          />
+          成功后消耗
+        </label>
+        <label className="item-inline-check">
+          <input
+            type="checkbox"
+            checked={use.battleOnly === true}
+            disabled={
+              !use.effects.length ||
+              !use.effects.every((effect) => itemUseEffectSupportsContext(effect, 'battle'))
+            }
+            onChange={(event) =>
+              onChange({ ...use, battleOnly: event.target.checked || undefined })
+            }
+          />
+          仅战斗可用
+        </label>
+        <label className="item-effect-field">
+          <span>成功后菜单</span>
+          <select
+            className="in"
+            value={use.menuAfterUse ?? 'keep'}
+            onChange={(event) =>
+              onChange({
+                ...use,
+                menuAfterUse: event.target.value as NonNullable<UseSpec['menuAfterUse']>,
+              })
+            }
+          >
+            <option value="keep">保留物品菜单</option>
+            <option value="close">关闭菜单</option>
+          </select>
+        </label>
+      </div>
 
-      {spec.effects.map((effect, index) => (
+      {use.effects.map((effect, index) => (
         <div className="item-effect-row" key={`${effect.kind}-${index}`}>
           <div className="item-effect-row-head">
             <span className="item-effect-index">效果 {index + 1}</span>
@@ -1272,10 +1202,7 @@ export function ItemEffectChainEditor(props: {
                 value={effect.kind}
                 onChange={(event) => changeKind(index, event.target.value as ItemUseEffect['kind'])}
               >
-                {(ability === 'throw'
-                  ? EFFECT_KINDS.filter((entry) => THROW_EFFECTS.has(entry.value))
-                  : compatibleKindsAt(index)
-                ).map((entry) => (
+                {compatibleKindsAt(index).map((entry) => (
                   <option key={entry.value} value={entry.value}>
                     {entry.label}
                   </option>
@@ -1289,7 +1216,7 @@ export function ItemEffectChainEditor(props: {
               aria-label={`上移效果 ${index + 1}`}
               disabled={index === 0 || isExclusiveEffect(effect)}
               onClick={() => {
-                const effects = [...spec.effects]
+                const effects = [...use.effects]
                 ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
                 patchEffects(effects)
               }}
@@ -1300,9 +1227,9 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini"
               aria-label={`下移效果 ${index + 1}`}
-              disabled={index === spec.effects.length - 1 || isExclusiveEffect(effect)}
+              disabled={index === use.effects.length - 1 || isExclusiveEffect(effect)}
               onClick={() => {
-                const effects = [...spec.effects]
+                const effects = [...use.effects]
                 ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
                 patchEffects(effects)
               }}
@@ -1313,7 +1240,7 @@ export function ItemEffectChainEditor(props: {
               type="button"
               className="mini danger"
               aria-label={`删除效果 ${index + 1}`}
-              onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
+              onClick={() => patchEffects(use.effects.filter((_, at) => at !== index))}
             >
               ×
             </button>
@@ -1336,7 +1263,7 @@ export function ItemEffectChainEditor(props: {
                 worldResources={props.worldResources}
                 onSetWorldResource={props.onSetWorldResource}
                 subjectItemId={props.itemId}
-                consuming={use?.consuming}
+                consuming={use.consuming}
                 scenes={props.scenes}
               />
             )}
@@ -1344,19 +1271,19 @@ export function ItemEffectChainEditor(props: {
         </div>
       ))}
 
-      {!spec.effects.length ? (
+      {!use.effects.length ? (
         <div className="item-capability-note">当前没有效果，可继续添加或保留为空。</div>
       ) : null}
 
       <button
         type="button"
         className="item-action-button item-action-button-primary item-add-effect"
-        disabled={spec.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
+        disabled={use.effects.some(isExclusiveEffect) || firstAppendableKind() === undefined}
         onClick={() => {
           try {
             const kind = firstAppendableKind()
             if (!kind) return
-            patchEffects([...spec.effects, createDefaultEffect(kind)])
+            patchEffects([...use.effects, createDefaultEffect(kind)])
           } catch (cause) {
             props.onError?.(cause instanceof Error ? cause.message : String(cause))
           }
@@ -1366,4 +1293,442 @@ export function ItemEffectChainEditor(props: {
       </button>
     </div>
   )
+}
+
+const THROW_EFFECT_KINDS: { value: ThrowEffect['kind']; label: string }[] = [
+  { value: 'magicDamage', label: '法术伤害' },
+  { value: 'fixedDamage', label: '固定伤害' },
+  { value: 'applyPoison', label: '施毒' },
+  { value: 'currentHpDamage', label: '按当前体力造成伤害' },
+  { value: 'applyStatus', label: '施加状态' },
+  { value: 'killIfHpAtMost', label: '低血量即死' },
+  { value: 'damageAndHealCaster', label: '伤害并回复使用者' },
+]
+
+export function defaultThrowEffect(
+  kind: ThrowEffect['kind'],
+  poisons: readonly PoisonDef[],
+): ThrowEffect {
+  switch (kind) {
+    case 'magicDamage':
+      return {
+        kind,
+        baseDamage: 1,
+        element: 'none',
+        strength: { kind: 'fixed', value: 1 },
+      }
+    case 'fixedDamage':
+      return { kind, amount: 1 }
+    case 'applyPoison':
+      return { kind, poisonId: firstPoison(poisons) }
+    case 'currentHpDamage':
+      return { kind, numerator: 1, denominator: 2, bonus: 1, cap: 1000 }
+    case 'applyStatus':
+      return { kind, status: 'sleep', turns: 1, onResist: 'continue' }
+    case 'killIfHpAtMost':
+      return { kind, percent: 25 }
+    case 'damageAndHealCaster':
+      return { kind, damage: 180, heal: 180 }
+  }
+}
+
+function ThrowEffectFields(props: {
+  effect: ThrowEffect
+  poisons: readonly PoisonDef[]
+  onChange: (effect: ThrowEffect) => void
+}) {
+  const { effect, poisons, onChange } = props
+  switch (effect.kind) {
+    case 'magicDamage': {
+      const strength = effect.strength
+      return (
+        <>
+          <NumberField
+            label="基础伤害"
+            value={effect.baseDamage}
+            allowZero
+            onChange={(baseDamage) => onChange({ ...effect, baseDamage })}
+          />
+          <label className="item-effect-field">
+            <span>元素</span>
+            <select
+              className="in"
+              value={effect.element}
+              onChange={(event) =>
+                onChange({
+                  ...effect,
+                  element: event.target.value as typeof effect.element,
+                })
+              }
+            >
+              <option value="none">无</option>
+              <option value="wind">风</option>
+              <option value="thunder">雷</option>
+              <option value="water">水</option>
+              <option value="fire">火</option>
+              <option value="earth">土</option>
+              <option value="poison">毒</option>
+            </select>
+          </label>
+          <label className="item-effect-field">
+            <span>力量来源</span>
+            <select
+              className="in"
+              value={strength.kind}
+              onChange={(event) =>
+                onChange({
+                  ...effect,
+                  strength:
+                    event.target.value === 'casterAttack'
+                      ? {
+                          kind: 'casterAttack',
+                          bonus: 0,
+                          multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+                        }
+                      : { kind: 'fixed', value: 1 },
+                })
+              }
+            >
+              <option value="fixed">固定力量</option>
+              <option value="casterAttack">按使用者武术随机</option>
+            </select>
+          </label>
+          {strength.kind === 'fixed' ? (
+            <NumberField
+              label="固定力量"
+              value={strength.value}
+              allowZero
+              min={0}
+              onChange={(value) => onChange({ ...effect, strength: { kind: 'fixed', value } })}
+            />
+          ) : (
+            <>
+              <NumberField
+                label="固定加值"
+                value={strength.bonus}
+                allowZero
+                min={0}
+                onChange={(bonus) => onChange({ ...effect, strength: { ...strength, bonus } })}
+              />
+              <NumberField
+                label="武术倍率下限"
+                value={strength.multiplier.min}
+                allowZero
+                min={0}
+                onChange={(min) =>
+                  onChange({
+                    ...effect,
+                    strength: {
+                      ...strength,
+                      multiplier: {
+                        kind: 'uniformInt',
+                        min,
+                        max: Math.max(min, strength.multiplier.max),
+                      },
+                    },
+                  })
+                }
+              />
+              <NumberField
+                label="武术倍率上限"
+                value={strength.multiplier.max}
+                allowZero
+                min={0}
+                onChange={(max) =>
+                  onChange({
+                    ...effect,
+                    strength: {
+                      ...strength,
+                      multiplier: {
+                        kind: 'uniformInt',
+                        min: Math.min(strength.multiplier.min, max),
+                        max,
+                      },
+                    },
+                  })
+                }
+              />
+            </>
+          )}
+        </>
+      )
+    }
+    case 'fixedDamage':
+      return (
+        <NumberField
+          label="固定伤害"
+          value={effect.amount}
+          min={1}
+          onChange={(amount) => onChange({ ...effect, amount })}
+        />
+      )
+    case 'applyPoison':
+      return (
+        <label className="item-effect-field">
+          <span>毒</span>
+          <select
+            className="in"
+            value={effect.poisonId}
+            onChange={(event) => onChange({ ...effect, poisonId: event.target.value })}
+          >
+            {!poisons.some((poison) => String(poison.id) === effect.poisonId) ? (
+              <option value={effect.poisonId}>⚠ {effect.poisonId}</option>
+            ) : null}
+            {poisons.map((poison) => (
+              <option key={poison.id} value={String(poison.id)}>
+                {poison.name} · {poison.id}
+              </option>
+            ))}
+          </select>
+        </label>
+      )
+    case 'currentHpDamage':
+      return (
+        <>
+          <NumberField
+            label="当前体力分子"
+            value={effect.numerator}
+            min={1}
+            onChange={(numerator) => onChange({ ...effect, numerator })}
+          />
+          <NumberField
+            label="当前体力分母"
+            value={effect.denominator}
+            min={1}
+            onChange={(denominator) => onChange({ ...effect, denominator })}
+          />
+          <NumberField
+            label="额外伤害"
+            value={effect.bonus}
+            allowZero
+            min={0}
+            onChange={(bonus) => onChange({ ...effect, bonus })}
+          />
+          <NumberField
+            label="伤害上限"
+            value={effect.cap}
+            min={1}
+            onChange={(cap) => onChange({ ...effect, cap })}
+          />
+        </>
+      )
+    case 'applyStatus':
+      return (
+        <>
+          <label className="item-effect-field">
+            <span>状态</span>
+            <select
+              className="in"
+              value={effect.status}
+              onChange={(event) => onChange({ ...effect, status: event.target.value as StatusId })}
+            >
+              {STATUSES.map((status) => (
+                <option key={status.value} value={status.value}>
+                  {status.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <NumberField
+            label="回合"
+            value={effect.turns}
+            min={1}
+            onChange={(turns) => onChange({ ...effect, turns })}
+          />
+          <label className="item-effect-field">
+            <span>被抵抗后</span>
+            <select
+              className="in"
+              value={effect.onResist}
+              onChange={(event) =>
+                onChange({
+                  ...effect,
+                  onResist: event.target.value as typeof effect.onResist,
+                })
+              }
+            >
+              <option value="continue">继续执行后续效果</option>
+              <option value="stopTarget">停止当前目标的后续效果</option>
+            </select>
+          </label>
+        </>
+      )
+    case 'killIfHpAtMost':
+      return (
+        <NumberField
+          label="体力不高于 % 时即死"
+          value={effect.percent}
+          min={1}
+          max={100}
+          onChange={(percent) => onChange({ ...effect, percent })}
+        />
+      )
+    case 'damageAndHealCaster':
+      return (
+        <>
+          <NumberField
+            label="目标固定伤害"
+            value={effect.damage}
+            min={1}
+            onChange={(damage) => onChange({ ...effect, damage })}
+          />
+          <NumberField
+            label="使用者回复体力"
+            value={effect.heal}
+            min={1}
+            onChange={(heal) => onChange({ ...effect, heal })}
+          />
+        </>
+      )
+  }
+}
+
+export interface ThrowEffectChainEditorProps {
+  spec: ThrowSpec
+  poisons: readonly PoisonDef[]
+  onChange: (next: ThrowSpec) => void
+  onError?: (message: string) => void
+}
+
+export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
+  const { spec, poisons, onChange } = props
+  const patchEffects = (effects: ThrowEffect[]): void => onChange({ ...spec, effects })
+  const replaceAt = (index: number, effect: ThrowEffect): void => {
+    const effects = [...spec.effects]
+    effects[index] = effect
+    patchEffects(effects)
+  }
+  const changeKind = (index: number, kind: ThrowEffect['kind']): void => {
+    try {
+      replaceAt(index, defaultThrowEffect(kind, poisons))
+    } catch (cause) {
+      props.onError?.(cause instanceof Error ? cause.message : String(cause))
+    }
+  }
+  return (
+    <div className="item-effect-chain item-throw-effect-chain">
+      <div className="item-use-options">
+        <label className="item-effect-field">
+          <span>投掷目标</span>
+          <select
+            className="in"
+            value={spec.target}
+            onChange={(event) =>
+              onChange({
+                ...spec,
+                target: event.target.value as ThrowSpec['target'],
+              })
+            }
+          >
+            <option value="oneEnemy">单个敌人</option>
+            <option value="allEnemies">全体敌人</option>
+          </select>
+        </label>
+      </div>
+
+      {spec.effects.map((effect, index) => (
+        <div className="item-effect-row" key={`${effect.kind}-${index}`}>
+          <div className="item-effect-row-head">
+            <span className="item-effect-index">效果 {index + 1}</span>
+            <select
+              className="in item-effect-kind"
+              aria-label={`效果 ${index + 1} 类型`}
+              value={effect.kind}
+              onChange={(event) => changeKind(index, event.target.value as ThrowEffect['kind'])}
+            >
+              {THROW_EFFECT_KINDS.map((entry) => (
+                <option key={entry.value} value={entry.value}>
+                  {entry.label}
+                </option>
+              ))}
+            </select>
+            <span className="spacer" />
+            <button
+              type="button"
+              className="mini"
+              aria-label={`上移效果 ${index + 1}`}
+              disabled={index === 0}
+              onClick={() => {
+                const effects = [...spec.effects]
+                ;[effects[index - 1], effects[index]] = [effects[index]!, effects[index - 1]!]
+                patchEffects(effects)
+              }}
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              className="mini"
+              aria-label={`下移效果 ${index + 1}`}
+              disabled={index === spec.effects.length - 1}
+              onClick={() => {
+                const effects = [...spec.effects]
+                ;[effects[index], effects[index + 1]] = [effects[index + 1]!, effects[index]!]
+                patchEffects(effects)
+              }}
+            >
+              ↓
+            </button>
+            <button
+              type="button"
+              className="mini danger"
+              aria-label={`删除效果 ${index + 1}`}
+              title={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
+              disabled={spec.effects.length === 1}
+              onClick={() => patchEffects(spec.effects.filter((_, at) => at !== index))}
+            >
+              ×
+            </button>
+          </div>
+          <div className="item-effect-grid">
+            <ThrowEffectFields
+              effect={effect}
+              poisons={poisons}
+              onChange={(next) => replaceAt(index, next)}
+            />
+          </div>
+        </div>
+      ))}
+
+      {!spec.effects.length ? (
+        <div className="item-effect-validation" role="alert">
+          投掷能力至少需要一个效果，请添加后再保存。
+        </div>
+      ) : null}
+      <button
+        type="button"
+        className="item-action-button item-action-button-primary item-add-effect"
+        onClick={() => patchEffects([...spec.effects, defaultThrowEffect('fixedDamage', poisons)])}
+      >
+        ＋ 添加效果
+      </button>
+    </div>
+  )
+}
+
+type ItemEffectChainEditorProps =
+  | ({ ability: 'use' } & ItemUseEffectChainEditorProps)
+  | {
+      ability: 'throw'
+      spec: ThrowSpec
+      poisons: readonly PoisonDef[]
+      onChange: (next: ThrowSpec) => void
+      onError?: (message: string) => void
+      items: readonly ItemData[]
+      scripts: readonly ItemScriptOption[]
+      itemId?: string
+    }
+
+/** @deprecated 新代码请分别使用用途编辑器和 ThrowEffectChainEditor。 */
+export function ItemEffectChainEditor(props: ItemEffectChainEditorProps) {
+  if (props.ability === 'throw')
+    return (
+      <ThrowEffectChainEditor
+        spec={props.spec}
+        poisons={props.poisons}
+        onChange={props.onChange}
+        onError={props.onError}
+      />
+    )
+  return <ItemUseEffectChainEditor {...props} />
 }

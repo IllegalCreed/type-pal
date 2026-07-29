@@ -1,6 +1,6 @@
 # A7/R7 工程资源闭包与稳定资源注册表审计
 
-> 审计日期: 2026-07-16；最近更新:2026-07-21（A7-3W、A7-3B 均已 done）
+> 审计日期: 2026-07-16；最近更新:2026-07-29（A7-3W、A7-3B 均已 done；A7-4 候选版本顺延至 v9）
 > 范围: `packages/content`、`packages/reforge`、`packages/editor`、`packages/migrate`、`projects/pal` 的资源声明、加载、克隆、保存与迁移链。
 > 前置: [第二阶段开工铁律](../READ-FIRST.md)、[项目生命周期设计](../editor/project-lifecycle-design.md)、[路线图 §10](../roadmap.md)、[既有资产/迁移八单元审计](am-asset-migrate-audit.md)。
 > 落地状态: A7-0 音乐/MIDI soundfont、A7-1 SFX、A7-2 四类静态图/engine chrome、A7-3 视频/完整帧动画
@@ -13,7 +13,8 @@ A7 总体**还没有形成全资源闭包**。当前已经闭合音乐/MIDI soun
 portrait/face/item-icon/battle-background 四类静态图；默认标题、字形、光标和游戏 UI 已进入引擎 chrome。
 A7-3T、A7-3W 与 A7-3B 已分别把 `tileset`、`sprite`、`battle-sprite` 收敛为 catalog-only 单链并完成审查。
 当前仍未迁移的 legacy 条目为 `effect-sprite` 与 generic
-`image` 两项；catalog-only 总门禁和 v4 也尚未完成。
+`image` 两项；catalog-only 总门禁和 A7-4 的下一未占用 epoch（当前候选 contentVersion 9）
+收口也尚未完成。
 因此不能据此宣称整个工程已断开全部外部资源依赖。
 
 问题由四层共同造成:
@@ -421,9 +422,13 @@ A7 无法在一个小切片内同时改完所有资源族。若 A7-0 直接删�
   `assets.legacy` 债务区。音乐族在 A7-0 完成后不得出现在 legacy。
 - C2-ACT 已把工程升级到 `contentVersion: 4`，该版本只增加精灵预制动作、实例动作绑定和语义播放命令；
   它不宣称 A7 资源闭包完成，`assets.legacy` 债务区仍可继续存在。
+- N3-1 canonical P7 与 R13-1 cadence/save epoch 依次占用 `contentVersion: 5` 和
+  `contentVersion: 6`。脚本 schema 仍是 V5；v6 是开发期存档 epoch 断点，也不宣称 A7 已完成。
+- R13-2 占用 `contentVersion: 7`，SAVE/minimum 同步升至 7；R13-3 占用
+  `contentVersion: 8`，只升级投掷内容 schema，SAVE 仍保持 7。
 - 每个后续切片把一个完整资源族迁入 catalog,并同时从 legacy 删除该族；不得为同一族保留新旧回退。
-- A7-4 把所有 legacy 归零后升级 `contentVersion: 5`,删除 LegacyAssetAdapter；v4 -> v5 只存在迁移边界,
-  v5 runtime 不解析 legacy。
+- A7-4 把所有 legacy 归零后升级到下一未占用 epoch（当前候选 `contentVersion: 9`），删除
+  LegacyAssetAdapter；v8 -> v9 只存在迁移边界，v9 runtime 不解析 legacy。
 
 A7-0 的 v3 示例:
 
@@ -560,7 +565,7 @@ A5 zip 仍可原样打包目录,但导出前必须调用闭包检查。A7 最终
 | **A7-3T** | 瓦片集索引资源闭包 | **done（2026-07-19）**：三方审查与用户验收完成；223 definitions / 223 records / 223 map refs；mapNum=`1..225 \ {168,171}`；gzip 6,501,041 B / 严格有效帧 67,715 |
 | **A7-3W** | 大世界精灵索引资源闭包 | **done（2026-07-19）**：636 records / 580 definitions / 559 used / 21 shared / 77 unused；1,332,725 gzip B / 4,133 帧 / 30 legacy 坏尾 |
 | **A7-3B** | 战斗精灵索引资源闭包 | **done（2026-07-21）**：三方审查和用户验收完成；172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused；900,973 gzip B / 775 帧 / 6 legacy 坏尾 |
-| **A7-4** | 克隆/另存/zip/闭包总门禁 + v5 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
+| **A7-4** | 克隆/另存/zip/闭包总门禁 + 候选 v9 收口 | legacy families 归零并删适配器；克隆只复制工程闭包；断开仓库资源目录后本地工程仍完整运行 |
 
 A7-3T 同时修复了 canonical fixture 的颜色表欠账：demo 使用
 `assets/migrated/colors/project-standard.json`，e2e-own 与 blank seed 使用
@@ -587,8 +592,10 @@ A7-0/A7-1 等单一切片不得把 A7/R7 标为 done；全量剩余缺口报告�
 ## 8. 剩余风险
 
 - **一次改太大**:资源引用遍布四包。缓解:先固定公共契约,按资源族纵向切片；每族完成时删除旧分支。
-- **contentVersion / 存档兼容**:数字音乐已进入脚本、场景与存档。缓解:一次性 v2 -> v3 项目迁移 + 明确存档归一化,
-  runtime 只认识 v3。
+- **contentVersion / 存档兼容**:数字音乐已进入脚本、场景与存档。历史 A7-0 通过一次性
+  v2 -> v3 项目迁移关闭该切片风险；现行 runtime 只接受 contentVersion 8，存档接受
+  SAVE7/content8 与内建的 SAVE7/content7 identity normalization。A7-4 将以 v8 -> 候选 v9
+  的显式工程迁移边界收口。
 - **MG2 覆盖作者替换**:迁移器可能把 authored path 改回 migrated path。缓解:按 AssetId + origin 所有权测试,
   authored 二进制永不属于迁移器删除集。
 - **闭包检查拖慢启动**:全量 SHA-256 约 200MB。缓解:启动按需解析；重哈希只在迁移/保存/导出/CI/显式检查运行。

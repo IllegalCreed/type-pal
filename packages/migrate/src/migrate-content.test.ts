@@ -6,6 +6,7 @@ import type { ActorDef, Command, SceneDef, ScriptChunkV1, SpriteDef } from '@typ
 import {
   buildWorld,
   pixelToGrid,
+  upgradeItemsV7ToV8,
   validateActors,
   validateItems,
   validateLocale,
@@ -15,6 +16,7 @@ import {
 import { describe, expect, test } from 'vitest'
 import {
   buildLabelIndex,
+  createSceneR13TranslationSession,
   type MigrateSources,
   mapRoleSpriteIdsByNumber,
   mapScenesStatic,
@@ -376,7 +378,9 @@ describe('M1a · 输出过 content 契约 + 可 buildWorld', () => {
     )
     expect(() => validateActors(actors)).not.toThrow()
     expect(() => validateSprites(sprites)).not.toThrow()
-    expect(() => validateItems(out.items)).not.toThrow()
+    // migrateAll 是 append-only R13-3 之前的 immutable v7 parent；current 契约只在
+    // 显式 v7→v8 归一后校验，不能为了让本测试通过而反向改写父快照。
+    expect(() => validateItems(upgradeItemsV7ToV8(out.items))).not.toThrow()
     expect(() => validateSkills(out.skills)).not.toThrow()
     expect(() => validateLocale({ ...out.localeNames })).not.toThrow()
     const actorsById = Object.fromEntries(actors.map((a) => [a.id, a]))
@@ -681,6 +685,17 @@ describe('M2b · 场景静态迁移 + 窄扫描(s001 盛渔村客栈 / s004 切�
   const byId = new Map(out2.scenes.map((s) => [s.id, s]))
   const expandedScenes = materializeScenes(out2.scenes, out2.scriptChunks)
   const expandedById = new Map(expandedScenes.map((s) => [s.id, s]))
+
+  test('R13 翻译会话按原始迁移结果绑定，且每次取得全新隔离上下文', () => {
+    const first = createSceneR13TranslationSession(out2)
+    const second = createSceneR13TranslationSession(out2)
+    expect(first.ctx).not.toBe(second.ctx)
+    first.ctx.locale['test.r13-session-isolation'] = 'first'
+    expect(second.finish().locale['test.r13-session-isolation']).toBeUndefined()
+    expect(() => createSceneR13TranslationSession(structuredClone(out2))).toThrow(
+      /不能使用克隆或反序列化对象/,
+    )
+  })
 
   test('spriteNum=0 无入口对象仍保留为状态/碰撞锚点', () => {
     const source: SourceScene = {

@@ -19,8 +19,14 @@ import {
   validateBattleSprites,
 } from '@type-pal/content'
 import { itemScriptCommandRoots } from './item-script-roots.js'
-import type { MigrateSources, SourceCmd, SourceScene } from './migrate-content.js'
+import type {
+  MigrateSources,
+  R13TranslationSession,
+  SourceCmd,
+  SourceScene,
+} from './migrate-content.js'
 import {
+  createSceneR13TranslationSession,
   mapRoleSpriteIdsByNumber,
   mapScenesStatic,
   migrateAll,
@@ -52,6 +58,7 @@ import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-
 import { makeGlobalScriptRoots } from './script-graph.js'
 import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
 import { normalizeScriptLibrary } from './script-library-normalize.js'
+import type { SoundAssetForNum } from './sound-migration.js'
 import { sceneSlug } from './source-facts.js'
 
 export type MigrationJson =
@@ -87,6 +94,10 @@ export interface MigrationFileSet {
   files: Map<string, MigrationJson>
   managedFiles: Set<string>
   report: {
+    /** migrateAll 的原始观察，尚未经过 PAL overlay 或后置增强消账。 */
+    rawContent: ReturnType<typeof migrateAll>['report']
+    /** R13-0 内部证据：overlay 前的能力投影；不写入 canonical content。 */
+    rawProjection: Pick<ReturnType<typeof migrateAll>, 'items' | 'skills' | 'enemies'>
     content: ReturnType<typeof migrateAll>['report']
     enemies: ReturnType<typeof migrateAll>['enemyReport']
     enemyTeams: ReturnType<typeof migrateAll>['enemyTeamReport']
@@ -103,6 +114,32 @@ export interface MigrationFileSet {
     maps: ProjectMapAuditReport
     assets: import('./pal-assets.js').PalAssetMigrationReport
   }
+}
+
+/** PAL 源编号到已物化音效资产的唯一解析口径。 */
+export function palSoundAssetForSources(
+  sources: Pick<PalMigrationSources, 'assetCatalog'>,
+): SoundAssetForNum {
+  return (sound) => {
+    if (!Number.isInteger(sound) || sound <= 0) return undefined
+    const id = palSoundAssetId(sound)
+    return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
+  }
+}
+
+const r13TranslationSessionFactories = new WeakMap<MigrationFileSet, () => R13TranslationSession>()
+
+/**
+ * R13-2 迁移期专用控制面。只接受 buildPalMigration 在当前进程返回的原始对象；
+ * MigrationFileSet 的 JSON 形状、baseline 与工程文件均不携带该临时能力。
+ */
+export function createPalR13TranslationSession(migration: MigrationFileSet): R13TranslationSession {
+  const factory = r13TranslationSessionFactories.get(migration)
+  if (!factory)
+    throw new Error(
+      'R13 PAL translation context 不存在：必须使用本进程 buildPalMigration 返回的原始 MigrationFileSet',
+    )
+  return factory()
 }
 
 function asJson(value: unknown): MigrationJson {
@@ -337,11 +374,7 @@ function assertPalBattleSpriteBaseline(args: {
 
 /** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
 export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
-  const soundAssetForNum = (sound: number) => {
-    if (!Number.isInteger(sound) || sound <= 0) return undefined
-    const id = palSoundAssetId(sound)
-    return sources.assetCatalog.assets[id]?.kind === 'sound' ? id : undefined
-  }
+  const soundAssetForNum = palSoundAssetForSources(sources)
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
   const legacyEntityAddresses = new Map<number, { scene: string; entity: string }>()
   for (const scene of sources.scenes)
@@ -588,10 +621,16 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     put(`content/scripts/${meta.path}`, scripts.chunks[id])
   }
 
-  return {
+  const result: MigrationFileSet = {
     files,
     managedFiles: new Set(files.keys()),
     report: {
+      rawContent: structuredClone(migrated.report),
+      rawProjection: structuredClone({
+        items: migrated.items,
+        skills: migrated.skills,
+        enemies: migrated.enemies,
+      }),
       content: {
         ...migrated.report,
         pendingSkills: migrated.report.pendingSkills.filter(
@@ -615,6 +654,8 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
       assets: structuredClone(sources.assetReport),
     },
   }
+  r13TranslationSessionFactories.set(result, () => createSceneR13TranslationSession(sceneOutput))
+  return result
 }
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */

@@ -724,7 +724,7 @@ function scriptBodies(chunks: Readonly<Record<string, ScriptChunkV1>>): Map<stri
 function projectItemEffects(
   effects: ItemData['use'] extends infer _ ? NonNullable<ItemData['use']>['effects'] : never,
   itemId: string,
-  slot: 'use' | 'throw',
+  slot: 'use',
   context: ProjectionContext,
 ): ItemUseEffectV5[] {
   const privateCount = effects.filter(
@@ -1162,10 +1162,7 @@ export function projectLocalScriptV4ToV5(args: {
         : {}),
       ...(thrown
         ? {
-            throw: {
-              ...clone(thrown),
-              effects: projectItemEffects(thrown.effects, item.id, 'throw', baseContext),
-            },
+            throw: clone(thrown),
           }
         : {}),
     }

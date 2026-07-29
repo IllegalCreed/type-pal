@@ -575,26 +575,60 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stages",
-            "initial": "initial",
-            "stages": [
-              {
-                "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 112,
-                      "height": 0,
-                      "row": 11
+            "kind": "stateMachine",
+            "machine": {
+              "id": "machine",
+              "label": "默认进场行为",
+              "initial": "initial",
+              "states": {
+                "initial": {
+                  "label": "首次执行",
+                  "body": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 112,
+                        "row": 11,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setAmbience",
+                      "ambience": "night"
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.082"
                     }
+                  ],
+                  "next": {
+                    "kind": "advance",
+                    "state": "after-checkpoint"
                   }
-                ]
+                },
+                "after-checkpoint": {
+                  "label": "检查点后的执行",
+                  "body": [
+                    {
+                      "kind": "setAmbience",
+                      "ambience": "night"
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.082"
+                    }
+                  ],
+                  "next": {
+                    "kind": "stay"
+                  }
+                }
               }
-            ]
+            }
           }
         }
       }
     }
-  }
+  },
+  "battleFieldId": 7,
+  "battleMusic": "music.pal.037"
 }

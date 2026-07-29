@@ -1,7 +1,8 @@
 {
   "id": "e2e-own",
   "name": "E2E 自有内容烟测",
-  "contentVersion": 5,
+  "contentVersion": 8,
+  "minimumSaveVersion": 7,
   "entryScene": "start",
   "content": {
     "actors": "content/actors.json",

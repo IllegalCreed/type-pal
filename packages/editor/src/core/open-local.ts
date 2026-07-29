@@ -3,7 +3,11 @@
  * 无有效 manifest.json → 友好报错(不进编辑器)。素材经 fsaSource 从本地读 → 离线渲染。
  */
 import type { SceneDef, SceneDefV5, ScriptChunkV1, StampTemplateV1 } from '@type-pal/content'
-import { emptyWorldScriptStateV5, ProjectScriptV4V5UpgradeError } from '@type-pal/content'
+import {
+  CONTENT_VERSION,
+  emptyWorldScriptStateV5,
+  ProjectScriptV4V5UpgradeError,
+} from '@type-pal/content'
 import {
   fsaSource,
   type LoadedProject,
@@ -35,6 +39,10 @@ import {
   type UpgradeLocalProjectV4ScriptV5Options,
   upgradeLocalProjectV4ScriptV5,
 } from './upgrade-local-v4-script-v5.js'
+import {
+  upgradeLocalProjectV5V6EpochV7,
+  upgradeLocalProjectV7ThrowV8,
+} from './upgrade-local-v5-v6-epoch-v7.js'
 
 export interface OpenedProjectV4 {
   kind: 'v4'
@@ -116,6 +124,16 @@ export async function openLocalProject(
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')
     }
+    if (await upgradeLocalProjectV5V6EpochV7(dir, source, rawManifest)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV7ThrowV8(dir, source, rawManifest)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
   } catch (e) {
     if (
       e instanceof ProjectScriptV4V5UpgradeError ||
@@ -130,14 +148,14 @@ export async function openLocalProject(
     rawManifest &&
     typeof rawManifest === 'object' &&
     'contentVersion' in rawManifest &&
-    rawManifest.contentVersion === 5
+    rawManifest.contentVersion === CONTENT_VERSION
   ) {
     let project: LoadedProjectV5
     try {
       project = await loadProjectV5From(source)
     } catch (e) {
       throw new Error(
-        `打开工程失败:「${dir.name}」的 v5 内容无效(${e instanceof Error ? e.message : String(e)})`,
+        `打开工程失败:「${dir.name}」的 canonical 内容无效(${e instanceof Error ? e.message : String(e)})`,
       )
     }
     const [scenes, stamps] = await Promise.all([

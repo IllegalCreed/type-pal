@@ -1,72 +1,49 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { existsSync } from 'node:fs'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
-import { buildPalMigration } from '../../pal-migration.js'
-import { loadPalMigrationSources } from '../../pal-migration-io.js'
+import { planP5ScriptTransition, prepareP5ScriptTransition } from './p5-transition-plan.js'
 import {
-  assertScriptControlFlowAudit,
-  auditPalScriptControlFlow,
-  type ScriptControlFlowAuditV1,
-} from '../../script-control-flow-audit.js'
-import { buildP2ScriptMigrationIR } from './p2-transform.js'
-import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
-import { buildP4ScriptMigrationIR } from './p4-owner-allocation.js'
-import { buildP5ScriptMigrationIR } from './p5-cycle-structure.js'
-import { planP5ScriptTransition } from './p5-transition-plan.js'
-import { validateP5ScriptMigrationIR } from './p5-validate.js'
-import { readV4ScriptCorpus } from './source-v4.js'
+  getPalTestPhaseFixture,
+  getPalTestPreparedP5ScriptTransition,
+  PAL_TEST_EXTRACTED,
+  PAL_TEST_FAST_GATE,
+} from './pal-test-fixture.js'
 import { stableJsonSha256 } from './stable-json.js'
 import type { P5CycleTransitionGroup, ScriptTransitionLedgerDraftP5 } from './types.js'
-
-const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
-const extracted = resolve(repo, 'data/extracted/events/all.json')
-const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 
 type P5Fixture = ReturnType<typeof loadP5Fixture>
 let fixture: P5Fixture
 
 function loadP5Fixture() {
-  const sources = loadPalMigrationSources(repo)
-  const migration = buildPalMigration(sources)
-  const audit = auditPalScriptControlFlow(sources, migration)
-  assertScriptControlFlowAudit(audit)
-  const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
-  const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
-  const p2 = buildP2ScriptMigrationIR({
-    migration,
-    currentAudit: audit,
-    frozenAudit: frozen,
-  })
-  const p3 = buildP3ScriptMigrationIR({
-    migration,
-    frozenAudit: frozen,
-    sourceCommands,
-    p2: p2.ir,
-    p2Ledger: p2.ledger,
-  })
-  const p4 = buildP4ScriptMigrationIR({
-    migration,
-    frozenAudit: frozen,
-    p3: p3.ir,
-    p3Ledger: p3.ledger,
-  })
-  const p5 = buildP5ScriptMigrationIR({
-    frozenAudit: frozen,
-    p4: p4.ir,
-    p4Ledger: p4.ledger,
-  })
+  const shared = getPalTestPhaseFixture()
+  const prepared = PAL_TEST_FAST_GATE
+    ? getPalTestPreparedP5ScriptTransition()
+    : prepareP5ScriptTransition({
+        migration: shared.migration,
+        frozenAudit: shared.frozenAudit,
+        sourceCommands: shared.sourceCommands,
+        base: shared.migration,
+        p2: shared.chain.p2.ir,
+        p2Ledger: shared.chain.p2.ledger,
+        p3: shared.chain.p3.ir,
+        p3Ledger: shared.chain.p3.ledger,
+        p4: shared.chain.p4.ir,
+        p4Ledger: shared.chain.p4.ledger,
+        target: shared.chain.p5.ir,
+        ledger: shared.chain.p5.ledger,
+      })
   return {
-    migration,
-    frozen,
-    sourceCommands,
-    p2,
-    p3,
-    p4,
-    p5,
-    corpus: readV4ScriptCorpus(migration),
+    migration: shared.migration,
+    frozen: shared.frozenAudit,
+    sourceCommands: shared.sourceCommands,
+    p2: shared.chain.p2,
+    p3: shared.chain.p3,
+    p4: shared.chain.p4,
+    p5: shared.chain.p5,
+    chain: shared.chain,
+    corpus: shared.corpus,
+    prepared,
   }
 }
 
@@ -80,12 +57,7 @@ function structureFor(legacyScriptId: string) {
 
 function cloneMigration(source: MigrationFileSet): MigrationFileSet {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [
-        path,
-        JSON.parse(JSON.stringify(value)) as MigrationJson,
-      ]),
-    ),
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     report: source.report,
   }
@@ -96,20 +68,36 @@ function mutateScriptBody(
   legacyScriptId: string,
   mutate: (body: Array<Record<string, unknown>>) => void,
 ): void {
-  const index = migration.files.get('content/scripts/index.json') as {
+  const sourceIndex = migration.files.get('content/scripts/index.json') as {
     chunks: Record<string, { path: string; bytes: number; hash?: string }>
   }
   const sourceChunk = fixture.corpus.byId.get(legacyScriptId)?.chunk
   if (!sourceChunk) throw new Error(`P5 test script body missing ${legacyScriptId}`)
-  const meta = index.chunks[sourceChunk]!
-  const chunkPath = `content/scripts/${meta.path}`
-  const chunk = migration.files.get(chunkPath) as {
+  const sourceMeta = sourceIndex.chunks[sourceChunk]!
+  const index = {
+    ...sourceIndex,
+    chunks: {
+      ...sourceIndex.chunks,
+      [sourceChunk]: { ...sourceMeta },
+    },
+  }
+  migration.files.set('content/scripts/index.json', index as MigrationJson)
+  const chunkPath = `content/scripts/${sourceMeta.path}`
+  const sourceChunkFile = migration.files.get(chunkPath) as {
     scripts: Record<string, Array<Record<string, unknown>>>
   }
+  const chunk = {
+    ...sourceChunkFile,
+    scripts: {
+      ...sourceChunkFile.scripts,
+      [legacyScriptId]: structuredClone(sourceChunkFile.scripts[legacyScriptId]!),
+    },
+  }
+  migration.files.set(chunkPath, chunk as MigrationJson)
   mutate(chunk.scripts[legacyScriptId]!)
   const chunkJson = JSON.stringify(chunk)
-  meta.bytes = utf8ByteLength(chunkJson)
-  meta.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
+  index.chunks[sourceChunk]!.bytes = utf8ByteLength(chunkJson)
+  index.chunks[sourceChunk]!.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
 }
 
 function planWith(
@@ -136,6 +124,7 @@ function planWith(
     p4Ledger: fixture.p4.ledger,
     target: fixture.p5.ir,
     ledger,
+    prepared: fixture.prepared,
   })
 }
 
@@ -158,20 +147,13 @@ function firstJump(value: unknown): Record<string, unknown> | undefined {
   return undefined
 }
 
-describe.skipIf(!existsSync(extracted))('N3 P5 PAL cyclic flow shadow migration', () => {
+describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P5 PAL cyclic flow shadow migration', () => {
   beforeAll(() => {
     fixture = loadP5Fixture()
   }, 180_000)
 
   test('433 cyclic bodies form 331 explicit cycle structures and P5 reaches zero', () => {
-    const report = validateP5ScriptMigrationIR({
-      frozenAudit: fixture.frozen,
-      p4: fixture.p4.ir,
-      p4Ledger: fixture.p4.ledger,
-      ir: fixture.p5.ir,
-      ledger: fixture.p5.ledger,
-      throughPhase: 'P5',
-    })
+    const report = fixture.chain.validations.p5
     expect(fixture.p5.ir.cycleCensus).toEqual({
       components: 331,
       bodies: 433,
@@ -412,7 +394,10 @@ describe.skipIf(!existsSync(extracted))('N3 P5 PAL cyclic flow shadow migration'
     })
     expect(planWith({ kind: 'v4', migration: rechunked }).summary.conflicts).toBe(0)
 
-    const tampered = JSON.parse(JSON.stringify(fixture.p5.ledger)) as ScriptTransitionLedgerDraftP5
+    const tampered = {
+      ...fixture.p5.ledger,
+      groups: structuredClone(fixture.p5.ledger.groups),
+    } as ScriptTransitionLedgerDraftP5
     const group = tampered.groups.find(
       (candidate): candidate is P5CycleTransitionGroup =>
         candidate.kind === 'cycle-structure-group',

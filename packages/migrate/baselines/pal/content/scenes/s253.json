@@ -55,7 +55,12 @@
                         "entity": "e4459"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -83,7 +88,12 @@
                         "entity": "e4459"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -142,7 +152,12 @@
                         "entity": "e4460"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -186,7 +201,12 @@
                         "entity": "e4460"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -214,7 +234,12 @@
                         "entity": "e4460"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -257,7 +282,12 @@
                         "entity": "e4461"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -285,7 +315,12 @@
                         "entity": "e4461"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -328,7 +363,12 @@
                         "entity": "e4462"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -356,7 +396,12 @@
                         "entity": "e4462"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1139,22 +1184,353 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s253",
-                        "entity": "e4464"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "first-cycle-01",
+                "states": {
+                  "bridge-01": {
+                    "label": "bridge-01",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
                       }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "bridge-02",
+                      "yield": "worldTick"
                     }
-                  ]
+                  },
+                  "bridge-02": {
+                    "label": "bridge-02",
+                    "body": [
+                      {
+                        "kind": "playSound",
+                        "asset": "sound.pal.261"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-01",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "completed": {
+                    "label": "completed",
+                    "body": [],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "first-cycle-01": {
+                    "label": "first-cycle-01",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-01-phase-02": {
+                    "label": "first-cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-01-phase-03": {
+                    "label": "first-cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-01-phase-04": {
+                    "label": "first-cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-01-phase-05": {
+                    "label": "first-cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-01-phase-06": {
+                    "label": "first-cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "first-cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "first-cycle-02": {
+                    "label": "first-cycle-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "first-cycle-01-phase-02"
+                    }
+                  },
+                  "first-cycle-02-phase-02": {
+                    "label": "first-cycle-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "first-cycle-01-phase-03"
+                    }
+                  },
+                  "first-cycle-02-phase-03": {
+                    "label": "first-cycle-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "first-cycle-01-phase-04"
+                    }
+                  },
+                  "first-cycle-02-phase-04": {
+                    "label": "first-cycle-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "first-cycle-01-phase-05"
+                    }
+                  },
+                  "first-cycle-02-phase-05": {
+                    "label": "first-cycle-02-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "first-cycle-01-phase-06"
+                    }
+                  },
+                  "first-cycle-02-phase-06": {
+                    "label": "first-cycle-02-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "bridge-01"
+                    }
+                  },
+                  "second-cycle-01": {
+                    "label": "second-cycle-01",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-01-phase-02": {
+                    "label": "second-cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-01-phase-03": {
+                    "label": "second-cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-01-phase-04": {
+                    "label": "second-cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-01-phase-05": {
+                    "label": "second-cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-01-phase-06": {
+                    "label": "second-cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s253",
+                          "entity": "e4464"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "second-cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "second-cycle-02": {
+                    "label": "second-cycle-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "second-cycle-01-phase-02"
+                    }
+                  },
+                  "second-cycle-02-phase-02": {
+                    "label": "second-cycle-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "second-cycle-01-phase-03"
+                    }
+                  },
+                  "second-cycle-02-phase-03": {
+                    "label": "second-cycle-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "second-cycle-01-phase-04"
+                    }
+                  },
+                  "second-cycle-02-phase-04": {
+                    "label": "second-cycle-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "second-cycle-01-phase-05"
+                    }
+                  },
+                  "second-cycle-02-phase-05": {
+                    "label": "second-cycle-02-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "second-cycle-01-phase-06"
+                    }
+                  },
+                  "second-cycle-02-phase-06": {
+                    "label": "second-cycle-02-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "completed"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

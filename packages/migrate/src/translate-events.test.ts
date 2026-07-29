@@ -11,6 +11,7 @@ import {
   asBattleCfg,
   assertNoMigrationGaps,
   battleCfgMarker,
+  bindScriptStageInstructionOutcomeBody,
   emptyTranslateReport,
   foldBattleConfig,
   ScriptRegistry,
@@ -41,6 +42,68 @@ function bodyOf(ctx: TranslateCtx): Command[] {
   expect(stages?.length).toBeGreaterThan(0)
   return stages![0]!.body
 }
+
+describe('R13-0 逐指令翻译轨迹', () => {
+  test('区分直接发射、已知 no-op 与控制流，并绑定发射体摘要', () => {
+    const ctx = ctxOf([
+      { opcode: 0x47, operands: [45, 0, 0] },
+      { opcode: 0x24, operands: [0, 99, 0] },
+    ])
+    ctx.soundAssetForNum = () => 'sound.pal.045'
+    bodyOf(ctx)
+
+    expect(ctx.report.instructionOutcomes).toEqual([
+      expect.objectContaining({
+        sourceAddress: 1,
+        owner: 'e0',
+        sourceOp: 'raw:0x47',
+        sourceOpcode: 0x47,
+        outcome: 'emitted',
+        emittedKinds: ['playSound'],
+        emittedDigest: expect.stringMatching(/^[0-9a-f]{64}$/),
+      }),
+      expect.objectContaining({
+        sourceAddress: 2,
+        sourceOpcode: 0x24,
+        outcome: 'known-noop-candidate',
+        emittedKinds: [],
+      }),
+      expect.objectContaining({
+        sourceAddress: 3,
+        sourceOp: 'end',
+        outcome: 'control-flow',
+      }),
+    ])
+  })
+
+  test('不可译命令只登记 gap，不得冒充 emitted', () => {
+    const ctx = ctxOf([{ opcode: 0xffff, operands: [1, 2, 3] }])
+    bodyOf(ctx)
+
+    expect(ctx.report.instructionOutcomes[0]).toMatchObject({
+      sourceAddress: 1,
+      sourceOpcode: 0xffff,
+      outcome: 'gap',
+      emittedKinds: [],
+    })
+  })
+
+  test('同地址同 owner 的 root 与 target 结果绑定各自 canonical body', () => {
+    const ctx = ctxOf([{ opcode: 0x05, operands: [0, 0, 0] }])
+    ctx.registry = new ScriptRegistry(() => 's001')
+    const stages = translateStages('L_1', undefined, ctx)
+    expect(stages).toHaveLength(1)
+    bindScriptStageInstructionOutcomeBody(stages![0]!, 'scene/s001/root/on-enter/stage-0')
+    const target = ctx.registry.registerTarget('L_1', undefined, {}, ctx)
+
+    const outcomes = ctx.report.instructionOutcomes.filter((outcome) => outcome.sourceAddress === 1)
+    expect(outcomes).toHaveLength(2)
+    expect(outcomes.map((outcome) => outcome.bodyId).sort()).toEqual(
+      ['scene/s001/root/on-enter/stage-0', target.id].sort(),
+    )
+    expect(new Set(outcomes.map((outcome) => outcome.owner))).toEqual(new Set(['scene']))
+  })
+})
 
 describe('0x47 音效迁移', () => {
   test('非空 chunk 变稳定 AssetId；空 chunk 删除并记唯一 no-op', () => {
@@ -378,6 +441,51 @@ describe('对话 speaker 在同一 walkBody/slot 内继承', () => {
       throw new Error('缺少调用链对话')
     expect(ctx.locale[calleeDialog.cue.rows[0]!.text]).toBe('<red>被调用脚本</red>')
     expect(ctx.locale[afterCall.cue.rows[0]!.text]).toBe('<red>调用后</red>')
+  })
+
+  test('registry callScript 把显式 1-based EventObject owner 反解为稳定实体 id', () => {
+    const source: SourceCmd[] = [
+      {
+        op: 'raw',
+        opcode: 0x04,
+        operands: [9, 6, 0],
+        label: 'L_1',
+      } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+      {
+        op: 'raw',
+        opcode: 0x49,
+        operands: [0xffff, 1, 0],
+        label: 'L_9',
+      } as unknown as SourceCmd,
+      { op: 'end' } as unknown as SourceCmd,
+    ]
+    const labelAt = new Map<string, { cmds: readonly SourceCmd[]; idx: number }>()
+    source.forEach((command, idx) => {
+      if (command.label) labelAt.set(command.label, { cmds: source, idx })
+    })
+    const registry = new ScriptRegistry(() => 's000')
+    const ctx: TranslateCtx = {
+      labelAt,
+      locale: {},
+      report: emptyTranslateReport(),
+      registry,
+    }
+
+    const body = translateStages('L_1', 'e0', ctx)![0]!.body
+    const call = body.find(
+      (command): command is Extract<Command, { kind: 'callScript' }> =>
+        command.kind === 'callScript',
+    )
+    if (!call) throw new Error('缺少 callScript')
+
+    expect(call.self).toBe('e5')
+    expect(call.ref.id).toContain('/e5/')
+    expect(registry.bodyFor(call.ref.id)).toContainEqual({
+      kind: 'setEntityState',
+      entity: 'e5',
+      state: 1,
+    })
   })
 })
 

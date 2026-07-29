@@ -84,51 +84,86 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.11987"
-                          },
-                          {
-                            "text": "dlg.11988"
-                          }
-                        ],
-                        "speaker": "spk.木匠"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11987"
+                            },
+                            {
+                              "text": "dlg.11988"
+                            }
+                          ],
+                          "speaker": "spk.木匠"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.11990"
-                          },
-                          {
-                            "text": "dlg.11991"
-                          }
-                        ],
-                        "speaker": "spk.木匠"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "openShop",
-                      "mode": "buy",
-                      "shop": 3
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11990"
+                            },
+                            {
+                              "text": "dlg.11991"
+                            }
+                          ],
+                          "speaker": "spk.木匠"
+                        }
+                      },
+                      {
+                        "kind": "openShop",
+                        "shop": 3,
+                        "mode": "buy"
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11990"
+                            },
+                            {
+                              "text": "dlg.11991"
+                            }
+                          ],
+                          "speaker": "spk.木匠"
+                        }
+                      },
+                      {
+                        "kind": "openShop",
+                        "shop": 3,
+                        "mode": "buy"
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         },

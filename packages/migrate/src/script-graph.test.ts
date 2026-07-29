@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { analyzeScriptGraph, extractScriptEdges, makeGlobalScriptRoots } from './script-graph.js'
+import {
+  analyzeScriptGraph,
+  extractScriptEdges,
+  extractSourceScriptEdgesV2,
+  makeGlobalScriptRoots,
+} from './script-graph.js'
 import type { SourceCmd } from './source-facts.js'
 
 const raw = (opcode: number, operands: number[] = [0, 0, 0]): SourceCmd => ({
@@ -23,7 +28,7 @@ describe('typed script edge catalog', () => {
       { op: 'end' },
       { op: 'end' },
     ]
-    const edges = extractScriptEdges(commands)
+    const edges = extractSourceScriptEdgesV2(commands)
     const has = (from: number, to: number, kind: string, reason: string) =>
       edges.some(
         (edge) =>
@@ -44,6 +49,40 @@ describe('typed script edge catalog', () => {
     expect(graph.componentOf[0]).toBe(graph.componentOf[1])
     expect(graph.owners[0]).toEqual(new Set(['s001']))
     expect(graph.owners[1]).toEqual(new Set(['s001']))
+  })
+
+  test('delayed goto 到期后 fallthrough，reset 只有正 idleFrames 才 fallthrough', () => {
+    const commands = [
+      { op: 'goto', to: 'L_0', frameDelay: 2 },
+      { op: 'end', reset: true, resetTo: 0, idleFrames: 0 },
+      { op: 'end', reset: true, resetTo: 0, idleFrames: 3 },
+      { op: 'end' },
+    ] as SourceCmd[]
+    const edges = extractSourceScriptEdgesV2(commands)
+    const targets = (from: number) =>
+      edges
+        .filter((edge) => edge.from === from)
+        .map((edge) => `${edge.to}:${edge.reason}`)
+        .sort()
+
+    expect(targets(0)).toEqual(['0:goto', '1:goto-delay-expiry'])
+    expect(targets(1)).toEqual(['0:end.reset'])
+    expect(targets(2)).toEqual(['0:end.reset', '3:end.reset-idle-advance'])
+  })
+
+  test('旧 edge API 保持 P0/P7 byte-pin 规则', () => {
+    const commands = [
+      { op: 'goto', to: 'L_0', frameDelay: 2 },
+      { op: 'end', reset: true, resetTo: 0, idleFrames: 0 },
+      { op: 'end' },
+    ] as SourceCmd[]
+    const edges = extractScriptEdges(commands)
+
+    expect(edges.filter((edge) => edge.from === 0).map((edge) => edge.reason)).toEqual(['goto'])
+    expect(edges.filter((edge) => edge.from === 1).map((edge) => edge.reason)).toEqual([
+      'end.reset',
+      'end.reset-idle-advance',
+    ])
   })
 
   test('binding 边不把 caller 场景归属传播到目标脚本', () => {

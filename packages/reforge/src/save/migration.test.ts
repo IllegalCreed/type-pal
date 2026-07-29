@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import {
   legacyBindingDigest,
   normalizePayloadV5,
-  preflightSaveMigration,
+  preflightLegacySaveMigrationV5 as preflightSaveMigration,
   type SavePayloadV5,
   SCRIPT_V5_SAVE_VERSION,
   sha256Bytes,

@@ -504,11 +504,9 @@ export interface EditorStatusIssue {
 function v5RuntimeItemScriptPaths(state: EditorState): Set<string> {
   const paths = new Set<string>()
   for (const [itemIndex, item] of state.items.entries()) {
-    for (const slot of ['use', 'throw'] as const) {
-      for (const [effectIndex, effect] of (item[slot]?.effects ?? []).entries()) {
-        if (effect.kind === 'runScript' && isV5RuntimeScriptRef(effect.script))
-          paths.add(`items[${itemIndex}](${item.id}).${slot}.effects[${effectIndex}].script`)
-      }
+    for (const [effectIndex, effect] of (item.use?.effects ?? []).entries()) {
+      if (effect.kind === 'runScript' && isV5RuntimeScriptRef(effect.script))
+        paths.add(`items[${itemIndex}](${item.id}).use.effects[${effectIndex}].script`)
     }
   }
   return paths

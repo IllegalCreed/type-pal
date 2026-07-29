@@ -1,4 +1,5 @@
 import {
+  type CursorHandoffV5,
   type EntityAddress,
   type EntityBaseV5,
   emptyWorldScriptStateV5,
@@ -33,7 +34,10 @@ function entity(): EntityBaseV5 {
           flow: {
             kind: 'stages',
             initial: 'initial',
-            stages: [{ id: 'initial', body: [] }],
+            stages: [
+              { id: 'initial', body: [] },
+              { id: 'waiting', body: [] },
+            ],
           },
         },
         inspect: {
@@ -259,6 +263,225 @@ describe('script v5 world authority', () => {
     ).toBe(1)
   })
 
+  test('state-map handoff maps the effective cursor and commits selection plus cursor atomically', () => {
+    const definition = entity()
+    const world = emptyWorldScriptStateV5()
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const handoff: CursorHandoffV5 = {
+      kind: 'stateMap',
+      fromBehavior: 'talk',
+      cases: [
+        {
+          from: { kind: 'stage', stage: 'initial' },
+          to: { kind: 'stage', stage: 'later' },
+        },
+      ],
+      onUnmapped: 'error',
+    }
+    expect(
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        coordinator,
+        handoff,
+      ),
+    ).toBe(true)
+    expect(world.behaviors.entities?.scene?.entity?.trigger).toEqual({
+      selection: { kind: 'use', value: 'inspect' },
+      cursor: {
+        behavior: 'inspect',
+        at: { kind: 'stage', stage: 'later' },
+      },
+    })
+    expect(resolveEntityBehaviorV5(definition, world, target, 'trigger')?.cursor).toEqual({
+      kind: 'stage',
+      stage: 'later',
+    })
+  })
+
+  test('state-map handoff uses a persisted source cursor and rejects invalid mappings before writing', () => {
+    const definition = entity()
+    const world = emptyWorldScriptStateV5()
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    world.behaviors.entities = {
+      scene: {
+        entity: {
+          trigger: {
+            cursor: {
+              behavior: 'talk',
+              at: { kind: 'stage', stage: 'waiting' },
+            },
+          },
+        },
+      },
+    }
+    const valid: CursorHandoffV5 = {
+      kind: 'stateMap',
+      fromBehavior: 'talk',
+      cases: [
+        {
+          from: { kind: 'stage', stage: 'waiting' },
+          to: { kind: 'stage', stage: 'later' },
+        },
+      ],
+      onUnmapped: 'error',
+    }
+    const before = structuredClone(world)
+    expect(() =>
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        coordinator,
+        {
+          ...valid,
+          cases: [
+            {
+              from: { kind: 'stage', stage: 'initial' },
+              to: { kind: 'stage', stage: 'later' },
+            },
+          ],
+        },
+      ),
+    ).toThrow(/命中 0 条映射/)
+    expect(world).toEqual(before)
+    expect(() =>
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        coordinator,
+        {
+          ...valid,
+          cases: [
+            {
+              from: { kind: 'stage', stage: 'waiting' },
+              to: { kind: 'stage', stage: 'missing' },
+            },
+          ],
+        },
+      ),
+    ).toThrow(/stage cursor 不存在 missing/)
+    expect(world).toEqual(before)
+    expect(() =>
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        coordinator,
+        {
+          ...valid,
+          cases: [
+            ...valid.cases,
+            {
+              from: { stage: 'waiting', kind: 'stage' },
+              to: { kind: 'stage', stage: 'initial' },
+            },
+          ],
+        },
+      ),
+    ).toThrow(/来源游标重复/)
+    expect(world).toEqual(before)
+    expect(
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        coordinator,
+        valid,
+      ),
+    ).toBe(true)
+    expect(resolveEntityBehaviorV5(definition, world, target, 'trigger')?.cursor).toEqual({
+      kind: 'stage',
+      stage: 'later',
+    })
+  })
+
+  test('state-map handoff requires a coordinator and leaves world state untouched without one', () => {
+    const definition = entity()
+    const world = emptyWorldScriptStateV5()
+    const before = structuredClone(world)
+    expect(() =>
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'inspect' },
+        undefined,
+        {
+          kind: 'stateMap',
+          fromBehavior: 'talk',
+          cases: [
+            {
+              from: { kind: 'stage', stage: 'initial' },
+              to: { kind: 'stage', stage: 'later' },
+            },
+          ],
+          onUnmapped: 'error',
+        },
+      ),
+    ).toThrow(/缺少 FlowRuntimeCoordinatorV5/)
+    expect(world).toEqual(before)
+  })
+
+  test('explicit same-behavior handoff bumps the epoch and stale leases cannot overwrite it', async () => {
+    const definition = entity()
+    const world = emptyWorldScriptStateV5()
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const activation = coordinator.beginEntityBehavior(world, definition, target, 'trigger')
+    if (!activation) throw new Error('expected activation')
+    expect(
+      selectEntityBehaviorV5(
+        world,
+        definition,
+        target,
+        'trigger',
+        { kind: 'use', value: 'talk' },
+        coordinator,
+        {
+          kind: 'stateMap',
+          fromBehavior: 'talk',
+          cases: [
+            {
+              from: { kind: 'stage', stage: 'initial' },
+              to: { kind: 'stage', stage: 'waiting' },
+            },
+          ],
+          onUnmapped: 'error',
+        },
+      ),
+    ).toBe(true)
+    expect(
+      coordinator.epoch({
+        kind: 'entity-behavior',
+        target,
+        channel: 'trigger',
+      }),
+    ).toBe(1)
+    expect(
+      await activation.lease.reachSafePoint({
+        kind: 'stage',
+        stage: 'initial',
+      }),
+    ).toBe('stop')
+    expect(world.behaviors.entities?.scene?.entity?.trigger?.cursor).toEqual({
+      behavior: 'talk',
+      at: { kind: 'stage', stage: 'waiting' },
+    })
+  })
+
   test('trigger activation inherit follows the selected page', () => {
     const world = emptyWorldScriptStateV5()
     setEntityTriggerActivationV5(world, entity(), target, {
@@ -335,6 +558,32 @@ describe('script v5 world authority', () => {
       behavior: 'talk',
       at: { kind: 'stage', stage: 'initial' },
     })
+  })
+
+  test('one persistent owner has at most one live activation lease', () => {
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const owner = {
+      kind: 'entity-behavior' as const,
+      target,
+      channel: 'auto' as const,
+    }
+    const first = coordinator.begin(owner, vi.fn())
+    if (!first) throw new Error('expected first lease')
+
+    expect(coordinator.begin(owner, vi.fn())).toBeUndefined()
+    expect(
+      coordinator.begin(
+        {
+          kind: 'entity-behavior',
+          target,
+          channel: 'trigger',
+        },
+        vi.fn(),
+      ),
+    ).toBeDefined()
+
+    first.close()
+    expect(coordinator.begin(owner, vi.fn())).toBeDefined()
   })
 
   test('save barrier closes the activation gate until all live flows reach a safe-point', async () => {

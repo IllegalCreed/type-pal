@@ -1,9 +1,11 @@
-import { emptyWorldScriptState } from '@type-pal/content'
+import { emptyWorldScriptState, emptyWorldScriptStateV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
 import {
   buildMeta,
   buildPayload,
+  buildPayloadV6,
+  buildPayloadV7,
   LEGACY_SAVE_ENVELOPE_VERSION,
   normalizePayload,
   normalizePayloadV4Envelope,
@@ -34,6 +36,40 @@ describe('save ops（纯）', () => {
     expect(p.contentVersion).toBe(1)
     expect(p.world).toBe(w)
     expect(p.position).toEqual({ sceneId: 's', pos, facing: 'down' })
+  })
+  test('buildPayloadV6：历史 canonical 构造器字节固定写出 6/6 epoch', () => {
+    const world = { ...makeTestWorld(), script: emptyWorldScriptStateV5() }
+    const position = {
+      sceneId: 's',
+      pos: { col: 1, row: 2, height: 0 },
+      facing: 'down' as const,
+    }
+    const payload = buildPayloadV6(world, position, 'demo')
+    expect(payload).toEqual({
+      version: 6,
+      contentVersion: 6,
+      projectId: 'demo',
+      world,
+      position,
+    })
+    expect(payload.world).toBe(world)
+  })
+  test('buildPayloadV7：当前 canonical 存档固定写出 SAVE7/content8', () => {
+    const world = { ...makeTestWorld(), script: emptyWorldScriptStateV5() }
+    const position = {
+      sceneId: 's',
+      pos: { col: 1, row: 2, height: 0 },
+      facing: 'down' as const,
+    }
+    const payload = buildPayloadV7(world, position, 'demo')
+    expect(payload).toEqual({
+      version: 7,
+      contentVersion: 8,
+      projectId: 'demo',
+      world,
+      position,
+    })
+    expect(payload.world).toBe(world)
   })
   test('normalizePayload:结构补默认(旧档缺容器字段/新增 luck)不动既有值', () => {
     const w = makeTestWorld()

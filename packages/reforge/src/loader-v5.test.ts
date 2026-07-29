@@ -30,11 +30,12 @@ const jsons = {
   assetCatalog: { version: 1, assets: {} },
 }
 
-function manifest(over: Partial<ProjectManifest<5>> = {}): ProjectManifest<5> {
+function manifest(over: Partial<ProjectManifest<8>> = {}): ProjectManifest<8> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 5,
+    contentVersion: 8,
+    minimumSaveVersion: 7,
     entryScene: 's001',
     content: {
       actors: 'content/actors.json',
@@ -120,8 +121,8 @@ function memorySource(
   }
 }
 
-describe('canonical contentVersion 5 loader', () => {
-  test('pure assembler accepts v5 scene/item schema and rejects legacy positional hooks', () => {
+describe('canonical contentVersion 8 loader', () => {
+  test('pure assembler accepts canonical scene/item schema and rejects legacy positional hooks', () => {
     expect(assembleProjectV5(manifest(), jsons).entryScene.id).toBe('s001')
     expect(() =>
       assembleProjectV5(manifest(), {
@@ -140,6 +141,45 @@ describe('canonical contentVersion 5 loader', () => {
         jsons,
       ),
     ).toThrow(/legacy content\.scripts/)
+  })
+
+  test('public loader rejects an unupgraded contentVersion 7 project', async () => {
+    await expect(
+      loadProjectV5From(
+        memorySource(
+          {
+            'manifest.json': { ...manifest(), contentVersion: 7 },
+          },
+          {},
+        ),
+      ),
+    ).rejects.toThrow(/contentVersion 8/)
+  })
+
+  test.each([
+    undefined,
+    6,
+    8,
+    1.5,
+  ])('public loader rejects minimumSaveVersion %s before migration registry I/O', async (minimumSaveVersion) => {
+    const fixture = await migrationFixture()
+    let registryReads = 0
+    const source = memorySource(
+      {
+        'manifest.json': manifest({
+          minimumSaveVersion,
+          migrations: { 'script-v4-v5': fixture.descriptor },
+        }),
+      },
+      { [fixture.descriptor.path]: fixture.bytes },
+    )
+    const readBytes = source.readBytes.bind(source)
+    source.readBytes = async (...args) => {
+      registryReads++
+      return readBytes(...args)
+    }
+    await expect(loadProjectV5From(source)).rejects.toThrow(/minimumSaveVersion 7/)
+    expect(registryReads).toBe(0)
   })
 
   test('IO loader verifies and retains every registered migration blob byte-for-byte', async () => {

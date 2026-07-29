@@ -19,9 +19,9 @@ import type {
   WorldState,
 } from '@type-pal/content'
 import {
+  checkThrowSpec,
   evalAiCond,
   isPlayerDying,
-  itemUseEffectSupportsContext,
   itemUseSupportsContext,
   lookupText,
   POISON_CURE_RANK,
@@ -608,13 +608,14 @@ export class BattleSession {
     return this.state.inventory
       .map((x) => ({ itemId: x.itemId, count: x.count - (used.get(x.itemId) ?? 0) }))
       .filter((x) => {
-        const effects = this.state.items[x.itemId]?.throw?.effects
-        return (
-          x.count > 0 &&
-          effects != null &&
-          effects.length > 0 &&
-          effects.every((effect) => itemUseEffectSupportsContext(effect, 'throw'))
-        )
+        const thrown = this.state.items[x.itemId]?.throw
+        if (x.count <= 0 || !thrown) return false
+        try {
+          checkThrowSpec(thrown, `items.${x.itemId}.throw`)
+          return true
+        } catch {
+          return false
+        }
       })
   }
 
@@ -1061,11 +1062,19 @@ export class BattleSession {
         if (pressed.has('ArrowDown')) this.itemIdx = Math.min(list.length - 1, this.itemIdx + 3)
         if (pressed.has('Escape')) this.ui = 'miscSub'
         if (confirm && list.length) {
-          // 选好投掷道具 → 进敌方目标选择(throw 打敌单体)
-          this.pendingThrowItem = expectDefined(list[this.itemIdx % list.length]).itemId
-          this.ui = 'target'
-          this.targetSide = 'enemy'
-          this.targetIdx = 0
+          const itemId = expectDefined(list[this.itemIdx % list.length]).itemId
+          const thrown = expectDefined(this.state.items[itemId]?.throw)
+          if (thrown.target === 'allEnemies') {
+            this.submit(sel, { kind: 'throw', itemId })
+            this.pendingThrowItem = null
+            this.backToMain()
+          } else {
+            // 单体投掷才进入敌方目标选择。
+            this.pendingThrowItem = itemId
+            this.ui = 'target'
+            this.targetSide = 'enemy'
+            this.targetIdx = 0
+          }
         }
       } else if (this.ui === 'target' && this.targetSide === 'ally') {
         // 己方选人(oneAlly 技能/物品):全队成员循环,**含死者**(还魂要点名尸体);
@@ -1439,6 +1448,7 @@ export class BattleSession {
       crit?: boolean
       secondDamage?: number
       attackAllHits?: { idx: number; value: number }[]
+      throwHits?: { idx: number; value: number }[]
       blocked?: boolean
       coverIdx?: number
       autoDefend?: number[]
@@ -1669,7 +1679,7 @@ export class BattleSession {
       return frames
     }
     // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位；纯施毒不显数字，即时伤害显蓝字)
-    if (la.kind === 'throw' && la.side === 'player' && la.target !== undefined) {
+    if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
       const item = la.itemId ? s.items[la.itemId] : undefined
@@ -1694,14 +1704,20 @@ export class BattleSession {
             wave: a.wave ?? 0,
             ...(a.sound ? { sound: a.sound } : {}),
           },
-          targetPos: s.enemies[la.target]?.basePos ?? { x: 160, y: 100 },
+          ...(item?.throw?.target === 'oneEnemy'
+            ? {
+                targetPos: s.enemies[la.throwHits[0]?.idx ?? -1]?.basePos ?? { x: 160, y: 100 },
+              }
+            : {}),
         }
       }
       return buildThrowItem({
         casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
-        targetIdx: la.target,
-        damage: Math.max(0, (eHp[la.target] ?? 0) - (s.enemies[la.target]?.hp ?? 0)),
+        hits: la.throwHits.map((hit) => ({
+          idx: hit.idx,
+          damage: Math.max(0, (eHp[hit.idx] ?? 0) - (s.enemies[hit.idx]?.hp ?? 0)),
+        })),
         ...(throwSound ? { sound: throwSound } : {}),
         ...(throwPresentation ? { presentation: throwPresentation } : {}),
       })

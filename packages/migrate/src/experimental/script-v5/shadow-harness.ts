@@ -99,21 +99,45 @@ function fullTargetArtifacts(
   }
 }
 
-function buildCore(args: {
+interface P2ShadowBuildArgs {
   migration: MigrationFileSet
   base: MigrationSnapshot
   ours: MigrationSnapshot
   currentAudit: ScriptControlFlowAuditV1
   frozenAudit: ScriptControlFlowAuditV1
-}): Map<string, string> {
-  const transformed = buildP2ScriptMigrationIR(args)
-  const validation = validateScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    ir: transformed.ir,
-    ledger: transformed.ledger,
-    throughPhase: 'P2',
-  })
+}
+
+type ValidatedP6TransformChain = ReturnType<typeof buildValidatedP6TransformChain>
+
+function assertValidatedChainInputs(
+  args: Pick<P6TransformBuildArgs, 'migration' | 'currentAudit' | 'frozenAudit'> &
+    Partial<Pick<P6TransformBuildArgs, 'sourceCommands'>>,
+  chain: ValidatedP6TransformChain,
+): void {
+  if (
+    chain.inputs.migration !== args.migration ||
+    chain.inputs.currentAudit !== args.currentAudit ||
+    chain.inputs.frozenAudit !== args.frozenAudit ||
+    (args.sourceCommands !== undefined && chain.inputs.sourceCommands !== args.sourceCommands)
+  )
+    throw new Error('shadow fixture: validated P6 chain 与输入不一致')
+}
+
+function buildCore(
+  args: P2ShadowBuildArgs,
+  chain?: ValidatedP6TransformChain,
+): Map<string, string> {
+  if (chain) assertValidatedChainInputs(args, chain)
+  const transformed = chain?.p2 ?? buildP2ScriptMigrationIR(args)
+  const validation =
+    chain?.validations.p2 ??
+    validateScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      ir: transformed.ir,
+      ledger: transformed.ledger,
+      throughPhase: 'P2',
+    })
   const transitionPlan = planP2ScriptTransition({
     base: args.base,
     ours: { kind: 'v4', migration: args.ours },
@@ -227,17 +251,108 @@ function sameFiles(left: ReadonlyMap<string, string>, right: ReadonlyMap<string,
   return true
 }
 
+type ShadowPhase = 'P2' | 'P3' | 'P4'
+
+interface ShadowBundleMetadata {
+  phase: ShadowPhase
+  generatorEpoch: string
+  source: string
+  sourceAuditDigest: string
+}
+
+interface ShadowBundleVerification {
+  independentBuilds: 1 | 2
+  verificationMode: 'live-double-build' | 'pinned-release-core'
+  expectedCoreDigest?: string
+}
+
+export interface ShadowBundleAssertOptions {
+  verificationMode?: ShadowBundleVerification['verificationMode']
+  expectedCoreDigest?: string
+}
+
+function finishShadowBundle(
+  coreFiles: Map<string, string>,
+  metadata: ShadowBundleMetadata,
+  verification: ShadowBundleVerification,
+): Readonly<{ files: ReadonlyMap<string, string>; digest: string }> {
+  const coreDigest = digestShadowBundle(coreFiles)
+  if (
+    verification.expectedCoreDigest !== undefined &&
+    verification.expectedCoreDigest !== coreDigest
+  )
+    throw new Error(
+      `${metadata.phase} shadow pinned release core drift: expected ${verification.expectedCoreDigest}, received ${coreDigest}`,
+    )
+  coreFiles.set(
+    'reports/determinism.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-determinism',
+      version: 1,
+      throughPhase: metadata.phase,
+      independentBuilds: verification.independentBuilds,
+      identical: true,
+      ...(verification.verificationMode === 'pinned-release-core'
+        ? { verificationMode: verification.verificationMode }
+        : {}),
+      coreDigest,
+    }),
+  )
+  const artifacts = [...coreFiles]
+    .sort(([left], [right]) => stableStringCompare(left, right))
+    .map(([path, body]) => ({ path, sha256: sha256(body) }))
+  coreFiles.set(
+    'shadow.json',
+    formatStableJson({
+      kind: 'script-v5-shadow-manifest',
+      version: 1,
+      projectId: 'pal',
+      throughPhase: metadata.phase,
+      generatorEpoch: metadata.generatorEpoch,
+      canonical: false,
+      runtimeConsumable: false,
+      source: metadata.source,
+      sourceAuditDigest: metadata.sourceAuditDigest,
+      artifacts,
+      coreDigest,
+    }),
+  )
+  return Object.freeze({ files: coreFiles, digest: digestShadowBundle(coreFiles) })
+}
+
+function assertShadowBundleVerification(
+  phase: ShadowPhase,
+  coreDigest: unknown,
+  determinism: {
+    identical?: unknown
+    independentBuilds?: unknown
+    verificationMode?: unknown
+    coreDigest?: unknown
+  },
+  options?: ShadowBundleAssertOptions,
+): void {
+  const verificationMode = options?.verificationMode ?? 'live-double-build'
+  const independentBuilds = verificationMode === 'live-double-build' ? 2 : 1
+  const recordedMode = verificationMode === 'live-double-build' ? undefined : verificationMode
+  if (
+    determinism.identical !== true ||
+    determinism.independentBuilds !== independentBuilds ||
+    determinism.verificationMode !== recordedMode ||
+    determinism.coreDigest !== coreDigest ||
+    (options?.expectedCoreDigest !== undefined &&
+      determinism.coreDigest !== options.expectedCoreDigest)
+  )
+    throw new Error(`${phase} shadow determinism report invalid`)
+}
+
 /**
  * 每次都从同一权威 v4 输入独立构建两次。前一次 shadow 目录从不作为输入。
  */
-export function buildDeterministicP2ShadowBundle(args: {
-  migration: MigrationFileSet
-  base: MigrationSnapshot
-  ours: MigrationSnapshot
-  currentAudit: ScriptControlFlowAuditV1
-  frozenAudit: ScriptControlFlowAuditV1
-}): P2ShadowBundle {
-  const first = buildCore(args)
+export function buildDeterministicP2ShadowBundle(
+  args: P2ShadowBuildArgs,
+  firstValidatedChain?: ValidatedP6TransformChain,
+): P2ShadowBundle {
+  const first = buildCore(args, firstValidatedChain)
   const second = buildCore({
     ...args,
     migration: {
@@ -259,41 +374,43 @@ export function buildDeterministicP2ShadowBundle(args: {
     },
   })
   if (!sameFiles(first, second)) throw new Error('P2 shadow transform is not deterministic')
-  const coreDigest = digestShadowBundle(first)
-  first.set(
-    'reports/determinism.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-determinism',
-      version: 1,
-      throughPhase: 'P2',
-      independentBuilds: 2,
-      identical: true,
-      coreDigest,
-    }),
-  )
-  const artifacts = [...first]
-    .sort(([left], [right]) => stableStringCompare(left, right))
-    .map(([path, body]) => ({ path, sha256: sha256(body) }))
-  first.set(
-    'shadow.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-manifest',
-      version: 1,
-      projectId: 'pal',
-      throughPhase: 'P2',
+  return finishShadowBundle(
+    first,
+    {
+      phase: 'P2',
       generatorEpoch: 'n3-script-v5-p2-v1',
-      canonical: false,
-      runtimeConsumable: false,
       source: 'author-preserving-v4-merge-plus-p2-overlay',
       sourceAuditDigest: args.frozenAudit.digest,
-      artifacts,
-      coreDigest,
-    }),
+    },
+    { independentBuilds: 2, verificationMode: 'live-double-build' },
   )
-  return Object.freeze({ files: first, digest: digestShadowBundle(first) })
 }
 
-export function assertP2ShadowBundle(bundle: P2ShadowBundle): void {
+export function buildPinnedP2ShadowBundleFromValidatedChain(
+  args: P2ShadowBuildArgs,
+  chain: ValidatedP6TransformChain,
+  expectedCoreDigest: string,
+): P2ShadowBundle {
+  return finishShadowBundle(
+    buildCore(args, chain),
+    {
+      phase: 'P2',
+      generatorEpoch: 'n3-script-v5-p2-v1',
+      source: 'author-preserving-v4-merge-plus-p2-overlay',
+      sourceAuditDigest: args.frozenAudit.digest,
+    },
+    {
+      independentBuilds: 1,
+      verificationMode: 'pinned-release-core',
+      expectedCoreDigest,
+    },
+  )
+}
+
+export function assertP2ShadowBundle(
+  bundle: P2ShadowBundle,
+  options?: ShadowBundleAssertOptions,
+): void {
   if (digestShadowBundle(bundle.files) !== bundle.digest)
     throw new Error('P2 shadow bundle digest mismatch')
   const manifestBody = bundle.files.get('shadow.json')
@@ -331,14 +448,10 @@ export function assertP2ShadowBundle(bundle: P2ShadowBundle): void {
   const determinism = JSON.parse(determinismBody) as {
     identical?: unknown
     independentBuilds?: unknown
+    verificationMode?: unknown
     coreDigest?: unknown
   }
-  if (
-    determinism.identical !== true ||
-    determinism.independentBuilds !== 2 ||
-    determinism.coreDigest !== manifest.coreDigest
-  )
-    throw new Error('P2 shadow determinism report invalid')
+  assertShadowBundleVerification('P2', manifest.coreDigest, determinism, options)
   const artifactPaths = new Set<string>()
   for (const artifact of manifest.artifacts) {
     if (typeof artifact.path !== 'string' || typeof artifact.sha256 !== 'string')
@@ -370,32 +483,41 @@ interface P3ShadowBuildArgs {
   sourceCommands: readonly SourceCmd[]
 }
 
-function buildP3Core(args: P3ShadowBuildArgs): Map<string, string> {
-  const p2 = buildP2ScriptMigrationIR(args)
-  validateScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    ir: p2.ir,
-    ledger: p2.ledger,
-    throughPhase: 'P2',
-  })
-  const transformed = buildP3ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    sourceCommands: args.sourceCommands,
-    p2: p2.ir,
-    p2Ledger: p2.ledger,
-  })
-  const validation = validateP3ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    sourceCommands: args.sourceCommands,
-    p2: p2.ir,
-    p2Ledger: p2.ledger,
-    ir: transformed.ir,
-    ledger: transformed.ledger,
-    throughPhase: 'P3',
-  })
+function buildP3Core(
+  args: P3ShadowBuildArgs,
+  chain?: ValidatedP6TransformChain,
+): Map<string, string> {
+  if (chain) assertValidatedChainInputs(args, chain)
+  const p2 = chain?.p2 ?? buildP2ScriptMigrationIR(args)
+  if (!chain)
+    validateScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      ir: p2.ir,
+      ledger: p2.ledger,
+      throughPhase: 'P2',
+    })
+  const transformed =
+    chain?.p3 ??
+    buildP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: p2.ir,
+      p2Ledger: p2.ledger,
+    })
+  const validation =
+    chain?.validations.p3 ??
+    validateP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: p2.ir,
+      p2Ledger: p2.ledger,
+      ir: transformed.ir,
+      ledger: transformed.ledger,
+      throughPhase: 'P3',
+    })
   const transitionPlan = planP3ScriptTransition({
     migration: args.migration,
     frozenAudit: args.frozenAudit,
@@ -552,8 +674,11 @@ function buildP3Core(args: P3ShadowBuildArgs): Map<string, string> {
 /**
  * P3 仍从同一权威 v4 输入独立构建两次，不读取 P2/P3 shadow 目录。
  */
-export function buildDeterministicP3ShadowBundle(args: P3ShadowBuildArgs): P3ShadowBundle {
-  const first = buildP3Core(args)
+export function buildDeterministicP3ShadowBundle(
+  args: P3ShadowBuildArgs,
+  firstValidatedChain?: ValidatedP6TransformChain,
+): P3ShadowBundle {
+  const first = buildP3Core(args, firstValidatedChain)
   const second = buildP3Core({
     ...args,
     migration: {
@@ -575,41 +700,43 @@ export function buildDeterministicP3ShadowBundle(args: P3ShadowBuildArgs): P3Sha
     },
   })
   if (!sameFiles(first, second)) throw new Error('P3 shadow transform is not deterministic')
-  const coreDigest = digestShadowBundle(first)
-  first.set(
-    'reports/determinism.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-determinism',
-      version: 1,
-      throughPhase: 'P3',
-      independentBuilds: 2,
-      identical: true,
-      coreDigest,
-    }),
-  )
-  const artifacts = [...first]
-    .sort(([left], [right]) => stableStringCompare(left, right))
-    .map(([path, body]) => ({ path, sha256: sha256(body) }))
-  first.set(
-    'shadow.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-manifest',
-      version: 1,
-      projectId: 'pal',
-      throughPhase: 'P3',
+  return finishShadowBundle(
+    first,
+    {
+      phase: 'P3',
       generatorEpoch: 'n3-script-v5-p3-v1',
-      canonical: false,
-      runtimeConsumable: false,
       source: 'author-preserving-v4-merge-plus-cumulative-p3-overlay',
       sourceAuditDigest: args.frozenAudit.digest,
-      artifacts,
-      coreDigest,
-    }),
+    },
+    { independentBuilds: 2, verificationMode: 'live-double-build' },
   )
-  return Object.freeze({ files: first, digest: digestShadowBundle(first) })
 }
 
-export function assertP3ShadowBundle(bundle: P3ShadowBundle): void {
+export function buildPinnedP3ShadowBundleFromValidatedChain(
+  args: P3ShadowBuildArgs,
+  chain: ValidatedP6TransformChain,
+  expectedCoreDigest: string,
+): P3ShadowBundle {
+  return finishShadowBundle(
+    buildP3Core(args, chain),
+    {
+      phase: 'P3',
+      generatorEpoch: 'n3-script-v5-p3-v1',
+      source: 'author-preserving-v4-merge-plus-cumulative-p3-overlay',
+      sourceAuditDigest: args.frozenAudit.digest,
+    },
+    {
+      independentBuilds: 1,
+      verificationMode: 'pinned-release-core',
+      expectedCoreDigest,
+    },
+  )
+}
+
+export function assertP3ShadowBundle(
+  bundle: P3ShadowBundle,
+  options?: ShadowBundleAssertOptions,
+): void {
   if (digestShadowBundle(bundle.files) !== bundle.digest)
     throw new Error('P3 shadow bundle digest mismatch')
   const manifestBody = bundle.files.get('shadow.json')
@@ -647,14 +774,10 @@ export function assertP3ShadowBundle(bundle: P3ShadowBundle): void {
   const determinism = JSON.parse(determinismBody) as {
     identical?: unknown
     independentBuilds?: unknown
+    verificationMode?: unknown
     coreDigest?: unknown
   }
-  if (
-    determinism.identical !== true ||
-    determinism.independentBuilds !== 2 ||
-    determinism.coreDigest !== manifest.coreDigest
-  )
-    throw new Error('P3 shadow determinism report invalid')
+  assertShadowBundleVerification('P3', manifest.coreDigest, determinism, options)
   const inventory = JSON.parse(bundle.files.get('reports/p3-flow-inventory.json') ?? '{}') as {
     census?: ScriptMigrationIRP3['flowCensus']
     structures?: { incomingSites?: unknown }
@@ -690,47 +813,59 @@ export function assertP3ShadowBundle(bundle: P3ShadowBundle): void {
 
 interface P4ShadowBuildArgs extends P3ShadowBuildArgs {}
 
-function buildP4Core(args: P4ShadowBuildArgs): Map<string, string> {
-  const p2 = buildP2ScriptMigrationIR(args)
-  validateScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    ir: p2.ir,
-    ledger: p2.ledger,
-    throughPhase: 'P2',
-  })
-  const p3 = buildP3ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    sourceCommands: args.sourceCommands,
-    p2: p2.ir,
-    p2Ledger: p2.ledger,
-  })
-  validateP3ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    sourceCommands: args.sourceCommands,
-    p2: p2.ir,
-    p2Ledger: p2.ledger,
-    ir: p3.ir,
-    ledger: p3.ledger,
-    throughPhase: 'P3',
-  })
-  const transformed = buildP4ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    p3: p3.ir,
-    p3Ledger: p3.ledger,
-  })
-  const validation = validateP4ScriptMigrationIR({
-    migration: args.migration,
-    frozenAudit: args.frozenAudit,
-    p3: p3.ir,
-    p3Ledger: p3.ledger,
-    ir: transformed.ir,
-    ledger: transformed.ledger,
-    throughPhase: 'P4',
-  })
+function buildP4Core(
+  args: P4ShadowBuildArgs,
+  chain?: ValidatedP6TransformChain,
+): Map<string, string> {
+  if (chain) assertValidatedChainInputs(args, chain)
+  const p2 = chain?.p2 ?? buildP2ScriptMigrationIR(args)
+  if (!chain)
+    validateScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      ir: p2.ir,
+      ledger: p2.ledger,
+      throughPhase: 'P2',
+    })
+  const p3 =
+    chain?.p3 ??
+    buildP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: p2.ir,
+      p2Ledger: p2.ledger,
+    })
+  if (!chain)
+    validateP3ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      sourceCommands: args.sourceCommands,
+      p2: p2.ir,
+      p2Ledger: p2.ledger,
+      ir: p3.ir,
+      ledger: p3.ledger,
+      throughPhase: 'P3',
+    })
+  const transformed =
+    chain?.p4 ??
+    buildP4ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      p3: p3.ir,
+      p3Ledger: p3.ledger,
+    })
+  const validation =
+    chain?.validations.p4 ??
+    validateP4ScriptMigrationIR({
+      migration: args.migration,
+      frozenAudit: args.frozenAudit,
+      p3: p3.ir,
+      p3Ledger: p3.ledger,
+      ir: transformed.ir,
+      ledger: transformed.ledger,
+      throughPhase: 'P4',
+    })
   const transitionPlan = planP4ScriptTransition({
     migration: args.migration,
     frozenAudit: args.frozenAudit,
@@ -898,8 +1033,11 @@ function buildP4Core(args: P4ShadowBuildArgs): Map<string, string> {
 /**
  * P4 仍从同一权威 v4 输入独立构建两次，不读取任何已有 shadow 目录。
  */
-export function buildDeterministicP4ShadowBundle(args: P4ShadowBuildArgs): P4ShadowBundle {
-  const first = buildP4Core(args)
+export function buildDeterministicP4ShadowBundle(
+  args: P4ShadowBuildArgs,
+  firstValidatedChain?: ValidatedP6TransformChain,
+): P4ShadowBundle {
+  const first = buildP4Core(args, firstValidatedChain)
   const second = buildP4Core({
     ...args,
     migration: {
@@ -921,41 +1059,43 @@ export function buildDeterministicP4ShadowBundle(args: P4ShadowBuildArgs): P4Sha
     },
   })
   if (!sameFiles(first, second)) throw new Error('P4 shadow transform is not deterministic')
-  const coreDigest = digestShadowBundle(first)
-  first.set(
-    'reports/determinism.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-determinism',
-      version: 1,
-      throughPhase: 'P4',
-      independentBuilds: 2,
-      identical: true,
-      coreDigest,
-    }),
-  )
-  const artifacts = [...first]
-    .sort(([left], [right]) => stableStringCompare(left, right))
-    .map(([path, body]) => ({ path, sha256: sha256(body) }))
-  first.set(
-    'shadow.json',
-    formatStableJson({
-      kind: 'script-v5-shadow-manifest',
-      version: 1,
-      projectId: 'pal',
-      throughPhase: 'P4',
+  return finishShadowBundle(
+    first,
+    {
+      phase: 'P4',
       generatorEpoch: 'n3-script-v5-p4-v1',
-      canonical: false,
-      runtimeConsumable: false,
       source: 'author-preserving-v4-merge-plus-cumulative-p4-overlay',
       sourceAuditDigest: args.frozenAudit.digest,
-      artifacts,
-      coreDigest,
-    }),
+    },
+    { independentBuilds: 2, verificationMode: 'live-double-build' },
   )
-  return Object.freeze({ files: first, digest: digestShadowBundle(first) })
 }
 
-export function assertP4ShadowBundle(bundle: P4ShadowBundle): void {
+export function buildPinnedP4ShadowBundleFromValidatedChain(
+  args: P4ShadowBuildArgs,
+  chain: ValidatedP6TransformChain,
+  expectedCoreDigest: string,
+): P4ShadowBundle {
+  return finishShadowBundle(
+    buildP4Core(args, chain),
+    {
+      phase: 'P4',
+      generatorEpoch: 'n3-script-v5-p4-v1',
+      source: 'author-preserving-v4-merge-plus-cumulative-p4-overlay',
+      sourceAuditDigest: args.frozenAudit.digest,
+    },
+    {
+      independentBuilds: 1,
+      verificationMode: 'pinned-release-core',
+      expectedCoreDigest,
+    },
+  )
+}
+
+export function assertP4ShadowBundle(
+  bundle: P4ShadowBundle,
+  options?: ShadowBundleAssertOptions,
+): void {
   if (digestShadowBundle(bundle.files) !== bundle.digest)
     throw new Error('P4 shadow bundle digest mismatch')
   const manifestBody = bundle.files.get('shadow.json')
@@ -993,14 +1133,10 @@ export function assertP4ShadowBundle(bundle: P4ShadowBundle): void {
   const determinism = JSON.parse(determinismBody) as {
     identical?: unknown
     independentBuilds?: unknown
+    verificationMode?: unknown
     coreDigest?: unknown
   }
-  if (
-    determinism.identical !== true ||
-    determinism.independentBuilds !== 2 ||
-    determinism.coreDigest !== manifest.coreDigest
-  )
-    throw new Error('P4 shadow determinism report invalid')
+  assertShadowBundleVerification('P4', manifest.coreDigest, determinism, options)
   const inventory = JSON.parse(bundle.files.get('reports/p4-owner-inventory.json') ?? '{}') as {
     census?: ScriptMigrationIRP4['ownerCensus']
     pages?: unknown
@@ -1419,7 +1555,7 @@ export type P6TransformBuildArgs = Pick<
 /** 从权威 v4 提取结果重建并逐阶段验证完整 P2-P6 IR；不依赖 baseline/ours 三方合并。 */
 export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
   const p2 = buildP2ScriptMigrationIR(args)
-  validateScriptMigrationIR({
+  const p2Validation = validateScriptMigrationIR({
     migration: args.migration,
     frozenAudit: args.frozenAudit,
     ir: p2.ir,
@@ -1433,7 +1569,7 @@ export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
     p2: p2.ir,
     p2Ledger: p2.ledger,
   })
-  validateP3ScriptMigrationIR({
+  const p3Validation = validateP3ScriptMigrationIR({
     migration: args.migration,
     frozenAudit: args.frozenAudit,
     sourceCommands: args.sourceCommands,
@@ -1449,7 +1585,7 @@ export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
     p3: p3.ir,
     p3Ledger: p3.ledger,
   })
-  validateP4ScriptMigrationIR({
+  const p4Validation = validateP4ScriptMigrationIR({
     migration: args.migration,
     frozenAudit: args.frozenAudit,
     p3: p3.ir,
@@ -1463,7 +1599,7 @@ export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
     p4: p4.ir,
     p4Ledger: p4.ledger,
   })
-  validateP5ScriptMigrationIR({
+  const p5Validation = validateP5ScriptMigrationIR({
     frozenAudit: args.frozenAudit,
     p4: p4.ir,
     p4Ledger: p4.ledger,
@@ -1484,7 +1620,22 @@ export function buildValidatedP6TransformChain(args: P6TransformBuildArgs) {
     ledger: transformed.ledger,
     throughPhase: 'P6',
   })
-  return { p2, p3, p4, p5, p6: transformed, validation }
+  return {
+    inputs: args,
+    p2,
+    p3,
+    p4,
+    p5,
+    p6: transformed,
+    validation,
+    validations: {
+      p2: p2Validation,
+      p3: p3Validation,
+      p4: p4Validation,
+      p5: p5Validation,
+      p6: validation,
+    },
+  }
 }
 
 export function buildP6ShadowCore(args: P6ShadowBuildArgs): Map<string, string> {

@@ -231,6 +231,13 @@ ABC.MKF 1..153 -> battle-sprite.pal.enemy.NNN
   demo/e2e-own 使用提交的 generated placeholder，避免暗借 PAL player 0。
 
 实现后 manifest 只剩 `effect-sprite/image` 两个 legacy family。C2-ACT 已把工程升级到
-`contentVersion 4`（精灵预制动作语义）；全 legacy 归零、升级 `contentVersion 5` 和总闭包门禁
-仍属于 A7-4；实现与审查证据见
+`contentVersion 4`（精灵预制动作语义）；N3-1 canonical P7 与 R13-1 cadence/save epoch 随后占用
+contentVersion 5/6。全 legacy 归零、升级 `contentVersion 7` 和总闭包门禁仍属于 A7-4；
+实现与审查证据见
 [`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。
+
+## 14. 后续版本轴更新（2026-07-29）
+
+R13-2 与 R13-3 后续分别占用 content 7、content 8；当前组合为
+content 8 / SAVE 7 / minimum 7。A7-3B 完成时记录的“A7-4 计划 v7”只代表当时计划；
+A7-4 当前顺延为候选 v9，版本尚未冻结。

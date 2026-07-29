@@ -12,18 +12,10 @@ import type {
   SpriteDef,
   StartWorld,
 } from './index.js'
-import type { ItemUseEffect } from './item.js'
-import {
-  ITEM_USE_EFFECT_KINDS,
-  itemUseEffectSupportsContext,
-  itemUseSupportsContext,
-} from './item.js'
+import type { ItemUseEffect, ThrowEffect } from './item.js'
+import { ITEM_USE_EFFECT_KINDS, itemUseSupportsContext, THROW_EFFECT_KINDS } from './item.js'
 import type { ItemDataV5, ItemUseEffectV5 } from './item-v5.js'
-import {
-  ITEM_USE_EFFECT_KINDS_V5,
-  itemUseEffectSupportsContextV5,
-  itemUseSupportsContextV5,
-} from './item-v5.js'
+import { ITEM_USE_EFFECT_KINDS_V5, itemUseSupportsContextV5 } from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
 import type { SceneDefV5 } from './scene-v5.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
@@ -387,6 +379,12 @@ function requireFiniteNumber(
   return value
 }
 
+function requireSafeInteger(value: unknown, ctx: string): number {
+  const number = requireFiniteNumber(value, ctx, { integer: true })
+  if (!Number.isSafeInteger(number)) throw new Error(`${ctx}: 期望安全整数`)
+  return number
+}
+
 function validateSkillAnimation(animation: Record<string, unknown>, ctx: string): void {
   requireOnlyKeys(
     animation,
@@ -587,20 +585,6 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
     case 'levelUp':
       requireFiniteNumber(effect.levels, `${ctx}.levels`, { positive: true, integer: true })
       break
-    case 'currentHpDamage': {
-      requireFiniteNumber(effect.numerator, `${ctx}.numerator`, {
-        positive: true,
-        integer: true,
-      })
-      requireFiniteNumber(effect.denominator, `${ctx}.denominator`, {
-        positive: true,
-        integer: true,
-      })
-      const bonus = requireFiniteNumber(effect.bonus, `${ctx}.bonus`, { integer: true })
-      if (bonus < 0) throw new Error(`${ctx}.bonus: 不得小于 0`)
-      requireFiniteNumber(effect.cap, `${ctx}.cap`, { positive: true, integer: true })
-      break
-    }
     case 'placeEntityInFront':
       checkEntityAddress(effect.target, `${ctx}.target`)
       requireFiniteNumber(effect.state, `${ctx}.state`, { integer: true })
@@ -611,6 +595,128 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
     default:
       assertNever(kind, `${ctx}.kind`)
   }
+}
+
+/** 投掷效果独立 guard；每个判别分支严格 exact-key，非法内容不得进入消费阶段。 */
+function validateThrowEffect(effect: Record<string, unknown>, ctx: string): void {
+  if (typeof effect.kind !== 'string') throw new Error(`${ctx}.kind: 期望 string`)
+  if (!(effect.kind in THROW_EFFECT_KINDS))
+    throw new Error(`${ctx}.kind: 未知投掷效果 ${effect.kind}`)
+  const kind = effect.kind as ThrowEffect['kind']
+  switch (kind) {
+    case 'magicDamage': {
+      requireOnlyKeys(effect, ['kind', 'baseDamage', 'element', 'strength'], ctx)
+      requireSafeInteger(effect.baseDamage, `${ctx}.baseDamage`)
+      if (
+        !['none', 'wind', 'thunder', 'water', 'fire', 'earth', 'poison'].includes(
+          String(effect.element),
+        )
+      )
+        throw new Error(`${ctx}.element: 未知投掷元素 ${String(effect.element)}`)
+      const strength = assertObject(effect.strength, `${ctx}.strength`) as Record<string, unknown>
+      if (strength.kind === 'fixed') {
+        requireOnlyKeys(strength, ['kind', 'value'], `${ctx}.strength`)
+        const value = requireSafeInteger(strength.value, `${ctx}.strength.value`)
+        if (value < 0) throw new Error(`${ctx}.strength.value: 不得小于 0`)
+      } else if (strength.kind === 'casterAttack') {
+        requireOnlyKeys(strength, ['kind', 'bonus', 'multiplier'], `${ctx}.strength`)
+        const bonus = requireSafeInteger(strength.bonus, `${ctx}.strength.bonus`)
+        if (bonus < 0) throw new Error(`${ctx}.strength.bonus: 不得小于 0`)
+        const multiplier = assertObject(
+          strength.multiplier,
+          `${ctx}.strength.multiplier`,
+        ) as Record<string, unknown>
+        requireOnlyKeys(multiplier, ['kind', 'min', 'max'], `${ctx}.strength.multiplier`)
+        if (multiplier.kind !== 'uniformInt')
+          throw new Error(`${ctx}.strength.multiplier.kind: 期望 uniformInt`)
+        const min = requireSafeInteger(multiplier.min, `${ctx}.strength.multiplier.min`)
+        const max = requireSafeInteger(multiplier.max, `${ctx}.strength.multiplier.max`)
+        if (min < 0 || max < 0) throw new Error(`${ctx}.strength.multiplier: min/max 不得小于 0`)
+        if (min > max) throw new Error(`${ctx}.strength.multiplier: min 不得大于 max`)
+      } else {
+        throw new Error(`${ctx}.strength.kind: 期望 fixed/casterAttack`)
+      }
+      break
+    }
+    case 'fixedDamage':
+      requireOnlyKeys(effect, ['kind', 'amount'], ctx)
+      if (requireSafeInteger(effect.amount, `${ctx}.amount`) <= 0)
+        throw new Error(`${ctx}.amount: 期望正数`)
+      break
+    case 'applyPoison':
+      requireOnlyKeys(effect, ['kind', 'poisonId'], ctx)
+      if (typeof effect.poisonId !== 'string' || effect.poisonId.length === 0)
+        throw new Error(`${ctx}.poisonId: 期望非空稳定 id`)
+      break
+    case 'currentHpDamage': {
+      requireOnlyKeys(effect, ['kind', 'numerator', 'denominator', 'bonus', 'cap'], ctx)
+      if (requireSafeInteger(effect.numerator, `${ctx}.numerator`) <= 0)
+        throw new Error(`${ctx}.numerator: 期望正数`)
+      if (requireSafeInteger(effect.denominator, `${ctx}.denominator`) <= 0)
+        throw new Error(`${ctx}.denominator: 期望正数`)
+      const bonus = requireSafeInteger(effect.bonus, `${ctx}.bonus`)
+      if (bonus < 0) throw new Error(`${ctx}.bonus: 不得小于 0`)
+      if (requireSafeInteger(effect.cap, `${ctx}.cap`) <= 0) throw new Error(`${ctx}.cap: 期望正数`)
+      break
+    }
+    case 'applyStatus':
+      requireOnlyKeys(effect, ['kind', 'status', 'turns', 'onResist'], ctx)
+      if (typeof effect.status !== 'string' || !ITEM_STATUS_IDS.has(effect.status))
+        throw new Error(`${ctx}.status: 未知状态 ${String(effect.status)}`)
+      if (requireSafeInteger(effect.turns, `${ctx}.turns`) <= 0)
+        throw new Error(`${ctx}.turns: 期望正数`)
+      if (effect.onResist !== 'continue' && effect.onResist !== 'stopTarget')
+        throw new Error(`${ctx}.onResist: 期望 continue/stopTarget`)
+      break
+    case 'killIfHpAtMost': {
+      requireOnlyKeys(effect, ['kind', 'percent'], ctx)
+      const percent = requireSafeInteger(effect.percent, `${ctx}.percent`)
+      if (percent <= 0) throw new Error(`${ctx}.percent: 期望正数`)
+      if (percent > 100) throw new Error(`${ctx}.percent: 不得大于 100`)
+      break
+    }
+    case 'damageAndHealCaster':
+      requireOnlyKeys(effect, ['kind', 'damage', 'heal'], ctx)
+      if (requireSafeInteger(effect.damage, `${ctx}.damage`) <= 0)
+        throw new Error(`${ctx}.damage: 期望正数`)
+      if (requireSafeInteger(effect.heal, `${ctx}.heal`) <= 0)
+        throw new Error(`${ctx}.heal: 期望正数`)
+      break
+    default:
+      assertNever(kind, `${ctx}.kind`)
+  }
+}
+
+/** 单条当前投掷能力的公开 fail-closed 边界；战斗消费前与整表 validator 共用。 */
+export function checkThrowSpec(
+  value: unknown,
+  ctx = 'throw',
+): asserts value is import('./item.js').ThrowSpec {
+  const thrown = assertObject(value, ctx) as Record<string, unknown>
+  requireOnlyKeys(thrown, ['target', 'effects', 'sound', 'presentation'], ctx)
+  if (thrown.target !== 'oneEnemy' && thrown.target !== 'allEnemies')
+    throw new Error(`${ctx}.target: 期望 oneEnemy/allEnemies`)
+  validateOptionalAssetId(thrown, 'sound', ctx)
+  if (thrown.presentation !== undefined) {
+    const presentation = assertObject(thrown.presentation, `${ctx}.presentation`) as Record<
+      string,
+      unknown
+    >
+    requireOnlyKeys(presentation, ['kind', 'animation'], `${ctx}.presentation`)
+    if (presentation.kind !== 'magic') throw new Error(`${ctx}.presentation.kind: 期望 magic`)
+    validateSkillAnimation(
+      assertObject(presentation.animation, `${ctx}.presentation.animation`) as Record<
+        string,
+        unknown
+      >,
+      `${ctx}.presentation.animation`,
+    )
+  }
+  const effects = assertArray<Record<string, unknown>>(thrown.effects, `${ctx}.effects`)
+  if (effects.length === 0) throw new Error(`${ctx}.effects: 不得为空`)
+  effects.forEach((effect, effectIndex) => {
+    validateThrowEffect(effect, `${ctx}.effects[${effectIndex}]`)
+  })
 }
 
 function validateItemUseEffectV5(effect: Record<string, unknown>, ctx: string): void {
@@ -743,38 +849,7 @@ export function validateItems(json: unknown): ItemData[] {
       }
     }
     if (record.throw !== undefined) {
-      const thrown = assertObject(record.throw, `items[${i}].throw`) as Record<string, unknown>
-      if (thrown.presentation !== undefined) {
-        const presentation = assertObject(
-          thrown.presentation,
-          `items[${i}].throw.presentation`,
-        ) as Record<string, unknown>
-        requireOnlyKeys(presentation, ['kind', 'animation'], `items[${i}].throw.presentation`)
-        if (presentation.kind !== 'magic')
-          throw new Error(`items[${i}].throw.presentation.kind: 期望 magic`)
-        validateSkillAnimation(
-          assertObject(
-            presentation.animation,
-            `items[${i}].throw.presentation.animation`,
-          ) as Record<string, unknown>,
-          `items[${i}].throw.presentation.animation`,
-        )
-      }
-      const effects = assertArray<Record<string, unknown>>(
-        thrown.effects,
-        `items[${i}].throw.effects`,
-      )
-      effects.forEach((effect, effectIndex) => {
-        const ctx = `items[${i}].throw.effects[${effectIndex}]`
-        validateItemUseEffect(effect, ctx)
-        if (
-          !itemUseEffectSupportsContext(
-            effect as unknown as import('./item.js').ItemUseEffect,
-            'throw',
-          )
-        )
-          throw new Error(`${ctx}: ${String(effect.kind)} 不可用于投掷上下文`)
-      })
+      checkThrowSpec(record.throw, `items[${i}].throw`)
     }
     if (record.equip !== undefined) {
       const equip = assertObject(record.equip, `items[${i}].equip`) as Record<string, unknown>
@@ -799,25 +874,19 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
   const arr = assertArray<ItemDataV5>(json, 'items')
   arr.forEach((item, itemIndex) => {
     const itemRecord = assertObject(item, `items[${itemIndex}]`) as Record<string, unknown>
-    for (const field of ['use', 'throw'] as const) {
-      if (itemRecord[field] === undefined) continue
-      const spec = assertObject(itemRecord[field], `items[${itemIndex}].${field}`) as Record<
+    if (itemRecord.use !== undefined) {
+      const spec = assertObject(itemRecord.use, `items[${itemIndex}].use`) as Record<
         string,
         unknown
       >
-      const effects = assertArray<ItemUseEffectV5>(
-        spec.effects,
-        `items[${itemIndex}].${field}.effects`,
-      )
+      const effects = assertArray<ItemUseEffectV5>(spec.effects, `items[${itemIndex}].use.effects`)
       effects.forEach((effect, effectIndex) => {
-        const ctx = `items[${itemIndex}].${field}.effects[${effectIndex}]`
+        const ctx = `items[${itemIndex}].use.effects[${effectIndex}]`
         validateItemUseEffectV5(effect as unknown as Record<string, unknown>, ctx)
-        if (field === 'throw' && !itemUseEffectSupportsContextV5(effect, 'throw'))
-          throw new Error(`${ctx}: ${effect.kind} 不可用于投掷上下文`)
       })
       const privateScripts = effects.filter((effect) => effect.kind === 'itemPrivateScript')
       if (privateScripts.length > 1)
-        throw new Error(`items[${itemIndex}].${field}.effects: item-private use 槽只能出现一次`)
+        throw new Error(`items[${itemIndex}].use.effects: item-private use 槽只能出现一次`)
     }
     if (item.use !== undefined) {
       const supportsWorld = itemUseSupportsContextV5(item.use, 'world')
@@ -831,7 +900,7 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
 
   // 复用 v4 非脚本物品规则；脚本效果只替换成等价的世界专用占位引用。
   const commonShape = arr.map((item) => {
-    const mapSpec = (spec: ItemDataV5['use'] | ItemDataV5['throw']) => {
+    const mapUse = (spec: ItemDataV5['use']) => {
       if (spec === undefined) return undefined
       const sceneKinds = new Set([
         'runScript',
@@ -864,7 +933,7 @@ export function validateItemsV5(json: unknown): ItemDataV5[] {
         }),
       }
     }
-    return { ...item, use: mapSpec(item.use), throw: mapSpec(item.throw) }
+    return { ...item, use: mapUse(item.use) }
   })
   validateItems(commonShape)
   return arr

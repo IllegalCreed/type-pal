@@ -1,4 +1,6 @@
 import {
+  CONTENT_VERSION,
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
   checkWorldScriptStateV5,
@@ -13,9 +15,21 @@ import {
 } from '@type-pal/content'
 import type { FileSource } from '../file-source.js'
 import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.js'
-import type { SavePayload, SavePayloadV5 } from './types.js'
+import {
+  type LegacySavePayloadV7,
+  SAVE_VERSION,
+  type SavePayload,
+  type SavePayloadV5,
+  type SavePayloadV6,
+  type SavePayloadV7,
+} from './types.js'
 
-export type { SavePayloadV5 } from './types.js'
+export type {
+  LegacySavePayloadV7,
+  SavePayloadV5,
+  SavePayloadV6,
+  SavePayloadV7,
+} from './types.js'
 
 /** N3-1 的目标 envelope 版本；P7 原子切换时与 SAVE_VERSION 一同成为 5。 */
 export const SCRIPT_V5_SAVE_VERSION = 5 as const
@@ -26,7 +40,7 @@ export interface SavePayloadHeader {
   contentVersion: number
 }
 
-export type SaveMigrationResolver =
+export type LegacySaveMigrationResolverV5 =
   | {
       kind: 'current-v5'
       projectId: string
@@ -47,6 +61,34 @@ export type SaveMigrationResolver =
           >
         >
       >
+    }
+
+export interface SaveMigrationResolverV6 {
+  kind: 'current-v6'
+  projectId: string
+  targetContentVersion: 6
+  targetSaveVersion: 6
+}
+
+export interface SaveMigrationResolverV7 {
+  kind: 'current-v7'
+  projectId: string
+  targetContentVersion: 7
+  targetSaveVersion: 7
+}
+
+export type SaveMigrationResolver =
+  | {
+      kind: 'current-v8'
+      projectId: string
+      targetContentVersion: 8
+      targetSaveVersion: 7
+    }
+  | {
+      kind: 'content-v7-v8'
+      projectId: string
+      targetContentVersion: 8
+      targetSaveVersion: 7
     }
 
 function assertIntegerVersion(value: unknown, path: string): number {
@@ -76,7 +118,7 @@ export type ValidatedProjectMigrationRegistryV1 = Readonly<
 >
 
 async function loadScriptV4V5MigrationBlob(args: {
-  manifest: ProjectManifest<5>
+  manifest: ProjectManifest<5 | 6 | 7 | 8>
   source: Pick<FileSource, 'readBytes'>
   descriptorValue: unknown
   signal?: AbortSignal
@@ -118,7 +160,7 @@ async function loadScriptV4V5MigrationBlob(args: {
  * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
  */
 export async function loadProjectMigrationRegistryV5(args: {
-  manifest: ProjectManifest<5>
+  manifest: ProjectManifest<5 | 6 | 7 | 8>
   source: Pick<FileSource, 'readBytes'>
   signal?: AbortSignal
 }): Promise<ValidatedProjectMigrationRegistryV1> {
@@ -201,14 +243,114 @@ async function resolveSceneHookSelections(
 }
 
 /**
- * 异步存档迁移预检。minimumSaveVersion 是第一道硬闸；只有 1..4/4 -> 5 的链会读取 sidecar。
+ * 当前工程是 content8/minimum7；只接受 SAVE7/content7 或 SAVE7/content8。
+ * 7/7 是无 sidecar 的内容 epoch identity 升级，6 及更早仍在任何兼容 IO 前拒绝。
+ * 此预检的参数刻意不含 FileSource，旧存档一定在任何历史 sidecar I/O 之前失败。
  */
 export async function preflightSaveMigration(args: {
+  manifest: ProjectManifest<8>
+  payload: SavePayloadHeader
+}): Promise<SaveMigrationResolver> {
+  const minimum = args.manifest.minimumSaveVersion
+  if (minimum !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
+    throw new Error(
+      `manifest.minimumSaveVersion: contentVersion ${CONTENT_VERSION} 期望 ` +
+        `${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}，收到 ${String(minimum)}`,
+    )
+  const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
+  const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
+  if (args.payload.projectId !== args.manifest.id)
+    throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
+  if (args.manifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(
+      `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
+    )
+  if (saveVersion !== SAVE_VERSION || (contentVersion !== 7 && contentVersion !== CONTENT_VERSION))
+    throw new Error(
+      `开发期存档 epoch 已断开：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
+        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 7 或 ${CONTENT_VERSION}；请新开游戏，` +
+        '旧存档不会读取或重放历史兼容 sidecar',
+    )
+  return {
+    kind: contentVersion === CONTENT_VERSION ? 'current-v8' : 'content-v7-v8',
+    projectId: args.manifest.id,
+    targetContentVersion: CONTENT_VERSION,
+    targetSaveVersion: SAVE_VERSION,
+  }
+}
+
+/** R13-2 已发布 7/7 epoch 的历史 byte-pin 入口；当前 runtime 不调用。 */
+export async function preflightLegacySaveMigrationV7(args: {
+  manifest: ProjectManifest<7>
+  payload: SavePayloadHeader
+}): Promise<SaveMigrationResolverV7> {
+  if (args.manifest.minimumSaveVersion !== 7)
+    throw new Error(
+      `manifest.minimumSaveVersion: historical contentVersion 7 期望 7，收到 ${String(
+        args.manifest.minimumSaveVersion,
+      )}`,
+    )
+  const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
+  const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
+  if (args.payload.projectId !== args.manifest.id)
+    throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
+  if (args.manifest.contentVersion !== 7)
+    throw new Error(`工程 "${args.manifest.id}": historical v7 预检只接受 contentVersion 7`)
+  if (saveVersion !== 7 || contentVersion !== 7)
+    throw new Error(
+      `开发期存档 epoch 已断开：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
+        'historical v7 只接受 SAVE v7 / contentVersion 7；请新开游戏',
+    )
+  return {
+    kind: 'current-v7',
+    projectId: args.manifest.id,
+    targetContentVersion: 7,
+    targetSaveVersion: 7,
+  }
+}
+
+/**
+ * R13-1 已发布 6/6 epoch 的历史 byte-pin 入口。当前 runtime 不得调用；保留它只用于证明
+ * 原 6/6 预检和 normalizer 没有随 R13-2 的 SAVE_VERSION=7 漂移。
+ */
+export async function preflightLegacySaveMigrationV6(args: {
+  manifest: ProjectManifest<6>
+  payload: SavePayloadHeader
+}): Promise<SaveMigrationResolverV6> {
+  if (args.manifest.minimumSaveVersion !== 6)
+    throw new Error(
+      `manifest.minimumSaveVersion: historical contentVersion 6 期望 6，收到 ${String(
+        args.manifest.minimumSaveVersion,
+      )}`,
+    )
+  const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
+  const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
+  if (args.payload.projectId !== args.manifest.id)
+    throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
+  if (args.manifest.contentVersion !== 6)
+    throw new Error(`工程 "${args.manifest.id}": historical v6 预检只接受 contentVersion 6`)
+  if (saveVersion !== 6 || contentVersion !== 6)
+    throw new Error(
+      `historical 6/6 epoch 只接受 SAVE v6 / contentVersion 6，收到 SAVE v${saveVersion} / ` +
+        `contentVersion ${contentVersion}`,
+    )
+  return {
+    kind: 'current-v6',
+    projectId: args.manifest.id,
+    targetContentVersion: 6,
+    targetSaveVersion: 6,
+  }
+}
+
+/**
+ * 历史 v4→v5 迁移证明专用入口。当前 runtime 不得调用；保留它只为 byte-pin 与旧迁移测试。
+ */
+export async function preflightLegacySaveMigrationV5(args: {
   manifest: ProjectManifest<5>
   source: Pick<FileSource, 'readBytes'>
   payload: SavePayloadHeader & { world?: unknown }
   signal?: AbortSignal
-}): Promise<SaveMigrationResolver> {
+}): Promise<LegacySaveMigrationResolverV5> {
   const minimum = args.manifest.minimumSaveVersion ?? 1
   if (!Number.isInteger(minimum) || minimum < 1 || minimum > SCRIPT_V5_SAVE_VERSION)
     throw new Error(`manifest.minimumSaveVersion: 期望 1..${SCRIPT_V5_SAVE_VERSION} 的整数`)
@@ -218,12 +360,9 @@ export async function preflightSaveMigration(args: {
       `存档格式 v${saveVersion} 低于工程 minimumSaveVersion v${minimum}，拒绝读取兼容 sidecar`,
     )
   if (saveVersion > SCRIPT_V5_SAVE_VERSION)
-    throw new Error(`存档格式 v${saveVersion} 新于引擎支持的 v${SCRIPT_V5_SAVE_VERSION}`)
+    throw new Error(`存档格式 v${saveVersion} 新于历史 v5 迁移器支持的 v5`)
   if (args.payload.projectId !== args.manifest.id)
     throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
-  if (args.manifest.contentVersion !== 5)
-    throw new Error(`工程 "${args.manifest.id}": 存档迁移预检只接受 contentVersion 5`)
-
   const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
   if (saveVersion === 5 && contentVersion === 5)
     return {
@@ -240,7 +379,6 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `存档版本组合不受支持：SAVE v${saveVersion} / contentVersion ${contentVersion} / project 5`,
     )
-
   const rawDescriptor = args.manifest.migrations?.[SCRIPT_V4_V5_TRANSITION_ID]
   if (rawDescriptor === undefined)
     throw new Error(
@@ -374,7 +512,7 @@ function writeCursor(
 
 function resolvedCursorTargets(
   alias: ProjectMigrationSidecarV1['legacyCursors'][number],
-  resolver: Extract<SaveMigrationResolver, { kind: 'v4-v5' }>,
+  resolver: Extract<LegacySaveMigrationResolverV5, { kind: 'v4-v5' }>,
   path: string,
 ): import('@type-pal/content').LegacyCursorTargetV1[] {
   const targets = alias.mode === 'single' ? [alias.target] : alias.targets
@@ -412,7 +550,7 @@ function resolvedCursorTargets(
  */
 export function normalizePayloadV5(
   input: SavePayload | SavePayloadV5,
-  resolver: SaveMigrationResolver,
+  resolver: LegacySaveMigrationResolverV5,
   options: NormalizePayloadOptions = {},
 ): SavePayloadV5 {
   if (input.projectId !== resolver.projectId)
@@ -511,4 +649,65 @@ export function normalizePayloadV5(
   checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
   validateHostileAwareness(payload.world, 'payload.world')
   return payload as unknown as SavePayloadV5
+}
+
+/** 历史 6/6 payload 只做结构验证与缺省容器补齐，不执行任何跨 epoch 迁移。 */
+export function normalizePayloadV6(
+  input: SavePayload | SavePayloadV5 | SavePayloadV6,
+  resolver: SaveMigrationResolverV6,
+): SavePayloadV6 {
+  if (input.projectId !== resolver.projectId)
+    throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
+  if (resolver.kind !== 'current-v6' || input.version !== 6 || input.contentVersion !== 6)
+    throw new Error('current-v6 resolver 只接受 version=6/contentVersion=6')
+  const payload = structuredClone(input) as SavePayloadV6
+  payload.world.script ??= emptyWorldScriptStateV5()
+  checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  validateHostileAwareness(payload.world, 'payload.world')
+  return payload
+}
+
+/** R13-2 historical 7/7 normalizer byte-pin；当前 runtime 不调用。 */
+export function normalizeLegacyPayloadV7(
+  input: SavePayload | SavePayloadV5 | SavePayloadV6 | LegacySavePayloadV7,
+  resolver: SaveMigrationResolverV7,
+): LegacySavePayloadV7 {
+  if (input.projectId !== resolver.projectId)
+    throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
+  if (
+    resolver.kind !== 'current-v7' ||
+    input.version !== SAVE_VERSION ||
+    input.contentVersion !== 7
+  )
+    throw new Error('current-v7 resolver 只接受 version=7/contentVersion=7')
+  const payload = structuredClone(input) as LegacySavePayloadV7
+  payload.world.script ??= emptyWorldScriptStateV5()
+  checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  validateHostileAwareness(payload.world, 'payload.world')
+  return payload
+}
+
+/**
+ * SAVE7/content7 -> SAVE7/content8 是纯内容 epoch identity normalization：
+ * 只改副本的 contentVersion，world/position/projectId 深相等且不读取 sidecar。
+ */
+export function normalizePayloadV7(
+  input: SavePayload | SavePayloadV5 | SavePayloadV6 | LegacySavePayloadV7 | SavePayloadV7,
+  resolver: SaveMigrationResolver,
+): SavePayloadV7 {
+  if (input.projectId !== resolver.projectId)
+    throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
+  if (input.version !== SAVE_VERSION)
+    throw new Error(`当前 resolver 只接受 version=${SAVE_VERSION}`)
+  if (
+    (resolver.kind === 'current-v8' && input.contentVersion !== CONTENT_VERSION) ||
+    (resolver.kind === 'content-v7-v8' && input.contentVersion !== 7)
+  )
+    throw new Error(`${resolver.kind} resolver 与 payload.contentVersion 不匹配`)
+  const payload = structuredClone(input) as SavePayloadV7
+  payload.contentVersion = CONTENT_VERSION
+  if (payload.world.script !== undefined)
+    checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  validateHostileAwareness(payload.world, 'payload.world')
+  return payload
 }

@@ -9,6 +9,7 @@ import type {
 import { v5RuntimeScriptRef } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import type { EditorState } from './edit-session.js'
+import { collectEditorAssetReferences } from './editor-asset-references.js'
 import {
   assertProjectSaveValid,
   collectEditorStatusIssues,
@@ -220,7 +221,7 @@ test('非法投掷效果进入问题面板并被保存门拒绝', () => {
         buyPrice: 0,
         sellPrice: 0,
         sellable: false,
-        throw: { effects: [{ kind: 'healHp', amount: 10 }] },
+        throw: { target: 'oneEnemy', effects: [{ kind: 'healHp', amount: 10 }] },
       } as never,
     ],
   })
@@ -232,7 +233,7 @@ test('非法投掷效果进入问题面板并被保存门拒绝', () => {
     }),
   )
   expect(() => assertProjectSaveValid(invalid)).toThrow(
-    /保存前物品数据校验失败.*不可用于投掷上下文/,
+    /保存前物品数据校验失败.*未知投掷效果 healHp/,
   )
 })
 
@@ -513,6 +514,14 @@ describe('X7 工程诊断与保存门', () => {
             effects: [{ kind: 'healHp' as const, amount: 1 }],
             sound,
           },
+          throw: {
+            target: 'oneEnemy' as const,
+            effects: [{ kind: 'fixedDamage' as const, amount: 1 }],
+            presentation: {
+              kind: 'magic' as const,
+              animation: { effectSprite: 1, sound },
+            },
+          },
         },
       ],
       skills: [
@@ -561,6 +570,12 @@ describe('X7 工程诊断与保存门', () => {
         (issue) => issue.code === 'unused-asset' && issue.message.includes(sound),
       ),
     ).toBe(false)
+    expect(collectEditorAssetReferences(withEverySoundSite)).toContainEqual({
+      asset: sound,
+      expectedKind: 'sound',
+      where: 'items[0].throw.presentation.animation.sound',
+      site: 'item:item:throw',
+    })
     expect(() => assertProjectSaveValid(withEverySoundSite)).not.toThrow()
 
     const broken = {
@@ -568,11 +583,12 @@ describe('X7 工程诊断与保存门', () => {
       items: [
         {
           ...withEverySoundSite.items[0]!,
-          use: {
-            target: 'oneAlly' as const,
-            consuming: false,
-            effects: [{ kind: 'healHp' as const, amount: 1 }],
-            sound: 'sound.missing',
+          throw: {
+            ...withEverySoundSite.items[0]!.throw!,
+            presentation: {
+              kind: 'magic' as const,
+              animation: { effectSprite: 1, sound: 'sound.missing' },
+            },
           },
         },
       ],

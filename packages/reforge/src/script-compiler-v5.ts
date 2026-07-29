@@ -12,9 +12,10 @@ import {
   type StateTransitionV5,
 } from '@type-pal/content'
 
-export const SCRIPT_COMPILER_V5_VERSION = 1 as const
+export const SCRIPT_COMPILER_V5_VERSION = 2 as const
 
 export type ScriptTimingV5 = 'auto' | 'interactive'
+export type ScriptBoundaryPolicyV5 = 'perCommand' | 'transition'
 
 export interface ExecutableCommandBoundaryV5 {
   kind: 'wait'
@@ -118,6 +119,7 @@ export interface ExecutableScriptFlowV5 {
   compilerVersion: typeof SCRIPT_COMPILER_V5_VERSION
   canonicalContentDigest: string
   timing: ScriptTimingV5
+  boundaryPolicy: ScriptBoundaryPolicyV5
   flow: ExecutableScriptFlowBodyV5
 }
 
@@ -125,6 +127,7 @@ export interface ExecutableSharedScriptV5 {
   compilerVersion: typeof SCRIPT_COMPILER_V5_VERSION
   canonicalContentDigest: string
   timing: ScriptTimingV5
+  boundaryPolicy: ScriptBoundaryPolicyV5
   id: string
   name: string
   self: SharedAuthorScriptV5['self']
@@ -146,16 +149,20 @@ function checkDigest(value: string): void {
   if (!/^[a-f0-9]{64}$/.test(value)) throw new Error('canonicalContentDigest: 期望小写 SHA-256')
 }
 
-function boundaries(timing: ScriptTimingV5): readonly ExecutableCommandBoundaryV5[] {
-  return timing === 'auto' ? [{ kind: 'wait', ms: 100 }] : []
+function boundaries(
+  timing: ScriptTimingV5,
+  boundaryPolicy: ScriptBoundaryPolicyV5,
+): readonly ExecutableCommandBoundaryV5[] {
+  return timing === 'auto' && boundaryPolicy === 'perCommand' ? [{ kind: 'wait', ms: 100 }] : []
 }
 
 function compileEntry(
   entry: AuthorSceneEntryPresentationV5,
   timing: ScriptTimingV5,
+  boundaryPolicy: ScriptBoundaryPolicyV5,
 ): ExecutableSceneEntryV5 {
   return {
-    prepare: compileAuthorCommandsV5Unchecked(entry.prepare, timing),
+    prepare: compileAuthorCommandsV5Unchecked(entry.prepare, timing, boundaryPolicy),
     reveal: clone(entry.reveal),
   }
 }
@@ -163,8 +170,9 @@ function compileEntry(
 function compileAuthorCommandV5(
   command: AuthorCommandV5,
   timing: ScriptTimingV5,
+  boundaryPolicy: ScriptBoundaryPolicyV5,
 ): ExecutableCommandV5 {
-  const after = boundaries(timing)
+  const after = boundaries(timing, boundaryPolicy)
   switch (command.kind) {
     case 'stopScript':
       return { kind: 'stop', after }
@@ -172,8 +180,8 @@ function compileAuthorCommandV5(
       return {
         kind: 'branch',
         cond: clone(command.cond),
-        then: compileAuthorCommandsV5Unchecked(command.then, timing),
-        else: compileAuthorCommandsV5Unchecked(command.else ?? [], timing),
+        then: compileAuthorCommandsV5Unchecked(command.then, timing, boundaryPolicy),
+        else: compileAuthorCommandsV5Unchecked(command.else ?? [], timing, boundaryPolicy),
         after,
       }
     case 'loop':
@@ -181,7 +189,7 @@ function compileAuthorCommandV5(
         kind: 'loop',
         mode: command.mode,
         cond: clone(command.cond),
-        body: compileAuthorCommandsV5Unchecked(command.body, timing),
+        body: compileAuthorCommandsV5Unchecked(command.body, timing, boundaryPolicy),
         maxIterations: command.maxIterations,
         after,
       }
@@ -189,7 +197,7 @@ function compileAuthorCommandV5(
       return {
         kind: 'confirm',
         ...(command.id === undefined ? {} : { id: command.id }),
-        onNo: compileAuthorCommandsV5Unchecked(command.onNo, timing),
+        onNo: compileAuthorCommandsV5Unchecked(command.onNo, timing, boundaryPolicy),
         after,
       }
     case 'startBattle': {
@@ -199,10 +207,10 @@ function compileAuthorCommandV5(
         request: clone(request),
         ...(onLose === undefined
           ? {}
-          : { onLose: compileAuthorCommandsV5Unchecked(onLose, timing) }),
+          : { onLose: compileAuthorCommandsV5Unchecked(onLose, timing, boundaryPolicy) }),
         ...(onFlee === undefined
           ? {}
-          : { onFlee: compileAuthorCommandsV5Unchecked(onFlee, timing) }),
+          : { onFlee: compileAuthorCommandsV5Unchecked(onFlee, timing, boundaryPolicy) }),
         after,
       }
     }
@@ -211,7 +219,9 @@ function compileAuthorCommandV5(
         kind: 'teleportOut',
         ...(command.onFail === undefined
           ? {}
-          : { onFail: compileAuthorCommandsV5Unchecked(command.onFail, timing) }),
+          : {
+              onFail: compileAuthorCommandsV5Unchecked(command.onFail, timing, boundaryPolicy),
+            }),
         after,
       }
     case 'callScript':
@@ -229,17 +239,19 @@ function compileAuthorCommandV5(
 function compileAuthorCommandsV5Unchecked(
   commands: readonly AuthorCommandV5[],
   timing: ScriptTimingV5,
+  boundaryPolicy: ScriptBoundaryPolicyV5,
 ): readonly ExecutableCommandV5[] {
-  return commands.map((command) => compileAuthorCommandV5(command, timing))
+  return commands.map((command) => compileAuthorCommandV5(command, timing, boundaryPolicy))
 }
 
 export function compileAuthorCommandsV5(
   commands: readonly AuthorCommandV5[],
   timing: ScriptTimingV5,
   path = 'commands',
+  boundaryPolicy: ScriptBoundaryPolicyV5 = 'perCommand',
 ): readonly ExecutableCommandV5[] {
   checkAuthorCommandsV5(commands, path)
-  return compileAuthorCommandsV5Unchecked(commands, timing)
+  return compileAuthorCommandsV5Unchecked(commands, timing, boundaryPolicy)
 }
 
 export function compileScriptFlowV5(
@@ -251,6 +263,10 @@ export function compileScriptFlowV5(
     allowSceneEntry: options.allowSceneEntry,
     forbidLoadScene: options.forbidLoadScene,
   })
+  const boundaryPolicy: ScriptBoundaryPolicyV5 =
+    flow.kind === 'stateMachine' && flow.machine.cadence === 'transition'
+      ? 'transition'
+      : 'perCommand'
   const executable: ExecutableScriptFlowBodyV5 =
     flow.kind === 'stages'
       ? {
@@ -260,8 +276,8 @@ export function compileScriptFlowV5(
             id: stage.id,
             ...(stage.entry === undefined
               ? {}
-              : { entry: compileEntry(stage.entry, options.timing) }),
-            body: compileAuthorCommandsV5Unchecked(stage.body, options.timing),
+              : { entry: compileEntry(stage.entry, options.timing, boundaryPolicy) }),
+            body: compileAuthorCommandsV5Unchecked(stage.body, options.timing, boundaryPolicy),
             ...(stage.next === undefined ? {} : { next: stage.next }),
           })),
         }
@@ -278,8 +294,12 @@ export function compileScriptFlowV5(
                   label: state.label,
                   ...(state.entry === undefined
                     ? {}
-                    : { entry: compileEntry(state.entry, options.timing) }),
-                  body: compileAuthorCommandsV5Unchecked(state.body, options.timing),
+                    : { entry: compileEntry(state.entry, options.timing, boundaryPolicy) }),
+                  body: compileAuthorCommandsV5Unchecked(
+                    state.body,
+                    options.timing,
+                    boundaryPolicy,
+                  ),
                   next: clone(state.next),
                 },
               ]),
@@ -290,6 +310,7 @@ export function compileScriptFlowV5(
     compilerVersion: SCRIPT_COMPILER_V5_VERSION,
     canonicalContentDigest: options.canonicalContentDigest,
     timing: options.timing,
+    boundaryPolicy,
     flow: executable,
   }
 }
@@ -305,8 +326,12 @@ export class MemorySharedScriptResolverV5 {
     checkSharedScriptLibraryV5(library)
   }
 
-  resolve(id: string, timing: ScriptTimingV5): ExecutableSharedScriptV5 {
-    const key = `${timing}\u0000${id}`
+  resolve(
+    id: string,
+    timing: ScriptTimingV5,
+    boundaryPolicy: ScriptBoundaryPolicyV5 = 'perCommand',
+  ): ExecutableSharedScriptV5 {
+    const key = `${timing}\u0000${boundaryPolicy}\u0000${id}`
     const cached = this.cache.get(key)
     if (cached) return cached
     const script = this.library[id]
@@ -315,10 +340,11 @@ export class MemorySharedScriptResolverV5 {
       compilerVersion: SCRIPT_COMPILER_V5_VERSION,
       canonicalContentDigest: this.canonicalContentDigest,
       timing,
+      boundaryPolicy,
       id,
       name: script.name,
       self: script.self,
-      body: compileAuthorCommandsV5Unchecked(script.body, timing),
+      body: compileAuthorCommandsV5Unchecked(script.body, timing, boundaryPolicy),
     }
     this.cache.set(key, compiled)
     return compiled

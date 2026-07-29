@@ -88,12 +88,14 @@ function states(
         }
       >
     : never,
+  cadence?: 'transition',
 ): ScriptFlowV5 {
   return {
     kind: 'stateMachine',
     machine: {
       id: 'machine',
       label: '状态机',
+      ...(cadence === undefined ? {} : { cadence }),
       initial: 'initial',
       states: entries,
     },
@@ -128,6 +130,70 @@ describe('ScriptRunnerV5 flow semantics', () => {
     expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'second' }])
   })
 
+  test('a terminal completed stage never replays the one-shot body', async () => {
+    const host = fakeHost()
+    const flow = compile({
+      kind: 'stages',
+      initial: 'initial',
+      stages: [
+        {
+          id: 'initial',
+          body: [{ kind: 'setFlag', flag: 'once', value: true }],
+          next: 'completed',
+        },
+        { id: 'completed', body: [] },
+      ],
+    })
+    const first = controller()
+    await new ScriptRunnerV5(host, new AbortController().signal).runFlow(flow, {
+      cursorController: first,
+    })
+    const second = controller()
+    await new ScriptRunnerV5(host, new AbortController().signal).runFlow(flow, {
+      cursor: first.cursors[0],
+      cursorController: second,
+    })
+
+    expect(host.calls).toEqual(['execute:setFlag:-:-'])
+    expect(first.cursors).toEqual([{ kind: 'stage', stage: 'completed' }])
+    expect(second.cursors).toEqual([{ kind: 'stage', stage: 'completed' }])
+  })
+
+  test('a source prefix runs once before a persistent tail loop', async () => {
+    const host = fakeHost()
+    const flow = compile(
+      states({
+        initial: {
+          label: '一次性前缀',
+          body: [{ kind: 'setFlag', flag: 'prefix', value: true }],
+          next: { kind: 'continue', state: 'tail' },
+        },
+        tail: {
+          label: '循环正文',
+          body: [{ kind: 'setFlag', flag: 'tail', value: true }],
+          next: { kind: 'to', state: 'tail', yield: 'worldTick' },
+        },
+      }),
+    )
+    const first = controller(['stop'])
+    await new ScriptRunnerV5(host, new AbortController().signal).runFlow(flow, {
+      cursorController: first,
+    })
+    const second = controller(['stop'])
+    await new ScriptRunnerV5(host, new AbortController().signal).runFlow(flow, {
+      cursor: first.cursors[0],
+      cursorController: second,
+    })
+
+    expect(host.calls).toEqual([
+      'execute:setFlag:-:-',
+      'execute:setFlag:-:-',
+      'execute:setFlag:-:-',
+    ])
+    expect(first.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'tail' }])
+    expect(second.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'tail' }])
+  })
+
   test('continue stays synchronous while advance commits and ends', async () => {
     const host = fakeHost()
     const cursors = controller()
@@ -159,6 +225,31 @@ describe('ScriptRunnerV5 flow semantics', () => {
     expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'later' }])
   })
 
+  test('fails loudly when a malformed executable contains an unbounded continue chain', async () => {
+    const executable = compile(
+      states({
+        initial: {
+          label: 'A',
+          body: [],
+          next: { kind: 'continue', state: 'b' },
+        },
+        b: {
+          label: 'B',
+          body: [],
+          next: { kind: 'stay' },
+        },
+      }),
+    )
+    if (executable.flow.kind !== 'stateMachine') throw new Error('expected state machine')
+    executable.flow.machine.states.b!.next = { kind: 'continue', state: 'initial' }
+
+    await expect(
+      new ScriptRunnerV5(fakeHost(), new AbortController().signal).runFlow(executable, {
+        cursorController: controller(),
+      }),
+    ).rejects.toThrow(/continue 链超过 4096/)
+  })
+
   test('to commits, crosses the safe-point and yields before same-activation continuation', async () => {
     const host = fakeHost()
     const cursors = controller()
@@ -186,6 +277,47 @@ describe('ScriptRunnerV5 flow semantics', () => {
       'yield:macroTask',
       'execute:setFlag:-:-',
     ])
+    expect(cursors.cursors).toEqual([
+      { kind: 'state', machine: 'machine', state: 'target' },
+      { kind: 'state', machine: 'machine', state: 'target' },
+    ])
+  })
+
+  test('transition cadence executes a compound source state in one frame and yields once', async () => {
+    const host = fakeHost()
+    const cursors = controller()
+    await new ScriptRunnerV5(host, new AbortController().signal).runFlow(
+      compile(
+        states(
+          {
+            initial: {
+              label: '复合源指令',
+              body: [
+                { kind: 'setFlag', flag: 'first', value: true },
+                { kind: 'setFlag', flag: 'second', value: true },
+              ],
+              next: { kind: 'to', state: 'target', yield: 'worldTick' },
+            },
+            target: {
+              label: '下一源指令',
+              body: [{ kind: 'setFlag', flag: 'target', value: true }],
+              next: { kind: 'stay' },
+            },
+          },
+          'transition',
+        ),
+        'auto',
+      ),
+      { cursorController: cursors },
+    )
+
+    expect(host.calls).toEqual([
+      'execute:setFlag:-:-',
+      'execute:setFlag:-:-',
+      'yield:worldTick',
+      'execute:setFlag:-:-',
+    ])
+    expect(host.calls).not.toContain('wait:100')
     expect(cursors.cursors).toEqual([
       { kind: 'state', machine: 'machine', state: 'target' },
       { kind: 'state', machine: 'machine', state: 'target' },
@@ -395,6 +527,39 @@ describe('ScriptRunnerV5 flow semantics', () => {
     )
 
     expect(host.calls).toEqual(['execute:clearDialog:s001:e1', 'wait:100', 'wait:100'])
+  })
+
+  test('shared calls inherit transition cadence without adding hidden waits', async () => {
+    const host = fakeHost()
+    const library: SharedScriptLibraryV5 = {
+      helper: {
+        name: '同帧帮助脚本',
+        self: 'none',
+        body: [{ kind: 'clearDialog' }],
+      },
+    }
+    await new ScriptRunnerV5(
+      host,
+      new AbortController().signal,
+      new MemorySharedScriptResolverV5(library, digest),
+    ).runFlow(
+      compile(
+        states(
+          {
+            initial: {
+              label: '调用共享脚本',
+              body: [{ kind: 'callScript', script: 'helper' }],
+              next: { kind: 'stay' },
+            },
+          },
+          'transition',
+        ),
+        'auto',
+      ),
+      { cursorController: controller() },
+    )
+
+    expect(host.calls).toEqual(['execute:clearDialog:-:-'])
   })
 
   test('scene entry executes prepare, reveal and body exactly once when requested', async () => {

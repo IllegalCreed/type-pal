@@ -109,6 +109,169 @@
                       "selection": {
                         "kind": "use",
                         "value": "legacy-001"
+                      },
+                      "cursorHandoff": {
+                        "kind": "stateMap",
+                        "fromBehavior": "default",
+                        "cases": [
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "pursuit"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "route-choice"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-01"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-02"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-03"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-03"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-02"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-04"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-05"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-06"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-07"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-08"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-09"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "wait-10"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-01"
+                            }
+                          },
+                          {
+                            "from": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "cycle-reset"
+                            },
+                            "to": {
+                              "kind": "state",
+                              "machine": "machine",
+                              "state": "remaining-04"
+                            }
+                          }
+                        ],
+                        "onUnmapped": "error"
                       }
                     },
                     {
@@ -167,35 +330,1305 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "floating": true,
-                      "kind": "chasePlayer",
-                      "range": 128,
-                      "speed": 4
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认自动行为",
+                "cadence": "transition",
+                "initial": "pursuit",
+                "states": {
+                  "cycle-reset": {
+                    "label": "cycle-reset",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "pursuit"
                     }
-                  ]
+                  },
+                  "pursuit": {
+                    "label": "pursuit",
+                    "body": [
+                      {
+                        "kind": "chasePlayer",
+                        "range": 128,
+                        "speed": 4,
+                        "floating": true
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "route-choice",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "route-choice": {
+                    "label": "route-choice",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "chance",
+                        "percent": 97
+                      },
+                      "then": {
+                        "kind": "continue",
+                        "state": "pursuit"
+                      },
+                      "else": {
+                        "kind": "to",
+                        "state": "wait-01",
+                        "yield": "worldTick"
+                      }
+                    }
+                  },
+                  "wait-01": {
+                    "label": "wait-01",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-02": {
+                    "label": "wait-02",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-03": {
+                    "label": "wait-03",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-04": {
+                    "label": "wait-04",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-05": {
+                    "label": "wait-05",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-06": {
+                    "label": "wait-06",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-07": {
+                    "label": "wait-07",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-08": {
+                    "label": "wait-08",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-09",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-09": {
+                    "label": "wait-09",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "wait-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "wait-10": {
+                    "label": "wait-10",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-reset",
+                      "yield": "worldTick"
+                    }
+                  }
                 }
-              ]
+              }
             }
           },
           "legacy-001": {
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": []
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "remaining-04",
+                "states": {
+                  "entry-02": {
+                    "label": "entry-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03"
+                    }
+                  },
+                  "entry-02-phase-02": {
+                    "label": "entry-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-02"
+                    }
+                  },
+                  "entry-02-phase-03": {
+                    "label": "entry-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-03"
+                    }
+                  },
+                  "entry-02-phase-04": {
+                    "label": "entry-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-03-phase-04"
+                    }
+                  },
+                  "entry-03": {
+                    "label": "entry-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04"
+                    }
+                  },
+                  "entry-03-phase-02": {
+                    "label": "entry-03-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-02"
+                    }
+                  },
+                  "entry-03-phase-03": {
+                    "label": "entry-03-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-03"
+                    }
+                  },
+                  "entry-03-phase-04": {
+                    "label": "entry-03-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-04-phase-04"
+                    }
+                  },
+                  "entry-04": {
+                    "label": "entry-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05"
+                    }
+                  },
+                  "entry-04-phase-02": {
+                    "label": "entry-04-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-02"
+                    }
+                  },
+                  "entry-04-phase-03": {
+                    "label": "entry-04-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-03"
+                    }
+                  },
+                  "entry-04-phase-04": {
+                    "label": "entry-04-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-05-phase-04"
+                    }
+                  },
+                  "entry-05": {
+                    "label": "entry-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06"
+                    }
+                  },
+                  "entry-05-phase-02": {
+                    "label": "entry-05-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-02"
+                    }
+                  },
+                  "entry-05-phase-03": {
+                    "label": "entry-05-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-03"
+                    }
+                  },
+                  "entry-05-phase-04": {
+                    "label": "entry-05-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-06-phase-04"
+                    }
+                  },
+                  "entry-06": {
+                    "label": "entry-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07"
+                    }
+                  },
+                  "entry-06-phase-02": {
+                    "label": "entry-06-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-02"
+                    }
+                  },
+                  "entry-06-phase-03": {
+                    "label": "entry-06-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-03"
+                    }
+                  },
+                  "entry-06-phase-04": {
+                    "label": "entry-06-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-07-phase-04"
+                    }
+                  },
+                  "entry-07": {
+                    "label": "entry-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08"
+                    }
+                  },
+                  "entry-07-phase-02": {
+                    "label": "entry-07-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-02"
+                    }
+                  },
+                  "entry-07-phase-03": {
+                    "label": "entry-07-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-03"
+                    }
+                  },
+                  "entry-07-phase-04": {
+                    "label": "entry-07-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-08-phase-04"
+                    }
+                  },
+                  "entry-08": {
+                    "label": "entry-08",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09"
+                    }
+                  },
+                  "entry-08-phase-02": {
+                    "label": "entry-08-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-02"
+                    }
+                  },
+                  "entry-08-phase-03": {
+                    "label": "entry-08-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-03"
+                    }
+                  },
+                  "entry-08-phase-04": {
+                    "label": "entry-08-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-09-phase-04"
+                    }
+                  },
+                  "entry-09": {
+                    "label": "entry-09",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-02": {
+                    "label": "entry-09-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-03": {
+                    "label": "entry-09-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-09-phase-04": {
+                    "label": "entry-09-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-10-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10": {
+                    "label": "entry-10",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-02": {
+                    "label": "entry-10-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-03": {
+                    "label": "entry-10-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-10-phase-04": {
+                    "label": "entry-10-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-11-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11": {
+                    "label": "entry-11",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-02": {
+                    "label": "entry-11-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-03": {
+                    "label": "entry-11-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-11-phase-04": {
+                    "label": "entry-11-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-12-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12": {
+                    "label": "entry-12",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-02": {
+                    "label": "entry-12-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-03": {
+                    "label": "entry-12-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-12-phase-04": {
+                    "label": "entry-12-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-13-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-13": {
+                    "label": "entry-13",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14"
+                    }
+                  },
+                  "entry-13-phase-02": {
+                    "label": "entry-13-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-02"
+                    }
+                  },
+                  "entry-13-phase-03": {
+                    "label": "entry-13-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-03"
+                    }
+                  },
+                  "entry-13-phase-04": {
+                    "label": "entry-13-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-14-phase-04"
+                    }
+                  },
+                  "entry-14": {
+                    "label": "entry-14",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15"
+                    }
+                  },
+                  "entry-14-phase-02": {
+                    "label": "entry-14-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-02"
+                    }
+                  },
+                  "entry-14-phase-03": {
+                    "label": "entry-14-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-03"
+                    }
+                  },
+                  "entry-14-phase-04": {
+                    "label": "entry-14-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-15-phase-04"
+                    }
+                  },
+                  "entry-15": {
+                    "label": "entry-15",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16"
+                    }
+                  },
+                  "entry-15-phase-02": {
+                    "label": "entry-15-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-02"
+                    }
+                  },
+                  "entry-15-phase-03": {
+                    "label": "entry-15-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-03"
+                    }
+                  },
+                  "entry-15-phase-04": {
+                    "label": "entry-15-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-16-phase-04"
+                    }
+                  },
+                  "entry-16": {
+                    "label": "entry-16",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17"
+                    }
+                  },
+                  "entry-16-phase-02": {
+                    "label": "entry-16-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-02"
+                    }
+                  },
+                  "entry-16-phase-03": {
+                    "label": "entry-16-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-03"
+                    }
+                  },
+                  "entry-16-phase-04": {
+                    "label": "entry-16-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-17-phase-04"
+                    }
+                  },
+                  "entry-17": {
+                    "label": "entry-17",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18"
+                    }
+                  },
+                  "entry-17-phase-02": {
+                    "label": "entry-17-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-02"
+                    }
+                  },
+                  "entry-17-phase-03": {
+                    "label": "entry-17-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-03"
+                    }
+                  },
+                  "entry-17-phase-04": {
+                    "label": "entry-17-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-18-phase-04"
+                    }
+                  },
+                  "entry-18": {
+                    "label": "entry-18",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19"
+                    }
+                  },
+                  "entry-18-phase-02": {
+                    "label": "entry-18-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-02"
+                    }
+                  },
+                  "entry-18-phase-03": {
+                    "label": "entry-18-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-03"
+                    }
+                  },
+                  "entry-18-phase-04": {
+                    "label": "entry-18-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-19-phase-04"
+                    }
+                  },
+                  "entry-19": {
+                    "label": "entry-19",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-02": {
+                    "label": "entry-19-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-03": {
+                    "label": "entry-19-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-19-phase-04": {
+                    "label": "entry-19-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-20-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20": {
+                    "label": "entry-20",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-02": {
+                    "label": "entry-20-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-03": {
+                    "label": "entry-20-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-20-phase-04": {
+                    "label": "entry-20-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-21-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21": {
+                    "label": "entry-21",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-02": {
+                    "label": "entry-21-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-03": {
+                    "label": "entry-21-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-21-phase-04": {
+                    "label": "entry-21-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": 1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "entry-22-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22": {
+                    "label": "entry-22",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-02": {
+                    "label": "entry-22-phase-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-03": {
+                    "label": "entry-22-phase-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "entry-22-phase-04": {
+                    "label": "entry-22-phase-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "dx": -1,
+                        "dy": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "gate-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "gate": {
+                    "label": "gate",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-03"
+                    }
+                  },
+                  "gate-phase-02": {
+                    "label": "gate-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-02"
+                    }
+                  },
+                  "gate-phase-03": {
+                    "label": "gate-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "remaining-01"
+                    }
+                  },
+                  "gate-phase-04": {
+                    "label": "gate-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "restore-touch"
+                    }
+                  },
+                  "remaining-01": {
+                    "label": "remaining-01",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-04"
+                    }
+                  },
+                  "remaining-02": {
+                    "label": "remaining-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-03"
+                    }
+                  },
+                  "remaining-03": {
+                    "label": "remaining-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02-phase-02"
+                    }
+                  },
+                  "remaining-04": {
+                    "label": "remaining-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "entry-02"
+                    }
+                  },
+                  "restore-touch": {
+                    "label": "restore-touch",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "touch",
+                            "range": 3
+                          }
+                        }
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4409"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "use",
+                          "value": "default"
+                        },
+                        "cursorHandoff": {
+                          "kind": "stateMap",
+                          "fromBehavior": "legacy-001",
+                          "cases": [
+                            {
+                              "from": {
+                                "kind": "state",
+                                "machine": "machine",
+                                "state": "restore-touch"
+                              },
+                              "to": {
+                                "kind": "state",
+                                "machine": "machine",
+                                "state": "pursuit"
+                              }
+                            }
+                          ],
+                          "onUnmapped": "error"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }
@@ -210,7 +1643,50 @@
       },
       "sprite": "sprite-582",
       "hidden": true,
-      "zBias": 10
+      "zBias": 10,
+      "behaviors": {
+        "auto": {
+          "legacy-001": {
+            "label": "自动行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "pursuit",
+                "states": {
+                  "cycle-reset": {
+                    "label": "cycle-reset",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "pursuit"
+                    }
+                  },
+                  "pursuit": {
+                    "label": "pursuit",
+                    "body": [
+                      {
+                        "kind": "chasePlayer",
+                        "range": 128,
+                        "speed": 2,
+                        "floating": true
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-reset",
+                      "yield": "worldTick"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4411",
@@ -245,7 +1721,7 @@
                 "initial": "initial",
                 "states": {
                   "initial": {
-                    "label": "initial",
+                    "label": "首次执行",
                     "body": [
                       {
                         "kind": "setEntityState",
@@ -324,39 +1800,252 @@
                       {
                         "kind": "wait",
                         "ms": 40
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 120
                       }
                     ],
                     "next": {
-                      "kind": "to",
-                      "state": "cycle",
-                      "yield": "macroTask"
+                      "kind": "continue",
+                      "state": "continuation-001"
                     }
                   },
-                  "cycle": {
-                    "label": "初始状态",
+                  "continuation-001": {
+                    "label": "流程分支 001",
                     "body": [
                       {
+                        "kind": "nudgeParty",
                         "dx": 16,
-                        "dy": -8,
-                        "kind": "nudgeParty"
+                        "dy": -8
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "continuation-002"
+                    }
+                  },
+                  "continuation-002": {
+                    "label": "流程分支 002",
+                    "body": [
+                      {
+                        "kind": "nudgeParty",
+                        "dx": 16,
+                        "dy": -8
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 40
+                      }
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "continuation-003"
+                    }
+                  },
+                  "continuation-003": {
+                    "label": "流程分支 003",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11650"
+                            },
+                            {
+                              "text": "dlg.11651"
+                            },
+                            {
+                              "text": "dlg.11652"
+                            }
+                          ],
+                          "speaker": "spk.巫后",
+                          "portrait": {
+                            "asset": "portrait.pal.073",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11653"
+                            },
+                            {
+                              "text": "dlg.11654"
+                            }
+                          ],
+                          "speaker": "spk.巫后",
+                          "portrait": {
+                            "asset": "portrait.pal.073",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "down",
+                        "gesture": 12
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11656"
+                            }
+                          ],
+                          "speaker": "spk.巫后",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "setParty",
+                        "members": [
+                          "wu-hou"
+                        ]
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "down",
+                        "gesture": 12
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 1,
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 1,
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      },
+                      {
+                        "kind": "playSound",
+                        "asset": "sound.pal.103"
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 800
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 160
+                      },
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4410"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
+                      },
+                      {
+                        "kind": "wait",
+                        "ms": 200
+                      },
+                      {
+                        "kind": "setPartyFacing",
+                        "facing": "right"
                       },
                       {
                         "kind": "wait",
                         "ms": 40
                       },
                       {
+                        "kind": "setPartyFacing",
+                        "facing": "up"
+                      },
+                      {
                         "kind": "wait",
-                        "ms": 120
+                        "ms": 880
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 1,
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 0,
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.11658"
+                            },
+                            {
+                              "text": "dlg.11659"
+                            }
+                          ],
+                          "speaker": "spk.巫后"
+                        }
+                      },
+                      {
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 2560
+                      },
+                      {
+                        "kind": "loadScene",
+                        "scene": "s251"
                       }
                     ],
                     "next": {
-                      "kind": "to",
-                      "state": "cycle",
-                      "yield": "worldTick"
+                      "kind": "restart"
                     }
                   }
                 }
@@ -389,175 +2078,257 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "dx": 0,
-                      "dy": -1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s250-e4412-default",
+                "label": "默认自动行为 · 源循环",
+                "initial": "source-33786",
+                "states": {
+                  "source-33786": {
+                    "label": "源指令 33786",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
                       }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -3,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -5,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "dx": 0,
-                      "dy": -5,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s250",
-                        "entity": "e4412"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33787",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-33787": {
+                    "label": "源指令 33787",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33788",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33788": {
+                    "label": "源指令 33788",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33789",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33789": {
+                    "label": "源指令 33789",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33790",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33790": {
+                    "label": "源指令 33790",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33791",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33791": {
+                    "label": "源指令 33791",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33792",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33792": {
+                    "label": "源指令 33792",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33793",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33793": {
+                    "label": "源指令 33793",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33794",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33794": {
+                    "label": "源指令 33794",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        },
+                        "dx": 0,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4412"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-33795",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-33795": {
+                    "label": "源指令 33795",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-33794"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -584,7 +2355,268 @@
           }
         }
       ],
-      "initialPage": "default"
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "legacy-001": {
+            "label": "自动行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "departure-01",
+                "states": {
+                  "departure-01": {
+                    "label": "departure-01",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-02": {
+                    "label": "departure-02",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-03": {
+                    "label": "departure-03",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-04": {
+                    "label": "departure-04",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-05": {
+                    "label": "departure-05",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-06": {
+                    "label": "departure-06",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -3
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-07": {
+                    "label": "departure-07",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "departure-08",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "departure-08": {
+                    "label": "departure-08",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "tail-01",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "tail-01": {
+                    "label": "tail-01",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        },
+                        "dx": 0,
+                        "dy": -5
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s250",
+                          "entity": "e4413"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "tail-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "tail-02": {
+                    "label": "tail-02",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "tail-01"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     {
       "id": "e4414",

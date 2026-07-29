@@ -104,6 +104,7 @@ const item = (
     sound: `${sound}.use`,
   },
   throw: {
+    target: 'oneEnemy',
     effects: poisons.throw ? [{ kind: 'applyPoison', poisonId: poisons.throw }] : [],
     sound: `${sound}.throw`,
     ...(throwPresentationSound
@@ -184,7 +185,8 @@ describe('SFX readiness 收集', () => {
           sellable: false,
           use: { target: 'oneAlly', consuming: true, effects: [], sound: 'sound.item-use' },
           throw: {
-            effects: [],
+            target: 'oneEnemy',
+            effects: [{ kind: 'fixedDamage', amount: 1 }],
             sound: 'sound.item-throw',
             presentation: {
               kind: 'magic',

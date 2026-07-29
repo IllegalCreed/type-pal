@@ -251,7 +251,12 @@ function buildP7Core(args: P7ShadowBuildArgs): Map<string, string> {
   )
   const mergedV4 = readP6Project(p6Files)
   const mergedSource = readSourceProject(mergedV4)
-  const project = projectP7CanonicalProject({ ir, ...mergedSource })
+  const project = projectP7CanonicalProject({
+    ir,
+    sourceCommands: args.sourceCommands,
+    sourceAudit: args.currentAudit,
+    ...mergedSource,
+  })
   const preliminary = buildP7ProjectCompatibility({
     projectId: args.manifest.id,
     ir,
@@ -292,7 +297,12 @@ function buildP7Core(args: P7ShadowBuildArgs): Map<string, string> {
     [...args.migration.files].map(([path, value]) => [path, structuredClone(value)] as const),
   )
   const generatedSource = readSourceProject(generatedV4)
-  const baselineProject = projectP7CanonicalProject({ ir, ...generatedSource })
+  const baselineProject = projectP7CanonicalProject({
+    ir,
+    sourceCommands: args.sourceCommands,
+    sourceAudit: args.currentAudit,
+    ...generatedSource,
+  })
   const baselineCompatibility = buildP7ProjectCompatibility({
     projectId: args.manifest.id,
     ir,

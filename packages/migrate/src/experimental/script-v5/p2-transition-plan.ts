@@ -1,10 +1,11 @@
 import type { V4MigrationSnapshotLike } from './source-v4.js'
 import {
   commandAtPointer,
+  createV4ScriptCorpusReader,
   inboundReferenceInventory,
   legacyAuthorCellSha256,
   modifiedCellConflict,
-  readV4ScriptCorpus,
+  type V4ScriptCorpusReader,
 } from './source-v4.js'
 import { stableJsonSha256, stableStringCompare } from './stable-json.js'
 import type {
@@ -15,7 +16,7 @@ import type {
   ScriptTransitionLedgerDraftV1,
 } from './types.js'
 
-type P2TransitionOurs =
+export type P2TransitionOurs =
   | { kind: 'v4'; migration: V4MigrationSnapshotLike }
   | {
       kind: 'p2-ir'
@@ -214,12 +215,24 @@ function commandAtPointerOrMissing(root: unknown, pointer: string): unknown {
   }
 }
 
-export function planP2ScriptTransition(args: {
-  base: V4MigrationSnapshotLike
-  ours: P2TransitionOurs
-  target: ScriptMigrationIRP2
-  ledger: ScriptTransitionLedgerDraftV1
-}): P2TransitionPlan {
+export interface PreparedP2ScriptTransition {
+  readonly base: V4MigrationSnapshotLike
+  readonly target: ScriptMigrationIRP2
+  readonly ledger: ScriptTransitionLedgerDraftV1
+  readonly corpusReader: V4ScriptCorpusReader
+  readonly targetDigest: string
+  readonly ledgerDigest: string
+  readonly targetConflicts: readonly P2TransitionConflict[]
+}
+
+export function prepareP2ScriptTransition(
+  args: {
+    base: V4MigrationSnapshotLike
+    target: ScriptMigrationIRP2
+    ledger: ScriptTransitionLedgerDraftV1
+  },
+  corpusReader: V4ScriptCorpusReader = createV4ScriptCorpusReader(),
+): PreparedP2ScriptTransition {
   const targetDigest = digestWithoutSelf(args.target)
   const ledgerDigest = digestWithoutSelf(args.ledger)
   const targetConflicts: P2TransitionConflict[] = []
@@ -242,6 +255,37 @@ export function planP2ScriptTransition(args: {
       kind: 'target-digest-mismatch',
       source: 'P2 target-ledger relationship',
     })
+  return {
+    base: args.base,
+    target: args.target,
+    ledger: args.ledger,
+    corpusReader,
+    targetDigest,
+    ledgerDigest,
+    targetConflicts,
+  }
+}
+
+export function planP2ScriptTransition(args: {
+  base: V4MigrationSnapshotLike
+  ours: P2TransitionOurs
+  target: ScriptMigrationIRP2
+  ledger: ScriptTransitionLedgerDraftV1
+  /**
+   * Reuses validation and corpus scans for immutable snapshots. A preparation
+   * is accepted only for the exact base/target/ledger object identities.
+   */
+  prepared?: PreparedP2ScriptTransition
+}): P2TransitionPlan {
+  const prepared =
+    args.prepared?.base === args.base &&
+    args.prepared.target === args.target &&
+    args.prepared.ledger === args.ledger &&
+    args.prepared.targetDigest === digestWithoutSelf(args.target) &&
+    args.prepared.ledgerDigest === digestWithoutSelf(args.ledger)
+      ? args.prepared
+      : prepareP2ScriptTransition(args)
+  const targetConflicts = [...prepared.targetConflicts]
   if (targetConflicts.length)
     return planWithConflicts(targetConflicts, args.target.tombstones.length)
 
@@ -282,11 +326,11 @@ export function planP2ScriptTransition(args: {
     )
   }
 
-  let base: ReturnType<typeof readV4ScriptCorpus>
-  let ours: ReturnType<typeof readV4ScriptCorpus>
+  let base: ReturnType<V4ScriptCorpusReader['read']>
+  let ours: ReturnType<V4ScriptCorpusReader['read']>
   try {
-    base = readV4ScriptCorpus(args.base)
-    ours = readV4ScriptCorpus(args.ours.migration)
+    base = prepared.corpusReader.read(args.base)
+    ours = prepared.corpusReader.read(args.ours.migration)
   } catch (error) {
     return planWithConflicts(
       [
@@ -321,7 +365,7 @@ export function planP2ScriptTransition(args: {
       })
       continue
     }
-    const baseHash = legacyAuthorCellSha256(baseBody.body)
+    const baseHash = baseBody.authorCellSha256
     if (baseHash !== entry.baseCellSha256) {
       conflicts.push({
         kind: 'stale-base-cell',
@@ -332,7 +376,7 @@ export function planP2ScriptTransition(args: {
       continue
     }
     if (!oursBody) continue
-    const oursHash = legacyAuthorCellSha256(oursBody.body)
+    const oursHash = oursBody.authorCellSha256
     if (oursHash !== entry.baseCellSha256)
       conflicts.push(
         modifiedCellConflict({
@@ -357,8 +401,8 @@ export function planP2ScriptTransition(args: {
   else {
     const baseBody = base.byId.get(groupBody.identity.id)
     const oursBody = ours.byId.get(groupBody.identity.id)
-    const baseHash = baseBody ? legacyAuthorCellSha256(baseBody.body) : '<missing>'
-    const oursHash = oursBody ? legacyAuthorCellSha256(oursBody.body) : '<missing>'
+    const baseHash = baseBody?.authorCellSha256 ?? '<missing>'
+    const oursHash = oursBody?.authorCellSha256 ?? '<missing>'
     if (baseHash !== groupBody.baseCellSha256)
       conflicts.push({
         kind: 'stale-base-cell',

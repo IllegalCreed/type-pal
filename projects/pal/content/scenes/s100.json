@@ -290,7 +290,12 @@
                         "entity": "e1805"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -352,7 +357,12 @@
                         "entity": "e1806"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -414,7 +424,12 @@
                         "entity": "e1807"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -451,109 +466,137 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "setEntityTriggerActivation",
-                      "target": {
-                        "scene": "s100",
-                        "entity": "e1808"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s100",
+                          "entity": "e1808"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "interact",
+                            "range": 2
+                          }
+                        }
                       },
-                      "selection": {
-                        "kind": "use",
-                        "value": {
-                          "on": "interact",
-                          "range": 2
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s100",
+                          "entity": "e1808"
+                        },
+                        "channel": "auto",
+                        "selection": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7426"
+                            },
+                            {
+                              "text": "dlg.7427"
+                            },
+                            {
+                              "text": "dlg.7428"
+                            }
+                          ],
+                          "speaker": "spk.婢女阿萍"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7430"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7432"
+                            },
+                            {
+                              "text": "dlg.7433"
+                            }
+                          ],
+                          "speaker": "spk.婢女阿萍",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7435"
+                            }
+                          ],
+                          "speaker": "spk.婢女阿萍",
+                          "slot": "top"
                         }
                       }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s100",
-                        "entity": "e1808"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7426"
-                          },
-                          {
-                            "text": "dlg.7427"
-                          },
-                          {
-                            "text": "dlg.7428"
-                          }
-                        ],
-                        "speaker": "spk.婢女阿萍"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.7430"
-                          }
-                        ],
-                        "speaker": "spk.林月如"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7432"
-                          },
-                          {
-                            "text": "dlg.7433"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.婢女阿萍"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7435"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.婢女阿萍"
-                      },
-                      "kind": "dialog"
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7435"
+                            }
+                          ],
+                          "speaker": "spk.婢女阿萍",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         },
@@ -874,7 +917,12 @@
                         "entity": "e1808"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -4887,7 +4935,12 @@
                         "entity": "e1834"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

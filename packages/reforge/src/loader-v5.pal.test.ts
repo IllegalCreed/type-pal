@@ -1,10 +1,10 @@
-import { buildWorld, emptyWorldScriptStateV5, type WorldStateV5 } from '@type-pal/content'
+import { buildWorld, emptyWorldScriptStateV5, type WorldStateV8 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { FileSource } from './file-source.js'
 import { loadAllScenesV5, loadProjectV5From, loadSceneDefV5 } from './loader-v5.js'
-import { normalizePayloadV5, preflightSaveMigration } from './save/migration.js'
-import { buildPayloadV5 } from './save/ops.js'
+import { normalizePayloadV7, preflightSaveMigration } from './save/migration.js'
+import { buildPayloadV7 } from './save/ops.js'
 import type { ProjectScriptHostOptionsV5 } from './script-project-v5.js'
 import { ScriptProjectRuntimeV5 } from './script-project-v5.js'
 
@@ -35,7 +35,7 @@ function projectFileSource(projectId: string): FileSource {
 type LoadedPalProject = Awaited<ReturnType<typeof loadProjectV5From>>
 type LoadedPalScene = Awaited<ReturnType<typeof loadSceneDefV5>>
 
-function freshWorld(project: LoadedPalProject): WorldStateV5 {
+function freshWorld(project: LoadedPalProject): WorldStateV8 {
   const initialWorld = buildWorld(project.manifest.startWorld, project.actorsById)
   const { script: _legacyScript, ...worldWithoutScript } = initialWorld
   return {
@@ -87,11 +87,12 @@ function recordingHost(
   }
 }
 
-test('正式 PAL v5 工程通过 loader、sidecar 验签与全场景校验', async () => {
+test('正式 PAL contentVersion 8 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
   const project = await loadProjectV5From(projectFileSource('pal'))
   const scenes = await loadAllScenesV5(project)
 
-  expect(project.manifest.contentVersion).toBe(5)
+  expect(project.manifest.contentVersion).toBe(8)
+  expect(project.manifest.minimumSaveVersion).toBe(7)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
   expect(Object.keys(project.migrationRegistry)).toEqual(['script-v4-v5'])
@@ -131,7 +132,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     at: { kind: 'stage', stage: 'completed' },
   })
 
-  const payload = buildPayloadV5(
+  const payload = buildPayloadV7(
     world,
     {
       sceneId: scene.id,
@@ -142,10 +143,9 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
   )
   const resolver = await preflightSaveMigration({
     manifest: project.manifest,
-    source: project.source,
     payload,
   })
-  const restored = normalizePayloadV5(payload, resolver)
+  const restored = normalizePayloadV7(payload, resolver)
   const secondEvents: string[] = []
   const secondFade = new SupersedingFadeDriver()
   const restoredRuntime = new ScriptProjectRuntimeV5(
@@ -213,11 +213,16 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
 test.each([
   { id: 'demo', entry: 'guijie-minju', scenes: 1 },
   { id: 'e2e-own', entry: 'start', scenes: 1 },
-])('仓库 HTTP fixture $id 已同步为 canonical v5', async ({ id, entry, scenes: count }) => {
+])('仓库 HTTP fixture $id 已同步为 canonical content 8', async ({ id, entry, scenes: count }) => {
   const project = await loadProjectV5From(projectFileSource(id))
   const scenes = await loadAllScenesV5(project)
 
-  expect(project.manifest).toMatchObject({ id, contentVersion: 5, entryScene: entry })
+  expect(project.manifest).toMatchObject({
+    id,
+    contentVersion: 8,
+    minimumSaveVersion: 7,
+    entryScene: entry,
+  })
   expect(scenes).toHaveLength(count)
   expect(Object.keys(project.migrationRegistry)).toEqual([])
 })

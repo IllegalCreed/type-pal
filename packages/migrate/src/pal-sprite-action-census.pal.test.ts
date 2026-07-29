@@ -210,7 +210,9 @@ describe.skipIf(!hasExtractedData)('PAL sprite action census golden', () => {
     })
     expect(first.digests).toEqual({
       acceptedSites: 'b6ee586cefe9a5b0762279f39892ab141247fcf761f279466f648b45f87c528b',
-      rejections: '393d97ab05161c96a4aa28f11d95838455a01d8fe7fdcf1d9aa276b7da347c67',
+      // R13-1：0x04 显式 owner 从错误的 e<WORD> 纠正为 1-based e<WORD-1>。
+      // 只改变被拒实例的 external-write 证据；accepted/action 与全部分类计数保持冻结。
+      rejections: 'e9df791439a9964ef302202a489feed2cb53170f469ffa58e42026413a9518bc',
       actions: 'a6dd0657ff7476d2c37021277540c92cdc43df888f16d712c87e40d3e7585c69',
     })
 

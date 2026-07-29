@@ -1700,35 +1700,349 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e82"
-                      }
-                    },
-                    {
-                      "frame": 4,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e82"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 520
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s004-e82-legacy-001",
+                "label": "自动行为 1 · 源循环",
+                "initial": "source-36215",
+                "states": {
+                  "source-36205": {
+                    "label": "源指令 36205",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "source-36206"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-36206": {
+                    "label": "源指令 36206",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "frame": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36207",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36207": {
+                    "label": "源指令 36207",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36207-wait-2",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36208": {
+                    "label": "源指令 36208",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "frame": 1
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36209",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36209": {
+                    "label": "源指令 36209",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36209-wait-2",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36210": {
+                    "label": "源指令 36210",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "frame": 2
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36211",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36211": {
+                    "label": "源指令 36211",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36211-wait-2",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36212": {
+                    "label": "源指令 36212",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "frame": 3
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36213",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36213": {
+                    "label": "源指令 36213",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "source-36205"
+                    }
+                  },
+                  "source-36215": {
+                    "label": "源指令 36215",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e82"
+                        },
+                        "frame": 4
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216": {
+                    "label": "源指令 36216",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-2",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36217": {
+                    "label": "源指令 36217",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "source-36205"
+                    }
+                  },
+                  "source-36207-wait-2": {
+                    "label": "源指令 36207 · 等待 2/2",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36208",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36209-wait-2": {
+                    "label": "源指令 36209 · 等待 2/2",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36210",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36211-wait-2": {
+                    "label": "源指令 36211 · 等待 2/3",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36211-wait-3",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36211-wait-3": {
+                    "label": "源指令 36211 · 等待 3/3",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36212",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-2": {
+                    "label": "源指令 36216 · 等待 2/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-3",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-3": {
+                    "label": "源指令 36216 · 等待 3/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-4",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-4": {
+                    "label": "源指令 36216 · 等待 4/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-5",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-5": {
+                    "label": "源指令 36216 · 等待 5/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-6",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-6": {
+                    "label": "源指令 36216 · 等待 6/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-7",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-7": {
+                    "label": "源指令 36216 · 等待 7/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-8",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-8": {
+                    "label": "源指令 36216 · 等待 8/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-9",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-9": {
+                    "label": "源指令 36216 · 等待 9/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-10",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-10": {
+                    "label": "源指令 36216 · 等待 10/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-11",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-11": {
+                    "label": "源指令 36216 · 等待 11/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-12",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-12": {
+                    "label": "源指令 36216 · 等待 12/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36216-wait-13",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-36216-wait-13": {
+                    "label": "源指令 36216 · 等待 13/13",
+                    "body": [],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-36217",
+                      "yield": "worldTick"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -2498,7 +2812,12 @@
                         "entity": "e83"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -4536,38 +4855,223 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e88"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e88"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s004",
-                        "entity": "e88"
-                      }
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "自动行为 1",
+                "cadence": "transition",
+                "initial": "intro",
+                "states": {
+                  "completed": {
+                    "label": "completed",
+                    "body": [],
+                    "next": {
+                      "kind": "stay"
                     }
-                  ]
+                  },
+                  "cycle-01": {
+                    "label": "cycle-01",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-02": {
+                    "label": "cycle-01-phase-02",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-02",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-03": {
+                    "label": "cycle-01-phase-03",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-03",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-04": {
+                    "label": "cycle-01-phase-04",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-04",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-05": {
+                    "label": "cycle-01-phase-05",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-05",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-06": {
+                    "label": "cycle-01-phase-06",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-06",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-01-phase-07": {
+                    "label": "cycle-01-phase-07",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-02-phase-07",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "cycle-02": {
+                    "label": "cycle-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-02"
+                    }
+                  },
+                  "cycle-02-phase-02": {
+                    "label": "cycle-02-phase-02",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-03"
+                    }
+                  },
+                  "cycle-02-phase-03": {
+                    "label": "cycle-02-phase-03",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-04"
+                    }
+                  },
+                  "cycle-02-phase-04": {
+                    "label": "cycle-02-phase-04",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-05"
+                    }
+                  },
+                  "cycle-02-phase-05": {
+                    "label": "cycle-02-phase-05",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-06"
+                    }
+                  },
+                  "cycle-02-phase-06": {
+                    "label": "cycle-02-phase-06",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "cycle-01-phase-07"
+                    }
+                  },
+                  "cycle-02-phase-07": {
+                    "label": "cycle-02-phase-07",
+                    "body": [],
+                    "next": {
+                      "kind": "advance",
+                      "state": "completed"
+                    }
+                  },
+                  "intro": {
+                    "label": "intro",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s004",
+                          "entity": "e88"
+                        },
+                        "frame": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "cycle-01",
+                      "yield": "worldTick"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

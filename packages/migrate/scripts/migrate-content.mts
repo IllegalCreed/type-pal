@@ -3,11 +3,17 @@
  * 首次无 baseline 时必须先 --bootstrap 逐项闭合差异，禁止将当前工程冒充 base。
  */
 
+import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import type { AssetCatalogV1, LoadedManifest, ProjectManifest } from '@type-pal/content'
+import type {
+  AssetCatalogV1,
+  CurrentManifest,
+  LoadedManifest,
+  ProjectManifest,
+} from '@type-pal/content'
 import {
   checkSharedScriptLibraryV5,
   mapAssetById,
@@ -30,8 +36,20 @@ import {
 } from '@type-pal/content'
 import type { FileSource } from '../../reforge/src/file-source.js'
 import { loadProjectMigrationRegistryV5 } from '../../reforge/src/save/migration.js'
-import { createC8ItemUseV5MigrationPlan } from '../src/experimental/script-v5/c8-item-use-mg2.js'
-import { buildP7GeneratedCanonical } from '../src/experimental/script-v5/p7-generated.js'
+import {
+  buildP7GeneratedCanonical,
+  type P7GeneratedCanonical,
+} from '../src/experimental/script-v5/p7-generated.js'
+import { createR13ItemThrowV5MigrationPlan } from '../src/experimental/script-v5/r13-item-throw-mg2.js'
+import {
+  assertR13RuntimeCapabilityAudit,
+  auditR13RuntimeCapabilities,
+} from '../src/experimental/script-v5/runtime-capability-audit.js'
+import {
+  assertR13SourceInstructionDisposition,
+  buildR13SourceInstructionDisposition,
+  type R13SourceInstructionDispositionBuildArgs,
+} from '../src/experimental/script-v5/source-instruction-disposition.js'
 import {
   isAtomicProjectMapPath,
   loadPalBaseline,
@@ -77,6 +95,7 @@ import {
   buildPalMigration,
   type MigrationFileSet,
   type MigrationJson,
+  palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
@@ -90,6 +109,9 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const BOOTSTRAP_REL = 'packages/migrate/bootstrap/pal.json'
 const CONFLICT_REL = '.type-pal-migrate/pal-conflicts.json'
 const SCRIPT_AUDIT_BASELINE_REL = 'packages/migrate/baselines/script-control-flow/pal-v1.json'
+const INTERNAL_PHASE_ENV = 'TYPE_PAL_MIGRATE_INTERNAL_PHASE'
+const EXPECTED_SOURCE_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_SOURCE_DIGEST'
+const EXPECTED_RUNTIME_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_RUNTIME_DIGEST'
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
 const writeJson = (path: string, value: unknown): void => {
@@ -105,13 +127,52 @@ function usage(): void {
       有 baseline 时只生成三方合并 plan，不写盘。
 
   pnpm --filter @type-pal/migrate run migrate:content -- --write
-      plan 无冲突且门禁全过后，同事务写工程与纯 theirs baseline。
+      plan 无冲突且门禁全过后，同事务写工程与纯 theirs baseline；随后在全新
+      Node 进程中重建并验证二次计划严格为 0/0/0。
 
   pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap
       首次无 baseline 时生成/校验 ${BOOTSTRAP_REL}，不写工程。
 
   pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap --write
       bootstrap 差异全部分类闭合后，建立首份 baseline 并事务写盘。`)
+}
+
+async function runCanonicalV5Phase(
+  flag: '--write-once' | '--verify-idempotence',
+  extraEnv: NodeJS.ProcessEnv = {},
+): Promise<string> {
+  const entry = process.argv[1]
+  if (!entry) throw new Error('canonical v5 子进程缺当前脚本入口')
+  const child = spawn(process.execPath, [...process.execArgv, entry, flag], {
+    cwd: repo,
+    env: {
+      ...process.env,
+      [INTERNAL_PHASE_ENV]: '1',
+      ...extraEnv,
+    },
+    stdio: ['inherit', 'pipe', 'pipe'],
+  })
+  let output = ''
+  child.stdout.setEncoding('utf8')
+  child.stderr.setEncoding('utf8')
+  child.stdout.on('data', (chunk: string) => {
+    process.stdout.write(chunk)
+    output = `${output}${chunk}`.slice(-64 * 1024)
+  })
+  child.stderr.on('data', (chunk: string) => process.stderr.write(chunk))
+  return await new Promise<string>((resolvePhase, rejectPhase) => {
+    child.once('error', rejectPhase)
+    child.once('exit', (code, signal) => {
+      if (code === 0) resolvePhase(output)
+      else
+        rejectPhase(
+          new Error(
+            `canonical v5 ${flag} 子进程失败: ` +
+              (signal ? `signal=${signal}` : `exit=${String(code)}`),
+          ),
+        )
+    })
+  })
 }
 
 function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, label: string): void {
@@ -135,7 +196,77 @@ function sameSnapshot(expected: MigrationSnapshot, actual: MigrationSnapshot, la
   }
 }
 
-function snapshotFileSource(snapshot: MigrationSnapshot, manifest: ProjectManifest<5>): FileSource {
+interface R13ControlAuditSeal {
+  sourceDispositionDigest: string
+  runtimeCapabilityDigest: string
+}
+
+function buildAndAssertR13ControlAudits(args: {
+  sources: R13SourceInstructionDispositionBuildArgs['sources']
+  migration: R13SourceInstructionDispositionBuildArgs['migration']
+  audit: ScriptControlFlowAuditV1
+  generated: P7GeneratedCanonical
+  final: MigrationSnapshot
+}): R13ControlAuditSeal {
+  const source = buildR13SourceInstructionDisposition(args)
+  assertR13SourceInstructionDisposition(source, args)
+  const sourceEvidence = new Map(source.evidence.map((entry) => [entry.id, entry]))
+  const crossProofs = source.evidence.filter((entry) => entry.kind === 'r13-cross-activation-site')
+  const dispositions = new Map(source.dispositions.map((entry) => [entry.siteId, entry]))
+  if (
+    crossProofs.length !== 78 ||
+    crossProofs.some((proof) => dispositions.get(proof.siteId)?.layers.final.state !== 'accounted')
+  )
+    throw new Error(`R13-2 source closure 未闭合: exact=${crossProofs.length}/78`)
+  const finalOpenR13_2 = source.dispositions.filter(
+    (entry) =>
+      entry.layers.final.state === 'open' &&
+      entry.evidenceIds.some((id) => {
+        const proof = sourceEvidence.get(id)
+        return proof?.kind === 'open-debt' && proof.batch === 'R13-2'
+      }),
+  )
+  if (finalOpenR13_2.length)
+    throw new Error(`R13-2 source debt 未归零: ${finalOpenR13_2.length} sites`)
+  const throwObservations = source.observations.filter(
+    (observation) =>
+      observation.domain === 'item' &&
+      (observation.kind === 'pending-throw' || observation.kind === 'silent-empty-throw'),
+  )
+  if (
+    throwObservations.length !== 58 ||
+    throwObservations.some(
+      (observation) =>
+        observation.raw !== 'open' ||
+        observation.augmented !== 'accounted' ||
+        observation.final !== 'accounted',
+    )
+  )
+    throw new Error(`R13-3 source closure 未闭合: observations=${throwObservations.length}/58`)
+  const runtime = auditR13RuntimeCapabilities(args.final)
+  assertR13RuntimeCapabilityAudit(runtime, args.final)
+  console.log(
+    `[R13-0 源指令账] instructions=${source.summary.instructions} ` +
+      `reachable=${source.summary.reachableInstructions} sites=${source.summary.executionSites} ` +
+      `raw=${source.summary.byLayer.raw.accounted}/${source.summary.byLayer.raw.open} ` +
+      `augmented=${source.summary.byLayer.augmented.accounted}/${source.summary.byLayer.augmented.open} ` +
+      `final=${source.summary.byLayer.final.accounted}/${source.summary.byLayer.final.open} ` +
+      `openObservations=${source.summary.openObservations} digest=${source.digest}`,
+  )
+  console.log(
+    `[R13-0 运行时矩阵] commandCells=${runtime.summary.commandCells} ` +
+      `skillCells=${runtime.summary.skillCells} uses=${runtime.summary.uses} ` +
+      `refused=${runtime.summary.refusedUses} openDebts=${runtime.summary.openDebts} ` +
+      `enemyCasts=${runtime.summary.enemyCastRules} ` +
+      `enemyEffects=${runtime.summary.enemyEffectUses} digest=${runtime.digest}`,
+  )
+  return {
+    sourceDispositionDigest: source.digest,
+    runtimeCapabilityDigest: runtime.digest,
+  }
+}
+
+function snapshotFileSource(snapshot: MigrationSnapshot, manifest: CurrentManifest): FileSource {
   const body = (path: string): string => {
     if (path === 'manifest.json') return `${JSON.stringify(manifest, null, 2)}\n`
     const value = snapshot.files.get(path)
@@ -161,10 +292,14 @@ function snapshotFileSource(snapshot: MigrationSnapshot, manifest: ProjectManife
 
 async function validateP7V5Target(
   target: MigrationSnapshot,
-  manifest: ProjectManifest<5>,
+  manifest: CurrentManifest,
 ): Promise<void> {
-  if (manifest.contentVersion !== 5 || manifest.content.scripts !== undefined)
-    throw new Error('P7 v5 target manifest 版本或 legacy scripts 字段无效')
+  if (
+    manifest.contentVersion !== 8 ||
+    manifest.minimumSaveVersion !== 7 ||
+    manifest.content.scripts !== undefined
+  )
+    throw new Error('P7 canonical target manifest 版本、存档门槛或 legacy scripts 字段无效')
   if (!manifest.content.sharedScripts) throw new Error('P7 v5 target manifest 缺 sharedScripts')
   const value = (path: string): MigrationJson => {
     const entry = target.files.get(path)
@@ -423,9 +558,8 @@ async function commitAndVerifyP7V5(args: {
   nextBaseline: MigrationSnapshot
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
   sources: ReturnType<typeof loadPalMigrationSources>
-  manifest: ProjectManifest<5>
+  manifest: CurrentManifest
   currentManifestText: string
-  frozenAudit: ScriptControlFlowAuditV1
 }): Promise<void> {
   const transactionManaged = new Set([...args.ours.managedFiles, ...args.target.managedFiles])
   const assertManifestCurrent = (): void => {
@@ -479,7 +613,7 @@ async function commitAndVerifyP7V5(args: {
   const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
   assertHashMapsEqual(unmanagedBefore, unmanagedAfter, 'v5 非托管工程文件')
   const manifestAfterText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  const manifestAfter = JSON.parse(manifestAfterText) as ProjectManifest<5>
+  const manifestAfter = JSON.parse(manifestAfterText) as CurrentManifest
   if (!isDeepStrictEqual(args.manifest, manifestAfter))
     throw new Error('v5 事务完成后 manifest 发生漂移')
 
@@ -490,42 +624,6 @@ async function commitAndVerifyP7V5(args: {
   const projectAfter = loadProjectMigrationSnapshot(repo, postManaged)
   sameSnapshot(args.target, projectAfter, 'v5 写盘工程与合并 target')
   await validateP7V5Target(projectAfter, manifestAfter)
-
-  const sources2 = loadPalMigrationSources(repo)
-  const migration2 = buildPalMigration(sources2)
-  const currentAudit2 = auditPalScriptControlFlow(sources2, migration2)
-  assertScriptControlFlowAudit(currentAudit2)
-  const generated2 = buildP7GeneratedCanonical({
-    migration: migration2,
-    currentAudit: currentAudit2,
-    frozenAudit: args.frozenAudit,
-    sourceCommands: sources2.allJson.segments.flatMap((segment) => segment.commands),
-    itemSources: sources2.migrate.items,
-  })
-  const secondManaged = discoverProjectManagedFiles(
-    repo,
-    new Set([...baselineAfter.managedFiles, ...generated2.snapshot.managedFiles]),
-  )
-  const ours2 = loadProjectMigrationSnapshot(repo, secondManaged)
-  const second = createC8ItemUseV5MigrationPlan({
-    base: baselineAfter,
-    ours: ours2,
-    generated: generated2.snapshot,
-    evidence: generated2.c8Evidence,
-  })
-  if (second.plan.writes.size || second.plan.deletes.length || second.plan.conflicts.length)
-    throw new Error(
-      `v5 二次迁移非空计划: writes=${second.plan.writes.size} ` +
-        `deletes=${second.plan.deletes.length} conflicts=${second.plan.conflicts.length}`,
-    )
-  const secondMaterialized = materializePalAssets({
-    repo,
-    catalog,
-    binaries: sources2.binaryAssets,
-  })
-  if (secondMaterialized.written !== 0)
-    throw new Error(`v5 二次资源物化非空写入: writes=${secondMaterialized.written}`)
-  console.log('[v5 幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
 }
 
 async function main(): Promise<void> {
@@ -534,12 +632,58 @@ async function main(): Promise<void> {
     usage()
     return
   }
-  const unknown = [...flags].filter((flag) => flag !== '--write' && flag !== '--bootstrap')
+  const unknown = [...flags].filter(
+    (flag) =>
+      flag !== '--write' &&
+      flag !== '--bootstrap' &&
+      flag !== '--write-once' &&
+      flag !== '--verify-idempotence',
+  )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
-  const write = flags.has('--write')
+  const writeRequested = flags.has('--write')
+  const writeOnce = flags.has('--write-once')
+  const verifyIdempotence = flags.has('--verify-idempotence')
+  if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
+    throw new Error('内部迁移阶段不得直接调用')
+  if (Number(writeRequested) + Number(writeOnce) + Number(verifyIdempotence) > 1)
+    throw new Error('迁移写入/内部验证阶段参数互斥')
+  const write = writeRequested || writeOnce
   const bootstrap = flags.has('--bootstrap')
 
   if (recoverMigrationTransaction(repo)) console.log('[恢复] 已完成上次中断的同一迁移事务')
+  const manifestPath = resolve(repo, 'projects/pal/manifest.json')
+  const manifestText = readFileSync(manifestPath, 'utf8')
+  const rawManifest = JSON.parse(manifestText) as unknown
+  if (!rawManifest || typeof rawManifest !== 'object' || Array.isArray(rawManifest))
+    throw new Error('PAL manifest 必须是对象')
+  const contentVersion = (rawManifest as { contentVersion?: unknown }).contentVersion
+  if (
+    !Number.isInteger(contentVersion) ||
+    (contentVersion !== 4 &&
+      contentVersion !== 5 &&
+      contentVersion !== 6 &&
+      contentVersion !== 7 &&
+      contentVersion !== 8)
+  )
+    throw new Error(
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8，收到 ${JSON.stringify(contentVersion)}`,
+    )
+  const canonicalV5 =
+    contentVersion === 5 || contentVersion === 6 || contentVersion === 7 || contentVersion === 8
+  if (writeRequested && canonicalV5 && !bootstrap) {
+    const writeOutput = await runCanonicalV5Phase('--write-once')
+    const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
+      writeOutput,
+    )
+    if (!evidence) throw new Error('canonical v5 写入子进程未返回首轮 R13 证据')
+    await runCanonicalV5Phase('--verify-idempotence', {
+      [EXPECTED_SOURCE_DIGEST_ENV]: evidence[1]!,
+      [EXPECTED_RUNTIME_DIGEST_ENV]: evidence[2]!,
+    })
+    console.log('[v5 分进程幂等] 写入与二次 0/0/0 验证均完成')
+    return
+  }
+  const manifest = rawManifest as LoadedManifest | ProjectManifest<5 | 6 | 7 | 8>
   const sources = loadPalMigrationSources(repo)
   const theirs = buildPalMigration(sources)
   reportGeneration(theirs)
@@ -549,13 +693,19 @@ async function main(): Promise<void> {
   const seed = new Set([...(baseline?.managedFiles ?? []), ...theirs.managedFiles])
   const managed = discoverProjectManagedFiles(repo, seed)
   const ours = loadProjectMigrationSnapshot(repo, managed)
-  const manifestPath = resolve(repo, 'projects/pal/manifest.json')
-  const manifestText = readFileSync(manifestPath, 'utf8')
-  const manifest = JSON.parse(manifestText) as LoadedManifest | ProjectManifest<5>
-
-  if (manifest.contentVersion === 5) {
+  if (
+    manifest.contentVersion === 5 ||
+    manifest.contentVersion === 6 ||
+    manifest.contentVersion === 7 ||
+    manifest.contentVersion === 8
+  ) {
     if (bootstrap) throw new Error('canonical v5 工程不得重跑 v4 bootstrap')
     if (!baseline) throw new Error('canonical v5 工程缺 PAL baseline v2')
+    const currentManifest: CurrentManifest = {
+      ...structuredClone(manifest),
+      contentVersion: 8,
+      minimumSaveVersion: 7,
+    }
     const currentAudit = auditPalScriptControlFlow(sources, theirs)
     assertScriptControlFlowAudit(currentAudit)
     const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
@@ -565,20 +715,72 @@ async function main(): Promise<void> {
       frozenAudit,
       sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
       itemSources: sources.migrate.items,
+      magicSources: sources.migrate.magic,
+      objectMagicSources: sources.migrate.objectMagics ?? [],
+      soundAssetForNum: palSoundAssetForSources(sources),
     })
-    const v5 = createC8ItemUseV5MigrationPlan({
+    const v5 = createR13ItemThrowV5MigrationPlan({
       base: baseline,
       ours,
-      generated: generated.snapshot,
-      evidence: generated.c8Evidence,
+      generated,
+      sources,
+      migration: theirs,
+      audit: currentAudit,
     })
     reportPlan(v5.plan)
     if (v5.plan.conflicts.length) {
+      if (verifyIdempotence)
+        throw new Error(`v5 二次迁移存在 conflicts=${v5.plan.conflicts.length}`)
       writeConflictReport(v5.plan)
       process.exitCode = 1
       return
     }
-    await validateP7V5Target(v5.target, manifest)
+    await validateP7V5Target(v5.target, currentManifest)
+    const firstR13 = buildAndAssertR13ControlAudits({
+      sources,
+      migration: theirs,
+      audit: currentAudit,
+      generated,
+      final: v5.target,
+    })
+    if (verifyIdempotence) {
+      if (v5.plan.writes.size || v5.plan.deletes.length)
+        throw new Error(
+          `v5 二次迁移非空计划: writes=${v5.plan.writes.size} ` +
+            `deletes=${v5.plan.deletes.length} conflicts=0`,
+        )
+      const expectedSource = process.env[EXPECTED_SOURCE_DIGEST_ENV]
+      const expectedRuntime = process.env[EXPECTED_RUNTIME_DIGEST_ENV]
+      if (
+        !expectedSource ||
+        !expectedRuntime ||
+        !/^[0-9a-f]{64}$/.test(expectedSource) ||
+        !/^[0-9a-f]{64}$/.test(expectedRuntime)
+      )
+        throw new Error('v5 幂等验证缺首轮 R13 digest')
+      if (
+        firstR13.sourceDispositionDigest !== expectedSource ||
+        firstR13.runtimeCapabilityDigest !== expectedRuntime
+      )
+        throw new Error(
+          'v5 二次迁移 R13-0 digest 漂移: ' +
+            `source=${expectedSource}/${firstR13.sourceDispositionDigest} ` +
+            `runtime=${expectedRuntime}/${firstR13.runtimeCapabilityDigest}`,
+        )
+      const catalog = validateAssetCatalog(
+        v5.target.files.get('assets/index.json') as AssetCatalogV1,
+        '二次 PAL v5 工程 assets/index.json',
+      )
+      const materialized = materializePalAssets({
+        repo,
+        catalog,
+        binaries: sources.binaryAssets,
+      })
+      if (materialized.written !== 0)
+        throw new Error(`v5 二次资源物化非空写入: writes=${materialized.written}`)
+      console.log('[v5 幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
+      return
+    }
     if (!write) {
       console.log('[v5 dry-run] 未写盘；确认 plan 后加 --write')
       return
@@ -590,10 +792,13 @@ async function main(): Promise<void> {
       nextBaseline: v5.nextBaseline,
       plan: v5.plan,
       sources,
-      manifest,
+      manifest: currentManifest,
       currentManifestText: manifestText,
-      frozenAudit,
     })
+    console.log(
+      `[v5 首轮证据] source=${firstR13.sourceDispositionDigest} ` +
+        `runtime=${firstR13.runtimeCapabilityDigest}`,
+    )
     return
   }
 

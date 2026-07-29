@@ -5,6 +5,7 @@ import {
   type ItemDataV5,
   type MigrationDiagnosticsV1,
   type SceneDefV5,
+  type ScriptFlowV5,
   type SpriteDef,
   validateItemsV5,
   validateLocale,
@@ -14,19 +15,20 @@ import {
 } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
 import type { MigrationJson } from '../../pal-migration.js'
-import { buildPalMigration } from '../../pal-migration.js'
-import { loadPalMigrationSources } from '../../pal-migration-io.js'
+import { createPalR13TranslationSession } from '../../pal-migration.js'
 import {
-  assertScriptControlFlowAudit,
-  auditPalScriptControlFlow,
-  type ScriptControlFlowAuditV1,
-} from '../../script-control-flow-audit.js'
-import {
+  C8_AUTO_TERMINAL_ORACLE,
   C8_ITEM_IDS,
   C8_STORY_ITEM_ROOTS,
   type C8OwnedIdentityV1,
 } from './c8-item-use-augmentation.js'
-import { buildP7GeneratedCanonical } from './p7-generated.js'
+import { getPalTestGeneratedFixture } from './pal-test-fixture.js'
+import {
+  augmentR13TriggerActivations,
+  R13_DELAYED_TRIGGER_OWNERS,
+  R13_PERSISTENT_CHECKPOINT_OWNERS,
+  type R13CheckpointOwnerSpec,
+} from './r13-trigger-activation-graph.js'
 import { stableJson, stableJsonSha256 } from './stable-json.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
@@ -74,18 +76,7 @@ function required<T>(files: ReadonlyMap<string, MigrationJson>, path: string): T
 }
 
 function loadFixture() {
-  const sources = loadPalMigrationSources(repo)
-  const migration = buildPalMigration(sources)
-  const currentAudit = auditPalScriptControlFlow(sources, migration)
-  assertScriptControlFlowAudit(currentAudit)
-  const frozenAudit = JSON.parse(readFileSync(auditPath, 'utf8')) as ScriptControlFlowAuditV1
-  const generated = buildP7GeneratedCanonical({
-    migration,
-    currentAudit,
-    frozenAudit,
-    sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
-    itemSources: sources.migrate.items,
-  })
+  const { sources, migration, generated } = getPalTestGeneratedFixture()
   const sceneIds = required<string[]>(generated.snapshot.files, 'content/scenes/index.json')
   const scenes = validateScenesV5(
     sceneIds.map((sceneId) => required(generated.snapshot.files, `content/scenes/${sceneId}.json`)),
@@ -103,6 +94,12 @@ function loadFixture() {
     baseLocale: validateLocale(required(migration.files, 'content/locale.json'), {
       allowLegacySoftWrap: true,
     }),
+    // Immutable content7 parent 故意没有 throw.target；这里只做历史 digest oracle，
+    // 不能拿 current content8 validator 反向改写或拒绝它。
+    parentItems: required<ItemDataV5[]>(
+      generated.r13CrossActivationParentSnapshot.files,
+      'content/items.json',
+    ),
     sprites: validateSprites(required(generated.snapshot.files, 'content/sprites.json')),
     diagnostics: validateMigrationDiagnostics(
       required(generated.snapshot.files, 'content/migration-diagnostics.json'),
@@ -147,6 +144,18 @@ function ownedTarget(
   if (identity.kind === 'scene-hook')
     return scenes.get(identity.sceneId)?.hooks?.[identity.hook]?.variants[identity.hookId]
   return undefined
+}
+
+function r13OwnerFlow(
+  scenes: ReadonlyMap<string, SceneDefV5>,
+  spec: R13CheckpointOwnerSpec,
+): ScriptFlowV5 | undefined {
+  const scene = scenes.get(spec.sceneId)
+  if (spec.kind === 'entity')
+    return scene?.entities.find((entity) => entity.id === spec.entityId)?.behaviors?.[
+      spec.channel
+    ]?.[spec.behaviorId]?.flow
+  return scene?.hooks?.[spec.slot]?.variants[spec.hookId]?.flow
 }
 
 function c8CanonicalObjects(current: Fixture): unknown[] {
@@ -248,7 +257,11 @@ describe.skipIf(
         }),
       ),
     ).toEqual(C8_ITEM_USE_GOLDEN)
-    expect(stableJsonSha256(itemById(fixture.items, '137').throw)).toBe(C8_ITEM_137_THROW_GOLDEN)
+    // C8 的历史 deep oracle 只约束 immutable R13-2 parent；R13-3 successor 会为
+    // 同一 throw 合法追加 target/完整效果，不能反向污染旧证明。
+    expect(stableJsonSha256(itemById(fixture.parentItems, '137').throw)).toBe(
+      C8_ITEM_137_THROW_GOLDEN,
+    )
     expect(itemById(fixture.items, '285').use).toMatchObject({
       effects: [
         {
@@ -414,13 +427,521 @@ describe.skipIf(
       ownerCount: 4_584,
       entityBehaviorCount: 4_300,
       sceneHookCount: 284,
-      simpleOwnerCount: 4_519,
-      stateMachineOwnerCount: 65,
-      simpleStageCount: 6_396,
-      stateMachineStateCount: 771,
-      canonicalFlowNodeCount: 7_167,
+      simpleOwnerCount: 4_497,
+      stateMachineOwnerCount: 87,
+      simpleStageCount: 6_728,
+      stateMachineStateCount: 1_190,
+      canonicalFlowNodeCount: 7_918,
       itemPrivateScriptCount: 6,
       sharedScriptCount: 0,
     })
+  })
+
+  test('terminalizes the exact nine C8 auto allocations with a persistent empty stage', () => {
+    expect(C8_AUTO_TERMINAL_ORACLE).toHaveLength(9)
+    for (const expected of C8_AUTO_TERMINAL_ORACLE) {
+      expect(
+        fixture.generated.autoLifecycleRepairEvidence.targets.find(
+          (target) =>
+            target.sceneId === expected.sceneId &&
+            target.entityId === expected.entityId &&
+            target.behaviorId === expected.behaviorId,
+        ),
+      ).toMatchObject({
+        installerAddress: expected.installer,
+        installerOwnerWord: expected.ownerWord,
+        sourceRoot: expected.root,
+      })
+      const flow = fixture.scenesById
+        .get(expected.sceneId)
+        ?.entities.find((entity) => entity.id === expected.entityId)?.behaviors?.auto?.[
+        expected.behaviorId
+      ]?.flow
+      expect(flow?.kind, `${expected.sceneId}/${expected.entityId}/${expected.behaviorId}`).toBe(
+        'stages',
+      )
+      if (flow?.kind !== 'stages') continue
+      expect(flow.stages.map((stage) => stage.id)).toEqual([flow.initial, 'completed'])
+      expect(flow.stages[0]?.next).toBe('completed')
+      expect(flow.stages[1]?.body).toEqual([])
+    }
+  })
+
+  test('projects the exact 34 R13 checkpoint owners into address-free state machines', () => {
+    const evidence = fixture.generated.triggerActivationEvidence
+    expect(evidence).toMatchObject({
+      kind: 'r13-trigger-activation-evidence',
+      version: 1,
+      persistentClosures: 34,
+      coveredSourceCheckpoints: 34,
+      resetOverrideSourceCheckpoints: [763],
+      existingRepairSourceCheckpoints: [10747],
+      discardReturnContexts: 7,
+      directDeferredRegistryScripts: 32,
+      consumedDeferredRegistryClosureScripts: 39,
+    })
+    expect(R13_PERSISTENT_CHECKPOINT_OWNERS).toHaveLength(34)
+    expect(evidence.owners).toHaveLength(34)
+    expect(new Set(evidence.owners.map(({ ownerKey }) => ownerKey)).size).toBe(34)
+    expect(
+      evidence.owners.map(({ checkpointAddress }) => checkpointAddress).sort((a, b) => a - b),
+    ).toEqual(
+      R13_PERSISTENT_CHECKPOINT_OWNERS.map(({ checkpointAddress }) => checkpointAddress).sort(
+        (a, b) => a - b,
+      ),
+    )
+
+    for (const spec of R13_PERSISTENT_CHECKPOINT_OWNERS) {
+      const owner = evidence.owners.find(
+        ({ checkpointAddress }) => checkpointAddress === spec.checkpointAddress,
+      )
+      expect(owner, `checkpoint ${spec.checkpointAddress}`).toBeDefined()
+      expect(owner).toMatchObject({
+        rootAddress: spec.rootAddress,
+        checkpointAddress: spec.checkpointAddress,
+        resumeAddress: spec.checkpointAddress + 1,
+      })
+      const flow = r13OwnerFlow(fixture.scenesById, spec)
+      expect(flow?.kind, owner?.ownerKey).toBe('stateMachine')
+      if (flow?.kind !== 'stateMachine' || !owner) continue
+      expect(flow.machine.id).toBe('machine')
+      expect(Object.keys(flow.machine.states)).toHaveLength(owner.stateCount)
+      for (const state of owner.durableStates) {
+        expect(state.dialogueCarryDigest).toMatch(/^[a-f0-9]{64}$/)
+        expect(state.stateId).toMatch(
+          /^(?:initial|after-checkpoint(?:-\d{3})?|phase-\d{3}|continuation-\d{3})$/,
+        )
+        expect(
+          flow.machine.states[state.stateId],
+          `${owner.ownerKey}/${state.stateId}`,
+        ).toBeDefined()
+      }
+      expect(stableJson(flow)).not.toContain(`L-${spec.rootAddress}`)
+      expect(stableJson(flow)).not.toContain(`L-${spec.checkpointAddress}`)
+    }
+  })
+
+  test('fails loudly when a lifted scene entry no longer matches its source prefix', () => {
+    const parent = fixture.generated.r13CadenceParentSnapshot
+    const files = new Map(parent.files)
+    const scene = structuredClone(required<SceneDefV5>(files, 'content/scenes/s057.json'))
+    const flow = scene.hooks?.onEnter?.variants.default?.flow
+    expect(flow?.kind).toBe('stages')
+    if (flow?.kind !== 'stages') return
+    const initial = flow.stages.find((stage) => stage.id === flow.initial)
+    expect(initial?.entry).toBeDefined()
+    if (!initial?.entry) return
+    initial.entry.prepare.push({ kind: 'stopMusic' })
+    files.set('content/scenes/s057.json', scene as unknown as MigrationJson)
+
+    expect(() =>
+      augmentR13TriggerActivations({
+        snapshot: { ...parent, files },
+        ir: fixture.generated.ir,
+        translation: createPalR13TranslationSession(fixture.migration),
+      }),
+    ).toThrow(/hook:s057:onEnter:default.*scene entry 与 source 正文前缀不一致/)
+  }, 30_000)
+
+  test('keeps PAL R13 translation sessions process-local, fresh, and fail-loud on closure drift', () => {
+    const first = createPalR13TranslationSession(fixture.migration)
+    const second = createPalR13TranslationSession(fixture.migration)
+    expect(first.ctx).not.toBe(second.ctx)
+    first.ctx.locale['test.r13-pal-session-isolation'] = 'first'
+    expect(second.finish().locale['test.r13-pal-session-isolation']).toBeUndefined()
+    expect(() => createPalR13TranslationSession({ ...fixture.migration })).toThrow(
+      /必须使用本进程 buildPalMigration 返回的原始 MigrationFileSet/,
+    )
+
+    const translation = createPalR13TranslationSession(fixture.migration)
+    const finish = translation.finish
+    expect(() =>
+      augmentR13TriggerActivations({
+        snapshot: fixture.generated.r13CadenceParentSnapshot,
+        ir: fixture.generated.ir,
+        translation: {
+          ...translation,
+          finish: () => {
+            const output = finish()
+            const firstAudit = output.scriptRegistryAudit[0]
+            if (firstAudit) delete output.scriptRegistryBodies[firstAudit.id]
+            return output
+          },
+        },
+      }),
+    ).toThrow(/deferred registry 缺少脚本体/)
+  }, 30_000)
+
+  test('pins dialogue-carry durable identities and the sole 6344 alias fold', () => {
+    const owners = fixture.generated.triggerActivationEvidence.owners
+    const expectedDurableAddresses = new Map<number, number[]>([
+      [575, [569, 576]],
+      [6344, [6343, 6344, 6345, 6345]],
+      [6390, [6379, 6391]],
+      [7489, [7482, 7482, 7490, 7490]],
+      [1575, [1557, 1568, 1576]],
+      [10315, [10245, 10281, 10281, 10309, 10316]],
+      [17569, [17554, 17570]],
+      [19301, [19253, 19266, 19286, 19302]],
+    ])
+    for (const [checkpointAddress, expected] of expectedDurableAddresses) {
+      const owner = owners.find((candidate) => candidate.checkpointAddress === checkpointAddress)
+      expect(
+        owner?.durableStates.map(({ sourceAddress }) => sourceAddress),
+        `checkpoint ${checkpointAddress}`,
+      ).toEqual(expected)
+      const byAddress = new Map<number, string[]>()
+      for (const state of owner?.durableStates ?? []) {
+        const digests = byAddress.get(state.sourceAddress) ?? []
+        digests.push(state.dialogueCarryDigest)
+        byAddress.set(state.sourceAddress, digests)
+      }
+      for (const [sourceAddress, digests] of byAddress) {
+        if (digests.length < 2) continue
+        expect(
+          new Set(digests).size,
+          `checkpoint ${checkpointAddress} / durable ${sourceAddress}`,
+        ).toBe(digests.length)
+      }
+    }
+
+    const folded = owners.find(({ checkpointAddress }) => checkpointAddress === 6344)
+    expect(folded).toMatchObject({
+      stateCount: 5,
+      checkpointAliasesFolded: 3,
+    })
+    expect(
+      owners
+        .filter(({ checkpointAddress }) => checkpointAddress !== 6344)
+        .map(({ checkpointAliasesFolded }) => checkpointAliasesFolded),
+    ).toEqual(Array.from({ length: 33 }, () => 0))
+  })
+
+  test('projects the exact seven trigger delayed-goto owners without replacing e9 legacy-002', () => {
+    const evidence = fixture.generated.triggerActivationEvidence
+    expect(evidence).toMatchObject({
+      delayedGotoAddresses: 9,
+      delayedGotoOwners: 7,
+      delayedGotoOwnerExpandedPhases: 41,
+    })
+    expect(R13_DELAYED_TRIGGER_OWNERS).toHaveLength(7)
+    expect(evidence.delayedOwners).toHaveLength(7)
+    const delayedSites: Array<{
+      sourceAddress: number
+      targetAddress: number
+      fallthroughAddress: number
+      threshold: number
+      sourceWaitFrames: 0 | 1
+    }> = []
+    for (const owner of R13_DELAYED_TRIGGER_OWNERS) delayedSites.push(...owner.delayedGotos)
+    expect(
+      delayedSites.map(({ sourceAddress }) => sourceAddress).sort((left, right) => left - right),
+    ).toEqual([193, 205, 32097, 32209, 33696, 33964, 33972, 35054, 35062])
+    expect(delayedSites.reduce((sum, { threshold }) => sum + threshold, 0)).toBe(41)
+    expect(evidence.delayedOwners.flatMap(({ delayedGotos }) => delayedGotos)).toEqual(
+      expect.arrayContaining(delayedSites.map((site) => ({ ...site }))),
+    )
+
+    const parentScene = required<SceneDefV5>(
+      fixture.generated.r13CadenceParentSnapshot.files,
+      'content/scenes/s001.json',
+    )
+    const before = parentScene.entities.find(({ id }) => id === 'e9')?.behaviors?.trigger?.[
+      'legacy-002'
+    ]
+    const after = fixture.scenesById.get('s001')?.entities.find(({ id }) => id === 'e9')?.behaviors
+      ?.trigger?.['legacy-002']
+    expect(stableJson(after)).toBe(stableJson(before))
+  })
+
+  test('materializes the two newly reachable deferred trigger behaviors locally', () => {
+    const expected = [
+      { sceneId: 's053', entityId: 'e905', behaviorId: 'legacy-002', rootAddress: 10635 },
+      { sceneId: 's053', entityId: 'e908', behaviorId: 'legacy-002', rootAddress: 10639 },
+    ] as const
+    expect(
+      fixture.generated.triggerActivationEvidence.restoredEntityBehaviors.map(
+        ({ bodyDigest, ...entry }) => ({
+          ...entry,
+          digestShape: /^[a-f0-9]{64}$/.test(bodyDigest),
+        }),
+      ),
+    ).toEqual(
+      expected.map((entry) => ({
+        ...entry,
+        channel: 'trigger',
+        digestShape: true,
+      })),
+    )
+    for (const target of expected) {
+      const behavior = fixture.scenesById
+        .get(target.sceneId)
+        ?.entities.find(({ id }) => id === target.entityId)?.behaviors?.trigger?.[target.behaviorId]
+      expect(behavior?.flow.kind, `${target.sceneId}/${target.entityId}`).toBe('stages')
+      if (behavior?.flow.kind !== 'stages') continue
+      expect(behavior.flow.stages).toHaveLength(1)
+      expect(behavior.flow.stages[0]?.body.length).toBeGreaterThan(0)
+      expect(
+        countKinds(behavior.flow, new Set(['legacyRaw', 'runScript', 'callScript', 'jumpScript'])),
+      ).toBe(0)
+    }
+    expect(fixture.locale).toMatchObject({
+      'spk.韩医仙': '韩医仙',
+      'spk.韩梦慈': '韩梦慈',
+    })
+    expect(Object.values(fixture.locale)).toContain('快让赵姑娘服药吧')
+    expect(Object.values(fixture.locale)).toContain('辛苦你们了．．')
+  })
+
+  test('projects all idle gates, delayed gotos, restored s231 autos, and cursor handoffs', () => {
+    const evidence = fixture.generated.autoIdleGateEvidence
+    expect(evidence).toMatchObject({
+      kind: 'r13-auto-idle-gate-evidence',
+      version: 1,
+      sourceGateAddresses: 11,
+      entityOwners: 12,
+      executionSites: 13,
+      ownerExpandedGatePhases: 84,
+      delayedGotoAddresses: 8,
+      delayedGotoExecutionSites: 15,
+      delayedGotoOwnerExpandedPhases: 1657,
+      steadyAutoOwners: 15,
+      restoredAutoOwners: 16,
+      cursorHandoffCases: {
+        e405Forward: 1,
+        e4168Forward: 16,
+        s231CrowdForward: 176,
+        e4409Forward: 13,
+        e4440Forward: 15,
+        e4723Forward: 24,
+        reverse: 2,
+      },
+    })
+    expect(evidence.owners).toHaveLength(12)
+    expect(evidence.steadyOwners).toHaveLength(15)
+    expect(evidence.restoredOwners).toHaveLength(16)
+    expect(evidence.installerOwners.reduce((sum, owner) => sum + owner.commands, 0)).toBe(18)
+    expect(evidence.installerOwners.reduce((sum, owner) => sum + owner.cases, 0)).toBe(247)
+    expect(evidence.owners.reduce((sum, owner) => sum + owner.gateAddresses.length, 0)).toBe(13)
+    expect(evidence.owners.reduce((sum, owner) => sum + owner.gatePhaseCount, 0)).toBe(84)
+
+    const e405Installers: Array<Record<string, unknown>> = []
+    visit(fixture.scenesById.get('s021'), (command) => {
+      if (
+        command.kind === 'selectEntityBehavior' &&
+        (command.target as { entity?: string } | undefined)?.entity === 'e405' &&
+        (command.selection as { value?: string } | undefined)?.value === 'legacy-001'
+      )
+        e405Installers.push(command)
+    })
+    expect(e405Installers).toHaveLength(1)
+    expect(e405Installers[0]?.cursorHandoff).toEqual({
+      kind: 'stateMap',
+      fromBehavior: 'default',
+      cases: [
+        {
+          from: {
+            kind: 'state',
+            machine: 'machine',
+            state: 'first-wait-06',
+          },
+          to: {
+            kind: 'state',
+            machine: 'machine',
+            state: 'cycle-01-phase-06',
+          },
+        },
+      ],
+      onUnmapped: 'error',
+    })
+
+    for (const owner of evidence.owners) {
+      const [sceneId, entityId, , behaviorId] = owner.ownerKey.split('/')
+      const flow = fixture.scenesById.get(sceneId!)?.entities.find(({ id }) => id === entityId)
+        ?.behaviors?.auto?.[behaviorId!]?.flow
+      expect(flow?.kind, owner.ownerKey).toBe('stateMachine')
+      if (flow?.kind !== 'stateMachine') continue
+      expect(flow.machine.cadence).toBe('transition')
+      expect(Object.keys(flow.machine.states)).toHaveLength(owner.productStates)
+      expect(stableJson(flow)).not.toMatch(/source-\d|L[_-]\d/)
+    }
+
+    const s231e4167 = fixture.scenesById.get('s231')?.entities.find(({ id }) => id === 'e4167')
+    expect(s231e4167?.pages?.[0]).toMatchObject({ auto: 'default' })
+    expect(s231e4167?.pages?.[0]?.animation).toBeUndefined()
+    expect(s231e4167?.behaviors?.auto?.default?.flow.kind).toBe('stateMachine')
+    const s231e4168 = fixture.scenesById.get('s231')?.entities.find(({ id }) => id === 'e4168')
+    expect(
+      Object.fromEntries(
+        Object.entries(s231e4168?.behaviors?.auto ?? {}).map(([id, behavior]) => [
+          id,
+          { order: behavior.order, kind: behavior.flow.kind },
+        ]),
+      ),
+    ).toEqual({
+      'legacy-001': { order: 1, kind: 'stateMachine' },
+      'legacy-002': { order: 2, kind: 'stateMachine' },
+      'legacy-003': { order: 3, kind: 'stateMachine' },
+      'legacy-004': { order: 4, kind: 'stateMachine' },
+    })
+    expect(
+      evidence.restoredOwners
+        .filter(({ ownerKey }) => ownerKey.includes('/e4168/'))
+        .map(({ rootAddress }) => rootAddress)
+        .sort((a, b) => a - b),
+    ).toEqual([32021, 32218, 32222])
+
+    const e4168Installers: Array<Record<string, unknown>> = []
+    visit(fixture.scenesById.get('s231')?.hooks?.onEnter?.variants.default?.flow, (command) => {
+      if (
+        command.kind === 'selectEntityBehavior' &&
+        (command.target as { entity?: string } | undefined)?.entity === 'e4168' &&
+        command.channel === 'auto' &&
+        (command.selection as { kind?: string } | undefined)?.kind === 'use'
+      )
+        e4168Installers.push(command)
+    })
+    expect(
+      e4168Installers.map((command) => (command.selection as { value?: string }).value).sort(),
+    ).toEqual(['legacy-001', 'legacy-002', 'legacy-003', 'legacy-004'])
+    const fourth = e4168Installers.find(
+      (command) => (command.selection as { value?: string } | undefined)?.value === 'legacy-004',
+    )
+    const fourthHandoff = fourth?.cursorHandoff as
+      | {
+          fromBehavior?: string
+          cases?: Array<{ from: unknown; to: unknown }>
+          onUnmapped?: string
+        }
+      | undefined
+    expect(fourthHandoff).toMatchObject({
+      fromBehavior: 'legacy-003',
+      onUnmapped: 'error',
+    })
+    expect(fourthHandoff?.cases).toHaveLength(16)
+    expect(fourthHandoff?.cases?.slice(0, 4)).toEqual([
+      {
+        from: { kind: 'state', machine: 'machine', state: 'idle-wait' },
+        to: { kind: 'state', machine: 'machine', state: 'entry' },
+      },
+      {
+        from: { kind: 'state', machine: 'machine', state: 'idle-wait-phase-02' },
+        to: { kind: 'state', machine: 'machine', state: 'entry-phase-02' },
+      },
+      {
+        from: { kind: 'state', machine: 'machine', state: 'idle-wait-phase-03' },
+        to: { kind: 'state', machine: 'machine', state: 'entry-phase-03' },
+      },
+      {
+        from: { kind: 'state', machine: 'machine', state: 'idle-wait-phase-04' },
+        to: { kind: 'state', machine: 'machine', state: 'entry-phase-03' },
+      },
+    ])
+
+    for (const [entityId, rootAddress] of [
+      ['e4156', 32228],
+      ['e4157', 32234],
+      ['e4158', 32240],
+      ['e4159', 32246],
+      ['e4160', 32253],
+      ['e4161', 32259],
+      ['e4162', 32265],
+      ['e4163', 32270],
+      ['e4164', 32276],
+      ['e4165', 32283],
+      ['e4166', 32289],
+    ] as const) {
+      const entity = fixture.scenesById.get('s231')?.entities.find(({ id }) => id === entityId)
+      expect(entity?.behaviors?.auto?.default?.flow.kind, `${entityId}/default`).toBe(
+        'stateMachine',
+      )
+      expect(entity?.behaviors?.auto?.['legacy-001']?.flow.kind, `${entityId}/legacy`).toBe(
+        'stateMachine',
+      )
+      expect(
+        evidence.restoredOwners.find(({ ownerKey }) => ownerKey.includes(`/${entityId}/`))
+          ?.rootAddress,
+      ).toBe(rootAddress)
+      const installers: Array<Record<string, unknown>> = []
+      visit(fixture.scenesById.get('s231')?.hooks?.onEnter?.variants.default?.flow, (command) => {
+        if (
+          command.kind === 'selectEntityBehavior' &&
+          (command.target as { entity?: string } | undefined)?.entity === entityId &&
+          command.channel === 'auto' &&
+          (command.selection as { value?: string } | undefined)?.value === 'legacy-001'
+        )
+          installers.push(command)
+      })
+      expect(installers, `${entityId} installer`).toHaveLength(1)
+      expect(
+        installers[0]?.cursorHandoff as
+          | { fromBehavior?: string; cases?: unknown[]; onUnmapped?: string }
+          | undefined,
+      ).toMatchObject({
+        fromBehavior: 'default',
+        cases: expect.arrayContaining([]),
+        onUnmapped: 'error',
+      })
+      expect(
+        (installers[0]?.cursorHandoff as { cases?: unknown[] } | undefined)?.cases,
+      ).toHaveLength(16)
+    }
+
+    for (const [entityId, rootAddress] of [
+      ['e4410', 33641],
+      ['e4413', 33786],
+    ] as const) {
+      const behavior = fixture.scenesById.get('s250')?.entities.find(({ id }) => id === entityId)
+        ?.behaviors?.auto?.['legacy-001']
+      expect(behavior?.flow.kind, `${entityId}/legacy`).toBe('stateMachine')
+      expect(
+        evidence.restoredOwners.find(({ ownerKey }) => ownerKey.includes(`/${entityId}/`))
+          ?.rootAddress,
+      ).toBe(rootAddress)
+    }
+
+    for (const [sceneId, entityId, expectedCases, reverseTarget] of [
+      ['s250', 'e4409', 13, 'pursuit'],
+      ['s252', 'e4440', 15, 'post-pursuit'],
+    ] as const) {
+      const entity = fixture.scenesById.get(sceneId)?.entities.find(({ id }) => id === entityId)
+      const forward: Array<Record<string, unknown>> = []
+      visit(entity?.behaviors?.trigger?.default?.flow, (command) => {
+        if (
+          command.kind === 'selectEntityBehavior' &&
+          (command.target as { entity?: string } | undefined)?.entity === entityId &&
+          command.channel === 'auto'
+        )
+          forward.push(command)
+      })
+      expect(forward).toHaveLength(1)
+      expect(
+        (forward[0]?.cursorHandoff as { cases?: unknown[] } | undefined)?.cases,
+        `${sceneId}/${entityId} forward`,
+      ).toHaveLength(expectedCases)
+
+      const legacy = entity?.behaviors?.auto?.['legacy-001']?.flow
+      expect(legacy?.kind).toBe('stateMachine')
+      if (legacy?.kind !== 'stateMachine') continue
+      const restore = legacy.machine.states['restore-touch']
+      const reverse = restore?.body.find(
+        (command) =>
+          command.kind === 'selectEntityBehavior' &&
+          command.channel === 'auto' &&
+          command.selection.kind === 'use' &&
+          command.selection.value === 'default',
+      )
+      expect((reverse as { cursorHandoff?: unknown } | undefined)?.cursorHandoff).toEqual({
+        kind: 'stateMap',
+        fromBehavior: 'legacy-001',
+        cases: [
+          {
+            from: { kind: 'state', machine: 'machine', state: 'restore-touch' },
+            to: { kind: 'state', machine: 'machine', state: reverseTarget },
+          },
+        ],
+        onUnmapped: 'error',
+      })
+    }
   })
 })

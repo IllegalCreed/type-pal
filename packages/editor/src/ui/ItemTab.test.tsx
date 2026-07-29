@@ -217,7 +217,7 @@ describe('ItemTab', () => {
     const throwItem: ItemData = {
       ...item('throw-item'),
       name: '赤蝎粉',
-      throw: { effects: [{ kind: 'applyPoison', poisonId: '1' }] },
+      throw: { target: 'oneEnemy', effects: [{ kind: 'applyPoison', poisonId: '1' }] },
     }
     const initial = state([equipItem, useItem, throwItem])
     initial.shops = []
@@ -248,7 +248,7 @@ describe('ItemTab', () => {
         ...item('item-a'),
         equip: { slot: 'weapon', equipableBy: [], effects: [] },
         use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 10 }] },
-        throw: { effects: [{ kind: 'applyPoison', poisonId: '1' }] },
+        throw: { target: 'oneEnemy', effects: [{ kind: 'applyPoison', poisonId: '1' }] },
       },
     ])
     initial.shops = []
@@ -368,6 +368,7 @@ describe('ItemTab', () => {
         ...item('throw-item'),
         name: '无影毒',
         throw: {
+          target: 'oneEnemy',
           effects: [
             {
               kind: 'currentHpDamage',

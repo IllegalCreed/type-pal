@@ -429,7 +429,10 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
 export interface BuildThrowItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
-  targetIdx: number
+  /** 当前投掷命中的目标快照；保留 0 伤害目标以播放施毒/状态命中闪烁。 */
+  hits?: Array<{ idx: number; damage: number }>
+  /** @deprecated 单目标兼容入口。 */
+  targetIdx?: number
   sound?: AssetId
   /** 0x42 等投掷脚本的纯 OffMagic 演出；不包含玩家施法前摇。 */
   presentation?: {
@@ -438,11 +441,19 @@ export interface BuildThrowItemInput {
     targetPos?: { x: number; y: number }
   }
   /** 0 表示纯施毒投掷，不显示伤害数字。 */
-  damage: number
+  /** @deprecated 单目标兼容入口。 */
+  damage?: number
 }
 
 /** 投掷道具：投掷姿 → 可选 OffMagic → 目标闪色/结果数字 → 双方复位。 */
 export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
+  const hits =
+    input.hits ??
+    (input.targetIdx === undefined
+      ? []
+      : [{ idx: input.targetIdx, damage: Math.max(0, input.damage ?? 0) }])
+  if (hits.length === 0) throw new Error('buildThrowItem: 至少需要一个目标')
+  const positiveHits = hits.filter((hit) => hit.damage > 0)
   const frames: AnimFrame[] = [
     {
       durationMs: 120,
@@ -458,24 +469,32 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
         ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
       }),
     )
+  const onlyPositiveHit = positiveHits.length === 1 ? positiveHits[0] : undefined
   frames.push(
     {
       durationMs: 200,
-      fighters: [{ side: 'enemy', idx: input.targetIdx, colorShift: 6 }],
-      ...(input.damage > 0
+      fighters: hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 6 })),
+      ...(onlyPositiveHit
         ? {
             damageNum: {
-              target: { side: 'enemy' as const, idx: input.targetIdx },
-              value: input.damage,
+              target: { side: 'enemy' as const, idx: onlyPositiveHit.idx },
+              value: onlyPositiveHit.damage,
             },
           }
-        : {}),
+        : positiveHits.length > 1
+          ? {
+              damageNums: positiveHits.map((hit) => ({
+                target: { side: 'enemy' as const, idx: hit.idx },
+                value: hit.damage,
+              })),
+            }
+          : {}),
     },
     {
       durationMs: 160,
       fighters: [
         { side: 'player', idx: input.casterIdx, frame: input.casterFrames.idle },
-        { side: 'enemy', idx: input.targetIdx, colorShift: 0 },
+        ...hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 0 })),
       ],
     },
   )

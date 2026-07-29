@@ -1,6 +1,14 @@
-import { emptyWorldScriptStateV5, type SceneDefV5 } from '@type-pal/content'
+import {
+  emptyWorldScriptStateV5,
+  type ProjectManifest,
+  type SceneDefV5,
+  type WorldStateV7,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { asyncIntentAbortError } from './async-intent.js'
 import type { LoadedProjectV5Core } from './loader-v5.js'
+import { normalizePayloadV7, preflightSaveMigration } from './save/migration.js'
+import { buildPayloadV7 } from './save/ops.js'
 import {
   type ProjectScriptHostOptionsV5,
   ProjectScriptRuntimeHostV5,
@@ -108,6 +116,24 @@ function project(): LoadedProjectV5Core {
   return { sharedScripts: {} } as unknown as LoadedProjectV5Core
 }
 
+function manifestV8(): ProjectManifest<8> {
+  return {
+    id: 'demo',
+    name: 'Demo',
+    contentVersion: 8,
+    minimumSaveVersion: 7,
+    entryScene: 's001',
+    content: {},
+    assets: { catalog: 'assets/index.json', roles: {} },
+    startWorld: {
+      party: [],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+    },
+  }
+}
+
 function deferred<T>() {
   let resolve!: (value: T | PromiseLike<T>) => void
   let reject!: (reason?: unknown) => void
@@ -148,6 +174,124 @@ function host(
 }
 
 describe('canonical script v5 project runtime', () => {
+  test('moveEntity persists only the successfully reached endpoint', async () => {
+    const world = emptyWorldScriptStateV5()
+    const reached = deferred<void>()
+    const changed: string[] = []
+    const runtimeHost = new ProjectScriptRuntimeHostV5(world, new FlowRuntimeCoordinatorV5(), {
+      ...host(async (command) => {
+        if (command.kind === 'moveEntity') await reached.promise
+      }),
+      worldChanged: (command) => {
+        changed.push(command.kind)
+      },
+    })
+    const command = {
+      kind: 'moveEntity' as const,
+      target: { scene: 's001', entity: 'e1' },
+      to: { col: 7, row: 9, height: 0 },
+      speed: 'normal' as const,
+    }
+    const moving = runtimeHost.execute(command, {}, new AbortController().signal)
+
+    await Promise.resolve()
+    expect(world.entityPos?.s001?.e1).toBeUndefined()
+    reached.resolve()
+    await moving
+    expect(world.entityPos?.s001?.e1).toEqual(command.to)
+    expect(changed).toEqual(['moveEntity'])
+  })
+
+  test('a superseding move commits only the latest endpoint', async () => {
+    const world = emptyWorldScriptStateV5()
+    const effects: Array<{ col: number; row: number; height: number }> = []
+    const changed: Array<{ col: number; row: number; height: number }> = []
+    const pending: ReturnType<typeof deferred<void>>[] = []
+    let active: ReturnType<typeof deferred<void>> | undefined
+    const runtimeHost = new ProjectScriptRuntimeHostV5(world, new FlowRuntimeCoordinatorV5(), {
+      ...host(async (command) => {
+        if (command.kind !== 'moveEntity') return
+        effects.push(structuredClone(command.to))
+        active?.reject(asyncIntentAbortError('旧走位已被新走位替换'))
+        const next = deferred<void>()
+        pending.push(next)
+        active = next
+        await next.promise
+      }),
+      worldChanged: (command) => {
+        if (command.kind === 'moveEntity') changed.push(structuredClone(command.to))
+      },
+    })
+    const oldCommand = {
+      kind: 'moveEntity' as const,
+      target: { scene: 's001', entity: 'e1' },
+      to: { col: 7, row: 9, height: 0 },
+      speed: 'normal' as const,
+    }
+    const newCommand = {
+      ...oldCommand,
+      to: { col: 3, row: 4, height: 0 },
+    }
+
+    const oldMove = runtimeHost.execute(oldCommand, {}, new AbortController().signal)
+    const oldRejected = expect(oldMove).rejects.toMatchObject({ name: 'AbortError' })
+    const newMove = runtimeHost.execute(newCommand, {}, new AbortController().signal)
+    await oldRejected
+
+    expect(world.entityPos?.s001?.e1).toBeUndefined()
+    expect(changed).toEqual([])
+    expect(pending).toHaveLength(2)
+
+    pending[1]!.resolve()
+    await newMove
+    expect(effects).toEqual([oldCommand.to, newCommand.to])
+    expect(world.entityPos?.s001?.e1).toEqual(newCommand.to)
+    expect(world.entityPos?.s001?.e1).not.toEqual(oldCommand.to)
+    expect(changed).toEqual([newCommand.to])
+  })
+
+  test('moveEntity does not persist a stale endpoint after abort or scene-session replacement', async () => {
+    const abortedWorld = emptyWorldScriptStateV5()
+    const abort = new AbortController()
+    const abortedHost = new ProjectScriptRuntimeHostV5(
+      abortedWorld,
+      new FlowRuntimeCoordinatorV5(),
+      host(async (command) => {
+        if (command.kind !== 'moveEntity') return
+        abort.abort()
+        abort.signal.throwIfAborted()
+      }),
+    )
+    const command = {
+      kind: 'moveEntity' as const,
+      target: { scene: 's001', entity: 'e1' },
+      to: { col: 7, row: 9, height: 0 },
+      speed: 'normal' as const,
+    }
+
+    await expect(abortedHost.execute(command, {}, abort.signal)).rejects.toMatchObject({
+      name: 'AbortError',
+    })
+    expect(abortedWorld.entityPos?.s001?.e1).toBeUndefined()
+
+    const replacedWorld = emptyWorldScriptStateV5()
+    let session = 1
+    const replacedHost = new ProjectScriptRuntimeHostV5(
+      replacedWorld,
+      new FlowRuntimeCoordinatorV5(),
+      {
+        ...host(async () => {
+          session = 2
+        }),
+        currentSceneSessionId: () => session,
+      },
+    )
+    await expect(
+      replacedHost.execute(command, {}, new AbortController().signal),
+    ).rejects.toMatchObject({ name: 'AbortError' })
+    expect(replacedWorld.entityPos?.s001?.e1).toBeUndefined()
+  })
+
   test('activation owns world mutations and commits a stable behavior cursor', async () => {
     const world = emptyWorldScriptStateV5()
     const effects: string[] = []
@@ -254,6 +398,148 @@ describe('canonical script v5 project runtime', () => {
     expect(saved.behaviors.entities?.s001?.e1?.trigger?.cursor).toEqual({
       behavior: 'talk',
       at: { kind: 'stage', stage: 'start' },
+    })
+  })
+
+  test('SAVE6 resumes an opcode 0x09 cadence cursor without replaying elapsed ticks', async () => {
+    const cadenceScene = structuredClone(scene)
+    const auto = cadenceScene.entities[0]?.behaviors?.auto?.idle
+    if (!auto) throw new Error('fixture auto behavior')
+    auto.flow = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'auto-lifecycle-s001-e1-idle',
+        label: '0x09 cadence fixture',
+        initial: 'source-1',
+        cadence: 'transition',
+        states: {
+          'source-1': {
+            label: '源指令 1',
+            body: [{ kind: 'setFlag', flag: 'started', value: true }],
+            next: {
+              kind: 'to',
+              state: 'source-1-wait-2',
+              yield: 'worldTick',
+            },
+          },
+          'source-1-wait-2': {
+            label: '源指令 1 · 等待 2/3',
+            body: [],
+            next: {
+              kind: 'to',
+              state: 'source-1-wait-3',
+              yield: 'worldTick',
+            },
+          },
+          'source-1-wait-3': {
+            label: '源指令 1 · 等待 3/3',
+            body: [],
+            next: {
+              kind: 'to',
+              state: 'source-2',
+              yield: 'worldTick',
+            },
+          },
+          'source-2': {
+            label: '源指令 2',
+            body: [{ kind: 'setFlag', flag: 'after-wait', value: true }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+
+    const world = emptyWorldScriptStateV5()
+    const enteredFirstTick = deferred<void>()
+    const releaseFirstTick = deferred<void>()
+    let firstTicks = 0
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      scene: () => cadenceScene,
+      waitWorldTick: async () => {
+        firstTicks++
+        if (firstTicks !== 1) return
+        enteredFirstTick.resolve()
+        await releaseFirstTick.promise
+      },
+    })
+    const running = runtime.runEntityBehavior(cadenceScene, 'e1', 'auto', {
+      signal: new AbortController().signal,
+    })
+    await enteredFirstTick.promise
+
+    const savedWorld = runtime.withSaveBarrier<WorldStateV7>(() => ({
+      party: [],
+      money: 0,
+      learnedSkills: {},
+      inventory: [],
+      script: structuredClone(world),
+    }))
+    releaseFirstTick.resolve()
+    const saved = await savedWorld
+    await expect(running).resolves.toBe(true)
+
+    expect(firstTicks).toBe(1)
+    expect(saved.script?.flags.started).toBe(true)
+    expect(saved.script?.flags['after-wait']).toBeUndefined()
+    expect(saved.script?.behaviors.entities?.s001?.e1?.auto?.cursor).toEqual({
+      behavior: 'idle',
+      at: {
+        kind: 'state',
+        machine: 'auto-lifecycle-s001-e1-idle',
+        state: 'source-1-wait-3',
+      },
+    })
+
+    const payload = buildPayloadV7(
+      saved,
+      {
+        sceneId: 's001',
+        pos: { col: 0, row: 0, height: 0 },
+        facing: 'down',
+      },
+      'demo',
+    )
+    const resolver = await preflightSaveMigration({
+      manifest: manifestV8(),
+      payload,
+    })
+    const restored = normalizePayloadV7(payload, resolver)
+    expect(restored).not.toBe(payload)
+    expect(restored.world.script?.behaviors.entities?.s001?.e1?.auto?.cursor).toEqual(
+      saved.script?.behaviors.entities?.s001?.e1?.auto?.cursor,
+    )
+
+    let resumedTicks = 0
+    const resumedEffects: string[] = []
+    const resumed = new ScriptProjectRuntimeV5(project(), restored.world.script!, digest, {
+      ...host((command) => {
+        if (command.kind === 'setFlag') resumedEffects.push(command.flag)
+      }),
+      scene: () => cadenceScene,
+      waitWorldTick: async () => {
+        resumedTicks++
+      },
+    })
+    await expect(
+      resumed.runEntityBehavior(cadenceScene, 'e1', 'auto', {
+        signal: new AbortController().signal,
+      }),
+    ).resolves.toBe(true)
+
+    expect(resumedTicks).toBe(1)
+    expect(resumedEffects).toEqual(['after-wait'])
+    expect(restored.world.script?.flags).toMatchObject({
+      started: true,
+      'after-wait': true,
+    })
+    expect(restored.world.script?.behaviors.entities?.s001?.e1?.auto?.cursor).toEqual({
+      behavior: 'idle',
+      at: {
+        kind: 'state',
+        machine: 'auto-lifecycle-s001-e1-idle',
+        state: 'source-2',
+      },
     })
   })
 

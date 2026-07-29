@@ -1,13 +1,18 @@
 import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
-import { planP3ScriptTransition } from './p3-transition-plan.js'
+import {
+  type PreparedP3ScriptTransition,
+  planP3ScriptTransition,
+  prepareP3ScriptTransition,
+} from './p3-transition-plan.js'
 import { validateP4ScriptMigrationIR } from './p4-validate.js'
 import {
   commandAtPointer,
+  createV4ScriptCorpusReader,
   inboundReferenceInventory,
   legacyAuthorCellSha256,
-  readV4ScriptCorpus,
   type V4MigrationSnapshotLike,
+  type V4ScriptCorpusReader,
 } from './source-v4.js'
 import { stableJsonSha256, stableStringCompare } from './stable-json.js'
 import type {
@@ -21,7 +26,7 @@ import type {
   ScriptTransitionLedgerDraftV1,
 } from './types.js'
 
-type P4TransitionOurs =
+export type P4TransitionOurs =
   | { kind: 'v4'; migration: V4MigrationSnapshotLike }
   | {
       kind: 'p4-ir'
@@ -70,21 +75,25 @@ function cellAtPointerOrMissing(root: unknown, pointer: string): unknown {
   }
 }
 
-function sourceCellValue(
+function sourceCellSha256(
   snapshot: V4MigrationSnapshotLike,
-  corpus: ReturnType<typeof readV4ScriptCorpus>,
+  corpus: ReturnType<V4ScriptCorpusReader['read']>,
   source:
     | { kind: 'legacy-script'; id: string }
     | { kind: 'legacy-script-cell'; scriptId: string; pointer: string }
     | { kind: 'source-cell'; source: string; pointer: string },
-): unknown {
-  if (source.kind === 'legacy-script') return corpus.byId.get(source.id)?.body
+): string {
+  if (source.kind === 'legacy-script')
+    return corpus.byId.get(source.id)?.authorCellSha256 ?? '<missing>'
+  let value: unknown
   if (source.kind === 'legacy-script-cell') {
     const body = corpus.byId.get(source.scriptId)
-    return body ? cellAtPointerOrMissing(body.body, source.pointer) : undefined
+    value = body ? cellAtPointerOrMissing(body.body, source.pointer) : undefined
+  } else {
+    const file = snapshot.files.get(source.source)
+    value = file === undefined ? undefined : cellAtPointerOrMissing(file, source.pointer)
   }
-  const file = snapshot.files.get(source.source)
-  return file === undefined ? undefined : cellAtPointerOrMissing(file, source.pointer)
+  return value === undefined ? '<missing>' : legacyAuthorCellSha256(value)
 }
 
 function ownerSurfaceInventory(snapshot: V4MigrationSnapshotLike): Array<{
@@ -127,32 +136,55 @@ function ownerSurfaceInventory(snapshot: V4MigrationSnapshotLike): Array<{
   return inventory
 }
 
-export function planP4ScriptTransition(args: {
-  migration: import('../../pal-migration.js').MigrationFileSet
-  frozenAudit: ScriptControlFlowAuditV1
-  sourceCommands: readonly SourceCmd[]
-  base: V4MigrationSnapshotLike
-  ours: P4TransitionOurs
-  p2: ScriptMigrationIRP2
-  p2Ledger: ScriptTransitionLedgerDraftV1
-  p3: ScriptMigrationIRP3
-  p3Ledger: ScriptTransitionLedgerDraftP3
-  target: ScriptMigrationIRP4
-  ledger: ScriptTransitionLedgerDraftP4
-}): P4TransitionPlan {
+export interface PreparedP4ScriptTransition {
+  readonly migration: import('../../pal-migration.js').MigrationFileSet
+  readonly frozenAudit: ScriptControlFlowAuditV1
+  readonly sourceCommands: readonly SourceCmd[]
+  readonly base: V4MigrationSnapshotLike
+  readonly p2: ScriptMigrationIRP2
+  readonly p2Ledger: ScriptTransitionLedgerDraftV1
+  readonly p3: ScriptMigrationIRP3
+  readonly p3Ledger: ScriptTransitionLedgerDraftP3
+  readonly target: ScriptMigrationIRP4
+  readonly ledger: ScriptTransitionLedgerDraftP4
+  readonly corpusReader: V4ScriptCorpusReader
+  readonly p3Prepared?: PreparedP3ScriptTransition
+  readonly targetDigest: string
+  readonly ledgerDigest: string
+  readonly targetConflicts: readonly P4TransitionConflict[]
+}
+
+export function prepareP4ScriptTransition(
+  args: {
+    migration: import('../../pal-migration.js').MigrationFileSet
+    frozenAudit: ScriptControlFlowAuditV1
+    sourceCommands: readonly SourceCmd[]
+    base: V4MigrationSnapshotLike
+    p2: ScriptMigrationIRP2
+    p2Ledger: ScriptTransitionLedgerDraftV1
+    p3: ScriptMigrationIRP3
+    p3Ledger: ScriptTransitionLedgerDraftP3
+    target: ScriptMigrationIRP4
+    ledger: ScriptTransitionLedgerDraftP4
+  },
+  corpusReader: V4ScriptCorpusReader = createV4ScriptCorpusReader(),
+  p3Prepared?: PreparedP3ScriptTransition,
+): PreparedP4ScriptTransition {
+  const targetDigest = digestWithoutSelf(args.target)
+  const ledgerDigest = digestWithoutSelf(args.ledger)
   const targetConflicts: P4TransitionConflict[] = []
-  if (args.target.digest !== digestWithoutSelf(args.target))
+  if (args.target.digest !== targetDigest)
     targetConflicts.push({
       kind: 'target-digest-mismatch',
       source: 'ScriptMigrationIR P4',
-      expected: digestWithoutSelf(args.target),
+      expected: targetDigest,
       actual: args.target.digest,
     })
-  if (args.ledger.digest !== digestWithoutSelf(args.ledger))
+  if (args.ledger.digest !== ledgerDigest)
     targetConflicts.push({
       kind: 'target-digest-mismatch',
       source: 'ScriptTransitionLedgerDraft P4',
-      expected: digestWithoutSelf(args.ledger),
+      expected: ledgerDigest,
       actual: args.ledger.digest,
     })
   try {
@@ -172,6 +204,67 @@ export function planP4ScriptTransition(args: {
       actual: error instanceof Error ? error.message : String(error),
     })
   }
+  const cumulativeP3Prepared =
+    targetConflicts.length === 0
+      ? (p3Prepared ??
+        prepareP3ScriptTransition(
+          {
+            migration: args.migration,
+            frozenAudit: args.frozenAudit,
+            sourceCommands: args.sourceCommands,
+            base: args.base,
+            p2: args.p2,
+            p2Ledger: args.p2Ledger,
+            target: args.p3,
+            ledger: args.p3Ledger,
+          },
+          corpusReader,
+        ))
+      : undefined
+  return {
+    ...args,
+    corpusReader,
+    p3Prepared: cumulativeP3Prepared,
+    targetDigest,
+    ledgerDigest,
+    targetConflicts,
+  }
+}
+
+export function planP4ScriptTransition(args: {
+  migration: import('../../pal-migration.js').MigrationFileSet
+  frozenAudit: ScriptControlFlowAuditV1
+  sourceCommands: readonly SourceCmd[]
+  base: V4MigrationSnapshotLike
+  ours: P4TransitionOurs
+  p2: ScriptMigrationIRP2
+  p2Ledger: ScriptTransitionLedgerDraftV1
+  p3: ScriptMigrationIRP3
+  p3Ledger: ScriptTransitionLedgerDraftP3
+  target: ScriptMigrationIRP4
+  ledger: ScriptTransitionLedgerDraftP4
+  /**
+   * Reuses validation and corpus scans for immutable snapshots. A preparation
+   * is accepted only for the exact cumulative input object identities.
+   */
+  prepared?: PreparedP4ScriptTransition
+}): P4TransitionPlan {
+  const prepared =
+    args.prepared?.migration === args.migration &&
+    args.prepared.frozenAudit === args.frozenAudit &&
+    args.prepared.sourceCommands === args.sourceCommands &&
+    args.prepared.base === args.base &&
+    args.prepared.p2 === args.p2 &&
+    args.prepared.p2Ledger === args.p2Ledger &&
+    args.prepared.p3 === args.p3 &&
+    args.prepared.p3Ledger === args.p3Ledger &&
+    args.prepared.target === args.target &&
+    args.prepared.ledger === args.ledger &&
+    args.prepared.targetDigest === digestWithoutSelf(args.target) &&
+    args.prepared.ledgerDigest === digestWithoutSelf(args.ledger)
+      ? args.prepared
+      : prepareP4ScriptTransition(args)
+  const targetConflicts = [...prepared.targetConflicts]
   if (targetConflicts.length) return planWithConflicts(targetConflicts, args.target)
 
   if (args.ours.kind === 'p4-ir') {
@@ -228,14 +321,15 @@ export function planP4ScriptTransition(args: {
     p2Ledger: args.p2Ledger,
     target: args.p3,
     ledger: args.p3Ledger,
+    prepared: prepared.p3Prepared,
   })
   if (p3Plan.conflicts.length) return planWithConflicts([...p3Plan.conflicts], args.target)
 
-  let baseCorpus: ReturnType<typeof readV4ScriptCorpus>
-  let oursCorpus: ReturnType<typeof readV4ScriptCorpus>
+  let baseCorpus: ReturnType<V4ScriptCorpusReader['read']>
+  let oursCorpus: ReturnType<V4ScriptCorpusReader['read']>
   try {
-    baseCorpus = readV4ScriptCorpus(args.base)
-    oursCorpus = readV4ScriptCorpus(args.ours.migration)
+    baseCorpus = prepared.corpusReader.read(args.base)
+    oursCorpus = prepared.corpusReader.read(args.ours.migration)
   } catch (error) {
     return planWithConflicts(
       [
@@ -274,10 +368,8 @@ export function planP4ScriptTransition(args: {
   const conflicts: P4TransitionConflict[] = []
   for (const group of p4Groups) {
     for (const source of group.sources) {
-      const baseValue = sourceCellValue(args.base, baseCorpus, source.identity)
-      const oursValue = sourceCellValue(args.ours.migration, oursCorpus, source.identity)
-      const baseHash = baseValue === undefined ? '<missing>' : legacyAuthorCellSha256(baseValue)
-      const oursHash = oursValue === undefined ? '<missing>' : legacyAuthorCellSha256(oursValue)
+      const baseHash = sourceCellSha256(args.base, baseCorpus, source.identity)
+      const oursHash = sourceCellSha256(args.ours.migration, oursCorpus, source.identity)
       const key =
         source.identity.kind === 'legacy-script'
           ? `legacy-script:${source.identity.id}`

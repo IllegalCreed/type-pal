@@ -1,11 +1,13 @@
 import {
+  CONTENT_VERSION,
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
+  type CurrentManifest,
   checkSharedScriptLibraryV5,
   type EntityDefV5,
   formatProjectMap,
   formatStampTemplates,
   type ItemData,
   type ItemDataV5,
-  type ProjectManifest,
   type ProjectMap,
   type SceneDefV5,
   type StampTemplateV1,
@@ -22,7 +24,7 @@ import { collectScriptV5ReferenceIssues, type ScriptEditorStateV5 } from './scri
 export interface EditorStateV5
   extends Omit<EditorState, 'manifest' | 'scenes' | 'items' | 'scriptIndex' | 'scriptChunks'>,
     ScriptEditorStateV5 {
-  manifest: ProjectManifest<5>
+  manifest: CurrentManifest
   /** 已验签迁移原始字节；普通保存必须逐字节 copy-through。 */
   migrationRegistry: LoadedProjectV5Core['migrationRegistry']
 }
@@ -150,10 +152,10 @@ function mergeSceneShellV5(
 
 function mergeItemEffectsV5(
   itemId: string,
-  slot: 'use' | 'throw',
-  shellEffects: NonNullable<ItemData[typeof slot]>['effects'],
+  slot: 'use',
+  shellEffects: NonNullable<ItemData['use']>['effects'],
   canonical: ItemDataV5 | undefined,
-): NonNullable<ItemDataV5[typeof slot]>['effects'] {
+): NonNullable<ItemDataV5['use']>['effects'] {
   const canonicalPrivateScripts = new Map(
     (canonical?.[slot]?.effects ?? []).flatMap((effect) =>
       effect.kind === 'itemPrivateScript' ? [[effect.script.id, effect] as const] : [],
@@ -185,12 +187,7 @@ function mergeItemShellV5(shell: ItemData, canonical: ItemDataV5 | undefined): I
         effects: mergeItemEffectsV5(shell.id, 'use', shell.use.effects, canonical),
       }
     : undefined
-  const thrown: ItemDataV5['throw'] = shell.throw
-    ? {
-        ...structuredClone(shell.throw),
-        effects: mergeItemEffectsV5(shell.id, 'throw', shell.throw.effects, canonical),
-      }
-    : undefined
+  const thrown: ItemDataV5['throw'] = shell.throw ? structuredClone(shell.throw) : undefined
   return {
     ...structuredClone(shell),
     use,
@@ -223,9 +220,11 @@ export function mergeLegacyEditorShellIntoV5(
   canonical: EditorStateV5,
   shell: EditorState,
 ): EditorStateV5 {
-  const runtimeManifest = structuredClone(shell.manifest) as unknown as ProjectManifest<5>
-  if (runtimeManifest.contentVersion !== 5)
-    throw new Error('mergeLegacyEditorShellIntoV5: shell 不是 contentVersion 5 工程')
+  const runtimeManifest = structuredClone(shell.manifest) as unknown as CurrentManifest
+  if (runtimeManifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(
+      `mergeLegacyEditorShellIntoV5: shell 不是 contentVersion ${CONTENT_VERSION} 工程`,
+    )
   if (runtimeManifest.content.scripts !== undefined)
     throw new Error('mergeLegacyEditorShellIntoV5: v5 shell 不得重新引入 content.scripts')
   if (!runtimeManifest.content.sharedScripts)
@@ -279,8 +278,13 @@ function bytesBuffer(bytes: Uint8Array): ArrayBuffer {
 }
 
 function validateEditorStateV5(state: EditorStateV5): void {
-  if (state.manifest.contentVersion !== 5)
-    throw new Error('serializeProjectV5: manifest 必须是 contentVersion 5')
+  if (state.manifest.contentVersion !== CONTENT_VERSION)
+    throw new Error(`serializeProjectV5: manifest 必须是 contentVersion ${CONTENT_VERSION}`)
+  if (state.manifest.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
+    throw new Error(
+      `serializeProjectV5: manifest.minimumSaveVersion 必须是 ` +
+        `${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}`,
+    )
   if (state.manifest.content.scripts !== undefined)
     throw new Error('serializeProjectV5: 禁止 legacy content.scripts')
   if (!state.manifest.content.sharedScripts)

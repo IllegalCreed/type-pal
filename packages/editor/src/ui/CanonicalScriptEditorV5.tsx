@@ -744,12 +744,17 @@ function describeCommand(
       return {
         icon: '🔗',
         label: `${addressLabel(command.target)} 切换${command.channel === 'trigger' ? '交互脚本' : '自动行为'}`,
-        detail:
+        detail: `${
           command.selection.kind === 'use'
             ? command.selection.value
             : command.selection.kind === 'disabled'
               ? '显式禁用'
-              : '继承',
+              : '继承'
+        }${
+          command.cursorHandoff
+            ? ` · 接续 ${command.cursorHandoff.fromBehavior} 的运行进度（${command.cursorHandoff.cases.length} 项）`
+            : ''
+        }`,
         children,
       }
     case 'selectEntityPage':
@@ -1455,7 +1460,12 @@ function primitiveField(
           className="in"
           value={value}
           onChange={(event) =>
-            onChange({ ...command, [key]: event.target.value } as AuthorCommandV5)
+            onChange(
+              stripCursorHandoffV5({
+                ...command,
+                [key]: event.target.value,
+              } as AuthorCommandV5),
+            )
           }
         >
           <option value="trigger">交互脚本</option>
@@ -1479,6 +1489,12 @@ function primitiveField(
       />
     </label>
   )
+}
+
+function stripCursorHandoffV5(command: AuthorCommandV5): AuthorCommandV5 {
+  if (command.kind !== 'selectEntityBehavior' || command.cursorHandoff === undefined) return command
+  const { cursorHandoff: _cursorHandoff, ...next } = command
+  return next
 }
 
 function CanonicalCommandFormV5(props: {
@@ -1980,7 +1996,9 @@ function CanonicalCommandFormV5(props: {
           <EntityAddressEditorV5
             value={target}
             state={context?.state}
-            onChange={(next) => props.onChange({ ...command, target: next } as AuthorCommandV5)}
+            onChange={(next) =>
+              props.onChange(stripCursorHandoffV5({ ...command, target: next } as AuthorCommandV5))
+            }
           />
         ) : (
           <div className="hint">未指定目标：使用当前 self。</div>
@@ -2072,12 +2090,14 @@ function CanonicalCommandFormV5(props: {
               }
               onChange={(event) => {
                 const value = event.target.value
-                props.onChange({
-                  ...command,
-                  selection: value.startsWith('use:')
-                    ? { kind: 'use', value: value.slice(4) }
-                    : { kind: value as 'inherit' | 'disabled' },
-                })
+                props.onChange(
+                  stripCursorHandoffV5({
+                    ...command,
+                    selection: value.startsWith('use:')
+                      ? { kind: 'use', value: value.slice(4) }
+                      : { kind: value as 'inherit' | 'disabled' },
+                  }),
+                )
               }}
             >
               <option value="inherit">继承</option>
@@ -2095,6 +2115,12 @@ function CanonicalCommandFormV5(props: {
               ))}
             </select>
           </label>
+        ) : null}
+        {command.kind === 'selectEntityBehavior' && command.cursorHandoff ? (
+          <p className="hint">
+            这条指令会接续“{command.cursorHandoff.fromBehavior}”的运行进度，共{' '}
+            {command.cursorHandoff.cases.length} 项映射。修改目标、脚本类型或选择后会移除此映射。
+          </p>
         ) : null}
         {command.kind === 'selectEntityPage' ? (
           <label>
@@ -2439,7 +2465,7 @@ function projectCommandExamplesV5(state: ScriptEditorStateV5): AuthorCommandV5[]
   for (const script of Object.values(state.sharedScripts))
     visitCommandExamplesV5(script.body, examples)
   for (const item of state.items)
-    for (const effect of [...(item.use?.effects ?? []), ...(item.throw?.effects ?? [])])
+    for (const effect of item.use?.effects ?? [])
       if (effect.kind === 'itemPrivateScript') visitCommandExamplesV5(effect.script.body, examples)
   return [...examples.values()]
 }
@@ -2472,6 +2498,11 @@ function cleanInsertionExampleV5(
     case 'selectSceneHooks':
       if (sceneId) next = { ...next, scene: sceneId }
       break
+    case 'selectEntityBehavior': {
+      const { cursorHandoff: _cursorHandoff, ...withoutHandoff } = next
+      next = withoutHandoff
+      break
+    }
     case 'loadScene':
       if (sceneId) next = { ...next, scene: sceneId }
       break
@@ -3795,7 +3826,9 @@ export function CanonicalScriptFlowEditorV5(props: {
           <strong className="script-section-title">连续流程（高级）</strong>
           <span className="script-section-count canonical-flow-count">{ids.length} 个状态</span>
           <CanonicalHelpTipV5 label="连续流程">
-            用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。
+            {flow.machine.cadence === 'transition'
+              ? '这是按源指令逐拍迁移的流程：一个状态正文表示一条源指令的完整展开，正文内的多条指令会在同一帧执行；只有状态去向负责进入下一拍。'
+              : '用于同一次运行内按条件或选择连续切换多个状态。普通脚本和“下次运行换内容”不需要使用。'}
           </CanonicalHelpTipV5>
         </div>
         <label>

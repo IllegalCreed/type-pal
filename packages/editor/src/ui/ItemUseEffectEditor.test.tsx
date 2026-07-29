@@ -5,13 +5,20 @@ import {
   type ItemData,
   type ItemUseEffect,
   type SceneDef,
+  THROW_EFFECT_KINDS,
+  type ThrowEffect,
   type ThrowSpec,
   type UseSpec,
 } from '@type-pal/content'
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { defaultItemUseEffect, ItemEffectChainEditor } from './ItemUseEffectEditor.js'
+import {
+  defaultItemUseEffect,
+  defaultThrowEffect,
+  ItemEffectChainEditor,
+  ThrowEffectChainEditor,
+} from './ItemUseEffectEditor.js'
 
 function item(id: string): ItemData {
   return { id, name: id, desc: [], buyPrice: 0, sellPrice: 0, sellable: false }
@@ -84,17 +91,12 @@ function PrivateHarness(props: {
 function ThrowHarness(props: { initial: ThrowSpec; onChange?: (next: ThrowSpec) => void }) {
   const [spec, setSpec] = useState(props.initial)
   return (
-    <ItemEffectChainEditor
-      ability="throw"
+    <ThrowEffectChainEditor
       spec={spec}
-      items={[item('tool'), item('material')]}
       poisons={[{ id: 7, name: '赤毒', color: 0, curability: 'common' }]}
-      scripts={[]}
-      itemId="tool"
       onChange={(next) => {
-        const throwSpec = next as ThrowSpec
-        setSpec(throwSpec)
-        props.onChange?.(throwSpec)
+        setSpec(next)
+        props.onChange?.(next)
       }}
     />
   )
@@ -202,13 +204,6 @@ describe('ItemEffectChainEditor', () => {
       },
       scaleCurrentHp: { kind: 'scaleCurrentHp', numerator: 1, denominator: 2 },
       levelUp: { kind: 'levelUp', levels: 1 },
-      currentHpDamage: {
-        kind: 'currentHpDamage',
-        numerator: 1,
-        denominator: 2,
-        bonus: 1,
-        cap: 1000,
-      },
       placeEntityInFront: {
         kind: 'placeEntityInFront',
         target: { scene: 'scene-a', entity: 'entity-a' },
@@ -464,29 +459,86 @@ describe('ItemEffectChainEditor', () => {
     )
   })
 
-  test('非法投掷效果显式报错并可一键重置为施毒', async () => {
+  test('7 类投掷效果都有中文类型与确定默认值', () => {
+    const poisons = [{ id: 7, name: '赤毒', color: 0, curability: 'common' as const }]
+    const kinds = Object.keys(THROW_EFFECT_KINDS) as ThrowEffect['kind'][]
+    expect(
+      Object.fromEntries(kinds.map((kind) => [kind, defaultThrowEffect(kind, poisons)])),
+    ).toEqual({
+      magicDamage: {
+        kind: 'magicDamage',
+        baseDamage: 1,
+        element: 'none',
+        strength: { kind: 'fixed', value: 1 },
+      },
+      fixedDamage: { kind: 'fixedDamage', amount: 1 },
+      applyPoison: { kind: 'applyPoison', poisonId: '7' },
+      currentHpDamage: {
+        kind: 'currentHpDamage',
+        numerator: 1,
+        denominator: 2,
+        bonus: 1,
+        cap: 1000,
+      },
+      applyStatus: {
+        kind: 'applyStatus',
+        status: 'sleep',
+        turns: 1,
+        onResist: 'continue',
+      },
+      killIfHpAtMost: { kind: 'killIfHpAtMost', percent: 25 },
+      damageAndHealCaster: { kind: 'damageAndHealCaster', damage: 180, heal: 180 },
+    })
+  })
+
+  test('投掷目标和完整效果链可新增、改类、排序、删除', async () => {
     const onChange = vi.fn()
     await act(async () =>
       root.render(
         <ThrowHarness
-          initial={
-            {
-              effects: [{ kind: 'healHp', amount: 10 }],
-            } as unknown as ThrowSpec
-          }
+          initial={{ target: 'oneEnemy', effects: [{ kind: 'fixedDamage', amount: 1 }] }}
           onChange={onChange}
         />,
       ),
     )
 
-    expect(host.querySelector('[role="alert"]')?.textContent).toContain('无法保存')
-    await act(async () =>
-      [...host.querySelectorAll<HTMLButtonElement>('button')]
-        .find((candidate) => candidate.textContent?.includes('重置为施毒'))!
-        .click(),
+    const target = host.querySelector<HTMLSelectElement>('.item-use-options select')!
+    expect(target.textContent).toContain('单个敌人')
+    expect(target.textContent).toContain('全体敌人')
+    await act(async () => {
+      target.value = 'allEnemies'
+      target.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ target: 'allEnemies' }))
+
+    const kind = host.querySelector<HTMLSelectElement>('.item-effect-kind')!
+    expect([...kind.options].map((option) => option.textContent)).toEqual([
+      '法术伤害',
+      '固定伤害',
+      '施毒',
+      '按当前体力造成伤害',
+      '施加状态',
+      '低血量即死',
+      '伤害并回复使用者',
+    ])
+    await act(async () => {
+      kind.value = 'magicDamage'
+      kind.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(host.textContent).toContain('力量来源')
+
+    await act(async () => buttonByText(host, '＋ 添加效果')!.click())
+    expect(host.querySelectorAll('.item-effect-row')).toHaveLength(2)
+    expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
+      false,
     )
-    expect(onChange).toHaveBeenLastCalledWith({ effects: [{ kind: 'applyPoison', poisonId: '7' }] })
-    expect(host.querySelector('[role="alert"]')).toBeNull()
+    await act(async () =>
+      host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.click(),
+    )
+    expect(host.querySelectorAll('.item-effect-row')).toHaveLength(1)
+    expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
+      true,
+    )
   })
 
   test('v5 物品私有脚本在物品效果内联编辑，不显示共享脚本跳转', async () => {

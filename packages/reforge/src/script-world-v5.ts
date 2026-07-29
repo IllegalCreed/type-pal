@@ -2,6 +2,7 @@ import type {
   ActiveBehaviorSlot,
   AuthorConditionV5,
   BehaviorId,
+  CursorHandoffV5,
   EntityAddress,
   EntityBaseV5,
   EntityPageV5,
@@ -64,6 +65,12 @@ function clone<T>(value: T): T {
 
 function sameValue(left: unknown, right: unknown): boolean {
   return JSON.stringify(left) === JSON.stringify(right)
+}
+
+function flowCursorKey(cursor: FlowCursor): string {
+  return cursor.kind === 'stage'
+    ? JSON.stringify(['stage', cursor.stage])
+    : JSON.stringify(['state', cursor.machine, cursor.state])
 }
 
 function ownerKey(owner: PersistentFlowOwnerV5): string {
@@ -241,18 +248,63 @@ export function selectEntityBehaviorV5(
   channel: 'trigger' | 'auto',
   selection: Selection<BehaviorId>,
   coordinator?: FlowRuntimeCoordinatorV5,
+  cursorHandoff?: CursorHandoffV5,
 ): boolean {
   assertEntityTarget(entity, target)
   if (selection.kind === 'use' && !behaviorRegistry(entity, channel)?.[selection.value])
     throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${selection.value}`)
   const current = clone(entityWorldState(world, target) ?? {})
   const previousId = effectiveBehaviorId(entity, current, channel)
+  const previous = resolveEntityBehaviorV5(entity, world, target, channel)
   const next = clone(current)
   applyBehaviorSelection(next, channel, selection)
   const nextId = effectiveBehaviorId(entity, next, channel)
-  preserveMatchingCursor(next, channel, previousId, nextId)
+  if (cursorHandoff) {
+    if (!coordinator) throw new Error('cursorHandoff: 缺少 FlowRuntimeCoordinatorV5')
+    if (cursorHandoff.kind !== 'stateMap' || cursorHandoff.onUnmapped !== 'error')
+      throw new Error('cursorHandoff: 仅支持 stateMap + onUnmapped=error')
+    if (selection.kind !== 'use') throw new Error('cursorHandoff: 仅 selection.use 可声明游标交接')
+    if (!previous || previous.behaviorId !== cursorHandoff.fromBehavior)
+      throw new Error(
+        `cursorHandoff: 当前 ${channel} behavior ${
+          previous?.behaviorId ?? '<disabled>'
+        } 不匹配来源 ${cursorHandoff.fromBehavior}`,
+      )
+    const targetBehavior = behaviorRegistry(entity, channel)?.[selection.value]
+    if (!targetBehavior)
+      throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${selection.value}`)
+    if (!Array.isArray(cursorHandoff.cases) || cursorHandoff.cases.length === 0)
+      throw new Error('cursorHandoff.cases: 期望非空映射数组')
+    const sourceKeys = new Set<string>()
+    for (const mapping of cursorHandoff.cases) {
+      assertFlowCursorV5(previous.behavior.flow, mapping.from)
+      assertFlowCursorV5(targetBehavior.flow, mapping.to)
+      const key = flowCursorKey(mapping.from)
+      if (sourceKeys.has(key)) throw new Error(`cursorHandoff: 来源游标重复 ${key}`)
+      sourceKeys.add(key)
+    }
+    const currentCursorKey = flowCursorKey(previous.cursor)
+    const matches = cursorHandoff.cases.filter(
+      (mapping) => flowCursorKey(mapping.from) === currentCursorKey,
+    )
+    if (matches.length !== 1)
+      throw new Error(
+        `cursorHandoff: 当前游标 ${JSON.stringify(previous.cursor)} 命中 ${matches.length} 条映射`,
+      )
+    const slot = next[channel]
+    if (!slot || nextId !== selection.value)
+      throw new Error('cursorHandoff: 目标 behavior 选择未生效')
+    const mapping = matches[0]
+    if (!mapping) throw new Error('cursorHandoff: 唯一映射缺失')
+    slot.cursor = {
+      behavior: selection.value,
+      at: clone(mapping.to),
+    }
+  } else {
+    preserveMatchingCursor(next, channel, previousId, nextId)
+  }
   writeEntityWorldState(world, target, next)
-  const changed = previousId !== nextId
+  const changed = previousId !== nextId || cursorHandoff !== undefined
   if (changed) coordinator?.bump(entityOwner(target, channel))
   return changed
 }
@@ -401,13 +453,13 @@ export class FlowActivationLeaseV5 implements FlowCursorControllerV5 {
     if (!this.active) return 'stop'
     if (this.coordinator.epochForKey(this.key) !== this.epoch) {
       this.active = false
-      this.coordinator.finish(this)
+      this.coordinator.finish(this.key, this)
       return 'stop'
     }
     this.commit(clone(cursor))
     if (this.coordinator.gateClosed()) {
       this.active = false
-      this.coordinator.finish(this)
+      this.coordinator.finish(this.key, this)
       return 'stop'
     }
     return 'continue'
@@ -416,7 +468,7 @@ export class FlowActivationLeaseV5 implements FlowCursorControllerV5 {
   close(): void {
     if (!this.active) return
     this.active = false
-    this.coordinator.finish(this)
+    this.coordinator.finish(this.key, this)
   }
 }
 
@@ -438,7 +490,7 @@ interface PendingBarrierV5 {
 
 export class FlowRuntimeCoordinatorV5 {
   private readonly epochs = new Map<string, number>()
-  private readonly active = new Set<FlowActivationLeaseV5>()
+  private readonly active = new Map<string, FlowActivationLeaseV5>()
   private pending?: PendingBarrierV5
 
   epoch(owner: PersistentFlowOwnerV5): number {
@@ -458,8 +510,9 @@ export class FlowRuntimeCoordinatorV5 {
   ): FlowActivationLeaseV5 | undefined {
     if (this.pending) return
     const key = ownerKey(owner)
+    if (this.active.has(key)) return
     const lease = new FlowActivationLeaseV5(this, key, this.epochForKey(key), commit)
-    this.active.add(lease)
+    this.active.set(key, lease)
     return lease
   }
 
@@ -572,8 +625,8 @@ export class FlowRuntimeCoordinatorV5 {
     return this.pending !== undefined
   }
 
-  finish(lease: FlowActivationLeaseV5): void {
-    this.active.delete(lease)
+  finish(key: string, lease: FlowActivationLeaseV5): void {
+    if (this.active.get(key) === lease) this.active.delete(key)
     this.resolveBarrierIfReady()
   }
 

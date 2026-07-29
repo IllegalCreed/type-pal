@@ -843,6 +843,7 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
         sound: 'sound.item-explicit',
       },
       throw: {
+        target: 'oneEnemy' as const,
         effects: [
           {
             kind: 'currentHpDamage' as const,

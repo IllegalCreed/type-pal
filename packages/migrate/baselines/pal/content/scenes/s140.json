@@ -132,667 +132,1319 @@
             "label": "默认自动行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 124,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 126,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 126,
-                        "height": 0,
-                        "row": 34
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 122,
-                        "height": 0,
-                        "row": 34
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 122,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 123,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 123,
-                        "height": 0,
-                        "row": 39
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 126,
-                        "height": 0,
-                        "row": 39
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 126,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 124,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 124,
-                        "height": 0,
-                        "row": 37
-                      },
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 2,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": 1,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": -2,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": -4,
-                      "dy": 1,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "dx": -6,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s140",
-                        "entity": "e2376"
-                      }
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s140-e2376-default",
+                "label": "默认自动行为 · 源循环",
+                "initial": "source-22121",
+                "states": {
+                  "source-22121": {
+                    "label": "源指令 22121",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22122",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-22122": {
+                    "label": "源指令 22122",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22123",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22123": {
+                    "label": "源指令 22123",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22124",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22124": {
+                    "label": "源指令 22124",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22125",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22125": {
+                    "label": "源指令 22125",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22126",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22126": {
+                    "label": "源指令 22126",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22127",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22127": {
+                    "label": "源指令 22127",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22128",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22128": {
+                    "label": "源指令 22128",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22129",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22129": {
+                    "label": "源指令 22129",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22130",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22130": {
+                    "label": "源指令 22130",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22131",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22131": {
+                    "label": "源指令 22131",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22132",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22132": {
+                    "label": "源指令 22132",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22133",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22133": {
+                    "label": "源指令 22133",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22134",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22134": {
+                    "label": "源指令 22134",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22135",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22135": {
+                    "label": "源指令 22135",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22136",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22136": {
+                    "label": "源指令 22136",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22137",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22137": {
+                    "label": "源指令 22137",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22138",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22138": {
+                    "label": "源指令 22138",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22139",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22139": {
+                    "label": "源指令 22139",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22140",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22140": {
+                    "label": "源指令 22140",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22141",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22141": {
+                    "label": "源指令 22141",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 124,
+                          "row": 38,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22142",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22142": {
+                    "label": "源指令 22142",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 126,
+                          "row": 38,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22143",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22143": {
+                    "label": "源指令 22143",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 126,
+                          "row": 34,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22144",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22144": {
+                    "label": "源指令 22144",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 122,
+                          "row": 34,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22145",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22145": {
+                    "label": "源指令 22145",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 122,
+                          "row": 38,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22146",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22146": {
+                    "label": "源指令 22146",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 123,
+                          "row": 38,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22147",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22147": {
+                    "label": "源指令 22147",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 123,
+                          "row": 39,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22148",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22148": {
+                    "label": "源指令 22148",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 126,
+                          "row": 39,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22149",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22149": {
+                    "label": "源指令 22149",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 126,
+                          "row": 35,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22150",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22150": {
+                    "label": "源指令 22150",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 124,
+                          "row": 35,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22151",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22151": {
+                    "label": "源指令 22151",
+                    "body": [
+                      {
+                        "kind": "moveEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "to": {
+                          "col": 124,
+                          "row": 37,
+                          "height": 0
+                        },
+                        "speed": "normal"
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22152",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22152": {
+                    "label": "源指令 22152",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "facing": "right"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "frame": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22153",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22153": {
+                    "label": "源指令 22153",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 4,
+                        "dy": 2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22154",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22154": {
+                    "label": "源指令 22154",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 2,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22155",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22155": {
+                    "label": "源指令 22155",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22156",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22156": {
+                    "label": "源指令 22156",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22157",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22157": {
+                    "label": "源指令 22157",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22158",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22158": {
+                    "label": "源指令 22158",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22159",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22159": {
+                    "label": "源指令 22159",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22160",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22160": {
+                    "label": "源指令 22160",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22161",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22161": {
+                    "label": "源指令 22161",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22162",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22162": {
+                    "label": "源指令 22162",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22163",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22163": {
+                    "label": "源指令 22163",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22164",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22164": {
+                    "label": "源指令 22164",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22165",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22165": {
+                    "label": "源指令 22165",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22166",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22166": {
+                    "label": "源指令 22166",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22167",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22167": {
+                    "label": "源指令 22167",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 1,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22168",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22168": {
+                    "label": "源指令 22168",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22169",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22169": {
+                    "label": "源指令 22169",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22170",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22170": {
+                    "label": "源指令 22170",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 1,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22171",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22171": {
+                    "label": "源指令 22171",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22172",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22172": {
+                    "label": "源指令 22172",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 1,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22173",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22173": {
+                    "label": "源指令 22173",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 1,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22174",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22174": {
+                    "label": "源指令 22174",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22175",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22175": {
+                    "label": "源指令 22175",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": 1,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22176",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22176": {
+                    "label": "源指令 22176",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22177",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22177": {
+                    "label": "源指令 22177",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22178",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22178": {
+                    "label": "源指令 22178",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22179",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22179": {
+                    "label": "源指令 22179",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22180",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22180": {
+                    "label": "源指令 22180",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22181",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22181": {
+                    "label": "源指令 22181",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22182",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22182": {
+                    "label": "源指令 22182",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "frame": 0
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22183",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22183": {
+                    "label": "源指令 22183",
+                    "body": [
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22184",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22184": {
+                    "label": "源指令 22184",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": -2,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22185",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22185": {
+                    "label": "源指令 22185",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": -4,
+                        "dy": 1
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22186",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22186": {
+                    "label": "源指令 22186",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        },
+                        "dx": -6,
+                        "dy": 2
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s140",
+                          "entity": "e2376"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-22187",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-22187": {
+                    "label": "源指令 22187",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-22186"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -841,7 +1493,12 @@
                         "entity": "e2377"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -892,7 +1549,12 @@
                         "entity": "e2378"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

@@ -6,9 +6,23 @@ import type {
   ScriptFlowV5,
   SharedScriptLibraryV5,
 } from '@type-pal/content'
-import { validateItemsV5, validateScenesV5 } from '@type-pal/content'
-import { p7OwnerKey, projectP7AuthorCommands, projectP7SimpleOwnerFlow } from './p7-canonical.js'
+import { validateScenesV5 } from '@type-pal/content'
+import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
+import type { SourceCmd } from '../../source-facts.js'
+import {
+  AutoFlowLifecycleIndex,
+  type AutoFlowLifecycleOwnerEvidence,
+  type AutoFlowLifecycleReport,
+  buildAutoFlowLifecycleReport,
+} from './auto-flow-lifecycle.js'
+import {
+  applyP7AutoLifecycle,
+  p7OwnerKey,
+  projectP7AuthorCommands,
+  projectP7SimpleOwnerFlow,
+} from './p7-canonical.js'
 import { type LegacyStageInput, projectP7StateMachineOwnerFlow } from './p7-owner-machine.js'
+import { validateR13ItemThrowParentItems } from './r13-item-throw-parent.js'
 import type {
   P4AuthorOwnerAllocation,
   P4EntityPageAllocation,
@@ -93,6 +107,19 @@ export interface P7CanonicalProject {
   items: ItemDataV5[]
   scripts: SharedScriptLibraryV5
   report: P7ProjectReport
+  autoLifecycle: AutoFlowLifecycleReport
+}
+
+function ownerSourceRoot(audit: ScriptControlFlowAuditV1, owner: P4AuthorOwnerAllocation): number {
+  const legacyScriptId = owner.stages[0]?.entryLegacyScriptId
+  if (!legacyScriptId) throw new Error(`P7 auto lifecycle: ${p7OwnerKey(owner.identity)} 缺 stage`)
+  const explicit = /\/L-(\d+)\//.exec(legacyScriptId)?.[1]
+  if (explicit !== undefined) return Number(explicit)
+  const body = audit.product.bodies.find((candidate) => candidate.id === legacyScriptId)
+  const root = body?.source?.entryAddress ?? body?.source?.addresses[0]
+  if (root === undefined)
+    throw new Error(`P7 auto lifecycle: ${p7OwnerKey(owner.identity)} 缺 source root`)
+  return root
 }
 
 /**
@@ -103,7 +130,11 @@ export function projectP7CanonicalProject(args: {
   ir: ScriptMigrationIRP6
   scenes: readonly SceneDef[]
   items: readonly ItemData[]
+  sourceCommands?: readonly SourceCmd[]
+  sourceAudit?: ScriptControlFlowAuditV1
 }): P7CanonicalProject {
+  if (args.sourceCommands && !args.sourceAudit)
+    throw new Error('P7 project: auto lifecycle 缺 source audit')
   if (args.ir.retainedBodies.length !== 0 || args.ir.pendingOwnerLinks.length !== 0)
     throw new Error('P7 project: P6 closure 尚未归零')
   if (args.ir.sharedAuthorScripts.length !== 0)
@@ -170,6 +201,10 @@ export function projectP7CanonicalProject(args: {
   let stateMachineOwnerCount = 0
   let simpleStageCount = 0
   let stateMachineStateCount = 0
+  const autoLifecycleIndex = args.sourceCommands
+    ? new AutoFlowLifecycleIndex(args.sourceCommands)
+    : undefined
+  const autoLifecycleEntries: AutoFlowLifecycleOwnerEvidence[] = []
 
   const projectOwner = (
     owner: P4AuthorOwnerAllocation,
@@ -185,9 +220,30 @@ export function projectP7CanonicalProject(args: {
       entityScenes,
       legacyStages,
     }
-    const flow = stateMachineOwnerKeys.has(key)
+    let flow = stateMachineOwnerKeys.has(key)
       ? projectP7StateMachineOwnerFlow(common)
       : projectP7SimpleOwnerFlow(common)
+    if (
+      autoLifecycleIndex &&
+      args.sourceCommands &&
+      owner.identity.kind === 'entity-behavior' &&
+      owner.identity.channel === 'auto' &&
+      flow.kind === 'stages' &&
+      flow.stages.length === 1 &&
+      flow.stages[0]?.body.length &&
+      flow.stages[0].next === undefined
+    ) {
+      const lifecycle = autoLifecycleIndex.classify(ownerSourceRoot(args.sourceAudit!, owner))
+      autoLifecycleEntries.push({ ...lifecycle, ownerKey: key })
+      flow = applyP7AutoLifecycle({
+        flow,
+        ir: args.ir,
+        owner,
+        entityScenes,
+        sourceCommands: args.sourceCommands,
+        lifecycle,
+      })
+    }
     if (flow.kind === 'stateMachine') {
       stateMachineOwnerCount++
       stateMachineStateCount += stateCount(flow)
@@ -403,12 +459,13 @@ export function projectP7CanonicalProject(args: {
     throw new Error(`P7 project: item-private owner 未消费 ${missingPrivateScripts[0]}`)
 
   validateScenesV5(scenes)
-  validateItemsV5(items)
+  validateR13ItemThrowParentItems(items)
 
   return {
     scenes,
     items,
     scripts: {},
+    autoLifecycle: buildAutoFlowLifecycleReport(autoLifecycleEntries),
     report: {
       sceneCount: scenes.length,
       itemCount: items.length,

@@ -1,14 +1,16 @@
 import {
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
+  type CurrentManifest,
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
   type LegacyManifestV4,
-  type ProjectManifest,
   type ProjectMigrationSidecarV1,
   type ProjectScriptV4V5ResolutionPlan,
   ProjectScriptV4V5UpgradeError,
   projectLocalScriptV4ToV5,
   SCRIPT_V4_V5_SIDECAR_PATH,
   SCRIPT_V4_V5_TRANSITION_ID,
+  upgradeItemsV7ToV8,
   validateItemsV5,
   validateProjectMigrationSidecarV1,
   validateProjectRelativePath,
@@ -522,9 +524,11 @@ export async function upgradeLocalProjectV4ScriptV5(
   validateProjectMigrationSidecarV1(sidecar, manifest.id)
   const sidecarBytes = jsonBytes(sidecar)
   const { scripts: _legacyScripts, ...content } = manifest.content
-  const manifestV5: ProjectManifest<5> = {
+  const upgradedItems = upgradeItemsV7ToV8(projection.items)
+  const manifestV8: CurrentManifest = {
     ...cloneManifest(manifest),
-    contentVersion: 5,
+    contentVersion: 8,
+    minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
     content: { ...content, sharedScripts: 'content/shared-scripts.json' },
     migrations: {
       [SCRIPT_V4_V5_TRANSITION_ID]: {
@@ -538,9 +542,9 @@ export async function upgradeLocalProjectV4ScriptV5(
   }
   const writes = new Map<string, Uint8Array>([
     ['content/shared-scripts.json', jsonBytes(projection.sharedScripts)],
-    [itemsPath, jsonBytes(projection.items)],
+    [itemsPath, jsonBytes(upgradedItems)],
     [SCRIPT_V4_V5_SIDECAR_PATH, sidecarBytes],
-    ['manifest.json', jsonBytes(manifestV5)],
+    ['manifest.json', jsonBytes(manifestV8)],
   ])
   for (const scene of projection.scenes) writes.set(`${sceneDir}${scene.id}.json`, jsonBytes(scene))
   const deletes = scriptDir
@@ -578,6 +582,6 @@ export async function upgradeLocalProjectV4ScriptV5(
   return true
 }
 
-function cloneManifest(manifest: LegacyManifestV4): Omit<ProjectManifest<5>, 'contentVersion'> {
-  return JSON.parse(JSON.stringify(manifest)) as Omit<ProjectManifest<5>, 'contentVersion'>
+function cloneManifest(manifest: LegacyManifestV4): Omit<CurrentManifest, 'contentVersion'> {
+  return JSON.parse(JSON.stringify(manifest)) as Omit<CurrentManifest, 'contentVersion'>
 }

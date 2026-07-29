@@ -45,3 +45,13 @@ export function partyPosToGrid(
 export function signExtendI16(v: number): number {
   return v >= 0x8000 ? v - 0x10000 : v
 }
+
+/**
+ * PAL 脚本 WORD 中的 EventObject ID 是 1-based；实体稳定 id 使用 0-based。
+ * 0 与 0xFFFF 在不同 opcode 中各有特殊含义，必须由调用点先处理，不能在这里猜测 self。
+ */
+export function legacyEventObjectEntityId(word: number): string {
+  if (!Number.isInteger(word) || word <= 0 || word >= 0xffff)
+    throw new Error(`非法 PAL EventObject ID: ${word}`)
+  return `e${word - 1}`
+}

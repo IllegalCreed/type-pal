@@ -152,6 +152,7 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
     const m = files['manifest.json'] as {
       id: string
       contentVersion: number
+      minimumSaveVersion: number
       entryScene: string
       startWorld: { party: string[] }
       assets: {
@@ -162,7 +163,8 @@ describe('buildBlankProject(W-blank:开箱即玩)', () => {
       content: Record<string, string>
     }
     expect(m.id).toBe('my-game')
-    expect(m.contentVersion).toBe(5)
+    expect(m.contentVersion).toBe(8)
+    expect(m.minimumSaveVersion).toBe(7)
     expect(m.entryScene).toBe('start')
     // 队伍非空(空 party → 引擎 boot 崩);assets 指工程内(不再指原版 extracted)
     expect(m.startWorld.party).toEqual(['hero'])

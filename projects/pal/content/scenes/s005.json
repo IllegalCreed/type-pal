@@ -5389,54 +5389,127 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.010",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.571"
-                          },
-                          {
-                            "text": "dlg.572"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "触发行为 1",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.571"
+                            },
+                            {
+                              "text": "dlg.572"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "right"
                           }
-                        ],
-                        "speaker": "spk.李逍遥"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.574"
-                          },
-                          {
-                            "text": "dlg.575"
-                          },
-                          {
-                            "text": "dlg.576"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.水生叔"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.574"
+                            },
+                            {
+                              "text": "dlg.575"
+                            },
+                            {
+                              "text": "dlg.576"
+                            }
+                          ],
+                          "speaker": "spk.水生叔",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "phase-002"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.582"
+                            }
+                          ],
+                          "speaker": "spk.水生叔",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "phase-002": {
+                    "label": "后续阶段 002",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.578"
+                            },
+                            {
+                              "text": "dlg.579"
+                            },
+                            {
+                              "text": "dlg.580"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.010",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.582"
+                            }
+                          ],
+                          "speaker": "spk.水生叔",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

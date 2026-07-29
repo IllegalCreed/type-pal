@@ -224,8 +224,8 @@ A7-0 起，v3 工程新增唯一物理资产链：
 - 当前 clone/seed 已不读取 `data/baked` 或 `baked-manifest.json`，但仍需从 extracted 清单复制
   `sprite`、`battle-sprite`、`effect-sprite`、`image` 四个尚未迁移的 legacy 条目；A7-3T 后 tileset 已由
   catalog 逐字节复制，不再重复携带 extracted tileset。
-  catalog-only 克隆、导出前全量闭包门禁和 A7-4 的 contentVersion 5 收口仍未完成；C2-ACT 已单独把
-  精灵动作 schema 升到 v4，不能据此提前把 A7/R7 标完成。
+  catalog-only 克隆、导出前全量闭包门禁和 A7-4 的 contentVersion 7 收口仍未完成；C2-ACT
+  占用 v4，N3-1 canonical P7/R13 epoch 随后占用 v5/v6，不能据此提前把 A7/R7 标完成。
 
 ## 13. A7-3T 瓦片集生命周期更新（2026-07-19，done）
 
@@ -248,7 +248,7 @@ A7-0 起，v3 工程新增唯一物理资产链：
   `visual.standardColorTable -> color.project-standard` catalog role。demo 使用 migrated color，
   e2e-own/blank 使用 generated color，三者都只保留尚未迁移的 sprite legacy。
 - A7-3T 已完成三方审查和用户验收。该切片完成时尚有 `sprite`、`battle-sprite`、`effect-sprite`、`image`
-  四项；随后 A7-3W 已完成 sprite，A7-3B 实现候选已完成 battle-sprite。全量断外链、contentVersion 5 与
+  四项；随后 A7-3W 已完成 sprite，A7-3B 已完成 battle-sprite。全量断外链、contentVersion 7 与
   删除 LegacyAssetAdapter 仍归 A7-4；A7/R7 总体仍未完成。
 
 ## 14. A7-3W 大世界精灵生命周期更新（2026-07-19，done）
@@ -267,7 +267,7 @@ A7-0 起，v3 工程新增唯一物理资产链：
 - 存档与脚本中的编外跟随者保存 SpriteDef.id；旧数字只在本地升级和存档归一化边界出现，多义映射拒绝。
 
 A7-3W 完成当时，PAL 仍有 `battle-sprite/effect-sprite/image` 三族；A7-3B 正式落地后移除了
-`battle-sprite`。catalog-only 总门禁、contentVersion 5 与 LegacyAssetAdapter 总删除仍归 A7-4，
+`battle-sprite`。catalog-only 总门禁、contentVersion 7 与 LegacyAssetAdapter 总删除仍归 A7-4，
 A7/R7 总体不能提前标 done。
 
 ## 15. A7-3B 战斗精灵生命周期更新（2026-07-21，done）
@@ -285,6 +285,25 @@ A7/R7 总体不能提前标 done。
   battle-sprite 不再经过 `tilesetBlobs` 或 extracted descriptor。PAL 本地原版二进制受保护不入 git，克隆出的
   用户工程则完整持有所有 catalog 文件。
 - 存档格式独立升至 v4，只把旧 party/reserve 持久 battle appearance 在输入边界映射为定义 id；该切片完成时工程
-  `contentVersion` 仍是 3。随后 C2-ACT 为精灵预制动作把工程升级到 v4；A7-4 的 legacy 归零收口顺延为 v5。
+  `contentVersion` 仍是 3。随后 C2-ACT 为精灵预制动作把工程升级到 v4；当时 A7-4 曾计划顺延为 v5，
+  后由 N3-1 canonical P7 和 R13-1 epoch 依次占用 v5/v6，当前 A7-4 目标为 v7。
 
 本轮移除 legacy `battle-sprite` 后，PAL 只剩 `effect-sprite/image` 两族。A7/R7 总体仍未完成。
+
+## 16. N3-1 开发期 content/save epoch 更新（2026-07-27）
+
+- current 工程为 `contentVersion: 6`、`minimumSaveVersion: 6`，runtime 只加载 current v6。
+- canonical 脚本 schema 仍是 V5；v5 → v6 只在本地打开边界验证完整 current loader 后发布
+  manifest，不重写内容，也不生成 successor sidecar。
+- SAVE 1..5 在任何历史 sidecar I/O 前早失败。历史 v4 → v5 descriptor、sidecar、ledger 只作为
+  byte-pin 迁移证明保留。
+- A7-4 的 catalog-only 总门禁、全 legacy 归零、删除 LegacyAssetAdapter 与断外链验收统一顺延到
+  `contentVersion: 7`。
+
+## 17. R13-2 / R13-3 当前版本轴更新（2026-07-29）
+
+- current 工程为 `contentVersion: 8` / SAVE 7 / `minimumSaveVersion: 7`。
+- R13-2 发布的 content 7 / SAVE 7 保留为历史 byte-pin。
+- R13-3 占用 content 8，只升级投掷内容 schema；SAVE 与 world shape 不变。
+- SAVE7/content7 读档只做输入不变、无 sidecar 的 content epoch identity normalization。
+- v7、v8 已分别由 R13-2、R13-3 占用；A7-4 当前顺延为候选 v9，版本尚未冻结。

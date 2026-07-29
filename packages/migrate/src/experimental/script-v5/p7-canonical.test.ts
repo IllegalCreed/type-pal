@@ -2,8 +2,15 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { checkAuthorCommandsV5, checkScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { p7OwnerKey, projectP7AuthorCommands, projectP7SimpleOwnerFlow } from './p7-canonical.js'
-import type { ScriptMigrationIRP6 } from './types.js'
+import type { SourceCmd } from '../../source-facts.js'
+import { AutoFlowLifecycleIndex } from './auto-flow-lifecycle.js'
+import {
+  p7OwnerKey,
+  projectP7AuthorCommands,
+  projectP7SimpleOwnerFlow,
+  sourceAutoFlow,
+} from './p7-canonical.js'
+import type { P4AuthorOwnerAllocation, ScriptMigrationIRP6 } from './types.js'
 
 const owner = {
   kind: 'entity-behavior' as const,
@@ -21,6 +28,33 @@ function ir(over: Partial<ScriptMigrationIRP6> = {}): ScriptMigrationIRP6 {
     ownerFragments: [],
     ...over,
   } as unknown as ScriptMigrationIRP6
+}
+
+const autoOwner = {
+  kind: 'entity-behavior-allocation',
+  identity: {
+    kind: 'entity-behavior',
+    sceneId: 's001',
+    entityId: 'e1',
+    channel: 'auto',
+    behaviorId: 'default',
+  },
+  label: '自动行为',
+  order: 0,
+  origin: 'static-page',
+  stages: [],
+  sourceCells: [],
+  groupId: 'test-group',
+} satisfies P4AuthorOwnerAllocation
+
+function projectSourceAuto(commands: SourceCmd[]) {
+  const sourceCommands: SourceCmd[] = [{ op: 'end' }, ...commands]
+  return sourceAutoFlow({
+    owner: autoOwner,
+    entityScenes: new Map([['e1', ['s001']]]),
+    sourceCommands,
+    lifecycle: new AutoFlowLifecycleIndex(sourceCommands).classify(1),
+  })
 }
 
 describe('P7 canonical command projection', () => {
@@ -134,6 +168,77 @@ describe('P7 canonical command projection', () => {
         },
       ),
     ).toThrow(/owner flow projector/)
+  })
+
+  test.each([1, 2, 13])('projects source wait %i as one stable state per world tick', (ticks) => {
+    const flow = projectSourceAuto([
+      { op: 'raw', opcode: 0x09, operands: [ticks, 0, 0] },
+      { op: 'raw', opcode: 0x14, operands: [1, 0, 0] },
+      { op: 'goto', to: 'L_2' } as SourceCmd,
+    ])
+    if (flow.kind !== 'stateMachine') throw new Error('expected state machine')
+
+    expect(flow.machine.cadence).toBe('transition')
+    let state = 'source-1'
+    let observedTicks = 0
+    while (state !== 'source-2') {
+      const transition = flow.machine.states[state]?.next
+      if (transition?.kind !== 'to') throw new Error(`expected tick transition at ${state}`)
+      expect(transition.yield).toBe('worldTick')
+      observedTicks++
+      state = transition.state
+    }
+    expect(observedTicks).toBe(ticks)
+    expect(flow.machine.states['source-1']?.body).toEqual([])
+    expect(flow.machine.states['source-2']?.next).toEqual({
+      kind: 'to',
+      state: 'source-3',
+      yield: 'worldTick',
+    })
+    expect(flow.machine.states['source-3']?.next).toEqual({
+      kind: 'continue',
+      state: 'source-2',
+    })
+    expect(() => checkScriptFlowV5(flow, 'flow', { forbidLoadScene: true })).not.toThrow()
+  })
+
+  test('projects zero-delay goto and probability branches from opcode semantics, not address order', () => {
+    const forward = projectSourceAuto([
+      { op: 'goto', to: 'L_3' } as SourceCmd,
+      { op: 'end' },
+      { op: 'goto', to: 'L_3' } as SourceCmd,
+    ])
+    if (forward.kind !== 'stateMachine') throw new Error('expected state machine')
+    expect(forward.machine.states['source-1']?.next).toEqual({
+      kind: 'continue',
+      state: 'source-3',
+    })
+
+    const branch = projectSourceAuto([
+      { op: 'raw', opcode: 0x06, operands: [30, 3, 0] },
+      { op: 'goto', to: 'L_4' } as SourceCmd,
+      { op: 'goto', to: 'L_4' } as SourceCmd,
+      { op: 'goto', to: 'L_4' } as SourceCmd,
+    ])
+    if (branch.kind !== 'stateMachine') throw new Error('expected state machine')
+    expect(branch.machine.states['source-1']?.next).toEqual({
+      kind: 'branch',
+      cond: { kind: 'chance', percent: 71 },
+      then: { kind: 'continue', state: 'source-3' },
+      else: { kind: 'to', state: 'source-2', yield: 'worldTick' },
+    })
+
+    const reroll = projectSourceAuto([
+      { op: 'raw', opcode: 0x06, operands: [30, 0, 0] },
+      { op: 'goto', to: 'L_1' } as SourceCmd,
+    ])
+    if (reroll.kind !== 'stateMachine') throw new Error('expected state machine')
+    expect(reroll.machine.states['source-1']?.next).toEqual({
+      kind: 'branch',
+      cond: { kind: 'chance', percent: 71 },
+      then: { kind: 'to', state: 'source-1', yield: 'worldTick' },
+      else: { kind: 'to', state: 'source-2', yield: 'worldTick' },
+    })
   })
 })
 

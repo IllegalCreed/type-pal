@@ -71,7 +71,11 @@ interface ActivePoison { poisonId: number; tickIndex: number }  // 指针 = tick
 
 ## 核心机制
 
-1. **逐回合 DoT**(fight.c:4454):每单位**行动后**遍历自身 poisons,跑当前 tick(hpDelta/halveHp)→ tickIndex++(钳到末项 or selfCure 则移除该毒)。敌我各取 enemyTicks/playerTicks。
+1. **逐回合 DoT**(fight.c:4454):每单位**行动后**遍历自身 poisons,跑当前 tick(hpDelta/mpDelta/halveHp/grantItem)→ tickIndex++(钳到末项 or selfCure 则移除该毒)。敌我各取 enemyTicks/playerTicks。
+   对敌 `0x28` 还有一条容易漏掉的源语义:新毒通过巫抗门并首次落槽时,必须**当场执行一次**
+   `enemyTicks[0]`,把推进后的 `tickIndex` 写回毒槽;随后行动后 DoT 从该游标继续。抵抗或重复施加
+   已存在的同一种毒都不得重放首 tick。即时执行与逐回合执行共用同一个 tick 执行器,因此
+   `hpDelta`、`mpDelta`、`halveHp`、`grantItem`、`selfCure` 的效果和游标推进只有一份语义。
 2. **上毒命中门 = 巫抗**(不是毒抗!fight.c 0x28):对敌下毒 `RandomLong(0,9) >= enemy.resistanceToSorcery` 才中;巫抗满(≥10)的 boss 不中毒。玩家被附带毒另看毒抗(`毒抗 < RandomLong(1,100)` 才中,fight.c:5141)。
 3. **毒抗**(已接一半):`calcMagicDamage` 毒系伤害缩放已对;缺**中毒概率门**(玩家侧)+ 玩家毒抗装备派生(随装备系,M4b-3)。
 4. **解毒分级**:cureByLevel(maxLevel) 移除 level≤maxLevel 的毒。灵血咒/九节菖蒲=2、复活类=3、无影毒(173)无解。

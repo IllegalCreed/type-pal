@@ -83,9 +83,8 @@ export interface PalSceneSemanticRepair {
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [path, structuredClone(value)] as const),
-    ),
+    // Each repair target is cloned immediately before mutation below.
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     ...(source.hashes ? { hashes: new Map(source.hashes) } : {}),
     ...(source.baselineMetadata

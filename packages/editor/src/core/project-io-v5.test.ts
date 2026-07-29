@@ -52,11 +52,12 @@ const scene: SceneDefV5 = {
   ],
 }
 
-function manifest(over: Partial<ProjectManifest<5>> = {}): ProjectManifest<5> {
+function manifest(over: Partial<ProjectManifest<8>> = {}): ProjectManifest<8> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 5,
+    contentVersion: 8,
+    minimumSaveVersion: 7,
     entryScene: 's001',
     content: {
       actors: 'content/actors.json',
@@ -279,7 +280,11 @@ describe('canonical v5 editor project IO', () => {
     shell.items[0]!.name = '已改名物品'
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
-    expect(merged.manifest).toMatchObject({ contentVersion: 5, name: 'Renamed' })
+    expect(merged.manifest).toMatchObject({
+      contentVersion: 8,
+      minimumSaveVersion: 7,
+      name: 'Renamed',
+    })
     expect(merged.scenes[0]!.entities[0]).toMatchObject({
       pos: { col: 9 },
       behaviors: { trigger: { talk: { label: 'canonical 交谈' } } },

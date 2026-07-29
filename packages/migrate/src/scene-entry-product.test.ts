@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type { AuthorCommandV5, AuthorStageV5, SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
+import type {
+  AuthorCommandV5,
+  AuthorSceneEntryPresentationV5,
+  SceneDefV5,
+  ScriptFlowV5,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
@@ -62,21 +67,34 @@ function flowHasDither(flow: ScriptFlowV5): boolean {
 interface EntrySite {
   targetScene: string
   ownerPath: string
-  stage: AuthorStageV5
+  entry: AuthorSceneEntryPresentationV5
+  body: AuthorCommandV5[]
 }
 
 function collectEntrySites(): EntrySite[] {
   const sites: EntrySite[] = []
   for (const scene of scenes)
-    for (const [hookId, hook] of Object.entries(scene.hooks?.onEnter?.variants ?? {}))
-      if (hook.flow.kind === 'stages')
+    for (const [hookId, hook] of Object.entries(scene.hooks?.onEnter?.variants ?? {})) {
+      if (hook.flow.kind === 'stages') {
         for (const stage of hook.flow.stages)
           if (stage.entry)
             sites.push({
               targetScene: scene.id,
               ownerPath: `${scene.id}/onEnter/${hookId}/${stage.id}`,
-              stage,
+              entry: stage.entry,
+              body: stage.body,
             })
+        continue
+      }
+      for (const [stateId, state] of Object.entries(hook.flow.machine.states))
+        if (state.entry)
+          sites.push({
+            targetScene: scene.id,
+            ownerPath: `${scene.id}/onEnter/${hookId}/${stateId}`,
+            entry: state.entry,
+            body: state.body,
+          })
+    }
   return sites
 }
 
@@ -147,23 +165,68 @@ describe('X3-1 · PAL 生成产物的显式入场分类', () => {
       's198/onEnter/default/initial',
       's200/onEnter/default/initial',
     ])
-    for (const { stage } of sites) {
-      expect(stage.entry?.reveal.kind).toBe('dither')
-      expect(stage.entry?.prepare.some((command) => command.kind === 'ditherScreen')).toBe(false)
+    for (const { entry } of sites) {
+      expect(entry.reveal.kind).toBe('dither')
+      expect(entry.prepare.some((command) => command.kind === 'ditherScreen')).toBe(false)
     }
   })
 
   test('s001 准备参数与呈现后正文边界精确', () => {
     const site = collectEntrySites().find((candidate) => candidate.targetScene === 's001')
-    expect(site?.stage.entry).toEqual({
+    expect(site?.entry).toEqual({
       prepare: [
         { kind: 'playMusic', asset: 'music.pal.031' },
         { kind: 'teleportParty', pos: { col: 59, row: -23, height: 0 } },
       ],
       reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
     })
-    expect(site?.stage.body[0]?.kind).toBe('dialog')
-    expect(site?.stage.body.some((command) => command.kind === 'ditherScreen')).toBe(false)
+    expect(site?.body[0]?.kind).toBe('dialog')
+    expect(site?.body.some((command) => command.kind === 'ditherScreen')).toBe(false)
+  })
+
+  test('R13 checkpoint 重建只保留一次 scene entry，正文从 reveal 后继续', () => {
+    const expected = [
+      {
+        sceneId: 's057',
+        prepareKinds: ['teleportParty'],
+        bodyKinds: ['selectEntityBehavior', 'dialog', 'playMusic'],
+      },
+      {
+        sceneId: 's180',
+        prepareKinds: ['stopMusic', 'playSound'],
+        bodyKinds: ['dialog', 'playMusic'],
+      },
+    ] as const
+    for (const { sceneId, prepareKinds, bodyKinds } of expected) {
+      const scene = scenes.find((candidate) => candidate.id === sceneId)
+      const flow = scene?.hooks?.onEnter?.variants.default?.flow
+      expect(flow?.kind, sceneId).toBe('stateMachine')
+      if (flow?.kind !== 'stateMachine') continue
+      const initial = flow.machine.states.initial
+      const afterCheckpoint = flow.machine.states['after-checkpoint']
+      expect(initial?.entry, sceneId).toMatchObject({
+        reveal: { kind: 'dither', ms: 2160, source: 'previousPresentedFrame' },
+      })
+      expect(
+        initial?.entry?.prepare.map((command) => command.kind),
+        `${sceneId}/entry.prepare`,
+      ).toEqual(prepareKinds)
+      expect(
+        initial?.body.map((command) => command.kind),
+        `${sceneId}/initial.body`,
+      ).toEqual(bodyKinds)
+      expect(initial?.next, `${sceneId}/initial.next`).toEqual({
+        kind: 'advance',
+        state: 'after-checkpoint',
+      })
+      expect(
+        afterCheckpoint?.body.map((command) => command.kind),
+        `${sceneId}/after-checkpoint.body`,
+      ).toEqual(['playMusic'])
+      expect(afterCheckpoint?.next, `${sceneId}/after-checkpoint.next`).toEqual({
+        kind: 'stay',
+      })
+    }
   })
 
   test('19 个实体独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {

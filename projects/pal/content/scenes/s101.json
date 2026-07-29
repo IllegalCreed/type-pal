@@ -796,7 +796,12 @@
                         "entity": "e1847"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -848,7 +853,12 @@
                         "entity": "e1847"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2481,162 +2491,182 @@
           "label": "进场行为 1",
           "order": 1,
           "flow": {
-            "kind": "stages",
-            "initial": "initial",
-            "stages": [
-              {
-                "id": "initial",
-                "body": [
-                  {
-                    "asset": "music.pal.035",
-                    "kind": "playMusic"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1909"
-                    }
-                  },
-                  {
-                    "dx": 32,
-                    "dy": 0,
-                    "kind": "nudgeEntity",
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
-                    }
-                  },
-                  {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
+            "kind": "stateMachine",
+            "machine": {
+              "id": "machine",
+              "label": "进场行为 1",
+              "initial": "initial",
+              "states": {
+                "initial": {
+                  "label": "首次执行",
+                  "body": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
                     },
-                    "channel": "trigger",
-                    "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
-                    }
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setEntityFacing",
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
-                    }
-                  },
-                  {
-                    "frame": 0,
-                    "kind": "setEntityFrame",
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": -16,
-                    "dy": 8,
-                    "kind": "nudgeParty"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "dx": -16,
-                    "dy": 8,
-                    "kind": "nudgeParty"
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing",
-                    "member": 1
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.025",
-                        "side": "left"
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1909"
+                      }
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "dx": 32,
+                      "dy": 0,
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
                       },
-                      "rows": [
-                        {
-                          "text": "dlg.7945"
-                        }
-                      ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
+                      "channel": "trigger",
+                      "selection": {
+                        "kind": "use",
+                        "value": "legacy-001"
+                      }
                     },
-                    "kind": "dialog"
-                  },
-                  {
-                    "facing": "right",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "facing": "up",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
-                    "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.022",
-                        "side": "left"
-                      },
-                      "rows": [
-                        {
-                          "text": "dlg.7947"
-                        },
-                        {
-                          "text": "dlg.7948"
-                        },
-                        {
-                          "text": "dlg.7949"
-                        },
-                        {
-                          "text": "dlg.7950"
-                        }
-                      ],
-                      "slot": "top",
-                      "speaker": "spk.林月如"
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
                     },
-                    "kind": "dialog"
-                  },
-                  {
-                    "cue": {
-                      "portrait": {
-                        "asset": "portrait.pal.001",
-                        "side": "right"
-                      },
-                      "rows": [
-                        {
-                          "text": "dlg.7952"
-                        }
-                      ],
-                      "speaker": "spk.李逍遥"
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
                     },
-                    "kind": "dialog"
-                  },
-                  {
-                    "asset": "music.pal.035",
-                    "kind": "playMusic"
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -16,
+                      "dy": 8
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -16,
+                      "dy": 8
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down",
+                      "member": 1
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7945"
+                          }
+                        ],
+                        "speaker": "spk.林月如",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.025",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "right"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7947"
+                          },
+                          {
+                            "text": "dlg.7948"
+                          },
+                          {
+                            "text": "dlg.7949"
+                          },
+                          {
+                            "text": "dlg.7950"
+                          }
+                        ],
+                        "speaker": "spk.林月如",
+                        "slot": "top",
+                        "portrait": {
+                          "asset": "portrait.pal.022",
+                          "side": "left"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.7952"
+                          }
+                        ],
+                        "speaker": "spk.李逍遥",
+                        "portrait": {
+                          "asset": "portrait.pal.001",
+                          "side": "right"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
+                    }
+                  ],
+                  "next": {
+                    "kind": "advance",
+                    "state": "after-checkpoint"
                   }
-                ]
+                },
+                "after-checkpoint": {
+                  "label": "检查点后的执行",
+                  "body": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
+                    }
+                  ],
+                  "next": {
+                    "kind": "stay"
+                  }
+                }
               }
-            ]
+            }
           }
         }
       }

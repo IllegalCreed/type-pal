@@ -1109,28 +1109,47 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stages",
-            "initial": "initial",
-            "stages": [
-              {
-                "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 112,
-                      "height": 0,
-                      "row": 97
+            "kind": "stateMachine",
+            "machine": {
+              "id": "machine",
+              "label": "默认进场行为",
+              "initial": "initial",
+              "states": {
+                "initial": {
+                  "label": "首次执行",
+                  "body": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 112,
+                        "row": 97,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.026"
                     }
-                  },
-                  {
-                    "entryId": "pal-entry-a397b177",
-                    "kind": "loadScene",
-                    "scene": "s292"
+                  ],
+                  "next": {
+                    "kind": "advance",
+                    "state": "after-checkpoint"
                   }
-                ]
+                },
+                "after-checkpoint": {
+                  "label": "检查点后的执行",
+                  "body": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.026"
+                    }
+                  ],
+                  "next": {
+                    "kind": "stay"
+                  }
+                }
               }
-            ]
+            }
           }
         }
       }

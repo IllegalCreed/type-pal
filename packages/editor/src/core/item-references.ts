@@ -681,45 +681,39 @@ export function collectItemReferences(
   })
 
   state.items.forEach((item, itemIndex) => {
-    for (const [ability, effects] of [
-      ['use', item.use?.effects],
-      ['throw', item.throw?.effects],
-    ] as const)
-      effects?.forEach((effect, effectIndex) => {
-        if (effect.kind === 'craftRecipe')
-          effect.recipes.forEach((recipe, recipeIndex) => {
-            for (const [field, entries, access] of [
-              ['ingredients', recipe.ingredients, 'consume'],
-              ['products', recipe.products, 'reward'],
-            ] as const)
-              entries.forEach((entry, entryIndex) => {
-                add(out, entry.itemId, {
-                  access,
-                  source: 'item',
-                  label: `物品 ${item.name}`,
-                  where: `items[${itemIndex}](${item.id}).${ability}.effects[${effectIndex}].recipes[${recipeIndex}].${field}[${entryIndex}].itemId`,
-                  detail:
-                    field === 'ingredients'
-                      ? `配方材料 ×${entry.count}`
-                      : `配方产物 ×${entry.count}`,
-                  locator: { kind: 'item', itemId: item.id },
-                  ownerItemId: item.id,
-                })
+    item.use?.effects.forEach((effect, effectIndex) => {
+      if (effect.kind === 'craftRecipe')
+        effect.recipes.forEach((recipe, recipeIndex) => {
+          for (const [field, entries, access] of [
+            ['ingredients', recipe.ingredients, 'consume'],
+            ['products', recipe.products, 'reward'],
+          ] as const)
+            entries.forEach((entry, entryIndex) => {
+              add(out, entry.itemId, {
+                access,
+                source: 'item',
+                label: `物品 ${item.name}`,
+                where: `items[${itemIndex}](${item.id}).use.effects[${effectIndex}].recipes[${recipeIndex}].${field}[${entryIndex}].itemId`,
+                detail:
+                  field === 'ingredients' ? `配方材料 ×${entry.count}` : `配方产物 ×${entry.count}`,
+                locator: { kind: 'item', itemId: item.id },
+                ownerItemId: item.id,
               })
-          })
-        if (effect.kind === 'drawFromResourcePool')
-          effect.rewards.forEach((entry, rewardIndex) => {
-            add(out, entry.itemId, {
-              access: 'reward',
-              source: 'item',
-              label: `物品 ${item.name}`,
-              where: `items[${itemIndex}](${item.id}).${ability}.effects[${effectIndex}].rewards[${rewardIndex}].itemId`,
-              detail: `资源池第 ${rewardIndex + 1} 档 ×${entry.count}`,
-              locator: { kind: 'item', itemId: item.id },
-              ownerItemId: item.id,
             })
+        })
+      if (effect.kind === 'drawFromResourcePool')
+        effect.rewards.forEach((entry, rewardIndex) => {
+          add(out, entry.itemId, {
+            access: 'reward',
+            source: 'item',
+            label: `物品 ${item.name}`,
+            where: `items[${itemIndex}](${item.id}).use.effects[${effectIndex}].rewards[${rewardIndex}].itemId`,
+            detail: `资源池第 ${rewardIndex + 1} 档 ×${entry.count}`,
+            locator: { kind: 'item', itemId: item.id },
+            ownerItemId: item.id,
           })
-      })
+        })
+    })
   })
 
   state.worlds?.forEach((world, worldIndex) => {

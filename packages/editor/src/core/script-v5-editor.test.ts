@@ -261,6 +261,49 @@ describe('canonical script v5 editor commands', () => {
     expect(session.getState().scenes[0]!.entities[0]!.pages![0]!.trigger).toBe('greet')
   })
 
+  test('tracks and rewrites cursor-handoff source behaviors without duplicate references', () => {
+    const state = editorState()
+    triggerRegistry(state).alternate = behavior('alternate')
+    state.sharedScripts['shared/user/select-talk']!.body = [
+      {
+        kind: 'selectEntityBehavior',
+        target,
+        channel: 'trigger',
+        selection: { kind: 'use', value: 'alternate' },
+        cursorHandoff: {
+          kind: 'stateMap',
+          fromBehavior: 'talk',
+          cases: [
+            {
+              from: { kind: 'stage', stage: 'start' },
+              to: { kind: 'stage', stage: 'alternate' },
+            },
+          ],
+          onUnmapped: 'error',
+        },
+      },
+    ]
+    expect(
+      behaviorReferencesV5(state, target, 'trigger', 'talk').filter(
+        (reference) => reference.kind === 'command',
+      ),
+    ).toEqual([
+      expect.objectContaining({
+        path: 'items.private.use.effects[0].script.body[0]',
+      }),
+      expect.objectContaining({
+        path: 'sharedScripts.shared/user/select-talk.body[0].cursorHandoff.fromBehavior',
+      }),
+    ])
+
+    const session = new ScriptV5EditSession(state)
+    session.dispatch(new RenameEntityBehaviorV5Command(target, 'trigger', 'talk', 'greet'))
+    expect(session.getState().sharedScripts['shared/user/select-talk']!.body[0]).toMatchObject({
+      selection: { kind: 'use', value: 'alternate' },
+      cursorHandoff: { fromBehavior: 'greet' },
+    })
+  })
+
   test('tracks and rewrites references inside an entity battle-loss script', () => {
     const state = editorState()
     state.scenes[0]!.entities[0]!.hostile = {

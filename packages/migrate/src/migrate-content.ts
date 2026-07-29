@@ -108,13 +108,18 @@ export interface SourceMagic {
 export interface SourceObjectMagic {
   id: number
   magicNumber: number
+  /** OBJECT_MAGIC flags；R13-3 用于交叉校验投掷的单体/全体源权威。 */
+  flags?: SourceSpell['flags']
 }
 
 /** WORD → SHORT(负值补码;xOffset/召唤染色 wEffectTimes 等)。 */
 const signedI16 = (v: number): number => (v > 0x7fff ? v - 0x10000 : v)
 
 /** MAGIC 表 → SkillAnimation(播放参数全带;attack 系落点同名,其余落目标处;M4d-2b)。 */
-function mapAnimation(m: SourceMagic, soundAssetForNum?: SoundAssetForNum): SkillData['animation'] {
+export function mapSourceMagicAnimation(
+  m: SourceMagic,
+  soundAssetForNum?: SoundAssetForNum,
+): SkillData['animation'] {
   const placement =
     m.type === 'attackAll' || m.type === 'attackWhole' || m.type === 'attackField'
       ? m.type
@@ -191,6 +196,7 @@ import type { TranslateCtx, TranslateReport } from './translate-events.js'
 import {
   asBattleCfg,
   assertNoMigrationGaps,
+  bindScriptStageInstructionOutcomeBody,
   copyScriptStageSourceAddressAudit,
   emptyTranslateReport,
   foldStages,
@@ -633,7 +639,7 @@ export function mapSkills(
         ],
         // ⚠ 召唤的 wEffect ≠ FIRE chunk:是**二次法术的 magic 表号**(fight.c:3098-3101 查
         // OBJECT.magic.wMagicNumber === wEffect → 播那条法术完整动画)。animation 整段取二次法术。
-        animation: mapAnimation(magicById.get(m.effect) ?? m, soundAssetForNum),
+        animation: mapSourceMagicAnimation(magicById.get(m.effect) ?? m, soundAssetForNum),
       })
       continue
     }
@@ -677,7 +683,7 @@ export function mapSkills(
       target,
       effects,
       animation: {
-        ...mapAnimation(m, soundAssetForNum),
+        ...mapSourceMagicAnimation(m, soundAssetForNum),
         ...(scriptSound ? { sound: scriptSound } : {}),
       },
     })
@@ -1349,7 +1355,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     )
       return undefined
     const animation: SkillAnimation = {
-      ...mapAnimation(magic, src.soundAssetForNum),
+      ...mapSourceMagicAnimation(magic, src.soundAssetForNum),
       ...(signedI16(magic.special ?? 0) !== 0
         ? { layerOffset: signedI16(magic.special ?? 0) }
         : {}),
@@ -1539,7 +1545,9 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
             effects: t.effects,
             ...(t.sound ? { sound: t.sound } : {}),
             ...(t.presentation ? { presentation: t.presentation } : {}),
-          },
+            // Historical raw/P7 parent shape (content v7) intentionally has no target.
+            // R13-3 adds it only in the append-only successor snapshot.
+          } as ItemData['throw'],
         }
       }
     }
@@ -1625,7 +1633,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
         target: (m.type === 'trance' ? 'self' : TYPE_TARGET[m.type]) ?? 'oneEnemy',
         effects,
         animation: {
-          ...mapAnimation(m, src.soundAssetForNum),
+          ...mapSourceMagicAnimation(m, src.soundAssetForNum),
           ...(scriptSound ? { sound: scriptSound } : {}),
         },
       })
@@ -1782,6 +1790,57 @@ export interface SceneMigrationResult {
     /** W4-1:最终脚本树中的静态坐标归一化统计。 */
     entryNormalization?: SceneEntryNormalizationReport
   }
+}
+
+/**
+ * R13-2 只在同一次生产迁移进程内使用的翻译会话。
+ *
+ * 它刻意不进入 SceneMigrationResult 的可序列化字段：控制流投影必须复用与生产迁移
+ * 完全相同的 label/地址/资源解析器，但不能把函数或临时图状态写进 canonical 工程。
+ */
+export interface R13TranslationSession {
+  ctx: TranslateCtx
+  /**
+   * 生产场景声明中的静态行为入口。R13-2 新恢复的控制流可能首次暴露一个旧 P4
+   * command census 未见过的 0x24/0x25；这张迁移期只读表让它仍能绑定到既有
+   * canonical `default` owner，而不是按 PAL 地址临时造第二份行为。
+   */
+  staticEntityBehaviorRoots: readonly R13StaticEntityBehaviorRoot[]
+  finish(): {
+    locale: Record<string, string>
+    spriteDefinitions: SpriteDef[]
+    report: TranslateReport
+    scriptRegistryAudit: ScriptRegistryAuditRecord[]
+    /** 仅用于证明 deferred binding 的 registry 闭包已被稳定 owner 完整消费。 */
+    scriptRegistryBodies: Record<string, Command[]>
+  }
+}
+
+export interface R13StaticEntityBehaviorRoot {
+  sceneId: string
+  entityId: string
+  channel: 'trigger' | 'auto'
+  behaviorId: 'default'
+  rootAddress: number
+}
+
+type R13TranslationSessionFactory = () => R13TranslationSession
+
+const r13TranslationSessionFactories = new WeakMap<
+  SceneMigrationResult,
+  R13TranslationSessionFactory
+>()
+
+/** 取得绑定在原始 mapScenesStatic 结果上的生产翻译会话；克隆/反序列化结果必须失败。 */
+export function createSceneR13TranslationSession(
+  result: SceneMigrationResult,
+): R13TranslationSession {
+  const factory = r13TranslationSessionFactories.get(result)
+  if (!factory)
+    throw new Error(
+      'R13 translation context 不存在：必须使用本进程 mapScenesStatic 返回的原始结果，不能使用克隆或反序列化对象',
+    )
+  return factory()
 }
 
 export interface SceneMigrationOptions {
@@ -2179,26 +2238,34 @@ export function mapScenesStatic(
 
   const spriteDefs = new Map<string, SpriteDef>()
   const recordedLayoutEvidence = new Set<string>()
-  const ensureSpriteDefinition = (registration: LayoutRegistration): string => {
-    if (!spriteDefs.has(registration.id))
-      spriteDefs.set(registration.id, {
+  const ensureSpriteDefinitionIn = (
+    definitions: Map<string, SpriteDef>,
+    registration: LayoutRegistration,
+    recordEvidence: boolean,
+  ): string => {
+    if (!definitions.has(registration.id))
+      definitions.set(registration.id, {
         id: registration.id,
         asset: palSpriteAssetId(registration.spriteNum),
         label: registration.label,
         layout: registration.layout,
       })
-    const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
-    if (!recordedLayoutEvidence.has(evidenceKey)) {
-      recordedLayoutEvidence.add(evidenceKey)
-      report.layoutEvidence.push({
-        spriteNum: registration.spriteNum,
-        definitionId: registration.id,
-        source: registration.source,
-        evidence: registration.evidence,
-      })
+    if (recordEvidence) {
+      const evidenceKey = `${registration.spriteNum}:${registration.id}:${registration.source}`
+      if (!recordedLayoutEvidence.has(evidenceKey)) {
+        recordedLayoutEvidence.add(evidenceKey)
+        report.layoutEvidence.push({
+          spriteNum: registration.spriteNum,
+          definitionId: registration.id,
+          source: registration.source,
+          evidence: registration.evidence,
+        })
+      }
     }
     return registration.id
   }
+  const ensureSpriteDefinition = (registration: LayoutRegistration): string =>
+    ensureSpriteDefinitionIn(spriteDefs, registration, true)
   const spriteRef = (entity: SourceEventObject): string => {
     const nSpriteFrames = entity.nSpriteFrames ?? 0
     const registration = sceneRegistrationByKey.get(`${entity.spriteNum}:${nSpriteFrames}`)
@@ -2208,7 +2275,10 @@ export function mapScenesStatic(
   }
 
   /** 0x65 / 0x1A field=2 / 0x98 共用的只读旧号解析器。 */
-  const spriteIdForNum = (num: number): string => {
+  const resolveSpriteIdForNum = (
+    num: number,
+    ensure: (registration: LayoutRegistration) => string,
+  ): string => {
     const roleSpriteId = roleSpriteIdsByNum.get(num)
     if (roleSpriteId) return roleSpriteId
     const layouts = registrationsBySprite.get(num)
@@ -2217,33 +2287,45 @@ export function mapScenesStatic(
     if (overlay) {
       const registration = layouts.get(layoutKey(overlay.layout))
       if (!registration) throw new Error(`sprite ${num} 的 PAL overlay 未进入布局注册表`)
-      return ensureSpriteDefinition(registration)
+      return ensure(registration)
     }
     if (layouts.size !== 1)
       throw new Error(
         `sprite ${num} 有 ${layouts.size} 种场景布局，脚本资源号无法消歧；需要逐项 PAL overlay`,
       )
-    return ensureSpriteDefinition([...layouts.values()][0]!)
+    return ensure([...layouts.values()][0]!)
   }
-
   // ── M3a 脚本翻译上下文(触发链/onEnter → 结构化 stages;文本进 locale)──
-  const registry = new ScriptRegistry(
-    (label, owner) =>
-      (owner ? ownerScene.get(owner) : undefined) ?? graphSceneFor(label) ?? labelScene.get(label),
-    undefined,
-    sccFor,
-  )
-  const tctx: TranslateCtx = {
-    labelAt,
-    sourceAddressAt: (cmds, idx) => addressesByCommands.get(cmds)?.[idx],
-    explicitLabels,
-    locale: {} as Record<string, string>,
-    report: emptyTranslateReport(),
-    spriteIdForNum,
-    mapIdForNum: mapIdFromSourceNumber,
-    soundAssetForNum,
-    registry,
+  const createTranslateContext = (
+    definitions: Map<string, SpriteDef>,
+    recordLayoutEvidence: boolean,
+  ): { ctx: TranslateCtx; registry: ScriptRegistry } => {
+    const registry = new ScriptRegistry(
+      (label, owner) =>
+        (owner ? ownerScene.get(owner) : undefined) ??
+        graphSceneFor(label) ??
+        labelScene.get(label),
+      undefined,
+      sccFor,
+    )
+    const ctx: TranslateCtx = {
+      labelAt,
+      sourceAddressAt: (cmds, idx) => addressesByCommands.get(cmds)?.[idx],
+      explicitLabels,
+      locale: {} as Record<string, string>,
+      report: emptyTranslateReport(),
+      spriteIdForNum: (num) =>
+        resolveSpriteIdForNum(num, (registration) =>
+          ensureSpriteDefinitionIn(definitions, registration, recordLayoutEvidence),
+        ),
+      mapIdForNum: mapIdFromSourceNumber,
+      soundAssetForNum,
+      registry,
+    }
+    return { ctx, registry }
   }
+  const primaryTranslation = createTranslateContext(spriteDefs, true)
+  const { ctx: tctx, registry } = primaryTranslation
   for (const alias of [...(options.globalScriptAliases ?? [])].sort((left, right) =>
     left.id.localeCompare(right.id),
   )) {
@@ -2404,11 +2486,17 @@ export function mapScenesStatic(
           entityId: `e${eo.id}`,
           roots: [
             ...(trigger?.stages ?? []).map((stage, index) => ({
-              id: `folded/hostile/${slug}/e${eo.id}/trigger/stage-${index}`,
+              id: bindFoldedInstructionOutcomes(
+                stage,
+                `folded/hostile/${slug}/e${eo.id}/trigger/stage-${index}`,
+              ),
               body: stage.body,
             })),
             ...(auto?.stages ?? []).map((stage, index) => ({
-              id: `folded/hostile/${slug}/e${eo.id}/auto/stage-${index}`,
+              id: bindFoldedInstructionOutcomes(
+                stage,
+                `folded/hostile/${slug}/e${eo.id}/auto/stage-${index}`,
+              ),
               body: stage.body,
             })),
           ],
@@ -2518,7 +2606,7 @@ export function mapScenesStatic(
       .slice(0, 20),
   }
 
-  return {
+  const result: SceneMigrationResult = {
     scenes,
     scriptIndex: library.index,
     scriptChunks: library.chunks,
@@ -2530,6 +2618,71 @@ export function mapScenesStatic(
     foldedHostileRoots,
     report,
   }
+  const staticEntityBehaviorRoots = orderedScenes
+    .flatMap((sourceScene) =>
+      sourceScene.eventObjects.flatMap((entity) =>
+        (
+          [
+            ['trigger', entity.triggerLabel],
+            ['auto', entity.autoLabel],
+          ] as const
+        ).flatMap(([channel, label]) => {
+          const rootAddress = addressOf(label)
+          return rootAddress === undefined
+            ? []
+            : [
+                {
+                  sceneId: sceneSlug(sourceScene.sceneId),
+                  entityId: `e${entity.id}`,
+                  channel,
+                  behaviorId: 'default',
+                  rootAddress,
+                } satisfies R13StaticEntityBehaviorRoot,
+              ]
+        }),
+      ),
+    )
+    .sort(
+      (left, right) =>
+        left.sceneId.localeCompare(right.sceneId) ||
+        left.entityId.localeCompare(right.entityId) ||
+        left.channel.localeCompare(right.channel) ||
+        left.rootAddress - right.rootAddress,
+    )
+  r13TranslationSessionFactories.set(result, () => {
+    const baseSpriteIds = new Set(spriteDefs.keys())
+    const sessionSpriteDefinitions = new Map(
+      [...spriteDefs].map(([id, definition]) => [id, structuredClone(definition)] as const),
+    )
+    const session = createTranslateContext(sessionSpriteDefinitions, false)
+    return {
+      ctx: session.ctx,
+      staticEntityBehaviorRoots: structuredClone(staticEntityBehaviorRoots),
+      finish: () => ({
+        locale: structuredClone(session.ctx.locale),
+        spriteDefinitions: [...sessionSpriteDefinitions.values()]
+          .filter((definition) => !baseSpriteIds.has(definition.id))
+          .map((definition) => structuredClone(definition))
+          .sort((left, right) => left.id.localeCompare(right.id)),
+        report: structuredClone(session.ctx.report),
+        scriptRegistryAudit: session.registry.auditRecords(),
+        scriptRegistryBodies: Object.fromEntries(
+          session.registry
+            .auditRecords()
+            .map((record) => [
+              record.id,
+              structuredClone(session.registry.bodyFor(record.id) ?? []),
+            ]),
+        ),
+      }),
+    }
+  })
+  return result
+}
+
+function bindFoldedInstructionOutcomes(stage: ScriptStage, bodyId: string): string {
+  bindScriptStageInstructionOutcomeBody(stage, bodyId)
+  return bodyId
 }
 
 /** scene 只保留持久 stage 壳；每个根体进入 scene chunk，避免场景 JSON 重复脚本树。 */
@@ -2545,6 +2698,7 @@ function externalizeSceneScripts(
   ): ScriptStage[] | undefined =>
     stages?.map((stage, index) => {
       const id = `scene/${scene.id}/root/${source}/stage-${index}`
+      bindScriptStageInstructionOutcomeBody(stage, id)
       const lifted = liftEntry ? liftEarlyDitherSceneEntry(stage) : undefined
       const output = lifted?.stage ?? stage
       if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
@@ -2673,6 +2827,7 @@ export function resolveSceneScriptPatches(
           targetScene.battleMusic = battleDefaults.battleMusic
         binding = cleanFolded.map((stage, index) => {
           const id = `scene/${cmd.scene}/override/${slot}/L-${targetAddress}/stage-${index}`
+          bindScriptStageInstructionOutcomeBody(stage, id)
           const lifted = slot === 'on-enter' ? liftEarlyDitherSceneEntry(stage) : undefined
           const output = lifted?.stage ?? stage
           if (lifted?.kind === 'lifted') sceneEntriesLifted.push(id)
@@ -2719,7 +2874,7 @@ export function resolveSceneScriptPatches(
 }
 
 /** 深走任意结构,bake 出 BattleCfgMarker(0x4A/0x45)→ acc(last-wins)+ strip;返回同构清洁副本。 */
-function deepStripBattleCfg<T>(
+export function deepStripBattleCfg<T>(
   o: T,
   acc: { battleFieldId?: number; battleMusic?: AssetId | null },
 ): T {

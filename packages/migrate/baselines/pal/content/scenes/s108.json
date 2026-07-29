@@ -858,212 +858,442 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.067",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6965"
-                          },
-                          {
-                            "text": "dlg.6966"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6965"
+                            },
+                            {
+                              "text": "dlg.6966"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.刘夫人"
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "delta": 30000,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6967"
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 30000
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6967"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6969"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
                           }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.067",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6969"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.刘夫人"
-                      },
-                      "kind": "dialog"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "phase-002"
                     }
-                  ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6984"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "continuation-001": {
+                    "label": "流程分支 001",
+                    "body": [
+                      {
+                        "kind": "giveMoney",
+                        "delta": -30000
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 30000
+                      }
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "continuation-003"
+                    }
+                  },
+                  "continuation-002": {
+                    "label": "流程分支 002",
+                    "body": [
+                      {
+                        "kind": "giveMoney",
+                        "delta": -30000
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 30000
+                      }
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "continuation-005"
+                    }
+                  },
+                  "continuation-003": {
+                    "label": "流程分支 003",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6969"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "continuation-004": {
+                    "label": "流程分支 004",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6971"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "id": "decision-001",
+                        "onNo": []
+                      }
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-001",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "continue",
+                        "state": "continuation-003"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation-007"
+                      }
+                    }
+                  },
+                  "continuation-005": {
+                    "label": "流程分支 005",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6977"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "continuation-006": {
+                    "label": "流程分支 006",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6979"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "id": "decision-002",
+                        "onNo": []
+                      }
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-002",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "continue",
+                        "state": "continuation-005"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation-008"
+                      }
+                    }
+                  },
+                  "continuation-007": {
+                    "label": "流程分支 007",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6973"
+                            },
+                            {
+                              "text": "dlg.6974"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 30000
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6975"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6977"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "phase-003"
+                    }
+                  },
+                  "continuation-008": {
+                    "label": "流程分支 008",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6981"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 30000
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6982"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6984"
+                            }
+                          ],
+                          "speaker": "spk.刘夫人",
+                          "slot": "top",
+                          "portrait": {
+                            "asset": "portrait.pal.067",
+                            "side": "left"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
+                    }
+                  },
+                  "phase-002": {
+                    "label": "后续阶段 002",
+                    "body": [],
+                    "next": {
                       "kind": "branch",
                       "cond": {
                         "kind": "not",
                         "cond": {
-                          "atLeast": 30000,
-                          "kind": "hasMoney"
+                          "kind": "hasMoney",
+                          "atLeast": 30000
                         }
                       },
-                      "then": [
-                        {
-                          "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.067",
-                              "side": "left"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.6971"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.刘夫人"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "confirm",
-                          "onNo": [
-                            {
-                              "kind": "clearDialog"
-                            },
-                            {
-                              "cue": {
-                                "portrait": {
-                                  "asset": "portrait.pal.067",
-                                  "side": "left"
-                                },
-                                "rows": [
-                                  {
-                                    "text": "dlg.6969"
-                                  }
-                                ],
-                                "slot": "top",
-                                "speaker": "spk.刘夫人"
-                              },
-                              "kind": "dialog"
-                            }
-                          ]
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.067",
-                              "side": "left"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.6973"
-                              },
-                              {
-                                "text": "dlg.6974"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.刘夫人"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "delta": 30000,
-                          "kind": "giveMoney"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.6975"
-                              }
-                            ],
-                            "slot": "narration"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.067",
-                              "side": "left"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.6977"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.刘夫人"
-                          },
-                          "kind": "dialog"
-                        }
-                      ]
-                    },
-                    {
-                      "delta": -30000,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "delta": 30000,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.067",
-                          "side": "left"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6969"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.刘夫人"
+                      "then": {
+                        "kind": "continue",
+                        "state": "continuation-004"
                       },
-                      "kind": "dialog"
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation-001"
+                      }
                     }
-                  ]
+                  },
+                  "phase-003": {
+                    "label": "后续阶段 003",
+                    "body": [],
+                    "next": {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "not",
+                        "cond": {
+                          "kind": "hasMoney",
+                          "atLeast": 30000
+                        }
+                      },
+                      "then": {
+                        "kind": "continue",
+                        "state": "continuation-006"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "continuation-002"
+                      }
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         },
@@ -1206,7 +1436,12 @@
                         "entity": "e2002"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1234,7 +1469,12 @@
                         "entity": "e2002"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1341,7 +1581,12 @@
                         "entity": "e2002"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1507,7 +1752,12 @@
                         "entity": "e2003"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1551,7 +1801,12 @@
                         "entity": "e2003"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1604,7 +1859,12 @@
                         "entity": "e2003"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1770,7 +2030,12 @@
                         "entity": "e2004"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1814,7 +2079,12 @@
                         "entity": "e2004"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1850,7 +2120,12 @@
                         "entity": "e2004"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2768,7 +3043,12 @@
                         "entity": "e2005"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2821,7 +3101,12 @@
                         "entity": "e2005"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -58993,29 +59278,49 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stages",
-            "initial": "initial",
-            "stages": [
-              {
-                "id": "initial",
-                "body": [
-                  {
-                    "kind": "selectSceneHooks",
-                    "scene": "s114",
-                    "selection": {
-                      "onEnter": {
-                        "kind": "use",
-                        "value": "legacy-001"
+            "kind": "stateMachine",
+            "machine": {
+              "id": "machine",
+              "label": "默认进场行为",
+              "initial": "initial",
+              "states": {
+                "initial": {
+                  "label": "首次执行",
+                  "body": [
+                    {
+                      "kind": "selectSceneHooks",
+                      "scene": "s114",
+                      "selection": {
+                        "onEnter": {
+                          "kind": "use",
+                          "value": "legacy-001"
+                        }
                       }
+                    },
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.052"
                     }
-                  },
-                  {
-                    "asset": "music.pal.052",
-                    "kind": "playMusic"
+                  ],
+                  "next": {
+                    "kind": "advance",
+                    "state": "after-checkpoint"
                   }
-                ]
+                },
+                "after-checkpoint": {
+                  "label": "检查点后的执行",
+                  "body": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.052"
+                    }
+                  ],
+                  "next": {
+                    "kind": "stay"
+                  }
+                }
               }
-            ]
+            }
           }
         },
         "legacy-001": {

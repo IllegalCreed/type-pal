@@ -3,16 +3,19 @@ import {
   type AssetReference,
   collectAssetReferences,
   type EntryPoint,
+  type ItemData,
   type ManifestAssetConfigV3,
   palSoundAssetId,
   type ScriptChunkV1,
   type ScriptIndexV1,
+  upgradeItemsV7ToV8,
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleSprites,
   validateEnemies,
   validateItems,
+  validateItemsV5,
   validateScenes,
   validateSkills,
   validateSprites,
@@ -135,7 +138,8 @@ function targetChannel(
   if (/^skills\[\d+\]\.animation\.sound$/.test(where)) return 'skillAnimation'
   if (/^skills\[\d+\]\.effects\[\d+\]\.sound$/.test(where)) return 'skillSummon'
   if (/^items\[\d+\]\.use\.sound$/.test(where)) return 'itemUse'
-  if (/^items\[\d+\]\.throw\.sound$/.test(where)) return 'itemThrow'
+  if (/^items\[\d+\]\.throw\.(?:sound|presentation\.animation\.sound)$/.test(where))
+    return 'itemThrow'
   if (where.startsWith('manifest.assets.roles.')) return 'roles'
   if (where.endsWith('.asset')) return 'playSound'
   throw new Error(`未分类 sound 引用: ${where}`)
@@ -170,6 +174,10 @@ function sourceSkillSounds(
 export function auditPalSoundReferences(args: {
   sources: PalMigrationSources
   files: ReadonlyMap<string, MigrationJson>
+  /** 可用 R13-3 successor items 覆盖 immutable v7 parent 中的同一路径。 */
+  items?: unknown
+  /** buildPalMigration 是 immutable R13-3 parent；只允许显式声明后做 v7→v8 投掷归一。 */
+  itemContentVersion: 7 | 8
   assets: ManifestAssetConfigV3
   entryPoints?: readonly EntryPoint[]
   translationReport: TranslateReport
@@ -178,7 +186,11 @@ export function auditPalSoundReferences(args: {
   const catalog = validateAssetCatalog(required(files, 'assets/index.json'))
   const actors = validateActors(required(files, 'content/actors.json'))
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
-  const items = validateItems(required(files, 'content/items.json'))
+  const rawItems = args.items ?? required(files, 'content/items.json')
+  const items =
+    args.itemContentVersion === 7
+      ? validateItems(upgradeItemsV7ToV8(rawItems))
+      : validateItemsV5(rawItems)
   const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
   const sprites = validateSprites(required(files, 'content/sprites.json'), catalog)
@@ -201,7 +213,7 @@ export function auditPalSoundReferences(args: {
     scriptChunks,
     actors,
     enemies,
-    items,
+    items: items as unknown as ItemData[],
     skills,
     battleFields,
     battleSprites,
@@ -428,7 +440,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       skillSummon: 9,
       playSound: 1_035,
       itemUse: 1,
-      itemThrow: 0,
+      itemThrow: 75,
       roles: 4,
     },
     'target.channels',
@@ -447,14 +459,14 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       hasFake122Asset: report.target.hasFake122Asset,
     },
     {
-      soundEdges: 1_668,
+      soundEdges: 1_743,
       // C8 恢复共享用途根：物品 266 新增 portrait.pal.069，土灵珠出口 fallback 新增 sound.pal.045。
-      allReferences: 6_650,
+      allReferences: 6_725,
       nonSoundReferences: 4_982,
       catalogSounds: 363,
-      referencedSounds: 328,
-      unusedSounds: 35,
-      warnings: 132,
+      referencedSounds: 329,
+      unusedSounds: 34,
+      warnings: 131,
       missing: 0,
       kindMismatch: 0,
       hasFake122Asset: false,
@@ -525,7 +537,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       dropped: [122],
       skill377Sound: palSoundAssetId(174),
       item151UseSound: palSoundAssetId(45),
-      itemThrowSoundEdges: 0,
+      itemThrowSoundEdges: 75,
       negativeEnemyMagicSites: 25,
       negativeEnemySemanticViolations: [],
     },

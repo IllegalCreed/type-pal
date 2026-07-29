@@ -148,6 +148,20 @@ describe('P7 canonical v5 MG2', () => {
     expect(result.nextBaseline.files.get(SCRIPT_V4_V5_SIDECAR_PATH)).toEqual(sidecar)
     expect(result.nextBaseline.files.has(P7_FULL_LEDGER_PATH)).toBe(true)
     expect(result.nextBaseline.baselineMetadata).toEqual(base.baselineMetadata)
+
+    const baselineScene = result.nextBaseline.files.get('content/scenes/s001.json') as {
+      entities: Array<{
+        behaviors: {
+          trigger: {
+            talk: {
+              flow: { stages: Array<{ body: Array<{ text?: string }> }> }
+            }
+          }
+        }
+      }>
+    }
+    baselineScene.entities[0]!.behaviors.trigger.talk.flow.stages[0]!.body[0]!.text = '改写返回值'
+    expect(generated.files.get('content/scenes/s001.json')).toEqual(scene('旧', '上游标签'))
   })
 
   test('same canonical stage conflict keeps writes and deletes at zero', () => {

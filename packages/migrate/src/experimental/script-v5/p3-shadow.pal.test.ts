@@ -1,30 +1,31 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { existsSync } from 'node:fs'
 import { stableScriptHash, utf8ByteLength } from '@type-pal/content'
 import { beforeAll, describe, expect, test } from 'vitest'
-import { loadPalBaseline, type MigrationSnapshot } from '../../migration-baseline.js'
+import type { MigrationSnapshot } from '../../migration-baseline.js'
 import type { MigrationFileSet, MigrationJson } from '../../pal-migration.js'
-import { buildPalMigration } from '../../pal-migration.js'
-import { loadPalMigrationSources } from '../../pal-migration-io.js'
-import {
-  assertScriptControlFlowAudit,
-  auditPalScriptControlFlow,
-  type ScriptControlFlowAuditV1,
-} from '../../script-control-flow-audit.js'
+import type { ScriptControlFlowAuditV1 } from '../../script-control-flow-audit.js'
 import type { SourceCmd } from '../../source-facts.js'
-import { buildP2ScriptMigrationIR } from './p2-transform.js'
-import { buildP3ScriptMigrationIR } from './p3-control-flow.js'
-import { planP3ScriptTransition } from './p3-transition-plan.js'
-import { validateP3ScriptMigrationIR } from './p3-validate.js'
-import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
-import { assertP3ShadowBundle, buildDeterministicP3ShadowBundle } from './shadow-harness.js'
-import { commandAtPointer, readV4ScriptCorpus } from './source-v4.js'
+import type { buildP2ScriptMigrationIR } from './p2-transform.js'
+import type { buildP3ScriptMigrationIR } from './p3-control-flow.js'
+import {
+  type PreparedP3ScriptTransition,
+  planP3ScriptTransition,
+  prepareP3ScriptTransition,
+} from './p3-transition-plan.js'
+import {
+  getPalTestPhaseFixture,
+  getPalTestPreparedP3ScriptTransition,
+  PAL_SHADOW_RELEASE_CORE_DIGEST,
+  PAL_TEST_EXTRACTED,
+  PAL_TEST_FAST_GATE,
+} from './pal-test-fixture.js'
+import {
+  assertP3ShadowBundle,
+  buildDeterministicP3ShadowBundle,
+  buildPinnedP3ShadowBundleFromValidatedChain,
+} from './shadow-harness.js'
+import { commandAtPointer, type readV4ScriptCorpus } from './source-v4.js'
 import { stableJsonSha256 } from './stable-json.js'
-
-const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../..')
-const extracted = resolve(repo, 'data/extracted/events/all.json')
-const baselinePath = resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json')
 
 interface PalFixture {
   migration: MigrationFileSet
@@ -36,18 +37,15 @@ interface PalFixture {
   p2: ReturnType<typeof buildP2ScriptMigrationIR>
   p3: ReturnType<typeof buildP3ScriptMigrationIR>
   corpus: ReturnType<typeof readV4ScriptCorpus>
+  chain: ReturnType<typeof getPalTestPhaseFixture>['chain']
+  prepared: PreparedP3ScriptTransition
 }
 
 let fixture: PalFixture
 
 function cloneMigration(source: MigrationFileSet): MigrationFileSet {
   return {
-    files: new Map(
-      [...source.files].map(([path, value]) => [
-        path,
-        JSON.parse(JSON.stringify(value)) as MigrationJson,
-      ]),
-    ),
+    files: new Map(source.files),
     managedFiles: new Set(source.managedFiles),
     report: source.report,
   }
@@ -58,20 +56,36 @@ function mutateScriptBody(
   legacyScriptId: string,
   mutate: (body: Array<Record<string, unknown>>) => void,
 ): void {
-  const index = migration.files.get('content/scripts/index.json') as {
+  const sourceIndex = migration.files.get('content/scripts/index.json') as {
     chunks: Record<string, { path: string; bytes: number; hash?: string }>
   }
   const sourceChunk = fixture.corpus.byId.get(legacyScriptId)?.chunk
   if (!sourceChunk) throw new Error(`test script body missing ${legacyScriptId}`)
-  const meta = index.chunks[sourceChunk]!
-  const chunkPath = `content/scripts/${meta.path}`
-  const chunk = migration.files.get(chunkPath) as {
+  const sourceMeta = sourceIndex.chunks[sourceChunk]!
+  const index = {
+    ...sourceIndex,
+    chunks: {
+      ...sourceIndex.chunks,
+      [sourceChunk]: { ...sourceMeta },
+    },
+  }
+  migration.files.set('content/scripts/index.json', index as MigrationJson)
+  const chunkPath = `content/scripts/${sourceMeta.path}`
+  const sourceChunkFile = migration.files.get(chunkPath) as {
     scripts: Record<string, Array<Record<string, unknown>>>
   }
+  const chunk = {
+    ...sourceChunkFile,
+    scripts: {
+      ...sourceChunkFile.scripts,
+      [legacyScriptId]: structuredClone(sourceChunkFile.scripts[legacyScriptId]!),
+    },
+  }
+  migration.files.set(chunkPath, chunk as MigrationJson)
   mutate(chunk.scripts[legacyScriptId]!)
   const chunkJson = JSON.stringify(chunk)
-  meta.bytes = utf8ByteLength(chunkJson)
-  meta.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
+  index.chunks[sourceChunk]!.bytes = utf8ByteLength(chunkJson)
+  index.chunks[sourceChunk]!.hash = stableScriptHash(chunkJson).toString(16).padStart(8, '0')
 }
 
 function planWith(ours: MigrationFileSet) {
@@ -85,56 +99,42 @@ function planWith(ours: MigrationFileSet) {
     p2Ledger: fixture.p2.ledger,
     target: fixture.p3.ir,
     ledger: fixture.p3.ledger,
+    prepared: fixture.prepared,
   })
 }
 
-describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
+describe.skipIf(!existsSync(PAL_TEST_EXTRACTED))('N3 P3 PAL shadow migration', () => {
   beforeAll(() => {
-    const sources = loadPalMigrationSources(repo)
-    const migration = buildPalMigration(sources)
-    const audit = auditPalScriptControlFlow(sources, migration)
-    assertScriptControlFlowAudit(audit)
-    const frozen = JSON.parse(readFileSync(baselinePath, 'utf8')) as ScriptControlFlowAuditV1
-    const base = loadPalBaseline(repo)
-    if (!base) throw new Error('PAL migration baseline missing')
-    const snapshots = reconstructPublishedV4TransitionSnapshots(repo, migration, base)
-    const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
-    const p2 = buildP2ScriptMigrationIR({
-      migration,
-      currentAudit: audit,
-      frozenAudit: frozen,
-    })
-    const p3 = buildP3ScriptMigrationIR({
-      migration,
-      frozenAudit: frozen,
-      sourceCommands,
-      p2: p2.ir,
-      p2Ledger: p2.ledger,
-    })
+    const shared = getPalTestPhaseFixture()
+    const prepared = PAL_TEST_FAST_GATE
+      ? getPalTestPreparedP3ScriptTransition()
+      : prepareP3ScriptTransition({
+          migration: shared.migration,
+          frozenAudit: shared.frozenAudit,
+          sourceCommands: shared.sourceCommands,
+          base: shared.migration,
+          p2: shared.chain.p2.ir,
+          p2Ledger: shared.chain.p2.ledger,
+          target: shared.chain.p3.ir,
+          ledger: shared.chain.p3.ledger,
+        })
     fixture = {
-      migration,
-      base: snapshots.base,
-      ours: snapshots.ours,
-      audit,
-      frozen,
-      sourceCommands,
-      p2,
-      p3,
-      corpus: readV4ScriptCorpus(migration),
+      migration: shared.migration,
+      base: shared.publishedV4Snapshots.base,
+      ours: shared.publishedV4Snapshots.ours,
+      audit: shared.currentAudit,
+      frozen: shared.frozenAudit,
+      sourceCommands: shared.sourceCommands,
+      p2: shared.chain.p2,
+      p3: shared.chain.p3,
+      corpus: shared.corpus,
+      chain: shared.chain,
+      prepared,
     }
   }, 120_000)
 
   test('1,715 个候选完全分类，599 个结构化且累计 IR 可逆', () => {
-    const report = validateP3ScriptMigrationIR({
-      migration: fixture.migration,
-      frozenAudit: fixture.frozen,
-      sourceCommands: fixture.sourceCommands,
-      p2: fixture.p2.ir,
-      p2Ledger: fixture.p2.ledger,
-      ir: fixture.p3.ir,
-      ledger: fixture.p3.ledger,
-      throughPhase: 'P3',
-    })
+    const report = fixture.chain.validations.p3
     expect(fixture.p3.ir.flowCensus).toEqual({
       input: 1_715,
       tailInline: 579,
@@ -182,16 +182,33 @@ describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
     })
   }, 120_000)
 
-  test('确定性双跑、完整 manifest 闭包与 v4 作者合并层成立', () => {
-    const bundle = buildDeterministicP3ShadowBundle({
+  test('release 双跑 / fast 固定 core、完整 manifest 闭包与 v4 作者合并层成立', () => {
+    const args = {
       migration: fixture.migration,
       base: fixture.base,
       ours: fixture.ours,
       currentAudit: fixture.audit,
       frozenAudit: fixture.frozen,
       sourceCommands: fixture.sourceCommands,
-    })
-    assertP3ShadowBundle(bundle)
+    }
+    const bundle = PAL_TEST_FAST_GATE
+      ? buildPinnedP3ShadowBundleFromValidatedChain(
+          args,
+          fixture.chain,
+          PAL_SHADOW_RELEASE_CORE_DIGEST.P3,
+        )
+      : buildDeterministicP3ShadowBundle(args, fixture.chain)
+    const assertBundle = () =>
+      assertP3ShadowBundle(
+        bundle,
+        PAL_TEST_FAST_GATE
+          ? {
+              verificationMode: 'pinned-release-core',
+              expectedCoreDigest: PAL_SHADOW_RELEASE_CORE_DIGEST.P3,
+            }
+          : undefined,
+      )
+    assertBundle()
     const plan = JSON.parse(bundle.files.get('reports/transition-plan.json')!) as {
       summary: Record<string, number>
     }
@@ -213,9 +230,9 @@ describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
     const mutableFiles = bundle.files as Map<string, string>
     const inventory = mutableFiles.get('reports/p3-flow-inventory.json')!
     mutableFiles.set('reports/p3-flow-inventory.json', `${inventory} `)
-    expect(() => assertP3ShadowBundle(bundle)).toThrow('bundle digest mismatch')
+    expect(assertBundle).toThrow('bundle digest mismatch')
     mutableFiles.set('reports/p3-flow-inventory.json', inventory)
-    assertP3ShadowBundle(bundle)
+    assertBundle()
   }, 240_000)
 
   test('作者修改被吸收 body 或入站 jump cell 时整批零写冲突', () => {
@@ -289,7 +306,10 @@ describe.skipIf(!existsSync(extracted))('N3 P3 PAL shadow migration', () => {
   }, 120_000)
 
   test('即使重算摘要，P3 target-ledger 关系篡改仍然零写', () => {
-    const ledger = JSON.parse(JSON.stringify(fixture.p3.ledger)) as typeof fixture.p3.ledger
+    const ledger = {
+      ...fixture.p3.ledger,
+      groups: structuredClone(fixture.p3.ledger.groups),
+    } as typeof fixture.p3.ledger
     const flowGroup = ledger.groups.find((group) => group.kind === 'flow-absorption-group')!
     flowGroup.sources[0]!.baseCellSha256 = '0'.repeat(64)
     const { digest: _digest, ...withoutDigest } = ledger

@@ -345,7 +345,12 @@
                         "entity": "e616"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -354,103 +359,145 @@
             "label": "自动行为 2",
             "order": 2,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "dir": "down",
-                      "kind": "stepEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s037-e616-legacy-002",
+                "label": "自动行为 2 · 源循环",
+                "initial": "source-9017",
+                "states": {
+                  "source-9017": {
+                    "label": "源指令 9017",
+                    "body": [
+                      {
+                        "kind": "stepEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        },
+                        "dir": "down"
                       }
-                    },
-                    {
-                      "dx": -12,
-                      "dy": 6,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "dx": -16,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "dx": -16,
-                      "dy": 0,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "dx": -16,
-                      "dy": 8,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s037",
-                        "entity": "e616"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9018",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-9018": {
+                    "label": "源指令 9018",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        },
+                        "dx": -12,
+                        "dy": 6
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9019",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-9019": {
+                    "label": "源指令 9019",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        },
+                        "dx": -16,
+                        "dy": 0
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9020",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-9020": {
+                    "label": "源指令 9020",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        },
+                        "dx": -16,
+                        "dy": 0
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9021",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-9021": {
+                    "label": "源指令 9021",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        },
+                        "dx": -16,
+                        "dy": 8
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s037",
+                          "entity": "e616"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-9022",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-9022": {
+                    "label": "源指令 9022",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-9021"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }
@@ -498,7 +545,12 @@
                         "entity": "e617"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -558,7 +610,12 @@
                         "entity": "e617"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -608,7 +665,12 @@
                         "entity": "e618"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -636,7 +698,12 @@
                         "entity": "e618"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -690,7 +757,12 @@
                         "entity": "e619"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }

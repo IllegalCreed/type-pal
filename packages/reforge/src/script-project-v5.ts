@@ -126,6 +126,20 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
         this.world.entityPos ??= {}
         writeEntityValue(this.world.entityPos, command.target, command.pos)
         break
+      case 'moveEntity': {
+        const sceneSessionId = this.currentSceneSessionId()
+        await this.options.executeEffect(command, context, signal)
+        signal.throwIfAborted()
+        if (
+          this.options.currentSceneId() !== command.target.scene ||
+          this.currentSceneSessionId() !== sceneSessionId
+        )
+          throw new DOMException('moveEntity scene session changed', 'AbortError')
+        this.world.entityPos ??= {}
+        writeEntityValue(this.world.entityPos, command.target, command.to)
+        await this.options.worldChanged?.(command, context)
+        return
+      }
       case 'setEntityPosRelParty': {
         const pos = this.options.entityPosRelativeToParty?.(
           command.target,
@@ -165,6 +179,7 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
           command.channel,
           command.selection,
           this.coordinator,
+          command.cursorHandoff,
         )
         break
       }

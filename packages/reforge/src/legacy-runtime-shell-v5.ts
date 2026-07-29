@@ -59,10 +59,7 @@ function legacyItem(item: ItemDataMapV5[string]): ItemData {
       : {}),
     ...(item.throw
       ? {
-          throw: {
-            ...structuredClone(item.throw),
-            effects: convertEffects(item.throw.effects),
-          },
+          throw: structuredClone(item.throw),
         }
       : {}),
   } as ItemData

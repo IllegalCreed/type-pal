@@ -64,6 +64,7 @@ export function parseScriptV5ShadowCliArgs(args: readonly string[]): ScriptV5Sha
     throw new Error(`未知参数: ${argument}`)
   }
   if (publish && check) throw new Error('--publish 与 --check 不能同时使用')
+  if (publish && rebuildPublished) throw new Error('--publish 与 --rebuild-published 不能同时使用')
   if (publish && through !== 'p7') throw new Error('--publish 只允许 --through p7')
   if (rebuildPublished && through !== 'p7')
     throw new Error('--rebuild-published 只允许 --through p7')

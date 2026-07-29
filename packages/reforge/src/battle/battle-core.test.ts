@@ -741,27 +741,27 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(rejectedUse.log.some((line) => line.includes('不能在战斗中使用'))).toBe(true)
     expect(rejectedUse.log.some((line) => line.includes('防御'))).toBe(true)
 
-    const invalidThrow: ItemData = {
+    const invalidThrow = {
       ...worldScript,
       id: 'bad-throw',
       name: '错误投掷配置',
       use: undefined,
-      throw: { effects: [{ kind: 'healHp', amount: 10 }] },
-    }
+      throw: { target: 'oneEnemy', effects: [{ kind: 'healHp', amount: 10 }] },
+    } as unknown as ItemData
     const rejectedThrow = runSingleItemAction(invalidThrow, {
       kind: 'throw',
       itemId: 'bad-throw',
       targetEnemyIdx: 0,
     })
     expect(rejectedThrow.inventory[0]!.count).toBe(1)
-    expect(rejectedThrow.log.some((line) => line.includes('包含不能投掷的效果'))).toBe(true)
+    expect(rejectedThrow.log.some((line) => line.includes('投掷数据无效'))).toBe(true)
 
     const emptyThrow: ItemData = {
       ...worldScript,
       id: 'empty-throw',
       name: '未完成投掷配置',
       use: undefined,
-      throw: { effects: [] },
+      throw: { target: 'oneEnemy', effects: [] },
     }
     const rejectedEmptyThrow = runSingleItemAction(emptyThrow, {
       kind: 'throw',
@@ -769,7 +769,7 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
       targetEnemyIdx: 0,
     })
     expect(rejectedEmptyThrow.inventory[0]!.count).toBe(1)
-    expect(rejectedEmptyThrow.log.some((line) => line.includes('包含不能投掷的效果'))).toBe(true)
+    expect(rejectedEmptyThrow.log.some((line) => line.includes('投掷数据无效'))).toBe(true)
 
     const garlic: ItemData = {
       ...worldScript,
@@ -1580,7 +1580,7 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
       buyPrice: 0,
       sellPrice: 0,
       sellable: false,
-      throw: { effects: [{ kind: 'applyPoison', poisonId: '561' }] },
+      throw: { target: 'oneEnemy', effects: [{ kind: 'applyPoison', poisonId: '561' }] },
     },
   }
   const PARASITE: Record<number, import('@type-pal/content').PoisonDef> = {
@@ -1589,7 +1589,12 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
       name: '食妖虫附',
       curability: 'incurable',
       color: 0,
-      enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
+      // 施毒当下先跑 −1，同轮回合末再跑 −2；下一回合才到末段 −8 + 产物。
+      enemyTicks: [
+        { hpDelta: -1 },
+        { hpDelta: -2 },
+        { hpDelta: -8, grantItem: '145', selfCure: true },
+      ],
     },
   }
   test('投掷目标在出手前死亡时环扫改投下一名活敌', () => {
@@ -1671,6 +1676,7 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
       sellPrice: 0,
       sellable: false,
       throw: {
+        target: 'oneEnemy',
         effects: [
           {
             kind: 'currentHpDamage',
@@ -1700,6 +1706,395 @@ describe('P2 投掷道具(throw;养蛊源 + 下毒)', () => {
   })
 })
 
+describe('R13-3 投掷专用效果链', () => {
+  const runThrow = (
+    thrown: NonNullable<ItemData['throw']>,
+    options: {
+      enemies?: EnemyDef[]
+      player?: Partial<CreatePlayerInput>
+      rng?: number[]
+      targetEnemyIdx?: number
+      poisonDefs?: Record<number, import('@type-pal/content').PoisonDef>
+      prepare?: (state: ReturnType<typeof createBattleState>) => void
+    } = {},
+  ) => {
+    let calls = 0
+    const values = options.rng ?? []
+    const rng = () => values[calls++] ?? 0
+    const item: ItemData = {
+      id: 'r13-throw',
+      name: '投掷测试物',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      throw: thrown,
+    }
+    const s = createBattleState({
+      players: [
+        player('li', {
+          baseDexterity: 500,
+          attackStrength: 40,
+          ...options.player,
+        }),
+      ],
+      enemies: options.enemies ?? [
+        mkEnemy('target', { health: 1000, defense: 0, dexterity: 0, attackStrength: -999 }),
+      ],
+      items: { [item.id]: item },
+      inventory: [{ itemId: item.id, count: 1 }],
+      poisonDefs: options.poisonDefs,
+    })
+    stepBattle(s, rng)
+    options.prepare?.(s)
+    s.pendingActions.set(0, {
+      kind: 'throw',
+      itemId: item.id,
+      ...(options.targetEnemyIdx === undefined ? {} : { targetEnemyIdx: options.targetEnemyIdx }),
+    })
+    stepBattle(s, rng)
+    expect(s.actionQueue[0]?.isEnemy).toBe(false)
+    stepBattle(s, rng)
+    return { s, calls }
+  }
+
+  test('0x42/0x66 共用 SimulateMagic：baseDamage 参与，敌等级防御项生效', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [
+          {
+            kind: 'magicDamage',
+            baseDamage: 198,
+            element: 'none',
+            strength: { kind: 'fixed', value: 110 },
+          },
+        ],
+      },
+      {
+        enemies: [
+          mkEnemy('target', {
+            health: 1000,
+            level: 1,
+            defense: 46,
+            dexterity: 0,
+            attackStrength: -999,
+          }),
+        ],
+        rng: [0, 0, 0],
+        targetEnemyIdx: 0,
+      },
+    )
+    expect(1000 - s.enemies[0]!.hp).toBe(223)
+  })
+
+  test('sentinel magic 允许 minDamage=0，不伪造保底伤害', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [
+          {
+            kind: 'magicDamage',
+            baseDamage: -999,
+            element: 'none',
+            strength: { kind: 'fixed', value: 0 },
+          },
+        ],
+      },
+      { rng: [0, 0, 0], targetEnemyIdx: 0 },
+    )
+    expect(s.enemies[0]!.hp).toBe(1000)
+    expect(s.lastAction?.throwHits).toEqual([{ idx: 0, value: 0 }])
+  })
+
+  test('0x66 全体投掷：力量按 effect/action 只掷一次，伤害浮动逐敌独立', () => {
+    const enemies = [
+      mkEnemy('a', {
+        health: 5000,
+        level: 1,
+        defense: 46,
+        dexterity: 0,
+        attackStrength: -999,
+      }),
+      mkEnemy('b', {
+        health: 5000,
+        level: 1,
+        defense: 46,
+        dexterity: 0,
+        attackStrength: -999,
+      }),
+    ]
+    const { s, calls } = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [
+          {
+            kind: 'magicDamage',
+            baseDamage: 198,
+            element: 'none',
+            strength: {
+              kind: 'casterAttack',
+              bonus: 10,
+              multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+            },
+          },
+        ],
+      },
+      {
+        enemies,
+        // 建队列 3 掷；力量取 inclusive 3；两敌伤害浮动分别取 1.0 / 约 1.1。
+        rng: [0, 0, 0, 0.999999, 0, 0.999999],
+      },
+    )
+    const strength = 10 + 40 * 3
+    const base = {
+      magStr: strength,
+      def: 74,
+      magicData: { baseDamage: 198, elemental: 0 },
+      elemRes: enemies[0]!.stats.elemResistance,
+      poisonRes: 0,
+      resistMult: 1,
+      fieldEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    }
+    expect(5000 - s.enemies[0]!.hp).toBe(calcMagicDamage({ ...base, rngFactor: 1 }))
+    expect(5000 - s.enemies[1]!.hp).toBeCloseTo(
+      calcMagicDamage({ ...base, rngFactor: 1 + 0.999999 * 0.1 }),
+      8,
+    )
+    expect(s.enemies[1]!.hp).toBeLessThan(s.enemies[0]!.hp)
+    expect(calls).toBe(6)
+    expect(s.inventory[0]!.count).toBe(0)
+  })
+
+  test('applyStatus stopTarget：一个目标抵抗不截断其他目标，且每目标只掷一次', () => {
+    const { s, calls } = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [
+          { kind: 'applyStatus', status: 'sleep', turns: 3, onResist: 'stopTarget' },
+          { kind: 'fixedDamage', amount: 25 },
+        ],
+      },
+      {
+        enemies: [
+          mkEnemy('resist', { health: 100, dexterity: 0, attackStrength: -999 }),
+          mkEnemy('hit', { health: 100, dexterity: 0, attackStrength: -999 }),
+        ],
+        // 建队列 3 掷；0.4 被巫抗 5 挡，0.5 命中。
+        rng: [0, 0, 0, 0.4, 0.5],
+      },
+    )
+    expect(s.enemies[0]!.status.sleep).toBe(0)
+    expect(s.enemies[0]!.hp).toBe(100)
+    expect(s.enemies[1]!.status.sleep).toBe(3)
+    expect(s.enemies[1]!.hp).toBe(75)
+    expect(s.lastAction?.notice).toBe('攻击无效')
+    expect(calls).toBe(5)
+  })
+
+  test('applyStatus continue：抵抗后仍执行本目标后续效果', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [
+          { kind: 'applyStatus', status: 'sleep', turns: 3, onResist: 'continue' },
+          { kind: 'fixedDamage', amount: 25 },
+        ],
+      },
+      { rng: [0, 0, 0.4], targetEnemyIdx: 0 },
+    )
+    expect(s.enemies[0]!.status.sleep).toBe(0)
+    expect(s.enemies[0]!.hp).toBe(975)
+  })
+
+  test('applyPoison 被巫抗挡住仍继续固定伤害', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [
+          { kind: 'applyPoison', poisonId: '556' },
+          { kind: 'fixedDamage', amount: 25 },
+        ],
+      },
+      {
+        rng: [0, 0, 0.99],
+        targetEnemyIdx: 0,
+        poisonDefs: {
+          556: { id: 556, name: '鹤顶红', curability: 'severe', color: 0 },
+        },
+        prepare: (s) => {
+          s.enemies[0]!.def.ai.resistanceToSorcery = 10
+        },
+      },
+    )
+    expect(s.enemies[0]!.poisons).toEqual([])
+    expect(s.enemies[0]!.hp).toBe(975)
+  })
+
+  test('applyPoison 成功新增毒时立即执行 enemy tick0 并保存推进后的游标', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: '552' }],
+      },
+      {
+        rng: [0, 0, 0.5],
+        targetEnemyIdx: 0,
+        poisonDefs: {
+          552: {
+            id: 552,
+            name: '尸毒',
+            curability: 'common',
+            color: 0,
+            enemyTicks: [{ hpDelta: -50 }, { hpDelta: -60 }],
+          },
+        },
+        prepare: (s) => {
+          s.enemies[0]!.def.ai.resistanceToSorcery = 0
+        },
+      },
+    )
+    expect(s.enemies[0]!.hp).toBe(950)
+    expect(s.enemies[0]!.poisons).toEqual([{ poisonId: 552, tickIndex: 1 }])
+  })
+
+  test('applyPoison 重复同毒不重跑首 tick；首 tick 自解与产物复用同一执行器', () => {
+    const repeated = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: '561' }],
+      },
+      {
+        rng: [0, 0, 0.5],
+        targetEnemyIdx: 0,
+        poisonDefs: {
+          561: {
+            id: 561,
+            name: '食妖虫附',
+            curability: 'incurable',
+            color: 0,
+            enemyTicks: [{ hpDelta: -1 }, { hpDelta: -8, grantItem: '145', selfCure: true }],
+          },
+        },
+        prepare: (s) => {
+          s.enemies[0]!.def.ai.resistanceToSorcery = 0
+          s.enemies[0]!.poisons = [{ poisonId: 561, tickIndex: 1 }]
+        },
+      },
+    ).s
+    expect(repeated.enemies[0]!.hp).toBe(1000)
+    expect(repeated.enemies[0]!.poisons).toEqual([{ poisonId: 561, tickIndex: 1 }])
+    expect(repeated.inventory.some((entry) => entry.itemId === '145')).toBe(false)
+
+    const selfCured = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: '561' }],
+      },
+      {
+        rng: [0, 0, 0.5],
+        targetEnemyIdx: 0,
+        poisonDefs: {
+          561: {
+            id: 561,
+            name: '食妖虫附',
+            curability: 'incurable',
+            color: 0,
+            enemyTicks: [{ hpDelta: -8, grantItem: '145', selfCure: true }],
+          },
+        },
+        prepare: (s) => {
+          s.enemies[0]!.def.ai.resistanceToSorcery = 0
+        },
+      },
+    ).s
+    expect(selfCured.enemies[0]!.hp).toBe(992)
+    expect(selfCured.enemies[0]!.poisons).toEqual([])
+    expect(selfCured.inventory.find((entry) => entry.itemId === '145')?.count).toBe(1)
+  })
+
+  test('killIfHpAtMost 按逐敌满血判断，等号命中且不把失败扩散到全体', () => {
+    const { s } = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [{ kind: 'killIfHpAtMost', percent: 25 }],
+      },
+      {
+        enemies: [
+          mkEnemy('equal', { health: 100, dexterity: 0, attackStrength: -999 }),
+          mkEnemy('above', { health: 100, dexterity: 0, attackStrength: -999 }),
+        ],
+        prepare: (s) => {
+          s.enemies[0]!.hp = 25
+          s.enemies[1]!.hp = 26
+        },
+      },
+    )
+    expect(s.enemies[0]!.hp).toBe(0)
+    expect(s.enemies[1]!.hp).toBe(26)
+    expect(s.inventory[0]!.count).toBe(0)
+    expect(s.lastAction?.notice).toBe('无任何效果')
+  })
+
+  test('damageAndHealCaster 正常结算并钳治疗上限', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'damageAndHealCaster', damage: 180, heal: 180 }],
+      },
+      {
+        enemies: [mkEnemy('target', { health: 500, dexterity: 0, attackStrength: -999 })],
+        player: { hp: 10, maxHp: 100 },
+        targetEnemyIdx: 0,
+      },
+    )
+    expect(s.enemies[0]!.hp).toBe(320)
+    expect(s.players[0]!.hp).toBe(100)
+  })
+
+  test('damageAndHealCaster 过杀也按源 heal 回复，不按实际伤害折算', () => {
+    const { s } = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'damageAndHealCaster', damage: 180, heal: 180 }],
+      },
+      {
+        enemies: [mkEnemy('target', { health: 50, dexterity: 0, attackStrength: -999 })],
+        player: { hp: 90, maxHp: 100 },
+        targetEnemyIdx: 0,
+      },
+    )
+    expect(s.enemies[0]!.hp).toBe(0)
+    expect(s.players[0]!.hp).toBe(100)
+  })
+
+  test('没有活目标或运行时毒 id 非法时，均在扣库存前失败', () => {
+    const noTarget = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [{ kind: 'fixedDamage', amount: 1 }],
+      },
+      {
+        prepare: (s) => {
+          s.enemies[0]!.hp = 0
+        },
+      },
+    ).s
+    expect(noTarget.inventory[0]!.count).toBe(1)
+    expect(noTarget.log.some((line) => line.includes('没有有效目标'))).toBe(true)
+
+    const invalidPoison = runThrow(
+      {
+        target: 'oneEnemy',
+        effects: [{ kind: 'applyPoison', poisonId: 'not-a-number' }],
+      },
+      { targetEnemyIdx: 0 },
+    ).s
+    expect(invalidPoison.inventory[0]!.count).toBe(1)
+    expect(invalidPoison.log.some((line) => line.includes('期望正整数 id'))).toBe(true)
+  })
+})
+
 describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)', () => {
   const ITEMS: Record<string, import('@type-pal/content').ItemData> = {
     heding: {
@@ -1709,7 +2104,7 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
       buyPrice: 0,
       sellPrice: 0,
       sellable: false,
-      throw: { effects: [{ kind: 'applyPoison', poisonId: '556' }] },
+      throw: { target: 'oneEnemy', effects: [{ kind: 'applyPoison', poisonId: '556' }] },
     },
   }
   const P: Record<number, import('@type-pal/content').PoisonDef> = {
@@ -1767,7 +2162,7 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙
     expect(s.enemies[0]!.poisons.some((p) => p.poisonId === 556)).toBe(true) // 只下了毒
   })
-  test('巫抗满 boss 免疫致死组合:下毒不中(rng*10 恒<10)→ 无暴毙(致死门在巫抗内)', () => {
+  test('巫抗满仅阻止新毒；已有配对毒仍触发投掷致死组合', () => {
     const s = createBattleState({
       players: [player('li')],
       enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
@@ -1782,9 +2177,27 @@ describe('P2 投掷致死组合(三对;数据驱动 lethalWith,仅投掷触发)'
     let g = 0
     do stepBattle(s, () => 0.99)
     while (s.phase === 'performAction' && g++ < 40)
-    expect(s.enemies[0]!.hp).toBeGreaterThan(0) // 未暴毙(仅原 557 DoT 扣血,非致死秒杀)
-    expect(s.log.some((l) => l.includes('暴毙'))).toBe(false) // 致死不触发
+    expect(s.enemies[0]!.hp).toBe(0)
+    expect(s.log.some((l) => l.includes('暴毙'))).toBe(true)
     expect(s.enemies[0]!.poisons.map((p) => p.poisonId)).toEqual([557]) // 鹤顶红未上(巫抗挡)
+  })
+  test('巫抗满且没有配对毒时：新毒被挡，也不会暴毙', () => {
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [mkEnemy('boss', { health: 9999, defense: 999, attackStrength: 0 })],
+      items: ITEMS,
+      inventory: [{ itemId: 'heding', count: 1 }],
+      poisonDefs: P,
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 10
+    stepBattle(s, () => 0.99)
+    s.pendingActions.set(0, { kind: 'throw', itemId: 'heding', targetEnemyIdx: 0 })
+    let g = 0
+    do stepBattle(s, () => 0.99)
+    while (s.phase === 'performAction' && g++ < 40)
+    expect(s.enemies[0]!.hp).toBeGreaterThan(0)
+    expect(s.log.some((l) => l.includes('暴毙'))).toBe(false)
+    expect(s.enemies[0]!.poisons).toEqual([])
   })
 })
 
@@ -2056,6 +2469,34 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
   const rngHigh = () => 0.99 // 概率门恒失败(掷 100);灵抗门恒失败(掷 9 < 抗 10 才会,见各测)
   const dummy = (o: Partial<EnemyDef['stats']> = {}) =>
     mkEnemy('dummy', { attackStrength: 0, health: 9999, ...o })
+
+  test('玩家技能 0x28 投影也在成功新增敌毒时立即执行 enemy tick0', () => {
+    const poisonSkill = mkSkill('poison', {
+      effects: [{ kind: 'applyPoison', poisonId: '552' }],
+    })
+    const s = createBattleState({
+      players: [player('li', { baseDexterity: 500, skills: ['poison'] })],
+      enemies: [dummy({ health: 1000, dexterity: 0 })],
+      skills: { poison: poisonSkill },
+      poisonDefs: {
+        552: {
+          id: 552,
+          name: '尸毒',
+          curability: 'common',
+          color: 0,
+          enemyTicks: [{ hpDelta: -50 }, { hpDelta: -60 }],
+        },
+      },
+    })
+    s.enemies[0]!.def.ai.resistanceToSorcery = 0
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'cast', skillId: 'poison', targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    expect(s.actionQueue[0]?.isEnemy).toBe(false)
+    stepBattle(s, rng0)
+    expect(s.enemies[0]!.hp).toBe(950)
+    expect(s.enemies[0]!.poisons).toEqual([{ poisonId: 552, tickIndex: 1 }])
+  })
 
   test('灵葫咒链:HP≤25% 门过 + 概率门过 → 收妖 + 即死;满血敌 HP 门截断=无任何效果', () => {
     const lh = mkSkill('lh', {

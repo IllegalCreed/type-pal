@@ -9,6 +9,7 @@ import {
   type AssetCatalogV1,
   type AssetRecordV1,
   CONTENT_VERSION,
+  CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   formatProjectMapV2,
   type MapIndexV1,
   type ProjectManifest,
@@ -222,6 +223,7 @@ export async function buildBlankProject(name: string): Promise<Record<string, un
       id,
       name: name.trim() || '新工程',
       contentVersion: CONTENT_VERSION,
+      minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
       entryScene: 'start',
       content: {
         actors: 'content/actors.json',

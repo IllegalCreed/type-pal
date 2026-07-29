@@ -107,117 +107,147 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s134",
-                        "entity": "e2319"
-                      },
-                      "channel": "trigger",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
-                      "kind": "selectSceneHooks",
-                      "scene": "s131",
-                      "selection": {
-                        "onEnter": {
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "触发行为 1",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "selectEntityBehavior",
+                        "target": {
+                          "scene": "s134",
+                          "entity": "e2319"
+                        },
+                        "channel": "trigger",
+                        "selection": {
                           "kind": "use",
                           "value": "legacy-001"
                         }
+                      },
+                      {
+                        "kind": "selectSceneHooks",
+                        "scene": "s131",
+                        "selection": {
+                          "onEnter": {
+                            "kind": "use",
+                            "value": "legacy-001"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6172"
+                            },
+                            {
+                              "text": "dlg.6173"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6174"
+                            },
+                            {
+                              "text": "dlg.6175"
+                            },
+                            {
+                              "text": "dlg.6176"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6177"
+                            },
+                            {
+                              "text": "dlg.6178"
+                            }
+                          ],
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6179"
+                            }
+                          ],
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6180"
+                            },
+                            {
+                              "text": "dlg.6181"
+                            }
+                          ],
+                          "slot": "top"
+                        }
                       }
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6172"
-                          },
-                          {
-                            "text": "dlg.6173"
-                          }
-                        ]
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6174"
-                          },
-                          {
-                            "text": "dlg.6175"
-                          },
-                          {
-                            "text": "dlg.6176"
-                          }
-                        ]
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.001",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6177"
-                          },
-                          {
-                            "text": "dlg.6178"
-                          }
-                        ]
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6179"
-                          }
-                        ],
-                        "slot": "top"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6180"
-                          },
-                          {
-                            "text": "dlg.6181"
-                          }
-                        ],
-                        "slot": "top"
-                      },
-                      "kind": "dialog"
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6180"
+                            },
+                            {
+                              "text": "dlg.6181"
+                            }
+                          ],
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

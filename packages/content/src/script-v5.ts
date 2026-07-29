@@ -32,6 +32,16 @@ export type FlowCursor =
   | { kind: 'stage'; stage: StageId }
   | { kind: 'state'; machine: MachineId; state: StateId }
 
+export interface CursorHandoffV5 {
+  kind: 'stateMap'
+  fromBehavior: BehaviorId
+  cases: Array<{
+    from: FlowCursor
+    to: FlowCursor
+  }>
+  onUnmapped: 'error'
+}
+
 export interface BehaviorCursor {
   behavior: BehaviorId
   at: FlowCursor
@@ -207,6 +217,7 @@ export type AuthorCommandV5 =
       target: EntityAddress
       channel: 'trigger' | 'auto'
       selection: Selection<BehaviorId>
+      cursorHandoff?: CursorHandoffV5
     }
   | {
       kind: 'selectEntityPage'
@@ -292,6 +303,12 @@ export type StateTransitionV5 =
 export interface ScriptStateMachineV5 {
   id: MachineId
   label: string
+  /**
+   * When set to `transition`, state bodies execute without implicit per-command pacing.
+   * Every scheduling boundary must be expressed by the state's transition.
+   * Omitted machines keep the historical per-command compatibility cadence.
+   */
+  cadence?: 'transition'
   initial: StateId
   states: Record<
     StateId,
@@ -594,10 +611,21 @@ export function checkAuthorCommandsV5(
       if (command.self !== undefined) checkEntityAddress(command.self, `${commandPath}.self`)
     }
     if (kind === 'selectEntityBehavior') {
+      exactKeys(command, ['kind', 'target', 'channel', 'selection', 'cursorHandoff'], commandPath)
       checkEntityAddress(command.target, `${commandPath}.target`)
       if (command.channel !== 'trigger' && command.channel !== 'auto')
         throw new Error(`${commandPath}.channel: 期望 trigger|auto`)
       checkSelection(command.selection, `${commandPath}.selection`, nonEmptyString)
+      if (command.cursorHandoff !== undefined) {
+        if (
+          !command.selection ||
+          typeof command.selection !== 'object' ||
+          !('kind' in command.selection) ||
+          command.selection.kind !== 'use'
+        )
+          throw new Error(`${commandPath}.cursorHandoff: 仅 selection.use 可声明游标交接`)
+        checkCursorHandoffV5(command.cursorHandoff, `${commandPath}.cursorHandoff`)
+      }
     }
     if (kind === 'selectEntityPage') {
       checkEntityAddress(command.target, `${commandPath}.target`)
@@ -617,6 +645,27 @@ export function checkAuthorCommandsV5(
         if (selection[slot] !== undefined)
           checkSelection(selection[slot], `${commandPath}.selection.${slot}`, nonEmptyString)
     }
+  })
+}
+
+function checkCursorHandoffV5(value: unknown, path: string): void {
+  const handoff = record(value, path)
+  exactKeys(handoff, ['kind', 'fromBehavior', 'cases', 'onUnmapped'], path)
+  if (handoff.kind !== 'stateMap') throw new Error(`${path}.kind: 期望 stateMap`)
+  nonEmptyString(handoff.fromBehavior, `${path}.fromBehavior`)
+  if (handoff.onUnmapped !== 'error') throw new Error(`${path}.onUnmapped: 期望 error`)
+  if (!Array.isArray(handoff.cases) || handoff.cases.length === 0)
+    throw new Error(`${path}.cases: 期望非空映射数组`)
+  const seen = new Set<string>()
+  handoff.cases.forEach((rawCase, index) => {
+    const casePath = `${path}.cases[${index}]`
+    const mapping = record(rawCase, casePath)
+    exactKeys(mapping, ['from', 'to'], casePath)
+    checkFlowCursorV5(mapping.from, `${casePath}.from`)
+    checkFlowCursorV5(mapping.to, `${casePath}.to`)
+    const sourceKey = flowCursorKeyV5(mapping.from as FlowCursor)
+    if (seen.has(sourceKey)) throw new Error(`${casePath}.from: 游标映射来源重复`)
+    seen.add(sourceKey)
   })
 }
 
@@ -804,9 +853,11 @@ export function checkScriptFlowV5(
   if (flow.kind === 'stateMachine') {
     exactKeys(flow, ['kind', 'machine'], path)
     const machine = record(flow.machine, `${path}.machine`)
-    exactKeys(machine, ['id', 'label', 'initial', 'states'], `${path}.machine`)
+    exactKeys(machine, ['id', 'label', 'cadence', 'initial', 'states'], `${path}.machine`)
     nonEmptyString(machine.id, `${path}.machine.id`)
     nonEmptyString(machine.label, `${path}.machine.label`)
+    if (machine.cadence !== undefined && machine.cadence !== 'transition')
+      throw new Error(`${path}.machine.cadence: 期望 transition`)
     const initial = nonEmptyString(machine.initial, `${path}.machine.initial`)
     const states = record(machine.states, `${path}.machine.states`)
     const stateIds = new Set(Object.keys(states))
@@ -970,6 +1021,12 @@ function checkFlowCursorV5(value: unknown, path: string): void {
     return
   }
   throw new Error(`${path}.kind: 期望 stage|state`)
+}
+
+function flowCursorKeyV5(cursor: FlowCursor): string {
+  return cursor.kind === 'stage'
+    ? JSON.stringify(['stage', cursor.stage])
+    : JSON.stringify(['state', cursor.machine, cursor.state])
 }
 
 function checkPersistedSelectionV5(

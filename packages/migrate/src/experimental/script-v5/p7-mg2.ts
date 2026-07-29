@@ -102,13 +102,16 @@ export function createP7V5MigrationPlan(args: {
   if (!isDeepStrictEqual(oursSidecar, control.sidecar))
     throw new Error('P7 v5 MG2: project compatibility sidecar 被修改或缺失，拒绝普通合并')
 
-  const baseFiles = cloneFiles(args.base.files)
+  // createMigrationPlan canonicalizes every input into owned JSON before merge,
+  // so deep-cloning these temporary maps here would duplicate the full PAL tree
+  // without adding an isolation boundary.
+  const baseFiles = new Map(args.base.files)
   baseFiles.delete(P7_FULL_LEDGER_PATH)
   const baseManaged = new Set(args.base.managedFiles)
   baseManaged.delete(P7_FULL_LEDGER_PATH)
   const base: MigrationSnapshot = { files: baseFiles, managedFiles: baseManaged }
 
-  const generatedFiles = cloneFiles(args.generated.files)
+  const generatedFiles = new Map(args.generated.files)
   generatedFiles.set(SCRIPT_V4_V5_SIDECAR_PATH, structuredClone(control.sidecar))
   const generatedManaged = new Set(args.generated.managedFiles)
   generatedManaged.add(SCRIPT_V4_V5_SIDECAR_PATH)

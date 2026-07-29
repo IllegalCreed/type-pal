@@ -823,49 +823,69 @@
           "label": "默认进场行为",
           "order": 0,
           "flow": {
-            "kind": "stages",
-            "initial": "initial",
-            "stages": [
-              {
-                "id": "initial",
-                "entry": {
-                  "prepare": [
+            "kind": "stateMachine",
+            "machine": {
+              "id": "machine",
+              "label": "默认进场行为",
+              "initial": "initial",
+              "states": {
+                "initial": {
+                  "label": "首次执行",
+                  "entry": {
+                    "prepare": [
+                      {
+                        "kind": "stopMusic"
+                      },
+                      {
+                        "kind": "playSound",
+                        "asset": "sound.pal.103"
+                      }
+                    ],
+                    "reveal": {
+                      "kind": "dither",
+                      "ms": 2160,
+                      "source": "previousPresentedFrame"
+                    }
+                  },
+                  "body": [
                     {
-                      "kind": "stopMusic"
+                      "kind": "dialog",
+                      "cue": {
+                        "rows": [
+                          {
+                            "text": "dlg.9775"
+                          },
+                          {
+                            "text": "dlg.9776"
+                          }
+                        ],
+                        "slot": "center"
+                      }
                     },
                     {
-                      "kind": "playSound",
-                      "asset": "sound.pal.103"
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
                     }
                   ],
-                  "reveal": {
-                    "kind": "dither",
-                    "ms": 2160,
-                    "source": "previousPresentedFrame"
+                  "next": {
+                    "kind": "advance",
+                    "state": "after-checkpoint"
                   }
                 },
-                "body": [
-                  {
-                    "cue": {
-                      "rows": [
-                        {
-                          "text": "dlg.9775"
-                        },
-                        {
-                          "text": "dlg.9776"
-                        }
-                      ],
-                      "slot": "center"
-                    },
-                    "kind": "dialog"
-                  },
-                  {
-                    "asset": "music.pal.035",
-                    "kind": "playMusic"
+                "after-checkpoint": {
+                  "label": "检查点后的执行",
+                  "body": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
+                    }
+                  ],
+                  "next": {
+                    "kind": "stay"
                   }
-                ]
+                }
               }
-            ]
+            }
           }
         }
       }

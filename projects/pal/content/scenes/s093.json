@@ -872,7 +872,12 @@
                       "asset": "sound.pal.093",
                       "kind": "playSound"
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -953,7 +958,12 @@
                       "asset": "sound.pal.093",
                       "kind": "playSound"
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -1440,7 +1450,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -1448,7 +1458,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -1456,7 +1466,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -1464,7 +1474,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -1472,7 +1482,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -1480,7 +1490,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -1512,7 +1522,12 @@
                         "entity": "e1739"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -2508,7 +2523,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2516,7 +2531,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2524,7 +2539,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2532,7 +2547,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     },
                     {
@@ -2540,7 +2555,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     },
                     {
@@ -2548,7 +2563,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     }
                   ]
@@ -2597,7 +2612,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2605,7 +2620,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2613,7 +2628,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1750"
+                        "entity": "e1749"
                       }
                     },
                     {
@@ -2621,7 +2636,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     },
                     {
@@ -2629,7 +2644,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     },
                     {
@@ -2637,7 +2652,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1751"
+                        "entity": "e1750"
                       }
                     }
                   ]
@@ -2686,7 +2701,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2694,7 +2709,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2702,7 +2717,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2710,7 +2725,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     },
                     {
@@ -2718,7 +2733,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     },
                     {
@@ -2726,7 +2741,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     }
                   ]
@@ -2775,7 +2790,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2783,7 +2798,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2791,7 +2806,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1752"
+                        "entity": "e1751"
                       }
                     },
                     {
@@ -2799,7 +2814,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     },
                     {
@@ -2807,7 +2822,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     },
                     {
@@ -2815,7 +2830,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1753"
+                        "entity": "e1752"
                       }
                     }
                   ]
@@ -2864,7 +2879,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2872,7 +2887,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2880,7 +2895,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2888,7 +2903,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -2896,7 +2911,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -2904,7 +2919,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     }
                   ]
@@ -2953,7 +2968,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2961,7 +2976,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2969,7 +2984,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1754"
+                        "entity": "e1753"
                       }
                     },
                     {
@@ -2977,7 +2992,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -2985,7 +3000,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     },
                     {
@@ -2993,7 +3008,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1755"
+                        "entity": "e1754"
                       }
                     }
                   ]
@@ -3042,7 +3057,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3050,7 +3065,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3058,7 +3073,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3066,7 +3081,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     },
                     {
@@ -3074,7 +3089,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     },
                     {
@@ -3082,7 +3097,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     }
                   ]
@@ -3131,7 +3146,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3139,7 +3154,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3147,7 +3162,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1756"
+                        "entity": "e1755"
                       }
                     },
                     {
@@ -3155,7 +3170,7 @@
                       "state": 1,
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     },
                     {
@@ -3163,7 +3178,7 @@
                       "kind": "setEntityFacing",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     },
                     {
@@ -3171,7 +3186,7 @@
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s093",
-                        "entity": "e1757"
+                        "entity": "e1756"
                       }
                     }
                   ]
@@ -3318,7 +3333,12 @@
                         "entity": "e1757"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -3948,49 +3968,68 @@
             "label": "自动行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "auto-lifecycle-s093-e1759-legacy-001",
+                "label": "自动行为 1 · 源循环",
+                "initial": "source-13830",
+                "states": {
+                  "source-13830": {
+                    "label": "源指令 13830",
+                    "body": [
+                      {
+                        "kind": "setEntityFacing",
+                        "target": {
+                          "scene": "s093",
+                          "entity": "e1759"
+                        },
+                        "facing": "down"
+                      },
+                      {
+                        "kind": "setEntityFrame",
+                        "target": {
+                          "scene": "s093",
+                          "entity": "e1759"
+                        },
+                        "frame": 12
                       }
-                    },
-                    {
-                      "frame": 12,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      }
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      }
-                    },
-                    {
-                      "dx": -6,
-                      "dy": -12,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-13831",
+                      "yield": "worldTick"
                     }
-                  ]
-                }
-              ]
+                  },
+                  "source-13831": {
+                    "label": "源指令 13831",
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s093",
+                          "entity": "e1759"
+                        },
+                        "dx": -6,
+                        "dy": -12
+                      }
+                    ],
+                    "next": {
+                      "kind": "to",
+                      "state": "source-13832",
+                      "yield": "worldTick"
+                    }
+                  },
+                  "source-13832": {
+                    "label": "源指令 13832",
+                    "body": [],
+                    "next": {
+                      "kind": "continue",
+                      "state": "source-13831"
+                    }
+                  }
+                },
+                "cadence": "transition"
+              }
             }
           }
         }

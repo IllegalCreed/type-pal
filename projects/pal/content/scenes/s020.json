@@ -583,7 +583,12 @@
                         "entity": "e343"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -805,7 +810,12 @@
                         "entity": "e344"
                       }
                     }
-                  ]
+                  ],
+                  "next": "completed"
+                },
+                {
+                  "id": "completed",
+                  "body": []
                 }
               ]
             }
@@ -5273,50 +5283,88 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.1576"
-                          }
-                        ]
+              "kind": "stateMachine",
+              "machine": {
+                "id": "machine",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "首次执行",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.1576"
+                            }
+                          ]
+                        }
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "asset": "sound.pal.263",
-                      "kind": "playSound"
-                    },
-                    {
-                      "delta": 999,
-                      "kind": "increaseHpMp"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.1577"
-                          },
-                          {
-                            "text": "dlg.1578.v-717e1675"
-                          }
-                        ],
-                        "slot": "center"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
+                      {
+                        "kind": "playSound",
+                        "asset": "sound.pal.263"
+                      },
+                      {
+                        "kind": "increaseHpMp",
+                        "delta": 999
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.1577"
+                            },
+                            {
+                              "text": "dlg.1578.v-717e1675"
+                            }
+                          ],
+                          "slot": "center"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "after-checkpoint"
                     }
-                  ]
+                  },
+                  "after-checkpoint": {
+                    "label": "检查点后的执行",
+                    "body": [
+                      {
+                        "kind": "playSound",
+                        "asset": "sound.pal.263"
+                      },
+                      {
+                        "kind": "increaseHpMp",
+                        "delta": 999
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.1577"
+                            },
+                            {
+                              "text": "dlg.1578.v-717e1675"
+                            }
+                          ],
+                          "slot": "center"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

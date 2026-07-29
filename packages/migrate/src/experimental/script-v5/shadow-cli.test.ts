@@ -47,6 +47,9 @@ describe('script-v5 shadow CLI parser', () => {
     expect(() => parseScriptV5ShadowCliArgs(['--rebuild-published', '--through', 'p6'])).toThrow(
       /只允许/,
     )
+    expect(() => parseScriptV5ShadowCliArgs(['--publish', '--rebuild-published'])).toThrow(
+      /不能同时/,
+    )
   })
 
   test.each([

@@ -21,6 +21,7 @@ import {
   type ScriptRef,
   type SpriteDef,
   spriteDefinitionFrameDemand,
+  upgradeItemsV7ToV8,
   validateAssetCatalog,
   validateItemsV5,
   validateMigrationDiagnostics,
@@ -34,8 +35,8 @@ import {
   RNG_WIDTH,
 } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
-import { createC8ItemUseV5MigrationPlan } from './experimental/script-v5/c8-item-use-mg2.js'
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
+import { createR13ItemThrowV5MigrationPlan } from './experimental/script-v5/r13-item-throw-mg2.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -72,7 +73,12 @@ import {
   PAL_PLAYER_BATTLE_SPRITE_FRAME_COUNTS,
 } from './pal-battle-sprites.js'
 import { preparePalManifest } from './pal-manifest.js'
-import { buildPalMigration, PAL_WORLD_SPRITE_UNUSED_NUMBERS } from './pal-migration.js'
+import {
+  buildPalMigration,
+  type MigrationJson,
+  PAL_WORLD_SPRITE_UNUSED_NUMBERS,
+  palSoundAssetForSources,
+} from './pal-migration.js'
 import { loadPalMigrationSources } from './pal-migration-io.js'
 import {
   PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT,
@@ -168,6 +174,7 @@ function auditSounds(
   sources: ReturnType<typeof loadPalMigrationSources>,
   generated: ReturnType<typeof buildPalMigration>,
   manifest: LoadedManifest,
+  currentItems?: unknown,
 ) {
   const catalog = validateAssetCatalog(
     generated.files.get('assets/index.json') as unknown as AssetCatalogV1,
@@ -177,6 +184,8 @@ function auditSounds(
   const report = auditPalSoundReferences({
     sources,
     files: generated.files,
+    ...(currentItems === undefined ? {} : { items: currentItems }),
+    itemContentVersion: currentItems === undefined ? 7 : 8,
     assets: nextManifest.assets,
     entryPoints: nextManifest.entryPoints,
     translationReport: generated.report.scripts,
@@ -724,6 +733,9 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             frozenAudit,
             sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
             itemSources: sources.migrate.items,
+            magicSources: sources.migrate.magic,
+            objectMagicSources: sources.migrate.objectMagics ?? [],
+            soundAssetForNum: palSoundAssetForSources(sources),
           })
         })()
       : undefined
@@ -737,11 +749,13 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     )
     const ours = loadProjectMigrationSnapshot(repo, managed)
     if (generated && generatedResult) {
-      const result = createC8ItemUseV5MigrationPlan({
+      const result = createR13ItemThrowV5MigrationPlan({
         base: baseline!,
         ours,
-        generated,
-        evidence: generatedResult.c8Evidence,
+        generated: generatedResult,
+        sources,
+        migration: theirs,
+        audit: auditPalScriptControlFlow(sources, theirs),
       })
       expect(result.plan.conflicts).toEqual([])
       expect(result.plan.writes.size).toBe(0)
@@ -779,14 +793,24 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     const manifest = JSON.parse(
       readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
     ) as LoadedManifest
-    const soundAudit = auditSounds(sources, theirs, manifest)
-    expect(soundAudit.report.target.soundEdges).toBe(1_668)
+    const soundAudit = auditSounds(
+      sources,
+      theirs,
+      manifest,
+      generatedResult?.snapshot.files.get('content/items.json'),
+    )
+    expect(soundAudit.report.target.soundEdges).toBe(1_743)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
     expect(manifest.assets.legacy?.families).not.toContain('sound')
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
     expectOriginalPalNewGame(manifest)
+    const normalizedParentFiles = new Map(theirs.files)
+    normalizedParentFiles.set(
+      'content/items.json',
+      upgradeItemsV7ToV8(theirs.files.get('content/items.json')) as unknown as MigrationJson,
+    )
     const validation = validatePalMigrationTarget({
-      files: theirs.files,
+      files: normalizedParentFiles,
       managedFiles: theirs.managedFiles,
       sources,
       startWorld: manifest.startWorld,
@@ -795,8 +819,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_650)
-    expect(validation.assetWarnings).toBe(132)
+    expect(validation.assetReferences).toBe(6_667)
+    expect(validation.assetWarnings).toBe(131)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,
       references: 179,

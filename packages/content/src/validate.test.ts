@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { itemUseSupportsContext } from './item.js'
 import {
+  checkThrowSpec,
   validateActors,
   validateBattleFields,
   validateEnemies,
@@ -486,23 +487,108 @@ describe('validateItems · C8 用途能力契约', () => {
     expect(() => validateItems([item(use)])).toThrow(expected)
   })
 
-  test('允许能力开启后暂存空效果链，但空链不属于任何可执行上下文', () => {
+  test('用途允许暂存空效果链，但投掷必须至少有一个效果', () => {
+    expect(() =>
+      validateItems([item({ target: 'scene', consuming: true, effects: [] })]),
+    ).not.toThrow()
     expect(() =>
       validateItems([
-        item({ target: 'scene', consuming: true, effects: [] }),
         {
           ...item(undefined),
           id: 'empty-throw',
-          throw: { effects: [] },
+          throw: { target: 'oneEnemy', effects: [] },
         },
       ]),
-    ).not.toThrow()
+    ).toThrow(/throw\.effects: 不得为空/)
     expect(itemUseSupportsContext({ target: 'scene', consuming: true, effects: [] }, 'world')).toBe(
       false,
     )
     expect(
       itemUseSupportsContext({ target: 'oneAlly', consuming: true, effects: [] }, 'battle'),
     ).toBe(false)
+  })
+
+  test.each([
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'magicDamage',
+          baseDamage: Number.MAX_SAFE_INTEGER + 1,
+          element: 'none',
+          strength: { kind: 'fixed', value: 1 },
+        },
+      ],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'magicDamage',
+          baseDamage: 1,
+          element: 'none',
+          strength: { kind: 'fixed', value: Number.MAX_SAFE_INTEGER + 1 },
+        },
+      ],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'magicDamage',
+          baseDamage: 1,
+          element: 'none',
+          strength: {
+            kind: 'casterAttack',
+            bonus: Number.MAX_SAFE_INTEGER + 1,
+            multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+          },
+        },
+      ],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [{ kind: 'fixedDamage', amount: Number.MAX_SAFE_INTEGER + 1 }],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'currentHpDamage',
+          numerator: 1,
+          denominator: 2,
+          bonus: 1,
+          cap: Number.MAX_SAFE_INTEGER + 1,
+        },
+      ],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'applyStatus',
+          status: 'sleep',
+          turns: Number.MAX_SAFE_INTEGER + 1,
+          onResist: 'continue',
+        },
+      ],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [{ kind: 'killIfHpAtMost', percent: Number.MAX_SAFE_INTEGER + 1 }],
+    },
+    {
+      target: 'oneEnemy',
+      effects: [
+        {
+          kind: 'damageAndHealCaster',
+          damage: 1,
+          heal: Number.MAX_SAFE_INTEGER + 1,
+        },
+      ],
+    },
+  ])('投掷全部数值边界拒绝非安全整数 %#', (thrown) => {
+    expect(() => checkThrowSpec(thrown)).toThrow(/安全整数/)
   })
 
   test('兼容壳允许当前物品的 v5 私有脚本与普通效果组合', () => {
@@ -596,6 +682,7 @@ describe('validateItems · C8 用途能力契约', () => {
         {
           ...item(undefined),
           throw: {
+            target: 'oneEnemy',
             effects: [
               {
                 kind: 'craftRecipe',
@@ -610,7 +697,7 @@ describe('validateItems · C8 用途能力契约', () => {
           },
         },
       ]),
-    ).toThrow(/不可用于投掷上下文/)
+    ).toThrow(/未知投掷效果/)
   })
 
   test('消耗型配方工具不能又把自身列为材料', () => {

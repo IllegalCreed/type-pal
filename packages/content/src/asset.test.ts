@@ -531,6 +531,14 @@ describe('typed 资源引用与文件闭包', () => {
       {
         id: '151',
         use: { consuming: true, effects: [], sound: 'sound.pal.045' },
+        throw: {
+          target: 'oneEnemy',
+          effects: [{ kind: 'fixedDamage', amount: 1 }],
+          presentation: {
+            kind: 'magic',
+            animation: { effectSprite: 1, sound: 'sound.pal.301' },
+          },
+        },
       } as unknown as ItemData,
     ]
     const refs = collectAssetReferences({
@@ -613,6 +621,12 @@ describe('typed 资源引用与文件闭包', () => {
       expectedKind: 'sound',
       where: 'items[0].use.sound',
       site: 'item:151:use',
+    })
+    expect(refs).toContainEqual({
+      asset: 'sound.pal.301',
+      expectedKind: 'sound',
+      where: 'items[0].throw.presentation.animation.sound',
+      site: 'item:151:throw',
     })
     expect(refs).toContainEqual({
       asset: 'video.pal.004',

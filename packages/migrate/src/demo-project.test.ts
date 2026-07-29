@@ -23,6 +23,7 @@ const read = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8
 const manifest = read('manifest.json') as {
   id: string
   contentVersion: number
+  minimumSaveVersion: number
   entryScene: string
   startWorld: StartWorld
 }
@@ -45,7 +46,8 @@ const spritesById = byId(sprites)
 describe('demo 工程:真实 JSON 迁移保真 + buildWorld 端到端', () => {
   test('数据关键值:入口场景 / 技能 MP / 物品装备槽 / locale', () => {
     expect(manifest.id).toBe('demo')
-    expect(manifest.contentVersion).toBe(5)
+    expect(manifest.contentVersion).toBe(8)
+    expect(manifest.minimumSaveVersion).toBe(7)
     expect(scenes.find((s) => s.id === manifest.entryScene)).toBeDefined() // 入口场景可解析
     expect(skillsById['296']?.name).toBe('气疗术')
     expect(skillsById['296']?.cost.mp).toBe(6)

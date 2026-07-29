@@ -152,6 +152,72 @@ describe('script v5 canonical schema', () => {
     ).not.toThrow()
   })
 
+  test('validates explicit state-map cursor handoff without weakening ordinary selections', () => {
+    const command = {
+      kind: 'selectEntityBehavior',
+      target,
+      channel: 'auto',
+      selection: { kind: 'use', value: 'flee' },
+      cursorHandoff: {
+        kind: 'stateMap',
+        fromBehavior: 'idle',
+        cases: [
+          {
+            from: { kind: 'state', machine: 'idle', state: 'waiting' },
+            to: { kind: 'stage', stage: 'start' },
+          },
+        ],
+        onUnmapped: 'error',
+      },
+    }
+    expect(() => checkAuthorCommandsV5([command], 'commands')).not.toThrow()
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          {
+            ...command,
+            selection: { kind: 'inherit' },
+          },
+        ],
+        'commands',
+      ),
+    ).toThrow(/仅 selection\.use/)
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          {
+            ...command,
+            cursorHandoff: {
+              ...command.cursorHandoff,
+              cases: [
+                ...command.cursorHandoff.cases,
+                {
+                  from: { state: 'waiting', machine: 'idle', kind: 'state' },
+                  to: { kind: 'stage', stage: 'later' },
+                },
+              ],
+            },
+          },
+        ],
+        'commands',
+      ),
+    ).toThrow(/映射来源重复/)
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          {
+            ...command,
+            cursorHandoff: {
+              ...command.cursorHandoff,
+              cases: [],
+            },
+          },
+        ],
+        'commands',
+      ),
+    ).toThrow(/非空映射数组/)
+  })
+
   test.each([
     [{ kind: 'jumpScript', ref: { chunk: 'scene/s001', id: 'legacy' } }, 'jumpScript'],
     [{ kind: 'setEntityAuto', entity: 'e1', stages: [] }, 'setEntityAuto'],
@@ -215,6 +281,7 @@ describe('script v5 canonical schema', () => {
           machine: {
             id: 'machine',
             label: '状态机',
+            cadence: 'transition',
             initial: 'initial',
             states: {
               initial: {
@@ -240,6 +307,37 @@ describe('script v5 canonical schema', () => {
         'flow',
       ),
     ).not.toThrow()
+  })
+
+  test('only accepts the explicit transition-driven state-machine cadence', () => {
+    const machine = {
+      kind: 'stateMachine',
+      machine: {
+        id: 'machine',
+        label: '状态机',
+        cadence: 'command',
+        initial: 'initial',
+        states: {
+          initial: {
+            label: '初始',
+            body: [],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    expect(() => checkScriptFlowV5(machine, 'flow')).toThrow(/cadence: 期望 transition/)
+    expect(() =>
+      checkScriptFlowV5(
+        {
+          kind: 'stages',
+          cadence: 'transition',
+          initial: 'initial',
+          stages: [{ id: 'initial', body: [] }],
+        },
+        'flow',
+      ),
+    ).toThrow(/cadence: 未知字段/)
   })
 
   test('rejects duplicate, nested, and cross-state command outcome references', () => {

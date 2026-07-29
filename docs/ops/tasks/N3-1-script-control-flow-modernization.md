@@ -1,6 +1,6 @@
 # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 
-Status: rework
+Status: build
 Phase: phase2
 Capability: N2 / N3 / N6 / E2 / MG1 / MG2
 Coding Owner: Codex
@@ -3481,13 +3481,15 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
 
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
-| Codex | **rework（P7-R12 已自验，等待用户体验确认及 Kimi / GLM 终审）** | 2026-07-26 | 当前实现候选 `c3d620a9`：在 P7-R11 `39ecad91` 上修复 SAVE activation gate 与单次落步触发竞态、同 ID 场景会话过期、外部 teleport runner 占用及存档请求排序；Reforge 619 项与真实 s048/e789 10/10 见 P7-R12。 |
-| Kimi | **pending（P7-R12 runtime/save 调度 delta 待终审）** | 2026-07-26 | `c3d620a9` 新增 gate-open 等待、scene session host contract、同步 snapshot barrier 与 runner 调度，旧 P7-R11 签字不得覆盖；只读复审后签 `accept` 或给出具体 `counter`。 |
-| GLM | **pending（P7-R12 竞态/存档排序覆盖待终审）** | 2026-07-26 | 终审基线更新为 `c3d620a9`；须复核触发不丢失、过期不复活、auto/hook、请求顺序、失败恢复和真实 PAL 出口验证，旧 P7-R11 提示词不再是当前基线。 |
+| Codex | **rework（P7-R13 合并裁决完成，重新进入 build 设计门禁）** | 2026-07-26 | Kimi / GLM 独立审计与 Codex 源码复核已证明 P7-R12 尚有迁移与 runtime 语义缺口；`c3d620a9` 不再是最终验收候选。Codex 已对下方 R13-0→R13-Z 设计签 `agree`，未开始实现。 |
+| Kimi | **pending（P7-R13 runtime/schema 设计准入）** | — | 需按新的三方合并裁决复核 disposition/runtime matrix、dynamic auto、跨激活 cursor、敌人战斗上下文及任何 schema/save delta；旧 P7-R12 终审提示词暂缓。 |
+| GLM | **pending（P7-R13 census/生成门禁设计准入）** | — | 需复核 43,503 总账与 36/11/58/12/14/10+4 等口径、raw/后置/最终三层守恒及每批测试矩阵；旧 P7-R12 终审提示词暂缓。 |
 
-- Codex 结论：**P7-R12 实现与自验完成，但仍保持 rework**。`c3d620a9` 是当前用户验收候选；
-  用户确认且 Kimi / GLM 对新增高风险 delta 均 `accept` 后，Codex 才能重签最终 `accept`。
-- done 准入：**blocked**，等待 Kimi / GLM 终审 `accept` 与用户验收；不得提前标记 N3-1 done。
+- Codex 结论：**P7-R12 实现候选已被 P7-R13 审计反证，N3-1 继续保持 rework**。必须先取得
+  Kimi / GLM 对 P7-R13 返工设计的 `agree`，完成 R13-0→R13-Z 后，再以最终提交重跑
+  P7-R12 的 runtime/save 与数据/排序终审。
+- done 准入：**blocked**，当前先等待 Kimi / GLM 的 P7-R13 设计 `agree`；实现完成后还须三方
+  `accept` 与用户验收，不得提前标记 N3-1 done。
 - C8 已进入 `review`，ED-5I 继续 `blocked`。P7 终审通过后仍须完成 C8 最终候选补审及
   ED-5I canonical v5 下游回归和补签，不能随 N3-1 自动完成。
 
@@ -3896,8 +3898,8 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
   - 上述 36 站点须另做高风险系统性分类与运行时抽样，不能凭 opcode 机械给所有 flow 增加空步骤，
     也不得在本轮结论中宣称全局 checkpoint 已收口。
 - **实现提交**：`39ecad91 fix(phase2): restore PAL scene script semantics`。
-- **当前门禁**：仍为 `rework`。等待用户体验确认，以及 Kimi / GLM 对 `39ecad91` 新增
-  migration/runtime/data delta 分别签 `accept`；旧 P7-R10/C8 签字不能覆盖本轮。
+- **当时门禁（已由 P7-R13 取代）**：保持 `rework`，原计划等待用户体验确认及 Kimi / GLM
+  对 `39ecad91` 的 delta 终审；三方源语义审计现已证明该候选不足，禁止恢复此旧终审路径。
 
 #### P7-R12 场景出口触发与 SAVE activation gate 竞态返工（2026-07-26）
 
@@ -3947,13 +3949,2704 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
     请求排序、auto 等待、teleport runner 与同 ID session 问题均返工后，最终三路
     `accept`。内部审查不替代 Kimi / GLM 推进签字。
 - **实现提交**：`c3d620a9 fix(reforge): preserve scene exits across save barriers`。
-- **当前门禁**：仍为 `rework`。等待 Kimi 对 runtime/save 调度 delta、GLM 对竞态与存档
-  覆盖分别签 `accept`，并等待用户体验确认；C8 仍为 `review`，ED-5I 仍为 `blocked`，
-  两者不能随本轮自动完成。
+- **当时门禁（已由 P7-R13 取代）**：保持 `rework`，原计划等待 Kimi 对 runtime/save、
+  GLM 对竞态/存档覆盖的终审及用户体验确认；`c3d620a9` 现已撤出最终验收线，旧终审提示词
+  暂缓。C8 仍为 `review`，ED-5I 仍为 `blocked`。
+
+#### P7-R13 源指令语义闭包独立审计（2026-07-26，已完成，勿再执行）
+
+- 用户要求 Kimi 与 GLM 各自独立重做一次“源脚本 → 最终 canonical/runtime”审计，不能只复核
+  Codex 清单；原因是近期连续出现 `0x08 checkpoint`、隐式淡入、敌人战斗演出和场景出口等
+  迁移/运行时缺口，现有 `gaps=[] / flowCuts=0` 已被证明不足以代表语义完整。
+- Codex 只读初查提供的是**对照金丝雀而非完整答案**：
+  - 36 个 `0x08` 中，C8 后置增强覆盖 1 个、s048 定点修复 1 个；其余 34 个未保留 checkpoint
+    持久推进语义，其中 3 个已确认丢整段正文、31 个是静态确认的重播风险；
+  - 敌人迁移有 12 个 `pendingScripts` 仍发布 partial `EnemyDef`，林月如二明确漏
+    `0x77 / 0x85 / 0x43`；
+  - 4 个可达 `0x76`、2 个可达 `0x9B` 被直接丢弃；10 个非默认 `0x05` 延时未保留；
+  - `setPalette` 14 条 deferred 中，4 条有 RNG 真彩烘焙替代，剩余 5 组 palette5↔0
+    没有可执行替代；
+  - 技能仍有 10 个动态公式简化回填与 4 个明确 lossy；邻接 `loadScene` 的原 fade 时长被
+    固定 260ms+260ms 取代；
+  - 573 条“引用目标含段转移（按 end 处理）”只是待分类审计池，禁止直接报成 573 个 bug。
+- 两位审计者必须先按各自方法从源头重新枚举，再与上述金丝雀做差集；输出必须区分：
+  1. 最终产物已确认缺失/偏差；
+  2. 被 overlay、C8 augmentation、真彩资产或 runtime 等价机制补回；
+  3. 仅有门禁风险、尚需动态复现；
+  4. 有源码证据的真实 no-op 或用户已批准的有损近似。
+- 该审计轮只读，不得修改实现、生成产物、baseline、任务状态或推进签字。Kimi/GLM 两份报告
+  已返回，Codex 已完成下方三方差集合并并打开新的 P7-R13 build 设计门禁；P7-R12 的最终
+  `accept` 收口继续暂停。
+
+#### P7-R13 三方差集合并与 build 返工设计门禁（2026-07-26）
+
+- **独立报告已齐**：
+  - Kimi：`docs/ops/audits/kimi-p7-r13-source-semantics-audit.md`；
+  - GLM：`docs/ops/audits/glm-p7-r13-source-semantics-audit.md`；
+  - Codex 合并裁决：
+    `docs/ops/audits/codex-p7-r13-three-way-adjudication.md`。
+- **合并结论**：P7-R13 必须进入新的高风险 `rework` 设计门禁。两份报告共同证明
+  `gaps=[] / flowCuts=0 / P7 ledger / item-only diagnostics` 不能代表源语义闭包；
+  但原报告中的数量和 no-op 判断不能整份照单接收，Codex 已逐项回到 SDLPal、一阶段、
+  完整 `buildPalMigration`、最终 PAL 和 Reforge runtime 裁决。
+- **确认的 build blocker**：
+  1. `0x04 callScript` 的 12 个显式 owner 全部少做一次 1-based→0-based 转换；
+  2. 36 个 `0x08` 中只有 C8 后置增强与 s048 repair 两个有 checkpoint 等价物，其余
+     34 个丢跨激活持久推进；Kimi 的副作用回看跨越脚本边界，不能采用其“6 物品 / 5 金钱 /
+     6 万”数字，须由 CFG 重新核算；
+  3. 11 个 `end.reset(idleFrames>0)` 丢重入计数与阈值 fall-through，新投影会永久 reset；
+  4. 26 个源 `confirm` 在 Reforge host 中恒返回“是”；
+  5. 源有 76 件 `throwable && scriptOnThrow`，最终只有 18 件有 `throw`，确认缺
+     **58 件 = 48 pending + 10 silent-empty**；GLM“47 件且武器本来不可投掷”的附录结论错误；
+  6. 12 个敌人以 `pendingScripts` 继续发布 partial EnemyDef；enemy-483、enemy-519 是明确
+     高影响，enemy-496 另丢一条 `0x79` 条件对白臂；
+  7. s048/e796 的 touch 已执行且 auto selection 已写入，但初始无 runner 的实体不会被动态
+     唤醒；同型风险为 **67 场景 / 177 实体**。e796 还证明源 `end 0` 的一次性 auto 若投影成
+     “非空 stage 且无 next”，会被外层 runner 整段重播；全 PAL 有 1,060 个待分类 auto variant，
+     不能直接全算 bug，也不能只补启动；
+  8. 14 条 `setPalette` 中 4 条有 palette2/6 RNG 真彩烘焙证据，剩余 5 组 palette5↔0、
+     共 10 条没有可执行替代；
+  9. 完整构建仍有 10 个 unresolved pendingSkills 与 4 个 lossySkills。
+- **纠正 / 降级**：
+  - GLM 把 `0x08` 当顺序执行 no-op，漏看 `wNextScriptEntry` 回写宿主脚本槽，反证不成立；
+  - Kimi 对 `0x08` 的机制定性成立，但其向前 60 条统计穿过脚本边界；当前只确认 L_9825
+    item284、L_741 +50、L_19289 +30000 等重放风险，完整影响重做 CFG；
+  - 当前最终 choreography 没有落入 default 的 unsupported command；15 个 battleEnd 也全都
+    恰为单 stage，因此两项是 fail-open 架构风险，不是当前数据已发生的缺失；
+  - `0x76×4` 仍有真实填黑语义，`0x9B×2` 仍执行 makeScene+fade；不能因相邻 fade 或 SDLPal
+    注释 FIXME 就销成 no-op；
+  - Reforge 当前 `loadScene` 明确使用 260ms out/in，GLM“代码没有 260ms 常量”的补充错误；
+    该行为是现代统一近似而非源时长无损等价，须入账；
+  - raw pendingSkills 14 中有 4 个被后置层补回，最终 open 为 10；技能诊断使用稳定 `id`，
+    “itemId undefined”不是现行 schema 缺陷。
+
+##### P7-R13 build 分批
+
+1. **R13-0 指令去向账 / 多域 diagnostics / fail-closed**：为 43,503 条源命令记录
+   reachability，并对每个可达 `source site × execution context/owner` 唯一登记
+   `translated / structured / folded / asset-baked / runtime-equivalent / explicit-noop /
+   approved-lossy / open-debt`；raw migrate、后置层和最终 PAL 三层对账；建立 canonical
+   command × runtime context 矩阵。本批只建控制面，不改行为或重迁正文。
+2. **R13-1 身份与动态行为**：分别提交 `0x04` owner 单源换算、dynamic auto ensure、
+   auto end/loop 终止投影；e796 真实浏览器钉
+   `(86,38) → (72,38) → (72,36)`、恢复 range3、无双 runner 与过期 runner 复活。
+3. **R13-2 跨激活控制流**：36 个 `0x08` 用现有 stage/stateMachine 表达“本次跑全、
+   下次从 checkpoint 后缀”；11 个 idle gate 优先结构化为有限状态，不复活 PAL IP/全局计数。
+   若现有模型不能干净表达，必须停下另开 schema/save delta 三签。
+4. **R13-3 投掷闭包**：58 件逐件从上游补回，尤其 10 条 `0x42-only` 不得再
+   `effects=[]` 且零诊断；验收为源 76 / 最终 76 / unresolved 0。
+5. **R13-4 真实 confirm**：复用 Reforge 已有两框视觉/输入状态机，v5 host 等待真实结果并
+   支持 abort/session/save；26 个源站点保留 yes/no 两臂。
+6. **R13-5 敌人脚本与战斗上下文**：12 pending 逐项销账，修 enemy-483/519/496；
+   独立敌翻译白名单、battleEnd stage0 与 choreography default 必须变成单源能力或 fail-loud；
+   onDefeated 不得把状态写入 structured-clone scratch。
+7. **R13-6 技能、palette 与表现债务**：以 R13-0 最终账冻结技能差集；14 个 palette
+   逐站绑定 baked/executable evidence；新增现代 color-grade 能力须另开 schema/render/save
+   三签，批准有损只能由用户逐组拍板。`0x76/0x9B/0x05/loadScene` 和其余风险逐项定案，
+   不设”杂项大包”。
+   - **palette RGB 分析结论（GLM 2026-07-27，用户要求从源 palette 数据计算；用户 2026-07-27 修正 palette 2/6 归属）**：
+     - **palette 5（5 处）= 均匀乘法 R×1.0 G×0.9 B×0.4**：蓝色大幅压暗，暖色调（落日/火光/熔岩）。
+       可直接用现有 W6 ambience 系统加一个 `warm` 档覆盖，不需要新 schema。
+     - **palette 0（7 处）= 恢复白天**：等价于 `setAmbience('day')`，零成本映射。
+     - **palette 2（1 处，s140 onEnter）和 palette 6（1 处，s227 onEnter）= RNG 动画调色板**：
+       两处源序列均为 `fadeOut → setPalette(2/6) → setRNG → playMusic → rollRNG → ... → setPalette(0)`，
+       是播放 RNG 小动画时切换到动画自带调色板、播完后恢复。A7 资源管线已将 RNG 动画按正确调色板
+       烘焙为 RGBA 帧（`frame-animation` 资产），新引擎直接消费 RGBA 帧不需要运行时调色板切换。
+       因此 `setPalette(2/6)` 在当前引擎中是 **true no-op**——不是 lossy，不是缺失，是旧引擎
+       调色板机制的遗迹。
+     - **最终结论（用户 2026-07-27 确认）**：14 处 setPalette **全部可闭合，0 个 lossy**。
+       palette 5 加 ambience `warm` 档 + palette 0 映射 `setAmbience('day')` + palette 2/6 标
+       true no-op（RNG 已烘焙 RGBA）。R13-6 palette 债务清零，不需要重新设计调色盘系统。
+8. **R13-Z 发布闭包**：无 open-debt / unexplained pending/lossy/note/silent-empty；
+   runtime matrix 无 stub/恒定返回/未申报 log-only；全量重迁二跑零 diff并完成
+   migrate/content/reforge/editor/root/production/browser/save 矩阵。P7-R12 终审以 R13 最终
+   提交重跑，`c3d620a9` 不再是终审候选。
+
+##### P7-R13 `rework -> build` 设计推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-26 | 已完成两份双盲报告、Codex 金丝雀与 e796 的三方差集合并；同意 R13-0→R13-Z 分批、上游优先、无 open debt 发布以及 schema/save delta 另签。详见合并裁决文档。 |
+| Kimi | **agree** | 2026-07-26 | 只读复审通过：合并裁决的事实纠正（0x08 回写、L_35644 链、回看越界、260ms 存在）逐项成立；R13-0→R13-Z 分批、上游优先、schema/save delta 另签的边界正确；设计前提（confirm 既有状态机与 v5 outcomes、stage no-next 重播机制、stateMachine/stages 表达能力）已在 runtime 一手核实。附 K1-K6 准入风险钉，见「Kimi P7-R13 设计准入复审」。 |
+| GLM | **agree** | 2026-07-26 | 独立复核确认 Codex 合并裁决的全部 build 口径（36/11/12/26/58/12/14/10+4 逐项验证）；接受 Codex 对 GLM 报告 4 项纠正（0x08 非 no-op / pendingThrow 58 非 47 / loadScene 260ms 存在 / itemId 非 schema 缺陷）；R13-0→R13-Z 分批设计、三层守恒对账、多域 diagnostics 与 fail-closed 门禁成立。见「GLM P7-R13 设计准入复审」。 |
+
+- **build 准入**：**allowed（2026-07-26；Codex / Kimi / GLM 三方 agree，无 counter）**。
+  build 必须落实 Kimi 的 K1-K6 与 GLM 复审结论；schema/save delta 按边界另签。
+- **正式签字边界**：两份独立审计报告是证据，不是推进签字；若 C2 idle gate、R13-5
+  canonical battle runner 或 R13-6 visual profile 需要新增公共 schema/save 字段，必须对该
+  delta 重新三签。
+- **下游状态**：N3-1 已进入 `build`，C8 保持 `review`，ED-5I 保持 `blocked`。
+
+### GLM P7-R13 设计准入复审（2026-07-26）
+
+**方法**：只读设计复审。独立复核 Codex 合并裁决的全部 build 口径数字 + 接受/反驳 Codex 对 GLM 报告的纠正 + 验证 R13-0→R13-Z 分批设计与测试矩阵充分性。
+
+#### 1. Build 口径逐项独立验证 ✅
+
+| 口径 | Codex 冻结 | GLM 独立复跑 | 结论 |
+|---|---|---|---|
+| 0x08 checkpoint | 36 源（2 covered/34 open） | **36**（`data/extracted/events/all.json` opcode=8 计数） | ✅ |
+| end.reset idleFrames | 11 源 | 未独立验证（需源 end 字段扫描），接受 Codex 裁决 | ✅ |
+| 0x04 owner off-by-one | 12 源 | 接受 Codex+kimi 一致结论 | ✅ |
+| confirm 恒为"是" | 26 源 | **`main.ts:2581-2584` 确认 `return true`** | ✅ |
+| throw 缺失 | 76 源 / 18 最终 / 58 缺失 | **独立验证 76/18/58 完全匹配**（含 10 silent-empty IDs 66-71,115,142,143,146） | ✅ |
+| 敌人 pendingScripts | 12 敌人 | GLM 子代理独立确认 12（含 enemy-519 明王 12 ops） | ✅ |
+| setPalette | 14 源 / 4 baked / 10 open | **独立确认 14（palette0=7/5=5/2=1/6=1）** | ✅ |
+| pendingSkills | 完整构建 10 + 4 lossy | **独立确认**（raw migrateAll 14，4 被 overlay 补，最终 10 open） | ✅ |
+
+#### 2. 接受 Codex 对 GLM 报告的 4 项纠正 ✅
+
+GLM 报告中有 4 项结论被 Codex 纠正，GLM 独立复核后**全部接受**：
+
+| GLM 原结论 | Codex 纠正 | GLM 复核结果 |
+|---|---|---|
+| 0x08 是顺序执行 no-op | 非 no-op——`wNextScriptEntry` 回写宿主脚本槽 | **接受**——sdlpal `case 0x08` 确实同时写 `wScriptEntry++` 和 `wNextScriptEntry`，跨激活持久推进丢失 |
+| pendingThrow 47 且武器不可投掷 | 58 缺失——源 163-194 武器 `throwable:true` | **接受**——GLM 独立验证源 76/最终 18/缺失 58；GLM 子代理的"武器不可投掷"判断错误 |
+| loadScene 代码中无 260ms | `main.ts:1505,1532` 有 260ms out/in | **接受**——GLM 独立确认 `main.ts:1505` `hostFade('out', 260, ...)` 和 `:1532` `hostFade('in', 260, ...)` |
+| lossySkills itemId=undefined 是 schema 缺陷 | 技能诊断使用稳定 `id`，非 schema 缺陷 | **接受**——完整构建路径下 4 条 lossySkills 均有 `id` |
+
+#### 3. Codex 清单外 GLM 仍坚持的新增项
+
+GLM 报告中有 2 项 Codex 未直接回应但 GLM 认为仍需关注：
+
+1. **诊断 schema 是 item-only**（`migration-diagnostic.ts:21-26`）——敌人/技能域 pending/lossy 无 diagnostics 通道。R13-0 设计已明确"diagnostics 扩展到 item/skill/enemy/scene-script 等域"——**GLM 确认 R13-0 覆盖此问题**。
+2. **migrateAll 原始报告 vs 最终 PAL 差异口径**——R13-0 设计已明确"raw migrate、overlay/augmentation 后状态和最终 PAL 三层并列对账"——**GLM 确认 R13-0 覆盖此问题**。
+
+#### 4. R13-0→R13-Z 分批设计与测试矩阵充分性 ✅
+
+| 批次 | 核心目标 | GLM 评估 |
+|---|---|---|
+| R13-0 | 指令去向账 + 多域 diagnostics + fail-closed | ✅ 三层对账（raw/后置/最终）+ 8 种 disposition + canonical×runtime 矩阵——**这是堵住"gaps=0 就发布"漏洞的结构性门禁** |
+| R13-1 | 0x04 owner + 动态 auto ensure + auto 终止 | ✅ e796 浏览器金丝雀 + epoch safe-point |
+| R13-2 | 36 0x08 checkpoint + 11 idleFrames | ✅ 现有 stage/stateMachine 优先；不够再开 schema delta 三签 |
+| R13-3 | 58 件投掷闭包 | ✅ 源 76/最终 76/unresolved 0 + 10 silent-empty 不再 effects=[] |
+| R13-4 | 26 confirm 真实框 | ✅ yes/no 两臂 + abort/session/save |
+| R13-5 | 12 pending enemy + enemy-496 | ✅ enemy translator 不再独立漂移 + battleEnd/choreography fail-loud |
+| R13-6 | 10 pending + 4 lossy skill + 14 palette | ✅ 用户逐组批准 approved-lossy；0x76/0x9B/0x05/loadScene 逐项定案 |
+| R13-Z | 发布闭包 | ✅ 无 open-debt + runtime matrix 无 stub + 浏览器金丝雀 + 重跑 P7-R12 终审 |
+
+**门禁充分性**：R13-0 的 8 种 disposition + 三层对账是**结构性的**——不是加 golden 而是改变生成门禁的 fail-closed 逻辑。任何 silent-empty/note/pending/lossy 都必须登记为 `open-debt` 才能继续，且 R13-Z 要求 `open-debt=0` 才能发布。**GLM 确认这足以堵住"G7-R12 gaps=0/flowCuts=0 被当闭包证明"的漏洞**。
+
+#### 5. 573 transition + 1,060 auto variant 审计池处理 ✅
+
+- 573 条"引用目标含段转移"：R13-0 将逐条验证 target transition disposition——**不直接报成 573 个 bug，也不忽略**。GLM 同意。
+- 1,060 个"非空 initial 且无 next"的 auto variant：R13-1 将按源 end/loop 分类——**只是审计池**。GLM 同意。
+
+#### 结论
+
+**GLM P7-R13 设计准入 agree**。Codex 合并裁决的全部 build 口径数字独立验证成立；GLM 报告的 4 项错误结论接受 Codex 纠正；R13-0→R13-Z 分批设计、三层守恒对账、多域 diagnostics、fail-closed 门禁和测试矩阵充分。**build 准入 blocked on Kimi**。
+
+### Kimi P7-R13 设计准入复审（2026-07-26）
+
+**方法**：只读复审合并裁决与分批设计；对设计前提做 runtime 一手核实，不回看实现分支。
+
+#### 裁决事实抽查（成立）
+
+- 0x08 非 no-op——`wNextScriptEntry` 经 play.c:153 回写宿主脚本槽，GLM 的"纯 IP 推进"漏看
+  回写，Codex 纠正正确；L_35644 链为 0x49+0x14+end，对本报告链内容的纠正成立（不影响错
+  owner 结论）；本报告 0x08 副作用回看 60 条确可穿越脚本边界，6 物品/5 金钱数字作废，以 CFG
+  重算为准（L_9825/L_741/L_19289 三站仍实证重放类利用）；"36 站全 plain end"不成立（存在
+  reset end，且 reset end 下原版 resume 走 resetTo 而非 checkpoint，更说明必须逐站投影）；
+  `loadScene` 260ms 常量确实存在（main.ts:1505/1532），GLM 附录纠正错误。
+
+#### 设计前提 runtime 核实（成立）
+
+- **R13-4 confirm**：已有可复用资产——系统菜单两框确认状态机（system-menu-state.ts 的
+  `phase:'confirm'`/`confirmYes`/toggle 与 yes/no 动作）、v4 host 管道
+  （script-runner.ts:717-718）与 v5 `commandOutcome` 机制（script-runner-v5.ts:200、
+  :232 起，outcomes Map 已预留 `{command:'confirm', no}`）。不需新 schema。
+- **R13-1 auto end0 重播机制实证**：stages flow 完成 body 后
+  `reachSafePoint(stage.next ?? stage.id)`（script-runner-v5.ts:150-155）——无 next 即留原
+  stage，外层 auto loop 再激活 = 整段重播；"空 body 终态 stage"即可表达 terminal idle，
+  不需新 schema。
+- **R13-2 0x08 投影可行性**：stageA(全文, next→stageB) + stageB(后缀, 无 next) 在现有语义下
+  精确等价"首激活跑全程、再激活只跑后缀"；stateMachine 的 `stay/to + yield`
+  （script-runner-v5.ts:203-226）可表达 idleFrames 的逐 tick/逐激活两类闸门，但循环体最多
+  复制 12 份。
+
+#### 准入风险钉（K，build 验收核对，不阻塞 agree）
+
+- **K1 0x08 逐站 census 先分三类再投影**：(a) checkpoint 在线性链还是条件臂内（臂内 =
+  路径相关 resume，现有模型表达不了，走 escape hatch 另开三签）；(b) checkpoint 之后的段尾是
+  plain end 还是 reset end（reset end 下原版 resume 走 resetTo，checkpoint 无效，按 reset 语义
+  投影）；(c) 同链多 checkpoint（resume=最后执行者）。后缀双份（全文 stage + 后缀 stage）的
+  编辑器呈现与"作者改一处不改另一处"的分叉风险必须写明。
+- **K2 idleFrames 投影按触发方式分流**：touch 类重触发=逐帧计数（stateMachine `to`+worldTick
+  链等价），interact 类=逐激活计数（stages 空门链等价）；11 站逐站标 trigger mode，
+  trigger/auto 计数隔离两侧都进测试（裁决验收已列，保持）。
+- **K3 terminal idle 不得复活**：空终态 stage 的重播必须零副作用零预算可证；ensure runner
+  幂等必须覆盖 save/load 与切场景（e796 金丝雀已含，保持）。
+- **K4 confirm host 边界**：保存屏障期间开着的 confirm 不得落半个已答状态；cursor safe point
+  语义保持现状（stage 完成后才提交）；cancel/AbortSignal/scene session 三路径进测试。
+- **K5 R13-5 两个生成期 fail-loud**：battleEnd 多 stage 与 choreography unsupported cell 必须
+  在**生成期**抛错，不允许运行时才炸；onDefeated 改 canonical runner 属公共接口 delta，按
+  设计边界重新三签，不得用总签字覆盖。
+- **K6 R13-0 账的牙齿在证据字段**：每类 disposition 的证据必须机器可校验（folded/asset-baked/
+  runtime-equivalent 绑具体证据 id，approved-lossy 绑用户拍板记录），否则退化成第二个
+  notes 池；R13-Z 的"无 open-debt"是唯一硬牙，raw/后置/最终三层并列对账必须进发布报告。
+
+#### 结论
+
+**Kimi agree**。分批顺序（控制面 R13-0 先行）、上游优先、无 open-debt 发布、schema/save
+delta 另签的纪律正确；无 schema/save/runtime 级反例。
+
+- 2026-07-26 Kimi: 完成 P7-R13 三方合并设计 runtime/schema 准入复审，签 **agree**，附 K1-K6
+  准入风险钉（见「Kimi P7-R13 设计准入复审」）。合并裁决对两份报告的事实纠正逐项复核成立
+  （0x08 宿主回写、L_35644 链内容、回看越界、reset end 存在、260ms 常量）；设计前提一手核实：
+  confirm 已有系统菜单两框状态机 + v5 commandOutcome 机制（script-runner-v5.ts:200/:232）、
+  auto end0 重播机制（script-runner-v5.ts:150-155）、0x08 与 idleFrames 在现有 stages/
+  stateMachine 下可表达（循环体最多复制 12 份，分叉风险已钉 K1/K2）。未修改实现文件。
+  Next: GLM 已 agree，三方签齐 build 准入改 allowed；Codex 按 K1-K6 与 GLM 结论分批实现，
+  schema/save delta 按边界另开三签。
+- 2026-07-27 Codex: 已核验 Codex / Kimi / GLM 三方 P7-R13 设计签字均为 `agree`、无
+  `counter`，任务状态由 `rework` 进入 `build`。当前只启动 **R13-0 控制面批次**：
+  source instruction disposition、raw/后置/最终三层对账、多域 diagnostics 与 runtime
+  context matrix；不得提前混入 R13-1 及之后的行为修复或 PAL 正文重迁。Coding Owner 仍唯一为
+  Codex；若实现触碰 canonical schema、save 字段或跨包公共接口，立即停下另开 delta 三签。
+
+#### R13-0 控制面实现与 Codex 自验（2026-07-27）
+
+- **范围边界**：只新增迁移内部审计、逐源站处置证据、三层对账和运行时能力清单；没有修改
+  canonical content schema、save、跨包公共接口、Reforge 行为、PAL 正文或 `projects/pal/**`。
+  R13-1～R13-6 的身份、控制流、投掷、confirm、敌人、技能/palette 修复均未偷跑。
+- **源执行总账**：
+  - `source-execution-census.ts` 从源入口与 CFG 构造稳定 `source site × execution context`；
+    PAL 固定为 43,503 条源指令、42,024 条可达指令、82,953 个执行站点。
+  - `0x04` callee 按 SDLPal 进入 trigger channel；context 同时绑定 entry、channel、owner、
+    host 和可用 self，digest 可 source-backed 重建。
+- **逐站处置与三层守恒**：
+  - `source-instruction-disposition.ts` 为每个执行站点维护 raw migrate、augmentation 后、
+    最终 target 三层状态；每层均满足 `accounted + open = 82,953`。
+  - 当前真实汇总为 raw `53,363 / 29,590`、augmented `53,373 / 29,580`、final
+    `53,373 / 29,580`（前项 accounted、后项 open）；7,824 条多域 observation 保持显式，
+    **这些 open 是 R13-1～R13-6 的输入，不是完成声明**。
+  - item use 15 条 raw pending 中，item 141 overlay 与 14 条 C8 后置根均用源 closure +
+    exact target 证明 augmented/final 已承接；skill pending 14 条中仅 314/344/392/394 四条
+    有后置闭包，其余 10 条保持 open；58 条 pending/silent-empty throw 保持 final open。
+- **不可借账 / 不可自封**：
+  - 翻译结果新增迁移内部 `bodyId`。registry target 在翻译时直接绑定，普通 scene root、
+    `0x6D` override 和 folded hostile 在最终 body 身份确定后绑定；处置证明只消费该 exact
+    body 的 outcome，`owner` 只作交叉校验。
+  - P0 审计把 `entryAddress` 与“body 直接消费的 `source.addresses`”拆开：6 个
+    `legacy-alias` bridge 保留入口身份但 `addresses=[]`，4,901 个 translated target 则全部
+   满足 `entryAddress ∈ addresses`。hook installer 也不再拿入口身份冒充 direct address。
+  - canonical、C8、scene semantic repair、asset 和多域 augmentation 都绑定精确 selector +
+    digest；最终目标删一条命令、改一个 behavior 或 scene hook 即退回 open。source-backed
+    validator 会从 source / migration / P0 / P6 / P7 重新推导站点、body、outcome、target 和
+    特殊证据，重签被篡改报告不能通过。
+- **运行时能力矩阵**：
+  - `runtime-capability-audit.ts` 枚举 74 种 canonical command × 6 个执行上下文 = 444 cells，
+    以及 17 种 skill effect × 3 个上下文 = 51 cells；对最终 PAL 实际遍历 58,508 次使用、
+    161 条敌人施法规则和 183 次敌人技能效果使用。
+  - 28 个真实 confirm 使用全部登记为 R13-4 `constant-result` debt；refused 且未登记的命令/
+    技能效果直接失败，不把恒真 host 冒充 executed。
+  - 本批矩阵是迁移侧显式控制账，尚未成为 Reforge host 导出的单一能力注册表；因此不得给
+    `runtime-equivalent` 销账。R13-Z 前必须把矩阵与真实 host/runner 绑定并验证，或继续
+    fail-closed；这项边界不得在 R13-0 review 中被误写成“运行时已修复”。
+- **迁移命令接入**：canonical v5 `migrate:content` 在写前构造并 source-backed 校验源处置账与
+  runtime matrix，打印摘要和 digest；正式写盘路径还会在二次重迁比较两份 digest。R13-0
+  完整报告当前只存在于写前内存，CLI 只打印摘要；K6 要求的持久 publication report 必须在
+  R13-Z 发布事务中落地，不能以这次摘要代替。
+- **验证证据**：
+  - `pnpm --filter @type-pal/migrate typecheck`：通过。
+  - R13 census / disposition / runtime + translator 定向回归：4 files / 86 tests 通过；
+    并行只读复核扩大到 5 files / 96 tests 通过。
+  - `audit:script-control-flow -- --check`：43,503 / 11,447 / 8,102 / 3,345，baseline
+    digest `abd86022559722f5a1f8206e9bd61f2b18711cd6b468474107edaf727a9c0fa4`。
+  - PAL exact 负向/防伪 fixture：当前工作树复跑 1/1 通过（168.39s，峰值 RSS 约
+    2.62GB）；覆盖
+    `@14461/scene` 同地址同 owner 双 body 不串账、6 个 alias 不借账、canonical/C8/s048
+    final drift 退回 open，以及自重签伪造仍被 source-backed validator 拒绝。
+  - 完整 `migrate:content` dry-run：`writes=0 deletes=0 conflicts=0`；源账 digest
+    `5573b56752e3ef4238600d60fbc9e055e793cf175a02ca019f7a51bad10e6075`，runtime digest
+    `a878f61751be64c499baf5a34847789b37336f46d05fbb6eb51b1c7fc03d04cb`；当前工作树复跑
+    179.18s、峰值 RSS 约 3.00GB，未写工程/baseline。
+  - migrate 包全量测试：69 files 全部通过，470 passed / 1 skipped（471），总耗时
+    1742.70s、峰值 RSS 约 2.72GB；最终格式整理后另跑定向 4 files / 86 tests 通过。
+  - `pnpm --filter @type-pal/migrate typecheck`、15 个改动 TS 文件的 Biome check 与
+    `git diff --check` 均通过。重型验证须继续串行；fixture 缓存/拆分是后续测试工程优化，
+    不降低本批正确性门禁。
+
+##### R13-0 批次实现审查签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-27 | 实现、自验、PAL exact、完整 dry-run 与两路只读红队均通过；无行为/schema/save delta。 |
+| Kimi | **accept（用户转述）** | 2026-07-27 | 用户确认“签了”；本卡保留 R13-Z publication/host-binding 硬门禁，旧源语义审计报告不冒充本次实现审查原文。 |
+| GLM | **accept** | 2026-07-27 | 独立复跑 typecheck + 3 files/30 tests + PAL exact 1/1（203s）+ dry-run 0/0/0 + R13-0 源账 digest `5573b5…` + runtime digest `a878f6…` + P0 baseline `abd860…` 全部匹配；43,503/42,024/82,953 + 三层守恒（raw 53,363/29,590 → augmented 53,373/29,580 → final 53,373/29,580）+ 7,824 open observations 是 R13-1~R13-6 输入非完成声明；runtime 444+51 cells / 58,508 uses / 28 confirm debt / 161 enemy casts / 183 enemy effects 独立确认；无 schema/save/行为 delta。 |
+
+- **批次门禁**：R13-0 三方 accept 齐（Codex + Kimi 用户转述 + GLM）。**R13-0 收口，可进入 R13-1。**
+  N3-1 不得标 done，C8 / ED-5I 的下游阻塞关系不变。
+- 2026-07-27 用户：转述 Kimi 已完成 R13-0 实现审查并“签了”。登记为 Kimi `accept`；
+  本轮没有把 2026-07-26 的实现前源语义审计报告冒充实现审查原文，也没有据此越过 GLM
+  门禁或启动 R13-1。
+- 2026-07-27 GLM：完成 R13-0 数据 / 覆盖实现审查并直接在本卡签 `accept`；随后用户确认
+  “签了”。R13-0 三方 accept 齐，Codex 已按既有 P7-R13 三方设计准入进入 **R13-1 build**。
+
+#### R13-1 身份与动态行为实现（2026-07-27，进行中）
+
+- **范围**：只处理既有设计已批准的三项——`0x04` 显式 owner 单源换算、动态 auto runner
+  幂等唤醒、auto plain-end / loop 的源证据投影；沿用现有 canonical/save 字段与内部 runtime
+  接口。若实现需要新增 schema、save version 或跨包公共接口，立即停止并另开 delta 三签。
+- **0x04 源 oracle**：12 个显式 owner 源地址为
+  `3736/3737/3739/3740/13356/13357/13359/13360/13362/13363/13365/13366`，
+  共 28 个 execution site；源 WORD 是 1-based EventObject ID，必须统一反解为 `e${word - 1}`。
+  op1=0 仍继承 caller self，不得被本批改义。
+- **auto census 纠正**：对 1,060 个“非空 initial 且无 next”的 auto variant 做源 CFG 分类后，
+  正确口径为 **363 terminal / 690 persistent repeat / 7 idle-gate（留 R13-2）**，不是早期粗估的
+  410/629。690 个 repeat 中，668 个入口本身位于循环 SCC，20 个是“一次前缀 → 单一尾循环”，
+  另 2 个进入复杂/多循环；后两类也不能把整个前缀交给外层 runner 重播。
+- **e796 金丝雀边界**：`legacy-001..006` 的源根
+  `L_10377/L_10382/L_10388/L_10393/L_10401/L_10409` 均 plain end，应进入空终态；
+  `legacy-007` 源根 `L_10448` 会进入 `L_10451↔L_10452` 尾循环，**不得 terminalize**，应只执行
+  一次前缀后持续尾循环。浏览器验收仍钉首次触碰
+  `(86,38) → (72,38) → (72,36)`、恢复 range3、无双 runner、切场景/存读档/abort 后无旧
+  runner 复活。
+- **持久位置补钉**：V5 `moveEntity` 当前只更新活场景实体；本批须在 effect 成功后把终点写入
+  既有 `world.script.entityPos`，abort/失败不得预写，保证鹿跑完存读档不会回原位但游标已结束。
+- **门禁**：Coding Owner 仍唯一为 Codex。完成上游修复后必须全量重迁而非手改
+  `projects/pal/**`，并跑反解 oracle、source disposition fail-closed、targeted runtime、
+  MG2、二跑零 diff、save/load/scene/abort 与真实浏览器 e796 金丝雀。R13-1 三方实现审查
+  accept 前不得进入 R13-2；N3-1、C8、ED-5I 均不得标 done。
+
+##### R13-1 build 检查点与 cadence delta 阻塞（2026-07-27）
+
+- **已完成且不依赖新 schema 的部分**：
+  - `0x04` 显式 owner 已统一按 1-based EventObject WORD 反解；12 个源地址、28 个 execution
+    site 有独立 literal oracle、callee body 与三层 canonical target 反解证据。源扫描全集现与
+    oracle 精确相等，新增或漏录显式 owner 会 fail closed。
+  - dynamic auto selection 会幂等 ensure runner；coordinator 对 owner/channel 维持单活 lease，
+    行为换手仍在 epoch safe point 生效。
+  - `moveEntity` 只有真正到达且 scene session 未变化才写既有 `world.script.entityPos`。实体缺席、切场景、
+    abort 或同实体新走位抢占旧走位都以 `AbortError` 结束，禁止 fulfilled 假冒“已到点”。
+  - 363 条 terminal（含 C8 后置 repair 的 9 条）可用既有空 `completed` stage 表达；C8 历史
+    seal / P7 ledger 不重签。C8 repair 现同时验证 installer、1-based entity、source root 与
+    terminal CFG，不能交换 root/target 自证。
+  - `0x06` 的 PAL 条件是 `RandomLong(1,100) >= threshold`，成功率已纠正为
+    `101 - threshold`，不是 `100 - threshold`。
+- **已跑但不得冒充完成的检查点**：
+  - 正式上游重迁曾得到 `writes=95 / deletes=0 / conflicts=0`，事务后内建复跑与独立 dry-run
+    均为 `0/0/0`；R13 源账为 43,503 instructions / 42,024 reachable /
+    82,953 sites，digest `1111db469524badda074e8f5b3e857f9ebda48f34672ee789e236e4d1ab9e07c`；
+    runtime digest `6f83235335d64a4680d9d9d7a086bfa3347c4096347e2072a3581ae7da04b26a`。
+  - migrate/reforge typecheck、Reforge 3 files / 39 tests、source/CFG 5 files / 93 tests、
+    P7+C8 2 files / 8 tests均通过；补强 explicit-owner 全集与 C8 installer/root provenance 后，
+    C8 1 file / 7 tests 通过，PAL exact 1 file / 1 test 通过（217.52s）。
+    22 个改动 TS/MTS 文件经 Biome check 修正后通过，`git diff --check` 通过。
+  - 上述生成产物包含下述已知 cadence/save 缺陷，**不得提交、送实现验收或作为浏览器金丝雀
+    基线**；修复 delta 后必须重新全量生成和重跑门禁。
+
+**阻塞事实**：
+
+1. PAL `PAL_RunAutoScript` 的语义是“一次调用执行一条非跳转源指令”；zero-delay goto 和
+   `0x06` 非零命中才会同帧 `goto begin`。当前 compiler 对 auto 的每条
+   `AuthorCommandV5` 隐式等待 100ms，而 R13-1 source machine 把单条 `0x0F/0x14/0x6C`
+   展开为多条命令，导致一个源帧变成两个源帧。
+2. 22 个 prefix/complex repeat owner 共 286 个源状态；其中 101 个复合 opcode、31 个
+   `0x09`、13 个 zero-delay goto、6 个 `0x06`。按地址前后决定 `worldTick` 是错误规则：
+   goto 是否让步只由 opcode 语义决定，与前跳/回跳无关；当前 e796 尾循环因此约慢 3 倍。
+3. 现有 schema 无法同时表达“一个 state 内多副作用无 command boundary”和“不同 branch
+   arm 可分别同帧 continue / 下一 world tick”。本卡原门禁明确规定遇到此情形必须暂停并另开
+   schema/save delta 三签，禁止用 machine id、label 或迁移 side channel 特判。
+4. 22 个 flow 从 `stages` 改成 `stateMachine` 还会使旧 `{kind:'stage',stage:'initial'}`
+   cursor 失效；冻结的 v4→v5 sidecar 至少直接引用
+   `s140/e2376`、`s150/e2466`、`s244/e4312`、`s250/e4412`。历史 P7 ledger/sidecar
+   append-only，不得原地重签。
+
+**R13-1 cadence delta 冻结候选**：
+
+- 在 `ScriptStateMachineV5` 增加通用、可选
+  `cadence?: 'transition'`（最终命名由三方审查冻结）；省略字段时保持现有
+  “auto 每 AuthorCommand 隐式 100ms”行为。
+- `cadence:'transition'` 时，compiler 对 state body 及其嵌套命令不插 per-command
+  boundary；节拍只由既有 transition 表达：
+  - 普通源指令完成后：`to(next, worldTick)`；
+  - zero-delay goto：`continue(target)`；
+  - `0x06` 非零命中：`continue(target)`；未命中：`to(next, worldTick)`；
+    target=0 命中：`to(self, worldTick)`；
+  - `0x09 n` 展开成稳定计数 state，每拍一个 `to(..., worldTick)`，不得再生成
+    `wait(n*40ms)`；
+  - plain end 进入空终态；reset/advance 的有限状态留 R13-2。
+- compiler boundary policy 必须递归传入 branch/loop/confirm/battle/shared script；
+  shared-script cache key 与 executable metadata 必须包含 policy；compiler version 升级。
+  runner 继续复用 `continue`、`to(worldTick)` 与现有 safe point，不新增 transition kind。
+- 不采用 `atomic command group`：它只能消掉复合 opcode 的多余等待，不能单独解决
+  goto/`0x06` 分支节拍、`0x09` 逐帧 cursor 和 save safe point。
+- **save/content 版本边界待用户与三方冻结**：
+  1. append-only successor 方案：新增 R13 transition/seal，把旧 stage cursor 映到稳定 source
+     state；必须逐 owner 证明“无 cursor→root、已完成 initial→tail”的区分，并保持历史 P7/C8
+     byte-pin；
+  2. 开发期 epoch 断开方案：明确拒绝旧 v5/v4 开发存档并在加载时早失败，不做含糊的
+     replay/clamp。用户此前已明确“游戏未完成，不需要旧存档保护”，但实际版本轴与 A7-4
+     版本号顺延仍须在本 delta 中明示确认。
+
+**最低验收矩阵**：
+
+- 省略 cadence 的旧 canonical executable/trace byte-equivalent；
+- 复合 opcode 的全部副作用 → safe point → 恰好一个 world tick；
+- zero-delay goto 链无 wait/safe point；`0x06` 覆盖命中、未命中、target=0；
+- `0x09` n=1/2/13 精确 tick，逐计数 state save/load；
+- shared script cache 按 boundary policy 隔离；
+- 四个 frozen sidecar cursor 与现有 v5 stage cursor 按冻结的兼容策略验收；
+- MG2 历史 ledger、sidecar、C8 seal byte-pin，新 R13 evidence append-only，二跑 `0/0/0`；
+- 浏览器覆盖 e796 六条一次性逃跑 + legacy-007 尾循环、s082 `0x06`、一个 `0x09`
+  和一个复合动画，另验切场景/save/abort/同实体抢占不写幽灵坐标。
+
+##### R13-1 cadence/save delta 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-27 | 用户确认两席已签并采用开发期 epoch 断开；冻结 `contentVersion=6`、`SAVE_VERSION=6`、`minimumSaveVersion=6`，A7-4 顺延 `contentVersion=7`。接受 transition cadence、compiler v2、K1-K6、历史 seal byte-pin 与新 R13 evidence append-only；恢复唯一 Coding Owner 实现。 |
+| Kimi | **agree** | 2026-07-27 | 只读复审通过：`cadence:'transition'` 为最小通用方案；goto/0x06/0x09/复合 opcode 逐帧语义对 sdlpal script.c:3533-3605 逐条核实精确吻合（含 0x06 target=0 命中=self 重掷）；compiler boundary policy 递归、shared cache key、version bump 成立；用户已确认 epoch 断开，条件关闭。附 K1-K6 风险钉，见「Kimi R13-1 cadence delta 审查」。 |
+| GLM | **agree** | 2026-07-27 | `cadence:'transition'` 是最小通用方案；compiler boundary policy 递归 + shared cache key + version bump 成立；0x06 概率 `101-threshold` 正确；22 owner 受 stage→stateMachine 影响。用户 2026-07-27 拍板 epoch 断开，不做旧存档兼容。见「GLM R13-1 cadence delta 审查」。 |
+
+- **当前门禁**：Codex / Kimi / GLM 三方 `agree` 已齐，用户 2026-07-27 确认开发期 epoch
+  断开（不做旧存档兼容）。版本轴冻结为 `contentVersion 5→6`、`SAVE_VERSION 5→6`、
+  PAL `minimumSaveVersion=6`，A7-4 顺延到 `contentVersion=7`；只接受 current 6/6，
+  旧 SAVE 1..5（含 content v4/v5）必须在任何 compatibility sidecar I/O 前早失败，不生成
+  5→6 successor、不 replay/clamp。历史 4→5 descriptor/sidecar/ledger 与 C8 seal byte-pin。
+  **R13-1 cadence delta 恢复 build，唯一 Coding Owner 为 Codex。**
+
+### GLM R13-1 cadence delta 审查（2026-07-27）
+
+**方法**：只读设计审查。读 `script-v5.ts` / `script-compiler-v5.ts` 源码 + frozen sidecar cursor 分析 +
+0x06 概率公式验证 + 1,060 auto variant 分类核对。
+
+#### 1. `cadence?: 'transition'` 是最小通用方案 ✅
+
+**核心问题**：PAL `PAL_RunAutoScript` 一次执行一条非跳转源指令；zero-delay goto 和 0x06 非零命中同帧
+goto begin。当前 compiler 对 auto 每条 `AuthorCommandV5` 隐式插 100ms wait（`script-compiler-v5.ts:150`
+`timing === 'auto' ? [{ kind: 'wait', ms: 100 }] : []`）。复合 opcode（0x0F/0x14/0x6C）展开为多条
+canonical command 后，一个源帧变成两个 100ms 帧——auto 动画速度减半。
+
+**方案评估**：
+
+| 方案 | 能否解决 | 理由 |
+|---|---|---|
+| `cadence?: 'transition'` | ✅ | 可选字段；省略时保持现有行为；设置时 compiler 不插 per-command boundary，节拍只由 transition 驱动 |
+| atomic command group | ❌ | 只能消复合 opcode 多余等待，不能解决 goto/0x06 分支节拍、0x09 逐帧 cursor 和 save safe point |
+| per-command `noBoundary` 标记 | ❌ | 污染 AuthorCommand union，每条命令都要标；不是机器级方案 |
+| 新增 transition kind | ❌ | runner 已有 continue/to(worldTick)/stay，不需要新 kind |
+
+**GLM 结论**：`cadence:'transition'` 是**最小、PAL 无关、向后兼容**的方案。它不新增 transition kind、
+不污染 AuthorCommand union、不依赖迁移 IR/runtime side channel。省略字段时旧 canonical executable
+byte-equivalent——满足向后兼容。
+
+**G1 必落**：cadence 只影响 `ScriptStateMachineV5`（stages flow 不受影响）；compiler boundary policy
+必须递归传入 branch/loop/confirm/battle/shared script；shared-script cache key 必须包含 policy；
+compiler version 必须 bump。
+
+#### 2. 逐帧语义核对 ✅
+
+| opcode | 源语义 | cadence:'transition' 表达 | 正确性 |
+|---|---|---|---|
+| 普通源指令 | 一拍一条 | `to(next, worldTick)` | ✅ 一个 world tick = 一个源帧 |
+| zero-delay goto | 同帧 goto begin | `continue(target)` | ✅ continue 不让步，同次 activation |
+| 0x06 非零命中 | 同帧 goto target | `continue(target)` | ✅ |
+| 0x06 未命中 | 下一拍继续 | `to(next, worldTick)` | ✅ |
+| 0x06 target=0 命中 | 同帧 goto self | `to(self, worldTick)` | ✅ 注意：goto self 虽然是回跳，但 PAL 语义是"下一拍重跑"（不是同帧）|
+| 0x09 n | 等 n 帧 | n 个稳定计数 state，每拍 `to(..., worldTick)` | ✅ 不得生成 `wait(n*40ms)`——PAL auto 的 0x09 是逐帧推进，不是一次等完 |
+| plain end | 终止 | 空终态 | ✅ |
+
+**0x06 概率公式**：`RandomLong(1,100) >= threshold` → 成功率 = `101 - threshold`。Codex 纠正
+（`100 - threshold` → `101 - threshold`）正确——`RandomLong(1,100)` 的范围是 1..100 含两端，
+`>= threshold` 的命中数 = `100 - threshold + 1 = 101 - threshold`。
+
+#### 3. cursor 兼容性分析 ✅
+
+**影响范围**：frozen sidecar 有 4,066 个 cursor alias，其中 987 个是 auto channel。22 个 owner 从
+`stages` 改成 `stateMachine` 后，这些 owner 的 `{kind:'stage',stage:'initial'}` cursor 失效。
+
+**GLM 独立验证**：4 个 Codex 标注的 frozen entity（s140/e2376, s150/e2466, s244/e4312, s250/e4412）
+全部确认在 sidecar 中有 `auto:` 前缀的 cursor alias，且当前映射到 `{kind:'stage',stage:'initial'}`。
+
+**两个方案评估**：
+
+| 方案 | P7/C8 seal 影响 | 复杂度 | GLM 评估 |
+|---|---|---|---|
+| append-only successor | 新增 R13 seal，旧 cursor 映射到 source state | 中——须逐 owner 证明 successor 区分 | ✅ 正确但复杂 |
+| 开发期 epoch 断开 | 拒绝旧 v5/v4 开发存档，加载时早失败 | 低——版本轴+SAVE_VERSION bump | ✅ 用户已明确"游戏未完成，不需要旧存档保护" |
+
+**GLM 推荐**：epoch 断开。理由：游戏尚未发布，没有用户存档需要保护；开发期存档断开比 append-only
+successor 简单且不容易引入 cursor 映射错误。contentVersion 从 5 升到 6（或 SAVE_VERSION 5→6），
+A7-4 顺延。但**最终由用户拍板**。
+
+#### 4. MG2 / byte-pin / 测试矩阵 ✅
+
+- **历史 P7 ledger immutable**：两个方案都不重签 P7/C8 seal ✅
+- **新 R13 evidence append-only**：新增 `_transitions/r13-cadence-v1.json` 或等效 ✅
+- **MG2 二跑 0/0/0**：cadence delta 不改 PAL 正文语义（只改 compiler boundary policy），MG2 应保持
+  二跑零计划 ✅
+- **最低验收矩阵**：省略 cadence byte-equivalent + 复合 opcode 一帧一 tick + goto/0x06/0x09 逐项 +
+  shared cache 隔离 + cursor 策略 + e796/s082 浏览器——**充分** ✅
+
+#### 5. 1,060 auto variant 分类 ✅
+
+GLM 独立确认 Codex 的分类：
+- 363 terminal（空终态）+ 690 repeat + 7 idle = 1,060
+- 690 repeat 中 668 repeat-root + 20 prefix-tail + 2 complex
+- 新 cadence machine 22 owner / 286 source state：101 compound + 31 wait + 13 goto + 6 branch
+
+**口径一致**——这些是审计池，不直接报成 bug。
+
+#### 结论
+
+**GLM R13-1 cadence delta agree**。
+
+`cadence:'transition'` 是最小通用方案；compiler boundary policy + shared cache + version bump 成立；
+逐帧语义正确（goto/0x06/0x09）；0x06 概率 `101-threshold` 正确；cursor 兼容性两个方案均可保护
+历史 seal；MG2/byte-pin/测试矩阵充分。
+
+用户 2026-07-27 拍板：开发期 epoch 断开，不做旧存档兼容。contentVersion 5→6，A7-4 顺延。
+旧 v5/v4 开发存档加载时早失败，不做 replay/clamp。
+
+### Kimi R13-1 cadence delta 审查（2026-07-27）
+
+**方法**：只读设计审查；逐帧语义对 reference/sdlpal/script.c:3533-3605 逐条一手核实，reforge
+侧核实 runner transition 机制与 worldTick 时长。未读实现分支，未改实现。
+
+#### 1. `cadence?: 'transition'` 是最小通用方案 ✅
+
+- 可选字段、省略保持现状、不新增 transition kind、runner 零改动（复用现有
+  `continue/to(worldTick)/stay` 与 safe point，script-runner-v5.ts:203-226）——最小侵入面成立。
+- 否决 `atomic command group` 的理由成立：它只能压复合 opcode 的多余等待，解决不了 goto/0x06
+  分支节拍、0x09 逐帧 cursor 与 save safe point；transition-cadence 严格更通用且覆盖全部四类。
+- 与"按地址前后决定 worldTick"的错误规则划清界限：节拍只由 opcode 语义决定，与前跳/回跳
+  无关——正确。
+
+#### 2. 逐帧语义对 sdlpal 逐条核实（精确吻合）✅
+
+- **zero-delay goto(0x03 op1=0)**：script.c:3549-3558 跳后 `goto begin` 同帧续跑 →
+  `continue(target)` ✓。
+- **0x06**(script.c:3575-3591)：`RandomLong(1,100) >= op0` → 成功率恰为 `101-op0`✓；
+  命中且 op1≠0 → 跳 + `goto begin` → `continue(target)`✓；未命中 → `wScriptEntry++` 帧结束
+  → `to(next, worldTick)`✓；**命中且 op1==0 → 不进 if、无 ip++，停在本指令下帧重掷** →
+  `to(self, worldTick)` 精确等价（含"重掷"语义，state 重入即重估 chance）✓。
+- **0x09 n**(script.c:3593-3605)：`++count >= n` 才 ip++，每帧执行一次 → n 拍；稳定计数
+  state + 每拍 `to(..., worldTick)` ✓；n=0/1 边界（`++count >= 0` 恒过）与验收 n=1/2/13 一致。
+- **复合 opcode（0x0F/0x14/0x6C 等）**：原版"每帧每对象一条非跳转指令"
+  （script.c:3514-3517）——一条源指令的全部副作用同一帧生效 → 单 state 多命令、无
+  per-command boundary、一个 safe point、恰好一个 worldTick ✓。
+- **delay goto（0x03 op1>0）与 0x02**：使用 auto 专用计数门的有限状态机，显式归 R13-2，
+  不在本 delta——范围切分正确（见 K2）。
+
+#### 3. compiler / shared cache / version ✅ 与两个补强钉
+
+- boundary policy 递归传入 branch/loop/confirm/battle/shared script、shared-script cache key
+  与 executable metadata 含 policy、compiler version 升级——三件套缺一就会跨 policy 串味，
+  设计完整。
+- "省略 cadence 的旧 canonical executable/trace byte-equivalent"是硬回归门，必须覆盖全部现存
+  machine 而非抽样（K6）。
+
+#### 4. save 版本边界（用户已选 epoch 断开）✅ fail-closed
+
+- epoch 断开 = 加载期早失败、显式拒绝旧 v5/v4 开发存档，不做 replay/clamp——fail-closed
+  构造上成立；历史 P7 ledger/sidecar/C8 seal 只 byte-pin 不重签，新 R13 evidence
+  append-only ✓。
+- 剩余未定项只是版本轴细节（SAVE_VERSION/epoch + A7-4 顺延），按用户拍板写入即可（K5）。
+
+#### 风险钉（K，build 验收核对，不阻塞 agree）
+
+- **K1 0x09 绝对时长偏差必须显式登记**：reforge worldTick = `STEP_MS = 100ms`
+  （main.ts:251，既定"卡顿感"美学），源帧 40ms。新模型 0x09 n = n×100ms，比源（n×40ms）与
+  当前投影（n×40+100ms）都慢。架构上统一在既定 beat 是正确选择（混用两个时基更糟），但
+  必须登记为显式近似并在浏览器验收中确认观感，不得冒充无损。
+- **K2 delay goto（0x03 op1>0）不得混入本 delta**：286 source state 的 census 必须把
+  0x03 op1>0 显式归入 R13-2 闸门类（与 0x02 同族，auto 用 wScriptIdleFrameCountAuto），
+  不得按 zero-delay 处理；分类账进 R13-0 disposition。
+- **K3 zero-delay `continue` 链建议 fail-loud 迭代上限**：原版同帧链无上限（数据无死循环），
+  runner 侧 `loop` 已有 maxIterations 先例（script-runner-v5.ts:342-343）；对 `continue`
+  链加一个只防未来作者/迁移 bug 的 fail-loud 上限，不改变现有数据语义。
+- **K4 `cadence:'transition'` 的作者语义必须文档化 + 校验提示**：该模式下"节拍只由
+  transition 表达"，state body 应只承载一个源指令的展开；作者手写含多指令 branch 臂会得到
+  同帧执行整臂的意外语义。编辑器/校验器应提示或限制。
+- **K5 断开必须 fail-closed 在 preflight 显式报错**（带版本/epoch 信息与迁移说明），不得
+  静默 normalize/clamp；MG2 验收必须重验 P7 ledger、两份 sidecar、C8 seal 的 byte-pin，
+  新 R13 evidence append-only、二跑 0/0/0。
+- **K6 byte-equivalence 全覆盖**：省略 cadence 的现存 machine（含 65 个 machine owner 与全部
+  stages flow）的 executable/trace 必须逐一字节一致，不是抽样；shared-script cache 按 policy
+  隔离有测试。
+
+#### 结论
+
+**Kimi agree（条件：用户确认 save 版本轴细节）**。五项审查点全部成立，无 schema/compiler/
+runtime/save 级反例。Codex 尚未对新候选签字，且版本轴细节待用户拍板；两事齐备前不得实现
+cadence delta、不得再发布 PAL 正文、不得进入 R13-2 或标 N3-1/C8/ED-5I done。
+
+- 2026-07-27 Kimi: 完成 R13-1 cadence/save delta 只读设计审查，签 **agree**（条件同 GLM：
+  用户确认 save 版本轴细节），附 K1-K6 风险钉（见「Kimi R13-1 cadence delta 审查」）。
+  逐帧语义对 sdlpal script.c:3533-3605 逐条核实精确吻合（含 0x06 target=0 命中=self 下帧
+  重掷、0x09 每帧一次计数、复合 opcode 单帧全副作用）；`cadence:'transition'` 最小通用、
+  不新增 transition kind、runner 零改动；epoch 断开 fail-closed、历史 seal byte-pin。
+  主要钉子：0x09 绝对时长 n×100ms 慢于源帧须显式登记（K1）、delay goto 归 R13-2 不得混入
+  （K2）、continue 链 fail-loud 上限（K3）、作者语义文档化（K4）、断开 preflight 显式报错 +
+  byte-pin 重验（K5）、byte-equivalence 全覆盖（K6）。未修改实现文件。
+  Next: Codex 对新候选签 agree + 用户拍板版本轴后进入实现；GLM 已 agree。
+
+#### R13-1 implementation candidate 与 Codex 自验（2026-07-27）
+
+**实现收口**：
+
+- canonical schema 只增加可选 `ScriptStateMachineV5.cadence?: 'transition'`，省略时仍是历史
+  `perCommand`；validator、克隆/保存和编辑器高级流程 tip 同步支持。compiler 升到 v2，
+  boundary policy 递归进入 entry/branch/loop/confirm/battle/teleport/shared script，
+  executable metadata 与 shared cache key 同时隔离 policy。runner 对同帧 `continue` 链设
+  4,096 次 fail-loud 上限；不新增 transition kind。
+- 上游 `0x04` 显式 owner 统一使用 1-based EventObject WORD → `e${word - 1}`；12 个 source
+  address / 28 个 execution site 由 literal oracle、callee、三层 canonical target 和负向 fixture
+  共同 fail-closed。
+- 1,060 个 auto variant 的 source lifecycle 总账冻结为 **363 terminal / 690 repeat /
+  7 idle-gate**。P7 基础层结构化 354 terminal，C8 后置 repair 结构化另 9 条；22 个
+  prefix/complex repeat owner 改为 transition-cadence state machine，只跑一次前缀后进入真实
+  recurrent tail。7 个 idle-gate 明确留在 R13-2，不越批处理 delay goto / idle frame。
+- runtime 在动态选择 auto behavior 后幂等 ensure runner，coordinator 仍保持 owner/channel
+  单活与 epoch safe-point 换手。`moveEntity` 只有真实到达且 scene session 未过期时才写
+  `world.script.entityPos`；实体缺席、abort、换场景或同实体新走位抢占均不提交幽灵终点。
+- 工程与存档 epoch 原子升为 `contentVersion=6`、`SAVE_VERSION=6`、
+  `minimumSaveVersion=6`。current preflight 参数不含 `FileSource`，只接受 6/6；旧 SAVE 1..5
+  及 6/4、6/5 在任何历史 sidecar I/O 前早失败。canonical script/world schema 仍为 V5；
+  本地 v5 工程先走 current loader 全闭环，成功后只发布 6/6 manifest。历史 4→5
+  descriptor/sidecar/ledger 不重签，A7-4 顺延 v7。
+- 全量内容由上游重新生成；没有手改 `projects/pal/**`。正式 dry-run 为
+  `writes=0 / deletes=0 / conflicts=0`。
+
+**机器证据与冻结值**：
+
+- source：43,503 instructions / 42,024 reachable / 82,953 sites；
+  raw `53,394/29,559`、augmented/final `53,404/29,549`，每层各自严格守恒；
+  open observations 7,812。source digest
+  `2387ac9dd09b55c8cf1a6ab27d8ceb140930462defb51f65ae23de8a55986cc3`。
+- runtime：444 command cells + 51 skill cells / 58,564 uses / 28 confirm open debt /
+  161 enemy casts / 183 enemy effects；digest
+  `1eeb4361188e6031f970c8a541128d201ed9ea0f87889055df5e74644b194036`。
+- byte-pin：P7 raw/internal
+  `41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12` /
+  `9b01dea89f4d567663ad64e03017d1ecdbdb01fb1540e6798a931f47900f4901`；
+  C8 raw/internal
+  `325d52ed750e29ab5757002821037a270498b2f8c3af5158a79d568a27df3a24` /
+  `fbdbd50f5e47b924c8bf4dcfb0700d5b08a04afa0d3cc2bff0711b4b9da627a3`；
+  历史 save sidecar baseline/project raw 均为
+  `30ce8717aa9f6f21e14d862cde2aa44dff8f3652833826b4506e49bc7a6a2ed0`。
+- 新 R13 raw/internal
+  `2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453` /
+  `794659488a19cd131e2b5f7db235b62607264c9b77978edd36318119937dd80a`；
+  K6 cadence-omitted compatibility SHA
+  `e0d2587f59dfe883158ccb0e67851bc0f533ddbbb7222bd3864a069947bd43f2`。
+  K6 不再由 compiler v2 自比：测试内冻结独立 compiler-v1 lowering oracle，对全部
+  **4,611** 条 cadence-omitted flow 逐条深比较并复核 **7,896,404 bytes** 与上述 SHA。
+  runner 4,096 同步 transition 上限的 PAL 可达性同时冻结：65 个历史 machine =
+  771 states / 464 continue edges / 最长 7；22 个 transition-cadence machine =
+  419 states / 19 edges / 最长 1；联合 **87 / 1,190 / 483 / 最长 7**。
+  这里的严格结论是“全部 executable lowering 字节等价 + runner 唯一新增 guard 对 PAL
+  不可达”，因此可推出同一 host 下的旧 flow trace 不变；并未冒充动态执行了 4,611 条所有
+  RNG / 分支 / 循环路径。
+  P0 control-flow baseline raw
+  `8be70805697d574da029f291650ca03e5fc0980e3156bc14793f7580977cfbb4`，
+  PAL `_state.json` raw
+  `45c5cf41a4c261f2289365c8d583b5c778787fa4c818f513b6c85638c6aa9757`。
+
+**自动验证**：
+
+- typecheck：content / reforge / editor / migrate 全绿。
+- package tests：content **28 files / 348 tests**、Reforge **68 / 651**、editor
+  **91 / 768** 全绿；migrate 的 R13 cadence MG2、K6 compatibility、auto lifecycle、P7
+  canonical/project/ledger、C8 seal、source-disposition PAL、PAL integration 与 control-flow
+  audit 已分别串行复跑全绿。
+- migrate 默认并行总测曾因多个完整 PAL fixture 同时构图出现资源竞争，产生 15 个超时假红；
+  逐文件串行复跑全部通过。另有两项真实 golden 漂移已纠正：
+  demo `contentVersion 5→6`，以及 `0x04` owner 修正使 sprite-action rejection digest 合法变化。
+  package `test` 固定 `--maxWorkers=1` 后，完整串行总测 **72 files / 489 passed /
+  1 skipped（490 total）** 全绿，耗时 2,717.78s。
+- 补充窄回归：
+  `script-project-v5.test.ts` **19/19**，覆盖同实体第二次 `moveEntity` 抢占旧走位时只提交
+  新终点，以及 `0x09 n=3` 在稳定 `wait-3` cursor 经
+  `buildPayloadV6 → preflightSaveMigration → normalizePayloadV6` 后只续跑剩余 1 tick、
+  不回根、不重放已过计数；K6 compatibility **1/1** 覆盖上述独立 v1 oracle 与联合最长链。
+- 定点格式收口后，workspace `pnpm lint`（977 files）、editor/reforge/migrate typecheck、
+  Editor **2 files / 87 tests**、Reforge **2 / 38**、migrate 重型 PAL **4 / 14** 再次全绿；
+  `git diff --check` 通过。formal migration dry-run 及上述 frozen hash 已独立重算。
+
+**测试基础设施性能债务（用户 2026-07-27 提出）**：
+
+- migrate 完整串行总测的 2,717.78s 中，test body 为 2,704.53s；transform 1.53s、import
+  5.68s，故瓶颈不是 TypeScript/Vitest 启动。Vitest 结果缓存显示 P4/P3/P5/P2/P6 shadow
+  五个 PAL 文件合计约 **1,845.09s（67.5%）**；最慢 P4 单文件约 **722.87s**。前 10 个
+  重型文件合计约 **94%** 总耗时。
+- 根因是这些文件分别重新读取 294 场景、构造完整 migration/audit/P2→P7 累计 IR、深克隆
+  snapshot 并重算 stable JSON/digest；Vitest 默认 `pool=forks + isolate=true`，文件间不共享
+  module fixture。默认并行又会让多个完整 PAL 构图争抢 CPU/内存并超时，`maxWorkers=1`
+  只把假红改成可靠串行，并未消除重复计算。
+- 这是开发效率债务，不是 R13-1 语义反例。不得用继续加 timeout 掩盖；后续应单独设计
+  immutable PAL phase checkpoint/fixture 复用，并拆分快速开发门与完整发布门，同时保留
+  篡改隔离、确定性双跑和 MG2 独立性。Kimi/GLM 审查当前候选期间不临时关闭 isolate，
+  避免为提速削弱本批证据。
+- 本债务已于 2026-07-28 完成实现、完整 fast 回归、文件乱序回归和关键 release live
+  回归；收口证据见 R13-2 自动验证后的「migrate 测试性能债收口」。本节历史基线不回写，
+  也不得把不同隔离级别的 fast/release 耗时直接混算。
+
+**真实浏览器回归**：
+
+- s048/e789 从 `?scene=s048&pos=151,39&facing=up` 独立重复 **10/10**，全部进入 s049
+  `(120,84)`。
+- s048/e796 从 `(88,42)` 触发：`legacy-001..006` 六条一次性逃跑分别抵达
+  `(72,36)/(61,2)/(72,-4)/(59,-9)/(58,-18)/(72,-2)` 后进入 completed，并恢复正确 touch
+  range；`legacy-007` 一次前缀后稳定进入 `10451↔10452` 尾循环，不 terminalize。F5/F9
+  quick-save round-trip 恢复玩家与鹿 `(72,36)`，canonical 位置位于
+  `dumpSave().world.script.entityPos.s048.e796`。
+- s082/e1568 进入 transition-cadence machine，实际观察 source states、`0x09`
+  `wait-2..wait-9`、`0x06` 分支和继续循环；截图：
+  `output/playwright/n3-1-s082-cadence.png`。
+- s048 不带 `pos` 的真实 onEnter：最大黑幕 `0.96875`，随后恢复 0 并出现淡入后的李逍遥对白；
+  SAVE 6 round-trip 后切 s047→s048 不重播、fade 始终 0、cursor 保持 completed。截图：
+  `output/playwright/n3-1-s048-after-fade.png`。
+
+K1 的 `0x09` 每源计数统一为 100ms 世界拍、慢于源 40ms 帧，已作为显式近似写入脚本系统文档；
+K2 的 delayed goto/idle gate 保持 R13-2 open。R13-1 审查通过也只允许进入 R13-2，不代表
+R13-Z、N3-1、C8 或 ED-5I 完成。
+
+##### R13-1 批次实现审查签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-27 | 完整 migrate 单 worker 总测 72 files / 489 passed / 1 skipped；Reforge 68 / 651；补齐 0x09 SAVE6 稳定 cursor 续跑、同实体 move latest-wins、独立 compiler-v1 K6 oracle 与 PAL continue-chain 可达性证据。实现、MG2、浏览器和 dry-run 门禁全绿；accept 仅表示 R13-1 可送两席审查。 |
+| Kimi | **accept** | 2026-07-27 | 只读实现审查通过：compiler v2/boundary policy/shared cache/4096 guard、独立 v1 oracle（实跑 1/1）、0x09 wait-3 SAVE6 续跑、dynamic auto、move latest-wins、epoch 断开与历史 byte-pin 逐项核实；一手 sha256 复核 P7/C8/R13 seal 与 sidecar；K1-K6 全部落地。accept 仅准入 R13-2。 |
+| GLM | **accept** | 2026-07-27 | 独立复跑：content 28/348、reforge 68/651、editor 91/768 全绿；R13-0 disposition+census+PAL exact 4/31 通过（187s）；dry-run 0/0/0；source digest `2387ac9d…` + runtime digest `1eeb4361…` 匹配卡内；P7 ledger `9b01dea8…` / C8 seal `fbdbd50f…` / R13 seal `79465948…` parent→C8 `fbdbd50f…` byte-pin 确认；sidecar digest `ec65fdad…` 不变；CONTENT_VERSION=6 / SAVE_VERSION=6 / minimumSaveVersion=6 确认；三层守恒 raw 53,394/29,559 → augmented/final 53,404/29,549 每层 accounted+open=82,953 ✅；7,812 open observations 是 R13-2~R13-6 输入非完成声明。 |
+
+- **当前门禁**：Codex / GLM / Kimi 三席 `accept` 已齐（2026-07-27），**R13-2 准入开放**。
+  任务总体不得标 `done`，C8 / ED-5I 依赖不变；R13-1 accept 不代表 R13-Z/N3-1 完成。
+- 2026-07-27 Codex：完成 R13-1 implementation candidate 自验并签 `accept`。Evidence：
+  migrate 完整单 worker 总测 72 files / 489 passed / 1 skipped，Reforge 68 / 651，
+  `script-project-v5.test.ts` 19/19、K6 compatibility 1/1、typecheck 和 `git diff --check`
+  全绿；浏览器矩阵与 formal dry-run 见本节。Next：Kimi / GLM 按下方提示词并行只读审查，
+  两席均 `accept` 后才可进入 R13-2；不得标 N3-1 / C8 / ED-5I done。
+- 2026-07-27 Kimi：完成 R13-1 runtime/schema/save 只读实现审查，签 **accept**（仅准入 R13-2）。
+  一手证据：schema 仅新增可选 literal（script-v5.ts:300，validator fail-closed :813-817）；
+  compiler v2 policy 递归 + cache key/metadata 隔离 + version=2（script-compiler-v5.ts:15/
+  :122/:130/:334）；runner 4096 同帧 continue 上限为 throw 且真实 yield 后清零
+  （script-runner-v5.ts:194/:216-222/:242）；epoch 预检刻意无 FileSource、非 6/6 显式 throw
+  先于一切 sidecar I/O（migration.ts:210-241）。实跑：K6 compatibility **1/1**（4,611 flow
+  独立 v1 lowering 逐条深比 + 7,896,404 bytes + SHA `e0d2587f…`，确认读全部场景文件现编，
+  非读冻结 fixture）；reforge + content check 全绿（exit 0）。一手 sha256：P7 ledger
+  `41263ba1…`、C8 seal `325d52ed…`、双 sidecar `30ce8717…`、新 R13 seal `2b1e71b0…`
+  全部与卡冻结值一致；`git diff HEAD -- _transitions/ migrations/` 为空。
+  记录项（非反例）：0x06 target=0→to(self) 在 PAL 产物无实例、仅单测钉（源数据无此站点，
+  形态已被结构钉住）；"byte-equivalence"为 flow body 级，envelope 刻意升 v2（oracle 分行
+  断言，处理正确）；0x09 拍=100ms 已按 K1 显式登记（seal 记 worldTickMs:100/
+  sourceFrameMs:40）；7 个 idle-gate owner 按 K2 留 R13-2。未修改实现/产物/baseline。
+  Next：R13-2（跨激活控制流：36 个 0x08 逐站投影 + 11 个 idleFrames 闸门），仍由 Codex
+  任唯一 Coding Owner，本批 accept 不授权任何 done。
+
+#### R13-2 逐站审计与 cursor handoff / SAVE 7 delta 阻塞（2026-07-27）
+
+R13-1 三席 `accept` 只打开了既有 R13-2 设计范围。Codex 在修改实现前完成 36 个
+`0x08 checkpoint`、全部 `end.reset(idleFrames>0)` 与 delayed goto 的源语义逐站审计；
+结果命中本卡预先约定的 escape hatch：现有 schema 可以表达单个 flow 内的 checkpoint /
+有限计数，但不能表达 **切换 behavior 时重置控制入口、同时继承旧 flow 的有限计数相位**。
+因此 R13-2 实现暂停，先对最小 public contract + save epoch delta 重新三签。
+
+##### 控制面 CFG 必须先纠正
+
+- `script-graph.ts` 当前对 delayed goto 只建立 target edge，漏掉计数到期后的
+  `address + 1`；同时给所有 `reset idleFrames=0` 错加 fallthrough。R13-0 census 直接消费该
+  通用图，故其 42,024 reachable / 82,953 sites 不是 R13-2 可继续追加的可靠母账。
+- delayed goto 共 17 条结构性漏边：
+  `193/205/2616/2621/5573/7340/16513/32097/32209/33696/33770/33964/33972/34313/
+  34779/35054/35062`。只补 delayed fallthrough 会得到 42,327 reachable /
+  83,326 sites / 7,947 contexts，但该数字仍包含 reset0 假 fallthrough，**不得冻结**。
+- 两类边同时按源语义修正后的只读临时口径为 41,945 reachable / 1,558 unreachable /
+  81,674 execution sites（auto 18,955 / trigger 62,719）/ 7,947 contexts。实现阶段必须把
+  typed edge 升级为 context-sensitive 规则、升级 census method version，并从源重新构建
+  disposition、三层守恒和 digest；不得在旧报告上做 `+303/+373` 算术补丁。
+- 该项是迁移控制面修复，不新增 canonical 能力；但会改写 R13-0 后续事实口径，必须以新
+  append-only R13-2 evidence 记录，旧 R13-1 seal 保持 byte-pin。
+
+##### 36 个 `0x08` 的精确分类
+
+- 36 个 source address / 43 execution contexts：32 个线性、4 个条件臂
+  `6344/7461/7489/19301`；35 个最终保留 `checkpoint + 1`，`763` 唯一被后续
+  `reset -> 565` 覆盖；同一执行链多 checkpoint 为 0。
+- 7 个额外 context 是 discard-return alias：`5189` 的 s018/onTeleport，以及 `9175` 的
+  s040/s041/s044/s045/s046/s047 onTeleport。实体 trigger 的返回游标必须持久；这些
+  onTeleport / nested call context 不得把 callee checkpoint 写进调用者。
+- `1575/10315/19301` 只有在后续 source activation 才到达；当前扁平翻译已把相应后续正文
+  整段漏掉，不能在既有 canonical body 上机械 split。上游须建立 migration-internal
+  `TriggerActivationGraph`，显式记录 owner/context、同激活边、持久/丢弃返回、plain /
+  advance / reset 提交和 checkpoint，再投影到现有 `stateMachine`。
+- 现有 `continue/stay/restart/advance/branch/commandOutcome` 足以表达 flow 内语义，不新增
+  transition kind，不把 PAL address/IP 暴露给作者。实际需要新增持久续点投影为 34 个；
+  `763` reset 覆盖与 `10747` s048 repair 已有精确闭环，但仍要纳入 context 总账防双包装。
+- 完整站点：
+  `575/763/1575/2423/4224/5189/5872/5924/6344/6390/6594/6602/6609/7461/7489/
+  9175/9411/9841/10315/10747/10990/11816/15046/17191/17569/19301/20261/21511/
+  22650/26590/26635/27546/30683/34898/35030/35420`。
+
+##### 11 个 idle gate 的纠正后全表
+
+delayed-goto fallthrough 修正后，11/11 地址均可达，共 13 个实际运行 site、12 个实体 owner，
+阈值按 owner 展开共 84 个有限计数相位。门本身 **全部在 auto runner 执行**；touch /
+interact 只是部分 `0x24` 的安装来源，不能据此选 trigger 计数模型。
+
+| 门 | owner / 安装来源 | 源语义与当前缺口 |
+|---|---|---|
+| L379 -> 377, N12 | e56；s003/e56 touch | 前缀一次、循环 12 次、后缀一次；当前无限重复前缀+一次循环 |
+| L542 -> 541, N8 | e26；s001/e15 touch | 移动 8 次后终止；当前无限移动 |
+| L842 -> 841, N7 | e88；s004/e87 auto | 前缀一次、动画 7 次后终止；当前无限重复 |
+| L1173 -> 1170, N12 | e59；s002/e36 interact | 前缀一次、循环 12 次、后缀一次；当前无后缀且无限 |
+| L32215 -> 32213, N8 | e4168；s231/onEnter 动态安装 | 走步 8 次后结束；当前 e4168 完全没有 auto behavior |
+| L32300 -> 32298, N5 | s231/e4167 static auto | 动画+advance 5 次后终止；当前错误物化为永久 SpriteAction |
+| L33436/33440, N6/N6 | e4464；s253/e4463 touch | 严格 `6 / 中段与音效一次 / 6 / stop`；当前只剩无限动画 |
+| L33666 -> 33644, N4 | e4409/e4440；touch | 过门后执行 33667 并进入真实尾循环；当前均为空 stage，e4409 另有跨 behavior 计数继承 |
+| L34319 -> 34318, N4 | s266/e4658/e4659 static auto | delayed goto 到期后动画 4 次、后缀一次、进入尾循环；当前 CFG 漏整条到期路径 |
+| L35436 -> 35434, N4 | s278/e4748 static auto | nudge+anim 4 次后终止；当前永久循环 |
+
+安装来源分组为 touch 5 地址 / 6 sites、interact 1/1、static/entity-auto 4/5、
+scene onEnter 动态安装 1/1；实际执行分组统一为 auto 13 sites。旧 lifecycle 报告只覆盖
+7 owner / 59 相位，池外遗漏 e4168/e4167/e4409/e4440/e4748 共 25 相位。
+
+##### 触发 delta 的最小反例：e4409
+
+- e4409 默认 auto root L33668 的 `0x09 wait 10` 与切换后的
+  `idleFrames=4@L33666` 共用事件对象级 `wScriptIdleFrameCountAuto`；`0x24@L33674`
+  只换 auto script pointer，不清计数。
+- 切换前残值 `k=0/1/2/3..9` 时，新门分别还需 `4/3/2/1` 次。当前
+  `selectEntityBehaviorV5` 在 behavior id 改变时删除 cursor；相同 id 又保留旧 cursor，
+  都不能表达“换入口但继承有限相位”。条件系统也不能读取另一 flow 的 cursor。
+- 隐藏 flag/var + 统一大机器会把控制状态外置到作者可见 world namespace，破坏“脚本方案”
+  的数据/UI 真值，并等价复活影子 PAL counter；不接受。
+
+##### R13-2 delta 冻结候选
+
+1. 给 `selectEntityBehavior` 增加通用、显式、可选的 cursor handoff；未提供字段时历史行为
+   byte-equivalent：
+
+   ```ts
+   cursorHandoff?: {
+     kind: 'stateMap'
+     fromBehavior: BehaviorId
+     cases: Array<{ from: FlowCursor; to: FlowCursor }>
+     onUnmapped: 'error'
+   }
+   ```
+
+   仅允许 `selection.kind === 'use'`。运行时先解析旧 effective behavior/cursor（无持久 cursor
+   时使用旧 flow initial），精确匹配 `fromBehavior` 与唯一 case，校验目标 cursor 属于目标
+   flow，再原子写 selection + `{behavior: next, at: mapped}`，最后 bump owner epoch。任何重复、
+   漏映射、错误 flow/machine/state 或 stale lease 回写均 fail-loud。
+2. 不采用 `preserve-compatible`：跨 behavior 共享 machine/state id 只会把映射藏进 alias
+   state；相同 id 不代表相同业务相位，不能覆盖 stage -> state，且会迫使目标 flow 复制来源
+   cursor 命名空间。
+3. 36 checkpoint 与 11 gate 的迁移使用 source activation/product-state graph，最终只发布
+   稳定业务 state id；不得发布 PAL address、全局计数或第二解释器。
+4. `CONTENT_VERSION` 与 `SAVE_VERSION` 同步断到 **7**，PAL `minimumSaveVersion=7`；
+   SAVE6 及以下在任何历史 sidecar I/O 前早失败。原因不只是不兼容 stage/state cursor：
+   旧迁移已吞掉 34 个 checkpoint，SAVE6 中“未运行”与“已运行但续点丢失”可能完全同形，
+   alias 无法无损判断。历史 v4->v5 sidecar、P7/C8/R13-1 seal 全部 byte-pin，A7-4 顺延至
+   content/save 8。
+5. 新增 append-only `r13-cross-activation-v1` seal，以 `r13-cadence-v1` digest 为 parent。
+   发布顺序先重建并校验 R13-1 evidence，再应用 R13-2 augmentation；不得重签旧 seal 或让
+   新 flow 反向污染 parent。
+
+##### R13-2 cursor handoff / SAVE 7 delta 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-27 | 两路独立只读逐站审计与第三路 delta 压缩收敛：context-sensitive CFG、migration-internal activation graph、显式 stateMap、SAVE/content 7 epoch 断开和 append-only successor 是最小可审计闭环；不接受 hidden counter 或 preserve-compatible。 |
+| Kimi | **agree（用户转述）** | 2026-07-27 | 用户确认“签了”；接受 public command/runtime lease/atomic handoff、显式 stateMap、SAVE7 断点、seal parent 顺序与 checkpoint product-state 架构。未将 R13-1 审查冒充本次签字。 |
+| GLM | **agree** | 2026-07-27 | 独立核对：36 checkpoint 地址逐条匹配源数据 ✅；11 idle gate 地址 + 阈值（12/8/7/12/8/5/6/6/4/4/4）逐条匹配 ✅；17 delayed-goto 地址全部确认为源 goto（expiry fallthrough 漏边结构性正确）✅；phase 84 = 简单阈值和 76 + e4409 跨 behavior 继承 8 ✅；cursorHandoff stateMap 是最小通用方案（不引入 hidden counter / preserve-compatible / 全局 flag）✅；SAVE7 断点理由成立（34 checkpoint 被吞后 SAVE6 cursor 状态不可无损映射）✅；seal 链 r13-cross-activation→r13-cadence→c8→P7 append-only byte-pin ✅。 |
+
+- **当前门禁**：R13-2 delta 三签齐（Codex + Kimi 用户转述 + GLM），**R13-2 delta 设计 allowed**。
+  Codex 可开始实现 cursorHandoff stateMap + context-sensitive CFG + SAVE7 epoch 断开。
+  实现完成后仍须逐批审查 accept；N3-1 不得标 done，C8/ED-5I 依赖不变。
+- 2026-07-27 用户：转述 Kimi 已完成 R13-2 cursor handoff / SAVE 7 delta 设计审查并
+  “签了”。登记为 Kimi `agree`；当前只缺 GLM 数据/覆盖设计签字。
+- 2026-07-27 GLM：完成 R13-2 source census / SAVE 7 delta 设计审查并签 `agree`；用户随后
+  确认“齐了”。三方无 `counter`，R13-2 恢复 **build**，唯一 Coding Owner 仍为 Codex。
+- 最低验收矩阵：
+  - context-sensitive CFG 锁定 delayed goto expiry 与 reset0 无 fallthrough，重建全域
+    census/disposition/digest；
+  - checkpoint 首轮 prefix+suffix、次轮 suffix、reset/advance 覆盖、四个条件臂、
+    `0x04`/onTeleport discard-return、save safe point/abort、34 个真实持久 closure；
+  - idle N=4/5/6/7/8/12、相位 k=0..9、`0x02/0x03/0x09` 共用 auto counter、11 地址/
+    13 sites 逐站 trace；
+  - stateMap 默认行为 byte-equivalent、原子映射、epoch bump、stale lease、非法 map
+    fail-loud；
+  - SAVE6 早拒绝与 SAVE7 中段续跑；历史 sidecar/P7/C8/R13-1 byte-pin，新 R13-2 seal
+    MG2、二跑 `0/0/0`；
+  - 全量 content/reforge/editor/migrate、真实浏览器 e4409 与 checkpoint 重入。
+
+#### R13-2 implementation candidate 与 Codex 自验（2026-07-27）
+
+**实现收口**：
+
+- 通用 source CFG 升级为 `source-v2`：delayed goto 同时保留计数未满的 target 边与到期后的
+  `address + 1`，`reset(idleFrames=0)` 不再伪造 fallthrough。R13-0 source census /
+  disposition 均从源重新构建，未在旧报告上做算术补丁。
+- canonical `selectEntityBehavior` 增加可选 `cursorHandoff.stateMap`，且只允许
+  `selection.kind='use'`。runtime 从旧 effective behavior/cursor 精确匹配唯一映射，校验目标
+  cursor 属于新 flow 后原子提交 selection + mapped cursor，最后 bump owner epoch。缺
+  coordinator、来源 behavior 不符、重复/空/漏映射、悬空目标或错误 selection 均 fail-loud；
+  未提供 handoff 的历史命令保持原行为。
+- 上游新增 trigger activation/product-state 与 auto idle/delayed gate 投影；checkpoint、
+  discard-return、reset/advance 及跨 behavior 有限相位均发布为稳定业务 state id，不把 PAL
+  address、全局 counter 或第二解释器暴露给 canonical/editor。
+- `CONTENT_VERSION=7`、`SAVE_VERSION=7`、PAL `minimumSaveVersion=7`。current 7/7
+  preflight 在任何历史 sidecar I/O 前拒绝 SAVE6 及以下；历史 6/6 verifier、v4→v5 sidecar、
+  P7/C8/R13-1 seal 保持只读 byte-pin，A7-4 顺延到 content/save 8。
+- canonical `--write` 改为分进程事务：父进程执行 `--write-once` 并释放完整 PAL heap，再由
+  新 Node 进程执行 `--verify-idempotence`，同时校验预期 source/runtime digest 与
+  `writes=0 / deletes=0 / conflicts=0`。没有只手改 `projects/pal/**`。
+
+**source、逐站闭包与发布证据**：
+
+- source-v2：**43,503 instructions / 41,945 reachable / 1,558 unreachable /
+  7,947 contexts / 81,674 execution sites（auto 18,955 / trigger 62,719）**。
+- checkpoint：36 source addresses / 43 contexts；34 个新持久 closure、7 个
+  onTeleport discard-return alias；`@763` reset 覆盖与既有 `@10747` s048 closure 分别纳账，
+  未重复包装。
+- R13-2 exact closure 共 **78**：34 checkpoint + 7 discard + 9 trigger delayed +
+  13 auto idle + 15 auto delayed；对应 **77 个 closure target selector**，本批 open=0。
+  “本批 open=0”不代表 R13-3～R13-6 或 R13-Z 已闭包。
+- trigger delayed：7 owners / 9 addresses / 41 owner-expanded phases；auto idle：
+  11 addresses / 13 execution sites / 84 phases；auto delayed：8 addresses / 15 execution
+  sites / 1,657 phases。
+- cursor handoff：18 个 command site；cases = e405 1、e4168 16、s231 crowd 176、
+  e4409 13、e4440 15、e4723 24、reverse 2。installer seal 为 7 owners / 18 commands /
+  247 cases；最终 owner flows 102，auxiliary targets 437 且全部 locale 闭合。
+- e405 精确交接为 `first-wait-06 -> cycle-01-phase-06`，保留 e405 的 135 次移动，未误退化
+  为 e406 的 140 次。e4409 的 0x09 残余相位通过显式 stateMap 继承，未使用 hidden
+  flag/counter。
+- 新 append-only `r13-cross-activation-v1` 以
+  `r13-cadence-v1 / 794659488a19cd131e2b5f7db235b62607264c9b77978edd36318119937dd80a`
+  为 parent；R13-1 文件 SHA 继续为
+  `2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453`。
+- R13-2 seal digest：
+  `d20c06c821a044a6f6be2430da1d660d801a00b03b210082ba954e76b09bc686`；
+  evidence digest：
+  `4d2b6c10b9dad841e485efcb6f6ff52a07bf2e4699df35b99f09833f6f1e52cc`；
+  文件 SHA-256：
+  `723e4fd29f7d69aa861d67d5188038d242c1f5ff619d5c7fdce2854bdf50db12`。
+- source / census / disposition digest：
+  `071fd1b359deb391a072c32f8bf72b86e9f0d9c2904893b35300998fd59c78c7` /
+  `3d19fb14b8261fd5a0e48f20cbd1e80fc57c31622624bb09126eb86ea2cb13ac` /
+  `36349824878131b5e67db7ba9edc7d1a00dd864aa88737cb0cd89b304181a79e`。
+- formal migration disposition / runtime digest：
+  `0c7879c05405c0c41fe2c56805a5fb00b0bf24b323a4927b8e8e1d2063ae539b` /
+  `556885e1982542f9e3a66356e93f9b1ea5471ab5666328440b098dbd1a031ce9`。
+
+**全量测试发现并关闭的最后反例**：
+
+- 首轮 migrate 总测反证 s057/s180 的 checkpoint stateMachine 同时保留了
+  `initial.entry`，又从 source root 把 prepare+dither 重译进 `initial.body`，会让入场准备和
+  淡入执行两次。根因在 R13 activation compiler 只重新挂 entry、未消费 entry 已接管的源前缀。
+- 上游修复在 checkpoint 线性续接后、任何 branch/confirm/plain 控制拆分前定位首个顶层
+  `ditherScreen`，用生产 projector 对 raw prefix 与 `entry.prepare` 做 `stableJson` 精确比较，
+  同时校验 reveal ms；不匹配即携 owner/state fail-loud。随后重新生成，而非手改场景产物。
+- 最终 s057 initial body 为 `selectEntityBehavior -> dialog -> playMusic`，s180 为
+  `dialog（两行） -> playMusic`；两者仍 `advance -> after-checkpoint`，后缀均只执行
+  `playMusic` 后 `stay`。project/baseline 两份 s057、s180 分别字节成对。
+- cadence compatibility 不再把 R13-1 的 `auto-lifecycle-*` 命名约定错误套到 R13-2；
+  现按已发布 R13-1 seal 精确冻结 22 个旧 owner，其余 56 个 R13-2 transition machine 严格
+  使用 `machine`。successor omitted-flow oracle 为 4,576 rows / 7,946,865 bytes /
+  SHA-256 `b27b0fdf9d94ac74f743e66aeea523d6df497d924155f0458b49eaea22ae536b`。
+
+**自动与真实链验证**：
+
+- content typecheck + **28 files / 349 tests**；Reforge typecheck +
+  **69 / 680**；editor typecheck + **91 / 770**；migrate typecheck 全绿。
+- 完整 migrate 单 worker：**73 files / 508 passed / 1 skipped**，耗时
+  **2,118.96s（35m18.96s）**。这是优化前、全文件 fresh-isolate 的 release 历史基线；
+  当时没有关闭 isolate、跳过重测或放宽断言。后续 fast/release 双门收口见下节，
+  fast 耗时不得冒充 release 耗时。
+- canonical `--write` 完整通过 `--write-once` 与新进程 `--verify-idempotence`；事务后
+  fresh verifier 及最终 formal dry-run 均为 `writes=0 / deletes=0 / conflicts=0`。资源物化
+  **1,879 files / 68,439,367 bytes / writes=0**；`git diff --check` 通过。
+- s020/e362：第一次交互出现“哇……好清澈的泉水”，执行完成后再次交互直接进入
+  “李逍遥饮下一口灵池中的……”；证明 checkpoint 首轮 prefix+suffix、次轮 suffix 生效。
+- s250/e4409：真实进入 enemy team 315 战斗；`selectEntityBehavior(cursorHandoff)` 在
+  `startBattle` 前完成跨 behavior 相位交接，console 0 error / 0 warn，真实链没有宽松 fallback。
+- 最后增量另经只读代码审查，未发现 blocker；scene-entry prefix、fresh-session 负测、
+  stages/stateMachine collector 与 cadence 22/56 拆分均逐项复核。
+
+**migrate 测试性能债收口（2026-07-28）**：
+
+- 门禁明确拆为两层。`test` / `test:fast` 是日常开发门：61 个 unit 文件继续隔离并行，
+  9 个 PAL shared 文件串行复用 immutable core/phase/generated fixture，3 个 PAL fresh
+  文件仍各自隔离。`test:release` 对同一份 73 文件 manifest 全部 fresh-isolate、串行重建；
+  migrate 包 `check` / `check:release` 与仓库根 `pnpm check` 仍走正式 release 门，
+  `check:fast` 只用于快速反馈。真实收集核对 fast/release 均为 **512 个 active test**，
+  无文件或测试项差集。
+- 没有把正确性换成缓存命中。P2-P6 prepared transition 每次复用都核对输入对象身份和
+  target/ledger 自摘要；seeded corpus reader 只处理已验证的 COW file diff，复杂 topology
+  自动退回完整 reader，并用 metadata、正文和物理 rechunk 对 full reader 做深相等回归。
+  source corpus 预计算 body hash 与 inbound ScriptRef 索引，消除了阶段间重复全库扫描。
+- R13 fast prepared authority 每次仍校验 exact identity、evidence 自摘要、完整 validator
+  与 live canonical target。release 不调用 fast fixture getter；每个 fresh 文件从 live PAL
+  输入重建 cadence/cross authority 一次，之后 replay、伪造 seal 和 target drift 复用该
+  immutable authority，但每个成功 plan 仍重新合并并从当前 cadence target 构建 target
+  evidence。原先 3 条 fast-only prepared 防漂移测试现也在 release 执行。
+- C8/P7 只对临时 merge 输入做 copy-on-write 结构共享；发布 `nextBaseline` 仍深克隆，
+  并有返回值 mutation 不得污染 generated input 的隔离回归；实现自验与独立只读复核均
+  确认该边界安全。
+- 连续唤醒、AC 供电且使用 `caffeinate -i /usr/bin/time -l` 的完整 fast 结果为
+  **73/73 files、512 passed / 1 skipped，Vitest 889.27s，real 889.77s
+  （14m49.77s），peak RSS 3.194GB**。首轮同配置为 2,042.17s（34m02.17s）且 P4
+  超时，日常反馈 wall time 缩短 **56.5%** 并消除该超时。
+- PAL shared 组从首轮 **60 tests / 1,622.92s（27m02.92s）** 降至默认顺序
+  **63/63 / 633.20s（10m33.20s）**，缩短约 **61.0%**。固定
+  `--sequence.shuffle.files --sequence.seed=20260728` 的非默认顺序同样
+  **9/9 files、63/63 / 667.98s（real 668.47s）**，证明复用不依赖文件顺序。
+- 关键正式门全部使用 release config：P2/P3/P4 live rebuild **3 files / 20/20 /
+  755.07s（real 755.67s）**，release core pin 仍为 `e29bfd90…` / `d7102cbc…` /
+  `f33fcdb…`；R13 cadence/cross live authority **2 / 17/17 / 615.21s
+  （real 615.80s）**。R13 首轮暴露两条 180s 硬上限假红后，没有增大 timeout，而是把
+  同一 fresh 文件内重复的 disposition/census 从 3/6 次收敛为 1/2 次；原命令由
+  943.77s 降至 615.21s，planner replay、伪造 authority 拒绝和 live target drift 均保留。
+- 一次 9,917s wall 异常不计入基准：该次 CPU 仅约 962s，`pmset` 证明机器在
+  19:04—20:50 进入 Deep Idle。后续长测统一在防休眠条件下计时，避免把系统睡眠误判为
+  测试回退。剩余较慢项是刻意保留的 full-source disposition、live bundle 与 release
+  authority 重建，不再是每个 mutation case 重复构造整套 PAL。
+
+R13-2 只关闭 checkpoint / idleFrames / delayed goto / cursor handoff 批次；R13-3 投掷、
+R13-4 confirm、R13-5 enemy、R13-6 approved-lossy 与 R13-Z publication 仍未完成。
+N3-1、C8、ED-5I 均不得标 `done`。
+
+##### R13-2 批次实现审查签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-27 | source-v2、34 checkpoint closure、11 idle gate、delayed goto、18 个 cursor handoff site 与 SAVE/content 7 已由上游实现并重迁；分进程正式写入后二跑 0/0/0，content/reforge/editor 与完整 migrate 单 worker 总测全绿，s020/e362 checkpoint 重入与 s250/e4409 跨 behavior 战斗链浏览器通过。accept 只表示 R13-2 可送 Kimi/GLM 实现审查，不代表 R13-3～R13-Z、N3-1、C8 或 ED-5I 完成。 |
+| Kimi | **accept** | 2026-07-28 | 只读 runtime/schema/save 实现审查通过：handoff 校验全在 mutation 前、原子提交 + epoch 最后 bump、stale lease/save barrier/abort 无覆盖路径（一手读 script-world-v5.ts:244-309）；e405 135 次与 e4409 k=0..9 产物实证；18 站/247 cases 与 seal 一致；SAVE 7 无 sidecar I/O 早拒绝；一手 sha256 复核 P7/C8/R13-1/R13-2 控制账；s057/s180 前缀单次执行机制核实。记录项 3 条见交接日志。accept 仅准入 R13-3。 |
+| GLM | **accept** | 2026-07-28 | 独立复跑：content 28/349、reforge 69/680、editor 91/770 全绿；R13 census+disposition 3/30 + PAL exact 1/1（254s）隔离通过；dry-run 0/0/0；source-v2 43,503/41,945/1,558/7,947/81,674 独立确认；source digest `0c7879c0…` + runtime digest `556885e1…` 匹配；seal 链 R13-2 `d20c06…`→R13-1 `794659…`→C8 `fbdbd50…`→P7 `9b01de…` byte-pin 确认；CONTENT_VERSION=7/SAVE_VERSION=7/minimumSaveVersion=7 确认；7,715 open observations 是 R13-3~R13-6 输入非完成声明。全量并行 4 files 合跑 OOM 是测试基础设施债务非正确性。 |
+
+- **当前门禁**：Codex / GLM / Kimi 三席 `accept` 已齐（2026-07-28），**R13-3 准入开放**。
+  N3-1、C8、ED-5I 状态不变；R13-2 accept 不代表 R13-Z/N3-1 完成。
+- 2026-07-27 Codex：完成 R13-2 implementation candidate、自验、正式重迁和真实浏览器回归。
+  Next：Kimi / GLM 按下方提示词并行只读审查；任一 `counter` 均回到 R13-2 rework。
+- 2026-07-28 Kimi：完成 R13-2 runtime/schema/save 只读实现审查，签 **accept**（仅准入 R13-3）。
+  一手核实：`selectEntityBehaviorV5`（script-world-v5.ts:244-309）全部 fail-loud（264/266/268/
+  277/280-286/287-294/295-297）先于唯一写点（305），selection+mapped cursor 同克隆单次提交、
+  epoch 最后 bump（306-307），stale lease 由 epoch 拦截（453）、finish 身份校验（627-629）、
+  save barrier 内 gate 关闭且 active=0 才 ready；e4409 stateMap 产物一手抽核（s250.json：
+  wait-01→remaining-04 … wait-04+→remaining-01、pursuit/route-choice→remaining-04）；
+  一手 sha256：P7 `41263ba1…`、C8 `325d52ed…`、R13-1 `2b1e71b0…`、R13-2 `723e4fd2…`，
+  parent 链 cross→cadence `79465948…` 一致；实跑 reforge 焦点 5 files / **105 passed**
+  （script-world-v5/script-project-v5/epoch-v7/migration/ops）。迁移侧全量独立核查：e405
+  135 次（0x24 不清 auto 计数 + 实体帧序论证 + s021.json first-wait-06→cycle-01-phase-06）、
+  18 站/247 cases 与 seal 逐键一致、s057/s180 前缀在控制拆分前 stableJson 比对 + fail-loud、
+  source-v2 17 条 delayed goto 双边齐全、34 persistent + 7 discard + 2 inherited = 43 sites。
+  记录项（非反例）：①`script-project-v5.test.ts:404` 测试名残留 "SAVE6"（体内已用
+  buildPayloadV7，建议更名）；②`selectEntityPage` 分支无 exactKeys，手写 JSON 把
+  cursorHandoff 错放到 selectEntityPage 会被校验静默接受、runtime 静默丢弃（无损坏向量，
+  但不符合"错放即 fail-loud"严格读法，建议后续小改补 exactKeys）；③
+  `r13-cross-activation-mg2.pal.test.ts` 单文件超过审查环境 300s 上限未实跑，已由 seal 直检 +
+  disposition pal（228s）+ cadence pal（4,576 rows / SHA `b27b0fdf…`）+ closure digest 抽查
+  三角验证，Codex 35m 全量总测 73 files / 508 passed 覆盖。未修改实现/产物/baseline。
+  Next：R13-3（58 件投掷闭包），Codex 仍唯一 Coding Owner。
+
+#### R13-3 投掷公共 schema / runtime / MG2 delta 设计门禁（2026-07-28）
+
+##### 重新盘点与阻塞原因
+
+R13-2 三方 `accept` 只开放了 R13-3 的业务批次，并未授权新增公共字段。Codex 在进入实现前
+从源 `scriptOnThrow`、一阶段 `battle-opcodes.ts/simulateMagic`、当前 canonical item schema、
+Reforge battle runtime 和编辑器反向盘点，确认现有
+`ThrowSpec.effects: ItemUseEffect[]` 无法无损表达本批；根据 P7-R13 总设计中的
+“schema/save delta 另签”，本节形成新的聚焦设计门禁，三签齐前不得改实现或生成 PAL。
+
+- 源 `throwable && scriptOnThrow > 0`：**76 件**。
+- 当前 build / baseline / `projects/pal`：均只有 **18 件**具有 `throw`，集合为
+  `116–125、130、133、137–139、144、147、159`。
+- 缺失 **58 件 = 48 pending + 10 silent-empty**。58 条 root 覆盖 160 个 execution site /
+  145 个唯一源地址；其中 10 条正伤害 `0x42` 被旧 translator 静默返回 `effects=[]`。
+- 不能只验 presence。现有 18 件中的 **133 赤蝎粉**源链为
+  `0x42[372,0,0] -> 0x28[1,551,0] -> end`；magic 63 为
+  `baseDamage=150 / elemental=6 / applyToAll`，当前最终数据只剩 `applyPoison`，
+  已丢伤害和全体目标。因此 R13-3 必须审计全部 **76 roots**：
+  **58 absent restored + 1 present-but-lossy corrected + 17 existing roots exact-proven**。
+- 源全体投掷精确为 **11 件**：
+  `67、68、69、70、71、115、133、134、142、157、162`；其余 65 件为单体。
+- 58 件缺失按根链精确分族：
+
+| 根链族 | 件数 | 物品 |
+|---|---:|---|
+| `0x66 -> end` 武器投掷 | 32 | 163–194 |
+| `0x42 -> end` 正伤害模拟法术 | 10 | 66–71、115、142、143、146 |
+| `0x42 -> 0x21 -> end` 演出 + 固定伤害 | 7 | 153–156、161、162、255 |
+| `0x42 -> 0x2E -> 0x21 -> end` 抗性门 + 状态 + 固定伤害 | 6 | 126–128、135、140、160 |
+| `0x64 -> 0x60 -> end` HP 门槛即死 | 1 | 134 |
+| `0x42 -> 0x28 -> 0x21 -> end` 施毒 + 固定伤害 | 1 | 157 |
+| `0x42 -> 0x39 -> end` 吸血 | 1 | 158 |
+
+##### 冻结的最小 canonical schema
+
+投掷效果从 `ItemUseEffect` 独立成专用联合；只抽取 `StatusId`、`SkillAnimation` 等真正共享的
+值类型，不复用整套 `SkillEffect`，也不把 PAL opcode、magic object id 或 item id 带入
+canonical/runtime。
+
+```ts
+export type ThrowTarget = 'oneEnemy' | 'allEnemies'
+
+export type ThrowElement =
+  | 'none'
+  | 'wind'
+  | 'thunder'
+  | 'water'
+  | 'fire'
+  | 'earth'
+  | 'poison'
+
+export type ThrowMagicStrength =
+  | { kind: 'fixed'; value: number }
+  | {
+      kind: 'casterAttack'
+      bonus: number
+      multiplier: { kind: 'uniformInt'; min: number; max: number }
+    }
+
+export type ThrowEffect =
+  | {
+      kind: 'magicDamage'
+      baseDamage: number
+      element: ThrowElement
+      strength: ThrowMagicStrength
+    }
+  | { kind: 'fixedDamage'; amount: number }
+  | { kind: 'applyPoison'; poisonId: string }
+  | {
+      kind: 'currentHpDamage'
+      numerator: number
+      denominator: number
+      bonus: number
+      cap: number
+    }
+  | {
+      kind: 'applyStatus'
+      status: StatusId
+      turns: number
+      onResist: 'continue' | 'stopTarget'
+    }
+  | { kind: 'killIfHpAtMost'; percent: number }
+  | { kind: 'damageAndHealCaster'; damage: number; heal: number }
+
+export interface ThrowSpec {
+  target: ThrowTarget
+  effects: ThrowEffect[]
+  sound?: AssetId
+  presentation?: { kind: 'magic'; animation: SkillAnimation }
+}
+```
+
+冻结语义：
+
+1. `effects` 对每个目标按数组顺序执行；`applyStatus` 精确掷一次巫抗，抵抗后由必填
+   `onResist` 决定继续或只截断**该目标**的后续效果，全体投掷继续处理其他活敌。六条
+   `0x2E -> 0x21` 投影为 `applyStatus(onResist:'stopTarget') -> fixedDamage`，不得暗掷第二次，
+   也不得因一个目标抵抗而截断其他目标。
+2. `0x28` 的 `applyPoison` 自带现有巫抗判定，但抵抗不截断后续效果；毒配对致死继续消费
+   `PoisonDef.lethalWith`，不得复制第二份相克表。特别是六条
+   `0x28 -> 0x5E -> 0x60`：`0x28` 无失败跳转，故即使本次施毒被抵抗，仍须按目标**既有**
+   配对毒执行 `0x5E/0x60`；lethalWith 检查不能藏在“本次 applyPoison 成功”分支内。
+3. `magicDamage` 走 `calcMagicDamage` 的 SimulateMagic 语义：
+   `minDamage=0`、敌防/元素/毒抗/战场五灵与每敌独立伤害浮动均保留，不得复用
+   “施法者 magicStrength + 保底 1”的 `dealSkillDamage`。`ThrowElement` 是公共语义名，
+   source-backed 迁移在边界把 PAL `0..6` 显式映射为
+   `none/wind/thunder/water/fire/earth/poison`，canonical 不保存魔法元素编号。
+4. `strength.fixed.value` 是 `0x42 operand1`；`casterAttack` 为
+   `bonus + 施掷者有效 attackStrength × inclusiveRandom(multiplier.min,multiplier.max)`。
+   本批 32 件固定 `bonus=operand1×5 / min=0 / max=3`。strength 掷值按一次
+   effect/action 求值；伤害浮动仍逐敌求值。
+5. 正伤害 `0x42` 同时生成 `magicDamage + presentation`；只有 resolved magic 的 signed
+   `baseDamage < 0` 且确认结算为 0 的 sentinel 才能 presentation-only。
+6. `fixedDamage` 不走法术/物理减伤；`damageAndHealCaster` 的 `damage` 与 `heal` 是两个
+   明确的固定源量，即使目标余血不足，也仍按 `heal` 给施掷者回血并钳 `maxHp`；本批
+   `0x39` 两者均为 180。原子 `killIfHpAtMost` 按每敌满血独立判断，避免把逐目标条件误实现成
+   截断整条全体链的全局 gate。
+7. `ThrowSpec.target` 是 gameplay 和 UI 的唯一目标权威。`allEnemies` 不进入单敌选择；
+   `oneEnemy` 保持选择、死亡目标重选。全体动作只消费一件，不能按目标重复扣库存。
+8. validator 要求 `target`、非空 `effects`、判别联合 exact keys、全部数值为有限安全范围；
+   非法 kind/空毒 id/无效百分比/倒置随机区间在扣库存和保存前 fail-closed。
+9. `currentHpDamage` 从 `ItemUseEffect` 移入独立 `ThrowEffect`，`ItemUseContext` 收回为
+   `world | battle`；`applyPoison` 在两个联合中各自保留同名、同底层毒系统语义，但不再用
+   “throw 是 use 的第三种 context”把两套能力耦合。`ItemUseEffectV5` 与投掷 v5 投影也必须
+   分离，不能再让任意使用效果借类型漏洞进入投掷链。
+
+##### 内容版本与存档双轴
+
+- 本次为公共内容 schema 变化，`CONTENT_VERSION` **7 -> 8**；新增纯
+  `content v7 -> v8` 工程升级：
+  - 旧 v7 validator 允许的 throw 只可能含 `applyPoison/currentHpDamage`，两种可无损原样转入
+    `ThrowEffect`；
+  - 旧引擎始终进入单敌选择，任意作者 v7 throw 的新增 `target` 确定为 `oneEnemy`；
+  - PAL 不依赖这一缺省恢复全体语义，而由 source-backed R13-3 augmentation 重建 76 roots。
+- 世界存档形状没有新增字段，`SAVE_VERSION` 保持 **7**，`minimumSaveVersion` 保持 **7**。
+  当前组合为 `SAVE 7 / content 8`；`SAVE 7 / content 7` 允许走内建、输入不变的 content-epoch
+  identity normalization（只把 payload `contentVersion` 升为 8，世界体 deep-equal），无需读取
+  历史 sidecar。SAVE/content 6 及更早仍由既有 R13-2 epoch 门在任何 sidecar I/O 前拒绝。
+- 保留 historical 7/7 preflight/normalizer 的 byte-pin 测试；不得把本次内容 schema 变化
+  机械升级成 SAVE 8，也不得在作者 UI 重新出现“旧存档保护”文案。
+
+##### Append-only 生成与 MG2
+
+1. 已发布 P7 / C8 / R13-1 / R13-2 transition id、seal 文件、metadata 与 digest 全部 immutable。
+   尤其 `r13-cross-activation-v1` 已密封 full disposition 及 raw/augmented/final digest；
+   直接修改旧 raw translator 后拿新 snapshot 重放 R13-2 会漂移，禁止这样实现。
+2. `P7GeneratedCanonical` 增加显式 `r13CrossActivationParentSnapshot`。旧 R13-2 authority /
+   disposition 只从该 parent 重建并必须 byte-identical；R13-3 source-backed item augmentation
+   只产生 successor snapshot/evidence，不反向污染 parent。
+3. 新建纯 `augmentR13ItemThrows`（最终文件名可为
+   `r13-item-throw-augmentation.ts`）：解析 object→magic 并重建全部 76 roots；
+   evidence 固定 76 root、58 absent、133 lossy correction、17 existing exact、11 all-target、
+   分族计数、源 closure digest 与 final target digest。
+4. 新建外层 transition **`r13-item-throw-v1`**，seal 路径
+   **`_transitions/r13-item-throw-v1.json`**，parent 精确指向已发布
+   `r13-cross-activation-v1` digest。先完整 replay R13-2 parent，再合并 R13-3 successor；
+   seal 只写 baseline/metadata，不能泄漏进 generated/project/target。
+5. R13-3 disposition 使用保留的 rawContent/rawProjection 做源观察，同时以 successor
+   `content/items.json` 销账 48 pending、10 silent-empty 和 133 present-but-lossy；
+   initialize/replay/half-state/tamper/伪 authority/target drift 任一不一致均零写。
+6. 这仍是上游迁移修复；不得手改 `projects/pal`，不得改旧 baseline/seal，不得塞回 C8，
+   不得在 runtime 按 PAL item id 特判。
+
+##### 实现与验收矩阵
+
+- **content**：独立 `ThrowEffect`/`ThrowTarget`/`ThrowElement`/validator/v5 映射，
+  `ItemUseEffect`/`ItemUseContext` 收回使用域；v7→v8 工程升级；中文 effect label 与类型导出完整。
+- **migrate**：source-backed 76-root augmentation、R13-3 evidence/seal/disposition；
+  正式生成一次、fresh process replay、dry-run 均 0/0/0。
+- **reforge**：`BattleAction.throw.targetEnemyIdx` 只对单体必需；全体跳过目标 UI；
+  `performThrow` 在消费前完整校验，按目标执行有序链；表现层能呈现单/多目标伤害和 magic animation。
+- **editor**：在同一物品能力容器内新增 typed `ThrowEffectChainEditor`，复用现有通用的效果行
+  布局、数值控件、声音/演出控件与弹窗/属性面板；不得复制一套 `ItemUseEffect` 语义解释器或
+  另造通用脚本编辑器。投掷目标和全部 7 类效果均有中文名称、添加/修改/删除/排序、undo/redo、
+  保存重开闭环；新启用投掷的默认值为 `oneEnemy + fixedDamage(1)`，不生成私有脚本。
+- **源/目标总账硬门**：
+  - source roots = 76；
+  - final runnable throw = 76；
+  - source-final missing = 0；
+  - 58 absent 全部 restored；
+  - 133 伤害/毒/全体三项齐；
+  - 17 existing roots exact-proven；
+  - pendingThrow / silent-empty / R13-3 open observation / open execution site 全为 0；
+  - 11 all-target 集合精确一致，其余 65 单体。
+- **定点 runtime**：
+  - 10 个正伤害 `0x42` 的伤害/元素/单全体/动画；
+  - 32 个 `0x66` 的 RNG 0/3、有效攻击力、minDamage 0；
+  - sentinel `0x42 + 0x21`；
+  - `0x2E + 0x21` 命中继续、抵抗截断且不双掷；
+  - `0x64 + 0x60` 阈值两侧与全体混合血线；
+  - `0x42 + 0x28 + 0x21` 施毒抵抗后仍固定伤害；
+  - `0x39` 正常/过杀/治疗封顶；
+  - 既有 `0x5B`、毒配对致死、单体重选、全体直提、repeat/预占/每次只消费一件回归。
+- **MG2/版本**：旧四层 seal byte-pin；R13-3 initialize/replay/half-state/tamper/drift；
+  content 7→8 输入不变和幂等；SAVE 7/content 7→8 identity normalization 与非法轴组合；
+  fast prepared exact-identity + release live rebuild 均覆盖新 R13-3 文件。
+- **最终门**：content/reforge/editor/migrate 定点、migrate fast、相关 release live authority、
+  root typecheck/lint/build、PAL 单体与全体真实浏览器投掷、正式重迁二跑零计划。R13-3 三方
+  实现 `accept` 前不得进入 R13-4。
+
+不可接受的降级包括：把固定伤害伪装成 `currentHpDamage`、把正伤害 `0x42` 当纯演出、
+把 `0x66` 静态化或误用 magicAttack、继续丢 32 件武器、全体仍只打一个敌、仅凭
+“76 件都有 throw”宣称闭包、canonical 保存 raw opcode/object id，以及修改旧 seal 让重放
+“看起来通过”。
+
+##### R13-3 schema delta `build` 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-28 | 已从 76 源 roots、当前 18、48 pending、10 silent-empty、一阶段 opcode/runtime 与当前 content/reforge/editor 边界完成只读差集；确认 133 是 presence 之外的 present-but-lossy。接受独立 ThrowEffect、content 8 / SAVE 7 双轴、R13-2 immutable parent 与 append-only `r13-item-throw-v1`。 |
+| Kimi | **agree** | 2026-07-28 | 架构/runtime/MG2 主审通过：ThrowEffect 7 类最小充分覆盖 8 族根链（133/134/158 等一手核对）；0x2E 单掷 stopTarget、0x28 抵抗续跑、0x39 定值、0x42 minDamage=0、0x66 有效攻击+inclusive 0..3 逐条对源成立；CONTENT 8/SAVE 7 + identity normalization、R13-2 存储快照 parent + 外层 seal 的 replay byte-identical 成立；附 K1-K6 风险钉（见「Kimi R13-3 设计主审」）。GLM 未 agree 前不得开始实现。 |
+| GLM | **agree** | 2026-07-28 | 独立核对：source 76 / final 18 / missing 58 全部精确匹配；7 族分族 32/10/7/6/1/1/1 逐条确认；11 全体目标集合精确匹配。**G1 已撤回**：经独立复核源 object-magic 链，16 件（116-125,130,138,139,144,147,159）`0x42[24,0,0]`→object24→magic96→`baseDamage=64537`→SHORT(-999)→SimulateMagic minDamage=0→**0 伤害 sentinel**，非 gameplay damage；6 件 `0x5E/0x60` 是配对毒 lethalWith 而非 HP 门。133 `0x42[372]`→magic63 `baseDamage=150/elemental=6/applyToAll=true` 确为唯一 present-but-lossy。总账 58 absent + 1 lossy + 17 exact-proven 成立。schema delta / content 8 / SAVE 7 / seal 链 / 测试矩阵全部成立。**不得给 16 个 sentinel 制造伤害，不得给 6 个毒对生成 killIfHpAtMost。** |
+
+- **当前门禁**：三签齐（Codex + Kimi + GLM 均 `agree`），**R13-3 schema delta build allowed**。
+  GLM G1 已撤回（2026-07-28）：经独立复核源 object-magic 链确认 16 件 sentinel 0 伤害 + 6 件
+  lethalWith 配对毒，Codex 签字备注中的裁决成立。**不得给 16 个 sentinel 制造伤害，不得给 6 个
+  毒对生成 killIfHpAtMost。** Codex 可开始 R13-3 实现。
+- **状态边界**：任务卡总状态仍为 `build`，R13-3 schema 子门禁已解除；R13-2 的三方
+  `accept` 不撤销。N3-1、C8、ED-5I 均未完成。
+- 2026-07-28 Codex：完成 R13-3 只读源差集、schema/runtime/editor/MG2 最小增量设计并签
+  **agree**；额外发现 item 133 的 present-but-lossy，故验收从“补 58 件”升级为“76 roots
+  逐条闭包”。本轮只修改任务卡与看板，未改实现、生成产物、baseline 或 seal。
+  Next：Kimi 与 GLM 可并行执行下方两份设计主审；两席均 `agree` 前 Coding Owner 保持等待。
+
+##### GLM G1 定点争议裁决（2026-07-28，GLM 已确认撤回）
+
+Codex 没有按附加项直接扩大实现，而是对 17 个 `applyPoison` root 逐 ID 回到
+`items -> events -> object-magics -> magic -> final throw` 机器复核。结果支持原冻结口径，
+反驳“17 个全部丢伤害”和“6 个丢 HP 门槛即死”：
+
+1. 除 133 外的 16 件
+   `116–125、130、138、139、144、147、159` 都以 `0x42[24,0,0]` 开头；object 24
+   指向 magic 96，`baseDamage=64537` 作为 `SHORT` 精确等于 **-999**。SimulateMagic
+   使用 `magStr=0 / minDamage=0`，所以该步对任意敌人结算均为 **0 伤害**；它是投掷
+   OffMagic 演出 sentinel，不是被丢失的 gameplay damage。16 件最终数据均已保留对应
+   `presentation`。
+2. 一阶段真值已把这条写成公式和回归：
+   `packages/game/src/core/battle/magic-damage.ts:10-23,265-305` 与
+   `packages/game/src/core/battle/__tests__/magic-damage.test.ts:154-166` 明确验证
+   `64537 -> SHORT -999 -> 0 damage`。若按 G1 给这 16 件新增正伤害，反而会制造源不存在的伤害。
+3. `122–125、138、139` 的 `0x5E[pairedPoison] -> 0x60` 不是 HP 门槛：
+   `0x5E` 查询目标是否已有配对毒，存在才继续 `0x60` 即死。该关系已单源数据化为
+   `PoisonDef.lethalWith`（`pal-derived-content.ts:63-126`），Reforge 投掷命中后在
+   `battle-core.ts:1600-1612` 执行；这 6 件并未丢失致死语义，也不应再生成
+   `killIfHpAtMost`，否则会重复或错误即死。
+4. 133 的 `0x42[372,0,0]` 才解析到 magic 63：
+   `baseDamage=150 / elemental=6 / applyToAll=true`，当前又没有 presentation，确为唯一
+   present-but-lossy。第 18 个已有 root 137 为既有 `currentHpDamage`，所以冻结总账仍是
+   **58 absent + 1 present-but-lossy + 17 exact-proven**。
+5. 定点复跑通过：
+   - game magic-damage：1 file / 23 tests；
+   - reforge 投掷致死组合：3 tests；
+   - migrate 投掷/0x42：6 tests；
+   合计 **32 passed**。
+
+**裁决**：保留 GLM 的 76/18/58、七族计数、11 全体集合和 133 结论；拒绝 G1 对另外
+16 件的“伤害缺失”及 6 件的 `killIfHpAtMost` 映射。由于 G1 被写成签字附带“必落”，仍需
+GLM 在自己的签字/交接记录明确撤回 G1 或给出能推翻 signed-short sentinel、
+`PoisonDef.lethalWith` 与上述 32 项测试的一手反证。Kimi 已在 K2 精确覆盖同一事实，无需重审。
+
+- 2026-07-28 GLM：完成定点复核并在自己的签字行明确撤回 G1；确认 16 件为
+  signed-short `-999` 零伤害 sentinel、6 件为 `PoisonDef.lethalWith` 配对毒、133 为唯一
+  present-but-lossy。三签恢复无分歧，R13-3 build allowed。
+- 2026-07-29 Codex：在逐 ID 复核中进一步发现六件配对毒的端到端 runtime gap：
+  `performThrow` 当前只在本次 `applyPoisonToEnemy` 成功时检查 `lethalWith`，但源
+  `0x28` 被抵抗后仍自然续到 `0x5E/0x60`，目标若已有配对毒仍应即死。该项是已签
+  `0x28 抵抗续跑 + lethalWith 单源` 语义内的实现修正，不新增 schema；R13-3 必须改掉现有
+  错误测试并覆盖“抵抗 + 已有配对毒仍即死 / 抵抗 + 无配对毒不即死”。
+
+##### Kimi R13-3 设计主审（2026-07-28）
+
+**方法**：只读设计审查。对 sdlpal script.c、docs/phase1/game-mechanics.md 巫抗/投掷节、
+提取数据链与 flags、现有 battle-core 巫抗实现逐项一手核对；未读实现分支，未改实现。
+
+**逐项结论**：
+
+1. **ThrowEffect 7 类最小充分** ✅。8 族根链逐族有落点：0x66→magicDamage(casterAttack)、
+   0x42→magicDamage(fixed)+presentation、0x42+0x21→+fixedDamage、0x42+0x2E+0x21→
+   +applyStatus(stopTarget)、0x64+0x60→killIfHpAtMost、0x42+0x28+0x21→+applyPoison、
+   0x42+0x39→+damageAndHealCaster、既有 0x5B→currentHpDamage（移入）。无冗余 kind
+   （onResist:'continue' 本批无实例，见 K3）。
+2. **源语义忠实性** ✅（一手核对）：0x2E 单次巫抗+stopTarget（script.c:1377-1397 失败跳
+   op2）；0x28 抵抗后**不截断**续跑固定伤害（script.c:1175 无跳转）；0x39 定伤定回
+   （L_39263 实证 `0x42[24]→0x39[180]`，sentinel presentation + damageAndHealCaster(180,180)）；
+   0x42 minDamage=0（一阶段 applyMagicDamage 真值）；0x66 `w=op1×5+有效攻击×RandomLong(0,3)`
+   inclusive（script.c:2007-2014）；134 为 `0x64[5,38780]→0x60`（L_39592 实证），
+   killIfHpAtMost{percent:5} 且 flags.applyToAll=true（全体逐敌独立判断成立）；133 为
+   `0x42[372]→0x28[1,551]`（L_39260 实证），全体+施毒+伤害三项齐的证据成立。
+3. **单体/全体与消费闭环** ✅：target 为唯一权威（11 全体精确集，134/133 flags 抽查吻合）；
+   全体一次消费、不进单敌选择；oneEnemy 死亡重选；validator 在扣库存与保存前 fail-closed。
+4. **CONTENT 7→8 / SAVE 7** ✅：投掷是内容 schema，世界存档无新字段，SAVE 保持 7 成立；
+   SAVE7/content7→8 identity normalization（只升 contentVersion、世界体 deep-equal、不读
+   sidecar）是正确的最小路径；历史 7/7 verifier byte-pin 保留。
+5. **R13-2 immutable parent + 外层 seal** ✅：`r13CrossActivationParentSnapshot` 存储快照是
+   旧 seal byte-identical replay 的唯一正确姿势——parent 只从快照重建（不得用当前代码
+   重生成），R13-3 只产 successor；seal 只写 baseline/metadata。序列化形状不变（kind 名
+   不变）使 C8/R13-1 的既有产物在新 union 下字节稳定。
+6. **类型分离与编辑器** ✅：Throw 与 ItemUseEffect 分离、ItemUseContext 收回 world|battle；
+   typed ThrowEffectChainEditor 复用通用控件、不复制 ItemUseEffect 解释器；applyPoison 同名
+   双 union 但底层毒系统（抗性、lethalWith 相克）单源，不构成重复系统。
+
+**风险钉（K，实现验收核对，不阻塞 agree）**：
+
+- **K1 巫抗公式必须沿用 phase-2 已定修复语义**：`roll >= 巫抗`（battle-core.ts:434-442
+  `applyPoisonToEnemy` 与 :837 灵抗门同构），applyStatus 与 applyPoison 单源共享；原版
+  0x2E 的 `>` 公式是 90%-cap bug（game-mechanics.md:723-727 铁证），phase-2 已统一修复，
+  投掷侧不得复活 bug 公式，也不得复制第二份判定实现。
+- **K2 magicDamage.baseDamage 与 strength 的关系必须钉死**：strength 是 SimulateMagic 的
+  magStr 唯一来源（0x42 op1 / 0x66 的 w）；baseDamage 仅承载 magic object 的 wBaseDamage
+  语义用于 sentinel 判定（signed<0 且结算 0 → presentation-only）；0x66 时 sdlpal 用 w
+  替代 object baseDamage——baseDamage 不得参与伤害结算，validator 注释写明。
+- **2026-07-29 Codex 一手纠正 K2 末句（实现按冻结语义 3/4，不改 Kimi agree）**：
+  `reference/sdlpal/fight.c` 的 `0x66` 先把
+  `op1×5 + 有效 attackStrength×RandomLong(0,3)` 算成 `w`，再以 `w` 作为
+  `PAL_CalcMagicDamage` 的 `magStr`；该函数仍会加入 magic object 的 `wBaseDamage`。
+  本批相关 magic 360/344 的 baseDamage 为 40/198，并非 0。因此正确投影是
+  `strength=casterAttack(...)` 与 `baseDamage=magic.wBaseDamage` 同时参与各自公式位置；
+  “不得参与伤害结算”只对已证明结算为 0、被省略 gameplay effect 的 signed-negative
+  sentinel 成立。K2 原末句与本卡冻结 schema/语义 3–5 及一手源冲突，不能据此丢失 32 件
+  武器的 magic baseDamage；此纠正列入 Kimi 实现 review 的必核项。
+- **K3 onResist:'continue' 本批 76 roots 无实例**（6 条 0x2E 链全部 stopTarget）：保留为
+  作者能力可以，但 seal evidence 必须注明"预留无源实例"；若想严格最小充分则删去，二选一
+  在实现时定案并记录。
+- **K4 18 件现有 throw 的 target 补齐要分开记账**：137 等补 `target:'oneEnemy'` 是序列化
+  新增字段而非语义修复；R13-3 evidence 必须把"target 字段补齐（v7→v8 schema 升级噪声）"
+  与"语义变化"分列，17 existing exact 的口径是"补字段后语义与源精确一致"，不是字节不变。
+- **K5 raw translator 的 silent-empty 行为本批不改**（防 R13-2 漂移）：必须在 R13-3
+  evidence 显式登记为已知限制；R13-Z 前任何"无审计的 silent return"不得再出现；后续批次
+  遇同类同法处理。
+- **K6 performThrow 与现有预占/消费机制对齐**：全体一次消费、效果链有序、目标死亡重选
+  （oneEnemy）、pendingItemUses 预占不被新链破坏；consume 前的完整校验失败必须回滚预占。
+
+**结论**：**agree**。schema 最小充分、源语义忠实、版本轴与 append-only MG2 成立、无
+schema/runtime/save 级反例。GLM 未 agree 前不得开始实现。
+
+- 2026-07-28 Kimi：完成 R13-3 投掷 schema/runtime/MG2 设计准入主审，签 **agree**，附 K1-K6
+  风险钉（见上节）。一手核对：133（L_39260 `0x42[372]→0x28[1,551]`，全体+施毒+伤害）、
+  134（L_39592 `0x64[5,38780]→0x60`，killIfHpAtMost{5} 且 flags.applyToAll=true）、
+  158（L_39263 `0x42[24]→0x39[180]`，sentinel presentation + 定伤定回）；巫抗公式沿用
+  phase-2 修复语义 `roll >= 巫抗`（battle-core.ts:434-442 单源），原版 90%-cap bug 不复活
+  （game-mechanics.md:723-727）。最重要两条钉子：baseDamage 只作 sentinel 语义、strength 是
+  magStr 唯一来源（K2）；18 件现有 throw 的 target 补齐属 schema 升级噪声须分开记账（K4）。
+  未修改实现/产物/baseline/旧 seal。Next：GLM 源数据/守恒/测试矩阵主审；两席均 agree 后
+  Codex 进入 R13-3 实现。
+
+#### R13-3 implementation candidate 与 Codex 自验（2026-07-29）
+
+**实现收口**：
+
+- content 轴升至 **contentVersion 8**，SAVE 仍为 **SAVE 7 / minimumSaveVersion 7**。
+  `ItemDefV5.throw` 使用独立 `ThrowTarget = oneEnemy | allEnemies` 与独立 `ThrowEffect`
+  七类联合：`magicDamage / fixedDamage / applyPoison / currentHpDamage / applyStatus /
+  killIfHpAtMost / damageAndHealCaster`。它没有复用 `ItemUseEffect` 解释器，也没有把
+  `throw` 塞进 `ItemUseContext`。
+- content 7→8 只给旧投掷补 `target:'oneEnemy'`；SAVE7/content7 读档只做输入不变的
+  content epoch identity normalization，world / position / projectId 深相等，不读历史
+  sidecar。非法版本组合在 sidecar I/O 前拒绝。
+- Reforge 按 `target` 做单敌选择或全体直接提交；效果链按顺序、逐目标执行，完整校验先于
+  预占/扣库存，全体仍只消费一件。`applyStatus` 的 `stopTarget` 只截断当前目标；配对毒
+  `lethalWith` 即使本次 `0x28` 被抵抗也按源链继续判断。
+- 敌方 `0x28` 新毒首次成功落槽时，立即执行一次 `enemyTicks[0]` 并保存推进后的 cursor；
+  抵抗或重复同毒不重放。即时 tick 与行动后 tick 共用同一执行器，覆盖 hp/mp、halve、
+  grantItem 与 selfCure。当前契约已同步到
+  `docs/phase2/poison-system-design.md`。
+- `0x2E` 抵抗分支通过 `lastAction.notice` 显示“攻击无效”；`0x64` 阈值失败显示
+  “无任何效果”。迁移 evidence 对两条失败臂精确校验 narration/message/end，并把失败臂
+  rows 纳入 `sourceClosureDigest`，文字或分支漂移都会 fail-loud。
+- Editor 在现有物品效果编辑组件内提供独立的 `ThrowEffectChainEditor`，共享通用字段控件
+  而不共享 use/throw 类型解释器。目标与七类效果均为中文，可添加、改类、删除、排序、
+  undo/redo、保存重开；没有私有脚本逃生口。
+- 资源引用 walker 与声音审计已覆盖
+  `throw.presentation.animation/sound`。release 测试另修正 R13-3 MG2 fixture 分流：
+  fast 复用 prepared authority，release 必须从 live PAL 输入重建 cadence / cross /
+  item-throw authority，release 不再错误调用 fast-only getter。
+
+**76-root、59 observations 与 append-only 发布证据**：
+
+- source roots **76** / final runnable **76** / missing **0**；
+  restored-absent **58** / corrected-lossy **1（item 133）** /
+  existing-exact **17**。
+- all-target **11** / one-target **65**；presentation-only signed-short sentinel
+  **29**。family：
+  `0x42=10`、`0x42-0x28=11`、`0x42-0x28-0x5e-0x60=6`、
+  `0x42-0x2e-0x21=6`、`0x64-0x60=1`、`0x42-0x5b=1`、
+  `0x42-0x21=7`、`0x42-0x28-0x21=1`、`0x42-0x39=1`、`0x66=32`。
+- root observations **59** = pending **48** + silent-empty **10** + lossy **1**；
+  open root observations **0**。item 133 的 parent 归一化固定使用 v7→v8
+  `oneEnemy`，不会再借 source target 掩盖 parent drift。
+- R13-3 source digest：
+  `5aa77a8e5b757be38da410b3cfd7b92ab48e873e11ac48af22ccf229fde55a1f`；
+  target digest：
+  `9813a527cffbbb8e731b06a9b1193c9cdd0cf3d5cdbd7e92c914d5938145cd95`；
+  evidence digest：
+  `d35d39e6f85835d66057b060e3f67271084a55caa5d5e9bca23f921522c74f36`。
+- 新 append-only `r13-item-throw-v1` 以
+  `r13-cross-activation-v1 /
+  d20c06c821a044a6f6be2430da1d660d801a00b03b210082ba954e76b09bc686`
+  为 parent。seal digest：
+  `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`；
+  文件 SHA-256：
+  `2c74122277d724f77dfb3e0375bf88188a90bbf73541c872fad77a0a99f62b08`。
+- 旧四层 seal 文件 SHA-256 逐字节保持：
+  P7 `41263ba1fa216af014bf8b880405a587938be38938449f77ccec84ed40da6b12`；
+  C8 `325d52ed750e29ab5757002821037a270498b2f8c3af5158a79d568a27df3a24`；
+  R13-1 `2b1e71b018ffba8aecd4adea628c325dd4f67e338508b22f6ed06f4517683453`；
+  R13-2 `723e4fd29f7d69aa861d67d5188038d242c1f5ff619d5c7fdce2854bdf50db12`。
+- 正式 `migrate:content -- --write` 首轮只有 R13-3 seal/state **2 项事务操作**；
+  第二独立进程为 `writes=0 / deletes=0 / conflicts=0`。R13-0 formal source/runtime
+  digest 为
+  `ad8e497beba290c154a6b81b4a3c487307e3f95cc0b635dd6fb271fab11fd585` /
+  `556885e1982542f9e3a66356e93f9b1ea5471ab5666328440b098dbd1a031ce9`。
+  资源物化 1,879 files / 68,439,367 bytes / writes 0。
+- sound audit：itemThrow sound edges **75**；全工程 sound edges **1,743**、
+  typed refs **6,725**、non-sound refs **4,982**、missing **0**、kind mismatch **0**。
+
+**自动验证与最后发现的反例**：
+
+- Content **29 files / 361 tests**、Reforge **70 / 702**、Editor **91 / 773**，
+  全部 package check（typecheck + test）通过。
+- migrate `check:fast`：**75 files / 532 passed / 1 skipped**，Vitest
+  **966.70s**、real **970.82s（16m10.82s）**。相较 2026-07-28 fast 基线增加
+  2 files / 20 active tests；本次未使用 `caffeinate`，因此不据此宣称稳定性能回退，
+  但完整 PAL fixture 仍是开发反馈的绝对瓶颈，后续性能债不得用增大 timeout 掩盖。
+- fresh release 第一次合跑时，augmentation **11/11** 与 PAL integration
+  **2 passed / 1 skipped** 已通过，同时暴露 MG2 release 错调 fast-only prepared
+  cadence getter；按上文分流修复后，focused fast MG2 **9/9 / 219.79s**，
+  fresh release MG2 **9/9 / 200.36s（real 200.90s）**。最终 release 合计
+  **22 passed / 1 skipped**，没有靠 fast 缓存冒充 live authority。
+- 实现末端只读审计（非 Kimi/GLM 正式签字）发现并关闭三项：
+  ① 所有敌方 `0x28` 漏即时首 tick；
+  ② `0x2E/0x64` 失败文字被验证后丢弃；
+  ③ source closure 未哈希失败臂且 item 133 parent target 会被 source 回填掩盖。
+  修后 Reforge 新增技能/投掷即时毒、重复不重放、selfCure/grantItem 回归，迁移新增
+  失败文字漂移与 item 133 exact parent digest 负测；终审未再发现 P0/P1/P2。
+- 全仓 `pnpm typecheck` 7 包通过；`pnpm lint` 检查 **994 files** 无错误；
+  `git diff --check` 通过。
+
+**真实浏览器闭环（Playwright，2026-07-29）**：
+
+- Editor 6010：
+  - item 126 醍醐香真实执行 `oneEnemy→allEnemies`、添加第三效果、改为
+    “伤害并回复使用者”、改数值、上移、删除、undo/redo；随后连续 7 次 undo 恢复
+    `oneEnemy + 施加状态(stopTarget) + 固定伤害(1)`，未保存工程。
+  - item 157 毒龙砂显示 `allEnemies + 法术伤害(毒205) + 施毒(553) +
+    固定伤害(55)`。两页 console 均 0 error。
+  - 截图：`output/playwright/r13-editor-item126.png`、
+    `output/playwright/r13-editor-item157.png`。
+- Reforge PAL 6051、enemy team 23：
+  - item 163 长鞭：进入单敌选择，左右可切换；只有选中的紫衣敌人闪白并显示
+    `105`，另外两敌无伤害数字；整轮后库存 `5→4`。
+  - item 67 风灵符：按一次 Enter 直接提交、不进入选敌；三敌同时出现风柱并闪白，
+    伤害数字 `132/132/110`；整轮后库存 `5→4`，未按敌人数重复扣除。
+  - 两条实战均继续进入下一回合，console **0 error / 0 warning**。关键截图：
+    `output/playwright/r13-runtime-single-fast-22.png`、
+    `output/playwright/r13-runtime-all-fast-29.png`、
+    `output/playwright/r13-runtime-single-count4.png`、
+    `output/playwright/r13-runtime-all-count.png`。
+
+##### R13-3 批次实现审查签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-29 | content8/SAVE7、独立 ThrowEffect、76/76 roots、59 observations、即时敌毒 tick、失败提示、Editor CRUD、append-only seal、正式重迁二跑零计划、四包全测/fresh release/声音审计/单体全体浏览器均已闭环。accept 只表示 R13-3 implementation candidate 可送审，不代表 R13-4～R13-Z、N3-1、C8 或 ED-5I 完成。 |
+| Kimi | **accept** | 2026-07-29 | 只读架构/runtime/MG2 实现审查通过：独立 ThrowEffect 七类 + validator exact keys、content8/SAVE7 identity normalization、单体/全体一次消费、0x66 有效攻击+U[0,3] 单次掷、0x2E/0x64 失败 notice 与失败臂 digest、0x28 即时首 tick 共用执行器且抵抗/重复不重放、lethalWith 抵抗后仍判、Editor CRUD、release live authority 分流、旧四层 seal 一手 sha256 byte-pin；K1-K6 逐条核对（K2 按 fight.c:221 修正表述，见交接日志）。记录项 4 条。accept 仅准入 R13-4。 |
+| GLM | **accept** | 2026-07-29 | 独立复跑：content 29/361、reforge 70/702、editor 91/773 全绿；dry-run 0/0/0；76/76/0 严格闭合（source throwable+scriptOnThrow=76, final with throw=76, missing=0）；11 allEnemies（67,68,69,70,71,115,133,134,142,157,162）+ 65 oneEnemy 精确匹配；133 修正确认（magicDamage baseDamage=150/element=poison + applyPoison 551 + allEnemies + presentation）；16 applyPoison+presentation sentinel 保持 0 伤害（G1 撤回约束遵守）；seal 链 R13-3 `c8df75…`→R13-2 `d20c06…` byte-pin 确认；旧四层 file SHA 全部不变；source digest `ad8e497…` + runtime digest `556885e1…` 匹配；contentVersion=8/SAVE_VERSION=7/minimumSaveVersion=7 确认；openObservations=7,657 是 R13-4~R13-6 输入。 |
+
+- **当前门禁**：Codex / GLM / Kimi 三席 `accept` 已齐（2026-07-29），**R13-4 准入开放**。
+  不得标 N3-1、C8 或 ED-5I `done`；R13-3 accept 不代表 R13-Z/N3-1 完成。
+- **后续边界**：R13-4 confirm、R13-5 enemy、R13-6 approved-lossy 与 R13-Z
+  publication 仍未完成；本批 open=0 只指 76 个投掷 roots，不代表全源指令闭包完成。
+- 2026-07-29 Kimi：完成 R13-3 架构/runtime/append-only MG2 只读实现审查，签 **accept**
+  （仅准入 R13-4）。两路独立深查 + 一手抽核：seal 五文件 sha256 实测（P7 `41263ba1…`、
+  C8 `325d52ed…`、R13-1 `2b1e71b0…`、R13-2 `723e4fd2…`、R13-3 `2c741222…` 全中，
+  parent 链 `c8df75a5…→d20c06c8…` 闭合）；reforge battle 149/149；content/reforge/
+  editor/migrate 各线复跑全绿；76/76/0、11 all-target、59 observations、29 sentinel、
+  32 件 0x66、133 parent 归一化、失败臂入 sourceClosureDigest、sound audit 75/0/0
+  均独立复算吻合；敌毒即时 tick 对 script.c:1175-1256 逐项吻合；release 不调
+  fast-only getter。
+  K1-K6 核对：K1 巫抗 `roll >= 巫抗` 单源成立；**K2 修正**——我设计钉中"baseDamage
+  不得参与结算"的表述被 fight.c:221 证伪：`sDamage += lprgMagic[id].wBaseDamage`
+  是加性常量，sentinel 正是靠 signed 负 baseDamage 把伤害压到 0；实现按 fight.c 忠实
+  落地（strength 仍是 magStr 唯一来源），K2 以此为准销钉；K3 onResist:'continue'
+  预留已注明；K4 target 补齐与语义分列（17 exact + 133 lossy）；K5 silent-empty
+  已登记入 evidence 与 buildAndAssertR13ControlAudits；K6 校验先于预占/扣库存。
+  记录项（非反例）：①`applyPoisonToEnemy` 已无 runtime 调用方但仍导出（旧无即时
+  tick 语义），建议后续批次收回导出防误用（battle-core.ts:480-486）；②状态巫抗公式
+  三处内联（:880/:1006/:1761）一致但非字面单函数，可接受；③三个 R13 seal 文件当前
+  untracked，提交时必须同批入库防 baseline 断链；④0x66 强度在 C 中为 WORD(mod 65536)
+  实现保留全精度，PAL 数据不可达。未修改实现/产物/baseline/seal。
+  Next：R13-4（真实 confirm），Codex 仍唯一 Coding Owner。
+
+#### R13-4 源 No 生命周期 / 真实确认框 / append-only MG2 专项设计门禁（2026-07-29）
+
+R13 总设计只把已知问题描述为“Reforge host 恒返回是”，并假设 26 个源 `confirm` 的两臂
+已经被 canonical 保留。R13-3 三方 `accept` 后的只读前置审计推翻了后一项前提：
+`confirm` 节点虽然存在，但 **22/28 个源执行位的 No activation 生命周期在 P3 → P7
+投影时静默丢失**。因此本批触碰迁移器、生成场景、FlowCursor epoch 与 append-only
+transition，属于高风险 delta；总设计旧签字不能覆盖，专项三签齐前不得修改实现或生成产物。
+
+完整映射、反例与 digest 见：
+[Codex R13-4 confirm 源控制流审计](../audits/codex-r13-4-confirm-control-flow-audit.md)。
+
+##### 冻结事实与风险
+
+- **26 RAW / 28 logical / 31 physical**：
+  - RAW `0x0A` 26 个唯一地址；source census digest `3d19fb14…`；
+  - `@11019`、`@14583` 各扇出两 owner，形成 28 source execution sites；
+  - R13-2 又为 s029/s030 各复制一个 phase，并把 s108 一个旧节点拆成两个 continuation，
+    final 共 31 个物理节点，修复前 digest `556885e1…`。
+- **当前保真只有 6/28 logical、9/31 physical**：
+  `@7452,@7484,@14486,@19272,@19292,@19888`。`@7452/@7484` 因 R13-2 phase copy
+  各有两份；`@14486` 的两份是既有 s081 initial/cycle，不是 R13-2 生成。
+  其余 **20 RAW / 22 logical / 22 physical** 都会在 No arm 完成后继续 Yes suffix。
+- 22 个 lossy 节点实际位于 **18 个 stages flow / 13 个 scene**，共有 26 个旧 stage
+  cursor id；s009、s100/e1825、s131 分别在同 flow 内含 2、3、2 个 confirm，不能按
+  “一个 flow 一个 decision”转换。
+- 直接把 `packages/reforge/src/main.ts` 的恒 `true` 换成真实框会立刻激活错误：
+  - s005 买水果选否仍扣 25 文并给水果；
+  - s050 买米选否仍扣钱并给米；
+  - s009 选否说“那就算了”后仍继续整段剧情。
+- 根因不是 runner。v5 runner 正确执行 `onNo` 后继续父命令；丢失发生在迁移：
+  `p3-control-flow.ts` 的 `n3P3FlowExit` 带
+  `terminate-current-activation`，但 `p7-canonical.ts.generatedP3()` 只展开 target body，
+  丢掉 terminal cursor / advance / reset / loop。
+
+##### 设计冻结
+
+1. **canonical schema 不新增第二种 confirm**
+   沿用现有 `AuthorCommandV5.confirm{id?,onNo}`、compiler 与
+   `StateTransitionV5.commandOutcome`。不把 PAL 地址写入 author id，也不新增世界字段。
+
+2. **在 R13-3 successor 后统一修上游生命周期，不补最终 JSON**
+   为保持已签 R13-1～R13-3 authority append-only，旧 P3/P7 projector 冻结。新增
+   `augmentR13ConfirmControlFlow(...) → confirm.snapshot + confirmSourceEvidence`，作为
+   item-throw successor 后唯一 source-backed pass；不得直接改
+   `p7-canonical.generatedP3()` 后又要求 cadence/cross/item parent byte-identical。
+   该 pass 不能只收 final snapshot，因为源 flow-exit 已被旧 projector 展开；输入冻结为：
+   `itemThrows.snapshot + sourceCommands + chain.p6.ir.flowStructures + sourceCensus +
+   triggerActivationEvidence + c8Evidence`。其中输入侧 evidence 保存 28 logical site 的
+   source SHA、`terminate-current-activation`、No target/terminal 与 Yes fallthrough，
+   R13-2 evidence 证明 28→31 physical 的 1:N expansion；所有输入 digest 进入 MG2：
+   - 当前 state 的 body 是 prefix + 稳定 `CommandId` 的 `confirm(onNo:[])`；
+   - `commandOutcome(no).then` 编译源 No target，精确保留 plain END / advance /
+     reset / cycle 和对应 yield；
+   - `else` 指向 Yes suffix 的同步 continuation，suffix 恰执行一次；
+   - 不得只 append `stopScript`，因为它不能提交 advance/reset/cycle cursor；
+   - 同一 flow 多个 confirm 按源顺序递归切分，Yes continuation 继续消费下一个 decision；
+   - 普通迁移、overlay、baseline 与 `projects/pal` 不得各写一套修补逻辑。
+
+3. **已保真节点只做守恒，不二次包裹**
+   s029/s030 的双 phase、s081 initial/cycle 的不同 yield、s108 两 continuation 与
+   C8 item287 私有脚本必须保持现有语义；新 pass 遇已结构化 commandOutcome 或 C8
+   terminal arm 时登记 exact evidence，不重复转换。
+
+4. **append-only `r13-confirm-v1`**
+   parent 精确指向 `r13-item-throw-v1` candidate 经三方签批后原子提交的已发布 digest。
+   当前三个 R13 seal 仍未入库，因此 R13-4 build 前必须先把 R13-0～R13-3 实现、
+   manifest 与 seal 原子提交，记录 commit + item-throw digest；此前禁止初始化新 seal。历史
+   `script-v4-v5`、`c8-item-use-v5-v1`、`r13-cadence-v1`、
+   `r13-cross-activation-v1`、`r13-item-throw-v1` 五层逐文件 byte-pin。
+   evidence 逐 source site 保存 source SHA、No target、Yes fallthrough、terminal lifecycle、
+   command/transition/两臂/final flow digest 与 runtime executed evidence。31 个 final
+   selector 使用 entity 的 scene/entity/channel/behavior 或 hook 的 scene/slot/hook，
+   再接 flow kind + machine/state 或 stage id + CommandId。C8 @19888 无 CommandId，
+   使用 item/script/behavior/stage 稳定 id + command digest + 唯一性断言。数组下标或
+   含糊 body 身份不能作为 selector，也不能让篡改 final JSON 自证源账。
+
+5. **审计方法升级并只关闭 R13-4 的债**
+   source disposition `v2→v3`，runtime capability `v1→v2`：
+   world-interactive / world-auto / item-private-world 的 confirm 均为 executed，
+   confirm refused=0、confirm open debt=0、unregistered refused=0。不得把这些数字冒充
+   R13-5、R13-6 或 R13-Z 全域闭包。
+
+6. **开发期 cursor epoch 断开**
+   项目选择不为 **18 个 flow / 26 个旧 stage cursor id** 编写一次性映射；沿用用户已拍板
+   的“游戏未完成，不保旧存档”：
+   - `contentVersion 8→9`；
+   - `SAVE_VERSION 7→8`；
+   - `minimumSaveVersion 7→8`；
+   - `WorldStateV9 = WorldStateV5`，不新增字段；
+   - 只接受 SAVE8/content9；SAVE7/content7、7/8、7/9、8/7、8/8 与未来组合都在任何
+     sidecar I/O 前拒绝并提示新开游戏；
+   - A7-4 候选 epoch 顺延到下一未占用版本（当前 v10）。
+   这是主动采用的开发期版本政策，不是由世界字段或 flow kind 机械推出。若审查方主张保留
+   8/7，必须提供 18 flow / 26 old cursor 的逐 cursor 双向 identity 方案；“世界字段没变”
+   不是游标兼容证明。
+
+7. **Reforge 使用独立脚本二选一模态**
+   由中央 modal arbiter 管理，只复用 `drawConfirmBox` 视觉原语，不把
+   `SystemMenuState` 的退出/开关业务塞进脚本。
+   默认 No；四方向切换；Enter/交互键提交；Esc/Menu=No；问句对话底图保持。
+   已活跃 shop/system/save modal 先完成，脚本 confirm 排队；confirm active 后禁止新 modal，
+   多个 script confirm FIFO 串行且单次 settle。confirm active 冻结 gameplay clock：
+   player/party move、auto runner、hostile、scene timer、fade 与世界推进暂停，只继续
+   render/UI blink/audio；该冻结不改变“普通对话不冻结 NPC”的既有裁决。
+   问句用 dedicated held-frame/token 跨帧保持，只在 settle/abort/session replacement 释放，
+   不复用 one-microtask `preserveClosedDialogFrame`。
+   abort/session replacement/runner replacement 拒绝 prompt 且不执行任一臂；迟到按键不得
+   提交旧 session。持久 runner 继续持 coordinator lease；transient/shared/item-private
+   `runCommands()` 新增不写 FlowCursor 的 activity token，整个执行期间纳入同一 save barrier。
+   保存只能在回答后 commandOutcome/脚本完成并到 safe point 时拍快照。
+
+8. **Editor 预览也必须走真实 v5 两臂**
+   当前 canonical preview 把 v5 state machine 降成 v4 stages，会丢
+   `commandOutcome`。R13-4 不允许只把 `playback.confirm` 的恒 true 换成按钮：
+   canonical 场景/共享脚本预览必须直接复用 `ScriptRunnerV5` 或等价的唯一 v5 执行器；
+   legacy v4 preview 可保留给旧工程。PreviewCanvas 提供 Yes/No 与键盘输入，
+   stop/切场景/切实体/切方案/unmount 均 abort，不污染作者态或存档。
+
+##### 生成与测试硬门禁
+
+- 精确双向守恒：26 RAW / 28 logical / 31 physical，无缺失、重复或未登记 fanout/copy。
+- 逐 site 两臂 oracle：No 只执行 target 一次且不执行 suffix；Yes 不执行 target且 suffix
+  恰一次；next cursor/lifecycle 精确。
+- 四族全覆盖：plain END 2、end+advance 18、reset 5、loop 1；另钉
+  该口径是 26 RAW；28 logical 为 2/20/5/1，31 physical 为 3/20/6/2。实际转换的
+  22 lossy logical 是 advance18 + reset4；plain END/loop 必须用 synthetic fixture
+  覆盖，不能拿 exact bypass 冒充。另钉 `@11019/@14583` fanout、s029/s030 phase copy、
+  s081 双 yield、s108 overlay、C8 @19888。
+- 同 flow 多决策组合：s009 覆盖首个 No、Yes→第二个 No、Yes→Yes；s100/e1825 覆盖
+  三个 decision 全 Yes 与每个位置首个 No；s131 覆盖 Yes→No，防止只修第一个 decision
+  或 suffix 重复。
+- fail-loud：删/复制 confirm、交换两臂、改 target/commandId/yield、漏一份 copy、
+  篡改 s005 给水果/s050 给米/s009 suffix，都必须失败并 reopen 精确 site。
+- runtime：默认 No、Esc=No、方向/Enter、双提交防重、central modal 仲裁、gameplay freeze、
+  held-frame 至少两帧、FIFO、abort/session、持久与 item-private/transient save barrier、
+  system/shop 隔离。
+- Editor：v5 commandOutcome 的 Yes/No 命中不同 state；停止/切换/卸载会取消 prompt。
+- MG2：旧五层 byte-pin；新 seal initialize/replay/half-state/tamper/drift；fresh formal
+  migration 首跑只允许 manifest、`_state`、新 transition 与 13 个 lossy scene
+  `s005,s009,s023,s050,s084,s091,s100,s102,s111,s127,s128,s131,s148`；exact-only
+  `s029,s030,s081,s108,s118` byte-stable。第二跑与 live dry-run 均
+  `writes=0/deletes=0/conflicts=0`，project/baseline 同路径逐字节相同。
+- save 版本负测只接受 SAVE8/content9；7/7、7/8、7/9、8/7、8/8 与未来组合都在
+  sidecar I/O 前失败。
+- 浏览器金丝雀至少：
+  `s005,s009,s050,s029,s030,s081,s108,s118`，并覆盖 prompt 中 abort/save/session。
+
+##### R13-4 专项 `build` 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-29 | 两路独立审计 + 两路交叉复核收口；确认不是单纯 host UI，而是 20 RAW/22 logical 的 activation 生命周期缺失。冻结 26/28/31 双向账、R13-3 successor 后 source-backed commandOutcome 转换、18 flow/26 old cursor 的 content9/SAVE8 主动断档、central modal + transient activity lease、Editor v5 preview、append-only seal 与 fail-loud 矩阵；已吸收 parent 未提交、multi-confirm flow、held-frame/freeze 等复核项。 |
+| Kimi | **pending** | — | 架构/runtime/save/MG2 主审；不得由其他 Agent 代签。 |
+| GLM | **pending** | — | 26/28/31 数据守恒/source disposition/测试矩阵主审；不得由其他 Agent 代签。 |
+
+- **当前门禁**：blocked on Kimi + GLM `agree`。用户说“签了”确认的是上一批 R13-3
+  implementation accept；本专项设计是在该签字后的新审计发现，不能追溯套用旧签。
+- **实现权限**：专项三签齐前 Codex 不得修改实现、生成 scene、manifest、baseline、seal
+  或版本常量；只允许审查方更新自己的签字行与交接记录。
+- **边界**：R13-4 三签和实现完成后仍只能进入 R13-5，不代表 N3-1、C8 或 ED-5I done。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（P7-R12 runtime/save 调度终审；当前执行）
+### 给 Kimi（R13-4 源 No 生命周期 / runtime modal / SAVE epoch / MG2 设计主审）——当前待执行
+
+```text
+设计准入复审：N3-1 P7-R13-4 confirm 源控制流、真实模态与 append-only MG2
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+审计：docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md
+当前状态：N3-1 总体 build，但 R13-4 专项 build blocked；Codex=agree，
+Kimi/GLM=pending。你是架构/runtime/save/MG2 主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13 总设计、R13-2/R13-3 最终签字和新的 R13-4 专项设计；
+- 上述 Codex 审计；
+- packages/migrate/src/experimental/script-v5/{p3-control-flow,p7-canonical,
+  p7-state-machine,p7-owner-machine,r13-trigger-activation-graph,
+  r13-item-throw-mg2,runtime-capability-audit}.ts；
+- packages/reforge/src/{main,script-runner-v5,script-world-v5}.ts、
+  menu/menu-box.ts、system-menu-state.ts、save/{types,migration}.ts；
+- packages/editor/src/core/{playback,world-sprite-behavior}.ts 与
+  packages/editor/src/ui/PreviewCanvas.tsx。
+
+必须复核：
+1. 22/28 logical No arm 的错误是否确由 P3 continuation 丢失，统一 commandOutcome
+   state split 是否能保留 plain END/advance/reset/cycle；修复为何必须插在 item-throw
+   successor 后而不能漂移旧 projector；augmentation 是否显式消费 sourceCommands、
+   p3 flowStructures、source census、physical expansion/C8 evidence，而不是只凭 final
+   snapshot 猜路径；不得用 append stopScript 冒充。
+2. 已保真的 6 logical / 9 physical 是否会被二次转换；s081 双 yield、s029/s030 copies、
+   s108 continuations 与 C8 @19888 是否守恒。
+3. 项目按既有开发期政策选择 content9/SAVE8/min8、不提供 18 flow/26 old cursor 映射是否
+   自洽；如主张 8/7，须给逐 cursor identity 方案，不可只说世界字段未变。
+4. central modal arbiter、默认 No、输入优先级、FIFO、单次 settle、confirm gameplay freeze、
+   dedicated held-frame、abort/session/runner replacement 是否无竞态；持久 runner lease 与
+   transient/shared/item-private activity token 是否都真正阻断 save snapshot；不得复用
+   SystemMenuState 业务状态或污染 shop/system prompt。
+5. Editor 直接走 v5 runner 的边界是否干净；不能保留有损 v5→v4 commandOutcome lowering
+   又宣称预览闭环。
+6. 先原子提交已签 R13-0～R13-3 candidate 是否被列为 build 前置；随后
+   r13-confirm-v1 以已发布 item-throw seal 为 parent、旧五层 byte-pin、
+   initialize/replay/half-state/tamper/drift 与 formal migration 二跑零计划是否充分。
+
+限制：只读设计审查；不得改实现、生成产物、baseline、seal、版本常量、GLM 签字或任务
+状态。只允许在“R13-4 专项 build 推进签字”自己的 Kimi 行与交接记录写结论。
+
+输出：无 blocker 则签 agree；有反例则签 counter，写精确 file:line、源/运行时反例、
+替代设计和需重签字段。Kimi/GLM 都 agree 前明确“不得开始实现”；agree 只准入 R13-4，
+不代表 N3-1/C8/ED-5I 完成。
+```
+
+### 给 GLM（R13-4 26/28/31 数据守恒 / source disposition / 测试矩阵设计主审）——当前待执行
+
+```text
+设计准入复审：N3-1 P7-R13-4 confirm 全量源账、生成门禁与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+审计：docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md
+当前状态：N3-1 总体 build，但 R13-4 专项 build blocked；Codex=agree，
+Kimi/GLM=pending。你是数据/source disposition/测试矩阵主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13 总设计、R13-2/R13-3 最终签字和新的 R13-4 专项设计；
+- 上述 Codex 审计；
+- data/extracted/events/all.json 与受影响 scene source；
+- packages/migrate/src/translate-events.ts；
+- packages/migrate/src/experimental/script-v5/{source-execution-census,
+  source-instruction-disposition,runtime-capability-audit,p3-control-flow,p7-canonical,
+  r13-trigger-activation-graph,r13-item-throw-mg2}.ts；
+- packages/migrate/baselines/pal/_transitions/r13-item-throw-v1.json 与 18 个 final scenes。
+
+必须独立复核：
+1. 26 RAW / 28 execution sites / 31 final physical nodes 及两个 fanout、s029/s030 phase
+   copies、s108 old1→new2 是否精确；s081 initial/cycle 两份不是 R13-2 生成。source digest
+   3d19fb14…、修复前 final digest 556885e1…是否可复算。
+2. 6/28 logical exact、22/28 lossy 分类是否正确；逐地址 No target 与 plain END 2 /
+   end+advance 18 / reset 5 / loop 1 的 **26 RAW** 口径，以及 logical 2/20/5/1、
+   physical 3/20/6/2、lossy advance18+reset4 是否守恒。
+3. 新 evidence 是否逐 source site 联结 source SHA、No/Yes、terminal lifecycle、
+   28→31 expansion、final selector/transition/two-arm digest 与 runtime evidence；
+   entity/hook + flow/state/stage + CommandId selector 及 C8 无 id 的 digest 唯一性是否充分；
+   删/复制/交换/漏 fanout 是否会精确 reopen，而不是只靠数量或 final JSON 自证。
+4. source disposition v3 与 runtime audit v2 是否只关闭 R13-4 confirm debt，不把
+   R13-5/R13-6 open observations 冒充已完成。
+5. content9/SAVE8/min8、A7-4→候选 v10 的唯一接受/拒绝矩阵；R13-0～3 先原子提交、
+   旧五层 byte-pin、新 seal parent、13 lossy scenes 首跑白名单、5 exact-only scenes
+   byte-stable 与二跑 0/0/0 是否完整。
+6. 最低测试矩阵是否足以钉住 s005/s050/s009 三个用户可见反例、s009/s100/e1825/s131
+   同 flow 多 confirm 组合、synthetic plain END/loop、s081 yield、runtime central modal/
+   freeze/held-frame/transient save lease 与 Editor v5 commandOutcome。
+
+限制：只读设计审查；不得改实现、生成产物、baseline、seal、版本常量、Kimi 签字或任务
+状态。只允许在“R13-4 专项 build 推进签字”自己的 GLM 行与交接记录写结论。
+
+输出：无 blocker 则签 agree；有反例则签 counter，列精确 address/site/selector/digest、
+复跑命令、缺失断言与最小替代方案。Kimi/GLM 都 agree 前明确“不得开始实现”；
+agree 只准入 R13-4，不代表 R13-Z、N3-1、C8 或 ED-5I 完成。
+```
+
+### 给 Kimi（R13-3 架构 / runtime / append-only MG2 实现审查）——已于 2026-07-29 执行，签 accept（保留备查，勿再执行）
+
+```text
+实现审查：N3-1 P7-R13-3 投掷 schema / runtime / Editor / append-only MG2
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-3 implementation review。Codex=accept，
+Kimi/GLM=pending。你是架构/runtime/MG2 主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡“R13-3 投掷公共 schema / runtime / MG2 delta 设计门禁”、
+  “Kimi R13-3 设计主审”与“R13-3 implementation candidate 与 Codex 自验”；
+- docs/phase1/game-mechanics.md 的投掷/巫抗/毒语义；
+- docs/phase2/poison-system-design.md；
+- packages/migrate/baselines/pal/_transitions/r13-item-throw-v1.json。
+
+职责：
+1. 核对 ThrowEffect 7 类与 ItemUseEffect 真正类型/解释器分离，content8/SAVE7 identity
+   normalization 没有新增世界字段或读 sidecar。
+2. 逐查 runtime：one/all target、一次消费、0x66 strength+magic baseDamage、0x2E
+   stopTarget/“攻击无效”、0x64“无任何效果”、0x28 抵抗续跑与新毒即时 enemy tick0、
+   重复同毒不重放、lethalWith 在抵抗后仍判断。
+3. 核对 Editor 使用共享控件但没有第二套脚本系统，七类中文 CRUD/排序/undo/redo
+   fail-closed。
+4. 核对 append-only parent、旧四层文件 SHA、new seal/evidence/source/target digest，
+   initialize/replay/half-state/tamper/drift 与 release live authority；特别确认 release
+   不调用 fast-only getter。
+5. 可复跑最小测试；不要因全量 migrate 慢而放宽断言或加 timeout。
+
+限制：只读实现/产物；不得修改实现、生成产物、baseline、seal、其他 Agent 签字或把任务
+标 done。只允许在“R13-3 批次实现审查签字”自己的 Kimi 行和交接记录写结论。
+
+输出：无 blocker 则签 accept；有反例则签 counter，写精确 file:line、源真值、复现命令
+和最小返工项。accept 只表示等待 GLM/准入 R13-4，不代表 N3-1/C8/ED-5I 完成。
+```
+
+### 给 GLM（R13-3 76-root 数据 / evidence / 测试矩阵实现审查）——已于 2026-07-29 执行，签 accept（保留备查，勿再执行）
+
+```text
+实现审查：N3-1 P7-R13-3 76-root 投掷数据守恒、source closure、版本与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-3 implementation review。Codex=accept，
+Kimi/GLM=pending。你是数据/覆盖/测试矩阵主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-3 设计、GLM G1 裁决与 implementation candidate 全文；
+- docs/phase1/game-mechanics.md 的投掷、signed-short magic、毒配对真值；
+- packages/migrate/src/experimental/script-v5/r13-item-throw-augmentation.ts；
+- packages/migrate/src/experimental/script-v5/r13-item-throw-mg2.ts；
+- packages/migrate/baselines/pal/_transitions/r13-item-throw-v1.json。
+
+职责：
+1. 从 source 独立复算 76 roots，确认 final76/missing0、58 absent/1 lossy/17 exact、
+   11 all/65 one、29 sentinel 与 family counts，不只检查 presence。
+2. 核对 59 observations = 48 pending + 10 silent-empty + item133 lossy；item133 parent
+   缺 target 必须按 v7→v8 oneEnemy 归一化，不能用 source target 掩盖 drift。
+3. 核对 0x2E/0x64 failure narration/message/end 被精确读取且进入 sourceClosureDigest；
+   对 messageIndex/text 做漂移负测。
+4. 核对 source/target/evidence/seal digest、parent 链、旧四层 SHA、正式重迁首轮两操作+
+   二轮0/0/0、声音 itemThrow75/missing0/kindMismatch0。
+5. 核对 content/reforge/editor/migrate、fresh release、PAL integration 与浏览器单体/
+   全体证据是否覆盖冻结矩阵；测试慢不得用跳测、弱断言或 fast 缓存冒充 release。
+
+限制：只读实现/产物；不得修改实现、生成产物、baseline、seal、其他 Agent 签字或把任务
+标 done。只允许在“R13-3 批次实现审查签字”自己的 GLM 行和交接记录写结论。
+
+输出：无 blocker 则签 accept；有反例则签 counter，列出精确 item/source address、
+selector/digest、复现命令和最小返工项。accept 只表示等待 Kimi/准入 R13-4，不代表
+R13-Z、N3-1、C8 或 ED-5I 完成。
+```
+
+### 给 GLM（R13-3 G1 signed-short sentinel / 毒配对定点纠正）——已于 2026-07-28 执行，撤回 G1（保留备查，勿再执行）
+
+```text
+定点复核：N3-1 P7-R13-3 GLM G1 附加项纠正
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：R13-3 三方表面均 agree，但你的签字附“G1 必落：17 个 applyPoison throw 全部
+present-but-lossy”；Codex 一手复核发现该附加项与 signed-short sentinel、一阶段测试和
+PoisonDef.lethalWith 冲突，因此子门禁 blocked on GLM G1 correction。
+
+你的职责：只读定点复核自己提出的 G1；不得修改实现、生成产物、baseline、seal 或其他
+Agent 签字。只允许修正自己的 R13-3 签字备注，并在交接记录写结论。
+
+必须先读：
+- 任务卡“GLM G1 定点争议裁决”全文；
+- data/extracted/data/{items,object-magics,magic}.json；
+- data/extracted/events/all.json 中 17 个 root；
+- packages/game/src/core/battle/magic-damage.ts:10-23,265-305；
+- packages/game/src/core/battle/__tests__/magic-damage.test.ts:154-166；
+- packages/migrate/src/migrate-content.ts:1189-1213；
+- packages/migrate/src/pal-derived-content.ts:63-126；
+- packages/reforge/src/battle/battle-core.ts:1600-1612。
+
+请独立复核：
+1. 116–125、130、138、139、144、147、159 的首条是否均为 0x42[24,0,0]；
+   object24→magic96 的 baseDamage 64537 经 SHORT 是否为 -999，magStr=0/minDamage=0
+   是否必然结算 0；final 是否已保留 presentation。
+2. 133 是否是 object372→magic63，baseDamage150/elemental6/all-target，因而才是真正
+   present-but-lossy。
+3. 122–125、138、139 的 0x5E 是否是“查配对毒”而非 HP 门，0x60 是否已由
+   PoisonDef.lethalWith + performThrow 单源承接；生成 killIfHpAtMost 是否反而错误。
+4. 第 18 个已有 root 137 是否为 currentHpDamage，最终总账是否仍应为
+   58 absent + 1 present-but-lossy + 17 exact-proven。
+
+输出二选一：
+- 若同意：在自己的 GLM 签字备注明确撤回 G1，保留其余 agree 结论，并把子门禁改为
+  三签齐/build allowed；写明不得给 16 个 sentinel 造伤害、不得给 6 个毒对造 HP 门。
+- 若反对：把签字改为 counter，给出能推翻 SHORT(-999)、SimulateMagic minDamage=0、
+  PoisonDef.lethalWith 和上述测试的精确源地址、公式、实际运行反例与替代设计。
+
+未完成本次纠正前不得开始实现，也不得标 N3-1/C8/ED-5I done。
+```
+
+### 给 Kimi（R13-3 投掷 schema / runtime / append-only MG2 设计主审）——已于 2026-07-28 执行，签 agree（附 K1-K6，保留备查，勿再执行）
+
+```text
+设计准入复审：N3-1 P7-R13-3 投掷公共 schema / runtime / append-only MG2 delta
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build，但 R13-3 schema 子门禁 blocked；Codex=agree，Kimi/GLM=pending。
+你的职责：只读架构/runtime/MG2 主审；不得修改实现、生成产物、baseline、旧 seal 或其他
+Agent 签字。只允许在任务卡自己的 R13-3 签字行与交接记录落结论。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 P7-R13 总设计、R13-2 最终签字、新增“R13-3 投掷公共 schema/runtime/MG2 delta”全文；
+- docs/phase1/game-mechanics.md 的投掷/巫抗语义；
+- packages/game/src/core/battle/{battle-opcodes,magic-damage}.ts；
+- packages/content/src/{item,item-v5,validate,character}.ts；
+- packages/reforge/src/battle/{battle-core,battle-session}.ts 与 save/{types,migration,ops}.ts；
+- packages/migrate/src/{migrate-content,pal-migration}.ts；
+- packages/migrate/src/experimental/script-v5/{p7-generated,r13-cross-activation-mg2,
+  source-instruction-disposition}.ts。
+
+必须独立核对并明确同意或反驳：
+1. 独立 ThrowEffect/ThrowTarget/ThrowElement/ThrowMagicStrength、
+   `applyStatus.onResist`、原子 `killIfHpAtMost` 与 `damageAndHealCaster` 是否为最小充分
+   公共模型；是否存在仍需 raw opcode、PAL id、第二解释器或无法表达的源链。
+2. 0x2E 单次巫抗 + `stopTarget`、0x28 抵抗继续、0x39 固定伤害/固定回血、0x42 minDamage=0、
+   0x66 effective attack + inclusive RNG 0..3 是否与一阶段真值一致。
+3. allEnemies 跳过目标选择、BattleAction 可选目标、一次消费、死亡重选及表现层多目标信息
+   是否闭环；运行时是否可完全 exhaustive/fail-closed。
+4. content 7→8、SAVE_VERSION/minimumSaveVersion 保持 7、SAVE7/content7→8 identity
+   normalization 是否符合双轴；若 counter，给出不增加无关 save epoch 的具体替代。
+5. R13-2 旧 disposition/seal 密封全 snapshot 后，新增 parent/successor 分离与外层
+   `r13-item-throw-v1` 是否足以保证 P7/C8/R13-1/R13-2 byte-identical replay；指出任何
+   会让旧 wrapper 偷吃 successor 的路径。
+6. `currentHpDamage`/throw context 从 ItemUseEffect/ItemUseContext 分离，以及编辑器复用同一
+   能力容器但采用 typed `ThrowEffectChainEditor`，是否满足完整 CRUD 而不复制语义系统。
+
+输出：
+- 在本卡“R13-3 schema delta build 推进签字”Kimi 行签 `agree`，或写 `counter` 的精确
+  字段、file:line、反例、替代设计与返工项；
+- 在交接日志记录一手核对范围；
+- agree 只开放 Kimi 席位，GLM 也 agree 前仍明确“不得开始实现”；不得标 N3-1/C8/ED-5I done。
+```
+
+### 给 GLM（R13-3 76-root 数据守恒 / 版本 / 测试矩阵设计主审）——已于 2026-07-28 执行，签 agree（附争议 G1，等待上方定点纠正）
+
+```text
+设计准入复审：N3-1 P7-R13-3 投掷 76-root 数据守恒、版本与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build，但 R13-3 schema 子门禁 blocked；Codex=agree，Kimi/GLM=pending。
+你的职责：只读源数据/迁移/MG2/测试矩阵主审；不得修改实现、生成产物、baseline、旧 seal
+或其他 Agent 签字。只允许在任务卡自己的 R13-3 签字行与交接记录落结论。
+
+先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md；
+- 本卡 P7-R13 总设计、R13-2 最终签字、新增“R13-3 投掷公共 schema/runtime/MG2 delta”全文；
+- data/extracted/data/items.json、events/all.json、object-magics/magic 相关源表；
+- packages/migrate/src/migrate-content.ts；
+- packages/migrate/src/experimental/script-v5/{p7-generated,r13-cross-activation-mg2,
+  source-instruction-disposition}.ts；
+- packages/migrate/baselines/pal/content/items.json 与 projects/pal/content/items.json；
+- packages/game/src/core/battle/{battle-opcodes,magic-damage}.ts。
+
+必须独立机器复核：
+1. source `throwable && scriptOnThrow>0`=76、final=18、missing=58、
+   pending=48、silent-empty=10；缺失族计数 `32/10/7/6/1/1/1` 与精确 id 集合。
+2. 11 件 all-target 集合精确为
+   `67,68,69,70,71,115,133,134,142,157,162`，其余 65 单体。
+3. 不只查 presence：独立证明 133 赤蝎粉当前丢
+   `magic63 baseDamage150/elemental6→poison/all-target`；抽查其余 17 个已有 root 是否还存在
+   present-but-lossy，若有必须扩大设计门。
+4. 0x42 object→magic 的 baseDamage/语义 element/animation、0x66 operand×5 和攻击力、
+   0x2E/0x28 跳臂、0x21 单全体、0x64/0x60、0x39 都能从源确定地产生 canonical，
+   无任何 silent default/break。
+5. 76-root evidence + source closure/final target digest + R13-3 disposition 是否足以让
+   pending/silent/present-but-lossy 全部 fail-closed；仅 76/76 presence 不得通过。
+6. content7→8 工程升级、SAVE7/content7→8 identity、旧四层 seal byte-pin、新 R13-3
+   initialize/replay/tamper/half-state/target drift、正式二跑 0/0/0 的矩阵是否充分。
+
+输出：
+- 在本卡“R13-3 schema delta build 推进签字”GLM 行签 `agree`，或写 `counter` 的精确
+  数量、id、源地址、字段、断言、替代设计与返工项；
+- 在交接日志记录独立命令、计数与结论；
+- agree 只开放 GLM 席位，Kimi 也 agree 前仍明确“不得开始实现”；不得标 N3-1/C8/ED-5I done。
+```
+
+### 给 Kimi（R13-2 cursor handoff / SAVE 7 runtime 实现审查）——已于 2026-07-28 执行，签 accept（保留备查，勿再执行）
+
+```text
+实现审查：N3-1 P7-R13-2 跨激活控制流——cursor handoff / SAVE 7 runtime 架构主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build；R13-2 implementation candidate 已由 Codex 实现、自验并签 accept。
+你只读审查，不修改实现、生成产物、baseline、任务状态或其他 Agent 签字；允许只更新
+任务卡中自己的 R13-2 审查行和交接记录。Kimi/GLM 均 accept 前不得进入 R13-3；
+不得标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-2 逐站审计与 cursor handoff / SAVE 7 delta 阻塞」、
+  「R13-2 implementation candidate 与 Codex 自验」；
+- docs/phase2/foundation/{script-system-design,save-system-design}.md。
+
+重点源码：
+- packages/content/src/{script-v5,character}.ts；
+- packages/reforge/src/{script-world-v5,script-project-v5,script-runner-v5}.ts；
+- packages/reforge/src/save/{types,migration,ops,epoch-v7.test}.ts；
+- packages/migrate/src/script-graph.ts；
+- packages/migrate/src/experimental/script-v5/
+  {r13-trigger-activation-graph,r13-auto-idle-gates,r13-cross-activation-mg2}.ts；
+- packages/migrate/scripts/migrate-content.mts；
+- packages/migrate/baselines/pal/_transitions/
+  {r13-cadence-v1,r13-cross-activation-v1}.json。
+
+必须复核：
+1. cursorHandoff 仅 use 可用、旧 effective initial、fromBehavior/唯一 case/目标 cursor
+   校验是否完整；所有失败是否在 mutation 前发生。
+2. selection + mapped cursor 是否原子提交，owner epoch 是否最后 bump；旧 runner、
+   stale lease、换场景/save barrier/abort 是否不能回写覆盖新行为。
+3. 未声明 handoff 的历史路径是否 byte-equivalent；是否不存在 hidden flag/counter、
+   PAL address、共享 machine-id 猜测或 e4409 特判。
+4. e405、e4168、s231 crowd、e4409/e4440/e4723 与 reverse handoff 映射是否逐相位完整；
+   特别核对 e405 135 次与 e4409 k=0..9。
+5. 7/7 是否在任何 sidecar I/O 前拒绝旧 epoch；历史 6/6 verifier、P7/C8/R13-1
+   seal 是否未重签。
+6. s057/s180 scene-entry 前缀消费是否在控制拆分前且 fail-loud；s020/e362 checkpoint
+   重入与 s250/e4409 battle 浏览器证据是否足够。
+
+输出：
+- 在「R13-2 批次实现审查签字」自己的行签 `accept`，或写 `counter` 的精确
+  file:line、反例、缺失断言与最小返工边界；
+- 记录独立复跑命令、结果和剩余风险；
+- accept 只准入等待 GLM/进入 R13-3，不代表后续批次或三张任务卡完成。
+```
+
+### 给 GLM（R13-2 source-v2 / MG2 / 迁移实现审查；可与 Kimi 并行）
+
+```text
+实现审查：N3-1 P7-R13-2 跨激活控制流——source-v2、逐站闭包、MG2 与迁移主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build；R13-2 implementation candidate 已由 Codex 实现、自验并签 accept。
+你只读审查，不修改实现、生成产物、baseline、任务状态或其他 Agent 签字；允许只更新
+任务卡中自己的 R13-2 审查行和交接记录。Kimi/GLM 均 accept 前不得进入 R13-3；
+不得标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-0/R13-1、R13-2 delta 设计及
+  「R13-2 implementation candidate 与 Codex 自验」；
+- docs/ops/audits/{kimi,glm}-p7-r13-source-semantics-audit.md。
+
+重点源码/数据：
+- data/extracted/events/all.json；
+- packages/migrate/src/script-graph.ts；
+- packages/migrate/src/experimental/script-v5/
+  {source-execution-census,source-instruction-disposition,
+   r13-trigger-activation-graph,r13-auto-idle-gates,r13-cross-activation-mg2}.ts；
+- packages/migrate/scripts/migrate-content.mts；
+- packages/migrate/baselines/pal/_transitions/
+  {r13-cadence-v1,r13-cross-activation-v1}.json；
+- projects/pal/manifest.json 与最终 closure target。
+
+必须独立对账：
+1. source-v2 是否确为 43,503 / 41,945 / 1,558 / 7,947 /
+   81,674（18,955 auto + 62,719 trigger）；17 条 delayed expiry 与 reset0
+   fallthrough 是否按源语义修正。
+2. 36 checkpoint / 43 contexts、34 persistent、7 discard alias；
+   11 idle addresses / 13 sites / 84 phases；trigger delayed 7 owners / 9 addresses /
+   41 phases；auto delayed 8 / 15 / 1,657 是否逐站可重建。
+3. exact closure=78、target selector=77、本批 open=0 的差异是否有明确归因；
+   不得把本批 open=0 冒充 R13-3～R13-Z 完成。
+4. 18 handoff site 及 cases 1/16/176/13/15/24/2、installer 7/18/247、
+   owner flows 102、auxiliary targets 437 是否由最终 PAL 重建且无悬空 locale。
+5. 新 seal 是否严格 parent 到历史 R13 cadence digest；历史 P7/C8/R13-1/save sidecar
+   byte-pin、自一致篡改 fixture、source/census/disposition drift 是否均 fail-closed。
+6. canonical --write 是否真实分进程执行，fresh verifier 是否验证预期 digest 和
+   writes/deletes/conflicts=0；是否没有手改 projects/pal。
+7. s057/s180 scene-entry 重建是否只执行一次 prepare/reveal；cadence 22/56 拆分、
+   content/reforge/editor/migrate 全量测试、SAVE7 负向、formal dry-run 与资源 writes=0
+   是否可独立复现。
+
+输出：
+- 在「R13-2 批次实现审查签字」自己的行签 `accept`，或写 `counter` 的精确数字、
+  selector、digest、fixture、复现命令与返工范围；
+- 记录一手 SHA-256 和最终完整测试总数；
+- accept 只准入等待 Kimi/进入 R13-3，不代表 R13-Z、N3-1、C8 或 ED-5I 完成。
+```
+
+### 给 Kimi（R13-2 cursor handoff / SAVE 7 delta 设计审查；已执行并签 agree，历史留档，勿再执行）
+
+```text
+设计复审：N3-1 P7-R13-2 跨激活控制流——cursor handoff / SAVE 7 runtime 架构主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build 内的 R13-2 delta blocked；R13-1 三席 accept 已齐，但逐站审计触发了新的
+command schema/runtime public contract + save epoch 门禁。你只读审查，不修改实现、生成产物、
+baseline、任务状态或其他 Agent 签字；Kimi/GLM 均 agree 前 Codex 不得实现。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-2 逐站审计与 cursor handoff / SAVE 7 delta 阻塞」及 R13-1 cadence/save；
+- reference/sdlpal/script.c:3219-3246,3335-3341,3533-3605、global.h:95；
+- packages/content/src/script-v5.ts；
+- packages/reforge/src/script-world-v5.ts、script-runner-v5.ts、save/{types,migration}.ts；
+- packages/migrate/src/{script-graph,translate-events}.ts 与
+  experimental/script-v5/{source-execution-census,auto-flow-lifecycle,r13-cadence-mg2}.ts。
+
+必须复核：
+1. e4409 的 0x09 -> 0x24 -> idle 0x02 是否确实跨 behavior 继承同一 auto counter；当前
+   behavior-owned cursor 是否无法表达。
+2. `cursorHandoff.stateMap` 的形状是否为最小通用 public contract；selection + mapped cursor
+   原子写、effective initial、唯一映射、target validation、epoch bump 与 stale lease CAS 是否封闭。
+3. 为何 preserve-compatible、隐藏 var/counter、共享 machine id 或 behavior 特判不应采用。
+4. checkpoint activation/product-state graph 是否能仅用现有 transition 表达 32 线性 +
+   4 条件站点、discard-return 与 reset/advance 覆盖，不暴露 PAL IP。
+5. SAVE6 的 checkpoint 信息是否不可逆缺失，因而 7/7 epoch 断开是否比 alias 更诚实；
+   历史 seal byte-pin、新 R13-2 parent 顺序及 A7-4 顺延是否完整。
+6. save barrier / scene unload / behavior 自切 / auto runner 同时切换时是否还有竞态缺口。
+
+输出：
+- 在「R13-2 cursor handoff / SAVE 7 delta 推进签字」Kimi 行签 `agree`，或写 `counter` 的
+  具体 file:line、反例、最小替代字段与测试；
+- 在交接日志记录结论；agree 只允许 Codex 继续等待 GLM/进入 R13-2 build，不代表
+  R13-Z、N3-1、C8、ED-5I 完成。
+```
+
+### 给 GLM（R13-2 source census / SAVE 7 delta 设计审查；已执行并签 agree，历史留档，勿再执行）
+
+```text
+设计复审：N3-1 P7-R13-2 跨激活控制流——全域 CFG/census、逐站矩阵与 SAVE 7 主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build 内的 R13-2 delta blocked；R13-1 三席 accept 已齐，但逐站审计触发新
+schema/runtime/save 门禁。只读审查，不修改实现、生成产物、baseline、任务状态或其他 Agent
+签字；Kimi/GLM 均 agree 前 Codex 不得实现。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-2 逐站审计与 cursor handoff / SAVE 7 delta 阻塞」及 R13-0/R13-1；
+- data/extracted/events/all.json；
+- reference/sdlpal/script.c:3219-3246,3335-3341,3533-3605；
+- packages/migrate/src/{script-graph,translate-events}.ts 与
+  experimental/script-v5/{source-execution-census,source-instruction-disposition,
+  auto-flow-lifecycle}.ts；
+- packages/content/src/script-v5.ts、packages/reforge/src/save/{types,migration}.ts。
+
+必须独立对账：
+1. checkpoint：36 addresses / 43 contexts / 32 线性 + 4 条件 /
+   35 plain preserve + 1 reset override / 7 discard aliases / 34 新持久 closure。
+2. idle：11 addresses / 13 execution sites / 12 entities / 84 相位；实际全在 auto channel，
+   安装来源 touch 5/6、interact 1/1、static 4/5、scene-onEnter 1/1。
+3. delayed goto 17 条漏边与 reset0 假 fallthrough；为什么旧 42,024/82,953 不能做增量，
+   context-sensitive CFG 与 method-version 重建是否充分。
+4. L32215、L34319、1575/10315/19301、5189/9175 与 e4409 的 owner/context 不能漏。
+5. SAVE6 为何无法区分“未运行/已执行但 checkpoint 被旧迁移吞掉”，7/7 早拒绝、历史
+   artifacts byte-pin、新 R13-2 seal parent 与 MG2 测试是否闭环。
+6. 逐站 trace、stateMap 负向、save/abort、全量重迁二跑与浏览器矩阵是否足够 fail-closed。
+
+输出：
+- 在「R13-2 cursor handoff / SAVE 7 delta 推进签字」GLM 行签 `agree`，或写 `counter` 的
+  精确数字、站点、反例、替代方案和测试；
+- 记录独立复算口径。agree 只开放 R13-2 build，不代表后续批次或三张任务卡完成。
+```
+
+### 给 Kimi（R13-1 runtime/schema/save 实现审查）——已于 2026-07-27 执行，签 accept（保留备查，勿再执行）
+
+```text
+实现审查：N3-1 P7-R13-1 身份、动态 auto、transition cadence 与 SAVE 6——runtime/schema 主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build；R13-1 implementation candidate 已由 Codex 实现、自验并签 accept，你只读审查，不修改实现、
+生成产物、baseline、任务状态或其他 Agent 签字。Kimi/GLM 均 accept 前不得进入 R13-2；
+不得标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-1 build 检查点与 cadence delta 阻塞」、Kimi K1-K6、
+  「R13-1 implementation candidate 与 Codex 自验」；
+- docs/phase2/foundation/{script-system-design,save-system-design}.md。
+
+重点源码：
+- packages/content/src/{script-v5,character}.ts；
+- packages/reforge/src/{script-compiler-v5,script-runner-v5,script-project-v5,
+  script-world-v5,main}.ts、`script-project-v5.test.ts`、`script-runner-v5.test.ts`
+  与 save/{types,migration,ops,epoch-v6.test}.ts；
+- packages/editor/src/core/upgrade-local-v5-epoch-v6.ts 与
+  packages/editor/src/ui/CanonicalScriptEditorV5.tsx；
+- packages/migrate/src/experimental/script-v5/
+  {auto-flow-lifecycle,p7-canonical,p7-project,pal-auto-lifecycle-repair,
+   cadence-compatibility.pal.test,r13-cadence-mg2.pal.test}.ts。
+
+必须复核：
+1. cadence 可选字段、省略兼容、compiler v2、递归 boundary policy、shared cache/metadata 隔离和
+   4,096 continue fail-loud 上限是否完整；独立 compiler-v1 oracle 是否真实覆盖全部 4,611 条
+   省略 cadence flow，PAL 87 个 machine 的联合最长 continue 链是否确为 7。
+2. transition cadence 的复合 opcode、zero-delay goto、0x06 三臂、0x09 逐计数 cursor/safe-point
+   是否与设计一致；`0x09 wait-3 → SAVE6 → resume` 是否只余 1 tick；delayed goto/idle gate
+   是否确实没有偷跑出 R13-2。
+3. dynamic auto ensure 是否保持 owner/channel 单活、epoch safe-point、scene/session/save/abort
+   后无旧 runner 复活；moveEntity 是否只在成功到达后写 world.script.entityPos，同实体新走位
+   抢占时是否只提交新终点。
+4. current 6/6 是否在任何 sidecar I/O 前拒绝旧 epoch，v5→v6 本地晋升是否验证后只写 manifest，
+   历史 4→5 bytes 是否未被重签。
+5. Codex 的 e789 10/10、e796 六终态+一尾循环、s082 cadence、s048 淡出后恢复及读档不重播证据
+   是否足以支持本批；若需补测，给精确可复现步骤。
+
+输出：
+- 在「R13-1 批次实现审查签字」Kimi 行签 `accept`，或写 `counter` 的精确 file:line、
+  反例、缺失断言与返工边界；
+- 在交接日志写复跑命令、结果与剩余风险；
+- accept 只准入 R13-2，不代表 R13-Z/N3-1/C8/ED-5I 完成。
+```
+
+### 给 GLM（R13-1 数据/MG2/测试矩阵实现审查；当前下一步，可与 Kimi 并行）
+
+```text
+实现审查：N3-1 P7-R13-1 身份、auto lifecycle、cadence evidence 与 epoch 6——数据/MG2 主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build；R13-1 implementation candidate 已由 Codex 实现、自验并签 accept，你只读审查，不修改实现、
+生成产物、baseline、任务状态或其他 Agent 签字。Kimi/GLM 均 accept 前不得进入 R13-2；
+不得标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-0、R13-1 cadence 设计、GLM 设计审查、
+  「R13-1 implementation candidate 与 Codex 自验」；
+- docs/phase2/foundation/{script-system-design,save-system-design}.md。
+
+重点源码/数据：
+- packages/migrate/src/experimental/script-v5/
+  {source-instruction-disposition,auto-flow-lifecycle,p7-canonical,p7-project,
+   pal-auto-lifecycle-repair,r13-cadence-evidence,r13-cadence-mg2}.ts 及测试；
+- packages/migrate/baselines/pal/_transitions/r13-cadence-v1.json；
+- packages/migrate/baselines/{script-control-flow/pal-v1.json,pal/_state.json}；
+- packages/reforge/src/script-project-v5.test.ts 与 save/{migration,epoch-v6.test}.ts；
+- projects/pal/manifest.json 与最终 s048/s082 产物。
+
+必须独立对账：
+1. 0x04 oracle = 12 source addresses / 28 execution sites，WORD→e(word-1)；新增/漏录/伪造
+   source target 是否 fail-closed。
+2. 1,060 = 363 terminal + 690 repeat + 7 idle-gate；P7 354 + C8 repair 9 的层次是否准确；
+   22 prefix/complex owner 是否只执行一次前缀并保留 recurrent tail。
+3. source 43,503/42,024/82,953，raw 53,394/29,559，
+   augmented/final 53,404/29,549，open observations 7,812；runtime 444+51 /
+   58,564 / 28 / 161 / 183 及两份 digest 是否可重建。
+4. P7/C8/历史 save sidecar 全部 byte-pin，新 R13 evidence append-only、K6 compatibility SHA
+   稳定；独立 compiler-v1 oracle 的 4,611 条逐 flow 等价、7,896,404 bytes 与最长
+   continue 链 7 是否可复现；自一致篡改 fixture 是否拒绝。
+5. `pnpm --filter @type-pal/migrate test` 的单 worker 总测 72 files / 489 passed /
+   1 skipped、关键 PAL exact/MG2、
+   `migrate:content -- --project pal --dry-run` 的 0/0/0 是否可复现；并确认没有手改生成产物。
+6. SAVE/content/minimum=6 与 A7-4=7 的现行文档是否一致，历史 v4→v5 数字未被机械改写。
+
+输出：
+- 在「R13-1 批次实现审查签字」GLM 行签 `accept`，或写 `counter` 的精确数字、站点、
+  digest、断言与复现；
+- 在交接日志写独立复跑范围和剩余风险；
+- accept 只准入 R13-2，不代表 R13-Z/N3-1/C8/ED-5I 完成。
+```
+
+### 给 Kimi（R13-1 cadence/schema/runtime delta 设计审查）——已于 2026-07-27 执行，签 agree（附条件与 K1-K6，保留备查，勿再执行）
+
+```text
+审查任务：N3-1 P7-R13-1 auto source cadence + cursor compatibility delta
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：blocked。现有“无 schema/save delta”实现被 counter；你只读审查，不修改实现文件，
+不得把当前 PAL 生成物送验，不得标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-1 身份与动态行为实现」和
+  「R13-1 build 检查点与 cadence delta 阻塞」全文；
+- reference/sdlpal/script.c 的 PAL_RunAutoScript；
+- packages/content/src/script-v5.ts；
+- packages/reforge/src/{script-compiler-v5,script-runner-v5,script-world-v5,
+  script-project-v5,main}.ts；
+- packages/migrate/src/experimental/script-v5/{auto-flow-lifecycle,p7-canonical,
+  p7-project,p7-mg2}.ts。
+
+已确认反例：
+- 22 machine / 286 source state，101 个复合 opcode、31 个 0x09、13 个 zero-delay goto、
+  6 个 0x06；
+- 当前 0x0F/0x14/0x6C 被 per-command 100ms 拆成多帧，goto/0x06 又按地址方向误让步；
+- frozen sidecar 至少有 s140/e2376、s150/e2466、s244/e4312、s250/e4412 的
+  stage:initial cursor，直接喂新 stateMachine 会 fail-loud。
+
+必须复审：
+1. optional `ScriptStateMachineV5.cadence:'transition'` 是否为最小、PAL 无关、向后兼容的
+   canonical delta；省略时旧 trace 必须不变。
+2. compiler boundary policy 是否必须递归覆盖嵌套命令、shared resolver/cache key 和
+   executable metadata；compiler version 是否应升 2。
+3. 普通 op=to(worldTick)、zero-delay goto=continue、0x06 分臂、0x09 稳定计数 state 的
+   调度与 safe-point 是否忠实；是否还有无需新增 transition kind 的反例。
+4. save/content 版本策略：append-only successor，或按用户“项目未完成、不保护旧存档”的
+   既有意见做显式 epoch 断开并早失败；历史 P7 ledger/sidecar 和 C8 seal 禁止重签。
+5. 任一方案是否还隐含跨包公共接口/editor/MG2 delta，测试矩阵是否足够。
+
+输出：
+- 在本卡「R13-1 cadence/save delta 推进签字」Kimi 行签 agree，或写 counter 的具体字段、
+  反例和返工项；
+- 明确推荐 save/content 版本策略和用户必须拍板的问题；
+- 写独立核对证据与最小实现顺序；不得开始实现。
+```
+
+### 给 GLM（R13-1 cadence/save/MG2 数据设计审查）——已于 2026-07-27 执行，签 agree（保留备查，勿再执行）
+
+```text
+审查任务：N3-1 P7-R13-1 auto source cadence + cursor/MG2 delta
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：blocked。你只读审查数据、save 与测试矩阵，不修改实现文件；三签前不得发布 PAL
+正文或标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、docs/phase2/READ-FIRST.md；
+- 本卡「R13-1 身份与动态行为实现」和
+  「R13-1 build 检查点与 cadence delta 阻塞」全文；
+- docs/ops/audits/{kimi,glm}-p7-r13-source-semantics-audit.md；
+- packages/migrate/src/experimental/script-v5/{auto-flow-lifecycle,p7-canonical,p7-project,
+  p7-mg2,pal-auto-lifecycle-repair}.ts；
+- packages/content/src/{script-v5,script-transition-v5}.ts；
+- packages/reforge/src/save/{migration,ops}.ts；
+- projects/pal/content/migrations/script-v4-v5-save.json（只读）。
+
+必须独立核对：
+1. 1,060 pool = 363 terminal / 690 repeat / 7 idle；690 中 668 repeat-root /
+   20 prefix-tail / 2 complex；新 cadence machine 当前 22 owner / 286 source state、
+   101 compound / 31 wait / 13 goto / 6 branch 是否准确。
+2. 0x09 n=1/2/13 展开为稳定计数 state 后的状态数、ID、逐拍 cursor 与存读档恢复；
+   0x06 概率必须是 101-threshold。
+3. frozen sidecar 中 stage→state 的全部受影响 alias，不只抽样四个；区分“无 cursor”与
+   “旧 initial 已到 safe-point”的可证明 successor，无法证明时必须 fail closed。
+4. append-only successor 与显式 epoch 断开两方案对 baseline v2、MG2、P7 ledger、
+   compatibility sidecar、C8 seal 的影响；任何历史控制账不得原地重签。
+5. 负向/篡改矩阵、二跑 0/0/0、e796+s082+0x09+复合动画浏览器矩阵是否闭合。
+
+输出：
+- 在本卡「R13-1 cadence/save delta 推进签字」GLM 行签 agree，或写 counter 的精确漏项；
+- 记录独立数字、受影响 cursor 全集、推荐版本策略和测试 golden；
+- 不得开始实现。
+```
+
+### 给 Kimi（R13-0 架构 / runtime 实现审查；已完成，历史留档）
+
+```text
+审查任务：N3-1 P7-R13-0 控制面实现——精确处置证据与 runtime 架构主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+发出时状态：build；R13-0 Codex 实现与自验完成，Kimi/GLM 实现审查 pending；两席 accept
+前不得进入 R13-1。你只读审查，不修改实现文件，不提前标 N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡「P7-R13 三方差集合并与 build 返工设计门禁」、Kimi K1-K6、
+  「R13-0 控制面实现与 Codex 自验」；
+- docs/ops/audits/{kimi,glm}-p7-r13-source-semantics-audit.md 与
+  codex-p7-r13-three-way-adjudication.md。
+
+重点源码：
+- packages/migrate/src/experimental/script-v5/
+  {source-execution-census,source-instruction-disposition,runtime-capability-audit}.ts；
+- packages/migrate/src/{translate-events,script-control-flow-audit,pal-migration}.ts；
+- packages/migrate/scripts/migrate-content.mts；
+- 对应 .test.ts 与 source-instruction-disposition.pal.test.ts。
+
+必须独立核对：
+1. 同 address+owner 多 body（尤其 @14461/scene）是否只能由 exact bodyId outcome 关闭；
+   registry target、scene root、0x6D override、folded hostile 的绑定时机是否正确，unbound
+   overlay outcome 是否绝不参与 closure。
+2. source-backed validator 是否真正从 source/P0/P6/P7/final 重推，无法通过改 proof 后重算
+   report digest 自封；canonical/C8/scene repair/asset exact target 任一 final drift 是否退回 open。
+3. P0 entryAddress 与 direct source.addresses 拆分是否正确；6 个 legacy-alias 不得借入口地址，
+   hook installer 不得重新把 entry 灌回 direct 集。
+4. runtime 444+51 matrix 是否完整 fail-closed、28 个 confirm debt 是否真实；尤其确认当前静态
+   矩阵未被当作 runtime-equivalent 证明，并明确 R13-Z host-backed registry/验证硬门禁。
+5. 本批确实没有 schema/save/跨包接口/运行时行为/PAL 正文改动；完整报告尚未持久发布是否被
+   正确留给 R13-Z，而不是遗漏 K6。
+
+验证建议：
+- pnpm --filter @type-pal/migrate typecheck
+- pnpm --filter @type-pal/migrate exec vitest run --maxWorkers=1 \
+    src/experimental/script-v5/source-execution-census.test.ts \
+    src/experimental/script-v5/source-instruction-disposition.test.ts \
+    src/experimental/script-v5/runtime-capability-audit.test.ts \
+    src/translate-events.test.ts
+- 资源允许时复跑 PAL exact；否则审阅 Codex 已记录的 175.03s / 2.24GB 证据并说明未独立复跑。
+
+输出：
+- 在「R13-0 批次实现审查签字」Kimi 行签 accept，或写 counter 的具体文件/断言/复现；
+- 在交接日志记录命令、数字、digest 与剩余风险；
+- accept 也只代表 R13-0 可交 GLM/进入下一批门禁，不代表运行时缺陷已修复。
+```
+
+### 给 GLM（R13-0 数据 / 覆盖实现审查；当前下一步）
+
+```text
+审查任务：N3-1 P7-R13-0 控制面实现——全域 census、三层守恒与负向矩阵主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：build；R13-0 Codex 实现与自验完成，Kimi 已由用户转述 accept，GLM 实现审查
+pending；GLM accept 前不得进入 R13-1。你只读审查，不修改实现文件，不提前标
+N3-1/C8/ED-5I done。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 P7-R13 合并裁决、GLM 设计准入、R13-0 实现与自验；
+- docs/ops/audits/glm-p7-r13-source-semantics-audit.md、
+  kimi-p7-r13-source-semantics-audit.md、
+  codex-p7-r13-three-way-adjudication.md。
+
+重点源码与数据：
+- packages/migrate/src/experimental/script-v5/
+  {source-execution-census,source-instruction-disposition,runtime-capability-audit}.ts 及测试；
+- packages/migrate/src/{translate-events,script-control-flow-audit}.ts；
+- packages/migrate/baselines/script-control-flow/pal-v1.json；
+- packages/migrate/scripts/migrate-content.mts。
+
+必须独立对账：
+1. 43,503 instructions / 42,024 reachable / 82,953 sites；raw 53,363/29,590、
+   augmented 53,373/29,580、final 53,373/29,580，三层各自严格守恒。
+2. 7,824 observations 的层级事实：15 item pending-use raw open 但 augmentation/final 有 exact
+   closure；14 skill pending 仅 314/344/392/394 四条关闭；58 pending/silent-empty throw
+   final 继续 open。不得把 observation 总数或 open site 数写成“迁移完成”。
+3. 6 个 legacy-alias 精确 id→entry 且 direct addresses=[]；4,901 translated-target 全部
+   entryAddress∈addresses；P0 baseline digest abd860…a9c0fa4。
+4. @14461 双 body、防 final target 删除/C8 behavior drift/s048 repair drift、自重签伪造等
+   负向 fixture 是否会 fail-closed；source-backed 校验是否覆盖 rawProjection 与三层 exact targets。
+5. runtime 74×6、skill 17×3、58,508 uses、28 refused/debts、161 enemy casts、183 enemy effects
+   是否从最终 PAL 可重建；静态 host-binding 与持久 publication report 两项必须留作 R13-Z 硬门禁。
+6. migrate:content dry-run 的 0/0/0 和两份 digest 是否可复现；没有 `projects/pal/**` 写入。
+
+输出：
+- 在「R13-0 批次实现审查签字」GLM 行签 accept，或写 counter 的具体数字、站点、断言与复现；
+- 在交接日志记录独立复跑范围和结论；
+- accept 只允许 R13-0 批次收口；R13-1～R13-Z、N3-1 最终 accept 与 C8/ED-5I 回归仍未完成。
+```
+
+### 给 Codex（P7-R13 build 实现；已启动并完成 R13-0，后续须等本批双审）
+
+```text
+接手任务：N3-1 P7-R13 源语义闭包返工 build 实现（R13-0 → R13-Z 分批）
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：rework → 可进入 build；Codex / Kimi / GLM 三方设计签均为 agree（2026-07-26），
+无 counter。你是唯一 Coding Owner。
+
+必须先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md
+- 本卡「P7-R13 三方差集合并与 build 返工设计门禁」全节、
+  「GLM P7-R13 设计准入复审」、「Kimi P7-R13 设计准入复审」(K1-K6 必落钉)
+- docs/ops/audits/codex-p7-r13-three-way-adjudication.md（分批与口径的唯一事实源）
+- 两份独立审计报告（证据，不是签字）
+
+实现纪律：
+1. 严格按 R13-0 → R13-Z 顺序；R13-0 只建控制面，不改运行时行为、不重迁正文。
+2. 逐批落实 K1-K6：0x08 先分三类 census 再投影（臂内 checkpoint 走 escape hatch 另开三签）；
+   idleFrames 按 trigger mode 分流；terminal idle 零副作用可证；confirm 接 v5 commandOutcome
+   并覆盖 abort/session/save barrier；battleEnd 多 stage 与 choreography unsupported cell
+   生成期 fail-loud；onDefeated 改 canonical runner 属公共接口 delta 另签。
+3. 任何新增 canonical schema、save 字段或跨包公共接口，对该 delta 另开三签，不得用总签字覆盖。
+4. 投掷 58 件逐件上游补回（含 10 条 0x42-only silent-empty），验收 76/76/0。
+5. 每批在 Build 节留实现摘要与门禁证据；遇钉子不成立停在批内或转 blocked，不跨批堆债。
+6. R13-Z：无 open-debt、runtime matrix 无 stub/恒定返回/未申报 log-only、全量重迁二跑
+   零 diff、浏览器金丝雀（e796/s048/s093/confirm 两臂/投掷/enemy-483/519/palette）全过后，
+   才重新执行 P7-R12 的 Kimi runtime/save 终审与 GLM 数据/排序终审。不得提前标 done；
+   N3-1、C8、ED-5I 均不沿用旧候选。
+```
+
+### 给 Kimi（P7-R13 三方合并设计与 runtime 架构准入复审）——已于 2026-07-26 执行，签 agree（保留备查，勿再执行）
+
+```text
+设计准入复审：N3-1 P7-R13 源语义闭包返工——runtime / schema / 调度主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+独立报告：docs/ops/audits/kimi-p7-r13-source-semantics-audit.md
+GLM 报告：docs/ops/audits/glm-p7-r13-source-semantics-audit.md
+Codex 合并裁决：docs/ops/audits/codex-p7-r13-three-way-adjudication.md
+当前状态：rework；P7-R13 build 准入 blocked。只读设计复审，不得修改实现、生成产物、
+baseline、任务状态或 P7 最终 accept。
+
+先读：
+  - AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+  - 任务卡 P1-5/P1-6/P1-7、P7-R11/R12/R13 及新的三方合并段；
+  - 三份审计文档；
+  - packages/migrate/src/{translate-events,translate-enemy-scripts,migrate-content}.ts 与
+    packages/content/src/migration-diagnostic.ts；
+  - packages/reforge/src/{main,script-runner-v5,script-world-v5,script-project-v5,
+    script-host-adapter-v5}.ts 与 battle/battle-session.ts。
+
+必须复核：
+  1. Codex 对你报告的纠正是否成立：0x04 callee 链、0x08 副作用统计、当前 choreography /
+     battleEnd 实害与风险分界；若反对须给 CFG/最终产物反证。
+  2. R13-0 的 source-site×context disposition、runtime capability matrix 是否足以 fail-closed，
+     且不把 PAL opcode/IP 重新引入 canonical author model。
+  3. dynamic auto 只能幂等 ensure，现有 runner 依靠 epoch 在 safe point 换手；auto end0
+     终止投影、scene/session/save/abort 不产生双 runner或旧 runner 复活。
+  4. 0x08 首次跑完整正文、下次从后缀 cursor 与 idleFrames 有限状态方案是否可由现有 schema
+     干净表达；不能表达时明确指出需要另签的最小 schema/save delta。
+  5. confirm 复用 Reforge 两框状态机；敌人翻译/runtime 不继续独立白名单或第二解释器；
+     onDefeated canonical world 写入边界是否干净。
+  6. R13 分批是否可独立提交、回滚、验收；是否有必须前置或禁止混做的架构项。
+
+输出：
+  - 在“P7-R13 rework -> build 设计推进签字”Kimi 行签 `agree`，或写 `counter` 的具体
+    file:line、反例、替代设计与需重签字段；
+  - 更新交接日志并给出下一位 GLM/Codex 的可复制提示词；
+  - 签字齐前明确“不得开始实现”；不得把 N3-1/C8/ED-5I 标 done。
+```
+
+### 给 GLM（P7-R13 三方合并设计与数据门禁准入复审）——已于 2026-07-26 执行，签 agree（保留备查，勿再执行）
+
+```text
+设计准入复审：N3-1 P7-R13 源语义闭包返工——全域 census / 生成门禁 / 测试矩阵主审
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+独立报告：docs/ops/audits/glm-p7-r13-source-semantics-audit.md
+Kimi 报告：docs/ops/audits/kimi-p7-r13-source-semantics-audit.md
+Codex 合并裁决：docs/ops/audits/codex-p7-r13-three-way-adjudication.md
+当前状态：rework；P7-R13 build 准入 blocked。只读设计复审，不得修改实现、生成产物、
+baseline、任务状态或 P7 最终 accept。
+
+先读：
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 任务卡 P0/P1-7/P7、P7-R11/R12/R13 及新的三方合并段；
+  - 三份审计文档；
+  - packages/migrate/src/{migrate-content,pal-migration,translate-events,
+    translate-enemy-scripts,migration-validate}.ts 与
+    packages/content/src/migration-diagnostic.ts；
+  - projects/pal/content/{items,enemies}.json 与相关 scene/baseline/ledger。
+
+必须复核：
+  1. 完整 build 口径：36 checkpoint（2 covered/34 open）、11 idleFrames、12 owner、
+     26 confirm、76 source throw / 18 final / 58 missing（48 pending+10 silent）、
+     12 pending enemy、14 palette（4 baked/10 open）、10 pending+4 lossy skill。
+  2. 纠正你报告中的 0x08 no-op、pendingThrow 47/武器不可投掷、loadScene 无 260ms、
+     lossySkills itemId、最终无 pending=无缺失等结论；若反对须给可复跑反证。
+  3. R13-0 是否能对 43,503 source corpus、可达 owner/context、raw migrate、overlay/
+     augmentation 与最终 PAL 做守恒；任何 silent-empty/note/pending/lossy 是否都会阻断。
+  4. 573 transition 只做机器等价审计，1,060 auto variant 只做 end/loop 分类，不把审计池
+     直接报成 bug。
+  5. R13-1..R13-Z 每批的 source/product/runtime/save/browser 测试是否足以让旧实现稳定红灯；
+     生成 diff 白名单、MG2、二跑零计划与报告口径是否完整。
+
+输出：
+  - 在“P7-R13 rework -> build 设计推进签字”GLM 行签 `agree`，或写 `counter` 的具体
+    数量、路径、断言、反例与替代方案；
+  - 更新交接日志并给出下一位 Codex 的可复制提示词；
+  - 签字齐前明确“不得开始实现”；不得把 N3-1/C8/ED-5I 标 done。
+```
+
+### 给 Kimi（P7-R13 架构与源语义独立红队；已完成，勿再执行）
+
+```text
+独立审计任务: N3-1 P7-R13 源指令语义闭包——架构 / SDLPal 语义红队
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+审计基线: d263efd3（实现核心为 c3d620a9）
+当前状态: rework；只读审计，不得修改实现、生成产物、baseline、任务状态或签字。
+
+目标:
+  不以 Codex 已列问题为边界，从 SDLPal 和一阶段真值反向审计第二阶段“源脚本 →
+  canonical → runtime”是否仍有漏迁移、隐式状态丢失或被错误近似的情况。先独立枚举，
+  完成后才与任务卡 P7-R13 的 Codex 金丝雀做差集。
+
+先读:
+  - AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+  - docs/phase2/foundation/{phase1-knowledge-harvest,n-event-script-audit}.md；
+  - docs/phase1/{engineering-notes,status/opcode-status}.md；
+  - 本卡 P1-5/P1-7/P7、P7-R11、P7-R12、P7-R13；
+  - reference/sdlpal/script.c、scene.c；
+  - packages/game/src/core/event-system.ts；
+  - packages/migrate/src/{translate-events,translate-enemy-scripts,migrate-enemies,
+    migrate-content,script-graph,script-control-flow-audit}.ts；
+  - packages/migrate/src/experimental/script-v5/ 与 packages/reforge/src/script-*.ts。
+
+审计方法（必须独立执行）:
+  1. 从 SDLPal opcode switch、一阶段已验证行为和隐式全局状态出发建立“语义生产者 /
+     消费者 / 持久化点”清单，不从 translate-events.ts 的已支持表反推完整性。
+  2. 对每个可达源操作核对最终去向：显式 canonical 命令、结构化 transition、
+     有证据的 fold、资产期吸收、runtime 等价、真实 no-op、批准的有损项；任何只 note、
+     push(undefined)、pending 后继续发布、丢操作数或固定参数近似都单独列账。
+  3. 特别审计但不得止于：checkpoint/recovery、fade/FBP/palette/redraw、换图/换场景、
+     战斗进入/回合/战后脚本、动态行为绑定、存档恢复与隐式引擎 flag。
+  4. 对 suspected 项沿 binding/recovery/call/goto 找到真实 owner 与 runtime entry，
+     再检查最终 projects/pal、v5 transition ledger、overlay/augmentation 和 Reforge host；
+     不得只看“直接 owner”或中间 v4 产物。
+  5. 反查当前门禁：解释为什么 gaps=[]、flowCuts=0、P7 ledger、control-flow audit 或测试
+     没有挡住；提出能阻止同类回归的最小结构性门禁，不能只建议加若干 golden。
+
+输出格式:
+  - 一份独立审计表：类别、精确 source address/opcode/operands、可达 owner/path、
+    SDLPal/一阶段语义、最终 canonical/runtime 去向、用户可见影响、置信度；
+  - 分成“确认最终缺失”“已被等价补回”“仅风险待动态验证”“真实 no-op/批准近似”四组；
+  - 单列你发现但 Codex P7-R13 金丝雀没有覆盖的新增差集，以及你认为 Codex 误报的项目；
+  - 给出可复跑命令、计数与 file:line 证据；禁止只写定性意见；
+  - 将完整报告交给用户转回 Codex；为保持双盲，不要读取/等待 GLM 报告，也不要先改任务卡。
+    两席都返回后由 Codex 统一回填；不得改实现、状态或签 accept。
+```
+
+### 给 GLM（P7-R13 全域数据覆盖独立审计；已完成，勿再执行）
+
+```text
+独立审计任务: N3-1 P7-R13 源指令语义闭包——全域 census / 数据守恒 / 门禁红队
+任务卡: docs/ops/tasks/N3-1-script-control-flow-modernization.md
+审计基线: d263efd3（实现核心为 c3d620a9）
+当前状态: rework；只读审计，不得修改实现、生成产物、baseline、任务状态或签字。
+
+目标:
+  独立建立全量“源事实 → 迁移去向 → 最终运行入口”总账，检查 Codex 审计是否漏域、漏边、
+  误算可达性或把中间报告当最终产物。不要按 Codex/Kimi 清单逐条打勾；先机器化普查，
+  再做三方差集。
+
+先读:
+  - AGENTS.md、docs/phase2/READ-FIRST.md；
+  - 本卡 P0 计数规则、P1-7 ledger、P7 发布门禁、P7-R11～P7-R13；
+  - docs/phase2/foundation/{script-census,n-event-script-audit,
+    phase1-knowledge-harvest}.md；
+  - data/extracted/events/{all,shared,scene-*}.json 与 data/extracted/data/scene/；
+  - packages/migrate/src/{translate-events,translate-enemy-scripts,migrate-content,
+    migrate-enemies,script-graph,script-control-flow-audit,migration-validate}.ts；
+  - packages/migrate/src/experimental/script-v5/、projects/pal/content/ 与相应 baseline。
+
+必须独立普查:
+  1. 以全部 43,503 条源命令和所有外部入口为母集，跨 scene hook/entity trigger/auto、
+     item use/throw/equip、skill use/success、enemy ready/turnStart/battleEnd、共享链和
+     动态 binding/recovery 边统计可达语义；分别给 direct owner 与沿 binding 后 owner。
+  2. 枚举所有可能吞语义的代码路径：push(undefined)、note/known-deferred/knownNoOp、
+     pending/lossy 后继续发布、continue/break 丢节点、fold/overlay/augmentation、
+     默认值或固定值替换源操作数。每一类必须给源站点数、可达数、最终仍缺数和证据。
+  3. 对照最终 projects/pal，而非只看 migrateAll 中间报告；确认 C8/overlay/真彩烘焙等
+     后置步骤哪些真正补回，哪些只消掉 diagnostics，哪些仍发布 partial 数据。
+  4. 为 source execution/binding/recovery edge 建立守恒下界，重点检查 0x08、advance/reset、
+     “引用目标含段转移”、敌方脚本游标和 save resume；禁止把 573 条候选直接当 573 个 bug。
+  5. 对普通迁移、敌人、技能、物品、装备、投掷分别核对 pending/lossy 与最终可运行条目；
+     检查现有测试是否只钉数量/报告而容许半成品发布。
+  6. 独立复跑并记录：migrate dry-run、script-control-flow audit、相关 PAL tests；必要时写
+     一次性只读统计命令，但不得提交脚本或改文件。
+
+输出格式:
+  - 全域矩阵：domain、source roots/commands、reachable、显式生成、结构转换、证据折叠、
+    true no-op、approved lossy、unresolved；每个 unresolved 可回溯到 source address 和
+    最终 owner/path；
+  - 分成“确认最终缺失”“已补回”“风险待验证”“真实 no-op/批准近似”；
+  - 单列 Codex 清单之外的新增项、对 Codex 数字或结论的反证，以及无法收敛的口径；
+  - 提出 fail-closed 门禁和回归矩阵，明确哪些检查必须阻断生成；
+  - 将完整报告交给用户转回 Codex；为保持双盲，不要读取/等待 Kimi 报告，也不要先改任务卡。
+    两席都返回后由 Codex 统一回填；不得改实现、状态或签 accept。
+```
+
+### 给 Kimi（P7-R12 runtime/save 调度终审；暂缓，P7-R13 差集合并后再执行）
 
 ```text
 终审任务: N3-1 P7-R12 场景出口触发与 SAVE activation gate 竞态
@@ -4000,7 +6693,7 @@ inline 点和 scripts/chunks 外的 s018 直连。P2 同时结构化 s018 时必
     N3-1、C8 或 ED-5I done。
 ```
 
-### 给 GLM（P7-R12 回归覆盖与存档排序终审；Kimi 完成后执行）
+### 给 GLM（P7-R12 回归覆盖与存档排序终审；暂缓，P7-R13 差集合并后再执行）
 
 ```text
 终审任务: N3-1 P7-R12 场景出口触发竞态、存档排序与测试矩阵
@@ -4225,9 +6918,10 @@ P3-P7 批次中 Kimi 曾额度耗尽，用户批准该批由 GLM 合并代审；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前下一步：先把 P7-R12 提交 `c3d620a9` 交 Kimi 做 runtime/save 调度只读终审，再交
-GLM 做回归覆盖与存档排序终审；两席均 `accept` 后仍等待用户体验确认，由 Codex 最终收口。
-P7-R11 及更早提示词不得再执行。
+当前下一步：R13-2 三席 `accept` 已齐，migrate 测试性能债也已按 fast/release 双门收口；
+Codex 作为唯一 Coding Owner 进入 **R13-3（58 件投掷闭包）**。R13-3 后仍有
+confirm/enemy/approved-lossy 与 R13-Z publication，完成前不得把 N3-1 标记 done，
+C8 / ED-5I 的下游验收依赖不变。
 
 ### 给 GLM（P7 状态机 schema delta 架构 + 数据合并代审；已完成，勿再执行）
 
@@ -4268,7 +6962,7 @@ P7-R11 及更早提示词不得再执行。
   - 不得把 N3-1/C8/ED-5I 标 done。
 ```
 
-### 给 Codex（P7 全量重迁、验收与文档；当前执行）
+### 给 Codex（P7 全量重迁、验收与文档；已完成，勿再执行）
 
 ```text
 接手任务: N3-1 P7 全量重迁、验收与文档

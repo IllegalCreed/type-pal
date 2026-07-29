@@ -162,14 +162,6 @@ export type ItemUseEffect =
   | { kind: 'scaleCurrentHp'; numerator: number; denominator: number }
   /** 0x8D：执行原版角色成长；不回满生命/真气，使用后经验归零。 */
   | { kind: 'levelUp'; levels: number }
-  /** 0x5B：投掷时按敌人当前生命计算伤害，并受固定上限约束。 */
-  | {
-      kind: 'currentHpDamage'
-      numerator: number
-      denominator: number
-      bonus: number
-      cap: number
-    }
   /** 0x84：把稳定实体放到玩家面前；失败时不消费物品。 */
   | {
       kind: 'placeEntityInFront'
@@ -200,7 +192,6 @@ export const ITEM_USE_EFFECT_KINDS = {
   modifyHostileAwareness: true,
   scaleCurrentHp: true,
   levelUp: true,
-  currentHpDamage: true,
   placeEntityInFront: true,
 } satisfies Record<ItemUseEffect['kind'], true>
 
@@ -217,7 +208,7 @@ export interface UseSpec {
   menuAfterUse?: 'keep' | 'close'
 }
 
-export type ItemUseContext = 'world' | 'battle' | 'throw'
+export type ItemUseContext = 'world' | 'battle'
 
 function assertNever(value: never, context: string): never {
   throw new Error(`${context}: 未处理的物品效果 ${JSON.stringify(value)}`)
@@ -240,8 +231,6 @@ export function itemUseEffectSupportsContext(
     case 'permanentStatBoost':
       // 永久成长要写回 CharacterInstance；战斗临时态没有这条持久写回通道。
       return context === 'world'
-    case 'currentHpDamage':
-      return context === 'throw'
     case 'applyPoison':
       return true
     case 'modifyHostileAwareness':
@@ -256,7 +245,7 @@ export function itemUseEffectSupportsContext(
     case 'gate':
     case 'dieIfNotPoisoned':
     case 'extraPoisonRes':
-      return context !== 'throw'
+      return true
     default:
       return assertNever(effect, 'itemUseEffectSupportsContext')
   }
@@ -270,9 +259,66 @@ export function itemUseSupportsContext(use: UseSpec, context: ItemUseContext): b
   )
 }
 
-/** 战斗投掷,phase3 细化。 */
+/** 投掷目标；全体目标跳过战斗中的单敌选择。 */
+export type ThrowTarget = 'oneEnemy' | 'allEnemies'
+
+/** 投掷法术元素的公共语义名；canonical 不保存 PAL magic 表里的数字编号。 */
+export type ThrowElement = 'none' | 'wind' | 'thunder' | 'water' | 'fire' | 'earth' | 'poison'
+
+/**
+ * `PAL_BattleSimulateMagic` 的 magStr 来源。
+ * `magicDamage.baseDamage` 只承载 magic definition 的 signed baseDamage；
+ * 0x42/0x66 的实际强度只从这里读取，不能二次叠加 baseDamage。
+ */
+export type ThrowMagicStrength =
+  | { kind: 'fixed'; value: number }
+  | {
+      kind: 'casterAttack'
+      bonus: number
+      multiplier: { kind: 'uniformInt'; min: number; max: number }
+    }
+
+/** 战斗投掷的独立效果联合；不再把投掷伪装成 ItemUseEffect 的第三种 context。 */
+export type ThrowEffect =
+  | {
+      kind: 'magicDamage'
+      baseDamage: number
+      element: ThrowElement
+      strength: ThrowMagicStrength
+    }
+  | { kind: 'fixedDamage'; amount: number }
+  | { kind: 'applyPoison'; poisonId: string }
+  | {
+      kind: 'currentHpDamage'
+      numerator: number
+      denominator: number
+      bonus: number
+      cap: number
+    }
+  | {
+      kind: 'applyStatus'
+      status: StatusId
+      turns: number
+      onResist: 'continue' | 'stopTarget'
+    }
+  | { kind: 'killIfHpAtMost'; percent: number }
+  | { kind: 'damageAndHealCaster'; damage: number; heal: number }
+
+/** 所有投掷效果 kind 的编译期完整表；validator/editor/runtime 共用，禁止漂移。 */
+export const THROW_EFFECT_KINDS = {
+  magicDamage: true,
+  fixedDamage: true,
+  applyPoison: true,
+  currentHpDamage: true,
+  applyStatus: true,
+  killIfHpAtMost: true,
+  damageAndHealCaster: true,
+} satisfies Record<ThrowEffect['kind'], true>
+
+/** 战斗投掷能力。 */
 export interface ThrowSpec {
-  effects: ItemUseEffect[] // 占位:投掷效果届时可能独立联合
+  target: ThrowTarget
+  effects: ThrowEffect[]
   /** 投掷链显式表现音；缺席表示没有物品专属音。 */
   sound?: AssetId
   /** 与玩法效果解耦的投掷命中特效；例如无影毒 0x42 只负责 FIRE 演出。 */
@@ -1092,7 +1138,6 @@ export function resolveWorldItemUse(
           break
         }
         case 'hideParty':
-        case 'currentHpDamage':
         case 'runScript':
         case 'runSceneHook':
         case 'placeEntityInFront':
