@@ -5599,9 +5599,11 @@ transition，属于高风险 delta；总设计旧签字不能覆盖，专项三�
    terminal arm 时登记 exact evidence，不重复转换。
 
 4. **append-only `r13-confirm-v1`**
-   parent 精确指向 `r13-item-throw-v1` candidate 经三方签批后原子提交的已发布 digest。
-   当前三个 R13 seal 仍未入库，因此 R13-4 build 前必须先把 R13-0～R13-3 实现、
-   manifest 与 seal 原子提交，记录 commit + item-throw digest；此前禁止初始化新 seal。历史
+   parent 精确指向 `r13-item-throw-v1` 经三方签批后原子提交的已发布 digest。
+   该前置已于提交 `3a03bfdd3ef096613b9c10d42e3dbb7ced817624` 完成：R13-0～R13-3
+   实现、manifest 与三个 R13 seal 已原子提交；item-throw digest 为
+   `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`。
+   R13-4 新 seal 只能以该提交与 digest 为不可变 parent。历史
    `script-v4-v5`、`c8-item-use-v5-v1`、`r13-cadence-v1`、
    `r13-cross-activation-v1`、`r13-item-throw-v1` 五层逐文件 byte-pin。
    evidence 逐 source site 保存 source SHA、No target、Yes fallthrough、terminal lifecycle、
@@ -5735,8 +5737,9 @@ Kimi/GLM=pending。你是架构/runtime/save/MG2 主审，不是 Coding Owner。
    SystemMenuState 业务状态或污染 shop/system prompt。
 5. Editor 直接走 v5 runner 的边界是否干净；不能保留有损 v5→v4 commandOutcome lowering
    又宣称预览闭环。
-6. 先原子提交已签 R13-0～R13-3 candidate 是否被列为 build 前置；随后
-   r13-confirm-v1 以已发布 item-throw seal 为 parent、旧五层 byte-pin、
+6. 已完成父提交 `3a03bfdd3ef096613b9c10d42e3dbb7ced817624` 与 item-throw digest
+   `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`
+   是否匹配；随后 r13-confirm-v1 以该已发布 seal 为 parent、旧五层 byte-pin、
    initialize/replay/half-state/tamper/drift 与 formal migration 二跑零计划是否充分。
 
 限制：只读设计审查；不得改实现、生成产物、baseline、seal、版本常量、GLM 签字或任务
@@ -5780,7 +5783,9 @@ Kimi/GLM=pending。你是数据/source disposition/测试矩阵主审，不是 C
    删/复制/交换/漏 fanout 是否会精确 reopen，而不是只靠数量或 final JSON 自证。
 4. source disposition v3 与 runtime audit v2 是否只关闭 R13-4 confirm debt，不把
    R13-5/R13-6 open observations 冒充已完成。
-5. content9/SAVE8/min8、A7-4→候选 v10 的唯一接受/拒绝矩阵；R13-0～3 先原子提交、
+5. content9/SAVE8/min8、A7-4→候选 v10 的唯一接受/拒绝矩阵；已完成父提交
+   `3a03bfdd3ef096613b9c10d42e3dbb7ced817624` 与 item-throw digest
+   `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`、
    旧五层 byte-pin、新 seal parent、13 lossy scenes 首跑白名单、5 exact-only scenes
    byte-stable 与二跑 0/0/0 是否完整。
 6. 最低测试矩阵是否足以钉住 s005/s050/s009 三个用户可见反例、s009/s100/e1825/s131

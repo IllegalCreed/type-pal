@@ -147,9 +147,11 @@ Yes 指向同步后缀状态。
 ## 6. R13-4 evidence / MG2
 
 新增 append-only `r13-confirm-v1`，parent 必须是当前
-`r13-item-throw-v1` candidate 经三方签批后**原子提交的已发布 digest**。R13-4 build 的前置
-动作是先把 R13-0～R13-3 实现、manifest、三个当前仍未入库的 R13 seal 原子提交并记录
-commit + item-throw digest；在此之前只能称 candidate parent，禁止初始化新 seal。
+`r13-item-throw-v1` 经三方签批后**原子提交的已发布 digest**。此前置已于
+`3a03bfdd3ef096613b9c10d42e3dbb7ced817624` 完成：R13-0～R13-3 实现、manifest
+与三个 R13 seal 已原子提交；已发布 item-throw digest 为
+`c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`。
+R13-4 新 seal 只能以该提交和 digest 为不可变 parent。
 以下五层必须逐文件 byte-pin：
 
 1. `script-v4-v5`
