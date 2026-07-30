@@ -1,15 +1,16 @@
 # 剧情脚本系统
 
-> **当前实现（contentVersion 8，canonical script schema V5，2026-07-29）**：N3-1 已把
+> **当前实现（contentVersion 10，canonical script schema V5，2026-07-31）**：N3-1 已把
 > canonical 脚本模型发布到
 > `packages/content/src/script-v5.ts`、`scene-v5.ts`、`item-v5.ts`，compiler/runtime/editor/save
-> 均消费同一模型。R13-1、R13-2、R13-3 分别占用 contentVersion 6、7、8，但都没有复制或
-> 重命名 canonical V5 脚本 schema；v8 只扩充独立的投掷能力。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和
+> 均消费同一模型。R13-1～R13-5 依次占用 contentVersion 6～10，但都没有复制或重命名
+> canonical V5 脚本 schema；v8 扩充独立投掷能力，v9 增加确认结果 transition，v10 收紧
+> 敌人脚本与 battle context。本文后半保留的 v0 草稿只用于追溯早期取舍，字段名和
 > 作者模型不再是当前契约。
 > 最终验收状态见
 > [`N3-1` 任务卡](../../ops/tasks/N3-1-script-control-flow-modernization.md)。
 
-## contentVersion 8 / canonical script V5 契约
+## contentVersion 10 / canonical script V5 契约
 
 ### 作者身份与存储
 
@@ -120,9 +121,9 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 - Page/Behavior/Hook 选择真正变化时递增 owner epoch；旧 invocation 持 lease 跑到下一
   safe-point，过期 cursor 的 CAS 会被丢弃。
 
-### 历史 v4→v5、v5→v6、v6→v7 与当前 v7→v8 边界
+### 历史 v4→v9 与当前 v9→v10 边界
 
-- HTTP/runtime loader 只接受 current contentVersion 8。
+- HTTP/runtime loader 只接受 current contentVersion 10。
 - canonical 结构迁移只发生在历史 v4 → v5：旧工程在本地编辑器 `open-local` 入口进入
   staging/journal 工作台；descriptor、sidecar 和 ledger 保持 byte-pin。
 - 唯一可证明的单页/单段工程可自动投影。多 Page/Stage、重复实体地址、重复 cursor 和动态绑定
@@ -133,11 +134,13 @@ compiler 将 canonical flow 降成只存在于内存或可删缓存的 `Executab
 - R13-1 的历史 v5→v6 只断开开发期存档 epoch，canonical script schema 仍是 V5。
 - R13-2 的历史 v6→v7 把 SAVE/minimum 升至 7；cursor handoff 世界语义仍由
   `WorldScriptStateV5` 承载。
-- R13-3 的当前 v7→v8 只补齐独立投掷 schema。为避免发布无意义的中间工程，本地编辑器会把
-  content 5/6 直接合成 8/7，或把 content 7 的投掷 `target` 补齐后升到 8；两条路径都先走
-  current loader 预检，再写 items，并始终最后提交 manifest。
-- 当前存档 envelope 是 SAVE 7。SAVE7/content7 只做不读 sidecar 的 content8 identity
-  normalization；SAVE6 及更早在任何历史 sidecar I/O 前早失败。
+- R13-3 的历史 v7→v8 只补齐独立投掷 schema；R13-4 的历史 v8→v9 增加稳定
+  `commandOutcome` 确认分支并把装备战斗形象收敛为按角色映射，同时把 SAVE/minimum 升至 8。
+- R13-5 的当前 v9→v10 收紧敌人 hook、battle choreography 与 `onDefeated` context union。
+  本地编辑器把 content 5～9 经各自纯升级器直接合成 current 10/8，递归扫描 enemies、
+  scene/shared/item 内嵌 battle context；完整预检后始终最后提交 manifest。
+- 当前存档 envelope 是 SAVE 8。SAVE8/content9 只做不读 sidecar 的 content10 identity
+  normalization；SAVE7 及更早在任何历史 sidecar I/O 前早失败。
 
 ---
 

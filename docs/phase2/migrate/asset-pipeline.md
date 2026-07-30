@@ -236,8 +236,14 @@ contentVersion 5/6。全 legacy 归零、升级 `contentVersion 7` 和总闭包�
 实现与审查证据见
 [`A7-3B 任务卡`](../../ops/tasks/A7-3B-battle-sprite-asset-closure.md)。
 
-## 14. 后续版本轴更新（2026-07-29）
+## 14. R13-2 / R13-3 历史版本轴更新（2026-07-29）
 
-R13-2 与 R13-3 后续分别占用 content 7、content 8；当前组合为
-content 8 / SAVE 7 / minimum 7。A7-3B 完成时记录的“A7-4 计划 v7”只代表当时计划；
-A7-4 当前顺延为候选 v10，版本尚未冻结。
+R13-2 与 R13-3 后续分别占用 content 7、content 8；截至 2026-07-29，当时组合为
+content 8 / SAVE 7 / minimum 7。A7-3B 完成时记录的“A7-4 计划 v7”以及随后记录的候选
+v10 都只代表当时计划，current 口径见下一节。
+
+## 15. R13-4 / R13-5 当前版本轴更新（2026-07-31）
+
+R13-4 与 R13-5 分别占用 content 9、content 10；当前组合为 content 10 / SAVE 8 /
+minimum 8。R13-5 只收紧敌人脚本和 battle context，未改变世界存档形状；SAVE8/content9
+只做无 sidecar 的 identity normalization。A7-4 当前顺延为候选 v11，版本尚未冻结。

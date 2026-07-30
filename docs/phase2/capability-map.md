@@ -93,7 +93,7 @@
 |---|---|---|---|---|---|
 | N1 | 对话播放 | ✅ | ✅ | 客栈开场李大娘 | done(N1-1,2026-07-15):唯一 `DialogueCue + rows` 模型、旧码只在 migrate、全量 PAL 重生成、MG2 零计划、三方复验与用户验收完成 |
 | N2 | 事件触发 | ✅ | ✅ | onEnter/物品触发 | done；N3-1 P7 已把实体 Page、trigger/auto Behavior 与 onEnter/onTeleport Hook variant 发布为 stable-id canonical V5，编辑器可选择、引用和回链。N3-1 R13 仍在逐批关闭源语义缺口，最终验收未完成 |
-| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done(2026-07-15)**：可执行 `unmigrated` 与旧 opcode 第二解释器(`runLegacyOp`)已退役。**N3-1 R13 build（2026-07-29）**：canonical script schema 仍为 V5；R13-1、R13-2 已通过三方审查，R13-3 已把工程升到 contentVersion 8 / SAVE 7，并完成 76 个投掷源根重建与正式重迁，当前等待本批实现审查；R13-4～R13-Z 尚未完成，不得把 N3-1 标 done |
+| N3 | 脚本演出 | ✅ | ✅ | 客栈开场自动演出 | done;async 解释器+预览。**R2 done(2026-07-15)**：可执行 `unmigrated` 与旧 opcode 第二解释器(`runLegacyOp`)已退役。**N3-1 R13 build（2026-07-31）**：canonical script schema 仍为 V5；R13-4 已发布 contentVersion 9 / SAVE 8 的确认分支与装备形象 epoch，R13-5 已形成 contentVersion 10 / SAVE 8 敌人脚本 formal candidate，当前仍在 counter 返工后的三方实现复审；R13-6～R13-Z 尚未完成，不得把 N3-1 标 done |
 | N4 | 事件模板库 | — | ✅ | — | done;编辑器产物,引擎无依赖 |
 | N5 | 条件/变量/flag | ✅ | ✅ | 全局 flag | 引擎 done;编辑器(2026-07-05):数据模式「变量」页(flag/var 总览+读写明细)+ 物品页「被事件引用」区(737 处),点引用跳事件模式定位源(ref-index 全脚本递归扫描,含 branch/confirm/startBattle 子命令与 hostile.onLose) |
 | N6 | 共享脚本/子程序 | ✅ | ✅ | s001+s002 双调用方 | **done(2026-07-15；canonical V5 发布 2026-07-25)**：作者库 CRUD/稳定 id/callScript/引用安全/保存重开/MG2 保留均已落地；canonical 库现为 `content/shared-scripts.json`，调用只存 ScriptId+可选 EntityAddress self，不再保存 chunk；作者界面隐藏“迁移内部实现”，物品私有脚本归物品内联拥有。N3-1 R13 的全局源语义闭包仍在 build |
@@ -122,7 +122,7 @@
 | 格 | 名字 | 引擎 | 编辑器 | 原版考题 | 备注 |
 |---|---|---|---|---|---|
 | X0 | 主菜单四项 | ✅ | — | 状态/装备/术/系统 | done;引擎 UI |
-| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 SAVE 7 / contentVersion 8 / minimumSaveVersion 7；SAVE7/content7 只做无 sidecar identity normalization，SAVE 1..6 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor 和 WorldScriptStateV5 保持唯一真值；历史 4→5 sidecar 只留作 byte-pin 迁移证明 |
+| X1 | **存档/读档+状态快照** | ✅ | — | 存档 | 完整流程实测(quick/manual 30 槽/位置+world 快照/同场景实体复位/跨刷新持久)。当前 epoch 为 SAVE 8 / contentVersion 10 / minimumSaveVersion 8；已发布的 SAVE8/content9 只做无 sidecar identity normalization，SAVE 1..7 在历史 sidecar I/O 前早失败。canonical Page/Behavior/Hook cursor 和 WorldScriptStateV5 保持唯一真值；历史 4→5 sidecar 只留作 byte-pin 迁移证明 |
 | X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工程一次性升级；数字文件名、应用根 soundfont、`legacy.sounds` 和运行时音效字面量已退役。边界:X2=音频基建与资源生命周期，W5=场景侧引用与切换；未实现的战斗表现事件继续记 B5，不反向降级 X2 |
 | X3 | 标题/流程/结局 | ⚠️ | — | 新游戏/通关 | 引擎(2026-07-06):主菜单标题屏(FBP2 底图 + entryPoints 竖排)+「新的故事」新游戏流 +「旧的回忆」读档(→存档浏览→doLoad 跳开场);**X3-1 done(2026-07-15)**：场景入场呈现事务(Prepare→Reveal→Body 显式元数据取代运行时命令前瞻,SceneEntrySession 生命周期,编辑器三区编辑)；缺通关/结局流转(❌)。开局数据侧见 X7 |
 | X4 | 资源管线(RGBA 化) | ⚠️ | — | — | A7-2 已退役 `data/baked`：立绘/头像/物品图标由 migrate 确定性物化进工程 catalog，战场背景保留索引 PNG 与标准色量化；85 个默认 UI slot、标题、字形和光标进入 bundler-owned engine chrome。A7-3T tileset、A7-3W world sprite 与 A7-3B battle sprite 均保持 gzip indexed RLE 且已 done；当前只余 effect-sprite/image 两项，不能提前把 X4/A7 标 done |
@@ -152,7 +152,7 @@
 | A4 | 用户上传自有素材 | — | ✅ | **已覆盖精灵、瓦片集、角色/敌人战斗外观、音乐、SFX、视频、完整帧动画及四类静态图**：A7-2 图像工作台支持立绘/头像/物品图标导入替换，战场真彩图在导入边界确定性量化并预览工程效果；引用保护、undo/redo、pending blob 与保存重开共用 catalog 链。默认字体/UI 属引擎，不是工程上传能力 |
 | A5 | 工程自包含分发(打包导出) | — | ✅ | **done(2026-07-10 A5)**:工程菜单「🗜 导出 zip」= FSA 目录递归原样打包下载(零依赖 zip 器:原生 deflate/CRC32/UTF-8 名/时间恒1980 可复现;读磁盘,dirty 提醒先保存;dev 种子工程禁用)。「另存为」丢磁盘素材债已修(整树拷贝+覆写,见 A5 卡) |
 | A6 | 预制库主动更新检查(可选) | — | ❌ | 用户显式触发:检查服务器新版 → 选择是否拉取覆盖。非自动;非 MVP |
-| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5～9 已由 N3-1 P7/R13 占用**，A7-4 的全 legacy 归零、catalog-only 总门禁与断外链收口因此顺延到下一未占用 epoch（当前候选 contentVersion 10）；A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
+| A7 | 工程资源闭包与稳定资源注册表 | ⚠️ | ⚠️ | **进行中（R3/R7）**：音乐/soundfont、SFX、视频/完整帧动画、四类静态图与 engine chrome 已闭包；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**。A7-3B 已完成三方审查和用户验收：172 records / 171 definitions / 179 refs / 171 used / 5 shared / 1 unused，900,973 gzip B / 775 帧 / 6 legacy 坏尾；定义/资产编辑、runtime active appearance、local/save/transport 单链已接通。**contentVersion 5～10 已由 N3-1 P7/R13 占用**，A7-4 的全 legacy 归零、catalog-only 总门禁与断外链收口因此顺延到下一未占用 epoch（当前候选 contentVersion 11）；A7 待办仍有 effect-sprite/image 两项，版本抬升本身不等于资源闭包。**A7 全部完成前不得标 ✅**。总设计见[资源闭包审计](foundation/a7-resource-closure-audit.md) |
 
 > A1-A6 是编辑器侧的素材与分发动作，故 `引擎—`；A7 是跨引擎、编辑器、内容 schema 与迁移器的工程资源闭包能力，因此两侧都按实际完成度记账。引擎只消费 manifest/catalog 指针与工程目录文件，不关心素材来源。未决子问题(A1 版权策略与素材规模 / A2 下载协议与进度 / A4 支持的素材格式)留「做 A 领域」那轮 brainstorm 细化。
 

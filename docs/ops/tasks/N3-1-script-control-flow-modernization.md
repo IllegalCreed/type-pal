@@ -6481,7 +6481,9 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 - **验证证据**：
   - migrate typecheck、两个 `.mts` 独立 strict tsc、Biome 18 files、`git diff --check` 通过；
   - source census / disposition / translator unit 32/32（0.57s）；
-  - R13-5 MG2 1/1（291.12s，总 wall 含 PAL fixture；测试自身恢复 240s 门）；
+  - R13-5 MG2 1/1（291.12s，总 wall 含 PAL fixture；测试自身恢复 240s 门；这是 formal
+    publication 前证据，随后被 GLM 对已提交 baseline 的 initialize 反例 supersede，见下方
+    post-publication 返工）；
   - source disposition + enemy source PAL 8/8（134.49s）；
   - confirm/cross fresh-init 定向 2/2（19 skipped，242.56s）；
   - 正式 dry-run `8/0/0`；`--write` initialize `8/0/0` + 命令内独立进程 replay
@@ -6492,20 +6494,183 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
   merged-target closure。R13-5 MG2 定向总 wall 从 522.20s 降至 291.12s（约 44%）且增强
   anti-tamper；仍有约 90s PAL fixture 冷启动和 81,674-site release authority 固定成本，
   后续不得靠继续提高 timeout 掩盖。
-- **当前边界**：R13-5 formal candidate 已形成，进入三方 implementation review。
-  Codex 已签 accept；Kimi / GLM 未签前不得标记 R13-5、N3-1、C8 或 ED-5I done。
+- **formal publication 前边界**：R13-5 formal candidate 已形成，进入三方 implementation
+  review。Codex 已签 accept；Kimi / GLM 未签 `accept` 前不得标记 R13-5、N3-1、C8 或
+  ED-5I done。其后两方均签 `counter`，返工见下一节。
+
+#### R13-5 post-publication counter 返工（2026-07-31）
+
+`e6a521d6` 已完成 Kimi / GLM 两个 counter 及其连锁回归的统一修复；`299a6fb8`
+在不修改生产 schema / 产物 / seal 的前提下拆分 fast/release 证明并关闭确定性 timeout。
+历史 counter 记录保留，本节只形成新的复审候选，不替审查方改签：
+
+- **Kimi K1**：`legacy-enemy-script-v9-authority.pal.test.ts` 的 `hookSources` 冻结值由 44
+  修正为 54，并写明账目 `44 ready/turnStart owners + 15 battleEnd roots - 5 owner overlap`；
+  historical authority 3/3 重新通过。
+- **GLM G2**：新增 `published-r13-enemy-test-fixture.ts`，从已发布 R13-5 baseline/project
+  安全回退到 parent，逐项校验 seal 的 state/file/hash/successor/author 四层关系；initialize
+  测试额外注入 non-owned `enemy-420.stats.cash` 与 `s003/e59.facing`，证明 8 个 owned writes
+  不吞作者改动。R13 enemy audits 3/3 重新通过。
+- **post-publication cascade**：
+  - P2/P3/P4 历史重建统一 strip R13-5 enemy/locale owned delta，并对 parent、successor 与
+    author 漂移 fail-closed；历史 pin 20/20 保持；
+  - R13-confirm fresh initialize 先回退已发布 enemy 层，11/11 保持；
+  - cadence current digest 只随 8 份旧 choreography 正当删除更新，历史 digest 不改；
+  - strict-empty integration 改从 R13-5 transition 计算 current；sound current audit 恢复
+    4 条 sound 与 2 条 music 引用，冻结 `source playSound=1,039`、
+    `target soundEdges=1,747`、`allRefs=6,731`、`nonSound=4,984`，missing/kindMismatch=`0/0`；
+  - integration strict-empty 先把历史 sources 收敛为一次 clone、R13 census 收敛为一次
+    prepare；随后 `299a6fb8` 把 PAL fixture 构建移入独立 180s hook，planner 用例仍保持
+    原 240s 门，不再把 setup 时间误算成 planner timeout。
+- **GLM G3**：`r13-enemy-source-disposition.pal.test.ts` 已正式加入
+  `PAL_SHARED_TESTS`，7 个细粒度 source oracle 不再游离于 fast/release 矩阵。
+- **content10 连锁闭环**：
+  - 编辑器本地工程 v4/v5/v6/v7/v8/v9 均在内存合成 current content10/SAVE8，
+    预检 scene/shared/item-private/enemy 全 owner 的 battle/onDefeated context，零写
+    fail-loud，manifest 永远最后提交；
+  - current `checkAuthorCommandsV5` 也直接校验 `startBattle.choreography`，manifest10 工程
+    不能绕过升级器偷渡世界命令；
+  - item/script reference walker 不再把穷尽 battle action 误当通用 `Command[]`，enemy
+    onDefeated 改用穷尽 typed walker；
+  - demo、e2e-own、blank project 与 loader/editor fixtures 同步 content10；historical
+    SAVE8/content9 identity fixtures 保持不变。
+- **fast/release 证明分工（`299a6fb8`）**：
+  - `pal-shared` 保留完整 source-backed initialize、successor/author-layer 与 anti-tamper；
+    `pal-fresh` 从真实磁盘 baseline/project 校验 seal、successor、8 个 owned path 和 35 个
+    authored locale id；
+  - release integration 不走 shortcut，完整调用 planner 并显式断言
+    `enemyScriptSealMode=replay`、conflicts/writes/deletes=`0/0/0`；
+  - enemy audit 删除同一 fixture 内的第二次重复 replay，但保留 initialize、半状态拒绝、
+    作者改动与篡改反例；外部/prepared runtime capability 报告仍走 snapshot-backed rebuild，
+    只有同调用刚构建的本地报告使用 report-only 自校验。
+- **最终自验证（2026-07-31）**：
+  - migrate typecheck、Biome 6 files、相关 unit 2 files / 19 tests（0.64s）通过；
+  - R13 enemy PAL 全路径 1 file / 3 tests（338.34s）通过；
+  - release strict-empty replay 1 passed / 2 skipped（265.96s），完整 planner 结果为
+    replay + `0/0/0`；
+  - 根级 `pnpm check:fast` 全绿：7 包 typecheck；446 files / 5,198 tests passed、
+    1 skipped；migrate fast 为 86 files / 599 passed / 1 skipped（1,282.83s）；
+    全仓 Biome 1,040 files 通过。
+- **性能债边界**：本批关闭了重复 replay、重复本地 capability rebuild 和 setup 误占单测
+  timeout，不能宣称 81,674-site source-backed authority 固定成本已消失。根门仍约 21 分钟，
+  worker 实测约 1.3GB RSS / 单核满载；后续优化必须继续保留 fast/release 双证据与 release
+  全量重建，禁止靠提高 timeout、跳过 source-backed 或跨调用全局缓存冒充收口。
+
+当前状态仍为 **review blocked**：须 Kimi / GLM 对 `e6a521d6..299a6fb8` 复审并把下表
+各自行从 `counter` 改为 `accept`；R13-6/R13-Z 仍未开始。
+
+#### 给 Kimi（R13-5 counter 返工复审）
+
+```text
+复审 N3-1 R13-5 counter 返工。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：R13-5 review blocked；只读复审 e6a521d6..299a6fb8，不是 Coding Owner。
+
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及任务卡的 R13-5
+build/review、历史 counter 和 post-publication counter 返工小节。
+
+重点核对：
+1. hookSources 54 = 44 ready/turnStart owners + 15 battleEnd roots - 5 owner overlap，
+   historical authority suite 是否恢复；
+2. published baseline 回退、seal/authored preservation、initialize/replay 和 anti-tamper
+   是否仍 fail-closed；
+3. sound +4、music +2 及 allRefs=6,731 / soundEdges=1,747 / nonSound=4,984 是否成立；
+4. editor v4～v9→content10 是否零写 fail-loud、manifest-last，并覆盖全部四类 owner；
+5. `299a6fb8` 的 fast/release 分工是否仍保留 source-backed initialize、真实磁盘
+   seal/successor/author-layer 与 release 完整 replay `0/0/0`；根级 check:fast
+   5,198 passed / 1 skipped 是否足以关闭原 counter。
+
+输出要求：只修改本卡“R13-5 专项 review -> done 推进签字”自己的 Kimi 行和一手交接记录。
+通过则改签 accept；不通过则 counter 并给精确 file:line、复现与最小返工。不得改实现、
+生成产物、board 或其他签字；accept 只收口 R13-5，不代表 R13-6/R13-Z/N3-1/C8/ED-5I done。
+```
+
+#### 给 GLM（R13-5 counter 返工复审）
+
+```text
+复审 N3-1 R13-5 counter 返工。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：R13-5 review blocked；只读复审 e6a521d6..299a6fb8，不是 Coding Owner。
+
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md，以及任务卡的 R13-5
+build/review、历史 counter 和 post-publication counter 返工小节。
+
+重点核对：
+1. 已发布 R13-5 baseline/project 能否安全回退到 parent 后重新 initialize，且 non-owned
+   enemy/scene 作者改动不丢；
+2. P2/P3/P4 historical fixture 是否只 strip R13-5 owned delta，20/20 历史 pin 不漂移；
+3. G3 的 7 条 r13-enemy source oracle 是否已进入 PAL_SHARED_TESTS；
+4. source/target sound 计数、strict-empty current 口径与 8-file formal 边界是否完整；
+5. content9→10 与本地 v4～v9→10 升级是否覆盖 scene/shared/item/enemy、预检零写、
+   manifest-last；`299a6fb8` 是否只去掉重复 replay 而未降低 PAL/release 证明，
+   根级 check:fast 5,198 passed / 1 skipped 是否全绿。
+
+输出要求：只修改本卡“R13-5 专项 review -> done 推进签字”自己的 GLM 行和一手交接记录。
+通过则改签 accept；不通过则 counter 并给精确数字、路径、断言、复现与最小返工。不得改实现、
+生成产物、board 或其他签字；accept 只收口 R13-5，不代表 R13-6/R13-Z/N3-1/C8/ED-5I done。
+```
 
 #### R13-5 专项 `review -> done` 推进签字
 
 | Agent | 结论 | 日期 | 备注 |
 |---|---|---|---|
-| Codex | **accept** | 2026-07-30 | 唯一 Coding Owner 自验通过。实现、source-backed 12/31 closure、两层 anti-tamper、content10/SAVE8 identity、8-file formal publication、内部独立 replay 与 live dry-run 均按上节证据闭合；accept 只确认 R13-5 formal candidate，不冒充 R13-6/R13-Z/N3-1/C8/ED-5I done。 |
-| Kimi | pending | — | 待架构/runtime/schema/MG2/anti-tamper implementation review。 |
-| GLM | pending | — | 待数据/source disposition/formal diff/测试矩阵 implementation review。 |
+| Codex | **accept** | 2026-07-31 | 唯一 Coding Owner 自验通过。`e6a521d6..299a6fb8` 的 counter 返工、content10/SAVE8 identity、fast/release 双证明与完整 release replay 均闭合；根级 check:fast 为 5,198 passed / 1 skipped，Biome 1,040 files 通过。accept 只确认当前 R13-5 复审候选，不冒充 R13-6/R13-Z/N3-1/C8/ED-5I done。 |
+| Kimi | **counter** | 2026-07-30 | 共享 PAL 套件在已提交 main 上确定性红：`legacy-enemy-script-v9-authority.pal.test.ts:148` hookSources 期望 44 / 实际 54（825398ab 新增 battleEnd 条目后 88db1c41 的钉值未更新）。根因明确、修复面极小，但候选证据链当前断一环，不能 accept。最小返工与全部通过项见交接记录。 |
+| GLM | **counter** | 2026-07-30 | 数据层全绿，但 formal publication MG2 initialize 路径在 d94c3cb2 提交 baseline 后回归失败，见交接。须修测试让 initialize 可验证后方可 accept。 |
 
-**done 准入结论**：blocked；须 Kimi / GLM 均签 `accept`。
+**done 准入结论**：blocked；须 Kimi / GLM 均签 `accept`。两项 counter 已由
+`e6a521d6..299a6fb8` 返工，等待审查方核对并改签。
 
-#### 给 Kimi（R13-5 runtime / MG2 / anti-tamper 实现审查）
+- 2026-07-30 Kimi：完成 R13-5 formal candidate 架构/runtime/schema/MG2/anti-tamper
+  只读审查，签 **counter**（一处确定性测试漂移，最小返工）。
+  **反例（一手复现）**：
+  - 复现命令：`cd packages/migrate && npx vitest run
+    src/experimental/script-v5/legacy-enemy-script-v9-authority.pal.test.ts` →
+    **1 failed | 2 passed**（确定性，两次一致）。
+  - 失败点：`legacy-enemy-script-v9-authority.pal.test.ts:148`
+    `expect(current.migration.report.enemies?.hookSources).toHaveLength(44)`，实际 **54**。
+  - 根因：`825398ab` 给 `mapEnemies` 的 hookSources 新增 battleEnd 条目
+    （translate-enemy-scripts.ts:108-111、migrate-enemies.ts:170-176），88db1c41 冻结的
+    期望值 44 未随 825398ab 更新。该文件在 PAL_SHARED_TESTS，fast/release 套件均红，
+    即**已提交 main 的 migrate check 当前必红**；R13-6 将在红套件上继续累积。
+  - 语义核对：54 为正确新值（44 ready/turnStart hookOwners + 15 battleEndRoots − 5 个
+    地址重叠根；与 enemy source disposition 摘要 44 hookOwners/15 battleEndRoots 一致，
+    且 r13-enemy-source-disposition.pal 7/7 绿）；`audit.digest=8fe4ad1c…` 断言仍通过
+    （digest 已反映 54，仅计数钉值滞后）。
+  **最小返工范围**：
+  1. 把 :148 期望更新为 54，并在注释写明账目（44+15−5 重叠），或改为对 disposition
+     派生计数的断言而非魔数；
+  2. 复跑该文件与 `check:fast` 全绿；
+  3. 无需重新生成产物或 seal（纯测试漂移，无语义变化）；不需重签已发布层。
+  **其余审查项全部通过（若返工落实即可转 accept，无需复审这些面）**：
+  - runtime：hooks 七类 transition/validator SCC 与 terminal≤1 静态检查、per-instance
+    cursor 不进存档、effect 后同轮仍行动（battle-session.test.ts:1037）、rules>fallback>
+    attack、0x06 clamp(rate-1)% 边界、random 单抽（rng calls===1）、scriptOwnerDef 生命
+    周期三策略、明王固定成长（不清 exp/先 persistentProgress/新上限被 revive 读取/恰好
+    一实例）、stopMusic.fadeMs serial、pending terminal 延迟提交、onDefeated lineage 不可
+    伪造且父 activity 覆盖全程、BattleSession default 抛错、editor lossless；P1-P7 设计钉
+    全部落实。记录缺口：sleep/paralyzed/confused 不跑 ready 无专门测试钉；「transform
+    chain 后仍跑原敌 battleEnd」无端到端集成测试（enemy-402 真实语料可补）。
+  - MG2/seal（一手 sha256 + stableJsonSha256 重算）：七文件 byte-pin 全中，parent=
+    `89092578…`、self=`54804a6c…`、file=`e913123d…` 三值一致；_state 恰 7 键；seal
+    不进 projects/pal；enemies 与 6 scene project↔baseline cmp 全同；99 owner manifest
+    （fallback 85/hooks 44/rules 95/choreography 21）与四文件 digest 独立复算命中。
+  - prepared authority 信任边界：进程私有 WeakSet brand + 七容器引用锁定 + 每次复用
+    重验 pure-successor 完整 content digest + merged-target closure；伪造 token/容器替换/
+    自洽重签均 fail-closed；**522s→291s 优化未见证明力削弱**（digest 复用仅同 snapshot
+    引用、索引与全表扫描谓词等价、runtime capability v3 每次全量重跑）。
+  - author target 保护：8 份旧演出用稳定 selector+旧 digest 删除而非整文件覆盖（s003
+    实测 strip 后与 successor 逐字节相等）；locale 35 个 project-only 作者键零漂移，
+    baseline-only=0、共同键改值=0。
+  - content10/SAVE8：identity normalization deep-equal 不读 sidecar、LegacySavePayloadV8Content9
+    拆分、历史 verifier byte-pin、A7-4→v11。记录项：roadmap.md:194 与
+    capability-map.md:155 的"A7-4 候选 v10"已 stale，应改 v11。
+  - append-only transaction：8-file 白名单 + 19 项、initialize/replay/live dry-run 0/0/0、
+    journal/staging 清空、无手补。
+  Next：Codex 按上述 3 项最小返工修复后，Kimi 对修复 diff 复审并转 accept；GLM 可并行
+  继续其数据守恒审查。
+
+#### 给 Kimi（R13-5 runtime / MG2 / anti-tamper 实现审查）——已于 2026-07-30 执行，签 counter（测试漂移一处，最小返工后复审，保留备查）
 
 ```text
 实现审查：N3-1 P7-R13-5 敌人脚本、battle context、outer MG2 与正式发布
@@ -6542,7 +6707,7 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 - 不得改实现/生成产物/baseline/board/其它签字，不得标 N3-1/C8/ED-5I done。
 ```
 
-#### 给 GLM（R13-5 12/31 / formal diff / 测试矩阵实现审查）
+#### 给 GLM（R13-5 12/31 / formal diff / 测试矩阵实现审查）——已于 2026-07-30 执行，签 counter（附 G2-G3 返工项，保留备查）
 
 ```text
 实现审查：N3-1 P7-R13-5 敌人脚本数据守恒、source disposition、formal diff 与测试矩阵
@@ -6580,6 +6745,74 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 - 通过签 accept；不通过签 counter 并列精确数字/selector/digest/测试与最小返工；
 - 不得改实现/生成产物/baseline/board/其它签字，不得标 N3-1/C8/ED-5I done。
 ```
+
+- 2026-07-30 GLM：完成 R13-5 数据守恒/source disposition/formal diff/测试矩阵 implementation
+  review，签 **counter**（数据层全绿，但 formal publication MG2 initialize 路径回归失败）。
+  一手复核（非 Codex 清单复述）：
+
+  **数据层全部精确匹配（无反例）**：
+  - **账**：seal `audits.sourceControl.summary` —— executionSites=81,674、
+    finalOpenR13_5Sites=0、finalOpenR13_5Observations=0（**R13-5=0/0**）、
+    finalOpenR13_6Sites=215、finalOpenR13_6Observations=197（**R13-6=215/197**）；
+    `augmentation.audits.enemySourceDispositionSummary` —— legacyDebtSites=31、
+    mandatoryNonPendingSites=1、reviewerSilentSites=7、totalSites=39（31 debt + 8 canary）、
+    legacyPendingEnemies=12、byDisposition translated35+equivalent3+unreachable1=39、
+    battleEndRoots=15、hookOwners=44、hookRoots=52、raw/overlay/final enemies=153/153/153；
+    runtime v3 —— cells=431、uses=62,346、refused=0、openIssues=0。`buildPalMigration`
+    复算 pendingScripts=0（R13-5 处理后归零）。
+  - **99 owner + fallback85/hooks44**：final enemies.json 实数 —— 有 ai.fallback 或
+    ai.hooks 的 unique enemy=99；ai.fallback=85、ai.hooks=44；hooks 用 stateMachine
+    结构（initial/states/body/next/branch/advance），ready22+turnStart30=52 hookRoot。
+    rules95/choreography21 是 disposition 层 site 分类，fold 进 hooks body，非 final 独立字段。
+  - **8-file formal diff**：git diff d94c3cb2~1..d94c3cb2 —— project content writes 恰为
+    enemies + locale + 6 scene（s003/s021/s086/s093/s106/s138）= 8 content files + manifest；
+    baseline 同步 8 content + _state + new seal = 19 transaction ops。
+  - **6 scene + enemies project↔baseline**：`diff -q` 全部 byte-identical ✅。
+  - **locale**：project=9,587、baseline=9,552、project-only=35（author-only equip.*/menu.*
+    等）、baseline-only=0、common changed=0 ✅。
+  - **manifest/seal/旧六层**：contentVersion=10/minSave=8；seal file SHA `e913123d…`、
+    self digest `54804a6c…`、parent r13-confirm `89092578…` 全匹配；旧六层 seal file SHA
+    （P7 `41263ba1`/C8 `325d52ed`/cadence `2b1e71b0`/cross `723e4fd2`/item-throw `2c741222`/
+    confirm `38d129fb`）6/6 byte-pin、git clean ✅。
+  - **enemy-499 G1 风险钉完美落实**：final 迁移为 stateMachine —— initial `branch
+    playerInParty zhao-linger`（then→40965 双臂 / else→40964 stay）保留双臂；state-L_40965
+    body 含 `fleeBattle` **即时执行未延迟**（G1 要求满足）；fleeBattle 后 next=`branch chance
+    percent:29`（then→40972 说明对白 / else→stay）—— **29% 续跑 / 71% 终止**，与 sdlpal
+    `0x06[30]` 的 `RandomLong(1,100)>=30` 语义精确对齐。Codex 采纳了 G1，未按审计错误理由
+    做 flee 延迟。
+  - **测试**：unit 20/20（source-instruction-disposition + source-execution-census）全绿。
+
+  **G2 counter（blocker，须返工）**：`r13-enemy-audits.pal.test.ts:230` 的
+  `MG2 初始化只写八个内容文件，旧 seal 不动且重放 0/0/0` 测试在 d94c3cb2 提交 baseline 后
+  **回归失败** —— `expect(first.enemyScriptSealMode).toBe('initialize')` 收到 `'replay'`。
+  根因：d94c3cb2 把 `r13-enemy-script-v1` 提交进 baseline `_state` + `_transitions/` 后，
+  `loadPalBaseline`（pal-test-fixture.ts:78）加载的 `generated.baseline` 必然含 enemy seal，
+  `transitionState()`（r13-enemy-script-mg2.ts）判 replay 而非 initialize。测试 line 177
+  `base = cloneSnapshot(generated.baseline)` **未 strip enemy seal**，导致从 line 230 起的
+  全部 initialize 断言（mode、8-file writes、seal parent、summary、anti-tamper）整段失败。
+  这是 R13-4 baseline 污染问题的**同类回归**：R13-4 的 half-state repair（migration-baseline.ts
+  validation + migrate-content `--repair-r13-confirm-seal`）只覆盖 confirm seal，未覆盖
+  enemy seal 的 fixture strip。**initialize 路径（8/0/0 writes + seal 落盘）现在无法验证**，
+  只有 replay 路径能跑。
+  - 复现：`cd packages/migrate && pnpm vitest run --project pal-shared src/experimental/script-v5/r13-enemy-audits.pal.test.ts`
+  - 825398ab 时 baseline 不含 enemy transition（已 git show 核实），测试是绿的；d94c3cb2
+    提交后变红。Codex 自验报告 line 6484「R13-5 MG2 1/1」是 d94c3cb2 提交前的状态，提交后
+    未重跑确认。
+  - **最小返工**：测试 fixture 在构造 `base` 时 strip 掉 enemy seal（删
+    `_transitions/r13-enemy-script-v1.json` + `_state.transitions['r13-enemy-script-v1']` +
+    managedFiles/hash 对应项），或复用 R13-4 的 `stripControl` 模式扩展到 enemy seal，使
+    initialize 路径可验证。修后重跑该测试必须全绿，且不影响 replay 路径。
+
+  **G3 记录项（非 blocker）**：`r13-enemy-source-disposition.pal.test.ts` 不在
+  vitest.tests.ts 的 PAL_SHARED_TESTS/PAL_FRESH_TESTS/ALL_MIGRATE 任何 include 列表里，
+  当前不被任何 project 匹配（`--project pal-shared` 报 No test files found；`--project unit`
+  被 PAL_HEAVY exclude 但该文件不在 PAL_HEAVY 又不在 ALL_MIGRATE include 的实际匹配集）。
+  若该测试是 R13-5 disposition 的重要覆盖，应加入 PAL_SHARED_TESTS；若已由 audits PAL
+  覆盖则可移除。请 Codex 确认其归属。
+
+  数据守恒、seal 链、enemy-499 G1 落实、locale/scene/project 守恒全部无反例；
+  counter 仅因 G2 formal publication initialize 路径回归。Codex 修 G2（+ 确认 G3）后
+  GLM 可改签 accept。未修改实现/产物/baseline/seal/Kimi 签字。
 
 #### Kimi R13-5 设计主审（2026-07-30）
 
@@ -8116,7 +8349,8 @@ P3-P7 批次中 Kimi 曾额度耗尽，用户批准该批由 GLM 合并代审；
   - 不得把 C8/ED-5I 标 done，它们仍须 N3-1 后独立回归。
 ```
 
-当前下一步：R13-2 三席 `accept` 已齐，migrate 测试性能债也已按 fast/release 双门收口；
+历史记录（当时下一步，已被上方 R13-5 当前小节 supersede）：R13-2 三席 `accept` 已齐，
+migrate 测试性能债也已按 fast/release 双门收口；
 Codex 作为唯一 Coding Owner 进入 **R13-3（58 件投掷闭包）**。R13-3 后仍有
 confirm/enemy/approved-lossy 与 R13-Z publication，完成前不得把 N3-1 标记 done，
 C8 / ED-5I 的下游验收依赖不变。

@@ -1,7 +1,8 @@
 # 脚本库与可复用脚本作者手册
 
-> 适用版本：contentVersion 8（canonical script schema V5，2026-07-29）。R13-1～R13-3 的
-> epoch 晋升不复制脚本模型；R13-3 的独立 `ThrowSpec`/`ThrowEffect` 也不改变共享脚本模型。旧版
+> 适用版本：contentVersion 10（canonical script schema V5，2026-07-31）。R13-1～R13-5 的
+> epoch 晋升不复制脚本模型；R13-3 的独立 `ThrowSpec`/`ThrowEffect`、R13-4 的确认结果
+> transition 与 R13-5 的 enemy/battle context 收紧也不改变共享脚本模型。旧版
 > `content/scripts/index.json + chunks`、`ScriptRef.chunk`、`shared/scc-*` 和“迁移内部实现”只属于
 > v4 迁移边界，不是当前作者模型。
 
@@ -86,7 +87,7 @@ type SharedScriptLibraryV5 = Record<
 `stopScript` 后返回 caller；v5 作者命令没有 `jumpScript`。
 
 “打开脚本”会进入目标脚本，“扫描调用位置”会列出场景 Behavior、Hook、物品和其他共享脚本中的
-直接调用方。contentVersion 8 / canonical V5 作者界面不显示“迁移内部实现”页签；若诊断仍出现
+直接调用方。contentVersion 10 / canonical V5 作者界面不显示“迁移内部实现”页签；若诊断仍出现
 legacy 内部块，说明旧本地工程尚未走完历史 v4 → v5 结构迁移与后续 content epoch 晋升，应回到
 启动页迁移工作台，不要把它当作者 API。
 
@@ -114,4 +115,4 @@ legacy 内部块，说明旧本地工程尚未走完历史 v4 → v5 结构迁�
 MG2 以稳定 ScriptId、PageId、BehaviorId、HookId、StageId/StateId 作为作者冲突键，不以生成块
 或数组位置为键。作者独有共享脚本保留；双方修改同一 canonical identity 时显式冲突并保持零写。
 历史 v4 → v5 compatibility sidecar 只作为旧地址迁移的 byte-pin / MG2 证明保留；current
-contentVersion 8 / SAVE 7 runtime 不调用它，普通属性面板也不会编辑它。
+contentVersion 10 / SAVE 8 runtime 不调用它，普通属性面板也不会编辑它。

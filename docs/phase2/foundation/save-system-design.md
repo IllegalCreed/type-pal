@@ -3,46 +3,46 @@
 > 第二阶段 Reforge。下方 2026-06-30 v1 文本保留为历史设计；当前实现契约以本节和源码为准。
 > 先读 [READ-FIRST](../READ-FIRST.md)。
 
-## 当前实现：SAVE 7 / contentVersion 8（2026-07-29）
+## 当前实现：SAVE 8 / contentVersion 10（2026-07-31）
 
 `SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。当前写出的 payload 为：
 
 ```ts
-interface SavePayloadV7 {
-  version: 7
+interface SavePayloadV8 {
+  version: 8
   projectId: string
-  contentVersion: 8
-  world: WorldStateV8
+  contentVersion: 10
+  world: WorldStateV10
   position: { sceneId: string; pos: GridPos; facing: Facing }
 }
 ```
 
-R13-2 的历史 epoch 是 SAVE 7 / content 7；R13-3 只把投掷公共 schema 升到 content 8，
-SAVE 与 minimum 都保持 7，也不另造一套脚本世界态：
-`WorldStateV8 = WorldStateV7 = WorldStateV5`，`world.script` 仍由唯一的
+R13-4 的历史 epoch 是 SAVE 8 / content 9；R13-5 只把敌人脚本和 battle context 公共
+schema 收紧到 content 10，SAVE 与 minimum 都保持 8，也不另造一套脚本世界态：
+`WorldStateV10 = WorldStateV9 = WorldStateV5`，`world.script` 仍由唯一的
 `WorldScriptStateV5` schema 承载。它使用复合实体地址和 canonical Page/Behavior/Hook 选择，保存
 `FlowCursor`，不保存 v4 `entityStage`、匿名 `sceneScriptOverrides`、command index、调用栈或 wait
 中间相位。存档请求通过 flow safe-point barrier 后才拍快照；超时或迁移失败均不提交半成品。
 
 ### 当前读档边界
 
-1. `preflightSaveMigration` 接受 current `SAVE 7 / content 8`，以及已发布的历史
-   `SAVE 7 / content 7`；后者产出无 sidecar 的 `content-v7-v8` identity resolver。它的参数
+1. `preflightSaveMigration` 接受 current `SAVE 8 / content 10`，以及已发布的历史
+   `SAVE 8 / content 9`；后者产出无 sidecar 的 `content-v9-v10` identity resolver。它的参数
    刻意不含 `FileSource`。
-2. `normalizePayloadV7` 始终在隔离副本中校验；7/7 只把 `contentVersion` 改为 8，
+2. `normalizePayloadV8` 始终在隔离副本中校验；8/9 只把 `contentVersion` 改为 10，
    `world`、位置与工程 id 深相等，输入不受污染。
 
-`manifest.minimumSaveVersion` 当前必须为 7。SAVE 1..6、SAVE 7/content 1..6、未来 SAVE 或
+`manifest.minimumSaveVersion` 当前必须为 8。SAVE 1..7、SAVE 8/content 1..8、未来 SAVE 或
 未来 content 都会在任何 compatibility sidecar I/O 之前直接拒绝并提示新开游戏。工程 id
 不匹配或非法 minimum 同样 fail-loud。
 
-| payload `version` | payload `contentVersion` | content 8 工程结果 |
+| payload `version` | payload `contentVersion` | content 10 工程结果 |
 |---:|---:|---|
-| 7 | 8 | current validator；克隆后返回 7/8 |
-| 7 | 7 | identity normalization 为 7/8；不读取历史 sidecar |
-| 1..6 | 任意 | 拒绝：开发期 epoch 已断开 |
-| 7 | 1..6 / 9+ | 拒绝：不是允许的 content epoch |
-| 8+ | 任意 | 拒绝：未来 SAVE |
+| 8 | 10 | current validator；克隆后返回 8/10 |
+| 8 | 9 | identity normalization 为 8/10；不读取历史 sidecar |
+| 1..7 | 任意 | 拒绝：开发期 epoch 已断开 |
+| 8 | 1..8 / 11+ | 拒绝：不是允许的 content epoch |
+| 9+ | 任意 | 拒绝：未来 SAVE |
 
 ### 历史 4 → 5 迁移证明
 
@@ -73,23 +73,24 @@ binding alias 解出当前 HookId，再只写对应 variant 的 cursor。任何�
 
 ### 实现锚点
 
-- `packages/reforge/src/save/types.ts`：`SAVE_VERSION = 7`、current `SavePayloadV7` 与
-  historical `LegacySavePayloadV7`。
-- `packages/reforge/src/save/migration.ts`：current 7/8 预检、7/7→7/8 identity normalizer；
+- `packages/reforge/src/save/types.ts`：`SAVE_VERSION = 8`、current `SavePayloadV8` 与
+  historical `LegacySavePayloadV8Content9`。
+- `packages/reforge/src/save/migration.ts`：current 8/10 预检、8/9→8/10 identity normalizer；
   历史 v4→v5
   preflight/normalizer 只保留作迁移证明。
-- `packages/reforge/src/save/epoch-v8-content.test.ts`：7/7 identity、current 7/8 与旧 epoch
+- `packages/reforge/src/save/epoch-v10.test.ts`：8/9 identity、current 8/10 与旧 epoch
   在 sidecar I/O 前拒绝。
-- `packages/content/src/item-throw-v8-upgrade.ts`：content 7→8 的纯投掷 items/manifest 变换。
+- `packages/content/src/enemy-script-v10-upgrade.ts`：content 9→10 的纯敌人、内嵌 battle
+  choreography 与 manifest 变换。
 - `packages/content/src/script-transition-v5.ts`：migration descriptor/sidecar schema 与 validator。
 - `packages/editor/src/core/upgrade-local-v4-script-v5.ts`：历史 v4→v5 本地工程升级的
-  staging/journal、manifest-last 发布和中断前滚恢复。
-- `packages/editor/src/core/upgrade-local-v5-v6-epoch-v7.ts`：5/6 直接晋升 8/7，或 7→8
-  补齐投掷 `target`；完整预检后写 items，并最后提交 manifest。
+  staging/journal、后续 epoch 合成、manifest-last 发布和中断前滚恢复。
+- `packages/editor/src/core/upgrade-local-v5-v6-epoch-v7.ts`：v5～v9 经纯升级器直接合成
+  current 10/8；递归预检 enemies、scene/shared/item 内嵌 battle context，最后提交 manifest。
 
 ---
 
-## 历史 v1 设计（字段示例已被 SAVE 7 supersede）
+## 历史 v1 设计（字段示例已被 SAVE 8 supersede）
 
 ## 目标(用户需求)
 

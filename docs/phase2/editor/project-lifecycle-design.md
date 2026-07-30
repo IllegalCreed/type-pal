@@ -300,10 +300,23 @@ A7/R7 总体不能提前标 done。
 - A7-4 的 catalog-only 总门禁、全 legacy 归零、删除 LegacyAssetAdapter 与断外链验收统一顺延到
   `contentVersion: 7`。
 
-## 17. R13-2 / R13-3 当前版本轴更新（2026-07-29）
+## 17. R13-2 / R13-3 历史版本轴更新（2026-07-29）
 
-- current 工程为 `contentVersion: 8` / SAVE 7 / `minimumSaveVersion: 7`。
+- 截至 2026-07-29，当时的 current 工程为 `contentVersion: 8` / SAVE 7 /
+  `minimumSaveVersion: 7`。
 - R13-2 发布的 content 7 / SAVE 7 保留为历史 byte-pin。
 - R13-3 占用 content 8，只升级投掷内容 schema；SAVE 与 world shape 不变。
 - SAVE7/content7 读档只做输入不变、无 sidecar 的 content epoch identity normalization。
-- v7、v8、v9 已分别由 R13-2、R13-3、R13-4 占用；A7-4 当前顺延为候选 v10，版本尚未冻结。
+- 当时 v7、v8、v9 已分别由 R13-2、R13-3、R13-4 占用，A7-4 曾顺延为候选 v10；
+  后续 current 口径见下一节。
+
+## 18. R13-4 / R13-5 当前版本轴更新（2026-07-31）
+
+- 当前工程为 `contentVersion: 10` / SAVE 8 / `minimumSaveVersion: 8`。
+- R13-4 发布 content 9 / SAVE 8；R13-5 用 content 10 收紧敌人脚本和 battle context，
+  世界形状与 SAVE envelope 不变。
+- 已发布的 SAVE8/content9 读档只做输入不变、无 sidecar 的 content9→10 identity
+  normalization；更早的开发期 SAVE 在任何历史 sidecar I/O 前拒绝。
+- 本地打开边界把 v4～v9 工程经各自纯升级器合成 current v10，完整预检后始终最后提交
+  manifest；非法 battle/onDefeated 上下文在任何写盘前 fail-loud。
+- contentVersion 5～10 已由 N3-1 P7/R13 占用；A7-4 当前顺延为候选 v11，版本尚未冻结。
