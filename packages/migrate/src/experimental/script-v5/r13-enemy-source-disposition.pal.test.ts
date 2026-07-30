@@ -78,6 +78,9 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
       mandatoryNonPendingSites: 1,
       reviewerSilentSites: 7,
       totalSites: 39,
+      cursorTraceOwners: 1,
+      cursorTraceStates: 25,
+      cursorTraceEdges: 26,
       byDisposition: { translated: 35, equivalent: 3, unreachable: 1 },
       scriptedEnemies: 54,
       hookOwners: 44,
@@ -99,6 +102,39 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
         (site) => site.enemyId === 'enemy-422' && site.sourceAddress === 42634,
       ),
     ).toMatchObject({ disposition: 'equivalent', sourceInClosure: true })
+  })
+
+  test('enemy-519 初始成长后保留 25-state 持久游标环', () => {
+    const trace = data.report.cursorTraces[0]
+    expect(trace).toMatchObject({
+      enemyId: 'enemy-519',
+      channel: 'turnStart',
+      rootAddress: 42237,
+      bootstrap: {
+        stateRootAddress: 42299,
+        terminatorAddress: 42332,
+        nextStateRootAddress: 42333,
+      },
+    })
+    expect(trace?.sourceAddresses).toEqual(Array.from({ length: 51 }, (_, index) => 42332 + index))
+    expect(trace?.edges).toHaveLength(25)
+    expect(
+      trace?.edges
+        .filter((edge) => edge.bodySourceAddresses.length === 0)
+        .map((edge) => edge.stateRootAddress),
+    ).toEqual([42339, 42368, 42377])
+    expect(
+      trace?.edges.find((edge) => edge.stateRootAddress === 42358)?.bodySourceAddresses,
+    ).toEqual([42358, 42359, 42360])
+    expect(
+      trace?.edges.find((edge) => edge.stateRootAddress === 42378)?.bodySourceAddresses,
+    ).toEqual([42378, 42379])
+    expect(trace?.edges.at(-1)).toMatchObject({
+      stateRootAddress: 42381,
+      terminatorAddress: 42382,
+      nextStateRootAddress: 42333,
+    })
+    expect(trace?.layers.raw.digest).toBe(trace?.layers.final.digest)
   })
 
   test('每条可达 hook 源指令都有生成节点映射，473/546/496 均有精确 target', () => {
@@ -234,6 +270,15 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
     random.choices.pop()
     expect(() => buildR13EnemySourceDisposition(randomChanged)).toThrow(
       'raw/overlay/final target 漂移',
+    )
+
+    const cursorChanged = structuredClone(data.args) as typeof data.args
+    const cursorState = cursorChanged.finalEnemies.find((enemy) => enemy.id === 'enemy-519')?.ai
+      .hooks?.turnStart?.states['state-L_42378']
+    if (!cursorState) throw new Error('fixture 缺 enemy-519 state-L_42378')
+    cursorState.body.pop()
+    expect(() => buildR13EnemySourceDisposition(cursorChanged)).toThrow(
+      'state-L_42378 body 长度漂移',
     )
   })
 })

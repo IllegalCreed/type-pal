@@ -87,6 +87,30 @@ describe('contentVersion 10 enemy script schema', () => {
     expect(validateEnemies([enemy()])).toHaveLength(1)
   })
 
+  test('法术抗性接受完全免疫值 10，拒绝越界值与非整数', () => {
+    expect(
+      validateEnemies([
+        enemy({
+          ai: { resistanceToSorcery: 10 },
+        }),
+      ]),
+    ).toHaveLength(1)
+    expect(() =>
+      validateEnemies([
+        enemy({
+          ai: { resistanceToSorcery: 11 },
+        }),
+      ]),
+    ).toThrow(/0\.\.10 整数/)
+    expect(() =>
+      validateEnemies([
+        enemy({
+          ai: { resistanceToSorcery: 9.5 },
+        }),
+      ]),
+    ).toThrow(/0\.\.10 整数/)
+  })
+
   test('拒绝悬空 state、跨 state effect id 与未知字段', () => {
     const source = enemy()
     const ai = source.ai as Record<string, unknown>
@@ -143,18 +167,15 @@ describe('contentVersion 10 enemy script schema', () => {
         }),
       ]),
     ).toThrow(/正整数/)
-    expect(() =>
-      validateEnemies([withNext({ kind: 'continue', state: 'a' })]),
-    ).toThrow(/无调度边界循环/)
+    expect(() => validateEnemies([withNext({ kind: 'continue', state: 'a' })])).toThrow(
+      /无调度边界循环/,
+    )
 
     const states: Record<string, unknown> = {}
     for (let index = 0; index < 65; index += 1)
       states[`s${index}`] = {
         body: [],
-        next:
-          index === 64
-            ? { kind: 'stay' }
-            : { kind: 'continue', state: `s${index + 1}` },
+        next: index === 64 ? { kind: 'stay' } : { kind: 'continue', state: `s${index + 1}` },
       }
     expect(() =>
       validateEnemies([

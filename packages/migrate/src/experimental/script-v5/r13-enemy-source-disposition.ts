@@ -96,7 +96,57 @@ export const R13_ENEMY_REVIEWER_SILENT_ORACLE = [
   readonly [string, EnemyHookChannel, number, number, R13EnemySourceDisposition]
 >
 
+/**
+ * enemy-519 的初始成长演出结束后，L_42333..L_42382 构成一个跨回合持久游标环。
+ *
+ * 这不是旧 pending 31-site 账的一部分，不能倒灌修改历史口径；单列 trace 证明
+ * bootstrap 边、25 个持久 state 与最终 reset 边在 raw/overlay/final 三层一致。
+ */
+export const R13_ENEMY_519_CURSOR_TRACE_ORACLE = Object.freeze({
+  enemyId: 'enemy-519',
+  channel: 'turnStart' as const,
+  rootAddress: 42237,
+  bootstrap: Object.freeze({
+    stateRootAddress: 42299,
+    terminatorAddress: 42332,
+    nextStateRootAddress: 42333,
+  }),
+  edges: Object.freeze([
+    [42333, 42334, 42335],
+    [42335, 42336, 42337],
+    [42337, 42338, 42339],
+    [42339, 42339, 42340],
+    [42340, 42341, 42342],
+    [42342, 42343, 42344],
+    [42344, 42345, 42346],
+    [42346, 42347, 42348],
+    [42348, 42349, 42350],
+    [42350, 42351, 42352],
+    [42352, 42353, 42354],
+    [42354, 42355, 42356],
+    [42356, 42357, 42358],
+    [42358, 42361, 42362],
+    [42362, 42363, 42364],
+    [42364, 42365, 42366],
+    [42366, 42367, 42368],
+    [42368, 42368, 42369],
+    [42369, 42370, 42371],
+    [42371, 42372, 42373],
+    [42373, 42374, 42375],
+    [42375, 42376, 42377],
+    [42377, 42377, 42378],
+    [42378, 42380, 42381],
+    [42381, 42382, 42333],
+  ] as const),
+})
+
 type HookSourceOwner = NonNullable<EnemyMigrationResult['report']['hookSources']>[number]
+type SourceEndCmd = SourceCmd & {
+  advance?: boolean
+  reset?: boolean
+  resetTo?: number
+  idleFrames?: number
+}
 
 export interface R13EnemySourceDispositionSite {
   id: string
@@ -119,6 +169,32 @@ export interface R13EnemySourceDispositionSite {
   }
 }
 
+export interface R13EnemyCursorTraceProof {
+  id: string
+  enemyId: string
+  channel: EnemyHookChannel
+  rootAddress: number
+  bootstrap: {
+    stateRootAddress: number
+    terminatorAddress: number
+    nextStateRootAddress: number
+  }
+  edges: Array<{
+    stateRootAddress: number
+    terminatorAddress: number
+    nextStateRootAddress: number
+    bodySourceAddresses: number[]
+  }>
+  sourceAddresses: number[]
+  sourceDigest: string
+  targetSelectors: string[]
+  layers: {
+    raw: { selectors: string[]; digest: string }
+    overlay: { selectors: string[]; digest: string }
+    final: { selectors: string[]; digest: string }
+  }
+}
+
 export interface R13EnemySourceDispositionV1 {
   kind: 'r13-enemy-source-disposition'
   version: 1
@@ -133,11 +209,15 @@ export interface R13EnemySourceDispositionV1 {
     finalEnemiesDigest: string
   }
   sites: R13EnemySourceDispositionSite[]
+  cursorTraces: R13EnemyCursorTraceProof[]
   summary: {
     legacyDebtSites: number
     mandatoryNonPendingSites: number
     reviewerSilentSites: number
     totalSites: number
+    cursorTraceOwners: number
+    cursorTraceStates: number
+    cursorTraceEdges: number
     byDisposition: Record<R13EnemySourceDisposition, number>
     scriptedEnemies: number
     hookOwners: number
@@ -341,8 +421,172 @@ function targetLayer(args: {
   return { selectors: targets.map((entry) => entry.selector), digest: stableJsonSha256(targets) }
 }
 
+function cursorTraceLayer(args: {
+  enemy: EnemyDef
+  proof: Omit<R13EnemyCursorTraceProof, 'layers'>
+}): { selectors: string[]; digest: string } {
+  const { proof } = args
+  const flow = args.enemy.ai.hooks?.[proof.channel]
+  if (!flow)
+    throw new Error(`R13-5 enemy disposition: ${proof.enemyId}.ai.hooks.${proof.channel} 不存在`)
+  const bootstrapState = flow.states[`state-L_${proof.bootstrap.stateRootAddress}`]
+  if (
+    !bootstrapState ||
+    stableJsonSha256(bootstrapState.next) !==
+      stableJsonSha256({
+        kind: 'advance',
+        state: `state-L_${proof.bootstrap.nextStateRootAddress}`,
+      })
+  )
+    throw new Error(`R13-5 enemy disposition: ${proof.id} bootstrap transition 漂移`)
+  for (const edge of proof.edges) {
+    const state = flow.states[`state-L_${edge.stateRootAddress}`]
+    if (!state)
+      throw new Error(`R13-5 enemy disposition: ${proof.id} 缺 state-L_${edge.stateRootAddress}`)
+    if (state.body.length !== edge.bodySourceAddresses.length)
+      throw new Error(
+        `R13-5 enemy disposition: ${proof.id} state-L_${edge.stateRootAddress} body 长度漂移`,
+      )
+    if (
+      stableJsonSha256(state.next) !==
+      stableJsonSha256({
+        kind: 'advance',
+        state: `state-L_${edge.nextStateRootAddress}`,
+      })
+    )
+      throw new Error(
+        `R13-5 enemy disposition: ${proof.id} state-L_${edge.stateRootAddress} next 漂移`,
+      )
+  }
+  const prefix = `content/enemies.json#enemy(${proof.enemyId}).ai.hooks.${proof.channel}`
+  const relativeSelectors = [
+    `states.state-L_${proof.bootstrap.stateRootAddress}.next`,
+    ...proof.edges.map((edge) => `states.state-L_${edge.stateRootAddress}`),
+  ].sort(stableStringCompare)
+  const targets = relativeSelectors.map((selector) => ({
+    selector: `${prefix}.${selector}`,
+    value: resolveRelativeTarget(flow, selector),
+  }))
+  return { selectors: targets.map((entry) => entry.selector), digest: stableJsonSha256(targets) }
+}
+
+function buildEnemy519CursorTrace(args: {
+  commands: readonly SourceCmd[]
+  hookSourceById: Map<string, HookSourceOwner>
+  rawById: Map<string, EnemyDef>
+  overlayById: Map<string, EnemyDef>
+  finalById: Map<string, EnemyDef>
+}): R13EnemyCursorTraceProof {
+  const oracle = R13_ENEMY_519_CURSOR_TRACE_ORACLE
+  const id = `${oracle.enemyId}:${oracle.channel}:L_${oracle.rootAddress}:persistent-cycle`
+  const hookSource = args.hookSourceById.get(oracle.enemyId)?.hooks[oracle.channel]
+  if (!hookSource || hookSource.rootAddress !== oracle.rootAddress)
+    throw new Error(`R13-5 enemy disposition: ${id} 缺 hook source`)
+  const mappingByAddress = new Map(
+    hookSource.sourceMappings.map((mapping) => [mapping.sourceAddress, mapping] as const),
+  )
+  const requireMapping = (address: number, selector: string): void => {
+    const mapping = mappingByAddress.get(address)
+    if (
+      !mapping ||
+      mapping.disposition !== 'translated' ||
+      !mapping.targetSelectors.includes(selector)
+    )
+      throw new Error(
+        `R13-5 enemy disposition: ${id} L_${address} 缺 translated selector ${selector}`,
+      )
+  }
+  const bootstrapCommand = args.commands[oracle.bootstrap.terminatorAddress] as
+    | SourceEndCmd
+    | undefined
+  if (bootstrapCommand?.op !== 'end' || bootstrapCommand.advance !== true)
+    throw new Error(`R13-5 enemy disposition: ${id} bootstrap source END 漂移`)
+  requireMapping(
+    oracle.bootstrap.terminatorAddress,
+    `states.state-L_${oracle.bootstrap.stateRootAddress}.next`,
+  )
+
+  const edges = oracle.edges.map(([stateRootAddress, terminatorAddress, nextStateRootAddress]) => {
+    const bodySourceAddresses = Array.from(
+      { length: terminatorAddress - stateRootAddress },
+      (_, index) => stateRootAddress + index,
+    )
+    for (const address of bodySourceAddresses) {
+      if (!args.commands[address] || args.commands[address]?.op === 'end')
+        throw new Error(`R13-5 enemy disposition: ${id} L_${address} body source 漂移`)
+      requireMapping(address, `states.state-L_${stateRootAddress}`)
+    }
+    const terminator = args.commands[terminatorAddress] as SourceEndCmd | undefined
+    const isResetEdge = terminatorAddress === 42382
+    if (
+      terminator?.op !== 'end' ||
+      (isResetEdge
+        ? terminator.reset !== true ||
+          terminator.resetTo !== nextStateRootAddress ||
+          (terminator.idleFrames ?? 0) !== 0
+        : terminator.advance !== true)
+    )
+      throw new Error(`R13-5 enemy disposition: ${id} L_${terminatorAddress} terminator 漂移`)
+    requireMapping(terminatorAddress, `states.state-L_${stateRootAddress}.next`)
+    return {
+      stateRootAddress,
+      terminatorAddress,
+      nextStateRootAddress,
+      bodySourceAddresses,
+    }
+  })
+  const sourceAddresses = [
+    oracle.bootstrap.terminatorAddress,
+    ...edges.flatMap((edge) => [...edge.bodySourceAddresses, edge.terminatorAddress]),
+  ]
+  const expectedSourceAddresses = Array.from(
+    {
+      length: edges[edges.length - 1]!.terminatorAddress - oracle.bootstrap.terminatorAddress + 1,
+    },
+    (_, index) => oracle.bootstrap.terminatorAddress + index,
+  )
+  if (
+    stableJsonSha256(sourceAddresses) !== stableJsonSha256(expectedSourceAddresses) ||
+    sourceAddresses.some((address) => !hookSource.reachableSourceAddresses.includes(address))
+  )
+    throw new Error(`R13-5 enemy disposition: ${id} source trace 闭包漂移`)
+
+  const proofWithoutLayers: Omit<R13EnemyCursorTraceProof, 'layers'> = {
+    id,
+    enemyId: oracle.enemyId,
+    channel: oracle.channel,
+    rootAddress: oracle.rootAddress,
+    bootstrap: { ...oracle.bootstrap },
+    edges,
+    sourceAddresses,
+    sourceDigest: sourceClosureDigest(args.commands, sourceAddresses),
+    targetSelectors: [],
+  }
+  const rawEnemy = args.rawById.get(oracle.enemyId)
+  const overlayEnemy = args.overlayById.get(oracle.enemyId)
+  const finalEnemy = args.finalById.get(oracle.enemyId)
+  if (!rawEnemy || !overlayEnemy || !finalEnemy)
+    throw new Error(`R13-5 enemy disposition: ${id} 缺 raw/overlay/final enemy`)
+  const raw = cursorTraceLayer({ enemy: rawEnemy, proof: proofWithoutLayers })
+  const overlay = cursorTraceLayer({ enemy: overlayEnemy, proof: proofWithoutLayers })
+  const final = cursorTraceLayer({ enemy: finalEnemy, proof: proofWithoutLayers })
+  if (
+    stableJsonSha256(raw.selectors) !== stableJsonSha256(overlay.selectors) ||
+    stableJsonSha256(raw.selectors) !== stableJsonSha256(final.selectors) ||
+    raw.digest !== overlay.digest ||
+    raw.digest !== final.digest
+  )
+    throw new Error(`R13-5 enemy disposition: ${id} raw/overlay/final trace 漂移`)
+  return {
+    ...proofWithoutLayers,
+    targetSelectors: raw.selectors,
+    layers: { raw, overlay, final },
+  }
+}
+
 function summaryOf(
   sites: readonly R13EnemySourceDispositionSite[],
+  cursorTraces: readonly R13EnemyCursorTraceProof[],
   counts: {
     scriptedEnemies: number
     hookOwners: number
@@ -364,6 +608,9 @@ function summaryOf(
     mandatoryNonPendingSites: sites.filter((site) => site.scope === 'mandatory-non-pending').length,
     reviewerSilentSites: sites.filter((site) => site.scope === 'reviewer-silent').length,
     totalSites: sites.length,
+    cursorTraceOwners: cursorTraces.length,
+    cursorTraceStates: cursorTraces.reduce((total, trace) => total + trace.edges.length, 0),
+    cursorTraceEdges: cursorTraces.reduce((total, trace) => total + trace.edges.length + 1, 0),
     byDisposition,
     scriptedEnemies: counts.scriptedEnemies,
     hookOwners: counts.hookOwners,
@@ -495,7 +742,16 @@ export function buildR13EnemySourceDisposition(
     (sum, owner) => sum + Object.values(owner.hooks).filter(Boolean).length,
     0,
   )
-  const summary = summaryOf(sites, {
+  const cursorTraces = [
+    buildEnemy519CursorTrace({
+      commands: args.commands,
+      hookSourceById,
+      rawById,
+      overlayById,
+      finalById,
+    }),
+  ]
+  const summary = summaryOf(sites, cursorTraces, {
     scriptedEnemies: args.enemyObjects.filter(
       (enemy) =>
         enemy.scriptOnReady > 0 || enemy.scriptOnTurnStart > 0 || enemy.scriptOnBattleEnd > 0,
@@ -513,6 +769,7 @@ export function buildR13EnemySourceDisposition(
     methodVersion: R13_ENEMY_SOURCE_DISPOSITION_METHOD,
     generator,
     sites,
+    cursorTraces,
     summary,
   }
   return { ...withoutDigest, digest: stableJsonSha256(withoutDigest) }
@@ -610,7 +867,60 @@ export function assertR13EnemySourceDisposition(
     )
       throw new Error(`R13-5 enemy disposition: site proof 漂移 ${site.id}`)
   }
-  const expectedSummary = summaryOf(report.sites, {
+  if (!Array.isArray(report.cursorTraces) || report.cursorTraces.length !== 1)
+    throw new Error('R13-5 enemy disposition: enemy-519 cursor trace 缺失')
+  const trace = report.cursorTraces[0]!
+  const oracle = R13_ENEMY_519_CURSOR_TRACE_ORACLE
+  if (
+    trace.enemyId !== oracle.enemyId ||
+    trace.channel !== oracle.channel ||
+    trace.rootAddress !== oracle.rootAddress ||
+    stableJsonSha256(trace.bootstrap) !== stableJsonSha256(oracle.bootstrap) ||
+    stableJsonSha256(
+      trace.edges.map((edge) => [
+        edge.stateRootAddress,
+        edge.terminatorAddress,
+        edge.nextStateRootAddress,
+      ]),
+    ) !== stableJsonSha256(oracle.edges) ||
+    trace.sourceAddresses.length !== 51 ||
+    trace.edges.length !== 25 ||
+    trace.targetSelectors.length !== 26 ||
+    !/^[0-9a-f]{64}$/.test(trace.sourceDigest) ||
+    new Set(trace.sourceAddresses).size !== trace.sourceAddresses.length ||
+    trace.sourceAddresses.some(
+      (address, index) =>
+        address !== oracle.bootstrap.terminatorAddress + index ||
+        (index > 0 && trace.sourceAddresses[index - 1]! >= address),
+    ) ||
+    trace.edges.some(
+      (edge) =>
+        stableJsonSha256(edge.bodySourceAddresses) !==
+        stableJsonSha256(
+          Array.from(
+            { length: edge.terminatorAddress - edge.stateRootAddress },
+            (_, index) => edge.stateRootAddress + index,
+          ),
+        ),
+    ) ||
+    new Set(trace.targetSelectors).size !== trace.targetSelectors.length ||
+    trace.targetSelectors.some(
+      (selector, index) =>
+        !selector.startsWith(
+          `content/enemies.json#enemy(${oracle.enemyId}).ai.hooks.${oracle.channel}.states.`,
+        ) ||
+        selector.includes('[') ||
+        (index > 0 && stableStringCompare(trace.targetSelectors[index - 1]!, selector) >= 0),
+    ) ||
+    stableJsonSha256(trace.layers.raw.selectors) !== stableJsonSha256(trace.targetSelectors) ||
+    stableJsonSha256(trace.layers.overlay.selectors) !== stableJsonSha256(trace.targetSelectors) ||
+    stableJsonSha256(trace.layers.final.selectors) !== stableJsonSha256(trace.targetSelectors) ||
+    trace.layers.raw.digest !== trace.layers.overlay.digest ||
+    trace.layers.raw.digest !== trace.layers.final.digest ||
+    Object.values(trace.layers).some((layer) => !/^[0-9a-f]{64}$/.test(layer.digest))
+  )
+    throw new Error('R13-5 enemy disposition: enemy-519 cursor trace 漂移')
+  const expectedSummary = summaryOf(report.sites, report.cursorTraces, {
     scriptedEnemies: report.summary.scriptedEnemies,
     hookOwners: report.summary.hookOwners,
     hookRoots: report.summary.hookRoots,
@@ -624,6 +934,9 @@ export function assertR13EnemySourceDisposition(
     report.summary.legacyDebtSites !== 31 ||
     report.summary.mandatoryNonPendingSites !== 1 ||
     report.summary.reviewerSilentSites !== 7 ||
+    report.summary.cursorTraceOwners !== 1 ||
+    report.summary.cursorTraceStates !== 25 ||
+    report.summary.cursorTraceEdges !== 26 ||
     report.summary.byDisposition.translated !== 35 ||
     report.summary.byDisposition.equivalent !== 3 ||
     report.summary.byDisposition.unreachable !== 1 ||

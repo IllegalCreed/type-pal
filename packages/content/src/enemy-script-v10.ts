@@ -1,11 +1,11 @@
 import type { AiAction, AiCond } from './enemy-ai.js'
 import type { LevelGrowthDelta } from './rewards.js'
-import { checkCommands, type Command } from './script.js'
+import { type Command, checkCommands } from './script.js'
 import {
-  checkAuthorCommandsV5,
-  checkAuthorConditionV5,
   type AuthorCommandV5,
   type AuthorConditionV5,
+  checkAuthorCommandsV5,
+  checkAuthorConditionV5,
 } from './script-v5.js'
 
 export type EnemyHookStateId = string
@@ -133,8 +133,7 @@ function nonEmptyString(value: unknown, path: string): string {
 }
 
 function finite(value: unknown, path: string): number {
-  if (typeof value !== 'number' || !Number.isFinite(value))
-    throw new Error(`${path}: 期望有限数`)
+  if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`${path}: 期望有限数`)
   return value
 }
 
@@ -149,10 +148,7 @@ function positiveInteger(value: unknown, path: string): number {
   return Number(value)
 }
 
-export function checkEnemyAiConditionV10(
-  value: unknown,
-  path: string,
-): asserts value is AiCond {
+export function checkEnemyAiConditionV10(value: unknown, path: string): asserts value is AiCond {
   const condition = record(value, path)
   const kind = nonEmptyString(condition.kind, `${path}.kind`) as AiCond['kind']
   switch (kind) {
@@ -165,8 +161,7 @@ export function checkEnemyAiConditionV10(
       return
     case 'turn':
       exactKeys(condition, ['kind', 'op', 'value'], path)
-      if (condition.op !== '==' && condition.op !== '>=')
-        throw new Error(`${path}.op: 期望 ==|>=`)
+      if (condition.op !== '==' && condition.op !== '>=') throw new Error(`${path}.op: 期望 ==|>=`)
       if (!Number.isInteger(condition.value) || Number(condition.value) < 0)
         throw new Error(`${path}.value: 期望非负整数`)
       return
@@ -176,8 +171,7 @@ export function checkEnemyAiConditionV10(
       return
     case 'allyCount':
       exactKeys(condition, ['kind', 'op', 'value'], path)
-      if (condition.op !== '<=' && condition.op !== '>=')
-        throw new Error(`${path}.op: 期望 <=|>=`)
+      if (condition.op !== '<=' && condition.op !== '>=') throw new Error(`${path}.op: 期望 <=|>=`)
       if (!Number.isInteger(condition.value) || Number(condition.value) < 0)
         throw new Error(`${path}.value: 期望非负整数`)
       return
@@ -216,9 +210,7 @@ function checkAiAction(value: unknown, path: string): asserts value is AiAction 
   const checkTarget = (): void => {
     if (
       action.target !== undefined &&
-      !['random', 'lowestHp', 'highestHp', 'lowestMp', 'strongest'].includes(
-        String(action.target),
-      )
+      !['random', 'lowestHp', 'highestHp', 'lowestMp', 'strongest'].includes(String(action.target))
     )
       throw new Error(`${path}.target: 未知目标策略`)
   }
@@ -254,10 +246,7 @@ function checkAiAction(value: unknown, path: string): asserts value is AiAction 
   }
 }
 
-export function checkEnemyFallback(
-  value: unknown,
-  path: string,
-): asserts value is EnemyFallback {
+export function checkEnemyFallback(value: unknown, path: string): asserts value is EnemyFallback {
   const fallback = record(value, path)
   exactKeys(fallback, ['action', 'chancePercent'], path)
   checkAiAction(fallback.action, `${path}.action`)
@@ -281,8 +270,7 @@ function checkGrowthDelta(value: unknown, path: string): void {
   ] as const satisfies readonly (keyof LevelGrowthDelta)[]
   exactKeys(delta, fields, path)
   for (const field of fields)
-    if (!Number.isInteger(delta[field]))
-      throw new Error(`${path}.${field}: 期望整数固定成长量`)
+    if (!Number.isInteger(delta[field])) throw new Error(`${path}.${field}: 期望整数固定成长量`)
 }
 
 export function checkBattleChoreographyAction(
@@ -412,10 +400,7 @@ function checkTransition(
   continueTargets: Set<string>,
 ): asserts value is EnemyHookTransition {
   const transition = record(value, path)
-  const kind = nonEmptyString(
-    transition.kind,
-    `${path}.kind`,
-  ) as EnemyHookTransition['kind']
+  const kind = nonEmptyString(transition.kind, `${path}.kind`) as EnemyHookTransition['kind']
   switch (kind) {
     case 'stay':
     case 'restart':
@@ -461,17 +446,13 @@ function checkTransition(
   }
 }
 
-export function checkEnemyHookFlow(
-  value: unknown,
-  path: string,
-): asserts value is EnemyHookFlow {
+export function checkEnemyHookFlow(value: unknown, path: string): asserts value is EnemyHookFlow {
   const flow = record(value, path)
   exactKeys(flow, ['initial', 'states'], path)
   const states = record(flow.states, `${path}.states`)
   const stateIds = new Set(Object.keys(states))
   if (stateIds.size === 0) throw new Error(`${path}.states: 期望至少一个 state`)
-  for (const stateId of stateIds)
-    nonEmptyString(stateId, `${path}.states 的 state id`)
+  for (const stateId of stateIds) nonEmptyString(stateId, `${path}.states 的 state id`)
   const initial = nonEmptyString(flow.initial, `${path}.initial`)
   if (!stateIds.has(initial)) throw new Error(`${path}.initial: 未知 state ${initial}`)
 
@@ -493,13 +474,7 @@ export function checkEnemyHookFlow(
       throw new Error(`${statePath}.body: 同一激活路径 terminal action 不得超过一个`)
     terminalCounts.set(stateId, terminals)
     const continueTargets = new Set<string>()
-    checkTransition(
-      state.next,
-      `${statePath}.next`,
-      stateIds,
-      effectIds,
-      continueTargets,
-    )
+    checkTransition(state.next, `${statePath}.next`, stateIds, effectIds, continueTargets)
     continueGraph.set(stateId, continueTargets)
   }
 
@@ -538,9 +513,9 @@ export function checkEnemyAiV10(value: unknown, path: string): void {
   if (
     !Number.isInteger(ai.resistanceToSorcery) ||
     Number(ai.resistanceToSorcery) < 0 ||
-    Number(ai.resistanceToSorcery) > 9
+    Number(ai.resistanceToSorcery) > 10
   )
-    throw new Error(`${path}.resistanceToSorcery: 期望 0..9 整数`)
+    throw new Error(`${path}.resistanceToSorcery: 期望 0..10 整数`)
   if (ai.rules !== undefined) {
     if (!Array.isArray(ai.rules)) throw new Error(`${path}.rules: 期望 AiRule[]`)
     ai.rules.forEach((rawRule, index) => {
@@ -613,11 +588,10 @@ export function checkEnemyOnDefeatedCommandsV10(
       if (command.count !== undefined) positiveInteger(command.count, `${commandPath}.count`)
     }
     if (kind === 'giveMoney' || kind === 'setVar' || kind === 'addVar')
-      finite(kind === 'giveMoney' ? command.delta : command.value ?? command.delta, commandPath)
+      finite(kind === 'giveMoney' ? command.delta : (command.value ?? command.delta), commandPath)
     if (kind === 'setFlag') {
       nonEmptyString(command.flag, `${commandPath}.flag`)
-      if (typeof command.value !== 'boolean')
-        throw new Error(`${commandPath}.value: 期望 boolean`)
+      if (typeof command.value !== 'boolean') throw new Error(`${commandPath}.value: 期望 boolean`)
     }
     if (kind === 'setVar') nonEmptyString(command.var, `${commandPath}.var`)
     if (kind === 'addVar') nonEmptyString(command.var, `${commandPath}.var`)

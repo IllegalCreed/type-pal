@@ -49,12 +49,12 @@ export interface EnemyStats {
 
 /** 敌人 AI(M4c:条件规则列表,enemy-ai.ts 求值)。 */
 export interface EnemyAI {
-  /** 异常状态抗性 0-9（0x2E:rng(0,9) >= 此 → 命中;≥ 跟原版后期修复,非 sdlpal buggy >）。 */
+  /** 异常状态抗性 0-10（0x2E:rng(0,9) >= 此 → 命中；10 = 完全免疫）。 */
   resistanceToSorcery: number
   /**
    * 战斗策略规则(act:首条命中即本回合行动;无命中/缺省 = 普攻)。
-  * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
-  */
+   * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
+   */
   rules?: AiRule[]
   /** 源敌表的实例级默认行动；hook 可在战斗内覆盖或清空。 */
   fallback?: EnemyFallback
@@ -106,14 +106,12 @@ export interface EnemyDef {
 }
 
 /** contentVersion 9 的显式历史 choreography；只允许升级器/历史 guard 消费。 */
-export interface LegacyBattleChoreographyV9
-  extends Omit<BattleChoreography, 'body'> {
+export interface LegacyBattleChoreographyV9 extends Omit<BattleChoreography, 'body'> {
   body: Command[]
 }
 
 /** contentVersion 9 的显式历史敌人形状；current loader 不得消费。 */
-export interface LegacyEnemyDefV9
-  extends Omit<EnemyDef, 'choreography' | 'onDefeated'> {
+export interface LegacyEnemyDefV9 extends Omit<EnemyDef, 'choreography' | 'onDefeated'> {
   choreography?: LegacyBattleChoreographyV9[]
   onDefeated?: Command[]
 }

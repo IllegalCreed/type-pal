@@ -546,7 +546,7 @@ EquipEffect 联合定义了,但 `effectiveStat` 只算 statBonus。**行动**:**
 #### `packages/content/src/enemy.ts`(119 行)— EnemyDef + EnemyAI
 - **EnemyDef**(`:96-118`):id(enemy-<objectIndex>)/ name(TextId)/ spriteNum / stats(EnemyStats)/ ai(EnemyAI)/ anim(EnemyAnim)/ sounds(EnemySounds)/ steal?/ attackEquivItem?/ choreography?[]/ onDefeated?[]。
 - **EnemyStats**(`:18-37`):health/level/exp/cash/attackStrength/magicStrength/defense/dexterity/fleeRate/physicalResistance/poisonResistance/elemResistance(ElementVec)/dualMove/collectValue。
-- **EnemyAI**(`:39-49`):resistanceToSorcery(0-9;0x2E `rng(0,9) >= 此`,**≥ 跟原版后期修复,非 sdlpal buggy >**)+ rules?(AiRule[])。
+- **EnemyAI**(`:39-49`):resistanceToSorcery(0-10;0x2E `rng(0,9) >= 此`,10 = 完全免疫,**≥ 跟原版后期修复,非 sdlpal buggy >**)+ rules?(AiRule[])。
 - **EnemyAnim**(`:51-58`):idleFrames/magicFrames/attackFrames/idleAnimSpeed/actWaitFrames/yPosOffset。
 - **EnemySounds**(`:60-66`):attack/action/magic/death/call(SFX 号;0=无)。
 
