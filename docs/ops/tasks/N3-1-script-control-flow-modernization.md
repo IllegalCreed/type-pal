@@ -6436,6 +6436,29 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 **build 准入结论**：三方均 `agree`，R13-5 可进入 build；Codex 为唯一 Coding Owner。
 实现完成后仍须回到 `review` 集齐三方 `accept`，不得提前标 N3-1 / C8 / ED-5I done。
 
+#### R13-5 `build` 实现进度（2026-07-30）
+
+- public schema / runtime / save 主链已分批提交：content10 敌钩 flow、instance cursor/fallback、
+  script owner 生命周期、BattleSession 调度与 battle action、canonical onDefeated activity
+  lineage、SAVE8/content10 identity normalization、资源预载/引用/编辑器 lossless 保存均已落地。
+- 生成期源账与 capability 门禁已提交：
+  - `b764607d`：enemy source disposition（31 个历史 debt + 强制反例与 reviewer 静默反例）；
+  - `5c1b9221`：runtime capability v3；
+  - `240bcb55`：scene/shared/item-private 内嵌 battle choreography 严格 payload 校验。
+- `88db1c41` 冻结 R13-confirm 历史 enemy parent authority，current v10 与历史重放使用独立
+  source snapshot。独立旧源码复核与 PAL test 共同钉死：
+  - frozen P0 `dd42217c…`、current v10 `8fe4ad1c…`；
+  - historical raw snapshot `8df37da1…`，完整 content9 final `f4b1a1e8…`；
+  - 旧施法闭包 49 ids，间接边 `4 transform + 22 summon = 26`；
+  - boss overlay 仍精确 `8 attached / 5 cleared enemy`；
+  - P2 → P7 → r13-confirm 完整链、confirm evidence `57022d9e…` 与已发布父层 exact。
+- 历史 authority PAL test 3/3（262.64s）与 migrate typecheck 均通过。旧 translator 的
+  `onDefeated` 已固定为 v9 `Command[]`，只在 `mapEnemies` 注入边界做一次显式适配，未来
+  v10 类型收紧不能静默改写已发布 parent。
+- **尚未完成**：把 current v10 enemy/locale 增量应用到 r13-confirm canonical、以稳定
+  selector + old choreography digest 删除 8 份旧遭遇演出、生成 R13-5 outer seal、正式
+  重迁与三方 `review -> done` 签字。当前不得标记 R13-5、N3-1、C8 或 ED-5I done。
+
 #### Kimi R13-5 设计主审（2026-07-30）
 
 **方法**：只读设计审查；对 sdlpal fight.c/script.c 关键语义、game-mechanics 明王节、既有
