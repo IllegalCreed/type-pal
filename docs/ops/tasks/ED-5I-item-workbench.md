@@ -513,6 +513,24 @@ PAL 的 33 件武器中另有 13 件允许多角色，但这些物品当前都�
   - **P3 editor 行呈现**：无映射角色的行必须显示「不覆写」而非空白，避免作者把空行当错误；
     新勾角色只增空映射、取消角色同命令剪枝（undo/redo 一笔恢复）按设计验收。
 
+### E1 实现审查（2026-07-30）
+
+- **实现候选**：`6a8296a1 feat(phase2): publish R13-4 content9 candidate`。E1 与 R13-4 共用
+  content9、升级器、正式 PAL items、baseline `_state` 与 append-only seal，提交已明确保持
+  E1 / N3-1 / ED-5I 最终门禁开放，没有借联合 epoch 冒充整卡 done。
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-30 | 逐层复核 `EquipEffect.byActor`、v8→v9 fail-loud 升级、validator/refs、唯一 runtime 派生口、Editor 多角色行/剪枝/单效果约束、上游 7 件 authority 与正式 content9 落盘。专项复跑：content 4 files / 138 tests、editor 1 / 11、reforge 1 / 2、migrate 1 / 4 全绿；四包 typecheck 全绿。R13-4 formal 审查已独立对账 PAL 7 件 items 与 content9 seal，但这里只作为交叉证据，不替代 E1 两席 implementation review。 |
+| Kimi | **pending** | — | 需只读审查 schema/runtime/version/Editor 交互与 R13-4 联合 epoch 边界，签 `accept` 或给出 `counter`。 |
+| GLM | **pending** | — | 需只读复核 7/7 数据守恒、13 件 multi-role non-override、validator/upgrade/MG2/测试矩阵，签 `accept` 或给出 `counter`。 |
+
+- **当前门禁**：E1 implementation candidate 已提交，Codex `accept`；Kimi / GLM
+  implementation review pending。两席未齐前不得把 E1 或 ED-5I 标 done，也不得把 R13-4 对
+  items 的交叉审查改写成 E1 正式验收。
+- **并行边界**：Codex 可继续 R13-5 的只读 census / delta 设计；若 E1 出现 `counter`，须在
+  下一内容 epoch 发布前先返工并重新生成，不得让错误 authority 继续向后累积。
+
 ## 用户验收
 
 - 用户结论: **blocked（2026-07-24）**。N3-1 未完成前无法验收 ED-5I。
@@ -581,8 +599,54 @@ PAL 的 33 件武器中另有 13 件允许多角色，但这些物品当前都�
   无第二套角色选择逻辑）。未修改实现文件。Next：GLM 已 agree，三方签齐 E1 设计 allowed；
   Codex 实现时落实 P1（R13-4 seal evidence/首跑清单吸收 items.json byActor 变更）、
   P2（13 件 multi-role 不得发明映射）、P3（editor 无映射行显示「不覆写」）。
+- 2026-07-30 Codex: E1 与 R13-4 以联合 content9 epoch 提交为 `6a8296a1`；完成
+  schema/upgrade/runtime/editor/migrate/正式 PAL 的实现自审并签 **accept**。专项证据为
+  content 138、editor 11、reforge 2、migrate 4 tests 及四包 typecheck 全绿。Next：Kimi /
+  GLM 按下方提示词只读实现审查；两席未齐不得标 E1 / ED-5I done。R13-5 只读 census 可并行。
 
 ## 下一位 Agent 提示词
+
+### 给 Kimi（E1 implementation review：schema/runtime/version/Editor）
+
+```text
+接手任务：ED-5I E1 装备战斗形象按角色覆写 implementation review。
+任务卡：docs/ops/tasks/ED-5I-item-workbench.md 的“E1 实现审查”。
+候选提交：6a8296a1（E1 与 R13-4 共用 content9；不得把联合 epoch 当成 ED-5I done）。
+当前状态：Codex implementation accept；Kimi / GLM pending。只读审查，不得修改实现。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、E1 全节与 P1-P3、
+packages/content/src/item.ts、equip-battle-sprite-v9-upgrade.ts、
+packages/content/src/validate.ts、validate-refs.ts、
+packages/reforge/src/battle/battle-sprite-readiness.ts、
+packages/editor/src/ui/ItemTab.tsx 与 ItemTab.test.tsx、
+packages/migrate/src/experimental/script-v5/equip-battle-sprite-v8-authority.ts，
+以及 N3-1 卡 R13-4 formal seal / content9 证据。
+请核对：byActor 使用 CharacterInstance.template 稳定身份；基础→appearance→固定装备槽→
+transient 层级不变且 runtime 只有一个派生口；v8 多旧效果 last-wins、零角色/混合形态
+fail-loud；Editor 新勾角色为空映射、取消角色同命令剪枝、每物品最多一个效果、窄栏控件不
+竖排；content9/SAVE8/min8 与历史 seal 没有 half-state。
+输出：在“E1 实现审查”Kimi 行签 accept，或写 counter 的精确文件/反例/最小返工项。
+accept 只关闭 E1 增量实现，不代表 N3-1 或 ED-5I done。
+```
+
+### 给 GLM（E1 implementation review：数据守恒/validator/MG2）
+
+```text
+接手任务：ED-5I E1 装备战斗形象按角色覆写 implementation review。
+任务卡：docs/ops/tasks/ED-5I-item-workbench.md 的“E1 实现审查”。
+候选提交：6a8296a1。当前 Codex accept，Kimi / GLM pending；只读审查，不改实现。
+先读：AGENTS.md、READ-FIRST、E1 全节与 P1-P3、
+packages/content/src/equip-battle-sprite-v9-upgrade.test.ts、item.test.ts、
+validate.test.ts、validate-refs.test.ts、
+packages/migrate/src/experimental/script-v5/equip-battle-sprite-v8-authority.ts/.test.ts、
+packages/migrate/baselines/pal/content/items.json、projects/pal/content/items.json、
+packages/migrate/baselines/pal/_state.json 与 R13-4 transition seal。
+请独立复核：PAL 恰 7 个 byActor 映射（163/164/165→lin-yueru/fighter-6；
+179/185/187/188→anu/fighter-7）；13 件 multi-role 武器仍无覆写；project/baseline items
+byte-identical；unknown/non-battler/not-equipable/missing/wrong-profile/duplicate/old-field
+全 fail-closed；v8 单/多/重复/零角色升级和重试幂等；MG2 首跑/二跑/repair 与旧 seal byte-pin。
+输出：在“E1 实现审查”GLM 行签 accept，或写 counter 的精确数据差、命令和最小返工项。
+accept 只关闭 E1 增量实现，不代表 N3-1 或 ED-5I done。
+```
 
 ### 给 Kimi（E1 schema/runtime/version 主审）——已于 2026-07-29 执行，签 agree（附 P1-P3，保留备查，勿再执行）
 
