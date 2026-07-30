@@ -645,6 +645,16 @@ export function collectAssetReferences(source: AssetReferenceSource): AssetRefer
       `enemies[${index}].onDefeated`,
       `enemy:${enemy.id}:onDefeated`,
     )
+    for (const channel of ['ready', 'turnStart'] as const) {
+      const hook = enemy.ai.hooks?.[channel]
+      if (!hook) continue
+      appendCommandAssetReferences(
+        references,
+        hook,
+        `enemies[${index}].ai.hooks.${channel}`,
+        `enemy:${enemy.id}:hook:${channel}`,
+      )
+    }
   })
   source.items?.forEach((item, index) => {
     if (item.icon)

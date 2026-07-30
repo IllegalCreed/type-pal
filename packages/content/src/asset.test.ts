@@ -507,10 +507,11 @@ describe('typed 资源引用与文件闭包', () => {
       {
         id: 'enemy-1',
         sounds: { magic: 'sound.pal.174', suppressMagicEffectSound: true },
+        ai: { resistanceToSorcery: 0, rules: [] },
         choreography: [
           { at: 'battleStart', body: [{ kind: 'playSound', asset: 'sound.pal.029' }] },
         ],
-      } as EnemyDef,
+      } as unknown as EnemyDef,
     ]
     const skills: SkillData[] = [
       {
@@ -792,4 +793,80 @@ describe('typed 资源引用与文件闭包', () => {
       }),
     ])
   })
+})
+
+test('walker 按敌 hook 通道保留深层资源的精确路径与站点', () => {
+  const enemy = {
+    id: 'enemy-hook',
+    sounds: {},
+    ai: {
+      resistanceToSorcery: 0,
+      rules: [],
+      hooks: {
+        ready: {
+          initial: 'ready',
+          states: {
+            ready: {
+              body: [
+                { kind: 'playSound', asset: 'sound.hook.ready' },
+                {
+                  kind: 'dialog',
+                  cue: {
+                    rows: [{ text: 'dlg.enemy.ready' }],
+                    portrait: { asset: 'portrait.hook.ready', side: 'left' },
+                  },
+                },
+              ],
+              next: { kind: 'stay' },
+            },
+          },
+        },
+        turnStart: {
+          initial: 'turn',
+          states: {
+            turn: {
+              body: [{ kind: 'playMusic', asset: 'music.hook.turn' }],
+              next: { kind: 'stay' },
+            },
+          },
+        },
+      },
+    },
+    onDefeated: [
+      {
+        kind: 'branch',
+        cond: { kind: 'flag', flag: 'won', is: true },
+        then: [{ kind: 'playSound', asset: 'sound.enemy.defeated' }],
+      },
+    ],
+  } as unknown as EnemyDef
+
+  expect(collectAssetReferences({ enemies: [enemy] })).toEqual(
+    expect.arrayContaining([
+      {
+        asset: 'sound.hook.ready',
+        expectedKind: 'sound',
+        where: 'enemies[0].ai.hooks.ready.states.ready.body[0].asset',
+        site: 'enemy:enemy-hook:hook:ready',
+      },
+      {
+        asset: 'portrait.hook.ready',
+        expectedKind: 'portrait',
+        where: 'enemies[0].ai.hooks.ready.states.ready.body[1].cue.portrait.asset',
+        site: 'enemy:enemy-hook:hook:ready',
+      },
+      {
+        asset: 'music.hook.turn',
+        expectedKind: 'music',
+        where: 'enemies[0].ai.hooks.turnStart.states.turn.body[0].asset',
+        site: 'enemy:enemy-hook:hook:turnStart',
+      },
+      {
+        asset: 'sound.enemy.defeated',
+        expectedKind: 'sound',
+        where: 'enemies[0].onDefeated[0].then[0].asset',
+        site: 'enemy:enemy-hook:onDefeated',
+      },
+    ]),
+  )
 })
