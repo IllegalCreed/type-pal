@@ -5,7 +5,10 @@
 import type { EnemyDef, EnemySounds, EnemyTeamDef } from '@type-pal/content'
 import { palEnemyBattleSpriteDefinitionId } from './pal-battle-sprites.js'
 import { resolveSoundAsset } from './sound-migration.js'
-import { translateEnemyScripts } from './translate-enemy-scripts.js'
+import {
+  type EnemyHookSourceTranslation,
+  translateEnemyScripts,
+} from './translate-enemy-scripts.js'
 import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 
 export interface SourceEnemy {
@@ -66,6 +69,12 @@ export interface EnemyMigrationResult {
     danglingEnemyId: string[]
     /** M4c-2:脚本翻译翻不净明细(敌 id → 原因;编辑器手修清单)。 */
     pendingScripts: { id: string; name: string; notes: string[] }[]
+    /** R13-5:ready/turnStart 源 CFG 到生成 flow 的一手映射；仅迁移审计消费。 */
+    hookSources: {
+      id: string
+      name: string
+      hooks: Partial<Record<'ready' | 'turnStart', EnemyHookSourceTranslation>>
+    }[]
   }
 }
 
@@ -84,6 +93,7 @@ export function mapEnemies(
   const localeNames: Record<string, string> = {}
   const danglingEnemyId: string[] = []
   const pendingScripts: EnemyMigrationResult['report']['pendingScripts'] = []
+  const hookSources: EnemyMigrationResult['report']['hookSources'] = []
   let withScript = 0
 
   const out: EnemyDef[] = []
@@ -149,6 +159,7 @@ export function mapEnemies(
               { id, name },
             )
         if (t.pending.length) pendingScripts.push({ id, name, notes: t.pending })
+        if (t.hookSources) hookSources.push({ id, name, hooks: t.hookSources })
         return {
           ai: {
             resistanceToSorcery: eo.resistanceToSorcery,
@@ -178,7 +189,7 @@ export function mapEnemies(
   return {
     enemies: out,
     localeNames,
-    report: { total: out.length, withScript, danglingEnemyId, pendingScripts },
+    report: { total: out.length, withScript, danglingEnemyId, pendingScripts, hookSources },
   }
 }
 

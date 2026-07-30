@@ -1,5 +1,4 @@
 import {
-  type AiCond,
   type BattleChoreographyAction,
   type DialogueCue,
   type EnemyHookCommand,
@@ -55,6 +54,22 @@ export interface EnemyHookFlowTranslation {
   flow: EnemyHookFlow
   /** 保留报告字段兼容迁移汇总；新 CFG 翻译器遇到缺口会 fail-loud，成功时恒为空。 */
   pending: []
+  /** 根脚本真实 instruction CFG 的可达地址闭包，供 R13-5 source disposition 反查。 */
+  reachableSourceAddresses: number[]
+  /**
+   * 每条可达源指令到生成 flow 节点的稳定映射。
+   *
+   * selector 相对当前 EnemyHookFlow，只指向稳定 state id，不使用 body 数组下标；
+   * 同一 selector 可由多条被聚合的源指令共同证明。
+   * `equivalent` 只用于由新 runtime/flow 结构承接、无需生成独立节点的源指令。
+   */
+  sourceMappings: EnemyHookSourceMapping[]
+}
+
+export interface EnemyHookSourceMapping {
+  sourceAddress: number
+  disposition: 'translated' | 'equivalent'
+  targetSelectors: string[]
 }
 
 function sourceAddress(ctx: TranslateCtx, position: SourcePosition): number {
@@ -69,10 +84,6 @@ function sourceAddress(ctx: TranslateCtx, position: SourcePosition): number {
 
 function positionKey(ctx: TranslateCtx, position: SourcePosition): string {
   return String(sourceAddress(ctx, position))
-}
-
-function chanceCondition(percent: number): AiCond {
-  return { kind: 'chance', percent: Math.max(0, Math.min(100, percent)) }
 }
 
 function fallbackFromMagic(
@@ -257,13 +268,9 @@ export function translateEnemyHookFlow(
     .filter((position) => reachable.has(positionKey(ctx, position)))
     .sort((left, right) => addressOf(left) - addressOf(right))
   const stateIds = new Map<string, string>()
-  let ordinal = 1
   for (const position of orderedLeaders) {
     const key = positionKey(ctx, position)
-    stateIds.set(
-      key,
-      key === positionKey(ctx, root) ? 'initial' : `state-${String(ordinal++).padStart(3, '0')}`,
-    )
+    stateIds.set(key, key === positionKey(ctx, root) ? 'initial' : `state-L_${addressOf(position)}`)
   }
   const stateId = (position: SourcePosition): string =>
     stateIds.get(positionKey(ctx, position)) ??
@@ -276,6 +283,28 @@ export function translateEnemyHookFlow(
     kind: 'advance',
     state: stateId(position),
   })
+  const sourceMappings = new Map<number, EnemyHookSourceMapping>()
+  const mapSource = (
+    address: number,
+    disposition: EnemyHookSourceMapping['disposition'],
+    ...targetSelectors: string[]
+  ): void => {
+    const selectors = [...new Set(targetSelectors)].sort()
+    const previous = sourceMappings.get(address)
+    if (!previous) {
+      sourceMappings.set(address, {
+        sourceAddress: address,
+        disposition,
+        targetSelectors: selectors,
+      })
+      return
+    }
+    previous.disposition =
+      previous.disposition === 'translated' || disposition === 'translated'
+        ? 'translated'
+        : 'equivalent'
+    previous.targetSelectors = [...new Set([...previous.targetSelectors, ...selectors])].sort()
+  }
 
   // Pass 2: leaders → compact basic blocks.
   const states: EnemyHookFlow['states'] = {}
@@ -285,8 +314,15 @@ export function translateEnemyHookFlow(
     let position = start
     let transition: EnemyHookTransition | undefined
     let pendingSpeaker: string | undefined
+    let pendingSpeakerAddress: number | undefined
     let dialogState = { ...DEFAULT_LEGACY_DIALOG_STATE }
     let guard = 0
+    const stateSelector = `states.${id}`
+    const nextSelector = `${stateSelector}.next`
+    const pushBody = (address: number, command: EnemyHookCommand): void => {
+      body.push(command)
+      mapSource(address, 'translated', stateSelector)
+    }
 
     const finishPendingSpeaker = (): void => {
       if (pendingSpeaker) fail(addressOf(position), `说话人「${pendingSpeaker}」后遇控制边，缺正文`)
@@ -312,6 +348,7 @@ export function translateEnemyHookFlow(
 
       if (command.op === 'end') {
         finishPendingSpeaker()
+        mapSource(address, 'translated', nextSelector)
         if (command.advance) {
           transition = advanceTo(requireNext(position, 'advance END'))
         } else if (command.reset) {
@@ -328,17 +365,35 @@ export function translateEnemyHookFlow(
 
       if (command.op === 'goto') {
         finishPendingSpeaker()
+        mapSource(address, 'translated', nextSelector)
         transition = continueTo(target(gotoAddress(command, position), position))
         break
       }
 
       if (opcode === 0x06) {
         finishPendingSpeaker()
-        const direct = continueTo(requireNext(position, '0x06'))
+        const directPosition = requireNext(position, '0x06')
+        const direct = continueTo(directPosition)
         const branchTarget = operands[1] ?? 0
+        const percent = Math.max(0, Math.min(100, (operands[0] ?? 100) - 1))
+        const directCommand = directPosition.cmds[directPosition.idx] as Cmd | undefined
+        const rootCommand = root.cmds[root.idx] as Cmd | undefined
+        const structuredEquivalent =
+          percent === 100 ||
+          (branchTarget === 0 &&
+            directCommand?.op === 'end' &&
+            directCommand.reset === true &&
+            directCommand.resetTo === rootAddress &&
+            rootCommand?.op === 'raw' &&
+            rootCommand.opcode === 0x91)
+        mapSource(
+          address,
+          structuredEquivalent ? 'equivalent' : 'translated',
+          structuredEquivalent ? stateSelector : nextSelector,
+        )
         transition = {
           kind: 'branch',
-          cond: chanceCondition((operands[0] ?? 100) - 1),
+          cond: { kind: 'chance', percent },
           then: direct,
           else: branchTarget === 0 ? { kind: 'stay' } : continueTo(target(branchTarget, position)),
         }
@@ -347,6 +402,7 @@ export function translateEnemyHookFlow(
 
       if (opcode === 0x79 || opcode === 0x91) {
         finishPendingSpeaker()
+        mapSource(address, 'translated', nextSelector)
         const direct = continueTo(requireNext(position, `0x${opcode.toString(16)}`))
         const branchTarget = opcode === 0x79 ? (operands[1] ?? 0) : (operands[0] ?? 0)
         const jumped: EnemyHookTransition =
@@ -374,6 +430,7 @@ export function translateEnemyHookFlow(
 
       if (opcode === 0xa2) {
         finishPendingSpeaker()
+        mapSource(address, 'translated', nextSelector)
         const count = operands[0] ?? 0
         const choices: Extract<EnemyHookTransition, { kind: 'random' }>['choices'] = []
         for (let offset = 1; offset <= count; offset++)
@@ -388,13 +445,13 @@ export function translateEnemyHookFlow(
       if (opcode === 0x9c || opcode === 0x9e || opcode === 0x9f) {
         const effectId = `effect-${address}`
         if (opcode === 0x9c)
-          body.push({
+          pushBody(address, {
             kind: 'effect',
             id: effectId,
             effect: { kind: 'divide', copies: Math.max(1, operands[0] ?? 1) },
           })
         if (opcode === 0x9e)
-          body.push({
+          pushBody(address, {
             kind: 'effect',
             id: effectId,
             effect: {
@@ -406,7 +463,7 @@ export function translateEnemyHookFlow(
             },
           })
         if (opcode === 0x9f)
-          body.push({
+          pushBody(address, {
             kind: 'effect',
             id: effectId,
             effect: { kind: 'transform', enemyId: `enemy-${operands[0] ?? 0}` },
@@ -416,6 +473,7 @@ export function translateEnemyHookFlow(
           opcode === 0x9c ? (operands[1] ?? 0) : opcode === 0x9e ? (operands[2] ?? 0) : 0
         if (failureTarget !== 0) {
           finishPendingSpeaker()
+          mapSource(address, 'translated', nextSelector)
           transition = {
             kind: 'commandOutcome',
             commandId: effectId,
@@ -430,7 +488,7 @@ export function translateEnemyHookFlow(
       }
 
       if (opcode === 0x67) {
-        body.push(fallbackFromMagic(operands[0] ?? 0, operands[1] ?? 0))
+        pushBody(address, fallbackFromMagic(operands[0] ?? 0, operands[1] ?? 0))
         moveNext()
         continue
       }
@@ -439,13 +497,15 @@ export function translateEnemyHookFlow(
         const sound = operands[0] ?? 0
         const asset = resolveSoundAsset(sound, ctx.soundAssetForNum)
         if (sound > 0 && !asset) fail(address, `音效 ${sound} 无可用资产`)
-        if (asset) body.push({ kind: 'playSound', asset })
+        if (asset) pushBody(address, { kind: 'playSound', asset })
+        else mapSource(address, 'equivalent', stateSelector)
         moveNext()
         continue
       }
       if (opcode === 0x43) {
         const music = operands[0] ?? 0
-        body.push(
+        pushBody(
+          address,
           music <= 0 ? { kind: 'stopMusic' } : { kind: 'playMusic', asset: palMusicAssetId(music) },
         )
         moveNext()
@@ -453,23 +513,23 @@ export function translateEnemyHookFlow(
       }
       if (opcode === 0x77) {
         const fade = operands[0] ?? 0
-        body.push({ kind: 'stopMusic', fadeMs: fade === 0 ? 2_000 : fade * 3_000 })
+        pushBody(address, { kind: 'stopMusic', fadeMs: fade === 0 ? 2_000 : fade * 3_000 })
         moveNext()
         continue
       }
       if (opcode === 0x85) {
-        body.push({ kind: 'wait', ms: (operands[0] ?? 0) * 80 })
+        pushBody(address, { kind: 'wait', ms: (operands[0] ?? 0) * 80 })
         moveNext()
         continue
       }
       if (opcode === 0x69) {
-        body.push({ kind: 'fleeBattle' })
+        pushBody(address, { kind: 'fleeBattle' })
         moveNext()
         continue
       }
       if (opcode === 0x89) {
         const result = operands[0] ?? 0
-        body.push({
+        pushBody(address, {
           kind: 'endBattle',
           result: result === 3 ? 'won' : result === 1 ? 'lost' : 'terminate',
         })
@@ -481,16 +541,21 @@ export function translateEnemyHookFlow(
           growthAction(operands[0] ?? -1, operands[1] ?? 0, operands[2] ?? 0) ??
           fail(address, `0x19 属性/角色不受支持`)
         appendGrowth(body, action)
+        mapSource(address, 'translated', stateSelector)
         moveNext()
         continue
       }
       if (opcode === 0x22 && (operands[0] ?? 0) !== 0) {
-        body.push({ kind: 'revivePartyAll', tenths: operands[1] ?? 0 })
+        pushBody(address, { kind: 'revivePartyAll', tenths: operands[1] ?? 0 })
         moveNext()
         continue
       }
       if (opcode === 0x1d && (operands[0] ?? 0) !== 0) {
-        body.push({ kind: 'increaseHpMp', delta: signExtendI16(operands[1] ?? 0), pools: 'both' })
+        pushBody(address, {
+          kind: 'increaseHpMp',
+          delta: signExtendI16(operands[1] ?? 0),
+          pools: 'both',
+        })
         moveNext()
         continue
       }
@@ -498,7 +563,7 @@ export function translateEnemyHookFlow(
         const actor =
           ROLE_SLUGS[(operands[0] ?? 0) - 1] ??
           fail(address, `0x92 角色 word=${operands[0] ?? 0} 不存在`)
-        body.push({
+        pushBody(address, {
           kind: 'playActorCastEffect',
           actor,
           effect: 'pre-magic-white-flash',
@@ -514,6 +579,7 @@ export function translateEnemyHookFlow(
       ) {
         // 0x05/0x8E 的对话框/战斗画面恢复由逐 cue 播放器等价承担；精确 0x90 自清旧钩子
         // 已由持久 cursor/遭遇实例隔离取代。source disposition 会分别记录 equivalent。
+        mapSource(address, 'equivalent', stateSelector)
         moveNext()
         continue
       }
@@ -523,6 +589,7 @@ export function translateEnemyHookFlow(
         const decoded = decodeLegacyDialogueLine(raw, dialogState)
         if (ENEMY_SPEAKER_RE.test(decoded.plainText)) {
           pendingSpeaker = decoded.plainText.replace(ENEMY_SPEAKER_RE, '')
+          pendingSpeakerAddress = address
         } else {
           dialogState = decoded.state
           const text =
@@ -545,13 +612,17 @@ export function translateEnemyHookFlow(
             cue.speaker = speaker
             pendingSpeaker = undefined
           }
-          body.push({ kind: 'dialog', cue })
+          pushBody(address, { kind: 'dialog', cue })
+          if (pendingSpeakerAddress !== undefined)
+            mapSource(pendingSpeakerAddress, 'translated', stateSelector)
+          pendingSpeakerAddress = undefined
         }
         moveNext()
         continue
       }
 
       if (typeof command.op === 'string' && command.op.startsWith('setDialogStyle')) {
+        mapSource(address, 'equivalent', stateSelector)
         moveNext()
         continue
       }
@@ -570,8 +641,18 @@ export function translateEnemyHookFlow(
     }
   }
 
+  const reachableSourceAddresses = [...reachable.values()]
+    .map(addressOf)
+    .sort((left, right) => left - right)
+  for (const address of reachableSourceAddresses)
+    if (!sourceMappings.has(address)) fail(address, '内部错误：可达源指令缺 source mapping')
+
   return {
     flow: { initial: 'initial', states },
     pending: [],
+    reachableSourceAddresses,
+    sourceMappings: [...sourceMappings.values()].sort(
+      (left, right) => left.sourceAddress - right.sourceAddress,
+    ),
   }
 }

@@ -15,7 +15,11 @@ import {
   type EnemyHookFlow,
   type EnemyOnDefeatedCommandV10,
 } from '@type-pal/content'
-import { translateEnemyHookFlow, type EnemyHookOwner } from './translate-enemy-hook-flow.js'
+import {
+  type EnemyHookOwner,
+  type EnemyHookSourceMapping,
+  translateEnemyHookFlow,
+} from './translate-enemy-hook-flow.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
 
@@ -29,6 +33,14 @@ export interface EnemyScriptTranslation {
   onDefeated?: EnemyOnDefeatedCommandV10[]
   /** 新 translator 遇缺口 fail-loud；成功迁移时恒为空。 */
   pending: string[]
+  /** R13-5 source disposition 的生成期一手证据；不写入内容 schema。 */
+  hookSources?: Partial<Record<EnemyHookChannel, EnemyHookSourceTranslation>>
+}
+
+export interface EnemyHookSourceTranslation {
+  rootAddress: number
+  reachableSourceAddresses: number[]
+  sourceMappings: EnemyHookSourceMapping[]
 }
 
 function initialFallback(
@@ -70,6 +82,12 @@ export function translateEnemyScripts(
     checkEnemyHookFlow(translated.flow, `${ownerLabel(owner)}.ai.hooks.${channel}@L_${address}`)
     out.hooks ??= {}
     out.hooks[channel] = translated.flow
+    out.hookSources ??= {}
+    out.hookSources[channel] = {
+      rootAddress: address,
+      reachableSourceAddresses: translated.reachableSourceAddresses,
+      sourceMappings: translated.sourceMappings,
+    }
   }
 
   if (hooks.battleEnd) {
