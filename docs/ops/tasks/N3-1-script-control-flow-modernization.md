@@ -6455,9 +6455,131 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 - 历史 authority PAL test 3/3（262.64s）与 migrate typecheck 均通过。旧 translator 的
   `onDefeated` 已固定为 v9 `Command[]`，只在 `mapEnemies` 注入边界做一次显式适配，未来
   v10 类型收紧不能静默改写已发布 parent。
-- **尚未完成**：把 current v10 enemy/locale 增量应用到 r13-confirm canonical、以稳定
-  selector + old choreography digest 删除 8 份旧遭遇演出、生成 R13-5 outer seal、正式
-  重迁与三方 `review -> done` 签字。当前不得标记 R13-5、N3-1、C8 或 ED-5I done。
+- `825398ab` 完成 R13-5 outer MG2 与测试性能收口：
+  - current v10 enemy/locale 增量通过 source-backed 12 enemy / 31 debt authority 合入
+    r13-confirm canonical；99 个 enemy owner 的 owned leaf manifest 固定为
+    `ai.fallback=85 / ai.hooks=44 / ai.rules=95 / choreography=21`；
+  - 以稳定 scene/entity/flow/stage/body index selector + 旧 choreography digest 删除
+    s003/s021/s086/s093/s106/s138 共 8 份旧遭遇演出，不靠整文件覆盖；
+  - outer source disposition 共 81,674 execution sites，最终 R13-5=`0/0`，R13-6 保持
+    `215/197`；runtime matrix 431 cells / 62,346 uses / 0 refused / 0 issues；
+  - prepared census 用进程私有 brand + 全依赖引用锁定，prepared enemy authority 每次复用
+    重验 pure-successor 完整 content digest；签后 source 容器替换、non-owned snapshot
+    篡改、自洽重签和伪造 prepared token 均 fail-closed；
+  - 旧六层 authority byte-pin 不变，content9→10 / SAVE8 identity、8-file write whitelist、
+    author target owned-delta closure 与 append-only baseline/transaction 同时成立。
+- `d94c3cb2` 正式发布 R13-5 产物：
+  - project writes 恰为 `content/enemies.json`、`content/locale.json` 与上述 6 scene，共
+    8 files；deletes/conflicts=`0/0`；
+  - baseline 同步 8 files，新增 `_transitions/r13-enemy-script-v1.json`，更新 `_state` 与
+    manifest contentVersion=10 / minimumSaveVersion=8；事务共 19 项；
+  - new seal self digest `54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6`，
+    file sha256 `e913123d9f01b6b1caf530bb168c9e78abc7339d4ac5dbcd55b731433c39f9c9`，
+    parent 为已发布 r13-confirm `89092578…`；
+  - enemies 与 6 scene project↔baseline byte-identical；locale project=9,587、
+    baseline=9,552，差异仅 35 个 project-only 作者键，baseline-only=0、共同键改值=0。
+- **验证证据**：
+  - migrate typecheck、两个 `.mts` 独立 strict tsc、Biome 18 files、`git diff --check` 通过；
+  - source census / disposition / translator unit 32/32（0.57s）；
+  - R13-5 MG2 1/1（291.12s，总 wall 含 PAL fixture；测试自身恢复 240s 门）；
+  - source disposition + enemy source PAL 8/8（134.49s）；
+  - confirm/cross fresh-init 定向 2/2（19 skipped，242.56s）；
+  - 正式 dry-run `8/0/0`；`--write` initialize `8/0/0` + 命令内独立进程 replay
+    `0/0/0`；额外 live dry-run replay `0/0/0`；journal/staging 均清空。
+- **测试性能债续收口**：定位到 disposition 对每个 execution site 重建、去重、排序相同
+  candidate evidence，并在 outer/cross/confirm 重复扫描全表。改为 address/context 索引、
+  同 snapshot digest 复用、一次完整 build-and-assert、私有 prepared census/authority 与
+  merged-target closure。R13-5 MG2 定向总 wall 从 522.20s 降至 291.12s（约 44%）且增强
+  anti-tamper；仍有约 90s PAL fixture 冷启动和 81,674-site release authority 固定成本，
+  后续不得靠继续提高 timeout 掩盖。
+- **当前边界**：R13-5 formal candidate 已形成，进入三方 implementation review。
+  Codex 已签 accept；Kimi / GLM 未签前不得标记 R13-5、N3-1、C8 或 ED-5I done。
+
+#### R13-5 专项 `review -> done` 推进签字
+
+| Agent | 结论 | 日期 | 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-30 | 唯一 Coding Owner 自验通过。实现、source-backed 12/31 closure、两层 anti-tamper、content10/SAVE8 identity、8-file formal publication、内部独立 replay 与 live dry-run 均按上节证据闭合；accept 只确认 R13-5 formal candidate，不冒充 R13-6/R13-Z/N3-1/C8/ED-5I done。 |
+| Kimi | pending | — | 待架构/runtime/schema/MG2/anti-tamper implementation review。 |
+| GLM | pending | — | 待数据/source disposition/formal diff/测试矩阵 implementation review。 |
+
+**done 准入结论**：blocked；须 Kimi / GLM 均签 `accept`。
+
+#### 给 Kimi（R13-5 runtime / MG2 / anti-tamper 实现审查）
+
+```text
+实现审查：N3-1 P7-R13-5 敌人脚本、battle context、outer MG2 与正式发布
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-5 formal candidate 已形成，Codex=accept，Kimi/GLM=pending。
+你的角色：Kimi 架构/runtime/schema/MG2 主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-5 专项设计、Kimi P1-P7 风险钉、build 实现进度与 review 签字表；
+- docs/ops/audits/codex-r13-5-enemy-source-semantics-audit.md；
+- commits 825398ab、d94c3cb2；
+- packages/migrate/src/experimental/script-v5/{r13-enemy-script-mg2,
+  r13-enemy-script-augmentation,r13-enemy-source-disposition,
+  source-execution-census,source-instruction-disposition}.ts；
+- packages/migrate/scripts/migrate-content.mts、projects/pal/manifest.json 与新 seal。
+
+必须独立核对：
+1. current v10 successor 只拥有 enemy ai.fallback/hooks/rules/choreography、5 locale 和
+   8 encounter cleanup；author target 的其它字段仍能保留，owned delta 又不能回退。
+2. prepared source census 是否同时防原地 mutation 与 scenes/items/... 容器替换；
+   prepared enemy authority 是否会在 merge/seal 前重验完整 pure-successor digest，不能用旧 seal
+   发布 non-owned 篡改；伪造 token、自洽重签、输入 identity drift 是否 fail-closed。
+3. historical source/audit → successor generated 的桥接方向、confirm/cross prepared authority、
+   R13-5=0/0 与 R13-6=215/197 隔离是否成立；不得用 current audit 洗历史账。
+4. content9→10 / SAVE8 identity、旧六层 byte-pin、append-only baseline、8-file whitelist、
+   transaction ordering 与 independent replay 是否完整；无 journal/half-state。
+5. 独立复跑必要测试，特别是 R13-5 MG2、non-owned tamper、prepared source replacement 和
+   fresh/replay 边界；评估本轮性能优化是否牺牲 source-backed 重建。
+
+输出要求：
+- 只修改本卡“R13-5 专项 review -> done 推进签字”自己的 Kimi 行与交接记录；
+- 通过签 accept；不通过签 counter 并列精确 file:line、复现与最小返工；
+- 不得改实现/生成产物/baseline/board/其它签字，不得标 N3-1/C8/ED-5I done。
+```
+
+#### 给 GLM（R13-5 12/31 / formal diff / 测试矩阵实现审查）
+
+```text
+实现审查：N3-1 P7-R13-5 敌人脚本数据守恒、source disposition、formal diff 与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-5 formal candidate 已形成，Codex=accept，Kimi/GLM=pending。
+你的角色：GLM 数据/schema/迁移/测试矩阵主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-5 专项设计、GLM 设计签字/G1、build 实现进度与 review 签字表；
+- docs/ops/audits/codex-r13-5-enemy-source-semantics-audit.md；
+- commits 825398ab、d94c3cb2；
+- packages/migrate/src/experimental/script-v5/{r13-enemy-source-disposition,
+  r13-enemy-script-augmentation,r13-enemy-script-mg2,
+  source-execution-census,source-instruction-disposition}.ts；
+- projects/pal、packages/migrate/baselines/pal 的 enemies/locale/6 scenes/_state/new seal。
+
+必须独立核对：
+1. 153 enemies、12 pending enemy / 31 historical debt、81,674 execution sites；
+   final R13-5=0/0，R13-6 必须仍为 215/197；39 enemy bridge sites 中 31 debt + 8 canary
+   的 selector/evidence/trace 是否从源和 final 可重建。
+2. enemy-483/496/499/519、15 battleEnd、99 changed owner 与
+   fallback85/hooks44/rules95/choreography21 数字是否成立；8 encounter cleanup 是否恰在
+   s003/s021/s086/s093/s106/s138，旧 choreography digest 不匹配必须失败。
+3. formal diff 是否恰为 8 project + 8 baseline + state/manifest/new seal 共 19 transaction ops；
+   enemies/6 scene project=baseline；locale project 9587 / baseline 9552，只多 35 author-only，
+   baseline-only=0、共同键改值=0。
+4. manifest content10/minSave8、new seal self `54804a6c…`、file sha `e913123d…`、
+   parent confirm `89092578…` 与旧六层 file sha 是否正确；无 journal/staging。
+5. 独立复跑必要矩阵，核对 dry-run 8/0/0、formal write 内部 replay 0/0/0、额外 live
+   dry-run 0/0/0；确认测试性能优化没有少扫/漏证据。
+
+输出要求：
+- 只修改本卡“R13-5 专项 review -> done 推进签字”自己的 GLM 行与交接记录；
+- 通过签 accept；不通过签 counter 并列精确数字/selector/digest/测试与最小返工；
+- 不得改实现/生成产物/baseline/board/其它签字，不得标 N3-1/C8/ED-5I done。
+```
 
 #### Kimi R13-5 设计主审（2026-07-30）
 

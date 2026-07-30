@@ -148,11 +148,11 @@
 
 | # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了“乱”的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画，不是只补一个 if。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：按一阶段真值做全敌槽拒绝采样（含自身→Pass）、`calcBaseDamage×2/目标物抗` 专用公式和专用演出；不改玩家混乱 | B4 / B5 / B10 | draft，待三方设计签字 |
-| 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。这不只是刷新精度差：可见交互冷却、仅当前场景计时、固定 320×320 离屏门、跨场景/存档持久、动作帧复位和明雷逃跑分支都未闭环。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 当前场景统一 reducer，拆分暂停交互/隐藏待重现能力，修迁移上游并全量重生成；行为以一阶段 `game-mechanics.md` 真值为准 | W9 世界 / B8-B9 / X1 | draft，待三方设计签字 |
+| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了“乱”的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画；严格 RNG 还要求保留 confused 前废弃玩家抽样和原始敌队空槽。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：二次真值核对发现当前 schema/migration 压掉 68/380 队的源空槽，先冻结语义槽位方案，再做全槽拒绝采样（含自身→Pass）、专用公式和演出；不改玩家混乱 | B4 / B5 / B10 | draft，Codex/Kimi/GLM 均待精确 schema 后签字 |
+| 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。缺口包括自动触碰冷却、手动确认保留、world-update pause、0x52 toggle、固定 320×320 当前坐标离屏门、跨场景/存档持久和战斗结果接续。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 世界逻辑 reducer，拆分短暂停自动行为/隐藏待重现，区分普通胜利、玩家逃跑、敌逃与 terminate，修迁移上游并全量重生成 | W9 世界 / B8-B9 / X1 | draft，二次真值方案待三方设计签字 |
 
 边界:
 
 - 两项都不阻塞当前 N3-1 R13 批次或脚本系统稳定。
-- 18a 优先级高于 18b——混乱是纯战斗机制，可在当前 R13 批次形成候选后单独修复；18b 是世界生命周期、存档、迁移和编辑器的跨包高风险任务。当前 `respawnSeconds` 模型会被场景切换/读档绕过，也丢失逃跑冷却和离屏门，不能再描述为“功能上可用”。
+- 18a 优先级高于 18b，但二次真值核对后已不是“纯 battle-core 小改”：要严格保留原始空槽 RNG，需先改 enemy-team schema/migration。18b 仍是 world/save/migration/editor 跨包任务。两者都在 R13-5 candidate 后推进，均不得以近似分布或 detached timer 冒充一阶段真值。
 - 一阶段引擎（`packages/game`）两项都有完整实现，可作为参照。
