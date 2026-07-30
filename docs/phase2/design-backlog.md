@@ -148,7 +148,7 @@
 
 | # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
 |---|---|---|---|---|---|
-| 18a | 敌人混乱目标选择 | `battle-core.ts` 的 `decideEnemyAction`（:627-683）无混乱分支。原版 fight.c:4591-4654 中混乱敌人随机攻击另一敌人（伤害公式 `calcBaseDamage×2/目标物抗`），随机到自己则跳过（Pass）。当前敌人中混乱后仍正常执行 AI。玩家混乱已实现但用均匀随机选敌/友模型（有意偏离原版 do-while，代码注释标注）。 | 在 `decideEnemyAction` 增加混乱分支：检查 `e.status.confused > 0`，随机选活敌人（含自己→Pass），伤害走 `calcBaseDamage(str,def)×2/物抗` | B9 战斗 | 待立项 |
+| 18a | 敌人混乱攻击同伴 | `battle-core.ts` 的 `decideEnemyAction` 无混乱分支，导致中了“乱”的敌人仍照常施法、变身、召唤、逃跑或攻击玩家。完整缺口还包括专用结算、lastAction、session 路由和 12 帧专用动画，不是只补一个 if。 | 已开高风险 [B10-1 任务卡](../ops/tasks/B10-1-enemy-confused-attack.md)：按一阶段真值做全敌槽拒绝采样（含自身→Pass）、`calcBaseDamage×2/目标物抗` 专用公式和专用演出；不改玩家混乱 | B4 / B5 / B10 | draft，待三方设计签字 |
 | 18b | 实体暂离、重现与明雷逃跑冷却 | `main.ts:3234-3263` 用 `respawnSeconds` + detached `host.wait`，且迁移把 `0x4B` / `0x52` 合并成 `vanishEntity`。这不只是刷新精度差：可见交互冷却、仅当前场景计时、固定 320×320 离屏门、跨场景/存档持久、动作帧复位和明雷逃跑分支都未闭环。 | 已开高风险 [W9 任务卡](../ops/tasks/W9-entity-lifecycle-respawn.md)：用稳定实体地址的语义生命周期状态 + 当前场景统一 reducer，拆分暂停交互/隐藏待重现能力，修迁移上游并全量重生成；行为以一阶段 `game-mechanics.md` 真值为准 | W9 世界 / B8-B9 / X1 | draft，待三方设计签字 |
 
 边界:
