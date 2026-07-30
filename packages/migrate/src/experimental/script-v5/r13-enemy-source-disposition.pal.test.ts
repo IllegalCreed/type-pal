@@ -81,6 +81,9 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
       cursorTraceOwners: 1,
       cursorTraceStates: 25,
       cursorTraceEdges: 26,
+      legacyPendingEnemies: 12,
+      legacyPendingRoots: 16,
+      legacyPendingExecutionSites: 356,
       byDisposition: { translated: 35, equivalent: 3, unreachable: 1 },
       scriptedEnemies: 54,
       hookOwners: 44,
@@ -102,6 +105,22 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
         (site) => site.enemyId === 'enemy-422' && site.sourceAddress === 42634,
       ),
     ).toMatchObject({ disposition: 'equivalent', sourceInClosure: true })
+    expect(data.report.legacyPendingRoots).toHaveLength(16)
+    expect(
+      data.report.legacyPendingRoots.reduce(
+        (total, root) => total + root.sourceAddresses.length,
+        0,
+      ),
+    ).toBe(356)
+    expect(
+      data.report.legacyPendingRoots.find(
+        (root) => root.enemyId === 'enemy-519' && root.channel === 'battleEnd',
+      ),
+    ).toMatchObject({
+      rootAddress: 42424,
+      sourceAddresses: [42424, 42425, 42426, 42427],
+      targetSelectors: ['content/enemies.json#enemy(enemy-519).onDefeated'],
+    })
   })
 
   test('enemy-519 初始成长后保留 25-state 持久游标环', () => {

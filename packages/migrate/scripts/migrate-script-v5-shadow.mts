@@ -88,6 +88,7 @@ const currentManifest = JSON.parse(
   | import('@type-pal/content').ProjectManifest<7>
   | import('@type-pal/content').ProjectManifest<8>
   | import('@type-pal/content').ProjectManifest<9>
+  | import('@type-pal/content').ProjectManifest<10>
 if (options.publish && currentManifest.contentVersion !== 4)
   throw new Error('P7 historical publish 只接受真实 contentVersion 4 源工程')
 if (
@@ -96,11 +97,12 @@ if (
     currentManifest.contentVersion !== 6 &&
     currentManifest.contentVersion !== 7 &&
     currentManifest.contentVersion !== 8 &&
-    currentManifest.contentVersion !== 9) ||
+    currentManifest.contentVersion !== 9 &&
+    currentManifest.contentVersion !== 10) ||
     !publishedBase.baselineMetadata?.transitions['script-v4-v5'])
 )
   throw new Error(
-    '--rebuild-published 只接受已发布且带 script-v4-v5 transition 的 v5/v6/v7/v8/v9 工程',
+    '--rebuild-published 只接受已发布且带 script-v4-v5 transition 的 v5/v6/v7/v8/v9/v10 工程',
   )
 const manifest = options.rebuildPublished
   ? ({

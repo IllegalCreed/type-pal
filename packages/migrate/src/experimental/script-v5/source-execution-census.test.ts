@@ -238,10 +238,36 @@ describe('R13 source execution census', () => {
       assertPreparedR13SourceExecutionCensus(prepared, { ...sources }, prepared.census),
     ).toThrow(/输入身份漂移/)
 
-    prepared.census.generator.sourceDigest = 'e'.repeat(64)
-    reseal(prepared.census)
+    expect(() => {
+      prepared.census.generator.sourceDigest = 'e'.repeat(64)
+    }).toThrow()
+    const frozenCommand = sources.migrate.commands[1] as { op: string }
+    expect(() => {
+      frozenCommand.op = 'raw'
+    }).toThrow()
+    const originalScenes = sources.scenes
+    sources.scenes = [...originalScenes]
     expect(() =>
       assertPreparedR13SourceExecutionCensus(prepared, sources, prepared.census),
-    ).toThrow(/摘要漂移/)
+    ).toThrow(/输入身份漂移/)
+    sources.scenes = originalScenes
+    const originalItems = sources.migrate.items
+    sources.migrate.items = [...originalItems]
+    expect(() =>
+      assertPreparedR13SourceExecutionCensus(prepared, sources, prepared.census),
+    ).toThrow(/输入身份漂移/)
+    sources.migrate.items = originalItems
+    expect(() =>
+      assertPreparedR13SourceExecutionCensus(prepared, sources, prepared.census),
+    ).not.toThrow()
+    const forged = {
+      ...prepared,
+      census: structuredClone(prepared.census),
+    }
+    forged.census.sites[0]!.address = 0
+    reseal(forged.census)
+    expect(() => assertPreparedR13SourceExecutionCensus(forged, sources, forged.census)).toThrow(
+      /来源无效/,
+    )
   })
 })

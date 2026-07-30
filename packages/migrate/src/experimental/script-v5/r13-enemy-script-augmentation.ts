@@ -1,6 +1,7 @@
 import { isDeepStrictEqual } from 'node:util'
 import {
   type AuthorCommandV5,
+  type EnemyDef,
   type SceneDefV5,
   type ScriptFlowV5,
   validateEnemies,
@@ -216,6 +217,23 @@ export interface R13EnemyScriptAugmentation {
   runtimeCapability: R13RuntimeCapabilityAuditV3
 }
 
+export interface PreparedR13EnemyScriptMergedTargetClosure {
+  readonly parentContentDigest: typeof R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST
+  readonly successorContentDigest: string
+  readonly evidenceDigest: string
+}
+
+interface PreparedR13EnemyScriptMergedTargetDetails {
+  parentEnemies: ReadonlyMap<string, EnemyDef>
+  successorEnemies: ReadonlyMap<string, EnemyDef>
+  localeDelta: Readonly<Record<string, string>>
+}
+
+const preparedMergedTargetDetails = new WeakMap<
+  PreparedR13EnemyScriptMergedTargetClosure,
+  PreparedR13EnemyScriptMergedTargetDetails
+>()
+
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
   return {
     files: new Map(source.files),
@@ -261,6 +279,7 @@ function locatorOf(spec: R13EnemyEncounterOverlayOracle): string {
 function locateEncounter(
   snapshot: MigrationSnapshot,
   spec: R13EnemyEncounterOverlayOracle,
+  expected: 'legacy' | 'successor' = 'legacy',
 ): { command: StartBattleCommand; locator: string } {
   const locator = locatorOf(spec)
   const scene = sceneOf(snapshot, spec.sceneId)
@@ -281,12 +300,15 @@ function locateEncounter(
   if (matches.length !== 1)
     throw new Error(`R13 enemy augmentation: ${locator} startBattle 数量=${matches.length}`)
   const command = matches[0]!
+  if (expected === 'legacy' && command.boss !== true)
+    throw new Error(`R13 enemy augmentation: ${locator} boss 漂移`)
   if (
-    command.boss !== true ||
-    !command.choreography ||
-    stableJsonSha256(command.choreography) !== spec.oldChoreographyDigest
+    expected === 'legacy'
+      ? !command.choreography ||
+        stableJsonSha256(command.choreography) !== spec.oldChoreographyDigest
+      : command.choreography !== undefined
   )
-    throw new Error(`R13 enemy augmentation: ${locator} boss/choreography 漂移`)
+    throw new Error(`R13 enemy augmentation: ${locator} choreography 漂移`)
   return { command, locator }
 }
 
@@ -487,6 +509,115 @@ export function assertR13EnemyScriptFinalTargetClosure(
     )
       throw new Error(`R13 enemy augmentation: final ${locator} cleanup 漂移`)
   }
+}
+
+function indexEnemySnapshot(snapshot: MigrationSnapshot, label: string): Map<string, EnemyDef> {
+  const result = new Map<string, EnemyDef>()
+  for (const enemy of validateEnemies(snapshot.files.get('content/enemies.json'))) {
+    if (result.has(enemy.id))
+      throw new Error(`R13 enemy augmentation: ${label} duplicate enemy ${enemy.id}`)
+    result.set(enemy.id, structuredClone(enemy))
+  }
+  return result
+}
+
+export function prepareR13EnemyScriptMergedTargetClosure(
+  parent: MigrationSnapshot,
+  successor: MigrationSnapshot,
+  evidence: R13EnemyScriptAugmentationEvidenceV1,
+): PreparedR13EnemyScriptMergedTargetClosure {
+  if (digestR13ContentSnapshot(parent) !== R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST)
+    throw new Error('R13 enemy augmentation: merged closure parent authority 漂移')
+  assertR13EnemyScriptFinalTargetClosure(successor, evidence)
+  const prepared = Object.freeze({
+    parentContentDigest: R13_ENEMY_SCRIPT_PARENT_CONTENT_DIGEST,
+    successorContentDigest: evidence.successorContentDigest,
+    evidenceDigest: evidence.digest,
+  })
+  preparedMergedTargetDetails.set(prepared, {
+    parentEnemies: indexEnemySnapshot(parent, 'parent'),
+    successorEnemies: indexEnemySnapshot(successor, 'successor'),
+    localeDelta: Object.freeze(structuredClone(evidence.localeDelta)),
+  })
+  return prepared
+}
+
+export function assertPreparedR13EnemyScriptMergedTargetClosure(
+  prepared: PreparedR13EnemyScriptMergedTargetClosure,
+  target: MigrationSnapshot,
+): void {
+  const details = preparedMergedTargetDetails.get(prepared)
+  if (!details) throw new Error('R13 enemy augmentation: prepared merged closure 来源无效')
+  const parentEnemies = details.parentEnemies
+  const successorEnemies = details.successorEnemies
+  const targetEnemies = indexEnemySnapshot(target, 'target')
+  const changedFields = new Map<string, number>()
+  const changedOwners = new Set<string>()
+  const assertField = (
+    enemyId: string,
+    path: string,
+    parentValue: unknown,
+    successorValue: unknown,
+    targetValue: unknown,
+  ): void => {
+    if (isDeepStrictEqual(parentValue, successorValue)) return
+    if (!isDeepStrictEqual(targetValue, successorValue))
+      throw new Error(`R13 enemy augmentation: merged target owned delta 漂移 ${enemyId}.${path}`)
+    changedOwners.add(enemyId)
+    changedFields.set(path, (changedFields.get(path) ?? 0) + 1)
+  }
+  for (const [enemyId, successorEnemy] of successorEnemies) {
+    const parentEnemy = parentEnemies.get(enemyId)
+    const targetEnemy = targetEnemies.get(enemyId)
+    if (!parentEnemy) throw new Error(`R13 enemy augmentation: parent 缺 enemy ${enemyId}`)
+    const parentRecord = parentEnemy as unknown as Record<string, unknown>
+    const successorRecord = successorEnemy as unknown as Record<string, unknown>
+    const targetRecord = (targetEnemy ?? {}) as unknown as Record<string, unknown>
+    for (const key of new Set([...Object.keys(parentRecord), ...Object.keys(successorRecord)])) {
+      if (key === 'ai') continue
+      assertField(enemyId, key, parentRecord[key], successorRecord[key], targetRecord[key])
+    }
+    const parentAi = parentEnemy.ai as unknown as Record<string, unknown>
+    const successorAi = successorEnemy.ai as unknown as Record<string, unknown>
+    const targetAi = (targetEnemy?.ai ?? {}) as unknown as Record<string, unknown>
+    for (const key of new Set([...Object.keys(parentAi), ...Object.keys(successorAi)]))
+      assertField(enemyId, `ai.${key}`, parentAi[key], successorAi[key], targetAi[key])
+  }
+  if (
+    changedOwners.size !== 99 ||
+    !isDeepStrictEqual(Object.fromEntries([...changedFields].sort()), {
+      'ai.fallback': 85,
+      'ai.hooks': 44,
+      'ai.rules': 95,
+      choreography: 21,
+    })
+  )
+    throw new Error(
+      `R13 enemy augmentation: merged ownership manifest 漂移 ${JSON.stringify(
+        Object.fromEntries([...changedFields].sort()),
+      )}`,
+    )
+
+  const targetLocale = validateLocale(target.files.get('content/locale.json'))
+  for (const [id, value] of Object.entries(details.localeDelta))
+    if (targetLocale[id] !== value)
+      throw new Error(`R13 enemy augmentation: merged target owned locale 漂移 ${id}`)
+  validateSkills(target.files.get('content/skills.json'))
+  for (const spec of R13_ENEMY_ENCOUNTER_OVERLAY_ORACLE) locateEncounter(target, spec, 'successor')
+}
+
+/**
+ * MG2 合并后允许保留 parent 未触及的作者数据；R13-5 只重新验自己实际改变的叶子。
+ * 这与纯 successor 的全摘要闭包分开，避免把合法作者字段误当成迁移漂移。
+ */
+export function assertR13EnemyScriptMergedTargetClosure(
+  parent: MigrationSnapshot,
+  successor: MigrationSnapshot,
+  target: MigrationSnapshot,
+  evidence: R13EnemyScriptAugmentationEvidenceV1,
+): void {
+  const prepared = prepareR13EnemyScriptMergedTargetClosure(parent, successor, evidence)
+  assertPreparedR13EnemyScriptMergedTargetClosure(prepared, target)
 }
 
 export function augmentR13EnemyScriptsAfterConfirm(args: {

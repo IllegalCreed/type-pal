@@ -20,6 +20,7 @@ export const R13_ENEMY_SOURCE_DISPOSITION_METHOD = 'n3-p7-r13-enemy-source-dispo
 
 export type R13EnemySourceDisposition = 'translated' | 'equivalent' | 'unreachable'
 export type R13EnemySourceSiteScope = 'legacy-debt' | 'mandatory-non-pending' | 'reviewer-silent'
+export type R13EnemySourceRootChannel = EnemyHookChannel | 'battleEnd'
 
 export interface R13EnemySourceSiteOracle {
   scope: R13EnemySourceSiteScope
@@ -94,6 +95,143 @@ export const R13_ENEMY_REVIEWER_SILENT_ORACLE = [
   ['enemy-546', 'ready', 42947, 43012, 'translated'],
 ] as const satisfies ReadonlyArray<
   readonly [string, EnemyHookChannel, number, number, R13EnemySourceDisposition]
+>
+
+/**
+ * 历史 12 个 pending enemy 的完整入口闭包：16 roots / 356 execution sites。
+ * 旧 31-site 表只是反例样本，不能代替这张完整闭包表。
+ */
+export const R13_ENEMY_LEGACY_PENDING_ROOT_ORACLE = [
+  [
+    'enemy-420',
+    'ready',
+    42890,
+    7,
+    'bbf8bf87706b6cad6b7482ebb2dea84778abafbfaf41c37f7cc48e4e660fe326',
+    'ce6e7abc8e77b61fe7a9a4a621fbd2f3f5d0a33381370a385f9e5971a9d607a8',
+  ],
+  [
+    'enemy-420',
+    'turnStart',
+    42840,
+    4,
+    '2e00954a235523a0b72e281f478112cab6570b307a27c081b79683acbe408109',
+    '9c63008a35a5a02fc25dca626a8fa271b8499230b00dda2c181794ad533fa5b6',
+  ],
+  [
+    'enemy-421',
+    'ready',
+    42677,
+    22,
+    'a2d445089b965fc0cad11fbf2c957ed604bdf73df860c9d276922e254357f17d',
+    '67494bc02d31ae8029cc682126bce57e964c32a333fe7a20caa8f993cc84e7a4',
+  ],
+  [
+    'enemy-422',
+    'ready',
+    42634,
+    7,
+    '1561c90de93157a2705cf0c79a8afefb3982e44617fa4813a39a0a7c89ae5f5c',
+    '3a8c6de9f10510585231cf02fdc092d89d2822f35b4b0ce58bcc960885700426',
+  ],
+  [
+    'enemy-422',
+    'turnStart',
+    42840,
+    4,
+    '2e00954a235523a0b72e281f478112cab6570b307a27c081b79683acbe408109',
+    '9c63008a35a5a02fc25dca626a8fa271b8499230b00dda2c181794ad533fa5b6',
+  ],
+  [
+    'enemy-435',
+    'turnStart',
+    41533,
+    22,
+    'd80724a80d29e4801494ae3309971f1bf4f04c5065a8dae17bd737455dd0a611',
+    'b3ec7ef0a50f2ea8b11b2c1491df9ef4854fa5c797fcfe24d54d68cea89a34f2',
+  ],
+  [
+    'enemy-463',
+    'ready',
+    42930,
+    11,
+    '47a7945717ed151f47469e01b7ae8a88cfb8da87fad573d233611329081cf44b',
+    'a493bb3e8787dd8411cbe5d92edcb4fda8c9486aadf4d117a11d818e3f3d9652',
+  ],
+  [
+    'enemy-469',
+    'ready',
+    42428,
+    28,
+    '90496245d23d7a193722f9e2fc5c88db8b2050c86cf46f822f46fb197c1ffb60',
+    '8e19024342903df40d2ae76cc5d49db02b5f393f8ffe7a36f784b1dca36f406a',
+  ],
+  [
+    'enemy-483',
+    'turnStart',
+    41386,
+    27,
+    'b67c08150a64f19e867826c2f933c20deee47d648a22974ff66cf9b625f64c2e',
+    'd1c0f7749af36f454999e340bf0b6a4665f22ab440adc8d5880892bd5231a9bb',
+  ],
+  [
+    'enemy-486',
+    'ready',
+    42457,
+    18,
+    'ec1f1e45afe1f4521abf8a938504211e9e915281c7aabca72e6819f5617d7c9e',
+    '4d786a4242e2f4d4b7d5c7c386f8059530704a44303c0796807cad9ea3fc1ab9',
+  ],
+  [
+    'enemy-499',
+    'turnStart',
+    40963,
+    17,
+    '0d240bf20a247264be76e21e8f0f5dc27c3c68529d633da610ed48b52180b3cb',
+    '266f30ae4d5ebb82e6ae615646a7957ed2da4aa4c8b689d26fce0d7f4b600af7',
+  ],
+  [
+    'enemy-519',
+    'ready',
+    42384,
+    10,
+    '328785710a19907748b1df56df9c4c2db002016c041ff5b2de83d2718c9da209',
+    '8167e23e14ead198f98fd98cc0f6bf610aea33ad404c3a32f44d06bf3fa12392',
+  ],
+  [
+    'enemy-519',
+    'turnStart',
+    42237,
+    146,
+    'cce88b7fe4d2eee82022552c489329c14c3eda9fee0053db1a730042e9dd810b',
+    'c84fcbe54e954ce1dee43dbf8e4013afa6bfdc99de29bf772a163529f82901c3',
+  ],
+  [
+    'enemy-519',
+    'battleEnd',
+    42424,
+    4,
+    '2df42a7647f155dbc2bbf08d1dc9570ba5241a81e9e618c6e053f791d4737512',
+    '3a5cb86a032bd7230270ee4d196c87654862d81b876584dbef72a3e45e3cb676',
+  ],
+  [
+    'enemy-539',
+    'turnStart',
+    42394,
+    12,
+    '79e32d44f16457b01de8e57233192cc96134cde3b2c4d0d3e843a82f52d3baa7',
+    'af565649764178c5e9c4b13e2afd89a1595b015fef439a20551bf589296a5de5',
+  ],
+  [
+    'enemy-547',
+    'ready',
+    42912,
+    17,
+    '1313e94771693b666b81102b1a5ffcc5310abe9b5f6f7ca01c7c2f0a1cfa1b6e',
+    'dae3545da5bc45635983a6f9f82605b3a5b78c30a6b575e637a954e2ff564aa4',
+  ],
+] as const satisfies ReadonlyArray<
+  readonly [string, R13EnemySourceRootChannel, number, number, string, string]
 >
 
 /**
@@ -195,6 +333,22 @@ export interface R13EnemyCursorTraceProof {
   }
 }
 
+export interface R13EnemySourceRootClosure {
+  id: string
+  enemyId: string
+  channel: R13EnemySourceRootChannel
+  rootAddress: number
+  sourceRootId: string
+  sourceAddresses: number[]
+  sourceDigest: string
+  targetSelectors: string[]
+  layers: {
+    raw: { selectors: string[]; digest: string }
+    overlay: { selectors: string[]; digest: string }
+    final: { selectors: string[]; digest: string }
+  }
+}
+
 export interface R13EnemySourceDispositionV1 {
   kind: 'r13-enemy-source-disposition'
   version: 1
@@ -209,6 +363,8 @@ export interface R13EnemySourceDispositionV1 {
     finalEnemiesDigest: string
   }
   sites: R13EnemySourceDispositionSite[]
+  /** 12 个历史 pending enemy 的全部非零入口，而不是只覆盖旧 31-site 样本。 */
+  legacyPendingRoots: R13EnemySourceRootClosure[]
   cursorTraces: R13EnemyCursorTraceProof[]
   summary: {
     legacyDebtSites: number
@@ -218,6 +374,9 @@ export interface R13EnemySourceDispositionV1 {
     cursorTraceOwners: number
     cursorTraceStates: number
     cursorTraceEdges: number
+    legacyPendingEnemies: number
+    legacyPendingRoots: number
+    legacyPendingExecutionSites: number
     byDisposition: Record<R13EnemySourceDisposition, number>
     scriptedEnemies: number
     hookOwners: number
@@ -292,8 +451,13 @@ function sourceClosureDigest(commands: readonly SourceCmd[], addresses: readonly
   )
 }
 
-function hookRootSourceId(enemy: SourceEnemyObject, channel: EnemyHookChannel): string {
-  const field = channel === 'ready' ? 'scriptOnReady' : 'scriptOnTurnStart'
+function hookRootSourceId(enemy: SourceEnemyObject, channel: R13EnemySourceRootChannel): string {
+  const field =
+    channel === 'ready'
+      ? 'scriptOnReady'
+      : channel === 'turnStart'
+        ? 'scriptOnTurnStart'
+        : 'scriptOnBattleEnd'
   return `global/enemies/${enemy.objectIndex}/${field}`
 }
 
@@ -303,6 +467,7 @@ function enemyHookEntries(enemyObjects: readonly SourceEnemyObject[]): SourceEnt
     for (const [channel, entry] of [
       ['ready', enemy.scriptOnReady],
       ['turnStart', enemy.scriptOnTurnStart],
+      ['battleEnd', enemy.scriptOnBattleEnd],
     ] as const)
       if (entry > 0)
         entries.push({
@@ -370,13 +535,112 @@ function buildIndependentHookClosures(args: {
       )
         throw new Error(`R13-5 enemy disposition: ${sourceId} source mapping 覆盖漂移`)
     }
+    if (owner.battleEnd) {
+      const sourceId = hookRootSourceId(object, 'battleEnd')
+      const closure = closures.get(sourceId)
+      if (!closure) throw new Error(`R13-5 enemy disposition: ${sourceId} 缺独立 source closure`)
+      witnessedEntries.add(sourceId)
+      if (
+        owner.battleEnd.rootAddress !== object.scriptOnBattleEnd ||
+        stableJsonSha256(owner.battleEnd.reachableSourceAddresses) !== stableJsonSha256(closure)
+      )
+        throw new Error(`R13-5 enemy disposition: ${sourceId} battleEnd/source census 闭包漂移`)
+    }
   }
   if (
     witnessedEntries.size !== entries.length ||
     [...entries].some((entry) => !witnessedEntries.has(entry.sourceId))
   )
-    throw new Error('R13-5 enemy disposition: 52 个 hook root authority 漂移')
+    throw new Error('R13-5 enemy disposition: 67 个 enemy script root authority 漂移')
   return { census, closures }
+}
+
+function rootTargetLayer(args: { enemy: EnemyDef; channel: R13EnemySourceRootChannel }): {
+  selectors: string[]
+  digest: string
+} {
+  const selector =
+    args.channel === 'battleEnd'
+      ? `content/enemies.json#enemy(${args.enemy.id}).onDefeated`
+      : `content/enemies.json#enemy(${args.enemy.id}).ai.hooks.${args.channel}`
+  const target =
+    args.channel === 'battleEnd' ? args.enemy.onDefeated : args.enemy.ai.hooks?.[args.channel]
+  if (target === undefined)
+    throw new Error(`R13-5 enemy disposition: legacy pending target 不存在 ${selector}`)
+  return {
+    selectors: [selector],
+    digest: stableJsonSha256(target),
+  }
+}
+
+function legacyPendingRootClosures(args: {
+  commands: readonly SourceCmd[]
+  enemyObjects: readonly SourceEnemyObject[]
+  hookSources: readonly HookSourceOwner[]
+  independentClosures: ReadonlyMap<string, number[]>
+  rawById: ReadonlyMap<string, EnemyDef>
+  overlayById: ReadonlyMap<string, EnemyDef>
+  finalById: ReadonlyMap<string, EnemyDef>
+}): R13EnemySourceRootClosure[] {
+  const pendingEnemyIds = [...new Set(R13_ENEMY_LEGACY_DEBT_ORACLE.map((row) => row[0]))].sort(
+    stableStringCompare,
+  )
+  const objectById = new Map(
+    args.enemyObjects.map((enemy) => [`enemy-${enemy.objectIndex}`, enemy] as const),
+  )
+  const sourceById = new Map(args.hookSources.map((owner) => [owner.id, owner] as const))
+  const closures: R13EnemySourceRootClosure[] = []
+  for (const enemyId of pendingEnemyIds) {
+    const object = objectById.get(enemyId)
+    const source = sourceById.get(enemyId)
+    const raw = args.rawById.get(enemyId)
+    const overlay = args.overlayById.get(enemyId)
+    const final = args.finalById.get(enemyId)
+    if (!object || !source || !raw || !overlay || !final)
+      throw new Error(`R13-5 enemy disposition: legacy pending owner 缺失 ${enemyId}`)
+    for (const [channel, rootAddress] of [
+      ['ready', object.scriptOnReady],
+      ['turnStart', object.scriptOnTurnStart],
+      ['battleEnd', object.scriptOnBattleEnd],
+    ] as const) {
+      if (rootAddress <= 0) continue
+      const sourceRootId = hookRootSourceId(object, channel)
+      const sourceAddresses = args.independentClosures.get(sourceRootId)
+      const sourceAuthority = channel === 'battleEnd' ? source.battleEnd : source.hooks[channel]
+      if (
+        !sourceAddresses ||
+        !sourceAuthority ||
+        sourceAuthority.rootAddress !== rootAddress ||
+        stableJsonSha256(sourceAuthority.reachableSourceAddresses) !==
+          stableJsonSha256(sourceAddresses)
+      )
+        throw new Error(`R13-5 enemy disposition: legacy pending source 漂移 ${sourceRootId}`)
+      const rawTarget = rootTargetLayer({ enemy: raw, channel })
+      const overlayTarget = rootTargetLayer({ enemy: overlay, channel })
+      const finalTarget = rootTargetLayer({ enemy: final, channel })
+      if (
+        stableJsonSha256(rawTarget) !== stableJsonSha256(overlayTarget) ||
+        stableJsonSha256(rawTarget) !== stableJsonSha256(finalTarget)
+      )
+        throw new Error(`R13-5 enemy disposition: legacy pending target 漂移 ${sourceRootId}`)
+      closures.push({
+        id: `${enemyId}:${channel}:L_${rootAddress}:source-root`,
+        enemyId,
+        channel,
+        rootAddress,
+        sourceRootId,
+        sourceAddresses: [...sourceAddresses],
+        sourceDigest: sourceClosureDigest(args.commands, sourceAddresses),
+        targetSelectors: [...rawTarget.selectors],
+        layers: {
+          raw: rawTarget,
+          overlay: overlayTarget,
+          final: finalTarget,
+        },
+      })
+    }
+  }
+  return closures.sort((left, right) => stableStringCompare(left.id, right.id))
 }
 
 function resolveRelativeTarget(flow: EnemyHookFlow, selector: string): unknown {
@@ -586,6 +850,7 @@ function buildEnemy519CursorTrace(args: {
 
 function summaryOf(
   sites: readonly R13EnemySourceDispositionSite[],
+  legacyPendingRoots: readonly R13EnemySourceRootClosure[],
   cursorTraces: readonly R13EnemyCursorTraceProof[],
   counts: {
     scriptedEnemies: number
@@ -611,6 +876,12 @@ function summaryOf(
     cursorTraceOwners: cursorTraces.length,
     cursorTraceStates: cursorTraces.reduce((total, trace) => total + trace.edges.length, 0),
     cursorTraceEdges: cursorTraces.reduce((total, trace) => total + trace.edges.length + 1, 0),
+    legacyPendingEnemies: new Set(legacyPendingRoots.map((root) => root.enemyId)).size,
+    legacyPendingRoots: legacyPendingRoots.length,
+    legacyPendingExecutionSites: legacyPendingRoots.reduce(
+      (total, root) => total + root.sourceAddresses.length,
+      0,
+    ),
     byDisposition,
     scriptedEnemies: counts.scriptedEnemies,
     hookOwners: counts.hookOwners,
@@ -751,12 +1022,21 @@ export function buildR13EnemySourceDisposition(
       finalById,
     }),
   ]
-  const summary = summaryOf(sites, cursorTraces, {
+  const legacyPendingRoots = legacyPendingRootClosures({
+    commands: args.commands,
+    enemyObjects: args.enemyObjects,
+    hookSources: args.hookSources,
+    independentClosures: independent.closures,
+    rawById,
+    overlayById,
+    finalById,
+  })
+  const summary = summaryOf(sites, legacyPendingRoots, cursorTraces, {
     scriptedEnemies: args.enemyObjects.filter(
       (enemy) =>
         enemy.scriptOnReady > 0 || enemy.scriptOnTurnStart > 0 || enemy.scriptOnBattleEnd > 0,
     ).length,
-    hookOwners: args.hookSources.length,
+    hookOwners: args.hookSources.filter((owner) => Object.values(owner.hooks).some(Boolean)).length,
     hookRoots,
     battleEndRoots: args.enemyObjects.filter((enemy) => enemy.scriptOnBattleEnd > 0).length,
     raw: args.rawEnemies.length,
@@ -769,6 +1049,7 @@ export function buildR13EnemySourceDisposition(
     methodVersion: R13_ENEMY_SOURCE_DISPOSITION_METHOD,
     generator,
     sites,
+    legacyPendingRoots,
     cursorTraces,
     summary,
   }
@@ -867,6 +1148,79 @@ export function assertR13EnemySourceDisposition(
     )
       throw new Error(`R13-5 enemy disposition: site proof 漂移 ${site.id}`)
   }
+  const expectedPendingEnemyIds = [
+    ...new Set(R13_ENEMY_LEGACY_DEBT_ORACLE.map((row) => row[0])),
+  ].sort(stableStringCompare)
+  const rootIds = report.legacyPendingRoots.map((root) => root.id)
+  const rootSourceIds = report.legacyPendingRoots.map((root) => root.sourceRootId)
+  const rootOracle = new Map(
+    R13_ENEMY_LEGACY_PENDING_ROOT_ORACLE.map(
+      ([enemyId, channel, rootAddress, sites, sourceDigest, targetDigest]) => [
+        `${enemyId}:${channel}:L_${rootAddress}:source-root`,
+        { enemyId, channel, rootAddress, sites, sourceDigest, targetDigest },
+      ],
+    ),
+  )
+  if (
+    report.legacyPendingRoots.length !== 16 ||
+    new Set(rootIds).size !== rootIds.length ||
+    new Set(rootSourceIds).size !== rootSourceIds.length ||
+    stableJsonSha256(
+      [...new Set(report.legacyPendingRoots.map((root) => root.enemyId))].sort(stableStringCompare),
+    ) !== stableJsonSha256(expectedPendingEnemyIds)
+  )
+    throw new Error('R13-5 enemy disposition: 12 enemy / 16 root authority 漂移')
+  for (let index = 1; index < report.legacyPendingRoots.length; index++)
+    if (
+      stableStringCompare(
+        report.legacyPendingRoots[index - 1]!.id,
+        report.legacyPendingRoots[index]!.id,
+      ) >= 0
+    )
+      throw new Error('R13-5 enemy disposition: legacy pending roots 排序漂移')
+  for (const root of report.legacyPendingRoots) {
+    const oracle = rootOracle.get(root.id)
+    const expectedField =
+      root.channel === 'ready'
+        ? 'scriptOnReady'
+        : root.channel === 'turnStart'
+          ? 'scriptOnTurnStart'
+          : 'scriptOnBattleEnd'
+    const expectedSelector =
+      root.channel === 'battleEnd'
+        ? `content/enemies.json#enemy(${root.enemyId}).onDefeated`
+        : `content/enemies.json#enemy(${root.enemyId}).ai.hooks.${root.channel}`
+    if (
+      !oracle ||
+      root.enemyId !== oracle.enemyId ||
+      root.channel !== oracle.channel ||
+      root.rootAddress !== oracle.rootAddress ||
+      root.sourceAddresses.length !== oracle.sites ||
+      root.sourceDigest !== oracle.sourceDigest ||
+      root.layers.raw.digest !== oracle.targetDigest ||
+      root.id !== `${root.enemyId}:${root.channel}:L_${root.rootAddress}:source-root` ||
+      root.sourceRootId !==
+        `global/enemies/${root.enemyId.replace(/^enemy-/, '')}/${expectedField}` ||
+      !Number.isSafeInteger(root.rootAddress) ||
+      root.rootAddress <= 0 ||
+      root.sourceAddresses.some(
+        (address, index) =>
+          !Number.isSafeInteger(address) ||
+          address < 0 ||
+          (index > 0 && root.sourceAddresses[index - 1]! >= address),
+      ) ||
+      !/^[0-9a-f]{64}$/.test(root.sourceDigest) ||
+      stableJsonSha256(root.targetSelectors) !== stableJsonSha256([expectedSelector]) ||
+      Object.values(root.layers).some(
+        (layer) =>
+          stableJsonSha256(layer.selectors) !== stableJsonSha256(root.targetSelectors) ||
+          !/^[0-9a-f]{64}$/.test(layer.digest),
+      ) ||
+      root.layers.raw.digest !== root.layers.overlay.digest ||
+      root.layers.raw.digest !== root.layers.final.digest
+    )
+      throw new Error(`R13-5 enemy disposition: legacy pending root 漂移 ${root.id}`)
+  }
   if (!Array.isArray(report.cursorTraces) || report.cursorTraces.length !== 1)
     throw new Error('R13-5 enemy disposition: enemy-519 cursor trace 缺失')
   const trace = report.cursorTraces[0]!
@@ -920,7 +1274,7 @@ export function assertR13EnemySourceDisposition(
     Object.values(trace.layers).some((layer) => !/^[0-9a-f]{64}$/.test(layer.digest))
   )
     throw new Error('R13-5 enemy disposition: enemy-519 cursor trace 漂移')
-  const expectedSummary = summaryOf(report.sites, report.cursorTraces, {
+  const expectedSummary = summaryOf(report.sites, report.legacyPendingRoots, report.cursorTraces, {
     scriptedEnemies: report.summary.scriptedEnemies,
     hookOwners: report.summary.hookOwners,
     hookRoots: report.summary.hookRoots,
@@ -937,6 +1291,9 @@ export function assertR13EnemySourceDisposition(
     report.summary.cursorTraceOwners !== 1 ||
     report.summary.cursorTraceStates !== 25 ||
     report.summary.cursorTraceEdges !== 26 ||
+    report.summary.legacyPendingEnemies !== 12 ||
+    report.summary.legacyPendingRoots !== 16 ||
+    report.summary.legacyPendingExecutionSites !== 356 ||
     report.summary.byDisposition.translated !== 35 ||
     report.summary.byDisposition.equivalent !== 3 ||
     report.summary.byDisposition.unreachable !== 1 ||
@@ -947,7 +1304,8 @@ export function assertR13EnemySourceDisposition(
     report.summary.totalRoots !== 67 ||
     report.summary.rawEnemies !== 153 ||
     report.summary.overlayEnemies !== 153 ||
-    report.summary.finalEnemies !== 153
+    !Number.isSafeInteger(report.summary.finalEnemies) ||
+    report.summary.finalEnemies < 0
   )
     throw new Error(`R13-5 enemy disposition: summary 漂移 ${JSON.stringify(report.summary)}`)
   const { digest, ...withoutDigest } = report

@@ -8,15 +8,11 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
-import type {
-  AssetCatalogV1,
-  CurrentManifest,
-  LoadedManifest,
-  ProjectManifest,
-} from '@type-pal/content'
+import type { AssetCatalogV1, LoadedManifest, ProjectManifest } from '@type-pal/content'
 import {
   checkSharedScriptLibraryV5,
   mapAssetById,
+  upgradeManifestV9ToV10,
   validateActors,
   validateAssetCatalog,
   validateBattleFields,
@@ -44,14 +40,19 @@ import {
 import {
   createR13ConfirmV5MigrationPlan,
   R13_CONFIRM_SEAL_PATH,
+  type R13ConfirmV5MigrationPlan,
   rebuildR13ConfirmSealAuthority,
 } from '../src/experimental/script-v5/r13-confirm-mg2.js'
 import { repairMissingR13ConfirmSeal } from '../src/experimental/script-v5/r13-confirm-seal-repair.js'
 import {
+  createR13EnemyScriptV5MigrationPlan,
+  type R13EnemyScriptV5MigrationPlan,
+} from '../src/experimental/script-v5/r13-enemy-script-mg2.js'
+import {
   assertR13RuntimeCapabilityAudit,
   auditR13RuntimeCapabilities,
 } from '../src/experimental/script-v5/runtime-capability-audit.js'
-import { buildR13SourceExecutionCensus } from '../src/experimental/script-v5/source-execution-census.js'
+import { prepareR13SourceExecutionCensus } from '../src/experimental/script-v5/source-execution-census.js'
 import {
   assertR13SourceInstructionDispositionV3,
   buildR13SourceInstructionDispositionV3,
@@ -122,6 +123,15 @@ const SCRIPT_AUDIT_BASELINE_REL = 'packages/migrate/baselines/script-control-flo
 const INTERNAL_PHASE_ENV = 'TYPE_PAL_MIGRATE_INTERNAL_PHASE'
 const EXPECTED_SOURCE_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_SOURCE_DIGEST'
 const EXPECTED_RUNTIME_DIGEST_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_RUNTIME_DIGEST'
+const EXPECTED_TARGET_CONTENT_VERSION_ENV = 'TYPE_PAL_MIGRATE_EXPECTED_TARGET_CONTENT_VERSION'
+type CanonicalV5InputManifest =
+  | ProjectManifest<5>
+  | ProjectManifest<6>
+  | ProjectManifest<7>
+  | ProjectManifest<8>
+  | ProjectManifest<9>
+  | ProjectManifest<10>
+type P7V5TargetManifest = ProjectManifest<9> | ProjectManifest<10>
 
 const readJson = <T,>(path: string): T => JSON.parse(readFileSync(resolve(repo, path), 'utf8')) as T
 const writeJson = (path: string, value: unknown): void => {
@@ -215,6 +225,68 @@ interface R13ControlAuditSeal {
   runtimeCapabilityDigest: string
 }
 
+function reportAndAssertR13EnemyScriptPlan(
+  result: R13EnemyScriptV5MigrationPlan,
+  sourceContentVersion: 9 | 10,
+): R13ControlAuditSeal {
+  const expectedMode = sourceContentVersion === 9 ? 'initialize' : 'replay'
+  if (result.enemyScriptSealMode !== expectedMode)
+    throw new Error(
+      `R13-5 project/baseline 半状态: content${sourceContentVersion} ` +
+        `要求 ${expectedMode}，实际 ${result.enemyScriptSealMode}`,
+    )
+  const expectedWrites = [...result.enemyScriptEvidence.files.changedPaths].sort()
+  const actualWrites = [...result.plan.writes.keys()].sort()
+  if (result.plan.deletes.length)
+    throw new Error(`R13-5 正式计划不得删除文件: ${result.plan.deletes.join(',')}`)
+  if (
+    result.enemyScriptSealMode === 'initialize' &&
+    !isDeepStrictEqual(actualWrites, expectedWrites)
+  )
+    throw new Error(
+      `R13-5 initialize 写白名单漂移: expected=${expectedWrites.join(',')} ` +
+        `actual=${actualWrites.join(',')}`,
+    )
+  if (
+    result.enemyScriptSealMode === 'replay' &&
+    (result.plan.writes.size || result.plan.deletes.length)
+  )
+    throw new Error(
+      `R13-5 replay 非空计划: writes=${result.plan.writes.size} ` +
+        `deletes=${result.plan.deletes.length}`,
+    )
+
+  const source = result.enemyScriptSourceDisposition
+  const sourceSeal = result.enemyScriptSeal.audits.sourceControl.summary
+  const runtime = result.enemyScriptRuntimeCapability
+  console.log(
+    `[R13-5 源指令账] sites=${source.summary.executionSites} ` +
+      `open=${source.summary.openDebtSites}/${source.summary.openObservations} ` +
+      `R13-5=${sourceSeal.finalOpenR13_5Sites}/${sourceSeal.finalOpenR13_5Observations} ` +
+      `R13-6=${sourceSeal.finalOpenR13_6Sites}/${sourceSeal.finalOpenR13_6Observations} ` +
+      `digest=${source.digest}`,
+  )
+  console.log(
+    `[R13-5 运行时矩阵] cells=${runtime.summary.cells} uses=${runtime.summary.uses} ` +
+      `refused=${runtime.summary.refusedUses} issues=${runtime.summary.openIssues} ` +
+      `digest=${runtime.digest}`,
+  )
+  console.log(
+    `[R13-5 publication] mode=${result.enemyScriptSealMode} ` +
+      `seal=${result.enemyScriptSeal.digest} writes=${result.plan.writes.size} deletes=0`,
+  )
+  return {
+    sourceDispositionDigest: source.digest,
+    runtimeCapabilityDigest: runtime.digest,
+  }
+}
+
+function isR13EnemyScriptPlan(
+  result: R13ConfirmV5MigrationPlan,
+): result is R13EnemyScriptV5MigrationPlan {
+  return 'enemyScriptSeal' in result
+}
+
 function buildAndAssertR13ControlAudits(args: {
   sources: R13SourceInstructionDispositionBuildArgs['sources']
   migration: R13SourceInstructionDispositionBuildArgs['migration']
@@ -298,7 +370,7 @@ function buildAndAssertR13ControlAudits(args: {
   }
 }
 
-function snapshotFileSource(snapshot: MigrationSnapshot, manifest: CurrentManifest): FileSource {
+function snapshotFileSource(snapshot: MigrationSnapshot, manifest: P7V5TargetManifest): FileSource {
   const body = (path: string): string => {
     if (path === 'manifest.json') return `${JSON.stringify(manifest, null, 2)}\n`
     const value = snapshot.files.get(path)
@@ -324,10 +396,10 @@ function snapshotFileSource(snapshot: MigrationSnapshot, manifest: CurrentManife
 
 async function validateP7V5Target(
   target: MigrationSnapshot,
-  manifest: CurrentManifest,
+  manifest: P7V5TargetManifest,
 ): Promise<void> {
   if (
-    manifest.contentVersion !== 9 ||
+    (manifest.contentVersion !== 9 && manifest.contentVersion !== 10) ||
     manifest.minimumSaveVersion !== 8 ||
     manifest.content.scripts !== undefined
   )
@@ -487,7 +559,7 @@ async function commitAndVerify(args: {
   assertManifestCurrent()
 
   const catalog = validateAssetCatalog(
-    target.files.get('assets/index.json') as AssetCatalogV1,
+    target.files.get('assets/index.json') as unknown as AssetCatalogV1,
     'PAL 迁移 target assets/index.json',
   )
   validateManifestAssetConfigV3(nextManifest.assets, catalog, 'PAL 闭环 manifest.assets')
@@ -571,7 +643,7 @@ async function commitAndVerify(args: {
       `二次迁移非空计划: writes=${second.writes.size} deletes=${second.deletes.length} conflicts=${second.conflicts.length}`,
     )
   const secondCatalog = validateAssetCatalog(
-    projectAfter.files.get('assets/index.json') as AssetCatalogV1,
+    projectAfter.files.get('assets/index.json') as unknown as AssetCatalogV1,
     '二次 PAL 工程 assets/index.json',
   )
   validateManifestAssetConfigV3(manifestAfter.assets, secondCatalog, '二次 manifest.assets')
@@ -592,7 +664,7 @@ async function commitAndVerifyP7V5(args: {
   nextBaseline: MigrationSnapshot
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
   sources: ReturnType<typeof loadPalMigrationSources>
-  manifest: CurrentManifest
+  manifest: P7V5TargetManifest
   currentManifestText: string
 }): Promise<void> {
   const transactionManaged = new Set([...args.ours.managedFiles, ...args.target.managedFiles])
@@ -606,7 +678,7 @@ async function commitAndVerifyP7V5(args: {
   assertProjectSnapshotCurrent(repo, args.ours, transactionManaged)
   assertManifestCurrent()
   const catalog = validateAssetCatalog(
-    args.target.files.get('assets/index.json') as AssetCatalogV1,
+    args.target.files.get('assets/index.json') as unknown as AssetCatalogV1,
     'PAL v5 迁移 target assets/index.json',
   )
   validateManifestAssetConfigV3(args.manifest.assets, catalog, 'PAL v5 manifest.assets')
@@ -630,6 +702,11 @@ async function commitAndVerifyP7V5(args: {
   const manifestPreconditions = [
     { target: 'projects/pal/assets/index.json', hash: catalogHash },
     { target: 'projects/pal/content/stamps.json', hash: stampsHash },
+    ...[...args.plan.writes.keys()].sort().map((path) => {
+      const hash = snapshotFileHash(args.target, path)
+      if (!hash) throw new Error(`PAL v5 target 写文件缺 hash: ${path}`)
+      return { target: `projects/pal/${path}`, hash }
+    }),
     ...Object.values(catalog.assets).map((record) => ({
       target: `projects/pal/${record.path}`,
       hash: record.sha256,
@@ -649,7 +726,7 @@ async function commitAndVerifyP7V5(args: {
   const unmanagedAfter = hashUnmanagedProjectFiles(repo, transactionManaged, excludedFiles)
   assertHashMapsEqual(unmanagedBefore, unmanagedAfter, 'v5 非托管工程文件')
   const manifestAfterText = readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8')
-  const manifestAfter = JSON.parse(manifestAfterText) as CurrentManifest
+  const manifestAfter = JSON.parse(manifestAfterText) as P7V5TargetManifest
   if (!isDeepStrictEqual(args.manifest, manifestAfter))
     throw new Error('v5 事务完成后 manifest 发生漂移')
 
@@ -710,33 +787,40 @@ async function main(): Promise<void> {
       contentVersion !== 6 &&
       contentVersion !== 7 &&
       contentVersion !== 8 &&
-      contentVersion !== 9)
+      contentVersion !== 9 &&
+      contentVersion !== 10)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9/10，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
     contentVersion === 5 ||
     contentVersion === 6 ||
     contentVersion === 7 ||
     contentVersion === 8 ||
-    contentVersion === 9
+    contentVersion === 9 ||
+    contentVersion === 10
   if (repairR13ConfirmSeal && !canonicalV5)
     throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
   if (writeRequested && canonicalV5 && !bootstrap) {
-    const writeOutput = await runCanonicalV5Phase('--write-once')
+    const expectedTargetContentVersion = contentVersion === 9 || contentVersion === 10 ? '10' : '9'
+    const phaseEnv = {
+      [EXPECTED_TARGET_CONTENT_VERSION_ENV]: expectedTargetContentVersion,
+    }
+    const writeOutput = await runCanonicalV5Phase('--write-once', phaseEnv)
     const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
       writeOutput,
     )
     if (!evidence) throw new Error('canonical v5 写入子进程未返回首轮 R13 证据')
     await runCanonicalV5Phase('--verify-idempotence', {
+      ...phaseEnv,
       [EXPECTED_SOURCE_DIGEST_ENV]: evidence[1]!,
       [EXPECTED_RUNTIME_DIGEST_ENV]: evidence[2]!,
     })
     console.log('[v5 分进程幂等] 写入与二次 0/0/0 验证均完成')
     return
   }
-  const manifest = rawManifest as LoadedManifest | ProjectManifest<5 | 6 | 7 | 8 | 9>
+  const manifest = rawManifest as LoadedManifest | CanonicalV5InputManifest
   const sources = loadPalMigrationSources(repo)
   const theirs = buildPalMigration(sources)
   reportGeneration(theirs)
@@ -753,32 +837,83 @@ async function main(): Promise<void> {
     manifest.contentVersion === 6 ||
     manifest.contentVersion === 7 ||
     manifest.contentVersion === 8 ||
-    manifest.contentVersion === 9
+    manifest.contentVersion === 9 ||
+    manifest.contentVersion === 10
   ) {
     if (bootstrap) throw new Error('canonical v5 工程不得重跑 v4 bootstrap')
     if (!baseline) throw new Error('canonical v5 工程缺 PAL baseline v2')
+    const configuredTargetContentVersion = process.env[EXPECTED_TARGET_CONTENT_VERSION_ENV]
+    if (!writeOnce && !verifyIdempotence && configuredTargetContentVersion !== undefined)
+      throw new Error(`${EXPECTED_TARGET_CONTENT_VERSION_ENV} 只允许内部迁移阶段设置`)
+    if ((writeOnce || verifyIdempotence) && configuredTargetContentVersion === undefined)
+      throw new Error('canonical v5 内部迁移阶段缺 target contentVersion')
+    const expectedTargetContentVersionRaw =
+      writeOnce || verifyIdempotence ? configuredTargetContentVersion : undefined
+    const expectedTargetContentVersion =
+      expectedTargetContentVersionRaw === undefined
+        ? undefined
+        : expectedTargetContentVersionRaw === '9'
+          ? 9
+          : expectedTargetContentVersionRaw === '10'
+            ? 10
+            : (() => {
+                throw new Error(
+                  `canonical v5 子进程 target contentVersion 无效: ` +
+                    `${expectedTargetContentVersionRaw}`,
+                )
+              })()
+    if (writeOnce && expectedTargetContentVersion === 9 && manifest.contentVersion > 9)
+      throw new Error(`confirm write-once 源版本无效: content${manifest.contentVersion}`)
+    if (
+      writeOnce &&
+      expectedTargetContentVersion === 10 &&
+      manifest.contentVersion !== 9 &&
+      manifest.contentVersion !== 10
+    )
+      throw new Error(`enemy write-once 源版本无效: content${manifest.contentVersion}`)
+    if (
+      verifyIdempotence &&
+      expectedTargetContentVersion !== undefined &&
+      manifest.contentVersion !== expectedTargetContentVersion
+    )
+      throw new Error(
+        `v5 幂等 target 版本漂移: expected=${expectedTargetContentVersion} ` +
+          `actual=${manifest.contentVersion}`,
+      )
     // current successor 与 immutable parent 必须独立加载源快照，不能共享被旧 translator
     // 原地展开过的命令数组；v4 bootstrap 不需要付这次历史重放成本。
     const parentSources = loadPalMigrationSources(repo)
     const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
     const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
-    const currentManifest: CurrentManifest = {
-      ...structuredClone(manifest),
-      contentVersion: 9,
-      minimumSaveVersion: 8,
-    }
-    const currentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
-    assertScriptControlFlowAudit(currentAudit)
+    const advancesEnemyScript =
+      (expectedTargetContentVersion ??
+        (manifest.contentVersion === 9 || manifest.contentVersion === 10 ? 10 : 9)) === 10
+    const targetManifest: P7V5TargetManifest = advancesEnemyScript
+      ? manifest.contentVersion === 10
+        ? structuredClone(manifest)
+        : manifest.contentVersion === 9
+          ? upgradeManifestV9ToV10(manifest)
+          : (() => {
+              throw new Error(`R13-5 只接受 content9/10，收到 ${manifest.contentVersion}`)
+            })()
+      : ({
+          ...structuredClone(manifest),
+          contentVersion: 9,
+          minimumSaveVersion: 8,
+        } as P7V5TargetManifest)
+    const historicalAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
+    assertScriptControlFlowAudit(historicalAudit)
+    const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
     const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
     const generated = buildP7GeneratedCanonical({
       migration: authorityMigration,
-      currentAudit,
+      currentAudit: historicalAudit,
       frozenAudit,
       sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
       itemSources: parentSources.migrate.items,
       magicSources: parentSources.migrate.magic,
       objectMagicSources: parentSources.migrate.objectMagics ?? [],
-      sourceCensus: buildR13SourceExecutionCensus(parentSources),
+      sourceCensus: preparedHistoricalSourceCensus.census,
       soundAssetForNum: palSoundAssetForSources(parentSources),
     })
     if (repairR13ConfirmSeal) {
@@ -787,7 +922,8 @@ async function main(): Promise<void> {
         generated,
         sources: parentSources,
         migration: authorityMigration,
-        audit: currentAudit,
+        audit: historicalAudit,
+        preparedSourceCensus: preparedHistoricalSourceCensus,
       })
       const repaired = repairMissingR13ConfirmSeal({
         repo,
@@ -800,14 +936,32 @@ async function main(): Promise<void> {
       )
       return
     }
-    const v5 = createR13ConfirmV5MigrationPlan({
-      base: baseline,
-      ours,
-      generated,
-      sources: parentSources,
-      migration: authorityMigration,
-      audit: currentAudit,
-    })
+    const v5 = advancesEnemyScript
+      ? (() => {
+          const successorAudit = auditPalScriptControlFlow(sources, theirs)
+          assertScriptControlFlowAudit(successorAudit)
+          return createR13EnemyScriptV5MigrationPlan({
+            base: baseline,
+            ours,
+            generated,
+            historicalSources: parentSources,
+            historicalMigration: authorityMigration,
+            historicalAudit,
+            currentSources: sources,
+            currentMigration: theirs,
+            currentAudit: successorAudit,
+            preparedHistoricalSourceCensus,
+          })
+        })()
+      : createR13ConfirmV5MigrationPlan({
+          base: baseline,
+          ours,
+          generated,
+          sources: parentSources,
+          migration: authorityMigration,
+          audit: historicalAudit,
+          preparedSourceCensus: preparedHistoricalSourceCensus,
+        })
     reportPlan(v5.plan)
     if (v5.plan.conflicts.length) {
       if (verifyIdempotence)
@@ -816,14 +970,21 @@ async function main(): Promise<void> {
       process.exitCode = 1
       return
     }
-    await validateP7V5Target(v5.target, currentManifest)
-    const firstR13 = buildAndAssertR13ControlAudits({
-      sources: parentSources,
-      migration: authorityMigration,
-      audit: currentAudit,
-      generated,
-      final: v5.target,
-    })
+    await validateP7V5Target(v5.target, targetManifest)
+    const firstR13 = (() => {
+      if (isR13EnemyScriptPlan(v5)) {
+        if (manifest.contentVersion !== 9 && manifest.contentVersion !== 10)
+          throw new Error(`R13-5 outer 不接受 content${manifest.contentVersion}`)
+        return reportAndAssertR13EnemyScriptPlan(v5, manifest.contentVersion)
+      }
+      return buildAndAssertR13ControlAudits({
+        sources: parentSources,
+        migration: authorityMigration,
+        audit: historicalAudit,
+        generated,
+        final: v5.target,
+      })
+    })()
     if (verifyIdempotence) {
       if (v5.plan.writes.size || v5.plan.deletes.length)
         throw new Error(
@@ -849,7 +1010,7 @@ async function main(): Promise<void> {
             `runtime=${expectedRuntime}/${firstR13.runtimeCapabilityDigest}`,
         )
       const catalog = validateAssetCatalog(
-        v5.target.files.get('assets/index.json') as AssetCatalogV1,
+        v5.target.files.get('assets/index.json') as unknown as AssetCatalogV1,
         '二次 PAL v5 工程 assets/index.json',
       )
       const materialized = materializePalAssets({
@@ -880,8 +1041,8 @@ async function main(): Promise<void> {
       target: v5.target,
       nextBaseline: v5.nextBaseline,
       plan: v5.plan,
-      sources: parentSources,
-      manifest: currentManifest,
+      sources: advancesEnemyScript ? sources : parentSources,
+      manifest: targetManifest,
       currentManifestText: manifestText,
     })
     console.log(
@@ -915,7 +1076,7 @@ async function main(): Promise<void> {
       managedFiles: new Set([...applied.managedFiles, ...normalizedFiles.keys()]),
     }
     const targetCatalog = validateAssetCatalog(
-      target.files.get('assets/index.json') as AssetCatalogV1,
+      target.files.get('assets/index.json') as unknown as AssetCatalogV1,
       'PAL bootstrap target assets/index.json',
     )
     const nextManifest = preparePalManifest(manifest, targetCatalog)
@@ -954,7 +1115,7 @@ async function main(): Promise<void> {
     managedFiles: new Set([...managed, ...plan.target.keys()]),
   }
   const targetCatalog = validateAssetCatalog(
-    target.files.get('assets/index.json') as AssetCatalogV1,
+    target.files.get('assets/index.json') as unknown as AssetCatalogV1,
     'PAL merge target assets/index.json',
   )
   const nextManifest = preparePalManifest(manifest, targetCatalog)

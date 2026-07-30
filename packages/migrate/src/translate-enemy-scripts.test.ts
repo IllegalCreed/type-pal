@@ -251,6 +251,10 @@ describe('battleEnd → strict canonical onDefeated', () => {
       owner,
     )
     expect(translated.onDefeated?.map((command) => command.kind)).toEqual(['giveItem', 'dialog'])
+    expect(translated.battleEndSource).toEqual({
+      rootAddress: 1_000,
+      reachableSourceAddresses: [1_000, 1_001, 1_002],
+    })
   })
 
   test('多 stage 在读取 body 前 fail-loud', () => {

@@ -79,6 +79,28 @@ export interface PreparedR13SourceExecutionCensus {
   readonly censusDigest: string
 }
 
+const preparedR13SourceExecutionCensuses = new WeakSet<PreparedR13SourceExecutionCensus>()
+const preparedR13SourceExecutionCensusDependencies = new WeakMap<
+  PreparedR13SourceExecutionCensus,
+  Readonly<{
+    migrate: PalMigrationSources['migrate']
+    commands: PalMigrationSources['migrate']['commands']
+    scenes: PalMigrationSources['scenes']
+    items: PalMigrationSources['migrate']['items']
+    spells: PalMigrationSources['migrate']['spells']
+    enemyObjects: PalMigrationSources['migrate']['enemyObjects']
+    objectPlayers: PalMigrationSources['objectPlayers']
+  }>
+>()
+
+function deepFreezePreparedValue<T>(value: T, seen = new Set<object>()): T {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value
+  seen.add(value)
+  for (const child of Object.values(value as Record<string, unknown>))
+    deepFreezePreparedValue(child, seen)
+  return Object.freeze(value)
+}
+
 interface TraversalState {
   address: number
   context: Omit<R13SourceExecutionContext, 'id'>
@@ -499,12 +521,34 @@ export function prepareR13SourceExecutionCensus(
 ): PreparedR13SourceExecutionCensus {
   const census = buildR13SourceExecutionCensus(sources)
   assertR13SourceExecutionCensus(census)
-  return Object.freeze({
-    sources,
+  const dependencies = Object.freeze({
+    migrate: sources.migrate,
     commands: sources.migrate.commands,
+    scenes: sources.scenes,
+    items: sources.migrate.items,
+    spells: sources.migrate.spells,
+    enemyObjects: sources.migrate.enemyObjects,
+    objectPlayers: sources.objectPlayers,
+  })
+  for (const dependency of [
+    dependencies.commands,
+    dependencies.scenes,
+    dependencies.items,
+    dependencies.spells,
+    dependencies.enemyObjects,
+    dependencies.objectPlayers,
+  ])
+    if (dependency) deepFreezePreparedValue(dependency)
+  deepFreezePreparedValue(census)
+  const prepared = Object.freeze({
+    sources,
+    commands: dependencies.commands,
     census,
     censusDigest: census.digest,
   })
+  preparedR13SourceExecutionCensuses.add(prepared)
+  preparedR13SourceExecutionCensusDependencies.set(prepared, dependencies)
+  return prepared
 }
 
 export function assertPreparedR13SourceExecutionCensus(
@@ -512,9 +556,19 @@ export function assertPreparedR13SourceExecutionCensus(
   sources: PalMigrationSources,
   census: R13SourceExecutionCensusV1,
 ): void {
+  const dependencies = preparedR13SourceExecutionCensusDependencies.get(prepared)
+  if (!preparedR13SourceExecutionCensuses.has(prepared) || !dependencies)
+    throw new Error('R13 source census: prepared context 来源无效')
   if (
     prepared.sources !== sources ||
-    prepared.commands !== sources.migrate.commands ||
+    dependencies.migrate !== sources.migrate ||
+    dependencies.commands !== sources.migrate.commands ||
+    dependencies.scenes !== sources.scenes ||
+    dependencies.items !== sources.migrate.items ||
+    dependencies.spells !== sources.migrate.spells ||
+    dependencies.enemyObjects !== sources.migrate.enemyObjects ||
+    dependencies.objectPlayers !== sources.objectPlayers ||
+    prepared.commands !== dependencies.commands ||
     prepared.census !== census
   )
     throw new Error('R13 source census: prepared context 输入身份漂移')

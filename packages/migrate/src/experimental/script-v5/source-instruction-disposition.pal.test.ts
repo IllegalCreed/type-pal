@@ -112,6 +112,10 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     }
     const report = buildR13SourceInstructionDispositionV3(args)
     assertR13SourceInstructionDispositionV3(report, args)
+    const evidenceById = new Map(report.evidence.map((evidence) => [evidence.id, evidence]))
+    const dispositionBySite = new Map(
+      report.dispositions.map((disposition) => [disposition.siteId, disposition]),
+    )
     const explicitOwnerAddresses = new Set<number>(
       R13_EXPLICIT_CALL_OWNER_ORACLE.map(({ address }) => address),
     )
@@ -126,9 +130,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
         (disposition) =>
           disposition.disposition !== 'open-debt' &&
           disposition.evidenceIds.some(
-            (id) =>
-              report.evidence.find((evidence) => evidence.id === id)?.kind ===
-              'explicit-call-owner',
+            (id) => evidenceById.get(id)?.kind === 'explicit-call-owner',
           ),
       ),
     ).toBe(true)
@@ -209,9 +211,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     ).toBe(true)
     expect(
       aliasAddressProofs.every(
-        (evidence) =>
-          report.dispositions.find((disposition) => disposition.siteId === evidence.siteId)?.layers
-            .final.state === 'accounted',
+        (evidence) => dispositionBySite.get(evidence.siteId)?.layers.final.state === 'accounted',
       ),
     ).toBe(true)
     expect(report.census.summary).toEqual(
@@ -237,12 +237,9 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     expect(crossProofs).toHaveLength(78)
     expect(
       crossProofs.every(
-        (proof) =>
-          report.dispositions.find((disposition) => disposition.siteId === proof.siteId)?.layers
-            .final.state === 'accounted',
+        (proof) => dispositionBySite.get(proof.siteId)?.layers.final.state === 'accounted',
       ),
     ).toBe(true)
-    const evidenceById = new Map(report.evidence.map((evidence) => [evidence.id, evidence]))
     expect(
       report.dispositions.filter(
         (disposition) =>
@@ -257,9 +254,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     expect(confirmProofs).toHaveLength(28)
     expect(
       confirmProofs.every(
-        (proof) =>
-          report.dispositions.find((disposition) => disposition.siteId === proof.siteId)?.layers
-            .final.state === 'accounted',
+        (proof) => dispositionBySite.get(proof.siteId)?.layers.final.state === 'accounted',
       ),
     ).toBe(true)
     expect(
@@ -314,10 +309,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     expect(c8SiteProof?.appliesToLayers).not.toContain('final')
     if (!c8SiteProof || c8SiteProof.kind !== 'c8-site-repair')
       throw new Error('PAL C8 site proof fixture 缺失')
-    expect(
-      report.dispositions.find((disposition) => disposition.siteId === c8SiteProof.siteId)?.layers
-        .final.state,
-    ).toBe('open')
+    expect(dispositionBySite.get(c8SiteProof.siteId)?.layers.final.state).toBe('open')
     const s048RepairProofs = report.evidence.filter(
       (
         evidence,
@@ -330,9 +322,7 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
     )
     expect(
       s048RepairProofs.every(
-        (evidence) =>
-          report.dispositions.find((disposition) => disposition.siteId === evidence.siteId)?.layers
-            .final.state === 'open',
+        (evidence) => dispositionBySite.get(evidence.siteId)?.layers.final.state === 'open',
       ),
     ).toBe(true)
 
@@ -379,22 +369,21 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
       ): evidence is Extract<(typeof report.evidence)[number], { kind: 'canonical-site' }> =>
         evidence.kind === 'canonical-site' && evidence.appliesToLayers.includes('final'),
     )
-    const victim = canonicalProofs.find((proof, index) =>
-      canonicalProofs
-        .slice(index + 1)
-        .some(
-          (candidate) =>
-            candidate.proves === proof.proves &&
-            candidate.targetSetEvidenceId !== proof.targetSetEvidenceId,
-        ),
-    )
-    const donor = victim
-      ? canonicalProofs.find(
-          (proof) =>
-            proof.proves === victim.proves &&
-            proof.targetSetEvidenceId !== victim.targetSetEvidenceId,
-        )
-      : undefined
+    const firstProofByDisposition = new Map<
+      (typeof canonicalProofs)[number]['proves'],
+      (typeof canonicalProofs)[number]
+    >()
+    let victim: (typeof canonicalProofs)[number] | undefined
+    let donor: (typeof canonicalProofs)[number] | undefined
+    for (const proof of canonicalProofs) {
+      const first = firstProofByDisposition.get(proof.proves)
+      if (first && first.targetSetEvidenceId !== proof.targetSetEvidenceId) {
+        victim = first
+        donor = proof
+        break
+      }
+      firstProofByDisposition.set(proof.proves, proof)
+    }
     expect(victim).toBeDefined()
     expect(donor).toBeDefined()
     if (!victim || !donor) throw new Error('PAL canonical proof fixture 缺失')

@@ -123,6 +123,13 @@ describe('R13 source instruction disposition', () => {
     assertR13SourceInstructionDisposition(reportWithOpenSite())
   })
 
+  test('public assert always rejects an unsealed generator drift', () => {
+    const report = reportWithOpenSite()
+    report.generator.rawDigest = 'f'.repeat(64)
+
+    expect(() => assertR13SourceInstructionDisposition(report)).toThrow(/digest 漂移/)
+  })
+
   test('rejects a v2 ledger relabeled and resealed as v3 without confirm closure', () => {
     const {
       digest: _digest,
@@ -248,8 +255,13 @@ describe('R13 source instruction disposition', () => {
         state: 'accounted',
         evidenceIds: [closure.id],
       }
+    const closureRecord = closure as unknown as Record<string, unknown>
+    closureRecord.unexpected = true
     reseal(report)
+    expect(() => assertR13SourceInstructionDisposition(report)).toThrow(/canonical-site 字段漂移/)
 
+    delete closureRecord.unexpected
+    reseal(report)
     expect(() => assertR13SourceInstructionDisposition(report)).toThrow(
       /final target 未与纯生成结果精确相等/,
     )

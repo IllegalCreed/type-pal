@@ -17,11 +17,9 @@ import {
   R13_SOURCE_EXECUTION_CENSUS_METHOD,
 } from './source-execution-census.js'
 import {
-  assertR13SourceInstructionDisposition,
-  buildR13SourceInstructionDisposition,
+  buildAndAssertR13SourceInstructionDisposition,
   R13_SOURCE_DISPOSITION_METHOD,
   type R13SourceInstructionDispositionV1,
-  sealR13SourceInstructionDisposition,
 } from './source-instruction-disposition.js'
 import { digestRecord, stableJson, stableJsonSha256 } from './stable-json.js'
 
@@ -179,6 +177,16 @@ export interface PreparedR13CrossActivationAuthority {
   readonly sourceControlDigest: string
   readonly crossActivationEvidence: R13CrossActivationEvidenceV1
   readonly crossActivationEvidenceDigest: string
+}
+
+const preparedAuthorities = new WeakSet<PreparedR13CrossActivationAuthority>()
+
+function deepFreezeReport<T>(value: T, seen = new WeakSet<object>()): T {
+  if (!value || typeof value !== 'object' || seen.has(value)) return value
+  seen.add(value)
+  for (const nested of Object.values(value as Record<string, unknown>))
+    deepFreezeReport(nested, seen)
+  return Object.freeze(value)
 }
 
 function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
@@ -751,8 +759,7 @@ export function prepareR13CrossActivationAuthority(args: {
     final: args.generated.r13CrossActivationParentSnapshot,
     ...(args.preparedSourceCensus ? { preparedSourceCensus: args.preparedSourceCensus } : {}),
   }
-  const sourceDisposition = buildR13SourceInstructionDisposition(sourceDispositionArgs)
-  assertR13SourceInstructionDisposition(sourceDisposition, sourceDispositionArgs)
+  const sourceDisposition = buildAndAssertR13SourceInstructionDisposition(sourceDispositionArgs)
   const sourceControl = buildSourceControlEvidence({
     report: sourceDisposition,
     generated: args.generated,
@@ -762,7 +769,7 @@ export function prepareR13CrossActivationAuthority(args: {
     generated: args.generated,
     sourceControl,
   })
-  return Object.freeze({
+  const prepared = Object.freeze({
     generated: args.generated,
     generatedSnapshot: args.generated.r13CrossActivationParentSnapshot,
     sources: args.sources,
@@ -779,13 +786,15 @@ export function prepareR13CrossActivationAuthority(args: {
     triggerActivationEvidence: args.generated.triggerActivationEvidence,
     autoIdleGateEvidence: args.generated.autoIdleGateEvidence,
     preparedSourceCensus: args.preparedSourceCensus,
-    sourceDisposition,
+    sourceDisposition: deepFreezeReport(sourceDisposition),
     sourceDispositionDigest: sourceDisposition.digest,
-    sourceControl,
+    sourceControl: deepFreezeReport(sourceControl),
     sourceControlDigest: stableJsonSha256(sourceControl),
-    crossActivationEvidence,
+    crossActivationEvidence: deepFreezeReport(crossActivationEvidence),
     crossActivationEvidenceDigest: crossActivationEvidence.digest,
   })
+  preparedAuthorities.add(prepared)
+  return prepared
 }
 
 function assertPreparedR13CrossActivationAuthority(
@@ -823,12 +832,11 @@ function assertPreparedR13CrossActivationAuthority(
     prepared.crossActivationEvidence.digest !== prepared.crossActivationEvidenceDigest
   )
     throw new Error('R13 cross activation MG2: prepared authority 摘要漂移')
-  const { digest: dispositionDigest, ...dispositionBody } = prepared.sourceDisposition
-  if (sealR13SourceInstructionDisposition(dispositionBody).digest !== dispositionDigest)
-    throw new Error('R13 cross activation MG2: prepared disposition 自摘要漂移')
   const { digest, ...evidenceBody } = prepared.crossActivationEvidence
   if (stableJsonSha256(evidenceBody) !== digest)
     throw new Error('R13 cross activation MG2: prepared cross evidence 自摘要漂移')
+  if (!preparedAuthorities.has(prepared))
+    throw new Error('R13 cross activation MG2: prepared authority 非本进程完整构建 authority')
 }
 
 function buildSeal(

@@ -6,6 +6,7 @@ import type { EnemyDef, EnemySounds, EnemyTeamDef } from '@type-pal/content'
 import { palEnemyBattleSpriteDefinitionId } from './pal-battle-sprites.js'
 import { resolveSoundAsset } from './sound-migration.js'
 import {
+  type EnemyBattleEndSourceTranslation,
   type EnemyHookSourceTranslation,
   translateEnemyScripts,
 } from './translate-enemy-scripts.js'
@@ -71,11 +72,12 @@ export interface EnemyMigrationResult {
     danglingEnemyId: string[]
     /** M4c-2:脚本翻译翻不净明细(敌 id → 原因;编辑器手修清单)。 */
     pendingScripts: { id: string; name: string; notes: string[] }[]
-    /** R13-5:ready/turnStart 源 CFG 到生成 flow 的一手映射；仅迁移审计消费。 */
+    /** R13-5:三入口源 CFG 到生成目标的一手映射；仅迁移审计消费。 */
     hookSources?: {
       id: string
       name: string
       hooks: Partial<Record<'ready' | 'turnStart', EnemyHookSourceTranslation>>
+      battleEnd?: EnemyBattleEndSourceTranslation
     }[]
   }
 }
@@ -165,7 +167,13 @@ export function mapEnemies(
               { id, name },
             )
         if (t.pending.length) pendingScripts.push({ id, name, notes: t.pending })
-        if (t.hookSources) hookSources.push({ id, name, hooks: t.hookSources })
+        if (t.hookSources || t.battleEndSource)
+          hookSources.push({
+            id,
+            name,
+            hooks: t.hookSources ?? {},
+            ...(t.battleEndSource ? { battleEnd: t.battleEndSource } : {}),
+          })
         return {
           ai: {
             resistanceToSorcery: eo.resistanceToSorcery,

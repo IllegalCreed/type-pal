@@ -31,8 +31,7 @@ import {
 } from './runtime-capability-audit.js'
 import type { PreparedR13SourceExecutionCensus } from './source-execution-census.js'
 import {
-  assertR13SourceInstructionDispositionV3,
-  buildR13SourceInstructionDispositionV3,
+  buildAndAssertR13SourceInstructionDispositionV3,
   type R13_SOURCE_DISPOSITION_METHOD_V3,
   type R13SourceInstructionDispositionBuildArgs,
   type R13SourceInstructionDispositionV3,
@@ -399,8 +398,7 @@ export function prepareR13ConfirmControlAuditAuthority(args: {
     generated: authorityGenerated,
     final,
   }
-  const sourceDisposition = buildR13SourceInstructionDispositionV3(sourceArgs)
-  assertR13SourceInstructionDispositionV3(sourceDisposition, sourceArgs)
+  const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
   const runtimeCapability = auditR13RuntimeCapabilities(final)
   assertR13RuntimeCapabilityAudit(runtimeCapability, final)
   const sealEvidence = buildConfirmControlAuditSealEvidence(

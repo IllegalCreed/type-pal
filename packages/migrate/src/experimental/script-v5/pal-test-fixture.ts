@@ -41,7 +41,6 @@ import {
 } from './r13-item-throw-mg2.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
 import {
-  buildR13SourceExecutionCensus,
   type PreparedR13SourceExecutionCensus,
   prepareR13SourceExecutionCensus,
 } from './source-execution-census.js'
@@ -278,16 +277,20 @@ export function getPalTestPreparedP6ScriptTransition(): PreparedP6ScriptTransiti
 
 function loadGeneratedFixture() {
   const phase = getPalTestPhaseFixture()
+  const preparedSourceCensus = prepareR13SourceExecutionCensus(phase.sources)
+  const sourceCensus = preparedSourceCensus.census
   const inputs: P7GeneratedCanonicalArgs = {
     ...phase.inputs,
     itemSources: phase.sources.migrate.items,
     magicSources: phase.sources.migrate.magic,
     objectMagicSources: phase.sources.migrate.objectMagics ?? [],
-    sourceCensus: buildR13SourceExecutionCensus(phase.sources),
+    sourceCensus,
     soundAssetForNum: palSoundAssetForSources(phase.sources),
   }
   return Object.freeze({
     ...phase,
+    sourceCensus,
+    preparedSourceCensus,
     generated: buildP7GeneratedCanonicalFromValidatedChain(inputs, phase.chain),
   })
 }
@@ -305,7 +308,7 @@ let preparedSourceCensus: PreparedR13SourceExecutionCensus | undefined
 export function getPalTestPreparedSourceExecutionCensus(): PreparedR13SourceExecutionCensus {
   if (!PAL_TEST_FAST_GATE)
     throw new Error('PAL test fixture: prepared source census 仅允许 fast gate 使用')
-  preparedSourceCensus ??= prepareR13SourceExecutionCensus(getPalTestCoreFixture().sources)
+  preparedSourceCensus ??= getPalTestGeneratedFixture().preparedSourceCensus
   return preparedSourceCensus
 }
 

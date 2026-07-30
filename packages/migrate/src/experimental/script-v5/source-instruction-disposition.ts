@@ -18,6 +18,14 @@ import {
   assertR13ConfirmFinalTargetClosure,
   type R13ConfirmTerminal,
 } from './r13-confirm-control-flow.js'
+import type { R13EnemyScriptAugmentationEvidenceV1 } from './r13-enemy-script-augmentation.js'
+import {
+  assertR13EnemySourceDisposition,
+  assertR13EnemySourceDispositionFromPal,
+  buildR13EnemySourceDispositionFromPal,
+  type R13EnemySourceDispositionV1,
+  type R13EnemySourceRootClosure,
+} from './r13-enemy-source-disposition.js'
 import {
   assertPreparedR13SourceExecutionCensus,
   assertR13SourceExecutionCensus,
@@ -120,6 +128,17 @@ export type R13DispositionEvidence =
       >
       appliesToLayers: Array<'augmented' | 'final'>
     })
+  | (EvidenceBase & {
+      scope: 'observation-closure'
+      kind: 'r13-enemy-augmentation'
+      enemyId: string
+      sourceRootIds: string[]
+      sourceClosureDigest: string
+      enemyDispositionDigest: string
+      augmentationEvidenceDigest: string
+      layerTargets: Record<'augmented' | 'final', { selectors: string[]; digest: string }>
+      appliesToLayers: Array<'augmented' | 'final'>
+    })
   | (SiteClosureEvidenceBase & {
       kind: 'canonical-site'
       proves: 'translated' | 'structured' | 'folded'
@@ -197,6 +216,23 @@ export type R13DispositionEvidence =
       layerTargets: Partial<
         Record<'augmented' | 'final', { selectors: string[]; digests: string[] }>
       >
+    })
+  | (SiteClosureEvidenceBase & {
+      kind: 'r13-enemy-script-site'
+      proves: 'structured'
+      enemyId: string
+      channel: 'ready' | 'turnStart' | 'battleEnd'
+      sourceRootId: string
+      sourceRootAddress: number
+      sourceRootClosureDigest: string
+      sourceMappingDigest: string
+      enemyDispositionDigest: string
+      augmentationEvidenceDigest: string
+      oracleIds: string[]
+      cursorTraceDigest?: string
+      targetSelectors: string[]
+      targetDigest: string
+      layerTargets: Record<'augmented' | 'final', { selectors: string[]; digest: string }>
     })
   | (SiteClosureEvidenceBase & {
       kind: 'asset-bake'
@@ -376,6 +412,7 @@ const EVIDENCE_KINDS: Record<
     'scene-semantic-repair',
     'r13-cross-activation-site',
     'r13-confirm-site',
+    'r13-enemy-script-site',
   ]),
   folded: new Set(['canonical-site']),
   'asset-baked': new Set(['asset-bake']),
@@ -1096,6 +1133,38 @@ function sameExactTargets(left: ExactLayerTargets, right: ExactLayerTargets): bo
   return stableJsonSha256(left) === stableJsonSha256(right)
 }
 
+function sameOrderedValues<T>(left: readonly T[], right: readonly T[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index])
+}
+
+const CANONICAL_SITE_EVIDENCE_KEYS = [
+  'addresses',
+  'appliesToLayers',
+  'bodyAuditDigest',
+  'bodyIds',
+  'contextId',
+  'id',
+  'kind',
+  'p6EvidenceIds',
+  'p6LedgerDigest',
+  'p6TargetDigest',
+  'proves',
+  'scope',
+  'siteId',
+  'sourceCommandSha256',
+  'targetSetEvidenceId',
+  'translationOutcomeDigest',
+] as const
+
+function hasExactOwnKeys(value: object, expected: readonly string[]): boolean {
+  const keys = Object.keys(value)
+  return keys.length === expected.length && expected.every((key) => Object.hasOwn(value, key))
+}
+
+function sameSnapshotIdentity(left: MigrationSnapshot, right: MigrationSnapshot): boolean {
+  return left === right || (left.files === right.files && left.managedFiles === right.managedFiles)
+}
+
 function exactItemCapabilityTarget(
   snapshot: MigrationSnapshot,
   itemId: string,
@@ -1221,6 +1290,7 @@ function canonicalSiteEvidence(args: {
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
+  targetsByBody: ReadonlyMap<string, readonly CanonicalTargetIdentity[]>
 }): Map<string, ProjectionEvidence> {
   const bodiesByAddress = new Map<number, ScriptBodyAudit[]>()
   for (const body of args.audit.product.bodies)
@@ -1270,9 +1340,8 @@ function canonicalSiteEvidence(args: {
       })
   }
   const contexts = contextById(args.census)
-  const targetsByBody = canonicalTargetsByBody(args.generated.ir, args.audit, args.migration)
   const unmappedCanonicalBodies = args.audit.product.bodies
-    .filter((body) => !targetsByBody.has(body.id))
+    .filter((body) => !args.targetsByBody.has(body.id))
     .map((body) => body.id)
     .sort(stableStringCompare)
   if (unmappedCanonicalBodies.length)
@@ -1382,7 +1451,7 @@ function canonicalSiteEvidence(args: {
       const canonicalIdentities = [
         ...new Map(
           bodyIds
-            .flatMap((bodyId) => targetsByBody.get(bodyId) ?? [])
+            .flatMap((bodyId) => args.targetsByBody.get(bodyId) ?? [])
             .map((identity) => [canonicalTargetIdentityKey(identity), identity]),
         ).values(),
       ].sort((left, right) =>
@@ -1806,6 +1875,18 @@ function r13CrossActivationSiteEvidence(args: {
 }): Map<string, ProjectionEvidence> {
   const result = new Map<string, ProjectionEvidence>()
   const contexts = contextById(args.census)
+  const sitesByAddress = new Map<number, R13SourceExecutionSite[]>()
+  const addressesByContext = new Map<string, Set<number>>()
+  for (const site of args.census.sites) {
+    const addressSites = sitesByAddress.get(site.address) ?? []
+    addressSites.push(site)
+    sitesByAddress.set(site.address, addressSites)
+    const contextAddresses = addressesByContext.get(site.contextId) ?? new Set<number>()
+    contextAddresses.add(site.address)
+    addressesByContext.set(site.contextId, contextAddresses)
+  }
+  const contextHasAddress = (contextId: string, address: number): boolean =>
+    addressesByContext.get(contextId)?.has(address) === true
   const triggerDigest = stableJsonSha256(args.generated.triggerActivationEvidence)
   const autoDigest = stableJsonSha256(args.generated.autoIdleGateEvidence)
   const combinedTriggerAutoDigest = stableJsonSha256({
@@ -1899,13 +1980,7 @@ function r13CrossActivationSiteEvidence(args: {
             context.owner === identity.sceneId &&
             (context.host.kind === 'scene-on-enter' ||
               context.host.kind === 'dynamic-scene-on-enter')
-      return (
-        identityMatches &&
-        args.census.sites.some(
-          (candidate) =>
-            candidate.contextId === site.contextId && candidate.address === owner.rootAddress,
-        )
-      )
+      return identityMatches && contextHasAddress(site.contextId, owner.rootAddress)
     })
     if (sites.length !== 1)
       throw new Error(
@@ -1952,8 +2027,7 @@ function r13CrossActivationSiteEvidence(args: {
   for (const owner of args.generated.triggerActivationEvidence.delayedOwners) {
     const identity = r13OwnerIdentity(owner.ownerKey)
     for (const address of owner.delayedGotoAddresses) {
-      const sites = args.census.sites.filter((site) => {
-        if (site.address !== address) return false
+      const sites = (sitesByAddress.get(address) ?? []).filter((site) => {
         const context = contexts.get(site.contextId)
         if (!context || context.channel !== 'trigger') return false
         const identityMatches =
@@ -1963,13 +2037,7 @@ function r13CrossActivationSiteEvidence(args: {
               context.owner === identity.sceneId &&
               (context.host.kind === 'scene-on-enter' ||
                 context.host.kind === 'dynamic-scene-on-enter')
-        return (
-          identityMatches &&
-          args.census.sites.some(
-            (candidate) =>
-              candidate.contextId === site.contextId && candidate.address === owner.rootAddress,
-          )
-        )
+        return identityMatches && contextHasAddress(site.contextId, owner.rootAddress)
       })
       if (sites.length !== 1)
         throw new Error(
@@ -2005,16 +2073,12 @@ function r13CrossActivationSiteEvidence(args: {
     if (identity.kind !== 'entity-behavior' || identity.channel !== 'auto')
       throw new Error(`R13 disposition: idle gate owner 非 auto ${owner.ownerKey}`)
     for (const address of owner.gateAddresses) {
-      const sites = args.census.sites.filter((site) => {
+      const sites = (sitesByAddress.get(address) ?? []).filter((site) => {
         const context = contexts.get(site.contextId)
         return (
-          site.address === address &&
           context?.channel === 'auto' &&
           context.self === identity.entityId &&
-          args.census.sites.some(
-            (candidate) =>
-              candidate.contextId === site.contextId && candidate.address === owner.rootAddress,
-          )
+          contextHasAddress(site.contextId, owner.rootAddress)
         )
       })
       if (sites.length !== 1)
@@ -2050,16 +2114,12 @@ function r13CrossActivationSiteEvidence(args: {
     if (identity.kind !== 'entity-behavior' || identity.channel !== 'auto')
       throw new Error(`R13 disposition: auto delayed owner 非 auto ${owner.ownerKey}`)
     for (const address of owner.delayedGotoAddresses) {
-      const sites = args.census.sites.filter((site) => {
+      const sites = (sitesByAddress.get(address) ?? []).filter((site) => {
         const context = contexts.get(site.contextId)
         return (
-          site.address === address &&
           context?.channel === 'auto' &&
           context.self === identity.entityId &&
-          args.census.sites.some(
-            (candidate) =>
-              candidate.contextId === site.contextId && candidate.address === owner.rootAddress,
-          )
+          contextHasAddress(site.contextId, owner.rootAddress)
         )
       })
       if (sites.length !== 1)
@@ -2169,11 +2229,14 @@ function pointerSegment(value: string): string {
   return value.replaceAll('~', '~0').replaceAll('/', '~1')
 }
 
-function assetCommandTargets(
+function assetCommandTargetIndex(
   snapshot: MigrationSnapshot,
-  assetId: string,
-): { selectors: string[]; digests: string[] } {
-  const targets: Array<{ selector: string; digest: string }> = []
+  assetIds: readonly string[],
+): Map<string, { selectors: string[]; digests: string[] }> {
+  const expected = new Set(assetIds)
+  const targets = new Map<string, Array<{ selector: string; digest: string }>>(
+    assetIds.map((assetId) => [assetId, []]),
+  )
   const visit = (path: string, pointer: string, value: unknown): void => {
     if (Array.isArray(value)) {
       value.forEach((entry, index) => {
@@ -2183,8 +2246,9 @@ function assetCommandTargets(
     }
     if (!value || typeof value !== 'object') return
     const record = value as Record<string, unknown>
-    if (record.kind === 'playFrameAnimation' && record.asset === assetId)
-      targets.push({
+    const assetId = typeof record.asset === 'string' ? record.asset : undefined
+    if (record.kind === 'playFrameAnimation' && assetId && expected.has(assetId))
+      targets.get(assetId)!.push({
         selector: `${path}#${pointer || '/'}`,
         digest: stableJsonSha256(record),
       })
@@ -2193,12 +2257,18 @@ function assetCommandTargets(
   }
   for (const [path, entry] of snapshot.files)
     if (path.startsWith('content/')) visit(path, '', entry)
-  targets.sort((left, right) => stableStringCompare(left.selector, right.selector))
-  if (!targets.length) throw new Error(`R13 disposition: ${assetId} 缺 playFrameAnimation target`)
-  return {
-    selectors: targets.map((target) => target.selector),
-    digests: targets.map((target) => target.digest),
+  const result = new Map<string, { selectors: string[]; digests: string[] }>()
+  for (const assetId of assetIds) {
+    const assetTargets = targets.get(assetId)!
+    assetTargets.sort((left, right) => stableStringCompare(left.selector, right.selector))
+    if (!assetTargets.length)
+      throw new Error(`R13 disposition: ${assetId} 缺 playFrameAnimation target`)
+    result.set(assetId, {
+      selectors: assetTargets.map((target) => target.selector),
+      digests: assetTargets.map((target) => target.digest),
+    })
   }
+  return result
 }
 
 function assetEvidence(args: {
@@ -2231,6 +2301,10 @@ function assetEvidence(args: {
       legacyPalette: 6 as const,
     },
   ]
+  const assetIds = specs.map((spec) => spec.assetId)
+  const rawTargets = assetCommandTargetIndex(migrationSnapshot(args.migration), assetIds)
+  const augmentedTargets = assetCommandTargetIndex(args.generated.snapshot, assetIds)
+  const finalTargets = assetCommandTargetIndex(args.final, assetIds)
   for (const spec of specs) {
     const record = catalog.assets[spec.assetId]
     if (!record) throw new Error(`R13 disposition: palette bake 缺资产 ${spec.assetId}`)
@@ -2257,9 +2331,9 @@ function assetEvidence(args: {
       })
     }
     const layerTargets = {
-      raw: assetCommandTargets(migrationSnapshot(args.migration), spec.assetId),
-      augmented: assetCommandTargets(args.generated.snapshot, spec.assetId),
-      final: assetCommandTargets(args.final, spec.assetId),
+      raw: rawTargets.get(spec.assetId)!,
+      augmented: augmentedTargets.get(spec.assetId)!,
+      final: finalTargets.get(spec.assetId)!,
     }
     const appliesToLayers: R13DispositionLayer[] = [
       'raw',
@@ -2348,6 +2422,7 @@ function verifiedExplicitCallOwnerSites(args: {
   final: MigrationSnapshot
   census: R13SourceExecutionCensusV1
   evidence: Map<string, R13DispositionEvidence>
+  targetsByBody: ReadonlyMap<string, readonly CanonicalTargetIdentity[]>
 }): Map<string, ProjectionEvidence> {
   const commands = args.sources.migrate.commands as ExpandedSourceCmd[]
   const contexts = contextById(args.census)
@@ -2357,7 +2432,6 @@ function verifiedExplicitCallOwnerSites(args: {
     values.push(site)
     sitesByAddress.set(site.address, values)
   }
-  const targetsByBody = canonicalTargetsByBody(args.generated.ir, args.audit, args.migration)
   const outcomes = args.migration.report.scripts.instructionOutcomes
   const verified = new Map<string, ProjectionEvidence>()
 
@@ -2427,7 +2501,7 @@ function verifiedExplicitCallOwnerSites(args: {
     )
       throw new Error(`R13 disposition: 0x04 @${expected.address} callee 翻译轨迹漂移`)
     const rawTargets = exactRawBodyTargets(args.migration, [calleeBody])
-    const identities = targetsByBody.get(calleeBody.id) ?? []
+    const identities = args.targetsByBody.get(calleeBody.id) ?? []
     const augmentedTargets = exactCanonicalLayerTargets(args.generated.snapshot, identities)
     const finalTargets = exactCanonicalLayerTargets(args.final, identities)
     if (!rawTargets || !augmentedTargets || identities.length === 0)
@@ -2613,6 +2687,299 @@ function openLayers(evidenceId: string): R13SourceExecutionDisposition['layers']
   }
 }
 
+function r13EnemyClosureEvidence(args: {
+  authority: R13EnemyClosureAuthority
+  historicalSources: PalMigrationSources
+  historicalMigration: MigrationFileSet
+  generated: P7GeneratedCanonical
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  evidence: Map<string, R13DispositionEvidence>
+}): {
+  sites: Map<string, ProjectionEvidence>
+  observations: Map<string, string>
+} {
+  const { authority } = args
+  const { digest: augmentationDigest, ...augmentationBody } = authority.augmentationEvidence
+  if (
+    !/^[0-9a-f]{64}$/.test(augmentationDigest) ||
+    stableJsonSha256(augmentationBody) !== augmentationDigest ||
+    authority.augmentationEvidence.audits.enemySourceDispositionDigest !==
+      authority.sourceDisposition.digest ||
+    authority.augmentationEvidence.successorContentDigest !==
+      digestR13ContentSnapshot(args.generated.snapshot) ||
+    authority.augmentationEvidence.files.successorEnemiesDigest !==
+      stableJsonSha256(value<EnemyDef[]>(args.generated.snapshot, 'content/enemies.json')) ||
+    authority.augmentationEvidence.files.successorEnemiesDigest !==
+      authority.sourceDisposition.generator.finalEnemiesDigest
+  )
+    throw new Error('R13 disposition: enemy augmentation/report cross-bind 漂移')
+  if (
+    stableJsonSha256(authority.currentSources.migrate.commands) !==
+    stableJsonSha256(args.historicalSources.migrate.commands)
+  )
+    throw new Error('R13 disposition: enemy bridge historical/current source commands 漂移')
+  const historicalPendingIds = (args.historicalMigration.report.enemies?.pendingScripts ?? [])
+    .map((entry) => entry.id)
+    .sort(stableStringCompare)
+  if (
+    historicalPendingIds.length !== 12 ||
+    authority.currentMigration.report.enemies?.pendingScripts.length !== 0 ||
+    stableJsonSha256(historicalPendingIds) !==
+      stableJsonSha256([
+        'enemy-420',
+        'enemy-421',
+        'enemy-422',
+        'enemy-435',
+        'enemy-463',
+        'enemy-469',
+        'enemy-483',
+        'enemy-486',
+        'enemy-499',
+        'enemy-519',
+        'enemy-539',
+        'enemy-547',
+      ])
+  )
+    throw new Error('R13 disposition: enemy historical/current pending authority 漂移')
+  assertR13EnemySourceDispositionFromPal(authority.sourceDisposition, {
+    sources: authority.currentSources,
+    migration: authority.currentMigration,
+    final: args.generated.snapshot,
+  })
+  const report = authority.sourceDisposition
+  const finalReport = buildR13EnemySourceDispositionFromPal({
+    sources: authority.currentSources,
+    migration: authority.currentMigration,
+    final: args.final,
+  })
+  assertR13EnemySourceDisposition(finalReport)
+  const finalRoots = new Map(finalReport.legacyPendingRoots.map((root) => [root.id, root] as const))
+  const finalSites = new Map(finalReport.sites.map((site) => [site.id, site] as const))
+  const contexts = contextById(args.census)
+  const sitesByRootAddress = new Map<string, R13SourceExecutionSite[]>()
+  for (const site of args.census.sites) {
+    const root = contexts.get(site.contextId)?.entrySiteId
+    if (!root) continue
+    const key = `${root}@${site.address}`
+    const values = sitesByRootAddress.get(key) ?? []
+    values.push(site)
+    sitesByRootAddress.set(key, values)
+  }
+  const projections = new Map<string, ProjectionEvidence>()
+  const observations = new Map<string, string>()
+  const trace = report.cursorTraces[0]
+  const traceDigest = trace ? stableJsonSha256(trace) : undefined
+  const traceAddresses = new Set(trace?.sourceAddresses ?? [])
+
+  const addSite = (entry: {
+    site: R13SourceExecutionSite
+    enemyId: string
+    channel: 'ready' | 'turnStart' | 'battleEnd'
+    sourceRootId: string
+    sourceRootAddress: number
+    sourceRootClosureDigest: string
+    sourceMappingDigest: string
+    oracleIds: string[]
+    targetSelectors: string[]
+    augmentedTargetDigest: string
+    finalTargetDigest: string
+    cursorTraceDigest?: string
+  }): void => {
+    if (entry.augmentedTargetDigest !== entry.finalTargetDigest)
+      throw new Error(`R13 disposition: enemy final target 漂移 ${entry.sourceRootId}`)
+    const instruction = args.census.instructions[entry.site.address]
+    if (!instruction)
+      throw new Error(`R13 disposition: enemy bridge 缺 source @${entry.site.address}`)
+    const identity = {
+      siteId: entry.site.id,
+      enemyId: entry.enemyId,
+      channel: entry.channel,
+      sourceRootId: entry.sourceRootId,
+      sourceRootAddress: entry.sourceRootAddress,
+      sourceRootClosureDigest: entry.sourceRootClosureDigest,
+      sourceMappingDigest: entry.sourceMappingDigest,
+      enemyDispositionDigest: report.digest,
+      augmentationEvidenceDigest: augmentationDigest,
+      oracleIds: entry.oracleIds,
+      ...(entry.cursorTraceDigest ? { cursorTraceDigest: entry.cursorTraceDigest } : {}),
+      targetSelectors: entry.targetSelectors,
+      targetDigest: entry.augmentedTargetDigest,
+    }
+    const id = evidenceId('r13-enemy-script-site', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'site-closure',
+      kind: 'r13-enemy-script-site',
+      proves: 'structured',
+      contextId: entry.site.contextId,
+      addresses: [entry.site.address],
+      sourceCommandSha256: instruction.sourceCommandSha256,
+      appliesToLayers: ['augmented', 'final'],
+      ...identity,
+      layerTargets: {
+        augmented: {
+          selectors: [...entry.targetSelectors],
+          digest: entry.augmentedTargetDigest,
+        },
+        final: {
+          selectors: [...entry.targetSelectors],
+          digest: entry.finalTargetDigest,
+        },
+      },
+    })
+    if (projections.has(entry.site.id))
+      throw new Error(`R13 disposition: enemy bridge site collision ${entry.site.id}`)
+    projections.set(entry.site.id, { disposition: 'structured', evidenceId: id })
+  }
+
+  for (const root of report.legacyPendingRoots) {
+    const finalRoot = finalRoots.get(root.id)
+    if (!finalRoot) throw new Error(`R13 disposition: enemy final root 缺失 ${root.id}`)
+    const historicalAddresses = addressesForRoot(args.census, root.sourceRootId)
+    if (
+      stableJsonSha256(historicalAddresses) !== stableJsonSha256(root.sourceAddresses) ||
+      sourceClosureDigest(args.census, root.sourceRootId) !== root.sourceDigest
+    )
+      throw new Error(`R13 disposition: enemy root/global census 漂移 ${root.sourceRootId}`)
+    const oracleByAddress = new Map<number, string[]>()
+    for (const oracle of report.sites)
+      if (
+        oracle.enemyId === root.enemyId &&
+        oracle.channel === root.channel &&
+        oracle.rootAddress === root.rootAddress &&
+        oracle.sourceInClosure
+      ) {
+        const values = oracleByAddress.get(oracle.sourceAddress) ?? []
+        values.push(oracle.id)
+        oracleByAddress.set(oracle.sourceAddress, values)
+      }
+    for (const address of root.sourceAddresses) {
+      const candidates = sitesByRootAddress.get(`${root.sourceRootId}@${address}`) ?? []
+      if (candidates.length !== 1)
+        throw new Error(
+          `R13 disposition: enemy root ${root.sourceRootId}@${address} execution site=${candidates.length}`,
+        )
+      const cursorOwned =
+        root.enemyId === trace?.enemyId &&
+        root.channel === trace.channel &&
+        traceAddresses.has(address)
+      addSite({
+        site: candidates[0]!,
+        enemyId: root.enemyId,
+        channel: root.channel,
+        sourceRootId: root.sourceRootId,
+        sourceRootAddress: root.rootAddress,
+        sourceRootClosureDigest: root.sourceDigest,
+        sourceMappingDigest: stableJsonSha256(root),
+        oracleIds: [...(oracleByAddress.get(address) ?? [])].sort(stableStringCompare),
+        targetSelectors: [...root.targetSelectors],
+        augmentedTargetDigest: root.layers.overlay.digest,
+        finalTargetDigest: finalRoot.layers.final.digest,
+        ...(cursorOwned && traceDigest ? { cursorTraceDigest: traceDigest } : {}),
+      })
+    }
+  }
+
+  for (const oracle of report.sites.filter((site) => site.scope !== 'legacy-debt')) {
+    const finalOracle = finalSites.get(oracle.id)
+    if (!finalOracle) throw new Error(`R13 disposition: enemy final canary 缺失 ${oracle.id}`)
+    if (!oracle.sourceInClosure)
+      throw new Error(`R13 disposition: enemy canary 不可达 ${oracle.id}`)
+    const objectId = oracle.enemyId.replace(/^enemy-/, '')
+    const field = oracle.channel === 'ready' ? 'scriptOnReady' : 'scriptOnTurnStart'
+    const sourceRootId = `global/enemies/${objectId}/${field}`
+    const candidates = sitesByRootAddress.get(`${sourceRootId}@${oracle.sourceAddress}`) ?? []
+    if (candidates.length !== 1)
+      throw new Error(
+        `R13 disposition: enemy canary ${oracle.id} execution site=${candidates.length}`,
+      )
+    addSite({
+      site: candidates[0]!,
+      enemyId: oracle.enemyId,
+      channel: oracle.channel,
+      sourceRootId,
+      sourceRootAddress: oracle.rootAddress,
+      sourceRootClosureDigest: oracle.sourceClosureDigest,
+      sourceMappingDigest: stableJsonSha256(oracle),
+      oracleIds: [oracle.id],
+      targetSelectors: [...oracle.targetSelectors],
+      augmentedTargetDigest: oracle.layers.overlay.digest,
+      finalTargetDigest: finalOracle.layers.final.digest,
+    })
+  }
+
+  const rootsByEnemy = new Map<string, R13EnemySourceRootClosure[]>()
+  for (const root of report.legacyPendingRoots) {
+    const values = rootsByEnemy.get(root.enemyId) ?? []
+    values.push(root)
+    rootsByEnemy.set(root.enemyId, values)
+  }
+  for (const [enemyId, roots] of rootsByEnemy) {
+    roots.sort((left, right) => stableStringCompare(left.sourceRootId, right.sourceRootId))
+    const sourceRootIds = roots.map((root) => root.sourceRootId)
+    const addresses = [...new Set(roots.flatMap((root) => root.sourceAddresses))].sort(
+      (left, right) => left - right,
+    )
+    const selectors = roots.flatMap((root) => root.targetSelectors).sort(stableStringCompare)
+    const sourceClosure = stableJsonSha256(
+      roots.map((root) => ({
+        sourceRootId: root.sourceRootId,
+        sourceDigest: root.sourceDigest,
+      })),
+    )
+    const augmentedDigest = stableJsonSha256(
+      roots.map((root) => ({
+        sourceRootId: root.sourceRootId,
+        targetDigest: root.layers.overlay.digest,
+      })),
+    )
+    const finalDigest = stableJsonSha256(
+      roots.map((root) => ({
+        sourceRootId: root.sourceRootId,
+        targetDigest:
+          finalRoots.get(root.id)?.layers.final.digest ??
+          (() => {
+            throw new Error(`R13 disposition: enemy observation final root 缺失 ${root.id}`)
+          })(),
+      })),
+    )
+    if (augmentedDigest !== finalDigest)
+      throw new Error(`R13 disposition: enemy observation final target 漂移 ${enemyId}`)
+    const identity = {
+      enemyId,
+      sourceRootIds,
+      sourceClosureDigest: sourceClosure,
+      enemyDispositionDigest: report.digest,
+      augmentationEvidenceDigest: augmentationDigest,
+    }
+    const id = evidenceId('r13-enemy-augmentation', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'observation-closure',
+      kind: 'r13-enemy-augmentation',
+      addresses,
+      appliesToLayers: ['augmented', 'final'],
+      ...identity,
+      layerTargets: {
+        augmented: { selectors: [...selectors], digest: augmentedDigest },
+        final: { selectors: [...selectors], digest: finalDigest },
+      },
+    })
+    observations.set(enemyId, id)
+  }
+  if (
+    projections.size !== 364 ||
+    observations.size !== 12 ||
+    report.legacyPendingRoots.length !== 16
+  )
+    throw new Error(
+      `R13 disposition: enemy bridge cardinality sites=${projections.size} ` +
+        `observations=${observations.size} roots=${report.legacyPendingRoots.length}`,
+    )
+  return { sites: projections, observations }
+}
+
 function reportObservations(args: {
   sources: PalMigrationSources
   migration: MigrationFileSet
@@ -2622,6 +2989,7 @@ function reportObservations(args: {
   evidence: Map<string, R13DispositionEvidence>
   dispositions: readonly R13SourceExecutionDisposition[]
   c8Observations: ReadonlyMap<string, string>
+  r13EnemyObservations: ReadonlyMap<string, string>
 }): R13MigrationObservation[] {
   const observations = new Map<string, R13MigrationObservation>()
   const rawItems = new Map(args.migration.report.rawProjection.items.map((item) => [item.id, item]))
@@ -2893,12 +3261,19 @@ function reportObservations(args: {
   for (const pending of args.migration.report.enemies?.pendingScripts ?? []) {
     const objectId = pending.id
     const sourceId = objectId.replace(/^enemy-/, '')
-    const rootIds = [
+    let rootIds = [
       root('enemies', sourceId, 'scriptOnTurnStart'),
       root('enemies', sourceId, 'scriptOnBattleEnd'),
       root('enemies', sourceId, 'scriptOnReady'),
     ]
-    addOpen({
+    const proof = args.r13EnemyObservations.get(objectId)
+    if (proof) {
+      const closure = args.evidence.get(proof)
+      if (closure?.kind !== 'r13-enemy-augmentation' || closure.enemyId !== objectId)
+        throw new Error(`R13 disposition: enemy observation closure identity 漂移 ${objectId}`)
+      rootIds = [...closure.sourceRootIds]
+    }
+    addLayered({
       id: `enemy:${objectId}:pending`,
       domain: 'enemy',
       kind: 'pending-script',
@@ -2906,6 +3281,7 @@ function reportObservations(args: {
       rootIds,
       batch: 'R13-5',
       reason: 'enemy-pending-script',
+      ...(proof ? { closureEvidenceId: proof } : {}),
     })
   }
 
@@ -2983,12 +3359,20 @@ function reportObservations(args: {
   return [...observations.values()].sort((left, right) => stableStringCompare(left.id, right.id))
 }
 
+export interface R13EnemyClosureAuthority {
+  sourceDisposition: R13EnemySourceDispositionV1
+  currentSources: PalMigrationSources
+  currentMigration: MigrationFileSet
+  augmentationEvidence: R13EnemyScriptAugmentationEvidenceV1
+}
+
 export interface R13SourceInstructionDispositionBuildArgs {
   sources: PalMigrationSources
   migration: MigrationFileSet
   audit: ScriptControlFlowAuditV1
   generated: P7GeneratedCanonical
   final: MigrationSnapshot
+  r13EnemyClosure?: R13EnemyClosureAuthority
   preparedSourceCensus?: PreparedR13SourceExecutionCensus
 }
 
@@ -3015,7 +3399,7 @@ function buildR13SourceInstructionDispositionInternal(
   const census = args.preparedSourceCensus?.census ?? buildR13SourceExecutionCensus(args.sources)
   if (args.preparedSourceCensus)
     assertPreparedR13SourceExecutionCensus(args.preparedSourceCensus, args.sources, census)
-  assertR13SourceExecutionCensus(census)
+  else assertR13SourceExecutionCensus(census)
   if (census.generator.sourceDigest !== args.audit.generator.sourceDigest)
     throw new Error('R13 disposition: census 与 P0 source digest 不一致')
   const evidence = new Map<string, R13DispositionEvidence>()
@@ -3029,6 +3413,21 @@ function buildR13SourceInstructionDispositionInternal(
     evidence,
   })
   const c8Observations = c8Evidence(args.generated, args.final, census, evidence)
+  const enemyClosure = args.r13EnemyClosure
+    ? r13EnemyClosureEvidence({
+        authority: args.r13EnemyClosure,
+        historicalSources: args.sources,
+        historicalMigration: args.migration,
+        generated: args.generated,
+        final: args.final,
+        census,
+        evidence,
+      })
+    : {
+        sites: new Map<string, ProjectionEvidence>(),
+        observations: new Map<string, string>(),
+      }
+  const targetsByBody = canonicalTargetsByBody(args.generated.ir, args.audit, args.migration)
   const canonical = canonicalSiteEvidence({
     audit: args.audit,
     migration: args.migration,
@@ -3036,6 +3435,7 @@ function buildR13SourceInstructionDispositionInternal(
     final: args.final,
     census,
     evidence,
+    targetsByBody,
   })
   const c8Sites = c8SiteEvidence({
     generated: args.generated,
@@ -3079,9 +3479,18 @@ function buildR13SourceInstructionDispositionInternal(
     final: args.final,
     census,
     evidence,
+    targetsByBody,
   })
   const exact = new Map<string, ProjectionEvidence>()
-  for (const index of [c8Sites, repairs, crossActivation, confirm, assets, callOwners])
+  for (const index of [
+    c8Sites,
+    repairs,
+    crossActivation,
+    confirm,
+    enemyClosure.sites,
+    assets,
+    callOwners,
+  ])
     for (const [siteId, projection] of index) {
       if (exact.has(siteId)) throw new Error(`R13 disposition: site closure collision ${siteId}`)
       exact.set(siteId, projection)
@@ -3095,6 +3504,20 @@ function buildR13SourceInstructionDispositionInternal(
   const exactClosures = new Set(exact.keys())
   const contexts = contextById(census)
   const commands = args.sources.migrate.commands as ExpandedSourceCmd[]
+  const baseCandidateEvidenceByAddress = new Map<number, readonly string[]>()
+  for (const instruction of census.instructions) {
+    if (!instruction.reachable) continue
+    baseCandidateEvidenceByAddress.set(
+      instruction.address,
+      [
+        ...(bodies.translatedByAddress.get(instruction.address) ?? []),
+        ...(bodies.foldedByAddress.get(instruction.address) ?? []),
+        ...(noops.get(instruction.address) ?? []),
+      ]
+        .filter((id, index, values) => values.indexOf(id) === index)
+        .sort(stableStringCompare),
+    )
+  }
   const dispositions: R13SourceExecutionDisposition[] = []
 
   for (const site of census.sites) {
@@ -3102,16 +3525,13 @@ function buildR13SourceInstructionDispositionInternal(
     const command = commands[site.address]
     if (!context || !command)
       throw new Error(`R13 disposition: site ${site.id} 缺 context/source command`)
-    const candidateEvidenceIds = [
-      ...(bodies.translatedByAddress.get(site.address) ?? []),
-      ...(bodies.foldedByAddress.get(site.address) ?? []),
-      ...(noops.get(site.address) ?? []),
-      ...(domain.projections.get(context.entrySiteId)?.evidenceId
-        ? [domain.projections.get(context.entrySiteId)!.evidenceId]
-        : []),
-    ]
-      .filter((id, index, values) => values.indexOf(id) === index)
-      .sort(stableStringCompare)
+    const baseCandidateEvidenceIds = baseCandidateEvidenceByAddress.get(site.address) ?? []
+    const domainEvidenceId = domain.projections.get(context.entrySiteId)?.evidenceId
+    const candidateEvidenceIds = [...baseCandidateEvidenceIds]
+    if (domainEvidenceId && !candidateEvidenceIds.includes(domainEvidenceId)) {
+      candidateEvidenceIds.push(domainEvidenceId)
+      candidateEvidenceIds.sort(stableStringCompare)
+    }
     const debt = openDebtForSite({
       site,
       context,
@@ -3157,8 +3577,11 @@ function buildR13SourceInstructionDispositionInternal(
             site,
             context,
             debt: {
-              batch: 'R13-0',
-              reason: 'pre-augmentation-site-not-yet-accounted',
+              batch: proof.kind === 'r13-enemy-script-site' ? 'R13-5' : 'R13-0',
+              reason:
+                proof.kind === 'r13-enemy-script-site'
+                  ? 'enemy-pre-augmentation-site'
+                  : 'pre-augmentation-site-not-yet-accounted',
             },
             appliesToLayers: missingLayers,
           })
@@ -3205,50 +3628,60 @@ function buildR13SourceInstructionDispositionInternal(
     evidence,
     dispositions,
     c8Observations,
+    r13EnemyObservations: enemyClosure.observations,
   })
   const byDisposition = Object.fromEntries(
-    DISPOSITIONS.map((disposition) => [
-      disposition,
-      dispositions.filter((entry) => entry.disposition === disposition).length,
-    ]),
+    DISPOSITIONS.map((disposition) => [disposition, 0]),
   ) as Record<R13SourceDisposition, number>
-  const byLayer = Object.fromEntries(
-    (['raw', 'augmented', 'final'] as const).map((layer) => [
-      layer,
-      {
-        accounted: dispositions.filter((entry) => entry.layers[layer].state === 'accounted').length,
-        open: dispositions.filter((entry) => entry.layers[layer].state === 'open').length,
-      },
-    ]),
-  ) as R13SourceInstructionDispositionV1['summary']['byLayer']
+  const byLayer: R13SourceInstructionDispositionV1['summary']['byLayer'] = {
+    raw: { accounted: 0, open: 0 },
+    augmented: { accounted: 0, open: 0 },
+    final: { accounted: 0, open: 0 },
+  }
   const sites = new Map(census.sites.map((site) => [site.id, site]))
-  const openAddresses = new Set(
-    dispositions.flatMap((entry) =>
-      entry.disposition === 'open-debt'
-        ? [sites.get(entry.siteId)?.address].filter(
-            (address): address is number => address !== undefined,
-          )
-        : [],
-    ),
-  )
+  const openAddresses = new Set<number>()
+  for (const entry of dispositions) {
+    byDisposition[entry.disposition]++
+    for (const layer of ['raw', 'augmented', 'final'] as const)
+      byLayer[layer][entry.layers[layer].state]++
+    if (entry.disposition === 'open-debt') {
+      const address = sites.get(entry.siteId)?.address
+      if (address !== undefined) openAddresses.add(address)
+    }
+  }
+  let openObservations = 0
+  for (const observation of observations) if (observation.final === 'open') openObservations++
+  const rawSnapshotDigest = digestR13ContentSnapshot(rawMigrationSnapshot(args.migration))
+  const augmentedSnapshotDigest = digestR13ContentSnapshot(args.generated.snapshot)
+  const finalSnapshotDigest = sameSnapshotIdentity(args.final, args.generated.snapshot)
+    ? augmentedSnapshotDigest
+    : digestR13ContentSnapshot(args.final)
   const reportBody = {
     generator: {
       sourceDigest: census.generator.sourceDigest,
       rawDigest: stableJsonSha256({
-        snapshot: digestR13ContentSnapshot(rawMigrationSnapshot(args.migration)),
+        snapshot: rawSnapshotDigest,
         report: args.migration.report.rawContent,
         projection: args.migration.report.rawProjection,
       }),
       augmentedDigest: stableJsonSha256({
-        snapshot: digestR13ContentSnapshot(args.generated.snapshot),
+        snapshot: augmentedSnapshotDigest,
         report: args.migration.report.content,
         c8: args.generated.c8Evidence,
         autoLifecycleRepair: args.generated.autoLifecycleRepairEvidence,
         sceneRepair: args.generated.sceneSemanticRepairEvidence,
         triggerActivation: args.generated.triggerActivationEvidence,
         autoIdleGate: args.generated.autoIdleGateEvidence,
+        ...(args.r13EnemyClosure
+          ? {
+              r13EnemyClosure: {
+                sourceDispositionDigest: args.r13EnemyClosure.sourceDisposition.digest,
+                augmentationEvidenceDigest: args.r13EnemyClosure.augmentationEvidence.digest,
+              },
+            }
+          : {}),
       }),
-      finalDigest: digestR13ContentSnapshot(args.final),
+      finalDigest: finalSnapshotDigest,
     },
     census,
     evidence: [...evidence.values()].sort((left, right) => stableStringCompare(left.id, right.id)),
@@ -3264,7 +3697,7 @@ function buildR13SourceInstructionDispositionInternal(
       openDebtSites: byDisposition['open-debt'],
       openDebtSourceAddresses: openAddresses.size,
       observations: observations.length,
-      openObservations: observations.filter((entry) => entry.final === 'open').length,
+      openObservations,
     },
   }
   if (options.confirmClosure)
@@ -3302,23 +3735,36 @@ function assertR13SourceInstructionDispositionBacked(
   report: AnyR13SourceInstructionDisposition,
   source: R13SourceInstructionDispositionBuildArgs,
 ): void {
+  const rawSnapshotDigest = digestR13ContentSnapshot(rawMigrationSnapshot(source.migration))
+  const augmentedSnapshotDigest = digestR13ContentSnapshot(source.generated.snapshot)
+  const finalSnapshotDigest = sameSnapshotIdentity(source.final, source.generated.snapshot)
+    ? augmentedSnapshotDigest
+    : digestR13ContentSnapshot(source.final)
   const expectedGenerator = {
     sourceDigest: report.census.generator.sourceDigest,
     rawDigest: stableJsonSha256({
-      snapshot: digestR13ContentSnapshot(rawMigrationSnapshot(source.migration)),
+      snapshot: rawSnapshotDigest,
       report: source.migration.report.rawContent,
       projection: source.migration.report.rawProjection,
     }),
     augmentedDigest: stableJsonSha256({
-      snapshot: digestR13ContentSnapshot(source.generated.snapshot),
+      snapshot: augmentedSnapshotDigest,
       report: source.migration.report.content,
       c8: source.generated.c8Evidence,
       autoLifecycleRepair: source.generated.autoLifecycleRepairEvidence,
       sceneRepair: source.generated.sceneSemanticRepairEvidence,
       triggerActivation: source.generated.triggerActivationEvidence,
       autoIdleGate: source.generated.autoIdleGateEvidence,
+      ...(source.r13EnemyClosure
+        ? {
+            r13EnemyClosure: {
+              sourceDispositionDigest: source.r13EnemyClosure.sourceDisposition.digest,
+              augmentationEvidenceDigest: source.r13EnemyClosure.augmentationEvidence.digest,
+            },
+          }
+        : {}),
     }),
-    finalDigest: digestR13ContentSnapshot(source.final),
+    finalDigest: finalSnapshotDigest,
   }
   if (stableJsonSha256(report.generator) !== stableJsonSha256(expectedGenerator))
     throw new Error('R13 disposition: source-backed generator 漂移')
@@ -3438,6 +3884,7 @@ function assertR13SourceInstructionDispositionBacked(
     final: source.final,
     census: report.census,
     evidence: reportEvidence,
+    targetsByBody,
   })
   const dispositionsBySite = new Map(
     report.dispositions.map((entry) => [entry.siteId, entry] as const),
@@ -3517,7 +3964,7 @@ function assertR13SourceInstructionDispositionBacked(
     const targetSet = reportEvidence.get(proof.targetSetEvidenceId)
     if (
       targetSet?.kind !== 'canonical-target-set' ||
-      stableJsonSha256(targetSet.bodyIds) !== stableJsonSha256(bodyIds)
+      !sameOrderedValues(targetSet.bodyIds, bodyIds)
     )
       throw new Error(`R13 disposition: source-backed canonical target join 漂移 ${proof.id}`)
     const identity = {
@@ -3548,7 +3995,24 @@ function assertR13SourceInstructionDispositionBacked(
       ),
       targetSetEvidenceId: targetSet.id,
     }
-    if (stableJsonSha256(proof) !== stableJsonSha256(expected))
+    if (
+      proof.id !== expected.id ||
+      proof.scope !== expected.scope ||
+      proof.kind !== expected.kind ||
+      proof.proves !== expected.proves ||
+      proof.siteId !== expected.siteId ||
+      proof.contextId !== expected.contextId ||
+      !sameOrderedValues(proof.addresses, expected.addresses) ||
+      proof.sourceCommandSha256 !== expected.sourceCommandSha256 ||
+      !sameOrderedValues(proof.appliesToLayers, expected.appliesToLayers) ||
+      proof.translationOutcomeDigest !== expected.translationOutcomeDigest ||
+      proof.bodyAuditDigest !== expected.bodyAuditDigest ||
+      !sameOrderedValues(proof.bodyIds, expected.bodyIds) ||
+      proof.p6LedgerDigest !== expected.p6LedgerDigest ||
+      !sameOrderedValues(proof.p6EvidenceIds, expected.p6EvidenceIds) ||
+      proof.p6TargetDigest !== expected.p6TargetDigest ||
+      proof.targetSetEvidenceId !== expected.targetSetEvidenceId
+    )
       throw new Error(`R13 disposition: source-backed canonical site 漂移 ${proof.id}`)
   }
 
@@ -3578,6 +4042,17 @@ function assertR13SourceInstructionDispositionBacked(
       census: report.census,
       evidence: trustedSiteEvidence,
     })
+  const trustedEnemyClosure = source.r13EnemyClosure
+    ? r13EnemyClosureEvidence({
+        authority: source.r13EnemyClosure,
+        historicalSources: source.sources,
+        historicalMigration: source.migration,
+        generated: source.generated,
+        final: source.final,
+        census: report.census,
+        evidence: trustedSiteEvidence,
+      })
+    : undefined
   assetEvidence({
     sources: source.sources,
     migration: source.migration,
@@ -3594,6 +4069,7 @@ function assertR13SourceInstructionDispositionBacked(
     final: source.final,
     census: report.census,
     evidence: trustedSiteEvidence,
+    targetsByBody,
   })
   for (const proof of report.evidence) {
     if (proof.scope !== 'site-closure' || proof.kind === 'canonical-site') continue
@@ -3615,6 +4091,12 @@ function assertR13SourceInstructionDispositionBacked(
       const expected = trustedC8Evidence.get(proof.id)
       if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
         throw new Error(`R13 disposition: source-backed C8 observation 漂移 ${proof.id}`)
+      continue
+    }
+    if (proof.kind === 'r13-enemy-augmentation') {
+      const expected = trustedSiteEvidence.get(proof.id)
+      if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
+        throw new Error(`R13 disposition: source-backed enemy observation 漂移 ${proof.id}`)
       continue
     }
     if (proof.kind !== 'domain-augmentation') continue
@@ -3711,6 +4193,43 @@ function assertR13SourceInstructionDispositionBacked(
     if (!expected || stableJsonSha256(expected) !== stableJsonSha256(proof))
       throw new Error(`R13 disposition: source-backed domain observation 漂移 ${proof.id}`)
   }
+  if (trustedEnemyClosure) {
+    const actual = new Map(
+      report.observations
+        .filter((observation) => observation.domain === 'enemy')
+        .map((observation) => [observation.objectId, observation] as const),
+    )
+    if (
+      actual.size !== trustedEnemyClosure.observations.size ||
+      [...trustedEnemyClosure.observations].some(([enemyId, proofId]) => {
+        const observation = actual.get(enemyId)
+        const proof = trustedSiteEvidence.get(proofId)
+        if (!observation || proof?.kind !== 'r13-enemy-augmentation') return true
+        const expectedId = `enemy:${enemyId}:pending`
+        const openProofs = observation.evidenceIds
+          .map((id) => reportEvidence.get(id))
+          .filter(
+            (entry): entry is Extract<R13DispositionEvidence, { kind: 'open-debt' }> =>
+              entry?.kind === 'open-debt',
+          )
+        return (
+          observation.id !== expectedId ||
+          observation.kind !== 'pending-script' ||
+          observation.objectId !== proof.enemyId ||
+          stableJsonSha256(observation.sourceRootIds) !== stableJsonSha256(proof.sourceRootIds) ||
+          stableJsonSha256(observation.sourceAddresses) !== stableJsonSha256(proof.addresses) ||
+          observation.raw !== 'open' ||
+          observation.augmented !== 'accounted' ||
+          observation.final !== 'accounted' ||
+          !observation.evidenceIds.includes(proofId) ||
+          openProofs.length !== 1 ||
+          openProofs[0]!.batch !== 'R13-5' ||
+          stableJsonSha256(openProofs[0]!.appliesToLayers) !== stableJsonSha256(['raw'])
+        )
+      })
+    )
+      throw new Error('R13 disposition: source-backed enemy observation completeness 漂移')
+  }
   if (source.preparedSourceCensus)
     assertPreparedR13SourceExecutionCensus(
       source.preparedSourceCensus,
@@ -3720,9 +4239,10 @@ function assertR13SourceInstructionDispositionBacked(
   else assertR13SourceExecutionCensus(report.census, source.sources)
 }
 
-export function assertR13SourceInstructionDisposition(
+function assertR13SourceInstructionDispositionInternal(
   report: AnyR13SourceInstructionDisposition,
-  source?: R13SourceInstructionDispositionBuildArgs,
+  source: R13SourceInstructionDispositionBuildArgs | undefined,
+  options: { verifyDigest: boolean },
 ): void {
   const assertSortedUniqueStrings = (values: readonly string[], label: string): void => {
     for (let index = 1; index < values.length; index++)
@@ -3749,11 +4269,23 @@ export function assertR13SourceInstructionDisposition(
   for (const [key, digest] of Object.entries(report.generator))
     if (!/^[0-9a-f]{64}$/.test(digest))
       throw new Error(`R13 disposition: generator.${key} 非 sha256`)
-  assertR13SourceExecutionCensus(report.census)
+  if (source?.preparedSourceCensus)
+    assertPreparedR13SourceExecutionCensus(
+      source.preparedSourceCensus,
+      source.sources,
+      report.census,
+    )
+  else assertR13SourceExecutionCensus(report.census)
   if (report.generator.sourceDigest !== report.census.generator.sourceDigest)
     throw new Error('R13 disposition: generator/census source digest 漂移')
   const sites = new Map(report.census.sites.map((site) => [site.id, site]))
   const contexts = contextById(report.census)
+  const addressesByContext = new Map<string, Set<number>>()
+  for (const site of report.census.sites) {
+    const addresses = addressesByContext.get(site.contextId) ?? new Set<number>()
+    addresses.add(site.address)
+    addressesByContext.set(site.contextId, addresses)
+  }
   const evidence = new Map<string, R13DispositionEvidence>()
   for (const [index, entry] of report.evidence.entries()) {
     if (index > 0 && stableStringCompare(report.evidence[index - 1]!.id, entry.id) >= 0)
@@ -3766,13 +4298,17 @@ export function assertR13SourceInstructionDisposition(
       entry.kind === 'canonical-target-set' ||
       entry.kind === 'known-noop'
         ? 'candidate'
-        : entry.kind === 'c8-augmentation' || entry.kind === 'domain-augmentation'
+        : entry.kind === 'c8-augmentation' ||
+            entry.kind === 'domain-augmentation' ||
+            entry.kind === 'r13-enemy-augmentation'
           ? 'observation-closure'
           : entry.kind === 'open-debt'
             ? 'open-debt'
             : 'site-closure'
     if (entry.scope !== expectedScope)
       throw new Error(`R13 disposition: ${entry.id} scope/kind 不匹配`)
+    if (entry.kind === 'canonical-site' && !hasExactOwnKeys(entry, CANONICAL_SITE_EVIDENCE_KEYS))
+      throw new Error(`R13 disposition: evidence ${entry.id} canonical-site 字段漂移`)
     assertSortedUniqueAddresses(entry.addresses, `evidence ${entry.id}`)
     if ('appliesToLayers' in entry) {
       if (entry.appliesToLayers.length === 0)
@@ -3865,6 +4401,34 @@ export function assertR13SourceInstructionDisposition(
       )
         throw new Error(`R13 disposition: evidence ${entry.id} final observation target 漂移`)
     }
+    if (entry.kind === 'r13-enemy-augmentation') {
+      if (
+        !/^enemy-\d+$/.test(entry.enemyId) ||
+        entry.sourceRootIds.length === 0 ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.enemyDispositionDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.augmentationEvidenceDigest) ||
+        !entry.appliesToLayers.includes('augmented') ||
+        !entry.appliesToLayers.includes('final')
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} enemy observation identity 漂移`)
+      assertSortedUniqueStrings(entry.sourceRootIds, `evidence ${entry.id} enemy roots`)
+      for (const layer of ['augmented', 'final'] as const) {
+        const target = entry.layerTargets[layer]
+        if (
+          target.selectors.length === 0 ||
+          new Set(target.selectors).size !== target.selectors.length ||
+          !/^[0-9a-f]{64}$/.test(target.digest)
+        )
+          throw new Error(`R13 disposition: evidence ${entry.id}/${layer} enemy target 不完整`)
+        assertSortedUniqueStrings(target.selectors, `evidence ${entry.id}/${layer} selectors`)
+      }
+      if (
+        stableJsonSha256(entry.layerTargets.augmented) !==
+        stableJsonSha256(entry.layerTargets.final)
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} enemy final observation target 漂移`)
+    }
     if (
       entry.kind === 'c8-site-repair' ||
       entry.kind === 'scene-semantic-repair' ||
@@ -3885,6 +4449,41 @@ export function assertR13SourceInstructionDisposition(
       )
         throw new Error(`R13 disposition: evidence ${entry.id} final site target 漂移`)
     }
+    if (entry.kind === 'r13-enemy-script-site') {
+      const site = sites.get(entry.siteId)
+      const context = site ? contexts.get(site.contextId) : undefined
+      if (
+        !site ||
+        !context ||
+        context.entrySiteId !== entry.sourceRootId ||
+        !/^enemy-\d+$/.test(entry.enemyId) ||
+        !['ready', 'turnStart', 'battleEnd'].includes(entry.channel) ||
+        !Number.isSafeInteger(entry.sourceRootAddress) ||
+        entry.sourceRootAddress <= 0 ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceRootClosureDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.sourceMappingDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.enemyDispositionDigest) ||
+        !/^[0-9a-f]{64}$/.test(entry.augmentationEvidenceDigest) ||
+        (entry.cursorTraceDigest !== undefined &&
+          !/^[0-9a-f]{64}$/.test(entry.cursorTraceDigest)) ||
+        entry.targetSelectors.length === 0 ||
+        !/^[0-9a-f]{64}$/.test(entry.targetDigest) ||
+        entry.appliesToLayers.includes('raw') ||
+        !entry.appliesToLayers.includes('augmented') ||
+        !entry.appliesToLayers.includes('final')
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} enemy site identity 漂移`)
+      assertSortedUniqueStrings(entry.oracleIds, `evidence ${entry.id} enemy oracle ids`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} enemy selectors`)
+      for (const layer of ['augmented', 'final'] as const) {
+        const target = entry.layerTargets[layer]
+        if (
+          stableJsonSha256(target.selectors) !== stableJsonSha256(entry.targetSelectors) ||
+          target.digest !== entry.targetDigest
+        )
+          throw new Error(`R13 disposition: evidence ${entry.id}/${layer} enemy site target 漂移`)
+      }
+    }
     if (entry.kind === 'r13-cross-activation-site') {
       const site = sites.get(entry.siteId)
       const context = site ? contexts.get(site.contextId) : undefined
@@ -3899,10 +4498,7 @@ export function assertR13SourceInstructionDisposition(
         !entry.appliesToLayers.includes('augmented') ||
         !context ||
         !instruction ||
-        !report.census.sites.some(
-          (candidate) =>
-            candidate.contextId === context.id && candidate.address === entry.sourceRootAddress,
-        )
+        addressesByContext.get(context.id)?.has(entry.sourceRootAddress) !== true
       )
         throw new Error(`R13 disposition: evidence ${entry.id} cross activation identity 漂移`)
       if (
@@ -3971,8 +4567,8 @@ export function assertR13SourceInstructionDisposition(
     const targetSet = evidence.get(entry.targetSetEvidenceId)
     if (
       targetSet?.kind !== 'canonical-target-set' ||
-      stableJsonSha256(targetSet.bodyIds) !== stableJsonSha256(entry.bodyIds) ||
-      stableJsonSha256(targetSet.appliesToLayers) !== stableJsonSha256(entry.appliesToLayers)
+      !sameOrderedValues(targetSet.bodyIds, entry.bodyIds) ||
+      !sameOrderedValues(targetSet.appliesToLayers, entry.appliesToLayers)
     )
       throw new Error(`R13 disposition: evidence ${entry.id} exact target set 漂移`)
   }
@@ -4063,8 +4659,8 @@ export function assertR13SourceInstructionDisposition(
       }
     }
     if (
-      stableJsonSha256([...unionLayerEvidence].sort(stableStringCompare)) !==
-      stableJsonSha256([...new Set(entry.evidenceIds)].sort(stableStringCompare))
+      unionLayerEvidence.size !== entry.evidenceIds.length ||
+      entry.evidenceIds.some((id) => !unionLayerEvidence.has(id))
     )
       throw new Error(`R13 disposition: ${entry.siteId} closure/layer evidence 不守恒`)
     if ((entry.disposition === 'open-debt') !== (entry.layers.final.state === 'open'))
@@ -4073,23 +4669,22 @@ export function assertR13SourceInstructionDisposition(
   if (seen.size !== sites.size)
     throw new Error(`R13 disposition: ${sites.size - seen.size} 个 execution site 未处置`)
   const recomputed = Object.fromEntries(
-    DISPOSITIONS.map((disposition) => [
-      disposition,
-      report.dispositions.filter((entry) => entry.disposition === disposition).length,
-    ]),
+    DISPOSITIONS.map((disposition) => [disposition, 0]),
   ) as Record<R13SourceDisposition, number>
+  const byLayer: R13SourceInstructionDispositionV1['summary']['byLayer'] = {
+    raw: { accounted: 0, open: 0 },
+    augmented: { accounted: 0, open: 0 },
+    final: { accounted: 0, open: 0 },
+  }
+  const openAddresses = new Set<number>()
+  for (const entry of report.dispositions) {
+    recomputed[entry.disposition]++
+    for (const layer of ['raw', 'augmented', 'final'] as const)
+      byLayer[layer][entry.layers[layer].state]++
+    if (entry.disposition === 'open-debt') openAddresses.add(sites.get(entry.siteId)!.address)
+  }
   if (stableJsonSha256(recomputed) !== stableJsonSha256(report.summary.byDisposition))
     throw new Error('R13 disposition: byDisposition summary 漂移')
-  const byLayer = Object.fromEntries(
-    (['raw', 'augmented', 'final'] as const).map((layer) => [
-      layer,
-      {
-        accounted: report.dispositions.filter((entry) => entry.layers[layer].state === 'accounted')
-          .length,
-        open: report.dispositions.filter((entry) => entry.layers[layer].state === 'open').length,
-      },
-    ]),
-  )
   if (stableJsonSha256(byLayer) !== stableJsonSha256(report.summary.byLayer))
     throw new Error('R13 disposition: byLayer summary 漂移')
   if (
@@ -4100,14 +4695,10 @@ export function assertR13SourceInstructionDisposition(
     report.summary.openDebtSites !== recomputed['open-debt']
   )
     throw new Error('R13 disposition: site summary 漂移')
-  const openAddresses = new Set(
-    report.dispositions.flatMap((entry) =>
-      entry.disposition === 'open-debt' ? [sites.get(entry.siteId)!.address] : [],
-    ),
-  )
   if (openAddresses.size !== report.summary.openDebtSourceAddresses)
     throw new Error('R13 disposition: open source address summary 漂移')
   const observationIds = new Set<string>()
+  let openObservationCount = 0
   for (const [index, observation] of report.observations.entries()) {
     if (index > 0 && stableStringCompare(report.observations[index - 1]!.id, observation.id) >= 0)
       throw new Error('R13 disposition: observations 排序/唯一性漂移')
@@ -4116,6 +4707,7 @@ export function assertR13SourceInstructionDisposition(
     if (observation.id.startsWith('resolved:'))
       throw new Error(`R13 disposition: 禁止 synthetic resolution ${observation.id}`)
     observationIds.add(observation.id)
+    if (observation.final === 'open') openObservationCount++
     if (
       observation.domain !== 'source-command' &&
       observation.domain !== 'item' &&
@@ -4151,7 +4743,7 @@ export function assertR13SourceInstructionDisposition(
       )
         throw new Error(`R13 disposition: observation ${observation.id} evidence ${id} root 越界`)
       if (
-        proof.kind === 'domain-augmentation' &&
+        (proof.kind === 'domain-augmentation' || proof.kind === 'r13-enemy-augmentation') &&
         proof.sourceRootIds.some(
           (sourceRootId) => !observation.sourceRootIds.includes(sourceRootId),
         )
@@ -4182,10 +4774,12 @@ export function assertR13SourceInstructionDisposition(
   }
   if (
     report.summary.observations !== report.observations.length ||
-    report.summary.openObservations !==
-      report.observations.filter((entry) => entry.final === 'open').length
+    report.summary.openObservations !== openObservationCount
   )
     throw new Error('R13 disposition: observation summary 漂移')
+  const dispositionBySite = new Map(
+    report.dispositions.map((entry) => [entry.siteId, entry] as const),
+  )
   const confirmProofs = report.evidence.filter((proof) => proof.kind === 'r13-confirm-site')
   if (isV2 && confirmProofs.length !== 0)
     throw new Error('R13 disposition: confirm v2/v3 closure 漂移')
@@ -4205,22 +4799,17 @@ export function assertR13SourceInstructionDisposition(
       targetSelectors.length !== 31 ||
       new Set(targetSelectors).size !== 31 ||
       confirmEvidenceDigests.size !== 1 ||
-      confirmProofs.some(
-        (proof) =>
+      confirmProofs.some((proof) => {
+        const disposition = dispositionBySite.get(proof.siteId)
+        return (
           proof.targetDigests.some((digest) => !/^[0-9a-f]{64}$/.test(digest)) ||
-          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.raw.state !==
-            'open' ||
-          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.augmented
-            .state !== 'accounted' ||
-          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.final.state !==
-            'accounted' ||
-          !report.dispositions
-            .find((entry) => entry.siteId === proof.siteId)
-            ?.layers.augmented.evidenceIds.includes(proof.id) ||
-          !report.dispositions
-            .find((entry) => entry.siteId === proof.siteId)
-            ?.layers.final.evidenceIds.includes(proof.id),
-      ) ||
+          disposition?.layers.raw.state !== 'open' ||
+          disposition.layers.augmented.state !== 'accounted' ||
+          disposition.layers.final.state !== 'accounted' ||
+          !disposition.layers.augmented.evidenceIds.includes(proof.id) ||
+          !disposition.layers.final.evidenceIds.includes(proof.id)
+        )
+      }) ||
       report.evidence.some(
         (proof) =>
           proof.kind === 'open-debt' &&
@@ -4230,9 +4819,75 @@ export function assertR13SourceInstructionDisposition(
     )
       throw new Error('R13 disposition: confirm v2/v3 closure 漂移')
   }
-  const { digest, ...withoutDigest } = report
-  if (dispositionReportDigest(withoutDigest) !== digest)
-    throw new Error('R13 disposition: digest 漂移')
+  if (source?.r13EnemyClosure) {
+    const enemySiteProofs = report.evidence.filter(
+      (proof): proof is Extract<R13DispositionEvidence, { kind: 'r13-enemy-script-site' }> =>
+        proof.kind === 'r13-enemy-script-site',
+    )
+    const enemyObservationProofs = report.evidence.filter(
+      (proof): proof is Extract<R13DispositionEvidence, { kind: 'r13-enemy-augmentation' }> =>
+        proof.kind === 'r13-enemy-augmentation',
+    )
+    const proofBySite = new Map(enemySiteProofs.map((proof) => [proof.siteId, proof] as const))
+    const enemyObservations = report.observations.filter(
+      (observation) => observation.domain === 'enemy' && observation.kind === 'pending-script',
+    )
+    const enemyRootIds = [...new Set(enemySiteProofs.map((proof) => proof.sourceRootId))].sort(
+      stableStringCompare,
+    )
+    if (
+      enemySiteProofs.length !== 364 ||
+      proofBySite.size !== 364 ||
+      enemyObservationProofs.length !== 12 ||
+      enemyObservations.length !== 12 ||
+      enemyRootIds.length !== 19 ||
+      enemySiteProofs.filter((proof) => proof.cursorTraceDigest !== undefined).length !== 51 ||
+      enemySiteProofs.some((proof) => {
+        const disposition = dispositionBySite.get(proof.siteId)
+        if (
+          !disposition ||
+          disposition.layers.raw.state !== 'open' ||
+          disposition.layers.augmented.state !== 'accounted' ||
+          disposition.layers.final.state !== 'accounted' ||
+          !disposition.layers.augmented.evidenceIds.includes(proof.id) ||
+          !disposition.layers.final.evidenceIds.includes(proof.id)
+        )
+          return true
+        return !disposition.layers.raw.evidenceIds.some((id) => {
+          const open = evidence.get(id)
+          return (
+            open?.kind === 'open-debt' &&
+            open.batch === 'R13-5' &&
+            open.appliesToLayers.includes('raw') &&
+            !open.appliesToLayers.includes('final')
+          )
+        })
+      }) ||
+      enemyObservations.some((observation) => {
+        const closure = enemyObservationProofs.find((proof) =>
+          observation.evidenceIds.includes(proof.id),
+        )
+        return (
+          !closure ||
+          observation.raw !== 'open' ||
+          observation.augmented !== 'accounted' ||
+          observation.final !== 'accounted'
+        )
+      }) ||
+      report.evidence.some(
+        (proof) =>
+          proof.kind === 'open-debt' &&
+          proof.batch === 'R13-5' &&
+          proof.appliesToLayers.includes('final'),
+      )
+    )
+      throw new Error('R13 disposition: enemy bridge completeness/anti-laundering 漂移')
+  }
+  if (options.verifyDigest) {
+    const { digest, ...withoutDigest } = report
+    if (dispositionReportDigest(withoutDigest) !== digest)
+      throw new Error('R13 disposition: digest 漂移')
+  }
   for (const proof of report.evidence)
     if (
       (proof.scope === 'site-closure' || proof.scope === 'open-debt') &&
@@ -4243,6 +4898,29 @@ export function assertR13SourceInstructionDisposition(
   if (source) {
     assertR13SourceInstructionDispositionBacked(report, source)
   }
+}
+
+export function assertR13SourceInstructionDisposition(
+  report: AnyR13SourceInstructionDisposition,
+  source?: R13SourceInstructionDispositionBuildArgs,
+): void {
+  assertR13SourceInstructionDispositionInternal(report, source, { verifyDigest: true })
+}
+
+export function buildAndAssertR13SourceInstructionDisposition(
+  args: R13SourceInstructionDispositionBuildArgs,
+): R13SourceInstructionDispositionV1 {
+  const report = buildR13SourceInstructionDisposition(args)
+  assertR13SourceInstructionDispositionInternal(report, args, { verifyDigest: false })
+  return report
+}
+
+export function buildAndAssertR13SourceInstructionDispositionV3(
+  args: R13SourceInstructionDispositionBuildArgs,
+): R13SourceInstructionDispositionV3 {
+  const report = buildR13SourceInstructionDispositionV3(args)
+  assertR13SourceInstructionDispositionInternal(report, args, { verifyDigest: false })
+  return report
 }
 
 export function assertR13SourceInstructionDispositionV3(

@@ -21,7 +21,7 @@ import {
   translateEnemyHookFlow,
 } from './translate-enemy-hook-flow.js'
 import type { TranslateCtx } from './translate-events.js'
-import { translateStages } from './translate-events.js'
+import { scriptStageSourceAddresses, translateStages } from './translate-events.js'
 
 export interface EnemyScriptTranslation {
   /** 保留作者侧无状态策略槽；PAL 源敌钩不再向这里生成伪 turn rule。 */
@@ -35,12 +35,19 @@ export interface EnemyScriptTranslation {
   pending: string[]
   /** R13-5 source disposition 的生成期一手证据；不写入内容 schema。 */
   hookSources?: Partial<Record<EnemyHookChannel, EnemyHookSourceTranslation>>
+  /** battleEnd 走 canonical onDefeated，不属于 persistent hook，但仍须保留逐源闭包。 */
+  battleEndSource?: EnemyBattleEndSourceTranslation
 }
 
 export interface EnemyHookSourceTranslation {
   rootAddress: number
   reachableSourceAddresses: number[]
   sourceMappings: EnemyHookSourceMapping[]
+}
+
+export interface EnemyBattleEndSourceTranslation {
+  rootAddress: number
+  reachableSourceAddresses: number[]
 }
 
 function initialFallback(
@@ -98,6 +105,10 @@ export function translateEnemyScripts(
       throw new Error(`${path}: 期望恰好 1 个 stage，收到 ${stages?.length ?? 0}`)
     const body: unknown = stages[0]?.body
     checkEnemyOnDefeatedCommandsV10(body, `${path}.body`)
+    out.battleEndSource = {
+      rootAddress: address,
+      reachableSourceAddresses: scriptStageSourceAddresses(stages[0]!),
+    }
     if (body.length) out.onDefeated = body
   }
 
