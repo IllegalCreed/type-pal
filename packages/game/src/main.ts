@@ -1,3 +1,4 @@
+import { installTypePalAnalytics } from './analytics/install-analytics.js'
 import { warmUpVideoAutoplay } from './shell/avi-player.js'
 import { failBootLoading, initBootLoading, restoreBootFetch } from './shell/boot-loading.js'
 import { bootstrap, showError } from './shell/bootstrap.js'
@@ -6,14 +7,19 @@ import { registerPrecache, startPrecache } from './shell/precache-client.js'
 import { createUnifiedProgressUi } from './shell/precache-ui.js'
 
 if (typeof document !== 'undefined') {
+  const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
+  try {
+    installTypePalAnalytics({ enabled: isProd, window, document, navigator })
+  } catch {
+    // Analytics 是可选能力，初始化失败不得改变第一阶段游戏启动路径。
+  }
+
   const canvas = document.getElementById('screen')
   if (canvas instanceof HTMLCanvasElement) {
     // GET 网络层重试兜底(偶发 net::ERR_FAILED)。必须先于任何 fetch / boot-loading 包装。
     installFetchRetry()
 
     // dev/e2e(PROD=false)整体跳过 SW + 可玩门;仅生产挂两段进度与门。
-    const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
-
     // 可玩门:enterGate resolve 来源二选一——用户点「进入游戏」/ 自动放行(dev·e2e·SW 不可用)。
     // gateReleased 守卫消除"SW 注册失败自动放行"与"出按钮"的竞态:放行后不再出按钮 / 不启动预缓存。
     let resolveEnter!: () => void
