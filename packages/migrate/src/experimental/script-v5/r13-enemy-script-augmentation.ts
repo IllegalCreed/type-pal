@@ -17,8 +17,7 @@ import {
   type R13EnemySourceDispositionV1,
 } from './r13-enemy-source-disposition.js'
 import {
-  assertR13RuntimeCapabilityAuditV3,
-  auditR13RuntimeCapabilitiesV3,
+  buildAndAssertR13RuntimeCapabilityAuditV3,
   type R13RuntimeCapabilityAuditV3,
 } from './runtime-capability-audit-v3.js'
 import { digestR13ContentSnapshot } from './source-instruction-disposition.js'
@@ -708,8 +707,7 @@ export function augmentR13EnemyScriptsAfterConfirm(args: {
   }
   const enemySourceDisposition = buildR13EnemySourceDispositionFromPal(dispositionArgs)
   assertR13EnemySourceDispositionFromPal(enemySourceDisposition, dispositionArgs)
-  const runtimeCapability = auditR13RuntimeCapabilitiesV3(snapshot)
-  assertR13RuntimeCapabilityAuditV3(runtimeCapability, snapshot)
+  const runtimeCapability = buildAndAssertR13RuntimeCapabilityAuditV3(snapshot)
 
   const evidence = digestRecord<R13EnemyScriptAugmentationEvidenceV1>({
     kind: 'r13-enemy-script-augmentation-evidence',

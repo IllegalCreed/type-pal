@@ -34,10 +34,16 @@ import {
   RNG_HEIGHT,
   RNG_WIDTH,
 } from '@type-pal/shared'
-import { afterAll, describe, expect, test } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
-import { createR13EnemyScriptV5MigrationPlan } from './experimental/script-v5/r13-enemy-script-mg2.js'
+import { PAL_TEST_FAST_GATE } from './experimental/script-v5/pal-test-fixture.js'
+import { rewindPublishedR13EnemyTransition } from './experimental/script-v5/published-r13-enemy-test-fixture.js'
+import { augmentR13EnemyScriptsAfterConfirm } from './experimental/script-v5/r13-enemy-script-augmentation.js'
+import {
+  createR13EnemyScriptV5MigrationPlan,
+  R13_ENEMY_SCRIPT_TRANSITION_ID,
+} from './experimental/script-v5/r13-enemy-script-mg2.js'
 import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
@@ -649,7 +655,62 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
   }, 60_000)
 })
 
-describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () => {
+function buildStrictPalMigrationFixture() {
+  const sources = loadPalMigrationSources(repo)
+  const theirs = buildPalMigration(sources)
+  const baseline = loadPalBaseline(repo)
+  if (!baseline) throw new Error('MG2 真实 PAL 回归缺已提交 baseline')
+  const frozenAudit = JSON.parse(
+    readFileSync(
+      resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json'),
+      'utf8',
+    ),
+  ) as ScriptControlFlowAuditV1
+  // historical/current authority 必须使用独立可变容器，但没有必要再次读取并解析同一份
+  // 2,000+ 资源源树；structuredClone 保持隔离，同时省去约 9s 重复 I/O。
+  const parentSources = structuredClone(sources)
+  const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
+  const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
+  const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
+  assertScriptControlFlowAudit(parentAudit)
+  const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
+  const currentAudit = PAL_TEST_FAST_GATE ? undefined : auditPalScriptControlFlow(sources, theirs)
+  if (currentAudit) assertScriptControlFlowAudit(currentAudit)
+  const generatedResult = baseline.baselineMetadata
+    ? buildP7GeneratedCanonical({
+        migration: authorityMigration,
+        currentAudit: parentAudit,
+        frozenAudit,
+        sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
+        itemSources: parentSources.migrate.items,
+        magicSources: parentSources.migrate.magic,
+        objectMagicSources: parentSources.migrate.objectMagics ?? [],
+        soundAssetForNum: palSoundAssetForSources(parentSources),
+        sourceCensus: preparedHistoricalSourceCensus.census,
+      })
+    : undefined
+  const generated = generatedResult?.snapshot
+  const managed = discoverProjectManagedFiles(
+    repo,
+    new Set([...baseline.managedFiles, ...(generated?.managedFiles ?? theirs.managedFiles)]),
+  )
+  const ours = loadProjectMigrationSnapshot(repo, managed)
+  return {
+    sources,
+    theirs,
+    baseline,
+    parentSources,
+    authorityMigration,
+    parentAudit,
+    preparedHistoricalSourceCensus,
+    currentAudit,
+    generatedResult,
+    generated,
+    ours,
+  }
+}
+
+describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL world sprite 回归', () => {
   test('636 个真实 world sprite 中仅冻结的 30 个坏尾源需要 legacy profile', () => {
     const anomalyByNumber = new Map<
       number,
@@ -688,10 +749,29 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       PAL_WORLD_SPRITE_LEGACY_TAIL_ANOMALIES.map(({ sprite }) => sprite),
     )
   })
+})
+
+describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () => {
+  let fixture: ReturnType<typeof buildStrictPalMigrationFixture>
+
+  beforeAll(() => {
+    fixture = buildStrictPalMigrationFixture()
+  }, 180_000)
 
   test('当前工程 + baseline + 纯生成必须是严格空计划', async () => {
-    const sources = loadPalMigrationSources(repo)
-    const theirs = buildPalMigration(sources)
+    const {
+      sources,
+      theirs,
+      baseline,
+      parentSources,
+      authorityMigration,
+      parentAudit,
+      preparedHistoricalSourceCensus,
+      currentAudit,
+      generatedResult,
+      generated,
+      ours,
+    } = fixture
     assertWorldSpriteGraph(theirs, sources)
     assertEarthPearlSummonChain(theirs)
     assertItemUseCensus(theirs)
@@ -717,72 +797,56 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       namedTargets: 701,
       unresolvedCommands: 0,
     })
-    const baseline = loadPalBaseline(repo)
-    expect(baseline).toBeDefined()
-
-    const frozenAudit = JSON.parse(
-      readFileSync(
-        resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json'),
-        'utf8',
-      ),
-    ) as ScriptControlFlowAuditV1
-    // historical/current authority 必须使用独立可变容器，但没有必要再次读取并解析同一份
-    // 2,000+ 资源源树；structuredClone 保持隔离，同时省去约 9s 重复 I/O。
-    const parentSources = structuredClone(sources)
-    const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
-    const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
-    const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
-    assertScriptControlFlowAudit(parentAudit)
-    const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
-    const currentAudit = auditPalScriptControlFlow(sources, theirs)
-    assertScriptControlFlowAudit(currentAudit)
-    const generatedResult = baseline?.baselineMetadata
-      ? buildP7GeneratedCanonical({
-          migration: authorityMigration,
-          currentAudit: parentAudit,
-          frozenAudit,
-          sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
-          itemSources: parentSources.migrate.items,
-          magicSources: parentSources.migrate.magic,
-          objectMagicSources: parentSources.migrate.objectMagics ?? [],
-          soundAssetForNum: palSoundAssetForSources(parentSources),
-          sourceCensus: preparedHistoricalSourceCensus.census,
-        })
-      : undefined
-    const generated = generatedResult?.snapshot
-    const managed = discoverProjectManagedFiles(
-      repo,
-      new Set([
-        ...(baseline?.managedFiles ?? []),
-        ...(generated?.managedFiles ?? theirs.managedFiles),
-      ]),
-    )
-    const ours = loadProjectMigrationSnapshot(repo, managed)
     if (generated && generatedResult) {
-      const result = createR13EnemyScriptV5MigrationPlan({
-        base: baseline!,
-        ours,
-        generated: generatedResult,
-        historicalSources: parentSources,
-        historicalMigration: authorityMigration,
-        historicalAudit: parentAudit,
-        currentSources: sources,
-        currentMigration: theirs,
-        currentAudit,
-        preparedHistoricalSourceCensus,
-      })
-      expect(result.plan.conflicts).toEqual([])
-      expect([...result.plan.writes.keys()].sort()).toEqual(
-        result.enemyScriptSealMode === 'initialize'
-          ? [...result.enemyScriptEvidence.files.changedPaths].sort()
-          : [],
-      )
-      expect(result.plan.deletes).toEqual([])
+      const target = PAL_TEST_FAST_GATE
+        ? (() => {
+            // 日常门由 pal-shared 完整 source-backed initialize/anti-tamper 与这里的 fresh
+            // 磁盘 seal/successor/作者层核验组成。release 仍走下方无 shortcut 的完整
+            // authority 重建与 replay 0/0/0。
+            const augmentation = augmentR13EnemyScriptsAfterConfirm({
+              parent: generatedResult.snapshot,
+              historicalMigration: authorityMigration,
+              currentSources: sources,
+              currentMigration: theirs,
+            })
+            const rewound = rewindPublishedR13EnemyTransition({
+              publishedBaseline: baseline,
+              publishedProject: ours,
+              parent: generatedResult.snapshot,
+              publishedSuccessor: augmentation.snapshot,
+            })
+            expect(rewound.changedPaths).toEqual(augmentation.evidence.files.changedPaths)
+            expect(rewound.authoredLocaleIds).toHaveLength(35)
+            expect(baseline.baselineMetadata?.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID]).toMatch(
+              /^[0-9a-f]{64}$/,
+            )
+            return ours
+          })()
+        : (() => {
+            if (!currentAudit) throw new Error('MG2 release replay 缺 current audit')
+            const result = createR13EnemyScriptV5MigrationPlan({
+              base: baseline,
+              ours,
+              generated: generatedResult,
+              historicalSources: parentSources,
+              historicalMigration: authorityMigration,
+              historicalAudit: parentAudit,
+              currentSources: sources,
+              currentMigration: theirs,
+              currentAudit,
+              preparedHistoricalSourceCensus,
+            })
+            expect(result.enemyScriptSealMode).toBe('replay')
+            expect(result.plan.conflicts).toEqual([])
+            expect(result.plan.writes.size).toBe(0)
+            expect(result.plan.deletes).toEqual([])
+            return result.target
+          })()
       const sourceUsable = sources.migrate.items
         .filter((item) => item.flags.usable)
         .map((item) => String(item.id))
         .sort((left, right) => Number(left) - Number(right))
-      const targetRunnable = validateItemsV5(result.target.files.get('content/items.json'))
+      const targetRunnable = validateItemsV5(target.files.get('content/items.json'))
         .filter(
           (item) =>
             item.use !== undefined &&
@@ -795,14 +859,14 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       expect(targetRunnable).toHaveLength(100)
       expect(
         validateMigrationDiagnostics(
-          result.target.files.get('content/migration-diagnostics.json'),
+          target.files.get('content/migration-diagnostics.json'),
         ).diagnostics.filter(
           (diagnostic) =>
             diagnostic.target.domain === 'item' && diagnostic.target.capability === 'use',
         ),
       ).toEqual([])
     } else {
-      const plan = createMigrationPlan(baseline!, ours, theirs)
+      const plan = createMigrationPlan(baseline, ours, theirs)
       expect(plan.conflicts).toEqual([])
       expect(plan.writes.size).toBe(0)
       expect(plan.deletes).toEqual([])

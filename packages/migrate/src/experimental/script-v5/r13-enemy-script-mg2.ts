@@ -46,8 +46,9 @@ import {
   R13_ITEM_THROW_SEAL_PATH,
 } from './r13-item-throw-mg2.js'
 import {
+  assertR13RuntimeCapabilityAuditReportV3,
   assertR13RuntimeCapabilityAuditV3,
-  auditR13RuntimeCapabilitiesV3,
+  buildAndAssertR13RuntimeCapabilityAuditV3,
   type R13_RUNTIME_CAPABILITY_V3_METHOD,
   type R13RuntimeCapabilityAuditV3,
 } from './runtime-capability-audit-v3.js'
@@ -447,7 +448,7 @@ export function prepareR13EnemyScriptAuthority(args: {
   }
   const sourceDisposition = buildAndAssertR13SourceInstructionDispositionV3(sourceArgs)
   const runtimeCapability = augmentation.runtimeCapability
-  assertR13RuntimeCapabilityAuditV3(runtimeCapability, augmentation.snapshot)
+  assertR13RuntimeCapabilityAuditReportV3(runtimeCapability)
   const auditSeal = buildAuditSeal(sourceDisposition, runtimeCapability, args.historicalAudit)
 
   const cadenceAuthority = prepareR13CadenceAuthority(successorGenerated)
@@ -634,8 +635,7 @@ export function createR13EnemyScriptV5MigrationPlan(args: {
   // delta closure 独立校验。把 81,674-site 报告重新绑定到作者 target 既不会增加 R13-5
   // 证明力，又会让每次 replay 重做数分钟全表扫描。target 自身仍须跑完整 runtime capability。
   const finalSourceDisposition = authority.sourceDisposition
-  const finalRuntimeCapability = auditR13RuntimeCapabilitiesV3(confirm.target)
-  assertR13RuntimeCapabilityAuditV3(finalRuntimeCapability, confirm.target)
+  const finalRuntimeCapability = buildAndAssertR13RuntimeCapabilityAuditV3(confirm.target)
   buildAuditSeal(finalSourceDisposition, finalRuntimeCapability, args.historicalAudit)
 
   const leakedControlPaths = new Set([

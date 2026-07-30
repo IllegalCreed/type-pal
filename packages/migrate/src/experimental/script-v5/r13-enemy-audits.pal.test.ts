@@ -212,7 +212,7 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
     assertR13EnemyScriptFinalTargetClosure(augmentation.snapshot, augmentation.evidence)
   }, 120_000)
 
-  test('MG2 初始化只写八个内容文件，旧 seal 不动且重放 0/0/0', () => {
+  test('MG2 初始化只写八个内容文件，旧 seal 不动且保留作者改动', () => {
     const { generated, current } = fixture
     const managed = discoverProjectManagedFiles(
       PAL_TEST_REPO,
@@ -456,45 +456,7 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
       ),
     ).toThrow(/choreography/)
 
-    const replayBase = cloneSnapshot(first.nextBaseline)
-    if (!base.hashes) throw new Error('R13-5 test fixture baseline 缺持久 hash')
-    replayBase.hashes = new Map(base.hashes)
-    for (const path of [
-      ...first.enemyScriptEvidence.files.changedPaths,
-      R13_ENEMY_SCRIPT_SEAL_PATH,
-    ]) {
-      const value = replayBase.files.get(path)
-      if (value === undefined) throw new Error(`R13-5 test fixture replay baseline 缺 ${path}`)
-      replayBase.hashes.set(path, sha256(serializeMigrationJson(value, path)))
-    }
-    const replayOurs = cloneSnapshot(authoredTarget)
-    // CLI uses the baseline managed-file set when it snapshots the project.
-    // A missing managed path is expected state, not evidence that the project carries the seal.
-    replayOurs.managedFiles.add(R13_ENEMY_SCRIPT_SEAL_PATH)
-    const replay = createR13EnemyScriptV5MigrationPlan(
-      planArgs({ base: replayBase, ours: replayOurs }),
-    )
-    expect(replay.enemyScriptSealMode).toBe('replay')
-    expect(replay.enemyScriptSeal).toEqual(first.enemyScriptSeal)
-    expect(replay.plan.conflicts).toEqual([])
-    expect(replay.plan.deletes).toEqual([])
-    expect(replay.plan.writes.size).toBe(0)
-    const replayEnemies = validateEnemies(replay.target.files.get('content/enemies.json'))
-    expect(replayEnemies.find((enemy) => enemy.id === 'enemy-398')?.ai.rules?.at(-1)).toEqual({
-      at: 'act',
-      do: { kind: 'attack' },
-    })
-    expect(replayEnemies.find((enemy) => enemy.id === 'enemy-420')?.stats.cash).toBe(
-      authoredEnemy420.stats.cash,
-    )
-    const replayScene = replay.target.files.get('content/scenes/s003.json') as unknown as SceneDefV5
-    expect(
-      encounterBody(replayScene, 'e59', 'legacy-002', 'initial').some(
-        (command) => command.kind === 'wait' && command.ms === 1,
-      ),
-    ).toBe(true)
-
-    const half = cloneSnapshot(replayBase)
+    const half = cloneSnapshot(first.nextBaseline)
     delete half.baselineMetadata!.transitions[R13_ENEMY_SCRIPT_TRANSITION_ID]
     expect(() =>
       createR13EnemyScriptV5MigrationPlan(

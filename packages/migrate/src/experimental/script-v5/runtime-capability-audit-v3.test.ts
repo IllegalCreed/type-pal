@@ -5,6 +5,7 @@ import type { MigrationJson } from '../../pal-migration.js'
 import {
   assertR13RuntimeCapabilityAuditV3,
   auditR13RuntimeCapabilitiesV3,
+  buildAndAssertR13RuntimeCapabilityAuditV3,
   buildR13RuntimeCapabilityMatrixV3,
   type R13RuntimeCapabilityAuditV3,
 } from './runtime-capability-audit-v3.js'
@@ -176,7 +177,7 @@ describe('R13 runtime capability audit v3', () => {
       enemies: [target],
       skills: { skills: [magic], levelUp: {} },
     })
-    const report = auditR13RuntimeCapabilitiesV3(value)
+    const report = buildAndAssertR13RuntimeCapabilityAuditV3(value)
 
     assertR13RuntimeCapabilityAuditV3(report, value)
     expect(report.issues).toEqual([])
@@ -220,6 +221,9 @@ describe('R13 runtime capability audit v3', () => {
       expect.stringContaining('refused-use:enemy-ai-action:enemy-rule-turn-start:attack'),
     ])
     expect(() => assertR13RuntimeCapabilityAuditV3(report, value)).toThrow(
+      'runtime capability v3 audit failed',
+    )
+    expect(() => buildAndAssertR13RuntimeCapabilityAuditV3(value)).toThrow(
       'runtime capability v3 audit failed',
     )
   })

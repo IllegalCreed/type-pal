@@ -811,10 +811,7 @@ export function auditR13RuntimeCapabilitiesV3(
   return { ...withoutDigest, digest: stableJsonSha256(withoutDigest) }
 }
 
-export function assertR13RuntimeCapabilityAuditV3(
-  report: R13RuntimeCapabilityAuditV3,
-  snapshot: MigrationSnapshot,
-): void {
+export function assertR13RuntimeCapabilityAuditReportV3(report: R13RuntimeCapabilityAuditV3): void {
   if (
     report.kind !== 'r13-runtime-capability-audit' ||
     report.version !== 3 ||
@@ -895,9 +892,29 @@ export function assertR13RuntimeCapabilityAuditV3(
   const { digest, ...withoutDigest } = report
   if (stableJsonSha256(withoutDigest) !== digest)
     throw new Error('R13 runtime capability v3: digest 漂移')
+  if (report.issues.length)
+    throw new Error(`R13 runtime capability v3 audit failed:\n${report.issues.join('\n')}`)
+}
+
+/**
+ * 仅用于“刚由同一 snapshot 构建”的本地报告：builder 已读取 snapshot 一次，这里校验报告
+ * 自洽、矩阵与零 issue，不再立刻重复构建 62k+ use。外部传入或可跨调用缓存的报告仍必须走
+ * assertR13RuntimeCapabilityAuditV3 的 snapshot-backed rebuild。
+ */
+export function buildAndAssertR13RuntimeCapabilityAuditV3(
+  snapshot: MigrationSnapshot,
+): R13RuntimeCapabilityAuditV3 {
+  const report = auditR13RuntimeCapabilitiesV3(snapshot)
+  assertR13RuntimeCapabilityAuditReportV3(report)
+  return report
+}
+
+export function assertR13RuntimeCapabilityAuditV3(
+  report: R13RuntimeCapabilityAuditV3,
+  snapshot: MigrationSnapshot,
+): void {
+  assertR13RuntimeCapabilityAuditReportV3(report)
   const rebuilt = auditR13RuntimeCapabilitiesV3(snapshot)
   if (stableJsonSha256(rebuilt) !== stableJsonSha256(report))
     throw new Error('R13 runtime capability v3: snapshot-backed rebuild 漂移')
-  if (report.issues.length)
-    throw new Error(`R13 runtime capability v3 audit failed:\n${report.issues.join('\n')}`)
 }
