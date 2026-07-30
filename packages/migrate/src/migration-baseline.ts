@@ -101,7 +101,10 @@ export function baselineWrites(snapshot: MigrationSnapshot): Map<string, string>
   return writes
 }
 
-export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
+function loadPalBaselineInternal(
+  repo: string,
+  expectedMissingPath?: string,
+): MigrationSnapshot | undefined {
   const root = resolve(repo, PAL_BASELINE_REL)
   const statePath = resolve(root, '_state.json')
   if (!existsSync(statePath)) return undefined
@@ -126,17 +129,28 @@ export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
     throw new Error('PAL baseline _state.json v2 transition metadata 无效')
   const files = new Map<string, MigrationJson>()
   const hashes = new Map<string, string>()
+  let sawExpectedMissing = false
   for (const path of state.managedFiles) {
     const expectedHash = state.files[path]
     if (typeof expectedHash !== 'string') throw new Error(`PAL baseline 缺 hash ${path}`)
     hashes.set(path, expectedHash)
     if (isAtomicProjectMapPath(path)) continue
     const full = resolve(root, path)
-    if (!existsSync(full)) throw new Error(`PAL baseline 缺文件 ${path}`)
+    if (!existsSync(full)) {
+      if (path === expectedMissingPath) {
+        sawExpectedMissing = true
+        continue
+      }
+      throw new Error(`PAL baseline 缺文件 ${path}`)
+    }
+    if (path === expectedMissingPath)
+      throw new Error(`PAL baseline 修复目标当前并未缺失 ${expectedMissingPath}`)
     const text = readFileSync(full, 'utf8')
     if (sha256(text) !== expectedHash) throw new Error(`PAL baseline 哈希不符 ${path}`)
     files.set(path, JSON.parse(text) as MigrationJson)
   }
+  if (expectedMissingPath && !sawExpectedMissing)
+    throw new Error(`PAL baseline 修复目标不在托管清单 ${expectedMissingPath}`)
   return {
     files,
     managedFiles: new Set(state.managedFiles),
@@ -150,4 +164,64 @@ export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
         }
       : {}),
   }
+}
+
+export function loadPalBaseline(repo: string): MigrationSnapshot | undefined {
+  return loadPalBaselineInternal(repo)
+}
+
+/**
+ * 只供显式、单文件的 authority recovery 使用。除指定正文必须缺失外，其余 baseline
+ * 仍按普通加载路径逐项验 hash；调用方必须重建正文并同时核对 `_state.json` 中的 hash。
+ */
+export function loadPalBaselineRepairCandidate(
+  repo: string,
+  expectedMissingPath: string,
+): MigrationSnapshot | undefined {
+  if (isAtomicProjectMapPath(expectedMissingPath))
+    throw new Error(`PAL baseline 原子 map 不支持单文件修复 ${expectedMissingPath}`)
+  return loadPalBaselineInternal(repo, expectedMissingPath)
+}
+
+function assertPalBaselineSnapshotCurrentInternal(
+  repo: string,
+  snapshot: MigrationSnapshot,
+  expectedMissingPath?: string,
+): void {
+  const root = resolve(repo, PAL_BASELINE_REL)
+  const expectedState = serializeMigrationJson(baselineState(snapshot) as unknown as MigrationJson)
+  const statePath = resolve(root, '_state.json')
+  if (!existsSync(statePath) || readFileSync(statePath, 'utf8') !== expectedState)
+    throw new Error('迁移计划后 PAL baseline _state.json 已变更')
+  for (const path of snapshot.managedFiles) {
+    if (isAtomicProjectMapPath(path)) continue
+    const full = resolve(root, path)
+    if (path === expectedMissingPath) {
+      if (existsSync(full)) throw new Error(`PAL baseline 修复目标已被并发写入: ${path}`)
+      continue
+    }
+    const expected = snapshotFileHash(snapshot, path)
+    const actual = existsSync(full) ? sha256(readFileSync(full)) : undefined
+    if (actual !== expected) throw new Error(`迁移计划后 PAL baseline 已变更: ${path}`)
+  }
+}
+
+/**
+ * 长耗时生成/审计结束后的 TOCTOU 复核。
+ *
+ * baseline 的非原子文件和 `_state.json` 必须仍与最初加载的 snapshot 完全一致；
+ * 原子 map 正文不落 baseline，只由 `_state.json` 中的 hash 代表。
+ */
+export function assertPalBaselineSnapshotCurrent(repo: string, snapshot: MigrationSnapshot): void {
+  assertPalBaselineSnapshotCurrentInternal(repo, snapshot)
+}
+
+export function assertPalBaselineRepairCandidateCurrent(
+  repo: string,
+  snapshot: MigrationSnapshot,
+  expectedMissingPath: string,
+): void {
+  if (!snapshot.managedFiles.has(expectedMissingPath) || snapshot.files.has(expectedMissingPath))
+    throw new Error(`PAL baseline 修复 snapshot 半状态无效 ${expectedMissingPath}`)
+  assertPalBaselineSnapshotCurrentInternal(repo, snapshot, expectedMissingPath)
 }

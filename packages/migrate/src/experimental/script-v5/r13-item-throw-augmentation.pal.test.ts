@@ -202,6 +202,20 @@ describePal('R13-3 · PAL 76 个投掷源根 source-backed augmentation', () => 
     })
   })
 
+  test('三件鞭类保留专用鞭影 19，其余 0x66 武器保留铜钱镖轨迹 31', () => {
+    const { generated } = getPalTestGeneratedFixture()
+    const items = itemsOf(generated.snapshot)
+    const effectSprite = (itemId: string): number | undefined => {
+      const presentation = items.get(itemId)?.throw?.presentation
+      return presentation?.kind === 'magic' ? presentation.animation.effectSprite : undefined
+    }
+
+    expect(['163', '164', '165'].map(effectSprite)).toEqual([19, 19, 19])
+    expect(Array.from({ length: 29 }, (_, index) => String(index + 166)).map(effectSprite)).toEqual(
+      Array.from({ length: 29 }, () => 31),
+    )
+  })
+
   test('successor 不反向修改 R13-2 parent 的 18 个 historical throw', () => {
     const { generated } = getPalTestGeneratedFixture()
     const parent = itemsOf(generated.r13CrossActivationParentSnapshot)

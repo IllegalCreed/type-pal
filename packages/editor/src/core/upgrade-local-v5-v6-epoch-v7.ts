@@ -4,8 +4,11 @@ import {
   type LegacyManifestV5,
   type LegacyManifestV6,
   type LegacyManifestV7,
+  type LegacyManifestV8,
   upgradeItemsV7ToV8,
+  upgradeItemsV8ToV9,
   upgradeManifestV7ToV8,
+  upgradeManifestV8ToV9,
 } from '@type-pal/content'
 import {
   type FileSource,
@@ -68,7 +71,7 @@ function itemsPathOf(manifest: Record<string, unknown>): string {
   return path
 }
 
-async function preflightAndWriteV8(
+async function preflightAndWriteCurrent(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
   current: CurrentManifest,
@@ -83,7 +86,7 @@ async function preflightAndWriteV8(
 
 /**
  * R13-2 开发期 content epoch 断点 + R13-3 投掷 schema：把已经完成 script-v4-v5
- * 迁移的本地 5/5 或 6/6 工程在内存中直接合成最终 8/7。
+ * 迁移的本地 5/5 或 6/6 工程在内存中直接合成最终 9/8。
  *
  * 绝不先落盘中间 7/7；写盘前用最终 manifest + items 走当前 loader 完整闭环。
  * writeProject 最后写 manifest；若中断，纯升级器能识别已带 oneEnemy 的 items 半状态并重试。
@@ -97,17 +100,17 @@ export async function upgradeLocalProjectV5V6EpochV7(
   if (record?.contentVersion !== 5 && record?.contentVersion !== 6) return false
   const legacy = structuredClone(record) as unknown as LegacyManifestV5 | LegacyManifestV6
   const itemsPath = itemsPathOf(record)
-  const items = upgradeItemsV7ToV8(await source.readJson<unknown>(itemsPath))
+  const items = upgradeItemsV8ToV9(upgradeItemsV7ToV8(await source.readJson<unknown>(itemsPath)))
   const current: CurrentManifest = {
     ...legacy,
-    contentVersion: 8,
+    contentVersion: 9,
     minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   }
-  await preflightAndWriteV8(dir, source, current, itemsPath, items)
+  await preflightAndWriteCurrent(dir, source, current, itemsPath, items)
   return true
 }
 
-/** R13-3 content 7 -> 8；只补投掷 target，SAVE/minimum 仍为 7。 */
+/** content 7 -> 当前：先补投掷 target，再升级按角色装备形象与 9/8 epoch。 */
 export async function upgradeLocalProjectV7ThrowV8(
   dir: FileSystemDirectoryHandle,
   source: FileSource,
@@ -117,13 +120,31 @@ export async function upgradeLocalProjectV7ThrowV8(
   if (record?.contentVersion !== 7) return false
   const legacy = structuredClone(record) as unknown as LegacyManifestV7
   const itemsPath = itemsPathOf(record)
-  const items = upgradeItemsV7ToV8(await source.readJson<unknown>(itemsPath))
-  const current = upgradeManifestV7ToV8(legacy)
-  if (current.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
+  const items = upgradeItemsV8ToV9(upgradeItemsV7ToV8(await source.readJson<unknown>(itemsPath)))
+  const intermediate = upgradeManifestV7ToV8(legacy)
+  if (intermediate.minimumSaveVersion !== 7)
     throw new Error(
-      `manifest.minimumSaveVersion: contentVersion 7 期望 ` +
-        `${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}，收到 ${String(current.minimumSaveVersion)}`,
+      `manifest.minimumSaveVersion: contentVersion 7 期望 7，收到 ${String(
+        intermediate.minimumSaveVersion,
+      )}`,
     )
-  await preflightAndWriteV8(dir, source, current, itemsPath, items)
+  const current = upgradeManifestV8ToV9(intermediate)
+  await preflightAndWriteCurrent(dir, source, current, itemsPath, items)
+  return true
+}
+
+/** content 8 -> 9：scalar 装备形象升级到 byActor，并主动切到 SAVE8/min8。 */
+export async function upgradeLocalProjectV8EquipBattleSpriteV9(
+  dir: FileSystemDirectoryHandle,
+  source: FileSource,
+  rawManifest: unknown,
+): Promise<boolean> {
+  const record = manifestRecord(rawManifest)
+  if (record?.contentVersion !== 8) return false
+  const legacy = structuredClone(record) as unknown as LegacyManifestV8
+  const itemsPath = itemsPathOf(record)
+  const items = upgradeItemsV8ToV9(await source.readJson<unknown>(itemsPath))
+  const current = upgradeManifestV8ToV9(legacy)
+  await preflightAndWriteCurrent(dir, source, current, itemsPath, items)
   return true
 }

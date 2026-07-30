@@ -754,7 +754,15 @@ async function buildLegacyJournal(
     } else if (input.kind === 'setActorAppearance' && typeof input.battleSprite === 'string') {
       sawCanonicalReference = true
     }
-    if (input.kind === 'battleSprite' && typeof input.sprite === 'number') {
+    if (input.kind === 'battleSprite' && 'sprite' in input && 'byActor' in input)
+      throw new Error(`${where}: battleSprite 同时含旧 sprite 与 canonical byActor`)
+    if (input.kind === 'battleSprite' && input.byActor !== undefined) {
+      const byActor = objectAt(input.byActor, `${where}.byActor`)
+      for (const [actorId, definitionId] of Object.entries(byActor))
+        if (typeof definitionId !== 'string' || !definitionId)
+          throw new Error(`${where}.byActor.${actorId}: 期望非空 BattleSpriteDef.id`)
+      sawCanonicalReference = true
+    } else if (input.kind === 'battleSprite' && typeof input.sprite === 'number') {
       sawLegacyReference = true
       if (!Number.isInteger(input.sprite) || input.sprite < 0)
         throw new Error(`${where}.sprite: 期望非负整数`)

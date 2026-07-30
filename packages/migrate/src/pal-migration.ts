@@ -142,6 +142,30 @@ export function createPalR13TranslationSession(migration: MigrationFileSet): R13
   return factory()
 }
 
+/**
+ * 为同一份源提取权威建立只替换 canonical 文件视图的派生快照，同时保留进程内
+ * R13 source translation 能力。只供后置迁移建立 immutable historical authority；
+ * 普通 JSON/baseline 无法伪造这个控制面。
+ */
+export function derivePalMigrationFileSet(
+  migration: MigrationFileSet,
+  files: Map<string, MigrationJson>,
+  managedFiles: Set<string> = new Set(migration.managedFiles),
+): MigrationFileSet {
+  const factory = r13TranslationSessionFactories.get(migration)
+  if (!factory)
+    throw new Error(
+      'PAL migration 派生失败：必须使用本进程 buildPalMigration 返回的原始 MigrationFileSet',
+    )
+  const derived: MigrationFileSet = {
+    ...migration,
+    files,
+    managedFiles,
+  }
+  r13TranslationSessionFactories.set(derived, factory)
+  return derived
+}
+
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
 }

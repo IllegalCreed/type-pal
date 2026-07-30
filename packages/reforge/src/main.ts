@@ -8,6 +8,7 @@ import {
   type DialogueCue,
   type EntityDef,
   type EntryPoint,
+  type EquipDescribeCtx,
   effectiveGrantedStatuses,
   effectiveRegen,
   effectiveResistances,
@@ -113,6 +114,7 @@ import {
   playFrameAnimation as playFrameAnimationOverlay,
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
+import { GameplayClock } from './gameplay-clock.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse } from './item-use-executor.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
@@ -145,7 +147,7 @@ import {
   type ItemUseResultEntry,
 } from './menu/item-use-result.js'
 import { drawMagicMenu } from './menu/magic-box.js'
-import { loadMenuAssets, MenuBox } from './menu/menu-box.js'
+import { drawConfirmBox, loadMenuAssets, MenuBox } from './menu/menu-box.js'
 import { drawSaveBrowser } from './menu/save-browser-box.js'
 import { drawShop, openShopUi, type ShopUiState, shopInput } from './menu/shop-box.js'
 import { drawSystemMenu } from './menu/system-box.js'
@@ -164,11 +166,11 @@ import {
   openSaveBrowser,
   type SaveBrowserState,
 } from './save/browser-state.js'
-import { normalizePayloadV7, preflightSaveMigration, sha256Bytes } from './save/migration.js'
+import { normalizePayloadV8, preflightSaveMigration, sha256Bytes } from './save/migration.js'
 import {
   buildMeta,
   buildPayload,
-  buildPayloadV7,
+  buildPayloadV8,
   captureThumbnail,
   normalizePayload,
   resolveLegacyFollowerSpriteId,
@@ -180,7 +182,7 @@ import {
   ALL_SLOT_IDS,
   type SaveMeta,
   type SavePayload,
-  type SavePayloadV7,
+  type SavePayloadV8,
   type SlotId,
   type StoredSavePayload,
 } from './save/types.js'
@@ -196,6 +198,7 @@ import {
 import { resolveSceneSpawn } from './scene-transition.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
 import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
+import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { executeLegacyScriptHostEffectV5 } from './script-host-adapter-v5.js'
 import { ScriptProjectRuntimeV5 } from './script-project-v5.js'
 import { type ScriptHost, ScriptRunner } from './script-runner.js'
@@ -296,6 +299,14 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     worldScriptV5 = emptyWorldScriptStateV5()
     project = legacyProjectShellFromV5(canonicalProjectV5, worldScriptV5)
   } else project = inputProject as LoadedProject
+  const itemEquipDescribeCtx = {
+    skillName: (id) => project.skills[id]?.name,
+    actorName: (id) => {
+      const actor = project.actorsById[id]
+      return actor ? lookupText(actor.name, project.locale) : undefined
+    },
+    battleSpriteName: (id) => project.battleSpritesById[id]?.label,
+  } satisfies EquipDescribeCtx
   canvas = document.getElementById('screen') as HTMLCanvasElement
   if (!canvas) throw new Error('bootGame: 页面缺 <canvas id="screen">')
   ctx = get2dContext(canvas)
@@ -1180,6 +1191,48 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let preserveClosedDialogFrame = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
+  // ── R13-4 脚本二选一：独立于系统菜单业务的中央 FIFO + dedicated held-frame。──
+  const scriptConfirmModal = new ScriptConfirmModalQueue<ImageData>()
+  const scriptExecutionGateWaiters: {
+    signal: AbortSignal
+    resolve: () => void
+    reject: (error: Error) => void
+    abort: () => void
+  }[] = []
+  const canActivateScriptConfirm = (): boolean =>
+    !shop && !menu.active && !itemUseResult && !activeBattle
+  const activateScriptConfirm = (): void => {
+    scriptConfirmModal.activateIfPossible(canActivateScriptConfirm(), () =>
+      ctx.getImageData(0, 0, canvas.width, canvas.height),
+    )
+  }
+  const resumeScriptExecutionGates = (): void => {
+    if (scriptConfirmModal.active) return
+    for (const waiter of scriptExecutionGateWaiters.splice(0)) {
+      waiter.signal.removeEventListener('abort', waiter.abort)
+      waiter.resolve()
+    }
+  }
+  const waitForScriptGameplay = (signal: AbortSignal): Promise<void> | void => {
+    if (!scriptConfirmModal.active) return
+    return new Promise<void>((resolve, reject) => {
+      const waiter = {
+        signal,
+        resolve,
+        reject,
+        abort: () => {},
+      }
+      waiter.abort = () => {
+        const index = scriptExecutionGateWaiters.indexOf(waiter)
+        if (index >= 0) scriptExecutionGateWaiters.splice(index, 1)
+        signal.removeEventListener('abort', waiter.abort)
+        reject(asyncIntentAbortError('脚本确认框冻结期间 runner 已取消'))
+      }
+      scriptExecutionGateWaiters.push(waiter)
+      signal.addEventListener('abort', waiter.abort, { once: true })
+      if (signal.aborted) waiter.abort()
+    })
+  }
   const entityFrameOverride = new Map<string, number>() // setEntityFrame 演出帧覆盖(切场景清)
   // ── 0x15/0x65 队伍演出态(原版 rgParty[].wFrame / rgwSpriteNum;脚本自清,走路时引擎清)──
   let partyGesture: number | null = null // 脚本姿势帧(渲染 = dir*framesPerDir + gesture)
@@ -2594,8 +2647,11 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     },
     confirm: async (signal) => {
       assertRunnerActive(signal, '确认框所属 runner 已取消')
-      host.report('confirm 是/否框未实现(暂按"是")')
-      return true
+      const heldFrame = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      preserveClosedDialogFrame = false
+      const answer = scriptConfirmModal.enqueue(heldFrame, signal ?? new AbortController().signal)
+      activateScriptConfirm()
+      return answer
     },
     query: {
       hasItem: (itemId, atLeast) =>
@@ -2816,6 +2872,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       currentSceneId: () => scene.id,
       currentSceneSessionId: () =>
         `${scene.id}:${sceneSwitchIntent.capture()}:${worldMutationIntent.capture()}`,
+      gate: (signal) => waitForScriptGameplay(signal),
       entityPosRelativeToParty: (target, dcol, drow) => {
         if (target.scene !== scene.id)
           throw new Error(`setEntityPosRelParty 只能操作当前场景: ${target.scene}/${target.entity}`)
@@ -3440,6 +3497,8 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     scriptAbort = null
     pendingOnEnter = null
     preserveClosedDialogFrame = false
+    scriptConfirmModal.cancelAll('脚本会话已替换')
+    resumeScriptExecutionGates()
     if (dialogBox.active) dialogBox.close()
     const r = scriptDialogResolve
     scriptDialogResolve = null
@@ -3526,7 +3585,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   let lastGameThumb: Blob | undefined // 开菜单时抓的干净游戏帧(菜单内存档的缩略图源)
   let toast: { text: string; until: number } | undefined // 快速存读短提示
   const MAP_NAME = project.manifest.name
-  let lastT = 0
+  const gameplayClock = new GameplayClock()
 
   function showToast(text: string): void {
     toast = { text, until: performance.now() + 1500 }
@@ -3698,7 +3757,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     if (worldScriptV5 && canonicalProjectV5) {
       const snapshot = structuredClone(world)
       delete snapshot.script
-      return buildPayloadV7(
+      return buildPayloadV8(
         {
           ...snapshot,
           script: structuredClone(worldScriptV5),
@@ -3810,7 +3869,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       manifest: canonicalProjectV5.manifest,
       payload: raw,
     })
-    return normalizePayloadV7(raw, resolver)
+    return normalizePayloadV8(raw as SavePayloadV8, resolver)
   }
 
   /** 已归一化 payload 的统一恢复事务；槽读档与 E2E 文件恢复必须共路。 */
@@ -3828,9 +3887,9 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     }
     let canonicalScriptCandidate: WorldScriptStateV5 | undefined
     const candidate =
-      canonicalProjectV5 && p.version === 7
+      canonicalProjectV5 && p.version === 8
         ? (() => {
-            const payload = p as SavePayloadV7
+            const payload = p as SavePayloadV8
             canonicalScriptCandidate = structuredClone(
               payload.world.script ?? emptyWorldScriptStateV5(),
             )
@@ -3967,6 +4026,27 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
    */
   function render(): void {
+    const scriptConfirm = scriptConfirmModal.view
+    if (scriptConfirm) {
+      ctx.putImageData(scriptConfirm.frame, 0, 0)
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      drawConfirmBox(
+        ctx,
+        menuAssets.scroll,
+        {
+          leftText: lookupText('menu.system.no', project.locale),
+          rightText: lookupText('menu.system.yes', project.locale),
+          rightSelected: scriptConfirm.selectedYes,
+        },
+        glyphs,
+        performance.now(),
+      )
+      ctx.restore()
+      scriptConfirmModal.presented()
+      return
+    }
     // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
     if (preserveClosedDialogFrame) return
     // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
@@ -4233,7 +4313,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           performance.now(),
           project.locale,
           project.items,
-          (sid) => project.skills[sid]?.name,
+          itemEquipDescribeCtx,
         )
       } else if (menu.openPanel === 'use') {
         drawUseMenu(
@@ -4245,7 +4325,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           performance.now(),
           project.locale,
           project.items,
-          (sid) => project.skills[sid]?.name,
+          itemEquipDescribeCtx,
         )
       } else {
         // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。
@@ -4461,14 +4541,21 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
   }
 
   function tick(t: number): void {
-    const dt = lastT ? Math.min(t - lastT, 100) : 0 // 钳制 dt 防后台切回爆步
-    lastT = t
-    nowMs = t
+    activateScriptConfirm()
+    resumeScriptExecutionGates()
+    const gameplayFrozen = scriptConfirmModal.active
+    const clockFrame = gameplayClock.advance(t, gameplayFrozen)
+    const dt = clockFrame.realDt
+    const gameplayDt = clockFrame.gameplayDt
+    nowMs = clockFrame.gameplayNow
     // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──
-    for (let i = timers.length - 1; i >= 0; i--) {
-      if (t >= expectDefined(timers[i]).deadline) expectDefined(timers.splice(i, 1)[0]).settle()
+    if (!gameplayFrozen) {
+      for (let i = timers.length - 1; i >= 0; i--) {
+        if (nowMs >= expectDefined(timers[i]).deadline)
+          expectDefined(timers.splice(i, 1)[0]).settle()
+      }
+      fadeDriver.advance(nowMs)
     }
-    fadeDriver.advance(t)
     if (!dialogBox.active && scriptDialogResolve) {
       const r = scriptDialogResolve
       scriptDialogResolve = null
@@ -4479,19 +4566,23 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         preserveClosedDialogFrame = false
       })
     }
-    entityActions.advance(dt, (id) => {
-      const entity = scene.entities.find((candidate) => candidate.id === id)
-      return (
-        !entity ||
-        entity.hidden === true ||
-        entityFrameOverride.has(id) ||
-        entityMoves.has(id) ||
-        entityAnim.has(id)
-      )
-    })
-    advanceMoves(dt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
-    deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
-    tickHostiles(dt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)
+    if (!gameplayFrozen) {
+      entityActions.advance(gameplayDt, (id) => {
+        const entity = scene.entities.find((candidate) => candidate.id === id)
+        return (
+          !entity ||
+          entity.hidden === true ||
+          entityFrameOverride.has(id) ||
+          entityMoves.has(id) ||
+          entityAnim.has(id)
+        )
+      })
+      advanceMoves(gameplayDt) // M3b 走位驱动(实体巡逻/剧情走位;与输入无关,菜单/对话期照走)
+      deriveMounts() // E7:挂载派生最后跑(位置=父+偏移,覆写一切 = 契约最高权威)
+      tickHostiles(gameplayDt) // B9 野怪遇敌驱动(数据化;追逐→开战→胜负)
+    } else {
+      worldTicksThisFrame = 0
+    }
     const pressed = keyboard.consumePressed()
     // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)
     if (activeBattle) {
@@ -4506,7 +4597,18 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
 
     // 三态优先级:商店 > 菜单 > 对话 > 探索(用 else if 保证互斥;商店在脚本 openShop
     // await 期间活跃 —— 必须先于「脚本演出中吞输入」分支消费按键)
-    if (shop) {
+    if (scriptConfirmModal.active) {
+      if (
+        pressed.has('ArrowUp') ||
+        pressed.has('ArrowDown') ||
+        pressed.has('ArrowLeft') ||
+        pressed.has('ArrowRight')
+      )
+        scriptConfirmModal.toggle()
+      else if (interact) scriptConfirmModal.submit()
+      else if (esc) scriptConfirmModal.submitNo()
+      else if (pressed.has('F5')) void quickSave().catch(reportSaveFailure)
+    } else if (shop) {
       const r = shopInput(shop.ui, pressed, world, project.items, (next) => {
         replaceWorld(next)
       })

@@ -1735,276 +1735,322 @@
             "label": "触发行为 1",
             "order": 1,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6988"
-                          },
-                          {
-                            "text": "dlg.6989"
-                          }
-                        ],
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6990"
-                          },
-                          {
-                            "text": "dlg.6991"
-                          },
-                          {
-                            "text": "dlg.6992"
-                          },
-                          {
-                            "text": "dlg.6993"
-                          }
-                        ],
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.6994"
-                          },
-                          {
-                            "text": "dlg.6995"
-                          },
-                          {
-                            "text": "dlg.6996"
-                          }
-                        ],
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.6998"
-                          },
-                          {
-                            "text": "dlg.6999"
-                          },
-                          {
-                            "text": "dlg.7000"
-                          },
-                          {
-                            "text": "dlg.7001"
-                          }
-                        ],
-                        "speaker": "spk.林月如"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7003"
-                          },
-                          {
-                            "text": "dlg.7004"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.021",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.7006"
-                          }
-                        ],
-                        "speaker": "spk.林月如"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7008"
-                          },
-                          {
-                            "text": "dlg.7009"
-                          },
-                          {
-                            "text": "dlg.7010"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7011"
-                          },
-                          {
-                            "text": "dlg.7012"
-                          },
-                          {
-                            "text": "dlg.7013"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7015"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.茅山道士"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "confirm",
-                      "onNo": []
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "not",
-                        "cond": {
-                          "atLeast": 15000,
-                          "kind": "hasMoney"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "confirm-decisions",
+                "label": "触发行为 1",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "步骤 initial",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6988"
+                            },
+                            {
+                              "text": "dlg.6989"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士"
                         }
                       },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.6986"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.茅山道士"
-                          },
-                          "kind": "dialog"
-                        }
-                      ]
-                    },
-                    {
-                      "delta": -15000,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7017"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.茅山道士"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s128",
-                        "entity": "e2245"
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6990"
+                            },
+                            {
+                              "text": "dlg.6991"
+                            },
+                            {
+                              "text": "dlg.6992"
+                            },
+                            {
+                              "text": "dlg.6993"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6994"
+                            },
+                            {
+                              "text": "dlg.6995"
+                            },
+                            {
+                              "text": "dlg.6996"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6998"
+                            },
+                            {
+                              "text": "dlg.6999"
+                            },
+                            {
+                              "text": "dlg.7000"
+                            },
+                            {
+                              "text": "dlg.7001"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7003"
+                            },
+                            {
+                              "text": "dlg.7004"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7006"
+                            }
+                          ],
+                          "speaker": "spk.林月如",
+                          "portrait": {
+                            "asset": "portrait.pal.021",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7008"
+                            },
+                            {
+                              "text": "dlg.7009"
+                            },
+                            {
+                              "text": "dlg.7010"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7011"
+                            },
+                            {
+                              "text": "dlg.7012"
+                            },
+                            {
+                              "text": "dlg.7013"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
                       }
-                    },
-                    {
-                      "kind": "selectSceneHooks",
-                      "scene": "s119",
-                      "selection": {
-                        "onEnter": {
-                          "kind": "use",
-                          "value": "legacy-001"
-                        }
-                      }
-                    },
-                    {
-                      "kind": "loadScene",
-                      "scene": "s119"
-                    },
-                    {
-                      "kind": "stopMusic"
-                    },
-                    {
-                      "dir": "out",
-                      "kind": "fade",
-                      "ms": 600
-                    },
-                    {
-                      "asset": "music.pal.032",
-                      "kind": "playMusic"
+                    ],
+                    "next": {
+                      "kind": "continue",
+                      "state": "decision-001"
                     }
-                  ]
+                  },
+                  "decision-001": {
+                    "label": "触发行为 1 · 价格确认",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7015"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "id": "decision-001",
+                        "onNo": []
+                      }
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-001",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "stay"
+                      },
+                      "else": {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "hasMoney",
+                            "atLeast": 15000
+                          }
+                        },
+                        "then": {
+                          "kind": "continue",
+                          "state": "decision-001-insufficient"
+                        },
+                        "else": {
+                          "kind": "continue",
+                          "state": "decision-001-success"
+                        }
+                      }
+                    }
+                  },
+                  "decision-001-insufficient": {
+                    "label": "触发行为 1 · 钱不足",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.6986"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "decision-001"
+                    }
+                  },
+                  "decision-001-success": {
+                    "label": "触发行为 1 · 成交",
+                    "body": [
+                      {
+                        "kind": "giveMoney",
+                        "delta": -15000
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7017"
+                            }
+                          ],
+                          "speaker": "spk.茅山道士",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 0,
+                        "target": {
+                          "scene": "s128",
+                          "entity": "e2245"
+                        }
+                      },
+                      {
+                        "kind": "selectSceneHooks",
+                        "scene": "s119",
+                        "selection": {
+                          "onEnter": {
+                            "kind": "use",
+                            "value": "legacy-001"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "loadScene",
+                        "scene": "s119"
+                      },
+                      {
+                        "kind": "stopMusic"
+                      },
+                      {
+                        "kind": "fade",
+                        "dir": "out",
+                        "ms": 600
+                      },
+                      {
+                        "kind": "playMusic",
+                        "asset": "music.pal.032"
+                      }
+                    ],
+                    "next": {
+                      "kind": "restart"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

@@ -22,6 +22,7 @@ import {
   type SavePayloadV5,
   type SavePayloadV6,
   type SavePayloadV7,
+  type SavePayloadV8,
 } from './types.js'
 
 export type {
@@ -29,6 +30,7 @@ export type {
   SavePayloadV5,
   SavePayloadV6,
   SavePayloadV7,
+  SavePayloadV8,
 } from './types.js'
 
 /** N3-1 的目标 envelope 版本；P7 原子切换时与 SAVE_VERSION 一同成为 5。 */
@@ -77,7 +79,15 @@ export interface SaveMigrationResolverV7 {
   targetSaveVersion: 7
 }
 
-export type SaveMigrationResolver =
+export interface SaveMigrationResolver {
+  kind: 'current-v9'
+  projectId: string
+  targetContentVersion: 9
+  targetSaveVersion: 8
+}
+
+/** R13-3 historical 7/7 -> 7/8 内容轴 identity resolver；当前 runtime 不调用。 */
+export type SaveMigrationResolverV8Historical =
   | {
       kind: 'current-v8'
       projectId: string
@@ -118,7 +128,7 @@ export type ValidatedProjectMigrationRegistryV1 = Readonly<
 >
 
 async function loadScriptV4V5MigrationBlob(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9>
   source: Pick<FileSource, 'readBytes'>
   descriptorValue: unknown
   signal?: AbortSignal
@@ -160,7 +170,7 @@ async function loadScriptV4V5MigrationBlob(args: {
  * 当前只定义 script-v4-v5；未知 transition 不允许被静默透传成“已验证”。
  */
 export async function loadProjectMigrationRegistryV5(args: {
-  manifest: ProjectManifest<5 | 6 | 7 | 8>
+  manifest: ProjectManifest<5 | 6 | 7 | 8 | 9>
   source: Pick<FileSource, 'readBytes'>
   signal?: AbortSignal
 }): Promise<ValidatedProjectMigrationRegistryV1> {
@@ -243,12 +253,12 @@ async function resolveSceneHookSelections(
 }
 
 /**
- * 当前工程是 content8/minimum7；只接受 SAVE7/content7 或 SAVE7/content8。
- * 7/7 是无 sidecar 的内容 epoch identity 升级，6 及更早仍在任何兼容 IO 前拒绝。
+ * 当前工程是 content9/minimum8；只接受 SAVE8/content9。
+ * R13-4 主动断开旧 cursor epoch，所有旧组合都在任何兼容 IO 前拒绝。
  * 此预检的参数刻意不含 FileSource，旧存档一定在任何历史 sidecar I/O 之前失败。
  */
 export async function preflightSaveMigration(args: {
-  manifest: ProjectManifest<8>
+  manifest: ProjectManifest<9>
   payload: SavePayloadHeader
 }): Promise<SaveMigrationResolver> {
   const minimum = args.manifest.minimumSaveVersion
@@ -265,17 +275,42 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
     )
-  if (saveVersion !== SAVE_VERSION || (contentVersion !== 7 && contentVersion !== CONTENT_VERSION))
+  if (saveVersion !== SAVE_VERSION || contentVersion !== CONTENT_VERSION)
     throw new Error(
       `开发期存档 epoch 已断开：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
-        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 7 或 ${CONTENT_VERSION}；请新开游戏，` +
+        `当前只接受 SAVE v${SAVE_VERSION} / contentVersion ${CONTENT_VERSION}；请新开游戏，` +
         '旧存档不会读取或重放历史兼容 sidecar',
     )
   return {
-    kind: contentVersion === CONTENT_VERSION ? 'current-v8' : 'content-v7-v8',
+    kind: 'current-v9',
     projectId: args.manifest.id,
     targetContentVersion: CONTENT_VERSION,
     targetSaveVersion: SAVE_VERSION,
+  }
+}
+
+/** R13-3 historical 7/7 或 7/8 预检；当前 runtime 不调用。 */
+export async function preflightLegacySaveMigrationV8(args: {
+  manifest: ProjectManifest<8>
+  payload: SavePayloadHeader
+}): Promise<SaveMigrationResolverV8Historical> {
+  if (args.manifest.minimumSaveVersion !== 7)
+    throw new Error(
+      `manifest.minimumSaveVersion: historical contentVersion 8 期望 7，收到 ${String(
+        args.manifest.minimumSaveVersion,
+      )}`,
+    )
+  const saveVersion = assertIntegerVersion(args.payload.version, 'payload.version')
+  const contentVersion = assertIntegerVersion(args.payload.contentVersion, 'payload.contentVersion')
+  if (args.payload.projectId !== args.manifest.id)
+    throw new Error(`存档工程 "${args.payload.projectId}" 与当前工程 "${args.manifest.id}" 不匹配`)
+  if (saveVersion !== 7 || (contentVersion !== 7 && contentVersion !== 8))
+    throw new Error('historical contentVersion 8 只接受 SAVE7/content7 或 SAVE7/content8')
+  return {
+    kind: contentVersion === 8 ? 'current-v8' : 'content-v7-v8',
+    projectId: args.manifest.id,
+    targetContentVersion: 8,
+    targetSaveVersion: 7,
   }
 }
 
@@ -674,11 +709,7 @@ export function normalizeLegacyPayloadV7(
 ): LegacySavePayloadV7 {
   if (input.projectId !== resolver.projectId)
     throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
-  if (
-    resolver.kind !== 'current-v7' ||
-    input.version !== SAVE_VERSION ||
-    input.contentVersion !== 7
-  )
+  if (resolver.kind !== 'current-v7' || input.version !== 7 || input.contentVersion !== 7)
     throw new Error('current-v7 resolver 只接受 version=7/contentVersion=7')
   const payload = structuredClone(input) as LegacySavePayloadV7
   payload.world.script ??= emptyWorldScriptStateV5()
@@ -693,19 +724,40 @@ export function normalizeLegacyPayloadV7(
  */
 export function normalizePayloadV7(
   input: SavePayload | SavePayloadV5 | SavePayloadV6 | LegacySavePayloadV7 | SavePayloadV7,
-  resolver: SaveMigrationResolver,
+  resolver: SaveMigrationResolverV8Historical,
 ): SavePayloadV7 {
   if (input.projectId !== resolver.projectId)
     throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
-  if (input.version !== SAVE_VERSION)
-    throw new Error(`当前 resolver 只接受 version=${SAVE_VERSION}`)
+  if (input.version !== 7) throw new Error('historical content8 resolver 只接受 version=7')
   if (
-    (resolver.kind === 'current-v8' && input.contentVersion !== CONTENT_VERSION) ||
+    (resolver.kind === 'current-v8' && input.contentVersion !== 8) ||
     (resolver.kind === 'content-v7-v8' && input.contentVersion !== 7)
   )
     throw new Error(`${resolver.kind} resolver 与 payload.contentVersion 不匹配`)
   const payload = structuredClone(input) as SavePayloadV7
-  payload.contentVersion = CONTENT_VERSION
+  payload.contentVersion = 8
+  if (payload.world.script !== undefined)
+    checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
+  validateHostileAwareness(payload.world, 'payload.world')
+  return payload
+}
+
+/** 当前 SAVE8/content9 只做隔离副本验证，不读取任何历史 sidecar。 */
+export function normalizePayloadV8(
+  input: SavePayloadV8,
+  resolver: SaveMigrationResolver,
+): SavePayloadV8 {
+  if (input.projectId !== resolver.projectId)
+    throw new Error(`存档工程 "${input.projectId}" 与 resolver "${resolver.projectId}" 不匹配`)
+  if (
+    resolver.kind !== 'current-v9' ||
+    input.version !== SAVE_VERSION ||
+    input.contentVersion !== CONTENT_VERSION
+  )
+    throw new Error(
+      `current-v9 resolver 只接受 version=${SAVE_VERSION}/contentVersion=${CONTENT_VERSION}`,
+    )
+  const payload = structuredClone(input)
   if (payload.world.script !== undefined)
     checkWorldScriptStateV5(payload.world.script, 'payload.world.script')
   validateHostileAwareness(payload.world, 'payload.world')

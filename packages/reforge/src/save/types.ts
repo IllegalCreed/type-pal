@@ -6,6 +6,7 @@ import type {
   WorldStateV6,
   WorldStateV7,
   WorldStateV8,
+  WorldStateV9,
 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
@@ -13,7 +14,7 @@ export type SlotId = string // 'auto' | 'quick' | 'm01'..'m28'
 
 export const MANUAL_SLOT_COUNT = 28
 export const SLOTS_PER_PAGE = 3
-export const SAVE_VERSION = 7 as const
+export const SAVE_VERSION = 8 as const
 
 /** 全部槽 id（固定序）：自动、快速最前，其后 m01..m28（共 30，3/页 → 10 页）。 */
 export const ALL_SLOT_IDS: SlotId[] = [
@@ -70,11 +71,18 @@ export interface LegacySavePayloadV7
   world: WorldStateV7
 }
 
-/** 当前 envelope 仍为 SAVE7，但内容轴已升到 content8。 */
+/** R13-3 已发布的历史 SAVE7/content8 payload；当前运行时不再接受。 */
 export interface SavePayloadV7 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
   version: 7
   contentVersion: 8
   world: WorldStateV8
+}
+
+/** 当前 R13-4 envelope；content9 与 SAVE8 主动断开旧 cursor epoch。 */
+export interface SavePayloadV8 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 8
+  contentVersion: 9
+  world: WorldStateV9
 }
 
 export type StoredSavePayload =
@@ -83,3 +91,4 @@ export type StoredSavePayload =
   | SavePayloadV6
   | LegacySavePayloadV7
   | SavePayloadV7
+  | SavePayloadV8

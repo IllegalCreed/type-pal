@@ -96,6 +96,10 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
     return this.options.currentSceneSessionId?.() ?? this.options.currentSceneId()
   }
 
+  gate(signal: AbortSignal): void | Promise<void> {
+    return this.options.gate?.(signal)
+  }
+
   async execute(
     command: RuntimeLeafCommandV5,
     context: Readonly<ScriptRuntimeContextV5>,
@@ -383,25 +387,36 @@ export class ScriptProjectRuntimeV5 {
     commands: readonly AuthorCommandV5[],
     options: RunProjectCommandsV5Options,
   ): Promise<void> {
+    let activity = this.coordinator.beginActivity()
+    while (!activity && this.coordinator.gateClosed()) {
+      await this.coordinator.waitForActivationGate(options.signal)
+      options.signal.throwIfAborted()
+      activity = this.coordinator.beginActivity()
+    }
+    if (!activity) throw new Error('script v5 transient activity 无法登记')
     const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
-    await runner.runFlow(
-      compileScriptFlowV5(
+    try {
+      await runner.runFlow(
+        compileScriptFlowV5(
+          {
+            kind: 'stages',
+            initial: '__transient',
+            stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
+          },
+          {
+            canonicalContentDigest: this.canonicalContentDigest,
+            timing: options.timing ?? 'interactive',
+          },
+        ),
         {
-          kind: 'stages',
-          initial: '__transient',
-          stages: [{ id: '__transient', body: [...structuredClone(commands)] }],
+          cursor: { kind: 'stage', stage: '__transient' },
+          cursorController: { reachSafePoint: () => 'continue' },
+          ...(options.self ? { self: structuredClone(options.self) } : {}),
         },
-        {
-          canonicalContentDigest: this.canonicalContentDigest,
-          timing: options.timing ?? 'interactive',
-        },
-      ),
-      {
-        cursor: { kind: 'stage', stage: '__transient' },
-        cursorController: { reachSafePoint: () => 'continue' },
-        ...(options.self ? { self: structuredClone(options.self) } : {}),
-      },
-    )
+      )
+    } finally {
+      activity.close()
+    }
   }
 
   async runSharedScript(script: string, options: RunProjectCommandsV5Options): Promise<void> {

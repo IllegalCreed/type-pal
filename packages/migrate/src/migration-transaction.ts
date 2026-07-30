@@ -262,6 +262,10 @@ export function recoverMigrationTransaction(repo: string): boolean {
   return true
 }
 
+export function hasPendingMigrationTransaction(repo: string): boolean {
+  return existsSync(resolve(repo, JOURNAL_REL))
+}
+
 export function commitMigrationTransaction(
   repo: string,
   changes: readonly TransactionChange[],

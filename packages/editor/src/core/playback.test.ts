@@ -1,4 +1,4 @@
-import type { SceneDef } from '@type-pal/content'
+import type { SceneDef, SceneDefV5, ScriptFlowV5 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { Playback } from './playback.js'
 
@@ -7,6 +7,46 @@ const scene: SceneDef = {
   mapId: 'map-001',
   entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
   entities: [],
+}
+
+const canonicalScene: SceneDefV5 = {
+  id: 's001',
+  mapId: 'map-001',
+  entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+  entities: [],
+}
+
+const choiceFlow: ScriptFlowV5 = {
+  kind: 'stateMachine',
+  machine: {
+    id: 'preview-choice',
+    label: '预览选择',
+    initial: 'choice',
+    states: {
+      choice: {
+        label: '选择',
+        body: [{ kind: 'confirm', id: 'decision', onNo: [] }],
+        next: {
+          kind: 'commandOutcome',
+          commandId: 'decision',
+          command: 'confirm',
+          outcome: 'no',
+          then: { kind: 'continue', state: 'no' },
+          else: { kind: 'continue', state: 'yes' },
+        },
+      },
+      no: {
+        label: '否',
+        body: [{ kind: 'setPartyFacing', facing: 'left' }],
+        next: { kind: 'stay' },
+      },
+      yes: {
+        label: '是',
+        body: [{ kind: 'setPartyFacing', facing: 'right' }],
+        next: { kind: 'stay' },
+      },
+    },
+  },
 }
 
 describe('Playback', () => {
@@ -64,5 +104,78 @@ describe('Playback', () => {
     playback.confirmDialog()
     await vi.waitFor(() => expect(playback.mode).toBe('done'))
     expect(playback.view.fadeBlack).toBe(0)
+  })
+
+  test.each([
+    { accepted: false, facing: 'left' as const },
+    { accepted: true, facing: 'right' as const },
+  ])('canonical v5 preview executes the real commandOutcome arm ($accepted)', async ({
+    accepted,
+    facing,
+  }) => {
+    const playback = new Playback(scene)
+    const sourceBefore = structuredClone(choiceFlow)
+    const library = {}
+    const libraryBefore = structuredClone(library)
+    playback.playCanonical('canonical:choice', choiceFlow, {
+      scene: canonicalScene,
+      sharedScripts: library,
+    })
+
+    await vi.waitFor(() => expect(playback.view.confirm).not.toBeNull())
+    expect(playback.view.confirm?.selectedYes).toBe(false)
+    playback.answerConfirm(accepted)
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.player.facing).toBe(facing)
+    expect(choiceFlow).toEqual(sourceBefore)
+    expect(library).toEqual(libraryBefore)
+  })
+
+  test('stopping canonical preview aborts an unanswered prompt without choosing an arm', async () => {
+    const playback = new Playback(scene)
+    playback.playCanonical('canonical:choice', choiceFlow, {
+      scene: canonicalScene,
+      sharedScripts: {},
+    })
+    await vi.waitFor(() => expect(playback.view.confirm).not.toBeNull())
+
+    playback.stop()
+    await Promise.resolve()
+    expect(playback.mode).toBe('idle')
+    expect(playback.view.confirm).toBeNull()
+    expect(playback.view.player.facing).toBe('down')
+  })
+
+  test('canonical shared preview resolves callScript without mutating the authored library', async () => {
+    const playback = new Playback(scene)
+    const flow: ScriptFlowV5 = {
+      kind: 'stages',
+      initial: 'preview',
+      stages: [
+        {
+          id: 'preview',
+          body: [{ kind: 'callScript', script: 'shared/user/turn-left' }],
+        },
+      ],
+    }
+    const library = {
+      'shared/user/turn-left': {
+        name: '向左转',
+        self: 'none' as const,
+        body: [{ kind: 'setPartyFacing' as const, facing: 'left' as const }],
+      },
+    }
+    const sourceBefore = structuredClone(flow)
+    const libraryBefore = structuredClone(library)
+
+    playback.playCanonical('canonical:shared:turn-left', flow, {
+      scene: canonicalScene,
+      sharedScripts: library,
+    })
+
+    await vi.waitFor(() => expect(playback.mode).toBe('done'))
+    expect(playback.view.player.facing).toBe('left')
+    expect(flow).toEqual(sourceBefore)
+    expect(library).toEqual(libraryBefore)
   })
 })

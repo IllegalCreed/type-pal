@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { SceneDef, SceneDefV5, ScriptStage } from '@type-pal/content'
+import type { SceneDef, SceneDefV5, ScriptFlowV5, ScriptStage } from '@type-pal/content'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -10,6 +10,7 @@ import { CanonicalSceneScriptWorkspaceV5 } from './CanonicalSceneScriptWorkspace
 type PreviewProbeProps = {
   scene: SceneDef
   stages: readonly ScriptStage[]
+  canonicalFlow?: ScriptFlowV5
   sourceKey: string
   focusEntityId?: string
   sceneFraming?: boolean
@@ -226,9 +227,14 @@ describe('CanonicalSceneScriptWorkspaceV5', () => {
       sceneFraming: false,
       sourceKey: 'canonical:entity:sB:e1:trigger:legacy-001',
     })
-    expect(preview.stages[0]?.body[0]).toMatchObject({
-      kind: 'setFlag',
-      flag: 'b-entity',
+    expect(preview.stages).toEqual([])
+    expect(preview.canonicalFlow).toMatchObject({
+      kind: 'stages',
+      stages: [
+        {
+          body: [{ kind: 'setFlag', flag: 'b-entity' }],
+        },
+      ],
     })
 
     await act(async () => scriptTab('进场脚本').click())

@@ -272,6 +272,10 @@ describe('ItemTab', () => {
     await act(async () => root.render(<Harness session={session} assetReader={reader} />))
 
     expect(host.querySelectorAll('.item-capability-card.enabled')).toHaveLength(3)
+    const addEquipEffect = button('添加效果', host.querySelector('.item-equip-effects')!)
+    expect(addEquipEffect.classList).toContain('item-action-button')
+    expect(addEquipEffect.classList).toContain('item-action-button-compact')
+    expect(addEquipEffect.classList).not.toContain('mini')
     const iconTrigger = button('选择已有图标', host)
     await act(async () => iconTrigger.click())
     expect(document.activeElement).toBe(host.querySelector<HTMLInputElement>('#item-icon-filter'))
@@ -300,6 +304,136 @@ describe('ItemTab', () => {
     await act(async () => iconButton.click())
     expect(session.getState().items[0]?.icon).toBe('item-icon.test')
     expect(document.activeElement).toBe(iconTrigger)
+  })
+
+  test('战斗形象覆写按可装备角色逐行编辑，新勾选保持空映射，取消角色同命令剪枝并可撤销', async () => {
+    const initial = state([
+      {
+        ...item('weapon'),
+        equip: {
+          slot: 'weapon',
+          equipableBy: ['hero', 'mage'],
+          effects: [
+            {
+              kind: 'battleSprite',
+              byActor: { hero: 'fighter-hero', mage: 'fighter-mage' },
+            },
+            { kind: 'statBonus', stat: 'attack', delta: 10 },
+            { kind: 'attackAll' },
+          ],
+        },
+      },
+    ])
+    initial.shops = []
+    initial.actors = [
+      {
+        id: 'hero',
+        name: 'actor.hero',
+        spriteId: 'hero',
+        battler: { battleSprite: 'fighter-hero' },
+      },
+      {
+        id: 'mage',
+        name: 'actor.mage',
+        spriteId: 'mage',
+        battler: { battleSprite: 'fighter-mage' },
+      },
+      {
+        id: 'anu',
+        name: 'actor.anu',
+        spriteId: 'anu',
+        battler: { battleSprite: 'fighter-mage' },
+      },
+    ] as never
+    initial.locale = {
+      'actor.hero': '李逍遥',
+      'actor.mage': '赵灵儿',
+      'actor.anu': '阿奴',
+    }
+    initial.battleSprites = [
+      { id: 'fighter-hero', label: '逍遥战斗形象', profile: { kind: 'player-fighter' } },
+      { id: 'fighter-mage', label: '灵儿战斗形象', profile: { kind: 'player-fighter' } },
+    ] as never
+    const session = new EditSession(initial)
+    await act(async () => root.render(<Harness session={session} />))
+
+    const heroPicker = host.querySelector<HTMLSelectElement>(
+      'select[aria-label="李逍遥的战斗形象覆写"]',
+    )!
+    const magePicker = host.querySelector<HTMLSelectElement>(
+      'select[aria-label="赵灵儿的战斗形象覆写"]',
+    )!
+    expect(heroPicker.value).toBe('fighter-hero')
+    expect(magePicker.value).toBe('fighter-mage')
+    expect(
+      host
+        .querySelector('[aria-label="装备效果 1 类型"]')
+        ?.closest('.item-equip-effect-row')
+        ?.classList.contains('item-equip-effect-row-battle-sprite'),
+    ).toBe(true)
+    expect(
+      host
+        .querySelector('[aria-label="装备效果 2 类型"]')
+        ?.closest('.item-equip-effect-row')
+        ?.classList.contains('item-equip-effect-row-battle-sprite'),
+    ).toBe(false)
+    expect(host.querySelector('.item-effect-no-params')?.textContent).toBe('(无参数)')
+    expect(
+      host.querySelectorAll<HTMLSelectElement>(
+        '.item-battle-sprite-row select[aria-label$="的战斗形象覆写"]',
+      ),
+    ).toHaveLength(2)
+    expect([...heroPicker.options].find((option) => option.value === '')?.textContent).toBe(
+      '不覆写',
+    )
+    const otherEffectKind = host.querySelectorAll<HTMLSelectElement>('.ef-kind')[1]!
+    expect(
+      [...otherEffectKind.options].find((option) => option.value === 'battleSprite')?.disabled,
+    ).toBe(true)
+
+    await act(async () => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!
+      setter.call(heroPicker, 'fighter-mage')
+      heroPicker.dispatchEvent(new Event('change', { bubbles: true }))
+    })
+    expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
+      kind: 'battleSprite',
+      byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
+    })
+
+    const checkbox = (label: string): HTMLInputElement =>
+      [...host.querySelectorAll<HTMLInputElement>('.item-character-checks input')].find(
+        (candidate) => candidate.closest('label')?.textContent?.includes(label),
+      )!
+    await act(async () => checkbox('阿奴').click())
+    expect(session.getState().items[0]?.equip?.equipableBy).toEqual(['hero', 'mage', 'anu'])
+    expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
+      kind: 'battleSprite',
+      byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
+    })
+    expect(
+      host.querySelector<HTMLSelectElement>('select[aria-label="阿奴的战斗形象覆写"]')?.value,
+    ).toBe('')
+    expect(
+      host.querySelectorAll<HTMLSelectElement>(
+        '.item-battle-sprite-row select[aria-label$="的战斗形象覆写"]',
+      ),
+    ).toHaveLength(3)
+
+    await act(async () => checkbox('赵灵儿').click())
+    expect(session.getState().items[0]?.equip?.equipableBy).toEqual(['hero', 'anu'])
+    expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
+      kind: 'battleSprite',
+      byActor: { hero: 'fighter-mage' },
+    })
+    await act(async () => session.undo())
+    expect(session.getState().items[0]?.equip?.equipableBy).toEqual(['hero', 'mage', 'anu'])
+    expect(session.getState().items[0]?.equip?.effects[0]).toEqual({
+      kind: 'battleSprite',
+      byActor: { hero: 'fighter-mage', mage: 'fighter-mage' },
+    })
+    await act(async () => session.redo())
+    expect(session.getState().items[0]?.equip?.equipableBy).toEqual(['hero', 'anu'])
   })
 
   test('使用能力可创建并原子绑定共享脚本，引用页可跳商店', async () => {

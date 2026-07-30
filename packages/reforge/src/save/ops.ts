@@ -19,7 +19,7 @@ import {
   type SavePayload,
   type SavePayloadV5,
   type SavePayloadV6,
-  type SavePayloadV7,
+  type SavePayloadV8,
   type SlotId,
   slotKind,
 } from './types.js'
@@ -68,11 +68,11 @@ export function buildPayloadV6(
   return { version: 6, projectId, contentVersion: 6, world, position }
 }
 
-export function buildPayloadV7(
-  world: import('@type-pal/content').WorldStateV8,
+export function buildPayloadV8(
+  world: import('@type-pal/content').WorldStateV9,
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
-): SavePayloadV7 {
+): SavePayloadV8 {
   return { version: SAVE_VERSION, projectId, contentVersion: CONTENT_VERSION, world, position }
 }
 

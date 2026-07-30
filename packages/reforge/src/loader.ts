@@ -34,6 +34,7 @@ import {
   checkScriptIndex,
   mapAssetById,
   upgradeItemsV7ToV8,
+  upgradeItemsV8ToV9,
   upgradeLegacyDialogues,
   validateActors,
   validateAssetCatalog,
@@ -210,7 +211,7 @@ export function assembleProject(
   const { skills, levelUp } = validateSkills(jsons.skills)
   // legacy content 4 的投掷尚无 target；只在内存边界补成旧运行时唯一语义 oneEnemy，
   // 使旧工程能进入事务升级，而不要求当前 v8 validator 接受历史形状。
-  const items = validateItems(upgradeItemsV7ToV8(jsons.items))
+  const items = validateItems(upgradeItemsV8ToV9(upgradeItemsV7ToV8(jsons.items)))
   // 旧作者工程可能把多行保存在一个 locale 值里；加载边界保留为单 row 软换行。
   // 新生成内容与迁移写盘仍走 validateLocale 默认严格模式，禁止新建这种形态。
   const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })

@@ -132,6 +132,63 @@ export interface BattleSpriteDefinitionReference {
   site: string
 }
 
+/**
+ * 装备战斗形象的跨表闭包。canonical loader 与编辑器保存门也直接调用，避免只在诊断面板
+ * 报错、却仍让坏映射进入运行时或落盘。
+ */
+export function validateEquipBattleSpriteReferences(
+  items: readonly Pick<ItemData, 'id' | 'equip'>[],
+  actors: readonly ActorDef[],
+  battleSprites: readonly BattleSpriteDef[],
+): Issue[] {
+  const issues: Issue[] = []
+  const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
+  const battleSpritesById = new Map(battleSprites.map((sprite) => [sprite.id, sprite]))
+  items.forEach((item, itemIndex) => {
+    const equip = item.equip
+    if (!equip) return
+    equip.effects.forEach((effect, effectIndex) => {
+      if (effect.kind !== 'battleSprite') return
+      for (const [actorId, battleSprite] of Object.entries(effect.byActor)) {
+        const where = `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`
+        const actor = actorsById.get(actorId)
+        if (!actor)
+          issues.push({
+            severity: 'error',
+            where,
+            message: `战斗形象覆写角色 "${actorId}" 不在 actors`,
+          })
+        else if (!actor.battler)
+          issues.push({
+            severity: 'error',
+            where,
+            message: `战斗形象覆写角色 "${actorId}" 不是可战斗角色`,
+          })
+        if (!equip.equipableBy.includes(actorId))
+          issues.push({
+            severity: 'error',
+            where,
+            message: `战斗形象覆写角色 "${actorId}" 不在本物品 equipableBy`,
+          })
+        const definition = battleSpritesById.get(battleSprite)
+        if (!definition)
+          issues.push({
+            severity: 'error',
+            where,
+            message: `战斗精灵 "${battleSprite}" 不在 battleSprites 注册表`,
+          })
+        else if (definition.profile.kind !== 'player-fighter')
+          issues.push({
+            severity: 'error',
+            where,
+            message: `战斗精灵 "${battleSprite}" profile 期望 player-fighter，实际 ${definition.profile.kind}`,
+          })
+      }
+    })
+  })
+  return issues
+}
+
 function collectCommandBattleSpriteReferences(
   node: unknown,
   where: string,
@@ -201,12 +258,13 @@ export function collectBattleSpriteDefinitionReferences(
   source.items.forEach((item, itemIndex) => {
     item.equip?.effects.forEach((effect, effectIndex) => {
       if (effect.kind === 'battleSprite')
-        references.push({
-          battleSprite: effect.sprite,
-          expectedProfile: 'player-fighter',
-          where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].sprite`,
-          site: `item:${item.id}:equip`,
-        })
+        for (const [actorId, battleSprite] of Object.entries(effect.byActor))
+          references.push({
+            battleSprite,
+            expectedProfile: 'player-fighter',
+            where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`,
+            site: `item:${item.id}:equip:${actorId}`,
+          })
     })
   })
   source.skills.forEach((skill, skillIndex) => {
@@ -794,6 +852,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── BattleSpriteDef 语义边（profile 同时做 channel/usage 门禁）──
   for (const reference of collectBattleSpriteDefinitionReferences(b)) {
+    if (reference.site.startsWith('item:')) continue
     const definition = battleSpritesById.get(reference.battleSprite)
     if (!definition)
       issues.push({
@@ -846,6 +905,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   })
 
   // ── items ───────────────────────────────────────────────
+  issues.push(...validateEquipBattleSpriteReferences(b.items, b.actors, b.battleSprites))
   b.items.forEach((item, ii) => {
     const where = `items[${ii}](${item.id})`
     const equip = item.equip

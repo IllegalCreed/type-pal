@@ -646,6 +646,30 @@ describe('script v5 world authority', () => {
     resumed?.close()
   })
 
+  test('transient activities share the persistent active registry used by save barriers', async () => {
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const activity = coordinator.beginActivity()
+    if (!activity) throw new Error('expected transient activity')
+
+    const barrier = coordinator.requestSaveBarrier()
+    let ready = false
+    void barrier.ready.then(() => {
+      ready = true
+    })
+    await Promise.resolve()
+    expect(ready).toBe(false)
+    expect(coordinator.beginActivity()).toBeUndefined()
+
+    activity.close()
+    await barrier.ready
+    expect(ready).toBe(true)
+    barrier.release()
+
+    const resumed = coordinator.beginActivity()
+    expect(resumed).toBeDefined()
+    resumed?.close()
+  })
+
   test('condition evaluation uses composite entity addresses', () => {
     const world = emptyWorldScriptStateV5()
     world.entityState.scene = { entity: 2 }

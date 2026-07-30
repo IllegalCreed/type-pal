@@ -853,17 +853,35 @@ export function validateItems(json: unknown): ItemData[] {
     }
     if (record.equip !== undefined) {
       const equip = assertObject(record.equip, `items[${i}].equip`) as Record<string, unknown>
+      const equipableBy = assertArray<unknown>(equip.equipableBy, `items[${i}].equip.equipableBy`)
+      equipableBy.forEach((actorId, actorIndex) => {
+        if (typeof actorId !== 'string' || actorId.length === 0)
+          throw new Error(`items[${i}].equip.equipableBy[${actorIndex}]: 期望非空 ActorDef.id`)
+      })
       const effects = assertArray<Record<string, unknown>>(
         equip.effects,
         `items[${i}].equip.effects`,
       )
+      let battleSpriteEffects = 0
       effects.forEach((effect, effectIndex) => {
         if (effect.kind !== 'battleSprite') return
-        if (typeof effect.sprite !== 'string' || effect.sprite.length === 0)
-          throw new Error(
-            `items[${i}].equip.effects[${effectIndex}].sprite: 期望非空 BattleSpriteDef.id`,
+        battleSpriteEffects += 1
+        const ctx = `items[${i}].equip.effects[${effectIndex}]`
+        requireOnlyKeys(effect, ['kind', 'byActor'], ctx)
+        const byActor = assertObject(effect.byActor, `${ctx}.byActor`) as Record<string, unknown>
+        for (const [actorId, battleSprite] of Object.entries(byActor)) {
+          if (actorId.length === 0 || actorId !== actorId.trim())
+            throw new Error(`${ctx}.byActor: ActorDef.id 必须非空且不得包含首尾空格`)
+          if (
+            typeof battleSprite !== 'string' ||
+            battleSprite.length === 0 ||
+            battleSprite !== battleSprite.trim()
           )
+            throw new Error(`${ctx}.byActor.${actorId}: 期望非空且无首尾空格的 BattleSpriteDef.id`)
+        }
       })
+      if (battleSpriteEffects > 1)
+        throw new Error(`items[${i}].equip.effects: battleSprite 效果最多一个`)
     }
   })
   return arr

@@ -292,8 +292,8 @@ describe('App item reference navigation', () => {
       ...shell,
       manifest: {
         ...shell.manifest,
-        contentVersion: 8,
-        minimumSaveVersion: 7,
+        contentVersion: 9,
+        minimumSaveVersion: 8,
       },
       ...canonical,
       migrationRegistry: {},

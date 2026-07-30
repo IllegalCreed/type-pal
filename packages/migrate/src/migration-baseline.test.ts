@@ -3,9 +3,12 @@ import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { afterEach, describe, expect, test } from 'vitest'
 import {
+  assertPalBaselineRepairCandidateCurrent,
+  assertPalBaselineSnapshotCurrent,
   baselineState,
   baselineWrites,
   loadPalBaseline,
+  loadPalBaselineRepairCandidate,
   type MigrationSnapshot,
   PAL_BASELINE_REL,
   serializeMigrationJson,
@@ -165,5 +168,68 @@ describe('PAL baseline transition metadata', () => {
       managedFiles: new Set(['content/value.json']),
     }
     expect(baselineState(snapshot).version).toBe(1)
+  })
+
+  test('long-running plans fail when a loaded baseline body or state changes', () => {
+    const root = mkdtempSync(resolve(tmpdir(), 'type-pal-baseline-current-'))
+    roots.push(root)
+    const baselineRoot = resolve(root, PAL_BASELINE_REL)
+    mkdirSync(resolve(baselineRoot, 'content'), { recursive: true })
+    const body = '{"value":1}\n'
+    writeFileSync(resolve(baselineRoot, 'content/value.json'), body)
+    const state = {
+      version: 2,
+      generatorEpoch: 'n3-script-v5-p7-v1',
+      transitions: { 'script-v4-v5': 'a'.repeat(64) },
+      managedFiles: ['content/value.json'],
+      files: { 'content/value.json': sha256(body) },
+    }
+    writeFileSync(resolve(baselineRoot, '_state.json'), `${JSON.stringify(state, null, 2)}\n`)
+
+    const loaded = loadPalBaseline(root)!
+    expect(() => assertPalBaselineSnapshotCurrent(root, loaded)).not.toThrow()
+
+    writeFileSync(resolve(baselineRoot, 'content/value.json'), '{"value":2}\n')
+    expect(() => assertPalBaselineSnapshotCurrent(root, loaded)).toThrow(
+      /baseline 已变更: content\/value\.json/,
+    )
+
+    writeFileSync(resolve(baselineRoot, 'content/value.json'), body)
+    writeFileSync(
+      resolve(baselineRoot, '_state.json'),
+      `${JSON.stringify({ ...state, transitions: {} }, null, 2)}\n`,
+    )
+    expect(() => assertPalBaselineSnapshotCurrent(root, loaded)).toThrow(
+      /baseline _state\.json 已变更/,
+    )
+  })
+
+  test('single-file repair loader accepts only the declared missing managed body', () => {
+    const root = mkdtempSync(resolve(tmpdir(), 'type-pal-baseline-repair-'))
+    roots.push(root)
+    const baselineRoot = resolve(root, PAL_BASELINE_REL)
+    const sealPath = '_transitions/r13-confirm-v1.json'
+    mkdirSync(resolve(baselineRoot, '_transitions'), { recursive: true })
+    const body = '{"digest":"placeholder"}\n'
+    const state = {
+      version: 2,
+      generatorEpoch: 'n3-script-v5-p7-v1',
+      transitions: { 'r13-confirm-v1': 'a'.repeat(64) },
+      managedFiles: [sealPath],
+      files: { [sealPath]: sha256(body) },
+    }
+    writeFileSync(resolve(baselineRoot, '_state.json'), `${JSON.stringify(state, null, 2)}\n`)
+
+    expect(() => loadPalBaseline(root)).toThrow(/baseline 缺文件/)
+    const candidate = loadPalBaselineRepairCandidate(root, sealPath)!
+    expect(candidate.files.has(sealPath)).toBe(false)
+    expect(() => assertPalBaselineRepairCandidateCurrent(root, candidate, sealPath)).not.toThrow()
+
+    writeFileSync(resolve(baselineRoot, sealPath), body)
+    expect(() => assertPalBaselineRepairCandidateCurrent(root, candidate, sealPath)).toThrow(
+      /修复目标已被并发写入/,
+    )
+    expect(() => loadPalBaselineRepairCandidate(root, sealPath)).toThrow(/当前并未缺失/)
+    expect(loadPalBaseline(root)?.files.get(sealPath)).toEqual({ digest: 'placeholder' })
   })
 })

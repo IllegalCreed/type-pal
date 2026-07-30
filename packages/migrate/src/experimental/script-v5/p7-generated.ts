@@ -7,6 +7,10 @@ import {
   augmentC8ItemUsesAfterP7,
   type C8ItemUseAugmentationEvidenceV1,
 } from './c8-item-use-augmentation.js'
+import {
+  type EquipBattleSpriteUpgradeEvidenceV1,
+  upgradeEquipBattleSpritesAfterR13,
+} from './equip-battle-sprite-v8-authority.js'
 import { type P7CanonicalProject, projectP7CanonicalProject } from './p7-project.js'
 import {
   type PalAutoLifecycleRepairEvidenceV1,
@@ -18,6 +22,10 @@ import {
 } from './pal-scene-semantic-repair.js'
 import { augmentR13AutoIdleGates, type R13AutoIdleGateEvidenceV1 } from './r13-auto-idle-gates.js'
 import {
+  augmentR13ConfirmControlFlow,
+  type R13ConfirmControlFlowEvidenceV1,
+} from './r13-confirm-control-flow.js'
+import {
   augmentR13ItemThrows,
   type R13ItemThrowAugmentationEvidenceV1,
 } from './r13-item-throw-augmentation.js'
@@ -26,6 +34,7 @@ import {
   type R13TriggerActivationEvidenceV1,
 } from './r13-trigger-activation-graph.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
+import type { R13SourceExecutionCensusV1 } from './source-execution-census.js'
 import { stableJsonSha256 } from './stable-json.js'
 
 export const P7_SHARED_SCRIPTS_PATH = 'content/shared-scripts.json' as const
@@ -36,6 +45,10 @@ export interface P7GeneratedCanonical {
   r13CadenceParentSnapshot: MigrationSnapshot
   /** R13-2 cross-activation seal 的 immutable parent；R13-3 不得反向污染。 */
   r13CrossActivationParentSnapshot: MigrationSnapshot
+  /** R13-3 item-throw seal 的 immutable successor；R13-4/E1 不得反向污染。 */
+  r13ConfirmParentSnapshot: MigrationSnapshot
+  /** R13-4 confirm-only successor；E1 不得污染 confirm seal。 */
+  r13ConfirmSuccessorSnapshot: MigrationSnapshot
   project: P7CanonicalProject
   ir: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ir']
   ledgerDraft: ReturnType<typeof buildValidatedP6TransformChain>['p6']['ledger']
@@ -45,12 +58,15 @@ export interface P7GeneratedCanonical {
   triggerActivationEvidence: R13TriggerActivationEvidenceV1
   autoIdleGateEvidence: R13AutoIdleGateEvidenceV1
   itemThrowEvidence: R13ItemThrowAugmentationEvidenceV1
+  confirmEvidence: R13ConfirmControlFlowEvidenceV1
+  equipBattleSpriteEvidence: EquipBattleSpriteUpgradeEvidenceV1
 }
 
 export interface P7GeneratedCanonicalArgs extends P6TransformBuildArgs {
   itemSources: readonly SourceItem[]
   magicSources: readonly SourceMagic[]
   objectMagicSources: readonly SourceObjectMagic[]
+  sourceCensus: R13SourceExecutionCensusV1
   soundAssetForNum?: SoundAssetForNum
 }
 
@@ -192,10 +208,25 @@ export function buildP7GeneratedCanonicalFromValidatedChain(
     sourceCommands: args.sourceCommands,
     ...(args.soundAssetForNum ? { soundAssetForNum: args.soundAssetForNum } : {}),
   })
+  const r13ConfirmParentSnapshot = itemThrows.snapshot
+  const confirm = augmentR13ConfirmControlFlow({
+    snapshot: r13ConfirmParentSnapshot,
+    ir: chain.p6.ir,
+    sourceCommands: args.sourceCommands,
+    sourceCensus: args.sourceCensus,
+    translation: createPalR13TranslationSession(args.migration),
+    sourceAudit: args.currentAudit,
+    triggerActivationEvidence,
+    c8Evidence: c8.evidence,
+  })
+  const r13ConfirmSuccessorSnapshot = confirm.snapshot
+  const equipBattleSprites = upgradeEquipBattleSpritesAfterR13(r13ConfirmSuccessorSnapshot)
   return {
-    snapshot: itemThrows.snapshot,
+    snapshot: equipBattleSprites.snapshot,
     r13CadenceParentSnapshot,
     r13CrossActivationParentSnapshot,
+    r13ConfirmParentSnapshot,
+    r13ConfirmSuccessorSnapshot,
     project,
     ir: chain.p6.ir,
     ledgerDraft: chain.p6.ledger,
@@ -205,6 +236,8 @@ export function buildP7GeneratedCanonicalFromValidatedChain(
     triggerActivationEvidence,
     autoIdleGateEvidence: autoIdleGate.evidence,
     itemThrowEvidence: itemThrows.evidence,
+    confirmEvidence: confirm.evidence,
+    equipBattleSpriteEvidence: equipBattleSprites.evidence,
   }
 }
 

@@ -349,15 +349,15 @@ describe('R13-1 PAL cadence compatibility', () => {
     }).toEqual({
       rows: 4_576,
       uniqueKeys: 4_576,
-      stages: 4_477,
-      historicalMachines: 99,
+      stages: 4_459,
+      historicalMachines: 117,
       transitionMachines: 78,
       transitionFamilies: {
         r13One: 22,
         r13Two: 56,
       },
-      bytes: 7_946_865,
-      sha256: 'b27b0fdf9d94ac74f743e66aeea523d6df497d924155f0458b49eaea22ae536b',
+      bytes: 7_961_021,
+      sha256: '07675c729e2232e770a252d322d23b662caf3ce3c41931f65016216fc79b6da4',
     })
     expect({
       historical: continueStats.historical,
@@ -373,10 +373,10 @@ describe('R13-1 PAL cadence compatibility', () => {
       },
     }).toEqual({
       historical: {
-        machines: 99,
-        states: 918,
-        edges: 543,
-        machinesWithContinue: 70,
+        machines: 117,
+        states: 994,
+        edges: 588,
+        machinesWithContinue: 88,
         longest: 16,
       },
       transition: {
@@ -387,10 +387,10 @@ describe('R13-1 PAL cadence compatibility', () => {
         longest: 1,
       },
       combined: {
-        machines: 177,
-        states: 5_606,
-        edges: 2_248,
-        machinesWithContinue: 117,
+        machines: 195,
+        states: 5_682,
+        edges: 2_293,
+        machinesWithContinue: 135,
         longest: 16,
       },
     })

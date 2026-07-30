@@ -126,10 +126,7 @@ const EFFECT_KINDS: { v: EquipEffect['kind']; label: string }[] = [
 ]
 
 /** kind 切换的缺省效果体。 */
-function defaultEquipEffect(
-  kind: EquipEffect['kind'],
-  battleSprites: readonly BattleSpriteDef[],
-): EquipEffect {
+function defaultEquipEffect(kind: EquipEffect['kind']): EquipEffect {
   switch (kind) {
     case 'statBonus':
       return { kind, stat: 'attack', delta: 10 }
@@ -148,14 +145,7 @@ function defaultEquipEffect(
     case 'regenMp':
       return { kind, amount: 10 }
     case 'battleSprite':
-      return {
-        kind,
-        sprite:
-          battleSprites.find((entry) => entry.profile.kind === 'player-fighter')?.id ??
-          (() => {
-            throw new Error('请先在战斗精灵库创建 player-fighter 定义')
-          })(),
-      }
+      return { kind, byActor: {} }
   }
 }
 
@@ -179,10 +169,13 @@ function EquipEffectFields(props: {
   e: EquipEffect
   skills: SkillData[]
   battleSprites: readonly BattleSpriteDef[]
+  actors: readonly ActorDef[]
+  equipableBy: readonly string[]
+  locale: Locale
   on: (next: EquipEffect) => void
   onOpenBattleSprite?: (id: string) => void
 }) {
-  const { e, skills, battleSprites, on, onOpenBattleSprite } = props
+  const { e, skills, battleSprites, actors, equipableBy, locale, on, onOpenBattleSprite } = props
   switch (e.kind) {
     case 'statBonus':
       return (
@@ -295,19 +288,36 @@ function EquipEffectFields(props: {
       )
     case 'battleSprite':
       return (
-        <div className="sound-effect-field">
-          <span>战斗形象</span>
-          <BattleSpritePicker
-            value={e.sprite}
-            definitions={battleSprites}
-            kind="player-fighter"
-            onChange={(sprite) => on({ ...e, sprite })}
-            onOpenDefinition={onOpenBattleSprite}
-          />
+        <div className="item-battle-sprite-map">
+          {equipableBy.map((actorId) => {
+            const actor = actors.find((candidate) => candidate.id === actorId)
+            const value = e.byActor[actorId]
+            return (
+              <div className="item-battle-sprite-row" key={actorId}>
+                <span>{actor ? lookupText(actor.name, locale) : actorId}</span>
+                <BattleSpritePicker
+                  value={value}
+                  definitions={battleSprites}
+                  kind="player-fighter"
+                  allowUnset
+                  unsetLabel="不覆写"
+                  ariaLabel={`${actor ? lookupText(actor.name, locale) : actorId}的战斗形象覆写`}
+                  onChange={(sprite) => {
+                    const byActor = { ...e.byActor }
+                    if (sprite) byActor[actorId] = sprite
+                    else delete byActor[actorId]
+                    on({ ...e, byActor })
+                  }}
+                  onOpenDefinition={onOpenBattleSprite}
+                />
+              </div>
+            )
+          })}
+          {!equipableBy.length ? <span className="hint2">请先勾选至少一个可装备角色。</span> : null}
         </div>
       )
     default:
-      return <span className="hint2">(无参数)</span>
+      return <span className="hint2 item-effect-no-params">(无参数)</span>
   }
 }
 
@@ -692,6 +702,10 @@ export function ItemTab(props: {
     const names = new Map(battleSprites.map((entry) => [entry.id, entry.label]))
     return (id: string): string | undefined => names.get(id)
   }, [battleSprites])
+  const actorName = useMemo(() => {
+    const names = new Map(actors.map((actor) => [actor.id, lookupText(actor.name, locale)]))
+    return (id: string): string | undefined => names.get(id)
+  }, [actors, locale])
   const scriptOptions = (() => {
     if (scriptV5)
       return Object.entries(scriptV5.state.sharedScripts)
@@ -836,7 +850,9 @@ export function ItemTab(props: {
     effects[index] = next
     patchEquip({ ...equip, effects })
   }
-  const derived = equip ? describeEquipEffects(equip.effects, { skillName, battleSpriteName }) : []
+  const derived = equip
+    ? describeEquipEffects(equip.effects, { skillName, battleSpriteName, actorName })
+    : []
 
   const selectItem = (id: string): void => {
     setSelId(id)
@@ -1426,14 +1442,24 @@ export function ItemTab(props: {
                             <input
                               type="checkbox"
                               checked={equip.equipableBy.includes(actor.id)}
-                              onChange={(event) =>
+                              onChange={(event) => {
+                                const checked = event.target.checked
+                                const effects = checked
+                                  ? equip.effects
+                                  : equip.effects.map((effect) => {
+                                      if (effect.kind !== 'battleSprite') return effect
+                                      const byActor = { ...effect.byActor }
+                                      delete byActor[actor.id]
+                                      return { ...effect, byActor }
+                                    })
                                 patchEquip({
                                   ...equip,
-                                  equipableBy: event.target.checked
+                                  equipableBy: checked
                                     ? [...equip.equipableBy, actor.id]
                                     : equip.equipableBy.filter((id) => id !== actor.id),
+                                  effects,
                                 })
-                              }
+                              }}
                             />
                             {lookupText(actor.name, locale)}
                           </label>
@@ -1445,14 +1471,11 @@ export function ItemTab(props: {
                       <strong>装备效果</strong>
                       <button
                         type="button"
-                        className="mini"
+                        className="item-action-button item-action-button-compact item-effect-add-button"
                         onClick={() =>
                           patchEquip({
                             ...equip,
-                            effects: [
-                              ...equip.effects,
-                              defaultEquipEffect('statBonus', battleSprites),
-                            ],
+                            effects: [...equip.effects, defaultEquipEffect('statBonus')],
                           })
                         }
                       >
@@ -1461,20 +1484,22 @@ export function ItemTab(props: {
                     </div>
                     {equip.effects.map((effect, index) => (
                       <div
-                        className="ef-row item-equip-effect-row"
+                        className={`ef-row item-equip-effect-row${
+                          effect.kind === 'battleSprite'
+                            ? ' item-equip-effect-row-battle-sprite'
+                            : ''
+                        }`}
                         key={`${item.id}-equip-${index}`}
                       >
                         <select
                           className="in ef-kind"
+                          aria-label={`装备效果 ${index + 1} 类型`}
                           value={effect.kind}
                           onChange={(event) => {
                             try {
                               setEquipEffect(
                                 index,
-                                defaultEquipEffect(
-                                  event.target.value as EquipEffect['kind'],
-                                  battleSprites,
-                                ),
+                                defaultEquipEffect(event.target.value as EquipEffect['kind']),
                               )
                               onStatusNotice?.(undefined)
                             } catch (cause) {
@@ -1486,7 +1511,15 @@ export function ItemTab(props: {
                           }}
                         >
                           {EFFECT_KINDS.map((kind) => (
-                            <option key={kind.v} value={kind.v}>
+                            <option
+                              key={kind.v}
+                              value={kind.v}
+                              disabled={
+                                kind.v === 'battleSprite' &&
+                                effect.kind !== 'battleSprite' &&
+                                equip.effects.some((candidate) => candidate.kind === 'battleSprite')
+                              }
+                            >
                               {kind.label}
                             </option>
                           ))}
@@ -1496,6 +1529,9 @@ export function ItemTab(props: {
                             e={effect}
                             skills={skills}
                             battleSprites={battleSprites}
+                            actors={actors}
+                            equipableBy={equip.equipableBy}
+                            locale={locale}
                             on={(next) => setEquipEffect(index, next)}
                             onOpenBattleSprite={onOpenBattleSprite}
                           />

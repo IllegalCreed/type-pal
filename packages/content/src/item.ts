@@ -29,7 +29,7 @@ export type EquipEffect =
   | { kind: 'maxPool'; pool: 'hp' | 'mp'; delta: number } // 0x1A
   | { kind: 'grantStatus'; status: StatusId } // 0x2D 永久(仙女剑→连击)
   | { kind: 'grantSkill'; skillId: string } // 0x1A row65 授合击/召唤(土灵珠→山神 336)
-  | { kind: 'battleSprite'; sprite: string } // 0x1A row1 战斗形象覆写；按装备槽顺序 live 派生
+  | { kind: 'battleSprite'; byActor: Record<string, string> } // 0x1A row1；ActorDef.id → BattleSpriteDef.id
   | { kind: 'attackAll' } // 0x1A(长鞭)
   // 战斗内每回合回血/回蓝(寿葫芦等;原版借 level99「伪毒」实现,clean 版正名为独立词条 ——
   // 不复用毒系统这个省空间拖鞋)。
@@ -47,6 +47,7 @@ export interface EquipSpec {
 export interface EquipDescribeCtx {
   skillName?: (skillId: string) => string | undefined // grantSkill 授技能:id→名,缺省回退 id
   battleSpriteName?: (spriteId: string) => string | undefined
+  actorName?: (actorId: string) => string | undefined
 }
 const STAT_LABEL: Record<CombatStat, string> = {
   attack: '武术',
@@ -99,7 +100,12 @@ export function describeEquipEffects(
         extraLines.push(`习得·${ctx?.skillName?.(e.skillId) ?? e.skillId}`)
         break
       case 'battleSprite':
-        extraLines.push(`战斗形象·${ctx?.battleSpriteName?.(e.sprite) ?? e.sprite}`)
+        for (const [actorId, spriteId] of Object.entries(e.byActor))
+          extraLines.push(
+            `战斗形象·${ctx?.actorName?.(actorId) ?? actorId}→${
+              ctx?.battleSpriteName?.(spriteId) ?? spriteId
+            }`,
+          )
         break
       case 'regenHp':
         extraLines.push(`每回合回体力${signed(e.amount)}`)
@@ -434,8 +440,11 @@ export function effectiveBattleSpriteId(
   for (const slot of EQUIP_SLOT_IDS) {
     const itemId = char.equipment[slot]
     if (!itemId) continue
-    for (const effect of items[itemId]?.equip?.effects ?? [])
-      if (effect.kind === 'battleSprite') battleSprite = effect.sprite
+    for (const effect of items[itemId]?.equip?.effects ?? []) {
+      if (effect.kind !== 'battleSprite' || !Object.hasOwn(effect.byActor, char.template)) continue
+      const mapped = effect.byActor[char.template]
+      if (mapped) battleSprite = mapped
+    }
   }
   return transient ?? battleSprite
 }

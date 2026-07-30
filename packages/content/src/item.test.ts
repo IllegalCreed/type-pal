@@ -111,8 +111,8 @@ describe('effectiveBattleSpriteId(基础→持久→固定槽位→战中 transi
       sellable: false,
       equip: {
         slot: 'weapon',
-        equipableBy: ['hero'],
-        effects: [{ kind: 'battleSprite', sprite: 'weapon' }],
+        equipableBy: ['hero', 'mage'],
+        effects: [{ kind: 'battleSprite', byActor: { hero: 'weapon', mage: 'mage-weapon' } }],
       },
     },
     accessory: {
@@ -125,7 +125,7 @@ describe('effectiveBattleSpriteId(基础→持久→固定槽位→战中 transi
       equip: {
         slot: 'accessory',
         equipableBy: ['hero'],
-        effects: [{ kind: 'battleSprite', sprite: 'accessory' }],
+        effects: [{ kind: 'battleSprite', byActor: { hero: 'accessory' } }],
       },
     },
   }
@@ -147,6 +147,41 @@ describe('effectiveBattleSpriteId(基础→持久→固定槽位→战中 transi
     expect(
       effectiveBattleSpriteId({ ...character, appearance: undefined }, actor, appearanceItems),
     ).toBe('base')
+  })
+
+  test('同一装备按角色模板分流；实例 id 不参与匹配，缺映射时回退', () => {
+    const equipped = {
+      ...hero(),
+      id: 'party-member-17',
+      equipment: { weapon: 'weapon' },
+    }
+    expect(effectiveBattleSpriteId(equipped, actor, appearanceItems)).toBe('weapon')
+    expect(
+      effectiveBattleSpriteId(
+        { ...equipped, template: 'mage' },
+        { ...actor, id: 'mage' },
+        appearanceItems,
+      ),
+    ).toBe('mage-weapon')
+    expect(
+      effectiveBattleSpriteId(
+        { ...equipped, template: 'unmapped', appearance: { battleSprite: 'persistent' } },
+        { ...actor, id: 'unmapped' },
+        appearanceItems,
+      ),
+    ).toBe('persistent')
+  })
+
+  test('后置装备槽没有当前角色映射时，不抹掉前置槽已命中的形象', () => {
+    const character = {
+      ...hero(),
+      id: 'party-member-mage',
+      template: 'mage',
+      equipment: { weapon: 'weapon', accessory: 'accessory' },
+    }
+    expect(effectiveBattleSpriteId(character, { ...actor, id: 'mage' }, appearanceItems)).toBe(
+      'mage-weapon',
+    )
   })
 })
 
@@ -1065,6 +1100,25 @@ describe('describeEquipEffects(装备效果 → 派生文案:说明脱节的根�
         { skillName: (id) => (id === '336' ? '山神' : undefined) },
       ),
     ).toEqual(['习得·山神', '常驻·连击', '每回合回体力+20'])
+  })
+  test('战斗形象按角色逐行解析名称；缺 resolver 回退稳定 id，空映射不产出文案', () => {
+    const effects = [
+      {
+        kind: 'battleSprite' as const,
+        byActor: { 'li-xiaoyao': 'fighter-1', 'lin-yueru': 'fighter-6' },
+      },
+    ]
+    expect(
+      describeEquipEffects(effects, {
+        actorName: (id) => ({ 'li-xiaoyao': '李逍遥', 'lin-yueru': '林月如' })[id],
+        battleSpriteName: (id) => ({ 'fighter-1': '逍遥持剑', 'fighter-6': '月如持鞭' })[id],
+      }),
+    ).toEqual(['战斗形象·李逍遥→逍遥持剑', '战斗形象·林月如→月如持鞭'])
+    expect(describeEquipEffects(effects)).toEqual([
+      '战斗形象·li-xiaoyao→fighter-1',
+      '战斗形象·lin-yueru→fighter-6',
+    ])
+    expect(describeEquipEffects([{ kind: 'battleSprite', byActor: {} }])).toEqual([])
   })
   test('纯剧情装备(无机制效果)→ 空数组', () => {
     expect(describeEquipEffects([])).toEqual([])

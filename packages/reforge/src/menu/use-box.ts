@@ -5,6 +5,7 @@
 // 坐标 = 一阶段 draw-inventory.ts drawItemUseMenu 真值(uigame.c:1289-1473)。320 逻辑坐标,调用方已 ctx.scale。
 import {
   type CombatStat,
+  type EquipDescribeCtx,
   effectiveStat,
   type ItemDataMap,
   type Locale,
@@ -73,10 +74,10 @@ export function drawUseMenu(
   now: number,
   locale: Locale,
   items: ItemDataMap,
-  skillNameOf?: (id: string) => string | undefined,
+  describeCtx?: EquipDescribeCtx,
 ): void {
   // ① 整宽物品列表(两阶段都画;pick-target 时右两列被黄框盖)
-  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, skillNameOf)
+  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, describeCtx)
   if (state.phase !== 'pick-target') return
 
   const caster = world.party[0] // demo 单人 = 目标

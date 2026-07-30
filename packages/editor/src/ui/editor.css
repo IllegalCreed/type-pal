@@ -6471,6 +6471,24 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: 1;
   line-height: 1.5;
 }
+.preview-confirm-actions {
+  display: inline-flex;
+  flex: none;
+  gap: 6px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.preview-confirm-actions .pv-btn.selected {
+  border-color: var(--acc);
+  background: rgba(94, 158, 255, 0.16);
+  color: var(--acc);
+}
+.preview-stage:focus-visible {
+  outline: 1px solid var(--acc);
+  outline-offset: -1px;
+}
 .cmd-row.active {
   background: rgba(94, 158, 255, 0.18);
   outline: 1px solid rgba(94, 158, 255, 0.45);
@@ -9813,6 +9831,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 11px;
 }
+.item-effect-add-button {
+  flex: none;
+}
 .item-effect-order-actions {
   display: inline-flex;
   align-items: center;
@@ -9826,9 +9847,46 @@ button.sprite-frame-cell[draggable="true"]:active {
 .item-equip-effect-row {
   max-width: none;
 }
+.item-equip-effect-row > .ef-kind {
+  width: 128px;
+  padding-right: 28px;
+}
 .item-equip-effect-row > .ef-fields {
   min-width: 0;
   flex: 1 1 360px;
+}
+.item-equip-effect-row-battle-sprite {
+  align-items: flex-start;
+}
+.item-equip-effect-row-battle-sprite > .ef-kind,
+.item-equip-effect-row-battle-sprite > .ef-ops {
+  margin-bottom: 0;
+}
+.item-effect-no-params {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  line-height: 1.2;
+}
+.item-battle-sprite-map {
+  display: grid;
+  flex: 1 1 420px;
+  gap: 7px;
+  min-width: 0;
+}
+.item-battle-sprite-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 120px) minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+.item-battle-sprite-row > span {
+  overflow: hidden;
+  color: var(--dim);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .item-equip-effects .eq-derived {
   max-width: none;
@@ -10245,6 +10303,21 @@ button.sprite-frame-cell[draggable="true"]:active {
   .item-base-section-heading > code,
   .item-base-section-heading > span {
     max-width: 100%;
+  }
+  .item-equip-effect-row-battle-sprite {
+    flex-wrap: wrap;
+  }
+  .item-equip-effect-row-battle-sprite > .ef-fields {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .item-equip-effect-row-battle-sprite > .ef-ops {
+    margin-left: auto;
+  }
+  .item-battle-sprite-row {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 4px;
   }
 }
 
@@ -13808,6 +13881,23 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .canonical-shared-script-main {
   padding: 0;
+}
+.canonical-shared-preview-toolbar {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 12px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel2);
+}
+.canonical-shared-preview-toolbar .shared-scene-context {
+  min-width: 0;
+}
+.canonical-shared-preview {
+  flex: 0 1 min(38%, 320px);
+  min-height: 170px;
 }
 .canonical-shared-script-main > .canonical-script-editor {
   flex: 1 1 auto;

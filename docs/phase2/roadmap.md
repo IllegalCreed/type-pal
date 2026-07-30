@@ -191,7 +191,7 @@ ProjectMapV2。[R2 事件脚本单一模型与 unmigrated 退役](../ops/tasks/R
 | 顺序 | 工作 | 已确认的问题 | 完成后进入 |
 |---:|---|---|---|
 | 1 | **R2 脚本单一模型** | **build 已完成，待复验**：原 66 个残余全部归类收口；17 个假缺失改按数组地址解析；产物零可执行 `unmigrated`，旧 opcode 第二解释器已删除 | R3/R7 |
-| 2 | **R3/A7 + R7 资源闭包/注册表** | 音乐、SFX、视频/帧动画及四类静态图已闭包，engine chrome 已自包含；C2-ACT 精灵预制动作消费闭环已 done；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**；A7-3B 已完成三方审查和用户验收（172 records / 171 definitions / 179 refs，900,973 B / 775 帧 / 6 legacy 坏尾）。当前 legacy 候选只余 effect-sprite/image；C2-ACT 占用 contentVersion 4，N3-1 P7/R13 已占用 5～8，A7-4 的 catalog-only 总门禁与 legacy 归零收口顺延到下一未占用 epoch（当前候选 v9） | ED-3；同时具备启动 Q1 的资源前提 |
+| 2 | **R3/A7 + R7 资源闭包/注册表** | 音乐、SFX、视频/帧动画及四类静态图已闭包，engine chrome 已自包含；C2-ACT 精灵预制动作消费闭环已 done；A7-3T tileset、A7-3W world sprite 与 **A7-3B battle sprite 均已 done**；A7-3B 已完成三方审查和用户验收（172 records / 171 definitions / 179 refs，900,973 B / 775 帧 / 6 legacy 坏尾）。当前 legacy 候选只余 effect-sprite/image；C2-ACT 占用 contentVersion 4，N3-1 P7/R13 已占用 5～9，A7-4 的 catalog-only 总门禁与 legacy 归零收口顺延到下一未占用 epoch（当前候选 v10） | ED-3；同时具备启动 Q1 的资源前提 |
 | 3 | **ED-3 工程引用图** | 地图删除仍靠临时 `mapAssetSceneReferences`，各资源删除/替换策略没有统一引用真值 | ED-4/ED-5 |
 | 4 | **ED-4/ED-5 创作生命周期** | 场景/实体以及角色、物品、技能、毒、商店等 CRUD 仍未全部形成创建→引用→修改→删除→运行闭环 | W8/W7G/ED-6 与能力复核 |
 | 5 | **W8 地图内容选择与属性编辑 → W7G 组合地物图章 + ED-6 效率层** | 地图能逐格画，但不能选中已有单格/多格只改高度等指定属性；图层重叠缺少稳定命中规则；树、桌椅、屋顶等多格结构仍要手找碎片并逐格重设高度/碰撞 | 大规模内容生产与 Q1 扩展 |

@@ -19,6 +19,7 @@ import {
   PAL_TEST_FAST_GATE,
 } from './pal-test-fixture.js'
 import { prepareR13CadenceAuthority, R13_CADENCE_SEAL_PATH } from './r13-cadence-mg2.js'
+import { R13_CONFIRM_SEAL_PATH, R13_CONFIRM_TRANSITION_ID } from './r13-confirm-mg2.js'
 import {
   prepareR13CrossActivationAuthority,
   R13_CROSS_ACTIVATION_SEAL_PATH,
@@ -65,8 +66,13 @@ function withoutItemThrowControl(source: MigrationSnapshot): MigrationSnapshot {
   snapshot.files.delete(R13_ITEM_THROW_SEAL_PATH)
   snapshot.managedFiles.delete(R13_ITEM_THROW_SEAL_PATH)
   snapshot.hashes?.delete(R13_ITEM_THROW_SEAL_PATH)
-  if (snapshot.baselineMetadata)
+  snapshot.files.delete(R13_CONFIRM_SEAL_PATH)
+  snapshot.managedFiles.delete(R13_CONFIRM_SEAL_PATH)
+  snapshot.hashes?.delete(R13_CONFIRM_SEAL_PATH)
+  if (snapshot.baselineMetadata) {
     delete snapshot.baselineMetadata.transitions[R13_ITEM_THROW_TRANSITION_ID]
+    delete snapshot.baselineMetadata.transitions[R13_CONFIRM_TRANSITION_ID]
+  }
   return snapshot
 }
 
@@ -77,6 +83,7 @@ function hydrateControlHashes(snapshot: MigrationSnapshot): void {
     R13_CADENCE_SEAL_PATH,
     R13_CROSS_ACTIVATION_SEAL_PATH,
     R13_ITEM_THROW_SEAL_PATH,
+    R13_CONFIRM_SEAL_PATH,
   ]) {
     const value = snapshot.files.get(path)
     if (value) snapshot.hashes.set(path, sha256(serializeMigrationJson(value, path)))
@@ -268,30 +275,31 @@ describe.skipIf(!existsSync(extracted))('R13-3 item throw append-only PAL MG2 se
     'parent',
     'successor',
   ] as const)('拒绝 %s content/items.json 的 133 target-drift', (layer) => {
-    const generated = { ...fixture.shared.generated }
-    const snapshot = cloneSnapshot(
-      layer === 'parent' ? generated.r13CrossActivationParentSnapshot : generated.snapshot,
-    )
-    const items = structuredClone(
-      snapshot.files.get('content/items.json')!,
-    ) as unknown as ItemDataV5[]
+    const generated = fixture.shared.generated
+    const snapshot =
+      layer === 'parent'
+        ? generated.r13CrossActivationParentSnapshot
+        : generated.r13ConfirmParentSnapshot
+    const originalItems = snapshot.files.get('content/items.json')!
+    const items = structuredClone(originalItems) as unknown as ItemDataV5[]
     const item = items.find((candidate) => candidate.id === '133')
     if (!item?.throw) throw new Error('R13-3 MG2 drift fixture 缺 item 133 throw')
     if (layer === 'parent') item.throw.effects = [{ kind: 'applyPoison', poisonId: '552' }]
     else item.throw.target = 'oneEnemy'
     snapshot.files.set('content/items.json', items as unknown as MigrationJson)
-    if (layer === 'parent') generated.r13CrossActivationParentSnapshot = snapshot
-    else generated.snapshot = snapshot
-    const {
-      preparedAuthority: _preparedAuthority,
-      generated: _originalGenerated,
-      ...args
-    } = planArgs(fixture, { base: fixture.base, ours: fixture.ours })
-    expect(() =>
-      createR13ItemThrowV5MigrationPlan({
-        ...args,
-        generated,
-      }),
-    ).toThrow(/snapshot-backed disposition 漂移/)
+    const { preparedAuthority: _preparedAuthority, ...args } = planArgs(fixture, {
+      base: fixture.base,
+      ours: fixture.ours,
+    })
+    try {
+      expect(() =>
+        createR13ItemThrowV5MigrationPlan({
+          ...args,
+          generated,
+        }),
+      ).toThrow(/snapshot-backed disposition 漂移/)
+    } finally {
+      snapshot.files.set('content/items.json', originalItems)
+    }
   })
 })

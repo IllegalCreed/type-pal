@@ -415,6 +415,104 @@ GLM 逐行核对 `collectItemReferences(state)` 覆盖的来源（item-reference
 choreography/sceneScriptOverrides/非法投掷保存门/键盘 ARIA 进一步加强了闭包完整性。
 等待 Kimi 架构/UX review；三方 accept 前不得标记 done。
 
+## E1 增量门禁：装备战斗形象按角色覆写（2026-07-29）
+
+### 用户反馈与现状结论
+
+- “＋ 添加效果”错误复用了固定 `22×22` 图标按钮 `.mini`，导致中文竖排。该低风险 UI
+  缺陷已改用工作台统一的紧凑文字按钮，并补 DOM 样式契约与 6010 实机尺寸验证。
+- 不新增“武器类型”。`equip.equipableBy: string[]` 直接表达“这件物品可由哪些角色装备”，
+  与 PAL 的 6 位角色 bitfield 及现有运行时一致；再加武器分类只会制造第二真相源。
+- 当前 `{ kind: 'battleSprite'; sprite }` 是真实的公共模型缺陷：运行时会把同一 `sprite`
+  无条件套给任意装备者。PAL 当前恰好未暴露错误——7 个覆写效果全部是单角色物品：
+
+| 物品 | `equipableBy` | 当前覆写 |
+|---|---|---|
+| 163 长鞭 / 164 九截鞭 / 165 金蛇鞭 | `lin-yueru` | `player-fighter-6` |
+| 179 苗刀 / 185 鬼牙刀 / 187 玄冥宝刀 / 188 巫月神刀 | `anu` | `player-fighter-7` |
+
+PAL 的 33 件武器中另有 13 件允许多角色，但这些物品当前都没有战斗形象覆写。因此现有生成
+数据不是错迁；作者只要给上述 7 件物品再勾第二个角色，当前 schema/runtime 就会立刻把错误
+形象套给第二人。
+
+### 上下文锚点
+
+- `packages/content/src/item.ts:31-33`：`battleSprite` 只有单个 `sprite`。
+- `packages/content/src/item.ts:426-440`：`effectiveBattleSpriteId` 未按
+  `CharacterInstance.template` 分流，所有装备者共用单值。
+- `packages/editor/src/ui/ItemTab.tsx:296`：编辑器只渲染一个 BattleSpritePicker。
+- `packages/content/src/validate.ts:861`、`validate-refs.ts:203`：结构与资源引用均只认识单值。
+- `packages/migrate/src/migrate-content.ts:778-791`：上游 `0x1A row=1` 当前产出单值。
+- `packages/reforge/src/battle/battle-sprite-readiness.ts:52`：readiness 复用唯一派生口，修正
+  `effectiveBattleSpriteId` 后不应再另写一套角色选择。
+- `docs/ops/tasks/N3-1-script-control-flow-modernization.md` R13-4：尚未发布的下一内容 epoch
+  已冻结为 content9/SAVE8/min8；本增量不得私自抢占或回写已发布 epoch。
+
+### 冻结候选设计
+
+1. `equipableBy` 保持原样，不新增武器类型、武器类别表或角色→类别的第二套关系。
+2. 公共联合改为：
+
+   ```ts
+   { kind: 'battleSprite'; byActor: Record<string, string> }
+   ```
+
+   key 是 `ActorDef.id` / `CharacterInstance.template`，value 是
+   `BattleSpriteDef.id`。不得使用队员实例 id。
+3. `byActor` 只允许包含该物品 `equipableBy` 中的 battler actor；未给某个可装备角色配置，
+   表示该角色装备后不覆写，继续使用自身基础/剧情 appearance。每件物品最多一个
+   `battleSprite` effect，消除数组内“后者覆盖前者”的隐式优先级。
+4. `effectiveBattleSpriteId` 按 `char.template` 取映射；基础 → 持久 appearance → 固定装备槽
+   → transient 的既有层级不变。readiness、战斗建态与菜单不得各自复制选择逻辑。
+5. 编辑器在同一个“战斗形象覆写”效果内，按已勾选的可装备角色逐行显示“角色 + 战斗形象”
+   picker；每行可选“不覆写”。新勾角色只新增空映射，不擅自复制其他角色；取消角色时在同一
+   `UpdateItemCommand` 中剪枝对应映射，undo/redo 一笔恢复。
+6. validator/refs 必须拒绝旧 `sprite`、未知/非 battler/不在 `equipableBy` 的 actor、空或不存在
+   的 BattleSprite、错误的非 `player-fighter` profile、重复 `battleSprite` effect。资源引用
+   路径逐 `byActor.<actorId>` 登记。
+7. 上游 PAL 迁移必须把 `0x1A row=1` 的形象复制到该源物品全部 `equipableBy` 角色；当前 7
+   件均为 singleton，最终仍应是 7 个映射。不得手改 `projects/pal` 或 baseline。
+8. 因 R13-4 的 content9 尚未发布，本增量签字若在 R13-4 发布前集齐，则并入同一个
+   `content 8→9` 工程升级：旧单值对每个旧 `equipableBy` 复制，多个旧效果按当前运行时的
+   最后一个覆写值确定性折叠；旧效果但零可装备角色应 fail-loud，不能静默猜测。SAVE8/min8
+   仍由 R13-4 的 18-flow cursor epoch 断开驱动，本物品结构本身不新增世界/存档字段。
+   若 R13-4 已先发布，则禁止回写 v9，本增量顺延到下一未占用 contentVersion，并同步顺延
+   A7-4 候选。
+
+### 验收矩阵
+
+- content：两名角色装备同一武器时分别命中不同形象；`instance.id !== template` 仍按模板命中；
+  缺映射正确回退；固定槽位/持久 appearance/transient 层级不回归。
+- validator/refs：未知角色、非 battler、未列入 `equipableBy`、缺资源、profile 错、旧字段、
+  重复效果全部 fail-closed；PAL battleSprite 引用总数/闭包按逐角色路径对账。
+- editor：两个角色的 picker 互不影响；新增角色为空覆写；取消角色剪枝；增删、undo/redo、
+  保存重开闭环；窄栏不再出现按钮竖排。
+- upgrade/migrate：v8 单角色、多角色、重复旧效果、零角色负例；输入不变/幂等；PAL 上游重生成、
+  MG2 dry-run 二跑零计划，历史 seal/parent byte-pin。
+- runtime：readiness 与实际战斗使用同一派生口；当前 PAL 7 件物品的原有角色形象逐件不变。
+
+### E1 推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-29 | 源 bitfield、7 条 PAL 数据、content/runtime/editor/migrate/refs 全链只读审计完成；确认“不加武器类型、按 actor stable-id 映射、未映射回退、上游重生成、复用未发布 content9”候选。 |
+| Kimi | **agree** | 2026-07-29 | schema/runtime/version/升级语义主审通过：byActor 以 ActorDef.id/template 稳定 id 为键、每物品至多一个效果、未映射回退的公共模型正确；层级（基础→appearance→装备槽→transient）不变且只改装备槽查找；v8→v9 折叠（单值复制到全部 equipableBy、多效果 last-wins、零角色 fail-loud）确定性成立；content9 合并且仅当先于 R13-4 发布、否则顺延的 epoch 纪律正确；readiness 单一派生口一手核实（effectiveBattleSpriteId 唯一消费方 readiness:52，battle-session:376/:1163 消费其输出）。附 P1-P3 钉。 |
+| GLM | **agree** | 2026-07-29 | 独立核对：7 singleton battleSprite 全部确认（163/164/165→lin-yueru/fighter-6, 179/185/187/188→anu/fighter-7，均 role=1 + BS effect）；`effectiveBattleSpriteId` 单值（item.ts:426-440）确认；validator/validate-refs 单值路径确认（validate.ts:861, validate-refs.ts:203）；编辑器单 BattleSpritePicker 确认（ItemTab.tsx:296）；上游 `0x1A row=1` 单值产出确认（migrate-content.ts:778-791）；readiness 复用唯一派生口确认（battle-sprite-readiness.ts:52）。byActor Record 设计正确（按 actor stable-id 映射、未映射回退、上游重生成 7→7、多角色不误套）。content9 合并边界（R13-4 未发布时并入，已发布时顺延）正确。测试矩阵（content 双角色命中/validator fail-closed/editor undo-save/upgrade 幂等/runtime 7 件逐件不变）充分。content 29/361 全绿。 |
+
+- **当前门禁**：**E1 设计 allowed（2026-07-29；Codex / Kimi / GLM 三方 agree，无 counter）**。
+  build 必须落实 Kimi 的 P1-P3 与 GLM 复审结论；Codex 现可作为唯一 Coding Owner 修改公共
+  `EquipEffect`、content9 升级器、上游迁移、runtime 与 editor。ED-5I 整卡仍受 N3-1 最终验收
+  依赖约束，E1 准入不等于 ED-5I done。
+- Kimi P1-P3 风险钉（build 验收核对）：
+  - **P1 R13-4 合并口径**：E1 并入 content9 后，R13-4 的 seal evidence 与"首跑只允许
+    manifest/_state/新 transition/13 lossy scene"的文件清单必须同步吸收 items.json 的
+    byActor 变更（7 件映射 + v8→v9 折叠升级路径）；两卡 digest 在 R13-4 实现时统一冻结，
+    不得出现 E1 已并入但 R13-4 首跑口径未覆盖 items.json 的缝隙。
+  - **P2 multi-role 13 件**：上游迁移不得为当前无覆写的 13 件多角色武器发明映射；evidence
+    应显式登记"13 multi-role non-override"防未来误补。
+  - **P3 editor 行呈现**：无映射角色的行必须显示「不覆写」而非空白，避免作者把空行当错误；
+    新勾角色只增空映射、取消角色同命令剪枝（undo/redo 一笔恢复）按设计验收。
+
 ## 用户验收
 
 - 用户结论: **blocked（2026-07-24）**。N3-1 未完成前无法验收 ED-5I。
@@ -471,12 +569,55 @@ choreography/sceneScriptOverrides/非法投掷保存门/键盘 ARIA 进一步加
   选中目标指令并滚入可视区。editor 91/766、typecheck、Biome/diff 与 Playwright console 0/0
   通过。Evidence: C8 卡「引用跳转可感知性返工」。Next: 该证据计入 N3-1 后 ED-5I 回归，
   但不单独解除 blocked 或替代三方最终签字。
+- 2026-07-29 Kimi: 完成 E1（装备战斗形象按角色覆写）schema/runtime/version/升级语义只读
+  设计主审，签 **agree**，附 P1-P3 风险钉（见「E1 增量门禁」签字区与门禁节）。一手核实：
+  现有缺陷真实（item.ts:32 单值 + effectiveBattleSpriteId:426-441 不按 template 分流，
+  多角色会被套同一形象；PAL 当前 7 件全 singleton 未暴露）；byActor 稳定 template id、
+  每物品至多一个效果、未映射回退的设计正确；形象层级（基础→appearance→装备槽→transient）
+  只改装备槽查找其余不变；v8→v9 折叠（单值复制到全部 equipableBy、多效果 last-wins 对齐
+  现行运行时顺序、零角色 fail-loud）确定性成立；content9 合并且仅当先于 R13-4 发布的
+  epoch 纪律正确；readiness 单一派生口实证（effectiveBattleSpriteId 唯一消费方
+  battle-sprite-readiness.ts:52，battle-session:376/:1163 消费 readiness 输出，
+  无第二套角色选择逻辑）。未修改实现文件。Next：GLM 已 agree，三方签齐 E1 设计 allowed；
+  Codex 实现时落实 P1（R13-4 seal evidence/首跑清单吸收 items.json byActor 变更）、
+  P2（13 件 multi-role 不得发明映射）、P3（editor 无映射行显示「不覆写」）。
 
 ## 下一位 Agent 提示词
 
-无下一位 Agent 提示词；ED-5I 当前仍等待 N3-1 最终候选稳定。`0d4aa48b` 已关闭本次引用反跳
-反例，但 N3-1 收口后仍由 Codex 发起 ED-5I 完整下游回归，随后交 Kimi / GLM 补审，签字齐后
-交用户验收。
+### 给 Kimi（E1 schema/runtime/version 主审）——已于 2026-07-29 执行，签 agree（附 P1-P3，保留备查，勿再执行）
+
+```text
+接手任务：ED-5I E1 装备战斗形象按角色覆写设计主审。
+任务卡：docs/ops/tasks/ED-5I-item-workbench.md 的“E1 增量门禁”；当前 Kimi/GLM pending。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、E1 全节、N3-1 卡 R13-4 content9/SAVE8 设计，
+packages/content/src/item.ts、validate.ts、validate-refs.ts、
+packages/migrate/src/migrate-content.ts、packages/editor/src/ui/ItemTab.tsx、
+packages/reforge/src/battle/battle-sprite-readiness.ts。
+已确认：不新增武器类型；PAL 仅 7 条 battleSprite 且全部 singleton；当前公共单值 schema 在
+多角色装备时会把同一形象无条件套给所有人。候选为 byActor<Record<ActorDef.id,
+BattleSpriteDef.id>>，未映射回退，每物品最多一个；若 R13-4 发布前签齐则并入 content8→9，
+SAVE8 仍只由 cursor epoch 驱动。
+请只读核对：角色稳定身份、层级优先级、v8 多效果 last-write 折叠、零角色 fail-loud、
+content9 合并/历史 seal 边界、readiness 单一派生口。把 E1 的 Kimi 行签 agree，或写 counter
+及精确替代方案。门禁未齐，不得修改实现或标记 ED-5I done。
+```
+
+### 给 GLM（E1 数据守恒/validator/测试矩阵主审）——已于 2026-07-29 执行，签 agree（保留备查，勿再执行）
+
+```text
+接手任务：ED-5I E1 装备战斗形象按角色覆写数据与测试主审。
+任务卡：docs/ops/tasks/ED-5I-item-workbench.md 的“E1 增量门禁”；当前 Kimi/GLM pending。
+先读：AGENTS.md、docs/phase2/READ-FIRST.md、E1 全节、
+data/extracted/data/items.json、projects/pal/content/items.json、
+packages/content/src/validate.ts、validate-refs.ts、item.test.ts、
+packages/migrate/src/migrate-content.ts、packages/editor/src/ui/ItemTab.test.tsx。
+请独立核对：PAL battleSprite 恰 7 条且都是 singleton（163/164/165→lin-yueru/fighter-6；
+179/185/187/188→anu/fighter-7）；33 武器中 13 个 multi-role 当前均无覆写；byActor 的
+unknown/non-battler/not-equipable/profile/duplicate/old-field 拒绝矩阵；v8 单/多/重复/零角色
+升级；逐角色引用账、editor undo/save round-trip、PAL 上游重生成与二跑幂等。
+把 E1 的 GLM 行签 agree，或写 counter 和漏账/漏测证据。门禁未齐，不得修改实现或标记
+ED-5I done。
+```
 
 ## 历史 Agent 提示词（N3-1 依赖裁决前，勿再执行）
 

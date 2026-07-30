@@ -465,6 +465,50 @@ test('EquipEffect.grantSkill.skillId 不在 skills → 报 warn', () => {
   }
   expect(validateReferences(b).some((i) => /336/.test(i.where + i.message))).toBe(true)
 })
+test('EquipEffect.battleSprite 按角色校验 actor/equipableBy/资源/profile 并保留逐角色路径', () => {
+  const make = (
+    actorId: string,
+    battleSprite: string,
+    equipableBy: string[] = [actorId],
+  ): ContentBundle => {
+    const b = clone(base)
+    b.actors.push({ id: 'villager', name: 'name.hero', spriteId: 'ghost' })
+    b.battleSprites.push({
+      ...clone(b.battleSprites[0]!),
+      id: 'enemy-shape',
+      profile: { kind: 'enemy', framesPerAction: 1, idleAction: 0 },
+    } as never)
+    b.items = [
+      {
+        id: 'weapon',
+        name: '武器',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        equip: {
+          slot: 'weapon',
+          equipableBy,
+          effects: [{ kind: 'battleSprite', byActor: { [actorId]: battleSprite } }],
+        },
+      },
+    ]
+    return b
+  }
+
+  expect(validateReferences(make('hero', 'hero-battle-sprite'))).toEqual([])
+  for (const [bundle, expected] of [
+    [make('missing-actor', 'hero-battle-sprite'), '不在 actors'],
+    [make('villager', 'hero-battle-sprite'), '不是可战斗角色'],
+    [make('hero', 'hero-battle-sprite', []), '不在本物品 equipableBy'],
+    [make('hero', 'missing-sprite'), '不在 battleSprites 注册表'],
+    [make('hero', 'enemy-shape'), 'profile 期望 player-fighter'],
+  ] as const) {
+    const issues = validateReferences(bundle)
+    expect(issues.some((issue) => issue.message.includes(expected))).toBe(true)
+    expect(issues.some((issue) => issue.where.includes('.effects[0].byActor.'))).toBe(true)
+  }
+})
 test('SkillCost.items[].itemId 不在 items → 报 warn', () => {
   const b = clone(base)
   ;(b.skills[0] as { cost?: unknown }).cost = { items: [{ itemId: 'no-wine', amount: 1 }] }

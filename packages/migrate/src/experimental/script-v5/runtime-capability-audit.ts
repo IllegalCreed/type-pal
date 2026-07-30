@@ -13,7 +13,7 @@ import { AUTHOR_COMMAND_V5_KINDS, SCENE_ENTRY_PREPARE_SAFETY } from '@type-pal/c
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import { stableJsonSha256, stableStringCompare } from './stable-json.js'
 
-export const R13_RUNTIME_CAPABILITY_METHOD = 'n3-p7-r13-runtime-capability-v1' as const
+export const R13_RUNTIME_CAPABILITY_METHOD = 'n3-p7-r13-runtime-capability-v2' as const
 
 export const R13_COMMAND_CONTEXTS = [
   'scene-entry-prepare',
@@ -84,9 +84,9 @@ export interface R13RuntimeCapabilityDebt {
   sites: string[]
 }
 
-export interface R13RuntimeCapabilityAuditV1 {
+export interface R13RuntimeCapabilityAuditV2 {
   kind: 'r13-runtime-capability-audit'
-  version: 1
+  version: 2
   methodVersion: typeof R13_RUNTIME_CAPABILITY_METHOD
   matrix: {
     commandKinds: string[]
@@ -130,6 +130,7 @@ const COMMAND_EVIDENCE = {
   itemSelf: 'reforge:v5-item-private-self-policy',
   choreography: 'reforge:battle-choreography-runner',
   defeated: 'reforge:enemy-on-defeated-runner',
+  confirm: 'reforge:v5-script-confirm-modal',
 } as const
 
 const SKILL_EVIDENCE = {
@@ -226,28 +227,30 @@ function commandStatus(kind: string, context: R13CommandContext): R13RuntimeCapa
     return {
       context,
       kind,
-      status: AUTO_REFUSED.has(kind) || kind === 'confirm' ? 'refused' : 'executed',
-      evidenceId:
-        AUTO_REFUSED.has(kind) || kind === 'confirm'
-          ? COMMAND_EVIDENCE.autoRefusal
+      status: AUTO_REFUSED.has(kind) ? 'refused' : 'executed',
+      evidenceId: AUTO_REFUSED.has(kind)
+        ? COMMAND_EVIDENCE.autoRefusal
+        : kind === 'confirm'
+          ? COMMAND_EVIDENCE.confirm
           : COMMAND_EVIDENCE.world,
     }
   if (context === 'item-private-world')
     return {
       context,
       kind,
-      status: ITEM_REFUSED.has(kind) || kind === 'confirm' ? 'refused' : 'executed',
-      evidenceId:
-        ITEM_REFUSED.has(kind) || kind === 'confirm'
-          ? COMMAND_EVIDENCE.itemSelf
+      status: ITEM_REFUSED.has(kind) ? 'refused' : 'executed',
+      evidenceId: ITEM_REFUSED.has(kind)
+        ? COMMAND_EVIDENCE.itemSelf
+        : kind === 'confirm'
+          ? COMMAND_EVIDENCE.confirm
           : COMMAND_EVIDENCE.world,
       ...(kind === 'vanishEntity' ? { constraint: 'explicit target required' } : {}),
     }
   return {
     context,
     kind,
-    status: WORLD_REFUSED.has(kind) || kind === 'confirm' ? 'refused' : 'executed',
-    evidenceId: COMMAND_EVIDENCE.world,
+    status: WORLD_REFUSED.has(kind) ? 'refused' : 'executed',
+    evidenceId: kind === 'confirm' ? COMMAND_EVIDENCE.confirm : COMMAND_EVIDENCE.world,
   }
 }
 
@@ -274,7 +277,7 @@ function skillStatus(kind: SkillEffect['kind'], context: R13SkillContext): R13Sk
   }
 }
 
-export function buildR13RuntimeCapabilityMatrix(): R13RuntimeCapabilityAuditV1['matrix'] {
+export function buildR13RuntimeCapabilityMatrix(): R13RuntimeCapabilityAuditV2['matrix'] {
   const commandKinds = Object.entries(AUTHOR_COMMAND_V5_KINDS)
     .filter(([, enabled]) => enabled)
     .map(([kind]) => kind)
@@ -331,6 +334,7 @@ function buildConfirmDebts(uses: readonly R13RuntimeCapabilityUse[]): R13Runtime
     if (
       use.domain !== 'command' ||
       use.kind !== 'confirm' ||
+      use.status !== 'refused' ||
       (use.context !== 'world-interactive' &&
         use.context !== 'world-auto' &&
         use.context !== 'item-private-world')
@@ -354,7 +358,7 @@ function buildConfirmDebts(uses: readonly R13RuntimeCapabilityUse[]): R13Runtime
 
 export function auditR13RuntimeCapabilities(
   snapshot: MigrationSnapshot,
-): R13RuntimeCapabilityAuditV1 {
+): R13RuntimeCapabilityAuditV2 {
   const corpus = runtimeCorpus(snapshot)
   const matrix = buildR13RuntimeCapabilityMatrix()
   const commandCells = new Map(
@@ -635,7 +639,7 @@ export function auditR13RuntimeCapabilities(
   const uniqueIssues = [...new Set(issues)].sort(stableStringCompare)
   const withoutDigest = {
     kind: 'r13-runtime-capability-audit' as const,
-    version: 1 as const,
+    version: 2 as const,
     methodVersion: R13_RUNTIME_CAPABILITY_METHOD,
     matrix,
     uses,
@@ -661,12 +665,12 @@ export function auditR13RuntimeCapabilities(
 }
 
 export function assertR13RuntimeCapabilityAudit(
-  report: R13RuntimeCapabilityAuditV1,
+  report: R13RuntimeCapabilityAuditV2,
   snapshot: MigrationSnapshot,
 ): void {
   if (
     report.kind !== 'r13-runtime-capability-audit' ||
-    report.version !== 1 ||
+    report.version !== 2 ||
     report.methodVersion !== R13_RUNTIME_CAPABILITY_METHOD
   )
     throw new Error('R13 runtime capability: header 漂移')
@@ -783,7 +787,7 @@ export function assertR13RuntimeCapabilityAudit(
 }
 
 export function assertR13NoRuntimeCapabilityDebt(
-  report: R13RuntimeCapabilityAuditV1,
+  report: R13RuntimeCapabilityAuditV2,
   snapshot: MigrationSnapshot,
 ): void {
   assertR13RuntimeCapabilityAudit(report, snapshot)

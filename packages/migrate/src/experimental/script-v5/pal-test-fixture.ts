@@ -9,6 +9,7 @@ import {
   auditPalScriptControlFlow,
   type ScriptControlFlowAuditV1,
 } from '../../script-control-flow-audit.js'
+import { projectMigrationV9ToLegacyV8 } from './equip-battle-sprite-v8-authority.js'
 import { type PreparedP2ScriptTransition, prepareP2ScriptTransition } from './p2-transition-plan.js'
 import { type PreparedP3ScriptTransition, prepareP3ScriptTransition } from './p3-transition-plan.js'
 import { type PreparedP4ScriptTransition, prepareP4ScriptTransition } from './p4-transition-plan.js'
@@ -21,6 +22,12 @@ import {
 import { reconstructPublishedV4TransitionSnapshots } from './published-v4-snapshot.js'
 import { type PreparedR13CadenceAuthority, prepareR13CadenceAuthority } from './r13-cadence-mg2.js'
 import {
+  type PreparedR13ConfirmAuthority,
+  type PreparedR13ConfirmControlAuditAuthority,
+  prepareR13ConfirmAuthority,
+  prepareR13ConfirmControlAuditAuthority,
+} from './r13-confirm-mg2.js'
+import {
   type PreparedR13CrossActivationAuthority,
   prepareR13CrossActivationAuthority,
 } from './r13-cross-activation-mg2.js'
@@ -30,6 +37,7 @@ import {
 } from './r13-item-throw-mg2.js'
 import { buildValidatedP6TransformChain, type P6TransformBuildArgs } from './shadow-harness.js'
 import {
+  buildR13SourceExecutionCensus,
   type PreparedR13SourceExecutionCensus,
   prepareR13SourceExecutionCensus,
 } from './source-execution-census.js'
@@ -59,7 +67,8 @@ export function hasPalTestFixture(): boolean {
 
 function loadCoreFixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
-  const migration = buildPalMigration(sources)
+  const rawMigration = buildPalMigration(sources)
+  const migration = projectMigrationV9ToLegacyV8(rawMigration)
   const currentAudit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(currentAudit)
   const frozenAudit = JSON.parse(readFileSync(PAL_TEST_AUDIT, 'utf8')) as ScriptControlFlowAuditV1
@@ -73,6 +82,7 @@ function loadCoreFixture() {
   const sourceCommands = sources.allJson.segments.flatMap((segment) => segment.commands)
   return Object.freeze({
     sources,
+    rawMigration,
     migration,
     currentAudit,
     frozenAudit,
@@ -246,6 +256,7 @@ function loadGeneratedFixture() {
     itemSources: phase.sources.migrate.items,
     magicSources: phase.sources.migrate.magic,
     objectMagicSources: phase.sources.migrate.objectMagics ?? [],
+    sourceCensus: buildR13SourceExecutionCensus(phase.sources),
     soundAssetForNum: palSoundAssetForSources(phase.sources),
   }
   return Object.freeze({
@@ -305,4 +316,29 @@ export function getPalTestPreparedR13ItemThrowAuthority(): PreparedR13ItemThrowA
     getPalTestGeneratedFixture().generated,
   )
   return preparedItemThrowAuthority
+}
+
+let preparedConfirmAuthority: PreparedR13ConfirmAuthority | undefined
+
+export function getPalTestPreparedR13ConfirmAuthority(): PreparedR13ConfirmAuthority {
+  if (!PAL_TEST_FAST_GATE)
+    throw new Error('PAL test fixture: prepared confirm authority 仅允许 fast gate 使用')
+  preparedConfirmAuthority ??= prepareR13ConfirmAuthority(getPalTestGeneratedFixture().generated)
+  return preparedConfirmAuthority
+}
+
+let preparedConfirmControlAuditAuthority: PreparedR13ConfirmControlAuditAuthority | undefined
+
+export function getPalTestPreparedR13ConfirmControlAuditAuthority(): PreparedR13ConfirmControlAuditAuthority {
+  if (!PAL_TEST_FAST_GATE)
+    throw new Error('PAL test fixture: prepared confirm control audit 仅允许 fast gate 使用')
+  const fixture = getPalTestGeneratedFixture()
+  preparedConfirmControlAuditAuthority ??= prepareR13ConfirmControlAuditAuthority({
+    sources: fixture.sources,
+    migration: fixture.migration,
+    audit: fixture.currentAudit,
+    generated: fixture.generated,
+    preparedSourceCensus: getPalTestPreparedSourceExecutionCensus(),
+  })
+  return preparedConfirmControlAuditAuthority
 }

@@ -109,7 +109,7 @@ describe('battle sprite readiness 完整闭包', () => {
       battler: { battleSprite: 'base' },
     } as unknown as ActorDef
     const character = {
-      id: 'hero',
+      id: 'party-member-17',
       template: 'hero',
       appearance: { battleSprite: 'persistent' },
       equipment: { weapon: 'appearance-item', accessory: '267' },
@@ -120,7 +120,7 @@ describe('battle sprite readiness 完整闭包', () => {
       equip: {
         slot: 'weapon',
         equipableBy: ['hero'],
-        effects: [{ kind: 'battleSprite', sprite: 'equipment' }],
+        effects: [{ kind: 'battleSprite', byActor: { hero: 'equipment' } }],
       },
     } as unknown as ItemData
     const earthPearl = {

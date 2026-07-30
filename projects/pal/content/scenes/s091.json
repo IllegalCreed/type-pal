@@ -1241,165 +1241,222 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "kind": "setEntityTriggerActivation",
-                      "target": {
-                        "scene": "s091",
-                        "entity": "e1682"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "confirm-decisions",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "步骤 initial",
+                    "body": [
+                      {
+                        "kind": "setEntityTriggerActivation",
+                        "target": {
+                          "scene": "s091",
+                          "entity": "e1682"
+                        },
+                        "selection": {
+                          "kind": "use",
+                          "value": {
+                            "on": "interact",
+                            "range": 2
+                          }
+                        }
                       },
-                      "selection": {
-                        "kind": "use",
-                        "value": {
-                          "on": "interact",
-                          "range": 2
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5337"
+                            },
+                            {
+                              "text": "dlg.5338"
+                            }
+                          ],
+                          "speaker": "spk.衙役"
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "id": "decision-001",
+                        "onNo": []
+                      }
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-001",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "continue",
+                        "state": "decision-001-no"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "decision-001-yes"
+                      }
+                    }
+                  },
+                  "decision-001-no": {
+                    "label": "默认触发行为 · 选择否",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5344"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5346"
+                            },
+                            {
+                              "text": "dlg.5347"
+                            },
+                            {
+                              "text": "dlg.5348"
+                            }
+                          ],
+                          "speaker": "spk.衙役"
                         }
                       }
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.5337"
-                          },
-                          {
-                            "text": "dlg.5338"
-                          }
-                        ],
-                        "speaker": "spk.衙役"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "confirm",
-                      "onNo": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.5344"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.李逍遥"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.5346"
-                              },
-                              {
-                                "text": "dlg.5347"
-                              },
-                              {
-                                "text": "dlg.5348"
-                              }
-                            ],
-                            "speaker": "spk.衙役"
-                          },
-                          "kind": "dialog"
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "not",
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "recovered-001"
+                    }
+                  },
+                  "decision-001-yes": {
+                    "label": "默认触发行为 · 继续",
+                    "body": [
+                      {
+                        "kind": "branch",
                         "cond": {
-                          "atLeast": 300,
-                          "kind": "hasMoney"
-                        }
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.5344"
-                              }
-                            ],
-                            "slot": "top",
-                            "speaker": "spk.李逍遥"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.5346"
-                              },
-                              {
-                                "text": "dlg.5347"
-                              },
-                              {
-                                "text": "dlg.5348"
-                              }
-                            ],
-                            "speaker": "spk.衙役"
-                          },
-                          "kind": "dialog"
-                        }
-                      ]
-                    },
-                    {
-                      "delta": -300,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.5340"
+                          "kind": "not",
+                          "cond": {
+                            "kind": "hasMoney",
+                            "atLeast": 300
                           }
-                        ],
-                        "speaker": "spk.衙役"
-                      },
-                      "kind": "dialog"
-                    }
-                  ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
+                        },
+                        "then": [
                           {
-                            "text": "dlg.5342"
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "cue": {
+                              "rows": [
+                                {
+                                  "text": "dlg.5344"
+                                }
+                              ],
+                              "speaker": "spk.李逍遥",
+                              "slot": "top"
+                            }
+                          },
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "cue": {
+                              "rows": [
+                                {
+                                  "text": "dlg.5346"
+                                },
+                                {
+                                  "text": "dlg.5347"
+                                },
+                                {
+                                  "text": "dlg.5348"
+                                }
+                              ],
+                              "speaker": "spk.衙役"
+                            }
                           }
-                        ],
-                        "speaker": "spk.衙役"
+                        ]
                       },
-                      "kind": "dialog"
+                      {
+                        "kind": "giveMoney",
+                        "delta": -300
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5340"
+                            }
+                          ],
+                          "speaker": "spk.衙役"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "legacy-002"
                     }
-                  ]
+                  },
+                  "legacy-002": {
+                    "label": "步骤 legacy-002",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5342"
+                            }
+                          ],
+                          "speaker": "spk.衙役"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  },
+                  "recovered-001": {
+                    "label": "默认触发行为 · 恢复步骤 1",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5350"
+                            }
+                          ],
+                          "speaker": "spk.衙役"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

@@ -306,4 +306,4 @@ A7/R7 总体不能提前标 done。
 - R13-2 发布的 content 7 / SAVE 7 保留为历史 byte-pin。
 - R13-3 占用 content 8，只升级投掷内容 schema；SAVE 与 world shape 不变。
 - SAVE7/content7 读档只做输入不变、无 sidecar 的 content epoch identity normalization。
-- v7、v8 已分别由 R13-2、R13-3 占用；A7-4 当前顺延为候选 v9，版本尚未冻结。
+- v7、v8、v9 已分别由 R13-2、R13-3、R13-4 占用；A7-4 当前顺延为候选 v10，版本尚未冻结。

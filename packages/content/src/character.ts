@@ -44,7 +44,7 @@ export interface WorldState {
   hostileAwareness?: { rangeMultiplier: 0 | 3; remainingMs: number }
 }
 
-/** canonical script-v5 世界态；contentVersion 5/6/7/8 共用这一条脚本权威。 */
+/** canonical script-v5 世界态；contentVersion 5..9 共用这一条脚本权威。 */
 export interface WorldStateV5 extends Omit<WorldState, 'script'> {
   script?: WorldScriptStateV5
 }
@@ -57,6 +57,9 @@ export type WorldStateV7 = WorldStateV5
 
 /** contentVersion 8 只升级投掷内容 schema，不复制世界态或提高 SAVE_VERSION。 */
 export type WorldStateV8 = WorldStateV5
+
+/** contentVersion 9 合并 confirm 游标 epoch 与装备形象映射，不复制世界态 schema。 */
+export type WorldStateV9 = WorldStateV5
 
 /** manifest.startWorld —— initialWorld() 的数据化(loader 从工程 JSON 读,buildWorld 组装)。 */
 export interface StartWorld {
@@ -90,9 +93,9 @@ export interface EntryPoint {
 }
 
 /** 工程内容 schema 版本；与存档 SAVE_VERSION 是两个独立的版本轴。 */
-export const CONTENT_VERSION = 8 as const
+export const CONTENT_VERSION = 9 as const
 /** 当前工程仍允许读取的最早 SAVE envelope；不得从 CONTENT_VERSION 推导。 */
-export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 7 as const
+export const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 8 as const
 
 /** manifest.json 的版本化公共形状。 */
 export interface ProjectManifest<V extends number> {
@@ -126,12 +129,15 @@ export type LegacyManifestV6 = ProjectManifest<6>
 /** contentVersion 7 只允许 R13-3 投掷 schema 升级边界读取。 */
 export type LegacyManifestV7 = ProjectManifest<7>
 
+/** contentVersion 8 只允许 R13-4/E1 合并升级边界读取。 */
+export type LegacyManifestV8 = ProjectManifest<8>
+
 /** canonical loader 解析、runtime/editor 消费的当前工程清单。 */
 export type CurrentManifest = ProjectManifest<typeof CONTENT_VERSION>
 
 /**
  * 旧 v4 loader/editor shell 的兼容名称。P7 后不得用它判断当前版本；新代码用
- * CurrentManifest 或显式 ProjectManifest<8>。
+ * CurrentManifest 或显式 ProjectManifest<9>。
  */
 export type LoadedManifest = LegacyManifestV4
 

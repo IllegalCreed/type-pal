@@ -52,12 +52,12 @@ const scene: SceneDefV5 = {
   ],
 }
 
-function manifest(over: Partial<ProjectManifest<8>> = {}): ProjectManifest<8> {
+function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 8,
-    minimumSaveVersion: 7,
+    contentVersion: 9,
+    minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
       actors: 'content/actors.json',
@@ -102,6 +102,66 @@ const item = {
         },
       },
     ],
+  },
+}
+
+const battlerActor = {
+  id: 'hero',
+  name: 'name.hero',
+  spriteId: 'hero-sprite',
+  battler: {
+    battleSprite: 'fighter-base',
+    baseStats: {
+      level: 1,
+      hp: 100,
+      maxHP: 100,
+      mp: 20,
+      maxMP: 20,
+      attack: 10,
+      defense: 10,
+      magicAttack: 10,
+      speed: 10,
+      luck: 10,
+    },
+    initialEquipment: {},
+    initialMagic: [],
+  },
+}
+
+const fighterSprite = {
+  id: 'fighter-base',
+  label: '主角战斗形象',
+  asset: 'battle-sprite.hero',
+  profile: {
+    kind: 'player-fighter' as const,
+    frames: {
+      idle: 0,
+      dying: 1,
+      dead: 2,
+      defend: 3,
+      hurt: 4,
+      preMagic: 5,
+      magic: 6,
+      attackWindup: 7,
+      attackRush: 8,
+      attackStrike: 9,
+    },
+    castEffectBase: 15,
+    attackEffectBase: 0,
+  },
+}
+
+const appearanceItem = {
+  id: 'appearance',
+  name: '形象武器',
+  desc: [],
+  buyPrice: 0,
+  sellPrice: 0,
+  sellable: false,
+  equip: {
+    slot: 'weapon' as const,
+    equipableBy: ['hero'],
+    effects: [{ kind: 'battleSprite' as const, byActor: { hero: 'fighter-base' } }],
   },
 }
 
@@ -168,6 +228,45 @@ describe('canonical v5 editor project IO', () => {
     expect(output['content/shared-scripts.json']).toEqual(jsons.sharedScripts)
     expect(output['manifest.json']).toEqual(manifest())
     expect(Object.keys(output).some((path) => path.startsWith('content/scripts/'))).toBe(false)
+  })
+
+  test('round-trips per-actor battle sprite mappings and rejects a dangling mapping on save', () => {
+    const fixture = {
+      ...jsons,
+      actors: [battlerActor],
+      items: [item, appearanceItem],
+      battleSprites: [fighterSprite],
+      assetCatalog: {
+        version: 1 as const,
+        assets: {
+          'battle-sprite.hero': {
+            kind: 'battle-sprite' as const,
+            path: 'assets/generated/battle-sprites/hero.rle',
+            mediaType: 'application/vnd.type-pal.rle',
+            bytes: 0,
+            sha256: 'a'.repeat(64),
+            label: '主角战斗形象',
+            origin: { kind: 'generated' as const },
+          },
+        },
+      },
+    }
+    const state = toEditorStateV5(assembleProjectV5(manifest(), fixture), [scene])
+    const output = serializeProjectV5(state)
+    expect(output['content/items.json']).toEqual([item, appearanceItem])
+
+    const reopened = assembleProjectV5(manifest(), {
+      ...fixture,
+      items: output['content/items.json'],
+    })
+    expect(reopened.items.appearance?.equip?.effects).toEqual([
+      { kind: 'battleSprite', byActor: { hero: 'fighter-base' } },
+    ])
+
+    const effect = state.items[1]?.equip?.effects[0]
+    if (!effect || effect.kind !== 'battleSprite') throw new Error('测试夹具缺 battleSprite')
+    effect.byActor = { missing: 'fighter-base' }
+    expect(() => serializeProjectV5(state)).toThrow(/missing.*不在 actors/)
   })
 
   test('rejects a canonical script that points at a missing item', () => {
@@ -281,8 +380,8 @@ describe('canonical v5 editor project IO', () => {
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
     expect(merged.manifest).toMatchObject({
-      contentVersion: 8,
-      minimumSaveVersion: 7,
+      contentVersion: 9,
+      minimumSaveVersion: 8,
       name: 'Renamed',
     })
     expect(merged.scenes[0]!.entities[0]).toMatchObject({

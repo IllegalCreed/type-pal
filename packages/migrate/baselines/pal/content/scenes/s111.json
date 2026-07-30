@@ -1289,64 +1289,98 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.5987"
-                          }
-                        ],
-                        "speaker": "spk.小贩"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "confirm",
-                      "onNo": []
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "not",
-                        "cond": {
-                          "atLeast": 30,
-                          "kind": "hasMoney"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "confirm-decisions",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "步骤 initial",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.5987"
+                            }
+                          ],
+                          "speaker": "spk.小贩"
                         }
                       },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "rows": [
-                              {
-                                "text": "dlg.5989"
-                              }
-                            ],
-                            "speaker": "spk.小贩"
-                          },
-                          "kind": "dialog"
-                        }
-                      ]
-                    },
-                    {
-                      "delta": -30,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "itemId": "80",
-                      "kind": "giveItem"
+                      {
+                        "kind": "confirm",
+                        "id": "decision-001",
+                        "onNo": []
+                      }
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-001",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "continue",
+                        "state": "decision-001-no"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "decision-001-yes"
+                      }
                     }
-                  ]
+                  },
+                  "decision-001-no": {
+                    "label": "默认触发行为 · 选择否",
+                    "body": [],
+                    "next": {
+                      "kind": "restart"
+                    }
+                  },
+                  "decision-001-yes": {
+                    "label": "默认触发行为 · 继续",
+                    "body": [
+                      {
+                        "kind": "branch",
+                        "cond": {
+                          "kind": "not",
+                          "cond": {
+                            "kind": "hasMoney",
+                            "atLeast": 30
+                          }
+                        },
+                        "then": [
+                          {
+                            "kind": "clearDialog"
+                          },
+                          {
+                            "kind": "dialog",
+                            "cue": {
+                              "rows": [
+                                {
+                                  "text": "dlg.5989"
+                                }
+                              ],
+                              "speaker": "spk.小贩"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": -30
+                      },
+                      {
+                        "kind": "giveItem",
+                        "itemId": "80"
+                      }
+                    ],
+                    "next": {
+                      "kind": "restart"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

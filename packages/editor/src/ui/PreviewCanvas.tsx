@@ -7,11 +7,14 @@
 
 import type {
   ActorDef,
+  AuthorCommandV5,
   Command,
   Locale,
   MapIndexV1,
   SceneDef,
+  ScriptFlowV5,
   ScriptStage,
+  SharedScriptLibraryV5,
   SpriteDef,
 } from '@type-pal/content'
 import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@type-pal/content'
@@ -22,7 +25,7 @@ import {
   renderSceneFrame,
   walkFrameIndex,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef } from 'react'
+import { type KeyboardEvent, useEffect, useMemo, useRef } from 'react'
 import type { Playback } from '../core/playback.js'
 import {
   drawGridBlocked,
@@ -59,6 +62,50 @@ function collectScriptSprites(stages: readonly ScriptStage[]): string[] {
   return [...out]
 }
 
+function collectCanonicalScriptSprites(
+  flow: ScriptFlowV5,
+  sharedScripts: SharedScriptLibraryV5,
+): string[] {
+  const out = new Set<string>()
+  const visitedShared = new Set<string>()
+  const walk = (commands: readonly AuthorCommandV5[]): void => {
+    for (const command of commands) {
+      if (command.kind === 'setActorSprite') out.add(command.sprite)
+      if (command.kind === 'setActorAppearance' && command.spriteId) out.add(command.spriteId)
+      if (command.kind === 'setFollowers') for (const sprite of command.sprites) out.add(sprite)
+      if (command.kind === 'branch') {
+        walk(command.then)
+        walk(command.else ?? [])
+      } else if (command.kind === 'confirm') {
+        walk(command.onNo)
+      } else if (command.kind === 'startBattle') {
+        walk(command.onLose ?? [])
+        walk(command.onFlee ?? [])
+      } else if (command.kind === 'loop') {
+        walk(command.body)
+      } else if (command.kind === 'teleportOut') {
+        walk(command.onFail ?? [])
+      } else if (command.kind === 'callScript' && !visitedShared.has(command.script)) {
+        visitedShared.add(command.script)
+        const shared = sharedScripts[command.script]
+        if (shared) walk(shared.body)
+      }
+    }
+  }
+  if (flow.kind === 'stages') {
+    for (const stage of flow.stages) {
+      walk(stage.entry?.prepare ?? [])
+      walk(stage.body)
+    }
+  } else {
+    for (const state of Object.values(flow.machine.states)) {
+      walk(state.entry?.prepare ?? [])
+      walk(state.body)
+    }
+  }
+  return [...out]
+}
+
 export function PreviewCanvas(props: {
   scene: SceneDef
   stages: readonly ScriptStage[]
@@ -80,6 +127,10 @@ export function PreviewCanvas(props: {
   tilesets: readonly import('@type-pal/reforge').TilesetDef[]
   locale: Locale
   playback: Playback
+  /** canonical v5 入口：直接启动原始 flow；缺省继续使用 legacy stages。 */
+  startPlayback?: (paused: boolean) => void
+  canonicalFlow?: ScriptFlowV5
+  canonicalSharedScripts?: SharedScriptLibraryV5
   /** 网格/禁入/透视叠加(与布置模式同一开关;共享层绘制)。 */
   layers?: { grid: boolean; blocked: boolean; ghosts?: boolean }
   /** 无活动脚本源时的底部提示(地图仍照常渲染;缺省 = 不显示)。 */
@@ -104,12 +155,16 @@ export function PreviewCanvas(props: {
     tilesets,
     locale,
     playback,
+    startPlayback,
+    canonicalFlow,
+    canonicalSharedScripts,
     layers,
     hint,
     sceneFraming,
   } = props
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+  const confirmNoRef = useRef<HTMLButtonElement>(null)
   // UI 重渲由宿主订阅 playback.onUi 驱动:父重渲 → 本组件(未 memo)必重渲,
   // 控制条/对话条读到最新 playback 状态;canvas 本体由 rAF 自绘,不依赖 React。
   // 共享层:容器自适应 + 视图态(滚轮缩放;pan = 相对导演相机的偏移,拖拽累积)
@@ -136,12 +191,16 @@ export function PreviewCanvas(props: {
       const d = entityDef(e)
       if (d) assets.add(d.asset)
     }
-    for (const sid of collectScriptSprites(stages)) {
+    const scriptSprites =
+      canonicalFlow && canonicalSharedScripts
+        ? collectCanonicalScriptSprites(canonicalFlow, canonicalSharedScripts)
+        : collectScriptSprites(stages)
+    for (const sid of scriptSprites) {
       const d = spriteById.get(sid)
       if (d) assets.add(d.asset)
     }
     return [...assets]
-  }, [scene, stages, spriteById, leaderSpriteId])
+  }, [canonicalFlow, canonicalSharedScripts, scene, stages, spriteById, leaderSpriteId])
   const { status, err, loadedRef } = useSceneAssets({
     canvasRef,
     assetBase,
@@ -329,8 +388,31 @@ export function PreviewCanvas(props: {
   const v = playback.view
   const mode = playback.mode
   const dlg = v.dialog
-  const speaker = dlg?.cue.speaker ? lookupText(dlg.cue.speaker, locale) : null
-  const text = dlg ? dlg.cue.rows.map((row) => lookupText(row.text, locale)).join('\n') : null
+  const activeConfirm = v.confirm
+  const shownCue = dlg?.cue ?? (activeConfirm ? v.heldDialog : undefined)
+  const speaker = shownCue?.speaker ? lookupText(shownCue.speaker, locale) : null
+  const text = shownCue ? shownCue.rows.map((row) => lookupText(row.text, locale)).join('\n') : null
+  useEffect(() => {
+    if (activeConfirm) confirmNoRef.current?.focus()
+  }, [activeConfirm])
+  const handleConfirmKeyDown = (event: KeyboardEvent<HTMLButtonElement>): void => {
+    if (!activeConfirm) return
+    if (
+      event.key === 'ArrowUp' ||
+      event.key === 'ArrowDown' ||
+      event.key === 'ArrowLeft' ||
+      event.key === 'ArrowRight'
+    ) {
+      event.preventDefault()
+      playback.toggleConfirm()
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      playback.submitConfirm()
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      playback.answerConfirm(false)
+    }
+  }
 
   return (
     <div className="preview-wrap">
@@ -342,6 +424,7 @@ export function PreviewCanvas(props: {
           onClick={() => {
             if (mode === 'running') playback.pause()
             else if (mode === 'paused') playback.resume()
+            else if (startPlayback) startPlayback(false)
             else playback.play(sourceKey, stages, { ownerId: focusEntityId })
           }}
         >
@@ -352,7 +435,9 @@ export function PreviewCanvas(props: {
           className="pv-btn"
           onClick={() =>
             mode === 'idle' || mode === 'done'
-              ? playback.play(sourceKey, stages, { paused: true })
+              ? startPlayback
+                ? startPlayback(true)
+                : playback.play(sourceKey, stages, { paused: true })
               : playback.step()
           }
         >
@@ -449,13 +534,36 @@ export function PreviewCanvas(props: {
         {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
         {status === 'ready' && hint ? <div className="preview-tip hint">{hint}</div> : null}
-        {dlg ? (
+        {shownCue || v.confirm ? (
           <div className="preview-dialog">
             {speaker ? <span className="spk">{speaker}</span> : null}
-            <span className="txt">{text}</span>
-            <button type="button" className="pv-btn" onClick={() => playback.confirmDialog()}>
-              继续 ▾
-            </button>
+            {text ? <span className="txt">{text}</span> : null}
+            {v.confirm ? (
+              <fieldset className="preview-confirm-actions">
+                <legend className="visually-hidden">脚本二选一</legend>
+                <button
+                  ref={confirmNoRef}
+                  type="button"
+                  className={`pv-btn${v.confirm.selectedYes ? '' : ' selected'}`}
+                  onKeyDown={handleConfirmKeyDown}
+                  onClick={() => playback.answerConfirm(false)}
+                >
+                  否
+                </button>
+                <button
+                  type="button"
+                  className={`pv-btn${v.confirm.selectedYes ? ' selected' : ''}`}
+                  onKeyDown={handleConfirmKeyDown}
+                  onClick={() => playback.answerConfirm(true)}
+                >
+                  是
+                </button>
+              </fieldset>
+            ) : (
+              <button type="button" className="pv-btn" onClick={() => playback.confirmDialog()}>
+                继续 ▾
+              </button>
+            )}
           </div>
         ) : null}
       </div>

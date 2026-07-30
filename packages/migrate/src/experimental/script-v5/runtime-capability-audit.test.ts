@@ -8,7 +8,7 @@ import {
   buildR13RuntimeCapabilityMatrix,
   R13_COMMAND_CONTEXTS,
   R13_SKILL_CONTEXTS,
-  type R13RuntimeCapabilityAuditV1,
+  type R13RuntimeCapabilityAuditV2,
 } from './runtime-capability-audit.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -34,7 +34,7 @@ function snapshot(
   return { files, managedFiles: new Set(files.keys()) }
 }
 
-function reseal(report: R13RuntimeCapabilityAuditV1): void {
+function reseal(report: R13RuntimeCapabilityAuditV2): void {
   const { digest: _digest, ...withoutDigest } = report
   report.digest = stableJsonSha256(withoutDigest)
 }
@@ -92,7 +92,7 @@ describe('R13 runtime capability audit', () => {
     expect(matrix.skillCells).toHaveLength(matrix.skillKinds.length * R13_SKILL_CONTEXTS.length)
   })
 
-  test('registers constant confirm as an explicit R13-4 debt', () => {
+  test('registers real confirm execution without an R13-4 debt', () => {
     const value = snapshot({
       scene: entityWithBody([{ kind: 'confirm', id: 'choice', onNo: [] }]),
     })
@@ -100,15 +100,16 @@ describe('R13 runtime capability audit', () => {
 
     assertR13RuntimeCapabilityAudit(report, value)
     expect(report.issues).toEqual([])
-    expect(report.debts).toEqual([
+    expect(report.debts).toEqual([])
+    expect(report.uses).toContainEqual(
       expect.objectContaining({
-        batch: 'R13-4',
-        behavior: 'constant-result',
         context: 'world-interactive',
         kind: 'confirm',
+        status: 'executed',
+        evidenceId: 'reforge:v5-script-confirm-modal',
       }),
-    ])
-    expect(report.summary.openDebts).toBe(1)
+    )
+    expect(report.summary.openDebts).toBe(0)
   })
 
   test('propagates auto context through shared calls and fails on refused commands', () => {
@@ -227,7 +228,7 @@ describe('R13 runtime capability audit', () => {
     expect(report.issues).toEqual([])
   })
 
-  test('keeps confirm debts deterministic across multiple contexts', () => {
+  test('executes confirm deterministically across all three world contexts', () => {
     const flow = (body: unknown[]) => ({
       kind: 'stages',
       initial: 'initial',
@@ -280,12 +281,29 @@ describe('R13 runtime capability audit', () => {
     const report = auditR13RuntimeCapabilities(value)
 
     assertR13RuntimeCapabilityAudit(report, value)
-    expect(report.debts.map((debt) => debt.context)).toEqual([
-      'item-private-world',
-      'world-auto',
-      'world-interactive',
+    expect(report.debts).toEqual([])
+    expect(
+      report.uses
+        .filter((use) => use.domain === 'command' && use.kind === 'confirm')
+        .map(({ context, status, evidenceId }) => ({ context, status, evidenceId })),
+    ).toEqual([
+      {
+        context: 'item-private-world',
+        status: 'executed',
+        evidenceId: 'reforge:v5-script-confirm-modal',
+      },
+      {
+        context: 'world-auto',
+        status: 'executed',
+        evidenceId: 'reforge:v5-script-confirm-modal',
+      },
+      {
+        context: 'world-interactive',
+        status: 'executed',
+        evidenceId: 'reforge:v5-script-confirm-modal',
+      },
     ])
-    expect(report.summary.openDebts).toBe(3)
+    expect(report.summary.openDebts).toBe(0)
   })
 
   test('keeps opaque skill ids distinct and records zero-effect cast sites', () => {
@@ -331,13 +349,20 @@ describe('R13 runtime capability audit', () => {
       scene: entityWithBody([{ kind: 'confirm', id: 'choice', onNo: [] }]),
     })
     const summaryDrift = structuredClone(auditR13RuntimeCapabilities(value))
-    summaryDrift.summary.openDebts = 0
+    summaryDrift.summary.openDebts = 1
     reseal(summaryDrift)
     expect(() => assertR13RuntimeCapabilityAudit(summaryDrift, value)).toThrow(/summary 漂移/)
 
     const debtDrift = structuredClone(auditR13RuntimeCapabilities(value))
-    debtDrift.debts[0]!.sites = []
-    debtDrift.summary.openDebts = 0
+    debtDrift.debts.push({
+      id: 'r13-runtime:world-interactive:confirm',
+      batch: 'R13-4',
+      behavior: 'constant-result',
+      context: 'world-interactive',
+      kind: 'confirm',
+      sites: ['scene(s001)/entity(e1)/trigger/default/stage(initial)/body/0:confirm'],
+    })
+    debtDrift.summary.openDebts = 1
     reseal(debtDrift)
     expect(() => assertR13RuntimeCapabilityAudit(debtDrift, value)).toThrow(
       /debts\/confirm uses 漂移/,

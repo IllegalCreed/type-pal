@@ -1,4 +1,4 @@
-import type { CurrentManifest, LegacyManifestV7 } from './character.js'
+import type { LegacyManifestV7, LegacyManifestV8 } from './character.js'
 import type { ThrowEffect, ThrowSpec } from './item.js'
 import type { ItemDataV5 } from './item-v5.js'
 
@@ -94,7 +94,7 @@ export function upgradeItemsV7ToV8(value: unknown): ItemDataV5[] {
 }
 
 /** contentVersion 7 -> 8 的纯 manifest 变换；minimumSaveVersion 保持原值（当前必须为 7）。 */
-export function upgradeManifestV7ToV8(value: unknown): CurrentManifest {
+export function upgradeManifestV7ToV8(value: unknown): LegacyManifestV8 {
   const manifest = record(value, 'manifest')
   if (manifest.contentVersion !== 7) throw new Error('manifest: 期望 contentVersion 7')
   return {

@@ -8,6 +8,7 @@ export function BattleSpritePicker(props: {
   onOpenDefinition?: (id: string) => void
   ariaLabel?: string
   allowUnset?: boolean
+  unsetLabel?: string
 }) {
   const compatible = props.definitions.filter((entry) => entry.profile.kind === props.kind)
   const selected = props.value
@@ -23,7 +24,7 @@ export function BattleSpritePicker(props: {
         aria-label={props.ariaLabel ?? '战斗精灵定义'}
         onChange={(event) => props.onChange(event.target.value)}
       >
-        {props.allowUnset && <option value="">（不改战斗形象）</option>}
+        {props.allowUnset && <option value="">{props.unsetLabel ?? '（不改战斗形象）'}</option>}
         {missing && <option value={props.value}>缺失：{props.value}</option>}
         {incompatible && (
           <option value={selected.id}>

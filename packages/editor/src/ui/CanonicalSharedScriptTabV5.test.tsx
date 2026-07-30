@@ -1,13 +1,29 @@
 // @vitest-environment jsdom
 
-import type { AssetCatalogV1, SceneDef } from '@type-pal/content'
+import type { AssetCatalogV1, SceneDef, ScriptFlowV5 } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { type ScriptEditorStateV5, ScriptV5EditSession } from '../core/script-v5-editor.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { CanonicalSharedScriptTabV5 } from './CanonicalSharedScriptTabV5.js'
+
+type PreviewProbeProps = {
+  stages: readonly unknown[]
+  canonicalFlow?: ScriptFlowV5
+  canonicalSharedScripts?: ScriptEditorStateV5['sharedScripts']
+  startPlayback?: (paused: boolean) => void
+}
+
+const previewRender = vi.hoisted(() => vi.fn())
+
+vi.mock('./PreviewCanvas.js', () => ({
+  PreviewCanvas: (props: PreviewProbeProps) => {
+    previewRender(props)
+    return <div data-testid="shared-preview" />
+  },
+}))
 
 const state: ScriptEditorStateV5 = {
   scenes: [],
@@ -37,6 +53,12 @@ const context: CanonicalScriptEditorContextV5 = {
   },
   battleSprites: [],
 }
+const projectProps = {
+  projectId: 'test',
+  projectMaps: {},
+  mapIndex: { version: 1 as const, maps: [] },
+  tilesets: [],
+}
 
 describe('CanonicalSharedScriptTabV5', () => {
   let host: HTMLDivElement
@@ -61,6 +83,7 @@ describe('CanonicalSharedScriptTabV5', () => {
         state={state}
         session={new ScriptV5EditSession(state)}
         context={context}
+        {...projectProps}
       />,
     )
     expect(html).toContain('读天书')
@@ -86,6 +109,7 @@ describe('CanonicalSharedScriptTabV5', () => {
           state={editorState}
           session={session}
           context={{ ...context, state: editorState }}
+          {...projectProps}
         />
       )
     }
@@ -130,5 +154,58 @@ describe('CanonicalSharedScriptTabV5', () => {
     })
     expect(host.querySelector('[role="dialog"]')).toBeNull()
     expect(host.textContent).toContain('序章开场')
+  })
+
+  test('previews a shared script through a canonical callScript wrapper', () => {
+    previewRender.mockClear()
+    const shell: SceneDef = {
+      id: 's001',
+      mapId: 'map-001',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [],
+    }
+    const previewState: ScriptEditorStateV5 = {
+      ...state,
+      scenes: [
+        {
+          id: 's001',
+          mapId: 'map-001',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [],
+        },
+      ],
+    }
+
+    renderToStaticMarkup(
+      <CanonicalSharedScriptTabV5
+        tabBar={null}
+        state={previewState}
+        session={new ScriptV5EditSession(previewState)}
+        context={{
+          ...context,
+          state: previewState,
+          shellScenes: [shell],
+          assetBase: {} as never,
+          sprites: [],
+          actors: {},
+        }}
+        {...projectProps}
+      />,
+    )
+
+    const preview = previewRender.mock.calls.at(-1)?.[0] as PreviewProbeProps
+    expect(preview.stages).toEqual([])
+    expect(preview.canonicalFlow).toEqual({
+      kind: 'stages',
+      initial: 'preview',
+      stages: [
+        {
+          id: 'preview',
+          body: [{ kind: 'callScript', script: 'shared/user/book' }],
+        },
+      ],
+    })
+    expect(preview.canonicalSharedScripts).toBe(previewState.sharedScripts)
+    expect(preview.startPlayback).toBeTypeOf('function')
   })
 })

@@ -6,10 +6,32 @@
  * 演出态全部写进 overlay(PlaybackView),**不触碰编辑器场景数据**;重置即丢弃。
  * 走位步进逻辑与引擎同源语义(半格步 + 像素轴朝向,见 reforge main.ts)。
  */
-import type { DialogueCue, Facing, GridPos, SceneDef, ScriptStage } from '@type-pal/content'
-import { emptyWorldScriptState, pixelDeltaToGridDelta } from '@type-pal/content'
-import type { ScriptHost, ScriptResolver, StepEvent } from '@type-pal/reforge'
-import { ScriptRunner } from '@type-pal/reforge'
+import type {
+  DialogueCue,
+  EntityAddress,
+  Facing,
+  GridPos,
+  SceneDef,
+  SceneDefV5,
+  ScriptFlowV5,
+  ScriptStage,
+  SharedScriptLibraryV5,
+} from '@type-pal/content'
+import {
+  emptyWorldScriptState,
+  emptyWorldScriptStateV5,
+  pixelDeltaToGridDelta,
+} from '@type-pal/content'
+import type { ScriptHost, ScriptResolver, ScriptStepEventV5, StepEvent } from '@type-pal/reforge'
+import {
+  compileScriptFlowV5,
+  executeLegacyScriptHostEffectV5,
+  FlowRuntimeCoordinatorV5,
+  MemorySharedScriptResolverV5,
+  ProjectScriptRuntimeHostV5,
+  ScriptRunner,
+  ScriptRunnerV5,
+} from '@type-pal/reforge'
 
 export interface EntityOverlay {
   pos?: GridPos
@@ -25,6 +47,9 @@ export interface PlaybackView {
   entity: Map<string, EntityOverlay>
   player: { pos: GridPos; facing: Facing; gesture: number | null; spriteId: string | null }
   dialog: { cue: DialogueCue; resolve: () => void } | null
+  /** 对话关闭后紧随 confirm 时，保留问句供二选一框作底图。 */
+  heldDialog?: DialogueCue
+  confirm: { selectedYes: boolean; resolve: (accepted: boolean) => void } | null
   /** 0 透明 → 1 全黑(fade 命令补间)。 */
   fadeBlack: number
   logs: string[]
@@ -106,6 +131,7 @@ export class Playback {
         spriteId: null,
       },
       dialog: null,
+      confirm: null,
       fadeBlack: 0,
       logs: [],
     }
@@ -197,16 +223,168 @@ export class Playback {
       if (p) this.poi = p
       this.onUi?.()
     }
-    runner.gate = () =>
-      new Promise<void>((resolve) => {
-        if (ac.signal.aborted) return resolve()
-        if (this.mode === 'running') return resolve()
-        this.gateQueue.push(resolve)
-      })
+    runner.gate = () => this.waitForCommandGate(ac)
     void runner
       .runStages(key, stages, {
         allowSceneEntry: key === '__onEnter__' || key.startsWith('s:'),
       })
+      .then(() => {
+        if (this.abort === ac) {
+          this.mode = 'done'
+          this.activePath = null
+          this.onUi?.()
+        }
+      })
+      .catch((error: unknown) => {
+        if (
+          ac.signal.aborted ||
+          (typeof error === 'object' &&
+            error !== null &&
+            'name' in error &&
+            error.name === 'AbortError')
+        )
+          return
+        if (this.abort === ac) {
+          this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
+          this.mode = 'done'
+          this.activePath = null
+          this.onUi?.()
+        }
+      })
+    this.onUi?.()
+  }
+
+  private waitForCommandGate(ac: AbortController): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (ac.signal.aborted || this.mode === 'running') return resolve()
+      this.gateQueue.push(resolve)
+    })
+  }
+
+  /**
+   * Canonical Script V5 预览：直接编译/运行原始 flow，不经过有损的 v5→v4 stages
+   * lowering。所有 world 写入只落到每次播放新建的 scratch world。
+   */
+  playCanonical(
+    key: string,
+    flow: ScriptFlowV5,
+    options: {
+      scene: SceneDefV5
+      sharedScripts: SharedScriptLibraryV5
+      self?: EntityAddress
+      timing?: 'auto' | 'interactive'
+      allowSceneEntry?: boolean
+      runSceneEntry?: boolean
+      paused?: boolean
+      ownerId?: string
+    },
+  ): void {
+    this.stop()
+    this.mode = options.paused ? 'paused' : 'running'
+    this.view = this.freshView()
+    this.activePath = null
+    this.poi = options.ownerId ? { kind: 'entity', id: options.ownerId } : { kind: 'player' }
+    const ac = new AbortController()
+    this.abort = ac
+    const digest = 'e'.repeat(64)
+    const scratch = emptyWorldScriptStateV5()
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const runtimeHost = new ProjectScriptRuntimeHostV5(scratch, coordinator, {
+      gate: () => this.waitForCommandGate(ac),
+      executeEffect: (command, context, signal) =>
+        executeLegacyScriptHostEffectV5(this.host, command, context, signal, {
+          currentSceneId: () => options.scene.id,
+        }),
+      scene: (sceneId) => {
+        if (sceneId !== options.scene.id)
+          throw new Error(`预览仅加载当前场景 ${options.scene.id}，无法解析 ${sceneId}`)
+        return options.scene
+      },
+      currentSceneId: () => options.scene.id,
+      currentSceneSessionId: () => `${options.scene.id}:${key}`,
+      entityPosRelativeToParty: (target, dcol, drow) => {
+        if (target.scene !== options.scene.id)
+          throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
+        const entity = this.scene.entities.find((candidate) => candidate.id === target.entity)
+        return {
+          col: this.view.player.pos.col + dcol,
+          row: this.view.player.pos.row + drow,
+          height: entity?.pos.height ?? 0,
+        }
+      },
+      query: {
+        hasItem: (itemId, atLeast) => this.host.query.hasItem(itemId, atLeast),
+        ownsItem: (itemId, atLeast) => this.host.query.ownsItem(itemId, atLeast),
+        itemEquipped: (itemId, atLeast) => this.host.query.itemEquipped(itemId, atLeast),
+        allFullHp: () => this.host.query.allFullHp(),
+        money: () => this.host.query.money(),
+        inParty: (actorId) => this.host.query.inParty(actorId),
+        entityInScene: (target) =>
+          target.scene === options.scene.id && this.host.query.entityInScene(target.entity),
+        facingEntity: (target, range) =>
+          target.scene === options.scene.id && this.host.query.facingEntity(target.entity, range),
+      },
+      confirm: (signal) => this.requestConfirm(signal),
+      startBattle: (request, signal) =>
+        this.host.startBattle(
+          request.team,
+          {
+            auto: request.auto,
+            boss: request.boss,
+            fieldId: request.fieldId,
+            ...(request.music !== undefined ? { music: request.music } : {}),
+            ...(request.choreography ? { choreography: [...request.choreography] } : {}),
+          },
+          signal,
+        ),
+      teleportOut: (signal) => this.host.teleportOut(signal),
+      revealSceneEntry: (reveal, signal) =>
+        this.host.revealSceneEntry?.(reveal, signal) ?? Promise.resolve(),
+      wait: (ms, signal) => this.host.wait(ms, signal),
+      waitWorldTick: (signal) => this.host.wait(100, signal),
+      yieldMacroTask: (signal) =>
+        new Promise<void>((resolve, reject) => {
+          const abort = (): void => {
+            clearTimeout(timer)
+            reject(new DOMException('preview aborted', 'AbortError'))
+          }
+          const timer = setTimeout(() => {
+            signal.removeEventListener('abort', abort)
+            resolve()
+          }, 0)
+          signal.addEventListener('abort', abort, { once: true })
+          if (signal.aborted) abort()
+        }),
+    })
+    const runner = new ScriptRunnerV5(
+      runtimeHost,
+      ac.signal,
+      new MemorySharedScriptResolverV5(options.sharedScripts, digest),
+    )
+    runner.onStep = (event: ScriptStepEventV5) => {
+      this.activePath = event.path.join('/')
+      const command =
+        event.command.kind === 'leaf'
+          ? (event.command.command as { kind: string; entity?: string })
+          : ({ kind: event.command.kind } as { kind: string; entity?: string })
+      const target = this.poiOf(command)
+      if (target) this.poi = target
+      this.onUi?.()
+    }
+    void runner
+      .runFlow(
+        compileScriptFlowV5(flow, {
+          canonicalContentDigest: digest,
+          timing: options.timing ?? 'interactive',
+          allowSceneEntry: options.allowSceneEntry,
+        }),
+        {
+          cursorController: { reachSafePoint: () => 'continue' },
+          ...(options.self ? { self: structuredClone(options.self) } : {}),
+          allowSceneEntry: options.allowSceneEntry,
+          runSceneEntry: options.runSceneEntry,
+        },
+      )
       .then(() => {
         if (this.abort === ac) {
           this.mode = 'done'
@@ -256,6 +434,10 @@ export class Playback {
       this.confirmDialog()
       return
     }
+    if (this.view.confirm) {
+      this.submitConfirm()
+      return
+    }
     this.gateQueue.shift()?.()
     this.onUi?.()
   }
@@ -265,8 +447,56 @@ export class Playback {
     const d = this.view.dialog
     if (!d) return
     this.view.dialog = null
+    this.view.heldDialog = d.cue
     d.resolve()
     this.onUi?.()
+  }
+
+  toggleConfirm(): void {
+    const prompt = this.view.confirm
+    if (!prompt) return
+    prompt.selectedYes = !prompt.selectedYes
+    this.onUi?.()
+  }
+
+  answerConfirm(accepted: boolean): void {
+    const prompt = this.view.confirm
+    if (!prompt) return
+    this.view.confirm = null
+    this.view.heldDialog = undefined
+    prompt.resolve(accepted)
+    this.onUi?.()
+  }
+
+  submitConfirm(): void {
+    const prompt = this.view.confirm
+    if (prompt) this.answerConfirm(prompt.selectedYes)
+  }
+
+  private requestConfirm(signal?: AbortSignal): Promise<boolean> {
+    if (signal?.aborted) return Promise.reject(new DOMException('preview aborted', 'AbortError'))
+    return new Promise<boolean>((resolve, reject) => {
+      let settled = false
+      const finish = (accepted: boolean): void => {
+        if (settled) return
+        settled = true
+        signal?.removeEventListener('abort', abort)
+        resolve(accepted)
+      }
+      const abort = (): void => {
+        if (settled) return
+        settled = true
+        signal?.removeEventListener('abort', abort)
+        if (this.view.confirm?.resolve === finish) this.view.confirm = null
+        this.view.heldDialog = undefined
+        reject(new DOMException('preview aborted', 'AbortError'))
+        this.onUi?.()
+      }
+      this.view.confirm = { selectedYes: false, resolve: finish }
+      signal?.addEventListener('abort', abort, { once: true })
+      if (signal?.aborted) abort()
+      this.onUi?.()
+    })
   }
 
   /** 停止并丢弃演出态(overlay 清空 → 画布回编辑器静态)。 */
@@ -281,6 +511,8 @@ export class Playback {
     const d = this.view.dialog
     this.view.dialog = null
     d?.resolve()
+    this.view.confirm = null
+    this.view.heldDialog = undefined
     this.view = this.freshView()
     this.mode = 'idle'
     this.activePath = null
@@ -354,12 +586,14 @@ export class Playback {
   private host: ScriptHost = {
     dialog: (cue) =>
       new Promise<void>((resolve) => {
+        this.view.heldDialog = undefined
         this.view.dialog = { cue, resolve }
         this.onUi?.()
       }),
     clearDialog: () => {
       const d = this.view.dialog
       this.view.dialog = null
+      this.view.heldDialog = undefined
       d?.resolve()
       this.onUi?.()
     },
@@ -526,10 +760,7 @@ export class Playback {
           '(编辑器预览桩)',
       ),
     openShop: async (shop, mode) => this.log(`🏪 商店 #${shop}(${mode === 'buy' ? '买' : '卖'})`),
-    confirm: async () => {
-      this.log('❓ 是/否 → 按「是」继续(v0 桩)')
-      return true
-    },
+    confirm: (signal) => this.requestConfirm(signal),
     query: {
       hasItem: () => false,
       ownsItem: () => false,

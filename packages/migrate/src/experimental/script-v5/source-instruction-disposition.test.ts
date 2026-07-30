@@ -4,10 +4,12 @@ import type { SourceEntrySite } from '../../script-control-flow-audit.js'
 import { buildR13SourceExecutionCensusFromGraph } from './source-execution-census.js'
 import {
   assertR13SourceInstructionDisposition,
+  assertR13SourceInstructionDispositionV3,
   digestR13ContentSnapshot,
   type R13DispositionEvidence,
   type R13SourceInstructionDispositionV1,
   sealR13SourceInstructionDisposition,
+  sealR13SourceInstructionDispositionV3,
 } from './source-instruction-disposition.js'
 
 const DISPOSITIONS = [
@@ -119,6 +121,21 @@ describe('R13 source instruction disposition', () => {
 
   test('accepts a complete fail-closed open-site ledger', () => {
     assertR13SourceInstructionDisposition(reportWithOpenSite())
+  })
+
+  test('rejects a v2 ledger relabeled and resealed as v3 without confirm closure', () => {
+    const {
+      digest: _digest,
+      version: _version,
+      methodVersion: _method,
+      ...body
+    } = reportWithOpenSite()
+    const report = sealR13SourceInstructionDispositionV3({
+      ...body,
+      version: 3,
+      methodVersion: 'n3-p7-r13-source-instruction-disposition-v3',
+    })
+    expect(() => assertR13SourceInstructionDispositionV3(report)).toThrow(/confirm v2\/v3 closure/)
   })
 
   test('never lets candidate evidence close an execution site', () => {

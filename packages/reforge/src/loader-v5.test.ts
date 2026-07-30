@@ -30,12 +30,12 @@ const jsons = {
   assetCatalog: { version: 1, assets: {} },
 }
 
-function manifest(over: Partial<ProjectManifest<8>> = {}): ProjectManifest<8> {
+function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 8,
-    minimumSaveVersion: 7,
+    contentVersion: 9,
+    minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
       actors: 'content/actors.json',
@@ -121,7 +121,7 @@ function memorySource(
   }
 }
 
-describe('canonical contentVersion 8 loader', () => {
+describe('canonical contentVersion 9 loader', () => {
   test('pure assembler accepts canonical scene/item schema and rejects legacy positional hooks', () => {
     expect(assembleProjectV5(manifest(), jsons).entryScene.id).toBe('s001')
     expect(() =>
@@ -143,6 +143,29 @@ describe('canonical contentVersion 8 loader', () => {
     ).toThrow(/legacy content\.scripts/)
   })
 
+  test('pure assembler rejects a battle sprite mapping whose actor is outside the actor table', () => {
+    expect(() =>
+      assembleProjectV5(manifest(), {
+        ...jsons,
+        items: [
+          {
+            id: 'appearance',
+            name: '形象武器',
+            desc: [],
+            buyPrice: 0,
+            sellPrice: 0,
+            sellable: false,
+            equip: {
+              slot: 'weapon',
+              equipableBy: ['ghost'],
+              effects: [{ kind: 'battleSprite', byActor: { ghost: 'missing-battle-sprite' } }],
+            },
+          },
+        ],
+      }),
+    ).toThrow(/ghost.*不在 actors/)
+  })
+
   test('public loader rejects an unupgraded contentVersion 7 project', async () => {
     await expect(
       loadProjectV5From(
@@ -153,13 +176,14 @@ describe('canonical contentVersion 8 loader', () => {
           {},
         ),
       ),
-    ).rejects.toThrow(/contentVersion 8/)
+    ).rejects.toThrow(/contentVersion 9/)
   })
 
   test.each([
     undefined,
     6,
-    8,
+    7,
+    9,
     1.5,
   ])('public loader rejects minimumSaveVersion %s before migration registry I/O', async (minimumSaveVersion) => {
     const fixture = await migrationFixture()
@@ -178,7 +202,7 @@ describe('canonical contentVersion 8 loader', () => {
       registryReads++
       return readBytes(...args)
     }
-    await expect(loadProjectV5From(source)).rejects.toThrow(/minimumSaveVersion 7/)
+    await expect(loadProjectV5From(source)).rejects.toThrow(/minimumSaveVersion 8/)
     expect(registryReads).toBe(0)
   })
 

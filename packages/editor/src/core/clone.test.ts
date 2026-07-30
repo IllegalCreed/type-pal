@@ -309,8 +309,8 @@ describe('cloneFromPal', () => {
     ).buffer
     const v5Manifest = {
       ...manifest,
-      contentVersion: 8,
-      minimumSaveVersion: 7,
+      contentVersion: 9,
+      minimumSaveVersion: 8,
       content: {
         ...manifest.content,
         sharedScripts: 'content/shared-scripts.json',

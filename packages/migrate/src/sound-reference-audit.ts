@@ -9,12 +9,12 @@ import {
   type ScriptChunkV1,
   type ScriptIndexV1,
   upgradeItemsV7ToV8,
+  upgradeItemsV8ToV9,
   validateActors,
   validateAssetCatalog,
   validateAssetReferenceClosure,
   validateBattleSprites,
   validateEnemies,
-  validateItems,
   validateItemsV5,
   validateScenes,
   validateSkills,
@@ -177,7 +177,7 @@ export function auditPalSoundReferences(args: {
   /** 可用 R13-3 successor items 覆盖 immutable v7 parent 中的同一路径。 */
   items?: unknown
   /** buildPalMigration 是 immutable R13-3 parent；只允许显式声明后做 v7→v8 投掷归一。 */
-  itemContentVersion: 7 | 8
+  itemContentVersion: 7 | 8 | 9
   assets: ManifestAssetConfigV3
   entryPoints?: readonly EntryPoint[]
   translationReport: TranslateReport
@@ -187,10 +187,13 @@ export function auditPalSoundReferences(args: {
   const actors = validateActors(required(files, 'content/actors.json'))
   const enemies = validateEnemies(required(files, 'content/enemies.json'))
   const rawItems = args.items ?? required(files, 'content/items.json')
-  const items =
+  const items = validateItemsV5(
     args.itemContentVersion === 7
-      ? validateItems(upgradeItemsV7ToV8(rawItems))
-      : validateItemsV5(rawItems)
+      ? upgradeItemsV8ToV9(upgradeItemsV7ToV8(rawItems))
+      : args.itemContentVersion === 8
+        ? upgradeItemsV8ToV9(rawItems)
+        : rawItems,
+  )
   const battleFields = required(files, 'content/battle-fields.json') as never
   const skills = validateSkills(required(files, 'content/skills.json')).skills
   const sprites = validateSprites(required(files, 'content/sprites.json'), catalog)

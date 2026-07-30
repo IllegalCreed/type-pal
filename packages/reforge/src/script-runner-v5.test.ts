@@ -12,6 +12,14 @@ import { ScriptRunnerV5 } from './script-runner-v5.js'
 
 const digest = 'b'.repeat(64)
 
+function deferred<T>() {
+  let resolve!: (value: T | PromiseLike<T>) => void
+  const promise = new Promise<T>((accept) => {
+    resolve = accept
+  })
+  return { promise, resolve }
+}
+
 interface FakeHost extends ScriptRuntimeHostV5 {
   calls: string[]
   conditions: Map<string, boolean>
@@ -348,6 +356,34 @@ describe('ScriptRunnerV5 flow semantics', () => {
 
     expect(host.calls).toEqual(['execute:clearDialog:-:-'])
     expect(cursors.cursors).toEqual([{ kind: 'state', machine: 'machine', state: 'target' }])
+  })
+
+  test('host execution gate freezes commands and empty-flow safe-points', async () => {
+    const host = fakeHost()
+    const firstGate = deferred<void>()
+    const secondGate = deferred<void>()
+    const gates = [firstGate, secondGate]
+    host.gate = vi.fn(() => gates.shift()?.promise)
+    const cursors = controller()
+    const running = new ScriptRunnerV5(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'initial',
+        stages: [{ id: 'initial', body: [] }],
+      }),
+      { cursorController: cursors },
+    )
+    await Promise.resolve()
+    expect(cursors.cursors).toEqual([])
+
+    firstGate.resolve()
+    await Promise.resolve()
+    expect(cursors.cursors).toEqual([])
+
+    secondGate.resolve()
+    await running
+    expect(cursors.cursors).toEqual([{ kind: 'stage', stage: 'initial' }])
+    expect(host.gate).toHaveBeenCalledTimes(2)
   })
 
   test.each([

@@ -1,14 +1,13 @@
-import {
-  type ActorDef,
-  type AssetCatalogV1,
-  createScriptIndex,
-  type Locale,
-  type MapIndexV1,
-  type SceneDef,
-  type ScriptStage,
-  type SpriteDef,
+import type {
+  ActorDef,
+  AssetCatalogV1,
+  Locale,
+  MapIndexV1,
+  SceneDef,
+  ScriptStage,
+  SpriteDef,
 } from '@type-pal/content'
-import { type AssetBase, MemoryScriptResolver, type ProjectMap } from '@type-pal/reforge'
+import type { AssetBase, ProjectMap } from '@type-pal/reforge'
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { Playback } from '../core/playback.js'
@@ -18,11 +17,6 @@ import type {
   ScriptEditorCommandV5,
   ScriptEditorStateV5,
 } from '../core/script-v5-editor.js'
-import {
-  projectCanonicalScriptFlowPreviewV5,
-  projectCanonicalSharedScriptPreviewChunkV5,
-  V5_PREVIEW_SHARED_CHUNK,
-} from '../core/world-sprite-behavior.js'
 import type { CanonicalScriptEditorContextV5 } from './CanonicalScriptEditorV5.js'
 import { PanelResizeHandle, useStoredPanelNumber } from './PanelResizeHandle.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
@@ -149,17 +143,6 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
   const activeFlow =
     owner === 'scene' ? hookVariants[activeHookId]?.flow : behaviorVariants[activeBehaviorId]?.flow
   const previewEntityId = props.selectedEntityId ?? canonicalScene?.entities[0]?.id ?? '__scene'
-  const previewStages = useMemo(
-    () =>
-      activeFlow
-        ? projectCanonicalScriptFlowPreviewV5(
-            activeFlow,
-            { scene: props.scene.id, entity: previewEntityId },
-            props.state.sharedScripts,
-          )
-        : EMPTY_STAGES,
-    [activeFlow, previewEntityId, props.scene.id, props.state.sharedScripts],
-  )
   const previewSourceKey =
     owner === 'scene'
       ? hookSlot === 'onEnter'
@@ -167,16 +150,12 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
         : `canonical:teleport:${props.scene.id}:${activeHookId || 'none'}`
       : `canonical:entity:${props.scene.id}:${props.selectedEntityId ?? 'none'}:${behaviorChannel}:${activeBehaviorId || 'none'}`
   const playback = useMemo(() => {
-    const previewChunk = projectCanonicalSharedScriptPreviewChunkV5(props.state.sharedScripts)
-    const resolver = new MemoryScriptResolver(createScriptIndex(), {
-      [V5_PREVIEW_SHARED_CHUNK]: previewChunk,
-    })
     return new Playback(
       props.scene,
-      resolver,
+      undefined,
       new Map(props.state.items.map((item) => [item.id, item.name])),
     )
-  }, [props.scene, props.state.items, props.state.sharedScripts])
+  }, [props.scene, props.state.items])
   const [, setUiTick] = useState(0)
 
   useEffect(() => {
@@ -204,7 +183,7 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
       <div className="work-preview">
         <PreviewCanvas
           scene={props.scene}
-          stages={previewStages}
+          stages={EMPTY_STAGES}
           sourceKey={previewSourceKey}
           projectId={props.projectId}
           focusEntityId={owner === 'entity' ? (props.selectedEntityId ?? undefined) : undefined}
@@ -219,6 +198,33 @@ export function CanonicalSceneScriptWorkspaceV5(props: {
           tilesets={props.tilesets}
           locale={props.locale}
           playback={playback}
+          canonicalFlow={activeFlow}
+          canonicalSharedScripts={props.state.sharedScripts}
+          startPlayback={
+            activeFlow && canonicalScene
+              ? (paused) =>
+                  playback.playCanonical(previewSourceKey, activeFlow, {
+                    scene: canonicalScene,
+                    sharedScripts: props.state.sharedScripts,
+                    ...(owner === 'entity'
+                      ? {
+                          self: {
+                            scene: props.scene.id,
+                            entity: previewEntityId,
+                          },
+                        }
+                      : {}),
+                    timing:
+                      owner === 'entity' && behaviorChannel === 'auto' ? 'auto' : 'interactive',
+                    allowSceneEntry: owner === 'scene' && hookSlot === 'onEnter',
+                    runSceneEntry: owner === 'scene' && hookSlot === 'onEnter',
+                    paused,
+                    ...(owner === 'entity' && props.selectedEntityId
+                      ? { ownerId: props.selectedEntityId }
+                      : {}),
+                  })
+              : undefined
+          }
           layers={props.layers}
           sceneFraming={owner === 'scene'}
           hint={

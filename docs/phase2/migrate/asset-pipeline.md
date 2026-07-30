@@ -240,4 +240,4 @@ contentVersion 5/6。全 legacy 归零、升级 `contentVersion 7` 和总闭包�
 
 R13-2 与 R13-3 后续分别占用 content 7、content 8；当前组合为
 content 8 / SAVE 7 / minimum 7。A7-3B 完成时记录的“A7-4 计划 v7”只代表当时计划；
-A7-4 当前顺延为候选 v9，版本尚未冻结。
+A7-4 当前顺延为候选 v10，版本尚未冻结。

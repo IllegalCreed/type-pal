@@ -9,6 +9,8 @@ export const PAL_SHARED_TESTS = [
   'src/experimental/script-v5/p6-shadow.pal.test.ts',
   'src/experimental/script-v5/r13-cadence-mg2.pal.test.ts',
   'src/experimental/script-v5/r13-cross-activation-mg2.pal.test.ts',
+  'src/experimental/script-v5/r13-confirm-control-flow.pal.test.ts',
+  'src/experimental/script-v5/r13-confirm-mg2.pal.test.ts',
   'src/experimental/script-v5/r13-item-throw-augmentation.pal.test.ts',
   'src/experimental/script-v5/r13-item-throw-mg2.pal.test.ts',
   'src/experimental/script-v5/source-instruction-disposition.pal.test.ts',

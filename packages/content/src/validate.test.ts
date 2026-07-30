@@ -364,6 +364,50 @@ test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合�
   ).toThrow('期望非空 AssetId')
 })
 
+describe('validateItems · 装备战斗形象按角色覆写', () => {
+  const item = (effects: unknown[]) => ({
+    id: 'weapon',
+    name: '测试武器',
+    desc: [],
+    buyPrice: 0,
+    sellPrice: 0,
+    sellable: false,
+    equip: { slot: 'weapon', equipableBy: ['hero', 'mage'], effects },
+  })
+
+  test('空映射与多角色映射合法，旧 sprite 字段 fail-closed', () => {
+    expect(() =>
+      validateItems([
+        item([{ kind: 'battleSprite', byActor: {} }]),
+        {
+          ...item([{ kind: 'battleSprite', byActor: { hero: 'fighter-1', mage: 'fighter-2' } }]),
+          id: 'weapon-2',
+        },
+      ]),
+    ).not.toThrow()
+    expect(() => validateItems([item([{ kind: 'battleSprite', sprite: 'fighter-1' }])])).toThrow(
+      /sprite: 未知字段/,
+    )
+  })
+
+  test('映射键值与单效果约束完整校验', () => {
+    expect(() => validateItems([item([{ kind: 'battleSprite', byActor: { hero: '' } }])])).toThrow(
+      /BattleSpriteDef.id/,
+    )
+    expect(() =>
+      validateItems([item([{ kind: 'battleSprite', byActor: { ' hero ': 'fighter-1' } }])]),
+    ).toThrow(/ActorDef.id/)
+    expect(() =>
+      validateItems([
+        item([
+          { kind: 'battleSprite', byActor: { hero: 'fighter-1' } },
+          { kind: 'battleSprite', byActor: { mage: 'fighter-2' } },
+        ]),
+      ]),
+    ).toThrow(/最多一个/)
+  })
+})
+
 describe('validateItems · C8 用途能力契约', () => {
   const item = (use: unknown) => ({
     id: 'item',

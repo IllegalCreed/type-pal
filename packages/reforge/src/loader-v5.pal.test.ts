@@ -3,8 +3,8 @@ import { expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { FileSource } from './file-source.js'
 import { loadAllScenesV5, loadProjectV5From, loadSceneDefV5 } from './loader-v5.js'
-import { normalizePayloadV7, preflightSaveMigration } from './save/migration.js'
-import { buildPayloadV7 } from './save/ops.js'
+import { normalizePayloadV8, preflightSaveMigration } from './save/migration.js'
+import { buildPayloadV8 } from './save/ops.js'
 import type { ProjectScriptHostOptionsV5 } from './script-project-v5.js'
 import { ScriptProjectRuntimeV5 } from './script-project-v5.js'
 
@@ -87,12 +87,12 @@ function recordingHost(
   }
 }
 
-test('正式 PAL contentVersion 8 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
+test('正式 PAL contentVersion 9 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
   const project = await loadProjectV5From(projectFileSource('pal'))
   const scenes = await loadAllScenesV5(project)
 
-  expect(project.manifest.contentVersion).toBe(8)
-  expect(project.manifest.minimumSaveVersion).toBe(7)
+  expect(project.manifest.contentVersion).toBe(9)
+  expect(project.manifest.minimumSaveVersion).toBe(8)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
   expect(Object.keys(project.migrationRegistry)).toEqual(['script-v4-v5'])
@@ -132,7 +132,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     at: { kind: 'stage', stage: 'completed' },
   })
 
-  const payload = buildPayloadV7(
+  const payload = buildPayloadV8(
     world,
     {
       sceneId: scene.id,
@@ -145,7 +145,7 @@ test('PAL s048 进场演出恢复亮屏、保存完成步骤，读档重进不�
     manifest: project.manifest,
     payload,
   })
-  const restored = normalizePayloadV7(payload, resolver)
+  const restored = normalizePayloadV8(payload, resolver)
   const secondEvents: string[] = []
   const secondFade = new SupersedingFadeDriver()
   const restoredRuntime = new ScriptProjectRuntimeV5(
@@ -213,14 +213,14 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
 test.each([
   { id: 'demo', entry: 'guijie-minju', scenes: 1 },
   { id: 'e2e-own', entry: 'start', scenes: 1 },
-])('仓库 HTTP fixture $id 已同步为 canonical content 8', async ({ id, entry, scenes: count }) => {
+])('仓库 HTTP fixture $id 已同步为 canonical content 9', async ({ id, entry, scenes: count }) => {
   const project = await loadProjectV5From(projectFileSource(id))
   const scenes = await loadAllScenesV5(project)
 
   expect(project.manifest).toMatchObject({
     id,
-    contentVersion: 8,
-    minimumSaveVersion: 7,
+    contentVersion: 9,
+    minimumSaveVersion: 8,
     entryScene: entry,
   })
   expect(scenes).toHaveLength(count)

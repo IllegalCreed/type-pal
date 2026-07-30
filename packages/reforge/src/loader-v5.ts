@@ -15,6 +15,7 @@ import {
   validateBattleFields,
   validateBattleSprites,
   validateEnemies,
+  validateEquipBattleSpriteReferences,
   validateItemsV5,
   validateLocale,
   validateManifestAssetConfigV3,
@@ -144,6 +145,13 @@ export function assembleProjectV5(
   const locale = validateLocale(jsons.locale, { allowLegacySoftWrap: true })
   const sprites = validateSprites(jsons.sprites, assetCatalog)
   const battleSprites = validateBattleSprites(jsons.battleSprites, assetCatalog)
+  const equipBattleSpriteIssue = validateEquipBattleSpriteReferences(
+    items,
+    actors,
+    battleSprites,
+  )[0]
+  if (equipBattleSpriteIssue)
+    throw new Error(`${equipBattleSpriteIssue.where}: ${equipBattleSpriteIssue.message}`)
   const enemies = jsons.enemies === undefined ? [] : validateEnemies(jsons.enemies)
   const enemyTeams = Array.isArray(jsons.enemyTeams) ? jsons.enemyTeams : []
   const battleFields =

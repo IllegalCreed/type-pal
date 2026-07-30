@@ -7,6 +7,7 @@
 // 320 逻辑坐标,调用方已 ctx.scale。
 import {
   type CombatStat,
+  type EquipDescribeCtx,
   effectiveStat,
   type ItemDataMap,
   type Locale,
@@ -78,9 +79,9 @@ function drawEquipList(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
-  skillNameOf?: (id: string) => string | undefined,
+  describeCtx?: EquipDescribeCtx,
 ): void {
-  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, skillNameOf)
+  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, describeCtx)
 }
 
 /** pick-role 阶段:换装面板(状态板 bg + 卷轴选中物 + 红名牌角色 + 6 槽当前装备 + 5 属性)。 */
@@ -181,11 +182,11 @@ export function drawEquipMenu(
   now: number,
   locale: Locale,
   items: ItemDataMap,
-  skillNameOf?: (id: string) => string | undefined,
+  describeCtx?: EquipDescribeCtx,
 ): void {
   if (state.phase === 'pick-role') {
     drawEquipPickRole(ctx, state, world, assets, glyphs, locale, now, items)
     return
   }
-  drawEquipList(ctx, state, world, assets, glyphs, now, skillNameOf)
+  drawEquipList(ctx, state, world, assets, glyphs, now, describeCtx)
 }

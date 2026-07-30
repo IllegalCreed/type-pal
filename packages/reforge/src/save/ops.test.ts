@@ -5,7 +5,7 @@ import {
   buildMeta,
   buildPayload,
   buildPayloadV6,
-  buildPayloadV7,
+  buildPayloadV8,
   LEGACY_SAVE_ENVELOPE_VERSION,
   normalizePayload,
   normalizePayloadV4Envelope,
@@ -54,17 +54,17 @@ describe('save ops（纯）', () => {
     })
     expect(payload.world).toBe(world)
   })
-  test('buildPayloadV7：当前 canonical 存档固定写出 SAVE7/content8', () => {
+  test('buildPayloadV8：当前 canonical 存档固定写出 SAVE8/content9', () => {
     const world = { ...makeTestWorld(), script: emptyWorldScriptStateV5() }
     const position = {
       sceneId: 's',
       pos: { col: 1, row: 2, height: 0 },
       facing: 'down' as const,
     }
-    const payload = buildPayloadV7(world, position, 'demo')
+    const payload = buildPayloadV8(world, position, 'demo')
     expect(payload).toEqual({
-      version: 7,
-      contentVersion: 8,
+      version: 8,
+      contentVersion: 9,
       projectId: 'demo',
       world,
       position,

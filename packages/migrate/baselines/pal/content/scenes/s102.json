@@ -268,191 +268,398 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7813"
-                          }
-                        ],
-                        "speaker": "spk.秀才"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7814"
-                          },
-                          {
-                            "text": "dlg.7815"
-                          },
-                          {
-                            "text": "dlg.7816"
-                          },
-                          {
-                            "text": "dlg.7817"
-                          }
-                        ],
-                        "speaker": "spk.秀才"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "portrait": {
-                          "asset": "portrait.pal.009",
-                          "side": "right"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.7819"
-                          },
-                          {
-                            "text": "dlg.7820"
-                          },
-                          {
-                            "text": "dlg.7821"
-                          }
-                        ],
-                        "speaker": "spk.李逍遥"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7823"
-                          },
-                          {
-                            "text": "dlg.7824"
-                          },
-                          {
-                            "text": "dlg.7825"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.秀才"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7826"
-                          },
-                          {
-                            "text": "dlg.7827"
-                          },
-                          {
-                            "text": "dlg.7828"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.秀才"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "kind": "confirm",
-                      "onNo": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "portrait": {
-                              "asset": "portrait.pal.009",
-                              "side": "right"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.7835"
-                              },
-                              {
-                                "text": "dlg.7836"
-                              }
-                            ],
-                            "speaker": "spk.李逍遥"
-                          },
-                          "kind": "dialog"
+              "kind": "stateMachine",
+              "machine": {
+                "id": "confirm-decisions",
+                "label": "默认触发行为",
+                "initial": "initial",
+                "states": {
+                  "initial": {
+                    "label": "步骤 initial",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7813"
+                            }
+                          ],
+                          "speaker": "spk.秀才"
                         }
-                      ]
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7830"
-                          },
-                          {
-                            "text": "dlg.7831"
-                          },
-                          {
-                            "text": "dlg.7832"
-                          }
-                        ],
-                        "slot": "top",
-                        "speaker": "spk.秀才"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "cue": {
-                        "rows": [
-                          {
-                            "text": "dlg.7833"
-                          }
-                        ],
-                        "slot": "narration"
+                      {
+                        "kind": "clearDialog"
                       },
-                      "kind": "dialog"
-                    },
-                    {
-                      "delta": 1000,
-                      "kind": "giveMoney"
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1882"
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7814"
+                            },
+                            {
+                              "text": "dlg.7815"
+                            },
+                            {
+                              "text": "dlg.7816"
+                            },
+                            {
+                              "text": "dlg.7817"
+                            }
+                          ],
+                          "speaker": "spk.秀才"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7819"
+                            },
+                            {
+                              "text": "dlg.7820"
+                            },
+                            {
+                              "text": "dlg.7821"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7823"
+                            },
+                            {
+                              "text": "dlg.7824"
+                            },
+                            {
+                              "text": "dlg.7825"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7826"
+                            },
+                            {
+                              "text": "dlg.7827"
+                            },
+                            {
+                              "text": "dlg.7828"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "confirm",
+                        "id": "decision-001",
+                        "onNo": []
                       }
-                    },
-                    {
-                      "kind": "setFollowers",
-                      "sprites": [
-                        "sprite-82"
-                      ]
+                    ],
+                    "next": {
+                      "kind": "commandOutcome",
+                      "commandId": "decision-001",
+                      "command": "confirm",
+                      "outcome": "no",
+                      "then": {
+                        "kind": "continue",
+                        "state": "decision-001-no"
+                      },
+                      "else": {
+                        "kind": "continue",
+                        "state": "decision-001-yes"
+                      }
                     }
-                  ]
+                  },
+                  "decision-001-no": {
+                    "label": "默认触发行为 · 选择否",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7835"
+                            },
+                            {
+                              "text": "dlg.7836"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "recovered-001"
+                    }
+                  },
+                  "decision-001-yes": {
+                    "label": "默认触发行为 · 继续",
+                    "body": [
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7830"
+                            },
+                            {
+                              "text": "dlg.7831"
+                            },
+                            {
+                              "text": "dlg.7832"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7833"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 1000
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 0,
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1882"
+                        }
+                      },
+                      {
+                        "kind": "setFollowers",
+                        "sprites": [
+                          "sprite-82"
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "restart"
+                    }
+                  },
+                  "recovered-001": {
+                    "label": "默认触发行为 · 恢复步骤 2",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7838"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      }
+                    ],
+                    "next": {
+                      "kind": "advance",
+                      "state": "recovered-002"
+                    }
+                  },
+                  "recovered-002": {
+                    "label": "默认触发行为 · 恢复步骤 2",
+                    "body": [
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7840"
+                            },
+                            {
+                              "text": "dlg.7841"
+                            },
+                            {
+                              "text": "dlg.7842"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7844"
+                            },
+                            {
+                              "text": "dlg.7845"
+                            },
+                            {
+                              "text": "dlg.7846"
+                            },
+                            {
+                              "text": "dlg.7847"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7849"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7851"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.009",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7853"
+                            }
+                          ],
+                          "speaker": "spk.秀才",
+                          "slot": "top"
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7855"
+                            }
+                          ],
+                          "speaker": "spk.李逍遥",
+                          "portrait": {
+                            "asset": "portrait.pal.001",
+                            "side": "right"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "clearDialog"
+                      },
+                      {
+                        "kind": "dialog",
+                        "cue": {
+                          "rows": [
+                            {
+                              "text": "dlg.7856"
+                            }
+                          ],
+                          "slot": "narration"
+                        }
+                      },
+                      {
+                        "kind": "giveMoney",
+                        "delta": 1500
+                      },
+                      {
+                        "kind": "setEntityState",
+                        "state": 0,
+                        "target": {
+                          "scene": "s102",
+                          "entity": "e1882"
+                        }
+                      },
+                      {
+                        "kind": "setFollowers",
+                        "sprites": [
+                          "sprite-83"
+                        ]
+                      }
+                    ],
+                    "next": {
+                      "kind": "stay"
+                    }
+                  }
                 }
-              ]
+              }
             }
           }
         }

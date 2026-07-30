@@ -1,5 +1,7 @@
-import type { SharedAuthorScriptV5 } from '@type-pal/content'
+import type { MapIndexV1, ScriptFlowV5, ScriptStage, SharedAuthorScriptV5 } from '@type-pal/content'
+import type { ProjectMap, TilesetDef } from '@type-pal/reforge'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { Playback } from '../core/playback.js'
 import {
   AddSharedScriptV5Command,
   DeleteSharedScriptV5Command,
@@ -13,6 +15,9 @@ import {
   CanonicalScriptDialogV5,
   type CanonicalScriptEditorContextV5,
 } from './CanonicalScriptEditorV5.js'
+import { PreviewCanvas } from './PreviewCanvas.js'
+
+const EMPTY_STAGES: readonly ScriptStage[] = []
 
 function nextScriptId(name: string, state: ScriptEditorStateV5): string {
   const slug =
@@ -32,6 +37,11 @@ export function CanonicalSharedScriptTabV5(props: {
   state: ScriptEditorStateV5
   session: ScriptV5EditSession
   context: CanonicalScriptEditorContextV5
+  projectId: string
+  projectMaps: Record<string, ProjectMap>
+  mapIndex: MapIndexV1
+  tilesets: readonly TilesetDef[]
+  leaderSpriteId?: string
   focusScriptId?: string
   focusCommandPath?: string
   focusRevision?: number
@@ -41,6 +51,14 @@ export function CanonicalSharedScriptTabV5(props: {
   const ids = useMemo(
     () => Object.keys(props.state.sharedScripts).sort(),
     [props.state.sharedScripts],
+  )
+  const pairedScenes = useMemo(
+    () =>
+      props.context.shellScenes.flatMap((shell) => {
+        const canonical = props.state.scenes.find((candidate) => candidate.id === shell.id)
+        return canonical ? [{ shell, canonical }] : []
+      }),
+    [props.context.shellScenes, props.state.scenes],
   )
   const [filter, setFilter] = useState('')
   const [selectedId, setSelectedId] = useState(
@@ -62,6 +80,41 @@ export function CanonicalSharedScriptTabV5(props: {
   const createScriptIdInputRef = useRef<HTMLInputElement>(null)
   const createWasOpenRef = useRef(false)
   const selected = props.state.sharedScripts[selectedId]
+  const [testSceneId, setTestSceneId] = useState(pairedScenes[0]?.shell.id ?? '')
+  const [testEntityId, setTestEntityId] = useState('')
+  const previewScene =
+    pairedScenes.find((candidate) => candidate.shell.id === testSceneId) ?? pairedScenes[0]
+  const previewFlow = useMemo<ScriptFlowV5 | undefined>(
+    () =>
+      selected
+        ? {
+            kind: 'stages',
+            initial: 'preview',
+            stages: [
+              {
+                id: 'preview',
+                body: [{ kind: 'callScript', script: selectedId }],
+              },
+            ],
+          }
+        : undefined,
+    [selected, selectedId],
+  )
+  const previewSourceKey = previewScene
+    ? `canonical:shared:${selectedId}:${previewScene.shell.id}:${testEntityId || 'none'}`
+    : `canonical:shared:${selectedId}:none:none`
+  const playback = useMemo(
+    () =>
+      previewScene
+        ? new Playback(
+            previewScene.shell,
+            undefined,
+            new Map(props.state.items.map((item) => [item.id, item.name])),
+          )
+        : undefined,
+    [previewScene, props.state.items],
+  )
+  const [, setUiTick] = useState(0)
   const [nameDraft, setNameDraft] = useState(selected?.name ?? '')
   const shown = ids.filter((id) => {
     const script = props.state.sharedScripts[id]
@@ -70,6 +123,22 @@ export function CanonicalSharedScriptTabV5(props: {
       !needle || id.toLowerCase().includes(needle) || script?.name.toLowerCase().includes(needle)
     )
   })
+  const previewEntities = useMemo(
+    () =>
+      previewScene?.shell.entities.filter((entity) =>
+        previewScene.canonical.entities.some((candidate) => candidate.id === entity.id),
+      ) ?? [],
+    [previewScene],
+  )
+  const previewSelfReady = selected?.self !== 'required' || Boolean(testEntityId)
+  const previewReady = Boolean(
+    selected &&
+      previewScene &&
+      previewFlow &&
+      playback &&
+      props.context.assetBase &&
+      previewSelfReady,
+  )
 
   useEffect(() => {
     if (props.focusScriptId && props.state.sharedScripts[props.focusScriptId]) {
@@ -80,6 +149,38 @@ export function CanonicalSharedScriptTabV5(props: {
   }, [ids, props.focusScriptId, props.state.sharedScripts, selectedId])
 
   useEffect(() => setNameDraft(selected?.name ?? ''), [selected?.name])
+
+  useEffect(() => {
+    if (!pairedScenes.length) {
+      setTestSceneId('')
+      return
+    }
+    if (!pairedScenes.some((candidate) => candidate.shell.id === testSceneId))
+      setTestSceneId(pairedScenes[0]!.shell.id)
+  }, [pairedScenes, testSceneId])
+
+  useEffect(() => {
+    if (!previewScene || selected?.self === 'none') {
+      setTestEntityId('')
+      return
+    }
+    if (testEntityId && previewEntities.some((candidate) => candidate.id === testEntityId)) return
+    setTestEntityId(selected?.self === 'required' ? (previewEntities[0]?.id ?? '') : '')
+  }, [previewEntities, previewScene, selected?.self, testEntityId])
+
+  useEffect(() => {
+    if (!playback) return
+    playback.onUi = () => setUiTick((value) => value + 1)
+    return () => playback.stop()
+  }, [playback])
+
+  useEffect(() => {
+    void previewSourceKey
+    void selected?.body
+    void selected?.self
+    void props.state.sharedScripts
+    playback?.stop()
+  }, [playback, previewSourceKey, props.state.sharedScripts, selected?.body, selected?.self])
 
   useEffect(() => {
     if (createOpen) {
@@ -216,12 +317,106 @@ export function CanonicalSharedScriptTabV5(props: {
               <span className="spacer" />
               <span className="shared-context-free">
                 {selected.self === 'none'
-                  ? '位置无关'
+                  ? '不需要调用实体'
                   : selected.self === 'required'
-                    ? '必须提供 self'
-                    : '可选 self'}
+                    ? '必须提供调用实体'
+                    : '可选调用实体'}
               </span>
             </div>
+            {pairedScenes.length ? (
+              <div className="canonical-shared-preview-toolbar">
+                <label className="shared-scene-context">
+                  <span>预览场景</span>
+                  <select
+                    className="in"
+                    value={previewScene?.shell.id ?? ''}
+                    onChange={(event) => {
+                      setTestSceneId(event.target.value)
+                      setTestEntityId('')
+                    }}
+                  >
+                    {pairedScenes.map(({ shell }) => (
+                      <option key={shell.id} value={shell.id}>
+                        {shell.id}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                {selected.self !== 'none' && previewScene ? (
+                  <label className="shared-scene-context entity">
+                    <span>调用实体</span>
+                    <select
+                      className="in"
+                      value={testEntityId}
+                      onChange={(event) => setTestEntityId(event.target.value)}
+                    >
+                      {selected.self === 'optional' ? <option value="">不指定</option> : null}
+                      {previewEntities.map((entity) => (
+                        <option key={entity.id} value={entity.id}>
+                          {entity.id}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : null}
+                <span className="spacer" />
+                <CanonicalHelpTipV5 label="共享脚本预览">
+                  预览直接运行当前 V5
+                  脚本，不会写回工程。脚本若依赖当前场景或调用实体，可在这里切换测试上下文。
+                </CanonicalHelpTipV5>
+              </div>
+            ) : (
+              <div className="shared-context-callout">
+                当前工程没有同时存在于场景数据与脚本数据中的场景，暂时不能预览。
+              </div>
+            )}
+            {previewScene && selected.self === 'required' && !testEntityId ? (
+              <div className="shared-context-callout">
+                这个脚本要求调用实体；当前测试场景没有可用实体，无法开始预览。
+              </div>
+            ) : null}
+            {previewReady && previewScene && previewFlow && playback && props.context.assetBase ? (
+              <div className="shared-preview canonical-shared-preview">
+                <PreviewCanvas
+                  scene={previewScene.shell}
+                  stages={EMPTY_STAGES}
+                  sourceKey={previewSourceKey}
+                  projectId={props.projectId}
+                  focusEntityId={testEntityId || undefined}
+                  sprites={[...(props.context.sprites ?? [])]}
+                  actorsById={props.context.actors ?? {}}
+                  leaderSpriteId={props.leaderSpriteId}
+                  assetBase={props.context.assetBase}
+                  assetCatalog={props.context.assetCatalog}
+                  assetReader={props.context.assetReader}
+                  projectMaps={props.projectMaps}
+                  mapIndex={props.mapIndex}
+                  tilesets={props.tilesets}
+                  locale={props.context.locale}
+                  playback={playback}
+                  canonicalFlow={previewFlow}
+                  canonicalSharedScripts={props.state.sharedScripts}
+                  startPlayback={(paused) =>
+                    playback.playCanonical(previewSourceKey, previewFlow, {
+                      scene: previewScene.canonical,
+                      sharedScripts: props.state.sharedScripts,
+                      ...(selected.self !== 'none' && testEntityId
+                        ? {
+                            self: {
+                              scene: previewScene.shell.id,
+                              entity: testEntityId,
+                            },
+                            ownerId: testEntityId,
+                          }
+                        : {}),
+                      timing: 'interactive',
+                      paused,
+                    })
+                  }
+                  sceneFraming={!testEntityId}
+                />
+              </div>
+            ) : null}
             <CanonicalScriptBodyEditorV5
               label={`${selected.name} · 正文`}
               body={selected.body}

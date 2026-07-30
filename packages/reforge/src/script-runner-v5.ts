@@ -24,6 +24,11 @@ export interface ScriptRuntimeContextV5 {
 }
 
 export interface ScriptRuntimeHostV5 {
+  /**
+   * 宿主级执行门。中央 modal 可用它冻结所有 v5 runner（包括 auto、shared、
+   * item-private），而不只暂停 main tick 的物理推进。
+   */
+  gate?(signal: AbortSignal): void | Promise<void>
   execute(
     command: RuntimeLeafCommandV5,
     context: Readonly<ScriptRuntimeContextV5>,
@@ -147,6 +152,7 @@ export class ScriptRunnerV5 {
     const stage = executable.flow.stages.find((candidate) => candidate.id === stageId)
     if (!stage) throw new Error(`ScriptRunnerV5: stage cursor 不存在 ${stageId}`)
     try {
+      await this.awaitGate()
       if (options.runSceneEntry && stage.entry) {
         if (!options.allowSceneEntry)
           throw new Error('ScriptRunnerV5: 非 onEnter flow 禁止执行 scene entry')
@@ -154,11 +160,13 @@ export class ScriptRunnerV5 {
           throw new Error('ScriptRunnerV5: host 未实现 revealSceneEntry')
         await this.runCommands(stage.entry.prepare, [stage.id, 'entry', 'prepare'])
         throwIfAborted(this.signal)
+        await this.awaitGate()
         await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
         throwIfAborted(this.signal)
       }
       await this.runCommands(stage.body, [stage.id])
       throwIfAborted(this.signal)
+      await this.awaitGate()
       await options.cursorController.reachSafePoint({
         kind: 'stage',
         stage: stage.next ?? stage.id,
@@ -195,6 +203,7 @@ export class ScriptRunnerV5 {
     try {
       while (true) {
         throwIfAborted(this.signal)
+        await this.awaitGate()
         const state = machine.states[stateId]
         if (!state) throw new Error(`ScriptRunnerV5: state 不存在 ${stateId}`)
         if (firstState && options.runSceneEntry && state.entry) {
@@ -204,6 +213,7 @@ export class ScriptRunnerV5 {
             throw new Error('ScriptRunnerV5: host 未实现 revealSceneEntry')
           await this.runCommands(state.entry.prepare, [machine.id, stateId, 'entry', 'prepare'])
           throwIfAborted(this.signal)
+          await this.awaitGate()
           await this.host.revealSceneEntry(state.entry.reveal, this.signal)
           throwIfAborted(this.signal)
         }
@@ -230,6 +240,7 @@ export class ScriptRunnerV5 {
               ? machine.initial
               : transition.state
         assertState(machine.states, target, `${machine.id}.${stateId}.next`)
+        await this.awaitGate()
         const decision = await options.cursorController.reachSafePoint({
           kind: 'state',
           machine: machine.id,
@@ -280,6 +291,7 @@ export class ScriptRunnerV5 {
   ): Promise<void> {
     for (const [index, command] of commands.entries()) {
       throwIfAborted(this.signal)
+      await this.awaitGate()
       const commandPath = [...path, index]
       this.onStep?.({ path: commandPath, command })
       await this.runCommand(command, commandPath, outcomes, recordTopLevelOutcomes)
@@ -433,6 +445,11 @@ export class ScriptRunnerV5 {
   private runningTiming: ScriptTimingV5 = 'interactive'
   private runningBoundaryPolicy: ScriptBoundaryPolicyV5 = 'perCommand'
   private runningDigest = ''
+
+  private async awaitGate(): Promise<void> {
+    await this.host.gate?.(this.signal)
+    throwIfAborted(this.signal)
+  }
 
   private async runBoundaries(boundaries: readonly ExecutableCommandBoundaryV5[]): Promise<void> {
     for (const boundary of boundaries) {

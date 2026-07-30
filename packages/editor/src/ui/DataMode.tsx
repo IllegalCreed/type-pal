@@ -477,6 +477,13 @@ export function DataMode(props: {
           tabBar={tabBar}
           state={scriptV5.state}
           session={scriptV5.session}
+          projectId={manifest.id}
+          projectMaps={state.maps}
+          mapIndex={state.mapIndex}
+          tilesets={tilesets}
+          leaderSpriteId={
+            actors.find((actor) => actor.id === manifest.startWorld.party[0])?.spriteId
+          }
           focusScriptId={focusScriptId}
           focusCommandPath={focusScriptCommandPath}
           focusRevision={focusScriptRevision}

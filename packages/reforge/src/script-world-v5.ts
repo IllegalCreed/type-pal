@@ -472,6 +472,26 @@ export class FlowActivationLeaseV5 implements FlowCursorControllerV5 {
   }
 }
 
+/**
+ * 不持久化 FlowCursor 的脚本活动租约。共享脚本、物品私有脚本和临时 command
+ * 仍必须进入与持久 flow 相同的 active 注册表，否则 save barrier 会漏看正在等待
+ * confirm / battle / host effect 的执行。
+ */
+export class FlowActivityLeaseV5 {
+  private active = true
+
+  constructor(
+    private readonly coordinator: FlowRuntimeCoordinatorV5,
+    private readonly key: string,
+  ) {}
+
+  close(): void {
+    if (!this.active) return
+    this.active = false
+    this.coordinator.finish(this.key, this)
+  }
+}
+
 export interface ActiveEntityBehaviorV5 extends ResolvedEntityBehaviorV5 {
   lease: FlowActivationLeaseV5
 }
@@ -490,7 +510,8 @@ interface PendingBarrierV5 {
 
 export class FlowRuntimeCoordinatorV5 {
   private readonly epochs = new Map<string, number>()
-  private readonly active = new Map<string, FlowActivationLeaseV5>()
+  private readonly active = new Map<string, FlowActivationLeaseV5 | FlowActivityLeaseV5>()
+  private nextActivityId = 1
   private pending?: PendingBarrierV5
 
   epoch(owner: PersistentFlowOwnerV5): number {
@@ -512,6 +533,18 @@ export class FlowRuntimeCoordinatorV5 {
     const key = ownerKey(owner)
     if (this.active.has(key)) return
     const lease = new FlowActivationLeaseV5(this, key, this.epochForKey(key), commit)
+    this.active.set(key, lease)
+    return lease
+  }
+
+  /**
+   * 登记一个无 cursor 的完整脚本活动。save barrier 已关闭时拒绝新活动；调用方应通过
+   * waitForActivationGate 等待并重试，与持久 flow 的激活纪律一致。
+   */
+  beginActivity(): FlowActivityLeaseV5 | undefined {
+    if (this.pending) return
+    const key = `transient:${this.nextActivityId++}`
+    const lease = new FlowActivityLeaseV5(this, key)
     this.active.set(key, lease)
     return lease
   }
@@ -625,7 +658,7 @@ export class FlowRuntimeCoordinatorV5 {
     return this.pending !== undefined
   }
 
-  finish(key: string, lease: FlowActivationLeaseV5): void {
+  finish(key: string, lease: FlowActivationLeaseV5 | FlowActivityLeaseV5): void {
     if (this.active.get(key) === lease) this.active.delete(key)
     this.resolveBarrierIfReady()
   }

@@ -7,6 +7,7 @@ import {
 import type { MigrationFileSet } from '../../pal-migration.js'
 
 const C8_ITEM_USE_SEAL_PATH = '_transitions/c8-item-use-v5-v1.json'
+const R13_CONFIRM_SEAL_PATH = '_transitions/r13-confirm-v1.json'
 
 function v4CompatibleAuthorPath(path: string): boolean {
   return (
@@ -78,6 +79,63 @@ function stripC8GeneratedAdditions(
   }
 }
 
+function stripR13ConfirmGeneratedAdditions(
+  publishedBaseline: MigrationSnapshot,
+  project: MigrationSnapshot,
+): void {
+  const seal = publishedBaseline.files.get(R13_CONFIRM_SEAL_PATH)
+  if (seal === undefined) return
+  if (
+    !seal ||
+    typeof seal !== 'object' ||
+    Array.isArray(seal) ||
+    seal.kind !== 'r13-confirm-transition' ||
+    !seal.evidence ||
+    typeof seal.evidence !== 'object' ||
+    Array.isArray(seal.evidence) ||
+    !Array.isArray(seal.evidence.materializedLocaleIds) ||
+    !Array.isArray(seal.evidence.materializedSpriteIds)
+  )
+    throw new Error('published v4 reconstruction: R13 confirm seal 无效')
+
+  const localeIds = new Set(
+    seal.evidence.materializedLocaleIds.filter(
+      (value): value is string => typeof value === 'string',
+    ),
+  )
+  if (localeIds.size !== seal.evidence.materializedLocaleIds.length)
+    throw new Error('published v4 reconstruction: R13 confirm locale ids 无效')
+  const locale = project.files.get('content/locale.json')
+  if (locale && typeof locale === 'object' && !Array.isArray(locale)) {
+    const stripped = structuredClone(locale)
+    for (const id of localeIds) delete stripped[id]
+    project.files.set('content/locale.json', stripped)
+  }
+
+  const spriteIds = new Set(
+    seal.evidence.materializedSpriteIds.filter(
+      (value): value is string => typeof value === 'string',
+    ),
+  )
+  if (spriteIds.size !== seal.evidence.materializedSpriteIds.length)
+    throw new Error('published v4 reconstruction: R13 confirm sprite ids 无效')
+  const sprites = project.files.get('content/sprites.json')
+  if (Array.isArray(sprites) && spriteIds.size)
+    project.files.set(
+      'content/sprites.json',
+      sprites.filter(
+        (entry) =>
+          !(
+            entry &&
+            typeof entry === 'object' &&
+            !Array.isArray(entry) &&
+            typeof entry.id === 'string' &&
+            spriteIds.has(entry.id)
+          ),
+      ),
+    )
+}
+
 /**
  * P7 发布前，历史 shadow 测试以 v4 baseline + 当前 v4 工程验证作者三方合并。
  * 发布后 baseline/工程都已是 v5；此时从权威纯生成恢复同一 v4 base，并只叠加两版 schema
@@ -107,6 +165,7 @@ export function reconstructPublishedV4TransitionSnapshots(
   )
   const project = loadProjectMigrationSnapshot(repo, managed)
   stripC8GeneratedAdditions(migration, publishedBaseline, project)
+  stripR13ConfirmGeneratedAdditions(publishedBaseline, project)
   for (const [path, value] of project.files)
     if (ours.files.has(path) && v4CompatibleAuthorPath(path))
       ours.files.set(path, structuredClone(value))

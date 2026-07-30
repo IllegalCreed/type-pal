@@ -35,8 +35,10 @@ import {
   RNG_WIDTH,
 } from '@type-pal/shared'
 import { afterAll, describe, expect, test } from 'vitest'
+import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
-import { createR13ItemThrowV5MigrationPlan } from './experimental/script-v5/r13-item-throw-mg2.js'
+import { createR13ConfirmV5MigrationPlan } from './experimental/script-v5/r13-confirm-mg2.js'
+import { buildR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -185,7 +187,7 @@ function auditSounds(
     sources,
     files: generated.files,
     ...(currentItems === undefined ? {} : { items: currentItems }),
-    itemContentVersion: currentItems === undefined ? 7 : 8,
+    itemContentVersion: currentItems === undefined ? 7 : 9,
     assets: nextManifest.assets,
     entryPoints: nextManifest.entryPoints,
     translationReport: generated.report.scripts,
@@ -725,10 +727,11 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     ) as ScriptControlFlowAuditV1
     const generatedResult = baseline?.baselineMetadata
       ? (() => {
-          const currentAudit = auditPalScriptControlFlow(sources, theirs)
+          const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
+          const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
           assertScriptControlFlowAudit(currentAudit)
           return buildP7GeneratedCanonical({
-            migration: theirs,
+            migration: authorityMigration,
             currentAudit,
             frozenAudit,
             sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
@@ -736,6 +739,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
             magicSources: sources.migrate.magic,
             objectMagicSources: sources.migrate.objectMagics ?? [],
             soundAssetForNum: palSoundAssetForSources(sources),
+            sourceCensus: buildR13SourceExecutionCensus(sources),
           })
         })()
       : undefined
@@ -749,16 +753,27 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     )
     const ours = loadProjectMigrationSnapshot(repo, managed)
     if (generated && generatedResult) {
-      const result = createR13ItemThrowV5MigrationPlan({
+      const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
+      const result = createR13ConfirmV5MigrationPlan({
         base: baseline!,
         ours,
         generated: generatedResult,
         sources,
-        migration: theirs,
-        audit: auditPalScriptControlFlow(sources, theirs),
+        migration: authorityMigration,
+        audit: auditPalScriptControlFlow(sources, authorityMigration),
       })
       expect(result.plan.conflicts).toEqual([])
-      expect(result.plan.writes.size).toBe(0)
+      expect([...result.plan.writes.keys()].sort()).toEqual(
+        result.confirmSealMode === 'initialize'
+          ? [
+              'content/items.json',
+              'content/locale.json',
+              ...result.confirmEvidence.changedSceneIds.map(
+                (sceneId) => `content/scenes/${sceneId}.json`,
+              ),
+            ].sort()
+          : [],
+      )
       expect(result.plan.deletes).toEqual([])
       const sourceUsable = sources.migrate.items
         .filter((item) => item.flags.usable)

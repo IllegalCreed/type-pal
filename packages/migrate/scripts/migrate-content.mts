@@ -36,23 +36,32 @@ import {
 } from '@type-pal/content'
 import type { FileSource } from '../../reforge/src/file-source.js'
 import { loadProjectMigrationRegistryV5 } from '../../reforge/src/save/migration.js'
+import { projectMigrationV9ToLegacyV8 } from '../src/experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import {
   buildP7GeneratedCanonical,
   type P7GeneratedCanonical,
 } from '../src/experimental/script-v5/p7-generated.js'
-import { createR13ItemThrowV5MigrationPlan } from '../src/experimental/script-v5/r13-item-throw-mg2.js'
+import {
+  createR13ConfirmV5MigrationPlan,
+  R13_CONFIRM_SEAL_PATH,
+  rebuildR13ConfirmSealAuthority,
+} from '../src/experimental/script-v5/r13-confirm-mg2.js'
+import { repairMissingR13ConfirmSeal } from '../src/experimental/script-v5/r13-confirm-seal-repair.js'
 import {
   assertR13RuntimeCapabilityAudit,
   auditR13RuntimeCapabilities,
 } from '../src/experimental/script-v5/runtime-capability-audit.js'
+import { buildR13SourceExecutionCensus } from '../src/experimental/script-v5/source-execution-census.js'
 import {
-  assertR13SourceInstructionDisposition,
-  buildR13SourceInstructionDisposition,
+  assertR13SourceInstructionDispositionV3,
+  buildR13SourceInstructionDispositionV3,
   type R13SourceInstructionDispositionBuildArgs,
 } from '../src/experimental/script-v5/source-instruction-disposition.js'
 import {
+  assertPalBaselineSnapshotCurrent,
   isAtomicProjectMapPath,
   loadPalBaseline,
+  loadPalBaselineRepairCandidate,
   type MigrationSnapshot,
   serializeMigrationJson,
   snapshotFileHash,
@@ -134,7 +143,11 @@ function usage(): void {
       首次无 baseline 时生成/校验 ${BOOTSTRAP_REL}，不写工程。
 
   pnpm --filter @type-pal/migrate run migrate:content -- --bootstrap --write
-      bootstrap 差异全部分类闭合后，建立首份 baseline 并事务写盘。`)
+      bootstrap 差异全部分类闭合后，建立首份 baseline 并事务写盘。
+
+  pnpm --filter @type-pal/migrate run migrate:content -- --repair-r13-confirm-seal
+      只在已发布 state 仍完整、r13-confirm seal 正文单独缺失时，从 immutable
+      authority 双摘要重建，并以单项 baseline 事务补回正文。`)
 }
 
 async function runCanonicalV5Phase(
@@ -208,8 +221,8 @@ function buildAndAssertR13ControlAudits(args: {
   generated: P7GeneratedCanonical
   final: MigrationSnapshot
 }): R13ControlAuditSeal {
-  const source = buildR13SourceInstructionDisposition(args)
-  assertR13SourceInstructionDisposition(source, args)
+  const source = buildR13SourceInstructionDispositionV3(args)
+  assertR13SourceInstructionDispositionV3(source, args)
   const sourceEvidence = new Map(source.evidence.map((entry) => [entry.id, entry]))
   const crossProofs = source.evidence.filter((entry) => entry.kind === 'r13-cross-activation-site')
   const dispositions = new Map(source.dispositions.map((entry) => [entry.siteId, entry]))
@@ -228,6 +241,24 @@ function buildAndAssertR13ControlAudits(args: {
   )
   if (finalOpenR13_2.length)
     throw new Error(`R13-2 source debt 未归零: ${finalOpenR13_2.length} sites`)
+  const confirmProofs = source.evidence.filter((entry) => entry.kind === 'r13-confirm-site')
+  if (
+    confirmProofs.length !== 28 ||
+    confirmProofs.some(
+      (proof) => dispositions.get(proof.siteId)?.layers.final.state !== 'accounted',
+    )
+  )
+    throw new Error(`R13-4 source closure 未闭合: exact=${confirmProofs.length}/28`)
+  const finalOpenR13_4 = source.dispositions.filter(
+    (entry) =>
+      entry.layers.final.state === 'open' &&
+      entry.evidenceIds.some((id) => {
+        const proof = sourceEvidence.get(id)
+        return proof?.kind === 'open-debt' && proof.batch === 'R13-4'
+      }),
+  )
+  if (finalOpenR13_4.length)
+    throw new Error(`R13-4 source debt 未归零: ${finalOpenR13_4.length} sites`)
   const throwObservations = source.observations.filter(
     (observation) =>
       observation.domain === 'item' &&
@@ -295,8 +326,8 @@ async function validateP7V5Target(
   manifest: CurrentManifest,
 ): Promise<void> {
   if (
-    manifest.contentVersion !== 8 ||
-    manifest.minimumSaveVersion !== 7 ||
+    manifest.contentVersion !== 9 ||
+    manifest.minimumSaveVersion !== 8 ||
     manifest.content.scripts !== undefined
   )
     throw new Error('P7 canonical target manifest 版本、存档门槛或 legacy scripts 字段无效')
@@ -444,6 +475,7 @@ async function commitAndVerify(args: {
   const { ours, target, plan, previousBaseline, theirs, nextManifest } = args
   const nextBaseline = snapshotOf(theirs)
   const transactionManaged = new Set([...ours.managedFiles, ...target.managedFiles])
+  if (previousBaseline) assertPalBaselineSnapshotCurrent(repo, previousBaseline)
   assertProjectSnapshotCurrent(repo, ours, transactionManaged)
   const assertManifestCurrent = (): void => {
     if (
@@ -469,6 +501,7 @@ async function commitAndVerify(args: {
     `[资源物化] files=${materialized.files} bytes=${materialized.bytes} ` +
       `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
   )
+  if (previousBaseline) assertPalBaselineSnapshotCurrent(repo, previousBaseline)
   assertProjectSnapshotCurrent(repo, ours, transactionManaged)
   assertManifestCurrent()
   // 物化已完成，此后所有二进制也应保持不变；仅排除本事务最后负责切换的 manifest。
@@ -568,6 +601,7 @@ async function commitAndVerifyP7V5(args: {
     )
       throw new Error('v5 迁移计划后 manifest.json 已变更')
   }
+  assertPalBaselineSnapshotCurrent(repo, args.baseline)
   assertProjectSnapshotCurrent(repo, args.ours, transactionManaged)
   assertManifestCurrent()
   const catalog = validateAssetCatalog(
@@ -584,6 +618,7 @@ async function commitAndVerifyP7V5(args: {
     `[资源物化] files=${materialized.files} bytes=${materialized.bytes} ` +
       `writes=${materialized.written} unchanged=${materialized.unchanged} authored=${materialized.authored}`,
   )
+  assertPalBaselineSnapshotCurrent(repo, args.baseline)
   assertProjectSnapshotCurrent(repo, args.ours, transactionManaged)
   assertManifestCurrent()
   const excludedFiles = new Set(['manifest.json'])
@@ -637,20 +672,30 @@ async function main(): Promise<void> {
       flag !== '--write' &&
       flag !== '--bootstrap' &&
       flag !== '--write-once' &&
-      flag !== '--verify-idempotence',
+      flag !== '--verify-idempotence' &&
+      flag !== '--repair-r13-confirm-seal',
   )
   if (unknown.length) throw new Error(`未知参数: ${unknown.join(', ')}`)
   const writeRequested = flags.has('--write')
   const writeOnce = flags.has('--write-once')
   const verifyIdempotence = flags.has('--verify-idempotence')
+  const repairR13ConfirmSeal = flags.has('--repair-r13-confirm-seal')
   if ((writeOnce || verifyIdempotence) && process.env[INTERNAL_PHASE_ENV] !== '1')
     throw new Error('内部迁移阶段不得直接调用')
-  if (Number(writeRequested) + Number(writeOnce) + Number(verifyIdempotence) > 1)
-    throw new Error('迁移写入/内部验证阶段参数互斥')
+  if (
+    Number(writeRequested) +
+      Number(writeOnce) +
+      Number(verifyIdempotence) +
+      Number(repairR13ConfirmSeal) >
+      1 ||
+    (repairR13ConfirmSeal && flags.has('--bootstrap'))
+  )
+    throw new Error('迁移写入/内部验证/显式修复阶段参数互斥')
   const write = writeRequested || writeOnce
   const bootstrap = flags.has('--bootstrap')
 
-  if (recoverMigrationTransaction(repo)) console.log('[恢复] 已完成上次中断的同一迁移事务')
+  if (!repairR13ConfirmSeal && recoverMigrationTransaction(repo))
+    console.log('[恢复] 已完成上次中断的同一迁移事务')
   const manifestPath = resolve(repo, 'projects/pal/manifest.json')
   const manifestText = readFileSync(manifestPath, 'utf8')
   const rawManifest = JSON.parse(manifestText) as unknown
@@ -663,13 +708,20 @@ async function main(): Promise<void> {
       contentVersion !== 5 &&
       contentVersion !== 6 &&
       contentVersion !== 7 &&
-      contentVersion !== 8)
+      contentVersion !== 8 &&
+      contentVersion !== 9)
   )
     throw new Error(
-      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8，收到 ${JSON.stringify(contentVersion)}`,
+      `PAL migrate:content 只接受 contentVersion 4/5/6/7/8/9，收到 ${JSON.stringify(contentVersion)}`,
     )
   const canonicalV5 =
-    contentVersion === 5 || contentVersion === 6 || contentVersion === 7 || contentVersion === 8
+    contentVersion === 5 ||
+    contentVersion === 6 ||
+    contentVersion === 7 ||
+    contentVersion === 8 ||
+    contentVersion === 9
+  if (repairR13ConfirmSeal && !canonicalV5)
+    throw new Error('R13 confirm seal 显式修复只接受 canonical v5+ 工程')
   if (writeRequested && canonicalV5 && !bootstrap) {
     const writeOutput = await runCanonicalV5Phase('--write-once')
     const evidence = /\[v5 首轮证据\] source=([0-9a-f]{64}) runtime=([0-9a-f]{64})/.exec(
@@ -683,11 +735,14 @@ async function main(): Promise<void> {
     console.log('[v5 分进程幂等] 写入与二次 0/0/0 验证均完成')
     return
   }
-  const manifest = rawManifest as LoadedManifest | ProjectManifest<5 | 6 | 7 | 8>
+  const manifest = rawManifest as LoadedManifest | ProjectManifest<5 | 6 | 7 | 8 | 9>
   const sources = loadPalMigrationSources(repo)
   const theirs = buildPalMigration(sources)
+  const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
   reportGeneration(theirs)
-  const baseline = loadPalBaseline(repo)
+  const baseline = repairR13ConfirmSeal
+    ? loadPalBaselineRepairCandidate(repo, R13_CONFIRM_SEAL_PATH)
+    : loadPalBaseline(repo)
   if (baseline && bootstrap) throw new Error('已存在 baseline，不得重跑首次 bootstrap')
 
   const seed = new Set([...(baseline?.managedFiles ?? []), ...theirs.managedFiles])
@@ -697,34 +752,55 @@ async function main(): Promise<void> {
     manifest.contentVersion === 5 ||
     manifest.contentVersion === 6 ||
     manifest.contentVersion === 7 ||
-    manifest.contentVersion === 8
+    manifest.contentVersion === 8 ||
+    manifest.contentVersion === 9
   ) {
     if (bootstrap) throw new Error('canonical v5 工程不得重跑 v4 bootstrap')
     if (!baseline) throw new Error('canonical v5 工程缺 PAL baseline v2')
     const currentManifest: CurrentManifest = {
       ...structuredClone(manifest),
-      contentVersion: 8,
-      minimumSaveVersion: 7,
+      contentVersion: 9,
+      minimumSaveVersion: 8,
     }
-    const currentAudit = auditPalScriptControlFlow(sources, theirs)
+    const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
     assertScriptControlFlowAudit(currentAudit)
     const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
     const generated = buildP7GeneratedCanonical({
-      migration: theirs,
+      migration: authorityMigration,
       currentAudit,
       frozenAudit,
       sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
       itemSources: sources.migrate.items,
       magicSources: sources.migrate.magic,
       objectMagicSources: sources.migrate.objectMagics ?? [],
+      sourceCensus: buildR13SourceExecutionCensus(sources),
       soundAssetForNum: palSoundAssetForSources(sources),
     })
-    const v5 = createR13ItemThrowV5MigrationPlan({
+    if (repairR13ConfirmSeal) {
+      const rebuilt = rebuildR13ConfirmSealAuthority({
+        base: baseline,
+        generated,
+        sources,
+        migration: authorityMigration,
+        audit: currentAudit,
+      })
+      const repaired = repairMissingR13ConfirmSeal({
+        repo,
+        baseline,
+        expectedSeal: rebuilt.seal,
+      })
+      console.log(
+        `[R13 confirm seal 修复] path=${repaired.path} digest=${repaired.digest} ` +
+          `sha256=${repaired.fileSha256}`,
+      )
+      return
+    }
+    const v5 = createR13ConfirmV5MigrationPlan({
       base: baseline,
       ours,
       generated,
       sources,
-      migration: theirs,
+      migration: authorityMigration,
       audit: currentAudit,
     })
     reportPlan(v5.plan)
@@ -738,7 +814,7 @@ async function main(): Promise<void> {
     await validateP7V5Target(v5.target, currentManifest)
     const firstR13 = buildAndAssertR13ControlAudits({
       sources,
-      migration: theirs,
+      migration: authorityMigration,
       audit: currentAudit,
       generated,
       final: v5.target,
@@ -778,10 +854,18 @@ async function main(): Promise<void> {
       })
       if (materialized.written !== 0)
         throw new Error(`v5 二次资源物化非空写入: writes=${materialized.written}`)
+      assertPalBaselineSnapshotCurrent(repo, baseline)
+      assertProjectSnapshotCurrent(repo, ours, managed)
+      if (readFileSync(manifestPath, 'utf8') !== manifestText)
+        throw new Error('v5 幂等验证期间 manifest.json 已变更')
       console.log('[v5 幂等] 二次迁移 writes=0 deletes=0 conflicts=0')
       return
     }
     if (!write) {
+      assertPalBaselineSnapshotCurrent(repo, baseline)
+      assertProjectSnapshotCurrent(repo, ours, managed)
+      if (readFileSync(manifestPath, 'utf8') !== manifestText)
+        throw new Error('v5 dry-run 期间 manifest.json 已变更')
       console.log('[v5 dry-run] 未写盘；确认 plan 后加 --write')
       return
     }

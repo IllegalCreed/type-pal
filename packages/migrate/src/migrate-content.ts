@@ -740,6 +740,7 @@ export function translateEquipScript(
   commands: readonly SourceCmd[],
   labelIndex: Map<string, number>,
   ip: number,
+  equipableBy: readonly string[],
 ): EquipTranslation {
   const out: EquipTranslation = { effects: [], pending: [] }
   const start = labelIndex.get(`L_${ip}`)
@@ -782,11 +783,23 @@ export function translateEquipScript(
               operands: [a, b, cc],
               reason: `装备战斗精灵号 ${b} 不在 player fighter 0..9`,
             })
-          else
+          else if (equipableBy.length === 0)
+            out.pending.push({
+              opcode: 0x1a,
+              operands: [a, b, cc],
+              reason: '装备战斗形象没有可装备角色，无法建立按角色覆写',
+            })
+          else {
+            // 源数据只有单值，但它作用于物品 bitfield 允许的全部角色。重复写入时保留
+            // 源脚本最后一次赋值，与原运行时逐条覆盖一致。
+            out.effects = out.effects.filter((effect) => effect.kind !== 'battleSprite')
             out.effects.push({
               kind: 'battleSprite',
-              sprite: palPlayerBattleSpriteDefinitionId(b),
+              byActor: Object.fromEntries(
+                equipableBy.map((actorId) => [actorId, palPlayerBattleSpriteDefinitionId(b)]),
+              ),
             })
+          }
         } else out.pending.push({ opcode: 0x1a, operands: [a, b, cc], reason: `未知 row ${a}` })
         break
       }
@@ -1403,7 +1416,8 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     const srcItem = src.items[i]!
     let out: ItemData = base
     if (srcItem.flags.equipable) {
-      const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip)
+      const equipableBy = mapEquipableBy(srcItem.flags.equipableBy)
+      const t = translateEquipScript(src.commands, labelIndex, srcItem.scriptOnEquip, equipableBy)
       if (t.pending.length)
         pendingEquip.push({ itemId: srcItem.id, name: srcItem._name, ops: t.pending })
       if (t.slot) {
@@ -1411,7 +1425,7 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
           ...out,
           equip: {
             slot: t.slot as NonNullable<ItemData['equip']>['slot'],
-            equipableBy: mapEquipableBy(srcItem.flags.equipableBy),
+            equipableBy,
             effects: t.effects,
           },
         }

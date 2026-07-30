@@ -9,10 +9,10 @@ import {
   PAL_TEST_FAST_GATE,
 } from './pal-test-fixture.js'
 import {
-  assertR13SourceInstructionDisposition,
-  buildR13SourceInstructionDisposition,
+  assertR13SourceInstructionDispositionV3,
+  buildR13SourceInstructionDispositionV3,
   R13_EXPLICIT_CALL_OWNER_ORACLE,
-  sealR13SourceInstructionDisposition,
+  sealR13SourceInstructionDispositionV3,
 } from './source-instruction-disposition.js'
 import { stableJsonSha256 } from './stable-json.js'
 
@@ -110,8 +110,8 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
           }
         : {}),
     }
-    const report = buildR13SourceInstructionDisposition(args)
-    assertR13SourceInstructionDisposition(report, args)
+    const report = buildR13SourceInstructionDispositionV3(args)
+    assertR13SourceInstructionDispositionV3(report, args)
     const explicitOwnerAddresses = new Set<number>(
       R13_EXPLICIT_CALL_OWNER_ORACLE.map(({ address }) => address),
     )
@@ -253,6 +253,25 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
           }),
       ),
     ).toHaveLength(0)
+    const confirmProofs = report.evidence.filter((evidence) => evidence.kind === 'r13-confirm-site')
+    expect(confirmProofs).toHaveLength(28)
+    expect(
+      confirmProofs.every(
+        (proof) =>
+          report.dispositions.find((disposition) => disposition.siteId === proof.siteId)?.layers
+            .final.state === 'accounted',
+      ),
+    ).toBe(true)
+    expect(
+      report.dispositions.filter(
+        (disposition) =>
+          disposition.layers.final.state === 'open' &&
+          disposition.evidenceIds.some((id) => {
+            const evidence = evidenceById.get(id)
+            return evidence?.kind === 'open-debt' && evidence.batch === 'R13-4'
+          }),
+      ),
+    ).toHaveLength(0)
 
     const pendingUse = report.observations.filter(
       (observation) => observation.domain === 'item' && observation.kind === 'pending-use',
@@ -391,8 +410,8 @@ describe.skipIf(!existsSync(extracted))('R13 source disposition PAL exact final 
       targetSetEvidenceId: donor.targetSetEvidenceId,
     })
     const { digest: _digest, ...withoutDigest } = report
-    report.digest = sealR13SourceInstructionDisposition(withoutDigest).digest
-    expect(() => assertR13SourceInstructionDisposition(report, args)).toThrow(
+    report.digest = sealR13SourceInstructionDispositionV3(withoutDigest).digest
+    expect(() => assertR13SourceInstructionDispositionV3(report, args)).toThrow(
       /source-backed canonical (?:target join|site) 漂移/,
     )
   }, 900_000)

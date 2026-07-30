@@ -5689,18 +5689,588 @@ transition，属于高风险 delta；总设计旧签字不能覆盖，专项三�
 | Agent | 签字 | 日期 | 证据 / 备注 |
 |---|---|---|---|
 | Codex | **agree** | 2026-07-29 | 两路独立审计 + 两路交叉复核收口；确认不是单纯 host UI，而是 20 RAW/22 logical 的 activation 生命周期缺失。冻结 26/28/31 双向账、R13-3 successor 后 source-backed commandOutcome 转换、18 flow/26 old cursor 的 content9/SAVE8 主动断档、central modal + transient activity lease、Editor v5 preview、append-only seal 与 fail-loud 矩阵；已吸收 parent 未提交、multi-confirm flow、held-frame/freeze 等复核项。 |
-| Kimi | **pending** | — | 架构/runtime/save/MG2 主审；不得由其他 Agent 代签。 |
-| GLM | **pending** | — | 26/28/31 数据守恒/source disposition/测试矩阵主审；不得由其他 Agent 代签。 |
+| Kimi | **agree** | 2026-07-29 | 架构/runtime/save/MG2 主审通过：R13-3 successor 后唯一 source-backed pass + 冻结旧 projector 保五层 byte-identical；26/28/31 账与四族分类自洽（s005 有损形态、C8 @19888 exact 形态一手核实）；central modal/默认 No/FIFO/冻结域/held-frame/竞态设计成立；transient activity lease 纳入 save barrier 方案成立；content9/SAVE8 主动断档自洽；Editor v5 runner 要求正确；seal parent/evidence/fail-loud 充分。附 P1-P4 风险钉（见「Kimi R13-4 设计主审」）。 |
+| GLM | **agree** | 2026-07-29 | 独立核对：26 RAW 0x0A 地址逐条匹配源数据 ✅；28 logical（26+2 fanout @11019/@14583）✅；31 physical（28+3 R13-2 copies s029/s030/s108）✅；6 exact / 22 lossy logical + 9 exact / 22 lossy physical ✅；族 2/20/5/1 RAW = 2/20/5/1 logical + 3 copies ✅；physical 3/20/6/2 ✅；22 lossy = advance18+reset4 ✅；13 lossy scenes + 5 exact-only scenes ✅；18 flows（22 lossy 减 multi-confirm overhead s009 -1 / s100 -2 / s131 -1）✅；26 old stage cursor ✅；R13-3 parent `c8df75a5…` 匹配 `3a03bfdd` ✅；schema 不新增第二种 confirm / append-only r13-confirm-v1 / content9+SAVE8 epoch 断开 / central modal / Editor v5 preview / fail-loud 矩阵全部成立。 |
 
-- **当前门禁**：blocked on Kimi + GLM `agree`。用户说“签了”确认的是上一批 R13-3
-  implementation accept；本专项设计是在该签字后的新审计发现，不能追溯套用旧签。
+- **文档校对待办（不改变签字）**：GLM 证据行的 `2/20/5/1 RAW` 合计为 28，是笔误；
+  冻结账为 RAW `2/18/5/1`、logical `2/20/5/1`、physical `3/20/6/2`。该签字原文
+  只由 GLM 更正，Codex 不代改。
+- **当前门禁**：**R13-4 专项设计 allowed（2026-07-29；Codex / GLM / Kimi 三方 agree，无
+  counter）**。用户说”签了”确认的是上一批 R13-3 implementation accept；本专项设计是在该
+  签字后的新审计发现，不能追溯套用旧签。build 必须落实 Kimi 的 P1-P4 与 GLM 复审结论。
 - **实现权限**：专项三签齐前 Codex 不得修改实现、生成 scene、manifest、baseline、seal
   或版本常量；只允许审查方更新自己的签字行与交接记录。
 - **边界**：R13-4 三签和实现完成后仍只能进入 R13-5，不代表 N3-1、C8 或 ED-5I done。
 
+##### R13-4 实现期生成白名单修订：19 条 source locale（2026-07-29）
+
+实现期 fresh in-memory build 发现，R13-4 为恢复 6 个源 durable entry
+`15409,15993,17536,19350,21226,21230`，会重新翻译此前未进入 parent canonical
+闭包的源正文。`R13TranslationSession.finish()` 因此产生 parent locale 中缺失、但新
+recovered state 正文实际引用的 19 条 PAL 原文。若不随 successor snapshot 物化，新增状态
+会形成悬空 `dlg.*` 引用。
+
+本修订不新增 schema、runtime 能力或人工文案；它是已签 source-backed durable recovery
+的生成文件白名单漏项修正：
+
+- `content/locale.json` 只允许新增以下 19 个 key，不得删除、覆盖或改写任何既有 key：
+  `dlg.5350,dlg.5483,dlg.5484,dlg.5485,dlg.5486,dlg.6164,dlg.7838,dlg.7840,
+  dlg.7841,dlg.7842,dlg.7844,dlg.7845,dlg.7846,dlg.7847,dlg.7849,dlg.7851,
+  dlg.7853,dlg.7855,dlg.7856`。
+- sorted id list digest：
+  `fff0a7c4cfeb462b7a11c10c31e0c3c33437225ee79fd577e16829c3e925913a`。
+- `stableJsonSha256({id:text})`：
+  `ee546b25fa80c480a6b70287ff1884c0138cacbdb6cc3deee9473e4dbddff518`。
+- materialized locale entries 必须恰为 19；materialized sprite definitions 必须恰为 0。
+- 19 条必须全部被 successor scenes 的 recovered state 正文引用；不允许额外 locale。
+- 同 key 若 parent/作者已有不同值必须 conflict/fail-loud，不得覆盖；无关作者 locale
+  改动必须保留。
+- `r13-confirm-v1` evidence 与 MG2 必须 pin exact id/value、生成 authority digest、
+  首跑结构化增量和二跑零计划，不能只 pin scene digest。
+
+此前“首跑只允许 manifest、`_state`、新 transition 与 13 个 lossy scene”的签字文本
+漏列 source-backed recovered body 所需 locale。本节以可审计的窄修订补充
+`content/locale.json` exact 19-key additive delta；其余 R13-4 文件边界不变。
+同次正式迁移中的 E1 `content/items.json` 继续归 E1/ED-5I authority，不把它伪装成
+R13-4 locale 的来源。
+
+##### R13-4 实现期白名单修订签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **agree** | 2026-07-29 | fresh in-memory build：19 locale / 0 sprite；exact id list 与 id-text digest 已复算；19 条来自 source translation，不是人工补丁。 |
+| Kimi | **agree** | 2026-07-29 | 架构 / MG2 / author-preserving merge 审查通过：19 条逐条命中源 showDialog 且 parent locale 缺失（@15388→5350、@15947 No 体 5483-5486、@17497 No 体 6164、@21207 书生 7838-7856 从属核实）；id list `fff0a7c4…` 与 id:text `ee546b25…` 两个 digest 用仓库 stableJsonSha256 独立复算精确一致；additive-only/冲突 fail-loud/sprite=0/evidence 引用闭包成立；E1 items.json authority 分离明确。 |
+| GLM | **agree** | 2026-07-29 | 独立复核：19 条原文逐条命中 `data/extracted/events/all.json` showDialog.text（5350「请吧..」/5483-5486 老鸨/6164 乞丐/7838-7856 书生护送），非人工补丁；parent `projects/pal/content/locale.json` 19/19 全 MISSING；sorted-id digest `fff0a7c4…`（= stableJsonSha256 of `dlg.*` 字符串 key 数组，非数字 id）与 id-text digest `ee546b25…` 用仓库 `stable-json.ts` 独立复算一致；additive-only/same-key conflict fail-loud（r13-confirm-control-flow.ts:1822-1826）/sprite=0/无关作者 key 保留全成立；MG2 首跑 writes=locale+items+13 scenes/conflicts=[]/deletes=[]，二跑 0/0/0；anti-tamper（locale 改值/exact scene/evidence/terminal）全 fail-loud。措辞澄清（非 blocker）：6 recovered state 中仅 5 translated-durable（15409/15993/17536/21226/21230）引用 19 条 locale，L_19350 是 shared-decision（s128 confirm 决策锚点，不引用 locale 正文）；19 条闭包仍闭合，不影响白名单正确性。caveat（非 blocker）：`fff0a7c4…` 仅文档记录，代码用 `R13_CONFIRM_MATERIALIZED_LOCALE_IDS` 列表 byte-identical 比对（r13-confirm-control-flow.ts:2112）更严格。 |
+
+- R13-4 原专项设计三签继续有效，`build` 仍 allowed，Codex 可继续实现、测试和
+  read-only / in-memory 验证。
+- Kimi、GLM 均 `agree`（2026-07-29）；19-locale 白名单窄修订三签齐，
+  **正式 `migrate-content --write`、初始化或落盘 `r13-confirm-v1` seal 的白名单门禁解锁**。
+- 本表只批准白名单修订，不等于 R13-4 implementation accept。完整实现、MG2、正式重迁、
+  二跑和浏览器完成后仍需 Codex / Kimi / GLM 三方 implementation `accept`。
+- 任一方认为 19 条不是 source-backed 必需输出，应签 `counter`；formal write 继续
+  blocked。
+- 2026-07-29 Kimi：完成 19-locale 白名单窄修订只读审查，签 **agree**。一手证据：19 条逐条
+  命中 `data/extracted/events/all.json` 的 showDialog 且均为 PAL 原文（老鸨 5483-5486 在
+  @15947 No 体、乞丐 6164 在 @17497 No 体、5350 在 @15388 No 目标 15398、书生
+  7838-7856 在 @21207 No 体议价链）；parent `projects/pal/content/locale.json` 19 条
+  全部缺失（纯增量）；用仓库 `stableJsonSha256` 独立复算 id list digest
+  `fff0a7c4cfeb…` 与 id:text digest `ee546b25fa80…` 精确一致；实现侧
+  `r13-confirm-control-flow.ts:1820-1826` 冲突 fail-loud、:2400-2438 差分漂移 throw、
+  pal test 钉 19 ids + digest + sprite=0 + parent 值不变。观察项（非反例）："19 条全部被
+  recovered 正文引用"由翻译物化构造保证（localeIds 只来自 output.locale 且白名单钉集合），
+  无逐条显式引用断言，delta+digest 等效覆盖。未修改实现/产物/seal。
+
+###### 给 Kimi（R13-4 19-locale 白名单窄修订审查）——已于 2026-07-29 执行，签 agree（保留备查，勿再执行）
+
+```text
+只读审查 R13-4 实现期生成白名单窄修订，不是 implementation accept。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前：原 R13-4 设计三签齐，Codex 唯一 Coding Owner；fresh in-memory build 新发现
+content/locale.json 必须 exact 新增 19 key、0 sprite。你和 GLM 都 agree 前，formal
+migrate --write、seal / PAL baseline / `projects/pal` 写入和转 review 全部 blocked。
+
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 R13-4 设计与本修订、
+docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md，以及
+packages/migrate/src/experimental/script-v5/{r13-confirm-control-flow,p7-generated}.ts
+和对应测试/MG2。
+
+复核：19 条是否只来自已签 durable recovery；locale 是否 exact additive、同 key 异值
+fail-loud、无关作者改动保留；evidence/MG2 是否 pin exact id/value 且不把整份 locale
+永久占有；formal whitelist 是否只窄增 content/locale.json；额外/缺失/改值/0 sprite
+是否 fail-loud；旧五层与 5 exact scene 是否仍 byte-stable。
+
+只允许更新本表 Kimi 行和交接记录，不改实现、生成物、PAL baseline、seal、`projects/pal` 或 GLM
+签字。无 blocker 签 agree；有问题签 counter 并给 file:line、merge 反例和最小修订。
+明确：本签字只批准 19-locale 白名单，不是 implementation accept。
+```
+
+###### 给 GLM（R13-4 19-locale 数据与引用闭包复核）——已于 2026-07-29 执行，签 agree（保留备查，勿再执行）
+
+```text
+只读复核 R13-4 实现期 19 条 source locale 白名单，不是 implementation accept。
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+Kimi/GLM 双签前不得 formal write、落 seal、改 PAL baseline / `projects/pal` 或转 review。
+
+先读 AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、本卡 R13-4 设计与本修订、
+data/extracted/events/all.json、packages/migrate/src/translate-events.ts、
+packages/migrate/src/experimental/script-v5/r13-confirm-control-flow.ts 及 PAL 测试。
+
+独立复核 exact 19 ids 与 extracted 中文原文；复算 sorted-id digest
+fff0a7c4cfeb462b7a11c10c31e0c3c33437225ee79fd577e16829c3e925913a 和 id-text digest
+ee546b25fa80c480a6b70287ff1884c0138cacbdb6cc3deee9473e4dbddff518；证明 parent 恰缺
+19 条、successor 只新增 19 条/0 sprite、recovered state 全部引用闭合；检查额外/缺失/
+改值、same-key conflict、无关作者改动保留、首跑增量与二跑 0/0/0 测试。
+
+只允许更新本表 GLM 行和交接记录，不改实现、生成物、PAL baseline、seal、`projects/pal` 或 Kimi
+签字。无 blocker 签 agree；有问题签 counter 并列具体 id/text/source address/缺失测试。
+明确：本签字只批准 19-locale 白名单，不是 implementation accept。
+```
+
+- 2026-07-29 GLM：完成 19-locale 白名单窄修订只读复核，签 **agree**。一手证据：19 条原文
+  逐条命中 `data/extracted/events/all.json` 的 `showDialog.text`（dlg.5350「请吧..」、
+  5483-5486 老鸨「呜..免费赠送也没人要」/「想当年～我年轻当红的时候」、6164 乞丐
+  「呜..心事谁人知」、7838-7856 书生护送议价链「兄台再考虑一下吧」..「得一千五百文钱」），
+  非 AI 生成或人工补丁；parent `projects/pal/content/locale.json` 19/19 全 MISSING（纯增量）；
+  用仓库 `packages/migrate/src/experimental/script-v5/stable-json.ts` 的 `stableJsonSha256`
+  独立复算：sorted-id digest `fff0a7c4…`（输入 = `dlg.*` 字符串 key 数组，**非数字 id**，
+  数字数组算出 `6e2116…` 不匹配）、id-text digest `ee546b25…`（输入 = 排序后的 `{id:text}`）
+  两者精确一致。实现侧 `r13-confirm-control-flow.ts:1822-1826` additive-only + same-key
+  conflict fail-loud、:2112 列表 byte-identical 比对、:2459-2460 localeTargetDigest 重新计算；
+  pal test 钉 19 ids + digest + sprite=[] + parent 值全保留；mg2 test 首跑
+  writes=locale+items+13 scenes / conflicts=[] / deletes=[]，二跑 0/0/0；anti-tamper
+  （locale 改值 dlg.5350='篡改' → throw /locale target/、exact scene 篡改、evidence multiplicity、
+  terminal family）全 fail-loud；无关作者 key `author.unrelated` 不报错。
+
+  **措辞澄清（非 blocker，不阻塞签字）**：任务卡 5707 行称"6 个源 durable entry...引用的
+  19 条 PAL 原文"，但 `r13-confirm-control-flow.ts:2196-2201` 与 pal test :173-178 显示
+  L_19350 的 `kind: 'shared-decision'`（s128/e2245 confirm 决策锚点），不引用 19 条 locale
+  正文；实际引用 19 条的是 5 个 `translated-durable`（15409/15993/17536/21226/21230）。
+  L_19350 自己的 showDialog 是 msg=7014/7015「茅山道士∶一万五、不二价！」，不在白名单内。
+  19 条 locale 的闭包仍闭合（5 个 translated-durable 的 dialog 引用并集恰为 19 条），
+  不影响白名单正确性；建议 Codex 在后续文档措辞里把"6 durable entry 引用 19 条"改成
+  "5 translated-durable 引用 19 条 + 1 shared-decision 锚点"。
+
+  **文档 caveat（非 blocker）**：`fff0a7c4…`（sorted-id digest）仅在任务卡 markdown 出现，
+  代码与测试均未 pin；代码用 `R13_CONFIRM_MATERIALIZED_LOCALE_IDS` 列表本身做
+  byte-identical 比对（:2112）更严格，列表变了列表比对先 fail，digest 根本到不了——
+  所以这不是安全缺口，只是文档 digest 与代码 pin 不对称。`ee546b25…`（id-text digest）
+  在代码 `R13_CONFIRM_MATERIALIZED_LOCALE_DIGEST`（:82-83）pin，由 pal + mg2 测试强制。
+
+  未修改实现/产物/seal/baseline/`projects/pal`；仅更新本表 GLM 行与本交接记录。
+
+##### R13-4 implementation candidate / in-memory checkpoint（2026-07-29）
+
+本节只记录 Codex 在 `build` 内已经形成的实现候选与预正式证据，**不是 implementation
+accept，也不改变 19-locale 双签门禁**。截至本 checkpoint 未运行正式
+`migrate-content --write`，未初始化或落盘 `r13-confirm-v1`，未修改
+`packages/migrate/baselines/pal` 或 `projects/pal`。
+
+**Source-backed control flow 与审计**：
+
+- `augmentR13ConfirmControlFlow` 固定接在已发布 R13-3 successor 后；完整 PAL 构建闭合：
+  - 26 RAW / 28 logical / 31 physical；
+  - exact 6 logical / 9 physical，transformed 22 / 22；
+  - 18 个 transformed flow、26 个 retired stage cursor；
+  - 6 个 recovered durable state、19 条 source locale、0 个 sprite；
+  - 13 个 changed scene：
+    `s005,s009,s023,s050,s084,s091,s100,s102,s111,s127,s128,s131,s148`；
+  - 5 个 exact-only scene `s029,s030,s081,s108,s118` byte-stable；
+  - terminal family RAW `2/18/5/1` → logical `2/20/5/1` →
+    physical `3/20/6/2`。
+- source census digest：
+  `3d19fb14b8261fd5a0e48f20cbd1e80fc57c31622624bb09126eb86ea2cb13ac`。
+  19-locale sorted-id / id-text digest 继续分别固定为
+  `fff0a7c4cfeb462b7a11c10c31e0c3c33437225ee79fd577e16829c3e925913a` /
+  `ee546b25fa80c480a6b70287ff1884c0138cacbdb6cc3deee9473e4dbddff518`。
+- source disposition 保留已发布 v2 路径与 digest
+  `36349824878131b5e67db7ba9edc7d1a00dd864aa88737cb0cd89b304181a79e`，
+  R13-4 新增 v3：28 个 `r13-confirm-site` proof、31 个全局唯一稳定 selector，
+  augmented/final 全部 accounted，final R13-4 open debt=0；把 v2 仅改名重签成 v3、
+  缺/增/复制/交换 selector、locale/exact-scene 漂移均 fail-loud。
+- runtime capability v2 将 world-interactive / world-auto / item-private-world 三个
+  context 都绑定到 `reforge:v5-script-confirm-modal`：31 uses / 31 executed /
+  0 refused / 0 open debt。该数字只关闭 R13-4 confirm，不冒充 R13-5/6/Z。
+
+**Runtime、Editor 与 epoch**：
+
+- Reforge 新增中央 `ScriptConfirmModalQueue`：FIFO、默认 No、至少呈现两帧、方向键切换、
+  Enter/交互键提交、Esc/Menu=No、重复提交幂等、active/queued abort 与 session
+  replacement 都不执行任一臂；`GameplayClock` 在 prompt 中冻结，恢复时不补算 wall time。
+- persistent runner 与 transient/shared/item-private `runCommands()` 共用同一 active
+  registry；存档请求只能等 prompt 回答且整条 command chain 到 safe point 后继续，
+  没有并行“看不见”的计数器。
+- Editor canonical 场景与共享脚本预览直接运行 V5 flow，保留 `commandOutcome`；
+  Yes/No 进入不同 state，stop/source switch/unmount 会 abort。预览按钮改为语义
+  `fieldset`，默认焦点在 No；方向、Enter/Space、Escape 与点击共用同一 playback API。
+- contentVersion=9、SAVE_VERSION=8、minimumSaveVersion=8；World V9 仍 alias V5，
+  所有旧组合在 sidecar I/O 前拒绝。E1 的 `battleSprite.byActor` 随 content9 合并，
+  但 `content/items.json` 的所有权与最终验收仍归 E1/ED-5I，R13-4 只做交叉 authority。
+
+**Append-only MG2**：
+
+- formal 候选迁移计划将新增 `_transitions/r13-confirm-v1.json`，parent 精确固定为已发布
+  `r13-item-throw-v1` digest
+  `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`；
+  旧五层 seal 不改写。
+- seal 显式签 source v3 的 `28/31/28/0` 与 runtime v2 的 `31/31/0/0` 摘要及完整
+  report/slice digest。fast 测试的 prepared authority 只能由模块私有 `WeakSet`
+  颁发，source/runtime/seal evidence 递归冻结，再复验输入身份、R13-4 compact slice
+  与 aggregate；spread clone、自洽重签、half-state、snapshot/audit drift 都拒绝。
+- in-memory initialize plan 精确只产生 project writes：
+  13 scenes + `content/locale.json` + `content/items.json`；其中 items 是 E1。
+  同一 authority replay 为 writes/deletes/conflicts=`0/0/0`。seal 只进入 next baseline，
+  不泄漏到 project target。
+
+**已完成验证**：
+
+- Migrate：
+  - source/runtime/control-flow targeted：4 files / 30 tests pass；
+  - unit project：63 files / 454 tests pass，56.83s；
+  - source-disposition v3 PAL：1 / 1 pass，211.25s；
+  - 最终 control-flow + append-only MG2 PAL：2 files / 14 tests pass，
+    331.76s。该轮包含私有 capability + deep-freeze 最终实现。
+- Content：30 files / 372 tests pass；Reforge：排除正式 PAL 落盘夹具后
+  72 files / 717 tests pass；Editor：92 files / 785 tests pass。
+- 根级 `pnpm typecheck`：7 个包通过；`pnpm lint`：1009 files 通过；
+  Reforge / Editor production build 通过。构建只保留既有 chunk-size warning。
+- 真实浏览器临时 source fixture（测试后逐字节还原，fixture SHA 仍为
+  `1bdae48667a03ffebaa175b2c10d1f5a28c7e334f3b48f78c29590c1f713d237`）：
+  - Reforge：问句 held-frame → 默认 No → Enter 得到 No；方向切到 Yes → Enter
+    得到 Yes；先选 Yes 再 Esc 仍得到 No；console 0 error / 0 warning。
+  - Editor：真实 PreviewCanvas 展示问句与 Yes/No，点击两臂分别进入对应 state；
+    未回答时重置会移除 prompt 并回到“就绪”；console 0 error / 0 warning。
+    lint 后新增 PreviewCanvas 直接测试，固定默认焦点、方向/Enter/Escape 与点击接线。
+
+**历史 checkpoint：formal 前剩余门禁（下一节已收口）**：
+
+- `packages/reforge/src/loader-v5.pal.test.ts` 中 demo/e2e-own 两项已通过；3 个 PAL
+  content9 场景用例当前会在 loader 入口正确拒绝仓库仍为 contentVersion 8 的
+  `projects/pal`。不得为消掉这 3 个预期红灯提前改 project 或跳测；19-locale
+  Kimi/GLM 双签后正式迁移，再复跑 294 scenes、s048 亮屏/完成 cursor/读档不重播与
+  s110 淡入时序。
+- formal 首跑仍须核对 exact 文件白名单、manifest/state/new seal、旧五层 byte-pin；
+  随后二跑与 live dry-run 都必须 `0/0/0`，project/baseline 同路径逐字节一致。
+- 浏览器 PAL 金丝雀 `s005,s009,s050,s029,s030,s081,s108,s118` 及
+  multi-confirm/save/session/abort 仍须在 formal content9 上完成。
+- 当前状态继续为 `build`；Kimi/GLM 19-locale 双签即使通过也只开放 formal，
+  不等于 implementation accept。formal 与上述余项完成后才可发起三方实现审查。
+
+##### R13-4 formal publication / post-formal checkpoint（2026-07-30）
+
+19-locale 白名单三方 `agree` 后，Codex 作为唯一 Coding Owner 完成正式迁移、修复迁移
+事务暴露出的 half-state 恢复缺口并重跑全部正式门禁。本节取代上节“尚未 formal”的
+时间点描述；N3-1 总状态仍为 `build`，这里只收口 R13-4 implementation candidate。
+
+**正式写入与幂等**：
+
+- 首次正式 `migrate-content --write` 产生 15 个 project writes（13 scenes +
+  `content/locale.json` + E1 authority 的 `content/items.json`），迁移事务共 33 operations；
+  迁移器内部独立第二进程为 writes/deletes/conflicts=`0/0/0`。
+- 首次正式写入钉住：
+  - source digest
+    `beef4dd910b5d3445389e375342a5c5ee0dc62931bc9586bb7a9f3077562f368`；
+  - runtime digest
+    `d63365c7ced62ca213d7a580a73c25700bdf65be99e862bb6eff3890f2cc1c6d`；
+  - `r13-confirm-v1` self/state digest
+    `8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d`；
+  - seal file SHA-256
+    `38d129fbe45fe9815ba2623b62283a290c302b3a816a4d58c2e6418f833f49b6`。
+- 随后的额外 live dry-run 发现 `_state` 已引用新 seal、但 untracked seal 文件本身缺失的
+  half-state。只读审计确认普通 dry-run 主体没有删除路径，且审计进程没有执行清理；
+  具体外部/shared-worktree 清理来源无法从仓库证据反推，因而没有把猜测写成根因。
+- 上游修复而非手补生成物：
+  - `migration-baseline.ts` 增加最终 validation 与 repair candidate load/assert；
+  - `migrate-content.mts` 在 write/idempotence/dry-run 入口增加最终
+    baseline/project/manifest 复验，并新增互斥、显式
+    `--repair-r13-confirm-seal` authority；
+  - `migration-transaction.ts` 暴露 pending transaction 检测；
+  - `r13-confirm-mg2.ts` 暴露不可伪造的 rebuild authority；
+  - 新增 `r13-confirm-seal-repair.ts` 与单测。repair 只恢复缺失 seal，
+    `_state` byte 不变；缺 authority、已有 seal 漂移、pending transaction、project/
+    manifest/baseline 不匹配全部 fail-loud。
+- 显式 repair 后重新跑正式写入：第一进程 `0/0/0`，独立第二进程 `0/0/0`；
+  再跑 live dry-run 仍为 `0/0/0`。无残留 journal/staging。
+
+**正式产物守恒**：
+
+- `manifest.contentVersion=9`、`minimumSaveVersion=8`；baseline `_state` 为 v2，
+  新 seal parent 精确为 R13-3
+  `c8df75a51de4c71ae5e71d43583b749736aecd61b0fd65e9b2568f2e1324502b`。
+- 旧五层 seal 文件 byte 不变，file SHA-256：
+  - P7 script-v4-v5 `41263ba1…b12`；
+  - C8 `325d52ed…a24`；
+  - cadence `2b1e71b0…453`；
+  - cross-activation `723e4fd2…b12`；
+  - item-throw `2c741222…b08`。
+- changed scenes 恰为
+  `s005,s009,s023,s050,s084,s091,s100,s102,s111,s127,s128,s131,s148`；
+  13/13 project 与 baseline byte-identical。
+- exact-only `s029,s030,s081,s108,s118` 仍 git byte-stable、project=baseline，且各自
+  stable scene digest 等于新 seal 的 `exactSceneDigests`。
+- locale 恰新增已签的 19 个 key；sorted-id digest
+  `fff0a7c4cfeb462b7a11c10c31e0c3c33437225ee79fd577e16829c3e925913a`，
+  id:text digest
+  `ee546b25fa80c480a6b70287ff1884c0138cacbdb6cc3deee9473e4dbddff518`。
+  **作者保护例外必须按真实口径描述**：15 个目标中 14 个 project/baseline
+  byte-identical；project locale 正确保留 35 个 author-only menu/stat/equip/gameover
+  key，因此整文件不相等。baseline-only=0、共同键改值=0，19 个 formal key/value 一致。
+  不得把这条正确的 theirs 保留误报成 drift。
+
+**正式验证**：
+
+- migration/baseline/transaction targeted：26 tests pass；
+  R13-3 MG2 9/9；R13-4 MG2 fast 11/11；P2/P3/P4 pinned core 20/20；
+  cadence + published-v4 2/2。
+- Content 30 files / 372 tests；Reforge 73 / 722；Editor 92 / 785；
+  Migrate 81 files / 564 pass + 1 skip（单 worker，1107.62s）全绿。
+- 根级 typecheck 7 packages、lint 1012 files、Reforge/Editor production build 全绿；
+  fresh release 3 files / 16 tests（587.94s）全绿，只保留既有 chunk-size warning。
+- 更新 `published-v4-snapshot` 与 cadence golden 后，历史 P2/P3/P4 core digest 均未改；
+  cadence content9 golden 为 rows=4576、stages=4459、historicalMachines=117、
+  transitionMachines=78、bytes=7,961,021、
+  SHA-256=`07675c729e2232e770a252d322d23b662caf3ce3c41931f65016216fc79b6da4`。
+
+**浏览器 / Editor 金丝雀**：
+
+- `s005/e128`：默认 No 不执行 Yes 后缀并可再次触发；Yes 进入“多少钱一斤？”。
+- `s009/e188`：第一问 No 终止；Yes→第二问 No 终止；Yes→Yes 进入成功正文。
+- `s050/e845`：默认 No 进入“没钱买就走开…”。
+- exact `s029/e536`：No 进入没钱正文并推进 phase-002；下一次激活显示第二问。
+- exact `s030/e540`：长前序对话后正常出现确认框；先前“框没出现”是截在过渡帧，
+  延后观察即可出现，不需要改实现。
+- exact `s081`：真实 onEnter 推进到“你招是不招！？”；默认 No 显示
+  “不招？再打！”/“还不肯招？再打！”并回环。源 @14486 No→@14461，
+  Yes fallthrough→@14487；迁移后 initial/cycle 两个物理副本分别用 macroTask/worldTick，
+  是既有 exact 守恒，不是 R13-4 新生成。
+- exact `s108/e2002`：Editor canonical v5 工作区显示 12-state machine；
+  `continuation-004/006` 均以“是/否询问”+ `commandOutcome` 表达，真实 PreviewCanvas
+  可播放 held dialog。该角色在正常剧情激活前为 hidden，仓库尚无覆盖该剧情进度的
+  e2e checkpoint，因此本轮没有伪造“从新局 live 走到该节点”的证据；PAL exact/MG2
+  与 Editor V5 runner 测试负责自动门禁。
+- exact `s118`：Chrome 从 `?scene=s118&pos=69,-11&facing=right&give=287`
+  进入现场，使用“情书”后数量 5→4，确认 C8 私有脚本真实执行并消费物品；触碰后确认框
+  的两臂由 exact scene/MG2、item-private runtime 与 central modal 测试钉住。本轮
+  原生自动输入只能发离散按键、无法保持 10fps 移动键，因此没有把“自动化未走出一步”
+  冒充产品失败；待建立该剧情 checkpoint 后补一条完整 live canary。
+- runtime 临时 source fixture 已覆盖 held-frame、默认 No、方向切 Yes、Esc=No、
+  prompt abort/session replacement；Editor 真实 PreviewCanvas 覆盖 Yes/No、
+  reset/stop 移除 prompt。上述两轮 console 均 0 error / 0 warning。
+
+**s128 名词澄清**：
+
+- `s128` 是京城 `map-115` 的茅山道士剧情：林月如请道士去刘尚书府替刘晋元收惊，
+  道士报价 15000。源 @19352 拒绝后经 @19309 reset 回 @19350 报价点；
+  接受但钱不足则经 @19306 提示、再由 @19309 回同一个 @19350；钱足才扣款、禁用
+  `e2245` 并切 `s119`。
+- 因此 `shared-decision` 只表示“拒绝”和“钱不足”共享同一个中段 durable decision，
+  不是新机制，也不表示剧情正文特别长。迁移后为
+  `initial / decision-001 / insufficient / success` 四状态，三条路径均有 PAL pin。
+
+##### R13-4 批次实现审查签字
+
+| Agent | 结论 | 日期 | 备注 |
+|---|---|---|---|
+| Codex | **accept** | 2026-07-30 | 26/28/31 source closure、真实中央 confirm、content9/SAVE8、append-only seal、正式重迁二跑与 live dry-run `0/0/0`、TOCTOU/repair、四包全测/fresh release 和代表性浏览器/Editor 金丝雀已闭环。s108/s118 无剧情 checkpoint 的 live 尾项已如实列为后续 e2e 基建项，不以伪证据越门禁。accept 只把 R13-4 candidate 送 Kimi/GLM 只读审查。 |
+| Kimi | **accept** | 2026-07-30 | 架构/runtime/save/MG2 与 half-state repair 实现审查通过：modal FIFO/默认 No/held-frame≥2/Esc=No/双提交幂等/abort-session 不跑臂；GameplayClock 冻结不补算；transient 与 persistent 同一 active registry（P1 落实）、prompt 中存档 park 到 safe point（P2 落实）；Editor 真 ScriptRunnerV5 + scratch world（P3 落实）；content9/SAVE8 拒绝矩阵含 sidecar tripwire；seal 六层一手 sha256 byte-pin、parent=`c8df75a5…`；26/28/31 守恒、19 locale、35 author-only 误报不成立；repair 上游修复无手补。记录项 4 条见交接。accept 仅准入 R13-5。 |
+| GLM | **accept** | 2026-07-30 | 独立复核全绿。**数据守恒**：13 changed scene（s005-s148）project↔baseline 逐个 byte-identical；5 exact-only（s029/s030/s081/s108/s118）git clean。**locale**：project 与 baseline 各恰新增 19 key（dlg.5350..7856）、0 删除、0 共同键改值；sorted-id `fff0a7c4…`（= dlg.* 字符串 key 数组 stableJsonSha256）与 id-text `ee546b25…` 一手复算匹配。**26/28/31 + 四族**：RAW 2/18/5/1=26、logical 2/20/5/1=28、physical 3/20/6/2=31 全自洽；三个 fanout 清晰（s081 macroTask/worldTick 双副本 loop、s029/s030 phase-002 reset/end 复制）；status exact-preserved 6 / lossy-transformed 22 与账一致。**seal**：file SHA `38d129fb…`、self digest `89092578…`、parent `c8df75a5…`（= R13-3 item-throw 已发布）全匹配；旧五层 seal file SHA（P7 `41263ba1`/C8 `325d52ed`/cadence `2b1e71b0`/cross `723e4fd2`/item-throw `2c741222`）5/5 byte-pin。**manifest** content9/min8 确认。**items** 234→234 不变，7 item（163/164/165/179/185/187/188）equip.effects 转 battleSprite byActor，属 E1 authority 交叉落盘。**测试一手复跑**：control-flow PAL 4/4（129s）、MG2 PAL 11/11（344s，含上次失败现已修复的 `fresh init…重放 0/0/0` initialize 路径）、seal-repair 3/3、runtime-capability-audit 13/13 全绿。**上轮 baseline 污染问题已收口**：Codex 完成 formal write + half-state repair 后，baseline `_state`/seal/scene/locale/items 一致，MG2 initialize 路径可验证。s128 名词澄清（茅山道士尚书府收惊、shared-decision 不是新机制）已读。accept 只把 R13-4 candidate 准入 R13-5，不代表 R13-Z/N3-1/C8/ED-5I done。 |
+
+- **当前门禁**：R13-4 formal candidate 已形成；Codex / GLM / Kimi 三席 `accept` 已齐
+  （2026-07-30），**R13-5 准入开放**。
+- **边界**：三方 R13-4 `accept` 只开放 R13-5，不代表 R13-Z、N3-1、C8 或 ED-5I done。
+- 2026-07-30 Kimi：完成 R13-4 架构/runtime/save/MG2 只读实现审查，签 **accept**
+  （仅准入 R13-5）。一手证据：seal 六文件 sha256 实测全中（P7 `41263ba1…`、C8
+  `325d52ed…`、R13-1 `2b1e71b0…`、R13-2 `723e4fd2…`、R13-3 `2c741222…`、R13-4
+  `38d129fb…`），parent=`c8df75a5…` 闭合；`script-confirm-modal.ts` FIFO/默认 No/
+  `presentedFrames>=2`/Esc=No/settled 幂等；`gameplay-clock.ts:15-26` 冻结不补算；
+  `script-world-v5.ts:513` 单一 active Map 兼容 transient activity（P1 落实）；
+  prompt 中 F5 park 到回答+safe point 后拍快照（P2 落实）；Editor `playCanonical`
+  直接 `new ScriptRunnerV5` + 每次播放新建 scratch world/coordinator（P3 落实）；
+  save/migration.ts:261-292 只收 8/9 且 sidecar tripwire 0 读。13 changed scene
+  project/baseline 逐字节一致（cmp 实测）、5 exact-only byte-stable、19 locale
+  双 digest 复算一致、35 个 author-only key（equip×7/gameover×2/menu×17/stat×9）
+  全部归属正确非 drift；half-state repair 为上游修复（不可伪造 rebuild authority、
+  `_state` byte 比对、pending transaction 拒修），无手补痕迹。
+  记录项（非反例）：①**R13-4 实现本体尚未提交**（138 modified + ~20 untracked 含
+  seal 本体），提交时实现与 seal 必须同批入库，否则清理工作树即回 half-state
+  （repair 工具已备）；②四份文档仍写"A7-4 候选 v9"应顺延 v10
+  （project-lifecycle-design.md:304-309、asset-pipeline.md:243、capability-map.md:155、
+  roadmap.md:194）；③prompt 中 F5 连发第二次按单 pending 语义 fail-loud toast，可接受；
+  ④s108/s118 无剧情 checkpoint 的 live 尾项，Codex 已如实列为 e2e 基建项，未以伪证据
+  越门禁，认可。未修改实现/产物/seal。Next：R13-5（敌人脚本与战斗上下文），Codex 仍
+  唯一 Coding Owner。
+
+##### Kimi R13-4 设计主审（2026-07-29）
+
+**方法**：只读设计审查；对提取数据 0x0A 全量普查、产物有损/exact 形态、runner commandOutcome
+机制与 R13-2 save barrier 一手核实。
+
+**逐项结论**：
+
+1. **source-backed pass + 冻结旧 projector 保五层 byte-identical** ✅。一手核实有损形态：
+   s005/e128 当前为 `[dialog, confirm{onNo:[]}, clearDialog, dialog…, branch{hasMoney 25}…]`，
+   No 臂为空且 Yes 后缀无条件续跑——"选否仍扣钱给水果"机制属实；根因（P3 flowExit 的
+   `terminate-current-activation` 被 p7-canonical.generatedP3 展开吞掉）与修复位置（冻结
+   旧 projector，唯一 source-backed pass，显式输入契约含 p6.flowStructures/sourceCensus/
+   triggerActivationEvidence/c8Evidence）正确，不用当前代码重生成 parent，五层 byte-pin 成立。
+2. **26/28/31 账与四族分类自洽** ✅。源 0x0A 全量普查恰 26 个唯一地址；四族求和 26=2+18+5+1、
+   28=2+20+5+1、31=3+20+6+2、lossy 22=advance18+reset4、exact 6/9 全部闭合；C8 @19888
+   （c8-b88cfe32b808/stage-1）一手核实为 `confirm{onNo:[clearDialog, dialog, stopScript]}`
+   ——plain END 族用 inline onNo+stopScript 已忠实，只在 advance/reset/loop 族需要
+   commandOutcome，"已保真不二次包裹"的边界正确。
+3. **central modal / 默认 No / FIFO / 冻结域 / held-frame / 竞态** ✅。默认 No 对齐原版
+   （uigame.c 确认框默认否）；shop/system/save 先完成+confirm 后禁新 modal+FIFO 单次 settle
+   覆盖 modal 竞态；冻结域限定 confirm 不推翻"普通对话不冻结 NPC"裁决；held-frame 专用
+   token ≥2 帧、只在 settle/abort/session replacement 释放，规避 one-microtask 复用；
+   abort/session/runner replacement 拒 prompt 不跑任一臂，迟到按键按 session 拒绝。
+4. **transient/shared/item-private activity lease 纳入 save barrier** ✅ 方向正确；持久
+   runner 已有 coordinator lease（barrier active=0 才 ready），新增不写 FlowCursor 的
+   activity token 覆盖 transient 全程——见 P1 钉。
+5. **content9/SAVE8/min8 主动断档** ✅ 自洽：18 flow/26 旧 stage cursor 因 No 生命周期
+   吞失无法无损映射（"未运行"与"已运行但续点丢失"同形），沿用 R13-2 已拍板的开发期
+   epoch 政策；WorldStateV9=V5 无新字段；A7-4 顺延 v10。不主张保留 8/7（无人能给出
+   逐 cursor 双向 identity）。
+6. **Editor 真用 v5 runner** ✅：预览不得再经 v4 stages 降维（commandOutcome 会丢），
+   必须 ScriptRunnerV5 或等价唯一执行器；stop/switch/unmount abort 不污染作者态。
+7. **r13-confirm-v1 parent/evidence/门禁** ✅：parent=`c8df75a5…`（与 R13-3 已发布
+   digest 一致，我上一批实测）；31 selector 无数组下标；C8 @19888 无 CommandId 的
+   item/script/behavior/stage+command digest+唯一性断言合理；fail-loud 矩阵覆盖删/复制/
+   换臂/target/commandId/yield/漏 copy；首跑范围限定 13 lossy scene + seal/_state/manifest，
+   exact-only 5 scene byte-stable。
+
+**风险钉（P，实现验收核对，不阻塞 agree）**：
+
+- **P1 activity token 必须进同一个 coordinator active 注册表**（save barrier 的
+  active.size===0 判据），不得另立并行计数器——否则 barrier 看不见 transient 活动，
+  prompt 期间可拍快照。
+- **P2 prompt 期间的存档请求语义必须钉死**：请求应 park 到 settle+safe point 后执行
+  （barrier 语义自然成立），或被显式拒绝并提示；不得出现"prompt 中存档成功但 cursor
+  停在 prompt 前"的第三态。
+- **P3 Editor 预览的 v5 runner 必须跑在 scratch world 克隆上**（对齐 runtime
+  legacyWorldScriptScratchV5 模式），作者项目状态与存档零写入；stop/switch/unmount 的
+  abort 不得残留 activity token。
+- **P4 递归切分的 decision state 命名必须确定性**（按源顺序），多 confirm flow
+  （s009×2、s100/e1825×3、s131×2）的命名与 cursor 兼容在后续批次同样受 epoch 政策
+  保护——本批发布后若再改这些 machine，沿用同一断档纪律。
+
+**结论**：**agree**。设计无 schema/runtime/save/MG2 级反例。
+
+- 2026-07-29 Kimi：完成 R13-4 专项设计主审，签 **agree**，附 P1-P4 风险钉。一手核实：
+  源 0x0A 恰 26 地址；s005/e128 有损形态（onNo:[] + Yes 后缀无条件续跑）；C8 @19888
+  exact 形态（inline onNo+stopScript，plain END 族忠实）；四族/三层求和全部闭合；parent
+  digest 与上批实测一致。Next：Codex 作为唯一 Coding Owner 进入 R13-4 实现；P1-P4 与
+  GLM 结论同为验收核对项。
+
 ## 下一位 Agent 提示词
 
-### 给 Kimi（R13-4 源 No 生命周期 / runtime modal / SAVE epoch / MG2 设计主审）——当前待执行
+### 给 Kimi（R13-4 runtime / SAVE / append-only MG2 / repair 实现审查；已于 2026-07-30 执行，签 accept，保留备查）
+
+```text
+实现审查：N3-1 P7-R13-4 源 No 生命周期、真实 confirm、SAVE 8、append-only MG2 与 half-state repair
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-4 formal candidate 的 Codex / Kimi / GLM 三方
+implementation review 已全部 accept，本提示词已执行完毕，仅作历史留档。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-4 专项设计、Kimi 设计 P1-P4、19-locale 修订、
+  “formal publication / post-formal checkpoint”与实现签字表；
+- docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md；
+- packages/migrate/src/experimental/script-v5/{r13-confirm-control-flow,
+  r13-confirm-mg2,r13-confirm-seal-repair,runtime-capability-audit}.ts；
+- packages/migrate/src/{migration-baseline,migration-transaction}.ts 与
+  packages/migrate/scripts/migrate-content.mts；
+- packages/reforge/src/{script-confirm-modal,gameplay-clock,script-runner-v5,
+  script-world-v5,main}.ts、save/{types,migration,ops}.ts；
+- packages/editor/src/core/playback.ts、packages/editor/src/ui/PreviewCanvas.tsx。
+
+必须一手复核：
+1. 26 RAW / 28 logical / 31 physical、22 transformed 与 6 exact 是否仍是唯一 source-backed
+   authority；多 confirm、s081 双 yield、s029/s030 copies、s108 continuation、C8 @19888
+   是否无二次包裹或 commandOutcome 丢失。
+2. central modal 的默认 No、FIFO、held-frame、冻结域、Esc/Menu、abort/session replacement、
+   late input 幂等；persistent/transient/shared/item-private 是否进入同一 coordinator active
+   registry，prompt 中 save 是否只在 settle+safe point 后拍快照。
+3. content9/SAVE8/min8、旧 epoch 在 sidecar I/O 前拒绝、Editor scratch world 与 stop/reset
+   token 清理是否符合已签设计 P1-P4。
+4. new seal parent/self digest、旧五层 byte-pin、private prepared authority/deep freeze/
+   anti-tamper 是否成立；禁止用“自洽重签”绕过 published evidence。
+5. 首次正式迁移 15 project writes / 33 transaction ops 后，额外 dry-run 暴露的
+   `_state`→missing seal half-state 是否由显式 authority repair 最小修复；最终复验是否
+   覆盖 TOCTOU、pending transaction、project/manifest/baseline drift，repair 是否只补单 seal
+   且不改 `_state`。不得把未知外部清理来源猜成已证根因。
+6. 独立复跑你认为必要的 targeted tests；核对 formal rerun 与独立第二进程、live dry-run
+   均 0/0/0。s108/s118 尚无剧情 checkpoint 的 live 尾项应判断为 e2e 基建记录还是 blocker，
+   不得把没有实跑的路径写成浏览器通过。
+
+输出要求：
+- 只允许修改本卡“R13-4 批次实现审查签字”自己的 Kimi 行和交接记录；
+- 通过则签 accept，并明确 accept 只准入 R13-5；
+- 不通过则签 counter，给精确 file:line、复现、风险与最小返工项；
+- 不得修改实现、生成产物、baseline、project、board 或其它签字，不得标 N3-1/C8/ED-5I done。
+```
+
+### 给 GLM（R13-4 26/28/31 / locale / formal diff / 测试矩阵实现审查）——已于 2026-07-30 执行，签 accept（保留备查，勿再执行）
+
+```text
+实现审查：N3-1 P7-R13-4 confirm 数据守恒、19 locale、正式产物与测试矩阵
+任务卡：docs/ops/tasks/N3-1-script-control-flow-modernization.md
+当前状态：N3-1 总体 build；R13-4 formal candidate 已形成，Codex=accept，
+Kimi/GLM implementation review=pending。你是只读数据/schema/MG2/测试矩阵主审，不是 Coding Owner。
+
+先读：
+- AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md；
+- 本卡 R13-4 专项设计、GLM 设计签字、19-locale 修订、
+  “formal publication / post-formal checkpoint”与实现签字表；
+- docs/ops/audits/codex-r13-4-confirm-control-flow-audit.md；
+- packages/migrate/src/experimental/script-v5/{r13-confirm-control-flow,
+  r13-confirm-control-flow.pal.test,r13-confirm-mg2,r13-confirm-mg2.pal.test,
+  r13-confirm-seal-repair,runtime-capability-audit,source-instruction-disposition}.ts；
+- packages/migrate/src/{migration-baseline,migration-transaction}.ts 与
+  packages/migrate/scripts/migrate-content.mts；
+- projects/pal 与 packages/migrate/baselines/pal 的 manifest/_state/seals/locale/items/
+  18 个 R13-4 scene 候选。
+
+必须独立复核：
+1. 26 RAW / 28 logical / 31 physical；2/18/5/1→2/20/5/1→3/20/6/2；
+   exact 6 logical / 9 physical、transformed 22/22、18 flows、26 retired cursor、最终
+   confirm debt=0，selector 不重复且 evidence 可从 source/final 重建。
+2. changed scenes 恰 13，exact-only s029/s030/s081/s108/s118 git byte-stable 且
+   digest=seal；不得把 s081 既有 two-copy loop 算作本批新写。
+3. locale exact 19、0 sprite；两个 digest 一手复算；19 条 source 引用闭合。
+   重点核对作者保护口径：14/15 target byte-identical，locale project 正确保留
+   35 author-only keys；baseline-only=0、共同键改值=0。不要误报为 project/baseline drift。
+4. manifest 9/min8、new seal self/state/file SHA 与 parent；旧五层 seal byte-pin；
+   `_state.files` 全量复算、无 journal/staging。
+5. formal 首跑 15 project writes / 33 transaction ops、内部第二进程 0/0/0；
+   half-state repair 后正式 rerun/独立第二进程/live dry-run 0/0/0。审查 repair 负向矩阵，
+   不得用人工复制 seal 通过。
+6. 独立复跑覆盖矩阵：targeted、R13-3/R13-4 MG2、P2/P3/P4 pins、cadence/published-v4，
+   并抽核 content/reforge/editor/migrate/fresh release 记录与 content9 cadence golden。
+   s108/s118 尚无剧情 checkpoint 的 live 尾项须如实分类，不能改写成已完成的全剧情 e2e。
+
+输出要求：
+- 只允许修改本卡“R13-4 批次实现审查签字”自己的 GLM 行和交接记录；
+- 通过则签 accept，并明确 accept 只准入 R13-5；
+- 不通过则签 counter，给精确数字/selector/file:line/复现和最小返工项；
+- 不得修改实现、生成产物、baseline、project、board 或其它签字，不得标 N3-1/C8/ED-5I done。
+```
+
+- 2026-07-30 GLM：完成 R13-4 implementation 数据守恒 / locale / formal diff / 测试矩阵
+  只读审查，签 **accept**。一手复核（非 Codex 清单复述）：
+  - **13 changed scene**（s005/s009/s023/s050/s084/s091/s100/s102/s111/s127/s128/s131/s148）
+    project↔baseline 逐个 `diff -q` byte-identical；**5 exact-only**（s029/s030/s081/s108/s118）
+    `git diff --quiet` 全 clean。
+  - **locale**：project 与 baseline 各恰新增 19 key（dlg.5350/5483-5486/6164/7838-7856）、
+    0 删除、0 共同键改值；sorted-id `fff0a7c4…`（复算确认输入 = `dlg.*` 字符串 key 数组，
+    非数字 id；数字数组算出 `6e2116…` 不匹配）与 id-text `ee546b25…`（`stableJsonSha256({id:text})`）
+    用仓库 `stable-json.ts` 语义一手复算匹配。
+  - **26/28/31 + 四族**：从 seal `logicalSites`/`physicalSites` 实数 —— RAW 26 唯一地址
+    （2/18/5/1）、logical 28（2/20/5/1）、physical 31（3/20/6/2）全自洽；三个 fanout 清晰
+    （s081 macroTask/worldTick 双副本 loop、s029/s030 phase-002 reset/end 复制）；status
+    exact-preserved 6 / lossy-transformed 22 与账一致。
+  - **seal**：file SHA `38d129fb…`、self digest `89092578…`、parent `c8df75a5…`（= R13-3
+    item-throw 已发布）全匹配；旧五层 seal file SHA（P7 `41263ba1`/C8 `325d52ed`/cadence
+    `2b1e71b0`/cross `723e4fd2`/item-throw `2c741222`）5/5 byte-pin，git status 全 clean。
+  - **manifest** contentVersion=9 / minimumSaveVersion=8（git HEAD 8/7→当前 9/8）确认。
+  - **items** 234→234 不变，7 item（163/164/165/179/185/187/188）equip.effects 转
+    battleSprite byActor，属 E1 authority 交叉落盘，与 ED-5I 的 7 singleton battleSprite
+    item 口径一致。
+  - **测试一手复跑**（非 Codex 报告转述）：control-flow PAL 4/4（129s，含 26/28/31 authority
+    freeze + anti-tamper）、MG2 PAL 11/11（344s，**含上次失败现已修复的 `fresh init…重放 0/0/0`
+    initialize 路径** 37865ms）、seal-repair 3/3、runtime-capability-audit 13/13 全绿。
+  - **上轮 baseline 污染收口确认**：上一轮签字（19-locale 白名单）后我发现本地 baseline 已被
+    改（16 文件 + untracked seal），MG2 initialize 断言因此失败。本轮 Codex 完成 formal write
+    + half-state repair（`--repair-r13-confirm-seal` authority + fail-loud 矩阵）后，
+    baseline `_state`/seal/scene/locale/items 一致，MG2 initialize/replay 双路径均可验证。
+    该污染根因（`_state` 引用新 seal 但 seal 文件缺失的 half-state）已由上游修复
+    （`migration-baseline.ts` validation/repair + `migrate-content.mts` 互斥 repair authority），
+    不是手补生成物。
+
+  未修改实现/产物/baseline/project/seal/Kimi 签字；仅更新本表 GLM 行与本交接记录。
+  s108/s118 无剧情 checkpoint 的 live 尾项按 e2e 基建记录处理，不冒充全剧情 e2e 通过。
+
+### 给 Kimi（R13-4 源 No 生命周期 / runtime modal / SAVE epoch / MG2 设计主审）——已于 2026-07-29 执行，签 agree（附 P1-P4，保留备查，勿再执行）
 
 ```text
 设计准入复审：N3-1 P7-R13-4 confirm 源控制流、真实模态与 append-only MG2
@@ -5750,7 +6320,7 @@ Kimi/GLM=pending。你是架构/runtime/save/MG2 主审，不是 Coding Owner。
 不代表 N3-1/C8/ED-5I 完成。
 ```
 
-### 给 GLM（R13-4 26/28/31 数据守恒 / source disposition / 测试矩阵设计主审）——当前待执行
+### 给 GLM（R13-4 26/28/31 数据守恒 / source disposition / 测试矩阵设计主审）——已于 2026-07-29 执行，签 agree（保留备查，勿再执行）
 
 ```text
 设计准入复审：N3-1 P7-R13-4 confirm 全量源账、生成门禁与测试矩阵

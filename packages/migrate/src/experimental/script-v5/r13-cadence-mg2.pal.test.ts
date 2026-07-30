@@ -23,6 +23,7 @@ import {
   R13_CADENCE_TRANSITION_ID,
   type R13CadenceV5MigrationPlan,
 } from './r13-cadence-mg2.js'
+import { R13_CONFIRM_SEAL_PATH, R13_CONFIRM_TRANSITION_ID } from './r13-confirm-mg2.js'
 import {
   R13_CROSS_ACTIVATION_SEAL_PATH,
   R13_CROSS_ACTIVATION_TRANSITION_ID,
@@ -60,6 +61,7 @@ function withoutR13(source: MigrationSnapshot): MigrationSnapshot {
     R13_CADENCE_SEAL_PATH,
     R13_CROSS_ACTIVATION_SEAL_PATH,
     R13_ITEM_THROW_SEAL_PATH,
+    R13_CONFIRM_SEAL_PATH,
   ]) {
     snapshot.files.delete(path)
     snapshot.managedFiles.delete(path)
@@ -69,13 +71,14 @@ function withoutR13(source: MigrationSnapshot): MigrationSnapshot {
     delete snapshot.baselineMetadata.transitions[R13_CADENCE_TRANSITION_ID]
     delete snapshot.baselineMetadata.transitions[R13_CROSS_ACTIVATION_TRANSITION_ID]
     delete snapshot.baselineMetadata.transitions[R13_ITEM_THROW_TRANSITION_ID]
+    delete snapshot.baselineMetadata.transitions[R13_CONFIRM_TRANSITION_ID]
   }
   return snapshot
 }
 
 function hydrateControlHashes(snapshot: MigrationSnapshot): void {
   snapshot.hashes ??= new Map()
-  for (const path of [C8_ITEM_USE_SEAL_PATH, R13_CADENCE_SEAL_PATH]) {
+  for (const path of [C8_ITEM_USE_SEAL_PATH, R13_CADENCE_SEAL_PATH, R13_CONFIRM_SEAL_PATH]) {
     const value = snapshot.files.get(path)
     if (value) snapshot.hashes.set(path, sha256(serializeMigrationJson(value, path)))
   }

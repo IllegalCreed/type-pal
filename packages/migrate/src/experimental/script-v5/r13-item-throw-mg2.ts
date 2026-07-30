@@ -140,13 +140,16 @@ export function prepareR13ItemThrowAuthority(
   assertR13ItemThrowAugmentationEvidence(generated.itemThrowEvidence)
   assertR13ItemThrowDispositionBacked(
     generated.r13CrossActivationParentSnapshot,
-    generated.snapshot,
+    generated.r13ConfirmParentSnapshot,
     generated.itemThrowEvidence,
   )
-  assertR13ItemThrowFinalTargetClosure(generated.snapshot, generated.itemThrowEvidence)
+  assertR13ItemThrowFinalTargetClosure(
+    generated.r13ConfirmParentSnapshot,
+    generated.itemThrowEvidence,
+  )
   return Object.freeze({
     generated,
-    successorSnapshot: generated.snapshot,
+    successorSnapshot: generated.r13ConfirmParentSnapshot,
     parentSnapshot: generated.r13CrossActivationParentSnapshot,
     evidence: generated.itemThrowEvidence,
     evidenceDigest: generated.itemThrowEvidence.digest,
@@ -159,7 +162,7 @@ function assertPreparedAuthority(
 ): void {
   if (
     prepared.generated !== generated ||
-    prepared.successorSnapshot !== generated.snapshot ||
+    prepared.successorSnapshot !== generated.r13ConfirmParentSnapshot ||
     prepared.parentSnapshot !== generated.r13CrossActivationParentSnapshot ||
     prepared.evidence !== generated.itemThrowEvidence
   )

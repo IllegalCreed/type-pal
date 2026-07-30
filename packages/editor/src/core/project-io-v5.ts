@@ -12,6 +12,7 @@ import {
   type SceneDefV5,
   type StampTemplateV1,
   validateAssetCatalog,
+  validateEquipBattleSpriteReferences,
   validateItemsV5,
   validateMapIndex,
   validateScenesV5,
@@ -290,7 +291,14 @@ function validateEditorStateV5(state: EditorStateV5): void {
   if (!state.manifest.content.sharedScripts)
     throw new Error('serializeProjectV5: manifest 缺 canonical sharedScripts 路径')
   const scenes = validateScenesV5(state.scenes)
-  validateItemsV5(state.items)
+  const items = validateItemsV5(state.items)
+  const equipBattleSpriteIssue = validateEquipBattleSpriteReferences(
+    items,
+    state.actors,
+    state.battleSprites,
+  )[0]
+  if (equipBattleSpriteIssue)
+    throw new Error(`${equipBattleSpriteIssue.where}: ${equipBattleSpriteIssue.message}`)
   checkSharedScriptLibraryV5(state.sharedScripts)
   const scriptIssue = collectScriptV5ReferenceIssues(state)[0]
   if (scriptIssue) throw new Error(`${scriptIssue.path}: ${scriptIssue.message}`)

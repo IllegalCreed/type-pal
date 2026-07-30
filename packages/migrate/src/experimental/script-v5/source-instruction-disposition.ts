@@ -14,6 +14,11 @@ import type { SourceCmd } from '../../source-facts.js'
 import type { TranslateInstructionOutcome } from '../../translate-events.js'
 import type { P7GeneratedCanonical } from './p7-generated.js'
 import {
+  assertR13ConfirmControlFlowEvidence,
+  assertR13ConfirmFinalTargetClosure,
+  type R13ConfirmTerminal,
+} from './r13-confirm-control-flow.js'
+import {
   assertPreparedR13SourceExecutionCensus,
   assertR13SourceExecutionCensus,
   buildR13SourceExecutionCensus,
@@ -26,6 +31,8 @@ import { stableJson, stableJsonSha256, stableStringCompare } from './stable-json
 import type { P4AuthorOwnerIdentity, P6ItemPrivateScriptIdentity } from './types.js'
 
 export const R13_SOURCE_DISPOSITION_METHOD = 'n3-p7-r13-source-instruction-disposition-v2' as const
+export const R13_SOURCE_DISPOSITION_METHOD_V3 =
+  'n3-p7-r13-source-instruction-disposition-v3' as const
 
 export type R13SourceDisposition =
   | 'translated'
@@ -178,6 +185,20 @@ export type R13DispositionEvidence =
       >
     })
   | (SiteClosureEvidenceBase & {
+      kind: 'r13-confirm-site'
+      proves: 'structured'
+      sourceAddress: number
+      noTargetAddress: number
+      yesFallthroughAddress: number
+      terminal: R13ConfirmTerminal
+      confirmEvidenceDigest: string
+      targetSelectors: string[]
+      targetDigests: string[]
+      layerTargets: Partial<
+        Record<'augmented' | 'final', { selectors: string[]; digests: string[] }>
+      >
+    })
+  | (SiteClosureEvidenceBase & {
       kind: 'asset-bake'
       proves: 'asset-baked'
       assetId: 'frame-animation.pal.003' | 'frame-animation.pal.007'
@@ -284,6 +305,16 @@ export interface R13SourceInstructionDispositionV1 {
   digest: string
 }
 
+export interface R13SourceInstructionDispositionV3
+  extends Omit<R13SourceInstructionDispositionV1, 'version' | 'methodVersion'> {
+  version: 3
+  methodVersion: typeof R13_SOURCE_DISPOSITION_METHOD_V3
+}
+
+type R13SourceInstructionDispositionUnsigned =
+  | Omit<R13SourceInstructionDispositionV1, 'digest'>
+  | Omit<R13SourceInstructionDispositionV3, 'digest'>
+
 interface ExpandedSourceCmd extends SourceCmd {
   reset?: boolean
   idleFrames?: number
@@ -344,6 +375,7 @@ const EVIDENCE_KINDS: Record<
     'c8-site-repair',
     'scene-semantic-repair',
     'r13-cross-activation-site',
+    'r13-confirm-site',
   ]),
   folded: new Set(['canonical-site']),
   'asset-baked': new Set(['asset-bake']),
@@ -365,9 +397,7 @@ export function digestR13ContentSnapshot(snapshot: MigrationSnapshot): string {
   )
 }
 
-function dispositionReportDigest(
-  report: Omit<R13SourceInstructionDispositionV1, 'digest'>,
-): string {
+function dispositionReportDigest(report: R13SourceInstructionDispositionUnsigned): string {
   const hash = createHash('sha256')
   const update = (value: unknown): void => {
     const serialized = stableJson(value)
@@ -2057,6 +2087,84 @@ function r13CrossActivationSiteEvidence(args: {
   return result
 }
 
+function r13ConfirmSiteEvidence(args: {
+  generated: P7GeneratedCanonical
+  final: MigrationSnapshot
+  census: R13SourceExecutionCensusV1
+  evidence: Map<string, R13DispositionEvidence>
+}): Map<string, ProjectionEvidence> {
+  const confirm = args.generated.confirmEvidence
+  assertR13ConfirmControlFlowEvidence(confirm)
+  assertR13ConfirmFinalTargetClosure(args.generated.snapshot, confirm)
+  assertR13ConfirmFinalTargetClosure(args.final, confirm)
+  const sites = new Map(args.census.sites.map((site) => [site.id, site]))
+  const result = new Map<string, ProjectionEvidence>()
+  for (const logical of confirm.logicalSites) {
+    const site = sites.get(logical.siteId)
+    const instruction = site ? args.census.instructions[site.address] : undefined
+    if (
+      !site ||
+      !instruction ||
+      site.address !== logical.sourceAddress ||
+      instruction.sourceCommandSha256 !== logical.sourceCommandSha256 ||
+      instruction.opcode !== 0x0a
+    )
+      throw new Error(`R13 disposition: confirm source site 漂移 ${logical.siteId}`)
+    const physical = confirm.physicalSites
+      .filter((entry) => entry.logicalSiteId === logical.siteId)
+      .sort((left, right) =>
+        stableStringCompare(stableJson(left.selector), stableJson(right.selector)),
+      )
+    if (!physical.length)
+      throw new Error(`R13 disposition: confirm physical target 缺失 ${logical.siteId}`)
+    const augmentedTarget: ExactLayerTargets = {
+      selectors: physical.map((entry) => `r13-confirm:${stableJson(entry.selector)}`),
+      digests: physical.map((entry) =>
+        stableJsonSha256({
+          command: entry.selector.commandDigest,
+          no: entry.noTransitionDigest,
+          yes: entry.yesTransitionDigest,
+        }),
+      ),
+    }
+    const layered = layeredTargets(augmentedTarget, augmentedTarget)
+    const identity = {
+      siteId: logical.siteId,
+      sourceAddress: logical.sourceAddress,
+      noTargetAddress: logical.noTargetAddress,
+      yesFallthroughAddress: logical.yesFallthroughAddress,
+      terminal: logical.terminal,
+      confirmEvidenceDigest: confirm.digest,
+      targetSelectors: augmentedTarget.selectors,
+      targetDigests: augmentedTarget.digests,
+      ...layered,
+    }
+    const id = evidenceId('r13-confirm-site', identity)
+    addEvidence(args.evidence, {
+      id,
+      scope: 'site-closure',
+      kind: 'r13-confirm-site',
+      proves: 'structured',
+      siteId: logical.siteId,
+      contextId: site.contextId,
+      addresses: [logical.sourceAddress],
+      sourceCommandSha256: logical.sourceCommandSha256,
+      appliesToLayers: layered.appliesToLayers,
+      sourceAddress: logical.sourceAddress,
+      noTargetAddress: logical.noTargetAddress,
+      yesFallthroughAddress: logical.yesFallthroughAddress,
+      terminal: logical.terminal,
+      confirmEvidenceDigest: confirm.digest,
+      targetSelectors: augmentedTarget.selectors,
+      targetDigests: augmentedTarget.digests,
+      layerTargets: layered.layerTargets,
+    })
+    result.set(logical.siteId, { disposition: 'structured', evidenceId: id })
+  }
+  if (result.size !== 28) throw new Error(`R13 disposition: confirm site=${result.size}，期望 28`)
+  return result
+}
+
 function pointerSegment(value: string): string {
   return value.replaceAll('~', '~0').replaceAll('/', '~1')
 }
@@ -2890,9 +2998,20 @@ export function sealR13SourceInstructionDisposition(
   return { ...report, digest: dispositionReportDigest(report) }
 }
 
-export function buildR13SourceInstructionDisposition(
+export function sealR13SourceInstructionDispositionV3(
+  report: Omit<R13SourceInstructionDispositionV3, 'digest'>,
+): R13SourceInstructionDispositionV3 {
+  return { ...report, digest: dispositionReportDigest(report) }
+}
+
+type AnyR13SourceInstructionDisposition =
+  | R13SourceInstructionDispositionV1
+  | R13SourceInstructionDispositionV3
+
+function buildR13SourceInstructionDispositionInternal(
   args: R13SourceInstructionDispositionBuildArgs,
-): R13SourceInstructionDispositionV1 {
+  options: { confirmClosure: boolean },
+): AnyR13SourceInstructionDisposition {
   const census = args.preparedSourceCensus?.census ?? buildR13SourceExecutionCensus(args.sources)
   if (args.preparedSourceCensus)
     assertPreparedR13SourceExecutionCensus(args.preparedSourceCensus, args.sources, census)
@@ -2936,6 +3055,14 @@ export function buildR13SourceInstructionDisposition(
     census,
     evidence,
   })
+  const confirm = options.confirmClosure
+    ? r13ConfirmSiteEvidence({
+        generated: args.generated,
+        final: args.final,
+        census,
+        evidence,
+      })
+    : new Map<string, ProjectionEvidence>()
   const assets = assetEvidence({
     sources: args.sources,
     migration: args.migration,
@@ -2954,7 +3081,7 @@ export function buildR13SourceInstructionDisposition(
     evidence,
   })
   const exact = new Map<string, ProjectionEvidence>()
-  for (const index of [c8Sites, repairs, crossActivation, assets, callOwners])
+  for (const index of [c8Sites, repairs, crossActivation, confirm, assets, callOwners])
     for (const [siteId, projection] of index) {
       if (exact.has(siteId)) throw new Error(`R13 disposition: site closure collision ${siteId}`)
       exact.set(siteId, projection)
@@ -3104,10 +3231,7 @@ export function buildR13SourceInstructionDisposition(
         : [],
     ),
   )
-  const withoutDigest = {
-    kind: 'r13-source-instruction-disposition' as const,
-    version: 1 as const,
-    methodVersion: R13_SOURCE_DISPOSITION_METHOD,
+  const reportBody = {
     generator: {
       sourceDigest: census.generator.sourceDigest,
       rawDigest: stableJsonSha256({
@@ -3143,11 +3267,39 @@ export function buildR13SourceInstructionDisposition(
       openObservations: observations.filter((entry) => entry.final === 'open').length,
     },
   }
-  return sealR13SourceInstructionDisposition(withoutDigest)
+  if (options.confirmClosure)
+    return sealR13SourceInstructionDispositionV3({
+      kind: 'r13-source-instruction-disposition',
+      version: 3,
+      methodVersion: R13_SOURCE_DISPOSITION_METHOD_V3,
+      ...reportBody,
+    })
+  return sealR13SourceInstructionDisposition({
+    kind: 'r13-source-instruction-disposition',
+    version: 1,
+    methodVersion: R13_SOURCE_DISPOSITION_METHOD,
+    ...reportBody,
+  })
+}
+
+export function buildR13SourceInstructionDisposition(
+  args: R13SourceInstructionDispositionBuildArgs,
+): R13SourceInstructionDispositionV1 {
+  return buildR13SourceInstructionDispositionInternal(args, {
+    confirmClosure: false,
+  }) as R13SourceInstructionDispositionV1
+}
+
+export function buildR13SourceInstructionDispositionV3(
+  args: R13SourceInstructionDispositionBuildArgs,
+): R13SourceInstructionDispositionV3 {
+  return buildR13SourceInstructionDispositionInternal(args, {
+    confirmClosure: true,
+  }) as R13SourceInstructionDispositionV3
 }
 
 function assertR13SourceInstructionDispositionBacked(
-  report: R13SourceInstructionDispositionV1,
+  report: AnyR13SourceInstructionDisposition,
   source: R13SourceInstructionDispositionBuildArgs,
 ): void {
   const expectedGenerator = {
@@ -3419,6 +3571,13 @@ function assertR13SourceInstructionDispositionBacked(
     census: report.census,
     evidence: trustedSiteEvidence,
   })
+  if (report.version === 3)
+    r13ConfirmSiteEvidence({
+      generated: source.generated,
+      final: source.final,
+      census: report.census,
+      evidence: trustedSiteEvidence,
+    })
   assetEvidence({
     sources: source.sources,
     migration: source.migration,
@@ -3562,7 +3721,7 @@ function assertR13SourceInstructionDispositionBacked(
 }
 
 export function assertR13SourceInstructionDisposition(
-  report: R13SourceInstructionDispositionV1,
+  report: AnyR13SourceInstructionDisposition,
   source?: R13SourceInstructionDispositionBuildArgs,
 ): void {
   const assertSortedUniqueStrings = (values: readonly string[], label: string): void => {
@@ -3583,11 +3742,9 @@ export function assertR13SourceInstructionDisposition(
     ['augmented', 1],
     ['final', 2],
   ])
-  if (
-    report.kind !== 'r13-source-instruction-disposition' ||
-    report.version !== 1 ||
-    report.methodVersion !== R13_SOURCE_DISPOSITION_METHOD
-  )
+  const isV2 = report.version === 1 && report.methodVersion === R13_SOURCE_DISPOSITION_METHOD
+  const isV3 = report.version === 3 && report.methodVersion === R13_SOURCE_DISPOSITION_METHOD_V3
+  if (report.kind !== 'r13-source-instruction-disposition' || (!isV2 && !isV3))
     throw new Error('R13 disposition: header 漂移')
   for (const [key, digest] of Object.entries(report.generator))
     if (!/^[0-9a-f]{64}$/.test(digest))
@@ -3711,7 +3868,8 @@ export function assertR13SourceInstructionDisposition(
     if (
       entry.kind === 'c8-site-repair' ||
       entry.kind === 'scene-semantic-repair' ||
-      entry.kind === 'r13-cross-activation-site'
+      entry.kind === 'r13-cross-activation-site' ||
+      entry.kind === 'r13-confirm-site'
     ) {
       const augmented = entry.layerTargets.augmented
       if (
@@ -3767,6 +3925,27 @@ export function assertR13SourceInstructionDisposition(
         instruction.op !== 'goto'
       )
         throw new Error(`R13 disposition: evidence ${entry.id} delayed goto source 漂移`)
+    }
+    if (entry.kind === 'r13-confirm-site') {
+      const site = sites.get(entry.siteId)
+      const instruction = site ? report.census.instructions[site.address] : undefined
+      if (
+        !site ||
+        !instruction ||
+        instruction.opcode !== 0x0a ||
+        entry.sourceAddress !== site.address ||
+        entry.sourceAddress !== entry.addresses[0] ||
+        entry.noTargetAddress < 0 ||
+        entry.yesFallthroughAddress !== entry.sourceAddress + 1 ||
+        !/^[0-9a-f]{64}$/.test(entry.confirmEvidenceDigest) ||
+        entry.targetSelectors.length === 0 ||
+        entry.targetSelectors.length !== entry.targetDigests.length ||
+        entry.appliesToLayers.includes('raw') ||
+        !entry.appliesToLayers.includes('augmented') ||
+        !entry.appliesToLayers.includes('final')
+      )
+        throw new Error(`R13 disposition: evidence ${entry.id} confirm identity 漂移`)
+      assertSortedUniqueStrings(entry.targetSelectors, `evidence ${entry.id} confirm selectors`)
     }
     if (entry.kind === 'asset-bake') {
       if (!entry.appliesToLayers.includes('raw') || !entry.appliesToLayers.includes('augmented'))
@@ -4007,6 +4186,50 @@ export function assertR13SourceInstructionDisposition(
       report.observations.filter((entry) => entry.final === 'open').length
   )
     throw new Error('R13 disposition: observation summary 漂移')
+  const confirmProofs = report.evidence.filter((proof) => proof.kind === 'r13-confirm-site')
+  if (isV2 && confirmProofs.length !== 0)
+    throw new Error('R13 disposition: confirm v2/v3 closure 漂移')
+  if (isV3) {
+    const sourceConfirmSiteIds = report.census.sites
+      .filter((site) => report.census.instructions[site.address]?.opcode === 0x0a)
+      .map((site) => site.id)
+      .sort(stableStringCompare)
+    const proofSiteIds = confirmProofs.map((proof) => proof.siteId).sort(stableStringCompare)
+    const targetSelectors = confirmProofs.flatMap((proof) => proof.targetSelectors)
+    const confirmEvidenceDigests = new Set(
+      confirmProofs.map((proof) => proof.confirmEvidenceDigest),
+    )
+    if (
+      confirmProofs.length !== 28 ||
+      stableJsonSha256(proofSiteIds) !== stableJsonSha256(sourceConfirmSiteIds) ||
+      targetSelectors.length !== 31 ||
+      new Set(targetSelectors).size !== 31 ||
+      confirmEvidenceDigests.size !== 1 ||
+      confirmProofs.some(
+        (proof) =>
+          proof.targetDigests.some((digest) => !/^[0-9a-f]{64}$/.test(digest)) ||
+          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.raw.state !==
+            'open' ||
+          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.augmented
+            .state !== 'accounted' ||
+          report.dispositions.find((entry) => entry.siteId === proof.siteId)?.layers.final.state !==
+            'accounted' ||
+          !report.dispositions
+            .find((entry) => entry.siteId === proof.siteId)
+            ?.layers.augmented.evidenceIds.includes(proof.id) ||
+          !report.dispositions
+            .find((entry) => entry.siteId === proof.siteId)
+            ?.layers.final.evidenceIds.includes(proof.id),
+      ) ||
+      report.evidence.some(
+        (proof) =>
+          proof.kind === 'open-debt' &&
+          proof.batch === 'R13-4' &&
+          proof.appliesToLayers.includes('final'),
+      )
+    )
+      throw new Error('R13 disposition: confirm v2/v3 closure 漂移')
+  }
   const { digest, ...withoutDigest } = report
   if (dispositionReportDigest(withoutDigest) !== digest)
     throw new Error('R13 disposition: digest 漂移')
@@ -4022,8 +4245,17 @@ export function assertR13SourceInstructionDisposition(
   }
 }
 
+export function assertR13SourceInstructionDispositionV3(
+  report: R13SourceInstructionDispositionV3,
+  source?: R13SourceInstructionDispositionBuildArgs,
+): void {
+  if (report.version !== 3 || report.methodVersion !== R13_SOURCE_DISPOSITION_METHOD_V3)
+    throw new Error('R13 disposition v3: header 漂移')
+  assertR13SourceInstructionDisposition(report, source)
+}
+
 export function assertR13NoOpenSourceDebt(
-  report: R13SourceInstructionDispositionV1,
+  report: AnyR13SourceInstructionDisposition,
   source?: R13SourceInstructionDispositionBuildArgs,
 ): void {
   assertR13SourceInstructionDisposition(report, source)

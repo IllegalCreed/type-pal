@@ -1,6 +1,6 @@
 import type { ProjectManifest, WorldStateV7 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { normalizePayloadV7, preflightSaveMigration } from './migration.js'
+import { normalizePayloadV7, preflightLegacySaveMigrationV8 } from './migration.js'
 import type { LegacySavePayloadV7, SavePayloadV7 } from './types.js'
 
 function manifest(over: Partial<ProjectManifest<8>> = {}): ProjectManifest<8> {
@@ -45,7 +45,7 @@ describe('SAVE7 / content8 identity normalization', () => {
   test('7/7 只升级 contentVersion，世界、位置与工程 id 深相等且输入不变', async () => {
     const raw = legacyPayload()
     const before = structuredClone(raw)
-    const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
+    const resolver = await preflightLegacySaveMigrationV8({ manifest: manifest(), payload: raw })
     expect(resolver).toEqual({
       kind: 'content-v7-v8',
       projectId: 'demo',
@@ -62,7 +62,7 @@ describe('SAVE7 / content8 identity normalization', () => {
 
   test('当前 7/8 只克隆并验证', async () => {
     const raw = { ...legacyPayload(), contentVersion: 8 } as SavePayloadV7
-    const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
+    const resolver = await preflightLegacySaveMigrationV8({ manifest: manifest(), payload: raw })
     expect(resolver.kind).toBe('current-v8')
     const normalized = normalizePayloadV7(raw, resolver)
     expect(normalized).toEqual(raw)
@@ -84,21 +84,23 @@ describe('SAVE7 / content8 identity normalization', () => {
         reads++
         throw new Error('不得读取 sidecar')
       },
-    } as unknown as Parameters<typeof preflightSaveMigration>[0]
-    await expect(preflightSaveMigration(args)).rejects.toThrow(/epoch 已断开/)
+    } as unknown as Parameters<typeof preflightLegacySaveMigrationV8>[0]
+    await expect(preflightLegacySaveMigrationV8(args)).rejects.toThrow(
+      /historical contentVersion 8/,
+    )
     expect(reads).toBe(0)
   })
 
   test('错误工程与 minimumSaveVersion 明确拒绝', async () => {
     await expect(
-      preflightSaveMigration({
+      preflightLegacySaveMigrationV8({
         manifest: manifest(),
         payload: { ...legacyPayload(), projectId: 'other' },
       }),
     ).rejects.toThrow(/不匹配/)
     for (const minimumSaveVersion of [undefined, 6, 8, 1.5]) {
       await expect(
-        preflightSaveMigration({
+        preflightLegacySaveMigrationV8({
           manifest: manifest({ minimumSaveVersion }),
           payload: legacyPayload(),
         }),

@@ -7,8 +7,8 @@ import {
 import { describe, expect, test } from 'vitest'
 import { asyncIntentAbortError } from './async-intent.js'
 import type { LoadedProjectV5Core } from './loader-v5.js'
-import { normalizePayloadV7, preflightSaveMigration } from './save/migration.js'
-import { buildPayloadV7 } from './save/ops.js'
+import { normalizePayloadV8, preflightSaveMigration } from './save/migration.js'
+import { buildPayloadV8 } from './save/ops.js'
 import {
   type ProjectScriptHostOptionsV5,
   ProjectScriptRuntimeHostV5,
@@ -116,12 +116,12 @@ function project(): LoadedProjectV5Core {
   return { sharedScripts: {} } as unknown as LoadedProjectV5Core
 }
 
-function manifestV8(): ProjectManifest<8> {
+function currentManifest(): ProjectManifest<9> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 8,
-    minimumSaveVersion: 7,
+    contentVersion: 9,
+    minimumSaveVersion: 8,
     entryScene: 's001',
     content: {},
     assets: { catalog: 'assets/index.json', roles: {} },
@@ -491,7 +491,7 @@ describe('canonical script v5 project runtime', () => {
       },
     })
 
-    const payload = buildPayloadV7(
+    const payload = buildPayloadV8(
       saved,
       {
         sceneId: 's001',
@@ -501,10 +501,10 @@ describe('canonical script v5 project runtime', () => {
       'demo',
     )
     const resolver = await preflightSaveMigration({
-      manifest: manifestV8(),
+      manifest: currentManifest(),
       payload,
     })
-    const restored = normalizePayloadV7(payload, resolver)
+    const restored = normalizePayloadV8(payload, resolver)
     expect(restored).not.toBe(payload)
     expect(restored.world.script?.behaviors.entities?.s001?.e1?.auto?.cursor).toEqual(
       saved.script?.behaviors.entities?.s001?.e1?.auto?.cursor,
@@ -613,6 +613,51 @@ describe('canonical script v5 project runtime', () => {
     await expect(trigger).resolves.toBe(true)
     expect(snapshots).toBe(1)
     expect(world.vars.hits).toBe(1)
+  })
+
+  test('save barrier parks behind a transient confirm until the whole command chain finishes', async () => {
+    const world = emptyWorldScriptStateV5()
+    const answer = deferred<boolean>()
+    const runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      confirm: () => answer.promise,
+    })
+    const running = runtime.runCommands(
+      [
+        { kind: 'confirm', onNo: [] },
+        { kind: 'setFlag', flag: 'after-answer', value: true },
+      ],
+      { signal: new AbortController().signal },
+    )
+    await Promise.resolve()
+
+    let snapshots = 0
+    const save = runtime.withSaveBarrier(() => {
+      snapshots += 1
+      return structuredClone(world)
+    })
+    await Promise.resolve()
+    expect(snapshots).toBe(0)
+
+    answer.resolve(false)
+    await running
+    const snapshot = await save
+    expect(snapshots).toBe(1)
+    expect(snapshot.flags['after-answer']).toBe(true)
+  })
+
+  test('transient commands wait for an already-ready save barrier and abort cleanly', async () => {
+    const runtime = new ScriptProjectRuntimeV5(project(), emptyWorldScriptStateV5(), digest, host())
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await barrier.ready
+    const controller = new AbortController()
+    const running = runtime.runCommands([{ kind: 'setFlag', flag: 'late', value: true }], {
+      signal: controller.signal,
+    })
+    controller.abort()
+    await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    barrier.release()
+    expect(runtime.world.flags.late).toBeUndefined()
   })
 
   test('scene hook and auto behavior wait without a lease, then resume when the save gate opens', async () => {

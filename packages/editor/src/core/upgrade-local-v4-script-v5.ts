@@ -11,6 +11,7 @@ import {
   SCRIPT_V4_V5_SIDECAR_PATH,
   SCRIPT_V4_V5_TRANSITION_ID,
   upgradeItemsV7ToV8,
+  upgradeItemsV8ToV9,
   validateItemsV5,
   validateProjectMigrationSidecarV1,
   validateProjectRelativePath,
@@ -524,10 +525,10 @@ export async function upgradeLocalProjectV4ScriptV5(
   validateProjectMigrationSidecarV1(sidecar, manifest.id)
   const sidecarBytes = jsonBytes(sidecar)
   const { scripts: _legacyScripts, ...content } = manifest.content
-  const upgradedItems = upgradeItemsV7ToV8(projection.items)
-  const manifestV8: CurrentManifest = {
+  const upgradedItems = upgradeItemsV8ToV9(upgradeItemsV7ToV8(projection.items))
+  const manifestCurrent: CurrentManifest = {
     ...cloneManifest(manifest),
-    contentVersion: 8,
+    contentVersion: 9,
     minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
     content: { ...content, sharedScripts: 'content/shared-scripts.json' },
     migrations: {
@@ -544,7 +545,7 @@ export async function upgradeLocalProjectV4ScriptV5(
     ['content/shared-scripts.json', jsonBytes(projection.sharedScripts)],
     [itemsPath, jsonBytes(upgradedItems)],
     [SCRIPT_V4_V5_SIDECAR_PATH, sidecarBytes],
-    ['manifest.json', jsonBytes(manifestV8)],
+    ['manifest.json', jsonBytes(manifestCurrent)],
   ])
   for (const scene of projection.scenes) writes.set(`${sceneDir}${scene.id}.json`, jsonBytes(scene))
   const deletes = scriptDir

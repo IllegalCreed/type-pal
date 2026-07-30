@@ -247,16 +247,28 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
   test('7 条装备战斗形象已从上游脚本闭环，装备翻译不再有 pending', () => {
     const ops = out.report.pendingEquip.flatMap((p) => p.ops)
     expect(ops).toEqual([])
-    for (const [itemId, sprite] of [
-      ['163', 'player-fighter-6'],
-      ['164', 'player-fighter-6'],
-      ['165', 'player-fighter-6'],
-      ['179', 'player-fighter-7'],
-      ['185', 'player-fighter-7'],
-      ['187', 'player-fighter-7'],
-      ['188', 'player-fighter-7'],
+    for (const [itemId, actorId, sprite] of [
+      ['163', 'lin-yueru', 'player-fighter-6'],
+      ['164', 'lin-yueru', 'player-fighter-6'],
+      ['165', 'lin-yueru', 'player-fighter-6'],
+      ['179', 'anu', 'player-fighter-7'],
+      ['185', 'anu', 'player-fighter-7'],
+      ['187', 'anu', 'player-fighter-7'],
+      ['188', 'anu', 'player-fighter-7'],
     ] as const)
-      expect(byId.get(itemId)?.equip?.effects).toContainEqual({ kind: 'battleSprite', sprite })
+      expect(byId.get(itemId)?.equip?.effects).toContainEqual({
+        kind: 'battleSprite',
+        byActor: { [actorId]: sprite },
+      })
+  })
+  test('13 件多角色武器没有源覆写时保持无映射，不凭武器类别发明战斗形象', () => {
+    const multiRoleWeaponsWithoutOverride = out.items.filter(
+      (item) =>
+        item.equip?.slot === 'weapon' &&
+        item.equip.equipableBy.length > 1 &&
+        !item.equip.effects.some((effect) => effect.kind === 'battleSprite'),
+    )
+    expect(multiRoleWeaponsWithoutOverride).toHaveLength(13)
   })
   test('寿葫芦(269)0x29 回补伪毒 → clean regen 词条(+20 HP/+20 MP;不借毒系统)', () => {
     expect(byId.get('269')!.equip!.effects).toEqual([

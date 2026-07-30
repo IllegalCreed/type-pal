@@ -4,6 +4,7 @@
 
 import {
   describeEquipEffects,
+  type EquipDescribeCtx,
   equippedItemIds,
   type ItemData,
   type WorldState,
@@ -95,7 +96,7 @@ export function drawItemGridList(
   assets: MenuAssets,
   glyphs: GlyphTable,
   now: number,
-  skillNameOf?: (id: string) => string | undefined, // grantSkill 派生效果显技能名(缺省回退 id)
+  describeCtx?: EquipDescribeCtx,
   opts?: { noDesc?: boolean }, // 卖菜单(PAL_SellMenu)原版 g_fNoDesc:desc 区被金钱/售价框占用
 ): void {
   drawSlicedBox(ctx, assets.redBox, LIST_X, LIST_Y, LIST_W, LIST_H)
@@ -131,7 +132,7 @@ export function drawItemGridList(
     // 风味说明 + 装备效果派生行(数值单一真相源 = equip.effects;desc 只写风味,防脱节)
     if (!opts?.noDesc) {
       const lines = sel.equip
-        ? [...sel.desc, ...describeEquipEffects(sel.equip.effects, { skillName: skillNameOf })]
+        ? [...sel.desc, ...describeEquipEffects(sel.equip.effects, describeCtx)]
         : sel.desc
       drawDescLines(ctx, lines, glyphs, now)
     }
