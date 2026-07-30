@@ -1,0 +1,199 @@
+{
+  "kind": "r13-enemy-script-transition",
+  "version": 1,
+  "projectId": "pal",
+  "transitionId": "r13-enemy-script-v1",
+  "parent": {
+    "transitionId": "r13-confirm-v1",
+    "digest": "8909257867ff6873e17ea4534d183b325e908615bdc2c8630cfc7174efce313d"
+  },
+  "augmentation": {
+    "kind": "r13-enemy-script-augmentation-evidence",
+    "version": 1,
+    "projectId": "pal",
+    "generator": {
+      "id": "r13-enemy-script-augmentation",
+      "version": 1
+    },
+    "summary": {
+      "enemies": 153,
+      "resistanceTenEnemies": 30,
+      "localeAdded": 5,
+      "localeDeleted": 0,
+      "localeChanged": 0,
+      "encounterChoreographyRemoved": 8,
+      "changedScenes": 6,
+      "changedFiles": 8
+    },
+    "parentContentDigest": "f4b1a1e8be9a2a902e70e88f838b3fa03e433b97f6f802a86ccac3ee822158a2",
+    "successorContentDigest": "5750ac4fbaec8cc487be1bdbd88881005d239a7f6a118adba8286643208c2603",
+    "files": {
+      "parentEnemiesDigest": "28917ea42cb7bc8ca90dcb9268f7c3badbcc3ad1996db9f91d55a33a2ea3a119",
+      "successorEnemiesDigest": "c79b1228171abcd1ab85fa15df29a0be6583688b6b55fcb2dd32f75000b24630",
+      "skillsDigest": "0aabffe36ebe42266904ad3f114252ab051d5a8e244f838f6bd77f83564ef937",
+      "historicalRawLocaleDigest": "68c3bdd2c9de93befd8d7743ac456b2e64d6b5210358cc0f42545678fd7ef5b4",
+      "currentRawLocaleDigest": "635de2f13ed6d73cfef77faabd213d3fa49982293d3da2961ca1abdde3ea1c43",
+      "parentLocaleDigest": "27527a116033074fed52c937d484bc15a09cb2120b0929dd16eac83ba41ee22d",
+      "successorLocaleDigest": "8247bbb8cbcaf76428a3d94d1935474f505f8eab5094fc400275d67d60952ce1",
+      "changedPaths": [
+        "content/enemies.json",
+        "content/locale.json",
+        "content/scenes/s003.json",
+        "content/scenes/s021.json",
+        "content/scenes/s086.json",
+        "content/scenes/s093.json",
+        "content/scenes/s106.json",
+        "content/scenes/s138.json"
+      ]
+    },
+    "localeDelta": {
+      "dlg.13242": "别以为仗着人多就能赢得了我",
+      "dlg.13244": "好说．．石老长您虽神功盖世",
+      "dlg.13245": "终究要叹岁月不饶人吧",
+      "dlg.13247": "哼！　老夫就算敌不过你　",
+      "dlg.13248": "也要拼个同归于尽"
+    },
+    "encounterCleanup": [
+      {
+        "locator": "entity:s003:e59:trigger:legacy-002/state:initial/startBattle:team-19",
+        "sceneId": "s003",
+        "team": 19,
+        "oldChoreographyDigest": "7ed6335601bcdd5492f209f8d85d7dc2e84d81d18f7c4df511846413e0427e5b",
+        "oldCommandDigest": "4906b836a555afa1bcdb90bbab6b898cc40734f337bcce2b8377b056eb5b22af",
+        "successorCommandDigest": "7c1bc95488773fab74cc10a104b62e49113f94b4e1598409cd80aed632ba31ef"
+      },
+      {
+        "locator": "entity:s003:e60:trigger:legacy-002/state:initial/startBattle:team-19",
+        "sceneId": "s003",
+        "team": 19,
+        "oldChoreographyDigest": "7ed6335601bcdd5492f209f8d85d7dc2e84d81d18f7c4df511846413e0427e5b",
+        "oldCommandDigest": "4906b836a555afa1bcdb90bbab6b898cc40734f337bcce2b8377b056eb5b22af",
+        "successorCommandDigest": "7c1bc95488773fab74cc10a104b62e49113f94b4e1598409cd80aed632ba31ef"
+      },
+      {
+        "locator": "entity:s003:e61:trigger:legacy-002/state:initial/startBattle:team-19",
+        "sceneId": "s003",
+        "team": 19,
+        "oldChoreographyDigest": "7ed6335601bcdd5492f209f8d85d7dc2e84d81d18f7c4df511846413e0427e5b",
+        "oldCommandDigest": "4906b836a555afa1bcdb90bbab6b898cc40734f337bcce2b8377b056eb5b22af",
+        "successorCommandDigest": "7c1bc95488773fab74cc10a104b62e49113f94b4e1598409cd80aed632ba31ef"
+      },
+      {
+        "locator": "entity:s021:e403:trigger:legacy-002/state:initial/startBattle:team-22",
+        "sceneId": "s021",
+        "team": 22,
+        "oldChoreographyDigest": "6b38f3cd81d633e16fd24132e3c8311bad492e2652f9699ba3010dd697a6b264",
+        "oldCommandDigest": "4bc42c847b4d364fc113d0acff3fb2d94f1b55bf54c7458c864bdff87dfba2ae",
+        "successorCommandDigest": "673f4055b4b8dfccf06578a33b753c3b62b5affb8719fa2fef13280d7d3d8674"
+      },
+      {
+        "locator": "entity:s086:e1629:trigger:default/state:initial/startBattle:team-29",
+        "sceneId": "s086",
+        "team": 29,
+        "oldChoreographyDigest": "6e2a38e400b04ef001e1bf4088a864ca426d65027e19eeded4cea04d6fb9101c",
+        "oldCommandDigest": "5ad836f1ca723f73b2f9c59f9162e103fa4f4d51a850645fc0c8da95a3003347",
+        "successorCommandDigest": "87cced4608a0b0403381d2c20a7257a8590ff56d80a2365b15598c5bd8092109"
+      },
+      {
+        "locator": "entity:s093:e1759:trigger:default/state:initial/startBattle:team-29",
+        "sceneId": "s093",
+        "team": 29,
+        "oldChoreographyDigest": "6e2a38e400b04ef001e1bf4088a864ca426d65027e19eeded4cea04d6fb9101c",
+        "oldCommandDigest": "c576dacc37e19247d926bd4257866fa2ff46adbcab41332b714ac6f2c40a634b",
+        "successorCommandDigest": "9a46a079c78ae9bbaa327305a2833bba0e352102e6bddfd0d4549ef7f45c090f"
+      },
+      {
+        "locator": "hook:s106:onEnter:legacy-001/state:initial/startBattle:team-37",
+        "sceneId": "s106",
+        "team": 37,
+        "oldChoreographyDigest": "710154c55c72ffdf6a8d49bdbb000ecebf4933b53eb9cc68f1e100b974b46b3c",
+        "oldCommandDigest": "03052a7074cc3725406c7d042c625936042f7764149af52f755014f0042228a4",
+        "successorCommandDigest": "66d8625ecf8e9393a368a4ce13a90149bea79b7ef596097ab239ad973dc44b8d"
+      },
+      {
+        "locator": "entity:s138:e2341:trigger:default/state:initial/startBattle:team-42",
+        "sceneId": "s138",
+        "team": 42,
+        "oldChoreographyDigest": "3da2e14e1a74d9152f99aed9b76d0cc470fd096f8d62964eeac043ddd6ae33d0",
+        "oldCommandDigest": "7af891763c45d5b4b9fa67bc7857835002899ec3e090ca137f3ec2374526a9bf",
+        "successorCommandDigest": "50e9856f8a84f40bcbe8170d7844e833a133f1d1686f5628e3d42d5db442d08a"
+      }
+    ],
+    "audits": {
+      "enemySourceDispositionDigest": "91ce6c1643a927f9285b05ff55c1acb451014aabe626f124da6ff37e2a65e35b",
+      "enemySourceDispositionSummary": {
+        "legacyDebtSites": 31,
+        "mandatoryNonPendingSites": 1,
+        "reviewerSilentSites": 7,
+        "totalSites": 39,
+        "cursorTraceOwners": 1,
+        "cursorTraceStates": 25,
+        "cursorTraceEdges": 26,
+        "legacyPendingEnemies": 12,
+        "legacyPendingRoots": 16,
+        "legacyPendingExecutionSites": 356,
+        "byDisposition": {
+          "translated": 35,
+          "equivalent": 3,
+          "unreachable": 1
+        },
+        "scriptedEnemies": 54,
+        "hookOwners": 44,
+        "hookRoots": 52,
+        "battleEndRoots": 15,
+        "totalRoots": 67,
+        "rawEnemies": 153,
+        "overlayEnemies": 153,
+        "finalEnemies": 153
+      },
+      "runtimeCapabilityDigest": "3da46aa3a98839078153e2a3880e045d73ef2d3456da862a71332a235b76988f",
+      "runtimeCapabilitySummary": {
+        "domains": 7,
+        "cells": 431,
+        "uses": 62346,
+        "refusedUses": 0,
+        "openIssues": 0,
+        "enemySkillReferences": 238,
+        "enemyDistinctSkillIds": 52,
+        "enemyEffectUses": 272
+      }
+    },
+    "digest": "6df51877ed46003b5c9a6f95f2882e511e383f0b73753de05951545aa5fa7cee"
+  },
+  "audits": {
+    "sourceControl": {
+      "version": 3,
+      "methodVersion": "n3-p7-r13-source-instruction-disposition-v3",
+      "sourceDigest": "071fd1b359deb391a072c32f8bf72b86e9f0d9c2904893b35300998fd59c78c7",
+      "auditDigest": "dd42217c87ece120140dd302e735460cc48b2570fd993e2c35d614bbc0303004",
+      "reportDigest": "c2d7e7395dfa2f0eabc3c7a80cf24c8f26ccce06c33010ddbf59312429616324",
+      "finalDigest": "5750ac4fbaec8cc487be1bdbd88881005d239a7f6a118adba8286643208c2603",
+      "summary": {
+        "executionSites": 81674,
+        "openDebtSites": 27826,
+        "openObservations": 7259,
+        "finalOpenR13_5Sites": 0,
+        "finalOpenR13_5Observations": 0,
+        "finalOpenR13_6Sites": 215,
+        "finalOpenR13_6Observations": 197
+      }
+    },
+    "runtimeExecution": {
+      "version": 3,
+      "methodVersion": "n3-p7-r13-runtime-capability-v3",
+      "reportDigest": "3da46aa3a98839078153e2a3880e045d73ef2d3456da862a71332a235b76988f",
+      "corpusDigest": "1d4ca46f95f5623f2497f0d3203a76d5e4b663ae98d5c5ea682d5a0c2fc789f5",
+      "summary": {
+        "domains": 7,
+        "cells": 431,
+        "uses": 62346,
+        "refusedUses": 0,
+        "openIssues": 0,
+        "enemySkillReferences": 238,
+        "enemyDistinctSkillIds": 52,
+        "enemyEffectUses": 272
+      }
+    }
+  },
+  "digest": "54804a6c69e644e9c44fd98fd489d0f73eee6580c4ffc3c3753322074361fab6"
+}

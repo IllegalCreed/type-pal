@@ -394,67 +394,6 @@
                     },
                     {
                       "boss": true,
-                      "choreography": [
-                        {
-                          "at": "turnStart",
-                          "body": [
-                            {
-                              "cue": {
-                                "rows": [
-                                  {
-                                    "text": "dlg.13217"
-                                  }
-                                ],
-                                "speaker": "spk.女飞贼"
-                              },
-                              "kind": "dialog"
-                            }
-                          ],
-                          "once": true,
-                          "when": {
-                            "kind": "playerInParty",
-                            "role": "lin-yueru"
-                          }
-                        },
-                        {
-                          "at": "turnStart",
-                          "body": [
-                            {
-                              "asset": "sound.pal.193",
-                              "kind": "playSound"
-                            },
-                            {
-                              "cue": {
-                                "rows": [
-                                  {
-                                    "text": "dlg.13214"
-                                  }
-                                ]
-                              },
-                              "kind": "dialog"
-                            },
-                            {
-                              "cue": {
-                                "rows": [
-                                  {
-                                    "text": "dlg.13215"
-                                  }
-                                ]
-                              },
-                              "kind": "dialog"
-                            },
-                            {
-                              "kind": "fleeBattle"
-                            }
-                          ],
-                          "once": true,
-                          "when": {
-                            "kind": "turn",
-                            "op": ">=",
-                            "value": 2
-                          }
-                        }
-                      ],
                       "kind": "startBattle",
                       "music": "music.pal.048",
                       "onLose": [
