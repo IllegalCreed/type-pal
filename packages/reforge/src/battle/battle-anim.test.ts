@@ -13,6 +13,7 @@ import {
   buildPartyFlee,
   buildPlayerAttack,
   buildPlayerCast,
+  buildPlayerScriptCastEffect,
   buildPlayerTrance,
   buildSteal,
   buildThrowItem,
@@ -474,6 +475,35 @@ describe('M4d-2 战斗动画时间线', () => {
       Array.from({ length: 72 }, (_, i) => i + 1),
     )
     expect(fade.every((f) => f.durationMs === 16 && f.fighters![0]!.frame === 2)).toBe(true)
+  })
+
+  test('剧情施法白闪:PreMagic + frame6 + 全队 0/2/4/6/8 后复色', () => {
+    const frames = buildPlayerScriptCastEffect({
+      casterIdx: 1,
+      casterPos: { x: 240, y: 170 },
+      casterFrames: PLAYER_FRAMES,
+      castEffectBase: 70,
+      partyIdxs: [0, 1, 2],
+      magicSound: 'sound.pal.019',
+    })
+    expect(frames).toHaveLength(24)
+    expect(frames[3]?.fighters?.[0]?.pos).toEqual({ x: 230, y: 166 })
+    expect(frames[5]?.fighters?.[0]?.frame).toBe(PLAYER_FRAMES.preMagic)
+    expect(frames[5]?.sound).toBe('sound.pal.019')
+    expect(frames.slice(6, 16).map((frame) => frame.overlays?.[0]?.frameIdx)).toEqual(
+      Array.from({ length: 10 }, (_, index) => 70 + index),
+    )
+    expect(frames[17]?.fighters?.[0]?.frame).toBe(PLAYER_FRAMES.magic)
+    expect(
+      frames.slice(18, 23).map((frame) => frame.fighters?.map((fighter) => fighter.colorShift)),
+    ).toEqual([
+      [0, 0, 0],
+      [2, 2, 2],
+      [4, 4, 4],
+      [6, 6, 6],
+      [8, 8, 8],
+    ])
+    expect(frames[23]?.fighters?.map((fighter) => fighter.colorShift)).toEqual([0, 0, 0])
   })
 
   test('分裂滑开(script.c:2853 0x9C):10 帧整数二分逼近 + 终帧精确落位', () => {

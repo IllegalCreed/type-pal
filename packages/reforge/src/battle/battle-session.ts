@@ -9,16 +9,19 @@
 import type {
   ActivePoison,
   AssetId,
+  BattleChoreographyAction,
   BattleSpriteProfileKind,
   BattleStatus,
-  Command,
   EnemyDef,
+  EnemyHookChannel,
+  LevelGrowthDelta,
   PlayerFighterFrames,
   SkillData,
   SoundAssetRole,
   WorldState,
 } from '@type-pal/content'
 import {
+  canAct,
   checkThrowSpec,
   evalAiCond,
   isPlayerDying,
@@ -55,6 +58,7 @@ import {
   buildPlayerAttack,
   buildPlayerAttackAll,
   buildPlayerCast,
+  buildPlayerScriptCastEffect,
   buildPlayerCoop,
   buildPlayerTrance,
   buildSteal,
@@ -73,8 +77,14 @@ import {
   isPlayerHealthy,
   needsManualSelect,
   pendingItemUses,
+  reviveBattlePlayer,
   stepBattle,
 } from './battle-core.js'
+import {
+  beginEnemyHookActivation,
+  type EnemyHookActivation,
+  nextEnemyHookStep,
+} from './enemy-hook-runtime.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
@@ -274,8 +284,23 @@ export class BattleSession {
   /** 烙印次数(进 wavedBg 缓存 tag,防烙后撞净底旧缓存)。 */
   private burnCount = 0
   // ── M4c-2 演出(choreography):轮起手钩,dialog 逐条横幅播,空格推进 ──
-  private choreoQueue: Command[] = []
+  private choreoQueue: BattleChoreographyAction[] = []
   private choreoBanner: { name: string; text: string } | null = null
+  /** 当前尚未开始的 turnStart hook；terminal request 后不再激活。 */
+  private pendingHookActivations: { enemyIdx: number; channel: EnemyHookChannel }[] = []
+  private activeHook: EnemyHookActivation | null = null
+  /** actionQueue item 以对象身份去重，dualMove 的两个 entry 各跑一次 ready。 */
+  private readonly readyHookEntries = new WeakSet<object>()
+  private choreoWaitUntil: number | null = null
+  private scriptAnimation = false
+  /** terminal 立即登记、演出 closure 排净后才提交 state.phase。 */
+  private pendingTerminal: {
+    phase: 'won' | 'lost'
+    enemyFled: boolean
+  } | null = null
+  /** battle choreography 音乐请求序号；迟到 fade-stop 不得误停后播的新曲。 */
+  private musicSerial = 0
+  private scheduledMusicStop: { serial: number; deadline: number } | null = null
   /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
   private itemBanner: { text: string; untilMs: number; x?: number; y?: number } | null = null
   private choreoName = ''
@@ -330,6 +355,14 @@ export class BattleSession {
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
       reportReadinessError?: (error: Error, context: BattleReadinessErrorContext) => void
+      /** 战斗演出音乐桥；stopMusic(fadeMs) 由会话用 gameplay clock 延后提交。 */
+      playMusic?: (asset: AssetId) => void
+      stopMusic?: () => void
+      /**
+       * 开战时的大世界队伍身份快照。固定剧情成长在任何 mutation 前同时校验
+       * battle player 与 world party 的模板唯一性和实例 id 一致性。
+       */
+      worldPartyIdentities?: readonly { id: string; template: string }[]
     } = {},
   ) {
     this.state = createBattleState({
@@ -580,6 +613,11 @@ export class BattleSession {
     this.doneSettled = true
     this.closed = true
     this.preparationSerial++
+    this.musicSerial++
+    this.scheduledMusicStop = null
+    this.pendingTerminal = null
+    this.pendingHookActivations = []
+    this.activeHook = null
     const abortError = new Error('BattleSession 已取消')
     abortError.name = 'AbortError'
     this.rejectDone(reason ?? abortError)
@@ -649,16 +687,58 @@ export class BattleSession {
     }
   }
 
-  /** 收集当轮该播的演出钩(once/when 求值;文本 locale 化 + 说话人 = 敌名)。 */
+  private startTimeline(timeline: AnimFrame[], scripted = false): void {
+    this.scriptAnimation = scripted
+    this.anim = new AnimPlayer(timeline, {
+      onFighter: (delta) => this.applyDelta(delta),
+      onOverlay: (overlays) => {
+        this.overlays = overlays
+      },
+      onSound: (asset) => this.assets.sfx?.play(asset),
+      onDamage: (target, value, tone) => this.applyDamageFx(target, value, tone ?? 'blue'),
+      onBanner: (text, durationMs, x, y) => {
+        this.itemBanner = {
+          text,
+          untilMs: this.nowMs + durationMs,
+          ...(x !== undefined ? { x } : {}),
+          ...(y !== undefined ? { y } : {}),
+        }
+      },
+      onScreenShake: (durationMs) => {
+        const untilMs = this.nowMs + durationMs
+        this.screenShake = {
+          untilMs: Math.max(this.screenShake?.untilMs ?? 0, untilMs),
+          level: 3,
+        }
+      },
+      onWaveAdd: (wave) => {
+        this.frameWaveAdd = wave
+      },
+      onAppearanceTransition: (transition) => {
+        this.appearanceTransitions.set(`${transition.side}:${transition.idx}`, transition)
+      },
+      onBurnBg: (marks) => this.burnToBg(marks),
+      onSummonPhase: (phase) => {
+        if (phase === null) {
+          this.summonVis = null
+          return
+        }
+        if (this.summonVis?.phase !== phase) {
+          if (phase === 'out') this.resetPlayersVisual()
+          this.summonVis = { phase, start: this.nowMs }
+        }
+      },
+    })
+    this.anim.tick(0)
+  }
+
+  /** 收集当轮遭遇专属演出；敌实例 hook 由 queueTurnStartHooks 单独排队。 */
   private collectChoreo(): void {
     const s = this.state
-    // 隐身期(0x5C)敌 turnStart 演出也不跑(一阶段 fight.c:1680 ==0 才跑 turnStart 脚本)
+    // 隐身期(0x5C) turnStart 演出不跑(一阶段 fight.c:1680 ==0 才跑脚本)
     if (s.hidingTime > 0) return
     const rng = this.rng
-    // 遭遇绑定(二阶段 clean):对话来自 startBattle.choreography(这一场遭遇),不再 per-enemy
-    // 遍历敌 def.choreography —— 消掉原版敌种共享 + 0x79 队伍门 + 0x90 说一次那套 hack。
     const list = this.opts.encounterChoreo ?? []
-    // when 条件的 self(turn 类不依赖;hpBelow 类按 boss = 首个活敌)
     const primary = s.enemies.find((e) => e.hp > 0)
     this.choreoName = primary ? lookupText(primary.def.name, this.opts.locale ?? {}) : ''
     list.forEach((c, ci) => {
@@ -670,65 +750,308 @@ export class BattleSession {
     })
   }
 
-  /** 逐条消费演出命令(dialog 走真 DialogBox 等按键;音效记 log;fleeBattle 终止战斗)。 */
-  private pumpChoreo(pressed: ReadonlySet<string>): void {
+  private queueTurnStartHooks(): void {
+    if (this.state.hidingTime > 0 || this.pendingTerminal) return
+    this.state.enemies.forEach((enemy, enemyIdx) => {
+      if (enemy.hp > 0) this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
+    })
+  }
+
+  private flushScheduledMusicStop(): void {
+    const scheduled = this.scheduledMusicStop
+    if (!scheduled || this.nowMs < scheduled.deadline) return
+    this.scheduledMusicStop = null
+    if (scheduled.serial === this.musicSerial) this.opts.stopMusic?.()
+  }
+
+  private battleActor(actor: string): BattleState['players'][number] {
+    const matches = this.state.players.filter((player) => player.actorTemplateId === actor)
+    if (matches.length !== 1)
+      throw new Error(
+        `battle choreography actor "${actor}" 在战斗队伍中期望恰好 1 个实例，实际 ${matches.length}`,
+      )
+    return expectDefined(matches[0])
+  }
+
+  private applyFixedActorGrowth(actor: string, delta: LevelGrowthDelta): void {
+    const player = this.battleActor(actor)
+    const worldMatches = (this.opts.worldPartyIdentities ?? []).filter(
+      (character) => character.template === actor,
+    )
+    if (worldMatches.length !== 1)
+      throw new Error(
+        `battle choreography actor "${actor}" 在世界队伍中期望恰好 1 个实例，实际 ${worldMatches.length}`,
+      )
+    const worldCharacter = expectDefined(worldMatches[0])
+    if (worldCharacter.id !== player.roleId)
+      throw new Error(
+        `battle choreography actor "${actor}" 实例不一致：battle=${player.roleId}, world=${worldCharacter.id}`,
+      )
+    const progress = player.persistentProgress
+    if (!progress) throw new Error(`battle choreography actor "${actor}" 缺持久成长快照`)
+
+    progress.level += delta.level
+    progress.maxHP += delta.maxHP
+    progress.maxMP += delta.maxMP
+    progress.attack += delta.attack
+    progress.magicAttack += delta.magicAttack
+    progress.defense += delta.defense
+    progress.speed += delta.speed
+    progress.luck += delta.luck
+    player.maxHp += delta.maxHP
+    player.maxMp += delta.maxMP
+    player.attackStrength += delta.attack
+    player.magicStrength += delta.magicAttack
+    player.defense += delta.defense
+    player.baseDexterity += delta.speed
+    player.fleeRate += delta.luck
+    this.state.pendingWorldMutations.push({
+      kind: 'fixedCharacterGrowth',
+      characterId: player.roleId,
+      actorTemplateId: actor,
+      delta: { ...delta },
+    })
+  }
+
+  private requestTerminal(phase: 'won' | 'lost', enemyFled: boolean): void {
+    if (this.pendingTerminal)
+      throw new Error('battle choreography 同一执行路径重复登记 terminal request')
+    this.pendingTerminal = { phase, enemyFled }
+    if (enemyFled) this.state.enemyFled = true
+    // 尚未激活的 hook 不属于当前 closure；terminal 后禁止新 activation。
+    this.pendingHookActivations = []
+  }
+
+  private startEnemyFleePresentation(): void {
+    const playerHp = this.state.players.map((player) => player.hp)
+    const enemyHp = this.state.enemies.map((enemy) => enemy.hp)
+    const playerAppearances = this.state.players.map(
+      (player, index) =>
+        player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
+    )
+    const enemyAppearances = this.state.enemies.map((enemy) => enemy.def.battleSprite)
+    const action = {
+      side: 'enemy' as const,
+      idx: 0,
+      kind: 'fleeAll',
+    }
+    const timeline = this.buildStepTimeline(
+      action,
+      playerHp,
+      enemyHp,
+      playerAppearances,
+      enemyAppearances,
+    )
+    if (timeline) this.startTimeline(timeline, true)
+  }
+
+  private playActorCastEffect(actor: string): void {
+    const player = this.battleActor(actor)
+    const playerIdx = this.state.players.indexOf(player)
+    const casterPos = getPlayerBasePos(this.state.players.length, playerIdx)
+    if (!casterPos) throw new Error(`battle choreography actor "${actor}" 缺战斗站位`)
+    const appearance = this.playerAppearance(playerIdx)
+    const profile = appearance.definition.profile
+    if (profile.kind !== 'player-fighter')
+      throw new Error(`battle choreography actor "${actor}" 战斗形象 profile 非 player-fighter`)
+    this.startTimeline(
+      buildPlayerScriptCastEffect({
+        casterIdx: playerIdx,
+        casterPos,
+        casterFrames: profile.frames,
+        castEffectBase: this.assets.effectSprite ? profile.castEffectBase : -1,
+        partyIdxs: this.state.players.map((_, index) => index),
+        ...(this.opts.playerSounds?.[playerIdx]?.magic
+          ? { magicSound: expectDefined(this.opts.playerSounds[playerIdx]).magic }
+          : {}),
+      }),
+      true,
+    )
+  }
+
+  private executeBattleChoreographyAction(action: BattleChoreographyAction): void {
     const box = this.assets.dialogBox
-    // 对话框活跃期:空格推进(翻页/下一段/关闭),关掉才继续消费队列(一阶段战斗对话同)。
-    if (box?.active) {
-      if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
-      return
-    }
-    if (this.choreoBanner) {
-      if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
-      return
-    }
-    const c = this.choreoQueue.shift()
-    if (!c) return
-    switch (c.kind) {
+    switch (action.kind) {
       case 'dialog':
         if (box) {
-          // 战斗对话 = 大世界同款对话框叠战斗场景上(一阶段真值)。敌方台词默认顶框(林天南
-          //   setDialogStyleTop);已带 slot 的沿用。
           box.open(
             startDialogue({
               id: '__battle',
-              cues: [{ ...c.cue, slot: c.cue.slot ?? 'top' }],
+              cues: [{ ...action.cue, slot: action.cue.slot ?? 'top' }],
             }),
             this.nowMs,
           )
         } else {
           this.choreoBanner = {
             name: this.choreoName,
-            text: c.cue.rows.map((row) => lookupText(row.text, this.opts.locale ?? {})).join('\n'),
+            text: action.cue.rows
+              .map((row) => lookupText(row.text, this.opts.locale ?? {}))
+              .join('\n'),
           }
         }
         return
       case 'playSound':
-        this.assets.sfx?.play(c.asset)
-        this.state.log.push(`♪ 音效 ${c.asset}`)
+        this.assets.sfx?.play(action.asset)
+        this.state.log.push(`♪ 音效 ${action.asset}`)
         return
-      case 'fleeBattle': {
-        this.state.enemyFled = true
-        for (const x of this.state.enemies) x.hp = 0
-        this.state.log.push('敌人逃走了')
-        this.state.phase = 'won'
-        this.choreoQueue.length = 0
+      case 'playMusic':
+        this.musicSerial += 1
+        this.scheduledMusicStop = null
+        this.opts.playMusic?.(action.asset)
         return
-      }
-      case 'endBattle': {
-        // 0x89:脚本终止战斗(林天南撑 7 回合 → terminate;无奖励干净退)。
-        // terminate/won 都走 won 分支(main 按 enemyFled 决定是否给奖励);terminate 标 enemyFled 免奖励。
-        if (c.result === 'terminate') this.state.enemyFled = true
-        this.state.phase = c.result === 'lost' ? 'lost' : 'won'
-        this.state.log.push(`战斗结束(${c.result})`)
-        this.choreoQueue.length = 0
+      case 'stopMusic': {
+        const serial = ++this.musicSerial
+        const fadeMs = action.fadeMs ?? 0
+        if (fadeMs > 0)
+          this.scheduledMusicStop = {
+            serial,
+            deadline: this.nowMs + fadeMs,
+          }
+        else {
+          this.scheduledMusicStop = null
+          this.opts.stopMusic?.()
+        }
         return
       }
       case 'wait':
-        return // 演出节拍由横幅按键控制,wait 忽略
-      default:
-        this.state.log.push(`演出命令 ${c.kind} 未接(记日志)`)
+        this.choreoWaitUntil = this.nowMs + action.ms
+        return
+      case 'fleeBattle': {
+        this.requestTerminal('won', true)
+        this.state.log.push('敌人逃走了')
+        this.startEnemyFleePresentation()
+        return
+      }
+      case 'endBattle': {
+        this.requestTerminal(
+          action.result === 'lost' ? 'lost' : 'won',
+          action.result === 'terminate',
+        )
+        this.state.log.push(`战斗结束(${action.result})`)
+        return
+      }
+      case 'revivePartyAll':
+        for (const player of this.state.players)
+          reviveBattlePlayer(this.state, player, action.tenths * 10)
+        this.resetPlayersVisual()
+        return
+      case 'increaseHpMp': {
+        const pools = action.pools ?? 'both'
+        for (const player of this.state.players) {
+          if (pools === 'both' || pools === 'hp')
+            player.hp = Math.max(0, Math.min(player.maxHp, player.hp + action.delta))
+          if (pools === 'both' || pools === 'mp')
+            player.mp = Math.max(0, Math.min(player.maxMp, player.mp + action.delta))
+        }
+        this.resetPlayersVisual()
+        return
+      }
+      case 'applyActorGrowth':
+        this.applyFixedActorGrowth(action.actor, action.delta)
+        return
+      case 'playActorCastEffect':
+        this.playActorCastEffect(action.actor)
+        return
     }
+  }
+
+  private startHookEffectPresentation(
+    activation: EnemyHookActivation,
+    result: ReturnType<typeof nextEnemyHookStep> & { kind: 'effect' },
+    before: {
+      playerHp: number[]
+      enemyHp: number[]
+      playerAppearances: string[]
+      enemyAppearances: string[]
+    },
+  ): void {
+    if (result.result.outcome === 'failed') return
+    const action = {
+      side: 'enemy' as const,
+      idx: activation.enemyIdx,
+      kind: result.result.kind,
+      ...(result.result.spawnedIdxs ? { spawnedIdxs: result.result.spawnedIdxs } : {}),
+    }
+    const timeline = this.buildStepTimeline(
+      action,
+      before.playerHp,
+      before.enemyHp,
+      before.playerAppearances,
+      before.enemyAppearances,
+    )
+    if (timeline) this.startTimeline(timeline, true)
+    else this.resetVisual()
+  }
+
+  private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
+    const box = this.assets.dialogBox
+    if (box?.active) {
+      if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
+      return true
+    }
+    if (this.choreoBanner) {
+      if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
+      return true
+    }
+    if (this.choreoWaitUntil !== null) {
+      if (this.nowMs < this.choreoWaitUntil) return true
+      this.choreoWaitUntil = null
+    }
+    if (this.scriptAnimation) {
+      if (this.anim && !this.anim.tick(dtMs)) return true
+      this.anim = null
+      this.scriptAnimation = false
+      this.finishStepVisuals()
+      return true
+    }
+    if (this.activeHook) {
+      const activation = this.activeHook
+      const before = {
+        playerHp: this.state.players.map((player) => player.hp),
+        enemyHp: this.state.enemies.map((enemy) => enemy.hp),
+        playerAppearances: this.state.players.map(
+          (player, index) =>
+            player.tranceBattleSprite ?? expectDefined(this.assets.playerBaseDefinitionIds[index]),
+        ),
+        enemyAppearances: this.state.enemies.map((enemy) => enemy.def.battleSprite),
+      }
+      const step = nextEnemyHookStep(this.state, activation, this.rng)
+      if (step.kind === 'complete') {
+        this.activeHook = null
+        return true
+      }
+      if (step.kind === 'effect') {
+        this.startHookEffectPresentation(activation, step, before)
+        return true
+      }
+      this.executeBattleChoreographyAction(step.action)
+      return true
+    }
+    const action = this.choreoQueue.shift()
+    if (action) {
+      this.executeBattleChoreographyAction(action)
+      return true
+    }
+    if (!this.pendingTerminal) {
+      while (this.pendingHookActivations.length > 0) {
+        const pending = expectDefined(this.pendingHookActivations.shift())
+        const enemy = this.state.enemies[pending.enemyIdx]
+        if (!enemy || enemy.hp <= 0 || this.state.hidingTime > 0) continue
+        const activation = beginEnemyHookActivation(this.state, pending.enemyIdx, pending.channel)
+        if (!activation) continue
+        this.activeHook = activation
+        this.choreoName = lookupText(enemy.scriptOwnerDef.name, this.opts.locale ?? {})
+        return true
+      }
+    }
+    if (this.pendingTerminal) {
+      const terminal = this.pendingTerminal
+      this.pendingTerminal = null
+      this.state.phase = terminal.phase
+      if (terminal.enemyFled) this.state.enemyFled = true
+      return true
+    }
+    return false
   }
 
   /** keepEffect 末帧烙进背景(fight.c:2757 blit lpBackground;底中锚同 overlay 例程)。
@@ -763,7 +1086,7 @@ export class BattleSession {
 
   /** 战末敌槽 def 列表(按槽序,含 divide/summon 增员;Phase E 战后脚本逐槽跑,battle.c:1334)。 */
   enemySlotDefs(): EnemyDef[] {
-    return this.state.enemies.map((e) => e.def)
+    return this.state.enemies.map((e) => e.scriptOwnerDef)
   }
 
   /** 战果(B7a;敌死累计,main 战后入账)。 */
@@ -793,9 +1116,10 @@ export class BattleSession {
     return out
   }
 
-  tick(dtMs: number, pressed: ReadonlySet<string>): void {
+  tick(dtMs: number, pressed: ReadonlySet<string>, gameplayNowMs?: number): void {
     if (this.closed) return
-    this.nowMs += dtMs
+    this.nowMs = gameplayNowMs ?? this.nowMs + dtMs
+    this.flushScheduledMusicStop()
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
@@ -852,11 +1176,9 @@ export class BattleSession {
       if (this.choreoTurn < s.turn) {
         this.choreoTurn = s.turn
         this.collectChoreo()
+        this.queueTurnStartHooks()
       }
-      if (this.assets.dialogBox?.active || this.choreoBanner || this.choreoQueue.length) {
-        this.pumpChoreo(pressed)
-        return
-      }
+      if (this.pumpScriptExecution(dtMs, pressed)) return
       const sel = this.nextSelecting()
       if (sel === undefined) {
         this.beginTurnPreparation()
@@ -1144,6 +1466,7 @@ export class BattleSession {
 
     if (s.phase === 'performAction') {
       this.ui = 'acting'
+      if (this.pumpScriptExecution(dtMs, pressed)) return
       // M4d-2:动画回放中 → 只推进;播完收尾(复位/死亡淡出/死音)
       if (this.anim) {
         if (!this.anim.tick(dtMs)) return
@@ -1154,6 +1477,30 @@ export class BattleSession {
       this.actTimer += dtMs
       if (this.actTimer < ACT_MS) return
       this.actTimer = 0
+      const queueHead = s.actionQueue[0]
+      if (queueHead?.isEnemy && !this.readyHookEntries.has(queueHead)) {
+        this.readyHookEntries.add(queueHead)
+        const enemy = s.enemies[queueHead.idx]
+        const readyAllowed =
+          !this.pendingTerminal &&
+          !!enemy &&
+          enemy.hp > 0 &&
+          s.hidingTime <= 0 &&
+          canAct(enemy.status) &&
+          enemy.status.confused <= 0
+        if (readyAllowed) {
+          const activation = beginEnemyHookActivation(s, queueHead.idx, 'ready')
+          if (activation) {
+            this.activeHook = activation
+            this.choreoName = lookupText(
+              expectDefined(enemy).scriptOwnerDef.name,
+              this.opts.locale ?? {},
+            )
+            this.pumpScriptExecution(dtMs, pressed)
+            return
+          }
+        }
+      }
       // hp/mp 快照 → 走一步 → 物攻建时间线回放;其余动作即时反馈(cast/物品时间线后续刀)
       const pHp = s.players.map((p) => p.hp)
       const pMp = s.players.map((p) => p.mp)
@@ -1202,53 +1549,7 @@ export class BattleSession {
         enemyAppearanceBefore,
       )
       if (timeline) {
-        this.anim = new AnimPlayer(timeline, {
-          onFighter: (d) => this.applyDelta(d),
-          onOverlay: (o) => {
-            this.overlays = o
-          },
-          onSound: (id) => this.assets.sfx?.play(id),
-          onDamage: (t, v, tone) => this.applyDamageFx(t, v, tone ?? 'blue'),
-          // 战斗消息条(物品名缺省 @210,50;逃跑失败/获得类带 (130,75) 标签位;到期渲染层自清)
-          onBanner: (text, durMs, x, y) => {
-            this.itemBanner = {
-              text,
-              untilMs: this.nowMs + durMs,
-              ...(x !== undefined ? { x } : {}),
-              ...(y !== undefined ? { y } : {}),
-            }
-          },
-          // 震屏帧:累计活跃至帧尾(level 恒 3,fight.c:2718;合成级垂直位移)
-          onScreenShake: (durMs) => {
-            const until = this.nowMs + durMs
-            this.screenShake = {
-              untilMs: Math.max(this.screenShake?.untilMs ?? 0, until),
-              level: 3,
-            }
-          },
-          // 法术屏波叠加(fight.c:2666;收尾 finishStepVisuals 还原)
-          onWaveAdd: (w) => {
-            this.frameWaveAdd = w
-          },
-          onAppearanceTransition: (transition) => {
-            this.appearanceTransitions.set(`${transition.side}:${transition.idx}`, transition)
-          },
-          // keepEffect 烙背景(末帧一次;屏波门在 burnToBg 内)
-          onBurnBg: (marks) => this.burnToBg(marks),
-          // 召唤相驱动(in/hold/out;进 out 相先复位队员姿势 —— fight.c:901 UpdateFighters
-          // 先于淡出,一阶段 7e49327b 血泪:否则溶回目标是施法帧+高亮残留)
-          onSummonPhase: (phase) => {
-            if (phase === null) {
-              this.summonVis = null
-              return
-            }
-            if (this.summonVis?.phase !== phase) {
-              if (phase === 'out') this.resetPlayersVisual()
-              this.summonVis = { phase, start: this.nowMs }
-            }
-          },
-        })
-        this.anim.tick(0) // 进首帧
+        this.startTimeline(timeline)
         return
       }
       // fallback(非物攻动作):即时飘字 + 敌施法音
@@ -2016,6 +2317,21 @@ export class BattleSession {
    */
   writeBackPersistentEffects(world: WorldState): void {
     if (this.persistentEffectsWritten) return
+    for (const mutation of this.state.pendingWorldMutations) {
+      if (mutation.kind !== 'fixedCharacterGrowth') continue
+      const byId = world.party.filter((candidate) => candidate.id === mutation.characterId)
+      const byTemplate = world.party.filter(
+        (candidate) => candidate.template === mutation.actorTemplateId,
+      )
+      if (
+        byId.length !== 1 ||
+        byTemplate.length !== 1 ||
+        expectDefined(byId[0]) !== expectDefined(byTemplate[0])
+      )
+        throw new Error(
+          `fixedCharacterGrowth 写回定位失败：actor=${mutation.actorTemplateId}, character=${mutation.characterId}`,
+        )
+    }
     this.persistentEffectsWritten = true
     for (const mutation of this.state.pendingWorldMutations) {
       switch (mutation.kind) {
@@ -2024,6 +2340,20 @@ export class BattleSession {
           if (!character) break
           character.level = Math.min(99, character.level + mutation.delta.level)
           character.exp = mutation.expAfter
+          character.maxHP += mutation.delta.maxHP
+          character.maxMP += mutation.delta.maxMP
+          character.attack += mutation.delta.attack
+          character.magicAttack += mutation.delta.magicAttack
+          character.defense += mutation.delta.defense
+          character.speed += mutation.delta.speed
+          character.luck += mutation.delta.luck
+          break
+        }
+        case 'fixedCharacterGrowth': {
+          const character = expectDefined(
+            world.party.find((candidate) => candidate.id === mutation.characterId),
+          )
+          character.level += mutation.delta.level
           character.maxHP += mutation.delta.maxHP
           character.maxMP += mutation.delta.maxMP
           character.attack += mutation.delta.attack

@@ -1485,6 +1485,88 @@ export interface BuildPlayerTranceInput {
   magicSound?: AssetId
 }
 
+export interface BuildPlayerScriptCastEffectInput {
+  casterIdx: number
+  casterPos: { x: number; y: number }
+  casterFrames: PlayerFighterFrames
+  castEffectBase: number
+  partyIdxs: readonly number[]
+  magicSound?: AssetId
+}
+
+/**
+ * 剧情指令 0x92：普通 PreMagic 前摇 → 施法帧 → 全队 0/2/4/6/8 白闪 → 复色。
+ * 它只产出演出帧，不查 SkillData，也不结算伤害。
+ */
+export function buildPlayerScriptCastEffect(input: BuildPlayerScriptCastEffectInput): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  let x = input.casterPos.x
+  let y = input.casterPos.y
+  for (let i = 0; i < 4; i++) {
+    x -= 4 - i
+    y -= Math.trunc((4 - i) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: input.casterIdx, pos: { x, y } }],
+    })
+  }
+  frames.push({ durationMs: delayMs(2) })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [
+      {
+        side: 'player',
+        idx: input.casterIdx,
+        frame: input.casterFrames.preMagic,
+        pos: { x, y },
+      },
+    ],
+    ...(input.magicSound ? { sound: input.magicSound } : {}),
+  })
+  if (input.castEffectBase >= 0)
+    for (let frame = 0; frame < 10; frame++)
+      frames.push({
+        durationMs: delayMs(1),
+        overlays: [
+          {
+            sheet: 'effect',
+            frameIdx: input.castEffectBase + frame,
+            x,
+            y,
+          },
+        ],
+      })
+  frames.push({ durationMs: delayMs(1) })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [
+      {
+        side: 'player',
+        idx: input.casterIdx,
+        frame: input.casterFrames.magic,
+      },
+    ],
+  })
+  for (let shift = 0; shift <= 8; shift += 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: input.partyIdxs.map((idx) => ({
+        side: 'player' as const,
+        idx,
+        colorShift: shift,
+      })),
+    })
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: input.partyIdxs.map((idx) => ({
+      side: 'player' as const,
+      idx,
+      colorShift: 0,
+    })),
+  })
+  return frames
+}
+
 /** 梦蛇：旧图施法前摇 → 0/2/4/6/8/10 闪色 → 72×16ms 旧图到新图 dither。 */
 export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {
   const frames: AnimFrame[] = []

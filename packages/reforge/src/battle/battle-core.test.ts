@@ -471,7 +471,7 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
       cost: { mp: 0 },
       target: 'oneEnemy',
       effects: [],
-      animation: {},
+      animation: { effectSprite: 0 },
     }
     const state = createBattleState({
       players: [
@@ -565,9 +565,9 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
       enemies: [source],
     })
     divideState.enemies[0]!.firedRules.add(2)
-    expect(
-      applyEnemyEffect(divideState, 0, { kind: 'divide', copies: 1 }).outcome,
-    ).toBe('succeeded')
+    expect(applyEnemyEffect(divideState, 0, { kind: 'divide', copies: 1 }).outcome).toBe(
+      'succeeded',
+    )
     const copy = divideState.enemies[1]!
     expect(copy.scriptOwnerDef).toBe(source)
     expect(copy.hookCursors).toEqual({ ready: 'retry' })

@@ -2446,6 +2446,12 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
           },
           reportReadinessError: (error, context) =>
             reportBattleReadiness(team, `turn-${context.turn}`, error, context.fatal),
+          playMusic: (asset) => bgm.play(asset),
+          stopMusic: () => bgm.stop(),
+          worldPartyIdentities: world.party.map(({ id, template }) => ({
+            id,
+            template,
+          })),
           // B7b/B7c 胜利结算(会话 over 阶段调一次):HP 写回 + 入账 + 升级 + 隐藏经验 =
           //   单次授予点,返回结算屏序列(经验金钱→升级→隐藏提升→练成)。原版 Phase A/B/E/D/F。
           buildSettlement: () => {
@@ -4587,7 +4593,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     const pressed = keyboard.consumePressed()
     // M4b:战斗接管(大世界暂停;渲染/输入全走 BattleSession)
     if (activeBattle) {
-      activeBattle.tick(dt, pressed)
+      activeBattle.tick(gameplayDt, pressed, clockFrame.gameplayNow)
       activeBattle.render(ctx, WORLD_SCALE)
       applyAmbienceTint() // 夜里进战斗照染(原版夜战即夜盘)
       requestAnimationFrame(tick)

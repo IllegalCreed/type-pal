@@ -126,6 +126,16 @@ export type BattleWorldMutation =
       expAfter: 0
     }
   | {
+      /**
+       * 剧情固定成长（如 enemy 519）：与随机升级分流，经验保持原值。
+       * actorTemplateId 参与战后双重校验，禁止同模板多实例时误写。
+       */
+      kind: 'fixedCharacterGrowth'
+      characterId: string
+      actorTemplateId: string
+      delta: import('@type-pal/content').LevelGrowthDelta
+    }
+  | {
       kind: 'hostileAwareness'
       value: { rangeMultiplier: 0 | 3; remainingMs: number }
     }
@@ -651,10 +661,7 @@ function initialHookCursors(def: EnemyDef): Partial<Record<EnemyHookChannel, str
   )
 }
 
-function fallbackAttack(
-  view: AiBattleView,
-  rng: () => number,
-): EnemyDecision {
+function fallbackAttack(view: AiBattleView, rng: () => number): EnemyDecision {
   return {
     kind: 'attack',
     targetPlayerIdx: pickAiTarget('random', view.players, rng),
@@ -741,10 +748,7 @@ export function decideEnemyAction(
 /** 战场敌槽上限(原版 formation 最多 5)。 */
 const MAX_ENEMIES = 5
 
-export type EnemyEffectAction = Extract<
-  AiAction,
-  { kind: 'summon' | 'transform' | 'divide' }
->
+export type EnemyEffectAction = Extract<AiAction, { kind: 'summon' | 'transform' | 'divide' }>
 
 export interface EnemyEffectResult {
   outcome: 'succeeded' | 'failed'
@@ -2146,13 +2150,16 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'transform') {
-    const result = applyEnemyEffect(s, idx, {
-      kind: 'transform',
-      enemyId: decision.def.id,
-    }, decision.def)
-    s.log.push(
-      result.outcome === 'succeeded' ? `${e.def.id} 现出真身!` : `${e.def.id} 变身失败`,
+    const result = applyEnemyEffect(
+      s,
+      idx,
+      {
+        kind: 'transform',
+        enemyId: decision.def.id,
+      },
+      decision.def,
     )
+    s.log.push(result.outcome === 'succeeded' ? `${e.def.id} 现出真身!` : `${e.def.id} 变身失败`)
     return
   }
   if (decision.kind === 'divide') {
@@ -2169,11 +2176,16 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'summon') {
-    const result = applyEnemyEffect(s, idx, {
-      kind: 'summon',
-      enemyId: decision.def.id,
-      count: decision.count,
-    }, decision.def)
+    const result = applyEnemyEffect(
+      s,
+      idx,
+      {
+        kind: 'summon',
+        enemyId: decision.def.id,
+        count: decision.count,
+      },
+      decision.def,
+    )
     if (s.lastAction && result.spawnedIdxs) s.lastAction.spawnedIdxs = result.spawnedIdxs
     s.log.push(
       result.outcome === 'succeeded'
