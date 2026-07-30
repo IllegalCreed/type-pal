@@ -772,6 +772,16 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
     expect(plays).toContain('sound.pal.077')
   })
 
+  test('未来 choreography action 未接 runtime 时 fail-loud', () => {
+    const { session } = makeSession(mkEnemy('unknown-choreography'))
+    const internal = session as unknown as {
+      executeBattleChoreographyAction(action: unknown): void
+    }
+    expect(() => internal.executeBattleChoreographyAction({ kind: '__future_action__' })).toThrow(
+      'battle choreography: 未处理 action',
+    )
+  })
+
   test.each([
     {
       label: '负 magic',

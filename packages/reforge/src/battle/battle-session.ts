@@ -58,8 +58,8 @@ import {
   buildPlayerAttack,
   buildPlayerAttackAll,
   buildPlayerCast,
-  buildPlayerScriptCastEffect,
   buildPlayerCoop,
+  buildPlayerScriptCastEffect,
   buildPlayerTrance,
   buildSteal,
   buildThrowItem,
@@ -80,11 +80,6 @@ import {
   reviveBattlePlayer,
   stepBattle,
 } from './battle-core.js'
-import {
-  beginEnemyHookActivation,
-  type EnemyHookActivation,
-  nextEnemyHookStep,
-} from './enemy-hook-runtime.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import {
   type BattleMenuRow,
@@ -100,12 +95,21 @@ import {
   MAGIC_GRID,
 } from './battle-ui.js'
 import {
+  beginEnemyHookActivation,
+  type EnemyHookActivation,
+  nextEnemyHookStep,
+} from './enemy-hook-runtime.js'
+import {
   type BattleDepthOverlayDraw,
   type BattleScene,
   type BattleSpriteDraw,
   renderBattleScene,
 } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
+
+function assertNever(value: never, context: string): never {
+  throw new Error(`${context}: 未处理 action ${JSON.stringify(value)}`)
+}
 
 /** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
@@ -952,6 +956,8 @@ export class BattleSession {
       case 'playActorCastEffect':
         this.playActorCastEffect(action.actor)
         return
+      default:
+        assertNever(action, 'battle choreography')
     }
   }
 
