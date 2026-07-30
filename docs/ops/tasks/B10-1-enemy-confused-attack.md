@@ -12,7 +12,7 @@ Branch: main
 
 ## 目标
 
-修复 Reforge 中敌人处于“乱”状态后仍照常施法、变身、召唤、逃跑或攻击玩家的问题。敌人混乱时必须按一阶段机制真值从全敌槽拒绝死/空后抽取一个活敌，抽到自己则本回合跳过，抽到同伴则走专用伤害公式和专用演出。
+修复 Reforge 中敌人处于“乱”状态后仍照常施法、变身、召唤、逃跑或攻击玩家的问题。敌人混乱时必须按一阶段机制真值保留完整 RNG 顺序：先完成一次随后会被丢弃的玩家目标抽样，再从包含源编队空槽的全敌槽拒绝死/空后抽取一个活敌；抽到自己则本回合跳过，抽到同伴则走专用伤害公式和专用演出。
 
 ## 范围
 
@@ -20,10 +20,11 @@ Branch: main
   - battle-core 敌人混乱决策、结算和 `lastAction` 证据。
   - battle-session 专用表现路由。
   - battle-anim 专用滑步、命中特效、受击抖动和复位时间线。
+  - `EnemyTeamDef` / 上游迁移对原始编队空槽的语义保留；具体 schema 形状必须在设计三签前冻结。
   - core / session / animation 回归测试。
 - 范围外:
   - 玩家混乱行为；现有有意偏离不改。
-  - content schema、存档、迁移器、编辑器和世界实体生命周期。
+  - 存档、编辑器和世界实体生命周期。
   - backlog 18b / W9 的明雷逃跑冷却和怪物重现。
 - 明确不做:
   - 不把混乱攻击同伴塞进普通敌人物攻链。
@@ -49,6 +50,8 @@ Branch: main
   - `projects/pal/content/skills.json` 的鬼降会对敌人施加 `confused`，缺口真实可达。
   - 当前 ready hook 已禁止 confused 敌执行，`applyEnemyEffect` 也禁止其变身/召唤；普通 AI 决策仍漏掉混乱分支，必须在 rules/fallback 前截断。
   - 一阶段按全敌槽拒绝死/空采样，不能先构造活敌列表，否则分布虽同但 RNG 消耗不同。
+  - 原版与一阶段都会在 sleep / paralyzed / confused 分支前先抽一次玩家目标；混乱分支会丢弃这个结果，但 RNG 消耗不能省。
+  - 当前二阶段 `EnemyTeamDef.members`、迁移器和 runtime 都会压紧/过滤空槽；原始 380 队中有 68 队含 `0` 槽，其中 56 队仍有至少两个有效敌人。只对当前 `s.enemies` 采样无法忠实还原这些队伍的 RNG 流，不能把“活目标分布相同”冒充严格忠实。
   - 一阶段稳健处理物抗 0 为“不除”；当前 PAL 153 个敌人物抗实际最小 1、最大 99、零值 0 个，但编辑器/测试仍可构造 0。
 - 不得重新引入:
   - 抽到自己后重抽。
@@ -57,26 +60,31 @@ Branch: main
   - 借本任务改变玩家混乱或全局普通敌 AI 的 RNG 契约。
 - 相关测试:
   - 一阶段 `packages/game/src/core/battle/__tests__/enemy-ai.test.ts:158-210`。
-  - 一阶段 `packages/game/src/core/battle/__tests__/actions.test.ts:953-975`。
+  - 一阶段 `packages/game/src/core/battle/__tests__/actions.test.ts:953-1003`。
   - 一阶段 `packages/game/src/core/battle/__tests__/anim-timeline.test.ts:1357-1405`。
+  - `docs/phase2/foundation/phase1-knowledge-harvest.md:316-379`。
+  - `docs/phase2/battle-presentation-audit-2026-07-05.md`。
 
 ## 验收条件
 
 - 功能:
-  - sleep/paralyzed 优先 Pass；无活玩家保持当前战斗结束边界；confused 在任何 AI rule/fallback 前截断。
-  - 从完整敌槽 `[0..max]` 抽取，死/空拒绝重抽；包含自己，抽到自己直接 Pass。
+  - 无活玩家保持当前战斗结束边界；存在活玩家时先按全玩家槽拒绝死亡角色抽一次目标，再判 sleep/paralyzed/confused。sleep/paralyzed 仍 Pass，但精确消费这次 RNG。
+  - confused 在任何 AI rule/fallback 前截断；`silence + confused` 仍攻击同伴，`sleep/paralyzed + confused` 必须 Pass。
+  - 从保留原始语义空槽的完整敌槽 `[0..max]` 抽取，死/空拒绝重抽；包含自己，抽到自己直接 Pass。64 次异常保护耗尽后 Pass，消费次数有界。
   - 专用公式精确为：
     - `str = SHORT(attacker.attackStrength) + (attacker.level + 6) * 6`
     - `def = SHORT(target.defense) + (target.level + 6) * 4`
     - `damage = calcBaseDamage(str, def) * 2 / target.physicalResistance`
     - 物抗非 0 时整数截断；0 时不除；结果 `<= 0` 保底 1；HP 钳到 0。
-  - `lastAction` 保留目标敌槽和完整公式伤害；击杀仍进入既有奖励/胜利检查。
+  - `lastAction` 保留目标敌槽和完整公式伤害；dualMove 两次行动独立选目标、独立消费 RNG。击杀经验、金钱和胜利检查只结算一次。
   - 专用动画 12 帧：3 帧递归中点滑步、effect 9/10/11、4 帧目标抖动/首帧伤害数字、Delay5、攻击者复位 Delay2；无声音。
 - 测试:
-  - 决策覆盖选同伴、选自己、仅自己、死/空槽拒绝重抽、失能优先、AI rule 被绕过。
-  - 结算覆盖标准值、高防保底 1、物抗截断、物抗 0、超杀数字、无额外 RNG 和无普通防御链。
-  - 动画逐帧断言 midpoint、overlay、抖动、数字、时长与最终复位。
+  - 决策覆盖无活玩家、sleep、paralyzed、confused 的精确 RNG 消耗；选同伴、选自己、仅自己、原始空槽/死亡槽拒绝重抽、64 次保护、dualMove 独立抽样。
+  - 全表证明 cast / transform / summon / divide / flee / fallback 被 confused 绕过。
+  - 结算覆盖标准值、高防保底 1、物抗截断、物抗 0、SHORT 正负边界、超杀数字、无额外 RNG 和无普通防御链。
+  - 动画逐帧断言 midpoint、overlay、抖动、数字、时长与最终复位；每帧无声音且不进入普通攻击/法术 sprite，缺 effect sprite 时仍保持时序。
   - session 证明 enemy `attackMate` 进入专用 timeline，不落普通敌人物攻。
+  - 击杀结算只发生一次，终局前仍完整播放专用时间线；session 使用 `lastAction.damage` 完整 overkill 数值而非 HP 差。
 - 文档:
   - 更新 `design-backlog` 18a 与 capability-map B10 备注；任务卡记录验证证据。
 - 视觉 / 手工验证:
@@ -86,7 +94,7 @@ Branch: main
 
 ### 进入 build 前:设计签字
 
-- Codex: agree（2026-07-30；一阶段目标、公式、动画与测试锚点完整，改动可限定在 Reforge 战斗三层）
+- Codex: pending（2026-07-30 二次真值核对发现“废弃玩家抽样”与源空槽均不能省；需先冻结空槽 schema / migration 方案）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -106,12 +114,12 @@ Branch: main
 
 ### 设计结论
 
-1. `EnemyDecision` 增加内部 `attackMate` 形态，携 `targetEnemyIdx`；不改 content schema。
-2. `decideEnemyAction` 在既有 `canAct` / 无活玩家门之后、构建 AI view 之前处理 confused。按完整 `s.enemies` 槽拒绝 `hp <= 0`，64 次仅作异常 RNG fail-safe；抽到自身返回 Pass。
-3. `performEnemyAction` 为 `attackMate` 走独立 helper，使用局部 SHORT cast 与 `calcBaseDamage`；结算后把完整公式伤害写入内部 `lastAction.damage`。
-4. `battle-session` 在通用非 attack 过滤前识别敌方 `attackMate`，读取双方 `basePos`、目标 frame0 高度与已结算 damage，调用专用 builder。
-5. `battle-anim` 按一阶段 12 帧 UX 真值移植；不复用普通攻击音、攻击帧或防御表现。
-6. 不额外模拟原始 C 函数在 confused 分支前那次最终丢弃的玩家目标抽签，以免暗改 Reforge 新 AI 的全局 RNG 契约；混乱分支自身的全槽拒绝采样严格照一阶段实现。若审查方认为逐 seed 对拍必须包含该抽签，应 `counter` 并交用户裁决。
+1. 先冻结 `EnemyTeamDef` 的语义槽位表示和迁移方式，确保原始 `0` 槽不会在 content 或 session 初始化时被压紧。不得只在 PAL 特例代码里回查源表。
+2. `EnemyDecision` 增加内部 `attackMate` 形态，携 `targetEnemyIdx`；runtime battle slots 与语义编队槽一一对应。
+3. `decideEnemyAction` 在无活玩家门之后，先完成一次玩家目标拒绝抽样，再判 sleep/paralyzed/confused；confused 在构建普通 AI view 之前处理。按完整敌槽拒绝空/死槽，64 次仅作异常 RNG fail-safe；抽到自身返回 Pass。
+4. `performEnemyAction` 为 `attackMate` 走独立 helper，使用局部 SHORT cast 与 `calcBaseDamage`；结算后把完整公式伤害写入内部 `lastAction.damage`。
+5. `battle-session` 在通用非 attack 过滤前识别敌方 `attackMate`，读取双方 `basePos`、目标 frame0 高度与已结算 damage，调用专用 builder。
+6. `battle-anim` 按一阶段 12 帧 UX 真值移植；不复用普通攻击音、攻击帧或防御表现。
 
 ### 已知风险
 
@@ -121,6 +129,8 @@ Branch: main
 - 缓解: 结算时记录完整 `damage`，动画不事后从 HP diff 推导。
 - 风险: 伤害公式可能被误接到普通物理函数。
 - 缓解: 测试用 defending/protect/固定 RNG 证明普通链完全未参与。
+- 风险: 为空槽改 schema 会影响 380 支敌队的站位、召唤房间和随机流。
+- 缓解: 先做 380 队全量源槽 census，钉死 68 个含空槽队伍、56 个多活敌队伍及生成前后槽位守恒；schema/migration 三签后再实现。
 
 ### 主审立场
 
@@ -131,7 +141,7 @@ Branch: main
 
 ### 三方争议记录(按需)
 
-- Codex: 只照一阶段 confused 分支的全槽拒绝采样，不引入原始函数在分支前被丢弃的玩家目标 RNG 抽签。
+- Codex: 二次核对后撤回“省略废弃玩家抽签”的初稿；严格采用一阶段完整 RNG 顺序，并把源编队空槽保留纳入设计门禁。
 - Kimi: pending
 - GLM: pending
 - 用户拍板: 2026-07-30，一阶段游戏机制文档是真值，不得猜测。
@@ -159,7 +169,8 @@ Branch: main
 
 ## 交接日志
 
-- 2026-07-30 Codex: 对照一阶段机制文档、实现与 SDLPal 完成只读审计；确认缺口覆盖 decision、结算、lastAction、session 路由和专用动画，而非单一 if 分支。Next: Kimi / GLM 设计签字；R13-5 候选形成且本卡三签后实现。
+- 2026-07-30 Codex: 对照一阶段机制文档、实现与 SDLPal 完成只读审计；确认缺口覆盖 decision、结算、lastAction、session 路由和专用动画，而非单一 if 分支。
+- 2026-07-30 Codex 二次真值核对: 初稿漏了 confused 前废弃玩家目标抽样；同时发现二阶段已压掉 68/380 队的原始空槽。已撤回 Codex 设计签字并把 slot schema / migration 纳入门禁。Next: 先冻结精确槽位方案，再由三方设计签字。
 
 ## 下一位 Agent 提示词
 
@@ -169,8 +180,8 @@ Branch: main
 当前状态: draft（build 准入 blocked）
 你的角色: Kimi 审战斗分层/表现路由；GLM 审公式真值/测试覆盖
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:833-883，以及任务卡列出的一阶段实现和 fight.c 锚点
-已完成: Codex 已完成只读全链审计并冻结目标选择、专用公式、12 帧动画与测试矩阵
-请你做: 独立核对设计；在任务卡写 agree，或 counter + 必改理由
-不要做: 不得修改实现文件，不得改变玩家混乱、content schema、迁移器或 W9 生命周期，不得在三签前标 build
+已完成: Codex 已完成二次真值核对；明确必须保留 confused 前废弃玩家抽样，并发现当前 content/migration 压掉 68/380 队的源空槽
+请你做: 独立核对完整 RNG 顺序、EnemyTeam 语义槽 schema / migration、公式与表现；冻结方案后在任务卡写 agree，或 counter + 必改理由
+不要做: 不得修改实现文件，不得以“活目标分布相同”替代 RNG 忠实，不得改变玩家混乱或 W9 生命周期，不得在三签前标 build
 输出要求: 更新设计签字、主审立场、争议处理和下一位提示词
 ```

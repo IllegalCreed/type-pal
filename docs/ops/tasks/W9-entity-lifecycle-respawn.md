@@ -12,12 +12,12 @@ Branch: main
 
 ## 目标
 
-用干净、可保存的实体生命周期模型替代第二阶段当前的 `respawnSeconds + host.wait` 临时实现，完整承接迁移内容中的两类原始语义：实体可见但暂停交互的短冷却，以及实体隐藏、当前场景计时并在离开固定视野后重现。明雷战斗胜利和逃跑必须分别走正确生命周期，切换场景、保存读档或盯着出生点都不能绕过规则。
+用干净、可保存的实体生命周期模型替代第二阶段当前的 `respawnSeconds + host.wait` 临时实现，完整承接迁移内容中的两类原始语义：实体可见但暂停自动触碰、敌对遭遇和 autoScript 的短冷却，以及实体隐藏、所属场景的世界逻辑 tick 计时并在当前坐标离开固定视野后重现。明雷战斗成功分支和玩家逃跑必须分别走正确生命周期，切换场景、保存读档或盯着实体都不能绕过规则。
 
 ## 范围
 
 - 范围内:
-  - content schema 中语义明确、彼此分离的“暂停交互”和“隐藏待重现”能力。
+  - content schema 中语义明确、彼此分离的“暂停自动行为”和“隐藏待重现”能力。
   - 以稳定 `EntityAddress` 为身份的 WorldState 生命周期状态及其校验。
   - Reforge 当前场景生命周期 reducer、渲染/碰撞/trigger/auto/hostile gate、重现时动作帧复位。
   - SAVE / content epoch 升级与旧版本确定性迁移或明确拒绝策略。
@@ -44,6 +44,7 @@ Branch: main
 - 代码锚点(`file:line`):
   - `docs/phase1/game-mechanics.md:1000-1111`：完整生命周期、10fps、`0x4B`、`0x52`、固定 `320×320` 离屏门和一阶段实现状态。
   - `packages/game/src/core/scene-system.ts:190-225`：一阶段倒计时、离屏重现和触发 gate 真值实现。
+  - `packages/game/src/core/scene-system-search.ts:69-98`：`sVanishTime < 0` 期间手动确认搜索仍可命中 triggerMode 1–3。
   - `packages/game/src/core/event-system.ts:1186-1189`：一阶段 autoScript gate。
   - `packages/game/src/core/event-system.ts:3930-3947`：一阶段 `0x4B` / `0x52` 真值实现。
   - `packages/content/src/index.ts:67-104`：当前 `EntityDef.hostile.respawnSeconds`。
@@ -58,6 +59,10 @@ Branch: main
   - `docs/phase2/foundation/phase1-knowledge-harvest.md`：机制重写先读一阶段知识。
   - `docs/ops/audits/kimi-p7-r13-source-semantics-audit.md`：迁移源语义不能在折叠时丢失。
   - 当前 PAL 生成数据初步清点：73 个场景有 828 个 `respawnSeconds`（826 个 80 秒、1 个 10 秒、1 个 15 秒）；28 个场景仍有 193 个 `vanishEntity`（100 个来自错误翻成 2 秒隐藏的 `0x4B`，93 个来自 `0x52`）。进入 build 前由 GLM 复核并冻结正式账本。
+  - `0x4B` 期间并非全面禁止手动交互：世界更新跳过自动触碰触发与 autoScript，但手动确认搜索不检查 `sVanishTime`；triggerMode 1–3 仍可手动触发。
+  - `0x52` 是 `sState *= -1` 的 toggle，不是无条件“设为 despawned”。进入 build 前必须用源站点账证明调用前状态，或冻结异常前态策略。
+  - 原版倒计时依赖世界逻辑更新；战斗、菜单或阻塞脚本暂停 world update 时不能用墙钟/后台 timer 偷跑。
+  - startBattle 只有“玩家逃跑”走 operand2；敌人逃跑或 terminate 走成功 fallthrough，但没有普通胜利奖励。不能把所有 flee 都归到 onFlee / `0x4B`。
 - 不得重新引入:
   - 原版下标式实体身份、全局事件对象数组或正负数字哨兵进入 public schema。
   - 场景切换后丢状态、重新 clone 场景即复活、读档立即复活。
@@ -72,25 +77,27 @@ Branch: main
 ## 验收条件
 
 - 功能:
-  - “暂停交互”精确持续 15 个 100ms 逻辑 tick：实体仍可见并保持原碰撞，但 trigger、auto 和 hostile 遭遇均暂停；结束后原地恢复。
+  - “短暂暂停”精确持续 15 个 100ms 世界逻辑 tick：实体仍可见并保持原碰撞；自动触碰触发、autoScript 和 hostile 遭遇暂停，但 triggerMode 1–3 的手动确认仍可触发；结束后原地恢复。
   - “隐藏待重现”期间不渲染、不碰撞、不触发、不跑 auto/hostile；倒计时只在所属场景为当前场景时推进。
-  - 倒计时到零但实体仍在相对相机固定 `320×320` 边界内时继续隐藏；离开该边界后才重现并复位默认动作帧。
+  - 世界逻辑暂停（战斗、菜单、阻塞脚本）时生命周期不推进；离场冻结，回场精确续算，禁止墙钟或后台 timer。
+  - 倒计时到零但实体当前投影坐标仍在相对相机固定 `320×320` 边界内（端点包含）时继续隐藏；到 `-1/321` 外才重现。只复位动作帧 0，不重置当前位置、朝向或碰撞类别。
   - 生命周期状态跨场景、保存与读档保持；不得靠重新装载场景绕过。
-  - 明雷胜利进入隐藏/重现策略；明雷逃跑进入可见的 1.5 秒交互冷却，不能立即重新开战。
+  - 明雷普通胜利、敌人逃跑和 terminate 都进入成功脚本接续；敌人逃跑/terminate 保留无奖励语义。只有玩家逃跑进入可见的 1.5 秒自动触碰/敌对冷却。
+  - `0x52` 保留 toggle 语义：正态进入隐藏待重现；负态调用会转回正态并按正倒计时暂藏；`state = 0` 仍为 0。迁移账必须证明常见站点前态，异常前态不得静默改写。
   - 永久移除有显式、可保存的语义，不再依赖缺字段推测。
 - 测试:
-  - 生命周期 reducer 单测覆盖暂停、隐藏、当前场景计时、离屏门、边界值、帧复位和非法状态。
-  - runtime 集成覆盖胜利、逃跑、原地等待、场景往返与触发/碰撞/渲染 gate。
-  - save round-trip 覆盖暂停中、倒计时中、等待离屏、永久移除四类状态及剩余时间。
-  - 迁移测试逐类钉死 `0x4B` / `0x52` operand、标准明雷 onWin/onFlee；正式账本所有站点有 disposition。
+  - 生命周期 reducer 单测覆盖暂停、隐藏、世界逻辑暂停、当前场景计时、离屏门、精确投影边界、帧复位和非法状态。
+  - runtime 集成覆盖普通胜利、玩家逃跑、敌人逃跑、terminate、手动确认、自动触碰、原地等待、场景往返与碰撞/渲染 gate。
+  - save round-trip 覆盖暂停中、倒计时中、等待离屏、永久移除四类状态及剩余 tick、`awaitingExit`、离场冻结后续算。
+  - 迁移测试逐类钉死 `0x4B` / `0x52` operand（0→800、1→1、N→N 及 SHORT 边界）、toggle 前态、标准明雷 success/player-flee；正式账本所有站点有 disposition。
   - 全量重迁只写白名单，第二次迁移 `writes/conflicts/deletes = 0/0/0`。
   - 编辑器命令、撤销/重做、保存重开与删除/引用保护闭环。
 - 文档:
   - 更新 content/save schema、迁移说明、capability-map B8/B9/X1 和 `design-backlog` 18b。
   - 任务卡记录冻结账本、版本决策、命令与完整验证证据。
 - 视觉 / 手工验证:
-  - 至少选一个标准明雷和一个特殊 `0x52` 实体，实际验证逃跑、胜利、80 秒计时、盯出生点、离屏重现、场景往返和保存读档。
-  - 编辑器以中文区分“逃跑后短暂不可触发”和“胜利后隐藏并重现”，不向作者暴露 `sVanishTime`。
+  - 至少选一个标准明雷和一个特殊 `0x52` 实体，实际验证玩家逃跑、成功分支、80 秒世界 tick、盯实体当前位置、离屏重现、场景往返和保存读档。
+  - 编辑器以中文区分“玩家逃跑后短暂不自动触发”和“成功后隐藏并重现”，不向作者暴露 `sVanishTime`。
 
 ## 推进签字
 
@@ -98,7 +105,7 @@ Branch: main
 
 ### 进入 build 前:设计签字
 
-- Codex: agree（2026-07-30；设计可行，必须先冻结 schema/save 版本、迁移账本和测试矩阵）
+- Codex: pending（2026-07-30 二次真值核对发现手动交互、0x52 toggle、世界时钟和敌逃/terminate 分支需先纳入设计）
 - Kimi: pending
 - GLM: pending
 - counter / 分歧处理: N/A
@@ -122,16 +129,18 @@ Branch: main
 
 1. `WorldScriptState` 增加以稳定 `EntityAddress` 为键的持久生命周期表。公共模型用语义状态表达，不复制原版 `sState × -1` 或 `sVanishTime` 数字协议。
 2. 生命周期至少区分：
-   - `suspended`：可见、保持原碰撞，暂停 trigger/auto/hostile，记录剩余逻辑 tick。
+   - `suspended`：可见、保持原碰撞，暂停自动触碰/auto/hostile，但允许 triggerMode 1–3 手动确认，记录剩余世界逻辑 tick。
    - `despawned`：隐藏且退出碰撞/trigger/auto/hostile，记录剩余逻辑 tick。
    - `awaitingExit`：计时结束，仍隐藏，等待离开固定 `320×320` 边界。
    - `removed`：显式永久移除。
-3. 所有推进由当前场景的统一生命周期 reducer 完成；离场冻结，回场从持久剩余 tick 继续。不得起 detached timer。
-4. content 的作者命令将 `0x4B` 和 `0x52` 拆成两个中文可解释的语义能力；具体类型名由设计审查冻结。hostile policy 显式分开 onWin 隐藏/重现策略与 onFlee 交互冷却。
+3. 所有推进由所属场景的统一世界逻辑 reducer 完成；战斗/菜单/阻塞脚本与离场均冻结，回场从持久剩余 tick 继续。不得起 detached timer。
+4. content 的作者命令将 `0x4B` 和 `0x52` 拆成两个中文可解释的语义能力；具体类型名由设计审查冻结。hostile policy 显式分开 success 隐藏/重现策略与 player-flee 自动触碰冷却。
 5. Reforge 的渲染、碰撞、trigger、auto、hostile 都查询同一派生生命周期状态；不能各自维护布尔副本。
 6. 生命周期进入存档。设计审查必须明确 WorldState shape、SAVE envelope 与 contentVersion 的升级矩阵，旧 payload 要么确定性升级，要么在任何 sidecar I/O 前明确拒绝。
 7. 迁移器先建立 `0x4B`、`0x52`、hostile 折叠的源账本，再改上游并全量重生成；生成产物不手修。
-8. 18a 只在战斗内部产生正确 action / animation；W9 从 `BattleResult` 的 win/flee 边界开始，互不侵入。
+8. 18a 只在战斗内部产生正确 action / animation；W9 从 `BattleResult` 的普通胜利 / 玩家逃跑 / 敌人逃跑 / terminate 边界开始，互不侵入。
+9. `0x52` 公共能力必须表达 toggle 前态，而不是永远 set despawned；源站点 census、迁移策略和非法/异常前态在三签前冻结。
+10. BattleResult 接续显式区分普通胜利、玩家逃跑、敌人逃跑和 terminate；后两者走 success 脚本但不伪造奖励。
 
 ### 已知风险
 
@@ -140,11 +149,13 @@ Branch: main
 - 风险: 旧 `vanishEntity` 同时承载两种源语义，不能仅靠 seconds 可靠反推所有作者意图。
 - 缓解: 以原始 opcode provenance / R13 source disposition 建正式站点账本；歧义站点逐项列出，不猜测。
 - 风险: hostile 折叠可能丢掉战斗逃跑分支和战后脚本接续。
-- 缓解: onWin/onFlee 独立建模，并用生成前后源闭包与代表场景手工验收证明。
+- 缓解: 普通胜利、玩家逃跑、敌人逃跑和 terminate 独立建模，并用生成前后源闭包与代表场景手工验收证明。
 - 风险: 固定 `320×320` 与当前实际画布尺寸不同，容易被“修正”为自适应视口。
 - 缓解: 任务卡明确这是用户指定采用的一阶段机制真值，写边界回归测试和代码注释。
 - 风险: 828 + 193 处初步统计可能有重叠、已折叠或特殊编排。
 - 缓解: GLM 在设计签字前冻结 mutually-exclusive disposition 和总数守恒。
+- 风险: 初稿曾把 `0x4B` 简写为“不可触发”，容易误伤仍可用的手动确认。
+- 缓解: 以 SDLPal `play.c` 手动搜索和一阶段 `scene-system-search.ts` 为精确锚点，并同步更正文档措辞。
 
 ### 主审立场
 
@@ -155,7 +166,7 @@ Branch: main
 
 ### 三方争议记录(按需)
 
-- Codex: 采用语义生命周期表、统一 reducer、固定 `320×320` 行为真值；不复制原版数据结构。
+- Codex: 采用语义生命周期表、统一世界 reducer、固定 `320×320` 行为真值；二次核对后补入手动确认、0x52 toggle、world-update pause 与敌逃/terminate 成功分支，不复制原版数据结构。
 - Kimi: pending
 - GLM: pending
 - 用户拍板: 2026-07-30，游戏机制以一阶段 `game-mechanics.md` 已核实真值为参考，不得猜测。
@@ -201,7 +212,8 @@ Branch: main
 
 ## 交接日志
 
-- 2026-07-30 Codex: 根据用户要求，对照一阶段机制真值和第二阶段实现完成只读审计并开 W9 高风险任务卡；确认 18b 是 world/save/migration/editor 的系统性缺口，不是 battle-core 小补丁。Evidence: `docs/phase1/game-mechanics.md:1000-1111`、本卡上下文与验收矩阵。Next: Kimi / GLM 分别完成设计签字；未三签不得实现。
+- 2026-07-30 Codex: 根据用户要求，对照一阶段机制真值和第二阶段实现完成只读审计并开 W9 高风险任务卡；确认 18b 是 world/save/migration/editor 的系统性缺口，不是 battle-core 小补丁。
+- 2026-07-30 Codex 二次真值核对: 发现初稿把 `0x4B` 手动确认也禁掉、把 `0x52` 当单向 set、漏了 world-update pause 和敌逃/terminate success 分支；已撤回 Codex 设计签字并补齐验收。Next: 先冻结这些差异及 schema/save/迁移账本，再三方签字。
 
 ## 下一位 Agent 提示词
 
@@ -211,8 +223,8 @@ Branch: main
 当前状态: draft（build 准入 blocked）
 你的角色: Kimi 做架构/schema/save 设计审查；GLM 做迁移账本/测试矩阵覆盖审查
 先读: AGENTS.md、docs/phase2/READ-FIRST.md、本任务卡、docs/phase1/game-mechanics.md:1000-1111、docs/phase2/foundation/phase1-knowledge-harvest.md，以及任务卡列出的代码锚点
-已完成: Codex 已确认第二阶段把 0x4B/0x52 合并、使用 respawnSeconds + detached wait，导致可见冷却、离场冻结、离屏门、保存持久和明雷逃跑语义丢失；已提出语义生命周期表、统一 reducer、固定 320×320 真值和上游重迁基线
-请你做: Kimi 压测状态机、跨包边界、SAVE/content 升级；GLM 复核 828 hostile + 193 residual 的互斥源账、测试矩阵和生成白名单。把结论写回设计签字：agree，或 counter + 必改理由
+已完成: Codex 已确认第二阶段把 0x4B/0x52 合并、使用 respawnSeconds + detached wait；二次核对补入手动确认、0x52 toggle、world-update pause、精确投影边界及敌逃/terminate success 语义
+请你做: Kimi 压测状态机、跨包边界、SAVE/content 升级与 battle result 分类；GLM 复核 828 hostile + 193 residual 的互斥源账、0x52 前态/operand、测试矩阵和生成白名单。把结论写回设计签字：agree，或 counter + 必改理由
 不要做: 不得修改实现文件，不得直接改 projects/pal，不得把实际视口替代一阶段已记录的固定 320×320 行为，不得把任务标 build/done
 输出要求: 更新任务卡设计签字、主审立场、必要争议和下一位提示词
 ```
