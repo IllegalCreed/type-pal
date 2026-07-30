@@ -18,6 +18,11 @@ import type { ItemDataV5, ItemUseEffectV5 } from './item-v5.js'
 import { ITEM_USE_EFFECT_KINDS_V5, itemUseSupportsContextV5 } from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
 import type { SceneDefV5 } from './scene-v5.js'
+import {
+  checkBattleChoreographyV10,
+  checkEnemyAiV10,
+  checkEnemyOnDefeatedCommandsV10,
+} from './enemy-script-v10.js'
 import { checkCommands, checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
 import {
@@ -1001,6 +1006,7 @@ export function validateEnemies(json: unknown): EnemyDef[] {
       throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
     if (typeof record.yPosOffset !== 'number' || !Number.isFinite(record.yPosOffset))
       throw new Error(`${ctx}.yPosOffset: 期望有限数`)
+    checkEnemyAiV10(record.ai, `${ctx}.ai`)
     const sounds = validateSoundFields(
       record.sounds,
       ['attack', 'action', 'magic', 'death', 'call'],
@@ -1012,20 +1018,10 @@ export function validateEnemies(json: unknown): EnemyDef[] {
     )
       throw new Error(`${ctx}.sounds.suppressMagicEffectSound: 期望 boolean`)
     if (record.choreography !== undefined) {
-      const choreography = assertArray<Record<string, unknown>>(
-        record.choreography,
-        `${ctx}.choreography`,
-      )
-      choreography.forEach((hook, hookIndex) => {
-        const body = assertObject(hook, `${ctx}.choreography[${hookIndex}]`) as Record<
-          string,
-          unknown
-        >
-        requireKeys(body, ['at', 'body'], `${ctx}.choreography[${hookIndex}]`)
-        checkCommands(body.body, `${ctx}.choreography[${hookIndex}].body`)
-      })
+      checkBattleChoreographyV10(record.choreography, `${ctx}.choreography`)
     }
-    if (record.onDefeated !== undefined) checkCommands(record.onDefeated, `${ctx}.onDefeated`)
+    if (record.onDefeated !== undefined)
+      checkEnemyOnDefeatedCommandsV10(record.onDefeated, `${ctx}.onDefeated`)
   })
   return arr
 }

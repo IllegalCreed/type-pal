@@ -1,4 +1,4 @@
-import type { CurrentManifest, LegacyManifestV8 } from './character.js'
+import type { LegacyManifestV8, LegacyManifestV9 } from './character.js'
 import type { EquipEffect, EquipSpec } from './item.js'
 import type { ItemDataV5 } from './item-v5.js'
 
@@ -147,7 +147,7 @@ export function upgradeItemsV8ToV9(value: unknown): ItemDataV5[] {
 }
 
 /** contentVersion 8 -> 9；R13-4 同时主动断开 SAVE8/min8。 */
-export function upgradeManifestV8ToV9(value: unknown): CurrentManifest {
+export function upgradeManifestV8ToV9(value: unknown): LegacyManifestV9 {
   const manifest = record(value, 'manifest')
   if (manifest.contentVersion !== 8) throw new Error('manifest: 期望 contentVersion 8')
   if (manifest.minimumSaveVersion !== 7)

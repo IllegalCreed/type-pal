@@ -512,6 +512,11 @@ function checkCondition(value: unknown, path: string): void {
   }
 }
 
+/** 受限 runtime context 可复用的 canonical v5 条件严格 guard。 */
+export function checkAuthorConditionV5(value: unknown, path: string): asserts value is AuthorConditionV5 {
+  checkCondition(value, path)
+}
+
 const LEGACY_CONTROL_KINDS = new Set([
   'jumpScript',
   'setEntityAuto',

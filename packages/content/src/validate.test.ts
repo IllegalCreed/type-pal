@@ -324,7 +324,7 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
         battleSprite: 'enemy-battle-1',
         yPosOffset: 0,
         stats: {},
-        ai: {},
+        ai: { resistanceToSorcery: 0 },
         sounds: { magic: -47 },
       },
     ]),

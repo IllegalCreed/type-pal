@@ -10,6 +10,13 @@
 import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
 import type { AiCond, AiRule } from './enemy-ai.js'
+import type {
+  BattleChoreographyAction,
+  EnemyFallback,
+  EnemyHookChannel,
+  EnemyHookFlow,
+  EnemyOnDefeatedCommandV10,
+} from './enemy-script-v10.js'
 import type { TextId } from './index.js'
 import type { Command } from './script.js'
 
@@ -46,9 +53,13 @@ export interface EnemyAI {
   resistanceToSorcery: number
   /**
    * 战斗策略规则(act:首条命中即本回合行动;无命中/缺省 = 普攻)。
-   * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
-   */
+  * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
+  */
   rules?: AiRule[]
+  /** 源敌表的实例级默认行动；hook 可在战斗内覆盖或清空。 */
+  fallback?: EnemyFallback
+  /** 敌实例持久游标程序；cursor 只存在当前 BattleState。 */
+  hooks?: Partial<Record<EnemyHookChannel, EnemyHookFlow>>
 }
 
 /** 战斗演出钩子(剧情借战斗舞台,**不是 AI**;M4c-2 执行)。 */
@@ -57,8 +68,8 @@ export interface BattleChoreography {
   /** 整场一次(boss 嘲讽只说一遍;原版 advance 返回值语义)。 */
   once?: boolean
   when?: AiCond
-  /** 事件 Command 词汇(dialog/wait/…;战斗对话条播放,少量战斗专用命令后续增)。 */
-  body: Command[]
+  /** battle context 的穷尽动作集；不得偷渡通用世界命令。 */
+  body: BattleChoreographyAction[]
 }
 
 /** 敌人音效；字段缺席表示无声。 */
@@ -90,7 +101,20 @@ export interface EnemyDef {
   attackEquivItem?: { itemId: string; rate: number }
   /** 剧情演出钩子(M4c-2 执行;蛇女嘲讽逃跑等)。 */
   choreography?: BattleChoreography[]
-  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑;事件 Command 词汇)。 */
+  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑;canonical v5 上下文子集)。 */
+  onDefeated?: EnemyOnDefeatedCommandV10[]
+}
+
+/** contentVersion 9 的显式历史 choreography；只允许升级器/历史 guard 消费。 */
+export interface LegacyBattleChoreographyV9
+  extends Omit<BattleChoreography, 'body'> {
+  body: Command[]
+}
+
+/** contentVersion 9 的显式历史敌人形状；current loader 不得消费。 */
+export interface LegacyEnemyDefV9
+  extends Omit<EnemyDef, 'choreography' | 'onDefeated'> {
+  choreography?: LegacyBattleChoreographyV9[]
   onDefeated?: Command[]
 }
 
