@@ -10,7 +10,7 @@
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
-| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Codex 进入 R13-5 敌人脚本与战斗上下文 | R13-4 已正式发布并取得 Codex / Kimi / GLM 三方 `accept`；重迁后二跑/live dry-run `0/0/0`，R13-5 准入已开放 |
+| N3-1 | 结构化控制流、实体具名行为与内部脚本退役 | build | Kimi / GLM 审 R13-5 公共 delta，三签后 Codex 实现 | 12 enemy / 31 site 源账已冻结；敌钩持久 cursor、明王成长与 canonical onDefeated 触及 public schema/runtime，R13-5 专项暂 blocked on 两席设计签字 |
 | C8 | 物品用途机制、运行时与迁移闭环 | review | 等待 N3-1 完成后交用户联合验收 | `0d4aa48b` 三方最终 accept 已齐；100/0、20 件/21 根及引用反跳均通过审查 |
 
 ## 阻塞
