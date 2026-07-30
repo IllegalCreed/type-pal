@@ -43,6 +43,7 @@ import {
   upgradeLocalProjectV5V6EpochV7,
   upgradeLocalProjectV7ThrowV8,
   upgradeLocalProjectV8EquipBattleSpriteV9,
+  upgradeLocalProjectV9EnemyScriptV10,
 } from './upgrade-local-v5-v6-epoch-v7.js'
 
 export interface OpenedProjectV4 {
@@ -136,6 +137,11 @@ export async function openLocalProject(
       rawManifest = await source.readJson<unknown>('manifest.json')
     }
     if (await upgradeLocalProjectV8EquipBattleSpriteV9(dir, source, rawManifest)) {
+      source.dispose?.()
+      source = fsaSource(dir)
+      rawManifest = await source.readJson<unknown>('manifest.json')
+    }
+    if (await upgradeLocalProjectV9EnemyScriptV10(dir, source, rawManifest)) {
       source.dispose?.()
       source = fsaSource(dir)
       rawManifest = await source.readJson<unknown>('manifest.json')

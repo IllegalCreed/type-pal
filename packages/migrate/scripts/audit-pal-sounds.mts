@@ -8,6 +8,7 @@ import { buildR13SourceExecutionCensus } from '../src/experimental/script-v5/sou
 import { closePalSoundManifest } from '../src/pal-manifest.js'
 import {
   buildPalHistoricalR13_4V9Migration,
+  buildPalMigration,
   palSoundAssetForSources,
 } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
@@ -22,41 +23,43 @@ import {
 } from '../src/sound-reference-audit.js'
 
 const repo = resolve(import.meta.dirname, '../../..')
-const sources = loadPalMigrationSources(repo)
-const migration = buildPalHistoricalR13_4V9Migration(sources)
-const authorityMigration = projectMigrationV9ToLegacyV8(migration)
-const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
-assertScriptControlFlowAudit(currentAudit)
+const historicalSources = loadPalMigrationSources(repo)
+const historicalMigration = buildPalHistoricalR13_4V9Migration(historicalSources)
+const authorityMigration = projectMigrationV9ToLegacyV8(historicalMigration)
+const historicalAudit = auditPalScriptControlFlow(historicalSources, authorityMigration)
+assertScriptControlFlowAudit(historicalAudit)
 const frozenAudit = JSON.parse(
   readFileSync(resolve(repo, 'packages/migrate/baselines/script-control-flow/pal-v1.json'), 'utf8'),
 ) as ScriptControlFlowAuditV1
 const generated = buildP7GeneratedCanonical({
   migration: authorityMigration,
-  currentAudit,
+  currentAudit: historicalAudit,
   frozenAudit,
-  sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
-  itemSources: sources.migrate.items,
-  magicSources: sources.migrate.magic,
-  objectMagicSources: sources.migrate.objectMagics ?? [],
-  sourceCensus: buildR13SourceExecutionCensus(sources),
-  soundAssetForNum: palSoundAssetForSources(sources),
+  sourceCommands: historicalSources.allJson.segments.flatMap((segment) => segment.commands),
+  itemSources: historicalSources.migrate.items,
+  magicSources: historicalSources.migrate.magic,
+  objectMagicSources: historicalSources.migrate.objectMagics ?? [],
+  sourceCensus: buildR13SourceExecutionCensus(historicalSources),
+  soundAssetForNum: palSoundAssetForSources(historicalSources),
 })
+const currentSources = structuredClone(historicalSources)
+const currentMigration = buildPalMigration(currentSources)
 const manifest = JSON.parse(
   readFileSync(resolve(repo, 'projects/pal/manifest.json'), 'utf8'),
 ) as LoadedManifest
 const catalog = validateAssetCatalog(
-  migration.files.get('assets/index.json') as AssetCatalogV1,
+  currentMigration.files.get('assets/index.json') as AssetCatalogV1,
   'PAL sound audit assets/index.json',
 )
 const nextManifest = closePalSoundManifest(manifest, catalog)
 const report = auditPalSoundReferences({
-  sources,
-  files: migration.files,
+  sources: currentSources,
+  files: currentMigration.files,
   items: generated.snapshot.files.get('content/items.json'),
   itemContentVersion: 9,
   assets: nextManifest.assets,
   entryPoints: nextManifest.entryPoints,
-  translationReport: migration.report.scripts,
+  translationReport: currentMigration.report.scripts,
 })
 assertPalSoundReferenceBaseline(report)
 process.stdout.write(`${JSON.stringify(report, null, 2)}\n`)

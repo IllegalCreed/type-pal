@@ -1,11 +1,11 @@
 import {
-  ENEMY_HOOK_MAX_SYNC_STEPS,
-  evalAiCond,
   type BattleChoreographyAction,
+  ENEMY_HOOK_MAX_SYNC_STEPS,
   type EnemyFallback,
   type EnemyHookChannel,
   type EnemyHookFlow,
   type EnemyHookTransition,
+  evalAiCond,
 } from '@type-pal/content'
 import {
   applyEnemyEffect,
@@ -102,8 +102,7 @@ function resolveTransition(
         throw new Error('enemy hook random: runtime 权重总和非法')
       let draw = Math.min(total - 1, Math.floor(rng() * total))
       for (const choice of transition.choices) {
-        if (draw < choice.weight)
-          return resolveTransition(state, activation, choice.then, rng)
+        if (draw < choice.weight) return resolveTransition(state, activation, choice.then, rng)
         draw -= choice.weight
       }
       throw new Error('enemy hook random: 未命中任何分支')
@@ -158,8 +157,7 @@ export function nextEnemyHookStep(
 
     const resolution = resolveTransition(state, activation, flowState.next, rng)
     if (resolution.kind === 'complete') {
-      if (resolution.commit !== undefined)
-        enemy.hookCursors[activation.channel] = resolution.commit
+      if (resolution.commit !== undefined) enemy.hookCursors[activation.channel] = resolution.commit
       return { kind: 'complete' }
     }
     if (!activation.flow.states[resolution.state])

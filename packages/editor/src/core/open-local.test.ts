@@ -125,6 +125,107 @@ async function blankCanonicalV5Files(
   return files
 }
 
+async function contentV9EnemyScriptFiles(
+  name = 'Enemy Script V9',
+): Promise<Record<string, string | ArrayBuffer>> {
+  const files = await blankCanonicalV5Files(name)
+  const manifest = JSON.parse(String(files['manifest.json'])) as {
+    contentVersion: number
+    minimumSaveVersion: number
+    content: Record<string, string>
+  }
+  manifest.contentVersion = 9
+  manifest.minimumSaveVersion = 8
+  manifest.content.enemies = 'content/enemies.json'
+  files['manifest.json'] = J(manifest)
+  files['content/items.json'] = J([
+    {
+      id: 'reward',
+      name: '奖励',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [
+          {
+            kind: 'itemPrivateScript',
+            script: {
+              id: 'use',
+              label: '使用',
+              body: [
+                {
+                  kind: 'startBattle',
+                  team: 1,
+                  choreography: [{ at: 'battleStart', body: [{ kind: 'wait', ms: 1 }] }],
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ])
+  files['content/shared-scripts.json'] = J({
+    'shared/user/test': {
+      name: '共享脚本',
+      self: 'none',
+      body: [
+        {
+          kind: 'startBattle',
+          team: 1,
+          choreography: [{ at: 'battleStart', body: [{ kind: 'wait', ms: 1 }] }],
+        },
+      ],
+    },
+  })
+  const scene = JSON.parse(String(files['content/scenes/start.json'])) as Record<string, unknown>
+  scene.hooks = {
+    onEnter: {
+      initial: 'default',
+      variants: {
+        default: {
+          label: '默认进场',
+          order: 0,
+          flow: {
+            kind: 'stages',
+            initial: 'start',
+            stages: [
+              {
+                id: 'start',
+                body: [
+                  {
+                    kind: 'startBattle',
+                    team: 1,
+                    choreography: [{ at: 'battleStart', body: [{ kind: 'wait', ms: 1 }] }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    },
+  }
+  files['content/scenes/start.json'] = J(scene)
+  files['content/enemies.json'] = J([
+    {
+      id: 'enemy-test',
+      name: 'name.hero',
+      battleSprite: 'starter-fighter',
+      yPosOffset: 0,
+      stats: {},
+      ai: { resistanceToSorcery: 0 },
+      sounds: {},
+      choreography: [{ at: 'battleStart', body: [{ kind: 'wait', ms: 1 }] }],
+      onDefeated: [{ kind: 'giveItem', itemId: 'reward', count: 1 }],
+    },
+  ])
+  return files
+}
+
 function waveBytes(marker = 0): ArrayBuffer {
   return new Uint8Array([0x52, 0x49, 0x46, 0x46, 0x05, 0, 0, 0, 0x57, 0x41, 0x56, 0x45, marker])
     .buffer
@@ -606,7 +707,7 @@ function v3MusicProject(musicIds: readonly string[], openingMenuMusic?: string) 
 describe('openLocalProject', () => {
   test.each([
     5, 6,
-  ] as const)('content v%i 以 canonical 工程加载，直接晋升 content 9 / SAVE 8', async (legacyContentVersion) => {
+  ] as const)('content v%i 以 canonical 工程加载，直接晋升 content 10 / SAVE 8', async (legacyContentVersion) => {
     const scene = {
       id: 's1',
       mapId: 'map-1',
@@ -690,10 +791,10 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
     })
-    expect(writes).toEqual(['content/items.json', 'manifest.json'])
+    expect(writes).toEqual(['manifest.json'])
     expect(opened.canonicalV5.scenes[0]!.entities[0]!.behaviors!.trigger!.talk!.flow).toEqual(
       scene.entities[0]!.behaviors.trigger.talk.flow,
     )
@@ -704,7 +805,7 @@ describe('openLocalProject', () => {
     expect(writes).toEqual([])
   })
 
-  test('content v7 投掷工程补 target 与角色形象后晋升 v9，manifest-last 且重开零写', async () => {
+  test('content v7 投掷工程补 target 与角色形象后晋升 v10，manifest-last 且重开零写', async () => {
     const files = await blankCanonicalV5Files('Epoch V7 Throw')
     const manifest = JSON.parse(String(files['manifest.json'])) as {
       contentVersion: number
@@ -733,7 +834,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.poison?.throw).toEqual({
@@ -747,7 +848,7 @@ describe('openLocalProject', () => {
     expect(writes).toEqual([])
   })
 
-  test('content v8 scalar 形象复制到全部可装备角色，晋升 v9 后重开零写', async () => {
+  test('content v8 scalar 形象复制到全部可装备角色，晋升 v10 后重开零写', async () => {
     const files = await blankCanonicalV5Files('Epoch V8 Battle Sprite')
     const manifest = JSON.parse(String(files['manifest.json'])) as {
       contentVersion: number
@@ -783,7 +884,7 @@ describe('openLocalProject', () => {
     expect(opened.kind).toBe('v5')
     if (opened.kind !== 'v5') throw new Error('没有进入 v5 loader')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items['shared-weapon']?.equip?.effects).toEqual([
@@ -847,7 +948,7 @@ describe('openLocalProject', () => {
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
     expect(reopened.project.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
     })
     expect(writes.at(-1)).toBe('manifest.json')
@@ -903,6 +1004,125 @@ describe('openLocalProject', () => {
     }
   })
 
+  test('content v9 全 owner 的合法 battle/onDefeated 脚本无损晋升 v10', async () => {
+    const files = await contentV9EnemyScriptFiles()
+    const before = {
+      items: String(files['content/items.json']),
+      shared: String(files['content/shared-scripts.json']),
+      scene: String(files['content/scenes/start.json']),
+      enemies: String(files['content/enemies.json']),
+    }
+    const writes: string[] = []
+    const dir = mockDir('enemy-script-v9', files, writes)
+
+    const opened = await openLocalProject(dir)
+    expect(opened.kind).toBe('v5')
+    expect(opened.project.manifest).toMatchObject({
+      contentVersion: 10,
+      minimumSaveVersion: 8,
+    })
+    expect(writes).toEqual(['manifest.json'])
+    expect(String(files['content/items.json'])).toBe(before.items)
+    expect(String(files['content/shared-scripts.json'])).toBe(before.shared)
+    expect(String(files['content/scenes/start.json'])).toBe(before.scene)
+    expect(String(files['content/enemies.json'])).toBe(before.enemies)
+
+    writes.length = 0
+    await openLocalProject(dir)
+    expect(writes).toEqual([])
+  })
+
+  test.each([
+    {
+      owner: 'scene',
+      mutate(files: Record<string, string | ArrayBuffer>) {
+        const scene = JSON.parse(String(files['content/scenes/start.json'])) as {
+          hooks: {
+            onEnter: {
+              variants: {
+                default: {
+                  flow: { stages: Array<{ body: Array<Record<string, unknown>> }> }
+                }
+              }
+            }
+          }
+        }
+        scene.hooks.onEnter.variants.default.flow.stages[0]!.body[0]!.choreography = [
+          { at: 'battleStart', body: [{ kind: 'setFlag', flag: 'forbidden', value: true }] },
+        ]
+        files['content/scenes/start.json'] = J(scene)
+      },
+      error: /scenes\.start.*choreography.*battle context/,
+    },
+    {
+      owner: 'shared',
+      mutate(files: Record<string, string | ArrayBuffer>) {
+        const shared = JSON.parse(String(files['content/shared-scripts.json'])) as Record<
+          string,
+          { body: Array<Record<string, unknown>> }
+        >
+        shared['shared/user/test']!.body[0]!.choreography = [
+          { at: 'battleStart', body: [{ kind: 'setFlag', flag: 'forbidden', value: true }] },
+        ]
+        files['content/shared-scripts.json'] = J(shared)
+      },
+      error: /sharedScripts.*choreography.*battle context/,
+    },
+    {
+      owner: 'item-private',
+      mutate(files: Record<string, string | ArrayBuffer>) {
+        const items = JSON.parse(String(files['content/items.json'])) as Array<{
+          use: {
+            effects: Array<{
+              script: { body: Array<Record<string, unknown>> }
+            }>
+          }
+        }>
+        items[0]!.use.effects[0]!.script.body[0]!.choreography = [
+          { at: 'battleStart', body: [{ kind: 'setFlag', flag: 'forbidden', value: true }] },
+        ]
+        files['content/items.json'] = J(items)
+      },
+      error: /items.*choreography.*battle context/,
+    },
+    {
+      owner: 'enemy choreography',
+      mutate(files: Record<string, string | ArrayBuffer>) {
+        const enemies = JSON.parse(String(files['content/enemies.json'])) as Array<
+          Record<string, unknown>
+        >
+        enemies[0]!.choreography = [
+          { at: 'battleStart', body: [{ kind: 'loadScene', scene: 'start' }] },
+        ]
+        files['content/enemies.json'] = J(enemies)
+      },
+      error: /enemies\[0\].*choreography.*battle context/,
+    },
+    {
+      owner: 'enemy onDefeated',
+      mutate(files: Record<string, string | ArrayBuffer>) {
+        const enemies = JSON.parse(String(files['content/enemies.json'])) as Array<
+          Record<string, unknown>
+        >
+        enemies[0]!.onDefeated = [{ kind: 'confirm', onNo: [] }]
+        files['content/enemies.json'] = J(enemies)
+      },
+      error: /enemies\[0\]\.onDefeated\[0\].*onDefeated context/,
+    },
+  ])('content v9 $owner 非法上下文在写盘前 fail-loud', async ({ owner, mutate, error }) => {
+    const files = await contentV9EnemyScriptFiles(`Invalid ${owner}`)
+    mutate(files)
+    const writes: string[] = []
+
+    await expect(openLocalProject(mockDir(`invalid-${owner}`, files, writes))).rejects.toThrow(
+      error,
+    )
+    expect(writes).toEqual([])
+    expect(
+      (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
+    ).toBe(9)
+  })
+
   test('content v7 投掷升级预检失败时零写', async () => {
     const files = await blankCanonicalV5Files('Invalid Epoch V7 Throw')
     const manifest = JSON.parse(String(files['manifest.json'])) as {
@@ -953,18 +1173,18 @@ describe('openLocalProject', () => {
       failClose: (path, attempt) => path === 'manifest.json' && attempt === 1,
     })
     await expect(openLocalProject(dir)).rejects.toThrow('Injected close failure manifest.json')
-    expect(writes).toEqual(['content/items.json'])
+    expect(writes).toEqual([])
     expect(
       (JSON.parse(String(files['manifest.json'])) as { contentVersion: number }).contentVersion,
     ).toBe(5)
     await expect(openLocalProject(dir)).resolves.toMatchObject({ kind: 'v5' })
-    expect(writes).toEqual(['content/items.json', 'content/items.json', 'manifest.json'])
+    expect(writes).toEqual(['manifest.json'])
     expect(
       JSON.parse(String(files['manifest.json'])) as {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 9, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 10, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 battle-sprite 全量登记、语义引用、manifest-last 与二次打开 no-op', async () => {
@@ -1663,7 +1883,7 @@ describe('openLocalProject', () => {
 
     const opened = await openLocalProject(dir)
     expect(opened.kind).toBe('v5')
-    expect(opened.project.manifest.contentVersion).toBe(9)
+    expect(opened.project.manifest.contentVersion).toBe(10)
     expect(opened.project.manifest.minimumSaveVersion).toBe(8)
     expect(writes.at(-1)).toBe('manifest.json')
     expect(files['content/shared-scripts.json']).toBeDefined()
@@ -1683,7 +1903,7 @@ describe('openLocalProject', () => {
     expect(writes).toHaveLength(writeCount)
   })
 
-  test('v4 旧 scalar 装备形象可穿过 legacy loader，并原子升级为 content9 byActor', async () => {
+  test('v4 旧 scalar 装备形象可穿过 legacy loader，并原子升级为 content10 byActor', async () => {
     const files = currentProjectFiles()
     files['content/actors.json'] = J([
       {
@@ -1761,7 +1981,7 @@ describe('openLocalProject', () => {
     const opened = await openLocalProject(mockDir('v4-scalar-battle-sprite', files))
     expect(opened.kind).toBe('v5')
     expect(opened.project.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
     })
     expect(opened.project.items.weapon?.equip?.effects).toEqual([
@@ -1784,7 +2004,7 @@ describe('openLocalProject', () => {
 
     const reopened = await openLocalProject(dir)
     expect(reopened.kind).toBe('v5')
-    expect(reopened.project.manifest.contentVersion).toBe(9)
+    expect(reopened.project.manifest.contentVersion).toBe(10)
     expect(reopened.project.manifest.minimumSaveVersion).toBe(8)
     expect(files['.type-pal/journals/script-v4-v5.json']).toBeUndefined()
   })
@@ -1887,7 +2107,7 @@ describe('openLocalProject', () => {
         contentVersion: number
         minimumSaveVersion: number
       },
-    ).toMatchObject({ contentVersion: 9, minimumSaveVersion: 8 })
+    ).toMatchObject({ contentVersion: 10, minimumSaveVersion: 8 })
   })
 
   test('旧 v3 sprite number/legacy-root/followers → catalog 单链，二次打开零写入', async () => {
@@ -2640,7 +2860,7 @@ describe('openLocalProject', () => {
     const dir = mockDir('old-v3', files, writes)
     const opened = await openLocalProject(dir)
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe(expected)
-    expect(opened.project.manifest.contentVersion).toBe(9)
+    expect(opened.project.manifest.contentVersion).toBe(10)
     expect(writes.at(-1)).toBe('manifest.json')
 
     writes.length = 0
@@ -2653,14 +2873,14 @@ describe('openLocalProject', () => {
     const customWrites: string[] = []
     const opened = await openLocalProject(mockDir('custom-v3', custom, customWrites))
     expect(opened.project.manifest.assets.roles['audio.openingMenuMusic']).toBe('music.pal.009')
-    expect(opened.project.manifest.contentVersion).toBe(9)
+    expect(opened.project.manifest.contentVersion).toBe(10)
     expect(customWrites.at(-1)).toBe('manifest.json')
 
     const silentFiles = { ...fullProject }
     const silentWrites: string[] = []
     const silent = await openLocalProject(mockDir('silent-v3', silentFiles, silentWrites))
     expect(silent.project.manifest.assets.roles['audio.openingMenuMusic']).toBeUndefined()
-    expect(silent.project.manifest.contentVersion).toBe(9)
+    expect(silent.project.manifest.contentVersion).toBe(10)
     expect(silentWrites.at(-1)).toBe('manifest.json')
   })
 
@@ -3001,7 +3221,7 @@ describe('openLocalProject', () => {
       readSoundfont: async () => soundfont,
     })
 
-    expect(opened.project.manifest.contentVersion).toBe(9)
+    expect(opened.project.manifest.contentVersion).toBe(10)
     expect(opened.project.manifest.assets.legacy?.families).not.toContain('sound')
     expect(opened.scenes[0]?.music).toBe('music.pal.001')
     expect(canonicalHookBody(opened)).toEqual([{ kind: 'playSound', asset: 'sound.pal.045' }])

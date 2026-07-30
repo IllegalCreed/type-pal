@@ -356,8 +356,9 @@ describe('R13-1 PAL cadence compatibility', () => {
         r13One: 22,
         r13Two: 56,
       },
-      bytes: 7_961_021,
-      sha256: '07675c729e2232e770a252d322d23b662caf3ce3c41931f65016216fc79b6da4',
+      // R13-5 正式删除八份旧遭遇 choreography 后，flow 数量/边界不变，payload 摘要收缩。
+      bytes: 7_949_335,
+      sha256: '7fb7e04ba705cafa75f2e65a22811c8e2a6f848001b930ce49a6e9a137dd3bcf',
     })
     expect({
       historical: continueStats.historical,

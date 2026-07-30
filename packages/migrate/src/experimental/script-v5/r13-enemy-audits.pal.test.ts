@@ -13,6 +13,7 @@ import {
   hasPalTestFixture,
   PAL_TEST_REPO,
 } from './pal-test-fixture.js'
+import { rewindPublishedR13EnemyTransition } from './published-r13-enemy-test-fixture.js'
 import {
   assertPreparedR13EnemyScriptMergedTargetClosure,
   assertR13EnemyScriptFinalTargetClosure,
@@ -69,6 +70,45 @@ function cloneSnapshot(source: MigrationSnapshot): MigrationSnapshot {
       ? { baselineMetadata: structuredClone(source.baselineMetadata) }
       : {}),
   }
+}
+
+function addInitializeAuthorChanges(source: MigrationSnapshot): {
+  enemyCash: number
+  sceneFacing: SceneDefV5['entry']['facing']
+} {
+  if (!source.hashes) throw new Error('R13-5 initialize author fixture 缺 hashes')
+  const enemies = structuredClone(
+    source.files.get('content/enemies.json'),
+  ) as unknown as ReturnType<typeof validateEnemies>
+  const enemy420 = enemies.find((enemy) => enemy.id === 'enemy-420')
+  if (!enemy420) throw new Error('R13-5 initialize author fixture 缺 enemy-420')
+  enemy420.stats.cash += 1
+  source.files.set('content/enemies.json', enemies as unknown as MigrationJson)
+  source.hashes.set(
+    'content/enemies.json',
+    sha256(serializeMigrationJson(enemies as unknown as MigrationJson, 'content/enemies.json')),
+  )
+
+  const scene = structuredClone(
+    source.files.get('content/scenes/s003.json'),
+  ) as unknown as SceneDefV5
+  scene.entry.facing = 'left'
+  source.files.set('content/scenes/s003.json', scene as unknown as MigrationJson)
+  source.hashes.set(
+    'content/scenes/s003.json',
+    sha256(serializeMigrationJson(scene as unknown as MigrationJson, 'content/scenes/s003.json')),
+  )
+  return { enemyCash: enemy420.stats.cash, sceneFacing: scene.entry.facing }
+}
+
+function expectInitializeAuthorChanges(
+  target: MigrationSnapshot,
+  expected: ReturnType<typeof addInitializeAuthorChanges>,
+): void {
+  const enemies = validateEnemies(target.files.get('content/enemies.json'))
+  expect(enemies.find((enemy) => enemy.id === 'enemy-420')?.stats.cash).toBe(expected.enemyCash)
+  const scene = target.files.get('content/scenes/s003.json') as unknown as SceneDefV5
+  expect(scene.entry.facing).toBe(expected.sceneFacing)
 }
 
 function encounterBody(
@@ -174,12 +214,11 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
 
   test('MG2 初始化只写八个内容文件，旧 seal 不动且重放 0/0/0', () => {
     const { generated, current } = fixture
-    const base = cloneSnapshot(generated.baseline)
     const managed = discoverProjectManagedFiles(
       PAL_TEST_REPO,
-      new Set([...base.managedFiles, ...current.migration.managedFiles]),
+      new Set([...generated.baseline.managedFiles, ...current.migration.managedFiles]),
     )
-    const ours = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
+    const publishedOurs = loadProjectMigrationSnapshot(PAL_TEST_REPO, managed)
     const preparedHistoricalSourceCensus = getPalTestPreparedSourceExecutionCensus()
     const authority = prepareR13EnemyScriptAuthority({
       generated: generated.generated,
@@ -191,6 +230,19 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
       currentAudit: current.audit,
       preparedHistoricalSourceCensus,
     })
+    // 正式发布后的 baseline 已含 R13-5 seal 与 successor 内容；两者都回建到 parent，
+    // 才是 formal initialize 的真实 base。
+    const rewound = rewindPublishedR13EnemyTransition({
+      publishedBaseline: generated.baseline,
+      publishedProject: publishedOurs,
+      parent: generated.generated.snapshot,
+      publishedSuccessor: authority.augmentation.snapshot,
+    })
+    expect(rewound.changedPaths).toEqual(authority.augmentation.evidence.files.changedPaths)
+    expect(rewound.authoredLocaleIds).toHaveLength(35)
+    const base = rewound.baseline
+    const ours = rewound.project
+    const initializeAuthorChanges = addInitializeAuthorChanges(ours)
     const planArgs = (input: { base: MigrationSnapshot; ours: MigrationSnapshot }) => ({
       ...input,
       generated: generated.generated,
@@ -261,6 +313,7 @@ describe.skipIf(!hasPalTestFixture())('R13-5 PAL full-path enemy audits', () => 
     expect(first.target.files.has(R13_ENEMY_SCRIPT_SEAL_PATH)).toBe(false)
     expect(first.plan.target.has(R13_ENEMY_SCRIPT_SEAL_PATH)).toBe(false)
     expect(first.nextBaseline.files.has(R13_ENEMY_SCRIPT_SEAL_PATH)).toBe(true)
+    expectInitializeAuthorChanges(first.target, initializeAuthorChanges)
     for (const [path, value] of oldControl)
       expect(first.nextBaseline.files.get(path)).toEqual(value)
 

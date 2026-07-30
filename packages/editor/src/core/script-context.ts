@@ -88,7 +88,6 @@ export function analyzeScriptContext(
       else if (command.kind === 'startBattle') {
         if (command.onLose) visitCommands(command.onLose)
         if (command.onFlee) visitCommands(command.onFlee)
-        for (const hook of command.choreography ?? []) visitCommands(hook.body)
       } else if (
         command.kind === 'setEntityAuto' ||
         command.kind === 'setEntityTrigger' ||

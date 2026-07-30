@@ -413,7 +413,9 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: { sites: 765, nonzero: 479, positive: 454, zero: 286, negative: 25 },
       skillAnimation: { sites: 103, nonzero: 97, positive: 97, zero: 6, negative: 0 },
       skillSummon: { sites: 9, nonzero: 9, positive: 9, zero: 0, negative: 0 },
-      playSound: { sites: 1_035, nonzero: 1_035, positive: 1_035, zero: 0, negative: 0 },
+      // R13-5 恢复 enemy-447/449/523 与 enemy-473 持久 hook 中被旧 choreography
+      // 投影压扁的 sound.pal.267：historical target 4 edges，current target 8 edges。
+      playSound: { sites: 1_039, nonzero: 1_039, positive: 1_039, zero: 0, negative: 0 },
     },
     'source.channels',
   )
@@ -426,8 +428,8 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       playSound45Occurrences: report.source.playSound45Occurrences,
     },
     {
-      sites: 1_954,
-      nonzero: 1_662,
+      sites: 1_958,
+      nonzero: 1_666,
       uniqueAbsoluteIds: 325,
       empty122Occurrences: 1,
       playSound45Occurrences: 3,
@@ -441,7 +443,7 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       enemies: 479,
       skillAnimation: 98,
       skillSummon: 9,
-      playSound: 1_035,
+      playSound: 1_039,
       itemUse: 1,
       itemThrow: 75,
       roles: 4,
@@ -462,10 +464,11 @@ export function assertPalSoundReferenceBaseline(report: PalSoundReferenceAudit):
       hasFake122Asset: report.target.hasFake122Asset,
     },
     {
-      soundEdges: 1_743,
-      // C8 恢复共享用途根：物品 266 新增 portrait.pal.069，土灵珠出口 fallback 新增 sound.pal.045。
-      allReferences: 6_725,
-      nonSoundReferences: 4_982,
+      soundEdges: 1_747,
+      // C8 恢复共享用途根：物品 266 新增 portrait.pal.069，土灵珠出口 fallback 新增
+      // sound.pal.045。R13-5 再恢复 4 条 enemy hook playSound 与 2 条 enemy hook music。
+      allReferences: 6_731,
+      nonSoundReferences: 4_984,
       catalogSounds: 363,
       referencedSounds: 329,
       unusedSounds: 34,

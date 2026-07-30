@@ -145,7 +145,8 @@ describe.skipIf(!hasPalTestFixture())('R13-5 historical enemy parent authority',
       '8fe4ad1c6dffe273ddbdf5c06a504c34c0e06110dc9bb4696551e908c960a88a',
     )
     expect(current.migration.report.enemies?.pendingScripts).toEqual([])
-    expect(current.migration.report.enemies?.hookSources).toHaveLength(44)
+    // 44 ready/turnStart owners + 15 battleEnd owners - 5 overlapping owners.
+    expect(current.migration.report.enemies?.hookSources).toHaveLength(54)
     expect(current.migration.report.bossOverlay).toEqual({
       attached: 0,
       clearedEnemies: [],

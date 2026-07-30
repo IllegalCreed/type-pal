@@ -4,14 +4,18 @@ import {
   canonicalLegacyBindingV4,
   canonicalScriptTransitionJson,
   type LegacyManifestV4,
+  type LegacyManifestV9,
   type ProjectMigrationSidecarV1,
   type ProjectScriptV4V5ResolutionPlan,
   ProjectScriptV4V5UpgradeError,
   projectLocalScriptV4ToV5,
   SCRIPT_V4_V5_SIDECAR_PATH,
   SCRIPT_V4_V5_TRANSITION_ID,
+  upgradeEmbeddedBattleChoreographyV9ToV10,
+  upgradeEnemiesV9ToV10,
   upgradeItemsV7ToV8,
   upgradeItemsV8ToV9,
+  upgradeManifestV9ToV10,
   validateItemsV5,
   validateProjectMigrationSidecarV1,
   validateProjectRelativePath,
@@ -400,7 +404,16 @@ export async function upgradeLocalProjectV4ScriptV5(
   const manifest = rawManifest as LegacyManifestV4
   if (manifest.migrations && Object.keys(manifest.migrations).length)
     throw new Error('contentVersion 4 manifest 不得预先声明 v5 migration registry')
-  const project = await loadProjectFrom(source)
+  const enemyUpgradeOverlay = new Map<string, Uint8Array>()
+  if (manifest.content.enemies) {
+    const upgradedEnemies = upgradeEnemiesV9ToV10(
+      await source.readJson<unknown>(manifest.content.enemies),
+    )
+    enemyUpgradeOverlay.set(manifest.content.enemies, jsonBytes(upgradedEnemies))
+  }
+  const project = await loadProjectFrom(
+    enemyUpgradeOverlay.size ? overlaySource(source, enemyUpgradeOverlay) : source,
+  )
   const [scenes, chunks] = await Promise.all([loadAllScenes(project), loadAllScriptChunks(project)])
   const sceneDir = sceneDirectory(manifest)
   const scriptDir = scriptDirectory(manifest)
@@ -409,6 +422,7 @@ export async function upgradeLocalProjectV4ScriptV5(
   const sourcePaths = [
     'manifest.json',
     itemsPath,
+    ...(manifest.content.enemies ? [manifest.content.enemies] : []),
     `${sceneDir}index.json`,
     ...project.sceneIds.map((id) => `${sceneDir}${id}.json`),
     ...(scriptDir
@@ -525,8 +539,18 @@ export async function upgradeLocalProjectV4ScriptV5(
   validateProjectMigrationSidecarV1(sidecar, manifest.id)
   const sidecarBytes = jsonBytes(sidecar)
   const { scripts: _legacyScripts, ...content } = manifest.content
-  const upgradedItems = upgradeItemsV8ToV9(upgradeItemsV7ToV8(projection.items))
-  const manifestCurrent: CurrentManifest = {
+  const upgradedItems = upgradeEmbeddedBattleChoreographyV9ToV10(
+    upgradeItemsV8ToV9(upgradeItemsV7ToV8(projection.items)),
+    'items',
+  )
+  const upgradedSharedScripts = upgradeEmbeddedBattleChoreographyV9ToV10(
+    projection.sharedScripts,
+    'sharedScripts',
+  )
+  const upgradedScenes = projection.scenes.map((scene) =>
+    upgradeEmbeddedBattleChoreographyV9ToV10(scene, `scenes.${scene.id}`),
+  )
+  const manifestV9: LegacyManifestV9 = {
     ...cloneManifest(manifest),
     contentVersion: 9,
     minimumSaveVersion: CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
@@ -541,13 +565,19 @@ export async function upgradeLocalProjectV4ScriptV5(
       },
     },
   }
+  const manifestCurrent: CurrentManifest = upgradeManifestV9ToV10(manifestV9)
   const writes = new Map<string, Uint8Array>([
-    ['content/shared-scripts.json', jsonBytes(projection.sharedScripts)],
+    ['content/shared-scripts.json', jsonBytes(upgradedSharedScripts)],
     [itemsPath, jsonBytes(upgradedItems)],
     [SCRIPT_V4_V5_SIDECAR_PATH, sidecarBytes],
     ['manifest.json', jsonBytes(manifestCurrent)],
   ])
-  for (const scene of projection.scenes) writes.set(`${sceneDir}${scene.id}.json`, jsonBytes(scene))
+  if (manifest.content.enemies)
+    writes.set(
+      manifest.content.enemies,
+      jsonBytes(upgradeEnemiesV9ToV10(Object.values(project.enemiesById))),
+    )
+  for (const scene of upgradedScenes) writes.set(`${sceneDir}${scene.id}.json`, jsonBytes(scene))
   const deletes = scriptDir
     ? [
         `${scriptDir}index.json`,
@@ -583,6 +613,6 @@ export async function upgradeLocalProjectV4ScriptV5(
   return true
 }
 
-function cloneManifest(manifest: LegacyManifestV4): Omit<CurrentManifest, 'contentVersion'> {
-  return JSON.parse(JSON.stringify(manifest)) as Omit<CurrentManifest, 'contentVersion'>
+function cloneManifest(manifest: LegacyManifestV4): Omit<LegacyManifestV9, 'contentVersion'> {
+  return JSON.parse(JSON.stringify(manifest)) as Omit<LegacyManifestV9, 'contentVersion'>
 }

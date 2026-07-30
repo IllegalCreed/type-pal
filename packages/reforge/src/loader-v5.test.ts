@@ -121,7 +121,7 @@ function memorySource(
   }
 }
 
-describe('canonical contentVersion 9 loader', () => {
+describe('canonical contentVersion 10 loader', () => {
   test('pure assembler accepts canonical scene/item schema and rejects legacy positional hooks', () => {
     expect(assembleProjectV5(manifest(), jsons).entryScene.id).toBe('s001')
     expect(() =>
@@ -176,7 +176,7 @@ describe('canonical contentVersion 9 loader', () => {
           {},
         ),
       ),
-    ).rejects.toThrow(/contentVersion 9/)
+    ).rejects.toThrow(/contentVersion 10/)
   })
 
   test.each([

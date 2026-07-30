@@ -23,10 +23,7 @@ describe('contentVersion 9 -> 10 enemy script upgrade', () => {
   test('旧合法 battle/onDefeated 叶原样保留、输入不变且 v10 半状态可重试', () => {
     const input = [
       enemy(
-        [
-          { kind: 'dialog', cue: { rows: [{ text: 'dialog.test' }] } },
-          { kind: 'fleeBattle' },
-        ],
+        [{ kind: 'dialog', cue: { rows: [{ text: 'dialog.test' }] } }, { kind: 'fleeBattle' }],
         [{ kind: 'giveItem', itemId: 'reward' }],
       ),
     ]
@@ -39,12 +36,12 @@ describe('contentVersion 9 -> 10 enemy script upgrade', () => {
   })
 
   test('敌人旧宽泛 Command[] 中的非法上下文命令按 owner/path fail-loud', () => {
-    expect(() =>
-      upgradeEnemiesV9ToV10([enemy([{ kind: 'loadScene', scene: 's002' }])]),
-    ).toThrow(/enemies\[0\]\.choreography\[0\]\.body\[0\].*battle context/)
-    expect(() =>
-      upgradeEnemiesV9ToV10([enemy([], [{ kind: 'confirm', onNo: [] }])]),
-    ).toThrow(/enemies\[0\]\.onDefeated\[0\].*onDefeated context/)
+    expect(() => upgradeEnemiesV9ToV10([enemy([{ kind: 'loadScene', scene: 's002' }])])).toThrow(
+      /enemies\[0\]\.choreography\[0\]\.body\[0\].*battle context/,
+    )
+    expect(() => upgradeEnemiesV9ToV10([enemy([], [{ kind: 'confirm', onNo: [] }])])).toThrow(
+      /enemies\[0\]\.onDefeated\[0\].*onDefeated context/,
+    )
   })
 
   test('递归扫描 scene/shared/item-private 中嵌套的 startBattle choreography', () => {

@@ -1,9 +1,6 @@
 import type { ProjectManifest, WorldStateV9 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  normalizeLegacyPayloadV8Content9,
-  preflightLegacySaveMigrationV9,
-} from './migration.js'
+import { normalizeLegacyPayloadV8Content9, preflightLegacySaveMigrationV9 } from './migration.js'
 import type { LegacySavePayloadV8Content9 } from './types.js'
 
 function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
@@ -20,9 +17,7 @@ function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
   }
 }
 
-function payload(
-  over: Partial<LegacySavePayloadV8Content9> = {},
-): LegacySavePayloadV8Content9 {
+function payload(over: Partial<LegacySavePayloadV8Content9> = {}): LegacySavePayloadV8Content9 {
   const world: WorldStateV9 = {
     party: [],
     money: 0,

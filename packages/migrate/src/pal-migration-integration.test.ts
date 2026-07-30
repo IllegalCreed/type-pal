@@ -37,8 +37,8 @@ import {
 import { afterAll, describe, expect, test } from 'vitest'
 import { projectMigrationV9ToLegacyV8 } from './experimental/script-v5/equip-battle-sprite-v8-authority.js'
 import { buildP7GeneratedCanonical } from './experimental/script-v5/p7-generated.js'
-import { createR13ConfirmV5MigrationPlan } from './experimental/script-v5/r13-confirm-mg2.js'
-import { buildR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
+import { createR13EnemyScriptV5MigrationPlan } from './experimental/script-v5/r13-enemy-script-mg2.js'
+import { prepareR13SourceExecutionCensus } from './experimental/script-v5/source-execution-census.js'
 import { migratedItemUseScriptRef } from './migrate-content.js'
 import {
   isAtomicProjectMapPath,
@@ -726,11 +726,16 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
         'utf8',
       ),
     ) as ScriptControlFlowAuditV1
-    const parentSources = loadPalMigrationSources(repo)
+    // historical/current authority 必须使用独立可变容器，但没有必要再次读取并解析同一份
+    // 2,000+ 资源源树；structuredClone 保持隔离，同时省去约 9s 重复 I/O。
+    const parentSources = structuredClone(sources)
     const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
     const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
     const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
     assertScriptControlFlowAudit(parentAudit)
+    const preparedHistoricalSourceCensus = prepareR13SourceExecutionCensus(parentSources)
+    const currentAudit = auditPalScriptControlFlow(sources, theirs)
+    assertScriptControlFlowAudit(currentAudit)
     const generatedResult = baseline?.baselineMetadata
       ? buildP7GeneratedCanonical({
           migration: authorityMigration,
@@ -741,7 +746,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
           magicSources: parentSources.migrate.magic,
           objectMagicSources: parentSources.migrate.objectMagics ?? [],
           soundAssetForNum: palSoundAssetForSources(parentSources),
-          sourceCensus: buildR13SourceExecutionCensus(parentSources),
+          sourceCensus: preparedHistoricalSourceCensus.census,
         })
       : undefined
     const generated = generatedResult?.snapshot
@@ -754,24 +759,22 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     )
     const ours = loadProjectMigrationSnapshot(repo, managed)
     if (generated && generatedResult) {
-      const result = createR13ConfirmV5MigrationPlan({
+      const result = createR13EnemyScriptV5MigrationPlan({
         base: baseline!,
         ours,
         generated: generatedResult,
-        sources: parentSources,
-        migration: authorityMigration,
-        audit: parentAudit,
+        historicalSources: parentSources,
+        historicalMigration: authorityMigration,
+        historicalAudit: parentAudit,
+        currentSources: sources,
+        currentMigration: theirs,
+        currentAudit,
+        preparedHistoricalSourceCensus,
       })
       expect(result.plan.conflicts).toEqual([])
       expect([...result.plan.writes.keys()].sort()).toEqual(
-        result.confirmSealMode === 'initialize'
-          ? [
-              'content/items.json',
-              'content/locale.json',
-              ...result.confirmEvidence.changedSceneIds.map(
-                (sceneId) => `content/scenes/${sceneId}.json`,
-              ),
-            ].sort()
+        result.enemyScriptSealMode === 'initialize'
+          ? [...result.enemyScriptEvidence.files.changedPaths].sort()
           : [],
       )
       expect(result.plan.deletes).toEqual([])
@@ -814,7 +817,7 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
       manifest,
       generatedResult?.snapshot.files.get('content/items.json'),
     )
-    expect(soundAudit.report.target.soundEdges).toBe(1_743)
+    expect(soundAudit.report.target.soundEdges).toBe(1_747)
     expect(manifest.assets.roles).toMatchObject(PAL_ASSET_ROLES)
     expect(manifest.assets.legacy?.families).not.toContain('sound')
     expect(manifest.assets.legacy?.sounds).toBeUndefined()
@@ -834,7 +837,8 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     })
     expect(validation.scenes).toBe(294)
     expect(validation.maps).toBe(223)
-    expect(validation.assetReferences).toBe(6_667)
+    // R13-5 恢复 4 条 enemy hook playSound 与 2 条 enemy hook music。
+    expect(validation.assetReferences).toBe(6_673)
     expect(validation.assetWarnings).toBe(131)
     expect(validation.battleSpriteReferences).toEqual({
       definitions: 171,

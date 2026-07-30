@@ -87,11 +87,11 @@ function recordingHost(
   }
 }
 
-test('正式 PAL contentVersion 9 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
+test('正式 PAL contentVersion 10 工程通过 loader、历史 sidecar 验签与全场景校验', async () => {
   const project = await loadProjectV5From(projectFileSource('pal'))
   const scenes = await loadAllScenesV5(project)
 
-  expect(project.manifest.contentVersion).toBe(9)
+  expect(project.manifest.contentVersion).toBe(10)
   expect(project.manifest.minimumSaveVersion).toBe(8)
   expect(project.entryScene.id).toBe('s000')
   expect(scenes).toHaveLength(294)
@@ -213,13 +213,13 @@ test('PAL s110 的逐帧重画先等待一帧再淡入，并保留剩余 27 帧'
 test.each([
   { id: 'demo', entry: 'guijie-minju', scenes: 1 },
   { id: 'e2e-own', entry: 'start', scenes: 1 },
-])('仓库 HTTP fixture $id 已同步为 canonical content 9', async ({ id, entry, scenes: count }) => {
+])('仓库 HTTP fixture $id 已同步为 canonical content 10', async ({ id, entry, scenes: count }) => {
   const project = await loadProjectV5From(projectFileSource(id))
   const scenes = await loadAllScenesV5(project)
 
   expect(project.manifest).toMatchObject({
     id,
-    contentVersion: 9,
+    contentVersion: 10,
     minimumSaveVersion: 8,
     entryScene: entry,
   })

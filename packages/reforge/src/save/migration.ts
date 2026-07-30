@@ -16,8 +16,8 @@ import {
 import type { FileSource } from '../file-source.js'
 import { type NormalizePayloadOptions, normalizePayloadV4Envelope } from './ops.js'
 import {
-  type LegacySavePayloadV8Content9,
   type LegacySavePayloadV7,
+  type LegacySavePayloadV8Content9,
   SAVE_VERSION,
   type SavePayload,
   type SavePayloadV5,
@@ -27,8 +27,8 @@ import {
 } from './types.js'
 
 export type {
-  LegacySavePayloadV8Content9,
   LegacySavePayloadV7,
+  LegacySavePayloadV8Content9,
   SavePayloadV5,
   SavePayloadV6,
   SavePayloadV7,
@@ -291,10 +291,7 @@ export async function preflightSaveMigration(args: {
     throw new Error(
       `工程 "${args.manifest.id}": 当前存档预检只接受 contentVersion ${CONTENT_VERSION}`,
     )
-  if (
-    saveVersion !== SAVE_VERSION ||
-    (contentVersion !== CONTENT_VERSION && contentVersion !== 9)
-  )
+  if (saveVersion !== SAVE_VERSION || (contentVersion !== CONTENT_VERSION && contentVersion !== 9))
     throw new Error(
       `不支持的存档 epoch：收到 SAVE v${saveVersion} / contentVersion ${contentVersion}，` +
         `当前只接受 SAVE v${SAVE_VERSION} / contentVersion 9|${CONTENT_VERSION}；` +

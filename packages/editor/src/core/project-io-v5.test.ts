@@ -52,11 +52,11 @@ const scene: SceneDefV5 = {
   ],
 }
 
-function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
+function manifest(over: Partial<ProjectManifest<10>> = {}): ProjectManifest<10> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 9,
+    contentVersion: 10,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {
@@ -380,7 +380,7 @@ describe('canonical v5 editor project IO', () => {
 
     const merged = mergeLegacyEditorShellIntoV5(canonical, shell)
     expect(merged.manifest).toMatchObject({
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
       name: 'Renamed',
     })

@@ -201,7 +201,6 @@ function state(): EditorState {
         sounds: {},
         steal: { itemId: 'target', count: 1 },
         attackEquivItem: { itemId: 'target', rate: 20 },
-        choreography: [{ at: 'battleStart', body: [{ kind: 'giveItem', itemId: 'target' }] }],
         onDefeated: [{ kind: 'loseItem', itemId: 'target' }],
       },
     ],
@@ -303,12 +302,6 @@ function recursiveState(): EditorState {
           team: 1,
           onLose: [{ kind: 'giveItem', itemId: 'target' }],
           onFlee: [{ kind: 'loseItem', itemId: 'target' }],
-          choreography: [
-            {
-              at: 'battleStart',
-              body: [{ kind: 'giveItem', itemId: 'target' }],
-            },
-          ],
         },
         { kind: 'teleportOut', onFail: [{ kind: 'giveItem', itemId: 'target' }] },
       ],
@@ -476,13 +469,6 @@ describe('collectItemReferences', () => {
       locator: { kind: 'enemy', enemyId: 'enemy' },
     },
     {
-      name: '敌人战斗演出',
-      source: 'enemy',
-      access: 'reward',
-      where: 'enemies[0](enemy).choreography[0].body/0.itemId',
-      locator: undefined,
-    },
-    {
       name: '敌人战后剧情',
       source: 'enemy',
       access: 'lose',
@@ -588,23 +574,6 @@ describe('collectItemReferences', () => {
       access,
       locator: { kind: 'shared-script', scriptId: 'shared/recursive' },
     })
-  })
-
-  test('startBattle.choreography 引用可删除守卫但不伪装成可深链', () => {
-    const reference = collectItemReferences(recursiveState()).find(
-      (entry) =>
-        entry.itemId === 'target' &&
-        entry.where ===
-          'scriptChunks["recursive"].scripts["shared/recursive"]0/2/choreography/0/body/0.itemId',
-    )
-
-    expect(reference).toMatchObject({
-      source: 'script',
-      access: 'reward',
-      locator: undefined,
-      unavailableReason: expect.stringContaining('战斗编舞脚本'),
-    })
-    expect(blockingItemReferences(recursiveState(), 'target')).toContainEqual(reference)
   })
 
   test('四种页切换内联脚本含 entry.prepare，均显式标为暂不可深链', () => {
@@ -747,8 +716,37 @@ describe('collectItemReferences', () => {
       ]),
     )
     expect(refs.some((reference) => reference.where.includes('.use.effects'))).toBe(true)
-    expect(refs.some((reference) => reference.label.includes('战斗演出'))).toBe(true)
     expect(refs.some((reference) => reference.label.includes('战后剧情'))).toBe(true)
+  })
+
+  test('敌人战后分支递归扫描物品条件与两臂物品写入', () => {
+    const current = state()
+    current.enemies![0]!.onDefeated = [
+      {
+        kind: 'branch',
+        cond: { kind: 'hasItem', itemId: 'target' },
+        then: [{ kind: 'giveItem', itemId: 'target', count: 2 }],
+        else: [{ kind: 'loseItem', itemId: 'target', count: 3 }],
+      },
+    ]
+    expect(
+      collectItemReferences(current)
+        .filter((reference) => reference.source === 'enemy' && reference.label.includes('战后剧情'))
+        .map(({ access, where }) => ({ access, where })),
+    ).toEqual([
+      {
+        access: 'read',
+        where: 'enemies[0](enemy).onDefeated/0.cond',
+      },
+      {
+        access: 'reward',
+        where: 'enemies[0](enemy).onDefeated/0/then/0.itemId',
+      },
+      {
+        access: 'lose',
+        where: 'enemies[0](enemy).onDefeated/0/else/0.itemId',
+      },
+    ])
   })
 
   test('删除守卫排除随 owner 一起删除的自有边，但保留外部物品边', () => {

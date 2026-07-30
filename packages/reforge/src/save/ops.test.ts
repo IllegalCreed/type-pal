@@ -54,7 +54,7 @@ describe('save ops（纯）', () => {
     })
     expect(payload.world).toBe(world)
   })
-  test('buildPayloadV8：当前 canonical 存档固定写出 SAVE8/content9', () => {
+  test('buildPayloadV8：当前 canonical 存档固定写出 SAVE8/content10', () => {
     const world = { ...makeTestWorld(), script: emptyWorldScriptStateV5() }
     const position = {
       sceneId: 's',

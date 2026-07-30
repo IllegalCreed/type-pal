@@ -1,4 +1,5 @@
 import type { AssetId } from './asset.js'
+import { checkBattleChoreographyV10 } from './enemy-script-v10.js'
 import type { GridPos } from './grid.js'
 import type { Facing } from './index.js'
 import type { Command as LegacyCommandV4, SceneReveal, SceneSpawn, WalkSpeed } from './script.js'
@@ -513,7 +514,10 @@ function checkCondition(value: unknown, path: string): void {
 }
 
 /** 受限 runtime context 可复用的 canonical v5 条件严格 guard。 */
-export function checkAuthorConditionV5(value: unknown, path: string): asserts value is AuthorConditionV5 {
+export function checkAuthorConditionV5(
+  value: unknown,
+  path: string,
+): asserts value is AuthorConditionV5 {
   checkCondition(value, path)
 }
 
@@ -602,6 +606,8 @@ export function checkAuthorCommandsV5(
         checkAuthorCommandsV5(command.onLose, `${commandPath}.onLose`, options)
       if (command.onFlee !== undefined)
         checkAuthorCommandsV5(command.onFlee, `${commandPath}.onFlee`, options)
+      if (command.choreography !== undefined)
+        checkBattleChoreographyV10(command.choreography, `${commandPath}.choreography`)
     }
     if (kind === 'teleportOut' && command.onFail !== undefined)
       checkAuthorCommandsV5(command.onFail, `${commandPath}.onFail`, options)

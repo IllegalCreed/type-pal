@@ -1,13 +1,7 @@
 import type { EnemyDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  type CreatePlayerInput,
-  createBattleState,
-} from './battle-core.js'
-import {
-  beginEnemyHookActivation,
-  nextEnemyHookStep,
-} from './enemy-hook-runtime.js'
+import { type CreatePlayerInput, createBattleState } from './battle-core.js'
+import { beginEnemyHookActivation, nextEnemyHookStep } from './enemy-hook-runtime.js'
 
 function player(): CreatePlayerInput {
   return {

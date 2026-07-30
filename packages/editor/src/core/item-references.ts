@@ -2,6 +2,7 @@ import type {
   AuthorCommandV5,
   AuthorConditionV5,
   Command,
+  EnemyOnDefeatedCommandV10,
   ScriptCondition,
   ScriptFlowV5,
   ScriptStage,
@@ -179,22 +180,6 @@ function scanCommands(
     for (const [segment, body] of commandArms(command))
       if (body?.length) scanCommands(body, context, `${path}/${segment}`, out)
 
-    if (command.kind === 'startBattle') {
-      const choreographyContext: ScriptScanContext = {
-        ...context,
-        locator: undefined,
-        unavailableReason: '该引用位于战斗编舞脚本中，当前只能显示来源，尚不能精确聚焦。',
-      }
-      command.choreography?.forEach((entry, choreographyIndex) => {
-        scanCommands(
-          entry.body,
-          choreographyContext,
-          `${path}/choreography/${choreographyIndex}/body`,
-          out,
-        )
-      })
-    }
-
     if (
       command.kind === 'setEntityAuto' ||
       command.kind === 'setEntityTrigger' ||
@@ -292,6 +277,63 @@ function scanCanonicalCondition(
     default:
       return
   }
+}
+
+function scanEnemyOnDefeatedCommands(
+  commands: readonly EnemyOnDefeatedCommandV10[],
+  context: ScriptScanContext,
+  prefix: string,
+  out: ItemReference[],
+): void {
+  commands.forEach((command, index) => {
+    const path = `${prefix}/${index}`
+    switch (command.kind) {
+      case 'giveItem':
+      case 'loseItem':
+        add(out, command.itemId, {
+          access: command.kind === 'giveItem' ? 'reward' : 'lose',
+          source: context.source,
+          label: context.label,
+          where: `${context.where}${path}.itemId`,
+          detail: `${command.kind === 'giveItem' ? '给出' : '失去'} ×${command.count ?? 1}`,
+          unavailableReason: context.unavailableReason,
+        })
+        return
+      case 'branch':
+        scanCanonicalCondition(
+          command.cond,
+          (itemId, detail, suffix) =>
+            add(out, itemId, {
+              access: 'read',
+              source: context.source,
+              label: context.label,
+              where: `${context.where}${path}${suffix}`,
+              detail,
+              unavailableReason: context.unavailableReason,
+            }),
+          '.cond',
+        )
+        scanEnemyOnDefeatedCommands(command.then, context, `${path}/then`, out)
+        if (command.else) scanEnemyOnDefeatedCommands(command.else, context, `${path}/else`, out)
+        return
+      case 'dialog':
+      case 'clearDialog':
+      case 'wait':
+      case 'playSound':
+      case 'playMusic':
+      case 'stopMusic':
+      case 'giveMoney':
+      case 'setFlag':
+      case 'setVar':
+      case 'addVar':
+      case 'stopScript':
+        return
+      default: {
+        const unreachable: never = command
+        throw new Error(`未知敌人战后命令 ${(unreachable as { kind?: unknown }).kind}`)
+      }
+    }
+  })
 }
 
 function scanCanonicalStateTransitionItemReferences(
@@ -404,22 +446,6 @@ export function collectCanonicalItemReferencesV5(state: ScriptEditorStateV5): It
       scanCanonicalCondition(command.cond, (itemId, detail, suffix) =>
         addCommandReference(itemId, 'read', detail, suffix),
       )
-
-    if (command.kind === 'startBattle')
-      command.choreography?.forEach((entry, choreographyIndex) => {
-        scanCommands(
-          entry.body,
-          {
-            source: source.source,
-            label: commandLabel(),
-            where: `${path}.choreography[${choreographyIndex}].body`,
-            locator: undefined,
-            unavailableReason: '该引用位于战斗编舞脚本中，当前只能显示来源，尚不能精确聚焦。',
-          },
-          '',
-          out,
-        )
-      })
   })
 
   for (const scene of state.scenes) {
@@ -633,22 +659,8 @@ export function collectItemReferences(
         detail: `普攻附带 · ${enemy.attackEquivItem.rate}%`,
         locator: { kind: 'enemy', enemyId: enemy.id },
       })
-    enemy.choreography?.forEach((choreography, choreographyIndex) => {
-      scanCommands(
-        choreography.body,
-        {
-          source: 'enemy',
-          label: `敌人 ${enemy.id} 战斗演出`,
-          where: `enemies[${enemyIndex}](${enemy.id}).choreography[${choreographyIndex}].body`,
-          locator: undefined,
-          unavailableReason: '敌人战斗演出脚本尚无精确命令跳转入口。',
-        },
-        '',
-        out,
-      )
-    })
     if (enemy.onDefeated)
-      scanCommands(
+      scanEnemyOnDefeatedCommands(
         enemy.onDefeated,
         {
           source: 'enemy',

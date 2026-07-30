@@ -1,12 +1,6 @@
-import type {
-  CurrentManifest,
-  LegacyManifestV9,
-} from './character.js'
+import type { CurrentManifest, LegacyManifestV9 } from './character.js'
 import type { EnemyDef } from './enemy.js'
-import {
-  checkBattleChoreographyV10,
-  checkEnemyOnDefeatedCommandsV10,
-} from './enemy-script-v10.js'
+import { checkBattleChoreographyV10, checkEnemyOnDefeatedCommandsV10 } from './enemy-script-v10.js'
 import { validateEnemies } from './validate.js'
 
 function clone<T>(value: T): T {
@@ -43,10 +37,7 @@ export function upgradeEnemiesV9ToV10(value: unknown): EnemyDef[] {
  * 递归扫描 scene/shared/item-private 等 canonical command tree 内的 startBattle choreography。
  * 函数只做纯 clone + context 收窄，不猜 owner 的具体内容域。
  */
-export function upgradeEmbeddedBattleChoreographyV9ToV10<T>(
-  value: T,
-  owner: string,
-): T {
+export function upgradeEmbeddedBattleChoreographyV9ToV10<T>(value: T, owner: string): T {
   const upgraded = clone(value)
   const visit = (node: unknown, path: string): void => {
     if (Array.isArray(node)) {

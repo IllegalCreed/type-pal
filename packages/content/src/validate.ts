@@ -1,6 +1,12 @@
 // 轻量 guard(zod 接缝):校验 loader 加载的工程 JSON 形状。
 // 只查「数组/对象 + 必需键在 + id 是 string」,不齐就 throw 具体错误。
 // 编辑器产大量手改 JSON 时再上 zod(局部替换这些函数,签名不变)。
+
+import {
+  checkBattleChoreographyV10,
+  checkEnemyAiV10,
+  checkEnemyOnDefeatedCommandsV10,
+} from './enemy-script-v10.js'
 import type {
   ActorDef,
   AssetCatalogV1,
@@ -18,12 +24,7 @@ import type { ItemDataV5, ItemUseEffectV5 } from './item-v5.js'
 import { ITEM_USE_EFFECT_KINDS_V5, itemUseSupportsContextV5 } from './item-v5.js'
 import { isMapAssetId } from './map-index.js'
 import type { SceneDefV5 } from './scene-v5.js'
-import {
-  checkBattleChoreographyV10,
-  checkEnemyAiV10,
-  checkEnemyOnDefeatedCommandsV10,
-} from './enemy-script-v10.js'
-import { checkCommands, checkEntityPages, checkStages } from './script.js'
+import { checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
 import {
   checkAuthorCommandsV5,

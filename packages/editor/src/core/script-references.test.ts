@@ -207,7 +207,7 @@ describe('N6 脚本引用图', () => {
 })
 
 describe('W4-1 命名落点引用图', () => {
-  test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支、战败命令与敌人编舞', () => {
+  test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支与战败命令', () => {
     const entryId = 'door-west'
     const load = (): Command => ({ kind: 'loadScene', scene: 's2', entryId })
     let state = addScript(baseState(), callerId, [
@@ -241,20 +241,13 @@ describe('W4-1 命名落点引用图', () => {
           entities: [],
         },
       ],
-      enemies: [
-        {
-          id: 'enemy-test',
-          choreography: [{ at: 'battleStart', body: [load()] }],
-        },
-      ] as EditorState['enemies'],
     }
 
     const refs = findSceneEntryReferences(state, 's2', entryId)
-    expect(refs).toHaveLength(6)
+    expect(refs).toHaveLength(5)
     expect(
       refs.some((entry) => entry.caller.type === 'script' && entry.path.includes('/then/')),
     ).toBe(true)
-    expect(refs.some((entry) => entry.caller.type === 'global')).toBe(true)
     expect(buildScriptReferenceIndex(state).errors).toEqual([])
   })
 

@@ -1,13 +1,7 @@
-import type {
-  ProjectManifest,
-  WorldStateV10,
-} from '@type-pal/content'
+import type { ProjectManifest, WorldStateV10 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { normalizePayloadV8, preflightSaveMigration } from './migration.js'
-import type {
-  LegacySavePayloadV8Content9,
-  SavePayloadV8,
-} from './types.js'
+import type { LegacySavePayloadV8Content9, SavePayloadV8 } from './types.js'
 
 function manifest(over: Partial<ProjectManifest<10>> = {}): ProjectManifest<10> {
   return {
@@ -48,9 +42,7 @@ function payload10(over: Partial<SavePayloadV8> = {}): SavePayloadV8 {
   }
 }
 
-function payload9(
-  over: Partial<LegacySavePayloadV8Content9> = {},
-): LegacySavePayloadV8Content9 {
+function payload9(over: Partial<LegacySavePayloadV8Content9> = {}): LegacySavePayloadV8Content9 {
   return {
     ...payload10(),
     contentVersion: 9,

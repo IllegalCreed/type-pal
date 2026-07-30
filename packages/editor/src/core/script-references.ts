@@ -261,28 +261,6 @@ export function buildScriptReferenceIndex(state: EditorState): ScriptProjectDiag
     })
   }
 
-  for (const enemy of state.enemies ?? []) {
-    enemy.choreography?.forEach((hook, index) => {
-      walk(hook.body, '', {
-        caller: {
-          type: 'global',
-          sourceKey: `enemy:${enemy.id}:choreography:${index}`,
-          label: `敌人 ${enemy.id} 编舞[${index}]`,
-        },
-        self: 'none',
-      })
-    })
-    if (enemy.onDefeated?.length)
-      walk(enemy.onDefeated, '', {
-        caller: {
-          type: 'global',
-          sourceKey: `enemy:${enemy.id}:onDefeated`,
-          label: `敌人 ${enemy.id} 战败脚本`,
-        },
-        self: 'none',
-      })
-  }
-
   const authored = new Set(Object.keys(state.scriptIndex?.library ?? {}))
   const stateById = new Map<string, 'visiting' | 'done'>()
   const stack: string[] = []

@@ -246,6 +246,43 @@ describe('script v5 canonical schema', () => {
     ).toThrow(/0\.\.100/)
   })
 
+  test('startBattle choreography 只接受穷尽的 battle context 动作', () => {
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          {
+            kind: 'startBattle',
+            team: 1,
+            choreography: [
+              {
+                at: 'battleStart',
+                body: [{ kind: 'playSound', asset: 'sound.test' }],
+              },
+            ],
+          },
+        ],
+        'commands',
+      ),
+    ).not.toThrow()
+    expect(() =>
+      checkAuthorCommandsV5(
+        [
+          {
+            kind: 'startBattle',
+            team: 1,
+            choreography: [
+              {
+                at: 'battleStart',
+                body: [{ kind: 'setFlag', flag: 'forbidden', value: true }],
+              },
+            ],
+          },
+        ],
+        'commands',
+      ),
+    ).toThrow(/commands\[0\]\.choreography\[0\]\.body\[0\].*battle context/)
+  })
+
   test('validates stable stage ids and slot-aware entry', () => {
     const flow = {
       kind: 'stages',

@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util'
 import type { MigrationSnapshot } from '../../migration-baseline.js'
 import { snapshotOf } from '../../migration-plan.js'
 import {
@@ -5,9 +6,11 @@ import {
   loadProjectMigrationSnapshot,
 } from '../../migration-project-io.js'
 import type { MigrationFileSet } from '../../pal-migration.js'
+import { stableJsonSha256 } from './stable-json.js'
 
 const C8_ITEM_USE_SEAL_PATH = '_transitions/c8-item-use-v5-v1.json'
 const R13_CONFIRM_SEAL_PATH = '_transitions/r13-confirm-v1.json'
+const R13_ENEMY_SCRIPT_SEAL_PATH = '_transitions/r13-enemy-script-v1.json'
 
 function v4CompatibleAuthorPath(path: string): boolean {
   return (
@@ -136,6 +139,66 @@ function stripR13ConfirmGeneratedAdditions(
     )
 }
 
+function stripR13EnemyGeneratedAdditions(
+  migration: MigrationFileSet,
+  publishedBaseline: MigrationSnapshot,
+  project: MigrationSnapshot,
+): void {
+  const seal = publishedBaseline.files.get(R13_ENEMY_SCRIPT_SEAL_PATH)
+  if (seal === undefined) return
+  if (
+    !seal ||
+    typeof seal !== 'object' ||
+    Array.isArray(seal) ||
+    seal.kind !== 'r13-enemy-script-transition' ||
+    !seal.augmentation ||
+    typeof seal.augmentation !== 'object' ||
+    Array.isArray(seal.augmentation) ||
+    !seal.augmentation.files ||
+    typeof seal.augmentation.files !== 'object' ||
+    Array.isArray(seal.augmentation.files) ||
+    typeof seal.augmentation.files.parentEnemiesDigest !== 'string' ||
+    typeof seal.augmentation.files.successorEnemiesDigest !== 'string' ||
+    !seal.augmentation.localeDelta ||
+    typeof seal.augmentation.localeDelta !== 'object' ||
+    Array.isArray(seal.augmentation.localeDelta)
+  )
+    throw new Error('published v4 reconstruction: R13 enemy seal 无效')
+
+  const parentEnemies = migration.files.get('content/enemies.json')
+  const publishedEnemies = publishedBaseline.files.get('content/enemies.json')
+  const projectEnemies = project.files.get('content/enemies.json')
+  if (
+    parentEnemies === undefined ||
+    publishedEnemies === undefined ||
+    projectEnemies === undefined ||
+    stableJsonSha256(parentEnemies) !== seal.augmentation.files.parentEnemiesDigest ||
+    stableJsonSha256(publishedEnemies) !== seal.augmentation.files.successorEnemiesDigest ||
+    !isDeepStrictEqual(projectEnemies, publishedEnemies)
+  )
+    throw new Error('published v4 reconstruction: R13 enemy parent/author 边界漂移')
+  project.files.set('content/enemies.json', structuredClone(parentEnemies))
+
+  const baselineLocale = publishedBaseline.files.get('content/locale.json')
+  const projectLocale = project.files.get('content/locale.json')
+  if (
+    !baselineLocale ||
+    typeof baselineLocale !== 'object' ||
+    Array.isArray(baselineLocale) ||
+    !projectLocale ||
+    typeof projectLocale !== 'object' ||
+    Array.isArray(projectLocale)
+  )
+    throw new Error('published v4 reconstruction: R13 enemy locale 无效')
+  const stripped = structuredClone(projectLocale)
+  for (const [id, value] of Object.entries(seal.augmentation.localeDelta)) {
+    if (baselineLocale[id] !== value || stripped[id] !== value)
+      throw new Error(`published v4 reconstruction: R13 enemy locale 漂移 ${id}`)
+    delete stripped[id]
+  }
+  project.files.set('content/locale.json', stripped)
+}
+
 /**
  * P7 发布前，历史 shadow 测试以 v4 baseline + 当前 v4 工程验证作者三方合并。
  * 发布后 baseline/工程都已是 v5；此时从权威纯生成恢复同一 v4 base，并只叠加两版 schema
@@ -166,6 +229,7 @@ export function reconstructPublishedV4TransitionSnapshots(
   const project = loadProjectMigrationSnapshot(repo, managed)
   stripC8GeneratedAdditions(migration, publishedBaseline, project)
   stripR13ConfirmGeneratedAdditions(publishedBaseline, project)
+  stripR13EnemyGeneratedAdditions(migration, publishedBaseline, project)
   for (const [path, value] of project.files)
     if (ours.files.has(path) && v4CompatibleAuthorPath(path))
       ours.files.set(path, structuredClone(value))

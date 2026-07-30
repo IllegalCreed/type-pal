@@ -309,7 +309,7 @@ describe('cloneFromPal', () => {
     ).buffer
     const v5Manifest = {
       ...manifest,
-      contentVersion: 9,
+      contentVersion: 10,
       minimumSaveVersion: 8,
       content: {
         ...manifest.content,

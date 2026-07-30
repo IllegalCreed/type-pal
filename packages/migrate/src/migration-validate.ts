@@ -1,5 +1,4 @@
 import type {
-  EnemyDef,
   EnemyTeamDef,
   EntryPoint,
   ItemData,

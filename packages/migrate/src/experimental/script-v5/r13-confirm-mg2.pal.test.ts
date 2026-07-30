@@ -20,6 +20,7 @@ import {
   getPalTestPreparedSourceExecutionCensus,
   PAL_TEST_FAST_GATE,
 } from './pal-test-fixture.js'
+import { rewindPublishedR13EnemyTransition } from './published-r13-enemy-test-fixture.js'
 import { prepareR13CadenceAuthority, R13_CADENCE_SEAL_PATH } from './r13-cadence-mg2.js'
 import {
   assertR13ConfirmPublishedSealMatchesAuthority,
@@ -100,15 +101,16 @@ function rewindPublishedConfirmFixture(
     const parent = shared.generated.r13ConfirmParentSnapshot.files.get(path)
     if (parent === undefined) throw new Error(`R13-4 test rewind 缺 parent ${path}`)
     base.files.set(path, structuredClone(parent))
-    base.hashes?.delete(path)
+    base.hashes?.set(path, sha256(serializeMigrationJson(parent, path)))
     if (path === 'content/locale.json') {
       const authored = structuredClone(ours.files.get(path)) as Record<string, unknown>
       for (const id of shared.generated.confirmEvidence.materializedLocaleIds) delete authored[id]
       ours.files.set(path, authored as MigrationJson)
+      ours.hashes?.set(path, sha256(serializeMigrationJson(authored as MigrationJson, path)))
     } else {
       ours.files.set(path, structuredClone(parent))
+      ours.hashes?.set(path, sha256(serializeMigrationJson(parent, path)))
     }
-    ours.hashes?.delete(path)
   }
   delete base.baselineMetadata.transitions[R13_CONFIRM_TRANSITION_ID]
   base.files.delete(R13_CONFIRM_SEAL_PATH)
@@ -140,13 +142,19 @@ describe.skipIf(!existsSync(extracted))('R13-4 confirm append-only PAL MG2 seal'
 
   beforeAll(() => {
     const shared = getPalTestGeneratedFixture()
-    const base = cloneSnapshot(shared.baseline)
-    hydrateControlHashes(base)
     const managed = discoverProjectManagedFiles(
       repo,
-      new Set([...base.managedFiles, ...shared.migration.managedFiles]),
+      new Set([...shared.baseline.managedFiles, ...shared.migration.managedFiles]),
     )
-    const ours = loadProjectMigrationSnapshot(repo, managed)
+    const publishedOurs = loadProjectMigrationSnapshot(repo, managed)
+    const rewoundEnemy = rewindPublishedR13EnemyTransition({
+      publishedBaseline: shared.baseline,
+      publishedProject: publishedOurs,
+      parent: shared.generated.snapshot,
+    })
+    const base = rewoundEnemy.baseline
+    const ours = rewoundEnemy.project
+    hydrateControlHashes(base)
     rewindPublishedConfirmFixture(base, ours, shared)
     const preparedSourceCensus = PAL_TEST_FAST_GATE
       ? getPalTestPreparedSourceExecutionCensus()
