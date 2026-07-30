@@ -15,6 +15,7 @@ import {
   type SharedScriptLibraryV5,
   type SkillData,
   type SkillEffect,
+  upgradeEmbeddedBattleChoreographyV9ToV10,
   validateEnemies,
   validateItemsV5,
   validateScenesV5,
@@ -235,13 +236,21 @@ function runtimeCorpus(snapshot: MigrationSnapshot): RuntimeCorpusV3 {
   if (!Array.isArray(sceneIds) || sceneIds.some((id) => typeof id !== 'string' || id.length === 0))
     throw new Error('R13 runtime capability v3: scenes/index.json 无效')
   const scenes = validateScenesV5(
-    sceneIds.map((id) => value(snapshot, `content/scenes/${String(id)}.json`)),
+    upgradeEmbeddedBattleChoreographyV9ToV10(
+      sceneIds.map((id) => value(snapshot, `content/scenes/${String(id)}.json`)),
+      'scenes',
+    ),
   )
-  const sharedScriptsValue = value(snapshot, 'content/shared-scripts.json')
+  const sharedScriptsValue = upgradeEmbeddedBattleChoreographyV9ToV10(
+    value(snapshot, 'content/shared-scripts.json'),
+    'shared-scripts',
+  )
   checkSharedScriptLibraryV5(sharedScriptsValue)
   return {
     scenes,
-    items: validateItemsV5(value(snapshot, 'content/items.json')),
+    items: validateItemsV5(
+      upgradeEmbeddedBattleChoreographyV9ToV10(value(snapshot, 'content/items.json'), 'items'),
+    ),
     sharedScripts: sharedScriptsValue,
     enemies: validateEnemies(value(snapshot, 'content/enemies.json')),
     skills: validateSkills(value(snapshot, 'content/skills.json')).skills,

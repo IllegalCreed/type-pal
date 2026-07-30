@@ -272,6 +272,115 @@ describe('R13 runtime capability audit v3', () => {
     ).toBe(true)
   })
 
+  test.each([
+    {
+      owner: 'scene',
+      overrides: {
+        scene: {
+          id: 's001',
+          mapId: 'map-001',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            {
+              id: 'e1',
+              sprite: 'sprite.test',
+              pos: { col: 0, row: 0, height: 0 },
+              behaviors: {
+                trigger: {
+                  default: {
+                    label: 'default',
+                    order: 0,
+                    flow: {
+                      kind: 'stages',
+                      initial: 'initial',
+                      stages: [
+                        {
+                          id: 'initial',
+                          body: [
+                            {
+                              kind: 'startBattle',
+                              team: 1,
+                              choreography: [
+                                {
+                                  at: 'battleStart',
+                                  body: [{ kind: 'wait', ms: -1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    },
+    {
+      owner: 'shared',
+      overrides: {
+        shared: {
+          'shared/test': {
+            name: 'test',
+            description: '',
+            self: 'none',
+            body: [
+              {
+                kind: 'startBattle',
+                team: 1,
+                choreography: [
+                  {
+                    at: 'battleStart',
+                    body: [{ kind: 'wait', ms: -1 }],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    },
+    {
+      owner: 'item-private',
+      overrides: {
+        items: [
+          {
+            id: '1',
+            use: {
+              effects: [
+                {
+                  kind: 'itemPrivateScript',
+                  name: 'test',
+                  script: {
+                    body: [
+                      {
+                        kind: 'startBattle',
+                        team: 1,
+                        choreography: [
+                          {
+                            at: 'battleStart',
+                            body: [{ kind: 'wait', ms: -1 }],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ])('$owner 内嵌 battle choreography 的已知 kind 非法 payload 也 fail-closed', ({ overrides }) => {
+    expect(() => auditR13RuntimeCapabilitiesV3(snapshot(overrides))).toThrow(
+      /choreography.*ms: 期望非负有限数/,
+    )
+  })
+
   test('unknown battle action 先由 content10 validator 拒绝，不能靠 cast 偷渡', () => {
     const invalid = enemy({
       choreography: [
