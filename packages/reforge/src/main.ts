@@ -2181,6 +2181,7 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         const granted = effectiveGrantedStatuses(c, itemsById)
         return {
           roleId: c.id,
+          actorTemplateId: c.template,
           hp: c.hp,
           maxHp: c.maxHP,
           mp: c.mp,

@@ -2,12 +2,15 @@ import type { EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
+  applyEnemyEffect,
   applyEnemyEquivItem,
   applyPoisonToEnemy,
   applyPoisonToPlayer,
+  buildAiView,
   type CreatePlayerInput,
   createBattleState,
   curePoisons,
+  decideEnemyAction,
   pendingItemUses,
   resolveAttack,
   runBattleToEnd,
@@ -44,6 +47,7 @@ function mkEnemy(id: string, o: Partial<EnemyDef['stats']> = {}): EnemyDef {
 }
 const player = (roleId: string, o: Partial<CreatePlayerInput> = {}): CreatePlayerInput => ({
   roleId,
+  actorTemplateId: roleId,
   hp: 100,
   maxHp: 100,
   mp: 30,
@@ -403,7 +407,8 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
       enemies: [caller],
     })
     runOneTurn(s2)
-    expect(s2.enemies.length).toBe(5) // 1 + min(9, 4) = 5 槽满
+    expect(s2.enemies.length).toBe(1) // 原版 0x9E:空槽不足时整次失败，不做部分召唤
+    expect(s2.log.some((l) => l.includes('召唤失败'))).toBe(true)
   })
 
   test('站位定死:死怪不换挡、分裂/召唤填死槽继承位置(作者报「死后错位」根治)', () => {
@@ -440,6 +445,181 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     expect(s.enemyFled).toBe(true)
     expect(s.phase).toBe('won')
     expect(s.log.some((l) => l.includes('逃走了'))).toBe(true)
+  })
+})
+
+describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
+  test('AI 条件读取 ActorDef 模板 id，rules > instance fallback > attack', () => {
+    const caster = mkEnemy('caster')
+    caster.ai = {
+      resistanceToSorcery: 0,
+      rules: [
+        {
+          at: 'act',
+          when: { kind: 'playerInParty', role: 'zhao-linger' },
+          do: { kind: 'pass' },
+        },
+      ],
+      fallback: {
+        action: { kind: 'cast', skillId: 'bolt' },
+        chancePercent: 100,
+      },
+    }
+    const bolt: SkillData = {
+      id: 'bolt',
+      name: '雷',
+      cost: { mp: 0 },
+      target: 'oneEnemy',
+      effects: [],
+      animation: {},
+    }
+    const state = createBattleState({
+      players: [
+        player('instance-42', {
+          actorTemplateId: 'zhao-linger',
+        }),
+      ],
+      enemies: [caster],
+      skills: { bolt },
+    })
+    const view = buildAiView(state, state.enemies[0]!)
+    expect(view.players[0]?.role).toBe('zhao-linger')
+    expect(decideEnemyAction(state, state.enemies[0]!, rng0)).toEqual({ kind: 'pass' })
+
+    caster.ai.rules = []
+    expect(decideEnemyAction(state, state.enemies[0]!, rng0)).toMatchObject({
+      kind: 'cast',
+      skill: bolt,
+    })
+    state.enemies[0]!.fallback = undefined
+    expect(decideEnemyAction(state, state.enemies[0]!, rng0).kind).toBe('attack')
+  })
+
+  test('transform 保留 script owner/cursor，切 current fallback/rules 并清 fired', () => {
+    const source = mkEnemy('source')
+    source.ai = {
+      resistanceToSorcery: 0,
+      fallback: { action: { kind: 'pass' }, chancePercent: 100 },
+      hooks: {
+        ready: {
+          initial: 'source-state',
+          states: {
+            'source-state': { body: [], next: { kind: 'stay' } },
+          },
+        },
+      },
+    }
+    source.onDefeated = [{ kind: 'giveItem', itemId: 'source-reward' }]
+    const target = mkEnemy('target')
+    target.ai = {
+      resistanceToSorcery: 0,
+      fallback: {
+        action: { kind: 'cast', skillId: 'target-magic' },
+        chancePercent: 25,
+      },
+    }
+    const state = createBattleState({
+      players: [player('hero')],
+      enemies: [source],
+      enemiesById: { target },
+    })
+    const instance = state.enemies[0]!
+    instance.firedRules.add(3)
+    const result = applyEnemyEffect(state, 0, {
+      kind: 'transform',
+      enemyId: 'target',
+    })
+    expect(result.outcome).toBe('succeeded')
+    expect(instance.def).toBe(target)
+    expect(instance.scriptOwnerDef).toBe(source)
+    expect(instance.hookCursors).toEqual({ ready: 'source-state' })
+    expect(instance.fallback).toEqual(target.ai.fallback)
+    expect(instance.fallback).not.toBe(target.ai.fallback)
+    expect(instance.firedRules.size).toBe(0)
+  })
+
+  test('divide 深拷 owner/cursor/fallback/fired；summon 使用目标 initial state', () => {
+    const source = mkEnemy('source', { health: 90 })
+    source.ai = {
+      resistanceToSorcery: 0,
+      fallback: { action: { kind: 'pass' }, chancePercent: 70 },
+      hooks: {
+        ready: {
+          initial: 'retry',
+          states: { retry: { body: [], next: { kind: 'stay' } } },
+        },
+      },
+    }
+    const summoned = mkEnemy('summoned')
+    summoned.ai = {
+      resistanceToSorcery: 0,
+      hooks: {
+        turnStart: {
+          initial: 'intro',
+          states: { intro: { body: [], next: { kind: 'stay' } } },
+        },
+      },
+    }
+    const divideState = createBattleState({
+      players: [player('hero')],
+      enemies: [source],
+    })
+    divideState.enemies[0]!.firedRules.add(2)
+    expect(
+      applyEnemyEffect(divideState, 0, { kind: 'divide', copies: 1 }).outcome,
+    ).toBe('succeeded')
+    const copy = divideState.enemies[1]!
+    expect(copy.scriptOwnerDef).toBe(source)
+    expect(copy.hookCursors).toEqual({ ready: 'retry' })
+    expect(copy.hookCursors).not.toBe(divideState.enemies[0]!.hookCursors)
+    expect(copy.fallback).toEqual(source.ai.fallback)
+    expect(copy.fallback).not.toBe(divideState.enemies[0]!.fallback)
+    expect([...copy.firedRules]).toEqual([2])
+
+    const summonState = createBattleState({
+      players: [player('hero')],
+      enemies: [source],
+      enemiesById: { summoned },
+    })
+    const result = applyEnemyEffect(summonState, 0, {
+      kind: 'summon',
+      enemyId: 'summoned',
+      count: 1,
+    })
+    expect(result.outcome).toBe('succeeded')
+    const child = summonState.enemies[result.spawnedIdxs![0]!]!
+    expect(child.def).toBe(summoned)
+    expect(child.scriptOwnerDef).toBe(summoned)
+    expect(child.hookCursors).toEqual({ turnStart: 'intro' })
+    expect(child.firedRules.size).toBe(0)
+  })
+
+  test('summon 空槽不足整体失败，状态门失败不产生部分 mutation', () => {
+    const caller = mkEnemy('caller')
+    const target = mkEnemy('target')
+    const state = createBattleState({
+      players: [player('hero')],
+      enemies: [caller, mkEnemy('b'), mkEnemy('c'), mkEnemy('d')],
+      enemiesById: { target },
+    })
+    const before = state.enemies.map((enemy) => enemy.def.id)
+    expect(
+      applyEnemyEffect(state, 0, {
+        kind: 'summon',
+        enemyId: 'target',
+        count: 2,
+      }).outcome,
+    ).toBe('failed')
+    expect(state.enemies.map((enemy) => enemy.def.id)).toEqual(before)
+
+    state.enemies[0]!.status.sleep = 1
+    expect(
+      applyEnemyEffect(state, 0, {
+        kind: 'transform',
+        enemyId: 'target',
+      }).outcome,
+    ).toBe('failed')
+    expect(state.enemies[0]!.def).toBe(caller)
   })
 })
 

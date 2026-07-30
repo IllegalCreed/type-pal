@@ -63,6 +63,7 @@ function mkEnemy(
 }
 const player = (roleId: string, o: Partial<BattlePlayerState> = {}): CreatePlayerInput => ({
   roleId,
+  actorTemplateId: roleId,
   hp: 100,
   maxHp: 100,
   mp: 30,

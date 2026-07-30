@@ -12,11 +12,14 @@
 
 import type {
   ActivePoison,
+  AiAction,
   AiBattleView,
   BattleStatus,
   CarriedStatus,
   ElementVec,
   EnemyDef,
+  EnemyFallback,
+  EnemyHookChannel,
   ItemData,
   LevelGrowthTarget,
   PoisonCurability,
@@ -56,7 +59,10 @@ export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'won'
 
 /** 队员战斗态（属性由 createBattleState 从 world 派生;M4a 只用攻防/HP）。 */
 export interface BattlePlayerState {
+  /** 稳定 CharacterInstance.id。 */
   roleId: string
+  /** 稳定 ActorDef.id；AI 条件与剧情固定成长不得拿实例 id 冒充模板。 */
+  actorTemplateId: string
   hp: number
   maxHp: number
   mp: number
@@ -135,7 +141,14 @@ type BuffableStat = keyof typeof STAT_BUFF_FIELD
 
 /** 敌人战斗态（引 EnemyDef + 当前 HP/status）。 */
 export interface BattleEnemyState {
+  /** 当前视觉、数值、fallback/rules 权威；transform 会切换。 */
   def: EnemyDef
+  /** ready/turnStart/onDefeated 权威；transform 后保持原 owner。 */
+  scriptOwnerDef: EnemyDef
+  /** 当前 battle 内按 hook channel 持久的具名 state cursor。 */
+  hookCursors: Partial<Record<EnemyHookChannel, string>>
+  /** 当前实例 fallback 副本；setFallback 可跨激活覆盖。 */
+  fallback?: EnemyFallback
   hp: number
   /** 站位底锚(建态时按**开战敌数**一次定死;死怪空位不递补、增援填死槽继承 ——
    *  原版/一阶段真值:布局列数=开战编队,曾按实时 length 现算 → 死怪/增援全场重排,作者报)。 */
@@ -298,6 +311,9 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     }),
     enemies: input.enemies.map((def, i) => ({
       def,
+      scriptOwnerDef: def,
+      hookCursors: initialHookCursors(def),
+      ...(def.ai.fallback ? { fallback: cloneFallback(def.ai.fallback) } : {}),
       hp: def.stats.health,
       status: emptyBattleStatus(),
       defending: false,
@@ -604,7 +620,7 @@ export function buildAiView(s: BattleState, self: BattleEnemyState): AiBattleVie
         hp: p.hp,
         mp: p.mp,
         attack: p.attackStrength,
-        role: p.roleId,
+        role: p.actorTemplateId,
       }
     }),
   }
@@ -619,6 +635,83 @@ export type EnemyDecision =
   | { kind: 'fleeAll' }
   | { kind: 'pass' }
 
+function cloneFallback(fallback: EnemyFallback): EnemyFallback {
+  return {
+    chancePercent: fallback.chancePercent,
+    action: { ...fallback.action },
+  }
+}
+
+function initialHookCursors(def: EnemyDef): Partial<Record<EnemyHookChannel, string>> {
+  return Object.fromEntries(
+    (['ready', 'turnStart'] as const).flatMap((channel) => {
+      const flow = def.ai.hooks?.[channel]
+      return flow ? [[channel, flow.initial] as const] : []
+    }),
+  )
+}
+
+function fallbackAttack(
+  view: AiBattleView,
+  rng: () => number,
+): EnemyDecision {
+  return {
+    kind: 'attack',
+    targetPlayerIdx: pickAiTarget('random', view.players, rng),
+  }
+}
+
+function resolveEnemyAiAction(
+  s: BattleState,
+  e: BattleEnemyState,
+  action: AiAction,
+  view: AiBattleView,
+  rng: () => number,
+): EnemyDecision {
+  switch (action.kind) {
+    case 'pass':
+      return { kind: 'pass' }
+    case 'attack':
+      return {
+        kind: 'attack',
+        targetPlayerIdx: pickAiTarget(action.target, view.players, rng),
+      }
+    case 'cast': {
+      if (e.status.silence > 0) return fallbackAttack(view, rng)
+      const skill = s.skills[action.skillId]
+      if (!skill) {
+        s.log.push(`${e.def.id} 施法 ${action.skillId} 缺技能数据,落普攻`)
+        return fallbackAttack(view, rng)
+      }
+      return {
+        kind: 'cast',
+        skill,
+        targetPlayerIdx: pickAiTarget(action.target, view.players, rng),
+      }
+    }
+    case 'transform': {
+      const def = s.enemiesById[action.enemyId]
+      if (!def) {
+        s.log.push(`${e.def.id} 变身 ${action.enemyId} 缺敌人数据,落普攻`)
+        return fallbackAttack(view, rng)
+      }
+      return { kind: 'transform', def }
+    }
+    case 'divide':
+      return { kind: 'divide', copies: action.copies }
+    case 'summon': {
+      const def = s.enemiesById[action.enemyId ?? e.def.id] ?? (action.enemyId ? undefined : e.def)
+      if (!def) {
+        s.log.push(`${e.def.id} 召唤 ${action.enemyId} 缺敌人数据,落普攻`)
+        return fallbackAttack(view, rng)
+      }
+      return { kind: 'summon', def, count: action.count }
+    }
+    case 'flee':
+      return { kind: 'fleeAll' }
+  }
+}
+
 /**
  * 敌人决策(M4c):规则求值器(content/enemy-ai)取首条命中;无规则/无命中 = 普攻随机
  * 活队员(原版兜底)。sleep/paralyzed → pass;沉默由求值器跳 cast 规则。
@@ -632,58 +725,113 @@ export function decideEnemyAction(
   const targets = alivePlayers(s)
   if (!canAct(e.status) || targets.length === 0) return { kind: 'pass' }
   const view = buildAiView(s, e)
-  const fallbackAttack = (): EnemyDecision => ({
-    kind: 'attack',
-    targetPlayerIdx: pickAiTarget('random', view.players, rng),
-  })
   const rules = e.def.ai.rules
-  if (!rules?.length) return fallbackAttack()
-  const d = decideByRules(rules, view, rng, e.firedRules)
-  if (!d) return fallbackAttack()
-  if (rules[d.ruleIdx]?.once) e.firedRules.add(d.ruleIdx)
-  switch (d.action.kind) {
-    case 'pass':
-      return { kind: 'pass' } // 0xFFFF 哨兵:掷中也不动(原版)
-    case 'attack':
-      return { kind: 'attack', targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng) }
-    case 'cast': {
-      const skill = s.skills[d.action.skillId]
-      if (!skill) {
-        s.log.push(`${e.def.id} 施法 ${d.action.skillId} 缺技能数据,落普攻`)
-        return fallbackAttack()
-      }
-      return {
-        kind: 'cast',
-        skill,
-        targetPlayerIdx: pickAiTarget(d.action.target, view.players, rng),
-      }
+  if (rules?.length) {
+    const decision = decideByRules(rules, view, rng, e.firedRules)
+    if (decision) {
+      if (rules[decision.ruleIdx]?.once) e.firedRules.add(decision.ruleIdx)
+      return resolveEnemyAiAction(s, e, decision.action, view, rng)
     }
-    case 'transform': {
-      const def = s.enemiesById[d.action.enemyId]
-      if (!def) {
-        s.log.push(`${e.def.id} 变身 ${d.action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack()
-      }
-      return { kind: 'transform', def }
-    }
-    case 'divide':
-      return { kind: 'divide', copies: d.action.copies }
-    case 'summon': {
-      const def =
-        s.enemiesById[d.action.enemyId ?? e.def.id] ?? (d.action.enemyId ? undefined : e.def)
-      if (!def) {
-        s.log.push(`${e.def.id} 召唤 ${d.action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack()
-      }
-      return { kind: 'summon', def, count: d.action.count }
-    }
-    case 'flee':
-      return { kind: 'fleeAll' }
   }
+  if (e.fallback && rng() * 100 < e.fallback.chancePercent)
+    return resolveEnemyAiAction(s, e, e.fallback.action, view, rng)
+  return fallbackAttack(view, rng)
 }
 
 /** 战场敌槽上限(原版 formation 最多 5)。 */
 const MAX_ENEMIES = 5
+
+export type EnemyEffectAction = Extract<
+  AiAction,
+  { kind: 'summon' | 'transform' | 'divide' }
+>
+
+export interface EnemyEffectResult {
+  outcome: 'succeeded' | 'failed'
+  kind: EnemyEffectAction['kind']
+  spawnedIdxs?: number[]
+  beforeDef?: EnemyDef
+}
+
+/**
+ * hook 与普通 AI 共用的即时敌人副作用。它不消费 actionQueue；调用方决定是否继续正常行动。
+ */
+export function applyEnemyEffect(
+  s: BattleState,
+  enemyIdx: number,
+  effect: EnemyEffectAction,
+  resolvedTarget?: EnemyDef,
+): EnemyEffectResult {
+  const enemy = s.enemies[enemyIdx]
+  if (!enemy || enemy.hp <= 0) return { outcome: 'failed', kind: effect.kind }
+  const blockedByStatus =
+    s.hidingTime > 0 ||
+    enemy.status.sleep > 0 ||
+    enemy.status.paralyzed > 0 ||
+    enemy.status.confused > 0
+  if ((effect.kind === 'summon' || effect.kind === 'transform') && blockedByStatus)
+    return { outcome: 'failed', kind: effect.kind }
+
+  if (effect.kind === 'transform') {
+    const target = resolvedTarget ?? s.enemiesById[effect.enemyId]
+    if (!target) return { outcome: 'failed', kind: effect.kind }
+    const beforeDef = enemy.def
+    enemy.def = target
+    enemy.fallback = target.ai.fallback ? cloneFallback(target.ai.fallback) : undefined
+    enemy.firedRules = new Set()
+    return { outcome: 'succeeded', kind: effect.kind, beforeDef }
+  }
+
+  if (effect.kind === 'divide') {
+    if (aliveEnemies(s).length !== 1 || enemy.hp <= 1)
+      return { outcome: 'failed', kind: effect.kind }
+    const requested = effect.copies
+    const slots = MAX_ENEMIES - aliveEnemies(s).length
+    const count = Math.min(requested, slots)
+    if (count <= 0) return { outcome: 'failed', kind: effect.kind }
+    const share = Math.max(1, Math.trunc((enemy.hp + requested) / (requested + 1)))
+    enemy.hp = share
+    const spawnedIdxs: number[] = []
+    for (let index = 0; index < count; index += 1)
+      spawnedIdxs.push(
+        spawnIntoSlot(s, {
+          def: enemy.def,
+          scriptOwnerDef: enemy.scriptOwnerDef,
+          hookCursors: { ...enemy.hookCursors },
+          ...(enemy.fallback ? { fallback: cloneFallback(enemy.fallback) } : {}),
+          hp: share,
+          status: emptyBattleStatus(),
+          defending: false,
+          firedRules: new Set(enemy.firedRules),
+          poisons: enemy.poisons.map((poison) => ({ ...poison })),
+        }),
+      )
+    return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
+  }
+
+  const target =
+    resolvedTarget ??
+    s.enemiesById[effect.enemyId ?? enemy.def.id] ??
+    (effect.enemyId === undefined ? enemy.def : undefined)
+  const slots = MAX_ENEMIES - aliveEnemies(s).length
+  if (!target || effect.count > slots) return { outcome: 'failed', kind: effect.kind }
+  const spawnedIdxs: number[] = []
+  for (let index = 0; index < effect.count; index += 1)
+    spawnedIdxs.push(
+      spawnIntoSlot(s, {
+        def: target,
+        scriptOwnerDef: target,
+        hookCursors: initialHookCursors(target),
+        ...(target.ai.fallback ? { fallback: cloneFallback(target.ai.fallback) } : {}),
+        hp: target.stats.health,
+        status: emptyBattleStatus(),
+        defending: false,
+        firedRules: new Set(),
+        poisons: [],
+      }),
+    )
+  return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
+}
 
 /**
  * 推进战斗一步（headless 驱动 = 反复调至 phase 终态）。
@@ -1998,76 +2146,40 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'transform') {
-    // 原版 0x9F 状态门(script.c:2958):隐身中不可变身;眠/定上游 canAct 已挡,补混乱
-    // (混乱敌照常行动是忠实行为,但不许变身/召唤)
-    if (s.hidingTime > 0 || e.status.confused > 0) {
-      s.log.push(`${e.def.id} 变身失败`)
-      return
-    }
-    // 原版 0x9F(DM1):换 stats/精灵,**保当前 HP**;规则表随新形态,once 记账清零
-    e.def = decision.def
-    e.firedRules = new Set()
-    s.log.push(`${e.def.id} 现出真身!`)
+    const result = applyEnemyEffect(s, idx, {
+      kind: 'transform',
+      enemyId: decision.def.id,
+    }, decision.def)
+    s.log.push(
+      result.outcome === 'succeeded' ? `${e.def.id} 现出真身!` : `${e.def.id} 变身失败`,
+    )
     return
   }
   if (decision.kind === 'divide') {
-    // 原版 0x9C 引擎内建门:**仅剩自己一只活敌**且 hp>1 才分裂(一阶段 battle-opcodes DL9)
-    if (aliveEnemies(s).length !== 1) {
-      s.log.push(`${e.def.id} 分裂失败(场上不止一只)`)
-      return
-    }
-    const slots = MAX_ENEMIES - aliveEnemies(s).length
-    const n = Math.min(decision.copies, slots)
-    if (n <= 0 || e.hp <= 1) {
-      s.log.push(`${e.def.id} 分裂失败(无空位/血量不足)`)
-      return
-    }
-    const share = Math.max(1, Math.trunc(e.hp / (n + 1)))
-    e.hp = share
-    const spawned: number[] = []
-    for (let k = 0; k < n; k++) {
-      spawned.push(
-        spawnIntoSlot(s, {
-          def: e.def,
-          hp: share,
-          status: emptyBattleStatus(),
-          defending: false,
-          firedRules: new Set(),
-          poisons: [],
-        }),
-      )
-    }
-    if (s.lastAction) s.lastAction.spawnedIdxs = spawned
-    s.log.push(`${e.def.id} 分裂出 ${n} 个分身`)
+    const result = applyEnemyEffect(s, idx, {
+      kind: 'divide',
+      copies: decision.copies,
+    })
+    if (s.lastAction && result.spawnedIdxs) s.lastAction.spawnedIdxs = result.spawnedIdxs
+    s.log.push(
+      result.outcome === 'succeeded'
+        ? `${e.def.id} 分裂出 ${result.spawnedIdxs?.length ?? 0} 个分身`
+        : `${e.def.id} 分裂失败`,
+    )
     return
   }
   if (decision.kind === 'summon') {
-    // 原版 0x9E 状态门(script.c:2901):隐身中不可召唤(一阶段审计补过的坑);补混乱
-    if (s.hidingTime > 0 || e.status.confused > 0) {
-      s.log.push(`${e.def.id} 召唤失败`)
-      return
-    }
-    const slots = MAX_ENEMIES - aliveEnemies(s).length
-    const n = Math.min(decision.count, slots)
-    if (n <= 0) {
-      s.log.push(`${e.def.id} 召唤失败(无空位)`)
-      return
-    }
-    const spawned: number[] = []
-    for (let k = 0; k < n; k++) {
-      spawned.push(
-        spawnIntoSlot(s, {
-          def: decision.def,
-          hp: decision.def.stats.health,
-          status: emptyBattleStatus(),
-          defending: false,
-          firedRules: new Set(),
-          poisons: [],
-        }),
-      )
-    }
-    if (s.lastAction) s.lastAction.spawnedIdxs = spawned
-    s.log.push(`${e.def.id} 召唤了 ${n} 个 ${decision.def.id}`)
+    const result = applyEnemyEffect(s, idx, {
+      kind: 'summon',
+      enemyId: decision.def.id,
+      count: decision.count,
+    }, decision.def)
+    if (s.lastAction && result.spawnedIdxs) s.lastAction.spawnedIdxs = result.spawnedIdxs
+    s.log.push(
+      result.outcome === 'succeeded'
+        ? `${e.def.id} 召唤了 ${result.spawnedIdxs?.length ?? 0} 个 ${decision.def.id}`
+        : `${e.def.id} 召唤失败`,
+    )
     return
   }
   if (decision.kind === 'fleeAll') {
