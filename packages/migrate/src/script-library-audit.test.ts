@@ -4,13 +4,74 @@ import { deriveScriptChunk, type EnemyDef, normalizeScriptLibrary } from '@type-
 import { describe, expect, test } from 'vitest'
 import { mapScenesStatic, type SourceCmd, type SourceScene } from './migrate-content.js'
 import { makeGlobalScriptRoots } from './script-graph.js'
-import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
+import {
+  assertScriptLibraryAudit,
+  auditScriptLibrary,
+  enemyScriptAuditRoots,
+} from './script-library-audit.js'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const pathOf = (path: string): string => `${root}${path}`
 const json = <T>(path: string): T => JSON.parse(readFileSync(pathOf(path), 'utf8')) as T
 
 describe('全库脚本去内联门禁', () => {
+  test('Enemy v10 根按 battle domain 分流，ready/turnStart hook 不冒充世界 Command', () => {
+    const definition = {
+      id: 'enemy-test',
+      name: 'name.enemy-test',
+      battleSprite: 'enemy-battle-test',
+      yPosOffset: 0,
+      stats: {
+        health: 1,
+        level: 1,
+        exp: 0,
+        cash: 0,
+        attackStrength: 1,
+        magicStrength: 1,
+        defense: 1,
+        dexterity: 1,
+        fleeRate: 0,
+        physicalResistance: 0,
+        poisonResistance: 0,
+        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+        dualMove: false,
+        collectValue: 0,
+      },
+      ai: {
+        resistanceToSorcery: 0,
+        hooks: {
+          ready: {
+            initial: 'initial',
+            states: {
+              initial: {
+                body: [{ kind: 'setFallback' }],
+                next: { kind: 'stay' },
+              },
+            },
+          },
+        },
+      },
+      sounds: {},
+      choreography: [{ at: 'battleStart', body: [{ kind: 'wait', ms: 1 }] }],
+      onDefeated: [{ kind: 'giveMoney', delta: 1 }],
+    } satisfies EnemyDef
+
+    expect(enemyScriptAuditRoots([definition]).map(({ domain, id }) => ({ domain, id }))).toEqual([
+      {
+        domain: 'battle-choreography',
+        id: 'global/enemies/enemy-test/choreography-0',
+      },
+      {
+        domain: 'enemy-on-defeated',
+        id: 'global/enemies/enemy-test/on-defeated',
+      },
+      {
+        domain: 'enemy-hook',
+        id: 'global/enemies/enemy-test/hook-ready',
+      },
+    ])
+  })
+
   test('作者脚本单列统计，不稀释也不抬高迁移膨胀比', () => {
     const authoredId = 'shared/user/large-a1b2c3d4'
     const internalId = 'shared/L_1/default'
@@ -111,15 +172,7 @@ describe('全库脚本去内联门禁', () => {
     })
     const migrated = mapScenesStatic(scenes, events, new Map(), globalRoots)
     const productEnemies = json<EnemyDef[]>('projects/pal/content/enemies.json')
-    const globalCommandRoots = productEnemies.flatMap((enemy) => [
-      ...(enemy.choreography ?? []).map((hook, index) => ({
-        id: `global/enemies/${enemy.id}/choreography-${index}`,
-        body: hook.body,
-      })),
-      ...(enemy.onDefeated?.length
-        ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
-        : []),
-    ])
+    const globalCommandRoots = enemyScriptAuditRoots(productEnemies)
     const audit = auditScriptLibrary({
       sourceJson,
       sourcePrettyBytes: new TextEncoder().encode(sourceText).byteLength,

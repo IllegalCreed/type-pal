@@ -508,9 +508,9 @@ describe.skipIf(!hasBootstrapFixture)('MG2 真实 PAL 数据临时目录演练',
     expect(theirs.report.assets).toEqual(expectedPalAssetReport)
     expect(auditMusicReferences(theirs.files)).toEqual({
       musicAssets: 86,
-      playMusic: 1_174,
-      stopMusic: 53,
-      legacyPlayMusicTotal: 1_227,
+      playMusic: 1_176,
+      stopMusic: 54,
+      legacyPlayMusicTotal: 1_230,
       sceneMusic: 36,
       sceneBattleMusic: 81,
       startBattleWithMusic: 31,
@@ -698,9 +698,9 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     await assertFrameAnimationsMatchSource(sources)
     expect(auditMusicReferences(theirs.files)).toEqual({
       musicAssets: 86,
-      playMusic: 1_174,
-      stopMusic: 53,
-      legacyPlayMusicTotal: 1_227,
+      playMusic: 1_176,
+      stopMusic: 54,
+      legacyPlayMusicTotal: 1_230,
       sceneMusic: 36,
       sceneBattleMusic: 81,
       startBattleWithMusic: 31,

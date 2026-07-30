@@ -1,5 +1,4 @@
 import type {
-  Command,
   EnemyDef,
   EnemyTeamDef,
   EntryPoint,
@@ -38,7 +37,12 @@ import { itemScriptCommandRoots } from './item-script-roots.js'
 import type { SourceItem } from './migrate-content.js'
 import type { MigrationJson, PalMigrationSources } from './pal-migration.js'
 import { MIGRATED_SCENE_ENTRY_PREFIX } from './scene-entry-normalize.js'
-import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
+import {
+  assertScriptLibraryAudit,
+  auditScriptLibrary,
+  enemyScriptAuditRoots,
+  worldCommandAuditRoots,
+} from './script-library-audit.js'
 
 export interface MigrationValidationReport {
   scenes: number
@@ -355,18 +359,6 @@ function assertStableIds(value: MigrationJson, path: string): void {
   })
 }
 
-function enemyCommandRoots(enemies: readonly EnemyDef[]): Array<{ id: string; body: Command[] }> {
-  return enemies.flatMap((enemy) => [
-    ...(enemy.choreography ?? []).map((hook, index) => ({
-      id: `global/enemies/${enemy.id}/choreography-${index}`,
-      body: hook.body,
-    })),
-    ...(enemy.onDefeated?.length
-      ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
-      : []),
-  ])
-}
-
 /**
  * 反向核对 legacy usable 真值：每个源用途必须且只能落到 clean use 或显式待处理诊断。
  * 只从最终合并 target 计算，作者 overlay 完成 use 后不能继续残留旧诊断。
@@ -619,7 +611,10 @@ export function validatePalMigrationTarget(args: {
     scenes,
     index,
     chunks,
-    extraRoots: [...enemyCommandRoots(enemies), ...itemScriptCommandRoots(items)],
+    extraRoots: [
+      ...enemyScriptAuditRoots(enemies),
+      ...worldCommandAuditRoots(itemScriptCommandRoots(items)),
+    ],
   })
   assertScriptLibraryAudit(scriptAudit)
   return {

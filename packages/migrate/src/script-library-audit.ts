@@ -1,4 +1,15 @@
-import type { Command, SceneDef, ScriptChunkV1, ScriptIndexV1, ScriptRef } from '@type-pal/content'
+import type {
+  BattleChoreographyAction,
+  Command,
+  EnemyDef,
+  EnemyHookFlow,
+  EnemyOnDefeatedCommandV10,
+  SceneDef,
+  ScriptChunkV1,
+  ScriptIndexV1,
+  ScriptRef,
+  ScriptStage,
+} from '@type-pal/content'
 import { checkScriptIndex, deriveScriptChunk } from '@type-pal/content'
 
 export interface ScriptSizeAudit {
@@ -23,15 +34,89 @@ function commandCount(node: unknown): number {
   return count
 }
 
-function walkCommands(node: unknown, visit: (command: Command) => void): void {
-  if (Array.isArray(node)) {
-    for (const value of node) walkCommands(value, visit)
-    return
+export type ScriptAuditRoot =
+  | { domain: 'world-command'; id: string; body: readonly Command[] }
+  | { domain: 'battle-choreography'; id: string; body: readonly BattleChoreographyAction[] }
+  | { domain: 'enemy-on-defeated'; id: string; body: readonly EnemyOnDefeatedCommandV10[] }
+  | { domain: 'enemy-hook'; id: string; flow: EnemyHookFlow }
+
+export function worldCommandAuditRoots(
+  roots: ReadonlyArray<{ id: string; body: readonly Command[] }>,
+): ScriptAuditRoot[] {
+  return roots.map((root) => ({ domain: 'world-command', ...root }))
+}
+
+export function enemyScriptAuditRoots(enemies: readonly EnemyDef[]): ScriptAuditRoot[] {
+  return enemies.flatMap((enemy) => [
+    ...(enemy.choreography ?? []).map(
+      (hook, index): ScriptAuditRoot => ({
+        domain: 'battle-choreography',
+        id: `global/enemies/${enemy.id}/choreography-${index}`,
+        body: hook.body,
+      }),
+    ),
+    ...(enemy.onDefeated?.length
+      ? [
+          {
+            domain: 'enemy-on-defeated' as const,
+            id: `global/enemies/${enemy.id}/on-defeated`,
+            body: enemy.onDefeated,
+          },
+        ]
+      : []),
+    ...(['ready', 'turnStart'] as const).flatMap((channel): ScriptAuditRoot[] => {
+      const flow = enemy.ai.hooks?.[channel]
+      return flow
+        ? [
+            {
+              domain: 'enemy-hook',
+              id: `global/enemies/${enemy.id}/hook-${channel}`,
+              flow,
+            },
+          ]
+        : []
+    }),
+  ])
+}
+
+function walkWorldStages(stages: readonly ScriptStage[], visit: (command: Command) => void): void {
+  for (const stage of stages) {
+    if (stage.entry) walkWorldCommands(stage.entry.prepare, visit)
+    walkWorldCommands(stage.body, visit)
   }
-  if (!node || typeof node !== 'object') return
-  const record = node as Record<string, unknown>
-  if (typeof record.kind === 'string') visit(record as unknown as Command)
-  for (const value of Object.values(record)) walkCommands(value, visit)
+}
+
+/** 只沿世界 Command 明确定义的嵌套体递归；battle context 绝不冒充 Command。 */
+function walkWorldCommands(commands: readonly Command[], visit: (command: Command) => void): void {
+  for (const command of commands) {
+    visit(command)
+    switch (command.kind) {
+      case 'branch':
+        walkWorldCommands(command.then, visit)
+        if (command.else) walkWorldCommands(command.else, visit)
+        break
+      case 'startBattle':
+        if (command.onLose) walkWorldCommands(command.onLose, visit)
+        if (command.onFlee) walkWorldCommands(command.onFlee, visit)
+        break
+      case 'teleportOut':
+        if (command.onFail) walkWorldCommands(command.onFail, visit)
+        break
+      case 'confirm':
+        walkWorldCommands(command.onNo, visit)
+        break
+      case 'setEntityAuto':
+      case 'setEntityTrigger':
+      case 'setSceneOnEnter':
+      case 'setSceneOnTeleport':
+        if (command.stages) walkWorldStages(command.stages, visit)
+        break
+    }
+  }
+}
+
+function rootNode(root: ScriptAuditRoot): unknown {
+  return root.domain === 'enemy-hook' ? root.flow : root.body
 }
 
 export function auditScriptLibrary(args: {
@@ -41,7 +126,7 @@ export function auditScriptLibrary(args: {
   scenes: readonly SceneDef[]
   index: ScriptIndexV1
   chunks: Readonly<Record<string, ScriptChunkV1>>
-  extraRoots?: ReadonlyArray<{ id: string; body: readonly Command[] }>
+  extraRoots?: readonly ScriptAuditRoot[]
 }): ScriptSizeAudit {
   const { sourceJson, sourcePrettyBytes, sourceCommandCount, scenes, index, chunks } = args
   checkScriptIndex(index)
@@ -87,17 +172,24 @@ export function auditScriptLibrary(args: {
     ...(args.extraRoots ?? []),
     ...scenes.flatMap((scene) =>
       scene.entities.flatMap((entity) =>
-        entity.hostile?.onLose?.length
-          ? [{ id: `scene/${scene.id}/hostile/${entity.id}/on-lose`, body: entity.hostile.onLose }]
+        Array.isArray(entity.hostile?.onLose) && entity.hostile.onLose.length
+          ? [
+              {
+                domain: 'world-command' as const,
+                id: `scene/${scene.id}/hostile/${entity.id}/on-lose`,
+                body: entity.hostile.onLose,
+              },
+            ]
           : [],
       ),
     ),
   ]
   for (const root of extraRoots) {
-    const compact = bytes(JSON.stringify(root.body))
+    const node = rootNode(root)
+    const compact = bytes(JSON.stringify(node))
     normalizedBytes += compact
-    prettyBytes += bytes(JSON.stringify(root.body, null, 2))
-    commands += commandCount(root.body)
+    prettyBytes += bytes(JSON.stringify(node, null, 2))
+    commands += commandCount(node)
     largestRoots.push({ id: root.id, bytes: compact })
     if (compact >= 1024 * 1024) issues.push(`脚本根 ${root.id} ${compact}B >= 1MiB`)
   }
@@ -110,23 +202,25 @@ export function auditScriptLibrary(args: {
       issues.push(`孤儿 ref ${ref.chunk}:${ref.id}(derived=${derived ?? 'none'})`)
   }
   for (const chunk of Object.values(chunks)) {
-    walkCommands(chunk.scripts, (command) => {
-      if (command.kind === 'callScript' || command.kind === 'jumpScript') checkRef(command.ref)
-      if (
-        command.kind === 'setEntityAuto' ||
-        command.kind === 'setEntityTrigger' ||
-        command.kind === 'setSceneOnEnter' ||
-        command.kind === 'setSceneOnTeleport'
-      ) {
-        if (command.script) checkRef(command.script)
-        for (const stage of command.stages ?? [])
-          if (stage.body.length !== 1 || stage.body[0]?.kind !== 'callScript')
-            issues.push(`${command.kind} 仍内联命令体`)
-      }
-    })
+    for (const body of Object.values(chunk.scripts))
+      walkWorldCommands(body, (command) => {
+        if (command.kind === 'callScript' || command.kind === 'jumpScript') checkRef(command.ref)
+        if (
+          command.kind === 'setEntityAuto' ||
+          command.kind === 'setEntityTrigger' ||
+          command.kind === 'setSceneOnEnter' ||
+          command.kind === 'setSceneOnTeleport'
+        ) {
+          if (command.script) checkRef(command.script)
+          for (const stage of command.stages ?? [])
+            if (stage.body.length !== 1 || stage.body[0]?.kind !== 'callScript')
+              issues.push(`${command.kind} 仍内联命令体`)
+        }
+      })
   }
   for (const root of extraRoots) {
-    walkCommands(root.body, (command) => {
+    if (root.domain !== 'world-command') continue
+    walkWorldCommands(root.body, (command) => {
       if (command.kind === 'callScript' || command.kind === 'jumpScript') checkRef(command.ref)
     })
   }

@@ -1590,19 +1590,35 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
     Object.assign(localeNames, enemyTctx.locale) // 战斗脚本对白(dlg.<idx>)
     assertNoMigrationGaps(enemyTctx.report)
   }
-  // M4c:敌用法术兜底补翻 —— 收集**翻译后规则里全部 cast id**(fallback magic + 0x67
-  // 时间线设置的,如僵尸王 352;曾只收 fallback 漏 0x67 → 编辑器校验器抓出 23 处悬空)。
+  // R13-5:敌用法术兜底补翻 —— 同时收集无状态 rules、初始 fallback 与 hook setFallback。
+  // 旧实现只扫 rules；敌钩迁为 persistent flow 后会静默漏掉绝大多数 0x67 技能。
   // 这些对象在 mapSkills 被 scriptOnUse≠0(玩家使用门/动态公式)延后;敌施法无使用门,
   // 伤害走战斗期 calcMagicDamage:scriptOnSuccess 可翻则翻,否则 damage fallback。
   if (enemyRes) {
     const have = new Set(skillsRes.skills.map((s) => s.id))
-    const used = [
-      ...new Set(
-        enemyRes.enemies.flatMap((e) =>
-          (e.ai.rules ?? []).flatMap((r) => (r.do.kind === 'cast' ? [Number(r.do.skillId)] : [])),
-        ),
-      ),
-    ]
+    const castIds = new Set<number>()
+    const addCast = (skillId: string, path: string): void => {
+      const id = Number(skillId)
+      if (!Number.isSafeInteger(id) || id <= 0)
+        throw new Error(`${path}: PAL 敌用技能 id 不是正整数 ${skillId}`)
+      castIds.add(id)
+    }
+    for (const enemy of enemyRes.enemies) {
+      for (const [ruleIndex, rule] of (enemy.ai.rules ?? []).entries())
+        if (rule.do.kind === 'cast')
+          addCast(rule.do.skillId, `${enemy.id}.ai.rules[${ruleIndex}].do.skillId`)
+      if (enemy.ai.fallback?.action.kind === 'cast')
+        addCast(enemy.ai.fallback.action.skillId, `${enemy.id}.ai.fallback.action.skillId`)
+      for (const [channel, flow] of Object.entries(enemy.ai.hooks ?? {}))
+        for (const [stateId, state] of Object.entries(flow.states))
+          for (const [commandIndex, command] of state.body.entries())
+            if (command.kind === 'setFallback' && command.fallback?.action.kind === 'cast')
+              addCast(
+                command.fallback.action.skillId,
+                `${enemy.id}.ai.hooks.${channel}.states.${stateId}.body[${commandIndex}]`,
+              )
+    }
+    const used = [...castIds]
     // (占位:敌用法术补翻移至 mapEnemies 之后 —— 见下方,须覆盖 0x67 时间线设置的法术)
     const spellById = new Map(src.spells.map((s) => [s.id, s]))
     for (const oid of used.sort((a, b) => a - b)) {

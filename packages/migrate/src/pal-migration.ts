@@ -56,7 +56,12 @@ import {
 } from './project-map-audit.js'
 import { mapIdFromSourceNumber, tilesetIdFromSourceNumber } from './project-map-converter.js'
 import { makeGlobalScriptRoots } from './script-graph.js'
-import { assertScriptLibraryAudit, auditScriptLibrary } from './script-library-audit.js'
+import {
+  assertScriptLibraryAudit,
+  auditScriptLibrary,
+  enemyScriptAuditRoots,
+  worldCommandAuditRoots,
+} from './script-library-audit.js'
 import { normalizeScriptLibrary } from './script-library-normalize.js'
 import type { SoundAssetForNum } from './sound-migration.js'
 import { sceneSlug } from './source-facts.js'
@@ -168,18 +173,6 @@ export function derivePalMigrationFileSet(
 
 function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
-}
-
-function enemyCommandRoots(enemies: readonly EnemyDef[]) {
-  return enemies.flatMap((enemy) => [
-    ...(enemy.choreography ?? []).map((hook, index) => ({
-      id: `global/enemies/${enemy.id}/choreography-${index}`,
-      body: hook.body,
-    })),
-    ...(enemy.onDefeated?.length
-      ? [{ id: `global/enemies/${enemy.id}/on-defeated`, body: enemy.onDefeated }]
-      : []),
-  ])
 }
 
 /**
@@ -350,7 +343,7 @@ function assertPalBattleSpriteBaseline(args: {
     throw new Error(`PAL battle-sprite 未引用资源漂移: ${unused.join(',')}`)
 
   const indirectEdges: Array<{ source: string; target: string; kind: 'transform' | 'summon' }> = []
-  for (const enemy of args.enemies)
+  for (const enemy of args.enemies) {
     for (const rule of enemy.ai.rules ?? []) {
       if (rule.do.kind === 'transform')
         indirectEdges.push({ source: enemy.id, target: rule.do.enemyId, kind: 'transform' })
@@ -361,9 +354,27 @@ function assertPalBattleSpriteBaseline(args: {
           kind: 'summon',
         })
     }
+    for (const flow of Object.values(enemy.ai.hooks ?? {}))
+      for (const state of Object.values(flow.states))
+        for (const command of state.body) {
+          if (command.kind !== 'effect') continue
+          if (command.effect.kind === 'transform')
+            indirectEdges.push({
+              source: enemy.id,
+              target: command.effect.enemyId,
+              kind: 'transform',
+            })
+          else if (command.effect.kind === 'summon')
+            indirectEdges.push({
+              source: enemy.id,
+              target: command.effect.enemyId ?? enemy.id,
+              kind: 'summon',
+            })
+        }
+  }
   const transforms = indirectEdges.filter(({ kind }) => kind === 'transform')
   const summons = indirectEdges.filter(({ kind }) => kind === 'summon')
-  if (transforms.length !== 4 || summons.length !== 22 || indirectEdges.length !== 26)
+  if (transforms.length !== 4 || summons.length !== 32 || indirectEdges.length !== 36)
     throw new Error(
       `PAL 敌 AI 间接边漂移: transform=${transforms.length} summon=${summons.length} total=${indirectEdges.length}`,
     )
@@ -381,15 +392,21 @@ function assertPalBattleSpriteBaseline(args: {
     'enemy-410',
     'enemy-419',
     'enemy-420',
+    'enemy-421',
     'enemy-433',
     'enemy-434',
     'enemy-441',
     'enemy-442',
+    'enemy-448',
+    'enemy-452',
     'enemy-453',
     'enemy-461',
     'enemy-470',
     'enemy-490',
     'enemy-492',
+    'enemy-493',
+    'enemy-503',
+    'enemy-511',
     'enemy-512',
   ]
   if (JSON.stringify(uniqueTargets) !== JSON.stringify(expectedTargets))
@@ -508,7 +525,11 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     },
     boss.chunks,
   )
-  const extraCommandRoots = [...enemyCommandRoots(boss.enemies), ...itemScriptCommandRoots(items)]
+  const itemCommandRoots = itemScriptCommandRoots(items)
+  const scriptAuditRoots = [
+    ...enemyScriptAuditRoots(boss.enemies),
+    ...worldCommandAuditRoots(itemCommandRoots),
+  ]
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
   const spriteActions = auditPalSpriteActions({
     scenes: sceneOutput.scenes,
@@ -519,7 +540,9 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     frameCountByAsset: new Map(
       sources.worldSpriteFrameCounts.map((count, index) => [palSpriteAssetId(index + 1), count]),
     ),
-    extraRoots: extraCommandRoots,
+    // Enemy v10 hooks/choreography/onDefeated 从 schema 上不能写世界精灵；
+    // sprite action census 只接受真正的 world Command roots。
+    extraRoots: itemCommandRoots,
   })
   const foldedSpriteRoots = foldedSpriteActionRoots(sceneOutput.scenes, spriteActions)
   assertPalWorldSpriteBaseline(sprites, sources.assetCatalog, sources.worldSpriteFrameCounts)
@@ -552,7 +575,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     scenes: spriteActionMaterialization.scenes,
     index: scripts.index,
     chunks: scripts.chunks,
-    extraRoots: extraCommandRoots,
+    extraRoots: scriptAuditRoots,
   })
   assertScriptLibraryAudit(audit)
 
