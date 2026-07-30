@@ -116,11 +116,11 @@ function project(): LoadedProjectV5Core {
   return { sharedScripts: {} } as unknown as LoadedProjectV5Core
 }
 
-function currentManifest(): ProjectManifest<9> {
+function currentManifest(): ProjectManifest<10> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 9,
+    contentVersion: 10,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {},

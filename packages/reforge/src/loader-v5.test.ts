@@ -30,11 +30,11 @@ const jsons = {
   assetCatalog: { version: 1, assets: {} },
 }
 
-function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
+function manifest(over: Partial<ProjectManifest<10>> = {}): ProjectManifest<10> {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 9,
+    contentVersion: 10,
     minimumSaveVersion: 8,
     entryScene: 's001',
     content: {

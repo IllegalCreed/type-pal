@@ -1,7 +1,10 @@
 import type { ProjectManifest, WorldStateV9 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { normalizePayloadV8, preflightSaveMigration } from './migration.js'
-import type { SavePayloadV8 } from './types.js'
+import {
+  normalizeLegacyPayloadV8Content9,
+  preflightLegacySaveMigrationV9,
+} from './migration.js'
+import type { LegacySavePayloadV8Content9 } from './types.js'
 
 function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
   return {
@@ -17,7 +20,9 @@ function manifest(over: Partial<ProjectManifest<9>> = {}): ProjectManifest<9> {
   }
 }
 
-function payload(over: Partial<SavePayloadV8> = {}): SavePayloadV8 {
+function payload(
+  over: Partial<LegacySavePayloadV8Content9> = {},
+): LegacySavePayloadV8Content9 {
   const world: WorldStateV9 = {
     party: [],
     money: 0,
@@ -39,17 +44,20 @@ function payload(over: Partial<SavePayloadV8> = {}): SavePayloadV8 {
   }
 }
 
-describe('SAVE8 / content9 current epoch', () => {
-  test('当前 8/9 只克隆并验证', async () => {
+describe('SAVE8 / content9 historical epoch', () => {
+  test('historical 8/9 verifier 保持字面量固定', async () => {
     const raw = payload()
-    const resolver = await preflightSaveMigration({ manifest: manifest(), payload: raw })
+    const resolver = await preflightLegacySaveMigrationV9({
+      manifest: manifest(),
+      payload: raw,
+    })
     expect(resolver).toEqual({
       kind: 'current-v9',
       projectId: 'demo',
       targetContentVersion: 9,
       targetSaveVersion: 8,
     })
-    const normalized = normalizePayloadV8(raw, resolver)
+    const normalized = normalizeLegacyPayloadV8Content9(raw, resolver)
     expect(normalized).toEqual(raw)
     expect(normalized).not.toBe(raw)
     expect(normalized.world).not.toBe(raw.world)
@@ -72,21 +80,23 @@ describe('SAVE8 / content9 current epoch', () => {
         reads += 1
         throw new Error('不得读取 sidecar')
       },
-    } as unknown as Parameters<typeof preflightSaveMigration>[0]
-    await expect(preflightSaveMigration(args)).rejects.toThrow(/epoch 已断开/)
+    } as unknown as Parameters<typeof preflightLegacySaveMigrationV9>[0]
+    await expect(preflightLegacySaveMigrationV9(args)).rejects.toThrow(
+      /historical contentVersion 9 只接受/,
+    )
     expect(reads).toBe(0)
   })
 
   test('错误工程与 minimumSaveVersion 明确拒绝', async () => {
     await expect(
-      preflightSaveMigration({
+      preflightLegacySaveMigrationV9({
         manifest: manifest(),
         payload: payload({ projectId: 'other' }),
       }),
     ).rejects.toThrow(/不匹配/)
     for (const minimumSaveVersion of [undefined, 7, 9, 1.5])
       await expect(
-        preflightSaveMigration({
+        preflightLegacySaveMigrationV9({
           manifest: manifest({ minimumSaveVersion }),
           payload: payload(),
         }),

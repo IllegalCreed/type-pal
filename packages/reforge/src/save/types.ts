@@ -7,6 +7,7 @@ import type {
   WorldStateV7,
   WorldStateV8,
   WorldStateV9,
+  WorldStateV10,
 } from '@type-pal/content'
 
 export type SlotKind = 'auto' | 'quick' | 'manual'
@@ -78,11 +79,19 @@ export interface SavePayloadV7 extends Omit<SavePayload, 'version' | 'contentVer
   world: WorldStateV8
 }
 
-/** 当前 R13-4 envelope；content9 与 SAVE8 主动断开旧 cursor epoch。 */
-export interface SavePayloadV8 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+/** R13-4 已发布的历史 SAVE8/content9 payload；只供 v10 identity 升级与 byte-pin。 */
+export interface LegacySavePayloadV8Content9
+  extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
   version: 8
   contentVersion: 9
   world: WorldStateV9
+}
+
+/** 当前 R13-5 envelope；世界形状不变，只切 content epoch。 */
+export interface SavePayloadV8 extends Omit<SavePayload, 'version' | 'contentVersion' | 'world'> {
+  version: 8
+  contentVersion: 10
+  world: WorldStateV10
 }
 
 export type StoredSavePayload =
@@ -91,4 +100,5 @@ export type StoredSavePayload =
   | SavePayloadV6
   | LegacySavePayloadV7
   | SavePayloadV7
+  | LegacySavePayloadV8Content9
   | SavePayloadV8

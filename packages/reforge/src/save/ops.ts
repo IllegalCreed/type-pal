@@ -69,7 +69,7 @@ export function buildPayloadV6(
 }
 
 export function buildPayloadV8(
-  world: import('@type-pal/content').WorldStateV9,
+  world: import('@type-pal/content').WorldStateV10,
   position: { sceneId: string; pos: GridPos; facing: Facing },
   projectId: string,
 ): SavePayloadV8 {

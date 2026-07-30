@@ -64,7 +64,7 @@ describe('save ops（纯）', () => {
     const payload = buildPayloadV8(world, position, 'demo')
     expect(payload).toEqual({
       version: 8,
-      contentVersion: 9,
+      contentVersion: 10,
       projectId: 'demo',
       world,
       position,
