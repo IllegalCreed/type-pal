@@ -1,387 +1,87 @@
 /**
- * 敌人战斗脚本翻译(M4c-2)—— scriptOnTurnStart / scriptOnReady / scriptOnBattleEnd。
+ * 敌人三钩子迁移边界。
  *
- * 原版敌钩子是 **advance 游标状态机**:链按 `end` 分段,每轮 hook 消费一段并推进游标,
- * 走到尾段后停在原地(稳态)。考证(2026-07-04,全 54 敌 67 链普查 + script.c):
- * - 0x67 [magic, rate]:设 fallback 施法参数(rate 缺省 = 10 必中;65535 哨兵 = 掷中不动;
- *   0 = 关施法)。**持久生效直到下一次 0x67** → 翻成 [turn 区间, chance] cast/pass 规则。
- * - 0x06 [rate, tgt]:rate% 执行下一条(不中跳 tgt;tgt=0 = 终止本轮)。
- * - 0x9F 变身 / 0x9C 分裂 / 0x9E 召唤:跟在 0x06 概率门后 → [turn>=k, chance] 动作规则。
- * - 0x91 [tgt]:非首只跳走 → 段条件 firstOfKind。
- * - 对话/音效(0x47)/逃跑(0x69):演出 → choreography(事件 Command 词汇)。
- * - battleEnd:全部是「(概率)给物+对白」→ 复用 translateStages → onDefeated。
- * 翻不净(0x79 队伍条件对话 / 复杂跳转臂等)→ pending 标注,编辑器手修(同 M3 方针)。
+ * ready / turnStart 必须保留 PAL 的 battle-local persistent cursor，不能再投影成绝对回合
+ * AiRule；battleEnd 则是一次性 canonical onDefeated body，生成前严格限制为单 stage 与
+ * EnemyOnDefeatedCommandV10 子集。
  */
-import type { AiRule, BattleChoreography, Command, DialogueCue } from '@type-pal/content'
-
-/** 0x79 队伍门:原版 rgwName word(operand[0])→ 角色模板 id。rgwName=[36,37,38,40,39,41]。 */
-const NAME_WORD_TO_SLUG: Record<number, string> = {
-  36: 'li-xiaoyao',
-  37: 'zhao-linger',
-  38: 'lin-yueru',
-  39: 'anu',
-  40: 'wu-hou',
-  41: 'gai-luojiao',
-}
-
 import {
-  DEFAULT_LEGACY_DIALOG_STATE,
-  decodeLegacyDialogueLine,
-  LEGACY_DIALOG_DEFAULT_SPEED,
-  putLegacyDialogueText,
-} from './legacy-dialog.js'
-import { resolveSoundAsset } from './sound-migration.js'
-import type { SourceCmd } from './source-facts.js'
+  type AiRule,
+  type BattleChoreography,
+  checkEnemyHookFlow,
+  checkEnemyOnDefeatedCommandsV10,
+  type EnemyFallback,
+  type EnemyHookChannel,
+  type EnemyHookFlow,
+  type EnemyOnDefeatedCommandV10,
+} from '@type-pal/content'
+import { translateEnemyHookFlow, type EnemyHookOwner } from './translate-enemy-hook-flow.js'
 import type { TranslateCtx } from './translate-events.js'
 import { translateStages } from './translate-events.js'
 
-/** 说话人行:全角/半角冒号结尾(原版约定,同 translate-events SPEAKER_RE)。 */
-const ENEMY_SPEAKER_RE = /[∶:：]\s*$/
-
 export interface EnemyScriptTranslation {
+  /** 保留作者侧无状态策略槽；PAL 源敌钩不再向这里生成伪 turn rule。 */
   rules: AiRule[]
+  fallback?: EnemyFallback
+  hooks?: Partial<Record<EnemyHookChannel, EnemyHookFlow>>
+  /** PAL 敌钩演出归 hook owner；这里只保留兼容输出形状，成功时恒为空。 */
   choreography: BattleChoreography[]
-  onDefeated?: Command[]
+  onDefeated?: EnemyOnDefeatedCommandV10[]
+  /** 新 translator 遇缺口 fail-loud；成功迁移时恒为空。 */
   pending: string[]
 }
 
-interface Seg {
-  /** 1-based 轮次(= advance 游标位置)。 */
-  k: number
-  ops: SourceCmd[]
-}
-
-/** 链 → advance 段列表(end 分隔;跟 goto/0x04 call;环/深度截断)。 */
-function segment(ctx: TranslateCtx, ip: number): Seg[] | undefined {
-  const start = ctx.labelAt.get(`L_${ip}`)
-  if (!start) return undefined
-  const segs: Seg[] = []
-  let cur: SourceCmd[] = []
-  const stack: { cmds: readonly SourceCmd[]; idx: number }[] = []
-  let cmds = start.cmds
-  let i = start.idx
-  const seen = new Set<string>()
-  let guard = 0
-  while (i < cmds.length && guard++ < 400) {
-    const key = `${i}`
-    if (seen.has(key)) break
-    seen.add(key)
-    const c = cmds[i]!
-    // 邻链边界:走到带 label 的行(非本链首)= 下一个敌/剧情链的开头 → 本链终结。
-    // (原版游标理论上能推进过去,但那要 10+ 轮,实战不可达;不拦会把邻链规则误并入本敌。)
-    if (c.label && !(cmds === start.cmds && i === start.idx) && stack.length === 0) break
-    if (c.op === 'end') {
-      // call 内的 end = 返回;顶层 end = 段界
-      const back = stack.pop()
-      if (back) {
-        cmds = back.cmds
-        i = back.idx
-        continue
-      }
-      segs.push({ k: segs.length + 1, ops: cur })
-      cur = []
-      i++
-      if (segs.length > 24) break // 防病理长链
-      continue
-    }
-    if (c.op === 'goto') {
-      const t = ctx.labelAt.get(`L_${(c as { to?: number }).to}`)
-      if (!t) break
-      cmds = t.cmds
-      i = t.idx
-      continue
-    }
-    if (c.op === 'raw' && c.opcode === 0x04) {
-      const t = ctx.labelAt.get(`L_${c.operands?.[0]}`)
-      if (t) {
-        stack.push({ cmds, idx: i + 1 })
-        cmds = t.cmds
-        i = t.idx
-        continue
-      }
-    }
-    cur.push(c)
-    i++
-  }
-  if (cur.length) segs.push({ k: segs.length + 1, ops: cur })
-  // 去掉尾部空段(链尾连续 end)
-  while (segs.length && segs[segs.length - 1]!.ops.length === 0) segs.pop()
-  return segs
-}
-
-/** turn 区间条件:[k, until) 与可选 chance/firstOfKind 组合。 */
-function turnCond(
-  k: number,
-  until: number | undefined,
-  extra: (AiRule['when'] | undefined)[],
-): AiRule['when'] {
-  const parts: NonNullable<AiRule['when']>[] = []
-  if (k > 1) parts.push({ kind: 'turn', op: '>=', value: k })
-  if (until !== undefined)
-    parts.push({ kind: 'not', cond: { kind: 'turn', op: '>=', value: until } })
-  for (const e of extra) if (e) parts.push(e)
-  if (parts.length === 0) return undefined
-  if (parts.length === 1) return parts[0]
-  return { kind: 'all', of: parts }
-}
-
-/**
- * 翻译一个敌人的 turnStart/ready 钩子链(策略 + 演出)。
- * hook 决定演出挂点(turnStart 演出常见;ready 演出罕见,同样挂 turnStart 播放)。
- */
-function translateHook(
-  ctx: TranslateCtx,
-  ip: number,
-  out: EnemyScriptTranslation,
-  hookName: string,
-  casts: { k: number; magic: number; rate: number }[],
-): void {
-  const segs = segment(ctx, ip)
-  if (!segs) {
-    out.pending.push(`${hookName}: L_${ip} 不可达`)
-    return
-  }
-  for (const seg of segs) {
-    let firstOnly = false
-    let partyGate: string | undefined // 0x79 队伍门(角色模板 id 在队才演本段;绿叶小妖:赵灵儿退下)
-    const dlg: Command[] = []
-    // 说话人合并:冒号结尾行(「蜘蛛精:」)不单独成句,记住它合并到紧跟的正文句
-    // (否则说话人行自己成一句空正文对话 —— 战斗框只显「蜘蛛精:」没台词,作者报的通病)
-    let pendingSpeaker: string | undefined
-    let dialogState = { ...DEFAULT_LEGACY_DIALOG_STATE }
-    let i = 0
-    while (i < seg.ops.length) {
-      const c = seg.ops[i]!
-      const oc = c.op === 'raw' ? c.opcode : undefined
-      const ops = c.operands ?? []
-      if (oc === 0x91) {
-        firstOnly = true // 非首只跳走 = 首只才执行本段
-        i++
-        continue
-      }
-      if (oc === 0x79) {
-        // 0x79「队伍含角色 → 跳台词」:原版条件分支(角色在队说 A、否则说 B/沉默)。
-        // 遭遇绑定后队伍门无意义 —— boss 遭遇本就是对的剧情场。仅当**段内 0x79 后无对话**
-        // (胖苗/绿叶:台词只在跳转目标 addr)时,内联目标段对话让台词进来;段内已有对话
-        // (女飞贼/石长老:0x79 后是「不跳」臂台词)则保留段内、不动(避免双套台词)。
-        const laterDialog = seg.ops.slice(i + 1).some((x) => x.op === 'showDialog')
-        if (!laterDialog) {
-          // 台词只在跳转目标(胖苗/绿叶):内联目标段对话进来,并**保留队伍门**为本段 when。
-          // 巡逻小怪(绿叶小妖)门控有意义:赵灵儿在队才退下,单人(首次剧情)照打 —— 不再丢门。
-          partyGate = NAME_WORD_TO_SLUG[ops[0] ?? -1]
-          const targetOps = segment(ctx, ops[1] ?? 0)?.[0]?.ops ?? []
-          seg.ops.splice(i + 1, 0, ...targetOps) // 拼到 0x79 后,循环继续走进(speaker 合并/0x90 丢弃复用现逻辑)
-        }
-        i++
-        continue
-      }
-      if (oc === 0x67) {
-        casts.push({ k: seg.k, magic: ops[0] ?? 0, rate: ops[1] || 10 })
-        i++
-        continue
-      }
-      if (oc === 0x06) {
-        const rate = ops[0] ?? 100
-        const tgt = ops[1] ?? 0
-        const nxt = seg.ops[i + 1]
-        const noc = nxt?.op === 'raw' ? nxt.opcode : undefined
-        if (tgt === 0 && (noc === 0x9f || noc === 0x9c || noc === 0x9e)) {
-          const nops = nxt?.operands ?? []
-          const when = turnCond(seg.k, undefined, [
-            { kind: 'chance', percent: rate },
-            firstOnly ? { kind: 'firstOfKind' } : undefined,
-          ])
-          if (noc === 0x9f)
-            out.rules.push({
-              at: 'act',
-              ...(when ? { when } : {}),
-              do: { kind: 'transform', enemyId: `enemy-${nops[0]}` },
-            })
-          if (noc === 0x9c)
-            out.rules.push({
-              at: 'act',
-              ...(when ? { when } : {}),
-              do: { kind: 'divide', copies: 1 },
-            })
-          if (noc === 0x9e)
-            out.rules.push({
-              at: 'act',
-              ...(when ? { when } : {}),
-              do: {
-                kind: 'summon',
-                ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}),
-                count: Math.max(1, nops[1] ?? 1),
-              },
-            })
-          i += 2
-          // 动作后常跟 0x67 收尾(设哨兵/关闭)——按时间线正常收
-          continue
-        }
-        out.pending.push(`${hookName} 段${seg.k}: 0x06 复杂跳转臂(tgt=${tgt})`)
-        i++
-        continue
-      }
-      if (oc === 0x9c || oc === 0x9f || oc === 0x9e) {
-        // 无概率门的裸动作(红史莱姆 0x9c)
-        const nops = c.operands ?? []
-        const when = turnCond(seg.k, undefined, [firstOnly ? { kind: 'firstOfKind' } : undefined])
-        if (oc === 0x9f)
-          out.rules.push({
-            at: 'act',
-            ...(when ? { when } : {}),
-            do: { kind: 'transform', enemyId: `enemy-${nops[0]}` },
-          })
-        if (oc === 0x9c)
-          out.rules.push({
-            at: 'act',
-            ...(when ? { when } : {}),
-            do: { kind: 'divide', copies: 1 },
-          })
-        if (oc === 0x9e)
-          out.rules.push({
-            at: 'act',
-            ...(when ? { when } : {}),
-            do: {
-              kind: 'summon',
-              ...(nops[0] ? { enemyId: `enemy-${nops[0]}` } : {}),
-              count: Math.max(1, nops[1] ?? 1),
-            },
-          })
-        i++
-        continue
-      }
-      if (oc === 0x47) {
-        const sound = resolveSoundAsset(ops[0], ctx.soundAssetForNum)
-        if (sound) dlg.push({ kind: 'playSound', asset: sound })
-        i++
-        continue
-      }
-      if (oc === 0x69) {
-        dlg.push({ kind: 'fleeBattle' })
-        i++
-        continue
-      }
-      if (oc === 0x89) {
-        // B9:脚本终止战斗(BattleResult=op0;0 终止无奖励 = 林天南撑 7 回合 / 3 胜 / 1 负)
-        const r = ops[0] ?? 0
-        dlg.push({ kind: 'endBattle', result: r === 3 ? 'won' : r === 1 ? 'lost' : 'terminate' })
-        i++
-        continue
-      }
-      if (oc === 0x90 && (ops[2] ?? 0) === 0 && (ops[1] ?? 0) === 0) {
-        // 0x90 敌自清 scriptOnTurnStart:原版「说一次降级」的 hack。二阶段遭遇绑定后**无需**——
-        // 这段对话属于 boss 遭遇(startBattle),杂兵遭遇本就不带,不存在"跨遭遇串戏"。丢弃。
-        i++
-        continue
-      }
-      if (oc === 0x05 || oc === 0x8e) {
-        i++ // 清框/恢复画面:演出播放器自管,忽略
-        continue
-      }
-      if (c.op === 'showDialog') {
-        const idx = (c as { messageIndex?: number }).messageIndex
-        const raw = (c as { text?: string }).text ?? ''
-        const decoded = decodeLegacyDialogueLine(raw, dialogState)
-        if (ENEMY_SPEAKER_RE.test(decoded.plainText)) {
-          // 说话人行:记住,合并到下一正文句(不单独成对话)
-          pendingSpeaker = decoded.plainText.replace(ENEMY_SPEAKER_RE, '')
-        } else {
-          dialogState = decoded.state
-          const text =
-            idx === undefined
-              ? decoded.text
-              : putLegacyDialogueText(ctx.locale, idx, raw, decoded.text)
-          const cue: DialogueCue = {
-            rows: [
-              {
-                text,
-                ...(decoded.speed !== LEGACY_DIALOG_DEFAULT_SPEED ? { speed: decoded.speed } : {}),
-              },
-            ],
-            ...(decoded.autoAdvance !== undefined ? { autoAdvance: decoded.autoAdvance } : {}),
-            ...(decoded.cursorFrame !== undefined ? { cursorFrame: decoded.cursorFrame } : {}),
-          }
-          if (pendingSpeaker) {
-            const sk = `spk.${pendingSpeaker}`
-            ctx.locale[sk] = pendingSpeaker
-            cue.speaker = sk
-            pendingSpeaker = undefined
-          }
-          dlg.push({ kind: 'dialog', cue })
-        }
-        i++
-        continue
-      }
-      if (typeof c.op === 'string' && c.op.startsWith('setDialogStyle')) {
-        i++
-        continue
-      }
-      out.pending.push(
-        `${hookName} 段${seg.k}: ${c.op === 'raw' ? `op 0x${c.opcode?.toString(16)}` : c.op} 未翻`,
-      )
-      i++
-    }
-    if (dlg.length) {
-      const when = turnCond(seg.k, undefined, [
-        firstOnly ? { kind: 'firstOfKind' } : undefined,
-        partyGate ? { kind: 'playerInParty', role: partyGate } : undefined,
-      ])
-      out.choreography.push({
-        at: 'turnStart',
-        once: true, // advance 语义:该段只演一次
-        ...(when ? { when } : {}),
-        body: dlg,
-      })
-    }
+function initialFallback(
+  initialCast: { magic: number; rate: number } | undefined,
+): EnemyFallback | undefined {
+  if (!initialCast || initialCast.magic === 0) return undefined
+  return {
+    action:
+      initialCast.magic === 0xffff
+        ? { kind: 'pass' }
+        : { kind: 'cast', skillId: String(initialCast.magic) },
+    chancePercent: Math.max(0, Math.min(100, initialCast.rate * 10)),
   }
 }
 
-/** 施法时间线 → 区间规则(magic=0 区间无规则 = 纯普攻;65535 → pass)。 */
-function castTimelineRules(casts: readonly { k: number; magic: number; rate: number }[]): AiRule[] {
-  const sorted = [...casts].sort((a, b) => a.k - b.k)
-  // 同 k 后者覆盖(脚本首段 0x67 覆盖 initial)
-  const dedup: typeof sorted = []
-  for (const c of sorted) {
-    if (dedup.length && dedup[dedup.length - 1]!.k === c.k) dedup[dedup.length - 1] = c
-    else dedup.push(c)
-  }
-  const rules: AiRule[] = []
-  for (let j = 0; j < dedup.length; j++) {
-    const c = dedup[j]!
-    const until = dedup[j + 1]?.k
-    if (c.magic === 0) continue
-    const when = turnCond(c.k, until, [{ kind: 'chance', percent: c.rate * 10 }])
-    rules.push({
-      at: 'act',
-      ...(when ? { when } : {}),
-      do: c.magic === 0xffff ? { kind: 'pass' } : { kind: 'cast', skillId: String(c.magic) },
-    })
-  }
-  return rules
+function ownerLabel(owner: EnemyHookOwner | undefined): string {
+  return owner ? `${owner.id}「${owner.name}」` : 'enemy'
 }
 
-/**
- * 翻译一个敌人的三钩子。battleEnd 复用事件翻译(线性给物+对白)。
- * initialCast = 敌表 fallback(magic/magicRate),并入 0x67 时间线统一生成区间规则
- * (原版语义:初始参数生效至首个 0x67 覆盖)。
- */
+/** 翻译一个敌人的 ready / turnStart / battleEnd 三个入口。 */
 export function translateEnemyScripts(
   ctx: TranslateCtx,
   hooks: { turnStart?: number; ready?: number; battleEnd?: number },
   initialCast?: { magic: number; rate: number },
+  owner?: EnemyHookOwner,
 ): EnemyScriptTranslation {
-  const out: EnemyScriptTranslation = { rules: [], choreography: [], pending: [] }
-  const casts: { k: number; magic: number; rate: number }[] = []
-  if (initialCast && initialCast.magic !== 0 && initialCast.rate > 0) {
-    casts.push({ k: 1, magic: initialCast.magic, rate: initialCast.rate })
+  const out: EnemyScriptTranslation = {
+    rules: [],
+    choreography: [],
+    pending: [],
   }
-  if (hooks.ready) translateHook(ctx, hooks.ready, out, 'ready', casts)
-  if (hooks.turnStart) translateHook(ctx, hooks.turnStart, out, 'turnStart', casts)
-  out.rules.push(...castTimelineRules(casts))
+  const fallback = initialFallback(initialCast)
+  if (fallback) out.fallback = fallback
+
+  for (const channel of ['ready', 'turnStart'] as const) {
+    const address = hooks[channel]
+    if (!address) continue
+    const translated = translateEnemyHookFlow(ctx, address, channel, owner)
+    checkEnemyHookFlow(translated.flow, `${ownerLabel(owner)}.ai.hooks.${channel}@L_${address}`)
+    out.hooks ??= {}
+    out.hooks[channel] = translated.flow
+  }
+
   if (hooks.battleEnd) {
-    const stages = translateStages(`L_${hooks.battleEnd}`, undefined, ctx)
-    const body = stages?.[0]?.body ?? []
+    const address = hooks.battleEnd
+    const path = `${ownerLabel(owner)} battleEnd L_${address}`
+    const stages = translateStages(`L_${address}`, undefined, ctx)
+    if (!stages || stages.length !== 1)
+      throw new Error(`${path}: 期望恰好 1 个 stage，收到 ${stages?.length ?? 0}`)
+    const body: unknown = stages[0]?.body
+    checkEnemyOnDefeatedCommandsV10(body, `${path}.body`)
     if (body.length) out.onDefeated = body
   }
+
   return out
 }

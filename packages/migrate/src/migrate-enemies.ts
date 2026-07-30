@@ -128,9 +128,8 @@ export function mapEnemies(
         dualMove: stats.dualMove !== 0,
         collectValue: stats.collectValue,
       },
-      // M4c:AI 全走翻译器 —— fallback(magic+magicRate)并入 0x67 时间线生成区间规则,
-      // 钩子链(advance 游标状态机)翻成 [turn/chance] transform/divide/summon/cast 规则
-      // + 演出 choreography + 战后 onDefeated(考证:translate-enemy-scripts.ts 头注)。
+      // R13-5:初始 magic/rate 是实例 fallback；ready/turnStart 保留 persistent hook cursor，
+      // 不再投影成绝对回合 rule。战后脚本生成前须通过单 stage + onDefeated 严格子集校验。
       ...(() => {
         const t = tctx
           ? translateEnemyScripts(
@@ -141,17 +140,21 @@ export function mapEnemies(
                 battleEnd: eo.scriptOnBattleEnd || undefined,
               },
               { magic: stats.magic, rate: stats.magicRate },
+              { id, name },
             )
           : translateEnemyScripts(
               { labelAt: new Map(), locale: localeNames, report: emptyTranslateReport() },
               {},
               { magic: stats.magic, rate: stats.magicRate },
+              { id, name },
             )
         if (t.pending.length) pendingScripts.push({ id, name, notes: t.pending })
         return {
           ai: {
             resistanceToSorcery: eo.resistanceToSorcery,
             ...(t.rules.length ? { rules: t.rules } : {}),
+            ...(t.fallback ? { fallback: t.fallback } : {}),
+            ...(t.hooks ? { hooks: t.hooks } : {}),
           },
           ...(t.choreography.length ? { choreography: t.choreography } : {}),
           ...(t.onDefeated?.length ? { onDefeated: t.onDefeated } : {}),
