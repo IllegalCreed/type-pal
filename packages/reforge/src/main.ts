@@ -2541,33 +2541,36 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
         if (c.extraPoisonRes) c.extraPoisonRes = undefined
         if (c.poisons?.length) curePoisons(c, project.poisonsById, 'severe')
       }
-      // Phase E 战后脚本(battle.c:1334-1337):胜利后逐敌槽跑 scriptOnBattleEnd(→ onDefeated,
-      // 掉落对话/剧情旗标);返回值不回写(原版同)。触发战斗的脚本 runner 正悬挂在 startBattle
-      // 上占着全局 runner 槽 → 独立 runner 内联跑(外层在等本函数返回,无并行);沿用发起者
-      // runner signal，auto 重启只会取消自己的战斗。敌整场逃离(0x69)不跑(无奖励语义,同 rewards)。
-      if (result === 'win' && !session.enemyFled() && world.script) {
-        for (const def of session.enemySlotDefs()) {
-          if (!def.onDefeated?.length) continue
-          const r = new ScriptRunner(
-            scriptHost,
-            world.script,
-            launchSignal,
-            Math.random,
-            project.scriptStore,
-          )
-          await r
-            .runStages(`battle-end:${def.id}`, [{ body: def.onDefeated }])
-            .catch((err: unknown) => {
-              if (!isAbortError(err)) console.error('[script] onDefeated', def.id, err)
+      // Phase E 战后脚本：逐槽按 scriptOwnerDef 跑 canonical V5 onDefeated。
+      // exact launchSignal 复用父 activity lineage；F5 已关 gate 时不得另开 transient 自锁。
+      // 非 abort 错误向外传播，禁止 console.error 后假装战斗成功。
+      let hasBattleEndError = false
+      let battleEndError: unknown
+      try {
+        if (result === 'win' && !session.enemyFled()) {
+          const runtime = scriptRuntimeV5
+          const scripted = session.enemySlotDefs().filter((def) => def.onDefeated?.length)
+          if (scripted.length && !runtime)
+            throw new Error('enemy onDefeated 需要 canonical script v5 runtime')
+          for (const def of scripted) {
+            await expectDefined(runtime).runCommands(expectDefined(def.onDefeated), {
+              signal: launchSignal,
+              timing: 'interactive',
             })
-          assertLaunchCurrent()
+            assertLaunchCurrent()
+          }
         }
+      } catch (error) {
+        if (isAbortError(error)) throw error
+        hasBattleEndError = true
+        battleEndError = error
       }
       // 战斗 readiness 可能淘汰场景 LRU；恢复当前（也可能被战后脚本切换过的）场景工作集。
       await prepareSceneSounds(scene, world)
       assertLaunchCurrent()
       // 战斗内切过曲(战斗 BGM/胜利小调)→ 回场景曲;lose 进 gameOver 流程不回。
       if (result !== 'lose') restoreSceneMusic()
+      if (hasBattleEndError) throw battleEndError
       return result
     },
     openShop: (shopId, mode, signal) => {
@@ -3235,10 +3238,18 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     hostileBusy = true
     try {
       // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
-      const result = await host.startBattle(
-        h.team,
-        h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
-      )
+      const result = scriptRuntimeV5
+        ? await scriptRuntimeV5.host.startBattle(
+            {
+              team: h.team,
+              ...(h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : {}),
+            },
+            new AbortController().signal,
+          )
+        : await host.startBattle(
+            h.team,
+            h.battleFieldId !== undefined ? { fieldId: h.battleFieldId } : undefined,
+          )
       if (result === 'win') {
         e.hidden = true // 消失
         if (h.respawnSeconds && h.respawnSeconds > 0) {
@@ -4506,7 +4517,10 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       return { running: !!runner, world: world.script }
     },
     /** dev:直开一场战斗(M4c 验证/编辑器试打入口)。 */
-    startBattle: (team: number) => host.startBattle(team),
+    startBattle: (team: number) =>
+      scriptRuntimeV5
+        ? scriptRuntimeV5.host.startBattle({ team }, new AbortController().signal)
+        : host.startBattle(team),
     /** dev:按稳定 AssetId 播过场视频。 */
     playVideo: (asset: string) => host.playVideo(asset),
     /** dev:按稳定 AssetId 播帧动画。 */
@@ -4552,7 +4566,6 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
     resumeScriptExecutionGates()
     const gameplayFrozen = scriptConfirmModal.active
     const clockFrame = gameplayClock.advance(t, gameplayFrozen)
-    const dt = clockFrame.realDt
     const gameplayDt = clockFrame.gameplayDt
     nowMs = clockFrame.gameplayNow
     // ── M3a 脚本 driver 推进(tick 时间源):计时器 → 兑现;淡入淡出 → 进度;对话关 → 兑现 ──

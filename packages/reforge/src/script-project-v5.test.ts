@@ -10,6 +10,10 @@ import type { LoadedProjectV5Core } from './loader-v5.js'
 import { normalizePayloadV8, preflightSaveMigration } from './save/migration.js'
 import { buildPayloadV8 } from './save/ops.js'
 import {
+  withRegisteredScriptActivityLineageV5,
+  withScriptActivityLineageV5,
+} from './script-activity-lineage-v5.js'
+import {
   type ProjectScriptHostOptionsV5,
   ProjectScriptRuntimeHostV5,
   ScriptProjectRuntimeV5,
@@ -644,6 +648,150 @@ describe('canonical script v5 project runtime', () => {
     const snapshot = await save
     expect(snapshots).toBe(1)
     expect(snapshot.flags['after-answer']).toBe(true)
+  })
+
+  test('confirm 中请求保存后，startBattle/onDefeated 复用父 activity 且快照包含完整子链', async () => {
+    const battleScene = structuredClone(scene)
+    const flow = battleScene.entities[0]?.behaviors?.trigger?.talk?.flow
+    if (!flow || flow.kind !== 'stages') throw new Error('fixture trigger flow')
+    flow.stages[0]!.body = [
+      { kind: 'confirm', onNo: [] },
+      { kind: 'startBattle', team: 1 },
+      { kind: 'setFlag', flag: 'outer-after-battle', value: true },
+    ]
+    const world = emptyWorldScriptStateV5()
+    const confirmEntered = deferred<void>()
+    const answer = deferred<boolean>()
+    let runtime!: ScriptProjectRuntimeV5
+    runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      scene: () => battleScene,
+      confirm: () => {
+        confirmEntered.resolve()
+        return answer.promise
+      },
+      startBattle: async (_request, signal) => {
+        await runtime.runCommands([{ kind: 'setFlag', flag: 'battle-end', value: true }], {
+          signal,
+        })
+        return 'win'
+      },
+    })
+    const signal = new AbortController().signal
+    const running = runtime.runEntityBehavior(battleScene, 'e1', 'trigger', {
+      signal,
+    })
+    await confirmEntered.promise
+
+    let snapshots = 0
+    const save = runtime.withSaveBarrier(() => {
+      snapshots += 1
+      return structuredClone(world)
+    })
+    await Promise.resolve()
+    expect(snapshots).toBe(0)
+
+    answer.resolve(true)
+    await expect(running).resolves.toBe(true)
+    const snapshot = await save
+    expect(snapshots).toBe(1)
+    expect(snapshot.flags).toMatchObject({
+      'battle-end': true,
+      'outer-after-battle': true,
+    })
+  })
+
+  test('无父 flow 的 hostile/dev 战斗从开战起持有 transient activity', async () => {
+    const world = emptyWorldScriptStateV5()
+    const battleEntered = deferred<void>()
+    const releaseBattle = deferred<void>()
+    let runtime!: ScriptProjectRuntimeV5
+    runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host(),
+      startBattle: async (_request, signal) => {
+        battleEntered.resolve()
+        await releaseBattle.promise
+        await runtime.runCommands([{ kind: 'setFlag', flag: 'hostile-battle-end', value: true }], {
+          signal,
+        })
+        return 'win'
+      },
+    })
+    const running = runtime.host.startBattle({ team: 2 }, new AbortController().signal)
+    await battleEntered.promise
+
+    let snapshots = 0
+    const save = runtime.withSaveBarrier(() => {
+      snapshots += 1
+      return structuredClone(world)
+    })
+    await Promise.resolve()
+    expect(snapshots).toBe(0)
+
+    releaseBattle.resolve()
+    await expect(running).resolves.toBe('win')
+    const snapshot = await save
+    expect(snapshots).toBe(1)
+    expect(snapshot.flags['hostile-battle-end']).toBe(true)
+  })
+
+  test('battle/onDefeated 错误向外传播并只关闭一次 activity', async () => {
+    const world = emptyWorldScriptStateV5()
+    let runtime!: ScriptProjectRuntimeV5
+    runtime = new ScriptProjectRuntimeV5(project(), world, digest, {
+      ...host((command) => {
+        if (command.kind === 'setFlag' && command.flag === 'explode')
+          throw new Error('onDefeated failed')
+      }),
+      startBattle: async (_request, signal) => {
+        await runtime.runCommands([{ kind: 'setFlag', flag: 'explode', value: true }], { signal })
+        return 'win'
+      },
+    })
+    await expect(
+      runtime.host.startBattle({ team: 3 }, new AbortController().signal),
+    ).rejects.toThrow('onDefeated failed')
+
+    const barrier = runtime.coordinator.requestSaveBarrier()
+    await expect(barrier.ready).resolves.toBeUndefined()
+    barrier.release()
+  })
+
+  test('共用 signal 的并行父 flow 以引用计数保留 activity lineage', async () => {
+    const coordinator = new FlowRuntimeCoordinatorV5()
+    const runtimeKey = {}
+    const signal = new AbortController().signal
+    const releaseFirst = deferred<void>()
+    const releaseSecond = deferred<void>()
+    const firstLease = coordinator.beginActivity()
+    const secondLease = coordinator.beginActivity()
+    if (!firstLease || !secondLease) throw new Error('fixture activity lease')
+
+    const first = (async () => {
+      try {
+        await withRegisteredScriptActivityLineageV5(runtimeKey, signal, () => releaseFirst.promise)
+      } finally {
+        firstLease.close()
+      }
+    })()
+    const second = (async () => {
+      try {
+        await withRegisteredScriptActivityLineageV5(runtimeKey, signal, async () => {
+          await releaseSecond.promise
+          await withScriptActivityLineageV5(runtimeKey, coordinator, signal, async () => {})
+        })
+      } finally {
+        secondLease.close()
+      }
+    })()
+
+    releaseFirst.resolve()
+    await first
+    const barrier = coordinator.requestSaveBarrier()
+    releaseSecond.resolve()
+    await second
+    await expect(barrier.ready).resolves.toBeUndefined()
+    barrier.release()
   })
 
   test('transient commands wait for an already-ready save barrier and abort cleanly', async () => {

@@ -8,6 +8,10 @@ import type {
   WorldScriptStateV5,
 } from '@type-pal/content'
 import type { LoadedProjectV5Core } from './loader-v5.js'
+import {
+  withRegisteredScriptActivityLineageV5,
+  withScriptActivityLineageV5,
+} from './script-activity-lineage-v5.js'
 import type { RuntimeLeafCommandV5 } from './script-compiler-v5.js'
 import { compileScriptFlowV5, MemorySharedScriptResolverV5 } from './script-compiler-v5.js'
 import type { ScriptRuntimeContextV5, ScriptRuntimeHostV5 } from './script-runner-v5.js'
@@ -237,11 +241,13 @@ export class ProjectScriptRuntimeHostV5 implements ScriptRuntimeHostV5 {
     return this.options.confirm(signal)
   }
 
-  startBattle(
+  async startBattle(
     request: Parameters<ScriptRuntimeHostV5['startBattle']>[0],
     signal: AbortSignal,
   ): Promise<'win' | 'lose' | 'flee'> {
-    return this.options.startBattle(request, signal)
+    return await withScriptActivityLineageV5(this, this.coordinator, signal, () =>
+      this.options.startBattle(request, signal),
+    )
   }
 
   teleportOut(signal: AbortSignal): Promise<boolean> {
@@ -325,16 +331,18 @@ export class ScriptProjectRuntimeV5 {
     if (!active) return false
     const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
     try {
-      await runner.runFlow(
-        compileScriptFlowV5(active.behavior.flow, {
-          canonicalContentDigest: this.canonicalContentDigest,
-          timing: channel === 'auto' ? 'auto' : 'interactive',
-        }),
-        {
-          cursor: active.cursor,
-          cursorController: active.lease,
-          self: target,
-        },
+      await withRegisteredScriptActivityLineageV5(this.host, options.signal, () =>
+        runner.runFlow(
+          compileScriptFlowV5(active.behavior.flow, {
+            canonicalContentDigest: this.canonicalContentDigest,
+            timing: channel === 'auto' ? 'auto' : 'interactive',
+          }),
+          {
+            cursor: active.cursor,
+            cursorController: active.lease,
+            self: target,
+          },
+        ),
       )
       return true
     } finally {
@@ -364,18 +372,20 @@ export class ScriptProjectRuntimeV5 {
     if (!active) return false
     const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
     try {
-      await runner.runFlow(
-        compileScriptFlowV5(active.hook.flow, {
-          canonicalContentDigest: this.canonicalContentDigest,
-          timing: 'interactive',
-          allowSceneEntry: slot === 'onEnter',
-        }),
-        {
-          cursor: active.cursor,
-          cursorController: active.lease,
-          allowSceneEntry: slot === 'onEnter',
-          runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
-        },
+      await withRegisteredScriptActivityLineageV5(this.host, options.signal, () =>
+        runner.runFlow(
+          compileScriptFlowV5(active.hook.flow, {
+            canonicalContentDigest: this.canonicalContentDigest,
+            timing: 'interactive',
+            allowSceneEntry: slot === 'onEnter',
+          }),
+          {
+            cursor: active.cursor,
+            cursorController: active.lease,
+            allowSceneEntry: slot === 'onEnter',
+            runSceneEntry: options.runSceneEntry ?? slot === 'onEnter',
+          },
+        ),
       )
       return true
     } finally {
@@ -387,15 +397,8 @@ export class ScriptProjectRuntimeV5 {
     commands: readonly AuthorCommandV5[],
     options: RunProjectCommandsV5Options,
   ): Promise<void> {
-    let activity = this.coordinator.beginActivity()
-    while (!activity && this.coordinator.gateClosed()) {
-      await this.coordinator.waitForActivationGate(options.signal)
-      options.signal.throwIfAborted()
-      activity = this.coordinator.beginActivity()
-    }
-    if (!activity) throw new Error('script v5 transient activity 无法登记')
-    const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
-    try {
+    await withScriptActivityLineageV5(this.host, this.coordinator, options.signal, async () => {
+      const runner = new ScriptRunnerV5(this.host, options.signal, this.shared)
       await runner.runFlow(
         compileScriptFlowV5(
           {
@@ -414,9 +417,7 @@ export class ScriptProjectRuntimeV5 {
           ...(options.self ? { self: structuredClone(options.self) } : {}),
         },
       )
-    } finally {
-      activity.close()
-    }
+    })
   }
 
   async runSharedScript(script: string, options: RunProjectCommandsV5Options): Promise<void> {
