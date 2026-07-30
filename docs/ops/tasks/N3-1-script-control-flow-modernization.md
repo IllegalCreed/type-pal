@@ -6143,8 +6143,8 @@ accept，也不改变 19-locale 双签门禁**。截至本 checkpoint 未运行�
 
 ### R13-5 敌人脚本 / battle context 公共 delta 设计门禁（2026-07-30）
 
-**当前状态：blocked on Kimi / GLM design signature。不得开始实现、不得改 canonical
-schema、版本常量、project/baseline 或 seal。**
+**当前状态：build allowed。Codex / Kimi / GLM 已于 2026-07-30 全部签 `agree`；
+Codex 是唯一 Coding Owner。**
 
 源账与反例见
 [P7-R13-5 敌人脚本源语义审计](../audits/codex-r13-5-enemy-source-semantics-audit.md)。
@@ -6299,10 +6299,12 @@ fleeBattle / endBattle / revivePartyAll / increaseHpMp
 - wait 使用 GameplayClock deadline；battle-only `stopMusic.fadeMs` 还原 `0x77`
   （enemy-483 为 3000ms），play/stop music 接现有 main audio callback；旧 fade 的迟到停止
   必须受请求 serial 保护，不能误杀随后 music38；
-- `fleeBattle` / `endBattle` 只登记 pending terminal；必须等**整次 hook activation 的
-  synchronous continue closure 完成且其 choreography queue 播完**才提交战果，不能在单个
-  body 后提前结束。任一路径最多一个 terminal；重复/冲突 terminal 由 validator 拒绝，
-  activation 抛错或 session abort 时不提交迟到 terminal；
+- `fleeBattle` / `endBattle` 遇到时必须**立即登记 terminal request**，从该点起禁止新行动和
+  新 hook activation；但当前 hook activation 的 synchronous continue closure 与已经排入的
+  choreography 仍须继续，不能像现 runtime 一样清空队列。视觉/战果 settlement 只在该 closure
+  和队列排净后提交。这样同时保留 0x69 立即写 BattleResult 与原解释器仍继续执行后续指令的
+  两层语义；任一路径最多一个 terminal，重复/冲突由 validator 拒绝，activation 抛错或 session
+  abort 时不得提交迟到 settlement；
 - BattleSession 对 action union 穷尽执行；default 必须抛错，禁止 log-only。
 
 content10 同时把 `EnemyDef.onDefeated` 从 legacy `Command[]` 收窄为显式 context union：
@@ -6413,7 +6415,8 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 4. **动态**：483 `stop(fadeMs=3000) → sound213 → 1600ms → music38` 且旧 fade 不误杀新曲；
    519 八项成长、复活、回满、
    白闪、角色模板唯一性、战中值、战后 world、save/reload；496 team34/team37 双臂；
-   499 flee 后对白；transform chain 后仍跑原 script owner 的 battleEnd。
+   499 两臂、flee request 立即且后续 `0x06[30,0]` 严格 71% skip / 29% 说明对白；
+   transform chain 后仍跑原 script owner 的 battleEnd。
 5. **负测**：battleEnd 两 stage、未知 battle action、悬空/循环 flow、
    onDefeated refused command 均在写盘前失败。
 6. **save barrier 竞态**：
@@ -6427,15 +6430,83 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 | Agent | 结论 | 日期 | 备注 |
 |---|---|---|---|
 | Codex | **agree** | 2026-07-30 | 只读源账与 runtime/public boundary 审计完成。12/31、enemy-483/519/496、五类 cursor 反例与 15 battleEnd 事实已冻结；两轮对抗复核提出的 effect 不吞行动、script owner、activity lineage 与唯一角色实例等阻断均已闭合，最终复核无剩余 P0/P1；同意最小 enemy hook flow、battle-only action、canonical onDefeated authority、content10/SAVE8 identity 与 append-only publication。 |
-| Kimi | pending | — | 架构/runtime/schema/版本/MG2 主审；签字前不得实现。 |
-| GLM | pending | — | 数据/source disposition/测试矩阵/版本升级主审；签字前不得实现。 |
+| Kimi | **agree** | 2026-07-30 | 架构/runtime/schema/版本/MG2 主审通过：hook flow 五类 transition+per-instance cursor+fallback 最小充分（421/469/486/539/547 反例逐一可表达）；ready 后仍行动对 fight.c:1719-1724 一手核实；transform 不改三脚本指针对 script.c:2954-2969 一手核实；明王固定成长与 game-mechanics:1260-1300 逐条吻合；onDefeated canonical authority + lineage 成立；content10/SAVE8 identity 与 append-only 自洽。附 P1-P7 风险钉（见「Kimi R13-5 设计主审」）。 |
+| GLM | **agree** | 2026-07-30 | 独立 build 复算 + 源语义逐敌一手验证。**账**：`buildPalMigration` 复算 raw 153 / withScript 54 / pendingScripts 12（id 420/421/422/435/463/469/483/486/499/519/539/547 精确匹配）/ pending notes 31 = 31 site；project+baseline `enemies.json` 各 153。**逐敌源语义**（从 all.json + enemy-objects/teams/player-roles + sdlpal script.c/fight.c 独立核）：496 @41432 `0x79[盖罗娇=41,41473]` 真双臂（无盖→对白→fallback 385；有盖→378→328→0xFFFF pass→0x89 terminate），team34=[527,496,527] 496 非 lead / team37=[496] 均可达 ✅；519 turnStart L_42237 八项成长 level+11/maxHP+170/maxMP+190/attack+100/magic+155/defense+55/speed+80/luck+30（opcode **0x19** 非 0x66，数值/op[2]=2→role1 赵灵儿 全吻合）+battleEnd giveItem 230 ✅；483 `0x77[1]`=fade 3.0s / sound213 / `0x85[20]`=1600ms / music38 时序全对 ✅。**battleEnd**：15 onDefeated 全单 stage（array 无 stages）、command kinds 恰为 `branch/dialog/giveItem/stopScript`、无世界写指令 ✅。**版本链**：parent r13-confirm-v1 digest `89092578…` + 旧六层 file SHA（P7 `41263ba1`/C8 `325d52ed`/cadence `2b1e71b0`/cross `723e4fd2`/item-throw `2c741222`/confirm `38d129fb`）byte-pin 对象确认；content10/SAVE8 identity + v9→v10 纯映射升级器 + 递归扫 startBattle.choreography/onDefeated 禁裸 cast 设计成立。**附 G1 风险钉（非 blocker，实现期核对）**：审计 enemy-499「runtime 遇 flee 会清队列，后段永不可达」的**机制描述错误** —— 后段不可达真因是 `[40971] 0x06[30,0,0]` 概率门（71% 跳 globalIp 0→end 终止 / 29% 续跑到说明对白），不是 0x69 flee 清队列；type-pal `event-system.ts:4406-4413` turnStart 上下文 OP_JUMP_BY_RATE 无 target!==0 守卫、jumpToGlobalIp(0)→ip=-1→+1=0→cmd[0]end，71%/29% 与 sdlpal InterpretInstruction:3299 对齐；0x69 走 D26(2b) 入队作 effect、不阻断后段对话（tickBattleDialog phase-agnostic）。验收矩阵「499 flee 后对白」的**处置方向正确**（保留双臂+后段），但若按审计错误理由做「flee 延迟到演出体收尾后结算」会改变原版 flee 即时语义——实现时须按 0x06 概率门迁移，不得延迟 flee。 |
 
-**交接**：Codex 可只读回答审查问题；Kimi / GLM 均 `agree` 前不得开始 build。任一方
-`counter` 时维持 blocked，并把反例与最小修订写回本节。
+**build 准入结论**：三方均 `agree`，R13-5 可进入 build；Codex 为唯一 Coding Owner。
+实现完成后仍须回到 `review` 集齐三方 `accept`，不得提前标 N3-1 / C8 / ED-5I done。
+
+#### Kimi R13-5 设计主审（2026-07-30）
+
+**方法**：只读设计审查；对 sdlpal fight.c/script.c 关键语义、game-mechanics 明王节、既有
+enemy translator/battle-session 形态与 Codex 审计逐项一手核对。
+
+**逐项结论**：
+
+1. **hook flow 最小充分** ✅。stay/restart/continue/advance/branch/random/commandOutcome
+   七形态覆盖 12 pending 全部反例：421（self-summon 双臂+失败重试+reset）、422（>100 恒
+   fall-through 门记 explicit-no-op + 42637/42639 循环）、435（@41555 unreachable 记
+   unreachable 不强翻）、463（顺序门四臂）、469/486/539（重试+reset 循环）、547（0xA2
+   单次抽样四臂）。per-instance cursor 只活 BattleState 不进世界存档（战斗不可存档的既定
+   边界一致）；setFallback 对应 0x67 实例级持续改写；rules > fallback > attack 的优先级与
+   初始 magic/rate 归 fallback 的划分干净。0x06 边界规范化（clamp(rate-1)%）与 random
+   单次抽样禁多次近似，处理了我 R13-1 核过的同类 off-by-one。
+2. **ready 后仍行动** ✅（一手核实 fight.c:1719-1724：`wScriptOnReady = RunTriggerScript`
+   后紧跟 `PAL_BattleEnemyPerformAction`）——hook effect 是行动前即时副作用，不吞正常
+   行动；sleep/paralyzed/confused 不跑 ready 沿用一阶段真值。
+3. **生命周期 scriptOwnerDef** ✅（一手核实 script.c:2954-2969：0x9F 只换 wObjectID 与
+   e、三脚本指针不动）——summon/divide/transform 三策略与战后枚举取
+   scriptOwnerDef.onDefeated 均忠实；divide 复制三指针（script.c:2789-2826）。
+4. **明王 applyActorGrowth/playActorCastEffect** ✅ 与 game-mechanics.md:1260-1300 逐条
+   吻合：八项固定 0x19（非 0x8D 非随机非 Extra）、0x22 复活、0x1D 回满到新上限、0x92
+   白闪绑稳定 ActorDef.id；内部 fixedCharacterGrowth 不复用强制 expAfter:0 的
+   characterGrowth，不清 exp；恰好一个实例校验防 .find() 静默。
+5. **onDefeated canonical authority** ✅：v10 显式 context union（13 叶 + branch）、
+   transient body 无持久 cursor、不可伪造 lineage 复用父 activity、父 activity 覆盖
+   battle+onDefeated+外层 safe point、snapshot 在世界写+safe point+释放 lease 后——彻底
+   关闭我 P7-R13 红队 R1 的 scratch 写入黑洞；无新增公共 runner API、无裸 cast。
+6. **生成期 fail-loud** ✅：battleEnd 恰 1 stage 断言在任何 [0] 读取前（关 M7）、
+   choreography 收窄为穷尽 union + BattleSession default 抛错（关 M6 的 log-only 开放口）、
+   capability cell 与实现一一对应不裸口。
+7. **content10/SAVE8** ✅：公共 schema（hooks/两个 union）bump content10、世界不变 SAVE
+   保持 8、SAVE8/content9 identity normalization（deep-equal、不读 sidecar）、历史
+   epoch-v9 verifier byte-pin、LegacySavePayloadV8Content9 拆分不原地漂移、A7-4→v11、
+   append-only r13-enemy-script-v1 parent=r13-confirm-v1——全部自洽。
+
+**风险钉（P，build 验收核对，不阻塞 agree）**：
+
+- **P1 hook effect 后同轮仍行动必须钉死**：ready flow 完成且无 pending terminal 后才做
+  rules > fallback > attack 正常选择；summon/divide/transform 立即生效的同一轮仍进入
+  正常行动（fight.c:1719-1724），测试必须有"effect 后同轮行动"反例。
+- **P2 生命周期三例逐一生成 oracle**：transform 后 ready/turnStart/battleEnd 仍跑原
+  script owner（含战后枚举）；divide 复制 cursor+fallback+rules+fired；summon 用目标
+  初始 cursor/fallback/rules；禁止按 state id 同名猜继承。
+- **P3 RNG 边界单测**：0x06 规范化 clamp(rate-1)%（rate=1→0%、rate=100→99%）与 random
+  单次抽样（总 weight、正整数校验、单次 RNG 消耗计数）逐边界钉死。
+- **P4 pending terminal 延迟提交**：fleeBattle/endBattle 只登记，activation 的
+  synchronous continue closure 完成且 choreography queue 播完才提交战果；抛错/abort
+  不提交迟到 terminal；enemy-499 flee 后说明对白可达为强制 oracle。
+- **P5 lineage 防死锁**：activation gate 已关闭时 onDefeated 不得 beginActivity 等自己；
+  lineage 只在 Reforge 包内、不可伪造；hostile/dev 无父 activation 才登记新 transient；
+  abort/error 只关闭一次不泄漏。
+- **P6 升级器扫描范围**：content9→10 fail-loud 必须覆盖 enemies + scene/shared/
+  item-private 递归 command tree 的 startBattle.choreography；新旧形态混合 fail-loud；
+  禁止裸 cast 偷渡未知命令。
+- **P7 明王写回顺序**：先更新无装备 persistentProgress 与当前 battle snapshot，再排队
+  写回 CharacterInstance 八字段；后续 revive/increaseHpMp 读增长后上限；save/reload 后
+  仍在；三项（战中值、战后 world、存档）一致 oracle。
+
+**结论**：**agree**。设计无 schema/runtime/save/MG2 级反例。
+
+- 2026-07-30 Kimi：完成 R13-5 敌钩/battle action/canonical authority 设计主审，签
+  **agree**，附 P1-P7 风险钉。一手核实：ready 后仍行动（fight.c:1719-1724）、transform
+  不改三脚本指针（script.c:2954-2969）、明王固定成长真值（game-mechanics.md:1260-1300）。
+  未修改实现/产物/seal。Next：GLM 数据/升级/测试矩阵主审；两席均 agree 后 Codex 进入
+  R13-5 实现。
 
 ## 下一位 Agent 提示词
 
-### 给 Kimi（R13-5 enemy hook / battle action / runtime authority 设计主审）
+### 给 Kimi（R13-5 enemy hook / battle action / runtime authority 设计主审）——已于 2026-07-30 执行，签 agree（附 P1-P7，保留备查，勿再执行）
 
 ```text
 设计准入复审：N3-1 P7-R13-5 敌钩持久程序、battle action 与 canonical onDefeated
@@ -6475,7 +6546,7 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 Kimi/GLM 均 agree 前明确“不得开始实现”；不得标 N3-1/C8/ED-5I done。
 ```
 
-### 给 GLM（R13-5 12/31 source disposition / 升级 / 测试矩阵设计主审）
+### 给 GLM（R13-5 12/31 source disposition / 升级 / 测试矩阵设计主审）——已于 2026-07-30 执行，签 agree（附 G1，保留备查，勿再执行）
 
 ```text
 设计准入复审：N3-1 P7-R13-5 敌人脚本源账、三层映射、版本升级与测试矩阵
@@ -6512,6 +6583,43 @@ GLM 签字和交接记录，不得改实现、生成产物、baseline、seal、b
 有反例则签 counter，列精确 enemy/address/selector/digest/缺失断言与最小替代方案。
 Kimi/GLM 均 agree 前明确“不得开始实现”；不得标 N3-1/C8/ED-5I done。
 ```
+
+- 2026-07-30 GLM：完成 R13-5 数据/source disposition/测试矩阵/版本升级设计准入复审，签
+  **agree**，附 G1 风险钉。一手复核（非 Codex 清单复述）：
+  - **账**：`buildPalMigration(loadPalMigrationSources(cwd))` 独立复算 —— raw 153 / withScript 54 /
+    pendingScripts 12（id 420/421/422/435/463/469/483/486/499/519/539/547 与审计逐条精确匹配）/
+    pending notes 31 = 31 source site；project 与 baseline `enemies.json` 各 153（153/153/153）；
+    danglingEnemyId=0。
+  - **逐敌源语义**（从 all.json + enemy-objects/teams/player-roles.json + sdlpal script.c/fight.c 独立核，
+    非转述）：
+    - **496** @41432：`0x79[41,41473,0]` name-id 41=盖罗娇，真条件双臂 —— 无盖 fallthrough 对白→
+      无 0x67 改魔法→保留默认 magic=385（enemies.json id119 核实）；有盖 L_41473→378→328→
+      0xFFFF pass（fight.c:4663 wMagic==0xFFFF）→0x89[0] terminate（battle.h Terminate=0）；
+      team34 objectIndex=[527,496,527] 496 非 lead / team37=[496]，startBattle idx 12676/16683 可达 ✅
+    - **519**：8 项成长实际在 turnStart L_42237 觉醒段（idx 42309-42316），opcode **0x19**
+      （increase player attr，**非**审计写的 0x66=投掷武器，措辞瑕疵不影响数值结论），数值
+      11/170/190/100/155/55/80/30 全吻合，op[2]=2→role1=赵灵儿；battleEnd L_42424 giveItem 230
+      菩提袈裟 ✅
+    - **483** @41386：`0x77[1]`=fade 1×3=3000ms（script.c:2215）/ sound213（0x47）/ `0x85[20]`=20×80=
+      1600ms / music38（0x43）四项逐一吻合 ✅
+  - **battleEnd**：15 onDefeated 全为 array（单 stage，无 stages 字段）；command kinds 恰为
+    `branch/dialog/giveItem/stopScript`；无世界写指令（审计「尚无」成立）✅
+  - **版本链**：R13-5 parent = 已发布 r13-confirm-v1 digest `89092578…`；旧六层 seal file SHA
+    （P7 `41263ba1`/C8 `325d52ed`/cadence `2b1e71b0`/cross `723e4fd2`/item-throw `2c741222`/
+    confirm `38d129fb`）一手 sha256 确认 byte-pin 对象；content10/SAVE8 identity + v9→v10 纯映射
+    升级器 + 递归扫 startBattle.choreography/onDefeated 禁裸 cast 的设计成立。
+
+  **G1 风险钉（非 blocker，实现期核对）**：审计 enemy-499（@40963）写「runtime 遇 flee 会清队列，
+  后段永不可达」—— 机制描述**错误**。独立从 all.json + sdlpal script.c:3299 + type-pal
+  event-system.ts:4406-4413 核实：后段说明对白（idx 40972-40978）的不可达性由 `[40971]
+  0x06[30,0,0]` 概率门控制 —— `RandomLong(1,100)>=30`（71%）→ jumpToGlobalIp(0)→ip=-1→+1=0→
+  cmd[0]=end→脚本终止；29% 续跑到说明对白。**不是**「永不可达」，是 71%/29%；**也不是** flee
+  （0x69）清队列 —— 0x69 走 D26(2b) 入 battleDialogQueue 作 effect、tickBattleDialog phase-agnostic
+  不阻断后段对话。验收矩阵「499 flee 后对白」的**处置方向正确**（保留双臂 + 保留后段对白），
+  但若按审计错误理由做「flee 延迟到演出体收尾后结算」会改变原版 flee 即时生效语义。实现时
+  须按 0x06 概率门迁移（71% skip / 29% 显示说明对白），不得延迟 flee。
+
+  未修改实现/产物/baseline/seal/Kimi 签字；仅更新本表 GLM 行与本交接记录。
 
 ### 给 Kimi（R13-4 runtime / SAVE / append-only MG2 / repair 实现审查；已于 2026-07-30 执行，签 accept，保留备查）
 

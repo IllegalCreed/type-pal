@@ -59,7 +59,7 @@ node --import tsx --input-type=module -e \
 | 469 狐狸精 | ready `L_42428` | 12 段循环，含 tgt=0 重试、303/316/317、召唤 enemy403×4、pass、末尾 reset；当前 `turn>=3` 召唤无界并遮蔽后续。 | 完整 cursor 循环。 |
 | 483 林月如二 | turnStart `L_41386` | `0x77[1]` 请求 3000ms stop-music fade → 对话 → sound213 → wait1600ms → music38；当前只剩对话与音效，BattleSession 还会忽略 wait，通用 `stopMusic` 也丢 fade 参数。 | battle-only `stopMusic.fadeMs` + choreography runtime；做动态顺序 canary。 |
 | 486 半人蛇 | ready `L_42457` | `0x06[30,0]` 几何重试，成功后逐段 advance 到对白+magic338，再 pass/clear/reset；当前固定 `turn>=7` 且不循环。 | 完整 cursor 循环。 |
-| 499 绿叶小妖 | turnStart `L_40963` | 赵灵儿在队分支：对白→敌逃→概率门→说明对白。当前把对白塞进同 body，但 runtime 遇 flee 会清队列，后段永不可达。 | 保留 `playerInParty` 双臂；flee 延迟到当前演出体收尾后结算。 |
+| 499 绿叶小妖 | turnStart `L_40963` | 赵灵儿在队分支：对白→`0x69` 立即登记整场敌逃→`0x06[30,0]` 概率门；直走 29% 才继续说明对白，跳转 71% 终止本次脚本。当前 runtime 在 `fleeBattle` 时清空队列，错误吞掉原解释器仍会继续执行的概率门与 29% 后段。 | 保留 `playerInParty` 双臂与 71%/29% 分支；flee 的 terminal request 立即生效，但 settlement 延后到当前 activation/演出队列排净，禁止清掉后续命令。 |
 | 519 明王 | turnStart `L_42237`；ready `L_42384`；battleEnd `L_42424` | 第二阶段永久给赵灵儿 `level+11/maxHP+170/maxMP+190/attack+100/magic+155/defense+55/speed+80/luck+30`，再全队复活、回满、赵灵儿白闪；当前只保留对白/319/382。battleEnd 给 item230+旁白。 | 新增 battle-only 固定角色成长与角色施法表现语义；战中、战后 world、save/reload 三点一致。 |
 | 539 毒神龙 | turnStart `L_42394` | 两个 advance 后进入顺序门，选择 373/352/372 并 reset，当前 magic 跨激活持续；当前被压成绝对回合后永久 372。 | cursor + 当前 fallback action。 |
 | 547 八头蛇 | ready `L_42912` | `0xA2[4]` 等概率四臂，各臂有不同“本轮/下轮/reset”序列；当前只剩 cast373@50。 | 单次 RNG 的四路选择 + cursor。 |
@@ -126,7 +126,7 @@ R13-5 必须保留 `playerInParty` / `not playerInParty` 两臂，并按实际 e
    421、469、486、539、547；463 四臂边界；420/422 每轮首只音效。
 4. 动态 canary：
    483 时序；519 八属性、复活、回满、白闪、战后 world、save/reload；
-   496 team34/team37 双臂；499 两臂且 flee 后说明对白可达。
+   496 team34/team37 双臂；499 两臂、flee request 立即且说明对白严格 71% skip / 29% 可达。
 5. 生成期负测：
    battleEnd 两 stage、未知 choreography action、onDefeated 非 canonical-safe action 都在
    write 前失败，并带 enemy id / name / hook / source address。
