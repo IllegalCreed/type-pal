@@ -13,12 +13,19 @@
 import { isActorEntity } from './actor.js'
 import type {
   ActorDef,
+  AiAction,
+  AiCond,
   AmbienceDef,
+  AuthorConditionV5,
+  BattleChoreographyAction,
   BattleFieldDef,
   BattleSpriteDef,
   BattleSpriteProfileKind,
   Command,
   EnemyDef,
+  EnemyHookCommand,
+  EnemyHookTransition,
+  EnemyOnDefeatedCommandV10,
   EnemyTeamDef,
   ItemData,
   LevelUpSkill,
@@ -703,6 +710,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const itemIds = new Set(b.items.map((i) => i.id))
   const actorIds = new Set(b.actors.map((a) => a.id))
   const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
+  const enemyIds = new Set((b.enemies ?? []).map((e) => e.id))
+  const scenesById = new Map(b.scenes.map((scene) => [scene.id, scene]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
   const spritesById = new Map(b.sprites.map((sprite) => [sprite.id, sprite]))
   const battleSpritesById = new Map(b.battleSprites.map((sprite) => [sprite.id, sprite]))
@@ -710,6 +719,191 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const mapIds = new Set(b.mapIndex.maps.map((asset) => asset.id))
   const tilesetIds = new Set((b.tilesets ?? []).map((tileset) => tileset.id))
   const poisonIds = new Set((b.poisons ?? []).map((poison) => String(poison.id)))
+
+  const validateBattleActor = (actorId: string, where: string): void => {
+    const actor = actorsById[actorId]
+    if (!actor)
+      issues.push({
+        severity: 'error',
+        where,
+        message: `战斗角色 "${actorId}" 不在 actors`,
+      })
+    else if (!actor.battler)
+      issues.push({
+        severity: 'error',
+        where,
+        message: `战斗角色 "${actorId}" 不是可战斗角色`,
+      })
+  }
+
+  const validateAiCondition = (condition: AiCond, where: string): void => {
+    switch (condition.kind) {
+      case 'playerInParty':
+        validateBattleActor(condition.role, `${where}.role`)
+        return
+      case 'all':
+      case 'any':
+        condition.of.forEach((child, index) => {
+          validateAiCondition(child, `${where}.of[${index}]`)
+        })
+        return
+      case 'not':
+        validateAiCondition(condition.cond, `${where}.cond`)
+        return
+      default:
+        return
+    }
+  }
+
+  const validateAiAction = (action: AiAction, where: string): void => {
+    if (action.kind === 'cast' && !skillIds.has(action.skillId))
+      issues.push({
+        severity: 'error',
+        where: `${where}.skillId`,
+        message: `施法技能 "${action.skillId}" 不在 skills`,
+      })
+    if (action.kind === 'transform' && !enemyIds.has(action.enemyId))
+      issues.push({
+        severity: 'error',
+        where: `${where}.enemyId`,
+        message: `变身目标 "${action.enemyId}" 不在 enemies`,
+      })
+    if (action.kind === 'summon' && action.enemyId && !enemyIds.has(action.enemyId))
+      issues.push({
+        severity: 'error',
+        where: `${where}.enemyId`,
+        message: `召唤目标 "${action.enemyId}" 不在 enemies`,
+      })
+  }
+
+  const validateBattleAction = (action: BattleChoreographyAction, where: string): void => {
+    if (action.kind === 'applyActorGrowth' || action.kind === 'playActorCastEffect')
+      validateBattleActor(action.actor, `${where}.actor`)
+  }
+
+  const validateHookCommand = (command: EnemyHookCommand, where: string): void => {
+    if (command.kind === 'setFallback') {
+      if (command.fallback) validateAiAction(command.fallback.action, `${where}.fallback.action`)
+      return
+    }
+    if (command.kind === 'effect') {
+      validateAiAction(command.effect, `${where}.effect`)
+      return
+    }
+    validateBattleAction(command, where)
+  }
+
+  const validateHookTransition = (transition: EnemyHookTransition, where: string): void => {
+    switch (transition.kind) {
+      case 'branch':
+        validateAiCondition(transition.cond, `${where}.cond`)
+        validateHookTransition(transition.then, `${where}.then`)
+        validateHookTransition(transition.else, `${where}.else`)
+        return
+      case 'random':
+        transition.choices.forEach((choice, index) => {
+          validateHookTransition(choice.then, `${where}.choices[${index}].then`)
+        })
+        return
+      case 'commandOutcome':
+        validateHookTransition(transition.then, `${where}.then`)
+        validateHookTransition(transition.else, `${where}.else`)
+        return
+      default:
+        return
+    }
+  }
+
+  const validateEntityAddress = (
+    target: { scene: string; entity: string },
+    where: string,
+  ): void => {
+    const targetScene = scenesById.get(target.scene)
+    if (!targetScene) {
+      issues.push({
+        severity: 'error',
+        where: `${where}.scene`,
+        message: `场景 "${target.scene}" 不在 scenes`,
+      })
+      return
+    }
+    if (!targetScene.entities.some((entity) => entity.id === target.entity))
+      issues.push({
+        severity: 'error',
+        where: `${where}.entity`,
+        message: `实体 "${target.scene}/${target.entity}" 不在 scenes`,
+      })
+  }
+
+  const validateAuthorCondition = (condition: AuthorConditionV5, where: string): void => {
+    switch (condition.kind) {
+      case 'hasItem':
+      case 'ownsItem':
+      case 'itemEquipped':
+        if (!itemIds.has(condition.itemId))
+          issues.push({
+            severity: 'error',
+            where: `${where}.itemId`,
+            message: `物品 "${condition.itemId}" 不在 items`,
+          })
+        return
+      case 'inParty':
+        if (!actorIds.has(condition.actorId))
+          issues.push({
+            severity: 'error',
+            where: `${where}.actorId`,
+            message: `角色 "${condition.actorId}" 不在 actors`,
+          })
+        return
+      case 'currentScene':
+        if (!scenesById.has(condition.scene))
+          issues.push({
+            severity: 'error',
+            where: `${where}.scene`,
+            message: `场景 "${condition.scene}" 不在 scenes`,
+          })
+        return
+      case 'entityState':
+      case 'entityInScene':
+      case 'facingEntity':
+        validateEntityAddress(condition.target, `${where}.target`)
+        return
+      case 'all':
+      case 'any':
+        condition.of.forEach((child, index) => {
+          validateAuthorCondition(child, `${where}.of[${index}]`)
+        })
+        return
+      case 'not':
+        validateAuthorCondition(condition.cond, `${where}.cond`)
+        return
+      default:
+        return
+    }
+  }
+
+  const validateOnDefeated = (
+    commands: readonly EnemyOnDefeatedCommandV10[],
+    where: string,
+  ): void => {
+    commands.forEach((command, index) => {
+      const commandWhere = `${where}[${index}]`
+      if (command.kind === 'giveItem' || command.kind === 'loseItem') {
+        if (!itemIds.has(command.itemId))
+          issues.push({
+            severity: 'error',
+            where: `${commandWhere}.itemId`,
+            message: `物品 "${command.itemId}" 不在 items`,
+          })
+        return
+      }
+      if (command.kind === 'branch') {
+        validateAuthorCondition(command.cond, `${commandWhere}.cond`)
+        validateOnDefeated(command.then, `${commandWhere}.then`)
+        if (command.else) validateOnDefeated(command.else, `${commandWhere}.else`)
+      }
+    })
+  }
 
   ;(b.stamps ?? []).forEach((stamp, index) => {
     if (!tilesetIds.has(stamp.tilesetId))
@@ -743,29 +937,32 @@ export function validateReferences(b: ContentBundle): Issue[] {
   })
 
   // ── enemies / enemyTeams(M4c-3)────────────────────────
-  const enemyIds = new Set((b.enemies ?? []).map((e) => e.id))
   ;(b.enemies ?? []).forEach((e, ei) => {
     const where = `enemies[${ei}](${e.id})`
     for (const [ri, r] of (e.ai.rules ?? []).entries()) {
-      if (r.do.kind === 'cast' && !skillIds.has(r.do.skillId))
-        issues.push({
-          severity: 'error',
-          where: `${where}.ai.rules[${ri}]`,
-          message: `施法技能 "${r.do.skillId}" 不在 skills`,
-        })
-      if (r.do.kind === 'transform' && !enemyIds.has(r.do.enemyId))
-        issues.push({
-          severity: 'error',
-          where: `${where}.ai.rules[${ri}]`,
-          message: `变身目标 "${r.do.enemyId}" 不在 enemies`,
-        })
-      if (r.do.kind === 'summon' && r.do.enemyId && !enemyIds.has(r.do.enemyId))
-        issues.push({
-          severity: 'error',
-          where: `${where}.ai.rules[${ri}]`,
-          message: `召唤目标 "${r.do.enemyId}" 不在 enemies`,
-        })
+      if (r.when) validateAiCondition(r.when, `${where}.ai.rules[${ri}].when`)
+      validateAiAction(r.do, `${where}.ai.rules[${ri}].do`)
     }
+    if (e.ai.fallback) validateAiAction(e.ai.fallback.action, `${where}.ai.fallback.action`)
+    for (const [ci, choreography] of (e.choreography ?? []).entries()) {
+      const choreographyWhere = `${where}.choreography[${ci}]`
+      if (choreography.when) validateAiCondition(choreography.when, `${choreographyWhere}.when`)
+      choreography.body.forEach((action, actionIndex) => {
+        validateBattleAction(action, `${choreographyWhere}.body[${actionIndex}]`)
+      })
+    }
+    for (const [channel, hook] of Object.entries(e.ai.hooks ?? {})) {
+      if (!hook) continue
+      const hookWhere = `${where}.ai.hooks.${channel}`
+      for (const [stateId, state] of Object.entries(hook.states)) {
+        const stateWhere = `${hookWhere}.states[${JSON.stringify(stateId)}]`
+        state.body.forEach((command, commandIndex) => {
+          validateHookCommand(command, `${stateWhere}.body[${commandIndex}]`)
+        })
+        validateHookTransition(state.next, `${stateWhere}.next`)
+      }
+    }
+    if (e.onDefeated) validateOnDefeated(e.onDefeated, `${where}.onDefeated`)
     if (e.steal && !itemIds.has(e.steal.itemId))
       issues.push({
         severity: 'warn',

@@ -82,8 +82,265 @@ const base: ContentBundle = {
   },
 }
 
+function enemyReferenceBundle(): ContentBundle {
+  const b = clone(base)
+  b.battleSprites.push(
+    {
+      id: 'enemy-source-sprite',
+      label: '敌人源',
+      asset: 'battle-sprite.enemy-source',
+      profile: {
+        kind: 'enemy',
+        idle: { start: 0, count: 1 },
+        magic: { start: 1, count: 0 },
+        attack: { start: 1, count: 0 },
+        idleTicksPerFrame: 1,
+        actTicksPerFrame: 0,
+      },
+    },
+    {
+      id: 'enemy-target-sprite',
+      label: '敌人目标',
+      asset: 'battle-sprite.enemy-target',
+      profile: {
+        kind: 'enemy',
+        idle: { start: 0, count: 1 },
+        magic: { start: 1, count: 0 },
+        attack: { start: 1, count: 0 },
+        idleTicksPerFrame: 1,
+        actTicksPerFrame: 0,
+      },
+    },
+  )
+  b.enemies = [
+    {
+      id: 'enemy-source',
+      name: 'enemy.source',
+      battleSprite: 'enemy-source-sprite',
+      yPosOffset: 0,
+      stats: {},
+      sounds: {},
+      ai: {
+        resistanceToSorcery: 0,
+        rules: [
+          {
+            at: 'act',
+            when: { kind: 'playerInParty', role: 'hero' },
+            do: { kind: 'cast', skillId: '1' },
+          },
+        ],
+        fallback: {
+          action: { kind: 'cast', skillId: '1' },
+          chancePercent: 25,
+        },
+        hooks: {
+          ready: {
+            initial: 'ready',
+            states: {
+              ready: {
+                body: [
+                  {
+                    kind: 'setFallback',
+                    fallback: {
+                      action: { kind: 'cast', skillId: '1' },
+                      chancePercent: 50,
+                    },
+                  },
+                  {
+                    kind: 'effect',
+                    id: 'transform',
+                    effect: { kind: 'transform', enemyId: 'enemy-target' },
+                  },
+                  {
+                    kind: 'applyActorGrowth',
+                    actor: 'hero',
+                    delta: {
+                      level: 0,
+                      maxHP: 1,
+                      maxMP: 1,
+                      attack: 1,
+                      magicAttack: 1,
+                      defense: 1,
+                      speed: 1,
+                      luck: 1,
+                    },
+                  },
+                ],
+                next: {
+                  kind: 'random',
+                  choices: [
+                    {
+                      weight: 1,
+                      then: {
+                        kind: 'branch',
+                        cond: {
+                          kind: 'not',
+                          cond: { kind: 'playerInParty', role: 'hero' },
+                        },
+                        then: { kind: 'restart' },
+                        else: { kind: 'stay' },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      choreography: [
+        {
+          at: 'turnStart',
+          when: { kind: 'playerInParty', role: 'hero' },
+          body: [
+            {
+              kind: 'playActorCastEffect',
+              actor: 'hero',
+              effect: 'pre-magic-white-flash',
+            },
+          ],
+        },
+      ],
+      onDefeated: [
+        {
+          kind: 'branch',
+          cond: {
+            kind: 'all',
+            of: [
+              { kind: 'hasItem', itemId: 'i1' },
+              { kind: 'inParty', actorId: 'hero' },
+              { kind: 'currentScene', scene: 's' },
+              { kind: 'entityInScene', target: { scene: 's', entity: 'e' } },
+            ],
+          },
+          then: [{ kind: 'giveItem', itemId: 'i1', count: 1 }],
+          else: [{ kind: 'loseItem', itemId: 'i1', count: 1 }],
+        },
+      ],
+    },
+    {
+      id: 'enemy-target',
+      name: 'enemy.target',
+      battleSprite: 'enemy-target-sprite',
+      yPosOffset: 0,
+      stats: {},
+      sounds: {},
+      ai: { resistanceToSorcery: 0, rules: [] },
+    },
+  ] as never
+  return b
+}
+
 test('干净 bundle → 无 issue', () => {
   expect(validateReferences(base)).toEqual([])
+})
+test('敌 hook/fallback/演出/战后脚本的逻辑引用完整时无 issue', () => {
+  expect(validateReferences(enemyReferenceBundle())).toEqual([])
+})
+test('敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色', () => {
+  const b = enemyReferenceBundle()
+  b.actors.push({ id: 'villager', name: 'name.hero', spriteId: 'ghost' })
+  const source = b.enemies![0]!
+  source.ai.fallback = {
+    action: { kind: 'cast', skillId: 'missing-fallback-skill' },
+    chancePercent: 25,
+  }
+  source.ai.rules![0]!.when = { kind: 'playerInParty', role: 'missing-rule-actor' }
+  const ready = source.ai.hooks!.ready!.states.ready!
+  ready.body = [
+    {
+      kind: 'setFallback',
+      fallback: {
+        action: { kind: 'cast', skillId: 'missing-hook-skill' },
+        chancePercent: 50,
+      },
+    },
+    {
+      kind: 'effect',
+      id: 'transform',
+      effect: { kind: 'transform', enemyId: 'missing-hook-enemy' },
+    },
+    {
+      kind: 'playActorCastEffect',
+      actor: 'villager',
+      effect: 'pre-magic-white-flash',
+    },
+  ]
+  ready.next = {
+    kind: 'random',
+    choices: [
+      {
+        weight: 1,
+        then: {
+          kind: 'branch',
+          cond: {
+            kind: 'not',
+            cond: { kind: 'playerInParty', role: 'missing-transition-actor' },
+          },
+          then: { kind: 'stay' },
+          else: { kind: 'stay' },
+        },
+      },
+    ],
+  }
+  source.choreography![0]!.body = [
+    {
+      kind: 'applyActorGrowth',
+      actor: 'missing-choreography-actor',
+      delta: {
+        level: 0,
+        maxHP: 0,
+        maxMP: 0,
+        attack: 0,
+        magicAttack: 0,
+        defense: 0,
+        speed: 0,
+        luck: 0,
+      },
+    },
+  ]
+  source.onDefeated = [
+    {
+      kind: 'branch',
+      cond: {
+        kind: 'all',
+        of: [
+          { kind: 'hasItem', itemId: 'missing-condition-item' },
+          { kind: 'inParty', actorId: 'missing-on-defeated-actor' },
+          { kind: 'currentScene', scene: 'missing-scene' },
+          {
+            kind: 'entityInScene',
+            target: { scene: 's', entity: 'missing-entity' },
+          },
+        ],
+      },
+      then: [{ kind: 'giveItem', itemId: 'missing-give-item', count: 1 }],
+    },
+  ]
+
+  const issues = validateReferences(b)
+  const paths = issues.map((issue) => issue.where)
+  expect(paths).toEqual(
+    expect.arrayContaining([
+      'enemies[0](enemy-source).ai.rules[0].when.role',
+      'enemies[0](enemy-source).ai.fallback.action.skillId',
+      'enemies[0](enemy-source).choreography[0].body[0].actor',
+      'enemies[0](enemy-source).ai.hooks.ready.states["ready"].body[0].fallback.action.skillId',
+      'enemies[0](enemy-source).ai.hooks.ready.states["ready"].body[1].effect.enemyId',
+      'enemies[0](enemy-source).ai.hooks.ready.states["ready"].body[2].actor',
+      'enemies[0](enemy-source).ai.hooks.ready.states["ready"].next.choices[0].then.cond.cond.role',
+      'enemies[0](enemy-source).onDefeated[0].cond.of[0].itemId',
+      'enemies[0](enemy-source).onDefeated[0].cond.of[1].actorId',
+      'enemies[0](enemy-source).onDefeated[0].cond.of[2].scene',
+      'enemies[0](enemy-source).onDefeated[0].cond.of[3].target.entity',
+      'enemies[0](enemy-source).onDefeated[0].then[0].itemId',
+    ]),
+  )
+  expect(
+    issues.some(
+      (issue) => issue.where.endsWith('.body[2].actor') && issue.message.includes('不是可战斗角色'),
+    ),
+  ).toBe(true)
 })
 test('图章模板 tilesetId 悬空 → 报 error(W7G)', () => {
   const b = clone(base)
