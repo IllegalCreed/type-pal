@@ -177,6 +177,7 @@ export {
 
 import type {
   EnemyMigrationResult,
+  EnemyScriptTranslator,
   SourceEnemy,
   SourceEnemyObject,
   SourceEnemyTeam,
@@ -1333,7 +1334,19 @@ export interface MigrateOutput {
   }
 }
 
-export function migrateAll(src: MigrateSources): MigrateOutput {
+export interface EnemyMigrationAuthority {
+  /** 缺省 current-v10；历史 parent 必须显式传冻结 translator。 */
+  translateScripts: EnemyScriptTranslator
+  /** R13-confirm parent 只收集 ai.rules；current-v10 还收 fallback 与 hook setFallback。 */
+  castSkillClosure: 'rules-only' | 'v10'
+  /** 历史 v9 report 不含 R13-5 hookSources 证据字段。 */
+  reportHookSources: boolean
+}
+
+export function migrateAll(
+  src: MigrateSources,
+  enemyAuthority?: EnemyMigrationAuthority,
+): MigrateOutput {
   const labelIndex = buildLabelIndex(src.commands)
   const explicitLabels = new Set(labelIndex.keys())
   src.commands.forEach((command, address) => {
@@ -1583,7 +1596,13 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
   }
   const enemyRes =
     src.enemies && src.enemyObjects
-      ? mapEnemies(src.enemies, src.enemyObjects, enemyTctx)
+      ? mapEnemies(
+          src.enemies,
+          src.enemyObjects,
+          enemyTctx,
+          enemyAuthority?.translateScripts,
+          enemyAuthority?.reportHookSources,
+        )
       : undefined
   if (enemyRes) {
     Object.assign(localeNames, enemyRes.localeNames)
@@ -1607,16 +1626,18 @@ export function migrateAll(src: MigrateSources): MigrateOutput {
       for (const [ruleIndex, rule] of (enemy.ai.rules ?? []).entries())
         if (rule.do.kind === 'cast')
           addCast(rule.do.skillId, `${enemy.id}.ai.rules[${ruleIndex}].do.skillId`)
-      if (enemy.ai.fallback?.action.kind === 'cast')
-        addCast(enemy.ai.fallback.action.skillId, `${enemy.id}.ai.fallback.action.skillId`)
-      for (const [channel, flow] of Object.entries(enemy.ai.hooks ?? {}))
-        for (const [stateId, state] of Object.entries(flow.states))
-          for (const [commandIndex, command] of state.body.entries())
-            if (command.kind === 'setFallback' && command.fallback?.action.kind === 'cast')
-              addCast(
-                command.fallback.action.skillId,
-                `${enemy.id}.ai.hooks.${channel}.states.${stateId}.body[${commandIndex}]`,
-              )
+      if (enemyAuthority?.castSkillClosure !== 'rules-only') {
+        if (enemy.ai.fallback?.action.kind === 'cast')
+          addCast(enemy.ai.fallback.action.skillId, `${enemy.id}.ai.fallback.action.skillId`)
+        for (const [channel, flow] of Object.entries(enemy.ai.hooks ?? {}))
+          for (const [stateId, state] of Object.entries(flow.states))
+            for (const [commandIndex, command] of state.body.entries())
+              if (command.kind === 'setFallback' && command.fallback?.action.kind === 'cast')
+                addCast(
+                  command.fallback.action.skillId,
+                  `${enemy.id}.ai.hooks.${channel}.states.${stateId}.body[${commandIndex}]`,
+                )
+      }
     }
     const used = [...castIds]
     // (占位:敌用法术补翻移至 mapEnemies 之后 —— 见下方,须覆盖 0x67 时间线设置的法术)

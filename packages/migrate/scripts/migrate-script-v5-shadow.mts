@@ -43,7 +43,7 @@ import {
   commitMigrationTransaction,
   recoverMigrationTransaction,
 } from '../src/migration-transaction.js'
-import { buildPalMigration } from '../src/pal-migration.js'
+import { buildPalHistoricalR13_4V9Migration } from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
   assertScriptControlFlowAudit,
@@ -61,7 +61,7 @@ const fixedShadowRoot = resolve(repo, `packages/migrate/.shadow/N3-1/v5/${option
 if (!existsSync(baselinePath)) throw new Error(`P0 基线不存在: ${baselinePath}`)
 
 const sources = loadPalMigrationSources(repo)
-const rawMigration = buildPalMigration(sources)
+const rawMigration = buildPalHistoricalR13_4V9Migration(sources)
 const migration = projectMigrationV9ToLegacyV8(rawMigration)
 const publishedBase = loadPalBaseline(repo)
 if (!publishedBase) throw new Error('PAL migration baseline 不存在')

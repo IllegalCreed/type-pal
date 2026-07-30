@@ -76,6 +76,7 @@ import {
 } from './pal-battle-sprites.js'
 import { preparePalManifest } from './pal-manifest.js'
 import {
+  buildPalHistoricalR13_4V9Migration,
   buildPalMigration,
   type MigrationJson,
   PAL_WORLD_SPRITE_UNUSED_NUMBERS,
@@ -725,23 +726,23 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
         'utf8',
       ),
     ) as ScriptControlFlowAuditV1
+    const parentSources = loadPalMigrationSources(repo)
+    const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
+    const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
+    const parentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
+    assertScriptControlFlowAudit(parentAudit)
     const generatedResult = baseline?.baselineMetadata
-      ? (() => {
-          const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
-          const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
-          assertScriptControlFlowAudit(currentAudit)
-          return buildP7GeneratedCanonical({
-            migration: authorityMigration,
-            currentAudit,
-            frozenAudit,
-            sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
-            itemSources: sources.migrate.items,
-            magicSources: sources.migrate.magic,
-            objectMagicSources: sources.migrate.objectMagics ?? [],
-            soundAssetForNum: palSoundAssetForSources(sources),
-            sourceCensus: buildR13SourceExecutionCensus(sources),
-          })
-        })()
+      ? buildP7GeneratedCanonical({
+          migration: authorityMigration,
+          currentAudit: parentAudit,
+          frozenAudit,
+          sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
+          itemSources: parentSources.migrate.items,
+          magicSources: parentSources.migrate.magic,
+          objectMagicSources: parentSources.migrate.objectMagics ?? [],
+          soundAssetForNum: palSoundAssetForSources(parentSources),
+          sourceCensus: buildR13SourceExecutionCensus(parentSources),
+        })
       : undefined
     const generated = generatedResult?.snapshot
     const managed = discoverProjectManagedFiles(
@@ -753,14 +754,13 @@ describe.skipIf(!hasCommittedBaseline)('MG2 真实 PAL 已建基线回归', () =
     )
     const ours = loadProjectMigrationSnapshot(repo, managed)
     if (generated && generatedResult) {
-      const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
       const result = createR13ConfirmV5MigrationPlan({
         base: baseline!,
         ours,
         generated: generatedResult,
-        sources,
+        sources: parentSources,
         migration: authorityMigration,
-        audit: auditPalScriptControlFlow(sources, authorityMigration),
+        audit: parentAudit,
       })
       expect(result.plan.conflicts).toEqual([])
       expect([...result.plan.writes.keys()].sort()).toEqual(

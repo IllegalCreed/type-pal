@@ -2,6 +2,7 @@ export const ALL_MIGRATE_TESTS = ['src/**/*.test.ts'] as const
 
 export const PAL_SHARED_TESTS = [
   'src/experimental/script-v5/c8-item-use-augmentation.test.ts',
+  'src/experimental/script-v5/legacy-enemy-script-v9-authority.pal.test.ts',
   'src/experimental/script-v5/p2-shadow.pal.test.ts',
   'src/experimental/script-v5/p3-shadow.pal.test.ts',
   'src/experimental/script-v5/p4-shadow.pal.test.ts',

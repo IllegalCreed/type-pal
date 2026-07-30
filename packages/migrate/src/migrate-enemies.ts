@@ -11,6 +11,8 @@ import {
 } from './translate-enemy-scripts.js'
 import { emptyTranslateReport, type TranslateCtx } from './translate-events.js'
 
+export type EnemyScriptTranslator = typeof translateEnemyScripts
+
 export interface SourceEnemy {
   id: number
   idleFrames: number
@@ -70,7 +72,7 @@ export interface EnemyMigrationResult {
     /** M4c-2:脚本翻译翻不净明细(敌 id → 原因;编辑器手修清单)。 */
     pendingScripts: { id: string; name: string; notes: string[] }[]
     /** R13-5:ready/turnStart 源 CFG 到生成 flow 的一手映射；仅迁移审计消费。 */
-    hookSources: {
+    hookSources?: {
       id: string
       name: string
       hooks: Partial<Record<'ready' | 'turnStart', EnemyHookSourceTranslation>>
@@ -88,12 +90,16 @@ export function mapEnemies(
   enemyObjects: readonly SourceEnemyObject[],
   /** M4c-2:战斗脚本翻译上下文(all.json labelAt;缺省 = 只翻 fallback)。 */
   tctx?: TranslateCtx,
+  /** 历史 parent 只允许显式注入冻结 translator；current 缺省始终走 v10。 */
+  translate: EnemyScriptTranslator = translateEnemyScripts,
+  /** 历史 v9 report 没有 hookSources 字段；current v10 缺省保留一手证据。 */
+  reportHookSources = true,
 ): EnemyMigrationResult {
   const byId = new Map(enemies.map((e) => [e.id, e]))
   const localeNames: Record<string, string> = {}
   const danglingEnemyId: string[] = []
   const pendingScripts: EnemyMigrationResult['report']['pendingScripts'] = []
-  const hookSources: EnemyMigrationResult['report']['hookSources'] = []
+  const hookSources: NonNullable<EnemyMigrationResult['report']['hookSources']> = []
   let withScript = 0
 
   const out: EnemyDef[] = []
@@ -142,7 +148,7 @@ export function mapEnemies(
       // 不再投影成绝对回合 rule。战后脚本生成前须通过单 stage + onDefeated 严格子集校验。
       ...(() => {
         const t = tctx
-          ? translateEnemyScripts(
+          ? translate(
               tctx,
               {
                 turnStart: eo.scriptOnTurnStart || undefined,
@@ -152,7 +158,7 @@ export function mapEnemies(
               { magic: stats.magic, rate: stats.magicRate },
               { id, name },
             )
-          : translateEnemyScripts(
+          : translate(
               { labelAt: new Map(), locale: localeNames, report: emptyTranslateReport() },
               {},
               { magic: stats.magic, rate: stats.magicRate },
@@ -189,7 +195,13 @@ export function mapEnemies(
   return {
     enemies: out,
     localeNames,
-    report: { total: out.length, withScript, danglingEnemyId, pendingScripts, hookSources },
+    report: {
+      total: out.length,
+      withScript,
+      danglingEnemyId,
+      pendingScripts,
+      ...(reportHookSources ? { hookSources } : {}),
+    },
   }
 }
 

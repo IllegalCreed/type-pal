@@ -50,17 +50,19 @@ function fixture() {
     readJson<SourceEnemyTeam[]>('data/extracted/data/enemy-teams.json'),
     new Set(migrated.enemies.map((enemy) => enemy.id)),
   ).teams
+  const hookSources = migrated.report.hookSources
+  if (!hookSources) throw new Error('current v10 migration 缺 hookSources')
   const overlay = applyPalBossEncounterOverlay(migrated.enemies, teams, {})
   const args = {
     commands,
     enemyObjects,
-    hookSources: migrated.report.hookSources,
+    hookSources,
     rawEnemies: migrated.enemies,
     overlayEnemies: overlay.enemies,
     finalEnemies: structuredClone(overlay.enemies) as EnemyDef[],
   }
   const report = buildR13EnemySourceDisposition(args)
-  return { migrated, overlay, args, report }
+  return { migrated, hookSources, overlay, args, report }
 }
 
 describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => {
@@ -100,7 +102,7 @@ describe.skipIf(!existsSync(extracted))('R13-5 enemy source disposition', () => 
   })
 
   test('每条可达 hook 源指令都有生成节点映射，473/546/496 均有精确 target', () => {
-    for (const owner of data.migrated.report.hookSources)
+    for (const owner of data.hookSources)
       for (const hook of Object.values(owner.hooks)) {
         if (!hook) continue
         expect(hook.sourceMappings.map((mapping) => mapping.sourceAddress)).toEqual(

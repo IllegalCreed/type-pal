@@ -6,7 +6,10 @@ import { projectMigrationV9ToLegacyV8 } from '../src/experimental/script-v5/equi
 import { buildP7GeneratedCanonical } from '../src/experimental/script-v5/p7-generated.js'
 import { buildR13SourceExecutionCensus } from '../src/experimental/script-v5/source-execution-census.js'
 import { closePalSoundManifest } from '../src/pal-manifest.js'
-import { buildPalMigration, palSoundAssetForSources } from '../src/pal-migration.js'
+import {
+  buildPalHistoricalR13_4V9Migration,
+  palSoundAssetForSources,
+} from '../src/pal-migration.js'
 import { loadPalMigrationSources } from '../src/pal-migration-io.js'
 import {
   assertScriptControlFlowAudit,
@@ -20,7 +23,7 @@ import {
 
 const repo = resolve(import.meta.dirname, '../../..')
 const sources = loadPalMigrationSources(repo)
-const migration = buildPalMigration(sources)
+const migration = buildPalHistoricalR13_4V9Migration(sources)
 const authorityMigration = projectMigrationV9ToLegacyV8(migration)
 const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
 assertScriptControlFlowAudit(currentAudit)

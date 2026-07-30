@@ -101,6 +101,7 @@ import {
 } from '../src/pal-assets.js'
 import { preparePalManifest } from '../src/pal-manifest.js'
 import {
+  buildPalHistoricalR13_4V9Migration,
   buildPalMigration,
   type MigrationFileSet,
   type MigrationJson,
@@ -738,7 +739,6 @@ async function main(): Promise<void> {
   const manifest = rawManifest as LoadedManifest | ProjectManifest<5 | 6 | 7 | 8 | 9>
   const sources = loadPalMigrationSources(repo)
   const theirs = buildPalMigration(sources)
-  const authorityMigration = projectMigrationV9ToLegacyV8(theirs)
   reportGeneration(theirs)
   const baseline = repairR13ConfirmSeal
     ? loadPalBaselineRepairCandidate(repo, R13_CONFIRM_SEAL_PATH)
@@ -757,30 +757,35 @@ async function main(): Promise<void> {
   ) {
     if (bootstrap) throw new Error('canonical v5 工程不得重跑 v4 bootstrap')
     if (!baseline) throw new Error('canonical v5 工程缺 PAL baseline v2')
+    // current successor 与 immutable parent 必须独立加载源快照，不能共享被旧 translator
+    // 原地展开过的命令数组；v4 bootstrap 不需要付这次历史重放成本。
+    const parentSources = loadPalMigrationSources(repo)
+    const parentRawMigration = buildPalHistoricalR13_4V9Migration(parentSources)
+    const authorityMigration = projectMigrationV9ToLegacyV8(parentRawMigration)
     const currentManifest: CurrentManifest = {
       ...structuredClone(manifest),
       contentVersion: 9,
       minimumSaveVersion: 8,
     }
-    const currentAudit = auditPalScriptControlFlow(sources, authorityMigration)
+    const currentAudit = auditPalScriptControlFlow(parentSources, authorityMigration)
     assertScriptControlFlowAudit(currentAudit)
     const frozenAudit = readJson<ScriptControlFlowAuditV1>(SCRIPT_AUDIT_BASELINE_REL)
     const generated = buildP7GeneratedCanonical({
       migration: authorityMigration,
       currentAudit,
       frozenAudit,
-      sourceCommands: sources.allJson.segments.flatMap((segment) => segment.commands),
-      itemSources: sources.migrate.items,
-      magicSources: sources.migrate.magic,
-      objectMagicSources: sources.migrate.objectMagics ?? [],
-      sourceCensus: buildR13SourceExecutionCensus(sources),
-      soundAssetForNum: palSoundAssetForSources(sources),
+      sourceCommands: parentSources.allJson.segments.flatMap((segment) => segment.commands),
+      itemSources: parentSources.migrate.items,
+      magicSources: parentSources.migrate.magic,
+      objectMagicSources: parentSources.migrate.objectMagics ?? [],
+      sourceCensus: buildR13SourceExecutionCensus(parentSources),
+      soundAssetForNum: palSoundAssetForSources(parentSources),
     })
     if (repairR13ConfirmSeal) {
       const rebuilt = rebuildR13ConfirmSealAuthority({
         base: baseline,
         generated,
-        sources,
+        sources: parentSources,
         migration: authorityMigration,
         audit: currentAudit,
       })
@@ -799,7 +804,7 @@ async function main(): Promise<void> {
       base: baseline,
       ours,
       generated,
-      sources,
+      sources: parentSources,
       migration: authorityMigration,
       audit: currentAudit,
     })
@@ -813,7 +818,7 @@ async function main(): Promise<void> {
     }
     await validateP7V5Target(v5.target, currentManifest)
     const firstR13 = buildAndAssertR13ControlAudits({
-      sources,
+      sources: parentSources,
       migration: authorityMigration,
       audit: currentAudit,
       generated,
@@ -875,7 +880,7 @@ async function main(): Promise<void> {
       target: v5.target,
       nextBaseline: v5.nextBaseline,
       plan: v5.plan,
-      sources,
+      sources: parentSources,
       manifest: currentManifest,
       currentManifestText: manifestText,
     })

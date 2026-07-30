@@ -2,6 +2,7 @@ import type {
   AssetCatalogV1,
   BattleFieldDef,
   BattleSpriteDef,
+  Command,
   EnemyDef,
   MapIndexV1,
   MigrationDiagnosticsV1,
@@ -10,6 +11,7 @@ import type {
   TilesetDef,
 } from '@type-pal/content'
 import {
+  checkCommands,
   collectBattleSpriteDefinitionReferences,
   palBattleBackgroundAssetId,
   palSoundAssetId,
@@ -18,8 +20,10 @@ import {
   spriteDefinitionFrameDemand,
   validateBattleSprites,
 } from '@type-pal/content'
+import { translateEnemyScriptsR13ConfirmParent } from './experimental/script-v5/legacy-enemy-script-v9-authority.js'
 import { itemScriptCommandRoots } from './item-script-roots.js'
 import type {
+  EnemyMigrationAuthority,
   MigrateSources,
   R13TranslationSession,
   SourceCmd,
@@ -32,6 +36,7 @@ import {
   migrateAll,
   migratedSpriteId,
 } from './migrate-content.js'
+import type { EnemyScriptTranslator } from './migrate-enemies.js'
 import { sha256 } from './migration-baseline.js'
 import {
   applyPalItemOverlays,
@@ -175,6 +180,60 @@ function asJson(value: unknown): MigrationJson {
   return JSON.parse(JSON.stringify(value)) as MigrationJson
 }
 
+type PalEnemyAuthorityKind = 'current-v10' | 'r13-confirm-parent-v9'
+
+interface PalEnemyAuthorityProfile {
+  kind: PalEnemyAuthorityKind
+  migrate?: EnemyMigrationAuthority
+}
+
+const CURRENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
+  kind: 'current-v10',
+})
+
+/**
+ * 历史 v9 的 onDefeated 是通用 Command[]；只允许在 mapEnemies 的注入边界
+ * 适配到现行 translator 形状。冻结实现本身不得 import current v10 输出类型。
+ */
+const translateR13ConfirmParentForMapEnemies =
+  translateEnemyScriptsR13ConfirmParent as unknown as EnemyScriptTranslator
+
+const R13_CONFIRM_PARENT_ENEMY_AUTHORITY: PalEnemyAuthorityProfile = Object.freeze({
+  kind: 'r13-confirm-parent-v9',
+  migrate: {
+    translateScripts: translateR13ConfirmParentForMapEnemies,
+    castSkillClosure: 'rules-only' as const,
+    reportHookSources: false,
+  },
+})
+
+/**
+ * v9 parent 中 choreography/onDefeated 仍属于通用 Command 域。
+ * current v10 已拆成严格 battle/onDefeated grammar，绝不能调用本适配器。
+ */
+function legacyEnemyCommandRoots(
+  enemies: readonly EnemyDef[],
+): Array<{ id: string; body: Command[] }> {
+  const validatedCommands = (value: unknown, path: string): Command[] => {
+    checkCommands(value, path)
+    return value as Command[]
+  }
+  return enemies.flatMap((enemy) => [
+    ...(enemy.choreography ?? []).map((hook, index) => {
+      return {
+        id: `global/enemies/${enemy.id}/choreography-${index}`,
+        body: validatedCommands(hook.body, `${enemy.id}.choreography[${index}].body`),
+      }
+    }),
+    ...(enemy.onDefeated?.length
+      ? (() => {
+          const body = validatedCommands(enemy.onDefeated, `${enemy.id}.onDefeated`)
+          return [{ id: `global/enemies/${enemy.id}/on-defeated`, body }]
+        })()
+      : []),
+  ])
+}
+
 /**
  * P0 只读折叠证据：SpriteAction 物化会从最终场景删掉 page0 auto，
  * 所以必须在物化前保留被接管入口的命令体，才能证明随后失去运行入口的脚本闭包。
@@ -292,6 +351,7 @@ function assertPalBattleSpriteBaseline(args: {
   skills: ReturnType<typeof migrateAll>['skills']['skills']
   scenes: readonly SceneDef[]
   scriptChunks: Readonly<Record<string, import('@type-pal/content').ScriptChunkV1>>
+  enemyAuthority: PalEnemyAuthorityKind
 }): void {
   const { definitions, catalog } = args
   validateBattleSprites(definitions, catalog)
@@ -354,27 +414,34 @@ function assertPalBattleSpriteBaseline(args: {
           kind: 'summon',
         })
     }
-    for (const flow of Object.values(enemy.ai.hooks ?? {}))
-      for (const state of Object.values(flow.states))
-        for (const command of state.body) {
-          if (command.kind !== 'effect') continue
-          if (command.effect.kind === 'transform')
-            indirectEdges.push({
-              source: enemy.id,
-              target: command.effect.enemyId,
-              kind: 'transform',
-            })
-          else if (command.effect.kind === 'summon')
-            indirectEdges.push({
-              source: enemy.id,
-              target: command.effect.enemyId ?? enemy.id,
-              kind: 'summon',
-            })
-        }
+    if (args.enemyAuthority === 'current-v10')
+      for (const flow of Object.values(enemy.ai.hooks ?? {}))
+        for (const state of Object.values(flow.states))
+          for (const command of state.body) {
+            if (command.kind !== 'effect') continue
+            if (command.effect.kind === 'transform')
+              indirectEdges.push({
+                source: enemy.id,
+                target: command.effect.enemyId,
+                kind: 'transform',
+              })
+            else if (command.effect.kind === 'summon')
+              indirectEdges.push({
+                source: enemy.id,
+                target: command.effect.enemyId ?? enemy.id,
+                kind: 'summon',
+              })
+          }
   }
   const transforms = indirectEdges.filter(({ kind }) => kind === 'transform')
   const summons = indirectEdges.filter(({ kind }) => kind === 'summon')
-  if (transforms.length !== 4 || summons.length !== 32 || indirectEdges.length !== 36)
+  const expectedSummons = args.enemyAuthority === 'current-v10' ? 32 : 22
+  const expectedTotal = args.enemyAuthority === 'current-v10' ? 36 : 26
+  if (
+    transforms.length !== 4 ||
+    summons.length !== expectedSummons ||
+    indirectEdges.length !== expectedTotal
+  )
     throw new Error(
       `PAL 敌 AI 间接边漂移: transform=${transforms.length} summon=${summons.length} total=${indirectEdges.length}`,
     )
@@ -386,35 +453,56 @@ function assertPalBattleSpriteBaseline(args: {
   ].sort()
   if (missingTargets.length) throw new Error(`PAL 敌 AI 间接边缺目标: ${missingTargets.join(',')}`)
   const uniqueTargets = [...new Set(indirectEdges.map(({ target }) => target))].sort()
-  const expectedTargets = [
-    'enemy-403',
-    'enemy-407',
-    'enemy-410',
-    'enemy-419',
-    'enemy-420',
-    'enemy-421',
-    'enemy-433',
-    'enemy-434',
-    'enemy-441',
-    'enemy-442',
-    'enemy-448',
-    'enemy-452',
-    'enemy-453',
-    'enemy-461',
-    'enemy-470',
-    'enemy-490',
-    'enemy-492',
-    'enemy-493',
-    'enemy-503',
-    'enemy-511',
-    'enemy-512',
-  ]
+  const expectedTargets =
+    args.enemyAuthority === 'current-v10'
+      ? [
+          'enemy-403',
+          'enemy-407',
+          'enemy-410',
+          'enemy-419',
+          'enemy-420',
+          'enemy-421',
+          'enemy-433',
+          'enemy-434',
+          'enemy-441',
+          'enemy-442',
+          'enemy-448',
+          'enemy-452',
+          'enemy-453',
+          'enemy-461',
+          'enemy-470',
+          'enemy-490',
+          'enemy-492',
+          'enemy-493',
+          'enemy-503',
+          'enemy-511',
+          'enemy-512',
+        ]
+      : [
+          'enemy-403',
+          'enemy-407',
+          'enemy-410',
+          'enemy-419',
+          'enemy-420',
+          'enemy-433',
+          'enemy-434',
+          'enemy-441',
+          'enemy-442',
+          'enemy-453',
+          'enemy-461',
+          'enemy-470',
+          'enemy-490',
+          'enemy-492',
+          'enemy-512',
+        ]
   if (JSON.stringify(uniqueTargets) !== JSON.stringify(expectedTargets))
     throw new Error(`PAL 敌 AI 间接目标集漂移: ${JSON.stringify(uniqueTargets)}`)
 }
 
-/** data/extracted 的内存快照 -> 完整纯迁移文件集；严禁接收或读取 projects/pal。 */
-export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
+function buildPalMigrationWithEnemyAuthority(
+  sources: PalMigrationSources,
+  enemyAuthority: PalEnemyAuthorityProfile,
+): MigrationFileSet {
   const soundAssetForNum = palSoundAssetForSources(sources)
   const convertedMaps = auditAndConvertSourceMaps(sources.tilemaps)
   const legacyEntityAddresses = new Map<number, { scene: string; entity: string }>()
@@ -428,12 +516,15 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
         entity: `e${entity.id}`,
       })
     }
-  const migrated = migrateAll({
-    ...sources.migrate,
-    stores: sources.stores,
-    soundAssetForNum,
-    legacyEntityAddresses,
-  })
+  const migrated = migrateAll(
+    {
+      ...sources.migrate,
+      stores: sources.stores,
+      soundAssetForNum,
+      legacyEntityAddresses,
+    },
+    enemyAuthority.migrate,
+  )
   const items = applyPalItemOverlays(migrated.items)
   const skills = {
     ...migrated.skills,
@@ -526,10 +617,16 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     boss.chunks,
   )
   const itemCommandRoots = itemScriptCommandRoots(items)
-  const scriptAuditRoots = [
-    ...enemyScriptAuditRoots(boss.enemies),
-    ...worldCommandAuditRoots(itemCommandRoots),
-  ]
+  const historicalEnemyRoots =
+    enemyAuthority.kind === 'r13-confirm-parent-v9' ? legacyEnemyCommandRoots(boss.enemies) : []
+  const spriteExtraRoots =
+    enemyAuthority.kind === 'r13-confirm-parent-v9'
+      ? [...historicalEnemyRoots, ...itemCommandRoots]
+      : itemCommandRoots
+  const scriptAuditRoots =
+    enemyAuthority.kind === 'r13-confirm-parent-v9'
+      ? worldCommandAuditRoots(spriteExtraRoots)
+      : [...enemyScriptAuditRoots(boss.enemies), ...worldCommandAuditRoots(itemCommandRoots)]
   const sprites = [...migrated.sprites, ...sceneOutput.sprites]
   const spriteActions = auditPalSpriteActions({
     scenes: sceneOutput.scenes,
@@ -540,9 +637,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     frameCountByAsset: new Map(
       sources.worldSpriteFrameCounts.map((count, index) => [palSpriteAssetId(index + 1), count]),
     ),
-    // Enemy v10 hooks/choreography/onDefeated 从 schema 上不能写世界精灵；
-    // sprite action census 只接受真正的 world Command roots。
-    extraRoots: itemCommandRoots,
+    extraRoots: spriteExtraRoots,
   })
   const foldedSpriteRoots = foldedSpriteActionRoots(sceneOutput.scenes, spriteActions)
   assertPalWorldSpriteBaseline(sprites, sources.assetCatalog, sources.worldSpriteFrameCounts)
@@ -567,6 +662,7 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
     skills: skills.skills,
     scenes: spriteActionMaterialization.scenes,
     scriptChunks: scripts.chunks,
+    enemyAuthority: enemyAuthority.kind,
   })
   const audit = auditScriptLibrary({
     sourceJson: sources.allJson,
@@ -703,6 +799,19 @@ export function buildPalMigration(sources: PalMigrationSources): MigrationFileSe
   }
   r13TranslationSessionFactories.set(result, () => createSceneR13TranslationSession(sceneOutput))
   return result
+}
+
+/** data/extracted 的 current v10 纯迁移；严禁读取 projects/pal。 */
+export function buildPalMigration(sources: PalMigrationSources): MigrationFileSet {
+  return buildPalMigrationWithEnemyAuthority(sources, CURRENT_ENEMY_AUTHORITY)
+}
+
+/**
+ * 只用于重放已经发布的 P2 → P7 → r13-confirm 父层。
+ * 新迁移、CLI 与项目写入不得调用这个入口。
+ */
+export function buildPalHistoricalR13_4V9Migration(sources: PalMigrationSources): MigrationFileSet {
+  return buildPalMigrationWithEnemyAuthority(sources, R13_CONFIRM_PARENT_ENEMY_AUTHORITY)
 }
 
 /** 审计与测试用：抽取纯文件集内的场景，不经 projects/pal 回读。 */

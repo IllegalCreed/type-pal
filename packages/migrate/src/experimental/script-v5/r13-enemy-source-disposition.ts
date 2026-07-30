@@ -96,7 +96,7 @@ export const R13_ENEMY_REVIEWER_SILENT_ORACLE = [
   readonly [string, EnemyHookChannel, number, number, R13EnemySourceDisposition]
 >
 
-type HookSourceOwner = EnemyMigrationResult['report']['hookSources'][number]
+type HookSourceOwner = NonNullable<EnemyMigrationResult['report']['hookSources']>[number]
 
 export interface R13EnemySourceDispositionSite {
   id: string

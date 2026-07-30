@@ -2,7 +2,11 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadPalBaseline } from '../../migration-baseline.js'
-import { buildPalMigration, palSoundAssetForSources } from '../../pal-migration.js'
+import {
+  buildPalHistoricalR13_4V9Migration,
+  buildPalMigration,
+  palSoundAssetForSources,
+} from '../../pal-migration.js'
 import { loadPalMigrationSources } from '../../pal-migration-io.js'
 import {
   assertScriptControlFlowAudit,
@@ -67,7 +71,7 @@ export function hasPalTestFixture(): boolean {
 
 function loadCoreFixture() {
   const sources = loadPalMigrationSources(PAL_TEST_REPO)
-  const rawMigration = buildPalMigration(sources)
+  const rawMigration = buildPalHistoricalR13_4V9Migration(sources)
   const migration = projectMigrationV9ToLegacyV8(rawMigration)
   const currentAudit = auditPalScriptControlFlow(sources, migration)
   assertScriptControlFlowAudit(currentAudit)
@@ -99,6 +103,29 @@ let coreFixture: PalTestCoreFixture | undefined
 export function getPalTestCoreFixture(): PalTestCoreFixture {
   coreFixture ??= loadCoreFixture()
   return coreFixture
+}
+
+function loadCurrentV10Fixture() {
+  const sources = loadPalMigrationSources(PAL_TEST_REPO)
+  const migration = buildPalMigration(sources)
+  const audit = auditPalScriptControlFlow(sources, migration)
+  assertScriptControlFlowAudit(audit)
+  return Object.freeze({
+    sources,
+    migration,
+    audit,
+  })
+}
+
+export type PalTestCurrentV10Fixture = ReturnType<typeof loadCurrentV10Fixture>
+let currentV10Fixture: PalTestCurrentV10Fixture | undefined
+
+/**
+ * R13-5 successor 专用；与 historical core 独立 load sources，禁止共享可变源数组。
+ */
+export function getPalTestCurrentV10Fixture(): PalTestCurrentV10Fixture {
+  currentV10Fixture ??= loadCurrentV10Fixture()
+  return currentV10Fixture
 }
 
 function loadPhaseFixture() {
