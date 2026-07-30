@@ -114,13 +114,13 @@ wExp = dwExp;                                       // 余数留到下场
 
 ### 5. ts 实现状态
 
-> ⚠️ **整套隐藏经验机制目前未实现** —— 只有数据结构壳子。文档此节是 spec,不是"已做"记录。
+> ✅ **整套隐藏经验机制已完整实现**（E04/D11/D11b 修订后补齐;2026-07-29 逐行代码审计确认）。
 
-- 数据结构:[game-state.ts:391-409](../../packages/game/src/core/game-state.ts#L391-L409) 有 `AllExperience`(8 池),但 `ExpEntry` 只保留 `wExp`/`wLevel`,**`wCount` 被注释为"仅供兼容,运行时不需要"而丢弃**([game-state.ts:388-392](../../packages/game/src/core/game-state.ts#L388-L392))。
-- 累计 `wCount`:**未实现**。[defend.ts:6](../../packages/game/src/core/battle/actions/defend.ts#L6) 明确标注"M3 不实现 exp count";其余动作同理。
-- 胜利结算:[battle-system.ts](../../packages/game/src/core/battle/battle-system.ts#L880-L905) 的 `PAL_BattleWon` 只把 `expGained` 加进 `rgPrimaryExp.wExp`,**连主等级 level-up loop 都还是 follow-up**(需注入 `rgLevelUpExp` 表 + 属性加成随机公式);**隐藏属性 `CHECK_HIDDEN_EXP` 分配完全没做**。
-
-**要 1:1 还原需补**:① 4 个动作 case 累计 `wCount`(`ExpEntry` 加回 `wCount` 字段);② 注入 `rgLevelUpExp` 阈值表;③ `PAL_BattleWon` 补 Step B 的比例分配 + 隐藏升级 + 升级弹窗;④ 战斗结束清零 `wCount`。
+- 累计 `wCount`：`battle-system.ts:2880-2956` 通过 `addHiddenExp` 闭包在 `performBattleAction` 中按动作类型累计（attack→武术+体力 R(2,3)、defend→防御+2、magic→真气+灵力 R(2,3)、flee-fail→吉运+2），均有 `!actor.isEnemy` 门控。
+- 战前清零：`clearHiddenExpCounts(gs)` 在 `startBattle`（:401）清 7 个隐藏池,保留 `rgPrimaryExp.wCount`。
+- `CHECK_HIDDEN_EXP` 分配：`applyHiddenExpGrowth`（:3532-3568）—— iTotalCount = Σ 7 池;`dwExp = trunc(expGained × wCount / iTotalCount) × 2 + wExp`;`while dwExp >= levelUpExp[wLevel]: dwExp -= threshold; stat += R(1,2); wLevel++`。按 Health→…→Flee 固定序消费 RNG。
+- 主等级升级：`battleWonLevelUp`（:3585-3729）—— 读 `levelUpExp` 阈值表;`while dwExp >= threshold` 循环;属性成长 `maxHP += 10+R(0,7)` 等;STAT_LIMIT 999 封顶;升级回满 HP/MP。
+- 隐藏涨点弹窗：`buildBattleWonSettlement`（:3324-3365）—— 逐属性 push `{ kind: 'hidden-exp-up', data: { roleId, name, statLabelWord, delta } }`;STAT_LABEL_WORD id 49-55。
 
 ### 附:源出处速查
 
@@ -224,11 +224,13 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
 
 ### ts 实现状态
 
+> ✅ **公式核心与攻击编排已完整实现**（2026-07-29 逐行代码审计确认）。
+
 - 公式核心 [formulas.ts](../../packages/game/src/core/battle/formulas.ts):`calcBaseDamage` / `calcPhysicalAttackDamage` / `calcMagicDamage` 均 **1:1 ported**(PAL_CLASSIC);法术伤害编排 [magic-damage.ts](../../packages/game/src/core/battle/magic-damage.ts) 已接。
-- 物理攻击编排 [attack.ts](../../packages/game/src/core/battle/actions/attack.ts) 是 **M3 简版**:
-  - ⚠️ **玩家攻击力误加了 `(等级+6)×6`**([attack.ts:60](../../packages/game/src/core/battle/actions/attack.ts#L60))——sdlpal 玩家攻击**不含**此等级项(那是敌人公式)。真值 bug,待修。
-  - 未实现:`+RandomLong(1,2)` jitter、`RandomFloat(1,1.125)` 浮动、暴击 ×3、李逍遥 ×2、双重攻击、群体普攻递减。
-  - 敌人打玩家:`def×2`(主动防御)✓、res=2 ✓;但**自动防御 / 援护 / 护体 /2 均未实现**。
+- 物理攻击编排 [attack.ts](../../packages/game/src/core/battle/actions/attack.ts) **已完整实现**:
+  - `+RandomLong(1,2)` jitter ✅（:93）、`RandomFloat(1,1.125)` 浮动 ✅（:103）、暴击 ×3 ✅（:95-96）、李逍遥 ×2 ✅（:99-102）、双重攻击 ✅、群体普攻递减 ✅（:190-199）。
+  - 玩家攻击力 `(等级+6)×6` bug **已修复**——玩家 str = `role.attackStrength` 不含等级项;等级项只用于敌人 str（:136）。2026-06-02 审计修正。
+  - 敌人打玩家:`def×2`(主动防御)✓（:386）、res=2 ✓、**自动防御** ✅（:324,7/17 概率）、**援护** ✅（:331-351,coverBy 查找+免疫）、**护体 /2** ✅（:393-395）。
 
 ---
 
@@ -246,7 +248,7 @@ if (法术.wElemental != 0) {                      // 带属性的仙术
 - **狂怒状态**(`kStatusBravery`,"more power for physical attacks" [global.h:51](../../reference/sdlpal/global.h#L51))= 物理攻击**必定暴击**(直接满足暴击条件,×3)。
 - 群体普攻的暴击是**整轮一次性**判定(`RandomLong(0,5)==0` 或狂怒),命中则全体 ×3;**群体普攻没有李逍遥会心 ×2**([fight.c:3687-3717](../../reference/sdlpal/fight.c#L3687-L3717))。
 
-ts 实现状态:**未实现**(attack.ts 无 crit / bravery / 李逍遥分支)。
+ts 实现状态:**已完整实现**（attack.ts:95-102）。暴击 1/6 ×3 ✅、李逍遥 1/12 ×2 ✅、狂怒必暴击 ✅、群体普攻整轮一次暴击但无李逍遥 ×2 ✅。
 
 ---
 
@@ -288,7 +290,7 @@ ts 实现状态:**未实现**(attack.ts 无 crit / bravery / 李逍遥分支)。
 - 属 "good status":再次施加取**较长持续回合**(不刷成更短),仅活人可得([global.c:2257-2269](../../reference/sdlpal/global.c#L2257-L2269))。
 - **与主动防御叠加**:护体(最终伤害 /2)与主动防御(防御 ×2)对物理**同时生效**;法术则除数 `(主动防御?2:1)×(护体?2:1)` 连乘。
 
-ts 实现状态:`fDefending` 的 def×2 已在 [attack.ts:74-76](../../packages/game/src/core/battle/actions/attack.ts#L74-L76) 实现;**自动防御 / 援护 / 护体 / 法术自动防御均未实现**。
+ts 实现状态:**全部已实现**（2026-07-29 逐行代码审计确认）。主动防御 def×2 ✅（attack.ts:386）、自动防御 7/17 概率 ✅（:324）、援护 coverBy ✅（:331-351,完整免疫+coverSound）、护体 /2 ✅（:393-395）。
 
 ---
 
@@ -365,7 +367,7 @@ ts 实现状态:**已实现**。`runPlayerCasualtyScript` 等([battle-system.ts:
 
 - 与单体普攻的差异:群体路径**没有** `+RandomLong(1,2)`、**没有**李逍遥会心 ×2、**没有** `RandomFloat` 浮动;暴击整轮一次性判定(命中则全体 ×3,在 /division **之前**应用)。每个目标下限 1。
 
-ts 实现状态:**未实现**(attack.ts 仅单体 targetIdx)。
+ts 实现状态:**已实现**（attack.ts:155-246 attackAll 分支）。division 倍增递减 ✅（:190-199）、HIT_ORDER [2,1,0,4,3] ✅（:159）、群体无 +R(1,2)/李逍遥×2/RandomFloat ✅、暴击整轮一次在 /division 前应用 ✅（:189）、dualAttack 两次扫描 division 各自重置 ✅。
 
 ---
 
@@ -522,7 +524,7 @@ ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者�
 - **动作选择能逆转先手**:慢角色选防御(×5)或合击(×10)也能抢到先手;逃跑(÷2)必拖后。攻击仙术不加速,辅助 / 治疗仙术(不可对敌的)反而 ×3 先放。
 - 随机 0.9~1.1 给同身法单位加抖动,顺序不完全固定。敌人 dualMove(双动)在队列出现两次(第二条 `fIsSecond`,排后)。
 
-ts 实现状态:`getPlayerActualDexterity`(haste×3 + 999 上限)+ `getEnemyDexterity` 已 1:1 ported([formulas.ts:179-216](../../packages/game/src/core/battle/formulas.ts#L179-L216));`buildActionQueue` 降序 + dualMove 双入列已实现([turn-queue.ts:51-79](../../packages/game/src/core/battle/turn-queue.ts#L51-L79))。但 **动作身法系数(×10/×5/×3/÷2)、濒死 ÷2、`RandomFloat` 抖动当前未见应用** —— turn-queue 按调用方传入的 dex 排序,这层修正尚需补(否则所有动作同速,失去"选防御抢先手"的策略)。
+ts 实现状态:**已完整实现**（2026-07-29 逐行代码审计确认）。`getPlayerActualDexterity`(haste×3 + 999 上限)+ `getEnemyDexterity` 1:1 ported ✅;`buildActionQueue` 降序 + dualMove 双入列 ✅;**动作身法系数** ✅（battle-system.ts:700-722 `actionDexMultiplier`: coop×10/defend×5/辅助magic×3/item×3/flee×0.5,引用 fight.c:1529-1556）;**濒死 ÷2** ✅（:856,HP < min(100, maxHp/5)）;**RandomFloat(0.9,1.1) 抖动** ✅（:813,对敌我 dex 均应用）;玩家 baseDex **不含**等级项 ✅（:845-849,2026-06-02 审计修正旧 M3 `(level+6)*4` bug）。
 
 ---
 

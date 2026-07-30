@@ -140,3 +140,19 @@
 - 蓝图 UI 是独立大工程（拖拽/连线/缩放/小地图/键盘/无障碍）,应单开任务卡,不顺手夹进其他批次。
 - 数据模型不变:蓝图只是 ScriptFlow/stateMachine AST 的另一种视图,底层同一份 canonical 数据;列表和蓝图双向同步。
 - 参考:Unreal Blueprint State Machine、Unity Animator 状态图。
+
+### Reforge 战斗引擎缺口（议题 18）
+
+> 2026-07-29 GLM 逐行代码审计 `packages/reforge/src/battle/` vs `docs/phase1/game-mechanics.md` 发现。
+> 35/37 项机制已实现,以下 2 项缺口需补齐。
+
+| # | 议题 | 当前缺口 | 方向 | 归属 | 状态 |
+|---|---|---|---|---|---|
+| 18a | 敌人混乱目标选择 | `battle-core.ts` 的 `decideEnemyAction`（:627-683）无混乱分支。原版 fight.c:4591-4654 中混乱敌人随机攻击另一敌人（伤害公式 `calcBaseDamage×2/目标物抗`），随机到自己则跳过（Pass）。当前敌人中混乱后仍正常执行 AI。玩家混乱已实现但用均匀随机选敌/友模型（有意偏离原版 do-while，代码注释标注）。 | 在 `decideEnemyAction` 增加混乱分支：检查 `e.status.confused > 0`，随机选活敌人（含自己→Pass），伤害走 `calcBaseDamage(str,def)×2/物抗` | B9 战斗 | 待立项 |
+| 18b | 怪物刷新模型 | `main.ts:3236-3243` 用 `respawnSeconds` + `host.wait` + 同场景检查，而非原版 `sVanishTime` 10fps tick 倒计时 + 320×320 离屏检测。差异：无逐帧倒计时（原版 800 tick=80 秒）；无"盯着出生点不复活"的离屏门；0x52/0x4B opcode 语义未复刻。第一阶段引擎（`packages/game`）有完整实现可参照。 | 按 `game-mechanics.md` 怪物刷新节补齐 reforge 版：`sVanishTime` 逐 tick 递减 + 离屏复活检测；或评估当前 `respawnSeconds` 模型是否够用再决定是否忠实复刻 | W 世界 | 待评估 |
+
+边界:
+
+- 两项都不阻塞当前 N3-1 R13 批次或脚本系统稳定。
+- 18a 优先级高于 18b——混乱是战斗机制，影响特定战斗（如果有敌人被施加混乱状态的话）；18b 是世界模型，当前 `respawnSeconds` 模型功能上可用只是不忠实。
+- 一阶段引擎（`packages/game`）两项都有完整实现，可作为参照。
