@@ -5094,17 +5094,23 @@ export async function bootGame(inputProject: LoadedProject | LoadedProjectV5): P
       if (def) walk(def)
       return found
     }
-    void findChoreo().then((choreography) =>
-      host
-        .startBattle(battleParam, {
-          ...(fieldParam !== null ? { fieldId: Number(fieldParam) } : {}),
-          ...(choreography ? { choreography } : {}),
-        })
+    void findChoreo().then((choreography) => {
+      const options = {
+        ...(fieldParam !== null ? { fieldId: Number(fieldParam) } : {}),
+        ...(choreography ? { choreography } : {}),
+      }
+      const battle = scriptRuntimeV5
+        ? scriptRuntimeV5.host.startBattle(
+            { team: battleParam, ...options },
+            new AbortController().signal,
+          )
+        : host.startBattle(battleParam, options)
+      return battle
         .then((r) => showToast(`试打结束:${r}`))
         .catch((error: unknown) => {
           if (!isAbortError(error)) showToast(`试打失败:${String(error).slice(0, 48)}`)
-        }),
-    )
+        })
+    })
   } else if (spawnPos) {
     // X5 跳转预览(?pos 落点):dev 跳转意图 = 落地即自由,跳过 onEnter 剧情垫
     //   (同一阶段 dev 跳场景语义;onEnter 的队伍瞬移会劫持落点)。要看进场演出 → 不带 pos。
