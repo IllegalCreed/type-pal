@@ -285,6 +285,14 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
 
   const scriptRoots: unknown[] = [...(input.encounterChoreography ?? [])]
   for (const enemy of collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)) {
+    const includeEnemySkill = (skillId: string): void => {
+      const skill = input.skills[skillId]
+      // enemy oneEnemy/allEnemies 反转作用于玩家；其他目标的 applyPoison 在 core 中无目标。
+      closure.includeSkill(
+        skill,
+        skill?.target === 'oneEnemy' || skill?.target === 'allEnemies' ? 'player' : undefined,
+      )
+    }
     add(closure.sounds, enemy.sounds.attack)
     add(closure.sounds, enemy.sounds.action)
     add(closure.sounds, enemy.sounds.magic)
@@ -298,17 +306,17 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
       'player',
       false,
     )
-    scriptRoots.push(enemy.choreography, enemy.onDefeated)
+    scriptRoots.push(enemy.choreography, enemy.onDefeated, enemy.ai.hooks)
     for (const rule of enemy.ai.rules ?? []) {
-      if (rule.do.kind === 'cast') {
-        const skill = input.skills[rule.do.skillId]
-        // enemy oneEnemy/allEnemies 反转作用于玩家；其他目标的 applyPoison 在 core 中无目标。
-        closure.includeSkill(
-          skill,
-          skill?.target === 'oneEnemy' || skill?.target === 'allEnemies' ? 'player' : undefined,
-        )
-      }
+      if (rule.do.kind === 'cast') includeEnemySkill(rule.do.skillId)
     }
+    if (enemy.ai.fallback?.action.kind === 'cast')
+      includeEnemySkill(enemy.ai.fallback.action.skillId)
+    for (const flow of Object.values(enemy.ai.hooks ?? {}))
+      for (const state of Object.values(flow.states))
+        for (const command of state.body)
+          if (command.kind === 'setFallback' && command.fallback?.action.kind === 'cast')
+            includeEnemySkill(command.fallback.action.skillId)
   }
 
   closure.drainPoisons()

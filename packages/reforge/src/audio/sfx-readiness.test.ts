@@ -330,7 +330,7 @@ describe('SFX readiness 收集', () => {
     expect([...sounds]).toEqual([])
   })
 
-  test('battleBase 递归敌变身/召唤、AI、演出脚本并保留 ScriptRef lease=0', async () => {
+  test('battleBase 递归敌变身/召唤、fallback、hook 与战后脚本', async () => {
     const e3 = enemy('e3')
     const e2 = enemy('e2', [{ at: 'act', do: { kind: 'summon', enemyId: 'e3', count: 1 } }])
     const e1 = enemy('e1', [
@@ -339,8 +339,31 @@ describe('SFX readiness 收集', () => {
     ])
     e1.steal = { itemId: 'stolen', count: 1 }
     e1.attackEquivItem = { itemId: 'attack-equiv', rate: 10 }
-    e2.onDefeated = [{ kind: 'callScript', ref: ref('battle-script') }]
-    const resolver = new Resolver({ 'battle-script': [play('sound.script')] })
+    e1.ai.fallback = {
+      action: { kind: 'cast', skillId: 'fallback-skill' },
+      chancePercent: 20,
+    }
+    e1.ai.hooks = {
+      ready: {
+        initial: 'ready',
+        states: {
+          ready: {
+            body: [
+              { kind: 'playSound', asset: 'sound.hook' },
+              {
+                kind: 'setFallback',
+                fallback: {
+                  action: { kind: 'cast', skillId: 'hook-fallback-skill' },
+                  chancePercent: 40,
+                },
+              },
+            ],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    e2.onDefeated = [{ kind: 'playSound', asset: 'sound.script' }]
     const stolen = item('stolen', 'sound.stolen')
     const attackEquiv = item('attack-equiv', 'sound.attack-equiv', { use: '702' })
     const aiGrant = item('ai-grant', 'sound.ai-grant')
@@ -351,6 +374,8 @@ describe('SFX readiness 收集', () => {
       'enemy-skill': skill('enemy-skill', 'sound.enemy-skill', {
         effects: [{ kind: 'applyPoison', poisonId: '701' }],
       }),
+      'fallback-skill': skill('fallback-skill', 'sound.fallback-skill'),
+      'hook-fallback-skill': skill('hook-fallback-skill', 'sound.hook-fallback-skill'),
     }
     const sounds = await collectBattleBaseSounds({
       playerSounds: [{ attack: 'sound.actor' }],
@@ -381,7 +406,6 @@ describe('SFX readiness 收集', () => {
         },
       },
       roles: { 'audio.battleEscapeSound': 'sound.escape' },
-      resolver,
       signal: new AbortController().signal,
     })
     expect([...sounds]).toEqual(
@@ -389,6 +413,9 @@ describe('SFX readiness 收集', () => {
         'sound.actor',
         'sound.coop-skill',
         'sound.enemy-skill',
+        'sound.fallback-skill',
+        'sound.hook-fallback-skill',
+        'sound.hook',
         'sound.e1',
         'sound.e2',
         'sound.e3',
@@ -405,7 +432,6 @@ describe('SFX readiness 收集', () => {
     expect(sounds.has('sound.player-skill')).toBe(false)
     expect(sounds.has('sound.attack-equiv.use')).toBe(false)
     expect(sounds.has('sound.attack-equiv.throw')).toBe(false)
-    expect(resolver.active).toBe(0)
   })
 
   test('turn 只收实际 cast/item/throw，施毒目标分别走 enemy/player/enemy ticks', () => {

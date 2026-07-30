@@ -468,8 +468,10 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
     const bolt: SkillData = {
       id: 'bolt',
       name: '雷',
+      desc: '',
       cost: { mp: 0 },
       target: 'oneEnemy',
+      usableOutsideBattle: false,
       effects: [],
       animation: { effectSprite: 0 },
     }

@@ -197,4 +197,39 @@ describe('battle sprite readiness 完整闭包', () => {
       'missing-target',
     )
   })
+
+  test('敌 hook effect 的 transform/summon 目标进入同一 readiness 闭包', () => {
+    const source = enemy('source', 'enemy-1')
+    const transformed = enemy('transformed', 'enemy-2')
+    const summoned = enemy('summoned', 'enemy-3')
+    source.ai.hooks = {
+      ready: {
+        initial: 'effects',
+        states: {
+          effects: {
+            body: [
+              {
+                kind: 'effect',
+                id: 'transform',
+                effect: { kind: 'transform', enemyId: transformed.id },
+              },
+              {
+                kind: 'effect',
+                id: 'summon',
+                effect: { kind: 'summon', enemyId: summoned.id, count: 1 },
+              },
+            ],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    expect(
+      collectReachableEnemyDefs([source], {
+        source,
+        transformed,
+        summoned,
+      }).map((definition) => definition.id),
+    ).toEqual(['source', 'transformed', 'summoned'])
+  })
 })
