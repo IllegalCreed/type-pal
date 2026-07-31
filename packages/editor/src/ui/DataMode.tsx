@@ -277,6 +277,7 @@ export function DataMode(props: {
     return (
       <SkillTab
         skills={skillList}
+        items={itemList}
         session={session}
         assetBase={assetBase}
         projectId={manifest.id}

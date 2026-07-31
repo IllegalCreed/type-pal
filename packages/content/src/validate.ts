@@ -323,6 +323,23 @@ export function validateSkills(json: unknown): {
   skills.forEach((s, i) => {
     const so = assertObject(s, `skills.skills[${i}]`) as Record<string, unknown>
     requireKeys(so, ['id', 'name', 'cost', 'target', 'effects', 'animation'], `skills.skills[${i}]`)
+    const cost = assertObject(so.cost, `skills.skills[${i}].cost`) as Record<string, unknown>
+    if (cost.items !== undefined) {
+      const items = assertArray<Record<string, unknown>>(
+        cost.items,
+        `skills.skills[${i}].cost.items`,
+      )
+      items.forEach((entry, itemIndex) => {
+        const where = `skills.skills[${i}].cost.items[${itemIndex}]`
+        const itemCost = assertObject(entry, where) as Record<string, unknown>
+        requireOnlyKeys(itemCost, ['itemId', 'amount'], where)
+        requireKeys(itemCost, ['itemId', 'amount'], where)
+        if (typeof itemCost.itemId !== 'string' || itemCost.itemId.length === 0)
+          throw new Error(`${where}.itemId: 期望非空物品 ID`)
+        const amount = requireSafeInteger(itemCost.amount, `${where}.amount`)
+        if (amount <= 0) throw new Error(`${where}.amount: 期望正整数`)
+      })
+    }
     const animation = assertObject(so.animation, `skills.skills[${i}].animation`) as Record<
       string,
       unknown

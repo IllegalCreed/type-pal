@@ -331,6 +331,32 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
   ).toThrow('期望非空 AssetId')
 })
 
+test('SkillCost.items 只接受非空物品 ID 与正安全整数数量', () => {
+  const bundle = (items: unknown) => ({
+    skills: [
+      {
+        id: '352',
+        name: '三尸咒',
+        cost: { mp: 22, items },
+        target: 'allEnemies',
+        effects: [],
+        animation: { effectSprite: 1 },
+      },
+    ],
+    levelUp: {},
+  })
+  expect(() => validateSkills(bundle([{ itemId: '148', amount: 1 }]))).not.toThrow()
+  expect(() => validateSkills(bundle([{ itemId: '', amount: 1 }]))).toThrow('期望非空物品 ID')
+  expect(() => validateSkills(bundle([{ itemId: '148', amount: 0 }]))).toThrow('期望正整数')
+  expect(() => validateSkills(bundle([{ itemId: '148', amount: 1.5 }]))).toThrow('期望整数')
+  expect(() =>
+    validateSkills(bundle([{ itemId: '148', amount: Number.MAX_SAFE_INTEGER + 1 }])),
+  ).toThrow('期望安全整数')
+  expect(() => validateSkills(bundle([{ itemId: '148', amount: 1, extra: true }]))).toThrow(
+    '未知字段',
+  )
+})
+
 test('物品图标和战场背景拒绝旧数字/路径字段，缺席语义合法', () => {
   const item = {
     id: '277',

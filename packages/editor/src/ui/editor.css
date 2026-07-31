@@ -8834,6 +8834,16 @@ button.sprite-frame-cell[draggable="true"]:active {
 .skill-form .field textarea.cf-ta {
   max-width: 616px;
 }
+.skill-cost-items {
+  max-width: 616px;
+  margin-top: 12px;
+}
+.skill-cost-item-row > .cf-named-ref-picker {
+  min-width: 0;
+}
+.skill-cost-item-row > .mini {
+  width: 30px;
+}
 .ef-num {
   width: 88px;
   flex: none;

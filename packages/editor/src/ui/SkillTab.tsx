@@ -8,6 +8,7 @@
 import type {
   AssetCatalogV1,
   BattleSpriteDef,
+  ItemData,
   SkillData,
   SkillEffect,
   StatusId,
@@ -18,6 +19,7 @@ import { AddSkillCommand, UpdateSkillCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { BattleSpritePicker } from './BattleSpritePicker.js'
+import { NamedIdPicker } from './NamedIdPicker.js'
 import { SkillAnimationEditor } from './SkillAnimationEditor.js'
 import { SoundPicker } from './SoundPicker.js'
 import { SummonPreview } from './SummonPreview.js'
@@ -413,6 +415,7 @@ function EffectFields(props: {
 
 export function SkillTab(props: {
   skills: SkillData[]
+  items: readonly ItemData[]
   session: EditSession
   assetBase: AssetBase
   assetCatalog: AssetCatalogV1
@@ -429,6 +432,7 @@ export function SkillTab(props: {
 }) {
   const {
     skills,
+    items,
     session,
     assetBase,
     assetCatalog,
@@ -454,6 +458,13 @@ export function SkillTab(props: {
   const skill = skills.find((s) => s.id === selId) ?? shown[0]
   const patch = (p: Partial<Omit<SkillData, 'id'>>): void => {
     if (skill) session.dispatch(new UpdateSkillCommand(skill.id, p))
+  }
+  const setCostItems = (entries: NonNullable<SkillData['cost']['items']>): void => {
+    if (!skill) return
+    const cost = { ...skill.cost }
+    if (entries.length) cost.items = entries
+    else delete cost.items
+    patch({ cost })
   }
   const setEffect = (i: number, next: SkillEffect): void => {
     if (!skill) return
@@ -589,6 +600,85 @@ export function SkillTab(props: {
                   />
                   战外可用
                 </label>
+              </div>
+              <div className="skill-cost-items item-amount-list">
+                <div className="item-effect-subhead">
+                  <span>消耗物品</span>
+                  <button
+                    type="button"
+                    className="mini-txt item-effect-add-button"
+                    aria-label="添加消耗物品"
+                    disabled={
+                      !items.some(
+                        (item) => !(skill.cost.items ?? []).some((entry) => entry.itemId === item.id),
+                      )
+                    }
+                    onClick={() => {
+                      const current = skill.cost.items ?? []
+                      const firstUnused = items.find(
+                        (item) => !current.some((entry) => entry.itemId === item.id),
+                      )
+                      if (firstUnused)
+                        setCostItems([...current, { itemId: firstUnused.id, amount: 1 }])
+                    }}
+                  >
+                    ＋ 添加消耗物品
+                  </button>
+                </div>
+                {(skill.cost.items ?? []).map((entry, index, entries) => {
+                  const usedByOtherRows = new Set(
+                    entries
+                      .filter((_, otherIndex) => otherIndex !== index)
+                      .map((other) => other.itemId),
+                  )
+                  const choices = items.filter(
+                    (item) => item.id === entry.itemId || !usedByOtherRows.has(item.id),
+                  )
+                  return (
+                    <div
+                      className="item-amount-row skill-cost-item-row"
+                      key={`${skill.id}-${entry.itemId}-${index}`}
+                    >
+                      <NamedIdPicker
+                        value={entry.itemId}
+                        choices={choices}
+                        kindLabel="物品"
+                        inputName={`skill-${skill.id}-cost-item-${index}`}
+                        onChange={(itemId) => {
+                          const next = [...entries]
+                          next[index] = { ...entry, itemId }
+                          setCostItems(next)
+                        }}
+                      />
+                      <input
+                        className="in item-amount-count"
+                        type="number"
+                        min={1}
+                        step={1}
+                        aria-label={`消耗物品数量 ${index + 1}`}
+                        value={entry.amount}
+                        onWheel={(event) => event.currentTarget.blur()}
+                        onChange={(event) => {
+                          const raw = event.currentTarget.valueAsNumber
+                          const amount =
+                            Number.isFinite(raw) && raw >= 1 ? Math.trunc(raw) : 1
+                          const next = [...entries]
+                          next[index] = { ...entry, amount }
+                          setCostItems(next)
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="mini"
+                        aria-label={`删除消耗物品 ${index + 1}`}
+                        title="删除"
+                        onClick={() => setCostItems(entries.filter((_, row) => row !== index))}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
               <div className="v-field" style={{ marginTop: 10 }}>
                 <span className="lb">说明</span>
