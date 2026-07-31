@@ -6556,10 +6556,10 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
   worker 实测约 1.3GB RSS / 单核满载；后续优化必须继续保留 fast/release 双证据与 release
   全量重建，禁止靠提高 timeout、跳过 source-backed 或跨调用全局缓存冒充收口。
 
-当前状态仍为 **review blocked**：须 Kimi / GLM 对 `e6a521d6..299a6fb8` 复审并把下表
-各自行从 `counter` 改为 `accept`；R13-6/R13-Z 仍未开始。
+**R13-5 done（2026-07-31）**：Kimi / GLM 已对 `e6a521d6..299a6fb8` 完成复审，
+三方均签 `accept`；R13-6 可按既有设计门禁开始。R13-Z、N3-1、C8 与 ED-5I 仍未完成。
 
-#### 给 Kimi（R13-5 counter 返工复审）
+#### 给 Kimi（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 
 ```text
 复审 N3-1 R13-5 counter 返工。
@@ -6585,7 +6585,7 @@ build/review、历史 counter 和 post-publication counter 返工小节。
 生成产物、board 或其他签字；accept 只收口 R13-5，不代表 R13-6/R13-Z/N3-1/C8/ED-5I done。
 ```
 
-#### 给 GLM（R13-5 counter 返工复审）
+#### 给 GLM（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 
 ```text
 复审 N3-1 R13-5 counter 返工。
@@ -6615,11 +6615,35 @@ build/review、历史 counter 和 post-publication counter 返工小节。
 | Agent | 结论 | 日期 | 备注 |
 |---|---|---|---|
 | Codex | **accept** | 2026-07-31 | 唯一 Coding Owner 自验通过。`e6a521d6..299a6fb8` 的 counter 返工、content10/SAVE8 identity、fast/release 双证明与完整 release replay 均闭合；根级 check:fast 为 5,198 passed / 1 skipped，Biome 1,040 files 通过。accept 只确认当前 R13-5 复审候选，不冒充 R13-6/R13-Z/N3-1/C8/ED-5I done。 |
-| Kimi | **counter** | 2026-07-30 | 共享 PAL 套件在已提交 main 上确定性红：`legacy-enemy-script-v9-authority.pal.test.ts:148` hookSources 期望 44 / 实际 54（825398ab 新增 battleEnd 条目后 88db1c41 的钉值未更新）。根因明确、修复面极小，但候选证据链当前断一环，不能 accept。最小返工与全部通过项见交接记录。 |
-| GLM | **counter** | 2026-07-30 | 数据层全绿，但 formal publication MG2 initialize 路径在 d94c3cb2 提交 baseline 后回归失败，见交接。须修测试让 initialize 可验证后方可 accept。 |
+| Kimi | **accept** | 2026-07-31 | `e6a521d6..299a6fb8` 复审通过：K1 hookSources 已按最小返工修为 54+账目注释（隔离复跑 3/3 绿）；fast/release 拆分未降门禁——pal-shared 保 source-backed initialize+anti-tamper、pal-fresh rewind 验真实磁盘 seal/successor/author 四层、release 无 shortcut 完整 planner replay+0/0/0（两门均隔离复跑 exit 0）；runtime capability 仅同进程刚建报告免二次重建，外部/prepared 仍 snapshot-backed rebuild；返工未动产物/seal（哈希复验）；初判两处失败均系并发 CPU 争用（隔离复跑全绿）非回归。accept 仅准入 R13-6。 |
+| GLM | **accept** | 2026-07-31 | G2 counter 返工闭合（299a6fb8）：rewind 真回建让 initialize 可验 + fast/release 拆分保留真实磁盘 replay 0/0/0 双门。数据层（上一轮已核）无反例。见交接。accept 只确认 R13-5 formal candidate，不冒充 R13-6/R13-Z/N3-1/C8/ED-5I done。 |
 
-**done 准入结论**：blocked；须 Kimi / GLM 均签 `accept`。两项 counter 已由
-`e6a521d6..299a6fb8` 返工，等待审查方核对并改签。
+**done 准入结论**：三方 `accept` 已齐，R13-5 于 2026-07-31 收口；只准入 R13-6，
+不代表 R13-Z、N3-1、C8 或 ED-5I 完成。
+- 2026-07-31 Kimi：完成 `e6a521d6..299a6fb8` counter 返工只读复审，改签 **accept**
+  （仅准入 R13-6）。核对：
+  - **K1（本席 counter）**：`:148` 冻结值修为 54 并写明 `44 ready/turnStart + 15 battleEnd
+    − 5 overlap` 账目，与我的最小返工建议逐项一致；隔离复跑 `legacy-enemy-script-v9-
+    authority.pal.test.ts` **3/3 绿（206.8s）**。
+  - **G2**：`published-r13-enemy-test-fixture.ts` 从真实磁盘 published baseline/project
+    回退 parent，校验 seal 有效性、changedPaths=evidence、文件 hash 完整性
+    （assertSnapshotFileHash）、localeDelta 应用与 35 个 authored locale id；initialize
+    注入 non-owned 作者改动证明 8 个 owned writes 不吞作者层。
+  - **fast/release 拆分未降门禁**：pal-shared 保留完整 source-backed initialize、
+    半状态与篡改反例（隔离复跑 r13-enemy-audits 全绿）；pal-fresh 走 rewind 验真实磁盘
+    seal/successor/author 四层（integration fast 门隔离复跑 2 passed/1 skipped，exit 0）；
+    release 无 shortcut 完整调用 planner 并显式断言 replay + `0/0/0`（integration
+    release 门隔离复跑 2 passed/1 skipped，exit 0）。runtime capability 仅"同进程刚构建"
+    的本地报告免除二次 rebuild（纯函数重算无证明力增量），外部/prepared 报告仍走
+    snapshot-backed rebuild。
+  - **返工未动产物/seal**：两提交仅触 demo/e2e-own manifest 与测试/校验代码；一手
+    sha256 复验七层 seal byte-pin 不变（r13-enemy-script-v1=`e913123d…`）。
+  - **失败定性**：本会话初跑 audits+integration(fast) 与 integration(release) 各有一处
+    红，系与并行重测试套件争抢 CPU 所致（audits 单独复跑、integration 两门各自隔离
+    复跑全部 exit 0），非候选回归。
+  - e6a521d6 的硬化与 R13-5 authority 一致：`checkAuthorCommandsV5` 直接校验
+    `startBattle.choreography`（封死升级器外偷渡）、enemy onDefeated 改穷尽 typed walker。
+  未修改实现/产物/seal/其他签字。Next：GLM 复审其 G2/G3 后三方齐，R13-6 方可开始。
 
 - 2026-07-30 Kimi：完成 R13-5 formal candidate 架构/runtime/schema/MG2/anti-tamper
   只读审查，签 **counter**（一处确定性测试漂移，最小返工）。
@@ -6813,6 +6837,36 @@ build/review、历史 counter 和 post-publication counter 返工小节。
   数据守恒、seal 链、enemy-499 G1 落实、locale/scene/project 守恒全部无反例；
   counter 仅因 G2 formal publication initialize 路径回归。Codex 修 G2（+ 确认 G3）后
   GLM 可改签 accept。未修改实现/产物/baseline/seal/Kimi 签字。
+
+- 2026-07-31 GLM 复审（e6a521d6..299a6fb8）：G2/G3 counter 返工闭合，**counter 改签 accept**。
+  一手复核（非 Codex 清单复述）：
+  - **G2 修复核实**：新增 `published-r13-enemy-test-fixture.ts` 的
+    `rewindPublishedR13EnemyTransition`（:87-161）是 **source-backed 真回建**，不是简单 strip
+    seal —— 它从 published baseline 读 seal 四态（metadata/file/managed/hash，:98-106）、
+    逐 changedPath 校验 baseline/project/parent/successor 一致性（:116-128，baseline≠successor
+    或 project≠baseline 非 locale 路径即 throw）、locale owned delta + author-only key 保留
+    （:130-153）、最后删 seal 四态 + project managedFiles（:155-159）。initialize 测试现在从
+    真实 parent 基线跑，不是 fake。
+  - **fast/release 拆分无降门禁**：`vitest.config.ts` define `process.env...='fast'`，
+    `vitest.release.config.ts` define `='release'`；`pal-migration-integration.test.ts:800-844`
+    fast 路径走 rewind + augmentation 证据（:802-824），release 路径走完整 planner +
+    `enemyScriptSealMode='replay'` + `writes.size=0/deletes=[]/conflicts=[]`（:825-844）。
+    **两门都保留**，fast 没有替代 release 的真实磁盘 replay。
+  - **一手复跑（299a6fb8）**：
+    - enemy-audits PAL（pal-shared）**3/3 全绿**（383.72s）—— 含 `MG2 初始化只写八个内容
+      文件` 221676ms 通过，G2 回归已修复；
+    - pal-migration-integration **release 门** 2 passed / 1 skipped（297.25s）—— 走 release
+      路径完整 planner + 真实磁盘 replay 0/0/0；skipped 是 `MG2 真实 PAL 数据临时目录演练`
+      （`hasBootstrapFixture=false`，baseline 已提交，合理 skip）；
+    - r13-enemy-source-disposition PAL（pal-shared）**7/7 全绿**（5.32s）—— G3 已修，文件
+      加入 `PAL_SHARED_TESTS`（vitest.tests.ts:16）不再游离。
+  - **数据层（上一轮 counter 已核，本轮未重跑但无 schema/产物/seal 变更）**：153/12/31/
+    0/0/215/197、99 owner、8-file diff、locale 9587/9552/35、seal/旧六层 byte-pin、
+    enemy-499 G1（`branch chance percent:29` 对齐 `0x06[30]`）全部无反例。299a6fb8 只改测试
+    不改生产 schema/产物/seal（commit message + diff 确认），数据层结论不变。
+
+  counter 返工闭合，改签 **accept**。accept 只确认 R13-5 formal candidate，不冒充
+  R13-6/R13-Z/N3-1/C8/ED-5I done。未修改实现/产物/baseline/seal/Kimi 签字。
 
 #### Kimi R13-5 设计主审（2026-07-30）
 
