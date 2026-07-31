@@ -839,6 +839,62 @@ describe('M4d-3/M4d-2 战斗音效接线(时间线帧挂载)', () => {
     expect(plays.includes('sound.skill-effect')).toBe(skillEffect)
   })
 
+  test('玩家物品门熄火：保留 PreMagic 吟唱音，但不播技能效果音或结算伤害', () => {
+    const magic = {
+      id: 'gu-fizzle',
+      name: '蛊术',
+      desc: '',
+      cost: { mp: 5, items: [{ itemId: '148', amount: 1 }] },
+      usableOutsideBattle: false,
+      target: 'allEnemies' as const,
+      effects: [{ kind: 'damage' as const, power: 999, elemental: 0 }],
+      animation: {
+        effectSprite: 1,
+        effectTimes: 1,
+        sound: 'sound.skill-effect',
+      },
+    }
+    const enemy = mkEnemy('fizzle-target', {
+      health: 999,
+      defense: 999,
+      attackStrength: 0,
+    })
+    const fireSprite = {
+      frames: [{}],
+      anchorX: 0,
+      anchorY: 0,
+    } as unknown as import('../assets.js').LoadedSprite
+    const { session, plays } = makeSession(
+      enemy,
+      { attackStrength: 0, skills: [magic.id] },
+      {
+        skills: { [magic.id]: magic },
+        inventory: [],
+        playerSounds: [{ magic: 'sound.player-cast' }],
+      },
+      { fireSprites: { 1: fireSprite } },
+    )
+    const internal = session as unknown as {
+      state: {
+        players: BattlePlayerState[]
+        enemies: Array<{ hp: number }>
+        inventory: Array<{ itemId: string; count: number }>
+      }
+    }
+
+    session.tick(16, new Set(['ArrowLeft']))
+    session.tick(16, new Set(['Enter']))
+    session.tick(16, new Set(['Enter']))
+    for (let i = 0; i < 40; i++) session.tick(500, new Set())
+
+    expect(internal.state.players[0]!.mp).toBe(25)
+    expect(internal.state.enemies[0]!.hp).toBe(999)
+    expect(internal.state.inventory).toEqual([])
+    expect(plays).toContain('sound.player-cast')
+    expect(plays).not.toContain('sound.skill-effect')
+    expect(session.debugLog().some((line) => line.includes('物品不足,蛊术 施放失败'))).toBe(true)
+  })
+
   test('用品显式声音优先于 role；投掷链消费自己的声音', () => {
     const item = {
       id: 'sound-item',

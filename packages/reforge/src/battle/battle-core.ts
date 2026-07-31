@@ -226,6 +226,8 @@ export interface BattleState {
     target?: number
     /** cast 动作的技能 id(表现层查 animation 播特效)。 */
     skillId?: string
+    /** scriptOnUse 消耗门失败：保留玩家施法前摇，但跳过效果动画与 effects 结算。 */
+    fizzled?: boolean
     /** item/throw 动作的物品 id(表现层显示物品名 + 查图标)。 */
     itemId?: string
     /** 物攻暴击(1/6 或狂暴;表现层取暴击音,fight.c:2065-2069)。 */
@@ -993,6 +995,38 @@ function applyPlayerSkill(
     return
   }
   p.mp -= mpCost
+  // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
+  // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
+  // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
+  const itemCosts = new Map<string, number>()
+  let validItemCosts = true
+  for (const cost of skill.cost.items ?? []) {
+    if (!cost.itemId || !Number.isSafeInteger(cost.amount) || cost.amount <= 0) {
+      validItemCosts = false
+      break
+    }
+    const amount = (itemCosts.get(cost.itemId) ?? 0) + cost.amount
+    if (!Number.isSafeInteger(amount)) {
+      validItemCosts = false
+      break
+    }
+    itemCosts.set(cost.itemId, amount)
+  }
+  const hasRequiredItems =
+    validItemCosts &&
+    [...itemCosts].every(
+      ([itemId, amount]) =>
+        (s.inventory.find((entry) => entry.itemId === itemId)?.count ?? 0) >= amount,
+    )
+  if (!hasRequiredItems) {
+    if (s.lastAction) s.lastAction.fizzled = true
+    s.log.push(`${p.roleId} 物品不足,${skill.name} 施放失败`)
+    return
+  }
+  for (const [itemId, amount] of itemCosts) {
+    const slot = expectDefined(s.inventory.find((entry) => entry.itemId === itemId))
+    slot.count -= amount
+  }
   if (moneyCost > 0) s.moneyDelta -= moneyCost
   // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
   p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)

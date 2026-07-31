@@ -687,6 +687,98 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.players[0]!.mp).toBe(2) // 未扣
     expect(s.enemies[0]!.hp).toBeLessThan(eHpBefore) // 物攻真落敌
   })
+
+  test('SkillCost.items:先扣 MP 再原子扣物品；成功才结算 effects 与隐藏成长', () => {
+    const guSkill: SkillData = {
+      ...bolt2,
+      id: '352',
+      name: '三尸咒',
+      cost: {
+        mp: 5,
+        // 重复行按同一来源聚合，不能逐条扣出半成功。
+        items: [
+          { itemId: '148', amount: 1 },
+          { itemId: '148', amount: 2 },
+        ],
+      },
+    }
+    const s = createBattleState({
+      players: [player('li', { magicStrength: 50, skills: [guSkill.id] })],
+      enemies: [mkEnemy('e', { health: 500, defense: 0, attackStrength: -999 })],
+      skills: { [guSkill.id]: guSkill },
+      inventory: [{ itemId: '148', count: 3 }],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'cast', skillId: guSkill.id, targetEnemyIdx: 0 })
+    stepBattle(s, rng0) // build queue
+    stepBattle(s, rng0) // 玩家先手
+
+    expect(s.players[0]!.mp).toBe(25)
+    expect(s.inventory).toEqual([{ itemId: '148', count: 0 }])
+    expect(s.enemies[0]!.hp).toBeLessThan(500)
+    expect(s.players[0]!.hiddenCounts.maxMP).toBe(2)
+    expect(s.players[0]!.hiddenCounts.magicAttack).toBe(1)
+    expect(s.lastAction?.fizzled).not.toBe(true)
+  })
+
+  test('SkillCost.items 不足:MP 仍扣，库存不部分消耗，effects/隐藏成长均熄火', () => {
+    const guSkill: SkillData = {
+      ...bolt2,
+      id: '372',
+      name: '万蛊蚀天',
+      cost: {
+        mp: 5,
+        items: [
+          { itemId: '148', amount: 1 },
+          { itemId: '148', amount: 2 },
+        ],
+      },
+    }
+    const s = createBattleState({
+      players: [player('li', { magicStrength: 50, skills: [guSkill.id] })],
+      enemies: [mkEnemy('e', { health: 500, defense: 0, attackStrength: -999 })],
+      skills: { [guSkill.id]: guSkill },
+      inventory: [{ itemId: '148', count: 2 }],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'cast', skillId: guSkill.id, targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+
+    expect(s.players[0]!.mp).toBe(25)
+    expect(s.inventory).toEqual([{ itemId: '148', count: 2 }])
+    expect(s.enemies[0]!.hp).toBe(500)
+    expect(s.players[0]!.hiddenCounts.maxMP).toBeUndefined()
+    expect(s.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
+    expect(s.lastAction).toMatchObject({ kind: 'cast', skillId: guSkill.id, fizzled: true })
+    expect(s.log.some((line) => line.includes('物品不足,万蛊蚀天 施放失败'))).toBe(true)
+  })
+
+  test('SkillCost.items 非法数量 fail-closed：仍遵守 MP 已扣、无物品/effect mutation', () => {
+    const invalid: SkillData = {
+      ...bolt2,
+      id: 'invalid-item-cost',
+      cost: { mp: 5, items: [{ itemId: '148', amount: 0 }] },
+    }
+    const s = createBattleState({
+      players: [player('li', { skills: [invalid.id] })],
+      enemies: [mkEnemy('e', { health: 500, attackStrength: -999 })],
+      skills: { [invalid.id]: invalid },
+      inventory: [{ itemId: '148', count: 9 }],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'cast', skillId: invalid.id, targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+
+    expect(s.players[0]!.mp).toBe(25)
+    expect(s.inventory).toEqual([{ itemId: '148', count: 9 }])
+    expect(s.enemies[0]!.hp).toBe(500)
+    expect(s.lastAction?.fizzled).toBe(true)
+  })
 })
 
 describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidateAction)', () => {

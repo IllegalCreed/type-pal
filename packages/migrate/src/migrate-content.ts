@@ -579,6 +579,43 @@ export interface SkillMigrationResult {
 }
 
 /**
+ * 把玩家施法前的纯物品门迁成 SkillCost.items。
+ *
+ * PAL 的三条蛊术是同一形状：
+ *   0x68[0]（敌方施法跳过玩家门）→ 0x20[item, amount, fail] → end
+ * 这里按源形状识别而不是硬编码技能 id；任何多余副作用或控制流都会继续留在 pending。
+ */
+function translateSkillItemCostScript(
+  commands: readonly SourceCmd[],
+  labelIndex: ReadonlyMap<string, number>,
+  entry: number,
+): SkillData['cost']['items'] | undefined {
+  let cursor = labelIndex.get(`L_${entry}`)
+  if (cursor === undefined) return undefined
+  const first = commands[cursor]
+  if (
+    first?.op === 'raw' &&
+    first.opcode === 0x68 &&
+    (first.operands?.[0] ?? 0) === 0
+  ) {
+    cursor++
+  }
+  const remove = commands[cursor]
+  const end = commands[cursor + 1]
+  if (
+    remove?.op !== 'raw' ||
+    remove.opcode !== 0x20 ||
+    end?.op !== 'end' ||
+    (remove.operands?.[2] ?? 0) <= 0
+  )
+    return undefined
+  const itemId = remove.operands?.[0] ?? 0
+  const amount = remove.operands?.[1] || 1
+  if (itemId <= 0 || amount <= 0) return undefined
+  return [{ itemId: String(itemId), amount }]
+}
+
+/**
  * 技能全量迁移:纯表伤害(M1a)+ 线性脚本翻译(M1c)。
  * 原 demo curated 三技能(296/298/299)已被解析器取代 —— golden 测钉 diff 一致(75/220/500)。
  */
@@ -644,13 +681,19 @@ export function mapSkills(
       })
       continue
     }
+    const itemCosts =
+      s.scriptOnUse !== 0
+        ? translateSkillItemCostScript(commands, labelIndex, s.scriptOnUse)
+        : undefined
     if (s.scriptOnUse !== 0) {
-      pending.push({
-        id: s.id,
-        name: s._name,
-        reason: `scriptOnUse=${s.scriptOnUse}(动态公式 0x35/0x88 系)→ 战斗期`,
-      })
-      continue
+      if (!itemCosts) {
+        pending.push({
+          id: s.id,
+          name: s._name,
+          reason: `scriptOnUse=${s.scriptOnUse}(非纯物品门)→ 战斗期`,
+        })
+        continue
+      }
     }
     const target = m.type === 'trance' ? ('self' as const) : TYPE_TARGET[m.type]
     if (!target) {
@@ -679,7 +722,7 @@ export function mapSkills(
       id: String(s.id),
       name: s._name,
       desc: descOf(s.scriptDesc).join('\n'),
-      cost: { mp: m.costMP },
+      cost: { mp: m.costMP, ...(itemCosts ? { items: itemCosts } : {}) },
       usableOutsideBattle: s.flags.usableOutsideBattle,
       target,
       effects,

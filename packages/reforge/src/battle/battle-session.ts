@@ -1602,6 +1602,8 @@ export class BattleSession {
       idx: number
       target?: number
       skillId?: string
+      /** 玩家 scriptOnUse 消耗门失败：只播放 PreMagic。 */
+      fizzled?: boolean
       /** 敌施法被动格挡的队员(摆防御姿 frame3)。 */
       autoDefend?: number[]
       /** 合击贡献者 slot(有 = 走合击聚拢演出;非召唤合击才用)。 */
@@ -1615,11 +1617,11 @@ export class BattleSession {
     if (!skill) return null
     const a = skill.animation
     const fire = this.assets.fireSprites?.[a.effectSprite]
-    this.currentFire = fire ?? null
+    this.currentFire = la.fizzled ? null : (fire ?? null)
     // 召唤：effect 直接引用 summon profile 定义，资源已在进战 readiness 完整预载。
     const summonEff = skill.effects.find((e) => e.kind === 'summon')
     const summonSprite =
-      summonEff?.kind === 'summon'
+      !la.fizzled && summonEff?.kind === 'summon'
         ? this.requireAppearance(summonEff.battleSprite, 'summon').sprite
         : null
     this.currentSummon = summonSprite
@@ -1635,7 +1637,7 @@ export class BattleSession {
       wave: a.wave ?? 0,
       ...(a.sound ? { sound: a.sound } : {}),
     }
-    const damageNums = this.diffDamageNums(pHp, eHp)
+    const damageNums = la.fizzled ? [] : this.diffDamageNums(pHp, eHp)
     if (la.side === 'player') {
       const playerProfile = this.playerAppearance(la.idx).definition.profile
       if (playerProfile.kind !== 'player-fighter') throw new Error('player profile 漂移')
@@ -1653,7 +1655,8 @@ export class BattleSession {
         }))
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
-      this.summonTintShift = summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      this.summonTintShift =
+        !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1663,7 +1666,7 @@ export class BattleSession {
           contributorIdxs: la.coopContributors,
           partySize: s.players.length,
           partyPositions: s.players.map((_, i) => getPlayerBasePos(s.players.length, i)),
-          fireFrames: fire?.frames.length ?? 0,
+          fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
           fx,
           targetPos,
           damageNums,
@@ -1685,12 +1688,12 @@ export class BattleSession {
         castEffectBase:
           !summonSprite && this.assets.effectSprite ? playerProfile.castEffectBase : -1,
         partyIdxs: s.players.map((_, i) => i),
-        fireFrames: fire?.frames.length ?? 0,
+        fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
         fx,
         targetPos,
         damageNums,
         postTargets,
-        ...(a.keepEffect ? { keepEffect: true } : {}),
+        ...(!la.fizzled && a.keepEffect ? { keepEffect: true } : {}),
         ...(summonSprite
           ? {
               summon: {
@@ -1751,6 +1754,7 @@ export class BattleSession {
       kind: string
       target?: number
       skillId?: string
+      fizzled?: boolean
       itemId?: string
       crit?: boolean
       secondDamage?: number
@@ -1771,6 +1775,9 @@ export class BattleSession {
     const s = this.state
     if (!la) return null
     if (la.kind === 'cast') {
+      // scriptOnUse 消耗门失败仍保留玩家 PreMagic/施法音，但必须先于 trance、steal、
+      // flee 等专用 effect 路由截断，不能让失败施法产生任何成功效果演出。
+      if (la.fizzled) return this.buildCastTimeline(la, pHp, eHp)
       const trance = la.skillId
         ? s.skills[la.skillId]?.effects.find((effect) => effect.kind === 'trance')
         : undefined

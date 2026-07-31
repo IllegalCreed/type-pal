@@ -297,8 +297,8 @@ describe('M1b · 装备效果(scriptOnEquip → EquipSpec)', () => {
 
 describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
   const byId = new Map(out.skills.skills.map((s) => [s.id, s]))
-  test('总量与去向:89 迁(含 9 召唤,2026-07-05 战斗期补翻)/ 14 pending(动态公式),笔笔有名目', () => {
-    expect(out.skills.skills).toHaveLength(89)
+  test('总量与去向:92 迁(含 9 召唤+3 纯物品门)/ 11 pending,笔笔有名目', () => {
+    expect(out.skills.skills).toHaveLength(92)
     expect(out.skills.skills.filter((s) => s.effects[0]?.kind === 'damage')).toHaveLength(57)
     const summons = out.skills.skills.filter((s) => s.effects[0]?.kind === 'summon')
     expect(summons).toHaveLength(9)
@@ -307,9 +307,9 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
       expect(sk.target).toBe('allEnemies')
       expect(sk.effects[1]?.kind).toBe('damage')
     }
-    expect(out.report.pendingSkills).toHaveLength(14)
+    expect(out.report.pendingSkills).toHaveLength(11)
     expect(out.report.pendingSkills.filter((p) => p.reason.includes('scriptOnUse'))).toHaveLength(
-      14,
+      11,
     )
   })
   test('M1c-2 门类 5 技:门语义与原版脚本同构(概率/HP阈值/抗性掷,顺序截断)', () => {
@@ -368,16 +368,29 @@ describe('M1a+M1c · 技能(纯表 57 + 线性脚本 18 + 门类 5)', () => {
     ]) // 梦蛇
     expect(byId.get('295')?.target).toBe('self')
   })
-  test('有损点登记:0x68 敌方分支 + 酒神动态伤害；已恢复的 377 不再有损', () => {
+  test('有损点登记:敌我分支 + 酒神动态伤害；蛊术迁入后不得继续隐藏敌方分支', () => {
     expect(out.report.lossySkills.map((l) => l.id).sort((a, b) => a - b)).toEqual([
       303,
       304,
       305,
+      352,
       370, // 酒神(summon 动态伤害直译占位,2026-07-05)
+      372,
+      373,
     ])
-    const dual = out.report.pendingSkills.filter((p) => [352, 372, 373].includes(p.id))
-    expect(dual).toHaveLength(3)
-    for (const d of dual) expect(d.reason).toContain('scriptOnUse') // onUse 带毒伤动态公式,非线性可译
+    for (const [id, mp, poisonId] of [
+      ['352', 22, '555'],
+      ['372', 34, '555'],
+      ['373', 48, '560'],
+    ] as const) {
+      const skill = byId.get(id)
+      expect(skill?.cost).toEqual({
+        mp,
+        items: [{ itemId: '148', amount: 1 }],
+      })
+      expect(skill?.effects).toEqual([{ kind: 'applyPoison', poisonId }])
+      expect(out.report.pendingSkills.some((pending) => String(pending.id) === id)).toBe(false)
+    }
   })
 })
 
