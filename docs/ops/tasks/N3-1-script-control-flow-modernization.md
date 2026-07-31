@@ -6559,6 +6559,81 @@ context 与测试后另签，不以整个 `AuthorCommandV5` 冒充 context schem
 **R13-5 done（2026-07-31）**：Kimi / GLM 已对 `e6a521d6..299a6fb8` 完成复审，
 三方均签 `accept`；R13-6 可按既有设计门禁开始。R13-Z、N3-1、C8 与 ED-5I 仍未完成。
 
+#### R13-6 当前源账重算与 6A / 6B 门禁拆分（2026-07-31）
+
+R13-5 发布后，旧的 R13-6 集合数量没有消失，但最终目标和证据身份已经变化：10 个
+`pendingSkills` 现在都因 R13-5 敌人施法闭包而出现在 final `skills.json`，不能再把
+“final 有技能”当成源语义闭合。R13-6 必须从当前 R13-5 parent 重新生成 census、
+disposition 与 seal；历史 `215 sites / 197 observations` 只作为 R13-5 隔离证明和新批输入，
+禁止继续硬编码成 R13-6 完成后的期望值。
+
+- **14 raw pending → 4 已关闭 + 10 仍开**：
+  - 314 / 344 / 392 / 394 已由 `PAL_RESOLVED_SKILL_IDS` 与 authored overlay 关闭，不重做；
+  - 330、334、342、357、378、380、385 共 7 个 `scriptOnUse 0x35`，分别要求施法效果开始前
+    震屏 20 / 20 / 14 / 24 / 14 / 14 / 14 帧。现有 `SkillAnimation.shake` 明确定义为
+    **末尾**震屏（`packages/content/src/skill.ts:93-96`），不能拿它伪装前摇；
+  - 352 三尸咒、372 万蛊蚀天、373 毒吞天下的 `0x68 → 0x20` 表示敌人施放跳过，
+    玩家施放消耗 item 148 蛊 ×1，不足进入失败臂。`SkillCost.items` 已存在
+    （`packages/content/src/skill.ts:6-12`），因此数据形状无需新增 schema。
+- **4 lossy 仍是 open，不是 approved-lossy**：
+  - 303 回梦：玩家 60% / 睡眠 4 回合；敌人 70% / 睡眠 3 回合并使玩家 HP -1；
+  - 304 夺魂：玩家先过魔抗门再 33% 即死；敌人无该魔抗门、30% 即死；
+  - 305 鬼降：玩家 44% / 疯乱 4 回合；敌人 50% / 疯乱 3 回合并使玩家 HP -1；
+  - 370 酒神：常规 1 MP 先扣，再消耗 item 86 酒 ×1；成功后以剩余 MP ×8 结算并清空 MP。
+  仓库没有用户批准这四项继续有损的证据，禁止以 `approved-lossy` 销账。
+- **14 palette 站点**：
+  - palette 0 七处、palette 5 五处，按用户已批准结论分别映射既有 ambience `day` 与新表项
+    `warm`（`[255,230,102]`，不新增 schema）；
+  - palette 2 / 6 各一处，连同随后恢复 palette 0 的两处，共四站分别绑定
+    `frame-animation.pal.003` / `.007` 的 RGBA asset-baked evidence，不再生成 ambience；
+  - 动态 host `@23975` 必须同时钉住 source owner 与最终 host/root 身份，不能只按地址销账。
+- **表现指令**：
+  - `0x9B×2` 可直接复用现有 `ditherScreen(2160ms)`；
+  - `0x05` 的非零 delay 可复用 `clearDialog + wait(op1×60ms)`；`op2=0xFFFF` 的旧引擎
+    gesture 刷新必须先给出 clean runtime 持续渲染等价证据，不能仅因“看起来没差”销账；
+  - `0x76×4` 是持续填黑，不等于瞬时 `fade out`；`loadScene` 的固定 260ms out/in 也只是
+    现代近似。这两项留在 6B，禁止在 6A 静默吞掉。
+
+##### R13-6A：既有 schema 子批（build allowed）
+
+沿用 2026-07-26 P7-R13 三方 `agree`，本批不新增公共 schema、SAVE 字段或 ScriptHost API：
+
+1. 上游识别 352 / 372 / 373 的 `0x68 → 0x20` 链，生成 `cost.items=[{itemId:"148",
+   amount:1}]`，不再依赖 R13-5 的“敌用技能兜底”偶然补齐玩家技能；
+2. Reforge 施法顺序必须保持一阶段真值：先扣常规 MP，再检查/消耗脚本物品；物品不足时
+   MP 仍消耗，但不播效果动画、不结算 `effects`、不累计成功施法隐藏成长。一阶段一手锚点为
+   `packages/game/src/core/battle/actions/magic.ts:254-272` 与
+   `packages/game/src/core/battle/__tests__/actions.test.ts:1795-1820`。战斗库存继续通过
+   `BattleSession.writeBackInventory` 在胜/败/逃后持久回写；
+3. palette 14 站按上述 day / warm / asset-baked 逐站闭合；不复活 palette index schema；
+4. 只处理无需新命令的 `0x9B`、`0x05 delay`；gesture evidence 不足时保持 open，不得为了
+   追求零数字伪造 no-op；
+5. 每个变化都要重算 current census/disposition，补 exact source site/hash/context →
+   canonical target/digest 或 asset/runtime evidence，并保持 R13-5 及更早 seal byte-pin。
+
+##### R13-6B：公共 schema / 表现状态 delta（draft，blocked）
+
+以下能力现模型不能无损表达，必须先形成最小设计并重新取得 Codex / Kimi / GLM 三方
+`agree`，签齐前不得修改实现、生成产物、contentVersion 或 SAVE_VERSION：
+
+1. 7 技能“效果动画前震屏”，不可复用末尾 `animation.shake`；
+2. 酒神的“扣常规 MP 后读取剩余 MP ×8、清 MP”动态效果与酒门禁；
+3. 303 / 304 / 305 玩家和敌人使用时不同的 effect chain；
+4. `0x76` 持续黑屏的显式 transient 状态，以及它与 reveal / abort / loadScene 的边界；
+5. `loadScene` 是否保留源时序或由用户明确批准统一现代过渡。
+
+预计该子批会触碰 content 公共 schema、Reforge battle/runtime、Editor 和 contentVersion，
+但只要黑屏状态不进入存档就不应升级 SAVE_VERSION；若设计要求序列化该状态，必须重新列为
+SAVE delta 审查，不能顺手带入。
+
+##### R13-6B `draft -> build` 设计推进签字
+
+| Agent | 签字 | 日期 | 证据 / 备注 |
+|---|---|---|---|
+| Codex | **pending** | - | 待 6A 定向实现与 current source ledger 重算后提交最小 schema 设计。 |
+| Kimi | **pending** | - | 架构 / battle timing / transient presentation state 主审；签字前不得实现 6B。 |
+| GLM | **pending** | - | 源分支、14+4 数据守恒、版本与测试矩阵主审；签字前不得实现 6B。 |
+
 #### 给 Kimi（R13-5 counter 返工复审）——已于 2026-07-31 执行，改签 accept（保留备查，勿再执行）
 
 ```text
