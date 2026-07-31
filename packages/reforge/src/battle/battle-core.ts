@@ -1019,7 +1019,12 @@ function applyPlayerSkill(
         (s.inventory.find((entry) => entry.itemId === itemId)?.count ?? 0) >= amount,
     )
   if (!hasRequiredItems) {
-    if (s.lastAction) s.lastAction.fizzled = true
+    if (s.lastAction) {
+      s.lastAction.fizzled = true
+      // 三条蛊术共用源失败臂 L_43058；沿用一阶段可见文案，不让“前摇后熄火”
+      // 变成无反馈。notice 是既有表现通道，不新增 content/save 状态。
+      s.lastAction.notice = '道具不足无法使用'
+    }
     s.log.push(`${p.roleId} 物品不足,${skill.name} 施放失败`)
     return
   }

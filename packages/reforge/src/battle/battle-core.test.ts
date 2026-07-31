@@ -752,7 +752,12 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.enemies[0]!.hp).toBe(500)
     expect(s.players[0]!.hiddenCounts.maxMP).toBeUndefined()
     expect(s.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
-    expect(s.lastAction).toMatchObject({ kind: 'cast', skillId: guSkill.id, fizzled: true })
+    expect(s.lastAction).toMatchObject({
+      kind: 'cast',
+      skillId: guSkill.id,
+      fizzled: true,
+      notice: '道具不足无法使用',
+    })
     expect(s.log.some((line) => line.includes('物品不足,万蛊蚀天 施放失败'))).toBe(true)
   })
 
@@ -778,6 +783,70 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.inventory).toEqual([{ itemId: '148', count: 9 }])
     expect(s.enemies[0]!.hp).toBe(500)
     expect(s.lastAction?.fizzled).toBe(true)
+  })
+
+  test('两名玩家同轮争最后一个蛊：先手成功，后手到执行时仍扣 MP 后熄火', () => {
+    const guSkill: SkillData = {
+      ...bolt2,
+      id: '373',
+      name: '毒吞天下',
+      cost: { mp: 5, items: [{ itemId: '148', amount: 1 }] },
+    }
+    const s = createBattleState({
+      players: [
+        player('first', { baseDexterity: 80, skills: [guSkill.id] }),
+        player('second', { baseDexterity: 70, skills: [guSkill.id] }),
+      ],
+      enemies: [mkEnemy('e', { health: 9999, attackStrength: -999 })],
+      skills: { [guSkill.id]: guSkill },
+      inventory: [{ itemId: '148', count: 1 }],
+    })
+    stepBattle(s, rng0)
+    s.enemies[0]!.status.sleep = 99
+    s.pendingActions.set(0, { kind: 'cast', skillId: guSkill.id, targetEnemyIdx: 0 })
+    s.pendingActions.set(1, { kind: 'cast', skillId: guSkill.id, targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+
+    expect(s.players.map((entry) => entry.mp)).toEqual([25, 25])
+    expect(s.inventory).toEqual([{ itemId: '148', count: 0 }])
+    expect(
+      s.players.reduce((sum, entry) => sum + (entry.hiddenCounts.magicAttack ?? 0), 0),
+    ).toBe(1)
+    expect(s.lastAction).toMatchObject({
+      side: 'player',
+      idx: 1,
+      kind: 'cast',
+      fizzled: true,
+    })
+    expect(s.log.filter((line) => line.includes('物品不足')).length).toBe(1)
+  })
+
+  test('敌方施放带玩家物品门的技能不消费玩家背包', () => {
+    const guSkill: SkillData = {
+      ...bolt2,
+      id: 'enemy-gu',
+      cost: { mp: 5, items: [{ itemId: '148', amount: 1 }] },
+    }
+    const enemy = mkEnemy('gu-caster', { dexterity: 999, magicStrength: 50 })
+    enemy.ai = {
+      resistanceToSorcery: 5,
+      rules: [{ at: 'act', do: { kind: 'cast', skillId: guSkill.id } }],
+    }
+    const s = createBattleState({
+      players: [player('li')],
+      enemies: [enemy],
+      skills: { [guSkill.id]: guSkill },
+      inventory: [{ itemId: '148', count: 1 }],
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'defend' })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+
+    expect(s.lastAction).toMatchObject({ side: 'enemy', kind: 'cast', skillId: guSkill.id })
+    expect(s.inventory).toEqual([{ itemId: '148', count: 1 }])
   })
 })
 

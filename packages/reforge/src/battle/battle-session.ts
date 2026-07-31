@@ -1686,7 +1686,9 @@ export class BattleSession {
           : {}),
         // fSummon 语义(fight.c:2380):召唤跳过施法者自身前摇特效
         castEffectBase:
-          !summonSprite && this.assets.effectSprite ? playerProfile.castEffectBase : -1,
+          summonEff?.kind !== 'summon' && this.assets.effectSprite
+            ? playerProfile.castEffectBase
+            : -1,
         partyIdxs: s.players.map((_, i) => i),
         fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
         fx,
