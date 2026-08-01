@@ -133,7 +133,7 @@ source-backed 归属，不能只改 Vitest include/exclude。
 - Codex: pending
 - Kimi: counter（2026-08-02；G1/G2 synthetic trust-boundary 与 G7 顺序证据不足，G8 RSS 超目标）
 - GLM: counter（2026-08-02 返工复审；G2 新增 runtime trust-boundary 子集 conditional accept，G5/G6 可接受；G1 逐项映射、G7、G8 仍未闭合）
-- counter / 返工处理: 保持 build，完成下列最小返工并重新跑证据；未补齐前不得标记 done
+- counter / 返工处理: 保持 rework，完成下列最小返工并重新跑证据；未补齐前不得标记 done
 - 缺签豁免: N/A
 - done 准入结论: blocked
 
